@@ -1,7 +1,7 @@
 From: Mauro Carvalho Chehab <mchehab@redhat.com>
-Subject: [PATCH 0/3] i7core_edac and edac_mce
-Date: Sun, 4 Oct 2009 16:16:04 -0300
-Message-ID: <20091004161604.255340f8@pedra.chehab.org>
+Subject: [PATCH 3/3] i7core_edac: Better parse "any" addrmask
+Date: Sun, 4 Oct 2009 16:43:42 -0300
+Message-ID: <20091004164342.32965b3c@pedra.chehab.org>
 References: <20090924192821.7fcffc80@pedra.chehab.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -16,25 +16,35 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: linux-kernel@vger.kernel.org
-Cc: Ingo Molnar <mingo@elte.hu>, bluesmoke-devel@lists.sourceforge.net, Andrew Morton <akpm@linux-foundation.org>
+To: Mauro Carvalho Chehab <mchehab@redhat.com>
+Cc: Ingo Molnar <mingo@elte.hu>, bluesmoke-devel@lists.sourceforge.net, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org
 List-Id: edac.vger.kernel.org
 
-As pointed By Arjan, Hidetoshi and Borislav, the edac glue had the
-risk of causing dead locks with NMI code. Due to that, I'm submitting
-a patch that replaces it to use, instead, a ringbuffer.
+>From ddc7940d3a68483e750e286bfe78d52bdf9231d1 Mon Sep 17 00:00:00 2001
+From: Mauro Carvalho Chehab <mchehab@redhat.com>
+Date: Sun, 4 Oct 2009 11:54:56 -0300
+Subject: [PATCH] i7core_edac: Better parse "any" addrmask
 
-I also found a bug at the new edac sysfs methods when more than one memory 
-controller were used, and added a small patch to improve error injection
-address mask.
+Instead of accepting just "any", accept also "any\n"
 
-Please review.
+Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
+---
+ drivers/edac/i7core_edac.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-The entire patch series is available at:
-	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/i7core.git for_linus
-
-Cheers,
-Maur
+diff --git a/drivers/edac/i7core_edac.c b/drivers/edac/i7core_edac.c
+index 94aeca0..477b62a 100644
+--- a/drivers/edac/i7core_edac.c
++++ b/drivers/edac/i7core_edac.c
+@@ -800,7 +800,7 @@ static ssize_t i7core_inject_store_##param(			\
+ 	if (pvt->inject.enable)					\
+ 		disable_inject(mci);				\
+ 								\
+-	if (!strcasecmp(data, "any"))				\
++	if (!strcasecmp(data, "any") || !strcasecmp(data, "any\n"))\
+ 		value = -1;					\
+ 	else {							\
+ 		rc = strict_strtoul(data, 10, &value);		
 
 -- 
 
