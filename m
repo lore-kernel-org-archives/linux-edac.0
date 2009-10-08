@@ -1,44 +1,51 @@
-From: Mauro Carvalho Chehab <mchehab@redhat.com>
-Subject: i7core_edac tree
-Date: Thu, 8 Oct 2009 14:26:31 -0300
-Message-ID: <20091008142631.67812211@pedra.chehab.org>
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: i7core_edac tree
+Date: Fri, 9 Oct 2009 10:16:53 +1100
+Message-ID: <20091009101653.44b2f448.sfr@canb.auug.org.au>
+References: <20091008142631.67812211@pedra.chehab.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-next@vger.kernel.org, bluesmoke-devel@lists.sourceforge.net, dougthompson@xmission.com
+Content-Type: multipart/signed; protocol="application/pgp-signature";
+ micalg="PGP-SHA1";
+ boundary="Signature=_Fri__9_Oct_2009_10_16_53_+1100_RU.0Ouj4p.0DS_+o"
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <20091008142631.67812211@pedra.chehab.org>
+Sender: linux-next-owner@vger.kernel.org
+To: Mauro Carvalho Chehab <mchehab@redhat.com>
+Cc: linux-next@vger.kernel.org, dougthompson@xmission.com, bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
-Hi Stephen,
+--Signature=_Fri__9_Oct_2009_10_16_53_+1100_RU.0Ouj4p.0DS_+o
+Content-Type: text/plain; charset=US-ASCII
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Could you please add my i7core_edac tree to linux-next?
+Hi Mauro,
 
-It is available at branch linux-next:
-	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/i7core.git linux-next
+On Thu, 8 Oct 2009 14:26:31 -0300 Mauro Carvalho Chehab <mchehab@redhat.com=
+> wrote:
+>
+> Could you please add my i7core_edac tree to linux-next?
+>=20
+> It is available at branch linux-next:
+> 	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/i7core.git linux-n=
+ext
 
-This tree contains the driver for Nehalem memory controller EDAC driver.
+That tree has no "linux-next" branch ...
 
-My original intention were to submit it upstream, but the driver review were
-delayed, and they required some changes that it is better to test, letting it to
-be added upstream for 2.6.33.
-
--- 
-
+--=20
 Cheers,
-Mauro
+Stephen Rothwell                    sfr@canb.auug.org.au
+http://www.canb.auug.org.au/~sfr/
 
-------------------------------------------------------------------------------
-Come build with us! The BlackBerry(R) Developer Conference in SF, CA
-is the only developer event you need to attend this year. Jumpstart your
-developing skills, take BlackBerry mobile applications to market and stay 
-ahead of the curve. Join us from November 9 - 12, 2009. Register now!
-http://p.sf.net/sfu/devconference
+--Signature=_Fri__9_Oct_2009_10_16_53_+1100_RU.0Ouj4p.0DS_+o
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iEYEARECAAYFAkrOcuUACgkQjjKRsyhoI8zScACgqKnYj7z75iKM5njOo0miIijt
+aGgAoJB2uDxH9y53UEnRPdvGjpYOHX1H
+=qyDk
+-----END PGP SIGNATURE-----
+
+--Signature=_Fri__9_Oct_2009_10_16_53_+1100_RU.0Ouj4p.0DS_+o--
