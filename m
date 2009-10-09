@@ -1,80 +1,43 @@
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: i7core_edac tree
-Date: Sat, 10 Oct 2009 00:48:15 +1100
-Message-ID: <20091010004815.481c0da7.sfr@canb.auug.org.au>
-References: <20091009101653.44b2f448.sfr@canb.auug.org.au>
-	<126686523.1755491255056754615.JavaMail.root@zmail05.collab.prod.int.phx2.redhat.com>
+From: Martin Cracauer <cracauer@cons.org>
+Subject: amd64_edac driver availability, status?
+Date: Fri, 9 Oct 2009 17:14:23 -0400
+Message-ID: <20091009211423.GA35447@cons.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature";
- micalg="PGP-SHA1";
- boundary="Signature=_Sat__10_Oct_2009_00_48_15_+1100_q.aGd./rGAkUryNv"
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <126686523.1755491255056754615.JavaMail.root@zmail05.collab.prod.int.phx2.redhat.com>
-Sender: linux-next-owner@vger.kernel.org
-To: Mauro Carvalho Chehab <mchehab@redhat.com>
-Cc: linux-next@vger.kernel.org, dougthompson@xmission.com, bluesmoke-devel@lists.sourceforge.net
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+Content-Disposition: inline
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
+List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
+List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+To: bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
---Signature=_Sat__10_Oct_2009_00_48_15_+1100_q.aGd./rGAkUryNv
-Content-Type: text/plain; charset=US-ASCII
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Hi Mauro,
+I can't seem to find md64_edac, neither in the mainline kernel, nor
+the tarball nor in
 
-On Thu, 8 Oct 2009 22:52:34 -0400 (EDT) Mauro Carvalho Chehab <mchehab@redh=
-at.com> wrote:
->
-> Hmm... it didn't created a new branch there... Fixed. The branch were alr=
-eady pushed.
+svn checkout https://bluesmoke.svn.sourceforge.net/svnroot/bluesmoke/trunk
 
-OK, I will add it on Monday.
+There's something in retired_patches.
 
-Boilerplate:
+Could anybody shed some light on the status of this driver?
 
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgment of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
+Martin
+-- 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Martin Cracauer <cracauer@cons.org>   http://www.cons.org/cracauer/
+FreeBSD - where you want to go, today.      http://www.freebsd.org/
 
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-	Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
-
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
-
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
-
-Legal Stuff:
-By participating in linux-next, your subsystem tree contributions are
-public and will be included in the linux-next trees.  You may be sent
-e-mail messages indicating errors or other issues when the
-patches/commits from your subsystem tree are merged and tested in
-linux-next.  These messages may also be cross-posted to the linux-next
-mailing list, the linux-kernel mailing list, etc.  The linux-next tree
-project and IBM (my employer) make no warranties regarding the linux-next
-project, the testing procedures, the results, the e-mails, etc.  If you
-don't agree to these ground rules, let me know and I'll remove your tree
-from participation in linux-next.
-
---Signature=_Sat__10_Oct_2009_00_48_15_+1100_q.aGd./rGAkUryNv
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-
-iEYEARECAAYFAkrPPx8ACgkQjjKRsyhoI8yMHwCdEjoDy2bbpyW/owy9THYazAL9
-fgEAn348CbJKYYM+I2B3wzJAJyBuwysE
-=2R9T
------END PGP SIGNATURE-----
-
---Signature=_Sat__10_Oct_2009_00_48_15_+1100_q.aGd./rGAkUryNv--
+------------------------------------------------------------------------------
+Come build with us! The BlackBerry(R) Developer Conference in SF, CA
+is the only developer event you need to attend this year. Jumpstart your
+developing skills, take BlackBerry mobile applications to market and stay 
+ahead of the curve. Join us from November 9 - 12, 2009. Register now!
+http://p.sf.net/sfu/devconference
