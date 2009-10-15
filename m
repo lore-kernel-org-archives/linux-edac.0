@@ -1,7 +1,7 @@
 From: dougthompson@xmission.com
-Subject: [PATCH 1/3] edac: i5100 fix initialization code
+Subject: [PATCH 1/2] edac: i5400 fix missing CONFIG_PCI define
 Date: Thu, 15 Oct 2009 17:16:45 -0600
-Message-ID: <4ad7ad5d.115Y8SyVFKWEfV/O%dougthompson@xmission.com>
+Message-ID: <4ad7ad5d.bbMDMCOY1LPNMc5Q%dougthompson@xmission.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -17,58 +17,32 @@ Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
 To: kmannth@us.ibm.com, iws@ovro.caltech.edu, jroberson@jroberson.net, bluesmoke-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org, akpm@linux-foundation.org
 List-Id: edac.vger.kernel.org
 
-From:  Keith Mannthey <kmannth@us.ibm.com>
+From: Ira W. Snyder <iws@ovro.caltech.edu>
 
-Allow csrows to properly initialize when the topology only has active
-channels on 2 and 3.  This new check allows proper detection and
-initialization in this topology.  Only checking the first mrt that
-represented channels 0 and 1 is not sufficient. 
+When building without CONFIG_PCI the edac_pci_idx variable is unused,
+causing a build-time warning. Wrap the variable in #ifdef CONFIG_PCI, just
+like the rest of the PCI support.
 
-I also fixed up the related debug information path. I can submit as a
-2nd patch if needed. 
-
-
-Signed-off-by:  Keith Mannthey <kmannth@us.ibm.com>
-Acked-by: Aristeu Rozanski <aris@ruivo.org>
-Signed-off-by:  Doug Thompson <dougthompson@xmission.com>
+Signed-off-by: Ira W. Snyder <iws@ovro.caltech.edu>
+Signed-off-by: Doug Thompson <dougthompson@xmission.com>
 ---
- i5000_edac.c |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+drivers/edac/mpc85xx_edac.c |    2 ++
+1 files changed, 2 insertions(+), 0 deletions(-)
 
-Index: linux-2.6.31/drivers/edac/i5000_edac.c
+Index: linux-2.6.31/drivers/edac/mpc85xx_edac.c
 ===================================================================
---- linux-2.6.31.orig/drivers/edac/i5000_edac.c
-+++ linux-2.6.31/drivers/edac/i5000_edac.c
-@@ -1173,7 +1173,7 @@ static void i5000_get_mc_regs(struct mem
- 			pci_read_config_word(pvt->branch_1, where,
- 					&pvt->b1_mtr[slot_row]);
- 			debugf2("MTR%d where=0x%x B1 value=0x%x\n", slot_row,
--				where, pvt->b0_mtr[slot_row]);
-+				where, pvt->b1_mtr[slot_row]);
- 		} else {
- 			pvt->b1_mtr[slot_row] = 0;
- 		}
-@@ -1232,7 +1232,7 @@ static int i5000_init_csrows(struct mem_
- 	struct csrow_info *p_csrow;
- 	int empty, channel_count;
- 	int max_csrows;
--	int mtr;
-+	int mtr, mtr1;
- 	int csrow_megs;
- 	int channel;
- 	int csrow;
-@@ -1251,9 +1251,10 @@ static int i5000_init_csrows(struct mem_
+--- linux-2.6.31.orig/drivers/edac/mpc85xx_edac.c
++++ linux-2.6.31/drivers/edac/mpc85xx_edac.c
+@@ -26,7 +26,9 @@
+ #include "mpc85xx_edac.h"
  
- 		/* use branch 0 for the basis */
- 		mtr = pvt->b0_mtr[csrow >> 1];
-+		mtr1 = pvt->b1_mtr[csrow >> 1];
+ static int edac_dev_idx;
++#ifdef CONFIG_PCI
+ static int edac_pci_idx;
++#endif
+ static int edac_mc_idx;
  
- 		/* if no DIMMS on this row, continue */
--		if (!MTR_DIMMS_PRESENT(mtr))
-+		if (!MTR_DIMMS_PRESENT(mtr) && !MTR_DIMMS_PRESENT(mtr1))
- 			continue;
- 
- 		/* FAKE OUT VALUES, FIXME */
+ static u32 orig_ddr_err_disable;
 
 ------------------------------------------------------------------------------
 Come build with us! The BlackBerry(R) Developer Conference in SF, CA
