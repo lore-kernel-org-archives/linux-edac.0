@@ -1,14 +1,16 @@
-From: Mauro Carvalho Chehab <mchehab@infradead.org>
-Subject: Re: Module loads but has error.
-Date: Wed, 21 Oct 2009 07:47:49 +0900
-Message-ID: <20091021074749.743ef923@caramujo.chehab.org>
+From: "Colbert, Rusty" <rusty.colbert@hp.com>
+Subject: RE: Module loads but has error.
+Date: Wed, 21 Oct 2009 14:13:10 +0000
+Message-ID: <EC2969A33F12344780D895AFCAA422CE5086261902@GVW1095EXB.americas.hpqcorp.net>
 References: <375171.22182.qm@web50101.mail.re2.yahoo.com>
 	<1256073500.31589.58.camel@keith-laptop>
+	<20091021074749.743ef923@caramujo.chehab.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <1256073500.31589.58.camel@keith-laptop>
+In-Reply-To: <20091021074749.743ef923@caramujo.chehab.org>
+Content-Language: en-US
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -17,9 +19,30 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: RustyColbert <rusty.colbert@hp.com>
+To: Mauro Carvalho Chehab <mchehab@infradead.org>
 Cc: Doug Thompson <norsk5@yahoo.com>, bluesmoke ML <bluesmoke-devel@lists.sourceforge.net>
 List-Id: edac.vger.kernel.org
+
+It was a linux-next tree and is identified as 2.6.32-rc4, and edac is:
+EDAC MC: Ver: 2.1.0 Oct 16 2009
+There are 2 sockets in the system.
+I don't see those addresses in the output of lspci. It is looking glum, if my BIOS is hiding buses. However, once I verify that that is the case, I'll contact someone on the ROM team to check on that.
+
+If I look at another board with Nehalem, not running my kernel, should I see those buses? (does not show up on a DL380 G6 running SLES11 default kernel either)
+
+I could not get git to connect from my dev server. So I went to git and found your latest tree and clicked on it.
+http://git.kernel.org/?p=linux/kernel/git/mchehab/i7core.git;a=summary
+
+Then I went down to linux_next, clicked on it and grabbed a snapshot from the top of the tree.
+
+
+
+-----Original Message-----
+From: Mauro Carvalho Chehab [mailto:mchehab@infradead.org]
+Sent: Tuesday, October 20, 2009 5:48 PM
+To: Colbert, Rusty
+Cc: Keith Mannthey; Doug Thompson; bluesmoke ML
+Subject: Re: Module loads but has error.
 
 Hi Rusty,
 
@@ -28,30 +51,30 @@ Keith Mannthey <kmannth@us.ibm.com> escreveu:
 
 > On Tue, 2009-10-20 at 14:05 -0700, Doug Thompson wrote:
 > > Copying Mauro on this one as he has the lead on it. He is currently in Japan for a few days for the kernel summit
-> > 
+> >
 > > doug t
-> > 
+> >
 > > --- On Tue, 10/20/09, Colbert, Rusty <rusty.colbert@hp.com> wrote:
-> > 
+> >
 > > > From: Colbert, Rusty <rusty.colbert@hp.com>
 > > > Subject: Module loads but has error.
 > > > To: "bluesmoke ML" <bluesmoke-devel@lists.sourceforge.net>
 > > > Date: Tuesday, October 20, 2009, 11:03 AM
-> > > 
+> > >
 > > > EDAC
 > > > i7core: Device not
 > > > found: dev 03.0 PCI ID 8086:2c18
-> 
-> Rusty, 
+>
+> Rusty,
 >   Are you using the current i7core git tree?  What version of the kernel
-> are you using? 
-> 
+> are you using?
+>
 >   How many sockets do you have in your system?
-> 
+>
 >   Are there any other edac printk statements?  Could you enable
-> EDAC_DEBUG and see if you get any more output? 
-> 
->   After you try and load the driver what does lspci show? 
+> EDAC_DEBUG and see if you get any more output?
+>
+>   After you try and load the driver what does lspci show?
 
 Probably it didn't recognize the PCI buses 0xff and 0xfe.
 
@@ -356,83 +379,83 @@ my latest tree, then it is likely that your motherboard BIOS is doing something
 weird to hide the Nehalem non-core PCI buses.
 
 
-> 
+>
 > Thanks,
->   Keith Mannthey 
->   LTC Real-Time 
-> 
-> > >  
-> > > 
+>   Keith Mannthey
+>   LTC Real-Time
+>
+> > >
+> > >
 > > > This would seem to be the
 > > > PCI_DEVICE_ID_INTEL_I7_MCR
-> > > 
-> > >  
-> > > 
+> > >
+> > >
+> > >
 > > > The modules are loaded, but I think this
 > > > error may have caused them to
 > > > be ineffective. There are no files under
 > > > /sys/devices/system/edac/mc as in
-> > > older edac enabled kernels. 
-> > > 
-> > >  
-> > > 
+> > > older edac enabled kernels.
+> > >
+> > >
+> > >
 > > > I have access to multiple platforms and
 > > > can acquire DIMMs with ECC
 > > > errors, but I don't see the point in installing them if
 > > > the driver is not
 > > > installing properly.
-> > > 
-> > >  
-> > > 
+> > >
+> > >
+> > >
 > > > I am currently running on an HP ProLiant DL360. It
 > > > has
 > > > Intel Xeon CPUs X5550.
-> > > 
+> > >
 > > > Any pointers on how I should approach
 > > > debugging this?
-> > > 
-> > > 
-> > > 
-> > >  
-> > > 
-> > > 
-> > > 
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
 > > > -----Inline Attachment Follows-----
-> > > 
+> > >
 > > > ------------------------------------------------------------------------------
 > > > Come build with us! The BlackBerry(R) Developer Conference
 > > > in SF, CA
 > > > is the only developer event you need to attend this year.
 > > > Jumpstart your
 > > > developing skills, take BlackBerry mobile applications to
-> > > market and stay 
+> > > market and stay
 > > > ahead of the curve. Join us from November 9 - 12, 2009.
 > > > Register now!
 > > > http://p.sf.net/sfu/devconference
 > > > -----Inline Attachment Follows-----
-> > > 
+> > >
 > > > _______________________________________________
 > > > bluesmoke-devel mailing list
 > > > bluesmoke-devel@lists.sourceforge.net
 > > > https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel
-> > > 
-> > 
+> > >
+> >
 > > ------------------------------------------------------------------------------
 > > Come build with us! The BlackBerry(R) Developer Conference in SF, CA
 > > is the only developer event you need to attend this year. Jumpstart your
-> > developing skills, take BlackBerry mobile applications to market and stay 
+> > developing skills, take BlackBerry mobile applications to market and stay
 > > ahead of the curve. Join us from November 9 - 12, 2009. Register now!
 > > http://p.sf.net/sfu/devconference
 > > _______________________________________________
 > > bluesmoke-devel mailing list
 > > bluesmoke-devel@lists.sourceforge.net
 > > https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel
-> 
-> 
+>
+>
 > ------------------------------------------------------------------------------
 > Come build with us! The BlackBerry(R) Developer Conference in SF, CA
 > is the only developer event you need to attend this year. Jumpstart your
-> developing skills, take BlackBerry mobile applications to market and stay 
+> developing skills, take BlackBerry mobile applications to market and stay
 > ahead of the curve. Join us from November 9 - 12, 2009. Register now!
 > http://p.sf.net/sfu/devconference
 > _______________________________________________
