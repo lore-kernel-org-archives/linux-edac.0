@@ -1,7 +1,7 @@
-From: Mauro Carvalho Chehab <mchehab@infradead.org>
-Subject: Re: Module loads but has error.
-Date: Thu, 22 Oct 2009 08:03:35 +0900
-Message-ID: <20091022080335.1f2e044e@caramujo.chehab.org>
+From: "Colbert, Rusty" <rusty.colbert@hp.com>
+Subject: RE: Module loads but has error.
+Date: Thu, 22 Oct 2009 15:04:18 +0000
+Message-ID: <EC2969A33F12344780D895AFCAA422CE50862C8CE1@GVW1095EXB.americas.hpqcorp.net>
 References: <375171.22182.qm@web50101.mail.re2.yahoo.com>
 	<1256073500.31589.58.camel@keith-laptop>
 	<20091021074749.743ef923@caramujo.chehab.org>
@@ -9,11 +9,13 @@ References: <375171.22182.qm@web50101.mail.re2.yahoo.com>
 	<1256138770.31589.92.camel@keith-laptop>
 	<20091022050359.5e91bcd8@caramujo.chehab.org>
 	<EC2969A33F12344780D895AFCAA422CE50862C8999@GVW1095EXB.americas.hpqcorp.net>
+	<20091022080335.1f2e044e@caramujo.chehab.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <EC2969A33F12344780D895AFCAA422CE50862C8999@GVW1095EXB.americas.hpqcorp.net>
+In-Reply-To: <20091022080335.1f2e044e@caramujo.chehab.org>
+Content-Language: en-US
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -22,9 +24,118 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: "Colbert, Rusty" <rusty.colbert@hp.com>
+To: Mauro Carvalho Chehab <mchehab@infradead.org>
 Cc: Doug Thompson <norsk5@yahoo.com>, bluesmoke ML <bluesmoke-devel@lists.sourceforge.net>
 List-Id: edac.vger.kernel.org
+
+Cat /proc/cpuinfo
+processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 6
+model name      : Intel(R) Xeon(TM) MV CPU 3.20GHz
+stepping        : 4
+cpu MHz         : 3200.369
+cache size      : 2048 KB
+physical id     : 0
+siblings        : 4
+core id         : 0
+cpu cores       : 2
+apicid          : 0
+initial apicid  : 0
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 6
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall lm constant_tsc pebs bts pni dtes64 monitor ds_cpl vmx cid cx16 xtpr pdcm lahf_lm tpr_shadow
+bogomips        : 6400.73
+clflush size    : 64
+cache_alignment : 128
+address sizes   : 36 bits physical, 48 bits virtual
+power management:
+
+processor       : 1
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 6
+model name      : Intel(R) Xeon(TM) MV CPU 3.20GHz
+stepping        : 4
+cpu MHz         : 3200.369
+cache size      : 2048 KB
+physical id     : 0
+siblings        : 4
+core id         : 1
+cpu cores       : 2
+apicid          : 2
+initial apicid  : 2
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 6
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall lm constant_tsc pebs bts pni dtes64 monitor ds_cpl vmx cid cx16 xtpr pdcm lahf_lm tpr_shadow
+bogomips        : 6400.32
+clflush size    : 64
+cache_alignment : 128
+address sizes   : 36 bits physical, 48 bits virtual
+power management:
+
+processor       : 2
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 6
+model name      : Intel(R) Xeon(TM) MV CPU 3.20GHz
+stepping        : 4
+cpu MHz         : 3200.369
+cache size      : 2048 KB
+physical id     : 0
+siblings        : 4
+core id         : 0
+cpu cores       : 2
+apicid          : 1
+initial apicid  : 1
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 6
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall lm constant_tsc pebs bts pni dtes64 monitor ds_cpl vmx cid cx16 xtpr pdcm lahf_lm tpr_shadow
+bogomips        : 6400.33
+clflush size    : 64
+cache_alignment : 128
+address sizes   : 36 bits physical, 48 bits virtual
+power management:
+
+processor       : 3
+vendor_id       : GenuineIntel
+cpu family      : 15
+model           : 6
+model name      : Intel(R) Xeon(TM) MV CPU 3.20GHz
+stepping        : 4
+cpu MHz         : 3200.369
+cache size      : 2048 KB
+physical id     : 0
+siblings        : 4
+core id         : 1
+cpu cores       : 2
+apicid          : 3
+initial apicid  : 3
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 6
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall lm constant_tsc pebs bts pni dtes64 monitor ds_cpl vmx cid cx16 xtpr pdcm lahf_lm tpr_shadow
+bogomips        : 6400.30
+clflush size    : 64
+cache_alignment : 128
+address sizes   : 36 bits physical, 48 bits virtual
+power management:
+
+
+-----Original Message-----
+From: Mauro Carvalho Chehab [mailto:mchehab@infradead.org]
+Sent: Wednesday, October 21, 2009 6:04 PM
+To: Colbert, Rusty
+Cc: Keith Mannthey; Doug Thompson; bluesmoke ML
+Subject: Re: Module loads but has error.
 
 Em Wed, 21 Oct 2009 20:58:40 +0000
 "Colbert, Rusty" <rusty.colbert@hp.com> escreveu:
@@ -44,7 +155,7 @@ will wrongly associate the memory controller numbers in this case.
 > /sys/devices/system/edac/mc/mc193/csrow0
 
 Yes, here it is: it is calling mc1 as 193, since the driver is doing 0xff-0x3f to
-compute the number of the processor socket... 
+compute the number of the processor socket...
 
 I don't think this would have any real impact, but for sure it should be fixed.
 
@@ -58,8 +169,8 @@ similar to yours on Red Hat labs for doing some tests on it.
 > /sys/devices/system/edac/pci
 > /sys/devices/system/edac/pci/pci0
 > /sys/devices/system/edac/pci/pci1
-> 
-> 
+>
+>
 > And
 > 3e:00.0 0600: 8086:2c40 (rev 04)
 > 3e:00.1 0600: 8086:2c01 (rev 04)
@@ -105,19 +216,19 @@ similar to yours on Red Hat labs for doing some tests on it.
 > 3f:06.1 0600: 8086:2c31 (rev 04)
 > 3f:06.2 0600: 8086:2c32 (rev 04)
 > 3f:06.3 0600: 8086:2c33 (rev 04)
-> 
-> 
-> 
+>
+>
+>
 > -----Original Message-----
 > From: Mauro Carvalho Chehab [mailto:mchehab@infradead.org]
 > Sent: Wednesday, October 21, 2009 3:04 PM
 > To: Keith Mannthey
 > Cc: Colbert, Rusty; Doug Thompson; bluesmoke ML
 > Subject: Re: Module loads but has error.
-> 
+>
 > Em Wed, 21 Oct 2009 08:26:10 -0700
 > Keith Mannthey <kmannth@us.ibm.com> escreveu:
-> 
+>
 > > On Wed, 2009-10-21 at 14:13 +0000, Colbert, Rusty wrote:
 > > > It was a linux-next tree and is identified as 2.6.32-rc4, and edac is:
 > > > EDAC MC: Ver: 2.1.0 Oct 16 2009
@@ -125,9 +236,9 @@ similar to yours on Red Hat labs for doing some tests on it.
 > > > I don't see those addresses in the output of lspci. It is looking glum, if my BIOS is hiding buses. However, once I verify that that is the case, I'll contact someone on the ROM team to check on that.
 > >
 > > You might ask someone on your ROM team.
-> 
+>
 > Yes. A worthy trial would be to use lastbus=255 pci parameter during the boot.
-> 
+>
 > > > If I look at another board with Nehalem, not running my kernel, should I see those buses? (does not show up on a DL380 G6 running SLES11 default kernel either)
 > >
 > > No.  There is something weird going on with the Xeons.  For some reason
@@ -138,12 +249,12 @@ similar to yours on Red Hat labs for doing some tests on it.
 > > Without loading the module you won't see the devices in lspci or any
 > > other place. After you load or attempt to load you should see the device
 > > if they are really there at 0xff and below.
-> 
+>
 > It should also be added that, with some other memory controller drivers, it was
 > noticed that some BIOS have the bad habit of protecting the memory registers
 > via SMI. While we haven't observed this behavior yet with Nehalem, I don't
 > doubt it will happen with certain devices.
-> 
+>
 > Cheers,
 > Mauro
 
