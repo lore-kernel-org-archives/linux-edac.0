@@ -1,525 +1,97 @@
-From: "Colbert, Rusty" <rusty.colbert@hp.com>
-Subject: RE: Module loads but has error.
-Date: Thu, 22 Oct 2009 20:26:18 +0000
-Message-ID: <EC2969A33F12344780D895AFCAA422CE50862C9088@GVW1095EXB.americas.hpqcorp.net>
-References: <375171.22182.qm@web50101.mail.re2.yahoo.com>
-	<1256073500.31589.58.camel@keith-laptop>
-	<20091021074749.743ef923@caramujo.chehab.org>
-	<EC2969A33F12344780D895AFCAA422CE5086261902@GVW1095EXB.americas.hpqcorp.net>
-	<1256138770.31589.92.camel@keith-laptop>
-	<20091022050359.5e91bcd8@caramujo.chehab.org>
-	<EC2969A33F12344780D895AFCAA422CE50862C8999@GVW1095EXB.americas.hpqcorp.net>
-	<20091022080335.1f2e044e@caramujo.chehab.org>
-	<EC2969A33F12344780D895AFCAA422CE50862C8CE1@GVW1095EXB.americas.hpqcorp.net>
-	<20091023050249.26eb0ba0@caramujo.chehab.org>
+From: Rusty Russell <rusty@rustcorp.com.au>
+Subject: [PATCH 5/14] cpumask: use modern cpumask style in drivers/edac/amd64_edac.c
+Date: Tue, 3 Nov 2009 14:56:35 +1030
+Message-ID: <200911031456.35354.rusty@rustcorp.com.au>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain;
+  charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <20091023050249.26eb0ba0@caramujo.chehab.org>
-Content-Language: en-US
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: Mauro Carvalho Chehab <mchehab@infradead.org>
-Cc: Doug Thompson <norsk5@yahoo.com>, bluesmoke ML <bluesmoke-devel@lists.sourceforge.net>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755697AbZKCE0d@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: linux-kernel@vger.kernel.org, Doug Thompson <dougthompson@xmission.com>, Borislav Petkov <borislav.petkov@amd.com>, bluesmoke-devel@lists.sourceforge.net
+Cc: Andrew Morton <akpm@linux-foundation.org>
 List-Id: edac.vger.kernel.org
 
-Ooops. Too many balls in the air, dropped this one. I must have ran in the wrong putty window. Sorry about that. Here is the correct one:
-processor       : 0
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 0
-cpu cores       : 4
-apicid          : 0
-initial apicid  : 0
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.70
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
+cpumask_t -> struct cpumask, and don't put one on the stack.  (Note: this
+is actually on the stack unless CONFIG_CPUMASK_OFFSTACK=y).
 
-processor       : 1
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 0
-cpu cores       : 4
-apicid          : 16
-initial apicid  : 16
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.39
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
+Signed-off-by: Rusty Russell <rusty@rustcorp.com.au>
+---
+ drivers/edac/amd64_edac.c |   24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-processor       : 2
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 2
-cpu cores       : 4
-apicid          : 4
-initial apicid  : 4
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.35
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 3
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 2
-cpu cores       : 4
-apicid          : 20
-initial apicid  : 20
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.38
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 4
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 1
-cpu cores       : 4
-apicid          : 2
-initial apicid  : 2
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.36
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 5
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 1
-cpu cores       : 4
-apicid          : 18
-initial apicid  : 18
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.38
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 6
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 3
-cpu cores       : 4
-apicid          : 6
-initial apicid  : 6
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.36
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 7
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 3
-cpu cores       : 4
-apicid          : 22
-initial apicid  : 22
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.40
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 8
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 0
-cpu cores       : 4
-apicid          : 1
-initial apicid  : 1
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.36
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 9
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 0
-cpu cores       : 4
-apicid          : 17
-initial apicid  : 17
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.37
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 10
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 2
-cpu cores       : 4
-apicid          : 5
-initial apicid  : 5
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.36
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 11
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 2
-cpu cores       : 4
-apicid          : 21
-initial apicid  : 21
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.36
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 12
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 1
-cpu cores       : 4
-apicid          : 3
-initial apicid  : 3
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.35
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 13
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 1
-cpu cores       : 4
-apicid          : 19
-initial apicid  : 19
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.37
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 14
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 3
-cpu cores       : 4
-apicid          : 7
-initial apicid  : 7
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.36
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-processor       : 15
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 2666.853
-cache size      : 8192 KB
-physical id     : 1
-siblings        : 8
-core id         : 3
-cpu cores       : 4
-apicid          : 23
-initial apicid  : 23
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5333.38
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
------Original Message-----
-From: Mauro Carvalho Chehab [mailto:mchehab@infradead.org]
-Sent: Thursday, October 22, 2009 3:03 PM
-To: Colbert, Rusty
-Cc: Keith Mannthey; Doug Thompson; bluesmoke ML
-Subject: Re: Module loads but has error.
-
-Em Thu, 22 Oct 2009 15:04:18 +0000
-"Colbert, Rusty" <rusty.colbert@hp.com> escreveu:
-
-> Cat /proc/cpuinfo
-> processor       : 0
-> vendor_id       : GenuineIntel
-> cpu family      : 15
-> model           : 6
-> model name      : Intel(R) Xeon(TM) MV CPU 3.20GHz
-> stepping        : 4
-> cpu MHz         : 3200.369
-> cache size      : 2048 KB
-> physical id     : 0
-> siblings        : 4
-> core id         : 0
-> cpu cores       : 2
-> apicid          : 0
-> initial apicid  : 0
-> fpu             : yes
-> fpu_exception   : yes
-> cpuid level     : 6
-> wp              : yes
-> flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall lm constant_tsc pebs bts pni dtes64 monitor ds_cpl vmx cid cx16 xtpr pdcm lahf_lm tpr_shadow
-> bogomips        : 6400.73
-> clflush size    : 64
-> cache_alignment : 128
-> address sizes   : 36 bits physical, 48 bits virtual
-> power management:
-
-Ok, this is where the things diverge. This is the cpu model on my test machine:
-
-processor       : 0
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 26
-model name      : Intel(R) Xeon(R) CPU           X5550  @ 2.67GHz
-stepping        : 4
-cpu MHz         : 1596.000
-cache size      : 8192 KB
-physical id     : 0
-siblings        : 8
-core id         : 0
-cpu cores       : 4
-apicid          : 0
-initial apicid  : 0
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 11
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx rdtscp lm constant_tsc arch_perfmon pebs bts rep_good xtopology tsc_reliable nonstop_tsc aperfmperf pni dtes64 monitor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm dca sse4_1 sse4_2 popcnt lahf_lm ida tpr_shadow vnmi flexpriority ept vpid
-bogomips        : 5336.25
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-So, basically, your CPU model is 6, while mine is 26.
-
-According with:
-        http://www.intel.com/support/processors/xeon5k/sb/cs-022297.htm
-
-The MV processor is a Xeon 5063, being part of Xeon 5000 series. The Intel
-datasheets for this series doesn't mention a memory controller on it. It was
-covered only by this spec update:
-
-        http://www.intel.com/Assets/en_US/PDF/specupdate/313065.pdf
-
-
-AFAIK, the Xeon 5000 series were not meant to have a memory controller inside, but
-I suspect that this MV chip has the same memory controller as a Xeon 35xx.
-
-We need to double check this with Intel, to be sure that it is safe to enable EDAC
-on those machines.
-
-
-
-Cheers,
-Mauro
-
-------------------------------------------------------------------------------
-Come build with us! The BlackBerry(R) Developer Conference in SF, CA
-is the only developer event you need to attend this year. Jumpstart your
-developing skills, take BlackBerry mobile applications to market and stay 
-ahead of the curve. Join us from November 9 - 12, 2009. Register now!
-http://p.sf.net/sfu/devconference
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2625,7 +2625,7 @@ static int amd64_init_csrows(struct mem_
+ static void amd64_enable_ecc_error_reporting(struct mem_ctl_info *mci)
+ {
+ 	struct amd64_pvt *pvt = mci->pvt_info;
+-	const cpumask_t *cpumask = cpumask_of_node(pvt->mc_node_id);
++	const struct cpumask *cpumask = cpumask_of_node(pvt->mc_node_id);
+ 	int cpu, idx = 0, err = 0;
+ 	struct msr msrs[cpumask_weight(cpumask)];
+ 	u32 value;
+@@ -2701,7 +2701,7 @@ static void amd64_enable_ecc_error_repor
+ 
+ static void amd64_restore_ecc_error_reporting(struct amd64_pvt *pvt)
+ {
+-	const cpumask_t *cpumask = cpumask_of_node(pvt->mc_node_id);
++	const struct cpumask *cpumask = cpumask_of_node(pvt->mc_node_id);
+ 	int cpu, idx = 0, err = 0;
+ 	struct msr msrs[cpumask_weight(cpumask)];
+ 	u32 value;
+@@ -2734,7 +2734,7 @@ static void amd64_restore_ecc_error_repo
+ }
+ 
+ /* get all cores on this DCT */
+-static void get_cpus_on_this_dct_cpumask(cpumask_t *mask, int nid)
++static void get_cpus_on_this_dct_cpumask(struct cpumask *mask, int nid)
+ {
+ 	int cpu;
+ 
+@@ -2746,25 +2746,30 @@ static void get_cpus_on_this_dct_cpumask
+ /* check MCG_CTL on all the cpus on this node */
+ static bool amd64_nb_mce_bank_enabled_on_node(int nid)
+ {
+-	cpumask_t mask;
++	cpumask_var_t mask;
+ 	struct msr *msrs;
+ 	int cpu, nbe, idx = 0;
+ 	bool ret = false;
+ 
+-	cpumask_clear(&mask);
++	if (!zalloc_cpumask_var(&mask, GFP_KERNEL)) {
++		amd64_printk(KERN_WARNING, "%s: error allocating mask\n",
++			     __func__);
++		return false;
++	}
+ 
+-	get_cpus_on_this_dct_cpumask(&mask, nid);
++	get_cpus_on_this_dct_cpumask(mask, nid);
+ 
+-	msrs = kzalloc(sizeof(struct msr) * cpumask_weight(&mask), GFP_KERNEL);
++	msrs = kzalloc(sizeof(struct msr) * cpumask_weight(mask), GFP_KERNEL);
+ 	if (!msrs) {
+ 		amd64_printk(KERN_WARNING, "%s: error allocating msrs\n",
+ 			      __func__);
++		free_cpumask_var(mask);
+ 		 return false;
+ 	}
+ 
+-	rdmsr_on_cpus(&mask, MSR_IA32_MCG_CTL, msrs);
++	rdmsr_on_cpus(mask, MSR_IA32_MCG_CTL, msrs);
+ 
+-	for_each_cpu(cpu, &mask) {
++	for_each_cpu(cpu, mask) {
+ 		nbe = msrs[idx].l & K8_MSR_MCGCTL_NBE;
+ 
+ 		debugf0("core: %u, MCG_CTL: 0x%llx, NB MSR is %s\n",
+@@ -2780,6 +2785,7 @@ static bool amd64_nb_mce_bank_enabled_on
+ 
+ out:
+ 	kfree(msrs);
++	free_cpumask_var(mask);
+ 	return ret;
+ }
+ 
