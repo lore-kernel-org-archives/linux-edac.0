@@ -1,11 +1,11 @@
-From: "Ed Soloko" <ed@gridironsystems.com>
-Subject: Intel 5400 EDAC Driver Issues
-Date: Thu, 3 Dec 2009 09:55:47 -0800 (PST)
-Message-ID: <013901ca7442$e96b0910$bc411b30$@com>
+From: Peter Tyser <ptyser@xes-inc.com>
+Subject: [PATCH] e752x_edac: Add DRAM scrubbing support
+Date: Tue,  8 Dec 2009 17:26:06 -0600
+Message-ID: <1260314766-2646-1-git-send-email-ptyser@xes-inc.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============1659517563674875923=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-Content-Language: en-us
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -15,387 +15,174 @@ List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
 To: bluesmoke-devel@lists.sourceforge.net
-Cc: mchehab@redhat.com
+Cc: Peter Tyser <ptyser@xes-inc.com>
 List-Id: edac.vger.kernel.org
 
-This is a multi-part message in MIME format.
+Add support to scrub DRAM using the e752x integrated memory scrubbing
+engine.  The e7320/7520/e7525 chipsets support scrubbing at one rate
+while the i3100 chipset supports a normal and fast rate.
 
---===============1659517563674875923==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_013A_01CA73FF.DB47C910"
-Content-Language: en-us
+Signed-off-by: Peter Tyser <ptyser@xes-inc.com>
+---
+A similar patch was originally sent back in 2008:
+http://sourceforge.net/mailarchive/forum.php?thread_name=1204835866.25206.70.camel@localhost.localdomain&forum_name=bluesmoke-devel
 
-This is a multi-part message in MIME format.
+This version has the following updates:
+- Use 16-bit PCI config cycles to access MCHSCRB register
+    e7320/7520/e7525 docs say register is 16bits wide, i3100 says 8.  I
+    tested 16bits on the i3100 to be safe.
+- Recalcuate and round actual scrub rates
 
-------=_NextPart_000_013A_01CA73FF.DB47C910
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+The changes have been tested on an i3100-based board.
 
-Hi,
+ drivers/edac/e752x_edac.c |  107 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 107 insertions(+), 0 deletions(-)
 
+diff --git a/drivers/edac/e752x_edac.c b/drivers/edac/e752x_edac.c
+index d205d49..c12a46c 100644
+--- a/drivers/edac/e752x_edac.c
++++ b/drivers/edac/e752x_edac.c
+@@ -75,6 +75,14 @@ static struct edac_pci_ctl_info *e752x_pci;
+ #define E752X_NR_CSROWS		8	/* number of csrows */
  
-
-I am working on the Intel 5400 EDAC driver as our product needs to monitor
-memory ecc errors and such. I have found a number of discrepancies between
-the code in [i5400_edac.c] and the 5400 MCH datasheet. I am wondering if
-anyone else has noticed them and more importantly has changes for them.
-Otherwise, I will embark upon the changes. The last commit to this code
-seems to be Roberson's of 2009-10-29.
-
+ /* E752X register addresses - device 0 function 0 */
++#define E752X_MCHSCRB		0x52	/* Memory Scrub register (16b) */
++					/*
++					 * 6:5     Scrub Completion Count
++					 * 3:2     Scrub Rate (i3100 only)
++					 *      01=fast 10=normal
++					 * 1:0     Scrub Mode enable
++					 *      00=off 10=on
++					 */
+ #define E752X_DRB		0x60	/* DRAM row boundary register (8b) */
+ #define E752X_DRA		0x70	/* DRAM row attribute register (8b) */
+ 					/*
+@@ -240,6 +248,41 @@ static const struct e752x_dev_info e752x_devs[] = {
+ 		.ctl_name = "3100"},
+ };
  
-
-I noticed the following
-
++/* Valid scrub rates for the e752x/3100 hardware memory scrubber. We
++ * map the scrubbing bandwidth to a hardware register value. The 'set'
++ * operation finds the 'matching or higher value'.  Note that scrubbing
++ * on the e752x can only be enabled/disabled.  The 3100 supports
++ * a normal and fast mode.
++ */
++
++#define SDRATE_EOT 0xFFFFFFFF
++
++struct scrubrate {
++	u32 bandwidth;	/* bandwidth consumed by scrubbing in bytes/sec */
++	u16 scrubval;	/* register value for scrub rate */
++};
++
++/* Rate below assumes same performance as i3100 using PC3200 DDR2 in
++ * normal mode.  e752x bridges don't support choosing normal or fast mode,
++ * so the scrubbing bandwidth value isn't all that important - scrubbing is
++ * either on or off.
++ */
++static const struct scrubrate scrubrates_e752x[] = {
++	{0,		0x00},	/* Scrubbing Off */
++	{500000,	0x02},	/* Scrubbing On */
++	{SDRATE_EOT,	0x00}	/* End of Table */
++};
++
++/* Fast mode: 2 GByte PC3200 DDR2 scrubbed in 33s = 63161283 bytes/s
++ * Normal mode: 125 (32000 / 256) times slower than fast mode.
++ */
++static const struct scrubrate scrubrates_i3100[] = {
++	{0,		0x00},	/* Scrubbing Off */
++	{500000,	0x0a},	/* Normal mode - 32k clocks */
++	{62500000,	0x06},	/* Fast mode - 256 clocks */
++	{SDRATE_EOT,	0x00}	/* End of Table */
++};
++
+ static unsigned long ctl_page_to_phys(struct mem_ctl_info *mci,
+ 				unsigned long page)
+ {
+@@ -915,6 +958,68 @@ static void e752x_check(struct mem_ctl_info *mci)
+ 	e752x_process_error_info(mci, &info, 1);
+ }
  
-
-1.       The datasheet reference is for the 5000 MCH (minor, I know).
-
-2.       REDMEMB is an offset into Device 21,22, Function 1 but the code
-uses it as an offset into Device 16, function 1 via
-pvt->branchmap_werrors.
-
-3.       RECMEMA and RECMEMB usage is being incorrectly used similar to
-REDMEMB.
-
-4.       The values of RECMEMA, RECMEMB, and RECFB_DIMMA are 0xf0, 0xf4,
-0xf8, respectively. These are incorrect. They should be 0xe0, 0xe4, 0xe8,
-respectively.
-
-5.       The pci device referenced by pvt_branch_0 is the device  for
-Device 21, Function 0. There needs to be a pci_device in struct i5400_pvt
-for Device 21, Function 1.
-
-6.       Same comment as item #5 but for branch_1, Device 22, Function 1.
-
-7.       The function i5400_get_error_info() needs to obtain the values at
-offsets NRECMEMA, NRECMEMB, and REDMEMB, from Device 21,22, Function 1
-instead of Device 16, Function 1.
-
++/* Program byte/sec bandwidth scrub rate to hardware */
++static int set_sdram_scrub_rate(struct mem_ctl_info *mci, u32 *new_bw)
++{
++	const struct scrubrate *scrubrates;
++	struct e752x_pvt *pvt = (struct e752x_pvt *) mci->pvt_info;
++	struct pci_dev *pdev = pvt->dev_d0f0;
++	int i;
++
++	if (pvt->dev_info->ctl_dev == PCI_DEVICE_ID_INTEL_3100_0)
++		scrubrates = scrubrates_i3100;
++	else
++		scrubrates = scrubrates_e752x;
++
++	/* Translate the desired scrub rate to a e752x/3100 register value.
++	 * Search for the bandwidth that is equal or greater than the
++	 * desired rate and program the cooresponding register value.
++	 */
++	for (i = 0; scrubrates[i].bandwidth != SDRATE_EOT; i++)
++		if (scrubrates[i].bandwidth >= *new_bw)
++			break;
++
++	if (scrubrates[i].bandwidth == SDRATE_EOT)
++		return -1;
++
++	pci_write_config_word(pdev, E752X_MCHSCRB, scrubrates[i].scrubval);
++
++	return 0;
++}
++
++/* Convert current scrub rate value into byte/sec bandwidth */
++static int get_sdram_scrub_rate(struct mem_ctl_info *mci, u32 *bw)
++{
++	const struct scrubrate *scrubrates;
++	struct e752x_pvt *pvt = (struct e752x_pvt *) mci->pvt_info;
++	struct pci_dev *pdev = pvt->dev_d0f0;
++	u16 scrubval;
++	int i;
++
++	if (pvt->dev_info->ctl_dev == PCI_DEVICE_ID_INTEL_3100_0)
++		scrubrates = scrubrates_i3100;
++	else
++		scrubrates = scrubrates_e752x;
++
++	/* Find the bandwidth matching the memory scrubber configuration */
++	pci_read_config_word(pdev, E752X_MCHSCRB, &scrubval);
++	scrubval = scrubval & 0x0f;
++
++	for (i = 0; scrubrates[i].bandwidth != SDRATE_EOT; i++)
++		if (scrubrates[i].scrubval == scrubval)
++			break;
++
++	if (scrubrates[i].bandwidth == SDRATE_EOT) {
++		e752x_printk(KERN_WARNING,
++			"Invalid sdram scrub control value: 0x%x\n", scrubval);
++		return -1;
++	}
++
++	*bw = scrubrates[i].bandwidth;
++
++	return 0;
++}
++
+ /* Return 1 if dual channel mode is active.  Else return 0. */
+ static inline int dual_channel_active(u16 ddrcsr)
+ {
+@@ -1187,6 +1292,8 @@ static int e752x_probe1(struct pci_dev *pdev, int dev_idx)
+ 	mci->dev_name = pci_name(pdev);
+ 	mci->edac_check = e752x_check;
+ 	mci->ctl_page_to_phys = ctl_page_to_phys;
++	mci->set_sdram_scrub_rate = set_sdram_scrub_rate;
++	mci->get_sdram_scrub_rate = get_sdram_scrub_rate;
  
+ 	/* set the map type.  1 = normal, 0 = reversed
+ 	 * Must be set before e752x_init_csrows in case csrow mapping
+-- 
+1.6.2.1
 
-This is what I have found so far.  If anyone can  confirm what I have
-found or have changes already please let me know.
-
- 
-
-Also, has this driver been used in production by anyone?
-
- 
-
-Thanks,
-
- 
-
-Ed Soloko
-
-GridIron Systems, Inc.
-
- 
-
-
-------=_NextPart_000_013A_01CA73FF.DB47C910
-Content-Type: text/html;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
-
-<head>
-<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii">
-<meta name=3DGenerator content=3D"Microsoft Word 12 (filtered medium)">
-<style>
-<!--
- /* Font Definitions */
- @font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
- /* Style Definitions */
- p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page Section1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.Section1
-	{page:Section1;}
- /* List Definitions */
- @list l0
-	{mso-list-id:753824169;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1234827112 67698703 67698713 67698715 67698703 =
-67698713 67698715 67698703 67698713 67698715;}
-@list l0:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level2
-	{mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level3
-	{mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level4
-	{mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level5
-	{mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level6
-	{mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level7
-	{mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level8
-	{mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level9
-	{mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
--->
-</style>
-<!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <o:shapelayout v:ext=3D"edit">
-  <o:idmap v:ext=3D"edit" data=3D"1" />
- </o:shapelayout></xml><![endif]-->
-</head>
-
-<body lang=3DEN-US link=3Dblue vlink=3Dpurple>
-
-<div class=3DSection1>
-
-<p class=3DMsoNormal>Hi,<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=3DMsoNormal>I am working on the Intel 5400 EDAC driver as our =
-product
-needs to monitor memory ecc errors and such. I have found a number of
-discrepancies between the code in [i5400_edac.c] and the 5400 MCH =
-datasheet. I
-am wondering if anyone else has noticed them and more importantly has =
-changes
-for them. Otherwise, I will embark upon the changes. The last commit to =
-this
-code seems to be Roberson&#8217;s of 2009-10-29.<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=3DMsoNormal>I noticed the following<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=3DMsoListParagraph style=3D'text-indent:-.25in;mso-list:l0 =
-level1 lfo1'><![if !supportLists]><span
-style=3D'mso-list:Ignore'>1.<span style=3D'font:7.0pt "Times New =
-Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>The datasheet reference is for the 5000 MCH =
-(minor, I
-know).<o:p></o:p></p>
-
-<p class=3DMsoListParagraph style=3D'text-indent:-.25in;mso-list:l0 =
-level1 lfo1'><![if !supportLists]><span
-style=3D'mso-list:Ignore'>2.<span style=3D'font:7.0pt "Times New =
-Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>REDMEMB is an offset into Device 21,22, Function =
-1 but
-the code uses it as an offset into Device 16, function 1 via
-pvt-&gt;branchmap_werrors.<o:p></o:p></p>
-
-<p class=3DMsoListParagraph style=3D'text-indent:-.25in;mso-list:l0 =
-level1 lfo1'><![if !supportLists]><span
-style=3D'mso-list:Ignore'>3.<span style=3D'font:7.0pt "Times New =
-Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>RECMEMA and RECMEMB usage is being incorrectly =
-used
-similar to REDMEMB.<o:p></o:p></p>
-
-<p class=3DMsoListParagraph style=3D'text-indent:-.25in;mso-list:l0 =
-level1 lfo1'><![if !supportLists]><span
-style=3D'mso-list:Ignore'>4.<span style=3D'font:7.0pt "Times New =
-Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>The values of RECMEMA, RECMEMB, and RECFB_DIMMA =
-are
-0xf0, 0xf4, 0xf8, respectively. These are incorrect. They should be =
-0xe0, 0xe4,
-0xe8, respectively.<o:p></o:p></p>
-
-<p class=3DMsoListParagraph style=3D'text-indent:-.25in;mso-list:l0 =
-level1 lfo1'><![if !supportLists]><span
-style=3D'mso-list:Ignore'>5.<span style=3D'font:7.0pt "Times New =
-Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>The pci device referenced by pvt_branch_0 is the
-device&nbsp; for Device 21, Function 0. There needs to be a pci_device =
-in
-struct i5400_pvt for Device 21, Function 1.<o:p></o:p></p>
-
-<p class=3DMsoListParagraph style=3D'text-indent:-.25in;mso-list:l0 =
-level1 lfo1'><![if !supportLists]><span
-style=3D'mso-list:Ignore'>6.<span style=3D'font:7.0pt "Times New =
-Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>Same comment as item #5 but for branch_1, Device =
-22,
-Function 1.<o:p></o:p></p>
-
-<p class=3DMsoListParagraph style=3D'text-indent:-.25in;mso-list:l0 =
-level1 lfo1'><![if !supportLists]><span
-style=3D'mso-list:Ignore'>7.<span style=3D'font:7.0pt "Times New =
-Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span><![endif]>The function i5400_get_error_info() needs to =
-obtain the
-values at offsets NRECMEMA, NRECMEMB, and REDMEMB, from Device 21,22, =
-Function
-1 instead of Device 16, Function 1.<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=3DMsoNormal>This is what I have found so far. &nbsp;If anyone =
-can&nbsp;
-confirm what I have found or have changes already please let me =
-know.<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=3DMsoNormal>Also, has this driver been used in production by =
-anyone?<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=3DMsoNormal>Thanks,<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-<p class=3DMsoNormal>Ed Soloko<o:p></o:p></p>
-
-<p class=3DMsoNormal>GridIron Systems, Inc.<o:p></o:p></p>
-
-<p class=3DMsoNormal><o:p>&nbsp;</o:p></p>
-
-</div>
-
-</body>
-
-</html>
-
-------=_NextPart_000_013A_01CA73FF.DB47C910--
-
-
---===============1659517563674875923==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 ------------------------------------------------------------------------------
-Join us December 9, 2009 for the Red Hat Virtual Experience,
-a free event focused on virtualization and cloud computing. 
-Attend in-depth sessions from your desk. Your couch. Anywhere.
-http://p.sf.net/sfu/redhat-sfdev2dev
---===============1659517563674875923==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-bluesmoke-devel mailing list
-bluesmoke-devel@lists.sourceforge.net
-https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel
-
---===============1659517563674875923==--
+Return on Information:
+Google Enterprise Search pays you back
+Get the facts.
+http://p.sf.net/sfu/google-dev2dev
