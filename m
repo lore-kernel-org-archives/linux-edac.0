@@ -1,13 +1,13 @@
 From: Doug Thompson <norsk5@yahoo.com>
-Subject: Re: EDAC and DDR3 memory
-Date: Mon, 21 Dec 2009 13:23:00 -0800 (PST)
-Message-ID: <569393.31507.qm@web50105.mail.re2.yahoo.com>
-References: <4B2CBA37.2090101@web.de>
+Subject: RE: [PATCH] [EDAC] FSB ECC
+Date: Mon, 4 Jan 2010 11:47:13 -0800 (PST)
+Message-ID: <296860.44783.qm@web50108.mail.re2.yahoo.com>
+References: <2a20a1830912292205g68597adai5189496de87778dd@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <4B2CBA37.2090101@web.de>
+In-Reply-To: <2a20a1830912292205g68597adai5189496de87778dd@mail.gmail.com>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -16,62 +16,37 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net, Joachim Ernst <joachim.ernst@web.de>
+To: mark.gross@intel.com, dougthompson@xmission.com, Konstantin Olifer <kolifer@gmail.com>
+Cc: bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
-Looks like  Boris has that in his lastest git tree, so it is  coming
+Sorry I did not.  I just got back after a 1.5 week holiday. But I cannot find the patch.
 
-At the time I make the mods, DDR3 cost too much for me to get a system with. Since then, they are much more reasonable
+Can you resubmit it again?
 
-doug t
+Sending to the bluesmoke-devel mailing list and/or having "EDAC" in the subject line will get to my correct email folder.
 
---- On Sat, 12/19/09, Joachim Ernst <joachim.ernst@web.de> wrote:
+sorry for the loss
 
-> From: Joachim Ernst <joachim.ernst@web.de>
-> Subject: EDAC and DDR3 memory
-> To: bluesmoke-devel@lists.sourceforge.net
-> Date: Saturday, December 19, 2009, 4:34 AM
-> Dear EDAC-Developers,
+doug thompson
+
+BTW: Mark is no longer maintaining EDAC code
+
+
+--- On Tue, 12/29/09, Konstantin Olifer <kolifer@gmail.com> wrote:
+
+> From: Konstantin Olifer <kolifer@gmail.com>
+> Subject: RE: [PATCH] [EDAC] FSB ECC
+> To: mark.gross@intel.com, dougthompson@xmission.com
+> Date: Tuesday, December 29, 2009, 11:05 PM
+> Hello,
 > 
-> is there a chance to get DDR3 running with EDAC?
-> Here is the output of dmesg | grep EDAC:
+> Did you recieve my mail with patch three days ago?
 > 
-> EDAC MC: Ver: 2.1.0 Dec 8 2009
-> EDAC amd64_edac: Ver: 3.2.0 Dec 8 2009
-> EDAC amd64: ECC is enabled by BIOS, Proceeding with EDAC
-> module
-> initialization
-> EDAC MC: F10h CPU detected
-> EDAC amd64: f10_probe_valid_hardware() This machine is
-> running with DDR3
-> memory. This is not currently supported. DCHR0=0x3f58090d
-> DCHR1=0x3f58090d
-> EDAC amd64: Contact 'amd64_edac' module MAINTAINER to help
-> add support.
 > 
-> Using Phenom II CPU with unbuffered ECC-RAM
-> (2xKVR1333D3E9SK2/4G) on an
-> AM3-Motherboard(Biostar TA790GX A3+).
-> 
-> If you need more information don't dare to ask.
-> 
-> Sincerly
-> Joachim Ernst
-> 
-> ------------------------------------------------------------------------------
-> This SF.Net email is sponsored by the Verizon Developer
-> Community
-> Take advantage of Verizon's best-in-class app development
-> support
-> A streamlined, 14 day to market process makes app
-> distribution fast and easy
-> Join now and get one step closer to millions of Verizon
-> customers
-> http://p.sf.net/sfu/verizon-dev2dev 
-> _______________________________________________
-> bluesmoke-devel mailing list
-> bluesmoke-devel@lists.sourceforge.net
-> https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel
+> -- 
+> Best regards,
+> Konstantin
 > 
 
 ------------------------------------------------------------------------------
