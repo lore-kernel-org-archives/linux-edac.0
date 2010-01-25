@@ -1,11 +1,13 @@
 From: Peter Tyser <ptyser@xes-inc.com>
-Subject: [PATCH] MAINTAINERS: Transfer maintainership of E752X EDAC
-Date: Thu, 21 Jan 2010 15:09:23 -0600
-Message-ID: <1264108163-27893-1-git-send-email-ptyser@xes-inc.com>
+Subject: Re: [PATCH 1/4] edac: Remove unused mpc85xx debug code
+Date: Mon, 25 Jan 2010 11:20:13 -0600
+Message-ID: <1264440013.22019.19.camel@localhost.localdomain>
+References: <1258677749-15968-1-git-send-email-ptyser@xes-inc.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+In-Reply-To: <1258677749-15968-1-git-send-email-ptyser@xes-inc.com>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -15,32 +17,38 @@ List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
 To: bluesmoke-devel@lists.sourceforge.net
-Cc: Peter Tyser <ptyser@xes-inc.com>, mark.gross@intel.com
+Cc: linuxppc-dev@ozlabs.org, djiang@mvista.com
 List-Id: edac.vger.kernel.org
 
-Transfer maintainership of the E752X EDAC driver from Mark Gross to
-Peter Tyser.
+On Thu, 2009-11-19 at 18:42 -0600, Peter Tyser wrote:
+> Some unused, unsupported debug code existed in the mpc85xx EDAC driver
+> that resulted in a build failure when CONFIG_EDAC_DEBUG was defined:
+> 
+>   drivers/edac/mpc85xx_edac.c: In function 'mpc85xx_mc_err_probe':
+>   drivers/edac/mpc85xx_edac.c:1031: error: implicit declaration of function 'edac_mc_register_mcidev_debug'
+>   drivers/edac/mpc85xx_edac.c:1031: error: 'debug_attr' undeclared (first use in this function)
+>   drivers/edac/mpc85xx_edac.c:1031: error: (Each undeclared identifier is reported only once
+>   drivers/edac/mpc85xx_edac.c:1031: error: for each function it appears in.)
+> 
+> Signed-off-by: Peter Tyser <ptyser@xes-inc.com>
 
-Signed-off-by: Peter Tyser <ptyser@xes-inc.com>
----
- MAINTAINERS |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+<snip>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1858646..4d5f445 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1964,7 +1964,7 @@ S:	Supported
- F:	drivers/edac/amd64_edac*
- 
- EDAC-E752X
--M:	Mark Gross <mark.gross@intel.com>
-+M:	Peter Tyser <ptyser@xes-inc.com>
- M:	Doug Thompson <dougthompson@xmission.com>
- L:	bluesmoke-devel@lists.sourceforge.net (moderated for non-subscribers)
- W:	bluesmoke.sourceforge.net
--- 
-1.6.2.1
+Any chance some of these will be picked up for 2.6.33?
+
+I added Kumar on CC as I'm not sure if these should go through the EDAC
+or PPC tree.
+
+1/4 fixes a build error when CONFIG_EDAC_DEBUG is defined and is pretty
+trivial.
+
+2/4 fixes a regression which results in ECC detection not working.
+
+3/4 and 4/4 are "improvements", but don't necessarily need to go into
+2.6.33.
+
+Best,
+Peter
 
 
 ------------------------------------------------------------------------------
