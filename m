@@ -1,54 +1,61 @@
 From: dougthompson@xmission.com
-Subject: [PATCH 6/7] edac: mpc85xx fsb ecc
+Subject: [PATCH 5/7] edac: mpc85xx use resource_size instead of raw math
 Date: Wed, 03 Feb 2010 23:46:17 -0700
-Message-ID: <4b6a6d39.qA/tt48S/7odhQ+i%dougthompson@xmission.com>
+Message-ID: <4b6a6d39.DE4ItdPPoue1qlHX%dougthompson@xmission.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: kolifer@gmail.com, bluesmoke-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org, akpm@linux-foundation.org
+Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
+List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
+List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+To: ptyser@xes-inc.com, bluesmoke-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org, akpm@linux-foundation.org
 List-Id: edac.vger.kernel.org
 
-From: Konstantin Olifer <kolifer@gmail.com>
+From: H Hartley Sweeten <hsweeten@visionengravers.com>
 
-Patch is for Kernel 2.6.33. e752x_edac suppose that fsb ECC exist, for example, on
-Celeron + 3100. That is wrong. 
-ECC FSB supported only on Xeon for our vision (www.setdsp.ru) and datasheet from developer intel www. 
-Fixed.
+Use resource_size() instead of arithmatic.
 
-
-Signed-off-by:  Konstantin Olifer <kolifer@gmail.com>
-Signed-off-by:  Doug Thompson <dougthompson@xmission.com>
+Signed-off-by: H Hartley Sweeten <hsweeten@visionengravers.com>
+Signed-off-by: Doug Thompson <dougthompson@xmission.com>
+Acked-by: Dave Jiang <djiang@mvista.com>
 ---
- e752x_edac.c |   10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ mpc85xx_edac.c |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Index: linux-2.6.33-rc4/drivers/edac/e752x_edac.c
+Index: linux-2.6.33-rc4/drivers/edac/mpc85xx_edac.c
 ===================================================================
---- linux-2.6.33-rc4.orig/drivers/edac/e752x_edac.c	2010-01-12 23:26:07.000000000 -0700
-+++ linux-2.6.33-rc4/drivers/edac/e752x_edac.c	2010-01-12 23:26:13.000000000 -0700
-@@ -1073,10 +1073,7 @@ fail:
+--- linux-2.6.33-rc4.orig/drivers/edac/mpc85xx_edac.c	2010-01-13 00:18:21.000000000 -0700
++++ linux-2.6.33-rc4/drivers/edac/mpc85xx_edac.c	2010-01-13 00:18:23.000000000 -0700
+@@ -239,16 +239,15 @@ static int __devinit mpc85xx_pci_err_pro
+ 	/* we only need the error registers */
+ 	r.start += 0xe00;
  
- /* Setup system bus parity mask register.
-  * Sysbus parity supported on:
-- *   e7320/e7520/e7525 + Xeon
-- *   i3100 + Xeon/Celeron
-- * Sysbus parity not supported on:
-- *   i3100 + Pentium M/Celeron M/Core Duo/Core2 Duo
-+ * e7320/e7520/e7525 + Xeon
-  */
- static void e752x_init_sysbus_parity_mask(struct e752x_pvt *pvt)
- {
-@@ -1087,10 +1084,7 @@ static void e752x_init_sysbus_parity_mas
- 	/* Allow module parameter override, else see if CPU supports parity */
- 	if (sysbus_parity != -1) {
- 		enable = sysbus_parity;
--	} else if (cpu_id[0] &&
--		   ((strstr(cpu_id, "Pentium") && strstr(cpu_id, " M ")) ||
--		    (strstr(cpu_id, "Celeron") && strstr(cpu_id, " M ")) ||
--		    (strstr(cpu_id, "Core") && strstr(cpu_id, "Duo")))) {
-+	} else if (cpu_id[0] && !strstr(cpu_id, "Xeon")) {
- 		e752x_printk(KERN_INFO, "System Bus Parity not "
- 			     "supported by CPU, disabling\n");
- 		enable = 0;
+-	if (!devm_request_mem_region(&op->dev, r.start,
+-					r.end - r.start + 1, pdata->name)) {
++	if (!devm_request_mem_region(&op->dev, r.start, resource_size(&r),
++					pdata->name)) {
+ 		printk(KERN_ERR "%s: Error while requesting mem region\n",
+ 		       __func__);
+ 		res = -EBUSY;
+ 		goto err;
+ 	}
+ 
+-	pdata->pci_vbase = devm_ioremap(&op->dev, r.start,
+-					r.end - r.start + 1);
++	pdata->pci_vbase = devm_ioremap(&op->dev, r.start, resource_size(&r));
+ 	if (!pdata->pci_vbase) {
+ 		printk(KERN_ERR "%s: Unable to setup PCI err regs\n", __func__);
+ 		res = -ENOMEM;
+
+------------------------------------------------------------------------------
+The Planet: dedicated and managed hosting, cloud storage, colocation
+Stay online with enterprise data centers and the best network in the business
+Choose flexible plans and management services without long-term contracts
+Personal 24x7 support from experience hosting pros just a phone call away.
+http://p.sf.net/sfu/theplanet-com
