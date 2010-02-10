@@ -1,53 +1,124 @@
-From: Doug Thompson <norsk5@yahoo.com>
-Subject: Re: [PATCH 6/7] edac: mpc85xx fsb ecc
-Date: Thu, 4 Feb 2010 21:48:34 -0800 (PST)
-Message-ID: <324607.19392.qm@web50108.mail.re2.yahoo.com>
-References: <1265304134.14589.152.camel@localhost.localdomain>
+From: "Ira W. Snyder" <iws@ovro.caltech.edu>
+Subject: libedac memory leak
+Date: Wed, 10 Feb 2010 13:28:41 -0800
+Message-ID: <20100210212841.GE15287@ovro.caltech.edu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1265304134.14589.152.camel@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
-To: dougthompson@xmission.com, Peter Tyser <ptyser@xes-inc.com>
-Cc: kolifer@gmail.com, akpm@linux-foundation.org, bluesmoke-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+Content-Disposition: inline
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
+List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
+List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+To: bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
+Hello all,
+
+I've tried to use libedac in a project of mine, to read ECC errors
+present on a board. I have found that it leaks memory, because the
+edac_handle_destroy() function does not free the edac_handle that was
+malloc()ed.
+
+A test program is inlined which will leak memory as long as it runs.
+I've added a hack to the code to show others how to work around the
+problem, but it isn't very nice that the library leaks memory.
 
 
---- On Thu, 2/4/10, Peter Tyser <ptyser@xes-inc.com> wrote:
+----------------- cut here -----------------
 
-> From: Peter Tyser <ptyser@xes-inc.com>
-> Subject: Re: [PATCH 6/7] edac: mpc85xx fsb ecc
-> To: dougthompson@xmission.com
-> Cc: kolifer@gmail.com, akpm@linux-foundation.org, bluesmoke-devel@lis=
-ts.sourceforge.net, linux-kernel@vger.kernel.org
-> Date: Thursday, February 4, 2010, 10:22 AM
-> Hi Doug and Konstantin,
->=20
-> On Wed, 2010-02-03 at 23:46 -0700, dougthompson@xmission.com
-> wrote:
-> > From: Konstantin Olifer <kolifer@gmail.com>
-> >=20
-> > Patch is for Kernel 2.6.33. e752x_edac suppose that
-> fsb ECC exist, for example, on
-> > Celeron + 3100. That is wrong.=20
-> > ECC FSB supported only on Xeon for our vision
-> (www.setdsp.ru) and datasheet from developer intel www.=20
-> > Fixed.
-> > Signed-off-by:=A0 Konstantin Olifer <kolifer@gmail.com>
-> > Signed-off-by:=A0 Doug Thompson <dougthompson@xmission.com>
-> > ---
-> >=A0 e752x_edac.c |=A0=A0=A010 ++--------
-> >=A0 1 file changed, 2 insertions(+), 8 deletions(-)
->=20
-> It looks like 6/7 and 7/7 in this series have the wrong
-> subject/title.
-> Patches 6 and 7 are for the e752x instead of the mpc85xx.
+/*
+ * libedac test program showing memory leaks
+ *
+ * Compile with: gcc -o test test.c -ledac
+ *
+ * Copyright (c) 2010 Ira W. Snyder <iws@ovro.caltech.edu>
+ *
+ * This file is licensed under the terms of the GNU General Public License
+ * version 2. This program is licensed "as is" without any warranty of any
+ * kind, whether express or implied.
+ */
 
-my bad while I was constructing the titles. missed the driver name
+#include <stdio.h>
+#include <stdlib.h>
+#include <edac.h>
 
-thanks andrew for fixing that
+struct MonitorCarmaCommon {
+	int eccErrors;
+};
 
+static int get_edac_ecc_errors(struct MonitorCarmaCommon *common)
+{
+	struct edac_totals totals;
+	edac_handle *edac;
+	int ret;
 
-doug t
+	edac = edac_handle_create();
+	if (edac == NULL) {
+		printf("unable to create edac handle\n");
+		return -1;
+	}
+
+	ret = edac_handle_init(edac);
+	if (ret < 0) {
+		printf("unable to init edac handle\n");
+		return -1;
+	}
+
+	ret = edac_error_totals(edac, &totals);
+	if (ret < 0) {
+		printf("unable to get edac totals\n");
+		return -1;
+	}
+
+	common->eccErrors = 0;
+	common->eccErrors += totals.ce_total;
+	common->eccErrors += totals.ue_total;
+	common->eccErrors += totals.pci_parity_total;
+
+	edac_handle_destroy(edac);
+
+#if 0
+	/*
+	 * This is a quick workaround for the broken libedac library.
+	 * Despite its claims, the edac_handle_destroy() function fails
+	 * to free the memory for the opaque edac_handle structure, and
+	 * therefore leaks memory. :(
+	 */
+
+	free(edac);
+#endif
+	return 0;
+}
+
+int main (int argc, char *argv[])
+{
+	struct MonitorCarmaCommon common;
+	unsigned int count = 0;
+	int ret;
+
+	while (1) {
+		ret = get_edac_ecc_errors(&common);
+		if (ret < 0) {
+			printf("iteration %d failed\n", count);
+			return -1;
+		}
+
+		printf("iteration %d errors %d\n", count, common.eccErrors);
+		count++;
+	}
+
+	return 0;
+}
+
+/* vim: set ts=8 sts=8 sw=8 noet tw=92: */
+
+------------------------------------------------------------------------------
+SOLARIS 10 is the OS for Data Centers - provides features such as DTrace,
+Predictive Self Healing and Award Winning ZFS. Get Solaris 10 NOW
+http://p.sf.net/sfu/solaris-dev2dev
