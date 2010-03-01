@@ -1,77 +1,152 @@
-From: jason.yqhu@gmail.com
-Subject: It seems kobject_put for mci->edac_mci_kobj were called more than
-	kobject_get
-Date: Thu, 25 Feb 2010 11:06:23 +0800
-Message-ID: <1f6dcb291002241906m3c5cc7d4o8767d0276ff2228@mail.gmail.com>
+From: Borislav Petkov <borislav.petkov@amd.com>
+Subject: [PATCH] amd64_edac: Simplify ECC override handling
+Date: Mon, 1 Mar 2010 20:58:41 +0100
+Message-ID: <20100301195841.GA5096@aftab>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+To: Doug Thompson <norsk5@yahoo.com>
+Cc: edac-devel <bluesmoke-devel@lists.sourceforge.net>, linux-kernel@vger.kernel.org
 List-Id: edac.vger.kernel.org
 
-Hi,
+I've got only this fix for the current merge window. Will push to Linus
+later if no objections.
 
-It seems that mci->edac_mci_kobj is put more that expected.
+--
+No need for clearing ecc_enable_override and checking it in two places.
+Instead, simply check it during probing and act accordingly. Also,
+rename the flag bitfields according to the functionality they actually
+represent. What is more, make sure original BIOS ECC settings are
+restored when the module is unloaded.
 
-A typical call sequence to add a mc device is :
+Signed-off-by: Borislav Petkov <borislav.petkov@amd.com>
+---
+ drivers/edac/amd64_edac.c |   37 +++++++++++++++++++------------------
+ drivers/edac/amd64_edac.h |    3 ++-
+ 2 files changed, 21 insertions(+), 19 deletions(-)
 
-1.  call edac_mc_alloc
-mci->edac_mci_kobj was initialized by calling edac_mc_register_sysfs_main_kobj
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 3391e67..dc9caab 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2553,14 +2553,14 @@ static int amd64_toggle_ecc_err_reporting(struct amd64_pvt *pvt, bool on)
+ 
+ 		if (on) {
+ 			if (reg->l & K8_MSR_MCGCTL_NBE)
+-				pvt->flags.ecc_report = 1;
++				pvt->flags.nb_mce_enable = 1;
+ 
+ 			reg->l |= K8_MSR_MCGCTL_NBE;
+ 		} else {
+ 			/*
+-			 * Turn off ECC reporting only when it was off before
++			 * Turn off NB MCE reporting only when it was off before
+ 			 */
+-			if (!pvt->flags.ecc_report)
++			if (!pvt->flags.nb_mce_enable)
+ 				reg->l &= ~K8_MSR_MCGCTL_NBE;
+ 		}
+ 	}
+@@ -2571,22 +2571,11 @@ static int amd64_toggle_ecc_err_reporting(struct amd64_pvt *pvt, bool on)
+ 	return 0;
+ }
+ 
+-/*
+- * Only if 'ecc_enable_override' is set AND BIOS had ECC disabled, do "we"
+- * enable it.
+- */
+ static void amd64_enable_ecc_error_reporting(struct mem_ctl_info *mci)
+ {
+ 	struct amd64_pvt *pvt = mci->pvt_info;
+ 	u32 value, mask = K8_NBCTL_CECCEn | K8_NBCTL_UECCEn;
+ 
+-	if (!ecc_enable_override)
+-		return;
+-
+-	amd64_printk(KERN_WARNING,
+-		"'ecc_enable_override' parameter is active, "
+-		"Enabling AMD ECC hardware now: CAUTION\n");
+-
+ 	amd64_read_pci_cfg(pvt->misc_f3_ctl, K8_NBCTL, &value);
+ 
+ 	/* turn on UECCn and CECCEn bits */
+@@ -2611,6 +2600,8 @@ static void amd64_enable_ecc_error_reporting(struct mem_ctl_info *mci)
+ 			"This node reports that DRAM ECC is "
+ 			"currently Disabled; ENABLING now\n");
+ 
++		pvt->flags.nb_ecc_prev = 0;
++
+ 		/* Attempt to turn on DRAM ECC Enable */
+ 		value |= K8_NBCFG_ECC_ENABLE;
+ 		pci_write_config_dword(pvt->misc_f3_ctl, K8_NBCFG, value);
+@@ -2625,7 +2616,10 @@ static void amd64_enable_ecc_error_reporting(struct mem_ctl_info *mci)
+ 			amd64_printk(KERN_DEBUG,
+ 				"Hardware accepted DRAM ECC Enable\n");
+ 		}
++	} else {
++		pvt->flags.nb_ecc_prev = 1;
+ 	}
++
+ 	debugf0("NBCFG(2)= 0x%x  CHIPKILL= %s ECC_ENABLE= %s\n", value,
+ 		(value & K8_NBCFG_CHIPKILL) ? "Enabled" : "Disabled",
+ 		(value & K8_NBCFG_ECC_ENABLE) ? "Enabled" : "Disabled");
+@@ -2644,12 +2638,18 @@ static void amd64_restore_ecc_error_reporting(struct amd64_pvt *pvt)
+ 	value &= ~mask;
+ 	value |= pvt->old_nbctl;
+ 
+-	/* restore the NB Enable MCGCTL bit */
+ 	pci_write_config_dword(pvt->misc_f3_ctl, K8_NBCTL, value);
+ 
++	/* restore previous BIOS DRAM ECC "off" setting which we force-enabled */
++	if (!pvt->flags.nb_ecc_prev) {
++		amd64_read_pci_cfg(pvt->misc_f3_ctl, K8_NBCFG, &value);
++		value &= ~K8_NBCFG_ECC_ENABLE;
++		pci_write_config_dword(pvt->misc_f3_ctl, K8_NBCFG, value);
++	}
++
++	/* restore the NB Enable MCGCTL bit */
+ 	if (amd64_toggle_ecc_err_reporting(pvt, OFF))
+-		amd64_printk(KERN_WARNING, "Error restoring ECC reporting over "
+-					   "MCGCTL!\n");
++		amd64_printk(KERN_WARNING, "Error restoring NB MCGCTL settings!\n");
+ }
+ 
+ /*
+@@ -2690,8 +2690,9 @@ static int amd64_check_ecc_enabled(struct amd64_pvt *pvt)
+ 		if (!ecc_enable_override) {
+ 			amd64_printk(KERN_NOTICE, "%s", ecc_msg);
+ 			return -ENODEV;
++		} else {
++			amd64_printk(KERN_WARNING, "Forcing ECC checking on!\n");
+ 		}
+-		ecc_enable_override = 0;
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
+index 41bc561..0d4bf56 100644
+--- a/drivers/edac/amd64_edac.h
++++ b/drivers/edac/amd64_edac.h
+@@ -487,7 +487,8 @@ struct amd64_pvt {
+ 	/* misc settings */
+ 	struct flags {
+ 		unsigned long cf8_extcfg:1;
+-		unsigned long ecc_report:1;
++		unsigned long nb_mce_enable:1;
++		unsigned long nb_ecc_prev:1;
+ 	} flags;
+ };
+ 
+-- 
+1.6.6.1
 
-2. ...
 
-3. edac_mc_add_mc:
-added to global list,  but no reference count operation for  mci->edac_mci_kobj
+-- 
+Regards/Gruss,
+Boris.
 
-And to  remove a mc device
-1. call edac_mc_del_mc
-edac_remove_sysfs_mci_device(mci) was called:
-    /* unregister this instance's kobject */
-    kobject_put(&mci->edac_mci_kobj);
-We can  see from the log here that mci is  freed.
-
-2. edac_mc_free:
-edac_mc_unregister_sysfs_main_kobj(mci) was called:
-    /* delete the kobj from the mc_kset */
-    kobject_put(&mci->edac_mci_kobj)
-
-Since mci has been freed. This operation will do nothing if mci is not
-reused by others, other wise, a panic occurs.
-
-And sometimes if mci is used after it is freed, there will be strange
-debug message output:
-
-EDAC DEBUG: edac_mc_del_mc()
-EDAC DEBUG: edac_mc_workq_teardown() mci-0
-EDAC DEBUG: edac_remove_sysfs_mci_device()
-EDAC DEBUG: edac_remove_sysfs_mci_device()  unreg csrow-0
-EDAC DEBUG: edac_csrow_instance_release()
-EDAC DEBUG: edac_remove_sysfs_mci_device()  remove_link
-EDAC DEBUG: edac_remove_sysfs_mci_device()  remove_mci_instance
-EDAC DEBUG: edac_remove_sysfs_mci_device()  unregister this mci kobj
-EDAC DEBUG: edac_mci_control_release() mci instance idx=0 releasing
-EDAC MC: Removed device 0 for <NULL> <NULL>: DEV <NULL>
-EDAC DEBUG: edac_mc_del_mc() mc_devices list is now EMPTY
-
-
-Could some one help me confirm this ?
-
-Thanks
-
-Jason
-
-------------------------------------------------------------------------------
-Download Intel&#174; Parallel Studio Eval
-Try the new software tools for yourself. Speed compiling, find bugs
-proactively, and fine-tune applications for parallel performance.
-See why Intel Parallel Studio got high marks during beta.
-http://p.sf.net/sfu/intel-sw-dev
+-
+Advanced Micro Devices, Inc.
+Operating Systems Research Center
