@@ -1,11 +1,12 @@
-From: Randy Dunlap <rdunlap@xenotime.net>
-Subject: edac_i5[40]00 sparse warnings
-Date: Thu, 25 Feb 2010 13:09:40 -0800
-Message-ID: <4B86E714.8090901@xenotime.net>
+From: Borislav Petkov <borislav.petkov@amd.com>
+Subject: [GIT PULL] edac_mce_amd fix for 2.6.34-rc3
+Date: Mon, 22 Mar 2010 16:33:22 +0100
+Message-ID: <20100322153322.GF6336@aftab>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+Content-Disposition: inline
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -14,38 +15,58 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net
-Cc: Mauro Carvalho Chehab <mchehab@redhat.com>, Doug Thompson <dougthompson@xmission.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Doug Thompson <norsk5@yahoo.com>, edac-devel <bluesmoke-devel@lists.sourceforge.net>
 List-Id: edac.vger.kernel.org
 
-Hi,
+Hi Linus,
 
-drivers/edac/i5000_edac.c:496:15: warning: right shift by bigger than source value
-drivers/edac/i5000_edac.c:591:23: warning: right shift by bigger than source value
-drivers/edac/i5400_edac.c:401:36: warning: right shift by bigger than source value
-drivers/edac/i5400_edac.c:411:37: warning: right shift by bigger than source value
+please pull the following small fix.
 
-It appears that
-	u16 nrecmemb;
-does not contain enough bits for these drivers.  ;)
+Thanks.
 
+The following changes since commit 220bf991b0366cc50a94feede3d7341fa5710ee4:
+  Linus Torvalds (1):
+        Linux 2.6.34-rc2
 
-i5000_edac:
-#define			NREC_CAS(x)		(((x)>>16) & 0xFFFFFF)
+are available in the git repository at:
 
-where x is nrecmemb:
-	cas = NREC_CAS(info->nrecmemb);
-so 'cas' is always 0.  Maybe it is.
+  git://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git for-linus
 
+Borislav Petkov (1):
+      edac, mce: Filter out invalid values
 
-i5400_edac:
-	return (info->nrecmemb) >> 31;
-and
-	return ((info->nrecmemb) >> 16) & 0x1fff;
+ drivers/edac/edac_mce_amd.c |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
+---
+diff --git a/drivers/edac/edac_mce_amd.c b/drivers/edac/edac_mce_amd.c
+index 8fc91a0..f5b6d9f 100644
+--- a/drivers/edac/edac_mce_amd.c
++++ b/drivers/edac/edac_mce_amd.c
+@@ -316,7 +316,12 @@ void amd_decode_nb_mce(int node_id, struct err_regs *regs, int handle_errors)
+ 		if (regs->nbsh & K8_NBSH_ERR_CPU_VAL)
+ 			pr_cont(", core: %u\n", (u8)(regs->nbsh & 0xf));
+ 	} else {
+-		pr_cont(", core: %d\n", fls((regs->nbsh & 0xf) - 1));
++		u8 assoc_cpus = regs->nbsh & 0xf;
++
++		if (assoc_cpus > 0)
++			pr_cont(", core: %d", fls(assoc_cpus) - 1);
++
++		pr_cont("\n");
+ 	}
+ 
+ 	pr_emerg("%s.\n", EXT_ERR_MSG(xec));
 
 -- 
-~Randy
+Regards/Gruss,
+Boris.
+
+-
+Advanced Micro Devices, Inc.
+Operating Systems Research Center
+
 
 ------------------------------------------------------------------------------
 Download Intel&#174; Parallel Studio Eval
