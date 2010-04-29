@@ -1,14 +1,13 @@
-From: Mauro Carvalho Chehab <mchehab@redhat.com>
-Subject: Re: [PATCH] drivers/edac: Convert logging messages direct uses of
-	__FILE__ to %s, __FILE
-Date: Thu, 22 Apr 2010 16:50:12 -0300
-Message-ID: <4BD0A874.10806@redhat.com>
-References: <1271824949.1730.254.camel@Joe-Laptop.home>
+From: "Prasanna S. Panchamukhi" <prasanna.panchamukhi@riverbed.com>
+Subject: EDAC linux-2.6.34-rc5 non correctable errors not reported on AMD64
+	opteron
+Date: Thu, 29 Apr 2010 11:30:03 -0700
+Message-ID: <20100429183003.GB20328@ppanchamukhi>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <1271824949.1730.254.camel@Joe-Laptop.home>
+Content-Disposition: inline
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -17,266 +16,178 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: Joe Perches <joe@perches.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Tim Small <tim@buttersideup.com>, bluesmoke-devel@lists.sourceforge.net, Doug Thompson <dougthompson@xmission.com>
+To: dougthompson@xmission.com, bluesmoke-devel@lists.sourceforge.net
+Cc: Rob.Becker@riverbed.com, Arthur.Jones@riverbed.com
 List-Id: edac.vger.kernel.org
 
-Joe Perches wrote:
-> Reduces text by eliminating multiple __FILE__ uses.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
+Hi Doug,
 
-Acked-by: Mauro Carvalho Chehab <mchehab@redhat.com>
+I am testing Linux-2.6.34-rc5 EDAC driver on AMD64 Opteron.
+I am able to inject single bit errors and get the edac driver report the 
+correctable errors.
+But when I inject 2-bit errors, I did not see any notification or kernel 
+log, the system simply hangs.
+This happens with or without edac_mc_panic_on_ue enabled.
+Please let me know if I am missing something.
+Below are the details.
 
-> ---
->  drivers/edac/i5000_edac.c      |   20 ++++++++++----------
->  drivers/edac/i5400_edac.c      |   20 ++++++++++----------
->  drivers/edac/i82443bxgx_edac.c |   20 ++++++++++----------
->  3 files changed, 30 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/edac/i5000_edac.c b/drivers/edac/i5000_edac.c
-> index adc10a2..996c1bd 100644
-> --- a/drivers/edac/i5000_edac.c
-> +++ b/drivers/edac/i5000_edac.c
-> @@ -774,7 +774,7 @@ static void i5000_clear_error(struct mem_ctl_info *mci)
->  static void i5000_check_error(struct mem_ctl_info *mci)
->  {
->  	struct i5000_error_info info;
-> -	debugf4("MC%d: " __FILE__ ": %s()\n", mci->mc_idx, __func__);
-> +	debugf4("MC%d: %s: %s()\n", mci->mc_idx, __FILE__, __func__);
->  	i5000_get_error_info(mci, &info);
->  	i5000_process_error_info(mci, &info, 1);
->  }
-> @@ -1353,8 +1353,8 @@ static int i5000_probe1(struct pci_dev *pdev, int dev_idx)
->  	int num_dimms_per_channel;
->  	int num_csrows;
->  
-> -	debugf0("MC: " __FILE__ ": %s(), pdev bus %u dev=0x%x fn=0x%x\n",
-> -		__func__,
-> +	debugf0("MC: %s: %s(), pdev bus %u dev=0x%x fn=0x%x\n",
-> +		__FILE__, __func__,
->  		pdev->bus->number,
->  		PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
->  
-> @@ -1389,7 +1389,7 @@ static int i5000_probe1(struct pci_dev *pdev, int dev_idx)
->  		return -ENOMEM;
->  
->  	kobject_get(&mci->edac_mci_kobj);
-> -	debugf0("MC: " __FILE__ ": %s(): mci = %p\n", __func__, mci);
-> +	debugf0("MC: %s: %s(): mci = %p\n", __FILE__, __func__, mci);
->  
->  	mci->dev = &pdev->dev;	/* record ptr  to the generic device */
->  
-> @@ -1432,8 +1432,8 @@ static int i5000_probe1(struct pci_dev *pdev, int dev_idx)
->  
->  	/* add this new MC control structure to EDAC's list of MCs */
->  	if (edac_mc_add_mc(mci)) {
-> -		debugf0("MC: " __FILE__
-> -			": %s(): failed edac_mc_add_mc()\n", __func__);
-> +		debugf0("MC: %s: %s(): failed edac_mc_add_mc()\n",
-> +			__FILE__, __func__);
->  		/* FIXME: perhaps some code should go here that disables error
->  		 * reporting if we just enabled it
->  		 */
-> @@ -1478,7 +1478,7 @@ static int __devinit i5000_init_one(struct pci_dev *pdev,
->  {
->  	int rc;
->  
-> -	debugf0("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf0("MC: %s: %s()\n", __FILE__, __func__);
->  
->  	/* wake up device */
->  	rc = pci_enable_device(pdev);
-> @@ -1497,7 +1497,7 @@ static void __devexit i5000_remove_one(struct pci_dev *pdev)
->  {
->  	struct mem_ctl_info *mci;
->  
-> -	debugf0(__FILE__ ": %s()\n", __func__);
-> +	debugf0("%s: %s()\n", __FILE__, __func__);
->  
->  	if (i5000_pci)
->  		edac_pci_release_generic_ctl(i5000_pci);
-> @@ -1544,7 +1544,7 @@ static int __init i5000_init(void)
->  {
->  	int pci_rc;
->  
-> -	debugf2("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf2("MC: %s: %s()\n", __FILE__, __func__);
->  
->         /* Ensure that the OPSTATE is set correctly for POLL or NMI */
->         opstate_init();
-> @@ -1560,7 +1560,7 @@ static int __init i5000_init(void)
->   */
->  static void __exit i5000_exit(void)
->  {
-> -	debugf2("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf2("MC: %s: %s()\n", __FILE__, __func__);
->  	pci_unregister_driver(&i5000_driver);
->  }
->  
-> diff --git a/drivers/edac/i5400_edac.c b/drivers/edac/i5400_edac.c
-> index f99d106..010c1d6 100644
-> --- a/drivers/edac/i5400_edac.c
-> +++ b/drivers/edac/i5400_edac.c
-> @@ -694,7 +694,7 @@ static void i5400_clear_error(struct mem_ctl_info *mci)
->  static void i5400_check_error(struct mem_ctl_info *mci)
->  {
->  	struct i5400_error_info info;
-> -	debugf4("MC%d: " __FILE__ ": %s()\n", mci->mc_idx, __func__);
-> +	debugf4("MC%d: %s: %s()\n", mci->mc_idx, __FILE__, __func__);
->  	i5400_get_error_info(mci, &info);
->  	i5400_process_error_info(mci, &info);
->  }
-> @@ -1227,8 +1227,8 @@ static int i5400_probe1(struct pci_dev *pdev, int dev_idx)
->  	if (dev_idx >= ARRAY_SIZE(i5400_devs))
->  		return -EINVAL;
->  
-> -	debugf0("MC: " __FILE__ ": %s(), pdev bus %u dev=0x%x fn=0x%x\n",
-> -		__func__,
-> +	debugf0("MC: %s: %s(), pdev bus %u dev=0x%x fn=0x%x\n",
-> +		__FILE__, __func__,
->  		pdev->bus->number,
->  		PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
->  
-> @@ -1256,7 +1256,7 @@ static int i5400_probe1(struct pci_dev *pdev, int dev_idx)
->  	if (mci == NULL)
->  		return -ENOMEM;
->  
-> -	debugf0("MC: " __FILE__ ": %s(): mci = %p\n", __func__, mci);
-> +	debugf0("MC: %s: %s(): mci = %p\n", __FILE__, __func__, mci);
->  
->  	mci->dev = &pdev->dev;	/* record ptr  to the generic device */
->  
-> @@ -1299,8 +1299,8 @@ static int i5400_probe1(struct pci_dev *pdev, int dev_idx)
->  
->  	/* add this new MC control structure to EDAC's list of MCs */
->  	if (edac_mc_add_mc(mci)) {
-> -		debugf0("MC: " __FILE__
-> -			": %s(): failed edac_mc_add_mc()\n", __func__);
-> +		debugf0("MC: %s: %s(): failed edac_mc_add_mc()\n",
-> +			__FILE__, __func__);
->  		/* FIXME: perhaps some code should go here that disables error
->  		 * reporting if we just enabled it
->  		 */
-> @@ -1344,7 +1344,7 @@ static int __devinit i5400_init_one(struct pci_dev *pdev,
->  {
->  	int rc;
->  
-> -	debugf0("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf0("MC: %s: %s()\n", __FILE__, __func__);
->  
->  	/* wake up device */
->  	rc = pci_enable_device(pdev);
-> @@ -1363,7 +1363,7 @@ static void __devexit i5400_remove_one(struct pci_dev *pdev)
->  {
->  	struct mem_ctl_info *mci;
->  
-> -	debugf0(__FILE__ ": %s()\n", __func__);
-> +	debugf0("%s: %s()\n", __FILE__, __func__);
->  
->  	if (i5400_pci)
->  		edac_pci_release_generic_ctl(i5400_pci);
-> @@ -1409,7 +1409,7 @@ static int __init i5400_init(void)
->  {
->  	int pci_rc;
->  
-> -	debugf2("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf2("MC: %s: %s()\n", __FILE__, __func__);
->  
->  	/* Ensure that the OPSTATE is set correctly for POLL or NMI */
->  	opstate_init();
-> @@ -1425,7 +1425,7 @@ static int __init i5400_init(void)
->   */
->  static void __exit i5400_exit(void)
->  {
-> -	debugf2("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf2("MC: %s: %s()\n", __FILE__, __func__);
->  	pci_unregister_driver(&i5400_driver);
->  }
->  
-> diff --git a/drivers/edac/i82443bxgx_edac.c b/drivers/edac/i82443bxgx_edac.c
-> index 7f3884f..f3c2200 100644
-> --- a/drivers/edac/i82443bxgx_edac.c
-> +++ b/drivers/edac/i82443bxgx_edac.c
-> @@ -178,7 +178,7 @@ static void i82443bxgx_edacmc_check(struct mem_ctl_info *mci)
->  {
->  	struct i82443bxgx_edacmc_error_info info;
->  
-> -	debugf1("MC%d: " __FILE__ ": %s()\n", mci->mc_idx, __func__);
-> +	debugf1("MC%d: %s: %s()\n", mci->mc_idx, __FILE__, __func__);
->  	i82443bxgx_edacmc_get_error_info(mci, &info);
->  	i82443bxgx_edacmc_process_error_info(mci, &info, 1);
->  }
-> @@ -198,13 +198,13 @@ static void i82443bxgx_init_csrows(struct mem_ctl_info *mci,
->  	for (index = 0; index < mci->nr_csrows; index++) {
->  		csrow = &mci->csrows[index];
->  		pci_read_config_byte(pdev, I82443BXGX_DRB + index, &drbar);
-> -		debugf1("MC%d: " __FILE__ ": %s() Row=%d DRB = %#0x\n",
-> -			mci->mc_idx, __func__, index, drbar);
-> +		debugf1("MC%d: %s: %s() Row=%d DRB = %#0x\n",
-> +			mci->mc_idx, __FILE__, __func__, index, drbar);
->  		row_high_limit = ((u32) drbar << 23);
->  		/* find the DRAM Chip Select Base address and mask */
-> -		debugf1("MC%d: " __FILE__ ": %s() Row=%d, "
-> +		debugf1("MC%d: %s: %s() Row=%d, "
->  			"Boundry Address=%#0x, Last = %#0x \n",
-> -			mci->mc_idx, __func__, index, row_high_limit,
-> +			mci->mc_idx, __FILE__, __func__, index, row_high_limit,
->  			row_high_limit_last);
->  
->  		/* 440GX goes to 2GB, represented with a DRB of 0. */
-> @@ -237,7 +237,7 @@ static int i82443bxgx_edacmc_probe1(struct pci_dev *pdev, int dev_idx)
->  	enum mem_type mtype;
->  	enum edac_type edac_mode;
->  
-> -	debugf0("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf0("MC: %s: %s()\n", __FILE__, __func__);
->  
->  	/* Something is really hosed if PCI config space reads from
->  	 * the MC aren't working.
-> @@ -250,7 +250,7 @@ static int i82443bxgx_edacmc_probe1(struct pci_dev *pdev, int dev_idx)
->  	if (mci == NULL)
->  		return -ENOMEM;
->  
-> -	debugf0("MC: " __FILE__ ": %s(): mci = %p\n", __func__, mci);
-> +	debugf0("MC: %s: %s(): mci = %p\n", __FILE__, __func__, mci);
->  	mci->dev = &pdev->dev;
->  	mci->mtype_cap = MEM_FLAG_EDO | MEM_FLAG_SDR | MEM_FLAG_RDR;
->  	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_EC | EDAC_FLAG_SECDED;
-> @@ -336,7 +336,7 @@ static int i82443bxgx_edacmc_probe1(struct pci_dev *pdev, int dev_idx)
->  			__func__);
->  	}
->  
-> -	debugf3("MC: " __FILE__ ": %s(): success\n", __func__);
-> +	debugf3("MC: %s: %s(): success\n", __FILE__, __func__);
->  	return 0;
->  
->  fail:
-> @@ -352,7 +352,7 @@ static int __devinit i82443bxgx_edacmc_init_one(struct pci_dev *pdev,
->  {
->  	int rc;
->  
-> -	debugf0("MC: " __FILE__ ": %s()\n", __func__);
-> +	debugf0("MC: %s: %s()\n", __FILE__, __func__);
->  
->  	/* don't need to call pci_device_enable() */
->  	rc = i82443bxgx_edacmc_probe1(pdev, ent->driver_data);
-> @@ -367,7 +367,7 @@ static void __devexit i82443bxgx_edacmc_remove_one(struct pci_dev *pdev)
->  {
->  	struct mem_ctl_info *mci;
->  
-> -	debugf0(__FILE__ ": %s()\n", __func__);
-> +	debugf0("%s: %s()\n", __FILE__, __func__);
->  
->  	if (i82443bxgx_pci)
->  		edac_pci_release_generic_ctl(i82443bxgx_pci);
-> 
-> 
+Thanks
+Prasanna
+
+Steps to reproduce the problem:
 
 
--- 
+1. Build Linux-2.6.34-rc5 using x86_64_defconfig with following additional config options enabled:
+CONFIG_EDAC_DECODE_MCE=y
+CONFIG_EDAC_MM_EDAC=y
+CONFIG_EDAC_AMD64=m
+CONFIG_EDAC_AMD64_ERROR_INJECTION=y
+CONFIG_EDAC_E752X=m
+CONFIG_EDAC_I82975X=m
+CONFIG_EDAC_I3000=m
+CONFIG_EDAC_I3200=m
+CONFIG_EDAC_X38=m
+CONFIG_EDAC_I5400=m
+CONFIG_EDAC_I5000=m
+CONFIG_EDAC_I5100=m
 
-Cheers,
-Mauro
+2. insert the kernel module
+#insmod amd64_edac_mod.ko
+
+3. Inject errors
+
+# echo 3 > /sys/devices/system/edac/mc/mc0/inject_section  
+# echo 7 > /sys/devices/system/edac/mc/mc0/inject_word
+# echo 0x88 > /sys/devices/system/edac/mc/mc0/inject_ecc_vector
+# echo 1 > /sys/devices/system/edac/mc/mc0/inject_read
+# echo 1 > /sys/devices/system/edac/mc/mc0/inject_write
+
+4. Should hang the system in few minutes.
+
+Additional info:
+- AMD64 opteron
+# cat /proc/cpuinfo
+processor    : 0
+vendor_id    : AuthenticAMD
+cpu family   : 16
+model          : 2
+model name    : Quad-Core AMD Opteron(tm) Processor 2346 HE
+stepping       : 3
+cpu MHz      : 1800.023
+cache size    : 512 KB
+physical id   : 0
+siblings       : 4
+core id        : 0
+cpu cores    : 4
+apicid          : 0
+initial apicid    : 0
+fpu        : yes
+fpu_exception    : yes
+cpuid level    : 5
+wp        : yes
+flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca 
+cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt 
+pdpe1gb rdtscp lm 3dnowext 3dnow constant_tsc rep_good nonstop_tsc 
+extd_apicid pni monitor cx16 popcnt lahf_lm cmp_legacy svm extapic 
+cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs npt lbrv svm_lock
+bogomips    : 3600.04
+TLB size    : 1024 4K pages
+clflush size    : 64
+cache_alignment    : 64
+address sizes    : 48 bits physical, 48 bits virtual
+power management: ts ttp tm stc 100mhzsteps hwpstate
+
+processor    : 1
+vendor_id    : AuthenticAMD
+cpu family    : 16
+model        : 2
+model name    : Quad-Core AMD Opteron(tm) Processor 2346 HE
+stepping    : 3
+cpu MHz        : 1800.023
+cache size    : 512 KB
+physical id    : 0
+siblings    : 4
+core id        : 1
+cpu cores    : 4
+apicid        : 1
+initial apicid    : 1
+fpu        : yes
+fpu_exception    : yes
+cpuid level    : 5
+wp        : yes
+flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca 
+cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt 
+pdpe1gb rdtscp lm 3dnowext 3dnow constant_tsc rep_good nonstop_tsc 
+extd_apicid pni monitor cx16 popcnt lahf_lm cmp_legacy svm extapic 
+cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs npt lbrv svm_lock
+bogomips    : 3600.08
+TLB size    : 1024 4K pages
+clflush size    : 64
+cache_alignment    : 64
+address sizes    : 48 bits physical, 48 bits virtual
+power management: ts ttp tm stc 100mhzsteps hwpstate
+
+processor    : 2
+vendor_id    : AuthenticAMD
+cpu family    : 16
+model        : 2
+model name    : Quad-Core AMD Opteron(tm) Processor 2346 HE
+stepping    : 3
+cpu MHz        : 1800.023
+cache size    : 512 KB
+physical id    : 0
+siblings    : 4
+core id        : 2
+cpu cores    : 4
+apicid        : 2
+initial apicid    : 2
+fpu        : yes
+fpu_exception    : yes
+cpuid level    : 5
+wp        : yes
+flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca 
+cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt 
+pdpe1gb rdtscp lm 3dnowext 3dnow constant_tsc rep_good nonstop_tsc 
+extd_apicid pni monitor cx16 popcnt lahf_lm cmp_legacy svm extapic 
+cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs npt lbrv svm_lock
+bogomips    : 3599.96
+TLB size    : 1024 4K pages
+clflush size    : 64
+cache_alignment    : 64
+address sizes    : 48 bits physical, 48 bits virtual
+power management: ts ttp tm stc 100mhzsteps hwpstate
+
+processor    : 3
+vendor_id    : AuthenticAMD
+cpu family    : 16
+model        : 2
+model name    : Quad-Core AMD Opteron(tm) Processor 2346 HE
+stepping    : 3
+cpu MHz        : 1800.023
+cache size    : 512 KB
+physical id    : 0
+siblings    : 4
+core id        : 3
+cpu cores    : 4
+apicid        : 3
+initial apicid    : 3
+fpu        : yes
+fpu_exception    : yes
+cpuid level    : 5
+wp        : yes
+flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca 
+cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt 
+pdpe1gb rdtscp lm 3dnowext 3dnow constant_tsc rep_good nonstop_tsc 
+extd_apicid pni monitor cx16 popcnt lahf_lm cmp_legacy svm extapic 
+cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs npt lbrv svm_lock
+bogomips    : 3600.01
+TLB size    : 1024 4K pages
+clflush size    : 64
+cache_alignment    : 64
+address sizes    : 48 bits physical, 48 bits virtual
+power management: ts ttp tm stc 100mhzsteps hwpstate
+
+
+
 
 ------------------------------------------------------------------------------
