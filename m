@@ -1,8 +1,8 @@
 From: "Prasanna S. Panchamukhi" <prasanna.panchamukhi@riverbed.com>
 Subject: Re: EDAC linux-2.6.34-rc5 non correctable errors not reported on
 	AMD64 opteron
-Date: Tue, 4 May 2010 18:40:11 -0700
-Message-ID: <20100505014011.GB29500@ppanchamukhi>
+Date: Thu, 6 May 2010 16:56:29 -0700
+Message-ID: <20100506235628.GA12811@ppanchamukhi>
 References: <20100429183003.GB20328@ppanchamukhi>
 	<1272579222.3792.18.camel@keith-laptop>
 	<20100429223121.GA20899@ppanchamukhi>
@@ -28,6 +28,9 @@ To: Borislav Petkov <bp@amd64.org>
 Cc: Rob Becker <Rob.Becker@riverbed.com>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Arthur Jones <Arthur.Jones@riverbed.com>, "dougthompson@xmission.com" <dougthompson@xmission.com>
 List-Id: edac.vger.kernel.org
 
+Hi Boris,
+
+
 On Fri, Apr 30, 2010 at 04:00:23AM -0700, Borislav Petkov wrote:
 > Hi Prasanna, Keith,
 > =
@@ -46,18 +49,17 @@ On Fri, Apr 30, 2010 at 04:00:23AM -0700, Borislav Petkov wrote:
 > why you don't get the errors reported; OTOH, if you want to test the
 > amd64_edac driver, injecting single-bit errors should work and you can
 > report to me any issues you encounter.
-> =
 
-> Hope that helps.
-Hi Boris,
-
-Thanks for providing useful info. Now I understand how double-bit errors
-are handled by AMD64.
-Also injection and notification of single-bit errors seems to work fine.
+Is there a way to disable Sync Flood on uncorrectable errors and
+instead generate MCE.
 
 Thanks
 Prasanna
 
+
+> =
+
+> Hope that helps.
 > =
 
 > Thanks.
