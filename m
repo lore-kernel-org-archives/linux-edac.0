@@ -1,51 +1,64 @@
-From: Andi Kleen <andi@firstfloor.org>
+From: Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
 Subject: Re: Hardware Error Kernel Mini-Summit
-Date: Tue, 18 May 2010 00:41:34 +0200
-Message-ID: <87r5laxiap.fsf@basil.nowhere.org>
+Date: Tue, 18 May 2010 15:52:26 +0900
+Message-ID: <4BF2392A.9040409@jp.fujitsu.com>
 References: <4BF18995.6070008@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <4BF18995.6070008@redhat.com> (Mauro Carvalho Chehab's message of "Mon\, 17 May 2010 15\:23\:17 -0300")
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+In-Reply-To: <4BF18995.6070008@redhat.com>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
+List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
+List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
 To: Mauro Carvalho Chehab <mchehab@redhat.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, bluesmoke-devel@lists.sourceforge.net, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Ben Woodard <woodard@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Borislav Petkov <bp@amd64.org>, Tony Luck <tony.luck@intel.com>, Brent Young <brent.young@intel.com>
+Cc: Tony Luck <tony.luck@intel.com>, Brent Young <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Borislav Petkov <bp@amd64.org>, Ingo Molnar <mingo@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Thomas Gleixner <tglx@linutronix.de>, bluesmoke-devel@lists.sourceforge.net, Linux Edac Mailing List <linux-edac@vger.kernel.org>
 List-Id: edac.vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab@redhat.com> writes:
->
-> There is an immediate need for error reporting on NHM-EP class
-> systems.
+(2010/05/18 3:23), Mauro Carvalho Chehab wrote:
+> During the last LF Collaboration Summit, we've done a mini-summit [1],
+> intended to improve the hardware error detection in kernel, currently
+> provided by MCE and EDAC subsystems.
+> 
+> The idea of this mini-summit came up after Thomas Gleixner and Ingo
+> Molnar suggestions that edac and mce should converge into an error
+> subsystem.
+> 
+> I'm enclosing the minutes of the meeting, in order to allow it to be
+> reviewed by other kernel hackers that are interested on the theme but
+> unfortunately couldn't come to the meeting.
+> 
+> Btw, during the meeting, it were decided that EDAC ML could better work
+> if moved to vger, so I'm copying here both the old and the new edac
+> mailing lists.
+> 
+> [1] http://events.linuxfoundation.org/lfcs2010/edac
+> 
+> ---
 
-Just for the innocent readers who might be mislead by this:
+Thank you very much for providing this report.
 
-Nehalem-EP DIMM error accounting already works fine today using
-mcelog for most cases, including RHEL5.5 (with some limits) 
-and RHEL6beta with no additional changes needed.
+I agree that we should have a well organized error subsystem that
+covers all error sources in the system and that provides enough
+simple and powerful API for users. As one of interested absentee,
+I think I could be of some help to you (e.g. x86 low level).
 
-In RHEL6 the daemon does the accounting and the client reports the errors
-separated for each DIMM and separated in uc and ce.  In RHEL5
-the information is in a log file and can be gotten from there.
+It might be off-topic here, but I'd like to point that you missed
+the presence of PCIe AER subsystem that handle hardware errors on
+PCIe devices nowadays (It works well on ppc, x86 and so on).
+Given that APEI also covers PCIe errors and that some system can
+map MC registers to PCI configuration space, I think there is no
+way for the new error subsystem to ignore I/O device errors while
+it care errors on CPU/memory and cooperate with APEI.
 
-In addition the daemon supports various advanced RAS features including
-predictive bad page offlining and various threshold triggers.
 
-> In the specific case of Nehalem-EX, it seems that the low level driver
-> won't be able to use direct access to the memory controller registers, 
-> since the uncore now uses a register index/value pair to read or write 
-> from the memory controller. The same pair is also used by BIOS to control 
-> the hardware. With this design, race conditions between BIOS and the OS 
-> may happen, So, even reading data from the Memory Controller registers 
-> is not possible. So, it will need to use some logic to communicate via 
-> BIOS, probably via ACPI 4.0 APEI.
+Thanks,
+H.Seto
 
-Already done too, see
-http://permalink.gmane.org/gmane.linux.acpi.devel/45743
 
-However the interface won't give you the topology you're asking
-for, just the errors.
-
--Andi
-
--- 
-ak@linux.intel.com -- Speaking for myself only.
+------------------------------------------------------------------------------
