@@ -1,97 +1,65 @@
-From: Tony Luck <tony.luck@intel.com>
+From: Ingo Molnar <mingo@elte.hu>
 Subject: Re: Hardware Error Kernel Mini-Summit
-Date: Tue, 18 May 2010 14:37:06 -0700
-Message-ID: <AANLkTimPRvuoW5-OcPlPx5cvnCTJa7xhAQDSLrYziB4j@mail.gmail.com>
-References: <4BF18995.6070008@redhat.com> <4BF2392A.9040409@jp.fujitsu.com>
-	 <4BF2C3D1.10009@redhat.com>
-	 <1274204560.17703.82.camel@Joe-Laptop.home>
-	 <20100518185305.GA23921@elte.hu>
-	 <987664A83D2D224EAE907B061CE93D53C61D1C57@orsmsx505.amr.corp.intel.com>
-	 <20100518193022.GB30936@elte.hu> <20100518204204.GA23204@elte.hu>
+Date: Wed, 19 May 2010 00:00:02 +0200
+Message-ID: <20100518220002.GA23739@elte.hu>
+References: <4BF18995.6070008@redhat.com>
+ <4BF2392A.9040409@jp.fujitsu.com>
+ <4BF2C3D1.10009@redhat.com>
+ <1274204560.17703.82.camel@Joe-Laptop.home>
+ <20100518185305.GA23921@elte.hu>
+ <987664A83D2D224EAE907B061CE93D53C61D1C57@orsmsx505.amr.corp.intel.com>
+ <20100518193022.GB30936@elte.hu>
+ <20100518204204.GA23204@elte.hu>
+ <AANLkTimPRvuoW5-OcPlPx5cvnCTJa7xhAQDSLrYziB4j@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20100518204204.GA23204@elte.hu>
+Content-Disposition: inline
+In-Reply-To: <AANLkTimPRvuoW5-OcPlPx5cvnCTJa7xhAQDSLrYziB4j@mail.gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Ingo Molnar <mingo@elte.hu>
-Cc: Joe Perches <joe@perches.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Ben Woodard <woodard@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Borislav Petkov <bp@amd64.org>, "Young, Brent" <brent.young@intel.com>, Peter Zijlstra <a.p.zijlstra@chello.nl>, =?ISO-8859-1?Q?Fr=E9d=E9ric_Weisbecker?= <fweisbec@gmail.com>, Arnaldo Carvalho de Melo <acme@redhat.com>
+To: Tony Luck <tony.luck@intel.com>
+Cc: Joe Perches <joe@perches.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Ben Woodard <woodard@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Borislav Petkov <bp@amd64.org>, "Young, Brent" <brent.young@intel.com>, Peter Zijlstra <a.p.zijlstra@chello.nl>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec@gmail.com>, Arnaldo Carvalho de Melo <acme@redhat.com>
 List-Id: edac.vger.kernel.org
 
-On Tue, May 18, 2010 at 1:42 PM, Ingo Molnar <mingo@elte.hu> wrote:
->> I proposed a (fairly straightforward) extension to which
->> Boris agreed: we can introduce 'persistent events',
->> which have task-less buffers attached to them, which
->> will hold (a configurable amount of) of events.
->>
->> Those can then be picked up by a task later on and no
->> event is lost.
->>
->> Would such a feature address your concern?
->
-> Tony, should we accelerate the development of this
-> persistent events sub-feature?
 
-The persistent event feature sounds like it will solve
-the early logging issue.
+* Tony Luck <tony.luck@intel.com> wrote:
 
-> Boris posted initial patches of the new perf events based
-> EDAC/MCE/RAS design direction to lkml and indicated that
-> it works for him. He also indicated that he can do the
-> initial work of unifying EDAC and MCE without the
-> persistent events feature for now. (this all is obviously
-> v2.6.36-ish material)
->
-> But if it's important, if you'd like to move ahead with
-> the unification swiftly then we can certainly increase its
-> priority.
+> > This gives us a broad platform to add various RAS 
+> > events as well, beyond raw hardware events: we could 
+> > for example events for various system anomalies such 
+> > as lockup messages, kernel warnings/oopses, IOMMU 
+> > exceptions - maybe even pure software concepts such as 
+> > fatal segmentation fault events, etc. etc.
+> 
+> This looks like sticky ground.  I can see the event 
+> mechanism passing data to a user daemon working well for 
+> all kinds of corrected and minor errors. But when you 
+> start talking about lockups and fatal errors things get 
+> a lot trickier. Often the main concern at this point is 
+> error containment. Making sure that the flaky data 
+> doesn't become visible (saved to storage, transmitted to 
+> the network, etc.). [...]
 
-We've missed the deadlines for inclusion in certain
-popular distributions ... so it may be OK to take a
-relatively leisurely path to getting this done right
-rather than rushing.
+I was pointing beyond the narrow hardware (memory) error 
+point of view, towards a more generic 'system health' 
+thinking.
 
-> 3) Another new perf feature of interest is 'perf inject'
-> (this too went upstream today): to inject artificial
-> events into the stream of events. This mechanism could be
-> used to simulate rare error conditions and to test out
-> policy reactions systematically - an important part of
-> system error recovery testing.
+In the broader view it may makes sense to for example 
+define policy over excessive number of segfaults on a 
+server system (where excessive segfaults are an anomaly), 
+or a suspiciously large number of soft IO errors, etc.
 
-Simulated errors are handy for testing the very
-top level of the s/w stack. But real errors are
-better. There's some APEI code in Len's tree
-that can inject real errors (on systems with the
-right BIOS hooks enabled).
+But yes, of course, when it comes to hard memory errors, 
+those take precedence, and handling them (and 
+saving/propagating information about them while we still 
+can) is a priority.
 
-> This gives us a broad platform to add various RAS events
-> as well, beyond raw hardware events: we could for example
-> events for various system anomalies such as lockup
-> messages, kernel warnings/oopses, IOMMU exceptions - maybe
-> even pure software concepts such as fatal segmentation
-> fault events, etc. etc.
+> [...] Getting from a machine check handler through some 
+> context switches (and page faults etc.) to a user level 
+> daemon before the error gets recorded looks to be really 
+> hard.
 
-This looks like sticky ground.  I can see the event mechanism
-passing data to a user daemon working well for all kinds of
-corrected and minor errors. But when you start talking about
-lockups and fatal errors things get a lot trickier. Often the
-main concern at this point is error containment. Making sure
-that the flaky data doesn't become visible (saved to storage,
-transmitted to the network, etc.). Getting from a machine check
-handler through some context switches (and page
-faults etc.) to a user level daemon before the error
-gets recorded looks to be really hard.
+As Boris mentioned it too, critical policy action can and 
+will be done straight in the kernel.
 
-> That way the RAS daemon could build and utilize a complete
-> and coherent set of events it wants to subscribe to - all
-> via the same event transport mechanism. It would thus have
-> a comprehensive 'system health' view, via a single,
-> reliable mechanism, and could act in a wide range of
-> scenarios, with a wide range of policy actions, based on a
-> very complete picture.
-
-In a cluster/cloud/datacenter that daemon will need to be
-networked and hooked to the system management tools
-that are controlling the bigger environment. But I agree
-that this looks like a worthy end goal.
-
--Tony
+	Ingo
