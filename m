@@ -1,64 +1,33 @@
-From: Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>
+From: Borislav Petkov <bp@amd64.org>
 Subject: Re: Hardware Error Kernel Mini-Summit
-Date: Tue, 18 May 2010 15:52:26 +0900
-Message-ID: <4BF2392A.9040409@jp.fujitsu.com>
+Date: Tue, 18 May 2010 15:06:04 +0200
+Message-ID: <20100518130604.GA25224@aftab>
 References: <4BF18995.6070008@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
 In-Reply-To: <4BF18995.6070008@redhat.com>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+Sender: linux-kernel-owner@vger.kernel.org
 To: Mauro Carvalho Chehab <mchehab@redhat.com>
-Cc: Tony Luck <tony.luck@intel.com>, Brent Young <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Borislav Petkov <bp@amd64.org>, Ingo Molnar <mingo@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Thomas Gleixner <tglx@linutronix.de>, bluesmoke-devel@lists.sourceforge.net, Linux Edac Mailing List <linux-edac@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, Brent Young <brent.young@intel.com>, Ingo Molnar <mingo@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Thomas Gleixner <tglx@linutronix.de>
 List-Id: edac.vger.kernel.org
 
-(2010/05/18 3:23), Mauro Carvalho Chehab wrote:
-> During the last LF Collaboration Summit, we've done a mini-summit [1],
-> intended to improve the hardware error detection in kernel, currently
-> provided by MCE and EDAC subsystems.
-> 
-> The idea of this mini-summit came up after Thomas Gleixner and Ingo
-> Molnar suggestions that edac and mce should converge into an error
-> subsystem.
-> 
-> I'm enclosing the minutes of the meeting, in order to allow it to be
-> reviewed by other kernel hackers that are interested on the theme but
-> unfortunately couldn't come to the meeting.
-> 
+From: Mauro Carvalho Chehab <mchehab@redhat.com>
+Date: Mon, May 17, 2010 at 02:23:17PM -0400
+
 > Btw, during the meeting, it were decided that EDAC ML could better work
 > if moved to vger, so I'm copying here both the old and the new edac
 > mailing lists.
-> 
-> [1] http://events.linuxfoundation.org/lfcs2010/edac
-> 
-> ---
 
-Thank you very much for providing this report.
+Have the old list subscribers been moved to the new list or do they
+need to re-subscribe?
 
-I agree that we should have a well organized error subsystem that
-covers all error sources in the system and that provides enough
-simple and powerful API for users. As one of interested absentee,
-I think I could be of some help to you (e.g. x86 low level).
+Thanks.
 
-It might be off-topic here, but I'd like to point that you missed
-the presence of PCIe AER subsystem that handle hardware errors on
-PCIe devices nowadays (It works well on ppc, x86 and so on).
-Given that APEI also covers PCIe errors and that some system can
-map MC registers to PCI configuration space, I think there is no
-way for the new error subsystem to ignore I/O device errors while
-it care errors on CPU/memory and cooperate with APEI.
+-- 
+Regards/Gruss,
+Boris.
 
-
-Thanks,
-H.Seto
-
-
-------------------------------------------------------------------------------
+Operating Systems Research Center
+Advanced Micro Devices, Inc.
