@@ -1,152 +1,79 @@
-From: Mauro Carvalho Chehab <mchehab@redhat.com>
-Subject: [GIT PULL for 2.6.35] i7core/Nehalem/Nehalem-EP/Lynnfield/Westmore-EP
-Date: Tue, 18 May 2010 21:02:08 -0300
-Message-ID: <4BF32A80.6070802@redhat.com>
+From: ebiederm@xmission.com (Eric W. Biederman)
+Subject: Re: Hardware Error Kernel Mini-Summit
+Date: Tue, 18 May 2010 18:14:09 -0700
+Message-ID: <m1wrv0zo9q.fsf@fess.ebiederm.org>
+References: <4BF18995.6070008@redhat.com> <4BF2392A.9040409@jp.fujitsu.com>
+	<4BF2C3D1.10009@redhat.com>
+	<1274204560.17703.82.camel@Joe-Laptop.home>
+	<20100518185305.GA23921@elte.hu>
+	<987664A83D2D224EAE907B061CE93D53C61D1C57@orsmsx505.amr.corp.intel.com>
+	<20100518191802.GG25224@aftab> <m1k4r0c0y7.fsf@fess.ebiederm.org>
+	<20100518222832.GJ22675@basil.fritz.box>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-media-owner@vger.kernel.org>
-Sender: linux-media-owner@vger.kernel.org
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "akpm >> Andrew Morton" <akpm@linux-foundation.org>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, linux Media Mailing List <linux-media@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Doug Thompson <dougthompson@xmission.com>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20100518222832.GJ22675@basil.fritz.box> (Andi Kleen's message of "Wed\, 19 May 2010 00\:28\:33 +0200")
+Sender: linux-kernel-owner@vger.kernel.org
+To: Andi Kleen <andi@firstfloor.org>
+Cc: Borislav Petkov <bp@amd64.org>, "Luck, Tony" <tony.luck@intel.com>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, "Young, Brent" <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Ingo Molnar <mingo@elte.hu>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>
 List-Id: edac.vger.kernel.org
 
-The following changes since commit 66f41d4c5c8a5deed66fdcc84509376c9a0bf9d8:
-  Linus Torvalds (1):
-        Linux 2.6.34-rc6
+Andi Kleen <andi@firstfloor.org> writes:
 
-are available in the git repository at:
+> The original motivation to put them somewhere else
+> because I was sick of people reporting them as kernel bugs.
 
-  ssh://master.kernel.org/pub/scm/linux/kernel/git/i7core.git linux-next
+This suggests that to get things reported in dmesg I should
+setup a cron job that pulls the latest kernel checks to see
+if things are reported into syslog and sends you an email
+if things are wrong.
 
-This patch series adds support for memory error detection for the
-Memory Controllers found on the Nehalem CPU's, from i7core to Xeon 56xx,
-via EDAC interface.
+I'm not ready to believe the average person that is running linux
+is too stupid to understand the difference between a hardware
+error and a software error.
 
-It doesn't support Xeon 75xx CPU's, as they use a different type of
-memory controller.
+> But there's more to it now:
+>
+>> If your system isn't broken correctable errors are rare.  People look
+>
+> Actually the more memory you have the more common they are.
+> And the trend is to more and more memory.
 
-Cheers,
-Mauro
+The error rate should not be fixed per bit but should be roughly fixed
+per DIMM.  If the error rate over time is fixed per bit we are in deep
+trouble.
 
+> Really to do anything useful with them you need trends
+> and automatic actions (like predictive page offlining)
 
-Alan Cox (1):
-      edac: i7core_edac produces undefined behaviour on 32bit
+Not at all, and I don't have a clue where you start thinking
+predictive page offlining makes the least bit of sense.  Broken
+or even weak bits are rarely the common reason for ECC errors.
 
-Alexander Beregalov (1):
-      i7core_edac: fix memory leak of i7core_dev
+> A log isn't really a good format for that
 
-Aristeu Rozanski (1):
-      pci: Add a probing code that seeks for an specific bus
+A log is a fine format for realizing you have a problem.  A
+log doesn't need to be the only place errors are reported
+but a log should be the default place ECC errors are reported.
+We do that with hard drive errors and other kinds of hardware
+errors and we have done it for years without problems.
 
-Jiri Slaby (1):
-      EDAC: add __init to i7core_xeon_pci_fixup
+My experience is that correctable ECC errors come in two kinds of
+frequencies.
 
-Keith Mannthey (2):
-      i7core_edac: Fix ecc enable shift
-      i7core_edac: Probe on Xeons eariler
+- The expected single bit correctable error range.  Which is somewhere
+  between once a month and once a year per dimm.
 
-Mauro Carvalho Chehab (72):
-      i7core_edac: Add an EDAC memory controller driver for Nehalem chipsets
-      i7core_edac: Add error insertion code for Nehalem
-      i7core_edac: Add more status functions to EDAC driver
-      i7core_edac: Registers all supported MC functions
-      i7core_edac: Show read/write virtual/physical channel association
-      i7core_edac: A few fixes at error injection code
-      i7core_edac: need mci->edac_check, otherwise module removal doesn't work
-      i7core_edac: Add a memory check routine, based on device 3 function 4
-      i7core_edac: Add additional tests for error detection
-      i7core_edac: Properly fill struct csrow_info
-      i7core_edac: Improve error handling
-      i7core_edac: Add more information about each active dimm
-      i7core_edac: Get more info about the memory DIMMs
-      i7core_edac: Memory info fixes and preparation for properly filling cswrow data
-      i7core_edac: fill csrows edac sysfs info
-      i7core_edac: CodingStyle fixes
-      edac_mce: Add an interface driver to report mce errors via edac
-      edac/Kconfig: edac_mce can't be module
-      i7core_edac: Add edac_mce glue
-      i7core_edac: Adds write unlock to MC registers
-      i7core_edac: Add a code to probe Xeon 55xx bus
-      i7core_edac: add support for more than one MC socket
-      i7core_edac: maps all sockets as if ther are one MC controller
-      i7core_edac: decode mcelog error and send it via edac interface
-      i7core_edac: some fixes at memory error parser
-      i7core: fix probing on Xeon55xx
-      i7core: check if the memory error is fatal or non-fatal
-      i7core: enrich error information based on memory transaction type
-      i7core: fix get_devices routine for Xeon55xx
-      i7core: better document i7core_get_active_channels()
-      i7core: add socket info at the debug msg
-      i7core: remove some uneeded noisy debug messages
-      i7core_edac: Some cleanups at displayed info
-      i7core_edac: some fixes at error injection code
-      i7core_edac: fix error codes for sysfs error injection interface
-      i7core_edac: fix error injection
-      Documentation/edac.txt: Add Nehalem specific EDAC characteristics
-      i7core_edac: CodingSyle fixes/cleanups
-      i7core_edac: Print an error message if pci register fails
-      i7core_edac: Use Device 3 function 2 to report errors with RDIMM's
-      i7core: Use registered memories per processor
-      i7core_edac: Improve corrected_error_counts output for RDIMM
-      i7core: temporary workaround to allow it to compile against 2.6.30
-      Dynamically allocate memory for PCI devices
-      i7core_edac: create one mc per socket/QPI
-      i7core_edac: sanity check: print a warning if a mcelog is ignored
-      i7core_edac: a few fixes for multiple mc's
-      Documentation/edac.txt: Improve it to reflect the latest changes at the driver
-      i7core_edac: Fix a bug when printing error counts with RDIMMs
-      i7core_edac: at remove, don't remove all pci devices at once
-      i7core_edac: remove static counter for max sockets
-      i7core_edac: change remove module strategy
-      i7core_edac: We need to use list_for_each_entry_safe to avoid errors
-      i7core_edac: Avoid printing a warning when debug is disabled
-      edac_core: Allow the creation of sysfs groups
-      i7core_edac: Add support for sysfs addrmatch group
-      edac: store/show methods for device groups weren't working
-      edac: Don't create csrow entries on instance groups
-      i7core_edac: Convert UDIMM error counters into a proper sysfs group
-      Documentation/edac.txt: Reflect the sysfs changes at the document
-      edac: Create an unique instance for each kobj
-      i7core_edac: Use a lockless ringbuffer
-      i7core_edac: Better parse "any" addrmask
-      i7core_edac: First store, then increment
-      i7core_edac: Fix ringbuffer maxsize
-      i7core_edac: PCI device is called NONCORE, instead of NOCORE
-      i7core_edac: Use a more generic approach for probing PCI devices
-      i7core_edac: Add initial support for Lynnfield
-      i7core: add support for Lynnfield alternate address
-      i7core_edac: Fix wrong device id for channel 1 devices
-      i7core_edac: Add support for X5670
-      i7core_edac: Better describe the supported devices
+  On the most unreasonable configuration I ever worked with. 4TB of ram
+  in 1GB sticks up at Los Alomos, at 7000ft in an environment know
+  to trigger errors I saw roughly one correctable ECC error an hour.
+  Huge but just barely within the expected range.
 
-Randy Dunlap (1):
-      edac: fix i7core build
+  I can live with a log message once a month on a mundane system.
 
-Stephen Rothwell (1):
-      i7core_edac: do not export static functions
+- Errors that occur frequently. That is broken hardware of one time or
+  another.  I want to know about that so I can schedule down time to replace
+  my memory before I get an uncorrected ECC error.  Errors of this kind
+  are likely happening frequently enough as to impact performance.
 
-Tony Luck (1):
-      i7core_edac: don't free on success
-
-Vernon Mauery (2):
-      Always call i7core_[ur]dimm_check_mc_ecc_err
-      Add support for Westmere to i7core_edac driver
-
- Documentation/edac.txt           |  152 +++
- arch/x86/include/asm/pci_x86.h   |    2 +
- arch/x86/kernel/cpu/mcheck/mce.c |   10 +
- arch/x86/pci/legacy.c            |   42 +-
- drivers/edac/Kconfig             |   13 +
- drivers/edac/Makefile            |    2 +
- drivers/edac/edac_core.h         |   23 +-
- drivers/edac/edac_mc_sysfs.c     |  175 +++-
- drivers/edac/edac_mce.c          |   61 ++
- drivers/edac/i7core_edac.c       | 2078 ++++++++++++++++++++++++++++++++++++++
- include/linux/edac_mce.h         |   31 +
- include/linux/pci.h              |    1 +
- include/linux/pci_ids.h          |   52 +
- 13 files changed, 2598 insertions(+), 44 deletions(-)
- create mode 100644 drivers/edac/edac_mce.c
- create mode 100644 drivers/edac/i7core_edac.c
- create mode 100644 include/linux/edac_mce.h
+Eric
