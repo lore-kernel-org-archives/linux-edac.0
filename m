@@ -1,54 +1,37 @@
-From: Ingo Molnar <mingo@elte.hu>
+From: Russ Anderson <rja@sgi.com>
 Subject: Re: Hardware Error Kernel Mini-Summit
-Date: Thu, 20 May 2010 14:37:16 +0200
-Message-ID: <20100520123716.GA2040@elte.hu>
-References: <1274204560.17703.82.camel@Joe-Laptop.home>
- <20100518185305.GA23921@elte.hu>
- <987664A83D2D224EAE907B061CE93D53C61D1C57@orsmsx505.amr.corp.intel.com>
- <20100518191802.GG25224@aftab>
- <m1k4r0c0y7.fsf@fess.ebiederm.org>
- <20100518222832.GJ22675@basil.fritz.box>
- <m1wrv0zo9q.fsf@fess.ebiederm.org>
- <20100519064619.GA30320@aftab>
- <20100519070919.GA9618@elte.hu>
- <4BF3D17F.5000605@redhat.com>
+Date: Mon, 24 May 2010 10:55:06 -0500
+Message-ID: <20100524155506.GA7145@sgi.com>
+References: <4BF2392A.9040409@jp.fujitsu.com> <4BF2C3D1.10009@redhat.com> <1274204560.17703.82.camel@Joe-Laptop.home> <20100518185305.GA23921@elte.hu> <987664A83D2D224EAE907B061CE93D53C61D1C57@orsmsx505.amr.corp.intel.com> <20100518191802.GG25224@aftab> <m1k4r0c0y7.fsf@fess.ebiederm.org> <20100518222832.GJ22675@basil.fritz.box> <m1wrv0zo9q.fsf@fess.ebiederm.org> <AANLkTilxFZygP7YJybluPxtdxVGqWeqR4g7CRr8EEocW@mail.gmail.com>
+Reply-To: Russ Anderson <rja@sgi.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <4BF3D17F.5000605@redhat.com>
+In-Reply-To: <AANLkTilxFZygP7YJybluPxtdxVGqWeqR4g7CRr8EEocW@mail.gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Mauro Carvalho Chehab <mchehab@redhat.com>
-Cc: Borislav Petkov <bp@amd64.org>, "Eric W. Biederman" <ebiederm@xmission.com>, Andi Kleen <andi@firstfloor.org>, "Luck, Tony" <tony.luck@intel.com>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, "Young, Brent" <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>
+To: Tony Luck <tony.luck@gmail.com>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>, Andi Kleen <andi@firstfloor.org>, Borislav Petkov <bp@amd64.org>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, "Young, Brent" <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Matt Domsch <Matt_Domsch@dell.com>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Ingo Molnar <mingo@elte.hu>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, rja@sgi.com
 List-Id: edac.vger.kernel.org
 
-
-* Mauro Carvalho Chehab <mchehab@redhat.com> wrote:
-
-> Ingo Molnar wrote:
->
-> > Regarding dmesg, there's a WIP patch on lkml that 
-> > integrates printks into this framework as well - makes 
-> > each printk also available as a special string event.
-> > 
-> > That way a tool can have both programmatic access to 
-> > printk output (without having to interact with the 
-> > syslog buffer itself) - together with all the other 
-> > structured log sources, while humans can also see what 
-> > is happening.
+On Wed, May 19, 2010 at 10:30:17AM -0700, Tony Luck wrote:
 > 
-> Some system admins prefer to have everything on dmesg, 
-> as they can enable a serial console, and catch the logs 
-> remotely, even when the machine crashes for example due 
-> to a hardware failure.
-> 
-> So, IMHO, one feature that the perf event needs is the 
-> capability to report errors via a serial console also, 
-> or a mechanism where some events are sent via dmesg.
+> We are still in the dark ages for memory errors where the OS
+> is expected to look at all the errors and figure out whether they
+> represent any kind of meaningful pattern that requires some
+> action to replace h/w components.
 
-Yeah. That can be an aspect of the callback - or might 
-even be integrated into the core code.
+ia64 is good at detecting & recovering from memory uncorrectable
+errors.  x86 is significantly behind, due to historically not
+being able to recover from uncorrectable memory errors.  
 
-Thanks,
+ia64 had the Intel defined MCA Spec which defined the interaction
+between SAL and the kernel.  x86 does not have a similar well
+defined way of how errors should be handled.  It would be 
+good to agree on how the errors should be handled.
 
-	Ingo
+> -Tony
+
+-- 
+Russ Anderson, OS RAS/Partitioning Project Lead  
+SGI - Silicon Graphics Inc          rja@sgi.com
