@@ -1,77 +1,54 @@
 From: Andi Kleen <andi@firstfloor.org>
 Subject: Re: Hardware Error Kernel Mini-Summit
-Date: Tue, 15 Jun 2010 21:35:19 +0200
-Message-ID: <20100615193519.GA12845@basil.fritz.box>
-References: <AANLkTil_mDFOsDUjvnp_NFZvkj0Ij-qww6BqewJ4lpHP@mail.gmail.com> <35525.41387.qm@web50105.mail.re2.yahoo.com> <20100615065630.GC6727@basil.fritz.box> <Pine.GSO.4.58.1006150951150.17579@dexter.ludd.ltu.se> <20100615114135.GH6727@basil.fritz.box> <Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
+Date: Tue, 15 Jun 2010 21:37:54 +0200
+Message-ID: <20100615193754.GB12845@basil.fritz.box>
+References: <AANLkTil_mDFOsDUjvnp_NFZvkj0Ij-qww6BqewJ4lpHP@mail.gmail.com>
+	<35525.41387.qm@web50105.mail.re2.yahoo.com>
+	<20100615065630.GC6727@basil.fritz.box>
+	<Pine.GSO.4.58.1006150951150.17579@dexter.ludd.ltu.se>
+	<20100615114135.GH6727@basil.fritz.box>
+	<Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
+	<987664A83D2D224EAE907B061CE93D530143FDA773@orsmsx505.amr.corp.intel.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
 Content-Disposition: inline
-In-Reply-To: <Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Nils Carlson <nils.carlson@ludd.ltu.se>
-Cc: Andi Kleen <andi@firstfloor.org>, Doug Thompson <norsk5@yahoo.com>, Tony Luck <tony.luck@intel.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Ingo Molnar <mingo@elte.hu>, Borislav Petkov <bp@amd64.org>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, BrentYoung <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Thomas Gleixner <tglx@linutronix.de>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Nils Carlson <nils.carlson@ericsson.com>
+In-Reply-To: <987664A83D2D224EAE907B061CE93D530143FDA773@orsmsx505.amr.corp.intel.com>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
+List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
+List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, "Young,
+	Brent" <brent.young@intel.com>, Nils Carlson <nils.carlson@ericsson.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Borislav Petkov <bp@amd64.org>, Andi Kleen <andi@firstfloor.org>, Thomas Gleixner <tglx@linutronix.de>, "Eric W. Biederman" <ebiederm@xmission.com>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Doug Thompson <norsk5@yahoo.com>, Ingo Molnar <mingo@elte.hu>, Matt Domsch <Matt_Domsch@dell.com>, Ingo Molnar <mingo@redhat.com>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>
 List-Id: edac.vger.kernel.org
 
-> But there are bugs. And correcting them is so prohibitively
-> expensive that I don't even want to think about it. And when
+> Even when the chip set registers are accessible, it can be very
+> complex to do this for the general case (think of boards that
+> support arbitrary mixing of different size/speed DIMMs - the
+> BIOS may have done some interesting somersaults while computing
+> which interleaving modes to use).
 
-Something is wrong in your setup then.
+... and the numbers that come out of this may have no relation
+to your motherboard labels at all. What do you do then? 
+Read schemantics again?  Or do binary search on the DIMM again
+like Eric suggested? 
 
-> the BIOS messes up, it's the device driver writers who have to
-> magically workaround the problems.
-
-In this case you would need the equivalent information
-of a system specific DMI table in some device driver.
-
-Do you see how this does not fly? How should a device
-driver know more about the system than the BIOS?
-
-And if you can load some specific table into the device
-driver why can't you simply update the BIOS too?
-
-Well you can supply your own if you're a power user
-anyways, but most users are not power users. So it's no 
-option as a default.
-
-Or could you imagine a standard server getting installed
-and asking with a desktop window "please enter the DIMM mappings
-by hand"? That simply doesn't make any sense.
-
-
-> 
-> Could we come up with some plan that doesn't involve
-> trusting to the goodwill (and competence) of BIOS writes?
-
-the problem is that the information is nowhere else.
-If the BIOS doesn't know it Linux certainly doesn't know it either.
-
-On the other hand if Linux uses this information there is certainly
-an angle to get at least server vendors to fix their stuff
-(and non servers do not matter for memory errors because they
-run in non ECC mode anyways)
-
-It's certainly in the server vendors own interest to supply correct
-information here anyways. If they don't it will cost them in
-unnecessary memory replacement costs.
-
-BTW on the systems I have access to DMI seems to be largely 
-correct these days. I guess your system is a unlucky exception.
-
-Maybe your BIOS people will do something useful next generation.
-Make sure to report it to them and if they don't fix it make fun of them.
-
-
-> but maybe there could be some way to apply the same principle? Maybe
-> some way of loading modules with parameters or configuring your setup
-> from sysfs?
-
-Having a DMI override is no problem at all. ACPI uses this all the time
-for example.
-
-No need at all to speak a foreign language for this, even if it's your
-mother tongue.
+For all of this a system specific mapping table is needed
+and the only place to get this as a default option without 
+explicit configuration for each motherboard is the BIOS.
 
 -Andi
 -- 
 ak@linux.intel.com -- Speaking for myself only.
+
+------------------------------------------------------------------------------
+ThinkGeek and WIRED's GeekDad team up for the Ultimate 
+GeekDad Father's Day Giveaway. ONE MASSIVE PRIZE to the 
+lucky parental unit.  See the prize list and enter to win: 
+http://p.sf.net/sfu/thinkgeek-promo
