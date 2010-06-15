@@ -1,78 +1,50 @@
-From: Nils Carlson <nils.carlson@ludd.ltu.se>
-Subject: Re: Hardware Error Kernel Mini-Summit
-Date: Tue, 15 Jun 2010 14:21:50 +0200 (MEST)
-Message-ID: <Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
+From: "Luck, Tony" <tony.luck@intel.com>
+Subject: RE: Hardware Error Kernel Mini-Summit
+Date: Tue, 15 Jun 2010 11:15:31 -0700
+Message-ID: <987664A83D2D224EAE907B061CE93D530143FDA773@orsmsx505.amr.corp.intel.com>
 References: <AANLkTil_mDFOsDUjvnp_NFZvkj0Ij-qww6BqewJ4lpHP@mail.gmail.com>
- <35525.41387.qm@web50105.mail.re2.yahoo.com> <20100615065630.GC6727@basil.fritz.box>
+ <35525.41387.qm@web50105.mail.re2.yahoo.com>
+ <20100615065630.GC6727@basil.fritz.box>
  <Pine.GSO.4.58.1006150951150.17579@dexter.ludd.ltu.se>
  <20100615114135.GH6727@basil.fritz.box>
+ <Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20100615114135.GH6727@basil.fritz.box>
+In-Reply-To: <Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
+Content-Language: en-US
 Sender: linux-kernel-owner@vger.kernel.org
-To: Andi Kleen <andi@firstfloor.org>
-Cc: Nils Carlson <nils.carlson@ludd.ltu.se>, Doug Thompson <norsk5@yahoo.com>, Tony Luck <tony.luck@intel.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Ingo Molnar <mingo@elte.hu>, Borislav Petkov <bp@amd64.org>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, BrentYoung <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Thomas Gleixner <tglx@linutronix.de>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Nils Carlson <nils.carlson@ericsson.com>
+To: Nils Carlson <nils.carlson@ludd.ltu.se>, Andi Kleen <andi@firstfloor.org>
+Cc: Doug Thompson <norsk5@yahoo.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Ingo Molnar <mingo@elte.hu>, Borislav Petkov <bp@amd64.org>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, "Young, Brent" <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Thomas Gleixner <tglx@linutronix.de>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Nils Carlson <nils.carlson@ericsson.com>
 List-Id: edac.vger.kernel.org
 
-Hi Andi,
+> Could we come up with some plan that doesn't involve
+> trusting to the goodwill (and competence) of BIOS writes?
 
-On Tue, 15 Jun 2010, Andi Kleen wrote:
+That would be nice - but there already exists a platform
+(Xeon-7500 series a.k.a. Nehalem-EX) where the hardware
+chipset registers that you would need to do your own
+memory topology reverse engineering in Linux are only
+accessible to SMM level code.  I've finally come to the
+conclusion that an EDAC style driver just isn't possible
+for this set of systems.
 
-> On Tue, Jun 15, 2010 at 10:06:33AM +0200, Nils Carlson wrote:
->
-> Hi Nils,
->
-> > Could you maybe provide some references on how DIMM layout
-> > could be read from DMI? I can't find anything nearly this specific,
-> > or is it something we're expecting to happen in future BIOS's?
->
-> The hardware (or BIOS) tells you the DIMM. You read the DIMMs
-> from DMI and map them using the locators. The locator strings
-> are not standardized, but there are not too many different
-> formats around, so they can be implemented.
->
-> Again this does not give you full layout, but it gives
-> you a "path to a DIMM" and a DIMM locator.
+>I personally really like the device tree compiler for PowerPC.
+>It allows you to be explicit about what you have. Not for everyone,
+>but maybe there could be some way to apply the same principle? Maybe
+>some way of loading modules with parameters or configuring your setup
+>from sysfs?
 
-Hmm.. From having a quick look at our boards I can conclude
-that the information our BIOS puts in their is useless.
-Will discuss durther with our BIOS writers. They do
-their own error detection during the boot in which they
-decode to DIMM's, so obviously the information is in there
-(somewhere).
+Even when the chip set registers are accessible, it can be very
+complex to do this for the general case (think of boards that
+support arbitrary mixing of different size/speed DIMMs - the
+BIOS may have done some interesting somersaults while computing
+which interleaving modes to use).
 
-> An alternative is also to use the ACPI based reporting
-> mechanism which is needed on some system. In this case
-> the CPER gives you a reference to the DMI object of the DIMM.
->
-> In principle DMI has more information (arrays, ranges etc.)
-> but in my experience that is not strong enough to really find
-> the DIMM on modern systems. You need hardware or BIOS help for this.
+Even more complex on high end systems when BIOS may handle row
+sparing transparently to the OS. Memory mirroring is also
+becoming fashionable - how can EDAC represent this (when
+the h/w view of the memory doesn't match the OS view)?
 
-So what are we left with? Non-standardised locator strings
-that may or may not be present at the mercy of the bios-writer?
-I'm already feeling depressed. Re-writing EDAC to try to
-make sense of this information seems overly risky.
-
-I think in general that this is one of the wonderfull things
-about linux, you're not so much at the mercy of BIOS-writers.
-As soon as we start relying on the BIOS for functionality we're
-encouraging the BIOS people to put more functionality in there,
-and BIOS functionality is great, as long as there are no bugs!
-
-But there are bugs. And correcting them is so prohibitively
-expensive that I don't even want to think about it. And when
-the BIOS messes up, it's the device driver writers who have to
-magically workaround the problems.
-
-Could we come up with some plan that doesn't involve
-trusting to the goodwill (and competence) of BIOS writes?
-
-I personally really like the device tree compiler for PowerPC.
-It allows you to be explicit about what you have. Not for everyone,
-but maybe there could be some way to apply the same principle? Maybe
-some way of loading modules with parameters or configuring your setup
-from sysfs?
-
-/Nils
+-Tony
