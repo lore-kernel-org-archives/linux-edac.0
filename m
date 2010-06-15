@@ -1,83 +1,77 @@
-From: Nils Carlson <nils.carlson@ludd.ltu.se>
+From: Andi Kleen <andi@firstfloor.org>
 Subject: Re: Hardware Error Kernel Mini-Summit
-Date: Tue, 15 Jun 2010 20:38:58 +0200
-Message-ID: <02B220A1-36C9-449C-ABB0-89A3DC7AEDF2@ludd.ltu.se>
-References: <AANLkTil_mDFOsDUjvnp_NFZvkj0Ij-qww6BqewJ4lpHP@mail.gmail.com>
-	<35525.41387.qm@web50105.mail.re2.yahoo.com>
-	<20100615065630.GC6727@basil.fritz.box>
-	<Pine.GSO.4.58.1006150951150.17579@dexter.ludd.ltu.se>
-	<20100615114135.GH6727@basil.fritz.box>
-	<Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
-	<987664A83D2D224EAE907B061CE93D530143FDA773@orsmsx505.amr.corp.intel.com>
-Mime-Version: 1.0 (Apple Message framework v936)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <987664A83D2D224EAE907B061CE93D530143FDA773@orsmsx505.amr.corp.intel.com>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, "Young,
-	Brent" <brent.young@intel.com>, Nils Carlson <nils.carlson@ericsson.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Borislav Petkov <bp@amd64.org>, Andi Kleen <andi@firstfloor.org>, Thomas Gleixner <tglx@linutronix.de>, "Eric W. Biederman" <ebiederm@xmission.com>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Doug Thompson <norsk5@yahoo.com>, Ingo Molnar <mingo@elte.hu>, Matt Domsch <Matt_Domsch@dell.com>, Ingo Molnar <mingo@redhat.com>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Linux Edac Mailing List <linux-edac@vger.kernel.org>
+Date: Tue, 15 Jun 2010 21:35:19 +0200
+Message-ID: <20100615193519.GA12845@basil.fritz.box>
+References: <AANLkTil_mDFOsDUjvnp_NFZvkj0Ij-qww6BqewJ4lpHP@mail.gmail.com> <35525.41387.qm@web50105.mail.re2.yahoo.com> <20100615065630.GC6727@basil.fritz.box> <Pine.GSO.4.58.1006150951150.17579@dexter.ludd.ltu.se> <20100615114135.GH6727@basil.fritz.box> <Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <Pine.GSO.4.58.1006151411370.17929@dexter.ludd.ltu.se>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Nils Carlson <nils.carlson@ludd.ltu.se>
+Cc: Andi Kleen <andi@firstfloor.org>, Doug Thompson <norsk5@yahoo.com>, Tony Luck <tony.luck@intel.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Ingo Molnar <mingo@elte.hu>, Borislav Petkov <bp@amd64.org>, Hidetoshi Seto <seto.hidetoshi@jp.fujitsu.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, BrentYoung <brent.young@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>, Doug Thompson <dougthompson@xmission.com>, Joe Perches <joe@perches.com>, Thomas Gleixner <tglx@linutronix.de>, Linux Edac Mailing List <linux-edac@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>, Matt Domsch <Matt_Domsch@dell.com>, Nils Carlson <nils.carlson@ericsson.com>
 List-Id: edac.vger.kernel.org
 
-On Jun 15, 2010, at 8:15 PM, Luck, Tony wrote:
+> But there are bugs. And correcting them is so prohibitively
+> expensive that I don't even want to think about it. And when
 
->> Could we come up with some plan that doesn't involve
->> trusting to the goodwill (and competence) of BIOS writes?
->
-> That would be nice - but there already exists a platform
-> (Xeon-7500 series a.k.a. Nehalem-EX) where the hardware
-> chipset registers that you would need to do your own
-> memory topology reverse engineering in Linux are only
-> accessible to SMM level code.  I've finally come to the
-> conclusion that an EDAC style driver just isn't possible
-> for this set of systems.
-Yes, I'm dreading the day they come to me telling me that
-they've got one of those. On the one end you have hardware
-people who love to put functionality there, and then you
-have applications that have real-time requirements to
-whom you have to explain that the latest and greatest
-processor is broken for their purposes.
+Something is wrong in your setup then.
 
-One day I'll use this as an excuse to migrate everyone to
-PPC where people know that a bootloader is a bootloader.
+> the BIOS messes up, it's the device driver writers who have to
+> magically workaround the problems.
 
-But grudges against BIOS's aside, I don't know what to do
-about Nehalem-EX systems. I guess at that point we really
-are at the mercy of BIOS writers.
->
->> I personally really like the device tree compiler for PowerPC.
->> It allows you to be explicit about what you have. Not for everyone,
->> but maybe there could be some way to apply the same principle? Maybe
->> some way of loading modules with parameters or configuring your setup
->> from sysfs?
->
-> Even when the chip set registers are accessible, it can be very
-> complex to do this for the general case (think of boards that
-> support arbitrary mixing of different size/speed DIMMs - the
-> BIOS may have done some interesting somersaults while computing
-> which interleaving modes to use).
->
-> Even more complex on high end systems when BIOS may handle row
-> sparing transparently to the OS. Memory mirroring is also
-> becoming fashionable - how can EDAC represent this (when
-> the h/w view of the memory doesn't match the OS view)?
->
-Difficult questions. But at some point I wonder who will be buying
-systems where finding out which DIMM is broken is so complex
-that it requires a masters degree.
+In this case you would need the equivalent information
+of a system specific DMI table in some device driver.
 
-/Nils
+Do you see how this does not fly? How should a device
+driver know more about the system than the BIOS?
 
-------------------------------------------------------------------------------
-ThinkGeek and WIRED's GeekDad team up for the Ultimate 
-GeekDad Father's Day Giveaway. ONE MASSIVE PRIZE to the 
-lucky parental unit.  See the prize list and enter to win: 
-http://p.sf.net/sfu/thinkgeek-promo
+And if you can load some specific table into the device
+driver why can't you simply update the BIOS too?
+
+Well you can supply your own if you're a power user
+anyways, but most users are not power users. So it's no 
+option as a default.
+
+Or could you imagine a standard server getting installed
+and asking with a desktop window "please enter the DIMM mappings
+by hand"? That simply doesn't make any sense.
+
+
+> 
+> Could we come up with some plan that doesn't involve
+> trusting to the goodwill (and competence) of BIOS writes?
+
+the problem is that the information is nowhere else.
+If the BIOS doesn't know it Linux certainly doesn't know it either.
+
+On the other hand if Linux uses this information there is certainly
+an angle to get at least server vendors to fix their stuff
+(and non servers do not matter for memory errors because they
+run in non ECC mode anyways)
+
+It's certainly in the server vendors own interest to supply correct
+information here anyways. If they don't it will cost them in
+unnecessary memory replacement costs.
+
+BTW on the systems I have access to DMI seems to be largely 
+correct these days. I guess your system is a unlucky exception.
+
+Maybe your BIOS people will do something useful next generation.
+Make sure to report it to them and if they don't fix it make fun of them.
+
+
+> but maybe there could be some way to apply the same principle? Maybe
+> some way of loading modules with parameters or configuring your setup
+> from sysfs?
+
+Having a DMI override is no problem at all. ACPI uses this all the time
+for example.
+
+No need at all to speak a foreign language for this, even if it's your
+mother tongue.
+
+-Andi
+-- 
+ak@linux.intel.com -- Speaking for myself only.
