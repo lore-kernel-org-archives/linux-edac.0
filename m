@@ -1,63 +1,35 @@
-From: anil kumar dahiya <anilkumardahiya@yahoo.com>
-Subject: which types of error can be detected and logged using EDAC core module
-Date: Fri, 16 Jul 2010 16:38:45 +0530 (IST)
-Message-ID: <785949.46963.qm@web95614.mail.in.yahoo.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH] edac/Kconfig: reenable edac_mpc85xx on MPC85xx
+Date: Sat, 17 Jul 2010 03:11:28 +0400
+Message-ID: <1279321888-27335-1-git-send-email-dbaryshkov@gmail.com>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: linux-kernel@vger.kernel.org
+Cc: Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net, stable@kernel.org
 List-Id: edac.vger.kernel.org
 
-Hi
- =
+Somewhere after 2.6.32 MPC85xx got renamed to FSL_BOOKE (to include
+QorIQ family of chips). However drivers/edac/Kconfig wasn't updated to
+reflect this change. Fix it now.
 
-I am naive to EDAC. We are using RHEL5.5 (Linux kernel 2.6.18-194) on syste=
-m having two quad-core Intel=AE Xeon=AE  processors L5518. But RHEL 5.5 doe=
-s not have support for i7core_edac driver.
-
-When I loaded edac_mc module on the system following directory structure wa=
-s visible:
-
-/sys/devices/system/edac =
-
-|
-|
------- mc
-|      |
-|      log_ce  log_ue  panic_on_ue  poll_msec
-|
----- pci
-       |
-       check_pci_parity  panic_on_pci_parity  pci_parity_count
-
-My question is that,on my system using only EDAC core module which types of=
- error can be detected and logged ?
-
->From  linux-2.6.18-194/Documentation/edac.txt, I am able to make out that E=
-DAC core module can detect and log PCI errors ? Correct me if I am wrong.
-
-But I could not understand whats the use of /sys/devices/system/edac/mc dir=
-ectory , Can you provide more details on it?
-
-Thanks in advance,
-
-Regards,
-Anil
-
-
-
-
----------------------------------------------------------------------------=
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Cc: stable@kernel.org
 ---
-This SF.net email is sponsored by Sprint
-What will you do first with EVO, the first 4G phone?
-Visit sprint.com/first -- http://p.sf.net/sfu/sprint-com-first
+ drivers/edac/Kconfig |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index aedef79..2328c95 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -209,7 +209,7 @@ config EDAC_I5100
+ 
+ config EDAC_MPC85XX
+ 	tristate "Freescale MPC83xx / MPC85xx"
+-	depends on EDAC_MM_EDAC && FSL_SOC && (PPC_83xx || MPC85xx)
++	depends on EDAC_MM_EDAC && FSL_SOC && (PPC_83xx || FSL_SOC_BOOKE)
+ 	help
+ 	  Support for error detection and correction on the Freescale
+ 	  MPC8349, MPC8560, MPC8540, MPC8548
+-- 
+1.7.1
