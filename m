@@ -1,58 +1,50 @@
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: Re: [PATCH] edac/Kconfig: reenable edac_mpc85xx on MPC85xx
-Date: Wed, 21 Jul 2010 19:33:26 +0400
-Message-ID: <AANLkTimr363aK=DTj7Eb1hJiu9d80Z460feU9K920H-w@mail.gmail.com>
-References: <1279321888-27335-1-git-send-email-dbaryshkov@gmail.com>
+From: Kulikov Vasiliy <segooon@gmail.com>
+Subject: [PATCH 1/2] edac: i5000: carefull error handling
+Date: Wed, 21 Jul 2010 23:07:21 +0400
+Message-ID: <1279739241-8203-1-git-send-email-segooon@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1279321888-27335-1-git-send-email-dbaryshkov@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: linux-kernel@vger.kernel.org
-Cc: Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net, stable@kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
+List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
+List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+To: kernel-janitors@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@redhat.com>, linux-kernel@vger.kernel.org, Tamas Vincze <tom@vincze.org>, Doug Thompson <dougthompson@xmission.com>, Andrew Morton <akpm@linux-foundation.org>, bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
-Hello,
+-EIO is not the only error code that pci_enable_device() may return,
+also the set of errors can be enhanced in future. We should compare
+return code with zero, not with concrete error value.
 
-What about this patch. Is it ok?
+Signed-off-by: Kulikov Vasiliy <segooon@gmail.com>
+---
+ drivers/edac/i5000_edac.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-On Sat, Jul 17, 2010 at 3:11 AM, Dmitry Eremin-Solenikov
-<dbaryshkov@gmail.com> wrote:
-> Somewhere after 2.6.32 MPC85xx got renamed to FSL_BOOKE (to include
-> QorIQ family of chips). However drivers/edac/Kconfig wasn't updated t=
-o
-> reflect this change. Fix it now.
->
-> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-> Cc: stable@kernel.org
-> ---
-> =A0drivers/edac/Kconfig | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-> index aedef79..2328c95 100644
-> --- a/drivers/edac/Kconfig
-> +++ b/drivers/edac/Kconfig
-> @@ -209,7 +209,7 @@ config EDAC_I5100
->
-> =A0config EDAC_MPC85XX
-> =A0 =A0 =A0 =A0tristate "Freescale MPC83xx / MPC85xx"
-> - =A0 =A0 =A0 depends on EDAC_MM_EDAC && FSL_SOC && (PPC_83xx || MPC8=
-5xx)
-> + =A0 =A0 =A0 depends on EDAC_MM_EDAC && FSL_SOC && (PPC_83xx || FSL_=
-SOC_BOOKE)
-> =A0 =A0 =A0 =A0help
-> =A0 =A0 =A0 =A0 =A0Support for error detection and correction on the =
-=46reescale
-> =A0 =A0 =A0 =A0 =A0MPC8349, MPC8560, MPC8540, MPC8548
-> --
-> 1.7.1
->
->
+diff --git a/drivers/edac/i5000_edac.c b/drivers/edac/i5000_edac.c
+index 996c1bd..a5cefab 100644
+--- a/drivers/edac/i5000_edac.c
++++ b/drivers/edac/i5000_edac.c
+@@ -1482,7 +1482,7 @@ static int __devinit i5000_init_one(struct pci_dev *pdev,
+ 
+ 	/* wake up device */
+ 	rc = pci_enable_device(pdev);
+-	if (rc == -EIO)
++	if (rc)
+ 		return rc;
+ 
+ 	/* now probe and enable the device */
+-- 
+1.7.0.4
 
 
-
---=20
-With best wishes
-Dmitry
+------------------------------------------------------------------------------
+This SF.net email is sponsored by Sprint
+What will you do first with EVO, the first 4G phone?
+Visit sprint.com/first -- http://p.sf.net/sfu/sprint-com-first
