@@ -1,31 +1,43 @@
-From: Doug Thompson <norsk5@yahoo.com>
-Subject: Notice of linux-edac mailing list
-Date: Wed, 21 Jul 2010 18:36:29 -0700 (PDT)
-Message-ID: <189116.29250.qm@web50101.mail.re2.yahoo.com>
-Mime-Version: 1.0
+From: Kumar Gala <galak@kernel.crashing.org>
+Subject: Re: [PATCH 2/2] mpc85xx_edac: change to use new definitions for PCI
+	EDAC regspace
+Date: Thu, 22 Jul 2010 10:38:56 -0500
+Message-ID: <566EC982-1CDA-4806-8EC0-8C9F36448F83@kernel.crashing.org>
+References: <1279756992-29543-1-git-send-email-dbaryshkov@gmail.com>
+	<1279756992-29543-2-git-send-email-dbaryshkov@gmail.com>
+Mime-Version: 1.0 (Apple Message framework v1078)
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net
+Return-path: <linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org>
+In-Reply-To: <1279756992-29543-2-git-send-email-dbaryshkov@gmail.com>
+List-Unsubscribe: <https://lists.ozlabs.org/options/linuxppc-dev>,
+	<mailto:linuxppc-dev-request@lists.ozlabs.org?subject=unsubscribe>
+List-Archive: <http://lists.ozlabs.org/pipermail/linuxppc-dev>
+List-Post: <mailto:linuxppc-dev@lists.ozlabs.org>
+List-Help: <mailto:linuxppc-dev-request@lists.ozlabs.org?subject=help>
+List-Subscribe: <https://lists.ozlabs.org/listinfo/linuxppc-dev>,
+	<mailto:linuxppc-dev-request@lists.ozlabs.org?subject=subscribe>
+Sender: linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org
+Errors-To: linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org
+To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Cc: linuxppc-dev@ozlabs.org, Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net, Dave Jiang <djiang@mvista.com>
 List-Id: edac.vger.kernel.org
 
-A few months ago, we got a mailing list for EDAC
 
-read and subscribe via  http://vger.kernel.org/vger-lists.html#linux-edac
+On Jul 21, 2010, at 7:03 PM, Dmitry Eremin-Solenikov wrote:
 
-That list should become the standard place to talk about all things EDAC
+> Currently (as mpc8540-pci) devices are not created on of_platform bus,
+> mpc85xx_edac can't probe to them. Follow the change to dts trees to bind
+> not to the main mpc8540-pci node but to special mpc85xx-pci-error nodes,
+> present on soc bus.
+> 
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+> drivers/edac/mpc85xx_edac.c |   18 +++++++++---------
+> 1 files changed, 9 insertions(+), 9 deletions(-)
 
-doug thompson
+Nak.
 
-------------------------------------------------------------------------------
-This SF.net email is sponsored by Sprint
-What will you do first with EVO, the first 4G phone?
-Visit sprint.com/first -- http://p.sf.net/sfu/sprint-com-first
+We already have a node in the dts for the PCI controller.  Lets update the platform code to add the pci controller to the of_platform_bus_probe list.
+
+- k
