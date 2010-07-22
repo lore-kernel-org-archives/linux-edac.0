@@ -1,80 +1,73 @@
-From: Peter Tyser <ptyser@xes-inc.com>
-Subject: Re: [PATCH 1/2] MPC85xx: add definitions for PCI error detection
-	soc  part
-Date: Thu, 22 Jul 2010 12:09:56 -0500
-Message-ID: <1279818596.7232.8785.camel@petert>
+From: Scott Wood <scottwood@freescale.com>
+Subject: Re: [PATCH 2/2] mpc85xx_edac: change to use new definitions for PCI
+	EDAC regspace
+Date: Thu, 22 Jul 2010 13:25:48 -0500
+Message-ID: <20100722132548.6eef941b@schlenkerla.am.freescale.net>
 References: <1279756992-29543-1-git-send-email-dbaryshkov@gmail.com>
-	<1279811975.7232.8696.camel@petert>
-	<AANLkTikd3pyVa3=V0pqA5uOto+RYWY_0kF_SL0d0B=BD@mail.gmail.com>
+	<1279756992-29543-2-git-send-email-dbaryshkov@gmail.com>
+	<566EC982-1CDA-4806-8EC0-8C9F36448F83@kernel.crashing.org>
+	<AANLkTim7kbHsouc==7gRAuRO6AYMNVdA4yyPFpRBC+QR@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <AANLkTikd3pyVa3=V0pqA5uOto+RYWY_0kF_SL0d0B=BD@mail.gmail.com>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org>
+In-Reply-To: <AANLkTim7kbHsouc==7gRAuRO6AYMNVdA4yyPFpRBC+QR@mail.gmail.com>
+List-Unsubscribe: <https://lists.ozlabs.org/options/linuxppc-dev>,
+	<mailto:linuxppc-dev-request@lists.ozlabs.org?subject=unsubscribe>
+List-Archive: <http://lists.ozlabs.org/pipermail/linuxppc-dev>
+List-Post: <mailto:linuxppc-dev@lists.ozlabs.org>
+List-Help: <mailto:linuxppc-dev-request@lists.ozlabs.org?subject=help>
+List-Subscribe: <https://lists.ozlabs.org/listinfo/linuxppc-dev>,
+	<mailto:linuxppc-dev-request@lists.ozlabs.org?subject=subscribe>
+Sender: linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org
+Errors-To: linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org
 To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Cc: linuxppc-dev@ozlabs.org, Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net, Dave Jiang <djiang@mvista.com>
+Cc: linuxppc-dev@ozlabs.org, Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
+On Thu, 22 Jul 2010 20:48:15 +0400
+Dmitry Eremin-Solenikov <dbaryshkov@gmail.com> wrote:
 
-> > On Thu, 2010-07-22 at 04:03 +0400, Dmitry Eremin-Solenikov wrote:
-> >> Add definitions for PCI error detection device to be handled by (already
-> >> existing) mpc85xx_edac.c driver.
+> Hello,
+> =
+
+> On Thu, Jul 22, 2010 at 7:38 PM, Kumar Gala <galak@kernel.crashing.org> w=
+rote:
+> >
+> > On Jul 21, 2010, at 7:03 PM, Dmitry Eremin-Solenikov wrote:
+> >
+> >> Currently (as mpc8540-pci) devices are not created on of_platform bus,
+> >> mpc85xx_edac can't probe to them. Follow the change to dts trees to bi=
+nd
+> >> not to the main mpc8540-pci node but to special mpc85xx-pci-error node=
+s,
+> >> present on soc bus.
 > >>
 > >> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 > >> ---
-> >>  arch/powerpc/boot/dts/mpc8536ds.dts        |    7 +++++++
-> >>  arch/powerpc/boot/dts/mpc8536ds_36b.dts    |    7 +++++++
-> >>  arch/powerpc/boot/dts/mpc8540ads.dts       |    8 ++++++++
-> >>  arch/powerpc/boot/dts/mpc8541cds.dts       |   14 ++++++++++++++
-> >>  arch/powerpc/boot/dts/mpc8544ds.dts        |    7 +++++++
-> >>  arch/powerpc/boot/dts/mpc8548cds.dts       |   14 ++++++++++++++
-> >>  arch/powerpc/boot/dts/mpc8555cds.dts       |   14 ++++++++++++++
-> >>  arch/powerpc/boot/dts/mpc8560ads.dts       |    7 +++++++
-> >>  arch/powerpc/boot/dts/mpc8568mds.dts       |    7 +++++++
-> >>  arch/powerpc/boot/dts/sbc8548.dts          |    7 +++++++
-> >>  arch/powerpc/boot/dts/sbc8560.dts          |    7 +++++++
-> >>  arch/powerpc/boot/dts/socrates.dts         |    7 +++++++
-> >>  arch/powerpc/boot/dts/stx_gp3_8560.dts     |    7 +++++++
-> >>  arch/powerpc/boot/dts/tqm8540.dts          |   10 ++++++++++
-> >>  arch/powerpc/boot/dts/tqm8541.dts          |    7 +++++++
-> >>  arch/powerpc/boot/dts/tqm8548-bigflash.dts |    7 +++++++
-> >>  arch/powerpc/boot/dts/tqm8548.dts          |    7 +++++++
-> >>  arch/powerpc/boot/dts/tqm8555.dts          |    7 +++++++
-> >>  arch/powerpc/boot/dts/tqm8560.dts          |    7 +++++++
-> >>  arch/powerpc/boot/dts/xpedite5200.dts      |    7 +++++++
-> >>  arch/powerpc/boot/dts/xpedite5200_xmon.dts |    7 +++++++
-> >>  21 files changed, 172 insertions(+), 0 deletions(-)
+> >> drivers/edac/mpc85xx_edac.c | =A0 18 +++++++++---------
+> >> 1 files changed, 9 insertions(+), 9 deletions(-)
 > >
-> > It looks like the dts files for the MPC8572-based boards weren't
-> > included in this change despite patch 2/2 adding support for them.  I'd
-> > guess some other Freescale CPUs (eg P1020, P2020, etc) could be
-> > supported by the same driver if you are inclined to add them to this
-> > patch series.
-> 
-> I just did a quick search for all dts including mpc8540-pci node and added
-> respective mpc85xx-pci-error node. Current MPC85xx EDAC driver doesn't
-> support error handling on PCI-E busses (which MPC8572 and other CPUs
-> you mentioned have). I'll maybe look into PCI-E EDAC later. Also I don't have
-> access to P10xx/P20xx manuals, so support for them may require some
-> more time.
+> > Nak.
+> >
+> > We already have a node in the dts for the PCI controller. =A0Lets updat=
+e the platform code to add the pci controller to the of_platform_bus_probe =
+list.
+> =
 
-Thanks for the explanation.  I noticed this because patch 2/2 adds
-support for the 8572 to the mpc85xx_pci_err_of_match[] table.  Sounds
-like that was the bug instead of my comment above.
+> I've had that idea. However it's really look strange to me to call
+> of_platform_bus_probe() on the bus node, for which we (IMO) explicitly
+> won't like for
+> child devices (PCI devices) to be added to of_platform bus.
 
-Best,
-Peter
+Right, and it's also not great for a driver for one aspect of PCI to
+claim to be the driver for the whole thing.
 
+But changing the device tree because of this Linux-internal concern is
+also not good.
 
-------------------------------------------------------------------------------
-This SF.net email is sponsored by Sprint
-What will you do first with EVO, the first 4G phone?
-Visit sprint.com/first -- http://p.sf.net/sfu/sprint-com-first
+How about keeping the error stuff as a separate device from Linux's
+perspective, but have the main Freescale PCI code create it as a
+platform device instead of putting it in the device tree?
+
+-Scott
