@@ -1,20 +1,13 @@
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: Re: [PATCH 2/2] mpc85xx_edac: change to use new definitions for PCI
-	EDAC regspace
-Date: Sat, 24 Jul 2010 14:09:14 +0400
-Message-ID: <AANLkTimeVfGYxKid8kQ6pkUh2viGgyo2NN90uPM6h69B@mail.gmail.com>
-References: <1279756992-29543-1-git-send-email-dbaryshkov@gmail.com>
-	<1279756992-29543-2-git-send-email-dbaryshkov@gmail.com>
-	<566EC982-1CDA-4806-8EC0-8C9F36448F83@kernel.crashing.org>
-	<AANLkTim7kbHsouc==7gRAuRO6AYMNVdA4yyPFpRBC+QR@mail.gmail.com>
-	<AANLkTimsKcn3n90cyqQTQ4Ycy2dlsHdi7afeiNX4M0v5@mail.gmail.com>
-	<AANLkTik-3cujkh774H6WQB8sHD+gkKLT2FQp=8HYaWBt@mail.gmail.com>
-	<AANLkTinKVet56HEnirf_Q5bbjT1a-D+mb6XoPNW3ZMTp@mail.gmail.com>
+From: Doug Thompson <norsk5@yahoo.com>
+Subject: Re: [PATCH] edac: make inst_grp_ops const
+Date: Tue, 31 Aug 2010 15:59:06 -0700 (PDT)
+Message-ID: <984674.34247.qm@web50103.mail.re2.yahoo.com>
+References: <20100831152402.22b5e897@nehalam>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <AANLkTinKVet56HEnirf_Q5bbjT1a-D+mb6XoPNW3ZMTp@mail.gmail.com>
+In-Reply-To: <20100831152402.22b5e897@nehalam>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -23,82 +16,51 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: Grant Likely <grant.likely@secretlab.ca>
-Cc: linuxppc-dev@ozlabs.org, devicetree-discuss <devicetree-discuss@lists.ozlabs.org>, Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net
+To: Doug Thompson <dougthompson@xmission.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, bluesmoke-devel@lists.sourceforge.net, Stephen Hemminger <shemminger@vyatta.com>
 List-Id: edac.vger.kernel.org
 
-On 7/24/10, Grant Likely <grant.likely@secretlab.ca> wrote:
-> On Fri, Jul 23, 2010 at 6:20 PM, Dmitry Eremin-Solenikov
-> <dbaryshkov@gmail.com> wrote:
->> Hello,
->>
->> On 7/22/10, Grant Likely <grant.likely@secretlab.ca> wrote:
->>> On Thu, Jul 22, 2010 at 10:48 AM, Dmitry Eremin-Solenikov
->>> <dbaryshkov@gmail.com> wrote:
->>>> Hello,
->>>>
->>>> On Thu, Jul 22, 2010 at 7:38 PM, Kumar Gala <galak@kernel.crashing.org>
->>>> wrote:
->>>>>
->>>>> On Jul 21, 2010, at 7:03 PM, Dmitry Eremin-Solenikov wrote:
->>>>>
->>>>>> Currently (as mpc8540-pci) devices are not created on of_platform bus,
->>>>>> mpc85xx_edac can't probe to them. Follow the change to dts trees to
->>>>>> bind
->>>>>> not to the main mpc8540-pci node but to special mpc85xx-pci-error
->>>>>> nodes,
->>>>>> present on soc bus.
->>>>>>
->>>>>> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
->>>>>> ---
->>>>>> drivers/edac/mpc85xx_edac.c |   18 +++++++++---------
->>>>>> 1 files changed, 9 insertions(+), 9 deletions(-)
->>>>>
->>>>> Nak.
->>>>>
->>>>> We already have a node in the dts for the PCI controller.  Lets update
->>>>> the platform code to add the pci controller to the
->>>>> of_platform_bus_probe
->>>>> list.
->>>>
->>>> I've had that idea. However it's really look strange to me to call
->>>> of_platform_bus_probe() on the bus node, for which we (IMO) explicitly
->>>> won't like for
->>>> child devices (PCI devices) to be added to of_platform bus. Would it
->>>> be suitable to just call of_platform_device_create for it (Or do i
->>>> miss someth<ing)?
->>>
->>> Try the attached patch (lightly tested).  If it works for you then
->>> I'll post it for wider review.
->>
->> Yes, this patch worked for me. However it looks a bit like a hack for me.
->
-> I'll probably refine it a bit before merging, but I don't think it is
-> a hack.  It reflects the behaviour that makes sense when registering
-> devices hanging off the root node.  If a device node is a child of the
-> root, then we know it isn't hanging off an i2c or pci bus, or anything
-> else.  It is essentially a system device.
->
-> The troublesome bit is that the root node also has memory, cpus,
-> chosen and aliases nodes which are not devices.  In the vast majority
-> of cases, we want all the device nodes that are children of the root
-> to be registered, but we don't want to register the special nodes.
-> Checking for the presence of a compatible property is a pretty good
-> test for determining whether or not a node actually represents a
-> device, especially because all users of of_platform_bus_probe() seem
-> to be FDT users where we've been very strict about enforcing that
-> drivers must use the compatible property for matching to device nodes.
 
 
-Now it's clear to me, thanks for the explanation.
+--- On Tue, 8/31/10, Stephen Hemminger <shemminger@vyatta.com> wrote:
 
-BTW: On 2.6.35-rc6 I had to make 'compat' and 'match' variables const.
+> From: Stephen Hemminger <shemminger@vyatta.com>
+> Subject: [PATCH] edac: make inst_grp_ops const
+> To: "Doug Thompson" <dougthompson@xmission.com>, "Mauro Carvalho Chehab" =
+<mchehab@redhat.com>, bluesmoke-devel@lists.sourceforge.net
+> Date: Tuesday, August 31, 2010, 4:24 PM
+> This sysfs_ops should be const like
+> all the others in the kernel.
+> =
 
--- 
-With best wishes
-Dmitry
+> Signed-off-by: Stephen Hemminger <shemminger@vyatta.com>
 
-------------------------------------------------------------------------------
-This SF.net email is sponsored by Sprint
-What will you do first with EVO, the first 4G phone?
-Visit sprint.com/first -- http://p.sf.net/sfu/sprint-com-first
+Acked-by: Doug Thompson <dougthompson@xmission.com>
+
+
+> =
+
+> --- a/drivers/edac/edac_mc_sysfs.c=A0=A0=A0
+> 2010-08-31 15:10:29.692381171 -0700
+> +++ b/drivers/edac/edac_mc_sysfs.c=A0=A0=A0
+> 2010-08-31 15:11:24.072859199 -0700
+> @@ -764,7 +764,7 @@ static void
+> edac_inst_grp_release(struct
+>  }
+>  =
+
+>  /* Intermediate show/store table */
+> -static struct sysfs_ops inst_grp_ops =3D {
+> +static const struct sysfs_ops inst_grp_ops =3D {
+>  =A0=A0=A0 .show =3D inst_grp_show,
+>  =A0=A0=A0 .store =3D inst_grp_store
+>  };
+> =
+
+
+---------------------------------------------------------------------------=
+---
+This SF.net Dev2Dev email is sponsored by:
+
+Show off your parallel programming skills.
+Enter the Intel(R) Threading Challenge 2010.
+http://p.sf.net/sfu/intel-thread-sfd
