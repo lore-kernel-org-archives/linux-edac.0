@@ -1,7 +1,7 @@
 From: Doug Thompson <norsk5@yahoo.com>
 Subject: Re: [PATCH] edac: make inst_grp_ops const
-Date: Tue, 31 Aug 2010 15:59:06 -0700 (PDT)
-Message-ID: <984674.34247.qm@web50103.mail.re2.yahoo.com>
+Date: Tue, 31 Aug 2010 16:00:20 -0700 (PDT)
+Message-ID: <569266.95060.qm@web50108.mail.re2.yahoo.com>
 References: <20100831152402.22b5e897@nehalam>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="iso-8859-1"
@@ -20,6 +20,13 @@ To: Doug Thompson <dougthompson@xmission.com>, Mauro Carvalho Chehab <mchehab@re
 List-Id: edac.vger.kernel.org
 
 
+Ignore that prior ack by me, I thought it was an i7core_edac module, not co=
+re EDAC modules.
+
+I will take it myself and push it upstream
+
+doug t
+
 
 --- On Tue, 8/31/10, Stephen Hemminger <shemminger@vyatta.com> wrote:
 
@@ -33,10 +40,6 @@ List-Id: edac.vger.kernel.org
 > =
 
 > Signed-off-by: Stephen Hemminger <shemminger@vyatta.com>
-
-Acked-by: Doug Thompson <dougthompson@xmission.com>
-
-
 > =
 
 > --- a/drivers/edac/edac_mc_sysfs.c=A0=A0=A0
