@@ -1,7 +1,7 @@
-From: Doug Thompson <norsk5@yahoo.com>
-Subject: redirect to new mailing list
-Date: Fri, 24 Sep 2010 09:28:57 -0700 (PDT)
-Message-ID: <558259.81943.qm@web50107.mail.re2.yahoo.com>
+From: Stephen Hemminger <shemminger@vyatta.com>
+Subject: [PATCH] edac: make inst_grp_ops const
+Date: Tue, 31 Aug 2010 15:24:02 -0700
+Message-ID: <20100831152402.22b5e897@nehalam>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -14,15 +14,24 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net
+To: Doug Thompson <dougthompson@xmission.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
-we now have a linux-edac@vger.kernel.org  mailing list to take the place of the sourceforge.net mailing list
+This sysfs_ops should be const like all the others in the kernel.
 
-the new list is more mainstream now
+Signed-off-by: Stephen Hemminger <shemminger@vyatta.com>
 
-doug thompson
-
+--- a/drivers/edac/edac_mc_sysfs.c	2010-08-31 15:10:29.692381171 -0700
++++ b/drivers/edac/edac_mc_sysfs.c	2010-08-31 15:11:24.072859199 -0700
+@@ -764,7 +764,7 @@ static void edac_inst_grp_release(struct
+ }
+ 
+ /* Intermediate show/store table */
+-static struct sysfs_ops inst_grp_ops = {
++static const struct sysfs_ops inst_grp_ops = {
+ 	.show = inst_grp_show,
+ 	.store = inst_grp_store
+ };
 
 ------------------------------------------------------------------------------
 Start uncovering the many advantages of virtual appliances
