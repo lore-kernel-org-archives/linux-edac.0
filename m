@@ -1,13 +1,13 @@
-From: Doug Thompson <norsk5@yahoo.com>
+From: Mauro Carvalho Chehab <mchehab@redhat.com>
 Subject: Re: [PATCH] edac: make inst_grp_ops const
-Date: Tue, 31 Aug 2010 16:00:20 -0700 (PDT)
-Message-ID: <569266.95060.qm@web50108.mail.re2.yahoo.com>
-References: <20100831152402.22b5e897@nehalam>
+Date: Wed, 01 Sep 2010 07:42:41 -0300
+Message-ID: <4C7E2E21.9060102@redhat.com>
+References: <569266.95060.qm@web50108.mail.re2.yahoo.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <20100831152402.22b5e897@nehalam>
+In-Reply-To: <569266.95060.qm@web50108.mail.re2.yahoo.com>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -16,52 +16,28 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: Doug Thompson <dougthompson@xmission.com>, Mauro Carvalho Chehab <mchehab@redhat.com>, bluesmoke-devel@lists.sourceforge.net, Stephen Hemminger <shemminger@vyatta.com>
+To: Doug Thompson <norsk5@yahoo.com>
+Cc: Stephen Hemminger <shemminger@vyatta.com>, bluesmoke-devel@lists.sourceforge.net, Doug Thompson <dougthompson@xmission.com>
 List-Id: edac.vger.kernel.org
 
+Doug,
 
-Ignore that prior ack by me, I thought it was an i7core_edac module, not co=
-re EDAC modules.
+Em 31-08-2010 20:00, Doug Thompson escreveu:
+> 
+> Ignore that prior ack by me, I thought it was an i7core_edac module, not core EDAC modules.
+> 
+> I will take it myself and push it upstream
 
-I will take it myself and push it upstream
+Please take a look first on my patch series. I've did lots of "const" cleanups
+on my patch series, changing them on both i7core_edac and edac core.
 
-doug t
+I'm currently traveling, due to LinuxCon Brazil, but it is very likely that
+this patch will conflict with one big patch I've made.
 
+Cheers,
+Mauro.
 
---- On Tue, 8/31/10, Stephen Hemminger <shemminger@vyatta.com> wrote:
-
-> From: Stephen Hemminger <shemminger@vyatta.com>
-> Subject: [PATCH] edac: make inst_grp_ops const
-> To: "Doug Thompson" <dougthompson@xmission.com>, "Mauro Carvalho Chehab" =
-<mchehab@redhat.com>, bluesmoke-devel@lists.sourceforge.net
-> Date: Tuesday, August 31, 2010, 4:24 PM
-> This sysfs_ops should be const like
-> all the others in the kernel.
-> =
-
-> Signed-off-by: Stephen Hemminger <shemminger@vyatta.com>
-> =
-
-> --- a/drivers/edac/edac_mc_sysfs.c=A0=A0=A0
-> 2010-08-31 15:10:29.692381171 -0700
-> +++ b/drivers/edac/edac_mc_sysfs.c=A0=A0=A0
-> 2010-08-31 15:11:24.072859199 -0700
-> @@ -764,7 +764,7 @@ static void
-> edac_inst_grp_release(struct
->  }
->  =
-
->  /* Intermediate show/store table */
-> -static struct sysfs_ops inst_grp_ops =3D {
-> +static const struct sysfs_ops inst_grp_ops =3D {
->  =A0=A0=A0 .show =3D inst_grp_show,
->  =A0=A0=A0 .store =3D inst_grp_store
->  };
-> =
-
-
----------------------------------------------------------------------------=
----
+------------------------------------------------------------------------------
 This SF.net Dev2Dev email is sponsored by:
 
 Show off your parallel programming skills.
