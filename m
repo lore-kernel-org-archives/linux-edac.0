@@ -1,13 +1,10 @@
-From: Mauro Carvalho Chehab <mchehab@redhat.com>
-Subject: Re: [PATCH] edac: make inst_grp_ops const
-Date: Wed, 01 Sep 2010 07:42:41 -0300
-Message-ID: <4C7E2E21.9060102@redhat.com>
-References: <569266.95060.qm@web50108.mail.re2.yahoo.com>
+From: =?KOI8-R?B?5M3J1NLJyiDrz8zRzs/X?= <dk90.spb@gmail.com>
+Subject: software memory scrub for MPC8544
+Date: Thu, 2 Sep 2010 20:46:20 +0400
+Message-ID: <AANLkTin_1vqGFdr5LGLND5iwCwq=j2SOS51rxFYBZM8H@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============7054949987917785231=="
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <569266.95060.qm@web50108.mail.re2.yahoo.com>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -16,26 +13,47 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: Doug Thompson <norsk5@yahoo.com>
-Cc: Stephen Hemminger <shemminger@vyatta.com>, bluesmoke-devel@lists.sourceforge.net, Doug Thompson <dougthompson@xmission.com>
+To: bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
-Doug,
+--===============7054949987917785231==
+Content-Type: multipart/alternative; boundary=0016e65684e4545682048f498e64
 
-Em 31-08-2010 20:00, Doug Thompson escreveu:
-> 
-> Ignore that prior ack by me, I thought it was an i7core_edac module, not core EDAC modules.
-> 
-> I will take it myself and push it upstream
+--0016e65684e4545682048f498e64
+Content-Type: text/plain; charset=ISO-8859-1
 
-Please take a look first on my patch series. I've did lots of "const" cleanups
-on my patch series, changing them on both i7core_edac and edac core.
+Hello!
 
-I'm currently traveling, due to LinuxCon Brazil, but it is very likely that
-this patch will conflict with one big patch I've made.
+I need to implement progressive software scrub for MPC8544, maybe you can
+give some suggestions on how best to do it?
+and how better synchronize it with EDAC functionality?
 
-Cheers,
-Mauro.
+Thanks!
+Dmitry.
+
+--0016e65684e4545682048f498e64
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Hello!<br><br><span><span title=3D"">I need to implement progressive </span=
+></span><span><span title=3D"">software</span></span><span><span title=3D""=
+> scrub for MPC8544</span></span><span><span title=3D""></span></span><span=
+><span title=3D"">, maybe you can give some suggestions on how best to do i=
+t?</span></span><span><span title=3D""><br>
+
+and how better synchronize it with </span></span><span><span title=3D"">EDA=
+C</span></span><span><span title=3D""> functionality?</span></span><br>
+<span><span title=3D""><br></span></span><span><span title=3D"">Thanks!<br>=
+Dmitry.<br></span></span>
+
+--0016e65684e4545682048f498e64--
+
+
+--===============7054949987917785231==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 ------------------------------------------------------------------------------
 This SF.net Dev2Dev email is sponsored by:
@@ -43,3 +61,15 @@ This SF.net Dev2Dev email is sponsored by:
 Show off your parallel programming skills.
 Enter the Intel(R) Threading Challenge 2010.
 http://p.sf.net/sfu/intel-thread-sfd
+--===============7054949987917785231==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+bluesmoke-devel mailing list
+bluesmoke-devel@lists.sourceforge.net
+https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel
+
+--===============7054949987917785231==--
