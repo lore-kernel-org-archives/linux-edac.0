@@ -1,9 +1,10 @@
-From: =?KOI8-R?B?5M3J1NLJyiDrz8zRzs/X?= <dk90.spb@gmail.com>
-Subject: software memory scrub for MPC8544
-Date: Thu, 2 Sep 2010 20:46:20 +0400
-Message-ID: <AANLkTin_1vqGFdr5LGLND5iwCwq=j2SOS51rxFYBZM8H@mail.gmail.com>
+From: Doug Thompson <norsk5@yahoo.com>
+Subject: redirect to new mailing list
+Date: Fri, 24 Sep 2010 09:28:57 -0700 (PDT)
+Message-ID: <558259.81943.qm@web50107.mail.re2.yahoo.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============7054949987917785231=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
@@ -16,60 +17,15 @@ Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
 To: bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
---===============7054949987917785231==
-Content-Type: multipart/alternative; boundary=0016e65684e4545682048f498e64
+we now have a linux-edac@vger.kernel.org  mailing list to take the place of the sourceforge.net mailing list
 
---0016e65684e4545682048f498e64
-Content-Type: text/plain; charset=ISO-8859-1
+the new list is more mainstream now
 
-Hello!
+doug thompson
 
-I need to implement progressive software scrub for MPC8544, maybe you can
-give some suggestions on how best to do it?
-and how better synchronize it with EDAC functionality?
-
-Thanks!
-Dmitry.
-
---0016e65684e4545682048f498e64
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-Hello!<br><br><span><span title=3D"">I need to implement progressive </span=
-></span><span><span title=3D"">software</span></span><span><span title=3D""=
-> scrub for MPC8544</span></span><span><span title=3D""></span></span><span=
-><span title=3D"">, maybe you can give some suggestions on how best to do i=
-t?</span></span><span><span title=3D""><br>
-
-and how better synchronize it with </span></span><span><span title=3D"">EDA=
-C</span></span><span><span title=3D""> functionality?</span></span><br>
-<span><span title=3D""><br></span></span><span><span title=3D"">Thanks!<br>=
-Dmitry.<br></span></span>
-
---0016e65684e4545682048f498e64--
-
-
---===============7054949987917785231==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 ------------------------------------------------------------------------------
-This SF.net Dev2Dev email is sponsored by:
-
-Show off your parallel programming skills.
-Enter the Intel(R) Threading Challenge 2010.
-http://p.sf.net/sfu/intel-thread-sfd
---===============7054949987917785231==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-bluesmoke-devel mailing list
-bluesmoke-devel@lists.sourceforge.net
-https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel
-
---===============7054949987917785231==--
+Start uncovering the many advantages of virtual appliances
+and start using them to simplify application deployment and
+accelerate your shift to cloud computing.
+http://p.sf.net/sfu/novell-sfdev2dev
