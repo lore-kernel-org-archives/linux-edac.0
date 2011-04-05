@@ -1,172 +1,277 @@
 From: Michal Marek <mmarek@suse.cz>
-Subject: [PATCH 00/34] Make kernel build deterministic
-Date: Tue,  5 Apr 2011 16:58:47 +0200
-Message-ID: <1302015561-21047-1-git-send-email-mmarek@suse.cz>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org>
-List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
-	<mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
-List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
-List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
-List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
-List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
-	<mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
-Sender: linux-arm-kernel-bounces@lists.infradead.org
-Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org
+Subject: [PATCH 31/34] edac: Drop __DATE__ usage
+Date: Tue,  5 Apr 2011 16:59:18 +0200
+Message-ID: <1302015561-21047-32-git-send-email-mmarek@suse.cz>
+References: <1302015561-21047-1-git-send-email-mmarek@suse.cz>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1302015561-21047-1-git-send-email-mmarek@suse.cz>
+Sender: linux-kernel-owner@vger.kernel.org
 To: linux-kbuild@vger.kernel.org
-Cc: anil_ravindranath@pmc-sierra.com, mchehab@redhat.com, benh@kernel.crashing.org, x86@kernel.org, mac@melware.de, aacraid@adaptec.com, linux-mtd@lists.infradead.org, allan.stephens@windriver.com, hpa@zytor.com, netdev@vger.kernel.org, t.sailer@alumni.ethz.ch, gwingerde@gmail.com, IvDoorn@gmail.com, elf@buici.com, cluster-devel@redhat.com, ccaulfie@redhat.com, mingo@redhat.com, dougthompson@xmission.com, linux-usb@vger.kernel.org, linux-media@vger.kernel.org, arnaud.giersch@free.fr, teigland@redhat.com, tony.olech@elandigitalsystems.com, apw@canonical.com, linux-hams@vger.kernel.org, tglx@linutronix.de, swhiteho@redhat.com, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org, jon.maloy@ericsson.com, linux-scsi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, gregkh@suse.de, linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org, bluesmoke-devel@lists.so
+Cc: linux-kernel@vger.kernel.org, Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net, linux-edac@vger.kernel.org
 List-Id: edac.vger.kernel.org
 
+The kernel already prints its build timestamp during boot, no need to
+repeat it in random drivers and produce different object files each
+time.
 
-Hi,
+Cc: Doug Thompson <dougthompson@xmission.com>
+Cc: bluesmoke-devel@lists.sourceforge.net
+Cc: linux-edac@vger.kernel.org
+Signed-off-by: Michal Marek <mmarek@suse.cz>
+---
+ drivers/edac/amd76x_edac.c  |    2 +-
+ drivers/edac/amd8111_edac.c |    2 +-
+ drivers/edac/amd8131_edac.c |    2 +-
+ drivers/edac/cpc925_edac.c  |    2 +-
+ drivers/edac/e752x_edac.c   |    2 +-
+ drivers/edac/e7xxx_edac.c   |    2 +-
+ drivers/edac/edac_module.c  |    2 +-
+ drivers/edac/i5000_edac.c   |    2 +-
+ drivers/edac/i5400_edac.c   |    2 +-
+ drivers/edac/i7300_edac.c   |    2 +-
+ drivers/edac/i7core_edac.c  |    2 +-
+ drivers/edac/i82860_edac.c  |    2 +-
+ drivers/edac/i82875p_edac.c |    2 +-
+ drivers/edac/i82975x_edac.c |    2 +-
+ drivers/edac/mpc85xx_edac.h |    2 +-
+ drivers/edac/mv64x60_edac.h |    2 +-
+ drivers/edac/ppc4xx_edac.c  |    2 +-
+ drivers/edac/r82600_edac.c  |    2 +-
+ 18 files changed, 18 insertions(+), 18 deletions(-)
 
-this series makes it possible to build bit-identical kernel image and
-modules from identical sources. Of course the build is already
-deterministic in terms of behavior of the code, but the various
-timestamps embedded in the object files make it hard to compare two
-builds, for instance to verify that a makefile cleanup didn't
-accidentally change something. A prime example is /proc/config.gz, which
-has both a timestamp in the gzip header and a timestamp in the payload
-data. With this series applied, a script like this will produce
-identical kernels each time:
-
-#!/bin/bash
-rm -rf /dev/shm/{source,build}{,1,2}
-export KCONFIG_NOTIMESTAMP=1
-export KBUILD_BUILD_TIMESTAMP='Sun May  1 12:00:00 CEST 2011'
-export KBUILD_BUILD_USER=user
-export KBUILD_BUILD_HOST=host
-export ROOT_DEV=FLOPPY
-for i in 1 2; do
-	mkdir /dev/shm/source
-	# randomize the inode order just for fun
-	git ls-tree -r -z --name-only HEAD | sort -R -z | xargs -0 \
-		cp --parents --target=/dev/shm/source
-	pushd /dev/shm/source
-	mkdir /dev/shm/build
-	>/dev/shm/build/all.config
-	for opt in GCOV_KERNEL UBIFS_FS_DEBUG; do
-		echo "# CONFIG_$opt is not set" >>"/dev/shm/build"/all.config
-	done
-	make O="/dev/shm/build" KCONFIG_ALLCONFIG=1 allmodconfig
-	make O="/dev/shm/build" -j64
-	popd
-	mv /dev/shm/source /dev/shm/source$i
-	mv /dev/shm/build /dev/shm/build$i
-done
-diff -rq /dev/shm/build{1,2}
-
-Unfortunatelly, this cannot be used to validate indentation-only
-patches, even if CONFIG_DEBUG_INFO is turned off. This is because of the
-__FILE__ and __LINE__ macros used in many places. For the same reason,
-the source and build directory needs to be the same, otherwise the
-results will differ. This was tested on
-x86_64/{defconfig,allmodconfig,allyesconfig} and ppc64/defconfig. The
-series is also available at
-
-git://git.kernel.org/pub/scm/linux/kernel/git/mmarek/kbuild-2.6.git deterministic-build-v1
-
-Michal
-
-
-Michal Marek (34):
-  kconfig: Do not record timestamp in auto.conf and autoconf.h
-  kbuild: Call gzip with -n
-  powerpc: Call gzip with -n
-  kbuild: Use the deterministic mode of ar
-  powerpc: Use the deterministic mode of ar
-  kbuild: Drop unused LINUX_COMPILE_TIME and LINUX_COMPILE_DOMAIN
-    macros
-  kbuild: Allow to override LINUX_COMPILE_BY and LINUX_COMPILE_HOST
-    macros
-  initramfs: Use KBUILD_BUILD_TIMESTAMP for generated entries
-  x86: Allow to override the ROOT_DEV variable
-  cyclades: Drop __TIME__ usage
-  nozomi: Drop __TIME__ usage
-  isdn/diva: Drop __TIME__ usage
-  media/radio-maxiradio: Drop __TIME__ usage
-  media/cx231xx: Drop __TIME__ usage
-  baycom: Drop __TIME__ usage
-  nand/denali: Drop __TIME__ usage
-  hdlcdrv: Drop __TIME__ usage
-  wan/pc300: Drop __TIME__ usage
-  rt2x00: Drop __TIME__ usage
-  parport: Drop __TIME__ usage
-  aacraid: Drop __TIME__ usage
-  scsi/in2000: Drop __TIME__ usage
-  scsi/wd33c93: Drop __TIME__ usage
-  usb/u132-hcd: Drop __TIME__ usage
-  usb/ftdi-elan: Drop __TIME__ usage
-  dlm: Drop __TIME__ usage
-  gfs2: Drop __TIME__ usage
-  atm: Drop __TIME__ usage
-  tipc: Drop __TIME__ usage
-  rio: Drop __DATE__ usage
-  edac: Drop __DATE__ usage
-  pmcraid: Drop __DATE__ usage
-  usb/lh7a40x_udc: Drop __DATE__ usage
-  checkpatch: Warn about usage of __DATE__, __TIME__ and __TIMESTAMP__
-
- Documentation/kbuild/kbuild.txt              |   12 ++++++++++
- arch/powerpc/boot/Makefile                   |    2 +-
- arch/powerpc/boot/wrapper                    |    6 ++--
- arch/x86/boot/Makefile                       |    2 +-
- drivers/char/cyclades.c                      |    3 +-
- drivers/char/nozomi.c                        |    3 +-
- drivers/char/rio/rioinit.c                   |    2 +-
- drivers/edac/amd76x_edac.c                   |    2 +-
- drivers/edac/amd8111_edac.c                  |    2 +-
- drivers/edac/amd8131_edac.c                  |    2 +-
- drivers/edac/cpc925_edac.c                   |    2 +-
- drivers/edac/e752x_edac.c                    |    2 +-
- drivers/edac/e7xxx_edac.c                    |    2 +-
- drivers/edac/edac_module.c                   |    2 +-
- drivers/edac/i5000_edac.c                    |    2 +-
- drivers/edac/i5400_edac.c                    |    2 +-
- drivers/edac/i7300_edac.c                    |    2 +-
- drivers/edac/i7core_edac.c                   |    2 +-
- drivers/edac/i82860_edac.c                   |    2 +-
- drivers/edac/i82875p_edac.c                  |    2 +-
- drivers/edac/i82975x_edac.c                  |    2 +-
- drivers/edac/mpc85xx_edac.h                  |    2 +-
- drivers/edac/mv64x60_edac.h                  |    2 +-
- drivers/edac/ppc4xx_edac.c                   |    2 +-
- drivers/edac/r82600_edac.c                   |    2 +-
- drivers/isdn/hardware/eicon/divasfunc.c      |    5 +--
- drivers/media/radio/radio-maxiradio.c        |    3 +-
- drivers/media/video/cx231xx/cx231xx-avcore.c |    2 +-
- drivers/mtd/nand/denali.c                    |    3 +-
- drivers/net/hamradio/baycom_epp.c            |    2 +-
- drivers/net/hamradio/baycom_par.c            |    2 +-
- drivers/net/hamradio/baycom_ser_fdx.c        |    2 +-
- drivers/net/hamradio/baycom_ser_hdx.c        |    2 +-
- drivers/net/hamradio/hdlcdrv.c               |    2 +-
- drivers/net/wan/pc300_drv.c                  |    3 +-
- drivers/net/wireless/rt2x00/rt2x00debug.c    |    1 -
- drivers/parport/parport_ip32.c               |    1 -
- drivers/scsi/aacraid/linit.c                 |    3 +-
- drivers/scsi/in2000.c                        |    2 +-
- drivers/scsi/pmcraid.c                       |    9 +++----
- drivers/scsi/pmcraid.h                       |    1 -
- drivers/scsi/wd33c93.c                       |    7 ++---
- drivers/usb/gadget/lh7a40x_udc.c             |    7 ++---
- drivers/usb/host/u132-hcd.c                  |    3 +-
- drivers/usb/misc/ftdi-elan.c                 |    3 +-
- fs/dlm/main.c                                |    2 +-
- fs/gfs2/main.c                               |    2 +-
- net/atm/lec.c                                |    2 +-
- net/atm/mpc.c                                |    2 +-
- net/tipc/core.c                              |    3 +-
- scripts/Makefile.build                       |    4 +-
- scripts/Makefile.lib                         |    2 +-
- scripts/checkpatch.pl                        |    5 ++++
- scripts/gen_initramfs_list.sh                |    8 +++++-
- scripts/kconfig/confdata.c                   |    8 +-----
- scripts/mkcompile_h                          |   30 ++++++++++++-------------
- usr/gen_init_cpio.c                          |   17 +++++++++-----
- 57 files changed, 109 insertions(+), 105 deletions(-)
-
+diff --git a/drivers/edac/amd76x_edac.c b/drivers/edac/amd76x_edac.c
+index cace0a7..e47e73b 100644
+--- a/drivers/edac/amd76x_edac.c
++++ b/drivers/edac/amd76x_edac.c
+@@ -19,7 +19,7 @@
+ #include <linux/edac.h>
+ #include "edac_core.h"
+ 
+-#define AMD76X_REVISION	" Ver: 2.0.2 "  __DATE__
++#define AMD76X_REVISION	" Ver: 2.0.2"
+ #define EDAC_MOD_STR	"amd76x_edac"
+ 
+ #define amd76x_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/amd8111_edac.c b/drivers/edac/amd8111_edac.c
+index 35b78d0..ddd8900 100644
+--- a/drivers/edac/amd8111_edac.c
++++ b/drivers/edac/amd8111_edac.c
+@@ -33,7 +33,7 @@
+ #include "edac_module.h"
+ #include "amd8111_edac.h"
+ 
+-#define AMD8111_EDAC_REVISION	" Ver: 1.0.0 " __DATE__
++#define AMD8111_EDAC_REVISION	" Ver: 1.0.0"
+ #define AMD8111_EDAC_MOD_STR	"amd8111_edac"
+ 
+ #define PCI_DEVICE_ID_AMD_8111_PCI	0x7460
+diff --git a/drivers/edac/amd8131_edac.c b/drivers/edac/amd8131_edac.c
+index b432d60..a5c6805 100644
+--- a/drivers/edac/amd8131_edac.c
++++ b/drivers/edac/amd8131_edac.c
+@@ -33,7 +33,7 @@
+ #include "edac_module.h"
+ #include "amd8131_edac.h"
+ 
+-#define AMD8131_EDAC_REVISION	" Ver: 1.0.0 " __DATE__
++#define AMD8131_EDAC_REVISION	" Ver: 1.0.0"
+ #define AMD8131_EDAC_MOD_STR	"amd8131_edac"
+ 
+ /* Wrapper functions for accessing PCI configuration space */
+diff --git a/drivers/edac/cpc925_edac.c b/drivers/edac/cpc925_edac.c
+index b9a781c..3400ae3 100644
+--- a/drivers/edac/cpc925_edac.c
++++ b/drivers/edac/cpc925_edac.c
+@@ -30,7 +30,7 @@
+ #include "edac_core.h"
+ #include "edac_module.h"
+ 
+-#define CPC925_EDAC_REVISION	" Ver: 1.0.0 " __DATE__
++#define CPC925_EDAC_REVISION	" Ver: 1.0.0"
+ #define CPC925_EDAC_MOD_STR	"cpc925_edac"
+ 
+ #define cpc925_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/e752x_edac.c b/drivers/edac/e752x_edac.c
+index ec302d4..1af531a 100644
+--- a/drivers/edac/e752x_edac.c
++++ b/drivers/edac/e752x_edac.c
+@@ -24,7 +24,7 @@
+ #include <linux/edac.h>
+ #include "edac_core.h"
+ 
+-#define E752X_REVISION	" Ver: 2.0.2 " __DATE__
++#define E752X_REVISION	" Ver: 2.0.2"
+ #define EDAC_MOD_STR	"e752x_edac"
+ 
+ static int report_non_memory_errors;
+diff --git a/drivers/edac/e7xxx_edac.c b/drivers/edac/e7xxx_edac.c
+index 1731d72..6ffb6d2 100644
+--- a/drivers/edac/e7xxx_edac.c
++++ b/drivers/edac/e7xxx_edac.c
+@@ -29,7 +29,7 @@
+ #include <linux/edac.h>
+ #include "edac_core.h"
+ 
+-#define	E7XXX_REVISION " Ver: 2.0.2 " __DATE__
++#define	E7XXX_REVISION " Ver: 2.0.2"
+ #define	EDAC_MOD_STR	"e7xxx_edac"
+ 
+ #define e7xxx_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/edac_module.c b/drivers/edac/edac_module.c
+index be4b075..5ddaa86 100644
+--- a/drivers/edac/edac_module.c
++++ b/drivers/edac/edac_module.c
+@@ -15,7 +15,7 @@
+ #include "edac_core.h"
+ #include "edac_module.h"
+ 
+-#define EDAC_VERSION "Ver: 2.1.0 " __DATE__
++#define EDAC_VERSION "Ver: 2.1.0"
+ 
+ #ifdef CONFIG_EDAC_DEBUG
+ /* Values of 0 to 4 will generate output */
+diff --git a/drivers/edac/i5000_edac.c b/drivers/edac/i5000_edac.c
+index a5cefab..3d0b726 100644
+--- a/drivers/edac/i5000_edac.c
++++ b/drivers/edac/i5000_edac.c
+@@ -27,7 +27,7 @@
+ /*
+  * Alter this version for the I5000 module when modifications are made
+  */
+-#define I5000_REVISION    " Ver: 2.0.12 " __DATE__
++#define I5000_REVISION    " Ver: 2.0.12"
+ #define EDAC_MOD_STR      "i5000_edac"
+ 
+ #define i5000_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/i5400_edac.c b/drivers/edac/i5400_edac.c
+index 38a9be9..fd362b4 100644
+--- a/drivers/edac/i5400_edac.c
++++ b/drivers/edac/i5400_edac.c
+@@ -33,7 +33,7 @@
+ /*
+  * Alter this version for the I5400 module when modifications are made
+  */
+-#define I5400_REVISION    " Ver: 1.0.0 " __DATE__
++#define I5400_REVISION    " Ver: 1.0.0"
+ 
+ #define EDAC_MOD_STR      "i5400_edac"
+ 
+diff --git a/drivers/edac/i7300_edac.c b/drivers/edac/i7300_edac.c
+index 05523b5..7ffc65c 100644
+--- a/drivers/edac/i7300_edac.c
++++ b/drivers/edac/i7300_edac.c
+@@ -31,7 +31,7 @@
+ /*
+  * Alter this version for the I7300 module when modifications are made
+  */
+-#define I7300_REVISION    " Ver: 1.0.0 " __DATE__
++#define I7300_REVISION    " Ver: 1.0.0"
+ 
+ #define EDAC_MOD_STR      "i7300_edac"
+ 
+diff --git a/drivers/edac/i7core_edac.c b/drivers/edac/i7core_edac.c
+index 81154ab..3f320ba 100644
+--- a/drivers/edac/i7core_edac.c
++++ b/drivers/edac/i7core_edac.c
+@@ -59,7 +59,7 @@ MODULE_PARM_DESC(use_pci_fixup, "Enable PCI fixup to seek for hidden devices");
+ /*
+  * Alter this version for the module when modifications are made
+  */
+-#define I7CORE_REVISION    " Ver: 1.0.0 " __DATE__
++#define I7CORE_REVISION    " Ver: 1.0.0"
+ #define EDAC_MOD_STR      "i7core_edac"
+ 
+ /*
+diff --git a/drivers/edac/i82860_edac.c b/drivers/edac/i82860_edac.c
+index b8a95cf..931a057 100644
+--- a/drivers/edac/i82860_edac.c
++++ b/drivers/edac/i82860_edac.c
+@@ -16,7 +16,7 @@
+ #include <linux/edac.h>
+ #include "edac_core.h"
+ 
+-#define  I82860_REVISION " Ver: 2.0.2 " __DATE__
++#define  I82860_REVISION " Ver: 2.0.2"
+ #define EDAC_MOD_STR	"i82860_edac"
+ 
+ #define i82860_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/i82875p_edac.c b/drivers/edac/i82875p_edac.c
+index b2fd1e8..33864c6 100644
+--- a/drivers/edac/i82875p_edac.c
++++ b/drivers/edac/i82875p_edac.c
+@@ -20,7 +20,7 @@
+ #include <linux/edac.h>
+ #include "edac_core.h"
+ 
+-#define I82875P_REVISION	" Ver: 2.0.2 " __DATE__
++#define I82875P_REVISION	" Ver: 2.0.2"
+ #define EDAC_MOD_STR		"i82875p_edac"
+ 
+ #define i82875p_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/i82975x_edac.c b/drivers/edac/i82975x_edac.c
+index 3218819..4f366c2 100644
+--- a/drivers/edac/i82975x_edac.c
++++ b/drivers/edac/i82975x_edac.c
+@@ -16,7 +16,7 @@
+ #include <linux/edac.h>
+ #include "edac_core.h"
+ 
+-#define I82975X_REVISION	" Ver: 1.0.0 " __DATE__
++#define I82975X_REVISION	" Ver: 1.0.0"
+ #define EDAC_MOD_STR		"i82975x_edac"
+ 
+ #define i82975x_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/mpc85xx_edac.h b/drivers/edac/mpc85xx_edac.h
+index cb24df8..932016f 100644
+--- a/drivers/edac/mpc85xx_edac.h
++++ b/drivers/edac/mpc85xx_edac.h
+@@ -11,7 +11,7 @@
+ #ifndef _MPC85XX_EDAC_H_
+ #define _MPC85XX_EDAC_H_
+ 
+-#define MPC85XX_REVISION " Ver: 2.0.0 " __DATE__
++#define MPC85XX_REVISION " Ver: 2.0.0"
+ #define EDAC_MOD_STR	"MPC85xx_edac"
+ 
+ #define mpc85xx_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/mv64x60_edac.h b/drivers/edac/mv64x60_edac.h
+index e042e2d..c7f209c 100644
+--- a/drivers/edac/mv64x60_edac.h
++++ b/drivers/edac/mv64x60_edac.h
+@@ -12,7 +12,7 @@
+ #ifndef _MV64X60_EDAC_H_
+ #define _MV64X60_EDAC_H_
+ 
+-#define MV64x60_REVISION " Ver: 2.0.0 " __DATE__
++#define MV64x60_REVISION " Ver: 2.0.0"
+ #define EDAC_MOD_STR	"MV64x60_edac"
+ 
+ #define mv64x60_printk(level, fmt, arg...) \
+diff --git a/drivers/edac/ppc4xx_edac.c b/drivers/edac/ppc4xx_edac.c
+index b9f0c20..83863fd 100644
+--- a/drivers/edac/ppc4xx_edac.c
++++ b/drivers/edac/ppc4xx_edac.c
+@@ -113,7 +113,7 @@
+ #define EDAC_OPSTATE_UNKNOWN_STR	"unknown"
+ 
+ #define PPC4XX_EDAC_MODULE_NAME		"ppc4xx_edac"
+-#define PPC4XX_EDAC_MODULE_REVISION	"v1.0.0 " __DATE__
++#define PPC4XX_EDAC_MODULE_REVISION	"v1.0.0"
+ 
+ #define PPC4XX_EDAC_MESSAGE_SIZE	256
+ 
+diff --git a/drivers/edac/r82600_edac.c b/drivers/edac/r82600_edac.c
+index 6a822c6..387997a 100644
+--- a/drivers/edac/r82600_edac.c
++++ b/drivers/edac/r82600_edac.c
+@@ -22,7 +22,7 @@
+ #include <linux/edac.h>
+ #include "edac_core.h"
+ 
+-#define R82600_REVISION	" Ver: 2.0.2 " __DATE__
++#define R82600_REVISION	" Ver: 2.0.2"
+ #define EDAC_MOD_STR	"r82600_edac"
+ 
+ #define r82600_printk(level, fmt, arg...) \
 -- 
 1.7.4.1
