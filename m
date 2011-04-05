@@ -1,123 +1,172 @@
-From: Kumar Gala <galak@kernel.crashing.org>
-Subject: [PATCH v2] edac/mpc85xx: Limit setting/clearing of HID1[RFXE] to
-	e500v1/v2 cores
-Date: Fri,  1 Apr 2011 09:18:55 -0500
-Message-ID: <1301667535-23045-1-git-send-email-galak@kernel.crashing.org>
+From: Michal Marek <mmarek@suse.cz>
+Subject: [PATCH 00/34] Make kernel build deterministic
+Date: Tue,  5 Apr 2011 16:58:47 +0200
+Message-ID: <1302015561-21047-1-git-send-email-mmarek@suse.cz>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
-List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
-List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
-	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: linuxppc-dev@ozlabs.org
-Cc: bluesmoke-devel@lists.sourceforge.net, dougthompson@xmission.com
+Return-path: <linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
+	<mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
+List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
+List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
+	<mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
+Sender: linux-arm-kernel-bounces@lists.infradead.org
+Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org
+To: linux-kbuild@vger.kernel.org
+Cc: anil_ravindranath@pmc-sierra.com, mchehab@redhat.com, benh@kernel.crashing.org, x86@kernel.org, mac@melware.de, aacraid@adaptec.com, linux-mtd@lists.infradead.org, allan.stephens@windriver.com, hpa@zytor.com, netdev@vger.kernel.org, t.sailer@alumni.ethz.ch, gwingerde@gmail.com, IvDoorn@gmail.com, elf@buici.com, cluster-devel@redhat.com, ccaulfie@redhat.com, mingo@redhat.com, dougthompson@xmission.com, linux-usb@vger.kernel.org, linux-media@vger.kernel.org, arnaud.giersch@free.fr, teigland@redhat.com, tony.olech@elandigitalsystems.com, apw@canonical.com, linux-hams@vger.kernel.org, tglx@linutronix.de, swhiteho@redhat.com, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org, jon.maloy@ericsson.com, linux-scsi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, gregkh@suse.de, linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org, bluesmoke-devel@lists.so
 List-Id: edac.vger.kernel.org
 
-Only the e500v1/v2 cores have HID1[RXFE] so we should attempt to set or
-clear this register bit on them.  Otherwise we get crashes like:
 
-NIP: c0579f84 LR: c006d550 CTR: c0579f84
-REGS: ef857ec0 TRAP: 0700   Not tainted  (2.6.38.2-00072-gf15ba3c)
-MSR: 00021002 <ME,CE>  CR: 22044022  XER: 00000000
-TASK = ef8559c0[1] 'swapper' THREAD: ef856000 CPU: 0
-GPR00: c006d538 ef857f70 ef8559c0 00000000 00000004 00000000 00000000 00000000
-GPR08: c0590000 c30170a8 00000000 c30170a8 00000001 0fffe000 00000000 00000000
-GPR16: 00000000 7ffa0e60 00000000 00000000 7ffb0bd8 7ff3b844 c05be000 00000000
-GPR24: 00000000 00000000 c05c28b0 c0579fac 00000000 00029002 00000000 c0579f84
-NIP [c0579f84] mpc85xx_mc_clear_rfxe+0x0/0x28
-LR [c006d550] on_each_cpu+0x34/0x50
-Call Trace:
-[ef857f70] [c006d538] on_each_cpu+0x1c/0x50 (unreliable)
-[ef857f90] [c057a070] mpc85xx_mc_init+0xc4/0xdc
-[ef857fa0] [c0001cd4] do_one_initcall+0x34/0x1a8
-[ef857fd0] [c055d9d8] kernel_init+0x17c/0x218
-[ef857ff0] [c000cda4] kernel_thread+0x4c/0x68
-Instruction dump:
-40be0018 3c60c052 3863c70c 4be9baad 3be0ffed 4bd7c99d 80010014 7fe3fb78
-83e1000c 38210010 7c0803a6 4e800020 <7c11faa6> 54290024 81290008
-3d60c06e
-Oops: Exception in kernel mode, sig: 4 [#2]
----[ end trace 49ff3b8f93efde1a ]---
+Hi,
 
-Also use the HID1_RFXE define rather than a magic number.
+this series makes it possible to build bit-identical kernel image and
+modules from identical sources. Of course the build is already
+deterministic in terms of behavior of the code, but the various
+timestamps embedded in the object files make it hard to compare two
+builds, for instance to verify that a makefile cleanup didn't
+accidentally change something. A prime example is /proc/config.gz, which
+has both a timestamp in the gzip header and a timestamp in the payload
+data. With this series applied, a script like this will produce
+identical kernels each time:
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
-v2 - fix accidently typo change
+#!/bin/bash
+rm -rf /dev/shm/{source,build}{,1,2}
+export KCONFIG_NOTIMESTAMP=1
+export KBUILD_BUILD_TIMESTAMP='Sun May  1 12:00:00 CEST 2011'
+export KBUILD_BUILD_USER=user
+export KBUILD_BUILD_HOST=host
+export ROOT_DEV=FLOPPY
+for i in 1 2; do
+	mkdir /dev/shm/source
+	# randomize the inode order just for fun
+	git ls-tree -r -z --name-only HEAD | sort -R -z | xargs -0 \
+		cp --parents --target=/dev/shm/source
+	pushd /dev/shm/source
+	mkdir /dev/shm/build
+	>/dev/shm/build/all.config
+	for opt in GCOV_KERNEL UBIFS_FS_DEBUG; do
+		echo "# CONFIG_$opt is not set" >>"/dev/shm/build"/all.config
+	done
+	make O="/dev/shm/build" KCONFIG_ALLCONFIG=1 allmodconfig
+	make O="/dev/shm/build" -j64
+	popd
+	mv /dev/shm/source /dev/shm/source$i
+	mv /dev/shm/build /dev/shm/build$i
+done
+diff -rq /dev/shm/build{1,2}
 
- drivers/edac/mpc85xx_edac.c |   27 +++++++++++++++++++--------
- 1 files changed, 19 insertions(+), 8 deletions(-)
+Unfortunatelly, this cannot be used to validate indentation-only
+patches, even if CONFIG_DEBUG_INFO is turned off. This is because of the
+__FILE__ and __LINE__ macros used in many places. For the same reason,
+the source and build directory needs to be the same, otherwise the
+results will differ. This was tested on
+x86_64/{defconfig,allmodconfig,allyesconfig} and ppc64/defconfig. The
+series is also available at
 
-diff --git a/drivers/edac/mpc85xx_edac.c b/drivers/edac/mpc85xx_edac.c
-index b123bb3..1981a71 100644
---- a/drivers/edac/mpc85xx_edac.c
-+++ b/drivers/edac/mpc85xx_edac.c
-@@ -1150,13 +1150,14 @@ static struct of_platform_driver mpc85xx_mc_err_driver = {
- static void __init mpc85xx_mc_clear_rfxe(void *data)
- {
- 	orig_hid1[smp_processor_id()] = mfspr(SPRN_HID1);
--	mtspr(SPRN_HID1, (orig_hid1[smp_processor_id()] & ~0x20000));
-+	mtspr(SPRN_HID1, (orig_hid1[smp_processor_id()] & ~HID1_RFXE));
- }
- #endif
- 
- static int __init mpc85xx_mc_init(void)
- {
- 	int res = 0;
-+	u32 pvr = 0;
- 
- 	printk(KERN_INFO "Freescale(R) MPC85xx EDAC driver, "
- 	       "(C) 2006 Montavista Software\n");
-@@ -1186,12 +1187,17 @@ static int __init mpc85xx_mc_init(void)
- #endif
- 
- #ifdef CONFIG_FSL_SOC_BOOKE
--	/*
--	 * need to clear HID1[RFXE] to disable machine check int
--	 * so we can catch it
--	 */
--	if (edac_op_state == EDAC_OPSTATE_INT)
--		on_each_cpu(mpc85xx_mc_clear_rfxe, NULL, 0);
-+	pvr = mfspr(SPRN_PVR);
-+
-+	if ((PVR_VER(pvr) == PVR_VER_E500V1) ||
-+	    (PVR_VER(pvr) == PVR_VER_E500V2)) {
-+		/*
-+		 * need to clear HID1[RFXE] to disable machine check int
-+		 * so we can catch it
-+		 */
-+		if (edac_op_state == EDAC_OPSTATE_INT)
-+			on_each_cpu(mpc85xx_mc_clear_rfxe, NULL, 0);
-+	}
- #endif
- 
- 	return 0;
-@@ -1209,7 +1215,12 @@ static void __exit mpc85xx_mc_restore_hid1(void *data)
- static void __exit mpc85xx_mc_exit(void)
- {
- #ifdef CONFIG_FSL_SOC_BOOKE
--	on_each_cpu(mpc85xx_mc_restore_hid1, NULL, 0);
-+	u32 pvr = mfspr(SPRN_PVR);
-+
-+	if ((PVR_VER(pvr) == PVR_VER_E500V1) ||
-+	    (PVR_VER(pvr) == PVR_VER_E500V2)) {
-+		on_each_cpu(mpc85xx_mc_restore_hid1, NULL, 0);
-+	}
- #endif
- #ifdef CONFIG_PCI
- 	of_unregister_platform_driver(&mpc85xx_pci_err_driver);
+git://git.kernel.org/pub/scm/linux/kernel/git/mmarek/kbuild-2.6.git deterministic-build-v1
+
+Michal
+
+
+Michal Marek (34):
+  kconfig: Do not record timestamp in auto.conf and autoconf.h
+  kbuild: Call gzip with -n
+  powerpc: Call gzip with -n
+  kbuild: Use the deterministic mode of ar
+  powerpc: Use the deterministic mode of ar
+  kbuild: Drop unused LINUX_COMPILE_TIME and LINUX_COMPILE_DOMAIN
+    macros
+  kbuild: Allow to override LINUX_COMPILE_BY and LINUX_COMPILE_HOST
+    macros
+  initramfs: Use KBUILD_BUILD_TIMESTAMP for generated entries
+  x86: Allow to override the ROOT_DEV variable
+  cyclades: Drop __TIME__ usage
+  nozomi: Drop __TIME__ usage
+  isdn/diva: Drop __TIME__ usage
+  media/radio-maxiradio: Drop __TIME__ usage
+  media/cx231xx: Drop __TIME__ usage
+  baycom: Drop __TIME__ usage
+  nand/denali: Drop __TIME__ usage
+  hdlcdrv: Drop __TIME__ usage
+  wan/pc300: Drop __TIME__ usage
+  rt2x00: Drop __TIME__ usage
+  parport: Drop __TIME__ usage
+  aacraid: Drop __TIME__ usage
+  scsi/in2000: Drop __TIME__ usage
+  scsi/wd33c93: Drop __TIME__ usage
+  usb/u132-hcd: Drop __TIME__ usage
+  usb/ftdi-elan: Drop __TIME__ usage
+  dlm: Drop __TIME__ usage
+  gfs2: Drop __TIME__ usage
+  atm: Drop __TIME__ usage
+  tipc: Drop __TIME__ usage
+  rio: Drop __DATE__ usage
+  edac: Drop __DATE__ usage
+  pmcraid: Drop __DATE__ usage
+  usb/lh7a40x_udc: Drop __DATE__ usage
+  checkpatch: Warn about usage of __DATE__, __TIME__ and __TIMESTAMP__
+
+ Documentation/kbuild/kbuild.txt              |   12 ++++++++++
+ arch/powerpc/boot/Makefile                   |    2 +-
+ arch/powerpc/boot/wrapper                    |    6 ++--
+ arch/x86/boot/Makefile                       |    2 +-
+ drivers/char/cyclades.c                      |    3 +-
+ drivers/char/nozomi.c                        |    3 +-
+ drivers/char/rio/rioinit.c                   |    2 +-
+ drivers/edac/amd76x_edac.c                   |    2 +-
+ drivers/edac/amd8111_edac.c                  |    2 +-
+ drivers/edac/amd8131_edac.c                  |    2 +-
+ drivers/edac/cpc925_edac.c                   |    2 +-
+ drivers/edac/e752x_edac.c                    |    2 +-
+ drivers/edac/e7xxx_edac.c                    |    2 +-
+ drivers/edac/edac_module.c                   |    2 +-
+ drivers/edac/i5000_edac.c                    |    2 +-
+ drivers/edac/i5400_edac.c                    |    2 +-
+ drivers/edac/i7300_edac.c                    |    2 +-
+ drivers/edac/i7core_edac.c                   |    2 +-
+ drivers/edac/i82860_edac.c                   |    2 +-
+ drivers/edac/i82875p_edac.c                  |    2 +-
+ drivers/edac/i82975x_edac.c                  |    2 +-
+ drivers/edac/mpc85xx_edac.h                  |    2 +-
+ drivers/edac/mv64x60_edac.h                  |    2 +-
+ drivers/edac/ppc4xx_edac.c                   |    2 +-
+ drivers/edac/r82600_edac.c                   |    2 +-
+ drivers/isdn/hardware/eicon/divasfunc.c      |    5 +--
+ drivers/media/radio/radio-maxiradio.c        |    3 +-
+ drivers/media/video/cx231xx/cx231xx-avcore.c |    2 +-
+ drivers/mtd/nand/denali.c                    |    3 +-
+ drivers/net/hamradio/baycom_epp.c            |    2 +-
+ drivers/net/hamradio/baycom_par.c            |    2 +-
+ drivers/net/hamradio/baycom_ser_fdx.c        |    2 +-
+ drivers/net/hamradio/baycom_ser_hdx.c        |    2 +-
+ drivers/net/hamradio/hdlcdrv.c               |    2 +-
+ drivers/net/wan/pc300_drv.c                  |    3 +-
+ drivers/net/wireless/rt2x00/rt2x00debug.c    |    1 -
+ drivers/parport/parport_ip32.c               |    1 -
+ drivers/scsi/aacraid/linit.c                 |    3 +-
+ drivers/scsi/in2000.c                        |    2 +-
+ drivers/scsi/pmcraid.c                       |    9 +++----
+ drivers/scsi/pmcraid.h                       |    1 -
+ drivers/scsi/wd33c93.c                       |    7 ++---
+ drivers/usb/gadget/lh7a40x_udc.c             |    7 ++---
+ drivers/usb/host/u132-hcd.c                  |    3 +-
+ drivers/usb/misc/ftdi-elan.c                 |    3 +-
+ fs/dlm/main.c                                |    2 +-
+ fs/gfs2/main.c                               |    2 +-
+ net/atm/lec.c                                |    2 +-
+ net/atm/mpc.c                                |    2 +-
+ net/tipc/core.c                              |    3 +-
+ scripts/Makefile.build                       |    4 +-
+ scripts/Makefile.lib                         |    2 +-
+ scripts/checkpatch.pl                        |    5 ++++
+ scripts/gen_initramfs_list.sh                |    8 +++++-
+ scripts/kconfig/confdata.c                   |    8 +-----
+ scripts/mkcompile_h                          |   30 ++++++++++++-------------
+ usr/gen_init_cpio.c                          |   17 +++++++++-----
+ 57 files changed, 109 insertions(+), 105 deletions(-)
+
 -- 
-1.7.3.4
-
-
-------------------------------------------------------------------------------
-Create and publish websites with WebMatrix
-Use the most popular FREE web apps or write code yourself; 
-WebMatrix provides all the features you need to develop and 
-publish your website. http://p.sf.net/sfu/ms-webmatrix-sf
+1.7.4.1
