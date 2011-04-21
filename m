@@ -1,50 +1,38 @@
-From: Michal Marek <mmarek@suse.cz>
-Subject: Re: [PATCH 31/34] edac: Drop __DATE__ usage
-Date: Tue, 19 Apr 2011 00:21:30 +0200
-Message-ID: <20110418222130.GH29882@sepie.suse.cz>
-References: <1302015561-21047-1-git-send-email-mmarek@suse.cz>
- <1302015561-21047-32-git-send-email-mmarek@suse.cz>
+From: Randy Dunlap <randy.dunlap@oracle.com>
+Subject: Re: linux-next: Tree for April 21 (i82975x_edac)
+Date: Thu, 21 Apr 2011 08:51:24 -0700
+Message-ID: <20110421085124.4a44d048.randy.dunlap@oracle.com>
+References: <20110421132045.5af1b953.sfr@canb.auug.org.au>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kbuild-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <1302015561-21047-32-git-send-email-mmarek@suse.cz>
-Sender: linux-kbuild-owner@vger.kernel.org
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Doug Thompson <dougthompson@xmission.com>, bluesmoke-devel@lists.sourceforge.net, linux-edac@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20110421132045.5af1b953.sfr@canb.auug.org.au>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Stephen Rothwell <sfr@canb.auug.org.au>, Ranganathan Desikan <ravi@jetztechnologies.com>
+Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, arvino55@gmail.com, bluesmoke-devel@lists.sourceforge.net, linux-edac@vger.kernel.org
 List-Id: edac.vger.kernel.org
 
-On Tue, Apr 05, 2011 at 04:59:18PM +0200, Michal Marek wrote:
-> The kernel already prints its build timestamp during boot, no need to
-> repeat it in random drivers and produce different object files each
-> time.
-> 
-> Cc: Doug Thompson <dougthompson@xmission.com>
-> Cc: bluesmoke-devel@lists.sourceforge.net
-> Cc: linux-edac@vger.kernel.org
-> Signed-off-by: Michal Marek <mmarek@suse.cz>
-> ---
->  drivers/edac/amd76x_edac.c  |    2 +-
->  drivers/edac/amd8111_edac.c |    2 +-
->  drivers/edac/amd8131_edac.c |    2 +-
->  drivers/edac/cpc925_edac.c  |    2 +-
->  drivers/edac/e752x_edac.c   |    2 +-
->  drivers/edac/e7xxx_edac.c   |    2 +-
->  drivers/edac/edac_module.c  |    2 +-
->  drivers/edac/i5000_edac.c   |    2 +-
->  drivers/edac/i5400_edac.c   |    2 +-
->  drivers/edac/i7300_edac.c   |    2 +-
->  drivers/edac/i7core_edac.c  |    2 +-
->  drivers/edac/i82860_edac.c  |    2 +-
->  drivers/edac/i82875p_edac.c |    2 +-
->  drivers/edac/i82975x_edac.c |    2 +-
->  drivers/edac/mpc85xx_edac.h |    2 +-
->  drivers/edac/mv64x60_edac.h |    2 +-
->  drivers/edac/ppc4xx_edac.c  |    2 +-
->  drivers/edac/r82600_edac.c  |    2 +-
->  18 files changed, 18 insertions(+), 18 deletions(-)
+On Thu, 21 Apr 2011 13:20:45 +1000 Stephen Rothwell wrote:
 
-Applied to kbuild-2.6.git#trivial.
+> Changes since 20110420:
 
-Michal
 
+on i386:
+
+drivers/edac/i82975x_edac.c:298: warning: integer constant is too large for 'unsigned long' type
+
+which is:
+
+	if (info->xeap & 1)
+		page |= 0x100000000ul; <<<<<<<<<<<<<<<
+
+but page is unsigned long (32 bits), while 0x100000000ul is more than 32 bits,
+so that line isn't setting a bit in <page>.  Is it a bug, or this driver isn't
+applicable to X86_32, or what?
+
+
+thanks,
+---
+~Randy
+*** Remember to use Documentation/SubmitChecklist when testing your code ***
