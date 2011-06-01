@@ -1,170 +1,131 @@
-From: Lai Jiangshan <laijs@cn.fujitsu.com>
-Subject: [PATCH] edac,rcu: use synchronize_rcu() instead of call_rcu()+rcu_barrier()
-Date: Thu, 12 May 2011 10:38:31 +0800
-Message-ID: <4DCB4827.4030609@cn.fujitsu.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH 2/2] mpc85xx_edac: adapt to ppc/85xx changes for
+	mpc85xx_pci_err
+Date: Wed,  1 Jun 2011 16:28:12 +0400
+Message-ID: <1306931292-2313-2-git-send-email-dbaryshkov@gmail.com>
+References: <1306931292-2313-1-git-send-email-dbaryshkov@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Doug Thompson <dougthompson@xmission.com>, EDAC-CORE <bluesmoke-devel@lists.sourceforge.net>, linux-kernel@vger.kernel.org
-Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, Andrew Morton <akpm@linux-foundation.org>
+Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+In-Reply-To: <1306931292-2313-1-git-send-email-dbaryshkov@gmail.com>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
+List-Post: <mailto:bluesmoke-devel@lists.sourceforge.net>
+List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
+	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
+To: bluesmoke-devel@lists.sourceforge.net, linuxppc-dev@lists.ozlabs.org, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>
 List-Id: edac.vger.kernel.org
 
-synchronize_rcu() does the stuff as needed.
+Currently mpc85xx_edac fails to bind to PCI host device node. Adapt it
+to bind to special platform device mpc85xx_pci_err.
 
-Signed-off-by: Lai Jiangshan <laijs@cn.fujitsu.com>
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- drivers/edac/edac_core.h   |   12 ------------
- drivers/edac/edac_device.c |   24 ++++++------------------
- drivers/edac/edac_mc.c     |   16 ++++++----------
- drivers/edac/edac_pci.c    |   21 ++++++---------------
- 4 files changed, 18 insertions(+), 55 deletions(-)
-diff --git a/drivers/edac/edac_core.h b/drivers/edac/edac_core.h
-index eefa350..55b8278 100644
---- a/drivers/edac/edac_core.h
-+++ b/drivers/edac/edac_core.h
-@@ -421,10 +421,6 @@ struct mem_ctl_info {
- 	u32 ce_count;		/* Total Correctable Errors for this MC */
- 	unsigned long start_time;	/* mci load start time (in jiffies) */
- 
--	/* this stuff is for safe removal of mc devices from global list while
--	 * NMI handlers may be traversing list
--	 */
--	struct rcu_head rcu;
- 	struct completion complete;
- 
- 	/* edac sysfs device control */
-@@ -620,10 +616,6 @@ struct edac_device_ctl_info {
- 
- 	unsigned long start_time;	/* edac_device load start time (jiffies) */
- 
--	/* these are for safe removal of mc devices from global list while
--	 * NMI handlers may be traversing list
--	 */
--	struct rcu_head rcu;
- 	struct completion removal_complete;
- 
- 	/* sysfs top name under 'edac' directory
-@@ -722,10 +714,6 @@ struct edac_pci_ctl_info {
- 
- 	unsigned long start_time;	/* edac_pci load start time (jiffies) */
- 
--	/* these are for safe removal of devices from global list while
--	 * NMI handlers may be traversing list
--	 */
--	struct rcu_head rcu;
- 	struct completion complete;
- 
- 	/* sysfs top name under 'edac' directory
-diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-index a7408cf..c3f6743 100644
---- a/drivers/edac/edac_device.c
-+++ b/drivers/edac/edac_device.c
-@@ -346,30 +346,18 @@ fail1:
- }
- 
- /*
-- * complete_edac_device_list_del
-- *
-- *	callback function when reference count is zero
-- */
--static void complete_edac_device_list_del(struct rcu_head *head)
--{
--	struct edac_device_ctl_info *edac_dev;
--
--	edac_dev = container_of(head, struct edac_device_ctl_info, rcu);
--	INIT_LIST_HEAD(&edac_dev->link);
--}
--
--/*
-  * del_edac_device_from_global_list
-- *
-- *	remove the RCU, setup for a callback call,
-- *	then wait for the callback to occur
-  */
- static void del_edac_device_from_global_list(struct edac_device_ctl_info
- 						*edac_device)
+ drivers/edac/mpc85xx_edac.c |   33 ++++++++++++---------------------
+ 1 files changed, 12 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/edac/mpc85xx_edac.c b/drivers/edac/mpc85xx_edac.c
+index c42e483..e91e8fb 100644
+--- a/drivers/edac/mpc85xx_edac.c
++++ b/drivers/edac/mpc85xx_edac.c
+@@ -204,7 +204,7 @@ static int __devinit mpc85xx_pci_err_probe(struct platform_device *op)
  {
- 	list_del_rcu(&edac_device->link);
--	call_rcu(&edac_device->rcu, complete_edac_device_list_del);
--	rcu_barrier();
-+
-+	/* these are for safe removal of devices from global list while
-+	 * NMI handlers may be traversing list
-+	 */
-+	synchronize_rcu();
-+	INIT_LIST_HEAD(&edac_device->link);
- }
+ 	struct edac_pci_ctl_info *pci;
+ 	struct mpc85xx_pci_pdata *pdata;
+-	struct resource r;
++	struct resource *r;
+ 	int res = 0;
  
- /*
-diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index 1d80560..d69144a 100644
---- a/drivers/edac/edac_mc.c
-+++ b/drivers/edac/edac_mc.c
-@@ -447,20 +447,16 @@ fail1:
- 	return 1;
- }
+ 	if (!devres_open_group(&op->dev, mpc85xx_pci_err_probe, GFP_KERNEL))
+@@ -228,17 +228,15 @@ static int __devinit mpc85xx_pci_err_probe(struct platform_device *op)
  
--static void complete_mc_list_del(struct rcu_head *head)
--{
--	struct mem_ctl_info *mci;
+ 	pdata->edac_idx = edac_pci_idx++;
+ 
+-	res = of_address_to_resource(op->dev.of_node, 0, &r);
+-	if (res) {
++	r = platform_get_resource(op, IORESOURCE_MEM, 0);
++	if (!r) {
+ 		printk(KERN_ERR "%s: Unable to get resource for "
+ 		       "PCI err regs\n", __func__);
++		res = -ENODEV;
+ 		goto err;
+ 	}
+ 
+-	/* we only need the error registers */
+-	r.start += 0xe00;
 -
--	mci = container_of(head, struct mem_ctl_info, rcu);
--	INIT_LIST_HEAD(&mci->link);
--}
--
- static void del_mc_from_global_list(struct mem_ctl_info *mci)
- {
- 	atomic_dec(&edac_handlers);
- 	list_del_rcu(&mci->link);
--	call_rcu(&mci->rcu, complete_mc_list_del);
--	rcu_barrier();
-+
-+	/* these are for safe removal of devices from global list while
-+	 * NMI handlers may be traversing list
-+	 */
-+	synchronize_rcu();
-+	INIT_LIST_HEAD(&mci->link);
+-	if (!devm_request_mem_region(&op->dev, r.start, resource_size(&r),
++	if (!devm_request_mem_region(&op->dev, r->start, resource_size(r),
+ 					pdata->name)) {
+ 		printk(KERN_ERR "%s: Error while requesting mem region\n",
+ 		       __func__);
+@@ -246,7 +244,7 @@ static int __devinit mpc85xx_pci_err_probe(struct platform_device *op)
+ 		goto err;
+ 	}
+ 
+-	pdata->pci_vbase = devm_ioremap(&op->dev, r.start, resource_size(&r));
++	pdata->pci_vbase = devm_ioremap(&op->dev, r->start, resource_size(r));
+ 	if (!pdata->pci_vbase) {
+ 		printk(KERN_ERR "%s: Unable to setup PCI err regs\n", __func__);
+ 		res = -ENOMEM;
+@@ -273,7 +271,11 @@ static int __devinit mpc85xx_pci_err_probe(struct platform_device *op)
+ 	}
+ 
+ 	if (edac_op_state == EDAC_OPSTATE_INT) {
+-		pdata->irq = irq_of_parse_and_map(op->dev.of_node, 0);
++		res =  platform_get_irq(op, 0);
++		if (res >= 0)
++			pdata->irq = res;
++		else
++			goto err2;
+ 		res = devm_request_irq(&op->dev, pdata->irq,
+ 				       mpc85xx_pci_isr, IRQF_DISABLED,
+ 				       "[EDAC] PCI err", pci);
+@@ -281,7 +283,6 @@ static int __devinit mpc85xx_pci_err_probe(struct platform_device *op)
+ 			printk(KERN_ERR
+ 			       "%s: Unable to requiest irq %d for "
+ 			       "MPC85xx PCI err\n", __func__, pdata->irq);
+-			irq_dispose_mapping(pdata->irq);
+ 			res = -ENODEV;
+ 			goto err2;
+ 		}
+@@ -326,16 +327,7 @@ static int mpc85xx_pci_err_remove(struct platform_device *op)
+ 	return 0;
  }
  
- /**
-diff --git a/drivers/edac/edac_pci.c b/drivers/edac/edac_pci.c
-index efb5d56..2b378207 100644
---- a/drivers/edac/edac_pci.c
-+++ b/drivers/edac/edac_pci.c
-@@ -164,19 +164,6 @@ fail1:
- }
+-static struct of_device_id mpc85xx_pci_err_of_match[] = {
+-	{
+-	 .compatible = "fsl,mpc8540-pcix",
+-	 },
+-	{
+-	 .compatible = "fsl,mpc8540-pci",
+-	},
+-	{},
+-};
+-MODULE_DEVICE_TABLE(of, mpc85xx_pci_err_of_match);
++MODULE_ALIAS("platform:mpc85xx_pci_err");
  
- /*
-- * complete_edac_pci_list_del
-- *
-- *	RCU completion callback to indicate item is deleted
-- */
--static void complete_edac_pci_list_del(struct rcu_head *head)
--{
--	struct edac_pci_ctl_info *pci;
--
--	pci = container_of(head, struct edac_pci_ctl_info, rcu);
--	INIT_LIST_HEAD(&pci->link);
--}
--
--/*
-  * del_edac_pci_from_global_list
-  *
-  *	remove the PCI control struct from the global list
-@@ -184,8 +171,12 @@ static void complete_edac_pci_list_del(struct rcu_head *head)
- static void del_edac_pci_from_global_list(struct edac_pci_ctl_info *pci)
- {
- 	list_del_rcu(&pci->link);
--	call_rcu(&pci->rcu, complete_edac_pci_list_del);
--	rcu_barrier();
-+
-+	/* these are for safe removal of devices from global list while
-+	 * NMI handlers may be traversing list
-+	 */
-+	synchronize_rcu();
-+	INIT_LIST_HEAD(&pci->link);
- }
+ static struct platform_driver mpc85xx_pci_err_driver = {
+ 	.probe = mpc85xx_pci_err_probe,
+@@ -343,7 +335,6 @@ static struct platform_driver mpc85xx_pci_err_driver = {
+ 	.driver = {
+ 		.name = "mpc85xx_pci_err",
+ 		.owner = THIS_MODULE,
+-		.of_match_table = mpc85xx_pci_err_of_match,
+ 	},
+ };
  
- #if 0
+-- 
+1.7.4.4
+
+
+------------------------------------------------------------------------------
+Simplify data backup and recovery for your virtual environment with vRanger. 
+Installation's a snap, and flexible recovery options mean your data is safe,
+secure and there when you need it. Data protection magic?
+Nope - It's vRanger. Get your free trial download today. 
+http://p.sf.net/sfu/quest-sfdev2dev
