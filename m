@@ -1,15 +1,13 @@
-From: Scott Wood <scottwood@freescale.com>
-Subject: Re: [PATCH 1/2] ppc/85xx: create a platform node for PCI EDAC device
-Date: Wed, 1 Jun 2011 11:48:23 -0500
-Message-ID: <20110601114823.2e57c691@schlenkerla.am.freescale.net>
-References: <1306931292-2313-1-git-send-email-dbaryshkov@gmail.com>
-	<20110601132519.GA16125@oksana.dev.rtsoft.ru>
-	<BANLkTi=xFcZRd4x1FQSKJzmt3A7_tZs+sQ@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH 1/2] ppc/85xx: create a platform node for PCI EDAC device
+Date: Thu,  2 Jun 2011 16:25:02 +0400
+Message-ID: <1307017502-3965-1-git-send-email-dbaryshkov@gmail.com>
+References: <20110601114823.2e57c691@schlenkerla.am.freescale.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <BANLkTi=xFcZRd4x1FQSKJzmt3A7_tZs+sQ@mail.gmail.com>
+In-Reply-To: <20110601114823.2e57c691@schlenkerla.am.freescale.net>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -18,30 +16,63 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Cc: Paul Mackerras <paulus@samba.org>, Anton Vorontsov <avorontsov@mvista.com>, linuxppc-dev@lists.ozlabs.org, bluesmoke-devel@lists.sourceforge.net
+To: bluesmoke-devel@lists.sourceforge.net, linuxppc-dev@lists.ozlabs.org, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>
 List-Id: edac.vger.kernel.org
 
-On Wed, 1 Jun 2011 18:55:35 +0400
-Dmitry Eremin-Solenikov <dbaryshkov@gmail.com> wrote:
+As a device for pci node isn't created, create a special platform_device
+for PCI EDAC device on MPC85xx.
 
-> On 6/1/11, Anton Vorontsov <avorontsov@mvista.com> wrote:
-> > On Wed, Jun 01, 2011 at 04:28:11PM +0400, Dmitry Eremin-Solenikov wrote:
-> > [...]
-> > Also, why not add this call to the fsl_add_bridge(), so you
-> > won't need to touch board files at all.
-> 
-> Because fsl_add_bridge is called too early, so allocation
-> of platform device fails.
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ arch/powerpc/sysdev/fsl_pci.c |   33 +++++++++++++++++++++++++++++++++
+ 1 files changed, 33 insertions(+), 0 deletions(-)
 
-That doesn't seem like a good reason for putting more stuff in board
-files that isn't board-specific.  Why not just make fsl_add_pci_err() an
-initcall?  It already only works when a compatible device tree node is
-found.  Is there any case where a board would not want this PCI code to be
-used, even if the device tree node is present?  If so, fsl_add_bridge could
-set a flag that fsl_add_pci_err() could check -- but I doubt it's needed.
-
--Scott
+diff --git a/arch/powerpc/sysdev/fsl_pci.c b/arch/powerpc/sysdev/fsl_pci.c
+index 68ca929..0e37259 100644
+--- a/arch/powerpc/sysdev/fsl_pci.c
++++ b/arch/powerpc/sysdev/fsl_pci.c
+@@ -381,6 +381,39 @@ int __init fsl_add_bridge(struct device_node *dev, int is_primary)
+ 	return 0;
+ }
+ 
++int __init fsl_add_pci_err(void)
++{
++	struct device_node *np;
++
++	for_each_node_by_type(np, "pci") {
++		/* Only PCI, not PCI Express! */
++		if (of_device_is_compatible(np, "fsl,mpc8540-pci")) {
++			struct resource r[2];
++
++			r[0].parent = NULL;
++			r[1].parent = NULL;
++
++			if (of_address_to_resource(np, 0, &r[0])) {
++				printk(KERN_WARNING
++						"Can't get register base for PCI EDAC!\n");
++				continue;
++			}
++			r[0].start += 0xe00;
++
++			if (of_irq_to_resource(np, 0, &r[1]) == NO_IRQ) {
++				printk(KERN_WARNING
++						"Can't get irq for PCI EDAC!\n");
++				continue;
++			}
++			platform_device_register_simple("mpc85xx_pci_err", -1,
++					r, ARRAY_SIZE(r));
++		}
++	}
++
++	return 0;
++}
++device_initcall(fsl_add_pci_err);
++
+ DECLARE_PCI_FIXUP_HEADER(0x1957, PCI_DEVICE_ID_MPC8548E, quirk_fsl_pcie_header);
+ DECLARE_PCI_FIXUP_HEADER(0x1957, PCI_DEVICE_ID_MPC8548, quirk_fsl_pcie_header);
+ DECLARE_PCI_FIXUP_HEADER(0x1957, PCI_DEVICE_ID_MPC8543E, quirk_fsl_pcie_header);
+-- 
+1.7.4.4
 
 
 ------------------------------------------------------------------------------
