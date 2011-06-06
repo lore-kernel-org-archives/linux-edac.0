@@ -1,13 +1,13 @@
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH 1/2] ppc/85xx: create a platform node for PCI EDAC device
-Date: Sat,  4 Jun 2011 14:42:03 +0400
-Message-ID: <1307184123-30977-1-git-send-email-dbaryshkov@gmail.com>
-References: <20110602124823.3b814b3f@schlenkerla.am.freescale.net>
+From: Randy Dunlap <randy.dunlap@oracle.com>
+Subject: Re: [PATCH]Remove a warning for drivers/edac/i82975x_edac.c
+Date: Mon, 6 Jun 2011 13:36:52 -0700
+Message-ID: <20110606133652.1d146bba.randy.dunlap@oracle.com>
+References: <20110604022151.GA2475@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <20110602124823.3b814b3f@schlenkerla.am.freescale.net>
+In-Reply-To: <20110604022151.GA2475@gmail.com>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -16,63 +16,47 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net, linuxppc-dev@lists.ozlabs.org, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>
+To: Harry Wei <jiaweiwei.xiyou@gmail.com>
+Cc: greg@kroah.com, ravi@jetztechnologies.com, linux-kernel@vger.kernel.org, akpm@linux-foundation.org, bluesmoke-devel@lists.sourceforge.net
 List-Id: edac.vger.kernel.org
 
-As a device for pci node isn't created, create a special platform_device
-for PCI EDAC device on MPC85xx.
-
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
----
- arch/powerpc/sysdev/fsl_pci.c |   28 ++++++++++++++++++++++++++++
- 1 files changed, 28 insertions(+), 0 deletions(-)
-
-diff --git a/arch/powerpc/sysdev/fsl_pci.c b/arch/powerpc/sysdev/fsl_pci.c
-index 68ca929..2498229 100644
---- a/arch/powerpc/sysdev/fsl_pci.c
-+++ b/arch/powerpc/sysdev/fsl_pci.c
-@@ -381,6 +381,34 @@ int __init fsl_add_bridge(struct device_node *dev, int is_primary)
- 	return 0;
- }
- 
-+static int __init fsl_add_pci_err(void)
-+{
-+	struct device_node *np;
-+
-+	/* Only PCI, not PCI Express! */
-+	for_each_compatible_node(np, "pci", "fsl,mpc8540-pci") {
-+		struct resource r[2] = {};
-+
-+		if (of_address_to_resource(np, 0, &r[0])) {
-+			printk(KERN_WARNING
-+					"Can't get register base for PCI EDAC!\n");
-+			continue;
-+		}
-+		r[0].start += 0xe00;
-+
-+		if (of_irq_to_resource(np, 0, &r[1]) == NO_IRQ) {
-+			printk(KERN_WARNING
-+					"Can't get irq for PCI EDAC!\n");
-+			continue;
-+		}
-+		platform_device_register_simple("mpc85xx_pci_err", -1,
-+				r, ARRAY_SIZE(r));
-+	}
-+
-+	return 0;
-+}
-+device_initcall(fsl_add_pci_err);
-+
- DECLARE_PCI_FIXUP_HEADER(0x1957, PCI_DEVICE_ID_MPC8548E, quirk_fsl_pcie_header);
- DECLARE_PCI_FIXUP_HEADER(0x1957, PCI_DEVICE_ID_MPC8548, quirk_fsl_pcie_header);
- DECLARE_PCI_FIXUP_HEADER(0x1957, PCI_DEVICE_ID_MPC8543E, quirk_fsl_pcie_header);
--- 
-1.7.4.4
-
-
-------------------------------------------------------------------------------
-Simplify data backup and recovery for your virtual environment with vRanger.
-Installation's a snap, and flexible recovery options mean your data is safe,
-secure and there when you need it. Discover what all the cheering's about.
-Get your free trial download today. 
-http://p.sf.net/sfu/quest-dev2dev2 
+T24gU2F0LCA0IEp1biAyMDExIDEwOjIyOjIxICswODAwIEhhcnJ5IFdlaSB3cm90ZToKCj4gRnJv
+bTogSGFycnkgV2VpIDxoYXJyeXhpeW91QGdtYWlsLmNvbT4KPiAKPiBXaGVuIGkgY29tcGlsZSAy
+LjYuMzkuMSwgYSB3YXJuaW5nIHNob3dzIGxpa2UgYmVsb3cuCj4gVGhpcyBwYXRjaCBjYW4gZml4
+IHRoZSB3YXJuaW5nLiBBbmQgaSB3b3JrcyB3ZWxsIHdpdGgKPiBteSBQQy4KCkhpIEhhcnJ5LAoK
+RG9lcyAid29ya3Mgd2VsbCB3aXRoIG15IFBDIiBtZWFuIHRoYXQgeW91IGJvb3QtdGVzdGVkIHRo
+aXMgcGF0Y2gKb3IganVzdCBjb21waWxlLXRlc3RlZCBpdD8KCmFuZCBpZiB5b3UgYm9vdC10ZXN0
+ZWQgaXQsIGRvIHlvdSBoYXZlIGhhcmR3YXJlIHRoYXQgYWN0dWFsbHkKZXhlcmNpc2VzIHRoaXMg
+Y29kZSBwYXRoPwoKPiBbLi4uXQo+IENDIFtNXSAgZHJpdmVycy9lZGFjL2U3NTJ4X2VkYWMubwo+
+IENDIFtNXSAgZHJpdmVycy9lZGFjL2k4Mjg3NXBfZWRhYy5vCj4gQ0MgW01dICBkcml2ZXJzL2Vk
+YWMvaTgyOTc1eF9lZGFjLm8KPiBkcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmM6IEluIGZ1bmN0
+aW9uIO+/ve+/ve+/vWk4Mjk3NXhfcHJvY2Vzc19lcnJvcl9pbmZv77+977+977+9Ogo+IGRyaXZl
+cnMvZWRhYy9pODI5NzV4X2VkYWMuYzoyOTg6IHdhcm5pbmc6IGludGVnZXIgY29uc3RhbnQgaXMg
+dG9vIGxhcmdlIGZvciDvv73vv73vv711bnNpZ25lZCBsb25n77+977+977+9IHR5cGUKPiBDQyBb
+TV0gIGRyaXZlcnMvZWRhYy9pMzAwMF9lZGFjLm8KPiBDQyBbTV0gIGRyaXZlcnMvZWRhYy9pMzIw
+MF9lZGFjLm8KPiBDQyBbTV0gIGRyaXZlcnMvZWRhYy94MzhfZWRhYy5vCj4gQ0MgW01dICBkcml2
+ZXJzL2VkYWMvaTgyODYwX2VkYWMubwo+IFsuLi5dCj4gCj4gU2lnbmVkLW9mZi1ieTogSGFycnkg
+V2VpIDxoYXJyeXhpeW91QGdtYWlsLmNvbT4KPiAKPiBJbmRleDogcHJqL2RyaXZlcnMvZWRhYy9p
+ODI5NzV4X2VkYWMuYwo+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiAtLS0gcHJqLm9yaWcvZHJpdmVycy9lZGFjL2k4
+Mjk3NXhfZWRhYy5jCTIwMTEtMDYtMDQgMTA6MDk6NTUuMzUxMTc0NTE2ICswODAwCj4gKysrIHBy
+ai9kcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMJMjAxMS0wNi0wNCAxMDoxMDozMC44NzUxNjg0
+MzcgKzA4MDAKPiBAQCAtMjkzLDkgKzI5Myw5IEBACj4gIAkJaW5mby0+ZXJyc3RzID0gaW5mby0+
+ZXJyc3RzMjsKPiAgCX0KPiAgCj4gLQlwYWdlID0gKHVuc2lnbmVkIGxvbmcpIGluZm8tPmVhcDsK
+PiArCXBhZ2UgPSAodW5zaWduZWQgbG9uZyBsb25nKSBpbmZvLT5lYXA7CgpidXQgcGFnZSBpcyBz
+dGlsbCBkZWNsYXJlZCBhcyB1bnNpZ25lZCBsb25nLiAgc2hvdWxkIGl0IGJlIHVuc2lnbmVkIGxv
+bmcgbG9uZz8KCj4gIAlpZiAoaW5mby0+eGVhcCAmIDEpCj4gLQkJcGFnZSB8PSAweDEwMDAwMDAw
+MHVsOwo+ICsJCXBhZ2UgfD0gMHgxMDAwMDAwMDB1bGw7Cj4gIAljaGFuID0gcGFnZSAmIDE7Cj4g
+IAlwYWdlID4+PSAxOwo+ICAJb2Zmc3QgPSBwYWdlICYgKCgxIDw8IFBBR0VfU0hJRlQpIC0gMSk7
+CgoKLS0tCn5SYW5keQoqKiogUmVtZW1iZXIgdG8gdXNlIERvY3VtZW50YXRpb24vU3VibWl0Q2hl
+Y2tsaXN0IHdoZW4gdGVzdGluZyB5b3VyIGNvZGUgKioqCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+U2ltcGxpZnkgZGF0YSBiYWNrdXAgYW5kIHJlY292ZXJ5IGZvciB5b3VyIHZpcnR1YWwgZW52aXJv
+bm1lbnQgd2l0aCB2UmFuZ2VyLgpJbnN0YWxsYXRpb24ncyBhIHNuYXAsIGFuZCBmbGV4aWJsZSBy
+ZWNvdmVyeSBvcHRpb25zIG1lYW4geW91ciBkYXRhIGlzIHNhZmUsCnNlY3VyZSBhbmQgdGhlcmUg
+d2hlbiB5b3UgbmVlZCBpdC4gRGlzY292ZXIgd2hhdCBhbGwgdGhlIGNoZWVyaW5nJ3MgYWJvdXQu
+CkdldCB5b3VyIGZyZWUgdHJpYWwgZG93bmxvYWQgdG9kYXkuIApodHRwOi8vcC5zZi5uZXQvc2Z1
+L3F1ZXN0LWRldjJkZXYyIApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpibHVlc21va2UtZGV2ZWwgbWFpbGluZyBsaXN0CmJsdWVzbW9rZS1kZXZlbEBsaXN0
+cy5zb3VyY2Vmb3JnZS5uZXQKaHR0cHM6Ly9saXN0cy5zb3VyY2Vmb3JnZS5uZXQvbGlzdHMvbGlz
+dGluZm8vYmx1ZXNtb2tlLWRldmVsCg==
