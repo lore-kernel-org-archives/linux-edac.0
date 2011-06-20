@@ -1,11 +1,14 @@
-From: Kevin Bowling <kevin.bowling@kev009.com>
-Subject: Interpreting EDAC errors
-Date: Sun, 19 Jun 2011 21:57:26 -0700
-Message-ID: <BANLkTin-O8co99AnG+KT3+CUGmgaudRvYA@mail.gmail.com>
+From: Borislav Petkov <bp@amd64.org>
+Subject: Re: Interpreting EDAC errors
+Date: Mon, 20 Jun 2011 09:34:22 +0200
+Message-ID: <20110620073422.GB9070@aftab>
+References: <BANLkTin-O8co99AnG+KT3+CUGmgaudRvYA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <bluesmoke-devel-bounces@lists.sourceforge.net>
+Content-Disposition: inline
+In-Reply-To: <BANLkTin-O8co99AnG+KT3+CUGmgaudRvYA@mail.gmail.com>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=bluesmoke-devel>
@@ -14,356 +17,72 @@ List-Help: <mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=help>
 List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/bluesmoke-devel>,
 	<mailto:bluesmoke-devel-request@lists.sourceforge.net?subject=subscribe>
 Errors-To: bluesmoke-devel-bounces@lists.sourceforge.net
-To: bluesmoke-devel@lists.sourceforge.net
+To: Kevin Bowling <kevin.bowling@kev009.com>
+Cc: "bluesmoke-devel@lists.sourceforge.net" <bluesmoke-devel@lists.sourceforge.net>
 List-Id: edac.vger.kernel.org
 
-Hello,
+Hi,
 
-I've been seeing the following errors from the EDAC system.  I'm not
-quite sure how to associate the output from edac-util to physical
-DIMMs.  How do we account for multi-rank DIMMs, interleaving, NUMA,
-etc?
+On Mon, Jun 20, 2011 at 12:57:26AM -0400, Kevin Bowling wrote:
+> Hello,
+> 
+> I've been seeing the following errors from the EDAC system.  I'm not
+> quite sure how to associate the output from edac-util to physical
+> DIMMs.  How do we account for multi-rank DIMMs, interleaving, NUMA,
+> etc?
 
-Any help would be greatly appreciated.
+Judging by the mainboard, this is a dual socket Magny-Cours. A couple of
+things:
 
-Regards,
-Kevin
+* interpreting DRAM ECC errors is still suboptimal and we're working on
+it, I'll try to come up with an interim solution to make the decoded
+error info a bit more understandable.
 
+* you have one singe-bit error which got corrected by the memory
+controller on 4 DIMMs and over the current system uptime so I wouldn't
+worry too much. I would monitor the DIMMs though and take action only if
+those error rates start to grow over time.
 
-root@PM-LAS-PROD-0:~# edac-util
-mc0: csrow3: ch0: 1 Corrected Errors
-mc1: csrow2: ch0: 1 Corrected Errors
-mc2: csrow3: ch0: 1 Corrected Errors
-mc2: csrow3: ch1: 1 Corrected Errors
+You have 4 8G DIMMs per node but I don't know they rank
+count so please take the below with a grain of salt. Wait,
+http://www.alldatasheet.com/datasheet-pdf/pdf/332888/HYNIX/HMT31GR7BFR4C-H9.html
+says that yours are actually dual-ranked.
 
-root@PM-LAS-PROD-0:~# edac-ctl --mainboard
-edac-ctl: mainboard: Supermicro H8DGU
+Btw, kernel dmesg output of EDAC should help to pinpoint them better.
 
-root@PM-LAS-PROD-0:~# dmidecode -t memory
-# dmidecode 2.9
-SMBIOS 2.6 present.
+> root@PM-LAS-PROD-0:~# edac-util
+> mc0: csrow3: ch0: 1 Corrected Errors
 
-Handle 0x0011, DMI type 16, 15 bytes
-Physical Memory Array
-       Location: System Board Or Motherboard
-       Use: System Memory
-       Error Correction Type: Multi-bit ECC
-       Maximum Capacity: Unknown
-       Error Information Handle: Not Provided
-       Number Of Devices: 8
+This should be P1_DIMM1A if your DIMMs are quadranked, P1_DIMM2A if
+dual-ranked.
 
-Handle 0x0013, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P1_DIMM1B
-       Bank Locator: BANK0
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer00
-       Serial Number: SerNum00
-       Asset Tag: AssetTagNum0
-       Part Number: ModulePartNumber00
+> mc1: csrow2: ch0: 1 Corrected Errors
 
-Handle 0x0015, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P1_DIMM1A
-       Bank Locator: BANK1
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: C0073434
-       Asset Tag: AssetTagNum1
-       Part Number: HMT31GR7BFR4C-H9
+P1_DIMM3A or P1_DIMM4A as above. Also, I'm assuming that the increasing
+nomenclature in the silkscreen labeling is mapping the memory
+controllers in the same way, i.e.:
 
-Handle 0x0017, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P1_DIMM2B
-       Bank Locator: BANK2
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer02
-       Serial Number: SerNum02
-       Asset Tag: AssetTagNum2
-       Part Number: ModulePartNumber02
+mc0 -> 1A, 2A
+mc1 -> 3A, 4A
 
-Handle 0x0019, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P1_DIMM2A
-       Bank Locator: BANK3
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: 5A1F440F
-       Asset Tag: AssetTagNum3
-       Part Number: HMT31GR7BFR4C-H9
+> mc2: csrow3: ch0: 1 Corrected Errors
+> mc2: csrow3: ch1: 1 Corrected Errors
 
-Handle 0x001B, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P1_DIMM3B
-       Bank Locator: BANK4
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer04
-       Serial Number: SerNum04
-       Asset Tag: AssetTagNum4
-       Part Number: ModulePartNumber04
+This looks like P2_DIMM3A
 
-Handle 0x001D, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P1_DIMM3A
-       Bank Locator: BANK5
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: 7BEB1017
-       Asset Tag: AssetTagNum5
-       Part Number: HMT31GR7BFR4C-H9
+So, yeah, it is suboptimal and it needs fixing, I know.
 
-Handle 0x001F, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P1_DIMM4B
-       Bank Locator: BANK6
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer06
-       Serial Number: SerNum06
-       Asset Tag: AssetTagNum6
-       Part Number: ModulePartNumber06
+HTH.
 
-Handle 0x0021, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0011
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P1_DIMM4A
-       Bank Locator: BANK7
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: E6CCC22E
-       Asset Tag: AssetTagNum7
-       Part Number: HMT31GR7BFR4C-H9
+-- 
+Regards/Gruss,
+Boris.
 
-Handle 0x0023, DMI type 16, 15 bytes
-Physical Memory Array
-       Location: System Board Or Motherboard
-       Use: System Memory
-       Error Correction Type: Multi-bit ECC
-       Maximum Capacity: Unknown
-       Error Information Handle: Not Provided
-       Number Of Devices: 8
-
-Handle 0x0025, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P2_DIMM1B
-       Bank Locator: BANK8
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer08
-       Serial Number: SerNum08
-       Asset Tag: AssetTagNum8
-       Part Number: ModulePartNumber08
-
-Handle 0x0027, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P2_DIMM1A
-       Bank Locator: BANK9
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: 651FC40F
-       Asset Tag: AssetTagNum9
-       Part Number: HMT31GR7BFR4C-H9
-
-Handle 0x0029, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P2_DIMM2B
-       Bank Locator: BANK10
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer10
-       Serial Number: SerNum10
-       Asset Tag: AssetTagNum10
-       Part Number: ModulePartNumber10
-
-Handle 0x002B, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P2_DIMM2A
-       Bank Locator: BANK11
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: 841F440F
-       Asset Tag: AssetTagNum11
-       Part Number: HMT31GR7BFR4C-H9
-
-Handle 0x002D, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P2_DIMM3B
-       Bank Locator: BANK12
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer12
-       Serial Number: SerNum12
-       Asset Tag: AssetTagNum12
-       Part Number: ModulePartNumber12
-
-Handle 0x002F, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P2_DIMM3A
-       Bank Locator: BANK13
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: 771F940F
-       Asset Tag: AssetTagNum13
-       Part Number: HMT31GR7BFR4C-H9
-
-Handle 0x0031, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: Unknown
-       Data Width: Unknown
-       Size: No Module Installed
-       Form Factor: <OUT OF SPEC>
-       Set: None
-       Locator: P2_DIMM4B
-       Bank Locator: BANK14
-       Type: Unknown
-       Type Detail: None
-       Speed: Unknown
-       Manufacturer: Manufacturer14
-       Serial Number: SerNum14
-       Asset Tag: AssetTagNum14
-       Part Number: ModulePartNumber14
-
-Handle 0x0033, DMI type 17, 28 bytes
-Memory Device
-       Array Handle: 0x0023
-       Error Information Handle: Not Provided
-       Total Width: 72 bits
-       Data Width: 64 bits
-       Size: 8192 MB
-       Form Factor: DIMM
-       Set: None
-       Locator: P2_DIMM4A
-       Bank Locator: BANK15
-       Type: <OUT OF SPEC>
-       Type Detail: Synchronous
-       Speed: 1333 MHz (0.8 ns)
-       Manufacturer: Hyundai
-       Serial Number: 881F540F
-       Asset Tag: AssetTagNum15
-       Part Number: HMT31GR7BFR4C-H9
+Advanced Micro Devices GmbH
+Einsteinring 24, 85609 Dornach
+GM: Alberto Bozzo
+Reg: Dornach, Landkreis Muenchen
+HRB Nr. 43632 WEEE Registernr: 129 19551
 
 ------------------------------------------------------------------------------
 EditLive Enterprise is the world's most technically advanced content
