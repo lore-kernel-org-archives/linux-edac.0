@@ -2,23 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v5,2/5] EDAC, sb_edac: Replace "Socket#" with "SrcID#" in memory controller name
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170505164328.y4nv2edv7ovxntpa@pd.tnic>
-Date: Fri, 5 May 2017 18:43:28 +0200
-To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: mchehab@osg.samsung.com, arozansk@redhat.com, patrickg@supermicro.com, tony.luck@intel.com, linux-edac@vger.kernel.org
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Message-Id: <E6AF1AFDEA62A94A97508F458CBDD47F6F59A7A7@SHSMSX101.ccr.corp.intel.com>
+Date: Sun, 7 May 2017 14:33:04 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: "mchehab@osg.samsung.com" <mchehab@osg.samsung.com>, "arozansk@redhat.com" <arozansk@redhat.com>, "patrickg@supermicro.com" <patrickg@supermicro.com>, "Luck, Tony" <tony.luck@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBBcHIgMjYsIDIwMTcgYXQgMDk6MzU6MTlBTSArMDgwMCwgUWl1eHUgWmh1byB3cm90
-ZToKPiBUaGUgc3RyaW5nICJTb2NrZXQjJWQiKHdoZXJlIHRoZSBudW1lciBpcyB0aGUgbWVtb3J5
-IGNvbnRyb2xsZXIgbG9naWNhbAo+IGluZGV4KSBpbiBtZW1vcnkgY29udHJvbGxlciBuYW1lIGlz
-IGEgbGl0dGxlIGNvbmZ1c2luZyBmb3IgdXNlcnM6IEUuZywKPiBCcm9hZHdlbGwgd2l0aCA0IHNv
-Y2tldHMgMiBNQ3MgcGVyIHNvY2tldCwgaXQgbWF5YmUgc2hvdyAiU29ja2V0IzciLCBidXQKPiBh
-Y3R1YWxseSB0aGVyZSBhcmVuJ3QgdGhhdCBtYW55IHNvY2tldHMhIENoYW5nZSBpdCB0byAiU3Jj
-SUQjJWQiKHdoZXJlCj4gdGhlIG51bWJlciBpcyByZWFkIGZyb20gaC93IGFzc29jaWF0ZWQgd2l0
-aCB0aGUgc29ja2V0KS4KPiAKPiBUaGlzIGNvZGUgaXMgZXhhY3RseSBmcm9tIFRvbnkncyBwcmV2
-aW91cyB3b3JrIGZyb206Cj4gaHR0cHM6Ly9sa21sLmtlcm5lbC5vcmcvci8xNzM5NTQ5MTIwMTI5
-OGQ5OTRhMTgyNDdmZjE1NjFiMmU2OWZiMzJjLjE0Njc0MTIwOTQuZ2l0LnRvbnkubHVja0BpbnRl
-bC5jb20KClNvIHRoZW4gdGFrZSBUb255J3MgcGF0Y2ggd2l0aCB0aGUgUmVwb3J0ZWQtYnkgdGFn
-cyBpbiB0aGVyZSBhbmQgaXRzCmNvbW1pdCBtZXNzYWdlLiBXaHkgYXJlIHlvdSByZWRvaW5nIGl0
-Pwo=
+PiBGcm9tOiBCb3Jpc2xhdiBQZXRrb3YgW21haWx0bzpicEBhbGllbjguZGVdIA0KPiBTbyB0aGVu
+IHRha2UgVG9ueSdzIHBhdGNoIHdpdGggdGhlIFJlcG9ydGVkLWJ5IHRhZ3MgaW4gdGhlcmUgYW5k
+IGl0cyBjb21taXQgbWVzc2FnZS4gV2h5IGFyZSB5b3UgcmVkb2luZyBpdD8NCg0KSGkgQm9yaXMs
+DQoNCk9LLCBJJ2xsIHRha2UgVG9ueSdzIG9yaWdpbmFsIHBhdGNoIHdpdGggdGhlIFJlcG9ydGVk
+LWJ5IHRhZ3MgYW5kIGl0cyBjb21taXQgbWVzc2FnZSBpbiBuZXh0IHZlcnNpb24uDQpUaGFua3Mg
+Zm9yIGNvcnJlY3RpbmcgbWUuIA0KDQpCUg0KcWl1eHUK
