@@ -1,15 +1,16 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5,4/5] EDAC, sb_edac: Place the ECC enabled check where at least one DIMM present
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Message-Id: <E6AF1AFDEA62A94A97508F458CBDD47F6F59CBBF@SHSMSX101.ccr.corp.intel.com>
-Date: Thu, 18 May 2017 15:26:04 +0000
-To: Borislav Petkov <bp@alien8.de>
-Cc: "mchehab@osg.samsung.com" <mchehab@osg.samsung.com>, "arozansk@redhat.com" <arozansk@redhat.com>, "patrickg@supermicro.com" <patrickg@supermicro.com>, "Luck, Tony" <tony.luck@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: [v5,5/5] EDAC, sb_edac: Update driver version and drop NUM_CHANNELS from 8 back to 4
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170517133608.cqsdt4e2szktezfh@pd.tnic>
+Date: Wed, 17 May 2017 15:36:08 +0200
+To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: mchehab@osg.samsung.com, arozansk@redhat.com, patrickg@supermicro.com, tony.luck@intel.com, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-PiBGcm9tOiBCb3Jpc2xhdiBQZXRrb3YgW21haWx0bzpicEBhbGllbjguZGVdIA0KPg0KPj4gICsJ
-CQkJCQkgICAgICAgIkNQVSBTcmNJRCAjJWQsIEhhICMlZCwgQ2hhbm5lbCAjJWQgaGFzIGRpbW1z
-LCBidXQgZWNjIGlzIGRpc2FibGVkXG4iLA0KPiBzL2VjYy9FQ0MvZw0KDQpPSywgd2lsbCBjb3Jy
-ZWN0IHRoZW0gKERJTU1zLCBFQ0MpIGluIG5leHQgdmVyc2lvbi4K
+T24gV2VkLCBBcHIgMjYsIDIwMTcgYXQgMDk6MzU6MjJBTSArMDgwMCwgUWl1eHUgWmh1byB3cm90
+ZToKCjwtLS0gQWRkIGNvbW1pdCBtZXNzYWdlIGhlcmUuCgo+IFNpZ25lZC1vZmYtYnk6IFFpdXh1
+IFpodW8gPHFpdXh1LnpodW9AaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2VkYWMvc2JfZWRh
+Yy5jIHwgNCArKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
+b25zKC0pCj4K
