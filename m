@@ -2,15 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v5,5/5] EDAC, sb_edac: Update driver version and drop NUM_CHANNELS from 8 back to 4
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170517133608.cqsdt4e2szktezfh@pd.tnic>
-Date: Wed, 17 May 2017 15:36:08 +0200
-To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: mchehab@osg.samsung.com, arozansk@redhat.com, patrickg@supermicro.com, tony.luck@intel.com, linux-edac@vger.kernel.org
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Message-Id: <E6AF1AFDEA62A94A97508F458CBDD47F6F59CBCF@SHSMSX101.ccr.corp.intel.com>
+Date: Thu, 18 May 2017 15:34:56 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: "mchehab@osg.samsung.com" <mchehab@osg.samsung.com>, "arozansk@redhat.com" <arozansk@redhat.com>, "patrickg@supermicro.com" <patrickg@supermicro.com>, "Luck, Tony" <tony.luck@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBBcHIgMjYsIDIwMTcgYXQgMDk6MzU6MjJBTSArMDgwMCwgUWl1eHUgWmh1byB3cm90
-ZToKCjwtLS0gQWRkIGNvbW1pdCBtZXNzYWdlIGhlcmUuCgo+IFNpZ25lZC1vZmYtYnk6IFFpdXh1
-IFpodW8gPHFpdXh1LnpodW9AaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2VkYWMvc2JfZWRh
-Yy5jIHwgNCArKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
-b25zKC0pCj4K
+UGlBZ1JuSnZiVG9nUW05eWFYTnNZWFlnVUdWMGEyOTJJRnR0WVdsc2RHODZZbkJBWVd4cFpXNDRM
+bVJsWFNBTkNqNGdJRHd0TFMwZwpRV1JrSUdOdmJXMXBkQ0J0WlhOellXZGxJR2hsY21VdURRb05D
+ajQrSUNCVGFXZHVaV1F0YjJabUxXSjVPaUJSYVhWNGRTQmFhSFZ2CklEeHhhWFY0ZFM1NmFIVnZR
+R2x1ZEdWc0xtTnZiVDROQ2o0K0lDQXRMUzBOQ2o0K0lDQWdaSEpwZG1WeWN5OWxaR0ZqTDNOaVgy
+VmsKWVdNdVl5QjhJRFFnS3lzdExRMEtQajRnSUNBeElHWnBiR1VnWTJoaGJtZGxaQ3dnTWlCcGJu
+TmxjblJwYjI1ektDc3BMQ0F5SUdSbApiR1YwYVc5dWN5Z3RLUTBLRFFwSWFTQkNiM0pwY3l3TkNp
+QWdJQ0JQU3l3Z2QybHNiQ0JoWkdRZ2RHaGxJR052YlcxcGRDQnRaWE56CllXZGxJR1p2Y2lCMGFH
+bHpJSE4xWWkxd1lYUmphQ0JwYmlCMk5pNE5DZzBLSUNBZ0lGUm9ZVzVyY3lCemJ5QnRkV05vSUda
+dmNpQjUKYjNWeUlIUnBiV1VnYjI0Z2RHaGxJSEJoZEdOb0lITmxkQ0FvTlNCd1lYUmphR1Z6S1NC
+eVpYWnBaWGNoRFFvZ0lDQWdTU2R0SUcxdgpaR2xtZVdsdVp5QjBhR1VnY0dGMFkyZ2djMlYwSUNC
+aFkyTnZjbVJwYm1jZ2RHOGdlVzkxY2lCeVpYWnBaWGNnYzNWbloyVnpkR2x2CmJuTWdZVzVrSUhK
+bExYUmxjM1JwYm1jZ2FYUWdiMjRnYTJsdVpITWdiMllnY21WaGJDQnpaWEoyWlhKekxpQkJibVFn
+ZDJsc2JDQnkKWlMxemRXSnRhWFFnZEdobElIWTJJSEJoZEdOb0lITmxkQ0JoWm5SbGNpQjBaWE4w
+Y3k0TkNpQWdJQ0JVYUdGdWEzTWhEUW9nRFFwQwpVZzBLY1dsMWVIVU5DaUFnSUNBTkNnMEsKLS0t
+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
+ZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIu
+a2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3Jn
+L21ham9yZG9tby1pbmZvLmh0bWwK
