@@ -1,17 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v6,4/7] EDAC, sb_edac: Replace 'SrcID#%d' with 'SrcID#%d_Ha#%d' in memory controller name
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170525182135.GA11995@nazgul.tnic>
-Date: Thu, 25 May 2017 20:21:35 +0200
-To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: mchehab@osg.samsung.com, tony.luck@intel.com, arozansk@redhat.com, patrickg@supermicro.com, linux-edac@vger.kernel.org
+Subject: [v6,5/7] EDAC, sb_edac: Drop NUM_CHANNELS from 8 back to 4
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Message-Id: <20170523000834.87881-1-qiuxu.zhuo@intel.com>
+Date: Tue, 23 May 2017 08:08:34 +0800
+To: bp@alien8.de, mchehab@osg.samsung.com
+Cc: tony.luck@intel.com, arozansk@redhat.com, patrickg@supermicro.com, linux-edac@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBNYXkgMjMsIDIwMTcgYXQgMDg6MDc6NTdBTSArMDgwMCwgUWl1eHUgWmh1byB3cm90
-ZToKPiBBZnRlciBhcHBseWluZyB0aGUgcGF0Y2ggJ0Fzc2lnbiBFREFDIG1lbW9yeSBjb250cm9s
-bGVyIHBlciBoL3cgY29udHJvbGxlcicsCj4gd2UgbmVlZCBvbmUtdG8tb25lICJTcmNJRCMlZF9I
-YSMlZCIgaW5zdGVhZCBvZiAiU3JjSUQjJWQiIGluIG1lbW9yeSBjb250cm9sbGVyIG5hbWUuCgou
-Li4gc28gSSBtZXJnZWQgaXQgd2l0aCB0aGF0IG9uZS4gTm8gbmVlZCBmb3IgYSBzZXBhcmF0ZSBw
-YXRjaC4K
+QWZ0ZXIgYXBwbHlpbmcgdGhlIHBhdGNoICdBc3NpZ24gRURBQyBtZW1vcnkgY29udHJvbGxlciBw
+ZXIgaC93IGNvbnRyb2xsZXInLApXZSBtYXkgZHJvcCBOVU1fQ0hBTk5FTFMgZnJvbSA4IGJhY2sg
+dG8gNC4KClNpZ25lZC1vZmYtYnk6IFFpdXh1IFpodW8gPHFpdXh1LnpodW9AaW50ZWwuY29tPgot
+LS0KIGRyaXZlcnMvZWRhYy9zYl9lZGFjLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvc2JfZWRh
+Yy5jIGIvZHJpdmVycy9lZGFjL3NiX2VkYWMuYwppbmRleCBiMzFiYTJiLi5hZGI4YThiIDEwMDY0
+NAotLS0gYS9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jCisrKyBiL2RyaXZlcnMvZWRhYy9zYl9lZGFj
+LmMKQEAgLTI3OSw3ICsyNzksNyBAQCBzdGF0aWMgY29uc3QgdTMyIGNvcnJlcnJ0aHJzbGRbXSA9
+IHsKICAqIHNicmlkZ2Ugc3RydWN0cwogICovCiAKLSNkZWZpbmUgTlVNX0NIQU5ORUxTCQk4CS8q
+IDJNQyBwZXIgc29ja2V0LCBmb3VyIGNoYW4gcGVyIE1DICovCisjZGVmaW5lIE5VTV9DSEFOTkVM
+UwkJNAkvKiBNYXggY2hhbm5lbHMgcGVyIE1DICovCiAjZGVmaW5lIE1BWF9ESU1NUwkJMwkvKiBN
+YXggRElNTVMgcGVyIGNoYW5uZWwgKi8KICNkZWZpbmUgS05MX01BWF9DSEFTCQkzOAkvKiBLTkwg
+bWF4IG51bS4gb2YgQ2FjaGUgSG9tZSBBZ2VudHMgKi8KICNkZWZpbmUgS05MX01BWF9DSEFOTkVM
+Uwk2CS8qIEtOTCBtYXggbnVtLiBvZiBQQ0kgY2hhbm5lbHMgKi8K
