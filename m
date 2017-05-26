@@ -1,20 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: ie31200_edac: add Intel Kaby Lake CPU support
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170528173020.rusxlmcw3restbiy@pd.tnic>
-Date: Sun, 28 May 2017 19:30:20 +0200
-To: Jason Baron <jbaron@akamai.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, bc.tdw@recursor.net, Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Luck <tony.luck@intel.com>
+Subject: edac: edac_mc_sysfs.c: Use strlcpy to Copy a C-string into a sized buffer
+From: Karim Eshapa <karim.eshapa@gmail.com>
+Message-Id: <1495825113-4408-1-git-send-email-karim.eshapa@gmail.com>
+Date: Fri, 26 May 2017 20:58:33 +0200
+To: bp@alien8.de
+Cc: mchehab@kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Karim Eshapa <karim.eshapa@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBNYXkgMjYsIDIwMTcgYXQgMDI6MzQ6NDNQTSAtMDQwMCwgSmFzb24gQmFyb24gd3Jv
-dGU6Cj4gS2FieSBMYWtlIHNlZW1zIHRvIHdvcmsganVzdCBsaWtlIFNreWxha2UuCj4gCj4gU2ln
-bmVkLW9mZi1ieTogSmFzb24gQmFyb24gPGpiYXJvbkBha2FtYWkuY29tPgo+IFJlcG9ydGVkLWFu
-ZC10ZXN0ZWQtYnk6IERvdWcgVGhvbXBzb24gPGJjLnRkd0ByZWN1cnNvci5uZXQ+Cj4gQ2M6IEJv
-cmlzbGF2IFBldGtvdiA8YnBAYWxpZW44LmRlPgo+IENjOiBNYXVybyBDYXJ2YWxobyBDaGVoYWIg
-PG1jaGVoYWJAa2VybmVsLm9yZz4KPiBDYzogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29t
-Pgo+IC0tLQo+ICBkcml2ZXJzL2VkYWMvaWUzMTIwMF9lZGFjLmMgfCAxMiArKysrKysrKysrKy0K
-PiAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCkFwcGxp
-ZWQsIHRoYW5rcy4K
+VXNlIHN0cmxjcHkgd2l0aCBzaXplZCBidWZmZXIgaW5zdGVhZCBvZiBzdHJuY3B5IHRvCmF2b2lk
+IG5vbiBOVUwtdGVybWluYXRlZCBzb3VyY2Ugc3RyaW5ncyBwcm9ibGVtcy4KClNpZ25lZC1vZmYt
+Ynk6IEthcmltIEVzaGFwYSA8a2FyaW0uZXNoYXBhQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL2Vk
+YWMvZWRhY19tY19zeXNmcy5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25z
+KCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9lZGFjX21jX3N5
+c2ZzLmMgYi9kcml2ZXJzL2VkYWMvZWRhY19tY19zeXNmcy5jCmluZGV4IDQ0NTg2MmQuLjY0ZTIy
+NTUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9lZGFjX21jX3N5c2ZzLmMKKysrIGIvZHJpdmVy
+cy9lZGFjL2VkYWNfbWNfc3lzZnMuYwpAQCAtMjUxLDcgKzI1MSw3IEBAIHN0YXRpYyBzc2l6ZV90
+IGNoYW5uZWxfZGltbV9sYWJlbF9zdG9yZShzdHJ1Y3QgZGV2aWNlICpkZXYsCiAJaWYgKGNvcHlf
+Y291bnQgPT0gMCB8fCBjb3B5X2NvdW50ID49IHNpemVvZihyYW5rLT5kaW1tLT5sYWJlbCkpCiAJ
+CXJldHVybiAtRUlOVkFMOwogCi0Jc3RybmNweShyYW5rLT5kaW1tLT5sYWJlbCwgZGF0YSwgY29w
+eV9jb3VudCk7CisJc3RybGNweShyYW5rLT5kaW1tLT5sYWJlbCwgZGF0YSwgY29weV9jb3VudCk7
+CiAJcmFuay0+ZGltbS0+bGFiZWxbY29weV9jb3VudF0gPSAnXDAnOwogCiAJcmV0dXJuIGNvdW50
+OwpAQCAtNTMwLDcgKzUzMCw3IEBAIHN0YXRpYyBzc2l6ZV90IGRpbW1kZXZfbGFiZWxfc3RvcmUo
+c3RydWN0IGRldmljZSAqZGV2LAogCWlmIChjb3B5X2NvdW50ID09IDAgfHwgY29weV9jb3VudCA+
+PSBzaXplb2YoZGltbS0+bGFiZWwpKQogCQlyZXR1cm4gLUVJTlZBTDsKIAotCXN0cm5jcHkoZGlt
+bS0+bGFiZWwsIGRhdGEsIGNvcHlfY291bnQpOworCXN0cmxjcHkoZGltbS0+bGFiZWwsIGRhdGEs
+IGNvcHlfY291bnQpOwogCWRpbW0tPmxhYmVsW2NvcHlfY291bnRdID0gJ1wwJzsKIAogCXJldHVy
+biBjb3VudDsK
