@@ -1,16 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,1/3] EDAC: mv64x60: check driver registration success
+Subject: EDAC, thunderx: Maintain platform device symlinks for LMC instances
 From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170607095417.qorkbwm5u5saplb2@pd.tnic>
-Date: Wed, 7 Jun 2017 11:54:17 +0200
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: "mchehab@kernel.org" <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+Message-Id: <20170601180602.mj6y2p45asnfpd3p@pd.tnic>
+Date: Thu, 1 Jun 2017 20:06:02 +0200
+To: Sergey Temerkhanov <s.temerkhanov@gmail.com>
+Cc: linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBKdW4gMDcsIDIwMTcgYXQgMDU6Mjk6NTVBTSArMDAwMCwgQ2hyaXMgUGFja2hhbSB3
-cm90ZToKPiBXaGF0IGRvIHlvdSB0aGluaz8KCkp1c3Qgc2VuZCBtZSBhIGZpeCBvbnRvcCwgbW92
-aW5nIHRoZSBlZGFjX29wX3N0YXRlIGFzc2lnbm1lbnQgYmVmb3JlIHRoZQpwbGF0Zm9ybV9yZWdp
-c3Rlcl9kcml2ZXJzKCkgY2FsbCBhbmQgd3JpdGUgaW4gdGhlIGNvbW1pdCBtZXNzYWdlIHdoeQp3
-ZSdyZSBkb2luZyB0aGF0LgoKVGhhbmtzLgo=
+T24gV2VkLCBNYXkgMzEsIDIwMTcgYXQgMDY6NTE6MTlQTSArMDMwMCwgU2VyZ2V5IFRlbWVya2hh
+bm92IHdyb3RlOgo+IEZyb206IFNlcmdleSBUZW1lcmtoYW5vdiA8cy50ZW1lcmtoYW5vdkBnbWFp
+bC5jb20+Cj4gCj4gTWFpbnRhaW4gdGhlIGRldmljZSBzeW1saW5rIGZvciBUaHVuZGVyWCBMTUMg
+ZGV2aWNlIGluc3RhbmNlcwo+IHRoZSBzYW1lIHdheSBhcyBpdCdzIGRvbmUgZm9yIGdlbmVyaWMg
+RURBQyBkZXZpY2VzCj4gCj4gU2lnbmVkLW9mZi1ieTogU2VyZ2V5IFRlbWVya2hhbm92IDxzLnRl
+bWVya2hhbm92QGdtYWlsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9lZGFjL3RodW5kZXJ4X2VkYWMu
+YyB8IDEzICsrKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKykK
+PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL3RodW5kZXJ4X2VkYWMuYyBiL2RyaXZlcnMv
+ZWRhYy90aHVuZGVyeF9lZGFjLmMKPiBpbmRleCA4NmQ1ODVjYjZkMzIuLjY3Zjk1YTMwNzJmOSAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2VkYWMvdGh1bmRlcnhfZWRhYy5jCj4gKysrIGIvZHJpdmVy
+cy9lZGFjL3RodW5kZXJ4X2VkYWMuYwo+IEBAIC02NzUsNiArNjc1LDggQEAgc3RhdGljIGlubGlu
+ZSBpbnQgcGNpX2Rldl90b19tY19pZHgoc3RydWN0IHBjaV9kZXYgKnBkZXYpCj4gIAlyZXR1cm4g
+cmV0Owo+ICB9Cj4gIAo+ICsjZGVmaW5lIExNQ19ERVZJQ0VfU1lNTElOSyAiZGV2aWNlIgo+ICsK
+PiAgc3RhdGljIGludCB0aHVuZGVyeF9sbWNfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsCj4g
+IAkJCQljb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqaWQpCj4gIHsKPiBAQCAtNzkzLDYgKzc5
+NSwxNCBAQCBzdGF0aWMgaW50IHRodW5kZXJ4X2xtY19wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRl
+diwKPiAgCQlnb3RvIGVycl9mcmVlOwo+ICAJfQo+ICAKPiArCXJldCA9IHN5c2ZzX2NyZWF0ZV9s
+aW5rKCZtY2ktPmRldi5rb2JqLAo+ICsJCQkJJm1jaS0+cGRldi0+a29iaiwgTE1DX0RFVklDRV9T
+WU1MSU5LKTsKCkhtbSwgZWRhY19kZXZpY2VfYWRkX2RldmljZSgpIC0+IGVkYWNfZGV2aWNlX2Ny
+ZWF0ZV9zeXNmcygpIGFscmVhZHkgZG9lcwp0aGF0LiBBbmQgeW91ciBvY3ggYW5kIGwyYyB0aGlu
+Z3MgZG8gdGhhdC4gV2h5IGFyZW4ndCB5b3UgZG9pbmcgdGhlIHNhbWUKZm9yIHRoZSBsbWM/Cg==
