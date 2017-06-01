@@ -1,16 +1,21 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC, thunderx: Maintain platform device symlinks for LMC instances
+Subject: EDAC: thunderx: Fix a warning during l2c debugfs node creation
 From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170601214824.6oc57lif3jqb3k6i@pd.tnic>
-Date: Thu, 1 Jun 2017 23:48:24 +0200
-To: Sergei Temerkhanov <s.temerkhanov@gmail.com>
-Cc: linux-edac@vger.kernel.org
+Message-Id: <20170601180910.djksocn5r4kiqx3z@pd.tnic>
+Date: Thu, 1 Jun 2017 20:09:10 +0200
+To: Sergey Temerkhanov <s.temerkhanov@gmail.com>
+Cc: linux-edac@vger.kernel.org, Vadim Lomovtsev <Vadim.Lomovtsev@caviumnetworks.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBKdW4gMDEsIDIwMTcgYXQgMTE6MTI6MDJQTSArMDMwMCwgU2VyZ2VpIFRlbWVya2hh
-bm92IHdyb3RlOgo+IExNQ3MgYXJlIG1lbW9yeSBjb250cm9sbGVycyBzbyBJIHVzZSBlZGFjX21j
-X2FkZF9tYygpIGZvciB0aGVzZS4KCi4uLiBhbmQgYnkgdGhhdCBsb2dpYywgbWVtb3J5IGNvbnRy
-b2xsZXJzIGRvbid0IG5lZWQgdG8gZG8KZWRhY19kZXZpY2VfYWRkX2RldmljZSgpLiBBbmQgdGhl
-eSBkb24ndC4K
+T24gV2VkLCBNYXkgMzEsIDIwMTcgYXQgMDY6NTE6NTdQTSArMDMwMCwgU2VyZ2V5IFRlbWVya2hh
+bm92IHdyb3RlOgo+IEZyb206IFZhZGltIExvbW92dHNldiA8VmFkaW0uTG9tb3Z0c2V2QGNhdml1
+bW5ldHdvcmtzLmNvbT4KPiAKPiBDb21wYXJlIHRoZSBudW1iZXIgb2YgZGVidWdmcyBlbnRyaWVz
+IGNyZWF0ZWQgYnkKPiB0aHVuZGVyeF9jcmVhdGVfZGVidWdmc19ub2RlcygpIHdpdGggdGhlIHJl
+cXVlc3RlZCBudW1iZXIgb2YgZW50cmllcwo+IHRvIHByb3Blcmx5IGRldGVybWluZSB3aGV0aGVy
+IHRvIHByaW50IGEgd2FybmluZwo+IAo+IFNpZ25lZC1vZmYtYnk6IFZhZGltIExvbW92dHNldiA8
+VmFkaW0uTG9tb3Z0c2V2QGNhdml1bW5ldHdvcmtzLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBTZXJn
+ZXkgVGVtZXJraGFub3YgPHMudGVtZXJraGFub3ZAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJz
+L2VkYWMvdGh1bmRlcnhfZWRhYy5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKCkFwcGxpZWQsIHRoYW5rcy4K
