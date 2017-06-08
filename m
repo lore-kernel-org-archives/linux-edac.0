@@ -1,21 +1,20 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC: thunderx: Fix a warning during l2c debugfs node creation
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170601180910.djksocn5r4kiqx3z@pd.tnic>
-Date: Thu, 1 Jun 2017 20:09:10 +0200
-To: Sergey Temerkhanov <s.temerkhanov@gmail.com>
-Cc: linux-edac@vger.kernel.org, Vadim Lomovtsev <Vadim.Lomovtsev@caviumnetworks.com>
+Subject: [v2] rasdaemon: add Knights Mill model
+From: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+Message-Id: <20170608062301.56ec359f@vento.lan>
+Date: Thu, 8 Jun 2017 06:23:01 -0300
+To: Aristeu Rozanski <aris@redhat.com>
+Cc: linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBNYXkgMzEsIDIwMTcgYXQgMDY6NTE6NTdQTSArMDMwMCwgU2VyZ2V5IFRlbWVya2hh
-bm92IHdyb3RlOgo+IEZyb206IFZhZGltIExvbW92dHNldiA8VmFkaW0uTG9tb3Z0c2V2QGNhdml1
-bW5ldHdvcmtzLmNvbT4KPiAKPiBDb21wYXJlIHRoZSBudW1iZXIgb2YgZGVidWdmcyBlbnRyaWVz
-IGNyZWF0ZWQgYnkKPiB0aHVuZGVyeF9jcmVhdGVfZGVidWdmc19ub2RlcygpIHdpdGggdGhlIHJl
-cXVlc3RlZCBudW1iZXIgb2YgZW50cmllcwo+IHRvIHByb3Blcmx5IGRldGVybWluZSB3aGV0aGVy
-IHRvIHByaW50IGEgd2FybmluZwo+IAo+IFNpZ25lZC1vZmYtYnk6IFZhZGltIExvbW92dHNldiA8
-VmFkaW0uTG9tb3Z0c2V2QGNhdml1bW5ldHdvcmtzLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBTZXJn
-ZXkgVGVtZXJraGFub3YgPHMudGVtZXJraGFub3ZAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJz
-L2VkYWMvdGh1bmRlcnhfZWRhYy5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKCkFwcGxpZWQsIHRoYW5rcy4K
+RW0gVGh1LCA0IE1heSAyMDE3IDE0OjAyOjUzIC0wNDAwCkFyaXN0ZXUgUm96YW5za2kgPGFyaXNA
+cmVkaGF0LmNvbT4gZXNjcmV2ZXU6Cgo+IEtuaWdodHMgTWlsbCBpcyBzaW1pbGFyIHRvIEtuaWdo
+dHMgTGFuZGluZyBhbmQgY2FuIHVzZSB0aGUgc2FtZSBjb2RlLgo+IAo+IHYyOiBkb24ndCByZXVz
+ZSB0b28gbXVjaCBhbmQgaWRlbnRpZnkgdGhlIHByb2Nlc3NvciBhcyAiS25pZ2h0cyBNaWxsIgo+
+IAo+IFNpZ25lZC1vZmYtYnk6IEFyaXN0ZXUgUm96YW5za2kgPGFyaXNAcmVkaGF0LmNvbT4KCkFw
+cGxpZWQuIFRoYW5rcywKTWF1cm8KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBz
+ZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1l
+c3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0
+ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
