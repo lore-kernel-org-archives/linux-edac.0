@@ -2,23 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, mce_amd: Fix typo in SMCA error description
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-Message-Id: <1497286703-62853-1-git-send-email-Yazen.Ghannam@amd.com>
-Date: Mon, 12 Jun 2017 11:58:23 -0500
-To: linux-edac@vger.kernel.org
-Cc: Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-kernel@vger.kernel.org, Yazen Ghannam <yazen.ghannam@amd.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170612170542.bqapswaib4xbrhih@pd.tnic>
+Date: Mon, 12 Jun 2017 19:05:42 +0200
+To: Yazen Ghannam <Yazen.Ghannam@amd.com>
+Cc: linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgoKRml4IHR5cG8gaW4g
-InBvaXNvbiBjb25zdW1wdGlvbiIgZXJyb3IgZGVzY3JpcHRpb24uCgpTaWduZWQtb2ZmLWJ5OiBZ
-YXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Ci0tLQogZHJpdmVycy9lZGFjL21j
-ZV9hbWQuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9tY2VfYW1kLmMgYi9kcml2ZXJzL2VkYWMv
-bWNlX2FtZC5jCmluZGV4IGJhMzViN2UuLjlhMjY1OGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRh
-Yy9tY2VfYW1kLmMKKysrIGIvZHJpdmVycy9lZGFjL21jZV9hbWQuYwpAQCAtMTYxLDcgKzE2MSw3
-IEBAIHN0YXRpYyBjb25zdCBjaGFyICogY29uc3Qgc21jYV9sc19tY2VfZGVzY1tdID0gewogCSJT
-eXMgUmVhZCBkYXRhIGVycm9yIHRocmVhZCAwIiwKIAkiU3lzIHJlYWQgZGF0YSBlcnJvciB0aHJl
-YWQgMSIsCiAJIkRDIHRhZyBlcnJvciB0eXBlIDIiLAotCSJEQyBkYXRhIGVycm9yIHR5cGUgMSAo
-cG9pc29uIGNvbXN1bXB0aW9uKSIsCisJIkRDIGRhdGEgZXJyb3IgdHlwZSAxIChwb2lzb24gY29u
-c3VtcHRpb24pIiwKIAkiREMgZGF0YSBlcnJvciB0eXBlIDIiLAogCSJEQyBkYXRhIGVycm9yIHR5
-cGUgMyIsCiAJIkRDIHRhZyBlcnJvciB0eXBlIDQiLAo=
+T24gTW9uLCBKdW4gMTIsIDIwMTcgYXQgMTE6NTg6MjNBTSAtMDUwMCwgWWF6ZW4gR2hhbm5hbSB3
+cm90ZToKPiBGcm9tOiBZYXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cj4gCj4g
+Rml4IHR5cG8gaW4gInBvaXNvbiBjb25zdW1wdGlvbiIgZXJyb3IgZGVzY3JpcHRpb24uCj4gCj4g
+U2lnbmVkLW9mZi1ieTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgo+IC0t
+LQo+ICBkcml2ZXJzL2VkYWMvbWNlX2FtZC5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBp
+bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCkFwcGxpZWQsIHRoYW5rcy4K
