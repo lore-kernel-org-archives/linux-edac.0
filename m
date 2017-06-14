@@ -1,17 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC: mv64x60 calculate memory size correctly
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170607090114.njdf4nve63rmz7yc@pd.tnic>
-Date: Wed, 7 Jun 2017 11:01:14 +0200
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: ie31200_edac: increase polling debug message level
+From: Aristeu Rozanski <aris@redhat.com>
+Message-Id: <20170614135813.GG8041@redhat.com>
+Date: Wed, 14 Jun 2017 09:58:14 -0400
+To: linux-edac@vger.kernel.org
+Cc: Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBKdW4gMDYsIDIwMTcgYXQgMDk6MTk6MDRQTSArMDAwMCwgQ2hyaXMgUGFja2hhbSB3
-cm90ZToKPiAibXZlYnUiIGlzIHRoZSBjdXJyZW50IHRyZW5kIGZvciB0aGlzIGZhbWlseSBvZiBv
-cmlvbi9raXJrd29vZC9hcm1hZGEgCj4gU29Dcy4gSSBjYW4gdGFrZSBtdjY0eDYwX2VkYWMuYyBh
-bmQgZ3V0IGl0IHRvIHVzZSBhcyBhIGJhc2UuCgpzL2d1dCBpdC9jb3B5IHN0dWZmIGZvciB5b3Vy
-IG93biB1c2UgaW4geW91ciAqc2VwYXJhdGUqIGRyaXZlci8KCkxldCdzIGxlYXZlIG12NjR4NjBf
-ZWRhYy5jIGFsb25lLgo=
+aWUzMTIwMF9jaGVjaygpIGVtaXRzIGEgZGVidWcgbWVzc2FnZSBhdCB0aGUgbG93ZXN0IGRlYnVn
+IGxldmVsIHdoaWNoCm1lYW5zIHlvdSBoYXZlIGEgb25jZSBwZXIgc2Vjb25kIG1lc3NhZ2UgaW4g
+dGhlIGxvZ3MgdGhhdCBpc24ndApnZW5lcmFsbHkgaW50ZXJlc3RpbmcuIFJhaXNlIGl0IHRvIDMg
+dG8gbWF0Y2ggdGhlIG90aGVyIHBsYWNlcyB0aGUKZHJpdmVyIGVtaXRzIGZ1bmN0aW9uIGVudGVy
+L2V4aXQgZGVidWcgbWVzc2FnZXMuCgpDYzogSmFzb24gQmFyb24gPGpiYXJvbkBha2FtYWkuY29t
+PgpDYzogQm9yaXNsYXYgUGV0a292IDxicEBhbGllbjguZGU+CkNjOiBNYXVybyBDYXJ2YWxobyBD
+aGVoYWIgPG1jaGVoYWJAa2VybmVsLm9yZz4KU2lnbmVkLW9mZi1ieTogQXJpc3RldSBSb3phbnNr
+aSA8YXJpc0ByZWRoYXQuY29tPgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9pZTMxMjAwX2Vk
+YWMuYyBiL2RyaXZlcnMvZWRhYy9pZTMxMjAwX2VkYWMuYwppbmRleCAyNzMzZmI1Li4xNmZiYzA3
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2VkYWMvaWUzMTIwMF9lZGFjLmMKKysrIGIvZHJpdmVycy9l
+ZGFjL2llMzEyMDBfZWRhYy5jCkBAIC0zMDYsNyArMzA2LDcgQEAgc3RhdGljIHZvaWQgaWUzMTIw
+MF9jaGVjayhzdHJ1Y3QgbWVtX2N0bF9pbmZvICptY2kpCiB7CiAJc3RydWN0IGllMzEyMDBfZXJy
+b3JfaW5mbyBpbmZvOwogCi0JZWRhY19kYmcoMSwgIk1DJWRcbiIsIG1jaS0+bWNfaWR4KTsKKwll
+ZGFjX2RiZygzLCAiTUMlZFxuIiwgbWNpLT5tY19pZHgpOwogCWllMzEyMDBfZ2V0X2FuZF9jbGVh
+cl9lcnJvcl9pbmZvKG1jaSwgJmluZm8pOwogCWllMzEyMDBfcHJvY2Vzc19lcnJvcl9pbmZvKG1j
+aSwgJmluZm8pOwogfQo=
