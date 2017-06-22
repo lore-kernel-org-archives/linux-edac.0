@@ -1,17 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC, mce_amd: Fix typo in SMCA error description
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170612170542.bqapswaib4xbrhih@pd.tnic>
-Date: Mon, 12 Jun 2017 19:05:42 +0200
-To: Yazen Ghannam <Yazen.Ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-kernel@vger.kernel.org
+Subject: [1/2] edac: pnd2_edac: add code comment for clarification
+From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+Message-Id: <20170622192646.GA14339@embeddedgus>
+Date: Thu, 22 Jun 2017 14:26:46 -0500
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <garsilva@embeddedor.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBKdW4gMTIsIDIwMTcgYXQgMTE6NTg6MjNBTSAtMDUwMCwgWWF6ZW4gR2hhbm5hbSB3
-cm90ZToKPiBGcm9tOiBZYXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cj4gCj4g
-Rml4IHR5cG8gaW4gInBvaXNvbiBjb25zdW1wdGlvbiIgZXJyb3IgZGVzY3JpcHRpb24uCj4gCj4g
-U2lnbmVkLW9mZi1ieTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgo+IC0t
-LQo+ICBkcml2ZXJzL2VkYWMvbWNlX2FtZC5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCkFwcGxpZWQsIHRoYW5rcy4K
+QWRkIGNvZGUgY29tbWVudCB0byBtYWtlIGl0IGNsZWFyIHRoYXQgdGhlIGZhbGwtdGhyb3VnaCBp
+cyBpbnRlbnRpb25hbC4KCkFkZHJlc3Nlcy1Db3Zlcml0eS1JRDogMTQwMzcyOApTaWduZWQtb2Zm
+LWJ5OiBHdXN0YXZvIEEuIFIuIFNpbHZhIDxnYXJzaWx2YUBlbWJlZGRlZG9yLmNvbT4KLS0tCiBk
+cml2ZXJzL2VkYWMvcG5kMl9lZGFjLmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9wbmQyX2VkYWMuYyBiL2RyaXZlcnMvZWRh
+Yy9wbmQyX2VkYWMuYwppbmRleCAxY2FkNWE5Li5jNTFlYzczIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2VkYWMvcG5kMl9lZGFjLmMKKysrIGIvZHJpdmVycy9lZGFjL3BuZDJfZWRhYy5jCkBAIC0xNzQs
+NiArMTc0LDcgQEAgc3RhdGljIGludCBhcGxfcmRfcmVnKGludCBwb3J0LCBpbnQgb2ZmLCBpbnQg
+b3AsIHZvaWQgKmRhdGEsIHNpemVfdCBzeiwgY2hhciAqbmEKIAlzd2l0Y2ggKHN6KSB7CiAJY2Fz
+ZSA4OgogCQlyZXQgPSBzYmlfc2VuZChwb3J0LCBvZmYgKyA0LCBvcCwgKHUzMiAqKShkYXRhICsg
+NCkpOworCQkvKiBmYWxsIHRocm91Z2ggKi8KIAljYXNlIDQ6CiAJCXJldCA9IHNiaV9zZW5kKHBv
+cnQsIG9mZiwgb3AsICh1MzIgKilkYXRhKTsKIAkJcG5kMl9wcmludGsoS0VSTl9ERUJVRywgIiVz
+PSV4JTA4eCByZXQ9JWRcbiIsIG5hbWUsCg==
