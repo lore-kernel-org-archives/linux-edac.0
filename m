@@ -2,27 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: edac: pnd2_edac: add code comment for clarification and update variable assignment
-From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
-Message-Id: <20170622220535.GA4896@embeddedgus>
-Date: Thu, 22 Jun 2017 17:05:35 -0500
-To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170623075317.z5cao5ah4o3a6qph@pd.tnic>
+Date: Fri, 23 Jun 2017 09:53:17 +0200
+To: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+Cc: Tony Luck <tony.luck@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-QWRkIGNvZGUgY29tbWVudCB0byBtYWtlIGl0IGNsZWFyIHRoYXQgdGhlIGZhbGwtdGhyb3VnaCBp
-cyBpbnRlbnRpb25hbCBhbmQsCk9SIHJldCB3aXRoIGl0cyBwcmV2aW91cyB2YWx1ZSB0byBhdm9p
-ZCBvdmVyd3JpdGluZyBpdC4KCkNjOiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT4KU2ln
-bmVkLW9mZi1ieTogR3VzdGF2byBBLiBSLiBTaWx2YSA8Z2Fyc2lsdmFAZW1iZWRkZWRvci5jb20+
-Ci0tLQogZHJpdmVycy9lZGFjL3BuZDJfZWRhYy5jIHwgMyArKy0KIDEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMv
-cG5kMl9lZGFjLmMgYi9kcml2ZXJzL2VkYWMvcG5kMl9lZGFjLmMKaW5kZXggMWNhZDVhOS4uNjNj
-YjMyMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9lZGFjL3BuZDJfZWRhYy5jCisrKyBiL2RyaXZlcnMv
-ZWRhYy9wbmQyX2VkYWMuYwpAQCAtMTc0LDggKzE3NCw5IEBAIHN0YXRpYyBpbnQgYXBsX3JkX3Jl
-ZyhpbnQgcG9ydCwgaW50IG9mZiwgaW50IG9wLCB2b2lkICpkYXRhLCBzaXplX3Qgc3osIGNoYXIg
-Km5hCiAJc3dpdGNoIChzeikgewogCWNhc2UgODoKIAkJcmV0ID0gc2JpX3NlbmQocG9ydCwgb2Zm
-ICsgNCwgb3AsICh1MzIgKikoZGF0YSArIDQpKTsKKwkJLyogZmFsbCB0aHJvdWdoICovCiAJY2Fz
-ZSA0OgotCQlyZXQgPSBzYmlfc2VuZChwb3J0LCBvZmYsIG9wLCAodTMyICopZGF0YSk7CisJCXJl
-dCB8PSBzYmlfc2VuZChwb3J0LCBvZmYsIG9wLCAodTMyICopZGF0YSk7CiAJCXBuZDJfcHJpbnRr
-KEtFUk5fREVCVUcsICIlcz0leCUwOHggcmV0PSVkXG4iLCBuYW1lLAogCQkJCQlzeiA9PSA4ID8g
-KigodTMyICopKGRhdGEgKyA0KSkgOiAwLCAqKCh1MzIgKilkYXRhKSwgcmV0KTsKIAkJYnJlYWs7
-Cg==
+T24gVGh1LCBKdW4gMjIsIDIwMTcgYXQgMDU6MDU6MzVQTSAtMDUwMCwgR3VzdGF2byBBLiBSLiBT
+aWx2YSB3cm90ZToKPiBBZGQgY29kZSBjb21tZW50IHRvIG1ha2UgaXQgY2xlYXIgdGhhdCB0aGUg
+ZmFsbC10aHJvdWdoIGlzIGludGVudGlvbmFsIGFuZCwKPiBPUiByZXQgd2l0aCBpdHMgcHJldmlv
+dXMgdmFsdWUgdG8gYXZvaWQgb3ZlcndyaXRpbmcgaXQuCj4gCj4gQ2M6IEJvcmlzbGF2IFBldGtv
+diA8YnBAYWxpZW44LmRlPgo+IFNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGdh
+cnNpbHZhQGVtYmVkZGVkb3IuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2VkYWMvcG5kMl9lZGFjLmMg
+fCAzICsrLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+CgpBcHBsaWVkLCB0aGFua3MuCg==
