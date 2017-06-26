@@ -2,25 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, pnd2_edac: make function sbi_send static
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <20170623204759.2op7zhjtfgyqd7db@intel.com>
-Date: Fri, 23 Jun 2017 13:48:00 -0700
-To: Borislav Petkov <bp@alien8.de>
-Cc: Colin King <colin.king@canonical.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170626141451.xgvrumfobu3ulfqv@pd.tnic>
+Date: Mon, 26 Jun 2017 16:14:52 +0200
+To: Colin King <colin.king@canonical.com>
+Cc: Tony Luck <tony.luck@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBKdW4gMjMsIDIwMTcgYXQgMTA6NTg6MjRBTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
-IHdyb3RlOgo+IE9uIEZyaSwgSnVuIDIzLCAyMDE3IGF0IDA5OjQ4OjU1QU0gKzAxMDAsIENvbGlu
-IEtpbmcgd3JvdGU6Cj4gPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmlj
-YWwuY29tPgo+ID4gLWludCBzYmlfc2VuZChpbnQgcG9ydCwgaW50IG9mZiwgaW50IG9wLCB1MzIg
-KmRhdGEpCj4gPiArc3RhdGljIGludCBzYmlfc2VuZChpbnQgcG9ydCwgaW50IG9mZiwgaW50IG9w
-LCB1MzIgKmRhdGEpCj4gCj4gVG9ueSwgd2VyZSB0aG9zZSBzdXBwb3NlZCB0byBiZSB1c2VkIHNv
-bWV3aGVyZSBvdXRzaWRlIG9mIHRoZSBkcml2ZXIsCj4gaS5lLiwgdGhhdCBDT05GSUdfWDg2X0lO
-VEVMX1NCSV9BUEwgdGhpbmc/CgpOby4gIFRoaXMgZnVuY3Rpb24gaXMgaW50ZXJuYWwgYW5kIGNh
-biBiZSBzdGF0aWMuCgpUaGUgQ09ORklHX1g4Nl9JTlRFTF9TQklfQVBMIHRoaW5nIGlzIGFib3V0
-IHNiaV9hcGxfY29tbWl0KCkKd2hpbGUgaXMgc3RpbGwgd2FpdGluZyBmb3IgYSBzaWRlYmFuZCBk
-cml2ZXIgdGhhdCBkZWZpbmVzIGl0CnRvIGJlIHB1c2hlZCB1cHN0cmVhbS4KCi1Ub255Ci0tLQpU
-byB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUg
-bGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtl
-cm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9t
-YWpvcmRvbW8taW5mby5odG1sCg==
+T24gRnJpLCBKdW4gMjMsIDIwMTcgYXQgMDk6NDg6NTVBTSArMDEwMCwgQ29saW4gS2luZyB3cm90
+ZToKPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+IAo+
+IFRoZSBmdW5jdGlvbiBzYmlfc2VuZCBpcyBsb2NhbCB0byBqdXN0IHBuZDJfZWRhYy5jIGFuZCBk
+b2VzIG5vdCBuZWVkIHRvCj4gYmUgaW4gZ2xvYmFsIHNjb3BlLCBzbyBtYWtlIGl0IHN0YXRpYy4K
+PiAKPiBDbGVhbnMgdXAgc3BhcnNlIHdhcm5pbmc6Cj4gc3ltYm9sICdzYmlfc2VuZCcgd2FzIG5v
+dCBkZWNsYXJlZC4gU2hvdWxkIGl0IGJlIHN0YXRpYz8KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDb2xp
+biBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2Vk
+YWMvcG5kMl9lZGFjLmMgfCA0ICsrLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKCkFwcGxpZWQsIHRoYW5rcy4K
