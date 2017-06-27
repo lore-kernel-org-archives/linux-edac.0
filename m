@@ -2,52 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/2] x86/idle: use dynamic halt poll
-From: =?utf-8?b?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>
-Message-Id: <20170627142251.GB1487@potion>
-Date: Tue, 27 Jun 2017 16:22:51 +0200
-To: Paolo Bonzini <pbonzini@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <bf7edb81-e4aa-d635-82a6-81b173590f34@redhat.com>
+Date: Tue, 27 Jun 2017 16:26:10 +0200
+To: =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>
 Cc: Wanpeng Li <kernellwp@gmail.com>, Yang Zhang <yang.zhang.wz@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, the arch/x86 maintainers <x86@kernel.org>, Jonathan Corbet <corbet@lwn.net>, tony.luck@intel.com, Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>, mchehab@kernel.org, Andrew Morton <akpm@linux-foundation.org>, krzk@kernel.org, jpoimboe@redhat.com, Andy Lutomirski <luto@kernel.org>, Christian Borntraeger <borntraeger@de.ibm.com>, Thomas Garnier <thgarnie@google.com>, Robert Gerst <rgerst@gmail.com>, Mathias Krause <minipli@googlemail.com>, douly.fnst@cn.fujitsu.com, Nicolai Stange <nicstange@gmail.com>, Frederic Weisbecker <fweisbec@gmail.com>, dvlasenk@redhat.com, Daniel Bristot de Oliveira <bristot@redhat.com>, yamada.masahiro@socionext.com, mika.westerberg@linux.intel.com, Chen Yu <yu.c.chen@intel.com>, aaron.lu@intel.com, Steven Rostedt <rostedt@goodmis.org>, Kyle Huey <me@kylehuey.com>, Len Brown <len.brown@intel.com>, Prarit Bhargava <prarit@redhat.com>, hidehiro.kawai.ez@hitachi.com, fengtiantian@huawei.com, pmladek@suse.com, jeyu@redhat.com, Larry.Finger@lwfinger.net, zijun_hu@htc.com, luisbg@osg.samsung.com, johannes.berg@intel.com, niklas.soderlund+renesas@ragnatech.se, zlpnobody@gmail.com, Alexey Dobriyan <adobriyan@gmail.com>, fgao@ikuai8.com, ebiederm@xmission.com, Subash Abhinov Kasiviswanathan <subashab@codeaurora.org>, Arnd Bergmann <arnd@arndb.de>, Matt Fleming <matt@codeblueprint.co.uk>, Mel Gorman <mgorman@techsingularity.net>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, linux-edac@vger.kernel.org, kvm <kvm@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-MjAxNy0wNi0yNyAxNTo1NiswMjAwLCBQYW9sbyBCb256aW5pOgo+IE9uIDI3LzA2LzIwMTcgMTU6
-NDAsIFJhZGltIEtyxI1tw6HFmSB3cm90ZToKPj4+IC4uLiB3aGljaCBpcyBub3QgbmVjZXNzYXJp
-bHkgX3dyb25nXy4gIEl0J3MganVzdCBhIGRpZmZlcmVudCBoZXVyaXN0aWMuCj4+IFJpZ2h0LCBp
-dCdzIGp1c3QgaGFyZGVyIHRvIHVzZSB0aGFuIGhvc3QncyBzaW5nbGVfdGFza19ydW5uaW5nKCkg
-LS0gdGhlCj4+IFZDUFUgY2FsbGluZyB2Y3B1X2lzX3ByZWVtcHRlZCgpIGlzIG5ldmVyIHByZWVt
-cHRlZCwgc28gd2UgaGF2ZSB0byBsb29rCj4+IGF0IG90aGVyIFZDUFVzIHRoYXQgYXJlIG5vdCBo
-YWx0ZWQsIGJ1dCBzdGlsbCBwcmVlbXB0ZWQuCj4+IAo+PiBJZiB3ZSBzZWUgc29tZSByYXRpbyBv
-ZiBwcmVlbXB0ZWQgVkNQVXMgKD4gMD8pLCB0aGVuIHdlIHN0b3AgcG9sbGluZyBhbmQKPj4geWll
-bGQgdG8gdGhlIGhvc3QuICBXb3JraW5nIHVuZGVyIHRoZSBhc3N1bXB0aW9uIHRoYXQgdGhlcmUg
-aXMgd29yayBmb3IKPj4gdGhpcyBQQ1BVIGlmIG90aGVyIFZDUFVzIGhhdmUgc3R1ZmYgdG8gZG8u
-ICBUaGUgZG93bnNpZGUgaXMgdGhhdCBpdAo+PiBtaXNzZXMgaW5mb3JtYXRpb24gYWJvdXQgaG9z
-dCdzIHRvcG9sb2d5LCBzbyBpdCB3b3VsZCBiZSBoYXJkIHRvIG1ha2UgaXQKPj4gd29yayB3ZWxs
-Lgo+IAo+IEkgd291bGQganVzdCB1c2UgdmNwdV9pc19wcmVlbXB0ZWQgb24gdGhlIGN1cnJlbnQg
-Q1BVLiAgRnJvbSBndWVzdCBQT1YKPiB0aGlzIG9wdGlvbiBpcyByZWFsbHkgYSAiZioqKiBldmVy
-eW9uZSBlbHNlIiBzZXR0aW5nIGp1c3QgbGlrZQo+IGlkbGU9cG9sbCwgb25seSBhIGxpdHRsZSBt
-b3JlIHBvbGl0ZS4KCnZjcHVfaXNfcHJlZW1wdGVkKCkgb24gY3VycmVudCBjcHUgY2Fubm90IHJl
-dHVybiB0cnVlLCBBRkFJSy4KCj4gSWYgd2UndmUgYmVlbiBwcmVlbXB0ZWQgYW5kIHdlIHdlcmUg
-cG9sbGluZywgdGhlcmUgYXJlIHR3byBjYXNlcy4gIElmIGFuCj4gaW50ZXJydXB0IHdhcyBxdWV1
-ZWQgd2hpbGUgdGhlIGd1ZXN0IHdhcyBwcmVlbXB0ZWQsIHRoZSBwb2xsIHdpbGwgYmUKPiB0cmVh
-dGVkIGFzIHN1Y2Nlc3NmdWwgYW55d2F5LgoKSSB0aGluayB0aGUgcG9sbCBzaG91bGQgYmUgdHJl
-YXRlZCBhcyBpbnZhbGlkIGlmIHRoZSB3aW5kb3cgaGFzIGV4cGlyZWQKd2hpbGUgdGhlIFZDUFUg
-d2FzIHByZWVtcHRlZCAtLSB0aGUgZ3Vlc3QgY2FuJ3QgdGVsbCB3aGV0aGVyIHRoZQppbnRlcnJ1
-cHQgYXJyaXZlZCBzdGlsbCB3aXRoaW4gdGhlIHBvbGwgd2luZG93ICh1bmxlc3Mgd2UgYWRkZWQg
-cGFyYXZpcnQKZm9yIHRoYXQpLCBzbyBpdCBzaG91bGRuJ3QgYmUgd2FzdGluZyB0aW1lIHdhaXRp
-bmcgZm9yIGl0LgoKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgSWYgaXQgaGFzbid0
-LCBsZXQgb3RoZXJzIHJ1bi0tLWJ1dCByZWFsbHkKPiB0aGF0J3Mgbm90IGJlY2F1c2UgdGhlIGd1
-ZXN0IHdhbnRzIHRvIGJlIHBvbGl0ZSwgaXQncyB0byBhdm9pZCB0aGF0IHRoZQo+IHNjaGVkdWxl
-ciBwZW5hbGl6ZXMgaXQgZXhjZXNzaXZlbHkuCgpUaGlzIHNvdW5kcyBsaWtlIGEgVk0gZW50cnkg
-anVzdCB0byBkbyBhbiBpbW1lZGlhdGUgVk0gZXhpdCwgc28gcGFyYXZpcnQKc2VlbXMgYmV0dGVy
-IGhlcmUgYXMgd2VsbCAuLi4gKHRoZSBndWVzdCB0ZWxsaW5nIHRoZSBob3N0IGFib3V0IGl0cwp3
-aW5kb3cgLS0gd2hpY2ggY291bGQgYWxzbyBiZSB1c2VkIHRvIHJ1bGUgaXQgb3V0IGFzIGEgdGFy
-Z2V0IGluIHRoZQpwYXVzZSBsb29wIHJhbmRvbSBraWNrLikKCj4gU28gdW50aWwgaXQncyBwcmVl
-bXB0ZWQsIEkgdGhpbmsgaXQncyBva2F5IGlmIHRoZSBndWVzdCBkb2Vzbid0IGNhcmUKPiBhYm91
-dCBvdGhlcnMuICBZb3Ugd291bGRuJ3QgdXNlIHRoaXMgb3B0aW9uIGFueXdheSBpbiBvdmVyY29t
-bWl0dGVkCj4gc2l0dWF0aW9ucy4KPiAKPiAoSSdtIHN0aWxsIG5vdCB2ZXJ5IGNvbnZpbmNlZCBh
-Ym91dCB0aGUgaWRlYSkuCgpNZSBuZWl0aGVyLiAgKFRoZSBzYW1lIG1lY2hhbmlzbSBpcyBhcHBs
-aWNhYmxlIHRvIGJhcmUtbWV0YWwsIGJ1dCB3YXMKbmV2ZXIgdXNlZCB0aGVyZSwgc28gSSB3b3Vs
-ZCByYXRoZXIgYnJpbmcgdGhlIGd1ZXN0IGJlaGF2aW9yIGNsb3NlciB0bwpiYXJlLW1ldGFsLikK
-LS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNj
-cmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
-ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
-b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+T24gMjcvMDYvMjAxNyAxNjoyMiwgUmFkaW0gS3LEjW3DocWZIHdyb3RlOgo+IHZjcHVfaXNfcHJl
+ZW1wdGVkKCkgb24gY3VycmVudCBjcHUgY2Fubm90IHJldHVybiB0cnVlLCBBRkFJSy4KCk9mIGNv
+dXJzZS4gIEkgbXVzdCBoYXZlIGJlZW4gdGhpbmtpbmcgb2YgYW4gb2xkZXIgdmVyc2lvbiBvZiB0
+aGUKdmNwdV9pc19wcmVlbXB0ZWQgcGF0Y2ggKGF0IHNvbWUgcG9pbnQgdGhlIGd1ZXN0IHdhcyB0
+aGUgb25lIHRoYXQgc2V0CnByZWVtcHRlZCB0byAwKS4KClBhb2xvCi0tLQpUbyB1bnN1YnNjcmli
+ZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIg
+aW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9y
+ZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5m
+by5odG1sCg==
