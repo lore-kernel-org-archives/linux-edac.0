@@ -2,38 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC: Get rid of mci->mod_ver
-From: thor.thayer@linux.intel.com
-Message-Id: <deade91d-7326-8a39-3881-50db582c3098@linux.intel.com>
-Date: Thu, 29 Jun 2017 08:57:57 -0500
-To: Borislav Petkov <bp@alien8.de>, linux-edac <linux-edac@vger.kernel.org>
-Cc: Mark Gross <mark.gross@intel.com>, Robert Richter <rric@kernel.org>, Tim Small <tim@buttersideup.com>, Ranganathan Desikan <ravi@jetztechnologies.com>, "Arvind R." <arvino55@gmail.com>, Jason Baron <jbaron@akamai.com>, Tony Luck <tony.luck@intel.com>, Michal Simek <michal.simek@xilinx.com>, =?UTF-8?Q?S=c3=b6ren_Brinkmann?= <soren.brinkmann@xilinx.com>, Ralf Baechle <ralf@linux-mips.org>, David Daney <david.daney@cavium.com>, Loc Ho <lho@apm.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mips@linux-mips.org
+From: Loc Ho <lho@apm.com>
+Message-Id: <CAPw-ZTn=3kfEjs4OqKOkPY3wFi8tGmXfbv2CO14CLhycCM6hHA@mail.gmail.com>
+Date: Fri, 30 Jun 2017 11:32:30 -0700
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-edac <linux-edac@vger.kernel.org>, Thor Thayer <thor.thayer@linux.intel.com>, Mark Gross <mark.gross@intel.com>, Robert Richter <rric@kernel.org>, Tim Small <tim@buttersideup.com>, Ranganathan Desikan <ravi@jetztechnologies.com>, "Arvind R." <arvino55@gmail.com>, Jason Baron <jbaron@akamai.com>, Tony Luck <tony.luck@intel.com>, Michal Simek <michal.simek@xilinx.com>, =?UTF-8?Q?S=C3=B6ren_Brinkmann?= <soren.brinkmann@xilinx.com>, Ralf Baechle <ralf@linux-mips.org>, David Daney <david.daney@cavium.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, linux-mips@linux-mips.org
 List-ID: <edac.vger.kernel.org>
 
-T24gMDYvMjkvMjAxNyAwNTowMyBBTSwgQm9yaXNsYXYgUGV0a292IHdyb3RlOgo+IEhpLAo+IAo+
-IGFueSBvYmplY3Rpb25zPwo+IAo+IC0tLQo+IEl0IGlzIGEgd3JpdGUtb25seSB2YXJpYWJsZSBz
-byBnZXQgcmlkIG9mIGl0Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBA
-c3VzZS5kZT4KPiBDYzogVGhvciBUaGF5ZXIgPHRob3IudGhheWVyQGxpbnV4LmludGVsLmNvbT4K
-PiBDYzogTWFyayBHcm9zcyA8bWFyay5ncm9zc0BpbnRlbC5jb20+Cj4gQ2M6IFJvYmVydCBSaWNo
-dGVyIDxycmljQGtlcm5lbC5vcmc+Cj4gQ2M6IFRpbSBTbWFsbCA8dGltQGJ1dHRlcnNpZGV1cC5j
-b20+Cj4gQ2M6IFJhbmdhbmF0aGFuIERlc2lrYW4gPHJhdmlAamV0enRlY2hub2xvZ2llcy5jb20+
-Cj4gQ2M6ICJBcnZpbmQgUi4iIDxhcnZpbm81NUBnbWFpbC5jb20+Cj4gQ2M6IEphc29uIEJhcm9u
-IDxqYmFyb25AYWthbWFpLmNvbT4KPiBDYzogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29t
-Pgo+IENjOiBNaWNoYWwgU2ltZWsgPG1pY2hhbC5zaW1la0B4aWxpbnguY29tPgo+IENjOiAiU8O2
-cmVuIEJyaW5rbWFubiIgPHNvcmVuLmJyaW5rbWFubkB4aWxpbnguY29tPgo+IENjOiBSYWxmIEJh
-ZWNobGUgPHJhbGZAbGludXgtbWlwcy5vcmc+Cj4gQ2M6IERhdmlkIERhbmV5IDxkYXZpZC5kYW5l
-eUBjYXZpdW0uY29tPgo+IENjOiBMb2MgSG8gPGxob0BhcG0uY29tPgo+IENjOiBsaW51eC1lZGFj
-QHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCj4gQ2M6
-IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IENjOiBsaW51eC1taXBzQGxp
-bnV4LW1pcHMub3JnCj4gLS0tCj4gICBkcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuYyAgICAgIHwg
-MiAtLQoKPHNuaXA+Cgo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMu
-YyBiL2RyaXZlcnMvZWRhYy9hbHRlcmFfZWRhYy5jCj4gaW5kZXggZGI3NWQ0YjYxNGY3Li5mYTJl
-NWRiNTZkMjQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9lZGFjL2FsdGVyYV9lZGFjLmMKPiArKysg
-Yi9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuYwo+IEBAIC0zOCw3ICszOCw2IEBACj4gICAjaW5j
-bHVkZSAiZWRhY19tb2R1bGUuaCIKPiAgIAo+ICAgI2RlZmluZSBFREFDX01PRF9TVFIJCSJhbHRl
-cmFfZWRhYyIKPiAtI2RlZmluZSBFREFDX1ZFUlNJT04JCSIxIgo+ICAgI2RlZmluZSBFREFDX0RF
-VklDRQkJIkFsdGVyYSIKPiAgIAoKPHNuaXA+CgpMb29rcyBmaW5lIGZvciBBbHRlcmEgRURBQy4K
-CkFja2VkLWJ5OiBUaG9yIFRoYXllciA8dGhvci50aGF5ZXJAbGludXguaW50ZWwuY29tPgotLS0K
-VG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJl
-IGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
-ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
-bWFqb3Jkb21vLWluZm8uaHRtbAo=
+SGksCgo+Cj4gYW55IG9iamVjdGlvbnM/CgoKTm8gb2JqZWN0aW9uIGZvciBYLUdlbmUgRURBQy4K
+Ci1Mb2MKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1
+bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jk
+b21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5r
+ZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
