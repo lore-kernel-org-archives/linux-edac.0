@@ -2,36 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] ghes_edac: add platform check to enable ghes_edac
-From: Toshi Kani <toshi.kani@hpe.com>
-Message-Id: <1500412288.2042.25.camel@hpe.com>
-Date: Tue, 18 Jul 2017 21:20:44 +0000
-To: "tony.luck@intel.com" <tony.luck@intel.com>, "bp@alien8.de" <bp@alien8.de>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "mchehab@kernel.org" <mchehab@kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <3908561D78D1C84285E8C5FCA982C28F6130C6B8@ORSMSX114.amr.corp.intel.com>
+Date: Tue, 18 Jul 2017 22:13:42 +0000
+To: Borislav Petkov <bp@alien8.de>, Toshi Kani <toshi.kani@hpe.com>
+Cc: "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "mchehab@kernel.org" <mchehab@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCAyMDE3LTA3LTE4IGF0IDEwOjA4ICswMjAwLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6
-DQo+IE9uIFR1ZSwgSnVsIDE4LCAyMDE3IGF0IDA4OjAwOjA3QU0gKzAyMDAsIEJvcmlzbGF2IFBl
-dGtvdiB3cm90ZToNCj4gPiBBbmQgSSB0aGluayB3ZSBzaG91bGQgdHJ5IHRoaXMgZmlyc3Q6IGhh
-dmUgdGhlIGZpcm13YXJlIGRpc2FibGUNCj4gPiBkZXRlY3Rpb24gbWV0aG9kcyBzbyB0aGF0IHRo
-ZSBwbGF0Zm9ybSBkcml2ZXJzIGRvbid0IGxvYWQuDQo+IA0KPiBCdHcsIGluIGxvb2tpbmcgYXQg
-dGhpcyBtb3JlLCB3aGF0IGFib3V0IHRoZSBmaXJtd2FyZS1maXJzdCB0aGluZz8NCj4gDQo+IEku
-ZS4sIHRoZSBmaXJtd2FyZS1maXJzdCBkZXRlY3Rpb24gd2l0aCBhcGVpX29zY19zZXR1cCgpIGF0
-IHRoZSBlbmQNCj4gb2YgZ2hlc19pbml0KCkuDQo+IA0KPiBDYW4gd2UgbWFrZSBnaGVzX2VkYWMg
-bG9hZGluZyBkZXBlbmRlbnQgb24gdGhhdD8gSSBtZWFuLCB0aGF0IHdhcw0KPiAqdGhlKiBwcmVk
-aWNhdGUgZm9yIGV4YWN0bHkgdGhhdCAtIHRvIGhhdmUgdGhlIGZpcm13YXJlIGxvb2sgYXQgdGhl
-DQo+IGVycm9ycyBmaXJzdC4gTm8gbmVlZCBmb3IgcGxhdGZvcm0gd2hpdGVsaXN0aW5nIGFuZCBz
-byBvbi4NCg0KSSBhZ3JlZSB0aGF0ICdvc2Nfc2JfYXBlaV9zdXBwb3J0X2Fja2VkJyBzaG91bGQg
-YmUgY2hlY2tlZCB3aGVuDQplbmFibGluZyBnaGVzX2VkYWMuICBJIGRvIG5vdCBrbm93IHRoZSBk
-ZXRhaWxzIG9mIGV4aXN0aW5nIGlzc3VlcywgYnV0DQppdCBzb3VuZHMgdW5saWtlbHkgdGhhdCB0
-aGlzIHdpbGwgYWRkcmVzcyBhbGwgb2YgdGhlbSBzaW5jZSBidWdzIGNhbiBiZQ0KZXZlcnl3aGVy
-ZS4gIEZvciBpbnN0YW5jZSwgZ2hlc19lZGFjIHJlbGllcyBvbiBETUkvU01CSU9TIGluZm8sIHVu
-bGlrZQ0Kb3RoZXIgRURBQyBkcml2ZXJzLCB3aGljaCBjYW4gYmUgYnVnZ3kgcmVnYXJkbGVzcyBv
-ZiB0aGlzIF9PU0MgaW5mby4NCg0KPiBJJ2Qgc3RpbGwgZGVjb3VwbGUgZ2hlc19lZGFjIGxvYWRp
-bmcgZnJvbSBnaGVzX3Byb2JlKCkgZXZlbiB0aG91Z2gNCj4gbG9hZGluZyB0aGUgcGxhdGZvcm0g
-ZHJpdmVyIHNob3VsZCd2ZSBiZWVuIGRvbmUgKmFmdGVyKiB0aGUNCj4gZmlybXdhcmUtZmlyc3Qg
-ZGV0ZWN0aW9uIHJlZ2FyZGxlc3MuDQo+IA0KPiBTbyB3aGF0IHdlIGNvdWxkIGRvIGlzIG1ha2Ug
-Z2hlc19lZGFjIGEgbm9ybWFsIG1vZHVsZSBhbmQgaGF2ZSB0aGUNCj4gcmVsZXZhbnQgeDg2IEVE
-QUMgbW9kdWxlcyBxdWVyeSBGRiBtb2RlIGFuZCBpZiBlbmFibGVkLCBmYWlsIGxvYWRpbmcuDQoN
-CkkgYWdyZWUgdGhhdCBtYWtpbmcgZ2hlc19lZGFjIGFzIGEgbm9ybWFsIG1vZHVsZSBpcyBhIGdv
-b2QgdGhpbmcsIGJ1dCBJDQpkbyBub3QgdGhpbmsgaXQncyBnb2luZyB0byBzb2x2ZSB0aGlzIGlz
-c3VlLg0KDQpUaGFua3MsDQotVG9zaGkK
+PiBUaGUgcXVlc3Rpb24gaXM6IGRvZXMgdGhlIHBsYXRmb3JtIGRvIHRoaXMgZGlzYWJsaW5nIG5v
+dz8NCj4NCj4gVG9ueSwgSSdtIGxvb2tpbmcgYXQgc2JfZWRhYyBhbmQgdGhlcmUgd2UgZG9uJ3Qg
+ZG8gc29tZXRoaW5nIGxpa2UgdGhhdA0KPiBvciBtYXliZSBJJ20gbWlzc2luZyBpdC4NCg0KSGlz
+dG9yaWNhbGx5IHdlJ3ZlIGhhZCBjb21wbGFpbnRzIHRoYXQgc2JfZWRhYyB3b24ndCBsb2FkIHRo
+YXQgaGF2ZSBiZWVuDQp0cmFja2VkIHRvIEJJT1MgaGlkaW5nIG9uZSBvZiB0aGUgKG1hbnkpIFBD
+SSBkZXZpY2VzIHRoYXQgaXQgbmVlZHMuICBCdXQNCmRldmljZSBoaWRpbmcgaXMgb3J0aG9nb25h
+bCB0byBwcm92aWRpbmcgR0hFUyBlcnJvciByZWNvcmRzLiAgQSBCSU9TIG1pZ2h0DQpkbyB0aGF0
+LCBidXQgSSBkb24ndCBrbm93IHRoYXQgYW55b25lIGludGVudGlvbmFsbHkgZG9lcyBzby4NCg0K
+LVRvbnkK
