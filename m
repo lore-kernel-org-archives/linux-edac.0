@@ -2,17 +2,38 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] ghes_edac: add platform check to enable ghes_edac
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <3908561D78D1C84285E8C5FCA982C28F6130DC65@ORSMSX114.amr.corp.intel.com>
-Date: Wed, 19 Jul 2017 20:06:20 +0000
-To: Mauro Carvalho Chehab <mchehab@s-opensource.com>, Aristeu Rozanski <aris@redhat.com>
-Cc: "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+From: Toshi Kani <toshi.kani@hpe.com>
+Message-Id: <1500494666.2042.33.camel@hpe.com>
+Date: Wed, 19 Jul 2017 20:13:41 +0000
+To: "aris@redhat.com" <aris@redhat.com>, "bp@alien8.de" <bp@alien8.de>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "mchehab@kernel.org" <mchehab@kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-PiBTbywgaXQgc2VlbXMgdGhhdCBlaXRoZXIgdGhlIEJJT1MgaXMgaGlkZGVuIHRoZSBvdGhlciBj
-aGFubmVsIG9yCj4gdGhlcmUncyBzb21ldGhpbmcgd3Jvbmcgd2l0aCBTYW5keUJyaWRnZSBFUCBz
-dXBwb3J0IGF0IHNiX2VkYWMgZHJpdmVyLgoKQ2FuIHlvdSBzZW5kIG1lIHRoZSBvdXQgb2YgImxz
-cGNpIC14eHh4IiAocnVuIGFzIHJvb3QpPwoKLVRvbnkKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20g
-dGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUg
-Ym9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9y
-ZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+VDI0Z1YyVmtMQ0F5TURFM0xUQTNMVEU1SUdGMElERTBPalUxSUMwd05EQXdMQ0JCY21semRHVjFJ
+Rkp2ZW1GdWMydHBJSGR5YjNSbApPZzBLUGlCUGJpQlhaV1FzSUVwMWJDQXhPU3dnTWpBeE55Qmhk
+Q0F3TmpveU1qb3dORkJOSUNzd01qQXdMQ0JDYjNKcGMyeGhkaUJRClpYUnJiM1lnZDNKdmRHVTZE
+UW8rSUQ0Z1QyNGdWMlZrTENCS2RXd2dNVGtzSURJd01UY2dZWFFnTURRNk1UQTZNRGRRVFNBck1E
+QXcKTUN3Z1MyRnVhU3dnVkc5emFHbHRhWFJ6ZFNCM2NtOTBaVG9OQ2o0Z1BpQStJRWtnWkc4Z2NI
+SmxabVZ5SUhSdklHRjJiMmxrSUdGdQplU0IzYUdsMFpTQXZJR0pzWVdOcklHeHBjM1JwYm1jdXdx
+RENvRUoxZENCSklHUnZJRzV2ZENCelpXVU5DajRnUGlBK0lHaHZkdzBLClBpQStJRDRnYVhRZ2My
+OXNkbVZ6SUhSb1pTQmlkV2RuZVNCRVRVa3ZVMDFDU1U5VElHbHVabThnWVhNZ1lXNGdaWGhoYlhC
+c1pTQnYKWmlCbWFYSnRkMkZ5WlEwS1BpQStJRDRnWW5WbmN5QjNaUTBLUGlBK0lENGdiV0Y1SUdo
+aGRtVWdkRzhnWkdWaGJDQjNhWFJvTGcwSwpQaUErSUEwS1BpQStJRk52SUdodmR5QmtieUI1YjNV
+Z2QyRnVkQ0IwYnlCa1pXRnNJSGRwZEdnZ2RHaHBjejhOQ2o0Z1BpQU5DajRnClBpQk5ZV2x1ZEdG
+cGJpQmhiaUJsZG1WeVozSnZkMmx1WnlCM2FHbDBaV3hwYzNRZ2IyWWdjR3hoZEdadmNtMXpJSGRv
+YVdOb0lHRnkKWlNCUFN5QmhibVFOQ2o0Z1BpQjBhR1Z1SUhSb1pTQnRiMjFsYm5RZ1lTQnVaWGNn
+Y0d4aGRHWnZjbTBnWTI5dFpYTWdZV3h2Ym1jcwpJSGx2ZFNCelpXNWtJR0VnY0dGMFkyZ2dkRzhn
+WVdSa0RRbytJRDRnYVhRZ2RHOGdkR2hoZENCM2FHbDBaV3hwYzNRL0RRbytJQTBLClBpQlVhR0Yw
+SUhkdmRXeGtJR0ZzYzI4Z2JtVmxaQ0IwYnlCclpXVndJR0Z1SUdWNVpTQnZiaUIyWlhKemFXOXVj
+eTRnUVNCdVpYZGwKY2lCMlpYSnphVzl1SUc5bURRbytJRUpKVDFNZ2IyNGdZU0IzYUdsMFpXeHBj
+M1JsWkNCd2JHRjBabTl5YlNCdGFXZG9kQ0JpWlNCaQpjbTlyWlc0dURRb05DbEpwWjJoMExpQWdT
+U0IwYUdsdWF5QmhJSEYxWlhOMGFXOXVJR052YldWeklIUnZJSGRvYnlCaWNtOXJaU0JoCklISjFi
+bTVwYm1jZ2MzbHpkR1Z0SUMwdElFOVREUXAxY0dSaGRHVWdiM0lnUWtsUFV5QjFjR1JoZEdVdUlD
+QlVhR2x6SUhkb2FYUmwKYkdsemRDQmhkSFJsYlhCMGN5QjBieUJ3Y205MFpXTjBJSFJvWlNCbWIz
+SnRaWElOQ21OaGMyVWdZbmtnYm05MElHbHVkSEp2WkhWagphVzVuSUdkb1pYTmZaV1JoWXlCdmJp
+QmhjbUpwZEhKaGNua2djR3hoZEdadmNtMXpMaUFnVkdobElHeGhkSFJsY2cwS1kyRnpaU0J6CmFH
+OTFiR1FnWW1VZ2RtVnVaRzl5SjNNZ2NtVnpjRzl1YzJsaWFXeHBkSGt1RFFvTkNsUm9ZVzVyY3l3
+TkNpMVViM05vYVEwSwotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhl
+IGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0
+byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6
+Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
