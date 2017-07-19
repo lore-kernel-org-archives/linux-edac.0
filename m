@@ -2,24 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] ghes_edac: add platform check to enable ghes_edac
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170719155718.GD16124@nazgul.tnic>
-Date: Wed, 19 Jul 2017 17:57:18 +0200
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@s-opensource.com>, "Kani, Toshimitsu" <toshi.kani@hpe.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "mchehab@kernel.org" <mchehab@kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Message-Id: <20170719130245.7fc97352@vento.lan>
+Date: Wed, 19 Jul 2017 13:02:45 -0300
+To: "Luck, Tony" <tony.luck@intel.com>, Aristeu Rozanski <aris@redhat.com>
+Cc: "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBKdWwgMTksIDIwMTcgYXQgMDM6MTQ6MzJQTSArMDAwMCwgTHVjaywgVG9ueSB3cm90
-ZToKPiBMYXRlciB3aGVuIEdIRVMgZ2l2ZXMgeW91IGEgTk9ERS9DQVJEL01PRFVMRSkgaW4gYW4g
-ZXJyb3IgcmVjb3JkLiAgWW91IG5lZWQKPiB0byBtYXRjaCB0aGVzZSB1cC4gQnV0IFNNQklPUyBv
-bmx5IGdhdmUgeW91IHR3byBzdHJpbmdzICJMb2NhdG9yIiBhbmQgIkJhbmsKPiBMb2NhdG9yIiB3
-aGljaCBoYXZlIG5vIGRlZmluZWQgc3ludGF4LiBZb3UgYXJlIGF0IHRoZSBtZXJjeSBvZiB0aGUg
-QklPUyB3cml0ZXIKPiB0byBwdXQgaW4gc29tZXRoaW5nIHBhcnNlYWJsZS4KCldlbGwsIGF0IHNv
-bWUgcG9pbnQgaXQgaXMgb25seSBzbyBtdWNoIHdlIGNhbiBkbywgcmlnaHQ/CgpJIG1lYW4sIGlm
-IEZXIHNheXMgaXQgd2FudHMgdG8gZG8gZmlybXdhcmUtZmlyc3QgYW5kIHdlIGdvIGFuZCBhZGhl
-cmUKdG8gdGhhdCwgaXQgc2hvdWxkIGJlIGV4cGVjdGVkIHRoYXQgc2FpZCBGVyB2ZW5kb3IgbWFy
-a3MgdGhlIHNpbGtzY3JlZW4KbGFiZWxzIGFuZCBETUkgZGF0YSBhY2NvcmRpbmdseS4KCkkgbWVh
-biwgaXQgaXMgdGltZSBmb3IgRlcgdG8gcHV0IGl0cyBtb25leSB3aGVyZSBpdHMgbW91dGggaXMs
-IG5vPwoKSG93IGVsc2Ugd291bGQgeW91IGRvIHRoaXM/CgpGaXJtd2FyZSBGaXJzdCBidXQgdGhl
-IGtlcm5lbCBkb2VzIHRoZSBmaWd1cmluZyBvdXQgd2hpY2ggRElNTXMgYXJlCndoZXJlLiBTbyBG
-VyBjYW4ndCBoYXZlIHRoZSBjYWtlIGFuZCBlYXQgaXQgdG9vLgoKOi0pCg==
+VG9ueS9BcmlzLAoKSSBnb3QgeWVzdGVyZGF5IGFuIEhQIE1MMzUwIEc5LCBlcXVpcHBlZCB3aXRo
+IFNhbmR5IEJyaWRnZSBFUCBDUFVzIChFNS0yNjQwdjQpLgpJJ20gcnVubmluZyBLZXJuZWwgNC4x
+MSB0aGVyZS4KCkFGQUlLVCwgU2FuZHkgQnJpZGdlIEVQIGhhcyA0IGNoYW5uZWxzIHBlciBtZW1v
+cnkgY29udHJvbGxlciwgcmlnaHQ/ClRoYXQgd291bGQgbWF0Y2ggdGhlIG51bWJlciBvZiBtZW1v
+cnkgc2xvdHMgb24gdGhpcyBtYWNoaW5lICgyNCBzbG90cykuCgpZZXQsIEVEQUMgaXMgb25seSBp
+ZGVudGlmeWluZyAzIGNoYW5uZWxzIHBlciBDUFU6CgogJCAgcmFzLW1jLWN0bCAtLWxheW91dAog
+ICAgICAgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tKwogICAgICAgfCAgICAgICAgICAgICAgICBtYzAgICAgICAg
+ICAgICAgICAgfCAgICAgICAgICAgICAgICBtYzEgICAgICAgICAgICAgICAgfAogICAgICAgfCBj
+aGFubmVsMCAgfCBjaGFubmVsMSAgfCBjaGFubmVsMiAgfCBjaGFubmVsMCAgfCBjaGFubmVsMSAg
+fCBjaGFubmVsMiAgfAotLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKwpzbG90MjogfCAgICAgMCBNQiAg
+fCAgICAgMCBNQiAgfCAgICAgMCBNQiAgfCAgICAgMCBNQiAgfCAgICAgMCBNQiAgfCAgICAgMCBN
+QiAgfApzbG90MTogfCAgICAgMCBNQiAgfCAgICAgMCBNQiAgfCAgICAgMCBNQiAgfCAgICAgMCBN
+QiAgfCAgICAgMCBNQiAgfCAgICAgMCBNQiAgfApzbG90MDogfCAgMTYzODQgTUIgIHwgICAgIDAg
+TUIgIHwgIDE2Mzg0IE1CICB8ICAxNjM4NCBNQiAgfCAgICAgMCBNQiAgfCAgMTYzODQgTUIgIHwK
+LS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rCgpTbywgaXQgc2VlbXMgdGhhdCBlaXRoZXIgdGhl
+IEJJT1MgaXMgaGlkZGVuIHRoZSBvdGhlciBjaGFubmVsIG9yCnRoZXJlJ3Mgc29tZXRoaW5nIHdy
+b25nIHdpdGggU2FuZHlCcmlkZ2UgRVAgc3VwcG9ydCBhdCBzYl9lZGFjIGRyaXZlci4KClRoYW5r
+cywKTWF1cm8KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
+ICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFq
+b3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdl
+ci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
