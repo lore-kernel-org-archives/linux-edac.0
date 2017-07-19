@@ -2,31 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] ghes_edac: add platform check to enable ghes_edac
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <3908561D78D1C84285E8C5FCA982C28F6130D126@ORSMSX114.amr.corp.intel.com>
-Date: Wed, 19 Jul 2017 15:14:32 +0000
-To: Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@s-opensource.com>
-Cc: "Kani, Toshimitsu" <toshi.kani@hpe.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "mchehab@kernel.org" <mchehab@kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170719155718.GD16124@nazgul.tnic>
+Date: Wed, 19 Jul 2017 17:57:18 +0200
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@s-opensource.com>, "Kani, Toshimitsu" <toshi.kani@hpe.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "mchehab@kernel.org" <mchehab@kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-PiAiVGhlIG1vZHVsZSBudW1iZXIgb2YgdGhlIG1lbW9yeSBlcnJvciBsb2NhdGlvbi4gKE5PREUs
-IENBUkQsIGFuZCBNT0RVTEUNCj4gc2hvdWxkIHByb3ZpZGUgdGhlIGluZm9ybWF0aW9uIG5lY2Vz
-c2FyeSB0byBpZGVudGlmeSB0aGUgZmFpbGluZyBGUlUpLiINCj4NCj4gU28gdGhpcyB0dXBsZSBp
-cyBzdWZmaWNpZW50IHRvIHBpbnBvaW50IHRoZSBESU1NLCBJSVVDLg0KPg0KPiBXaGljaCBtZWFu
-cywgZ2hlc19lZGFjIGNhbiBoYXZlIGEgc2luZ2xlIGxheWVyIG9mIERJTU1zIHdpdGhvdXQgY2hh
-bm5lbHMuDQoNClRoZSB0cmlja3kgcGFydCBpcyB0aGF0IHlvdSBoYXZlIHRvIHJlbHkgb24gU01C
-SU9TL0RNSSB0byBrbm93IHdoYXQgRElNTXMgYXJlDQpvbiB0aGUgc3lzdGVtIHdoZW4gdGhlIGRy
-aXZlciBpbml0aWFsaXplcyBzbyB5b3UgY2FuIHBvcHVsYXRlIC9zeXMvLiovZWRhYw0KDQpMYXRl
-ciB3aGVuIEdIRVMgZ2l2ZXMgeW91IGEgTk9ERS9DQVJEL01PRFVMRSkgaW4gYW4gZXJyb3IgcmVj
-b3JkLiAgWW91IG5lZWQNCnRvIG1hdGNoIHRoZXNlIHVwLiBCdXQgU01CSU9TIG9ubHkgZ2F2ZSB5
-b3UgdHdvIHN0cmluZ3MgIkxvY2F0b3IiIGFuZCAiQmFuaw0KTG9jYXRvciIgd2hpY2ggaGF2ZSBu
-byBkZWZpbmVkIHN5bnRheC4gWW91IGFyZSBhdCB0aGUgbWVyY3kgb2YgdGhlIEJJT1Mgd3JpdGVy
-DQp0byBwdXQgaW4gc29tZXRoaW5nIHBhcnNlYWJsZS4gU29tZSB3cml0ZXJzIHVzZWQgemVybyBi
-YXNlZCBjb3VudHMsIG90aGVycyBhcmUNCkZvcnRyYW4gZmFucyBhbmQgdXNlIG9uZS1iYXNlZC4g
-U3RpbGwgb3RoZXIgdXNlIGxldHRlcnMuICBBYm91dCB0aGUgb25lIGd1YXJhbnRlZQ0KaXMgdGhh
-dCB0aGV5IHdpbGwgbWFrZSBhbG1vc3Qgbm8gZWZmb3J0IHRvIG1hdGNoIHRoZSBzaWxrc2NyZWVu
-IGxhYmVscyBvbiB0aGUgbW90aGVyYm9hcmQNCml0c2VsZi4NCg0KRS5nLiBteSBCcm9hZHdlbGwt
-RVggaGFzIHRoaW5ncyBsaWtlOg0KDQogICAgICAgIExvY2F0b3I6IENIQU5ORUwgRCBESU1NIDEN
-CiAgICAgICAgQmFuayBMb2NhdG9yOiBNZW1yaXNlcjgNCg0KQ2hhbm5lbCBpcyBBLEIsQyxELiBE
-SU1NIGlzIDAsIDEsIDIuIE1lbXJpc2VyIGlzIHsxLi44fSBzbyB0aGlzIG1hbmFnZXMgdG8gdXNl
-IGFsbA0KdGhyZWUgY291bnRpbmcgb3B0aW9ucyENCg0KLVRvbnkK
+T24gV2VkLCBKdWwgMTksIDIwMTcgYXQgMDM6MTQ6MzJQTSArMDAwMCwgTHVjaywgVG9ueSB3cm90
+ZToKPiBMYXRlciB3aGVuIEdIRVMgZ2l2ZXMgeW91IGEgTk9ERS9DQVJEL01PRFVMRSkgaW4gYW4g
+ZXJyb3IgcmVjb3JkLiAgWW91IG5lZWQKPiB0byBtYXRjaCB0aGVzZSB1cC4gQnV0IFNNQklPUyBv
+bmx5IGdhdmUgeW91IHR3byBzdHJpbmdzICJMb2NhdG9yIiBhbmQgIkJhbmsKPiBMb2NhdG9yIiB3
+aGljaCBoYXZlIG5vIGRlZmluZWQgc3ludGF4LiBZb3UgYXJlIGF0IHRoZSBtZXJjeSBvZiB0aGUg
+QklPUyB3cml0ZXIKPiB0byBwdXQgaW4gc29tZXRoaW5nIHBhcnNlYWJsZS4KCldlbGwsIGF0IHNv
+bWUgcG9pbnQgaXQgaXMgb25seSBzbyBtdWNoIHdlIGNhbiBkbywgcmlnaHQ/CgpJIG1lYW4sIGlm
+IEZXIHNheXMgaXQgd2FudHMgdG8gZG8gZmlybXdhcmUtZmlyc3QgYW5kIHdlIGdvIGFuZCBhZGhl
+cmUKdG8gdGhhdCwgaXQgc2hvdWxkIGJlIGV4cGVjdGVkIHRoYXQgc2FpZCBGVyB2ZW5kb3IgbWFy
+a3MgdGhlIHNpbGtzY3JlZW4KbGFiZWxzIGFuZCBETUkgZGF0YSBhY2NvcmRpbmdseS4KCkkgbWVh
+biwgaXQgaXMgdGltZSBmb3IgRlcgdG8gcHV0IGl0cyBtb25leSB3aGVyZSBpdHMgbW91dGggaXMs
+IG5vPwoKSG93IGVsc2Ugd291bGQgeW91IGRvIHRoaXM/CgpGaXJtd2FyZSBGaXJzdCBidXQgdGhl
+IGtlcm5lbCBkb2VzIHRoZSBmaWd1cmluZyBvdXQgd2hpY2ggRElNTXMgYXJlCndoZXJlLiBTbyBG
+VyBjYW4ndCBoYXZlIHRoZSBjYWtlIGFuZCBlYXQgaXQgdG9vLgoKOi0pCg==
