@@ -2,19 +2,36 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] ghes_edac: add platform check to enable ghes_edac
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <3908561D78D1C84285E8C5FCA982C28F6130C6B8@ORSMSX114.amr.corp.intel.com>
-Date: Tue, 18 Jul 2017 22:13:42 +0000
-To: Borislav Petkov <bp@alien8.de>, Toshi Kani <toshi.kani@hpe.com>
-Cc: "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "mchehab@kernel.org" <mchehab@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170719055235.GD26030@nazgul.tnic>
+Date: Wed, 19 Jul 2017 07:52:35 +0200
+To: "Kani, Toshimitsu" <toshi.kani@hpe.com>
+Cc: "tony.luck@intel.com" <tony.luck@intel.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, "mchehab@kernel.org" <mchehab@kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-PiBUaGUgcXVlc3Rpb24gaXM6IGRvZXMgdGhlIHBsYXRmb3JtIGRvIHRoaXMgZGlzYWJsaW5nIG5v
-dz8NCj4NCj4gVG9ueSwgSSdtIGxvb2tpbmcgYXQgc2JfZWRhYyBhbmQgdGhlcmUgd2UgZG9uJ3Qg
-ZG8gc29tZXRoaW5nIGxpa2UgdGhhdA0KPiBvciBtYXliZSBJJ20gbWlzc2luZyBpdC4NCg0KSGlz
-dG9yaWNhbGx5IHdlJ3ZlIGhhZCBjb21wbGFpbnRzIHRoYXQgc2JfZWRhYyB3b24ndCBsb2FkIHRo
-YXQgaGF2ZSBiZWVuDQp0cmFja2VkIHRvIEJJT1MgaGlkaW5nIG9uZSBvZiB0aGUgKG1hbnkpIFBD
-SSBkZXZpY2VzIHRoYXQgaXQgbmVlZHMuICBCdXQNCmRldmljZSBoaWRpbmcgaXMgb3J0aG9nb25h
-bCB0byBwcm92aWRpbmcgR0hFUyBlcnJvciByZWNvcmRzLiAgQSBCSU9TIG1pZ2h0DQpkbyB0aGF0
-LCBidXQgSSBkb24ndCBrbm93IHRoYXQgYW55b25lIGludGVudGlvbmFsbHkgZG9lcyBzby4NCg0K
-LVRvbnkK
+T24gVHVlLCBKdWwgMTgsIDIwMTcgYXQgMDk6MjA6NDRQTSArMDAwMCwgS2FuaSwgVG9zaGltaXRz
+dSB3cm90ZToKPiBJIGFncmVlIHRoYXQgJ29zY19zYl9hcGVpX3N1cHBvcnRfYWNrZWQnIHNob3Vs
+ZCBiZSBjaGVja2VkIHdoZW4KPiBlbmFibGluZyBnaGVzX2VkYWMuICBJIGRvIG5vdCBrbm93IHRo
+ZSBkZXRhaWxzIG9mIGV4aXN0aW5nIGlzc3VlcywgYnV0Cj4gaXQgc291bmRzIHVubGlrZWx5IHRo
+YXQgdGhpcyB3aWxsIGFkZHJlc3MgYWxsIG9mIHRoZW0gc2luY2UgYnVncyBjYW4gYmUKPiBldmVy
+eXdoZXJlLgoKTm8sIHNlZSBiZWxvdy4KCj4gRm9yIGluc3RhbmNlLCBnaGVzX2VkYWMgcmVsaWVz
+IG9uIERNSS9TTUJJT1MgaW5mbywgdW5saWtlCj4gb3RoZXIgRURBQyBkcml2ZXJzLCB3aGljaCBj
+YW4gYmUgYnVnZ3kgcmVnYXJkbGVzcyBvZiB0aGlzIF9PU0MgaW5mby4KClRoYXQncyB0aGUgcHJv
+YmxlbSB3aXRoIGZpcm13YXJlLiBZb3UgY2FuJ3QgcmVhbGx5IGZpeCBpdCBhbmQgaXQgaXMKYnVn
+Z3kgYXMgaGVsbC4KCj4gSSBhZ3JlZSB0aGF0IG1ha2luZyBnaGVzX2VkYWMgYXMgYSBub3JtYWwg
+bW9kdWxlIGlzIGEgZ29vZCB0aGluZywgYnV0IEkKPiBkbyBub3QgdGhpbmsgaXQncyBnb2luZyB0
+byBzb2x2ZSB0aGlzIGlzc3VlLgoKT2YgY291cnNlIGl0IHdpbGwgLSBpZiB0aGUgZmlybXdhcmUg
+c2F5cyBpdCB3YW50cyB0byBsb29rIGF0IHRoZSBlcnJvcnMKZmlyc3QsIHRoZW4gaXQgZ2V0cyB0
+byBkbyBzby4gVGhpcyBpcyB0aGUgd2hvbGUgaGFuZGxpbmcgb2YgaGFyZHdhcmUKZXJyb3JzIGlu
+IHRoZSBmaXJtd2FyZSBkZWFsLiBJIGFkbWl0LCBzb21ldGltZXMgaXQgbWFrZXMgc2Vuc2UgYmVj
+YXVzZQp0aGUgZmlybXdhcmUgaGFzIHRoZSBtb3N0IGludGltYXRlIGtub3dsZWRnZSBvZiB0aGUg
+cGxhdGZvcm0gYW5kLCBpbgphIHBlcmZlY3Qgd29ybGQsIHdlIHdvbid0IGV2ZXIgbmVlZCB0byBo
+YXZlIHBsYXRmb3JtLXNwZWNpZmljIEVEQUMKZHJpdmVycy4KCkJ1dCwgd2UgZG9uJ3QgbGl2ZSBp
+biBhIHBlcmZlY3Qgd29ybGQuIEFuZCB0aGUgdmVuZG9yIGV4ZWN1dGlvbiBvZiB0aGUKd2hvbGUg
+ZmlybXdhcmUtZXJyb3ItaGFuZGxpbmcgZGVhbCBpcyBhbiBhYm9taW5hdGlvbiBhdCBiZXN0LgoK
+U28sIGlmIHdlIHJlYWxpemUgdGhhdCB0aGUgZmlybXdhcmUgaXMgYnVnZ3ksIHdlIGNhbiB1c2Ug
+YSBwbGF0Zm9ybSBsaXN0CnRvIGJsYWNrbGlzdCBpdCAoXmhpbnQgaGludF4pIGFuZCBoYXZlIGEg
+cGFyYW1ldGVyIHRvIGRpc2FibGUgZ2hlc19lZGFjCmZyb20gbG9hZGluZy4KCkJ1dCB3ZSdsbCBk
+ZWFsIHdpdGggdGhhdCB3aGVuIHdlIGdldCB0byBjcm9zcyB0aGF0IGJyaWRnZS4gUmlnaHQgbm93
+LApJJ2QgbGlrZSB0byBkbyB0aGUgbG9hZGluZyBzcGVjLWNvbmZvcm0gYW5kIG5vdCBmaWRkbGUg
+d2l0aCB3aGl0ZS0sCmJsYWNrLSwgb3IgYW55LW90aGVyLWNvbG9yIGxpc3RzLgo=
