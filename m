@@ -2,25 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC: remove unnecessary static in edac_fake_inject_write()
-From: Julia Lawall <julia.lawall@lip6.fr>
-Message-Id: <alpine.DEB.2.20.1707220838410.2068@hadrien>
-Date: Sat, 22 Jul 2017 08:39:19 +0200 (CEST)
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Gustavo A. R. Silva" <garsilva@embeddedor.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@systeme.lip6.fr
+From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+Message-Id: <638a94de-5eb4-eba4-7c28-4b4eb4bf8dbf@embeddedor.com>
+Date: Sat, 22 Jul 2017 11:22:13 -0500
+To: Borislav Petkov <bp@alien8.de>, Julia Lawall <julia.lawall@lip6.fr>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@systeme.lip6.fr
 List-ID: <edac.vger.kernel.org>
 
-T24gU2F0LCAyMiBKdWwgMjAxNywgQm9yaXNsYXYgUGV0a292IHdyb3RlOgoKPiBPbiBGcmksIEp1
-bCAyMSwgMjAxNyBhdCAxMDowODoxMlBNICswMjAwLCBKdWxpYSBMYXdhbGwgd3JvdGU6Cj4gPiBT
-b21lb25lIHBvaW50ZWQgb3V0IHRoYXQgdGhlIHJ1bGUgaXMgcHJvYmFibHkgbm90IE9LIHdoZW4g
-dGhlIGFkZHJlc3Mgb2YKPiA+IHRoZSBzdGF0aWMgdmFyaWFibGUgaXMgdGFrZW4sIGJlY2F1c2Ug
-dGhlbiBpdCBpcyBsaWtlbHkgYmVpbmcgdXNlZCBhcwo+ID4gcGVybWFuZW50IHN0b3JhZ2UuCj4K
-PiBNYWtlcyBzZW5zZSB0byBtZS4KPgo+ID4gQW4gaW1wcm92ZWQgcnVsZSBpczoKPgo+IERvIHlv
-dSB0aGluayBpdCBpcyB3b3J0aCBoYXZpbmcgaXQgaW4gc2NyaXB0cy9jb2NjaW5lbGxlLyA/CgpT
-dXJlLiAgTm93IHRoYXQgaXQgaGFzIGJlZW4gYSBiaXQgbW9yZSBzYW5pdHkgY2hlY2tlZC4KCj4g
-SSBkb24ndCB0aGluayBHdXN0YXZvIHdvdWxkIG1pbmQgcHV0dGluZyBpdCB0aGVyZSA6KQoKT0ss
-IEkgd2lsbCBjaGVjayB3aXRoIGhpbS4KCmp1bGlhCgo+Cj4gVGhhbmtzLgo+Cj4gLS0KPiBSZWdh
-cmRzL0dydXNzLAo+ICAgICBCb3Jpcy4KPgo+IEVDTyB0aXAgIzEwMTogVHJpbSB5b3VyIG1haWxz
-IHdoZW4geW91IHJlcGx5Lgo+IC0tCj4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0
-OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBh
-IG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZv
-IGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+SGkgYWxsLAoKT24gMDcvMjIvMjAxNyAwMTozNiBBTSwgQm9yaXNsYXYgUGV0a292IHdyb3RlOgo+
+IE9uIEZyaSwgSnVsIDIxLCAyMDE3IGF0IDEwOjA4OjEyUE0gKzAyMDAsIEp1bGlhIExhd2FsbCB3
+cm90ZToKPj4gU29tZW9uZSBwb2ludGVkIG91dCB0aGF0IHRoZSBydWxlIGlzIHByb2JhYmx5IG5v
+dCBPSyB3aGVuIHRoZSBhZGRyZXNzIG9mCj4+IHRoZSBzdGF0aWMgdmFyaWFibGUgaXMgdGFrZW4s
+IGJlY2F1c2UgdGhlbiBpdCBpcyBsaWtlbHkgYmVpbmcgdXNlZCBhcwo+PiBwZXJtYW5lbnQgc3Rv
+cmFnZS4KPgo+IE1ha2VzIHNlbnNlIHRvIG1lLgo+Cj4+IEFuIGltcHJvdmVkIHJ1bGUgaXM6Cj4K
+PiBEbyB5b3UgdGhpbmsgaXQgaXMgd29ydGggaGF2aW5nIGl0IGluIHNjcmlwdHMvY29jY2luZWxs
+ZS8gPwo+Cj4gSSBkb24ndCB0aGluayBHdXN0YXZvIHdvdWxkIG1pbmQgcHV0dGluZyBpdCB0aGVy
+ZSA6KQo+CgpBYnNvbHV0ZWx5LCBJJ2QgYmUgZ2xhZCB0byBoZWxwIG91dC4gOikK
