@@ -1,27 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: x86/mce/AMD: Allow any CPU to initialize smca_banks array
-From: Boris Petkov <bp@suse.de>
-Message-Id: <20170717051925.GA18200@nazgul.tnic>
-Date: Mon, 17 Jul 2017 07:19:25 +0200
-To: Yazen Ghannam <Yazen.Ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-kernel@vger.kernel.org, jack@codezen.org
+Subject: [RFC,3/8] EDAC, mce_amd: Get rid of local var in amd_filter_mce()
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170725154601.27427-4-bp@alien8.de>
+Date: Tue, 25 Jul 2017 17:45:56 +0200
+To: linux-edac <linux-edac@vger.kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Tony Luck <tony.luck@intel.com>, Yazen Ghannam <Yazen.Ghannam@amd.com>, X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBKdW4gMjksIDIwMTcgYXQgMDE6MDg6MjhQTSAtMDUwMCwgWWF6ZW4gR2hhbm5hbSB3
-cm90ZToKPiBGcm9tOiBZYXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cj4gCj4g
-Q3VycmVudCBTTUNBIGltcGxlbWVudGF0aW9ucyBoYXZlIHRoZSBzYW1lIGJhbmtzIG9uIGVhY2gg
-Q1BVIHdpdGggdGhlCj4gbm9uLWNvcmUgYmFua3Mgb25seSB2aXNpYmxlIHRvIGEgIm1hc3RlciB0
-aHJlYWQiIG9uIGVhY2ggRGllLiBQcmFjdGljYWxseSwKPiB0aGlzIG1lYW5zIHRoZSBzbWNhX2Jh
-bmtzIGFycmF5LCB3aGljaCBkZXNjcmliZXMgdGhlIGJhbmtzLCBvbmx5IG5lZWRzIHRvCj4gYmUg
-cG9wdWxhdGVkIG9uY2UgYnkgYSBzaW5nbGUgbWFzdGVyIHRocmVhZC4KCi4uLgoKPiBJZiB0aGUg
-Zmlyc3QgQ1BVIHVwIGlzIG5vdCBhIG1hc3RlciB0aHJlYWQsIHRoZW4gaXQgd2lsbCBwb3B1bGF0
-ZSB0aGUgYXJyYXkKPiB3aXRoIGFsbCBjb3JlIGJhbmtzLiBUaGUgZmlyc3QgQ1BVIGFmdGVyd2Fy
-ZHMgdGhhdCBpcyBhIG1hc3RlciB0aHJlYWQgd2lsbAo+IHNraXAgcG9wdWxhdGluZyB0aGUgY29y
-ZSBiYW5rcyBhbmQgY29udGludWUgcG9wdWxhdGluZyB0aGUgbm9uLWNvcmUgYmFua3MuCj4gRXZl
-cnkgQ1BVIGFmdGVyd2FyZHMgd2lsbCB0aGVuIHJldHVybiBlYXJseS4KPiAKPiBTaWduZWQtb2Zm
-LWJ5OiBZYXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cj4gLS0tCj4gIGFyY2gv
-eDg2L2tlcm5lbC9jcHUvbWNoZWNrL21jZV9hbWQuYyB8IDkgKystLS0tLS0tCj4gIDEgZmlsZSBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCgpBcHBsaWVkLCB0aGFua3Mu
-Cg==
+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKLi4uIGFuZCB1c2UgdGhlIG1hY3Jv
+IGZvciB0aGF0LgoKTm8gZnVuY3Rpb25hbGl0eSBjaGFuZ2UuCgpTaWduZWQtb2ZmLWJ5OiBCb3Jp
+c2xhdiBQZXRrb3YgPGJwQHN1c2UuZGU+Ci0tLQogZHJpdmVycy9lZGFjL21jZV9hbWQuYyB8IDQg
+Ky0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9ucygtKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9tY2VfYW1kLmMgYi9kcml2ZXJzL2VkYWMvbWNlX2FtZC5j
+CmluZGV4IGMwYWU0N2E1YzdiNy4uYTExYTY3MWM3YTM4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2Vk
+YWMvbWNlX2FtZC5jCisrKyBiL2RyaXZlcnMvZWRhYy9tY2VfYW1kLmMKQEAgLTkxMywxMiArOTEz
+LDEwIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBhbWRfZGVjb2RlX2Vycl9jb2RlKHUxNiBlYykKICAq
+Lwogc3RhdGljIGJvb2wgYW1kX2ZpbHRlcl9tY2Uoc3RydWN0IG1jZSAqbSkKIHsKLQl1OCB4ZWMg
+PSAobS0+c3RhdHVzID4+IDE2KSAmIDB4MWY7Ci0KIAkvKgogCSAqIE5CIEdBUlQgVExCIGVycm9y
+IHJlcG9ydGluZyBpcyBkaXNhYmxlZCBieSBkZWZhdWx0LgogCSAqLwotCWlmIChtLT5iYW5rID09
+IDQgJiYgeGVjID09IDB4NSAmJiAhcmVwb3J0X2dhcnRfZXJyb3JzKQorCWlmIChtLT5iYW5rID09
+IDQgJiYgWEVDKG0tPnN0YXR1cywgMHgxZikgPT0gMHg1ICYmICFyZXBvcnRfZ2FydF9lcnJvcnMp
+CiAJCXJldHVybiB0cnVlOwogCiAJcmV0dXJuIGZhbHNlOwo=
