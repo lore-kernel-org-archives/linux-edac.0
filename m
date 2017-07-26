@@ -1,27 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/1] EDAC, sb_edac: Classify memory mirroring modes.
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Message-Id: <E6AF1AFDEA62A94A97508F458CBDD47F6F5AEF39@SHSMSX101.ccr.corp.intel.com>
-Date: Mon, 31 Jul 2017 08:53:14 +0000
-To: Borislav Petkov <bp@alien8.de>
-Cc: "mchehab@osg.samsung.com" <mchehab@osg.samsung.com>, "Luck, Tony" <tony.luck@intel.com>, "arozansk@redhat.com" <arozansk@redhat.com>, "patrickg@supermicro.com" <patrickg@supermicro.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: [1/3] EDAC: Add edac_pr_err/info macros
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170726084827.11447-2-bp@alien8.de>
+Date: Wed, 26 Jul 2017 10:48:25 +0200
+To: linux-edac <linux-edac@vger.kernel.org>
+Cc: Tony Luck <tony.luck@intel.com>, Mauro Carvalho Chehab <mchehab@infradead.org>, Toshimitsu Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-UGlCR2NtOXRPaUJDYjNKcGMyeGhkaUJRWlhScmIzWWdXMjFoYVd4MGJ6cGljRUJoYkdsbGJqZ3Va
-R1ZkRFFvK0lENGdJQWt2S2lCTgpaVzF2Y25rZ2RIbHdaU0JrWlhSbFkzUnBiMjRnS2k4TkNqNGdQ
-aUF0Q1dKdmIyd0pDUWxwYzE5dGFYSnliM0psWkN3Z2FYTmZiRzlqCmEzTjBaWEFzSUdselgyTnNi
-M05sWDNCbk93MEtQaUErSUNzSlltOXZiQWtKQ1dselgyTjFjbDloWkdSeVgyMXBjbkp2Y21Wa0xD
-QnAKYzE5c2IyTnJjM1JsY0N3Z2FYTmZZMnh2YzJWZmNHYzdEUW8rSUQ0Z0lBbGliMjlzQ1FrSmFY
-TmZZMmhoYmw5b1lYTm9PdzBLUGlBKwpJQ3NKWlc1MWJTQnRhWEp5YjNKcGJtZGZiVzlrWlFsdGFY
-SnliM0pwYm1kZmJXUTdEUW8rSUEwS1BpQkRZV3hzSUhSb1lYUWdkbUZ5CmFXRmliR1VnYzJsdGNH
-eDVJQ0p0YVhKeWIzSmZiVzlrWlNJTkNnMEtUMHNzSUhkcGJHd2dkWEJrWVhSbElHbDBJR2x1SUhZ
-eUxpQU4KQ2cwS1BpQStJQ3NKQ1Fsd1kybGZjbVZoWkY5amIyNW1hV2RmWkhkdmNtUW9jSFowTFQ1
-d1kybGZhR0VzRFFvK0lFaEJVMWRGVEV4ZgpTRUZUV1ZORVJVWkZRVlJWVWtVeUxDQW1jbVZuS1Rz
-TkNqNGdEUW8rSUVWeWNtOXlJR2hoYm1Sc2FXNW5MZzBLRFFwUFN5d2dkMmxzCmJDQmhaR1FnWlhK
-eWIzSWdhR0Z1Wkd4cGJtY2dhVzRnZGpJdURRb05DZzBLVkdoaGJtdHpJUTBLVVdsMWVIVU5DZzBL
-Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
-Y3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2
-Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVs
-Lm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKQW5hbG9ndWUgdG8gdGhlIGdlbmVy
+aWMgcHJfKiB2YXJpYW50cyBidXQgaXNzdWluZyB0aGUgRURBQyBwcmVmaXguCgpObyBmdW5jdGlv
+bmFsaXR5IGNoYW5nZS4KClNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5k
+ZT4KLS0tCiBkcml2ZXJzL2VkYWMvZWRhY19tYy5oIHwgMyArKysKIDEgZmlsZSBjaGFuZ2VkLCAz
+IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvZWRhY19tYy5oIGIvZHJp
+dmVycy9lZGFjL2VkYWNfbWMuaAppbmRleCA1MzU3ODAwZTQxOGQuLjZkNDZmMzBkYzY1NyAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9lZGFjL2VkYWNfbWMuaAorKysgYi9kcml2ZXJzL2VkYWMvZWRhY19t
+Yy5oCkBAIC02MCw2ICs2MCw5IEBACiAjZGVmaW5lIGVkYWNfcGNpX3ByaW50ayhjdGwsIGxldmVs
+LCBmbXQsIGFyZy4uLikgXAogCXByaW50ayhsZXZlbCAiRURBQyBQQ0klZDogIiBmbXQsIGN0bC0+
+cGNpX2lkeCwgIyNhcmcpCiAKKyNkZWZpbmUgZWRhY19wcl9lcnIoZm10LCBhcmcuLi4pCWVkYWNf
+cHJpbnRrKEtFUk5fRVJSLCAiIiwgZm10LCAjI2FyZykKKyNkZWZpbmUgZWRhY19wcl9pbmZvKGZt
+dCwgYXJnLi4uKQllZGFjX3ByaW50ayhLRVJOX0lORk8sICIiLCBmbXQsICMjYXJnKQorCiAvKiBw
+cmVmaXhlcyBmb3IgZWRhY19wcmludGsoKSBhbmQgZWRhY19tY19wcmludGsoKSAqLwogI2RlZmlu
+ZSBFREFDX01DICJNQyIKICNkZWZpbmUgRURBQ19QQ0kgIlBDSSIK
