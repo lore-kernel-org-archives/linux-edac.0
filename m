@@ -2,23 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] EDAC, ghes: Make it a proper module
-From: Mauro Carvalho Chehab <mchehab@infradead.org>
-Message-Id: <20170726075118.22f2ca85@vento.lan>
-Date: Wed, 26 Jul 2017 07:51:18 -0300
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-edac <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, Toshimitsu Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <3908561D78D1C84285E8C5FCA982C28F61316D09@ORSMSX114.amr.corp.intel.com>
+Date: Wed, 26 Jul 2017 17:27:12 +0000
+To: Mauro Carvalho Chehab <mchehab@infradead.org>, Borislav Petkov <bp@alien8.de>
+Cc: linux-edac <linux-edac@vger.kernel.org>, Toshimitsu Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-RW0gV2VkLCAyNiBKdWwgMjAxNyAxMjozNzowOCArMDIwMApCb3Jpc2xhdiBQZXRrb3YgPGJwQGFs
-aWVuOC5kZT4gZXNjcmV2ZXU6Cgo+IE9uIFdlZCwgSnVsIDI2LCAyMDE3IGF0IDA3OjI0OjA0QU0g
-LTAzMDAsIE1hdXJvIENhcnZhbGhvIENoZWhhYiB3cm90ZToKPiA+IEhtbS4uLiBJJ20gbm90IHNl
-ZWluZyBhbnkgaW1wbGVtZW50YXRpb24gdGhhdCB3b3VsZCBhbGxvdyBzZXR0aW5nCj4gPiBiZXR3
-ZWVuIGZpcm13YXJlIGZpcnN0LCBoYXJkd2FyZSBmaXJzdCBvciAiYXV0byIsIGFzIHdlJ3ZlIGRp
-c2N1c3NlZC4KPiAKPiBUaGlzIGlzIGFsbCBjb21pbmcgdXAuIEFzIHRoZSAwLzMgbWVzc2FnZSBz
-YWlkLCB0aGVzZSAzIHBhdGNoZXMgYXJlIHRoZQo+IGJhcmUgbWluaW11bSBvZiByZW9yZ2FuaXpp
-bmcgc3R1ZmYgb25seSBhbmQgc2hvdWxkIHNlcnZlIGFzIGEgYmFzZS4KCkknbGwgdGhlbiB3YWl0
-IGZvciBzdWNoIHBhdGNoIGJlZm9yZSBhY2tpbmcgdGhpcyBzZXJpZXMuCgpUaGFua3MsCk1hdXJv
-Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
-Y3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2
-Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVs
-Lm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+PiA+ID4gSG1tLi4uIEknbSBub3Qgc2VlaW5nIGFueSBpbXBsZW1lbnRhdGlvbiB0aGF0IHdvdWxk
+IGFsbG93IHNldHRpbmcKPiA+ID4gYmV0d2VlbiBmaXJtd2FyZSBmaXJzdCwgaGFyZHdhcmUgZmly
+c3Qgb3IgImF1dG8iLCBhcyB3ZSd2ZSBkaXNjdXNzZWQuCj4gPiAKPiA+IFRoaXMgaXMgYWxsIGNv
+bWluZyB1cC4gQXMgdGhlIDAvMyBtZXNzYWdlIHNhaWQsIHRoZXNlIDMgcGF0Y2hlcyBhcmUgdGhl
+Cj4gPiBiYXJlIG1pbmltdW0gb2YgcmVvcmdhbml6aW5nIHN0dWZmIG9ubHkgYW5kIHNob3VsZCBz
+ZXJ2ZSBhcyBhIGJhc2UuCj4KPiBJJ2xsIHRoZW4gd2FpdCBmb3Igc3VjaCBwYXRjaCBiZWZvcmUg
+YWNraW5nIHRoaXMgc2VyaWVzLgoKSSBkaWRuJ3QgdGhpbmsgdGhhdCBhIEJJT1MgdGhhdCBzZXQg
+ImZpcm13YXJlIGZpcnN0IiBnYXZlIHRoZSBPUyBhbnkgY2hvaWNlIGFib3V0IHRoaXMuCgpXaGF0
+IGV4YWN0bHkgaXMgdGhpcyBvcHRpb24gZ29pbmcgdG8gZG8/ICBGaWRkbGUgd2l0aCBBQ1BJIE9T
+Qz8/CgotVG9ueQotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
+bmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBt
+YWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92
+Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
