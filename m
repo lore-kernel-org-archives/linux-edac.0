@@ -1,17 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC: remove unnecessary static in edac_fake_inject_write()
+Subject: [RFC,0/8] EDAC, mce_amd: Add a tracepoint for the decoded error
 From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170724103436.GA23386@nazgul.tnic>
-Date: Mon, 24 Jul 2017 12:34:36 +0200
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: Julia Lawall <julia.lawall@lip6.fr>, "Gustavo A. R. Silva" <garsilva@embeddedor.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@systeme.lip6.fr
+Message-Id: <20170728153810.GA29635@nazgul.tnic>
+Date: Fri, 28 Jul 2017 17:38:10 +0200
+To: Ingo Molnar <mingo@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Tony Luck <tony.luck@intel.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>, Yazen Ghannam <Yazen.Ghannam@amd.com>, X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gU3VuLCBKdWwgMjMsIDIwMTcgYXQgMDE6MjU6NTZBTSAtMDUwMCwgR3VzdGF2byBBLiBSLiBT
-aWx2YSB3cm90ZToKPiBMZXNzb24gbGVhcm5lZCwgeW91ciBvcmlnaW5hbCBzY3JpcHQgc2hvdWxk
-IHJlbWFpbiBhcyBpcy4gOikKCk9rLCB0aGVuIHBsZWFzZSBzZW5kIEp1bGlhJ3Mgc2NyaXB0IGFz
-IGEgc2VwYXJhdGUgcGF0Y2ggYW5kIHRoZW4gaW4gdGhlCkVEQUMgcGF0Y2gsIHJlZmVyZW5jZSB0
-aGUgcGF0aCB0byB0aGF0IGNvY2NpbmVsbGUgcGF0Y2ggc28gdGhhdCBpdCBpcwpjbGVhciB3aGF0
-IGhhcyBiZWVuIHVzZWQuCgpUaGFua3MuCg==
+T24gRnJpLCBKdWwgMjgsIDIwMTcgYXQgMDU6MDg6NTBQTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IGRpZmYgLS1naXQgYS9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVjay9tY2UuYyBi
+L2FyY2gveDg2L2tlcm5lbC9jcHUvbWNoZWNrL21jZS5jCj4gaW5kZXggNmRkZTA0OTdlZmM3Li45
+NDg2YTJjYTY1NTYgMTAwNjQ0Cj4gLS0tIGEvYXJjaC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNl
+LmMKPiArKysgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVjay9tY2UuYwo+IEBAIC0xNjIsNiAr
+MTYyLDkgQEAgdm9pZCBtY2VfcmVnaXN0ZXJfZGVjb2RlX2NoYWluKHN0cnVjdCBub3RpZmllcl9i
+bG9jayAqbmIpCj4gIAo+ICAJYXRvbWljX2luYygmbnVtX25vdGlmaWVycyk7Cj4gIAo+ICsJaWYg
+KG5iLT5wcmlvcml0eSA9PSBNQ0VfUFJJT19ERUNPREVSKQo+ICsJCW1jYV9jZmcuaGFzX2RlY29k
+ZXIgPSB0cnVlOwo+ICsKPiAgCWJsb2NraW5nX25vdGlmaWVyX2NoYWluX3JlZ2lzdGVyKCZ4ODZf
+bWNlX2RlY29kZXJfY2hhaW4sIG5iKTsKPiAgfQo+ICBFWFBPUlRfU1lNQk9MX0dQTChtY2VfcmVn
+aXN0ZXJfZGVjb2RlX2NoYWluKTsKCkZvcmdvdCB0aGUgY291bnRlcnBhcnQ6CgpkaWZmIC0tZ2l0
+IGEvYXJjaC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlLmMgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1
+L21jaGVjay9tY2UuYwppbmRleCA5NDg2YTJjYTY1NTYuLjk3NGU5YzkzMWU2ZiAxMDA2NDQKLS0t
+IGEvYXJjaC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlLmMKKysrIGIvYXJjaC94ODYva2VybmVs
+L2NwdS9tY2hlY2svbWNlLmMKQEAgLTE3Myw2ICsxNzMsOSBAQCB2b2lkIG1jZV91bnJlZ2lzdGVy
+X2RlY29kZV9jaGFpbihzdHJ1Y3Qgbm90aWZpZXJfYmxvY2sgKm5iKQogewogCWF0b21pY19kZWMo
+Jm51bV9ub3RpZmllcnMpOwogCisJaWYgKG5iLT5wcmlvcml0eSA9PSBNQ0VfUFJJT19ERUNPREVS
+KQorCQltY2FfY2ZnLmhhc19kZWNvZGVyID0gZmFsc2U7CisKIAlibG9ja2luZ19ub3RpZmllcl9j
+aGFpbl91bnJlZ2lzdGVyKCZ4ODZfbWNlX2RlY29kZXJfY2hhaW4sIG5iKTsKIH0KIEVYUE9SVF9T
+WU1CT0xfR1BMKG1jZV91bnJlZ2lzdGVyX2RlY29kZV9jaGFpbik7Cg==
