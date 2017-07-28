@@ -2,20 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,5/8] seq_buf: Export seq_buf_printf() to modules
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170725154601.27427-6-bp@alien8.de>
-Date: Tue, 25 Jul 2017 17:45:58 +0200
-To: linux-edac <linux-edac@vger.kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Tony Luck <tony.luck@intel.com>, Yazen Ghannam <Yazen.Ghannam@amd.com>, X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+From: Steven Rostedt <rostedt@goodmis.org>
+Message-Id: <20170727214402.6632129e@vmware.local.home>
+Date: Thu, 27 Jul 2017 21:44:02 -0400
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-edac <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, Yazen Ghannam <Yazen.Ghannam@amd.com>, X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKV2lsbCBiZSB1c2VkIGluIGEgbW9k
-dWxlIGluIGEgbGF0ZXIgcGF0Y2guCgpTaWduZWQtb2ZmLWJ5OiBCb3Jpc2xhdiBQZXRrb3YgPGJw
-QHN1c2UuZGU+CkNjOiBTdGV2ZW4gUm9zdGVkdCA8cm9zdGVkdEBnb29kbWlzLm9yZz4KLS0tCiBs
-aWIvc2VxX2J1Zi5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYg
-LS1naXQgYS9saWIvc2VxX2J1Zi5jIGIvbGliL3NlcV9idWYuYwppbmRleCBjYjE4NDY5ZTFmNDku
-LmI1MjE3Y2YxODI0ZCAxMDA2NDQKLS0tIGEvbGliL3NlcV9idWYuYworKysgYi9saWIvc2VxX2J1
-Zi5jCkBAIC05MCw2ICs5MCw3IEBAIGludCBzZXFfYnVmX3ByaW50ZihzdHJ1Y3Qgc2VxX2J1ZiAq
-cywgY29uc3QgY2hhciAqZm10LCAuLi4pCiAKIAlyZXR1cm4gcmV0OwogfQorRVhQT1JUX1NZTUJP
-TF9HUEwoc2VxX2J1Zl9wcmludGYpOwogCiAjaWZkZWYgQ09ORklHX0JJTkFSWV9QUklOVEYKIC8q
-Kgo=
+T24gVHVlLCAyNSBKdWwgMjAxNyAxNzo0NTo1OCArMDIwMApCb3Jpc2xhdiBQZXRrb3YgPGJwQGFs
+aWVuOC5kZT4gd3JvdGU6Cgo+IEZyb206IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KPiAK
+PiBXaWxsIGJlIHVzZWQgaW4gYSBtb2R1bGUgaW4gYSBsYXRlciBwYXRjaC4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBCb3Jpc2xhdiBQZXRrb3YgPGJwQHN1c2UuZGU+Cj4gQ2M6IFN0ZXZlbiBSb3N0ZWR0
+IDxyb3N0ZWR0QGdvb2RtaXMub3JnPgoKQWNrZWQtYnk6IFN0ZXZlbiBSb3N0ZWR0IChWTXdhcmUp
+IDxyb3N0ZWR0QGdvb2RtaXMub3JnPgoKLS0gU3RldmUKCj4gLS0tCj4gIGxpYi9zZXFfYnVmLmMg
+fCAxICsKPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4gCj4gZGlmZiAtLWdpdCBh
+L2xpYi9zZXFfYnVmLmMgYi9saWIvc2VxX2J1Zi5jCj4gaW5kZXggY2IxODQ2OWUxZjQ5Li5iNTIx
+N2NmMTgyNGQgMTAwNjQ0Cj4gLS0tIGEvbGliL3NlcV9idWYuYwo+ICsrKyBiL2xpYi9zZXFfYnVm
+LmMKPiBAQCAtOTAsNiArOTAsNyBAQCBpbnQgc2VxX2J1Zl9wcmludGYoc3RydWN0IHNlcV9idWYg
+KnMsIGNvbnN0IGNoYXIgKmZtdCwgLi4uKQo+ICAKPiAgCXJldHVybiByZXQ7Cj4gIH0KPiArRVhQ
+T1JUX1NZTUJPTF9HUEwoc2VxX2J1Zl9wcmludGYpOwo+ICAKPiAgI2lmZGVmIENPTkZJR19CSU5B
+UllfUFJJTlRGCj4gIC8qKgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQg
+dGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVzc2Fn
+ZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0
+dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
