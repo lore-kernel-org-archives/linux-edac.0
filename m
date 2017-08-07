@@ -2,19 +2,29 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,7/7] edac drivers: add MC owner check in init
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170805054906.GF23214@nazgul.tnic>
-Date: Sat, 5 Aug 2017 07:49:06 +0200
-To: "Kani, Toshimitsu" <toshi.kani@hpe.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "lenb@kernel.org" <lenb@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>
+From: Toshi Kani <toshi.kani@hpe.com>
+Message-Id: <1502117279.2042.130.camel@hpe.com>
+Date: Mon, 7 Aug 2017 14:57:35 +0000
+To: "bp@alien8.de" <bp@alien8.de>
+Cc: "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "lenb@kernel.org" <lenb@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBBdWcgMDQsIDIwMTcgYXQgMDk6NDg6MjNQTSArMDAwMCwgS2FuaSwgVG9zaGltaXRz
-dSB3cm90ZToKPiBOb3Qgc3VyZSBpZiBhbnlvbmUgY2FyZXMsIGJ1dCBJIHRob3VnaHQgaXQgc2hv
-dWxkIHJldHVybiB3aXRoIC1FTk9ERVYKPiB3aGVuIHRoaXMgbW9kdWxlcyBmb3VuZCBubyB0YXJn
-ZXQsIGFuZCAtRUJVU1kgd2hlbiBpdCBmb3VuZCBhIHRhcmdldAo+IGJ1dCBpdCdzIGJ1c3kuICBI
-ZW5jZSwgdGhpcyBvcmRlcmluZy4KCllvdSBjYW4gc3RpbGwgcmV0dXJuIC1FQlVTWS4gSnVzdCBk
-byB0aGUgb3duZXIgY2hlY2sgZmlyc3QgYmVjYXVzZSBpZgp3ZSdyZSBnb2luZyB0byByZXR1cm4g
-ZHVlIHRvIGdoZXNfZWRhYyBiZWluZyBsb2FkZWQgYWxyZWFkeSwgd2UgbWlnaHQKanVzdCBhcyB3
-ZWxsIHNraXAgdGhlIG90aGVyIGNoZWNrcyBhcyB0aGV5J3JlIGEgcG9pbnRsZXNzIHdhc3RlIG9m
-CmN5Y2xlcyBhbmQgZW5lcmd5Lgo=
+VDI0Z1UyRjBMQ0F5TURFM0xUQTRMVEExSUdGMElEQTNPalE1SUNzd01qQXdMQ0JDYjNKcGMyeGhk
+aUJRWlhScmIzWWdkM0p2ZEdVNgpEUW8rSUU5dUlFWnlhU3dnUVhWbklEQTBMQ0F5TURFM0lHRjBJ
+REE1T2pRNE9qSXpVRTBnS3pBd01EQXNJRXRoYm1rc0lGUnZjMmhwCmJXbDBjM1VnZDNKdmRHVTZE
+UW8rSUQ0Z1RtOTBJSE4xY21VZ2FXWWdZVzU1YjI1bElHTmhjbVZ6TENCaWRYUWdTU0IwYUc5MVoy
+aDAKSUdsMElITm9iM1ZzWkNCeVpYUjFjbTRnZDJsMGFBMEtQaUErSUMxRlRrOUVSVllnZDJobGJp
+QjBhR2x6SUcxdlpIVnNaWE1nWm05MQpibVFnYm04Z2RHRnlaMlYwTENCaGJtUWdMVVZDVlZOWklI
+ZG9aVzRnYVhRZ1ptOTFibVFOQ2o0Z1BpQmhJSFJoY21kbGRDQmlkWFFnCmFYUW5jeUJpZFhONUxz
+S2d3cUJJWlc1alpTd2dkR2hwY3lCdmNtUmxjbWx1Wnk0TkNqNGdEUW8rSUZsdmRTQmpZVzRnYzNS
+cGJHd2cKY21WMGRYSnVJQzFGUWxWVFdTNGdTblZ6ZENCa2J5QjBhR1VnYjNkdVpYSWdZMmhsWTJz
+Z1ptbHljM1FnWW1WallYVnpaU0JwWmcwSwpQaUIzWlNkeVpTQm5iMmx1WnlCMGJ5QnlaWFIxY200
+Z1pIVmxJSFJ2SUdkb1pYTmZaV1JoWXlCaVpXbHVaeUJzYjJGa1pXUWdZV3h5ClpXRmtlU3dnZDJV
+Z2JXbG5hSFFOQ2o0Z2FuVnpkQ0JoY3lCM1pXeHNJSE5yYVhBZ2RHaGxJRzkwYUdWeUlHTm9aV05y
+Y3lCaGN5QjAKYUdWNUozSmxJR0VnY0c5cGJuUnNaWE56SUhkaGMzUmxJRzltRFFvK0lHTjVZMnhs
+Y3lCaGJtUWdaVzVsY21kNUxnMEtEUXBIYjNRZwphWFF1SUNCWGFXeHNJRzF2ZG1VZ2RYQWdkR2hs
+SUdOb1pXTnJMZzBLRFFwVWFHRnVhM01zRFFvdFZHOXphR2tOQ2cwSwotLS0KVG8gdW5zdWJzY3Jp
+YmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMi
+IGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1v
+cmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWlu
+Zm8uaHRtbAo=
