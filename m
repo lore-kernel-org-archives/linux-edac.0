@@ -2,18 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,4/7] ghes_edac: avoid multiple calls to dmi_walk()
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170811090414.GB9432@nazgul.tnic>
-Date: Fri, 11 Aug 2017 11:04:14 +0200
-To: "Kani, Toshimitsu" <toshi.kani@hpe.com>
-Cc: "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "lenb@kernel.org" <lenb@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>
+From: Toshi Kani <toshi.kani@hpe.com>
+Message-Id: <1502725671.2042.137.camel@hpe.com>
+Date: Mon, 14 Aug 2017 15:57:35 +0000
+To: "bp@alien8.de" <bp@alien8.de>
+Cc: "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "lenb@kernel.org" <lenb@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBBdWcgMDcsIDIwMTcgYXQgMDU6NTk6MTVQTSArMDAwMCwgS2FuaSwgVG9zaGltaXRz
-dSB3cm90ZToKPiBJIHRoaW5rIHdlIHNob3VsZCBrZWVwIHRoZSBjdXJyZW50IHNjaGVtZSwgd2hp
-Y2ggcmVnaXN0ZXJzIGFuIG1jaSBmb3IKCk5vIHdlIHNob3VsZG4ndC4KCj4gZWFjaCBHSEVTIGVu
-dHJ5LiAgZ2hlc19lZGFjX3JlcG9ydF9tZW1fZXJyb3IoKSBleHBlY3RzIHRoYXQgZXJyb3ItCj4g
-cmVwb3J0aW5nIGlzIHNlcmlhbGl6ZWQgcGVyIGEgR0hFUyBlbnRyeS4gIFNoYXJpbmcgYSBzaW5n
-bGUgbWNpIGFtb25nCj4gYWxsIEdIRVMgZW50cmllcyAvIGVycm9yIGludGVyZmFjZXMgbWlnaHQg
-bGVhZCB0byBhIHJhY2UgY29uZGl0aW9uLgoKU2VlIGhvdyBJIHNvbHZlZCBpdCBpbiBteSBwYXRj
-aHNldCBhbmQgZmVlbCBmcmVlIHRvIHJldXNlIGl0Lgo=
+VDI0Z1JuSnBMQ0F5TURFM0xUQTRMVEV4SUdGMElERXhPakEwSUNzd01qQXdMQ0JDYjNKcGMyeGhk
+aUJRWlhScmIzWWdkM0p2ZEdVNgpEUW8rSUU5dUlFMXZiaXdnUVhWbklEQTNMQ0F5TURFM0lHRjBJ
+REExT2pVNU9qRTFVRTBnS3pBd01EQXNJRXRoYm1rc0lGUnZjMmhwCmJXbDBjM1VnZDNKdmRHVTZE
+UW8rSUQ0Z1NTQjBhR2x1YXlCM1pTQnphRzkxYkdRZ2EyVmxjQ0IwYUdVZ1kzVnljbVZ1ZENCelky
+aGwKYldVc0lIZG9hV05vSUhKbFoybHpkR1Z5Y3lCaGJpQnRZMmtOQ2o0Z1BpQm1iM0lOQ2o0Z0RR
+bytJRTV2SUhkbElITm9iM1ZzWkc0bgpkQzROQ2o0Z0RRbytJRDRnWldGamFDQkhTRVZUSUdWdWRI
+SjVMc0tnd3FCbmFHVnpYMlZrWVdOZmNtVndiM0owWDIxbGJWOWxjbkp2CmNpZ3BJR1Y0Y0dWamRI
+TWdkR2hoZENCbGNuSnZjaTBOQ2o0Z1BpQnlaWEJ2Y25ScGJtY2dhWE1nYzJWeWFXRnNhWHBsWkNC
+d1pYSWcKWVNCSFNFVlRJR1Z1ZEhKNUxzS2d3cUJUYUdGeWFXNW5JR0VnYzJsdVoyeGxJRzFqYVEw
+S1BpQStJR0Z0YjI1bklHRnNiQ0JIU0VWVApJR1Z1ZEhKcFpYTWdMeUJsY25KdmNpQnBiblJsY21a
+aFkyVnpJRzFwWjJoMElHeGxZV1FnZEc4Z1lTQnlZV05sRFFvK0lENGdZMjl1ClpHbDBhVzl1TGcw
+S1BpQU5DajRnVTJWbElHaHZkeUJKSUhOdmJIWmxaQ0JwZENCcGJpQnRlU0J3WVhSamFITmxkQ0Jo
+Ym1RZ1ptVmwKYkNCbWNtVmxJSFJ2SUhKbGRYTmxJR2wwTGcwS0RRcEliVzB1TGk0Z1UyOXljbmtz
+SUVrZ1ptRnBiR1ZrSUhSdklITmxaU0JvYjNjZwplVzkxY2lCd1lYUmphSE5sZENCemIyeDJaV1Fn
+YVhRdUlDQlhiM1ZzWkNCNWIzVU5DbTFwYm1RZ2RHL0NvR1Y0Y0d4aGFXNGdhRzkzCklHbDBJR2x6
+SUdSdmJtVS9EUW9OQ2xSb1lXNXJjeUVOQ2kxVWIzTm9hUTBLCi0tLQpUbyB1bnN1YnNjcmliZSBm
+cm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIgaW4K
+dGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBt
+YWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5o
+dG1sCg==
