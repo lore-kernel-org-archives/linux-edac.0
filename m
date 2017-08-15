@@ -3,19 +3,35 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,4/7] ghes_edac: avoid multiple calls to dmi_walk()
 From: Toshi Kani <toshi.kani@hpe.com>
-Message-Id: <1502811804.2042.151.camel@hpe.com>
-Date: Tue, 15 Aug 2017 15:53:09 +0000
-To: "tony.luck@intel.com" <tony.luck@intel.com>
-Cc: "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "lenb@kernel.org" <lenb@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "bp@alien8.de" <bp@alien8.de>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>
+Message-Id: <1502813405.2042.153.camel@hpe.com>
+Date: Tue, 15 Aug 2017 16:19:50 +0000
+To: "bp@alien8.de" <bp@alien8.de>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "lenb@kernel.org" <lenb@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCAyMDE3LTA4LTE1IGF0IDA4OjQ4IC0wNzAwLCBMdWNrLCBUb255IHdyb3RlOg0KPiBP
-biBUdWUsIEF1ZyAxNSwgMjAxNyBhdCAwODozNTo1MUFNIC0wNzAwLCBLYW5pLCBUb3NoaW1pdHN1
-IHdyb3RlOg0KPiA+IFVzZXIgYXBwcyBsaWtlIHJhcy1tYy1jdGwgd29ya3MgYXMgZXhwZWN0ZWQg
-Zm9yIGEgZ2l2ZW4gKG5vdC1zby0NCj4gPiBncmVhdCkgRElNTSBpbmZvIGZyb20gU01CSU9TIGFz
-IHdlbGwuwqDCoEkgZG8gbm90IHNlZSBhIHByb2JlbG0gZnJvbQ0KPiA+IHVzZXIgcGVyc3BlY3Rp
-dmUsIGVpdGhlci4NCj4gDQo+IFdvbid0IHRoZSB1c2VyIHNlZSBhbGwgdGhlaXIgRElNTXMgcmVw
-b3J0ZWQgZm9yIGVhY2ggbWVtb3J5DQo+IGNvbnRyb2xsZXIgdW5kZXIgL3N5cy9kZXZpY2VzL3N5
-c3RlbS9lZGFjL21jL21jKi9kaW1tKiA/DQo+IA0KPiBUaGF0IHNvdW5kcyBjb25mdXNpbmcuDQoN
-CmdoZXNfZWRhYyBvbmx5IGZpbGxzIGRpbW1faW5mbyB0byB0aGUgZmlyc3QgbWNpLiAgU28sIHVz
-ZXJzIGRvIG5vdCBzZWUNCmR1cGxpY2F0ZWQgaW5mby4NCg0KVGhhbmtzLA0KLVRvc2hpCg==
+T24gVHVlLCAyMDE3LTA4LTE1IGF0IDE3OjUwICswMjAwLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6
+DQo+IE9uIFR1ZSwgQXVnIDE1LCAyMDE3IGF0IDAzOjM1OjUxUE0gKzAwMDAsIEthbmksIFRvc2hp
+bWl0c3Ugd3JvdGU6DQo+ID4gZ2hlc19lZGFjIGluc3RhbnRpYXRlcyBhbiBtY2kgYXMgYSBwc2V1
+ZG8gZGV2aWNlIHJlcHJlc2VudGluZyBhDQo+ID4gR0hFUyBlcnJvciBzb3VyY2UuwqDCoEVhY2gg
+ZXJyb3Igc291cmNlIGFzc29jaWF0ZXMgd2l0aCBhbGwgRElNTXMsDQo+ID4gYW5kIG1heSByZXBv
+cnQgZXJyb3JzIGluZGVwZW5kZW50bHkuwqDCoEFzIGdoZXNfZWRhYyBpcyBhbiBHSEVTDQo+ID4g
+ZXJyb3ItcmVwb3J0aW5nIHdyYXBwZXIgdG8gZWRhYywgdGhpcyBhYnN0cmFjdGlvbiBtYWtlcyBz
+ZW5zZS4NCj4gDQo+IEJ1bGxzaGl0Lg0KPiANCj4gQW4gTUNJIGlzIGEgbWVtb3J5IGNvbnRyb2xs
+ZXIgZGVzY3JpcHRvci4gVGhhdCBkb2Vzbid0IGZpdCB0aGUgR0hFUw0KPiBwbGF0Zm9ybSBkZXZp
+Y2VzIHRoYXQgZ2V0IHByb2JlZC4gR0hFUyBwbGF0Zm9ybSBkZXZpY2UgIT0gTUNJLiBIb3cNCj4g
+bWFueSB0aW1lcyBkbyBJIG5lZWQgdG8gc2F5IHRoaXMgZm9yIGl0IHRvIGdldCB0aHJvdWdoIHRv
+IHlvdT8NCg0KUmlnaHQsIGJ1dCBpdCBoYXMgdG8gYmUgYSAicHNldWRvIiBkZXZpY2UgZm9yIGdo
+ZXNfZWRhYy4gIFRoZXJlIGlzIG5vDQptZW1vcnkgY29udHJvbGxlciBpbmZvIGF2YWlsYWJsZS4g
+IEEgc2luZ2xlIG1jaSBkb2VzIG5vdCBtYWtlIGl0IGEgcmVhbA0KbWVtb3J5IGNvbnRyb2xsZXIs
+IGVpdGhlci4NCg0KPiA+IEkgZG8gbm90IHNlZSBhIHByb2JsZW0gaW4gaGF2aW5nIGNvdW50ZXJz
+IGZvciBlYWNoIEdIRVMgZXJyb3INCj4gPiBzb3VyY2UuDQo+IA0KPiBBbmQgdGhlIGVycm9yIGNv
+dW50ZXJzIG9mIHRoYXQgInNpbXVsYXRlZCIgbWNpIGdldCBpbmNyZW1lbnRlZA0KPiBkZXBlbmRp
+bmcgb24gd2hpY2ggcG9pbnRlciBnZXRzIHBhc3NlZCBpbiBmcm9tIEdIRVM/IE1vcmUgYnVsbHNo
+aXQuDQo+DQo+ID4gVGhpcyBpcyBqdXN0IHN0YXRpc3RpY3MgaW5mbywgYW5kIGdoZXNfZWRhYyBk
+b2VzIG5vdCBleHBlY3QgYW55IE9TDQo+ID4gYWN0aW9uIGZyb20gdGhlIGNvdW50ZXJzLg0KPiAN
+Cj4gU28gbGV0IG1lIGtub3cgaWYgeW91IGRvbid0IHdhbnQgdG8gZG8gaXQgYW5kIHJhdGhlciB3
+b3VsZCBwcmVmZXIgdG8NCj4gcG9pbnRsZXNzbHkgZGViYXRlLiBJIGNlcnRhaW5seSBkb24ndCB3
+YW50IHRvIHdhc3RlIG15IHRpbWUgZGViYXRpbmcuDQoNClllcywgZ2hlc19lZGFjIHJlZmFjdG9y
+aW5nIGxpa2UgdGhpcyBzaG91bGQgYmUgY29uc2lkZXJlZCBhIHNlcGFyYXRlDQppdGVtLiAgTXkg
+cGF0Y2hzZXQgaXMgYWltZWQgdG8gaW50cm9kdWNlIGEgcGxhdGZvcm0tY2hlY2sgdG8gYXR0YWNo
+DQpnaGVzX2VkYWMgb24gc3VwcG9ydGVkIHBsYXRmb3Jtcy4NCg0KVGhhbmtzLA0KLVRvc2hpCg==
