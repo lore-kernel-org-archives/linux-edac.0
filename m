@@ -1,19 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [01/15] EDAC: make device_type const
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170820112954.bi5oiebbm3i4gtru@pd.tnic>
-Date: Sun, 20 Aug 2017 13:29:55 +0200
-To: Bhumika Goyal <bhumirks@gmail.com>
-Cc: julia.lawall@lip6.fr, mchehab@kernel.org, daniel.vetter@intel.com, jani.nikula@linux.intel.com, seanpaul@chromium.org, airlied@linux.ie, g.liakhovetski@gmx.de, tomas.winkler@intel.com, dwmw2@infradead.org, computersforpeace@gmail.com, boris.brezillon@free-electrons.com, marek.vasut@gmail.com, richard@nod.at, cyrille.pitchen@wedev4u.fr, peda@axentia.se, kishon@ti.com, bhelgaas@google.com, thierry.reding@gmail.com, jonathanh@nvidia.com, dvhart@infradead.org, andy@infradead.org, ohad@wizery.com, bjorn.andersson@linaro.org, freude@de.ibm.com, schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, jth@kernel.org, jejb@linux.vnet.ibm.com, martin.petersen@oracle.com, lduncan@suse.com, cleech@redhat.com, johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, fcoe-devel@open-fcoe.org, linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com, greybus-dev@lists.linaro.org, devel@driverdev.osuosl.org, linux-usb@vger.kernel.org
+Subject: EDAC, altera: Fix an error handling path in 'altr_edac_device_probe()'
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-Id: <20170816050506.14541-1-christophe.jaillet@wanadoo.fr>
+Date: Wed, 16 Aug 2017 07:05:06 +0200
+To: thor.thayer@linux.intel.com, bp@alien8.de, mchehab@kernel.org
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 List-ID: <edac.vger.kernel.org>
 
-T24gU2F0LCBBdWcgMTksIDIwMTcgYXQgMDE6NTI6MTJQTSArMDUzMCwgQmh1bWlrYSBHb3lhbCB3
-cm90ZToKPiBNYWtlIHRoZXNlIGNvbnN0IGFzIHRoZXkgYXJlIG9ubHkgc3RvcmVkIGluIHRoZSB0
-eXBlIGZpZWxkIG9mIGEgZGV2aWNlCj4gc3RydWN0dXJlLCB3aGljaCBpcyBjb25zdC4KPiBEb25l
-IHVzaW5nIENvY2NpbmVsbGUuCj4gCj4gU2lnbmVkLW9mZi1ieTogQmh1bWlrYSBHb3lhbCA8Ymh1
-bWlya3NAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2VkYWMvZWRhY19tY19zeXNmcy5jIHwg
-OCArKysrLS0tLQo+ICBkcml2ZXJzL2VkYWMvaTdjb3JlX2VkYWMuYyAgIHwgNCArKy0tCj4gIDIg
-ZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoKQXBwbGllZCwg
-dGhhbmtzLgo=
+J3JlcycgaXMga25vd24gdG8gYmUgMCBhdCB0aGlzIHBvaW50LgpJZiAnZGV2bV9pb3JlbWFwKCkn
+IGZhaWxzLCByZXR1cm5zIC1FTk9NRU0gaW5zdGVhZCBvZiAwIHdoaWNoIG1lYW5zCnN1Y2Nlc3Mu
+CgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3
+YW5hZG9vLmZyPgotLS0KIGRyaXZlcnMvZWRhYy9hbHRlcmFfZWRhYy5jIHwgNCArKystCiAxIGZp
+bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9lZGFjL2FsdGVyYV9lZGFjLmMgYi9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuYwpp
+bmRleCBmYTJlNWRiNTZkMjQuLjM0NmM0OTg3YjI4NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9lZGFj
+L2FsdGVyYV9lZGFjLmMKKysrIGIvZHJpdmVycy9lZGFjL2FsdGVyYV9lZGFjLmMKQEAgLTc0Nyw4
+ICs3NDcsMTAgQEAgc3RhdGljIGludCBhbHRyX2VkYWNfZGV2aWNlX3Byb2JlKHN0cnVjdCBwbGF0
+Zm9ybV9kZXZpY2UgKnBkZXYpCiAJZHJ2ZGF0YS0+ZWRhY19kZXZfbmFtZSA9IGVjY19uYW1lOwog
+CiAJZHJ2ZGF0YS0+YmFzZSA9IGRldm1faW9yZW1hcCgmcGRldi0+ZGV2LCByLT5zdGFydCwgcmVz
+b3VyY2Vfc2l6ZShyKSk7Ci0JaWYgKCFkcnZkYXRhLT5iYXNlKQorCWlmICghZHJ2ZGF0YS0+YmFz
+ZSkgeworCQlyZXMgPSAtRU5PTUVNOwogCQlnb3RvIGZhaWwxOworCX0KIAogCS8qIEdldCBkcml2
+ZXIgc3BlY2lmaWMgZGF0YSBmb3IgdGhpcyBFREFDIGRldmljZSAqLwogCWRydmRhdGEtPmRhdGEg
+PSBvZl9tYXRjaF9ub2RlKGFsdHJfZWRhY19kZXZpY2Vfb2ZfbWF0Y2gsIG5wKS0+ZGF0YTsK
