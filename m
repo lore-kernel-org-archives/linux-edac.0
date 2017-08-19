@@ -1,42 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,6/6] edac: synopsys: Enable CE and UE interrupts for ZynqMP DDRC
-From: Michal Simek <michal.simek@xilinx.com>
-Message-Id: <01ba1fac5b05242546c4d97dbe9a2800c1019cd8.1502091561.git.michal.simek@xilinx.com>
-Date: Mon,  7 Aug 2017 09:39:28 +0200
-To: linux-kernel@vger.kernel.org, monstr@monstr.eu
-Cc: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>, =?UTF-8?q?S=C3=B6ren=20Brinkmann?= <soren.brinkmann@xilinx.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Borislav Petkov <bp@alien8.de>, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+Subject: [06/15] mtd: make device_type const
+From: Bhumika Goyal <bhumirks@gmail.com>
+Message-Id: <1503130946-2854-7-git-send-email-bhumirks@gmail.com>
+Date: Sat, 19 Aug 2017 13:52:17 +0530
+To: julia.lawall@lip6.fr, bp@alien8.de, mchehab@kernel.org, daniel.vetter@intel.com, jani.nikula@linux.intel.com, seanpaul@chromium.org, airlied@linux.ie, g.liakhovetski@gmx.de, tomas.winkler@intel.com, dwmw2@infradead.org, computersforpeace@gmail.com, boris.brezillon@free-electrons.com, marek.vasut@gmail.com, richard@nod.at, cyrille.pitchen@wedev4u.fr, peda@axentia.se, kishon@ti.com, bhelgaas@google.com, thierry.reding@gmail.com, jonathanh@nvidia.com, dvhart@infradead.org, andy@infradead.org, ohad@wizery.com, bjorn.andersson@linaro.org, freude@de.ibm.com, schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, jth@kernel.org, jejb@linux.vnet.ibm.com, martin.petersen@oracle.com, lduncan@suse.com, cleech@redhat.com, johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, fcoe-devel@open-fcoe.org, linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com, greybus-dev@lists.linaro.org, devel@driverdev.osuosl.org, linux-usb@vger.kernel.org
+Cc: Bhumika Goyal <bhumirks@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogTmFnYSBTdXJlc2hrdW1hciBSZWxsaSA8bmFnYS5zdXJlc2hrdW1hci5yZWxsaUB4aWxp
-bnguY29tPgoKVGhpcyBwYXRjaCBlbmFibGVzIENvcnJlY3RlZCBhbmQgVW5jb3JyZWN0ZWQgRXJy
-b3IKaW50ZXJydXB0cyBmb3IgWnlucU1QIEREUkMgY29udHJvbGxlcgoKU2lnbmVkLW9mZi1ieTog
-TmFnYSBTdXJlc2hrdW1hciBSZWxsaSA8bmFnYXN1cmVAeGlsaW54LmNvbT4KUmV2aWV3ZWQtYnk6
-IFB1bm5haWFoIENob3VkYXJ5IEthbGx1cmkgPHB1bm5haWFAeGlsaW54LmNvbT4KU2lnbmVkLW9m
-Zi1ieTogTWljaGFsIFNpbWVrIDxtaWNoYWwuc2ltZWtAeGlsaW54LmNvbT4KLS0tCgpDaGFuZ2Vz
-IGluIHYyOgotIEZpeCBmdW5jdGlvbiBhbGlnbm1lbnQKLSBGaXggbWFjcm8gaW5kZW50YXRpb24K
-CiBkcml2ZXJzL2VkYWMvc3lub3BzeXNfZWRhYy5jIHwgMTAgKysrKysrKysrKwogMSBmaWxlIGNo
-YW5nZWQsIDEwIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvc3lub3Bz
-eXNfZWRhYy5jIGIvZHJpdmVycy9lZGFjL3N5bm9wc3lzX2VkYWMuYwppbmRleCAyNDQ5MDMzNGE0
-ZjIuLmYxODVhMjhkMmRiMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9lZGFjL3N5bm9wc3lzX2VkYWMu
-YworKysgYi9kcml2ZXJzL2VkYWMvc3lub3BzeXNfZWRhYy5jCkBAIC0xNjUsNiArMTY1LDggQEAK
-ICNkZWZpbmUgRERSX1FPU1VFX01BU0sJCTB4NAogI2RlZmluZSBERFJfUU9TQ0VfTUFTSwkJMHgy
-CiAjZGVmaW5lIEVDQ19DRV9VRV9JTlRSX01BU0sJMHg2CisjZGVmaW5lIEREUl9RT1NfSVJRX0VO
-X09GU1QJMHgyMDIwOAorI2RlZmluZSBERFJfUU9TX0lSUV9EQl9PRlNUCTB4MjAyMEMKIAogLyog
-RUNDIENvcnJlY3RlZCBFcnJvciBSZWdpc3RlciBNYXNrIGFuZCBTaGlmdHMqLwogI2RlZmluZSBF
-Q0NfQ0VBRERSMF9SV19NQVNLCTB4M0ZGRkYKQEAgLTExMTIsNiArMTExNCwxMCBAQCBzdGF0aWMg
-aW50IHN5bnBzX2VkYWNfbWNfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKIAkJ
-CWVkYWNfcHJpbnRrKEtFUk5fRVJSLCBFREFDX01DLCAiRmFpbGVkIHRvIHJlcXVlc3QgSXJxXG4i
-KTsKIAkJCWdvdG8gZnJlZV9lZGFjX21jOwogCQl9CisKKwkJLyogRW5hYmxlIFVFL0NFIEludGVy
-cnVwdHMgKi8KKwkJd3JpdGVsKChERFJfUU9TVUVfTUFTSyB8IEREUl9RT1NDRV9NQVNLKSwKKwkJ
-ICAgICAgIHByaXYtPmJhc2VhZGRyICsgRERSX1FPU19JUlFfRU5fT0ZTVCk7CiAJfQogCiAJcmMg
-PSBlZGFjX21jX2FkZF9tYyhtY2kpOwpAQCAtMTE1NCw2ICsxMTYwLDEwIEBAIHN0YXRpYyBpbnQg
-c3lucHNfZWRhY19tY19yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKIAlzdHJ1
-Y3Qgc3lucHNfZWRhY19wcml2ICpwcml2OwogCiAJcHJpdiA9IG1jaS0+cHZ0X2luZm87CisJaWYg
-KHByaXYtPnBfZGF0YS0+cXVpcmtzICYgRERSX0VDQ19JTlRSX1NVUFBPUlQpCisJCS8qIERpc2Fi
-bGUgVUUvQ0UgSW50ZXJydXB0cyAqLworCQl3cml0ZWwoKEREUl9RT1NVRV9NQVNLIHwgRERSX1FP
-U0NFX01BU0spLAorCQkgICAgICAgcHJpdi0+YmFzZWFkZHIgKyBERFJfUU9TX0lSUV9EQl9PRlNU
-KTsKIAllZGFjX21jX2RlbF9tYygmcGRldi0+ZGV2KTsKIAlpZiAocHJpdi0+cF9kYXRhLT5xdWly
-a3MgJiBERFJfRUNDX0RBVEFfUE9JU09OX1NVUFBPUlQpCiAJCXN5bnBzX2VkYWNfcmVtb3ZlX3N5
-c2ZzX2F0dHJpYnV0ZXMobWNpKTsK
+TWFrZSB0aGlzIGNvbnN0IGFzIGl0IGlzIG9ubHkgc3RvcmVkIGluIHRoZSB0eXBlIGZpZWxkIG9m
+IGEgZGV2aWNlCnN0cnVjdHVyZSwgd2hpY2ggaXMgY29uc3QuCkRvbmUgdXNpbmcgQ29jY2luZWxs
+ZS4KClNpZ25lZC1vZmYtYnk6IEJodW1pa2EgR295YWwgPGJodW1pcmtzQGdtYWlsLmNvbT4KLS0t
+CiBkcml2ZXJzL210ZC9tdGRjb3JlLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL210ZC9tdGRjb3JlLmMg
+Yi9kcml2ZXJzL210ZC9tdGRjb3JlLmMKaW5kZXggZjg3MmE5OS4uZTdlYTg0MiAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9tdGQvbXRkY29yZS5jCisrKyBiL2RyaXZlcnMvbXRkL210ZGNvcmUuYwpAQCAt
+MzQwLDcgKzM0MCw3IEBAIHN0YXRpYyBzc2l6ZV90IG10ZF9iYnRibG9ja3Nfc2hvdyhzdHJ1Y3Qg
+ZGV2aWNlICpkZXYsCiB9OwogQVRUUklCVVRFX0dST1VQUyhtdGQpOwogCi1zdGF0aWMgc3RydWN0
+IGRldmljZV90eXBlIG10ZF9kZXZ0eXBlID0geworc3RhdGljIGNvbnN0IHN0cnVjdCBkZXZpY2Vf
+dHlwZSBtdGRfZGV2dHlwZSA9IHsKIAkubmFtZQkJPSAibXRkIiwKIAkuZ3JvdXBzCQk9IG10ZF9n
+cm91cHMsCiAJLnJlbGVhc2UJPSBtdGRfcmVsZWFzZSwK
