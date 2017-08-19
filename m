@@ -1,32 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] ACPI, APEI, EINJ: Subtract any matching Register Region from Trigger resources
-From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Message-Id: <115727625.IkF9TZtNWN@aspire.rjw.lan>
-Date: Thu, 31 Aug 2017 01:29:24 +0200
-To: Yazen Ghannam <Yazen.Ghannam@amd.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, lenb@kernel.org, linux-edac@vger.kernel.org, bp@suse.de, tony.luck@intel.com, Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: [14/15] staging: greybus: make device_type const
+From: Bhumika Goyal <bhumirks@gmail.com>
+Message-Id: <1503130946-2854-15-git-send-email-bhumirks@gmail.com>
+Date: Sat, 19 Aug 2017 13:52:25 +0530
+To: julia.lawall@lip6.fr, bp@alien8.de, mchehab@kernel.org, daniel.vetter@intel.com, jani.nikula@linux.intel.com, seanpaul@chromium.org, airlied@linux.ie, g.liakhovetski@gmx.de, tomas.winkler@intel.com, dwmw2@infradead.org, computersforpeace@gmail.com, boris.brezillon@free-electrons.com, marek.vasut@gmail.com, richard@nod.at, cyrille.pitchen@wedev4u.fr, peda@axentia.se, kishon@ti.com, bhelgaas@google.com, thierry.reding@gmail.com, jonathanh@nvidia.com, dvhart@infradead.org, andy@infradead.org, ohad@wizery.com, bjorn.andersson@linaro.org, freude@de.ibm.com, schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, jth@kernel.org, jejb@linux.vnet.ibm.com, martin.petersen@oracle.com, lduncan@suse.com, cleech@redhat.com, johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, fcoe-devel@open-fcoe.org, linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com, greybus-dev@lists.linaro.org, devel@driverdev.osuosl.org, linux-usb@vger.kernel.org
+Cc: Bhumika Goyal <bhumirks@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uZGF5LCBBdWd1c3QgMjgsIDIwMTcgODoxMzoxNCBQTSBDRVNUIFlhemVuIEdoYW5uYW0g
-d3JvdGU6Cj4gRnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgo+IAo+
-IEFDUEkgZGVmaW5lcyBhIG51bWJlciBvZiBpbnN0cnVjdGlvbnMgdG8gdXNlIGZvciB0cmlnZ2Vy
-aW5nIGVycm9ycy4gSG93ZXZlcgo+IHdlIGFyZSBjdXJyZW50bHkgcmVtb3ZpbmcgdGhlIGFkZHJl
-c3MgcmVzb3VyY2VzIGZyb20gdGhlIHRyaWdnZXIgcmVzb3VyY2VzCj4gZm9yIG9ubHkgdGhlIFdS
-SVRFX1JFR0lTVEVSX1ZBTFVFIGluc3RydWN0aW9uLiBUaGlzIGxlYWRzIHRvIGEgcmVzb3VyY2UK
-PiBjb25mbGljdCBmb3IgYW55IG90aGVyIHZhbGlkIGluc3RydWN0aW9uLgo+IAo+IENoZWNrIHRo
-YXQgdGhlIGluc3RydWN0aW9uIGlzIGxlc3MgdGhhbiBvciBlcXVhbCB0byB0aGUKPiBXUklURV9S
-RUdJU1RFUl9WQUxVRSBpbnN0cnVjdGlvbi4gVGhpcyBhbGxvd3MgYWxsIHZhbGlkIG1lbW9yeSBh
-Y2Nlc3MKPiBpbnN0cnVjdGlvbnMgYW5kIHByb3RlY3RzIGFnYWluc3QgaW52YWxpZCBpbnN0cnVj
-dGlvbnMuCj4gCj4gRml4ZXM6IGI0ZTAwOGRjNTNhMyAoIkFDUEksIEFQRUksIEVJTkosIFJlZmlu
-ZSB0aGUgZml4IG9mIHJlc291cmNlIGNvbmZsaWN0IikKPiBTaWduZWQtb2ZmLWJ5OiBZYXplbiBH
-aGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cj4gQWNrZWQtYnk6IFRvbnkgTHVjayA8dG9u
-eS5sdWNrQGludGVsLmNvbT4KPiAtLS0KPiBMaW5rOgo+IGh0dHBzOi8vbGttbC5rZXJuZWwub3Jn
-L3IvMTUwMjM4Nzg4My0xNjY2Ny0xLWdpdC1zZW5kLWVtYWlsLVlhemVuLkdoYW5uYW1AYW1kLmNv
-bQo+IAo+IHYxLT52MjoKPiAqIEFwcGx5IFRvbnkncyBjb21tZW50IHRvIHJlc3RyaWN0IGJlaGF2
-aW9yIHRvIHZhbGlkIG1lbW9yeSBpbnN0cnVjdGlvbnMuCgpBcHBsaWVkLCB0aGFua3MhCi0tLQpU
-byB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUg
-bGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtl
-cm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9t
-YWpvcmRvbW8taW5mby5odG1sCg==
+TWFrZSB0aGlzIGNvbnN0IGFzIGl0IGlzIG9ubHkgc3RvcmVkIGluIHRoZSB0eXBlIGZpZWxkIG9m
+IGEgZGV2aWNlCnN0cnVjdHVyZSwgd2hpY2ggaXMgY29uc3QuCkRvbmUgdXNpbmcgQ29jY2luZWxs
+ZS4KClNpZ25lZC1vZmYtYnk6IEJodW1pa2EgR295YWwgPGJodW1pcmtzQGdtYWlsLmNvbT4KLS0t
+CiBkcml2ZXJzL3N0YWdpbmcvZ3JleWJ1cy9nYnBoeS5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFn
+aW5nL2dyZXlidXMvZ2JwaHkuYyBiL2RyaXZlcnMvc3RhZ2luZy9ncmV5YnVzL2dicGh5LmMKaW5k
+ZXggNjAzZGU2Zi4uODBjMWRhOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9zdGFnaW5nL2dyZXlidXMv
+Z2JwaHkuYworKysgYi9kcml2ZXJzL3N0YWdpbmcvZ3JleWJ1cy9nYnBoeS5jCkBAIC02Niw3ICs2
+Niw3IEBAIHN0YXRpYyBpbnQgZ2JfZ2JwaHlfaWRsZShzdHJ1Y3QgZGV2aWNlICpkZXYpCiAJCQkg
+ICBnYl9nYnBoeV9pZGxlKQogfTsKIAotc3RhdGljIHN0cnVjdCBkZXZpY2VfdHlwZSBncmV5YnVz
+X2dicGh5X2Rldl90eXBlID0geworc3RhdGljIGNvbnN0IHN0cnVjdCBkZXZpY2VfdHlwZSBncmV5
+YnVzX2dicGh5X2Rldl90eXBlID0gewogCS5uYW1lCSA9CSJnYnBoeV9kZXZpY2UiLAogCS5yZWxl
+YXNlID0JZ2JwaHlfZGV2X3JlbGVhc2UsCiAJLnBtCT0JJmdiX2dicGh5X3BtX29wcywK
