@@ -1,33 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,2/5] intel_pstate: convert to use acpi_match_platform_list()
-From: Toshi Kani <toshi.kani@hpe.com>
-Message-Id: <1503503170.2042.172.camel@hpe.com>
-Date: Wed, 23 Aug 2017 15:56:05 +0000
-To: "bp@alien8.de" <bp@alien8.de>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>, "tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org" <lenb@kernel.org>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: [08/15] PCI: make device_type const
+From: Bhumika Goyal <bhumirks@gmail.com>
+Message-Id: <1503130946-2854-9-git-send-email-bhumirks@gmail.com>
+Date: Sat, 19 Aug 2017 13:52:19 +0530
+To: julia.lawall@lip6.fr, bp@alien8.de, mchehab@kernel.org, daniel.vetter@intel.com, jani.nikula@linux.intel.com, seanpaul@chromium.org, airlied@linux.ie, g.liakhovetski@gmx.de, tomas.winkler@intel.com, dwmw2@infradead.org, computersforpeace@gmail.com, boris.brezillon@free-electrons.com, marek.vasut@gmail.com, richard@nod.at, cyrille.pitchen@wedev4u.fr, peda@axentia.se, kishon@ti.com, bhelgaas@google.com, thierry.reding@gmail.com, jonathanh@nvidia.com, dvhart@infradead.org, andy@infradead.org, ohad@wizery.com, bjorn.andersson@linaro.org, freude@de.ibm.com, schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, jth@kernel.org, jejb@linux.vnet.ibm.com, martin.petersen@oracle.com, lduncan@suse.com, cleech@redhat.com, johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, fcoe-devel@open-fcoe.org, linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com, greybus-dev@lists.linaro.org, devel@driverdev.osuosl.org, linux-usb@vger.kernel.org
+Cc: Bhumika Goyal <bhumirks@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-VDI0Z1YyVmtMQ0F5TURFM0xUQTRMVEl6SUdGMElERTNPalEySUNzd01qQXdMQ0JDYjNKcGMyeGhk
-aUJRWlhScmIzWWdkM0p2ZEdVNgpEUW8rSUU5dUlFWnlhU3dnUVhWbklERTRMQ0F5TURFM0lHRjBJ
-REF4T2pRMk9qUXhVRTBnTFRBMk1EQXNJRlJ2YzJocElFdGhibWtnCmQzSnZkR1U2RFFvK0lENGdR
-Mjl1ZG1WeWRDQjBieUIxYzJVZ1lXTndhVjl0WVhSamFGOXdiR0YwWm05eWJWOXNhWE4wS0NrZ1pt
-OXkKSUhSb1pTQndiR0YwWm05eWJTQmphR1ZqYXk0TkNqNGdQaUJVYUdWeVpTQnBjeUJ1YnlCamFH
-RnVaMlVnYVc0Z1puVnVZM1JwYjI1aApiR2wwZVM0TkNqNGdQaUFOQ2lBNkRRbytJQTBLUGlCQ2RI
-Y3NJSGRvZVNCcGN5QjBhR0YwSUVGRFVFbGZVMGxIWDBaQlJGUW5jeUJrClpYTmpjbWx3ZEdsdmJp
-QnViM1FnSWtaQlJGUWlJRDhOQ2o0Z0RRbytJQ05rWldacGJtVWdRVU5RU1Y5VFNVZGZSa0ZFVk1L
-Z3dxREMKb01LZ3dxRENvTUtnd3FEQ29NS2d3cUFpUmtGRFVDTENvTUtnTHlvZ1JtbDRaV1FnUVVO
-UVNTQkVaWE5qY21sd2RHbHZiZzBLUGlCVQpZV0pzWlNBcUx3MEtQaUFOQ2o0Z1RXOXlaU0JCUTFC
-SklHWjFiajhnU1NCa2IyNG5kQ0IwYUdsdWF5QkpJR05oYmlCMFlXdGxJR0Z1CmVTQnRiM0psSUda
-MWJpNE5DZzBLV1dWekxDQnRiM0psSUVGRFVFa2dablZ1TGlBNkxTa2dJRUZqWTI5eVpHbHVaeUIw
-YnlCMGFHVWcKYzNCbFl6b05DZzBLNG9DWVJrRkRVT0tBbVM0Z1UybG5ibUYwZFhKbElHWnZjaUIw
-YUdVZ1JtbDRaV1FnUVVOUVNTQkVaWE5qY21sdwpkR2x2YmlCVVlXSnNaUzRnS0ZSb2FYTWdjMmxu
-Ym1GMGRYSmxEUXB3Y21Wa1lYUmxjeUJCUTFCSklERXVNQ3dnWlhod2JHRnBibWx1Clp5QjBhR1Vn
-YldsemJXRjBZMmdnZDJsMGFDQjBhR2x6SUhSaFlteGxKM01nYm1GdFpTNHBEUW9OQ2o0Z1QyZ2dk
-MlZzYkN3TkNqNGcKRFFvK0lGSmxkbWxsZDJWa0xXSjVPaUJDYjNKcGMyeGhkaUJRWlhScmIzWWdQ
-R0p3UUhOMWMyVXVaR1UrRFFvTkNsUm9ZVzVyY3lFTgpDaTFVYjNOb2FRMEsKLS0tClRvIHVuc3Vi
-c2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC1l
-ZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9y
-ZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9t
-by1pbmZvLmh0bWwK
+TWFrZSB0aGlzIGNvbnN0IGFzIGl0IGlzIG9ubHkgc3RvcmVkIGluIHRoZSB0eXBlIGZpZWxkIG9m
+IGEgZGV2aWNlCnN0cnVjdHVyZSwgd2hpY2ggaXMgY29uc3QuCkRvbmUgdXNpbmcgQ29jY2luZWxs
+ZS4KClNpZ25lZC1vZmYtYnk6IEJodW1pa2EgR295YWwgPGJodW1pcmtzQGdtYWlsLmNvbT4KLS0t
+CiBkcml2ZXJzL3BjaS9lbmRwb2ludC9wY2ktZXBmLWNvcmUuYyB8IDQgKystLQogMSBmaWxlIGNo
+YW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL3BjaS9lbmRwb2ludC9wY2ktZXBmLWNvcmUuYyBiL2RyaXZlcnMvcGNpL2VuZHBvaW50L3Bj
+aS1lcGYtY29yZS5jCmluZGV4IDY4NzdkNmEuLjlkMGRlMTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+cGNpL2VuZHBvaW50L3BjaS1lcGYtY29yZS5jCisrKyBiL2RyaXZlcnMvcGNpL2VuZHBvaW50L3Bj
+aS1lcGYtY29yZS5jCkBAIC0yNyw3ICsyNyw3IEBACiAjaW5jbHVkZSA8bGludXgvcGNpLWVwLWNm
+cy5oPgogCiBzdGF0aWMgc3RydWN0IGJ1c190eXBlIHBjaV9lcGZfYnVzX3R5cGU7Ci1zdGF0aWMg
+c3RydWN0IGRldmljZV90eXBlIHBjaV9lcGZfdHlwZTsKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZGV2
+aWNlX3R5cGUgcGNpX2VwZl90eXBlOwogCiAvKioKICAqIHBjaV9lcGZfbGlua3VwKCkgLSBOb3Rp
+ZnkgdGhlIGZ1bmN0aW9uIGRyaXZlciB0aGF0IEVQQyBkZXZpY2UgaGFzCkBAIC0yNzUsNyArMjc1
+LDcgQEAgc3RhdGljIHZvaWQgcGNpX2VwZl9kZXZfcmVsZWFzZShzdHJ1Y3QgZGV2aWNlICpkZXYp
+CiAJa2ZyZWUoZXBmKTsKIH0KIAotc3RhdGljIHN0cnVjdCBkZXZpY2VfdHlwZSBwY2lfZXBmX3R5
+cGUgPSB7CitzdGF0aWMgY29uc3Qgc3RydWN0IGRldmljZV90eXBlIHBjaV9lcGZfdHlwZSA9IHsK
+IAkucmVsZWFzZQk9IHBjaV9lcGZfZGV2X3JlbGVhc2UsCiB9OwogCg==
