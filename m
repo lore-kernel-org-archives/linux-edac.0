@@ -2,22 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: ACPICA: Check whether ACPI is disabled before getting a table
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170821132054.mwhdxkcka4ocp6h5@pd.tnic>
-Date: Mon, 21 Aug 2017 15:20:54 +0200
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Toshi Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Luck <tony.luck@intel.com>, Len Brown <lenb@kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, "open list:EDAC-CORE" <linux-edac@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Message-Id: <CAJZ5v0iE_H6xeyvzCEMRKhE=iuaP8aUOP4_bT=y2fMJ7htxyew@mail.gmail.com>
+Date: Mon, 21 Aug 2017 15:30:47 +0200
+To: Borislav Petkov <bp@alien8.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Toshi Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Luck <tony.luck@intel.com>, Len Brown <lenb@kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, "open list:EDAC-CORE" <linux-edac@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-Qm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKLi4uIGFuZCBzYXZlIHVzIHRoZSBzcGxyaW5r
-aW5nIG9mIHRoaXMgdGVzdCBhcm91bmQgaW4gdGhlIGNhbGxlcnMuCgpObyBmdW5jdGlvbmFsaXR5
-IGNoYW5nZS4KClNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KLS0t
-CiBkcml2ZXJzL2FjcGkvYWNwaWNhL3RieGZhY2UuYyB8IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwg
-MyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9hY3BpL2FjcGljYS90YnhmYWNl
-LmMgYi9kcml2ZXJzL2FjcGkvYWNwaWNhL3RieGZhY2UuYwppbmRleCAwMTBiMWM0M2RmOTIuLjg4
-MWIwZDViMjgzOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9hY3BpL2FjcGljYS90YnhmYWNlLmMKKysr
-IGIvZHJpdmVycy9hY3BpL2FjcGljYS90YnhmYWNlLmMKQEAgLTIyNiw2ICsyMjYsOSBAQCBhY3Bp
-X2dldF90YWJsZV9oZWFkZXIoY2hhciAqc2lnbmF0dXJlLAogCXUzMiBqOwogCXN0cnVjdCBhY3Bp
-X3RhYmxlX2hlYWRlciAqaGVhZGVyOwogCisJaWYgKGFjcGlfZGlzYWJsZWQpCisJCXJldHVybiAo
-QUVfRVJST1IpOworCiAJLyogUGFyYW1ldGVyIHZhbGlkYXRpb24gKi8KIAogCWlmICghc2lnbmF0
-dXJlIHx8ICFvdXRfdGFibGVfaGVhZGVyKSB7Cg==
+T24gTW9uLCBBdWcgMjEsIDIwMTcgYXQgMzoyMCBQTSwgQm9yaXNsYXYgUGV0a292IDxicEBhbGll
+bjguZGU+IHdyb3RlOgo+IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KPgo+IC4uLiBhbmQg
+c2F2ZSB1cyB0aGUgc3Bscmlua2luZyBvZiB0aGlzIHRlc3QgYXJvdW5kIGluIHRoZSBjYWxsZXJz
+Lgo+Cj4gTm8gZnVuY3Rpb25hbGl0eSBjaGFuZ2UuCj4KPiBTaWduZWQtb2ZmLWJ5OiBCb3Jpc2xh
+diBQZXRrb3YgPGJwQHN1c2UuZGU+Cj4gLS0tCj4gIGRyaXZlcnMvYWNwaS9hY3BpY2EvdGJ4ZmFj
+ZS5jIHwgMyArKysKPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvYWNwaS9hY3BpY2EvdGJ4ZmFjZS5jIGIvZHJpdmVycy9hY3BpL2FjcGlj
+YS90YnhmYWNlLmMKPiBpbmRleCAwMTBiMWM0M2RmOTIuLjg4MWIwZDViMjgzOCAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL2FjcGkvYWNwaWNhL3RieGZhY2UuYwo+ICsrKyBiL2RyaXZlcnMvYWNwaS9h
+Y3BpY2EvdGJ4ZmFjZS5jCj4gQEAgLTIyNiw2ICsyMjYsOSBAQCBhY3BpX2dldF90YWJsZV9oZWFk
+ZXIoY2hhciAqc2lnbmF0dXJlLAo+ICAgICAgICAgdTMyIGo7Cj4gICAgICAgICBzdHJ1Y3QgYWNw
+aV90YWJsZV9oZWFkZXIgKmhlYWRlcjsKPgo+ICsgICAgICAgaWYgKGFjcGlfZGlzYWJsZWQpCj4g
+KyAgICAgICAgICAgICAgIHJldHVybiAoQUVfRVJST1IpOwo+ICsKPiAgICAgICAgIC8qIFBhcmFt
+ZXRlciB2YWxpZGF0aW9uICovCj4KPiAgICAgICAgIGlmICghc2lnbmF0dXJlIHx8ICFvdXRfdGFi
+bGVfaGVhZGVyKSB7Cj4gLS0KCklzIGFjcGlfZGlzYWJsZWQgYW4gQUNQSUNBIHZhcmlhYmxlPyAg
+SWYgbm90LCB0aGlzIGNhbm5vdCBnbyB1cHN0cmVhbS4KTm90IGEgYmlnIGRlYWwgSSBndWVzcywg
+YnV0IHNvbWV3aGF0IHl1Y2t5LgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNl
+bmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVz
+c2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQg
+IGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
