@@ -2,30 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: ACPICA: Check whether ACPI is disabled before getting a table
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Message-Id: <CAJZ5v0iE_H6xeyvzCEMRKhE=iuaP8aUOP4_bT=y2fMJ7htxyew@mail.gmail.com>
-Date: Mon, 21 Aug 2017 15:30:47 +0200
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Toshi Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Luck <tony.luck@intel.com>, Len Brown <lenb@kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, "open list:EDAC-CORE" <linux-edac@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170821153415.54cwpytwfuq2bpec@pd.tnic>
+Date: Mon, 21 Aug 2017 17:34:15 +0200
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Toshi Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Luck <tony.luck@intel.com>, Len Brown <lenb@kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, "open list:EDAC-CORE" <linux-edac@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBBdWcgMjEsIDIwMTcgYXQgMzoyMCBQTSwgQm9yaXNsYXYgUGV0a292IDxicEBhbGll
-bjguZGU+IHdyb3RlOgo+IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KPgo+IC4uLiBhbmQg
-c2F2ZSB1cyB0aGUgc3Bscmlua2luZyBvZiB0aGlzIHRlc3QgYXJvdW5kIGluIHRoZSBjYWxsZXJz
-Lgo+Cj4gTm8gZnVuY3Rpb25hbGl0eSBjaGFuZ2UuCj4KPiBTaWduZWQtb2ZmLWJ5OiBCb3Jpc2xh
-diBQZXRrb3YgPGJwQHN1c2UuZGU+Cj4gLS0tCj4gIGRyaXZlcnMvYWNwaS9hY3BpY2EvdGJ4ZmFj
-ZS5jIHwgMyArKysKPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvYWNwaS9hY3BpY2EvdGJ4ZmFjZS5jIGIvZHJpdmVycy9hY3BpL2FjcGlj
-YS90YnhmYWNlLmMKPiBpbmRleCAwMTBiMWM0M2RmOTIuLjg4MWIwZDViMjgzOCAxMDA2NDQKPiAt
-LS0gYS9kcml2ZXJzL2FjcGkvYWNwaWNhL3RieGZhY2UuYwo+ICsrKyBiL2RyaXZlcnMvYWNwaS9h
-Y3BpY2EvdGJ4ZmFjZS5jCj4gQEAgLTIyNiw2ICsyMjYsOSBAQCBhY3BpX2dldF90YWJsZV9oZWFk
-ZXIoY2hhciAqc2lnbmF0dXJlLAo+ICAgICAgICAgdTMyIGo7Cj4gICAgICAgICBzdHJ1Y3QgYWNw
-aV90YWJsZV9oZWFkZXIgKmhlYWRlcjsKPgo+ICsgICAgICAgaWYgKGFjcGlfZGlzYWJsZWQpCj4g
-KyAgICAgICAgICAgICAgIHJldHVybiAoQUVfRVJST1IpOwo+ICsKPiAgICAgICAgIC8qIFBhcmFt
-ZXRlciB2YWxpZGF0aW9uICovCj4KPiAgICAgICAgIGlmICghc2lnbmF0dXJlIHx8ICFvdXRfdGFi
-bGVfaGVhZGVyKSB7Cj4gLS0KCklzIGFjcGlfZGlzYWJsZWQgYW4gQUNQSUNBIHZhcmlhYmxlPyAg
-SWYgbm90LCB0aGlzIGNhbm5vdCBnbyB1cHN0cmVhbS4KTm90IGEgYmlnIGRlYWwgSSBndWVzcywg
-YnV0IHNvbWV3aGF0IHl1Y2t5LgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNl
-bmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVz
-c2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQg
-IGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+T24gTW9uLCBBdWcgMjEsIDIwMTcgYXQgMDM6MzA6NDdQTSArMDIwMCwgUmFmYWVsIEouIFd5c29j
+a2kgd3JvdGU6Cj4gSXMgYWNwaV9kaXNhYmxlZCBhbiBBQ1BJQ0EgdmFyaWFibGU/CgpEb2Vzbid0
+IGxvb2sgbGlrZSBpdDogaXQgaXMgZGVmaW5lZCBpbiBhcmNoL3g4Ni9rZXJuZWwvYWNwaS9ib290
+LmMKCj4gSWYgbm90LCB0aGlzIGNhbm5vdCBnbyB1cHN0cmVhbS4gTm90IGEgYmlnIGRlYWwgSSBn
+dWVzcywgYnV0IHNvbWV3aGF0Cj4geXVja3kuCgpVZmYsIHRoZXJlJ3MgdGhhdCAic3luYyIgb2Yg
+a2VlcGluZyBBQ1BJQ0EgY29kZSBhbmQgaXRzIHZlcnNpb24gaW4gdGhlCmtlcm5lbCB0aGUgc2Ft
+ZS4gWXVjay4KCk9oIHdlbGwuCg==
