@@ -1,29 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [15/16] e752x_edac: get rid of polling debug message
-From: "Gross, Mark" <mark.gross@intel.com>
-Message-Id: <BD75D217E5BAC84080F8EFB2582976379E843F28@ORSMSX112.amr.corp.intel.com>
-Date: Fri, 25 Aug 2017 15:55:00 +0000
-To: "aris@redhat.com" <aris@redhat.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: ACPICA: Check whether ACPI is disabled before getting a table
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170821132054.mwhdxkcka4ocp6h5@pd.tnic>
+Date: Mon, 21 Aug 2017 15:20:54 +0200
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Toshi Kani <toshi.kani@hpe.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Luck <tony.luck@intel.com>, Len Brown <lenb@kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, "open list:EDAC-CORE" <linux-edac@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-SSBkb24ndCBtaW5kIGF0IGFsbC4KCi1tYXJrCgo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-Cj4gRnJvbTogYXJpc0ByZWRoYXQuY29tIFttYWlsdG86YXJpc0ByZWRoYXQuY29tXQo+IFNlbnQ6
-IEZyaWRheSwgQXVndXN0IDI1LCAyMDE3IDg6MzggQU0KPiBUbzogR3Jvc3MsIE1hcmsgPG1hcmsu
-Z3Jvc3NAaW50ZWwuY29tPgo+IENjOiBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZzsgQm9yaXNs
-YXYgUGV0a292IDxicEBhbGllbjguZGU+OyBNYXVybwo+IENhcnZhbGhvIENoZWhhYiA8bWNoZWhh
-YkBrZXJuZWwub3JnPgo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMTUvMTZdIGU3NTJ4X2VkYWM6IGdl
-dCByaWQgb2YgcG9sbGluZyBkZWJ1ZyBtZXNzYWdlCj4gCj4gSGkgTWFyaywKPiBPbiBGcmksIEF1
-ZyAyNSwgMjAxNyBhdCAwMzozMTowN1BNICswMDAwLCBHcm9zcywgTWFyayB3cm90ZToKPiA+IExv
-b2tzIG9rIHRvIG1lIGJ1dCwgdGhlcmUgYXJlIG90aGVyIGRlYnVnIHRyYWNlIGVkYWNfZGJnIGNh
-bGxzIGFsbCBvdmVyIHRoYXQKPiBmaWxlLiAgV2h5IG51a2UganVzdCBvbmU/Cj4gPgo+ID4gTGlu
-ZSAzMTEsIDMzNywgMzk2LCAxMzkwLCAxNDA0LCAgYWxsIGxvb2sgcHJldHR5IHNpbGx5IHRvIG1l
-IHRvby4gICh0aGUgb3RoZXJzCj4gbG9vayBvayB0byBtZSBGV0lXKQo+ID4KPiA+IFNob3VsZCB3
-ZSBjbGVhbiB0aG9zZSBvdXQgYXMgd2VsbCB3aGlsZSB3ZSBhcmUgYXQgaXQ/Cj4gCj4gSSdkIHJh
-dGhlciBoYXZlIHRoYXQgZml4ZWQgaW4gYSBkaWZmZXJlbnQgcGF0Y2hzZXQsIGlmIHlvdSBkb24n
-dCBtaW5kLgo+IAo+IC0tCj4gQXJpc3RldQotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxp
-c3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9m
-IGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGlu
-Zm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+Qm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKLi4uIGFuZCBzYXZlIHVzIHRoZSBzcGxyaW5r
+aW5nIG9mIHRoaXMgdGVzdCBhcm91bmQgaW4gdGhlIGNhbGxlcnMuCgpObyBmdW5jdGlvbmFsaXR5
+IGNoYW5nZS4KClNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KLS0t
+CiBkcml2ZXJzL2FjcGkvYWNwaWNhL3RieGZhY2UuYyB8IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwg
+MyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9hY3BpL2FjcGljYS90YnhmYWNl
+LmMgYi9kcml2ZXJzL2FjcGkvYWNwaWNhL3RieGZhY2UuYwppbmRleCAwMTBiMWM0M2RmOTIuLjg4
+MWIwZDViMjgzOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9hY3BpL2FjcGljYS90YnhmYWNlLmMKKysr
+IGIvZHJpdmVycy9hY3BpL2FjcGljYS90YnhmYWNlLmMKQEAgLTIyNiw2ICsyMjYsOSBAQCBhY3Bp
+X2dldF90YWJsZV9oZWFkZXIoY2hhciAqc2lnbmF0dXJlLAogCXUzMiBqOwogCXN0cnVjdCBhY3Bp
+X3RhYmxlX2hlYWRlciAqaGVhZGVyOwogCisJaWYgKGFjcGlfZGlzYWJsZWQpCisJCXJldHVybiAo
+QUVfRVJST1IpOworCiAJLyogUGFyYW1ldGVyIHZhbGlkYXRpb24gKi8KIAogCWlmICghc2lnbmF0
+dXJlIHx8ICFvdXRfdGFibGVfaGVhZGVyKSB7Cg==
