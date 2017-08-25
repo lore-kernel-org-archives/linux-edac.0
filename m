@@ -1,23 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [12/16] edac_pci_sysfs: get rid of polling debug message
+Subject: [15/16] e752x_edac: get rid of polling debug message
 From: Aristeu Rozanski <aris@redhat.com>
-Message-Id: <1503674090-18064-13-git-send-email-aris@redhat.com>
-Date: Fri, 25 Aug 2017 11:14:46 -0400
+Message-Id: <1503674090-18064-16-git-send-email-aris@redhat.com>
+Date: Fri, 25 Aug 2017 11:14:49 -0400
 To: linux-edac@vger.kernel.org
-Cc: Aristeu Rozanski <arozansk@redhat.com>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Aristeu Rozanski <arozansk@redhat.com>, Mark Gross <mark.gross@intel.com>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
 RnJvbTogQXJpc3RldSBSb3phbnNraSA8YXJpc0ByZWRoYXQuY29tPgoKSXQncyBub2lzeSBhbmQg
 bm90IGdlbmVyYWxseSB1c2VmdWwsIGV2ZW4gYXQgbG93IGRlYnVnIHByaW9yaXR5LgoKU2lnbmVk
-LW9mZi1ieTogQXJpc3RldSBSb3phbnNraSA8YXJvemFuc2tAcmVkaGF0LmNvbT4KQ2M6IEJvcmlz
-bGF2IFBldGtvdiA8YnBAYWxpZW44LmRlPgpDYzogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hl
-aGFiQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9lZGFjL2VkYWNfcGNpX3N5c2ZzLmMgfCAyIC0t
-CiAxIGZpbGUgY2hhbmdlZCwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2Vk
-YWMvZWRhY19wY2lfc3lzZnMuYyBiL2RyaXZlcnMvZWRhYy9lZGFjX3BjaV9zeXNmcy5jCmluZGV4
-IDcyYzllYjkuLjAxMWU4ODQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9lZGFjX3BjaV9zeXNm
-cy5jCisrKyBiL2RyaXZlcnMvZWRhYy9lZGFjX3BjaV9zeXNmcy5jCkBAIC02NDAsOCArNjQwLDYg
-QEAgdm9pZCBlZGFjX3BjaV9kb19wYXJpdHlfY2hlY2sodm9pZCkKIHsKIAlpbnQgYmVmb3JlX2Nv
-dW50OwogCi0JZWRhY19kYmcoMywgIlxuIik7Ci0KIAkvKiBpZiBwb2xpY3kgaGFzIFBDSSBjaGVj
-ayBvZmYsIGxlYXZlIG5vdyAqLwogCWlmICghY2hlY2tfcGNpX2Vycm9ycykKIAkJcmV0dXJuOwo=
+LW9mZi1ieTogQXJpc3RldSBSb3phbnNraSA8YXJvemFuc2tAcmVkaGF0LmNvbT4KQ2M6IE1hcmsg
+R3Jvc3MgPG1hcmsuZ3Jvc3NAaW50ZWwuY29tPgpDYzogQm9yaXNsYXYgUGV0a292IDxicEBhbGll
+bjguZGU+CkNjOiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAa2VybmVsLm9yZz4KLS0t
+CiBkcml2ZXJzL2VkYWMvZTc1MnhfZWRhYy5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxl
+dGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9lNzUyeF9lZGFjLmMgYi9kcml2ZXJz
+L2VkYWMvZTc1MnhfZWRhYy5jCmluZGV4IDFhMzUyY2EuLjUwYTYyM2EgMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZWRhYy9lNzUyeF9lZGFjLmMKKysrIGIvZHJpdmVycy9lZGFjL2U3NTJ4X2VkYWMuYwpA
+QCAtOTgxLDcgKzk4MSw2IEBAIHN0YXRpYyB2b2lkIGU3NTJ4X2NoZWNrKHN0cnVjdCBtZW1fY3Rs
+X2luZm8gKm1jaSkKIHsKIAlzdHJ1Y3QgZTc1MnhfZXJyb3JfaW5mbyBpbmZvOwogCi0JZWRhY19k
+YmcoMywgIlxuIik7CiAJZTc1MnhfZ2V0X2Vycm9yX2luZm8obWNpLCAmaW5mbyk7CiAJZTc1Mnhf
+cHJvY2Vzc19lcnJvcl9pbmZvKG1jaSwgJmluZm8sIDEpOwogfQo=
