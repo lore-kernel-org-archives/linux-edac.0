@@ -2,18 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [15/16] e752x_edac: get rid of polling debug message
-From: Aristeu Rozanski <aris@redhat.com>
-Message-Id: <20170825153815.GF9852@redhat.com>
-Date: Fri, 25 Aug 2017 11:38:16 -0400
-To: "Gross, Mark" <mark.gross@intel.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20170825154528.cuzcip32fzoamkqv@pd.tnic>
+Date: Fri, 25 Aug 2017 17:45:28 +0200
+To: "aris@redhat.com" <aris@redhat.com>
+Cc: "Gross, Mark" <mark.gross@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-SGkgTWFyaywKT24gRnJpLCBBdWcgMjUsIDIwMTcgYXQgMDM6MzE6MDdQTSArMDAwMCwgR3Jvc3Ms
-IE1hcmsgd3JvdGU6Cj4gTG9va3Mgb2sgdG8gbWUgYnV0LCB0aGVyZSBhcmUgb3RoZXIgZGVidWcg
-dHJhY2UgZWRhY19kYmcgY2FsbHMgYWxsIG92ZXIgdGhhdCBmaWxlLiAgV2h5IG51a2UganVzdCBv
-bmU/Cj4gCj4gTGluZSAzMTEsIDMzNywgMzk2LCAxMzkwLCAxNDA0LCAgYWxsIGxvb2sgcHJldHR5
-IHNpbGx5IHRvIG1lIHRvby4gICh0aGUgb3RoZXJzIGxvb2sgb2sgdG8gbWUgRldJVykKPiAKPiBT
-aG91bGQgd2UgY2xlYW4gdGhvc2Ugb3V0IGFzIHdlbGwgd2hpbGUgd2UgYXJlIGF0IGl0PwoKSSdk
-IHJhdGhlciBoYXZlIHRoYXQgZml4ZWQgaW4gYSBkaWZmZXJlbnQgcGF0Y2hzZXQsIGlmIHlvdSBk
-b24ndCBtaW5kLgo=
+T24gRnJpLCBBdWcgMjUsIDIwMTcgYXQgMTE6Mzg6MTZBTSAtMDQwMCwgYXJpc0ByZWRoYXQuY29t
+IHdyb3RlOgo+IEknZCByYXRoZXIgaGF2ZSB0aGF0IGZpeGVkIGluIGEgZGlmZmVyZW50IHBhdGNo
+c2V0LCBpZiB5b3UgZG9uJ3QgbWluZC4KClNvIHlvdSBzcGxpdCBpdCBpbnRvIHBhdGNoZXMgZm9y
+IGVhY2ggbWFpbnRhaW5lciB0byBkZWNpZGUgYW5kIG5vdyB5b3UKd2FudCB0byBmaXggdGhlIHJl
+bWFpbmluZyBvbmVzIGluIGEgZGlmZmVyZW50IHBhdGNoc2V0LgoKUGxlYXNlIGRvIG9uZSBmaXgg
+b25seSwgcGVyIGRyaXZlciwgd2hpY2ggcmVtb3ZlcyB0aG9zZSBkZWJ1ZyBwcmludGtzIGluCm9u
+ZSBnbywgYXMgdGhlIG1haW50YWluZXIgcHJlZmVycy4gT3IgbGVhdmUgaXQgdG8gdGhlIG1haW50
+YWluZXIuIEJ1dCBJCmRvbid0IHdhbnQgcGF0Y2hlcyByZW1vdmluZyBzaW5nbGUgZGVidWcgcHJp
+bnRrcy4K
