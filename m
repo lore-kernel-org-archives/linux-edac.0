@@ -2,19 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [15/16] e752x_edac: get rid of polling debug message
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170825154528.cuzcip32fzoamkqv@pd.tnic>
-Date: Fri, 25 Aug 2017 17:45:28 +0200
+From: "Gross, Mark" <mark.gross@intel.com>
+Message-Id: <BD75D217E5BAC84080F8EFB2582976379E843F28@ORSMSX112.amr.corp.intel.com>
+Date: Fri, 25 Aug 2017 15:55:00 +0000
 To: "aris@redhat.com" <aris@redhat.com>
-Cc: "Gross, Mark" <mark.gross@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBBdWcgMjUsIDIwMTcgYXQgMTE6Mzg6MTZBTSAtMDQwMCwgYXJpc0ByZWRoYXQuY29t
-IHdyb3RlOgo+IEknZCByYXRoZXIgaGF2ZSB0aGF0IGZpeGVkIGluIGEgZGlmZmVyZW50IHBhdGNo
-c2V0LCBpZiB5b3UgZG9uJ3QgbWluZC4KClNvIHlvdSBzcGxpdCBpdCBpbnRvIHBhdGNoZXMgZm9y
-IGVhY2ggbWFpbnRhaW5lciB0byBkZWNpZGUgYW5kIG5vdyB5b3UKd2FudCB0byBmaXggdGhlIHJl
-bWFpbmluZyBvbmVzIGluIGEgZGlmZmVyZW50IHBhdGNoc2V0LgoKUGxlYXNlIGRvIG9uZSBmaXgg
-b25seSwgcGVyIGRyaXZlciwgd2hpY2ggcmVtb3ZlcyB0aG9zZSBkZWJ1ZyBwcmludGtzIGluCm9u
-ZSBnbywgYXMgdGhlIG1haW50YWluZXIgcHJlZmVycy4gT3IgbGVhdmUgaXQgdG8gdGhlIG1haW50
-YWluZXIuIEJ1dCBJCmRvbid0IHdhbnQgcGF0Y2hlcyByZW1vdmluZyBzaW5nbGUgZGVidWcgcHJp
-bnRrcy4K
+SSBkb24ndCBtaW5kIGF0IGFsbC4KCi1tYXJrCgo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
+Cj4gRnJvbTogYXJpc0ByZWRoYXQuY29tIFttYWlsdG86YXJpc0ByZWRoYXQuY29tXQo+IFNlbnQ6
+IEZyaWRheSwgQXVndXN0IDI1LCAyMDE3IDg6MzggQU0KPiBUbzogR3Jvc3MsIE1hcmsgPG1hcmsu
+Z3Jvc3NAaW50ZWwuY29tPgo+IENjOiBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZzsgQm9yaXNs
+YXYgUGV0a292IDxicEBhbGllbjguZGU+OyBNYXVybwo+IENhcnZhbGhvIENoZWhhYiA8bWNoZWhh
+YkBrZXJuZWwub3JnPgo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMTUvMTZdIGU3NTJ4X2VkYWM6IGdl
+dCByaWQgb2YgcG9sbGluZyBkZWJ1ZyBtZXNzYWdlCj4gCj4gSGkgTWFyaywKPiBPbiBGcmksIEF1
+ZyAyNSwgMjAxNyBhdCAwMzozMTowN1BNICswMDAwLCBHcm9zcywgTWFyayB3cm90ZToKPiA+IExv
+b2tzIG9rIHRvIG1lIGJ1dCwgdGhlcmUgYXJlIG90aGVyIGRlYnVnIHRyYWNlIGVkYWNfZGJnIGNh
+bGxzIGFsbCBvdmVyIHRoYXQKPiBmaWxlLiAgV2h5IG51a2UganVzdCBvbmU/Cj4gPgo+ID4gTGlu
+ZSAzMTEsIDMzNywgMzk2LCAxMzkwLCAxNDA0LCAgYWxsIGxvb2sgcHJldHR5IHNpbGx5IHRvIG1l
+IHRvby4gICh0aGUgb3RoZXJzCj4gbG9vayBvayB0byBtZSBGV0lXKQo+ID4KPiA+IFNob3VsZCB3
+ZSBjbGVhbiB0aG9zZSBvdXQgYXMgd2VsbCB3aGlsZSB3ZSBhcmUgYXQgaXQ/Cj4gCj4gSSdkIHJh
+dGhlciBoYXZlIHRoYXQgZml4ZWQgaW4gYSBkaWZmZXJlbnQgcGF0Y2hzZXQsIGlmIHlvdSBkb24n
+dCBtaW5kLgo+IAo+IC0tCj4gQXJpc3RldQotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxp
+c3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9m
+IGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGlu
+Zm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
