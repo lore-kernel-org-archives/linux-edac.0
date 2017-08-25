@@ -1,10 +1,10 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [11/16] i3000_edac: get rid of polling debug message
+Subject: [12/16] edac_pci_sysfs: get rid of polling debug message
 From: Aristeu Rozanski <aris@redhat.com>
-Message-Id: <1503674090-18064-12-git-send-email-aris@redhat.com>
-Date: Fri, 25 Aug 2017 11:14:45 -0400
+Message-Id: <1503674090-18064-13-git-send-email-aris@redhat.com>
+Date: Fri, 25 Aug 2017 11:14:46 -0400
 To: linux-edac@vger.kernel.org
 Cc: Aristeu Rozanski <arozansk@redhat.com>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
 List-ID: <edac.vger.kernel.org>
@@ -13,12 +13,11 @@ RnJvbTogQXJpc3RldSBSb3phbnNraSA8YXJpc0ByZWRoYXQuY29tPgoKSXQncyBub2lzeSBhbmQg
 bm90IGdlbmVyYWxseSB1c2VmdWwsIGV2ZW4gYXQgbG93IGRlYnVnIHByaW9yaXR5LgoKU2lnbmVk
 LW9mZi1ieTogQXJpc3RldSBSb3phbnNraSA8YXJvemFuc2tAcmVkaGF0LmNvbT4KQ2M6IEJvcmlz
 bGF2IFBldGtvdiA8YnBAYWxpZW44LmRlPgpDYzogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hl
-aGFiQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9lZGFjL2kzMDAwX2VkYWMuYyB8IDEgLQogMSBm
-aWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvaTMw
-MDBfZWRhYy5jIGIvZHJpdmVycy9lZGFjL2kzMDAwX2VkYWMuYwppbmRleCA1MzA2MjQwLi41NGVm
-ZmYwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2VkYWMvaTMwMDBfZWRhYy5jCisrKyBiL2RyaXZlcnMv
-ZWRhYy9pMzAwMF9lZGFjLmMKQEAgLTI3NSw3ICsyNzUsNiBAQCBzdGF0aWMgdm9pZCBpMzAwMF9j
-aGVjayhzdHJ1Y3QgbWVtX2N0bF9pbmZvICptY2kpCiB7CiAJc3RydWN0IGkzMDAwX2Vycm9yX2lu
-Zm8gaW5mbzsKIAotCWVkYWNfZGJnKDEsICJNQyVkXG4iLCBtY2ktPm1jX2lkeCk7CiAJaTMwMDBf
-Z2V0X2Vycm9yX2luZm8obWNpLCAmaW5mbyk7CiAJaTMwMDBfcHJvY2Vzc19lcnJvcl9pbmZvKG1j
-aSwgJmluZm8sIDEpOwogfQo=
+aGFiQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9lZGFjL2VkYWNfcGNpX3N5c2ZzLmMgfCAyIC0t
+CiAxIGZpbGUgY2hhbmdlZCwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2Vk
+YWMvZWRhY19wY2lfc3lzZnMuYyBiL2RyaXZlcnMvZWRhYy9lZGFjX3BjaV9zeXNmcy5jCmluZGV4
+IDcyYzllYjkuLjAxMWU4ODQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9lZGFjX3BjaV9zeXNm
+cy5jCisrKyBiL2RyaXZlcnMvZWRhYy9lZGFjX3BjaV9zeXNmcy5jCkBAIC02NDAsOCArNjQwLDYg
+QEAgdm9pZCBlZGFjX3BjaV9kb19wYXJpdHlfY2hlY2sodm9pZCkKIHsKIAlpbnQgYmVmb3JlX2Nv
+dW50OwogCi0JZWRhY19kYmcoMywgIlxuIik7Ci0KIAkvKiBpZiBwb2xpY3kgaGFzIFBDSSBjaGVj
+ayBvZmYsIGxlYXZlIG5vdyAqLwogCWlmICghY2hlY2tfcGNpX2Vycm9ycykKIAkJcmV0dXJuOwo=
