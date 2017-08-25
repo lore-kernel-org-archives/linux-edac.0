@@ -2,20 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [4/7] seq_buf: Export seq_buf_printf() to modules
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170825102411.8682-5-bp@alien8.de>
-Date: Fri, 25 Aug 2017 12:24:08 +0200
-To: linux-edac <linux-edac@vger.kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Tony Luck <tony.luck@intel.com>, Yazen Ghannam <Yazen.Ghannam@amd.com>, X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+From: Steven Rostedt <rostedt@goodmis.org>
+Message-Id: <20170825092757.434f1eda@gandalf.local.home>
+Date: Fri, 25 Aug 2017 09:27:57 -0400
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-edac <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, Yazen Ghannam <Yazen.Ghannam@amd.com>, X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKV2lsbCBiZSB1c2VkIGluIGEgbW9k
-dWxlIGluIGEgbGF0ZXIgcGF0Y2guCgpTaWduZWQtb2ZmLWJ5OiBCb3Jpc2xhdiBQZXRrb3YgPGJw
-QHN1c2UuZGU+CkFja2VkLWJ5OiBTdGV2ZW4gUm9zdGVkdCAoVk13YXJlKSA8cm9zdGVkdEBnb29k
-bWlzLm9yZz4KLS0tCiBsaWIvc2VxX2J1Zi5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKykKCmRpZmYgLS1naXQgYS9saWIvc2VxX2J1Zi5jIGIvbGliL3NlcV9idWYuYwppbmRl
-eCBjYjE4NDY5ZTFmNDkuLmI1MjE3Y2YxODI0ZCAxMDA2NDQKLS0tIGEvbGliL3NlcV9idWYuYwor
-KysgYi9saWIvc2VxX2J1Zi5jCkBAIC05MCw2ICs5MCw3IEBAIGludCBzZXFfYnVmX3ByaW50Zihz
-dHJ1Y3Qgc2VxX2J1ZiAqcywgY29uc3QgY2hhciAqZm10LCAuLi4pCiAKIAlyZXR1cm4gcmV0Owog
-fQorRVhQT1JUX1NZTUJPTF9HUEwoc2VxX2J1Zl9wcmludGYpOwogCiAjaWZkZWYgQ09ORklHX0JJ
-TkFSWV9QUklOVEYKIC8qKgo=
+T24gRnJpLCAyNSBBdWcgMjAxNyAxMjoyNDowOCArMDIwMApCb3Jpc2xhdiBQZXRrb3YgPGJwQGFs
+aWVuOC5kZT4gd3JvdGU6Cgo+IEZyb206IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KPiAK
+PiBXaWxsIGJlIHVzZWQgaW4gYSBtb2R1bGUgaW4gYSBsYXRlciBwYXRjaC4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBCb3Jpc2xhdiBQZXRrb3YgPGJwQHN1c2UuZGU+Cj4gQWNrZWQtYnk6IFN0ZXZlbiBS
+b3N0ZWR0IChWTXdhcmUpIDxyb3N0ZWR0QGdvb2RtaXMub3JnPgo+IC0tLQo+ICBsaWIvc2VxX2J1
+Zi5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRpZmYgLS1n
+aXQgYS9saWIvc2VxX2J1Zi5jIGIvbGliL3NlcV9idWYuYwo+IGluZGV4IGNiMTg0NjllMWY0OS4u
+YjUyMTdjZjE4MjRkIDEwMDY0NAo+IC0tLSBhL2xpYi9zZXFfYnVmLmMKPiArKysgYi9saWIvc2Vx
+X2J1Zi5jCj4gQEAgLTkwLDYgKzkwLDcgQEAgaW50IHNlcV9idWZfcHJpbnRmKHN0cnVjdCBzZXFf
+YnVmICpzLCBjb25zdCBjaGFyICpmbXQsIC4uLikKPiAgCj4gIAlyZXR1cm4gcmV0Owo+ICB9Cj4g
+K0VYUE9SVF9TWU1CT0xfR1BMKHNlcV9idWZfcHJpbnRmKTsKCk1heSB3YW50IHRvIGFkZCBzZXFf
+YnVmX3B1dGMoKSBhbmQgc2VxX2J1Zl9wdXRzKCkgYXMgd2VsbC4gV2lsbCBleHBsYWluCmluIG90
+aGVyIHBhdGNoZXMuCgotLSBTdGV2ZQoKPiAgCj4gICNpZmRlZiBDT05GSUdfQklOQVJZX1BSSU5U
+Rgo+ICAvKioKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
+ICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFq
+b3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdl
+ci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
