@@ -1,33 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,4/7] ghes_edac: avoid multiple calls to dmi_walk()
-From: Toshi Kani <toshi.kani@hpe.com>
-Message-Id: <1502896578.2042.155.camel@hpe.com>
-Date: Wed, 16 Aug 2017 15:26:04 +0000
-To: "tony.luck@intel.com" <tony.luck@intel.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>, "bp@alien8.de" <bp@alien8.de>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "lenb@kernel.org" <lenb@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "rjw@rjwysocki.net" <rjw@rjwysocki.net>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>
+Subject: [02/16] r82600_edac: get rid of polling debug message
+From: Aristeu Rozanski <aris@redhat.com>
+Message-Id: <1503674090-18064-3-git-send-email-aris@redhat.com>
+Date: Fri, 25 Aug 2017 11:14:36 -0400
+To: linux-edac@vger.kernel.org
+Cc: Aristeu Rozanski <arozansk@redhat.com>, Tim Small <tim@buttersideup.com>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCAyMDE3LTA4LTE2IGF0IDEwOjI5ICswMjAwLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6
-DQo+IE9uIFR1ZSwgQXVnIDE1LCAyMDE3IGF0IDA4OjQ4OjE2QU0gLTA3MDAsIEx1Y2ssIFRvbnkg
-d3JvdGU6DQo+ID4gV29uJ3QgdGhlIHVzZXIgc2VlIGFsbCB0aGVpciBESU1NcyByZXBvcnRlZCBm
-b3IgZWFjaCBtZW1vcnkNCj4gPiBjb250cm9sbGVyDQo+ID4gdW5kZXIgL3N5cy9kZXZpY2VzL3N5
-c3RlbS9lZGFjL21jL21jKi9kaW1tKiA/DQo+ID4gDQo+ID4gVGhhdCBzb3VuZHMgY29uZnVzaW5n
-Lg0KPiANCj4gUmlnaHQsIGFuZCBhZGRpbmcgdGhlIGxvY2tpbmcgd2FzIHJlYWxseSBlYXN5LiBJ
-ZiBvbmx5IHBlb3BsZSB3b3VsZA0KPiBkZWJhdGUgbGVzcyBhbmQgYWN0dWFsbHkgdHJ5IHRvIGRv
-IHdoYXQgdGhleSdyZSBiZWluZyBhZHZpc2VkIHRvLg0KPiBCdXQgbm90IHJlYWxseTogaWYgeW91
-IHdhbm5hIGhhdmUgc29tZXRoaW5nIGRvbmUsIHlvdSBoYXZlIHRvIGRvIGl0DQo+IHlvdXJzZWxm
-Lg0KDQpTb3JyeSwgYnV0IEkgZGlkIG5vdCBhZ3JlZSBvbiBhbGxvd2luZyBjb25jdXJyZW50IGFj
-Y2Vzc2VzIHRvIG1jaS4uLg0KDQrCoC8qIE1lbW9yeSBEZXZpY2UgLSBUeXBlIDE3IG9mIFNNQklP
-UyBzcGVjICovDQo+IMKgc3RydWN0IG1lbWRldl9kbWlfZW50cnkgew0KPiBAQCAtMTY5LDE0ICsx
-NzMsMTEgQEAgdm9pZCBnaGVzX2VkYWNfcmVwb3J0X21lbV9lcnJvcihzdHJ1Y3QgZ2hlcw0KPiAq
-Z2hlcywgaW50IHNldiwNCj4gwqAJZW51bSBod19ldmVudF9tY19lcnJfdHlwZSB0eXBlOw0KPiDC
-oAlzdHJ1Y3QgZWRhY19yYXdfZXJyb3JfZGVzYyAqZTsNCj4gwqAJc3RydWN0IG1lbV9jdGxfaW5m
-byAqbWNpOw0KPiAtCXN0cnVjdCBnaGVzX2VkYWNfcHZ0ICpwdnQgPSBOVUxMOw0KPiArCXN0cnVj
-dCBnaGVzX2VkYWNfcHZ0ICpwdnQgPSBnaGVzX3B2dDsNCj4gKwl1bnNpZ25lZCBsb25nIGZsYWdz
-Ow0KPiDCoAljaGFyICpwOw0KPiDCoAl1OCBncmFpbl9iaXRzOw0KDQpJIGJlbGlldmUgeW91IG5v
-dyBuZWVkIHRvIHByb3RlY3QgZnJvbSBhIHJhY2UgY29uZGl0aW9uIHRoYXQgYSBzaW5nbGUNCm1j
-aSBhbmQgcHZ0IGNhbiBiZSBpbml0aWFsaXplZCAvIGNvbnN1bWVkIGZyb20gbXVsdGlwbGUgdGhy
-ZWFkcy4gIFRoaXMNCnByb3RlY3Rpb24gaXMgbWlzc2luZyBpbiB5b3VyIHBhdGNoLg0KDQpUaGFu
-a3MsDQotVG9zaGkK
+RnJvbTogQXJpc3RldSBSb3phbnNraSA8YXJpc0ByZWRoYXQuY29tPgoKSXQncyBub2lzeSBhbmQg
+bm90IGdlbmVyYWxseSB1c2VmdWwsIGV2ZW4gYXQgbG93IGRlYnVnIHByaW9yaXR5LgoKU2lnbmVk
+LW9mZi1ieTogQXJpc3RldSBSb3phbnNraSA8YXJvemFuc2tAcmVkaGF0LmNvbT4KQ2M6IFRpbSBT
+bWFsbCA8dGltQGJ1dHRlcnNpZGV1cC5jb20+CkNjOiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVu
+OC5kZT4KQ2M6IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPgotLS0K
+IGRyaXZlcnMvZWRhYy9yODI2MDBfZWRhYy5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxl
+dGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9yODI2MDBfZWRhYy5jIGIvZHJpdmVy
+cy9lZGFjL3I4MjYwMF9lZGFjLmMKaW5kZXggOTc4OTE2Ni4uMTY1MTFlNyAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9lZGFjL3I4MjYwMF9lZGFjLmMKKysrIGIvZHJpdmVycy9lZGFjL3I4MjYwMF9lZGFj
+LmMKQEAgLTIwNSw3ICsyMDUsNiBAQCBzdGF0aWMgdm9pZCByODI2MDBfY2hlY2soc3RydWN0IG1l
+bV9jdGxfaW5mbyAqbWNpKQogewogCXN0cnVjdCByODI2MDBfZXJyb3JfaW5mbyBpbmZvOwogCi0J
+ZWRhY19kYmcoMSwgIk1DJWRcbiIsIG1jaS0+bWNfaWR4KTsKIAlyODI2MDBfZ2V0X2Vycm9yX2lu
+Zm8obWNpLCAmaW5mbyk7CiAJcjgyNjAwX3Byb2Nlc3NfZXJyb3JfaW5mbyhtY2ksICZpbmZvLCAx
+KTsKIH0K
