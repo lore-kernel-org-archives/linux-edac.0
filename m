@@ -1,27 +1,40 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [15/15] usb: make device_type const
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20170822125517.GA27604@kuha.fi.intel.com>
-Date: Tue, 22 Aug 2017 15:55:17 +0300
-To: Bhumika Goyal <bhumirks@gmail.com>
-Cc: julia.lawall@lip6.fr, bp@alien8.de, mchehab@kernel.org, daniel.vetter@intel.com, jani.nikula@linux.intel.com, seanpaul@chromium.org, airlied@linux.ie, g.liakhovetski@gmx.de, tomas.winkler@intel.com, dwmw2@infradead.org, computersforpeace@gmail.com, boris.brezillon@free-electrons.com, marek.vasut@gmail.com, richard@nod.at, cyrille.pitchen@wedev4u.fr, peda@axentia.se, kishon@ti.com, bhelgaas@google.com, thierry.reding@gmail.com, jonathanh@nvidia.com, dvhart@infradead.org, andy@infradead.org, ohad@wizery.com, bjorn.andersson@linaro.org, freude@de.ibm.com, schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com, jth@kernel.org, jejb@linux.vnet.ibm.com, martin.petersen@oracle.com, lduncan@suse.com, cleech@redhat.com, johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, fcoe-devel@open-fcoe.org, linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com, greybus-dev@lists.linaro.org, devel@driverdev.osuosl.org, linux-usb@vger.kernel.org
+Subject: [v2] ACPI, APEI, EINJ: Subtract any matching Register Region from Trigger resources
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Message-Id: <1503943994-41271-1-git-send-email-Yazen.Ghannam@amd.com>
+Date: Mon, 28 Aug 2017 13:13:14 -0500
+To: linux-acpi@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, rjw@rjwysocki.net, lenb@kernel.org, linux-edac@vger.kernel.org, bp@suse.de, tony.luck@intel.com, Yazen Ghannam <yazen.ghannam@amd.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gU2F0LCBBdWcgMTksIDIwMTcgYXQgMDE6NTI6MjZQTSArMDUzMCwgQmh1bWlrYSBHb3lhbCB3
-cm90ZToKPiBNYWtlIHRoaXMgY29uc3QgYXMgaXQgaXMgb25seSBzdG9yZWQgaW4gdGhlIHR5cGUg
-ZmllbGQgb2YgYSBkZXZpY2UKPiBzdHJ1Y3R1cmUsIHdoaWNoIGlzIGNvbnN0Lgo+IERvbmUgdXNp
-bmcgQ29jY2luZWxsZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBCaHVtaWthIEdveWFsIDxiaHVtaXJr
-c0BnbWFpbC5jb20+CgpBY2tlZC1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNA
-bGludXguaW50ZWwuY29tPgoKPiAtLS0KPiAgZHJpdmVycy91c2IvY29tbW9uL3VscGkuYyB8IDIg
-Ky0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2NvbW1vbi91bHBpLmMgYi9kcml2ZXJzL3VzYi9jb21t
-b24vdWxwaS5jCj4gaW5kZXggOTMwZThmMy4uNGFhNTE5NSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L3VzYi9jb21tb24vdWxwaS5jCj4gKysrIGIvZHJpdmVycy91c2IvY29tbW9uL3VscGkuYwo+IEBA
-IC0xMzUsNyArMTM1LDcgQEAgc3RhdGljIHZvaWQgdWxwaV9kZXZfcmVsZWFzZShzdHJ1Y3QgZGV2
-aWNlICpkZXYpCj4gIAlrZnJlZSh0b191bHBpX2RldihkZXYpKTsKPiAgfQo+ICAKPiAtc3RhdGlj
-IHN0cnVjdCBkZXZpY2VfdHlwZSB1bHBpX2Rldl90eXBlID0gewo+ICtzdGF0aWMgY29uc3Qgc3Ry
-dWN0IGRldmljZV90eXBlIHVscGlfZGV2X3R5cGUgPSB7Cj4gIAkubmFtZSA9ICJ1bHBpX2Rldmlj
-ZSIsCj4gIAkuZ3JvdXBzID0gdWxwaV9kZXZfYXR0cl9ncm91cHMsCj4gIAkucmVsZWFzZSA9IHVs
-cGlfZGV2X3JlbGVhc2UsCgpUaGFua3MsCg==
+RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgoKQUNQSSBkZWZpbmVz
+IGEgbnVtYmVyIG9mIGluc3RydWN0aW9ucyB0byB1c2UgZm9yIHRyaWdnZXJpbmcgZXJyb3JzLiBI
+b3dldmVyCndlIGFyZSBjdXJyZW50bHkgcmVtb3ZpbmcgdGhlIGFkZHJlc3MgcmVzb3VyY2VzIGZy
+b20gdGhlIHRyaWdnZXIgcmVzb3VyY2VzCmZvciBvbmx5IHRoZSBXUklURV9SRUdJU1RFUl9WQUxV
+RSBpbnN0cnVjdGlvbi4gVGhpcyBsZWFkcyB0byBhIHJlc291cmNlCmNvbmZsaWN0IGZvciBhbnkg
+b3RoZXIgdmFsaWQgaW5zdHJ1Y3Rpb24uCgpDaGVjayB0aGF0IHRoZSBpbnN0cnVjdGlvbiBpcyBs
+ZXNzIHRoYW4gb3IgZXF1YWwgdG8gdGhlCldSSVRFX1JFR0lTVEVSX1ZBTFVFIGluc3RydWN0aW9u
+LiBUaGlzIGFsbG93cyBhbGwgdmFsaWQgbWVtb3J5IGFjY2VzcwppbnN0cnVjdGlvbnMgYW5kIHBy
+b3RlY3RzIGFnYWluc3QgaW52YWxpZCBpbnN0cnVjdGlvbnMuCgpGaXhlczogYjRlMDA4ZGM1M2Ez
+ICgiQUNQSSwgQVBFSSwgRUlOSiwgUmVmaW5lIHRoZSBmaXggb2YgcmVzb3VyY2UgY29uZmxpY3Qi
+KQpTaWduZWQtb2ZmLWJ5OiBZYXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+CkFj
+a2VkLWJ5OiBUb255IEx1Y2sgPHRvbnkubHVja0BpbnRlbC5jb20+Ci0tLQpMaW5rOgpodHRwczov
+L2xrbWwua2VybmVsLm9yZy9yLzE1MDIzODc4ODMtMTY2NjctMS1naXQtc2VuZC1lbWFpbC1ZYXpl
+bi5HaGFubmFtQGFtZC5jb20KCnYxLT52MjoKKiBBcHBseSBUb255J3MgY29tbWVudCB0byByZXN0
+cmljdCBiZWhhdmlvciB0byB2YWxpZCBtZW1vcnkgaW5zdHJ1Y3Rpb25zLgoKIGRyaXZlcnMvYWNw
+aS9hcGVpL2VpbmouYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYWNwaS9hcGVpL2VpbmouYyBiL2RyaXZl
+cnMvYWNwaS9hcGVpL2VpbmouYwppbmRleCBlYzUwYzMyZWEzZGEuLmIzODczN2M4M2EyNCAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9hY3BpL2FwZWkvZWluai5jCisrKyBiL2RyaXZlcnMvYWNwaS9hcGVp
+L2VpbmouYwpAQCAtMjgxLDcgKzI4MSw3IEBAIHN0YXRpYyBzdHJ1Y3QgYWNwaV9nZW5lcmljX2Fk
+ZHJlc3MgKmVpbmpfZ2V0X3RyaWdnZXJfcGFyYW1ldGVyX3JlZ2lvbigKIAkJKChjaGFyICopdHJp
+Z2dlcl90YWIgKyBzaXplb2Yoc3RydWN0IGFjcGlfZWlual90cmlnZ2VyKSk7CiAJZm9yIChpID0g
+MDsgaSA8IHRyaWdnZXJfdGFiLT5lbnRyeV9jb3VudDsgaSsrKSB7CiAJCWlmIChlbnRyeS0+YWN0
+aW9uID09IEFDUElfRUlOSl9UUklHR0VSX0VSUk9SICYmCi0JCWVudHJ5LT5pbnN0cnVjdGlvbiA9
+PSBBQ1BJX0VJTkpfV1JJVEVfUkVHSVNURVJfVkFMVUUgJiYKKwkJZW50cnktPmluc3RydWN0aW9u
+IDw9IEFDUElfRUlOSl9XUklURV9SRUdJU1RFUl9WQUxVRSAmJgogCQllbnRyeS0+cmVnaXN0ZXJf
+cmVnaW9uLnNwYWNlX2lkID09CiAJCQlBQ1BJX0FEUl9TUEFDRV9TWVNURU1fTUVNT1JZICYmCiAJ
+CShlbnRyeS0+cmVnaXN0ZXJfcmVnaW9uLmFkZHJlc3MgJiBwYXJhbTIpID09IChwYXJhbTEgJiBw
+YXJhbTIpKQo=
