@@ -2,25 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/1] EDAC, sb_edac: Don't create EDAC second memory controller if the HA1 is not present
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170913093824.mqg3dmtpmc2rwql5@pd.tnic>
-Date: Wed, 13 Sep 2017 11:38:24 +0200
-To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: mchehab@osg.samsung.com, tony.luck@intel.com, arozansk@redhat.com, patrickg@supermicro.com, yizhan@redhat.com, linux-edac@vger.kernel.org
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Message-Id: <E6AF1AFDEA62A94A97508F458CBDD47F6F5CA7E7@SHSMSX151.ccr.corp.intel.com>
+Date: Thu, 14 Sep 2017 01:40:09 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: "mchehab@osg.samsung.com" <mchehab@osg.samsung.com>, "Luck, Tony" <tony.luck@intel.com>, "arozansk@redhat.com" <arozansk@redhat.com>, "patrickg@supermicro.com" <patrickg@supermicro.com>, "yizhan@redhat.com" <yizhan@redhat.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBTZXAgMTIsIDIwMTcgYXQgMDg6MzI6MjlQTSArMDgwMCwgUWl1eHUgWmh1byB3cm90
-ZToKPiBZaSBaaGFuZyByZXBvcnRlZCB0aGUgZm9sbG93aW5nIGZhaWx1cmUgb24gb25lIDItc29j
-a2V0IEhhc3dlbGwoRTUtMjYwMyB2Mykgc2VydmVyCj4gKERFTEwgUG93ZXJFZGdlIDczMHhkKToK
-PiAKPiAgIEVEQUMgc2JyaWRnZTogU29tZSBuZWVkZWQgZGV2aWNlcyBhcmUgbWlzc2luZwo+ICAg
-RURBQyBNQzogUmVtb3ZlZCBkZXZpY2UgMCBmb3Igc2JfZWRhYy5jIEhhc3dlbGwgU3JjSUQjMF9I
-YSMwOiBERVYgMDAwMDo3ZjoxMi4wCj4gICBFREFDIE1DOiBSZW1vdmVkIGRldmljZSAxIGZvciBz
-Yl9lZGFjLmMgSGFzd2VsbCBTcmNJRCMxX0hhIzA6IERFViAwMDAwOmZmOjEyLjAKPiAgIEVEQUMg
-c2JyaWRnZTogQ291bGRuJ3QgZmluZCBtY2kgaGFuZGxlcgo+ICAgRURBQyBzYnJpZGdlOiBDb3Vs
-ZG4ndCBmaW5kIG1jaSBoYW5kbGVyCj4gICBFREFDIHNicmlkZ2U6IEZhaWxlZCB0byByZWdpc3Rl
-ciBkZXZpY2Ugd2l0aCBlcnJvciAtMTkuCj4gCj4gVGhlIHJlZmFjdG9yZWQgc2JfZWRhYyBkcml2
-ZXIgY3JlYXRlcyB0aGUgRURBQyBJTUMxKHRoZSAybmQgbWVtb3J5IGNvbnRyb2xsZXIpCgpXaGlj
-aCByZWZhY3RvcmluZyBhcmUgd2UgdGFsa2luZyBhYm91dCBoZXJlPwoKVGhpcyBtYXliZToKCmUy
-Zjc0N2IxZjQyYSAoIkVEQUMsIHNiX2VkYWM6IEFzc2lnbiBFREFDIG1lbW9yeSBjb250cm9sbGVy
-IHBlciBoL3cgY29udHJvbGxlciIpCgo/CgpJbiBhbnkgY2FzZSwgdGhpcyBwYXRjaCBuZWVkcyBh
-IEZpeGVzOiB0YWcuCg==
+PiBGcm9tOiBCb3Jpc2xhdiBQZXRrb3YNCj4gLi4uDQo+ID4gVGhlIHJlZmFjdG9yZWQgc2JfZWRh
+YyBkcml2ZXIgY3JlYXRlcyB0aGUgRURBQyBJTUMxKHRoZSAybmQgbWVtb3J5IGNvbnRyb2xsZXIp
+DQo+IA0KPiBXaGljaCByZWZhY3RvcmluZyBhcmUgd2UgdGFsa2luZyBhYm91dCBoZXJlPw0KPiAN
+Cj4gVGhpcyBtYXliZToNCj4gDQo+IGUyZjc0N2IxZjQyYSAoIkVEQUMsIHNiX2VkYWM6IEFzc2ln
+biBFREFDIG1lbW9yeSBjb250cm9sbGVyIHBlciBoL3cgY29udHJvbGxlciIpID8NCj4gDQo+IElu
+IGFueSBjYXNlLCB0aGlzIHBhdGNoIG5lZWRzIGEgRml4ZXM6IHRhZy4NCg0KSGkgQm9yaXMsDQog
+IFllcywgaXQgd2FzIGZvciBmaXhpbmcgdGhhdCBjb21taXQuIA0KICBBZGRlZCB0aGUgJ0ZpeGVz
+OicgdGFnIGF0IHRoZSBlbmQgb2YgY29tbWl0IG1lc3NhZ2UgaW4gdGhlIHYyIHBhdGNoLg0KICBU
+aGFua3MhDQoNCi0gUWl1eHUK
