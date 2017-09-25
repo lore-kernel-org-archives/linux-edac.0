@@ -1,13 +1,36 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/2] EDAC, skx_edac: Handle systems with segmented PCI busses
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20170928160313.zaq2g7kq5m3ktnv2@pd.tnic>
-Date: Thu, 28 Sep 2017 18:03:13 +0200
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@osg.samsung.com>, Aristeu Rozanski <arozansk@redhat.com>, Charles Rose <charles.rose@dell.com>, "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
+Subject: [2/2] edac: Skylake: Fix detection of single-rank DIMM
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <66df72d327c265fbf92fe25df96daa228a35f076.1506358467.git.tony.luck@intel.com>
+Date: Mon, 25 Sep 2017 10:10:43 -0700
+To: Boris Petkov <bp@suse.de>
+Cc: Charles Rose <charles.rose@dell.com>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, Mauro Carvalho Chehab <mchehab@osg.samsung.com>, Aristeu Rozanski <arozansk@redhat.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBTZXAgMjcsIDIwMTcgYXQgMDk6MDM6NDBQTSArMDAwMCwgTHVjaywgVG9ueSB3cm90
-ZToKPiBTdXJlLiAiaW50IiB3b3JrcyBmb3IgbWUuCgpEb25lLgo=
+RnJvbTogQ2hhcmxlcyBSb3NlIDxjaGFybGVzLnJvc2VAZGVsbC5jb20+CgpTaW5nbGUtcmFuayBE
+SU1NcyBkaWQgbm90IGdldCBkZXRlY3RlZCBvbiBTa3lsYWtlL0thYnlsYWtlIHN5c3RlbXMKZHVl
+IHRvIHdyb25nIGxpbWl0IGNoZWNrLgoKU2lnbmVkLW9mZi1ieTogQ2hhcmxlcyBSb3NlIDxjaGFy
+bGVzLnJvc2VAZGVsbC5jb20+CltUb255OiBhbHNvIGZpeCBkZWJ1ZyBtZXNzYWdlIHRvIHByaW50
+IG51bWJlciBvZiByYW5rc10KU2lnbmVkLW9mZi1ieTogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50
+ZWwuY29tPgotLS0KIGRyaXZlcnMvZWRhYy9za3hfZWRhYy5jIHwgNCArKy0tCiAxIGZpbGUgY2hh
+bmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZWRhYy9za3hfZWRhYy5jIGIvZHJpdmVycy9lZGFjL3NreF9lZGFjLmMKaW5kZXggZTU5OWQ5
+YmQ3MDRmLi4yMWQ2NmNmNzBjMWIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9za3hfZWRhYy5j
+CisrKyBiL2RyaXZlcnMvZWRhYy9za3hfZWRhYy5jCkBAIC0zMDEsNyArMzAxLDcgQEAgc3RhdGlj
+IGludCBnZXRfZGltbV9hdHRyKHUzMiByZWcsIGludCBsb2JpdCwgaW50IGhpYml0LCBpbnQgYWRk
+LCBpbnQgbWludmFsLAogCiAjZGVmaW5lIElTX0RJTU1fUFJFU0VOVChtdHIpCQlHRVRfQklURklF
+TEQoKG10ciksIDE1LCAxNSkKIAotI2RlZmluZSBudW1yYW5rKHJlZykgZ2V0X2RpbW1fYXR0cigo
+cmVnKSwgMTIsIDEzLCAwLCAxLCAyLCAicmFua3MiKQorI2RlZmluZSBudW1yYW5rKHJlZykgZ2V0
+X2RpbW1fYXR0cigocmVnKSwgMTIsIDEzLCAwLCAwLCAyLCAicmFua3MiKQogI2RlZmluZSBudW1y
+b3cocmVnKSBnZXRfZGltbV9hdHRyKChyZWcpLCAyLCA0LCAxMiwgMSwgNiwgInJvd3MiKQogI2Rl
+ZmluZSBudW1jb2wocmVnKSBnZXRfZGltbV9hdHRyKChyZWcpLCAwLCAxLCAxMCwgMCwgMiwgImNv
+bHMiKQogCkBAIC0zNjIsNyArMzYyLDcgQEAgc3RhdGljIGludCBnZXRfZGltbV9pbmZvKHUzMiBt
+dHIsIHUzMiBhbWFwLCBzdHJ1Y3QgZGltbV9pbmZvICpkaW1tLAogCiAJZWRhY19kYmcoMCwgIm1j
+IyVkOiBjaGFubmVsICVkLCBkaW1tICVkLCAlbGxkIE1iICglZCBwYWdlcykgYmFuazogJWQsIHJh
+bms6ICVkLCByb3c6ICUjeCwgY29sOiAlI3hcbiIsCiAJCSBpbWMtPm1jLCBjaGFuLCBkaW1tbm8s
+IHNpemUsIG5wYWdlcywKLQkJIGJhbmtzLCByYW5rcywgcm93cywgY29scyk7CisJCSBiYW5rcywg
+MSA8PCByYW5rcywgcm93cywgY29scyk7CiAKIAlpbWMtPmNoYW5bY2hhbl0uZGltbXNbZGltbW5v
+XS5jbG9zZV9wZyA9IEdFVF9CSVRGSUVMRChtdHIsIDAsIDApOwogCWltYy0+Y2hhbltjaGFuXS5k
+aW1tc1tkaW1tbm9dLmJhbmtfeG9yX2VuYWJsZSA9IEdFVF9CSVRGSUVMRChtdHIsIDksIDkpOwo=
