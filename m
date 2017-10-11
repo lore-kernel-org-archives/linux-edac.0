@@ -1,18 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [V4] rasdaemon: add support for ARM events
-From: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
-Message-Id: <20171014061748.06d4d358@vento.lan>
-Date: Sat, 14 Oct 2017 06:17:48 -0300
-To: Tyler Baicar <tbaicar@codeaurora.org>
-Cc: linux-edac@vger.kernel.org, astone@redhat.com, fu.wei@linaro.org, shiju.jose@huawei.com
+Subject: [linux-drivers-review,v2] EDAC, sb_edac: Fix missing DIMMs entries in sysfs on SNC2/SNC4 mode (Knights Landing)
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20171011140006.r3oulbrmiquizxuv@pd.tnic>
+Date: Wed, 11 Oct 2017 16:00:07 +0200
+To: Luis Felipe Sandoval Castro <luis.felipe.sandoval.castro@intel.com>
+Cc: linux-edac@vger.kernel.org, mchehab@osg.samsung.com, arozansk@redhat.com, qiuxu.zhuo@intel.com, tony.luck@intel.com
 List-ID: <edac.vger.kernel.org>
 
-RW0gV2VkLCA0IE9jdCAyMDE3IDEwOjA1OjU2IC0wNjAwClR5bGVyIEJhaWNhciA8dGJhaWNhckBj
-b2RlYXVyb3JhLm9yZz4gZXNjcmV2ZXU6Cgo+IEhlbGxvIE1hdXJvLAo+IAo+IERvZXMgdGhpcyBw
-YXRjaCBsb29rIGdvb2Qgbm93PwoKWWVzLiBKdXN0IHB1c2hlZCB1cHN0cmVhbS4KClRoYW5rcywK
-TWF1cm8KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1
-bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jk
-b21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5r
-ZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+T24gVGh1LCBTZXAgMjgsIDIwMTcgYXQgMDg6NTQ6NDJBTSAtMDUwMCwgTHVpcyBGZWxpcGUgU2Fu
+ZG92YWwgQ2FzdHJvIHdyb3RlOgo+IFdoZW4gZmlndXJpbmcgb3V0IHRoZSBzaXplIG9mIHRoZSBE
+SU1NcyBhbmQgdGhlIGNsdXN0ZXIgbW9kZSBpcyBTTkMyIG9yIFNOQzQgdGhlCj4gY3VycmVudCBh
+bGdvcml0aG0gaWdub3JlcyB0aGUgY29udHJpYnV0aW9uIG9mIHNvbWUgb2YgdGhlIGNoYW5uZWxz
+IHJlc3VsdGluZyBpbgo+IEVEQUMgbmV2ZXIga25vd2luZyBvZiB0aGUgZXhpc3RlbmNlIG9mIHNv
+bWUgRElNTXMgYXR0YWNoZWQgdG8gc3VjaCBjaGFubmVscyAodGh1cwo+IHN5c2ZzIGlzIG5vdCBw
+b3B1bGF0ZWQpLgo+IAo+IEluc3RlYWQgb2Ygc2VsZWN0aXZlbHkgaXRlcmF0aW5nIGZyb20gMCB0
+byBpbnRlcmx2X3dheXMgd2hlbiBsb29raW5nIGZvciBhbGwgdGhlCj4gcGFydGljaXBhbnRzIGlu
+IHRoZSBpbnRlcmxlYXZlLCB3ZSBkbyBhbiBleGhhdXN0aXZlIHNlYXJjaCBhbmQgaXRlcmF0ZSBm
+cm9tIDAgdG8KPiBLTkxfTUFYX0NIQU5ORUxTLCB0aGUgYWxnb3JpdGhtIGlzIGFscmVhZHkgc21h
+cnQgZW5vdWdoIHRvIGNvbnNpZGVyIHBhcnRpY2lwYW50cwo+IG9ubHkgb25lIHRpbWUuCj4gCj4g
+VGhpcyB3b3JrcyBmaW5lIGluIGFsbCBLTkwgY2x1c3RlciBtb2RlcyBhbmQgZXZlbiB3aGVuIHRo
+ZXJlIGFyZSBtaXNzaW5nIERJTU1zCj4gYXMgdGhlIGNvbnRyaWJ1dGlvbiBvZiB0aG9zZSBjaGFu
+bmVscyBpcyAwLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEx1aXMgRmVsaXBlIFNhbmRvdmFsIENhc3Ry
+byA8bHVpcy5mZWxpcGUuc2FuZG92YWwuY2FzdHJvQGludGVsLmNvbT4KPiAtLS0KPiAgZHJpdmVy
+cy9lZGFjL3NiX2VkYWMuYyB8IDE5ICsrKy0tLS0tLS0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5n
+ZWQsIDMgaW5zZXJ0aW9ucygrKSwgMTYgZGVsZXRpb25zKC0pCgpBcHBsaWVkLCB0aGFua3MuCg==
