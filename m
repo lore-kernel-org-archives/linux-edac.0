@@ -2,18 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, sb_edac: mark expected switch fall-through
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20171016102310.kkulrz77gzjgf3qf@pd.tnic>
-Date: Mon, 16 Oct 2017 12:23:10 +0200
-To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
-Cc: "Gustavo A. R. Silva" <garsilva@embeddedor.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+Message-Id: <20171016115003.Horde.i_N7UxOt1-MfbduAkKdrWOe@gator4166.hostgator.com>
+Date: Mon, 16 Oct 2017 11:50:03 -0500
+To: Borislav Petkov <bp@alien8.de>
+Cc: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBPY3QgMTYsIDIwMTcgYXQgMDM6MDA6NTNBTSArMDAwMCwgWmh1bywgUWl1eHUgd3Jv
-dGU6Cj4gSGkgU2lsdmEsCj4gCj4gICAgIFRoZSBhY3R1YWwgaW50ZW50aW9uIG9mIHRoZSBjb2Rl
-IGlzIE5PVCB0byBmYWxsIHRocm91Z2gsIHRob3VnaCBjdXJyZW50IGNvZGUgY2FuIHdvcmsgY29y
-cmVjdGx5Lgo+ICAgICBUaGFua3MgZm9yIHRoaXMgZmluZGluZy4gSWYgeW91IGRvbid0IG1pbmQs
-IEknbGwgc3VibWl0IGEgZml4IHBhdGNoIGZvciBpdCB3aXRoIHRoZSB0YWcgJ1JlcG9ydGVkLWJ5
-OicgYnkgeW91LgoKSSdkIHByZWZlciBpZiBHdXN0YXZvIHdvdWxkIHN1Ym1pdCBhIHBhdGNoIGZp
-eGluZyB0aGF0LCBhcyBoZSBjYXVnaHQgaXQKYW5kIEknZCBwcmVmZXIgaWYgeW91IGRvbid0IHRv
-cC1wb3N0IG9uIHB1YmxpYyBtYWlsaW5nIGxpc3RzIHBsZWFzZS4KClRoYW5rcy4K
+UXVvdGluZyBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT46Cgo+IE9uIE1vbiwgT2N0IDE2
+LCAyMDE3IGF0IDAzOjAwOjUzQU0gKzAwMDAsIFpodW8sIFFpdXh1IHdyb3RlOgo+PiBIaSBTaWx2
+YSwKPj4KPj4gICAgIFRoZSBhY3R1YWwgaW50ZW50aW9uIG9mIHRoZSBjb2RlIGlzIE5PVCB0byBm
+YWxsIHRocm91Z2gsIHRob3VnaCAgCj4+IGN1cnJlbnQgY29kZSBjYW4gd29yayBjb3JyZWN0bHku
+Cj4+ICAgICBUaGFua3MgZm9yIHRoaXMgZmluZGluZy4gSWYgeW91IGRvbid0IG1pbmQsIEknbGwg
+c3VibWl0IGEgZml4ICAKPj4gcGF0Y2ggZm9yIGl0IHdpdGggdGhlIHRhZyAnUmVwb3J0ZWQtYnk6
+JyBieSB5b3UuCj4KPiBJJ2QgcHJlZmVyIGlmIEd1c3Rhdm8gd291bGQgc3VibWl0IGEgcGF0Y2gg
+Zml4aW5nIHRoYXQsIGFzIGhlIGNhdWdodCBpdAo+IGFuZCBJJ2QgcHJlZmVyIGlmIHlvdSBkb24n
+dCB0b3AtcG9zdCBvbiBwdWJsaWMgbWFpbGluZyBsaXN0cyBwbGVhc2UuCj4KCkkgY2FuIGRvIHRo
+YXQuIEkgd2lsbCBzZW5kIGEgcGF0Y2ggc2hvcnRseS4KClRoYW5rcwotLS0KR3VzdGF2byBBLiBS
+LiBTaWx2YQoKCgoKLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
+bmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBt
+YWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92
+Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
