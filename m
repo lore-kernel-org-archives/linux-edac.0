@@ -1,18 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: MAINTAINERS: Split Cavium EDAC entry and add myself
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20171019085052.23bttcw67v7fgv42@pd.tnic>
-Date: Thu, 19 Oct 2017 10:50:53 +0200
-To: Jan Glauber <jglauber@cavium.com>
-Cc: linux-kernel@vger.kernel.org, David Daney <david.daney@cavium.com>, Ralf Baechle <ralf@linux-mips.org>, linux-edac@vger.kernel.org, Sergey Temerkhanov <s.temerkhanov@gmail.com>
+Subject: EDAC, sb_edac: fix missing break in switch
+From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+Message-Id: <20171016174029.GA19757@embeddedor.com>
+Date: Mon, 16 Oct 2017 12:40:29 -0500
+To: Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <garsilva@embeddedor.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBPY3QgMTksIDIwMTcgYXQgMDg6NDE6MjlBTSArMDIwMCwgSmFuIEdsYXViZXIgd3Jv
-dGU6Cj4gU3BsaXQgdGhlIENhdml1bSBFREFDIGVudHJ5IGludG8gTUlQUyBhbmQgQVJNIGRyaXZl
-cnMgYmVjYXVzZQo+IHRoZXkgaGF2ZSBkaWZmZXJlbnQgbWFpbnRhaW5lcnMgYW5kIG1haWxpbmcg
-bGlzdHMuCj4gCj4gQWRkIG15c2VsZiBhcyBhZGRpdGlvbmFsIG1haW50YWluZXIgdG8gdGhlIFRo
-dW5kZXJYIGRyaXZlci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKYW4gR2xhdWJlciA8amdsYXViZXJA
-Y2F2aXVtLmNvbT4KPiAtLS0KPiAgTUFJTlRBSU5FUlMgfCA4ICsrKysrKystCj4gIDEgZmlsZSBj
-aGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCkFwcGxpZWQsIHRoYW5rcy4K
+QWRkIG1pc3NpbmcgYnJlYWsgc3RhdGVtZW50IGluIG9yZGVyIHRvIHByZXZlbnQgdGhlIGNvZGUg
+ZnJvbSBmYWxsaW5nCnRocm91Z2guCgpTaWduZWQtb2ZmLWJ5OiBHdXN0YXZvIEEuIFIuIFNpbHZh
+IDxnYXJzaWx2YUBlbWJlZGRlZG9yLmNvbT4KLS0tCiBkcml2ZXJzL2VkYWMvc2JfZWRhYy5jIHwg
+MSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJz
+L2VkYWMvc2JfZWRhYy5jIGIvZHJpdmVycy9lZGFjL3NiX2VkYWMuYwppbmRleCA3MmI5OGEwLi5m
+MzQ0MzBmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jCisrKyBiL2RyaXZlcnMv
+ZWRhYy9zYl9lZGFjLmMKQEAgLTI0ODUsNiArMjQ4NSw3IEBAIHN0YXRpYyBpbnQgaWJyaWRnZV9t
+Y2lfYmluZF9kZXZzKHN0cnVjdCBtZW1fY3RsX2luZm8gKm1jaSwKIAkJY2FzZSBQQ0lfREVWSUNF
+X0lEX0lOVEVMX0lCUklER0VfSU1DX0hBMF9UQToKIAkJY2FzZSBQQ0lfREVWSUNFX0lEX0lOVEVM
+X0lCUklER0VfSU1DX0hBMV9UQToKIAkJCXB2dC0+cGNpX3RhID0gcGRldjsKKwkJCWJyZWFrOwog
+CQljYXNlIFBDSV9ERVZJQ0VfSURfSU5URUxfSUJSSURHRV9JTUNfSEEwX1JBUzoKIAkJY2FzZSBQ
+Q0lfREVWSUNFX0lEX0lOVEVMX0lCUklER0VfSU1DX0hBMV9SQVM6CiAJCQlwdnQtPnBjaV9yYXMg
+PSBwZGV2Owo=
