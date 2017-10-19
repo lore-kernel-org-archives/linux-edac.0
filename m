@@ -2,27 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: MAINTAINERS: Split Cavium EDAC entry and add myself
-From: Jan Glauber <jglauber@cavium.com>
-Message-Id: <20171019064129.5064-1-jglauber@cavium.com>
-Date: Thu, 19 Oct 2017 08:41:29 +0200
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-kernel@vger.kernel.org, David Daney <david.daney@cavium.com>, Ralf Baechle <ralf@linux-mips.org>, linux-edac@vger.kernel.org, Sergey Temerkhanov <s.temerkhanov@gmail.com>, Jan Glauber <jglauber@cavium.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20171019085052.23bttcw67v7fgv42@pd.tnic>
+Date: Thu, 19 Oct 2017 10:50:53 +0200
+To: Jan Glauber <jglauber@cavium.com>
+Cc: linux-kernel@vger.kernel.org, David Daney <david.daney@cavium.com>, Ralf Baechle <ralf@linux-mips.org>, linux-edac@vger.kernel.org, Sergey Temerkhanov <s.temerkhanov@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-U3BsaXQgdGhlIENhdml1bSBFREFDIGVudHJ5IGludG8gTUlQUyBhbmQgQVJNIGRyaXZlcnMgYmVj
-YXVzZQp0aGV5IGhhdmUgZGlmZmVyZW50IG1haW50YWluZXJzIGFuZCBtYWlsaW5nIGxpc3RzLgoK
-QWRkIG15c2VsZiBhcyBhZGRpdGlvbmFsIG1haW50YWluZXIgdG8gdGhlIFRodW5kZXJYIGRyaXZl
-ci4KClNpZ25lZC1vZmYtYnk6IEphbiBHbGF1YmVyIDxqZ2xhdWJlckBjYXZpdW0uY29tPgotLS0K
-IE1BSU5UQUlORVJTIHwgOCArKysrKysrLQogMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygr
-KSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL01BSU5UQUlORVJTIGIvTUFJTlRBSU5FUlMK
-aW5kZXggYTc0MjI3YS4uOWVhOGI4OSAxMDA2NDQKLS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJ
-TlRBSU5FUlMKQEAgLTQ5MDYsMTMgKzQ5MDYsMTkgQEAgTDoJbGludXgtZWRhY0B2Z2VyLmtlcm5l
-bC5vcmcKIFM6CU1haW50YWluZWQKIEY6CWRyaXZlcnMvZWRhYy9oaWdoYmFuayoKIAotRURBQy1D
-QVZJVU0KK0VEQUMtQ0FWSVVNIE9DVEVPTgogTToJUmFsZiBCYWVjaGxlIDxyYWxmQGxpbnV4LW1p
-cHMub3JnPgogTToJRGF2aWQgRGFuZXkgPGRhdmlkLmRhbmV5QGNhdml1bS5jb20+CiBMOglsaW51
-eC1lZGFjQHZnZXIua2VybmVsLm9yZwogTDoJbGludXgtbWlwc0BsaW51eC1taXBzLm9yZwogUzoJ
-U3VwcG9ydGVkCiBGOglkcml2ZXJzL2VkYWMvb2N0ZW9uX2VkYWMqCisKK0VEQUMtQ0FWSVVNIFRI
-VU5ERVJYCitNOglEYXZpZCBEYW5leSA8ZGF2aWQuZGFuZXlAY2F2aXVtLmNvbT4KK006CUphbiBH
-bGF1YmVyIDxqZ2xhdWJlckBjYXZpdW0uY29tPgorTDoJbGludXgtZWRhY0B2Z2VyLmtlcm5lbC5v
-cmcKK1M6CVN1cHBvcnRlZAogRjoJZHJpdmVycy9lZGFjL3RodW5kZXJ4X2VkYWMqCiAKIEVEQUMt
-Q09SRQo=
+T24gVGh1LCBPY3QgMTksIDIwMTcgYXQgMDg6NDE6MjlBTSArMDIwMCwgSmFuIEdsYXViZXIgd3Jv
+dGU6Cj4gU3BsaXQgdGhlIENhdml1bSBFREFDIGVudHJ5IGludG8gTUlQUyBhbmQgQVJNIGRyaXZl
+cnMgYmVjYXVzZQo+IHRoZXkgaGF2ZSBkaWZmZXJlbnQgbWFpbnRhaW5lcnMgYW5kIG1haWxpbmcg
+bGlzdHMuCj4gCj4gQWRkIG15c2VsZiBhcyBhZGRpdGlvbmFsIG1haW50YWluZXIgdG8gdGhlIFRo
+dW5kZXJYIGRyaXZlci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKYW4gR2xhdWJlciA8amdsYXViZXJA
+Y2F2aXVtLmNvbT4KPiAtLS0KPiAgTUFJTlRBSU5FUlMgfCA4ICsrKysrKystCj4gIDEgZmlsZSBj
+aGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCkFwcGxpZWQsIHRoYW5rcy4K
