@@ -2,23 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, sb_edac: fix missing break in switch
-From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
-Message-Id: <20171016174029.GA19757@embeddedor.com>
-Date: Mon, 16 Oct 2017 12:40:29 -0500
-To: Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20171019085721.yeqby35xrqfa4g4j@pd.tnic>
+Date: Thu, 19 Oct 2017 10:57:21 +0200
+To: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-QWRkIG1pc3NpbmcgYnJlYWsgc3RhdGVtZW50IGluIG9yZGVyIHRvIHByZXZlbnQgdGhlIGNvZGUg
-ZnJvbSBmYWxsaW5nCnRocm91Z2guCgpTaWduZWQtb2ZmLWJ5OiBHdXN0YXZvIEEuIFIuIFNpbHZh
-IDxnYXJzaWx2YUBlbWJlZGRlZG9yLmNvbT4KLS0tCiBkcml2ZXJzL2VkYWMvc2JfZWRhYy5jIHwg
-MSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2VkYWMvc2JfZWRhYy5jIGIvZHJpdmVycy9lZGFjL3NiX2VkYWMuYwppbmRleCA3MmI5OGEwLi5m
-MzQ0MzBmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jCisrKyBiL2RyaXZlcnMv
-ZWRhYy9zYl9lZGFjLmMKQEAgLTI0ODUsNiArMjQ4NSw3IEBAIHN0YXRpYyBpbnQgaWJyaWRnZV9t
-Y2lfYmluZF9kZXZzKHN0cnVjdCBtZW1fY3RsX2luZm8gKm1jaSwKIAkJY2FzZSBQQ0lfREVWSUNF
-X0lEX0lOVEVMX0lCUklER0VfSU1DX0hBMF9UQToKIAkJY2FzZSBQQ0lfREVWSUNFX0lEX0lOVEVM
-X0lCUklER0VfSU1DX0hBMV9UQToKIAkJCXB2dC0+cGNpX3RhID0gcGRldjsKKwkJCWJyZWFrOwog
-CQljYXNlIFBDSV9ERVZJQ0VfSURfSU5URUxfSUJSSURHRV9JTUNfSEEwX1JBUzoKIAkJY2FzZSBQ
-Q0lfREVWSUNFX0lEX0lOVEVMX0lCUklER0VfSU1DX0hBMV9SQVM6CiAJCQlwdnQtPnBjaV9yYXMg
-PSBwZGV2Owo=
+T24gTW9uLCBPY3QgMTYsIDIwMTcgYXQgMTI6NDA6MjlQTSAtMDUwMCwgR3VzdGF2byBBLiBSLiBT
+aWx2YSB3cm90ZToKPiBBZGQgbWlzc2luZyBicmVhayBzdGF0ZW1lbnQgaW4gb3JkZXIgdG8gcHJl
+dmVudCB0aGUgY29kZSBmcm9tIGZhbGxpbmcKPiB0aHJvdWdoLgo+IAo+IFNpZ25lZC1vZmYtYnk6
+IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGdhcnNpbHZhQGVtYmVkZGVkb3IuY29tPgo+IC0tLQo+ICBk
+cml2ZXJzL2VkYWMvc2JfZWRhYy5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jIGIvZHJpdmVycy9l
+ZGFjL3NiX2VkYWMuYwo+IGluZGV4IDcyYjk4YTAuLmYzNDQzMGYgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9lZGFjL3NiX2VkYWMuYwo+ICsrKyBiL2RyaXZlcnMvZWRhYy9zYl9lZGFjLmMKPiBAQCAt
+MjQ4NSw2ICsyNDg1LDcgQEAgc3RhdGljIGludCBpYnJpZGdlX21jaV9iaW5kX2RldnMoc3RydWN0
+IG1lbV9jdGxfaW5mbyAqbWNpLAo+ICAJCWNhc2UgUENJX0RFVklDRV9JRF9JTlRFTF9JQlJJREdF
+X0lNQ19IQTBfVEE6Cj4gIAkJY2FzZSBQQ0lfREVWSUNFX0lEX0lOVEVMX0lCUklER0VfSU1DX0hB
+MV9UQToKPiAgCQkJcHZ0LT5wY2lfdGEgPSBwZGV2Owo+ICsJCQlicmVhazsKPiAgCQljYXNlIFBD
+SV9ERVZJQ0VfSURfSU5URUxfSUJSSURHRV9JTUNfSEEwX1JBUzoKPiAgCQljYXNlIFBDSV9ERVZJ
+Q0VfSURfSU5URUxfSUJSSURHRV9JTUNfSEExX1JBUzoKPiAgCQkJcHZ0LT5wY2lfcmFzID0gcGRl
+djsKPiAtLSAKCkFwcGxpZWQsIHRoYW5rcy4K
