@@ -2,20 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/3] EDAC: ti: add support for TI keystone and DRA7xx EDAC
-From: =?utf-8?q?Jan_L=C3=BCbbe?= <jlu@pengutronix.de>
-Message-Id: <1510228204.3471.44.camel@pengutronix.de>
-Date: Thu, 09 Nov 2017 12:50:04 +0100
-To: Tero Kristo <t-kristo@ti.com>, linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, linux-edac@vger.kernel.org, bp@alien8.de, mchehab@kernel.org
-Cc: Santosh Shilimkar <ssantosh@kernel.org>, Tony Lindgren <tony@atomide.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20171109121226.d63muafsaip74mvh@pd.tnic>
+Date: Thu, 9 Nov 2017 13:12:26 +0100
+To: Tero Kristo <t-kristo@ti.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, linux-edac@vger.kernel.org, mchehab@kernel.org, Santosh Shilimkar <ssantosh@kernel.org>, Tony Lindgren <tony@atomide.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCAyMDE3LTExLTA3IGF0IDIyOjM4ICswMjAwLCBUZXJvIEtyaXN0byB3cm90ZToKPiAr
-ICAgICAgIGlmIChlZGFjX21jX2FkZF9tYyhtY2kpKSB7Cj4gKyAgICAgICAgICAgICAgIHByX2Vy
-cigiJXM6IEZhaWxlZCB0byByZWdpc3RlciBtY2kuXG4iLCBfX2Z1bmNfXyk7Cj4gKyAgICAgICAg
-ICAgICAgIHJldHVybiAtRU5PTUVNOwpUaGlzIGxlYWtzIHRoZSBhbGxvY2F0ZWQgbWNpIHN0cnVj
-dHVyZSBpbiB0aGUgZXJyb3IgY2FzZS4KCj4gKyAgICAgICB9Cj4gKwo+ICsgICAgICAgLyogYWRk
-IEVNSUYgRUNDIGVycm9yIGhhbmRsZXIgKi8KPiArICAgICAgIGVycm9yX2lycSA9IHBsYXRmb3Jt
-X2dldF9pcnEocGRldiwgMCk7Cj4gKyAgICAgICBpZiAoIWVycm9yX2lycSkgewo+ICsgICAgICAg
-ICAgICAgICBkZXZfZXJyKGRldiwgIkREUjMgRURBQyBpcnEgbnVtYmVyIG5vdCBkZWZpbmVkXG4i
-KTsKPiArICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKVGhpcyBsZWF2ZXMgdGhlIG1jIHJlZ2lz
-dGVyZWQgaW4gdGhlIGVycm9yIGNhc2UuCgpSZWdhcmRzLApKYW4K
+T24gVGh1LCBOb3YgMDksIDIwMTcgYXQgMTI6Mzg6MDJQTSArMDIwMCwgVGVybyBLcmlzdG8gd3Jv
+dGU6Cj4gWWVhaCwgdGhlIERSQTcgU29DcyBoYXZlIDJ4IGVtaWYgaW5zdGFuY2VzLCBhbmQgRUND
+IGlzIG9ubHkgYXZhaWxhYmxlIG9uIG9uZQo+IChhbmQgaXQgY2FuIGJlIGVpdGhlciBlbmFibGVk
+IG9yIGRpc2FibGVkLikgSSB0aG91Z2h0IGl0IG1pZ2h0IGJlIHVzZWZ1bCB0bwo+IGhhdmUgdGhl
+IGRpbW0gaW5mbyBwb3B1bGF0ZWQgZm9yIGJvdGggaW4gdGhpcyBjYXNlIHRvIGF2b2lkIGNvbmZ1
+c2lvbiBhbmQgdG8KPiBiZSBhYmxlIHRvIHNlZSB0aGUgc3RhdHVzIGZyb20gdXNlcnNwYWNlLgo+
+IAo+IEl0IGlzIGFsc28gcG9zc2libGUgdG8gZGl0Y2ggdGhhdCBhbmQgb25seSBoYXZlIGRpbW0g
+aW5mbyBmb3IgaW5zdGFuY2VzCj4gd2hpY2ggaGF2ZSBFQ0MgZW5hYmxlZC4gV2hpY2ggd2F5IHdv
+dWxkIHlvdSBwcmVmZXI/CgpBY3R1YWxseSwgaGF2aW5nIGFsbCBESU1NcyBwcmVzZW50LCBldmVu
+IGlmIEVDQyBpcyBub3QgZW5hYmxlZCBmb3IgYQpzdWJzZXQgb2YgdGhlbSwgd291bGQgbWFrZSB0
+aGUgcGljdHVyZSBtb3JlIHVzZXItZnJpZW5kbHkuIFlhcCwgdGhhdCdzIGJldHRlci4KCj4gVGhh
+bmtzIGZvciByZXZpZXcsIGFuZCBzb3JyeSBhZ2FpbiBmb3IgbWlzc2luZyB0aGUgY2hlY2twYXRj
+aC4KCk5vIHdvcnJpZXMsIHRoYXQncyB3aGF0IHJldmlldyBpcyBmb3IuIDopCg==
