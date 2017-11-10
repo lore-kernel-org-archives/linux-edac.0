@@ -1,18 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,6/7] EDAC: Add missing debugfs_create_x32 wrapper
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20171116193211.be7qimab2v3jha3o@pd.tnic>
-Date: Thu, 16 Nov 2017 20:32:11 +0100
-To: Jan Luebbe <jlu@pengutronix.de>
-Cc: Russell King - ARM Linux <linux@armlinux.org.uk>, Chris Packham <chris.packham@alliedtelesis.co.nz>, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org, kernel@pengutronix.de, Thomas Petazzoni <thomas.petazzoni@free-electrons.com>, Gregory CLEMENT <gregory.clement@free-electrons.com>
+Subject: [v3,1/7] ARM: l2c: move cache-aurora-l2.h to asm/hardware
+From: =?utf-8?q?Jan_L=C3=BCbbe?= <jlu@pengutronix.de>
+Message-Id: <20171110090308.21562-2-jlu@pengutronix.de>
+Date: Fri, 10 Nov 2017 10:03:02 +0100
+To: Russell King - ARM Linux <linux@armlinux.org.uk>, Borislav Petkov <bp@alien8.de>, Chris Packham <chris.packham@alliedtelesis.co.nz>, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+Cc: Jan Luebbe <jlu@pengutronix.de>, kernel@pengutronix.de, Thomas Petazzoni <thomas.petazzoni@free-electrons.com>, Gregory CLEMENT <gregory.clement@free-electrons.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBOb3YgMTAsIDIwMTcgYXQgMTA6MDM6MDdBTSArMDEwMCwgSmFuIEx1ZWJiZSB3cm90
-ZToKPiBXZSBhbHJlYWR5IGhhdmUgd3JhcHBlcnMgZm9yIHg4IGFuZCB4MTYsIHNvIGFkZCB0aGUg
-bWlzc2luZyB4MzIgb25lLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEphbiBMdWViYmUgPGpsdUBwZW5n
-dXRyb25peC5kZT4KPiAtLS0KPiAgZHJpdmVycy9lZGFjL2RlYnVnZnMuYyAgICAgfCAxMSArKysr
-KysrKysrKwo+ICBkcml2ZXJzL2VkYWMvZWRhY19tb2R1bGUuaCB8ICA1ICsrKysrCj4gIDIgZmls
-ZXMgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKQoKUmV2aWV3ZWQtYnk6IEJvcmlzbGF2IFBldGtv
-diA8YnBAc3VzZS5kZT4K
+VGhpcyBpbmNsdWRlIGZpbGUgd2lsbCBiZSB1c2VkIGJ5IHRoZSBBVVJPUkEgRURBQyBjb2RlLgoK
+U2lnbmVkLW9mZi1ieTogSmFuIEx1ZWJiZSA8amx1QHBlbmd1dHJvbml4LmRlPgpSZXZpZXdlZC1i
+eTogR3JlZ29yeSBDTEVNRU5UIDxncmVnb3J5LmNsZW1lbnRAZnJlZS1lbGVjdHJvbnMuY29tPgot
+LS0KIGFyY2gvYXJtL3ttbSA9PiBpbmNsdWRlL2FzbS9oYXJkd2FyZX0vY2FjaGUtYXVyb3JhLWwy
+LmggfCAwCiBhcmNoL2FybS9tbS9jYWNoZS1sMngwLmMgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQogcmVuYW1lIGFyY2gvYXJtL3ttbSA9PiBpbmNsdWRlL2FzbS9oYXJkd2FyZX0vY2FjaGUt
+YXVyb3JhLWwyLmggKDEwMCUpCgpkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vbW0vY2FjaGUtYXVyb3Jh
+LWwyLmggYi9hcmNoL2FybS9pbmNsdWRlL2FzbS9oYXJkd2FyZS9jYWNoZS1hdXJvcmEtbDIuaApz
+aW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gYXJjaC9hcm0vbW0vY2FjaGUtYXVyb3Jh
+LWwyLmgKcmVuYW1lIHRvIGFyY2gvYXJtL2luY2x1ZGUvYXNtL2hhcmR3YXJlL2NhY2hlLWF1cm9y
+YS1sMi5oCmRpZmYgLS1naXQgYS9hcmNoL2FybS9tbS9jYWNoZS1sMngwLmMgYi9hcmNoL2FybS9t
+bS9jYWNoZS1sMngwLmMKaW5kZXggODA4ZWZiYjg5Yjg4Li5hMDBkNmY3ZmQzNGMgMTAwNjQ0Ci0t
+LSBhL2FyY2gvYXJtL21tL2NhY2hlLWwyeDAuYworKysgYi9hcmNoL2FybS9tbS9jYWNoZS1sMngw
+LmMKQEAgLTMwLDggKzMwLDggQEAKICNpbmNsdWRlIDxhc20vY3AxNS5oPgogI2luY2x1ZGUgPGFz
+bS9jcHV0eXBlLmg+CiAjaW5jbHVkZSA8YXNtL2hhcmR3YXJlL2NhY2hlLWwyeDAuaD4KKyNpbmNs
+dWRlIDxhc20vaGFyZHdhcmUvY2FjaGUtYXVyb3JhLWwyLmg+CiAjaW5jbHVkZSAiY2FjaGUtdGF1
+cm9zMy5oIgotI2luY2x1ZGUgImNhY2hlLWF1cm9yYS1sMi5oIgogCiBzdHJ1Y3QgbDJjX2luaXRf
+ZGF0YSB7CiAJY29uc3QgY2hhciAqdHlwZTsK
