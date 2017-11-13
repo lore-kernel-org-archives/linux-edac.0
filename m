@@ -2,26 +2,13 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [PATCHv3,2/3] EDAC: ti: add support for TI keystone and DRA7xx EDAC
-From: santosh shilimkar <santosh.shilimkar@oracle.com>
-Message-Id: <f9d1b261-7942-6ff6-bfc3-4b3ff22f0e27@oracle.com>
-Date: Mon, 13 Nov 2017 10:04:09 -0800
-To: Borislav Petkov <bp@alien8.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20171113180843.hif7mfx5crvndito@pd.tnic>
+Date: Mon, 13 Nov 2017 19:08:43 +0100
+To: Santosh Shilimkar <santosh.shilimkar@oracle.com>
 Cc: Tero Kristo <t-kristo@ti.com>, mchehab@kernel.org, linux-edac@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, ssantosh@kernel.org, tony@atomide.com
 List-ID: <edac.vger.kernel.org>
 
-T24gMTEvMTMvMjAxNyA5OjU4IEFNLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6Cj4gT24gTW9uLCBO
-b3YgMTMsIDIwMTcgYXQgMDk6MTA6MDlBTSAtMDgwMCwgU2FudG9zaCBTaGlsaW1rYXIgd3JvdGU6
-Cj4+IE9uY2UgeW91IGhhdmUgZHJpdmVyIHF1ZXVlZCB1cCwgcGxlYXNlIHBvc3QgRFRTIHBhdGNo
-ZXMKPj4gc2VwYXJhdGVseS4gV2lsbCBxdWV1ZSB0aGVtIHVwLgo+IAo+IEl0IHdvdWxkIGJlIGVh
-c2llciBpZiB5b3UgQUNLIHRoZSBEVFMgcGF0Y2hlcyBhbmQgSSBjYW4gcGljayBhbGwgdGhyZWUK
-PiB1cCBhZnRlciB0aGUgbWVyZ2Ugd2luZG93IGlzIG92ZXIuIFRoaXMgd2F5IHRoZXkgZ28gdG9n
-ZXRoZXIgYW5kIHRoZXJlJ3MKPiBubyBpbnRlci10cmVlIGRlcGVuZGVuY3kuCj4gClRoYXQgZG9l
-c24ndCBoZWxwIGFuZCBub3QgYW4gdXN1YWwgd29ya2Zsb3cuCkRUUyBwYXRjaGVzIGFjdHVhbGx5
-IGNvbmZsaWN0IGFuZCB0aGV5IGJldHRlciBnbyB0aHJvdWdoIGFyY2ggcG9ydC4KTGV0IHRoZSBk
-cml2ZXIgZ2V0IG1lcmdlZCB3aGljaCBoYXMgbm8gZGVwZW5kZW5jeSB3aXRoIERUUyBwYXRjaGVz
-Cmluc3RlYWQgb2Ygd2FpdGluZyBmb3IgbWVyZ2Ugd2luZG93IGJlaW5nIG92ZXIuIERUUyBwYXRj
-aGVzIGNhbiBiZQptZXJnZWQgYW55dGltZSBvbmNlIGl0cyByZXNwZWN0aXZlIGRyaXZlciBhcmUg
-aW4gdHJlZS4KClJlZ2FyZHMsClNhbnRvc2gKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBs
-aXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBv
-ZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBp
-bmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+T24gTW9uLCBOb3YgMTMsIDIwMTcgYXQgMTA6MDQ6MDlBTSAtMDgwMCwgU2FudG9zaCBTaGlsaW1r
+YXIgd3JvdGU6Cj4gRFRTIHBhdGNoZXMgY2FuIGJlIG1lcmdlZCBhbnl0aW1lIG9uY2UgaXRzIHJl
+c3BlY3RpdmUgZHJpdmVyIGFyZSBpbgo+IHRyZWUuCgpXb3JrcyBmb3IgbWUgdG9vLgo=
