@@ -2,13 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [PATCHv3,2/3] EDAC: ti: add support for TI keystone and DRA7xx EDAC
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20171113180843.hif7mfx5crvndito@pd.tnic>
-Date: Mon, 13 Nov 2017 19:08:43 +0100
-To: Santosh Shilimkar <santosh.shilimkar@oracle.com>
-Cc: Tero Kristo <t-kristo@ti.com>, mchehab@kernel.org, linux-edac@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, ssantosh@kernel.org, tony@atomide.com
+From: Tero Kristo <t-kristo@ti.com>
+Message-Id: <cdaf8a76-c249-cd79-f03b-bfd78a5f7fbf@ti.com>
+Date: Mon, 13 Nov 2017 20:49:03 +0200
+To: Borislav Petkov <bp@alien8.de>, Santosh Shilimkar <santosh.shilimkar@oracle.com>
+Cc: mchehab@kernel.org, linux-edac@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, ssantosh@kernel.org, tony@atomide.com
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBOb3YgMTMsIDIwMTcgYXQgMTA6MDQ6MDlBTSAtMDgwMCwgU2FudG9zaCBTaGlsaW1r
-YXIgd3JvdGU6Cj4gRFRTIHBhdGNoZXMgY2FuIGJlIG1lcmdlZCBhbnl0aW1lIG9uY2UgaXRzIHJl
-c3BlY3RpdmUgZHJpdmVyIGFyZSBpbgo+IHRyZWUuCgpXb3JrcyBmb3IgbWUgdG9vLgo=
+T24gMTMvMTEvMTcgMjA6MDgsIEJvcmlzbGF2IFBldGtvdiB3cm90ZToKPiBPbiBNb24sIE5vdiAx
+MywgMjAxNyBhdCAxMDowNDowOUFNIC0wODAwLCBTYW50b3NoIFNoaWxpbWthciB3cm90ZToKPj4g
+RFRTIHBhdGNoZXMgY2FuIGJlIG1lcmdlZCBhbnl0aW1lIG9uY2UgaXRzIHJlc3BlY3RpdmUgZHJp
+dmVyIGFyZSBpbgo+PiB0cmVlLgo+IAo+IFdvcmtzIGZvciBtZSB0b28uCj4gCgpJIGd1ZXNzIHlv
+dSBjYW4ganVzdCBtZXJnZSB0aGUgZHRzIHBhdGNoIGFsc28gd2hlbmV2ZXIgeW91IGxpa2UsIGFz
+IAp0aGVyZSBpcyBjdXJyZW50bHkgbm8gc3VwcG9ydCBhcm91bmQgZm9yIHRpLGVtaWYta2V5c3Rv
+bmUuIEl0IGp1c3Qgd29uJ3QgCmRvIGFueXRoaW5nLgoKLVRlcm8KLS0tClRleGFzIEluc3RydW1l
+bnRzIEZpbmxhbmQgT3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLiBZLXR1bm51
+cy9CdXNpbmVzcyBJRDogMDYxNTUyMS00LiBLb3RpcGFpa2thL0RvbWljaWxlOiBIZWxzaW5raQot
+LQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3Jp
+YmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2Vy
+Lmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9y
+Zy9tYWpvcmRvbW8taW5mby5odG1sCg==
