@@ -2,22 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/mce: add support SRAO reported via CMC check
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <20171114185139.oo6dr6opk7nup3or@agluck-desk>
-Date: Tue, 14 Nov 2017 10:51:39 -0800
-To: Xie XiuQi <xiexiuqi@huawei.com>
+From: Xie XiuQi <xiexiuqi@huawei.com>
+Message-Id: <7180dff1-2e55-5577-85d3-eda288f2be81@huawei.com>
+Date: Wed, 15 Nov 2017 09:43:07 +0800
+To: "Luck, Tony" <tony.luck@intel.com>
 Cc: bp@alien8.de, tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com, x86@kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBOb3YgMTQsIDIwMTcgYXQgMDE6NTU6MTFQTSArMDgwMCwgWGllIFhpdVFpIHdyb3Rl
-Ogo+ICsJLyoga25vd24gQU8gTUNBQ09EcyByZXBvcnRlZCB2aWEgQ01DOiAqLwo+ICsJTUNFU0VW
-KAo+ICsJCUFPLCAiQWN0aW9uIG9wdGlvbmFsOiBtZW1vcnkgc2NydWJiaW5nIGVycm9yIiwKPiAr
-CQlTRVIsIE1BU0soTUNJX1VDX1NBUnxNQ0FDT0RfU0NSVUJNU0ssIE1DSV9TVEFUVVNfVUN8TUNB
-Q09EX1NDUlVCKQoKSSB0aGluayB5b3Ugc2hvdWxkIGNoZWNrIGZvciBPVkVSPTAgKGFzIHRoZSBl
-eGlzdGluZyBBTyBjYXNlcyBkbykuCklmIHRoZXJlIHdhcyBhIHBhdHJvbCBzY3J1YiByZXBvcnRl
-ZCBieSBDTUNJLCBhbmQgdGhlbiBhbm90aGVyIFVDCmVycm9yLCB3ZSBjYW4ndCBzYWZlbHkgdHJl
-YXQgdGhpcyBhcyBhbiBBTyAuLi4gYmVjYXVzZSB3ZSBoYXZlIG5vCmlkZWEgd2hhdCB0aGUgc2Vj
-b25kIFVDIGVycm9yIHdhcy4KCi1Ub255Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlz
-dDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2Yg
-YSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5m
-byBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+SGkgVG9ueSwKCk9uIDIwMTcvMTEvMTUgMjo1MSwgTHVjaywgVG9ueSB3cm90ZToKPiBPbiBUdWUs
+IE5vdiAxNCwgMjAxNyBhdCAwMTo1NToxMVBNICswODAwLCBYaWUgWGl1UWkgd3JvdGU6Cj4+ICsJ
+Lyoga25vd24gQU8gTUNBQ09EcyByZXBvcnRlZCB2aWEgQ01DOiAqLwo+PiArCU1DRVNFVigKPj4g
+KwkJQU8sICJBY3Rpb24gb3B0aW9uYWw6IG1lbW9yeSBzY3J1YmJpbmcgZXJyb3IiLAo+PiArCQlT
+RVIsIE1BU0soTUNJX1VDX1NBUnxNQ0FDT0RfU0NSVUJNU0ssIE1DSV9TVEFUVVNfVUN8TUNBQ09E
+X1NDUlVCKQo+IAo+IEkgdGhpbmsgeW91IHNob3VsZCBjaGVjayBmb3IgT1ZFUj0wIChhcyB0aGUg
+ZXhpc3RpbmcgQU8gY2FzZXMgZG8pLgo+IElmIHRoZXJlIHdhcyBhIHBhdHJvbCBzY3J1YiByZXBv
+cnRlZCBieSBDTUNJLCBhbmQgdGhlbiBhbm90aGVyIFVDCj4gZXJyb3IsIHdlIGNhbid0IHNhZmVs
+eSB0cmVhdCB0aGlzIGFzIGFuIEFPIC4uLiBiZWNhdXNlIHdlIGhhdmUgbm8KPiBpZGVhIHdoYXQg
+dGhlIHNlY29uZCBVQyBlcnJvciB3YXMuCgpPSywgSSdsbCBhZGQgY2hlY2sgZm9yIE9WRVI9MCBp
+biB2Mi4K
