@@ -2,18 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/mce: add support SRAO reported via CMC check
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <3908561D78D1C84285E8C5FCA982C28F779F1D15@ORSMSX110.amr.corp.intel.com>
-Date: Wed, 15 Nov 2017 02:13:07 +0000
-To: Xie XiuQi <xiexiuqi@huawei.com>
+From: Xie XiuQi <xiexiuqi@huawei.com>
+Message-Id: <a4f71bd9-64bc-48c4-5662-dd9387cb68bc@huawei.com>
+Date: Wed, 15 Nov 2017 10:39:18 +0800
+To: "Luck, Tony" <tony.luck@intel.com>
 Cc: "bp@alien8.de" <bp@alien8.de>, "tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-PiBPSywgSSdsbCBhZGQgY2hlY2sgZm9yIE9WRVI9MCBpbiB2Mi4KClRoaW5raW5nIGEgYml0IG1v
-cmUgb24gdGhpcyAuLi4gZG8geW91IGp1c3QgbmVlZCB0byByZW1vdmUgdGhlIGNoZWNrCmZvciBT
-PTEgZnJvbSB0aGUgZXhpc3RpbmcgIkFPIiBlbnRyaWVzPyAgT3IgZG8gd2UgbmVlZCB0aGUgQ01D
-SQptYXRjaCBlbnRyeSBlYXJseSBpbiB0aGUgdGFibGU/CgotVG9ueQotLS0KVG8gdW5zdWJzY3Jp
-YmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMi
-IGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1v
-cmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWlu
-Zm8uaHRtbAo=
+SGkgVG9ueSwKCk9uIDIwMTcvMTEvMTUgMTA6MTMsIEx1Y2ssIFRvbnkgd3JvdGU6Cj4+IE9LLCBJ
+J2xsIGFkZCBjaGVjayBmb3IgT1ZFUj0wIGluIHYyLgo+IAo+IFRoaW5raW5nIGEgYml0IG1vcmUg
+b24gdGhpcyAuLi4gZG8geW91IGp1c3QgbmVlZCB0byByZW1vdmUgdGhlIGNoZWNrCj4gZm9yIFM9
+MSBmcm9tIHRoZSBleGlzdGluZyAiQU8iIGVudHJpZXM/ICBPciBkbyB3ZSBuZWVkIHRoZSBDTUNJ
+Cj4gbWF0Y2ggZW50cnkgZWFybHkgaW4gdGhlIHRhYmxlPwoKWWVzLCB3ZSBjb3VsZCBqdXN0IHJl
+bW92ZSB0aGUgY2hlY2sgZm9yIFM9MSwgYW5kIHBsYWNlICJBTyIgZW50cmllcyBiZWZvcmUKIlVD
+TkEiIGVudHJpZXMuCgpJcyB0aGF0IHJpZ2h0PwoKPiAKPiAtVG9ueQo+IC0tCj4gVG8gdW5zdWJz
+Y3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVk
+YWMiIGluCj4gdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5v
+cmcKPiBNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9y
+ZG9tby1pbmZvLmh0bWwKPiAKPgo=
