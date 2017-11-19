@@ -1,22 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: Patch "x86/MCE/AMD: Always give panic severity for UC errors in kernel context" has been added to the 4.13-stable tree
+Subject: Patch "x86/MCE/AMD: Always give panic severity for UC errors in kernel context" has been added to the 4.14-stable tree
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <151109264220191@kroah.com>
-Date: Sun, 19 Nov 2017 12:57:22 +0100
+Message-Id: <151109266824930@kroah.com>
+Date: Sun, 19 Nov 2017 12:57:48 +0100
 To: yazen.ghannam@amd.com, bp@suse.de, gregkh@linuxfoundation.org, linux-edac@vger.kernel.org, mingo@kernel.org, peterz@infradead.org, tglx@linutronix.de, tony.luck@intel.com, torvalds@linux-foundation.org
 Cc: stable@vger.kernel.org, stable-commits@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
 VGhpcyBpcyBhIG5vdGUgdG8gbGV0IHlvdSBrbm93IHRoYXQgSSd2ZSBqdXN0IGFkZGVkIHRoZSBw
 YXRjaCB0aXRsZWQKCiAgICB4ODYvTUNFL0FNRDogQWx3YXlzIGdpdmUgcGFuaWMgc2V2ZXJpdHkg
-Zm9yIFVDIGVycm9ycyBpbiBrZXJuZWwgY29udGV4dAoKdG8gdGhlIDQuMTMtc3RhYmxlIHRyZWUg
+Zm9yIFVDIGVycm9ycyBpbiBrZXJuZWwgY29udGV4dAoKdG8gdGhlIDQuMTQtc3RhYmxlIHRyZWUg
 d2hpY2ggY2FuIGJlIGZvdW5kIGF0OgogICAgaHR0cDovL3d3dy5rZXJuZWwub3JnL2dpdC8/cD1s
 aW51eC9rZXJuZWwvZ2l0L3N0YWJsZS9zdGFibGUtcXVldWUuZ2l0O2E9c3VtbWFyeQoKVGhlIGZp
 bGVuYW1lIG9mIHRoZSBwYXRjaCBpczoKICAgICB4ODYtbWNlLWFtZC1hbHdheXMtZ2l2ZS1wYW5p
 Yy1zZXZlcml0eS1mb3ItdWMtZXJyb3JzLWluLWtlcm5lbC1jb250ZXh0LnBhdGNoCmFuZCBpdCBj
-YW4gYmUgZm91bmQgaW4gdGhlIHF1ZXVlLTQuMTMgc3ViZGlyZWN0b3J5LgoKSWYgeW91LCBvciBh
+YW4gYmUgZm91bmQgaW4gdGhlIHF1ZXVlLTQuMTQgc3ViZGlyZWN0b3J5LgoKSWYgeW91LCBvciBh
 bnlvbmUgZWxzZSwgZmVlbHMgaXQgc2hvdWxkIG5vdCBiZSBhZGRlZCB0byB0aGUgc3RhYmxlIHRy
 ZWUsCnBsZWFzZSBsZXQgPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+IGtub3cgYWJvdXQgaXQuCgoK
 RnJvbSBkNjVkZmM4MWJiMzg5NGZkYjY4Y2JjNzRiYmY1ZmI0OGQyMzU0MDcxIE1vbiBTZXAgMTcg
@@ -50,7 +50,7 @@ Zi1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KLS0t
 CiBhcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVjay9tY2Utc2V2ZXJpdHkuYyB8ICAgIDcgKysrLS0t
 LQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCgoKUGF0
 Y2hlcyBjdXJyZW50bHkgaW4gc3RhYmxlLXF1ZXVlIHdoaWNoIG1pZ2h0IGJlIGZyb20geWF6ZW4u
-Z2hhbm5hbUBhbWQuY29tIGFyZQoKcXVldWUtNC4xMy94ODYtbWNlLWFtZC1hbHdheXMtZ2l2ZS1w
+Z2hhbm5hbUBhbWQuY29tIGFyZQoKcXVldWUtNC4xNC94ODYtbWNlLWFtZC1hbHdheXMtZ2l2ZS1w
 YW5pYy1zZXZlcml0eS1mb3ItdWMtZXJyb3JzLWluLWtlcm5lbC1jb250ZXh0LnBhdGNoCi0tClRv
 IHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBs
 aW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2Vy
