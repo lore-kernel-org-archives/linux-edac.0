@@ -1,15 +1,15 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4.13,18/28] x86/MCE/AMD: Always give panic severity for UC errors in kernel context
+Subject: [4.14,19/31] x86/MCE/AMD: Always give panic severity for UC errors in kernel context
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20171119144312.511384056@linuxfoundation.org>
-Date: Sun, 19 Nov 2017 15:44:05 +0100
+Message-Id: <20171119145951.907951492@linuxfoundation.org>
+Date: Sun, 19 Nov 2017 15:59:53 +0100
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@suse.de>, Linus Torvalds <torvalds@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Tony Luck <tony.luck@intel.com>, linux-edac <linux-edac@vger.kernel.org>, Ingo Molnar <mingo@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-NC4xMy1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
+NC4xNC1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
 cGxlYXNlIGxldCBtZSBrbm93LgoKLS0tLS0tLS0tLS0tLS0tLS0tCgpGcm9tOiBZYXplbiBHaGFu
 bmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cgpjb21taXQgZDY1ZGZjODFiYjM4OTRmZGI2OGNi
 Yzc0YmJmNWZiNDhkMjM1NDA3MSB1cHN0cmVhbS4KClRoZSBBTUQgc2V2ZXJpdHkgZ3JhZGluZyBm
