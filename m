@@ -2,25 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86: disable IRQs before changing CR4
-From: Andy Lutomirski <luto@kernel.org>
-Message-Id: <CALCETrUDo3oGv1M3HDiwpN_CWohOi02UtQ1EU_ZZn48+i=wdgg@mail.gmail.com>
-Date: Mon, 20 Nov 2017 10:16:33 -0800
-To: Nadav Amit <namit@vmware.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>, kvm list <kvm@vger.kernel.org>, Nadav Amit <nadav.amit@gmail.com>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>
+From: Nadav Amit <namit@vmware.com>
+Message-Id: <E4F70E1E-F937-45BD-9963-3D8579327902@vmware.com>
+Date: Mon, 20 Nov 2017 19:51:06 +0000
+To: Andy Lutomirski <luto@kernel.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>, kvm list <kvm@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, Paolo Bonzini <pbonzini@redhat.com>, =?iso-8859-2?Q?Radim_Kr=E8m=E1=F8?= <rkrcmar@redhat.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBOb3YgMTcsIDIwMTcgYXQgMTA6MTkgQU0sIE5hZGF2IEFtaXQgPG5hbWl0QHZtd2Fy
-ZS5jb20+IHdyb3RlOgoKPiArc3RhdGljIGlubGluZSB2b2lkIHVwZGF0ZV9jcjQodW5zaWduZWQg
-bG9uZyBjcjQpCj4gK3sKPiArI2lmZGVmIENPTkZJR19MT0NLREVQCj4gKyAgICAgICBXQVJOX09O
-KCFpcnFzX2Rpc2FibGVkKCkpOwo+ICsjZW5kaWYKPiArICAgICAgIHRoaXNfY3B1X3dyaXRlKGNw
-dV90bGJzdGF0ZS5jcjQsIGNyNCk7Cj4gKyAgICAgICBfX3dyaXRlX2NyNChjcjQpOwo+ICt9CgpM
-ZXQncyBjYWxsIHRoaXMgX19jcjRfc2V0KCkgaW5zdGVhZCBvZiB1cGRhdGVfY3I0KCkuICBUaGUg
-X18gaXMgdG8KcmVtaW5kIHBlb3BsZSB0aGF0IGl0J3Mgbm90IHJlYWxseSBmb3IgdXNlIGFuZCBz
-dGFydGluZyB3aXRoIGNyNF8gaXMKY29uc2lzdGVudCB3aXRoIHRoZSByZXN0IG9mIHRoZSBmdW5j
-dGlvbnMuCgpBbHNvLCBjYW4geW91IHNwbGl0IHRoaXMgd2hvbGUgdGhpbmcgaW50byB0d28gcGF0
-Y2hlcz8gIFRoZQppbnRyb2R1Y3Rpb24gb2YgdGhlIHNlcGFyYXRlIHVwZGF0ZSBmdW5jdGlvbiBp
-cyBhIGdyZWF0IGNsZWFudXAsIGJ1dCBJCnRoaW5rIGl0J3Mgb3J0aG9nb25hbC4KLS0tClRvIHVu
-c3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51
-eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVs
-Lm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9y
-ZG9tby1pbmZvLmh0bWwK
+QW5keSBMdXRvbWlyc2tpIDxsdXRvQGtlcm5lbC5vcmc+IHdyb3RlOgoKPiBPbiBGcmksIE5vdiAx
+NywgMjAxNyBhdCAxMDoxOSBBTSwgTmFkYXYgQW1pdCA8bmFtaXRAdm13YXJlLmNvbT4gd3JvdGU6
+Cj4gCj4+ICtzdGF0aWMgaW5saW5lIHZvaWQgdXBkYXRlX2NyNCh1bnNpZ25lZCBsb25nIGNyNCkK
+Pj4gK3sKPj4gKyNpZmRlZiBDT05GSUdfTE9DS0RFUAo+PiArICAgICAgIFdBUk5fT04oIWlycXNf
+ZGlzYWJsZWQoKSk7Cj4+ICsjZW5kaWYKPj4gKyAgICAgICB0aGlzX2NwdV93cml0ZShjcHVfdGxi
+c3RhdGUuY3I0LCBjcjQpOwo+PiArICAgICAgIF9fd3JpdGVfY3I0KGNyNCk7Cj4+ICt9Cj4gCj4g
+TGV0J3MgY2FsbCB0aGlzIF9fY3I0X3NldCgpIGluc3RlYWQgb2YgdXBkYXRlX2NyNCgpLiAgVGhl
+IF9fIGlzIHRvCj4gcmVtaW5kIHBlb3BsZSB0aGF0IGl0J3Mgbm90IHJlYWxseSBmb3IgdXNlIGFu
+ZCBzdGFydGluZyB3aXRoIGNyNF8gaXMKPiBjb25zaXN0ZW50IHdpdGggdGhlIHJlc3Qgb2YgdGhl
+IGZ1bmN0aW9ucy4KPiAKPiBBbHNvLCBjYW4geW91IHNwbGl0IHRoaXMgd2hvbGUgdGhpbmcgaW50
+byB0d28gcGF0Y2hlcz8gIFRoZQo+IGludHJvZHVjdGlvbiBvZiB0aGUgc2VwYXJhdGUgdXBkYXRl
+IGZ1bmN0aW9uIGlzIGEgZ3JlYXQgY2xlYW51cCwgYnV0IEkKPiB0aGluayBpdCdzIG9ydGhvZ29u
+YWwuCgpTdXJlLiBXaWxsIGRvLiBUaGFua3MgZm9yIHJldmlld2luZyBpdC4KCkp1c3Qgb25lIHNt
+YWxsIGNsYXJpZmljYXRpb246IEkgZG8gbm90IHNlZSBhbiBpc3N1ZSBvZiBjb3JyZWN0bmVzcyBy
+aWdodCBub3cKaWYgX19uYXRpdmVfZmx1c2hfdGxiX2dsb2JhbF9pcnFfZGlzYWJsZWQoKSBpcyB0
+aGUgb25seSBvbmUgdGhhdCBtb2RpZmllcwpDUjQgaW4gYW4gaW50ZXJydXB0IGhhbmRsZXIuIFll
+dCwgdGhlIGN1cnJlbnQgc2NoZW1lIHNlZW1zIGVycm9yIHByb25lLgoKUmVnYXJkcywKTmFkYXYK
+LS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNj
+cmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
+ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
+b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
