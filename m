@@ -1,10 +1,10 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [AUTOSEL,for,3.18,5/8] EDAC, sb_edac: Fix missing break in switch
+Subject: [AUTOSEL,for,4.4,12/16] EDAC, sb_edac: Fix missing break in switch
 From: "Levin, Alexander" <alexander.levin@verizon.com>
-Message-Id: <20171122222653.20265-5-alexander.levin@verizon.com>
-Date: Wed, 22 Nov 2017 22:26:59 +0000
+Message-Id: <20171122222628.20198-12-alexander.levin@verizon.com>
+Date: Wed, 22 Nov 2017 22:26:36 +0000
 To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
 Cc: "Gustavo A. R. Silva" <garsilva@embeddedor.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac <linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, alexander.levin@verizon.com
 List-ID: <edac.vger.kernel.org>
@@ -20,9 +20,9 @@ ZGVkb3IuY29tClNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KU2ln
 bmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPGFsZXhhbmRlci5sZXZpbkB2ZXJpem9uLmNvbT4KLS0t
 CiBkcml2ZXJzL2VkYWMvc2JfZWRhYy5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
 b24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jIGIvZHJpdmVycy9lZGFj
-L3NiX2VkYWMuYwppbmRleCA2YWEyNWEzYWEyYzcuLjQyZjY2NzQ4NTU5NCAxMDA2NDQKLS0tIGEv
+L3NiX2VkYWMuYwppbmRleCBjYTY0YjE3NGY4YTMuLmE0ZTFmNjkzOWMzOSAxMDA2NDQKLS0tIGEv
 ZHJpdmVycy9lZGFjL3NiX2VkYWMuYworKysgYi9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jCkBAIC0x
-NjQ1LDYgKzE2NDUsNyBAQCBzdGF0aWMgaW50IGlicmlkZ2VfbWNpX2JpbmRfZGV2cyhzdHJ1Y3Qg
+NzczLDYgKzE3NzMsNyBAQCBzdGF0aWMgaW50IGlicmlkZ2VfbWNpX2JpbmRfZGV2cyhzdHJ1Y3Qg
 bWVtX2N0bF9pbmZvICptY2ksCiAJCQlicmVhazsKIAkJY2FzZSBQQ0lfREVWSUNFX0lEX0lOVEVM
 X0lCUklER0VfSU1DX0hBMF9UQToKIAkJCXB2dC0+cGNpX3RhID0gcGRldjsKKwkJCWJyZWFrOwog
 CQljYXNlIFBDSV9ERVZJQ0VfSURfSU5URUxfSUJSSURHRV9JTUNfSEEwX1JBUzoKIAkJCXB2dC0+
