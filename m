@@ -1,28 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: x86/mce: add support SRAO reported via CMC check
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <20171116211509.4f4sjl2txkqesgtj@agluck-desk>
-Date: Thu, 16 Nov 2017 13:15:10 -0800
-To: Xie XiuQi <xiexiuqi@huawei.com>
-Cc: Borislav Petkov <bp@alien8.de>, "tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, chen wei <chenwei68@huawei.com>
+Subject: [AUTOSEL,for,3.18,5/8] EDAC, sb_edac: Fix missing break in switch
+From: "Levin, Alexander" <alexander.levin@verizon.com>
+Message-Id: <20171122222653.20265-5-alexander.levin@verizon.com>
+Date: Wed, 22 Nov 2017 22:26:59 +0000
+To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+Cc: "Gustavo A. R. Silva" <garsilva@embeddedor.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac <linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, alexander.levin@verizon.com
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBOb3YgMTYsIDIwMTcgYXQgMTE6MDA6NDBBTSArMDgwMCwgWGllIFhpdVFpIHdyb3Rl
-Ogo+IEhvdyBhYm91dCB0aGlzIHBhdGNoPwoKPiArCS8qCj4gKwkgKiBrbm93biBBTyBNQ0FDT0Rz
-IHJlcG9ydGVkIHZpYSBNQ0Ugb3IgQ01DOgo+ICsJICoKPiArCSAqIFNSQU8gY291bGQgYmUgc2ln
-bmFsZWQgZWl0aGVyIHZpYSBhIG1hY2hpbmUgY2hlY2sgZXhjZXB0aW9uIG9yCj4gKwkgKiBDTUNJ
-IHdpdGggdGhlIGNvcnJlc3BvbmRpbmcgYml0IFMgMSBvciAwLiBTbyB3ZSBkb24ndCBuZWVkIHRv
-Cj4gKwkgKiBjaGVjayBiaXQgUyBmb3IgU1JBTy4KPiArCSAqLwo+ICsJTUNFU0VWKAo+ICsJCUFP
-LCAiQWN0aW9uIG9wdGlvbmFsOiBtZW1vcnkgc2NydWJiaW5nIGVycm9yIiwKPiArCQlTRVIsIE1B
-U0soTUNJX1NUQVRVU19PVkVSfE1DSV9VQ19BUnxNQ0FDT0RfU0NSVUJNU0ssIE1DSV9TVEFUVVNf
-VUN8TUNBQ09EX1NDUlVCKQo+ICsJCSksCj4gKwlNQ0VTRVYoCj4gKwkJQU8sICJBY3Rpb24gb3B0
-aW9uYWw6IGxhc3QgbGV2ZWwgY2FjaGUgd3JpdGViYWNrIGVycm9yIiwKPiArCQlTRVIsIE1BU0so
-TUNJX1NUQVRVU19PVkVSfE1DSV9VQ19BUnxNQ0FDT0QsIE1DSV9TVEFUVVNfVUN8TUNBQ09EX0wz
-V0IpCj4gKwkJKSwKPiArCgpZZXMuIFRoaXMgbG9va3MgZ29vZC4KClJldmlld2VkLWJ5OiBUb255
-IEx1Y2sgPHRvbnkubHVja0BpbnRlbC5jb20+CgotVG9ueQotLS0KVG8gdW5zdWJzY3JpYmUgZnJv
-bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRo
-ZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFq
-b3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRt
-bAo=
+RnJvbTogIkd1c3Rhdm8gQS4gUi4gU2lsdmEiIDxnYXJzaWx2YUBlbWJlZGRlZG9yLmNvbT4KClsg
+VXBzdHJlYW0gY29tbWl0IGE4ZTliMTg2ZjE1M2E0NDY5MGFkMDM2M2E1NjcxNmU3MDc3YWQyOGMg
+XQoKQWRkIG1pc3NpbmcgYnJlYWsgc3RhdGVtZW50IGluIG9yZGVyIHRvIHByZXZlbnQgdGhlIGNv
+ZGUgZnJvbSBmYWxsaW5nCnRocm91Z2guCgpTaWduZWQtb2ZmLWJ5OiBHdXN0YXZvIEEuIFIuIFNp
+bHZhIDxnYXJzaWx2YUBlbWJlZGRlZG9yLmNvbT4KQ2M6IFFpdXh1IFpodW8gPHFpdXh1LnpodW9A
+aW50ZWwuY29tPgpDYzogbGludXgtZWRhYyA8bGludXgtZWRhY0B2Z2VyLmtlcm5lbC5vcmc+Ckxp
+bms6IGh0dHA6Ly9sa21sLmtlcm5lbC5vcmcvci8yMDE3MTAxNjE3NDAyOS5HQTE5NzU3QGVtYmVk
+ZGVkb3IuY29tClNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KU2ln
+bmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPGFsZXhhbmRlci5sZXZpbkB2ZXJpem9uLmNvbT4KLS0t
+CiBkcml2ZXJzL2VkYWMvc2JfZWRhYy5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jIGIvZHJpdmVycy9lZGFj
+L3NiX2VkYWMuYwppbmRleCA2YWEyNWEzYWEyYzcuLjQyZjY2NzQ4NTU5NCAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9lZGFjL3NiX2VkYWMuYworKysgYi9kcml2ZXJzL2VkYWMvc2JfZWRhYy5jCkBAIC0x
+NjQ1LDYgKzE2NDUsNyBAQCBzdGF0aWMgaW50IGlicmlkZ2VfbWNpX2JpbmRfZGV2cyhzdHJ1Y3Qg
+bWVtX2N0bF9pbmZvICptY2ksCiAJCQlicmVhazsKIAkJY2FzZSBQQ0lfREVWSUNFX0lEX0lOVEVM
+X0lCUklER0VfSU1DX0hBMF9UQToKIAkJCXB2dC0+cGNpX3RhID0gcGRldjsKKwkJCWJyZWFrOwog
+CQljYXNlIFBDSV9ERVZJQ0VfSURfSU5URUxfSUJSSURHRV9JTUNfSEEwX1JBUzoKIAkJCXB2dC0+
+cGNpX3JhcyA9IHBkZXY7CiAJCQlicmVhazsK
