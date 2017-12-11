@@ -1,34 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,1/2] x86/mce/AMD: Define function to get SMCA bank type
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-Message-Id: <20171207203955.118171-1-Yazen.Ghannam@amd.com>
-Date: Thu,  7 Dec 2017 14:39:54 -0600
-To: linux-edac@vger.kernel.org
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>, x86@kernel.org, linux-kernel@vger.kernel.org
+Subject: [02/13] arm64: do not use print_symbol()
+From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Message-Id: <20171211125025.2270-3-sergey.senozhatsky@gmail.com>
+Date: Mon, 11 Dec 2017 21:50:14 +0900
+To: Andrew Morton <akpm@linux-foundation.org>, Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Mark Salter <msalter@redhat.com>, Tony Luck <tony.luck@intel.com>, David Howells <dhowells@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Guan Xuetao <gxt@mprc.pku.edu.cn>, Borislav Petkov <bp@alien8.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, Vineet Gupta <vgupta@synopsys.com>, Fengguang Wu <fengguang.wu@intel.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, LKML <linux-kernel@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, linux-c6x-dev@linux-c6x.org, linux-ia64@vger.kernel.org, linux-am33-list@redhat.com, linux-sh@vger.kernel.org, linux-edac@vger.kernel.org, x86@kernel.org, linux-snps-arc@lists.infradead.org, Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>, Will Deacon <will.deacon@arm.com>
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgoKU2NhbGFibGUgTUNB
-IHN5c3RlbXMgaGF2ZSB2YXJpb3VzIHR5cGVzIG9mIGJhbmtzLiBUaGUgYmFuaydzIHR5cGUgY2Fu
-CmRldGVybWluZSBob3cgd2UgaGFuZGxlIGVycm9ycyBmcm9tIGl0LiBGb3IgZXhhbXBsZSwgaWYg
-YSBiYW5rIHJlcHJlc2VudHMKYSBVTUMgdGhlbiB3ZSB3aWxsIG5lZWQgdG8gY29udmVydCBpdHMg
-YWRkcmVzcyBmcm9tIGEgbm9ybWFsaXplZCBhZGRyZXNzCnRvIGEgc3lzdGVtIHBoeXNpY2FsIGFk
-ZHJlc3MgYmVmb3JlIGhhbmRsaW5nIHRoZSBlcnJvci4KCkRlZmluZSBhIHN0YXRpYyBmdW5jdGlv
-biB0byByZXR1cm4gYSBiYW5rJ3MgU01DQSB0eXBlLgoKU2lnbmVkLW9mZi1ieTogWWF6ZW4gR2hh
-bm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgotLS0KTGluazoKaHR0cHM6Ly9sa21sLmtlcm5l
-bC5vcmcvci8yMDE3MTIwMTE1NTAzNC4zOTIwNi0xLVlhemVuLkdoYW5uYW1AYW1kLmNvbQoKdjEt
-PnYyOgoqIE1ha2UgZnVuY3Rpb24gc3RhdGljIHRvIG1jaGVjay9tY2VfYW1kLmMuCgogYXJjaC94
-ODYva2VybmVsL2NwdS9tY2hlY2svbWNlX2FtZC5jIHwgMTAgKysrKysrKysrKwogMSBmaWxlIGNo
-YW5nZWQsIDEwIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9hcmNoL3g4Ni9rZXJuZWwvY3B1
-L21jaGVjay9tY2VfYW1kLmMgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVjay9tY2VfYW1kLmMK
-aW5kZXggYTM4YWIxZmE1M2EyLi4yMTlkNTExNWY0ZDQgMTAwNjQ0Ci0tLSBhL2FyY2gveDg2L2tl
-cm5lbC9jcHUvbWNoZWNrL21jZV9hbWQuYworKysgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVj
-ay9tY2VfYW1kLmMKQEAgLTExMCw2ICsxMTAsMTYgQEAgY29uc3QgY2hhciAqc21jYV9nZXRfbG9u
-Z19uYW1lKGVudW0gc21jYV9iYW5rX3R5cGVzIHQpCiB9CiBFWFBPUlRfU1lNQk9MX0dQTChzbWNh
-X2dldF9sb25nX25hbWUpOwogCitzdGF0aWMgZW51bSBzbWNhX2JhbmtfdHlwZXMgc21jYV9nZXRf
-YmFua190eXBlKHN0cnVjdCBtY2UgKm0pCit7CisJc3RydWN0IHNtY2FfYmFuayBiYW5rID0gc21j
-YV9iYW5rc1ttLT5iYW5rXTsKKworCWlmICghYmFuay5od2lkKQorCQlyZXR1cm4gTl9TTUNBX0JB
-TktfVFlQRVM7CisKKwlyZXR1cm4gYmFuay5od2lkLT5iYW5rX3R5cGU7Cit9CisKIHN0YXRpYyBz
-dHJ1Y3Qgc21jYV9od2lkIHNtY2FfaHdpZF9tY2F0eXBlc1tdID0gewogCS8qIHsgYmFua190eXBl
-LCBod2lkX21jYXR5cGUsIHhlY19iaXRtYXAgfSAqLwogCg==
+cHJpbnRfc3ltYm9sKCkgdXNlcyBleHRyYSBzdGFjayBzcGFjZSB0byBzcHJpbnRmKCkgc3ltYm9s
+CmluZm9ybWF0aW9uIGFuZCB0aGVuIHRvIGZlZWQgdGhhdCBidWZmZXIgdG8gcHJpbnRrKCkKCiAg
+Y2hhciBidWZmZXJbS1NZTV9TWU1CT0xfTEVOXTsKCiAgc3ByaW50X3N5bWJvbChidWZmZXIsIGFk
+ZHJlc3MpOwogIHByaW50ayhmbXQsIGJ1ZmZlcik7CgpSZXBsYWNlIHByaW50X3N5bWJvbCgpIHdp
+dGggYSBkaXJlY3QgcHJpbnRrKCIlcFMiKSBjYWxsLgoKU2lnbmVkLW9mZi1ieTogU2VyZ2V5IFNl
+bm96aGF0c2t5IDxzZXJnZXkuc2Vub3poYXRza3lAZ21haWwuY29tPgpDYzogQ2F0YWxpbiBNYXJp
+bmFzIDxjYXRhbGluLm1hcmluYXNAYXJtLmNvbT4KQ2M6IFdpbGwgRGVhY29uIDx3aWxsLmRlYWNv
+bkBhcm0uY29tPgotLS0KIGFyY2gvYXJtNjQva2VybmVsL3Byb2Nlc3MuYyB8IDUgKystLS0KIDEg
+ZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
+IGEvYXJjaC9hcm02NC9rZXJuZWwvcHJvY2Vzcy5jIGIvYXJjaC9hcm02NC9rZXJuZWwvcHJvY2Vz
+cy5jCmluZGV4IDZiN2RjZjQzMTBhYy4uNDRiZWQ0MzgxNGUyIDEwMDY0NAotLS0gYS9hcmNoL2Fy
+bTY0L2tlcm5lbC9wcm9jZXNzLmMKKysrIGIvYXJjaC9hcm02NC9rZXJuZWwvcHJvY2Vzcy5jCkBA
+IC0zNSw3ICszNSw2IEBACiAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4KICNpbmNsdWRlIDxsaW51
+eC9yZWJvb3QuaD4KICNpbmNsdWRlIDxsaW51eC9pbnRlcnJ1cHQuaD4KLSNpbmNsdWRlIDxsaW51
+eC9rYWxsc3ltcy5oPgogI2luY2x1ZGUgPGxpbnV4L2luaXQuaD4KICNpbmNsdWRlIDxsaW51eC9j
+cHUuaD4KICNpbmNsdWRlIDxsaW51eC9lbGZjb3JlLmg+CkBAIC0yMjEsOCArMjIwLDggQEAgdm9p
+ZCBfX3Nob3dfcmVncyhzdHJ1Y3QgcHRfcmVncyAqcmVncykKIAogCXNob3dfcmVnc19wcmludF9p
+bmZvKEtFUk5fREVGQVVMVCk7CiAJcHJpbnRfcHN0YXRlKHJlZ3MpOwotCXByaW50X3N5bWJvbCgi
+cGMgOiAlc1xuIiwgcmVncy0+cGMpOwotCXByaW50X3N5bWJvbCgibHIgOiAlc1xuIiwgbHIpOwor
+CXByaW50aygicGMgOiAlcFNcbiIsICh2b2lkICopcmVncy0+cGMpOworCXByaW50aygibHIgOiAl
+cFNcbiIsICh2b2lkICopbHIpOwogCXByaW50aygic3AgOiAlMDE2bGx4XG4iLCBzcCk7CiAKIAlp
+ID0gdG9wX3JlZzsK
