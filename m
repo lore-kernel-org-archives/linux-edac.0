@@ -1,31 +1,34 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [11/13] irq debug: do not use print_symbol()
+Subject: [12/13] lib: do not use print_symbol()
 From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Message-Id: <20171212025052.GD7798@jagdpanzerIV>
-Date: Tue, 12 Dec 2017 11:50:52 +0900
-To: David Laight <David.Laight@ACULAB.COM>
-Cc: 'Sergey Senozhatsky' <sergey.senozhatsky.work@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Mark Salter <msalter@redhat.com>, Tony Luck <tony.luck@intel.com>, David Howells <dhowells@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Guan Xuetao <gxt@mprc.pku.edu.cn>, Borislav Petkov <bp@alien8.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, Vineet Gupta <vgupta@synopsys.com>, Fengguang Wu <fengguang.wu@intel.com>, Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, LKML <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-c6x-dev@linux-c6x.org" <linux-c6x-dev@linux-c6x.org>, "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>, "linux-am33-list@redhat.com" <linux-am33-list@redhat.com>, "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>, "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Message-Id: <20171211125025.2270-13-sergey.senozhatsky@gmail.com>
+Date: Mon, 11 Dec 2017 21:50:24 +0900
+To: Andrew Morton <akpm@linux-foundation.org>, Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Mark Salter <msalter@redhat.com>, Tony Luck <tony.luck@intel.com>, David Howells <dhowells@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Guan Xuetao <gxt@mprc.pku.edu.cn>, Borislav Petkov <bp@alien8.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, Vineet Gupta <vgupta@synopsys.com>, Fengguang Wu <fengguang.wu@intel.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, LKML <linux-kernel@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, linux-c6x-dev@linux-c6x.org, linux-ia64@vger.kernel.org, linux-am33-list@redhat.com, linux-sh@vger.kernel.org, linux-edac@vger.kernel.org, x86@kernel.org, linux-snps-arc@lists.infradead.org, Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gKDEyLzExLzE3IDEyOjU1KSwgRGF2aWQgTGFpZ2h0IHdyb3RlOgo+ID4gIGtlcm5lbC9pcnEv
-ZGVidWcuaCB8IDggKysrLS0tLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCsp
-LCA1IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEva2VybmVsL2lycS9kZWJ1Zy5o
-IGIva2VybmVsL2lycS9kZWJ1Zy5oCj4gPiBpbmRleCAxN2YwNWVmOGY1NzUuLjU3NjZlMTVjMTE2
-MCAxMDA2NDQKPiA+IC0tLSBhL2tlcm5lbC9pcnEvZGVidWcuaAo+ID4gKysrIGIva2VybmVsL2ly
-cS9kZWJ1Zy5oCj4gLi4uCj4gPiBAQCAtMTUsMTMgKzEzLDEzIEBAIHN0YXRpYyBpbmxpbmUgdm9p
-ZCBwcmludF9pcnFfZGVzYyh1bnNpZ25lZCBpbnQgaXJxLCBzdHJ1Y3QgaXJxX2Rlc2MgKmRlc2Mp
-Cj4gPiAgCXByaW50aygiaXJxICVkLCBkZXNjOiAlcCwgZGVwdGg6ICVkLCBjb3VudDogJWQsIHVu
-aGFuZGxlZDogJWRcbiIsCj4gPiAgCQlpcnEsIGRlc2MsIGRlc2MtPmRlcHRoLCBkZXNjLT5pcnFf
-Y291bnQsIGRlc2MtPmlycXNfdW5oYW5kbGVkKTsKPiA+ICAJcHJpbnRrKCItPmhhbmRsZV9pcnEo
-KTogICVwLCAiLCBkZXNjLT5oYW5kbGVfaXJxKTsKPiA+IC0JcHJpbnRfc3ltYm9sKCIlc1xuIiwg
-KHVuc2lnbmVkIGxvbmcpZGVzYy0+aGFuZGxlX2lycSk7Cj4gPiArCXByX2NvbnQoIiVwU1xuIiwg
-ZGVzYy0+aGFuZGxlX2lycSk7Cj4gCj4gTG9va3MgbGlrZSB5b3UgY2FuIChhbmQgc2hvdWxkKSB1
-c2UgYSBzaW5nbGUgcHJpbnRrKCkgaW5zdGVhZCBvZiBwcl9jb250LgoKdGhhbmtzLCBnb29kIHBv
-aW50LiB0aG9zZSBwcl9jb250KCktcyBiYXNpY2FsbHkganVzdCByZXBsaWNhdGUKdGhlIG9sZCBi
-ZWhhdmlvdXI7IGJ1dCBpdCdsbCBiZSBiZXR0ZXIgdG8gZ2V0IHRpZCBvZiB0aGVtLiB3aWxsCmZv
-bGxvdyB1cCBzaG9ydGx5LgoKCS1zcwotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6
-IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEg
-bWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8g
-YXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+cHJpbnRfc3ltYm9sKCkgdXNlcyBleHRyYSBzdGFjayBzcGFjZSB0byBzcHJpbnRmKCkgc3ltYm9s
+CmluZm9ybWF0aW9uIGFuZCB0aGVuIHRvIGZlZWQgdGhhdCBidWZmZXIgdG8gcHJpbnRrKCkKCiAg
+Y2hhciBidWZmZXJbS1NZTV9TWU1CT0xfTEVOXTsKCiAgc3ByaW50X3N5bWJvbChidWZmZXIsIGFk
+ZHJlc3MpOwogIHByaW50ayhmbXQsIGJ1ZmZlcik7CgpSZXBsYWNlIHByaW50X3N5bWJvbCgpIHdp
+dGggYSBkaXJlY3QgcHJpbnRrKCIlcFMiKSBjYWxsLgoKU2lnbmVkLW9mZi1ieTogU2VyZ2V5IFNl
+bm96aGF0c2t5IDxzZXJnZXkuc2Vub3poYXRza3lAZ21haWwuY29tPgpDYzogQW5kcmV3IE1vcnRv
+biA8YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZz4KQ2M6IFRob21hcyBHbGVpeG5lciA8dGdseEBs
+aW51dHJvbml4LmRlPgotLS0KIGxpYi9zbXBfcHJvY2Vzc29yX2lkLmMgfCAzICstLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2xp
+Yi9zbXBfcHJvY2Vzc29yX2lkLmMgYi9saWIvc21wX3Byb2Nlc3Nvcl9pZC5jCmluZGV4IDgzNWNj
+NmRmMjc3Ni4uODU5MjVhYWE0ZmZmIDEwMDY0NAotLS0gYS9saWIvc21wX3Byb2Nlc3Nvcl9pZC5j
+CisrKyBiL2xpYi9zbXBfcHJvY2Vzc29yX2lkLmMKQEAgLTUsNyArNSw2IEBACiAgKiBERUJVR19Q
+UkVFTVBUIHZhcmlhbnQgb2Ygc21wX3Byb2Nlc3Nvcl9pZCgpLgogICovCiAjaW5jbHVkZSA8bGlu
+dXgvZXhwb3J0Lmg+Ci0jaW5jbHVkZSA8bGludXgva2FsbHN5bXMuaD4KICNpbmNsdWRlIDxsaW51
+eC9zY2hlZC5oPgogCiBub3RyYWNlIHN0YXRpYyB1bnNpZ25lZCBpbnQgY2hlY2tfcHJlZW1wdGlv
+bl9kaXNhYmxlZChjb25zdCBjaGFyICp3aGF0MSwKQEAgLTQzLDcgKzQyLDcgQEAgbm90cmFjZSBz
+dGF0aWMgdW5zaWduZWQgaW50IGNoZWNrX3ByZWVtcHRpb25fZGlzYWJsZWQoY29uc3QgY2hhciAq
+d2hhdDEsCiAJcHJpbnRrKEtFUk5fRVJSICJCVUc6IHVzaW5nICVzJXMoKSBpbiBwcmVlbXB0aWJs
+ZSBbJTA4eF0gY29kZTogJXMvJWRcbiIsCiAJCXdoYXQxLCB3aGF0MiwgcHJlZW1wdF9jb3VudCgp
+IC0gMSwgY3VycmVudC0+Y29tbSwgY3VycmVudC0+cGlkKTsKIAotCXByaW50X3N5bWJvbCgiY2Fs
+bGVyIGlzICVzXG4iLCAobG9uZylfX2J1aWx0aW5fcmV0dXJuX2FkZHJlc3MoMCkpOworCXByaW50
+aygiY2FsbGVyIGlzICVwU1xuIiwgX19idWlsdGluX3JldHVybl9hZGRyZXNzKDApKTsKIAlkdW1w
+X3N0YWNrKCk7CiAKIG91dF9lbmFibGU6Cg==
