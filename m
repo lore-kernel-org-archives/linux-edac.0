@@ -1,50 +1,21 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/3] ARM: dts: mvebu: add sdram controller node to Armada-38x
-From: Gregory CLEMENT <gregory.clement@free-electrons.com>
-Message-Id: <87efmw7oiq.fsf@free-electrons.com>
-Date: Thu, 11 Jan 2018 10:06:37 +0100
-To: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-Cc: "jlu@pengutronix.de" <jlu@pengutronix.de>, "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "bp@alien8.de" <bp@alien8.de>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: [1/3] ARM: dts: enable L2 cache parity and ecc on db-xc3-24g4xg board
+From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Message-Id: <20180108223158.21930-2-chris.packham@alliedtelesis.co.nz>
+Date: Tue,  9 Jan 2018 11:31:56 +1300
+To: jlu@pengutronix.de, linux@armlinux.org.uk, bp@alien8.de, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@free-electrons.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-SGkgQ2hyaXMsCiAKIE9uIG1lci4sIGphbnYuIDEwIDIwMTgsIENocmlzIFBhY2toYW0gPENocmlz
-LlBhY2toYW1AYWxsaWVkdGVsZXNpcy5jby5uej4gd3JvdGU6Cgo+IE9uIDEwLzAxLzE4IDIxOjMx
-LCBHcmVnb3J5IENMRU1FTlQgd3JvdGU6Cj4+IEhpIENocmlzLAo+PiAgIAo+PiAgIE9uIG1hci4s
-IGphbnYuIDA5IDIwMTgsIENocmlzIFBhY2toYW0gPGNocmlzLnBhY2toYW1AYWxsaWVkdGVsZXNp
-cy5jby5uej4gd3JvdGU6Cj4+IAo+Pj4gVGhlIEFybWFkYS0zOHggdXNlcyBhbiBTRFJBTSBjb250
-cm9sbGVyIHRoYXQgaXMgY29tcGF0aWJsZSB3aXRoIHRoZQo+Pj4gQXJtYWRhLVhQLiBUaGUga2V5
-IGRpZmZlcmVuY2UgaXMgdGhlIHdpZHRoIG9mIHRoZSBidXMgKFhQIGlzIDY0LzMyLCAzOHgKPj4+
-IGlzIDMyLzE2KS4gVGhlIFNEUkFNIGNvbnRyb2xsZXIgcmVnaXN0ZXJzIGFyZSB0aGUgc2FtZSBi
-ZXR3ZWVuIHRoZSB0d28KPj4+IFNvQ3MuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFj
-a2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56Pgo+Pj4gLS0tCj4+PiAgIGFy
-Y2gvYXJtL2Jvb3QvZHRzL2FybWFkYS0zOHguZHRzaSB8IDUgKysrKysKPj4+ICAgMSBmaWxlIGNo
-YW5nZWQsIDUgaW5zZXJ0aW9ucygrKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290
-L2R0cy9hcm1hZGEtMzh4LmR0c2kgYi9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEtMzh4LmR0c2kK
-Pj4+IGluZGV4IDAwZmY1NDlkNGUzOS4uNmQzNGM1ZWMxNzhmIDEwMDY0NAo+Pj4gLS0tIGEvYXJj
-aC9hcm0vYm9vdC9kdHMvYXJtYWRhLTM4eC5kdHNpCj4+PiArKysgYi9hcmNoL2FybS9ib290L2R0
-cy9hcm1hZGEtMzh4LmR0c2kKPj4+IEBAIC0xMzgsNiArMTM4LDExIEBACj4+PiAgIAkJCSNzaXpl
-LWNlbGxzID0gPDE+Owo+Pj4gICAJCQlyYW5nZXMgPSA8MCBNQlVTX0lEKDB4ZjAsIDB4MDEpIDAg
-MHgxMDAwMDA+Owo+Pj4gICAKPj4+ICsJCQlzZHJhbWNAMTQwMCB7Cj4+IAo+PiBDb3VsZCB5b3Ug
-YWRkIGEgbGFiZWw/IFRoYW5rcyB0byB0aGlzIGl0IHdvdWxkIGJlIHBvc3NpYmxlIHRvCj4+IGVu
-YWJsZS9kaXNhYmxlIGl0IGF0IGJvYXJkIGxldmVsIGluIGEgZXNheSB3YXkuCj4+IAo+Cj4gU3Vy
-ZS4gQW55IHN1Z2dlc3Rpb25zIGZvciBhIG5hbWUgYmV0dGVyIHRoYW4gInNkcmFtYzoiPwoKRm9y
-IG1lIHNkcmFtYzogaXMgZmluZS4KCj4KPiBJdCdzIHByb2JhYmx5IHdvcnRoIGFkZGluZyB0aGUg
-c2FtZSBsYWJlbCB0byBhcm1hZGEteHAuZHRzaSBhbmQgCj4gYXJtYWRhLXhwLTk4ZHgzMjM2LmR0
-c2kuCgpSaWdodC4KCj4KPj4+ICsJCQkJY29tcGF0aWJsZSA9ICJtYXJ2ZWxsLGFybWFkYS14cC1z
-ZHJhbS1jb250cm9sbGVyIjsKPj4+ICsJCQkJcmVnID0gPDB4MTQwMCAweDUwMD47Cj4+IAo+PiBX
-aGF0IGFib3V0IGFkZGluZyBzdGF0dXMgPSAiZGlzYWJsZWQiID8KPj4gCj4+IFRoYW5rcyB0byB0
-aGlzIHdlIGNhbiBlbmFibGUgaXQgYXQgYm9hcmQgbGV2ZWwgb25seSBpZiB3ZSByZWFsbHkgd2Fu
-dAo+PiBpdCwgaXQgd291bGQgYXZvaWQgbmFzdHkgcmVncmVzc2lvbiBvbiBib2FyZHMgdGhhdCBk
-b24ndCBuZWVkIGl0LCBpZiBhbgo+PiBpc3N1ZSBvY2N1cnMuIFVubGVzcyB5b3UgYXJlIHN1cmUg
-dGhhdCBpdCBpcyBjb21wbGV0ZWx5IHNhZmUgdG8gZW5hYmxlCj4+IGl0IGZvciBldmVyeW9uZS4K
-Pgo+IFRoZSBFREFDIGRyaXZlciAod2hpY2ggaXMgZGVmYXVsdCBuKSB3aWxsIG5vdCBwcm9iZSB0
-aGUgZGV2aWNlIGlmIEVDQyAKPiBoYXMgbm90IGJlZW4gZW5hYmxlZCBzbyB0aGF0IHNob3VsZCBi
-ZSBzYWZlLgoKT0sgaW4gdGhpcyBjYXNlIG5vIG5lZWQgdG8gZGlzYWJsZSBpdCBieSBkZWZhdWx0
-LgoKVGhhbmtzLAoKR3JlZ29yeQoKPgo+IE90aGVyIHRoYW4gdGhlIEVEQUMgZHJpdmVyIHRoZSBv
-bmx5IG90aGVyIGNvZGUgdGhhdCBsb29rcyBhdCB0aGlzIGlzIGluIAo+IGFyY2gvYXJtL21hY2gt
-bXZlYnUvcG0uYyBhbmQgaXQgYWxtb3N0IHNlZW1zIGxpa2UgYW4gb21pc3Npb24gdGhhdCB0aGlz
-IAo+IGNvZGUgaXMgbm90IGFjdGl2ZSBvbiBhcm1hZGEtMzh4LiBUaGUgYXJtYWRhLTM4eCBwbGF0
-Zm9ybXMgSSBoYXZlIGFjY2VzcyAKPiB0byBkb24ndCB1c2Ugc3VzcGVuZC9yZXN1bWUgc28gSSBj
-YW4ndCB2ZXJpZnkgdGhpcy4KPgo=
+U2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lz
+LmNvLm56PgotLS0KIGFyY2gvYXJtL2Jvb3QvZHRzL2FybWFkYS14cC1kYi14YzMtMjRnNHhnLmR0
+cyB8IDUgKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQg
+YS9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5kdHMgYi9hcmNoL2Fy
+bS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5kdHMKaW5kZXggMDZmY2UzNWQ3NDkx
+Li4wMGNhNDg5ZmM3ODggMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FybWFkYS14cC1k
+Yi14YzMtMjRnNHhnLmR0cworKysgYi9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMz
+LTI0ZzR4Zy5kdHMKQEAgLTcwLDYgKzcwLDExIEBACiAJfTsKIH07CiAKKyZMMiB7CisJYXJtLHBh
+cml0eS1lbmFibGU7CisJbWFydmVsbCxlY2MtZW5hYmxlOworfTsKKwogJmRldmJ1c19ib290Y3Mg
+ewogCXN0YXR1cyA9ICJva2F5IjsKIAo=
