@@ -2,20 +2,32 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/3] ARM: dts: enable L2 cache parity and ecc on db-xc3-24g4xg board
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Message-Id: <20180108223158.21930-2-chris.packham@alliedtelesis.co.nz>
-Date: Tue,  9 Jan 2018 11:31:56 +1300
-To: jlu@pengutronix.de, linux@armlinux.org.uk, bp@alien8.de, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@free-electrons.com>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
+From: Gregory CLEMENT <gregory.clement@free-electrons.com>
+Message-Id: <87y3l66s0r.fsf@free-electrons.com>
+Date: Wed, 10 Jan 2018 09:24:04 +0100
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: jlu@pengutronix.de, linux@armlinux.org.uk, bp@alien8.de, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-U2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lz
-LmNvLm56PgotLS0KIGFyY2gvYXJtL2Jvb3QvZHRzL2FybWFkYS14cC1kYi14YzMtMjRnNHhnLmR0
-cyB8IDUgKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQg
-YS9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5kdHMgYi9hcmNoL2Fy
-bS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5kdHMKaW5kZXggMDZmY2UzNWQ3NDkx
-Li4wMGNhNDg5ZmM3ODggMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FybWFkYS14cC1k
-Yi14YzMtMjRnNHhnLmR0cworKysgYi9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMz
-LTI0ZzR4Zy5kdHMKQEAgLTcwLDYgKzcwLDExIEBACiAJfTsKIH07CiAKKyZMMiB7CisJYXJtLHBh
-cml0eS1lbmFibGU7CisJbWFydmVsbCxlY2MtZW5hYmxlOworfTsKKwogJmRldmJ1c19ib290Y3Mg
-ewogCXN0YXR1cyA9ICJva2F5IjsKIAo=
+SGkgQ2hyaXMsCgogT24gbWFyLiwgamFudi4gMDkgMjAxOCwgQ2hyaXMgUGFja2hhbSA8Y2hyaXMu
+cGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56PiB3cm90ZToKCkNvdWxkIHlvdSBoYXZlIGFkZCBh
+IChldmVuIHNtYWxsKSBtZXNzYWdlIGluIHRoZSBjb21taXQgbG9nPwoKQWxzbyBjb3VsZCB5b3Ug
+aW1wcm92ZSB0aGUgdGl0bGUgYnkgc3BlY2lmeSB0aGF0IGl0IGFwcGxpZXMgb24KYXJtYWRhLXhw
+LCBsaWtlIHRoaXM6CgpBUk06IGR0czogYXJtYWRhLXhwOiBlbmFibGUgTDIgY2FjaGUgcGFyaXR5
+IGFuZCBlY2Mgb24gZGIteGMzLTI0ZzR4ZwoKCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hh
+bSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56Pgo+IC0tLQo+ICBhcmNoL2FybS9i
+b290L2R0cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5kdHMgfCA1ICsrKysrCj4gIDEgZmlsZSBj
+aGFuZ2VkLCA1IGluc2VydGlvbnMoKykKPgo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0
+cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5kdHMgYi9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEt
+eHAtZGIteGMzLTI0ZzR4Zy5kdHMKPiBpbmRleCAwNmZjZTM1ZDc0OTEuLjAwY2E0ODlmYzc4OCAx
+MDA2NDQKPiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5k
+dHMKPiArKysgYi9hcmNoL2FybS9ib290L2R0cy9hcm1hZGEteHAtZGIteGMzLTI0ZzR4Zy5kdHMK
+PiBAQCAtNzAsNiArNzAsMTEgQEAKPiAgCX07Cj4gIH07Cj4gIAo+ICsmTDIgewo+ICsJYXJtLHBh
+cml0eS1lbmFibGU7Cj4gKwltYXJ2ZWxsLGVjYy1lbmFibGU7CgpJdCBpcyBub3QgYSBwcm9ibGVt
+IGZvciBtZSB0byBhbHJlYWR5IGFwcGxpZWQgdGhlIGRldmljZSB0cmVlIGNoYW5nZQpldmVuIGlm
+IHRoZSBkcml2ZXIgaXMgbm90IG1lcmdlZCB5ZXQuIEJ1dCBJIHdvdWxkIGxpa2UgdG8gaGF2ZSBh
+bgphY2tlZC1ieSBvbiB0aGlzIG5ldyBwcm9wZXJ0eSBieSBlaXRoZXIgYSBkZXZpY2UgdHJlZSBt
+YWludGFpbmVyIG9yIGF0CmxlYXN0IHRoZSBFREFDIG1haW50YWluZXIsIG9mIGNvdXJzZSBoYXZp
+bmcgYm90aCBhY2tlZC1ieSB3b3VsZCBiZQpwZXJmZWN0ICEgOikKClRoYW5rcywKCkdyZWdvcnkK
+CgoKCj4gK307Cj4gKwo+ICAmZGV2YnVzX2Jvb3RjcyB7Cj4gIAlzdGF0dXMgPSAib2theSI7Cj4g
+IAo+IC0tIAo+IDIuMTUuMQo+Cg==
