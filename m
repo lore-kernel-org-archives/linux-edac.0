@@ -1,24 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,7/8] EDAC: Add driver for the Marvell Armada XP SDRAM and L2 cache ECC
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180112184443.jxopodfu6ilz7vid@pd.tnic>
-Date: Fri, 12 Jan 2018 19:44:43 +0100
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: linux@armlinux.org.uk, jlu@pengutronix.de, thomas.petazzoni@free-electrons.com, kernel@pengutronix.de, gregory.clement@free-electrons.com, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
+Subject: [v4,8/8] EDAC: armada_xp: Add support for more SoCs
+From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Message-Id: <20180112012755.20495-9-chris.packham@alliedtelesis.co.nz>
+Date: Fri, 12 Jan 2018 14:27:55 +1300
+To: linux@armlinux.org.uk, bp@alien8.de, jlu@pengutronix.de
+Cc: Chris.Packham@alliedtelesis.co.nz, thomas.petazzoni@free-electrons.com, kernel@pengutronix.de, gregory.clement@free-electrons.com, Chris Packham <chris.packham@alliedtelesis.co.nz>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBKYW4gMTIsIDIwMTggYXQgMDI6Mjc6NTRQTSArMTMwMCwgQ2hyaXMgUGFja2hhbSB3
-cm90ZToKPiBGcm9tOiBKYW4gTHVlYmJlIDxqbHVAcGVuZ3V0cm9uaXguZGU+Cj4gCj4gQWRkIHN1
-cHBvcnQgZm9yIHRoZSBFQ0MgZnVuY3Rpb25hbGl0eSBhcyBmb3VuZCBpbiB0aGUgRERSIFJBTSBh
-bmQgTDIKPiBjYWNoZSBjb250cm9sbGVycyBvbiB0aGUgTVY3ODIzMC9NVjc4eDYwIFNvQ3MuIFRo
-aXMgZHJpdmVyIGhhcyBiZWVuCj4gdGVzdGVkIG9uIHRoZSBNVjc4NDYwIChvbiBhIGN1c3RvbSBi
-b2FyZCB3aXRoIGEgRERSMyBFQ0MgRElNTSkuCj4gCj4gU2lnbmVkLW9mZi1ieTogSmFuIEx1ZWJi
-ZSA8amx1QHBlbmd1dHJvbml4LmRlPgo+IC0tLQo+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAg
-ICAgICB8ICAgNiArCj4gIGRyaXZlcnMvZWRhYy9LY29uZmlnICAgICAgICAgIHwgICA3ICsKPiAg
-ZHJpdmVycy9lZGFjL01ha2VmaWxlICAgICAgICAgfCAgIDEgKwo+ICBkcml2ZXJzL2VkYWMvYXJt
-YWRhX3hwX2VkYWMuYyB8IDYzOSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysKPiAgNCBmaWxlcyBjaGFuZ2VkLCA2NTMgaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9k
-ZSAxMDA2NDQgZHJpdmVycy9lZGFjL2FybWFkYV94cF9lZGFjLmMKClJldmlld2VkLWJ5OiBCb3Jp
-c2xhdiBQZXRrb3YgPGJwQHN1c2UuZGU+Cg==
+VGhlIEFybWFkYSAzOHggYW5kIG90aGVyIGludGVncmF0ZWQgU29DcyB1c2UgYSByZWR1Y2VkIHBp
+biBjb3VudCBzbyB0aGUKd2lkdGggb2YgdGhlIFNEUkFNIGludGVyZmFjZSBpcyBzbWFsbGVyIHRo
+YW4gdGhlIEFybWFkYSBYUCBTb0NzLiBUaGlzCm1lYW5zIHRoYXQgdGhlIGRlZmluaXRpb24gb2Yg
+ImZ1bGwiIGFuZCAiaGFsZiIgd2lkdGggaXMgcmVkdWNlZCBmcm9tCjY0LzMyIHRvIDMyLzE2LgoK
+U2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lz
+LmNvLm56PgotLS0KIGRyaXZlcnMvZWRhYy9hcm1hZGFfeHBfZWRhYy5jIHwgNSArKysrKwogMSBm
+aWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9h
+cm1hZGFfeHBfZWRhYy5jIGIvZHJpdmVycy9lZGFjL2FybWFkYV94cF9lZGFjLmMKaW5kZXggNzBj
+ZmYwMWFmYzhkLi4wM2ExOGI1NDQ2N2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9hcm1hZGFf
+eHBfZWRhYy5jCisrKyBiL2RyaXZlcnMvZWRhYy9hcm1hZGFfeHBfZWRhYy5jCkBAIC0zNDEsNiAr
+MzQxLDExIEBAIHN0YXRpYyBpbnQgYXhwX21jX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
+KnBkZXYpCiAKIAlheHBfbWNfcmVhZF9jb25maWcobWNpKTsKIAorCS8qIFRoZXNlIFNvQ3MgaGF2
+ZSBhIHJlZHVjZWQgd2lkdGggYnVzICovCisJaWYgKG9mX21hY2hpbmVfaXNfY29tcGF0aWJsZSgi
+bWFydmVsbCxhcm1hZGEzODAiKSB8fAorCSAgICBvZl9tYWNoaW5lX2lzX2NvbXBhdGlibGUoIm1h
+cnZlbGwsYXJtYWRheHAtOThkeDMyMzYiKSkKKwkJZHJ2ZGF0YS0+d2lkdGggLz0gMjsKKwogCS8q
+IGNvbmZpZ3VyZSBTQkUgdGhyZXNob2xkICovCiAJLyogaXQgc2VlbXMgdGhhdCBTQkVzIGFyZSBu
+b3QgY2FwdHVyZWQgb3RoZXJ3aXNlICovCiAJd3JpdGVsKDEgPDwgU0RSQU1fRVJSX0NUUkxfVEhS
+X09GRlNFVCwgZHJ2ZGF0YS0+YmFzZSArIFNEUkFNX0VSUl9DVFJMX1JFRyk7Cg==
