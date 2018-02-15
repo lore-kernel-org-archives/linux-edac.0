@@ -1,21 +1,21 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: Patch "EDAC, octeon: Fix an uninitialized variable warning" has been added to the 4.4-stable tree
+Subject: Patch "EDAC, octeon: Fix an uninitialized variable warning" has been added to the 4.9-stable tree
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <151868372920550@kroah.com>
-Date: Thu, 15 Feb 2018 09:35:29 +0100
+Message-Id: <151868380394160@kroah.com>
+Date: Thu, 15 Feb 2018 09:36:43 +0100
 To: jhogan@kernel.org, bp@suse.de, david.daney@cavium.com, gregkh@linuxfoundation.org, linux-edac@vger.kernel.org
 Cc: stable@vger.kernel.org, stable-commits@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
 VGhpcyBpcyBhIG5vdGUgdG8gbGV0IHlvdSBrbm93IHRoYXQgSSd2ZSBqdXN0IGFkZGVkIHRoZSBw
 YXRjaCB0aXRsZWQKCiAgICBFREFDLCBvY3Rlb246IEZpeCBhbiB1bmluaXRpYWxpemVkIHZhcmlh
-YmxlIHdhcm5pbmcKCnRvIHRoZSA0LjQtc3RhYmxlIHRyZWUgd2hpY2ggY2FuIGJlIGZvdW5kIGF0
+YmxlIHdhcm5pbmcKCnRvIHRoZSA0Ljktc3RhYmxlIHRyZWUgd2hpY2ggY2FuIGJlIGZvdW5kIGF0
 OgogICAgaHR0cDovL3d3dy5rZXJuZWwub3JnL2dpdC8/cD1saW51eC9rZXJuZWwvZ2l0L3N0YWJs
 ZS9zdGFibGUtcXVldWUuZ2l0O2E9c3VtbWFyeQoKVGhlIGZpbGVuYW1lIG9mIHRoZSBwYXRjaCBp
 czoKICAgICBlZGFjLW9jdGVvbi1maXgtYW4tdW5pbml0aWFsaXplZC12YXJpYWJsZS13YXJuaW5n
-LnBhdGNoCmFuZCBpdCBjYW4gYmUgZm91bmQgaW4gdGhlIHF1ZXVlLTQuNCBzdWJkaXJlY3Rvcnku
+LnBhdGNoCmFuZCBpdCBjYW4gYmUgZm91bmQgaW4gdGhlIHF1ZXVlLTQuOSBzdWJkaXJlY3Rvcnku
 CgpJZiB5b3UsIG9yIGFueW9uZSBlbHNlLCBmZWVscyBpdCBzaG91bGQgbm90IGJlIGFkZGVkIHRv
 IHRoZSBzdGFibGUgdHJlZSwKcGxlYXNlIGxldCA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4ga25v
 dyBhYm91dCBpdC4KCgpGcm9tIDU0NGU5MjU4MWEyYWM0NDYwN2Q3Y2M2MDJjNmI1NGQxODY1NmY1
@@ -45,7 +45,7 @@ bmVkLW9mZi1ieTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgpTaWduZWQtb2ZmLWJ5OiBH
 cmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgotLS0KIGRyaXZl
 cnMvZWRhYy9vY3Rlb25fZWRhYy1sbWMuYyB8ICAgIDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
 ZXJ0aW9uKCspCgoKClBhdGNoZXMgY3VycmVudGx5IGluIHN0YWJsZS1xdWV1ZSB3aGljaCBtaWdo
-dCBiZSBmcm9tIGpob2dhbkBrZXJuZWwub3JnIGFyZQoKcXVldWUtNC40L2VkYWMtb2N0ZW9uLWZp
+dCBiZSBmcm9tIGpob2dhbkBrZXJuZWwub3JnIGFyZQoKcXVldWUtNC45L2VkYWMtb2N0ZW9uLWZp
 eC1hbi11bmluaXRpYWxpemVkLXZhcmlhYmxlLXdhcm5pbmcucGF0Y2gKLS0KVG8gdW5zdWJzY3Jp
 YmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMi
 IGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1v
