@@ -2,15 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, sb_edac: Remove VLA usage
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180313104811.GA23568@pd.tnic>
-Date: Tue, 13 Mar 2018 11:48:11 +0100
-To: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+Message-Id: <99aa9024-ea78-70a0-bb22-222f53b00029@embeddedor.com>
+Date: Tue, 13 Mar 2018 06:08:51 -0500
+To: Borislav Petkov <bp@alien8.de>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBNYXIgMTIsIDIwMTggYXQgMDU6NTI6MTNQTSAtMDUwMCwgR3VzdGF2byBBLiBSLiBT
-aWx2YSB3cm90ZToKPiBEbyB5b3UgbWVhbiBqdXN0IGFkZGluZyBhIGNvZGUgY29tbWVudD8KCk5v
-LCBJIG1lYW4KCiNkZWZpbmUgTUFYX0lOVEVSTEVBVkUgKG1heF90KHVuc2lnbmVkIGludCwgQVJS
-QVlfU0laRShrbmxfaW50ZXJsZWF2ZV9saXN0KSwgLi4uCgp3aGljaCBjb21wdXRlcyB0aGUgbWF4
-IG9mIGFsbCB0aHJlZSBhcnJheSBzaXplcy4KClRoeC4K
+T24gMDMvMTMvMjAxOCAwNTo0OCBBTSwgQm9yaXNsYXYgUGV0a292IHdyb3RlOgo+IE9uIE1vbiwg
+TWFyIDEyLCAyMDE4IGF0IDA1OjUyOjEzUE0gLTA1MDAsIEd1c3Rhdm8gQS4gUi4gU2lsdmEgd3Jv
+dGU6Cj4+IERvIHlvdSBtZWFuIGp1c3QgYWRkaW5nIGEgY29kZSBjb21tZW50Pwo+IAo+IE5vLCBJ
+IG1lYW4KPiAKPiAjZGVmaW5lIE1BWF9JTlRFUkxFQVZFIChtYXhfdCh1bnNpZ25lZCBpbnQsIEFS
+UkFZX1NJWkUoa25sX2ludGVybGVhdmVfbGlzdCksIC4uLgo+IAo+IHdoaWNoIGNvbXB1dGVzIHRo
+ZSBtYXggb2YgYWxsIHRocmVlIGFycmF5IHNpemVzLgo+IAo+IFRoeC4KPiAKCkkgZ290IGl0LgoK
+RXhhY3RseSB0aGlzOgoKI2RlZmluZSBNQVhfSU5URVJMRUFWRSAobWF4X3QodW5zaWduZWQgaW50
+LCAKQVJSQVlfU0laRShrbmxfaW50ZXJsZWF2ZV9saXN0KSxcCiAgICAgICAgICAgICAgICAgICAg
+ICAgICBtYXhfdCh1bnNpZ25lZCBpbnQsIApBUlJBWV9TSVpFKGlicmlkZ2VfaW50ZXJsZWF2ZV9s
+aXN0KSxcCiAKQVJSQVlfU0laRShzYnJpZGdlX2ludGVybGVhdmVfbGlzdCkpKSkKCgpJJ2xsIHNl
+bmQgdjIgc2hvcnRseS4KClRoYW5rcyEKLS0tCkd1c3Rhdm8KLS0KVG8gdW5zdWJzY3JpYmUgZnJv
+bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRo
+ZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFq
+b3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRt
+bAo=
