@@ -1,10 +1,10 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [AUTOSEL,for,4.14,74/97] EDAC, mv64x60: Fix an error handling path
+Subject: [AUTOSEL,for,4.15,096/124] EDAC, mv64x60: Fix an error handling path
 From: Sasha Levin <Alexander.Levin@microsoft.com>
-Message-Id: <20180319155411.12348-74-alexander.levin@microsoft.com>
-Date: Mon, 19 Mar 2018 15:56:09 +0000
+Message-Id: <20180319154645.11350-96-alexander.levin@microsoft.com>
+Date: Mon, 19 Mar 2018 15:48:47 +0000
 To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
 Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-edac <linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, Sasha Levin <Alexander.Levin@microsoft.com>
 List-ID: <edac.vger.kernel.org>
