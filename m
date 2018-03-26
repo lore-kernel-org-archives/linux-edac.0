@@ -2,16 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/2] x86/MCE: Always save MCA_{ADDR,MISC,SYND} register contents
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180326200955.GG28372@pd.tnic>
-Date: Mon, 26 Mar 2018 22:09:55 +0200
-To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <20180326202756.6qqqgjdjnx6ggng2@agluck-desk>
+Date: Mon, 26 Mar 2018 13:27:56 -0700
+To: Borislav Petkov <bp@alien8.de>
+Cc: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBNYXIgMjYsIDIwMTggYXQgMDg6MDU6MzdQTSArMDAwMCwgR2hhbm5hbSwgWWF6ZW4g
-d3JvdGU6Cj4gU3VyZSwgSSBjYW4gZG8gdGhhdC4gQnV0IEkgZGlkbid0IHRoaW5rIGl0IHdhcyBu
-ZWNlc3NhcnkgYmVjYXVzZSBpdCBkb2Vzbid0IGh1cnQKPiB0byByZWFkIHRoZSByZWdpc3RlcnMg
-d2hldGhlciBvciBub3QgdGhlIHZhbGlkIGJpdHMgYXJlIHNldC4KCk5vLCB0aGlzIG5lZWRzIHRv
-IGJlIEFNRC1zcGVjaWZpYyBiZWNhdXNlIGl0IHdpbGwgY29uZnVzZSBwZW9wbGUgdXNpbmcKSW50
-ZWwgbWFjaGluZXMuCg==
+T24gTW9uLCBNYXIgMjYsIDIwMTggYXQgMTA6MDk6NTVQTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IE9uIE1vbiwgTWFyIDI2LCAyMDE4IGF0IDA4OjA1OjM3UE0gKzAwMDAsIEdoYW5u
+YW0sIFlhemVuIHdyb3RlOgo+ID4gU3VyZSwgSSBjYW4gZG8gdGhhdC4gQnV0IEkgZGlkbid0IHRo
+aW5rIGl0IHdhcyBuZWNlc3NhcnkgYmVjYXVzZSBpdCBkb2Vzbid0IGh1cnQKPiA+IHRvIHJlYWQg
+dGhlIHJlZ2lzdGVycyB3aGV0aGVyIG9yIG5vdCB0aGUgdmFsaWQgYml0cyBhcmUgc2V0Lgo+IAo+
+IE5vLCB0aGlzIG5lZWRzIHRvIGJlIEFNRC1zcGVjaWZpYyBiZWNhdXNlIGl0IHdpbGwgY29uZnVz
+ZSBwZW9wbGUgdXNpbmcKPiBJbnRlbCBtYWNoaW5lcy4KCldvcnNlIHRoYW4gY29uZnVzaW9uIGl0
+IG1heSBldmVuIGNhdXNlIGEgY3Jhc2ggb24gSW50ZWwuIFF1b3RpbmcgdGhlCkludGVsIFNETToK
+CiAgMTUuMy4yLjMgSUEzMl9NQ2lfQUREUiBNU1JzCgogIFRoZSBJQTMyX01DaV9BRERSIE1TUiBj
+b250YWlucyB0aGUgYWRkcmVzcyBvZiB0aGUgY29kZSBvciBkYXRhIG1lbW9yeQogIGxvY2F0aW9u
+IHRoYXQgcHJvZHVjZWQgdGhlIG1hY2hpbmUtIGNoZWNrIGVycm9yIGlmIHRoZSBBRERSViBmbGFn
+IGluCiAgdGhlIElBMzJfTUNpX1NUQVRVUyByZWdpc3RlciBpcyBzZXQgKHNlZSBTZWN0aW9uIDE1
+LTcsIOKAnElBMzJfTUNpX0FERFIKICBNU1LigJ0pLiAgVGhlIElBMzJfTUNpX0FERFIgcmVnaXN0
+ZXIgaXMgZWl0aGVyIG5vdCBpbXBsZW1lbnRlZCBvcgogIGNvbnRhaW5zIG5vIGFkZHJlc3MgaWYg
+dGhlIEFERFJWIGZsYWcgaW4gdGhlIElBMzJfTUNpX1NUQVRVUyByZWdpc3RlcgogIGlzIGNsZWFy
+LiBXaGVuIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgcHJvY2Vzc29yLCBhbGwgcmVhZHMgYW5kIHdy
+aXRlcwogIHRvIHRoaXMgTVNSIHdpbGwgY2F1c2UgYSBnZW5lcmFsIHByb3RlY3Rpb24gZXhjZXB0
+aW9uLgoKRGl0dG8gZm9yIHRoZSBNSVNDIHJlZ2lzdGVyLiAgUGxlYXNlIGRvbid0IHJlYWQgdGhl
+bSB1bmxlc3MKdGhlIEFERFJWL01JU0NWIGJpdHMgYXJlIHNldCBpbiB0aGUgY29ycmVzcG9uZGlu
+ZyBTVEFUVVMKcmVnaXN0ZXIuCgpUaGFua3MKCi1Ub255Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9t
+IHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIgaW4KdGhl
+IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
+cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
+Cg==
