@@ -1,15 +1,15 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [3.18,096/121] EDAC, mv64x60: Fix an error handling path
+Subject: [4.15,085/168] EDAC, mv64x60: Fix an error handling path
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180411183502.467774227@linuxfoundation.org>
-Date: Wed, 11 Apr 2018 20:36:39 +0200
+Message-Id: <20180410212803.880324905@linuxfoundation.org>
+Date: Wed, 11 Apr 2018 00:23:47 +0200
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, linux-edac <linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>, Sasha Levin <alexander.levin@microsoft.com>
 List-ID: <edac.vger.kernel.org>
 
-My4xOC1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
+NC4xNS1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
 cGxlYXNlIGxldCBtZSBrbm93LgoKLS0tLS0tLS0tLS0tLS0tLS0tCgpGcm9tOiBDaHJpc3RvcGhl
 IEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5hZG9vLmZyPgoKClsgVXBzdHJlYW0gY29t
 bWl0IDY4ZmEyNGY5MTIxYzA0ZWYxNDZiNTE1OGY1MzhjOGIzMmYyODViZTUgXQoKV2Ugc2hvdWxk
@@ -29,7 +29,7 @@ bGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkg
 b2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8g
 aW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCgotLS0g
 YS9kcml2ZXJzL2VkYWMvbXY2NHg2MF9lZGFjLmMKKysrIGIvZHJpdmVycy9lZGFjL212NjR4NjBf
-ZWRhYy5jCkBAIC03NjMsNyArNzYzLDcgQEAgc3RhdGljIGludCBtdjY0eDYwX21jX2Vycl9wcm9i
+ZWRhYy5jCkBAIC03NTgsNyArNzU4LDcgQEAgc3RhdGljIGludCBtdjY0eDYwX21jX2Vycl9wcm9i
 ZShzdHJ1Y3QgcAogCQkvKiBOb24tRUNDIFJBTT8gKi8KIAkJcHJpbnRrKEtFUk5fV0FSTklORyAi
 JXM6IE5vIEVDQyBESU1NcyBkaXNjb3ZlcmVkXG4iLCBfX2Z1bmNfXyk7CiAJCXJlcyA9IC1FTk9E
 RVY7Ci0JCWdvdG8gZXJyMjsKKwkJZ290byBlcnI7CiAJfQogCiAJZWRhY19kYmcoMywgImluaXQg
