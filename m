@@ -1,15 +1,15 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4.15,22/53] x86/mce/AMD: Get address from already initialized block
+Subject: [4.16,30/68] x86/mce/AMD: Get address from already initialized block
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180417155724.189120729@linuxfoundation.org>
-Date: Tue, 17 Apr 2018 17:58:47 +0200
+Message-Id: <20180417155750.564053358@linuxfoundation.org>
+Date: Tue, 17 Apr 2018 17:57:43 +0200
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@suse.de>, Borislav Petkov <bp@alien8.de>, Linus Torvalds <torvalds@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Tony Luck <tony.luck@intel.com>, linux-edac <linux-edac@vger.kernel.org>, Ingo Molnar <mingo@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-NC4xNS1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
+NC4xNi1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
 cGxlYXNlIGxldCBtZSBrbm93LgoKLS0tLS0tLS0tLS0tLS0tLS0tCgpGcm9tOiBZYXplbiBHaGFu
 bmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cgpjb21taXQgMjdiZDU5NTAyNzAyZmU1MWQ5ZWIw
 MDQ1MGE3NWI3MjdlYzZiZmNiNCB1cHN0cmVhbS4KClRoZSBibG9jayBhZGRyZXNzIGlzIHNhdmVk
@@ -37,7 +37,7 @@ ZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIg
 aW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9y
 ZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5m
 by5odG1sCgotLS0gYS9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVjay9tY2VfYW1kLmMKKysrIGIv
-YXJjaC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlX2FtZC5jCkBAIC00MTYsNiArNDE2LDIxIEBA
+YXJjaC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlX2FtZC5jCkBAIC00MzYsNiArNDM2LDIxIEBA
 IHN0YXRpYyB1MzIgZ2V0X2Jsb2NrX2FkZHJlc3ModW5zaWduZWQgaW4KIHsKIAl1MzIgYWRkciA9
 IDAsIG9mZnNldCA9IDA7CiAKKwlpZiAoKGJhbmsgPj0gbWNhX2NmZy5iYW5rcykgfHwgKGJsb2Nr
 ID49IE5SX0JMT0NLUykpCisJCXJldHVybiBhZGRyOworCisJLyogR2V0IGFkZHJlc3MgZnJvbSBh
@@ -46,5 +46,5 @@ cywgY3B1KSkgeworCQlzdHJ1Y3QgdGhyZXNob2xkX2JhbmsgKmJhbmtwID0gcGVyX2NwdSh0aHJl
 c2hvbGRfYmFua3MsIGNwdSlbYmFua107CisKKwkJaWYgKGJhbmtwICYmIGJhbmtwLT5ibG9ja3Mp
 IHsKKwkJCXN0cnVjdCB0aHJlc2hvbGRfYmxvY2sgKmJsb2NrcCA9ICZiYW5rcC0+YmxvY2tzW2Js
 b2NrXTsKKworCQkJaWYgKGJsb2NrcCkKKwkJCQlyZXR1cm4gYmxvY2twLT5hZGRyZXNzOworCQl9
-CisJfQorCiAJaWYgKG1jZV9mbGFncy5zbWNhKSB7CiAJCWlmICghYmxvY2spIHsKIAkJCWFkZHIg
-PSBNU1JfQU1ENjRfU01DQV9NQ3hfTUlTQyhiYW5rKTsK
+CisJfQorCiAJaWYgKG1jZV9mbGFncy5zbWNhKSB7CiAJCWlmIChzbWNhX2dldF9iYW5rX3R5cGUo
+YmFuaykgPT0gU01DQV9SRVNFUlZFRCkKIAkJCXJldHVybiBhZGRyOwo=
