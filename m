@@ -2,17 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,v2,2/4] acpi: apei: Split GHES handlers outside of ghes_do_proc
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180419143018.GC3600@pd.tnic>
-Date: Thu, 19 Apr 2018 16:30:19 +0200
-To: "Alex G." <mr.nuke.me@gmail.com>
+From: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+Message-Id: <8f467611-16a1-8fe7-ea12-e2e29023e4e8@gmail.com>
+Date: Thu, 19 Apr 2018 09:57:08 -0500
+To: Borislav Petkov <bp@alien8.de>
 Cc: linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org, rjw@rjwysocki.net, lenb@kernel.org, tony.luck@intel.com, tbaicar@codeaurora.org, will.deacon@arm.com, james.morse@arm.com, shiju.jose@huawei.com, zjzhang@codeaurora.org, gengdongjiu@huawei.com, linux-kernel@vger.kernel.org, alex_gagniuc@dellteam.com, austin_bolen@dell.com, shyam_iyer@dell.com, devel@acpica.org, mchehab@kernel.org, robert.moore@intel.com, erik.schmauss@intel.com
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBBcHIgMTksIDIwMTggYXQgMDk6MTk6MDNBTSAtMDUwMCwgQWxleCBHLiB3cm90ZToK
-PiBPbiB0aGUgb3RoZXIgc2lkZSwgeW91IGxvc2UgcmVhZGFiaWxpdHkgYXMgc29vbiBhcyB5b3Ug
-Z2V0IGEgZmV3IG1vcmUKPiBoYW5kbGVycyBhbmQgdGhlIGZ1bmN0aW9uIGJlY29tZXMgdG9vIGxv
-bmcuCgpObyB5b3UgZG9uJ3QgLSB5b3Ugc3BsaXQgaXQgcHJvcGVybHkuCgo+IEFuZCBtb3JlIGlt
-cG9ydGFudGx5LCB5b3UgbG9zZSBnZW5lcmFsaXR5OiBpdCdzIG5vdCBvYnZpb3VzIHRoYXQKPiB0
-aGVyZSdzIGdoZXNfZWRhY19yZXBvcnRfbWVtX2Vycm9yKCkgd2hpY2ggdG9vIHdpZGUgYSBjb250
-ZXh0LgoKSSBkb24ndCB1bmRlcnN0YW5kIHdoYXQgdGhhdCBtZWFucy4K
+T24gMDQvMTkvMjAxOCAwOTozMCBBTSwgQm9yaXNsYXYgUGV0a292IHdyb3RlOgo+IE9uIFRodSwg
+QXByIDE5LCAyMDE4IGF0IDA5OjE5OjAzQU0gLTA1MDAsIEFsZXggRy4gd3JvdGU6Cj4+IE9uIHRo
+ZSBvdGhlciBzaWRlLCB5b3UgbG9zZSByZWFkYWJpbGl0eSBhcyBzb29uIGFzIHlvdSBnZXQgYSBm
+ZXcgbW9yZQo+PiBoYW5kbGVycyBhbmQgdGhlIGZ1bmN0aW9uIGJlY29tZXMgdG9vIGxvbmcuCj4g
+Cj4gTm8geW91IGRvbid0IC0geW91IHNwbGl0IGl0IHByb3Blcmx5LgoKQW5kIHRoYXQgd2FzIHRo
+ZSBtb3RpdmF0aW9uIGJlaGluZCBteSBzcGxpdHRpbmcgaXQgaW4gdGhpcyBwYXRjaC4KCj4+IEFu
+ZCBtb3JlIGltcG9ydGFudGx5LCB5b3UgbG9zZSBnZW5lcmFsaXR5OiBpdCdzIG5vdCBvYnZpb3Vz
+IHRoYXQKPj4gdGhlcmUncyBnaGVzX2VkYWNfcmVwb3J0X21lbV9lcnJvcigpIHdoaWNoIHRvbyB3
+aWRlIGEgY29udGV4dC4KPiAKPiBJIGRvbid0IHVuZGVyc3RhbmQgd2hhdCB0aGF0IG1lYW5zLgoK
+TXkgYXBvbG9naWVzLCBzb21ldGltZXMgbXkgdGhvdWdodCBpcyB0b28gZmFyIGFoZWFkIG9mIG15
+IHR5cGluZwpmaW5nZXJzLiBGb3IgdGhlIHB1cnBvc2Ugb2YgaGFuZGxpbmcgX29uZV8gZXJyb3Is
+IHlvdSBuZWVkIHRoZSBDUEVSCmVudHJ5IGZvciB0aGF0IG9uZSBlcnJvciAtLSBuYXJyb3cgY29u
+dGV4dC4gWW91IGRvbid0IG5lZWQgdGhlIGVudGlyZQpHSEVTIHN0cnVjdHVyZSAtLSB3aWRlIGNv
+bnRleHQuIEluZGl2aWR1YWwgaGFuZGxlcnMgc2hvdWxkIG5vdCBiZSBhYmxlCnRvIGFjY2VzcyB0
+aGUgZW50aXJlIGdoZXMuCgpXaGVuIHRoZSBoYW5kbGVycyBhcmUgcmVzdHJpY3RlZCB0byBhIGNv
+bW1vbiBzaWduYXR1cmUgLS13aGljaCBkb2Vzbid0CmluY2x1ZGUgZ2hlcy0tLCBpdCdzIG9idmlv
+dXMgd2hlbiBmdW5jdGlvbnMgdHJ5IHRvIGJpdGUgbW9yZSB0aGFuIHRoZXkKY2FuIGNoZXcuCgpB
+bGV4Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5z
+dWJzY3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9t
+b0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2Vy
+bmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
