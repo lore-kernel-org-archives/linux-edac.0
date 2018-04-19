@@ -2,29 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,v2,3/4] acpi: apei: Do not panic() when correctable errors are marked as fatal.
-From: Alexandru Gagniuc <mr.nuke.me@gmail.com>
-Message-Id: <aa20a835-4059-f695-a0cf-f862d6313e17@gmail.com>
-Date: Thu, 19 Apr 2018 11:27:52 -0500
-To: James Morse <james.morse@arm.com>
-Cc: Borislav Petkov <bp@alien8.de>, linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org, rjw@rjwysocki.net, lenb@kernel.org, tony.luck@intel.com, tbaicar@codeaurora.org, will.deacon@arm.com, shiju.jose@huawei.com, zjzhang@codeaurora.org, gengdongjiu@huawei.com, linux-kernel@vger.kernel.org, alex_gagniuc@dellteam.com, austin_bolen@dell.com, shyam_iyer@dell.com, devel@acpica.org, mchehab@kernel.org, robert.moore@intel.com, erik.schmauss@intel.com
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180419164528.GD5635@pd.tnic>
+Date: Thu, 19 Apr 2018 18:45:28 +0200
+To: "Alex G." <mr.nuke.me@gmail.com>
+Cc: linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org, rjw@rjwysocki.net, lenb@kernel.org, tony.luck@intel.com, tbaicar@codeaurora.org, will.deacon@arm.com, james.morse@arm.com, shiju.jose@huawei.com, zjzhang@codeaurora.org, gengdongjiu@huawei.com, linux-kernel@vger.kernel.org, alex_gagniuc@dellteam.com, austin_bolen@dell.com, shyam_iyer@dell.com, devel@acpica.org, mchehab@kernel.org, robert.moore@intel.com, erik.schmauss@intel.com
 List-ID: <edac.vger.kernel.org>
 
-T24gMDQvMTkvMjAxOCAxMDozNSBBTSwgSmFtZXMgTW9yc2Ugd3JvdGU6Cj4gSGkgQWxleCwKPiAK
-PiAoSSBoYXZlbid0IHJlYWQgdGhyb3VnaCBhbGwgdGhpcyB5ZXQsIGp1c3Qgb24gdGhpcyBvbmU6
-KQo+IAo+IE9uIDA0LzE5LzIwMTggMDM6NTcgUE0sIEFsZXggRy4gd3JvdGU6Cj4+IE1heWJlIGl0
-J3MgYmV0dGVyIG1vdmUgdGhlIEFFUiBoYW5kbGluZyB0byBOTUkvSVJRIGNvbnRleHQsIHNpbmNl
-Cj4+IGdoZXNfaGFuZGxlX2FlcigpIGlzIG9ubHkgc2NoZWR1bGluZyB0aGUgcmVhbCBBRVIgYW5k
-bGVyLCBhbmQgaXMgaXJxCj4+IHNhZmUuIEknbSBzY3JhdGNoaW5nIG15IGhlYWQgYWJvdXQgd2h5
-IHdlJ3JlIG1lc3Npbmcgd2l0aCBJUlEgd29yayBmcm9tCj4+IE5NSSBjb250ZXh0LCBpbnN0ZWFk
-IG9mIGp1c3Qgc2NoZWR1bGluZyBhIHJlZ3VsYXIgaGFuZGxlciB0byB0YWtlIGNhcmUKPj4gb2Yg
-dGhpbmdzLgo+IAo+IFdlIGNhbid0IHRvdWNoIHNjaGVkdWxlX3dvcmtfb24oKSBmcm9tIE5NSSBj
-b250ZXh0IGFzIGl0IHRha2VzIHNwaW5sb2Nrcwo+IGFuZAo+IGRpc2FibGVzIGludGVycnVwdHMu
-IChzZWUgX19xdWV1ZV93b3JrKCkpIFRoZSBOTUkgbWF5IGhhdmUgaW50ZXJydXB0ZWQKPiBJUlEt
-Y29udGV4dCBjb2RlCj4gdGhhdCB3YXMgYWxyZWFkeSBob2xkaW5nIHRoZSBzYW1lIGxvY2tzLgo+
-IAo+IElSUS13b3JrIGJlaGF2ZXMgZGlmZmVyZW50bHksIGl0IHVzZXMgYW4gbGxpc3QgZm9yIHRo
-ZSB3b3JrIGFuZCBhbiBhcmNoCj4gY29kZSBob29rCj4gdG8gcmFpc2UgYSBzZWxmLUlQSS4KClRo
-YXQgbWFrZXMgc2Vuc2UuIFRoYW5rIHlvdSEKCkFsZXgKCj4gCj4gVGhhbmtzLAo+IAo+IEphbWVz
-Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
-Y3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2
-Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVs
-Lm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gVGh1LCBBcHIgMTksIDIwMTggYXQgMTE6MjY6NTdBTSAtMDUwMCwgQWxleCBHLiB3cm90ZToK
+PiBBdCBhIHZlcnkgaGlnaCBsZXZlbCwgSSdtIHdvcmtpbmcgd2l0aCBEZWxsIG9uIGltcHJvdmlu
+ZyBzZXJ2ZXIKPiByZWxpYWJpbGl0eSwgd2l0aCBhIGZvY3VzIG9uIE5WTUUgaG90cGx1ZyBhbmQg
+c3VycHJpc2UgcmVtb3ZhbC4gT25lIG9mCj4gdGhlIGZlYXR1cmVzIHdlIGRvbid0IHN1cHBvcnQg
+aXMgc3VycHJpc2UgcmVtb3ZhbCBvZiBOVk1FIGRyaXZlczsKPiBob3RwbHVnIGlzIHN1cHBvcnRl
+ZCB3aXRoICdwcmVwYXJlIHRvIHJlbW92ZScuIFRoaXMgaXMgb25lIG9mIHRoZQo+IHJlYXNvbnMg
+TlZNRSBpcyBub3Qgb24gZmVhdHVyZSBwYXJpdHkgd2l0aCBTQVMgYW5kIFNBVEEuCgpPaywgZmly
+c3QgcXVlc3Rpb246IGlzIHN1cnByaXNlIHJlbW92YWwgc29tZXRoaW5nIHB1cmVseSBtZWNoYW5p
+Y2FsIG9yCmRvIHlvdSBuZWVkIGZpcm13YXJlIHN1cHBvcnQgZm9yIGl0PyBJbiB0aGUgc2Vuc2Ug
+dGhhdCB5b3UgbmVlZCB0byB0ZWxsCnRoZSBmaXJtd2FyZSB0aGF0IHlvdSB3aWxsIGJlIHJlbW92
+aW5nIHRoZSBkcml2ZS4KCkknbSBzY2VwdGljYWwsIHRob3VnaCwgYXMgaXQgaGFzICJzdXJwcmlz
+ZSIgaW4gdGhlIG5hbWUgc28gSSdtIGd1ZXNzaW5nCnRoZSBmaXJtd2FyZSBkb2Vzbid0IGtub3cg
+YWJvdXQgaXQsIHRoZSBkcml2ZSBwaHlzaWNhbGx5IGRpc2FwcGVhcnMgYW5kCnRoZSBGVyBzdGFy
+dHMgc3Bld2luZyBQQ0llIGVycm9ycy4uLgoKPiBJJ20gbm90IHN1cmUgaWYgdGhpcyBpcyB0aGUg
+ZXhhbXBsZSB5b3UncmUgbG9va2luZyBmb3IsIGJ1dAo+IHRha2UgYW4gcjc0MHhkIHNlcnZlciwg
+YW5kIHNsb3dseSB1bnBsdWcgYW4gSW50ZWwgTlZNRSBkcml2ZXMgYXQgYW4KPiBhbmdsZS4gWW91
+J3JlIGxpa2VseSB0byBjcmFzaCB0aGUgbWFjaGluZS4KCk5vIG5vLCB0aGF0J3MgYWN0dWFsbHkg
+YSBncmVhdCBleGFtcGxlIQoKVGh4Lgo=
