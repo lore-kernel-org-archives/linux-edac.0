@@ -2,30 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,v2,3/4] acpi: apei: Do not panic() when correctable errors are marked as fatal.
-From: Alexandru Gagniuc <mr.nuke.me@gmail.com>
-Message-Id: <96b6f27f-5e82-53f0-627f-85c2f31a095b@gmail.com>
-Date: Wed, 25 Apr 2018 12:27:59 -0500
-To: Borislav Petkov <bp@alien8.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180425173931.GD2597@pd.tnic>
+Date: Wed, 25 Apr 2018 19:39:31 +0200
+To: "Alex G." <mr.nuke.me@gmail.com>
 Cc: linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org, rjw@rjwysocki.net, lenb@kernel.org, tony.luck@intel.com, tbaicar@codeaurora.org, will.deacon@arm.com, james.morse@arm.com, shiju.jose@huawei.com, zjzhang@codeaurora.org, gengdongjiu@huawei.com, linux-kernel@vger.kernel.org, alex_gagniuc@dellteam.com, austin_bolen@dell.com, shyam_iyer@dell.com, devel@acpica.org, mchehab@kernel.org, robert.moore@intel.com, erik.schmauss@intel.com, Yazen Ghannam <yazen.ghannam@amd.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gMDQvMjUvMjAxOCAxMjoxNSBQTSwgQm9yaXNsYXYgUGV0a292IHdyb3RlOgo+IE9uIFdlZCwg
-QXByIDI1LCAyMDE4IGF0IDEwOjAwOjUzQU0gLTA1MDAsIEFsZXggRy4gd3JvdGU6Cj4+IEZpcm13
-YXJlLWZpcnN0Lgo+IAo+IE9rLCBteSBndWVzcyB3YXMgcmlnaHQuCj4gCj4+IFdlIGNvdWxkIHBy
-b2JhYmx5IHVzZSBtb3JlIG9mIHRoZSBuYXRpdmUgQUVSIHByaW50IGZ1bmN0aW9ucywgYnV0IHRo
-YXQncwo+PiBiZXlvbmQgdGhlIHNjb3BlIG9mIHRoaXMgcGF0Y2guCj4gCj4gTm8gbm8sIHRoaXMg
-ZG9lcyBub3QgYmVsb25nIGluIHRoaXMgcGF0Y2hzZXQuCj4gCj4+IExpa2UgdGhlIGV4YWN0IHRo
-aW5nIHRoYXQgdGhpcyBwYXRjaCBzZXJpZXMgaW1wbGVtZW50cz8gOikKPiAKPiBFeGFjdCB0aGlu
-Zz8gSSBkb24ndCB0aGluayBzby4KPiAKPiBObywgeW91ciBwYXRjaHNldCBpcyBncmFmdGluZyBz
-b21lIGZ1bmt5IGFuZCBxdWVzdGlvbmFibGUgc2lkZS1oYW5kbGVyCj4gd2hpY2ggZ2V0cyB0byBz
-ZWUgdGhlIFBDSWUgZXJyb3JzIGZpcnN0LCBvdXQtb2YtbGluZSBhbmQgdGhlbiBpdAo+IHByYWN0
-aWNhbGx5IGRvd25ncmFkZXMgdGhlaXIgc2V2ZXJpdHkgb3V0c2lkZSBvZiB0aGUgZXJyb3IgcHJv
-Y2Vzc2luZwo+IGZsb3cuCgpTVVJQUklTRSEhISBUaGlzIGlzIGEgd2hhdCB2cyBob3cgaXNzdWUu
-IEkgYW0ga2VlcGluZyB0aGUgd2hhdCwgYW5kCndvcmtpbmcgb24gdGhlIGhvdyB0aGF0IHlvdSBz
-dWdnZXN0ZWQuCgo+IFdoYXQgSSd2ZSBiZWVuIHRlbGxpbmcgeW91IAoKSXQncyBjb21pbmcgKGV2
-ZW50dWFsbHkpLiBJJ20gdHJ5aW5nIHRvIGF2b2lkIHB1c2hpbmcgbW9yZSB0aGFuIG9uZQpzZXJp
-ZXMgcGVyIHdlZWsuCgooc25pcCB1c2VmdWwgZW1haWwgY29udGV4dCkKCkhtbW0uCgpBbGV4Ci0t
-LQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3Jp
-YmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2Vy
-Lmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9y
-Zy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gV2VkLCBBcHIgMjUsIDIwMTggYXQgMTI6Mjc6NTlQTSAtMDUwMCwgQWxleCBHLiB3cm90ZToK
+PiBTVVJQUklTRSEhIQoKV2hhdCBkb2VzIHRoYXQgbWVhbj8gWW91J3ZlIGhhZCB0b28gbXVjaCBj
+b2ZmZWU/Cgo+IEl0J3MgY29taW5nIChldmVudHVhbGx5KS4gSSdtIHRyeWluZyB0byBhdm9pZCBw
+dXNoaW5nIG1vcmUgdGhhbiBvbmUKPiBzZXJpZXMgcGVyIHdlZWsuCgpZb3UgYmV0dGVyLiBGbG9v
+ZGluZyBwZW9wbGUgd2l0aCBwYXRjaHNldHMgd29uJ3QgZ2V0IHlvdSB2ZXJ5IGZhci4K
