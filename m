@@ -2,30 +2,41 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,v3,2/3] acpi: apei: Do not panic() on PCIe errors reported through GHES
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180426111946.GA15009@pd.tnic>
-Date: Thu, 26 Apr 2018 13:19:46 +0200
-To: Alexandru Gagniuc <mr.nuke.me@gmail.com>
-Cc: linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Moore <robert.moore@intel.com>, Erik Schmauss <erik.schmauss@intel.com>, Tyler Baicar <tbaicar@codeaurora.org>, Will Deacon <will.deacon@arm.com>, James Morse <james.morse@arm.com>, Shiju Jose <shiju.jose@huawei.com>, "Jonathan (Zhixiong) Zhang" <zjzhang@codeaurora.org>, Dongjiu Geng <gengdongjiu@huawei.com>, linux-kernel@vger.kernel.org, devel@acpica.org
+From: Alexandru Gagniuc <mr.nuke.me@gmail.com>
+Message-Id: <d193d219-0e2a-4a5c-b838-b5ea042bfab8@gmail.com>
+Date: Thu, 26 Apr 2018 12:44:57 -0500
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Moore <robert.moore@intel.com>, Erik Schmauss <erik.schmauss@intel.com>, Tyler Baicar <tbaicar@codeaurora.org>, Will Deacon <will.deacon@arm.com>, James Morse <james.morse@arm.com>, Shiju Jose <shiju.jose@huawei.com>, "Jonathan (Zhixiong) Zhang" <zjzhang@codeaurora.org>, Dongjiu Geng <gengdongjiu@huawei.com>, linux-kernel@vger.kernel.org, devel@acpica.org, austin_bolen@dell.com, alex_gagniuc@dellteam.com, shyam_iyer@dell.com
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBBcHIgMjUsIDIwMTggYXQgMDM6Mzk6NTBQTSAtMDUwMCwgQWxleGFuZHJ1IEdhZ25p
-dWMgd3JvdGU6Cj4gQEAgLTkzMiw3ICs5NzEsNyBAQCBzdGF0aWMgdm9pZCBfX3Byb2Nlc3NfZXJy
-b3Ioc3RydWN0IGdoZXMgKmdoZXMpCj4gIHN0YXRpYyBpbnQgZ2hlc19ub3RpZnlfbm1pKHVuc2ln
-bmVkIGludCBjbWQsIHN0cnVjdCBwdF9yZWdzICpyZWdzKQo+ICB7Cj4gIAlzdHJ1Y3QgZ2hlcyAq
-Z2hlczsKPiAtCWludCBzZXYsIHJldCA9IE5NSV9ET05FOwo+ICsJaW50IHNldiwgYXNldiwgcmV0
-ID0gTk1JX0RPTkU7Cj4gIAo+ICAJaWYgKCFhdG9taWNfYWRkX3VubGVzcygmZ2hlc19pbl9ubWks
-IDEsIDEpKQo+ICAJCXJldHVybiByZXQ7Cj4gQEAgLTk0NSw4ICs5ODQsOSBAQCBzdGF0aWMgaW50
-IGdoZXNfbm90aWZ5X25taSh1bnNpZ25lZCBpbnQgY21kLCBzdHJ1Y3QgcHRfcmVncyAqcmVncykK
-PiAgCQkJcmV0ID0gTk1JX0hBTkRMRUQ7Cj4gIAkJfQo+ICAKPiArCQlhc2V2ID0gZ2hlc19hY3R1
-YWxfc2V2ZXJpdHkoZ2hlcyk7Cj4gIAkJc2V2ID0gZ2hlc19zZXZlcml0eShnaGVzLT5lc3RhdHVz
-LT5lcnJvcl9zZXZlcml0eSk7CgpTbyByZW5hbWluZyBnaGVzX2RlZmVycmFibGVfc2V2ZXJpdHko
-KSB0byBnaGVzX2FjdHVhbF9zZXZlcml0eSgpIGlzIG5vdAphIGJpZyBjaGFuZ2UuIEFuZCB0aGF0
-J3Mgbm90IHdoYXQgSSBtZWFudC4KCkknZCBsaWtlIHRvIHNlZSBoZXJlOgoKCQkgc2V2ID0gZ2hl
-c19zZXZlcml0eShnaGVzKTsKCmFuZCBpbnNpZGUgeW91IGRvIGFsbCB0aGUgcmVxdWlyZWQgbWFw
-cGluZy9zZXZlcml0eSBwcm9jZXNzaW5nL2V0Yy4gQW5kCnlvdSBjYW4gcmVuYW1lIHRoZSBjdXJy
-ZW50IGdoZXNfc2V2ZXJpdHkoKSB0byBnaGVzX21hcF9jcGVyX3NldmVyaXR5KCkKb3Igd2hhdGV2
-ZXIuLi4KCj4gLQkJaWYgKHNldiA+PSBHSEVTX1NFVl9QQU5JQykgewo+ICsJCWlmICgoc2V2ID49
-IEdIRVNfU0VWX1BBTklDKSAmJiAoYXNldiA+PSBHSEVTX1NFVl9QQU5JQykpIHsKCi4uLiBzbyB0
-aGF0IHRoaXMgY2hhbmdlIGRvZXNuJ3QgaGFwcGVuIGFuZCB0aGVyZSBhcmUgbm90IHR3byBzZXZl
-cml0aWVzCnF1ZXJpZWQgYnV0IGEgc2luZ2xlIG9uZS4K
+SGkgQm9yaXNsYXYsCgpPbiAwNC8yNi8yMDE4IDA2OjE5IEFNLCBCb3Jpc2xhdiBQZXRrb3Ygd3Jv
+dGU6Cj4gT24gV2VkLCBBcHIgMjUsIDIwMTggYXQgMDM6Mzk6NTBQTSAtMDUwMCwgQWxleGFuZHJ1
+IEdhZ25pdWMgd3JvdGU6Cj4+IEBAIC05MzIsNyArOTcxLDcgQEAgc3RhdGljIHZvaWQgX19wcm9j
+ZXNzX2Vycm9yKHN0cnVjdCBnaGVzICpnaGVzKQo+PiAgIHN0YXRpYyBpbnQgZ2hlc19ub3RpZnlf
+bm1pKHVuc2lnbmVkIGludCBjbWQsIHN0cnVjdCBwdF9yZWdzICpyZWdzKQo+PiAgIHsKPj4gICAJ
+c3RydWN0IGdoZXMgKmdoZXM7Cj4+IC0JaW50IHNldiwgcmV0ID0gTk1JX0RPTkU7Cj4+ICsJaW50
+IHNldiwgYXNldiwgcmV0ID0gTk1JX0RPTkU7Cj4+ICAgCj4+ICAgCWlmICghYXRvbWljX2FkZF91
+bmxlc3MoJmdoZXNfaW5fbm1pLCAxLCAxKSkKPj4gICAJCXJldHVybiByZXQ7Cj4+IEBAIC05NDUs
+OCArOTg0LDkgQEAgc3RhdGljIGludCBnaGVzX25vdGlmeV9ubWkodW5zaWduZWQgaW50IGNtZCwg
+c3RydWN0IHB0X3JlZ3MgKnJlZ3MpCj4+ICAgCQkJcmV0ID0gTk1JX0hBTkRMRUQ7Cj4+ICAgCQl9
+Cj4+ICAgCj4+ICsJCWFzZXYgPSBnaGVzX2FjdHVhbF9zZXZlcml0eShnaGVzKTsKPj4gICAJCXNl
+diA9IGdoZXNfc2V2ZXJpdHkoZ2hlcy0+ZXN0YXR1cy0+ZXJyb3Jfc2V2ZXJpdHkpOwo+IAo+IFNv
+IHJlbmFtaW5nIGdoZXNfZGVmZXJyYWJsZV9zZXZlcml0eSgpIHRvIGdoZXNfYWN0dWFsX3NldmVy
+aXR5KCkgaXMgbm90Cj4gYSBiaWcgY2hhbmdlLiBBbmQgdGhhdCdzIG5vdCB3aGF0IEkgbWVhbnQu
+CgpJJ20gc29ycnkgSSBtaXN1bmRlcnN0b29kIHlvdS4KCj4gSSdkIGxpa2UgdG8gc2VlIGhlcmU6
+Cj4gCj4gCQkgc2V2ID0gZ2hlc19zZXZlcml0eShnaGVzKTsKCgkJIHNldiA9IGdoZXNfc2V2ZXJp
+dHkoZ2hlcyk7CgoKPiBhbmQgaW5zaWRlIHlvdSBkbyBhbGwgdGhlIHJlcXVpcmVkIG1hcHBpbmcv
+c2V2ZXJpdHkgcHJvY2Vzc2luZy9ldGMuIEFuZAo+IHlvdSBjYW4gcmVuYW1lIHRoZSBjdXJyZW50
+IGdoZXNfc2V2ZXJpdHkoKSB0byBnaGVzX21hcF9jcGVyX3NldmVyaXR5KCkKPiBvciB3aGF0ZXZl
+ci4uLgoKSSBhZ3JlZSB0aGF0IHRoZSBjdXJyZW50IGdoZXNfc2V2ZXJpdHkoKSBuYW1lIGlzIHZh
+Z3VlLiBJJ2xsIGdldCBpdCBkb25lIApwcm9wZXJseSBpbiB2NCAobmV4dCB3ZWVrKS4KCj4+IC0J
+CWlmIChzZXYgPj0gR0hFU19TRVZfUEFOSUMpIHsKPj4gKwkJaWYgKChzZXYgPj0gR0hFU19TRVZf
+UEFOSUMpICYmIChhc2V2ID49IEdIRVNfU0VWX1BBTklDKSkgewo+IAo+IC4uLiBzbyB0aGF0IHRo
+aXMgY2hhbmdlIGRvZXNuJ3QgaGFwcGVuIGFuZCB0aGVyZSBhcmUgbm90IHR3byBzZXZlcml0aWVz
+Cj4gcXVlcmllZCBidXQgYSBzaW5nbGUgb25lLgoKVHdvIHNldmVyaXRpZXMgaXMgYSByZXN1bHQg
+b2YgdGhlIHdhbmt5IEdIRVMgZGF0YSBzdHJ1Y3R1cmUuIE5vdGhpbmcgCnNheXMgd2UgaGF2ZSB0
+byB1c2UgdGhlIHNldmVyaXR5IGZpZWxkIGluIHRoZSBoZWFkZXIuLi4gaWYgeW91J3JlIG9rYXkg
+CndpdGgganVzdCBpZ25vcmluZyBpdC4KCkFsZXgKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhp
+cyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9k
+eSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9t
+byBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
