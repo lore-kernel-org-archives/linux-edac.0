@@ -2,27 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86, mce: Fix stack out-of-bounds write in mce-inject.c:flags_read()
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <20180427163707.ktaiysvbk3yhk4wm@agluck-desk>
-Date: Fri, 27 Apr 2018 09:37:08 -0700
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, the arch/x86 maintainers <x86@kernel.org>, linux-edac@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180427165939.GG15229@pd.tnic>
+Date: Fri, 27 Apr 2018 18:59:39 +0200
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, the arch/x86 maintainers <x86@kernel.org>, linux-edac@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-RWFjaCBvZiB0aGUgc3RyaW5ncyB0aGF0IHdlIHdhbnQgdG8gcHV0IGludG8gdGhlIGJ1ZltNQVhf
-RkxBR19PUFRfU0laRV0KaW4gZmxhZ3NfcmVhZCgpIGlzIHR3byBjaGFyYWN0ZXJzLiBCdXQgdGhl
-IHNwcmludGYoKSBhZGRzIGEgdHJhaWxpbmcgbmV3bGluZQphbmQgd2lsbCBhZGQgYSB0ZXJtaW5h
-dGluZyBOVUwgYnl0ZS4gU28gTUFYX0ZMQUdfT1BUX1NJWkUgbmVlZHMgdG8gYmUgNC4KClJlcG9y
-dGVkLWJ5OiBEbWl0cnkgVnl1a292IDxkdnl1a292QGdvb2dsZS5jb20+CkNjOiA8c3RhYmxlQHZn
-ZXIua2VybmVsLm9yZz4KU2lnbmVkLW9mZi1ieTogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwu
-Y29tPgotLS0KCi0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
-ICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFq
-b3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdl
-ci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwKCmRpZmYgLS1naXQgYS9hcmNoL3g4Ni9r
-ZXJuZWwvY3B1L21jaGVjay9tY2UtaW5qZWN0LmMgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVj
-ay9tY2UtaW5qZWN0LmMKaW5kZXggNDc1Y2I0ZjVmMTRmLi5jODA1YTA2ZTE0YzMgMTAwNjQ0Ci0t
-LSBhL2FyY2gveDg2L2tlcm5lbC9jcHUvbWNoZWNrL21jZS1pbmplY3QuYworKysgYi9hcmNoL3g4
-Ni9rZXJuZWwvY3B1L21jaGVjay9tY2UtaW5qZWN0LmMKQEAgLTQ4LDcgKzQ4LDcgQEAgc3RhdGlj
-IHN0cnVjdCBkZW50cnkgKmRmc19pbmo7CiAKIHN0YXRpYyB1OCBuX2JhbmtzOwogCi0jZGVmaW5l
-IE1BWF9GTEFHX09QVF9TSVpFCTMKKyNkZWZpbmUgTUFYX0ZMQUdfT1BUX1NJWkUJNAogI2RlZmlu
-ZSBOQkNGRwkJCTB4NDQKIAogZW51bSBpbmplY3Rpb25fdHlwZSB7Cg==
+T24gRnJpLCBBcHIgMjcsIDIwMTggYXQgMDk6Mzc6MDhBTSAtMDcwMCwgTHVjaywgVG9ueSB3cm90
+ZToKPiBFYWNoIG9mIHRoZSBzdHJpbmdzIHRoYXQgd2Ugd2FudCB0byBwdXQgaW50byB0aGUgYnVm
+W01BWF9GTEFHX09QVF9TSVpFXQo+IGluIGZsYWdzX3JlYWQoKSBpcyB0d28gY2hhcmFjdGVycy4g
+QnV0IHRoZSBzcHJpbnRmKCkgYWRkcyBhIHRyYWlsaW5nIG5ld2xpbmUKPiBhbmQgd2lsbCBhZGQg
+YSB0ZXJtaW5hdGluZyBOVUwgYnl0ZS4gU28gTUFYX0ZMQUdfT1BUX1NJWkUgbmVlZHMgdG8gYmUg
+NC4KCi4uLiBhbmQgSSBkdW1wZWQgdGhlIG4gaGVyZToKCgluID0gc3ByaW50ZihidWYsICIlc1xu
+IiwgZmxhZ3Nfb3B0aW9uc1tpbmpfdHlwZV0pCgphbmQgaXQgd2FzIDMgYnV0IHNwcmludGYoKSBj
+YWxscyB2c25wcmludGYoKSBhbmQgKnRoYXQqIGRvZXMgcmV0dXJuOgoKIiAqIFRoZSByZXR1cm4g
+dmFsdWUgaXMgdGhlIG51bWJlciBvZiBjaGFyYWN0ZXJzIHdoaWNoIHdvdWxkCiAqIGJlIGdlbmVy
+YXRlZCBmb3IgdGhlIGdpdmVuIGlucHV0LCBleGNsdWRpbmcgdGhlIHRyYWlsaW5nCiAqICdcMCcs
+IGFzIHBlciBJU08gQzk5LiIKClNvIEknbGwgZXh0ZW5kIHRoZSBjb21taXQgbWVzc2FnZSB3aXRo
+IHRoYXQgYW5kIGFwcGx5IGl0LgoKVGhhbmtzLgo=
