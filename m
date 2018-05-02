@@ -1,21 +1,34 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,v4,1/3] EDAC, GHES: Remove unused argument to ghes_edac_report_mem_error
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180512090033.GA27593@pd.tnic>
-Date: Sat, 12 May 2018 11:00:33 +0200
-To: Alexandru Gagniuc <mr.nuke.me@gmail.com>
-Cc: alex_gagniuc@dellteam.com, austin_bolen@dell.com, shyam_iyer@dell.com, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Moore <robert.moore@intel.com>, Erik Schmauss <erik.schmauss@intel.com>, Tyler Baicar <tbaicar@codeaurora.org>, Will Deacon <will.deacon@arm.com>, James Morse <james.morse@arm.com>, Shiju Jose <shiju.jose@huawei.com>, "Jonathan (Zhixiong) Zhang" <zjzhang@codeaurora.org>, Dongjiu Geng <gengdongjiu@huawei.com>, linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, devel@acpica.org
+Subject: ghes_edac: Add a null pointer check in ghes_edac_unregister
+From: Sughosh Ganu <sughosh.ganu@arm.com>
+Message-Id: <CAHxXkBeUM9rr_HAD5bW2WjZGVF5-=0OGhaQ0iCU3RazUNmqBXQ@mail.gmail.com>
+Date: Wed, 2 May 2018 16:51:41 +0530
+To: Borislav Petkov <bp@alien8.de>
+Cc: Sughosh Ganu <sughosh.ganu@arm.com>, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBBcHIgMzAsIDIwMTggYXQgMDQ6MzM6NTBQTSAtMDUwMCwgQWxleGFuZHJ1IEdhZ25p
-dWMgd3JvdGU6Cj4gVGhlIHVzZSBvZiB0aGUgJ2doZXMnIGFyZ3VtZW50IHdhcyByZW1vdmVkIGlu
-IGEgcHJldmlvdXMgY29tbWl0LCBidXQKPiBmdW5jdGlvbiBzaWduYXR1cmUgd2FzIG5vdCB1cGRh
-dGVkIHRvIHJlZmxlY3QgdGhpcy4KPiAKPiBGaXhlczogMGZlNWYyODFmNzQ5ICgiRURBQywgZ2hl
-czogTW9kZWwgYSBzaW5nbGUsIGxvZ2ljYWwgbWVtb3J5IGNvbnRyb2xsZXIiKQo+IFNpZ25lZC1v
-ZmYtYnk6IEFsZXhhbmRydSBHYWduaXVjIDxtci5udWtlLm1lQGdtYWlsLmNvbT4KPiAtLS0KPiAg
-ZHJpdmVycy9hY3BpL2FwZWkvZ2hlcy5jIHwgMiArLQo+ICBkcml2ZXJzL2VkYWMvZ2hlc19lZGFj
-LmMgfCAzICstLQo+ICBpbmNsdWRlL2FjcGkvZ2hlcy5oICAgICAgfCA1ICsrLS0tCj4gIDMgZmls
-ZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoKQXBwbGllZCwgdGhh
-bmtzLgo=
+aGkgQm9yaXNsYXYsCgpPbiBNb24sIEFwciAzMCwgMjAxOCBhdCA0OjI5IFBNLCBCb3Jpc2xhdiBQ
+ZXRrb3YgPGJwQGFsaWVuOC5kZT4gd3JvdGU6Cj4gT24gVGh1LCBBcHIgMjYsIDIwMTggYXQgMDM6
+NDY6NDlQTSArMDUzMCwgU3VnaG9zaCBHYW51IHdyb3RlOgo+PiBBZGQgYSBudWxsIGNoZWNrIGZv
+ciBnaGVzX3B2dCwgYmVmb3JlIGRlcmVmZXJlbmNpbmcgaXQuIFRoZSBwb2ludGVyCj4+IGNvdWxk
+IHN0aWxsIGJlIG51bGwgaW4gY2FzZSB0aGUgcmV0dXJuIHBhdGggaXMgdGFrZW4gYmVmb3JlCj4+
+IGluaXRpYWxpc2luZyBnaGVzX3B2dCBpbiB0aGUgcmVnaXN0cmF0aW9uIGZ1bmN0aW9uLgo+Pgo+
+PiBnaGVzX2VkYWNfcmVnaXN0ZXIgZnVuY3Rpb24gY2FuIHJldHVybiBhIDAgd2l0aG91dCBpbml0
+aWFsaXNpbmcKPj4gZ2hlc19wdnQgLS0gdGhpcyBpcyBub3QgdGFrZW4gYXMgYW4gZXJyb3IgaW4g
+Z2hlc19wcm9iZS4gQSBzdWJzZXF1ZW50Cj4+IGNhbGwgdG8gZ2hlc19lZGFjX3VucmVnaXN0ZXIg
+d291bGQgcmVzdWx0IGluIGdoZXNfcHZ0IGdldHRpbmcKPj4gZGVyZWZlcmVuY2VkLCByZXN1bHRp
+bmcgaW4gYSBwYW5pYy4KPj4KPj4gU2lnbmVkLW9mZi1ieTogU3VnaG9zaCBHYW51IDxzdWdob3No
+LmdhbnVAYXJtLmNvbT4KPj4gLS0tCj4+Cj4+ICBkcml2ZXJzL2VkYWMvZ2hlc19lZGFjLmMgfCAz
+ICsrKwo+PiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+Cj4gQXBwbGllZCwgdGhh
+bmtzLgo+Cj4gU28geWVhaCwgdGhlIHJlZ2lzdHJhdGlvbiBvZiBnaGVzX2VkYWMgdGhpbmcgaXMg
+a2luZGEgY2F1c2luZyB1cwo+IGhlYWRhY2hlcyBzbyBJIHJlZGlkIHRoZSByZWcgcGF0aCBhIGJp
+dC4gTWluZCBydW5uaW5nIHRoaXMgYnJhbmNoIG9uCj4geW91ciBzZXR1cCB0byBtYWtlIHN1cmUg
+aXQgd29ya3MgYXMgZXhwZWN0ZWQ/Cj4KPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
+bGludXgva2VybmVsL2dpdC9icC9icC5naXQvbG9nLz9oPWVkYWMKClRlc3RlZCB0aGUgc2FpZCBi
+cmFuY2ggaW4gbXkgc2V0dXAsIGFuZCBldmVyeXRoaW5nIHdvcmtzIGFzIGV4cGVjdGVkLiBUaGFu
+a3MuCgotc3VnaG9zaAotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhl
+IGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LWVkYWMiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0
+byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6
+Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
