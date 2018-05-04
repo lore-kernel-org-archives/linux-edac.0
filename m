@@ -2,22 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC: fix spelling mistake: "redundacy" -> "redundancy"
-From: Colin King <colin.king@canonical.com>
-Message-Id: <20180504113804.17103-1-colin.king@canonical.com>
-Date: Fri,  4 May 2018 12:38:04 +0100
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180504130047.GA9257@pd.tnic>
+Date: Fri, 4 May 2018 15:00:47 +0200
+To: Colin King <colin.king@canonical.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRyaXZpYWwg
-Zml4IHRvIHNwZWxsaW5nIG1pc3Rha2UgaW4gZXJyIHN0cmluZwoKU2lnbmVkLW9mZi1ieTogQ29s
-aW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KLS0tCiBkcml2ZXJzL2VkYWMv
-aTdjb3JlX2VkYWMuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9pN2NvcmVfZWRhYy5jIGIvZHJp
-dmVycy9lZGFjL2k3Y29yZV9lZGFjLmMKaW5kZXggOGM1NTQwMTYwYTIzLi40ZDBlYTM1NjNkNDcg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9pN2NvcmVfZWRhYy5jCisrKyBiL2RyaXZlcnMvZWRh
-Yy9pN2NvcmVfZWRhYy5jCkBAIC0xNzQzLDcgKzE3NDMsNyBAQCBzdGF0aWMgdm9pZCBpN2NvcmVf
-bWNlX291dHB1dF9lcnJvcihzdHJ1Y3QgbWVtX2N0bF9pbmZvICptY2ksCiAJCWVyciA9ICJ3cml0
-ZSBwYXJpdHkgZXJyb3IiOwogCQlicmVhazsKIAljYXNlIDE5OgotCQllcnIgPSAicmVkdW5kYWN5
-IGxvc3MiOworCQllcnIgPSAicmVkdW5kYW5jeSBsb3NzIjsKIAkJYnJlYWs7CiAJY2FzZSAyMDoK
-IAkJZXJyID0gInJlc2VydmVkIjsK
+T24gRnJpLCBNYXkgMDQsIDIwMTggYXQgMTI6Mzg6MDRQTSArMDEwMCwgQ29saW4gS2luZyB3cm90
+ZToKPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+IAo+
+IFRyaXZpYWwgZml4IHRvIHNwZWxsaW5nIG1pc3Rha2UgaW4gZXJyIHN0cmluZwo+IAo+IFNpZ25l
+ZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Cj4gLS0t
+Cj4gIGRyaXZlcnMvZWRhYy9pN2NvcmVfZWRhYy5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9l
+ZGFjL2k3Y29yZV9lZGFjLmMgYi9kcml2ZXJzL2VkYWMvaTdjb3JlX2VkYWMuYwo+IGluZGV4IDhj
+NTU0MDE2MGEyMy4uNGQwZWEzNTYzZDQ3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZWRhYy9pN2Nv
+cmVfZWRhYy5jCj4gKysrIGIvZHJpdmVycy9lZGFjL2k3Y29yZV9lZGFjLmMKPiBAQCAtMTc0Myw3
+ICsxNzQzLDcgQEAgc3RhdGljIHZvaWQgaTdjb3JlX21jZV9vdXRwdXRfZXJyb3Ioc3RydWN0IG1l
+bV9jdGxfaW5mbyAqbWNpLAo+ICAJCWVyciA9ICJ3cml0ZSBwYXJpdHkgZXJyb3IiOwo+ICAJCWJy
+ZWFrOwo+ICAJY2FzZSAxOToKPiAtCQllcnIgPSAicmVkdW5kYWN5IGxvc3MiOwo+ICsJCWVyciA9
+ICJyZWR1bmRhbmN5IGxvc3MiOwo+ICAJCWJyZWFrOwo+ICAJY2FzZSAyMDoKPiAgCQllcnIgPSAi
+cmVzZXJ2ZWQiOwo+IC0tIAoKQXBwbGllZCwgdGhhbmtzLgo=
