@@ -1,14 +1,38 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [3/3] x86/MCE/AMD: Get address from already initialized block
-From: Boris Petkov <bp@suse.de>
-Message-Id: <20180517193308.GC24312@pd.tnic>
-Date: Thu, 17 May 2018 21:33:08 +0200
-To: Johannes Hirte <johannes.hirte@datenkhaos.de>
-Cc: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>
+Subject: ghes_edac: add DDR4 and NVDIMM memory types
+From: Toshi Kani <toshi.kani@hpe.com>
+Message-Id: <20180509222030.9299-1-toshi.kani@hpe.com>
+Date: Wed,  9 May 2018 16:20:30 -0600
+To: bp@alien8.de
+Cc: mchehab@kernel.org, linux-edac@vger.kernel.org, elliott@hpe.com, linux-kernel@vger.kernel.org, Toshi Kani <toshi.kani@hpe.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBNYXkgMTcsIDIwMTggYXQgMDk6Mjk6MjNQTSArMDIwMCwgSm9oYW5uZXMgSGlydGUg
-d3JvdGU6Cj4gV29ya3MgYXMgZXhwZWN0ZWQgb24gbXkgQ2Fycml6by4KClRoYW5rcywgSSdsbCBh
-ZGQgeW91ciBUZXN0ZWQtYnkuCg==
+VGhlIGdoZXNfZWRhYyBkcml2ZXIgb2J0YWlucyBtZW1vcnkgdHlwZSBmcm9tIFNNQklPUyB0eXBl
+IDE3LApidXQgaXQgZG9lcyBub3QgcmVjb2duaXplIEREUjQgYW5kIE5WRElNTSB0eXBlcy4KCkFk
+ZCBzdXBwb3J0IG9mIEREUjQgYW5kIE5WRElNTSB0eXBlcy4gIE5WRElNTSB0eXBlIGlzIHNldCB3
+aGVuCm1lbW9yeSB0eXBlIGlzIEREUjMvNCBhbmQgbm9uLXZvbGF0aWxlLgoKUmVwb3J0ZWQtYnk6
+IFJvYmVydCBFbGxpb3R0IDxlbGxpb3R0QGhwZS5jb20+ClNpZ25lZC1vZmYtYnk6IFRvc2hpIEth
+bmkgPHRvc2hpLmthbmlAaHBlLmNvbT4KQ2M6IEJvcmlzbGF2IFBldGtvdiA8YnBAYWxpZW44LmRl
+PgpDYzogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiQGtlcm5lbC5vcmc+Ci0tLQogZHJp
+dmVycy9lZGFjL2doZXNfZWRhYy5jIHwgICAxMiArKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2Vk
+LCAxMSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgotLQpUbyB1bnN1YnNjcmliZSBmcm9t
+IHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIgaW4KdGhl
+IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
+cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL2doZXNfZWRhYy5jIGIvZHJpdmVycy9lZGFjL2do
+ZXNfZWRhYy5jCmluZGV4IDY4YjZlZTE4YmVhNi4uZDAzOTkyNzMwMThkIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL2VkYWMvZ2hlc19lZGFjLmMKKysrIGIvZHJpdmVycy9lZGFjL2doZXNfZWRhYy5jCkBA
+IC0xMjMsMTEgKzEyMywyMSBAQCBzdGF0aWMgdm9pZCBnaGVzX2VkYWNfZG1pZGVjb2RlKGNvbnN0
+IHN0cnVjdCBkbWlfaGVhZGVyICpkaCwgdm9pZCAqYXJnKQogCQkJZGltbS0+bXR5cGUgPSBNRU1f
+RkJfRERSMjsKIAkJCWJyZWFrOwogCQljYXNlIDB4MTg6Ci0JCQlpZiAoZW50cnktPnR5cGVfZGV0
+YWlsICYgMSA8PCAxMykKKwkJCWlmIChlbnRyeS0+dHlwZV9kZXRhaWwgJiAxIDw8IDEyKQorCQkJ
+CWRpbW0tPm10eXBlID0gTUVNX05WRElNTTsKKwkJCWVsc2UgaWYgKGVudHJ5LT50eXBlX2RldGFp
+bCAmIDEgPDwgMTMpCiAJCQkJZGltbS0+bXR5cGUgPSBNRU1fUkREUjM7CiAJCQllbHNlCiAJCQkJ
+ZGltbS0+bXR5cGUgPSBNRU1fRERSMzsKIAkJCWJyZWFrOworCQljYXNlIDB4MWE6CisJCQlpZiAo
+ZW50cnktPnR5cGVfZGV0YWlsICYgMSA8PCAxMikKKwkJCQlkaW1tLT5tdHlwZSA9IE1FTV9OVkRJ
+TU07CisJCQllbHNlIGlmIChlbnRyeS0+dHlwZV9kZXRhaWwgJiAxIDw8IDEzKQorCQkJCWRpbW0t
+Pm10eXBlID0gTUVNX1JERFI0OworCQkJZWxzZQorCQkJCWRpbW0tPm10eXBlID0gTUVNX0REUjQ7
+CisJCQlicmVhazsKIAkJZGVmYXVsdDoKIAkJCWlmIChlbnRyeS0+dHlwZV9kZXRhaWwgJiAxIDw8
+IDYpCiAJCQkJZGltbS0+bXR5cGUgPSBNRU1fUk1CUzsK
