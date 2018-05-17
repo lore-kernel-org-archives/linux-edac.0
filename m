@@ -2,31 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] x86/MCE/AMD: Get address from already initialized block
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-Message-Id: <CY4PR12MB1557F564AF25A4F2306C7DE4F8910@CY4PR12MB1557.namprd12.prod.outlook.com>
-Date: Thu, 17 May 2018 14:05:39 +0000
+From: Johannes Hirte <johannes.hirte@datenkhaos.de>
+Message-Id: <20180517192922.GA11686@probook>
+Date: Thu, 17 May 2018 21:29:23 +0200
 To: Borislav Petkov <bp@suse.de>
-Cc: Johannes Hirte <johannes.hirte@datenkhaos.de>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>
+Cc: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCb3Jpc2xhdiBQZXRrb3YgPGJw
-QHN1c2UuZGU+DQo+IFNlbnQ6IFRodXJzZGF5LCBNYXkgMTcsIDIwMTggOTo0NCBBTQ0KPiBUbzog
-R2hhbm5hbSwgWWF6ZW4gPFlhemVuLkdoYW5uYW1AYW1kLmNvbT4NCj4gQ2M6IEpvaGFubmVzIEhp
-cnRlIDxqb2hhbm5lcy5oaXJ0ZUBkYXRlbmtoYW9zLmRlPjsgbGludXgtDQo+IGVkYWNAdmdlci5r
-ZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyB0b255Lmx1Y2tAaW50ZWwu
-Y29tOw0KPiB4ODZAa2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDMvM10geDg2L01D
-RS9BTUQ6IEdldCBhZGRyZXNzIGZyb20gYWxyZWFkeSBpbml0aWFsaXplZA0KPiBibG9jaw0KPiAN
-Cj4gT24gVGh1LCBNYXkgMTcsIDIwMTggYXQgMDE6MDQ6MTlQTSArMDAwMCwgR2hhbm5hbSwgWWF6
-ZW4gd3JvdGU6DQouLi4NCj4gDQo+IEkgY2hlY2sgUEZFSCBpcyBlbmFibGVkIGhvdz8NCj4gDQoN
-CklmIE1JU0MwIGlzIFJBWiB0aGVuIHlvdSBjYW4gYXNzdW1lIFBGRUggaXMgZW5hYmxlZC4gVGhl
-cmUgc2hvdWxkIGJlIGEgQklPUw0Kb3B0aW9uIHRvIGRpc2FibGUgaXQuDQoNCkJUVywgSSBqdXN0
-IHRyaWVkIHlvdSBwYXRjaCB3aXRoIFBGRUggZGlzYWJsZWQgYW5kIGl0IHNlZW1zIHRvIHdvcmsg
-ZmluZS4NCg0KLi4uDQo+ID4gU2luY2Ugd2UncmUgY2FjaGluZyB0aGUgdmFsdWVzIGR1cmluZyBp
-bml0LCB3ZSBjYW4gZHJvcCBhbGwgdGhlDQo+ID4gKl9vbl9jcHUoKSBjYWxscy4gV2hhdCBkbyB5
-b3UgdGhpbms/DQo+IA0KPiBXZWxsLCBpZiB0aGV5J3JlIGFsbCB0aGUgc2FtZSBvbiBhbGwgQ1BV
-cywgc3VyZS4gVGhhdCdzIHlvdXIgY2FsbC4NCj4gDQoNCkxldCdzIGRyb3AgdGhlbS4gV2Ugd29u
-J3QgbmVlZCB0aGVtIHNpbmNlIHdlJ3JlIGNhY2hpbmcgdGhlIHZhbHVlcyBkdXJpbmcNCmluaXQu
-IEFuZCB0aGUgaW5pdCBjb2RlIGlzIHJ1biBvbiB0aGUgdGFyZ2V0IENQVS4NCg0KV2UgY2FuIGp1
-c3QgbWFrZSBzbWNhX2JhbmtfYWRkcnNbXVtdIGludG8gcGVyX2NwdSB3aGVuIHdlIG5lZWQgdG8g
-c3VwcG9ydA0KZGlmZmVyZW50IHZhbHVlcyBvbiBkaWZmZXJlbnQgQ1BVcy4NCg0KVGhhbmtzLA0K
-WWF6ZW4K
+T24gMjAxOCBNYWkgMTcsIEJvcmlzbGF2IFBldGtvdiB3cm90ZToKPiBPbiBUaHUsIE1heSAxNywg
+MjAxOCBhdCAwODo0OTozMUFNICswMjAwLCBKb2hhbm5lcyBIaXJ0ZSB3cm90ZToKPiA+IE1heWJl
+IEknbSBtaXNzaW5nIHNvbWV0aGluZywgYnV0IHRob3NlIFJETVNSIElQU3MgZG9uJ3QgaGFwcGVu
+IG9uCj4gPiBwcmUtU01DQSBzeXN0ZW1zLCByaWdodD8gU28gdGhlIGNhY2hpbmcgc2hvdWxkIGJl
+IGF2b2lkZWQgaGVyZSwgY2F1c2UKPiA+IHRoZSB3aG9sZSBsb29rdXAgbG9va3MgbW9yZSBleHBl
+bnNpdmUgdG8gbWUgdGhhbiB0aGUgc2ltcGxlIHN3aXRjaC1ibG9jawo+ID4gaW4gZ2V0X2Jsb2Nr
+X2FkZHJlc3MuCj4gCj4gWWVhaCwgYW5kIHdlIHNob3VsZCBzaW1wbHkgY2FjaGUgYWxsIHRob3Nl
+IE1TUiB2YWx1ZXMgYXMgSSBzdWdnZXN0ZWQgdGhlbi4KPiAKPiBUaGUgcGF0Y2ggYXQgdGhlIGVu
+ZCBzaG91bGQgZml4IHlvdXIgaXNzdWUuCj4gCgpXb3JrcyBhcyBleHBlY3RlZCBvbiBteSBDYXJy
+aXpvLgo=
