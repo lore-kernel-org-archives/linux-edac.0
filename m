@@ -2,25 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, ghes: Make platform-based whitelisting x86-only
-From: Tyler Baicar <tbaicar@codeaurora.org>
-Message-Id: <b1d606dc-527c-6a7d-ce80-a11ac852a5f9@codeaurora.org>
-Date: Mon, 21 May 2018 09:48:23 -0400
-To: Borislav Petkov <bp@alien8.de>, James Morse <james.morse@arm.com>
-Cc: Zhengqiang <zhengqiang10@huawei.com>, mchehab@kernel.org, toshi.kani@hpe.com, linux-edac@vger.kernel.org, linuxarm@huawei.com, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180521171522.GA14289@pd.tnic>
+Date: Mon, 21 May 2018 19:15:22 +0200
+To: Tyler Baicar <tbaicar@codeaurora.org>
+Cc: James Morse <james.morse@arm.com>, Zhengqiang <zhengqiang10@huawei.com>, mchehab@kernel.org, toshi.kani@hpe.com, linux-edac@vger.kernel.org, linuxarm@huawei.com, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gNS8xOC8yMDE4IDc6MjAgQU0sIEJvcmlzbGF2IFBldGtvdiB3cm90ZToKPiBGcm9tOiBCb3Jp
-c2xhdiBQZXRrb3YgPGJwQHN1c2UuZGU+Cj4KPiBBUk0gbWFjaGluZXMgYWxsIGhhdmUgRE1JIHRh
-YmxlcyBzbyBpZiB0aGV5IHJlcXVlc3QgaHcgZXJyb3IgcmVwb3J0aW5nCj4gdGhyb3VnaCBHSEVT
-LCB0aGVuIHRoZSBkcml2ZXIgc2hvdWxkIGJlIGFibGUgdG8gZGV0ZWN0IERJTU1zIGFuZCByZXBv
-cnQKPiBlcnJvcnMgc3VjY2Vzc2Z1bGx5IChmYW1vdXMgbGFzdCB3b3JkcyA6KSkuCj4KPiBNYWtl
-IHRoZSBwbGF0Zm9ybS1iYXNlZCBsaXN0IHg4Ni1zcGVjaWZpYyBzbyB0aGF0IGdoZXNfZWRhYyBj
-YW4gbG9hZCBvbgo+IEFSTS4KPgo+IFNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBA
-c3VzZS5kZT4KPiBSZXZpZXdlZC1ieTogSmFtZXMgTW9yc2UgPGphbWVzLm1vcnNlQGFybS5jb20+
-Cj4gVGVzdGVkLWJ5OiBKYW1lcyBNb3JzZSA8amFtZXMubW9yc2VAYXJtLmNvbT4KPiBDYzogUWlh
-bmcgWmhlbmcgPHpoZW5ncWlhbmcxMEBodWF3ZWkuY29tPgpUZXN0ZWQtYnk6IFR5bGVyIEJhaWNh
-ciA8dGJhaWNhckBjb2RlYXVyb3JhLm9yZz4KCldhcyBpdCBpbnRlbnRpb25hbCB0byBtYWtlIGlk
-eD0wIHNvIHRoYXQgdGhlIHByX2luZm8gbGF0ZXIgaW4gdGhpcyBmdW5jdGlvbiBubyAKbG9uZ2Vy
-IGhpdHM/CgpJIGRvbid0IHNlZSBhbiBpc3N1ZSB3aXRoIG5vdCBwcmludGluZyBvdXQgdGhlIGxv
-bmcgQklPUyBzdGF0ZW1lbnQsIGJ1dCB0aGUgCm51bWJlciBvZiBESU1NIHNvY2tldHMgcHJpbnQg
-Y291bGQgc3RpbGwgYmUgdXNlZnVsLgoKVGhhbmtzLApUeWxlcgo=
+T24gTW9uLCBNYXkgMjEsIDIwMTggYXQgMDk6NDg6MjNBTSAtMDQwMCwgVHlsZXIgQmFpY2FyIHdy
+b3RlOgo+IEkgZG9uJ3Qgc2VlIGFuIGlzc3VlIHdpdGggbm90IHByaW50aW5nIG91dCB0aGUgbG9u
+ZyBCSU9TIHN0YXRlbWVudCwgYnV0IHRoZQo+IG51bWJlciBvZiBESU1NIHNvY2tldHMgcHJpbnQg
+Y291bGQgc3RpbGwgYmUgdXNlZnVsLgoKV2VsbCwgaWYgeW91IHdhbm5hIGR1bXAgdGhlIG51bWJl
+ciBvZiBESU1NcyAtIHRoZW4gbWF5YmUgdGhhdCBsaW5lCnNob3VsZCBpc3N1ZSB1bmNvbmRpdGlv
+bmFsbHkuIEhvd2V2ZXIsICJESU1NIHNvY2tldHMiIGlzIHNpbGx5IC0gaXQKc2hvdWxkIHNpbXBs
+eSBzYXk6CgoJIiVkIERJTU1zIGRldGVjdGVkIgoKb3Igc28uCg==
