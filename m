@@ -1,15 +1,15 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4.16,06/47] x86/mce/AMD: Carve out SMCA get_block_address() code
+Subject: [4.14,08/52] x86/mce/AMD: Carve out SMCA get_block_address() code
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180604065549.752487496@linuxfoundation.org>
-Date: Mon,  4 Jun 2018 08:58:18 +0200
+Message-Id: <20180604065606.873447352@linuxfoundation.org>
+Date: Mon,  4 Jun 2018 08:58:03 +0200
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@suse.de>, Borislav Petkov <bp@alien8.de>, Linus Torvalds <torvalds@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Tony Luck <tony.luck@intel.com>, linux-edac <linux-edac@vger.kernel.org>, Ingo Molnar <mingo@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-NC4xNi1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
+NC4xNC1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
 cGxlYXNlIGxldCBtZSBrbm93LgoKLS0tLS0tLS0tLS0tLS0tLS0tCgpGcm9tOiBZYXplbiBHaGFu
 bmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cgpjb21taXQgOGEzMzFmNGEwODYzYmVhNzU4NTYx
 YzkyMWI5NGI0ZDI4ZjdjNDAyOSB1cHN0cmVhbS4KCkNhcnZlIG91dCB0aGUgU01DQSBjb2RlIGlu
@@ -31,7 +31,7 @@ cm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIgaW4K
 dGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBt
 YWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5o
 dG1sCgotLS0gYS9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVjay9tY2VfYW1kLmMKKysrIGIvYXJj
-aC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlX2FtZC5jCkBAIC00MzEsNiArNDMxLDM1IEBAIHN0
+aC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlX2FtZC5jCkBAIC00MjksNiArNDI5LDM1IEBAIHN0
 YXRpYyB2b2lkIGRlZmVycmVkX2Vycm9yX2ludGVycnVwdF9lbmEKIAl3cm1zcihNU1JfQ1VfREVG
 X0VSUiwgbG93LCBoaWdoKTsKIH0KIAorc3RhdGljIHUzMiBzbWNhX2dldF9ibG9ja19hZGRyZXNz
 KHVuc2lnbmVkIGludCBjcHUsIHVuc2lnbmVkIGludCBiYW5rLAorCQkJCSAgdW5zaWduZWQgaW50
@@ -48,8 +48,8 @@ X1NNQ0FfTUN4X01JU0MoYmFuayksICZsb3csICZoaWdoKSAmJgorCSAgICAobG93ICYgTUFTS19C
 TEtQVFJfTE8pKQorCQlyZXR1cm4gTVNSX0FNRDY0X1NNQ0FfTUN4X01JU0N5KGJhbmssIGJsb2Nr
 IC0gMSk7CisKKwlyZXR1cm4gYWRkcjsKK30KKwogc3RhdGljIHUzMiBnZXRfYmxvY2tfYWRkcmVz
 cyh1bnNpZ25lZCBpbnQgY3B1LCB1MzIgY3VycmVudF9hZGRyLCB1MzIgbG93LCB1MzIgaGlnaCwK
-IAkJCSAgICAgdW5zaWduZWQgaW50IGJhbmssIHVuc2lnbmVkIGludCBibG9jaykKIHsKQEAgLTQ1
-MSwzMiArNDgwLDggQEAgc3RhdGljIHUzMiBnZXRfYmxvY2tfYWRkcmVzcyh1bnNpZ25lZCBpbgog
+IAkJCSAgICAgdW5zaWduZWQgaW50IGJhbmssIHVuc2lnbmVkIGludCBibG9jaykKIHsKQEAgLTQ0
+OSwzMiArNDc4LDggQEAgc3RhdGljIHUzMiBnZXRfYmxvY2tfYWRkcmVzcyh1bnNpZ25lZCBpbgog
 CQl9CiAJfQogCi0JaWYgKG1jZV9mbGFncy5zbWNhKSB7Ci0JCWlmIChzbWNhX2dldF9iYW5rX3R5
 cGUoYmFuaykgPT0gU01DQV9SRVNFUlZFRCkKLQkJCXJldHVybiBhZGRyOwotCi0JCWlmICghYmxv
 Y2spIHsKLQkJCWFkZHIgPSBNU1JfQU1ENjRfU01DQV9NQ3hfTUlTQyhiYW5rKTsKLQkJfSBlbHNl
