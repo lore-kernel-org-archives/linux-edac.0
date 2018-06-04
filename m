@@ -2,22 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,07/11] x86, memory_failure: Introduce {set, clear}_mce_nospec()
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <20180604170801.GA17234@agluck-desk>
-Date: Mon, 4 Jun 2018 10:08:01 -0700
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: linux-nvdimm@lists.01.org, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org, x86@kernel.org, hch@lst.de, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, jack@suse.cz
+From: Dan Williams <dan.j.williams@intel.com>
+Message-Id: <CAPcyv4g76nv=D2NXrpFLS-aWQR=N0T2n01WhrVY2_KPavkvLCA@mail.gmail.com>
+Date: Mon, 4 Jun 2018 10:39:48 -0700
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: linux-nvdimm <linux-nvdimm@lists.01.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org, X86 ML <x86@kernel.org>, Christoph Hellwig <hch@lst.de>, Linux MM <linux-mm@kvack.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, Jan Kara <jack@suse.cz>
 List-ID: <edac.vger.kernel.org>
 
-T24gU2F0LCBKdW4gMDIsIDIwMTggYXQgMTA6MjM6MjBQTSAtMDcwMCwgRGFuIFdpbGxpYW1zIHdy
-b3RlOgo+ICtzdGF0aWMgaW5saW5lIGludCBzZXRfbWNlX25vc3BlYyh1bnNpZ25lZCBsb25nIHBm
-bikKPiArewo+ICsJaW50IHJjOwo+ICsKPiArCXJjID0gc2V0X21lbW9yeV91YygodW5zaWduZWQg
-bG9uZykgX192YShQRk5fUEhZUyhwZm4pKSwgMSk7CgpZb3Ugc2hvdWxkIHJlYWxseSBkbyB0aGUg
-ZGVjb3lfYWRkciB0aGluZyBoZXJlIHRoYXQgSSBoYWQgaW4gbWNlX3VubWFwX2twZm4oKS4KUHV0
-dGluZyB0aGUgdmlydHVhbCBhZGRyZXNzIG9mIHRoZSBwYWdlIHlvdSBtdXN0bid0IGFjY2lkZW50
-YWxseSBwcmVmZXRjaApmcm9tIGludG8gYSByZWdpc3RlciBpcyBhIHByZXR0eSBnb29kIHdheSB0
-byBtYWtlIHN1cmUgdGhhdCB0aGUgcHJvY2Vzc29yCmRvZXMgZG8gYSBwcmVmZXRjaC4KCi1Ub255
-Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
-Y3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2
-Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVs
-Lm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gTW9uLCBKdW4gNCwgMjAxOCBhdCAxMDowOCBBTSwgTHVjaywgVG9ueSA8dG9ueS5sdWNrQGlu
+dGVsLmNvbT4gd3JvdGU6Cj4gT24gU2F0LCBKdW4gMDIsIDIwMTggYXQgMTA6MjM6MjBQTSAtMDcw
+MCwgRGFuIFdpbGxpYW1zIHdyb3RlOgo+PiArc3RhdGljIGlubGluZSBpbnQgc2V0X21jZV9ub3Nw
+ZWModW5zaWduZWQgbG9uZyBwZm4pCj4+ICt7Cj4+ICsgICAgIGludCByYzsKPj4gKwo+PiArICAg
+ICByYyA9IHNldF9tZW1vcnlfdWMoKHVuc2lnbmVkIGxvbmcpIF9fdmEoUEZOX1BIWVMocGZuKSks
+IDEpOwo+Cj4gWW91IHNob3VsZCByZWFsbHkgZG8gdGhlIGRlY295X2FkZHIgdGhpbmcgaGVyZSB0
+aGF0IEkgaGFkIGluIG1jZV91bm1hcF9rcGZuKCkuCj4gUHV0dGluZyB0aGUgdmlydHVhbCBhZGRy
+ZXNzIG9mIHRoZSBwYWdlIHlvdSBtdXN0bid0IGFjY2lkZW50YWxseSBwcmVmZXRjaAo+IGZyb20g
+aW50byBhIHJlZ2lzdGVyIGlzIGEgcHJldHR5IGdvb2Qgd2F5IHRvIG1ha2Ugc3VyZSB0aGF0IHRo
+ZSBwcm9jZXNzb3IKPiBkb2VzIGRvIGEgcHJlZmV0Y2guCgpNYXliZSBJJ20gbWlzcmVhZGluZywg
+YnV0IGRvZXNuJ3QgdGhhdCBtYWtlIHRoZSBwYWdlIGNvbXBsZXRlbHkKaW5hY2Nlc3NpYmxlPyBX
+ZSBzdGlsbCB3YW50IHRvIHJlYWQgcG1lbSB0aHJvdWdoIHRoZSBkcml2ZXIgYW5kIHRoZQpsaW5l
+YXIgbWFwcGluZyB3aXRoIG1lbWNweV9tY3NhZmUoKS4gQWx0ZXJuYXRpdmVseSBJIGNvdWxkIGp1
+c3QgZHJvcAp0aGlzIHBhdGNoIGFuZCBzZXR1cCBhIHByaXZhdGUgLyBhbGlhcyBtYXBwaW5nIGZv
+ciB0aGUgcG1lbSBkcml2ZXIgdG8KdXNlLiBJdCBzZWVtcyBhbGlhc2VkIG1hcHBpbmdzIHdvdWxk
+IGJlIHRoZSBzYWZlciBvcHRpb24sIGJ1dCBJIHdhbnQKdG8gbWFrZSBzdXJlIEkndmUgY29tcHJl
+aGVuZGVkIHlvdXIgc3VnZ2VzdGlvbiBjb3JyZWN0bHk/Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9t
+IHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtZWRhYyIgaW4KdGhl
+IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
+cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
+Cg==
