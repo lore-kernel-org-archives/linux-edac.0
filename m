@@ -1,15 +1,15 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4.16,30/64] x86/MCE: Fix stack out-of-bounds write in mce-inject.c: Flags_read()
+Subject: [4.14,29/52] x86/MCE: Fix stack out-of-bounds write in mce-inject.c: Flags_read()
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180624142745.650037752@linuxfoundation.org>
-Date: Sun, 24 Jun 2018 23:22:11 +0800
+Message-Id: <20180624142746.255487475@linuxfoundation.org>
+Date: Sun, 24 Jun 2018 23:21:22 +0800
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>, Thomas Gleixner <tglx@linutronix.de>, linux-edac <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-NC4xNi1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
+NC4xNC1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
 cGxlYXNlIGxldCBtZSBrbm93LgoKLS0tLS0tLS0tLS0tLS0tLS0tCgpGcm9tOiBUb255IEx1Y2sg
 PHRvbnkubHVja0BpbnRlbC5jb20+Cgpjb21taXQgOTg1Yzc4ZDNmZjhlOWM3NDQ1MGZhMmJiMDhl
 YjU1ZTY4MGQ5OTljYSB1cHN0cmVhbS4KCkVhY2ggb2YgdGhlIHN0cmluZ3MgdGhhdCB3ZSB3YW50
