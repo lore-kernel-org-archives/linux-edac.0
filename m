@@ -1,25 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC, thunderx: Remove VLA usage
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180709093808.GB22182@nazgul.tnic>
-Date: Mon, 9 Jul 2018 11:38:08 +0200
-To: Jan Glauber <jglauber@cavium.com>, Kees Cook <keescook@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: FAILED: patch "[PATCH] x86/mce: Fix incorrect "Machine check from unknown source"" failed to apply to 4.4-stable tree
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20180705181123.GC4575@kroah.com>
+Date: Thu, 5 Jul 2018 20:11:23 +0200
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: ashok.raj@intel.com, bp@suse.de, dan.j.williams@intel.com, linux-edac@vger.kernel.org, qiuxu.zhuo@intel.com, tglx@linutronix.de, stable@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBKdWwgMDYsIDIwMTggYXQgMDE6NDI6MTZQTSArMDIwMCwgSmFuIEdsYXViZXIgd3Jv
-dGU6Cj4gT24gRnJpLCBKdW4gMjksIDIwMTggYXQgMTE6NDg6NTBBTSAtMDcwMCwgS2VlcyBDb29r
-IHdyb3RlOgo+ID4gSW4gdGhlIHF1ZXN0IHRvIHJlbW92ZSBhbGwgc3RhY2sgVkxBIHVzYWdlIGZy
-b20gdGhlIGtlcm5lbFsxXSwgdGhpcwo+ID4gc3dpdGNoZXMgdG8gdXNpbmcgYSBrbWFsbG9jLWFs
-bG9jYXRlZCBidWZmZXIgaW5zdGVhZCBvZiBzdGFjayBzcGFjZS4KPiA+IFRoaXMgc2hvdWxkIGJl
-IGZpbmUgc2luY2UgdGhlIGV4aXN0aW5nIHJvdXRpbmUgaXMgYWxsb2NhdGluZyBtZW1vcnkKPiA+
-IHRvby4KPiA+IAo+ID4gWzFdIGh0dHBzOi8vbGttbC5rZXJuZWwub3JnL3IvQ0ErNTVhRnpDRy16
-Tm1ad1g0QTJGUXBhZGFmTGZFeks2Q0M9cVBYeWRBYWNVMVJxWldBQG1haWwuZ21haWwuY29tCj4g
-PiAKPiA+IENjOiBEYXZpZCBEYW5leSA8ZGF2aWQuZGFuZXlAY2F2aXVtLmNvbT4KPiA+IENjOiBK
-YW4gR2xhdWJlciA8amdsYXViZXJAY2F2aXVtLmNvbT4KPiA+IENjOiBCb3Jpc2xhdiBQZXRrb3Yg
-PGJwQGFsaWVuOC5kZT4KPiA+IENjOiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAa2Vy
-bmVsLm9yZz4KPiA+IENjOiBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZwo+ID4gU2lnbmVkLW9m
-Zi1ieTogS2VlcyBDb29rIDxrZWVzY29va0BjaHJvbWl1bS5vcmc+Cj4gCj4gQWNrZWQtYnk6IEph
-biBHbGF1YmVyIDxqZ2xhdWJlckBjYXZpdW0uY29tPgoKQXBwbGllZCwgdGhhbmtzLgo=
+T24gVGh1LCBKdW4gMjgsIDIwMTggYXQgMDM6MDk6MzFQTSAtMDcwMCwgTHVjaywgVG9ueSB3cm90
+ZToKPiBPbiBUaHUsIEp1biAyOCwgMjAxOCBhdCAxMTowNzoyMkFNICswOTAwLCBncmVna2hAbGlu
+dXhmb3VuZGF0aW9uLm9yZyB3cm90ZToKPiA+IAo+ID4gVGhlIHBhdGNoIGJlbG93IGRvZXMgbm90
+IGFwcGx5IHRvIHRoZSA0LjQtc3RhYmxlIHRyZWUuCj4gPiBJZiBzb21lb25lIHdhbnRzIGl0IGFw
+cGxpZWQgdGhlcmUsIG9yIHRvIGFueSBvdGhlciBzdGFibGUgb3IgbG9uZ3Rlcm0KPiA+IHRyZWUs
+IHRoZW4gcGxlYXNlIGVtYWlsIHRoZSBiYWNrcG9ydCwgaW5jbHVkaW5nIHRoZSBvcmlnaW5hbCBn
+aXQgY29tbWl0Cj4gPiBpZCB0byA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4uCj4gPiAKPiA+IHRo
+YW5rcywKPiAKPiBUaGlzIHBhdGNoIHJlbGllcyBvbjoKPiAKPiAJM2FjYjQzMWI4NGQ4ICgieDg2
+L21jZTogRGV0ZWN0IGxvY2FsIE1DRXMgcHJvcGVybHkiKQoKJCBnaXQgZGVzY3JpYmUgLS1jb250
+YWlucyAzYWNiNDMxYjg0ZDgKQ291bGQgbm90IGdldCBzaGExIGZvciAzYWNiNDMxYjg0ZDguIFNr
+aXBwaW5nLgoKQXJlIHlvdSBzdXJlIHRoYXQgaXMgY29ycmVjdD8KCnRoYW5rcywKCmdyZWcgay1o
+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
+Y3JpYmUgbGludXgtZWRhYyIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2
+Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVs
+Lm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
