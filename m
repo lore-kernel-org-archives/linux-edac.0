@@ -1,15 +1,15 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4.9,004/101] x86/mce: Fix incorrect "Machine check from unknown source" message
+Subject: [4.4,36/47] x86/mce: Fix incorrect "Machine check from unknown source" message
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180701160757.311573596@linuxfoundation.org>
-Date: Sun,  1 Jul 2018 18:20:50 +0200
+Message-Id: <20180710182338.673569223@linuxfoundation.org>
+Date: Tue, 10 Jul 2018 20:25:00 +0200
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>, Thomas Gleixner <tglx@linutronix.de>, Ashok Raj <ashok.raj@intel.com>, Dan Williams <dan.j.williams@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-NC45LXN0YWJsZSByZXZpZXcgcGF0Y2guICBJZiBhbnlvbmUgaGFzIGFueSBvYmplY3Rpb25zLCBw
+NC40LXN0YWJsZSByZXZpZXcgcGF0Y2guICBJZiBhbnlvbmUgaGFzIGFueSBvYmplY3Rpb25zLCBw
 bGVhc2UgbGV0IG1lIGtub3cuCgotLS0tLS0tLS0tLS0tLS0tLS0KCkZyb206IFRvbnkgTHVjayA8
 dG9ueS5sdWNrQGludGVsLmNvbT4KCmNvbW1pdCA0MGMzNmUyNzQxZDdmZTFlNjZkNmVjNTU0Nzdi
 YTVmZDE5YzljNWQyIHVwc3RyZWFtLgoKU29tZSBpbmplY3Rpb24gdGVzdGluZyByZXN1bHRlZCBp
@@ -52,7 +52,7 @@ bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jk
 b21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5r
 ZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwKCi0tLSBhL2FyY2gveDg2L2tlcm5lbC9jcHUv
 bWNoZWNrL21jZS5jCisrKyBiL2FyY2gveDg2L2tlcm5lbC9jcHUvbWNoZWNrL21jZS5jCkBAIC0x
-MTQwLDEzICsxMTQwLDE4IEBAIHZvaWQgZG9fbWFjaGluZV9jaGVjayhzdHJ1Y3QgcHRfcmVncyAq
+MDUyLDEzICsxMDUyLDE4IEBAIHZvaWQgZG9fbWFjaGluZV9jaGVjayhzdHJ1Y3QgcHRfcmVncyAq
 cmUKIAkJbG1jZSA9IG0ubWNnc3RhdHVzICYgTUNHX1NUQVRVU19MTUNFUzsKIAogCS8qCisJICog
 TG9jYWwgbWFjaGluZSBjaGVjayBtYXkgYWxyZWFkeSBrbm93IHRoYXQgd2UgaGF2ZSB0byBwYW5p
 Yy4KKwkgKiBCcm9hZGNhc3QgbWFjaGluZSBjaGVjayBiZWdpbnMgcmVuZGV6dm91cyBpbiBtY2Vf
@@ -64,8 +64,8 @@ ZXJmb3JtIHJlbmRlenZvdXMuCisJICogdG8gc2VlIGl0IHdpbGwgY2xlYXIgaXQuCiAJICovCi0J
 aWYgKCFsbWNlKQorCWlmIChsbWNlKSB7CisJCWlmIChub193YXlfb3V0KQorCQkJbWNlX3Bhbmlj
 KCJGYXRhbCBsb2NhbCBtYWNoaW5lIGNoZWNrIiwgJm0sIG1zZyk7CisJfSBlbHNlIHsKIAkJb3Jk
 ZXIgPSBtY2Vfc3RhcnQoJm5vX3dheV9vdXQpOworCX0KIAogCWZvciAoaSA9IDA7IGkgPCBjZmct
-PmJhbmtzOyBpKyspIHsKIAkJX19jbGVhcl9iaXQoaSwgdG9jbGVhcik7CkBAIC0xMjIyLDEyICsx
-MjI3LDE3IEBAIHZvaWQgZG9fbWFjaGluZV9jaGVjayhzdHJ1Y3QgcHRfcmVncyAqcmUKIAkJCW5v
+PmJhbmtzOyBpKyspIHsKIAkJX19jbGVhcl9iaXQoaSwgdG9jbGVhcik7CkBAIC0xMTM1LDEyICsx
+MTQwLDE3IEBAIHZvaWQgZG9fbWFjaGluZV9jaGVjayhzdHJ1Y3QgcHRfcmVncyAqcmUKIAkJCW5v
 X3dheV9vdXQgPSB3b3JzdCA+PSBNQ0VfUEFOSUNfU0VWRVJJVFk7CiAJfSBlbHNlIHsKIAkJLyoK
 LQkJICogTG9jYWwgTUNFIHNraXBwZWQgY2FsbGluZyBtY2VfcmVpZ24oKQotCQkgKiBJZiB3ZSBm
 b3VuZCBhIGZhdGFsIGVycm9yLCB3ZSBuZWVkIHRvIHBhbmljIGhlcmUuCisJCSAqIElmIHRoZXJl
