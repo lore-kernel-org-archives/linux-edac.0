@@ -1,16 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: x86/MCE: Fix CPU microcode version output
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180731090423.GA22219@nazgul.tnic>
-Date: Tue, 31 Jul 2018 11:04:23 +0200
-To: "Sironi, Filippo" <sironi@amazon.de>, Prarit Bhargava <prarit@redhat.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: x86/MCE: Remove min interval limitation
+From: Alexander Sverdlin <alexander.sverdlin@nokia.com>
+Message-Id: <20180716084927.24869-1-alexander.sverdlin@nokia.com>
+Date: Mon, 16 Jul 2018 10:49:27 +0200
+To: linux-edac@vger.kernel.org
+Cc: Dewet Thibaut <thibaut.dewet@nokia.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org, stable@vger.kernel.org, Alexander Sverdlin <alexander.sverdlin@nokia.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBKdWwgMzEsIDIwMTggYXQgMDc6NDM6NDZBTSArMDAwMCwgU2lyb25pLCBGaWxpcHBv
-IHdyb3RlOgo+IFNvcnJ5LCBJIHdhcyBvdXQgb2Ygb2ZmaWNlIGZvciBhIHdoaWxlLgo+IEknbGwg
-bG9vayBpbnRvIHRoaXMgdG9kYXkuCgpQcmFyaXQgaXMgZG9pbmcgYSBwYXRjaCB0b28gLSB5b3Ug
-bWlnaHQgd2FubmEgc2F2ZSBlZmZvcnQuIEkgbGVhdmUgaXQgdXAKdG8geW91IGd1eXMgdG8gZmln
-dXJlIG91dCB3aG8gc2hvdWxkIGRvIGl0Lgo=
+RnJvbTogRGV3ZXQgVGhpYmF1dCA8dGhpYmF1dC5kZXdldEBub2tpYS5jb20+CgpQcmV2aW91c2x5
+IHRoZSBtaW4gaW50ZXJ2YWwgbGltaXRhdGlvbiAob25lIHNlY29uZCkgaGFzIGJlZW4gaW50cm9k
+dWNlZC4KSW4gdGhpcyBjYXNlIGl0IHdhcyBubyBsb25nZXIgcG9zc2libGUgdG8gZGlzYWJsZSB0
+aGUgbWFjaGluZSBjaGVjay4KVGhpcyBwYXRjaCByZW1vdmVzIHRoaXMgbGltaXRhdGlvbiBhbmQg
+YWxsb3dzIHRoZSB2YWx1ZSAwIGFnYWluLgoKQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcKRml4
+ZXM6IGIzYjdjNDc5NWMgKCJ4ODYvTUNFOiBTZXJpYWxpemUgc3lzZnMgY2hhbmdlcyIpClNpZ25l
+ZC1vZmYtYnk6IERld2V0IFRoaWJhdXQgPHRoaWJhdXQuZGV3ZXRAbm9raWEuY29tPgpTaWduZWQt
+b2ZmLWJ5OiBBbGV4YW5kZXIgU3ZlcmRsaW4gPGFsZXhhbmRlci5zdmVyZGxpbkBub2tpYS5jb20+
+Ci0tLQogYXJjaC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlLmMgfCAzIC0tLQogMSBmaWxlIGNo
+YW5nZWQsIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvYXJjaC94ODYva2VybmVsL2NwdS9t
+Y2hlY2svbWNlLmMgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jaGVjay9tY2UuYwppbmRleCBjMTAy
+YWQ1MTAyNWUuLjhjNTA3NTRjMDljMSAxMDA2NDQKLS0tIGEvYXJjaC94ODYva2VybmVsL2NwdS9t
+Y2hlY2svbWNlLmMKKysrIGIvYXJjaC94ODYva2VybmVsL2NwdS9tY2hlY2svbWNlLmMKQEAgLTIx
+NjUsOSArMjE2NSw2IEBAIHN0YXRpYyBzc2l6ZV90IHN0b3JlX2ludF93aXRoX3Jlc3RhcnQoc3Ry
+dWN0IGRldmljZSAqcywKIAlpZiAoY2hlY2tfaW50ZXJ2YWwgPT0gb2xkX2NoZWNrX2ludGVydmFs
+KQogCQlyZXR1cm4gcmV0OwogCi0JaWYgKGNoZWNrX2ludGVydmFsIDwgMSkKLQkJY2hlY2tfaW50
+ZXJ2YWwgPSAxOwotCiAJbXV0ZXhfbG9jaygmbWNlX3N5c2ZzX211dGV4KTsKIAltY2VfcmVzdGFy
+dCgpOwogCW11dGV4X3VubG9jaygmbWNlX3N5c2ZzX211dGV4KTsK
