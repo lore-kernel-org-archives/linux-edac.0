@@ -2,27 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/MCE: Fix CPU microcode version output
-From: Prarit Bhargava <prarit@redhat.com>
-Message-Id: <e76c74b6-4008-9f7d-83bf-dd48433a7ea3@redhat.com>
-Date: Mon, 30 Jul 2018 11:23:18 -0400
-To: Borislav Petkov <bp@alien8.de>, "Luck, Tony" <tony.luck@intel.com>
-Cc: linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org, linux-edac@vger.kernel.org, Filippo Sironi <sironi@amazon.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180730161604.GC11890@nazgul.tnic>
+Date: Mon, 30 Jul 2018 18:16:04 +0200
+To: Prarit Bhargava <prarit@redhat.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>, linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org, linux-edac@vger.kernel.org, Filippo Sironi <sironi@amazon.de>
 List-ID: <edac.vger.kernel.org>
 
-T24gMDcvMDMvMjAxOCAwNTo0MyBQTSwgQm9yaXNsYXYgUGV0a292IHdyb3RlOgo+IE9uIFR1ZSwg
-SnVsIDAzLCAyMDE4IGF0IDA5OjU4OjQ5QU0gLTA3MDAsIEx1Y2ssIFRvbnkgd3JvdGU6Cj4+IE9u
-IFR1ZSwgSnVsIDAzLCAyMDE4IGF0IDEyOjQ4OjQ0UE0gLTA0MDAsIFByYXJpdCBCaGFyZ2F2YSB3
-cm90ZToKPj4+IE9uIHN5c3RlbXMgd2hlcmUgYSBydW50aW1lIG1pY3JvY29kZSB1cGRhdGUgaGFz
-IG9jY3VycmVkIHRoZQo+Pj4gbWljcm9jb2RlIHZlcnNpb24gaXMgd3JvbmcgYmVjYXVzZSBib290
-X2NwdV9kYXRhLm1pY3JvY29kZSBpcwo+Pj4gbm90IHVwZGF0ZWQgZHVyaW5nIHJ1bnRpbWUuCj4+
-Pgo+Pj4gVXNlIHRoZSBwZXItQ1BVIG1pY3JvY29kZSB2ZXJzaW9uIGluIHRoZSBNQ0UgbWVzc2Fn
-ZS4KPj4KPj4gT3RoZXIgb3B0aW9uIHdvdWxkIGJlIHRvIGZpeCB0aGUgbWljcm9jb2RlIHVwZGF0
-ZSBjb2RlIHRvIG1ha2UKPj4gc3VyZSB0aGF0IGJvb3RfY3B1X2RhdGEubWljcm9jb2RlIGlzIHJp
-Z2h0Lgo+IAo+IFllcywgSSBhbHJlYWR5IHJlcXVlc3RlZCB0aGF0Ogo+IAo+IGh0dHBzOi8vbGtt
-bC5rZXJuZWwub3JnL3IvMTUyNzg1MjYyNi03MjU4LTEtZ2l0LXNlbmQtZW1haWwtc2lyb25pQGFt
-YXpvbi5kZQo+IAo+IExvb2tzIGxpa2UgRmlsaXBwbyBoYXMgYSBwYXRjaCBhbHJlYWR5LiBDQ2Vk
-LgoKRmlsaXBwbyAmIEJvcmlzbGF2LCBkaWQgdGhlIHBhdGNoIGdldCBjb21taXR0ZWQgdG8gYSAt
-bmV4dCB0cmVlPwoKUC4KCj4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5k
-IHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC1lZGFjIiBpbgp0aGUgYm9keSBvZiBhIG1lc3Nh
-Z2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBo
-dHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+T24gTW9uLCBKdWwgMzAsIDIwMTggYXQgMTE6MjM6MThBTSAtMDQwMCwgUHJhcml0IEJoYXJnYXZh
+IHdyb3RlOgo+IEZpbGlwcG8gJiBCb3Jpc2xhdiwgZGlkIHRoZSBwYXRjaCBnZXQgY29tbWl0dGVk
+IHRvIGEgLW5leHQgdHJlZT8KCk5vLCBJJ20gc3RpbGwgd2FpdGluZyBmb3IgaXQgLSBsb29rcyBs
+aWtlIEZpbGlwcG8gaXMgYnVzeS4KCkNhcmUgdG8gc2VuZCBvbmUgaW5zdGVhZCBhcyBzdWdnZXN0
+ZWQgaGVyZT8KCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAxODA2MDExMjE5MzkuR0Ey
+MzI5OEBuYXpndWwudG5pYy8K
