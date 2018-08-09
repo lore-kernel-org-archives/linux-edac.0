@@ -2,18 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] x86/MCE/AMD: Check for NULL banks in THR interrupt handler
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180809161548.GA20928@nazgul.tnic>
-Date: Thu, 9 Aug 2018 18:15:48 +0200
-To: Yazen Ghannam <Yazen.Ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, tony.luck@intel.com, x86@kernel.org
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Message-Id: <BN7PR12MB259365671F2A73D5FF33C134F8250@BN7PR12MB2593.namprd12.prod.outlook.com>
+Date: Thu, 9 Aug 2018 18:18:15 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBBdWcgMDksIDIwMTggYXQgMDk6MDg6MzNBTSAtMDUwMCwgWWF6ZW4gR2hhbm5hbSB3
-cm90ZToKPiBGcm9tOiBZYXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+Cj4gCj4g
-SWYgdGhyZXNob2xkX2luaXRfZGV2aWNlKCkgZmFpbHMgdGhlbiBwZXJfY3B1KHRocmVzaG9sZF9i
-YW5rcykgd2lsbCBiZQo+IGRlYWxsb2NhdGVkLiBUaGUgdGhyZXNob2xkaW5nIGludGVycnVwdCBo
-YW5kbGVyIHdpbGwgc3RpbGwgYmUgYWN0aXZlLCBzbwoKU28gZml4IHRoZSBjb2RlIHNvIHRoYXQg
-KnRoYXQqIGRvZXNuJ3QgaGFwcGVuIGluc3RlYWQgb2YgYWRkaW5nIGNoZWNrcwp0byB0aGUgaW50
-ZXJydXB0IGhhbmRsZXIuCgpJLmUuLAoKCWlmIChlcnIpIHsKCQltY2VfdGhyZXNob2xkX3ZlY3Rv
-ciA9IGRlZmF1bHRfdGhyZXNob2xkX2ludGVycnVwdDsKCQlyZXR1cm4gZXJyOwoJfQo=
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCb3Jpc2xhdiBQZXRrb3YgPGJw
+QGFsaWVuOC5kZT4NCj4gU2VudDogVGh1cnNkYXksIEF1Z3VzdCA5LCAyMDE4IDExOjE2IEFNDQo+
+IFRvOiBHaGFubmFtLCBZYXplbiA8WWF6ZW4uR2hhbm5hbUBhbWQuY29tPg0KPiBDYzogbGludXgt
+ZWRhY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+IHRv
+bnkubHVja0BpbnRlbC5jb207IHg4NkBrZXJuZWwub3JnDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0gg
+MS8yXSB4ODYvTUNFL0FNRDogQ2hlY2sgZm9yIE5VTEwgYmFua3MgaW4gVEhSDQo+IGludGVycnVw
+dCBoYW5kbGVyDQo+IA0KPiBPbiBUaHUsIEF1ZyAwOSwgMjAxOCBhdCAwOTowODozM0FNIC0wNTAw
+LCBZYXplbiBHaGFubmFtIHdyb3RlOg0KPiA+IEZyb206IFlhemVuIEdoYW5uYW0gPHlhemVuLmdo
+YW5uYW1AYW1kLmNvbT4NCj4gPg0KPiA+IElmIHRocmVzaG9sZF9pbml0X2RldmljZSgpIGZhaWxz
+IHRoZW4gcGVyX2NwdSh0aHJlc2hvbGRfYmFua3MpIHdpbGwgYmUNCj4gPiBkZWFsbG9jYXRlZC4g
+VGhlIHRocmVzaG9sZGluZyBpbnRlcnJ1cHQgaGFuZGxlciB3aWxsIHN0aWxsIGJlIGFjdGl2ZSwg
+c28NCj4gDQo+IFNvIGZpeCB0aGUgY29kZSBzbyB0aGF0ICp0aGF0KiBkb2Vzbid0IGhhcHBlbiBp
+bnN0ZWFkIG9mIGFkZGluZyBjaGVja3MNCj4gdG8gdGhlIGludGVycnVwdCBoYW5kbGVyLg0KPiAN
+Cj4gSS5lLiwNCj4gDQo+IAlpZiAoZXJyKSB7DQo+IAkJbWNlX3RocmVzaG9sZF92ZWN0b3IgPSBk
+ZWZhdWx0X3RocmVzaG9sZF9pbnRlcnJ1cHQ7DQo+IAkJcmV0dXJuIGVycjsNCj4gCX0NCj4gDQoN
+Ck9rYXkuIEknbGwgbWFrZSB0aGF0IGNoYW5nZS4NCg0KVGhhbmtzLA0KWWF6ZW4K
