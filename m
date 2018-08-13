@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,16/17] driver/edac: enable Hygon support to AMD64 EDAC driver
 From: Pu Wen <puwen@hygon.cn>
-Message-Id: <68538d23-8880-29a2-decd-f63b48667274@hygon.cn>
-Date: Tue, 14 Aug 2018 00:17:55 +0800
+Message-Id: <49bec5ba-3a54-a9ee-f965-5f361e9711d2@hygon.cn>
+Date: Tue, 14 Aug 2018 00:18:27 +0800
 To: Michael Jin <mikhail.jin@gmail.com>
 Cc: tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com, x86@kernel.org, thomas.lendacky@amd.com, bp@alien8.de, pbonzini@redhat.com, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
