@@ -2,26 +2,42 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,4/4] arm64: zynqmp: Add DDRC node
-From: Manish Narani <manish.narani@xilinx.com>
-Message-Id: <1533374735-16662-5-git-send-email-manish.narani@xilinx.com>
-Date: Sat, 4 Aug 2018 14:55:35 +0530
-To: robh+dt@kernel.org, mark.rutland@arm.com, catalin.marinas@arm.com, will.deacon@arm.com, michal.simek@xilinx.com, bp@alien8.de, mchehab@kernel.org, mdf@kernel.org, edgar.iglesias@xilinx.com, shubhrajyoti.datta@xilinx.com, naga.sureshkumar.relli@xilinx.com, bharat.kumar.gogada@xilinx.com, stefan.krsmanovic@aggios.com
-Cc: sgoud@xilinx.com, anirudh@xilinx.com, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org, Manish Narani <manish.narani@xilinx.com>
+From: Manish Narani <MNARANI@xilinx.com>
+Message-Id: <DM6PR02MB52276B9FB674BC816BC28A82C13C0@DM6PR02MB5227.namprd02.prod.outlook.com>
+Date: Sat, 18 Aug 2018 10:12:18 +0000
+To: Manish Narani <MNARANI@xilinx.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "mark.rutland@arm.com" <mark.rutland@arm.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will.deacon@arm.com" <will.deacon@arm.com>, Michal Simek <michals@xilinx.com>, "bp@alien8.de" <bp@alien8.de>, "mchehab@kernel.org" <mchehab@kernel.org>, "mdf@kernel.org" <mdf@kernel.org>, Edgar Iglesias <edgari@xilinx.com>, Shubhrajyoti Datta <shubhraj@xilinx.com>, Naga Sureshkumar Relli <nagasure@xilinx.com>, Bharat Kumar Gogada <bharatku@xilinx.com>, "stefan.krsmanovic@aggios.com" <stefan.krsmanovic@aggios.com>
+Cc: Srinivas Goud <sgoud@xilinx.com>, Anirudha Sarangi <anirudh@xilinx.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-VGhpcyBwYXRjaCBhZGRzIGRkcmMgbWVtb3J5IGNvbnRyb2xsZXIgbm9kZSBpbiBkdHMuIFRoZSBz
-aXplIG1lbnRpb25lZAppbiBkdHMgaXMgMHgzMDAwMCwgYmVjYXVzZSB3ZSBuZWVkIHRvIGFjY2Vz
-cyBERFJfUU9TIElOVFIgcmVnaXN0ZXJzCmxvY2F0ZWQgYXQgZmQwOTAyMDggZnJvbSB0aGlzIGRy
-aXZlci4KClNpZ25lZC1vZmYtYnk6IE1hbmlzaCBOYXJhbmkgPG1hbmlzaC5uYXJhbmlAeGlsaW54
-LmNvbT4KLS0tCiBhcmNoL2FybTY0L2Jvb3QvZHRzL3hpbGlueC96eW5xbXAuZHRzaSB8IDcgKysr
-KysrKwogMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2FyY2gv
-YXJtNjQvYm9vdC9kdHMveGlsaW54L3p5bnFtcC5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy94
-aWxpbngvenlucW1wLmR0c2kKaW5kZXggYTA5MWU2Zi4uN2Q2YTNjZiAxMDA2NDQKLS0tIGEvYXJj
-aC9hcm02NC9ib290L2R0cy94aWxpbngvenlucW1wLmR0c2kKKysrIGIvYXJjaC9hcm02NC9ib290
-L2R0cy94aWxpbngvenlucW1wLmR0c2kKQEAgLTM1NSw2ICszNTUsMTMgQEAKIAkJCXhsbngsYnVz
-LXdpZHRoID0gPDY0PjsKIAkJfTsKIAorCQltYzogbWVtb3J5LWNvbnRyb2xsZXJAZmQwNzAwMDAg
-eworCQkJY29tcGF0aWJsZSA9ICJ4bG54LHp5bnFtcC1kZHJjLTIuNDBhIjsKKwkJCXJlZyA9IDww
-eDAgMHhmZDA3MDAwMCAweDAgMHgzMDAwMD47CisJCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+
-OworCQkJaW50ZXJydXB0cyA9IDwwIDExMiA0PjsKKwkJfTsKKwogCQlnZW0wOiBldGhlcm5ldEBm
-ZjBiMDAwMCB7CiAJCQljb21wYXRpYmxlID0gImNkbnMsenlucW1wLWdlbSIsICJjZG5zLGdlbSI7
-CiAJCQlzdGF0dXMgPSAiZGlzYWJsZWQiOwo=
+UGluZy4KCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPiBGcm9tOiBNYW5pc2ggTmFyYW5p
+IFttYWlsdG86bWFuaXNoLm5hcmFuaUB4aWxpbnguY29tXQo+IFNlbnQ6IFNhdHVyZGF5LCBBdWd1
+c3QgNCwgMjAxOCAyOjU2IFBNCj4gVG86IHJvYmgrZHRAa2VybmVsLm9yZzsgbWFyay5ydXRsYW5k
+QGFybS5jb207IGNhdGFsaW4ubWFyaW5hc0Bhcm0uY29tOwo+IHdpbGwuZGVhY29uQGFybS5jb207
+IE1pY2hhbCBTaW1layA8bWljaGFsc0B4aWxpbnguY29tPjsgYnBAYWxpZW44LmRlOwo+IG1jaGVo
+YWJAa2VybmVsLm9yZzsgbWRmQGtlcm5lbC5vcmc7IEVkZ2FyIElnbGVzaWFzIDxlZGdhcmlAeGls
+aW54LmNvbT47Cj4gU2h1YmhyYWp5b3RpIERhdHRhIDxzaHViaHJhakB4aWxpbnguY29tPjsgTmFn
+YSBTdXJlc2hrdW1hciBSZWxsaQo+IDxuYWdhc3VyZUB4aWxpbnguY29tPjsgQmhhcmF0IEt1bWFy
+IEdvZ2FkYSA8YmhhcmF0a3VAeGlsaW54LmNvbT47Cj4gc3RlZmFuLmtyc21hbm92aWNAYWdnaW9z
+LmNvbQo+IENjOiBTcmluaXZhcyBHb3VkIDxzZ291ZEB4aWxpbnguY29tPjsgQW5pcnVkaGEgU2Fy
+YW5naQo+IDxhbmlydWRoQHhpbGlueC5jb20+OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3Jn
+Owo+IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmlu
+ZnJhZGVhZC5vcmc7IGxpbnV4LQo+IGVkYWNAdmdlci5rZXJuZWwub3JnOyBNYW5pc2ggTmFyYW5p
+IDxNTkFSQU5JQHhpbGlueC5jb20+Cj4gU3ViamVjdDogW1BBVENIIHY0IDQvNF0gYXJtNjQ6IHp5
+bnFtcDogQWRkIEREUkMgbm9kZQo+IAo+IFRoaXMgcGF0Y2ggYWRkcyBkZHJjIG1lbW9yeSBjb250
+cm9sbGVyIG5vZGUgaW4gZHRzLiBUaGUgc2l6ZSBtZW50aW9uZWQgaW4gZHRzCj4gaXMgMHgzMDAw
+MCwgYmVjYXVzZSB3ZSBuZWVkIHRvIGFjY2VzcyBERFJfUU9TIElOVFIgcmVnaXN0ZXJzIGxvY2F0
+ZWQgYXQKPiBmZDA5MDIwOCBmcm9tIHRoaXMgZHJpdmVyLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE1h
+bmlzaCBOYXJhbmkgPG1hbmlzaC5uYXJhbmlAeGlsaW54LmNvbT4KPiAtLS0KPiAgYXJjaC9hcm02
+NC9ib290L2R0cy94aWxpbngvenlucW1wLmR0c2kgfCA3ICsrKysrKysKPiAgMSBmaWxlIGNoYW5n
+ZWQsIDcgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRz
+L3hpbGlueC96eW5xbXAuZHRzaQo+IGIvYXJjaC9hcm02NC9ib290L2R0cy94aWxpbngvenlucW1w
+LmR0c2kKPiBpbmRleCBhMDkxZTZmLi43ZDZhM2NmIDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtNjQv
+Ym9vdC9kdHMveGlsaW54L3p5bnFtcC5kdHNpCj4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy94
+aWxpbngvenlucW1wLmR0c2kKPiBAQCAtMzU1LDYgKzM1NSwxMyBAQAo+ICAJCQl4bG54LGJ1cy13
+aWR0aCA9IDw2ND47Cj4gIAkJfTsKPiAKPiArCQltYzogbWVtb3J5LWNvbnRyb2xsZXJAZmQwNzAw
+MDAgewo+ICsJCQljb21wYXRpYmxlID0gInhsbngsenlucW1wLWRkcmMtMi40MGEiOwo+ICsJCQly
+ZWcgPSA8MHgwIDB4ZmQwNzAwMDAgMHgwIDB4MzAwMDA+Owo+ICsJCQlpbnRlcnJ1cHQtcGFyZW50
+ID0gPCZnaWM+Owo+ICsJCQlpbnRlcnJ1cHRzID0gPDAgMTEyIDQ+Owo+ICsJCX07Cj4gKwo+ICAJ
+CWdlbTA6IGV0aGVybmV0QGZmMGIwMDAwIHsKPiAgCQkJY29tcGF0aWJsZSA9ICJjZG5zLHp5bnFt
+cC1nZW0iLCAiY2RucyxnZW0iOwo+ICAJCQlzdGF0dXMgPSAiZGlzYWJsZWQiOwo+IC0tCj4gMi4x
+LjEK
