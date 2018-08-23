@@ -2,25 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3] EDAC, amd64: Add Family 17h Model 10h support.
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-Message-Id: <BN7PR12MB2593EA63572DBF05D75CC5CFF8370@BN7PR12MB2593.namprd12.prod.outlook.com>
-Date: Thu, 23 Aug 2018 17:51:25 +0000
-To: Michael Jin <mikhail.jin@gmail.com>, Borislav Petkov <bp@suse.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+From: Michael Jin <mikhail.jin@gmail.com>
+Message-Id: <CAO6F7D=RUfhf1RXwR9VBgoUisc=vt3uPh6kQO=Ay+r6ynLL1TQ@mail.gmail.com>
+Date: Thu, 23 Aug 2018 19:42:06 -0400
+To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+Cc: Borislav Petkov <bp@suse.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQo+IEZyb206IE1pY2hhZWwgSmluIDxtaWtoYWls
-LmppbkBnbWFpbC5jb20+Cj4gU2VudDogVGh1cnNkYXksIEF1Z3VzdCAxNiwgMjAxOCAyOjI5IFBN
-Cj4gVG86IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT47IEdoYW5uYW0sIFlhemVuCj4gPFlh
-emVuLkdoYW5uYW1AYW1kLmNvbT47IE1hdXJvIENhcnZhbGhvIENoZWhhYgo+IDxtY2hlaGFiQGtl
-cm5lbC5vcmc+Cj4gQ2M6IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxA
-dmdlci5rZXJuZWwub3JnOyBNaWNoYWVsIEppbgo+IDxtaWtoYWlsLmppbkBnbWFpbC5jb20+OyBz
-dGFibGVAdmdlci5rZXJuZWwub3JnCj4gU3ViamVjdDogW1BBVENIIHYzXSBFREFDLCBhbWQ2NDog
-QWRkIEZhbWlseSAxN2ggTW9kZWwgMTBoIHN1cHBvcnQuCj4gCj4gQWRkIG5ldyBkZXZpY2UgSURz
-IGZvciBmYW1pbHkgMTdoIG1vZGVscyAxMGgtMmZoLgo+IAo+IFRoaXMgaXMgcmVxdWlyZWQgYnkg
-YW1kNjRfZWRhY19tb2QgaW4gb3JkZXIgdG8gcHJvcGVybHkgZGV0ZWN0IFBDSQo+IGRldmljZSBm
-dW5jdGlvbnMgMCBhbmQgNi4KPiAKPiBMaW5rOiBodHRwczovL2xrbWwua2VybmVsLm9yZy9yLzIw
-MTgwODE1MTE0MTA3LjI5Nzk3LTEtCj4gbWlraGFpbC5qaW5AZ21haWwuY29tCj4gQ2M6IDxzdGFi
-bGVAdmdlci5rZXJuZWwub3JnPiAjIDQuMTAueAo+IFNpZ25lZC1vZmYtYnk6IE1pY2hhZWwgSmlu
-IDxtaWtoYWlsLmppbkBnbWFpbC5jb20+CgpMb29rcyBnb29kIHRvIG1lLgoKUmV2aWV3ZWQtYnk6
-IFlhemVuIEdoYW5uYW0gPHlhemVuLmdoYW5uYW1AYW1kLmNvbT4KClRoYW5rcywKWWF6ZW4K
+T24gVGh1LCBBdWcgMjMsIDIwMTggYXQgMTo1MSBQTSwgR2hhbm5hbSwgWWF6ZW4gPFlhemVuLkdo
+YW5uYW1AYW1kLmNvbT4gd3JvdGU6Cj4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tCj4+IEZy
+b206IE1pY2hhZWwgSmluIDxtaWtoYWlsLmppbkBnbWFpbC5jb20+Cj4+IFNlbnQ6IFRodXJzZGF5
+LCBBdWd1c3QgMTYsIDIwMTggMjoyOSBQTQo+PiBUbzogQm9yaXNsYXYgUGV0a292IDxicEBzdXNl
+LmRlPjsgR2hhbm5hbSwgWWF6ZW4KPj4gPFlhemVuLkdoYW5uYW1AYW1kLmNvbT47IE1hdXJvIENh
+cnZhbGhvIENoZWhhYgo+PiA8bWNoZWhhYkBrZXJuZWwub3JnPgo+PiBDYzogbGludXgtZWRhY0B2
+Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IE1pY2hhZWwgSmlu
+Cj4+IDxtaWtoYWlsLmppbkBnbWFpbC5jb20+OyBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4+IFN1
+YmplY3Q6IFtQQVRDSCB2M10gRURBQywgYW1kNjQ6IEFkZCBGYW1pbHkgMTdoIE1vZGVsIDEwaCBz
+dXBwb3J0Lgo+Pgo+PiBBZGQgbmV3IGRldmljZSBJRHMgZm9yIGZhbWlseSAxN2ggbW9kZWxzIDEw
+aC0yZmguCj4+Cj4+IFRoaXMgaXMgcmVxdWlyZWQgYnkgYW1kNjRfZWRhY19tb2QgaW4gb3JkZXIg
+dG8gcHJvcGVybHkgZGV0ZWN0IFBDSQo+PiBkZXZpY2UgZnVuY3Rpb25zIDAgYW5kIDYuCj4+Cj4+
+IExpbms6IGh0dHBzOi8vbGttbC5rZXJuZWwub3JnL3IvMjAxODA4MTUxMTQxMDcuMjk3OTctMS0K
+Pj4gbWlraGFpbC5qaW5AZ21haWwuY29tCj4+IENjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4g
+IyA0LjEwLngKPj4gU2lnbmVkLW9mZi1ieTogTWljaGFlbCBKaW4gPG1pa2hhaWwuamluQGdtYWls
+LmNvbT4KPgo+IExvb2tzIGdvb2QgdG8gbWUuCj4KPiBSZXZpZXdlZC1ieTogWWF6ZW4gR2hhbm5h
+bSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgo+Cj4gVGhhbmtzLAo+IFlhemVuCgpUaGFua3MgZm9y
+IHRoZSByZXZpZXdpbmcgcGF0Y2ggdjMuCgpNaWNoYWVsCg==
