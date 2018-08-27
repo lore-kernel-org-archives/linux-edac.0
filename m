@@ -2,27 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,5/7] x86: plumb error code and fault address through to fault handlers
-From: Andy Lutomirski <luto@kernel.org>
-Message-Id: <CALCETrXSfLVcGGPM5=XJ8hxaN_sO2faS7iu8JzJdeYDaWc_rPg@mail.gmail.com>
-Date: Mon, 27 Aug 2018 12:08:49 -0700
-To: Jann Horn <jannh@google.com>
-Cc: Kees Cook <keescook@chromium.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, X86 ML <x86@kernel.org>, Andy Lutomirski <luto@kernel.org>, Kernel Hardening <kernel-hardening@lists.openwall.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, LKML <linux-kernel@vger.kernel.org>, Dmitry Vyukov <dvyukov@google.com>, linux-edac <linux-edac@vger.kernel.org>
+From: Jann Horn <jannh@google.com>
+Message-Id: <CAG48ez3BSns2W_7S=OR=K5eFCbjKn84xrbtp98oMqSkUtAEYyw@mail.gmail.com>
+Date: Mon, 27 Aug 2018 21:25:44 +0200
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, the arch/x86 maintainers <x86@kernel.org>, Kernel Hardening <kernel-hardening@lists.openwall.com>, tony.luck@intel.com, Borislav Petkov <bp@alien8.de>, kernel list <linux-kernel@vger.kernel.org>, Dmitry Vyukov <dvyukov@google.com>, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBBdWcgMjcsIDIwMTggYXQgMTE6NTYgQU0sIEphbm4gSG9ybiA8amFubmhAZ29vZ2xl
-LmNvbT4gd3JvdGU6Cj4gVGhpcyBpcyBwcmVwYXJhdGlvbiBmb3IgbG9va2luZyBhdCB0cmFwIG51
-bWJlciBhbmQgZmF1bHQgYWRkcmVzcyBpbiB0aGUKPiBoYW5kbGVycyBmb3IgdWFjY2VzcyBlcnJv
-cnMuCj4gVGhpcyBwYXRjaCBzaG91bGQgbm90IGNoYW5nZSBhbnkgYmVoYXZpb3IuCgpDb25mdXNl
-ZC4gICRTVUJKRUNUIHNheXMgeW91J3JlIHBsdW1iaW5nIHRoZSBlcnJvciBjb2RlIHRocm91Z2gs
-IGFuZAp5b3UgYXJlIHNvcnQgb2YgZG9pbmcgaXQ6Cgo+IC1pbnQgZml4dXBfZXhjZXB0aW9uKHN0
-cnVjdCBwdF9yZWdzICpyZWdzLCBpbnQgdHJhcG5yKQo+ICtpbnQgZml4dXBfZXhjZXB0aW9uKHN0
-cnVjdCBwdF9yZWdzICpyZWdzLCBpbnQgdHJhcG5yLCB1bnNpZ25lZCBsb25nIGVycm9yX2NvZGUs
-Cj4gKyAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBsb25nIGZhdWx0X2FkZHIpCj4gIHsKCkl0
-J3MgYXZhaWxhYmxlIGhlcmUuLi4KCj4gICAgICAgICBjb25zdCBzdHJ1Y3QgZXhjZXB0aW9uX3Rh
-YmxlX2VudHJ5ICplOwo+ICAgICAgICAgZXhfaGFuZGxlcl90IGhhbmRsZXI7Cj4gQEAgLTIwMiw3
-ICsyMTIsNyBAQCBpbnQgZml4dXBfZXhjZXB0aW9uKHN0cnVjdCBwdF9yZWdzICpyZWdzLCBpbnQg
-dHJhcG5yKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gMDsKPgo+ICAgICAgICAgaGFuZGxlciA9
-IGV4X2ZpeHVwX2hhbmRsZXIoZSk7Cj4gLSAgICAgICByZXR1cm4gaGFuZGxlcihlLCByZWdzLCB0
-cmFwbnIpOwo+ICsgICAgICAgcmV0dXJuIGhhbmRsZXIoZSwgcmVncywgdHJhcG5yLCBmYXVsdF9h
-ZGRyKTsKCi4uLiBidXQgeW91IGRvbid0IHBhc3MgaXQgaW50byB0aGUgaGFuZGxlcnMuICBJcyB0
-aGlzIGludGVudGlvbmFsPwo=
+T24gTW9uLCBBdWcgMjcsIDIwMTggYXQgOTowOSBQTSBBbmR5IEx1dG9taXJza2kgPGx1dG9Aa2Vy
+bmVsLm9yZz4gd3JvdGU6Cj4KPiBPbiBNb24sIEF1ZyAyNywgMjAxOCBhdCAxMTo1NiBBTSwgSmFu
+biBIb3JuIDxqYW5uaEBnb29nbGUuY29tPiB3cm90ZToKPiA+IFRoaXMgaXMgcHJlcGFyYXRpb24g
+Zm9yIGxvb2tpbmcgYXQgdHJhcCBudW1iZXIgYW5kIGZhdWx0IGFkZHJlc3MgaW4gdGhlCj4gPiBo
+YW5kbGVycyBmb3IgdWFjY2VzcyBlcnJvcnMuCj4gPiBUaGlzIHBhdGNoIHNob3VsZCBub3QgY2hh
+bmdlIGFueSBiZWhhdmlvci4KPgo+IENvbmZ1c2VkLiAgJFNVQkpFQ1Qgc2F5cyB5b3UncmUgcGx1
+bWJpbmcgdGhlIGVycm9yIGNvZGUgdGhyb3VnaCwgYW5kCj4geW91IGFyZSBzb3J0IG9mIGRvaW5n
+IGl0Ogo+Cj4gPiAtaW50IGZpeHVwX2V4Y2VwdGlvbihzdHJ1Y3QgcHRfcmVncyAqcmVncywgaW50
+IHRyYXBucikKPiA+ICtpbnQgZml4dXBfZXhjZXB0aW9uKHN0cnVjdCBwdF9yZWdzICpyZWdzLCBp
+bnQgdHJhcG5yLCB1bnNpZ25lZCBsb25nIGVycm9yX2NvZGUsCj4gPiArICAgICAgICAgICAgICAg
+ICAgIHVuc2lnbmVkIGxvbmcgZmF1bHRfYWRkcikKPiA+ICB7Cj4KPiBJdCdzIGF2YWlsYWJsZSBo
+ZXJlLi4uCj4KPiA+ICAgICAgICAgY29uc3Qgc3RydWN0IGV4Y2VwdGlvbl90YWJsZV9lbnRyeSAq
+ZTsKPiA+ICAgICAgICAgZXhfaGFuZGxlcl90IGhhbmRsZXI7Cj4gPiBAQCAtMjAyLDcgKzIxMiw3
+IEBAIGludCBmaXh1cF9leGNlcHRpb24oc3RydWN0IHB0X3JlZ3MgKnJlZ3MsIGludCB0cmFwbnIp
+Cj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPgo+ID4gICAgICAgICBoYW5kbGVyID0g
+ZXhfZml4dXBfaGFuZGxlcihlKTsKPiA+IC0gICAgICAgcmV0dXJuIGhhbmRsZXIoZSwgcmVncywg
+dHJhcG5yKTsKPiA+ICsgICAgICAgcmV0dXJuIGhhbmRsZXIoZSwgcmVncywgdHJhcG5yLCBmYXVs
+dF9hZGRyKTsKPgo+IC4uLiBidXQgeW91IGRvbid0IHBhc3MgaXQgaW50byB0aGUgaGFuZGxlcnMu
+ICBJcyB0aGlzIGludGVudGlvbmFsPwoKV2hvb3BzLiBObywgdGhhdCdzIG5vdCBpbnRlbnRpb25h
+bC4gSSdsbCBmaXggaXQgdXAgZm9yIHRoZSBuZXh0IHZlcnNpb24uCg==
