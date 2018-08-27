@@ -1,22 +1,35 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC] drivers: edac: edac_reg_data[] can be static
-From: kbuild test robot <fengguang.wu@intel.com>
-Message-Id: <20180829144318.GA53254@lkp-ib03>
-Date: Wed, 29 Aug 2018 22:43:18 +0800
-To: Venkata Narendra Kumar Gutta <vnkgutta@codeaurora.org>
-Cc: kbuild-all@01.org, evgreen@chromium.org, robh@kernel.org, mchehab@kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Andy Gross <andy.gross@linaro.org>, David Brown <david.brown@linaro.org>, linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, tsoni@codeaurora.org, ckadabi@codeaurora.org, rishabhb@codeaurora.org, bp@alien8.de, swboyd@chromium.org
+Subject: [v2,1/7] x86: refactor kprobes_fault() like kprobe_exceptions_notify()
+From: Jann Horn <jannh@google.com>
+Message-Id: <20180827185631.163506-2-jannh@google.com>
+Date: Mon, 27 Aug 2018 20:56:25 +0200
+To: Kees Cook <keescook@chromium.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, x86@kernel.org, Andy Lutomirski <luto@kernel.org>, kernel-hardening@lists.openwall.com, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, jannh@google.com
+Cc: linux-kernel@vger.kernel.org, dvyukov@google.com, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-Rml4ZXM6IDY5ODQwMDhjZmU2YiAoImRyaXZlcnM6IGVkYWM6IEFkZCBFREFDIGRyaXZlciBzdXBw
-b3J0IGZvciBRQ09NIFNvQ3MiKQpTaWduZWQtb2ZmLWJ5OiBrYnVpbGQgdGVzdCByb2JvdCA8ZmVu
-Z2d1YW5nLnd1QGludGVsLmNvbT4KLS0tCiBxY29tX2VkYWMuYyB8ICAgIDIgKy0KIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZWRhYy9xY29tX2VkYWMuYyBiL2RyaXZlcnMvZWRhYy9xY29tX2VkYWMuYwppbmRleCA4NzFl
-ZDA3Li42OWI0Y2I1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2VkYWMvcWNvbV9lZGFjLmMKKysrIGIv
-ZHJpdmVycy9lZGFjL3Fjb21fZWRhYy5jCkBAIC04Myw3ICs4Myw3IEBAIGVudW0gewogCUxMQ0Nf
-VFJBTV9VRSwKIH07CiAKLWNvbnN0IHN0cnVjdCBsbGNjX2VkYWNfcmVnX2RhdGEgZWRhY19yZWdf
-ZGF0YVtdID0geworc3RhdGljIGNvbnN0IHN0cnVjdCBsbGNjX2VkYWNfcmVnX2RhdGEgZWRhY19y
-ZWdfZGF0YVtdID0gewogCVtMTENDX0RSQU1fQ0VdID0gewogCQkubmFtZSA9ICJEUkFNIFNpbmds
-ZS1iaXQiLAogCQkuc3luZF9yZWcgPSBEUlBfRUNDX1NCX0VSUl9TWU4wLAo=
+VGhpcyBpcyBhbiBleHRlbnNpb24gb2YgY29tbWl0IGI1MDZhOWQwOGJhZSAoIng4NjogY29kZSBj
+bGFyaWZpY2F0aW9uIHBhdGNoCnRvIEtwcm9iZXMgYXJjaCBjb2RlIikuIEFzIHRoYXQgY29tbWl0
+IGV4cGxhaW5zLCBldmVuIHRob3VnaAprcHJvYmVfcnVubmluZygpIGNhbid0IGJlIGNhbGxlZCB3
+aXRoIHByZWVtcHRpb24gZW5hYmxlZCwgeW91IGRvbid0IGhhdmUgdG8KZGlzYWJsZSBwcmVlbXB0
+aW9uIC0gaWYgcHJlZW1wdGlvbiBpcyBvbiwgeW91IGNhbid0IGJlIGluIGEga3Byb2JlLgoKQWxz
+bywgdXNlIFg4Nl9UUkFQX1BGIGluc3RlYWQgb2YgMTQuCgpTaWduZWQtb2ZmLWJ5OiBKYW5uIEhv
+cm4gPGphbm5oQGdvb2dsZS5jb20+Ci0tLQogYXJjaC94ODYvbW0vZmF1bHQuYyB8IDE5ICsrKysr
+KysrLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDExIGRlbGV0
+aW9ucygtKQoKZGlmZiAtLWdpdCBhL2FyY2gveDg2L21tL2ZhdWx0LmMgYi9hcmNoL3g4Ni9tbS9m
+YXVsdC5jCmluZGV4IGI5MTIzYzQ5N2UwYS4uMjI1NGEzMDUzM2I5IDEwMDY0NAotLS0gYS9hcmNo
+L3g4Ni9tbS9mYXVsdC5jCisrKyBiL2FyY2gveDg2L21tL2ZhdWx0LmMKQEAgLTQ0LDE3ICs0NCwx
+NCBAQCBrbW1pb19mYXVsdChzdHJ1Y3QgcHRfcmVncyAqcmVncywgdW5zaWduZWQgbG9uZyBhZGRy
+KQogCiBzdGF0aWMgbm9rcHJvYmVfaW5saW5lIGludCBrcHJvYmVzX2ZhdWx0KHN0cnVjdCBwdF9y
+ZWdzICpyZWdzKQogewotCWludCByZXQgPSAwOwotCi0JLyoga3Byb2JlX3J1bm5pbmcoKSBuZWVk
+cyBzbXBfcHJvY2Vzc29yX2lkKCkgKi8KLQlpZiAoa3Byb2Jlc19idWlsdF9pbigpICYmICF1c2Vy
+X21vZGUocmVncykpIHsKLQkJcHJlZW1wdF9kaXNhYmxlKCk7Ci0JCWlmIChrcHJvYmVfcnVubmlu
+ZygpICYmIGtwcm9iZV9mYXVsdF9oYW5kbGVyKHJlZ3MsIDE0KSkKLQkJCXJldCA9IDE7Ci0JCXBy
+ZWVtcHRfZW5hYmxlKCk7Ci0JfQotCi0JcmV0dXJuIHJldDsKKwkvKgorCSAqIFRvIGJlIHBvdGVu
+dGlhbGx5IHByb2Nlc3NpbmcgYSBrcHJvYmUgZmF1bHQgYW5kIHRvIGJlIGFsbG93ZWQgdG8gY2Fs
+bAorCSAqIGtwcm9iZV9ydW5uaW5nKCksIHdlIGhhdmUgdG8gYmUgbm9uLXByZWVtcHRpYmxlLgor
+CSAqLworCWlmIChrcHJvYmVzX2J1aWx0X2luKCkgJiYgIXVzZXJfbW9kZShyZWdzKSAmJiAhcHJl
+ZW1wdGlibGUoKSAmJgorCSAgICBrcHJvYmVfcnVubmluZygpICYmIGtwcm9iZV9mYXVsdF9oYW5k
+bGVyKHJlZ3MsIFg4Nl9UUkFQX1BGKSkKKwkJcmV0dXJuIDE7CisJcmV0dXJuIDA7CiB9CiAKIC8q
+Cg==
