@@ -1,32 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4.14,003/217] EDAC: Add missing MEM_LRDDR4 entry in edac_mem_types[]
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180823075505.411508955@linuxfoundation.org>
-Date: Thu, 23 Aug 2018 09:51:56 +0200
-To: linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Yazen Ghannam <Yazen.Ghannam@amd.com>, linux-edac <linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>
+Subject: [RFC] drivers: edac: edac_reg_data[] can be static
+From: kbuild test robot <fengguang.wu@intel.com>
+Message-Id: <20180829144318.GA53254@lkp-ib03>
+Date: Wed, 29 Aug 2018 22:43:18 +0800
+To: Venkata Narendra Kumar Gutta <vnkgutta@codeaurora.org>
+Cc: kbuild-all@01.org, evgreen@chromium.org, robh@kernel.org, mchehab@kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Andy Gross <andy.gross@linaro.org>, David Brown <david.brown@linaro.org>, linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, tsoni@codeaurora.org, ckadabi@codeaurora.org, rishabhb@codeaurora.org, bp@alien8.de, swboyd@chromium.org
 List-ID: <edac.vger.kernel.org>
 
-NC4xNC1zdGFibGUgcmV2aWV3IHBhdGNoLiAgSWYgYW55b25lIGhhcyBhbnkgb2JqZWN0aW9ucywg
-cGxlYXNlIGxldCBtZSBrbm93LgoKLS0tLS0tLS0tLS0tLS0tLS0tCgpGcm9tOiBUYWthc2hpIEl3
-YWkgPHRpd2FpQHN1c2UuZGU+Cgpjb21taXQgYjc0OGYyZGU0YjJmNTc4NTk5ZjQ2YzYwMDA2ODNh
-OGRhNzU1YmY2OCB1cHN0cmVhbS4KClRoZSBlZGFjX21lbV90eXBlc1tdIGFycmF5IG1pc3NlcyBh
-IE1FTV9MUkREUjQgZW50cnksIHdoaWNoIGxlYWRzIHRvCk5VTEwgcG9pbnRlciBkZXJlZmVyZW5j
-ZSB3aGVuIGFjY2Vzc2VkIHZpYSBzeXNmcyBvciBzdWNoLgoKU2lnbmVkLW9mZi1ieTogVGFrYXNo
-aSBJd2FpIDx0aXdhaUBzdXNlLmRlPgpDYzogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFi
-QGtlcm5lbC5vcmc+CkNjOiBZYXplbiBHaGFubmFtIDxZYXplbi5HaGFubmFtQGFtZC5jb20+CkNj
-OiBsaW51eC1lZGFjIDxsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZz4KQ2M6IDxzdGFibGVAdmdl
-ci5rZXJuZWwub3JnPgpMaW5rOiBodHRwOi8vbGttbC5rZXJuZWwub3JnL3IvMjAxODA4MTAxNDE0
-MjYuODkxOC0xLXRpd2FpQHN1c2UuZGUKRml4ZXM6IDFlODA5NmJiMjAzMSAoIkVEQUM6IEFkZCBM
-UkREUjQgRFJBTSB0eXBlIikKU2lnbmVkLW9mZi1ieTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNl
-LmRlPgpTaWduZWQtb2ZmLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5k
-YXRpb24ub3JnPgotLS0KIGRyaXZlcnMvZWRhYy9lZGFjX21jLmMgfCAgICAxICsKIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKQoKLS0tIGEvZHJpdmVycy9lZGFjL2VkYWNfbWMuYworKysg
-Yi9kcml2ZXJzL2VkYWMvZWRhY19tYy5jCkBAIC0yMTUsNiArMjE1LDcgQEAgY29uc3QgY2hhciAq
-IGNvbnN0IGVkYWNfbWVtX3R5cGVzW10gPSB7CiAJW01FTV9MUkREUjNdCT0gIkxvYWQtUmVkdWNl
-ZCBERFIzIFJBTSIsCiAJW01FTV9ERFI0XQk9ICJVbmJ1ZmZlcmVkIEREUjQgUkFNIiwKIAlbTUVN
-X1JERFI0XQk9ICJSZWdpc3RlcmVkIEREUjQgUkFNIiwKKwlbTUVNX0xSRERSNF0JPSAiTG9hZC1S
-ZWR1Y2VkLUREUjQtUkFNIiwKIH07CiBFWFBPUlRfU1lNQk9MX0dQTChlZGFjX21lbV90eXBlcyk7
-CiAK
+Rml4ZXM6IDY5ODQwMDhjZmU2YiAoImRyaXZlcnM6IGVkYWM6IEFkZCBFREFDIGRyaXZlciBzdXBw
+b3J0IGZvciBRQ09NIFNvQ3MiKQpTaWduZWQtb2ZmLWJ5OiBrYnVpbGQgdGVzdCByb2JvdCA8ZmVu
+Z2d1YW5nLnd1QGludGVsLmNvbT4KLS0tCiBxY29tX2VkYWMuYyB8ICAgIDIgKy0KIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZWRhYy9xY29tX2VkYWMuYyBiL2RyaXZlcnMvZWRhYy9xY29tX2VkYWMuYwppbmRleCA4NzFl
+ZDA3Li42OWI0Y2I1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2VkYWMvcWNvbV9lZGFjLmMKKysrIGIv
+ZHJpdmVycy9lZGFjL3Fjb21fZWRhYy5jCkBAIC04Myw3ICs4Myw3IEBAIGVudW0gewogCUxMQ0Nf
+VFJBTV9VRSwKIH07CiAKLWNvbnN0IHN0cnVjdCBsbGNjX2VkYWNfcmVnX2RhdGEgZWRhY19yZWdf
+ZGF0YVtdID0geworc3RhdGljIGNvbnN0IHN0cnVjdCBsbGNjX2VkYWNfcmVnX2RhdGEgZWRhY19y
+ZWdfZGF0YVtdID0gewogCVtMTENDX0RSQU1fQ0VdID0gewogCQkubmFtZSA9ICJEUkFNIFNpbmds
+ZS1iaXQiLAogCQkuc3luZF9yZWcgPSBEUlBfRUNDX1NCX0VSUl9TWU4wLAo=
