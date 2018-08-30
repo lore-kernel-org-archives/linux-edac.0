@@ -2,27 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] EDAC, ghes: use CPER module handles to locate DIMMs
-From: Tyler Baicar <baicar.tyler@gmail.com>
-Message-Id: <CABo9ajCui0y9HMBzgKWeNtrbu4de+mLh=d9Qdkyo4zhU9az6hw@mail.gmail.com>
-Date: Thu, 30 Aug 2018 15:18:04 -0400
-To: Fan Wu <wufan@codeaurora.org>
-Cc: mchehab@kernel.org, Borislav Petkov <bp@alien8.de>, James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, arm-mail-list <linux-arm-kernel@lists.infradead.org>, john.garry@huawei.com, toshi.kani@hpe.com
+From: wufan <wufan@codeaurora.org>
+Message-Id: <001901d44099$fc8d7550$f5a85ff0$@codeaurora.org>
+Date: Thu, 30 Aug 2018 13:45:19 -0600
+To: 'Tyler Baicar' <baicar.tyler@gmail.com>
+Cc: mchehab@kernel.org, 'Borislav Petkov' <bp@alien8.de>, 'James Morse' <james.morse@arm.com>, linux-edac@vger.kernel.org, 'Linux Kernel Mailing List' <linux-kernel@vger.kernel.org>, 'arm-mail-list' <linux-arm-kernel@lists.infradead.org>, john.garry@huawei.com, toshi.kani@hpe.com
 List-ID: <edac.vger.kernel.org>
 
-SGkgRmFuLAoKT24gVGh1LCBBdWcgMzAsIDIwMTggYXQgMjozNyBQTSwgRmFuIFd1IDx3dWZhbkBj
-b2RlYXVyb3JhLm9yZz4gd3JvdGU6Cj4gRm9yIHBsYXRmb3JtcyB3aG9zZSBmaXJtd2FyZXMgcHJv
-dmlkZSB2YWxpZCBtb2R1bGUgaGFuZGxlcwo+IChTTUJJT1MgdHlwZSAxNykgaW4gZXJyb3IgcmVj
-b3JkcywgdGhpcyBwYXRjaCB1c2VzIHRoZSBtb2R1bGUKPiBoYW5kbGVzIHRvIGxvY2F0ZSBjb3Jy
-ZXNwb25kaW5nIERJTU1zIGFuZCBlbmFibGVzIHBlci1ESU1NCj4gZXJyb3IgY291bnRlciB1cGRh
-dGUuCj4KPiBTaWduZWQtb2ZmLWJ5OiBGYW4gV3UgPHd1ZmFuQGNvZGVhdXJvcmEub3JnPgoKPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL2doZXNfZWRhYy5jIGIvZHJpdmVycy9lZGFjL2doZXNf
-ZWRhYy5jCj4gaW5kZXggNDczYWVlYy4uOTQ5ZjYwMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2Vk
-YWMvZ2hlc19lZGFjLmMKPiArKysgYi9kcml2ZXJzL2VkYWMvZ2hlc19lZGFjLmMKPiBAQCAtODEs
-NiArODEsMjAgQEAgc3RhdGljIHZvaWQgZ2hlc19lZGFjX2NvdW50X2RpbW1zKGNvbnN0IHN0cnVj
-dCBkbWlfaGVhZGVyICpkaCwgdm9pZCAqYXJnKQo+ICAgICAgICAgICAgICAgICAoKm51bV9kaW1t
-KSsrOwo+ICB9Cj4KPiArc3RhdGljIGludCBnZXRfZGltbV9zbWJpb3NfaW5kZXgodTE2IGhhbmRs
-ZSkKPiArewo+ICsgICAgICAgc3RydWN0IG1lbV9jdGxfaW5mbyAqbWNpOwo+ICsgICAgICAgaW50
-IGk7Cj4gKwo+ICsgICAgICAgbWNpID0gZ2hlc19wdnQtPm1jaTsKPiArCgpNaW5vciBuaXQ6IHlv
-dSBjb3VsZCBkZWZpbmUgYW5kIHNldCBtY2kgaW4gdGhlIHNhbWUgbGluZSB0byBzYXZlIHNvbWUK
-c3BhY2UgaGVyZS4KCk90aGVyd2lzZSB0aGlzIHBhdGNoIGxvb2tzIGdvb2QgdG8gbWUuCgpSZXZp
-ZXdlZC1ieTogVHlsZXIgQmFpY2FyIDxiYWljYXIudHlsZXJAZ21haWwuY29tPgo=
+SGkgVHlsZXIsIAoKPiA+ICtzdGF0aWMgaW50IGdldF9kaW1tX3NtYmlvc19pbmRleCh1MTYgaGFu
+ZGxlKSB7Cj4gPiArICAgICAgIHN0cnVjdCBtZW1fY3RsX2luZm8gKm1jaTsKPiA+ICsgICAgICAg
+aW50IGk7Cj4gPiArCj4gPiArICAgICAgIG1jaSA9IGdoZXNfcHZ0LT5tY2k7Cj4gPiArCj4gCj4g
+TWlub3Igbml0OiB5b3UgY291bGQgZGVmaW5lIGFuZCBzZXQgbWNpIGluIHRoZSBzYW1lIGxpbmUg
+dG8gc2F2ZSBzb21lIHNwYWNlCj4gaGVyZS4KPiAKPiBPdGhlcndpc2UgdGhpcyBwYXRjaCBsb29r
+cyBnb29kIHRvIG1lLgoKR29vZCBjYXRjaCBUeWxlciEgSSdsbCBmaXggaXQuCgpUaGFua3MsCkZh
+bgoKPiBSZXZpZXdlZC1ieTogVHlsZXIgQmFpY2FyIDxiYWljYXIudHlsZXJAZ21haWwuY29tPgo=
