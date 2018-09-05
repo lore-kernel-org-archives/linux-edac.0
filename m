@@ -1,23 +1,36 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: x86/mce: Fix set_mce_nospec() to avoid #GP fault
-From: David Laight <David.Laight@ACULAB.COM>
-Message-Id: <74a1ec83d9f44875b86d84f52d65a32c@AcuMS.aculab.com>
-Date: Mon, 10 Sep 2018 13:52:24 +0000
-To: 'Linus Torvalds' <torvalds@linux-foundation.org>, Tony Luck <tony.luck@intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Peter Anvin <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>, linux-edac <linux-edac@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, the arch/x86 maintainers <x86@kernel.org>, Dan Williams <dan.j.williams@intel.com>, Dave Jiang <dave.jiang@intel.com>
+Subject: [v5,10/16] x86/mce: enable Hygon support to MCE infrastructure
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180905092234.GC2237@zn.tnic>
+Date: Wed, 5 Sep 2018 11:22:34 +0200
+To: Pu Wen <puwen@hygon.cn>
+Cc: tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com, x86@kernel.org, thomas.lendacky@amd.com, pbonzini@redhat.com, tony.luck@intel.com, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogTGludXMgVG9ydmFsZHMNCj4gLi4uDQo+IFlvdSBjb3VsZCBsaXRlcmFsbHkgZG8gc29t
-ZXRoaW5nIGxpa2UNCj4gDQo+ICAgICAvKiBNYWtlIGl0IGNhbm9uaWNhbCBpbiBjYXNlIHdlIGZs
-aXBwZWQgdGhlIGhpZ2ggYml0ICovDQo+ICAgICBhZGRyID0gKGxvbmcpKGFkZHI8PDEpPj4xOw0K
-DQpJc24ndCBpdCBzYWZlciB0byB1c2UgYSBtYXNrIGFuZCBsZXQgdGhlIGNvbXBpbGVyIGRlY2lk
-ZSBpZiB0d28NCnNoaWZ0cyBhcmUgYSBnb29kIGltcGxlbWVudGF0aW9uPw0KDQoJYWRkciAmPSB+
-SElHSF9NQUdJQ19CSVQ7DQoNCklTVFIgZml4aW5nIGEgYnVnIGluIGdsZCB3aGVyZSBpdCBoYWQg
-KGZvbyA8PCAxNikgPj4gMTYgaW5zdGVhZA0Kb2YgZm9vICYgMHhmZmZmLiBEaWRuJ3Qgd29yayB3
-ZWxsIG9uIDY0Yml0Lg0KDQooSSBtYXkgbmVlZCB0byByZWNvbXBpbGUgdGhhdCBvbGQgZ2NjL2ds
-ZCBhZ2Fpbi4NCkZhaWxlZCBtaXNlcmFibHkgbGFzdCB0aW1lIEkgdHJpZWQuKQ0KDQoJRGF2aWQN
-Cg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZh
-cm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYg
-KFdhbGVzKQo=
+T24gV2VkLCBBdWcgMjksIDIwMTggYXQgMDg6NDQ6NTRQTSArMDgwMCwgUHUgV2VuIHdyb3RlOgo+
+IEh5Z29uIG1hY2hpbmUgY2hlY2sgYXJjaCBpcyBzaW1pbGFyIHRvIEFNRCBmYW1pbHkgMTdoLiBU
+byBlbmFibGUgdGhlIE1DRQo+IGluZnJhc3RydWN0dXJlIHN1cHBvcnQsIGFkZCBDUFUgdmVuZG9y
+IGNoZWNrIGZvciBIeWdvbiB0byBzaGFyZSB0aGUgY29kZQo+IHBhdGggb2YgQU1ELgo+IAo+IEFk
+ZCBoeWdvbiBtY2UgaW5pdCBmdW5jdGlvbiBtY2VfaHlnb25fZmVhdHVyZV9pbml0KCkgdG8gbWlu
+aW1pemUgZnVydGhlcgo+IG1haW50ZW5hbmNlIGVmZm9ydC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBQ
+dSBXZW4gPHB1d2VuQGh5Z29uLmNuPgo+IC0tLQo+ICBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9tY2Uu
+aCAgICAgICAgICAgICAgICB8ICA1ICsrKysrCj4gIGFyY2gveDg2L2tlcm5lbC9jcHUvbWNoZWNr
+L21jZS1zZXZlcml0eS5jIHwgIDMgKystCj4gIGFyY2gveDg2L2tlcm5lbC9jcHUvbWNoZWNrL21j
+ZS5jICAgICAgICAgIHwgMjEgKysrKysrKysrKysrKysrLS0tLS0tCj4gIDMgZmlsZXMgY2hhbmdl
+ZCwgMjIgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvYXJj
+aC94ODYvaW5jbHVkZS9hc20vbWNlLmggYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9tY2UuaAo+IGlu
+ZGV4IDNhMTcxMDcuLjEyMzU3YWEgMTAwNjQ0Cj4gLS0tIGEvYXJjaC94ODYvaW5jbHVkZS9hc20v
+bWNlLmgKPiArKysgYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9tY2UuaAo+IEBAIC0yMTQsNiArMjE0
+LDExIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBtY2VfYW1kX2ZlYXR1cmVfaW5pdChzdHJ1Y3QgY3B1
+aW5mb194ODYgKmMpIHsgfQo+ICBzdGF0aWMgaW5saW5lIGludCB1bWNfbm9ybWFkZHJfdG9fc3lz
+YWRkcih1NjQgbm9ybV9hZGRyLCB1MTYgbmlkLCB1OCB1bWMsIHU2NCAqc3lzX2FkZHIpIHsgcmV0
+dXJuIC1FSU5WQUw7IH07Cj4gICNlbmRpZgo+ICAKPiArc3RhdGljIGlubGluZSB2b2lkIG1jZV9o
+eWdvbl9mZWF0dXJlX2luaXQoc3RydWN0IGNwdWluZm9feDg2ICpjKQo+ICt7Cj4gKwlyZXR1cm4g
+bWNlX2FtZF9mZWF0dXJlX2luaXQoYyk7Cj4gK30KPiArCgpXaGF0IGhhcHBlbnMgaWYgQ09ORklH
+X1g4Nl9NQ0VfQU1EPW4gPwoKSW4gZ2VuZXJhbCwgc2luY2UgeW91J3JlIHVzaW5nIEFNRCBjb2Rl
+LCB5b3UgbmVlZCB0byBtYWtlIENQVV9TVVBfSFlHT04KZGVwZW5kIG9uIGEgYnVuY2ggb2YgQU1E
+IGNvbmZpZyBpdGVtcyBsaWtlIENPTkZJR19YODZfTUNFX0FNRCwKQ09ORklHX0NQVV9TVVBfQU1E
+LCBDT05GSUdfQU1EX05CLC4uLiBBdWRpdCB5b3VyIGNvZGUgYW5kIHNlZSB3aGF0IG90aGVyCmNv
+bmZpZyBpdGVtcyBuZWVkIHRvIGJlIHNlbGVjdGVkLgo=
