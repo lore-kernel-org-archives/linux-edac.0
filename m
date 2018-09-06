@@ -2,14 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v5,10/16] x86/mce: enable Hygon support to MCE infrastructure
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180906083924.GB10768@zn.tnic>
-Date: Thu, 6 Sep 2018 10:39:24 +0200
-To: Pu Wen <puwen@hygon.cn>
+From: Pu Wen <puwen@hygon.cn>
+Message-Id: <634f371e-1a2d-5b23-c9b0-5f32a8ee4cee@hygon.cn>
+Date: Thu, 6 Sep 2018 19:40:52 +0800
+To: Borislav Petkov <bp@alien8.de>
 Cc: tglx@linutronix.de, mingo@redhat.com, hpa@zytor.com, x86@kernel.org, thomas.lendacky@amd.com, pbonzini@redhat.com, tony.luck@intel.com, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBTZXAgMDYsIDIwMTggYXQgMTE6NTI6NDJBTSArMDgwMCwgUHUgV2VuIHdyb3RlOgo+
-IEluIG1vc3Qgb2YgdGhlIG5vcm1hbCB1c2UgY2FzZXMgTUNFIGlzIG5lY2Vzc2FyeS4gUmFyZWx5
-IGluIHNvbWUgY2FzZXMKPiBzdWNoIGFzIGZvciB0ZXN0IHB1cnBvc2UgTUNFIG1heSBiZSB1bnNl
-bGVjdGVkLgoKVGVzdCB3aXRoIE1DRSBkaXNhYmxlZD8gUGxlYXNlIGVsYWJvcmF0ZS4K
+T24gMjAxOC85LzYgMTY6MzksIEJvcmlzbGF2IFBldGtvdiB3cm90ZToKPiBPbiBUaHUsIFNlcCAw
+NiwgMjAxOCBhdCAxMTo1Mjo0MkFNICswODAwLCBQdSBXZW4gd3JvdGU6Cj4+IEluIG1vc3Qgb2Yg
+dGhlIG5vcm1hbCB1c2UgY2FzZXMgTUNFIGlzIG5lY2Vzc2FyeS4gUmFyZWx5IGluIHNvbWUgY2Fz
+ZXMKPj4gc3VjaCBhcyBmb3IgdGVzdCBwdXJwb3NlIE1DRSBtYXkgYmUgdW5zZWxlY3RlZC4KPgo+
+IFRlc3Qgd2l0aCBNQ0UgZGlzYWJsZWQ/IFBsZWFzZSBlbGFib3JhdGUuCgpUaGUgZmlyc3QgaXMg
+dGhlIGNvbXBpbGF0aW9uIHRlc3QuIFRlc3QgdGhlIGtlcm5lbCB3aXRoIGJvdGggTUNFIHNlbGVj
+dGVkCmFuZCB1bnNlbGVjdGVkIHRvIHNlZSBpZiBpcyB0aGUgY29tcGlsaW5nIHByb2Nlc3Mgc3Vj
+Y2Vzc2Z1bCBvciBub3QuClRoZSBvdGhlciB0ZXN0IGlzIGZ1bmN0aW9uYWxpdHkgdGVzdC4gRm9y
+IGV4YW1wbGUsIGR1cmluZyB0aGUgTUNFIEJJT1MKZGV2ZWxvcG1lbnQsIHRvIHNlZSBpZiB0aGUg
+TUNFIGZ1bmN0aW9ucyBPSywgaXQgbWF5IG5lZWQgdG8gc2VsZWN0IGFuZAp1bnNlbGVjdCBNQ0Ug
+aW4ga2VybmVsIGZvciBkb3VibGUgY2hlY2tpbmcuCgpBY3R1YWxseSBpbiBub3JtYWwgdXNlIHNj
+ZW5hcmlvIGFuZCBpbiByZWFsIHByb2R1Y3QgdGhlIE1DRSBzaG91bGQgYmUKYWx3YXlzIHNlbGVj
+dGVkLiBUbyBlbnN1cmUgdGhpcywgSSB0aGluayB0aGVyZSBhcmUgdHdvIHdheXMgYXMgYmVsb3c6
+Ci0gU2VsZWN0IFg4Nl9NQ0VfQU1EIGluIENQVV9TVVBfSFlHT04gY29uZmlnIGVudHJ5LCBpdCBh
+bHNvIGNhdGVyIHRvIHRoZQogIGZpcnN0IHRlc3Qgc2NlbmFyaW8sIGJ1dCBtZWFud2hpbGUgbGFj
+a3MgZmxleGliaWxpdHkuCi0gVGhlIGxpbnV4IGRpc3Ryb3MoVWJ1bnR1LCBDZW50T1MsIGV0Yykg
+ZW5zdXJlIHRoYXQgWDg2X01DRV9BTUQgaXMKICBzZWxlY3RlZCB0byB0aGUgZGVmYXVsdCBjb25m
+aWcgZmlsZSwgYW5kIGluZGVlZCB0aGV5IGRvLgpXaGljaCB3YXkgaXMgYmV0dGVyPwo=
