@@ -2,22 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,3/4] drivers: edac: Add EDAC driver support for QCOM SoCs
-From: saiprakash.ranjan@codeaurora.org
-Message-Id: <b35f111c-0464-dcee-c970-4821f741694b@codeaurora.org>
-Date: Fri, 7 Sep 2018 10:32:01 +0530
-To: vnkgutta@codeaurora.org
-Cc: Borislav Petkov <bp@alien8.de>, evgreen@chromium.org, robh@kernel.org, mchehab@kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Andy Gross <andy.gross@linaro.org>, David Brown <david.brown@linaro.org>, linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, tsoni@codeaurora.org, ckadabi@codeaurora.org, rishabhb@codeaurora.org, swboyd@chromium.org, bjorn.andersson@linaro.org
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180907081820.GB12849@zn.tnic>
+Date: Fri, 7 Sep 2018 10:18:21 +0200
+To: Venkata Narendra Kumar Gutta <vnkgutta@codeaurora.org>
+Cc: evgreen@chromium.org, robh@kernel.org, mchehab@kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Andy Gross <andy.gross@linaro.org>, David Brown <david.brown@linaro.org>, linux-arm-msm@vger.kernel.org, linux-soc@vger.kernel.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, tsoni@codeaurora.org, ckadabi@codeaurora.org, rishabhb@codeaurora.org, swboyd@chromium.org, bjorn.andersson@linaro.org
 List-ID: <edac.vger.kernel.org>
 
-T24gOS83LzIwMTggNDowMSBBTSwgdm5rZ3V0dGFAY29kZWF1cm9yYS5vcmcgd3JvdGU6Cj4gT24g
-MjAxOC0wOS0wNiAwNTozOCwgU2FpIFByYWthc2ggUmFuamFuIHdyb3RlOgo+PiBPbiA5LzUvMjAx
-OCA0OjUyIEFNLCBWZW5rYXRhIE5hcmVuZHJhIEt1bWFyIEd1dHRhIHdyb3RlOgo+Pj4gK3N0YXRp
-YyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIHFjb21fbGxjY19lZGFjX21hdGNoX3RhYmxlW10g
-PSB7Cj4+PiArwqDCoMKgIHsgLmNvbXBhdGlibGUgPSAicWNvbSxsbGNjLWVkYWMiIH0sCj4+PiAr
-wqDCoMKgIHsgfSwKPj4+ICt9Owo+Pj4gKwo+Pj4KPj4gSGkgVmVua2F0YSwKPj4KPj4gRGV2aWNl
-dHJlZSBiaW5kaW5nIGZvciBsbGNjIGlzIHVwZGF0ZWQsIGJ1dCB3aGF0IGFib3V0IHRoaXMgY29t
-cGF0aWJsZT8KPiAKPiBEb2VzIGl0IG5lZWQgZG9jdW1lbnRhdGlvbiB0b28/IEkgd2FzIG5vdCBz
-dXJlIGlmIEkgc2hvdWxkIGFkZCAKPiBkb2N1bWVudGF0aW9uIGZvciB0aGlzIG9yIG5vdCEKPiAK
-Ckl0IGRvZXMgbm90IHJlcXVpcmUgYSBzZXBhcmF0ZSBiaW5kaW5nLCB3aGF0IEkgbWVhbnQgd2Fz
-IHRvIGFkZCB0aGlzIApjb21wYXRpYmxlIGluIHRoZSBsbGNjIGJpbmRpbmcgaXRzZWxmLCBtYXli
-ZSBhcyBhIHN1Ym5vZGUgaWYgaXQgaXMgY29ycmVjdC4K
+T24gVHVlLCBTZXAgMDQsIDIwMTggYXQgMDQ6MjI6MjRQTSAtMDcwMCwgVmVua2F0YSBOYXJlbmRy
+YSBLdW1hciBHdXR0YSB3cm90ZToKPiBGcm9tOiBDaGFubmFnb3VkIEthZGFiaSA8Y2thZGFiaUBj
+b2RlYXVyb3JhLm9yZz4KPiAKPiBBZGQgZXJyb3IgcmVwb3J0aW5nIGRyaXZlciBmb3IgU2luZ2xl
+IEJpdCBFcnJvcnMgKFNCRXMpIGFuZCBEb3VibGUgQml0Cj4gRXJyb3JzIChEQkVzKS4gQXMgb2Yg
+bm93LCB0aGlzIGRyaXZlciBzdXBwb3J0cyBlcnJvciByZXBvcnRpbmcgZm9yCj4gTGFzdCBMZXZl
+bCBDYWNoZSBDb250cm9sbGVyIChMTENDKSBvZiBUYWcgUkFNIGFuZCBEYXRhIFJBTS4gSW50ZXJy
+dXB0cwo+IGFyZSB0cmlnZ2VyZWQgd2hlbiB0aGUgZXJyb3JzIGhhcHBlbiBpbiB0aGUgY2FjaGUs
+IHRoZSBkcml2ZXIgaGFuZGxlcwo+IHRob3NlIGludGVycnVwdHMgYW5kIGR1bXBzIHRoZSBzeW5k
+cm9tZSByZWdpc3RlcnMuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hhbm5hZ291ZCBLYWRhYmkgPGNr
+YWRhYmlAY29kZWF1cm9yYS5vcmc+Cj4gU2lnbmVkLW9mZi1ieTogVmVua2F0YSBOYXJlbmRyYSBL
+dW1hciBHdXR0YSA8dm5rZ3V0dGFAY29kZWF1cm9yYS5vcmc+Cj4gQ28tZGV2ZWxvcGVkLWJ5OiBW
+ZW5rYXRhIE5hcmVuZHJhIEt1bWFyIEd1dHRhIDx2bmtndXR0YUBjb2RlYXVyb3JhLm9yZz4KPiAt
+LS0KPiAgTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAgICAgICB8ICAgOCArCj4gIGRyaXZl
+cnMvZWRhYy9LY29uZmlnICAgICAgICAgICAgICAgfCAgMTQgKysKPiAgZHJpdmVycy9lZGFjL01h
+a2VmaWxlICAgICAgICAgICAgICB8ICAgMSArCj4gIGRyaXZlcnMvZWRhYy9xY29tX2VkYWMuYyAg
+ICAgICAgICAgfCA0MjAgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICBp
+bmNsdWRlL2xpbnV4L3NvYy9xY29tL2xsY2MtcWNvbS5oIHwgIDI0ICsrKwo+ICA1IGZpbGVzIGNo
+YW5nZWQsIDQ2NyBpbnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2Vk
+YWMvcWNvbV9lZGFjLmMKCkVEQUMgYml0cyBsb29rIG9rIG5vdywgZmVlbCBmcmVlIHRvIGNhcnJ5
+IGl0IHRocm91Z2ggdGhlIHF1YWxjb21tIHRyZWU6CgpBY2tlZC1ieTogQm9yaXNsYXYgUGV0a292
+IDxicEBzdXNlLmRlPgo=
