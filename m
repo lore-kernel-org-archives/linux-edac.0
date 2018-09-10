@@ -1,29 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5,4/4] arm64: zynqmp: Add DDRC node
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180905102053.GE2237@zn.tnic>
-Date: Wed, 5 Sep 2018 12:20:53 +0200
-To: Manish Narani <manish.narani@xilinx.com>, robh+dt@kernel.org
-Cc: mark.rutland@arm.com, michal.simek@xilinx.com, mchehab@kernel.org, leoyang.li@nxp.com, amit.kucheria@linaro.org, olof@lixom.net, sgoud@xilinx.com, anirudh@xilinx.com, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+Subject: x86/mce: Fix set_mce_nospec() to avoid #GP fault
+From: David Laight <David.Laight@ACULAB.COM>
+Message-Id: <74a1ec83d9f44875b86d84f52d65a32c@AcuMS.aculab.com>
+Date: Mon, 10 Sep 2018 13:52:24 +0000
+To: 'Linus Torvalds' <torvalds@linux-foundation.org>, Tony Luck <tony.luck@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Peter Anvin <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>, linux-edac <linux-edac@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, the arch/x86 maintainers <x86@kernel.org>, Dan Williams <dan.j.williams@intel.com>, Dave Jiang <dave.jiang@intel.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBBdWcgMzEsIDIwMTggYXQgMDY6NTc6NTBQTSArMDUzMCwgTWFuaXNoIE5hcmFuaSB3
-cm90ZToKPiBBZGQgZGRyYyBtZW1vcnkgY29udHJvbGxlciBub2RlIGluIGR0cy4gVGhlIHNpemUg
-bWVudGlvbmVkIGluIGR0cyBpcwo+IDB4MzAwMDAsIGJlY2F1c2Ugd2UgbmVlZCB0byBhY2Nlc3Mg
-RERSX1FPUyBJTlRSIHJlZ2lzdGVycyBsb2NhdGVkIGF0Cj4gMHhGRDA5MDIwOCBmcm9tIHRoaXMg
-ZHJpdmVyLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE1hbmlzaCBOYXJhbmkgPG1hbmlzaC5uYXJhbmlA
-eGlsaW54LmNvbT4KPiAtLS0KPiAgYXJjaC9hcm02NC9ib290L2R0cy94aWxpbngvenlucW1wLmR0
-c2kgfCA3ICsrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQo+IAo+IGRp
-ZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3hpbGlueC96eW5xbXAuZHRzaSBiL2FyY2gv
-YXJtNjQvYm9vdC9kdHMveGlsaW54L3p5bnFtcC5kdHNpCj4gaW5kZXggMjljZTIzNC4uYTgxZDNi
-MTYgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy94aWxpbngvenlucW1wLmR0c2kK
-PiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3hpbGlueC96eW5xbXAuZHRzaQo+IEBAIC0zNTUs
-NiArMzU1LDEzIEBACj4gIAkJCXhsbngsYnVzLXdpZHRoID0gPDY0PjsKPiAgCQl9Owo+ICAKPiAr
-CQltYzogbWVtb3J5LWNvbnRyb2xsZXJAZmQwNzAwMDAgewo+ICsJCQljb21wYXRpYmxlID0gInhs
-bngsenlucW1wLWRkcmMtMi40MGEiOwo+ICsJCQlyZWcgPSA8MHgwIDB4ZmQwNzAwMDAgMHgwIDB4
-MzAwMDA+Owo+ICsJCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+Owo+ICsJCQlpbnRlcnJ1cHRz
-ID0gPDAgMTEyIDQ+Owo+ICsJCX07Cj4gKwo+ICAJCWdlbTA6IGV0aGVybmV0QGZmMGIwMDAwIHsK
-PiAgCQkJY29tcGF0aWJsZSA9ICJjZG5zLHp5bnFtcC1nZW0iLCAiY2RucyxnZW0iOwo+ICAJCQlz
-dGF0dXMgPSAiZGlzYWJsZWQiOwo+IC0tIAoKVGhpcyBzdGlsbCBuZWVkcyBSb2IncyBBQ0suCg==
+RnJvbTogTGludXMgVG9ydmFsZHMNCj4gLi4uDQo+IFlvdSBjb3VsZCBsaXRlcmFsbHkgZG8gc29t
+ZXRoaW5nIGxpa2UNCj4gDQo+ICAgICAvKiBNYWtlIGl0IGNhbm9uaWNhbCBpbiBjYXNlIHdlIGZs
+aXBwZWQgdGhlIGhpZ2ggYml0ICovDQo+ICAgICBhZGRyID0gKGxvbmcpKGFkZHI8PDEpPj4xOw0K
+DQpJc24ndCBpdCBzYWZlciB0byB1c2UgYSBtYXNrIGFuZCBsZXQgdGhlIGNvbXBpbGVyIGRlY2lk
+ZSBpZiB0d28NCnNoaWZ0cyBhcmUgYSBnb29kIGltcGxlbWVudGF0aW9uPw0KDQoJYWRkciAmPSB+
+SElHSF9NQUdJQ19CSVQ7DQoNCklTVFIgZml4aW5nIGEgYnVnIGluIGdsZCB3aGVyZSBpdCBoYWQg
+KGZvbyA8PCAxNikgPj4gMTYgaW5zdGVhZA0Kb2YgZm9vICYgMHhmZmZmLiBEaWRuJ3Qgd29yayB3
+ZWxsIG9uIDY0Yml0Lg0KDQooSSBtYXkgbmVlZCB0byByZWNvbXBpbGUgdGhhdCBvbGQgZ2NjL2ds
+ZCBhZ2Fpbi4NCkZhaWxlZCBtaXNlcmFibHkgbGFzdCB0aW1lIEkgdHJpZWQuKQ0KDQoJRGF2aWQN
+Cg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZh
+cm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYg
+KFdhbGVzKQo=
