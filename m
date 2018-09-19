@@ -2,22 +2,35 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v7,1/7] edac: synopsys: Fix code comments and naming convention
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180918075311.GB22202@nazgul.tnic>
-Date: Tue, 18 Sep 2018 09:53:11 +0200
-To: Manish Narani <manish.narani@xilinx.com>
-Cc: robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org, michal.simek@xilinx.com, leoyang.li@nxp.com, sudeep.holla@arm.com, amit.kucheria@linaro.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+From: Manish Narani <MNARANI@xilinx.com>
+Message-Id: <DM6PR02MB52271CFF653377B4810CD305C11C0@DM6PR02MB5227.namprd02.prod.outlook.com>
+Date: Wed, 19 Sep 2018 05:08:50 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: "robh+dt@kernel.org" <robh+dt@kernel.org>, "mark.rutland@arm.com" <mark.rutland@arm.com>, "mchehab@kernel.org" <mchehab@kernel.org>, Michal Simek <michals@xilinx.com>, "leoyang.li@nxp.com" <leoyang.li@nxp.com>, "sudeep.holla@arm.com" <sudeep.holla@arm.com>, "amit.kucheria@linaro.org" <amit.kucheria@linaro.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBTZXAgMTcsIDIwMTggYXQgMDc6NTQ6NTlQTSArMDUzMCwgTWFuaXNoIE5hcmFuaSB3
-cm90ZToKPiBVcGRhdGUgdGhlIGNvbW1lbnRzIGluIHRoZSBTeW5vcHN5cyBFREFDIGRyaXZlci4g
-TWlub3IgY2hhbmdlcyB0byBmdW5jdGlvbgo+IG5hbWVzIGFuZCByZXR1cm4gdHlwZXMgYXJlIGFs
-c28gaW5jbHVkZWQuCj4gCj4gU2lnbmVkLW9mZi1ieTogTWFuaXNoIE5hcmFuaSA8bWFuaXNoLm5h
-cmFuaUB4aWxpbnguY29tPgo+IC0tLQo+ICBkcml2ZXJzL2VkYWMvc3lub3BzeXNfZWRhYy5jIHwg
-MTc2ICsrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgMSBmaWxl
-IGNoYW5nZWQsIDgwIGluc2VydGlvbnMoKyksIDk2IGRlbGV0aW9ucygtKQoKU28gdGhpcyBwYXRj
-aCBkb2VzIGEgYnVuY2ggb2YgdGhpbmdzIHRvZ2V0aGVyIGFuZCBzaG91bGQgYmUgc3BsaXQgaW50
-bzoKCiogZnVuY3Rpb25hbCBjaGFuZ2VzIGxpa2UgY29kZSBjbGVhbnVwCiogZnVuY3Rpb25zIHJl
-bmFtaW5nCiogY29tbWVudHMgY2xlYW51cAoKTWF5YmUgaW4gdGhhdCBvcmRlci4KClRoaXMgd2F5
-IHlvdSdsbCBoYXZlIG9uZSBsb2dpY2FsIHNldCBvZiBjaGFuZ2VzIHBlciBwYXRjaCBhbmQgcmV2
-aWV3CndpbGwgYmUgYWxtb3N0IHRyaXZpYWwuCgpUaHguCg==
+SGkgQm9yaXMsDQoNClRoYW5rcyBhIGxvdCBmb3IgdGhlIHJldmlldy4NCg0KPiAtLS0tLU9yaWdp
+bmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCb3Jpc2xhdiBQZXRrb3YgW21haWx0bzpicEBhbGll
+bjguZGVdDQo+IFNlbnQ6IFR1ZXNkYXksIFNlcHRlbWJlciAxOCwgMjAxOCAxOjIzIFBNDQo+IFRv
+OiBNYW5pc2ggTmFyYW5pIDxNTkFSQU5JQHhpbGlueC5jb20+DQo+IENjOiByb2JoK2R0QGtlcm5l
+bC5vcmc7IG1hcmsucnV0bGFuZEBhcm0uY29tOyBtY2hlaGFiQGtlcm5lbC5vcmc7DQo+IE1pY2hh
+bCBTaW1layA8bWljaGFsc0B4aWxpbnguY29tPjsgbGVveWFuZy5saUBueHAuY29tOw0KPiBzdWRl
+ZXAuaG9sbGFAYXJtLmNvbTsgYW1pdC5rdWNoZXJpYUBsaW5hcm8ub3JnOw0KPiBkZXZpY2V0cmVl
+QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+
+IGVkYWNAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5v
+cmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NyAxLzddIGVkYWM6IHN5bm9wc3lzOiBGaXggY29k
+ZSBjb21tZW50cyBhbmQgbmFtaW5nDQo+IGNvbnZlbnRpb24NCj4gDQo+IE9uIE1vbiwgU2VwIDE3
+LCAyMDE4IGF0IDA3OjU0OjU5UE0gKzA1MzAsIE1hbmlzaCBOYXJhbmkgd3JvdGU6DQo+ID4gVXBk
+YXRlIHRoZSBjb21tZW50cyBpbiB0aGUgU3lub3BzeXMgRURBQyBkcml2ZXIuIE1pbm9yIGNoYW5n
+ZXMgdG8NCj4gPiBmdW5jdGlvbiBuYW1lcyBhbmQgcmV0dXJuIHR5cGVzIGFyZSBhbHNvIGluY2x1
+ZGVkLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWFuaXNoIE5hcmFuaSA8bWFuaXNoLm5hcmFu
+aUB4aWxpbnguY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2VkYWMvc3lub3BzeXNfZWRhYy5j
+IHwgMTc2DQo+ID4gKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
+PiA+ICAxIGZpbGUgY2hhbmdlZCwgODAgaW5zZXJ0aW9ucygrKSwgOTYgZGVsZXRpb25zKC0pDQo+
+IA0KPiBTbyB0aGlzIHBhdGNoIGRvZXMgYSBidW5jaCBvZiB0aGluZ3MgdG9nZXRoZXIgYW5kIHNo
+b3VsZCBiZSBzcGxpdCBpbnRvOg0KPiANCj4gKiBmdW5jdGlvbmFsIGNoYW5nZXMgbGlrZSBjb2Rl
+IGNsZWFudXANCj4gKiBmdW5jdGlvbnMgcmVuYW1pbmcNCj4gKiBjb21tZW50cyBjbGVhbnVwDQo+
+IA0KPiBNYXliZSBpbiB0aGF0IG9yZGVyLg0KPiANCj4gVGhpcyB3YXkgeW91J2xsIGhhdmUgb25l
+IGxvZ2ljYWwgc2V0IG9mIGNoYW5nZXMgcGVyIHBhdGNoIGFuZCByZXZpZXcgd2lsbCBiZQ0KPiBh
+bG1vc3QgdHJpdmlhbC4NCj4gDQpPa2F5LCBJIHdpbGwgZG8gdGhhdCBpbiB2OC4NCg0KVGhhbmtz
+LA0KTWFuaXNoCg==
