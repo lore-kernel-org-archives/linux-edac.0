@@ -1,21 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v6,15/16] EDAC, amd64: Add Hygon Dhyana support
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180911105120.GH12094@zn.tnic>
-Date: Tue, 11 Sep 2018 12:51:20 +0200
-To: tglx@linutronix.de
-Cc: Pu Wen <puwen@hygon.cn>, mingo@redhat.com, hpa@zytor.com, x86@kernel.org, thomas.lendacky@amd.com, pbonzini@redhat.com, mchehab@kernel.org, mikhail.jin@gmail.com, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-edac@vger.kernel.org
+Subject: [3/6] arm64: dts: stratix10: Add SDRAM node
+From: thor.thayer@linux.intel.com
+Message-Id: <1537385941-11582-4-git-send-email-thor.thayer@linux.intel.com>
+Date: Wed, 19 Sep 2018 14:38:58 -0500
+To: dinguyen@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com, bp@alien8.de, mchehab@kernel.org
+Cc: thor.thayer@linux.intel.com, devicetree@vger.kernel.org, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBTZXAgMTAsIDIwMTggYXQgMDk6MjA6MjRQTSArMDgwMCwgUHUgV2VuIHdyb3RlOgo+
-IFRvIG1ha2UgQU1ENjQgRURBQyBhbmQgTUNFIGRyaXZlcnMgd29ya2luZyBvbiBIeWdvbiBwbGF0
-Zm9ybXMsIGFkZAo+IHN1cHBvcnQgZm9yIEh5Z29uIERoeWFuYSBDUFUgYnkgdXNpbmcgdGhlIGNv
-ZGUgcGF0aCBvZiBBTUQgZmFtaWx5Cj4gMTdoLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFB1IFdlbiA8
-cHV3ZW5AaHlnb24uY24+Cj4gLS0tCj4gIGRyaXZlcnMvZWRhYy9hbWQ2NF9lZGFjLmMgfCA4ICsr
-KysrKystCj4gIGRyaXZlcnMvZWRhYy9tY2VfYW1kLmMgICAgfCA0ICsrKy0KPiAgMiBmaWxlcyBj
-aGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKVGhpcyBvbmUgY29uZmxp
-Y3RzIHdpdGgKCiAgODk2MGRlNGE1Y2E3ICgiRURBQywgYW1kNjQ6IEFkZCBGYW1pbHkgMTdoLCBt
-b2RlbHMgMTBoLTJmaCBzdXBwb3J0IikKCmluIG15IHRyZWUuCgp0Z2x4LCB3aGF0IGRvIHlvdSBz
-dWdnZXN0Pwo=
+RnJvbTogVGhvciBUaGF5ZXIgPHRob3IudGhheWVyQGxpbnV4LmludGVsLmNvbT4KCkFkZCB0aGUg
+U0RSQU0gbm9kZSB0byBmb2xsb3cgdGhlIEFycmlhMTAgbGF5b3V0IGFuZApiaW5kaW5ncy4gVGhl
+IEFycmlhMTAgU0RSQU0gZnVuY3Rpb25zIGV4cGVjdCB0aGlzCm5vZGUuCgpTaWduZWQtb2ZmLWJ5
+OiBUaG9yIFRoYXllciA8dGhvci50aGF5ZXJAbGludXguaW50ZWwuY29tPgotLS0KIGFyY2gvYXJt
+NjQvYm9vdC9kdHMvYWx0ZXJhL3NvY2ZwZ2Ffc3RyYXRpeDEwLmR0c2kgfCA2ICsrKysrKwogMSBm
+aWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9v
+dC9kdHMvYWx0ZXJhL3NvY2ZwZ2Ffc3RyYXRpeDEwLmR0c2kgYi9hcmNoL2FybTY0L2Jvb3QvZHRz
+L2FsdGVyYS9zb2NmcGdhX3N0cmF0aXgxMC5kdHNpCmluZGV4IDc4YjRiMDZlODkzNS4uZWUxZDRi
+OGJhNjMxIDEwMDY0NAotLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2FsdGVyYS9zb2NmcGdhX3N0
+cmF0aXgxMC5kdHNpCisrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWx0ZXJhL3NvY2ZwZ2Ffc3Ry
+YXRpeDEwLmR0c2kKQEAgLTQ2Nyw2ICs0NjcsMTEgQEAKIAkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7
+CiAJCX07CiAKKwkJc2RyOiBzZHJAZmZjMjUwMDAgeworCQkJY29tcGF0aWJsZSA9ICJhbHRyLHNk
+ci1jdGwiLCAic3lzY29uIjsKKwkJCXJlZyA9IDwweGY4MDExMTAwIDB4YzA+OworCQl9OworCiAJ
+CWVjY21nciB7CiAJCQljb21wYXRpYmxlID0gImFsdHIsc29jZnBnYS1zMTAtZWNjLW1hbmFnZXIi
+OwogCQkJYWx0cixzeXNtZ3Itc3lzY29uID0gPCZzeXNtZ3I+OwpAQCAtNDc5LDYgKzQ4NCw3IEBA
+CiAKIAkJCXNkcmFtZWRhYyB7CiAJCQkJY29tcGF0aWJsZSA9ICJhbHRyLHNkcmFtLWVkYWMtczEw
+IjsKKwkJCQlhbHRyLHNkci1zeXNjb24gPSA8JnNkcj47CiAJCQkJaW50ZXJydXB0cyA9IDwxNiA0
+PiwgPDQ4IDQ+OwogCQkJfTsKIAkJfTsK
