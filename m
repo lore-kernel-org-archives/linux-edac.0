@@ -3,31 +3,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v7,2/7] edac: synps: Add platform specific structures for ddrc controller
 From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180921090721.GB30439@nazgul.tnic>
-Date: Fri, 21 Sep 2018 11:07:21 +0200
+Message-Id: <20180921091532.GC30439@nazgul.tnic>
+Date: Fri, 21 Sep 2018 11:15:32 +0200
 To: Manish Narani <MNARANI@xilinx.com>
 Cc: "robh+dt@kernel.org" <robh+dt@kernel.org>, "mark.rutland@arm.com" <mark.rutland@arm.com>, "mchehab@kernel.org" <mchehab@kernel.org>, Michal Simek <michals@xilinx.com>, "leoyang.li@nxp.com" <leoyang.li@nxp.com>, "sudeep.holla@arm.com" <sudeep.holla@arm.com>, "amit.kucheria@linaro.org" <amit.kucheria@linaro.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBTZXAgMTksIDIwMTggYXQgMDE6MzM6NThQTSArMDAwMCwgTWFuaXNoIE5hcmFuaSB3
-cm90ZToKPiBBcGFydCBmcm9tIHRoaXMgb25lLCBJIGhhdmUgY292ZXJlZCBhbGwgdGhlIGNvbW1l
-bnRzIGZyb20gdGhlIHByZXZpb3VzIHJldmlldy4KCkFyZSB5b3Ugc3VyZT8KCkxldCdzIHNlZS4g
-SSBzYWlkOgoKfCBLaWxsIGFsbCB0aGF0ICJmdW5jdGlvbiBwb2ludGVyIiBmbHVmZi4gSGVyZSdz
-IGhvdyBJJ3ZlIGNoYW5nZWQgaXQ6CnwgCnwgLyoqCnwgICogc3RydWN0IHN5bnBzX3BsYXRmb3Jt
-X2RhdGEgLSAgc3lucHMgcGxhdGZvcm0gZGF0YSBzdHJ1Y3R1cmUKfCAgKiBAZWRhY19nZXRlcnJv
-cl9pbmZvOiBlZGFjIGVycm9yIGluZm8KfCAgKiBAZWRhY19nZXRfbXR5cGU6ICAgICBnZXQgbXR5
-cGUKfCAgKiBAZWRhY19nZXRfZHR5cGU6ICAgICBnZXQgZHR5cGUKfCAgKiBAZWRhY19nZXRfZWNj
-c3RhdGU6ICBnZXQgRUNDIHN0YXRlCgkJCSAgXl5eXl5eXl5eXl5eXgoKVGhpcyBpcyBzdXBwb3Nl
-ZCB0byBkZW5vdGUgdGhhdCB0aGlzIGZ1bmN0aW9uIHJldHVybnMgd2hldGhlciBFQ0MKY2hlY2tp
-bmcgaXMgZW5hYmxlZCBvbiB0aGUgY29udHJvbGxlciBvciBub3QuCgpZb3VyIHBhdGNoIGhhczoK
-CisgKiBzdHJ1Y3Qgc3lucHNfcGxhdGZvcm1fZGF0YSAtICBzeW5wcyBwbGF0Zm9ybSBkYXRhIHN0
-cnVjdHVyZS4KKyAqIEBnZXRlcnJvcl9pbmZvOiAgICAgR2V0IGVycm9yIGluZm8uCisgKiBAZ2V0
-X210eXBlOiAgICAgICAgIEdldCBtdHlwZS4KKyAqIEBnZXRfZHR5cGU6ICAgICAgICAgR2V0IGR0
-eXBlLgorICogQGdldF9lY2NzdGF0ZTogICAgICBHZXQgZWNjc3RhdGUuCgpTbyB3aGF0IGlzICJl
-Y2NzdGF0ZSI/IElzIGl0IGEgc3RydWN0IG9yIGEgdmFyaWFibGUgb3IgLi4uPwoKRG8geW91IHNl
-ZSBteSBwb2ludD8KCkkga25vdywgaXQgaXMgYSBzbWFsbCB0aGluZyBidXQgZG9jdW1lbnRpbmcg
-b3VyIGNvZGUgcHJvcGVybHkgaXMKc29tZXRoaW5nIHdoaWNoIHBlb3BsZSB3b3VsZCBiZSB0aGFu
-a2luZyB1cyBmb3IuIEV2ZW4geW91IHdpbGwgYmUKdGhhbmtpbmcgeW91cnNlbGYgd2hlbiB5b3Ug
-bG9vayBhdCB0aGlzIG1vbnRocyBmcm9tIG5vdyBhZnRlciBoYXZpbmcKZm9yZ290dGVuIGl0IGFs
-bC4KClBsZWFzZSBjaGVjayB0aGUgcmVzdCBvZiB5b3VyIGFkZGl0aW9ucyBmb3Igc2ltaWxhciBk
-aXNjcmVwYW5jaWVzLgoKVGhhbmtzLgo=
+VGhlcmUncyBtb3JlOgoKSSBzYWlkOgoKPiA+IEBAIC0zNzAsMTIgKzM5OCwxMiBAQCBzdGF0aWMg
+aW50IHN5bnBzX2VkYWNfaW5pdF9jc3Jvd3Moc3RydWN0IG1lbV9jdGxfaW5mbyAqbWNpKQoKPiBU
+aGF0IGZ1bmN0aW9uIHJldHVybnMgMCB1bmNvbmRpdGlvbmFsbHkuIE1ha2UgaXQgYSB2b2lkIGlu
+IGEgcHJlcGF0Y2guCgpCdXQgeW91J3ZlIGx1bXBlZCB0aGlzIGNoYW5nZSB0b2dldGhlciB3aXRo
+IGEgYnVuY2ggbW9yZS4gTWF5YmUgbXkKcmVxdWVzdCB3YXNuJ3QgY2xlYXIgc28gbGV0IG1lIHJl
+cGhyYXNlIGl0OgoKVGhhdCBmdW5jdGlvbiByZXR1cm5zIDAgdW5jb25kaXRpb25hbGx5LiBNYWtl
+IGl0IGEgdm9pZCBpbiBhICpzZXBhcmF0ZSogcHJlcGF0Y2guCgpPaz8K
