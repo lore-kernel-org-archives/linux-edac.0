@@ -2,26 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v7,6/7] arm64: zynqmp: Add DDRC node
-From: Manish Narani <manish.narani@xilinx.com>
-Message-Id: <1537194305-9243-7-git-send-email-manish.narani@xilinx.com>
-Date: Mon, 17 Sep 2018 19:55:04 +0530
-To: robh+dt@kernel.org, mark.rutland@arm.com, bp@alien8.de, mchehab@kernel.org, michal.simek@xilinx.com, manish.narani@xilinx.com, leoyang.li@nxp.com, sudeep.holla@arm.com, amit.kucheria@linaro.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180921125701.GF30439@nazgul.tnic>
+Date: Fri, 21 Sep 2018 14:57:01 +0200
+To: Manish Narani <manish.narani@xilinx.com>
+Cc: robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org, michal.simek@xilinx.com, leoyang.li@nxp.com, sudeep.holla@arm.com, amit.kucheria@linaro.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 List-ID: <edac.vger.kernel.org>
 
-QWRkIGRkcmMgbWVtb3J5IGNvbnRyb2xsZXIgbm9kZSBpbiBkdHMuIFRoZSBzaXplIG1lbnRpb25l
-ZCBpbiBkdHMgaXMKMHgzMDAwMCwgYmVjYXVzZSB3ZSBuZWVkIHRvIGFjY2VzcyBERFJfUU9TIElO
-VFIgcmVnaXN0ZXJzIGxvY2F0ZWQgYXQKMHhGRDA5MDIwOCBmcm9tIHRoaXMgZHJpdmVyLgoKU2ln
-bmVkLW9mZi1ieTogTWFuaXNoIE5hcmFuaSA8bWFuaXNoLm5hcmFuaUB4aWxpbnguY29tPgotLS0K
-IGFyY2gvYXJtNjQvYm9vdC9kdHMveGlsaW54L3p5bnFtcC5kdHNpIHwgNyArKysrKysrCiAxIGZp
-bGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290
-L2R0cy94aWxpbngvenlucW1wLmR0c2kgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3hpbGlueC96eW5x
-bXAuZHRzaQppbmRleCAyOWNlMjM0Li5hODFkM2IxNiAxMDA2NDQKLS0tIGEvYXJjaC9hcm02NC9i
-b290L2R0cy94aWxpbngvenlucW1wLmR0c2kKKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy94aWxp
-bngvenlucW1wLmR0c2kKQEAgLTM1NSw2ICszNTUsMTMgQEAKIAkJCXhsbngsYnVzLXdpZHRoID0g
-PDY0PjsKIAkJfTsKIAorCQltYzogbWVtb3J5LWNvbnRyb2xsZXJAZmQwNzAwMDAgeworCQkJY29t
-cGF0aWJsZSA9ICJ4bG54LHp5bnFtcC1kZHJjLTIuNDBhIjsKKwkJCXJlZyA9IDwweDAgMHhmZDA3
-MDAwMCAweDAgMHgzMDAwMD47CisJCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+OworCQkJaW50
-ZXJydXB0cyA9IDwwIDExMiA0PjsKKwkJfTsKKwogCQlnZW0wOiBldGhlcm5ldEBmZjBiMDAwMCB7
-CiAJCQljb21wYXRpYmxlID0gImNkbnMsenlucW1wLWdlbSIsICJjZG5zLGdlbSI7CiAJCQlzdGF0
-dXMgPSAiZGlzYWJsZWQiOwo=
+T24gTW9uLCBTZXAgMTcsIDIwMTggYXQgMDc6NTU6MDRQTSArMDUzMCwgTWFuaXNoIE5hcmFuaSB3
+cm90ZToKPiBBZGQgZGRyYyBtZW1vcnkgY29udHJvbGxlciBub2RlIGluIGR0cy4gVGhlIHNpemUg
+bWVudGlvbmVkIGluIGR0cyBpcwo+IDB4MzAwMDAsIGJlY2F1c2Ugd2UgbmVlZCB0byBhY2Nlc3Mg
+RERSX1FPUyBJTlRSIHJlZ2lzdGVycyBsb2NhdGVkIGF0Cj4gMHhGRDA5MDIwOCBmcm9tIHRoaXMg
+ZHJpdmVyLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE1hbmlzaCBOYXJhbmkgPG1hbmlzaC5uYXJhbmlA
+eGlsaW54LmNvbT4KPiAtLS0KPiAgYXJjaC9hcm02NC9ib290L2R0cy94aWxpbngvenlucW1wLmR0
+c2kgfCA3ICsrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQoKU3RpbGwg
+bmVlZHMgRFQgZm9sa3MgQUNLLgo=
