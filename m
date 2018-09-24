@@ -2,27 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/6] arm64: dts: stratix10: Additions to EDAC System Manager
-From: thor.thayer@linux.intel.com
-Message-Id: <1537385941-11582-2-git-send-email-thor.thayer@linux.intel.com>
-Date: Wed, 19 Sep 2018 14:38:56 -0500
-To: dinguyen@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com, bp@alien8.de, mchehab@kernel.org
-Cc: thor.thayer@linux.intel.com, devicetree@vger.kernel.org, linux-edac@vger.kernel.org
+From: Dinh Nguyen <dinguyen@kernel.org>
+Message-Id: <08800670-b2a1-9957-3d8c-05ff2268d7d9@kernel.org>
+Date: Mon, 24 Sep 2018 10:37:43 -0500
+To: thor.thayer@linux.intel.com, robh+dt@kernel.org, mark.rutland@arm.com, bp@alien8.de, mchehab@kernel.org
+Cc: devicetree@vger.kernel.org, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogVGhvciBUaGF5ZXIgPHRob3IudGhheWVyQGxpbnV4LmludGVsLmNvbT4KCkFkZCB0aGUg
-cGhhbmRsZSwgYWRkcmVzcywgc2l6ZSBhbmQgcmFuZ2VzIHRvIHRoZQpTdHJhdGl4MTAgU3lzdGVt
-IE1hbmFnZXIgbm9kZSB0byBtYXRjaCB0aGUgZXhpc3RpbmcKQXJyaWExMCBFREFDIGltcGxlbWVu
-dGF0aW9uLgoKU2lnbmVkLW9mZi1ieTogVGhvciBUaGF5ZXIgPHRob3IudGhheWVyQGxpbnV4Lmlu
-dGVsLmNvbT4KLS0tCiBhcmNoL2FybTY0L2Jvb3QvZHRzL2FsdGVyYS9zb2NmcGdhX3N0cmF0aXgx
-MC5kdHNpIHwgNCArKysrCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCgpkaWZmIC0t
-Z2l0IGEvYXJjaC9hcm02NC9ib290L2R0cy9hbHRlcmEvc29jZnBnYV9zdHJhdGl4MTAuZHRzaSBi
-L2FyY2gvYXJtNjQvYm9vdC9kdHMvYWx0ZXJhL3NvY2ZwZ2Ffc3RyYXRpeDEwLmR0c2kKaW5kZXgg
-ZDAzM2RhNDAxYzI2Li43OGI0YjA2ZTg5MzUgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtNjQvYm9vdC9k
-dHMvYWx0ZXJhL3NvY2ZwZ2Ffc3RyYXRpeDEwLmR0c2kKKysrIGIvYXJjaC9hcm02NC9ib290L2R0
-cy9hbHRlcmEvc29jZnBnYV9zdHJhdGl4MTAuZHRzaQpAQCAtNDY5LDkgKzQ2OSwxMyBAQAogCiAJ
-CWVjY21nciB7CiAJCQljb21wYXRpYmxlID0gImFsdHIsc29jZnBnYS1zMTAtZWNjLW1hbmFnZXIi
-OworCQkJYWx0cixzeXNtZ3Itc3lzY29uID0gPCZzeXNtZ3I+OworCQkJI2FkZHJlc3MtY2VsbHMg
-PSA8MT47CisJCQkjc2l6ZS1jZWxscyA9IDwxPjsKIAkJCWludGVycnVwdHMgPSA8MCAxNSA0Piwg
-PDAgOTUgND47CiAJCQlpbnRlcnJ1cHQtY29udHJvbGxlcjsKIAkJCSNpbnRlcnJ1cHQtY2VsbHMg
-PSA8Mj47CisJCQlyYW5nZXM7CiAKIAkJCXNkcmFtZWRhYyB7CiAJCQkJY29tcGF0aWJsZSA9ICJh
-bHRyLHNkcmFtLWVkYWMtczEwIjsK
+T24gMDkvMTkvMjAxOCAwMjozOCBQTSwgdGhvci50aGF5ZXJAbGludXguaW50ZWwuY29tIHdyb3Rl
+Ogo+IEZyb206IFRob3IgVGhheWVyIDx0aG9yLnRoYXllckBsaW51eC5pbnRlbC5jb20+Cj4gCj4g
+QWRkIHRoZSBwaGFuZGxlLCBhZGRyZXNzLCBzaXplIGFuZCByYW5nZXMgdG8gdGhlCj4gU3RyYXRp
+eDEwIFN5c3RlbSBNYW5hZ2VyIG5vZGUgdG8gbWF0Y2ggdGhlIGV4aXN0aW5nCj4gQXJyaWExMCBF
+REFDIGltcGxlbWVudGF0aW9uLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFRob3IgVGhheWVyIDx0aG9y
+LnRoYXllckBsaW51eC5pbnRlbC5jb20+Cj4gLS0tCj4gIGFyY2gvYXJtNjQvYm9vdC9kdHMvYWx0
+ZXJhL3NvY2ZwZ2Ffc3RyYXRpeDEwLmR0c2kgfCA0ICsrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDQg
+aW5zZXJ0aW9ucygrKQo+IAoKQWNrZWQtYnk6IERpbmggTmd1eWVuIDxkaW5ndXllbkBrZXJuZWwu
+b3JnPgo=
