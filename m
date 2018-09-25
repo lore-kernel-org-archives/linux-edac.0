@@ -1,13 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [V2,2/2] x86/mce: Add macros for corrected error count bit field
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <3908561D78D1C84285E8C5FCA982C28F7D3F91D4@ORSMSX107.amr.corp.intel.com>
-Date: Wed, 26 Sep 2018 18:25:58 +0000
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, Aristeu Rozanski <aris@redhat.com>, Mauro Carvalho Chehab <mchehab@s-opensource.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: [-next] EDAC: i7core: Remove set but not used variable 'pvt'
+From: YueHaibing <yuehaibing@huawei.com>
+Message-Id: <1537841043-108267-1-git-send-email-yuehaibing@huawei.com>
+Date: Tue, 25 Sep 2018 02:04:03 +0000
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Borislav Petkov <bp@alien8.de>
+Cc: YueHaibing <yuehaibing@huawei.com>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-Pj4gKyNkZWZpbmUgTUNJX1NUQVRVU19DRUNfTUFTSwkweDFmZmZjMDAwMDAwMDAwVUxMDQoNCj4g
-R0VOTUFTS19VTEwoNTIsMzgpIHJpZ2h0Pw0KDQpZZXMuIFRoYW5rcy4NCg0KLVRvbnkK
+Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy9l
+ZGFjL2k3Y29yZV9lZGFjLmM6IEluIGZ1bmN0aW9uICdpN2NvcmVfbWNlX2NoZWNrX2Vycm9yJzoK
+ZHJpdmVycy9lZGFjL2k3Y29yZV9lZGFjLmM6MTgxODoyMTogd2FybmluZzoKIHZhcmlhYmxlICdw
+dnQnIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCgpTaWduZWQt
+b2ZmLWJ5OiBZdWVIYWliaW5nIDx5dWVoYWliaW5nQGh1YXdlaS5jb20+Ci0tLQogZHJpdmVycy9l
+ZGFjL2k3Y29yZV9lZGFjLmMgfCAyIC0tCiAxIGZpbGUgY2hhbmdlZCwgMiBkZWxldGlvbnMoLSkK
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvaTdjb3JlX2VkYWMuYyBiL2RyaXZlcnMvZWRhYy9p
+N2NvcmVfZWRhYy5jCmluZGV4IGJkNjVmNTcuLjk0M2FhYjYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+ZWRhYy9pN2NvcmVfZWRhYy5jCisrKyBiL2RyaXZlcnMvZWRhYy9pN2NvcmVfZWRhYy5jCkBAIC0x
+ODE1LDE0ICsxODE1LDEyIEBAIHN0YXRpYyBpbnQgaTdjb3JlX21jZV9jaGVja19lcnJvcihzdHJ1
+Y3Qgbm90aWZpZXJfYmxvY2sgKm5iLCB1bnNpZ25lZCBsb25nIHZhbCwKIAlzdHJ1Y3QgbWNlICpt
+Y2UgPSAoc3RydWN0IG1jZSAqKWRhdGE7CiAJc3RydWN0IGk3Y29yZV9kZXYgKmk3X2RldjsKIAlz
+dHJ1Y3QgbWVtX2N0bF9pbmZvICptY2k7Ci0Jc3RydWN0IGk3Y29yZV9wdnQgKnB2dDsKIAogCWk3
+X2RldiA9IGdldF9pN2NvcmVfZGV2KG1jZS0+c29ja2V0aWQpOwogCWlmICghaTdfZGV2KQogCQly
+ZXR1cm4gTk9USUZZX0RPTkU7CiAKIAltY2kgPSBpN19kZXYtPm1jaTsKLQlwdnQgPSBtY2ktPnB2
+dF9pbmZvOwogCiAJLyoKIAkgKiBKdXN0IGxldCBtY2Vsb2cgaGFuZGxlIGl0IGlmIHRoZSBlcnJv
+ciBpcwo=
