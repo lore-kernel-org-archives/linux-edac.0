@@ -2,16 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Raise maximum number of memory controllers
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Message-Id: <E6AF1AFDEA62A94A97508F458CBDD47F6F70517B@SHSMSX101.ccr.corp.intel.com>
-Date: Wed, 26 Sep 2018 07:55:39 +0000
-To: Justin Ernst <justin.ernst@hpe.com>, Borislav Petkov <bp@alien8.de>
-Cc: "Luck, Tony" <tony.luck@intel.com>, "russ.anderson@hpe.com" <russ.anderson@hpe.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20180926093510.GA5584@zn.tnic>
+Date: Wed, 26 Sep 2018 11:35:11 +0200
+To: "Luck, Tony" <tony.luck@intel.com>, Greg KH <gregkh@linuxfoundation.org>
+Cc: Justin Ernst <justin.ernst@hpe.com>, russ.anderson@hpe.com, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-SGkgSnVzdGluLAoKPiBbIDM0MDEuOTg3NTU2XSBFREFDIE1DMTU6IEdpdmluZyBvdXQgZGV2aWNl
-IHRvIG1vZHVsZSBza3hfZWRhYyBjb250cm9sbGVyIFNreWxha2UgU29ja2V0IzEgSU1DIzEKICAg
-IEp1c3QgY3VyaW91cywgaGFzIHRoZSBzeXN0ZW0odHdvIG1lbW9yeSBjb250cm9sbGVycyBwZXIg
-c29ja2V0KSBnb3QgbW9yZSB0aGFuIDggc29ja2V0cz8KICAgIE5vcm1hbGx5LCB0aGUgbnVtYmVy
-ICIxIiBpbiB0aGUgYWJvdmUgc3RyaW5nICJTa3lsYWtlIFNvY2VrdCMxIElNQyMxIiBzaG91bGQg
-YmUgNyAodGhhdCB3YXMgMTUvMiksIGJ1dCBpdCB3YXMgMSBoZXJlLgoKVGhhbmtzIQotUWl1eHUK
+T24gVHVlLCBTZXAgMjUsIDIwMTggYXQgMDg6MDc6MzNQTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IE5vdyBJIHJlbWVtYmVyLiBJIGRpZCB0aGF0IGZvciBsb2NrZGVwIGJlY2F1c2Ug
+aXQgd2FudHMgc3RhdGljYWxseQo+IGFsbG9jYXRlZCBtZW1vcnkuIEknbGwgdHJ5IHRvIHRoaW5r
+IG9mIHNvbWV0aGluZyB0b21vcnJvdy4KClNvbWUgbW9yZSBpbmZvIGFmdGVyIHNvbWUgc3Rhcmlu
+ZzoKCldlIGNvdWxkJ3ZlIG1hZGUgdGhlIGxvY2tfY2xhc3Nfa2V5IG9ubHkgc3RhdGljIHN0b3Jh
+Z2Ugc28gdGhhdCBsb2NrZGVwCmlzIGhhcHB5IGJ1dCB0aGVuIHN0cnVjdCBidXNfdHlwZSBlbWJl
+ZHMgdGhlICp3aG9sZSogbG9ja19jbGFzc19rZXkgYW5kCm5vdCBhIHBvaW50ZXIgdG8gaXQuCgpX
+aGljaCBsZWF2ZXMgdXMgd2l0aCBlaXRoZXI6CgoqIHRoaXMgZml4IHBvc3Rwb25pbmcgdGhlIHBy
+b2JsZW0KCiogb3IgR3JlZyBjb21pbmcgYW5kIHNheWluZywgeW91J3JlIHVzaW5nIGJ1c190eXBl
+IGFsbCB3cm9uZyBhbmQgeW91CnNob3VsZG4ndCBhbmQgeW91IHNob3VsZCByZW1vdmUgaXQgY29t
+cGxldGVseSEgOi0pCgpXaGljaCB3b3VsZCBiZSBtdWNoIGJldHRlci4KClRoeC4K
