@@ -2,29 +2,12 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [V2,2/2] x86/mce: Add macros for corrected error count bit field
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20180926110517.GC5584@zn.tnic>
-Date: Wed, 26 Sep 2018 13:05:17 +0200
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Aristeu Rozanski <aris@redhat.com>, Mauro Carvalho Chehab <mchehab@s-opensource.com>, linux-edac@vger.kernel.org
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <3908561D78D1C84285E8C5FCA982C28F7D3F91D4@ORSMSX107.amr.corp.intel.com>
+Date: Wed, 26 Sep 2018 18:25:58 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, Aristeu Rozanski <aris@redhat.com>, Mauro Carvalho Chehab <mchehab@s-opensource.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBTZXAgMjQsIDIwMTggYXQgMDU6MDM6NDNQTSAtMDcwMCwgTHVjaywgVG9ueSB3cm90
-ZToKPiBGcm9tOiBRaXV4dSBaaHVvIDxxaXV4dS56aHVvQGludGVsLmNvbT4KPiAKPiBUaGUgYml0
-IGZpZWxkIDUyOjM4IG9mIE1DaV9TVEFUVVMgaXMgZm9yIGNvcnJlY3RlZCBlcnJvciBjb3VudC4K
-PiBBZGQgeypfU0hJRlR8Kl9NQVNLfCpfQ0VDKGMpfSBtYWNyb3MgZm9yIHRoZSBiaXQgZmllbGQu
-Cj4gCj4gU2lnbmVkLW9mZi1ieTogUWl1eHUgWmh1byA8cWl1eHUuemh1b0BpbnRlbC5jb20+Cj4g
-U2lnbmVkLW9mZi1ieTogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29tPgo+IC0tLQo+IAo+
-IFYyOiBKdXN0IHRoZSBDRUMgY2hhbmdlLiBWZXJ0aWNhbCBhbGlnbm1lbnQgb2Ygb3RoZXIgZmll
-bGRzIGZpeGVkIGluIHBhcnQgMQo+IAo+ICBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9tY2UuaCB8IDMg
-KysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEv
-YXJjaC94ODYvaW5jbHVkZS9hc20vbWNlLmggYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9tY2UuaAo+
-IGluZGV4IDM3YjI5ZTg0MTc1Ny4uYTgxYTIyZTM1OTJjIDEwMDY0NAo+IC0tLSBhL2FyY2gveDg2
-L2luY2x1ZGUvYXNtL21jZS5oCj4gKysrIGIvYXJjaC94ODYvaW5jbHVkZS9hc20vbWNlLmgKPiBA
-QCAtMzksNiArMzksOSBAQAo+ICAjZGVmaW5lIE1DSV9TVEFUVVNfUENDCQlCSVRfVUxMKDU3KSAg
-LyogcHJvY2Vzc29yIGNvbnRleHQgY29ycnVwdCAqLwo+ICAjZGVmaW5lIE1DSV9TVEFUVVNfUwkJ
-QklUX1VMTCg1NikgIC8qIFNpZ25hbGVkIG1hY2hpbmUgY2hlY2sgKi8KPiAgI2RlZmluZSBNQ0lf
-U1RBVFVTX0FSCQlCSVRfVUxMKDU1KSAgLyogQWN0aW9uIHJlcXVpcmVkICovCj4gKyNkZWZpbmUg
-TUNJX1NUQVRVU19DRUNfU0hJRlQJMzggICAgICAgICAgIC8qIENvcnJlY3RlZCBFcnJvciBDb3Vu
-dCAqLwo+ICsjZGVmaW5lIE1DSV9TVEFUVVNfQ0VDX01BU0sJMHgxZmZmYzAwMDAwMDAwMFVMTAoK
-R0VOTUFTS19VTEwoNTIsMzgpIHJpZ2h0Pwo=
+Pj4gKyNkZWZpbmUgTUNJX1NUQVRVU19DRUNfTUFTSwkweDFmZmZjMDAwMDAwMDAwVUxMDQoNCj4g
+R0VOTUFTS19VTEwoNTIsMzgpIHJpZ2h0Pw0KDQpZZXMuIFRoYW5rcy4NCg0KLVRvbnkK
