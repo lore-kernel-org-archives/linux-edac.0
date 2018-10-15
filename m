@@ -2,26 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, thunderx: memory leak in thunderx_l2c_threaded_isr()
-From: Jan Glauber <Jan.Glauber@cavium.com>
-Message-Id: <20181015124713.GA8017@hc>
-Date: Mon, 15 Oct 2018 12:47:24 +0000
-To: Borislav Petkov <bp@alien8.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181015130125.GC11434@zn.tnic>
+Date: Mon, 15 Oct 2018 15:01:25 +0200
+To: Jan Glauber <Jan.Glauber@cavium.com>
 Cc: Dan Carpenter <dan.carpenter@oracle.com>, Sergey Temerkhanov <s.temerkhanov@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gU2F0LCBPY3QgMTMsIDIwMTggYXQgMDI6Mjg6MDRQTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
-IHdyb3RlOgo+IE9uIFNhdCwgT2N0IDEzLCAyMDE4IGF0IDAxOjI4OjQzUE0gKzAzMDAsIERhbiBD
-YXJwZW50ZXIgd3JvdGU6Cj4gPiBJIGZvdW5kIHRoaXMgbWVtb3J5IGxlYWsgd2l0aCBzdGF0aWMg
-YW5hbHlzaXMsIGJ1dCBpdCBsb29rcyBsaWtlIGl0Cj4gPiBtaWdodCBiZSBwcmV0dHkgYmFkIGJl
-Y2F1c2UgaXQgYWZmZWN0cyB0aGUgc3VjY2VzcyBwYXRoLgo+ID4KPiA+IEZpeGVzOiA0MTAwMzM5
-NmY5MzIgKCJFREFDLCB0aHVuZGVyeDogQWRkIENhdml1bSBUaHVuZGVyWCBFREFDIGRyaXZlciIp
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5j
-b20+Cj4gPiAtLS0KPiA+IEl0J3MgYWxzbyBwb3NzaWJsZSB0aGF0IEkgaGF2ZSBtaXNyZWFkIHRo
-ZSBjb2RlLiAgSXQgc2VlbXMgbGlrZSBhbgo+ID4gb2J2aW91cyBmaXggYnV0IEkgaGF2ZW4ndCB0
-ZXN0ZWQgaXQuCj4gPgo+ID4gIGRyaXZlcnMvZWRhYy90aHVuZGVyeF9lZGFjLmMgfCA0ICsrLS0K
-PiA+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+
-IEFwcGxpZWQsIHRoYW5rcy4KPiAKPiBKYW4sIERhdmlkLCBhcyBhIGZ1cnRoZXIgY2xlYW51cCwg
-eW91IGNvdWxkIGNvbnNpZGVyIG1vdmluZyB0aGF0Cj4gYWxsb2NhdGlvbiBvdXQgb2YgdGhlIElT
-Ui4uLgoKWy1EYXZpZCB3aG8gbGVmdCBDYXZpdW1dCgpIaSBCb3JpcywKCnRoZSBhbGxvY2F0aW9u
-cyBoYXBwZW4gb25seSBpbiB0aGUgdGhyZWFkZWQgZnVuY3Rpb24gaGFuZGxlcnMsIG5vdCBpbgpo
-YXJkIElSUSBjb250ZXh0LCBpcyB0aGF0IHN0aWxsIGFuIGlzc3VlPwoKdGhhbmtzLApKYW4K
+SGksCgpPbiBNb24sIE9jdCAxNSwgMjAxOCBhdCAxMjo0NzoyNFBNICswMDAwLCBKYW4gR2xhdWJl
+ciB3cm90ZToKPiB0aGUgYWxsb2NhdGlvbnMgaGFwcGVuIG9ubHkgaW4gdGhlIHRocmVhZGVkIGZ1
+bmN0aW9uIGhhbmRsZXJzLCBub3QgaW4KPiBoYXJkIElSUSBjb250ZXh0LCBpcyB0aGF0IHN0aWxs
+IGFuIGlzc3VlPwoKTmFoLCBJIHRha2UgdGhhdCBiYWNrLiBJJ20gYmVpbmcgdG9sZCB5b3UgY2Fu
+IGRvIGFsbW9zdCBldmVyeXRoaW5nIGluCnRocmVhZGVkIGhhbmRsZXIgY29udGV4dCEgOi0pCgpU
+aHguCg==
