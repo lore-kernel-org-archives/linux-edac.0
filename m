@@ -2,22 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, thunderx: memory leak in thunderx_l2c_threaded_isr()
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181013122804.GB31650@zn.tnic>
-Date: Sat, 13 Oct 2018 14:28:04 +0200
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: David Daney <david.daney@cavium.com>, Sergey Temerkhanov <s.temerkhanov@gmail.com>, Jan Glauber <jglauber@cavium.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org
+From: Jan Glauber <Jan.Glauber@cavium.com>
+Message-Id: <20181015124713.GA8017@hc>
+Date: Mon, 15 Oct 2018 12:47:24 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, Sergey Temerkhanov <s.temerkhanov@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gU2F0LCBPY3QgMTMsIDIwMTggYXQgMDE6Mjg6NDNQTSArMDMwMCwgRGFuIENhcnBlbnRlciB3
-cm90ZToKPiBJIGZvdW5kIHRoaXMgbWVtb3J5IGxlYWsgd2l0aCBzdGF0aWMgYW5hbHlzaXMsIGJ1
-dCBpdCBsb29rcyBsaWtlIGl0Cj4gbWlnaHQgYmUgcHJldHR5IGJhZCBiZWNhdXNlIGl0IGFmZmVj
-dHMgdGhlIHN1Y2Nlc3MgcGF0aC4KPiAKPiBGaXhlczogNDEwMDMzOTZmOTMyICgiRURBQywgdGh1
-bmRlcng6IEFkZCBDYXZpdW0gVGh1bmRlclggRURBQyBkcml2ZXIiKQo+IFNpZ25lZC1vZmYtYnk6
-IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPiAtLS0KPiBJdCdzIGFs
-c28gcG9zc2libGUgdGhhdCBJIGhhdmUgbWlzcmVhZCB0aGUgY29kZS4gIEl0IHNlZW1zIGxpa2Ug
-YW4KPiBvYnZpb3VzIGZpeCBidXQgSSBoYXZlbid0IHRlc3RlZCBpdC4KPiAKPiAgZHJpdmVycy9l
-ZGFjL3RodW5kZXJ4X2VkYWMuYyB8IDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRp
-b25zKCspLCAyIGRlbGV0aW9ucygtKQoKQXBwbGllZCwgdGhhbmtzLgoKSmFuLCBEYXZpZCwgYXMg
-YSBmdXJ0aGVyIGNsZWFudXAsIHlvdSBjb3VsZCBjb25zaWRlciBtb3ZpbmcgdGhhdAphbGxvY2F0
-aW9uIG91dCBvZiB0aGUgSVNSLi4uCgpUaHguCg==
+T24gU2F0LCBPY3QgMTMsIDIwMTggYXQgMDI6Mjg6MDRQTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IE9uIFNhdCwgT2N0IDEzLCAyMDE4IGF0IDAxOjI4OjQzUE0gKzAzMDAsIERhbiBD
+YXJwZW50ZXIgd3JvdGU6Cj4gPiBJIGZvdW5kIHRoaXMgbWVtb3J5IGxlYWsgd2l0aCBzdGF0aWMg
+YW5hbHlzaXMsIGJ1dCBpdCBsb29rcyBsaWtlIGl0Cj4gPiBtaWdodCBiZSBwcmV0dHkgYmFkIGJl
+Y2F1c2UgaXQgYWZmZWN0cyB0aGUgc3VjY2VzcyBwYXRoLgo+ID4KPiA+IEZpeGVzOiA0MTAwMzM5
+NmY5MzIgKCJFREFDLCB0aHVuZGVyeDogQWRkIENhdml1bSBUaHVuZGVyWCBFREFDIGRyaXZlciIp
+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5j
+b20+Cj4gPiAtLS0KPiA+IEl0J3MgYWxzbyBwb3NzaWJsZSB0aGF0IEkgaGF2ZSBtaXNyZWFkIHRo
+ZSBjb2RlLiAgSXQgc2VlbXMgbGlrZSBhbgo+ID4gb2J2aW91cyBmaXggYnV0IEkgaGF2ZW4ndCB0
+ZXN0ZWQgaXQuCj4gPgo+ID4gIGRyaXZlcnMvZWRhYy90aHVuZGVyeF9lZGFjLmMgfCA0ICsrLS0K
+PiA+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+
+IEFwcGxpZWQsIHRoYW5rcy4KPiAKPiBKYW4sIERhdmlkLCBhcyBhIGZ1cnRoZXIgY2xlYW51cCwg
+eW91IGNvdWxkIGNvbnNpZGVyIG1vdmluZyB0aGF0Cj4gYWxsb2NhdGlvbiBvdXQgb2YgdGhlIElT
+Ui4uLgoKWy1EYXZpZCB3aG8gbGVmdCBDYXZpdW1dCgpIaSBCb3JpcywKCnRoZSBhbGxvY2F0aW9u
+cyBoYXBwZW4gb25seSBpbiB0aGUgdGhyZWFkZWQgZnVuY3Rpb24gaGFuZGxlcnMsIG5vdCBpbgpo
+YXJkIElSUSBjb250ZXh0LCBpcyB0aGF0IHN0aWxsIGFuIGlzc3VlPwoKdGhhbmtzLApKYW4K
