@@ -1,17 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC, thunderx: memory leak in thunderx_l2c_threaded_isr()
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181015130125.GC11434@zn.tnic>
-Date: Mon, 15 Oct 2018 15:01:25 +0200
-To: Jan Glauber <Jan.Glauber@cavium.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, Sergey Temerkhanov <s.temerkhanov@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+Subject: [v10,5/6] arm64: zynqmp: Add DDRC node
+From: Manish Narani <manish.narani@xilinx.com>
+Message-Id: <1540447621-22870-6-git-send-email-manish.narani@xilinx.com>
+Date: Thu, 25 Oct 2018 11:37:00 +0530
+To: robh+dt@kernel.org, mark.rutland@arm.com, michal.simek@xilinx.com, bp@alien8.de, mchehab@kernel.org, manish.narani@xilinx.com, amit.kucheria@linaro.org, sudeep.holla@arm.com, leoyang.li@nxp.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-SGksCgpPbiBNb24sIE9jdCAxNSwgMjAxOCBhdCAxMjo0NzoyNFBNICswMDAwLCBKYW4gR2xhdWJl
-ciB3cm90ZToKPiB0aGUgYWxsb2NhdGlvbnMgaGFwcGVuIG9ubHkgaW4gdGhlIHRocmVhZGVkIGZ1
-bmN0aW9uIGhhbmRsZXJzLCBub3QgaW4KPiBoYXJkIElSUSBjb250ZXh0LCBpcyB0aGF0IHN0aWxs
-IGFuIGlzc3VlPwoKTmFoLCBJIHRha2UgdGhhdCBiYWNrLiBJJ20gYmVpbmcgdG9sZCB5b3UgY2Fu
-IGRvIGFsbW9zdCBldmVyeXRoaW5nIGluCnRocmVhZGVkIGhhbmRsZXIgY29udGV4dCEgOi0pCgpU
-aHguCg==
+QWRkIGRkcmMgbWVtb3J5IGNvbnRyb2xsZXIgbm9kZSBpbiBkdHMuIFRoZSBzaXplIG1lbnRpb25l
+ZCBpbiBkdHMgaXMKMHgzMDAwMCwgYmVjYXVzZSB3ZSBuZWVkIHRvIGFjY2VzcyBERFJfUU9TIElO
+VFIgcmVnaXN0ZXJzIGxvY2F0ZWQgYXQKMHhGRDA5MDIwOCBmcm9tIHRoaXMgZHJpdmVyLgoKU2ln
+bmVkLW9mZi1ieTogTWFuaXNoIE5hcmFuaSA8bWFuaXNoLm5hcmFuaUB4aWxpbnguY29tPgotLS0K
+IGFyY2gvYXJtNjQvYm9vdC9kdHMveGlsaW54L3p5bnFtcC5kdHNpIHwgNyArKysrKysrCiAxIGZp
+bGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290
+L2R0cy94aWxpbngvenlucW1wLmR0c2kgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3hpbGlueC96eW5x
+bXAuZHRzaQppbmRleCAyOWNlMjM0Li5hODFkM2IxNiAxMDA2NDQKLS0tIGEvYXJjaC9hcm02NC9i
+b290L2R0cy94aWxpbngvenlucW1wLmR0c2kKKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy94aWxp
+bngvenlucW1wLmR0c2kKQEAgLTM1NSw2ICszNTUsMTMgQEAKIAkJCXhsbngsYnVzLXdpZHRoID0g
+PDY0PjsKIAkJfTsKIAorCQltYzogbWVtb3J5LWNvbnRyb2xsZXJAZmQwNzAwMDAgeworCQkJY29t
+cGF0aWJsZSA9ICJ4bG54LHp5bnFtcC1kZHJjLTIuNDBhIjsKKwkJCXJlZyA9IDwweDAgMHhmZDA3
+MDAwMCAweDAgMHgzMDAwMD47CisJCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+OworCQkJaW50
+ZXJydXB0cyA9IDwwIDExMiA0PjsKKwkJfTsKKwogCQlnZW0wOiBldGhlcm5ldEBmZjBiMDAwMCB7
+CiAJCQljb21wYXRpYmxlID0gImNkbnMsenlucW1wLWdlbSIsICJjZG5zLGdlbSI7CiAJCQlzdGF0
+dXMgPSAiZGlzYWJsZWQiOwo=
