@@ -2,24 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: nfit, mce: only handle uncorrectable machine checks
-From: Dan Williams <dan.j.williams@intel.com>
-Message-Id: <CAPcyv4huj1kPOWWjHONdS__6wOd2OEw9NrS0YfaRdBMYzzPTVA@mail.gmail.com>
-Date: Wed, 24 Oct 2018 17:25:46 -0700
-To: Vishal L Verma <vishal.l.verma@intel.com>
-Cc: linux-nvdimm <linux-nvdimm@lists.01.org>, linux-edac@vger.kernel.org, stable <stable@vger.kernel.org>, "Luck, Tony" <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181025100415.GB14020@nazgul.tnic>
+Date: Thu, 25 Oct 2018 12:04:15 +0200
+To: Vishal Verma <vishal.l.verma@intel.com>
+Cc: linux-nvdimm@lists.01.org, linux-edac@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>, Tony Luck <tony.luck@intel.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBPY3QgMjQsIDIwMTggYXQgMTowMyBQTSBWaXNoYWwgVmVybWEgPHZpc2hhbC5sLnZl
-cm1hQGludGVsLmNvbT4gd3JvdGU6Cj4KPiBXZSBvbmx5IHdhbnQgYSBtYWNoaW5lIGNoZWNrIGVy
-cm9yIHRvIGJlIGFkZGVkIHRvIGxpYm52ZGltbSdzICdiYWRibG9jaycKPiBpZiBpdCB3YXMgYW4g
-dW5jb3JyZWN0YWJsZSBlcnJvci4gQ3VycmVudGx5IHdlIGluc2VydCBib3RoIGNvcnJlY3RlZCBh
-bmQKPiB1bmNvcnJlY3RhYmxlIGVycm9ycy4gQWRkIGEgY2hlY2sgaW4gdGhlIG5maXQgbWNlIGhh
-bmRsZXIgdG8gZmlsdGVyIG91dAo+IGNvcnJlY3RlZCBtY2UgZXZlbnRzLgo+Cj4gUmVwb3J0ZWQt
-Ynk6IE9tYXIgQXZlbGFyIDxvbWFyLmF2ZWxhckBpbnRlbC5jb20+Cj4gRml4ZXM6IDY4MzlhNmQ5
-NmY0ZSAoIm5maXQ6IGRvIGFuIEFSUyBzY3J1YiBvbiBoaXR0aW5nIGEgbGF0ZW50IG1lZGlhIGVy
-cm9yIikKPiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwo+IENjOiBEYW4gV2lsbGlhbXMgPGRh
-bi5qLndpbGxpYW1zQGludGVsLmNvbT4KPiBDYzogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwu
-Y29tPgo+IENjOiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT4KPiBTaWduZWQtb2ZmLWJ5
-OiBWaXNoYWwgVmVybWEgPHZpc2hhbC5sLnZlcm1hQGludGVsLmNvbT4KCkxvb2tzIGdvb2QsIHdp
-bGwgbGV0IHRoaXMgc2l0IGluIC1uZXh0IHVudGlsIHRoZSBiYWNrIGhhbGYgb2YgdGhlIG1lcmdl
-IHdpbmRvdy4K
+RHJvcCBzdGFibGVAIGZyb20gQ0MuCgpPbiBXZWQsIE9jdCAyNCwgMjAxOCBhdCAwMjowMTo0OFBN
+IC0wNjAwLCBWaXNoYWwgVmVybWEgd3JvdGU6Cj4gV2Ugb25seSB3YW50IGEgbWFjaGluZSBjaGVj
+ayBlcnJvciB0byBiZSBhZGRlZCB0byBsaWJudmRpbW0ncyAnYmFkYmxvY2snCj4gaWYgaXQgd2Fz
+IGFuIHVuY29ycmVjdGFibGUgZXJyb3IuCgpXaGF0IGlzIGxpYm52ZGltbSdzICdiYWRibG9jaycg
+PwoKQWxzbywgcGxzIHdyaXRlIGluIHRoZSBjb21taXQgbWVzc2FnZSAqd2h5KiB5b3Ugd2FudCBv
+bmx5IFVFIGVycm9ycy4KCkFsc28sIHdyaXRlIHlvdXIgY29tbWl0IG1lc3NhZ2UgaW4gaW1wYXJ0
+aWFsIHRvbmUsIHdpdGhvdXQgdGhlICJ3ZSIuCgpUaHguCg==
