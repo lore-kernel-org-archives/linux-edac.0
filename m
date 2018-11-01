@@ -1,16 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC, skx: clean up a debug printk
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181127140143.GI26395@zn.tnic>
-Date: Tue, 27 Nov 2018 15:01:43 +0100
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Tony Luck <tony.luck@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [-next] edac: i82975x: remove set but not used variable 'dtype'
+From: YueHaibing <yuehaibing@huawei.com>
+Message-Id: <20181101022604.7312-1-yuehaibing@huawei.com>
+Date: Thu, 1 Nov 2018 10:26:04 +0800
+To: linux-edac@vger.kernel.org, ravi@jetztechnologies.com, arvino55@gmail.com, bp@alien8.de, mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org, YueHaibing <yuehaibing@huawei.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBOb3YgMjcsIDIwMTggYXQgMDQ6NTM6MzVQTSArMDMwMCwgRGFuIENhcnBlbnRlciB3
-cm90ZToKPiBRaXV4dSwgaXQncyBub3QgZmFpciBmb3IgbWUgdG8gaW52b2x2ZSB5b3UgaW4gdGhp
-cyBzdHVwaWQgc3BhdCB3aXRoCj4gQm9yaXMuCgpUaGF0J3Mgbm90IGEgc3BhdCAtIGl0IGlzIHNp
-bXBseSBhIGRpZmZlcmVuY2Ugb2Ygb3BpbmlvbnMuCgpBbmQgSSBhY2NlcHQgeW91ciBvcGluaW9u
-IC0gSSBqdXN0IGRvbid0IGFncmVlIHdpdGggaXQuCg==
+Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy9l
+ZGFjL2k4Mjk3NXhfZWRhYy5jOjM3ODoxNjogd2FybmluZzoKIHZhcmlhYmxlIOKAmGR0eXBl4oCZ
+IHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCgpJdCBuZXZlciB1
+c2VkIHNpbmNlIGludHJvZHVjdGlvbiBpbiBjb21taXQKMDg0YTRmY2NlZjM5ICgiZWRhYzogbW92
+ZSBkaW1tIHByb3BlcnRpZXMgdG8gc3RydWN0IGRpbW1faW5mbyIpCgpTaWduZWQtb2ZmLWJ5OiBZ
+dWVIYWliaW5nIDx5dWVoYWliaW5nQGh1YXdlaS5jb20+Ci0tLQogZHJpdmVycy9lZGFjL2k4Mjk3
+NXhfZWRhYy5jIHwgMiAtLQogMSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9lZGFjL2k4Mjk3NXhfZWRhYy5jIGIvZHJpdmVycy9lZGFjL2k4Mjk3NXhf
+ZWRhYy5jCmluZGV4IDg5MjgxNWUuLmFlMGQ4ZmEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9p
+ODI5NzV4X2VkYWMuYworKysgYi9kcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMKQEAgLTM3NSw3
+ICszNzUsNiBAQCBzdGF0aWMgdm9pZCBpODI5NzV4X2luaXRfY3Nyb3dzKHN0cnVjdCBtZW1fY3Rs
+X2luZm8gKm1jaSwKIAl1MzIgY3VtdWxfc2l6ZSwgbnJfcGFnZXM7CiAJaW50IGluZGV4LCBjaGFu
+OwogCXN0cnVjdCBkaW1tX2luZm8gKmRpbW07Ci0JZW51bSBkZXZfdHlwZSBkdHlwZTsKIAogCWxh
+c3RfY3VtdWxfc2l6ZSA9IDA7CiAKQEAgLTQxMyw3ICs0MTIsNiBAQCBzdGF0aWMgdm9pZCBpODI5
+NzV4X2luaXRfY3Nyb3dzKHN0cnVjdCBtZW1fY3RsX2luZm8gKm1jaSwKIAkJICogICBbMC03XSBm
+b3Igc2luZ2xlLWNoYW5uZWw7IGkuZS4gY3Nyb3ctPm5yX2NoYW5uZWxzID0gMQogCQkgKiAgIFsw
+LTNdIGZvciBkdWFsLWNoYW5uZWw7IGkuZS4gY3Nyb3ctPm5yX2NoYW5uZWxzID0gMgogCQkgKi8K
+LQkJZHR5cGUgPSBpODI5NzV4X2RyYW1fdHlwZShtY2hfd2luZG93LCBpbmRleCk7CiAJCWZvciAo
+Y2hhbiA9IDA7IGNoYW4gPCBjc3Jvdy0+bnJfY2hhbm5lbHM7IGNoYW4rKykgewogCQkJZGltbSA9
+IG1jaS0+Y3Nyb3dzW2luZGV4XS0+Y2hhbm5lbHNbY2hhbl0tPmRpbW07CiAK
