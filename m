@@ -1,16 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC: Don't add devices under /sys/bus/edac
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181113191522.GN10502@zn.tnic>
-Date: Tue, 13 Nov 2018 20:15:22 +0100
-To: "Ernst, Justin" <justin.ernst@hpe.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Greg KH <gregkh@linuxfoundation.org>, "Anderson, Russ" <russ.anderson@hpe.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Aristeu Rozanski Filho <arozansk@redhat.com>
+Subject: EDAC: skx_edac: add ACPI dependency
+From: Arnd Bergmann <arnd@arndb.de>
+Message-Id: <20181102153232.1450251-1-arnd@arndb.de>
+Date: Fri,  2 Nov 2018 16:32:06 +0100
+To: Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Tony Luck <tony.luck@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBOb3YgMTMsIDIwMTggYXQgMDc6MDk6MjRQTSArMDAwMCwgRXJuc3QsIEp1c3RpbiB3
-cm90ZToKPiBMb29rcyBnb29kIG9uIGEgMzIgc29ja2V0IHN5c3RlbS4gQWxsIDY0IG1lbW9yeSBj
-b250cm9sbGVycyBzaG93IHVwCj4gYW5kIEknbSBhYmxlIHRvIHNlZSB0aGUgc2FtZSBzeXNmcyBk
-aWZmLiBUaGFua3MKClRoYW5rcyBmb3IgdGVzdGluZywgbXVjaCBhcHByZWNpYXRlZCEKCkknbSBx
-dWV1aW5nIHRoZSBzdHVmZiBmb3IgNC4yMS4K
+V2UgY2Fubm90IGN1cnJlbnRseSBzZWxlY3QgQUNQSV9BRFhMIHdpdGhvdXQgYWxzbyBlbmFibGlu
+ZyB0aGUgdG9wLWxldmVsCkFDUEkgb3B0aW9uOgoKV0FSTklORzogdW5tZXQgZGlyZWN0IGRlcGVu
+ZGVuY2llcyBkZXRlY3RlZCBmb3IgQUNQSV9BRFhMCiAgRGVwZW5kcyBvbiBbbl06IEFDUEkgWz1u
+XQogIFNlbGVjdGVkIGJ5IFt5XToKICAtIEVEQUNfU0tYIFs9eV0gJiYgRURBQyBbPXldICYmIFBD
+SSBbPXldICYmIFg4Nl82NCBbPXldICYmIFg4Nl9NQ0VfSU5URUwgWz15XSAmJiBQQ0lfTU1DT05G
+SUcgWz15XSAmJiAoQUNQSV9ORklUIFs9bl0gfHwgIUFDUElfTkZJVCBbPW5dKQoKQWRkIGEgY29y
+cmVzcG9uZGluZyBkZXBlbmRlbmN5IGhlcmUuCgpGaXhlczogYWQ2ZTE2MDU5ZDhlICgiRURBQywg
+c2t4X2VkYWM6IEFkZCBhZGRyZXNzIHRyYW5zbGF0aW9uIGZvciBub24tdm9sYXRpbGUgRElNTXMi
+KQpTaWduZWQtb2ZmLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgotLS0KIGRyaXZl
+cnMvZWRhYy9LY29uZmlnIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL0tjb25maWcgYi9kcml2ZXJz
+L2VkYWMvS2NvbmZpZwppbmRleCA0MWM5Y2NkZDIwZDYuLjIzOTdlMWQyNDkzYSAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9lZGFjL0tjb25maWcKKysrIGIvZHJpdmVycy9lZGFjL0tjb25maWcKQEAgLTIz
+MSw3ICsyMzEsNyBAQCBjb25maWcgRURBQ19TQlJJREdFCiAKIGNvbmZpZyBFREFDX1NLWAogCXRy
+aXN0YXRlICJJbnRlbCBTa3lsYWtlIHNlcnZlciBJbnRlZ3JhdGVkIE1DIgotCWRlcGVuZHMgb24g
+UENJICYmIFg4Nl82NCAmJiBYODZfTUNFX0lOVEVMICYmIFBDSV9NTUNPTkZJRworCWRlcGVuZHMg
+b24gUENJICYmIFg4Nl82NCAmJiBYODZfTUNFX0lOVEVMICYmIFBDSV9NTUNPTkZJRyAmJiBBQ1BJ
+CiAJZGVwZW5kcyBvbiBBQ1BJX05GSVQgfHwgIUFDUElfTkZJVCAjIGlmIEFDUElfTkZJVD1tLCBF
+REFDX1NLWCBjYW4ndCBiZSB5CiAJc2VsZWN0IERNSQogCXNlbGVjdCBBQ1BJX0FEWEwgaWYgQUNQ
+SQo=
