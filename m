@@ -1,16 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,2/2] nfit, mce: validate the mce->addr before using it
+Subject: [v2] edac: qcom_edac: uninitialized variable in IRQ handler
 From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181106180735.GM13712@zn.tnic>
-Date: Tue, 6 Nov 2018 19:07:35 +0100
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Vishal L Verma <vishal.l.verma@intel.com>, linux-nvdimm <linux-nvdimm@lists.01.org>, linux-edac@vger.kernel.org, "Elliott, Robert (Persistent Memory)" <elliott@hpe.com>, stable <stable@vger.kernel.org>, "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <20181106110633.GE13712@zn.tnic>
+Date: Tue, 6 Nov 2018 12:06:33 +0100
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Channagoud Kadabi <ckadabi@codeaurora.org>, Venkata Narendra Kumar Gutta <vnkgutta@codeaurora.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBOb3YgMDYsIDIwMTggYXQgMTA6MDI6NDZBTSAtMDgwMCwgRGFuIFdpbGxpYW1zIHdy
-b3RlOgo+IEp1c3QgZ2VuZXJhbCBjYXV0aW91c25lc3MsIEknbSBub3Qgb3Bwb3NlZCB0byBzcXVh
-c2hpbmcgdGhlbS4KCk5haCwgSSBjYW4ga2VlcCB0aGVtIHNlcGFyYXRlIC0gSSB3YXMganVzdCB3
-b25kZXJpbmcgd2h5LgoKPiBtY2VfdXNhYmxlX2FkZHJlc3MoKSBzaG91bGQgbm90IGhhdmUgYW55
-IHNlbnNpdGl2aXR5IHRvIE5WRElNTSB2cyBEUkFNCj4gTUNFcy4KCk9rLgoKVGh4Lgo=
+T24gVGh1LCBPY3QgMTgsIDIwMTggYXQgMDQ6MjQ6MzhQTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IE9uIFRodSwgT2N0IDE4LCAyMDE4IGF0IDA1OjE1OjIyUE0gKzAzMDAsIERhbiBD
+YXJwZW50ZXIgd3JvdGU6Cj4gPiBXZSBmb3Jnb3QgdG8gaW5pdGlhbGl6ZSAiaXJxX2hhbmRsZWQi
+IHRvIGZhbHNlLiAgQnV0IHJlYWxseSBpdCdzCj4gPiBjbGVhbmVyIHRvIGp1c3QgZ2V0IHJpZCBv
+ZiB0aGF0IHZhcmlhYmxlIGFuZCB1c2UgImlycV9yYyIgZGlyZWN0bHkKPiA+IGluc3RlYWQuCj4g
+PiAKPiA+IEZpeGVzOiAyNzQ1MDY1M2YxZGIgKCJkcml2ZXJzOiBlZGFjOiBBZGQgRURBQyBkcml2
+ZXIgc3VwcG9ydCBmb3IgUUNPTSBTb0NzIikKPiA+IFNpZ25lZC1vZmYtYnk6IERhbiBDYXJwZW50
+ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KPiA+IC0tLQo+ID4gdjI6IEdldCByaWQgb2Yg
+dGhlICJpcnFfaGFuZGxlZCIgdmFyaWFibGUuCj4gPiAKPiA+ICBkcml2ZXJzL2VkYWMvcWNvbV9l
+ZGFjLmMgfCA4ICsrLS0tLS0tCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+NiBkZWxldGlvbnMoLSkKPiAKPiBSZXZpZXdlZC1ieTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNl
+LmRlPgoKQXBwbGllZCwgdGh4Lgo=
