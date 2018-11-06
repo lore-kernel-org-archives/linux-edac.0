@@ -1,23 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: edac: i82975x: fix spelling mistake "reserverd" -> "reserved"
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Message-Id: <20181120153304.1218-1-alexandre.belloni@bootlin.com>
-Date: Tue, 20 Nov 2018 16:33:04 +0100
-To: Ranganathan Desikan <ravi@jetztechnologies.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "Arvind R ." <arvino55@gmail.com>, Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: EDAC: Don't add devices under /sys/bus/edac
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181106144535.GI13712@zn.tnic>
+Date: Tue, 6 Nov 2018 15:45:35 +0100
+To: "Ernst, Justin" <justin.ernst@hpe.com>, "Luck, Tony" <tony.luck@intel.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, "Anderson, Russ" <russ.anderson@hpe.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Aristeu Rozanski Filho <arozansk@redhat.com>
 List-ID: <edac.vger.kernel.org>
 
-Rml4IGEgc3BlbGxpbmcgbWlzdGFrZSBpbiBhIHJlZ2lzdGVyIGxheW91dCBkZXNjcmlwdGlvbi4K
-ClNpZ25lZC1vZmYtYnk6IEFsZXhhbmRyZSBCZWxsb25pIDxhbGV4YW5kcmUuYmVsbG9uaUBib290
-bGluLmNvbT4KLS0tCiBkcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMgYi9kcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMKaW5k
-ZXggODkyODE1ZWFhOTdiLi40MDI0OWU5YzlkMjYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9p
-ODI5NzV4X2VkYWMuYworKysgYi9kcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMKQEAgLTEwNCw3
-ICsxMDQsNyBAQCBOT1RFOiBPbmx5IE9ORSBvZiB0aGUgdGhyZWUgbXVzdCBiZSBlbmFibGVkCiAJ
-CQkJCSAqCiAJCQkJCSAqIDMxOjE0IEJhc2UgQWRkciBvZiAxNksgbWVtb3J5LW1hcHBlZAogCQkJ
-CQkgKgljb25maWd1cmF0aW9uIHNwYWNlCi0JCQkJCSAqIDEzOjEgIHJlc2VydmVyZAorCQkJCQkg
-KiAxMzoxICByZXNlcnZlZAogCQkJCQkgKiAgMCAgICBtZW0tbWFwcGVkIGNvbmZpZyBzcGFjZSBl
-bmFibGUKIAkJCQkJICovCiAK
+T24gVHVlLCBPY3QgMDIsIDIwMTggYXQgMDY6MjY6MDhQTSArMDIwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IE9uIFR1ZSwgT2N0IDAyLCAyMDE4IGF0IDAzOjUxOjQxUE0gKzAwMDAsIEVybnN0
+LCBKdXN0aW4gd3JvdGU6Cj4gPiBUaGUgY29tYmluZWQgcGF0Y2hlcyB3b3JrIG9uIGEgMjAgc29j
+a2V0IHN5c3RlbS4gCj4gPiBUaGFua3MhCj4gCj4gQ29vbCwgdGhhbmtzIGZvciB0ZXN0aW5nLgo+
+IAo+IE5ldmVydGhlbGVzcywgSSdsbCBxdWV1ZSB0aGVtIGZvciA0LjIxIHNvIHRoYXQgd2UgaGF2
+ZSBhIGZ1bGwgY3ljbGUgb2YKPiB0ZXN0aW5nIGJlZm9yZSB3ZSByZWFsbHkga2lsbCB0aGUgYnVz
+IHRoaW5nLgoKT2ssIEkndmUgcHVzaGVkIHRoZSB0d28gcGF0Y2hlcyBvbnRvcCBvZiBFREFDJ3Mg
+Zm9yLW5leHQgYnJhbmNoLCBoZXJlOgoKaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xp
+bnV4L2tlcm5lbC9naXQvYnAvYnAuZ2l0L2xvZy8/aD1lZGFjLWZvci00LjIxLWJ1cwoKYW5kIEkn
+ZCBhcHByZWNpYXRlIHRlc3RpbmcgdGhlbSBvbmUgbW9yZSB0aW1lIG9uIHRoZSBiaWcgYm94ZXMg
+eW91IGd1eXMgaGF2ZS4KCkRpZmZpbmcgc3lzZnMgaGVyZSBzaG93cyB0aGlzOgoKCndoaWNoIGlz
+IHRoZSBidXMgc3ltbGluazoKCnN1YnN5c3RlbSAtPiAuLi8uLi8uLi8uLi8uLi8uLi9idXMvbWMw
+CgphbmQgSSB0aGluayB0aGF0J3Mgb2sgYXMgbm90aGluZyBzaG91bGQgYmUgdXNpbmcgaXQuCgpU
+aHguCgotLS0gZWRhYy5iZWZvcmUJMjAxOC0xMS0wNiAxMzozNzozNy45MjU0NDg2MDkgKzAxMDAK
+KysrIGVkYWMuYWZ0ZXIJMjAxOC0xMS0wNiAxNTozNjoxMS4yMjk0OTc3OTUgKzAxMDAKQEAgLTM3
+LDcgKzM3LDYgQEAKIC9zeXMvZGV2aWNlcy9zeXN0ZW0vZWRhYy9tYy9tYzAvZGltbTMvcG93ZXIv
+Y29udHJvbAogL3N5cy9kZXZpY2VzL3N5c3RlbS9lZGFjL21jL21jMC9kaW1tMy9kaW1tX2Rldl90
+eXBlCiAvc3lzL2RldmljZXMvc3lzdGVtL2VkYWMvbWMvbWMwL2RpbW0zL3NpemUKLS9zeXMvZGV2
+aWNlcy9zeXN0ZW0vZWRhYy9tYy9tYzAvZGltbTMvc3Vic3lzdGVtCiAvc3lzL2RldmljZXMvc3lz
+dGVtL2VkYWMvbWMvbWMwL2RpbW0zL2RpbW1fY2VfY291bnQKIC9zeXMvZGV2aWNlcy9zeXN0ZW0v
+ZWRhYy9tYy9tYzAvZGltbTMvZGltbV9sYWJlbAogL3N5cy9kZXZpY2VzL3N5c3RlbS9lZGFjL21j
+L21jMC9kaW1tMy9kaW1tX2xvY2F0aW9uCg==
