@@ -2,33 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v6,5/9] dt-bindings: ARM: document marvell,ecc-enable binding
-From: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Message-Id: <20181109070349.20464-6-chris.packham@alliedtelesis.co.nz>
-Date: Fri,  9 Nov 2018 20:03:45 +1300
-To: linux@armlinux.org.uk, bp@alien8.de, arnd@arndb.de, jlu@pengutronix.de, gregory.clement@bootlin.com
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Message-Id: <CAK8P3a3PNvBhyQw0bfGxKmxj+KeJB2_TXtDx2R1BpjTCYNqVkA@mail.gmail.com>
+Date: Fri, 9 Nov 2018 12:40:06 +0100
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc: Russell King - ARM Linux <linux@armlinux.org.uk>, Borislav Petkov <bp@alien8.de>, jlu@pengutronix.de, Gregory CLEMENT <gregory.clement@bootlin.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, DTML <devicetree@vger.kernel.org>, linux-edac@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
 List-ID: <edac.vger.kernel.org>
 
-QWRkIGRvY3VtZW50YXRpb24gZm9yIHRoZSBtYXJ2ZWxsLGVjYy1lbmFibGUgYW5kIG1hcnZlbGws
-ZWNjLWRpc2FibGUKcHJvcGVydGllcyB3aGljaCBjYW4gYmUgdXNlZCB0byBlbmFibGUvZGlzYWJs
-ZSBFQ0Mgb24gdGhlIE1hcnZlbGwgYXVyb3JhCmNhY2hlLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXMg
-UGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56PgotLS0KCk5vdGVzOgog
-ICAgQ2hhbmdlcyBpbiB2NjoKICAgIC0gbmV3IChzcGxpdCBiaW5kaW5nIGRvYyBmcm9tIGltcGxl
-bWVudGF0aW9uKS4KCiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2wyYzJ4
-MC50eHQgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0
-IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9sMmMyeDAudHh0IGIvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9sMmMyeDAudHh0CmluZGV4IGZiZTZj
-YjIxZjRjZi4uMTVhODRmMGJhOWYxIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvYXJtL2wyYzJ4MC50eHQKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2FybS9sMmMyeDAudHh0CkBAIC03Niw2ICs3Niw4IEBAIE9wdGlvbmFsIHByb3Bl
-cnRpZXM6CiAgIHNwZWNpZmllZCB0byBpbmRpY2F0ZSB0aGF0IHN1Y2ggdHJhbnNmb3JtcyBhcmUg
-cHJlY2x1ZGVkLgogLSBhcm0scGFyaXR5LWVuYWJsZSA6IGVuYWJsZSBwYXJpdHkgY2hlY2tpbmcg
-b24gdGhlIEwyIGNhY2hlIChMMjIwIG9yIFBMMzEwKS4KIC0gYXJtLHBhcml0eS1kaXNhYmxlIDog
-ZGlzYWJsZSBwYXJpdHkgY2hlY2tpbmcgb24gdGhlIEwyIGNhY2hlIChMMjIwIG9yIFBMMzEwKS4K
-Ky0gbWFydmVsbCxlY2MtZW5hYmxlIDogZW5hYmxlIEVDQyBwcm90ZWN0aW9uIG9uIHRoZSBMMiBj
-YWNoZQorLSBtYXJ2ZWxsLGVjYy1kaXNhYmxlIDogZGlzYWJsZSBFQ0MgcHJvdGVjdGlvbiBvbiB0
-aGUgTDIgY2FjaGUKIC0gYXJtLG91dGVyLXN5bmMtZGlzYWJsZSA6IGRpc2FibGUgdGhlIG91dGVy
-IHN5bmMgb3BlcmF0aW9uIG9uIHRoZSBMMiBjYWNoZS4KICAgU29tZSBjb3JlIHRpbGVzLCBlc3Bl
-Y2lhbGx5IEFSTSBQQjExTVBDb3JlIGhhdmUgYSBmYXVsdHkgTDIyMCBjYWNoZSB0aGF0CiAgIHdp
-bGwgcmFuZG9tbHkgaGFuZyB1bmxlc3Mgb3V0ZXIgc3luYyBvcGVyYXRpb25zIGFyZSBkaXNhYmxl
-ZC4K
+T24gRnJpLCBOb3YgOSwgMjAxOCBhdCA4OjA0IEFNIENocmlzIFBhY2toYW0KPGNocmlzLnBhY2to
+YW1AYWxsaWVkdGVsZXNpcy5jby5uej4gd3JvdGU6Cj4KPiBBZGQgZG9jdW1lbnRhdGlvbiBmb3Ig
+dGhlIG1hcnZlbGwsZWNjLWVuYWJsZSBhbmQgbWFydmVsbCxlY2MtZGlzYWJsZQo+IHByb3BlcnRp
+ZXMgd2hpY2ggY2FuIGJlIHVzZWQgdG8gZW5hYmxlL2Rpc2FibGUgRUNDIG9uIHRoZSBNYXJ2ZWxs
+IGF1cm9yYQo+IGNhY2hlLgo+Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMu
+cGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56Pgo+IC0tLQoKV2h5IGRvIHlvdSBuZWVkIGJvdGgg
+ZW5hYmxlIGFuZCBkaXNhYmxlPyBXb3VsZG4ndCBvbmUgb2YgdGhlbSBiZSBlbm91Z2ggaGVyZT8K
+CiAgICAgIEFybmQK
