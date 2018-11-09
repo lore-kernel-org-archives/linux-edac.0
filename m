@@ -1,21 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v6,5/9] dt-bindings: ARM: document marvell,ecc-enable binding
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20181111223539.GA27390@bogus>
-Date: Sun, 11 Nov 2018 16:35:39 -0600
-To: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Cc: linux@armlinux.org.uk, bp@alien8.de, arnd@arndb.de, jlu@pengutronix.de, gregory.clement@bootlin.com, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
+Subject: [v6,4/9] ARM: l2x0: support parity-enable/disable on aurora
+From: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Message-Id: <20181109070349.20464-5-chris.packham@alliedtelesis.co.nz>
+Date: Fri,  9 Nov 2018 20:03:44 +1300
+To: linux@armlinux.org.uk, bp@alien8.de, arnd@arndb.de, jlu@pengutronix.de, gregory.clement@bootlin.com
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Chris Packham <chris.packham@alliedtelesis.co.nz>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCAgOSBOb3YgMjAxOCAyMDowMzo0NSArMTMwMCwgQ2hyaXMgUGFja2hhbSB3cm90ZToK
-PiBBZGQgZG9jdW1lbnRhdGlvbiBmb3IgdGhlIG1hcnZlbGwsZWNjLWVuYWJsZSBhbmQgbWFydmVs
-bCxlY2MtZGlzYWJsZQo+IHByb3BlcnRpZXMgd2hpY2ggY2FuIGJlIHVzZWQgdG8gZW5hYmxlL2Rp
-c2FibGUgRUNDIG9uIHRoZSBNYXJ2ZWxsIGF1cm9yYQo+IGNhY2hlLgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IENocmlzIFBhY2toYW0gPGNocmlzLnBhY2toYW1AYWxsaWVkdGVsZXNpcy5jby5uej4KPiAt
-LS0KPiAKPiBOb3RlczoKPiAgICAgQ2hhbmdlcyBpbiB2NjoKPiAgICAgLSBuZXcgKHNwbGl0IGJp
-bmRpbmcgZG9jIGZyb20gaW1wbGVtZW50YXRpb24pLgo+IAo+ICBEb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvYXJtL2wyYzJ4MC50eHQgfCAyICsrCj4gIDEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKykKPiAKClJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwu
-b3JnPgo=
+VGhlIGF1cm9yYSBjYWNoZSBvbiB0aGUgTWFydmVsbCBBcm1hZGEtWFAgU29DIHN1cHBvcnRzIHRo
+ZSBzYW1lIHRhZwpwYXJpdHkgZmVhdHVyZXMgYXMgdGhlIG90aGVyIGwyeDAgY2FjaGUgaW1wbGVt
+ZW50YXRpb25zLgoKU2lnbmVkLW9mZi1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBh
+bGxpZWR0ZWxlc2lzLmNvLm56Pgpbamx1QHBlbmd1dHJvbml4LmRlOiB1c2UgYXVyb3JhIHNwZWNp
+ZmljIGRlZmluZSBBVVJPUkFfQUNSX1BBUklUWV9FTl0KU2lnbmVkLW9mZi1ieTogSmFuIEx1ZWJi
+ZSA8amx1QHBlbmd1dHJvbml4LmRlPgotLS0KIGFyY2gvYXJtL21tL2NhY2hlLWwyeDAuYyB8IDcg
+KysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2Fy
+Y2gvYXJtL21tL2NhY2hlLWwyeDAuYyBiL2FyY2gvYXJtL21tL2NhY2hlLWwyeDAuYwppbmRleCA3
+ZDJkMmEzYzY3ZDAuLmI3MGJlZTc0NzUwZCAxMDA2NDQKLS0tIGEvYXJjaC9hcm0vbW0vY2FjaGUt
+bDJ4MC5jCisrKyBiL2FyY2gvYXJtL21tL2NhY2hlLWwyeDAuYwpAQCAtMTUwNSw2ICsxNTA1LDEz
+IEBAIHN0YXRpYyB2b2lkIF9faW5pdCBhdXJvcmFfb2ZfcGFyc2UoY29uc3Qgc3RydWN0IGRldmlj
+ZV9ub2RlICpucCwKIAkJbWFzayB8PSBBVVJPUkFfQUNSX0ZPUkNFX1dSSVRFX1BPTElDWV9NQVNL
+OwogCX0KIAorCWlmIChvZl9wcm9wZXJ0eV9yZWFkX2Jvb2wobnAsICJhcm0scGFyaXR5LWVuYWJs
+ZSIpKSB7CisJCW1hc2sgfD0gQVVST1JBX0FDUl9QQVJJVFlfRU47CisJCXZhbCB8PSBBVVJPUkFf
+QUNSX1BBUklUWV9FTjsKKwl9IGVsc2UgaWYgKG9mX3Byb3BlcnR5X3JlYWRfYm9vbChucCwgImFy
+bSxwYXJpdHktZGlzYWJsZSIpKSB7CisJCW1hc2sgfD0gQVVST1JBX0FDUl9QQVJJVFlfRU47CisJ
+fQorCiAJKmF1eF92YWwgJj0gfm1hc2s7CiAJKmF1eF92YWwgfD0gdmFsOwogCSphdXhfbWFzayAm
+PSB+bWFzazsK
