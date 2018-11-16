@@ -2,23 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,1/4] EDAC, skx_edac: Fix function calling order in skx_exit()
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Message-Id: <1542353616-13421-1-git-send-email-qiuxu.zhuo@intel.com>
-Date: Fri, 16 Nov 2018 15:33:36 +0800
-To: bp@alien8.de
-Cc: tony.luck@intel.com, mchehab@osg.samsung.com, arozansk@redhat.com, linux-edac@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181116102340.GB20313@zn.tnic>
+Date: Fri, 16 Nov 2018 11:23:40 +0100
+To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: tony.luck@intel.com, mchehab@osg.samsung.com, arozansk@redhat.com, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-VGhlIG9yZGVyIG9mIGZ1bmN0aW9uIGNhbGxpbmcgaW4gc2t4X2V4aXQoKSBpcyBub3QgdGhlIHJl
-dmVyc2VkCm9yZGVyIGluIHNreF9pbml0KCkuIEZpeCBpdCBieSBjYWxsaW5nIGZ1bmN0aW9ucyBp
-biBza3hfZXhpdCgpCmluIGEgcHJvcGVyIG9yZGVyLgoKU2lnbmVkLW9mZi1ieTogUWl1eHUgWmh1
-byA8cWl1eHUuemh1b0BpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9lZGFjL3NreF9lZGFjLmMgfCA0
-ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL3NreF9lZGFjLmMgYi9kcml2ZXJzL2VkYWMvc2t4X2Vk
-YWMuYwppbmRleCBhOTllYTYxZGFkMzIuLmIyM2M4YWFhNWYyYiAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9lZGFjL3NreF9lZGFjLmMKKysrIGIvZHJpdmVycy9lZGFjL3NreF9lZGFjLmMKQEAgLTEzMzks
-MTEgKzEzMzksMTEgQEAgc3RhdGljIHZvaWQgX19leGl0IHNreF9leGl0KHZvaWQpCiB7CiAJZWRh
-Y19kYmcoMiwgIlxuIik7CiAJbWNlX3VucmVnaXN0ZXJfZGVjb2RlX2NoYWluKCZza3hfbWNlX2Rl
-Yyk7Ci0Jc2t4X3JlbW92ZSgpOworCXRlYXJkb3duX3NreF9kZWJ1ZygpOwogCWlmIChudmRpbW1f
-Y291bnQpCiAJCXNreF9hZHhsX3B1dCgpOwogCWtmcmVlKHNreF9tc2cpOwotCXRlYXJkb3duX3Nr
-eF9kZWJ1ZygpOworCXNreF9yZW1vdmUoKTsKIH0KIAogbW9kdWxlX2luaXQoc2t4X2luaXQpOwo=
+T24gRnJpLCBOb3YgMTYsIDIwMTggYXQgMDM6MzM6MzZQTSArMDgwMCwgUWl1eHUgWmh1byB3cm90
+ZToKPiBUaGUgb3JkZXIgb2YgZnVuY3Rpb24gY2FsbGluZyBpbiBza3hfZXhpdCgpIGlzIG5vdCB0
+aGUgcmV2ZXJzZWQKPiBvcmRlciBpbiBza3hfaW5pdCgpLiBGaXggaXQgYnkgY2FsbGluZyBmdW5j
+dGlvbnMgaW4gc2t4X2V4aXQoKQo+IGluIGEgcHJvcGVyIG9yZGVyLgo+IAo+IFNpZ25lZC1vZmYt
+Ynk6IFFpdXh1IFpodW8gPHFpdXh1LnpodW9AaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2Vk
+YWMvc2t4X2VkYWMuYyB8IDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
+LCAyIGRlbGV0aW9ucygtKQoKQWxsIDQgYXBwbGllZCwgdGhhbmtzLgoKSGludCBmb3IgdGhlIGZ1
+dHVyZTogcGxlYXNlIHRlYWNoIHlvdXIgZ2l0IHRvIHNlbmQgdGhlIHBhdGNoZXMgdGhyZWFkZWQs
+CmkuZS4sIHRoZSBtYWlsIGhlYWRlciBzaG91bGQgaGF2ZToKCkluLVJlcGx5LVRvOiA8Zmlyc3Qg
+bWFpbCdzIE1lc3NhZ2UtSUQ+ClJlZmVyZW5jZXM6IDxmaXJzdCBtYWlsJ3MgTWVzc2FnZS1JRD4K
+ClRoeC4K
