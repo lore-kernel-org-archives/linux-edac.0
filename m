@@ -1,24 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,-next] edac: i82975x: remove set but not used variable 'dtype'
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181107192340.GE14169@zn.tnic>
-Date: Wed, 7 Nov 2018 20:23:40 +0100
-To: YueHaibing <yuehaibing@huawei.com>
-Cc: linux-edac@vger.kernel.org, ravi@jetztechnologies.com, arvino55@gmail.com, mchehab@kernel.org, linux-kernel@vger.kernel.org
+Subject: edac: i82975x: fix spelling mistake "reserverd" -> "reserved"
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Message-Id: <20181120153304.1218-1-alexandre.belloni@bootlin.com>
+Date: Tue, 20 Nov 2018 16:33:04 +0100
+To: Ranganathan Desikan <ravi@jetztechnologies.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: "Arvind R ." <arvino55@gmail.com>, Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Alexandre Belloni <alexandre.belloni@bootlin.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBOb3YgMDcsIDIwMTggYXQgMTA6MjI6MzdBTSArMDgwMCwgWXVlSGFpYmluZyB3cm90
-ZToKPiBGaXhlcyBnY2MgJy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cj4gCj4g
-ZHJpdmVycy9lZGFjL2k4Mjk3NXhfZWRhYy5jOjM3ODoxNjogd2FybmluZzoKPiAgdmFyaWFibGUg
-J2R0eXBlJyBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQo+IAo+
-IEl0IG5ldmVyIHVzZWQgc2luY2UgaW50cm9kdWN0aW9uIGluIGNvbW1pdAo+IDA4NGE0ZmNjZWYz
-OSAoImVkYWM6IG1vdmUgZGltbSBwcm9wZXJ0aWVzIHRvIHN0cnVjdCBkaW1tX2luZm8iKQo+IAo+
-IEFsc28gcmVtb3ZlIGZ1bmN0aW9uIGk4Mjk3NXhfZHJhbV90eXBlIGFuZCBtb3ZlIHRoZSBjb21t
-ZW50IGFuZCB0aGUKPiBhc3NpZ25tZW50IHRvIHRoZSBzaW5nbGUgY2FsbGVkIHBsYWNlLgo+IAo+
-IFNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KPiAtLS0K
-PiB2MjogcmVtb3ZlIHVubmVjZXNzYXJ5IGZ1bmN0aW9uIGk4Mjk3NXhfZHJhbV90eXBlCj4gLS0t
-Cj4gIGRyaXZlcnMvZWRhYy9pODI5NzV4X2VkYWMuYyB8IDE1ICsrKystLS0tLS0tLS0tLQo+ICAx
-IGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKCkFwcGxpZWQs
-IHRoYW5rcy4K
+Rml4IGEgc3BlbGxpbmcgbWlzdGFrZSBpbiBhIHJlZ2lzdGVyIGxheW91dCBkZXNjcmlwdGlvbi4K
+ClNpZ25lZC1vZmYtYnk6IEFsZXhhbmRyZSBCZWxsb25pIDxhbGV4YW5kcmUuYmVsbG9uaUBib290
+bGluLmNvbT4KLS0tCiBkcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMgYi9kcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMKaW5k
+ZXggODkyODE1ZWFhOTdiLi40MDI0OWU5YzlkMjYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZWRhYy9p
+ODI5NzV4X2VkYWMuYworKysgYi9kcml2ZXJzL2VkYWMvaTgyOTc1eF9lZGFjLmMKQEAgLTEwNCw3
+ICsxMDQsNyBAQCBOT1RFOiBPbmx5IE9ORSBvZiB0aGUgdGhyZWUgbXVzdCBiZSBlbmFibGVkCiAJ
+CQkJCSAqCiAJCQkJCSAqIDMxOjE0IEJhc2UgQWRkciBvZiAxNksgbWVtb3J5LW1hcHBlZAogCQkJ
+CQkgKgljb25maWd1cmF0aW9uIHNwYWNlCi0JCQkJCSAqIDEzOjEgIHJlc2VydmVyZAorCQkJCQkg
+KiAxMzoxICByZXNlcnZlZAogCQkJCQkgKiAgMCAgICBtZW0tbWFwcGVkIGNvbmZpZyBzcGFjZSBl
+bmFibGUKIAkJCQkJICovCiAK
