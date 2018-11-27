@@ -2,16 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, skx: clean up a debug printk
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181127124915.GD26395@zn.tnic>
-Date: Tue, 27 Nov 2018 13:49:15 +0100
-To: Dan Carpenter <dan.carpenter@oracle.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Message-Id: <20181127131316.GA3073@unbuntlaptop>
+Date: Tue, 27 Nov 2018 16:24:30 +0300
+To: Borislav Petkov <bp@alien8.de>
 Cc: Tony Luck <tony.luck@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBOb3YgMjcsIDIwMTggYXQgMDI6MzI6MzVQTSArMDMwMCwgRGFuIENhcnBlbnRlciB3
-cm90ZToKPiBJJ3ZlIHJlbW92ZWQgdGhlIDB4IHByZWZpeCBmb3IgdGhlIHJvdyBhbmQgY29sIGJl
-Y2F1c2UgdGhlICUjeCBmb3JtYXQKPiBhbHJlYWR5IGFkZHMgYSAweC4KClBscyB1c2UgcGFzc2l2
-ZSB0b25lIGluIHlvdXIgY29tbWl0IG1lc3NhZ2U6IG5vICJ3ZSIgb3IgIkkiLCBldGMuCgpBbHNv
-LCBwbHMgcmVhZCBzZWN0aW9uICIyKSBEZXNjcmliZSB5b3VyIGNoYW5nZXMiIGluCkRvY3VtZW50
-YXRpb24vcHJvY2Vzcy9zdWJtaXR0aW5nLXBhdGNoZXMucnN0Lgo=
+T24gVHVlLCBOb3YgMjcsIDIwMTggYXQgMDE6NDk6MTVQTSArMDEwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IE9uIFR1ZSwgTm92IDI3LCAyMDE4IGF0IDAyOjMyOjM1UE0gKzAzMDAsIERhbiBD
+YXJwZW50ZXIgd3JvdGU6Cj4gPiBJJ3ZlIHJlbW92ZWQgdGhlIDB4IHByZWZpeCBmb3IgdGhlIHJv
+dyBhbmQgY29sIGJlY2F1c2UgdGhlICUjeCBmb3JtYXQKPiA+IGFscmVhZHkgYWRkcyBhIDB4Lgo+
+IAo+IFBscyB1c2UgcGFzc2l2ZSB0b25lIGluIHlvdXIgY29tbWl0IG1lc3NhZ2U6IG5vICJ3ZSIg
+b3IgIkkiLCBldGMuCj4gCj4gQWxzbywgcGxzIHJlYWQgc2VjdGlvbiAiMikgRGVzY3JpYmUgeW91
+ciBjaGFuZ2VzIiBpbgo+IERvY3VtZW50YXRpb24vcHJvY2Vzcy9zdWJtaXR0aW5nLXBhdGNoZXMu
+cnN0Lgo+CgpJIGRvbid0IGFncmVlIHdpdGggYWxsIHRoZSBzdHlsZSBuaXQtcGlja2luZyB0aGVz
+ZSBkYXlzLiAgSSB0aGluayBhCmNvbXBldGVudCBwcm9ncmFtbWVyIGNhbiB1bmRlcnN0YW5kIHRo
+ZSBjb21taXQgbWVzc2FnZSBzbyBpdCdzIGZpbmUuCkknbSBub3QgZ29pbmcgdG8gcmVzZW5kLCBz
+b3JyeS4KCkp1c3QgZ2l2ZSBtZSB0aGUgUmVwb3J0ZWQtYnkgdGFnIGFuZCByZS13cml0ZSBpdCBo
+b3cgeW91IHdhbnQuCgpyZWdhcmRzLApkYW4gY2FycGVudGVyCg==
