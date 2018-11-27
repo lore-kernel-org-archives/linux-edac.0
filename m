@@ -2,27 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, skx: clean up a debug printk
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Message-Id: <20181127113235.7mxd7cxojtzbkbid@kili.mountain>
-Date: Tue, 27 Nov 2018 14:32:35 +0300
-To: Tony Luck <tony.luck@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181127124915.GD26395@zn.tnic>
+Date: Tue, 27 Nov 2018 13:49:15 +0100
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Tony Luck <tony.luck@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-SSd2ZSByZW1vdmVkIHRoZSAweCBwcmVmaXggZm9yIHRoZSByb3cgYW5kIGNvbCBiZWNhdXNlIHRo
-ZSAlI3ggZm9ybWF0CmFscmVhZHkgYWRkcyBhIDB4LgoKRml4ZXM6IGUyMzVkZDQzZDhiMCAoIkVE
-QUMsIHNreDogUHJlcGVuZCBoZXggZm9ybWF0dGluZyB3aXRoICcweCciKQpTaWduZWQtb2ZmLWJ5
-OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+Ci0tLQogZHJpdmVycy9l
-ZGFjL3NreF9lZGFjLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEg
-ZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvc2t4X2VkYWMuYyBiL2RyaXZl
-cnMvZWRhYy9za3hfZWRhYy5jCmluZGV4IDkzZWYxNjFiYjVlMS4uMzU0ZDJhNGIyYzY0IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2VkYWMvc2t4X2VkYWMuYworKysgYi9kcml2ZXJzL2VkYWMvc2t4X2Vk
-YWMuYwpAQCAtMzg5LDcgKzM4OSw3IEBAIHN0YXRpYyBpbnQgZ2V0X2RpbW1faW5mbyh1MzIgbXRy
-LCB1MzIgYW1hcCwgc3RydWN0IGRpbW1faW5mbyAqZGltbSwKIAlzaXplID0gKCgxdWxsIDw8IChy
-b3dzICsgY29scyArIHJhbmtzKSkgKiBiYW5rcykgPj4gKDIwIC0gMyk7CiAJbnBhZ2VzID0gTWlC
-X1RPX1BBR0VTKHNpemUpOwogCi0JZWRhY19kYmcoMCwgIm1jIyVkOiBjaGFubmVsICVkLCBkaW1t
-ICVkLCAlbGxkIE1pQiAoJWQgcGFnZXMpIGJhbms6ICVkLCByYW5rOiAlZCwgcm93OiAweCUjeCwg
-Y29sOiAweCUjeFxuIiwKKwllZGFjX2RiZygwLCAibWMjJWQ6IGNoYW5uZWwgJWQsIGRpbW0gJWQs
-ICVsbGQgTWlCICglZCBwYWdlcykgYmFuazogJWQsIHJhbms6ICVkLCByb3c6ICUjeCwgY29sOiAl
-I3hcbiIsCiAJCSBpbWMtPm1jLCBjaGFuLCBkaW1tbm8sIHNpemUsIG5wYWdlcywKIAkJIGJhbmtz
-LCAxIDw8IHJhbmtzLCByb3dzLCBjb2xzKTsKIAo=
+T24gVHVlLCBOb3YgMjcsIDIwMTggYXQgMDI6MzI6MzVQTSArMDMwMCwgRGFuIENhcnBlbnRlciB3
+cm90ZToKPiBJJ3ZlIHJlbW92ZWQgdGhlIDB4IHByZWZpeCBmb3IgdGhlIHJvdyBhbmQgY29sIGJl
+Y2F1c2UgdGhlICUjeCBmb3JtYXQKPiBhbHJlYWR5IGFkZHMgYSAweC4KClBscyB1c2UgcGFzc2l2
+ZSB0b25lIGluIHlvdXIgY29tbWl0IG1lc3NhZ2U6IG5vICJ3ZSIgb3IgIkkiLCBldGMuCgpBbHNv
+LCBwbHMgcmVhZCBzZWN0aW9uICIyKSBEZXNjcmliZSB5b3VyIGNoYW5nZXMiIGluCkRvY3VtZW50
+YXRpb24vcHJvY2Vzcy9zdWJtaXR0aW5nLXBhdGNoZXMucnN0Lgo=
