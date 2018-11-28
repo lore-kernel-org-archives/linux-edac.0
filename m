@@ -2,43 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/MCE/AMD: Fix the thresholding machinery initialization order
-From: John Clemens <john@deater.net>
-Message-Id: <3bf1f6fc-b093-77bc-c8bb-c376e2d554c7@deater.net>
-Date: Tue, 27 Nov 2018 22:06:55 -0500
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, Borislav Petkov <bp@alien8.de>, "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-Cc: Tony Luck <tony.luck@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Aravind Gopalakrishnan <aravindksg.lkml@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181128090929.GA16830@zn.tnic>
+Date: Wed, 28 Nov 2018 10:09:29 +0100
+To: John Clemens <john@deater.net>
+Cc: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, Tony Luck <tony.luck@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Aravind Gopalakrishnan <aravindksg.lkml@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
 List-ID: <edac.vger.kernel.org>
 
-T24gMTEvMjcvMTggMzozOCBQTSwgUmFmYcWCIE1pxYJlY2tpIHdyb3RlOgo+IE9uIDI3LjExLjIw
-MTggMjA6MjUsIEJvcmlzbGF2IFBldGtvdiB3cm90ZToKPj4gQ3VycmVudGx5LCB0aGUgY29kZSBz
-ZXRzIHVwIHRoZSB0aHJlc2hvbGRpbmcgaW50ZXJydXB0IHZlY3RvciBhbmQgb25seQo+PiB0aGVu
-IGdvZXMgYWJvdXQgaW5pdGlhbGl6aW5nIHRoZSB0aHJlc2hvbGRpbmcgYmFua3MuIFdoaWNoIGlz
-IHdyb25nLAo+PiBiZWNhdXNlIGFuIGVhcmx5IHRocmVzaG9sZGluZyBpbnRlcnJ1cHQgd291bGQg
-Y2F1c2UgYSBOVUxMIHBvaW50ZXIKPj4gZGVyZWZlcmVuY2Ugd2hlbiBhY2Nlc3NpbmcgdGhvc2Ug
-YmFua3MgYW5kIHByZXZlbnQgdGhlIG1hY2hpbmUgZnJvbQo+PiBib290aW5nLgo+Pgo+PiBUaGVy
-ZWZvcmUsIHNldCB0aGUgdGhyZXNob2xkaW5nIGludGVycnVwdCB2ZWN0b3Igb25seSAqYWZ0ZXIq
-IGhhdmluZwo+PiBpbml0aWFsaXplZCB0aGUgYmFua3Mgc3VjY2Vzc2Z1bGx5Lgo+Pgo+PiBGaXhl
-czogMTg4MDdkZGI3Zjg4ICgieDg2L21jZS9BTUQ6IFJlc2V0IFRocmVzaG9sZCBMaW1pdCBhZnRl
-ciBsb2dnaW5nIAo+PiBlcnJvciIpCj4+IFJlcG9ydGVkLWJ5OiBSYWZhxYIgTWnFgmVja2kgPHJh
-ZmFsQG1pbGVja2kucGw+Cj4+IFJlcG9ydGVkLWJ5OiBKb2huIENsZW1lbnMgPGNsZW1lakBnbWFp
-bC5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KPj4g
-Q2M6IEFyYXZpbmQgR29wYWxha3Jpc2huYW4gPGFyYXZpbmRrc2cubGttbEBnbWFpbC5jb20+Cj4+
-IENjOiBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZwo+PiBDYzogc3RhYmxlQHZnZXIua2VybmVs
-Lm9yZwo+PiBDYzogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29tPgo+PiBDYzogeDg2QGtl
-cm5lbC5vcmcKPj4gQ2M6IFlhemVuIEdoYW5uYW0gPFlhemVuLkdoYW5uYW1AYW1kLmNvbT4KPj4g
-TGluazogaHR0cHM6Ly9sa21sLmtlcm5lbC5vcmcvci8yMDE4MTEyNzEwMTcwMC4yOTY0LTEtemFq
-ZWM1QGdtYWlsLmNvbQo+PiBMaW5rOiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19i
-dWcuY2dpP2lkPTIwMTI5MQo+IAo+IFRlc3RlZCBvbiB0b3Agb2YgNC4xNC44MyBhbmQgNC4yMC1y
-YzQuIEl0IGZpeGVkIGJvdGgga2VybmVscyBmb3IgbWUhCj4gCj4gVGVzdGVkLWJ5OiBSYWZhxYIg
-TWnFgmVja2kgPHJhZmFsQG1pbGVja2kucGw+CgpOb3QgdGhhdCBhbnlvbmUgbmVlZHMgZnVydGhl
-ciB2ZXJpZmljYXRpb24gYXQgdGhpcyBwb2ludCwgYnV0IHRlc3RlZCAKd29ya2luZyBvbiB0b3Ag
-b2YgNC4xOS41LCBvbiB0aGUgSFAgRWxpdGVCb29rIDc0NSBHNSwgQklPUyBRODEgdjAxLjAzLjAx
-IAooc2FtZSBhcyBidWd6aWxsYSByZXBvcnQpLgoKVGVzdGVkLWJ5OiBKb2huIENsZW1lbnMgPGpv
-aG5AZGVhdGVyLm5ldD4KCj4gSm9objogdGhhbmtzIGEgbG90IGZvciBiaXNlY3RpbmcgdGhpcyBp
-c3N1ZSBkb3duIGFuZCBmaW5kaW5nIGEKPiB3b3JrYXJvdW5kIChtY2U9b2ZmKS4gSXQgYWxsb3dl
-ZCBtZSB0byBib290IHJlY2VudCBMaW51eCAmIGRlYnVnIGl0Cj4gZnVydGhlci4KClRoYW5rIHlv
-dSBmb3IgdGFraW5nIGl0IHRoZSByZXN0IG9mIHRoZSB3YXksIGxpZmUgZ290IGluIHRoZSB3YXkg
-YWZ0ZXIgCnRoZSBiaXNlY3QuICBJJ20gZ2xhZCB5b3Ugd2VyZSBhYmxlIHRvIHBpY2sgaXQgdXAu
-Cgo+IEJvcmlzbGF2OiB0aGFuayB5b3UgZm9yIGxvb2tpbmcgYXQgbXkgcGF0Y2ggYW5kIGNvbWlu
-ZyB3aXRoIGEgbmljZXIgZml4Cj4gU08gcXVpY2tseSEKCk15IHRoYW5rcyBhcyB3ZWxsLCB0byBh
-bGwuCgpqb2huLmMK
+T24gVHVlLCBOb3YgMjcsIDIwMTggYXQgMTA6MDY6NTVQTSAtMDUwMCwgSm9obiBDbGVtZW5zIHdy
+b3RlOgo+IE5vdCB0aGF0IGFueW9uZSBuZWVkcyBmdXJ0aGVyIHZlcmlmaWNhdGlvbiBhdCB0aGlz
+IHBvaW50LCBidXQgdGVzdGVkIHdvcmtpbmcKPiBvbiB0b3Agb2YgNC4xOS41LCBvbiB0aGUgSFAg
+RWxpdGVCb29rIDc0NSBHNSwgQklPUyBRODEgdjAxLjAzLjAxIChzYW1lIGFzCj4gYnVnemlsbGEg
+cmVwb3J0KS4KPiAKPiBUZXN0ZWQtYnk6IEpvaG4gQ2xlbWVucyA8am9obkBkZWF0ZXIubmV0PgoK
+VGhhbmtzIGZvciB0ZXN0aW5nIQo=
