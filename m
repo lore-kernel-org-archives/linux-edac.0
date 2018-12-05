@@ -2,22 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/mce: Streamline MCE subsystem's naming
-From: Ingo Molnar <mingo@kernel.org>
-Message-Id: <20181205180158.GA64770@gmail.com>
-Date: Wed, 5 Dec 2018 19:01:58 +0100
-To: Borislav Petkov <bp@alien8.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181205190355.GP29510@zn.tnic>
+Date: Wed, 5 Dec 2018 20:03:55 +0100
+To: Ingo Molnar <mingo@kernel.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, X86 ML <x86@kernel.org>, linux-edac <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-KiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT4gd3JvdGU6Cgo+IE9uIFdlZCwgRGVjIDA1
-LCAyMDE4IGF0IDA1OjMwOjM3UE0gKzAxMDAsIEluZ28gTW9sbmFyIHdyb3RlOgo+ID4gV291bGQg
-aXQgbWFrZSBzZW5zZSB0byBvcmdhbml6ZSBpdCBhIGJpdCBtb3JlIGFuZCBzZXBhcmF0ZSBvdXQg
-dmVuZG9yIAo+ID4gc3BlY2lmaWMgZnVuY3Rpb25hbGl0eToKPiA+IAo+ID4gICBtY2UvY3B1L2lu
-dGVsLmMKPiA+ICAgbWNlL2NwdS9pbnRlbC1wNS5jCj4gPiAgIG1jZS9jcHUvYW1kLmMKPiA+ICAg
-bWNlL2NwdS93aW5jaGlwLmMKPiAKPiBUaGF0J3MgdG9vIGZpbmUtZ3JhaW5lZCBJTU8gYW5kIGxv
-b2sgYXQgdGhlIHBhdGggd2UnZCBnZXQgdGhlbjoKPiAKPiBhcmNoL3g4Ni9rZXJuZWwvY3B1L21j
-ZS9jcHUvaW50ZWwuYwo+IAkJXl5eICAgICBeXl4KCk9oIC0gSSB0aG91Z2h0IHdlJ2QgaGF2ZSBh
-cmNoL3g4Ni9tY2UvIG9yIHNvPwoKVGhlcmUncyBtYWNoaW5lIGNoZWNrIGV2ZW50cyB0aGF0IGFy
-ZSBub3QgdGllZCB0byBhbnkgcGFydGljdWxhciBDUFUsIApjb3JyZWN0PyBTbyB0aGlzIHdvdWxk
-IGJlIHRoZSByaWdodCBjb25jZXB0dWFsIGxldmVsIC0gYW5kIGl0IHdvdWxkIGFsc28gCnJlbW92
-ZSB0aGUgc29tZXdoYXQgcmVkdW5kYW50ICdrZXJuZWwnIHBhcnQuCgpUaGFua3MsCgoJSW5nbwo=
+T24gV2VkLCBEZWMgMDUsIDIwMTggYXQgMDc6MDE6NThQTSArMDEwMCwgSW5nbyBNb2xuYXIgd3Jv
+dGU6Cj4gT2ggLSBJIHRob3VnaHQgd2UnZCBoYXZlIGFyY2gveDg2L21jZS8gb3Igc28/Cj4gCj4g
+VGhlcmUncyBtYWNoaW5lIGNoZWNrIGV2ZW50cyB0aGF0IGFyZSBub3QgdGllZCB0byBhbnkgcGFy
+dGljdWxhciBDUFUsIAo+IGNvcnJlY3Q/IFNvIHRoaXMgd291bGQgYmUgdGhlIHJpZ2h0IGNvbmNl
+cHR1YWwgbGV2ZWwgLSBhbmQgaXQgd291bGQgYWxzbyAKPiByZW1vdmUgdGhlIHNvbWV3aGF0IHJl
+ZHVuZGFudCAna2VybmVsJyBwYXJ0LgoKV2VsbCwgYWxsIHRoZSBNQ0UgZXZlbnRzIHJlcG9ydGVk
+IGFyZSBzb21lIHdheSBvciB0aGUgb3RoZXIgdGllZCB0byB0aGUKQ1BVIGFuZCB0aGV5J3JlIHJl
+cG9ydGVkIGluIHRoZSBDUFUncyBNQ0EgYmFua3Mgc28gSSB0aGluayB3ZSB3YW50CgoJYXJjaC94
+ODYvY3B1L21jZS8K
