@@ -2,27 +2,14 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/mce: Streamline MCE subsystem's naming
-From: Ingo Molnar <mingo@kernel.org>
-Message-Id: <20181206162703.GA119163@gmail.com>
-Date: Thu, 6 Dec 2018 17:27:03 +0100
-To: Borislav Petkov <bp@alien8.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, X86 ML <x86@kernel.org>, linux-edac <linux-edac@vger.kernel.org>
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <3908561D78D1C84285E8C5FCA982C28F7D47B665@ORSMSX110.amr.corp.intel.com>
+Date: Thu, 6 Dec 2018 17:36:03 +0000
+To: Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>, linux-edac <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-KiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT4gd3JvdGU6Cgo+IE9uIFdlZCwgRGVjIDA1
-LCAyMDE4IGF0IDA3OjAxOjU4UE0gKzAxMDAsIEluZ28gTW9sbmFyIHdyb3RlOgo+ID4gT2ggLSBJ
-IHRob3VnaHQgd2UnZCBoYXZlIGFyY2gveDg2L21jZS8gb3Igc28/Cj4gPiAKPiA+IFRoZXJlJ3Mg
-bWFjaGluZSBjaGVjayBldmVudHMgdGhhdCBhcmUgbm90IHRpZWQgdG8gYW55IHBhcnRpY3VsYXIg
-Q1BVLCAKPiA+IGNvcnJlY3Q/IFNvIHRoaXMgd291bGQgYmUgdGhlIHJpZ2h0IGNvbmNlcHR1YWwg
-bGV2ZWwgLSBhbmQgaXQgd291bGQgYWxzbyAKPiA+IHJlbW92ZSB0aGUgc29tZXdoYXQgcmVkdW5k
-YW50ICdrZXJuZWwnIHBhcnQuCj4gCj4gV2VsbCwgYWxsIHRoZSBNQ0UgZXZlbnRzIHJlcG9ydGVk
-IGFyZSBzb21lIHdheSBvciB0aGUgb3RoZXIgdGllZCB0byB0aGUKPiBDUFUgYW5kIHRoZXkncmUg
-cmVwb3J0ZWQgaW4gdGhlIENQVSdzIE1DQSBiYW5rcyBzbyBJIHRoaW5rIHdlIHdhbnQKPiAKPiAJ
-YXJjaC94ODYvY3B1L21jZS8KCldlbGwsICpldmVyeXRoaW5nKiB0aGUga2VybmVsIGRvZXMgaXMg
-aW4gc29tZSB3YXkgY29ubmVjdGVkIHRvIGEgQ1BVLCAKYmVjYXVzZSB3ZSBhbHdheXMgZXhlY3V0
-ZSB0aGUga2VybmVsIG9uIGEgQ1BVLCBzdGlsbCB3ZSBoYXZlIHRoaW5ncyBsaWtlIApkaXNjcmV0
-ZSBQTVVzIGFuZCBhYnN0cmFjdGlvbnMgZm9yIG90aGVyIHBpZWNlcyBvZiBoYXJkd2FyZSB0aGF0
-IGFyZSBub3QgCnBlciBDUFUuCgpTbyB0aGUgcmVhbCBxdWVzdGlvbiBpcywgaXMgdGhlcmUgYSBz
-aWduaWZjYW50IGNsYXNzIG9mIE1DRSBldmVudHMgdGhhdCAKYXJlIG5vdCB0aWVkIHRvIHRoZSBy
-ZXBvcnRpbmcgY2hhbm5lbCB3aGljaCBpcyBwZXIgQ1BVICgtaXNoIC4uLikgTUNBIApiYW5rcz8K
-ClRoYW5rcywKCglJbmdvCg==
+PiBTbyB0aGUgcmVhbCBxdWVzdGlvbiBpcywgaXMgdGhlcmUgYSBzaWduaWZjYW50IGNsYXNzIG9m
+IE1DRSBldmVudHMgdGhhdCAKPiBhcmUgbm90IHRpZWQgdG8gdGhlIHJlcG9ydGluZyBjaGFubmVs
+IHdoaWNoIGlzIHBlciBDUFUgKC1pc2ggLi4uKSBNQ0EgCj4gYmFua3M/CgpQZXJoYXBzIFFQSS9V
+UEkgaW50ZXJjb25uZWN0IGVycm9ycz8KCi1Ub255Cg==
