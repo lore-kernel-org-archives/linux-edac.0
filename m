@@ -2,14 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/mce: Streamline MCE subsystem's naming
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <3908561D78D1C84285E8C5FCA982C28F7D47B665@ORSMSX110.amr.corp.intel.com>
-Date: Thu, 6 Dec 2018 17:36:03 +0000
-To: Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>, linux-edac <linux-edac@vger.kernel.org>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20181206180552.GB3986@zn.tnic>
+Date: Thu, 6 Dec 2018 19:05:52 +0100
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Ingo Molnar <mingo@kernel.org>, LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>, linux-edac <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-PiBTbyB0aGUgcmVhbCBxdWVzdGlvbiBpcywgaXMgdGhlcmUgYSBzaWduaWZjYW50IGNsYXNzIG9m
-IE1DRSBldmVudHMgdGhhdCAKPiBhcmUgbm90IHRpZWQgdG8gdGhlIHJlcG9ydGluZyBjaGFubmVs
-IHdoaWNoIGlzIHBlciBDUFUgKC1pc2ggLi4uKSBNQ0EgCj4gYmFua3M/CgpQZXJoYXBzIFFQSS9V
-UEkgaW50ZXJjb25uZWN0IGVycm9ycz8KCi1Ub255Cg==
+T24gVGh1LCBEZWMgMDYsIDIwMTggYXQgMDU6MzY6MDNQTSArMDAwMCwgTHVjaywgVG9ueSB3cm90
+ZToKPiA+IFNvIHRoZSByZWFsIHF1ZXN0aW9uIGlzLCBpcyB0aGVyZSBhIHNpZ25pZmNhbnQgY2xh
+c3Mgb2YgTUNFIGV2ZW50cyB0aGF0IAo+ID4gYXJlIG5vdCB0aWVkIHRvIHRoZSByZXBvcnRpbmcg
+Y2hhbm5lbCB3aGljaCBpcyBwZXIgQ1BVICgtaXNoIC4uLikgTUNBIAo+ID4gYmFua3M/Cj4gCj4g
+UGVyaGFwcyBRUEkvVVBJIGludGVyY29ubmVjdCBlcnJvcnM/CgpXaGF0ZXZlciwgdGhpcyBpcyBw
+dXJlIGJpa2VzaGVkZGluZyB3aGF0IHdlJ3JlIGRvaW5nIHJpZ2h0IG5vdy4gQWxsIHRoZQplcnJv
+cnMgYXJlIHJlcG9ydGVkIHRocm91Z2ggdGhlIENQVSdzIE1DQSBiYW5rcyBhbmQgdGhlIGFyZ3Vt
+ZW50IHdoZXRoZXIKYW4gZXJyb3IgY2xhc3Mgd2hpY2ggaXMgbWF5YmUgbm90IHJlYWxseSB0aWVk
+IHRvIHRoZSBDUFUsIHNob3VsZCBkaWN0YXRlCndoaWNoIHBhdGggdG8gcHV0IHRoZSBmaWxlcyBp
+biwgZG9lcyBub3QgbWFrZSBhbnkgc2Vuc2UgdG8gbWUuCgpUaGUgb25seSBhcmd1bWVudCB3aGlj
+aCBtYWtlcyBzZW5zZSBJTU8gaXMgd2hldGhlciB0aGUgcGF0aCBzaG91bGQgYmUKc2hvcnQuIDot
+KQoKQW5kIGJvdGgKCmFyY2gveDg2L2NwdS9tY2UvCmFyY2gveDg2L21jZS8KCmFyZSBzaG9ydCBl
+bm91Z2ggdG8gbWUuCgpOb3csIHRoZSByZWFsIHF1ZXN0aW9uIGlzLCBob3cgZG8gd2Ugd2FudCB0
+byBwbGFjZSB0aGUgcmVzdCBvZiB0aGUKZmlsZXMvZm9sZGVycyBzbyB0aGF0IHdlIGNhbiBnZXQg
+cmlkIG9mIGRlZXBlciBkaXJlY3Rvcnkgc3RydWN0dXJlcy4KCklmIHdlIHNheSwgd2UgZG9uJ3Qg
+d2FudCB0byBoYXZlIC4uLi9jcHUvLi4uIGFuZCBwdXQgZXZlcnl0aGluZyBpbgphcmNoL3g4Ni8g
+dGhlbiB0aGlzIGFuc3dlcnMgdGhlIGFib3ZlIHF1ZXN0aW9uIHRvby4KCklNTywgb2YgY291cnNl
+Lgo=
