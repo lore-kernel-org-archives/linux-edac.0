@@ -2,21 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/mce/AMD: Make sure banks were initialized before accessing them
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20181216102243.GC815@zn.tnic>
-Date: Sun, 16 Dec 2018 11:22:43 +0100
-To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, John Clemens <clemej@gmail.com>, Yazen Ghannam <Yazen.Ghannam@amd.com>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, Aravind Gopalakrishnan <aravindksg.lkml@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org
+From: =?utf-8?b?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Message-Id: <CACna6rw2E9=kn0voQ6GDrD2WLhyr0F96uW5NZ3_2-rmOpYwdVg@mail.gmail.com>
+Date: Sun, 16 Dec 2018 11:33:12 +0100
+To: Borislav Petkov <bp@alien8.de>
+Cc: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, John Clemens <clemej@gmail.com>, Yazen Ghannam <Yazen.Ghannam@amd.com>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, Aravind Gopalakrishnan <aravindksg.lkml@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gU2F0LCBEZWMgMTUsIDIwMTggYXQgMDI6MDQ6NTFQTSArMDEwMCwgUmFmYcWCIE1pxYJlY2tp
-IHdyb3RlOgo+IFlvdXIgcGF0Y2ggY2hhbmdlcyBpbml0IHRpbWUgb2YgbWNoZWNrX2luaXRfZGV2
-aWNlKCkgYW5kCj4gdGhyZXNob2xkX2luaXRfZGV2aWNlKCk6Cj4gMSkgVGhlIG9yZGVyIG9mIHRo
-ZXNlIHR3byBpcyBzdGlsbCBjb3JyZWN0Cj4gMikgSXQgZG9lc24ndCBhZmZlY3Qgb3JkZXIgb2Yg
-aW5pdGlhbGl6aW5nIC9kZXYvbWNlbG9nCj4gCj4gVGhlIG9ubHkgcmVhbCBjaGFuZ2UgaXMgaW5p
-dGlhbGl6aW5nIGJhbmtzICYgZGV2aWNlcyBiZWZvcmUgWEVOIGRyaXZlcgo+IGdldHMgYSBjaGFu
-Y2UgdG8gcmVnaXN0ZXIgL2Rldi9tY2Vsb2cgYnV0IEkgZG9uJ3QgdGhpbmsgaXQgbWF0dGVycy4K
-Ckl0IG1hdHRlcnMgYmVjYXVzZSB4ZW4gbmVlZHMgdG8gcmVnIC9kZXYvbWNlbG9nIGZpcnN0LiBB
-cHBhcmVudGx5LiBJCnN0aWxsIGhhdmUgdGhpcyBvbiBteSB0b2RvIHRvIHVudGFuZ2xlIGl0IGZy
-b20geGVuIGJlY2F1c2Ugb3RoZXJ3aXNlIHdlCmNhbid0IGNoYW5nZSBhbnl0aGluZyBvbiBiYXJl
-bWV0YWwuCg==
+T24gU3VuLCAxNiBEZWMgMjAxOCBhdCAxMToyMiwgQm9yaXNsYXYgUGV0a292IDxicEBhbGllbjgu
+ZGU+IHdyb3RlOgo+IE9uIFNhdCwgRGVjIDE1LCAyMDE4IGF0IDAyOjA0OjUxUE0gKzAxMDAsIFJh
+ZmHFgiBNacWCZWNraSB3cm90ZToKPiA+IFlvdXIgcGF0Y2ggY2hhbmdlcyBpbml0IHRpbWUgb2Yg
+bWNoZWNrX2luaXRfZGV2aWNlKCkgYW5kCj4gPiB0aHJlc2hvbGRfaW5pdF9kZXZpY2UoKToKPiA+
+IDEpIFRoZSBvcmRlciBvZiB0aGVzZSB0d28gaXMgc3RpbGwgY29ycmVjdAo+ID4gMikgSXQgZG9l
+c24ndCBhZmZlY3Qgb3JkZXIgb2YgaW5pdGlhbGl6aW5nIC9kZXYvbWNlbG9nCj4gPgo+ID4gVGhl
+IG9ubHkgcmVhbCBjaGFuZ2UgaXMgaW5pdGlhbGl6aW5nIGJhbmtzICYgZGV2aWNlcyBiZWZvcmUg
+WEVOIGRyaXZlcgo+ID4gZ2V0cyBhIGNoYW5jZSB0byByZWdpc3RlciAvZGV2L21jZWxvZyBidXQg
+SSBkb24ndCB0aGluayBpdCBtYXR0ZXJzLgo+Cj4gSXQgbWF0dGVycyBiZWNhdXNlIHhlbiBuZWVk
+cyB0byByZWcgL2Rldi9tY2Vsb2cgZmlyc3QuIEFwcGFyZW50bHkuIEkKPiBzdGlsbCBoYXZlIHRo
+aXMgb24gbXkgdG9kbyB0byB1bnRhbmdsZSBpdCBmcm9tIHhlbiBiZWNhdXNlIG90aGVyd2lzZSB3
+ZQo+IGNhbid0IGNoYW5nZSBhbnl0aGluZyBvbiBiYXJlbWV0YWwuCgpPSy4gSSBkaWRuJ3QgcmVh
+bGl6ZS9ub3RpY2UgL2Rldi9tY2Vsb2cgaGFzIHRvIGJlIGNyZWF0ZWQgYmVmb3JlCm1jaGVja19p
+bml0X2RldmljZSgpIG9uIFhFTi4KCk9uIGJhcmVtYXRlbCBpdCBzZWVtcyBzYWZlICYgd29ya2lu
+ZyB0byBoYXZlOgoxKSBtY2hlY2tfaW5pdF9kZXZpY2UoKQoyKSB0aHJlc2hvbGRfaW5pdF9kZXZp
+Y2UoKQozKSBkZXZfbWNlbG9nX2luaXRfZGV2aWNlKCkgKGNyZWF0ZXMgL2Rldi9tY2Vsb2cpCnNv
+IEkgdGhvdWdodCBpdCdzIGFsc28gc2FmZSBvbiBYRU4uCgpGV0lXIEkgYWxyZWFkeSBoYXZlIGEg
+cGF0Y2ggc3BsaXR0aW5nIHhlbl9sYXRlX2luaXRfbWNlbG9nKCkgaW50byB0d28KaW5pdCBmdW5j
+dGlvbnMsIEknbGwgc2VuZCBpdCBsYXRlciwgeW91IG1heSBzZWUgaWYgdGhhdCBtYWtlcyBhbnkK
+c2Vuc2UuIFlvdSBjYW4gYWx3YXlzIGp1c3QgaWdub3JlICYgZHJvcCBpdCA6KQo=
