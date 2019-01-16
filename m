@@ -1,27 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/2] EDAC: add ARM Cortex A15 L2 internal asynchronous error detection driver
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190111182944.GA24304@zn.tnic>
-Date: Fri, 11 Jan 2019 19:29:44 +0100
-To: James Morse <james.morse@arm.com>
-Cc: "Wiebe, Wladislav (Nokia - DE/Ulm)" <wladislav.wiebe@nokia.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "mark.rutland@arm.com" <mark.rutland@arm.com>, "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "davem@davemloft.net" <davem@davemloft.net>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>, "arnd@arndb.de" <arnd@arndb.de>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "Sverdlin, Alexander (Nokia - DE/Ulm)" <alexander.sverdlin@nokia.com>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [1/4] EDAC, altera: Fix S10 persistent register offset
+From: thor.thayer@linux.intel.com
+Message-Id: <1547680314-31045-2-git-send-email-thor.thayer@linux.intel.com>
+Date: Wed, 16 Jan 2019 17:11:51 -0600
+To: bp@alien8.de, dinguyen@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org
+Cc: thor.thayer@linux.intel.com, devicetree@vger.kernel.org, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBKYW4gMTEsIDIwMTkgYXQgMDY6MTE6MDRQTSArMDAwMCwgSmFtZXMgTW9yc2Ugd3Jv
-dGU6Cj4gQWZ0ZXIgSSBzZW50IHRoaXMgaXQgb2NjdXJyZWQgdG8gbWUgdGhlIGNvcmUgY2FuJ3Qg
-a25vdyBhYm91dCBlcnJvcnMgaW4gdGhlIEwzCj4gY2FjaGUgKGlmIHRoZXJlIGlzIG9uZSkgb3Ig
-dGhlIG1lbW9yeS1jb250cm9sbGVyLiBUaGVzZSBtYXkgaGF2ZSBlZGFjL3Jhcwo+IGFiaWxpdGll
-cywgYnV0IHRoZXkgYXJlIHNlbGVjdGVkIGJ5IHRoZSBzb2MgaW50ZWdyYXRvciwgc28gY291bGQg
-YmUgcGVyIHNvYy4KPiBUaGlzIGdvZXMgYWdhaW5zdCBCb3JpcydzIG5vLXBlci1mdW5jdGlvbmFs
-LXVuaXQgZWRhYyBkcml2ZXJzLiBJZiB3ZSBoYWQgdG8gcGljawo+IG9uZSBvdXQgb2YgdGhhdCBz
-ZXQsIEkgdGhpbmsgdGhlIG1lbW9yeS1jb250cm9sbGVyIGlzIG1vc3QgdXNlZnVsIGFzIERSQU0g
-aXMgdGhlCj4gbW9zdCBsaWtlbHkgdG8gYmUgYWZmZWN0ZWQgYnkgZXJyb3JzLgoKV2UgaGF2ZSBz
-aW1pbGFyICJkZXNpZ25zIiBhbHJlYWR5IDopCgpNZW1vcnkgY29udHJvbGxlciBkcml2ZXIgZHJp
-dmVycy9lZGFjL2ZzbF9kZHJfZWRhYy5jIGdldHMgbGlua2VkIHRvZ2V0aGVyIHdpdGg6CgptcGM4
-NXh4X2VkYWNfbW9kLXkgICAgICAgICAgICAgICAgICAgICAgOj0gZnNsX2Rkcl9lZGFjLm8gbXBj
-ODV4eF9lZGFjLm8Kb2JqLSQoQ09ORklHX0VEQUNfTVBDODVYWCkgICAgICAgICAgICAgICs9IG1w
-Yzg1eHhfZWRhY19tb2QubwoKbGF5ZXJzY2FwZV9lZGFjX21vZC15ICAgICAgICAgICAgICAgICAg
-IDo9IGZzbF9kZHJfZWRhYy5vIGxheWVyc2NhcGVfZWRhYy5vCm9iai0kKENPTkZJR19FREFDX0xB
-WUVSU0NBUEUpICAgICAgICAgICArPSBsYXllcnNjYXBlX2VkYWNfbW9kLm8K
+RnJvbTogVGhvciBUaGF5ZXIgPHRob3IudGhheWVyQGxpbnV4LmludGVsLmNvbT4KCkNvcnJlY3Qg
+dGhlIHBlcnNpc3RlbnQgcmVnaXN0ZXIgb2Zmc2V0IHdoZXJlIGFkZHJlc3MKYW5kIHN0YXR1cyBh
+cmUgc3RvcmVkLgoKRml4ZXM6IDA4ZjA4YmZiN2I0YyAoIkVEQUMsIGFsdGVyYTogTWVyZ2UgU3Ry
+YXRpeDEwIGludG8gdGhlIEFycmlhMTAgU0RSQU0KCQkgICAgICBwcm9iZSByb3V0aW5lIikKU2ln
+bmVkLW9mZi1ieTogVGhvciBUaGF5ZXIgPHRob3IudGhheWVyQGxpbnV4LmludGVsLmNvbT4KLS0t
+CiBkcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuaCB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIg
+aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMv
+YWx0ZXJhX2VkYWMuaCBiL2RyaXZlcnMvZWRhYy9hbHRlcmFfZWRhYy5oCmluZGV4IDQyMTNjYjBi
+YjJhNy4uZjg2NjRiYWM5ZmE4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMu
+aAorKysgYi9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuaApAQCAtMjk1LDggKzI5NSw4IEBAIHN0
+cnVjdCBhbHRyX3NkcmFtX21jX2RhdGEgewogI2RlZmluZSBTMTBfU1lTTUdSX0VDQ19JTlRTVEFU
+X0RFUlJfT0ZTVCAgMHhBMAogCiAvKiBTdGlja3kgcmVnaXN0ZXJzIGZvciBVbmNvcnJlY3RlZCBF
+cnJvcnMgKi8KLSNkZWZpbmUgUzEwX1NZU01HUl9VRV9WQUxfT0ZTVCAgICAgICAgICAgIDB4MTIw
+Ci0jZGVmaW5lIFMxMF9TWVNNR1JfVUVfQUREUl9PRlNUICAgICAgICAgICAweDEyNAorI2RlZmlu
+ZSBTMTBfU1lTTUdSX1VFX1ZBTF9PRlNUICAgICAgICAgICAgMHgyMjAKKyNkZWZpbmUgUzEwX1NZ
+U01HUl9VRV9BRERSX09GU1QgICAgICAgICAgIDB4MjI0CiAKICNkZWZpbmUgUzEwX0REUjBfSVJR
+X01BU0sgICAgICAgICAgICAgICAgIEJJVCgxNikKIAo=
