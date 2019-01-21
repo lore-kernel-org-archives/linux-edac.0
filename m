@@ -2,24 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC: Add James Morse as a reviewer
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190121123941.28247-1-bp@alien8.de>
-Date: Mon, 21 Jan 2019 13:39:41 +0100
-To: linux-edac <linux-edac@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, James Morse <james.morse@arm.com>
+From: James Morse <james.morse@arm.com>
+Message-Id: <37282e66-a00b-15bc-e27c-f438200fa768@arm.com>
+Date: Mon, 21 Jan 2019 17:10:16 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: linux-edac <linux-edac@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKV2l0aCB0aGUgZ3Jvd2luZyBhbW91
-bnQgb2YgQVJNWyw2NF0gRURBQyBlbmFibGVtZW50IGhhcHBlbmluZywgYWRkIEphbWVzCmFzIGEg
-cmV2aWV3ZXIgZm9yIHRoZSBBUk0gYml0cy4KClNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtv
-diA8YnBAc3VzZS5kZT4KQ2M6IEphbWVzIE1vcnNlIDxqYW1lcy5tb3JzZUBhcm0uY29tPgotLS0K
-IE1BSU5UQUlORVJTIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYg
-LS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCmluZGV4IDZjZTI1MTc0ZmEwMi4uMGY1
-ZWYxZDYyOTlhIDEwMDY0NAotLS0gYS9NQUlOVEFJTkVSUworKysgYi9NQUlOVEFJTkVSUwpAQCAt
-NTQyNiw2ICs1NDI2LDcgQEAgRjoJZHJpdmVycy9lZGFjL3RodW5kZXJ4X2VkYWMqCiBFREFDLUNP
-UkUKIE06CUJvcmlzbGF2IFBldGtvdiA8YnBAYWxpZW44LmRlPgogTToJTWF1cm8gQ2FydmFsaG8g
-Q2hlaGFiIDxtY2hlaGFiQGtlcm5lbC5vcmc+CitSOglKYW1lcyBNb3JzZSA8amFtZXMubW9yc2VA
-YXJtLmNvbT4KIEw6CWxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnCiBUOglnaXQgZ2l0Oi8vZ2l0
-Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2JwL2JwLmdpdCBmb3ItbmV4dAog
-VDoJZ2l0IGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9tY2hl
-aGFiL2xpbnV4LWVkYWMuZ2l0IGxpbnV4X25leHQK
+SGkgQm9yaXMsCgpPbiAyMS8wMS8yMDE5IDEyOjM5LCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6Cj4g
+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgo+IAo+IFdpdGggdGhlIGdyb3dpbmcg
+YW1vdW50IG9mIEFSTVssNjRdIEVEQUMgZW5hYmxlbWVudCBoYXBwZW5pbmcsIGFkZCBKYW1lcwo+
+IGFzIGEgcmV2aWV3ZXIgZm9yIHRoZSBBUk0gYml0cy4KClN1cmUsCgoKPiBTaWduZWQtb2ZmLWJ5
+OiBCb3Jpc2xhdiBQZXRrb3YgPGJwQHN1c2UuZGU+CgpBY2tlZC1ieTogSmFtZXMgTW9yc2UgPGph
+bWVzLm1vcnNlQGFybS5jb20+CgoKVGhhbmtzLAoKSmFtZXMK
