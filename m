@@ -2,28 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, dmc520:: add DMC520 EDAC driver
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190123184639.GD3227@zn.tnic>
-Date: Wed, 23 Jan 2019 19:46:39 +0100
-To: James Morse <james.morse@arm.com>
-Cc: Rui Zhao <ruizhao@microsoft.com>, Sasha Levin <sashal@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Linux Kernel <linux-kernel@microsoft.com>, "will.deacon@arm.com" <will.deacon@arm.com>, "okaya@kernel.org" <okaya@kernel.org>
+From: Sasha Levin <sashal@kernel.org>
+Message-Id: <20190123185007.GP202535@sasha-vm>
+Date: Wed, 23 Jan 2019 13:50:07 -0500
+To: Borislav Petkov <bp@alien8.de>
+Cc: mchehab@kernel.org, ruizhao@microsoft.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel@microsoft.com, will.deacon@arm.com, okaya@kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBKYW4gMjMsIDIwMTkgYXQgMDY6MzY6MjNQTSArMDAwMCwgSmFtZXMgTW9yc2Ugd3Jv
-dGU6Cj4gPiBXb3VsZCBsaWtlIHRvIGtub3cgd2hhdCdzIHRoZSBpbXBhY3QgaWYgdGhpcyBlcnJv
-ciBoYXBwZW5zLCBhbmQgaG93IHRvIGZpdCBpdAo+ID4gd2l0aCBjdXJyZW50IHJlcG9ydGluZyBp
-biBFREFDIGNvcmUuCj4gCj4gQXQgYSBndWVzcyB0aGUgaW50ZXJydXB0IHRyaWdnZXJzIHdoZW4g
-bGlua19lcnJfY291bnQgaW5jcmVhc2VzLiAobGlua19lcnIgaGFzCj4gYW4gb3ZlcmZsb3cgYml0
-LCBzbyB0aGUgaW50ZXJydXB0IG11c3QgYmUgcmVsYXRlZCB0byBhIGNvdW50ZXIpLgo+IAo+IElm
-IHdlIGNvdWxkIGFzc29jaWF0ZSBhIGxpbmsgd2l0aCBhIGxheWVyIGluIGVkYWMsIHdlIGNvdWxk
-IHJlcG9ydCBlcnJvcnMKPiBhZ2FpbnN0IHRoYXQgcG9pbnQuIEJ1dCBJJ3ZlIG5vIGlkZWEgaG93
-ICdsaW5rcycgY29ycmVzcG9uZCB3aXRoICdyYW5rcyBhbmQgYmFua3MnIQoKV2VsbCwgSSBoYXZl
-IG5vIGNsdWUgd2hhdCBraW5kIG9mIGxpbmtzIHlvdSBndXlzIGFyZSB0YWxraW5nIGJ1dCBpZgp0
-aG9zZSBhcmUgcGVyLWNoYW5jZSBjb2hlcmVudCBsaW5rcyB1c2VkIGJ5IGNvcmVzIHRvIGNvbW11
-bmljYXRlIGluIGEKY29oZXJlbnQgZmFicmljLCBvciBjb3JlcyBhbmQgZGV2aWNlcywgd2hhdCB3
-b3VsZCBzaG93aW5nIHRob3NlIGVycm9ycwp0byB0aGUgdXNlciBicmluZyB5YT8KCk9yIGFyZSB5
-YSB0YWxraW5nIGFib3V0IGRpZmZlcmVudCBraW5kcyBvZiBsaW5rcz8KCkluIGFueSBjYXNlLCB0
-aGUgZmlyc3QgcXVlc3Rpb24gdG8gYXNrIHdvdWxkIGJlLCBjYW4gc29tZSBhZ2VudCBvciB0aGUK
-dXNlciBkbyBzb21ldGhpbmcgd2l0aCB0aGUgaW5mb3JtYXRpb24gdGhhdCBYIG9yIFkgbGluayBl
-cnJvcnMgaGFwcGVuZWQ/CgpJZiBub3QsIHRoZW4gd2h5IGJvdGhlcj8KCklmIHllcywgdGhlbiB0
-aGF0J3MgYSBkaWZmZXJlbnQgc3RvcnkuCg==
+T24gTW9uLCBKYW4gMjEsIDIwMTkgYXQgMDE6MzU6NDdQTSArMDEwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+T24gRnJpLCBKYW4gMTgsIDIwMTkgYXQgMTE6MjM6MjRBTSAtMDUwMCwgU2FzaGEg
+TGV2aW4gd3JvdGU6Cj4+IEZyb206IFJ1aSBaaGFvIDxydWl6aGFvQG1pY3Jvc29mdC5jb20+Cj4+
+Cj4+IE5ldyBkcml2ZXIgc3VwcG9ydHMgRFJBTSBlcnJvciBkZXRlY3Rpb24gYW5kIGNvcnJlY3Rp
+b24gb24gRE1DNTIwCj4+IGNvbnRyb2xsZXIuCj4KPlRoYXQncyB0aGlzIHRoaW5nLCByaWdodD8K
+Pgo+aHR0cHM6Ly9kZXZlbG9wZXIuYXJtLmNvbS9wcm9kdWN0cy9zeXN0ZW0taXAvbWVtb3J5LWNv
+bnRyb2xsZXJzL2NvcmVsaW5rLWRtYy01MjAKCll1cCEKCj4+IFZhbGlkYXRlZCBvbiBhY3R1YWwg
+aGFyZHdhcmU6Cj4KPldoaWNoIGlzIHdoYXQgZXhhY3RseT8KCkEgdmFyaWFudCBvZiBhIEJyb2Fk
+Y29tJ3MgU1NUMTAwIGJvYXJkLgotLS0KVGhhbmtzLApTYXNoYQo=
