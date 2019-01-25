@@ -2,25 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: RAS: Add a MAINTAINERS entry
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190125174227.10652-1-bp@alien8.de>
-Date: Fri, 25 Jan 2019 18:42:27 +0100
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: X86 ML <x86@kernel.org>, linux-edac <linux-edac@vger.kernel.org>
+From: Ingo Molnar <mingo@kernel.org>
+Message-Id: <20190125194500.GA34849@gmail.com>
+Date: Fri, 25 Jan 2019 20:45:00 +0100
+To: Borislav Petkov <bp@alien8.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, X86 ML <x86@kernel.org>, linux-edac <linux-edac@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBzdXNlLmRlPgoKVGhpcyB3YXMgbG9uZyBvdmVyZHVl
-IGFuZCBpdCBpcyBuZWVkZWQgYXQgbGVhc3Qgc28gdGhhdCBUb255IGFuZCBJIGdldApDQ2VkIG9u
-IHBhdGNoZXMuCgpTaWduZWQtb2ZmLWJ5OiBCb3Jpc2xhdiBQZXRrb3YgPGJwQHN1c2UuZGU+CkFj
-a2VkLWJ5OiBUb255IEx1Y2sgPHRvbnkubHVja0BpbnRlbC5jb20+Ci0tLQogTUFJTlRBSU5FUlMg
-fCAxMCArKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
-LWdpdCBhL01BSU5UQUlORVJTIGIvTUFJTlRBSU5FUlMKaW5kZXggNGQwNGNlYmI0YTcxLi5hNjNm
-MmI1MmE4ZGQgMTAwNjQ0Ci0tLSBhL01BSU5UQUlORVJTCisrKyBiL01BSU5UQUlORVJTCkBAIC0x
-Mjc2Nyw2ICsxMjc2NywxNiBAQCBNOglBbGV4YW5kcmUgQm91bmluZSA8YWxleC5ib3U5QGdtYWls
-LmNvbT4KIFM6CU1haW50YWluZWQKIEY6CWRyaXZlcnMvcmFwaWRpby8KIAorUkFTIElORlJBU1RS
-VUNUVVJFCitNOglUb255IEx1Y2sgPHRvbnkubHVja0BpbnRlbC5jb20+CitNOglCb3Jpc2xhdiBQ
-ZXRrb3YgPGJwQGFsaWVuOC5kZT4KK0w6CWxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnCitTOglN
-YWludGFpbmVkCitGOglkcml2ZXJzL3Jhcy8KK0Y6CWluY2x1ZGUvbGludXgvcmFzLmgKK0Y6CWlu
-Y2x1ZGUvcmFzL3Jhc19ldmVudC5oCitGOglEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL3Jhcy5y
-c3QKKwogUkFZTElOSy9XRUJHRUFSIDgwMi4xMSBXSVJFTEVTUyBMQU4gRFJJVkVSCiBMOglsaW51
-eC13aXJlbGVzc0B2Z2VyLmtlcm5lbC5vcmcKIFM6CU9ycGhhbgo=
+KiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT4gd3JvdGU6Cgo+IEZyb206IEJvcmlzbGF2
+IFBldGtvdiA8YnBAc3VzZS5kZT4KPiAKPiBUaGlzIHdhcyBsb25nIG92ZXJkdWUgYW5kIGl0IGlz
+IG5lZWRlZCBhdCBsZWFzdCBzbyB0aGF0IFRvbnkgYW5kIEkgZ2V0Cj4gQ0NlZCBvbiBwYXRjaGVz
+Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAc3VzZS5kZT4KPiBBY2tl
+ZC1ieTogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29tPgoKQWNrZWQtYnk6IEluZ28gTW9s
+bmFyIDxtaW5nb0BrZXJuZWwub3JnPgoKVGhhbmtzLAoKCUluZ28K
