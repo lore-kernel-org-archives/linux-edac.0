@@ -1,15 +1,42 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,1/2] nfit, mce: only handle uncorrectable machine checks
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190221170921.GC12997@zn.tnic>
-Date: Thu, 21 Feb 2019 18:09:21 +0100
-To: Jeff Moyer <jmoyer@redhat.com>
-Cc: Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, linux-nvdimm <linux-nvdimm@lists.01.org>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org
+Subject: EDAC, dmc520:: add DMC520 EDAC driver
+From: James Morse <james.morse@arm.com>
+Message-Id: <e2105800-db52-513f-e163-3769a26d1dfb@arm.com>
+Date: Tue, 5 Feb 2019 17:31:24 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: Rui Zhao <ruizhao@microsoft.com>, Sasha Levin <sashal@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Linux Kernel <linux-kernel@microsoft.com>, "will.deacon@arm.com" <will.deacon@arm.com>, "okaya@kernel.org" <okaya@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBGZWIgMjEsIDIwMTkgYXQgMTE6MTE6MjdBTSAtMDUwMCwgSmVmZiBNb3llciB3cm90
-ZToKPiBBbnl3YXksIGdpdmVuIHRoYXQgdGhlIGNvcnJlY3RhYmxlIGVycm9ycyBjb2xsZWN0b3Ig
-Y2FuIGJlIHR1cm5lZCBvZmYgaW4KPiB0aGUga2VybmVsIGNvbmZpZywKCkFsc28sIG9uIHRoZSBj
-bWRsaW5lLCBmb3Igd2hhdGV2ZXIgcmVhc29uOgoKcmFzPWNlY19kaXNhYmxlCg==
+SGkgQm9yaXMsCgpPbiAyMy8wMS8yMDE5IDE4OjQ2LCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6Cj4g
+T24gV2VkLCBKYW4gMjMsIDIwMTkgYXQgMDY6MzY6MjNQTSArMDAwMCwgSmFtZXMgTW9yc2Ugd3Jv
+dGU6Cj4+PiBXb3VsZCBsaWtlIHRvIGtub3cgd2hhdCdzIHRoZSBpbXBhY3QgaWYgdGhpcyBlcnJv
+ciBoYXBwZW5zLCBhbmQgaG93IHRvIGZpdCBpdAo+Pj4gd2l0aCBjdXJyZW50IHJlcG9ydGluZyBp
+biBFREFDIGNvcmUuCj4+Cj4+IEF0IGEgZ3Vlc3MgdGhlIGludGVycnVwdCB0cmlnZ2VycyB3aGVu
+IGxpbmtfZXJyX2NvdW50IGluY3JlYXNlcy4gKGxpbmtfZXJyIGhhcwo+PiBhbiBvdmVyZmxvdyBi
+aXQsIHNvIHRoZSBpbnRlcnJ1cHQgbXVzdCBiZSByZWxhdGVkIHRvIGEgY291bnRlcikuCj4+Cj4+
+IElmIHdlIGNvdWxkIGFzc29jaWF0ZSBhIGxpbmsgd2l0aCBhIGxheWVyIGluIGVkYWMsIHdlIGNv
+dWxkIHJlcG9ydCBlcnJvcnMKPj4gYWdhaW5zdCB0aGF0IHBvaW50LiBCdXQgSSd2ZSBubyBpZGVh
+IGhvdyAnbGlua3MnIGNvcnJlc3BvbmQgd2l0aCAncmFua3MgYW5kIGJhbmtzJyEKCgo+IFdlbGws
+IEkgaGF2ZSBubyBjbHVlIHdoYXQga2luZCBvZiBsaW5rcyB5b3UgZ3V5cyBhcmUgdGFsa2luZyBi
+dXQgaWYKPiB0aG9zZSBhcmUgcGVyLWNoYW5jZSBjb2hlcmVudCBsaW5rcyB1c2VkIGJ5IGNvcmVz
+IHRvIGNvbW11bmljYXRlIGluIGEKPiBjb2hlcmVudCBmYWJyaWMsIG9yIGNvcmVzIGFuZCBkZXZp
+Y2VzLCB3aGF0IHdvdWxkIHNob3dpbmcgdGhvc2UgZXJyb3JzCj4gdG8gdGhlIHVzZXIgYnJpbmcg
+eWE/CgooSSBtZW50aW9uZWQgdGhpcyBiZWNhdXNlIGl0cyB0aGUgbmV4dCBpbnRlcnJ1cHQgaW4g
+dGhlIHJlZ2lzdGVyLCBpdHMgYW4gZXhhbXBsZQpvZiBzb21ldGhpbmcgdGhhdCBtYXkgYmUgYWRk
+ZWQgZm9yIGFub3RoZXIgcGxhdGZvcm0gaW4gdGhlIGZ1dHVyZSwgd2hpY2ggYWZmZWN0cwp0aGUg
+RFQgYW5kIHByb2JpbmcpCgoKPiBPciBhcmUgeWEgdGFsa2luZyBhYm91dCBkaWZmZXJlbnQga2lu
+ZHMgb2YgbGlua3M/CgouLi4gd2hhdGV2ZXIgdGhlIG1hbnVhbCBtZWFucyBieSAnbGluaycsIGdv
+b2QgcG9pbnQsIGl0IGNvdWxkIGJlIHRoZQppbnRlcmNvbm5lY3Qgc2lkZS4KCidhbGVydF9tb2Rl
+X25leHQnLCBpbiB0aGUgZmVhdHVyZSBjb250cm9sIHJlZ2lzdGVyIHRhbGtzIGFib3V0IERJTU0g
+dHJhaW5pbmcsCmFuZCBzYXlzICdkZmlfZXJyJyBpcyB0cmVhdGVkIGEgYSBsaW5rIGVycm9yLiBE
+RkkgaXMgZGVmaW5lZCBlYXJsaWVyIGFzIHRoZSAnRERSClBIWSBpbnRlcmZhY2UnLCBzbyB0aGVz
+ZSBtdXN0IGJlIGxpbmtzIGJldHdlZW4gdGhlIERNQzUyMCBhbmQgRERSLgoKCj4gSW4gYW55IGNh
+c2UsIHRoZSBmaXJzdCBxdWVzdGlvbiB0byBhc2sgd291bGQgYmUsIGNhbiBzb21lIGFnZW50IG9y
+IHRoZQo+IHVzZXIgZG8gc29tZXRoaW5nIHdpdGggdGhlIGluZm9ybWF0aW9uIHRoYXQgWCBvciBZ
+IGxpbmsgZXJyb3JzIGhhcHBlbmVkPwo+IAo+IElmIG5vdCwgdGhlbiB3aHkgYm90aGVyPwo+IElm
+IHllcywgdGhlbiB0aGF0J3MgYSBkaWZmZXJlbnQgc3RvcnkuCgpJIGFncmVlLiBTdXJlbHkgaWYg
+dGhlIERJTU1zIGFyZSBzb2NrZXRlZCBsaW5rLWVycm9ycyBhcmUgYW5vdGhlciByZWFzb24gdG8K
+cmVwbGFjZSB0aGUgRElNTS4KCkl0IGxvb2tzIGxpa2UgdGhpcyBkb2Vzbid0IG1hdHRlciBvbiBS
+dWkncyBwbGF0Zm9ybSwKCgpUaGFua3MsCgpKYW1lcwo=
