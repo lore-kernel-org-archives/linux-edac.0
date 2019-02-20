@@ -2,17 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,1/2] nfit, mce: only handle uncorrectable machine checks
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190220193939.GG3447@zn.tnic>
-Date: Wed, 20 Feb 2019 20:39:40 +0100
+From: Dan Williams <dan.j.williams@intel.com>
+Message-Id: <CAPcyv4hNq8TPVkrNwqZJHyfSg+JUHG6taS5pz0r6+xAa29NTag@mail.gmail.com>
+Date: Wed, 20 Feb 2019 11:40:10 -0800
 To: Jeff Moyer <jmoyer@redhat.com>
-Cc: Vishal Verma <vishal.l.verma@intel.com>, linux-nvdimm@lists.01.org, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>, Vishal Verma <vishal.l.verma@intel.com>, linux-nvdimm <linux-nvdimm@lists.01.org>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gV2VkLCBGZWIgMjAsIDIwMTkgYXQgMDI6MjY6NDVQTSAtMDUwMCwgSmVmZiBNb3llciB3cm90
-ZToKPiBTdXJlLCB0aGFua3MgZm9yIHRoZSBxdWljayByZXBseSwgQm9yaXMhICBBbHNvLCB0aGFu
-a3MgZm9yIHlvdXIgZGV0YWlsZWQKPiBjb21taXQgbWVzc2FnZXMuICBUaGV5IHJlYWxseSBoZWxw
-IHdpdGggdW5kZXJzdGFuZGluZyB0aGUgY29kZSBjaGFuZ2VzLgoKSGEhCgpGcm9tIG5vdyBvbiBJ
-J2xsIGJlIHNob3dpbmcgdGhhdCB0byAqYW55b25lKiB3aG8gY29tcGxhaW5zIHdoZW4gSSBhc2sg
-b2YKdGhlbSB0byBtYWtlIHRoZWlyIGNvbW1pdCBtZXNzYWdlcyB1bmRlcnN0YW5kYWJsZSEKCjot
-KQoKVGhhbmtzIQo=
+T24gV2VkLCBGZWIgMjAsIDIwMTkgYXQgMTE6MjYgQU0gSmVmZiBNb3llciA8am1veWVyQHJlZGhh
+dC5jb20+IHdyb3RlOgo+Cj4gQm9yaXNsYXYgUGV0a292IDxicEBhbGllbjguZGU+IHdyaXRlczoK
+Pgo+ID4gRHJvcCBzdGFibGVACj4gPgo+ID4gT24gV2VkLCBGZWIgMjAsIDIwMTkgYXQgMDE6NTk6
+MTVQTSAtMDUwMCwgSmVmZiBNb3llciB3cm90ZToKPiA+PiBTb3JyeSBmb3IgbmVjcm9wb3N0aW5n
+LiAgSSB0aG91Z2h0IHRoZSBwb2ludCBvZiB0aGUgQ0VDIHdhcyB0byBtYWtlIHN1cmUKPiA+PiB0
+aGF0IHRoZSBvdGhlciByZWdpc3RlcmVkIGRlY29kZXJzIG9ubHkgZXZlciBzYXcgdW5jb3JyZWN0
+ZWQgZXJyb3JzLgo+ID4KPiA+IEhhLCBnb29kIHBvaW50ISBZb3UgbWVhbiBkcml2ZXJzL3Jhcy9j
+ZWMuYywgcmlnaHQ/Cj4KPiBZZXMuCj4KPiA+IElmIHNvLCB0aGVuIEkgZG9uJ3QgdGhpbmsgd2Un
+dmUgZXZlciB0YWxrZWQgYWJvdXQgY29ubmVjdGluZyBDRUMgd2l0aAo+ID4gTlZESU1NIGFuZCB3
+aGV0aGVyIHRoYXQgd291bGQgbWFrZSBzZW5zZS4gTGVtbWUgYWRkIERhbi4KPgo+IEkgZG9uJ3Qg
+dGhpbmsgdGhlcmUncyBhIGRpZmZlcmVuY2UgYmV0d2VlbiBNQ0VzIGZvciBOVkRJTU1zIGFuZCBu
+b3JtYWwKPiBEUkFNLiAgSSdsbCBsZXQgRGFuIGNvbmZpcm0gb3IgZGVueSB0aGF0LgoKVGhlcmUg
+aXMgYSBkaWZmZXJlbmNlLiBOVkRJTU1zIGhhdmUgbG9jYWwgdHJhY2tpbmcgb2YgZGlzY292ZXJl
+ZApwb2lzb24sIG1ldGhvZHMgdG8gc2NhbiBmb3IgbGF0ZW50IHBvaXNvbiwgYW5kIG1ldGhvZHMg
+dG8gY2xlYXIuIEEgQ0VDCmNvbm5lY3Rpb24sIGlpdWMsIHdvdWxkIHNlZW0gYW4gYXdrd2FyZCBm
+aXQuIEF3a3dhcmQgYmVjYXVzZSB3aGF0IENFQwplbmFibGVzIGlzIG1lYW50IHRvIGJlIGltcGxl
+bWVudGVkIG5hdGl2ZWx5IGluIHRoZSBoYXJkd2FyZSwgYW5kIENFQwpzZWVtcyB0byBoYXZlIG5v
+IGNvbmNlcHQgb2YgdGhlIGZhY3QgdGhhdCBlcnJvcnMgY2FuIGJlIHJlcGFpcmVkLgo=
