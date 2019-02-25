@@ -2,20 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/2] ARM: socfpga_defconfig: enable EDAC by default
-From: Dinh Nguyen <dinguyen@kernel.org>
-Message-Id: <ed55288c-458a-b770-423e-3691c020f840@kernel.org>
-Date: Mon, 25 Feb 2019 11:36:05 -0600
-To: thor.thayer@linux.intel.com, bp@alien8.de, linux@armlinux.org.uk, mchehab@kernel.org, james.morse@arm.com
+From: thor.thayer@linux.intel.com
+Message-Id: <78bd26f7-861b-0493-c8ed-ccb7a6673825@linux.intel.com>
+Date: Mon, 25 Feb 2019 12:57:37 -0600
+To: Dinh Nguyen <dinguyen@kernel.org>, bp@alien8.de, linux@armlinux.org.uk, mchehab@kernel.org, james.morse@arm.com
 Cc: linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-SGkgVGhvciwKCk9uIDIvMTkvMTkgMTI6NTkgUE0sIHRob3IudGhheWVyQGxpbnV4LmludGVsLmNv
-bSB3cm90ZToKPiBGcm9tOiBUaG9yIFRoYXllciA8dGhvci50aGF5ZXJAbGludXguaW50ZWwuY29t
-Pgo+IAo+IEVuYWJsZSB0aGUgZGlmZmVyZW50IEVDQyBibG9ja3MgYnkgZGVmYXVsdCBvbiBDeWNs
-b25lNQo+IGFuZCBBcnJpYTEwLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFRob3IgVGhheWVyIDx0aG9y
-LnRoYXllckBsaW51eC5pbnRlbC5jb20+Cj4gLS0tCj4gIGFyY2gvYXJtL2NvbmZpZ3Mvc29jZnBn
-YV9kZWZjb25maWcgfCAzNiArKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0KPiAg
-MSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQo+IAoKTG9v
-a3MgbGlrZSB5b3UgZGlkIGEgJ21ha2Ugc2F2ZWRlZmNvbmZpZycgb24gdGhpcyBhcyB3ZWxsPyBj
-YW4geW91CnBsZWFzZSByZWJhc2UgeW91ciBwYXRjaCB0byB0aGUgYXJtL2RlZmNvbmZpZyBvbiB0
-aGUgYXJtLXNvYyB0cmVlPwoKVGhhbmtzLApEaW5oCg==
+T24gMi8yNS8xOSAxMTozNiBBTSwgRGluaCBOZ3V5ZW4gd3JvdGU6Cj4gSGkgVGhvciwKPiAKPiBP
+biAyLzE5LzE5IDEyOjU5IFBNLCB0aG9yLnRoYXllckBsaW51eC5pbnRlbC5jb20gd3JvdGU6Cj4+
+IEZyb206IFRob3IgVGhheWVyIDx0aG9yLnRoYXllckBsaW51eC5pbnRlbC5jb20+Cj4+Cj4+IEVu
+YWJsZSB0aGUgZGlmZmVyZW50IEVDQyBibG9ja3MgYnkgZGVmYXVsdCBvbiBDeWNsb25lNQo+PiBh
+bmQgQXJyaWExMC4KPj4KPj4gU2lnbmVkLW9mZi1ieTogVGhvciBUaGF5ZXIgPHRob3IudGhheWVy
+QGxpbnV4LmludGVsLmNvbT4KPj4gLS0tCj4+ICAgYXJjaC9hcm0vY29uZmlncy9zb2NmcGdhX2Rl
+ZmNvbmZpZyB8IDM2ICsrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLQo+PiAgIDEg
+ZmlsZSBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkKPj4KPiAKPiBM
+b29rcyBsaWtlIHlvdSBkaWQgYSAnbWFrZSBzYXZlZGVmY29uZmlnJyBvbiB0aGlzIGFzIHdlbGw/
+IGNhbiB5b3UKPiBwbGVhc2UgcmViYXNlIHlvdXIgcGF0Y2ggdG8gdGhlIGFybS9kZWZjb25maWcg
+b24gdGhlIGFybS1zb2MgdHJlZT8KPiAKPiBUaGFua3MsCj4gRGluaAo+IApZZXMuIEknbGwgc2Vu
+ZCBhIFYyIHNob3J0bHkuIFRoYW5rcyBmb3IgcmV2aWV3aW5nLgo=
