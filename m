@@ -2,15 +2,43 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: x86/mce/AMD: Make sure banks were initialized before accessing them
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190307145335.GC26566@zn.tnic>
-Date: Thu, 7 Mar 2019 15:53:35 +0100
-To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Yazen Ghannam <Yazen.Ghannam@amd.com>
-Cc: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, John Clemens <clemej@gmail.com>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, Aravind Gopalakrishnan <aravindksg.lkml@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Message-Id: <SN6PR12MB2639656AE10DB17868853828F84C0@SN6PR12MB2639.namprd12.prod.outlook.com>
+Date: Thu, 7 Mar 2019 16:15:55 +0000
+To: Borislav Petkov <bp@alien8.de>, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Cc: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, John Clemens <clemej@gmail.com>, Tony Luck <tony.luck@intel.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Aravind Gopalakrishnan <aravindksg.lkml@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBNYXIgMDcsIDIwMTkgYXQgMDE6NTU6NTFQTSArMDEwMCwgUmFmYcWCIE1pxYJlY2tp
-IHdyb3RlOgo+IEkgaG9wZSBteSBwaW5nIG9uIHRoaXMgaXMganVzdGlmaWVkLiBDYW4geW91IHBy
-b3ZpZGUgYW55IHVwZGF0ZSBvbiB0aGF0Cj4gaXNzdWUsIHBsZWFzZT8gSSBrZWVwIHNlZWluZyBl
-cnJvcnMgd2l0aCB0aGUgNS4wLjAuCgpJIGJlbGlldmUgWWF6ZW4gd2FzIGFib3V0IHRvIHNlbmQg
-YSBwYXRjaCwgQUZBSVIuCgpZYXplbj8K
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBsaW51eC1lZGFjLW93bmVyQHZn
+ZXIua2VybmVsLm9yZyA8bGludXgtZWRhYy1vd25lckB2Z2VyLmtlcm5lbC5vcmc+IE9uIEJlaGFs
+ZiBPZiBCb3Jpc2xhdiBQZXRrb3YNCj4gU2VudDogVGh1cnNkYXksIE1hcmNoIDcsIDIwMTkgODo1
+NCBBTQ0KPiBUbzogUmFmYcWCIE1pxYJlY2tpIDxyYWZhbEBtaWxlY2tpLnBsPjsgR2hhbm5hbSwg
+WWF6ZW4gPFlhemVuLkdoYW5uYW1AYW1kLmNvbT4NCj4gQ2M6IFJhZmHFgiBNacWCZWNraSA8emFq
+ZWM1QGdtYWlsLmNvbT47IEpvaG4gQ2xlbWVucyA8Y2xlbWVqQGdtYWlsLmNvbT47IFRvbnkgTHVj
+ayA8dG9ueS5sdWNrQGludGVsLmNvbT47IGxpbnV4LQ0KPiBlZGFjQHZnZXIua2VybmVsLm9yZzsg
+QXJhdmluZCBHb3BhbGFrcmlzaG5hbiA8YXJhdmluZGtzZy5sa21sQGdtYWlsLmNvbT47IFRob21h
+cyBHbGVpeG5lciA8dGdseEBsaW51dHJvbml4LmRlPjsgSW5nbyBNb2xuYXINCj4gPG1pbmdvQHJl
+ZGhhdC5jb20+OyBIIC4gUGV0ZXIgQW52aW4gPGhwYUB6eXRvci5jb20+OyB4ODZAa2VybmVsLm9y
+Zw0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSB4ODYvbWNlL0FNRDogTWFrZSBzdXJlIGJhbmtzIHdl
+cmUgaW5pdGlhbGl6ZWQgYmVmb3JlIGFjY2Vzc2luZyB0aGVtDQo+IA0KPiBPbiBUaHUsIE1hciAw
+NywgMjAxOSBhdCAwMTo1NTo1MVBNICswMTAwLCBSYWZhxYIgTWnFgmVja2kgd3JvdGU6DQo+ID4g
+SSBob3BlIG15IHBpbmcgb24gdGhpcyBpcyBqdXN0aWZpZWQuIENhbiB5b3UgcHJvdmlkZSBhbnkg
+dXBkYXRlIG9uIHRoYXQNCj4gPiBpc3N1ZSwgcGxlYXNlPyBJIGtlZXAgc2VlaW5nIGVycm9ycyB3
+aXRoIHRoZSA1LjAuMC4NCj4gDQo+IEkgYmVsaWV2ZSBZYXplbiB3YXMgYWJvdXQgdG8gc2VuZCBh
+IHBhdGNoLCBBRkFJUi4NCj4gDQo+IFlhemVuPw0KPiANCg0KWWVzLCBJJ2xsIHNlbmQgYSBwYXRj
+aCBmb3IgdGhpcy4NCg0KSSB3YXMgZXhwZWN0aW5nIGEgQklPUyBmaXgsIGJ1dCB0aGF0IHNlZW1z
+IHVubGlrZWx5IG5vdy4NCg0KDQpSYWZhbCwNClRoaXMgZXJyb3Igc2lnbmF0dXJlIGxvb2tzIGxp
+a2UgYSBrbm93biBpc3N1ZSB3aGljaCBpcyBleHBvc2VkIHdpdGggYSBjZXJ0YWluIEJJT1MgY29u
+ZmlndXJhdGlvbi4gVGhlIHJlcG9ydGVkIGVycm9yIGlzIGJlbmlnbiBhbmQgY2FuIGJlIHNhZmVs
+eSBpZ25vcmVkLg0KDQpIb3dldmVyLCBwbGVhc2UgdHJ5IHRoZSBmb2xsb3dpbmcgYXMgYSB3b3Jr
+YXJvdW5kIHRvIHJlZHVjZSB0aGUgbnVtYmVyIG9mIHJlcG9ydGVkIGVycm9ycy4NCg0KVGhpcyB3
+aWxsIGRpc2FibGUgdGhlIHRocmVzaG9sZCBpbnRlcnJ1cHQgb24gdGhlIGJhbmtzIHRoYXQgY291
+bGQgc2VlIHRoaXMgZXJyb3I6DQpmaW5kIC9zeXMvZGV2aWNlcy9zeXN0ZW0vbWFjaGluZWNoZWNr
+LyAtd2hvbGVuYW1lICovaW5zbl9mZXRjaC9pbnRlcnJ1cHRfZW5hYmxlIC1leGVjIHNoIC1jICJl
+Y2hvIDAgPiB7fSIgXDsNCg0KRXZlbiB3aXRoIHRoZSBpbnRlcnJ1cHQgZGlzYWJsZWQsIHRoZSBl
+cnJvciB3aWxsIHN0aWxsIGJlIGRldGVjdGVkIGJ5IHBvbGxpbmcuIFlvdSBjYW4gZGlzYWJsZSBy
+ZWd1bGFyIE1DQSBwb2xsaW5nIHdpdGggdGhpczoNCmVjaG8gMCA+IC9zeXMvZGV2aWNlcy9zeXN0
+ZW0vbWFjaGluZWNoZWNrL21hY2hpbmVjaGVjazAvY2hlY2tfaW50ZXJ2YWwNCg0KWW91IG1heSBz
+dGlsbCBzZWUgdGhlIGVycm9yIHJlcG9ydGVkIGlmIHRoZSBNQ0EgYmFua3MgYXJlIHBvbGxlZCBm
+b3Igb3RoZXIgcmVhc29ucy4gQnV0IHRoaXMgc2hvdWxkIGJlIHJhcmUuDQoNClBsZWFzZSBsZXQg
+bWUga25vdyBpZiB0aGlzIHdvcmtzIGZvciB5b3UuDQoNClRoYW5rcywNCllhemVuCg==
