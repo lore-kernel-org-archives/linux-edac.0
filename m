@@ -2,19 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: EDAC, {skx|i10nm}_edac: Fix randconfig build error
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190315094341.GA12523@zn.tnic>
-Date: Fri, 15 Mar 2019 10:43:42 +0100
-To: "Luck, Tony" <tony.luck@intel.com>
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <20190315155718.GA17775@agluck-desk>
+Date: Fri, 15 Mar 2019 08:57:18 -0700
+To: Borislav Petkov <bp@alien8.de>
 Cc: Arnd Bergmann <arnd@arndb.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, James Morse <james.morse@arm.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gVGh1LCBNYXIgMTQsIDIwMTkgYXQgMDI6NTk6NTJQTSAtMDcwMCwgTHVjaywgVG9ueSB3cm90
-ZToKPiBJIG1hZGUgYSBwYXRjaCBiYXNlZCBvbiBvcHRpb24gIzMuIFJvdWdoIHN0ZXBzIHdlcmU6
-Cj4gCj4gJCBjYXQgc2t4X2NvbW1vbi5jID4+IHNreF9jb21tb24uaAoKVGhhdCBkb2Vzbid0IGxv
-b2sgcmVhbCBjbGVhbiB0byBtZS4gU28gd2UgaGF2ZSBmc2xfZGRyX2VkYWMuYyB3aGljaApnZXRz
-IGxpbmtlZCBpbiBpbiB0d28gZHJpdmVycyBhbmQgSSB0aGluayB5b3UgY291bGQgbGlicmFyaXpl
-IHRoYXQKc2t4X2NvbW1vbi5jIHRoZSBzYW1lIHdheSBhbmQgaGF2ZSB0aGUgZnVuY3Rpb24gZXhw
-b3J0cyBpbiB0aGUgd3JhcHBlcgpkcml2ZXJzIHNreF9lZGFjIGFuZCBpMTBubV9lZGFjIGNhbGxp
-bmcgdGhvc2UgImxpYnJhcnkiIGZ1bmN0aW9ucyBpbgpza3hfY29tbW9uLmMuIElNTlNWSE8uCgpU
-aHguCg==
+T24gRnJpLCBNYXIgMTUsIDIwMTkgYXQgMTA6NDM6NDJBTSArMDEwMCwgQm9yaXNsYXYgUGV0a292
+IHdyb3RlOgo+IE9uIFRodSwgTWFyIDE0LCAyMDE5IGF0IDAyOjU5OjUyUE0gLTA3MDAsIEx1Y2ss
+IFRvbnkgd3JvdGU6Cj4gPiBJIG1hZGUgYSBwYXRjaCBiYXNlZCBvbiBvcHRpb24gIzMuIFJvdWdo
+IHN0ZXBzIHdlcmU6Cj4gPiAKPiA+ICQgY2F0IHNreF9jb21tb24uYyA+PiBza3hfY29tbW9uLmgK
+PiAKPiBUaGF0IGRvZXNuJ3QgbG9vayByZWFsIGNsZWFuIHRvIG1lLiBTbyB3ZSBoYXZlIGZzbF9k
+ZHJfZWRhYy5jIHdoaWNoCj4gZ2V0cyBsaW5rZWQgaW4gaW4gdHdvIGRyaXZlcnMgYW5kIEkgdGhp
+bmsgeW91IGNvdWxkIGxpYnJhcml6ZSB0aGF0Cj4gc2t4X2NvbW1vbi5jIHRoZSBzYW1lIHdheSBh
+bmQgaGF2ZSB0aGUgZnVuY3Rpb24gZXhwb3J0cyBpbiB0aGUgd3JhcHBlcgo+IGRyaXZlcnMgc2t4
+X2VkYWMgYW5kIGkxMG5tX2VkYWMgY2FsbGluZyB0aG9zZSAibGlicmFyeSIgZnVuY3Rpb25zIGlu
+Cj4gc2t4X2NvbW1vbi5jLiBJTU5TVkhPLgoKZnNsX2Rkcl9lZGFjLmMgbG9va3MgdG8gYmUgZG9p
+bmcgZXhhY3RseSB3aGF0IHdlIGFyZSBkb2luZyB3aXRoCnNreF9jb21tb24uYy4gVGhleSBqdXN0
+IGdldCBhd2F5IHdpdGggaXQgZm9yIG5vdyBiZWNhdXNlIHRoZXkgZG9uJ3QKaGF2ZSBhIHJlZmVy
+ZW5jZSB0byBUSElTX01PRFVMRSBzaW5jZSB0aGV5IGRvbid0IHNldCB1cCBhbnl0aGluZwppbiBz
+eXNmcy4KCklmIHRoaXMgaXMgeW91ciBnb2FsLCB0aGVuIFFpdXh1J3MgcGF0Y2ggdGhhdCBtb3Zl
+cyB0aGUgcHJvYmxlbQpwaWVjZSBvdXQgb2Ygc2t4X2NvbW1vbi5jIGRvZXMgd2hhdCB5b3UgYXJl
+IGFza2luZyBmb3IuCgotVG9ueQo=
