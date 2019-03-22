@@ -2,33 +2,14 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,2/3] x86/MCE/AMD: Don't report L1 BTB MCA errors on some Family 17h models
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-Message-Id: <SN6PR12MB26390B3260E0AE715DC5B279F8430@SN6PR12MB2639.namprd12.prod.outlook.com>
-Date: Fri, 22 Mar 2019 21:35:41 +0000
-To: Borislav Petkov <bp@alien8.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20190322222018.GQ12472@zn.tnic>
+Date: Fri, 22 Mar 2019 23:20:18 +0100
+To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
 Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>, "rafal@milecki.pl" <rafal@milecki.pl>, "clemej@gmail.com" <clemej@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBsaW51eC1lZGFjLW93bmVyQHZn
-ZXIua2VybmVsLm9yZyA8bGludXgtZWRhYy1vd25lckB2Z2VyLmtlcm5lbC5vcmc+IE9uIEJlaGFs
-ZiBPZiBCb3Jpc2xhdiBQZXRrb3YNCj4gU2VudDogRnJpZGF5LCBNYXJjaCAyMiwgMjAxOSAzOjU1
-IFBNDQo+IFRvOiBHaGFubmFtLCBZYXplbiA8WWF6ZW4uR2hhbm5hbUBhbWQuY29tPg0KPiBDYzog
-bGludXgtZWRhY0B2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7
-IHRvbnkubHVja0BpbnRlbC5jb207IHg4NkBrZXJuZWwub3JnOyByYWZhbEBtaWxlY2tpLnBsOw0K
-PiBjbGVtZWpAZ21haWwuY29tDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMi8zXSB4ODYvTUNF
-L0FNRDogRG9uJ3QgcmVwb3J0IEwxIEJUQiBNQ0EgZXJyb3JzIG9uIHNvbWUgRmFtaWx5IDE3aCBt
-b2RlbHMNCj4gDQo+IE9uIEZyaSwgTWFyIDIyLCAyMDE5IGF0IDA4OjM3OjA4UE0gKzAwMDAsIEdo
-YW5uYW0sIFlhemVuIHdyb3RlOg0KPiA+IFNvcnJ5LCBJIGZvcmdvdCB0byBtZW50aW9uIHRoaXMu
-IEkgd2VudCB3aXRoICJmaWx0ZXJfbWNlX2FtZCIgYmVjYXVzZQ0KPiA+IGFtZF9maWx0ZXJfbWNl
-KCkgaXMgYWxyZWFkeSBkZWZpbmVkIGluIGVkYWMvbWNlX2FtZC5jIGFuZCB0aGVyZSB3YXMNCj4g
-PiBhIGNvbmZsaWN0IHdoZW4gYnVpbGRpbmcuIElzIHRoZXJlIGFub3RoZXIgd2F5IHRvIGF2b2lk
-IHRoZXNlIG5hbWluZw0KPiA+IGNvbmZsaWN0cz8NCj4gDQo+IFl1Y2ssIHdlJ3JlIGNsZWFybHkg
-ZmlsdGVyaW5nIHRvbyBtdWNoLiA6KQ0KPiANCj4gU28gbGV0J3MgcmVuYW1lIHRoYXQgYW1kX2Zp
-bHRlcl9tY2UoKSB0byBzb21ldGhpbmcgZWxzZSBzaW5jZSBpdCBpcw0KPiBzdGF0aWMgYW5kIG9u
-bHkgdXNlZCBpbiB0aGF0IGZpbGUuIE1heWJlIHNvbWV0aGluZyBsaWtlDQo+IA0KPiAgICAgICAg
-IGlmIChpZ25vcmVfbWNlKG0pKQ0KPiAgICAgICAgICAgICAgICAgcmV0dXJuIE5PVElGWV9TVE9Q
-Ow0KPiANCj4gc28gdGhhdCB3ZSBjYW4ga2VlcCB0aGUgImZpbHRlciIgbm90aW9uIGFsbCByZXNl
-cnZlZCB0byB0aGUgY29yZSBNQ0ENCj4gY29kZSBhbmQgdGhlcmUncyBubyBjb25mdXNpb24uDQo+
-IA0KPiBBbmQgdGhlbiBhbWRfZmlsdGVyX21jZSgpIGlzIGZyZWUgdG8gYmUgdXNlZCBpbiB0aGUg
-Y29yZSBjb2RlLg0KPiANCg0KT2theSwgd2lsbCBkby4NCg0KU2hvdWxkIHRoaXMgYmUgYSBwcmUt
-cGF0Y2gsIG9yIGp1c3QgaW5jbHVkZSBpdCBoZXJlPw0KDQpUaGFua3MsDQpZYXplbgo=
+T24gRnJpLCBNYXIgMjIsIDIwMTkgYXQgMDk6MzU6NDFQTSArMDAwMCwgR2hhbm5hbSwgWWF6ZW4g
+d3JvdGU6Cj4gU2hvdWxkIHRoaXMgYmUgYSBwcmUtcGF0Y2gsIG9yIGp1c3QgaW5jbHVkZSBpdCBo
+ZXJlPwoKU2hvdWxkIGJlIHNtYWxsIGVub3VnaCBzbyB5b3UgY2FuIGluY2x1ZGUgaXQgd2l0aCB0
+aGlzIG9uZS4KClRoeC4K
