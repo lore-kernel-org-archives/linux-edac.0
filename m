@@ -1,19 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,1/6] EDAC/amd64: Add Family 17h Model 30h PCI IDs
+Subject: [v3,3/6] EDAC/amd64: Support more than two Unified Memory Controllers
 From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190322164630.GH12472@zn.tnic>
-Date: Fri, 22 Mar 2019 17:46:30 +0100
-To: Kim Phillips <kphillips@amd.com>
-Cc: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-Id: <20190323121546.GA17541@zn.tnic>
+Date: Sat, 23 Mar 2019 13:15:47 +0100
+To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBNYXIgMjIsIDIwMTkgYXQgMDQ6MzM6NDhQTSArMDAwMCwgS2ltIFBoaWxsaXBzIHdy
-b3RlOgo+IEhpIEJvcmlzLAo+IAo+IEkndmUgdGVzdGVkIHRoaXMgcGF0Y2ggYW5kIGl0IGdldHMg
-cmlkIG9mIGEgc2xldyBvZiB0aGVzZSBtZXNzYWdlczoKPiAKPiBrZXJuZWw6IEVEQUMgYW1kNjQ6
-IEVycm9yOiBGMCBub3QgZm91bmQsIGRldmljZSAweDE0NjAgKGJyb2tlbiBCSU9TPykKPiBrZXJu
-ZWw6IEVEQUMgYW1kNjQ6IEVycm9yOiBFcnJvciBwcm9iaW5nIGluc3RhbmNlOiAwCj4gCj4gU28g
-cGxlYXNlIGFkZCBteToKPiAKPiBUZXN0ZWQtYnk6IEtpbSBQaGlsbGlwcyA8a2ltLnBoaWxsaXBz
-QGFtZC5jb20+Cj4gCj4gVGhhbmsgeW91LAoKVGhhbmtzIGJ1dCBwbGVhc2UgZG8gbm90IHRvcC1w
-b3N0IHdoZW4gcmVwbHlpbmcgdG8gbWFpbHMgb24gcHVibGljCm1haWxpbmcgbGlzdHMuCg==
+T24gVGh1LCBGZWIgMjgsIDIwMTkgYXQgMDM6MzY6MTBQTSArMDAwMCwgR2hhbm5hbSwgWWF6ZW4g
+d3JvdGU6Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZWRhYy9hbWQ2NF9lZGFjLmggYi9kcml2ZXJz
+L2VkYWMvYW1kNjRfZWRhYy5oCj4gaW5kZXggZGU4ZGJiMGI0MmI1Li40MGU2M2NlYTJkODEgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9lZGFjL2FtZDY0X2VkYWMuaAo+ICsrKyBiL2RyaXZlcnMvZWRh
+Yy9hbWQ2NF9lZGFjLmgKPiBAQCAtMjc0LDcgKzI3NCwxMSBAQAo+ICAKPiAgI2RlZmluZSBVTUNf
+U0RQX0lOSVQJCQlCSVQoMzEpCj4gIAo+IC0jZGVmaW5lIE5VTV9VTUNTCQkJMgo+ICsvKgo+ICsg
+KiBOdW1iZXIgb2YgVW5pZmllZCBNZW1vcnkgQ29udHJvbGxlcnMKPiArICogU2V0IGR1cmluZyBk
+cml2ZXIgaW5pdCBiYXNlZCBvbiBmYW1pbHkvbW9kZWwuCj4gKyAqLwo+ICtzdGF0aWMgdTggbnVt
+X3VtY3M7CgpQbGVhc2UgZG9uJ3QgZG8gc2lsbHkgdGhpbmdzIGxpa2UgdGhhdDoKCkluIGZpbGUg
+aW5jbHVkZWQgZnJvbSBkcml2ZXJzL2VkYWMvYW1kNjRfZWRhY19pbmouYzoyOjA6CmRyaXZlcnMv
+ZWRhYy9hbWQ2NF9lZGFjLmg6Mjc5OjExOiB3YXJuaW5nOiDigJhudW1fdW1jc+KAmSBkZWZpbmVk
+IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtdmFyaWFibGVdCiBzdGF0aWMgdTggbnVtX3VtY3M7CiAg
+ICAgICAgICAgXn5+fn5+fn4KCkkgZml4ZWQgaXQgdXAgbm93Lgo=
