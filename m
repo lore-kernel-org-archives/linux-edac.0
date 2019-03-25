@@ -1,15 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/2] x86/MCE/AMD, EDAC/mce_amd: Don't report L1 BTB MCA errors on some Family 17h models
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190311190145.GE7384@zn.tnic>
-Date: Mon, 11 Mar 2019 20:01:45 +0100
-To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "rafal@milecki.pl" <rafal@milecki.pl>, "clemej@gmail.com" <clemej@gmail.com>
+Subject: MAINTAINERS: Add entry for EDAC-I10NM
+From: "Luck, Tony" <tony.luck@intel.com>
+Message-Id: <20190325235627.GA11938@agluck-desk>
+Date: Mon, 25 Mar 2019 16:56:27 -0700
+To: Joe Perches <joe@perches.com>
+Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, Aristeu Rozanski <aris@redhat.com>, Borislav Petkov <bp@suse.de>, Linus Torvalds <torvalds@linux-foundation.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBNYXIgMTEsIDIwMTkgYXQgMDY6NTI6MDVQTSArMDAwMCwgR2hhbm5hbSwgWWF6ZW4g
-d3JvdGU6Cj4gU2hvdWxkIEkga2VlcCB0aGUgZmlsdGVyIGluIGVkYWNfbWNlX2FtZD8gSSBndWVz
-cyBpdCdzIG5vdCBuZWNlc3NhcnkKPiBpZiBmaWx0ZXJlZCBvdXQgZWFybGllci4KCk5haCwgeW91
-IGRvbid0IG5lZWQgdG8gdG91Y2ggdGhhdCBpZiB5b3UgZmlsdGVyIGVhcmxpZXIuCgpUaHguCg==
+V2UgZm9yZ290IHRvIHVwZGF0ZSB0aGUgTUFJTlRBSU5FUlMgZmlsZSB3aGVuIGFkZGluZyB0aGlz
+Cm5ldyBkcml2ZXIuCgpGaXhlczogZDRkYzg5ZDA2OWFhICgiRURBQywgaTEwbm06IEFkZCBhIGRy
+aXZlciBmb3IgSW50ZWwgMTBubSBzZXJ2ZXIgcHJvY2Vzc29ycyIpClNpZ25lZC1vZmYtYnk6IFRv
+bnkgTHVjayA8dG9ueS5sdWNrQGludGVsLmNvbT4KLS0tCiBNQUlOVEFJTkVSUyB8IDYgKysrKysr
+CiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvTUFJTlRBSU5F
+UlMgYi9NQUlOVEFJTkVSUwppbmRleCBlNWYzMjMwZDNmMTQuLjg2YzRhNWQ5NWNjYSAxMDA2NDQK
+LS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTU1OTYsNiArNTU5NiwxMiBA
+QCBMOglsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZwogUzoJTWFpbnRhaW5lZAogRjoJZHJpdmVy
+cy9lZGFjL2doZXNfZWRhYy5jCiAKK0VEQUMtSTEwTk0KK006CVRvbnkgTHVjayA8dG9ueS5sdWNr
+QGludGVsLmNvbT4KK0w6CWxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnCitTOglNYWludGFpbmVk
+CitGOglkcml2ZXJzL2VkYWMvaTEwbm1fYmFzZS5jCisKIEVEQUMtSTMwMDAKIEw6CWxpbnV4LWVk
+YWNAdmdlci5rZXJuZWwub3JnCiBTOglPcnBoYW4K
