@@ -2,20 +2,37 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,1/2] x86/MCE: Add function to allow filtering of MCA errors
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190326092825.GF1867@zn.tnic>
-Date: Tue, 26 Mar 2019 10:28:25 +0100
-To: "rafal@milecki.pl" <rafal@milecki.pl>, "clemej@gmail.com" <clemej@gmail.com>
-Cc: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Message-Id: <SN6PR12MB2639C80DA928C41AA678DFB6F85F0@SN6PR12MB2639.namprd12.prod.outlook.com>
+Date: Tue, 26 Mar 2019 11:41:05 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>, "rafal@milecki.pl" <rafal@milecki.pl>, "clemej@gmail.com" <clemej@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBNYXIgMjUsIDIwMTkgYXQgMDQ6MzQ6MjJQTSArMDAwMCwgR2hhbm5hbSwgWWF6ZW4g
-d3JvdGU6Cj4gRnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPgo+IAo+
-IFNvbWUgc3lzdGVtcyBtYXkgcmVwb3J0IHNwdXJpb3VzIE1DQSBlcnJvcnMuIEluIGdlbmVyYWws
-IHNwdXJpb3VzIE1DQQo+IGVycm9ycyBtYXkgYmUgZGlzYWJsZWQgYnkgY2xlYXJpbmcgYSBwYXJ0
-aWN1bGFyIGJpdCBpbiBNQ0FfQ1RMLiBIb3dldmVyLAo+IGNsZWFyaW5nIGEgYml0IGluIE1DQV9D
-VEwgbWF5IG5vdCBiZSByZWNvbW1lbmRlZCBmb3Igc29tZSBlcnJvcnMsIHNvIHRoZQo+IG9ubHkg
-b3B0aW9uIGlzIHRvIGlnbm9yZSB0aGVtLgoKT2ssIEkgY2xlYW5lZCB0aG9zZSB1cCBhbmQgYXBw
-bGllZCB0aGVtIGhlcmU6CgpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2Vy
-bmVsL2dpdC9icC9icC5naXQvbG9nLz9oPXRpcC14ODYtdXJnZW50LXJhcwoKUmFmYcWCLCBKb2hu
-LCBjYW4geW91IGd1eXMgdGVzdCB0aGVtIHBscz8KClRoeC4K
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBsaW51eC1lZGFjLW93bmVyQHZn
+ZXIua2VybmVsLm9yZyA8bGludXgtZWRhYy1vd25lckB2Z2VyLmtlcm5lbC5vcmc+IE9uIEJlaGFs
+ZiBPZiBCb3Jpc2xhdiBQZXRrb3YNCj4gU2VudDogVHVlc2RheSwgTWFyY2ggMjYsIDIwMTkgMjo1
+NyBBTQ0KPiBUbzogR2hhbm5hbSwgWWF6ZW4gPFlhemVuLkdoYW5uYW1AYW1kLmNvbT4NCj4gQ2M6
+IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3Jn
+OyB0b255Lmx1Y2tAaW50ZWwuY29tOyB4ODZAa2VybmVsLm9yZzsgcmFmYWxAbWlsZWNraS5wbDsN
+Cj4gY2xlbWVqQGdtYWlsLmNvbQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDEvMl0geDg2L01D
+RTogQWRkIGZ1bmN0aW9uIHRvIGFsbG93IGZpbHRlcmluZyBvZiBNQ0EgZXJyb3JzDQo+IA0KPiBP
+biBNb24sIE1hciAyNSwgMjAxOSBhdCAwNDozNDoyMlBNICswMDAwLCBHaGFubmFtLCBZYXplbiB3
+cm90ZToNCj4gPiBGcm9tOiBZYXplbiBHaGFubmFtIDx5YXplbi5naGFubmFtQGFtZC5jb20+DQo+
+ID4NCj4gPiBTb21lIHN5c3RlbXMgbWF5IHJlcG9ydCBzcHVyaW91cyBNQ0EgZXJyb3JzLiBJbiBn
+ZW5lcmFsLCBzcHVyaW91cyBNQ0ENCj4gPiBlcnJvcnMgbWF5IGJlIGRpc2FibGVkIGJ5IGNsZWFy
+aW5nIGEgcGFydGljdWxhciBiaXQgaW4gTUNBX0NUTC4gSG93ZXZlciwNCj4gPiBjbGVhcmluZyBh
+IGJpdCBpbiBNQ0FfQ1RMIG1heSBub3QgYmUgcmVjb21tZW5kZWQgZm9yIHNvbWUgZXJyb3JzLCBz
+byB0aGUNCj4gPiBvbmx5IG9wdGlvbiBpcyB0byBpZ25vcmUgdGhlbS4NCj4gPg0KPiA+IEFuIE1D
+QSBlcnJvciBpcyBwcmludGVkIGFuZCBoYW5kbGVkIGFmdGVyIGl0IGhhcyBiZWVuIGFkZGVkIHRv
+IHRoZSBNQ0UNCj4gPiBldmVudCBwb29sLiBTbyBhbiBNQ0EgZXJyb3IgY2FuIGJlIGlnbm9yZWQg
+Ynkgbm90IGFkZGluZyBpdCB0byB0aGUgcG9vbC4NCj4gPg0KPiA+IERlZmluZSBhIGRlZmF1bHQg
+ZnVuY3Rpb24gdGhhdCBkb2VzIG5vdCBmaWx0ZXIgYW55IGVycm9ycy4NCj4gPg0KPiA+IENoZWNr
+IGlmIGFuIE1DQSBlcnJvciBzaG91bGQgYmUgZmlsdGVyZWQgb3V0IHdoZW4gYWRkaW5nIGl0IHRv
+IHRoZSBNQ0UNCj4gPiBldmVudCBwb29sLg0KPiA+DQo+ID4gQ2M6IDxzdGFibGVAdmdlci5rZXJu
+ZWwub3JnPiAjIDUuMC54DQo+IA0KPiBUaGUgb2xkIHZlcnNpb24gb2YgdGhlIHBhdGNoZXMgaGFk
+IDQuMTQueCBoZXJlIGFzIGEga2VybmVsIHZlcnNpb24uIFdoeQ0KPiBjaGFuZ2U/DQo+IA0KDQpU
+aGV5IGRvbid0IGFwcGx5IGNsZWFubHkgdG8gdjQuMTQgYW55bW9yZSBiZWNhdXNlIG9mIHRoZSBy
+ZWNlbnQgaGVhZGVyIGNoYW5nZS4NCg0KSSBmaWd1cmVkIHRoZXkgd291bGQgbmVlZCB0byBiZSBm
+aXhlZCB1cCBhbmQgc3VibWl0dGVkIHNlcGFyYXRlbHkgdG8gb2xkZXIgc3RhYmxlDQp2ZXJzaW9u
+cy4gSXMgdGhhdCBva2F5Pw0KDQpUaGFua3MsDQpZYXplbgo=
