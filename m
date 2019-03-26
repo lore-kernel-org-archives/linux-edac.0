@@ -2,22 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: MAINTAINERS: Add entry for EDAC-I10NM
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <20190325235627.GA11938@agluck-desk>
-Date: Mon, 25 Mar 2019 16:56:27 -0700
-To: Joe Perches <joe@perches.com>
-Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, Aristeu Rozanski <aris@redhat.com>, Borislav Petkov <bp@suse.de>, Linus Torvalds <torvalds@linux-foundation.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20190326073346.GA1867@zn.tnic>
+Date: Tue, 26 Mar 2019 08:33:46 +0100
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, Aristeu Rozanski <aris@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 List-ID: <edac.vger.kernel.org>
 
-V2UgZm9yZ290IHRvIHVwZGF0ZSB0aGUgTUFJTlRBSU5FUlMgZmlsZSB3aGVuIGFkZGluZyB0aGlz
-Cm5ldyBkcml2ZXIuCgpGaXhlczogZDRkYzg5ZDA2OWFhICgiRURBQywgaTEwbm06IEFkZCBhIGRy
-aXZlciBmb3IgSW50ZWwgMTBubSBzZXJ2ZXIgcHJvY2Vzc29ycyIpClNpZ25lZC1vZmYtYnk6IFRv
-bnkgTHVjayA8dG9ueS5sdWNrQGludGVsLmNvbT4KLS0tCiBNQUlOVEFJTkVSUyB8IDYgKysrKysr
-CiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvTUFJTlRBSU5F
-UlMgYi9NQUlOVEFJTkVSUwppbmRleCBlNWYzMjMwZDNmMTQuLjg2YzRhNWQ5NWNjYSAxMDA2NDQK
-LS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTU1OTYsNiArNTU5NiwxMiBA
-QCBMOglsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZwogUzoJTWFpbnRhaW5lZAogRjoJZHJpdmVy
-cy9lZGFjL2doZXNfZWRhYy5jCiAKK0VEQUMtSTEwTk0KK006CVRvbnkgTHVjayA8dG9ueS5sdWNr
-QGludGVsLmNvbT4KK0w6CWxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnCitTOglNYWludGFpbmVk
-CitGOglkcml2ZXJzL2VkYWMvaTEwbm1fYmFzZS5jCisKIEVEQUMtSTMwMDAKIEw6CWxpbnV4LWVk
-YWNAdmdlci5rZXJuZWwub3JnCiBTOglPcnBoYW4K
+T24gTW9uLCBNYXIgMjUsIDIwMTkgYXQgMDQ6NTY6MjdQTSAtMDcwMCwgTHVjaywgVG9ueSB3cm90
+ZToKPiBXZSBmb3Jnb3QgdG8gdXBkYXRlIHRoZSBNQUlOVEFJTkVSUyBmaWxlIHdoZW4gYWRkaW5n
+IHRoaXMKPiBuZXcgZHJpdmVyLgo+IAo+IEZpeGVzOiBkNGRjODlkMDY5YWEgKCJFREFDLCBpMTBu
+bTogQWRkIGEgZHJpdmVyIGZvciBJbnRlbCAxMG5tIHNlcnZlciBwcm9jZXNzb3JzIikKPiBTaWdu
+ZWQtb2ZmLWJ5OiBUb255IEx1Y2sgPHRvbnkubHVja0BpbnRlbC5jb20+Cj4gLS0tCj4gIE1BSU5U
+QUlORVJTIHwgNiArKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQo+IAo+
+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCj4gaW5kZXggZTVmMzIzMGQz
+ZjE0Li44NmM0YTVkOTVjY2EgMTAwNjQ0Cj4gLS0tIGEvTUFJTlRBSU5FUlMKPiArKysgYi9NQUlO
+VEFJTkVSUwo+IEBAIC01NTk2LDYgKzU1OTYsMTIgQEAgTDoJbGludXgtZWRhY0B2Z2VyLmtlcm5l
+bC5vcmcKPiAgUzoJTWFpbnRhaW5lZAo+ICBGOglkcml2ZXJzL2VkYWMvZ2hlc19lZGFjLmMKPiAg
+Cj4gK0VEQUMtSTEwTk0KPiArTToJVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29tPgo+ICtM
+OglsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZwo+ICtTOglNYWludGFpbmVkCj4gK0Y6CWRyaXZl
+cnMvZWRhYy9pMTBubV9iYXNlLmMKPiArCj4gIEVEQUMtSTMwMDAKPiAgTDoJbGludXgtZWRhY0B2
+Z2VyLmtlcm5lbC5vcmcKPiAgUzoJT3JwaGFuCj4gLS0gCgpBbGwgMyBhcHBsaWVkLAp0aGFua3Mu
+Cg==
