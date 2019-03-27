@@ -2,35 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,2/2] x86/MCE/AMD: Don't report L1 BTB MCA errors on some Family 17h models
-From: Thomas Gleixner <tglx@linutronix.de>
-Message-Id: <alpine.DEB.2.21.1903272019190.1789@nanos.tec.linutronix.de>
-Date: Wed, 27 Mar 2019 20:19:57 +0100 (CET)
-To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "bp@suse.de" <bp@suse.de>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>, "rafal@milecki.pl" <rafal@milecki.pl>, "clemej@gmail.com" <clemej@gmail.com>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20190327192940.GJ32571@zn.tnic>
+Date: Wed, 27 Mar 2019 20:29:40 +0100
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "bp@suse.de" <bp@suse.de>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>, "rafal@milecki.pl" <rafal@milecki.pl>, "clemej@gmail.com" <clemej@gmail.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCAyNSBNYXIgMjAxOSwgR2hhbm5hbSwgWWF6ZW4gd3JvdGU6Cgo+IEZyb206IFlhemVu
-IEdoYW5uYW0gPHlhemVuLmdoYW5uYW1AYW1kLmNvbT4KPiAKPiBBTUQgRmFtaWx5IDE3aCBNb2Rl
-bHMgMTBoLTJGaCBtYXkgcmVwb3J0IGEgaGlnaCBudW1iZXIgb2YgTDEgQlRCIE1DQQo+IGVycm9y
-cyB1bmRlciBjZXJ0YWluIGNvbmRpdGlvbnMuIFRoZSBlcnJvcnMgYXJlIGJlbmlnbiBhbmQgY2Fu
-IHNhZmVseSBiZQo+IGlnbm9yZWQuIEhvd2V2ZXIsIHRoZSBoaWdoIGVycm9yIHJhdGUgbWF5IGNh
-dXNlIHRoZSBNQ0EgdGhyZXNob2xkCj4gY291bnRlciB0byBvdmVyZmxvdyBjYXVzaW5nIGEgaGln
-aCByYXRlIG9mIHRocmVzaG9sZGluZyBpbnRlcnJ1cHRzLiBJbgo+IGFkZGl0aW9uLCB1c2VycyBt
-YXkgc2VlIHRoZSBlcnJvcnMgcmVwb3J0ZWQgdGhyb3VnaCB0aGUgQU1EIE1DRSBkZWNvZGVyCj4g
-bW9kdWxlLCBldmVuIHdpdGggdGhlIGludGVycnVwdCBkaXNhYmxlZCwgZHVlIHRvIE1DQSBwb2xs
-aW5nLgo+IAo+IFRoaXMgZXJyb3IgaXMgcmVwb3J0ZWQgdGhyb3VnaCB0aGUgSW5zdHJ1Y3Rpb24g
-RmV0Y2ggYmFuay4KPiAKPiBDbGVhciB0aGUgIkNvdW50ZXIgUHJlc2VudCIgYml0IGluIHRoZSBJ
-bnN0cnVjdGlvbiBGZXRjaCBiYW5rJ3MKPiBNQ0FfTUlTQzAgcmVnaXN0ZXIuIFRoaXMgd2lsbCBw
-cmV2ZW50IGVuYWJsaW5nIE1DQSB0aHJlc2hvbGRpbmcgb24gdGhpcwo+IGJhbmsgd2hpY2ggd2ls
-bCBwcmV2ZW50IHRoZSBoaWdoIGludGVycnVwdCByYXRlIGR1ZSB0byB0aGlzIGVycm9yLgo+IAo+
-IERlZmluZSBhbiBBTUQtc3BlY2lmaWMgZnVuY3Rpb24gdG8gZmlsdGVyIHRoZXNlIGVycm9ycyBm
-cm9tIHRoZSBNQ0UKPiBldmVudCBwb29sLgo+IAo+IFJlbmFtZSBmaWx0ZXIgZnVuY3Rpb24gaW4g
-RURBQy9tY2VfYW1kIHRvIGF2b2lkIGEgbmFtaW5nIGNvbmZsaWN0Lgo+IAo+IENjOiA8c3RhYmxl
-QHZnZXIua2VybmVsLm9yZz4gIyA1LjAueDogYzk1YjMyM2RjZDM1OiB4ODYvTUNFL0FNRDogVHVy
-biBvZmYgTUM0X01JU0MgdGhyZXNob2xkaW5nIG9uIGFsbCBmYW1pbHkgMHgxNSBtb2RlbHMKCldo
-YXQgaXMgdGhpcyBzdXBwb3NlZCB0byB0ZWxsIHVzPwoKPiBDYzogPHN0YWJsZUB2Z2VyLmtlcm5l
-bC5vcmc+ICMgNS4wLng6IDMwYWEzZDI2ZWRiMDogeDg2L01DRS9BTUQ6IENhcnZlIG91dCB0aGUg
-TUM0X01JU0MgdGhyZXNob2xkaW5nIHF1aXJrCj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3Jn
-PiAjIDUuMC54OiA5MzA4ZmQ0MDc0NTU6IHg4Ni9NQ0U6IEdyb3VwIEFNRCBmdW5jdGlvbiBwcm90
-b3R5cGVzIGluIDxhc20vbWNlLmg+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIDUu
-MC54CgpDb25mdXNlZC4KClRoYW5rcywKCgl0Z2x4Cg==
+T24gV2VkLCBNYXIgMjcsIDIwMTkgYXQgMDg6MTk6NTdQTSArMDEwMCwgVGhvbWFzIEdsZWl4bmVy
+IHdyb3RlOgo+ID4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIDUuMC54OiBjOTViMzIz
+ZGNkMzU6IHg4Ni9NQ0UvQU1EOiBUdXJuIG9mZiBNQzRfTUlTQyB0aHJlc2hvbGRpbmcgb24gYWxs
+IGZhbWlseSAweDE1IG1vZGVscwo+IAo+IFdoYXQgaXMgdGhpcyBzdXBwb3NlZCB0byB0ZWxsIHVz
+PwoKVGhhdCdzIHN0YWJsZSBzcGVhayBmcm9tIERvY3VtZW50YXRpb24vcHJvY2Vzcy9zdGFibGUt
+a2VybmVsLXJ1bGVzLnJzdApmb3IgcGF0Y2ggcHJlcmVxdWlzaXRlczoKCiJBZGRpdGlvbmFsbHks
+IHNvbWUgcGF0Y2hlcyBzdWJtaXR0ZWQgdmlhIDpyZWY6YG9wdGlvbl8xYCBtYXkgaGF2ZSBhZGRp
+dGlvbmFsCnBhdGNoIHByZXJlcXVpc2l0ZXMgd2hpY2ggY2FuIGJlIGNoZXJyeS1waWNrZWQuIFRo
+aXMgY2FuIGJlIHNwZWNpZmllZCBpbiB0aGUKZm9sbG93aW5nIGZvcm1hdCBpbiB0aGUgc2lnbi1v
+ZmYgYXJlYToKCi4uIGNvZGUtYmxvY2s6OiBub25lCgogICAgIENjOiA8c3RhYmxlQHZnZXIua2Vy
+bmVsLm9yZz4gIyAzLjMueDogYTFmODRhMzogc2NoZWQ6IENoZWNrIGZvciBpZGxlCiAgICAgQ2M6
+IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIDMuMy54OiAxYjk1MDhmOiBzY2hlZDogUmF0ZS1s
+aW1pdCBuZXdpZGxlCiAgICAgQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIDMuMy54OiBm
+ZDIxMDczOiBzY2hlZDogRml4IGFmZmluaXR5IGxvZ2ljCiAgICAgQ2M6IDxzdGFibGVAdmdlci5r
+ZXJuZWwub3JnPiAjIDMuMy54CiAgICAgU2lnbmVkLW9mZi1ieTogSW5nbyBNb2xuYXIgPG1pbmdv
+QGVsdGUuaHU+Igo=
