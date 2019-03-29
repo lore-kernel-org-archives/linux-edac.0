@@ -1,16 +1,36 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,1/2] x86/MCE: Add function to allow filtering of MCA errors
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190326154719.GL1867@zn.tnic>
-Date: Tue, 26 Mar 2019 16:47:19 +0100
-To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>, "x86@kernel.org" <x86@kernel.org>, "rafal@milecki.pl" <rafal@milecki.pl>, "clemej@gmail.com" <clemej@gmail.com>
+Subject: [1/2] firmware: Intel: Add Stratix10 ECC DBE SMC call
+From: thor.thayer@linux.intel.com
+Message-Id: <1553870639-23895-1-git-send-email-thor.thayer@linux.intel.com>
+Date: Fri, 29 Mar 2019 09:43:58 -0500
+To: bp@alien8.de, mchehab@kernel.org, james.morse@arm.com, atull@kernel.org, richard.gong@intel.com, gregkh@linuxfoundation.org
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Thor Thayer <thor.thayer@linux.intel.com>
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBNYXIgMjYsIDIwMTkgYXQgMTE6NDE6MDVBTSArMDAwMCwgR2hhbm5hbSwgWWF6ZW4g
-d3JvdGU6Cj4gVGhleSBkb24ndCBhcHBseSBjbGVhbmx5IHRvIHY0LjE0IGFueW1vcmUgYmVjYXVz
-ZSBvZiB0aGUgcmVjZW50IGhlYWRlciBjaGFuZ2UuCj4gCj4gSSBmaWd1cmVkIHRoZXkgd291bGQg
-bmVlZCB0byBiZSBmaXhlZCB1cCBhbmQgc3VibWl0dGVkIHNlcGFyYXRlbHkgdG8gb2xkZXIgc3Rh
-YmxlCj4gdmVyc2lvbnMuIElzIHRoYXQgb2theT8KCkFoIHllcywgcmlnaHQuCgpUaHguCg==
+RnJvbTogVGhvciBUaGF5ZXIgPHRob3IudGhheWVyQGxpbnV4LmludGVsLmNvbT4KClJlc2VydmUg
+RUNDIERvdWJsZSBCaXQgRXJyb3IgU01DIGNhbGwgdG8gYWxlcnQgVS1Cb290IHRoYXQKYSBEQkUg
+aGFzIG9jY3VycmVkLiBNb3ZpbmcgdGhlIGNhbGwgZnJvbSBsb2NhbCBFREFDIGhlYWRlcgpmaWxl
+IHRvIHRoaXMgY29tbW9uIGZpbGUuCgpSZXZpZXdlZC1ieTogUmljaGFyZCBHb25nIDxyaWNoYXJk
+LmdvbmdAaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogQWxhbiBUdWxsIDxhdHVsbEBrZXJuZWwub3Jn
+PgpTaWduZWQtb2ZmLWJ5OiBUaG9yIFRoYXllciA8dGhvci50aGF5ZXJAbGludXguaW50ZWwuY29t
+PgotLS0KIGluY2x1ZGUvbGludXgvZmlybXdhcmUvaW50ZWwvc3RyYXRpeDEwLXNtYy5oIHwgMTkg
+KysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKykKCmRp
+ZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2Zpcm13YXJlL2ludGVsL3N0cmF0aXgxMC1zbWMuaCBi
+L2luY2x1ZGUvbGludXgvZmlybXdhcmUvaW50ZWwvc3RyYXRpeDEwLXNtYy5oCmluZGV4IDViZTVk
+YWI1MGIxMy4uMDE2ODRkOTM1NTgwIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2Zpcm13YXJl
+L2ludGVsL3N0cmF0aXgxMC1zbWMuaAorKysgYi9pbmNsdWRlL2xpbnV4L2Zpcm13YXJlL2ludGVs
+L3N0cmF0aXgxMC1zbWMuaApAQCAtMzA5LDQgKzMwOSwyMyBAQCBJTlRFTF9TSVBfU01DX0ZBU1Rf
+Q0FMTF9WQUwoSU5URUxfU0lQX1NNQ19GVU5DSURfRlBHQV9DT05GSUdfQ09NUExFVEVEX1dSSVRF
+KQogI2RlZmluZSBJTlRFTF9TSVBfU01DX0ZVTkNJRF9SU1VfVVBEQVRFIDEyCiAjZGVmaW5lIElO
+VEVMX1NJUF9TTUNfUlNVX1VQREFURSBcCiAJSU5URUxfU0lQX1NNQ19GQVNUX0NBTExfVkFMKElO
+VEVMX1NJUF9TTUNfRlVOQ0lEX1JTVV9VUERBVEUpCisKKy8qCisgKiBSZXF1ZXN0IElOVEVMX1NJ
+UF9TTUNfRUNDX0RCRQorICoKKyAqIFN5bmMgY2FsbCB1c2VkIGJ5IHNlcnZpY2UgZHJpdmVyIGF0
+IEVMMSB0byBhbGVydCBFTDMgdGhhdCBhIERvdWJsZQorICogQml0IEVDQyBlcnJvciBoYXMgb2Nj
+dXJyZWQuCisgKgorICogQ2FsbCByZWdpc3RlciB1c2FnZToKKyAqIGEwIElOVEVMX1NJUF9TTUNf
+RUNDX0RCRQorICogYTEgU3lzTWFuYWdlciBEb3VibGUgQml0IEVycm9yIHZhbHVlCisgKiBhMi03
+IG5vdCB1c2VkCisgKgorICogUmV0dXJuIHN0YXR1cworICogYTAgSU5URUxfU0lQX1NNQ19TVEFU
+VVNfT0sKKyAqLworI2RlZmluZSBJTlRFTF9TSVBfU01DX0ZVTkNJRF9FQ0NfREJFIDEzCisjZGVm
+aW5lIElOVEVMX1NJUF9TTUNfRUNDX0RCRSBcCisJSU5URUxfU0lQX1NNQ19GQVNUX0NBTExfVkFM
+KElOVEVMX1NJUF9TTUNfRlVOQ0lEX0VDQ19EQkUpCisKICNlbmRpZgo=
