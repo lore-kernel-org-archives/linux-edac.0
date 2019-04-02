@@ -2,22 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] firmware: Intel: Add Stratix10 ECC DBE SMC call
-From: thor.thayer@linux.intel.com
-Message-Id: <b250c876-11d8-5558-9650-d75061d67919@linux.intel.com>
-Date: Tue, 2 Apr 2019 08:34:18 -0500
-To: Borislav Petkov <bp@alien8.de>
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20190402154443.GI6826@zn.tnic>
+Date: Tue, 2 Apr 2019 17:44:43 +0200
+To: Thor Thayer <thor.thayer@linux.intel.com>
 Cc: mchehab@kernel.org, james.morse@arm.com, atull@kernel.org, richard.gong@intel.com, gregkh@linuxfoundation.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gNC8yLzE5IDM6NTUgQU0sIEJvcmlzbGF2IFBldGtvdiB3cm90ZToKPiBPbiBGcmksIE1hciAy
-OSwgMjAxOSBhdCAwOTo0Mzo1OEFNIC0wNTAwLCB0aG9yLnRoYXllckBsaW51eC5pbnRlbC5jb20g
-d3JvdGU6Cj4+IEZyb206IFRob3IgVGhheWVyIDx0aG9yLnRoYXllckBsaW51eC5pbnRlbC5jb20+
-Cj4+Cj4+IFJlc2VydmUgRUNDIERvdWJsZSBCaXQgRXJyb3IgU01DIGNhbGwgdG8gYWxlcnQgVS1C
-b290IHRoYXQKPj4gYSBEQkUgaGFzIG9jY3VycmVkLiBNb3ZpbmcgdGhlIGNhbGwgZnJvbSBsb2Nh
-bCBFREFDIGhlYWRlcgo+PiBmaWxlIHRvIHRoaXMgY29tbW9uIGZpbGUuCj4gCj4gSXMgdGhlcmUg
-YW55IHBhcnRpY3VsYXIgcmVhc29uIHRoaXMgbmVlZHMgdG8gYmUgdHdvIHBhdGNoZXMgb3IgY2Fu
-IEkKPiBtZXJnZSB0aGVtIGludG8gb25lPwo+IAoKWWVzLCB0aGV5IGNhbiBiZSBtZXJnZWQgaW50
-byBvbmUuIEkgc3BsaXQgaW50byAyIHBhdGNoZXMgc2luY2UgdGhlIDFzdCAKcmVxdWlyZWQgdGhl
-IGZpcm13YXJlIGRpcmVjdG9yeSBzaWduLW9mZiBhbmQgdGhlIDJuZCByZXF1aXJlZCB5b3VyIEVE
-QUMgCnNpZ24tb2ZmLiBJIHNlZSB5b3VyIHBvaW50LCBpdCBjb3VsZCBoYXZlIGJlZW4gMSBwYXRj
-aC4KClRoYW5rcyBmb3IgcmV2aWV3aW5nLAoKVGhvcgo=
+T24gVHVlLCBBcHIgMDIsIDIwMTkgYXQgMDg6MzQ6MThBTSAtMDUwMCwgVGhvciBUaGF5ZXIgd3Jv
+dGU6Cj4gWWVzLCB0aGV5IGNhbiBiZSBtZXJnZWQgaW50byBvbmUuIEkgc3BsaXQgaW50byAyIHBh
+dGNoZXMgc2luY2UgdGhlIDFzdAo+IHJlcXVpcmVkIHRoZSBmaXJtd2FyZSBkaXJlY3Rvcnkgc2ln
+bi1vZmYgYW5kIHRoZSAybmQgcmVxdWlyZWQgeW91ciBFREFDCj4gc2lnbi1vZmYuIEkgc2VlIHlv
+dXIgcG9pbnQsIGl0IGNvdWxkIGhhdmUgYmVlbiAxIHBhdGNoLgoKT2ssIG1lcmdlZCBhbmQgYXBw
+bGllZC4KClRoeC4K
