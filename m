@@ -2,17 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] firmware: Intel: Add Stratix10 ECC DBE SMC call
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190402085529.GC6826@zn.tnic>
-Date: Tue, 2 Apr 2019 10:55:30 +0200
-To: thor.thayer@linux.intel.com
+From: thor.thayer@linux.intel.com
+Message-Id: <b250c876-11d8-5558-9650-d75061d67919@linux.intel.com>
+Date: Tue, 2 Apr 2019 08:34:18 -0500
+To: Borislav Petkov <bp@alien8.de>
 Cc: mchehab@kernel.org, james.morse@arm.com, atull@kernel.org, richard.gong@intel.com, gregkh@linuxfoundation.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gRnJpLCBNYXIgMjksIDIwMTkgYXQgMDk6NDM6NThBTSAtMDUwMCwgdGhvci50aGF5ZXJAbGlu
-dXguaW50ZWwuY29tIHdyb3RlOgo+IEZyb206IFRob3IgVGhheWVyIDx0aG9yLnRoYXllckBsaW51
-eC5pbnRlbC5jb20+Cj4gCj4gUmVzZXJ2ZSBFQ0MgRG91YmxlIEJpdCBFcnJvciBTTUMgY2FsbCB0
-byBhbGVydCBVLUJvb3QgdGhhdAo+IGEgREJFIGhhcyBvY2N1cnJlZC4gTW92aW5nIHRoZSBjYWxs
-IGZyb20gbG9jYWwgRURBQyBoZWFkZXIKPiBmaWxlIHRvIHRoaXMgY29tbW9uIGZpbGUuCgpJcyB0
-aGVyZSBhbnkgcGFydGljdWxhciByZWFzb24gdGhpcyBuZWVkcyB0byBiZSB0d28gcGF0Y2hlcyBv
-ciBjYW4gSQptZXJnZSB0aGVtIGludG8gb25lPwo=
+T24gNC8yLzE5IDM6NTUgQU0sIEJvcmlzbGF2IFBldGtvdiB3cm90ZToKPiBPbiBGcmksIE1hciAy
+OSwgMjAxOSBhdCAwOTo0Mzo1OEFNIC0wNTAwLCB0aG9yLnRoYXllckBsaW51eC5pbnRlbC5jb20g
+d3JvdGU6Cj4+IEZyb206IFRob3IgVGhheWVyIDx0aG9yLnRoYXllckBsaW51eC5pbnRlbC5jb20+
+Cj4+Cj4+IFJlc2VydmUgRUNDIERvdWJsZSBCaXQgRXJyb3IgU01DIGNhbGwgdG8gYWxlcnQgVS1C
+b290IHRoYXQKPj4gYSBEQkUgaGFzIG9jY3VycmVkLiBNb3ZpbmcgdGhlIGNhbGwgZnJvbSBsb2Nh
+bCBFREFDIGhlYWRlcgo+PiBmaWxlIHRvIHRoaXMgY29tbW9uIGZpbGUuCj4gCj4gSXMgdGhlcmUg
+YW55IHBhcnRpY3VsYXIgcmVhc29uIHRoaXMgbmVlZHMgdG8gYmUgdHdvIHBhdGNoZXMgb3IgY2Fu
+IEkKPiBtZXJnZSB0aGVtIGludG8gb25lPwo+IAoKWWVzLCB0aGV5IGNhbiBiZSBtZXJnZWQgaW50
+byBvbmUuIEkgc3BsaXQgaW50byAyIHBhdGNoZXMgc2luY2UgdGhlIDFzdCAKcmVxdWlyZWQgdGhl
+IGZpcm13YXJlIGRpcmVjdG9yeSBzaWduLW9mZiBhbmQgdGhlIDJuZCByZXF1aXJlZCB5b3VyIEVE
+QUMgCnNpZ24tb2ZmLiBJIHNlZSB5b3VyIHBvaW50LCBpdCBjb3VsZCBoYXZlIGJlZW4gMSBwYXRj
+aC4KClRoYW5rcyBmb3IgcmV2aWV3aW5nLAoKVGhvcgo=
