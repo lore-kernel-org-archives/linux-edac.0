@@ -1,22 +1,18 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: EDAC: i10nm, skx: fix randconfig builds
-From: Arnd Bergmann <arnd@arndb.de>
-Message-Id: <CAK8P3a2kSrTkTespcBGr6oYi8nvriS9pwtM2nQ7gCxVB+TzLog@mail.gmail.com>
-Date: Wed, 6 Mar 2019 14:48:29 +0100
-To: Borislav Petkov <bp@alien8.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, James Morse <james.morse@arm.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: [1/2] firmware: Intel: Add Stratix10 ECC DBE SMC call
+From: Borislav Petkov <bp@alien8.de>
+Message-Id: <20190402085529.GC6826@zn.tnic>
+Date: Tue, 2 Apr 2019 10:55:30 +0200
+To: thor.thayer@linux.intel.com
+Cc: mchehab@kernel.org, james.morse@arm.com, atull@kernel.org, richard.gong@intel.com, gregkh@linuxfoundation.org, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <edac.vger.kernel.org>
 
-T24gVHVlLCBNYXIgNSwgMjAxOSBhdCAzOjM0IFBNIEJvcmlzbGF2IFBldGtvdiA8YnBAYWxpZW44
-LmRlPiB3cm90ZToKPgo+IE9uIFR1ZSwgTWFyIDA1LCAyMDE5IGF0IDAyOjIxOjMwUE0gKzAxMDAs
-IEFybmQgQmVyZ21hbm4gd3JvdGU6Cj4gPiBJbiBhIGNvbmZpZ3VyYXRpb24gd2hlcmUgb25lIG9m
-IHRoZSB0d28gZHJpdmVycyBpcyBidWlsdC1pbiBhbmQgdGhlCj4gPiBvdGhlciBvbmUgaXMgYSBt
-b2R1bGUsIGtidWlsZCB0cmllcyB0byBhZGQgdGhlIG1vZHVsYXIgZmlsZSBpbnRvCj4gPiB2bWxp
-bnV4LCBhbmQgZmFpbHMgd2l0aAo+Cj4gVGhlcmUgbXVzdCBiZSBzb21ldGhpbmcgbW9yZSB0byB0
-aGF0IC5jb25maWcgb2YgeW91cnMgYmVjYXVzZSBib3RoCj4KPiBDT05GSUdfRURBQ19TS1g9bQo+
-IENPTkZJR19FREFDX0kxME5NPXkKPgo+IGFuZAo+Cj4gQ09ORklHX0VEQUNfU0tYPXkKPiBDT05G
-SUdfRURBQ19JMTBOTT1tCj4KPiB3b3JrIG9rIGhlcmUuLi4KClF1aXRlIHBvc3NpYmxlLCBoZXJl
-IGlzIHRoZSBmaWxsIC5jb25maWcgZmlsZSB0aGF0IEkgdXNlZCBhcyBhdHRhY2htZW50CgogICAg
-ICBBcm5kCg==
+T24gRnJpLCBNYXIgMjksIDIwMTkgYXQgMDk6NDM6NThBTSAtMDUwMCwgdGhvci50aGF5ZXJAbGlu
+dXguaW50ZWwuY29tIHdyb3RlOgo+IEZyb206IFRob3IgVGhheWVyIDx0aG9yLnRoYXllckBsaW51
+eC5pbnRlbC5jb20+Cj4gCj4gUmVzZXJ2ZSBFQ0MgRG91YmxlIEJpdCBFcnJvciBTTUMgY2FsbCB0
+byBhbGVydCBVLUJvb3QgdGhhdAo+IGEgREJFIGhhcyBvY2N1cnJlZC4gTW92aW5nIHRoZSBjYWxs
+IGZyb20gbG9jYWwgRURBQyBoZWFkZXIKPiBmaWxlIHRvIHRoaXMgY29tbW9uIGZpbGUuCgpJcyB0
+aGVyZSBhbnkgcGFydGljdWxhciByZWFzb24gdGhpcyBuZWVkcyB0byBiZSB0d28gcGF0Y2hlcyBv
+ciBjYW4gSQptZXJnZSB0aGVtIGludG8gb25lPwo=
