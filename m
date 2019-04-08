@@ -2,116 +2,200 @@ Return-Path: <SRS0=ZRbZ=SK=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1BD4C10F13
-	for <linux-edac@archiver.kernel.org>; Mon,  8 Apr 2019 14:12:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A62C10F14
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Apr 2019 17:51:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 968AD218E2
-	for <linux-edac@archiver.kernel.org>; Mon,  8 Apr 2019 14:12:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D04C217F4
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Apr 2019 17:51:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="oVj5iY6T"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="GZLdhslm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726575AbfDHOMr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 8 Apr 2019 10:12:47 -0400
-Received: from mail-eopbgr820047.outbound.protection.outlook.com ([40.107.82.47]:49695
-        "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726636AbfDHOMV (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 8 Apr 2019 10:12:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FvkEVfrnTBBRrMeK8iTmuhpGdkqkJRK5MKrLlOAyBNQ=;
- b=oVj5iY6T64XgAZy45JOw5Oc4ngg4nvCyl9wMc5LBxkz0PWeuiMHDaxDK3XTaSJtI/OpYYwvI9CoATcSWKgZTG3IVWs9ww1GHEre/ujusEIZHrqVf9UgqtqraRijnAl2lx08KC16vsd6hQltX3G145L0gOPgDtYvvy7VUck99Q/8=
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
- SN6PR12MB2781.namprd12.prod.outlook.com (52.135.107.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1771.19; Mon, 8 Apr 2019 14:12:15 +0000
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::9c51:41bf:f88e:f3e8]) by SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::9c51:41bf:f88e:f3e8%2]) with mapi id 15.20.1771.016; Mon, 8 Apr 2019
- 14:12:15 +0000
-From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
+        id S1726373AbfDHRvw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 8 Apr 2019 13:51:52 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:44610 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729307AbfDHRvv (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 8 Apr 2019 13:51:51 -0400
+Received: from zn.tnic (p200300EC2F07270000CFE9C28C8FA671.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:2700:cf:e9c2:8c8f:a671])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8105E1EC082D;
+        Mon,  8 Apr 2019 19:51:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1554745909;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GBTty3sKkWiOiGKI1Pwh07W4vTuREULqwVTX/qLAFNs=;
+        b=GZLdhslmG/EwfVXWSByznKpmj79wjB4Ge/p2lMEBm2OaGQUpGOMgYF5xMuo4RKWD85Cp4B
+        6Fh5fI4ux7m4IvGqm0DwUhBvEaV0hV72h3ArLqwUJUkDE+zovhQPaHAq9t6ika/RdLyu1i
+        FCAcYoaBeTr73OBnFPR7KoXIVCNAiAE=
+Date:   Mon, 8 Apr 2019 19:51:42 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+Cc:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bp@suse.de" <bp@suse.de>,
         "tony.luck@intel.com" <tony.luck@intel.com>,
         "x86@kernel.org" <x86@kernel.org>
-Subject: [PATCH RESEND 0/5]  Handle MCA banks in a per_cpu way
-Thread-Topic: [PATCH RESEND 0/5]  Handle MCA banks in a per_cpu way
-Thread-Index: AQHU7hURS9iA2sGXSkWDm4WK34P/UA==
-Date:   Mon, 8 Apr 2019 14:12:15 +0000
-Message-ID: <20190408141205.12376-1-Yazen.Ghannam@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN2PR01CA0025.prod.exchangelabs.com (2603:10b6:804:2::35)
- To SN6PR12MB2639.namprd12.prod.outlook.com (2603:10b6:805:6f::16)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Yazen.Ghannam@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c61a07de-2c61-4d87-5275-08d6bc2c33a1
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600139)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:SN6PR12MB2781;
-x-ms-traffictypediagnostic: SN6PR12MB2781:
-x-microsoft-antispam-prvs: <SN6PR12MB2781B9ED9E9AFD96F23CBFC9F82C0@SN6PR12MB2781.namprd12.prod.outlook.com>
-x-forefront-prvs: 0001227049
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(396003)(346002)(376002)(39860400002)(136003)(199004)(189003)(51444003)(52116002)(25786009)(478600001)(4326008)(6512007)(2501003)(5640700003)(14454004)(53936002)(97736004)(71200400001)(71190400001)(256004)(50226002)(6486002)(72206003)(6436002)(8936002)(106356001)(105586002)(2351001)(81166006)(1076003)(186003)(81156014)(6916009)(8676002)(6506007)(102836004)(15650500001)(66066001)(5660300002)(386003)(486006)(26005)(68736007)(36756003)(2616005)(7736002)(3846002)(6116002)(316002)(305945005)(99286004)(86362001)(476003)(2906002)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2781;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: qXuxdzc5SWqWtdhSsiipEpYK0bheaQJChxMRjP6UWFeusMWZhltZgzb0xj3MSQPNH+DBTac7GxXc+xRxDBrDKF/gNaB/hvZKQLNJYaDorPDD4TGu95u0nDBdg5pVk8MnlHSV9bwqSyied8+xAb+fweIrB9JXk3TXlnvyCXCCHCigftUf1a1ZJE+6kDQpqXh/dGoVB5SGGcF367Hmgn0hKkDPTPZaLBehpwr6RLQHyC+iQW8oEG0InSrDdpP83BkMRs3/EPSs0r8Bn+CsUuBoBab1f5fjGvP+36Ghmp4CeWT0hjGqeYZw1ajmORwH8ijon2+GJigo4efhR+0KnL3X/bJOFFO06g0Howb85kB4hpp60WHwLIHXICTWK5IZKKNP91dli7mh9+McCwv3oOpkfUVJLR95q1aHcl78qg5WPKc=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Subject: Re: [PATCH RESEND 2/5] x86/MCE: Handle MCA controls in a per_cpu way
+Message-ID: <20190408175142.GK15689@zn.tnic>
+References: <20190408141205.12376-1-Yazen.Ghannam@amd.com>
+ <20190408141205.12376-3-Yazen.Ghannam@amd.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c61a07de-2c61-4d87-5275-08d6bc2c33a1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2019 14:12:15.3429
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2781
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190408141205.12376-3-Yazen.Ghannam@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
+Message-ID: <20190408175142.Z9wlkL7rHHmegDq27yT5cQn4RaP5FehUymPbaCSwDfs@z>
 
-RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPg0KDQpUaGUgZm9jdXMg
-b2YgdGhpcyBwYXRjaHNldCBpcyBkZWZpbmUgYW5kIHVzZSB0aGUgTUNBIGJhbmsgc3RydWN0dXJl
-cw0KYW5kIGJhbmsgY291bnQgcGVyIGxvZ2ljYWwgQ1BVLg0KDQpXaXRoIHRoZSBleGNlcHRpb24g
-b2YgcGF0Y2ggNCwgdGhpcyBzZXQgYXBwbGllcyB0byBzeXN0ZW1zIGluIHByb2R1Y3Rpb24NCnRv
-ZGF5Lg0KDQpQYXRjaCAxOg0KTW92ZXMgdGhlIGRlY2xhcmF0aW9uIG9mIHN0cnVjdCBtY2VfYmFu
-a3NbXSB0byB0aGUgb25seSBmaWxlIGl0J3MgdXNlZC4NCg0KUGF0Y2ggMjoNClNwbGl0cyBzdHJ1
-Y3QgbWNlX2JhbmsgaW50byBhIHN0cnVjdHVyZSBmb3IgZmllbGRzIGNvbW1vbiB0byBNQ0EgYmFu
-a3MNCm9uIGFsbCBDUFVzIGFuZCBhbm90aGVyIHN0cnVjdHVyZSB0aGF0IGNhbiBiZSB1c2VkIHBl
-cl9jcHUuDQoNClBhdGNoIDM6DQpCcmluZ3MgZnVsbCBjaXJjbGUgdGhlIHNhZ2Egb2YgdGhlIHRo
-cmVzaG9sZCBibG9jayBhZGRyZXNzZXMgb24gU01DQQ0Kc3lzdGVtcy4gQWZ0ZXIgdGFraW5nIGEg
-c3RlcCBiYWNrIGFuZCByZXZpZXdpbmcgdGhlIEFNRCBkb2N1bWVudGF0aW9uLCBJDQp0aGluayB0
-aGF0IHRoaXMgaW1wbGltZW50YXRpb24gaXMgdGhlIHNpbXBsZXN0IGFuZCBtb3JlIHJvYnVzdCB3
-YXkgdG8NCmZvbGxvdyB0aGUgc3BlYy4NCg0KUGF0Y2ggNDoNClNhdmVzIGFuZCB1c2VzIHRoZSBN
-Q0EgYmFuayBjb3VudCBhcyBhIHBlcl9jcHUgdmFyaWFibGUuIFRoaXMgaXMgdG8NCnN1cHBvcnQg
-c3lzdGVtcyB0aGF0IGhhdmUgTUNBIGJhbmsgY291bnRzIHRoYXQgYXJlIGRpZmZlcmVudCBiZXR3
-ZWVuDQpsb2dpY2FsIENQVXMuDQoNClBhdGNoIDU6DQpNYWtlcyBzdXJlIHRoYXQgc3lzZnMgcmVw
-b3J0cyB0aGUgTUNBX0NUTCB2YWx1ZSBhcyBzZXQgaW4gaGFyZHdhcmUuIFRoaXMNCmlzIG5vdCBz
-b21ldGhpbmcgcmVsYXRlZCB0byBtYWtpbmcgdGhpbmdzIHBlcl9jcHUgYnV0IHJhdGhlciBqdXN0
-DQpzb21ldGhpbmcgSSBub3RpY2VkIHdoaWxlIHdvcmtpbmcgb24gdGhlIG90aGVyIHBhdGNoZXMu
-DQoNClRoYW5rcywNCllhemVuDQoNCllhemVuIEdoYW5uYW0gKDUpOg0KICB4ODYvTUNFOiBNYWtl
-IHN0cnVjdCBtY2VfYmFua3NbXSBzdGF0aWMNCiAgeDg2L01DRTogSGFuZGxlIE1DQSBjb250cm9s
-cyBpbiBhIHBlcl9jcHUgd2F5DQogIHg4Ni9NQ0UvQU1EOiBEb24ndCBjYWNoZSBibG9jayBhZGRy
-ZXNzZXMgb24gU01DQSBzeXN0ZW1zDQogIHg4Ni9NQ0U6IE1ha2UgbnVtYmVyIG9mIE1DQSBiYW5r
-cyBwZXJfY3B1DQogIHg4Ni9NQ0U6IFNhdmUgTUNBIGNvbnRyb2wgYml0cyB0aGF0IGdldCBzZXQg
-aW4gaGFyZHdhcmUNCg0KIGFyY2gveDg2L2tlcm5lbC9jcHUvbWNlL2FtZC5jICAgICAgfCAgODcg
-KysrKysrKysrLS0tLS0tLS0tDQogYXJjaC94ODYva2VybmVsL2NwdS9tY2UvY29yZS5jICAgICB8
-IDEzOCArKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLQ0KIGFyY2gveDg2L2tlcm5lbC9jcHUv
-bWNlL2luamVjdC5jICAgfCAgIDcgKy0NCiBhcmNoL3g4Ni9rZXJuZWwvY3B1L21jZS9pbnRlcm5h
-bC5oIHwgIDEyICstLQ0KIDQgZmlsZXMgY2hhbmdlZCwgMTM3IGluc2VydGlvbnMoKyksIDEwNyBk
-ZWxldGlvbnMoLSkNCg0KLS0gDQoyLjE3LjENCg0K
+On Mon, Apr 08, 2019 at 02:12:16PM +0000, Ghannam, Yazen wrote:
+> From: Yazen Ghannam <yazen.ghannam@amd.com>
+> 
+> Current AMD systems have unique MCA banks per logical CPU even though
+> the type of the banks may all align to the same bank number. Each CPU
+> will have control of a set of MCA banks in the hardware and these are
+> not shared with other CPUs.
+> 
+> For example, bank 0 may be the Load-Store Unit on every logical CPU, but
+> each bank 0 is a unique structure in the hardware. In other words, there
+> isn't a *single* Load-Store Unit at MCA bank 0 that all logical CPUs
+> share.
+> 
+> This idea extends even to non-core MCA banks. For example, CPU0 and CPU4
+> may see a Unified Memory Controller at bank 15, but each CPU is actually
+> seeing a unique hardware structure that is not shared with other CPUs.
+> 
+> Because the MCA banks are all unique hardware structures, it would be
+> good to control them in a more granular way. For example, if there is a
+> known issue with the Floating Point Unit on CPU5 and a user wishes to
+> disable an error type on the Floating Point Unit, then it would be good
+> to do this only for CPU5 rather than all CPUs.
+> 
+> Also, future AMD systems may have heterogeneous MCA banks. Meaning the
+> bank numbers may not necessarily represent the same types between CPUs.
+> For example, bank 20 visible to CPU0 may be a Unified Memory Controller
+> and bank 20 visible to CPU4 may be a Coherent Slave. So granular control
+> will be even more necessary should the user wish to control specific MCA
+> banks.
+> 
+> Split the device attributes from struct mce_bank leaving only the MCA
+> bank control fields.
+> 
+> Make struct mce_banks[] per_cpu in order to have more granular control
+> over individual MCA banks in the hardware.
+> 
+> Allocate the device attributes statically based on the maximum number of
+> MCA banks supported. The sysfs interface will use as many as needed per
+> CPU. Currently, this is set to mca_cfg.banks, but will be changed to a
+> per_cpu bank count in a future patch.
+> 
+> Allocate the MCA control bits dynamically. Use the maximum number of MCA
+> banks supported for now. This will be changed to a per_cpu bank count in
+> a future patch.
+> 
+> Redo the sysfs store/show functions to handle the per_cpu mce_banks[].
+> 
+> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> ---
+>  arch/x86/kernel/cpu/mce/core.c | 77 ++++++++++++++++++++++------------
+>  1 file changed, 51 insertions(+), 26 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+> index 8d0d1e8425db..14583c5c6e12 100644
+> --- a/arch/x86/kernel/cpu/mce/core.c
+> +++ b/arch/x86/kernel/cpu/mce/core.c
+> @@ -64,16 +64,21 @@ static DEFINE_MUTEX(mce_sysfs_mutex);
+>  
+>  DEFINE_PER_CPU(unsigned, mce_exception_count);
+>  
+> +struct mce_bank {
+> +	u64	ctl;	/* subevents to enable */
+> +	bool	init;	/* initialise bank? */
+
+Keep that vertical alignment as of that of the members if mce_bank_dev
+below.
+
+> +};
+> +static DEFINE_PER_CPU_READ_MOSTLY(struct mce_bank*, mce_banks);
+
+Space between mce_bank and *.
+
+> +
+>  #define ATTR_LEN               16
+>  /* One object for each MCE bank, shared by all CPUs */
+> -struct mce_bank {
+> -	u64			ctl;			/* subevents to enable */
+> -	bool			init;			/* initialise bank? */
+> +struct mce_bank_dev {
+>  	struct device_attribute	attr;			/* device attribute */
+>  	char			attrname[ATTR_LEN];	/* attribute name */
+> +	u8			bank;			/* bank number */
+>  };
+> +static struct mce_bank_dev mce_bank_devs[MAX_NR_BANKS];
+
+What bothers me here is the connection between the mce_bank and the
+mce_bank_dev: it is simply not there.
+
+Why isn't there a
+
+	struct mce_bank_dev *dev;
+
+in struct mce_bank?
+
+Because - and correct me if I'm wrong here - but I think if we do
+per-CPU banks, then we need to selectively point from each mce_bank to
+its corresponding mce_bank_dev descriptor so that you have the proper
+names.
+
+For example, if bank3 on CPU5 is not present/disabled/N/A/whatever, then
+you need to not initialize the that sysfs file there and have:
+
+/sys/devices/system/machinecheck/machinecheck5/
+├── bank0
+├── bank1
+├── bank10
+├── bank11
+├── bank12
+├── bank13
+├── bank14
+├── bank15
+├── bank16
+├── bank17
+├── bank18
+├── bank19
+├── bank2
+├── bank20
+├── bank21
+├── bank22
+		<--- bank 3 is not there because unsupported.
+├── bank4
+├── bank5
+├── bank6
+├── bank7
+├── bank8
+├── bank9
+
+
+Which means that mce_device_create() should learn to be able to create
+non-contiguous per-CPU bank sysfs files so that you'll have to iterate
+over the per-CPU struct mce_banks array and use only those mce_bank_dev
+* pointers which represent present banks on this CPU only.
+
+Yes, no, am I way off?
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
