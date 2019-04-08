@@ -2,18 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RESEND,4/5] x86/MCE: Make number of MCA banks per_cpu
-From: "Luck, Tony" <tony.luck@intel.com>
-Message-Id: <20190408232325.GA17000@agluck-desk>
-Date: Mon, 8 Apr 2019 16:23:25 -0700
-To: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Message-Id: <SN6PR12MB2639D6D5DC408B3D70B8BCEAF82C0@SN6PR12MB2639.namprd12.prod.outlook.com>
+Date: Mon, 8 Apr 2019 23:37:04 +0000
+To: "Luck, Tony" <tony.luck@intel.com>
 Cc: Borislav Petkov <bp@alien8.de>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBBcHIgMDgsIDIwMTkgYXQgMTA6NDg6MzRQTSArMDAwMCwgR2hhbm5hbSwgWWF6ZW4g
-d3JvdGU6Cj4gT2theSwgc28gZHJvcCB0aGUgZXhwb3J0IGFuZCBsZWF2ZSB0aGUgaW5qZWN0b3Ig
-Y29kZSBhcy1pcyAoaXQncwo+IGFscmVhZHkgZG9pbmcgYSByZG1zcmxfb25fY3B1KCkpLgoKSXQn
-cyBzdGlsbCBhIGdsb2JhbGx5IHZpc2libGUgc3ltYm9sIChzaGFyZWQgYnkgY29yZS5jIGFuZCBh
-bWQuYykuClNvIEkgdGhpbmsgaXQgbmVlZHMgYSAibWNlXyIgcHJlZml4LgoKV2hpbGUgaXQgZG9l
-c24ndCBjb2xsaWRlIG5vdywgdGhlcmUgYXJlIGEgYnVuY2ggb2Ygb3RoZXIKc3Vic3lzdGVtcyB0
-aGF0IGhhdmUgImJhbmtzIiBhbmQgYSB2YXJpYWJsZSB0byBjb3VudCB0aGVtLgoKTG9vayBhdCBv
-dXRwdXQgZnJvbSAiZ2l0IGdyZXAgLXcgbnVtX2JhbmtzIi4KCi1Ub255Cg==
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQo+IEZyb206IGxpbnV4LWVkYWMtb3duZXJAdmdl
+ci5rZXJuZWwub3JnIDxsaW51eC1lZGFjLW93bmVyQHZnZXIua2VybmVsLm9yZz4gT24gQmVoYWxm
+IE9mIEx1Y2ssIFRvbnkKPiBTZW50OiBNb25kYXksIEFwcmlsIDgsIDIwMTkgNjoyMyBQTQo+IFRv
+OiBHaGFubmFtLCBZYXplbiA8WWF6ZW4uR2hhbm5hbUBhbWQuY29tPgo+IENjOiBCb3Jpc2xhdiBQ
+ZXRrb3YgPGJwQGFsaWVuOC5kZT47IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnOyBsaW51eC1r
+ZXJuZWxAdmdlci5rZXJuZWwub3JnOyB4ODZAa2VybmVsLm9yZwo+IFN1YmplY3Q6IFJlOiBbUEFU
+Q0ggUkVTRU5EIDQvNV0geDg2L01DRTogTWFrZSBudW1iZXIgb2YgTUNBIGJhbmtzIHBlcl9jcHUK
+PiAKPiBPbiBNb24sIEFwciAwOCwgMjAxOSBhdCAxMDo0ODozNFBNICswMDAwLCBHaGFubmFtLCBZ
+YXplbiB3cm90ZToKPiA+IE9rYXksIHNvIGRyb3AgdGhlIGV4cG9ydCBhbmQgbGVhdmUgdGhlIGlu
+amVjdG9yIGNvZGUgYXMtaXMgKGl0J3MKPiA+IGFscmVhZHkgZG9pbmcgYSByZG1zcmxfb25fY3B1
+KCkpLgo+IAo+IEl0J3Mgc3RpbGwgYSBnbG9iYWxseSB2aXNpYmxlIHN5bWJvbCAoc2hhcmVkIGJ5
+IGNvcmUuYyBhbmQgYW1kLmMpLgo+IFNvIEkgdGhpbmsgaXQgbmVlZHMgYSAibWNlXyIgcHJlZml4
+Lgo+IAo+IFdoaWxlIGl0IGRvZXNuJ3QgY29sbGlkZSBub3csIHRoZXJlIGFyZSBhIGJ1bmNoIG9m
+IG90aGVyCj4gc3Vic3lzdGVtcyB0aGF0IGhhdmUgImJhbmtzIiBhbmQgYSB2YXJpYWJsZSB0byBj
+b3VudCB0aGVtLgo+IAo+IExvb2sgYXQgb3V0cHV0IGZyb20gImdpdCBncmVwIC13IG51bV9iYW5r
+cyIuCj4gCgpPa2F5LCBJJ2xsIGFkZCB0aGUgcHJlZml4LgoKQW5kIHRoYW5rcyBmb3IgdGhlIHRp
+cC4gSSdsbCB0cnkgdG8ga2VlcCB0aGlzIGluIG1pbmQuCgpUaGFua3MsCllhemVuCg==
