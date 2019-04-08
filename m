@@ -1,134 +1,80 @@
-Return-Path: <SRS0=I1CK=SJ=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=ZRbZ=SK=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB633C282DD
-	for <linux-edac@archiver.kernel.org>; Sun,  7 Apr 2019 23:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABE0C282DD
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Apr 2019 07:43:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A17B820883
-	for <linux-edac@archiver.kernel.org>; Sun,  7 Apr 2019 23:14:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BE07208E3
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Apr 2019 07:43:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="M3w4i41J"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="aoLDGG2W"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbfDGXNw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 7 Apr 2019 19:13:52 -0400
-Received: from mail-eopbgr720042.outbound.protection.outlook.com ([40.107.72.42]:47936
-        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726223AbfDGXNw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 7 Apr 2019 19:13:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rFSiJO0hR8ae1DIoGnj2xkz4xpeSgrA7AVoxTpdA+dE=;
- b=M3w4i41JjJFNgrvts4FVWBEECTJpufa8GpFdBYP1vLeJHfU0XFY+cuVelVNZOYJEX1Hv7UEmxjAA5AzBV5+8IMuqe3O28vFyUhewTx5QQOwX8ac/e4q8Qjg2HQkTIHnBJC0COZXqsgx69BMQzr2lgRGkn2kuh6WhJmVGtdeS4vI=
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
- SN6PR12MB2768.namprd12.prod.outlook.com (52.135.107.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1771.16; Sun, 7 Apr 2019 23:13:48 +0000
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::9c51:41bf:f88e:f3e8]) by SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::9c51:41bf:f88e:f3e8%2]) with mapi id 15.20.1771.016; Sun, 7 Apr 2019
- 23:13:48 +0000
-From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
+        id S1725871AbfDHHnX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 8 Apr 2019 03:43:23 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:39498 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726005AbfDHHnX (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 8 Apr 2019 03:43:23 -0400
+Received: from zn.tnic (p200300EC2F072700703BC679E0FEC46B.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:2700:703b:c679:e0fe:c46b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C9D231EC023E;
+        Mon,  8 Apr 2019 09:43:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1554709401;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=uMwepDwUTnY7KDF8TeqJpB3EXShixzEKqh862hFqPus=;
+        b=aoLDGG2WwZIGl+5KeyxBXy8mKkrKcvOhkPASlIxt4CAbP3nOJ2VCqL9nrylVwTg+hEYGvR
+        EAvVyObN/PZQJb6mfCybuuSthLCDOnSIO/HknNiPofPDHzWsKVhOopEXlN/8a9NekfH2Io
+        vy9HnQ3oMDW/vwydFORJZ5+nbxIGycw=
+Date:   Mon, 8 Apr 2019 09:43:18 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+Cc:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bp@suse.de" <bp@suse.de>,
         "tony.luck@intel.com" <tony.luck@intel.com>,
         "x86@kernel.org" <x86@kernel.org>
-Subject: [PATCH 1/5] x86/MCE: Make struct mce_banks[] static
-Thread-Topic: [PATCH 1/5] x86/MCE: Make struct mce_banks[] static
-Thread-Index: AQHU7ZeOZX8KCwsbTEyH9lxtVkcXMQ==
-Date:   Sun, 7 Apr 2019 23:13:48 +0000
-Message-ID: <20190407231331.52362-2-Yazen.Ghannam@amd.com>
+Subject: Re: [PATCH 0/5] Handle MCA banks in a per_cpu way
+Message-ID: <20190408074318.GB15689@zn.tnic>
 References: <20190407231331.52362-1-Yazen.Ghannam@amd.com>
-In-Reply-To: <20190407231331.52362-1-Yazen.Ghannam@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN4PR0501CA0039.namprd05.prod.outlook.com
- (2603:10b6:803:41::16) To SN6PR12MB2639.namprd12.prod.outlook.com
- (2603:10b6:805:6f::16)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Yazen.Ghannam@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: df440a53-21eb-47ee-838f-08d6bbaeb08e
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2768;
-x-ms-traffictypediagnostic: SN6PR12MB2768:
-x-microsoft-antispam-prvs: <SN6PR12MB2768A26FC7F9A31F4D63C895F8530@SN6PR12MB2768.namprd12.prod.outlook.com>
-x-forefront-prvs: 00003DBFE7
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(376002)(136003)(39860400002)(346002)(396003)(199004)(189003)(105586002)(99286004)(14454004)(186003)(72206003)(478600001)(106356001)(53936002)(2351001)(3846002)(1076003)(6116002)(54906003)(316002)(102836004)(5660300002)(2906002)(68736007)(6512007)(50226002)(4326008)(36756003)(6506007)(386003)(66066001)(81166006)(97736004)(52116002)(6486002)(7736002)(76176011)(476003)(11346002)(26005)(486006)(2616005)(81156014)(5640700003)(6436002)(8676002)(6916009)(446003)(25786009)(86362001)(14444005)(256004)(71200400001)(2501003)(8936002)(71190400001)(305945005);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2768;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: tgnrLzEd5jofpQUt5hi2XMs6A8I9zSfoVGAXPFibUwnENfndAi1yZVvxiCJJhZAgsitDOkqp2s2FucSjgQXzNdP75AQhifKXRTVxisZ3vjOPgKEvJjyuKOgiByvoy0fiEZciwJb/tJdoG3XPKJRrXC0myeCkacfTQL1Zo3VLRixYEU1/FIRP30TaJ1Z3xSeo5UtolVxI3bapC8/pPn0n1HTNHaLL2sNCgtRpJuTj/eL0+xeCrJFHs/B8jU79g9uD3kAYRDEYP0N6WkDF9b5YMhG0wLIJmLeV2MA3xKh4aARLa0ijd303UzbWT0ujQ7H20boXVxf7XVrv7AIb3t54rNQd2YwP47HK+LQhYdkImgoq4VdPF/ILEFFbUXH072kPLxaZIBq0RGN58d0rZ2rWI/VIAZTJwkEACzxfRLwALLM=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df440a53-21eb-47ee-838f-08d6bbaeb08e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2019 23:13:48.2759
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2768
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190407231331.52362-1-Yazen.Ghannam@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190407231348.31DqYt1NuMvcOszTFDFgB8tN6ECmAtRjiYjcLqCQdEo@z>
 
-RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPg0KDQpUaGUgc3RydWN0
-IG1jZV9iYW5rc1tdIGFycmF5IGlzIG9ubHkgdXNlZCBpbiBtY2UvY29yZS5jIHNvIG1vdmUgdGhl
-DQpkZWZpbml0aW9uIG9mIHN0cnVjdCBtY2VfYmFuayB0byBtY2UvY29yZS5jIGFuZCBtYWtlIHRo
-ZSBhcnJheSBzdGF0aWMuDQoNCkFsc28sIGNoYW5nZSB0aGUgImluaXQiIGZpZWxkIHRvIGJvb2wg
-dHlwZS4NCg0KU2lnbmVkLW9mZi1ieTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQu
-Y29tPg0KLS0tDQogYXJjaC94ODYva2VybmVsL2NwdS9tY2UvY29yZS5jICAgICB8IDExICsrKysr
-KysrKystDQogYXJjaC94ODYva2VybmVsL2NwdS9tY2UvaW50ZXJuYWwuaCB8IDEwIC0tLS0tLS0t
-LS0NCiAyIGZpbGVzIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQ0K
-DQpkaWZmIC0tZ2l0IGEvYXJjaC94ODYva2VybmVsL2NwdS9tY2UvY29yZS5jIGIvYXJjaC94ODYv
-a2VybmVsL2NwdS9tY2UvY29yZS5jDQppbmRleCA1ODkyNWU3Y2NiMjcuLjhkMGQxZTg0MjVkYiAx
-MDA2NDQNCi0tLSBhL2FyY2gveDg2L2tlcm5lbC9jcHUvbWNlL2NvcmUuYw0KKysrIGIvYXJjaC94
-ODYva2VybmVsL2NwdS9tY2UvY29yZS5jDQpAQCAtNjQsNyArNjQsMTYgQEAgc3RhdGljIERFRklO
-RV9NVVRFWChtY2Vfc3lzZnNfbXV0ZXgpOw0KIA0KIERFRklORV9QRVJfQ1BVKHVuc2lnbmVkLCBt
-Y2VfZXhjZXB0aW9uX2NvdW50KTsNCiANCi1zdHJ1Y3QgbWNlX2JhbmsgKm1jZV9iYW5rcyBfX3Jl
-YWRfbW9zdGx5Ow0KKyNkZWZpbmUgQVRUUl9MRU4gICAgICAgICAgICAgICAxNg0KKy8qIE9uZSBv
-YmplY3QgZm9yIGVhY2ggTUNFIGJhbmssIHNoYXJlZCBieSBhbGwgQ1BVcyAqLw0KK3N0cnVjdCBt
-Y2VfYmFuayB7DQorCXU2NAkJCWN0bDsJCQkvKiBzdWJldmVudHMgdG8gZW5hYmxlICovDQorCWJv
-b2wJCQlpbml0OwkJCS8qIGluaXRpYWxpc2UgYmFuaz8gKi8NCisJc3RydWN0IGRldmljZV9hdHRy
-aWJ1dGUJYXR0cjsJCQkvKiBkZXZpY2UgYXR0cmlidXRlICovDQorCWNoYXIJCQlhdHRybmFtZVtB
-VFRSX0xFTl07CS8qIGF0dHJpYnV0ZSBuYW1lICovDQorfTsNCisNCitzdGF0aWMgc3RydWN0IG1j
-ZV9iYW5rICptY2VfYmFua3MgX19yZWFkX21vc3RseTsNCiBzdHJ1Y3QgbWNlX3ZlbmRvcl9mbGFn
-cyBtY2VfZmxhZ3MgX19yZWFkX21vc3RseTsNCiANCiBzdHJ1Y3QgbWNhX2NvbmZpZyBtY2FfY2Zn
-IF9fcmVhZF9tb3N0bHkgPSB7DQpkaWZmIC0tZ2l0IGEvYXJjaC94ODYva2VybmVsL2NwdS9tY2Uv
-aW50ZXJuYWwuaCBiL2FyY2gveDg2L2tlcm5lbC9jcHUvbWNlL2ludGVybmFsLmgNCmluZGV4IGFm
-NWVhYjFlNjVlMi4uMDMyZDUyYzY2NjE2IDEwMDY0NA0KLS0tIGEvYXJjaC94ODYva2VybmVsL2Nw
-dS9tY2UvaW50ZXJuYWwuaA0KKysrIGIvYXJjaC94ODYva2VybmVsL2NwdS9tY2UvaW50ZXJuYWwu
-aA0KQEAgLTIyLDE3ICsyMiw4IEBAIGVudW0gc2V2ZXJpdHlfbGV2ZWwgew0KIA0KIGV4dGVybiBz
-dHJ1Y3QgYmxvY2tpbmdfbm90aWZpZXJfaGVhZCB4ODZfbWNlX2RlY29kZXJfY2hhaW47DQogDQot
-I2RlZmluZSBBVFRSX0xFTgkJMTYNCiAjZGVmaW5lIElOSVRJQUxfQ0hFQ0tfSU5URVJWQUwJNSAq
-IDYwIC8qIDUgbWludXRlcyAqLw0KIA0KLS8qIE9uZSBvYmplY3QgZm9yIGVhY2ggTUNFIGJhbmss
-IHNoYXJlZCBieSBhbGwgQ1BVcyAqLw0KLXN0cnVjdCBtY2VfYmFuayB7DQotCXU2NAkJCWN0bDsJ
-CQkvKiBzdWJldmVudHMgdG8gZW5hYmxlICovDQotCXVuc2lnbmVkIGNoYXIgaW5pdDsJCQkJLyog
-aW5pdGlhbGlzZSBiYW5rPyAqLw0KLQlzdHJ1Y3QgZGV2aWNlX2F0dHJpYnV0ZSBhdHRyOwkJCS8q
-IGRldmljZSBhdHRyaWJ1dGUgKi8NCi0JY2hhcgkJCWF0dHJuYW1lW0FUVFJfTEVOXTsJLyogYXR0
-cmlidXRlIG5hbWUgKi8NCi19Ow0KLQ0KIHN0cnVjdCBtY2VfZXZ0X2xsaXN0IHsNCiAJc3RydWN0
-IGxsaXN0X25vZGUgbGxub2RlOw0KIAlzdHJ1Y3QgbWNlIG1jZTsNCkBAIC00Nyw3ICszOCw2IEBA
-IHN0cnVjdCBsbGlzdF9ub2RlICptY2VfZ2VuX3Bvb2xfcHJlcGFyZV9yZWNvcmRzKHZvaWQpOw0K
-IGV4dGVybiBpbnQgKCptY2Vfc2V2ZXJpdHkpKHN0cnVjdCBtY2UgKmEsIGludCB0b2xlcmFudCwg
-Y2hhciAqKm1zZywgYm9vbCBpc19leGNwKTsNCiBzdHJ1Y3QgZGVudHJ5ICptY2VfZ2V0X2RlYnVn
-ZnNfZGlyKHZvaWQpOw0KIA0KLWV4dGVybiBzdHJ1Y3QgbWNlX2JhbmsgKm1jZV9iYW5rczsNCiBl
-eHRlcm4gbWNlX2JhbmtzX3QgbWNlX2JhbmtzX2NlX2Rpc2FibGVkOw0KIA0KICNpZmRlZiBDT05G
-SUdfWDg2X01DRV9JTlRFTA0KLS0gDQoyLjE3LjENCg0K
+On Sun, Apr 07, 2019 at 11:13:47PM +0000, Ghannam, Yazen wrote:
+> Yazen Ghannam (5):
+>   x86/MCE: Make struct mce_banks[] static
+>   x86/MCE: Handle MCA controls in a per_cpu way
+>   x86/MCE/AMD: Don't cache block addresses on SMCA systems
+>   x86/MCE: Make number of MCA banks per_cpu
+>   x86/MCE: Save MCA control bits that get set in hardware
+> 
+>  arch/x86/kernel/cpu/mce/amd.c      |  87 +++++++++---------
+>  arch/x86/kernel/cpu/mce/core.c     | 138 +++++++++++++++++++----------
+>  arch/x86/kernel/cpu/mce/inject.c   |   7 +-
+>  arch/x86/kernel/cpu/mce/internal.h |  12 +--
+>  4 files changed, 137 insertions(+), 107 deletions(-)
+
+This patchset doesn't apply cleanly. Please redo it against current
+tip/master.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
