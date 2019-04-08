@@ -2,21 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RESEND,4/5] x86/MCE: Make number of MCA banks per_cpu
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190408205013.GN15689@zn.tnic>
-Date: Mon, 8 Apr 2019 22:50:13 +0200
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: "Ghannam, Yazen" <Yazen.Ghannam@amd.com>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Message-Id: <SN6PR12MB2639F3E98157872E7C046705F82C0@SN6PR12MB2639.namprd12.prod.outlook.com>
+Date: Mon, 8 Apr 2019 22:48:34 +0000
+To: Borislav Petkov <bp@alien8.de>, "Luck, Tony" <tony.luck@intel.com>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>
 List-ID: <edac.vger.kernel.org>
 
-T24gTW9uLCBBcHIgMDgsIDIwMTkgYXQgMDg6NDI6MzZQTSArMDAwMCwgTHVjaywgVG9ueSB3cm90
-ZToKPiA+IEFjdHVhbGx5LCBpdCBzaG91bGQgbm90IGJlIGV4cG9ydGVkIGF0IGFsbC4gQSBmdW5j
-dGlvbiByZXR1cm5pbmcgdGhlIG51bQo+ID4gYmFua3MgaXMgYmV0dGVyIGluc3RlYWQuCj4gCj4g
-QXJlIGFsbCB0aGUgcGxhY2VzIGl0IGlzIHVzZWQgaW4gbm9uLXByZS1lbXB0aWJsZSBzZWN0aW9u
-cyBvZiBjb2RlPyBMb29waW5nCj4gaW4gdGhlIENNQ0kgYW5kICNNQyBoYW5kbGVycyBzaG91bGQg
-YmUgZmluZS4gQnV0IGRvIHdlIG5lZWQgZ2V0X2NwdSgpL3B1dF9jcHUoKQo+IGluIGFueSBwbGFj
-ZXM/CgpUaGF0IGV4cG9ydCBpcyBuZWVkZWQgb25seSBpbiB0aGUgbWNlIGluamVjdG9yLiBBY3R1
-YWxseSwgaXQgd291bGQgYmUKbXVjaCBjbGVhbmVyIGlmIHRoZSBpbmplY3RvciB3b3VsZCBmaW5k
-IG91dCB0aGUgY291bnQgc3RyYWlnaHQgZnJvbSB0aGUKTVNSIGFzIGl0IGRvZXMgbm93LCBidXQg
-YmUgY2hhbmdlZCB0byBkbyByZG1zcl9vbl9jcHUoKSBub3csIHNpbmNlIGNhbgpoYXZlIGRpZmZl
-cmVudCBudW1fYmFua3Mgb24gYSBDUFUuCg==
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBsaW51eC1lZGFjLW93bmVyQHZn
+ZXIua2VybmVsLm9yZyA8bGludXgtZWRhYy1vd25lckB2Z2VyLmtlcm5lbC5vcmc+IE9uIEJlaGFs
+ZiBPZiBCb3Jpc2xhdiBQZXRrb3YNCj4gU2VudDogTW9uZGF5LCBBcHJpbCA4LCAyMDE5IDM6NTAg
+UE0NCj4gVG86IEx1Y2ssIFRvbnkgPHRvbnkubHVja0BpbnRlbC5jb20+DQo+IENjOiBHaGFubmFt
+LCBZYXplbiA8WWF6ZW4uR2hhbm5hbUBhbWQuY29tPjsgbGludXgtZWRhY0B2Z2VyLmtlcm5lbC5v
+cmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IHg4NkBrZXJuZWwub3JnDQo+IFN1Ympl
+Y3Q6IFJlOiBbUEFUQ0ggUkVTRU5EIDQvNV0geDg2L01DRTogTWFrZSBudW1iZXIgb2YgTUNBIGJh
+bmtzIHBlcl9jcHUNCj4gDQo+IE9uIE1vbiwgQXByIDA4LCAyMDE5IGF0IDA4OjQyOjM2UE0gKzAw
+MDAsIEx1Y2ssIFRvbnkgd3JvdGU6DQo+ID4gPiBBY3R1YWxseSwgaXQgc2hvdWxkIG5vdCBiZSBl
+eHBvcnRlZCBhdCBhbGwuIEEgZnVuY3Rpb24gcmV0dXJuaW5nIHRoZSBudW0NCj4gPiA+IGJhbmtz
+IGlzIGJldHRlciBpbnN0ZWFkLg0KPiA+DQo+ID4gQXJlIGFsbCB0aGUgcGxhY2VzIGl0IGlzIHVz
+ZWQgaW4gbm9uLXByZS1lbXB0aWJsZSBzZWN0aW9ucyBvZiBjb2RlPyBMb29waW5nDQo+ID4gaW4g
+dGhlIENNQ0kgYW5kICNNQyBoYW5kbGVycyBzaG91bGQgYmUgZmluZS4gQnV0IGRvIHdlIG5lZWQg
+Z2V0X2NwdSgpL3B1dF9jcHUoKQ0KPiA+IGluIGFueSBwbGFjZXM/DQo+IA0KPiBUaGF0IGV4cG9y
+dCBpcyBuZWVkZWQgb25seSBpbiB0aGUgbWNlIGluamVjdG9yLiBBY3R1YWxseSwgaXQgd291bGQg
+YmUNCj4gbXVjaCBjbGVhbmVyIGlmIHRoZSBpbmplY3RvciB3b3VsZCBmaW5kIG91dCB0aGUgY291
+bnQgc3RyYWlnaHQgZnJvbSB0aGUNCj4gTVNSIGFzIGl0IGRvZXMgbm93LCBidXQgYmUgY2hhbmdl
+ZCB0byBkbyByZG1zcl9vbl9jcHUoKSBub3csIHNpbmNlIGNhbg0KPiBoYXZlIGRpZmZlcmVudCBu
+dW1fYmFua3Mgb24gYSBDUFUuDQo+IA0KDQpPa2F5LCBzbyBkcm9wIHRoZSBleHBvcnQgYW5kIGxl
+YXZlIHRoZSBpbmplY3RvciBjb2RlIGFzLWlzIChpdCdzIGFscmVhZHkgZG9pbmcgYSByZG1zcmxf
+b25fY3B1KCkpLg0KDQpJcyB0aGF0IG9rYXk/DQoNClRoYW5rcywNCllhemVuCg==
