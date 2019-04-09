@@ -2,93 +2,67 @@ Return-Path: <SRS0=L0mA=SL=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88021C10F0E
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Apr 2019 19:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C88B2C282CE
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Apr 2019 20:13:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5E66F217F9
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Apr 2019 19:09:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93EC82084C
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Apr 2019 20:13:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="f7jE8eVj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbfDITJn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 9 Apr 2019 15:09:43 -0400
-Received: from mga18.intel.com ([134.134.136.126]:5808 "EHLO mga18.intel.com"
+        id S1726568AbfDIUNb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 9 Apr 2019 16:13:31 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:48494 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726412AbfDITJn (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 9 Apr 2019 15:09:43 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Apr 2019 12:09:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,330,1549958400"; 
-   d="scan'208";a="221976133"
-Received: from tthayer-hp-z620.an.intel.com (HELO [10.122.105.146]) ([10.122.105.146])
-  by orsmga001.jf.intel.com with ESMTP; 09 Apr 2019 12:09:41 -0700
-Reply-To: thor.thayer@linux.intel.com
-Subject: Re: [RESEND PATCHv3 0/3] Update Stratix10 EDAC Bindings
-To:     bp@alien8.de, dinguyen@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com
-Cc:     mchehab@kernel.org, james.morse@arm.com,
+        id S1726517AbfDIUNb (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 9 Apr 2019 16:13:31 -0400
+Received: from zn.tnic (p200300EC2F0F850034F9F589D882639B.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:8500:34f9:f589:d882:639b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5349B1EC00FF;
+        Tue,  9 Apr 2019 22:13:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1554840810;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=TJTV5PNZEol+XmBW62N/1p2Fum6+baujgu7QCqCSxJQ=;
+        b=f7jE8eVjZVzyPEKHECaWkWciS3sTygjLeAT8BLG40AGalDiiTNcU584CBs7qfBj0C0+K+m
+        Rk6r3+zAR0PJpcBAtQxim1JAUAv+4Z6AA7/Y4VNFd5Pk64SIQ1CO2DUz1hB7bFbyAnl/8e
+        sRWwq9vdw8OX2h0dCBzDr1TLWFGY5Ys=
+Date:   Tue, 9 Apr 2019 22:13:23 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Thor Thayer <thor.thayer@linux.intel.com>
+Cc:     dinguyen@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        mchehab@kernel.org, james.morse@arm.com,
         devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
         linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCHv3 0/3] Update Stratix10 EDAC Bindings
+Message-ID: <20190409201323.GD6150@zn.tnic>
 References: <1554388597-28019-1-git-send-email-thor.thayer@linux.intel.com>
-From:   Thor Thayer <thor.thayer@linux.intel.com>
-Message-ID: <fa5b2837-9cb0-517c-c491-9b5d3ae0a3a5@linux.intel.com>
-Date:   Tue, 9 Apr 2019 14:11:58 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ <fa5b2837-9cb0-517c-c491-9b5d3ae0a3a5@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1554388597-28019-1-git-send-email-thor.thayer@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fa5b2837-9cb0-517c-c491-9b5d3ae0a3a5@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Boris,
+On Tue, Apr 09, 2019 at 02:11:58PM -0500, Thor Thayer wrote:
+> If possible, I'd like this series to go through the EDAC tree since future
+> patches will follow this format.
 
-On 4/4/19 9:36 AM, thor.thayer@linux.intel.com wrote:
-> From: Thor Thayer <thor.thayer@linux.intel.com>
-> 
-> This patch series makes the Stratix10 EDAC Bindings
-> specific to the Stratix10 ARM64 architecture.
-> 
-> Instead of using the Arria10 (ARM32) EDAC bindings for
-> Stratix10 (ARM64), create Stratix10 specific EDAC bindings
-> to capture architecture differences between ARM32 and ARM64.
-> This requires fixing the previous Stratix10 bindings.
-> Also add the peripheral bindings for the Stratix10.
-> 
-> V2: Remove Stratix10 compatible check.
-> 
-> V3: Remove patches not related to EDAC bindings so that
->      this patchset is targeted toward the bindings.
->      Improve the Stratix10 specific binding description by
->      adding in descriptions of ARM64 differences.
-> 
-> Resend: Add Reviewed-by and Acked-by from bindings and
->      socfpga device tree maintainers. I'd like this to go
->      through the EDAC tree since future patches will have
->      a dependency on these bindings and device tree.
-> 
-> Thor Thayer (3):
->    Documentation: dt: edac: Fix Stratix10 IRQ bindings
->    Documentation: dt: edac: Add Stratix10 Peripheral bindings
->    arm64: dts: stratix10: Use new Stratix10 EDAC bindings
-> 
->   .../devicetree/bindings/edac/socfpga-eccmgr.txt    | 135 +++++++++++++++++++--
->   arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi  |  25 ++--
->   2 files changed, 138 insertions(+), 22 deletions(-)
-> 
+You know how that works - I need ACKs.
 
-If possible, I'd like this series to go through the EDAC tree since 
-future patches will follow this format.
+-- 
+Regards/Gruss,
+    Boris.
 
-Regards,
-
-Thor
+Good mailing practices for 400: avoid top-posting and trim the reply.
