@@ -6,131 +6,67 @@ X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
 	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A224BC10F11
-	for <linux-edac@archiver.kernel.org>; Wed, 10 Apr 2019 17:25:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8634C10F11
+	for <linux-edac@archiver.kernel.org>; Wed, 10 Apr 2019 19:05:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7080F2083E
-	for <linux-edac@archiver.kernel.org>; Wed, 10 Apr 2019 17:25:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9D7A2082E
+	for <linux-edac@archiver.kernel.org>; Wed, 10 Apr 2019 19:05:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="Yx/D6BVn"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="VgQDqn51"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729111AbfDJRZr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 10 Apr 2019 13:25:47 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:41230 "EHLO mail.skyhub.de"
+        id S1726723AbfDJTFG (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 10 Apr 2019 15:05:06 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:55644 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729030AbfDJRZr (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 10 Apr 2019 13:25:47 -0400
-Received: from zn.tnic (p200300EC2F0CAE00295B1FE58D6681B0.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:ae00:295b:1fe5:8d66:81b0])
+        id S1726630AbfDJTFF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 10 Apr 2019 15:05:05 -0400
+Received: from zn.tnic (p200300EC2F0CAE0088EC372D30EF1627.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:ae00:88ec:372d:30ef:1627])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 588461EC0104;
-        Wed, 10 Apr 2019 19:25:45 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 42CE21EC03A0;
+        Wed, 10 Apr 2019 21:05:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1554917145;
+        t=1554923104;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=XcAeVmm3JHcWiuNHD4dSqbLHlPuiBy3ozgXMYTg4/oM=;
-        b=Yx/D6BVnXY/KZiFicss72wboe1le6SCIZjYeeJZGLqzdvq0/STVREFCpbCG3SLM6SfZrIT
-        76N3kNkmsAB7At6D0edukNGmZ8QM4HsEIlEcDxRrpsyh2vzk9+FpR5jc+vBR4rhcA2dhQP
-        MrQZgP6mGNWiSHZCnDKzHrjglA6cRjc=
-Date:   Wed, 10 Apr 2019 19:25:39 +0200
+        bh=CviuCDVo3FiHNRAlNLWZRhOH2BwQ6pdfhdwt4tuFJEM=;
+        b=VgQDqn51cCi/ZhDIrV9dNMvDDhkejMB10XujSEZVJRTnGitiaL5pJ1+bBWZn18XNgveccd
+        uc7yrbfoqODcZYWF5ydRYuCIUQeL2mwnMHRe3KHZMKMN8jeWAFOk1cQ0yBKMyQp5hSVaLf
+        rscgVLCwiJKefOrkec6rBlLbtTL0y7s=
+Date:   Wed, 10 Apr 2019 21:04:56 +0200
 From:   Borislav Petkov <bp@alien8.de>
-To:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-Cc:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH RESEND 2/5] x86/MCE: Handle MCA controls in a per_cpu way
-Message-ID: <20190410172539.GF26580@zn.tnic>
-References: <20190408141205.12376-1-Yazen.Ghannam@amd.com>
- <20190408141205.12376-3-Yazen.Ghannam@amd.com>
- <20190408175142.GK15689@zn.tnic>
- <SN6PR12MB26397E000684890C92075985F82C0@SN6PR12MB2639.namprd12.prod.outlook.com>
- <20190409203412.GE6150@zn.tnic>
- <SN6PR12MB2639C9B48E46DA6A8BA9DB3DF82E0@SN6PR12MB2639.namprd12.prod.outlook.com>
- <20190410164036.GC26580@zn.tnic>
- <SN6PR12MB2639F37C634BC7F6D4B86194F82E0@SN6PR12MB2639.namprd12.prod.outlook.com>
+To:     Thor Thayer <thor.thayer@linux.intel.com>
+Cc:     dinguyen@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        mchehab@kernel.org, james.morse@arm.com,
+        devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCHv3 0/3] Update Stratix10 EDAC Bindings
+Message-ID: <20190410190456.GH26580@zn.tnic>
+References: <1554388597-28019-1-git-send-email-thor.thayer@linux.intel.com>
+ <fa5b2837-9cb0-517c-c491-9b5d3ae0a3a5@linux.intel.com>
+ <20190409201323.GD6150@zn.tnic>
+ <f843024e-5f06-a566-7ab4-5c3e03e6ed3f@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <SN6PR12MB2639F37C634BC7F6D4B86194F82E0@SN6PR12MB2639.namprd12.prod.outlook.com>
+In-Reply-To: <f843024e-5f06-a566-7ab4-5c3e03e6ed3f@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190410172539.Kl0PCoQv-9XghXgdLwSqM5pS1ZW6XpiI-Ck5USsDNsc@z>
 
-On Wed, Apr 10, 2019 at 04:58:12PM +0000, Ghannam, Yazen wrote:
-> Yes, unused banks in the middle are counted in the MCG_CAP[Count] value.
+On Tue, Apr 09, 2019 at 05:32:07PM -0500, Thor Thayer wrote:
+> I have ACKs on patches 1 & 3. Patch 2 has a Reviewed-by from Rob Herring
+> which was sufficient in the past.
 
-Good.
+Sorry about that - I missed those because I looked only at the diffstat
+and decided this series is not for me :)
 
-> Okay, so you're saying the sysfs access should fail if a bank is
-> disabled. Is that correct?
+Anyway, all three applied now.
 
-Well, think about it. If a bank is not operational for whatever reason,
-we should tell the user that.
-
-> Does "disabled" mean one or both of these?
-> Unused = RAZ/WI in hardware
-> Uninitialized = Not initialized by kernel due to quirks, etc.
-> 
-> For an unused bank, it doesn't hurt to write MCA_CTL, but really
-> there's no reason to do so and go through mce_restart().
-
-Yes, but that bank is non-operational in some form. So we should prevent
-all writes to it because, well, it is not going to do anything. And this
-would be a good way to give feedback to the user that that is the case.
-
-> For an uninitialized bank, should we prevent users from overriding the
-> kernel's settings?
-
-That all depends on the quirks. Whether we should allow them to be
-overridden or not. I don't think we've ever thought about it, though.
-
-Let's look at one:
-
-        if (c->x86_vendor == X86_VENDOR_AMD) {
-                if (c->x86 == 15 && cfg->banks > 4) {
-                        /*
-                         * disable GART TBL walk error reporting, which
-                         * trips off incorrectly with the IOMMU & 3ware
-                         * & Cerberus:
-                         */
-                        clear_bit(10, (unsigned long *)&mce_banks[4].ctl);
-
-
-Yah, so if the user reenables those GART errors, then she/he will see a
-lot of MCEs reported and will maybe complain about it. And then we'll
-say, but why did you enable them then. And she/he'll say: uh, didn't
-know. Or, I was just poking at sysfs and this happened.
-
-Then we can say, well, don't do that then! :-)
-
-So my current position is, meh, who cares. But then I'm looking at
-another quirk:
-
-        if (c->x86_vendor == X86_VENDOR_INTEL) {
-                /*
-                 * SDM documents that on family 6 bank 0 should not be written
-                 * because it aliases to another special BIOS controlled
-                 * register.
-                 * But it's not aliased anymore on model 0x1a+
-                 * Don't ignore bank 0 completely because there could be a
-                 * valid event later, merely don't write CTL0.
-                 */
-
-                if (c->x86 == 6 && c->x86_model < 0x1A && cfg->banks > 0)
-                        mce_banks[0].init = 0;
-
-
-which basically prevents that bank from being reinitialized. So I guess
-we have that functionality already - we simply need to pay attention to
-w->init.
-
-Right?
+Thx.
 
 -- 
 Regards/Gruss,
