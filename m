@@ -1,262 +1,107 @@
-Return-Path: <SRS0=x/f0=SR=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=Zomy=SS=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B3EEC10F12
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Apr 2019 11:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DEBC10F0E
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 01:20:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 60EAA2183F
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Apr 2019 11:41:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAE212084B
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 01:20:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="hW0m//e7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f0tErIzk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727360AbfDOLlt (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 15 Apr 2019 07:41:49 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:40871 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727329AbfDOLls (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 15 Apr 2019 07:41:48 -0400
-Received: by mail-pg1-f193.google.com with SMTP id d31so8446676pgl.7
-        for <linux-edac@vger.kernel.org>; Mon, 15 Apr 2019 04:41:48 -0700 (PDT)
+        id S1727169AbfDPBUT (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 15 Apr 2019 21:20:19 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36807 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbfDPBUS (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 15 Apr 2019 21:20:18 -0400
+Received: by mail-pg1-f194.google.com with SMTP id 85so9463265pgc.3;
+        Mon, 15 Apr 2019 18:20:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Fu7AyZVZalK8UR+GPhJKpKxlsPvKLTQ33a/iCgHu9tY=;
-        b=hW0m//e7wvWbxnGvyJj2CJ9m+ztDx35O8qKLehJHXZuZYI2IvfnY3kBKDfhp8ZZk02
-         /LlnmpgaR2Ol13LVnbHj5kvggtJfBwvK8E2ZI3vLif9Jr0yXtHFzag/9rh3e9dbdanoB
-         dlEXELEmIxG2O5UcFhOuv6lubf70S+Ax6B+AOKGmubtFN3lWeaf2rSbQ5hoyTFHkONOU
-         CgdlNkomIAPTXsJTC/TEqXk4NhWxYb8semmMEls0vPnwDzH5cXOyipj026HFF8M01YFJ
-         fzkXOoY+pAT8zmG6/HwXzE65UggJr8aEmc6K1t26oyPveGqMwGoCMxwmddVyVMOzLeMf
-         o+lw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0BmGj+DXo97h0eyX21MxdzNP7h8++htrvxxJpmEZbP0=;
+        b=f0tErIzkKReXXEJLaZy3/0udhGAQ/EhVtP2MoYp1IDReqT5qc5GUyToJJivRTlDA7E
+         sEl+AkC2kksFl4HosSDmtfGagritnkZic1VxeoU3FjZbwV48b5MC1afX9Bjg7rbQkpPw
+         MfwnOu0SeryYZGUM70u3u34zcgXq2mRqCbDlIv9iLnRUgeo6UUd5xTpvneW9pCOWeeEj
+         xLWtVpSdOYYq95z0LwaHFvY2FZp6BYVBkG41H+ZjsJbrEyK0DTiX0RWHkB42Ke7dp6ea
+         Mnnseabnk1+ldvyMvo7034ygJj/mQbNSUPIWJDOu3EA8A8YnjHaPlf7HY9rCK9v2YikD
+         q1rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Fu7AyZVZalK8UR+GPhJKpKxlsPvKLTQ33a/iCgHu9tY=;
-        b=lXdvxMpKWPy0jkiaBiWKTi/KbHnSKlS8MmxiU8pGgRaMFzxLN28UhU4IV6PzA884Be
-         Amp40R1DJNqnFBpE56CWPCRrVlY7HWd8IV0sQUsdaZQlLe4ecY9VBva12VAlWkaIkoVv
-         d1xFVDzEHA6n0JuRzYJqqKe7HuEaCJMt4KxI0iiQwVetbq5XQPtIcplJUpOnuT6AjHDF
-         6oOcMUoYtEznHSq2mAXN1kcHCGfpQJCAmNSynBDEBQfef6Mi218t3DaZbHgfk6wfHGul
-         8yRDRPkhHynytXOOXmzLe9FdiTjD5BpY5mDMUtM697Q+FyomFx66m83YXJCt8iNYMKDK
-         EyaA==
-X-Gm-Message-State: APjAAAUjVvmgoquawAJIsmUpoUtfxyywUpPb/qFMZKGFB+ypDsVlpg/w
-        zFWR+85mIGHunO6tGCZulp/jdw==
-X-Google-Smtp-Source: APXvYqyrHJDn4Z/dgXOXUBnwQ4i5lD+ipu+kJzxmOj4J5/nDaxfIhNcmWs1Zr7niOmP6YXBjz6XmsA==
-X-Received: by 2002:a63:54b:: with SMTP id 72mr66979719pgf.323.1555328507967;
-        Mon, 15 Apr 2019 04:41:47 -0700 (PDT)
-Received: from buildserver-90.open-silicon.com ([114.143.65.226])
-        by smtp.googlemail.com with ESMTPSA id l4sm32317273pgh.17.2019.04.15.04.41.43
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 15 Apr 2019 04:41:47 -0700 (PDT)
-From:   Yash Shah <yash.shah@sifive.com>
-To:     devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, palmer@sifive.com,
-        aou@eecs.berkeley.edu, paul.walmsley@sifive.com, bp@alien8.de,
-        mchehab@kernel.org, james.morse@arm.com, sachin.ghadi@sifive.com,
-        Yash Shah <yash.shah@sifive.com>
-Subject: [PATCH 3/3] edac: sifive: Add EDAC platform driver for SiFive SoCs
-Date:   Mon, 15 Apr 2019 17:10:43 +0530
-Message-Id: <1555328443-30874-4-git-send-email-yash.shah@sifive.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1555328443-30874-1-git-send-email-yash.shah@sifive.com>
-References: <1555328443-30874-1-git-send-email-yash.shah@sifive.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0BmGj+DXo97h0eyX21MxdzNP7h8++htrvxxJpmEZbP0=;
+        b=RcVc3NFxDEDGRPCRABusbjVXBhEC5MTW+4AnA/uada2H72CNJ0OBd+a0v27fNUGLc4
+         PombZWt/nqRGmZ4ptH/R/WuKsWslhueyLOjuc+3Encuw36RE4VKpHs6IPGxmQLw3E9P3
+         Bdeo7WrawLs0pCubu+dUVKiI35Rw5Pbprm3eJvV4+iR5ZZStjI4OdKzQnwyCuqkWS3Qz
+         HujOJwhMSrS1KsoLF+Nccg/EeYM/JotORayrEwd/lwN4Vcre9WKiitGRKom/bIrwY00v
+         BBj7A3afU2EwwHpvEyqZpkeOMy7NBLYTEQIPZfcuXY/0AoFzDZT7sadSzWMDuEfRru+U
+         Z7ug==
+X-Gm-Message-State: APjAAAXdowSOr6+dJ0pIt/iUFfroZbd+jZLPncUoUZotdq2wpZAf9vw+
+        kLZ2mJk19mZEeQy9U6yKUZxuTE+U
+X-Google-Smtp-Source: APXvYqxq8A26GTvMtB660PXTApRNoeapQaDX/mY75cXrK7be8xNniM+zl0CfmMNfmNh2tWiJBBslmA==
+X-Received: by 2002:a65:6108:: with SMTP id z8mr73547769pgu.106.1555377617811;
+        Mon, 15 Apr 2019 18:20:17 -0700 (PDT)
+Received: from tw-172-25-31-76.office.twttr.net ([8.25.197.24])
+        by smtp.gmail.com with ESMTPSA id a85sm64206995pfa.166.2019.04.15.18.20.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 15 Apr 2019 18:20:16 -0700 (PDT)
+From:   Cong Wang <xiyou.wangcong@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-edac@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH 1/2] ras: fix an off-by-one error in __find_elem()
+Date:   Mon, 15 Apr 2019 18:20:00 -0700
+Message-Id: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190415114043.pZgkziirKjFuBKzqYIWBAXo6DjIeVCBeXrr0nZ4VJK0@z>
+Message-ID: <20190416012000.CTSpGkQngt9eHJ5ZWsRV4eyHo1z25760xCx8PN3Nflo@z>
 
-This initial ver of EDAC driver supports:
-- ECC event monitoring and reporting through the EDAC framework for SiFive
-  L2 cache controller.
+ce_arr.array[] is always within the range [0, ce_arr.n-1].
+However, the binary search code in __find_elem() uses ce_arr.n
+as the maximum index, which could lead to an off-by-one
+out-of-bound access when the element after the last is exactly
+the one just got deleted, that is, 'min' returned to caller as
+'ce_arr.n'.
 
-This driver registers for notifier events from the L2 cache controller
-driver (arch/riscv/mm/sifive_l2_cache.c) for L2 ECC events
-
-Signed-off-by: Yash Shah <yash.shah@sifive.com>
+Fixes: 011d82611172 ("RAS: Add a Corrected Errors Collector")
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
 ---
- arch/riscv/Kconfig         |   1 +
- drivers/edac/Kconfig       |   6 +++
- drivers/edac/Makefile      |   1 +
- drivers/edac/sifive_edac.c | 121 +++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 129 insertions(+)
- create mode 100644 drivers/edac/sifive_edac.c
+ drivers/ras/cec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index eb56c82..31999a6 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -49,6 +49,7 @@ config RISCV
- 	select GENERIC_IRQ_MULTI_HANDLER
- 	select ARCH_HAS_PTE_SPECIAL
- 	select HAVE_EBPF_JIT if 64BIT
-+	select EDAC_SUPPORT
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 2d9ec378a8bc..61332c9aab5a 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -184,7 +184,7 @@ static void cec_timer_fn(struct timer_list *unused)
+ static int __find_elem(struct ce_array *ca, u64 pfn, unsigned int *to)
+ {
+ 	u64 this_pfn;
+-	int min = 0, max = ca->n;
++	int min = 0, max = ca->n - 1;
  
- config MMU
- 	def_bool y
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 47eb4d1..3e05228 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -460,6 +460,12 @@ config EDAC_ALTERA_SDMMC
- 	  Support for error detection and correction on the
- 	  Altera SDMMC FIFO Memory for Altera SoCs.
- 
-+config EDAC_SIFIVE
-+	bool "Sifive platform EDAC driver"
-+	depends on EDAC=y && RISCV
-+	help
-+	  Support for error detection and correction on the SiFive SoCs.
-+
- config EDAC_SYNOPSYS
- 	tristate "Synopsys DDR Memory Controller"
- 	depends on ARCH_ZYNQ || ARCH_ZYNQMP
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index 89ad4a84..165ca65e 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -79,6 +79,7 @@ obj-$(CONFIG_EDAC_OCTEON_PCI)		+= octeon_edac-pci.o
- obj-$(CONFIG_EDAC_THUNDERX)		+= thunderx_edac.o
- 
- obj-$(CONFIG_EDAC_ALTERA)		+= altera_edac.o
-+obj-$(CONFIG_EDAC_SIFIVE)		+= sifive_edac.o
- obj-$(CONFIG_EDAC_SYNOPSYS)		+= synopsys_edac.o
- obj-$(CONFIG_EDAC_XGENE)		+= xgene_edac.o
- obj-$(CONFIG_EDAC_TI)			+= ti_edac.o
-diff --git a/drivers/edac/sifive_edac.c b/drivers/edac/sifive_edac.c
-new file mode 100644
-index 0000000..eb7a9b9
---- /dev/null
-+++ b/drivers/edac/sifive_edac.c
-@@ -0,0 +1,121 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * SiFive Platform EDAC Driver
-+ *
-+ * Copyright (C) 2018-2019 SiFive, Inc.
-+ *
-+ * This driver is partially based on octeon_edac-pc.c
-+ *
-+ */
-+#include <linux/edac.h>
-+#include <linux/platform_device.h>
-+#include "edac_module.h"
-+
-+#define DRVNAME "sifive_edac"
-+
-+extern int register_sifive_l2_error_notifier(struct notifier_block *nb);
-+extern int unregister_sifive_l2_error_notifier(struct notifier_block *nb);
-+
-+struct sifive_edac_priv {
-+	struct notifier_block notifier;
-+	struct edac_device_ctl_info *dci;
-+};
-+
-+/**
-+ * EDAC error callback
-+ *
-+ * @event: non-zero if unrecoverable.
-+ */
-+static
-+int ecc_err_event(struct notifier_block *this, unsigned long event, void *ptr)
-+{
-+	const char *msg = (char *)ptr;
-+	struct sifive_edac_priv *p;
-+
-+	p = container_of(this, struct sifive_edac_priv, notifier);
-+
-+	if (event)
-+		edac_device_handle_ue(p->dci, 0, 0, msg);
-+	else
-+		edac_device_handle_ce(p->dci, 0, 0, msg);
-+
-+	return NOTIFY_STOP;
-+}
-+
-+static int ecc_register(struct platform_device *pdev)
-+{
-+	struct sifive_edac_priv *p;
-+
-+	p = devm_kzalloc(&pdev->dev, sizeof(*p), GFP_KERNEL);
-+	if (!p)
-+		return -ENOMEM;
-+
-+	p->notifier.notifier_call = ecc_err_event;
-+	platform_set_drvdata(pdev, p);
-+
-+	p->dci = edac_device_alloc_ctl_info(sizeof(*p), "sifive_ecc", 1,
-+					    "sifive_ecc", 1, 1, NULL, 0,
-+					    edac_device_alloc_index());
-+	if (IS_ERR(p->dci))
-+		return PTR_ERR(p->dci);
-+
-+	p->dci->dev = &pdev->dev;
-+	p->dci->mod_name = "Sifive ECC Manager";
-+	p->dci->ctl_name = dev_name(&pdev->dev);
-+	p->dci->dev_name = dev_name(&pdev->dev);
-+
-+	if (edac_device_add_device(p->dci)) {
-+		dev_err(p->dci->dev, "failed to register with EDAC core\n");
-+		goto err;
-+	}
-+
-+	register_sifive_l2_error_notifier(&p->notifier);
-+
-+	return 0;
-+
-+err:
-+	edac_device_free_ctl_info(p->dci);
-+
-+	return -ENXIO;
-+}
-+
-+static int ecc_unregister(struct platform_device *pdev)
-+{
-+	struct sifive_edac_priv *p = platform_get_drvdata(pdev);
-+
-+	unregister_sifive_l2_error_notifier(&p->notifier);
-+	edac_device_del_device(&pdev->dev);
-+	edac_device_free_ctl_info(p->dci);
-+
-+	return 0;
-+}
-+
-+struct platform_device *sifive_pdev;
-+
-+static int __init sifive_edac_init(void)
-+{
-+	int ret;
-+
-+	sifive_pdev = platform_device_register_simple(DRVNAME, 0, NULL, 0);
-+	if (IS_ERR(sifive_pdev))
-+		return PTR_ERR(sifive_pdev);
-+
-+	ret = ecc_register(sifive_pdev);
-+	if (ret)
-+		platform_device_unregister(sifive_pdev);
-+
-+	return ret;
-+}
-+
-+static void __exit sifive_edac_exit(void)
-+{
-+	ecc_unregister(sifive_pdev);
-+	platform_device_unregister(sifive_pdev);
-+}
-+
-+module_init(sifive_edac_init);
-+module_exit(sifive_edac_exit);
-+
-+MODULE_AUTHOR("SiFive Inc.");
-+MODULE_DESCRIPTION("SiFive platform EDAC driver");
-+MODULE_LICENSE("GPL v2");
+ 	while (min < max) {
+ 		int tmp = (max + min) >> 1;
 -- 
-1.9.1
+2.20.1
 
