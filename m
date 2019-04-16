@@ -2,169 +2,77 @@ Return-Path: <SRS0=Zomy=SS=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E336CC282DA
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 01:20:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D9D8C10F13
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 09:07:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B169E20854
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 01:20:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B52220868
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 09:07:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YraGu5a0"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="b+1X1kYf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727049AbfDPBUW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 15 Apr 2019 21:20:22 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:35577 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726527AbfDPBUU (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 15 Apr 2019 21:20:20 -0400
-Received: by mail-pf1-f193.google.com with SMTP id t21so9517378pfh.2;
-        Mon, 15 Apr 2019 18:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MfB1avXudyIW6ugF85fX9+AhvoJyhOP6GmQo/+b/zaw=;
-        b=YraGu5a0rGf0WHR1VG7WZcHz57F5UWKxXVvvTwkbIYuMgUEYp/YosCisnnOpHBpsv4
-         zywx8QsaXJZgZOuTDwboj0mqeFy2tS3YxEBzYoj5UgUdESvaDCTchZEphVugzKWphey/
-         jNmXlO3Ptw4nNZ0x4EB0trccgyae4I2MJg7zsv3b7IfLbUsQoXaPPk2Gc40W3XZhc5kX
-         7PpAqaj0VO1TFATCR/2A9p7dT8HjyEx09lAz+5pvzheRSEVPNxO5wiefBXJ4cP+XtMG+
-         JiHqfub04Q31h8esDfkrUIXNWZiPtMe/ZXX80vaboy/ICdTaSqPysYSC24ZMXL36c3b/
-         eLhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MfB1avXudyIW6ugF85fX9+AhvoJyhOP6GmQo/+b/zaw=;
-        b=jTAUQVSweY61Erko0e9RKJBDMRIM+QIl6r2jini362emDVvC+bj781xLJ+7ofrDA+U
-         NfaFBmQdn4n9JFvE23m7xU1K1zJUyNzT6J0DkPo7vtvplTvXaZPpsuAfsyOOMDNO0ZhE
-         p6osL7OtSnQ68jBJGqMBHDmjZOELY0ZaTRpKIo5kBsrpB2cjRKbUKzKvtlaAB+wBAQga
-         ugqGGvpR82zxkdrD0AIGo4RobRzAbLRoPa4fvf53fy4xZUppEIY9JfvWyXIm7TQIobWj
-         xXvEyvFVM9X5x77VxWEQl80u3SpfbbcYhDQqLRfG2rXzrX62GLGwg76qSfpQ9zYgUqU0
-         +Vbg==
-X-Gm-Message-State: APjAAAXATJtBNspgI5VwbKVVa2R4Aj+r5TVo/NaV/MukjLzRBwlHzVwm
-        5wENoLGrSrjaxZsj9wXG3inlhAnj
-X-Google-Smtp-Source: APXvYqwCgVKQhfQc+0TsM81Po8JlbBbj5+CbuvgrjZuZwTDrb4jivDryI4UQGHdCabFFL+Hu82dejQ==
-X-Received: by 2002:aa7:8e0d:: with SMTP id c13mr42306778pfr.193.1555377619551;
-        Mon, 15 Apr 2019 18:20:19 -0700 (PDT)
-Received: from tw-172-25-31-76.office.twttr.net ([8.25.197.24])
-        by smtp.gmail.com with ESMTPSA id a85sm64206995pfa.166.2019.04.15.18.20.17
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 15 Apr 2019 18:20:18 -0700 (PDT)
-From:   Cong Wang <xiyou.wangcong@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-edac@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
+        id S1726917AbfDPJHc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 16 Apr 2019 05:07:32 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:41058 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726160AbfDPJHc (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 16 Apr 2019 05:07:32 -0400
+Received: from zn.tnic (p200300EC2F0D6900D0FA583685BBD9D6.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:6900:d0fa:5836:85bb:d9d6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AD7011EC030F;
+        Tue, 16 Apr 2019 11:07:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1555405650;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=DXBEXhnRgnfLAJC+Rs/fi4ddHcBibz8ncG5RBTuICDY=;
+        b=b+1X1kYfELMS31JAK8Duj5Rca9ARrZnLqIF72LJvKmLM6FlKjSugP8mLw+f5iULjH5LxeO
+        0v9nQXWopYW2Zcll6E2ipZo5k6IS3jYLngNHVEgOYIZHqxVy/U5fd6a0a7ZgmCET3+4jHC
+        OC99k2mKhCXIULEyJlL/8A4yE1cYnkA=
+Date:   Tue, 16 Apr 2019 11:07:26 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Cong Wang <xiyou.wangcong@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
         Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH 2/2] ras: close the race condition with timer
-Date:   Mon, 15 Apr 2019 18:20:01 -0700
-Message-Id: <20190416012001.5338-2-xiyou.wangcong@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
+Subject: Re: [PATCH 1/2] ras: fix an off-by-one error in __find_elem()
+Message-ID: <20190416090726.GD27892@zn.tnic>
 References: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190416012001.qyGGFYe4Uui8XgyeLXWV1quKyk9R9JV-L-h30gkjAfY@z>
+Message-ID: <20190416090726.MwlHwz2uULhjSmQWYkCiDHTY4p6BaX1_HFNK2BGA_PY@z>
 
-cec_timer_fn() is a timer callback which reads ce_arr.array[]
-and updates its decay values. Elements could be added to or
-removed from this global array in parallel, although the array
-itself will not grow or shrink. del_lru_elem_unlocked() uses
-FULL_COUNT() as a key to find a right element to remove,
-which could be affected by the parallel timer.
+On Mon, Apr 15, 2019 at 06:20:00PM -0700, Cong Wang wrote:
+> ce_arr.array[] is always within the range [0, ce_arr.n-1].
+> However, the binary search code in __find_elem() uses ce_arr.n
+> as the maximum index, which could lead to an off-by-one
+> out-of-bound access when the element after the last is exactly
+> the one just got deleted, that is, 'min' returned to caller as
+> 'ce_arr.n'.
 
-Fix this by converting the mutex to a spinlock and holding it
-inside the timer.
+Sorry, I don't follow.
 
-Fixes: 011d82611172 ("RAS: Add a Corrected Errors Collector")
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
----
- drivers/ras/cec.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+There's a debugfs interface in /sys/kernel/debug/ras/cec/ with which you
+can input random PFNs and test the thing.
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 61332c9aab5a..a82c9d08d47a 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -117,7 +117,7 @@ static struct ce_array {
- 	};
- } ce_arr;
- 
--static DEFINE_MUTEX(ce_mutex);
-+static DEFINE_SPINLOCK(ce_lock);
- static u64 dfs_pfn;
- 
- /* Amount of errors after which we offline */
-@@ -171,7 +171,9 @@ static void cec_mod_timer(struct timer_list *t, unsigned long interval)
- 
- static void cec_timer_fn(struct timer_list *unused)
- {
-+	spin_lock(&ce_lock);
- 	do_spring_cleaning(&ce_arr);
-+	spin_unlock(&ce_lock);
- 
- 	cec_mod_timer(&cec_timer, timer_interval);
- }
-@@ -265,9 +267,9 @@ static u64 __maybe_unused del_lru_elem(void)
- 	if (!ca->n)
- 		return 0;
- 
--	mutex_lock(&ce_mutex);
-+	spin_lock_bh(&ce_lock);
- 	pfn = del_lru_elem_unlocked(ca);
--	mutex_unlock(&ce_mutex);
-+	spin_unlock_bh(&ce_lock);
- 
- 	return pfn;
- }
-@@ -288,7 +290,7 @@ int cec_add_elem(u64 pfn)
- 
- 	ca->ces_entered++;
- 
--	mutex_lock(&ce_mutex);
-+	spin_lock_bh(&ce_lock);
- 
- 	if (ca->n == MAX_ELEMS)
- 		WARN_ON(!del_lru_elem_unlocked(ca));
-@@ -349,7 +351,7 @@ int cec_add_elem(u64 pfn)
- 		do_spring_cleaning(ca);
- 
- unlock:
--	mutex_unlock(&ce_mutex);
-+	spin_unlock_bh(&ce_lock);
- 
- 	return ret;
- }
-@@ -406,7 +408,7 @@ static int array_dump(struct seq_file *m, void *v)
- 	u64 prev = 0;
- 	int i;
- 
--	mutex_lock(&ce_mutex);
-+	spin_lock_bh(&ce_lock);
- 
- 	seq_printf(m, "{ n: %d\n", ca->n);
- 	for (i = 0; i < ca->n; i++) {
-@@ -431,7 +433,7 @@ static int array_dump(struct seq_file *m, void *v)
- 
- 	seq_printf(m, "Action threshold: %d\n", count_threshold);
- 
--	mutex_unlock(&ce_mutex);
-+	spin_unlock_bh(&ce_lock);
- 
- 	return 0;
- }
+Show me pls how this can happen with an example.
+
+Thx.
+
 -- 
-2.20.1
+Regards/Gruss,
+    Boris.
 
+Good mailing practices for 400: avoid top-posting and trim the reply.
