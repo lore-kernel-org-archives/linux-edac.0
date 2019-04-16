@@ -2,266 +2,210 @@ Return-Path: <SRS0=Zomy=SS=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_PASS,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1432C10F13
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 10:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB02C10F13
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 13:44:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6666A206BA
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 10:21:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 910A621924
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 13:44:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="e06ZkOP5"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="dQomqrk7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbfDPKVg (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 16 Apr 2019 06:21:36 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:52196 "EHLO mail.skyhub.de"
+        id S1726230AbfDPNoN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 16 Apr 2019 09:44:13 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:54140 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726716AbfDPKVf (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 16 Apr 2019 06:21:35 -0400
-Received: from zn.tnic (p200300EC2F0D6900D0FA583685BBD9D6.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:6900:d0fa:5836:85bb:d9d6])
+        id S1726037AbfDPNoM (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 16 Apr 2019 09:44:12 -0400
+Received: from zn.tnic (p200300EC2F0D690030B3A6530520175E.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:6900:30b3:a653:520:175e])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 10D431EC05B8;
-        Tue, 16 Apr 2019 12:21:34 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2A89E1EC0513;
+        Tue, 16 Apr 2019 15:44:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1555410094;
+        t=1555422251;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=twtafEGma0Y1kHnv3Dz1XbORQn9UB5SYl9Cz+oclGPk=;
-        b=e06ZkOP5D2I5VB3VppNLBFsj2bzfNmd5gBxlmNDX50n4PKwMOQtiq3poFc3izhc+GO7e1g
-        1QL7PjWDFGeXGEHoYkCeTiOU8g8wY4roAgj08URrK+WP7plu7H9CQyul7Lf58LszXJVA1Q
-        YoUi+5H/TXpJOvSMgraL1JfckXcIM2c=
-Date:   Tue, 16 Apr 2019 12:21:30 +0200
+        bh=k8jSzi26TZd33y2UzBr8fQ17nAh5EkUJ6jyNpWvDjyY=;
+        b=dQomqrk7TVzy86S96JXlkc6UlMvcgxm9V9qN+Jdd5K2gjCF2Yn7eddVQUlFAQqDblqt9cF
+        uuhRTgDyIKUY1FlQW1E7qqBujpVt3GsJhBQ4AcpEW/EI04DghKqsabZ7rj1YTEeHqCk6m0
+        V3sQPLP9TokttOo6Uc5TD6bdamEYk48=
+Date:   Tue, 16 Apr 2019 15:44:07 +0200
 From:   Borislav Petkov <bp@alien8.de>
 To:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
 Cc:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bp@suse.de" <bp@suse.de>,
         "tony.luck@intel.com" <tony.luck@intel.com>,
         "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH v2 2/6] x86/MCE: Handle MCA controls in a per_cpu way
-Message-ID: <20190416102130.GB31772@zn.tnic>
+Subject: Re: [PATCH v2 3/6] x86/MCE/AMD: Don't cache block addresses on SMCA
+ systems
+Message-ID: <20190416134407.GF31772@zn.tnic>
 References: <20190411201743.43195-1-Yazen.Ghannam@amd.com>
- <20190411201743.43195-3-Yazen.Ghannam@amd.com>
+ <20190411201743.43195-4-Yazen.Ghannam@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20190411201743.43195-3-Yazen.Ghannam@amd.com>
+In-Reply-To: <20190411201743.43195-4-Yazen.Ghannam@amd.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190416102130.OjYiA0EoluXtDpyGLbrtVwoiob1RMBdibvqhWVujpE8@z>
+Message-ID: <20190416134407.X2eHprTsRAYQ9pvwxcQpqk2Gvn8bQqtIs6rwGUUoMjw@z>
 
-On Thu, Apr 11, 2019 at 08:18:01PM +0000, Ghannam, Yazen wrote:
->  arch/x86/kernel/cpu/mce/core.c | 77 ++++++++++++++++++++++------------
->  1 file changed, 51 insertions(+), 26 deletions(-)
+On Thu, Apr 11, 2019 at 08:18:02PM +0000, Ghannam, Yazen wrote:
+> From: Yazen Ghannam <yazen.ghannam@amd.com>
 > 
-> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-> index 8d0d1e8425db..aa41f41e5931 100644
-> --- a/arch/x86/kernel/cpu/mce/core.c
-> +++ b/arch/x86/kernel/cpu/mce/core.c
-> @@ -64,16 +64,21 @@ static DEFINE_MUTEX(mce_sysfs_mutex);
->  
->  DEFINE_PER_CPU(unsigned, mce_exception_count);
->  
-> +struct mce_bank {
-> +	u64	ctl;	/* subevents to enable */
-> +	bool	init;	/* initialise bank? */
-> +};
-
-Pls keep original members alignment.
-
-> +static DEFINE_PER_CPU_READ_MOSTLY(struct mce_bank *, mce_banks);
-> +
->  #define ATTR_LEN               16
->  /* One object for each MCE bank, shared by all CPUs */
-> -struct mce_bank {
-> -	u64			ctl;			/* subevents to enable */
-> -	bool			init;			/* initialise bank? */
-> +struct mce_bank_dev {
->  	struct device_attribute	attr;			/* device attribute */
->  	char			attrname[ATTR_LEN];	/* attribute name */
-> +	u8			bank;			/* bank number */
+> On legacy systems, the addresses of the MCA_MISC* registers need to be
+> recursively discovered based on a Block Pointer field in the registers.
+> 
+> On Scalable MCA systems, the register space is fixed, and particular
+> addresses can be derived by regular offsets for bank and register type.
+> This fixed address space includes the MCA_MISC* registers.
+> 
+> MCA_MISC0 is always available for each MCA bank. MCA_MISC1 through
+> MCA_MISC4 are considered available if MCA_MISC0[BlkPtr]=1.
+> 
+> Cache the value of MCA_MISC0[BlkPtr] for each bank and per CPU. This
+> needs to be done only during init. The values should be saved per CPU
+> to accommodate heterogeneous SMCA systems.
+> 
+> Redo smca_get_block_address() to directly return the block addresses.
+> Use the cached Block Pointer value to decide if the MCA_MISC1-4
+> addresses should be returned.
+> 
+> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> ---
+> Link:
+> https://lkml.kernel.org/r/20190408141205.12376-4-Yazen.Ghannam@amd.com
+> 
+> v1->v2:
+> * No change.
+> 
+>  arch/x86/kernel/cpu/mce/amd.c | 71 +++++++++++++++++------------------
+>  1 file changed, 35 insertions(+), 36 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+> index e64de5149e50..f0644b59848d 100644
+> --- a/arch/x86/kernel/cpu/mce/amd.c
+> +++ b/arch/x86/kernel/cpu/mce/amd.c
+> @@ -101,11 +101,6 @@ static struct smca_bank_name smca_names[] = {
+>  	[SMCA_PCIE]	= { "pcie",		"PCI Express Unit" },
 >  };
-> +static struct mce_bank_dev mce_bank_devs[MAX_NR_BANKS];
 >  
-> -static struct mce_bank *mce_banks __read_mostly;
->  struct mce_vendor_flags mce_flags __read_mostly;
->  
->  struct mca_config mca_cfg __read_mostly = {
-> @@ -695,7 +700,7 @@ bool machine_check_poll(enum mcp_flags flags, mce_banks_t *b)
->  		m.tsc = rdtsc();
->  
->  	for (i = 0; i < mca_cfg.banks; i++) {
-> -		if (!mce_banks[i].ctl || !test_bit(i, *b))
-> +		if (!this_cpu_read(mce_banks)[i].ctl || !test_bit(i, *b))
->  			continue;
->  
->  		m.misc = 0;
-> @@ -1138,7 +1143,7 @@ static void __mc_scan_banks(struct mce *m, struct mce *final,
->  		if (!test_bit(i, valid_banks))
->  			continue;
->  
-> -		if (!mce_banks[i].ctl)
-> +		if (!this_cpu_read(mce_banks)[i].ctl)
->  			continue;
->  
->  		m->misc = 0;
-> @@ -1475,16 +1480,19 @@ static int __mcheck_cpu_mce_banks_init(void)
+> -static u32 smca_bank_addrs[MAX_NR_BANKS][NR_BLOCKS] __ro_after_init =
+> -{
+> -	[0 ... MAX_NR_BANKS - 1] = { [0 ... NR_BLOCKS - 1] = -1 }
+> -};
+> -
+>  static const char *smca_get_name(enum smca_bank_types t)
 >  {
->  	int i;
+>  	if (t >= N_SMCA_BANK_TYPES)
+> @@ -198,6 +193,7 @@ static char buf_mcatype[MAX_MCATYPE_NAME_LEN];
 >  
-> -	mce_banks = kcalloc(MAX_NR_BANKS, sizeof(struct mce_bank), GFP_KERNEL);
-> -	if (!mce_banks)
-> +	per_cpu(mce_banks, smp_processor_id()) =
-> +		kcalloc(MAX_NR_BANKS, sizeof(struct mce_bank), GFP_KERNEL);
+>  static DEFINE_PER_CPU(struct threshold_bank **, threshold_banks);
+>  static DEFINE_PER_CPU(unsigned int, bank_map);	/* see which banks are on */
+> +static DEFINE_PER_CPU(u32, smca_blkptr_map); /* see which banks use BlkPtr */
+
+smca_misc_banks_map I guess. BlkPtr means something only to you, PPR
+writers and me. And a couple others... :-)
+
+>  static void amd_threshold_interrupt(void);
+>  static void amd_deferred_error_interrupt(void);
+> @@ -208,6 +204,28 @@ static void default_deferred_error_interrupt(void)
+>  }
+>  void (*deferred_error_int_vector)(void) = default_deferred_error_interrupt;
+>  
+> +static void smca_set_blkptr_map(unsigned int bank, unsigned int cpu)
+
+Accordingly...
+
+> +{
+> +	u32 low, high;
 > +
-> +	if (!this_cpu_read(mce_banks))
->  		return -ENOMEM;
->  
->  	for (i = 0; i < MAX_NR_BANKS; i++) {
-> -		struct mce_bank *b = &mce_banks[i];
-> +		struct mce_bank *b = &this_cpu_read(mce_banks)[i];
->  
->  		b->ctl = -1ULL;
->  		b->init = 1;
+> +	/*
+> +	 * For SMCA enabled processors, BLKPTR field of the first MISC register
+> +	 * (MCx_MISC0) indicates presence of additional MISC regs set (MISC1-4).
+> +	 */
+> +	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_CONFIG(bank), &low, &high))
+> +		return;
+> +
+> +	if (!(low & MCI_CONFIG_MCAX))
+> +		return;
+> +
+> +	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_MISC(bank), &low, &high))
+> +		return;
+> +
+> +	if (low & MASK_BLKPTR_LO)
+> +		per_cpu(smca_blkptr_map, cpu) |= 1 << bank;
+
+BIT(bank)
+
+> +
+> +}
+> +
+>  static void smca_configure(unsigned int bank, unsigned int cpu)
+>  {
+>  	unsigned int i, hwid_mcatype;
+> @@ -245,6 +263,8 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+>  		wrmsr(smca_config, low, high);
 >  	}
+>  
+> +	smca_set_blkptr_map(bank, cpu);
 > +
->  	return 0;
+>  	/* Return early if this bank was already initialized. */
+>  	if (smca_banks[bank].hwid)
+>  		return;
+> @@ -455,42 +475,21 @@ static void deferred_error_interrupt_enable(struct cpuinfo_x86 *c)
+>  	wrmsr(MSR_CU_DEF_ERR, low, high);
 >  }
-
-Instead of doing all those per-CPU accesses in the function, you can use
-a local pointer and assign it once in the end, before returning.
-
-Also, fix the similar situation where you have multiple per-CPU accesses
-in a single function - assign to a local pointer instead and do all the
-accesses through it.
-
-> @@ -1504,7 +1512,7 @@ static int __mcheck_cpu_cap_init(void)
 >  
->  	mca_cfg.banks = max(mca_cfg.banks, b);
->  
-> -	if (!mce_banks) {
-> +	if (!this_cpu_read(mce_banks)) {
->  		int err = __mcheck_cpu_mce_banks_init();
->  		if (err)
->  			return err;
-> @@ -1547,7 +1555,7 @@ static void __mcheck_cpu_init_clear_banks(void)
->  	int i;
->  
->  	for (i = 0; i < mca_cfg.banks; i++) {
-> -		struct mce_bank *b = &mce_banks[i];
-> +		struct mce_bank *b = &this_cpu_read(mce_banks)[i];
->  
->  		if (!b->init)
->  			continue;
-> @@ -1602,7 +1610,7 @@ static int __mcheck_cpu_apply_quirks(struct cpuinfo_x86 *c)
->  			 * trips off incorrectly with the IOMMU & 3ware
->  			 * & Cerberus:
->  			 */
-> -			clear_bit(10, (unsigned long *)&mce_banks[4].ctl);
-> +			clear_bit(10, (unsigned long *)&this_cpu_read(mce_banks)[4].ctl);
->  		}
->  		if (c->x86 < 0x11 && cfg->bootlog < 0) {
->  			/*
-> @@ -1616,7 +1624,7 @@ static int __mcheck_cpu_apply_quirks(struct cpuinfo_x86 *c)
->  		 * by default.
->  		 */
->  		if (c->x86 == 6 && cfg->banks > 0)
-> -			mce_banks[0].ctl = 0;
-> +			this_cpu_read(mce_banks)[0].ctl = 0;
->  
->  		/*
->  		 * overflow_recov is supported for F15h Models 00h-0fh
-> @@ -1638,7 +1646,7 @@ static int __mcheck_cpu_apply_quirks(struct cpuinfo_x86 *c)
->  		 */
->  
->  		if (c->x86 == 6 && c->x86_model < 0x1A && cfg->banks > 0)
-> -			mce_banks[0].init = 0;
-> +			this_cpu_read(mce_banks)[0].init = 0;
->  
->  		/*
->  		 * All newer Intel systems support MCE broadcasting. Enable
-> @@ -1952,7 +1960,7 @@ static void mce_disable_error_reporting(void)
->  	int i;
->  
->  	for (i = 0; i < mca_cfg.banks; i++) {
-> -		struct mce_bank *b = &mce_banks[i];
-> +		struct mce_bank *b = &this_cpu_read(mce_banks)[i];
->  
->  		if (b->init)
->  			wrmsrl(msr_ops.ctl(i), 0);
-> @@ -2051,26 +2059,41 @@ static struct bus_type mce_subsys = {
->  
->  DEFINE_PER_CPU(struct device *, mce_device);
->  
-> -static inline struct mce_bank *attr_to_bank(struct device_attribute *attr)
-> +static inline struct mce_bank_dev *attr_to_bank(struct device_attribute *attr)
+> -static u32 smca_get_block_address(unsigned int bank, unsigned int block)
+> +static u32 smca_get_block_address(unsigned int bank, unsigned int block,
+> +				  unsigned int cpu)
 >  {
-> -	return container_of(attr, struct mce_bank, attr);
-> +	return container_of(attr, struct mce_bank_dev, attr);
+> -	u32 low, high;
+> -	u32 addr = 0;
+> -
+> -	if (smca_get_bank_type(bank) == SMCA_RESERVED)
+> -		return addr;
+> -
+>  	if (!block)
+>  		return MSR_AMD64_SMCA_MCx_MISC(bank);
+>  
+> -	/* Check our cache first: */
+> -	if (smca_bank_addrs[bank][block] != -1)
+> -		return smca_bank_addrs[bank][block];
+> -
+> -	/*
+> -	 * For SMCA enabled processors, BLKPTR field of the first MISC register
+> -	 * (MCx_MISC0) indicates presence of additional MISC regs set (MISC1-4).
+> -	 */
+> -	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_CONFIG(bank), &low, &high))
+> -		goto out;
+> -
+> -	if (!(low & MCI_CONFIG_MCAX))
+> -		goto out;
+> -
+> -	if (!rdmsr_safe(MSR_AMD64_SMCA_MCx_MISC(bank), &low, &high) &&
+> -	    (low & MASK_BLKPTR_LO))
+> -		addr = MSR_AMD64_SMCA_MCx_MISCy(bank, block - 1);
+> +	if (!(per_cpu(smca_blkptr_map, cpu) & (1 << bank)))
+
+BIT(bank)
+
+> +		return 0;
+>  
+> -out:
+> -	smca_bank_addrs[bank][block] = addr;
+> -	return addr;
+> +	return MSR_AMD64_SMCA_MCx_MISCy(bank, block - 1);
 >  }
->  
->  static ssize_t show_bank(struct device *s, struct device_attribute *attr,
->  			 char *buf)
->  {
-> -	return sprintf(buf, "%llx\n", attr_to_bank(attr)->ctl);
-> +	struct mce_bank *b;
-> +	u8 bank = attr_to_bank(attr)->bank;
-
-Please sort function local variables declaration in a reverse christmas
-tree order:
-
-	<type A> longest_variable_name;
-	<type B> shorter_var_name;
-	<type C> even_shorter;
-	<type D> i;
-
-> +
-> +	if (bank >= mca_cfg.banks)
-> +		return -EINVAL;
-> +
-> +	b = &per_cpu(mce_banks, s->id)[bank];
-> +
-> +	return sprintf(buf, "%llx\n", b->ctl);
->  }
->  
->  static ssize_t set_bank(struct device *s, struct device_attribute *attr,
->  			const char *buf, size_t size)
->  {
->  	u64 new;
-> +	struct mce_bank *b;
-> +	u8 bank = attr_to_bank(attr)->bank;
-
-Ditto.
-
->  	if (kstrtou64(buf, 0, &new) < 0)
->  		return -EINVAL;
->  
-> -	attr_to_bank(attr)->ctl = new;
-> +	if (bank >= mca_cfg.banks)
-> +		return -EINVAL;
-> +
-> +	b = &per_cpu(mce_banks, s->id)[bank];
-> +
-> +	b->ctl = new;
->  	mce_restart();
->  
->  	return size;
-> @@ -2185,7 +2208,7 @@ static void mce_device_release(struct device *dev)
->  	kfree(dev);
->  }
->  
-> -/* Per cpu device init. All of the cpus still share the same ctrl bank: */
-> +/* Per cpu device init. All of the cpus still share the same bank device: */
-
-s/cpu/CPU/g, while at it.
 
 -- 
 Regards/Gruss,
