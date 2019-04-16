@@ -7,58 +7,59 @@ X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E74E7C10F13
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 18:00:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF752C10F14
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 18:06:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B7D3F206B6
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 18:00:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84C722063F
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 18:06:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XrWbPwMV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="do4KGfFS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730305AbfDPSAp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 16 Apr 2019 14:00:45 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:32796 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730269AbfDPSAp (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Apr 2019 14:00:45 -0400
-Received: by mail-pl1-f196.google.com with SMTP id t16so10721231plo.0;
-        Tue, 16 Apr 2019 11:00:44 -0700 (PDT)
+        id S1730096AbfDPSGk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 16 Apr 2019 14:06:40 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:45836 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727490AbfDPSGk (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Apr 2019 14:06:40 -0400
+Received: by mail-pl1-f194.google.com with SMTP id bf11so10703490plb.12;
+        Tue, 16 Apr 2019 11:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=j9011hH5bzBiIpFx008nC8F1N7MLGdKNpynmAJ8DUYw=;
-        b=XrWbPwMVpXUvQI5agrbZzjiliw+tVOOQxsUujJHBZJ6D8S/5w3cbWHTrVxCh90FhZO
-         dEPxHwmNYYS5JORemypzIE2+YRJOV4LkVsVV+Kp0LxIRMNrIrf93loI1lBdKAB23aKFx
-         7+blDWKckYBimvj//uPy0iww7qpBlz9kWWuWNviW4EjMadCJr0dns6Xa30YsJI/7J2op
-         7ULiAQZ5FotD8enPd5j1joF6i855v4zt225lYUYSj+Jx2O/TIWtEF09SarMRzJyrobCo
-         hqrDtXvI07VpSjV6GFy3dFl3FWmUzLSqEsxy28fiiJgKxYGREGBpoTmYAreVVTwUcblO
-         Es7Q==
+        bh=y2U6piKmCXuthXhtzKPuF9xcIED8L2ChcKUQw0IQFHg=;
+        b=do4KGfFSoeMQssYLpt4TXa1gJ6k+JkJJQ4B4yHt074Rf8RyL+7Wn/P4xmSCp+ODW++
+         M2Rg+2ARz0y43fp1KNKapMvkSiuM8RwgQHEftKup3+0Ayx48MQw8oHOOrf3SaKD+Tdmt
+         xWaxA/VX45BEkPffChuPbHuTZSG8YHpUGMxktjuTQm/NpPgvD6FKtP2FxpYhZzFu9Bjb
+         kqQF4EHG2yDj6/Hpjb7KRQJYZCGxgjkcUAwaLvCkAd76rNibwWS1m+Hyh/l17SrdbtKq
+         p4hVnorAP8jHv+fdz1L7xl15cf6k6pyqHmSDwJ/D1tK4AK0/1juoZR7OHdShQJTJN8mG
+         EtTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=j9011hH5bzBiIpFx008nC8F1N7MLGdKNpynmAJ8DUYw=;
-        b=rPZj++s3/cuKQG0DnUnc7/ugjmLTCrZXvG5+8OjZkKguP6C3w07X0D8Q9VNQU/mJh1
-         L12R/sFjN2m6KkskpNWA7GDa1I6mxQvrD6vrazGRGAX8/w+BYJbf3q2ZjlFoQ6nxBpVh
-         5TyIXWZ7n+udBTNaHfqldo8C9L1HDImSf3+zeml823CgkD+BoZ+IhKhT9fZP9XJ6pzga
-         j/wf96VnFoplmjXFddQeCtYiFousFVJndhPdCKJny6TbrraPezPMS1A29EKRmSDZ9218
-         tVH40sn5Ozg9BMQghC8PuO1tHG0Ej8UAO5OdRXZhuzXVWHMkXcqsFFK0A0q9jLi/EiLV
-         h0KA==
-X-Gm-Message-State: APjAAAVAEQwsKucr780o0VM8SSb5n+NkeQsdvrThLbEOKrdwYYPlZrvq
-        dls2ze0fTckm856SrcNHBZlMm4j3nt75mNI5DG0=
-X-Google-Smtp-Source: APXvYqzVaRvCOuR54ejJezIhrvJpYWXi9Cl8Gk7Z6kf/+91Z0n0/NoEGo0sISUi8OB2W1Erc+l1CI2zIE5B4NPlOTgw=
-X-Received: by 2002:a17:902:9a89:: with SMTP id w9mr84715669plp.126.1555437644335;
- Tue, 16 Apr 2019 11:00:44 -0700 (PDT)
+        bh=y2U6piKmCXuthXhtzKPuF9xcIED8L2ChcKUQw0IQFHg=;
+        b=aqhPrDKfRk4/gR9l2Yu9dqRixMJt3caPtYv05AQM+Jc7xDMI38Yp5guIpOXg25JU+u
+         fGI+oSvL5zZ4uKnP+yTL3nrGoe8kcLxsloikI/scuF1CdAY/v18NXNqCYaC92v63ow3f
+         Jh+XroxOnFnZqOvKT3s8kv11fLNDLgLXZrBYucpZf6dE44rI1IrDJQxLqp2yTbNUgjqk
+         3LOJoOdK7rTOr8H1K6V6CfnZL3ulOZz9EZOqcaA/z43uZV4jDLOXQhPgpuGsgv1Cd1K7
+         pmN1vMkWQFg04xYixKWmYkkugE2h9AHLgbn6J9EGb/VrRuknCByWv2gizYTN7momW6Sw
+         XOTA==
+X-Gm-Message-State: APjAAAVaNGsOot0xDrayVrOqYFq3sjfRTG+okvd83SoQ4iNABZvYHLKU
+        gAWPsgV004ZVuG2i6z+4EF0XU0Vkgsns1eeJgmY=
+X-Google-Smtp-Source: APXvYqy6WspfDtNZ4xyqcUo0hfCiHTRfvlXA1yICwWpZ87s6Gu4wTtyw4Uq84d7f/QjwWfceUsHUwhCs0By9WAEDQt0=
+X-Received: by 2002:a17:902:2965:: with SMTP id g92mr67419593plb.267.1555438000086;
+ Tue, 16 Apr 2019 11:06:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
  <20190416012001.5338-2-xiyou.wangcong@gmail.com> <20190416095852.GA31772@zn.tnic>
- <CAM_iQpU6+xD+LmVtd=GPVp2zXgmLjT8tstRa7ia0pNgO0AcaPA@mail.gmail.com> <20190416174259.GK31772@zn.tnic>
-In-Reply-To: <20190416174259.GK31772@zn.tnic>
+ <CAM_iQpU6+xD+LmVtd=GPVp2zXgmLjT8tstRa7ia0pNgO0AcaPA@mail.gmail.com>
+ <20190416174259.GK31772@zn.tnic> <CAM_iQpWPq8p3L1v_h0_iEkq4Lcw=E84boZEQYUJxxuJtgHDo9w@mail.gmail.com>
+In-Reply-To: <CAM_iQpWPq8p3L1v_h0_iEkq4Lcw=E84boZEQYUJxxuJtgHDo9w@mail.gmail.com>
 From:   Cong Wang <xiyou.wangcong@gmail.com>
-Date:   Tue, 16 Apr 2019 11:00:32 -0700
+Date:   Tue, 16 Apr 2019 11:06:28 -0700
 Message-ID:
- <CAM_iQpWPq8p3L1v_h0_iEkq4Lcw=E84boZEQYUJxxuJtgHDo9w@mail.gmail.com>
+ <CAM_iQpWnM9ZRon8RALSCTD3RDxgLmBaDFNMgJtP0OVVu8zO95Q@mail.gmail.com>
 Subject: Re: [PATCH 2/2] ras: close the race condition with timer
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
@@ -69,47 +70,17 @@ Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190416180032._9BgG7vjotGOUlWaYaEsWe8MZ1EX7Hu5vRXcO61aIcM@z>
+Message-ID: <20190416180628.5oesuwjUEEA0r4slcJj7MZa-6mOuEofFYXdTVDLiiXY@z>
 
-On Tue, Apr 16, 2019 at 10:43 AM Borislav Petkov <bp@alien8.de> wrote:
+On Tue, Apr 16, 2019 at 11:00 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
 >
-> On Tue, Apr 16, 2019 at 10:09:49AM -0700, Cong Wang wrote:
-> > They are just locks requiring different contexts, I don't see how one is
-> > simpler than the other. Do you mind to be more specific?
->
-> Yes, I'd like for this whole CEC code to be lazy and preemptible as it
-> is not at all important when it does its work, as long as it gets it
-> done eventually.
->
-> Can't be preemptible with spinlocks.
+> As far as I understand, two works in the global workqueue could
+> be still ran in parallel on different CPU's, this is why I said it has to
+> be an ordered queue to guarantee the serialization.
 
-Got it, but the work done with holding a spinlock isn't heavy, given
-there are only at most 512 elements in the array.
+Never mind, I think we both agree to hold the mutex inside the work
+too. I misunderstood it.
 
->
-> > By workqueue, you must mean to say delayed work, right?
-> >
-> > But the global workqueue is not serialized either,
->
-> Serialized with what? Insertions?
-
-Hmm? We still have to serialize either the timer callback or
-a delayed work with the rest of array updates (add or delete),
-right?
-
-As far as I understand, two works in the global workqueue could
-be still ran in parallel on different CPU's, this is why I said it has to
-be an ordered queue to guarantee the serialization.
-
-
->
-> That's what the mutex is for and the insertions happen in process
-> context.
->
-> So yeah, delayed_work sounds like what it should do. I.e.,
-> queue_delayed_work() and decay_interval_set() should do
-> mod_delayed_work(). Something along those lines, anyways.
-
-This part is perfectly understood.
+I will update my patch to use delayed work.
 
 Thanks.
