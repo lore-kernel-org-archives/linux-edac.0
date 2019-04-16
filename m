@@ -2,85 +2,115 @@ Return-Path: <SRS0=Zomy=SS=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF752C10F14
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 18:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 884C4C10F13
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 21:34:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84C722063F
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 18:06:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 54A252075B
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 21:34:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="do4KGfFS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qB0XnPDT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730096AbfDPSGk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 16 Apr 2019 14:06:40 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:45836 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727490AbfDPSGk (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Apr 2019 14:06:40 -0400
-Received: by mail-pl1-f194.google.com with SMTP id bf11so10703490plb.12;
-        Tue, 16 Apr 2019 11:06:40 -0700 (PDT)
+        id S1727942AbfDPVeL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 16 Apr 2019 17:34:11 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43977 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726986AbfDPVeL (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Apr 2019 17:34:11 -0400
+Received: by mail-pf1-f196.google.com with SMTP id c8so11018337pfd.10;
+        Tue, 16 Apr 2019 14:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y2U6piKmCXuthXhtzKPuF9xcIED8L2ChcKUQw0IQFHg=;
-        b=do4KGfFSoeMQssYLpt4TXa1gJ6k+JkJJQ4B4yHt074Rf8RyL+7Wn/P4xmSCp+ODW++
-         M2Rg+2ARz0y43fp1KNKapMvkSiuM8RwgQHEftKup3+0Ayx48MQw8oHOOrf3SaKD+Tdmt
-         xWaxA/VX45BEkPffChuPbHuTZSG8YHpUGMxktjuTQm/NpPgvD6FKtP2FxpYhZzFu9Bjb
-         kqQF4EHG2yDj6/Hpjb7KRQJYZCGxgjkcUAwaLvCkAd76rNibwWS1m+Hyh/l17SrdbtKq
-         p4hVnorAP8jHv+fdz1L7xl15cf6k6pyqHmSDwJ/D1tK4AK0/1juoZR7OHdShQJTJN8mG
-         EtTw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q5aoI7m36qw89TPVJD90BaAONE0ERgN6P+QLtAN79gk=;
+        b=qB0XnPDTsE51xjAfasmehrRnMnQ0LJR78BCa9N6a0bcjprq7K3XBqZbwphbWThpzEq
+         sGDyCPaJ7Si+hv35ALJoN9VUZcMrxwkTcJLCxma2vcFl5O5y5mM8tNRZmayqq2TyIh/2
+         mL9JL/XdulCl8WtBu6Wem229iP9cidldYA3p2kqZZhVb02PHxk06ANdTR3nbgnMQfUrt
+         7vSsOIek9L877ZNwDbLZSh6GdhHwOcWfaGtt+tH5NOuklidd1MtmS8qarZNG4SbBuZvW
+         87cr+wFsUCzNWgfVlUamBc2nW42atfghsVl/mFAbn3pYsi72bxfFKpVQrKiZp6H9heBU
+         W+IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y2U6piKmCXuthXhtzKPuF9xcIED8L2ChcKUQw0IQFHg=;
-        b=aqhPrDKfRk4/gR9l2Yu9dqRixMJt3caPtYv05AQM+Jc7xDMI38Yp5guIpOXg25JU+u
-         fGI+oSvL5zZ4uKnP+yTL3nrGoe8kcLxsloikI/scuF1CdAY/v18NXNqCYaC92v63ow3f
-         Jh+XroxOnFnZqOvKT3s8kv11fLNDLgLXZrBYucpZf6dE44rI1IrDJQxLqp2yTbNUgjqk
-         3LOJoOdK7rTOr8H1K6V6CfnZL3ulOZz9EZOqcaA/z43uZV4jDLOXQhPgpuGsgv1Cd1K7
-         pmN1vMkWQFg04xYixKWmYkkugE2h9AHLgbn6J9EGb/VrRuknCByWv2gizYTN7momW6Sw
-         XOTA==
-X-Gm-Message-State: APjAAAVaNGsOot0xDrayVrOqYFq3sjfRTG+okvd83SoQ4iNABZvYHLKU
-        gAWPsgV004ZVuG2i6z+4EF0XU0Vkgsns1eeJgmY=
-X-Google-Smtp-Source: APXvYqy6WspfDtNZ4xyqcUo0hfCiHTRfvlXA1yICwWpZ87s6Gu4wTtyw4Uq84d7f/QjwWfceUsHUwhCs0By9WAEDQt0=
-X-Received: by 2002:a17:902:2965:: with SMTP id g92mr67419593plb.267.1555438000086;
- Tue, 16 Apr 2019 11:06:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
- <20190416012001.5338-2-xiyou.wangcong@gmail.com> <20190416095852.GA31772@zn.tnic>
- <CAM_iQpU6+xD+LmVtd=GPVp2zXgmLjT8tstRa7ia0pNgO0AcaPA@mail.gmail.com>
- <20190416174259.GK31772@zn.tnic> <CAM_iQpWPq8p3L1v_h0_iEkq4Lcw=E84boZEQYUJxxuJtgHDo9w@mail.gmail.com>
-In-Reply-To: <CAM_iQpWPq8p3L1v_h0_iEkq4Lcw=E84boZEQYUJxxuJtgHDo9w@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q5aoI7m36qw89TPVJD90BaAONE0ERgN6P+QLtAN79gk=;
+        b=d6NstLadg+mI83eQH3L1sHdjLSrLfsgLfJ+P/zNMBYpjmRAGrMLlQoOl6Cylp2hdf1
+         f6QDClAwwaLGqa999a0dD65LLz0PTAcH786YqfnJOcbpoaXGzPGZlUNVj4qdTD5kArm5
+         FHHROLyckmqyOgOSA0QUP2jQcKq+q+7hhXqWmlbusndgTQS1yuAmEs/j9CfBucoE5eD8
+         x6HzeXKlLyk/rBQ6l2bvZT+d4UltlW7LBdJ6wyUeKRRyVx+FdhWyMkWwfhe7B8rRo8W+
+         Cgoj3HhfuSP5UhQl98tK+ME2CRgtq7CSCgIva4/YowuhmTeObNv+L/WXLE/d7oEm/SFN
+         tv3Q==
+X-Gm-Message-State: APjAAAVL5Dq0wJ74FFAAMAdeK0lOQAIXP2NoA1IeC2K1Br4rob+xMT8L
+        NjLG2AWzNfILl4Cts9GlmVAIUjWG
+X-Google-Smtp-Source: APXvYqx3AynBcagFsCwV3wySOROGpXVLx8XKPMRjtNAFSfL5l2YC3Cg7xsZ9s98cpzybg6rS6F3AOw==
+X-Received: by 2002:a62:e315:: with SMTP id g21mr84944658pfh.2.1555450450590;
+        Tue, 16 Apr 2019 14:34:10 -0700 (PDT)
+Received: from tw-172-25-31-76.office.twttr.net ([8.25.197.24])
+        by smtp.gmail.com with ESMTPSA id y23sm74242127pfn.25.2019.04.16.14.34.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 16 Apr 2019 14:34:09 -0700 (PDT)
 From:   Cong Wang <xiyou.wangcong@gmail.com>
-Date:   Tue, 16 Apr 2019 11:06:28 -0700
-Message-ID:
- <CAM_iQpWnM9ZRon8RALSCTD3RDxgLmBaDFNMgJtP0OVVu8zO95Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ras: close the race condition with timer
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-edac@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
         Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH v2 1/2] ras: fix an off-by-one error in __find_elem()
+Date:   Tue, 16 Apr 2019 14:33:50 -0700
+Message-Id: <20190416213351.28999-1-xiyou.wangcong@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190416180628.5oesuwjUEEA0r4slcJj7MZa-6mOuEofFYXdTVDLiiXY@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190416213350.ppqhWO6g1EQc5K3on5YdH5YiamNHQMfG_6IitB2wUtw@z>
 
-On Tue, Apr 16, 2019 at 11:00 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
->
-> As far as I understand, two works in the global workqueue could
-> be still ran in parallel on different CPU's, this is why I said it has to
-> be an ordered queue to guarantee the serialization.
+ce_arr.array[] is always within the range [0, ce_arr.n-1].
+However, the binary search code in __find_elem() uses ce_arr.n
+as the maximum index, which could lead to an off-by-one
+out-of-bound access right after the while loop. In this case,
+we should not even read it, just return -ENOKEY instead.
 
-Never mind, I think we both agree to hold the mutex inside the work
-too. I misunderstood it.
+Note, this could cause a kernel crash if ce_arr.n is exactly
+MAX_ELEMS.
 
-I will update my patch to use delayed work.
+Fixes: 011d82611172 ("RAS: Add a Corrected Errors Collector")
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
+---
+ drivers/ras/cec.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Thanks.
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 2d9ec378a8bc..a4ff54e50673 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -204,10 +204,11 @@ static int __find_elem(struct ce_array *ca, u64 pfn, unsigned int *to)
+ 	if (to)
+ 		*to = min;
+ 
+-	this_pfn = PFN(ca->array[min]);
+-
+-	if (this_pfn == pfn)
+-		return min;
++	if (min < ca->n) {
++		this_pfn = PFN(ca->array[min]);
++		if (this_pfn == pfn)
++			return min;
++	}
+ 
+ 	return -ENOKEY;
+ }
+-- 
+2.20.1
+
