@@ -1,15 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [PATCHv1] drivers: edac: This patch fix the following checkpatch warning.
-From: Borislav Petkov <bp@alien8.de>
-Message-Id: <20190414201627.GB4386@zn.tnic>
-Date: Sun, 14 Apr 2019 22:16:27 +0200
-To: mohan kumar <mohankumar718@gmail.com>
-Cc: mchehab@kernel.org, james.morse@arm.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [v2,1/2] ras: fix an off-by-one error in __find_elem()
+From: Cong Wang <xiyou.wangcong@gmail.com>
+Message-Id: <20190416213351.28999-1-xiyou.wangcong@gmail.com>
+Date: Tue, 16 Apr 2019 14:33:50 -0700
+To: linux-kernel@vger.kernel.org
+Cc: linux-edac@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>
 List-ID: <edac.vger.kernel.org>
 
-T24gU3VuLCBBcHIgMTQsIDIwMTkgYXQgMTA6MDk6NDlQTSArMDMwMCwgbW9oYW4ga3VtYXIgd3Jv
-dGU6Cj4gT2sgVGhhbmtzLCBJIHdpbGwgZG8gdGhhdC4KCkdvb2QuCgpPbmUgbW9yZSB0aGluZzog
-cGxlYXNlIGRvIG5vdCB0b3AtcG9zdCB3aGVuIHJlcGx5aW5nIG9uIHB1YmxpYyBtYWlsaW5nCmxp
-c3RzLgoKVGh4Lgo=
+Y2VfYXJyLmFycmF5W10gaXMgYWx3YXlzIHdpdGhpbiB0aGUgcmFuZ2UgWzAsIGNlX2Fyci5uLTFd
+LgpIb3dldmVyLCB0aGUgYmluYXJ5IHNlYXJjaCBjb2RlIGluIF9fZmluZF9lbGVtKCkgdXNlcyBj
+ZV9hcnIubgphcyB0aGUgbWF4aW11bSBpbmRleCwgd2hpY2ggY291bGQgbGVhZCB0byBhbiBvZmYt
+Ynktb25lCm91dC1vZi1ib3VuZCBhY2Nlc3MgcmlnaHQgYWZ0ZXIgdGhlIHdoaWxlIGxvb3AuIElu
+IHRoaXMgY2FzZSwKd2Ugc2hvdWxkIG5vdCBldmVuIHJlYWQgaXQsIGp1c3QgcmV0dXJuIC1FTk9L
+RVkgaW5zdGVhZC4KCk5vdGUsIHRoaXMgY291bGQgY2F1c2UgYSBrZXJuZWwgY3Jhc2ggaWYgY2Vf
+YXJyLm4gaXMgZXhhY3RseQpNQVhfRUxFTVMuCgpGaXhlczogMDExZDgyNjExMTcyICgiUkFTOiBB
+ZGQgYSBDb3JyZWN0ZWQgRXJyb3JzIENvbGxlY3RvciIpCkNjOiBUb255IEx1Y2sgPHRvbnkubHVj
+a0BpbnRlbC5jb20+CkNjOiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT4KQ2M6IFRob21h
+cyBHbGVpeG5lciA8dGdseEBsaW51dHJvbml4LmRlPgpTaWduZWQtb2ZmLWJ5OiBDb25nIFdhbmcg
+PHhpeW91Lndhbmdjb25nQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3Jhcy9jZWMuYyB8IDkgKysr
+KystLS0tCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvcmFzL2NlYy5jIGIvZHJpdmVycy9yYXMvY2VjLmMKaW5kZXgg
+MmQ5ZWMzNzhhOGJjLi5hNGZmNTRlNTA2NzMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcmFzL2NlYy5j
+CisrKyBiL2RyaXZlcnMvcmFzL2NlYy5jCkBAIC0yMDQsMTAgKzIwNCwxMSBAQCBzdGF0aWMgaW50
+IF9fZmluZF9lbGVtKHN0cnVjdCBjZV9hcnJheSAqY2EsIHU2NCBwZm4sIHVuc2lnbmVkIGludCAq
+dG8pCiAJaWYgKHRvKQogCQkqdG8gPSBtaW47CiAKLQl0aGlzX3BmbiA9IFBGTihjYS0+YXJyYXlb
+bWluXSk7Ci0KLQlpZiAodGhpc19wZm4gPT0gcGZuKQotCQlyZXR1cm4gbWluOworCWlmIChtaW4g
+PCBjYS0+bikgeworCQl0aGlzX3BmbiA9IFBGTihjYS0+YXJyYXlbbWluXSk7CisJCWlmICh0aGlz
+X3BmbiA9PSBwZm4pCisJCQlyZXR1cm4gbWluOworCX0KIAogCXJldHVybiAtRU5PS0VZOwogfQo=
