@@ -2,62 +2,63 @@ Return-Path: <SRS0=Zomy=SS=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C415EC10F13
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 17:01:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB4CC10F13
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 17:10:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E90320872
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 17:01:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AC8220872
+	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 17:10:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VT0gkDbn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="euCt81qr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbfDPRBz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 16 Apr 2019 13:01:55 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:33576 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726860AbfDPRBy (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Apr 2019 13:01:54 -0400
-Received: by mail-pg1-f195.google.com with SMTP id k19so10647549pgh.0;
-        Tue, 16 Apr 2019 10:01:54 -0700 (PDT)
+        id S1727618AbfDPRKC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 16 Apr 2019 13:10:02 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33170 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726230AbfDPRKB (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Apr 2019 13:10:01 -0400
+Received: by mail-pg1-f196.google.com with SMTP id k19so10657918pgh.0;
+        Tue, 16 Apr 2019 10:10:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YRSl5HqtbCY/bYJjFaOwZj38smJrKw+9HQAyUQ/emuI=;
-        b=VT0gkDbn6XmX7qTld7SsAvpONdiTVZ6JBtMsATdQjSeJ+F2RGkwjUtU5Q4bvhzEgc/
-         eDi+6ft0wsJg5eVsOcESdy1rWoeevEXynkYPmVlawNaTx6fETsbQzGQsM4wWehUzL7+x
-         Vke22eFdhPK1tlBBh7rYwWXQREDTfhIYI+Etm8SuVUNk7y/4swAu8QjCt3ItGdDqpfcS
-         sVmPH3N9+WileGplsUrA/9sY3VLihwFQGOH7yw+e2jO+3sgw9z7MoSmYVcrTP/C+a8vj
-         qyiv/kf49ecRDUtbil8BAUkH5YrZXEXVHXQJPJJjBjZLwen2VAvDz0TIuIyTz7+Q38uk
-         1IfQ==
+        bh=/yZ3+SyiTKCssIAOvU/ruDWpPlPUw9/GOSXDr85FF90=;
+        b=euCt81qrbiWQ5b3nzxGBQ0bnfWZqgLeMnlY9UOAyWLOoCxxY4sn+e46a8IbaLAsq46
+         HnX6WgOb8o7cIuZoSqCChbw+XW96kuuvWWGv3qIIGZP1u8VBjt2PRJl5oYj96iHJqY80
+         iQXdMgqxms+n8L9827SZmhNAwNCCJqmbZJVAarvZVswYTpQBRaqtOxHFFu3XdtSnQ4on
+         sVUI1ge2BZQDHqCXq5QYkyKqpnfbz1A1toHXaYNKvnSdiYPNwer/HMhemiYGufTm5rhG
+         ToINOTCoq5Lc+PLJ5GTx5wuuhAuCETfOqkgm4fjfPDnca+WhO23qZyn6KHx/Q/ddP+AE
+         Kqwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YRSl5HqtbCY/bYJjFaOwZj38smJrKw+9HQAyUQ/emuI=;
-        b=mBcXEkU6d1np3U9MfQSBi2uk9PSCBaU4JUgm4yU/48rQwwGlaEkC6EEnedfE03g6oO
-         xDOlnr4mSMXe3vOYpEJ0Rr0EzYM2NKTAbe7IWqlajI1tITv5aTf4BZ8sX6W819sI3Dny
-         4uGCJB0gQKaONvCCn3bI4+0kqU3XFeomyGnatTJdS0+jt7IdW169XWE2g6EItDxB4gsG
-         qbJ17171G/NTO7SrdOiodhQF8RU83TXJz7EHQCZVdLhHVaTx6fr7toIPpZPAAz+oBisB
-         Ejjf5TosSkoCzTzJmoEmGALO+Tb4OJjbN3y7QLE7NDiKyIvCeISINXmGu5dbJvjaYEdI
-         djbw==
-X-Gm-Message-State: APjAAAVEG8UT8zkshOF0jHiIya2xYwrnTlmgs45henCR3CuT+Q6O5po6
-        sUmE5RILTDPikYiEzlUQGOto2/QjDY+eooE58Bwrh6BJ
-X-Google-Smtp-Source: APXvYqyXXSdCVYbApSPoagFGt4LL5f5xI87JDqO13u+c8+bJwGCsM0g9jh6oW09Eg1HUBXeCBkNC88fQrjBnIzi+2Zg=
-X-Received: by 2002:a65:5342:: with SMTP id w2mr55612737pgr.220.1555434113822;
- Tue, 16 Apr 2019 10:01:53 -0700 (PDT)
+        bh=/yZ3+SyiTKCssIAOvU/ruDWpPlPUw9/GOSXDr85FF90=;
+        b=ZgK+agPm4+1XcqVP7hcMtp53yFccnMQsJFurYXTXYxJXcp7pZAWjhxfaiIyJCr/b+h
+         eFb7cUARcZ3sqG1uhQdBxasN1lSaIJoiHFkiQh5ATMBfH4lcEKYpMRQ1GXY5WmfsDJa5
+         0u+uBpNIr3/vT68O4YOeZ1EXNJDPmj9GwpJDQtTQgIWMLri3l22Dv6Ni5Ea1nci0qTp1
+         lcE6EAzgPJWhH/xoxaUPrvE4G4m1UaWUigBU/koRHXU9Kq2h9A6lbrnaNmlLeqMglFyY
+         oItXuAJyBsxT5vXbX2llULL7MjgNIj+KinqFPN9HDDPcWSGYAmcd6PyABUWlBYIBmP2b
+         QprQ==
+X-Gm-Message-State: APjAAAXmWIF7dcAduBWNtwwMSBF7l+nuEL9URkAuyJesUMsP8THGfnpy
+        pzj9Ql8P5MGyuEtfLeHRL/Jnv4L2jzevYd5S3pX5vVR3
+X-Google-Smtp-Source: APXvYqw3an4H+ZaVcwy/0zqRWL8zhfkHu/hlIEI9b5Ju66roh0+O8Yre980QBwZ821BAl/HZPj4lFxEe56OixqlZWbU=
+X-Received: by 2002:aa7:8d9a:: with SMTP id i26mr71707213pfr.220.1555434601210;
+ Tue, 16 Apr 2019 10:10:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190416012001.5338-1-xiyou.wangcong@gmail.com> <20190416090726.GD27892@zn.tnic>
-In-Reply-To: <20190416090726.GD27892@zn.tnic>
+References: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
+ <20190416012001.5338-2-xiyou.wangcong@gmail.com> <20190416095852.GA31772@zn.tnic>
+In-Reply-To: <20190416095852.GA31772@zn.tnic>
 From:   Cong Wang <xiyou.wangcong@gmail.com>
-Date:   Tue, 16 Apr 2019 10:01:41 -0700
+Date:   Tue, 16 Apr 2019 10:09:49 -0700
 Message-ID:
- <CAM_iQpV4gMkh2xd9e3rBwaXpYuwG_QPDqw+Zj71f5Yf_n54rPQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ras: fix an off-by-one error in __find_elem()
+ <CAM_iQpU6+xD+LmVtd=GPVp2zXgmLjT8tstRa7ia0pNgO0AcaPA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ras: close the race condition with timer
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
         Tony Luck <tony.luck@intel.com>,
@@ -67,56 +68,59 @@ Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190416170141.4xko8L7dFnaVmgPYjRR61cBGkmNi2IKafio6eBnhxvQ@z>
+Message-ID: <20190416170949.ySvPsyyoHLfCtKUxFQB6j7swzIPTpyUBiaEJn7Oi4H4@z>
 
-On Tue, Apr 16, 2019 at 2:07 AM Borislav Petkov <bp@alien8.de> wrote:
+On Tue, Apr 16, 2019 at 2:58 AM Borislav Petkov <bp@alien8.de> wrote:
 >
-> On Mon, Apr 15, 2019 at 06:20:00PM -0700, Cong Wang wrote:
-> > ce_arr.array[] is always within the range [0, ce_arr.n-1].
-> > However, the binary search code in __find_elem() uses ce_arr.n
-> > as the maximum index, which could lead to an off-by-one
-> > out-of-bound access when the element after the last is exactly
-> > the one just got deleted, that is, 'min' returned to caller as
-> > 'ce_arr.n'.
+> On Mon, Apr 15, 2019 at 06:20:01PM -0700, Cong Wang wrote:
+> > cec_timer_fn() is a timer callback which reads ce_arr.array[]
+> > and updates its decay values. Elements could be added to or
+> > removed from this global array in parallel, although the array
+> > itself will not grow or shrink. del_lru_elem_unlocked() uses
+> > FULL_COUNT() as a key to find a right element to remove,
+> > which could be affected by the parallel timer.
+> >
+> > Fix this by converting the mutex to a spinlock and holding it
+> > inside the timer.
+> >
+> > Fixes: 011d82611172 ("RAS: Add a Corrected Errors Collector")
+> > Cc: Tony Luck <tony.luck@intel.com>
+> > Cc: Borislav Petkov <bp@alien8.de>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
+> > ---
+> >  drivers/ras/cec.c | 16 +++++++++-------
+> >  1 file changed, 9 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+> > index 61332c9aab5a..a82c9d08d47a 100644
+> > --- a/drivers/ras/cec.c
+> > +++ b/drivers/ras/cec.c
+> > @@ -117,7 +117,7 @@ static struct ce_array {
+> >       };
+> >  } ce_arr;
+> >
+> > -static DEFINE_MUTEX(ce_mutex);
+> > +static DEFINE_SPINLOCK(ce_lock);
 >
-> Sorry, I don't follow.
+> Nah, pls keep the simplicity here by retaining the mutex. Use a
 
-Sorry for the confusion here. Let me try to make it clear with
-the example I wrote down on a paper before submitting this patch.
+I don't understand why mutex is simpler than a spinlock here.
 
-Imagine we have the ca->array[] with ca->n = 4, the elements inside
-are 0, 1, 2, 3. We are trying to find 5 in this array. (This is just to
-simplify the following iterations of the while loop.)
-
-So in this specific scenario, without my patch we have the following
-inside the while loop:
-
-min = 0, max = 4
-tmp = 2
-min = 3, max = 4
-tmp = 3
-min = 4, max = 4
-break
-
-It is okay to have min==4 after this loop as we still need to check
-if array[4] is whether 5. The problem is array[4] could really be 5
-before we delete array[4], so 4 could be returned to caller. And,
-after that, 4 could be passed to del_elem() inside cec_add_elem(),
-then the if check inside is passed as it is an unsigned operation,
-then the memmove() accesses index 5...
-
-To actually crash the kernel, we have to replace 4 with MAX_ELEMS
-in the above example, kernel would crash either when reading
-array[MAX_ELEMS] or in the memmove().
+They are just locks requiring different contexts, I don't see how one is
+simpler than the other. Do you mind to be more specific?
 
 
->
-> There's a debugfs interface in /sys/kernel/debug/ras/cec/ with which you
-> can input random PFNs and test the thing.
->
-> Show me pls how this can happen with an example.
->
+> workqueue instead to queue the spring cleaning from IRQ context and then
+> do it when back in preemptible context.
 
-Let me try if I can figure out how to add and remove PFN's.
+By workqueue, you must mean to say delayed work, right?
+
+But the global workqueue is not serialized either, if you really prefer to
+move it to a same workqueue for serialization, we have to switch to an
+ordered workqueue here. It certainly could work, but I don't see how
+this way is any simpler than just using a spinlock.
+
+What do you think?
 
 Thanks.
