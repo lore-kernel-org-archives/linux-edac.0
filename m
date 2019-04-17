@@ -1,137 +1,89 @@
-Return-Path: <SRS0=Zomy=SS=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=pZ66=ST=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0C7C10F13
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 23:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB78BC10F14
+	for <linux-edac@archiver.kernel.org>; Wed, 17 Apr 2019 01:53:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CBEFF20880
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Apr 2019 23:48:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXlVS4Jm"
+	by mail.kernel.org (Postfix) with ESMTP id 761DD21773
+	for <linux-edac@archiver.kernel.org>; Wed, 17 Apr 2019 01:53:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730052AbfDPXsI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 16 Apr 2019 19:48:08 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:43930 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728373AbfDPXsI (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Apr 2019 19:48:08 -0400
-Received: by mail-pl1-f193.google.com with SMTP id n8so11082627plp.10;
-        Tue, 16 Apr 2019 16:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9wyq3kUHuGwvr+9CjqgddgW7KbiEbZO6JB9QFwOEOvg=;
-        b=PXlVS4JmP65ypGP/9vE4xctXnQ56BIUroIJYJGjl+aCA8BzeXt/DIp0F0dfy8wUFUV
-         bQT9EtIrfVNjogPm9tcj1G3FM4gbsj92hxr454yFcWslmMA63v98TWTeS13ZEshKOOfg
-         p8eqdKujZd+T0cv8Sg709zmVPnqLRPf7UFcHO9SaT4EChQIRYuV60p0YLa0Lna67Ldik
-         xLthHcTxisDGVJzqaQ1s+vQinby6o0cP00iwD1VGGqDvH0a0S3MzJWCSkNQPnO0HyHAF
-         c4QdnZmkeWM4UFx9jVk+BgNuraqNVnCUyZYLNE03qoPLx8RAx4EMEaW6ONMj7IIgHuXK
-         6bZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9wyq3kUHuGwvr+9CjqgddgW7KbiEbZO6JB9QFwOEOvg=;
-        b=kgk6cdB22SagtD1VOL9HqOpOeC2qS+dWR6ORT5R2AfC8HF+9lpVC/TCACdOcrl+mzT
-         g1JukGus95P/3HWqFiYiJ0n2KFXin8YPiiOKkKzEGKu1EI0VCC3sZL4tj2C5ek49sFiI
-         kiDg/OMOJpGSMmpzUIeArOu135ZmK8M5gSs8QvAj0KKjBj9dzMoXH3X8daVWOqIQSzEi
-         f+9p31HFVMkY8aYseOXUCs21VDXAS0Zkt1o+1nenP6dxQiMp/bq1KVQb+wLKYT85rXvC
-         0D+iwZUVnsEDh8b3XAfn5EneHkGb7iIBSQyxDUNyyfYq7IRMBASIcPebNipvLdi3tEy7
-         ZaBg==
-X-Gm-Message-State: APjAAAX4Lay0IamoNOHfCAT+0LJinSyiLbvVwehI7ApBHzeGWigxa1PO
-        k08bb2bRO/E5NhfCHV00cgVifunMpy8NN8XFgX0=
-X-Google-Smtp-Source: APXvYqw4U9FSVpLoth7Um/ZpHGYuAiY4To3MrdLixk+MUWXN4kNwdVP1hcj2DaZkWQL8+5CIcnn5Qr8aoXmh6XJEFVw=
-X-Received: by 2002:a17:902:9a89:: with SMTP id w9mr86405813plp.126.1555458487202;
- Tue, 16 Apr 2019 16:48:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
- <20190416090726.GD27892@zn.tnic> <20190416221852.GA10781@agluck-desk>
- <CAM_iQpWit6gHTEFPB5cN3XuHQjeR4mBSb03wRc1F44WEQfNH_w@mail.gmail.com> <20190416232833.GA17372@agluck-desk>
-In-Reply-To: <20190416232833.GA17372@agluck-desk>
-From:   Cong Wang <xiyou.wangcong@gmail.com>
-Date:   Tue, 16 Apr 2019 16:47:55 -0700
-Message-ID:
- <CAM_iQpXBJ2eAz4TW_GmOWRLrkyJcO=u-8VSnmv91ZABG-21Agg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ras: fix an off-by-one error in __find_elem()
-To:     "Luck, Tony" <tony.luck@intel.com>
+        id S1728237AbfDQBxx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 16 Apr 2019 21:53:53 -0400
+Received: from mga18.intel.com ([134.134.136.126]:20624 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728378AbfDQBxw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 16 Apr 2019 21:53:52 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Apr 2019 18:53:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,360,1549958400"; 
+   d="scan'208";a="162257123"
+Received: from agluck-desk.sc.intel.com (HELO agluck-desk) ([10.3.52.160])
+  by fmsmga002.fm.intel.com with ESMTP; 16 Apr 2019 18:53:51 -0700
+Date:   Tue, 16 Apr 2019 18:53:51 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Cong Wang <xiyou.wangcong@gmail.com>
 Cc:     Borislav Petkov <bp@alien8.de>,
         LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 1/2] ras: fix an off-by-one error in __find_elem()
+Message-ID: <20190417015351.GA28490@agluck-desk>
+References: <20190416012001.5338-1-xiyou.wangcong@gmail.com>
+ <20190416090726.GD27892@zn.tnic>
+ <20190416221852.GA10781@agluck-desk>
+ <CAM_iQpWit6gHTEFPB5cN3XuHQjeR4mBSb03wRc1F44WEQfNH_w@mail.gmail.com>
+ <20190416232833.GA17372@agluck-desk>
+ <CAM_iQpXBJ2eAz4TW_GmOWRLrkyJcO=u-8VSnmv91ZABG-21Agg@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CAM_iQpXBJ2eAz4TW_GmOWRLrkyJcO=u-8VSnmv91ZABG-21Agg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190416234755.cWHcyztUDap2iAD47L0JeKdBAol1_qQ_tcUkgJYGTTs@z>
+Message-ID: <20190417015351.FuOh6mrCtmH-tThkLtv7wFKA2fqO2aPsZ8noJbmdIXY@z>
 
-On Tue, Apr 16, 2019 at 4:28 PM Luck, Tony <tony.luck@intel.com> wrote:
->
-> On Tue, Apr 16, 2019 at 04:18:57PM -0700, Cong Wang wrote:
-> > > The problem case occurs when we've seen enough distinct
-> > > errors that we have filled every entry, then we try to
-> > > look up a pfn that is larger that any seen before.
-> > >
-> > > The loop:
-> > >
-> > >         while (min < max) {
-> > >                 ...
-> > >         }
-> > >
-> > > will terminate with "min" set to MAX_ELEMS. Then we
-> > > execute:
-> > >
-> > >         this_pfn = PFN(ca->array[min]);
-> > >
-> > > which references beyond the end of the space allocated
-> > > for ca->array.
-> >
-> > Exactly.
->
-> Hmmm. But can we ever really have this happen?  The call
-> sequence to get here looks like:
->
->
->         mutex_lock(&ce_mutex);
->
->         if (ca->n == MAX_ELEMS)
->                 WARN_ON(!del_lru_elem_unlocked(ca));
->
->         ret = find_elem(ca, pfn, &to);
->
-> I.e. if the array was all the way full, we delete one element
-> before calling find_elem().  So when we get here:
->
-> static int __find_elem(struct ce_array *ca, u64 pfn, unsigned int *to)
-> {
->         u64 this_pfn;
->         int min = 0, max = ca->n;
->
-> The biggest value "max" can have is MAX_ELEMS-1
+On Tue, Apr 16, 2019 at 04:47:55PM -0700, Cong Wang wrote:
+> 229 static void del_elem(struct ce_array *ca, int idx)
+> 230 {
+> 231         /* Save us a function call when deleting the last element. */
+> 232         if (ca->n - (idx + 1))
+> 233                 memmove((void *)&ca->array[idx],
+> 234                         (void *)&ca->array[idx + 1],
+> 235                         (ca->n - (idx + 1)) * sizeof(u64));
+> 236
+> 237         ca->n--;
+> 238 }
+> 
+> idx is ca->n and ca->n is MAX_ELEMS-1, then the above if statement
+> becomes true, therefore idx+1 is MAX_ELEMS which is just beyond
+> the valid range.
 
-This is exactly the explanation for why the crash is inside
-memmove() rather than inside find_elem(). del_elem() actually
-accesses off-by-two once we pass its 'if' check in line 232:
+Is that really the memmove() where we die?  It looks like
+it has a special case for dealing with the last element.
 
-229 static void del_elem(struct ce_array *ca, int idx)
-230 {
-231         /* Save us a function call when deleting the last element. */
-232         if (ca->n - (idx + 1))
-233                 memmove((void *)&ca->array[idx],
-234                         (void *)&ca->array[idx + 1],
-235                         (ca->n - (idx + 1)) * sizeof(u64));
-236
-237         ca->n--;
-238 }
+But this:
 
-idx is ca->n and ca->n is MAX_ELEMS-1, then the above if statement
-becomes true, therefore idx+1 is MAX_ELEMS which is just beyond
-the valid range.
+296         ret = find_elem(ca, pfn, &to);
+297         if (ret < 0) {
+298                 /*
+299                  * Shift range [to-end] to make room for one more element.
+300                  */
+301                 memmove((void *)&ca->array[to + 1],
+302                         (void *)&ca->array[to],
+303                         (ca->n - to) * sizeof(u64));
+304
 
-Thanks.
+looks like it also needs a special case for when "to ==  MAX_ELEMS-1"
+(we don't need to memmove).
+
+-Tony
