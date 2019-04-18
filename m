@@ -2,93 +2,69 @@ Return-Path: <SRS0=trs8=SU=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88168C282DA
-	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 02:43:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FED6C10F0E
+	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 03:41:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4EB6F217F9
-	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 02:43:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="LJi/FK0L"
+	by mail.kernel.org (Postfix) with ESMTP id 05ABB2083D
+	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 03:41:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387534AbfDRCnA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 17 Apr 2019 22:43:00 -0400
-Received: from m50-133.163.com ([123.125.50.133]:45448 "EHLO m50-133.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732737AbfDRCm7 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 17 Apr 2019 22:42:59 -0400
-X-Greylist: delayed 914 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Apr 2019 22:42:58 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id; bh=zscNWNAMEkTr/yZYJU
-        HcLfcz+HpT7tjzhOzHdHWJQs0=; b=LJi/FK0Li6pTVZPxeVBV0OLLjGmpoDbCW/
-        x2kwECJQxpDQE5eIEUlXIEv42OhXDRYYp3O2OGDTxQjzXBeMmOBueR/v9Wrkaljb
-        uX/FP/1ZYw9OOpr0ITh4AaZ1r11RdG47cYq7unCXezl24VFitRF1/IO3x4sxjGF7
-        Vl4UreibI=
-Received: from bp.localdomain (unknown [218.106.182.174])
-        by smtp3 (Coremail) with SMTP id DdGowAAXuliH4LdcUVtOAA--.117S3;
-        Thu, 18 Apr 2019 10:27:21 +0800 (CST)
-From:   Pan Bian <bianpan2016@163.com>
-To:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pan Bian <bianpan2016@163.com>
-Subject: EDAC: Fix memory leak in creating CSROW object
-Date:   Thu, 18 Apr 2019 10:27:18 +0800
-Message-Id: <1555554438-103953-1-git-send-email-bianpan2016@163.com>
-X-Mailer: git-send-email 2.7.4
-X-CM-TRANSID: DdGowAAXuliH4LdcUVtOAA--.117S3
-X-Coremail-Antispam: 1Uf129KBjvdXoWrurWUZFWxCrWxWw47XF15CFg_yoWktFX_Ga
-        4UXF17Wrs7KFyxKw47Cw4fZryIqFs09rZ7JFZ2gFyfCan8Zw1DZ3yvgrsxAr48Wa17ur98
-        Jr95JayUAF1UCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbj-e3UUUUU==
-X-Originating-IP: [218.106.182.174]
-X-CM-SenderInfo: held01tdqsiiqw6rljoofrz/xtbBZwmaclett8XX4wAAs6
+        id S1732737AbfDRDlU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 17 Apr 2019 23:41:20 -0400
+Received: from m97188.mail.qiye.163.com ([220.181.97.188]:9916 "EHLO
+        m97188.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732325AbfDRDlU (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 17 Apr 2019 23:41:20 -0400
+Received: from localhost (unknown [117.48.120.186])
+        by m97188.mail.qiye.163.com (Hmail) with ESMTPA id 3903F962848;
+        Thu, 18 Apr 2019 11:41:17 +0800 (CST)
+From:   WANG Chao <chao.wang@ucloud.cn>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org
+Subject: [PATCH 1/3] RAS/CEC: fix __find_elem
+Date:   Thu, 18 Apr 2019 11:41:13 +0800
+Message-Id: <20190418034115.75954-1-chao.wang@ucloud.cn>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kIGBQJHllBS1VLV1koWUFJQjdXWS1ZQUlXWQkOFx4IWUFZMjUtOjcyP0
+        FLVUtZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MD46Nww*Qjg3CDAiHyovCUhL
+        LxYaFChVSlVKTk5OTk5DQ0xMT0tJVTMWGhIXVRgTGhRVDBoVHDsOGBcUDh9VGBVFWVdZEgtZQVlK
+        SkxVT0NVSklLVUpDTVlXWQgBWUFKSE1JNwY+
+X-HM-Tid: 0a6a2e88c83c20bckuqy3903f962848
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190418022718.1g-rBQRBinrGXIeKkmthgFGNk5jlUr1JRyRnAYHIXbI@z>
+Message-ID: <20190418034113.kKeBbcYk4HWXBuBwOEkYCDWbrxfvb0JsOVl8HMsqEWw@z>
 
-In the function that creates a CSROW object, the object is not released
-when failing to add the device to device hierarchy. This may result in a
-memory leak bug.
+A left over pfn (because we don't clear) at ca->array[n] can be a match
+in __find_elem. Later it'd cause a memmove size overflow in del_elem.
 
-Signed-off-by: Pan Bian <bianpan2016@163.com>
+Signed-off-by: WANG Chao <chao.wang@ucloud.cn>
 ---
- drivers/edac/edac_mc_sysfs.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/ras/cec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 4641746..2dafb08 100644
---- a/drivers/edac/edac_mc_sysfs.c
-+++ b/drivers/edac/edac_mc_sysfs.c
-@@ -404,6 +404,7 @@ static inline int nr_pages_per_csrow(struct csrow_info *csrow)
- static int edac_create_csrow_object(struct mem_ctl_info *mci,
- 				    struct csrow_info *csrow, int index)
- {
-+	int err;
- 	csrow->dev.type = &csrow_attr_type;
- 	csrow->dev.groups = csrow_dev_groups;
- 	device_initialize(&csrow->dev);
-@@ -415,7 +416,10 @@ static int edac_create_csrow_object(struct mem_ctl_info *mci,
- 	edac_dbg(0, "creating (virtual) csrow node %s\n",
- 		 dev_name(&csrow->dev));
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 2d9ec378a8bc..2e0bf1269c31 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -206,7 +206,7 @@ static int __find_elem(struct ce_array *ca, u64 pfn, unsigned int *to)
  
--	return device_add(&csrow->dev);
-+	err = device_add(&csrow->dev);
-+	if (err)
-+		put_device(&csrow->dev);
-+	return err;
- }
+ 	this_pfn = PFN(ca->array[min]);
  
- /* Create a CSROW object under specifed edac_mc_device */
+-	if (this_pfn == pfn)
++	if (this_pfn == pfn && ca->n > min)
+ 		return min;
+ 
+ 	return -ENOKEY;
 -- 
-2.7.4
-
+2.21.0
 
