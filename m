@@ -2,123 +2,77 @@ Return-Path: <SRS0=trs8=SU=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27680C10F0E
-	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 03:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9081C10F0E
+	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 12:40:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02431214DA
-	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 03:50:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E01F21479
+	for <linux-edac@archiver.kernel.org>; Thu, 18 Apr 2019 12:40:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="MwwctOBf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732325AbfDRDuI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 17 Apr 2019 23:50:08 -0400
-Received: from m9785.mail.qiye.163.com ([220.181.97.85]:21821 "EHLO
-        m9785.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732183AbfDRDuI (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 17 Apr 2019 23:50:08 -0400
-X-Greylist: delayed 528 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Apr 2019 23:50:07 EDT
-Received: from localhost (unknown [117.48.120.186])
-        by m9785.mail.qiye.163.com (Hmail) with ESMTPA id EF8725C1604;
-        Thu, 18 Apr 2019 11:41:17 +0800 (CST)
-From:   WANG Chao <chao.wang@ucloud.cn>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org
-Subject: [PATCH 3/3] RAS/CEC: immediate soft-offline page when count_threshold == 1
-Date:   Thu, 18 Apr 2019 11:41:15 +0800
-Message-Id: <20190418034115.75954-3-chao.wang@ucloud.cn>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190418034115.75954-1-chao.wang@ucloud.cn>
-References: <20190418034115.75954-1-chao.wang@ucloud.cn>
+        id S1733205AbfDRMkp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 18 Apr 2019 08:40:45 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:46020 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726162AbfDRMkp (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 18 Apr 2019 08:40:45 -0400
+Received: from zn.tnic (p200300EC2F112E003868EF36058F9C84.dip0.t-ipconnect.de [IPv6:2003:ec:2f11:2e00:3868:ef36:58f:9c84])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id F3DF11EC0380;
+        Thu, 18 Apr 2019 14:40:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1555591244;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=A/tlFZXrPGyk1/ajtcj9AEpnfcVu3SpUU/A9NTuHNdk=;
+        b=MwwctOBfcJ2PECzysA1+jPvueLwTMePZpD0sNt95MklC6BbiXNzU6mZ8VO5CKLaEDi0IxM
+        9KiAipPZo+hb4gLJ6AEecpdte/69Ggrf0bc9o2iIHudMukiVkLsAg49TxNx98RIXyJVMmU
+        4Ql1WDeqPJQ5QUGUjiBRSHwVXMP2Pp8=
+Date:   Thu, 18 Apr 2019 14:40:42 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yash Shah <yash.shah@sifive.com>
+Cc:     devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, palmer@sifive.com,
+        aou@eecs.berkeley.edu, paul.walmsley@sifive.com,
+        mchehab@kernel.org, james.morse@arm.com, sachin.ghadi@sifive.com
+Subject: Re: [PATCH 1/3] RISC-V: Add DT documentation for SiFive L2 Cache
+ Controller
+Message-ID: <20190418124042.GH27160@zn.tnic>
+References: <1555328443-30874-1-git-send-email-yash.shah@sifive.com>
+ <1555328443-30874-2-git-send-email-yash.shah@sifive.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kIGBQJHllBS1VLV1koWUFJQjdXWS1ZQUlXWQkOFx4IWUFZMjUtOjcyP0
-        FLVUtZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PBw6FQw*SDgyLjBNHzQ9AwE3
-        E00wCxRVSlVKTk5OTk5DQ0xDS0xKVTMWGhIXVRgTGhRVDBoVHDsOGBcUDh9VGBVFWVdZEgtZQVlK
-        SkxVT0NVSklLVUpDTVlXWQgBWUFJQkhJNwY+
-X-HM-Tid: 0a6a2e88cb252087kuqyef8725c1604
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <1555328443-30874-2-git-send-email-yash.shah@sifive.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190418034115.btnZQEDk3Cq7LcZTrTn8ldpnndSr88CgQpCNu-vDK4U@z>
+Message-ID: <20190418124042.4aFSvO5iDRbqWIw1WqZx9FAhZ-nbYJzqmiSDQhwl2-g@z>
 
-count_threshol == 1 isn't working as expected. CEC only does soft
-offline the second time the same pfn is hit by a correctable error.
+On Mon, Apr 15, 2019 at 05:10:41PM +0530, Yash Shah wrote:
+> This patch adds device tree bindings for SiFive FU540 L2 cache controller
+> driver
 
-Signed-off-by: WANG Chao <chao.wang@ucloud.cn>
----
- drivers/ras/cec.c | 36 +++++++++++++++++++++---------------
- 1 file changed, 21 insertions(+), 15 deletions(-)
+Avoid having "This patch" or "This commit" in the commit message. It is
+tautologically useless.
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 702e4c02c713..ac879c45377c 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -272,7 +272,22 @@ static u64 __maybe_unused del_lru_elem(void)
- 	return pfn;
- }
- 
-+static void cec_valid_soft_offline(u64 pfn)
-+{
-+	if (!pfn_valid(pfn)) {
-+		pr_warn("CEC: Invalid pfn: 0x%llx\n", pfn);
-+	} else {
-+		/* We have reached max count for this page, soft-offline it. */
-+		pr_err("Soft-offlining pfn: 0x%llx\n", pfn);
-+		memory_failure_queue(pfn, MF_SOFT_OFFLINE, &cec_chain);
-+		ce_arr.pfns_poisoned++;
-+	}
-+}
- 
-+/*
-+ * Return a >0 value to denote that we've reached the offlining
-+ * threshold.
-+ */
- int cec_add_elem(u64 pfn)
- {
- 	struct ce_array *ca = &ce_arr;
-@@ -295,6 +310,11 @@ int cec_add_elem(u64 pfn)
- 
- 	ret = find_elem(ca, pfn, &to);
- 	if (ret < 0) {
-+		if (count_threshold == 1) {
-+			cec_valid_soft_offline(pfn);
-+			ret = 1;
-+			goto unlock;
-+		}
- 		/*
- 		 * Shift range [to-end] to make room for one more element.
- 		 */
-@@ -320,23 +340,9 @@ int cec_add_elem(u64 pfn)
- 
- 		ret = 0;
- 	} else {
--		u64 pfn = ca->array[to] >> PAGE_SHIFT;
--
--		if (!pfn_valid(pfn)) {
--			pr_warn("CEC: Invalid pfn: 0x%llx\n", pfn);
--		} else {
--			/* We have reached max count for this page, soft-offline it. */
--			pr_err("Soft-offlining pfn: 0x%llx\n", pfn);
--			memory_failure_queue(pfn, MF_SOFT_OFFLINE);
--			ca->pfns_poisoned++;
--		}
--
-+		cec_valid_soft_offline(pfn);
- 		del_elem(ca, to);
- 
--		/*
--		 * Return a >0 value to denote that we've reached the offlining
--		 * threshold.
--		 */
- 		ret = 1;
- 
- 		goto unlock;
+Also, do
+
+$ git grep 'This patch' Documentation/process
+
+for more details.
+
 -- 
-2.21.0
+Regards/Gruss,
+    Boris.
 
+Good mailing practices for 400: avoid top-posting and trim the reply.
