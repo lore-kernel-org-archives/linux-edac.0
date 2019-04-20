@@ -1,87 +1,107 @@
-Return-Path: <SRS0=ItGF=SV=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=x+Al=SW=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F81C10F14
-	for <linux-edac@archiver.kernel.org>; Fri, 19 Apr 2019 00:45:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54421C282DD
+	for <linux-edac@archiver.kernel.org>; Sat, 20 Apr 2019 10:24:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8442F21736
-	for <linux-edac@archiver.kernel.org>; Fri, 19 Apr 2019 00:45:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C6782087B
+	for <linux-edac@archiver.kernel.org>; Sat, 20 Apr 2019 10:24:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="Vh4McX3m"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Xs0iuGSt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbfDSApX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 18 Apr 2019 20:45:23 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:44226 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725948AbfDSApX (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 18 Apr 2019 20:45:23 -0400
-Received: from zn.tnic (p200300EC2F112E00C9E732E76EE3BD2F.dip0.t-ipconnect.de [IPv6:2003:ec:2f11:2e00:c9e7:32e7:6ee3:bd2f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C4A961EC0104;
-        Fri, 19 Apr 2019 02:45:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1555634721;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=B7TKCB1OFmsr7NkJTn8+NmAwe312DePuJSu/N+DUWxo=;
-        b=Vh4McX3m4glVjnUI3lCOaV2pdc+PabbFN6qWUdyYyAxBtE51Cf50G8+3Srylagz2JScmif
-        yQE0q6EOynnSTNQsO7wJ9Pl9+EzoEGk7TwtBiP59sMJvFvLs7Jpx/wyQKjkWW+qtoeF8kg
-        mMD9R/JgoTgwJg8RVKOXbnCnOW7lG2A=
-Date:   Fri, 19 Apr 2019 02:45:16 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     PanBian <bianpan2016@163.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: EDAC: Fix memory leak in creating CSROW object
-Message-ID: <20190419004516.GC559@zn.tnic>
-References: <1555554438-103953-1-git-send-email-bianpan2016@163.com>
- <20190418172548.GL27160@zn.tnic>
- <20190419003536.GA57795@bianpan2016@163.com>
+        id S1726109AbfDTKYm (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 20 Apr 2019 06:24:42 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:44823 "EHLO
+        terminus.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbfDTKYl (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 20 Apr 2019 06:24:41 -0400
+Received: from terminus.zytor.com (localhost [127.0.0.1])
+        by terminus.zytor.com (8.15.2/8.15.2) with ESMTPS id x3KAJIcO684200
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Sat, 20 Apr 2019 03:19:18 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 terminus.zytor.com x3KAJIcO684200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019041745; t=1555755558;
+        bh=E+sLm9uehRiGlzT+W/+y7Z+7JdEqg9tMPYCh/w6fgas=;
+        h=Date:From:Cc:Reply-To:In-Reply-To:References:To:Subject:From;
+        b=Xs0iuGStg/dROYjoMJkdRR4xqGDA8RuNrrNI5c+X1AKw9kfoF8niHcBp+6S+niXcd
+         HaupjVSxhhqyXTDvZD7HXzs0gKh9TnoEFq78aZfweBJRQ7706TdGsTKvugdgP9Nntc
+         rwVSEt4GVDo9w5EtvSf7e4vlwLFb5WWQvwzkGN+E+oGz8qTCUWUFw7rICeemHYzu0b
+         md/fMWMkQuw4ej2cABni4iZRjl14RvjUgMK5QsU/f065jSMXujyTY1n1WfI9rPupF5
+         DFzX/p4LVcBQEHUqzHRTQ98zi1djNsWeELrQrC5zPtSARxowj2UuXxGesBnfQ7dDry
+         bYSOeXNV++4oA==
+Received: (from tipbot@localhost)
+        by terminus.zytor.com (8.15.2/8.15.2/Submit) id x3KAJEwk684195;
+        Sat, 20 Apr 2019 03:19:14 -0700
+Date:   Sat, 20 Apr 2019 03:19:14 -0700
+X-Authentication-Warning: terminus.zytor.com: tipbot set sender to tipbot@zytor.com using -f
+From:   tip-bot for WANG Chao <tipbot@zytor.com>
+Message-ID: <tip-06e0fe2d8e9178bda874a75083bc13647fbf983f@git.kernel.org>
+Cc:     tony.luck@intel.com, linux-kernel@vger.kernel.org, hpa@zytor.com,
+        chao.wang@ucloud.cn, tglx@linutronix.de, bp@suse.de,
+        mingo@kernel.org, linux-edac@vger.kernel.org
+Reply-To: bp@suse.de, mingo@kernel.org, tglx@linutronix.de, hpa@zytor.com,
+          linux-edac@vger.kernel.org, chao.wang@ucloud.cn,
+          linux-kernel@vger.kernel.org, tony.luck@intel.com
+In-Reply-To: <20190418034115.75954-2-chao.wang@ucloud.cn>
+References: <20190418034115.75954-2-chao.wang@ucloud.cn>
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip:ras/core] RAS/CEC: Increment cec_entered under the mutex lock
+Git-Commit-ID: 06e0fe2d8e9178bda874a75083bc13647fbf983f
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot.git.kernel.org>
+Robot-Unsubscribe: Contact <mailto:hpa@kernel.org> to get blacklisted from
+ these emails
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20190419003536.GA57795@bianpan2016@163.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190419004516.PRDywx2ANuwYUNopjGs5zvND3Nj-Sh-J7Snq_WYkc0s@z>
+Message-ID: <20190420101914.GoehIh-xNm1J4Ktkt2xNpw3VrQmsiMOz9Xx5E3OIAhE@z>
 
-On Fri, Apr 19, 2019 at 08:35:36AM +0800, PanBian wrote:
-> Yes, I see that. Because the loop start with (--i), there is no put
-> operation for the device that fails to create. So, I think we cannot
-> rule out the possibility of memory leak.
+Commit-ID:  06e0fe2d8e9178bda874a75083bc13647fbf983f
+Gitweb:     https://git.kernel.org/tip/06e0fe2d8e9178bda874a75083bc13647fbf983f
+Author:     WANG Chao <chao.wang () ucloud ! cn>
+AuthorDate: Thu, 18 Apr 2019 03:41:14 +0000
+Committer:  Borislav Petkov <bp@suse.de>
+CommitDate: Sat, 20 Apr 2019 12:13:13 +0200
 
-Ok, so this is not something you trigger - you're basically staring at
-the code?
+RAS/CEC: Increment cec_entered under the mutex lock
 
-Well, there's something else questionable in that code which I asked
-Greg about today but we didn't finish that conversation, let me CC him.
+Modify ->cec_entered in the critical section of the mutex.
 
-So AFAIU, devices for which device_add() has returned success,
-should be removed with their counterpart device_del().
-edac_create_csrow_objects(), however, does put_device() on those in the
-"unwinding" loop.
+Signed-off-by: WANG Chao <chao.wang@ucloud.cn>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Link: https://lkml.kernel.org/r/20190418034115.75954-2-chao.wang@ucloud.cn
+---
+ drivers/ras/cec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-And for the case where device_add() fails, you should do put_device() to
-it. I.e., what you're saying.
-
-So I think we need to figure what needs to be done when before fixing
-this properly.
-
-Greg?
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 2d9ec378a8bc..88e4f3ff0cb8 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -286,10 +286,10 @@ int cec_add_elem(u64 pfn)
+ 	if (!ce_arr.array || ce_arr.disabled)
+ 		return -ENODEV;
+ 
+-	ca->ces_entered++;
+-
+ 	mutex_lock(&ce_mutex);
+ 
++	ca->ces_entered++;
++
+ 	if (ca->n == MAX_ELEMS)
+ 		WARN_ON(!del_lru_elem_unlocked(ca));
+ 
