@@ -1,93 +1,109 @@
-Return-Path: <SRS0=oIy/=SX=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=VEBM=SZ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8988C10F14
-	for <linux-edac@archiver.kernel.org>; Sun, 21 Apr 2019 08:29:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A29B0C282E1
+	for <linux-edac@archiver.kernel.org>; Tue, 23 Apr 2019 14:34:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A32CA20859
-	for <linux-edac@archiver.kernel.org>; Sun, 21 Apr 2019 08:29:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="H/NdE95a"
+	by mail.kernel.org (Postfix) with ESMTP id 7D90A2184B
+	for <linux-edac@archiver.kernel.org>; Tue, 23 Apr 2019 14:34:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725990AbfDUI33 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 21 Apr 2019 04:29:29 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:38692 "EHLO mail.skyhub.de"
+        id S1727849AbfDWOeP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 23 Apr 2019 10:34:15 -0400
+Received: from mga11.intel.com ([192.55.52.93]:54833 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725963AbfDUI33 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 21 Apr 2019 04:29:29 -0400
-Received: from zn.tnic (p4FED3E67.dip0.t-ipconnect.de [79.237.62.103])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 771951EC0235;
-        Sun, 21 Apr 2019 10:29:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1555835367;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=bXu/uI5IBj6HDshU8rzqR7bVZ8NAkPlez1EKKEOAkHs=;
-        b=H/NdE95afPtVfHF3X8ESbVpE288eTwssTtIecha7IYufpNG1tQso4PZ1EqnUxjcuxk+H0E
-        LDiPEgzeuux4Ic/Jxp6T9muzyphPL0JprVCY8VCIIrIuP3HUl7FBvmx5/Nc99t7diRjbB8
-        H26sINshzzxa2KNugnnlvbb6aUQtIA0=
-Date:   Sun, 21 Apr 2019 10:27:07 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Cong Wang <xiyou.wangcong@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
-        Tony Luck <tony.luck@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v2 1/2] ras: fix an off-by-one error in __find_elem()
-Message-ID: <20190421082707.GA6048@zn.tnic>
-References: <20190416213351.28999-1-xiyou.wangcong@gmail.com>
- <20190416214634.GP31772@zn.tnic>
- <CAM_iQpVd02zkVJ846cj-Fg1yUNuz6tY5q1Vpj4LrXmE06dPYYg@mail.gmail.com>
- <20190420113444.GC29704@zn.tnic>
- <CAM_iQpXKWDr4AbROO=ZbkxwQHkj4anA9FJAaohOqg1SCq0L7eg@mail.gmail.com>
- <20190420190442.GF29704@zn.tnic>
- <CAM_iQpWedOfJLSG1zzaEqRY05GO2jnODWT8mQVAiWSsk3umQUA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAM_iQpWedOfJLSG1zzaEqRY05GO2jnODWT8mQVAiWSsk3umQUA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1728251AbfDWOeO (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 23 Apr 2019 10:34:14 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP; 23 Apr 2019 07:34:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,386,1549958400"; 
+   d="scan'208";a="136653885"
+Received: from tthayer-hp-z620.an.intel.com ([10.122.105.146])
+  by orsmga008.jf.intel.com with ESMTP; 23 Apr 2019 07:34:13 -0700
+From:   thor.thayer@linux.intel.com
+To:     bp@alien8.de, mchehab@kernel.org, james.morse@arm.com,
+        dinguyen@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     thor.thayer@linux.intel.com, devicetree@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] EDAC, altera: Add Stratix10 OCRAM ECC support
+Date:   Tue, 23 Apr 2019 09:36:34 -0500
+Message-Id: <1556030197-24534-2-git-send-email-thor.thayer@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1556030197-24534-1-git-send-email-thor.thayer@linux.intel.com>
+References: <1556030197-24534-1-git-send-email-thor.thayer@linux.intel.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190421082707.SN6Dr5ktbcN6jdCe66GNA30jEHMlHi_P-EKKJTKX9XY@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190423143634.3YDAMkSfiFw6flxzXLBvaK2d8qeNJ1yNN8J9e7oyix4@z>
 
-On Sat, Apr 20, 2019 at 12:15:26PM -0700, Cong Wang wrote:
-> Yes, one is V1 and the other is V2. Is it hard to understand V2 is to
-> replace V1?
+From: Thor Thayer <thor.thayer@linux.intel.com>
 
-Well, looking at these two very different fixes, it made me think that
-you don't really know what you're doing. So I went and did the Knuth's
-version just so that I can analyze and understand the issue myself.
+Use the newer ECC error injection method for Arria10 and
+Stratix10 OCRAM.
+If OCRAM has already been initialized during the boot and
+OCRAM ECC is enabled, ensure the Single Bit Error IRQ is
+enabled.
 
-The final result ended up needing *both* the index fix *and* removed the
-trailing noodling code after the loop which looked fishy at best and I
-wanted it gone anyway.
+Signed-off-by: Thor Thayer <thor.thayer@linux.intel.com>
+---
+ drivers/edac/altera_edac.c | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
-So in the end:
-
-1. your first fix was correct but incomplete
-
-2. your second was replaced by a better version of the whole thing
-
-So the final result is a lot cleaner and straight-forward. And it is
-only 29 lines and I don't see a problem with it going to stable.
-
-And I as author and maintainer of this code have very much the
-prerogative to decide which way to go, TYVM. No matter how much you
-passive-aggressively bitch. Thanks to your last mail, I won't have to
-make this choice anymore.
-
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index 8816f74a22b4..b7bc8f020df8 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1223,8 +1223,31 @@ static const struct edac_device_prv_data ocramecc_data = {
+ 	.inject_fops = &altr_edac_device_inject_fops,
+ };
+ 
++static int __maybe_unused
++altr_check_ocram_deps_init(struct altr_edac_device_dev *device)
++{
++	void __iomem  *base = device->base;
++	int ret;
++
++	ret = altr_check_ecc_deps(device);
++	if (ret)
++		return ret;
++
++	/* Verify OCRAM has been initialized */
++	if (!ecc_test_bits(ALTR_A10_ECC_INITCOMPLETEA,
++			   (base + ALTR_A10_ECC_INITSTAT_OFST)))
++		return -ENODEV;
++
++	/* Enable IRQ on Single Bit Error */
++	writel(ALTR_A10_ECC_SERRINTEN, (base + ALTR_A10_ECC_ERRINTENS_OFST));
++	/* Ensure all writes complete */
++	wmb();
++
++	return 0;
++}
++
+ static const struct edac_device_prv_data a10_ocramecc_data = {
+-	.setup = altr_check_ecc_deps,
++	.setup = altr_check_ocram_deps_init,
+ 	.ce_clear_mask = ALTR_A10_ECC_SERRPENA,
+ 	.ue_clear_mask = ALTR_A10_ECC_DERRPENA,
+ 	.irq_status_mask = A10_SYSMGR_ECC_INTSTAT_OCRAM,
+@@ -1234,7 +1257,7 @@ static const struct edac_device_prv_data a10_ocramecc_data = {
+ 	.ue_set_mask = ALTR_A10_ECC_TDERRA,
+ 	.set_err_ofst = ALTR_A10_ECC_INTTEST_OFST,
+ 	.ecc_irq_handler = altr_edac_a10_ecc_irq,
+-	.inject_fops = &altr_edac_a10_device_inject_fops,
++	.inject_fops = &altr_edac_a10_device_inject2_fops,
+ 	/*
+ 	 * OCRAM panic on uncorrectable error because sleep/resume
+ 	 * functions and FPGA contents are stored in OCRAM. Prefer
 -- 
-Regards/Gruss,
-    Boris.
+2.7.4
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
