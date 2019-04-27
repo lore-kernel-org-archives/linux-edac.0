@@ -1,263 +1,135 @@
-Return-Path: <SRS0=LwuJ=S3=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=yE+0=S5=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_PASS,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE031C43219
-	for <linux-edac@archiver.kernel.org>; Thu, 25 Apr 2019 14:56:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96102C43218
+	for <linux-edac@archiver.kernel.org>; Sat, 27 Apr 2019 21:49:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BB2AD20891
-	for <linux-edac@archiver.kernel.org>; Thu, 25 Apr 2019 14:56:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="EZX2iUrA"
+	by mail.kernel.org (Postfix) with ESMTP id 56195208C2
+	for <linux-edac@archiver.kernel.org>; Sat, 27 Apr 2019 21:49:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556401769;
+	bh=ad4NRf2D1FTn7+5by/ebxnREERSQZJsRoAGBTwdZ7K4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=rJcIEq5eIJIJd/VKq/+Z25xbToRtnGOLMOQZ01MnpMGNVveo0uzoBC+DTzrmkf0D9
+	 rkSFWYYvXWwDzdEOA8oNai0zATt/bFnWWmk6WaDO/vLEXw+0SZOGisfdChlypIeGrx
+	 OlTtY1OqllV20C9+aJLoO8Snp9roUv/HCpb91suk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbfDYO4D (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 25 Apr 2019 10:56:03 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:41096 "EHLO mail.skyhub.de"
+        id S1726150AbfD0Vt2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 27 Apr 2019 17:49:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54028 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726155AbfDYO4D (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 25 Apr 2019 10:56:03 -0400
-Received: from zn.tnic (p200300EC2F0E43001D86563D61B131D5.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:4300:1d86:563d:61b1:31d5])
+        id S1726088AbfD0Vt2 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 27 Apr 2019 17:49:28 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6DBDB1EC09F1;
-        Thu, 25 Apr 2019 16:56:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1556204161;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:
-         content-transfer-encoding:content-transfer-encoding:in-reply-to:
-         references; bh=HlhU7sVeqBudDbuFGfe1q1xxgBNWTsEvOFUEN3Hx9qc=;
-        b=EZX2iUrAL1jGoWk4d0wowQq6cHPBzQ1pep1GN1x+P4/QtsOKoApZ/6VJSzc0pbGe/xgP6h
-        /0DQZ3KApl/kgaAvLznv18Dx5enAJnLPeGB8QEDxCRkcjmDtlPchX7ngxfsgttZCF9vNOP
-        wDsd417heLz1HgucXYYqdMTHup08E+0=
-From:   Borislav Petkov <bp@alien8.de>
-To:     linux-edac <linux-edac@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH] Revert "EDAC/amd64: Support more than two controllers for chip select handling"
-Date:   Thu, 25 Apr 2019 16:55:54 +0200
-Message-Id: <20190425145554.5091-1-bp@alien8.de>
-X-Mailer: git-send-email 2.21.0
+        by mail.kernel.org (Postfix) with ESMTPSA id CB39620645;
+        Sat, 27 Apr 2019 21:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556401767;
+        bh=ad4NRf2D1FTn7+5by/ebxnREERSQZJsRoAGBTwdZ7K4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dq89bU2UJRp3k78iGEbCoJWQNVPkrxfNzNex5TBzfb5CKbmQ8ebcusXSQS/4FEm4g
+         Nwrm1da3E1DtofGW7FdXzw7ncTI09feAE8QR9ENn7DkNLHThOv+THrOGT27WutXD97
+         O9u7hApR9qV7Ae3sb24mah5W0Rf/BTT//XfZV520=
+Date:   Sat, 27 Apr 2019 23:49:25 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     PanBian <bianpan2016@163.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: EDAC: Fix memory leak in creating CSROW object
+Message-ID: <20190427214925.GE16338@kroah.com>
+References: <1555554438-103953-1-git-send-email-bianpan2016@163.com>
+ <20190418172548.GL27160@zn.tnic>
+ <20190419003536.GA57795@bianpan2016@163.com>
+ <20190419004516.GC559@zn.tnic>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20190419004516.GC559@zn.tnic>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190425145554.zEu6UppPrC5W0qKWwg3ARHyRaBpNv2DfEO7ifBhnyvU@z>
+Message-ID: <20190427214925.t5LN2ZRHFAuckYIz1rlFCtmzcrcTff-UXR05JkPkzRc@z>
 
-From: Borislav Petkov <bp@suse.de>
+On Fri, Apr 19, 2019 at 02:45:16AM +0200, Borislav Petkov wrote:
+> On Fri, Apr 19, 2019 at 08:35:36AM +0800, PanBian wrote:
+> > Yes, I see that. Because the loop start with (--i), there is no put
+> > operation for the device that fails to create. So, I think we cannot
+> > rule out the possibility of memory leak.
+> 
+> Ok, so this is not something you trigger - you're basically staring at
+> the code?
+> 
+> Well, there's something else questionable in that code which I asked
+> Greg about today but we didn't finish that conversation, let me CC him.
+> 
+> So AFAIU, devices for which device_add() has returned success,
+> should be removed with their counterpart device_del().
+> edac_create_csrow_objects(), however, does put_device() on those in the
+> "unwinding" loop.
+> 
+> And for the case where device_add() fails, you should do put_device() to
+> it. I.e., what you're saying.
+> 
+> So I think we need to figure what needs to be done when before fixing
+> this properly.
+> 
+> Greg?
 
-This reverts commit 0a227af521d6df5286550b62f4b591417170b4ea.
+How about this patch, I think it fixes up everything you need to do
+here, right?
 
-Unfortunately, this commit caused wrong detection of chip select sizes
-on some F17h client machines:
 
-  --- 00-rc6+     2019-02-14 14:28:03.126622904 +0100
-  +++ 01-rc4+     2019-04-14 21:06:16.060614790 +0200
-   EDAC amd64: MC: 0:     0MB 1:     0MB
-  -EDAC amd64: MC: 2: 16383MB 3: 16383MB
-  +EDAC amd64: MC: 2:     0MB 3: 2097151MB
-   EDAC amd64: MC: 4:     0MB 5:     0MB
-   EDAC amd64: MC: 6:     0MB 7:     0MB
-   EDAC MC: UMC1 chip selects:
-   EDAC amd64: MC: 0:     0MB 1:     0MB
-  -EDAC amd64: MC: 2: 16383MB 3: 16383MB
-  +EDAC amd64: MC: 2:     0MB 3: 2097151MB
-   EDAC amd64: MC: 4:     0MB 5:     0MB
-   EDAC amd64: MC: 6:     0MB 7:     0M
-
-Revert it for now until it has been solved properly.
-
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>
----
- drivers/edac/amd64_edac.c | 113 ++++++++++++++++++--------------------
- drivers/edac/amd64_edac.h |   5 +-
- 2 files changed, 56 insertions(+), 62 deletions(-)
-
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 4c0239aeff2f..e2a99466faaa 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -941,94 +941,89 @@ static void prep_chip_selects(struct amd64_pvt *pvt)
- 	} else if (pvt->fam == 0x15 && pvt->model == 0x30) {
- 		pvt->csels[0].b_cnt = pvt->csels[1].b_cnt = 4;
- 		pvt->csels[0].m_cnt = pvt->csels[1].m_cnt = 2;
--	} else if (pvt->fam >= 0x17) {
--		int umc;
--
--		for_each_umc(umc) {
--			pvt->csels[umc].b_cnt = 8;
--			pvt->csels[umc].m_cnt = 4;
--		}
--
- 	} else {
- 		pvt->csels[0].b_cnt = pvt->csels[1].b_cnt = 8;
- 		pvt->csels[0].m_cnt = pvt->csels[1].m_cnt = 4;
- 	}
- }
- 
--static void read_umc_base_mask(struct amd64_pvt *pvt)
--{
--	int cs, umc;
--
--	for_each_umc(umc) {
--		u32 umc_base_reg = get_umc_base(umc) + UMCCH_BASE_ADDR;
--		u32 umc_mask_reg = get_umc_base(umc) + UMCCH_ADDR_MASK;
--
--		for_each_chip_select(cs, 0, pvt) {
--			u32 *base = &pvt->csels[umc].csbases[cs];
--			u32 *mask = &pvt->csels[umc].csmasks[cs];
--
--			u32 base_reg = umc_base_reg + (cs * 4);
--			u32 mask_reg = umc_mask_reg + ((cs >> 1) * 4);
--
--			if (!amd_smn_read(pvt->mc_node_id, base_reg, base))
--				edac_dbg(0, "  DCSB%d[%d]=0x%08x reg: 0x%x\n",
--					 umc, cs, *base, base_reg);
--
--			if (!amd_smn_read(pvt->mc_node_id, mask_reg, mask))
--				edac_dbg(0, "    DCSM%d[%d]=0x%08x reg: 0x%x\n",
--					 umc, cs, *mask, mask_reg);
--		}
--	}
--}
--
- /*
-  * Function 2 Offset F10_DCSB0; read in the DCS Base and DCS Mask registers
-  */
- static void read_dct_base_mask(struct amd64_pvt *pvt)
+diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
+index 464174685589..0fb2d1de6d0e 100644
+--- a/drivers/edac/edac_mc_sysfs.c
++++ b/drivers/edac/edac_mc_sysfs.c
+@@ -404,6 +404,8 @@ static inline int nr_pages_per_csrow(struct csrow_info *csrow)
+ static int edac_create_csrow_object(struct mem_ctl_info *mci,
+ 				    struct csrow_info *csrow, int index)
  {
--	int cs;
-+	int base_reg0, base_reg1, mask_reg0, mask_reg1, cs;
- 
- 	prep_chip_selects(pvt);
- 
--	if (pvt->umc)
--		return read_umc_base_mask(pvt);
-+	if (pvt->umc) {
-+		base_reg0 = get_umc_base(0) + UMCCH_BASE_ADDR;
-+		base_reg1 = get_umc_base(1) + UMCCH_BASE_ADDR;
-+		mask_reg0 = get_umc_base(0) + UMCCH_ADDR_MASK;
-+		mask_reg1 = get_umc_base(1) + UMCCH_ADDR_MASK;
-+	} else {
-+		base_reg0 = DCSB0;
-+		base_reg1 = DCSB1;
-+		mask_reg0 = DCSM0;
-+		mask_reg1 = DCSM1;
-+	}
- 
- 	for_each_chip_select(cs, 0, pvt) {
--		int reg0   = DCSB0 + (cs * 4);
--		int reg1   = DCSB1 + (cs * 4);
-+		int reg0   = base_reg0 + (cs * 4);
-+		int reg1   = base_reg1 + (cs * 4);
- 		u32 *base0 = &pvt->csels[0].csbases[cs];
- 		u32 *base1 = &pvt->csels[1].csbases[cs];
- 
--		if (!amd64_read_dct_pci_cfg(pvt, 0, reg0, base0))
--			edac_dbg(0, "  DCSB0[%d]=0x%08x reg: F2x%x\n",
--				 cs, *base0, reg0);
-+		if (pvt->umc) {
-+			if (!amd_smn_read(pvt->mc_node_id, reg0, base0))
-+				edac_dbg(0, "  DCSB0[%d]=0x%08x reg: 0x%x\n",
-+					 cs, *base0, reg0);
- 
--		if (pvt->fam == 0xf)
--			continue;
-+			if (!amd_smn_read(pvt->mc_node_id, reg1, base1))
-+				edac_dbg(0, "  DCSB1[%d]=0x%08x reg: 0x%x\n",
-+					 cs, *base1, reg1);
-+		} else {
-+			if (!amd64_read_dct_pci_cfg(pvt, 0, reg0, base0))
-+				edac_dbg(0, "  DCSB0[%d]=0x%08x reg: F2x%x\n",
-+					 cs, *base0, reg0);
++	int retval;
 +
-+			if (pvt->fam == 0xf)
-+				continue;
+ 	csrow->dev.type = &csrow_attr_type;
+ 	csrow->dev.groups = csrow_dev_groups;
+ 	device_initialize(&csrow->dev);
+@@ -415,7 +417,10 @@ static int edac_create_csrow_object(struct mem_ctl_info *mci,
+ 	edac_dbg(0, "creating (virtual) csrow node %s\n",
+ 		 dev_name(&csrow->dev));
  
--		if (!amd64_read_dct_pci_cfg(pvt, 1, reg0, base1))
--			edac_dbg(0, "  DCSB1[%d]=0x%08x reg: F2x%x\n",
--				 cs, *base1, (pvt->fam == 0x10) ? reg1
--							: reg0);
-+			if (!amd64_read_dct_pci_cfg(pvt, 1, reg0, base1))
-+				edac_dbg(0, "  DCSB1[%d]=0x%08x reg: F2x%x\n",
-+					 cs, *base1, (pvt->fam == 0x10) ? reg1
-+								: reg0);
-+		}
- 	}
- 
- 	for_each_chip_select_mask(cs, 0, pvt) {
--		int reg0   = DCSM0 + (cs * 4);
--		int reg1   = DCSM1 + (cs * 4);
-+		int reg0   = mask_reg0 + (cs * 4);
-+		int reg1   = mask_reg1 + (cs * 4);
- 		u32 *mask0 = &pvt->csels[0].csmasks[cs];
- 		u32 *mask1 = &pvt->csels[1].csmasks[cs];
- 
--		if (!amd64_read_dct_pci_cfg(pvt, 0, reg0, mask0))
--			edac_dbg(0, "    DCSM0[%d]=0x%08x reg: F2x%x\n",
--				 cs, *mask0, reg0);
-+		if (pvt->umc) {
-+			if (!amd_smn_read(pvt->mc_node_id, reg0, mask0))
-+				edac_dbg(0, "    DCSM0[%d]=0x%08x reg: 0x%x\n",
-+					 cs, *mask0, reg0);
- 
--		if (pvt->fam == 0xf)
--			continue;
-+			if (!amd_smn_read(pvt->mc_node_id, reg1, mask1))
-+				edac_dbg(0, "    DCSM1[%d]=0x%08x reg: 0x%x\n",
-+					 cs, *mask1, reg1);
-+		} else {
-+			if (!amd64_read_dct_pci_cfg(pvt, 0, reg0, mask0))
-+				edac_dbg(0, "    DCSM0[%d]=0x%08x reg: F2x%x\n",
-+					 cs, *mask0, reg0);
- 
--		if (!amd64_read_dct_pci_cfg(pvt, 1, reg0, mask1))
--			edac_dbg(0, "    DCSM1[%d]=0x%08x reg: F2x%x\n",
--				 cs, *mask1, (pvt->fam == 0x10) ? reg1
--							: reg0);
-+			if (pvt->fam == 0xf)
-+				continue;
-+
-+			if (!amd64_read_dct_pci_cfg(pvt, 1, reg0, mask1))
-+				edac_dbg(0, "    DCSM1[%d]=0x%08x reg: F2x%x\n",
-+					 cs, *mask1, (pvt->fam == 0x10) ? reg1
-+								: reg0);
-+		}
- 	}
+-	return device_add(&csrow->dev);
++	retval = device_add(&csrow->dev);
++	if (retval)
++		put_device(&csrow->dev);
++	return retval;
  }
  
-diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-index 4dce6a2ac75f..8f66472f7adc 100644
---- a/drivers/edac/amd64_edac.h
-+++ b/drivers/edac/amd64_edac.h
-@@ -96,7 +96,6 @@
- /* Hardware limit on ChipSelect rows per MC and processors per system */
- #define NUM_CHIPSELECTS			8
- #define DRAM_RANGES			8
--#define NUM_CONTROLLERS			8
+ /* Create a CSROW object under specifed edac_mc_device */
+@@ -649,6 +654,8 @@ static int edac_create_dimm_object(struct mem_ctl_info *mci,
  
- #define ON true
- #define OFF false
-@@ -352,8 +351,8 @@ struct amd64_pvt {
- 	u32 dbam0;		/* DRAM Base Address Mapping reg for DCT0 */
- 	u32 dbam1;		/* DRAM Base Address Mapping reg for DCT1 */
+ 	edac_dbg(0, "creating rank/dimm device %s\n", dev_name(&dimm->dev));
  
--	/* one for each DCT/UMC */
--	struct chip_select csels[NUM_CONTROLLERS];
-+	/* one for each DCT */
-+	struct chip_select csels[2];
++	if (err)
++		put_device(&dimm->dev);
+ 	return err;
+ }
  
- 	/* DRAM base and limit pairs F1x[78,70,68,60,58,50,48,40] */
- 	struct dram_range ranges[DRAM_RANGES];
--- 
-2.21.0
-
+@@ -928,6 +935,7 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info *mci,
+ 	err = device_add(&mci->dev);
+ 	if (err < 0) {
+ 		edac_dbg(1, "failure: create device %s\n", dev_name(&mci->dev));
++		put_device(mci->dev);
+ 		goto out;
+ 	}
+ 
