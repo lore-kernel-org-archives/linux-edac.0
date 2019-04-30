@@ -1,135 +1,123 @@
-Return-Path: <SRS0=yE+0=S5=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=dExT=TA=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_PASS,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96102C43218
-	for <linux-edac@archiver.kernel.org>; Sat, 27 Apr 2019 21:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B30BC43219
+	for <linux-edac@archiver.kernel.org>; Tue, 30 Apr 2019 20:32:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 56195208C2
-	for <linux-edac@archiver.kernel.org>; Sat, 27 Apr 2019 21:49:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556401769;
-	bh=ad4NRf2D1FTn7+5by/ebxnREERSQZJsRoAGBTwdZ7K4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=rJcIEq5eIJIJd/VKq/+Z25xbToRtnGOLMOQZ01MnpMGNVveo0uzoBC+DTzrmkf0D9
-	 rkSFWYYvXWwDzdEOA8oNai0zATt/bFnWWmk6WaDO/vLEXw+0SZOGisfdChlypIeGrx
-	 OlTtY1OqllV20C9+aJLoO8Snp9roUv/HCpb91suk=
+	by mail.kernel.org (Postfix) with ESMTP id 3B012217D7
+	for <linux-edac@archiver.kernel.org>; Tue, 30 Apr 2019 20:32:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="RTuMomPY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726150AbfD0Vt2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 27 Apr 2019 17:49:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54028 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726088AbfD0Vt2 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 27 Apr 2019 17:49:28 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CB39620645;
-        Sat, 27 Apr 2019 21:49:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556401767;
-        bh=ad4NRf2D1FTn7+5by/ebxnREERSQZJsRoAGBTwdZ7K4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dq89bU2UJRp3k78iGEbCoJWQNVPkrxfNzNex5TBzfb5CKbmQ8ebcusXSQS/4FEm4g
-         Nwrm1da3E1DtofGW7FdXzw7ncTI09feAE8QR9ENn7DkNLHThOv+THrOGT27WutXD97
-         O9u7hApR9qV7Ae3sb24mah5W0Rf/BTT//XfZV520=
-Date:   Sat, 27 Apr 2019 23:49:25 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     PanBian <bianpan2016@163.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: EDAC: Fix memory leak in creating CSROW object
-Message-ID: <20190427214925.GE16338@kroah.com>
-References: <1555554438-103953-1-git-send-email-bianpan2016@163.com>
- <20190418172548.GL27160@zn.tnic>
- <20190419003536.GA57795@bianpan2016@163.com>
- <20190419004516.GC559@zn.tnic>
+        id S1726053AbfD3UcZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 30 Apr 2019 16:32:25 -0400
+Received: from mail-eopbgr710040.outbound.protection.outlook.com ([40.107.71.40]:6224
+        "EHLO NAM05-BY2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726006AbfD3UcZ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 30 Apr 2019 16:32:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kD3ugQJfSVQzD/52J6H9Em1T3JKtEV0Ci3cv4LcqBCc=;
+ b=RTuMomPYoxprHyk4AthUKe/JCxZWwMBP2Oq9uP8BMrVDgTsJJ6AXbrPxiiKkqLO6Pr6MZj1yuNmsnvyOHbna+SQQ1YCILrGYoaGEL4bo2lBTZ8agfikUiMegceecwuTKaTJDy0vVQRfjF7iDHXzqg4m1Zcmp8iFVCwVP3Kuq8ow=
+Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
+ SN6PR12MB2640.namprd12.prod.outlook.com (52.135.103.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1835.12; Tue, 30 Apr 2019 20:32:17 +0000
+Received: from SN6PR12MB2639.namprd12.prod.outlook.com
+ ([fe80::d8ec:7415:96b0:afe0]) by SN6PR12MB2639.namprd12.prod.outlook.com
+ ([fe80::d8ec:7415:96b0:afe0%2]) with mapi id 15.20.1835.018; Tue, 30 Apr 2019
+ 20:32:17 +0000
+From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bp@suse.de" <bp@suse.de>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>
+Subject: [PATCH v3 0/6] Handle MCA banks in a per_cpu way
+Thread-Topic: [PATCH v3 0/6] Handle MCA banks in a per_cpu way
+Thread-Index: AQHU/5PNJFCEbWZlGkyIe/J7fxLz2g==
+Date:   Tue, 30 Apr 2019 20:32:17 +0000
+Message-ID: <20190430203206.104163-1-Yazen.Ghannam@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN6PR02CA0019.namprd02.prod.outlook.com
+ (2603:10b6:805:a2::32) To SN6PR12MB2639.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::16)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Yazen.Ghannam@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.17.1
+x-originating-ip: [165.204.78.1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6c15f6df-0961-4ee6-e9d3-08d6cdaaefd2
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2640;
+x-ms-traffictypediagnostic: SN6PR12MB2640:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <SN6PR12MB2640F3D43A0E46DA3D623312F83A0@SN6PR12MB2640.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 00235A1EEF
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(366004)(39860400002)(346002)(396003)(136003)(51444003)(199004)(189003)(14454004)(53936002)(4326008)(50226002)(1076003)(478600001)(6116002)(3846002)(97736004)(5640700003)(26005)(8676002)(66946007)(66476007)(6512007)(73956011)(2501003)(8936002)(316002)(6436002)(6306002)(66446008)(71200400001)(86362001)(81156014)(36756003)(71190400001)(81166006)(66556008)(64756008)(66066001)(6916009)(54906003)(486006)(15650500001)(68736007)(5660300002)(6506007)(305945005)(25786009)(256004)(14444005)(52116002)(7736002)(966005)(476003)(2906002)(72206003)(2616005)(2351001)(386003)(102836004)(186003)(99286004)(6486002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2640;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: UCXQXh+o7uVYftdY912hjfg7zc5oRClPMQX3ozZ1sx0s4bzCRhnM3zTAFpfzmUmiJ7GF6xm/lDXkJOouQazy3PFejPkgZLM/fJbgR1mFJYDW1zaoQoYTrspdeiLH5WNJ+yLOHc1eFFfkUShqTKL/Xt9wVLuHlUNl97ZPEDldyYmIfSOS+xNXAkW3RL+r1MnpyeTJbjTEY4f+5p65LmPvKrAe//u1EZZgUlztn9yIDZUbDhR4yAnQQbp46GmIp9ir5ZAEClYfqBQ6WPYD3TqArdJCtAA7zVfH1O+97BIvIqzuHZrH5DXfyQ0SjqNAqSMVBEIMtwtMrDmLYDtPTs1fW+z6p4AOsSHzOoJPw9DynnbfBMSuqrzhJHrWREaj2XRPORFhwnX+o3JI7XfB5bXT0u05Df9KOuFxBD7EA0IdFp4=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190419004516.GC559@zn.tnic>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c15f6df-0961-4ee6-e9d3-08d6cdaaefd2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 20:32:17.3927
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2640
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
-Message-ID: <20190427214925.t5LN2ZRHFAuckYIz1rlFCtmzcrcTff-UXR05JkPkzRc@z>
 
-On Fri, Apr 19, 2019 at 02:45:16AM +0200, Borislav Petkov wrote:
-> On Fri, Apr 19, 2019 at 08:35:36AM +0800, PanBian wrote:
-> > Yes, I see that. Because the loop start with (--i), there is no put
-> > operation for the device that fails to create. So, I think we cannot
-> > rule out the possibility of memory leak.
-> 
-> Ok, so this is not something you trigger - you're basically staring at
-> the code?
-> 
-> Well, there's something else questionable in that code which I asked
-> Greg about today but we didn't finish that conversation, let me CC him.
-> 
-> So AFAIU, devices for which device_add() has returned success,
-> should be removed with their counterpart device_del().
-> edac_create_csrow_objects(), however, does put_device() on those in the
-> "unwinding" loop.
-> 
-> And for the case where device_add() fails, you should do put_device() to
-> it. I.e., what you're saying.
-> 
-> So I think we need to figure what needs to be done when before fixing
-> this properly.
-> 
-> Greg?
-
-How about this patch, I think it fixes up everything you need to do
-here, right?
-
-
-diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 464174685589..0fb2d1de6d0e 100644
---- a/drivers/edac/edac_mc_sysfs.c
-+++ b/drivers/edac/edac_mc_sysfs.c
-@@ -404,6 +404,8 @@ static inline int nr_pages_per_csrow(struct csrow_info *csrow)
- static int edac_create_csrow_object(struct mem_ctl_info *mci,
- 				    struct csrow_info *csrow, int index)
- {
-+	int retval;
-+
- 	csrow->dev.type = &csrow_attr_type;
- 	csrow->dev.groups = csrow_dev_groups;
- 	device_initialize(&csrow->dev);
-@@ -415,7 +417,10 @@ static int edac_create_csrow_object(struct mem_ctl_info *mci,
- 	edac_dbg(0, "creating (virtual) csrow node %s\n",
- 		 dev_name(&csrow->dev));
- 
--	return device_add(&csrow->dev);
-+	retval = device_add(&csrow->dev);
-+	if (retval)
-+		put_device(&csrow->dev);
-+	return retval;
- }
- 
- /* Create a CSROW object under specifed edac_mc_device */
-@@ -649,6 +654,8 @@ static int edac_create_dimm_object(struct mem_ctl_info *mci,
- 
- 	edac_dbg(0, "creating rank/dimm device %s\n", dev_name(&dimm->dev));
- 
-+	if (err)
-+		put_device(&dimm->dev);
- 	return err;
- }
- 
-@@ -928,6 +935,7 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info *mci,
- 	err = device_add(&mci->dev);
- 	if (err < 0) {
- 		edac_dbg(1, "failure: create device %s\n", dev_name(&mci->dev));
-+		put_device(mci->dev);
- 		goto out;
- 	}
- 
+RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPg0KDQpUaGUgZm9jdXMg
+b2YgdGhpcyBwYXRjaHNldCBpcyBkZWZpbmUgYW5kIHVzZSB0aGUgTUNBIGJhbmsgc3RydWN0dXJl
+cw0KYW5kIGJhbmsgY291bnQgcGVyIGxvZ2ljYWwgQ1BVLg0KDQpXaXRoIHRoZSBleGNlcHRpb24g
+b2YgcGF0Y2ggNCwgdGhpcyBzZXQgYXBwbGllcyB0byBzeXN0ZW1zIGluIHByb2R1Y3Rpb24NCnRv
+ZGF5Lg0KDQpQYXRjaCAxOg0KTW92ZXMgdGhlIGRlY2xhcmF0aW9uIG9mIHN0cnVjdCBtY2VfYmFu
+a3NbXSB0byB0aGUgb25seSBmaWxlIGl0J3MgdXNlZC4NCg0KUGF0Y2ggMjoNClNwbGl0cyBzdHJ1
+Y3QgbWNlX2JhbmsgaW50byBhIHN0cnVjdHVyZSBmb3IgZmllbGRzIGNvbW1vbiB0byBNQ0EgYmFu
+a3MNCm9uIGFsbCBDUFVzIGFuZCBhbm90aGVyIHN0cnVjdHVyZSB0aGF0IGNhbiBiZSB1c2VkIHBl
+cl9jcHUuDQoNClBhdGNoIDM6DQpCcmluZ3MgZnVsbCBjaXJjbGUgdGhlIHNhZ2Egb2YgdGhlIHRo
+cmVzaG9sZCBibG9jayBhZGRyZXNzZXMgb24gU01DQQ0Kc3lzdGVtcy4gQWZ0ZXIgdGFraW5nIGEg
+c3RlcCBiYWNrIGFuZCByZXZpZXdpbmcgdGhlIEFNRCBkb2N1bWVudGF0aW9uLCBJDQp0aGluayB0
+aGF0IHRoaXMgaW1wbGltZW50YXRpb24gaXMgdGhlIHNpbXBsZXN0IGFuZCBtb3JlIHJvYnVzdCB3
+YXkgdG8NCmZvbGxvdyB0aGUgc3BlYy4NCg0KUGF0Y2ggNDoNClNhdmVzIGFuZCB1c2VzIHRoZSBN
+Q0EgYmFuayBjb3VudCBhcyBhIHBlcl9jcHUgdmFyaWFibGUuIFRoaXMgaXMgdG8NCnN1cHBvcnQg
+c3lzdGVtcyB0aGF0IGhhdmUgTUNBIGJhbmsgY291bnRzIHRoYXQgYXJlIGRpZmZlcmVudCBiZXR3
+ZWVuDQpsb2dpY2FsIENQVXMuDQoNClBhdGNoIDU6DQpNYWtlcyBzdXJlIHRoYXQgc3lzZnMgcmVw
+b3J0cyB0aGUgTUNBX0NUTCB2YWx1ZSBhcyBzZXQgaW4gaGFyZHdhcmUuIFRoaXMNCmlzIG5vdCBz
+b21ldGhpbmcgcmVsYXRlZCB0byBtYWtpbmcgdGhpbmdzIHBlcl9jcHUgYnV0IHJhdGhlciBqdXN0
+DQpzb21ldGhpbmcgSSBub3RpY2VkIHdoaWxlIHdvcmtpbmcgb24gdGhlIG90aGVyIHBhdGNoZXMu
+DQoNClBhdGNoIDY6DQpQcmV2ZW50cyBzeXNmcyBhY2Nlc3MgZm9yIE1DQSBiYW5rcyB0aGF0IGFy
+ZSB1bmluaXRpYWxpemVkLg0KDQpMaW5rOg0KaHR0cHM6Ly9sa21sLmtlcm5lbC5vcmcvci8yMDE5
+MDQxMTIwMTc0My40MzE5NS0xLVlhemVuLkdoYW5uYW1AYW1kLmNvbQ0KDQpUaGFua3MsDQpZYXpl
+bg0KDQpZYXplbiBHaGFubmFtICg2KToNCiAgeDg2L01DRTogTWFrZSBzdHJ1Y3QgbWNlX2Jhbmtz
+W10gc3RhdGljDQogIHg4Ni9NQ0U6IEhhbmRsZSBNQ0EgY29udHJvbHMgaW4gYSBwZXJfY3B1IHdh
+eQ0KICB4ODYvTUNFL0FNRDogRG9uJ3QgY2FjaGUgYmxvY2sgYWRkcmVzc2VzIG9uIFNNQ0Egc3lz
+dGVtcw0KICB4ODYvTUNFOiBNYWtlIG51bWJlciBvZiBNQ0EgYmFua3MgcGVyX2NwdQ0KICB4ODYv
+TUNFOiBTYXZlIE1DQSBjb250cm9sIGJpdHMgdGhhdCBnZXQgc2V0IGluIGhhcmR3YXJlDQogIHg4
+Ni9NQ0U6IFRyZWF0IE1DRSBiYW5rIGFzIGluaXRpYWxpemVkIGlmIGNvbnRyb2wgYml0cyBzZXQg
+aW4gaGFyZHdhcmUNCg0KIGFyY2gveDg2L2tlcm5lbC9jcHUvbWNlL2FtZC5jICAgICAgfCAgOTAg
+KysrKysrKysrKy0tLS0tLS0tLS0NCiBhcmNoL3g4Ni9rZXJuZWwvY3B1L21jZS9jb3JlLmMgICAg
+IHwgMTMxICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tDQogYXJjaC94ODYva2VybmVsL2Nw
+dS9tY2UvaW50ZXJuYWwuaCB8ICAxMiArLS0NCiAzIGZpbGVzIGNoYW5nZWQsIDE0MiBpbnNlcnRp
+b25zKCspLCA5MSBkZWxldGlvbnMoLSkNCg0KLS0gDQoyLjE3LjENCg0K
