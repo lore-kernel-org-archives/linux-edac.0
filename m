@@ -2,120 +2,86 @@ Return-Path: <SRS0=Tb9F=TI=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=ham
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC1FC04A6B
-	for <linux-edac@archiver.kernel.org>; Wed,  8 May 2019 11:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAD27C04A6B
+	for <linux-edac@archiver.kernel.org>; Wed,  8 May 2019 12:45:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1F9D221479
-	for <linux-edac@archiver.kernel.org>; Wed,  8 May 2019 11:08:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="KhU+nnqH"
+	by mail.kernel.org (Postfix) with ESMTP id 7D24121019
+	for <linux-edac@archiver.kernel.org>; Wed,  8 May 2019 12:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1557319520;
+	bh=GZC2GHybzFWT6BL+dcet5iL9Wr3phDchdwhwLYNb3I0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ZkP5l7m7I5VXEQyuvVdl+D80h8hcNv052S4Jc7RIjRyw2/Q5oqkjE9Mc9ZTC9kgWS
+	 +8LghcOY1HDZlZog6P7v66IvZnpQDiErJZZbfzbck0yEJfEksA3wY8LOGuNE0scvyg
+	 tGKLajz05scmFMixqTvjIeHoNmUgp8+oJPLK+7vk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726254AbfEHLIS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 8 May 2019 07:08:18 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:58466 "EHLO mail.skyhub.de"
+        id S1727300AbfEHMpQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 8 May 2019 08:45:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33812 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725891AbfEHLIS (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 8 May 2019 07:08:18 -0400
-Received: from zn.tnic (p2E584D41.dip0.t-ipconnect.de [46.88.77.65])
+        id S1726796AbfEHMpQ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 8 May 2019 08:45:16 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6759D1EC0C12;
-        Wed,  8 May 2019 13:08:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1557313696;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=VAvkdEAhjrbk9stbIW++ThlQ9foWSny29PRehsUDR34=;
-        b=KhU+nnqH2ORWxbl99Wg34QsRvs7ky5ml1GVvrpb322vb4KEBZGi5r5V9GEkV3kSbeGLnxQ
-        e82bNOQ2QVQ54BX3oNZQukImRqe82pDQaSh5S1vBRT8kgPW986gRaWBkV7UyP4UM356XOW
-        ezL2hludxFYrlSfFkcXPebJPTYUKQ5o=
-Date:   Wed, 8 May 2019 13:06:05 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Greg KH <gregkh@linuxfoundation.org>
+        by mail.kernel.org (Postfix) with ESMTPSA id A381120644;
+        Wed,  8 May 2019 12:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557319516;
+        bh=GZC2GHybzFWT6BL+dcet5iL9Wr3phDchdwhwLYNb3I0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SOFkRNvVzQx+mEnjRnDJTIGUil/CYsqaX86VporAgHRREEmau/9HbD5AM5iSIQ6vZ
+         dJfTPHrTvJFTj1w5OkKXPyKtmiVprmldN8dDEYkc5zF1PeEF60yJrYO5tflHPMUnPv
+         5MWM2qSDvFKnHQxnuJINiKQPJwvZJO+ZzQlJxkgA=
+Date:   Wed, 8 May 2019 14:45:13 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     PanBian <bianpan2016@163.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] EDAC/sysfs: Drop device references properly
-Message-ID: <20190508110605.GE19015@zn.tnic>
+Subject: Re: [PATCH 1/2] EDAC/sysfs: Fix memory leak when creating a csrow
+ object
+Message-ID: <20190508124513.GB8646@kroah.com>
 References: <1555554438-103953-1-git-send-email-bianpan2016@163.com>
  <20190418172548.GL27160@zn.tnic>
  <20190419003536.GA57795@bianpan2016@163.com>
  <20190419004516.GC559@zn.tnic>
  <20190427214925.GE16338@kroah.com>
+ <20190508110250.GD19015@zn.tnic>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190427214925.GE16338@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190508110250.GD19015@zn.tnic>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
---
-From: Greg KH <gregkh@linuxfoundation.org>
+On Wed, May 08, 2019 at 01:02:50PM +0200, Borislav Petkov wrote:
+> >From 28e7f23939208bea639d6cd3d492cde3f65a7e4f Mon Sep 17 00:00:00 2001
+> From: Pan Bian <bianpan2016@163.com>
+> Date: Thu, 18 Apr 2019 10:27:18 +0800
+> 
+> In edac_create_csrow_object(), the reference to the object is not
+> released when adding the device to the device hierarchy fails
+> (device_add()). This may result in a memory leak.
+> 
+> Signed-off-by: Pan Bian <bianpan2016@163.com>
+> Signed-off-by: Borislav Petkov <bp@suse.de>
+> Cc: Greg KH <gregkh@linuxfoundation.org>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-edac <linux-edac@vger.kernel.org>
+> Link: https://lkml.kernel.org/r/1555554438-103953-1-git-send-email-bianpan2016@163.com
+> ---
+>  drivers/edac/edac_mc_sysfs.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 
-Do put_device() if device_add() fails.
-
- [ bp: do device_del() for the successfully created devices in
-   edac_create_csrow_objects(), on the unwind path. ]
-
-Signed-off-by: Greg KH <gregkh@linuxfoundation.org>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Link: https://lkml.kernel.org/r/20190427214925.GE16338@kroah.com
----
- drivers/edac/edac_mc_sysfs.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 9b7d396f26e9..7c01e1cc030c 100644
---- a/drivers/edac/edac_mc_sysfs.c
-+++ b/drivers/edac/edac_mc_sysfs.c
-@@ -449,7 +449,8 @@ static int edac_create_csrow_objects(struct mem_ctl_info *mci)
- 		csrow = mci->csrows[i];
- 		if (!nr_pages_per_csrow(csrow))
- 			continue;
--		put_device(&mci->csrows[i]->dev);
-+
-+		device_del(&mci->csrows[i]->dev);
- 	}
- 
- 	return err;
-@@ -651,9 +652,11 @@ static int edac_create_dimm_object(struct mem_ctl_info *mci,
- 	dev_set_drvdata(&dimm->dev, dimm);
- 	pm_runtime_forbid(&mci->dev);
- 
--	err =  device_add(&dimm->dev);
-+	err = device_add(&dimm->dev);
-+	if (err)
-+		put_device(&dimm->dev);
- 
--	edac_dbg(0, "creating rank/dimm device %s\n", dev_name(&dimm->dev));
-+	edac_dbg(0, "created rank/dimm device %s\n", dev_name(&dimm->dev));
- 
- 	return err;
- }
-@@ -934,6 +937,7 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info *mci,
- 	err = device_add(&mci->dev);
- 	if (err < 0) {
- 		edac_dbg(1, "failure: create device %s\n", dev_name(&mci->dev));
-+		put_device(&mci->dev);
- 		goto out;
- 	}
- 
--- 
-2.21.0
-
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
