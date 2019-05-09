@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BACDBC04AB2
-	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A9BC04AB1
+	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 878D92084E
-	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 887E121783
+	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="RPoiZNWy"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="dV8VBoqb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbfEISKO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 9 May 2019 14:10:14 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:37010 "EHLO mail.skyhub.de"
+        id S1726796AbfEISK0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 9 May 2019 14:10:26 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:36986 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726805AbfEISJh (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 9 May 2019 14:09:37 -0400
+        id S1726776AbfEISJf (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 9 May 2019 14:09:35 -0400
 Received: from zn.tnic (p200300EC2F0F5F0071783F241746291C.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:5f00:7178:3f24:1746:291c])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id F1AF71EC0AE4;
-        Thu,  9 May 2019 20:09:35 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0AA5E1EC0AB1;
+        Thu,  9 May 2019 20:09:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1557425376;
+        t=1557425374;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wlA3AUjKxPUdgXu7p6jOrxoqJInesTzTmEv+gXf1fBQ=;
-        b=RPoiZNWy3G027TSALy9ZJWLAPVBiZ3Bs17ngVtvs9Y0wjEZzUPO+0LFq3Ksb8CTfeDAiel
-        d/PmzoyIzU58sSUk0JR7Aw574P0bE5b9xhT7yh/e72EX+EhJXrf1dq7I6MNTcU99nwZcxA
-        wJSxOSU7foAdYx7pid4TWJ/lKvIJyXg=
+        bh=eQIw58k+eEPmTVMVyeW+llFdInLpPxrAvnDisAsfgsM=;
+        b=dV8VBoqbv/fffXxyP+w7pMlz5cf/6yFSRqzGbOdIpKZNu/BTMg6PbQPmeK28I4i+rAv2gP
+        IhZAd38eUJRqOH0plBA31zPPQ2j0aqj3rnlCPsYl2Hl3BGiTyAVMiCfsQMB2qKbSqeSjyL
+        wh2lHU6HUU8mCKAruyLSEFsAvQCCsKY=
 From:   Borislav Petkov <bp@alien8.de>
 To:     Tony Luck <tony.luck@intel.com>
 Cc:     linux-edac <linux-edac@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 05/11] RAS/CEC: Do not set decay value on error
-Date:   Thu,  9 May 2019 20:09:20 +0200
-Message-Id: <20190509180926.31932-6-bp@alien8.de>
+Subject: [PATCH 03/11] RAS/CEC: Fix pfn insertion
+Date:   Thu,  9 May 2019 20:09:18 +0200
+Message-Id: <20190509180926.31932-4-bp@alien8.de>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190509180926.31932-1-bp@alien8.de>
 References: <20190509180926.31932-1-bp@alien8.de>
@@ -55,43 +55,84 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Borislav Petkov <bp@suse.de>
 
-When the value requested doesn't match the allowed (min,max) range,
-the @data buffer should not be modified with the invalid value because
-reading "decay_interval" shows it otherwise.
+When inserting random PFNs for debugging the CEC through
+(debugfs)/ras/cec/pfn, depending on the return value of pfn_set(),
+multiple values get inserted per a single write.
 
-Move the data write after the check.
+That is because simple_attr_write() interprets a retval of 0 as
+success and claims the whole input. However, pfn_set() returns the
+cec_add_elem() value, which, if > 0 and smaller than the whole input
+length, makes glibc continue issuing the write syscall until there's
+input left:
+
+  pfn_set
+  simple_attr_write
+  debugfs_attr_write
+  full_proxy_write
+  vfs_write
+  ksys_write
+  do_syscall_64
+  entry_SYSCALL_64_after_hwframe
+
+leading to those repeated calls.
+
+Return 0 to fix that.
+
+Rename u64_get() to pfn_get() while at it.
 
 Signed-off-by: Borislav Petkov <bp@suse.de>
 Cc: Tony Luck <tony.luck@intel.com>
 Cc: linux-edac <linux-edac@vger.kernel.org>
 ---
- drivers/ras/cec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/ras/cec.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 73216b7f67be..667a126f39f1 100644
+index 673f8a128397..1275907ff21c 100644
 --- a/drivers/ras/cec.c
 +++ b/drivers/ras/cec.c
-@@ -371,17 +371,17 @@ DEFINE_DEBUGFS_ATTRIBUTE(pfn_ops, pfn_get, pfn_set, "0x%llx\n");
+@@ -358,7 +358,7 @@ int cec_add_elem(u64 pfn)
+ 	return ret;
+ }
+ 
+-static int u64_get(void *data, u64 *val)
++static int pfn_get(void *data, u64 *val)
+ {
+ 	*val = *(u64 *)data;
+ 
+@@ -369,10 +369,12 @@ static int pfn_set(void *data, u64 val)
+ {
+ 	*(u64 *)data = val;
+ 
+-	return cec_add_elem(val);
++	cec_add_elem(val);
++
++	return 0;
+ }
+ 
+-DEFINE_DEBUGFS_ATTRIBUTE(pfn_ops, u64_get, pfn_set, "0x%llx\n");
++DEFINE_DEBUGFS_ATTRIBUTE(pfn_ops, pfn_get, pfn_set, "0x%llx\n");
  
  static int decay_interval_set(void *data, u64 val)
  {
--	*(u64 *)data = val;
--
- 	if (val < CEC_DECAY_MIN_INTERVAL)
- 		return -EINVAL;
- 
- 	if (val > CEC_DECAY_MAX_INTERVAL)
- 		return -EINVAL;
- 
-+	*(u64 *)data   = val;
- 	decay_interval = val;
- 
+@@ -389,7 +391,7 @@ static int decay_interval_set(void *data, u64 val)
  	cec_mod_work(decay_interval);
-+
  	return 0;
  }
- DEFINE_DEBUGFS_ATTRIBUTE(decay_interval_ops, pfn_get, decay_interval_set, "%lld\n");
+-DEFINE_DEBUGFS_ATTRIBUTE(decay_interval_ops, u64_get, decay_interval_set, "%lld\n");
++DEFINE_DEBUGFS_ATTRIBUTE(decay_interval_ops, pfn_get, decay_interval_set, "%lld\n");
+ 
+ static int count_threshold_set(void *data, u64 val)
+ {
+@@ -402,7 +404,7 @@ static int count_threshold_set(void *data, u64 val)
+ 
+ 	return 0;
+ }
+-DEFINE_DEBUGFS_ATTRIBUTE(count_threshold_ops, u64_get, count_threshold_set, "%lld\n");
++DEFINE_DEBUGFS_ATTRIBUTE(count_threshold_ops, pfn_get, count_threshold_set, "%lld\n");
+ 
+ static int array_dump(struct seq_file *m, void *v)
+ {
 -- 
 2.21.0
 
