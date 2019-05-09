@@ -1,42 +1,51 @@
-Return-Path: <SRS0=Tb9F=TI=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=jeHd=TJ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE77C04A6B
-	for <linux-edac@archiver.kernel.org>; Wed,  8 May 2019 22:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D187C04AB1
+	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 14:13:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84720214AF
-	for <linux-edac@archiver.kernel.org>; Wed,  8 May 2019 22:48:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D96D21783
+	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 14:13:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="mrm0yeww"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726902AbfEHWsJ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 8 May 2019 18:48:09 -0400
-Received: from mga07.intel.com ([134.134.136.100]:63589 "EHLO mga07.intel.com"
+        id S1726661AbfEIONX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 9 May 2019 10:13:23 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:59610 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726163AbfEHWsI (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 8 May 2019 18:48:08 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 May 2019 15:48:08 -0700
-X-ExtLoop1: 1
-Received: from agluck-desk.sc.intel.com (HELO agluck-desk) ([10.3.52.160])
-  by orsmga001.jf.intel.com with ESMTP; 08 May 2019 15:48:07 -0700
-Date:   Wed, 8 May 2019 15:48:07 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
+        id S1726859AbfEIONX (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 9 May 2019 10:13:23 -0400
+Received: from zn.tnic (p200300EC2F0F5F00A4EF991375FD2B9A.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:5f00:a4ef:9913:75fd:2b9a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 844EF1EC0AD6;
+        Thu,  9 May 2019 16:13:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1557411201;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=+PHLiSfYmDjlELYK+9z1QfW58niSz8+w36T8ZEcU68k=;
+        b=mrm0yewwvirES4xxq5BoKs3UMEVvkMcA4rAauxjG9tRKhxdr5ouftUo6GE72JG6VL+FlJC
+        9oC3Q73j5v28nuII7af0DPlN7wxZ2VZeZzOYXoBz4BbTqC8nj1Q5pMVeBCSBXI9C1FLXEy
+        FKrSvk/ByJrF7GRIL4l6bXNpdScYXIw=
+Date:   Thu, 9 May 2019 16:13:13 +0200
+From:   Borislav Petkov <bp@alien8.de>
 To:     Colin King <colin.king@canonical.com>
-Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Borislav Petkov <bp@alien8.de>,
+Cc:     Tony Luck <tony.luck@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org,
         kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] EDAC, sb_edac: remove redundant update of tad_base
-Message-ID: <20190508224807.GA25404@agluck-desk>
+Message-ID: <20190509141313.GA17053@zn.tnic>
 References: <20190508224201.27120-1-colin.king@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20190508224201.27120-1-colin.king@canonical.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -53,24 +62,20 @@ On Wed, May 08, 2019 at 11:42:01PM +0100, Colin King wrote:
 > This assignment is therefore redundant and can be removed.
 > 
 > Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/edac/sb_edac.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
-> index 9353c3fc7c05..6aa4b1b73a15 100644
-> --- a/drivers/edac/sb_edac.c
-> +++ b/drivers/edac/sb_edac.c
-> @@ -1513,7 +1513,6 @@ static int knl_get_dimm_capacity(struct sbridge_pvt *pvt, u64 *mc_sizes)
->  						sad_actual_size[mc] += tad_size;
->  					}
->  				}
-> -				tad_base = tad_limit+1;
->  			}
->  		}
->  
 
-Looks good to me.
+What's that tag's function supposed to be?
 
-Acked-by: Tony Luck <tony.luck@intel.com>
+I see a lot of those in commit messages but it is nowhere documented in
+the tree.
+
+$ git grep -i coverity
+
+doesn't give anything relevant.
+
+Hmm?
+
+-- 
+Regards/Gruss,
+    Boris.
+
+Good mailing practices for 400: avoid top-posting and trim the reply.
