@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 041BDC46470
-	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C39C04AB1
+	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C71EB2177B
-	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FCC62084E
+	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="KyhbofNL"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="k1m3b2sa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726835AbfEISJi (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 9 May 2019 14:09:38 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:37022 "EHLO mail.skyhub.de"
+        id S1726977AbfEISKO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 9 May 2019 14:10:14 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:36996 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726819AbfEISJi (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 9 May 2019 14:09:38 -0400
+        id S1726796AbfEISJh (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 9 May 2019 14:09:37 -0400
 Received: from zn.tnic (p200300EC2F0F5F0071783F241746291C.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:5f00:7178:3f24:1746:291c])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E785F1EC0AB1;
-        Thu,  9 May 2019 20:09:36 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 03FE61EC0AD6;
+        Thu,  9 May 2019 20:09:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1557425377;
+        t=1557425375;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=I5ByDPOBUc0dGUEPi3YpmHRs/lKsu+JOUCNfM/P9QXY=;
-        b=KyhbofNLq+QPJLHJqM42+Grx6fk4bIVHKYHsRkpDcXQlwosmBYJ4QX0tpoQzZR/1lNBvuG
-        ocLsXpoonVVH1vtwlXOpeDUvTbtTJJ6fAODwjHRG/98uyTLMJ3T/7a6VosrIqh0b8iKEZu
-        wswWkwYLavbb54oMYw82MmfjZtTDKBk=
+        bh=NkEC4473CGa7e8fIjNoC3X1SUXgaP3E6j+KdsWZpwGI=;
+        b=k1m3b2saVzeK70i0Zc+svzcsCMtLoz9u/6G0XhnNTuEjjBqaPgdeZdOLSwkAtok3vOMT9x
+        jzlXXcpyFlWLaTYeD49uG6SdwoL+UKtkVB6uKF0psIVjtbY9kzJFknqbLnScN5lCIl0BFI
+        LGOml0JVdm+uTsrhRAzo+MzzTJjSKCs=
 From:   Borislav Petkov <bp@alien8.de>
 To:     Tony Luck <tony.luck@intel.com>
 Cc:     linux-edac <linux-edac@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 06/11] RAS/CEC: Fix potential memory leak
-Date:   Thu,  9 May 2019 20:09:21 +0200
-Message-Id: <20190509180926.31932-7-bp@alien8.de>
+Subject: [PATCH 04/11] RAS/CEC: Check count_threshold unconditionally
+Date:   Thu,  9 May 2019 20:09:19 +0200
+Message-Id: <20190509180926.31932-5-bp@alien8.de>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190509180926.31932-1-bp@alien8.de>
 References: <20190509180926.31932-1-bp@alien8.de>
@@ -55,32 +55,83 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Borislav Petkov <bp@suse.de>
 
-Free the array page if a failure is encountered while creating the
-debugfs nodes.
+The count_threshold should be checked unconditionally, after insertion
+too, so that a count_threshold value of 1 can cause an immediate
+offlining. I.e., offline the page on the *first* error encountered.
 
+Add comments to make it clear what cec_add_elem() does, while at it.
+
+Reported-by: WANG Chao <chao.wang@ucloud.cn>
 Signed-off-by: Borislav Petkov <bp@suse.de>
 Cc: Tony Luck <tony.luck@intel.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: linux-edac@vger.kernel.org
+Link: https://lkml.kernel.org/r/20190418034115.75954-3-chao.wang@ucloud.cn
 ---
- drivers/ras/cec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/ras/cec.c | 27 ++++++++++-----------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 667a126f39f1..8a04b9864192 100644
+index 1275907ff21c..73216b7f67be 100644
 --- a/drivers/ras/cec.c
 +++ b/drivers/ras/cec.c
-@@ -504,8 +504,10 @@ void __init cec_init(void)
- 		return;
+@@ -294,6 +294,7 @@ int cec_add_elem(u64 pfn)
+ 
+ 	ca->ces_entered++;
+ 
++	/* Array full, free the LRU slot. */
+ 	if (ca->n == MAX_ELEMS)
+ 		WARN_ON(!del_lru_elem_unlocked(ca));
+ 
+@@ -306,24 +307,17 @@ int cec_add_elem(u64 pfn)
+ 			(void *)&ca->array[to],
+ 			(ca->n - to) * sizeof(u64));
+ 
+-		ca->array[to] = (pfn << PAGE_SHIFT) |
+-				(DECAY_MASK << COUNT_BITS) | 1;
+-
++		ca->array[to] = pfn << PAGE_SHIFT;
+ 		ca->n++;
+-
+-		ret = 0;
+-
+-		goto decay;
  	}
  
--	if (create_debugfs_nodes())
-+	if (create_debugfs_nodes()) {
-+		free_page((unsigned long)ce_arr.array);
- 		return;
-+	}
+-	count = COUNT(ca->array[to]);
+-
+-	if (count < count_threshold) {
+-		ca->array[to] |= (DECAY_MASK << COUNT_BITS);
+-		ca->array[to]++;
++	/* Add/refresh element generation and increment count */
++	ca->array[to] |= DECAY_MASK << COUNT_BITS;
++	ca->array[to]++;
  
- 	INIT_DELAYED_WORK(&cec_work, cec_work_fn);
- 	schedule_delayed_work(&cec_work, CEC_DECAY_DEFAULT_INTERVAL);
+-		ret = 0;
+-	} else {
++	/* Check action threshold and soft-offline, if reached. */
++	count = COUNT(ca->array[to]);
++	if (count >= count_threshold) {
+ 		u64 pfn = ca->array[to] >> PAGE_SHIFT;
+ 
+ 		if (!pfn_valid(pfn)) {
+@@ -338,15 +332,14 @@ int cec_add_elem(u64 pfn)
+ 		del_elem(ca, to);
+ 
+ 		/*
+-		 * Return a >0 value to denote that we've reached the offlining
+-		 * threshold.
++		 * Return a >0 value to callers, to denote that we've reached
++		 * the offlining threshold.
+ 		 */
+ 		ret = 1;
+ 
+ 		goto unlock;
+ 	}
+ 
+-decay:
+ 	ca->decay_count++;
+ 
+ 	if (ca->decay_count >= CLEAN_ELEMS)
 -- 
 2.21.0
 
