@@ -2,103 +2,86 @@ Return-Path: <SRS0=YyeI=TK=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D297BC04A6B
-	for <linux-edac@archiver.kernel.org>; Fri, 10 May 2019 10:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A59BBC04AB2
+	for <linux-edac@archiver.kernel.org>; Fri, 10 May 2019 10:50:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A5D6C2184B
-	for <linux-edac@archiver.kernel.org>; Fri, 10 May 2019 10:16:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="KJP+zxpR"
+	by mail.kernel.org (Postfix) with ESMTP id 80BBD217F9
+	for <linux-edac@archiver.kernel.org>; Fri, 10 May 2019 10:50:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727424AbfEJKPn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 10 May 2019 06:15:43 -0400
-Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:47643 "EHLO
-        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727380AbfEJKPn (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 10 May 2019 06:15:43 -0400
-Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id D7C10891AE;
-        Fri, 10 May 2019 22:15:40 +1200 (NZST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-        s=mail181024; t=1557483340;
-        bh=vwc1YfUtcojvhLFHHpCxjQw0m2BEKd7mFTY7Bja52pw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=KJP+zxpR724yy88dudp+bMh4tPzOvNM7mrSj8K9sEsmWbgyM+vvmkmRMg6bnX8hVX
-         y7+ayiSVkx+nUpyKLKR91mDesR9TKxZPp2RAV5/BaI5bb7ke8Uf6CvbjGsRoIYnuv1
-         5fYB06h6vSAeRzMctUna9hCiDmBTfuJDSS1Qd2qubSq0HZ0O0NEIYiQAruMe9PW0WL
-         098EHjlN434xQPLAX4nz7tI7PK3ZqgX9OcOrtPn+CJD9z3N4J2Bq0ELxmLgZSAgw67
-         0lFAUywtE6sxR6U5T3zuwbUZddd9QVwqDxKXQNFMkU7Rn235wKcEmio77mddQOea7i
-         OuDIOumkjVvsQ==
-Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
-        id <B5cd54f4d0000>; Fri, 10 May 2019 22:15:41 +1200
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-        by smtp (Postfix) with ESMTP id 2F7E113EF9D;
-        Fri, 10 May 2019 22:15:40 +1200 (NZST)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-        id B8CCB1E1D5B; Fri, 10 May 2019 22:15:39 +1200 (NZST)
-From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
-To:     linux@armlinux.org.uk, bp@alien8.de, mark.rutland@arm.com,
-        robh+dt@kernel.org, mchehab@kernel.org, james.morse@arm.com,
-        jlu@pengutronix.de, gregory.clement@bootlin.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v8 5/9] dt-bindings: ARM: document marvell,ecc-enable binding
-Date:   Fri, 10 May 2019 22:15:32 +1200
-Message-Id: <20190510101536.6724-6-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190510101536.6724-1-chris.packham@alliedtelesis.co.nz>
-References: <20190510101536.6724-1-chris.packham@alliedtelesis.co.nz>
+        id S1727398AbfEJKuz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 10 May 2019 06:50:55 -0400
+Received: from ozlabs.org ([203.11.71.1]:35787 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727049AbfEJKuz (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 10 May 2019 06:50:55 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 450n7J1Wj0z9s4V;
+        Fri, 10 May 2019 20:50:51 +1000 (AEST)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Johannes Thumshirn <morbidrsa@gmail.com>,
+        linux-edac@vger.kernel.org, mchehab@kernel.org,
+        james.morse@arm.com, linux-kernel@vger.kernel.org,
+        linuxppc-dev@ozlabs.org
+Subject: Re: [PATCH] EDAC, mpc85xx: Prevent building as a module
+In-Reply-To: <20190509180220.GH17053@zn.tnic>
+References: <20190502141941.12927-1-mpe@ellerman.id.au> <20190506065045.GA3901@x250> <20190508101238.GB19015@zn.tnic> <87o94bvfxm.fsf@concordia.ellerman.id.au> <20190509145534.GD17053@zn.tnic> <20190509180220.GH17053@zn.tnic>
+Date:   Fri, 10 May 2019 20:50:52 +1000
+Message-ID: <87bm0avb03.fsf@concordia.ellerman.id.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-x-atlnz-ls: pat
+Content-Type: text/plain
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add documentation for the marvell,ecc-enable properties which can be
-used to enable ECC on the Marvell aurora cache.
+Borislav Petkov <bp@alien8.de> writes:
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
+> On Thu, May 09, 2019 at 04:55:34PM +0200, Borislav Petkov wrote:
+>> On Fri, May 10, 2019 at 12:52:05AM +1000, Michael Ellerman wrote:
+>> > Thanks. It would be nice if you could send it as a fix for 5.2, it's the
+>> > last thing blocking one of my allmodconfig builds. But if you don't
+>> > think it qualifies as a fix that's fine too, it can wait.
+>> 
+>> Sure, no problem. Will do a pull request later.
+>
+> Hmm, so looking at this more, I was able to produce this config with my
+> ancient cross-compiler:
+>
+> CONFIG_EDAC_SUPPORT=y
+> CONFIG_EDAC=m
+> CONFIG_EDAC_LEGACY_SYSFS=y
+> CONFIG_EDAC_MPC85XX=y
 
-Notes:
-    Changes in v7:
-    - remove marvell,ecc-disable
-    Changes in v6:
-    - new (split binding doc from implementation).
+Oh yeah good point.
 
- Documentation/devicetree/bindings/arm/l2c2x0.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+> Now, mpc85xx_edac is built-in and edac_core.ko is a module
+> (CONFIG_EDAC=m) and that should not work - i.e., builtin code calling
+> module functions. But my cross-compiler is happily building this without
+> complaint. Or maybe I'm missing something.
 
-diff --git a/Documentation/devicetree/bindings/arm/l2c2x0.yaml b/Document=
-ation/devicetree/bindings/arm/l2c2x0.yaml
-index bfc5c185561c..913a8cd8b2c0 100644
---- a/Documentation/devicetree/bindings/arm/l2c2x0.yaml
-+++ b/Documentation/devicetree/bindings/arm/l2c2x0.yaml
-@@ -176,6 +176,10 @@ properties:
-     description: disable parity checking on the L2 cache (L220 or PL310)=
-.
-     type: boolean
-=20
-+  marvell,ecc-enable:
-+    description: enable ECC protection on the L2 cache
-+    type: boolean
-+
-   arm,outer-sync-disable:
-     description: disable the outer sync operation on the L2 cache.
-       Some core tiles, especially ARM PB11MPCore have a faulty L220 cach=
-e that
---=20
-2.21.0
+That's weird.
 
+> In any case, I *think* the proper fix should be to do:
+>
+> config EDAC_MPC85XX
+>         bool "Freescale MPC83xx / MPC85xx"
+>         depends on FSL_SOC && EDAC=y
+>
+> so that you can't even produce the above invalid .config snippet.
+>
+> Hmmm?
+
+Yeah that looks better to me. I didn't think about the case where EDAC
+core is modular.
+
+Do you want me to send a new patch?
+
+cheers
