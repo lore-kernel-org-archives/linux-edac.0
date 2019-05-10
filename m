@@ -1,193 +1,148 @@
-Return-Path: <SRS0=jeHd=TJ=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=YyeI=TK=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_PASS,UPPERCASE_50_75,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5E0C04AB2
-	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46CE5C04A6B
+	for <linux-edac@archiver.kernel.org>; Fri, 10 May 2019 10:16:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E4270217D9
-	for <linux-edac@archiver.kernel.org>; Thu,  9 May 2019 18:10:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 186EC20881
+	for <linux-edac@archiver.kernel.org>; Fri, 10 May 2019 10:16:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="Emld8reu"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="g+OG4BbN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbfEISJf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 9 May 2019 14:09:35 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:36964 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726775AbfEISJe (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 9 May 2019 14:09:34 -0400
-Received: from zn.tnic (p200300EC2F0F5F0071783F241746291C.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:5f00:7178:3f24:1746:291c])
+        id S1727595AbfEJKPq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 10 May 2019 06:15:46 -0400
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:47713 "EHLO
+        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727576AbfEJKPq (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 10 May 2019 06:15:46 -0400
+Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 103FC1EC0B5A;
-        Thu,  9 May 2019 20:09:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1557425373;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UEXWg2URSKnWXuSJJUpT1EWR6AmDhcNd64KRaHH2jHw=;
-        b=Emld8reuLmtKbRjyo9ql6Sr9lWXJv1runSwtI4sDUDYwgUEniLpUEgI1zE0gZsx3byYjee
-        SlZvFhHxcWZ3azxMbaDViLO2XhvXTYOoOEDeHKMKl/7zHyJ4TOrYmgPvUAudhHmJNLlxsG
-        C7o8ASnoaYhxg9+c55SeSYacmOgyoMU=
-From:   Borislav Petkov <bp@alien8.de>
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     linux-edac <linux-edac@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 02/11] RAS/CEC: Convert the timer callback to a workqueue
-Date:   Thu,  9 May 2019 20:09:17 +0200
-Message-Id: <20190509180926.31932-3-bp@alien8.de>
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 9DB38891B4;
+        Fri, 10 May 2019 22:15:42 +1200 (NZST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1557483342;
+        bh=4OLVZQh53iXKtLLmwSmr18eV9kz/TJeO6GB9Jr4lc7g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=g+OG4BbNld37+OseeBSvzeWL9gBjklRMWNNoBB8a3PmSJfFNsxC0aBkkpPd+iNXCM
+         ExNMkqVA79qk5Twrsil0zYkBrPjLyvV/pqQ37QuyS+FTwFrKxiesHI2HfmuUnldJ1f
+         oaZ25jGMYzzJv5TL4OSNcvBxRJchdunk44bPiXCM57hFgpVVHdOAhvJM9ylrGqIF7P
+         A0ADs/1h5LwaPPRFcvxkhdd++TAXf9ySpER/mHtxLI2XGgNXnMtjarooGzUPAyeH36
+         LCqCLuxVwJUdr2Bjog0X5smhF6O4nME/+Q1etliaR2L2j/9J+B/vRC3ipzFh1wMKaV
+         1tTEGBRdvJANA==
+Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
+        id <B5cd54f4c0003>; Fri, 10 May 2019 22:15:41 +1200
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
+        by smtp (Postfix) with ESMTP id EDD3213EF97;
+        Fri, 10 May 2019 22:15:39 +1200 (NZST)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+        id 82B4D1E1D5B; Fri, 10 May 2019 22:15:39 +1200 (NZST)
+From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
+To:     linux@armlinux.org.uk, bp@alien8.de, mark.rutland@arm.com,
+        robh+dt@kernel.org, mchehab@kernel.org, james.morse@arm.com,
+        jlu@pengutronix.de, gregory.clement@bootlin.com
+Cc:     linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH v8 3/9] ARM: aurora-l2: add defines for parity and ECC registers
+Date:   Fri, 10 May 2019 22:15:30 +1200
+Message-Id: <20190510101536.6724-4-chris.packham@alliedtelesis.co.nz>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190509180926.31932-1-bp@alien8.de>
-References: <20190509180926.31932-1-bp@alien8.de>
+In-Reply-To: <20190510101536.6724-1-chris.packham@alliedtelesis.co.nz>
+References: <20190510101536.6724-1-chris.packham@alliedtelesis.co.nz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+x-atlnz-ls: pat
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Cong Wang <xiyou.wangcong@gmail.com>
+From: Jan Luebbe <jlu@pengutronix.de>
 
-cec_timer_fn() is a timer callback which reads ce_arr.array[] and
-updates its decay values. However, it runs in interrupt context and the
-mutex protection the CEC uses for that array, is inadequate. Convert the
-used timer to a workqueue to keep the tasks the CEC performs preemptible
-and thus low-prio.
+These defines will be used by subsequent patches to add support for the
+parity check and error correction functionality in the Aurora L2 cache
+controller.
 
- [ bp: Rewrite commit message.
-   s/timer/decay/gi to make it agnostic as to what facility is used. ]
-
-Fixes: 011d82611172 ("RAS: Add a Corrected Errors Collector")
-Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: <stable@vger.kernel.org>
-Link: https://lkml.kernel.org/r/20190416213351.28999-2-xiyou.wangcong@gmail.com
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
 ---
- drivers/ras/cec.c | 46 ++++++++++++++++++++++------------------------
- 1 file changed, 22 insertions(+), 24 deletions(-)
+ .../include/asm/hardware/cache-aurora-l2.h    | 48 +++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index dbfe3e61d2c2..673f8a128397 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -2,6 +2,7 @@
- #include <linux/mm.h>
- #include <linux/gfp.h>
- #include <linux/kernel.h>
-+#include <linux/workqueue.h>
- 
- #include <asm/mce.h>
- 
-@@ -123,16 +124,12 @@ static u64 dfs_pfn;
- /* Amount of errors after which we offline */
- static unsigned int count_threshold = COUNT_MASK;
- 
--/*
-- * The timer "decays" element count each timer_interval which is 24hrs by
-- * default.
-- */
--
--#define CEC_TIMER_DEFAULT_INTERVAL	24 * 60 * 60	/* 24 hrs */
--#define CEC_TIMER_MIN_INTERVAL		 1 * 60 * 60	/* 1h */
--#define CEC_TIMER_MAX_INTERVAL	   30 *	24 * 60 * 60	/* one month */
--static struct timer_list cec_timer;
--static u64 timer_interval = CEC_TIMER_DEFAULT_INTERVAL;
-+/* Each element "decays" each decay_interval which is 24hrs by default. */
-+#define CEC_DECAY_DEFAULT_INTERVAL	24 * 60 * 60	/* 24 hrs */
-+#define CEC_DECAY_MIN_INTERVAL		 1 * 60 * 60	/* 1h */
-+#define CEC_DECAY_MAX_INTERVAL	   30 *	24 * 60 * 60	/* one month */
-+static struct delayed_work cec_work;
-+static u64 decay_interval = CEC_DECAY_DEFAULT_INTERVAL;
- 
- /*
-  * Decrement decay value. We're using DECAY_BITS bits to denote decay of an
-@@ -160,20 +157,21 @@ static void do_spring_cleaning(struct ce_array *ca)
- /*
-  * @interval in seconds
-  */
--static void cec_mod_timer(struct timer_list *t, unsigned long interval)
-+static void cec_mod_work(unsigned long interval)
- {
- 	unsigned long iv;
- 
--	iv = interval * HZ + jiffies;
--
--	mod_timer(t, round_jiffies(iv));
-+	iv = interval * HZ;
-+	mod_delayed_work(system_wq, &cec_work, round_jiffies(iv));
- }
- 
--static void cec_timer_fn(struct timer_list *unused)
-+static void cec_work_fn(struct work_struct *work)
- {
-+	mutex_lock(&ce_mutex);
- 	do_spring_cleaning(&ce_arr);
-+	mutex_unlock(&ce_mutex);
- 
--	cec_mod_timer(&cec_timer, timer_interval);
-+	cec_mod_work(decay_interval);
- }
- 
- /*
-@@ -380,15 +378,15 @@ static int decay_interval_set(void *data, u64 val)
- {
- 	*(u64 *)data = val;
- 
--	if (val < CEC_TIMER_MIN_INTERVAL)
-+	if (val < CEC_DECAY_MIN_INTERVAL)
- 		return -EINVAL;
- 
--	if (val > CEC_TIMER_MAX_INTERVAL)
-+	if (val > CEC_DECAY_MAX_INTERVAL)
- 		return -EINVAL;
- 
--	timer_interval = val;
-+	decay_interval = val;
- 
--	cec_mod_timer(&cec_timer, timer_interval);
-+	cec_mod_work(decay_interval);
- 	return 0;
- }
- DEFINE_DEBUGFS_ATTRIBUTE(decay_interval_ops, u64_get, decay_interval_set, "%lld\n");
-@@ -432,7 +430,7 @@ static int array_dump(struct seq_file *m, void *v)
- 
- 	seq_printf(m, "Flags: 0x%x\n", ca->flags);
- 
--	seq_printf(m, "Timer interval: %lld seconds\n", timer_interval);
-+	seq_printf(m, "Decay interval: %lld seconds\n", decay_interval);
- 	seq_printf(m, "Decays: %lld\n", ca->decays_done);
- 
- 	seq_printf(m, "Action threshold: %d\n", count_threshold);
-@@ -478,7 +476,7 @@ static int __init create_debugfs_nodes(void)
- 	}
- 
- 	decay = debugfs_create_file("decay_interval", S_IRUSR | S_IWUSR, d,
--				    &timer_interval, &decay_interval_ops);
-+				    &decay_interval, &decay_interval_ops);
- 	if (!decay) {
- 		pr_warn("Error creating decay_interval debugfs node!\n");
- 		goto err;
-@@ -514,8 +512,8 @@ void __init cec_init(void)
- 	if (create_debugfs_nodes())
- 		return;
- 
--	timer_setup(&cec_timer, cec_timer_fn, 0);
--	cec_mod_timer(&cec_timer, CEC_TIMER_DEFAULT_INTERVAL);
-+	INIT_DELAYED_WORK(&cec_work, cec_work_fn);
-+	schedule_delayed_work(&cec_work, CEC_DECAY_DEFAULT_INTERVAL);
- 
- 	pr_info("Correctable Errors collector initialized.\n");
- }
--- 
+diff --git a/arch/arm/include/asm/hardware/cache-aurora-l2.h b/arch/arm/i=
+nclude/asm/hardware/cache-aurora-l2.h
+index dc5c479ec4c3..39769ffa0051 100644
+--- a/arch/arm/include/asm/hardware/cache-aurora-l2.h
++++ b/arch/arm/include/asm/hardware/cache-aurora-l2.h
+@@ -31,6 +31,9 @@
+ #define AURORA_ACR_REPLACEMENT_TYPE_SEMIPLRU \
+ 	(3 << AURORA_ACR_REPLACEMENT_OFFSET)
+=20
++#define AURORA_ACR_PARITY_EN	(1 << 21)
++#define AURORA_ACR_ECC_EN	(1 << 20)
++
+ #define AURORA_ACR_FORCE_WRITE_POLICY_OFFSET	0
+ #define AURORA_ACR_FORCE_WRITE_POLICY_MASK	\
+ 	(0x3 << AURORA_ACR_FORCE_WRITE_POLICY_OFFSET)
+@@ -41,6 +44,51 @@
+ #define AURORA_ACR_FORCE_WRITE_THRO_POLICY	\
+ 	(2 << AURORA_ACR_FORCE_WRITE_POLICY_OFFSET)
+=20
++#define AURORA_ERR_CNT_REG          0x600
++#define AURORA_ERR_ATTR_CAP_REG     0x608
++#define AURORA_ERR_ADDR_CAP_REG     0x60c
++#define AURORA_ERR_WAY_CAP_REG      0x610
++#define AURORA_ERR_INJECT_CTL_REG   0x614
++#define AURORA_ERR_INJECT_MASK_REG  0x618
++
++#define AURORA_ERR_CNT_CLR_OFFSET         31
++#define AURORA_ERR_CNT_CLR		   \
++	(0x1 << AURORA_ERR_CNT_CLR_OFFSET)
++#define AURORA_ERR_CNT_UE_OFFSET          16
++#define AURORA_ERR_CNT_UE_MASK             \
++	(0x7fff << AURORA_ERR_CNT_UE_OFFSET)
++#define AURORA_ERR_CNT_CE_OFFSET           0
++#define AURORA_ERR_CNT_CE_MASK             \
++	(0xffff << AURORA_ERR_CNT_CE_OFFSET)
++
++#define AURORA_ERR_ATTR_SRC_OFF           16
++#define AURORA_ERR_ATTR_SRC_MSK            \
++	(0x7 << AURORA_ERR_ATTR_SRC_OFF)
++#define AURORA_ERR_ATTR_TXN_OFF           12
++#define AURORA_ERR_ATTR_TXN_MSK            \
++	(0xf << AURORA_ERR_ATTR_TXN_OFF)
++#define AURORA_ERR_ATTR_ERR_OFF            8
++#define AURORA_ERR_ATTR_ERR_MSK            \
++	(0x3 << AURORA_ERR_ATTR_ERR_OFF)
++#define AURORA_ERR_ATTR_CAP_VALID_OFF      0
++#define AURORA_ERR_ATTR_CAP_VALID          \
++	(0x1 << AURORA_ERR_ATTR_CAP_VALID_OFF)
++
++#define AURORA_ERR_ADDR_CAP_ADDR_MASK 0xffffffe0
++
++#define AURORA_ERR_WAY_IDX_OFF             8
++#define AURORA_ERR_WAY_IDX_MSK             \
++	(0xfff << AURORA_ERR_WAY_IDX_OFF)
++#define AURORA_ERR_WAY_CAP_WAY_OFFSET      1
++#define AURORA_ERR_WAY_CAP_WAY_MASK        \
++	(0xf << AURORA_ERR_WAY_CAP_WAY_OFFSET)
++
++#define AURORA_ERR_INJECT_CTL_ADDR_MASK 0xfffffff0
++#define AURORA_ERR_ATTR_TXN_OFF   12
++#define AURORA_ERR_INJECT_CTL_EN_MASK          0x3
++#define AURORA_ERR_INJECT_CTL_EN_PARITY        0x2
++#define AURORA_ERR_INJECT_CTL_EN_ECC           0x1
++
+ #define AURORA_MAX_RANGE_SIZE	1024
+=20
+ #define AURORA_WAY_SIZE_SHIFT	2
+--=20
 2.21.0
 
