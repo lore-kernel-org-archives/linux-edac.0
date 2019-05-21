@@ -1,49 +1,95 @@
 Return-Path: <SRS0=pyex=TV=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: **
-X-Spam-Status: No, score=2.8 required=3.0 tests=DATE_IN_PAST_12_24,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,PRICE_CATALOG,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96806C04AAF
-	for <linux-edac@archiver.kernel.org>; Tue, 21 May 2019 05:15:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2410C04AAF
+	for <linux-edac@archiver.kernel.org>; Tue, 21 May 2019 05:31:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7624E2173E
-	for <linux-edac@archiver.kernel.org>; Tue, 21 May 2019 05:15:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88B7A21743
+	for <linux-edac@archiver.kernel.org>; Tue, 21 May 2019 05:31:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="kyLq6vqx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727777AbfEUFP1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 21 May 2019 01:15:27 -0400
-Received: from [159.89.172.223] ([159.89.172.223]:39360 "EHLO
-        mail.boombf2am.ga" rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1727228AbfEUFP1 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 21 May 2019 01:15:27 -0400
-Received: by mail.boombf2am.ga (Postfix, from userid 48)
-        id D329756C93D; Mon, 20 May 2019 13:31:02 +0000 (UTC)
-To:     linux-edac@vger.kernel.org
-Subject: Inquiry 20/May/2019
-X-PHP-Originating-Script: 0:nfhdgeds.php
-From:   Daniel Murray <sinara-group@bk.ru>
-Reply-To: sinara-group@list.ru
+        id S1725794AbfEUFbj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 21 May 2019 01:31:39 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44883 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725982AbfEUFbi (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 21 May 2019 01:31:38 -0400
+Received: by mail-lf1-f66.google.com with SMTP id n134so11987097lfn.11
+        for <linux-edac@vger.kernel.org>; Mon, 20 May 2019 22:31:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BtJH/XFatQoBOkqt6CnXFYn8cVFYIMDvg7sFFa+676w=;
+        b=kyLq6vqxe11UGM5dCp65/VIEmlD+ACNL83MCfoFC4CUz1LW2/BkZq4jQPkPHtoH8Ze
+         tbExs1uaTjddyOv7pHBFTilzgdvXBRGSZKZXcpcn8xDRUGBmna44cQXLRF96xO5UXA4u
+         eYGAysbsIfGMw15tyeUOW4868nK5HtjkxNHYDXZkLaE0/bvwzSKsmyMn1g8Y97f7epr5
+         QPgL7TJOZ7IO8L2Aff3vxpQwf56lh+FleBOwoZLtOZ0xtS8nWiBooOlgBkDp+5b0SYgW
+         JtV2bfR2aAL4pJj7ygZJl1GuzifomEgI2FgLpQehqn/Cpw+fhIjwKraPQ3DYgPxGcaM3
+         8xHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BtJH/XFatQoBOkqt6CnXFYn8cVFYIMDvg7sFFa+676w=;
+        b=BozOkRve6V8z1puzdGgnv21Gq43a2L8EVrfqLg70dSMEhkHyQPgnhfs0V7NMI9veS6
+         z/du6pAjwVIxJchxc6kM4F8S9txGgMzTOH2OuLzkspPJsjT2I/0hryqNEuVwIVs9HjCN
+         4EFH/fcRNGmLApvO0/IZ8jVYj9b81h8HkuVJNGAHYYW3+VvMFDTjK7SNGry0HH0qcC+r
+         Hc5KX7gK0S9Uex80obFVQ7V3sa0kMNCpa8DUrTLz6Z9/qU/7njNcMcOFSdGf7VrCRQ7h
+         laeA3poSxikNV1m9UeJkrbTJ1aoA60aNZUasuE3s9mZ9MvhtQX+LpG3C6P3XFA57JGFU
+         ChPg==
+X-Gm-Message-State: APjAAAVyIJ/PEJi0hHeGoEl0Cn44+2t2yGxcb6o16V0L2koy+VBpZuBe
+        yfXrbkxVngjq9XUx1C3rOe/olgKN7RfvT6aK8l99Snh+
+X-Google-Smtp-Source: APXvYqwTO5cDb3MVcX3rsZTp5AzbDa+LWhvMDys5bBDQIRDcxlANQjUTioD3NEoxscJG3c+mMbm/QAYAZESzHIp/t1k=
+X-Received: by 2002:a19:c60f:: with SMTP id w15mr39497034lff.61.1558416695999;
+ Mon, 20 May 2019 22:31:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-Message-Id: <20190520143620.D329756C93D@mail.boombf2am.ga>
-Date:   Mon, 20 May 2019 13:31:02 +0000 (UTC)
+References: <1557142026-15949-1-git-send-email-yash.shah@sifive.com> <1557142026-15949-2-git-send-email-yash.shah@sifive.com>
+In-Reply-To: <1557142026-15949-2-git-send-email-yash.shah@sifive.com>
+From:   Yash Shah <yash.shah@sifive.com>
+Date:   Tue, 21 May 2019 11:00:59 +0530
+Message-ID: <CAJ2_jOG9Ag0spbh3YCxavUE5XEAUP1pHcgCZ56Nu2u4TqfrzHQ@mail.gmail.com>
+Subject: Re: [PATCH v2] edac: sifive: Add EDAC platform driver for SiFive SoCs
+To:     linux-edac@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Borislav Petkov <bp@alien8.de>,
+        James Morse <james.morse@arm.com>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-kernel@vger.kernel.org, aou@eecs.berkeley.edu,
+        mchehab@kernel.org, Sachin Ghadi <sachin.ghadi@sifive.com>,
+        davem@davemloft.net, gregkh@linuxfoundation.org,
+        nicolas.ferre@microchip.com, paulmck@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi,friend,
+On Mon, May 6, 2019 at 4:57 PM Yash Shah <yash.shah@sifive.com> wrote:
+>
+> The initial ver of EDAC driver supports:
+> - ECC event monitoring and reporting through the EDAC framework for SiFive
+>   L2 cache controller.
+>
+> The EDAC driver registers for notifier events from the L2 cache controller
+> driver (arch/riscv/mm/sifive_l2_cache.c) for L2 ECC events
+>
+> Signed-off-by: Yash Shah <yash.shah@sifive.com>
+> Reviewed-by: James Morse <james.morse@arm.com>
+> ---
+> This patch depends on patch
+> 'RISC-V: sifive_l2_cache: Add L2 cache controller driver for SiFive SoCs'
+> https://lkml.org/lkml/2019/5/6/255
 
-This is Daniel Murray and i am from Sinara Group Co.Ltd in Russia.
-We are glad to know about your company from the web and we are interested in your products.
-Could you kindly send us your Latest catalog and price list for our trial order.
+The prerequisite patch (sifive_l2_cache driver) has been merged into
+mainline v5.2-rc1
+It should be OK to merge this edac driver now.
 
-Best Regards,
-
-Daniel Murray
-Purchasing Manager
-
-
+- Yash
