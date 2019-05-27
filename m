@@ -1,82 +1,94 @@
-Return-Path: <SRS0=IkMK=TZ=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=S8TC=T3=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42EFAC07542
-	for <linux-edac@archiver.kernel.org>; Sat, 25 May 2019 14:42:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE12FC282CE
+	for <linux-edac@archiver.kernel.org>; Mon, 27 May 2019 08:44:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1915920879
-	for <linux-edac@archiver.kernel.org>; Sat, 25 May 2019 14:42:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B45A2173C
+	for <linux-edac@archiver.kernel.org>; Mon, 27 May 2019 08:44:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1558946641;
+	bh=SPyeTzPFoh+1jcHD1T6EeO+I9ugNzJgCyHNSVSPB+Tc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=S17jjEyiENLcHTQDtRpPEuX7VUj5Z8LUVsR/6nhW3n3DPVp4s94nHf8F8aI4idQYP
+	 FLWH8fP+hkTUmd3AEefcxPswSv8HbAOfIBBUyJ3kq8D61X27yW+V/XBvo0CuPdYp0f
+	 pxRmjCvmEoY5x0ZNFC2dF0tQQIrteshrzHEkR+Rg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbfEYOmN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 25 May 2019 10:42:13 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:17160 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726126AbfEYOmN (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 25 May 2019 10:42:13 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id F199C4B7FDF832421FFA;
-        Sat, 25 May 2019 22:42:10 +0800 (CST)
-Received: from localhost (10.177.31.96) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Sat, 25 May 2019
- 22:42:02 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <sschaeck@cisco.com>, <bp@alien8.de>, <mchehab@kernel.org>,
-        <james.morse@arm.com>, <joel@jms.id.au>, <andrew@aj.id.au>
-CC:     <linux-kernel@vger.kernel.org>, <linux-aspeed@lists.ozlabs.org>,
-        <linux-edac@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH -next] EDAC: aspeed: Remove set but not used variable 'np'
-Date:   Sat, 25 May 2019 22:41:53 +0800
-Message-ID: <20190525144153.2028-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+        id S1726408AbfE0Inw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 27 May 2019 04:43:52 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41282 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725908AbfE0Inv (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 27 May 2019 04:43:51 -0400
+Received: by mail-ot1-f67.google.com with SMTP id l25so14128128otp.8;
+        Mon, 27 May 2019 01:43:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SPyeTzPFoh+1jcHD1T6EeO+I9ugNzJgCyHNSVSPB+Tc=;
+        b=CurKgiqG1W2/kcwqKQGypZEHcqAaKeeiBvQOmycmxO1M+JUNpY1wcado5riTLx4FgG
+         KoAuupXk1Co0lLXoLzVZk0CvOYk7xlutqqlEq5DZk3/LMCHkjffnoinnb9e32YvycQy8
+         ziXuqUmjx/p/KoWMf47CE+jo966cTxXZ/QZn2/qErM/uzZ6ujgEDVfRRgopAaD6kJKZj
+         Thp50xWIEhTq1yDoPNKmKuhGmOQDuMveeVlMnKE+WWRL4hBg2kwXBkVZQse0hRHudESs
+         DyuBbNdhcgcC++eX5TnpHOy8uFHrP2P0257cxe/WUfISunfz2lJjT6b48Se2N812QYc+
+         6YIQ==
+X-Gm-Message-State: APjAAAUPr7GH+9lLtlo50P8cRh7osBh4bF0CR5KFM/Npp13or1BEUC//
+        VGOAIkJoib2ZcJWVVgLKoZZY7j4ThLNydZb6Nnw=
+X-Google-Smtp-Source: APXvYqxIlLFH84yhUFerMj/YlUDBNDBRTGJTxhPDFRXnfvuo7mYZbz39ugxbhoZlfat/iRijWwRpROWfadWrjYSeMCE=
+X-Received: by 2002:a9d:7dd5:: with SMTP id k21mr43860970otn.167.1558946630255;
+ Mon, 27 May 2019 01:43:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.177.31.96]
-X-CFilter-Loop: Reflected
+References: <cover.1558362030.git.mchehab+samsung@kernel.org> <4fd1182b4a41feb2447c7ccde4d7f0a6b3c92686.1558362030.git.mchehab+samsung@kernel.org>
+In-Reply-To: <4fd1182b4a41feb2447c7ccde4d7f0a6b3c92686.1558362030.git.mchehab+samsung@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 27 May 2019 10:43:39 +0200
+Message-ID: <CAJZ5v0iiSo=yoyZTt6ddf5fBRGy1wSvzmA-ZaHH33nivkSp22Q@mail.gmail.com>
+Subject: Re: [PATCH 10/10] docs: fix broken documentation links
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        "open list:EDAC-CORE" <linux-edac@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-gpio@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        xen-devel@lists.xenproject.org,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        devel@driverdev.osuosl.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        "open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Fixes gcc '-Wunused-but-set-variable' warning:
+On Mon, May 20, 2019 at 4:48 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Mostly due to x86 and acpi conversion, several documentation
+> links are still pointing to the old file. Fix them.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-drivers/edac/aspeed_edac.c: In function aspeed_probe:
-drivers/edac/aspeed_edac.c:284:22: warning: variable np set but not used [-Wunused-but-set-variable]
+For the ACPI part:
 
-It is never used and can be removed.
-
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/edac/aspeed_edac.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
-index 11833c0a5d07..5634437bb39d 100644
---- a/drivers/edac/aspeed_edac.c
-+++ b/drivers/edac/aspeed_edac.c
-@@ -281,15 +281,11 @@ static int aspeed_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct edac_mc_layer layers[2];
- 	struct mem_ctl_info *mci;
--	struct device_node *np;
- 	struct resource *res;
- 	void __iomem *regs;
- 	u32 reg04;
- 	int rc;
- 
--	/* setup regmap */
--	np = dev->of_node;
--
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	if (!res)
- 		return -ENOENT;
--- 
-2.17.1
-
-
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
