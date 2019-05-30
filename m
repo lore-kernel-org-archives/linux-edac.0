@@ -1,168 +1,97 @@
 Return-Path: <SRS0=+7Ah=T6=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Level: **
+X-Spam-Status: No, score=2.2 required=3.0 tests=CHARSET_FARAWAY_HEADER,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE04C28CC0
-	for <linux-edac@archiver.kernel.org>; Thu, 30 May 2019 04:44:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E03B6C28CC2
+	for <linux-edac@archiver.kernel.org>; Thu, 30 May 2019 10:13:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2399C25B05
-	for <linux-edac@archiver.kernel.org>; Thu, 30 May 2019 04:44:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1559191491;
-	bh=P0OgvO6kvj4Bw0/nhCGmIl7BjnU0aqdrFCMdjycaGWI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=LrIADpadVcMK/eG92xZtD7r44qF+ba7bQOZftp5UdgdgmK7QsSgS3KX5Vct+jbxmH
-	 3i3gTBpBEfKWT5CG1je/lUKDCWPVEtJfjYCv0msHewWpJ0o0TwHNpeQB0ySOHzKxp8
-	 5ZGUyrZu6K7hpSUDtFxR98uV+rky5WPIWSLKfhUQ=
+	by mail.kernel.org (Postfix) with ESMTP id C0B90256EA
+	for <linux-edac@archiver.kernel.org>; Thu, 30 May 2019 10:13:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728782AbfE3DMA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 29 May 2019 23:12:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52812 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728777AbfE3DL7 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 29 May 2019 23:11:59 -0400
-Received: from localhost (ip67-88-213-2.z213-88-67.customer.algx.net [67.88.213.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4769E244E8;
-        Thu, 30 May 2019 03:11:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559185919;
-        bh=P0OgvO6kvj4Bw0/nhCGmIl7BjnU0aqdrFCMdjycaGWI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rl/2ortcc02Uw3ColjMKlKUaH9VENesDFJk4xDRTPWH0mAk+epbLg6+S/SzuHV74e
-         txkEYEHVfR7xp6+dTlsFq98ZZ7FU7pXl5ahb8yAs1KeScOaUDc18aYrfxzLOSejazq
-         xbFThNn36+vYFAIiHH6xFQI160A2FWf5ue1RYp2Q=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Ashok Raj <ashok.raj@intel.com>,
-        Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, x86-ml <x86@kernel.org>,
-        Yazen Ghannam <Yazen.Ghannam@amd.com>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.1 305/405] x86/mce: Fix machine_check_poll() tests for error types
-Date:   Wed, 29 May 2019 20:05:03 -0700
-Message-Id: <20190530030556.244205668@linuxfoundation.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190530030540.291644921@linuxfoundation.org>
-References: <20190530030540.291644921@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S1727994AbfE3KNK (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 30 May 2019 06:13:10 -0400
+Received: from ZXSHCAS1.zhaoxin.com ([203.148.12.81]:15394 "EHLO
+        ZXSHCAS1.zhaoxin.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726515AbfE3KNJ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 30 May 2019 06:13:09 -0400
+Received: from ZXBJCAS.zhaoxin.com (10.29.252.3) by ZXSHCAS1.zhaoxin.com
+ (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1261.35; Thu, 30 May
+ 2019 18:10:27 +0800
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXBJCAS.zhaoxin.com
+ (10.29.252.3) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1261.35; Thu, 30 May
+ 2019 17:13:39 +0800
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1261.35; Thu, 30 May
+ 2019 17:13:39 +0800
+Received: from zxbjmbx1.zhaoxin.com ([fe80::b41a:737:a784:b70d]) by
+ zxbjmbx1.zhaoxin.com ([fe80::b41a:737:a784:b70d%16]) with mapi id
+ 15.01.1261.035; Thu, 30 May 2019 17:13:39 +0800
+From:   Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
+To:     "tipbot@zytor.com" <tipbot@zytor.com>,
+        "ashok.raj@intel.com" <ashok.raj@intel.com>
+CC:     "bp@suse.de" <bp@suse.de>, "hpa@zytor.com" <hpa@zytor.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-tip-commits@vger.kernel.org" 
+        <linux-tip-commits@vger.kernel.org>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        David Wang <DavidWang@zhaoxin.com>
+Subject: =?gb2312?B?tPC4tDogUmU6IFt0aXA6eDg2L3VyZ2VudF0geDg2L21jZTogRW5zdXJlIG9m?=
+ =?gb2312?B?ZmxpbmUgQ1BVcyBkb24nIHQgcGFydGljaXBhdGUgaW4gcmVuZGV6dm91cyBw?=
+ =?gb2312?Q?rocess?=
+Thread-Topic: Re: [tip:x86/urgent] x86/mce: Ensure offline CPUs don' t
+ participate in rendezvous process
+Thread-Index: AdUWlGl+Ivql5y3zT0ybuVHbqcI6gAAJtEFg
+Date:   Thu, 30 May 2019 09:13:39 +0000
+Message-ID: <985acf114ab245fbab52caabf03bd280@zhaoxin.com>
+Accept-Language: en-US, zh-CN
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.32.64.23]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-[ Upstream commit f19501aa07f18268ab14f458b51c1c6b7f72a134 ]
-
-There has been a lurking "TBD" in the machine check poll routine ever
-since it was first split out from the machine check handler. The
-potential issue is that the poll routine may have just begun a read from
-the STATUS register in a machine check bank when the hardware logs an
-error in that bank and signals a machine check.
-
-That race used to be pretty small back when machine checks were
-broadcast, but the addition of local machine check means that the poll
-code could continue running and clear the error from the bank before the
-local machine check handler on another CPU gets around to reading it.
-
-Fix the code to be sure to only process errors that need to be processed
-in the poll code, leaving other logged errors alone for the machine
-check handler to find and process.
-
- [ bp: Massage a bit and flip the "== 0" check to the usual !(..) test. ]
-
-Fixes: b79109c3bbcf ("x86, mce: separate correct machine check poller and fatal exception handler")
-Fixes: ed7290d0ee8f ("x86, mce: implement new status bits")
-Reported-by: Ashok Raj <ashok.raj@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: x86-ml <x86@kernel.org>
-Cc: Yazen Ghannam <Yazen.Ghannam@amd.com>
-Link: https://lkml.kernel.org/r/20190312170938.GA23035@agluck-desk
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/x86/kernel/cpu/mce/core.c | 44 ++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 7 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 1a7084ba9a3b6..0d47306cec7ae 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -712,19 +712,49 @@ bool machine_check_poll(enum mcp_flags flags, mce_banks_t *b)
- 
- 		barrier();
- 		m.status = mce_rdmsrl(msr_ops.status(i));
-+
-+		/* If this entry is not valid, ignore it */
- 		if (!(m.status & MCI_STATUS_VAL))
- 			continue;
- 
- 		/*
--		 * Uncorrected or signalled events are handled by the exception
--		 * handler when it is enabled, so don't process those here.
--		 *
--		 * TBD do the same check for MCI_STATUS_EN here?
-+		 * If we are logging everything (at CPU online) or this
-+		 * is a corrected error, then we must log it.
- 		 */
--		if (!(flags & MCP_UC) &&
--		    (m.status & (mca_cfg.ser ? MCI_STATUS_S : MCI_STATUS_UC)))
--			continue;
-+		if ((flags & MCP_UC) || !(m.status & MCI_STATUS_UC))
-+			goto log_it;
-+
-+		/*
-+		 * Newer Intel systems that support software error
-+		 * recovery need to make additional checks. Other
-+		 * CPUs should skip over uncorrected errors, but log
-+		 * everything else.
-+		 */
-+		if (!mca_cfg.ser) {
-+			if (m.status & MCI_STATUS_UC)
-+				continue;
-+			goto log_it;
-+		}
-+
-+		/* Log "not enabled" (speculative) errors */
-+		if (!(m.status & MCI_STATUS_EN))
-+			goto log_it;
-+
-+		/*
-+		 * Log UCNA (SDM: 15.6.3 "UCR Error Classification")
-+		 * UC == 1 && PCC == 0 && S == 0
-+		 */
-+		if (!(m.status & MCI_STATUS_PCC) && !(m.status & MCI_STATUS_S))
-+			goto log_it;
-+
-+		/*
-+		 * Skip anything else. Presumption is that our read of this
-+		 * bank is racing with a machine check. Leave the log alone
-+		 * for do_machine_check() to deal with it.
-+		 */
-+		continue;
- 
-+log_it:
- 		error_seen = true;
- 
- 		mce_read_aux(&m, i);
--- 
-2.20.1
-
-
-
+T24gVGh1LCBNYXkgMzAsIDIwMTksIFRvbnkgVyBXYW5nLW9jIHdyb3RlOg0KPiBIaSBBc2hvaywN
+Cj4gSSBoYXZlIHR3byBxdWVzdGlvbnMgYWJvdXQgdGhpcyBwYXRjaCwgY291bGQgeW91IGhlbHAg
+dG8gY2hlY2s6DQo+IA0KPiAxLCBmb3IgYnJvYWRjYXN0ICNNQyBleGNlcHRpb25zLCB0aGlzIHBh
+dGNoIHNlZW1zIHJlcXVpcmUgI01DIGV4Y2VwdGlvbg0KPiBlcnJvcnMNCj4gc2V0IE1DR19TVEFU
+VVNfUklQViA9IDEuDQo+IEJ1dCBmb3IgSW50ZWwgQ1BVLCBzb21lICNNQyBleGNlcHRpb24gZXJy
+b3JzIHNldCBNQ0dfU1RBVFVTX1JJUFYgPSAwDQo+IChsaWtlICJSZWNvdmVyYWJsZS1ub3QtY29u
+dGludWFibGUgU1JBUiBUeXBlIiBFcnJvcnMpLCBmb3IgdGhlc2UgZXJyb3JzDQo+IHRoZSBwYXRj
+aCBkb2Vzbid0IHNlZW0gdG8gd29yaywgaXMgdGhhdCBva2F5Pw0KPiANCj4gMiwgZm9yIExNQ0Ug
+ZXhjZXB0aW9ucywgdGhpcyBwYXRjaCBzZWVtcyByZXF1aXJlICNNQyBleGNlcHRpb24gZXJyb3Jz
+DQo+IHNldCBNQ0dfU1RBVFVTX1JJUFYgPSAwIHRvIG1ha2Ugc3VyZSBMTUNFIGJlIGhhbmRsZWQg
+bm9ybWFsbHkgZXZlbg0KPiBvbiBvZmZsaW5lIENQVS4NCj4gRm9yIExNQ0UgZXJyb3JzIHNldCBN
+Q0dfU1RBVVNfUklQViA9IDEsIHRoZSBwYXRjaCBwcmV2ZW50cyBvZmZsaW5lIENQVQ0KPiBoYW5k
+bGUgdGhlc2UgTE1DRSBlcnJvcnMsIGlzIHRoYXQgb2theT8NCj4gDQoNCk1vcmUgc3BlY2lmaWNh
+bGx5LCB0aGlzIHBhdGNoIHNlZW1zIHJlcXVpcmUgI01DIGV4Y2VwdGlvbnMgbWVldCB0aGUgY29u
+ZGl0aW9uDQoiTUNHX1NUQVRVU19SSVBWIF4gTUNHX1NUQVRVU19MTUNFUyA9PSAxIjsgQnV0IG9u
+IGEgWGVvbiBYNTY1MCBtYWNoaW5lIChTTVApLCANCiJEYXRhIENBQ0hFIExldmVsLTIgR2VuZXJp
+YyBFcnJvciIgZG9lcyBub3QgbWVldCB0aGlzIGNvbmRpdGlvbi4NCg0KSSBnb3QgYmVsb3cgbWVz
+c2FnZSBmcm9tOiBodHRwczovL3d3dy5jZW50b3Mub3JnL2ZvcnVtcy92aWV3dG9waWMucGhwP3A9
+MjkyNzQyDQoNCkhhcmR3YXJlIGV2ZW50LiBUaGlzIGlzIG5vdCBhIHNvZnR3YXJlIGVycm9yLg0K
+TUNFIDANCkNQVSA0IEJBTksgNiBUU0MgYjcwNjVlZWFhMThiMCANClRJTUUgMTU0NTY0MzYwMyBN
+b24gRGVjIDI0IDEwOjI2OjQzIDIwMTgNCk1DRyBzdGF0dXM6TUNJUCANCk1DaSBzdGF0dXM6DQpV
+bmNvcnJlY3RlZCBlcnJvcg0KRXJyb3IgZW5hYmxlZA0KUHJvY2Vzc29yIGNvbnRleHQgY29ycnVw
+dA0KTUNBOiBEYXRhIENBQ0hFIExldmVsLTIgR2VuZXJpYyBFcnJvcg0KU1RBVFVTIGIyMDAwMDAw
+ODAwMDAxMDYgTUNHU1RBVFVTIDQNCk1DR0NBUCAxYzA5IEFQSUNJRCA0IFNPQ0tFVElEIDAgDQpD
+UFVJRCBWZW5kb3IgSW50ZWwgRmFtaWx5IDYgTW9kZWwgNDQNCg0KPiBUaGFua3MNCj4gVG9ueSBX
+IFdhbmctb2MNCg==
