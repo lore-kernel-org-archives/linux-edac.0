@@ -2,129 +2,105 @@ Return-Path: <SRS0=opmV=T7=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DECC04AB6
-	for <linux-edac@archiver.kernel.org>; Fri, 31 May 2019 14:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E07C4C04AB6
+	for <linux-edac@archiver.kernel.org>; Fri, 31 May 2019 23:45:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 21670260CC
-	for <linux-edac@archiver.kernel.org>; Fri, 31 May 2019 14:48:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F00F2701F
+	for <linux-edac@archiver.kernel.org>; Fri, 31 May 2019 23:45:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="QDxzsc8+";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="nmTfIHMw"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="DCMLWwRm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbfEaOsO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 31 May 2019 10:48:14 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:37600 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726421AbfEaOsO (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 31 May 2019 10:48:14 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4VEdpwS016780;
-        Fri, 31 May 2019 07:48:04 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=pfpt0818;
- bh=U+VTOLi62++/P+5+dOiLWkqPfvWpwHavVIbdAQTx3nE=;
- b=QDxzsc8+ghXWKY2+S4FkwuaWgM9/YyaG8ZXG08ryGCNjZqxo9kLt+NVNSWZ0/w8jfSXI
- v0q5TS4wzefMVPVRVqCPpeVOvOREKu4xfC0i1qYGucUUvUcefF+rvy+HwCPeFp3qcDsc
- EKa03UfuuW5/Vf/gjyKlSrX/jPeZq90dMUyIA113do6L170OmYPfPWT10RLfXXGtAFXS
- kMxfHDRbjbBtkfItFzY9RgB7WiBxIaq5R+EMbC8gfpgy7pthPuhA98qYSL+VQvkbS22D
- 5BOlWka0JknLbk0L7cvoXNes1AJ6b7lCkPpyv/IGrxeXU+pENCzkPemWgRmV8W/0h87i 6g== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2su5xh031c-2
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Fri, 31 May 2019 07:48:04 -0700
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Fri, 31 May
- 2019 07:48:03 -0700
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (104.47.46.50) by
- SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Fri, 31 May 2019 07:48:03 -0700
+        id S1726881AbfEaXpT (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 31 May 2019 19:45:19 -0400
+Received: from mail-eopbgr680089.outbound.protection.outlook.com ([40.107.68.89]:10724
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726856AbfEaXpS (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 31 May 2019 19:45:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U+VTOLi62++/P+5+dOiLWkqPfvWpwHavVIbdAQTx3nE=;
- b=nmTfIHMwhaBJJseQDZExzNrQMV+4d2v/ALaajw9wz4Q3X3+orBqWkpWnRRTPP/gIvHot5IwTZSed6VQkQ87MAVoXD2+SUo+q+D5QWpw/HKeb14Y+sNLaZnBv8zFRvqPdBUrb6gcHSD+SugKvVqOTtktlOcWvrLLrr+qMAG0vvAM=
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.238.217) by
- MN2PR18MB2879.namprd18.prod.outlook.com (20.179.22.207) with Microsoft SMTP
+ bh=YXW8gx1LfT3qRS4Qi3YJiiN5fSVyTc43mfnFv7sMBvo=;
+ b=DCMLWwRmQtIIw/WXF+ulCvHZhBb58R4GhOLyv5s7HuScpxIj6MnIY9mIul1i7nGvpfbDSvylZrXMPH5RUfpsgWfE87XOx12U31epRFnAxDQCSMD/x6+BGcRcF5nQb/agPEZHNHL2TP5KZi2yH2ZnxNkyxyjBlqgflJ25XYJ71CE=
+Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
+ SN6PR12MB2671.namprd12.prod.outlook.com (52.135.103.24) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1943.18; Fri, 31 May 2019 14:48:00 +0000
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::7c9a:f3bf:fe2e:fe4a]) by MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::7c9a:f3bf:fe2e:fe4a%4]) with mapi id 15.20.1922.024; Fri, 31 May 2019
- 14:48:00 +0000
-From:   Robert Richter <rrichter@marvell.com>
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/21] EDAC, mc, ghes: Fixes and updates to improve memory
- error reporting
-Thread-Topic: [PATCH 00/21] EDAC, mc, ghes: Fixes and updates to improve
- memory error reporting
-Thread-Index: AQHVF7/XDwOnfM4wekmLEuzXf39PQg==
-Date:   Fri, 31 May 2019 14:48:00 +0000
-Message-ID: <20190531144753.weodygruvgzgzjth@rric.localdomain>
-References: <20190529084344.28562-1-rrichter@marvell.com>
- <20190529145452.GD2951@cz.tnic>
-In-Reply-To: <20190529145452.GD2951@cz.tnic>
+ 15.20.1943.17; Fri, 31 May 2019 23:45:11 +0000
+Received: from SN6PR12MB2639.namprd12.prod.outlook.com
+ ([fe80::69b5:19ac:b63d:2b82]) by SN6PR12MB2639.namprd12.prod.outlook.com
+ ([fe80::69b5:19ac:b63d:2b82%3]) with mapi id 15.20.1922.021; Fri, 31 May 2019
+ 23:45:11 +0000
+From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>
+Subject: [PATCH 0/8] AMD64 EDAC fixes for v5.2
+Thread-Topic: [PATCH 0/8] AMD64 EDAC fixes for v5.2
+Thread-Index: AQHVGAriIzsx/roGdE+8t90RFk6RUw==
+Date:   Fri, 31 May 2019 23:45:11 +0000
+Message-ID: <20190531234501.32826-1-Yazen.Ghannam@amd.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM6PR04CA0003.eurprd04.prod.outlook.com
- (2603:10a6:20b:92::16) To MN2PR18MB3408.namprd18.prod.outlook.com
- (2603:10b6:208:16c::25)
+x-clientproxiedby: SN6PR05CA0032.namprd05.prod.outlook.com
+ (2603:10b6:805:de::45) To SN6PR12MB2639.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::16)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Yazen.Ghannam@amd.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [77.11.73.49]
+x-mailer: git-send-email 2.17.1
+x-originating-ip: [165.204.78.1]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 89e2300b-49e4-48b7-6186-08d6e5d6fa42
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:MN2PR18MB2879;
-x-ms-traffictypediagnostic: MN2PR18MB2879:
-x-microsoft-antispam-prvs: <MN2PR18MB2879A4AFAE05457497422411D9190@MN2PR18MB2879.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-ms-office365-filtering-correlation-id: fac2f83d-da41-45e2-139a-08d6e6220519
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2671;
+x-ms-traffictypediagnostic: SN6PR12MB2671:
+x-microsoft-antispam-prvs: <SN6PR12MB26716246DC8E93A9AB7454C1F8190@SN6PR12MB2671.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
 x-forefront-prvs: 00540983E2
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(346002)(136003)(376002)(39850400004)(366004)(199004)(189003)(86362001)(3846002)(6486002)(3716004)(6116002)(102836004)(6512007)(9686003)(6436002)(8936002)(73956011)(81166006)(66946007)(8676002)(81156014)(53936002)(7736002)(6246003)(2906002)(6916009)(26005)(53546011)(6506007)(229853002)(76176011)(52116002)(186003)(386003)(66476007)(66446008)(64756008)(66556008)(476003)(446003)(11346002)(486006)(316002)(256004)(5660300002)(68736007)(305945005)(54906003)(478600001)(14454004)(99286004)(1076003)(4326008)(71190400001)(25786009)(4744005)(66066001)(71200400001)(25903002);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2879;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: marvell.com does not designate
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(346002)(376002)(136003)(366004)(396003)(189003)(199004)(5640700003)(25786009)(6506007)(256004)(72206003)(2906002)(54906003)(6512007)(14454004)(186003)(86362001)(3846002)(6116002)(486006)(2501003)(71200400001)(6486002)(386003)(2351001)(478600001)(71190400001)(52116002)(36756003)(6436002)(26005)(68736007)(6916009)(99286004)(66476007)(476003)(4744005)(73956011)(66066001)(66946007)(2616005)(81156014)(305945005)(81166006)(1076003)(8936002)(316002)(7736002)(4326008)(8676002)(66446008)(64756008)(50226002)(53936002)(5660300002)(66556008)(102836004);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2671;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Dv+BIq6+yWbPBTpw00uaWpp0QMzRxAyXj+ITqS03r6cmLB4NhrKLdxP/O43qd/zsX8xu39TmZyOn9NxZV/sZkR9KW2EBXiRzYg9dIm98w5w8Tmx0r9+OuZEQh5/O8ZJZxo5p2c38B34Wsg4iKQhVilSDE4Vm1Tj5HSyPSAUuUQ06X9ozPqx/9KSrMPIL7oSyW4awz7p80RGWd8W91hWahQZEvbzPIeJey1XGsgA8S8DqNNAayg1CB3IQe1OGbS9gUPoIXy471/1w4PBPHpNAKYuTRaeDgjCJXF+dA/2SGQ0eFjbRf4mUBH8p5vHrErW0GCmACr2cDTS8zXsWnkN2iJHGirQ6YG1bxgXsI+/LMtM24fwPmZrXowW1tPAvLcz+3V6ecf9pIuAxCPbfksJTS8f4kYeOzYC5i5S8FDBJlWQ=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <683C7E7B2C71FB41ADB6FA27DECFD8BB@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: wAUsVyJ+62W65mJ/4fl1TNoO01owN7FItsA86U65PIxAgUYb/FsrX7gTrFORSoTk/Y0H9jMX8yXWIajdcHP8lmZpEDWk+nJnqceiyls/Dn63KDhRLqsHrJrw4TNFxgByH5VDPDgDRzodOFLpBHb93bPIM4glhR40CIycMw9VQpczThPnjamRhElToIJeHNgMh75ArwiEpVMeE80La6Kf7s5ZwVlmROKOstBx/ZOHIC5kofVDtwCjrrDyI+bIsjy0F8dJ4+Z+m96pxySWO/QWbFJfGwOn6BZaaBYPrsmOL07LJaITA+lcSU7AjAZRRab+DGOssDKMB860TFd+AdwMCgMcY6WFwETShtPNeH/x8H2Z6TUEZj3PmEMpkkpqjnCsWG5orb4rqyyMLQgO1JqivNDZ+bVSqyoOrrDoxaEbW5o=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89e2300b-49e4-48b7-6186-08d6e5d6fa42
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2019 14:48:00.6832
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fac2f83d-da41-45e2-139a-08d6e6220519
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2019 23:45:11.1298
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rrichter@marvell.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2879
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-31_09:,,
- signatures=0
+X-MS-Exchange-CrossTenant-userprincipalname: yghannam@amd.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2671
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 29.05.19 16:54:52, Borislav Petkov wrote:
-> On Wed, May 29, 2019 at 08:44:01AM +0000, Robert Richter wrote:
-> > Patch #1: Repost of an already accepted patch sent to the ml. Adding
-> > it here for completeness as I did not find it in a repository yet.
->=20
-> Try mainline:
->=20
-> 29a0c843973b ("EDAC/mc: Fix edac_mc_find() in case no device is found")
->=20
-> :-)
-
-Ah, right. Will rebase.
-
--Robert
+RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPg0KDQpIaSBCb3JpcywN
+Cg0KVGhpcyBzZXQgY29udGFpbnMgYSBmZXcgZml4ZXMgZm9yIHNvbWUgY2hhbmdlcyBtZXJnZWQg
+aW4gdjUuMi4gVGhlcmUNCmFyZSBhbHNvIGEgY291cGxlIG9mIGZpeGVzIGZvciBvbGRlciBpc3N1
+ZXMuIEluIGFkZGl0aW9uLCB0aGVyZSBhcmUgYQ0KY291cGxlIG9mIHBhdGNoZXMgdG8gYWRkIHN1
+cHBvcnQgZm9yIEFzeW1tZXRyaWMgRHVhbC1SYW5rIERJTU1zLg0KDQpUaGFua3MsDQpZYXplbg0K
+DQpZYXplbiBHaGFubmFtICg4KToNCiAgRURBQy9hbWQ2NDogRml4IG51bWJlciBvZiBESU1NcyBh
+bmQgQ2hpcCBTZWxlY3QgYmFzZXMvbWFza3Mgb24NCiAgICBGYW1pbHkxN2gNCiAgRURBQy9hbWQ2
+NDogU3VwcG9ydCBtb3JlIHRoYW4gdHdvIGNvbnRyb2xsZXJzIGZvciBjaGlwIHNlbGVjdHMNCiAg
+ICBoYW5kbGluZw0KICBFREFDL2FtZDY0OiBSZWNvZ25pemUgRFJBTSBkZXZpY2UgdHlwZSB3aXRo
+IEVEQUNfQ1RMX0NBUA0KICBFREFDL2FtZDY0OiBJbml0aWFsaXplIERJTU0gaW5mbyBmb3Igc3lz
+dGVtcyB3aXRoIG1vcmUgdGhhbiB0d28NCiAgICBjaGFubmVscw0KICBFREFDL2FtZDY0OiBGaW5k
+IENoaXAgU2VsZWN0IG1lbW9yeSBzaXplIHVzaW5nIEFkZHJlc3MgTWFzaw0KICBFREFDL2FtZDY0
+OiBEZWNvZGUgc3luZHJvbWUgYmVmb3JlIHRyYW5zbGF0aW5nIGFkZHJlc3MNCiAgRURBQy9hbWQ2
+NDogQ2FjaGUgc2Vjb25kYXJ5IENoaXAgU2VsZWN0IHJlZ2lzdGVycw0KICBFREFDL2FtZDY0OiBT
+dXBwb3J0IEFzeW1tZXRyaWMgRHVhbC1SYW5rIERJTU1zDQoNCiBkcml2ZXJzL2VkYWMvYW1kNjRf
+ZWRhYy5jIHwgMzQ4ICsrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tDQogZHJp
+dmVycy9lZGFjL2FtZDY0X2VkYWMuaCB8ICAgOSArLQ0KIDIgZmlsZXMgY2hhbmdlZCwgMjMyIGlu
+c2VydGlvbnMoKyksIDEyNSBkZWxldGlvbnMoLSkNCg0KLS0gDQoyLjE3LjENCg0K
