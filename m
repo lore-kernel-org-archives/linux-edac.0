@@ -1,126 +1,118 @@
-Return-Path: <SRS0=opmV=T7=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=f4k2=UA=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EBD3C28CC2
-	for <linux-edac@archiver.kernel.org>; Fri, 31 May 2019 23:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94087C28CC1
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Jun 2019 13:23:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 63A0227038
-	for <linux-edac@archiver.kernel.org>; Fri, 31 May 2019 23:46:08 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="hNGLoylH"
+	by mail.kernel.org (Postfix) with ESMTP id 6A2F627358
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Jun 2019 13:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559395390;
+	bh=hbpDSdsiqzzH44ua+jPAMAV4A0jaon2NuTZRaJlsP0o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=xGjPjUOQl4d3RBgAJY4S1WeT2WaJOvKt/Y/bC04NKpSasaclLQ2qtR+tyZC3bnZH9
+	 SV0zzPJXRe66a6V/K+TLVkpyEngrVHfHMCH/3R8l0Mov7Cin0/2jJ97uQf9/hfoPCb
+	 Bm2vPtxK8WYnRKBpR8n/3IWravuBCjJWE3FCqzsU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726793AbfEaXph (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 31 May 2019 19:45:37 -0400
-Received: from mail-eopbgr680089.outbound.protection.outlook.com ([40.107.68.89]:10724
-        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726708AbfEaXpg (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 31 May 2019 19:45:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vj7+lvXp8Grp9vMwsvN33PGOSoPH7PpHlU3lvENXiIs=;
- b=hNGLoylHr3L2z8bH8RR30SG7h4qyrgvG4Iu+5l9/lx0Btu4CM9vLtZWXTWaO2qkDQsj8mVybhlA1lZtm+nRrR320eIu+XGFZf12Swnn54jEegfBsWoK9fIb1vq9fUzGC7D6quW1PVHq556pfYAHEiFiEWzJXJcXaSES/KXqHBGc=
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
- SN6PR12MB2671.namprd12.prod.outlook.com (52.135.103.24) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1943.17; Fri, 31 May 2019 23:45:16 +0000
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::69b5:19ac:b63d:2b82]) by SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::69b5:19ac:b63d:2b82%3]) with mapi id 15.20.1922.021; Fri, 31 May 2019
- 23:45:16 +0000
-From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>
-Subject: [PATCH 8/8] EDAC/amd64: Support Asymmetric Dual-Rank DIMMs
-Thread-Topic: [PATCH 8/8] EDAC/amd64: Support Asymmetric Dual-Rank DIMMs
-Thread-Index: AQHVGArl6HVXlauRPUqtJdJDCmz++w==
-Date:   Fri, 31 May 2019 23:45:15 +0000
-Message-ID: <20190531234501.32826-9-Yazen.Ghannam@amd.com>
-References: <20190531234501.32826-1-Yazen.Ghannam@amd.com>
-In-Reply-To: <20190531234501.32826-1-Yazen.Ghannam@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN6PR05CA0032.namprd05.prod.outlook.com
- (2603:10b6:805:de::45) To SN6PR12MB2639.namprd12.prod.outlook.com
- (2603:10b6:805:6f::16)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Yazen.Ghannam@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [165.204.78.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cb3aab3e-7200-4529-a4bd-08d6e62207a9
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2671;
-x-ms-traffictypediagnostic: SN6PR12MB2671:
-x-microsoft-antispam-prvs: <SN6PR12MB2671E65E5637DCA3F579EA96F8190@SN6PR12MB2671.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-forefront-prvs: 00540983E2
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(346002)(376002)(136003)(366004)(396003)(189003)(199004)(5640700003)(25786009)(14444005)(6506007)(256004)(72206003)(2906002)(54906003)(6512007)(14454004)(186003)(86362001)(3846002)(6116002)(486006)(2501003)(71200400001)(6486002)(386003)(76176011)(2351001)(478600001)(71190400001)(52116002)(36756003)(6436002)(26005)(68736007)(6916009)(99286004)(446003)(66476007)(476003)(73956011)(66066001)(66946007)(2616005)(81156014)(305945005)(81166006)(1076003)(8936002)(316002)(7736002)(4326008)(8676002)(66446008)(64756008)(50226002)(53936002)(11346002)(5660300002)(66556008)(102836004);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2671;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: HDTpvaQ0IuGmW6DoAORjUkZkZ6lYIsgqxDuiw+PJYSI++BXBzLfcYc2xdSPMSAQFDaV0pnyrLM6FOxKHrOTBovz1JhxHnjLvRz76jeorZt9eIa6yccrUZP2x9xQoYSHw9AX45BFhxFqxrQsji4m+IppcczEu7GA2d6P/h1q+6D7FMzABZcl01XqlJaIpSMad7zzgoB2anhWA/hJy8GinBZ4xdcOS5tnV5G1kHrBnnSblGrb3KfJFkh3qKvqz7gSogqswlYvrxPa8AyabC/zsw09nBPYkSK7wk58fBEG3Ddgq8HgpBPDkkaEbVNcxTChznAoW0v11gcFzU06eHDrfNylG2SSH1SUFdHZl5IpDJQfvrA1hBTxbIz69EZz58zvTYmD3lwyGTJhT97vIJk4Mi83ItXZku0ZJlHX793l/O9A=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1728900AbfFANXJ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 1 Jun 2019 09:23:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52832 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728893AbfFANXI (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 1 Jun 2019 09:23:08 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 01BA227331;
+        Sat,  1 Jun 2019 13:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559395388;
+        bh=hbpDSdsiqzzH44ua+jPAMAV4A0jaon2NuTZRaJlsP0o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=t99NIeaIE71ZrLa/9BIgoxYxRlf8CtWPX10euHk5tXlluT38Jic2CF8LlrrcIJSSt
+         UojoIAL+N5MFsWgl8x6n8pPYQ4IYORVF+qpgmL+cZWxNrKdy0fUqJB9hz2lQTC7/BV
+         8sT66A6sV13wa+veBYe5d4EmgpMy2PPTH4xLanYA=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Michael Ellerman <mpe@ellerman.id.au>,
+        Borislav Petkov <bp@suse.de>,
+        Johannes Thumshirn <jth@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-edac <linux-edac@vger.kernel.org>, linuxppc-dev@ozlabs.org,
+        morbidrsa@gmail.com, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 029/141] EDAC/mpc85xx: Prevent building as a module
+Date:   Sat,  1 Jun 2019 09:20:05 -0400
+Message-Id: <20190601132158.25821-29-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190601132158.25821-1-sashal@kernel.org>
+References: <20190601132158.25821-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb3aab3e-7200-4529-a4bd-08d6e62207a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2019 23:45:15.5066
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yghannam@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2671
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-RnJvbTogWWF6ZW4gR2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPg0KDQpGdXR1cmUgQU1E
-IHN5c3RlbXMgd2lsbCBzdXBwb3J0ICJBc3ltbWV0cmljIiBEdWFsLVJhbmsgRElNTXMuIFRoZXNl
-IGFyZQ0KRElNTXMgd2VyZSB0aGUgcmFua3MgYXJlIG9mIGRpZmZlcmVudCBzaXplcy4NCg0KVGhl
-IGV2ZW4gcmFuayB3aWxsIHVzZSB0aGUgUHJpbWFyeSBFdmVuIENoaXAgU2VsZWN0IHJlZ2lzdGVy
-cyBhbmQgdGhlDQpvZGQgcmFuayB3aWxsIHVzZSB0aGUgU2Vjb25kYXJ5IE9kZCBDaGlwIFNlbGVj
-dCByZWdpc3RlcnMuDQoNClJlY29nbml6ZSBpZiBhIFNlY29uZGFyeSBPZGQgQ2hpcCBTZWxlY3Qg
-aXMgYmVpbmcgdXNlZC4gVXNlIHRoZQ0KU2Vjb25kYXJ5IE9kZCBBZGRyZXNzIE1hc2sgd2hlbiBj
-YWxjdWxhdGluZyB0aGUgY2hpcCBzZWxlY3Qgc2l6ZS4NCg0KU2lnbmVkLW9mZi1ieTogWWF6ZW4g
-R2hhbm5hbSA8eWF6ZW4uZ2hhbm5hbUBhbWQuY29tPg0KLS0tDQogZHJpdmVycy9lZGFjL2FtZDY0
-X2VkYWMuYyB8IDEzICsrKysrKysrKysrKy0NCiAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9u
-cygrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9lZGFjL2FtZDY0X2Vk
-YWMuYyBiL2RyaXZlcnMvZWRhYy9hbWQ2NF9lZGFjLmMNCmluZGV4IDAwNjQxN2NiNzlkYy4uNmMy
-ODRhNGY5ODBjIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9lZGFjL2FtZDY0X2VkYWMuYw0KKysrIGIv
-ZHJpdmVycy9lZGFjL2FtZDY0X2VkYWMuYw0KQEAgLTc5MCw2ICs3OTAsOSBAQCBzdGF0aWMgdm9p
-ZCBkZWJ1Z19kdW1wX2RyYW1jZmdfbG93KHN0cnVjdCBhbWQ2NF9wdnQgKnB2dCwgdTMyIGRjbHIs
-IGludCBjaGFuKQ0KIA0KICNkZWZpbmUgQ1NfRVZFTl9QUklNQVJZCQlCSVQoMCkNCiAjZGVmaW5l
-IENTX09ERF9QUklNQVJZCQlCSVQoMSkNCisjZGVmaW5lIENTX09ERF9TRUNPTkRBUlkJQklUKDIp
-DQorDQorI2RlZmluZSBjc3Jvd19zZWNfZW5hYmxlZChpLCBkY3QsIHB2dCkJKChwdnQpLT5jc2Vs
-c1soZGN0KV0uY3NiYXNlc19zZWNbKGkpXSAmIERDU0JfQ1NfRU5BQkxFKQ0KIA0KIHN0YXRpYyBp
-bnQgZjE3X2dldF9jc19tb2RlKGludCBkaW1tLCB1OCBjdHJsLCBzdHJ1Y3QgYW1kNjRfcHZ0ICpw
-dnQpDQogew0KQEAgLTgwMSw2ICs4MDQsMTAgQEAgc3RhdGljIGludCBmMTdfZ2V0X2NzX21vZGUo
-aW50IGRpbW0sIHU4IGN0cmwsIHN0cnVjdCBhbWQ2NF9wdnQgKnB2dCkNCiAJaWYgKGNzcm93X2Vu
-YWJsZWQoMiAqIGRpbW0gKyAxLCBjdHJsLCBwdnQpKQ0KIAkJY3NfbW9kZSB8PSBDU19PRERfUFJJ
-TUFSWTsNCiANCisJLyogQXN5bW1ldHJpYyBEdWFsLVJhbmsgRElNTSBzdXBwb3J0LiAqLw0KKwlp
-ZiAoY3Nyb3dfc2VjX2VuYWJsZWQoMiAqIGRpbW0gKyAxLCBjdHJsLCBwdnQpKQ0KKwkJY3NfbW9k
-ZSB8PSBDU19PRERfU0VDT05EQVJZOw0KKw0KIAlyZXR1cm4gY3NfbW9kZTsNCiB9DQogDQpAQCAt
-MTU5MCw3ICsxNTk3LDExIEBAIHN0YXRpYyBpbnQgZjE3X2FkZHJfbWFza190b19jc19zaXplKHN0
-cnVjdCBhbWQ2NF9wdnQgKnB2dCwgdTggdW1jLA0KIAkgKi8NCiAJZGltbSA9IGNzcm93X25yID4+
-IDE7DQogDQotCWFkZHJfbWFza19vcmlnID0gcHZ0LT5jc2Vsc1t1bWNdLmNzbWFza3NbZGltbV07
-DQorCS8qIEFzeW1tZXRyaWMgRHVhbC1SYW5rIERJTU0gc3VwcG9ydC4gKi8NCisJaWYgKGNzX21v
-ZGUgJiBDU19PRERfU0VDT05EQVJZKQ0KKwkJYWRkcl9tYXNrX29yaWcgPSBwdnQtPmNzZWxzW3Vt
-Y10uY3NtYXNrc19zZWNbZGltbV07DQorCWVsc2UNCisJCWFkZHJfbWFza19vcmlnID0gcHZ0LT5j
-c2Vsc1t1bWNdLmNzbWFza3NbZGltbV07DQogDQogCS8qDQogCSAqIFRoZSBudW1iZXIgb2YgemVy
-byBiaXRzIGluIHRoZSBtYXNrIGlzIGVxdWFsIHRvIHRoZSBudW1iZXIgb2YgYml0cw0KLS0gDQoy
-LjE3LjENCg0K
+From: Michael Ellerman <mpe@ellerman.id.au>
+
+[ Upstream commit 2b8358a951b1e2a534a54924cd8245e58a1c5fb8 ]
+
+The mpc85xx EDAC driver can be configured as a module but then fails to
+build because it uses two unexported symbols:
+
+  ERROR: ".pci_find_hose_for_OF_device" [drivers/edac/mpc85xx_edac_mod.ko] undefined!
+  ERROR: ".early_find_capability" [drivers/edac/mpc85xx_edac_mod.ko] undefined!
+
+We don't want to export those symbols just for this driver, so make the
+driver only configurable as a built-in.
+
+This seems to have been broken since at least
+
+  c92132f59806 ("edac/85xx: Add PCIe error interrupt edac support")
+
+(Nov 2013).
+
+ [ bp: make it depend on EDAC=y so that the EDAC core doesn't get built
+   as a module. ]
+
+Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Acked-by: Johannes Thumshirn <jth@kernel.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: linuxppc-dev@ozlabs.org
+Cc: morbidrsa@gmail.com
+Link: https://lkml.kernel.org/r/20190502141941.12927-1-mpe@ellerman.id.au
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/edac/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index 57304b2e989f2..b00cc03ad6b67 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -250,8 +250,8 @@ config EDAC_PND2
+ 	  micro-server but may appear on others in the future.
+ 
+ config EDAC_MPC85XX
+-	tristate "Freescale MPC83xx / MPC85xx"
+-	depends on FSL_SOC
++	bool "Freescale MPC83xx / MPC85xx"
++	depends on FSL_SOC && EDAC=y
+ 	help
+ 	  Support for error detection and correction on the Freescale
+ 	  MPC8349, MPC8560, MPC8540, MPC8548, T4240
+-- 
+2.20.1
+
