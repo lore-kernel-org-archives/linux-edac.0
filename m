@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA30C28CC1
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Jun 2019 13:33:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 586E5C46460
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Jun 2019 13:39:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4F30A274FB
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Jun 2019 13:33:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33A8E27638
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Jun 2019 13:39:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1559395996;
-	bh=a1/59yPA5qvkX/IzatJ1mZxQdqXMcsdATBRZAsjQNgc=;
+	s=default; t=1559396373;
+	bh=fKpwX+0ndO0fyq/4snZ5Zvj1X2AzAdtPXs3or6au32k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dTnuZwLQ4E//sl4X/8RNBd07v2S8mw9cgaOI8KE/E6hNUwkqn1p6Yaa85Y5HB6dm3
-	 /0Qld2eUdJ4CALeNRDyU5lmZVVCMIDAwGI2a754TTroeZjtB5zulyfZcMdbzfXrUEM
-	 F47ClGCTg6p7Uac8Gm+pEHiUswfEvuWpsZrJDshI=
+	b=mnJJBClfj02OxofoMgxBHK2CfEdhkkyNoU8kpKUMeaUKJ4MoyVnm/Gyv9PgPreKye
+	 UNdPfusm8yoQmIYlOKVnL/MvDOTXLOVexWfx2gXN5mkbDB0MeuSLrpqrfI2HWZmlE1
+	 jOaM5KVtWDm0YMipDA5DGqzCnd1RdQFzNuGb85AU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728337AbfFANdL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 1 Jun 2019 09:33:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54694 "EHLO mail.kernel.org"
+        id S1727834AbfFANVM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 1 Jun 2019 09:21:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48484 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729266AbfFANYi (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 1 Jun 2019 09:24:38 -0400
+        id S1728420AbfFANVL (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 1 Jun 2019 09:21:11 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF57727358;
-        Sat,  1 Jun 2019 13:24:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C312C272FE;
+        Sat,  1 Jun 2019 13:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559395478;
-        bh=a1/59yPA5qvkX/IzatJ1mZxQdqXMcsdATBRZAsjQNgc=;
+        s=default; t=1559395270;
+        bh=fKpwX+0ndO0fyq/4snZ5Zvj1X2AzAdtPXs3or6au32k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cgkYysJRDS30p67Vc0FTWLwjdC7VgtahZpOE9nxUoXn7CjY1AKRqzlTxIUOqBbFm6
-         hZGIzDRF/Ttln6alw2oADiwgFflXoRje6LI3qPCr7cT9x8oJv2g4AIceVhP84Hi3Hi
-         WkeNby3YXZwws+yWPJfvf79+Vx9UcfeKDMFmsGI0=
+        b=RpAPS/CLmpa08wJUHjnUOW/LeFroKCYRZul5V88hTn6Qgj0ml/6ZMSkjncM+cPKRe
+         cTOZBCaf2izHsv+fqZBEAGc4visUnAZoxnCHZx9sy+o6jW3aeskH09xYPfwLES9IeY
+         j22f7ikQhrGw8qTYdI3YrCxBLe0zuNczOhwXTn/Q=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michael Ellerman <mpe@ellerman.id.au>,
@@ -47,12 +47,12 @@ Cc:     Michael Ellerman <mpe@ellerman.id.au>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac <linux-edac@vger.kernel.org>, linuxppc-dev@ozlabs.org,
         morbidrsa@gmail.com, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.14 23/99] EDAC/mpc85xx: Prevent building as a module
-Date:   Sat,  1 Jun 2019 09:22:30 -0400
-Message-Id: <20190601132346.26558-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.0 035/173] EDAC/mpc85xx: Prevent building as a module
+Date:   Sat,  1 Jun 2019 09:17:07 -0400
+Message-Id: <20190601131934.25053-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190601132346.26558-1-sashal@kernel.org>
-References: <20190601132346.26558-1-sashal@kernel.org>
+In-Reply-To: <20190601131934.25053-1-sashal@kernel.org>
+References: <20190601131934.25053-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -99,10 +99,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 96afb2aeed18a..aaaa8ce8d3fdd 100644
+index e286b5b990035..a3e6750393380 100644
 --- a/drivers/edac/Kconfig
 +++ b/drivers/edac/Kconfig
-@@ -246,8 +246,8 @@ config EDAC_PND2
+@@ -251,8 +251,8 @@ config EDAC_PND2
  	  micro-server but may appear on others in the future.
  
  config EDAC_MPC85XX
