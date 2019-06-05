@@ -1,135 +1,123 @@
-Return-Path: <SRS0=vNP0=UD=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=q9d5=UE=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B9F3C282CE
-	for <linux-edac@archiver.kernel.org>; Tue,  4 Jun 2019 21:50:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88839C28CC5
+	for <linux-edac@archiver.kernel.org>; Wed,  5 Jun 2019 14:16:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0BA262075B
-	for <linux-edac@archiver.kernel.org>; Tue,  4 Jun 2019 21:50:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D30E20866
+	for <linux-edac@archiver.kernel.org>; Wed,  5 Jun 2019 14:16:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SRyDZBKf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfFDVuE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 4 Jun 2019 17:50:04 -0400
-Received: from mga11.intel.com ([192.55.52.93]:41447 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726537AbfFDVuE (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 4 Jun 2019 17:50:04 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 14:50:04 -0700
-X-ExtLoop1: 1
-Received: from tthayer-hp-z620.an.intel.com (HELO [10.122.105.146]) ([10.122.105.146])
-  by orsmga004.jf.intel.com with ESMTP; 04 Jun 2019 14:50:03 -0700
-Reply-To: thor.thayer@linux.intel.com
-Subject: Re: [PATCH] EDAC/altera: Warm Reset option for Stratix10 peripheral
- DBE
-To:     Sudeep Holla <sudeep.holla@arm.com>,
-        James Morse <james.morse@arm.com>
-Cc:     bp@alien8.de, mchehab@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lorenzo Pieralisi <Lorenzo.Pieralisi@arm.com>,
-        Mark Rutland <Mark.Rutland@arm.com>
-References: <1559594269-10077-1-git-send-email-thor.thayer@linux.intel.com>
- <9de1152b-25e0-3fb1-bf96-c8e45363942c@arm.com>
- <20190604173848.GA28613@e107155-lin>
-From:   Thor Thayer <thor.thayer@linux.intel.com>
-Message-ID: <45390f41-9b8c-de83-a092-befa3d1f7f0f@linux.intel.com>
-Date:   Tue, 4 Jun 2019 16:52:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1728317AbfFEOQa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 5 Jun 2019 10:16:30 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43952 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728171AbfFEOQa (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 5 Jun 2019 10:16:30 -0400
+Received: by mail-pl1-f195.google.com with SMTP id cl9so4633813plb.10;
+        Wed, 05 Jun 2019 07:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=v3XLypKZbOE7b5olH8wFcYwlI02ktNrldwBXglURa3w=;
+        b=SRyDZBKfR6VLuQOeonUrKfw8C7A4yF0d3XMQJwjtp0LfMXI4HiCjx0WQ8U62jWYFsZ
+         DVqV5Sc2DTx+3Zj9dFFodnSBWUmQP3kobhSvtrvVU105g/az29yBBuIEUz3T9B/8WRA+
+         qLJyDidJIDRzrFEqrVi1UDMg+KRFLUbUnzGhXSnKQAOdIyuk7h7qVSmBBLitwr2vJI6x
+         KioMQaxD5g6qwJkzEALSAZrmbyf/bpxBIRfKJDpa9Ax1xNbjtNNYhM08XxoIi+syxAjP
+         NxHFkvcKZUSEF3ojvBkbCy/aOd3CiusdDnKW3y+IKuTQeEnmPpomVHvCvRTcSFJF1PML
+         b97g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=v3XLypKZbOE7b5olH8wFcYwlI02ktNrldwBXglURa3w=;
+        b=iLN6D/D1z3dzEgQeda7/UXGazxbNxlRF+bzI7hLcOWVbm/+37bDlIQn36P29FHaNb5
+         ppQI0FCbT5EENzPhHg41HT9XtmzOTHk9hB8OkJNaSz4T/tFSbFMsK5ENLptp9qJSGq6e
+         HuSnzOIIIyVIIaULXaynq2dlxy9vPmBjzDOy/kFMKMu5+R+8TOE0N8pLKbzvl2HUbRdl
+         LZ2vziheFKWLzY9Yp7ipG66VJjbOCzfUlzFRTXiacfxaL/aJOY7PQjXxZIqBB9NJhTwq
+         uHLk1SskzfLCZsSdDEsMIR1JN2HM67q965I7QaFk/2QO7XVb7mBEcHpha1C58Qr/UgKk
+         F+3A==
+X-Gm-Message-State: APjAAAXI0tWE0eAjlM6H5eclRLrcmGpZ91QSmfagJqDgTDtjWXK/c6AD
+        rqXFDYxb9rXXlR+hFtztE+fZTAnl
+X-Google-Smtp-Source: APXvYqz3yeokdSf0SMdH/IVvBAh8QltwCxeaCvedVcmCsDQdM6ywLVcbm5pG9vifCmcBDxYN2Ihpcg==
+X-Received: by 2002:a17:902:b18c:: with SMTP id s12mr42363782plr.181.1559744189242;
+        Wed, 05 Jun 2019 07:16:29 -0700 (PDT)
+Received: from george-Quanta.com.com (220-135-135-179.HINET-IP.hinet.net. [220.135.135.179])
+        by smtp.gmail.com with ESMTPSA id 24sm22376443pgn.32.2019.06.05.07.16.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Wed, 05 Jun 2019 07:16:28 -0700 (PDT)
+From:   George Hung <ghung.quanta@gmail.com>
+To:     linux-edac <linux-edac@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Cc:     benjaminfair@google.com, wak@google.com, Avi.Fishman@nuvoton.com,
+        tomer.maimon@nuvoton.com, openbmc@lists.ozlabs.org,
+        Joel Stanley <joel@jms.id.au>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>, davem@davemloft.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        paulmck@linux.ibm.com, devicetree@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 5.2 v2 2/2] dt-binding: edac: add NPCM ECC documentation
+Date:   Wed,  5 Jun 2019 22:12:53 +0800
+Message-Id: <20190605141253.38554-2-ghung.quanta@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190605141253.38554-1-ghung.quanta@gmail.com>
+References: <20190605141253.38554-1-ghung.quanta@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190604173848.GA28613@e107155-lin>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Sudeep,
+Add device tree documentation for Nuvoton BMC ECC
 
-On 6/4/19 12:38 PM, Sudeep Holla wrote:
-> On Tue, Jun 04, 2019 at 06:23:15PM +0100, James Morse wrote:
->> Hi Thor,
->>
->> (CC: +Mark, Lorenzo and Sudeep for PSCI.
->> How should SYSTEM_RESET2 be used for a vendor-specific reset?
->>
-> 
-> Initially it was indented to be used by passing command line argument
-> "reboot=w" or "reboot=warm" as specified in kernel document[1]
-> 
-> However it was enhanced and enabled specifically for panic by
-> Commit b287a25a7148 ("panic/reboot: allow specifying reboot_mode for panic only")
-> 
-> IIUC you can now pass "reboot=panic_warm" to just set reboot_mode to
-> WARM when there's a panic. SYSTEM_RESET2 gets called whenever reboot_mode
-> is set to WARM/SOFT
-> 
-Thanks. I missed that SYSTEM_RESET2 had been implemented.
+Signed-off-by: George Hung <ghung.quanta@gmail.com>
+---
+ .../bindings/edac/npcm7xx-sdram-edac.txt        | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/edac/npcm7xx-sdram-edac.txt
 
->> The original patch is:
->> lore.kernel.org/r/1559594269-10077-1-git-send-email-thor.thayer@linux.intel.com
->> )
->>
->> On 03/06/2019 21:37, thor.thayer@linux.intel.com wrote:
->>> From: Thor Thayer <thor.thayer@linux.intel.com>
->>>
->>> The Stratix10 peripheral FIFO memories can recover from double
->>> bit errors with a warm reset instead of a cold reset.
->>> Add the option of a warm reset for peripheral (USB, Ethernet)
->>> memories.
->>>
->>> CPU memories such as SDRAM and OCRAM require a cold reset for
->>> DBEs.
->>> Filter on whether the error is a SDRAM/OCRAM or a peripheral
->>> FIFO memory to determine which reset to use when the warm
->>> reset option is configured.
->>
->> ... so you want to make different SMC calls on each CPU after panic()?
->>
->>
->>> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
->>> index 8816f74a22b4..179601f14b48 100644
->>> --- a/drivers/edac/altera_edac.c
->>> +++ b/drivers/edac/altera_edac.c
->>> @@ -2036,6 +2036,19 @@ static const struct irq_domain_ops a10_eccmgr_ic_ops = {
->>>   /* panic routine issues reboot on non-zero panic_timeout */
->>>   extern int panic_timeout;
->>>
->>> +#ifdef CONFIG_EDAC_ALTERA_ARM64_WARM_RESET
->>> +/* EL3 SMC call to setup CPUs for warm reset */
->>> +void panic_smp_self_stop(void)
->>> +{
->>> +	struct arm_smccc_res result;
->>> +
->>> +	__cpu_disable();
->>> +	cpu_relax();
->>> +	arm_smccc_smc(INTEL_SIP_SMC_ECC_DBE, S10_WARM_RESET_WFI_FLAG,
->>> +		      S10_WARM_RESET_WFI_FLAG, 0, 0, 0, 0, 0, &result);
-> 
-> Please use SYSTEM_RESET2 or let us know why it can't be used to understand
-> the requirement better. There are options to use vendor extentions with
-> the SYSTEM_RESET2 PSCI command if you really have to. However the mainline
-> supports only architectural warm reset.
-> 
-I need to decide between warm reset and cold reset based on the 
-peripheral type but maybe that decision can be done by firmware as James 
-pointed out.
-
-Thanks for the links and the comments!
-
-Thor
-> --
-> Regards,
-> Sudeep
-> 
-> [1] Documentation/admin-guide/kernel-parameters.txt
-> 
+diff --git a/Documentation/devicetree/bindings/edac/npcm7xx-sdram-edac.txt b/Documentation/devicetree/bindings/edac/npcm7xx-sdram-edac.txt
+new file mode 100644
+index 000000000000..dd4dac59a5bd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/edac/npcm7xx-sdram-edac.txt
+@@ -0,0 +1,17 @@
++Nuvoton NPCM7xx SoC EDAC device driver
++
++The Nuvoton NPCM7xx SoC supports DDR4 memory with/without ECC and the driver
++uses the EDAC framework to implement the ECC detection and corrtection.
++
++Required properties:
++- compatible:	should be "nuvoton,npcm7xx-sdram-edac"
++- reg:		Memory controller register set should be <0xf0824000 0x1000>
++- interrupts:	should be MC interrupt #25
++
++Example:
++
++	mc: memory-controller@f0824000 {
++		compatible = "nuvoton,npcm7xx-sdram-edac";
++		reg = <0xf0824000 0x1000>;
++		interrupts = <0 25 4>;
++	};
+-- 
+2.21.0
 
