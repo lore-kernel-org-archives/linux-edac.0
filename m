@@ -2,96 +2,178 @@ Return-Path: <SRS0=HogJ=UJ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_MED,UPPERCASE_50_75,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F42AC43218
-	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 18:54:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33742C4321B
+	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 19:15:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 08A782085A
-	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 18:54:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11053206E0
+	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 19:15:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="cJ3okDV4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h7LC7ANd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387674AbfFJSyw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 10 Jun 2019 14:54:52 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:56918 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388491AbfFJSyw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 10 Jun 2019 14:54:52 -0400
-Received: from zn.tnic (p200300EC2F052B000C22B0A0C73B2F50.dip0.t-ipconnect.de [IPv6:2003:ec:2f05:2b00:c22:b0a0:c73b:2f50])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D9C711EC0982;
-        Mon, 10 Jun 2019 20:54:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1560192890;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=D/d9B+8ZEwQPPv8fSIn75evRhCraI+XhtzPfi8jLWFE=;
-        b=cJ3okDV4nOKvGnDYJodE+nHUyr56JbAZGKkYMe8i+1KN8BgeNg4ipKZEIoP95EXrz2C4vZ
-        84w0rgAXLvapRilvuDubUs5kKmrf8/aukE66ZaIG/VP0rgAeZOoGHGHb3s/Tq6qy0SkzFb
-        zYbLMThrM/FyNS8Amm/7rWB84Osh5Y4=
-Date:   Mon, 10 Jun 2019 20:54:44 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Marco Elver <elver@google.com>
-Cc:     "Luck, Tony" <tony.luck@intel.com>, jbaron@akamai.com,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S2388901AbfFJTPQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 10 Jun 2019 15:15:16 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:39237 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389248AbfFJTOi (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 10 Jun 2019 15:14:38 -0400
+Received: by mail-qk1-f201.google.com with SMTP id s67so8938644qkc.6
+        for <linux-edac@vger.kernel.org>; Mon, 10 Jun 2019 12:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=EO7j56MdfFzt2mRyj8hcm1iy8vmSJAjtXZ/C0wTp1G8=;
+        b=h7LC7ANdx3e2J44+ya0wOf/+L99eKH6ZAkhtZrEe1sUe9coeBLBFp3f5wxwwOlq8Tr
+         nOY3PBwhwmmYAeW+zdl5LlEKj/6vTj1ygxVdgMpVittriy27WWV3t1qCk+iolDBw5Kub
+         STjNeWhktsSS7q5RSwIGk22YvHod/drcBYEx2jLpawLjzFmJSCfqoO1Wi6Fe8uh8mxu+
+         MGf73/Y71GX+IH+nueRLGPW0N6vHEBR9zKekYA+ACJOtls3vs5pxLFXgcFyQR0t/FzkP
+         wfAhI686yfg3nxgigE/tiafWJ6z18PHqRKRF122uEePQtFgIEFc3Iy3cH73wPGeFa2eG
+         Vxsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=EO7j56MdfFzt2mRyj8hcm1iy8vmSJAjtXZ/C0wTp1G8=;
+        b=e+7KjgmC6GwQi7Tcl+kJeoolfE7v6uS+KbLjb4mnHfBn068ySILMQ+89tvrGGgU6pd
+         IV+YozwHHkFhEwoL/5fDri2dZ68ZimDpEaCPGZYXZamg9GzIYMlKl+wv40cPD9mQ/PV1
+         kP4zeIvM2SW9LberrbmJ7rMf9VL16ylurJemmtbKYcPxlHgBWsj8Ey78tUqGBmY3s3S4
+         Css3Zf0IYemmdtHtjLVpnA77379z52YW+Ua1vNoeZOXMVb7zfm/l/Umkln49ZmYhza6J
+         HeTJ86c+vrFYc2fBpdxxRaGNbHiHGfeCBnOwC3Xx6c3R/gz7CkVedTl0YTo9GUkU8Xmw
+         aIeA==
+X-Gm-Message-State: APjAAAX9L0dhDPqwGoDsR4Hiw6Z6yubM0yQ3S/998EyGWPlc7s5Dlt5C
+        /AVdBEY3ibFWa/WWU/NMEmPp99YrmA==
+X-Google-Smtp-Source: APXvYqxNPnIFxxINIYDtDDu/aEs3s+8rHjgSUxnJ/V0Z/39cRDAChET+x4aUy8tGTPerYWUaS2zaXE3dZg==
+X-Received: by 2002:ac8:19ac:: with SMTP id u41mr42837147qtj.46.1560194077300;
+ Mon, 10 Jun 2019 12:14:37 -0700 (PDT)
+Date:   Mon, 10 Jun 2019 21:14:22 +0200
+In-Reply-To: <20190610191422.177931-1-elver@google.com>
+Message-Id: <20190610191422.177931-2-elver@google.com>
+Mime-Version: 1.0
+References: <20190610191422.177931-1-elver@google.com>
+X-Mailer: git-send-email 2.22.0.rc2.383.gf4fbbf30c2-goog
+Subject: [PATCH v2 2/2] EDAC, ie31200: Reformat PCI device table
+From:   Marco Elver <elver@google.com>
+To:     bp@alien8.de, tony.luck@intel.com, jbaron@akamai.com
+Cc:     linux-kernel@vger.kernel.org, Marco Elver <elver@google.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac <linux-edac@vger.kernel.org>
-Subject: Re: [PATCH] EDAC, ie31200: Add Intel Coffee Lake CPU support
-Message-ID: <20190610185444.GG5488@zn.tnic>
-References: <20190609151613.195164-1-elver@google.com>
- <20190610180121.GA22428@agluck-desk2.amr.corp.intel.com>
- <CANpmjNOVjcgprWviex0uPCCAC4+qW=sh6d+BdYtZATNd-w_hbA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANpmjNOVjcgprWviex0uPCCAC4+qW=sh6d+BdYtZATNd-w_hbA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, Jun 10, 2019 at 08:37:01PM +0200, Marco Elver wrote:
-> Yes. Originally I had a version that added the new entries in the same
-> style as before, but failed check_patch.pl due to exceeding 80 chars.
+Reformat device table after Coffee Lake additions to be more readable.
 
-Don't trust checkpatch blindly, especially about this rule. It is
-perfectly fine to leave a block of code like that stick out and even
-make it more tight since it is very visible which column differs if you
-keep the macro arguments aligned vertically:
+No functional change.
 
-static const struct pci_device_id ie31200_pci_tbl[] = { 
-        { PCI_VEND_DEV(INTEL, IE31200_HB_1), PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-        { PCI_VEND_DEV(INTEL, IE31200_HB_2), PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-        { PCI_VEND_DEV(INTEL, IE31200_HB_3), PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-        { PCI_VEND_DEV(INTEL, IE31200_HB_4), PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-	...
+Signed-off-by: Marco Elver <elver@google.com>
+Cc: Jason Baron <jbaron@akamai.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+---
+ drivers/edac/ie31200_edac.c | 80 ++++++++++---------------------------
+ 1 file changed, 20 insertions(+), 60 deletions(-)
 
-your new additions would then need to do:
-
-	...
-        { PCI_VEND_DEV(INTEL, IE31200_HB_4),     PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_1), PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-	...
-
-to keep that vertical alignment.
-
-> I'll send v2 that reverts the formatting, but has to break line after
-> the 2nd PCI_ANY_ID for the new entries. I'd prefer not to introduce
-> another macro.
-
-Yes, but as Tony said, keep formatting changes separate from the patch
-adding the Coffee Lake support.
-
-Thx.
-
+diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
+index cdb26014d929..af4ca4ee7df2 100644
+--- a/drivers/edac/ie31200_edac.c
++++ b/drivers/edac/ie31200_edac.c
+@@ -564,66 +564,26 @@ static void ie31200_remove_one(struct pci_dev *pdev)
+ }
+ 
+ static const struct pci_device_id ie31200_pci_tbl[] = {
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_1), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_2), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_3), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_4), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_5), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_6), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_7), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_8), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_9), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_1), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_2), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_3), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_4), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_5), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_6), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_7), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_8), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_9), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_10), PCI_ANY_ID, PCI_ANY_ID,
+-		0, 0, IE31200},
+-	{
+-		0,
+-	}            /* 0 terminated list. */
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_1),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_2),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_3),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_4),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_5),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_6),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_7),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_8),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_9),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_1),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_2),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_3),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_4),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_5),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_6),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_7),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_8),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_9),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_10), PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
++	{ 0, } /* 0 terminated list. */
+ };
+ MODULE_DEVICE_TABLE(pci, ie31200_pci_tbl);
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.22.0.rc2.383.gf4fbbf30c2-goog
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
