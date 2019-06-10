@@ -2,183 +2,71 @@ Return-Path: <SRS0=HogJ=UJ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_MED,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAAE9C4321A
-	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 19:15:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD81C4321A
+	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 20:13:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A105A206E0
-	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 19:15:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iXH131DK"
+	by mail.kernel.org (Postfix) with ESMTP id 381CD20820
+	for <linux-edac@archiver.kernel.org>; Mon, 10 Jun 2019 20:13:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388954AbfFJTPh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 10 Jun 2019 15:15:37 -0400
-Received: from mail-vs1-f73.google.com ([209.85.217.73]:49465 "EHLO
-        mail-vs1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389195AbfFJTOf (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 10 Jun 2019 15:14:35 -0400
-Received: by mail-vs1-f73.google.com with SMTP id 184so3378364vsw.16
-        for <linux-edac@vger.kernel.org>; Mon, 10 Jun 2019 12:14:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=boLZuSG3N/M8DQ81P181ktkcspG8tZVzYoDDzeN32S8=;
-        b=iXH131DKGX2UMUlAAUKxHnoRXNmqPh28xSMaCgEFeFtAR80G8MAMxI1PfRZ9B3r18n
-         d5ZJzNkdUIyvrBOK46suRLEJAlaPOGJYwj7mBlrPRxYk9Ly10frk6YvNWTTHM5vbRdXg
-         xmKYG28r+BUQxAMGQ3HArjyLuPNPNZg7poHBscgfk2LQUP++hrYIh18TuzPcopo22Jfc
-         kXFjPJzHP+EqnT2xTwPBDyBodzDROX+K8E3zAm7sRmpexjjorM87Ht52fvqkt/Y5zD3L
-         mUeNtWZuP2pDXDm2P43dls7kFaI2e9/90OO9GuwDK/jkUGTTIbPpHL9tXhPqxKwjvDV8
-         EqLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=boLZuSG3N/M8DQ81P181ktkcspG8tZVzYoDDzeN32S8=;
-        b=FyKxN6KcRsCF4stqCcu5Ve2O3tH1K9eAJtPP2uXcDqaQeXAi7TJ7aOAscNn4Bm6Rg5
-         +QFcEc0xEEsHds3rp92TIbr6FDA5rsjAzNmFFL4tY7cjn1BxX6ynjqRGdGM9xVs0j1Lk
-         GxnmsXL+x/5U8FMUdyK6fD0zCjEZkjXErSTqIXuO8WoFBjlQlmI6Zxa/APb2nd9SyTBy
-         4lm/chIEnh2vGaFxAv7FfM1fHilBSP4jljxvgLOXrLoWQGZdp5Scgr8zw/XWYvKBE9ax
-         5OIXvYiF+my0n3zqhIQOhOd/UUhDjD4kD1XOeftpHXX70fuwuNaKCveBFbao/uIxlYpz
-         f0OQ==
-X-Gm-Message-State: APjAAAU51gVsRf3VB8y0SGS5w2sLB2obEO8cRHUZr5nOnfxYEilEO4Rz
-        Sz5aiLzdzNniI2XCpXplo4AIIRpzpQ==
-X-Google-Smtp-Source: APXvYqzdoEf4jWI24NW1XHaaDjxDWgWHFwRIZbIFV5V22iA8DuN3pc9LCBZTnlLaSiIhw1BJJ3513F06NQ==
-X-Received: by 2002:a67:2781:: with SMTP id n123mr37283823vsn.141.1560194074287;
- Mon, 10 Jun 2019 12:14:34 -0700 (PDT)
-Date:   Mon, 10 Jun 2019 21:14:21 +0200
-Message-Id: <20190610191422.177931-1-elver@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.22.0.rc2.383.gf4fbbf30c2-goog
-Subject: [PATCH v2 1/2] EDAC, ie31200: Add Intel Coffee Lake CPU support
-From:   Marco Elver <elver@google.com>
-To:     bp@alien8.de, tony.luck@intel.com, jbaron@akamai.com
-Cc:     linux-kernel@vger.kernel.org, Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S2389279AbfFJUNp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 10 Jun 2019 16:13:45 -0400
+Received: from mga03.intel.com ([134.134.136.65]:62280 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389099AbfFJUNp (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 10 Jun 2019 16:13:45 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 13:13:43 -0700
+X-ExtLoop1: 1
+Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
+  by orsmga004.jf.intel.com with ESMTP; 10 Jun 2019 13:13:43 -0700
+Received: from orsmsx123.amr.corp.intel.com (10.22.240.116) by
+ ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
+ id 14.3.408.0; Mon, 10 Jun 2019 13:13:43 -0700
+Received: from orsmsx104.amr.corp.intel.com ([169.254.4.84]) by
+ ORSMSX123.amr.corp.intel.com ([169.254.1.28]) with mapi id 14.03.0415.000;
+ Mon, 10 Jun 2019 13:13:43 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Marco Elver <elver@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "jbaron@akamai.com" <jbaron@akamai.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
         linux-edac <linux-edac@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: RE: [PATCH v2 2/2] EDAC, ie31200: Reformat PCI device table
+Thread-Topic: [PATCH v2 2/2] EDAC, ie31200: Reformat PCI device table
+Thread-Index: AQHVH8DCN8lFS+IPpkmN4EljuqvIIqaVUanA
+Date:   Mon, 10 Jun 2019 20:13:42 +0000
+Message-ID: <3908561D78D1C84285E8C5FCA982C28F7E996B42@ORSMSX104.amr.corp.intel.com>
+References: <20190610191422.177931-1-elver@google.com>
+ <20190610191422.177931-2-elver@google.com>
+In-Reply-To: <20190610191422.177931-2-elver@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMDVkZDcxZjctOWMzNC00MGY0LWIwZjAtY2ZjY2Q0YWU4NzMxIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiTFk0XC9ZRDV2UWUxMGZPNTBLckt5Y0JYRXJPK1FYdVg0Um5VNmVPY3NGOWZcL1wvYTc5YmhPZVBaY3UraDNlSThcL1MifQ==
+x-ctpclassification: CTP_NT
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.140]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Coffee Lake seems to work like Skylake and Kaby Lake. This patch adds all
-device IDs for Coffee Lake-S CPUs according to datasheet.
-
-Signed-off-by: Marco Elver <elver@google.com>
-Cc: Jason Baron <jbaron@akamai.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
----
-
-v2:
-- Reverted formatting existing pci_tbl entries.
-
-Tested with a Xeon E-2124G.
----
- drivers/edac/ie31200_edac.c | 58 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 55 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-index adf60eb45bd4..cdb26014d929 100644
---- a/drivers/edac/ie31200_edac.c
-+++ b/drivers/edac/ie31200_edac.c
-@@ -20,11 +20,13 @@
-  * 0c08: Xeon E3-1200 v3 Processor DRAM Controller
-  * 1918: Xeon E3-1200 v5 Skylake Host Bridge/DRAM Registers
-  * 5918: Xeon E3-1200 Xeon E3-1200 v6/7th Gen Core Processor Host Bridge/DRAM Registers
-+ * 3e..: 8th/9th Gen Core Processor Host Bridge/DRAM Registers
-  *
-  * Based on Intel specification:
-  * http://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xeon-e3-1200v3-vol-2-datasheet.pdf
-  * http://www.intel.com/content/www/us/en/processors/xeon/xeon-e3-1200-family-vol-2-datasheet.html
-  * http://www.intel.com/content/www/us/en/processors/core/7th-gen-core-family-mobile-h-processor-lines-datasheet-vol-2.html
-+ * https://www.intel.com/content/www/us/en/products/docs/processors/core/8th-gen-core-family-datasheet-vol-2.html
-  *
-  * According to the above datasheet (p.16):
-  * "
-@@ -61,6 +63,26 @@
- #define PCI_DEVICE_ID_INTEL_IE31200_HB_8 0x1918
- #define PCI_DEVICE_ID_INTEL_IE31200_HB_9 0x5918
- 
-+/* Coffee Lake-S */
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_MASK 0x3e00
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_1    0x3e0f
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_2    0x3e18
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_3    0x3e1f
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_4    0x3e30
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_5    0x3e31
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_6    0x3e32
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_7    0x3e33
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_8    0x3ec2
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_9    0x3ec6
-+#define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_10   0x3eca
-+
-+/* Helper macro to test if HB is for Skylake or later. */
-+#define DEVICE_ID_SKYLAKE_OR_LATER(did)                                        \
-+	(((did) == PCI_DEVICE_ID_INTEL_IE31200_HB_8) ||                        \
-+	 ((did) == PCI_DEVICE_ID_INTEL_IE31200_HB_9) ||                        \
-+	 (((did)&PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_MASK) ==                   \
-+	  PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_MASK))
-+
- #define IE31200_DIMMS			4
- #define IE31200_RANKS			8
- #define IE31200_RANKS_PER_CHANNEL	4
-@@ -381,10 +403,10 @@ static int ie31200_probe1(struct pci_dev *pdev, int dev_idx)
- 	u32 addr_decode, mad_offset;
- 
- 	/*
--	 * Kaby Lake seems to work like Skylake. Please re-visit this logic
--	 * when adding new CPU support.
-+	 * Kaby Lake, Coffee Lake seem to work like Skylake. Please re-visit
-+	 * this logic when adding new CPU support.
- 	 */
--	bool skl = (pdev->device >= PCI_DEVICE_ID_INTEL_IE31200_HB_8);
-+	bool skl = DEVICE_ID_SKYLAKE_OR_LATER(pdev->device);
- 
- 	edac_dbg(0, "MC:\n");
- 
-@@ -569,6 +591,36 @@ static const struct pci_device_id ie31200_pci_tbl[] = {
- 	{
- 		PCI_VEND_DEV(INTEL, IE31200_HB_9), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
- 		IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_1), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_2), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_3), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_4), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_5), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_6), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_7), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_8), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_9), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
-+	{
-+		PCI_VEND_DEV(INTEL, IE31200_HB_CFL_10), PCI_ANY_ID, PCI_ANY_ID,
-+		0, 0, IE31200},
- 	{
- 		0,
- 	}            /* 0 terminated list. */
--- 
-2.22.0.rc2.383.gf4fbbf30c2-goog
-
+PiBSZWZvcm1hdCBkZXZpY2UgdGFibGUgYWZ0ZXIgQ29mZmVlIExha2UgYWRkaXRpb25zIHRvIGJl
+IG1vcmUgcmVhZGFibGUuDQoNCkkgbGlrZSB0aGF0IHlvdSBwdXQgdGhlIHJlZm9ybWF0IHNlY29u
+ZCAuLi4gaWYgc29tZSBvbGQgdmVyc2lvbiBuZWVkcyBhIGJhY2twb3J0DQp0byBnZXQgQ29mZmVl
+IExha2Ugc3VwcG9ydCB0aGV5IGNhbiBqdXN0IHRha2UgcGFydCAxIHRvIGdldCB0aGUgZnVuY3Rp
+b25hbGl0eQ0KYW5kIHRoZW4gZGVjaWRlIHdoZXRoZXIgb3Igbm90IHRvIHRha2UgcGFydCAyLg0K
+DQpCb3RoIHBhcnRzOg0KDQpBY2tlZC1ieTogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29t
+Pg0KDQo=
