@@ -1,153 +1,84 @@
-Return-Path: <SRS0=4LgR=UL=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=mWro=UM=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05227C31E46
-	for <linux-edac@archiver.kernel.org>; Wed, 12 Jun 2019 18:41:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED04EC31E49
+	for <linux-edac@archiver.kernel.org>; Thu, 13 Jun 2019 15:04:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C17D0206E0
-	for <linux-edac@archiver.kernel.org>; Wed, 12 Jun 2019 18:41:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCC9121743
+	for <linux-edac@archiver.kernel.org>; Thu, 13 Jun 2019 15:04:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="SWCbBqlO";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="p86ox96e"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="aGzm61LU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726633AbfFLSlW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 12 Jun 2019 14:41:22 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:42084 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728841AbfFLSlV (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 12 Jun 2019 14:41:21 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5CIe553010654;
-        Wed, 12 Jun 2019 11:41:13 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=pfpt0818;
- bh=q69tUFXGTMDPBEuA65P4J8macASm8wq5wpAC3LFkPXw=;
- b=SWCbBqlOuRj6blSWnZjjC9VBX6eaSadMU4F3dfOdmzqBVdCUYQuucsi80051mNPpoR0X
- RteONXNihAwxTK8A+Mdl2EBUpkNeTQpS+KrFnhUjyRRHmNHDeWJT+6EULbh7/pe6iPYk
- VkCfNHYAreweUWNhbJmJFXDUFy2K3lmOzLW8Cn3AnieE3qaQOHcJyKb2pgaxyaZymWrO
- fm1eXwnLqd7+MBjCxwBCkYhmZ2eptAyerDRgcEsJcqXtp7TOqW64GVyQ00xtgxfZMMOJ
- H6oYWuKYFux+CXIsSNDChMxPe6abDg4Z7Ci9L5kAEtqEGP0dlQiYBxmSTSZ15SqoG4OO oA== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2t34ngrk97-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 12 Jun 2019 11:41:13 -0700
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 12 Jun
- 2019 11:41:11 -0700
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (104.47.37.51) by
- SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 12 Jun 2019 11:41:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q69tUFXGTMDPBEuA65P4J8macASm8wq5wpAC3LFkPXw=;
- b=p86ox96eoceuLClEvLS2F2HuTNUnoqYN+exLCe6i+8LaFGViSw8jCjjEng8D5W6AiMTl7mOK4xJoqrbbEfJ7eVx1BY4+aD1A0LeRXXdmH80FExfD3rjJe8DgbEWYYr0Mzuq1LeEYDDXR42GXEVBzq6kHtqfhQknrupm1zzN+E/s=
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.238.217) by
- MN2PR18MB3087.namprd18.prod.outlook.com (20.179.20.25) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.10; Wed, 12 Jun 2019 18:41:06 +0000
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::d3:794c:1b94:cf3]) by MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::d3:794c:1b94:cf3%4]) with mapi id 15.20.1965.017; Wed, 12 Jun 2019
- 18:41:06 +0000
-From:   Robert Richter <rrichter@marvell.com>
-To:     James Morse <james.morse@arm.com>
-CC:     Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        id S1732885AbfFMPEy (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 13 Jun 2019 11:04:54 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:54166 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732464AbfFMORT (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 13 Jun 2019 10:17:19 -0400
+Received: from zn.tnic (p200300EC2F06D500349353021D4CE514.dip0.t-ipconnect.de [IPv6:2003:ec:2f06:d500:3493:5302:1d4c:e514])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9B7251EC0235;
+        Thu, 13 Jun 2019 16:17:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1560435438;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=mm3XxwESAph1yISTiwQTaeINydDZWYAofTkk9QcLO78=;
+        b=aGzm61LUpNyURNpdinzoqQoqVmbeK2F0sbWSlFVSKj84jBS6xboqS6Ry3YjSZiK6rkhKb6
+        iC0AUwW1KvTejSf1iJmh1dxFKQcd7q2yo5Bq2/ZHkrY8mR578CdNQR4n+xOjU5iXZR96fM
+        +2mQ1cWqyNXs/G32ppq9G/YjwkSt76s=
+Date:   Thu, 13 Jun 2019 16:17:15 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+Cc:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 12/21] EDAC, ghes: Add support for legacy API counters
-Thread-Topic: [PATCH 12/21] EDAC, ghes: Add support for legacy API counters
-Thread-Index: AQHVIU5kX5MqKG3rJEqHTaHdhQcplw==
-Date:   Wed, 12 Jun 2019 18:41:06 +0000
-Message-ID: <20190612184058.2plbdweri6bjmppr@rric.localdomain>
-References: <20190529084344.28562-1-rrichter@marvell.com>
- <20190529084344.28562-13-rrichter@marvell.com>
- <92eda11f-dad9-bb2b-3a87-80b6c8d8e228@arm.com>
-In-Reply-To: <92eda11f-dad9-bb2b-3a87-80b6c8d8e228@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P189CA0027.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::40)
- To MN2PR18MB3408.namprd18.prod.outlook.com (2603:10b6:208:16c::25)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [92.254.182.202]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b267bb12-b4b4-4cde-e4cc-08d6ef658723
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MN2PR18MB3087;
-x-ms-traffictypediagnostic: MN2PR18MB3087:
-x-microsoft-antispam-prvs: <MN2PR18MB3087AF35AA34273B31632F07D9EC0@MN2PR18MB3087.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0066D63CE6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(396003)(346002)(376002)(39860400002)(136003)(199004)(189003)(9686003)(6512007)(71190400001)(71200400001)(6436002)(7736002)(305945005)(66476007)(6486002)(66556008)(6916009)(229853002)(66946007)(64756008)(73956011)(476003)(26005)(186003)(11346002)(446003)(486006)(6116002)(3846002)(66446008)(2906002)(81156014)(4326008)(81166006)(8936002)(25786009)(53936002)(6246003)(66066001)(86362001)(102836004)(68736007)(99286004)(256004)(52116002)(1076003)(14454004)(6506007)(8676002)(316002)(5660300002)(76176011)(53546011)(54906003)(386003)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3087;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: marvell.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: di3jjJa9CtGR/OeWpQeP1vXQeZa+w+q+s4r6XF7hAwm4D5havUBznWTMSJLjLAk14qk9wQ3Q3wS+adPBn3XKbba5r6v++qVQ3Ic8vCpX1BLjbeha/ObIhtmJOi9Ir6BZEknUt5eAr7ilaFKwE+pSdyWUomCHIm3Bp2j0vjSHvEHkTachCKs3xc84cDfVMs/IY84pm9rs11Rc+i/4uT73Nz9+7J5pHyWSDaf7bT2pLQrY9cA0DkawOv7vfWjlQ5trOPu+CyoGH6d4g5jlmjhwA30W7TUPFRNxIympq5w/WAOoGz7hYiKIE1+RxxtZoeetzm1PAOrUyVSPL7Z4GkzuKiDVYTkWgecnGztS5eD83vHjRKMSpUO9t4eIlVXFPJn5i4s3jxbxUdpms9UkYGA8uwQvrVaXBGkj/FJPNxKo/Gc=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <D67A621340DCFF4590CB9B3CBC5583E0@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/8] EDAC/amd64: Support more than two controllers for
+ chip selects handling
+Message-ID: <20190613141715.GD11598@zn.tnic>
+References: <20190531234501.32826-1-Yazen.Ghannam@amd.com>
+ <20190531234501.32826-3-Yazen.Ghannam@amd.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: b267bb12-b4b4-4cde-e4cc-08d6ef658723
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2019 18:41:06.2163
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rrichter@marvell.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB3087
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-12_11:,,
- signatures=0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190531234501.32826-3-Yazen.Ghannam@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 29.05.19 16:13:02, James Morse wrote:
-> On 29/05/2019 09:44, Robert Richter wrote:
-> > The ghes driver is not able yet to count legacy API counters in sysfs,
-> > e.g.:
-> >=20
-> >  /sys/devices/system/edac/mc/mc0/csrow2/ce_count
-> >  /sys/devices/system/edac/mc/mc0/csrow2/ch0_ce_count
-> >  /sys/devices/system/edac/mc/mc0/csrow2/ch1_ce_count
-> >=20
-> > Make counting csrows/channels generic so that the ghes driver can use
-> > it too.
->=20
-> What for?
+On Fri, May 31, 2019 at 11:45:12PM +0000, Ghannam, Yazen wrote:
+> diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+> index 9fa2f205f05c..dd60cf5a3d96 100644
+> --- a/drivers/edac/amd64_edac.c
+> +++ b/drivers/edac/amd64_edac.c
+> @@ -943,91 +943,101 @@ static void prep_chip_selects(struct amd64_pvt *pvt)
+>  		pvt->csels[0].b_cnt = pvt->csels[1].b_cnt = 4;
+>  		pvt->csels[0].m_cnt = pvt->csels[1].m_cnt = 2;
+>  	} else if (pvt->fam >= 0x17) {
+> -		pvt->csels[0].b_cnt = pvt->csels[1].b_cnt = 4;
+> -		pvt->csels[0].m_cnt = pvt->csels[1].m_cnt = 2;
+> +		int umc;
+> +
+> +		for_each_umc(umc) {
+> +			pvt->csels[umc].b_cnt = 4;
+> +			pvt->csels[umc].m_cnt = 2;
+> +		}
+> +
 
-With EDAC_LEGACY_SYSFS enabled those counters are exposed to sysfs,
-but the numbers are wrong (all zero).
+What is the purpose of the previous commit if you're changing it here in
+the next one?
 
-> Is this for an arm64 system? Surely we don't have any systems that used t=
-o work with these
-> legacy counters. Aren't they legacy because we want new software to stop =
-using them!
+-- 
+Regards/Gruss,
+    Boris.
 
-The option is to support legacy userland. If we want to provide a
-similar "user experience" as for x86 the counters should be correct.
-Of course it is not a real mapping to csrows, but it makes that i/f
-work.
-
-In any case, this patch cleans up code as old API's counter code is
-isolated and moved to common code. Making the counter's work for ghes
-is actually a side-effect here. The cleanup is a prerequisit for
-follow on patches.
-
--Robert
-
->=20
->=20
-> Thanks,
->=20
-> James
+Good mailing practices for 400: avoid top-posting and trim the reply.
