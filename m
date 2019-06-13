@@ -6,269 +6,257 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B51C31E49
-	for <linux-edac@archiver.kernel.org>; Thu, 13 Jun 2019 17:01:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F27C31E49
+	for <linux-edac@archiver.kernel.org>; Thu, 13 Jun 2019 17:05:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4DEF220665
-	for <linux-edac@archiver.kernel.org>; Thu, 13 Jun 2019 17:01:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C6532063F
+	for <linux-edac@archiver.kernel.org>; Thu, 13 Jun 2019 17:05:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730181AbfFMRA6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 13 Jun 2019 13:00:58 -0400
-Received: from gate.crashing.org ([63.228.1.57]:42212 "EHLO gate.crashing.org"
+        id S2393387AbfFMRFV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 13 Jun 2019 13:05:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:47566 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729754AbfFLXyx (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 12 Jun 2019 19:54:53 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x5CNsIen016686;
-        Wed, 12 Jun 2019 18:54:19 -0500
-Message-ID: <2a53690aa81a406b9a6290f70e47470d0f698f00.camel@kernel.crashing.org>
+        id S1729463AbfFMRFT (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 13 Jun 2019 13:05:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4346E3EF;
+        Thu, 13 Jun 2019 10:05:18 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E835E3F694;
+        Thu, 13 Jun 2019 10:05:15 -0700 (PDT)
 Subject: Re: [PATCH 2/2] edac: add support for Amazon's Annapurna Labs EDAC
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     James Morse <james.morse@arm.com>,
-        "Hawa, Hanna" <hhhawa@amazon.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "paulmck@linux.ibm.com" <paulmck@linux.ibm.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "Shenhar, Talel" <talel@amazon.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Chocron, Jonathan" <jonnyc@amazon.com>,
-        "Krupnik, Ronen" <ronenk@amazon.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "Hanoch, Uri" <hanochu@amazon.com>
-Date:   Thu, 13 Jun 2019 09:54:18 +1000
-In-Reply-To: <20190612104238.GG32652@zn.tnic>
-References: <ce01a2bc-7973-5978-b033-a6bdc61b9d4b@amazon.com>
-         <32431fa2-2285-6c41-ce32-09630205bb54@arm.com>
-         <9a2aaf4a9545ed30568a0613e64bc3f57f047799.camel@kernel.crashing.org>
-         <20190608090556.GA32464@zn.tnic>
-         <1ae5e7a3464f9d8e16b112cd371957ea20472864.camel@kernel.crashing.org>
-         <68446361fd1e742b284555b96b638fe6b5218b8b.camel@kernel.crashing.org>
-         <20190611115651.GD31772@zn.tnic>
-         <6df5a17bb1c900dc69b991171e55632f40d9426f.camel@kernel.crashing.org>
-         <20190612034813.GA32652@zn.tnic>
-         <08bd58dc0045670223f8d3bbc8be774505bd3ddf.camel@kernel.crashing.org>
-         <20190612104238.GG32652@zn.tnic>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+To:     "Hawa, Hanna" <hhhawa@amazon.com>
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com, bp@alien8.de,
+        mchehab@kernel.org, davem@davemloft.net,
+        gregkh@linuxfoundation.org, nicolas.ferre@microchip.com,
+        paulmck@linux.ibm.com, dwmw@amazon.co.uk, benh@amazon.com,
+        ronenk@amazon.com, talel@amazon.com, jonnyc@amazon.com,
+        hanochu@amazon.com, linux-edac@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1559211329-13098-1-git-send-email-hhhawa@amazon.com>
+ <1559211329-13098-3-git-send-email-hhhawa@amazon.com>
+ <3129ed19-0259-d227-0cff-e9f165ce5964@arm.com>
+ <4514bfa2-68b2-2074-b817-2f5037650c4e@amazon.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <fdc3b458-96eb-1734-c294-2463f37f2244@arm.com>
+Date:   Thu, 13 Jun 2019 18:05:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <4514bfa2-68b2-2074-b817-2f5037650c4e@amazon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, 2019-06-12 at 12:42 +0200, Borislav Petkov wrote:
-> On Wed, Jun 12, 2019 at 06:29:26PM +1000, Benjamin Herrenschmidt wrote:
-> > I tend to disagree here. We've been down that rabbit hole in the past
-> > and we (Linux in general) are trying to move away from that sort of
-> > "platform" overarching driver as much as possible.
+Hi Hawa,
+
+On 11/06/2019 20:56, Hawa, Hanna wrote:
+> James Morse wrote:
+>> Hawa, Hanna wrote:
+>>> +    edac_device_handle_ce(edac_dev, 0, 0, "L2 Error");
+>>
+>> How do we know this was corrected?
+>>
+>> 6.4.8 "Error Correction Code" has "Double-bit ECC errors set the fatal bit." in a
+>> paragraph talking about the L1 memory system.
+
+> I'll check fatal field to check if it's uncorrected/corrected.
+
+
+>>> +    edac_printk(KERN_CRIT, DRV_NAME, "CPU%d L1 %serror detected\n",
+>>> +            cpu, (fatal) ? "Fatal " : "");
+>>> +    edac_printk(KERN_CRIT, DRV_NAME, "RAMID=");
+>>> +
+>>> +    switch (ramid) {
+>>> +    case ARM_CA57_L1_I_TAG_RAM:
+>>> +        pr_cont("'L1-I Tag RAM' index=%d way=%d", index, way);
+>>> +        break;
+>>> +    case ARM_CA57_L1_I_DATA_RAM:
+>>> +        pr_cont("'L1-I Data RAM' index=%d bank= %d", index, way);
+>>> +        break;
+>>
+>> Is index/way information really useful? I can't replace way-3 on the system, nor can I
+>> stop it being used. If its useless, I'd rather we don't bother parsing and printing it out.
+
+> I'll remove the index/way information, and keep CPUMERRSR_EL1 value print (who want this
+> information can parse the value and get the index/bank status)
+
+Good idea, just print it raw.
+
+
+>>> +    pr_cont(", repeat=%d, other=%d (CPUMERRSR_EL1=0x%llx)\n", repeat, other,
+>>> +        val);
+>>
+>> 'other' here is another error, but we don't know the ramid.
+>> 'repeat' is another error for the same ramid.
+>>
+>> Could we still feed this stuff into edac? This would make the counters accurate if the
+>> polling frequency isn't quite fast enough.
+
+> There is no API in EDAC to increase the counters, I can increase by accessing the
+> ce_count/ue_count from edac_device_ctl_info/edac_device_instance structures if it's okay..
+
+Ah, sorry, I was thinking of the edac_mc_handle_error(), which has an error_count parameter.
+
+(I wouldn't go poking in the structures directly).
+
+
+>>> +static void al_a57_edac_l2merrsr(void *arg)
+>>> +{
+>>
+>>> +    edac_device_handle_ce(edac_dev, 0, 0, "L2 Error");
+>>
+>> How do we know this is corrected?
+
+>> If looks like L2CTLR_EL1[20] might force fatal 1/0 to map to uncorrected/corrected. Is
+>> this what you are depending on here?
+
+> No - not on this. Reporting all the errors as corrected seems to be bad.
 > 
-> Why is a "platform" driver like that so bad?
+> Can i be depends on fatal field?
 
-It tends to be a slippery slope. Also in the ARM world, most SoC tend
-to re-use IP blocks, so you get a lot of code duplication, bug fixed in
-one and not the other etc...
+That is described as "set to 1 on the first memory error that caused a Data Abort". I
+assume this is one of the parity-error external-aborts.
 
-I don't necessarily mind having a "platform" component that handles
-policies in case where userspace is really not an option, but it
-shouldn't be doing it by containing the actual drivers for the
-individual IP block error collection. It could however "use" them via
-in-kernel APIs.
+If the repeat counter shows, say, 2, and fatal is set, you only know that at least one of
+these errors caused an abort. But it could have been all three. The repeat counter only
+matches against the RAMID and friends, otherwise the error is counted in 'other'.
 
-> > This is a policy. It should either belong to userspace,
-> 
-> For some errors you can't do userspace as it is too late for it - you
-> wanna address that before you return to it.
+I don't think there is a right thing to do here, (other than increase the scrubbing
+frequency). As you can only feed one error into edac at a time then:
 
-Those are rare. At the end of the day, if you have a UE on memory, it's
-a matter of luck. It could have hit your kernel as well. You get lucky
-it only hit userspace but you can't make a general statement you "can't
-trust userspace".
+> if (fatal)
+>     edac_device_handle_ue(edac_dev, 0, 0, "L2 Error");
+> else
+>     edac_device_handle_ce(edac_dev, 0, 0, "L2 Error");
 
-Cache errors tend to be the kind that tend to have to be addressed
-immediately, but even then, that's often local to some architecture
-machine check handling, not even in EDAC.
-
-Do you have a concrete example of a type of error that
-
- - Must be addressed in the kernel
-
- - Relies on coordinating drivers for more than one IP block
-
-?
-
-Even then though, my argument would be that the right way to do that,
-assuming that's even platform specific, would be to have then the
-"platform RAS driver" just layout on top of the individual EDAC drivers
-and consume their output. Not contain the drivers themselves.
-
-> > or be in some generic RAS code in the kernel, there's no reason why
-> > these can't be abstracted.
-> 
-> Yes, we have this drivers/ras/cec.c thing which collects correctable
-> DRAM errors on x86. :-)
-
-Using machine checks, not EDAC. It's completely orghogonal at this
-point at least.
-
-That said, it would make sense to have an EDAC API to match that
-address back into a DIMM location and give user an informational
-message about failures happening on that DIMM. But that could be done
-via core EDAC MC APIs.
-
-Here too, no need for having an over-arching platform driver.
-
-> > Also in your specific example, it could be entirely local to the MC
-> > EDAC / DRAM controller path, we could have a generic way for EDAC to
-> > advertise that a given memory channel is giving lots of errors and
-> > have memory controller drivers listen to it but usually the EDAC MC
-> > driver *is* the only thing that looks like a MC driver to begin with,
-> > 
-> > so again, pretty much no overlap with L1/L2 caches RAS or PCIe RAS
-> > etc...
-> > 
-> > Unless I'm mistaken, that amd64 EDAC is just an MC one... but I only
-> > had a cursory glance at the code.
-> 
-> EDAC has historically been concentrating on DRAM errors as that is
-> what people have been paying attention to. But it isn't limited to
-> DRAM errors - there is some basic PCI errors functionality behind
-> edac_pci_create_generic_ctl() which polls for PCI parity errors.
-
-Right, somebody whacked the PCI stuff in the same driver. So what ?
-There's no coordination here not particular reason it has to be so.
-Those PCI bits could have moved to a sepatate driver easily. Maybe they
-didn't bcs they didn't have a good way to probe the two separately via
-ACPI ? I don't know. But it doesn't matter nor does it affect the
-situation with ARM.
-
-That said, x86 platforms tend to be less diverse in their selection of
-IP blocks, and tend to have more integrated chipsets where the
-distinction between the memory controller and PCI may be a bit less
-obvious. This isn't the case on ARM.
-
-I still think that doesn't prove or disprove anything.
-
-> So it still makes sense to me to have a single driver which takes care
-> of all things RAS for a platform. You just load one driver and it does
-> it all, including recovery actions.
-
-Why ? Because one or two historical drivers mix MC and PCI then "it
-makes sense" to do that for everybody ?
-
-And then you have 20 platforms and 20 drivers, with 50% or more code
-duplication, bugs fixed in one and not the other, gratuituous behaviour
-differences to confuse users etc... No. that doesn't make sense.
-
-> > Maybe because what you are promoting might not be the right path
-> > here... seriously, there's a reason why all vendors want to go down
-> > that path and in this case I don't think they are wrong.
-> > 
-> > This isn't about just another ARM vendor, in fact I'm rather new to the
-> > whole ARM thing, I used to maintain arch/powerpc :-)
-> 
-> What happened? :-P
-
-Long story :-) I handed it over to mpe a while ago, I left IBM earlire
-this year.
-
-> > The point is what you are trying to push for goes against everything
-> > we've been trying to do in Linux when it comes to splitting drivers to
-> > individual IP blocks.
-> 
-> Please do explain why is a driver-per-IP-block better and please don't
-> give me the DT argument - I've heard that one more than enough now.
-
-I have no idea what "the DT argument" is, and that's from the guy who
-created the FDT....
-
-I have difficulties understanding how you cannot see that having re-
-usable single drivers for a single piece of HW makes sense. If anything
-in term of avoiding duplication, bitrot, bugs being fixed in some and
-not others, etc etc... It also means more eyes on a given piece of code
-which is a good thing.
-
-Also you "have heard more than enough" is again a sign that a whole lot
-of people are trying to tell you something that you seem to refuse to
-hear. Whatever that "DT argument" is, did you just ignore it or had
-some good and solid arguments of your own to refute it ?
-
-> Like, for example, how do you deal with the case where you have a
-> platform which has a bunch of IP blocks with RAS functionality and they
-> all have a separate driver. Now, you want to do recovery and failover
-> actions depending on certain error count from a certain group of IP
-> blocks.
->
-> You export those counts through sysfs from the separate drivers and you
-> have a userspace agent doing that policy?
-
-So mostly yes. Works fine for POWER9 :-) That said, you'll have to be
-more precise, because so far this is very hypothetical.
-
-> That cannot always fly because recovery actions for some errors need to
-> happen before we return to userspace - i.e., memory-failure.c types of
-> scenarios.
-
-How come ? Most memory failure type scenario tend to be handled via
-MCEs anyway and don't go through EDAC. Additionally, if they do, that
-can generally be constrained to the MC driver. But even then, what kind
-should be handled "before we return to userspace" ?
-
-However, if we want to create some overall policy then we should create
-some in-kernel APIs so that your magic "platform driver" can talk to
-the indidual EDAC drivers (or get notifed by them).
-
-Mangling everything together is definitely NOT the way to go here.
-
-However, what I see above is a lot of hand waving and hypothetical
-examples, nothing really concrete.
-
-> You add another "counting" layer which is yet another driver which
-> collects those errors and applies policy actions?
-
-No. Individual drivers count and report. Not sure what you mean here.
-
-> But then that layer needs to be made generic enough to be shared by the
-> other EDAC IP block drivers, otherwise every platform would need its own
-> counter layer driver. Which basically puts the problem somewhere else
-> but doesn't make it go away.
-
-Not sure what you mean by a "counter layer driver"...
-
-> Another way I'm not thinking of at the moment?
-> 
-> A single driver solves that problem as it has all the required
-> information in one place and deals with it then and there.
-
-We could also have the entire BSP of a platform as one giant driver
-that does all the RAS, netowrking, serial, and video .. why not ? That
-would make your policies a lot easier :-) Not seriously I really fail
-to see your points, and it looks like I'm not the only one.
-
-> I hear you that platform drivers are frowned upon but connecting it all
-> in one place for such purposes makes sense to me in this particular
-> case.
-
-What makes some amount of sense *if necessary* (and I yet have to be
-convinced it is) is to have the platform policy driver use internal
-kernel APIs to communicate with the individual IP block drivers via
-something reasonably standard.
-
-But even then, I yet have to see an actual need for this.
-
-> Btw, what is your final goal with these drivers? Dump decoded error
-> information in dmesg? Or something more sophisticated?
-
-I'll let Hanna respond to that one.
-
-Cheers,
-Ben.
+seems reasonable. You're reporting the most severe, and 'other/repeat' counter values just
+go missing.
 
 
+> How can L2CTLR_EL1[20] force fatal?
+
+I don't think it can, on a second reading, it looks to be even more complicated than I
+thought! That bit is described as disabling forwarding of uncorrected data, but it looks
+like the uncorrected data never actually reaches the other end. (I'm unsure what 'flush'
+means in this context.)
+I was looking for reasons you could 'know' that any reported error was corrected. This was
+just a bad suggestion!
+
+
+>> (it would be good to have a list of integration-time and firmware dependencies this driver
+>> has, for the next person who tries to enable it on their system and complains it doesn't
+>> work for them)
+
+> Where can i add such information?
+
+The mailing list archive is good enough. I'll ask about any obvious dependency I spot from
+the TRM, (e.g. that list at the top of my first reply). If you know of anything weird
+please call it out.
+
+
+>>> +    pr_cont(", cpuid/way=%d, repeat=%d, other=%d (L2MERRSR_EL1=0x%llx)\n",
+>>> +        way, repeat, other, val);
+>>
+>> cpuid could be useful if you can map it back to the cpu number linux has.
+>> If you can spot that cpu-7 is experiencing more errors than it should, you can leave it
+>> offline.
+>>
+>> To do this you'd need to map each L2MERRSR_EL1's '0-3' range back to the CPUs they
+>> actually are. The gic's 'ppi-partitions' does this with phandles, e.g.
+>> Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml. You could add a
+>> similar shaped thing to the l2-cacheX node in the DT, (or in your edac node, but it is a
+>> property of the cache integration).
+
+> As in L1 prints, I'll remove non-relevant prints.
+
+Fair enough.
+
+
+>>> +    /*
+>>> +     * Use get_online_cpus/put_online_cpus to prevent the online CPU map
+>>> +     * changing while reads the L1/L2 error status
+>>
+>> For walking the list of offline cpus, this makes sense. But you schedule work without
+>> waiting, it may get run after you drop the cpus_read_lock()...,
+
+> Will update the smp_call_function_single() call function to wait.
+
+
+>>> +    for_each_online_cpu(cpu) {
+>>> +        /* Check L1 errors */
+>>> +        smp_call_function_single(cpu, al_a57_edac_cpumerrsr, edac_dev,
+>>> +                     0);
+>>
+>> As you aren't testing for big/little, wouldn't on_each_cpu() here be simpler?
+
+> Could be simpler for L1, how can be implemented for L2?
+
+You'd need bitmasks for each cluster to feed to smp_call_function_any().
+
+
+>>> +        cluster = topology_physical_package_id(cpu);
+>>
+>> Hmm, I'm not sure cluster==package is guaranteed to be true forever.
+>>
+>> If you describe the L2MERRSR_EL1 cpu mapping in your DT you could use that. Otherwise
+>> pulling out the DT using something like the arch code's parse_cluster().
+
+> I rely on that it's alpine SoC specific driver.
+
+... and that the topology code hasn't changed to really know what a package is:
+https://lore.kernel.org/lkml/20190529211340.17087-2-atish.patra@wdc.com/T/#u
+
+As what you really want to know is 'same L2?', and you're holding the cpu_read_lock(),
+would struct cacheinfo's shared_cpu_map be a better fit?
+
+This would be done by something like a cpu-mask of cache:shared_cpu_map's for the L2's
+you've visited. It removes the dependency on package==L2, and insulates you from the
+cpu-numbering not being exactly as you expect.
+
+
+>>> +        if (cluster != last_cluster) {
+>>> +            smp_call_function_single(cpu, al_a57_edac_l2merrsr,
+>>> +                         edac_dev, 0);
+>>> +            last_cluster = cluster;
+>>> +        }
+>>
+>> Here you depend on the CPUs being listed in cluster-order in the DT. I'm fairly sure the
+>> numbering is arbitrary: On my Juno 0,3,4,5 are the A53 cluster, and 1,2 are the A57
+>> cluster.
+>>
+>> If 1,3,5 were cluster-a and 2,4,6 were cluster-b, you would end up calling
+>> al_a57_edac_l2merrsr() for each cpu. As you don't wait, they could race.
+>>
+>> If you can get a cpu-mask for each cluster, smp_call_function_any() would to the
+>> pick-one-online-cpu work for you.
+
+> Again, I rely on that it's alpine SoC specific driver.
+> How can I get cpu-mask for each cluster? from DT?
+
+Its not cluster you want, its the L2. Cacheinfo has this for online CPUs, and you're
+already holding the cpus_read_lock().
+
+
+>>> +static int al_a57_edac_remove(struct platform_device *pdev)
+>>> +{
+>>> +    struct edac_device_ctl_info *edac_dev = platform_get_drvdata(pdev);
+>>> +
+>>> +    edac_device_del_device(edac_dev->dev);
+>>> +    edac_device_free_ctl_info(edac_dev);
+>>
+>> Your poll function schedule work on other CPUs and didn't wait, is it possible
+>> al_a57_edac_l2merrsr() is still using this memory when you free it?
+
+> This will be okay, after using wait in smp_call_function_single().
+
+Yup.
+
+
+Thanks,
+
+James
