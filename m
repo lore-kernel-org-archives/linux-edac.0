@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9222C31E5C
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 14:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C644C31E5C
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 14:29:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 82DDB208C4
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 14:29:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E607D2133F
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 14:29:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725983AbfFQO3i (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 17 Jun 2019 10:29:38 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:18629 "EHLO huawei.com"
+        id S1726005AbfFQO3m (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 17 Jun 2019 10:29:42 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:50562 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726005AbfFQO3i (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 17 Jun 2019 10:29:38 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 0BC47967F754714FB6ED;
-        Mon, 17 Jun 2019 22:29:34 +0800 (CST)
+        id S1726920AbfFQO3l (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 17 Jun 2019 10:29:41 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 1F36236C7E016B04080B;
+        Mon, 17 Jun 2019 22:29:39 +0800 (CST)
 Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.202.226.53) by
  DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 17 Jun 2019 22:29:26 +0800
+ 14.3.439.0; Mon, 17 Jun 2019 22:29:30 +0800
 From:   Shiju Jose <shiju.jose@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>,
         <linuxarm@huawei.com>
 CC:     Shiju Jose <shiju.jose@huawei.com>
-Subject: [PATCH 1/6] rasdaemon:print non-standard error data if not decoded
-Date:   Mon, 17 Jun 2019 15:28:47 +0100
-Message-ID: <20190617142852.12140-2-shiju.jose@huawei.com>
+Subject: [PATCH 3/6] rasdaemon: update iteration logic for the non-standard error decoding functions
+Date:   Mon, 17 Jun 2019 15:28:49 +0100
+Message-ID: <20190617142852.12140-4-shiju.jose@huawei.com>
 X-Mailer: git-send-email 2.19.2.windows.1
 In-Reply-To: <20190617142852.12140-1-shiju.jose@huawei.com>
 References: <Shiju Jose>
@@ -45,64 +45,59 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch change printing non-standard error data
-only if not decoded.
+This patch updates the iteration logic for the non-standard
+error decoding functions.
 
-Suggested-by: Xiaofei Tan <tanxiaofei@huawei.com>
+Suggested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
 ---
- ras-non-standard-handler.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ non-standard-hisi_hip07.c  | 2 +-
+ ras-non-standard-handler.c | 2 +-
+ ras-non-standard-handler.h | 1 -
+ 3 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/non-standard-hisi_hip07.c b/non-standard-hisi_hip07.c
+index 19a5c47..bb2576e 100644
+--- a/non-standard-hisi_hip07.c
++++ b/non-standard-hisi_hip07.c
+@@ -134,11 +134,11 @@ struct ras_ns_dec_tab hisi_ns_dec_tab[] = {
+ 		.sec_type = "fbc2d923ea7a453dab132949f5af9e53",
+ 		.decode = decode_hip07_hns_error,
+ 	},
++	{ /* sentinel */ }
+ };
+ 
+ __attribute__((constructor))
+ static void hip07_init(void)
+ {
+-	hisi_ns_dec_tab[0].len = ARRAY_SIZE(hisi_ns_dec_tab);
+ 	register_ns_dec_tab(hisi_ns_dec_tab);
+ }
 diff --git a/ras-non-standard-handler.c b/ras-non-standard-handler.c
-index 21e6a76..d343a2a 100644
+index d343a2a..392bb27 100644
 --- a/ras-non-standard-handler.c
 +++ b/ras-non-standard-handler.c
-@@ -160,20 +160,6 @@ int ras_non_standard_event_handler(struct trace_seq *s,
- 	ev.error = pevent_get_field_raw(s, event, "buf", record, &len, 1);
- 	if(!ev.error)
- 		return -1;
--	len = ev.length;
--	i = 0;
--	line_count = 0;
--	trace_seq_printf(s, " error:\n  %08x: ", i);
--	while(len >= 4) {
--		print_le_hex(s, ev.error, i);
--		i+=4;
--		len-=4;
--		if(++line_count == 4) {
--			trace_seq_printf(s, "\n  %08x: ", i);
--			line_count = 0;
--		} else
--			trace_seq_printf(s, " ");
--	}
+@@ -163,7 +163,7 @@ int ras_non_standard_event_handler(struct trace_seq *s,
  
  	for (count = 0; count < dec_tab_count && !dec_done; count++) {
  		dec_tab = ns_dec_tab[count];
-@@ -187,6 +173,23 @@ int ras_non_standard_event_handler(struct trace_seq *s,
- 		}
- 	}
+-		for (i = 0; i < dec_tab[0].len; i++) {
++		for (i = 0; dec_tab[i].decode; i++) {
+ 			if (uuid_le_cmp(ev.sec_type,
+ 					dec_tab[i].sec_type) == 0) {
+ 				dec_tab[i].decode(s, ev.error);
+diff --git a/ras-non-standard-handler.h b/ras-non-standard-handler.h
+index b9e9fb1..b2c9743 100644
+--- a/ras-non-standard-handler.h
++++ b/ras-non-standard-handler.h
+@@ -23,7 +23,6 @@
+ typedef struct ras_ns_dec_tab {
+ 	const char *sec_type;
+ 	int (*decode)(struct trace_seq *s, const void *err);
+-	size_t len;
+ } *p_ns_dec_tab;
  
-+	if (!dec_done) {
-+		len = ev.length;
-+		i = 0;
-+		line_count = 0;
-+		trace_seq_printf(s, " error:\n  %08x: ", i);
-+		while (len >= 4) {
-+			print_le_hex(s, ev.error, i);
-+			i += 4;
-+			len -= 4;
-+			if (++line_count == 4) {
-+				trace_seq_printf(s, "\n  %08x: ", i);
-+				line_count = 0;
-+			} else
-+				trace_seq_printf(s, " ");
-+		}
-+	}
-+
- 	/* Insert data into the SGBD */
- #ifdef HAVE_SQLITE3
- 	ras_store_non_standard_record(ras, &ev);
+ int ras_non_standard_event_handler(struct trace_seq *s,
 -- 
 1.9.1
 
