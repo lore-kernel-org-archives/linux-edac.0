@@ -2,410 +2,477 @@ Return-Path: <SRS0=Seeo=UQ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F40C31E5D
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 14:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA3CAC31E5C
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 18:44:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CD0E4208CB
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 14:29:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C244E20863
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 18:44:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbfFQO3s (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 17 Jun 2019 10:29:48 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:18592 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727738AbfFQO3s (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 17 Jun 2019 10:29:48 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 28123BE817185209D881;
-        Mon, 17 Jun 2019 22:29:44 +0800 (CST)
-Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.202.226.53) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 17 Jun 2019 22:29:33 +0800
-From:   Shiju Jose <shiju.jose@huawei.com>
-To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>,
-        <linuxarm@huawei.com>
-CC:     Shiju Jose <shiju.jose@huawei.com>
-Subject: [PATCH 5/6] rasdaemon:add logging HiSilicon HIP08 H/W errors reported in the OEM format2
-Date:   Mon, 17 Jun 2019 15:28:51 +0100
-Message-ID: <20190617142852.12140-6-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.19.2.windows.1
-In-Reply-To: <20190617142852.12140-1-shiju.jose@huawei.com>
-References: <Shiju Jose>
- <20190617142852.12140-1-shiju.jose@huawei.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.202.226.53]
-X-CFilter-Loop: Reflected
+        id S1728904AbfFQSoB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 17 Jun 2019 14:44:01 -0400
+Received: from mail-il-dmz.mellanox.com ([193.47.165.129]:34042 "EHLO
+        mellanox.co.il" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726535AbfFQSlu (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 17 Jun 2019 14:41:50 -0400
+Received: from Internal Mail-Server by MTLPINE2 (envelope-from sramani@mellanox.com)
+        with ESMTPS (AES256-SHA encrypted); 17 Jun 2019 21:41:43 +0300
+Received: from farm-0002.mtbu.labs.mlnx (farm-0002.mtbu.labs.mlnx [10.15.2.32])
+        by mtbu-labmailer.labs.mlnx (8.14.4/8.14.4) with ESMTP id x5HIfg7g003392;
+        Mon, 17 Jun 2019 14:41:42 -0400
+Received: (from sramani@localhost)
+        by farm-0002.mtbu.labs.mlnx (8.14.7/8.13.8/Submit) id x5HIfgG7011256;
+        Mon, 17 Jun 2019 14:41:42 -0400
+From:   Shravan Kumar Ramani <sramani@mellanox.com>
+To:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>
+Cc:     Shravan Kumar Ramani <sramani@mellanox.com>,
+        Liming Sun <lsun@mellanox.com>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v5 1/1] EDAC, mellanox: Add ECC support for BlueField DDR4
+Date:   Mon, 17 Jun 2019 14:41:16 -0400
+Message-Id: <845196f9d86581efdf0d7fce001a8b1894e97c78.1560786127.git.sramani@mellanox.com>
+X-Mailer: git-send-email 2.1.2
+In-Reply-To: <cover.1560786127.git.sramani@mellanox.com>
+References: <cover.1560786127.git.sramani@mellanox.com>
+In-Reply-To: <cover.1560786127.git.sramani@mellanox.com>
+References: <cover.1560786127.git.sramani@mellanox.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch adds logging the HiSilicon HIP08 H/W errors reported
-in the non-standard OEM format2.
-These errors are from the H/W modules SMMU, HHA, HLLC, PA and DDRC.
+Add ECC support for Mellanox BlueField SoC DDR controller.
+This requires SMC to the running Arm Trusted Firmware to report
+what is the current memory configuration.
 
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+Signed-off-by: Shravan Kumar Ramani <sramani@mellanox.com>
 ---
- non-standard-hisi_hip08.c | 300 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 300 insertions(+)
+ MAINTAINERS                   |   5 +
+ drivers/edac/Kconfig          |   7 +
+ drivers/edac/Makefile         |   1 +
+ drivers/edac/bluefield_edac.c | 366 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 379 insertions(+)
+ create mode 100644 drivers/edac/bluefield_edac.c
 
-diff --git a/non-standard-hisi_hip08.c b/non-standard-hisi_hip08.c
-index 240e832..6fe5cbe 100644
---- a/non-standard-hisi_hip08.c
-+++ b/non-standard-hisi_hip08.c
-@@ -43,6 +43,20 @@
- #define HISI_OEM_TYPE1_VALID_ERR_MISC_4	BIT(10)
- #define HISI_OEM_TYPE1_VALID_ERR_ADDR	BIT(11)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 57f496c..9d04cc4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5669,6 +5669,11 @@ S:	Supported
+ F:	drivers/edac/aspeed_edac.c
+ F:	Documentation/devicetree/bindings/edac/aspeed-sdram-edac.txt
  
-+/* HISI OEM format2 error definitions */
-+#define HISI_OEM_MODULE_ID_SMMU	0
-+#define HISI_OEM_MODULE_ID_HHA	1
-+#define HISI_OEM_MODULE_ID_HLLC	2
-+#define HISI_OEM_MODULE_ID_PA	3
-+#define HISI_OEM_MODULE_ID_DDRC	4
++EDAC-BLUEFIELD
++M:	Shravan Kumar Ramani <sramani@mellanox.com>
++S:	Supported
++F:	drivers/edac/bluefield_edac.c
 +
-+#define HISI_OEM_TYPE2_VALID_ERR_FR	BIT(6)
-+#define HISI_OEM_TYPE2_VALID_ERR_CTRL	BIT(7)
-+#define HISI_OEM_TYPE2_VALID_ERR_STATUS	BIT(8)
-+#define HISI_OEM_TYPE2_VALID_ERR_ADDR	BIT(9)
-+#define HISI_OEM_TYPE2_VALID_ERR_MISC_0	BIT(10)
-+#define HISI_OEM_TYPE2_VALID_ERR_MISC_1	BIT(11)
-+
- struct hisi_oem_type1_err_sec {
- 	uint32_t   val_bits;
- 	uint8_t    version;
-@@ -61,6 +75,30 @@ struct hisi_oem_type1_err_sec {
- 	uint64_t   err_addr;
- };
+ EDAC-CALXEDA
+ M:	Robert Richter <rric@kernel.org>
+ L:	linux-edac@vger.kernel.org
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index 5e2e034..43df551 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -504,4 +504,11 @@ config EDAC_ASPEED
+ 	  First, ECC must be configured in the bootloader. Then, this driver
+ 	  will expose error counters via the EDAC kernel framework.
  
-+struct hisi_oem_type2_err_sec {
-+	uint32_t   val_bits;
-+	uint8_t    version;
-+	uint8_t    soc_id;
-+	uint8_t    socket_id;
-+	uint8_t    nimbus_id;
-+	uint8_t    module_id;
-+	uint8_t    sub_module_id;
-+	uint8_t    err_severity;
-+	uint8_t    reserv;
-+	uint32_t   err_fr_0;
-+	uint32_t   err_fr_1;
-+	uint32_t   err_ctrl_0;
-+	uint32_t   err_ctrl_1;
-+	uint32_t   err_status_0;
-+	uint32_t   err_status_1;
-+	uint32_t   err_addr_0;
-+	uint32_t   err_addr_1;
-+	uint32_t   err_misc0_0;
-+	uint32_t   err_misc0_1;
-+	uint32_t   err_misc1_0;
-+	uint32_t   err_misc1_1;
++config EDAC_BLUEFIELD
++	tristate "Mellanox BlueField Memory ECC"
++	depends on ARM64 && ((MELLANOX_PLATFORM && ACPI) || COMPILE_TEST)
++	help
++	  Support for error detection and correction on the
++	  Mellanox BlueField SoCs.
++
+ endif # EDAC
+diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
+index 89ad4a84..0294a67 100644
+--- a/drivers/edac/Makefile
++++ b/drivers/edac/Makefile
+@@ -84,3 +84,4 @@ obj-$(CONFIG_EDAC_XGENE)		+= xgene_edac.o
+ obj-$(CONFIG_EDAC_TI)			+= ti_edac.o
+ obj-$(CONFIG_EDAC_QCOM)			+= qcom_edac.o
+ obj-$(CONFIG_EDAC_ASPEED)		+= aspeed_edac.o
++obj-$(CONFIG_EDAC_BLUEFIELD)		+= bluefield_edac.o
+diff --git a/drivers/edac/bluefield_edac.c b/drivers/edac/bluefield_edac.c
+new file mode 100644
+index 0000000..d4a29ba
+--- /dev/null
++++ b/drivers/edac/bluefield_edac.c
+@@ -0,0 +1,366 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Bluefield-specific EDAC driver.
++ *
++ * Copyright (c) 2019 Mellanox Technologies.
++ */
++
++#include <linux/acpi.h>
++#include <linux/arm-smccc.h>
++#include <linux/edac.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++
++#include "edac_module.h"
++
++#define DRIVER_NAME		"bluefield-edac"
++
++/*
++ * Mellanox BlueField EMI (External Memory Interface) register definitions.
++ */
++
++#define MLXBF_ECC_CNT 0x340
++#define MLXBF_ECC_CNT__SERR_CNT_SHIFT 0
++#define MLXBF_ECC_CNT__SERR_CNT_MASK 0xffff
++#define MLXBF_ECC_CNT__DERR_CNT_SHIFT 16
++#define MLXBF_ECC_CNT__DERR_CNT_MASK 0xffff
++
++#define MLXBF_ECC_ERR 0x348
++#define MLXBF_ECC_ERR__SECC_SHIFT 0
++#define MLXBF_ECC_ERR__DECC_SHIFT 16
++
++#define MLXBF_ECC_LATCH_SEL 0x354
++#define MLXBF_ECC_LATCH_SEL__START_SHIFT 24
++
++#define MLXBF_ERR_ADDR_0 0x358
++
++#define MLXBF_ERR_ADDR_1 0x37c
++
++#define MLXBF_SYNDROM 0x35c
++#define MLXBF_SYNDROM__DERR_SHIFT 0
++#define MLXBF_SYNDROM__DERR_MASK 0x1
++#define MLXBF_SYNDROM__SERR_SHIFT 1
++#define MLXBF_SYNDROM__SERR_MASK 0x1
++#define MLXBF_SYNDROM__SYN_SHIFT 16
++#define MLXBF_SYNDROM__SYN_MASK 0x3ff
++
++#define MLXBF_ADD_INFO 0x364
++#define MLXBF_ADD_INFO__ERR_PRANK_SHIFT 8
++#define MLXBF_ADD_INFO__ERR_PRANK_MASK 0x3
++
++#define MLXBF_EDAC_MAX_DIMM_PER_MC	2
++#define MLXBF_EDAC_ERROR_GRAIN		8
++
++/*
++ * Request MLNX_SIP_GET_DIMM_INFO
++ *
++ * Retrieve information about DIMM on a certain slot.
++ *
++ * Call register usage:
++ * a0: MLNX_SIP_GET_DIMM_INFO
++ * a1: (Memory controller index) << 16 | (Dimm index in memory controller)
++ * a2-7: not used.
++ *
++ * Return status:
++ * a0: dimm_info_smc union defined below describing the DIMM.
++ * a1-3: not used.
++ */
++#define MLNX_SIP_GET_DIMM_INFO		0x82000008
++
++/* Format for the SMC response about the memory information */
++union dimm_info_smc {
++	struct {
++		unsigned long size_GB : 16;
++		unsigned long is_rdimm : 1;
++		unsigned long is_lrdimm : 1;
++		unsigned long is_nvdimm : 1;
++		unsigned long __reserved0 : 2;
++		unsigned long ranks : 3;
++		unsigned long package_X : 8;	/* Bits per memory package */
++		unsigned long __reserved1 : 32;
++	};
++	unsigned long val;
 +};
 +
- enum hisi_oem_data_type {
- 	hisi_oem_data_type_int,
- 	hisi_oem_data_type_int64,
-@@ -84,6 +122,29 @@ enum {
- 	hip08_oem_type1_field_err_addr,
- };
- 
-+enum {
-+	hip08_oem_type2_field_id,
-+	hip08_oem_type2_field_version,
-+	hip08_oem_type2_field_soc_id,
-+	hip08_oem_type2_field_socket_id,
-+	hip08_oem_type2_field_nimbus_id,
-+	hip08_oem_type2_field_module_id,
-+	hip08_oem_type2_field_sub_module_id,
-+	hip08_oem_type2_field_err_sev,
-+	hip08_oem_type2_field_err_fr_0,
-+	hip08_oem_type2_field_err_fr_1,
-+	hip08_oem_type2_field_err_ctrl_0,
-+	hip08_oem_type2_field_err_ctrl_1,
-+	hip08_oem_type2_field_err_status_0,
-+	hip08_oem_type2_field_err_status_1,
-+	hip08_oem_type2_field_err_addr_0,
-+	hip08_oem_type2_field_err_addr_1,
-+	hip08_oem_type2_field_err_misc0_0,
-+	hip08_oem_type2_field_err_misc0_1,
-+	hip08_oem_type2_field_err_misc1_0,
-+	hip08_oem_type2_field_err_misc1_1,
++struct bluefield_edac_priv {
++	int dimm_ranks[MLXBF_EDAC_MAX_DIMM_PER_MC];
++	void __iomem *emi_base;
++	int dimm_per_mc;
 +};
 +
- /* helper functions */
- static char *err_severity(uint8_t err_sev)
- {
-@@ -113,6 +174,62 @@ static char *oem_type1_module_name(uint8_t module_id)
- 	return "unknown";
- }
- 
-+static char *oem_type2_module_name(uint8_t module_id)
++static unsigned long smc_call1(unsigned long smc_op, unsigned long smc_arg)
 +{
-+	switch (module_id) {
-+	case HISI_OEM_MODULE_ID_SMMU: return "SMMU";
-+	case HISI_OEM_MODULE_ID_HHA: return "HHA";
-+	case HISI_OEM_MODULE_ID_HLLC: return "HLLC";
-+	case HISI_OEM_MODULE_ID_PA: return "PA";
-+	case HISI_OEM_MODULE_ID_DDRC: return "DDRC";
-+	}
-+	return "unknown module";
++	struct arm_smccc_res res;
++
++	arm_smccc_smc(smc_op, smc_arg, 0, 0, 0, 0, 0, 0, &res);
++
++	return res.a0;
 +}
 +
-+static char *oem_type2_sub_module_id(char *p, uint8_t module_id,
-+				     uint8_t sub_module_id)
++/*
++ * Gather the ECC information from the External Memory Interface registers
++ * and report it to the edac handler.
++ */
++static void bluefield_gather_report_ecc(struct mem_ctl_info *mci,
++					int error_cnt,
++					int is_single_ecc)
 +{
-+	switch (module_id) {
-+	case HISI_OEM_MODULE_ID_SMMU:
-+	case HISI_OEM_MODULE_ID_HLLC:
-+	case HISI_OEM_MODULE_ID_PA:
-+		p += sprintf(p, "%d ", sub_module_id);
-+		break;
++	struct bluefield_edac_priv *priv = mci->pvt_info;
++	u32 dram_additional_info, err_prank;
++	u32 ecc_latch_select = 0, dram_syndrom = 0, serr, derr, syndrom;
++	enum hw_event_mc_err_type ecc_type;
++	unsigned long ecc_dimm_addr;
++	int ecc_dimm;
++	u32 edea0;
++	u32 edea1;
 +
-+	case HISI_OEM_MODULE_ID_HHA:
-+		if (sub_module_id == 0)
-+			p += sprintf(p, "TA HHA0 ");
-+		else if (sub_module_id == 1)
-+			p += sprintf(p, "TA HHA1 ");
-+		else if (sub_module_id == 2)
-+			p += sprintf(p, "TB HHA0 ");
-+		else if (sub_module_id == 3)
-+			p += sprintf(p, "TB HHA1 ");
-+		break;
++	ecc_type = is_single_ecc ? HW_EVENT_ERR_CORRECTED :
++				   HW_EVENT_ERR_UNCORRECTED;
 +
-+	case HISI_OEM_MODULE_ID_DDRC:
-+		if (sub_module_id == 0)
-+			p += sprintf(p, "TA DDRC0 ");
-+		else if (sub_module_id == 1)
-+			p += sprintf(p, "TA DDRC1 ");
-+		else if (sub_module_id == 2)
-+			p += sprintf(p, "TA DDRC2 ");
-+		else if (sub_module_id == 3)
-+			p += sprintf(p, "TA DDRC3 ");
-+		else if (sub_module_id == 4)
-+			p += sprintf(p, "TB DDRC0 ");
-+		else if (sub_module_id == 5)
-+			p += sprintf(p, "TB DDRC1 ");
-+		else if (sub_module_id == 6)
-+			p += sprintf(p, "TB DDRC2 ");
-+		else if (sub_module_id == 7)
-+			p += sprintf(p, "TB DDRC3 ");
-+		break;
++	/*
++	 * Tell the External Memory Interface to populate the relevant
++	 * registers with information about the last ECC error occurrence.
++	 */
++	ecc_latch_select |= 1 << MLXBF_ECC_LATCH_SEL__START_SHIFT;
++	writel(ecc_latch_select, priv->emi_base + MLXBF_ECC_LATCH_SEL);
++
++	/*
++	 * Verify that the ECC reported info in the registers is of the
++	 * same type as the one asked to report. If not, just report the
++	 * error without the detailed information.
++	 */
++	dram_syndrom = readl(priv->emi_base + MLXBF_SYNDROM);
++	serr = (dram_syndrom >> MLXBF_SYNDROM__SERR_SHIFT) &
++		MLXBF_SYNDROM__SERR_MASK;
++	derr = (dram_syndrom >> MLXBF_SYNDROM__DERR_SHIFT) &
++		MLXBF_SYNDROM__DERR_MASK;
++	syndrom = (dram_syndrom >> MLXBF_SYNDROM__SYN_SHIFT) &
++		MLXBF_SYNDROM__SYN_MASK;
++
++	if ((is_single_ecc && !serr) || (!is_single_ecc && !derr)) {
++		edac_mc_handle_error(ecc_type, mci, error_cnt, 0, 0, 0,
++				     0, 0, -1, mci->ctl_name, "");
++		return;
 +	}
 +
-+	return p;
++	dram_additional_info = readl(priv->emi_base + MLXBF_ADD_INFO);
++	err_prank = (dram_additional_info >> MLXBF_ADD_INFO__ERR_PRANK_SHIFT) &
++		MLXBF_ADD_INFO__ERR_PRANK_MASK;
++
++	ecc_dimm = err_prank >= 2 && priv->dimm_ranks[0] <= 2;
++
++	edea0 = readl(priv->emi_base + MLXBF_ERR_ADDR_0);
++	edea1 = readl(priv->emi_base + MLXBF_ERR_ADDR_1);
++
++	ecc_dimm_addr = ((unsigned long)edea1 << 32) | edea0;
++
++	edac_mc_handle_error(ecc_type, mci, error_cnt,
++			     PFN_DOWN(ecc_dimm_addr), ecc_dimm_addr & PAGE_MASK,
++			     syndrom, ecc_dimm, 0, 0, mci->ctl_name, "");
 +}
 +
- #ifdef HAVE_SQLITE3
- static const struct db_fields hip08_oem_type1_event_fields[] = {
- 	{ .name = "id",			.type = "INTEGER PRIMARY KEY" },
-@@ -137,6 +254,35 @@ static const struct db_table_descriptor hip08_oem_type1_event_tab = {
- 	.num_fields = ARRAY_SIZE(hip08_oem_type1_event_fields),
- };
- 
-+static const struct db_fields hip08_oem_type2_event_fields[] = {
-+	{ .name = "id",                 .type = "INTEGER PRIMARY KEY" },
-+	{ .name = "version",            .type = "INTEGER" },
-+	{ .name = "soc_id",             .type = "INTEGER" },
-+	{ .name = "socket_id",          .type = "INTEGER" },
-+	{ .name = "nimbus_id",          .type = "INTEGER" },
-+	{ .name = "module_id",          .type = "TEXT" },
-+	{ .name = "sub_module_id",      .type = "INTEGER" },
-+	{ .name = "err_severity",       .type = "TEXT" },
-+	{ .name = "err_fr_0",		.type = "INTEGER" },
-+	{ .name = "err_fr_1",		.type = "INTEGER" },
-+	{ .name = "err_ctrl_0",		.type = "INTEGER" },
-+	{ .name = "err_ctrl_1",		.type = "INTEGER" },
-+	{ .name = "err_status_0",	.type = "INTEGER" },
-+	{ .name = "err_status_1",	.type = "INTEGER" },
-+	{ .name = "err_addr_0",         .type = "INTEGER" },
-+	{ .name = "err_addr_1",         .type = "INTEGER" },
-+	{ .name = "err_misc0_0",	.type = "INTEGER" },
-+	{ .name = "err_misc0_1",	.type = "INTEGER" },
-+	{ .name = "err_misc1_0",	.type = "INTEGER" },
-+	{ .name = "err_misc1_1",	.type = "INTEGER" },
-+};
-+
-+static const struct db_table_descriptor hip08_oem_type2_event_tab = {
-+	.name = "hip08_oem_type2_event",
-+	.fields = hip08_oem_type2_event_fields,
-+	.num_fields = ARRAY_SIZE(hip08_oem_type2_event_fields),
-+};
-+
- static void record_vendor_data(struct ras_ns_dec_tab *dec_tab,
- 			       enum hisi_oem_data_type data_type,
- 			       int id, int64_t data, const char *text)
-@@ -317,11 +463,165 @@ static int decode_hip08_oem_type1_error(struct ras_events *ras,
- 	return 0;
- }
- 
-+static int decode_hip08_oem_type2_error(struct ras_events *ras,
-+					struct ras_ns_dec_tab *dec_tab,
-+					struct trace_seq *s, const void *error)
++static void bluefield_edac_check(struct mem_ctl_info *mci)
 +{
-+	const struct hisi_oem_type2_err_sec *err = error;
-+	char buf[1024];
-+	char *p = buf;
++	struct bluefield_edac_priv *priv = mci->pvt_info;
++	u32 ecc_count, single_error_count, double_error_count, ecc_error = 0;
 +
-+	if (err->val_bits == 0) {
-+		trace_seq_printf(s, "%s: no valid error information\n",
-+				 __func__);
-+		return -1;
++	/*
++	 * The memory controller might not be initialized by the firmware
++	 * when there isn't memory, which may lead to bad register readings.
++	 */
++	if (mci->edac_cap == EDAC_FLAG_NONE)
++		return;
++
++	ecc_count = readl(priv->emi_base + MLXBF_ECC_CNT);
++	single_error_count = (ecc_count >> MLXBF_ECC_CNT__SERR_CNT_SHIFT) &
++		MLXBF_ECC_CNT__SERR_CNT_MASK;
++	double_error_count = (ecc_count >> MLXBF_ECC_CNT__DERR_CNT_SHIFT) &
++		MLXBF_ECC_CNT__DERR_CNT_MASK;
++
++	if (single_error_count) {
++		ecc_error |= 1 << MLXBF_ECC_ERR__SECC_SHIFT;
++
++		bluefield_gather_report_ecc(mci, single_error_count, 1);
 +	}
 +
-+#ifdef HAVE_SQLITE3
-+	if (!dec_tab->stmt_dec_record) {
-+		if (ras_mc_add_vendor_table(ras, &dec_tab->stmt_dec_record,
-+			&hip08_oem_type2_event_tab) != SQLITE_OK) {
-+			trace_seq_printf(s,
-+				"create sql hip08_oem_type2_event_tab fail\n");
-+			return -1;
++	if (double_error_count) {
++		ecc_error |= 1 << MLXBF_ECC_ERR__DECC_SHIFT;
++
++		bluefield_gather_report_ecc(mci, double_error_count, 0);
++	}
++
++	/* Write to clear reported errors. */
++	if (ecc_count)
++		writel(ecc_error, priv->emi_base + MLXBF_ECC_ERR);
++}
++
++/* Initialize the DIMMs information for the given memory controller. */
++static void bluefield_edac_init_dimms(struct mem_ctl_info *mci)
++{
++	struct bluefield_edac_priv *priv = mci->pvt_info;
++	int mem_ctrl_idx = mci->mc_idx;
++	union dimm_info_smc smc_info;
++	struct dimm_info *dimm;
++	unsigned long smc_arg;
++	int is_empty = 1;
++	int i;
++
++	for (i = 0; i < priv->dimm_per_mc; i++) {
++		dimm = mci->dimms[i];
++
++		smc_arg = mem_ctrl_idx << 16 | i;
++		smc_info = (union dimm_info_smc) {
++			.val = smc_call1(MLNX_SIP_GET_DIMM_INFO, smc_arg),
++		};
++
++		if (!smc_info.size_GB) {
++			dimm->mtype = MEM_EMPTY;
++			continue;
 +		}
-+	}
-+#endif
-+	p += sprintf(p, "[ ");
-+	p += sprintf(p, "Table version=%d ", err->version);
-+	record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+			   hip08_oem_type2_field_version,
-+			   err->version, NULL);
-+	if (err->val_bits & HISI_OEM_VALID_SOC_ID) {
-+		p += sprintf(p, "SOC ID=%d ", err->soc_id);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_soc_id,
-+				   err->soc_id, NULL);
-+	}
 +
-+	if (err->val_bits & HISI_OEM_VALID_SOCKET_ID) {
-+		p += sprintf(p, "socket ID=%d ", err->socket_id);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_socket_id,
-+				   err->socket_id, NULL);
-+	}
++		is_empty = 0;
 +
-+	if (err->val_bits & HISI_OEM_VALID_NIMBUS_ID) {
-+		p += sprintf(p, "nimbus ID=%d ", err->nimbus_id);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_nimbus_id,
-+				   err->nimbus_id, NULL);
-+	}
++		dimm->edac_mode = EDAC_SECDED;
 +
-+	if (err->val_bits & HISI_OEM_VALID_MODULE_ID) {
-+		p += sprintf(p, "module=%s ",
-+			     oem_type2_module_name(err->module_id));
-+		record_vendor_data(dec_tab, hisi_oem_data_type_text,
-+				   hip08_oem_type2_field_module_id,
-+				   0, oem_type2_module_name(err->module_id));
++		if (smc_info.is_nvdimm)
++			dimm->mtype = MEM_NVDIMM;
++		else if (smc_info.is_lrdimm)
++			dimm->mtype = MEM_LRDDR4;
++		else if (smc_info.is_rdimm)
++			dimm->mtype = MEM_RDDR4;
++		else
++			dimm->mtype = MEM_DDR4;
++
++		dimm->nr_pages = smc_info.size_GB * (SZ_1G / PAGE_SIZE);
++		dimm->grain = MLXBF_EDAC_ERROR_GRAIN;
++
++		/* Mem controller for BlueField only supports x4, x8 and x16 */
++		if (smc_info.package_X == 4)
++			dimm->dtype = DEV_X4;
++		else if (smc_info.package_X == 8)
++			dimm->dtype = DEV_X8;
++		else if (smc_info.package_X == 16)
++			dimm->dtype = DEV_X16;
++		else
++			dimm->dtype = DEV_UNKNOWN;
++
++		priv->dimm_ranks[i] = smc_info.ranks;
 +	}
 +
-+	if (err->val_bits & HISI_OEM_VALID_SUB_MODULE_ID) {
-+		p =  oem_type2_sub_module_id(p, err->module_id,
-+					     err->sub_module_id);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_sub_module_id,
-+				   err->sub_module_id, NULL);
++	if (is_empty)
++		mci->edac_cap = EDAC_FLAG_NONE;
++	else
++		mci->edac_cap = EDAC_FLAG_SECDED;
++}
++
++static int bluefield_edac_mc_probe(struct platform_device *pdev)
++{
++	struct bluefield_edac_priv *priv;
++	struct device *dev = &pdev->dev;
++	struct edac_mc_layer layers[1];
++	struct mem_ctl_info *mci;
++	struct resource *emi_res;
++	unsigned int mc_idx, dimm_count;
++	int rc, ret;
++
++	/* Read the MSS (Memory SubSystem) index from ACPI table. */
++	if (device_property_read_u32(dev, "mss_number", &mc_idx)) {
++		dev_warn(dev, "bf_edac: MSS number unknown\n");
++		return -EINVAL;
 +	}
 +
-+	if (err->val_bits & HISI_OEM_VALID_ERR_SEVERITY) {
-+		p += sprintf(p, "error severity=%s ",
-+			     err_severity(err->err_severity));
-+		record_vendor_data(dec_tab, hisi_oem_data_type_text,
-+				   hip08_oem_type2_field_err_sev,
-+				   0, err_severity(err->err_severity));
++	/* Read the MSS (Memory SubSystem) index from ACPI table. */
++	if (device_property_read_u32(dev, "dimm_per_mc", &dimm_count)) {
++		dev_warn(dev, "bf_edac: DIMMs per MC unknown\n");
++		return -EINVAL;
 +	}
 +
-+	p += sprintf(p, "]");
-+	trace_seq_printf(s, "\nHISI HIP08: OEM Type-2 Error\n");
-+	trace_seq_printf(s, "%s\n", buf);
++	emi_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!emi_res)
++		return -EINVAL;
 +
-+	trace_seq_printf(s, "Reg Dump:\n");
-+	if (err->val_bits & HISI_OEM_TYPE2_VALID_ERR_FR) {
-+		trace_seq_printf(s, "ERR_FR_0=0x%x\n", err->err_fr_0);
-+		trace_seq_printf(s, "ERR_FR_1=0x%x\n", err->err_fr_1);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_fr_0,
-+				   err->err_fr_0, NULL);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_fr_1,
-+				   err->err_fr_1, NULL);
++	layers[0].type = EDAC_MC_LAYER_SLOT;
++	layers[0].size = dimm_count;
++	layers[0].is_virt_csrow = true;
++
++	mci = edac_mc_alloc(mc_idx, ARRAY_SIZE(layers), layers, sizeof(*priv));
++	if (!mci)
++		return -ENOMEM;
++
++	priv = mci->pvt_info;
++
++	priv->dimm_per_mc = dimm_count;
++	priv->emi_base = devm_ioremap_resource(dev, emi_res);
++	if (IS_ERR(priv->emi_base)) {
++		dev_err(dev, "failed to map EMI IO resource\n");
++		ret = PTR_ERR(priv->emi_base);
++		goto err;
 +	}
 +
-+	if (err->val_bits & HISI_OEM_TYPE2_VALID_ERR_CTRL) {
-+		trace_seq_printf(s, "ERR_CTRL_0=0x%x\n", err->err_ctrl_0);
-+		trace_seq_printf(s, "ERR_CTRL_1=0x%x\n", err->err_ctrl_1);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_ctrl_0,
-+				   err->err_ctrl_0, NULL);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_ctrl_1,
-+				   err->err_ctrl_1, NULL);
++	mci->pdev = dev;
++	mci->mtype_cap = MEM_FLAG_DDR4 | MEM_FLAG_RDDR4 |
++			 MEM_FLAG_LRDDR4 | MEM_FLAG_NVDIMM;
++	mci->edac_ctl_cap = EDAC_FLAG_SECDED;
++
++	mci->mod_name = DRIVER_NAME;
++	mci->ctl_name = "BlueField_Memory_Controller";
++	mci->dev_name = dev_name(dev);
++	mci->edac_check = bluefield_edac_check;
++
++	/* Initialize mci with the actual populated DIMM information. */
++	bluefield_edac_init_dimms(mci);
++
++	platform_set_drvdata(pdev, mci);
++
++	/* Register with EDAC core */
++	rc = edac_mc_add_mc(mci);
++	if (rc) {
++		dev_err(dev, "failed to register with EDAC core\n");
++		ret = rc;
++		goto err;
 +	}
 +
-+	if (err->val_bits & HISI_OEM_TYPE2_VALID_ERR_STATUS) {
-+		trace_seq_printf(s, "ERR_STATUS_0=0x%x\n", err->err_status_0);
-+		trace_seq_printf(s, "ERR_STATUS_1=0x%x\n", err->err_status_1);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_status_0,
-+				   err->err_status_0, NULL);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_status_1,
-+				   err->err_status_1, NULL);
-+	}
++	/* Only POLL mode supported so far. */
++	edac_op_state = EDAC_OPSTATE_POLL;
 +
-+	if (err->val_bits & HISI_OEM_TYPE2_VALID_ERR_ADDR) {
-+		trace_seq_printf(s, "ERR_ADDR_0=0x%x\n", err->err_addr_0);
-+		trace_seq_printf(s, "ERR_ADDR_1=0x%x\n", err->err_addr_1);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_addr_0,
-+				   err->err_addr_0, NULL);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_addr_1,
-+				   err->err_addr_1, NULL);
-+	}
++	return 0;
 +
-+	if (err->val_bits & HISI_OEM_TYPE2_VALID_ERR_MISC_0) {
-+		trace_seq_printf(s, "ERR_MISC0_0=0x%x\n", err->err_misc0_0);
-+		trace_seq_printf(s, "ERR_MISC0_1=0x%x\n", err->err_misc0_1);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_misc0_0,
-+				   err->err_misc0_0, NULL);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_misc0_1,
-+				   err->err_misc0_1, NULL);
-+	}
++err:
++	edac_mc_free(mci);
 +
-+	if (err->val_bits & HISI_OEM_TYPE2_VALID_ERR_MISC_1) {
-+		trace_seq_printf(s, "ERR_MISC1_0=0x%x\n", err->err_misc1_0);
-+		trace_seq_printf(s, "ERR_MISC1_1=0x%x\n", err->err_misc1_1);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_misc1_0,
-+				   err->err_misc1_0, NULL);
-+		record_vendor_data(dec_tab, hisi_oem_data_type_int,
-+				   hip08_oem_type2_field_err_misc1_1,
-+				   err->err_misc1_1, NULL);
-+	}
++	return ret;
 +
-+	step_vendor_data_tab(dec_tab, "hip08_oem_type2_event_tab");
++}
++
++static int bluefield_edac_mc_remove(struct platform_device *pdev)
++{
++	struct mem_ctl_info *mci = platform_get_drvdata(pdev);
++
++	edac_mc_del_mc(&pdev->dev);
++	edac_mc_free(mci);
 +
 +	return 0;
 +}
 +
- struct ras_ns_dec_tab hip08_ns_oem_tab[] = {
- 	{
- 		.sec_type = "1f8161e155d641e6bd107afd1dc5f7c5",
- 		.decode = decode_hip08_oem_type1_error,
- 	},
-+	{
-+		.sec_type = "45534ea6ce2341158535e07ab3aef91d",
-+		.decode = decode_hip08_oem_type2_error,
++static const struct acpi_device_id bluefield_mc_acpi_ids[] = {
++	{"MLNXBF08", 0},
++	{}
++};
++
++MODULE_DEVICE_TABLE(acpi, bluefield_mc_acpi_ids);
++
++static struct platform_driver bluefield_edac_mc_driver = {
++	.driver = {
++		.name = DRIVER_NAME,
++		.acpi_match_table = bluefield_mc_acpi_ids,
 +	},
- 	{ /* sentinel */ }
- };
- 
++	.probe = bluefield_edac_mc_probe,
++	.remove = bluefield_edac_mc_remove,
++};
++
++module_platform_driver(bluefield_edac_mc_driver);
++
++MODULE_DESCRIPTION("Mellanox BlueField memory edac driver");
++MODULE_AUTHOR("Mellanox Technologies");
++MODULE_LICENSE("GPL v2");
 -- 
-1.9.1
-
+2.1.2
 
