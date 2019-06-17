@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06033C31E5D
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 21:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10281C31E5B
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 21:32:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CA8E4204FD
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 21:30:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D88BD20657
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Jun 2019 21:32:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1560807053;
-	bh=PUNNahiVj8y47dRYhB1/uNkyF/LxS2ZbcuAPzyHaIyY=;
+	s=default; t=1560807166;
+	bh=LoHlJZBEv0RrFbmc7NuM7XQI0oTKz8RtuWr9Qov2/a8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=z50Wpw5KNJ0yCUQFl75tVdwAuJ+7d+uIS1EqMKDD4Qr38cB53uZHThKtT2ZuJ43rs
-	 /B7sbNNJ3O3JEZA2Edek3/B4y0otXUHkVgEC9gDc+CqItLjIZhrrY3jy1bwQwoocr7
-	 /gQMYf8Z+ol+cc+txz/wyBHPyzXvEFdfL3twVY7U=
+	b=e9XyGhu2tcXuedKcGLxv2vp+CNqQk+ghjXeY4Ku5r1KYoGocZ4i+Pp2fuHUkLMD6y
+	 ExA23IGuMdnHeyHofS+iKQefdxdtVD+SQ4xy26Br2sFR/q6O7ra1UMcAwnaj5pmQUZ
+	 4u5GSsU/8w6N9W6korJo5RDQGJXdiYxidJzGn/UA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729933AbfFQV3v (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 17 Jun 2019 17:29:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56956 "EHLO mail.kernel.org"
+        id S1730332AbfFQV1G (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 17 Jun 2019 17:27:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53916 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729963AbfFQV3q (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 17 Jun 2019 17:29:46 -0400
+        id S1730341AbfFQV1G (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 17 Jun 2019 17:27:06 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E69A7204FD;
-        Mon, 17 Jun 2019 21:29:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0F8C920B1F;
+        Mon, 17 Jun 2019 21:27:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560806986;
-        bh=PUNNahiVj8y47dRYhB1/uNkyF/LxS2ZbcuAPzyHaIyY=;
+        s=default; t=1560806825;
+        bh=LoHlJZBEv0RrFbmc7NuM7XQI0oTKz8RtuWr9Qov2/a8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hcTgmcIMxdIYNr9x5AeghKhACW+HbWdZVg5uT/WV+VR69rp7dFX5dAqzbXDrXKXs0
-         bEhXSQz27CXioLw43004/wa3nl+OGAQwfCIJqdE3CohUbGSOW1sfaMl5omkQRAB/7k
-         BXqqZCcbqten8HQC7Stb/lHzayfy56uey/yU0AFo=
+        b=yYrs1vgFDblZKJyi7idaz72Punntdn0IXe0n3poAhL0/wpwTw8iuFIisfWDNohu5u
+         C4I8JJCRoP6ww47xzq4R9/wrD8LcatiA/fSnZfJ9lUK5BS50ahFEvI+xA3N629NXM1
+         Zy93g1XFvZy4Y5mIkv2NxBpOlNdyHwF25tRl5LVw=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         stable@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
         Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
         linux-edac <linux-edac@vger.kernel.org>
-Subject: [PATCH 4.14 50/53] RAS/CEC: Fix binary search function
-Date:   Mon, 17 Jun 2019 23:10:33 +0200
-Message-Id: <20190617210752.550132533@linuxfoundation.org>
+Subject: [PATCH 4.19 68/75] RAS/CEC: Fix binary search function
+Date:   Mon, 17 Jun 2019 23:10:19 +0200
+Message-Id: <20190617210755.803827591@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190617210745.104187490@linuxfoundation.org>
-References: <20190617210745.104187490@linuxfoundation.org>
+In-Reply-To: <20190617210752.799453599@linuxfoundation.org>
+References: <20190617210752.799453599@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -92,7 +92,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/ras/cec.c
 +++ b/drivers/ras/cec.c
-@@ -185,32 +185,38 @@ static void cec_timer_fn(unsigned long d
+@@ -181,32 +181,38 @@ static void cec_work_fn(struct work_stru
   */
  static int __find_elem(struct ce_array *ca, u64 pfn, unsigned int *to)
  {
