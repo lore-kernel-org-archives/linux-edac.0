@@ -1,160 +1,380 @@
-Return-Path: <SRS0=keju=UT=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=Ldag=UU=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA71C43613
-	for <linux-edac@archiver.kernel.org>; Thu, 20 Jun 2019 06:56:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77456C43613
+	for <linux-edac@archiver.kernel.org>; Fri, 21 Jun 2019 15:45:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7D2D92085A
-	for <linux-edac@archiver.kernel.org>; Thu, 20 Jun 2019 06:56:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="rw4NjlwM";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="gSnWh8Uq"
+	by mail.kernel.org (Postfix) with ESMTP id 470B920673
+	for <linux-edac@archiver.kernel.org>; Fri, 21 Jun 2019 15:45:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725953AbfFTG4B (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 20 Jun 2019 02:56:01 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:30200 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725872AbfFTG4B (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 20 Jun 2019 02:56:01 -0400
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5K6o7cB010947;
-        Wed, 19 Jun 2019 23:55:43 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=pfpt0818;
- bh=7JXRL2K5L9AYRYDK2dzB9z6mZyyDxfN6OcJNeAuqWc0=;
- b=rw4NjlwMJso0Y+8888rlEIKGgBGrba8Ob19Go9L13Gqdw3mUT7JtHqf4m8I0QD9k65Ek
- Qwtr3sSDiGTjL7FcUSsX8SprTMZj3NzmLlVLSrhnugJUE6XaTKcNhxce98nrlDLAybxO
- z0U2/TtRrrjpz7nHzhfTWqTIi+kpa2aPW90emvr7zHZCTXWL8V3wqq6dn+DKFLC/qGvB
- pxeIfzmZEo1g8j94QrozRY3pC2yMca/K4MbLkiodYqrehKLmwBpsqhhsZ2PaDm67veyG
- qSfbR30OJgOMyEPept/c/e5ydlnvIZw03YAwQBqw2AfwUlBWBuHyreIdJjIfDhajX0c5 NA== 
-Received: from sc-exch04.marvell.com ([199.233.58.184])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2t7vrk1neb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 19 Jun 2019 23:55:43 -0700
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 19 Jun
- 2019 23:55:42 -0700
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (104.47.45.58) by
- SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 19 Jun 2019 23:55:42 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7JXRL2K5L9AYRYDK2dzB9z6mZyyDxfN6OcJNeAuqWc0=;
- b=gSnWh8UqOLnbHT+vsG0Zoi/THfZfiYlC1R5wGtN5zP5gYGtPmPRFwvA6KzH/c1I3t06hg5pPAx71RsK7LfNKk2WrR666q8EmBkhnH42zVty4DsfcBNJaj8Wup2ogOoHGH2bkhIub9fdFx/kydY8V5rRJi312fAH73o4iyD+l3Ww=
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.238.217) by
- MN2PR18MB2894.namprd18.prod.outlook.com (20.179.22.33) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.11; Thu, 20 Jun 2019 06:55:37 +0000
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::d3:794c:1b94:cf3]) by MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::d3:794c:1b94:cf3%4]) with mapi id 15.20.1987.014; Thu, 20 Jun 2019
- 06:55:37 +0000
-From:   Robert Richter <rrichter@marvell.com>
-To:     James Morse <james.morse@arm.com>
-CC:     Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 12/21] EDAC, ghes: Add support for legacy API counters
-Thread-Topic: [PATCH 12/21] EDAC, ghes: Add support for legacy API counters
-Thread-Index: AQHVJzUqmZqpUctEcEC0DRu/PJtCnQ==
-Date:   Thu, 20 Jun 2019 06:55:37 +0000
-Message-ID: <20190620065527.qqulgpk6k5wva4mj@rric.localdomain>
-References: <20190529084344.28562-1-rrichter@marvell.com>
- <20190529084344.28562-13-rrichter@marvell.com>
- <92eda11f-dad9-bb2b-3a87-80b6c8d8e228@arm.com>
- <20190612184058.2plbdweri6bjmppr@rric.localdomain>
- <c08290d8-3690-efa9-3bc7-37f8b1fdbfd4@arm.com>
-In-Reply-To: <c08290d8-3690-efa9-3bc7-37f8b1fdbfd4@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0501CA0018.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::28) To MN2PR18MB3408.namprd18.prod.outlook.com
- (2603:10b6:208:16c::25)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [92.254.182.202]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5537b901-991f-46be-9492-08d6f54c4c2f
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MN2PR18MB2894;
-x-ms-traffictypediagnostic: MN2PR18MB2894:
-x-microsoft-antispam-prvs: <MN2PR18MB28940020696E8F0B02157059D9E40@MN2PR18MB2894.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0074BBE012
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39850400004)(346002)(366004)(396003)(376002)(136003)(189003)(199004)(73956011)(478600001)(6486002)(66556008)(64756008)(66446008)(66946007)(66476007)(7736002)(14454004)(54906003)(1076003)(5660300002)(86362001)(229853002)(102836004)(6436002)(14444005)(4326008)(256004)(66066001)(81166006)(8676002)(186003)(81156014)(486006)(305945005)(6246003)(26005)(8936002)(446003)(6916009)(53936002)(316002)(71200400001)(71190400001)(99286004)(6116002)(53546011)(6506007)(386003)(2906002)(52116002)(11346002)(68736007)(3846002)(76176011)(476003)(9686003)(25786009)(6512007);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2894;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: marvell.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 6sen6QRzZD3JjlZxLRlfGuQctKjwzprgqheM7XnLxDeoMYA7iJ7hQUoMaxo/esWJmJvHCNSR4QV1lHlSQkY9DAdr5fJxbFB/Z/m7qGWTGhRBu243iPWMKZWDvlMHedCSFMi0k2eOY9fo3iMNHxBCIMTh3l2IM0cPc2hHks4g4YHWSxQ1i1S2cYExAkJ8A5mfWlJK4ecoy+wstsw5k9RB6U2wiZUef/H/wr4Ujw65iKJC+wRT5Vl933Kq6gdVITWR1eyJPt7nqen/jvbOTrc7P1U7SnmVoFrdnVBOPoZOUIlpj+FznCPxajaXuXcF+unD5iSd2VrZ0HYhnN9c/B+hp0t6FDBNfW2nuYvxU8URoakso5BV0k3QzofYbJAlUB2MrN47G0gLgxd0Zk9N3KbGnIDxe3GhZrnN+Fpa2p6v21Y=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <88686D4A14A84447A87C3F7A393709FA@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726118AbfFUPpQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 21 Jun 2019 11:45:16 -0400
+Received: from foss.arm.com ([217.140.110.172]:35084 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726098AbfFUPpQ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 21 Jun 2019 11:45:16 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88DA0344;
+        Fri, 21 Jun 2019 08:45:14 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 66C043F575;
+        Fri, 21 Jun 2019 08:45:13 -0700 (PDT)
+Subject: Re: [PATCH v5 1/1] EDAC, mellanox: Add ECC support for BlueField DDR4
+To:     Shravan Kumar Ramani <sramani@mellanox.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liming Sun <lsun@mellanox.com>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1560786127.git.sramani@mellanox.com>
+ <845196f9d86581efdf0d7fce001a8b1894e97c78.1560786127.git.sramani@mellanox.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <1d5c4b17-3fcf-e439-a3d1-2a7a217a5447@arm.com>
+Date:   Fri, 21 Jun 2019 16:45:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5537b901-991f-46be-9492-08d6f54c4c2f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2019 06:55:37.4763
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rrichter@marvell.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2894
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-20_05:,,
- signatures=0
+In-Reply-To: <845196f9d86581efdf0d7fce001a8b1894e97c78.1560786127.git.sramani@mellanox.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 19.06.19 18:22:32, James Morse wrote:
-> > In any case, this patch cleans up code as old API's counter code is
-> > isolated and moved to common code. Making the counter's work for ghes
-> > is actually a side-effect here. The cleanup is a prerequisit for
-> > follow on patches.
->=20
-> I'm all for removing/warning-its-broken it when ghes_edac is in use. But =
-the convincing
-> argument is debian ships a 'current' version of edac-utils that predates =
-199747106934,
-> (that made all this fake csrow stuff deprecated), and debian's popcon say=
-s ~1000 people
-> have it installed.
+Hi Shravan,
 
-All arm64 distribution kernels that I have checked come with:
+On 17/06/2019 19:41, Shravan Kumar Ramani wrote:
+> Add ECC support for Mellanox BlueField SoC DDR controller.
 
-CONFIG_EDAC_SUPPORT=3Dy
-CONFIG_EDAC=3Dy
-CONFIG_EDAC_LEGACY_SYSFS=3Dy
-# CONFIG_EDAC_DEBUG is not set
-CONFIG_EDAC_GHES=3Dy
-CONFIG_EDAC_LAYERSCAPE=3Dm
-CONFIG_EDAC_THUNDERX=3Dm
-CONFIG_EDAC_XGENE=3Dm
+> This requires SMC to the running Arm Trusted Firmware to report
+> what is the current memory configuration.
 
-> If you want it fixed, please don't do it as a side effect of cleanup. Fix=
-es need to be a
-> small separate series that can be backported. (unless we're confident no-=
-one uses it, in
-> which case, why fix it?)
+> ---
 
-It is not that I am keen on fixing legacy edac sysfs. It just happens
-while unifying the error handlers in ghes_edac and edac_mc. As I see
-you are reluctant on just letting it go, let's just disable
-EDAC_LEGACY_SYSFS for ARM64. Though, I don't agree with it as there
-still could be some userland tools that use this interface that cannot
-be used any longer after a transition from x86 to arm64. I leave that
-decision up to you. Please just ACK a patch with the Kconfig change
-which I will add to my v2 series.
+For a single patch, the changelog would usually be in here:
+
+> Changes since v4:
+> Shorten long macro names.
+>
+> Changes since v3:
+> Replace bitfields with shifts and masks.
+
+(but not all of them!)
+
+> Make use of SZ_ and PAGE_ macros.
+> Read DIMM count from the ACPI table instead of hard-coding the info in
+> the driver.
+
+
+> diff --git a/drivers/edac/bluefield_edac.c b/drivers/edac/bluefield_edac.c
+> new file mode 100644
+> index 0000000..d4a29ba
+> --- /dev/null
+> +++ b/drivers/edac/bluefield_edac.c
+
+> +#define MLXBF_SYNDROM 0x35c
+> +#define MLXBF_SYNDROM__DERR_SHIFT 0
+> +#define MLXBF_SYNDROM__DERR_MASK 0x1
+> +#define MLXBF_SYNDROM__SERR_SHIFT 1
+> +#define MLXBF_SYNDROM__SERR_MASK 0x1
+> +#define MLXBF_SYNDROM__SYN_SHIFT 16
+> +#define MLXBF_SYNDROM__SYN_MASK 0x3ff
+> +
+> +#define MLXBF_ADD_INFO 0x364
+> +#define MLXBF_ADD_INFO__ERR_PRANK_SHIFT 8
+> +#define MLXBF_ADD_INFO__ERR_PRANK_MASK 0x3
+
+Thanks for changing these to shifts/masks, this is one fewer dependency on the compiler's
+implementation choices being exactly as you expect.
+
+
+> +#define MLXBF_EDAC_MAX_DIMM_PER_MC	2
+> +#define MLXBF_EDAC_ERROR_GRAIN		8
+> +
+> +/*
+> + * Request MLNX_SIP_GET_DIMM_INFO
+> + *
+> + * Retrieve information about DIMM on a certain slot.
+> + *
+> + * Call register usage:
+> + * a0: MLNX_SIP_GET_DIMM_INFO
+> + * a1: (Memory controller index) << 16 | (Dimm index in memory controller)
+> + * a2-7: not used.
+> + *
+> + * Return status:
+> + * a0: dimm_info_smc union defined below describing the DIMM.
+> + * a1-3: not used.
+> + */
+> +#define MLNX_SIP_GET_DIMM_INFO		0x82000008
+> +
+> +/* Format for the SMC response about the memory information */
+> +union dimm_info_smc {
+> +	struct {
+> +		unsigned long size_GB : 16;
+> +		unsigned long is_rdimm : 1;
+> +		unsigned long is_lrdimm : 1;
+> +		unsigned long is_nvdimm : 1;
+> +		unsigned long __reserved0 : 2;
+> +		unsigned long ranks : 3;
+> +		unsigned long package_X : 8;	/* Bits per memory package */
+> +		unsigned long __reserved1 : 32;
+> +	};
+> +	unsigned long val;
+> +};
+
+But this is still fragile. The compiler is allowed to pack this thing as it likes. You
+must have your firmware and kernel built with the same compiler. If firmware/kernel differ
+in endian-ness (which is entirely possible on arm64), this could go haywire. (the value is
+only passed via registers, which might save you, but its not clear to me)
+
+
+> +/*
+> + * Gather the ECC information from the External Memory Interface registers
+> + * and report it to the edac handler.
+> + */
+> +static void bluefield_gather_report_ecc(struct mem_ctl_info *mci,
+> +					int error_cnt,
+> +					int is_single_ecc)
+> +{
+> +	struct bluefield_edac_priv *priv = mci->pvt_info;
+> +	u32 dram_additional_info, err_prank;
+> +	u32 ecc_latch_select = 0, dram_syndrom = 0, serr, derr, syndrom;
+> +	enum hw_event_mc_err_type ecc_type;
+> +	unsigned long ecc_dimm_addr;
+> +	int ecc_dimm;
+> +	u32 edea0;
+> +	u32 edea1;
+> +
+> +	ecc_type = is_single_ecc ? HW_EVENT_ERR_CORRECTED :
+> +				   HW_EVENT_ERR_UNCORRECTED;
+> +
+> +	/*
+> +	 * Tell the External Memory Interface to populate the relevant
+> +	 * registers with information about the last ECC error occurrence.
+> +	 */
+> +	ecc_latch_select |= 1 << MLXBF_ECC_LATCH_SEL__START_SHIFT;
+> +	writel(ecc_latch_select, priv->emi_base + MLXBF_ECC_LATCH_SEL);
+> +
+> +	/*
+> +	 * Verify that the ECC reported info in the registers is of the
+> +	 * same type as the one asked to report. If not, just report the
+> +	 * error without the detailed information.
+> +	 */
+> +	dram_syndrom = readl(priv->emi_base + MLXBF_SYNDROM);
+> +	serr = (dram_syndrom >> MLXBF_SYNDROM__SERR_SHIFT) &
+> +		MLXBF_SYNDROM__SERR_MASK;
+> +	derr = (dram_syndrom >> MLXBF_SYNDROM__DERR_SHIFT) &
+> +		MLXBF_SYNDROM__DERR_MASK;
+> +	syndrom = (dram_syndrom >> MLXBF_SYNDROM__SYN_SHIFT) &
+> +		MLXBF_SYNDROM__SYN_MASK;
+> +
+> +	if ((is_single_ecc && !serr) || (!is_single_ecc && !derr)) {
+> +		edac_mc_handle_error(ecc_type, mci, error_cnt, 0, 0, 0,
+> +				     0, 0, -1, mci->ctl_name, "");
+> +		return;
+> +	}
+> +
+> +	dram_additional_info = readl(priv->emi_base + MLXBF_ADD_INFO);
+> +	err_prank = (dram_additional_info >> MLXBF_ADD_INFO__ERR_PRANK_SHIFT) &
+> +		MLXBF_ADD_INFO__ERR_PRANK_MASK;
+
+
+> +	ecc_dimm = err_prank >= 2 && priv->dimm_ranks[0] <= 2;
+
+You are relying on this only generating 0 or 1, whereas the expression gives false/true.
+The compiler may pick a value of true that isn't 1.
+
+Something like?:
+| ecc_dimm = err_prank;
+| if (ecc_dimm > priv->dimm_ranks[0])
+| 	ecc_dimm = 0;
+
+
+> +	edea0 = readl(priv->emi_base + MLXBF_ERR_ADDR_0);
+> +	edea1 = readl(priv->emi_base + MLXBF_ERR_ADDR_1);
+> +
+> +	ecc_dimm_addr = ((unsigned long)edea1 << 32) | edea0;
+> +
+> +	edac_mc_handle_error(ecc_type, mci, error_cnt,
+
+> +			     PFN_DOWN(ecc_dimm_addr), ecc_dimm_addr & PAGE_MASK,
+
+Don't you want ~PAGE_MASK here? arm64 has:
+| #define PAGE_MASK                (~(PAGE_SIZE-1))
+
+so this is all the high bits.
+
+I've recently learnt mm.h has offset_in_page() which is going to be the best thing to use
+here.
+
+
+> +			     syndrom, ecc_dimm, 0, 0, mci->ctl_name, "");
+> +}
+
+
+> +/* Initialize the DIMMs information for the given memory controller. */
+> +static void bluefield_edac_init_dimms(struct mem_ctl_info *mci)
+> +{
+> +	struct bluefield_edac_priv *priv = mci->pvt_info;
+> +	int mem_ctrl_idx = mci->mc_idx;
+> +	union dimm_info_smc smc_info;
+> +	struct dimm_info *dimm;
+> +	unsigned long smc_arg;
+> +	int is_empty = 1;
+> +	int i;
+> +
+> +	for (i = 0; i < priv->dimm_per_mc; i++) {
+> +		dimm = mci->dimms[i];
+> +
+> +		smc_arg = mem_ctrl_idx << 16 | i;
+> +		smc_info = (union dimm_info_smc) {
+> +			.val = smc_call1(MLNX_SIP_GET_DIMM_INFO, smc_arg),
+> +		};
+> +		if (!smc_info.size_GB) {
+> +			dimm->mtype = MEM_EMPTY;
+> +			continue;
+> +		}
+> +
+> +		is_empty = 0;
+> +
+> +		dimm->edac_mode = EDAC_SECDED;
+> +
+> +		if (smc_info.is_nvdimm)
+> +			dimm->mtype = MEM_NVDIMM;
+> +		else if (smc_info.is_lrdimm)
+> +			dimm->mtype = MEM_LRDDR4;
+> +		else if (smc_info.is_rdimm)
+> +			dimm->mtype = MEM_RDDR4;
+> +		else
+> +			dimm->mtype = MEM_DDR4;
+> +
+> +		dimm->nr_pages = smc_info.size_GB * (SZ_1G / PAGE_SIZE);
+> +		dimm->grain = MLXBF_EDAC_ERROR_GRAIN;
+> +
+> +		/* Mem controller for BlueField only supports x4, x8 and x16 */
+> +		if (smc_info.package_X == 4)
+> +			dimm->dtype = DEV_X4;
+> +		else if (smc_info.package_X == 8)
+> +			dimm->dtype = DEV_X8;
+> +		else if (smc_info.package_X == 16)
+> +			dimm->dtype = DEV_X16;
+> +		else
+> +			dimm->dtype = DEV_UNKNOWN;
+> +
+> +		priv->dimm_ranks[i] = smc_info.ranks;
+
+dimm_ranks[] has size MLXBF_EDAC_MAX_DIMM_PER_MC, but dimm_per_mc is a number from
+firmware. Where do you check dimm_per_mc < MLXBF_EDAC_MAX_DIMM_PER_MC?
+
+
+> +	}
+> +
+> +	if (is_empty)
+> +		mci->edac_cap = EDAC_FLAG_NONE;
+> +	else
+> +		mci->edac_cap = EDAC_FLAG_SECDED;
+> +}
+
+
+
+> +static int bluefield_edac_mc_probe(struct platform_device *pdev)
+> +{
+> +	struct bluefield_edac_priv *priv;
+> +	struct device *dev = &pdev->dev;
+> +	struct edac_mc_layer layers[1];
+> +	struct mem_ctl_info *mci;
+> +	struct resource *emi_res;
+> +	unsigned int mc_idx, dimm_count;
+> +	int rc, ret;
+
+
+> +	/* Read the MSS (Memory SubSystem) index from ACPI table. */
+> +	if (device_property_read_u32(dev, "mss_number", &mc_idx)) {
+> +		dev_warn(dev, "bf_edac: MSS number unknown\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Read the MSS (Memory SubSystem) index from ACPI table. */
+> +	if (device_property_read_u32(dev, "dimm_per_mc", &dimm_count)) {
+> +		dev_warn(dev, "bf_edac: DIMMs per MC unknown\n");
+> +		return -EINVAL;
+> +	}
+
+These two have the same comment, but do different things.
+
+> +	emi_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!emi_res)
+> +		return -EINVAL;
+> +
+> +	layers[0].type = EDAC_MC_LAYER_SLOT;
+> +	layers[0].size = dimm_count;
+> +	layers[0].is_virt_csrow = true;
+> +
+> +	mci = edac_mc_alloc(mc_idx, ARRAY_SIZE(layers), layers, sizeof(*priv));
+> +	if (!mci)
+> +		return -ENOMEM;
+> +
+> +	priv = mci->pvt_info;
+> +
+> +	priv->dimm_per_mc = dimm_count;
+> +	priv->emi_base = devm_ioremap_resource(dev, emi_res);
+> +	if (IS_ERR(priv->emi_base)) {
+> +		dev_err(dev, "failed to map EMI IO resource\n");
+> +		ret = PTR_ERR(priv->emi_base);
+> +		goto err;
+> +	}
+> +
+> +	mci->pdev = dev;
+> +	mci->mtype_cap = MEM_FLAG_DDR4 | MEM_FLAG_RDDR4 |
+> +			 MEM_FLAG_LRDDR4 | MEM_FLAG_NVDIMM;
+> +	mci->edac_ctl_cap = EDAC_FLAG_SECDED;
+> +
+> +	mci->mod_name = DRIVER_NAME;
+> +	mci->ctl_name = "BlueField_Memory_Controller";
+> +	mci->dev_name = dev_name(dev);
+> +	mci->edac_check = bluefield_edac_check;
+> +
+> +	/* Initialize mci with the actual populated DIMM information. */
+> +	bluefield_edac_init_dimms(mci);
+> +
+> +	platform_set_drvdata(pdev, mci);
+> +
+> +	/* Register with EDAC core */
+> +	rc = edac_mc_add_mc(mci);
+> +	if (rc) {
+> +		dev_err(dev, "failed to register with EDAC core\n");
+> +		ret = rc;
+> +		goto err;
+> +	}
+> +
+> +	/* Only POLL mode supported so far. */
+> +	edac_op_state = EDAC_OPSTATE_POLL;
+
+
+> +	return 0;
+> +
+> +err:
+> +	edac_mc_free(mci);
+> +
+> +	return ret;
+> +
+> +}
+
+With the MLXBF_EDAC_MAX_DIMM_PER_MC check and offset_in_page()/~PAGE_MASK:
+
+Reviewed-by: James Morse <james.morse@arm.com>
+
 
 Thanks,
 
--Robert
+James
+
+
+[0]
+https://static.docs.arm.com/den0028/b/ARM_DEN0028B_SMC_Calling_Convention.pdf
