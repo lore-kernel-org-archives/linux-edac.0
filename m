@@ -1,115 +1,134 @@
-Return-Path: <SRS0=Ldag=UU=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=fqJ4=UX=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F41C43613
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Jun 2019 18:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 011F9C43613
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Jun 2019 12:41:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CB6392075E
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Jun 2019 18:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561143366;
-	bh=Ta1a7189jzl6eq4adv5H4jNm98n26Lph4kyEaGhkzfI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=m3U8d0nuBO3u+LRTQmVHr9uMDMKXdC59m7RYn6J4eVejC+22KtvYHOg99zDc+Ug6n
-	 y85v8dlKqvJSIiY+h8j1znYWdFITAVJRv+Ulr5AiuBi2RTTFKIKsWvIDvVqAUCEV0R
-	 7IqxpdNhyR3WPAwghc2iL6WMUDZKkLotLVg7AYbY=
+	by mail.kernel.org (Postfix) with ESMTP id CAF7C212F5
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Jun 2019 12:41:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="d6pYxJ/2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726277AbfFUS4G (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 21 Jun 2019 14:56:06 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57856 "EHLO
+        id S1727465AbfFXMlk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 24 Jun 2019 08:41:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57600 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbfFUS4G (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 21 Jun 2019 14:56:06 -0400
+        with ESMTP id S1727301AbfFXMlj (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 24 Jun 2019 08:41:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=SyOfB2Xe5lSMwJ5Axvyuhm/8OhedEgUcL8u58j5Tx7A=; b=V4xG0Eg8pNZNXKiqjjBpCj5Dz
-        QlBAqqEdS0xHBpjyYreMP5n5aWXoohprLPrgIzvjtzfCS4KnnGTx77kZLWcz2bEeOL3reoM5nUdnZ
-        Onu99kv0CelFVOaWmrOptltNwyU/3xImEOnXJet5OThVVC9QAzfUZhj6Me+odYgNk4gRNidyOdkzI
-        JR80gl1rjyQyUinzJ8glzV/neniawLEedMJeVfkL+0qsPKBAr5fJEKiSLBZjjqP2CTHDrhCVOCgnD
-        M2H8pvRIxZiwk+ja1auj1ZMfeVfLOUdpDMf1+Fpzk9FX0Ip5zPJg+Wr9wNKOo9nI16CoCoCIiSv6K
-        m6wWgHixw==;
-Received: from [177.97.20.138] (helo=coco.lan)
+         bh=yeZEN/lvAWBOBFz39npagodYTbEtl6pn+EI6Vjjk1so=; b=d6pYxJ/2Y3A0iX35rh9XmUfh0
+        gXVobml3SAEoakC8svIyjsbsFSbEYEuDjuVROZ1K9pi7rH3pgNWP4dID2i/Zx4YMmQm+8C05K07Yz
+        dRr60kGjU7pUmJfvt9BCnrG3ud6Z8IWw2sPCvJ5jouGkxhm8GBbCzwa1Ld3W6rORotKOu+n91Zc2j
+        aFKLCtkyZ5Av/eBHKMlE4j9C0d9WgkLJ6eyHvpLd1nq4n9VmzQpFWtex2EcxnXLMt5cSGEGuyf2jE
+        uFCQk01QXsH2bmJBCN+ZoK1GiyM8q61O3DP2/mgKhFm/lGz050ZjEIYm4N4vR/xRaNlQLmyMm+cWh
+        UC5umoOmA==;
+Received: from [179.95.45.115] (helo=coco.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1heOhg-0008IF-Ge; Fri, 21 Jun 2019 18:56:04 +0000
-Date:   Fri, 21 Jun 2019 15:56:00 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     <linux-edac@vger.kernel.org>, <linuxarm@huawei.com>,
-        <jcm@redhat.com>
-Subject: Re: [RFC PATCH 0/6] CCIX rasdaemon support
-Message-ID: <20190621155600.537b7e68@coco.lan>
-In-Reply-To: <20190614175517.58442-1-Jonathan.Cameron@huawei.com>
-References: <20190614175517.58442-1-Jonathan.Cameron@huawei.com>
+        id 1hfOHz-0001Mj-6U; Mon, 24 Jun 2019 12:41:39 +0000
+Date:   Mon, 24 Jun 2019 09:41:36 -0300
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     Wen Pu <puwen@hygon.cn>
+Cc:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: Re: [PATCH] ras-mce-handler: Add support for Hygon Dhyana family
+ 18h processor
+Message-ID: <20190624094136.1017a6b6@coco.lan>
+In-Reply-To: <bdb9763a-b111-1927-9fd2-3fd933b3981d@hygon.cn>
+References: <1558616422-22997-1-git-send-email-puwen@hygon.cn>
+        <bdb9763a-b111-1927-9fd2-3fd933b3981d@hygon.cn>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Em Sat, 15 Jun 2019 01:55:11 +0800
-Jonathan Cameron <Jonathan.Cameron@huawei.com> escreveu:
+Em Fri, 14 Jun 2019 02:18:10 +0000
+Wen Pu <puwen@hygon.cn> escreveu:
 
-> This is an RFC because the kernel side is currently under review and
-> may change with obvious follow through effects on this.
+> Friendly ping...
 > 
-> https://lore.kernel.org/linux-edac/20190606123654.78973-1-Jonathan.Cameron@huawei.com/
+> On 2019/5/23 21:00, Pu Wen wrote:
+> > The Hygon Dhyana family 18h processor is derived from AMD family 17h.
+> > The Hygon Dhyana support to Linux is already accepted upstream[1].
+> > 
+> > Add Hygon Dhyana support to mce handler of rasdaemon in order to handle
+> > MCE events on Hygon Dhyana platforms.
 
-Yeah, we should wait for it to be merged upstream before adding them to
-rasdaemon ;-)
+Applied, thanks!
 
-> 
-> There are a few additional questions around this:
-> 1. Divide between specifity of DB fields vs blobs.
->    Where possible I have tried to fully describe the contents via
->    separate fields rather than large blobs.
+> > 
+> > Reference:
+> > [1] https://git.kernel.org/tip/fec98069fb72fb656304a3e52265e0c2fc9adf87
+> > 
+> > Signed-off-by: Pu Wen <puwen@hygon.cn>
+> > ---
+> >   ras-mce-handler.c | 9 ++++++++-
+> >   ras-mce-handler.h | 1 +
+> >   2 files changed, 9 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/ras-mce-handler.c b/ras-mce-handler.c
+> > index c11d489..eb548c6 100644
+> > --- a/ras-mce-handler.c
+> > +++ b/ras-mce-handler.c
+> > @@ -55,7 +55,8 @@ static char *cputype_name[] = {
+> >   	[CPU_KNIGHTS_LANDING] = "Knights Landing",
+> >   	[CPU_KNIGHTS_MILL] = "Knights Mill",
+> >   	[CPU_SKYLAKE_XEON] = "Skylake server",
+> > -	[CPU_NAPLES] = "AMD Family 17h Zen1"
+> > +	[CPU_NAPLES] = "AMD Family 17h Zen1",
+> > +	[CPU_DHYANA] = "Hygon Family 18h Moksha"
+> >   };
+> >   
+> >   static enum cputype select_intel_cputype(struct ras_events *ras)
+> > @@ -200,6 +201,11 @@ static int detect_cpu(struct ras_events *ras)
+> >   			ret = EINVAL;
+> >   		}
+> >   		goto ret;
+> > +	} else if (!strcmp(mce->vendor,"HygonGenuine")) {
+> > +		if (mce->family == 24) {
+> > +			mce->cputype = CPU_DHYANA;
+> > +		}
+> > +		goto ret;
+> >   	} else if (!strcmp(mce->vendor,"GenuineIntel")) {
+> >   		mce->cputype = select_intel_cputype(ras);
+> >   	} else {
+> > @@ -436,6 +442,7 @@ int ras_mce_event_handler(struct trace_seq *s,
+> >   		rc = parse_amd_k8_event(ras, &e);
+> >   		break;
+> >   	case CPU_NAPLES:
+> > +	case CPU_DHYANA:
+> >   		rc = parse_amd_smca_event(ras, &e);
+> >   		break;
+> >   	default:			/* All other CPU types are Intel */
+> > diff --git a/ras-mce-handler.h b/ras-mce-handler.h
+> > index 8aaecd1..94395eb 100644
+> > --- a/ras-mce-handler.h
+> > +++ b/ras-mce-handler.h
+> > @@ -51,6 +51,7 @@ enum cputype {
+> >   	CPU_KNIGHTS_MILL,
+> >   	CPU_SKYLAKE_XEON,
+> >   	CPU_NAPLES,
+> > +	CPU_DHYANA,
+> >   };
+> >   
+> >   struct mce_event {
+> >   
 
-OK!
 
->    One common SQL convention
->    that doesn't seem to have been previously done in rasdaemon is to
->    use explicit NULL entries for elements where data is missing.
-
-We tried to be a simple as possible when we added the dB option.
-
-We even opted to use sqllite, instead of having support for 
-MySQL or Postgres - Not only due to simplicity, but also because,
-if a machine has problems, a database at the same machine may crash.
-
-That's said, with MySQL/Postgres support, the logs could be done
-via a remote machine, with would be safer.
-
--
-
-I don't see much problem on adding such things to new tables or even
-add optional support for other dB types, but Changing the existing dBs 
-can be a problem.
-
-Perhaps it could have a table somewhere storing the Rasdaemon version,
-in order to be able to detect if a table has missing something. If
-Rasdaemon version is bigger than the one at the server, it could do some
-database changes in order to support new features - including things like
-replacing empty fields by NULL.
-
-If you think such changes would be useful, feel free to submit patches.
-
-> 2. Should we split ras-record.c and have the ccix handling in a separate
->    ras-record-ccix.c file or similar as that one is getting rather large.
-
-Makes sense to me. As all projects, it started small. As things are
-getting bigger, it makes sense to split some features on separate
-files.
 
 Thanks,
 Mauro
