@@ -2,94 +2,99 @@ Return-Path: <SRS0=fqJ4=UX=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F862C43613
-	for <linux-edac@archiver.kernel.org>; Mon, 24 Jun 2019 19:57:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6424FC43613
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Jun 2019 20:25:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 12BE820645
-	for <linux-edac@archiver.kernel.org>; Mon, 24 Jun 2019 19:57:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35A1E20663
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Jun 2019 20:25:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727608AbfFXT5B (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 24 Jun 2019 15:57:01 -0400
-Received: from smtprelay0115.hostedemail.com ([216.40.44.115]:58495 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727282AbfFXT5B (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 24 Jun 2019 15:57:01 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 1FD7F100E86C5;
-        Mon, 24 Jun 2019 19:57:00 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: fold16_1fd688a2af52b
-X-Filterd-Recvd-Size: 2354
-Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf17.hostedemail.com (Postfix) with ESMTPA;
-        Mon, 24 Jun 2019 19:56:58 +0000 (UTC)
-Message-ID: <c40261d18ff593767a026d0392d44f322b4a3b33.camel@perches.com>
-Subject: Re: [PATCH v6 1/1] EDAC, mellanox: Add ECC support for BlueField
- DDR4
-From:   Joe Perches <joe@perches.com>
-To:     Shravan Kumar Ramani <sramani@mellanox.com>,
-        Borislav Petkov <bp@alien8.de>,
+        id S1728163AbfFXUZu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 24 Jun 2019 16:25:50 -0400
+Received: from mga04.intel.com ([192.55.52.120]:25196 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726393AbfFXUZt (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 24 Jun 2019 16:25:49 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Jun 2019 13:25:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,413,1557212400"; 
+   d="scan'208";a="336613306"
+Received: from tthayer-hp-z620.an.intel.com (HELO [10.122.105.146]) ([10.122.105.146])
+  by orsmga005.jf.intel.com with ESMTP; 24 Jun 2019 13:25:48 -0700
+Reply-To: thor.thayer@linux.intel.com
+Subject: Re: [PATCH] EDAC/altera: Silence an endian warning
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>
-Cc:     Liming Sun <lsun@mellanox.com>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 24 Jun 2019 12:56:57 -0700
-In-Reply-To: <176e13c80688f9a37161091e31ade487db6d4c2e.1561400421.git.sramani@mellanox.com>
-References: <cover.1561400421.git.sramani@mellanox.com>
-         <176e13c80688f9a37161091e31ade487db6d4c2e.1561400421.git.sramani@mellanox.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+References: <20190624134717.GA1754@mwanda>
+From:   Thor Thayer <thor.thayer@linux.intel.com>
+Message-ID: <2baa5124-f0b0-a33e-256b-6a17867862c9@linux.intel.com>
+Date:   Mon, 24 Jun 2019 15:27:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
+In-Reply-To: <20190624134717.GA1754@mwanda>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, 2019-06-24 at 14:42 -0400, Shravan Kumar Ramani wrote:
-> Add ECC support for Mellanox BlueField SoC DDR controller.
-> This requires SMC to the running Arm Trusted Firmware to report
-> what is the current memory configuration.
-[]
-> diff --git a/drivers/edac/bluefield_edac.c b/drivers/edac/bluefield_edac.c
-[]
-> @@ -0,0 +1,381 @@
-[]
-> +#define MLXBF_ECC_CNT__SERR_CNT_SHIFT 0
-> +#define MLXBF_ECC_CNT__SERR_CNT_MASK 0xffff
-> +#define MLXBF_ECC_CNT__DERR_CNT_SHIFT 16
-> +#define MLXBF_ECC_CNT__DERR_CNT_MASK 0xffff
+Hi Dan,
 
-[multiple variants of #defines like the above]
+On 6/24/19 8:47 AM, Dan Carpenter wrote:
+> Smatch complains that we're casting a u32 pointer to unsigned long.
+> 
+>      drivers/edac/altera_edac.c:1878 altr_edac_a10_irq_handler()
+>      warn: passing casted pointer '&irq_status' to 'find_first_bit()'
+> 
+> This code wouldn't work on a 64 bit big endian system because we would
+> read past the end of &irq_status.
+> 
+> Fixes: 13ab8448d2c9 ("EDAC, altera: Add ECC Manager IRQ controller support")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> Static analysis obviously and I don't know this subsystem at all.
+> Probably we're never going to run this on a 64 bit big endian system...
+> Feel free to ignore this if you want.
+> 
+>   drivers/edac/altera_edac.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+> index c2e693e34d43..bf024ec0116c 100644
+> --- a/drivers/edac/altera_edac.c
+> +++ b/drivers/edac/altera_edac.c
+> @@ -1866,6 +1866,7 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
+>   	struct altr_arria10_edac *edac = irq_desc_get_handler_data(desc);
+>   	struct irq_chip *chip = irq_desc_get_chip(desc);
+>   	int irq = irq_desc_get_irq(desc);
+> +	unsigned long bits;
+>   
+>   	dberr = (irq == edac->db_irq) ? 1 : 0;
+>   	sm_offset = dberr ? A10_SYSMGR_ECC_INTSTAT_DERR_OFST :
+> @@ -1875,7 +1876,8 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
+>   
+>   	regmap_read(edac->ecc_mgr_map, sm_offset, &irq_status);
+>   
+> -	for_each_set_bit(bit, (unsigned long *)&irq_status, 32) {
+> +	bits = irq_status;
+> +	for_each_set_bit(bit, &bits, 32) {
+>   		irq = irq_linear_revmap(edac->domain, dberr * 32 + bit);
+>   		if (irq)
+>   			generic_handle_irq(irq);
+> 
+You are correct that we shouldn't use this on a 64 bit machine but this 
+is a good fix. Thank you!
 
-[]
-
-> +	serr = (dram_syndrom >> MLXBF_SYNDROM__SERR_SHIFT) &
-> +		MLXBF_SYNDROM__SERR_MASK;
-> +	derr = (dram_syndrom >> MLXBF_SYNDROM__DERR_SHIFT) &
-> +		MLXBF_SYNDROM__DERR_MASK;
-> +	syndrom = (dram_syndrom >> MLXBF_SYNDROM__SYN_SHIFT) &
-> +		MLXBF_SYNDROM__SYN_MASK;
-
-To improve readability and reduce possible copy/paste errors,
-these would all benefit from a macro like
-
-#define MLXBF_SM(val, type) 	\
-	(((val) >> (MLXBF_ ## type ## _SHIFT)) & (MLXBF_ ## type ## _MASK)))
-
-So these uses could become:
-
-	serr = MLXBF_SM(dram_syndrom, SYNDROM__SERR);
-	derr = MLXBF_SM(dram_syndrom, SYNDROM__DERR);
-	syndrom =
-MLXBF_SM(dram_syndrom, SYN);
-
-etc...
-
-
+Reviewed-by: Thor Thayer <thor.thayer@linux.intel.com>
