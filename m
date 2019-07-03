@@ -1,167 +1,375 @@
-Return-Path: <SRS0=BvQq=U7=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=ZWKc=VA=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D9A9C06510
-	for <linux-edac@archiver.kernel.org>; Tue,  2 Jul 2019 16:52:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56377C0650E
+	for <linux-edac@archiver.kernel.org>; Wed,  3 Jul 2019 09:19:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4D77021479
-	for <linux-edac@archiver.kernel.org>; Tue,  2 Jul 2019 16:52:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="bfnF9p0A"
+	by mail.kernel.org (Postfix) with ESMTP id 21A1C218A3
+	for <linux-edac@archiver.kernel.org>; Wed,  3 Jul 2019 09:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726046AbfGBQwT (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 2 Jul 2019 12:52:19 -0400
-Received: from mail-eopbgr770114.outbound.protection.outlook.com ([40.107.77.114]:16353
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726303AbfGBQwS (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 2 Jul 2019 12:52:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=testarcselector01; d=microsoft.com; cv=none;
- b=Lq6DQOJ1X34liMPc/J7LKHl+VhFbP0QIJXF1C09biBUEQ79XJwZ8yIoRu1lMvQUKsFK8OeGlqT8x0b+Pmmf4an0N9JgJZ+RPiii40NsQygBB+93N9vux//efz3gV+z1UYLRuefB27HUdfpg/XyNfyLmlkd/Uca2tPNOkVEtT7t8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=testarcselector01;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qjcnB1NmeWvXESms3IZxiu5T7o6Vs49AzKWKSSKsgfI=;
- b=i1JsPIZyIz9btdl4T3VzSqZ/uaTTdXeUpYGhs+fI29sN76FY5jQ/xJJIGSocbP8ZFK57wpKW3KD23ruz36uDDhcnDAJeNMVeEsRxKXx47KEL0+oQI4zJqZzbyxR0L2T4E4irgks7WYBTDjUq9tAY3umBrevXg6KP+Kvdbyx2wC8=
-ARC-Authentication-Results: i=1; test.office365.com
- 1;spf=none;dmarc=none;dkim=none;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qjcnB1NmeWvXESms3IZxiu5T7o6Vs49AzKWKSSKsgfI=;
- b=bfnF9p0AnJ2dYJJn8iDTDYS2l4lW5sZ3pjHlJZbzhgXOgXVQTPh+c7KeOOCUI/N1XiH62vADegxxaem079/Sbyo4gw/BzlStsSKg8i3P4Qaqd+7lMfWwy2vvph0adbGtfVkmMAUG7IzuQzb/rJGPLHKkIou72B6dV7Zx/M4d69Y=
-Received: from DM5PR0102MB3383.prod.exchangelabs.com (52.132.128.150) by
- DM5PR0102MB3413.prod.exchangelabs.com (52.132.129.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.16; Tue, 2 Jul 2019 16:51:33 +0000
-Received: from DM5PR0102MB3383.prod.exchangelabs.com
- ([fe80::2560:7ba6:c491:dcce]) by DM5PR0102MB3383.prod.exchangelabs.com
- ([fe80::2560:7ba6:c491:dcce%7]) with mapi id 15.20.2032.019; Tue, 2 Jul 2019
- 16:51:33 +0000
-From:   Tyler Baicar OS <baicar@os.amperecomputing.com>
-To:     Open Source Submission <patches@amperecomputing.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
+        id S1727012AbfGCJS7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 3 Jul 2019 05:18:59 -0400
+Received: from foss.arm.com ([217.140.110.172]:42242 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725820AbfGCJS6 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 3 Jul 2019 05:18:58 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A12DB344;
+        Wed,  3 Jul 2019 02:18:57 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D23B3F246;
+        Wed,  3 Jul 2019 02:18:56 -0700 (PDT)
+Subject: Re: [PATCH v4 2/2] EDAC: add EDAC driver for DMC520
+To:     Lei Wang <leiwang_git@outlook.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>
+Cc:     "bp@alien8.de" <bp@alien8.de>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
-        "guohanjun@huawei.com" <guohanjun@huawei.com>,
-        "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "lenb@kernel.org" <lenb@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Matteo.Carlini@arm.com" <Matteo.Carlini@arm.com>,
-        "Andrew.Murray@arm.com" <Andrew.Murray@arm.com>
-CC:     Tyler Baicar OS <baicar@os.amperecomputing.com>
-Subject: [PATCH RFC 0/4] ARM Error Source Table Support
-Thread-Topic: [PATCH RFC 0/4] ARM Error Source Table Support
-Thread-Index: AQHVMPZnLm2MGmSII0qkVo2bsW5EMA==
-Date:   Tue, 2 Jul 2019 16:51:32 +0000
-Message-ID: <1562086280-5351-1-git-send-email-baicar@os.amperecomputing.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: CY4PR16CA0040.namprd16.prod.outlook.com
- (2603:10b6:910:60::27) To DM5PR0102MB3383.prod.exchangelabs.com
- (2603:10b6:4:9f::22)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=baicar@os.amperecomputing.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 1.8.3.1
-x-originating-ip: [4.28.12.214]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c28408ce-32ce-476a-094f-08d6ff0d8973
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:DM5PR0102MB3413;
-x-ms-traffictypediagnostic: DM5PR0102MB3413:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <DM5PR0102MB3413EECB5A773E6164CE503EE3F80@DM5PR0102MB3413.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 008663486A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(396003)(136003)(366004)(376002)(39850400004)(199004)(189003)(25786009)(2906002)(14454004)(6512007)(6306002)(4720700003)(81156014)(81166006)(6436002)(478600001)(6486002)(386003)(6506007)(8936002)(2201001)(7416002)(8676002)(186003)(102836004)(107886003)(52116002)(86362001)(966005)(26005)(7736002)(99286004)(53936002)(305945005)(3846002)(6116002)(66446008)(73956011)(66946007)(66476007)(66556008)(64756008)(50226002)(14444005)(256004)(2501003)(110136005)(316002)(486006)(476003)(2616005)(66066001)(71200400001)(71190400001)(4326008)(68736007)(5660300002)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR0102MB3413;H:DM5PR0102MB3383.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:3;
-received-spf: None (protection.outlook.com: os.amperecomputing.com does not
- designate permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: pMLO3t5GAP6lnw0dVcyzVjI7HmYQgpUWrFMp15/1FoXm0kcPQ5YvT2nfpRnXWyWYfDixvqhk4MlLrrlqhTumYl+vW0oye/g/za1prvJiM2EpEwe3n2Q8B6H+EGQSc8dNEbySGajaH074ZpnfeYxMJ/JkkQ/+FaAgh+e8cB5uygwvn0VtNmqI7LEA/Ft2F5RQnJlmR1YlJdyloMgZyMe4i0ZlPfTMVZvNIhTewfyqyLR8I4ecKpWTCYEIKX0AwX8xXyuLmORs66lXGzXgQ6NsnvR3B64lWoF2rccUeQ7AatfxR6qzE0WTXIaWpbw+KQWFAkAj6mXHh6ilUkFRCrkKz/n3YJHTycSGcaiY+TEx/TwJxbtsNzHpvk/uLDg28lUKIUlHg2mvTuFfvYv5Izdg4aGf5CbODZNpXPFE3ZOk4q4=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "hangl@microsoft.com" <hangl@microsoft.com>,
+        "lewan@microsoft.com" <lewan@microsoft.com>,
+        "ruizhao@microsoft.com" <ruizhao@microsoft.com>
+References: <BN6PR04MB11075E9070EE1A263E099A7386E60@BN6PR04MB1107.namprd04.prod.outlook.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <65439e51-5356-ae93-dffb-5a87279f6c8b@arm.com>
+Date:   Wed, 3 Jul 2019 10:18:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c28408ce-32ce-476a-094f-08d6ff0d8973
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2019 16:51:32.9416
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Baicar@os.amperecomputing.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0102MB3413
+In-Reply-To: <BN6PR04MB11075E9070EE1A263E099A7386E60@BN6PR04MB1107.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This series adds support for the ARM Error Source Table (AEST) based on
-the latest version of the AEST from ARM [0].
+Hi!
 
-The AEST driver supports both memory mapped and system register interfaces.
-This series assumes system register interfaces are only registered with
-private peripheral interrupts (PPIs); otherwise there is no guarantee the
-core handling the error is the core which took the error and has the
-syndrome info in it's system registers.
+On 22/06/2019 07:38, Lei Wang wrote:
+> New driver supports error detection and correction on the devices with ARM
+> DMC-520 memory controller.
 
-SEAs and SEIs could also have syndrome information present in the RAS
-extension system registers. That handling is tied into the system register
-handling code.
+> diff --git a/drivers/edac/dmc520_edac.c b/drivers/edac/dmc520_edac.c
+> new file mode 100644
+> index 000000000000..c23734c13933
+> --- /dev/null
+> +++ b/drivers/edac/dmc520_edac.c
+> @@ -0,0 +1,604 @@
 
-This is meant to be initial support for AEST to address the current gaps
-with systems that support ARMv8.2 RAS extensions but don't have
-firmware-first support. This series simply logs all the errors it finds
-and triggers a kernel panic if there is an UE present.
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/edac.h>
+> +#include <linux/io.h>
+> +#include <linux/of.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/bitfield.h>
 
-Future work:
-- UER handling to avoid panic
-- Looping through all external abort capable (ERR<n>FR.UE !=3D 0) error
-   nodes in SEA/SEI handling
-- ARMv8.4 extension support
+#include <linux/spinlock.h> ?
 
-[0] https://static.docs.arm.com/den0085/a/DEN0085_RAS_ACPI_1.0_BETA_1.pdf
+It's best to keep this list sorted, it makes it easier for the maintainer to resolve
+conflicts when header files get split/moved-around.
 
-Tyler Baicar (4):
-  ACPI/AEST: Initial AEST driver
-  arm64: mm: Add RAS extension system register check to SEA handling
-  arm64: traps: Add RAS extension system register check to serror
-    handling
-  trace, ras: add ARM RAS extension trace event
+> +#include "edac_mc.h"
 
- arch/arm64/include/asm/ras.h |  41 +++++
- arch/arm64/kernel/Makefile   |   2 +-
- arch/arm64/kernel/ras.c      |  70 +++++++++
- arch/arm64/kernel/traps.c    |   3 +
- arch/arm64/mm/fault.c        |   3 +
- drivers/acpi/arm64/Kconfig   |   3 +
- drivers/acpi/arm64/Makefile  |   1 +
- drivers/acpi/arm64/aest.c    | 366 +++++++++++++++++++++++++++++++++++++++=
-++++
- include/linux/acpi_aest.h    |  94 +++++++++++
- include/ras/ras_event.h      |  46 ++++++
- 10 files changed, 628 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/include/asm/ras.h
- create mode 100644 arch/arm64/kernel/ras.c
- create mode 100644 drivers/acpi/arm64/aest.c
- create mode 100644 include/linux/acpi_aest.h
+[...]
 
---=20
-1.8.3.1
+> +#define REG_OFFSET_FEATURE_CONTROL_NEXT		0x1F0
 
+Nothing uses this, do we need it?
+
+[...]
+
+> +#define REG_OFFSET_DECODE_CONTROL_NOW		0x1014
+
+Nothing uses this, do we need it?
+[...]
+
+> +/* DMC-520 types, masks and bitfields */
+> +#define DRAM_ECC_INT_CE_MASK			BIT(2)
+> +#define DRAM_ECC_INT_UE_MASK			BIT(3)
+
+(The 'MASK' suffix isn't really needed for a single bit, you can't confuse it with the value.)
+
+[...]
+
+> +#define SCRUB_CONTROL_MASK			GENMASK(1, 0)
+
+Isn't this field called TRIGGER0_NEXT? It would be good to use the names from the
+datasheet[0] as it makes it much easier for someone else to debug.
+
+
+> +#define DMC520_EDAC_ERR_GRAIN			1
+
+> +#define DMC520_BUS_WIDTH	8  /* Data bus width is 64bits/8Bytes */
+
+Can you point me to where this comes from in the datasheet[0]?
+I see it talk in "1.3 Features" of "either a 32-bit wide data SDRAM interface or a 64-bit
+wide data SDRAM interface".
+
+If this is a choice that was made on your platform it needs to be described in the DT.
+
+(I may be confused between SDRAM/DDR/DRAM, as 2.3.3. "PHY interface" seems to describe one
+connecting to the other.)
+
+
+
+> +/* memory type */
+> +enum dmc520_mem_type {
+> +	mem_type_ddr3 = 1,
+> +	mem_type_ddr4 = 2
+> +};
+> +
+> +/* memory device width */
+> +enum dmc520_dev_width {
+> +	dev_width_x4 = 0,
+> +	dev_width_x8 = 1,
+> +	dev_width_x16 = 2
+> +};
+
+(Nit: the convention for enums members is all-caps. e.g. include/linux/edac.h)
+
+[...]
+
+> +static irqreturn_t
+> +dmc520_edac_dram_all_isr(int irq, void *data, u32 interrupt_mask);
+
+(You could avoid this by moving the user after definition of this function)
+
+[...]
+
+> +static bool dmc520_get_dram_ecc_error_info(struct dmc520_edac *edac,
+> +					   bool is_ce,
+> +					   struct ecc_error_info *info)
+> +{
+> +	u32 reg_offset_low, reg_offset_high;
+> +	u32 reg_val_low, reg_val_high;
+> +	bool valid;
+> +
+> +	reg_offset_low = is_ce ? REG_OFFSET_DRAM_ECC_ERRC_INT_INFO_31_00 :
+> +				 REG_OFFSET_DRAM_ECC_ERRD_INT_INFO_31_00;
+> +	reg_offset_high = is_ce ? REG_OFFSET_DRAM_ECC_ERRC_INT_INFO_63_32 :
+> +				  REG_OFFSET_DRAM_ECC_ERRD_INT_INFO_63_32;
+> +
+> +	reg_val_low = dmc520_read_reg(edac, reg_offset_low);
+> +	reg_val_high = dmc520_read_reg(edac, reg_offset_high);
+> +
+> +	valid = (FIELD_GET(REG_FIELD_ERR_INFO_LOW_VALID, reg_val_low) != 0) &&
+> +		(FIELD_GET(REG_FIELD_ERR_INFO_HIGH_VALID, reg_val_high) != 0);
+
+> +	if (valid) {
+> +		info->col = FIELD_GET(REG_FIELD_ERR_INFO_LOW_COL, reg_val_low);
+> +		info->row = FIELD_GET(REG_FIELD_ERR_INFO_LOW_ROW, reg_val_low);
+> +		info->rank = FIELD_GET(REG_FIELD_ERR_INFO_LOW_RANK, reg_val_low);
+> +		info->bank = FIELD_GET(REG_FIELD_ERR_INFO_HIGH_BANK, reg_val_high);
+> +	} else {
+> +		memset(info, 0, sizeof(struct ecc_error_info));
+> +	}
+
+> +	return valid;
+
+Nothing checks this return value.
+
+> +}
+
+> +static bool dmc520_get_scrub_type(struct dmc520_edac *edac)
+
+This function returns enum scrub_type, not bool.
+
+> +{
+> +	enum scrub_type type = SCRUB_NONE;
+> +	u32 reg_val, scrub_cfg;
+> +
+> +	reg_val = dmc520_read_reg(edac, REG_OFFSET_SCRUB_CONTROL0_NOW);
+> +	scrub_cfg = FIELD_GET(SCRUB_CONTROL_MASK, reg_val);
+> +
+> +	if (DMC520_SCRUB_TRIGGER_ERR_DETECT == scrub_cfg ||
+> +		DMC520_SCRUB_TRIGGER_IDLE == scrub_cfg)
+> +		type = SCRUB_HW_PROG;
+> +
+> +	return type;
+> +}
+
+
+> +static void dmc520_handle_dram_ecc_errors(struct mem_ctl_info *mci,
+> +					  bool is_ce)
+> +{
+> +	struct ecc_error_info info;
+> +	struct dmc520_edac *edac;
+> +	u32 cnt;
+> +	char message[EDAC_MSG_BUF_SIZE];
+> +	unsigned long flags;
+> +
+> +	edac = mci->pvt_info;
+> +	dmc520_get_dram_ecc_error_info(edac, is_ce, &info);
+> +
+> +	cnt = dmc520_get_dram_ecc_error_count(edac, is_ce);
+> +
+> +	if (cnt > 0) {
+> +		snprintf(message, ARRAY_SIZE(message),
+> +			 "rank:%d bank:%d row:%d col:%d",
+> +			 info.rank, info.bank,
+> +			 info.row, info.col);
+> +
+> +		spin_lock_irqsave(&edac->ecc_lock, flags);
+
+irqsave/irqrestore is overkill as this function is only called from an interrupt handler.
+There is no way for this to be called with interrupts unmasked.
+
+
+> +		edac_mc_handle_error((is_ce ? HW_EVENT_ERR_CORRECTED :
+> +				     HW_EVENT_ERR_UNCORRECTED),
+> +				     mci, cnt, 0, 0, 0, info.rank, -1, -1,
+> +				     message, "");
+> +		spin_unlock_irqrestore(&edac->ecc_lock, flags);
+> +	}
+> +}
+> +
+> +static irqreturn_t dmc520_edac_dram_ecc_isr(int irq, void *data, bool is_ce)
+
+data here could be struct mem_ctl_info *, as it only has one caller.
+
+> +{
+> +	u32 i_mask;
+> +	struct mem_ctl_info *mci;
+> +	struct dmc520_edac *edac;
+> +
+> +	mci = data;
+> +	edac = mci->pvt_info;
+> +
+> +	i_mask = is_ce ? DRAM_ECC_INT_CE_MASK : DRAM_ECC_INT_UE_MASK;
+
+(The mask/bit here could be passed in directly, its the value you need most often)
+
+
+> +	dmc520_handle_dram_ecc_errors(mci, is_ce);
+> +
+> +	dmc520_write_reg(edac, i_mask, REG_OFFSET_INTERRUPT_CLR);
+> +
+> +	return IRQ_HANDLED;
+> +}
+
+[...]
+
+
+> +static int dmc520_edac_probe(struct platform_device *pdev)
+> +{
+
+[...]
+
+> +	if (nintr > ARRAY_SIZE(dmc520_isr_array)) {
+> +		edac_printk(KERN_ERR, EDAC_MOD_NAME,
+> +			"Invalid device node configuration: # of interrupt config "
+> +			"elements (%d) can not exeed %ld.\n",
+
+(Nit: exceed)
+
+> +			nintr, ARRAY_SIZE(dmc520_isr_array));
+> +		return -EINVAL;
+> +	}
+
+[...]
+
+> +	ret = of_property_read_u32_array(dev->of_node, "interrupt-config",
+> +			edac->interrupt_masks, nintr);
+> +	if (ret) {
+> +		edac_printk(KERN_ERR, EDAC_MOD_NAME,
+> +			"Failed to get interrupt-config arrays.\n");
+> +		goto err_free_mc;
+> +	}
+
+> +	for (intr_index = 0; intr_index < nintr; ++intr_index) {
+> +		if (edac->interrupt_mask_all & edac->interrupt_masks[intr_index]) {
+> +			edac_printk(KERN_ERR, EDAC_MC,
+> +				"interrupt-config error: "
+> +				"element %d's interrupt mask %d has overlap.\n",
+> +				intr_index, edac->interrupt_masks[intr_index]);
+> +			goto err_free_mc;
+> +		}
+> +
+> +		edac->interrupt_mask_all |= edac->interrupt_masks[intr_index];
+> +	}
+
+Ah, so the driver doesn't support overlapping masks... but wasn't this the reason for
+describing the interrupts with these masks in the first place?
+(It looks like the DT-folk want this as named interrupts)
+
+lore.kernel.org/r/BYAPR21MB1319BC4D079B918AB038A4D590010@BYAPR21MB1319.namprd21.prod.outlook.com
+
+Would this driver support the configuration you gave there?
+
+
+> +	edac->interrupt_mask_all &= ALL_INT_MASK;
+
+This is to removed invalid interrupt fields? Shouldn't we print a warning instead? Either
+the DT is invalid, or its some future hardware that has an extra interrupt that this
+driver won't enable.
+
+
+[...]
+
+> +	/* Clear interrupts */
+> +	reg_val = dmc520_read_reg(edac, REG_OFFSET_INTERRUPT_CONTROL);
+> +	dmc520_write_reg(edac, reg_val & (~(edac->interrupt_mask_all)),
+> +			REG_OFFSET_INTERRUPT_CONTROL);
+> +	dmc520_write_reg(edac, edac->interrupt_mask_all, REG_OFFSET_INTERRUPT_CLR);
+
+[...]
+
+> +	/* Enable interrupts */
+> +	dmc520_write_reg(edac, edac->interrupt_mask_all, REG_OFFSET_INTERRUPT_CONTROL);
+
+Won't this disable any interrupts we weren't told about? You did a read-modify write
+above. Can we do the same here?
+
+
+> +	return 0;
+> +
+> +err_free_irq:
+> +	for (intr_index = 0; intr_index < nintr_registered; ++intr_index) {
+> +		int irq_id = platform_get_irq(pdev, intr_index);
+> +		devm_free_irq(&pdev->dev, irq_id, mci);
+> +	}
+> +	edac_mc_del_mc(&pdev->dev);
+> +err_free_mc:
+> +	edac_mc_free(mci);
+> +
+> +	return ret;
+> +}
+> +
+
+[...]
+
+> +static const struct of_device_id dmc520_edac_driver_id[] = {
+> +	{ .compatible = "brcm,dmc-520", },
+> +	{ .compatible = "arm,dmc-520", },
+
+You should only need the "arm,dmc-520" entry here. The additional compatible values are
+for quirking the driver when integration issues are discovered.
+The 'brcm' version should be in the DT from day-one, but the kernel only needs to pick it
+up when it needs to treat the brcm version differently.
+
+
+> +	{ /* end of table */ }
+> +};
+
+
+With the bool/enum and interrupt-disabling things fixed:
+Reviewed-by: James Morse <james.morse@arm.com>
+
+
+
+Thanks,
+
+James
+
+[0] https://static.docs.arm.com/100000/0200/corelink_dmc520_trm_100000_0200_01_en.pdf
