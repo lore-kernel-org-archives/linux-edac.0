@@ -1,326 +1,118 @@
-Return-Path: <SRS0=j4P2=VE=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=bweG=VF=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C619CC48BDC
-	for <linux-edac@archiver.kernel.org>; Sun,  7 Jul 2019 11:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D033C606A7
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Jul 2019 10:00:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8CB32206A3
-	for <linux-edac@archiver.kernel.org>; Sun,  7 Jul 2019 11:58:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="NX6D7Ld6"
+	by mail.kernel.org (Postfix) with ESMTP id 3F92220644
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Jul 2019 10:00:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727207AbfGGL66 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 7 Jul 2019 07:58:58 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:5068 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726760AbfGGL66 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sun, 7 Jul 2019 07:58:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1562500736; x=1594036736;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=60X891scMhbmjUoeEckMBvX4630ty+8QYuK2MOZwV4o=;
-  b=NX6D7Ld6LyIorpcEYjEljQF9ClqoxuY11vn4ubqlTx+UFl6CI9CwUKCs
-   4a2PWJvEuEirKMiwz20QhGVIWzoci81xuipSYlsHfaAfkUUt44//kSCW7
-   EHtHdlx8q4G0/KRoS/+wIAWXFEhgQEYYLRHtfuZ/+Gk0LxhPd3xvbywG/
-   E=;
-X-IronPort-AV: E=Sophos;i="5.62,462,1554768000"; 
-   d="scan'208";a="773526838"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.124.125.6])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 07 Jul 2019 11:58:54 +0000
-Received: from EX13MTAUEA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan3.pdx.amazon.com [10.170.41.166])
-        by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS id E6B2BA074E;
-        Sun,  7 Jul 2019 11:58:50 +0000 (UTC)
-Received: from EX13D19EUB003.ant.amazon.com (10.43.166.69) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.243) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Sun, 7 Jul 2019 11:58:50 +0000
-Received: from ub6d44c9ce3e25c.ant.amazon.com (10.43.161.16) by
- EX13D19EUB003.ant.amazon.com (10.43.166.69) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Sun, 7 Jul 2019 11:58:40 +0000
-From:   Hanna Hawa <hhhawa@amazon.com>
-To:     <robh+dt@kernel.org>, <mark.rutland@arm.com>, <bp@alien8.de>,
-        <mchehab@kernel.org>, <james.morse@arm.com>, <davem@davemloft.net>,
-        <gregkh@linuxfoundation.org>, <linus.walleij@linaro.org>,
-        <Jonathan.Cameron@huawei.com>, <nicolas.ferre@microchip.com>,
-        <paulmck@linux.ibm.com>
-CC:     <dwmw@amazon.co.uk>, <benh@amazon.com>, <ronenk@amazon.com>,
-        <talel@amazon.com>, <jonnyc@amazon.com>, <hanochu@amazon.com>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-edac@vger.kernel.org>, <hhhawa@amazon.com>
-Subject: [PATCH v2 4/4] edac: Add support for Amazon's Annapurna Labs L2 EDAC
-Date:   Sun, 7 Jul 2019 14:57:38 +0300
-Message-ID: <1562500658-14717-5-git-send-email-hhhawa@amazon.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1562500658-14717-1-git-send-email-hhhawa@amazon.com>
-References: <1562500658-14717-1-git-send-email-hhhawa@amazon.com>
+        id S1727874AbfGHKAZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 8 Jul 2019 06:00:25 -0400
+Received: from foss.arm.com ([217.140.110.172]:43594 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728596AbfGHKAY (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 8 Jul 2019 06:00:24 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF6CF360;
+        Mon,  8 Jul 2019 03:00:23 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6CEA3F246;
+        Mon,  8 Jul 2019 03:00:20 -0700 (PDT)
+Subject: Re: [PATCH RFC 2/4] arm64: mm: Add RAS extension system register
+ check to SEA handling
+To:     Tyler Baicar OS <baicar@os.amperecomputing.com>
+References: <1562086280-5351-1-git-send-email-baicar@os.amperecomputing.com>
+ <1562086280-5351-3-git-send-email-baicar@os.amperecomputing.com>
+From:   James Morse <james.morse@arm.com>
+Cc:     Open Source Submission <patches@amperecomputing.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "guohanjun@huawei.com" <guohanjun@huawei.com>,
+        "sudeep.holla@arm.com" <sudeep.holla@arm.com>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "lenb@kernel.org" <lenb@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "Matteo.Carlini@arm.com" <Matteo.Carlini@arm.com>,
+        "Andrew.Murray@arm.com" <Andrew.Murray@arm.com>
+Message-ID: <df262b97-eda2-0556-d6ef-532a0d697131@arm.com>
+Date:   Mon, 8 Jul 2019 11:00:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.16]
-X-ClientProxiedBy: EX13D12UWC004.ant.amazon.com (10.43.162.182) To
- EX13D19EUB003.ant.amazon.com (10.43.166.69)
+In-Reply-To: <1562086280-5351-3-git-send-email-baicar@os.amperecomputing.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Adds support for Amazon's Annapurna Labs L2 EDAC driver to detect and
-report L2 errors.
+Hey Tyler,
 
-Signed-off-by: Hanna Hawa <hhhawa@amazon.com>
----
- MAINTAINERS               |   6 ++
- drivers/edac/Kconfig      |   8 ++
- drivers/edac/Makefile     |   1 +
- drivers/edac/al_l2_edac.c | 185 ++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 200 insertions(+)
- create mode 100644 drivers/edac/al_l2_edac.c
+On 02/07/2019 17:51, Tyler Baicar OS wrote:
+> On systems that support the ARM RAS extension, synchronous external
+> abort syndrome information could be captured in the core's RAS extension
+> system registers. So, when handling SEAs check the RAS system registers
+> for error syndrome information.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fd29ea6..a6dcf3d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -749,6 +749,12 @@ S:	Maintained
- F:	drivers/edac/al_l1_edac.c
- F:	Documentation/devicetree/bindings/edac/amazon,al-l1-edac.txt
- 
-+AMAZON ANNAPURNA LABS L2 EDAC
-+M:	Hanna Hawa <hhhawa@amazon.com>
-+S:	Maintained
-+F:	drivers/edac/al_l2_edac.c
-+F:	Documentation/devicetree/bindings/edac/amazon,al-l2-edac.txt
-+
- AMAZON ANNAPURNA LABS THERMAL MMIO DRIVER
- M:	Talel Shenhar <talel@amazon.com>
- S:	Maintained
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 58b92bc..8bbb745 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -82,6 +82,14 @@ config EDAC_AL_L1
- 	  for Amazon's Annapurna Labs SoCs.
- 	  This driver detects errors of L1 caches.
- 
-+config EDAC_AL_L2
-+	bool "Amazon's Annapurna Labs L2 EDAC"
-+	depends on ARCH_ALPINE
-+	help
-+	  Support for L2 error detection and correction
-+	  for Amazon's Annapurna Labs SoCs.
-+	  This driver detects errors of L2 caches.
-+
- config EDAC_AMD64
- 	tristate "AMD64 (Opteron, Athlon64)"
- 	depends on AMD_NB && EDAC_DECODE_MCE
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index caa2dc9..60a6b8b 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -23,6 +23,7 @@ edac_mce_amd-y				:= mce_amd.o
- obj-$(CONFIG_EDAC_DECODE_MCE)		+= edac_mce_amd.o
- 
- obj-$(CONFIG_EDAC_AL_L1)		+= al_l1_edac.o
-+obj-$(CONFIG_EDAC_AL_L2)		+= al_l2_edac.o
- obj-$(CONFIG_EDAC_AMD76X)		+= amd76x_edac.o
- obj-$(CONFIG_EDAC_CPC925)		+= cpc925_edac.o
- obj-$(CONFIG_EDAC_I5000)		+= i5000_edac.o
-diff --git a/drivers/edac/al_l2_edac.c b/drivers/edac/al_l2_edac.c
-new file mode 100644
-index 0000000..4db6b66
---- /dev/null
-+++ b/drivers/edac/al_l2_edac.c
-@@ -0,0 +1,185 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/of.h>
-+
-+#include "edac_device.h"
-+#include "edac_module.h"
-+
-+/* Same bit assignments of L2MERRSR_EL1 in ARM CA57/CA72 */
-+#define ARM_CA57_L2MERRSR_EL1			sys_reg(3, 1, 15, 2, 3)
-+#define ARM_CA57_L2MERRSR_RAMID			GENMASK(30, 24)
-+#define  ARM_CA57_L2_TAG_RAM			0x10
-+#define  ARM_CA57_L2_DATA_RAM			0x11
-+#define  ARM_CA57_L2_SNOOP_RAM			0x12
-+#define  ARM_CA57_L2_DIRTY_RAM			0x14
-+#define  ARM_CA57_L2_INC_PF_RAM			0x18
-+#define ARM_CA57_L2MERRSR_VALID			GENMASK(31, 31)
-+#define ARM_CA57_L2MERRSR_REPEAT		GENMASK(39, 32)
-+#define ARM_CA57_L2MERRSR_OTHER			GENMASK(47, 40)
-+#define ARM_CA57_L2MERRSR_FATAL			GENMASK(63, 63)
-+
-+#define AL_L2_EDAC_MSG_MAX			256
-+
-+struct al_l2_edac {
-+	cpumask_t cluster_cpus;
-+};
-+
-+static void al_l2_edac_l2merrsr(void *arg)
-+{
-+	struct edac_device_ctl_info *edac_dev = arg;
-+	int cpu, i;
-+	u32 ramid, repeat, other, fatal;
-+	u64 val = read_sysreg_s(ARM_CA57_L2MERRSR_EL1);
-+	char msg[AL_L2_EDAC_MSG_MAX];
-+	int space, count;
-+	char *p;
-+
-+	if (!(FIELD_GET(ARM_CA57_L2MERRSR_VALID, val)))
-+		return;
-+
-+	cpu = smp_processor_id();
-+	ramid = FIELD_GET(ARM_CA57_L2MERRSR_RAMID, val);
-+	repeat = FIELD_GET(ARM_CA57_L2MERRSR_REPEAT, val);
-+	other = FIELD_GET(ARM_CA57_L2MERRSR_OTHER, val);
-+	fatal = FIELD_GET(ARM_CA57_L2MERRSR_FATAL, val);
-+
-+	space = sizeof(msg);
-+	p = msg;
-+	count = snprintf(p, space, "CPU%d L2 %serror detected", cpu,
-+			 (fatal) ? "Fatal " : "");
-+	p += count;
-+	space -= count;
-+
-+	switch (ramid) {
-+	case ARM_CA57_L2_TAG_RAM:
-+		count = snprintf(p, space, " RAMID='L2 Tag RAM'");
-+		break;
-+	case ARM_CA57_L2_DATA_RAM:
-+		count = snprintf(p, space, " RAMID='L2 Data RAM'");
-+		break;
-+	case ARM_CA57_L2_SNOOP_RAM:
-+		count = snprintf(p, space, " RAMID='L2 Snoop RAM'");
-+		break;
-+	case ARM_CA57_L2_DIRTY_RAM:
-+		count = snprintf(p, space, " RAMID='L2 Dirty RAM'");
-+		break;
-+	case ARM_CA57_L2_INC_PF_RAM:
-+		count = snprintf(p, space, " RAMID='L2 internal metadat'");
-+		break;
-+	default:
-+		count = snprintf(p, space, " RAMID='unknown'");
-+		break;
-+	}
-+
-+	p += count;
-+	space -= count;
-+
-+	count = snprintf(p, space,
-+			 " repeat=%d, other=%d (L2MERRSR_EL1=0x%llx)",
-+			 repeat, other, val);
-+
-+	for (i = 0; i < repeat; i++) {
-+		if (fatal)
-+			edac_device_handle_ue(edac_dev, 0, 0, msg);
-+		else
-+			edac_device_handle_ce(edac_dev, 0, 0, msg);
-+	}
-+
-+	write_sysreg_s(0, ARM_CA57_L2MERRSR_EL1);
-+}
-+
-+static void al_l2_edac_check(struct edac_device_ctl_info *edac_dev)
-+{
-+	struct al_l2_edac *al_l2 = edac_dev->pvt_info;
-+
-+	smp_call_function_any(&al_l2->cluster_cpus, al_l2_edac_l2merrsr,
-+			      edac_dev, 1);
-+}
-+
-+static int al_l2_edac_probe(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_dev;
-+	struct al_l2_edac *al_l2;
-+	struct device *dev = &pdev->dev;
-+	int ret, i;
-+
-+	edac_dev = edac_device_alloc_ctl_info(sizeof(*al_l2),
-+					      (char *)dev_name(dev), 1, "L", 1,
-+					      2, NULL, 0,
-+					      edac_device_alloc_index());
-+	if (IS_ERR(edac_dev))
-+		return -ENOMEM;
-+
-+	al_l2 = edac_dev->pvt_info;
-+	edac_dev->edac_check = al_l2_edac_check;
-+	edac_dev->dev = dev;
-+	edac_dev->mod_name = dev_name(dev);
-+	edac_dev->dev_name = dev_name(dev);
-+	edac_dev->ctl_name = dev_name(dev);
-+	platform_set_drvdata(pdev, edac_dev);
-+
-+	for_each_online_cpu(i) {
-+		struct device_node *cpu;
-+		struct device_node *cpu_cache, *l2_cache;
-+
-+		cpu = of_get_cpu_node(i, NULL);
-+		cpu_cache = of_find_next_cache_node(cpu);
-+		l2_cache = of_parse_phandle(dev->of_node, "l2-cache", 0);
-+
-+		if (cpu_cache == l2_cache)
-+			cpumask_set_cpu(i, &al_l2->cluster_cpus);
-+	}
-+
-+	if (cpumask_empty(&al_l2->cluster_cpus)) {
-+		dev_err(dev, "CPU mask is empty for this L2 cache\n");
-+		ret = -EINVAL;
-+		goto err;
-+	}
-+
-+	ret = edac_device_add_device(edac_dev);
-+	if (ret) {
-+		dev_err(dev, "Failed to add L2 edac device\n");
-+		goto err;
-+	}
-+
-+	return 0;
-+
-+err:
-+	edac_device_free_ctl_info(edac_dev);
-+
-+	return ret;
-+}
-+
-+static int al_l2_edac_remove(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_dev = platform_get_drvdata(pdev);
-+
-+	edac_device_del_device(edac_dev->dev);
-+	edac_device_free_ctl_info(edac_dev);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id al_l2_edac_of_match[] = {
-+	{ .compatible = "amazon,al-l2-edac" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, al_l2_edac_of_match);
-+
-+static struct platform_driver al_l2_edac_driver = {
-+	.probe = al_l2_edac_probe,
-+	.remove = al_l2_edac_remove,
-+	.driver = {
-+		.name = "al_l2_edac",
-+		.of_match_table = al_l2_edac_of_match,
-+	},
-+};
-+module_platform_driver(al_l2_edac_driver);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR("Hanna Hawa <hhhawa@amazon.com>");
-+MODULE_DESCRIPTION("Amazon's Annapurna Lab's L2 EDAC Driver");
--- 
-2.7.4
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> index 2d11501..76b42ca 100644
+> --- a/arch/arm64/mm/fault.c
+> +++ b/arch/arm64/mm/fault.c
+> @@ -37,6 +37,7 @@
+>  #include <asm/pgtable.h>
+>  #include <asm/tlbflush.h>
+>  #include <asm/traps.h>
+> +#include <asm/ras.h>
+>  
+>  struct fault_info {
+>  	int	(*fn)(unsigned long addr, unsigned int esr,
+> @@ -632,6 +633,8 @@ static int do_sea(unsigned long addr, unsigned int esr, struct pt_regs *regs)
+>  
+>  	inf = esr_to_fault_info(esr);
+>  
+> +	arch_arm_ras_report_error();
+> +
+>  	/*
+>  	 * Return value ignored as we rely on signal merging.
+>  	 * Future patches will make this more robust.
+> 
 
+If we interrupted a preemptible context, do_sea() is preemptible too... This means we
+can't know if we're still running on the same CPU as the one that took the external-abort.
+(until this series, it hasn't mattered).
+
+Fixing this means cramming something into entry.S's el1_da, as this may unmask interrupts
+before calling do_mem_abort(). But its going to be ugly because some of do_mem_abort()s
+ESR values need to be preemptible because they sleep, e.g. page-faults calling
+handle_mm_fault().
+For do_sea(), do_exit() will 'fix' the preempt count if we kill the thread, but if we
+don't, it still needs to be balanced. Doing all this in assembly is going to be unreadable!
+
+Mark Rutland has a series to move the entry assembly into C [0]. Based on that that it
+should be possible for the new el1_abort() to spot a Synchronous-External-Abort ESR, and
+wrap the do_mem_abort() with preempt enable/disable, before inheriting the flags. (which
+for synchronous exceptions, I think we should always do)
+
+
+Thanks,
+
+James
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/log/?h=arm64/entry-deasm
