@@ -2,48 +2,53 @@ Return-Path: <SRS0=/y6Q=VG=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B1DC73C5C
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3664C73C53
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:57:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7CA7A2073D
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:56:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA54620844
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:57:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="gCqhGDSU"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="CCCPEdMo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729622AbfGIV46 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 9 Jul 2019 17:56:58 -0400
-Received: from mail-eopbgr720088.outbound.protection.outlook.com ([40.107.72.88]:41787
-        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
+        id S1729781AbfGIV5C (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 9 Jul 2019 17:57:02 -0400
+Received: from mail-eopbgr800070.outbound.protection.outlook.com ([40.107.80.70]:26896
+        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727026AbfGIV46 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 9 Jul 2019 17:56:58 -0400
+        id S1729746AbfGIV5B (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 9 Jul 2019 17:57:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zXLfZ5O0tgBGkVchBS5bVfzUl2SBW9bznFVOmqkI4AU=;
- b=gCqhGDSURsprqA52H4i3Z7pClcYPxFo8BGEKwC+7ZfU1ZMlqNahuciMhQiYsf7GhCEnbe5TdgVLocZmA7ZsNnB7Iz67sCwFhJkMlu4U0OatpqO30nMreqPUgPK/5/NrBIV9NEopTzilZf1yWQwvjMBPmk4fs4qmJNRtsHPfWduE=
+ bh=vyPHsgtURL6T+a74kj4wNZwB1aIvnfuOaPlWgEPFECQ=;
+ b=CCCPEdMoQuZFKOfQf0DSHIhLPSFSP2TPFz10s8EMnSZOvqpbbPavQorFGufShLl01+Pe7a44H8HOmZ07243813H3p+wFqMpo11WhyXry0eOSzA7IsbU1TxhClgCS2WxoYd7UafzA/hCU2jt2PW9EunTVAN+pf8K6t6renaIJpvU=
 Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
- SN6PR12MB2637.namprd12.prod.outlook.com (52.135.103.14) with Microsoft SMTP
+ SN6PR12MB2814.namprd12.prod.outlook.com (52.135.107.151) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2052.19; Tue, 9 Jul 2019 21:56:54 +0000
+ 15.20.2052.19; Tue, 9 Jul 2019 21:56:55 +0000
 Received: from SN6PR12MB2639.namprd12.prod.outlook.com
  ([fe80::fd06:e03b:2b06:e8d7]) by SN6PR12MB2639.namprd12.prod.outlook.com
  ([fe80::fd06:e03b:2b06:e8d7%6]) with mapi id 15.20.2052.020; Tue, 9 Jul 2019
- 21:56:54 +0000
+ 21:56:55 +0000
 From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
 To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "bp@alien8.de" <bp@alien8.de>
-Subject: [PATCH v2 0/7] AMD64 EDAC fixes
-Thread-Topic: [PATCH v2 0/7] AMD64 EDAC fixes
-Thread-Index: AQHVNqE4C2hUM14zc0W5mv2Ndq5NWw==
-Date:   Tue, 9 Jul 2019 21:56:54 +0000
-Message-ID: <20190709215643.171078-1-Yazen.Ghannam@amd.com>
+Subject: [PATCH v2 2/7] EDAC/amd64: Recognize DRAM device type with
+ EDAC_CTL_CAP
+Thread-Topic: [PATCH v2 2/7] EDAC/amd64: Recognize DRAM device type with
+ EDAC_CTL_CAP
+Thread-Index: AQHVNqE5pOXYz88VFEqxtA4lZ5p0QQ==
+Date:   Tue, 9 Jul 2019 21:56:55 +0000
+Message-ID: <20190709215643.171078-3-Yazen.Ghannam@amd.com>
+References: <20190709215643.171078-1-Yazen.Ghannam@amd.com>
+In-Reply-To: <20190709215643.171078-1-Yazen.Ghannam@amd.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -57,31 +62,31 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
 x-originating-ip: [165.204.78.2]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ca7d8200-2774-4a46-2a57-08d704b85ac3
+x-ms-office365-filtering-correlation-id: f184685b-6f8f-4565-48b8-08d704b85b75
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2637;
-x-ms-traffictypediagnostic: SN6PR12MB2637:
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2814;
+x-ms-traffictypediagnostic: SN6PR12MB2814:
 x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <SN6PR12MB263718E15104D54537405399F8F10@SN6PR12MB2637.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-microsoft-antispam-prvs: <SN6PR12MB2814E53D9B173DFA81389C1FF8F10@SN6PR12MB2814.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
 x-forefront-prvs: 0093C80C01
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(199004)(189003)(50226002)(2906002)(256004)(4744005)(81166006)(81156014)(8676002)(53936002)(5660300002)(36756003)(26005)(386003)(6916009)(102836004)(66446008)(5640700003)(6506007)(478600001)(966005)(6436002)(6486002)(6306002)(6512007)(316002)(54906003)(8936002)(52116002)(71200400001)(71190400001)(486006)(2351001)(99286004)(25786009)(2616005)(2501003)(86362001)(186003)(476003)(6116002)(3846002)(7736002)(68736007)(1076003)(66066001)(66476007)(66946007)(4326008)(64756008)(66556008)(305945005)(14454004);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2637;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(346002)(396003)(136003)(39860400002)(199004)(189003)(26005)(8936002)(4326008)(6486002)(54906003)(6916009)(6512007)(6436002)(5640700003)(6306002)(102836004)(1076003)(966005)(6506007)(52116002)(386003)(53936002)(76176011)(6116002)(68736007)(81156014)(25786009)(99286004)(316002)(50226002)(36756003)(186003)(2906002)(5660300002)(86362001)(11346002)(446003)(476003)(2616005)(81166006)(256004)(486006)(2501003)(66066001)(66476007)(66946007)(305945005)(3846002)(66446008)(71190400001)(66556008)(64756008)(71200400001)(478600001)(7736002)(14454004)(2351001)(8676002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2814;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Bs541YYLYBOeIBZzvLZabjTKTXtXEhWC+xY+eGIgZvo5HwOhGnxHWpIvSOgVRh2YpxZwbuF2oCZkQjokhoZKEv64ce1x3Dy03Nq0W1W99GWLV0E80uZJgwO5E1IuVcCf447OC5puTXjsQ4kXOey3d/rTp4bkYTPp14kpkybtd7F17nkmT1v8zAksbob64KeY4oOJVw1PhxjrT2qOTW5yQSpeOBj71xUk0v/NX9LtmnIfKCuFsFH8id0DhvCArTLyFMknQJaYLyzktIymsVF8TDZerVl7V/rTXYVtAe6EGwuKedMG0v2ise5zBGK//pkGVpNGy9mtfoqzpv/XQS00Yzvb6eMgHiz87ctLOM7/NPc7PJukrM8WJRV0MczG4kRcz2RxnFHM8WUiPQTl7jiLK3Z+qXRih8sq28tksFF7Yt4=
+x-microsoft-antispam-message-info: PY1YMuK6rQ850k7LRIMHxlZzvOxH02ilE+ly/4nWG0abjgNnQCkZP3ggi8qOIqTFy+citXAd5ytkFqZBOiiPS6P5ErIL9HJLzozxA6LVG3U00yU37hCch+kyG14A1pq2hNQMSwkP/qpjsRWlL6CJIJXDsS2uHdKpl6SYl1W8+WcxKT9E3ww7btBFqOpG8vi2q3u4xl7hP2ov80GLBE3AR+n8XhT2X5zwOFlTvhjeqCQFME4FocjNFKp10cWtcbQW2uaJrRbQNrKZcwYrhlaruWmaOx+VpeiC0TP6EESqWBrGwgPi+BcBvrsIvKWEpgMm4GCnHyGxzcFHaBx1Y9WNH9Wklfu/48q/d1Q7TESRsNUKeVdwwZsa8Mg6oNSCxvpAg+UonWbMfwwgBzi2jqaFrsJMY3BfvgAqk1AqVeLq7PE=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca7d8200-2774-4a46-2a57-08d704b85ac3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2019 21:56:54.1826
+X-MS-Exchange-CrossTenant-Network-Message-Id: f184685b-6f8f-4565-48b8-08d704b85b75
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2019 21:56:55.3539
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: yghannam@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2637
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2814
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
@@ -89,36 +94,63 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Hi Boris,
+AMD Family 17h systems support x4 and x16 DRAM devices. However, the
+device type is not checked when setting EDAC_CTL_CAP.
 
-This set contains a few fixes for some changes merged in v5.2. There
-are also a couple of fixes for older issues. In addition, there are a
-couple of patches to add support for Asymmetric Dual-Rank DIMMs.
+Set the appropriate EDAC_CTL_CAP flag based on the device type.
 
-Thanks,
-Yazen
-
+Fixes: 2d09d8f301f5 ("EDAC, amd64: Determine EDAC MC capabilities on Fam17h=
+")
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
 Link:
-https://lkml.kernel.org/r/20190531234501.32826-1-Yazen.Ghannam@amd.com
+https://lkml.kernel.org/r/20190531234501.32826-4-Yazen.Ghannam@amd.com
 
 v1->v2:
-* Squash patches 1 and 2 together.
+* No change.
 
-Yazen Ghannam (7):
-  EDAC/amd64: Support more than two controllers for chip selects
-    handling
-  EDAC/amd64: Recognize DRAM device type with EDAC_CTL_CAP
-  EDAC/amd64: Initialize DIMM info for systems with more than two
-    channels
-  EDAC/amd64: Find Chip Select memory size using Address Mask
-  EDAC/amd64: Decode syndrome before translating address
-  EDAC/amd64: Cache secondary Chip Select registers
-  EDAC/amd64: Support Asymmetric Dual-Rank DIMMs
+ drivers/edac/amd64_edac.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
- drivers/edac/amd64_edac.c | 348 ++++++++++++++++++++++++--------------
- drivers/edac/amd64_edac.h |   9 +-
- 2 files changed, 232 insertions(+), 125 deletions(-)
-
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index dd60cf5a3d96..125d6e2a828e 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -3150,12 +3150,15 @@ static bool ecc_enabled(struct pci_dev *F3, u16 nid=
+)
+ static inline void
+ f17h_determine_edac_ctl_cap(struct mem_ctl_info *mci, struct amd64_pvt *pv=
+t)
+ {
+-	u8 i, ecc_en =3D 1, cpk_en =3D 1;
++	u8 i, ecc_en =3D 1, cpk_en =3D 1, dev_x4 =3D 1, dev_x16 =3D 1;
+=20
+ 	for_each_umc(i) {
+ 		if (pvt->umc[i].sdp_ctrl & UMC_SDP_INIT) {
+ 			ecc_en &=3D !!(pvt->umc[i].umc_cap_hi & UMC_ECC_ENABLED);
+ 			cpk_en &=3D !!(pvt->umc[i].umc_cap_hi & UMC_ECC_CHIPKILL_CAP);
++
++			dev_x4 &=3D !!(pvt->umc[i].dimm_cfg & BIT(6));
++			dev_x16 &=3D !!(pvt->umc[i].dimm_cfg & BIT(7));
+ 		}
+ 	}
+=20
+@@ -3163,8 +3166,12 @@ f17h_determine_edac_ctl_cap(struct mem_ctl_info *mci=
+, struct amd64_pvt *pvt)
+ 	if (ecc_en) {
+ 		mci->edac_ctl_cap |=3D EDAC_FLAG_SECDED;
+=20
+-		if (cpk_en)
+-			mci->edac_ctl_cap |=3D EDAC_FLAG_S4ECD4ED;
++		if (cpk_en) {
++			if (dev_x4)
++				mci->edac_ctl_cap |=3D EDAC_FLAG_S4ECD4ED;
++			else if (dev_x16)
++				mci->edac_ctl_cap |=3D EDAC_FLAG_S16ECD16ED;
++		}
+ 	}
+ }
+=20
 --=20
 2.17.1
 
