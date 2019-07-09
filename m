@@ -2,67 +2,67 @@ Return-Path: <SRS0=/y6Q=VG=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8A9C73C53
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 17:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2612C73C53
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 18:05:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0A47B20651
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 17:59:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 916A62173E
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 18:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1562695550;
+	bh=qszUkIfcBTyOQhKXVOSyQwkIUIByxv8jYBX0D7tdbwY=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=2rTCQhj8VM6LvSo4y2m36u2bDMyqIfUTWA9hJMnMMBi3UBoILE6Dx8LeQHEH4Dhgs
+	 bpHCPSs8MvPl2Bl5cz4bLfrAdnDbk07gAV5EvbvyNdAY7lU9cZ7hDRXvb9UoxUZib0
+	 7iV/wxGYSjGde2ip1JBQLpS4XzQg5tpODhpyuyvw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbfGIR7i (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 9 Jul 2019 13:59:38 -0400
-Received: from smtprelay0094.hostedemail.com ([216.40.44.94]:39464 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726133AbfGIR7i (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 9 Jul 2019 13:59:38 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id A73A7100E86C5;
-        Tue,  9 Jul 2019 17:59:36 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: earth64_192839cbcd232
-X-Filterd-Recvd-Size: 1636
-Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf08.hostedemail.com (Postfix) with ESMTPA;
-        Tue,  9 Jul 2019 17:59:32 +0000 (UTC)
-Message-ID: <ff4ce6a96a922cff2dd929560b9167207b4899e9.camel@perches.com>
-Subject: Re: [PATCH v2 2/4] edac: Add support for Amazon's Annapurna Labs L1
- EDAC
-From:   Joe Perches <joe@perches.com>
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Hanna Hawa <hhhawa@amazon.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, bp@alien8.de,
-        mchehab@kernel.org, james.morse@arm.com, davem@davemloft.net,
-        gregkh@linuxfoundation.org, linus.walleij@linaro.org,
-        nicolas.ferre@microchip.com, paulmck@linux.ibm.com,
-        dwmw@amazon.co.uk, benh@amazon.com, ronenk@amazon.com,
-        talel@amazon.com, jonnyc@amazon.com, hanochu@amazon.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org
-Date:   Tue, 09 Jul 2019 10:59:31 -0700
-In-Reply-To: <20190709173229.0000135f@huawei.com>
-References: <1562500658-14717-1-git-send-email-hhhawa@amazon.com>
-         <1562500658-14717-3-git-send-email-hhhawa@amazon.com>
-         <20190709173229.0000135f@huawei.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727594AbfGISFp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 9 Jul 2019 14:05:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36308 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727395AbfGISFM (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 9 Jul 2019 14:05:12 -0400
+Subject: Re: [GIT PULL] EDAC driver changes for v5.3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562695511;
+        bh=qszUkIfcBTyOQhKXVOSyQwkIUIByxv8jYBX0D7tdbwY=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=S32nPDDsdOkYJ6qPvW7o38ru7MUY0je4IfBaE8ypoxPxiMbCJEAmAkOpXHnw7z2ZC
+         YdzNFJV2KiWle4vWAX0P/z3tqL87kRUrORVkTkT3xEZcCRftPAGY470G4rrYe1JpDo
+         ZRXAiuE195QeS4yB39bvoNZPYgERf/pLgse29Ano=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190708161550.GA23045@agluck-desk2.amr.corp.intel.com>
+References: <20190708161550.GA23045@agluck-desk2.amr.corp.intel.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190708161550.GA23045@agluck-desk2.amr.corp.intel.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git
+ tags/please-pull-for_5.3
+X-PR-Tracked-Commit-Id: d8655e7630dafa88bc37f101640e39c736399771
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 947fbd4ca9fb38f320b076e68cfccab977c5ea01
+Message-Id: <156269551136.14383.16902388026142482452.pr-tracker-bot@kernel.org>
+Date:   Tue, 09 Jul 2019 18:05:11 +0000
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, 2019-07-09 at 17:32 +0800, Jonathan Cameron wrote:
-> On Sun, 7 Jul 2019 14:57:36 +0300
-[]
-> > +#define ARM_CA57_CPUMERRSR_REPEAT		GENMASK(39, 32)
-> > +#define ARM_CA57_CPUMERRSR_OTHER		GENMASK(47, 40)
-> > +#define ARM_CA57_CPUMERRSR_FATAL		GENMASK(63, 63)
+The pull request you sent on Mon, 8 Jul 2019 09:15:51 -0700:
 
-GENMASK_ULL
+> git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/please-pull-for_5.3
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/947fbd4ca9fb38f320b076e68cfccab977c5ea01
 
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
