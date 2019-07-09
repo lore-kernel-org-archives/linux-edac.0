@@ -7,46 +7,44 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F31E0C73C5C
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6FFC73C5C
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:57:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BBCDE20861
-	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:57:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA75220861
+	for <linux-edac@archiver.kernel.org>; Tue,  9 Jul 2019 21:57:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="Se1E5gMy"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="n0t0UVLm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729803AbfGIV5E (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 9 Jul 2019 17:57:04 -0400
-Received: from mail-eopbgr800070.outbound.protection.outlook.com ([40.107.80.70]:26896
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
+        id S1729746AbfGIV5N (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 9 Jul 2019 17:57:13 -0400
+Received: from mail-eopbgr690059.outbound.protection.outlook.com ([40.107.69.59]:63872
+        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729772AbfGIV5E (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 9 Jul 2019 17:57:04 -0400
+        id S1729786AbfGIV5C (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 9 Jul 2019 17:57:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pVaxIWuTPFwsSJ3AeUaqtXNnlMfU7YLbyT55yEwH7u8=;
- b=Se1E5gMyH1DrMzbIUl5JFd6B+j0HkKknd5RacLLSiUE7fO4LrqUfF/TudfIqCG0tL/Ak90Gw664UoZz0/I2l397U3wg7WnevaSr7xuZ3T3ZETjicripwFDGpiVxflDS+Uhq7WCiTstXcaJwHWDVuNECfNlsH0/GflZ+QVeVkMjM=
+ bh=mckTv+s/JRdf5bao4dcLRovMz1xHK4RThrrFPOl6nyk=;
+ b=n0t0UVLmwUqfES969ujA5JLNHv1EUjPGwMdQju2b9lFpmRmaaTSK6gKvqImA5AQc6ZZWXJh0eU1ngWHgKY13j1psRhr6z/1Z3mTVPoiG+wHKDVcSeDiTgICNi23bZLpS6hRhiI3c2NrpPLCEliH4pXSpsaBRDrMtMrw+m8eJUFE=
 Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
- SN6PR12MB2814.namprd12.prod.outlook.com (52.135.107.151) with Microsoft SMTP
+ SN6PR12MB2718.namprd12.prod.outlook.com (52.135.103.139) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2052.19; Tue, 9 Jul 2019 21:56:56 +0000
+ 15.20.2052.19; Tue, 9 Jul 2019 21:56:58 +0000
 Received: from SN6PR12MB2639.namprd12.prod.outlook.com
  ([fe80::fd06:e03b:2b06:e8d7]) by SN6PR12MB2639.namprd12.prod.outlook.com
  ([fe80::fd06:e03b:2b06:e8d7%6]) with mapi id 15.20.2052.020; Tue, 9 Jul 2019
- 21:56:56 +0000
+ 21:56:58 +0000
 From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
 To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "bp@alien8.de" <bp@alien8.de>
-Subject: [PATCH v2 3/7] EDAC/amd64: Initialize DIMM info for systems with more
- than two channels
-Thread-Topic: [PATCH v2 3/7] EDAC/amd64: Initialize DIMM info for systems with
- more than two channels
-Thread-Index: AQHVNqE5t+N1wkgV+EOHHNw1+vPo8w==
-Date:   Tue, 9 Jul 2019 21:56:55 +0000
-Message-ID: <20190709215643.171078-4-Yazen.Ghannam@amd.com>
+Subject: [PATCH v2 7/7] EDAC/amd64: Support Asymmetric Dual-Rank DIMMs
+Thread-Topic: [PATCH v2 7/7] EDAC/amd64: Support Asymmetric Dual-Rank DIMMs
+Thread-Index: AQHVNqE6J4H7oRniNEKmFoXEUgkvBA==
+Date:   Tue, 9 Jul 2019 21:56:58 +0000
+Message-ID: <20190709215643.171078-8-Yazen.Ghannam@amd.com>
 References: <20190709215643.171078-1-Yazen.Ghannam@amd.com>
 In-Reply-To: <20190709215643.171078-1-Yazen.Ghannam@amd.com>
 Accept-Language: en-US
@@ -62,31 +60,31 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
 x-originating-ip: [165.204.78.2]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 66a4a0f4-fdfe-4897-355c-08d704b85bcc
+x-ms-office365-filtering-correlation-id: 834f5b18-c139-4e0a-c40e-08d704b85d37
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2814;
-x-ms-traffictypediagnostic: SN6PR12MB2814:
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR12MB2718;
+x-ms-traffictypediagnostic: SN6PR12MB2718:
 x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <SN6PR12MB28148A38E247EC51676EED65F8F10@SN6PR12MB2814.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-microsoft-antispam-prvs: <SN6PR12MB271817D3C285DC4015B8F76DF8F10@SN6PR12MB2718.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
 x-forefront-prvs: 0093C80C01
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(346002)(396003)(136003)(39860400002)(199004)(189003)(26005)(8936002)(4326008)(6486002)(54906003)(6916009)(6512007)(6436002)(5640700003)(6306002)(102836004)(1076003)(966005)(6506007)(52116002)(386003)(53936002)(14444005)(76176011)(6116002)(68736007)(81156014)(25786009)(99286004)(316002)(50226002)(36756003)(186003)(2906002)(5660300002)(86362001)(11346002)(446003)(476003)(2616005)(81166006)(256004)(486006)(2501003)(66066001)(66476007)(66946007)(305945005)(3846002)(66446008)(71190400001)(66556008)(64756008)(71200400001)(478600001)(7736002)(14454004)(2351001)(8676002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2814;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(396003)(376002)(366004)(346002)(39860400002)(199004)(189003)(6506007)(53936002)(386003)(76176011)(26005)(2351001)(186003)(2501003)(14444005)(256004)(6116002)(99286004)(52116002)(102836004)(6306002)(2906002)(6512007)(68736007)(1076003)(6916009)(305945005)(5660300002)(66066001)(3846002)(6436002)(50226002)(66446008)(66556008)(66476007)(66946007)(64756008)(71200400001)(36756003)(71190400001)(2616005)(8676002)(81166006)(966005)(25786009)(316002)(81156014)(446003)(4326008)(54906003)(11346002)(8936002)(14454004)(486006)(478600001)(86362001)(5640700003)(7736002)(6486002)(476003);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2718;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: t0ASMCset5vKbO6bxPhOmtm0rMjdJk/lN3sOKTdV7wMZGvFZvCRsbVZLgRpVXG11PErcq7oGfikkOFcRgMcUrHOb9PjFug2wR3SqyRn3ZGcTS8iyMLzyCFeQmhHPbQQVJ1B5GgHjBIW2Q9p5ICh8bQALpnFctxLaDiKJFSdxwu01eIcV20t645u7MMA/nlFMBiEJsCuijhEnUfgP0d/8FWHxjj4ITQTJLEqvEH4dp5wnn0qiGeEdmQ2xp0lZ5SS2j4GzcgjDKyihHBD2PgVMIUNzqA4y7xKFUEi9Q3BdzRHpbt0OSy1uhLNIMgWTECzymf0qaGJ7C0reup/8geUvdKWkW8NKjpDkQVuIqUy2q/2jXi99O3GDAV7iM4dsmO5mmWSz7ddANokWyKpMwdrHMOaNEUPixRzZ/etL9WxWs1o=
+x-microsoft-antispam-message-info: mH5lwuyTeUlDQRg3KHHjdO/BfXo0sTAs0J4jjCSU+yEj3DoEcw+9pb+qCL0DEHIRfUlGAZ0vpGy/7zDQSpFYG/IzSP09s4oqPx/MtoJwJJ/HsBNlpRNimCO777ALkJIQ1GH6ZTbFCC6gMH8151DDHC+8v+XX3HN0gXXVXZ5UMYW+ovfutV5a3jMnI/oemoJUN0YATUsgGZNe44TmzGY3Oid0t/1TnuVXJAs+76Kehtu4NWCQiSdrdk0AIbCS8MwqDwaDWKY3da47C/H+OZeIDACszl1BznXNMOoLxgtzDoYeyjmD4SfIp3uJ6hYBhqbWn6+g0FOfFxU5VAx/e7UDJ0viKkGkj026BWth/eM9UxO2HwFf84I+drnCH8zi/yLgajC73i+8zqnFZyYFP34WtTXu3qMfL8fgN9ChnGp90Q8=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66a4a0f4-fdfe-4897-355c-08d704b85bcc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2019 21:56:56.0585
+X-MS-Exchange-CrossTenant-Network-Message-Id: 834f5b18-c139-4e0a-c40e-08d704b85d37
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2019 21:56:58.2552
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: yghannam@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2814
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2718
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
@@ -94,125 +92,68 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Currently, the DIMM info for AMD Family 17h systems is initialized in
-init_csrows(). This function is shared with legacy systems, and it has a
-limit of two channel support.
+Future AMD systems will support "Asymmetric" Dual-Rank DIMMs. These are
+DIMMs were the ranks are of different sizes.
 
-This prevents initialization of the DIMM info for a number of ranks, so
-there will be missing ranks in the EDAC sysfs.
+The even rank will use the Primary Even Chip Select registers and the
+odd rank will use the Secondary Odd Chip Select registers.
 
-Create a new init_csrows_df() for Family17h+ and revert init_csrows()
-back to pre-Family17h support.
+Recognize if a Secondary Odd Chip Select is being used. Use the
+Secondary Odd Address Mask when calculating the chip select size.
 
-Loop over all channels in the new function in order to support systems
-with more than two channels.
-
-Fixes: bdcee7747f5c ("EDAC/amd64: Support more than two Unified Memory Cont=
-rollers")
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
 Link:
-https://lkml.kernel.org/r/20190531234501.32826-5-Yazen.Ghannam@amd.com
+https://lkml.kernel.org/r/20190531234501.32826-9-Yazen.Ghannam@amd.com
 
 v1->v2:
 * No change.
 
- drivers/edac/amd64_edac.c | 63 ++++++++++++++++++++++++++++++---------
- 1 file changed, 49 insertions(+), 14 deletions(-)
+ drivers/edac/amd64_edac.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 125d6e2a828e..d0926b181c7c 100644
+index 006417cb79dc..6c284a4f980c 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
-@@ -2837,6 +2837,46 @@ static u32 get_csrow_nr_pages(struct amd64_pvt *pvt,=
- u8 dct, int csrow_nr_orig)
- 	return nr_pages;
+@@ -790,6 +790,9 @@ static void debug_dump_dramcfg_low(struct amd64_pvt *pv=
+t, u32 dclr, int chan)
+=20
+ #define CS_EVEN_PRIMARY		BIT(0)
+ #define CS_ODD_PRIMARY		BIT(1)
++#define CS_ODD_SECONDARY	BIT(2)
++
++#define csrow_sec_enabled(i, dct, pvt)	((pvt)->csels[(dct)].csbases_sec[(i=
+)] & DCSB_CS_ENABLE)
+=20
+ static int f17_get_cs_mode(int dimm, u8 ctrl, struct amd64_pvt *pvt)
+ {
+@@ -801,6 +804,10 @@ static int f17_get_cs_mode(int dimm, u8 ctrl, struct a=
+md64_pvt *pvt)
+ 	if (csrow_enabled(2 * dimm + 1, ctrl, pvt))
+ 		cs_mode |=3D CS_ODD_PRIMARY;
+=20
++	/* Asymmetric Dual-Rank DIMM support. */
++	if (csrow_sec_enabled(2 * dimm + 1, ctrl, pvt))
++		cs_mode |=3D CS_ODD_SECONDARY;
++
+ 	return cs_mode;
  }
 =20
-+static int init_csrows_df(struct mem_ctl_info *mci)
-+{
-+	struct amd64_pvt *pvt =3D mci->pvt_info;
-+	enum edac_type edac_mode =3D EDAC_NONE;
-+	enum dev_type dev_type =3D DEV_UNKNOWN;
-+	struct dimm_info *dimm;
-+	int empty =3D 1;
-+	u8 umc, cs;
-+
-+	if (mci->edac_ctl_cap & EDAC_FLAG_S16ECD16ED) {
-+		edac_mode =3D EDAC_S16ECD16ED;
-+		dev_type =3D DEV_X16;
-+	} else if (mci->edac_ctl_cap & EDAC_FLAG_S4ECD4ED) {
-+		edac_mode =3D EDAC_S4ECD4ED;
-+		dev_type =3D DEV_X4;
-+	} else if (mci->edac_ctl_cap & EDAC_FLAG_SECDED) {
-+		edac_mode =3D EDAC_SECDED;
-+	}
-+
-+	for_each_umc(umc) {
-+		for_each_chip_select(cs, umc, pvt) {
-+			if (!csrow_enabled(cs, umc, pvt))
-+				continue;
-+
-+			empty =3D 0;
-+			dimm =3D mci->csrows[cs]->channels[umc]->dimm;
-+
-+			edac_dbg(1, "MC node: %d, csrow: %d\n",
-+					pvt->mc_node_id, cs);
-+
-+			dimm->nr_pages =3D get_csrow_nr_pages(pvt, umc, cs);
-+			dimm->mtype =3D pvt->dram_type;
-+			dimm->edac_mode =3D edac_mode;
-+			dimm->dtype =3D dev_type;
-+		}
-+	}
-+
-+	return empty;
-+}
-+
- /*
-  * Initialize the array of csrow attribute instances, based on the values
-  * from pci config hardware registers.
-@@ -2851,15 +2891,16 @@ static int init_csrows(struct mem_ctl_info *mci)
- 	int nr_pages =3D 0;
- 	u32 val;
+@@ -1590,7 +1597,11 @@ static int f17_addr_mask_to_cs_size(struct amd64_pvt=
+ *pvt, u8 umc,
+ 	 */
+ 	dimm =3D csrow_nr >> 1;
 =20
--	if (!pvt->umc) {
--		amd64_read_pci_cfg(pvt->F3, NBCFG, &val);
-+	if (pvt->umc)
-+		return init_csrows_df(mci);
-+
-+	amd64_read_pci_cfg(pvt->F3, NBCFG, &val);
-=20
--		pvt->nbcfg =3D val;
-+	pvt->nbcfg =3D val;
-=20
--		edac_dbg(0, "node %d, NBCFG=3D0x%08x[ChipKillEccCap: %d|DramEccEn: %d]\n=
-",
--			 pvt->mc_node_id, val,
--			 !!(val & NBCFG_CHIPKILL), !!(val & NBCFG_ECC_ENABLE));
--	}
-+	edac_dbg(0, "node %d, NBCFG=3D0x%08x[ChipKillEccCap: %d|DramEccEn: %d]\n"=
-,
-+		 pvt->mc_node_id, val,
-+		 !!(val & NBCFG_CHIPKILL), !!(val & NBCFG_ECC_ENABLE));
+-	addr_mask_orig =3D pvt->csels[umc].csmasks[dimm];
++	/* Asymmetric Dual-Rank DIMM support. */
++	if (cs_mode & CS_ODD_SECONDARY)
++		addr_mask_orig =3D pvt->csels[umc].csmasks_sec[dimm];
++	else
++		addr_mask_orig =3D pvt->csels[umc].csmasks[dimm];
 =20
  	/*
- 	 * We iterate over DCT0 here but we look at DCT1 in parallel, if needed.
-@@ -2896,13 +2937,7 @@ static int init_csrows(struct mem_ctl_info *mci)
- 		edac_dbg(1, "Total csrow%d pages: %u\n", i, nr_pages);
-=20
- 		/* Determine DIMM ECC mode: */
--		if (pvt->umc) {
--			if (mci->edac_ctl_cap & EDAC_FLAG_S4ECD4ED)
--				edac_mode =3D EDAC_S4ECD4ED;
--			else if (mci->edac_ctl_cap & EDAC_FLAG_SECDED)
--				edac_mode =3D EDAC_SECDED;
--
--		} else if (pvt->nbcfg & NBCFG_ECC_ENABLE) {
-+		if (pvt->nbcfg & NBCFG_ECC_ENABLE) {
- 			edac_mode =3D (pvt->nbcfg & NBCFG_CHIPKILL)
- 					? EDAC_S4ECD4ED
- 					: EDAC_SECDED;
+ 	 * The number of zero bits in the mask is equal to the number of bits
 --=20
 2.17.1
 
