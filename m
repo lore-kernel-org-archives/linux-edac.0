@@ -5,44 +5,44 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA04C742A8
-	for <linux-edac@archiver.kernel.org>; Fri, 12 Jul 2019 03:49:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3F8DC742A5
+	for <linux-edac@archiver.kernel.org>; Fri, 12 Jul 2019 03:49:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 27CF120644
-	for <linux-edac@archiver.kernel.org>; Fri, 12 Jul 2019 03:49:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7F2521530
+	for <linux-edac@archiver.kernel.org>; Fri, 12 Jul 2019 03:49:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="wJbd1FHy"
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="b4O8Arsu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729512AbfGLDtm (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S1729687AbfGLDtm (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Thu, 11 Jul 2019 23:49:42 -0400
-Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:38365 "EHLO
+Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:38358 "EHLO
         gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729580AbfGLDtS (ORCPT
+        with ESMTP id S1729568AbfGLDtS (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Thu, 11 Jul 2019 23:49:18 -0400
 Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 56C2C891B5;
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 2B5C9891B2;
         Fri, 12 Jul 2019 15:49:15 +1200 (NZST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
         s=mail181024; t=1562903355;
-        bh=BJ2SJfxvV+LPkP/KkZxVCosBZT+65HxPtxnVwz2cPQw=;
+        bh=YlJL9VdfrtMa6MepsmOIBxWXF9RyXS2+R/9YZ01ZhYU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=wJbd1FHymZGn9JDXfHO74bsoIRhlneIm7XlZg2GupITaSg6T/cAnm3A5hkWbCzb9m
-         lR9Y8Ykt1sQ6Us/v2exkX6P4skTKHDY2SpKFppHqYdH4+unUatB+AgSbm/088POQLx
-         9b4k/ogaOdrlMwYXVGPr992fSTNa5XFCHGOt2QRF98S4FFaqbPnAFQ2eiVp94vLX2B
-         xeSthFzfmP+QO1hiW127U/Q2uzj/ZThiKVPAuNv0g+DZ7vk/Gw0l0SeJqi6RmuV+iC
-         Egey5bzKSdhyWqhGxZvSp168p/rT7sXMmVief2D0saERAr8KghdODmTORMh7UdHXbN
-         09EQdOIkbW05w==
+        b=b4O8Arsuyiu4cA+g9S2zTiH0XVjl4tf46+3e6b7T7XEFbjZGC5BgtYYDiV6xbxBOL
+         XI1EHpV3nsv/kd5vy9cOrri7gcgaBT3XDbbgPu14YxLIt7yiGXoin+gN0Yz+g3pSl1
+         RUy2HE06EHLDxpJB81madb37x6GumSMHP8BqPCLqE3iRYGNc0QQEgAlohvaHipWRn/
+         IAiI1aRSkPm7x3yjYOQdzXgYCmk8vkG9qTidXst/4OKeRQcI1qw6FYkA1SMenrJm+O
+         dO1xdzSSVNhQlkzaTkcaD1lbuKjZNzrAsmqdJ5AM7MySzGyw77/lhsytIYRLkxpiAa
+         Shd1kYlNXzvGw==
 Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
-        id <B5d28033a0008>; Fri, 12 Jul 2019 15:49:14 +1200
+        id <B5d28033a0005>; Fri, 12 Jul 2019 15:49:14 +1200
 Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.30])
-        by smtp (Postfix) with ESMTP id 23E0213EF9E;
+        by smtp (Postfix) with ESMTP id 197EC13EF9C;
         Fri, 12 Jul 2019 15:49:16 +1200 (NZST)
 Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-        id 5B8351E1D82; Fri, 12 Jul 2019 15:49:14 +1200 (NZST)
+        id 512AC1E1D7A; Fri, 12 Jul 2019 15:49:14 +1200 (NZST)
 From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
 To:     bp@alien8.de, robh+dt@kernel.org, mark.rutland@arm.com,
         linux@armlinux.org.uk, patches@armlinux.org.uk, mchehab@kernel.org,
@@ -50,9 +50,9 @@ To:     bp@alien8.de, robh+dt@kernel.org, mark.rutland@arm.com,
 Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
         Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH v9 8/8] EDAC: armada_xp: Add support for more SoCs
-Date:   Fri, 12 Jul 2019 15:49:04 +1200
-Message-Id: <20190712034904.5747-9-chris.packham@alliedtelesis.co.nz>
+Subject: [PATCH v9 5/8] ARM: l2x0: add marvell,ecc-enable property for aurora
+Date:   Fri, 12 Jul 2019 15:49:01 +1200
+Message-Id: <20190712034904.5747-6-chris.packham@alliedtelesis.co.nz>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190712034904.5747-1-chris.packham@alliedtelesis.co.nz>
 References: <20190712034904.5747-1-chris.packham@alliedtelesis.co.nz>
@@ -64,35 +64,39 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The Armada 38x and other integrated SoCs use a reduced pin count so the
-width of the SDRAM interface is smaller than the Armada XP SoCs. This
-means that the definition of "full" and "half" width is reduced from
-64/32 to 32/16.
+The aurora cache on the Marvell Armada-XP SoC supports ECC protection
+for the L2 data arrays. Add a "marvell,ecc-enable" device tree property
+which can be used to enable this.
 
 Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+[jlu@pengutronix.de: use aurora specific define AURORA_ACR_ECC_EN]
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
 ---
- drivers/edac/armada_xp_edac.c | 5 +++++
+
+Notes:
+    Changes in v7:
+    - remove marvell,ecc-disable
+
+ arch/arm/mm/cache-l2x0.c | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/drivers/edac/armada_xp_edac.c b/drivers/edac/armada_xp_edac.=
-c
-index 3759a4fbbdee..7f227bdcbc84 100644
---- a/drivers/edac/armada_xp_edac.c
-+++ b/drivers/edac/armada_xp_edac.c
-@@ -332,6 +332,11 @@ static int axp_mc_probe(struct platform_device *pdev=
-)
+diff --git a/arch/arm/mm/cache-l2x0.c b/arch/arm/mm/cache-l2x0.c
+index 46a616ec6b0c..12c26eb88afb 100644
+--- a/arch/arm/mm/cache-l2x0.c
++++ b/arch/arm/mm/cache-l2x0.c
+@@ -1493,6 +1493,11 @@ static void __init aurora_of_parse(const struct de=
+vice_node *np,
+ 		mask |=3D AURORA_ACR_FORCE_WRITE_POLICY_MASK;
+ 	}
 =20
- 	axp_mc_read_config(mci);
-=20
-+	/* These SoCs have a reduced width bus */
-+	if (of_machine_is_compatible("marvell,armada380") ||
-+	    of_machine_is_compatible("marvell,armadaxp-98dx3236"))
-+		drvdata->width /=3D 2;
++	if (of_property_read_bool(np, "marvell,ecc-enable")) {
++		mask |=3D AURORA_ACR_ECC_EN;
++		val |=3D AURORA_ACR_ECC_EN;
++	}
 +
- 	/* configure SBE threshold */
- 	/* it seems that SBEs are not captured otherwise */
- 	writel(1 << SDRAM_ERR_CTRL_THR_OFFSET, drvdata->base + SDRAM_ERR_CTRL_R=
-EG);
+ 	if (of_property_read_bool(np, "arm,parity-enable")) {
+ 		mask |=3D AURORA_ACR_PARITY_EN;
+ 		val |=3D AURORA_ACR_PARITY_EN;
 --=20
 2.22.0
 
