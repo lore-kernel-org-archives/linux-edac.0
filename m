@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B394C76191
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 14:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC81EC76196
+	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 15:03:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2708C205ED
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 14:56:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CF62205ED
+	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 15:03:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563202581;
-	bh=fQnoVp2Ano+2lN/46uFMtsh5CIXYrF8dnnzvMx4/Kbk=;
+	s=default; t=1563202987;
+	bh=nQcIkOUEnUbbNZqnik5e7Pcu6uiNFKKEwHeO9bQu4kg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=nNDUF2skGjjNLICE13z5X+N8orhamkEKaKt1nnZ9tujLlfpC/b2lvCIqTcMDjUuj3
-	 57OE1BElQGlLKaKzBSjk2smgVjvaGVTwcDgwEW5gKsIM8EUKcYPXwuMTZPPgLWZzgk
-	 W84I3zhAsL5o3xE9DNpIrpzedjyRZl28d+x/arkQ=
+	b=VF4B2HXdNGoEuYNu4w1Cs0ylVld0fJ7XamSDvcrJZ0yEQC/ktut363hJVs/d9i3+h
+	 CFP23EULUZtxRdl3YgLXLkyNyD+Yc2DH5NqqHQST82X8Wbk0aw5YV4/r9IlvkQTt7O
+	 Q28h2RkjR+InlqjLJ6UIgG7l0AOIRmMMZwd1tmHc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390453AbfGOOXJ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 15 Jul 2019 10:23:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53180 "EHLO mail.kernel.org"
+        id S2388313AbfGOOKZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 15 Jul 2019 10:10:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39618 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390039AbfGOOXH (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:23:07 -0400
+        id S2388399AbfGOOKY (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:10:24 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 255CA2053B;
-        Mon, 15 Jul 2019 14:23:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 419512083D;
+        Mon, 15 Jul 2019 14:10:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563200586;
-        bh=fQnoVp2Ano+2lN/46uFMtsh5CIXYrF8dnnzvMx4/Kbk=;
+        s=default; t=1563199824;
+        bh=nQcIkOUEnUbbNZqnik5e7Pcu6uiNFKKEwHeO9bQu4kg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MDU+jmlftbz/nEPdhVIOdKYtWHowjFFaPvYvSVez8GSJ6yIUCYF8sYoE9/VhjYMD4
-         pH9bBauvlNFGnO4S/3VbvA/5Tj/wJnkngWogxGhd8Nm9K3D/zCAwE6Qx9GwXEwIyou
-         0b4ELlkeseEO1Rk/TD1j3FbYAN9FjeDSvqc7K9s0=
+        b=c11GuC8dEOoszazM8mrO2z6ad+GoH4fAcsvcjR8AcUrCcj9LJ0CcfcoABkejlg9wY
+         /LGrh+XboTeKKFrMswS308D7cOue3KKkIJXy/7KjT4+VYz1hj/sCfEWLgtEc5tUIHb
+         qGAwkWSlrCfbLhhDWbe8dZ0xmfzGQPgckm0LpiaA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Pan Bian <bianpan2016@163.com>, Borislav Petkov <bp@suse.de>,
@@ -46,12 +46,12 @@ Cc:     Pan Bian <bianpan2016@163.com>, Borislav Petkov <bp@suse.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac <linux-edac@vger.kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.19 084/158] EDAC/sysfs: Fix memory leak when creating a csrow object
-Date:   Mon, 15 Jul 2019 10:16:55 -0400
-Message-Id: <20190715141809.8445-84-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.1 117/219] EDAC/sysfs: Fix memory leak when creating a csrow object
+Date:   Mon, 15 Jul 2019 10:01:58 -0400
+Message-Id: <20190715140341.6443-117-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
-References: <20190715141809.8445-1-sashal@kernel.org>
+In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
+References: <20190715140341.6443-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,7 +82,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 20374b8248f0..e50610b5bd06 100644
+index bf9273437e3f..7c01e1cc030c 100644
 --- a/drivers/edac/edac_mc_sysfs.c
 +++ b/drivers/edac/edac_mc_sysfs.c
 @@ -404,6 +404,8 @@ static inline int nr_pages_per_csrow(struct csrow_info *csrow)
@@ -92,9 +92,9 @@ index 20374b8248f0..e50610b5bd06 100644
 +	int err;
 +
  	csrow->dev.type = &csrow_attr_type;
- 	csrow->dev.bus = mci->bus;
  	csrow->dev.groups = csrow_dev_groups;
-@@ -416,7 +418,11 @@ static int edac_create_csrow_object(struct mem_ctl_info *mci,
+ 	device_initialize(&csrow->dev);
+@@ -415,7 +417,11 @@ static int edac_create_csrow_object(struct mem_ctl_info *mci,
  	edac_dbg(0, "creating (virtual) csrow node %s\n",
  		 dev_name(&csrow->dev));
  
