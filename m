@@ -4,47 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FB4C7618F
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 15:09:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ECDCC7618F
+	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 15:11:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 21B6B2054F
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 15:09:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CA532054F
+	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 15:11:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563203368;
-	bh=vcGn3ElHcdimtT8hx9eq+HzmedGg7CPrXqHkCAf/oPY=;
+	s=default; t=1563203471;
+	bh=nQcIkOUEnUbbNZqnik5e7Pcu6uiNFKKEwHeO9bQu4kg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=GpfDkE03OwOvVEo3mqJ8Ssr26I/GCMGGYmtA96WVdfR4MexRWGZrZOmTI8cG9viaZ
-	 nm62b5qKM0zCB4vIm77PF/ZEyQ1OoWZcfNrz4KkbspxmhWtwN3Sk8T3ZKXv3U58ta0
-	 E/w6cE16H79bGDVTcgrfy66eAgUmBKeI4gVVyp+0=
+	b=eD138LnYY1UR9JQz3f5EhgzkETBBXsezHBsO0H+SN9ODfXI9ZWBkVOJhaNpf7qmWl
+	 5RpLnGOgfuloQKThWs8tp4heV6sMvOn5lkBzkKGg7gguMJzsUK37JafwLPjtYJFZYL
+	 Bgk6DYtZ5Dlc+V43z6FWvrztclhI7IwTVnyJ/Bd8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732656AbfGON4w (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 15 Jul 2019 09:56:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56100 "EHLO mail.kernel.org"
+        id S1731625AbfGONzC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 15 Jul 2019 09:55:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56788 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732609AbfGONyz (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 15 Jul 2019 09:54:55 -0400
+        id S1732676AbfGONzA (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 15 Jul 2019 09:55:00 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 041C82083D;
-        Mon, 15 Jul 2019 13:54:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 651742081C;
+        Mon, 15 Jul 2019 13:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563198894;
-        bh=vcGn3ElHcdimtT8hx9eq+HzmedGg7CPrXqHkCAf/oPY=;
+        s=default; t=1563198899;
+        bh=nQcIkOUEnUbbNZqnik5e7Pcu6uiNFKKEwHeO9bQu4kg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lHrK96OnCfFzBLQNPAW1xfSlxAhN2CSqUg0zNbtoI/Csfgcn38T6OLRaZIgSFpgQa
-         4023Gj/rxLRhsLMT/koOdX2ZUQG+UTJZakLradPRlWZDkasJ1jmbcbzdMak8q8TabU
-         zA+wCDZ4heTMPCwOzzg3afueAKwlMAutdXbJ3hRc=
+        b=G0NQXb9yXbMkqsTganz9hPqETSJWY7ytE+CufpIGuBFlbaI5AcgPa1dSHhOyyei3m
+         SQwldiCl52DA1IL4s0mJiubugL7/yUWZsdL+kok5XHyqWW1OKk3kxIRTnOZjRLSSAF
+         RZknVtKUdx7thEbCml5Re2k6KWo1Hz+yO6WRtCW4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Greg KH <gregkh@linuxfoundation.org>, Borislav Petkov <bp@suse.de>,
-        Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 132/249] EDAC/sysfs: Drop device references properly
-Date:   Mon, 15 Jul 2019 09:44:57 -0400
-Message-Id: <20190715134655.4076-132-sashal@kernel.org>
+Cc:     Pan Bian <bianpan2016@163.com>, Borislav Petkov <bp@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-edac <linux-edac@vger.kernel.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 133/249] EDAC/sysfs: Fix memory leak when creating a csrow object
+Date:   Mon, 15 Jul 2019 09:44:58 -0400
+Message-Id: <20190715134655.4076-133-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715134655.4076-1-sashal@kernel.org>
 References: <20190715134655.4076-1-sashal@kernel.org>
@@ -57,59 +61,52 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Greg KH <gregkh@linuxfoundation.org>
+From: Pan Bian <bianpan2016@163.com>
 
-[ Upstream commit 7adc05d2dc3af95e4e1534841d58f736262142cd ]
+[ Upstream commit 585fb3d93d32dbe89e718b85009f9c322cc554cd ]
 
-Do put_device() if device_add() fails.
+In edac_create_csrow_object(), the reference to the object is not
+released when adding the device to the device hierarchy fails
+(device_add()). This may result in a memory leak.
 
- [ bp: do device_del() for the successfully created devices in
-   edac_create_csrow_objects(), on the unwind path. ]
-
-Signed-off-by: Greg KH <gregkh@linuxfoundation.org>
+Signed-off-by: Pan Bian <bianpan2016@163.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Link: https://lkml.kernel.org/r/20190427214925.GE16338@kroah.com
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Link: https://lkml.kernel.org/r/1555554438-103953-1-git-send-email-bianpan2016@163.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/edac_mc_sysfs.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/edac/edac_mc_sysfs.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 464174685589..bf9273437e3f 100644
+index bf9273437e3f..7c01e1cc030c 100644
 --- a/drivers/edac/edac_mc_sysfs.c
 +++ b/drivers/edac/edac_mc_sysfs.c
-@@ -443,7 +443,8 @@ static int edac_create_csrow_objects(struct mem_ctl_info *mci)
- 		csrow = mci->csrows[i];
- 		if (!nr_pages_per_csrow(csrow))
- 			continue;
--		put_device(&mci->csrows[i]->dev);
+@@ -404,6 +404,8 @@ static inline int nr_pages_per_csrow(struct csrow_info *csrow)
+ static int edac_create_csrow_object(struct mem_ctl_info *mci,
+ 				    struct csrow_info *csrow, int index)
+ {
++	int err;
 +
-+		device_del(&mci->csrows[i]->dev);
- 	}
+ 	csrow->dev.type = &csrow_attr_type;
+ 	csrow->dev.groups = csrow_dev_groups;
+ 	device_initialize(&csrow->dev);
+@@ -415,7 +417,11 @@ static int edac_create_csrow_object(struct mem_ctl_info *mci,
+ 	edac_dbg(0, "creating (virtual) csrow node %s\n",
+ 		 dev_name(&csrow->dev));
  
- 	return err;
-@@ -645,9 +646,11 @@ static int edac_create_dimm_object(struct mem_ctl_info *mci,
- 	dev_set_drvdata(&dimm->dev, dimm);
- 	pm_runtime_forbid(&mci->dev);
- 
--	err =  device_add(&dimm->dev);
-+	err = device_add(&dimm->dev);
+-	return device_add(&csrow->dev);
++	err = device_add(&csrow->dev);
 +	if (err)
-+		put_device(&dimm->dev);
- 
--	edac_dbg(0, "creating rank/dimm device %s\n", dev_name(&dimm->dev));
-+	edac_dbg(0, "created rank/dimm device %s\n", dev_name(&dimm->dev));
- 
- 	return err;
++		put_device(&csrow->dev);
++
++	return err;
  }
-@@ -928,6 +931,7 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info *mci,
- 	err = device_add(&mci->dev);
- 	if (err < 0) {
- 		edac_dbg(1, "failure: create device %s\n", dev_name(&mci->dev));
-+		put_device(&mci->dev);
- 		goto out;
- 	}
  
+ /* Create a CSROW object under specifed edac_mc_device */
 -- 
 2.20.1
 
