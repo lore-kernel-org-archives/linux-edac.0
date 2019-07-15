@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92A90C76191
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 14:34:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE35C76195
+	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 14:40:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 66371206B8
-	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 14:34:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8566A205ED
+	for <linux-edac@archiver.kernel.org>; Mon, 15 Jul 2019 14:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563201241;
-	bh=X62JNFWY0bWmEh7vnpk+vTb8iLgZjaeB93vAZTguSDo=;
+	s=default; t=1563201649;
+	bh=xxCbOSJuB1YeDSsJEdDTQaPJs5QQ2nPCiC+mg5QsDes=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=vlLkSBFZHtJ9tTHBcfNa4hgIvhun/CGQK/7yr/86/CFAUrSbg1Zg32mTFnHz6c1t7
-	 K63+S6YBshddPBl7hGBhs76DwBHhJJORbAFvIxh0NQxTSut0X/K7QpxsVk+Bpu8w6j
-	 zUaw8wnVBUBu3YrWSXeOtVSIr+4OMnzMc3sPcJRY=
+	b=RHiBrNW28vhHeN+jlhZjE3IJFMaIxEGj48sg4Xm0WP9z8towcE/YmWYy/sT4nxZlC
+	 vnADjue3qBPx6C2MdWf3N64g3k0I+5OICdugfOAp7ZYgoJ/5KX6P6LIqKO9SQwanhk
+	 1Q6i27x8qKrVD/GWZ80cmgkQLseM73u9PX6BqD3M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391984AbfGOOeA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 15 Jul 2019 10:34:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50488 "EHLO mail.kernel.org"
+        id S2404616AbfGOOkt (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 15 Jul 2019 10:40:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42558 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731073AbfGOOeA (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:34:00 -0400
+        id S2404576AbfGOOks (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 15 Jul 2019 10:40:48 -0400
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8437E2184E;
-        Mon, 15 Jul 2019 14:33:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3C97B204FD;
+        Mon, 15 Jul 2019 14:40:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563201239;
-        bh=X62JNFWY0bWmEh7vnpk+vTb8iLgZjaeB93vAZTguSDo=;
+        s=default; t=1563201647;
+        bh=xxCbOSJuB1YeDSsJEdDTQaPJs5QQ2nPCiC+mg5QsDes=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cB2GPdwZyIKs9geubRAWa1XBSlMFsS4ZMmmxwp84bMvsclumhOzCejOiBfaXl/R6Q
-         OgrM1gvm8TIAb7KC64R2vLvz0+unr3ChThbsLbUQrR+VYqDOL+hmsKtJB5F037XQtF
-         tXKe5GILBg80jDLqb+md3CcXNRfLVUg0ORp/umN4=
+        b=hJqQNge9fe8IaDkw+pB77QUwCgsAoZRp+XwIVz3++/PVkTlyeYRNWmf8Zs7ZEfqSn
+         oOygbod1wtAACGkrHY/VGErwY1NvBmJBflw+8hD0wY4fV+0vPYyDZZDxbwJ2QVhqjQ
+         B3+Bwa7L0qLsg0KsL5wVG/CD9FKeXRE3Ge70UklI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Eiichi Tsukata <devel@etsukata.com>,
         James Morse <james.morse@arm.com>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 087/105] EDAC: Fix global-out-of-bounds write when setting edac_mc_poll_msec
-Date:   Mon, 15 Jul 2019 10:28:21 -0400
-Message-Id: <20190715142839.9896-87-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 63/73] EDAC: Fix global-out-of-bounds write when setting edac_mc_poll_msec
+Date:   Mon, 15 Jul 2019 10:36:19 -0400
+Message-Id: <20190715143629.10893-63-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715142839.9896-1-sashal@kernel.org>
-References: <20190715142839.9896-1-sashal@kernel.org>
+In-Reply-To: <20190715143629.10893-1-sashal@kernel.org>
+References: <20190715143629.10893-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -141,7 +141,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 148c4649b155..a4acfa81dfe0 100644
+index 203ebe348b77..d59641194860 100644
 --- a/drivers/edac/edac_mc_sysfs.c
 +++ b/drivers/edac/edac_mc_sysfs.c
 @@ -26,7 +26,7 @@
@@ -200,10 +200,10 @@ index 148c4649b155..a4acfa81dfe0 100644
  MODULE_PARM_DESC(edac_mc_poll_msec, "Polling period in milliseconds");
  
 diff --git a/drivers/edac/edac_module.h b/drivers/edac/edac_module.h
-index dec88dcea036..c9f0e73872a6 100644
+index cfaacb99c973..c36f9f721fb2 100644
 --- a/drivers/edac/edac_module.h
 +++ b/drivers/edac/edac_module.h
-@@ -36,7 +36,7 @@ extern int edac_mc_get_log_ue(void);
+@@ -33,7 +33,7 @@ extern int edac_mc_get_log_ue(void);
  extern int edac_mc_get_log_ce(void);
  extern int edac_mc_get_panic_on_ue(void);
  extern int edac_get_poll_msec(void);
