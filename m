@@ -1,56 +1,59 @@
-Return-Path: <SRS0=PGZ+=VV=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=eJw0=VW=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DATE_IN_PAST_06_12,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BC0C76191
-	for <linux-edac@archiver.kernel.org>; Wed, 24 Jul 2019 20:32:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CD8C76191
+	for <linux-edac@archiver.kernel.org>; Thu, 25 Jul 2019 05:52:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 210B321852
-	for <linux-edac@archiver.kernel.org>; Wed, 24 Jul 2019 20:32:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6069204EC
+	for <linux-edac@archiver.kernel.org>; Thu, 25 Jul 2019 05:52:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1564000361;
-	bh=pJA0dcm5ZHMDCaDP8sQtXRZlZVJ0fE0QiDNBOeUdFEY=;
+	s=default; t=1564033966;
+	bh=2SuPtkwPkO4qr1b97i+rzqWm8BJ7svTIjfYhjq5vB+M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=EUxnn+VRhra7pVNEUcaXLteIlQWCfmyF2Qvv8qq2+rGYEfHc/C4oy/1WF60pPeKkf
-	 cdR5BKxcDXKRtTcfhbZcMFTMuRUjeWeC+wQTZd/REnkHOCasXr3QiJISv7Ur4bykTz
-	 fJ5bDoQl+zpXt0ebzvtN/Hg+dNSF+X2KPbVZhnMo=
+	b=UlEv1cinc72ugWnc5ADqyIPwTxTeyXMi5NrFfMZwQ4PFacQsssjQdlL4X4kwshsEX
+	 t/2NAV54gqyiFIn2051/6JRO1e85Bx7xOSd+FLga7YHSINwiEC8kbLTSHPXgY2s20z
+	 tNNONHfsnV2q/nWnbBjW4JLve++63R+d5MZiJOv0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729316AbfGXUcf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 24 Jul 2019 16:32:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47204 "EHLO mail.kernel.org"
+        id S2404260AbfGYFkD (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 25 Jul 2019 01:40:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54352 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726931AbfGXT2n (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 24 Jul 2019 15:28:43 -0400
+        id S2404241AbfGYFj7 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 25 Jul 2019 01:39:59 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B5B70229F4;
-        Wed, 24 Jul 2019 19:28:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B155E22BEF;
+        Thu, 25 Jul 2019 05:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563996522;
-        bh=pJA0dcm5ZHMDCaDP8sQtXRZlZVJ0fE0QiDNBOeUdFEY=;
+        s=default; t=1564033199;
+        bh=2SuPtkwPkO4qr1b97i+rzqWm8BJ7svTIjfYhjq5vB+M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hqs/86D00m79MY/EcIkUn6px0LsuiYP8BxWJ4AI+ztOsnUURbi1FXI+/Ux9R/3dxW
-         ipMqr+Kn3mvEbNu9CVPk1NiAzcZuTmZS4PsfZuRgDCgLrxendu7iMrIbptHD8ZCRv2
-         9f4/cScb4V5Sr1uGMLKJkdDEoTQIXa8DYoDgG77c=
+        b=eFIuo+42wXpqauJqajL3D6jm3weUdM7ZmrZ/2xrlQPqxTksIW4HksC2KTN+vSvDfm
+         50uuOcVshjxcGAR6MhPPENPDL6z7I8JIPI/jrlfSLikWXLWh6b2cBNUA7f2VuY0mGh
+         GE4V87mGFUCQDsqHmMrjPE61/TlEEYr99elV6qYU=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Borislav Petkov <bp@suse.de>,
-        Tony Luck <tony.luck@intel.com>,
+        stable@vger.kernel.org, Pan Bian <bianpan2016@163.com>,
+        Borislav Petkov <bp@suse.de>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac <linux-edac@vger.kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.2 075/413] RAS/CEC: Fix pfn insertion
-Date:   Wed, 24 Jul 2019 21:16:06 +0200
-Message-Id: <20190724191740.470997080@linuxfoundation.org>
+Subject: [PATCH 4.19 086/271] EDAC/sysfs: Fix memory leak when creating a csrow object
+Date:   Wed, 24 Jul 2019 21:19:15 +0200
+Message-Id: <20190724191702.568005838@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190724191735.096702571@linuxfoundation.org>
-References: <20190724191735.096702571@linuxfoundation.org>
+In-Reply-To: <20190724191655.268628197@linuxfoundation.org>
+References: <20190724191655.268628197@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,54 +63,50 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-[ Upstream commit 6d8e294bf5f0e85c34e8b14b064e2965f53f38b0 ]
+[ Upstream commit 585fb3d93d32dbe89e718b85009f9c322cc554cd ]
 
-When inserting random PFNs for debugging the CEC through
-(debugfs)/ras/cec/pfn, depending on the return value of pfn_set(),
-multiple values get inserted per a single write.
+In edac_create_csrow_object(), the reference to the object is not
+released when adding the device to the device hierarchy fails
+(device_add()). This may result in a memory leak.
 
-That is because simple_attr_write() interprets a retval of 0 as
-success and claims the whole input. However, pfn_set() returns the
-cec_add_elem() value, which, if > 0 and smaller than the whole input
-length, makes glibc continue issuing the write syscall until there's
-input left:
-
-  pfn_set
-  simple_attr_write
-  debugfs_attr_write
-  full_proxy_write
-  vfs_write
-  ksys_write
-  do_syscall_64
-  entry_SYSCALL_64_after_hwframe
-
-leading to those repeated calls.
-
-Return 0 to fix that.
-
+Signed-off-by: Pan Bian <bianpan2016@163.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Tony Luck <tony.luck@intel.com>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-edac <linux-edac@vger.kernel.org>
+Link: https://lkml.kernel.org/r/1555554438-103953-1-git-send-email-bianpan2016@163.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/ras/cec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/edac/edac_mc_sysfs.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 673f8a128397..f5795adc5a6e 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -369,7 +369,9 @@ static int pfn_set(void *data, u64 val)
+diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
+index 20374b8248f0..e50610b5bd06 100644
+--- a/drivers/edac/edac_mc_sysfs.c
++++ b/drivers/edac/edac_mc_sysfs.c
+@@ -404,6 +404,8 @@ static inline int nr_pages_per_csrow(struct csrow_info *csrow)
+ static int edac_create_csrow_object(struct mem_ctl_info *mci,
+ 				    struct csrow_info *csrow, int index)
  {
- 	*(u64 *)data = val;
- 
--	return cec_add_elem(val);
-+	cec_add_elem(val);
++	int err;
 +
-+	return 0;
+ 	csrow->dev.type = &csrow_attr_type;
+ 	csrow->dev.bus = mci->bus;
+ 	csrow->dev.groups = csrow_dev_groups;
+@@ -416,7 +418,11 @@ static int edac_create_csrow_object(struct mem_ctl_info *mci,
+ 	edac_dbg(0, "creating (virtual) csrow node %s\n",
+ 		 dev_name(&csrow->dev));
+ 
+-	return device_add(&csrow->dev);
++	err = device_add(&csrow->dev);
++	if (err)
++		put_device(&csrow->dev);
++
++	return err;
  }
  
- DEFINE_DEBUGFS_ATTRIBUTE(pfn_ops, u64_get, pfn_set, "0x%llx\n");
+ /* Create a CSROW object under specifed edac_mc_device */
 -- 
 2.20.1
 
