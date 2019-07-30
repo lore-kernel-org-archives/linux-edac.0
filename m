@@ -1,115 +1,177 @@
-Return-Path: <SRS0=akh6=V2=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=dV41=V3=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 166CAC76186
-	for <linux-edac@archiver.kernel.org>; Mon, 29 Jul 2019 20:15:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0886CC32750
+	for <linux-edac@archiver.kernel.org>; Tue, 30 Jul 2019 18:20:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D57E32070B
-	for <linux-edac@archiver.kernel.org>; Mon, 29 Jul 2019 20:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1564431354;
-	bh=Tu2SmrOsQqUe9ACAyBEFF/lSAeSN+5gPhxezGHmRkwY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cJjnYJlxWnbmHxESeJi0gvHnQLlHRNe3p/hW3YE2fPBH5wLaLAYRjpr4jZK+mRoZ3
-	 xWuueYU9WV+LLDs3lyo3Epk/0JK9P3TaYOAlMTSrE0UgTGAx/2zlxCg7on4nKTFK8k
-	 0WLBTFbYoQNX5bqtKWchPkSBMIwU4Eq9z0+F8P/M=
+	by mail.kernel.org (Postfix) with ESMTP id CA6F02184D
+	for <linux-edac@archiver.kernel.org>; Tue, 30 Jul 2019 18:20:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TQZZoOLv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388284AbfG2TZW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 29 Jul 2019 15:25:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37636 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388281AbfG2TZV (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 29 Jul 2019 15:25:21 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0B1B920C01;
-        Mon, 29 Jul 2019 19:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564428320;
-        bh=Tu2SmrOsQqUe9ACAyBEFF/lSAeSN+5gPhxezGHmRkwY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AlyfkWeStX+XCQuHAenWfRWAXcKIc9lltneRO5Ai8XGaWSD6byFIfarKqGGmYXkwH
-         P9wWTJ5n0gJwYqSp5mXpc7pc7cU4LhXXjfn4/44kwXxzxGpcNHw7BLQU8cpETtciV6
-         ufpiesH9HBj9PT8Whi/4zAngSG7chTganyeYIbUM=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1728504AbfG3SUX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 30 Jul 2019 14:20:23 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:35683 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728877AbfG3SQJ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 30 Jul 2019 14:16:09 -0400
+Received: by mail-pf1-f195.google.com with SMTP id u14so30282816pfn.2
+        for <linux-edac@vger.kernel.org>; Tue, 30 Jul 2019 11:16:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Dycfr8v1fdba663pIpdzjcaqpiqeC9jW3WU7WRUspIM=;
+        b=TQZZoOLvt58dfKVYoj15whJcQ7tnhbLU89aCOVDpcoqllL3LKtld2+Q4MLeOghIXbF
+         Z0oHqm159YrVMrXWR7iUVI8WTDdJvDZe1RsBVUBXHQG8eIhHBrUG0s52gHmhK4GjESCv
+         YvAjtxLeiT3Nu3PuZP+vBz7AU16SXrtXmSth4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Dycfr8v1fdba663pIpdzjcaqpiqeC9jW3WU7WRUspIM=;
+        b=qRdGw5lqkMq8sytkVPDHT2L/C7a0yR1D1X7GeMpxqp0wA/tazI5MzDXADLBATyxiV2
+         gY2nJGcoaoatJC1PtV5ZZQv0AWNCkI9EFjf1d73yeCwIef4TL3YJKgkb5IEK/MXyf6dQ
+         0vucO05eBbiv8syrjDYaB1e4NbVfVHlr2ncD7N0FfQ0mJWIZxxpWYFZWQ2LT1sJa3Ezs
+         j2wLFQ1PK6/ewfXt/eiIptm8gK3awQsSsOono3ugNKJNR0TmIQ8Nj3HBfxm5ELjSrOZb
+         bw4LQ1rt3c19l+PyJgo84CQBE4CR3nseblXBY4JNlLg2FyMVQ4KegCfRzWEWy5BcXjR5
+         1S7A==
+X-Gm-Message-State: APjAAAUCMMDEKAsbzd0hbKZ0p+GgUVf0mIOzuHZ9aFlEVjxuqiky3/T8
+        bKis9KWcXtPJBUzo2MNkToR3og==
+X-Google-Smtp-Source: APXvYqxhgatm4ea/UR+LHTwGkQink6xwt7eAaph3+IuuaJMRKEdnT5Ph9WsXOO++1OHrj8aVKflyFA==
+X-Received: by 2002:a63:2006:: with SMTP id g6mr108309530pgg.287.1564510568689;
+        Tue, 30 Jul 2019 11:16:08 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id g1sm106744083pgg.27.2019.07.30.11.16.07
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 30 Jul 2019 11:16:08 -0700 (PDT)
+From:   Stephen Boyd <swboyd@chromium.org>
 To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Borislav Petkov <bp@suse.de>,
-        Tony Luck <tony.luck@intel.com>,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.14 038/293] RAS/CEC: Fix pfn insertion
-Date:   Mon, 29 Jul 2019 21:18:49 +0200
-Message-Id: <20190729190825.269610232@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190729190820.321094988@linuxfoundation.org>
-References: <20190729190820.321094988@linuxfoundation.org>
-User-Agent: quilt/0.66
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>, linux-edac@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v6 11/57] edac: Remove dev_err() usage after platform_get_irq()
+Date:   Tue, 30 Jul 2019 11:15:11 -0700
+Message-Id: <20190730181557.90391-12-swboyd@chromium.org>
+X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
+In-Reply-To: <20190730181557.90391-1-swboyd@chromium.org>
+References: <20190730181557.90391-1-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-[ Upstream commit 6d8e294bf5f0e85c34e8b14b064e2965f53f38b0 ]
+We don't need dev_err() messages when platform_get_irq() fails now that
+platform_get_irq() prints an error message itself when something goes
+wrong. Let's remove these prints with a simple semantic patch.
 
-When inserting random PFNs for debugging the CEC through
-(debugfs)/ras/cec/pfn, depending on the return value of pfn_set(),
-multiple values get inserted per a single write.
+// <smpl>
+@@
+expression ret;
+struct platform_device *E;
+@@
 
-That is because simple_attr_write() interprets a retval of 0 as
-success and claims the whole input. However, pfn_set() returns the
-cec_add_elem() value, which, if > 0 and smaller than the whole input
-length, makes glibc continue issuing the write syscall until there's
-input left:
+ret =
+(
+platform_get_irq(E, ...)
+|
+platform_get_irq_byname(E, ...)
+);
 
-  pfn_set
-  simple_attr_write
-  debugfs_attr_write
-  full_proxy_write
-  vfs_write
-  ksys_write
-  do_syscall_64
-  entry_SYSCALL_64_after_hwframe
+if ( \( ret < 0 \| ret <= 0 \) )
+{
+(
+-if (ret != -EPROBE_DEFER)
+-{ ...
+-dev_err(...);
+-... }
+|
+...
+-dev_err(...);
+)
+...
+}
+// </smpl>
 
-leading to those repeated calls.
+While we're here, remove braces on if statements that only have one
+statement (manually).
 
-Return 0 to fix that.
-
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: linux-edac@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/ras/cec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index c7205cdcc11a..97cf40a522be 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -373,7 +373,9 @@ static int pfn_set(void *data, u64 val)
- {
- 	*(u64 *)data = val;
+Please apply directly to subsystem trees
+
+ drivers/edac/altera_edac.c | 13 +++----------
+ drivers/edac/xgene_edac.c  |  1 -
+ 2 files changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index c2e693e34d43..5405bd727731 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -347,11 +347,8 @@ static int altr_sdram_probe(struct platform_device *pdev)
+ 	}
  
--	return cec_add_elem(val);
-+	cec_add_elem(val);
-+
-+	return 0;
- }
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0) {
+-		edac_printk(KERN_ERR, EDAC_MC,
+-			    "No irq %d in DT\n", irq);
++	if (irq < 0)
+ 		return -ENODEV;
+-	}
  
- DEFINE_DEBUGFS_ATTRIBUTE(pfn_ops, u64_get, pfn_set, "0x%llx\n");
+ 	/* Arria10 has a 2nd IRQ */
+ 	irq2 = platform_get_irq(pdev, 1);
+@@ -2177,10 +2174,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	edac->sb_irq = platform_get_irq(pdev, 0);
+-	if (edac->sb_irq < 0) {
+-		dev_err(&pdev->dev, "No SBERR IRQ resource\n");
++	if (edac->sb_irq < 0)
+ 		return edac->sb_irq;
+-	}
+ 
+ 	irq_set_chained_handler_and_data(edac->sb_irq,
+ 					 altr_edac_a10_irq_handler,
+@@ -2212,10 +2207,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	}
+ #else
+ 	edac->db_irq = platform_get_irq(pdev, 1);
+-	if (edac->db_irq < 0) {
+-		dev_err(&pdev->dev, "No DBERR IRQ resource\n");
++	if (edac->db_irq < 0)
+ 		return edac->db_irq;
+-	}
+ 	irq_set_chained_handler_and_data(edac->db_irq,
+ 					 altr_edac_a10_irq_handler, edac);
+ #endif
+diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
+index e4a1032ba0b5..cb26ce5d5798 100644
+--- a/drivers/edac/xgene_edac.c
++++ b/drivers/edac/xgene_edac.c
+@@ -1921,7 +1921,6 @@ static int xgene_edac_probe(struct platform_device *pdev)
+ 		for (i = 0; i < 3; i++) {
+ 			irq = platform_get_irq(pdev, i);
+ 			if (irq < 0) {
+-				dev_err(&pdev->dev, "No IRQ resource\n");
+ 				rc = -EINVAL;
+ 				goto out_err;
+ 			}
 -- 
-2.20.1
-
-
+Sent by a computer through tubes
 
