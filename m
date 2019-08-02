@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 628FDC32754
-	for <linux-edac@archiver.kernel.org>; Fri,  2 Aug 2019 10:03:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1D8FC32750
+	for <linux-edac@archiver.kernel.org>; Fri,  2 Aug 2019 10:05:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 336B22067D
-	for <linux-edac@archiver.kernel.org>; Fri,  2 Aug 2019 10:03:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E6EC2086A
+	for <linux-edac@archiver.kernel.org>; Fri,  2 Aug 2019 10:05:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1564740189;
-	bh=fGCeSEBzvf1nKJNtELjY/pPwIsiJlgax2LnW3Hs02WY=;
+	s=default; t=1564740359;
+	bh=6QaYj1hwO9X8cYBYVzsZl8PDnGSMIwF31I8yblWNh2E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=TCDQVtcksPVPszQ+Oz9muKLAnJEsMazlRR3Y2fnszbITW+0ViJlqIZiN9ei+Xz/0D
-	 A7V2PAsKmzF47h4NfYGyuB8Aivq3gbgM5k94IJoPsFUFXFr/tPJjigbA3oiKpelVNA
-	 XCvhe7NIMscgKonGf9wnNkm9RiV6JWejPCliw7xE=
+	b=KFbYX47GLK63OzNjUd8kfaF5fFQbSOfiUXw5Nq4p9PiN4+07ZJpHrURNrDMVskgn+
+	 wmw20y0G4NM1GEjIdZkUyt5a2AeaOMKpYcWRxzpLYQoNMAH8+GJrG3V4V8x0Cpqlqk
+	 DiFCgD6jSKbCuwRymTALMRoZLhhwm+zIUK3tNVok=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404923AbfHBJly (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 2 Aug 2019 05:41:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43826 "EHLO mail.kernel.org"
+        id S2391092AbfHBJbs (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 2 Aug 2019 05:31:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404918AbfHBJlx (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 2 Aug 2019 05:41:53 -0400
+        id S2404743AbfHBJbq (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 2 Aug 2019 05:31:46 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 76B782086A;
-        Fri,  2 Aug 2019 09:41:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 138B821783;
+        Fri,  2 Aug 2019 09:31:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564738913;
-        bh=fGCeSEBzvf1nKJNtELjY/pPwIsiJlgax2LnW3Hs02WY=;
+        s=default; t=1564738305;
+        bh=6QaYj1hwO9X8cYBYVzsZl8PDnGSMIwF31I8yblWNh2E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GsowGQqOD6sxtFNvsv2l5fQA4dsOy+ZM7QZWqaillBXOEFFtuQ6uAO24vhM50uk71
-         d+iwZ39a6Wl6Tikj0Z8cwXZ0KqAWJkZF8XptHtw0CILCLHnEI9sKJ1Ef9RZkER4TKF
-         ep6Yb1sCZxE6GfQuxj0Vq/g9Okxipzu24XZih7Bw=
+        b=E4jn3+rEv8de0zJoZckzkAm/jQnpXmvKFs+yI8+QXThd0KuaS0xmTdr08eCGq+tEo
+         tX9Jr/duAZQL10vr2sihL48opsPltAsjrgl67NpSV0RO8mmdeZ9tiI6Qb/QU2/fYP7
+         ayPgNrnusbqpm1fAulysec/V57zUn3D0xxrivLqo=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -47,12 +47,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac <linux-edac@vger.kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.9 044/223] EDAC/sysfs: Fix memory leak when creating a csrow object
-Date:   Fri,  2 Aug 2019 11:34:29 +0200
-Message-Id: <20190802092241.820601377@linuxfoundation.org>
+Subject: [PATCH 4.4 035/158] EDAC/sysfs: Fix memory leak when creating a csrow object
+Date:   Fri,  2 Aug 2019 11:27:36 +0200
+Message-Id: <20190802092210.979107422@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190802092238.692035242@linuxfoundation.org>
-References: <20190802092238.692035242@linuxfoundation.org>
+In-Reply-To: <20190802092203.671944552@linuxfoundation.org>
+References: <20190802092203.671944552@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -81,7 +81,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 40d792e96b75..203ebe348b77 100644
+index 3c8f19f5ac81..0c53f2d54765 100644
 --- a/drivers/edac/edac_mc_sysfs.c
 +++ b/drivers/edac/edac_mc_sysfs.c
 @@ -426,6 +426,8 @@ static inline int nr_pages_per_csrow(struct csrow_info *csrow)
