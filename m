@@ -2,287 +2,159 @@ Return-Path: <SRS0=VuEW=WI=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E93BC433FF
-	for <linux-edac@archiver.kernel.org>; Mon, 12 Aug 2019 10:12:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A466C31E40
+	for <linux-edac@archiver.kernel.org>; Mon, 12 Aug 2019 12:06:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 41228216F4
-	for <linux-edac@archiver.kernel.org>; Mon, 12 Aug 2019 10:12:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3175208C2
+	for <linux-edac@archiver.kernel.org>; Mon, 12 Aug 2019 12:06:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="tMcBup0L";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="tucfsSI5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727843AbfHLKMc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 12 Aug 2019 06:12:32 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:35322 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727862AbfHLKMc (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 12 Aug 2019 06:12:32 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 0B55C43626E257FE43CD;
-        Mon, 12 Aug 2019 18:12:25 +0800 (CST)
-Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.202.226.45) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 12 Aug 2019 18:12:15 +0800
-From:   Shiju Jose <shiju.jose@huawei.com>
-To:     <linux-acpi@vger.kernel.org>, <linux-edac@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <rjw@rjwysocki.net>,
-        <lenb@kernel.org>, <james.morse@arm.com>, <tony.luck@intel.com>,
-        <bp@alien8.de>, <baicar@os.amperecomputing.com>
-CC:     <linuxarm@huawei.com>, <jonathan.cameron@huawei.com>,
-        <tanxiaofei@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
-Subject: [PATCH RFC 1/4] ACPI: APEI: Add support to notify the vendor specific HW errors
-Date:   Mon, 12 Aug 2019 11:11:46 +0100
-Message-ID: <20190812101149.26036-2-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.19.2.windows.1
-In-Reply-To: <20190812101149.26036-1-shiju.jose@huawei.com>
-References: <Shiju Jose>
- <20190812101149.26036-1-shiju.jose@huawei.com>
+        id S1728358AbfHLMGY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 12 Aug 2019 08:06:24 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:57298 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728356AbfHLMGY (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 12 Aug 2019 08:06:24 -0400
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x7CC0dW0000630;
+        Mon, 12 Aug 2019 05:06:14 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=pfpt0818;
+ bh=g8UGPPQL+Z7HQib+zGHctZgqYyhbQkfxiIsZz5kk00k=;
+ b=tMcBup0LoE5pBKBDTKRnAXspeLng8mBT2JBxXbr863YTeeVfiS5/gP4eORrl+DpcWGkn
+ oGXbaszHoR9el1zq7N4pFl1C5xLfYspUuD3Zfr3Iwq75+r28Ldf4oyVpXNoX2b7SiXE7
+ 6h1ZaLWOUvzUzIZ9KYy8L5cM5ZPyHV6Z9X+q3KCDDYCU5tWHoR4WlQZCst9+/jVDEOME
+ JGOzXjoDc/M/LMNg3DaUqRL7RzDcf/gD/IjOiHuQPT/pN1AroWOVTDhaFtlimONBfy+D
+ cXhRf8vzb0zXGGG53M4r27OnyGbntK0FekhcIsVTTCi8+Mc+1nmZsl/TD1u714a0/jur ew== 
+Received: from sc-exch04.marvell.com ([199.233.58.184])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2u9u9qe8ht-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Mon, 12 Aug 2019 05:06:14 -0700
+Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH04.marvell.com
+ (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Mon, 12 Aug
+ 2019 05:05:27 -0700
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com (104.47.33.54) by
+ SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Mon, 12 Aug 2019 05:05:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TnRWpxCuQnxAa1TAQEL6RtPqc3Iyl8JaSEtoHJGfxD6Sbu8LQdPnhOEFzZ8wfNsRHpLjwUN4Kgi595lcWXvqYy8rtueE1mOO0FmIwaFAyvmGjppa0uirtLaVya+yuub1cISQpIzLHKgHhgIN2FeKKozychKjisvzrSK03zKBTZqy6/uQlDRIXFXxJruGutlTaPsUdmPRPEvLWMa+aK2jwCxwoJX7hvFSYovbjNP3vAKXyk7zNMH/fwfFJhoLNBMYAoAIL5+11qRRbi6OrYv7lZ8F2MgbVnUfxh1ta9H2vqMozKNZeZgUvdYYkvhARstTB0z7N8Am2HsLKeibZibwDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g8UGPPQL+Z7HQib+zGHctZgqYyhbQkfxiIsZz5kk00k=;
+ b=W7tzod/wDMHvMsCO7ktahabFMHJsPZq7+djrdrb5S92O7zgVZckTmV+FLIgDMAmnwzHmxreB+mN7+vI896ERshTCQaR2MxJV6QINBlhgWdYXi/NR1Dxy4vhr4hYDOiXhPpSE5wjOXXGSkHf7VvnPS7kc0zT2eQAnCm6qeb8F6KVvZKxQm1KTw9XGOucLuRMd6/VWUZqOGMgeXXMAkTST4qHRzO7X/qEugNtAGDRGPpfy27jFEui4rd9g+qsHkVYFAV66LYQLJPI0G7u9UwnqFVbSKh9GvRfNA5LnCR3dGFzbOrDF8b9OTECDwIVJae59pnpuLKlQyHoQ3QCCjwy2lA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g8UGPPQL+Z7HQib+zGHctZgqYyhbQkfxiIsZz5kk00k=;
+ b=tucfsSI5tVARqlaKfxal6o/Ot38O83bwg36ZLWPZYDe/zN2LFmgSovS4Sj8a6ixnKyE8iSzr9AYY6Zuy71X87r2k65kzcQIfcnwjxbtIyxMpLKl0eWW89VYIwLq4URsZxUL+HhPCcJl86Y8IjSLXp15ylIO6jNwunoiM6/Je9dM=
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.238.217) by
+ MN2PR18MB2480.namprd18.prod.outlook.com (20.179.82.22) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2157.23; Mon, 12 Aug 2019 12:05:25 +0000
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::1b3:8b34:63fe:aad2]) by MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::1b3:8b34:63fe:aad2%6]) with mapi id 15.20.2157.022; Mon, 12 Aug 2019
+ 12:05:25 +0000
+From:   Robert Richter <rrichter@marvell.com>
+To:     Borislav Petkov <bp@alien8.de>
+CC:     James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 02/24] EDAC, ghes: Fix grain calculation
+Thread-Topic: [PATCH v2 02/24] EDAC, ghes: Fix grain calculation
+Thread-Index: AQHVUQY528Xmn3pGVkWm7FH417vWZw==
+Date:   Mon, 12 Aug 2019 12:05:25 +0000
+Message-ID: <20190812120517.2kktugib244ujgvb@rric.localdomain>
+References: <20190624150758.6695-1-rrichter@marvell.com>
+ <20190624150758.6695-3-rrichter@marvell.com> <20190809131559.GF2152@zn.tnic>
+ <20190812064147.5czmkj7e6hxgvje3@rric.localdomain>
+ <20190812073221.GA23772@zn.tnic>
+In-Reply-To: <20190812073221.GA23772@zn.tnic>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0701CA0067.eurprd07.prod.outlook.com
+ (2603:10a6:3:64::11) To MN2PR18MB3408.namprd18.prod.outlook.com
+ (2603:10b6:208:16c::25)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [31.208.96.227]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 90a105f3-fa89-42fe-f3e9-08d71f1d5bb2
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MN2PR18MB2480;
+x-ms-traffictypediagnostic: MN2PR18MB2480:
+x-microsoft-antispam-prvs: <MN2PR18MB24800B203BDCB9DFAC82F244D9D30@MN2PR18MB2480.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-forefront-prvs: 012792EC17
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(376002)(396003)(39850400004)(366004)(346002)(189003)(199004)(9686003)(6486002)(76176011)(66946007)(66476007)(25786009)(229853002)(6436002)(5660300002)(2906002)(6512007)(316002)(66556008)(6916009)(86362001)(64756008)(66446008)(6246003)(54906003)(52116002)(4326008)(53936002)(81166006)(11346002)(305945005)(6506007)(186003)(81156014)(8676002)(446003)(71200400001)(1076003)(102836004)(14454004)(476003)(26005)(7736002)(486006)(53546011)(386003)(8936002)(4744005)(71190400001)(3846002)(6116002)(99286004)(478600001)(256004)(66066001);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2480;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: marvell.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: aXrEFN+eA9o0P74qkqOx8qjz/GGkhSt0ghtJkePQW9UuiLOCYZ8hRoKW6llMwuouKd/N9XlwrMnvQS1o9OJWNDmmFnd76N+/AC3/xIF4GEkBLUH/QNcM4ayPz4GLwRRfMUlWz5orogS2OndrTTer0sk0EBbu+7e2qky3atWm8sXIr2yHumIyRlqv1FS0zRurVnVec11b9ZqiTOLN3DXohFo+7mG7/9f0XxHzv4gTfk49EhjWsYuRye5RAcaJIamy2VSmfruyZ3GnE+pq1iL4XUUVH04rp2J3/EFxXdKM1y/jFhmOhYLcl1xQPSmON5/5tPpStlBji7ZAppLtnbunPq5bmZUEIGbx8L64EBnT/Cj3U2DbWeYIBq9qdK/lxhg0E2pOPKnXat9aI3DGfxsMfP7zHd4TNb+LR/DiaYOXz9Q=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <E74C6359FF15E942AA05DEB9CD815928@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.202.226.45]
-X-CFilter-Loop: Reflected
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90a105f3-fa89-42fe-f3e9-08d71f1d5bb2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2019 12:05:25.0680
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NGu76aKDuK41VVsj2F5hu60dyeRP3EaTI35KHqgSsKMcYBdgp+6dfI094MXW2X57pQ5+9nsxZm3SQHCaNRQMRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2480
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:5.22.84,1.0.8
+ definitions=2019-08-12_05:2019-08-09,2019-08-12 signatures=0
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Presently the vendor specific HW errors, in the non-standard format,
-are not reported to the vendor drivers for the recovery.
+On 12.08.19 09:32:22, Borislav Petkov wrote:
+> On Mon, Aug 12, 2019 at 06:42:00AM +0000, Robert Richter wrote:
 
-This patch adds support to notify the vendor specific HW errors to the
-registered kernel drivers.
+> > With the grain_bits calculation the mask is rounded up to the next
+> > power of 2 value.
+>=20
+> mask	  =3D 0xffffffffff00ff00
 
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- drivers/acpi/apei/ghes.c | 118 +++++++++++++++++++++++++++++++++++++++++++++--
- include/acpi/ghes.h      |  47 +++++++++++++++++++
- 2 files changed, 160 insertions(+), 5 deletions(-)
+grain =3D ~mask + 1
 
-diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-index a66e00f..374d197 100644
---- a/drivers/acpi/apei/ghes.c
-+++ b/drivers/acpi/apei/ghes.c
-@@ -477,6 +477,77 @@ static void ghes_handle_aer(struct acpi_hest_generic_data *gdata)
- #endif
- }
- 
-+struct ghes_error_notify {
-+	struct list_head list;
-+	struct rcu_head	rcu_head;
-+	guid_t sec_type; /* guid of the error record */
-+	error_handle handle; /* error handler function */
-+	void *data; /* handler driver's private data if any */
-+};
-+
-+/* List to store the registered error handling functions */
-+static DEFINE_MUTEX(ghes_error_notify_mutex);
-+static LIST_HEAD(ghes_error_notify_list);
-+static refcount_t ghes_ref_count;
-+
-+/**
-+ * ghes_error_notify_register - register an error handling function
-+ * for the hw errors.
-+ * @sec_type: sec_type of the corresponding CPER to be notified.
-+ * @handle: pointer to the error handling function.
-+ * @data: handler driver's private data.
-+ *
-+ * return 0 : SUCCESS, non-zero : FAIL
-+ */
-+int ghes_error_notify_register(guid_t sec_type, error_handle handle, void *data)
-+{
-+	struct ghes_error_notify *err_notify;
-+
-+	mutex_lock(&ghes_error_notify_mutex);
-+	err_notify = kzalloc(sizeof(*err_notify), GFP_KERNEL);
-+	if (!err_notify)
-+		return -ENOMEM;
-+
-+	err_notify->handle = handle;
-+	guid_copy(&err_notify->sec_type, &sec_type);
-+	err_notify->data = data;
-+	list_add_rcu(&err_notify->list, &ghes_error_notify_list);
-+	mutex_unlock(&ghes_error_notify_mutex);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ghes_error_notify_register);
-+
-+/**
-+ * ghes_error_notify_unregister - unregister an error handling function.
-+ * @sec_type: sec_type of the corresponding CPER.
-+ * @handle: pointer to the error handling function.
-+ *
-+ * return none.
-+ */
-+void ghes_error_notify_unregister(guid_t sec_type, error_handle handle)
-+{
-+	struct ghes_error_notify *err_notify;
-+	bool found = 0;
-+
-+	mutex_lock(&ghes_error_notify_mutex);
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(err_notify, &ghes_error_notify_list, list) {
-+		if (guid_equal(&err_notify->sec_type, &sec_type) &&
-+		    err_notify->handle == handle) {
-+			list_del_rcu(&err_notify->list);
-+			found = 1;
-+			break;
-+		}
-+	}
-+	rcu_read_unlock();
-+	synchronize_rcu();
-+	mutex_unlock(&ghes_error_notify_mutex);
-+	if (found)
-+		kfree(err_notify);
-+}
-+EXPORT_SYMBOL_GPL(ghes_error_notify_unregister);
-+
- static void ghes_do_proc(struct ghes *ghes,
- 			 const struct acpi_hest_generic_status *estatus)
- {
-@@ -485,6 +556,8 @@ static void ghes_do_proc(struct ghes *ghes,
- 	guid_t *sec_type;
- 	guid_t *fru_id = &NULL_UUID_LE;
- 	char *fru_text = "";
-+	bool is_notify = 0;
-+	struct ghes_error_notify *err_notify;
- 
- 	sev = ghes_severity(estatus->error_severity);
- 	apei_estatus_for_each_section(estatus, gdata) {
-@@ -512,11 +585,29 @@ static void ghes_do_proc(struct ghes *ghes,
- 
- 			log_arm_hw_error(err);
- 		} else {
--			void *err = acpi_hest_get_payload(gdata);
--
--			log_non_standard_event(sec_type, fru_id, fru_text,
--					       sec_sev, err,
--					       gdata->error_data_length);
-+			rcu_read_lock();
-+			list_for_each_entry_rcu(err_notify,
-+						&ghes_error_notify_list, list) {
-+				if (guid_equal(&err_notify->sec_type,
-+					       sec_type)) {
-+					/* The notification is called in the
-+					 * interrupt context, thus the handler
-+					 * functions should be take care of it.
-+					 */
-+					err_notify->handle(gdata, sev,
-+							   err_notify->data);
-+					is_notify = 1;
-+				}
-+			}
-+			rcu_read_unlock();
-+
-+			if (!is_notify) {
-+				void *err = acpi_hest_get_payload(gdata);
-+
-+				log_non_standard_event(sec_type, fru_id,
-+						       fru_text, sec_sev, err,
-+						       gdata->error_data_length);
-+			}
- 		}
- 	}
- }
-@@ -1217,6 +1308,11 @@ static int ghes_probe(struct platform_device *ghes_dev)
- 
- 	ghes_edac_register(ghes, &ghes_dev->dev);
- 
-+	if (!refcount_read(&ghes_ref_count))
-+		refcount_set(&ghes_ref_count, 1);
-+	else
-+		refcount_inc(&ghes_ref_count);
-+
- 	/* Handle any pending errors right away */
- 	spin_lock_irqsave(&ghes_notify_lock_irq, flags);
- 	ghes_proc(ghes);
-@@ -1237,6 +1333,7 @@ static int ghes_remove(struct platform_device *ghes_dev)
- 	int rc;
- 	struct ghes *ghes;
- 	struct acpi_hest_generic *generic;
-+	struct ghes_error_notify *err_notify, *tmp;
- 
- 	ghes = platform_get_drvdata(ghes_dev);
- 	generic = ghes->generic;
-@@ -1279,6 +1376,17 @@ static int ghes_remove(struct platform_device *ghes_dev)
- 
- 	ghes_fini(ghes);
- 
-+	if (refcount_dec_and_test(&ghes_ref_count) &&
-+	    !list_empty(&ghes_error_notify_list)) {
-+		mutex_lock(&ghes_error_notify_mutex);
-+		list_for_each_entry_safe(err_notify, tmp,
-+					 &ghes_error_notify_list, list) {
-+			list_del_rcu(&err_notify->list);
-+			kfree_rcu(err_notify, rcu_head);
-+		}
-+		mutex_unlock(&ghes_error_notify_mutex);
-+	}
-+
- 	ghes_edac_unregister(ghes);
- 
- 	kfree(ghes);
-diff --git a/include/acpi/ghes.h b/include/acpi/ghes.h
-index e3f1cdd..d480537 100644
---- a/include/acpi/ghes.h
-+++ b/include/acpi/ghes.h
-@@ -50,6 +50,53 @@ enum {
- 	GHES_SEV_PANIC = 0x3,
- };
- 
-+/**
-+ * error_handle - error handling function for the hw errors.
-+ * This handle function is called in the interrupt context.
-+ * @gdata: acpi_hest_generic_data.
-+ * @sev: error severity of the entire error event defined in the
-+ * ACPI spec table generic error status block.
-+ * @data: handler driver's private data.
-+ *
-+ * return : none.
-+ */
-+typedef void (*error_handle)(struct acpi_hest_generic_data *gdata, int sev,
-+			     void *data);
-+
-+#ifdef CONFIG_ACPI_APEI_GHES
-+/**
-+ * ghes_error_notify_register - register an error handling function
-+ * for the hw errors.
-+ * @sec_type: sec_type of the corresponding CPER to be notified.
-+ * @handle: pointer to the error handling function.
-+ * @data: handler driver's private data.
-+ *
-+ * return : 0 - SUCCESS, non-zero - FAIL.
-+ */
-+int ghes_error_notify_register(guid_t sec_type, error_handle handle,
-+			       void *data);
-+
-+/**
-+ * ghes_error_notify_unregister - unregister an error handling function
-+ * for the hw errors.
-+ * @sec_type: sec_type of the corresponding CPER.
-+ * @handle: pointer to the error handling function.
-+ *
-+ * return none.
-+ */
-+void ghes_error_notify_unregister(guid_t sec_type, error_handle handle);
-+
-+#else
-+int ghes_error_notify_register(guid_t sec_type, error_handle handle, void *data)
-+{
-+	return -ENODEV;
-+}
-+
-+void ghes_error_notify_unregister(guid_t sec_type, error_handle handle)
-+{
-+}
-+#endif
-+
- int ghes_estatus_pool_init(int num_ghes);
- 
- /* From drivers/edac/ghes_edac.c */
--- 
-1.9.1
+> ~mask	  =3D 0x0000000000ff00ff
+> ~mask + 1 =3D 0x0000000000ff0100
 
+grain_bits =3D fls_long(e->grain - 1);
+grain_bits =3D 24
 
+grain =3D 1 << grain_bits
+grain =3D 0x1000000
+
+So for masks in the range from 0xffffffffff000000 to
+0xffffffffff7fffff we have grain_bits set to 24, which corresponds to
+a grain of 0x1000000. Looks good to me.
+
+>=20
+> Your "trick" of adding a 1 to get to the most significant bit simply
+> doesn't work here. Thus:
+>=20
+> "I guess we can leave it like that for now until some "inventive"
+> firmware actually does it."
+
+Fine to me.
+
+-Robert
