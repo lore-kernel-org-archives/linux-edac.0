@@ -1,191 +1,116 @@
-Return-Path: <SRS0=ycy2=WJ=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=xK6U=WK=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=0.6 required=3.0 tests=BIGNUM_EMAILS,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B3DC32750
-	for <linux-edac@archiver.kernel.org>; Tue, 13 Aug 2019 14:59:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D0DC32753
+	for <linux-edac@archiver.kernel.org>; Wed, 14 Aug 2019 14:31:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 150C7205F4
-	for <linux-edac@archiver.kernel.org>; Tue, 13 Aug 2019 14:59:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F727205F4
+	for <linux-edac@archiver.kernel.org>; Wed, 14 Aug 2019 14:31:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="MHc2fVjg"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Z90ytQvd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729811AbfHMO7D (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 13 Aug 2019 10:59:03 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:54658 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729586AbfHMO7D (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 13 Aug 2019 10:59:03 -0400
-Received: from zn.tnic (p200300EC2F0D2400E0D08C31C935E2D1.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:2400:e0d0:8c31:c935:e2d1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 98D691EC0554;
-        Tue, 13 Aug 2019 16:59:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1565708341;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=UJvUPa8TlyHMjA7KAjQ12fSS5RfewWjyVvXnmvubFlw=;
-        b=MHc2fVjg/PJ1Q7bAVSzAvk9yRXJLRfvZO/eBs0lWZHVl7w1fsulVCudq3dV2EaQB7PmjYp
-        fqOqjYGwkU6jm2HUWALOPoL622W1L9jswE5nYyeJwSg27EhPu2hPP6suzXN5ufAwmt1HoR
-        wk82+GEXDp2TVVCc6CJ5geBQ+ihkqMI=
-Date:   Tue, 13 Aug 2019 16:59:47 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Robert Richter <rrichter@marvell.com>
-Cc:     James Morse <james.morse@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Tero Kristo <t-kristo@ti.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 06/24] EDAC: Kill EDAC_DIMM_PTR() macro
-Message-ID: <20190813145947.GE16770@zn.tnic>
-References: <20190624150758.6695-1-rrichter@marvell.com>
- <20190624150758.6695-7-rrichter@marvell.com>
+        id S1726585AbfHNObs (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 14 Aug 2019 10:31:48 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:50312 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726121AbfHNObs (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 14 Aug 2019 10:31:48 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7EEJ2uL099163;
+        Wed, 14 Aug 2019 14:31:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=4orpuPEli+qrXHM6zo8rys0+YwIGeeH6zxS6a5hqY3U=;
+ b=Z90ytQvdaH9DkKNMflPcUiztIHwRt8WvxvgYS4ibFOpzymHhgduBnapTVEIofKaLpVeX
+ LyQs2XhhpVUUQ60hotA/r+yUCfWN5Pw1kTM+KR9b9Ww1DFiwNFshC4yIhEjsdjWjJiKz
+ xZ00PWN7Fnf0pa5EUyJ2gXbvmY5iIRaIWJJaKJXs4bVBki898zRd/R4XREGNX7QuAJnr
+ gF+8TydYQ78dwpbr0Wm4xl2oBFWq/uI0wylUa7MSURcr7QGoPIK+U2V4/l4yENcUD9uk
+ f+Afqi4xoyPr7Z/1DHQbHCDR8LoHBhz7kzG02OPymscfxhqhTGyH3h9YZGrCze4CWSOK Rg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 2u9pjqn2v9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 14:31:45 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7EEHeqh069373;
+        Wed, 14 Aug 2019 14:31:44 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2ubwrhaee0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 14:31:44 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7EEVg8m027774;
+        Wed, 14 Aug 2019 14:31:42 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 14 Aug 2019 07:31:41 -0700
+Date:   Wed, 14 Aug 2019 17:31:36 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     yash.shah@sifive.com
+Cc:     linux-edac@vger.kernel.org
+Subject: [bug report] EDAC/sifive: Add EDAC platform driver for SiFive SoCs
+Message-ID: <20190814143136.GA3226@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190624150758.6695-7-rrichter@marvell.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=925
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908140149
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=975 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908140149
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
+Hello Yash Shah,
 
-> Subject: Re: [PATCH v2 06/24] EDAC: Kill EDAC_DIMM_PTR() macro
+The patch 91abaeaaff35: "EDAC/sifive: Add EDAC platform driver for
+SiFive SoCs" from May 6, 2019, leads to the following static checker
+warning:
 
-s/Kill/Replace ... with/
+	drivers/edac/sifive_edac.c:60 ecc_register()
+	warn: 'p->dci' can also be NULL
 
-On Mon, Jun 24, 2019 at 03:09:06PM +0000, Robert Richter wrote:
-> Get rid of this macro and instead use the new function
-> edac_get_dimm(). Also introduce the edac_get_dimm_by_index() function
-> for later use.
+drivers/edac/sifive_edac.c
+    43  static int ecc_register(struct platform_device *pdev)
+    44  {
+    45          struct sifive_edac_priv *p;
+    46  
+    47          p = devm_kzalloc(&pdev->dev, sizeof(*p), GFP_KERNEL);
+    48          if (!p)
+    49                  return -ENOMEM;
+    50  
+    51          p->notifier.notifier_call = ecc_err_event;
+    52          platform_set_drvdata(pdev, p);
+    53  
+    54          p->dci = edac_device_alloc_ctl_info(0, "sifive_ecc", 1, "sifive_ecc",
+    55                                              1, 1, NULL, 0,
+    56                                              edac_device_alloc_index());
+    57          if (IS_ERR(p->dci))
+                    ^^^^^^^^^^^^^^
+The edac_device_alloc_ctl_info() function never returns error pointers,
+it returns NULL.
 
-Some blurb about *why* you're doing this won't hurt here.
+    58                  return PTR_ERR(p->dci);
+    59  
+    60          p->dci->dev = &pdev->dev;
+    61          p->dci->mod_name = "Sifive ECC Manager";
+    62          p->dci->ctl_name = dev_name(&pdev->dev);
+    63          p->dci->dev_name = dev_name(&pdev->dev);
+    64  
 
-> diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-> index bd3be25d0d3f..8050f9577fe6 100644
-> --- a/drivers/edac/ghes_edac.c
-> +++ b/drivers/edac/ghes_edac.c
-> @@ -97,9 +97,8 @@ static void ghes_edac_dmidecode(const struct dmi_header *dh, void *arg)
->  
->  	if (dh->type == DMI_ENTRY_MEM_DEVICE) {
->  		struct memdev_dmi_entry *entry = (struct memdev_dmi_entry *)dh;
-> -		struct dimm_info *dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms,
-> -						       mci->n_layers,
-> -						       dimm_fill->count, 0, 0);
-> +		struct dimm_info *dimm = edac_get_dimm(mci, dimm_fill->count,
-> +						       0, 0);
-
-You can let it stick out.
-
->  		u16 rdr_mask = BIT(7) | BIT(13);
->  
->  		if (entry->size == 0xffff) {
-
-...
-
-> diff --git a/drivers/edac/i5400_edac.c b/drivers/edac/i5400_edac.c
-> index 6f8bcdb9256a..a50a8707337b 100644
-> --- a/drivers/edac/i5400_edac.c
-> +++ b/drivers/edac/i5400_edac.c
-> @@ -1196,8 +1196,8 @@ static int i5400_init_dimms(struct mem_ctl_info *mci)
->  			if (!MTR_DIMMS_PRESENT(mtr))
->  				continue;
->  
-> -			dimm = EDAC_DIMM_PTR(mci->layers, mci->dimms, mci->n_layers,
-> -				       channel / 2, channel % 2, slot);
-> +			dimm = edac_get_dimm(mci, channel / 2, channel % 2,
-> +					     slot);
-
-Also, let it stick out.
-
-> @@ -669,4 +639,56 @@ struct mem_ctl_info {
->  	bool fake_inject_ue;
->  	u16 fake_inject_count;
->  };
-> +
-> +/**
-> + * edac_get_dimm_by_index - Get DIMM info from a memory controller
-> + *                          given by an index
-> + *
-> + * @mci:	a struct mem_ctl_info
-> + * @index:	index in the memory controller's DIMM array
-> + *
-> + * Returns a struct dimm_info*.
-
-or NULL on failure.
-
-> + */
-> +static inline struct dimm_info *
-> +edac_get_dimm_by_index(struct mem_ctl_info *mci, int index)
-> +{
-> +	if (index < 0 || index >= mci->tot_dimms)
-> +		return NULL;
-> +
-> +	if (WARN_ON_ONCE(mci->dimms[index]->idx != index))
-> +		return NULL;
-> +
-> +	return mci->dimms[index];
-> +}
-> +
-> +/**
-> + * edac_get_dimm - Get DIMM info from a memory controller given by
-> + *                 [layer0,layer1,layer2] position
-> + *
-> + * @mci:	a struct mem_ctl_info
-> + * @layer0:	layer0 position
-> + * @layer1:	layer1 position. Unused if n_layers < 2
-> + * @layer2:	layer2 position. Unused if n_layers < 3
-> + *
-> + * For 1 layer, this macro returns "dimms[layer0]";
-
-macro? Copy-paste I guess :)
-
-Below too.
-
-> + *
-> + * For 2 layers, this macro is similar to allocate a bi-dimensional array
-> + * and to return "dimms[layer0][layer1]";
-> + *
-> + * For 3 layers, this macro is similar to allocate a tri-dimensional array
-> + * and to return "dimms[layer0][layer1][layer2]";
-> + */
-> +static inline struct dimm_info *
-> +edac_get_dimm(struct mem_ctl_info *mci, int layer0, int layer1, int layer2)
-> +{
-> +	int index = layer0;
-> +
-> +	if (index >= 0 && mci->n_layers > 1)
-
-Can layer0 be negative here to warrant that check?
-
-> +		index = index * mci->layers[1].size + layer1;
-> +	if (index >= 0 && mci->n_layers > 2)
-
-Same here.
-
-> +		index = index * mci->layers[2].size + layer2;
-> +
-> +	return edac_get_dimm_by_index(mci, index);
-> +}
-> +
->  #endif
-> -- 
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+regards,
+dan carpenter
