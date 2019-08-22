@@ -2,75 +2,98 @@ Return-Path: <SRS0=bCW6=WS=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B478C3A59D
-	for <linux-edac@archiver.kernel.org>; Thu, 22 Aug 2019 09:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA99C3A5A1
+	for <linux-edac@archiver.kernel.org>; Thu, 22 Aug 2019 16:57:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5EFEB2339F
-	for <linux-edac@archiver.kernel.org>; Thu, 22 Aug 2019 09:56:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="jeYif56v"
+	by mail.kernel.org (Postfix) with ESMTP id B359423400
+	for <linux-edac@archiver.kernel.org>; Thu, 22 Aug 2019 16:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732454AbfHVJ4A (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 22 Aug 2019 05:56:00 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:53470 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732459AbfHVJ4A (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 22 Aug 2019 05:56:00 -0400
-Received: from zn.tnic (p200300EC2F0DB400192DF49715E793F0.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:b400:192d:f497:15e7:93f0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A80841EC0819;
-        Thu, 22 Aug 2019 11:55:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1566467758;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=8VeWpv2h+H0NzeKdjodPTrcJtIQ9N9F7wR1pWa15SXY=;
-        b=jeYif56vB5EWS/KCP5ftkAsRS/F7tYvSGbqKAQLTkf24Pn08bv+adobZrRv/G0tQ2z1F+l
-        oeljkyzfZPATnbp7nGwftmaTvy+M+7Gvax8qnnMi/RjMcVRxCTszv3G5GtEX+esunho7jL
-        x586B0PC76oZE7e5fsXj4e2uNaKoN+4=
-Date:   Thu, 22 Aug 2019 11:55:55 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Adam Borowski <kilobyte@angband.pl>
-Cc:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
+        id S1732594AbfHVQ5O convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 22 Aug 2019 12:57:14 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:33180 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727807AbfHVQ5O (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 22 Aug 2019 12:57:14 -0400
+Received: from LHREML713-CAH.china.huawei.com (unknown [172.18.7.106])
+        by Forcepoint Email with ESMTP id BCD5FCFD583CE7066BF8;
+        Thu, 22 Aug 2019 17:57:11 +0100 (IST)
+Received: from LHREML523-MBX.china.huawei.com ([169.254.7.10]) by
+ LHREML713-CAH.china.huawei.com ([10.201.108.36]) with mapi id 14.03.0415.000;
+ Thu, 22 Aug 2019 17:57:05 +0100
+From:   Shiju Jose <shiju.jose@huawei.com>
+To:     James Morse <james.morse@arm.com>
+CC:     "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 0/8] AMD64 EDAC fixes
-Message-ID: <20190822095554.GC11646@zn.tnic>
-References: <20190821235938.118710-1-Yazen.Ghannam@amd.com>
- <20190822005020.GA403@angband.pl>
- <20190822083548.GA11646@zn.tnic>
- <20190822094607.GA14667@angband.pl>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "lenb@kernel.org" <lenb@kernel.org>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "baicar@os.amperecomputing.com" <baicar@os.amperecomputing.com>,
+        Linuxarm <linuxarm@huawei.com>,
+        Jonathan Cameron <jonathan.cameron@huawei.com>,
+        tanxiaofei <tanxiaofei@huawei.com>
+Subject: RE: [PATCH RFC 2/4] ACPI: APEI: Add ghes_handle_memory_failure to
+ the new notification method
+Thread-Topic: [PATCH RFC 2/4] ACPI: APEI: Add ghes_handle_memory_failure to
+ the new notification method
+Thread-Index: AQHVUPaFGfpBQkFdekWj0CRbk5VWqqcF13eAgAE2pSA=
+Date:   Thu, 22 Aug 2019 16:57:04 +0000
+Message-ID: <86258A5CC0A3704780874CF6004BA8A6584C7BAF@lhreml523-mbx.china.huawei.com>
+References: <Shiju Jose> <20190812101149.26036-1-shiju.jose@huawei.com>
+ <20190812101149.26036-3-shiju.jose@huawei.com>
+ <12b3ccff-0cda-0467-a9ba-0682be6f333e@arm.com>
+In-Reply-To: <12b3ccff-0cda-0467-a9ba-0682be6f333e@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.93.28]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190822094607.GA14667@angband.pl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CFilter-Loop: Reflected
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 11:46:07AM +0200, Adam Borowski wrote:
-> Yeah, some of messages are no longer emitted for memory-less nodes (NUMA 1
-> and 3).  Your patch set also overhauls the messages.
+Hi James,
 
-Not my patchset - Yazen's.
+>-----Original Message-----
+>From: James Morse [mailto:james.morse@arm.com]
+>Sent: 21 August 2019 18:23
+>To: Shiju Jose <shiju.jose@huawei.com>
+>Cc: linux-acpi@vger.kernel.org; linux-edac@vger.kernel.org; linux-
+>kernel@vger.kernel.org; rjw@rjwysocki.net; lenb@kernel.org;
+>tony.luck@intel.com; bp@alien8.de; baicar@os.amperecomputing.com;
+>Linuxarm <linuxarm@huawei.com>; Jonathan Cameron
+><jonathan.cameron@huawei.com>; tanxiaofei <tanxiaofei@huawei.com>
+>Subject: Re: [PATCH RFC 2/4] ACPI: APEI: Add ghes_handle_memory_failure to
+>the new notification method
+>
+>Hi,
+>
+>On 12/08/2019 11:11, Shiju Jose wrote:
+>> This patch adds ghes_handle_memory_failure to the new error
+>> notification method.
+>
+>The commit message doesn't answer the question: why?
+>
+>The existing code works. This just looks like additional churn.
+>Given a user, I think the vendor specific example is useful. I don't think making
+>this thing more pluggable is a good idea.
+This was intended to replace the  number of if(guid_equal(...)) else if(guid_equal(...)) checks in the ghes_do_proc() , which would grow when new UEFI defined error sections would be added in the future.
+>
+>
+>Thanks,
+>
+>James
 
-> But, the amount of redundant messages I'm complaining about has actually
-> increased:
-
-He's working on that - that still needs some love.
-
-Thanks for testing.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+Thanks,
+Shiju
