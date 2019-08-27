@@ -2,312 +2,156 @@ Return-Path: <SRS0=z73N=WX=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1D8EC3A5A3
-	for <linux-edac@archiver.kernel.org>; Tue, 27 Aug 2019 11:47:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C1CC3A5A3
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Aug 2019 12:20:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84758217F5
-	for <linux-edac@archiver.kernel.org>; Tue, 27 Aug 2019 11:47:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAD25206BF
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Aug 2019 12:20:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="EQBC0OjD";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="cNmu+PFh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726537AbfH0LrM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 27 Aug 2019 07:47:12 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:52704 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728763AbfH0LrM (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 27 Aug 2019 07:47:12 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 1D7EC2763C2188B19219;
-        Tue, 27 Aug 2019 19:30:54 +0800 (CST)
-Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 27 Aug 2019 19:30:47 +0800
-From:   Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-edac@vger.kernel.org>
-CC:     <linuxarm@huawei.com>, <jcm@redhat.com>, <shiju.jose@huawei.com>,
-        "Jonathan Cameron" <Jonathan.Cameron@huawei.com>
-Subject: [PATCH V2 3/6] rasdaemon: CCIX: ATC error support
-Date:   Tue, 27 Aug 2019 19:30:07 +0800
-Message-ID: <20190827113010.50405-4-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190827113010.50405-1-Jonathan.Cameron@huawei.com>
-References: <20190827113010.50405-1-Jonathan.Cameron@huawei.com>
+        id S1729208AbfH0MU0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 27 Aug 2019 08:20:26 -0400
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:19638 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727864AbfH0MU0 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 27 Aug 2019 08:20:26 -0400
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x7RC9xdr027173;
+        Tue, 27 Aug 2019 05:20:09 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=pfpt0818;
+ bh=3UJPLK5iNrLn8rhvgRovCgu4chfwXQ3C/kUoPWi56e4=;
+ b=EQBC0OjD9W1sHNSykdq6MvDvSsg2A/lDRorKrwLvTJXRPDkoaalt7iptQ6HES1uJTBOc
+ QYBhgj42sR699Gi7eXi/lDew/RB5ctC1/ya066wyCWTa/EqNQEn+Qt0xyVIAc5Jh+PK2
+ qdfHv4Extq4Qk/gz4bbGd3EF+UetFrTbCyxOZ1CVIYeEB3mNEKq5eGKKSGv8rFznYOlP
+ Yf/vwdHA+FSxAOaJX15CAbCZoN2lKVwWO97e6XiX1qHb51bf2nJS14BrMmK6wQgLxFWz
+ f8zH1GTxX0SDbJOMf7LmQOD5nQq1eSKyVD7rbXXGpUTNLByNuk7GT2RqRvqwBgpQ51H0 2Q== 
+Received: from sc-exch01.marvell.com ([199.233.58.181])
+        by mx0b-0016f401.pphosted.com with ESMTP id 2uk4rkjepy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 27 Aug 2019 05:20:09 -0700
+Received: from SC-EXCH01.marvell.com (10.93.176.81) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Tue, 27 Aug
+ 2019 05:20:07 -0700
+Received: from NAM03-BY2-obe.outbound.protection.outlook.com (104.47.42.54) by
+ SC-EXCH01.marvell.com (10.93.176.81) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Tue, 27 Aug 2019 05:20:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cavuI0fSmPu4NqiO0GTiUkjbRDaPwEoozdlf+o6XMRKMavNGVWOMa4XZW0TTcFe2WG59H7rMNzC//KnXByCZdg8UcfQOm2CRJcHKSklRttpjAWj34UabN6TtZanahlCy4c9+EW7ao+O2Tx1JF0AamGa4TGIvdETA5ld8au/3xsV5I8z2nD0VyBMmPCXi2UgSLWYL8gJZDGHts1jAyH1I/D4NH7K0js9boe4zV5rNAMaRRfXX9HcuxUY3bzoI3MKMHI3csjGudszqO5gC5LK8UA13PfaDC1kvaU/6YvLy6iW9gjH1wi3MR/n++/fx8QBMDO3i8JpJuvK7OWBfiP7ziw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3UJPLK5iNrLn8rhvgRovCgu4chfwXQ3C/kUoPWi56e4=;
+ b=Ez960qlJU/5zUvxU4Z13d/gNjL9ISRXsIQVR6K8ArwrLXOLyPgpRMVenZOdvgRITmy+A/pz97jD9F2ccsb2zup+mTvJ2ZlUmFlEhHDK0Zn6zsT9gEknbFqx4wmFhgwb9v79FJDJBZAs7gOcPzMWtiEgoVDKsmPGYPfSUwyWsZG09Z3odHvhonQlfbwDgWqrldTUkAKW4IwK1ov59a+YOG+YQBH8fW+uE+cuFUSzxwIGzX0kvBMYQEaLHNtpbL/RWxJzZnpdtU0G2iw/VQ/MbXKz217Yi0uD/nLaXrLDJ/S2NVaSpN3oY7VOVcbVx2brkMLxYQl74hhpyn3CRb16PXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3UJPLK5iNrLn8rhvgRovCgu4chfwXQ3C/kUoPWi56e4=;
+ b=cNmu+PFhoUP65wrqFDqXE+15QyziB8yqhO2JaLoGG5Sa23lNbfhkA91/oNkOQkt+/Gy5GVJzqSvz4alnOTUQf+PvAcZXISykbNFozftK0yhU0bqQEalL8atHTcKHa/voPrCpFnRkiTFTBbsCRUD19ZaSP9+eBGkR+fimKhXIlTM=
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.238.217) by
+ MN2PR18MB2990.namprd18.prod.outlook.com (20.179.22.148) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2199.21; Tue, 27 Aug 2019 12:20:05 +0000
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::8162:62e8:aeeb:ec7b]) by MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::8162:62e8:aeeb:ec7b%3]) with mapi id 15.20.2199.021; Tue, 27 Aug 2019
+ 12:20:05 +0000
+From:   Robert Richter <rrichter@marvell.com>
+To:     Borislav Petkov <bp@alien8.de>
+CC:     James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Jason Baron <jbaron@akamai.com>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Tero Kristo <t-kristo@ti.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 06/24] EDAC: Kill EDAC_DIMM_PTR() macro
+Thread-Topic: [PATCH v2 06/24] EDAC: Kill EDAC_DIMM_PTR() macro
+Thread-Index: AQHVXNHCQNXmlYryY0S3iWFUnya/Og==
+Date:   Tue, 27 Aug 2019 12:20:05 +0000
+Message-ID: <20190827121956.6kitf62spfbi7pdk@rric.localdomain>
+References: <20190624150758.6695-1-rrichter@marvell.com>
+ <20190624150758.6695-7-rrichter@marvell.com> <20190813145947.GE16770@zn.tnic>
+In-Reply-To: <20190813145947.GE16770@zn.tnic>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0102CA0008.eurprd01.prod.exchangelabs.com
+ (2603:10a6:7:14::21) To MN2PR18MB3408.namprd18.prod.outlook.com
+ (2603:10b6:208:16c::25)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [31.208.96.227]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4e82e0ad-3873-42c0-2b62-08d72ae8e457
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MN2PR18MB2990;
+x-ms-traffictypediagnostic: MN2PR18MB2990:
+x-microsoft-antispam-prvs: <MN2PR18MB29908055C73840BF9BD14205D9A00@MN2PR18MB2990.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0142F22657
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(396003)(346002)(136003)(376002)(366004)(189003)(199004)(54906003)(1076003)(305945005)(476003)(6436002)(486006)(53546011)(316002)(5660300002)(66066001)(3846002)(26005)(386003)(4744005)(7736002)(14454004)(53936002)(6486002)(186003)(11346002)(446003)(52116002)(76176011)(102836004)(6116002)(9686003)(25786009)(86362001)(6512007)(478600001)(8936002)(256004)(71200400001)(8676002)(6246003)(81166006)(66556008)(2906002)(64756008)(66446008)(81156014)(229853002)(66946007)(66476007)(71190400001)(6506007)(4326008)(99286004)(6916009);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2990;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: marvell.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: cgypWYzqBZBjsujBn5onJxXd4DAeFCa60PB6F2TDW4nakzw8SfEZbMa4ETxMFKD1kCHAhvw2EkrntoBdfKb0mNH66ajq0oQjSSXlfHls+R8zqLEopMyK+t7AsX/MahduGiDCYHsUK+bnD+J0cP+nYu1eeSZgSr4tqLQW1IdCLyH07ULDVgahOi3SRJXx5Yz6QtM+we0ojz6w5eWIhUG0gG/JpSCms5mtbVLz7nqyPiNi5mq20BB9fivLVGrYE6JfPt5EeeY1ZDD8Xf1ZqncaQ1jAAabfIY6tjtOUWGgO3PUpNfIDce8OQkXhPrFINZpIrMe9DLebvrF7oU+gPsupsXxrVd4gTHEGixdknq9NPXtTiLhv6np7prvBYeIf8Bu84jbSvMUNU1pURC3UMcUR5s71chJVBSiEfmsvOob9IuU=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <D66A4FE408AD8348AE47360DB7CAB60D@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.123.41.22]
-X-CFilter-Loop: Reflected
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e82e0ad-3873-42c0-2b62-08d72ae8e457
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Aug 2019 12:20:05.2279
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GCHFqDYJfDrSLJ5FWo9IuZ2aCqF8GrZrTaAnZbBPJJS58ejTu5os633GzXzK+cXS3HtGFhPZz6PEVgBub8xwUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2990
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:5.22.84,1.0.8
+ definitions=2019-08-27_02:2019-08-27,2019-08-27 signatures=0
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Adds support for CCIX address translation cache (ATC) errors.
+On 13.08.19 16:59:47, Borislav Petkov wrote:
+> > + *
+> > + * For 2 layers, this macro is similar to allocate a bi-dimensional ar=
+ray
+> > + * and to return "dimms[layer0][layer1]";
+> > + *
+> > + * For 3 layers, this macro is similar to allocate a tri-dimensional a=
+rray
+> > + * and to return "dimms[layer0][layer1][layer2]";
+> > + */
+> > +static inline struct dimm_info *
+> > +edac_get_dimm(struct mem_ctl_info *mci, int layer0, int layer1, int la=
+yer2)
+> > +{
+> > +	int index =3D layer0;
+> > +
+> > +	if (index >=3D 0 && mci->n_layers > 1)
+>=20
+> Can layer0 be negative here to warrant that check?
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- ras-ccix-handler.c | 61 ++++++++++++++++++++++++++++++++++++++++
- ras-ccix-handler.h | 13 +++++++++
- ras-events.c       |  9 ++++++
- ras-record-ccix.c  | 69 ++++++++++++++++++++++++++++++++++++++++++++++
- ras-record.h       |  3 ++
- 5 files changed, 155 insertions(+)
+Yes, if a mem controller can not determine a dimm's position, this
+function can be called with layers set to -1.
 
-diff --git a/ras-ccix-handler.c b/ras-ccix-handler.c
-index f68c297..f7b9e8e 100644
---- a/ras-ccix-handler.c
-+++ b/ras-ccix-handler.c
-@@ -200,6 +200,26 @@ static char *ccix_cache_err_cper_data(const char *c)
- 	return buf;
- }
- 
-+static char *ccix_atc_err_cper_data(const char *c)
-+{
-+	const struct cper_ccix_atc_err_compact *cpd =
-+		(struct cper_ccix_atc_err_compact *)c;
-+	static char buf[1024];
-+	char *p = buf;
-+
-+	if (!cpd->validation_bits)
-+		return "";
-+
-+	p += sprintf(p, " (");
-+	if (cpd->validation_bits & CCIX_ATC_ERR_OP_VALID)
-+		p += sprintf(p, "op: %s ", ccix_cache_op(cpd->op_type));
-+	if (cpd->validation_bits & CCIX_ATC_ERR_INSTANCE_ID_VALID)
-+		p += sprintf(p, "instance: %u ", cpd->instance);
-+	p += sprintf(p - 1, ")");
-+
-+	return buf;
-+}
-+
- static char *ccix_component_type(int type)
- {
- 	switch (type) {
-@@ -356,3 +376,44 @@ int ras_ccix_cache_event_handler(struct trace_seq *s,
- 
- 	return 0;
- }
-+
-+int ras_ccix_atc_event_handler(struct trace_seq *s,
-+			       struct pevent_record *record,
-+			       struct event_format *event, void *context)
-+{
-+	struct ras_events *ras = context;
-+	struct tm *tm;
-+	struct ras_ccix_event ev;
-+	time_t now;
-+	int ret;
-+
-+	if (ras->use_uptime)
-+		now = record->ts/user_hz + ras->uptime_diff;
-+	else
-+		now = time(NULL);
-+
-+	tm = localtime(&now);
-+
-+	if (tm)
-+		strftime(ev.timestamp, sizeof(ev.timestamp),
-+			 "%Y-%m-%d %H:%M:%S %z", tm);
-+	trace_seq_printf(s, "%s ", ev.timestamp);
-+	ret = ras_ccix_common_parse(s, record, event, context, &ev);
-+	if (ret)
-+		return ret;
-+
-+	trace_seq_printf(s, "%d %s id:%d CCIX ATC error: %s ue:%d nocomm:%d degraded:%d deferred:%d physical addr: 0x%llx mask: 0x%llx %s",
-+			 ev.error_seq, err_severity(ev.severity),
-+			 ev.source, ccix_component_type(ev.component),
-+			 (ev.severity_detail & 0x1) ? 1 : 0,
-+			 (ev.severity_detail & 0x2) ? 1 : 0,
-+			 (ev.severity_detail & 0x4) ? 1 : 0,
-+			 (ev.severity_detail & 0x8) ? 1 : 0,
-+			 ev.address,
-+			 err_mask(ev.pa_mask_lsb),
-+			 ccix_atc_err_cper_data(ev.cper_data));
-+
-+	ras_store_ccix_atc_event(ras, &ev);
-+
-+	return 0;
-+}
-diff --git a/ras-ccix-handler.h b/ras-ccix-handler.h
-index 629ccbe..4528af7 100644
---- a/ras-ccix-handler.h
-+++ b/ras-ccix-handler.h
-@@ -24,6 +24,9 @@ int ras_ccix_memory_event_handler(struct trace_seq *s,
- int ras_ccix_cache_event_handler(struct trace_seq *s,
- 				 struct pevent_record *record,
- 				 struct event_format *event, void *context);
-+int ras_ccix_atc_event_handler(struct trace_seq *s,
-+			       struct pevent_record *record,
-+			       struct event_format *event, void *context);
- 
- /* Perhaps unnecessary paranoia, but the tracepoint structure is packed */
- #pragma pack(1)
-@@ -56,6 +59,12 @@ struct cper_ccix_cache_err_compact {
- 	uint8_t instance;
- };
- 
-+struct cper_ccix_atc_err_compact {
-+	uint32_t validation_bits;
-+	uint8_t op_type;
-+	uint8_t instance;
-+};
-+
- #pragma pack()
- 
- #define CCIX_MEM_ERR_GENERIC_MEM_VALID		0x0001
-@@ -82,4 +91,8 @@ struct cper_ccix_cache_err_compact {
- #define CCIX_CACHE_ERR_INSTANCE_ID_VALID	0x0040
- #define CCIX_CACHE_ERR_VENDOR_DATA_VALID	0x0080
- 
-+#define CCIX_ATC_ERR_OP_VALID			0x0001
-+#define CCIX_ATC_ERR_INSTANCE_ID_VALID		0x0002
-+#define CCIX_ATC_ERR_VENDOR_DATA_VALID		0x0004
-+
- #endif
-diff --git a/ras-events.c b/ras-events.c
-index f1b67cd..68ed246 100644
---- a/ras-events.c
-+++ b/ras-events.c
-@@ -207,6 +207,7 @@ int toggle_ras_mc_event(int enable)
- #ifdef HAVE_CCIX
- 	rc |= __toggle_ras_mc_event(ras, "ras", "ccix_memory_event", enable);
- 	rc |= __toggle_ras_mc_event(ras, "ras", "ccix_cache_event", enable);
-+	rc |= __toggle_ras_mc_event(ras, "ras", "ccix_atc_event", enable);
- #endif
- 
- #ifdef HAVE_MCE
-@@ -740,6 +741,14 @@ int handle_ras_events(int record_events)
- 	else
- 		log(ALL, LOG_ERR, "Can't get traces from %s:%s\n",
- 		    "ras", "ccix_cache_event");
-+	rc = add_event_handler(ras, pevent, page_size, "ras",
-+			       "ccix_atc_error_event",
-+			       ras_ccix_atc_event_handler, NULL);
-+	if (!rc)
-+		num_events++;
-+	else
-+		log(ALL, LOG_ERR, "Can't get traces from %s:%s\n",
-+		    "ras", "ccix_atc_event");
- #endif
- 
- #ifdef HAVE_NON_STANDARD
-diff --git a/ras-record-ccix.c b/ras-record-ccix.c
-index 5b6e044..df68eef 100644
---- a/ras-record-ccix.c
-+++ b/ras-record-ccix.c
-@@ -288,6 +288,70 @@ int ras_store_ccix_cache_event(struct ras_events *ras,
- 	return rc;
- }
- 
-+enum {
-+	ccix_atc_field_operation = ccix_field_common_end,
-+	ccix_atc_field_instance,
-+	ccix_atc_field_vendor,
-+};
-+
-+static const struct db_fields ccix_atc_event_fields[] = {
-+	CCIX_COMMON_FIELDS,
-+	[ccix_atc_field_operation] =	{ .name = "operation",		.type = "INTEGER" },
-+	[ccix_atc_field_instance] =	{ .name = "instance",		.type = "INTEGER" },
-+	[ccix_atc_field_vendor] =	{ .name = "vendor_data",	.type = "BLOB" },
-+};
-+
-+static const struct db_table_descriptor ccix_atc_event_tab = {
-+	.name = "ccix_atc_event",
-+	.fields = ccix_atc_event_fields,
-+	.num_fields = ARRAY_SIZE(ccix_atc_event_fields),
-+};
-+
-+int ras_store_ccix_atc_event(struct ras_events *ras, struct ras_ccix_event *ev)
-+{
-+	int rc;
-+	struct sqlite3_priv *priv = ras->db_priv;
-+	struct cper_ccix_atc_err_compact *atc =
-+		(struct cper_ccix_atc_err_compact *)ev->cper_data;
-+	sqlite3_stmt *rec = priv->stmt_ccix_atc_record;
-+
-+	if (!priv || !rec)
-+		return 0;
-+	log(TERM, LOG_INFO, "ccix_atc_eventstore: %p\n", rec);
-+
-+	ras_store_ccix_common(priv->stmt_ccix_atc_record, ev);
-+	if (atc->validation_bits & CCIX_ATC_ERR_OP_VALID)
-+		sqlite3_bind_int(rec, ccix_atc_field_operation, atc->op_type);
-+
-+	if (atc->validation_bits & CCIX_ATC_ERR_INSTANCE_ID_VALID)
-+		sqlite3_bind_int(rec, ccix_atc_field_instance, atc->instance);
-+
-+	if (atc->validation_bits & CCIX_ATC_ERR_VENDOR_DATA_VALID)
-+		sqlite3_bind_blob(rec, ccix_atc_field_vendor,
-+				  ev->vendor_data, ev->vendor_data_length,
-+				  NULL);
-+
-+	rc = sqlite3_step(rec);
-+	if (rc != SQLITE_OK && rc != SQLITE_DONE)
-+		log(TERM, LOG_ERR,
-+		    "Failed to do ccix_atc_record step on sqlite: error = %d\n",
-+		    rc);
-+
-+	rc = sqlite3_reset(rec);
-+	if (rc != SQLITE_OK && rc != SQLITE_DONE)
-+		log(TERM, LOG_ERR,
-+		    "Failed reset ccix_atc_record on sqlite: error = %d\n",
-+		    rc);
-+
-+	rc = sqlite3_clear_bindings(rec);
-+	if (rc != SQLITE_OK && rc != SQLITE_DONE)
-+		log(TERM, LOG_ERR,
-+		    "Failed to clear ccix_atc_record: error %d\n",
-+		    rc);
-+	log(TERM, LOG_INFO, "register inserted at db\n");
-+	return rc;
-+}
-+
- void ras_ccix_create_table(struct sqlite3_priv *priv)
- {
- 	int rc;
-@@ -301,4 +365,9 @@ void ras_ccix_create_table(struct sqlite3_priv *priv)
- 	if (rc == SQLITE_OK)
- 		rc = ras_mc_prepare_stmt(priv, &priv->stmt_ccix_cache_record,
- 					 &ccix_cache_event_tab);
-+
-+	rc = ras_mc_create_table(priv, &ccix_atc_event_tab);
-+	if (rc == SQLITE_OK)
-+		rc = ras_mc_prepare_stmt(priv, &priv->stmt_ccix_atc_record,
-+					 &ccix_atc_event_tab);
- }
-diff --git a/ras-record.h b/ras-record.h
-index ac25ffc..c3b3586 100644
---- a/ras-record.h
-+++ b/ras-record.h
-@@ -126,6 +126,7 @@ struct sqlite3_priv {
- #ifdef HAVE_CCIX
- 	sqlite3_stmt	*stmt_ccix_mem_record;
- 	sqlite3_stmt	*stmt_ccix_cache_record;
-+	sqlite3_stmt	*stmt_ccix_atc_record;
- #endif
- #ifdef HAVE_NON_STANDARD
- 	sqlite3_stmt	*stmt_non_standard_record;
-@@ -165,6 +166,7 @@ int ras_store_extlog_mem_record(struct ras_events *ras, struct ras_extlog_event
- void ras_ccix_create_table(struct sqlite3_priv *priv);
- int ras_store_ccix_memory_event(struct ras_events *ras, struct ras_ccix_event *ev);
- int ras_store_ccix_cache_event(struct ras_events *ras, struct ras_ccix_event *ev);
-+int ras_store_ccix_atc_event(struct ras_events *ras, struct ras_ccix_event *ev);
- int ras_store_non_standard_record(struct ras_events *ras, struct ras_non_standard_event *ev);
- int ras_store_arm_record(struct ras_events *ras, struct ras_arm_event *ev);
- int ras_store_devlink_event(struct ras_events *ras, struct devlink_event *ev);
-@@ -178,6 +180,7 @@ static inline int ras_store_extlog_mem_record(struct ras_events *ras, struct ras
- static inline void ras_ccix_create_table(void *priv) {};
- static inline int ras_store_ccix_memory_event(struct ras_events *ras, struct ras_ccix_event *ev) { return 0; };
- static inline int ras_store_ccix_cache_event(struct ras_events *ras, struct ras_ccix_event *ev) {return 0; };
-+static inline int ras_store_ccix_atc_event(struct ras_events *ras, struct ras_ccix_event *ev) {return 0; };
- static inline int ras_store_non_standard_record(struct ras_events *ras, struct ras_non_standard_event *ev) { return 0; };
- static inline int ras_store_arm_record(struct ras_events *ras, struct ras_arm_event *ev) { return 0; };
- static inline int ras_store_devlink_event(struct ras_events *ras, struct devlink_event *ev) { return 0; };
--- 
-2.20.1
+I have reworked the patch according to all of your comments.
 
+Thanks for review,
+
+-Robert
