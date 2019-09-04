@@ -2,113 +2,85 @@ Return-Path: <SRS0=nzNF=W7=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E90F2C3A5A7
-	for <linux-edac@archiver.kernel.org>; Wed,  4 Sep 2019 13:33:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4DEC3A5A7
+	for <linux-edac@archiver.kernel.org>; Wed,  4 Sep 2019 15:53:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C1CBD2339E
-	for <linux-edac@archiver.kernel.org>; Wed,  4 Sep 2019 13:33:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50F6222CF7
+	for <linux-edac@archiver.kernel.org>; Wed,  4 Sep 2019 15:53:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="nf7/zr5j"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="TSEn5/o5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730261AbfIDNd0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 4 Sep 2019 09:33:26 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:42971 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbfIDNdZ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 4 Sep 2019 09:33:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1567604005; x=1599140005;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=FiNp0tSkBeju0CcoQKUsY2CoyeXA/ml35QT9xlP51z8=;
-  b=nf7/zr5jXK4sDRu2QDJVp7El82p+aPrCCQTb/Tn7SOfTDF17tlo3yc2l
-   qgLq+/0QtDBpew5Gk/ouTd0iG1NMHGoxYQ5IbpYyxwyQpkvETWhHzzaJA
-   YuxXefeP3ooYZMFEiTB1fz+L2YY5rAGBO20T3WQrStNlgsY3h1C7Y972R
-   c=;
-X-IronPort-AV: E=Sophos;i="5.64,467,1559520000"; 
-   d="scan'208";a="700663960"
-Received: from sea3-co-svc-lb6-vlan3.sea.amazon.com (HELO email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com) ([10.47.22.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 04 Sep 2019 13:33:03 +0000
-Received: from EX13MTAUEA001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
-        by email-inbound-relay-1d-37fd6b3d.us-east-1.amazon.com (Postfix) with ESMTPS id 33ACF28214E;
-        Wed,  4 Sep 2019 13:32:58 +0000 (UTC)
-Received: from EX13D01EUB001.ant.amazon.com (10.43.166.194) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.82) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Wed, 4 Sep 2019 13:32:58 +0000
-Received: from udc4a3e82dbc15a031435.hfa15.amazon.com (10.43.161.82) by
- EX13D01EUB001.ant.amazon.com (10.43.166.194) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Wed, 4 Sep 2019 13:32:50 +0000
-From:   Talel Shenhar <talel@amazon.com>
-To:     <bp@alien8.de>, <mchehab@kernel.org>, <james.morse@arm.com>,
-        <talel@amazon.com>, <davem@davemloft.net>,
-        <gregkh@linuxfoundation.org>, <nicolas.ferre@microchip.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linux-edac@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-CC:     <hhhawa@amazon.com>, <ronenk@amazon.com>, <jonnyc@amazon.com>,
-        <hanochu@amazon.com>, <barakw@amazon.com>
-Subject: [PATCH 1/3] dt-bindings: edac: al-mc-edac: Amazon's Annapurna Labs Memory Controller EDAC
-Date:   Wed, 4 Sep 2019 16:32:21 +0300
-Message-ID: <1567603943-25316-2-git-send-email-talel@amazon.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1567603943-25316-1-git-send-email-talel@amazon.com>
-References: <1567603943-25316-1-git-send-email-talel@amazon.com>
+        id S1731475AbfIDPx3 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 4 Sep 2019 11:53:29 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:52012 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731465AbfIDPx2 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 4 Sep 2019 11:53:28 -0400
+Received: from zn.tnic (p200300EC2F0A23007420D76C17796BA0.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:2300:7420:d76c:1779:6ba0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8378B1EC0528;
+        Wed,  4 Sep 2019 17:53:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1567612407;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=1wN5rIWmEF3eBwLzPPZZZ+UrG/kIZXE/7pS5w/Sbemo=;
+        b=TSEn5/o59iL21J1EnNRh8ctW7FwHQz8R4nABE+qcd4Yd60cfnI6jnoMVP4Kj9JpGWhx7EP
+        98DH5FqOzDTOizMdJXHqkJ8rGGonvq932AQ5l9cuNqKQgBc0+SXfuUj0z6kdoQ+RMFV9J9
+        VqrsNz4JqfnlvnZ4WGwRM1z5+QZ+cV8=
+Date:   Wed, 4 Sep 2019 17:53:21 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rrichter@marvell.com>
+Cc:     Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/5] EDAC: Small cleanups and fixes
+Message-ID: <20190904155321.GA31961@zn.tnic>
+References: <20190902123216.9809-1-rrichter@marvell.com>
+ <20190902171716.50c226d6@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.82]
-X-ClientProxiedBy: EX13D10UWA001.ant.amazon.com (10.43.160.216) To
- EX13D01EUB001.ant.amazon.com (10.43.166.194)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190902171716.50c226d6@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Document Amazon's Annapurna Labs Memory Controller EDAC SoC binding.
+On Mon, Sep 02, 2019 at 05:17:16PM -0300, Mauro Carvalho Chehab wrote:
+> > Robert Richter (5):
+> >   EDAC: Prefer 'unsigned int' to bare use of 'unsigned'
+> >   EDAC, mc_sysfs: Change dev_ch_attribute->channel to unsigned int
+> >   EDAC, mc_sysfs: Remove pointless gotos
+> >   EDAC, mc_sysfs: Make debug messages consistent
+> >   MAINTAINERS: update EDAC's reviewer entry
+> 
+> For the entire series:
+> 
+> Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> 
+> > 
+> >  MAINTAINERS                  |  1 +
+> >  drivers/edac/edac_mc.c       | 20 ++++----
+> >  drivers/edac/edac_mc.h       |  6 +--
+> >  drivers/edac/edac_mc_sysfs.c | 91 ++++++++++++++++--------------------
+> >  drivers/edac/ghes_edac.c     |  2 +-
+> >  drivers/edac/i5100_edac.c    | 16 ++++---
+> >  include/linux/edac.h         | 10 ++--
+> >  7 files changed, 69 insertions(+), 77 deletions(-)
 
-Signed-off-by: Talel Shenhar <talel@amazon.com>
----
- .../devicetree/bindings/edac/amazon,al-mc-edac.txt | 24 ++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt
+Queued, thanks.
 
-diff --git a/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt
-new file mode 100644
-index 0000000..9a3803f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt
-@@ -0,0 +1,24 @@
-+Amazon's Annapurna Labs Memory Controller EDAC
-+
-+EDAC node is defined to describe on-chip error detection and correction for
-+Amazon's Annapurna Labs Memory Controller.
-+
-+Required properties:
-+- compatible:	Shall be "amazon,al-mc-edac".
-+- reg:		DDR controller resource.
-+
-+Optional:
-+- interrupt-names:	may include "ue", for uncorrectable errors,
-+			and/or "ce", for correctable errors.
-+- interrupts:		should contain the interrupts associated with the
-+			interrupts names.
-+
-+Example:
-+
-+al_mc_edac {
-+	compatible = "amazon,al-mc-edac";
-+	reg = <0x0 0xf0080000 0x0 0x00010000>;
-+	interrupt-parent = <&amazon_al_system_fabric>;
-+	interrupt-names = "ue";
-+	interrupts = <20 IRQ_TYPE_LEVEL_HIGH>;
-+};
 -- 
-2.7.4
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
