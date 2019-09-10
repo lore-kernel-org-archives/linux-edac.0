@@ -2,154 +2,76 @@ Return-Path: <SRS0=ZTnq=XF=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9465C3A5A2
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Sep 2019 08:20:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E80FC3A5A2
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Sep 2019 08:24:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 817CA21A4C
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Sep 2019 08:20:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D39E206A5
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Sep 2019 08:24:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731155AbfIJIUL convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 Sep 2019 04:20:11 -0400
-Received: from ZXSHCAS1.zhaoxin.com ([203.148.12.81]:17854 "EHLO
-        ZXSHCAS1.zhaoxin.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2406749AbfIJIUL (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 10 Sep 2019 04:20:11 -0400
-Received: from zxbjmbx3.zhaoxin.com (10.29.252.165) by ZXSHCAS1.zhaoxin.com
- (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1261.35; Tue, 10 Sep
- 2019 16:20:08 +0800
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by zxbjmbx3.zhaoxin.com
- (10.29.252.165) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1261.35; Tue, 10 Sep
- 2019 16:20:07 +0800
-Received: from zxbjmbx1.zhaoxin.com ([fe80::b41a:737:a784:b70d]) by
- zxbjmbx1.zhaoxin.com ([fe80::b41a:737:a784:b70d%16]) with mapi id
- 15.01.1261.035; Tue, 10 Sep 2019 16:20:07 +0800
-From:   Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
-To:     "tony.luck@intel.com" <tony.luck@intel.com>,
-        "Borislav Petkov (bp@alien8.de)" <bp@alien8.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
-        "vishal.l.verma@intel.com" <vishal.l.verma@intel.com>,
-        "qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>
-CC:     David Wang <DavidWang@zhaoxin.com>,
-        "Cooper Yan(BJ-RD)" <CooperYan@zhaoxin.com>,
-        "Qiyuan Wang(BJ-RD)" <QiyuanWang@zhaoxin.com>,
-        "Herry Yang(BJ-RD)" <HerryYang@zhaoxin.com>
-Subject: [PATCH v2 4/4] x86/mce: Add Zhaoxin LMCE support
-Thread-Topic: [PATCH v2 4/4] x86/mce: Add Zhaoxin LMCE support
-Thread-Index: AdVnrQawETN/yUVcT86jBiMUKrTywg==
-Date:   Tue, 10 Sep 2019 08:20:07 +0000
-Message-ID: <5f4f8dee1fb24d38aa0ee136c5e98c72@zhaoxin.com>
-Accept-Language: en-US, zh-CN
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.32.64.75]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1726425AbfIJIYq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 Sep 2019 04:24:46 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:42040 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725876AbfIJIYq (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 10 Sep 2019 04:24:46 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 4D02E163D3A232B0C647;
+        Tue, 10 Sep 2019 16:24:44 +0800 (CST)
+Received: from localhost.localdomain (10.67.212.132) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 10 Sep 2019 16:24:37 +0800
+From:   tiantao6 <tiantao6@huawei.com>
+To:     <tony.luck@intel.com>, <bp@alien8.de>, <linux-edac@vger.kernel.org>
+CC:     <linuxarm@huawei.com>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ras: debugfs: Fix warning: no previous prototype
+Date:   Tue, 10 Sep 2019 16:22:19 +0800
+Message-ID: <1568103739-36667-1-git-send-email-tiantao6@huawei.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.212.132]
+X-CFilter-Loop: Reflected
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Zhaoxin newer CPUs support LMCE that compatible with Intel's
-"Machine-Check Architecture", so add support for Zhaoxin LMCE
-in mce/core.c.
+fixed the fellow warning when building with warnings enabled (W=1)
 
-Signed-off-by: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
+drivers/ras/debugfs.c:8:5: warning: no previous prototype for
+‘ras_userspace_consumers’ [-Wmissing-prototypes]
+int ras_userspace_consumers(void)
+
+drivers/ras/debugfs.c:38:12: warning: no previous prototype for
+‘ras_add_daemon_trace’ [-Wmissing-prototypes]
+int __init ras_add_daemon_trace(void)
+
+drivers/ras/debugfs.c:54:13: warning: no previous prototype for
+‘ras_debugfs_init’ [-Wmissing-prototypes]
+void __init ras_debugfs_init(void)
+
+Signed-off-by: tiantao6 <tiantao6@huawei.com>
 ---
-v1->v2:
- - Fix redefinition of "mce_zhaoxin_feature_clear"
+ drivers/ras/debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- arch/x86/include/asm/mce.h     |  2 ++
- arch/x86/kernel/cpu/mce/core.c | 25 +++++++++++++++++++++++--
- 2 files changed, 25 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
-index 0986a11..01840ec 100644
---- a/arch/x86/include/asm/mce.h
-+++ b/arch/x86/include/asm/mce.h
-@@ -352,8 +352,10 @@ static inline void mce_hygon_feature_init(struct cpuinfo_x86 *c)	{ return mce_am
+diff --git a/drivers/ras/debugfs.c b/drivers/ras/debugfs.c
+index 9c1b717..39b96a5 100644
+--- a/drivers/ras/debugfs.c
++++ b/drivers/ras/debugfs.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ #include <linux/debugfs.h>
++#include <linux/ras.h>
  
- #ifdef CONFIG_CPU_SUP_ZHAOXIN
- void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c);
-+void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c);
- #else
- static inline void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c) { }
-+static inline void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c) { }
- #endif
+ struct dentry *ras_debugfs_dir;
  
- #endif /* _ASM_X86_MCE_H */
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 8a36833..595d3af7ac 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1129,6 +1129,17 @@ static bool __mc_check_crashing_cpu(int cpu)
- 		u64 mcgstatus;
- 
- 		mcgstatus = mce_rdmsrl(MSR_IA32_MCG_STATUS);
-+
-+		if (boot_cpu_data.x86_vendor == X86_VENDOR_ZHAOXIN) {
-+			if (mcgstatus & MCG_STATUS_LMCES) {
-+				return false;
-+			} else {
-+				if (mcgstatus & MCG_STATUS_RIPV)
-+					mce_wrmsrl(MSR_IA32_MCG_STATUS, 0);
-+				return true;
-+			}
-+		}
-+
- 		if (mcgstatus & MCG_STATUS_RIPV) {
- 			mce_wrmsrl(MSR_IA32_MCG_STATUS, 0);
- 			return true;
-@@ -1279,9 +1290,10 @@ void do_machine_check(struct pt_regs *regs, long error_code)
- 
- 	/*
- 	 * Check if this MCE is signaled to only this logical processor,
--	 * on Intel only.
-+	 * on Intel, Zhaoxin only.
- 	 */
--	if (m.cpuvendor == X86_VENDOR_INTEL)
-+	if (m.cpuvendor == X86_VENDOR_INTEL ||
-+	    m.cpuvendor == X86_VENDOR_ZHAOXIN)
- 		lmce = m.mcgstatus & MCG_STATUS_LMCES;
- 
- 	/*
-@@ -1796,8 +1808,14 @@ void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c)
- 	}
- 
- 	intel_init_cmci();
-+	intel_init_lmce();
- 	mce_adjust_timer = cmci_intel_adjust_timer;
- }
-+
-+void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c)
-+{
-+	intel_clear_lmce();
-+}
- #endif
- 
- static void __mcheck_cpu_init_vendor(struct cpuinfo_x86 *c)
-@@ -1836,6 +1854,9 @@ static void __mcheck_cpu_clear_vendor(struct cpuinfo_x86 *c)
- 	case X86_VENDOR_INTEL:
- 		mce_intel_feature_clear(c);
- 		break;
-+	case X86_VENDOR_ZHAOXIN:
-+		mce_zhaoxin_feature_clear(c);
-+		break;
- 	default:
- 		break;
- 	}
 -- 
 2.7.4
+
