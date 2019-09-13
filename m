@@ -2,124 +2,105 @@ Return-Path: <SRS0=R4IU=XI=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0376C49ED7
-	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:37:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA8E8C49ED7
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 754AB20693
-	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:37:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6AAB214D8
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1568385434;
-	bh=lUBs7/rSDwcq7tVD+ev2KJ1TPSAoTvzSaIknRSLD1Sc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=FmQO6rcuoo80sji59OxlqRCGIUfb/uHx5T0FkuJCYN0ZUJc4E/PmI/w7JUMZyhhUL
-	 mM4BVd7n1y7I4fApOAckx6vwWbK+oFvTw+2uMGHEcY59PwWY9W8H4DfFzpZafeCkkB
-	 Mh83xLtdwW5PAUPmsbnbSFCprkeJIQxnX6SC+7Sw=
+	s=default; t=1568386237;
+	bh=WV54R9SAWNCwgT4JV9vnWV2FEozZ1/JL/HN3Hp+AaZc=;
+	h=From:Cc:Subject:Date:In-Reply-To:References:To:List-ID:From;
+	b=kmFhDQyW7JO8CX57KqZVUkrpxs+yxEVn5K5wxCre20FI1njbQY3GebhEPjEGrfjAy
+	 hytoDCJY0iXlfwv0YKWWX7bCdA/58v2NIdk2CyXo2QyoHHhfgNvHg/bnbw3GVUo6hr
+	 gsWrGPVIbqDI4gnZa+EoCLQv3gKE1noZFQ2njbeM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbfIMOgK (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 13 Sep 2019 10:36:10 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37031 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730579AbfIMOgJ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 13 Sep 2019 10:36:09 -0400
-Received: by mail-oi1-f194.google.com with SMTP id 11so2824823oix.4;
-        Fri, 13 Sep 2019 07:36:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=x59L5apnJL40NtS0tdeDtuo7G6k5ZSeB+XKw0XxxnFI=;
-        b=FD1ecM1H32wUPzCvVXdAafndTauPHO9rXjMXrf9FVpgf29n51sK9NLfwSdMNXMkMxB
-         G9L7M5tvo9U1EKe7r2+CfrGhr76jiCs/RddmQmSk8Mh4SOHxkfrHHU511KUFfXYq1jLj
-         iziMgSn2kNt/d50zvtRbLDivRio7YB9U7TvlkYQxmSZvcDQD+ODVuU6DuCu2JNtLaBKL
-         lWPvI8ssMJRfbcmQJeRGyjxBQXCvr53y/tPnytFUCgrwQSfn9pRGSFc9jcgD2+zxaUW4
-         f4jI//Of1jLe0MmCZVyJtCIrFyXAAzXtZrvIg/0ZViFJBfKLCl/p5kY+RvogQUR66w3F
-         7r8A==
-X-Gm-Message-State: APjAAAU6NbNT+1uE4HpLQn7AguPVnwwQEZr/br+lvTqnX6HyTNPlGrnr
-        c+JZcJfg+aOpruvQ1heStw==
-X-Google-Smtp-Source: APXvYqwcZJeRHC1PVNC2DKjUVCVr9+SFzeO0M0kOrsz2lu3agim9M0Aj63nSjTgT/vcdVxuD4z+A6g==
-X-Received: by 2002:a05:6808:7c1:: with SMTP id f1mr2510604oij.123.1568385369033;
-        Fri, 13 Sep 2019 07:36:09 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id s194sm921883oie.19.2019.09.13.07.36.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2019 07:36:08 -0700 (PDT)
-Message-ID: <5d7ba958.1c69fb81.d998a.6602@mx.google.com>
-Date:   Fri, 13 Sep 2019 15:36:07 +0100
-From:   Rob Herring <robh@kernel.org>
-To:     Talel Shenhar <talel@amazon.com>
-Cc:     bp@alien8.de, mchehab@kernel.org, james.morse@arm.com,
-        davem@davemloft.net, gregkh@linuxfoundation.org,
-        nicolas.ferre@microchip.com, mark.rutland@arm.com,
-        catalin.marinas@arm.com, will@kernel.org,
-        linux-edac@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        hhhawa@amazon.com, ronenk@amazon.com, jonnyc@amazon.com,
-        hanochu@amazon.com, barakw@amazon.com
-Subject: Re: [PATCH 1/3] dt-bindings: edac: al-mc-edac: Amazon's Annapurna
- Labs Memory Controller EDAC
-References: <1567603943-25316-1-git-send-email-talel@amazon.com>
- <1567603943-25316-2-git-send-email-talel@amazon.com>
+        id S2389016AbfIMOuh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 13 Sep 2019 10:50:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40790 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388993AbfIMOuh (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 13 Sep 2019 10:50:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Elp+uTImoCrNP71fv1uYeYHL/XQdxRr3L3U43a7bv/k=; b=qWoED4FLjqaj+cGPvaKEj26/3J
+        iKnUjDpu4cPWq4d8LZoBCFQoZ2U/5GL5SRXI34Bfq82etwIHZzOuWP2rY95eusxmYm3Co+/p68mf5
+        Vx7VFzMGKj/xl+3FYTHx7R0gNvAQfYtTWHR8TwZRjbwyLsyS0ncIwJvQeS3Rgme6K3cRz2mdc2OAM
+        +qthSj31SWg9MvJDzLuz5EsWr/LrX/azFdrEDMZ2QwCoX2y6IXSJhXgaXsII/MSV7zOm4cDqv1j5/
+        1nQZFSiGbgNOKoM6PLKsGI+H0m/JwM+ZYyN0W6jxyUd1j6T9nKJxx6VDGYtaqqbja09Nn9H2xsvJH
+        DGC4QLxQ==;
+Received: from 177.96.232.144.dynamic.adsl.gvt.net.br ([177.96.232.144] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1i8muC-0002Mv-Mr; Fri, 13 Sep 2019 14:50:36 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1i8mu9-00042q-ES; Fri, 13 Sep 2019 11:50:33 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Edac Mailing List <linux-edac@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>
+Subject: [PATCH 1/7] EDAC: i5100_edac: get rid of an unused var
+Date:   Fri, 13 Sep 2019 11:50:26 -0300
+Message-Id: <0f79a3d3684dc6484e48cfce66ff2b560a1054c8.1568385816.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1568385816.git.mchehab+samsung@kernel.org>
+References: <cover.1568385816.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1567603943-25316-2-git-send-email-talel@amazon.com>
-X-Mutt-References: <1567603943-25316-2-git-send-email-talel@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Sep 04, 2019 at 04:32:21PM +0300, Talel Shenhar wrote:
-> Document Amazon's Annapurna Labs Memory Controller EDAC SoC binding.
-> 
-> Signed-off-by: Talel Shenhar <talel@amazon.com>
-> ---
->  .../devicetree/bindings/edac/amazon,al-mc-edac.txt | 24 ++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt
-> new file mode 100644
-> index 0000000..9a3803f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.txt
-> @@ -0,0 +1,24 @@
-> +Amazon's Annapurna Labs Memory Controller EDAC
-> +
-> +EDAC node is defined to describe on-chip error detection and correction for
-> +Amazon's Annapurna Labs Memory Controller.
-> +
-> +Required properties:
-> +- compatible:	Shall be "amazon,al-mc-edac".
-> +- reg:		DDR controller resource.
-> +
-> +Optional:
-> +- interrupt-names:	may include "ue", for uncorrectable errors,
-> +			and/or "ce", for correctable errors.
-> +- interrupts:		should contain the interrupts associated with the
-> +			interrupts names.
-> +
-> +Example:
-> +
-> +al_mc_edac {
+As reported by GCC with W=1:
 
-edac@f0080000
+	drivers/edac/i5100_edac.c:714:16: warning: variable ‘et’ set but not used [-Wunused-but-set-variable]
+	  714 |  unsigned long et;
+	      |                ^~
 
-With that,
+It sounds some left over from some code before the addition of
+an udelay().
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/edac/i5100_edac.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> +	compatible = "amazon,al-mc-edac";
-> +	reg = <0x0 0xf0080000 0x0 0x00010000>;
-> +	interrupt-parent = <&amazon_al_system_fabric>;
-> +	interrupt-names = "ue";
-> +	interrupts = <20 IRQ_TYPE_LEVEL_HIGH>;
-> +};
-> -- 
-> 2.7.4
-> 
+diff --git a/drivers/edac/i5100_edac.c b/drivers/edac/i5100_edac.c
+index 251f2b692785..12bebecb203b 100644
+--- a/drivers/edac/i5100_edac.c
++++ b/drivers/edac/i5100_edac.c
+@@ -713,7 +713,6 @@ static int i5100_read_spd_byte(const struct mem_ctl_info *mci,
+ {
+ 	struct i5100_priv *priv = mci->pvt_info;
+ 	u16 w;
+-	unsigned long et;
+ 
+ 	pci_read_config_word(priv->mc, I5100_SPDDATA, &w);
+ 	if (i5100_spddata_busy(w))
+@@ -724,7 +723,6 @@ static int i5100_read_spd_byte(const struct mem_ctl_info *mci,
+ 						   0, 0));
+ 
+ 	/* wait up to 100ms */
+-	et = jiffies + HZ / 10;
+ 	udelay(100);
+ 	while (1) {
+ 		pci_read_config_word(priv->mc, I5100_SPDDATA, &w);
+-- 
+2.21.0
 
