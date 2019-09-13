@@ -2,93 +2,127 @@ Return-Path: <SRS0=R4IU=XI=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD1A9C4CEC5
-	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55AE9C49ED7
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 17:53:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AD2CA20693
-	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:51:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1568386266;
-	bh=cJZqzY3pj94BXyOMX29zqVZIu6C63G1M5woQ5am7HV0=;
-	h=From:Cc:Subject:Date:In-Reply-To:References:To:List-ID:From;
-	b=uTWadCZ8iMCUAUNKCCaMZJPwMRbjoo8+Vs8EHTUSeK3/FOZTlSjOfBzwf2iWCzt5W
-	 tn6DHDa6LNF5CHJNKRjd6KoF70b09Lmugat/SA78ANqoOIa0lLqkF6UK2sOg4L9ysS
-	 xyFmYYjYD9B2KvU6a2ppCQVjgkHTAfptL4ZCC2Q0=
+	by mail.kernel.org (Postfix) with ESMTP id 27C7D20693
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 17:53:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="GQhXiY0R"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389042AbfIMOuh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 13 Sep 2019 10:50:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40772 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388704AbfIMOuh (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 13 Sep 2019 10:50:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ox3AyXAcafO8D8+TJ5Imd59NC6Ph1eV4BYAGmGgunRw=; b=hZcZqtzT1E1Zs0aj6lxiFEvual
-        ol6D80z+z0yxwkk5IW5d+4kuoYrvAqHIc0LHpFb0TzNodsxUowRFqkpOAI2/gMDcBhVjKmyHaplGK
-        amK+ftuShg19jnuB91uvr7Emo27R8LzKzQ5t7aa0D+1XKRqFcaD70YnWc7G///AbnQSSUoLM5XsZX
-        WHQBqiwFUr3HESD4kEz/6BwhBoJDfifTMiDzJeIIPhGpqv14dcMHA4oZDG2K3Wgs1TFdN3P9+gsm5
-        fYlcrRNDS42o0ZKWXYpIHxaK3KXTc+h3kuKtBbkQcz1onzaeil5e27Jk9SMUAJoKdFMZN40CSb5Fl
-        0EG3Vw9A==;
-Received: from 177.96.232.144.dynamic.adsl.gvt.net.br ([177.96.232.144] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1i8muB-0002Mo-V2; Fri, 13 Sep 2019 14:50:35 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i8mu9-00042y-G0; Fri, 13 Sep 2019 11:50:33 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Edac Mailing List <linux-edac@vger.kernel.org>,
+        id S1728788AbfIMRx1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 13 Sep 2019 13:53:27 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:45788 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726822AbfIMRx1 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 13 Sep 2019 13:53:27 -0400
+Received: from zn.tnic (p200300EC2F0DC5006892875336F1420F.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:c500:6892:8753:36f1:420f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E97671EC03F6;
+        Fri, 13 Sep 2019 19:53:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1568397206;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CpFJ0Or1yxeNvpl7TVaHByalBVgRzhebTRgTdu/Myoo=;
+        b=GQhXiY0RK7UxrkeUSbC6UeOZRWgIOOSG8xqxRO0+tErFfykWm7CKpe96eGDHONqNKhRPFG
+        VQ277y4HQg/4nuP+h8lk3ZMEsR5WyF0cUnDrUrdYp1hUX0KZAqiNUtq8o8h6KrVzvd5BmK
+        kSXh0o+qjLqc35Z+6pDXe49SMYIKzSo=
+Date:   Fri, 13 Sep 2019 19:53:20 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Edac Mailing List <linux-edac@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
         Tony Luck <tony.luck@intel.com>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Robert Richter <rrichter@marvell.com>,
         James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>
-Subject: [PATCH 3/7] EDAC: i7300_edac: fix a kernel-doc syntax
-Date:   Fri, 13 Sep 2019 11:50:28 -0300
-Message-Id: <659775074c522b030a0178e7662079662ee7ee95.1568385816.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1568385816.git.mchehab+samsung@kernel.org>
+        Khuong Dinh <khuong@os.amperecomputing.com>
+Subject: Re: [PATCH 0/7] Address most issues when building with W=1
+Message-ID: <20190913175320.GD4190@zn.tnic>
 References: <cover.1568385816.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <cover.1568385816.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The declaration of the kerneldoc entry is wrong, causing this
-warning:
+On Fri, Sep 13, 2019 at 11:50:25AM -0300, Mauro Carvalho Chehab wrote:
+> There is a recent discussion at KS ML with regards to use W=1 as default.
+> 
+> No idea if this will happen or not, but it doesn't hurt cleaning up W=1
+> warnings from the EDAC subsystem, specially since it helps to cleanup
+> a few things.
+> 
+> This patch series addresses most of such warnings.  After this series,
+> there will be just two W=1 warnings:
+> 
+> 1) i5100 EDAC driver:
+> 
+> 	drivers/edac/i5100_edac.c: In function ‘i5100_read_log’:
+> 	drivers/edac/i5100_edac.c:487:11: warning: variable ‘ecc_loc’ set but not used [-Wunused-but-set-variable]
+> 	  487 |  unsigned ecc_loc = 0;
+> 	      |           ^~~~~~~
+> 
+> 
+>    The ecc_loc contents is filled from MC data, but it is not used anywere.
+>    The i5100 MC is very old: the affected code was added in 2008. It should
+>    probably be safe to just drop the corresponding data, but, as it may
+>    contain some relevant info, I was a little reticent of doing that.
+> 
+> 2) Xgene EDAC driver:
+> 
+> 	drivers/edac/xgene_edac.c: In function ‘xgene_edac_rb_report’:
+> 	drivers/edac/xgene_edac.c:1486:7: warning: variable ‘address’ set but not used [-Wunused-but-set-variable]
+> 	 1486 |   u32 address;
+> 	      |       ^~~~~~~
+> 
+>    I suspect that the content of the address field should actually be used on
+>    at least some of the logs.
 
-	drivers/edac/i7300_edac.c:824: warning: Function parameter or member 'mir_no' not described in 'decode_mir'
++ Khuong Dinh <khuong@os.amperecomputing.com> for that.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/edac/i7300_edac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I may eventually submit patches later to address the above cases, but let's
+> solve first the other cases, as they all sound trivial enough.
+> 
+> Mauro Carvalho Chehab (7):
+>   EDAC: i5100_edac: get rid of an unused var
+>   EDAC: i7300_edac: rename a kernel-doc var description
+>   EDAC: i7300_edac: fix a kernel-doc syntax
+>   EDAC: i5400_edac: print type at debug message
+>   EDAC: i5400_edac: get rid of some unused vars
+>   EDAC: sb_edac: get rid of unused vars
+>   EDAC: skx_common: get rid of unused type var
+> 
+>  drivers/edac/i5100_edac.c |  2 --
+>  drivers/edac/i5400_edac.c | 15 +++------------
+>  drivers/edac/i7300_edac.c |  4 ++--
+>  drivers/edac/sb_edac.c    | 21 ++++++++-------------
+>  drivers/edac/skx_common.c |  5 +----
+>  5 files changed, 14 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/edac/i7300_edac.c b/drivers/edac/i7300_edac.c
-index 3d4bd3bf317c..447d357c7a67 100644
---- a/drivers/edac/i7300_edac.c
-+++ b/drivers/edac/i7300_edac.c
-@@ -817,7 +817,7 @@ static int i7300_init_csrows(struct mem_ctl_info *mci)
- 
- /**
-  * decode_mir() - Decodes Memory Interleave Register (MIR) info
-- * @int mir_no: number of the MIR register to decode
-+ * @mir_no: number of the MIR register to decode
-  * @mir: array with the MIR data cached on the driver
-  */
- static void decode_mir(int mir_no, u16 mir[MAX_MIR])
+Looks ok to me at a quick glance, ACK.
+
+I've already sent the 5.4 pull request to Linus so you could queue those
+after -rc1. It's not like they're urgent or so.
+
+Thx.
+
 -- 
-2.21.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
