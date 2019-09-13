@@ -7,24 +7,24 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB20AC4CEC8
-	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:51:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9790DC49ED7
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:51:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 947CF20693
-	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:51:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6EC7E20678
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Sep 2019 14:51:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1568386264;
-	bh=reIl4vuIbLFvd4jhdOdG4pW/EI5dHhtOaJRcewrk+pg=;
+	s=default; t=1568386266;
+	bh=V7pz+g6EwvqCLSge8pZVf8VcrJ6JuX+75cngrO4lIFI=;
 	h=From:Cc:Subject:Date:In-Reply-To:References:To:List-ID:From;
-	b=fPX3s9fJM1cp/xO/Aj/RDVYr8jAUEE2jYNzOwgzlTZ/hoqZ7lAfTiTN28PfZI++Ki
-	 s6X4iE4EULnNUYa9S5Zm4ziZe9TeRSJDtPPXiQRgpJhK/ZgdQrYZCYN5QFuef5vVBt
-	 ozKO2lSJ9UAbUDN7ZbHIHJJhaK6hgnfaZRlVMM5g=
+	b=of0U5fKz7wW8YCMDBBh9u/gzKuoWjmXu2DvaUWuNAWRvI0d2KLFkdZpAn4lf1byXv
+	 IIoy9d9XolLdDWe4M9XN871+Byugy/pZ/rnM+CWIJK0FlHsqwUxC7mifaPf+ETSPSJ
+	 MMbtbRKLv4zRnw3dxaskHZxEG+rOjizb1uzyoV9k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389132AbfIMOuh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S2389090AbfIMOuh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Fri, 13 Sep 2019 10:50:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40798 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:40794 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389009AbfIMOuh (ORCPT
+        with ESMTP id S2388998AbfIMOuh (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Fri, 13 Sep 2019 10:50:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -32,29 +32,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=y8V4ISNeIYTh4emFUodtoey9/9XrUBx5fhl2V/vuW5M=; b=O2+wOBRBZoeq+bb+gZoK3LKCA3
-        q2FfeYxoGnQgZEB7FdS7hHyZOxvlJ21AiXAYkUD2g/hBq7X3AHlEPfoVsEk9S+AN3ByKWJoNamGLt
-        GutEXhhlV12Ketj/xzm6A/sYDV3IPYkQgfRtTH1IesIDIw8OFcX2q4iVajvLaT3GXIHPI5VhcJoiY
-        rUcB0OjmV/kUC7/GW82MiWRl5yJioq7UNcezc6WMe/FWWKNgKac9NBA8bxHLaxxGYVl1AI7j0XzEX
-        YCSCHuT8qrlpSgqbjpfahH7h3xxGPKQsxQbpa1p5+gVpZa2ZcOQC7AIEIv18+NQ4xyusd6hfkBF7h
-        4NfaDj7g==;
+        bh=L2WuVgEWJ1S/DCcbljfrkSPlJ+BBqepA9EJiiwR270o=; b=YRmqjDAz7qLZqG5DjnEH4tIdzC
+        rQVoG/5shJSaY19hAestUS175lC/MF+EkaOPxnav1pO6w7jUwBEm6wa0Zj86HN+Ge5GQ7E7I9YHrt
+        yy1iSKs6kKvTkzziNfevgUU5sTDvngfoLcK5A7itgiT1tyK9z7Xdu05k8Nnwl7vrvj3EO8Hfk64Nq
+        lw4jgFH2iwf5HxTVjbN1Y4mUI9VtOfCWUljd3dobLadwAKygbLz4DaoyAC3NDcIlwnYfE0HcZjfAF
+        5hxJqw6JYjt1hpzALS4IC7gYRREm9uvggerN6gOqq7FhNiZbMHFZaVZS0l0Pi5cEupJufBoDaaXZh
+        LeGJAT8A==;
 Received: from 177.96.232.144.dynamic.adsl.gvt.net.br ([177.96.232.144] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1i8muC-0002Mr-2z; Fri, 13 Sep 2019 14:50:36 +0000
+        id 1i8muB-0002Mn-Qm; Fri, 13 Sep 2019 14:50:35 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i8mu9-000436-HZ; Fri, 13 Sep 2019 11:50:33 -0300
+        id 1i8mu9-00043F-JG; Fri, 13 Sep 2019 11:50:33 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Linux Edac Mailing List <linux-edac@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
         Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
         James Morse <james.morse@arm.com>,
         Robert Richter <rrichter@marvell.com>
-Subject: [PATCH 5/7] EDAC: i5400_edac: get rid of some unused vars
-Date:   Fri, 13 Sep 2019 11:50:30 -0300
-Message-Id: <e56ba30f6f781c7b8f3bb150fdc8b7d0a273eb80.1568385816.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 7/7] EDAC: skx_common: get rid of unused type var
+Date:   Fri, 13 Sep 2019 11:50:32 -0300
+Message-Id: <3bbd66908f60d43c2f60c8a16570994cce21a853.1568385816.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1568385816.git.mchehab+samsung@kernel.org>
 References: <cover.1568385816.git.mchehab+samsung@kernel.org>
@@ -67,72 +67,44 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-There are several temporary unused vars:
-
-	drivers/edac/i5400_edac.c: In function ‘i5400_get_mc_regs’:
-	drivers/edac/i5400_edac.c:1058:6: warning: variable ‘maxdimmperch’ set but not used [-Wunused-but-set-variable]
-	 1058 |  int maxdimmperch;
-	      |      ^~~~~~~~~~~~
-	drivers/edac/i5400_edac.c:1057:6: warning: variable ‘maxch’ set but not used [-Wunused-but-set-variable]
-	 1057 |  int maxch;
-	      |      ^~~~~
-	drivers/edac/i5400_edac.c: In function ‘i5400_init_dimms’:
-	drivers/edac/i5400_edac.c:1174:6: warning: variable ‘max_dimms’ set but not used [-Wunused-but-set-variable]
-	 1174 |  int max_dimms;
-	      |      ^~~~~~~~~
-	drivers/edac/i5400_edac.c:1173:14: warning: variable ‘channel_count’ set but not used [-Wunused-but-set-variable]
-	 1173 |  int ndimms, channel_count;
-	      |              ^~~~~~~~~~~~~
-
-Get rid of them.
+	drivers/edac/skx_common.c: In function ‘skx_mce_output_error’:
+	drivers/edac/skx_common.c:478:8: warning: variable ‘type’ set but not used [-Wunused-but-set-variable]
+	  478 |  char *type, *optype;
+	      |        ^~~~
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- drivers/edac/i5400_edac.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/edac/skx_common.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/edac/i5400_edac.c b/drivers/edac/i5400_edac.c
-index 52783b9bd0df..8c86c6fd7da7 100644
---- a/drivers/edac/i5400_edac.c
-+++ b/drivers/edac/i5400_edac.c
-@@ -1054,8 +1054,6 @@ static void i5400_get_mc_regs(struct mem_ctl_info *mci)
- 	u32 actual_tolm;
- 	u16 limit;
- 	int slot_row;
--	int maxch;
--	int maxdimmperch;
- 	int way0, way1;
- 
- 	pvt = mci->pvt_info;
-@@ -1065,9 +1063,6 @@ static void i5400_get_mc_regs(struct mem_ctl_info *mci)
- 	pci_read_config_dword(pvt->system_address, AMBASE + sizeof(u32),
- 			&pvt->u.ambase_top);
- 
--	maxdimmperch = pvt->maxdimmperch;
--	maxch = pvt->maxch;
--
- 	edac_dbg(2, "AMBASE= 0x%lx  MAXCH= %d  MAX-DIMM-Per-CH= %d\n",
- 		 (long unsigned int)pvt->ambase, pvt->maxch, pvt->maxdimmperch);
- 
-@@ -1170,17 +1165,13 @@ static int i5400_init_dimms(struct mem_ctl_info *mci)
+diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
+index d8ff63d91b86..83dd5da67a28 100644
+--- a/drivers/edac/skx_common.c
++++ b/drivers/edac/skx_common.c
+@@ -475,7 +475,7 @@ static void skx_mce_output_error(struct mem_ctl_info *mci,
+ 				 struct decoded_addr *res)
  {
- 	struct i5400_pvt *pvt;
- 	struct dimm_info *dimm;
--	int ndimms, channel_count;
--	int max_dimms;
-+	int ndimms;
- 	int mtr;
- 	int size_mb;
- 	int  channel, slot;
+ 	enum hw_event_mc_err_type tp_event;
+-	char *type, *optype;
++	char *optype;
+ 	bool ripv = GET_BITFIELD(m->mcgstatus, 0, 0);
+ 	bool overflow = GET_BITFIELD(m->status, 62, 62);
+ 	bool uncorrected_error = GET_BITFIELD(m->status, 61, 61);
+@@ -490,14 +490,11 @@ static void skx_mce_output_error(struct mem_ctl_info *mci,
+ 	if (uncorrected_error) {
+ 		core_err_cnt = 1;
+ 		if (ripv) {
+-			type = "FATAL";
+ 			tp_event = HW_EVENT_ERR_FATAL;
+ 		} else {
+-			type = "NON_FATAL";
+ 			tp_event = HW_EVENT_ERR_UNCORRECTED;
+ 		}
+ 	} else {
+-		type = "CORRECTED";
+ 		tp_event = HW_EVENT_ERR_CORRECTED;
+ 	}
  
- 	pvt = mci->pvt_info;
- 
--	channel_count = pvt->maxch;
--	max_dimms = pvt->maxdimmperch;
--
- 	ndimms = 0;
- 
- 	/*
 -- 
 2.21.0
 
