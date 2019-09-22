@@ -4,104 +4,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF33C3A5A6
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:27:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CCBC3A5A2
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:28:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1B0F42054F
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:27:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B8982054F
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569180478;
-	bh=CiyScJoSbjEh1dk6sz0/OoVDGfhZZEA9aBDwuupZISg=;
+	s=default; t=1569180480;
+	bh=ifZ3V7ZCH5w23cboU3vYYYsrlUpjnatzjxURontzwQI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0pLWlSHdrLjsc6BdvaUM2SAAK4zTdbjjpZJj9uQvxA3ybQk2wPBrTnU1EfHPya8gg
-	 7p5PwSshm5dkkMCIhEspuhvX3MNqpraB26F1ToakV2kIb2ZQgNaoEOVnl9iTOjfuOg
-	 +TVk2neTorB1815jxJ4LgIimJYnRH5tNQgMvczzs=
+	b=KTjHDdxUKOBMBwHuTqhmDau5emHF+rwoLCm9kaCoYthtjQq23FUOTxouZeb3YUdlp
+	 zlsw23JjI91HOmfGrPbbCRad1ofYB/4csB+M1MBecR9OoFxlcC4hnNs54uPzVc2e9N
+	 RzhE0Gjizih50vygcXGOJYzH1NOFB6NmdV0Ot71w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403884AbfIVSu7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 22 Sep 2019 14:50:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48346 "EHLO mail.kernel.org"
+        id S1728680AbfIVT17 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 22 Sep 2019 15:27:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404446AbfIVSu6 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:50:58 -0400
+        id S2404323AbfIVSu4 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:50:56 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B5A3021D6C;
-        Sun, 22 Sep 2019 18:50:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E073208C2;
+        Sun, 22 Sep 2019 18:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178257;
-        bh=CiyScJoSbjEh1dk6sz0/OoVDGfhZZEA9aBDwuupZISg=;
+        s=default; t=1569178256;
+        bh=ifZ3V7ZCH5w23cboU3vYYYsrlUpjnatzjxURontzwQI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1r/gi9PSWDQBt/I4yKAskRywb2n+ffK+XcQIERFs1fZpy8ZPAIXnb/m/ubt1MNSvH
-         WMZnMIn1B/+vlBiLAnPV7VVCAvOWJAfdQ85QYbWNqEs21CP/ICVTzmO9g51vkvAZAu
-         UAGr7VfNACCViE0M7yokmox68qL1AQInDjDw0K5Q=
+        b=BFu3jD7jCbthEbQlap9Xo2K1n1BmPerIwkIrf7C0nSvSRAoWQ/QOX/D29YOmYM25J
+         o6j7W3GrO8VsEQYrkbTyXqYil30EsxYlYIbfCgSjE9U9udMmzy8G9BWaBJBTAH4byO
+         wTVADzUTuXCf4i1xlFLcrN1C6bmqfOmaiHnGd+kg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Valdis Kletnieks <valdis.kletnieks@vt.edu>,
-        kbuild test robot <lkp@intel.com>,
+Cc:     =?UTF-8?q?Valdis=20Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
         Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
         linux-edac@vger.kernel.org, x86@kernel.org,
-        Sasha Levin <sashal@kernel.org>,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.2 047/185] RAS: Build debugfs.o only when enabled in Kconfig
-Date:   Sun, 22 Sep 2019 14:47:05 -0400
-Message-Id: <20190922184924.32534-47-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 046/185] RAS: Fix prototype warnings
+Date:   Sun, 22 Sep 2019 14:47:04 -0400
+Message-Id: <20190922184924.32534-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184924.32534-1-sashal@kernel.org>
 References: <20190922184924.32534-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Valdis Kletnieks <valdis.kletnieks@vt.edu>
+From: Valdis Klētnieks <valdis.kletnieks@vt.edu>
 
-[ Upstream commit b6ff24f7b5101101ff897dfdde3f37924e676bc2 ]
+[ Upstream commit 0a54b809a3a2c31e1055b45b03708eb730222be1 ]
 
-In addition, the 0day bot reported this build error:
+When building with C=2 and/or W=1, legitimate warnings are issued about
+missing prototypes:
 
-  >> drivers/ras/debugfs.c:10:5: error: redefinition of 'ras_userspace_consumers'
-      int ras_userspace_consumers(void)
-          ^~~~~~~~~~~~~~~~~~~~~~~
-     In file included from drivers/ras/debugfs.c:3:0:
-     include/linux/ras.h:14:19: note: previous definition of 'ras_userspace_consumers' was here
-      static inline int ras_userspace_consumers(void) { return 0; }
-                      ^~~~~~~~~~~~~~~~~~~~~~~
+    CHECK   drivers/ras/debugfs.c
+  drivers/ras/debugfs.c:4:15: warning: symbol 'ras_debugfs_dir' was not declared. Should it be static?
+  drivers/ras/debugfs.c:8:5: warning: symbol 'ras_userspace_consumers' was not declared. Should it be static?
+  drivers/ras/debugfs.c:38:12: warning: symbol 'ras_add_daemon_trace' was not declared. Should it be static?
+  drivers/ras/debugfs.c:54:13: warning: symbol 'ras_debugfs_init' was not declared. Should it be static?
+    CC      drivers/ras/debugfs.o
+  drivers/ras/debugfs.c:8:5: warning: no previous prototype for 'ras_userspace_consumers' [-Wmissing-prototypes]
+      8 | int ras_userspace_consumers(void)
+        |     ^~~~~~~~~~~~~~~~~~~~~~~
+  drivers/ras/debugfs.c:38:12: warning: no previous prototype for 'ras_add_daemon_trace' [-Wmissing-prototypes]
+     38 | int __init ras_add_daemon_trace(void)
+        |            ^~~~~~~~~~~~~~~~~~~~
+  drivers/ras/debugfs.c:54:13: warning: no previous prototype for 'ras_debugfs_init' [-Wmissing-prototypes]
+     54 | void __init ras_debugfs_init(void)
+        |             ^~~~~~~~~~~~~~~~
 
-for a riscv-specific .config where CONFIG_DEBUG_FS is not set. Fix all
-that by making debugfs.o depend on that define.
+Provide the proper includes.
 
- [ bp: Rewrite commit message. ]
+ [ bp: Take care of the same warnings for cec.c too. ]
 
-Reported-by: kbuild test robot <lkp@intel.com>
 Signed-off-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
 Signed-off-by: Borislav Petkov <bp@suse.de>
 Cc: Tony Luck <tony.luck@intel.com>
 Cc: linux-edac@vger.kernel.org
 Cc: x86@kernel.org
-Link: http://lkml.kernel.org/r/7053.1565218556@turing-police
+Link: http://lkml.kernel.org/r/7168.1565218769@turing-police
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/ras/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/ras/cec.c     | 1 +
+ drivers/ras/debugfs.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
-index ef6777e14d3df..6f0404f501071 100644
---- a/drivers/ras/Makefile
-+++ b/drivers/ras/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--obj-$(CONFIG_RAS)	+= ras.o debugfs.o
-+obj-$(CONFIG_RAS)	+= ras.o
-+obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
- obj-$(CONFIG_RAS_CEC)	+= cec.o
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index f5795adc5a6e1..8037c490f3ba7 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/mm.h>
+ #include <linux/gfp.h>
++#include <linux/ras.h>
+ #include <linux/kernel.h>
+ #include <linux/workqueue.h>
+ 
+diff --git a/drivers/ras/debugfs.c b/drivers/ras/debugfs.c
+index 9c1b717efad86..0d4f985afbf37 100644
+--- a/drivers/ras/debugfs.c
++++ b/drivers/ras/debugfs.c
+@@ -1,5 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ #include <linux/debugfs.h>
++#include <linux/ras.h>
++#include "debugfs.h"
+ 
+ struct dentry *ras_debugfs_dir;
+ 
 -- 
 2.20.1
 
