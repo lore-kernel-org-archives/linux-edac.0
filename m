@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26584C3A5A6
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BA9C4740C
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:11:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 001E9214AF
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:10:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8270120882
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:11:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569179456;
-	bh=iA+iztb5roFqmlVCM7HAQMJDCgCAfgCx2Vgl/zw3M2A=;
+	s=default; t=1569179468;
+	bh=ZD0XjW10YGaxOGClqFSscyyezkVzBpPiqFTkIEhmeN4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Yvd7Pu3gMgG8r93SlFetMczSWXxmqAWBsnr5lnsT+FU7fd+3/RxEqFCOVZnz6n6RK
-	 h24/H5Vk0g4OtvCDpySrJz3KzjMnKosvU3BcUKQTP/AUf8aDF1V2pkX7JM3CTRYxIg
-	 8rW38ra8fkSYyCm57Yb9CuH5MfSWq7TiDQN8Ri7w=
+	b=a7R3CcUWYLXWJ2J5GF20nybHjZteeMZlTTVz1TFGPmzRd/udel17HmX0uB1Wv8Rph
+	 5uSXHfeuSQgeJZeUFbgWsAuwE1VCiV37DZ98ZLJjhWNMpbsAC2MpgYa9wY3KWgkTOo
+	 pBbgVjP+wvegPebgBkuFPeA247LJD5OuXXJ2psvM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394917AbfIVS6k (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 22 Sep 2019 14:58:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33400 "EHLO mail.kernel.org"
+        id S2395476AbfIVTLD (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 22 Sep 2019 15:11:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33364 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394910AbfIVS6k (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:58:40 -0400
+        id S2394899AbfIVS6i (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:58:38 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4C6232184D;
-        Sun, 22 Sep 2019 18:58:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E809821479;
+        Sun, 22 Sep 2019 18:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178719;
-        bh=iA+iztb5roFqmlVCM7HAQMJDCgCAfgCx2Vgl/zw3M2A=;
+        s=default; t=1569178717;
+        bh=ZD0XjW10YGaxOGClqFSscyyezkVzBpPiqFTkIEhmeN4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WnewnWyBGbq3BuDBucSUkGhYEJI9/EI/2N7K1xg0xmTZHI8HRn6pddqiCM1v4rYsU
-         eXhuC15qwCG74No19RkIEhMR4khdk1yebOweRBhhfIF3GmIBT+UT27uOUZDBQKVJLm
-         BQEwxSc/JsebdymySkgQX2ZeC9ONlmO6JuGM+phY=
+        b=rnPcgWbeqo91SKxDlULEe0Xc8WXZIrYnY2PydQrfQrUXr9WOoGx6/xsH2hnWZF4Gy
+         wiG96hj8LNJeznazyov44U/xMSPwWMdVu0e2FpGKdGSMz6yLWb6UusikDLyz4tRV4u
+         DvAqDBEQf5JLjXQzUaINOSJ1a2KwQwrLHfeYdXFM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
@@ -47,9 +47,9 @@ Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.14 51/89] EDAC/amd64: Decode syndrome before translating address
-Date:   Sun, 22 Sep 2019 14:56:39 -0400
-Message-Id: <20190922185717.3412-51-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 50/89] EDAC/amd64: Recognize DRAM device type ECC capability
+Date:   Sun, 22 Sep 2019 14:56:38 -0400
+Message-Id: <20190922185717.3412-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
 References: <20190922185717.3412-1-sashal@kernel.org>
@@ -64,66 +64,68 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-[ Upstream commit 8a2eaab7daf03b23ac902481218034ae2fae5e16 ]
+[ Upstream commit f8be8e5680225ac9caf07d4545f8529b7395327f ]
 
-AMD Family 17h systems currently require address translation in order to
-report the system address of a DRAM ECC error. This is currently done
-before decoding the syndrome information. The syndrome information does
-not depend on the address translation, so the proper EDAC csrow/channel
-reporting can function without the address. However, the syndrome
-information will not be decoded if the address translation fails.
+AMD Family 17h systems support x4 and x16 DRAM devices. However, the
+device type is not checked when setting mci.edac_ctl_cap.
 
-Decode the syndrome information before doing the address translation.
-The syndrome information is architecturally defined in MCA_SYND and can
-be considered robust. The address translation is system-specific and may
-fail on newer systems without proper updates to the translation
-algorithm.
+Set the appropriate capability flag based on the device type.
 
-Fixes: 713ad54675fd ("EDAC, amd64: Define and register UMC error decode function")
+Default to x8 DRAM device when neither the x4 or x16 bits are set.
+
+ [ bp: reverse cpk_en check to save an indentation level. ]
+
+Fixes: 2d09d8f301f5 ("EDAC, amd64: Determine EDAC MC capabilities on Fam17h")
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
 Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 Cc: James Morse <james.morse@arm.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20190821235938.118710-6-Yazen.Ghannam@amd.com
+Link: https://lkml.kernel.org/r/20190821235938.118710-3-Yazen.Ghannam@amd.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/amd64_edac.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/edac/amd64_edac.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 35b847b51bfa9..40fb0e7ff8fd9 100644
+index 667f5ba0403c0..35b847b51bfa9 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
-@@ -2501,13 +2501,6 @@ static void decode_umc_error(int node_id, struct mce *m)
- 		goto log_error;
+@@ -3101,12 +3101,15 @@ static bool ecc_enabled(struct pci_dev *F3, u16 nid)
+ static inline void
+ f17h_determine_edac_ctl_cap(struct mem_ctl_info *mci, struct amd64_pvt *pvt)
+ {
+-	u8 i, ecc_en = 1, cpk_en = 1;
++	u8 i, ecc_en = 1, cpk_en = 1, dev_x4 = 1, dev_x16 = 1;
+ 
+ 	for (i = 0; i < NUM_UMCS; i++) {
+ 		if (pvt->umc[i].sdp_ctrl & UMC_SDP_INIT) {
+ 			ecc_en &= !!(pvt->umc[i].umc_cap_hi & UMC_ECC_ENABLED);
+ 			cpk_en &= !!(pvt->umc[i].umc_cap_hi & UMC_ECC_CHIPKILL_CAP);
++
++			dev_x4  &= !!(pvt->umc[i].dimm_cfg & BIT(6));
++			dev_x16 &= !!(pvt->umc[i].dimm_cfg & BIT(7));
+ 		}
  	}
  
--	if (umc_normaddr_to_sysaddr(m->addr, pvt->mc_node_id, err.channel, &sys_addr)) {
--		err.err_code = ERR_NORM_ADDR;
--		goto log_error;
--	}
--
--	error_address_to_page_and_offset(sys_addr, &err);
--
- 	if (!(m->status & MCI_STATUS_SYNDV)) {
- 		err.err_code = ERR_SYND;
- 		goto log_error;
-@@ -2524,6 +2517,13 @@ static void decode_umc_error(int node_id, struct mce *m)
+@@ -3114,8 +3117,15 @@ f17h_determine_edac_ctl_cap(struct mem_ctl_info *mci, struct amd64_pvt *pvt)
+ 	if (ecc_en) {
+ 		mci->edac_ctl_cap |= EDAC_FLAG_SECDED;
  
- 	err.csrow = m->synd & 0x7;
- 
-+	if (umc_normaddr_to_sysaddr(m->addr, pvt->mc_node_id, err.channel, &sys_addr)) {
-+		err.err_code = ERR_NORM_ADDR;
-+		goto log_error;
-+	}
+-		if (cpk_en)
++		if (!cpk_en)
++			return;
 +
-+	error_address_to_page_and_offset(sys_addr, &err);
-+
- log_error:
- 	__log_ecc_error(mci, &err, ecc_type);
++		if (dev_x4)
+ 			mci->edac_ctl_cap |= EDAC_FLAG_S4ECD4ED;
++		else if (dev_x16)
++			mci->edac_ctl_cap |= EDAC_FLAG_S16ECD16ED;
++		else
++			mci->edac_ctl_cap |= EDAC_FLAG_S8ECD8ED;
+ 	}
  }
+ 
 -- 
 2.20.1
 
