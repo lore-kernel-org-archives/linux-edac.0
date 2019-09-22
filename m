@@ -7,54 +7,52 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2FD1C4740C
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3E0C3A5A6
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:34:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88B82206C2
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:28:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7D8E21928
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:34:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569180511;
-	bh=PAolAwDXSt+ysTH+9yNnx2oXETE5pOv1wJqyLHv1WTc=;
+	s=default; t=1569180874;
+	bh=nxhfcdcem27JgN1iEngjzJ+W+McMsJHgH8HRx+nl0Sc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=mAEvlDe4qHxGUnheWxA0BYdaD+dhHcu3OGQQn2p8j1ePJ4PGBKyHyhjjaAP+RrIh/
-	 m7bXDRWquzLeL62CyVwPfrIXFC6bqT9PFN8+SYAxNMd4aJijgF2rL96ZJ7wuZOLebn
-	 RCZHaBO2e5weddXM4Z0Ea9cl1tYBkX18f/1R39Ns=
+	b=l+KTBJ8LmIsH8Ejga7cEearYYBDzSJQ9t3WFd3XltRfuXblEXL2R47Fa3gfvY/JQu
+	 KXaBZ9BOgXwWDHMhV0QL4u1SwzfzSQgE1PDlq8HKecyWlmi+6X6Xcv1IhJ6ZcJ75I7
+	 OKv9hSYLaU5XF0oXoRcTCiy3MejdqtMLw6yc+u4M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731632AbfIVT20 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 22 Sep 2019 15:28:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48070 "EHLO mail.kernel.org"
+        id S2390644AbfIVSrP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 22 Sep 2019 14:47:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43626 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404533AbfIVSuq (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:50:46 -0400
+        id S2390641AbfIVSrO (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:47:14 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 94C76214AF;
-        Sun, 22 Sep 2019 18:50:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E4143214D9;
+        Sun, 22 Sep 2019 18:47:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178245;
-        bh=PAolAwDXSt+ysTH+9yNnx2oXETE5pOv1wJqyLHv1WTc=;
+        s=default; t=1569178034;
+        bh=nxhfcdcem27JgN1iEngjzJ+W+McMsJHgH8HRx+nl0Sc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xYPssyJQBNGz3+1HkJffhekzMR11yuEvNANIvJv/rY0PSC+UHyuQfjjo6tlqnQtXN
-         58Kdm2zBG+7bPLamX0ov4yFsNPRnqbtGRLwbQhNJJsiRVnGBhemnJDs7x2NAjx4MZT
-         GJ0f2QbM/CfBsIUXJ5GFjEBNP5WJeijl0EjcSioI=
+        b=T32sLot+GnDhVATM5EtOe7zr6kMaxu+HSCbtdCi7z4oMcDL+UxdxGaQRzUecN1CKO
+         5N3plpMVTmPxwgTktQFhw8x3SXD1ennbwNRkhP3NeTohspqvyVTp/KHTyMsiMCdzrz
+         AB13jBdYyYJ6v8Pcwj7dCXFqtDp7CpxpVV20H9rs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
         Borislav Petkov <bp@suse.de>,
-        Thor Thayer <thor.thayer@linux.intel.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         James Morse <james.morse@arm.com>,
-        kernel-janitors@vger.kernel.org,
-        linux-edac <linux-edac@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 5.2 039/185] EDAC/altera: Use the proper type for the IRQ status bits
-Date:   Sun, 22 Sep 2019 14:46:57 -0400
-Message-Id: <20190922184924.32534-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 115/203] EDAC/amd64: Decode syndrome before translating address
+Date:   Sun, 22 Sep 2019 14:42:21 -0400
+Message-Id: <20190922184350.30563-115-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922184924.32534-1-sashal@kernel.org>
-References: <20190922184924.32534-1-sashal@kernel.org>
+In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
+References: <20190922184350.30563-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,57 +62,68 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-[ Upstream commit 8faa1cf6ed82f33009f63986c3776cc48af1b7b2 ]
+[ Upstream commit 8a2eaab7daf03b23ac902481218034ae2fae5e16 ]
 
-Smatch complains about the cast of a u32 pointer to unsigned long:
+AMD Family 17h systems currently require address translation in order to
+report the system address of a DRAM ECC error. This is currently done
+before decoding the syndrome information. The syndrome information does
+not depend on the address translation, so the proper EDAC csrow/channel
+reporting can function without the address. However, the syndrome
+information will not be decoded if the address translation fails.
 
-  drivers/edac/altera_edac.c:1878 altr_edac_a10_irq_handler()
-  warn: passing casted pointer '&irq_status' to 'find_first_bit()'
+Decode the syndrome information before doing the address translation.
+The syndrome information is architecturally defined in MCA_SYND and can
+be considered robust. The address translation is system-specific and may
+fail on newer systems without proper updates to the translation
+algorithm.
 
-This code wouldn't work on a 64 bit big endian system because it would
-read past the end of &irq_status.
-
- [ bp: massage. ]
-
-Fixes: 13ab8448d2c9 ("EDAC, altera: Add ECC Manager IRQ controller support")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Fixes: 713ad54675fd ("EDAC, amd64: Define and register UMC error decode function")
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Thor Thayer <thor.thayer@linux.intel.com>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 Cc: James Morse <james.morse@arm.com>
-Cc: kernel-janitors@vger.kernel.org
-Cc: linux-edac <linux-edac@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20190624134717.GA1754@mwanda
+Link: https://lkml.kernel.org/r/20190821235938.118710-6-Yazen.Ghannam@amd.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/altera_edac.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/edac/amd64_edac.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 8816f74a22b4a..2d12b94eccda2 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1829,6 +1829,7 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
- 	struct altr_arria10_edac *edac = irq_desc_get_handler_data(desc);
- 	struct irq_chip *chip = irq_desc_get_chip(desc);
- 	int irq = irq_desc_get_irq(desc);
-+	unsigned long bits;
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index ffe56a8fe39da..608fdab566b32 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2550,13 +2550,6 @@ static void decode_umc_error(int node_id, struct mce *m)
  
- 	dberr = (irq == edac->db_irq) ? 1 : 0;
- 	sm_offset = dberr ? A10_SYSMGR_ECC_INTSTAT_DERR_OFST :
-@@ -1838,7 +1839,8 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
+ 	err.channel = find_umc_channel(m);
  
- 	regmap_read(edac->ecc_mgr_map, sm_offset, &irq_status);
+-	if (umc_normaddr_to_sysaddr(m->addr, pvt->mc_node_id, err.channel, &sys_addr)) {
+-		err.err_code = ERR_NORM_ADDR;
+-		goto log_error;
+-	}
+-
+-	error_address_to_page_and_offset(sys_addr, &err);
+-
+ 	if (!(m->status & MCI_STATUS_SYNDV)) {
+ 		err.err_code = ERR_SYND;
+ 		goto log_error;
+@@ -2573,6 +2566,13 @@ static void decode_umc_error(int node_id, struct mce *m)
  
--	for_each_set_bit(bit, (unsigned long *)&irq_status, 32) {
-+	bits = irq_status;
-+	for_each_set_bit(bit, &bits, 32) {
- 		irq = irq_linear_revmap(edac->domain, dberr * 32 + bit);
- 		if (irq)
- 			generic_handle_irq(irq);
+ 	err.csrow = m->synd & 0x7;
+ 
++	if (umc_normaddr_to_sysaddr(m->addr, pvt->mc_node_id, err.channel, &sys_addr)) {
++		err.err_code = ERR_NORM_ADDR;
++		goto log_error;
++	}
++
++	error_address_to_page_and_offset(sys_addr, &err);
++
+ log_error:
+ 	__log_ecc_error(mci, &err, ecc_type);
+ }
 -- 
 2.20.1
 
