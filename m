@@ -7,115 +7,120 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D889C3A5A2
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 935B1C3A5A6
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:12:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 164FE208C2
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:12:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CC1C208C2
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:12:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569179549;
-	bh=CWplDRHvnU4qVEGUG6qVOqgU1eeqSvaAMKYt+59QDHg=;
+	s=default; t=1569179550;
+	bh=KpdvbdqjFZl7t9TvgQ75IP6VOKP7crKkEw9fyKZUXiI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Nt10mQTx3epRpbqqP282fShnYMmZwHcFICyjXF0kvidYQ7objO0KtEs5QL826b1Ny
-	 sS3MlH7jQOq+MYpoyOA/kg/aZ12ZBhNMr8SgJvNp/fzRsf13JcSnHIeAlz1eu/nyAO
-	 j9wPjPViy+zXXKcxNSjuxMp75h85W0HtdZBBHjCQ=
+	b=FYCOwuJPEAbkbEWpIBAY10RKNyIPbEcjcsQZxvv9VfJQnpZhX5UWfJ/VYWECnHF0G
+	 e38k1JWsoiVEphTqV+AEKSX+Teq4CMIEN7lbHcRLOqtIbCULiTYHDYwTVegejk3fmC
+	 Q5nwxsREOeGsz4wZxacBNFhwUVKa3tkPj1YiDHig=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436687AbfIVTMX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 22 Sep 2019 15:12:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60724 "EHLO mail.kernel.org"
+        id S2438713AbfIVS6C (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 22 Sep 2019 14:58:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60684 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438719AbfIVS6D (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:58:03 -0400
+        id S2438705AbfIVS6B (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:58:01 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6F0062190F;
-        Sun, 22 Sep 2019 18:58:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0D50D2186A;
+        Sun, 22 Sep 2019 18:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178683;
-        bh=CWplDRHvnU4qVEGUG6qVOqgU1eeqSvaAMKYt+59QDHg=;
+        s=default; t=1569178681;
+        bh=KpdvbdqjFZl7t9TvgQ75IP6VOKP7crKkEw9fyKZUXiI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UiKXszYfQJcBsXLFgROkWbTcD6Uh8co4I+7ay0fvCfulGFqzEswgSW6kwf6iis19X
-         +2mSgD7OsVb5YpuCM/cqdkWRVkUW6XZ2uPbl6Zw1kxEg7q7+o8mfmt4hdeX7f6OTAv
-         uQPyckmViNoZxGdnSXYDnRixLts2RNSKVOp6Dyek=
+        b=vtPzQgHq2+qjNy8NLQWpxrRVXMHIjUhJqC6MCThvWy6aXyMee7+1VzgdevfTSTd0G
+         BkufEuhLyUCWFxYbPrs1bh5/L3Jeg7+87oqC1vrxES9hm+xZ/XTPsh27Yv5BzB4m+s
+         WwzkspoKVGHee+h89rosgMWqNuUNT6u6P/Y9iGaI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stephen Douthit <stephend@silicom-usa.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 29/89] EDAC, pnd2: Fix ioremap() size in dnv_rd_reg()
-Date:   Sun, 22 Sep 2019 14:56:17 -0400
-Message-Id: <20190922185717.3412-29-sashal@kernel.org>
+Cc:     =?UTF-8?q?Valdis=20Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
+        Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
+        linux-edac@vger.kernel.org, x86@kernel.org,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 27/89] RAS: Fix prototype warnings
+Date:   Sun, 22 Sep 2019 14:56:15 -0400
+Message-Id: <20190922185717.3412-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
 References: <20190922185717.3412-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Stephen Douthit <stephend@silicom-usa.com>
+From: Valdis Klētnieks <valdis.kletnieks@vt.edu>
 
-[ Upstream commit 29a3388bfcce7a6d087051376ea02bf8326a957b ]
+[ Upstream commit 0a54b809a3a2c31e1055b45b03708eb730222be1 ]
 
-Depending on how BIOS has marked the reserved region containing the 32KB
-MCHBAR you can get warnings like:
+When building with C=2 and/or W=1, legitimate warnings are issued about
+missing prototypes:
 
-resource sanity check: requesting [mem 0xfed10000-0xfed1ffff], which spans more than reserved [mem 0xfed10000-0xfed17fff]
-caller dnv_rd_reg+0xc8/0x240 [pnd2_edac] mapping multiple BARs
+    CHECK   drivers/ras/debugfs.c
+  drivers/ras/debugfs.c:4:15: warning: symbol 'ras_debugfs_dir' was not declared. Should it be static?
+  drivers/ras/debugfs.c:8:5: warning: symbol 'ras_userspace_consumers' was not declared. Should it be static?
+  drivers/ras/debugfs.c:38:12: warning: symbol 'ras_add_daemon_trace' was not declared. Should it be static?
+  drivers/ras/debugfs.c:54:13: warning: symbol 'ras_debugfs_init' was not declared. Should it be static?
+    CC      drivers/ras/debugfs.o
+  drivers/ras/debugfs.c:8:5: warning: no previous prototype for 'ras_userspace_consumers' [-Wmissing-prototypes]
+      8 | int ras_userspace_consumers(void)
+        |     ^~~~~~~~~~~~~~~~~~~~~~~
+  drivers/ras/debugfs.c:38:12: warning: no previous prototype for 'ras_add_daemon_trace' [-Wmissing-prototypes]
+     38 | int __init ras_add_daemon_trace(void)
+        |            ^~~~~~~~~~~~~~~~~~~~
+  drivers/ras/debugfs.c:54:13: warning: no previous prototype for 'ras_debugfs_init' [-Wmissing-prototypes]
+     54 | void __init ras_debugfs_init(void)
+        |             ^~~~~~~~~~~~~~~~
 
-Not all of the mmio regions used in dnv_rd_reg() are the same size.  The
-MCHBAR window is 32KB and the sideband ports are 64KB.  Pass the correct
-size to ioremap() depending on which resource we're reading from.
+Provide the proper includes.
 
-Signed-off-by: Stephen Douthit <stephend@silicom-usa.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+ [ bp: Take care of the same warnings for cec.c too. ]
+
+Signed-off-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org
+Cc: x86@kernel.org
+Link: http://lkml.kernel.org/r/7168.1565218769@turing-police
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/pnd2_edac.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/ras/cec.c     | 1 +
+ drivers/ras/debugfs.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/edac/pnd2_edac.c b/drivers/edac/pnd2_edac.c
-index 7f9bb9d9fcdc4..641ff19b2f57a 100644
---- a/drivers/edac/pnd2_edac.c
-+++ b/drivers/edac/pnd2_edac.c
-@@ -266,11 +266,14 @@ static u64 get_sideband_reg_base_addr(void)
- 	}
- }
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 97cf40a522be3..02e65bdbadcae 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/mm.h>
+ #include <linux/gfp.h>
++#include <linux/ras.h>
+ #include <linux/kernel.h>
  
-+#define DNV_MCHBAR_SIZE  0x8000
-+#define DNV_SB_PORT_SIZE 0x10000
- static int dnv_rd_reg(int port, int off, int op, void *data, size_t sz, char *name)
- {
- 	struct pci_dev *pdev;
- 	char *base;
- 	u64 addr;
-+	unsigned long size;
+ #include <asm/mce.h>
+diff --git a/drivers/ras/debugfs.c b/drivers/ras/debugfs.c
+index 501603057dffe..12a161377f4f8 100644
+--- a/drivers/ras/debugfs.c
++++ b/drivers/ras/debugfs.c
+@@ -1,4 +1,6 @@
+ #include <linux/debugfs.h>
++#include <linux/ras.h>
++#include "debugfs.h"
  
- 	if (op == 4) {
- 		pdev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x1980, NULL);
-@@ -285,15 +288,17 @@ static int dnv_rd_reg(int port, int off, int op, void *data, size_t sz, char *na
- 			addr = get_mem_ctrl_hub_base_addr();
- 			if (!addr)
- 				return -ENODEV;
-+			size = DNV_MCHBAR_SIZE;
- 		} else {
- 			/* MMIO via sideband register base address */
- 			addr = get_sideband_reg_base_addr();
- 			if (!addr)
- 				return -ENODEV;
- 			addr += (port << 16);
-+			size = DNV_SB_PORT_SIZE;
- 		}
- 
--		base = ioremap((resource_size_t)addr, 0x10000);
-+		base = ioremap((resource_size_t)addr, size);
- 		if (!base)
- 			return -ENODEV;
+ struct dentry *ras_debugfs_dir;
  
 -- 
 2.20.1
