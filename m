@@ -7,45 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E216C3A5A2
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:37:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EFFC3A5A6
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:37:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 657BE20644
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:37:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CF7820830
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569181026;
-	bh=TCzrj21DePjZetssjICk3LSvp+6XekcD+3nP3eSbAjo=;
+	s=default; t=1569181044;
+	bh=CiyScJoSbjEh1dk6sz0/OoVDGfhZZEA9aBDwuupZISg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=FCBDME9xVhuzdIHbCmyNiihicN9tF9WB94Wmdx5gDLHoZsKKQcG45SgajofFGK+JT
-	 GuGNjWoWzpIVgXmRvGFZ+ps/1jlxyt+m5PPDz/rx9GBGmmzK10N045k13WEk7cHJHh
-	 Z7GK+y8lu18HWa6Rmu/5JnrlTwwSuFDCfYqIirj8=
+	b=WTT0xV8DBMcUmY0vd5/gPMzBZQm667NLd53PY0F4iiw9/dd6qzcF64OcPCsIJvE2B
+	 ERkE2yyw/jrp5VNMB0LwBi5jG7RBb/iVD11BUPLBJnTUclkJMG3ThGUzGDMHy45qJf
+	 Q9ScvWDRUTJfLm84v5fbNbcHfPV/eebGmPt6odCc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389712AbfIVSp6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 22 Sep 2019 14:45:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41794 "EHLO mail.kernel.org"
+        id S2389621AbfIVSpv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 22 Sep 2019 14:45:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41602 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389698AbfIVSp5 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:45:57 -0400
+        id S2389398AbfIVSpv (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:45:51 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2855620882;
-        Sun, 22 Sep 2019 18:45:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 257CE208C2;
+        Sun, 22 Sep 2019 18:45:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569177956;
-        bh=TCzrj21DePjZetssjICk3LSvp+6XekcD+3nP3eSbAjo=;
+        s=default; t=1569177950;
+        bh=CiyScJoSbjEh1dk6sz0/OoVDGfhZZEA9aBDwuupZISg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0vLG+5qDB+4kKAFZk3xHGv8iuiQMckZFyOJHG7baM6akgUOWAcdXsJgsy/vaSgIY7
-         cd3qJoJZD7ZO6vBe1kHfuxxrlntByRUkcjKlNQ+ZmrTYbr+8rGGMVi7y1SkbnU5Zts
-         QK9OEo9DtIvdxezEAjv2hgjFYp+og6a/xBKOcqd4=
+        b=eZk0IM6MlZWnejsLOTihBFvyinJpeZBFn9Asjxeyq2CCoGWgh3g9YU0MK7m50OTzL
+         yizhyijHi/0ZsYqnPEEzWrz5TthwnQdVL+axShQN2Yj2WzYRDBYyJXBbSFBvLtRJKf
+         2yzsFyw3qZker2EFFzPVZadEAg/mzQZ+vs4RUkw4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stephen Douthit <stephend@silicom-usa.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 061/203] EDAC, pnd2: Fix ioremap() size in dnv_rd_reg()
-Date:   Sun, 22 Sep 2019 14:41:27 -0400
-Message-Id: <20190922184350.30563-61-sashal@kernel.org>
+Cc:     Valdis Kletnieks <valdis.kletnieks@vt.edu>,
+        kbuild test robot <lkp@intel.com>,
+        Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
+        linux-edac@vger.kernel.org, x86@kernel.org,
+        Sasha Levin <sashal@kernel.org>,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.3 056/203] RAS: Build debugfs.o only when enabled in Kconfig
+Date:   Sun, 22 Sep 2019 14:41:22 -0400
+Message-Id: <20190922184350.30563-56-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
 References: <20190922184350.30563-1-sashal@kernel.org>
@@ -58,65 +61,47 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Stephen Douthit <stephend@silicom-usa.com>
+From: Valdis Kletnieks <valdis.kletnieks@vt.edu>
 
-[ Upstream commit 29a3388bfcce7a6d087051376ea02bf8326a957b ]
+[ Upstream commit b6ff24f7b5101101ff897dfdde3f37924e676bc2 ]
 
-Depending on how BIOS has marked the reserved region containing the 32KB
-MCHBAR you can get warnings like:
+In addition, the 0day bot reported this build error:
 
-resource sanity check: requesting [mem 0xfed10000-0xfed1ffff], which spans more than reserved [mem 0xfed10000-0xfed17fff]
-caller dnv_rd_reg+0xc8/0x240 [pnd2_edac] mapping multiple BARs
+  >> drivers/ras/debugfs.c:10:5: error: redefinition of 'ras_userspace_consumers'
+      int ras_userspace_consumers(void)
+          ^~~~~~~~~~~~~~~~~~~~~~~
+     In file included from drivers/ras/debugfs.c:3:0:
+     include/linux/ras.h:14:19: note: previous definition of 'ras_userspace_consumers' was here
+      static inline int ras_userspace_consumers(void) { return 0; }
+                      ^~~~~~~~~~~~~~~~~~~~~~~
 
-Not all of the mmio regions used in dnv_rd_reg() are the same size.  The
-MCHBAR window is 32KB and the sideband ports are 64KB.  Pass the correct
-size to ioremap() depending on which resource we're reading from.
+for a riscv-specific .config where CONFIG_DEBUG_FS is not set. Fix all
+that by making debugfs.o depend on that define.
 
-Signed-off-by: Stephen Douthit <stephend@silicom-usa.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+ [ bp: Rewrite commit message. ]
+
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org
+Cc: x86@kernel.org
+Link: http://lkml.kernel.org/r/7053.1565218556@turing-police
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/pnd2_edac.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/ras/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/edac/pnd2_edac.c b/drivers/edac/pnd2_edac.c
-index ca25f8fe57ef3..1ad538baaa4a9 100644
---- a/drivers/edac/pnd2_edac.c
-+++ b/drivers/edac/pnd2_edac.c
-@@ -260,11 +260,14 @@ static u64 get_sideband_reg_base_addr(void)
- 	}
- }
- 
-+#define DNV_MCHBAR_SIZE  0x8000
-+#define DNV_SB_PORT_SIZE 0x10000
- static int dnv_rd_reg(int port, int off, int op, void *data, size_t sz, char *name)
- {
- 	struct pci_dev *pdev;
- 	char *base;
- 	u64 addr;
-+	unsigned long size;
- 
- 	if (op == 4) {
- 		pdev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x1980, NULL);
-@@ -279,15 +282,17 @@ static int dnv_rd_reg(int port, int off, int op, void *data, size_t sz, char *na
- 			addr = get_mem_ctrl_hub_base_addr();
- 			if (!addr)
- 				return -ENODEV;
-+			size = DNV_MCHBAR_SIZE;
- 		} else {
- 			/* MMIO via sideband register base address */
- 			addr = get_sideband_reg_base_addr();
- 			if (!addr)
- 				return -ENODEV;
- 			addr += (port << 16);
-+			size = DNV_SB_PORT_SIZE;
- 		}
- 
--		base = ioremap((resource_size_t)addr, 0x10000);
-+		base = ioremap((resource_size_t)addr, size);
- 		if (!base)
- 			return -ENODEV;
- 
+diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
+index ef6777e14d3df..6f0404f501071 100644
+--- a/drivers/ras/Makefile
++++ b/drivers/ras/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_RAS)	+= ras.o debugfs.o
++obj-$(CONFIG_RAS)	+= ras.o
++obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
+ obj-$(CONFIG_RAS_CEC)	+= cec.o
 -- 
 2.20.1
 
