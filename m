@@ -7,121 +7,114 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 935B1C3A5A6
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D5AC3A5A2
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:13:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6CC1C208C2
-	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:12:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49AC820882
+	for <linux-edac@archiver.kernel.org>; Sun, 22 Sep 2019 19:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569179550;
-	bh=KpdvbdqjFZl7t9TvgQ75IP6VOKP7crKkEw9fyKZUXiI=;
+	s=default; t=1569179580;
+	bh=N9/Rg1+PUsp0y7YSgg+0BkRpyqmK9meFIu4cSaUzWUw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=FYCOwuJPEAbkbEWpIBAY10RKNyIPbEcjcsQZxvv9VfJQnpZhX5UWfJ/VYWECnHF0G
-	 e38k1JWsoiVEphTqV+AEKSX+Teq4CMIEN7lbHcRLOqtIbCULiTYHDYwTVegejk3fmC
-	 Q5nwxsREOeGsz4wZxacBNFhwUVKa3tkPj1YiDHig=
+	b=DoM4YFA2kmxh38nHM5IBgnCwWdgk5Xlt0PHIXL+6jm5i8K9rI/dF6qOcQKrX7b10k
+	 hioa3XUtlWXrfc2orUWQ3NWbnnm8edPKXzE4HlAMwQUXyX4TTz4q2aSIcAyazPQ1/B
+	 Uo8JztFja1uXBgoUpSRrnUpmq5XZoVMx9Yo+NqSQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438713AbfIVS6C (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 22 Sep 2019 14:58:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60684 "EHLO mail.kernel.org"
+        id S1730657AbfIVTMy (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 22 Sep 2019 15:12:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60484 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438705AbfIVS6B (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:58:01 -0400
+        id S2438672AbfIVS5w (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:57:52 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0D50D2186A;
-        Sun, 22 Sep 2019 18:57:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99F5D208C2;
+        Sun, 22 Sep 2019 18:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178681;
-        bh=KpdvbdqjFZl7t9TvgQ75IP6VOKP7crKkEw9fyKZUXiI=;
+        s=default; t=1569178671;
+        bh=N9/Rg1+PUsp0y7YSgg+0BkRpyqmK9meFIu4cSaUzWUw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vtPzQgHq2+qjNy8NLQWpxrRVXMHIjUhJqC6MCThvWy6aXyMee7+1VzgdevfTSTd0G
-         BkufEuhLyUCWFxYbPrs1bh5/L3Jeg7+87oqC1vrxES9hm+xZ/XTPsh27Yv5BzB4m+s
-         WwzkspoKVGHee+h89rosgMWqNuUNT6u6P/Y9iGaI=
+        b=ZZxewaEh2l+5Og/yI5IU/z7bE1onHTZq13OKAUE7BYyOT721xHVvxQF4pHeEno3o7
+         2K/gnROIxYMPPBaPsWT4omg5/SMrTgMxz8Nxydbv1YHVZc0E068YF3XnUjZpVLHTni
+         rG+06okSzJf2ZKzz4ptSQhLZ30YMYPg6zWJXGGec=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Valdis=20Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
-        Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
-        linux-edac@vger.kernel.org, x86@kernel.org,
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Borislav Petkov <bp@suse.de>,
+        Thor Thayer <thor.thayer@linux.intel.com>,
+        James Morse <james.morse@arm.com>,
+        kernel-janitors@vger.kernel.org,
+        linux-edac <linux-edac@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.14 27/89] RAS: Fix prototype warnings
-Date:   Sun, 22 Sep 2019 14:56:15 -0400
-Message-Id: <20190922185717.3412-27-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 22/89] EDAC/altera: Use the proper type for the IRQ status bits
+Date:   Sun, 22 Sep 2019 14:56:10 -0400
+Message-Id: <20190922185717.3412-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
 References: <20190922185717.3412-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Valdis Klētnieks <valdis.kletnieks@vt.edu>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit 0a54b809a3a2c31e1055b45b03708eb730222be1 ]
+[ Upstream commit 8faa1cf6ed82f33009f63986c3776cc48af1b7b2 ]
 
-When building with C=2 and/or W=1, legitimate warnings are issued about
-missing prototypes:
+Smatch complains about the cast of a u32 pointer to unsigned long:
 
-    CHECK   drivers/ras/debugfs.c
-  drivers/ras/debugfs.c:4:15: warning: symbol 'ras_debugfs_dir' was not declared. Should it be static?
-  drivers/ras/debugfs.c:8:5: warning: symbol 'ras_userspace_consumers' was not declared. Should it be static?
-  drivers/ras/debugfs.c:38:12: warning: symbol 'ras_add_daemon_trace' was not declared. Should it be static?
-  drivers/ras/debugfs.c:54:13: warning: symbol 'ras_debugfs_init' was not declared. Should it be static?
-    CC      drivers/ras/debugfs.o
-  drivers/ras/debugfs.c:8:5: warning: no previous prototype for 'ras_userspace_consumers' [-Wmissing-prototypes]
-      8 | int ras_userspace_consumers(void)
-        |     ^~~~~~~~~~~~~~~~~~~~~~~
-  drivers/ras/debugfs.c:38:12: warning: no previous prototype for 'ras_add_daemon_trace' [-Wmissing-prototypes]
-     38 | int __init ras_add_daemon_trace(void)
-        |            ^~~~~~~~~~~~~~~~~~~~
-  drivers/ras/debugfs.c:54:13: warning: no previous prototype for 'ras_debugfs_init' [-Wmissing-prototypes]
-     54 | void __init ras_debugfs_init(void)
-        |             ^~~~~~~~~~~~~~~~
+  drivers/edac/altera_edac.c:1878 altr_edac_a10_irq_handler()
+  warn: passing casted pointer '&irq_status' to 'find_first_bit()'
 
-Provide the proper includes.
+This code wouldn't work on a 64 bit big endian system because it would
+read past the end of &irq_status.
 
- [ bp: Take care of the same warnings for cec.c too. ]
+ [ bp: massage. ]
 
-Signed-off-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
+Fixes: 13ab8448d2c9 ("EDAC, altera: Add ECC Manager IRQ controller support")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
+Reviewed-by: Thor Thayer <thor.thayer@linux.intel.com>
+Cc: James Morse <james.morse@arm.com>
+Cc: kernel-janitors@vger.kernel.org
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Tony Luck <tony.luck@intel.com>
-Cc: linux-edac@vger.kernel.org
-Cc: x86@kernel.org
-Link: http://lkml.kernel.org/r/7168.1565218769@turing-police
+Link: https://lkml.kernel.org/r/20190624134717.GA1754@mwanda
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/ras/cec.c     | 1 +
- drivers/ras/debugfs.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/edac/altera_edac.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 97cf40a522be3..02e65bdbadcae 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <linux/mm.h>
- #include <linux/gfp.h>
-+#include <linux/ras.h>
- #include <linux/kernel.h>
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index 38983f56ad0dd..d92090b127de7 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1646,6 +1646,7 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
+ 	struct altr_arria10_edac *edac = irq_desc_get_handler_data(desc);
+ 	struct irq_chip *chip = irq_desc_get_chip(desc);
+ 	int irq = irq_desc_get_irq(desc);
++	unsigned long bits;
  
- #include <asm/mce.h>
-diff --git a/drivers/ras/debugfs.c b/drivers/ras/debugfs.c
-index 501603057dffe..12a161377f4f8 100644
---- a/drivers/ras/debugfs.c
-+++ b/drivers/ras/debugfs.c
-@@ -1,4 +1,6 @@
- #include <linux/debugfs.h>
-+#include <linux/ras.h>
-+#include "debugfs.h"
+ 	dberr = (irq == edac->db_irq) ? 1 : 0;
+ 	sm_offset = dberr ? A10_SYSMGR_ECC_INTSTAT_DERR_OFST :
+@@ -1655,7 +1656,8 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
  
- struct dentry *ras_debugfs_dir;
+ 	regmap_read(edac->ecc_mgr_map, sm_offset, &irq_status);
  
+-	for_each_set_bit(bit, (unsigned long *)&irq_status, 32) {
++	bits = irq_status;
++	for_each_set_bit(bit, &bits, 32) {
+ 		irq = irq_linear_revmap(edac->domain, dberr * 32 + bit);
+ 		if (irq)
+ 			generic_handle_irq(irq);
 -- 
 2.20.1
 
