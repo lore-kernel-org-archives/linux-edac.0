@@ -1,183 +1,293 @@
-Return-Path: <SRS0=TlmE=X2=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=vz1n=X3=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2992C352AA
-	for <linux-edac@archiver.kernel.org>; Tue,  1 Oct 2019 11:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E635EC35280
+	for <linux-edac@archiver.kernel.org>; Wed,  2 Oct 2019 09:28:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D3CBE21D71
-	for <linux-edac@archiver.kernel.org>; Tue,  1 Oct 2019 11:22:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCCB8222C4
+	for <linux-edac@archiver.kernel.org>; Wed,  2 Oct 2019 09:28:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="izX4SKGD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731705AbfJALVw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 1 Oct 2019 07:21:52 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:54946 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731641AbfJALVw (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Oct 2019 07:21:52 -0400
-Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tip-bot2@linutronix.de>)
-        id 1iFGDr-0000H5-Tt; Tue, 01 Oct 2019 13:21:40 +0200
-Received: from [127.0.1.1] (localhost [IPv6:::1])
-        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 91EB51C070D;
-        Tue,  1 Oct 2019 13:21:39 +0200 (CEST)
-Date:   Tue, 01 Oct 2019 11:21:39 -0000
-From:   "tip-bot2 for Tony W Wang-oc" <tip-bot2@linutronix.de>
-Reply-to: linux-kernel@vger.kernel.org
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip: ras/core] x86/mce: Add Zhaoxin CMCI support
-Cc:     "Tony W Wang-oc" <TonyWWang-oc@zhaoxin.com>,
-        Borislav Petkov <bp@suse.de>, CooperYan@zhaoxin.com,
-        DavidWang@zhaoxin.com, HerryYang@zhaoxin.com,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        "linux-edac" <linux-edac@vger.kernel.org>, QiyuanWang@zhaoxin.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>, "x86-ml" <x86@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <1568787573-1297-4-git-send-email-TonyWWang-oc@zhaoxin.com>
-References: <1568787573-1297-4-git-send-email-TonyWWang-oc@zhaoxin.com>
+        id S1726038AbfJBJ2H (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 2 Oct 2019 05:28:07 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:29812 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725852AbfJBJ2H (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 2 Oct 2019 05:28:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1570008484; x=1601544484;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=pakAPBrVlVMGqVOKoh2qW8SL/VWSbaRCbk8sgD+X+W8=;
+  b=izX4SKGDZeJ1oVK0aupvfwt+09CiUwu95BHy7WxFv5JVi1mBU8BVq5XB
+   DdHVZq8qM5Qond9n7Oid8BrZZkxx65EgoKj5nDZWp7rQ+2/dZTvR+o1Ga
+   vf3Q5OyKt9E5+ae2XaGTkI6YcQKdBc/Gu7pOokjvLFgyEco8JsnVsWhz6
+   g=;
+X-IronPort-AV: E=Sophos;i="5.64,573,1559520000"; 
+   d="scan'208";a="838652386"
+Received: from sea3-co-svc-lb6-vlan2.sea.amazon.com (HELO email-inbound-relay-1d-74cf8b49.us-east-1.amazon.com) ([10.47.22.34])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 02 Oct 2019 09:26:18 +0000
+Received: from EX13MTAUEB001.ant.amazon.com (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+        by email-inbound-relay-1d-74cf8b49.us-east-1.amazon.com (Postfix) with ESMTPS id 68A25C05B3;
+        Wed,  2 Oct 2019 09:26:00 +0000 (UTC)
+Received: from EX13D08UEB004.ant.amazon.com (10.43.60.142) by
+ EX13MTAUEB001.ant.amazon.com (10.43.60.129) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Wed, 2 Oct 2019 09:25:59 +0000
+Received: from EX13MTAUEB001.ant.amazon.com (10.43.60.96) by
+ EX13D08UEB004.ant.amazon.com (10.43.60.142) with Microsoft SMTP Server (TLS)
+ id 15.0.1367.3; Wed, 2 Oct 2019 09:25:59 +0000
+Received: from [10.95.86.195] (10.95.86.195) by mail-relay.amazon.com
+ (10.43.60.129) with Microsoft SMTP Server (TLS) id 15.0.1367.3 via Frontend
+ Transport; Wed, 2 Oct 2019 09:25:56 +0000
+Subject: Re: [PATCH v4 1/2] edac: Add an API for edac device to report for
+ multiple errors
+To:     Borislav Petkov <bp@alien8.de>
+CC:     <mchehab@kernel.org>, <james.morse@arm.com>,
+        <rrichter@marvell.com>, <linux-edac@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dwmw@amazon.co.uk>,
+        <benh@amazon.com>, <ronenk@amazon.com>, <talel@amazon.com>,
+        <jonnyc@amazon.com>, <hanochu@amazon.com>
+References: <20190923191741.29322-1-hhhawa@amazon.com>
+ <20190923191741.29322-2-hhhawa@amazon.com> <20190930145046.GH29694@zn.tnic>
+From:   "Hawa, Hanna" <hhhawa@amazon.com>
+Message-ID: <5263edad-e0c9-a05a-72d7-e69c59d78d8f@amazon.com>
+Date:   Wed, 2 Oct 2019 12:25:55 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Message-ID: <156992889955.9978.11127376798004332178.tip-bot2@tip-bot2>
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190930145046.GH29694@zn.tnic>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The following commit has been merged into the ras/core branch of tip:
 
-Commit-ID:     5a3d56a034be9e8e87a6cb9ed3f2928184db1417
-Gitweb:        https://git.kernel.org/tip/5a3d56a034be9e8e87a6cb9ed3f2928184db1417
-Author:        Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
-AuthorDate:    Wed, 18 Sep 2019 14:19:32 +08:00
-Committer:     Borislav Petkov <bp@suse.de>
-CommitterDate: Tue, 01 Oct 2019 12:33:09 +02:00
 
-x86/mce: Add Zhaoxin CMCI support
+On 9/30/2019 5:50 PM, Borislav Petkov wrote:
+> On Mon, Sep 23, 2019 at 08:17:40PM +0100, Hanna Hawa wrote:
+>> +void edac_device_handle_ce(struct edac_device_ctl_info *edac_dev,
+>> +			int inst_nr, int block_nr, const char *msg)
+>> +{
+>> +	__edac_device_handle_ce(edac_dev, 1, inst_nr, block_nr, msg);
+>> +}
+>> +EXPORT_SYMBOL_GPL(edac_device_handle_ce);
+> 
+> Eww, I don't like that: exporting the function *and* the __ counterpart.
+> The user will get confused and that is unnecessary.
+> 
+> See below for a better version. This way you solve the whole deal with a
+> single patch.
+I'm okay with this version, minor comment below.
 
-All newer Zhaoxin CPUs support CMCI and are compatible with Intel's
-Machine-Check Architecture. Add that support for Zhaoxin CPUs.
+> 
+> ---
+> From: Hanna Hawa <hhhawa@amazon.com>
+> Date: Mon, 23 Sep 2019 20:17:40 +0100
+> Subject: [PATCH] EDAC/device: Rework error logging API
+> 
+> Make the main workhorse the "count" functions which can log a @count
+> of errors. Have the current APIs edac_device_handle_{ce,ue}() call
+> the _count() variants and this way keep the exported symbols number
+> unchanged.
+> 
+>   [ bp: Rewrite. ]
+> 
+> Signed-off-by: Hanna Hawa <hhhawa@amazon.com>
+> Signed-off-by: Borislav Petkov <bp@suse.de>
+> Cc: benh@amazon.com
+> Cc: dwmw@amazon.co.uk
+> Cc: hanochu@amazon.com
+> Cc: James Morse <james.morse@arm.com>
+> Cc: jonnyc@amazon.com
+> Cc: linux-edac <linux-edac@vger.kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: ronenk@amazon.com
+> Cc: talel@amazon.com
+> Cc: Tony Luck <tony.luck@intel.com>
+> Link: https://lkml.kernel.org/r/20190923191741.29322-2-hhhawa@amazon.com
+> ---
+>   drivers/edac/edac_device.c | 44 ++++++++++++++++---------------
+>   drivers/edac/edac_device.h | 54 ++++++++++++++++++++++++++++++--------
+>   2 files changed, 66 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+> index 65cf2b9355c4..d4d8bed5b55d 100644
+> --- a/drivers/edac/edac_device.c
+> +++ b/drivers/edac/edac_device.c
+> @@ -555,8 +555,9 @@ static inline int edac_device_get_panic_on_ue(struct edac_device_ctl_info
+>   	return edac_dev->panic_on_ue;
+>   }
+>   
+> -void edac_device_handle_ce(struct edac_device_ctl_info *edac_dev,
+> -			int inst_nr, int block_nr, const char *msg)
+> +void edac_device_handle_ce_count(struct edac_device_ctl_info *edac_dev,
+> +				 unsigned int count, int inst_nr, int block_nr,
+> +				 const char *msg)
+>   {
+>   	struct edac_device_instance *instance;
+>   	struct edac_device_block *block = NULL;
 
- [ bp: Massage comments and export intel_init_cmci(). ]
+Missing count check, same in *_ue_count():
+if (count)
+	return;
 
-Signed-off-by: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: CooperYan@zhaoxin.com
-Cc: DavidWang@zhaoxin.com
-Cc: HerryYang@zhaoxin.com
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: QiyuanWang@zhaoxin.com
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/1568787573-1297-4-git-send-email-TonyWWang-oc@zhaoxin.com
----
- arch/x86/kernel/cpu/mce/core.c     | 27 +++++++++++++++++++++++++++
- arch/x86/kernel/cpu/mce/intel.c    |  6 ++++--
- arch/x86/kernel/cpu/mce/internal.h |  2 ++
- 3 files changed, 33 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index a780fe0..1e6b8a4 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1777,6 +1777,29 @@ static void mce_centaur_feature_init(struct cpuinfo_x86 *c)
- 	}
- }
- 
-+static void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c)
-+{
-+	struct mce_bank *mce_banks = this_cpu_ptr(mce_banks_array);
-+
-+	/*
-+	 * These CPUs have MCA bank 8 which reports only one error type called
-+	 * SVAD (System View Address Decoder). The reporting of that error is
-+	 * controlled by IA32_MC8.CTL.0.
-+	 *
-+	 * If enabled, prefetching on these CPUs will cause SVAD MCE when
-+	 * virtual machines start and result in a system  panic. Always disable
-+	 * bank 8 SVAD error by default.
-+	 */
-+	if ((c->x86 == 7 && c->x86_model == 0x1b) ||
-+	    (c->x86_model == 0x19 || c->x86_model == 0x1f)) {
-+		if (this_cpu_read(mce_num_banks) > 8)
-+			mce_banks[8].ctl = 0;
-+	}
-+
-+	intel_init_cmci();
-+	mce_adjust_timer = cmci_intel_adjust_timer;
-+}
-+
- static void __mcheck_cpu_init_vendor(struct cpuinfo_x86 *c)
- {
- 	switch (c->x86_vendor) {
-@@ -1798,6 +1821,10 @@ static void __mcheck_cpu_init_vendor(struct cpuinfo_x86 *c)
- 		mce_centaur_feature_init(c);
- 		break;
- 
-+	case X86_VENDOR_ZHAOXIN:
-+		mce_zhaoxin_feature_init(c);
-+		break;
-+
- 	default:
- 		break;
- 	}
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index 88cd959..fb6e990 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -85,8 +85,10 @@ static int cmci_supported(int *banks)
- 	 * initialization is vendor keyed and this
- 	 * makes sure none of the backdoors are entered otherwise.
- 	 */
--	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
-+	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL &&
-+	    boot_cpu_data.x86_vendor != X86_VENDOR_ZHAOXIN)
- 		return 0;
-+
- 	if (!boot_cpu_has(X86_FEATURE_APIC) || lapic_get_maxlvt() < 6)
- 		return 0;
- 	rdmsrl(MSR_IA32_MCG_CAP, cap);
-@@ -423,7 +425,7 @@ void cmci_disable_bank(int bank)
- 	raw_spin_unlock_irqrestore(&cmci_discover_lock, flags);
- }
- 
--static void intel_init_cmci(void)
-+void intel_init_cmci(void)
- {
- 	int banks;
- 
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index 43031db..a7ee230 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -45,11 +45,13 @@ unsigned long cmci_intel_adjust_timer(unsigned long interval);
- bool mce_intel_cmci_poll(void);
- void mce_intel_hcpu_update(unsigned long cpu);
- void cmci_disable_bank(int bank);
-+void intel_init_cmci(void);
- #else
- # define cmci_intel_adjust_timer mce_adjust_timer_default
- static inline bool mce_intel_cmci_poll(void) { return false; }
- static inline void mce_intel_hcpu_update(unsigned long cpu) { }
- static inline void cmci_disable_bank(int bank) { }
-+static inline void intel_init_cmci(void) { }
- #endif
- 
- void mce_timer_kick(unsigned long interval);
+> @@ -582,23 +583,24 @@ void edac_device_handle_ce(struct edac_device_ctl_info *edac_dev,
+>   
+>   	if (instance->nr_blocks > 0) {
+>   		block = instance->blocks + block_nr;
+> -		block->counters.ce_count++;
+> +		block->counters.ce_count += count;
+>   	}
+>   
+>   	/* Propagate the count up the 'totals' tree */
+> -	instance->counters.ce_count++;
+> -	edac_dev->counters.ce_count++;
+> +	instance->counters.ce_count += count;
+> +	edac_dev->counters.ce_count += count;
+>   
+>   	if (edac_device_get_log_ce(edac_dev))
+>   		edac_device_printk(edac_dev, KERN_WARNING,
+> -				"CE: %s instance: %s block: %s '%s'\n",
+> -				edac_dev->ctl_name, instance->name,
+> -				block ? block->name : "N/A", msg);
+> +				   "CE: %s instance: %s block: %s count: %d '%s'\n",
+> +				   edac_dev->ctl_name, instance->name,
+> +				   block ? block->name : "N/A", count, msg);
+>   }
+> -EXPORT_SYMBOL_GPL(edac_device_handle_ce);
+> +EXPORT_SYMBOL_GPL(edac_device_handle_ce_count);
+>   
+> -void edac_device_handle_ue(struct edac_device_ctl_info *edac_dev,
+> -			int inst_nr, int block_nr, const char *msg)
+> +void edac_device_handle_ue_count(struct edac_device_ctl_info *edac_dev,
+> +				 unsigned int count, int inst_nr, int block_nr,
+> +				 const char *msg)
+>   {
+>   	struct edac_device_instance *instance;
+>   	struct edac_device_block *block = NULL;
+> @@ -624,22 +626,22 @@ void edac_device_handle_ue(struct edac_device_ctl_info *edac_dev,
+>   
+>   	if (instance->nr_blocks > 0) {
+>   		block = instance->blocks + block_nr;
+> -		block->counters.ue_count++;
+> +		block->counters.ue_count += count;
+>   	}
+>   
+>   	/* Propagate the count up the 'totals' tree */
+> -	instance->counters.ue_count++;
+> -	edac_dev->counters.ue_count++;
+> +	instance->counters.ue_count += count;
+> +	edac_dev->counters.ue_count += count;
+>   
+>   	if (edac_device_get_log_ue(edac_dev))
+>   		edac_device_printk(edac_dev, KERN_EMERG,
+> -				"UE: %s instance: %s block: %s '%s'\n",
+> -				edac_dev->ctl_name, instance->name,
+> -				block ? block->name : "N/A", msg);
+> +				   "UE: %s instance: %s block: %s count: %d '%s'\n",
+> +				   edac_dev->ctl_name, instance->name,
+> +				   block ? block->name : "N/A", count, msg);
+>   
+>   	if (edac_device_get_panic_on_ue(edac_dev))
+> -		panic("EDAC %s: UE instance: %s block %s '%s'\n",
+> -			edac_dev->ctl_name, instance->name,
+> -			block ? block->name : "N/A", msg);
+> +		panic("EDAC %s: UE instance: %s block %s count: %d '%s'\n",
+> +		      edac_dev->ctl_name, instance->name,
+> +		      block ? block->name : "N/A", count, msg);
+>   }
+> -EXPORT_SYMBOL_GPL(edac_device_handle_ue);
+> +EXPORT_SYMBOL_GPL(edac_device_handle_ue_count);
+> diff --git a/drivers/edac/edac_device.h b/drivers/edac/edac_device.h
+> index 1aaba74ae411..c4c0e0bdce14 100644
+> --- a/drivers/edac/edac_device.h
+> +++ b/drivers/edac/edac_device.h
+> @@ -286,27 +286,60 @@ extern int edac_device_add_device(struct edac_device_ctl_info *edac_dev);
+>   extern struct edac_device_ctl_info *edac_device_del_device(struct device *dev);
+>   
+>   /**
+> - * edac_device_handle_ue():
+> - *	perform a common output and handling of an 'edac_dev' UE event
+> + * Log correctable errors.
+>    *
+>    * @edac_dev: pointer to struct &edac_device_ctl_info
+> - * @inst_nr: number of the instance where the UE error happened
+> - * @block_nr: number of the block where the UE error happened
+> + * @inst_nr: number of the instance where the CE error happened
+> + * @count: Number of errors to log.
+> + * @block_nr: number of the block where the CE error happened
+> + * @msg: message to be printed
+> + */
+> +void edac_device_handle_ce_count(struct edac_device_ctl_info *edac_dev,
+> +				 unsigned int count, int inst_nr, int block_nr,
+> +				 const char *msg);
+> +
+> +/**
+> + * Log uncorrectable errors.
+> + *
+> + * @edac_dev: pointer to struct &edac_device_ctl_info
+> + * @inst_nr: number of the instance where the CE error happened
+> + * @count: Number of errors to log.
+> + * @block_nr: number of the block where the CE error happened
+>    * @msg: message to be printed
+>    */
+> -extern void edac_device_handle_ue(struct edac_device_ctl_info *edac_dev,
+> -				int inst_nr, int block_nr, const char *msg);
+> +void edac_device_handle_ue_count(struct edac_device_ctl_info *edac_dev,
+> +				 unsigned int count, int inst_nr, int block_nr,
+> +				 const char *msg);
+> +
+>   /**
+> - * edac_device_handle_ce():
+> - *	perform a common output and handling of an 'edac_dev' CE event
+> + * edac_device_handle_ce(): Log a single correctable error
+>    *
+>    * @edac_dev: pointer to struct &edac_device_ctl_info
+>    * @inst_nr: number of the instance where the CE error happened
+>    * @block_nr: number of the block where the CE error happened
+>    * @msg: message to be printed
+>    */
+> -extern void edac_device_handle_ce(struct edac_device_ctl_info *edac_dev,
+> -				int inst_nr, int block_nr, const char *msg);
+> +static inline void
+> +edac_device_handle_ce(struct edac_device_ctl_info *edac_dev, int inst_nr,
+> +		      int block_nr, const char *msg)
+> +{
+> +	edac_device_handle_ce_count(edac_dev, 1, inst_nr, block_nr, msg);
+> +}
+> +
+> +/**
+> + * edac_device_handle_ue(): Log a single uncorrectable error
+> + *
+> + * @edac_dev: pointer to struct &edac_device_ctl_info
+> + * @inst_nr: number of the instance where the UE error happened
+> + * @block_nr: number of the block where the UE error happened
+> + * @msg: message to be printed
+> + */
+> +static inline void
+> +edac_device_handle_ue(struct edac_device_ctl_info *edac_dev, int inst_nr,
+> +		      int block_nr, const char *msg)
+> +{
+> +	edac_device_handle_ue_count(edac_dev, 1, inst_nr, block_nr, msg);
+> +}
+>   
+>   /**
+>    * edac_device_alloc_index: Allocate a unique device index number
+> @@ -316,5 +349,4 @@ extern void edac_device_handle_ce(struct edac_device_ctl_info *edac_dev,
+>    */
+>   extern int edac_device_alloc_index(void);
+>   extern const char *edac_layer_name[];
+> -
+>   #endif
+> 
