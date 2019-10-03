@@ -2,133 +2,122 @@ Return-Path: <SRS0=n5sQ=X4=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2738CC32792
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:00:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B572C10F14
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:03:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F1CB42070B
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:00:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="XWyVnN3H"
+	by mail.kernel.org (Postfix) with ESMTP id 428E220830
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1570122219;
+	bh=P73YqyByfJFfD7IeMva3s/Jr+ys9xdTCvSZ1/zaZIYE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=vZqIzvFnEF1jOzass4O4TF/GdhXV4rCmWW5VN7DlfbXyO1NCLPrSu+oeTrk6aD+XG
+	 RcoSPS8sCHq4uuG+ZCgwv8qINuQaquFlPniIE72OX2b0+mya1Y1RrdFbizlPDxeglC
+	 qX9NW5/jHuYSFBFzaS21jBPAsG8q6lCyJAYOuW28=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390453AbfJCQpo (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Oct 2019 12:45:44 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:55350 "EHLO mail.skyhub.de"
+        id S2392266AbfJCQlt (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Oct 2019 12:41:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52364 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390402AbfJCQpm (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:45:42 -0400
-Received: from zn.tnic (p200300EC2F0F5D00F0B6154A9AF851AA.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:5d00:f0b6:154a:9af8:51aa])
+        id S2391437AbfJCQls (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Oct 2019 12:41:48 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0EBC61EC0503;
-        Thu,  3 Oct 2019 18:45:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1570121136;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eIkPCeTvcN78j8vweFeN2Nr3nk3iKgIhVmOywuUW9/M=;
-        b=XWyVnN3Hnw3ZyTL4XgOzMreKMhkPulfwnXD1mttsER3/l8E7tfOwYc+ObMHMUdYfH1glId
-        O7tKS29RD2qU8cboLOfagoGjGU1QORTSGArxvzRZhOQPs9Dyrh65tnk+E5cokgz+Aymvus
-        hvfoU6NbYJIvWKB5LRGu7anv5uYgt9c=
-Date:   Thu, 3 Oct 2019 18:45:27 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Valdis Kletnieks <valdis.kletnieks@vt.edu>,
-        Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
-        linux-edac@vger.kernel.org, x86@kernel.org,
+        by mail.kernel.org (Postfix) with ESMTPSA id 3C59520865;
+        Thu,  3 Oct 2019 16:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570120907;
+        bh=P73YqyByfJFfD7IeMva3s/Jr+ys9xdTCvSZ1/zaZIYE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GFWVBrBPo+KfSeptxcMmjXbZMzs651QHDvQnFOjkzYtRlV+LLH+cQeVWMOMC6aPWV
+         tcimskPA/pa5cU6phBpnNF3IobbzqKYWwyRENM4PGane07jcLilZjMZIBydVOunefM
+         bT3EDYiKKatBqM4wqw/3n9TuFPMhbHTWNPw0olLA=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>,
+        Borislav Petkov <bp@suse.de>,
+        Thor Thayer <thor.thayer@linux.intel.com>,
+        James Morse <james.morse@arm.com>,
+        kernel-janitors@vger.kernel.org,
+        linux-edac <linux-edac@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH 5.2 078/313] RAS: Fix prototype warnings
-Message-ID: <20191003164527.GB11675@zn.tnic>
-References: <20191003154533.590915454@linuxfoundation.org>
- <20191003154540.526612763@linuxfoundation.org>
+Subject: [PATCH 5.3 083/344] EDAC/altera: Use the proper type for the IRQ status bits
+Date:   Thu,  3 Oct 2019 17:50:48 +0200
+Message-Id: <20191003154548.364674925@linuxfoundation.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191003154540.062170222@linuxfoundation.org>
+References: <20191003154540.062170222@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191003154540.526612763@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Oct 03, 2019 at 05:50:56PM +0200, Greg Kroah-Hartman wrote:
-> From: Valdis Klētnieks <valdis.kletnieks@vt.edu>
-> 
-> [ Upstream commit 0a54b809a3a2c31e1055b45b03708eb730222be1 ]
-> 
-> When building with C=2 and/or W=1, legitimate warnings are issued about
-> missing prototypes:
-> 
->     CHECK   drivers/ras/debugfs.c
->   drivers/ras/debugfs.c:4:15: warning: symbol 'ras_debugfs_dir' was not declared. Should it be static?
->   drivers/ras/debugfs.c:8:5: warning: symbol 'ras_userspace_consumers' was not declared. Should it be static?
->   drivers/ras/debugfs.c:38:12: warning: symbol 'ras_add_daemon_trace' was not declared. Should it be static?
->   drivers/ras/debugfs.c:54:13: warning: symbol 'ras_debugfs_init' was not declared. Should it be static?
->     CC      drivers/ras/debugfs.o
->   drivers/ras/debugfs.c:8:5: warning: no previous prototype for 'ras_userspace_consumers' [-Wmissing-prototypes]
->       8 | int ras_userspace_consumers(void)
->         |     ^~~~~~~~~~~~~~~~~~~~~~~
->   drivers/ras/debugfs.c:38:12: warning: no previous prototype for 'ras_add_daemon_trace' [-Wmissing-prototypes]
->      38 | int __init ras_add_daemon_trace(void)
->         |            ^~~~~~~~~~~~~~~~~~~~
->   drivers/ras/debugfs.c:54:13: warning: no previous prototype for 'ras_debugfs_init' [-Wmissing-prototypes]
->      54 | void __init ras_debugfs_init(void)
->         |             ^~~~~~~~~~~~~~~~
-> 
-> Provide the proper includes.
-> 
->  [ bp: Take care of the same warnings for cec.c too. ]
-> 
-> Signed-off-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: linux-edac@vger.kernel.org
-> Cc: x86@kernel.org
-> Link: http://lkml.kernel.org/r/7168.1565218769@turing-police
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  drivers/ras/cec.c     | 1 +
->  drivers/ras/debugfs.c | 2 ++
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-> index f5795adc5a6e1..8037c490f3ba7 100644
-> --- a/drivers/ras/cec.c
-> +++ b/drivers/ras/cec.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0
->  #include <linux/mm.h>
->  #include <linux/gfp.h>
-> +#include <linux/ras.h>
->  #include <linux/kernel.h>
->  #include <linux/workqueue.h>
->  
-> diff --git a/drivers/ras/debugfs.c b/drivers/ras/debugfs.c
-> index 9c1b717efad86..0d4f985afbf37 100644
-> --- a/drivers/ras/debugfs.c
-> +++ b/drivers/ras/debugfs.c
-> @@ -1,5 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  #include <linux/debugfs.h>
-> +#include <linux/ras.h>
-> +#include "debugfs.h"
->  
->  struct dentry *ras_debugfs_dir;
->  
-> -- 
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-Definitely not stable material.
+[ Upstream commit 8faa1cf6ed82f33009f63986c3776cc48af1b7b2 ]
 
+Smatch complains about the cast of a u32 pointer to unsigned long:
+
+  drivers/edac/altera_edac.c:1878 altr_edac_a10_irq_handler()
+  warn: passing casted pointer '&irq_status' to 'find_first_bit()'
+
+This code wouldn't work on a 64 bit big endian system because it would
+read past the end of &irq_status.
+
+ [ bp: massage. ]
+
+Fixes: 13ab8448d2c9 ("EDAC, altera: Add ECC Manager IRQ controller support")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Reviewed-by: Thor Thayer <thor.thayer@linux.intel.com>
+Cc: James Morse <james.morse@arm.com>
+Cc: kernel-janitors@vger.kernel.org
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Link: https://lkml.kernel.org/r/20190624134717.GA1754@mwanda
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/edac/altera_edac.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index c2e693e34d434..bf024ec0116c7 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1866,6 +1866,7 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
+ 	struct altr_arria10_edac *edac = irq_desc_get_handler_data(desc);
+ 	struct irq_chip *chip = irq_desc_get_chip(desc);
+ 	int irq = irq_desc_get_irq(desc);
++	unsigned long bits;
+ 
+ 	dberr = (irq == edac->db_irq) ? 1 : 0;
+ 	sm_offset = dberr ? A10_SYSMGR_ECC_INTSTAT_DERR_OFST :
+@@ -1875,7 +1876,8 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
+ 
+ 	regmap_read(edac->ecc_mgr_map, sm_offset, &irq_status);
+ 
+-	for_each_set_bit(bit, (unsigned long *)&irq_status, 32) {
++	bits = irq_status;
++	for_each_set_bit(bit, &bits, 32) {
+ 		irq = irq_linear_revmap(edac->domain, dberr * 32 + bit);
+ 		if (irq)
+ 			generic_handle_irq(irq);
 -- 
-Regards/Gruss,
-    Boris.
+2.20.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
+
