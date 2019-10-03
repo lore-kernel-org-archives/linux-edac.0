@@ -2,143 +2,131 @@ Return-Path: <SRS0=n5sQ=X4=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70504C4CED1
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:28:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0782DC10F14
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:31:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E65F20865
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:28:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D48612086A
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1570123865;
+	bh=iA+iztb5roFqmlVCM7HAQMJDCgCAfgCx2Vgl/zw3M2A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=W8zLohPO2z4Dr6KGIkTPwtEJ5pI44z5BZLSc+i3CD1XU6WeqXazga58UfH22W8bOF
+	 vJFT1eHBKdCyyheZsLnmJ01FAZoHtM8Lg9qTunSxEX1YKW8pakh04k+6YCO23/jt0v
+	 +9x180+/nDEpszp/P2ZyIETnI74KQD2tlZb6C8OQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729316AbfJCR2R (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Oct 2019 13:28:17 -0400
-Received: from foss.arm.com ([217.140.110.172]:51898 "EHLO foss.arm.com"
+        id S2387678AbfJCQKi (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Oct 2019 12:10:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60136 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727254AbfJCR2Q (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Oct 2019 13:28:16 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9425F1000;
-        Thu,  3 Oct 2019 10:21:59 -0700 (PDT)
-Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 180473F739;
-        Thu,  3 Oct 2019 10:21:57 -0700 (PDT)
-Subject: Re: [PATCH RFC 0/4] ACPI: APEI: Add support to notify the vendor
- specific HW errors
-To:     Shiju Jose <shiju.jose@huawei.com>
-Cc:     "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        id S2387668AbfJCQKh (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Oct 2019 12:10:37 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6EBD120865;
+        Thu,  3 Oct 2019 16:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570119037;
+        bh=iA+iztb5roFqmlVCM7HAQMJDCgCAfgCx2Vgl/zw3M2A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=O9l5Pr5Q19XS4J3ksQOSBcaoN8+HwDl1IwwXOaCS32r+G4gffY//hZKu2YVYugzkF
+         TPxSX+d0sxHovKnxojiy5jl2ED6ZxWvC+PWiXFmekOgeBr7otu1J8BZj3p4drlGi11
+         P4mbZrpX33HMvFMuV4/FzOy8qChiWGm2SsTrEW6U=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Yazen Ghannam <yazen.ghannam@amd.com>,
+        Borislav Petkov <bp@suse.de>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "lenb@kernel.org" <lenb@kernel.org>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "baicar@os.amperecomputing.com" <baicar@os.amperecomputing.com>,
-        Linuxarm <linuxarm@huawei.com>,
-        Jonathan Cameron <jonathan.cameron@huawei.com>,
-        tanxiaofei <tanxiaofei@huawei.com>
-References: <Shiju Jose> <20190812101149.26036-1-shiju.jose@huawei.com>
- <72f44e4d-a20b-df1c-ddfe-55219e0ed429@arm.com>
- <86258A5CC0A3704780874CF6004BA8A6584C6BA0@lhreml523-mbx.china.huawei.com>
-From:   James Morse <james.morse@arm.com>
-Message-ID: <baa9760b-248e-e90f-68ed-1f94e128ef29@arm.com>
-Date:   Thu, 3 Oct 2019 18:21:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.14 102/185] EDAC/amd64: Decode syndrome before translating address
+Date:   Thu,  3 Oct 2019 17:53:00 +0200
+Message-Id: <20191003154501.898879396@linuxfoundation.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191003154437.541662648@linuxfoundation.org>
+References: <20191003154437.541662648@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-In-Reply-To: <86258A5CC0A3704780874CF6004BA8A6584C6BA0@lhreml523-mbx.china.huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Shiju,
+From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-On 22/08/2019 17:56, Shiju Jose wrote:
-> James Morse wrote:
->> On 12/08/2019 11:11, Shiju Jose wrote:
->>> Presently kernel does not support reporting the vendor specific HW
->>> errors, in the non-standard format, to the vendor drivers for the recovery.
->>
->> 'non standard' here is probably a little jarring to the casual reader. You're
->> referring to the UEFI spec's "N.2.3 Non-standard Section Body", which refers to
->> any section type published somewhere other than the UEFI spec.
+[ Upstream commit 8a2eaab7daf03b23ac902481218034ae2fae5e16 ]
 
->>> This patch set add this support and also move the existing handler
->>> functions for the standard errors to the new callback method.
->>
->> Could you give an example of where this would be useful? You're adding an API
->> with no caller to justify its existence.
+AMD Family 17h systems currently require address translation in order to
+report the system address of a DRAM ECC error. This is currently done
+before decoding the syndrome information. The syndrome information does
+not depend on the address translation, so the proper EDAC csrow/channel
+reporting can function without the address. However, the syndrome
+information will not be decoded if the address translation fails.
 
-> One such example is handling the local errors occurred in a device controller, such as PCIe.
+Decode the syndrome information before doing the address translation.
+The syndrome information is architecturally defined in MCA_SYND and can
+be considered robust. The address translation is system-specific and may
+fail on newer systems without proper updates to the translation
+algorithm.
 
-Could we have the example in the form of patches? (sorry, I wasn't clear)
+Fixes: 713ad54675fd ("EDAC, amd64: Define and register UMC error decode function")
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Link: https://lkml.kernel.org/r/20190821235938.118710-6-Yazen.Ghannam@amd.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/edac/amd64_edac.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-I don't think its realistic that a PCIe device driver would want to know about errors on
-other devices in the system. (SAS-HBA meet the GPU).
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 35b847b51bfa9..40fb0e7ff8fd9 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2501,13 +2501,6 @@ static void decode_umc_error(int node_id, struct mce *m)
+ 		goto log_error;
+ 	}
+ 
+-	if (umc_normaddr_to_sysaddr(m->addr, pvt->mc_node_id, err.channel, &sys_addr)) {
+-		err.err_code = ERR_NORM_ADDR;
+-		goto log_error;
+-	}
+-
+-	error_address_to_page_and_offset(sys_addr, &err);
+-
+ 	if (!(m->status & MCI_STATUS_SYNDV)) {
+ 		err.err_code = ERR_SYND;
+ 		goto log_error;
+@@ -2524,6 +2517,13 @@ static void decode_umc_error(int node_id, struct mce *m)
+ 
+ 	err.csrow = m->synd & 0x7;
+ 
++	if (umc_normaddr_to_sysaddr(m->addr, pvt->mc_node_id, err.channel, &sys_addr)) {
++		err.err_code = ERR_NORM_ADDR;
++		goto log_error;
++	}
++
++	error_address_to_page_and_offset(sys_addr, &err);
++
+ log_error:
+ 	__log_ecc_error(mci, &err, ecc_type);
+ }
+-- 
+2.20.1
 
-PCIe's has AER for handling errors that (may have) occurred on a PCIe link, and this has
-its own CPER records.
-
-
->> GUIDs should only belong to one driver.
-
-> UEFI spec's N.2.3 Non-standard Section Body mentioned,  "The type (e.g. format) of a
-> non-standard section is identified by the GUID populated in the Section Descriptor's
-> Section Type field." 
-> There is a possibility to define common non-standard error section format
-
-I agree the GUID describes the format of the error record,
-
-
-> which will
-> be used for more than one driver if the error data to be reported is in the same format.
-> Then can the same GUID belong to multiple drivers?
-
-... but here we disagree.
-
-CPER has a component/block-diagram view of the system. It describes a Memory error or an
-error with a PCIe endpoint. An error record affects one component.
-
-If you wanted to describe an error caused by a failed transaction between a PCIe device
-and memory, you would need two of these records, and its guesswork as to what happened
-between them.
-
-But the PCIe device has no business poking around in the memory error. Even if it did APEI
-would be the wrong place to do this as its not the only caller of memory_failure().
-
-
->>> Also the CCIX RAS patches could be move to the proposed callback method.
->>
->> Presumably for any vendor-specific stuff?
-
-> This information was related to the proposal to replace the  number of if(guid_equal(...)) else
-> if(guid_equal(...)) checks in the ghes_do_proc() for the existing UEFI spec defined error 
-> sections(such as PCIe,  Memory, ARM HW error)
-
-'the standard ones'
-
-> by registering the corresponding handler functions to the proposed notification method.
-
-I really don't like this. Registering a handler for 'memory corruption' would require
-walking a list of dynamically allocated pointers. Can there be more than one entry? Can
-random drivers block memory_failure() while they allocate more memory to send packets over
-USB? What if it loops?
-
-For the standard error sources the kernel needs to run 'the' handler as quickly as
-possible, with a minimum of code/memory-access in the meantime. It already takes too long.
-
-
-Thanks,
-
-James
-
-
-> The same apply to the CCIX error sections and any other
-> error sections defined by the UEFI spec in the future.  
 
 
