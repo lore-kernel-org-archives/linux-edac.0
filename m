@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDA5C32792
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 16:28:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 744B8C10F14
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 16:42:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0ADAD222CD
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 16:28:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4119720830
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 16:42:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570120130;
+	s=default; t=1570120936;
 	bh=CiyScJoSbjEh1dk6sz0/OoVDGfhZZEA9aBDwuupZISg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=NczzY9IJCncIPH9qN9hfsybDZ3MIY+g+Rm1J29DpWKuqh0RHwv1EbCjrco+xEtPNi
-	 oXVWEUqFo9QMcZaEEWHqfAh70wLTmysjNtisKVVuHSPjrXBD/ThqxquIf99gA8v7mU
-	 lCKlaP5H3V6QMFLQaH0GU4MQLEDnm+bzlXy0XPbE=
+	b=Nf+KNKnBEoko+ln1Z/L2QPpFMvGYUAVseCXxACCMF2k8gnWLrEZQQV7eGlEzl0bgO
+	 0493ixElckvGTzSqXEd31yjv8eYs1q70IOjmxeDB+mnyl0bkh4eHbS91sHXLA2G5M5
+	 K3jkNIHEpIVmb+RfrhVvcryfmz/TXffEy1XawKVk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390851AbfJCQ2t (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Oct 2019 12:28:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33414 "EHLO mail.kernel.org"
+        id S2392368AbfJCQmP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Oct 2019 12:42:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53138 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391530AbfJCQ2q (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:28:46 -0400
+        id S2392611AbfJCQmP (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Oct 2019 12:42:15 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DA24F20700;
-        Thu,  3 Oct 2019 16:28:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B39F52070B;
+        Thu,  3 Oct 2019 16:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570120125;
+        s=default; t=1570120934;
         bh=CiyScJoSbjEh1dk6sz0/OoVDGfhZZEA9aBDwuupZISg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kbaOhLbJohhm0NilMXi1PNp5Dfg7ABIG84LZc1Zv7nyfKymBDkTpqNc6vDipP0F8A
-         HfupYqzh79+CcKmO5JJWpXq9TO1ZhIxd0BSJLWH3ROMmDWiu0RLSnoQfzjmSchGsIC
-         xweQTeV7AI8b4oHduAyXZRPOUeltY2IFwIUsY/GM=
+        b=auZdpDU89bZCtc2nR0VRT6PJIfgBiOI216nbLMHtvKz+QRnHzKcXhPSCJ+FlBI/zU
+         3mH10JNQSv4mtu8OVm4pjBewKozuSqmxkgvENHrCaF1xnSSbAUYOxQx9ao7EAD1HVf
+         KppePnIjjwFjzu9/O2jkCq1Mo1akc0Lkco2QfySk=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -46,12 +46,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
         linux-edac@vger.kernel.org, x86@kernel.org,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.2 079/313] RAS: Build debugfs.o only when enabled in Kconfig
+Subject: [PATCH 5.3 092/344] RAS: Build debugfs.o only when enabled in Kconfig
 Date:   Thu,  3 Oct 2019 17:50:57 +0200
-Message-Id: <20191003154540.628683957@linuxfoundation.org>
+Message-Id: <20191003154549.261953614@linuxfoundation.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191003154533.590915454@linuxfoundation.org>
-References: <20191003154533.590915454@linuxfoundation.org>
+In-Reply-To: <20191003154540.062170222@linuxfoundation.org>
+References: <20191003154540.062170222@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
