@@ -7,52 +7,50 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC148C32792
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B726C4CED1
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:14:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BEE4920673
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:14:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70C6320673
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:14:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570122870;
-	bh=PAolAwDXSt+ysTH+9yNnx2oXETE5pOv1wJqyLHv1WTc=;
+	s=default; t=1570122886;
+	bh=5+4+EyeHu/Ui4dWZQbgh+L+4DfByRKwtCBXnWaSYN9Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZMgJsEIh4oifjRZwOXqSx02yJyPCf66iVxVvT7JXWSjH9KFYqBknUWzV+3WiiJrvJ
-	 08KhzsJei8MCVqQaAstzPmM9tYm4TImtHOn0MrlB3XrdQzKwWmggGN67yr+G7bYvp7
-	 ARiG5U5RCxzyGIes63R1/kthT+56o98CIbpUgsjg=
+	b=vDdg0lFo9zP3RpMcZgDO1mYE62jc99a9ttBIeWkLi3MrJYeFe5cSxa/ZGZFuM0FV5
+	 BXlICKB9UBypeO+b3M56R8G4NkbN6TMdNQnaoCH7ScoUdsp27/jnpdJ5k2DpNyXX1U
+	 qsYDYmaNWrB3+DyfzE03f2RChaF0honhKuH1f3oE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391219AbfJCQ1Q (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Oct 2019 12:27:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58942 "EHLO mail.kernel.org"
+        id S2391143AbfJCQ0v (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Oct 2019 12:26:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58290 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391203AbfJCQ1O (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:27:14 -0400
+        id S2391139AbfJCQ0u (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Oct 2019 12:26:50 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 42F4B20700;
-        Thu,  3 Oct 2019 16:27:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB9C2215EA;
+        Thu,  3 Oct 2019 16:26:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570120033;
-        bh=PAolAwDXSt+ysTH+9yNnx2oXETE5pOv1wJqyLHv1WTc=;
+        s=default; t=1570120009;
+        bh=5+4+EyeHu/Ui4dWZQbgh+L+4DfByRKwtCBXnWaSYN9Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QZy1GpqAaMGvYCPsm3GkG0IS7iz8w61nA+cZyVpTTwrQaaQrZ0K50RSXss0K4Fbk8
-         ZCrfqQTLUKfsVoHa+thXisBYSeAjoiTpYEDeIrnLPbZGIT5KKI/+QptXoA+0G3evDr
-         Tpa924EAdIFnkWNBFUFNbFiPNVaSZoH8FoEWk0Ws=
+        b=X/vzm5+VH/khK90B9bA8NrH9ssySOrudTpxeLlAwOIrJ4IjU0BvNauJW4sbze8QG7
+         8ISRSsF08Gk4AHUXOh/ab40LrN+UNIce6FzoePhITNPPlnw7H5bmA8oGK0F69LUaty
+         uMeIKOilJcb2X4wazlLm+o1CSM0gQdD+vb3j6VME=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>,
+        stable@vger.kernel.org, Robert Richter <rrichter@marvell.com>,
         Borislav Petkov <bp@suse.de>,
-        Thor Thayer <thor.thayer@linux.intel.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         James Morse <james.morse@arm.com>,
-        kernel-janitors@vger.kernel.org,
-        linux-edac <linux-edac@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.2 071/313] EDAC/altera: Use the proper type for the IRQ status bits
-Date:   Thu,  3 Oct 2019 17:50:49 +0200
-Message-Id: <20191003154539.855119513@linuxfoundation.org>
+Subject: [PATCH 5.2 063/313] EDAC/mc: Fix grain_bits calculation
+Date:   Thu,  3 Oct 2019 17:50:41 +0200
+Message-Id: <20191003154539.170143520@linuxfoundation.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191003154533.590915454@linuxfoundation.org>
 References: <20191003154533.590915454@linuxfoundation.org>
@@ -65,57 +63,78 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Robert Richter <rrichter@marvell.com>
 
-[ Upstream commit 8faa1cf6ed82f33009f63986c3776cc48af1b7b2 ]
+[ Upstream commit 3724ace582d9f675134985727fd5e9811f23c059 ]
 
-Smatch complains about the cast of a u32 pointer to unsigned long:
+The grain in EDAC is defined as "minimum granularity for an error
+report, in bytes". The following calculation of the grain_bits in
+edac_mc is wrong:
 
-  drivers/edac/altera_edac.c:1878 altr_edac_a10_irq_handler()
-  warn: passing casted pointer '&irq_status' to 'find_first_bit()'
+	grain_bits = fls_long(e->grain) + 1;
 
-This code wouldn't work on a 64 bit big endian system because it would
-read past the end of &irq_status.
+Where grain_bits is defined as:
 
- [ bp: massage. ]
+	grain = 1 << grain_bits
 
-Fixes: 13ab8448d2c9 ("EDAC, altera: Add ECC Manager IRQ controller support")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Example:
+
+	grain = 8	# 64 bit (8 bytes)
+	grain_bits = fls_long(8) + 1
+	grain_bits = 4 + 1 = 5
+
+	grain = 1 << grain_bits
+	grain = 1 << 5 = 32
+
+Replace it with the correct calculation:
+
+	grain_bits = fls_long(e->grain - 1);
+
+The example gives now:
+
+	grain_bits = fls_long(8 - 1)
+	grain_bits = fls_long(7)
+	grain_bits = 3
+
+	grain = 1 << 3 = 8
+
+Also, check if the hardware reports a reasonable grain != 0 and fallback
+with a warning to 1 byte granularity otherwise.
+
+ [ bp: massage a bit. ]
+
+Signed-off-by: Robert Richter <rrichter@marvell.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Thor Thayer <thor.thayer@linux.intel.com>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 Cc: James Morse <james.morse@arm.com>
-Cc: kernel-janitors@vger.kernel.org
-Cc: linux-edac <linux-edac@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20190624134717.GA1754@mwanda
+Link: https://lkml.kernel.org/r/20190624150758.6695-2-rrichter@marvell.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/altera_edac.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/edac/edac_mc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 8816f74a22b4a..2d12b94eccda2 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1829,6 +1829,7 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
- 	struct altr_arria10_edac *edac = irq_desc_get_handler_data(desc);
- 	struct irq_chip *chip = irq_desc_get_chip(desc);
- 	int irq = irq_desc_get_irq(desc);
-+	unsigned long bits;
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index 64922c8fa7e3b..d899d86897d06 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -1235,9 +1235,13 @@ void edac_mc_handle_error(const enum hw_event_mc_err_type type,
+ 	if (p > e->location)
+ 		*(p - 1) = '\0';
  
- 	dberr = (irq == edac->db_irq) ? 1 : 0;
- 	sm_offset = dberr ? A10_SYSMGR_ECC_INTSTAT_DERR_OFST :
-@@ -1838,7 +1839,8 @@ static void altr_edac_a10_irq_handler(struct irq_desc *desc)
+-	/* Report the error via the trace interface */
+-	grain_bits = fls_long(e->grain) + 1;
++	/* Sanity-check driver-supplied grain value. */
++	if (WARN_ON_ONCE(!e->grain))
++		e->grain = 1;
++
++	grain_bits = fls_long(e->grain - 1);
  
- 	regmap_read(edac->ecc_mgr_map, sm_offset, &irq_status);
- 
--	for_each_set_bit(bit, (unsigned long *)&irq_status, 32) {
-+	bits = irq_status;
-+	for_each_set_bit(bit, &bits, 32) {
- 		irq = irq_linear_revmap(edac->domain, dberr * 32 + bit);
- 		if (irq)
- 			generic_handle_irq(irq);
++	/* Report the error via the trace interface */
+ 	if (IS_ENABLED(CONFIG_RAS))
+ 		trace_mc_event(type, e->msg, e->label, e->error_count,
+ 			       mci->mc_idx, e->top_layer, e->mid_layer,
 -- 
 2.20.1
 
