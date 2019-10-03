@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B726C4CED1
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E1EECE58D
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:20:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 70C6320673
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:14:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A85C020830
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570122886;
-	bh=5+4+EyeHu/Ui4dWZQbgh+L+4DfByRKwtCBXnWaSYN9Y=;
+	s=default; t=1570123220;
+	bh=2RCEg7l97LRwKRzZakcVXzs9bT+W5NfSG1bK1ShynnA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=vDdg0lFo9zP3RpMcZgDO1mYE62jc99a9ttBIeWkLi3MrJYeFe5cSxa/ZGZFuM0FV5
-	 BXlICKB9UBypeO+b3M56R8G4NkbN6TMdNQnaoCH7ScoUdsp27/jnpdJ5k2DpNyXX1U
-	 qsYDYmaNWrB3+DyfzE03f2RChaF0honhKuH1f3oE=
+	b=nIjmvvBNYmc22zfiqeTQTqq4ZsvUyd9D0qp8Tuk/3FgO3H+/BCwgCSzigvZBrCFZM
+	 TFRHZ7iCy5dCKwZZ6L7Y5DOYEW3G8cY+BiJ1zd9TnKmvrIVm4R5Q4UR1xA7rME5DP/
+	 j2EVZ6Z0DBVVl2IBngT+bqSEloQ86ouhis4k7j8w=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391143AbfJCQ0v (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Oct 2019 12:26:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58290 "EHLO mail.kernel.org"
+        id S2389591AbfJCQSl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Oct 2019 12:18:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45332 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391139AbfJCQ0u (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:26:50 -0400
+        id S2388699AbfJCQSl (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Oct 2019 12:18:41 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB9C2215EA;
-        Thu,  3 Oct 2019 16:26:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 94FF121783;
+        Thu,  3 Oct 2019 16:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570120009;
-        bh=5+4+EyeHu/Ui4dWZQbgh+L+4DfByRKwtCBXnWaSYN9Y=;
+        s=default; t=1570119520;
+        bh=2RCEg7l97LRwKRzZakcVXzs9bT+W5NfSG1bK1ShynnA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X/vzm5+VH/khK90B9bA8NrH9ssySOrudTpxeLlAwOIrJ4IjU0BvNauJW4sbze8QG7
-         8ISRSsF08Gk4AHUXOh/ab40LrN+UNIce6FzoePhITNPPlnw7H5bmA8oGK0F69LUaty
-         uMeIKOilJcb2X4wazlLm+o1CSM0gQdD+vb3j6VME=
+        b=b1SH7jgcqdh1GhHsAfZn6W3ioQMYJCeaLjd1OGexssiYgIVpOK98spcGgBADZxKyE
+         /F6+c0lYzKMC0+wMJwFSLNGWeKymA7m7uA3HsMVnIhSFLI1hQjfRCDbat1AWhC9XBW
+         8relT58mU/dB9MwQHpsRnzfALkFfGUsOq7PRMnxg=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Robert Richter <rrichter@marvell.com>,
+        stable@vger.kernel.org, Yazen Ghannam <yazen.ghannam@amd.com>,
         Borislav Petkov <bp@suse.de>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         James Morse <james.morse@arm.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.2 063/313] EDAC/mc: Fix grain_bits calculation
-Date:   Thu,  3 Oct 2019 17:50:41 +0200
-Message-Id: <20191003154539.170143520@linuxfoundation.org>
+Subject: [PATCH 4.19 095/211] EDAC/amd64: Recognize DRAM device type ECC capability
+Date:   Thu,  3 Oct 2019 17:52:41 +0200
+Message-Id: <20191003154508.721172968@linuxfoundation.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191003154533.590915454@linuxfoundation.org>
-References: <20191003154533.590915454@linuxfoundation.org>
+In-Reply-To: <20191003154447.010950442@linuxfoundation.org>
+References: <20191003154447.010950442@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -63,78 +63,70 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Robert Richter <rrichter@marvell.com>
+From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-[ Upstream commit 3724ace582d9f675134985727fd5e9811f23c059 ]
+[ Upstream commit f8be8e5680225ac9caf07d4545f8529b7395327f ]
 
-The grain in EDAC is defined as "minimum granularity for an error
-report, in bytes". The following calculation of the grain_bits in
-edac_mc is wrong:
+AMD Family 17h systems support x4 and x16 DRAM devices. However, the
+device type is not checked when setting mci.edac_ctl_cap.
 
-	grain_bits = fls_long(e->grain) + 1;
+Set the appropriate capability flag based on the device type.
 
-Where grain_bits is defined as:
+Default to x8 DRAM device when neither the x4 or x16 bits are set.
 
-	grain = 1 << grain_bits
+ [ bp: reverse cpk_en check to save an indentation level. ]
 
-Example:
-
-	grain = 8	# 64 bit (8 bytes)
-	grain_bits = fls_long(8) + 1
-	grain_bits = 4 + 1 = 5
-
-	grain = 1 << grain_bits
-	grain = 1 << 5 = 32
-
-Replace it with the correct calculation:
-
-	grain_bits = fls_long(e->grain - 1);
-
-The example gives now:
-
-	grain_bits = fls_long(8 - 1)
-	grain_bits = fls_long(7)
-	grain_bits = 3
-
-	grain = 1 << 3 = 8
-
-Also, check if the hardware reports a reasonable grain != 0 and fallback
-with a warning to 1 byte granularity otherwise.
-
- [ bp: massage a bit. ]
-
-Signed-off-by: Robert Richter <rrichter@marvell.com>
+Fixes: 2d09d8f301f5 ("EDAC, amd64: Determine EDAC MC capabilities on Fam17h")
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
 Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 Cc: James Morse <james.morse@arm.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20190624150758.6695-2-rrichter@marvell.com
+Link: https://lkml.kernel.org/r/20190821235938.118710-3-Yazen.Ghannam@amd.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/edac_mc.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/edac/amd64_edac.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index 64922c8fa7e3b..d899d86897d06 100644
---- a/drivers/edac/edac_mc.c
-+++ b/drivers/edac/edac_mc.c
-@@ -1235,9 +1235,13 @@ void edac_mc_handle_error(const enum hw_event_mc_err_type type,
- 	if (p > e->location)
- 		*(p - 1) = '\0';
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index e2addb2bca296..1613df20774f9 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -3101,12 +3101,15 @@ static bool ecc_enabled(struct pci_dev *F3, u16 nid)
+ static inline void
+ f17h_determine_edac_ctl_cap(struct mem_ctl_info *mci, struct amd64_pvt *pvt)
+ {
+-	u8 i, ecc_en = 1, cpk_en = 1;
++	u8 i, ecc_en = 1, cpk_en = 1, dev_x4 = 1, dev_x16 = 1;
  
--	/* Report the error via the trace interface */
--	grain_bits = fls_long(e->grain) + 1;
-+	/* Sanity-check driver-supplied grain value. */
-+	if (WARN_ON_ONCE(!e->grain))
-+		e->grain = 1;
+ 	for (i = 0; i < NUM_UMCS; i++) {
+ 		if (pvt->umc[i].sdp_ctrl & UMC_SDP_INIT) {
+ 			ecc_en &= !!(pvt->umc[i].umc_cap_hi & UMC_ECC_ENABLED);
+ 			cpk_en &= !!(pvt->umc[i].umc_cap_hi & UMC_ECC_CHIPKILL_CAP);
 +
-+	grain_bits = fls_long(e->grain - 1);
++			dev_x4  &= !!(pvt->umc[i].dimm_cfg & BIT(6));
++			dev_x16 &= !!(pvt->umc[i].dimm_cfg & BIT(7));
+ 		}
+ 	}
  
-+	/* Report the error via the trace interface */
- 	if (IS_ENABLED(CONFIG_RAS))
- 		trace_mc_event(type, e->msg, e->label, e->error_count,
- 			       mci->mc_idx, e->top_layer, e->mid_layer,
+@@ -3114,8 +3117,15 @@ f17h_determine_edac_ctl_cap(struct mem_ctl_info *mci, struct amd64_pvt *pvt)
+ 	if (ecc_en) {
+ 		mci->edac_ctl_cap |= EDAC_FLAG_SECDED;
+ 
+-		if (cpk_en)
++		if (!cpk_en)
++			return;
++
++		if (dev_x4)
+ 			mci->edac_ctl_cap |= EDAC_FLAG_S4ECD4ED;
++		else if (dev_x16)
++			mci->edac_ctl_cap |= EDAC_FLAG_S16ECD16ED;
++		else
++			mci->edac_ctl_cap |= EDAC_FLAG_S8ECD8ED;
+ 	}
+ }
+ 
 -- 
 2.20.1
 
