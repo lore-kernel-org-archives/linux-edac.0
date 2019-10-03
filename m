@@ -2,141 +2,143 @@ Return-Path: <SRS0=n5sQ=X4=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE4EC4CED1
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70504C4CED1
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:28:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 37F1920865
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570123573;
-	bh=REPlmJ3AG9u8ggMbAE/uWkhiDbswCFmGAr0G8TJ0BKE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=p2aXmnqcXFYc4uqQ2iDn0JOnmJqddsJl+4twBbAA84IHQZVHJk/13Id7vIsao8MJR
-	 zf4i/TTYd2J9pURaahmuKct5oz8eoOkAV8Z24U8uNhNQFxuuY6iQaBrMn7hzWXzu6/
-	 dOku2SVvD1ctfeDIjS6bU2mZYy9ZH3vP10Y+u+Cg=
+	by mail.kernel.org (Postfix) with ESMTP id 4E65F20865
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Oct 2019 17:28:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727793AbfJCR0K (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Oct 2019 13:26:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41352 "EHLO mail.kernel.org"
+        id S1729316AbfJCR2R (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Oct 2019 13:28:17 -0400
+Received: from foss.arm.com ([217.140.110.172]:51898 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388969AbfJCQQZ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:16:25 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E423D20700;
-        Thu,  3 Oct 2019 16:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570119384;
-        bh=REPlmJ3AG9u8ggMbAE/uWkhiDbswCFmGAr0G8TJ0BKE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Tgkw+Mjl2Z/PxXOCD1b2BUHiP//FQf+0EaS1C0SUQPXg+GvOtP4c2CwVMv5T4iusU
-         DkRi00GC/P8gMNSX+sQsQe+S4R83YuG6SiIiS9Ormkq2FMhf7M0n+dpLi1ksG6IC1j
-         S0hWnZKHZ00+i5AKbqG5PsPzpkwJWUO5ceKxzgMM=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Robert Richter <rrichter@marvell.com>,
-        Borislav Petkov <bp@suse.de>,
+        id S1727254AbfJCR2Q (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Oct 2019 13:28:16 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9425F1000;
+        Thu,  3 Oct 2019 10:21:59 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 180473F739;
+        Thu,  3 Oct 2019 10:21:57 -0700 (PDT)
+Subject: Re: [PATCH RFC 0/4] ACPI: APEI: Add support to notify the vendor
+ specific HW errors
+To:     Shiju Jose <shiju.jose@huawei.com>
+Cc:     "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 046/211] EDAC/mc: Fix grain_bits calculation
-Date:   Thu,  3 Oct 2019 17:51:52 +0200
-Message-Id: <20191003154458.628881944@linuxfoundation.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191003154447.010950442@linuxfoundation.org>
-References: <20191003154447.010950442@linuxfoundation.org>
-User-Agent: quilt/0.66
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "lenb@kernel.org" <lenb@kernel.org>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "baicar@os.amperecomputing.com" <baicar@os.amperecomputing.com>,
+        Linuxarm <linuxarm@huawei.com>,
+        Jonathan Cameron <jonathan.cameron@huawei.com>,
+        tanxiaofei <tanxiaofei@huawei.com>
+References: <Shiju Jose> <20190812101149.26036-1-shiju.jose@huawei.com>
+ <72f44e4d-a20b-df1c-ddfe-55219e0ed429@arm.com>
+ <86258A5CC0A3704780874CF6004BA8A6584C6BA0@lhreml523-mbx.china.huawei.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <baa9760b-248e-e90f-68ed-1f94e128ef29@arm.com>
+Date:   Thu, 3 Oct 2019 18:21:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <86258A5CC0A3704780874CF6004BA8A6584C6BA0@lhreml523-mbx.china.huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Robert Richter <rrichter@marvell.com>
+Hi Shiju,
 
-[ Upstream commit 3724ace582d9f675134985727fd5e9811f23c059 ]
+On 22/08/2019 17:56, Shiju Jose wrote:
+> James Morse wrote:
+>> On 12/08/2019 11:11, Shiju Jose wrote:
+>>> Presently kernel does not support reporting the vendor specific HW
+>>> errors, in the non-standard format, to the vendor drivers for the recovery.
+>>
+>> 'non standard' here is probably a little jarring to the casual reader. You're
+>> referring to the UEFI spec's "N.2.3 Non-standard Section Body", which refers to
+>> any section type published somewhere other than the UEFI spec.
 
-The grain in EDAC is defined as "minimum granularity for an error
-report, in bytes". The following calculation of the grain_bits in
-edac_mc is wrong:
+>>> This patch set add this support and also move the existing handler
+>>> functions for the standard errors to the new callback method.
+>>
+>> Could you give an example of where this would be useful? You're adding an API
+>> with no caller to justify its existence.
 
-	grain_bits = fls_long(e->grain) + 1;
+> One such example is handling the local errors occurred in a device controller, such as PCIe.
 
-Where grain_bits is defined as:
+Could we have the example in the form of patches? (sorry, I wasn't clear)
 
-	grain = 1 << grain_bits
+I don't think its realistic that a PCIe device driver would want to know about errors on
+other devices in the system. (SAS-HBA meet the GPU).
 
-Example:
+PCIe's has AER for handling errors that (may have) occurred on a PCIe link, and this has
+its own CPER records.
 
-	grain = 8	# 64 bit (8 bytes)
-	grain_bits = fls_long(8) + 1
-	grain_bits = 4 + 1 = 5
 
-	grain = 1 << grain_bits
-	grain = 1 << 5 = 32
+>> GUIDs should only belong to one driver.
 
-Replace it with the correct calculation:
+> UEFI spec's N.2.3 Non-standard Section Body mentioned,  "The type (e.g. format) of a
+> non-standard section is identified by the GUID populated in the Section Descriptor's
+> Section Type field." 
+> There is a possibility to define common non-standard error section format
 
-	grain_bits = fls_long(e->grain - 1);
+I agree the GUID describes the format of the error record,
 
-The example gives now:
 
-	grain_bits = fls_long(8 - 1)
-	grain_bits = fls_long(7)
-	grain_bits = 3
+> which will
+> be used for more than one driver if the error data to be reported is in the same format.
+> Then can the same GUID belong to multiple drivers?
 
-	grain = 1 << 3 = 8
+... but here we disagree.
 
-Also, check if the hardware reports a reasonable grain != 0 and fallback
-with a warning to 1 byte granularity otherwise.
+CPER has a component/block-diagram view of the system. It describes a Memory error or an
+error with a PCIe endpoint. An error record affects one component.
 
- [ bp: massage a bit. ]
+If you wanted to describe an error caused by a failed transaction between a PCIe device
+and memory, you would need two of these records, and its guesswork as to what happened
+between them.
 
-Signed-off-by: Robert Richter <rrichter@marvell.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Cc: James Morse <james.morse@arm.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20190624150758.6695-2-rrichter@marvell.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/edac/edac_mc.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+But the PCIe device has no business poking around in the memory error. Even if it did APEI
+would be the wrong place to do this as its not the only caller of memory_failure().
 
-diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index 7d3edd7139328..f59511bd99261 100644
---- a/drivers/edac/edac_mc.c
-+++ b/drivers/edac/edac_mc.c
-@@ -1246,9 +1246,13 @@ void edac_mc_handle_error(const enum hw_event_mc_err_type type,
- 	if (p > e->location)
- 		*(p - 1) = '\0';
- 
--	/* Report the error via the trace interface */
--	grain_bits = fls_long(e->grain) + 1;
-+	/* Sanity-check driver-supplied grain value. */
-+	if (WARN_ON_ONCE(!e->grain))
-+		e->grain = 1;
-+
-+	grain_bits = fls_long(e->grain - 1);
- 
-+	/* Report the error via the trace interface */
- 	if (IS_ENABLED(CONFIG_RAS))
- 		trace_mc_event(type, e->msg, e->label, e->error_count,
- 			       mci->mc_idx, e->top_layer, e->mid_layer,
--- 
-2.20.1
 
+>>> Also the CCIX RAS patches could be move to the proposed callback method.
+>>
+>> Presumably for any vendor-specific stuff?
+
+> This information was related to the proposal to replace the  number of if(guid_equal(...)) else
+> if(guid_equal(...)) checks in the ghes_do_proc() for the existing UEFI spec defined error 
+> sections(such as PCIe,  Memory, ARM HW error)
+
+'the standard ones'
+
+> by registering the corresponding handler functions to the proposed notification method.
+
+I really don't like this. Registering a handler for 'memory corruption' would require
+walking a list of dynamically allocated pointers. Can there be more than one entry? Can
+random drivers block memory_failure() while they allocate more memory to send packets over
+USB? What if it loops?
+
+For the standard error sources the kernel needs to run 'the' handler as quickly as
+possible, with a minimum of code/memory-access in the meantime. It already takes too long.
+
+
+Thanks,
+
+James
+
+
+> The same apply to the CCIX error sections and any other
+> error sections defined by the UEFI spec in the future.  
 
 
