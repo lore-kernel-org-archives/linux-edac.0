@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2572C4360C
-	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:57:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40639C47404
+	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:57:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 76BDC20873
-	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:57:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F21E222BE
+	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:57:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731805AbfJDV5g (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 4 Oct 2019 17:57:36 -0400
+        id S1731479AbfJDV43 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 4 Oct 2019 17:56:29 -0400
 Received: from mga09.intel.com ([134.134.136.24]:5964 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731490AbfJDV43 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 4 Oct 2019 17:56:29 -0400
+        id S1731447AbfJDV42 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 4 Oct 2019 17:56:28 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2019 14:56:29 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2019 14:56:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,257,1566889200"; 
-   d="scan'208";a="191710664"
+   d="scan'208";a="191710659"
 Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Oct 2019 14:56:28 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 04 Oct 2019 14:56:27 -0700
 From:   Sean Christopherson <sean.j.christopherson@intel.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -49,9 +49,9 @@ Cc:     "H. Peter Anvin" <hpa@zytor.com>,
         kvm@vger.kernel.org, linux-edac@vger.kernel.org,
         Borislav Petkov <bp@suse.de>,
         Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Subject: [PATCH 04/16] x86/zhaoxin: Use common IA32_FEATURE_CONTROL MSR initialization
-Date:   Fri,  4 Oct 2019 14:56:03 -0700
-Message-Id: <20191004215615.5479-5-sean.j.christopherson@intel.com>
+Subject: [PATCH 03/16] x86/centaur: Use common IA32_FEATURE_CONTROL MSR initialization
+Date:   Fri,  4 Oct 2019 14:56:02 -0700
+Message-Id: <20191004215615.5479-4-sean.j.christopherson@intel.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20191004215615.5479-1-sean.j.christopherson@intel.com>
 References: <20191004215615.5479-1-sean.j.christopherson@intel.com>
@@ -63,39 +63,39 @@ List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
 Use the recently added IA32_FEATURE_CONTROL MSR initialization sequence
-to opportunstically enable VMX support when running on a Zhaoxin CPU.
+to opportunstically enable VMX support when running on a Centaur CPU.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
  arch/x86/Kconfig.cpu          | 2 +-
- arch/x86/kernel/cpu/zhaoxin.c | 2 ++
+ arch/x86/kernel/cpu/centaur.c | 2 ++
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/arch/x86/Kconfig.cpu b/arch/x86/Kconfig.cpu
-index 9e4e41424dc2..e78f39adae7b 100644
+index aafc14a0abf7..9e4e41424dc2 100644
 --- a/arch/x86/Kconfig.cpu
 +++ b/arch/x86/Kconfig.cpu
 @@ -389,7 +389,7 @@ config X86_DEBUGCTLMSR
  
  config X86_FEATURE_CONTROL_MSR
  	def_bool y
--	depends on CPU_SUP_INTEL || CPU_SUP_CENTAUR
-+	depends on CPU_SUP_INTEL || CPU_SUP_CENTAUR || CPU_SUP_ZHAOXIN
+-	depends on CPU_SUP_INTEL
++	depends on CPU_SUP_INTEL || CPU_SUP_CENTAUR
  
  menuconfig PROCESSOR_SELECT
  	bool "Supported processor vendors" if EXPERT
-diff --git a/arch/x86/kernel/cpu/zhaoxin.c b/arch/x86/kernel/cpu/zhaoxin.c
-index 8e6f2f4b4afe..01b05a4a5a85 100644
---- a/arch/x86/kernel/cpu/zhaoxin.c
-+++ b/arch/x86/kernel/cpu/zhaoxin.c
-@@ -141,6 +141,8 @@ static void init_zhaoxin(struct cpuinfo_x86 *c)
+diff --git a/arch/x86/kernel/cpu/centaur.c b/arch/x86/kernel/cpu/centaur.c
+index 14433ff5b828..a6ca4c31c1b6 100644
+--- a/arch/x86/kernel/cpu/centaur.c
++++ b/arch/x86/kernel/cpu/centaur.c
+@@ -250,6 +250,8 @@ static void init_centaur(struct cpuinfo_x86 *c)
  	set_cpu_cap(c, X86_FEATURE_LFENCE_RDTSC);
  #endif
  
 +	init_feature_control_msr(c);
 +
  	if (cpu_has(c, X86_FEATURE_VMX))
- 		zhaoxin_detect_vmx_virtcap(c);
+ 		centaur_detect_vmx_virtcap(c);
  }
 -- 
 2.22.0
