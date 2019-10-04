@@ -2,32 +2,31 @@ Return-Path: <SRS0=qfwe=X5=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UPPERCASE_50_75,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 565C2C47404
-	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CEEC47404
+	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:57:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2A2A220873
-	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:56:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF82220873
+	for <linux-edac@archiver.kernel.org>; Fri,  4 Oct 2019 21:57:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730507AbfJDV4x (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 4 Oct 2019 17:56:53 -0400
-Received: from mga09.intel.com ([134.134.136.24]:6000 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731633AbfJDV4g (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S1731624AbfJDV4g (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Fri, 4 Oct 2019 17:56:36 -0400
+Received: from mga09.intel.com ([134.134.136.24]:5996 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731605AbfJDV4f (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 4 Oct 2019 17:56:35 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2019 14:56:36 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2019 14:56:34 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,257,1566889200"; 
-   d="scan'208";a="191710707"
+   d="scan'208";a="191710698"
 Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Oct 2019 14:56:35 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 04 Oct 2019 14:56:33 -0700
 From:   Sean Christopherson <sean.j.christopherson@intel.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -50,9 +49,9 @@ Cc:     "H. Peter Anvin" <hpa@zytor.com>,
         kvm@vger.kernel.org, linux-edac@vger.kernel.org,
         Borislav Petkov <bp@suse.de>,
         Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Subject: [PATCH 13/16] KVM: VMX: Use VMX_FEATURE_* flags to define VMCS control bits
-Date:   Fri,  4 Oct 2019 14:56:12 -0700
-Message-Id: <20191004215615.5479-14-sean.j.christopherson@intel.com>
+Subject: [PATCH 11/16] x86/cpu: Print VMX features as separate line item in /proc/cpuinfo
+Date:   Fri,  4 Oct 2019 14:56:10 -0700
+Message-Id: <20191004215615.5479-12-sean.j.christopherson@intel.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20191004215615.5479-1-sean.j.christopherson@intel.com>
 References: <20191004215615.5479-1-sean.j.christopherson@intel.com>
@@ -63,153 +62,322 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Define the VMCS execution control flags (consumed by KVM) using their
-associated VMX_FEATURE_* to provide a strong hint that new VMX features
-are expected to be added to VMX_FEATURE and considered for reporting via
-/proc/cpuinfo.
+Add support for generating VMX feature names in capflags.c and printing
+the resulting names in /proc/cpuinfo as "vmx flags" when VMX support is
+detected.  Do not print VMX flags if no bits are set in word 0, which
+includes Pin controls.  INTR and NMI exiting are fundamental pillars of
+virtualization, if they're not supported then the CPU is broken, it does
+not actually support VMX, or the kernel wasn't built with support for
+the target CPU.
 
-No functional change intended.
+Remove all code which sets the synthetic VMX flags in cpufeatures so
+that duplicate VMX features are not printed in "flags" and "vmx flags".
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- arch/x86/include/asm/vmx.h | 105 +++++++++++++++++++------------------
- 1 file changed, 55 insertions(+), 50 deletions(-)
+ arch/x86/boot/mkcpustr.c          |  1 +
+ arch/x86/kernel/cpu/Makefile      |  5 ++--
+ arch/x86/kernel/cpu/centaur.c     | 35 ----------------------
+ arch/x86/kernel/cpu/intel.c       | 49 -------------------------------
+ arch/x86/kernel/cpu/mkcapflags.sh | 15 +++++++---
+ arch/x86/kernel/cpu/proc.c        | 15 ++++++++++
+ arch/x86/kernel/cpu/zhaoxin.c     | 35 ----------------------
+ 7 files changed, 30 insertions(+), 125 deletions(-)
 
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 1835767aa335..9fbba31be825 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -15,67 +15,70 @@
- #include <linux/bitops.h>
- #include <linux/types.h>
- #include <uapi/asm/vmx.h>
-+#include <asm/vmxfeatures.h>
+diff --git a/arch/x86/boot/mkcpustr.c b/arch/x86/boot/mkcpustr.c
+index 9caa10e82217..da0ccc5de538 100644
+--- a/arch/x86/boot/mkcpustr.c
++++ b/arch/x86/boot/mkcpustr.c
+@@ -15,6 +15,7 @@
+ #include "../include/asm/required-features.h"
+ #include "../include/asm/disabled-features.h"
+ #include "../include/asm/cpufeatures.h"
++#include "../include/asm/vmxfeatures.h"
+ #include "../kernel/cpu/capflags.c"
+ 
+ int main(void)
+diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
+index df5ad0cfe3e9..025cbfd45687 100644
+--- a/arch/x86/kernel/cpu/Makefile
++++ b/arch/x86/kernel/cpu/Makefile
+@@ -54,11 +54,12 @@ obj-$(CONFIG_ACRN_GUEST)		+= acrn.o
+ 
+ ifdef CONFIG_X86_FEATURE_NAMES
+ quiet_cmd_mkcapflags = MKCAP   $@
+-      cmd_mkcapflags = $(CONFIG_SHELL) $(srctree)/$(src)/mkcapflags.sh $< $@
++      cmd_mkcapflags = $(CONFIG_SHELL) $(srctree)/$(src)/mkcapflags.sh $@ $^
+ 
+ cpufeature = $(src)/../../include/asm/cpufeatures.h
++vmxfeature = $(src)/../../include/asm/vmxfeatures.h
+ 
+-$(obj)/capflags.c: $(cpufeature) $(src)/mkcapflags.sh FORCE
++$(obj)/capflags.c: $(cpufeature) $(vmxfeature) $(src)/mkcapflags.sh FORCE
+ 	$(call if_changed,mkcapflags)
+ endif
+ targets += capflags.c
+diff --git a/arch/x86/kernel/cpu/centaur.c b/arch/x86/kernel/cpu/centaur.c
+index a6ca4c31c1b6..be11c796926b 100644
+--- a/arch/x86/kernel/cpu/centaur.c
++++ b/arch/x86/kernel/cpu/centaur.c
+@@ -18,13 +18,6 @@
+ #define RNG_ENABLED	(1 << 3)
+ #define RNG_ENABLE	(1 << 6)	/* MSR_VIA_RNG */
+ 
+-#define X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW	0x00200000
+-#define X86_VMX_FEATURE_PROC_CTLS_VNMI		0x00400000
+-#define X86_VMX_FEATURE_PROC_CTLS_2ND_CTLS	0x80000000
+-#define X86_VMX_FEATURE_PROC_CTLS2_VIRT_APIC	0x00000001
+-#define X86_VMX_FEATURE_PROC_CTLS2_EPT		0x00000002
+-#define X86_VMX_FEATURE_PROC_CTLS2_VPID		0x00000020
+-
+ static void init_c3(struct cpuinfo_x86 *c)
+ {
+ 	u32  lo, hi;
+@@ -119,31 +112,6 @@ static void early_init_centaur(struct cpuinfo_x86 *c)
+ 	}
+ }
+ 
+-static void centaur_detect_vmx_virtcap(struct cpuinfo_x86 *c)
+-{
+-	u32 vmx_msr_low, vmx_msr_high, msr_ctl, msr_ctl2;
+-
+-	rdmsr(MSR_IA32_VMX_PROCBASED_CTLS, vmx_msr_low, vmx_msr_high);
+-	msr_ctl = vmx_msr_high | vmx_msr_low;
+-
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW)
+-		set_cpu_cap(c, X86_FEATURE_TPR_SHADOW);
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_VNMI)
+-		set_cpu_cap(c, X86_FEATURE_VNMI);
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_2ND_CTLS) {
+-		rdmsr(MSR_IA32_VMX_PROCBASED_CTLS2,
+-		      vmx_msr_low, vmx_msr_high);
+-		msr_ctl2 = vmx_msr_high | vmx_msr_low;
+-		if ((msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_VIRT_APIC) &&
+-		    (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW))
+-			set_cpu_cap(c, X86_FEATURE_FLEXPRIORITY);
+-		if (msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_EPT)
+-			set_cpu_cap(c, X86_FEATURE_EPT);
+-		if (msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_VPID)
+-			set_cpu_cap(c, X86_FEATURE_VPID);
+-	}
+-}
+-
+ static void init_centaur(struct cpuinfo_x86 *c)
+ {
+ #ifdef CONFIG_X86_32
+@@ -251,9 +219,6 @@ static void init_centaur(struct cpuinfo_x86 *c)
+ #endif
+ 
+ 	init_feature_control_msr(c);
+-
+-	if (cpu_has(c, X86_FEATURE_VMX))
+-		centaur_detect_vmx_virtcap(c);
+ }
+ 
+ #ifdef CONFIG_X86_32
+diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
+index 15d59224e2f8..594d2686ad52 100644
+--- a/arch/x86/kernel/cpu/intel.c
++++ b/arch/x86/kernel/cpu/intel.c
+@@ -494,52 +494,6 @@ static void srat_detect_node(struct cpuinfo_x86 *c)
+ #endif
+ }
+ 
+-static void detect_vmx_virtcap(struct cpuinfo_x86 *c)
+-{
+-	/* Intel VMX MSR indicated features */
+-#define X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW	0x00200000
+-#define X86_VMX_FEATURE_PROC_CTLS_VNMI		0x00400000
+-#define X86_VMX_FEATURE_PROC_CTLS_2ND_CTLS	0x80000000
+-#define X86_VMX_FEATURE_PROC_CTLS2_VIRT_APIC	0x00000001
+-#define X86_VMX_FEATURE_PROC_CTLS2_EPT		0x00000002
+-#define X86_VMX_FEATURE_PROC_CTLS2_VPID		0x00000020
+-#define x86_VMX_FEATURE_EPT_CAP_AD		0x00200000
+-
+-	u32 vmx_msr_low, vmx_msr_high, msr_ctl, msr_ctl2;
+-	u32 msr_vpid_cap, msr_ept_cap;
+-
+-	clear_cpu_cap(c, X86_FEATURE_TPR_SHADOW);
+-	clear_cpu_cap(c, X86_FEATURE_VNMI);
+-	clear_cpu_cap(c, X86_FEATURE_FLEXPRIORITY);
+-	clear_cpu_cap(c, X86_FEATURE_EPT);
+-	clear_cpu_cap(c, X86_FEATURE_VPID);
+-	clear_cpu_cap(c, X86_FEATURE_EPT_AD);
+-
+-	rdmsr(MSR_IA32_VMX_PROCBASED_CTLS, vmx_msr_low, vmx_msr_high);
+-	msr_ctl = vmx_msr_high | vmx_msr_low;
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW)
+-		set_cpu_cap(c, X86_FEATURE_TPR_SHADOW);
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_VNMI)
+-		set_cpu_cap(c, X86_FEATURE_VNMI);
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_2ND_CTLS) {
+-		rdmsr(MSR_IA32_VMX_PROCBASED_CTLS2,
+-		      vmx_msr_low, vmx_msr_high);
+-		msr_ctl2 = vmx_msr_high | vmx_msr_low;
+-		if ((msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_VIRT_APIC) &&
+-		    (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW))
+-			set_cpu_cap(c, X86_FEATURE_FLEXPRIORITY);
+-		if (msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_EPT) {
+-			set_cpu_cap(c, X86_FEATURE_EPT);
+-			rdmsr(MSR_IA32_VMX_EPT_VPID_CAP,
+-			      msr_ept_cap, msr_vpid_cap);
+-			if (msr_ept_cap & x86_VMX_FEATURE_EPT_CAP_AD)
+-				set_cpu_cap(c, X86_FEATURE_EPT_AD);
+-		}
+-		if (msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_VPID)
+-			set_cpu_cap(c, X86_FEATURE_VPID);
+-	}
+-}
+-
+ #define MSR_IA32_TME_ACTIVATE		0x982
+ 
+ /* Helpers to access TME_ACTIVATE MSR */
+@@ -757,9 +711,6 @@ static void init_intel(struct cpuinfo_x86 *c)
+ 
+ 	init_feature_control_msr(c);
+ 
+-	if (cpu_has(c, X86_FEATURE_VMX))
+-		detect_vmx_virtcap(c);
+-
+ 	if (cpu_has(c, X86_FEATURE_TME))
+ 		detect_tme(c);
+ 
+diff --git a/arch/x86/kernel/cpu/mkcapflags.sh b/arch/x86/kernel/cpu/mkcapflags.sh
+index aed45b8895d5..1db560ed2ca3 100644
+--- a/arch/x86/kernel/cpu/mkcapflags.sh
++++ b/arch/x86/kernel/cpu/mkcapflags.sh
+@@ -6,8 +6,7 @@
+ 
+ set -e
+ 
+-IN=$1
+-OUT=$2
++OUT=$1
+ 
+ dump_array()
+ {
+@@ -15,6 +14,7 @@ dump_array()
+ 	SIZE=$2
+ 	PFX=$3
+ 	POSTFIX=$4
++	IN=$5
+ 
+ 	PFX_SZ=$(echo $PFX | wc -c)
+ 	TABS="$(printf '\t\t\t\t\t')"
+@@ -57,11 +57,18 @@ trap 'rm "$OUT"' EXIT
+ 	echo "#endif"
+ 	echo ""
+ 
+-	dump_array "x86_cap_flags" "NCAPINTS*32" "X86_FEATURE_" ""
++	dump_array "x86_cap_flags" "NCAPINTS*32" "X86_FEATURE_" "" $2
+ 	echo ""
+ 
+-	dump_array "x86_bug_flags" "NBUGINTS*32" "X86_BUG_" "NCAPINTS*32"
++	dump_array "x86_bug_flags" "NBUGINTS*32" "X86_BUG_" "NCAPINTS*32" $2
++	echo ""
+ 
++	echo "#ifdef CONFIG_X86_VMX_FEATURE_NAMES"
++	echo "#ifndef _ASM_X86_VMXFEATURES_H"
++	echo "#include <asm/vmxfeatures.h>"
++	echo "#endif"
++	dump_array "x86_vmx_flags" "NVMXINTS*32" "VMX_FEATURE_" "" $3
++	echo "#endif /* CONFIG_X86_VMX_FEATURE_NAMES */"
+ ) > $OUT
+ 
+ trap - EXIT
+diff --git a/arch/x86/kernel/cpu/proc.c b/arch/x86/kernel/cpu/proc.c
+index cb2e49810d68..4eec8889b0ff 100644
+--- a/arch/x86/kernel/cpu/proc.c
++++ b/arch/x86/kernel/cpu/proc.c
+@@ -7,6 +7,10 @@
+ 
+ #include "cpu.h"
+ 
++#ifdef CONFIG_X86_VMX_FEATURE_NAMES
++extern const char * const x86_vmx_flags[NVMXINTS*32];
++#endif
 +
-+#define VMCS_CONTROL_BIT(x)	BIT(VMX_FEATURE_##x & 0x1f)
- 
  /*
-  * Definitions of Primary Processor-Based VM-Execution Controls.
+  *	Get CPU information for use by the procfs.
   */
--#define CPU_BASED_VIRTUAL_INTR_PENDING          0x00000004
--#define CPU_BASED_USE_TSC_OFFSETING             0x00000008
--#define CPU_BASED_HLT_EXITING                   0x00000080
--#define CPU_BASED_INVLPG_EXITING                0x00000200
--#define CPU_BASED_MWAIT_EXITING                 0x00000400
--#define CPU_BASED_RDPMC_EXITING                 0x00000800
--#define CPU_BASED_RDTSC_EXITING                 0x00001000
--#define CPU_BASED_CR3_LOAD_EXITING		0x00008000
--#define CPU_BASED_CR3_STORE_EXITING		0x00010000
--#define CPU_BASED_CR8_LOAD_EXITING              0x00080000
--#define CPU_BASED_CR8_STORE_EXITING             0x00100000
--#define CPU_BASED_TPR_SHADOW                    0x00200000
--#define CPU_BASED_VIRTUAL_NMI_PENDING		0x00400000
--#define CPU_BASED_MOV_DR_EXITING                0x00800000
--#define CPU_BASED_UNCOND_IO_EXITING             0x01000000
--#define CPU_BASED_USE_IO_BITMAPS                0x02000000
--#define CPU_BASED_MONITOR_TRAP_FLAG             0x08000000
--#define CPU_BASED_USE_MSR_BITMAPS               0x10000000
--#define CPU_BASED_MONITOR_EXITING               0x20000000
--#define CPU_BASED_PAUSE_EXITING                 0x40000000
--#define CPU_BASED_ACTIVATE_SECONDARY_CONTROLS   0x80000000
-+#define CPU_BASED_VIRTUAL_INTR_PENDING          VMCS_CONTROL_BIT(VIRTUAL_INTR_PENDING)
-+#define CPU_BASED_USE_TSC_OFFSETING             VMCS_CONTROL_BIT(TSC_OFFSETTING)
-+#define CPU_BASED_HLT_EXITING                   VMCS_CONTROL_BIT(HLT_EXITING)
-+#define CPU_BASED_INVLPG_EXITING                VMCS_CONTROL_BIT(INVLPG_EXITING)
-+#define CPU_BASED_MWAIT_EXITING                 VMCS_CONTROL_BIT(MWAIT_EXITING)
-+#define CPU_BASED_RDPMC_EXITING                 VMCS_CONTROL_BIT(RDPMC_EXITING)
-+#define CPU_BASED_RDTSC_EXITING                 VMCS_CONTROL_BIT(RDTSC_EXITING)
-+#define CPU_BASED_CR3_LOAD_EXITING		VMCS_CONTROL_BIT(CR3_LOAD_EXITING)
-+#define CPU_BASED_CR3_STORE_EXITING		VMCS_CONTROL_BIT(CR3_STORE_EXITING)
-+#define CPU_BASED_CR8_LOAD_EXITING              VMCS_CONTROL_BIT(CR8_LOAD_EXITING)
-+#define CPU_BASED_CR8_STORE_EXITING             VMCS_CONTROL_BIT(CR8_STORE_EXITING)
-+#define CPU_BASED_TPR_SHADOW                    VMCS_CONTROL_BIT(VIRTUAL_TPR)
-+#define CPU_BASED_VIRTUAL_NMI_PENDING		VMCS_CONTROL_BIT(VIRTUAL_NMI_PENDING)
-+#define CPU_BASED_MOV_DR_EXITING                VMCS_CONTROL_BIT(MOV_DR_EXITING)
-+#define CPU_BASED_UNCOND_IO_EXITING             VMCS_CONTROL_BIT(UNCOND_IO_EXITING)
-+#define CPU_BASED_USE_IO_BITMAPS                VMCS_CONTROL_BIT(USE_IO_BITMAPS)
-+#define CPU_BASED_MONITOR_TRAP_FLAG             VMCS_CONTROL_BIT(MONITOR_TRAP_FLAG)
-+#define CPU_BASED_USE_MSR_BITMAPS               VMCS_CONTROL_BIT(USE_MSR_BITMAPS)
-+#define CPU_BASED_MONITOR_EXITING               VMCS_CONTROL_BIT(MONITOR_EXITING)
-+#define CPU_BASED_PAUSE_EXITING                 VMCS_CONTROL_BIT(PAUSE_EXITING)
-+#define CPU_BASED_ACTIVATE_SECONDARY_CONTROLS   VMCS_CONTROL_BIT(SEC_CONTROLS)
+@@ -102,6 +106,17 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+ 		if (cpu_has(c, i) && x86_cap_flags[i] != NULL)
+ 			seq_printf(m, " %s", x86_cap_flags[i]);
  
- #define CPU_BASED_ALWAYSON_WITHOUT_TRUE_MSR	0x0401e172
- 
- /*
-  * Definitions of Secondary Processor-Based VM-Execution Controls.
-  */
--#define SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES 0x00000001
--#define SECONDARY_EXEC_ENABLE_EPT               0x00000002
--#define SECONDARY_EXEC_DESC			0x00000004
--#define SECONDARY_EXEC_RDTSCP			0x00000008
--#define SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE   0x00000010
--#define SECONDARY_EXEC_ENABLE_VPID              0x00000020
--#define SECONDARY_EXEC_WBINVD_EXITING		0x00000040
--#define SECONDARY_EXEC_UNRESTRICTED_GUEST	0x00000080
--#define SECONDARY_EXEC_APIC_REGISTER_VIRT       0x00000100
--#define SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY    0x00000200
--#define SECONDARY_EXEC_PAUSE_LOOP_EXITING	0x00000400
--#define SECONDARY_EXEC_RDRAND_EXITING		0x00000800
--#define SECONDARY_EXEC_ENABLE_INVPCID		0x00001000
--#define SECONDARY_EXEC_ENABLE_VMFUNC            0x00002000
--#define SECONDARY_EXEC_SHADOW_VMCS              0x00004000
--#define SECONDARY_EXEC_ENCLS_EXITING		0x00008000
--#define SECONDARY_EXEC_RDSEED_EXITING		0x00010000
--#define SECONDARY_EXEC_ENABLE_PML               0x00020000
--#define SECONDARY_EXEC_PT_CONCEAL_VMX		0x00080000
--#define SECONDARY_EXEC_XSAVES			0x00100000
--#define SECONDARY_EXEC_PT_USE_GPA		0x01000000
--#define SECONDARY_EXEC_MODE_BASED_EPT_EXEC	0x00400000
--#define SECONDARY_EXEC_TSC_SCALING              0x02000000
-+#define SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES VMCS_CONTROL_BIT(VIRT_APIC_ACCESSES)
-+#define SECONDARY_EXEC_ENABLE_EPT               VMCS_CONTROL_BIT(EPT)
-+#define SECONDARY_EXEC_DESC			VMCS_CONTROL_BIT(DESC_EXITING)
-+#define SECONDARY_EXEC_RDTSCP			VMCS_CONTROL_BIT(RDTSCP)
-+#define SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE   VMCS_CONTROL_BIT(VIRTUAL_X2APIC)
-+#define SECONDARY_EXEC_ENABLE_VPID              VMCS_CONTROL_BIT(VPID)
-+#define SECONDARY_EXEC_WBINVD_EXITING		VMCS_CONTROL_BIT(WBINVD_EXITING)
-+#define SECONDARY_EXEC_UNRESTRICTED_GUEST	VMCS_CONTROL_BIT(UNRESTRICTED_GUEST)
-+#define SECONDARY_EXEC_APIC_REGISTER_VIRT       VMCS_CONTROL_BIT(APIC_REGISTER_VIRT)
-+#define SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY    VMCS_CONTROL_BIT(VIRT_INTR_DELIVERY)
-+#define SECONDARY_EXEC_PAUSE_LOOP_EXITING	VMCS_CONTROL_BIT(PAUSE_LOOP_EXITING)
-+#define SECONDARY_EXEC_RDRAND_EXITING		VMCS_CONTROL_BIT(RDRAND_EXITING)
-+#define SECONDARY_EXEC_ENABLE_INVPCID		VMCS_CONTROL_BIT(INVPCID)
-+#define SECONDARY_EXEC_ENABLE_VMFUNC            VMCS_CONTROL_BIT(VMFUNC)
-+#define SECONDARY_EXEC_SHADOW_VMCS              VMCS_CONTROL_BIT(SHADOW_VMCS)
-+#define SECONDARY_EXEC_ENCLS_EXITING		VMCS_CONTROL_BIT(ENCLS_EXITING)
-+#define SECONDARY_EXEC_RDSEED_EXITING		VMCS_CONTROL_BIT(RDSEED_EXITING)
-+#define SECONDARY_EXEC_ENABLE_PML               VMCS_CONTROL_BIT(PAGE_MOD_LOGGING)
-+#define SECONDARY_EXEC_PT_CONCEAL_VMX		VMCS_CONTROL_BIT(PT_CONCEAL_VMX)
-+#define SECONDARY_EXEC_XSAVES			VMCS_CONTROL_BIT(XSAVES)
-+#define SECONDARY_EXEC_MODE_BASED_EPT_EXEC	VMCS_CONTROL_BIT(MODE_BASED_EPT_EXEC)
-+#define SECONDARY_EXEC_PT_USE_GPA		VMCS_CONTROL_BIT(PT_USE_GPA)
-+#define SECONDARY_EXEC_TSC_SCALING              VMCS_CONTROL_BIT(TSC_SCALING)
- #define SECONDARY_EXEC_ENABLE_USR_WAIT_PAUSE	0x04000000
- 
--#define PIN_BASED_EXT_INTR_MASK                 0x00000001
--#define PIN_BASED_NMI_EXITING                   0x00000008
--#define PIN_BASED_VIRTUAL_NMIS                  0x00000020
--#define PIN_BASED_VMX_PREEMPTION_TIMER          0x00000040
--#define PIN_BASED_POSTED_INTR                   0x00000080
-+#define PIN_BASED_EXT_INTR_MASK                 VMCS_CONTROL_BIT(INTR_EXITING)
-+#define PIN_BASED_NMI_EXITING                   VMCS_CONTROL_BIT(NMI_EXITING)
-+#define PIN_BASED_VIRTUAL_NMIS                  VMCS_CONTROL_BIT(VIRTUAL_NMIS)
-+#define PIN_BASED_VMX_PREEMPTION_TIMER          VMCS_CONTROL_BIT(PREEMPTION_TIMER)
-+#define PIN_BASED_POSTED_INTR                   VMCS_CONTROL_BIT(POSTED_INTR)
- 
- #define PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR	0x00000016
- 
-@@ -114,7 +117,9 @@
- #define VMX_MISC_MSR_LIST_MULTIPLIER		512
- 
- /* VMFUNC functions */
--#define VMX_VMFUNC_EPTP_SWITCHING               0x00000001
-+#define VMFUNC_CONTROL_BIT(x)	BIT((VMX_FEATURE_##x & 0x1f) - 28)
++#ifdef CONFIG_X86_VMX_FEATURE_NAMES
++	if (cpu_has(c, X86_FEATURE_VMX) && c->vmx_capability[0]) {
++		seq_puts(m, "\nvmx flags\t:");
++		for (i = 0; i < 32*NVMXINTS; i++) {
++			if (test_bit(i, (unsigned long *)c->vmx_capability) &&
++			    x86_vmx_flags[i] != NULL)
++				seq_printf(m, " %s", x86_vmx_flags[i]);
++		}
++	}
++#endif
 +
-+#define VMX_VMFUNC_EPTP_SWITCHING               VMFUNC_CONTROL_BIT(EPTP_SWITCHING)
- #define VMFUNC_EPTP_ENTRIES  512
+ 	seq_puts(m, "\nbugs\t\t:");
+ 	for (i = 0; i < 32*NBUGINTS; i++) {
+ 		unsigned int bug_bit = 32*NCAPINTS + i;
+diff --git a/arch/x86/kernel/cpu/zhaoxin.c b/arch/x86/kernel/cpu/zhaoxin.c
+index 01b05a4a5a85..edfc7cc4ec33 100644
+--- a/arch/x86/kernel/cpu/zhaoxin.c
++++ b/arch/x86/kernel/cpu/zhaoxin.c
+@@ -16,13 +16,6 @@
+ #define RNG_ENABLED	(1 << 3)
+ #define RNG_ENABLE	(1 << 8)	/* MSR_ZHAOXIN_RNG */
  
- static inline u32 vmx_basic_vmcs_revision_id(u64 vmx_basic)
+-#define X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW	0x00200000
+-#define X86_VMX_FEATURE_PROC_CTLS_VNMI		0x00400000
+-#define X86_VMX_FEATURE_PROC_CTLS_2ND_CTLS	0x80000000
+-#define X86_VMX_FEATURE_PROC_CTLS2_VIRT_APIC	0x00000001
+-#define X86_VMX_FEATURE_PROC_CTLS2_EPT		0x00000002
+-#define X86_VMX_FEATURE_PROC_CTLS2_VPID		0x00000020
+-
+ static void init_zhaoxin_cap(struct cpuinfo_x86 *c)
+ {
+ 	u32  lo, hi;
+@@ -89,31 +82,6 @@ static void early_init_zhaoxin(struct cpuinfo_x86 *c)
+ 
+ }
+ 
+-static void zhaoxin_detect_vmx_virtcap(struct cpuinfo_x86 *c)
+-{
+-	u32 vmx_msr_low, vmx_msr_high, msr_ctl, msr_ctl2;
+-
+-	rdmsr(MSR_IA32_VMX_PROCBASED_CTLS, vmx_msr_low, vmx_msr_high);
+-	msr_ctl = vmx_msr_high | vmx_msr_low;
+-
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW)
+-		set_cpu_cap(c, X86_FEATURE_TPR_SHADOW);
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_VNMI)
+-		set_cpu_cap(c, X86_FEATURE_VNMI);
+-	if (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_2ND_CTLS) {
+-		rdmsr(MSR_IA32_VMX_PROCBASED_CTLS2,
+-		      vmx_msr_low, vmx_msr_high);
+-		msr_ctl2 = vmx_msr_high | vmx_msr_low;
+-		if ((msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_VIRT_APIC) &&
+-		    (msr_ctl & X86_VMX_FEATURE_PROC_CTLS_TPR_SHADOW))
+-			set_cpu_cap(c, X86_FEATURE_FLEXPRIORITY);
+-		if (msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_EPT)
+-			set_cpu_cap(c, X86_FEATURE_EPT);
+-		if (msr_ctl2 & X86_VMX_FEATURE_PROC_CTLS2_VPID)
+-			set_cpu_cap(c, X86_FEATURE_VPID);
+-	}
+-}
+-
+ static void init_zhaoxin(struct cpuinfo_x86 *c)
+ {
+ 	early_init_zhaoxin(c);
+@@ -142,9 +110,6 @@ static void init_zhaoxin(struct cpuinfo_x86 *c)
+ #endif
+ 
+ 	init_feature_control_msr(c);
+-
+-	if (cpu_has(c, X86_FEATURE_VMX))
+-		zhaoxin_detect_vmx_virtcap(c);
+ }
+ 
+ #ifdef CONFIG_X86_32
 -- 
 2.22.0
 
