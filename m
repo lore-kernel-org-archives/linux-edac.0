@@ -3,148 +3,214 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84082C4360C
-	for <linux-edac@archiver.kernel.org>; Tue,  8 Oct 2019 19:42:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C45ECE58C
+	for <linux-edac@archiver.kernel.org>; Tue,  8 Oct 2019 23:08:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E81121871
-	for <linux-edac@archiver.kernel.org>; Tue,  8 Oct 2019 19:42:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44946218DE
+	for <linux-edac@archiver.kernel.org>; Tue,  8 Oct 2019 23:08:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="r26vHVPC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjKqZThj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727220AbfJHTmw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 8 Oct 2019 15:42:52 -0400
-Received: from mail-eopbgr800081.outbound.protection.outlook.com ([40.107.80.81]:51025
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728465AbfJHTmv (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 8 Oct 2019 15:42:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZKCqfwRAoTSaBuQYUM3eT/KAiTB03kar7kvlFIkn7azStTmE0qbawAnXUaam9QlgsiOu3RPMu98CuJpjbqppPiYO9xLe4vfN+hogTBgOa4JA+Z4fScu0rCgA0KRpsKprfgjp3bK4c0AziX9GfGxz5LXLllKHrBfhF8TKqr1A/vrSOFv8jgifgW9oUAzXFtTitZw6ExlGMIToRRymUaZQYMw9atCBSvbwpzRmpbzCqtf1rOmPpcfkX/Wnon4Cqtz0F3ZqkCKw971c2kERyk4vboCnVyeJ7npnpqV2p5PF/YSlKot3shVXgMTT2a0qrsI9mjSKsz6To6iixE3QdUuc2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/IXb6kAy+R6xx7cA4tzw1pArQoUo2ubn4VDUf2b4Zlw=;
- b=dx5xm6ErkNTHpG/1nmO7cBwHbfMzoGdVfcZ4MvPzB7yS2qPFjy6VjSk0hXC4dxbEMXGaggGg3JbvQB8YOrVTejXV44uh9syv06erQJ7yj1ddiOfM7H7FFwYjliWOZV5EKs8RQbrCDVB+vlbB4D5J0EeHIfSG0pWpY5W4odSEuCWDSvpzUpP/lcPoZNuKvHokXDaJC0WUVGiUz3iOe8YNVY7ZMsz1l6LcEvVFJS6itpO7jpMcoPklcc2G20fUpkRQP0FAQOoUDYIS2iuw3PVEMzzw9v9FtL7lYYBGYdPYgO4ykZJwGeEsBHtp/LL9XNWIpvk1BMKxg5+55uKMyqrX+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+        id S1729577AbfJHXId (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 8 Oct 2019 19:08:33 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:38914 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728325AbfJHXIc (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 8 Oct 2019 19:08:32 -0400
+Received: by mail-io1-f66.google.com with SMTP id a1so730986ioc.6
+        for <linux-edac@vger.kernel.org>; Tue, 08 Oct 2019 16:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/IXb6kAy+R6xx7cA4tzw1pArQoUo2ubn4VDUf2b4Zlw=;
- b=r26vHVPCeWyh86wR+5ikIkpVLc+bvLPqomPTn2FICCIXHSUKgeqfpaES6VnSNjvCEzJH0WbzUwgA8FPbUKZYriudpFBotovSCRJcJOTLT3qTkogmwJ2phna8viPK117m/k0wKnPI3KG6QuItzkTLYxamAFgE8zmWNLvo8UW3VGw=
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
- SN6PR12MB2720.namprd12.prod.outlook.com (52.135.103.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2327.24; Tue, 8 Oct 2019 19:42:09 +0000
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::ac86:15de:e8d6:61c8]) by SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::ac86:15de:e8d6:61c8%7]) with mapi id 15.20.2327.026; Tue, 8 Oct 2019
- 19:42:09 +0000
-From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-To:     Borislav Petkov <bp@alien8.de>, Jeff God <jfgaudreault@gmail.com>
-CC:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Subject: Re: [GIT PULL] EDAC pile for 5.4 -> AMD family 17h, model 70h support
-Thread-Topic: [GIT PULL] EDAC pile for 5.4 -> AMD family 17h, model 70h
- support
-Thread-Index: AQHVe51JKTDxmyKbykahkp73y8AC1qdOxx+AgABffACAAX9igIAAg6EA
-Date:   Tue, 8 Oct 2019 19:42:09 +0000
-Message-ID: <678ba7d1-cf3d-4101-1819-29b291cf236d@amd.com>
-References: <CAEVokG7TeAbmkhaxiTpsxhv1pQzqRpU=mR8gVjixb5kXo3s2Eg@mail.gmail.com>
- <20190924092644.GC19317@zn.tnic>
- <CAEVokG7UmudOALmeTBq2NgFSiZyGq_6b58nHt2UUHAM2Mzbw+Q@mail.gmail.com>
- <20191007071502.GA24289@zn.tnic>
- <CAEVokG51DtL1g+9YFK6RE=3m-wtjV1VN=vV56b5-3=K21=Jmrw@mail.gmail.com>
- <20191008115041.GD14765@zn.tnic>
-In-Reply-To: <20191008115041.GD14765@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BN6PR06CA0042.namprd06.prod.outlook.com
- (2603:10b6:405:3a::31) To SN6PR12MB2639.namprd12.prod.outlook.com
- (2603:10b6:805:6f::16)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Yazen.Ghannam@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.25.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 90efc417-ffe4-4f28-feea-08d74c279b63
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: SN6PR12MB2720:
-x-microsoft-antispam-prvs: <SN6PR12MB2720391CF9A75162B88FECE9F89A0@SN6PR12MB2720.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 01842C458A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(396003)(136003)(376002)(366004)(346002)(189003)(199004)(6246003)(110136005)(229853002)(476003)(11346002)(2616005)(256004)(478600001)(66946007)(71190400001)(66446008)(6436002)(71200400001)(64756008)(66476007)(66556008)(6486002)(316002)(25786009)(14454004)(6512007)(4326008)(76176011)(305945005)(6116002)(52116002)(26005)(86362001)(446003)(8936002)(7736002)(486006)(53546011)(6506007)(5660300002)(2906002)(386003)(36756003)(66066001)(31696002)(99286004)(186003)(8676002)(81166006)(102836004)(81156014)(31686004)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2720;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8HgCVA1JJ/Ws3DVAz7dOXkA4KyBVwFtJ+Qy/TJea7XuN2VK3piwp69Q29DXGLkiBkJC89R9ZmVaeXmCWoRITxbXLup0e4+WUZRLG5G5ccTWbEH02MjteqrRzB41prMoWpvH+9yRl0ISy0vGI0iaIkfF4OjPVJHSTD4qLImTxpOtZMfLRVE8AFHhzePLzJinjsC1o8rXxS6uEirosTHt5culX8mL0aWO28O9pjhB0vSO0PC3953lJlrDI2rpKbyYlmDs1bCC4JAnv0KpptEIld2gXsBw4R7sQVAWHPhhqpY/SS6kKy5RCR0JhhB/GSMtG/rezzei+/PGXE2ujI4csMJuXpA3goTOUQPMPFSU2mZnOPhSajFKEAzic7Yq8RvaKIVT2Jh+TpJ0EsSw0Hb0mpy48z8iXX4ebIyPkZxtWHEY=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2A030390F3A143408106AB82AC2F4E50@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E6aFUtMwsTFbOnj1SQwERjU/j/hMw/6FuOwB92sBrNk=;
+        b=IjKqZThjUPk4TMdz3q1IMFbTH9+sARGO+zfPI/yGAliYU2iUhs0Q1X+rWDy3uZpt81
+         4qxJOm+fykM/ttlu5yR/aq9uZqxxoRmUEA1a3RcCgRL0uG7ZVfHuGJrgiQd5hJdg7n3u
+         UybpV+wlj/x3K/w/hNdHPyMP1iGx9x+X1tfAaeYCv6Jq3/ldf73WoP5MhMwCTeFh788Q
+         eDe4yehLfstBFZiO/uqwiSvyFhtxp5s6dRzx4TducpHN0DiN6MPhETsp+qPZj8NOSev5
+         QaxuiI6XT21lBYzl8v79VYe7kuH9J7vmw6Ceer9YyFj0UdbfvtIgJO65ZM/C5DMPHzpA
+         u+ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E6aFUtMwsTFbOnj1SQwERjU/j/hMw/6FuOwB92sBrNk=;
+        b=FKOaqMQKdexEDjAJffNhHPrtKY86+JMD+0nI4Y3W85uj94UIbLcvz4ty4DAjTLVIuL
+         BnavitTJFmiPpm8vgbcM8h5lkLBodAVKOnz87rbgp/ddW/zAaejDu1LRVV07qz+TP5Oo
+         J8f09cVgUrTBU6pHudMPYsRcAU4evkWnpCyyO3XFhLu+5KGYwzUzBiNmoXQTmcPz59sB
+         hdDJvyawHBgfQjAsT+2A4wHnG+AYfgy8LKhT9jKA/AU7J9JaGCuHJGwfkLvRnNkQJW2d
+         oI4M1kJq/eA6c6EskrLShOSdAJyFvTzBaz5Ln3sx8mC7qbd5wJxjHmvSJoUektgi1006
+         fg2w==
+X-Gm-Message-State: APjAAAWiqIXk1KCESaTPL0vQBeLga/0W+OM1MYMT/UCcbdozwtwXRl8b
+        YCzu0ByubNiW5XNXdDCJhm8kVZpiKg7gl1W7LXwod8/a
+X-Google-Smtp-Source: APXvYqy0mQx8dTlHzFIF5KYVXh67+iNGvjvJskiU9gtBr+K7DkyJi7YVgZI9jNloikdWa/NYko9rzk2zT8FZ8MSla0A=
+X-Received: by 2002:a02:497:: with SMTP id 145mr511124jab.10.1570576111190;
+ Tue, 08 Oct 2019 16:08:31 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90efc417-ffe4-4f28-feea-08d74c279b63
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2019 19:42:09.2880
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9o5riXEiza6dhZRe9/SSVFgFe8gei4YH8Ox5mdS9uoJcfKe0bJROmm4NjWqxvLweS6NIUHozJlG5+qGRWKtiBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2720
+References: <CAEVokG7TeAbmkhaxiTpsxhv1pQzqRpU=mR8gVjixb5kXo3s2Eg@mail.gmail.com>
+ <20190924092644.GC19317@zn.tnic> <CAEVokG7UmudOALmeTBq2NgFSiZyGq_6b58nHt2UUHAM2Mzbw+Q@mail.gmail.com>
+ <20191007071502.GA24289@zn.tnic> <CAEVokG51DtL1g+9YFK6RE=3m-wtjV1VN=vV56b5-3=K21=Jmrw@mail.gmail.com>
+ <20191008115041.GD14765@zn.tnic> <678ba7d1-cf3d-4101-1819-29b291cf236d@amd.com>
+In-Reply-To: <678ba7d1-cf3d-4101-1819-29b291cf236d@amd.com>
+From:   Jeff God <jfgaudreault@gmail.com>
+Date:   Tue, 8 Oct 2019 19:08:20 -0400
+Message-ID: <CAEVokG4SSkgWS2N8eqr+h7AJg9CF26OW7vtXwOurCGU-4dsLbw@mail.gmail.com>
+Subject: Re: [GIT PULL] EDAC pile for 5.4 -> AMD family 17h, model 70h support
+To:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-T24gMTAvOC8yMDE5IDc6NTAgQU0sIEJvcmlzbGF2IFBldGtvdiB3cm90ZToNCj4gT24gTW9uLCBP
-Y3QgMDcsIDIwMTkgYXQgMDg6NTg6MzBBTSAtMDQwMCwgSmVmZiBHb2Qgd3JvdGU6DQo+PiBJIHdh
-bnQgdG8gdGVzdCB0aGF0IHRoZSBFQ0MgcmVwb3J0aW5nIGlzIHdvcmtpbmcgb24gbXkgbWFjaGlu
-ZSAoc28NCj4+IHRoYXQgd2hlbiByZWFsIGVycm9ycyB3aWxsIGhhcHBlbiBvbmUgZGF5IEkgd2ls
-bCBnZXQgbm90aWZpZWQpDQo+Pg0KPj4gVGhlIG1ldGhvZCBJIGRlc2NyaWJlZCBwcmV2aW91c2x5
-IHRvIGdlbmVyYXRlIGVycm9ycyBieSBvdmVyY2xvY2tpbmcNCj4+IG1lbW9yeSB3YXMgbXkgaW5p
-dGlhbCBtZXRob2QgdG8gZ2VuZXJhdGUgcmVhbCBlcnJvcnMsIHdoaWNoIHByb3ZlZCB0bw0KPj4g
-d29yayB3ZWxsIG9uIGFub3RoZXIgc3lzdGVtIHdpdGggYSBwcmV2aW91cyBnZW5lcmF0aW9uIEFN
-RCBSeXplbiAyNzAweA0KPj4gYW5kIHNpbWlsYXIgbW90aGVyYm9hcmQgYW5kIHNhbWUgbWVtb3J5
-LCBidXQgb24gdGhpcyBzeXN0ZW0gaXQgZG9lcw0KPj4gbm90IHJlcG9ydCBhbnkgZXJyb3IsIGFs
-dGhvdWdoIHR1cm5pbmcgb2ZmIEVDQyBpbiB0aGUgYmlvcyBzaG93ZWQgdGhhdA0KPj4gbWVtb3J5
-IGNvcnJ1cHRpb24gaXMgaGFwcGVuaW5nIGZhaXJseSBxdWlja2x5IGluIHRoaXMgY2FzZSwgaGVu
-Y2UgdGhlDQo+PiBjb25jbHVzaW9uIHRoYXQgZXJyb3IgcmVwb3J0aW5nIHdhcyBwcm9iYWJseSBu
-b3Qgd29ya2luZyBidXQgdGhlDQo+PiB1bmRlcmx5aW5nIG1lbW9yeSBlcnJvciBjb3JyZWN0aW9u
-IHN5c3RlbSBtYXkgYmUgd29ya2luZy4NCj4gDQo+IFllYWgsIGlmIEkgaW5qZWN0IGFuICJzdyIg
-dHlwZSBoZXJlLCBJIGdldCBpbW1lZGlhdGVseToNCj4gDQo+IFsgIDI2NC43NDA4NDBdIFtIYXJk
-d2FyZSBFcnJvcl06IENvcnJlY3RlZCBlcnJvciwgbm8gYWN0aW9uIHJlcXVpcmVkLg0KPiBbICAy
-NjQuNzQwOTQyXSBbSGFyZHdhcmUgRXJyb3JdOiBDUFU6MiAoMTc6MToyKSBNQzRfU1RBVFVTWy18
-Q0V8TWlzY1Z8QWRkclZ8LXxTeW5kVnxDRUNDfC18LXxTY3J1Yl06IDB4OWM3ZDQxMDA5MjA4MDgx
-Mw0KPiBbICAyNjQuNzQxMDc0XSBbSGFyZHdhcmUgRXJyb3JdOiBFcnJvciBBZGRyOiAweDAwMDAw
-MDAwNmQzZDQ4M2INCj4gWyAgMjY0Ljc0MTE2OV0gW0hhcmR3YXJlIEVycm9yXTogSVBJRDogMHgw
-MDAwMDAwMDAwMDAwMDAwLCBTeW5kcm9tZTogMHgwMDAwMDAwMDAwMDAwMDAwDQo+IFsgIDI2NC43
-NDEyNzldIFtIYXJkd2FyZSBFcnJvcl06IEJhbmsgNCBpcyByZXNlcnZlZC4NCj4gWyAgMjY0Ljc0
-MTM2OF0gW0hhcmR3YXJlIEVycm9yXTogY2FjaGUgbGV2ZWw6IEwzL0dFTiwgbWVtL2lvOiBNRU0s
-IG1lbS10eDogUkQsIHBhcnQtcHJvYzogU1JDIChubyB0aW1lb3V0KQ0KPiANCj4gYnV0IGRvaW5n
-IGEgaHcgaW5qZWN0aW9uIHNlZW1zIHRvIGRvIGFsbCB0aGF0IGl0IHNob3VsZCBkbzoNCj4gDQo+
-IFsgIDI0NS42NTgxNzVdIG1jZTogZG9faW5qZWN0OiBDUElVMiwgdG9nZ2xpbmcuLi4NCj4gWyAg
-MjQ1LjY1ODM3NV0gbWNlOiBwcmVwYXJlX21zcnMNCj4gWyAgMjQ1LjY1ODUwN10gbWNlOiB0cmln
-Z2VyX21jZTogQ1BVMg0KPiANCj4gYnV0IG5vdGhpbmcgaGFwcGVucy4NCj4gDQo+IFlhemVuLCBh
-cmUgd2UgbWlzc2luZyBzb21ldGhpbmcgaGVyZT8NCj4gDQo+IFNlZSB1cHRocmVhZCBmb3IgZGV0
-YWlscyAtIHRocmVhZCBpcyBvbiBsaW51eC1lZGFjQC4NCj4gDQoNCkhpIGd1eXMsDQpUaGUgImh3
-IiBvcHRpb24gcmVxdWlyZXMgYSBub24temVybywgdmFsaWQgTUNBX1NUQVRVUyB0byBiZSB1c2Vk
-IHNvIHRoYXQgdGhlDQpNQ0EgaGFuZGxlcnMgd2lsbCBmaW5kIHRoZSBlcnJvciBpbiB0aGUgaGFy
-ZHdhcmUgYW5kIHJlcG9ydCBpdC4NCg0KSmVhbi1GcmVkZXJpYywNCllvdSBvcmlnaW5hbGx5IGhh
-ZCBzdGF0dXM9MCB3aGljaCBleHBsYWlucyB3aHkgbm90aGluZyB3YXMgcmVwb3J0ZWQuDQoNCkJv
-cmlzLA0KWW91IHVzZWQgbm9uLXplcm8gdmFsdWVzLCBidXQgeW91IHRhcmdldHRlZCBiYW5rIDQu
-IFRoaXMgYmFuayBpcw0KUmVhZC1hcy1aZXJvL1dyaXRlcy1JZ25vcmVkIG9uIEZhbWlseSAxN2gg
-YW5kIGxhdGVyLiBTbyBldmVuIHRob3VnaCB5b3UgdXNlZA0KZ29vZCB2YWx1ZXMsIHRoZSBNQ0Eg
-aGFuZGxlcnMgd29uJ3QgZmluZCBhbnl0aGluZyBiZWNhdXNlIGJhbmsgNCBpcyBSQVouDQoNCg0K
-SGVyZSBhcmUgc29tZSB2YWx1ZXMgSSB0b29rIGZyb20gYSByZWFsIGNvcnJlY3RlZCBEUkFNIEVD
-QyBlcnJvci4NCg0Kc3RhdHVzPTB4OWMyMDQxMDAwMDAwMDExYg0Kc3luZD0weDdjNzYwMDAxMGE4
-MDAxMDANCg0KVGhlIG1lbW9yeSBjb250cm9sbGVyIGJhbmtzIGFyZSAxNyAoY2hhbm5lbCAwKSBh
-bmQgMTggKGNoYW5uZWwgMSkgb24gRmFtaWx5DQoxN2ggTW9kZWwgN1hoLCBhbmQgdGhlc2UgYXJl
-IG1hbmFnZWQgYnkgQ1BVIDAuDQoNClBsZWFzZSBnaXZlIHRoZXNlIHZhbHVlcyBhIHRyeSBhbmQg
-bGV0IG1lIGtub3cgaG93IGl0IGdvZXMuDQoNClRoYW5rcywNCllhemVuDQoNCg==
+On Tue, 8 Oct 2019 at 15:42, Ghannam, Yazen <Yazen.Ghannam@amd.com> wrote:
+>
+> The "hw" option requires a non-zero, valid MCA_STATUS to be used so that the
+> MCA handlers will find the error in the hardware and report it.
+>
+> Jean-Frederic,
+> You originally had status=0 which explains why nothing was reported.
+>
+> Boris,
+> You used non-zero values, but you targetted bank 4. This bank is
+> Read-as-Zero/Writes-Ignored on Family 17h and later. So even though you used
+> good values, the MCA handlers won't find anything because bank 4 is RAZ.
+>
+>
+> Here are some values I took from a real corrected DRAM ECC error.
+>
+> status=0x9c2041000000011b
+> synd=0x7c7600010a800100
+>
+> The memory controller banks are 17 (channel 0) and 18 (channel 1) on Family
+> 17h Model 7Xh, and these are managed by CPU 0.
+>
+Thanks a lot for the explanation.
+
+I also wanted to apologise for the text emails line wrapping, I
+haven't found a viable email client alternative...
+
+I wasn't too sure about the correct meaning of the value for the
+status, but I tried the non zero values mentioned above, here is a
+list of tests I did:
+
+echo 0x9c7d410092080813 > status; echo 0x000000006d3d483b > addr; echo
+0 > cpu; echo hw > flags; echo 17 > bank
+echo 0x9c7d410092080813 > status; echo 0x000000006d3d483b > addr; echo
+0 > cpu; echo hw > flags; echo 18 > bank
+echo 0x9c2041000000011b > status; echo 0x000000006d3d483b > addr; echo
+0 > cpu; echo hw > flags; echo 17 > bank
+echo 0x9c2041000000011b > status; echo 0x000000006d3d483b > addr; echo
+0 > cpu; echo hw > flags; echo 18 > bank
+
+During all these tests I was checking dmesg as well as all the status
+files in /sys/kernel/debug/mce-inject.
+I did not see anything in dmesg, and all status files remained 0
+(except flag which was hw)
+
+If I change hw for sw, it outputs something similar to what I reported before:
+[  969.570997] mce: [Hardware Error]: Machine check events logged
+[  969.570998] [Hardware Error]: Corrected error, no action required.
+[  969.571002] [Hardware Error]: CPU:0 (17:71:0)
+MC18_STATUS[-|CE|MiscV|AddrV|-|SyndV|CECC|-|-|Scrub]:
+0x9c2041000000011b
+[  969.571005] [Hardware Error]: Error Addr: 0x000000006d3d483b
+[  969.571006] [Hardware Error]: IPID: 0x0000000000000000, Syndrome:
+0x0000000000000000
+[  969.571008] [Hardware Error]: Unified Memory Controller Ext. Error
+Code: 0, DRAM ECC error.
+
+Also, sometimes with sw it seems to report more messages:
+[  840.033409] mce: [Hardware Error]: Machine check events logged
+[  840.033411] [Hardware Error]: Corrected error, no action required.
+[  840.033414] [Hardware Error]: CPU:0 (17:71:0)
+MC17_STATUS[-|CE|MiscV|AddrV|-|SyndV|CECC|-|-|Scrub]:
+0x9c2041000000011b
+[  840.033417] [Hardware Error]: Error Addr: 0x000000006d3d483b
+[  840.033418] [Hardware Error]: IPID: 0x0000000000000000, Syndrome:
+0x0000000000000000
+[  840.033420] [Hardware Error]: Unified Memory Controller Ext. Error
+Code: 0, DRAM ECC error.
+[  840.033435] EDAC MC0: 1 CE Unknown syndrome - possible error
+reporting race on mc#0csrow#0channel#0 (csrow:0 channel:0
+page:0x1d4f52 offset:0x3b grain:1 syndrome:0x0)
+[  840.033436] [Hardware Error]: cache level: L3/GEN, tx: GEN, mem-tx: RD
+
+And even this:
+[  609.681714] mce: [Hardware Error]: Machine check events logged
+[  609.681716] [Hardware Error]: Corrected error, no action required.
+[  609.681720] [Hardware Error]: CPU:0 (17:71:0)
+MC17_STATUS[-|CE|MiscV|AddrV|-|SyndV|CECC|-|-|Scrub]:
+0x9c2041000000011b
+[  609.681723] [Hardware Error]: Error Addr: 0x000000006d3d483b
+[  609.681724] [Hardware Error]: IPID: 0x0000000000000000, Syndrome:
+0x0000000000000000
+[  609.681726] [Hardware Error]: Unified Memory Controller Ext. Error
+Code: 0, DRAM ECC error.
+[  609.681743] ------------[ cut here ]------------
+[  609.681748] WARNING: CPU: 4 PID: 2447 at
+drivers/edac/edac_mc.c:1238 edac_mc_handle_error+0x5a6/0x6d0
+[  609.681748] Modules linked in: mce_inject amd64_edac_mod kvm_amd
+kvm irqbypass snd_hda_codec_hdmi nls_iso8859_1 joydev crct10dif_pclmul
+input_leds crc32_pclmul ghash_clmulni_intel snd_hda_intel
+snd_intel_nhlt snd_usb_audio snd_hda_codec uvcvideo snd_hda_core
+snd_usbmidi_lib snd_hwdep videobuf2_vmalloc videobuf2_memops
+videobuf2_v4l2 snd_pcm videobuf2_common videodev mc snd_seq_midi
+snd_seq_midi_event aesni_intel snd_rawmidi crypto_simd cryptd
+glue_helper eeepc_wmi asus_wmi snd_seq sparse_keymap mxm_wmi video
+wmi_bmof snd_seq_device snd_timer snd k10temp ccp soundcore mac_hid
+sch_fq_codel parport_pc ppdev lp parport ip_tables x_tables autofs4
+btrfs xor zstd_compress raid6_pq libcrc32c hid_logitech_hidpp
+hid_logitech_dj uas usb_storage hid_generic usbhid hid nvme i2c_piix4
+igb ahci libahci dca nvme_core i2c_algo_bit wmi
+[  609.681779] CPU: 4 PID: 2447 Comm: kworker/4:2 Not tainted 5.4.0-rc1 #1
+[  609.681780] Hardware name: System manufacturer System Product
+Name/PRIME X570-PRO, BIOS 1201 09/09/2019
+[  609.681783] Workqueue: events mce_gen_pool_process
+[  609.681785] RIP: 0010:edac_mc_handle_error+0x5a6/0x6d0
+[  609.681787] Code: 94 be 72 79 00 00 49 89 84 24 68 05 00 00 48 8b
+45 98 85 c9 c7 40 08 6d 65 6d 6f 66 89 70 0c c6 40 0e 00 75 a8 e9 6e
+fd ff ff <0f> 0b 31 c0 49 c7 84 24 90 06 00 00 01 00 00 00 e9 4b fe ff
+ff 49
+[  609.681788] RSP: 0018:ffffb200428e3c68 EFLAGS: 00010246
+[  609.681789] RAX: 0000000000000000 RBX: ffffffff89be5882 RCX: 0000000000000001
+[  609.681789] RDX: 0000000000000000 RSI: ffffffff89be5888 RDI: 0000000000000000
+[  609.681790] RBP: ffffb200428e3ce8 R08: 0000000000000000 R09: ffff98a116959c6f
+[  609.681791] R10: 00000000ffffffff R11: ffff98a096959c79 R12: ffff98a096959800
+[  609.681791] R13: 0000000000000003 R14: ffff98a096959c7a R15: 0000000000000000
+[  609.681792] FS:  0000000000000000(0000) GS:ffff98a09d900000(0000)
+knlGS:0000000000000000
+[  609.681793] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  609.681794] CR2: 0000556dc3323730 CR3: 0000000fd3ab6000 CR4: 0000000000340ee0
+[  609.681795] Call Trace:
+[  609.681799]  ? pci_read_config_dword+0x23/0x40
+[  609.681804]  __log_ecc_error+0x62/0x90 [amd64_edac_mod]
+[  609.681807]  decode_umc_error+0xdc/0x1a0 [amd64_edac_mod]
+[  609.681810]  amd_decode_mce+0xb26/0xba0
+[  609.681812]  notifier_call_chain+0x4c/0x70
+[  609.681814]  blocking_notifier_call_chain+0x43/0x60
+[  609.681816]  mce_gen_pool_process+0x41/0x70
+[  609.681818]  process_one_work+0x1fd/0x3f0
+[  609.681820]  worker_thread+0x34/0x410
+[  609.681821]  kthread+0x121/0x140
+[  609.681822]  ? process_one_work+0x3f0/0x3f0
+[  609.681823]  ? kthread_park+0x90/0x90
+[  609.681826]  ret_from_fork+0x1f/0x40
+[  609.681828] ---[ end trace 1dc9b9df24b597d5 ]---
+[  609.681830] EDAC MC0: 1 CE Unknown syndrome - possible error
+reporting race on mc#0csrow#0channel#0 (csrow:0 channel:0
+page:0x1d4f52 offset:0x3b grain:1 syndrome:0x0)
+[  609.681831] [Hardware Error]: cache level: L3/GEN, tx: GEN, mem-tx: RD
+
+Again, all these messages showed only with sw, never with hw
+
+Let me know if I should be doing something differently.
+
+Regards,
+Jean-Frederic
