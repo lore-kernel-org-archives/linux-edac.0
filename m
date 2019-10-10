@@ -7,67 +7,67 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CBDC10F14
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AD9ECE58D
 	for <linux-edac@archiver.kernel.org>; Thu, 10 Oct 2019 20:26:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DDD57208C3
-	for <linux-edac@archiver.kernel.org>; Thu, 10 Oct 2019 20:26:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C1A121A4A
+	for <linux-edac@archiver.kernel.org>; Thu, 10 Oct 2019 20:26:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="EoAPRiXv";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="w8IiWAW6"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="rLpGKEIr";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="A8uK2oET"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727289AbfJJU0Y (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 10 Oct 2019 16:26:24 -0400
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:8924 "EHLO
+        id S1726751AbfJJUZ0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 10 Oct 2019 16:25:26 -0400
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:22530 "EHLO
         mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726533AbfJJUZ3 (ORCPT
+        by vger.kernel.org with ESMTP id S1726533AbfJJUZZ (ORCPT
         <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 10 Oct 2019 16:25:29 -0400
+        Thu, 10 Oct 2019 16:25:25 -0400
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9AKPMdM029873;
-        Thu, 10 Oct 2019 13:25:22 -0700
+        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9AKJtpB025224;
+        Thu, 10 Oct 2019 13:25:13 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=pfpt0818;
- bh=w9guKr/08ubmt7IJxh9IGAibAwOTlUnbhIGpJ9pcE6I=;
- b=EoAPRiXv+cKRPnnMwqM9+n/s48O7SWNvK4CK3qPzjdyWhzWiE7g4QzFh0Ilgf0C3QMNs
- PnO/WHS5e6cL2j/CagHcXwhdgiDSRk/8CnKVU6Uzj4jhUu/sL5vpL2WOMGheRqOS2hPc
- DFQ1Snk01s1UtJ4vekuMl9y/jsuuZx3BBFZU3un+xd1pTFPVJGwKl+gH5HclHnSXnmI5
- 8VhT5/7t4TgmhFZjqvcG0uLssYxdGvEk3MZ8LsdA0bLxOSuH0v58flhGddGfEaISIIf5
- toCjp6ioS7BEfbzHZWtprJlTrhN4lLzpTg3+jPZrxc6b4+wsUsnreboRbikozpGTXF4N 1w== 
-Received: from sc-exch01.marvell.com ([199.233.58.181])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2vhdxbxqg0-1
+ bh=PbiTKjBv+GvgBhzbCoXdSUHSbvOXcSIXFrsTD8XzAdU=;
+ b=rLpGKEIrmku3YchEZIqK4PQS1mVpHdL1Uykpsh42MeWjwLiQf5JQfuESGSfmXkT4A4Hy
+ EUtpYXbK9EjsA9N0KrMpp413wv8b2CvVAi0vDRXbsfRQtva7gb3L1+8D5+ypECCuAqLT
+ oE7Kxj5QkCGj5PW0dSFv0PbOpGgalwxKOb/2pKQbFuCWTRKNdZp00kh+DXA87/kHp/Do
+ x3opGGxZkFY0Bq9kllaQ4N4Z6n4R1sNOqkY3a1BCOnAdYxyYkw96uHTBOtve5j4wrq8c
+ HVtnv8c2ViGEb8Nyp387Jxr+9Iah+G786jKco+iEzP88wTYDoPmdk4dfJFfFIENQ+YhW 6A== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+        by mx0b-0016f401.pphosted.com with ESMTP id 2vhdxbxqfq-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 10 Oct 2019 13:25:21 -0700
-Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Thu, 10 Oct
- 2019 13:25:18 -0700
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (104.47.37.59) by
- SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Thu, 10 Oct 2019 13:25:18 -0700
+        Thu, 10 Oct 2019 13:25:13 -0700
+Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Thu, 10 Oct
+ 2019 13:25:11 -0700
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com (104.47.37.54) by
+ SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Thu, 10 Oct 2019 13:25:11 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hWrmkRZtzwc/HZb/BxOA+VobJCUmaXs0rpfFuAmEtXf1Z/k4nP85FSohH9kEyvBaqNndyXgTdyb472uR8HknH+fyCb/+hjabvhWBdpLzAnm+YkJKWNeLrY9iKv4/OrTdh1bHW0Qmy2zjLvg4kI+WOxmE12993aG/o24EjAnEWa59wJ6R24+09Ox3GDz9zvoTgOOr206SAHZyUABXnXJUmAUbFWOv9NDW2dXPhK0v5WTh+HRbGKVheY//isCGc8YZZPY+gwhxVTq50FqilmEyxdi8vx852R89Gy5HkjF+0J7OR4jBhU57q/umB3sb6SEm3XNmTFx31/7NQApHkzjRjQ==
+ b=e5xRNNT9qFcHOLZthZPRdPsTOfZiqx/yf3P0almGAiKzq2YNSc8vKDyn2nsrqAMTuIDyujS9OEg8ijfyt5mAznhUHOqPIWiSn4ZGRCfNs4afz28vEXjbxk2n5RWxYrBjVisjr6b0PBv3Pckkn/Te3pmUx+pZ0AWqGgpnElulVz08uaEN3As0PvbbmdLSPH/0mpiIuvK7iaSEuBpyzZRfpOkZv/kX4QoSkyVUdMLz82R6cGA4eDosB8ERkuZWGplYtmEN0D40b7q2miVzl14JYDCAwvg30Tu3R+dbPpne36zASh90Dh1867H9KVpOkHTbhFoJGNuoZNNhnI6LltdKxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w9guKr/08ubmt7IJxh9IGAibAwOTlUnbhIGpJ9pcE6I=;
- b=mTpCkMF94RJXh86UMw21V5xuJOGH8Ut92TrqH7QuFbHb4XRiVsTi7PRzUi9WOMmoLadaKrh56tkGsWyCB6fRrsENhsM+6lHbainMiw4xk9mjE5w1Boh2ja4/5kHiic085Fs9RSHMbD9COhQeGV7/0dWh+vF1tJUcK0wawd8HA13fPb76+lajDPO/Y+pAALTZUIkILmHcpLrV5h/ItZqnZ7WdZdRof0+DVbPAZstiGSIbMXWYF0N1CkkB22TBDLNcw42tNj3sPtsTqddDefdIDjtDvr0aBdZNj8SMiqCcQEH8RqDcynbJvM2x/1L51PDUjiJcgvJ1hl1shfJJRQ40Ww==
+ bh=PbiTKjBv+GvgBhzbCoXdSUHSbvOXcSIXFrsTD8XzAdU=;
+ b=aKLRbWMVXl1b7H+KVySVUfo3/UtXmEyQwVGpHSUvPdw0M0quEBSmCF3JjKzCokSMMiw8dpduVN1AHM3iPtKg4UeK0cTQSaxrFeOpu9P4x0qnuo/iFLQxcWX0/BS0xB1JQU0ieAQJncJ2yyS/64VxOGXuo4dEWNeomu+eJ06BxBQu58zQdcPcIf5pgeCj28xeBvnafTyYruzQEn3tSN7I5Cz4oLgr4DMOsTQ0vCVnOQSDRRkFbq2hFUC4G0nRnBSx4iunA8htMl97FTXdvUzSL0qngMiqwvtgDG7fnnejB8Rm0FuvDa+LI7vRTS+7mzbTlvQ6+OFETMEHofJo04MEWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
  dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w9guKr/08ubmt7IJxh9IGAibAwOTlUnbhIGpJ9pcE6I=;
- b=w8IiWAW6yD/IB6mvYHDJcpWkyE2+lh+t2OoolMC87jL3rzrdFM24yKayUoSgsjk5q4dhu95e5tqTC48FcB+CQ7yfMCMLB33hRYnZK6HWWmclLQMVvESwNJ+2VEepfA+cFu5h659pY/H7trj1DUq+iPx0DykswboMDficqvwmTtc=
+ bh=PbiTKjBv+GvgBhzbCoXdSUHSbvOXcSIXFrsTD8XzAdU=;
+ b=A8uK2oETGHNanKtbEpgvV+xgmFYlUzE5sphkE/XiAkn9w/aTmf87ySIQ6uU+AOaRAYlaqcgnU0YB//+dkg4DM8f+HRgceNyaL1bBon1ScmHTL+HfdEfYqnhbVekuY4tmi32INi3DrDcfept6WPige0wDC14ojkYUgrjty9ti9lM=
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
  MN2PR18MB2701.namprd18.prod.outlook.com (20.179.22.217) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.17; Thu, 10 Oct 2019 20:25:16 +0000
+ 15.20.2347.17; Thu, 10 Oct 2019 20:25:10 +0000
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::d16d:8855:c030:2763]) by MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::d16d:8855:c030:2763%3]) with mapi id 15.20.2327.026; Thu, 10 Oct 2019
- 20:25:16 +0000
+ 20:25:10 +0000
 From:   Robert Richter <rrichter@marvell.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -76,11 +76,11 @@ CC:     James Morse <james.morse@arm.com>,
         Robert Richter <rrichter@marvell.com>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH 06/19] EDAC, mc: Remove per layer counters
-Thread-Topic: [PATCH 06/19] EDAC, mc: Remove per layer counters
-Thread-Index: AQHVf6jU3Hq1HIO940WaZOfHTRxydA==
-Date:   Thu, 10 Oct 2019 20:25:16 +0000
-Message-ID: <20191010202418.25098-7-rrichter@marvell.com>
+Subject: [PATCH 03/19] EDAC: Introduce mci_for_each_dimm() iterator
+Thread-Topic: [PATCH 03/19] EDAC: Introduce mci_for_each_dimm() iterator
+Thread-Index: AQHVf6jQImmw1gEcOUyKbN2Eh+EskQ==
+Date:   Thu, 10 Oct 2019 20:25:10 +0000
+Message-ID: <20191010202418.25098-4-rrichter@marvell.com>
 References: <20191010202418.25098-1-rrichter@marvell.com>
 In-Reply-To: <20191010202418.25098-1-rrichter@marvell.com>
 Accept-Language: en-US
@@ -94,28 +94,28 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-originating-ip: [31.208.96.227]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 144baca6-259a-458d-5d8b-08d74dbff672
+x-ms-office365-filtering-correlation-id: f201c158-4c3b-42e6-af9a-08d74dbff285
 x-ms-traffictypediagnostic: MN2PR18MB2701:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB2701B92834DA6F2CFB6F6185D9940@MN2PR18MB2701.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2582;
+x-microsoft-antispam-prvs: <MN2PR18MB2701462860C45E75EE4EC11DD9940@MN2PR18MB2701.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:103;
 x-forefront-prvs: 018632C080
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(39850400004)(346002)(136003)(366004)(376002)(189003)(199004)(6436002)(6512007)(54906003)(71190400001)(110136005)(14454004)(316002)(6486002)(86362001)(71200400001)(5660300002)(2906002)(66066001)(25786009)(50226002)(478600001)(11346002)(446003)(476003)(486006)(3846002)(6116002)(2616005)(99286004)(30864003)(1076003)(6506007)(76176011)(4326008)(386003)(7736002)(305945005)(52116002)(26005)(256004)(102836004)(81166006)(66946007)(36756003)(186003)(81156014)(66446008)(66556008)(8936002)(64756008)(8676002)(66476007);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2701;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(396003)(39850400004)(346002)(136003)(366004)(376002)(189003)(199004)(6436002)(6512007)(54906003)(71190400001)(110136005)(14454004)(316002)(6486002)(86362001)(71200400001)(5660300002)(2906002)(66066001)(25786009)(50226002)(478600001)(11346002)(446003)(476003)(486006)(3846002)(6116002)(2616005)(99286004)(1076003)(6506007)(76176011)(4326008)(14444005)(386003)(7736002)(305945005)(52116002)(26005)(256004)(102836004)(81166006)(66946007)(36756003)(186003)(81156014)(66446008)(66556008)(8936002)(64756008)(8676002)(66476007);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2701;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: marvell.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SzHzf+vr9iEJxj8jdjBDab2pCjH0LEXgWOfwm+/xKKN0QpSKSJpI5u77ijgm4q+HkMl7xFnfNw0xwBbNfVtRb3uMGbP9QcJ0zymqSfl12ATLwNc+l0aUWiI4eA9txfTkpDUC5C7pqsA72/ApHnV1AR+OgkSsOQFvfX2H+GW8G/+oBPHoi8P/hUyeSi08z76WY7ekqwDWpRwg4mCuBmzjgLpPZKMRlDR2y3jiKRTGYT5yEA83r8iZD1EwbmGNN+4Q+I4Wkng+4AorpFCouUNhlSU7Y+MbDJasqFPB0T7QEHjbcBjOpQOGirF6GxalZS9q84k65NCkyokCuf+iYhgg1/PbtvDc/2suIlT8rESbEQQFkHzhoy+tA8Scfuv5RDfTR50jsCEd0nyp35ru35sOciudDFXp6JVg+6rid72xDEk=
+x-microsoft-antispam-message-info: Sy/+nLUkxm1RANXAQ2dtMns+eEbdnMQy8KeCRyECgJl/N/mNXa3+cuk+OZsVJGXdkBzpLNTu4gvSkUBn0tTDhaiGouW5nT/9f4I5l+vtNS/axsOhqB5soKX+e1vhpCpPIJkIsrI5sHMUJG3p1nzt8606BDqlBGkKvTZ11zxmVw8YLtZMd+tmSfQNcy5767YPmCbG/rau+69b7bPssSk+wznwhtov1EYU1vL3NdMIFTVPPF3EjjJpUCTkhCaRO3D6+9kGVRMUb80YYC3aQmVGfSAHWzlk/1QTKOKuMxy9rPBXlPm0oeWXLhLuxRV30bgq9Tu0LGRkvlGXgiOtAOKYlsSJpcnwXBa3Fmd94xVGyYE/cb3OIx9YUD+bvZaGAbpt+2YnIJSbl57bm38VVEJXOUOUydT6S5EJjbU9rkbheW8=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 144baca6-259a-458d-5d8b-08d74dbff672
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2019 20:25:16.7515
+X-MS-Exchange-CrossTenant-Network-Message-Id: f201c158-4c3b-42e6-af9a-08d74dbff285
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2019 20:25:10.0623
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aIA+A7OxY7Kk+I/yxFNYHkrbUMcoZxeOje1lyKheiIWne4kU59zkhmtaUddm1eHt+ETNU8iEJVuOQt3Eg5pM6Q==
+X-MS-Exchange-CrossTenant-userprincipalname: W9yUOWiLbHxn/YMx2we5oYplzZtLqqJBhOMbE23S5anVnIJjOOemYqHlKkuSn07lrp3y1RRZeACj3lf18AvC1A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2701
 X-OriginatorOrg: marvell.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
@@ -125,385 +125,251 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Looking at how mci->{ue,ce}_per_layer[EDAC_MAX_LAYERS] is used, it
-turns out that only the leaves in the memory hierarchy are consumed
-(in sysfs), but not the intermediate layers, e.g.:
-
- count =3D dimm->mci->ce_per_layer[dimm->mci->n_layers-1][dimm->idx];
-
-These unused counters only add complexity, remove them. The error
-counter values are directly stored in struct dimm_info now.
+Introduce the mci_for_each_dimm() iterator. It returns a pointer to a
+struct dimm_info. This makes the declaration and use of an index
+obsolete and avoids access to internal data of struct mci (direct
+array access etc).
 
 Signed-off-by: Robert Richter <rrichter@marvell.com>
 ---
- drivers/edac/edac_mc.c       | 104 ++++++++++++-----------------------
- drivers/edac/edac_mc_sysfs.c |  20 +++----
- drivers/edac/ghes_edac.c     |   5 +-
- include/linux/edac.h         |   7 +--
- 4 files changed, 46 insertions(+), 90 deletions(-)
+ drivers/edac/edac_mc.c       | 19 +++++++++++--------
+ drivers/edac/edac_mc_sysfs.c | 29 ++++++++++++-----------------
+ drivers/edac/ghes_edac.c     |  8 ++++----
+ drivers/edac/i5100_edac.c    | 13 +++++--------
+ include/linux/edac.h         |  7 +++++++
+ 5 files changed, 39 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index 45b02bb31964..c1e142643006 100644
+index 72088d49b03b..c5240bb4c6c0 100644
 --- a/drivers/edac/edac_mc.c
 +++ b/drivers/edac/edac_mc.c
-@@ -315,10 +315,9 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num=
+@@ -145,15 +145,18 @@ static void edac_mc_dump_channel(struct rank_info *ch=
+an)
+ 	edac_dbg(4, "    channel->dimm =3D %p\n", chan->dimm);
+ }
+=20
+-static void edac_mc_dump_dimm(struct dimm_info *dimm, int number)
++static void edac_mc_dump_dimm(struct dimm_info *dimm)
+ {
+ 	char location[80];
+=20
++	if (!dimm->nr_pages)
++		return;
++
+ 	edac_dimm_info_location(dimm, location, sizeof(location));
+=20
+ 	edac_dbg(4, "%s%i: %smapped as virtual row %d, chan %d\n",
+ 		 dimm->mci->csbased ? "rank" : "dimm",
+-		 number, location, dimm->csrow, dimm->cschannel);
++		 dimm->idx, location, dimm->csrow, dimm->cschannel);
+ 	edac_dbg(4, "  dimm =3D %p\n", dimm);
+ 	edac_dbg(4, "  dimm->label =3D '%s'\n", dimm->label);
+ 	edac_dbg(4, "  dimm->nr_pages =3D 0x%x\n", dimm->nr_pages);
+@@ -702,6 +705,7 @@ EXPORT_SYMBOL_GPL(edac_get_owner);
+ int edac_mc_add_mc_with_groups(struct mem_ctl_info *mci,
+ 			       const struct attribute_group **groups)
+ {
++	struct dimm_info *dimm;
+ 	int ret =3D -EINVAL;
+ 	edac_dbg(0, "\n");
+=20
+@@ -726,9 +730,9 @@ int edac_mc_add_mc_with_groups(struct mem_ctl_info *mci=
 ,
- 	struct csrow_info *csr;
- 	struct rank_info *chan;
- 	struct dimm_info *dimm;
--	u32 *ce_per_layer[EDAC_MAX_LAYERS], *ue_per_layer[EDAC_MAX_LAYERS];
- 	unsigned int pos[EDAC_MAX_LAYERS];
--	unsigned int idx, size, tot_dimms =3D 1, count =3D 1;
--	unsigned int tot_csrows =3D 1, tot_channels =3D 1, tot_errcount =3D 0;
-+	unsigned int idx, size, tot_dimms =3D 1;
-+	unsigned int tot_csrows =3D 1, tot_channels =3D 1;
- 	void *pvt, *p, *ptr =3D NULL;
- 	int i, j, row, chn, n, len;
- 	bool per_rank =3D false;
-@@ -346,19 +345,10 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_nu=
-m,
- 	 * stringent as what the compiler would provide if we could simply
- 	 * hardcode everything into a single struct.
- 	 */
--	mci =3D edac_align_ptr(&ptr, sizeof(*mci), 1);
--	layer =3D edac_align_ptr(&ptr, sizeof(*layer), n_layers);
--	for (i =3D 0; i < n_layers; i++) {
--		count *=3D layers[i].size;
--		edac_dbg(4, "errcount layer %d size %d\n", i, count);
--		ce_per_layer[i] =3D edac_align_ptr(&ptr, sizeof(u32), count);
--		ue_per_layer[i] =3D edac_align_ptr(&ptr, sizeof(u32), count);
--		tot_errcount +=3D 2 * count;
--	}
--
--	edac_dbg(4, "allocating %d error counters\n", tot_errcount);
--	pvt =3D edac_align_ptr(&ptr, sz_pvt, 1);
--	size =3D ((unsigned long)pvt) + sz_pvt;
-+	mci	=3D edac_align_ptr(&ptr, sizeof(*mci), 1);
-+	layer	=3D edac_align_ptr(&ptr, sizeof(*layer), n_layers);
-+	pvt	=3D edac_align_ptr(&ptr, sz_pvt, 1);
-+	size	=3D ((unsigned long)pvt) + sz_pvt;
-=20
- 	edac_dbg(1, "allocating %u bytes for mci data (%d %s, %d csrows/channels)=
-\n",
- 		 size,
-@@ -374,10 +364,6 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num=
-,
- 	 * rather than an imaginary chunk of memory located at address 0.
- 	 */
- 	layer =3D (struct edac_mc_layer *)(((char *)mci) + ((unsigned long)layer)=
-);
--	for (i =3D 0; i < n_layers; i++) {
--		mci->ce_per_layer[i] =3D (u32 *)((char *)mci + ((unsigned long)ce_per_la=
-yer[i]));
--		mci->ue_per_layer[i] =3D (u32 *)((char *)mci + ((unsigned long)ue_per_la=
-yer[i]));
--	}
- 	pvt =3D sz_pvt ? (((char *)mci) + ((unsigned long)pvt)) : NULL;
-=20
- 	/* setup index and various internal pointers */
-@@ -908,53 +894,31 @@ const char *edac_layer_name[] =3D {
- EXPORT_SYMBOL_GPL(edac_layer_name);
-=20
- static void edac_inc_ce_error(struct mem_ctl_info *mci,
--			      bool enable_per_layer_report,
- 			      const int pos[EDAC_MAX_LAYERS],
- 			      const u16 count)
- {
--	int i, index =3D 0;
-+	struct dimm_info *dimm =3D edac_get_dimm(mci, pos[0], pos[1], pos[2]);
-=20
- 	mci->ce_mc +=3D count;
-=20
--	if (!enable_per_layer_report) {
-+	if (dimm)
-+		dimm->ce_count +=3D count;
-+	else
- 		mci->ce_noinfo_count +=3D count;
--		return;
--	}
--
--	for (i =3D 0; i < mci->n_layers; i++) {
--		if (pos[i] < 0)
--			break;
--		index +=3D pos[i];
--		mci->ce_per_layer[i][index] +=3D count;
--
--		if (i < mci->n_layers - 1)
--			index *=3D mci->layers[i + 1].size;
--	}
- }
-=20
- static void edac_inc_ue_error(struct mem_ctl_info *mci,
--				    bool enable_per_layer_report,
- 				    const int pos[EDAC_MAX_LAYERS],
- 				    const u16 count)
- {
--	int i, index =3D 0;
-+	struct dimm_info *dimm =3D edac_get_dimm(mci, pos[0], pos[1], pos[2]);
-=20
- 	mci->ue_mc +=3D count;
-=20
--	if (!enable_per_layer_report) {
-+	if (dimm)
-+		dimm->ue_count +=3D count;
-+	else
- 		mci->ue_noinfo_count +=3D count;
--		return;
--	}
--
--	for (i =3D 0; i < mci->n_layers; i++) {
--		if (pos[i] < 0)
--			break;
--		index +=3D pos[i];
--		mci->ue_per_layer[i][index] +=3D count;
--
--		if (i < mci->n_layers - 1)
--			index *=3D mci->layers[i + 1].size;
--	}
- }
-=20
- static void edac_ce_error(struct mem_ctl_info *mci,
-@@ -965,7 +929,6 @@ static void edac_ce_error(struct mem_ctl_info *mci,
- 			  const char *label,
- 			  const char *detail,
- 			  const char *other_detail,
--			  const bool enable_per_layer_report,
- 			  const unsigned long page_frame_number,
- 			  const unsigned long offset_in_page,
- 			  long grain)
-@@ -988,7 +951,7 @@ static void edac_ce_error(struct mem_ctl_info *mci,
- 				       error_count, msg, msg_aux, label,
- 				       location, detail);
- 	}
--	edac_inc_ce_error(mci, enable_per_layer_report, pos, error_count);
-+	edac_inc_ce_error(mci, pos, error_count);
-=20
- 	if (mci->scrub_mode =3D=3D SCRUB_SW_SRC) {
- 		/*
-@@ -1018,8 +981,7 @@ static void edac_ue_error(struct mem_ctl_info *mci,
- 			  const char *location,
- 			  const char *label,
- 			  const char *detail,
--			  const char *other_detail,
--			  const bool enable_per_layer_report)
-+			  const char *other_detail)
- {
- 	char *msg_aux =3D "";
-=20
-@@ -1048,7 +1010,7 @@ static void edac_ue_error(struct mem_ctl_info *mci,
- 			      msg, msg_aux, label, location, detail);
- 	}
-=20
--	edac_inc_ue_error(mci, enable_per_layer_report, pos, error_count);
-+	edac_inc_ue_error(mci, pos, error_count);
- }
-=20
- void edac_raw_mc_handle_error(const enum hw_event_mc_err_type type,
-@@ -1064,16 +1026,16 @@ void edac_raw_mc_handle_error(const enum hw_event_m=
-c_err_type type,
- 			"page:0x%lx offset:0x%lx grain:%ld syndrome:0x%lx",
- 			e->page_frame_number, e->offset_in_page,
- 			e->grain, e->syndrome);
--		edac_ce_error(mci, e->error_count, pos, e->msg, e->location, e->label,
--			      detail, e->other_detail, e->enable_per_layer_report,
-+		edac_ce_error(mci, e->error_count, pos, e->msg, e->location,
-+			      e->label, detail, e->other_detail,
- 			      e->page_frame_number, e->offset_in_page, e->grain);
- 	} else {
- 		snprintf(detail, sizeof(detail),
- 			"page:0x%lx offset:0x%lx grain:%ld",
- 			e->page_frame_number, e->offset_in_page, e->grain);
-=20
--		edac_ue_error(mci, e->error_count, pos, e->msg, e->location, e->label,
--			      detail, e->other_detail, e->enable_per_layer_report);
-+		edac_ue_error(mci, e->error_count, pos, e->msg, e->location,
-+			      e->label, detail, e->other_detail);
- 	}
-=20
-=20
-@@ -1099,6 +1061,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
-type type,
- 	int i, n_labels =3D 0;
- 	u8 grain_bits;
- 	struct edac_raw_error_desc *e =3D &mci->error_desc;
-+	bool any_memory =3D true;
-=20
- 	edac_dbg(3, "MC%d\n", mci->mc_idx);
-=20
-@@ -1116,9 +1079,9 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
-type type,
-=20
- 	/*
- 	 * Check if the event report is consistent and if the memory
--	 * location is known. If it is known, enable_per_layer_report will be
--	 * true, the DIMM(s) label info will be filled and the per-layer
--	 * error counters will be incremented.
-+	 * location is known. If it is known, the DIMM(s) label info
-+	 * will be filled and the DIMM's error counters will be
-+	 * incremented.
- 	 */
- 	for (i =3D 0; i < mci->n_layers; i++) {
- 		if (pos[i] >=3D (int)mci->layers[i].size) {
-@@ -1136,7 +1099,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
-type type,
- 			pos[i] =3D -1;
+ 				if (csrow->channels[j]->dimm->nr_pages)
+ 					edac_mc_dump_channel(csrow->channels[j]);
  		}
- 		if (pos[i] >=3D 0)
--			e->enable_per_layer_report =3D true;
-+			any_memory =3D false;
+-		for (i =3D 0; i < mci->tot_dimms; i++)
+-			if (mci->dimms[i]->nr_pages)
+-				edac_mc_dump_dimm(mci->dimms[i], i);
++
++		mci_for_each_dimm(mci, dimm)
++			edac_mc_dump_dimm(dimm);
  	}
+ #endif
+ 	mutex_lock(&mem_ctls_mutex);
+@@ -1086,6 +1090,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
+type type,
+ 			  const char *msg,
+ 			  const char *other_detail)
+ {
++	struct dimm_info *dimm;
+ 	char *p;
+ 	int row =3D -1, chan =3D -1;
+ 	int pos[EDAC_MAX_LAYERS] =3D { top_layer, mid_layer, low_layer };
+@@ -1146,9 +1151,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
+type type,
+ 	p =3D e->label;
+ 	*p =3D '\0';
 =20
- 	/*
-@@ -1166,16 +1129,17 @@ void edac_mc_handle_error(const enum hw_event_mc_er=
-r_type type,
- 			e->grain =3D dimm->grain;
-=20
- 		/*
--		 * If the error is memory-controller wide, there's no need to
--		 * seek for the affected DIMMs because the whole
--		 * channel/memory controller/...  may be affected.
--		 * Also, don't show errors for empty DIMM slots.
-+		 * If the error is memory-controller wide, there's no
-+		 * need to seek for the affected DIMMs because the
-+		 * whole channel/memory controller/... may be
-+		 * affected. Also, don't show errors for empty DIMM
-+		 * slots.
- 		 */
--		if (!e->enable_per_layer_report || !dimm->nr_pages)
-+		if (any_memory || !dimm->nr_pages)
+-	for (i =3D 0; i < mci->tot_dimms; i++) {
+-		struct dimm_info *dimm =3D mci->dimms[i];
+-
++	mci_for_each_dimm(mci, dimm) {
+ 		if (top_layer >=3D 0 && top_layer !=3D dimm->location[0])
  			continue;
-=20
- 		if (n_labels >=3D EDAC_MAX_LABELS) {
--			e->enable_per_layer_report =3D false;
-+			any_memory =3D true;
- 			break;
- 		}
- 		n_labels++;
-@@ -1205,7 +1169,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
-type type,
- 			chan =3D -2;
- 	}
-=20
--	if (!e->enable_per_layer_report) {
-+	if (any_memory) {
- 		strcpy(e->label, "any memory");
- 	} else {
- 		edac_dbg(4, "csrow/channel to increment: (%d,%d)\n", row, chan);
+ 		if (mid_layer >=3D 0 && mid_layer !=3D dimm->location[1])
 diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 0367554e7437..8682df2f7f4f 100644
+index 91e4c8f155af..0367554e7437 100644
 --- a/drivers/edac/edac_mc_sysfs.c
 +++ b/drivers/edac/edac_mc_sysfs.c
-@@ -556,10 +556,8 @@ static ssize_t dimmdev_ce_count_show(struct device *de=
-v,
- 				      char *data)
+@@ -621,8 +621,7 @@ static const struct device_type dimm_attr_type =3D {
+=20
+ /* Create a DIMM object under specifed memory controller device */
+ static int edac_create_dimm_object(struct mem_ctl_info *mci,
+-				   struct dimm_info *dimm,
+-				   int index)
++				   struct dimm_info *dimm)
  {
- 	struct dimm_info *dimm =3D to_dimm(dev);
--	u32 count;
+ 	int err;
+ 	dimm->mci =3D mci;
+@@ -632,9 +631,9 @@ static int edac_create_dimm_object(struct mem_ctl_info =
+*mci,
 =20
--	count =3D dimm->mci->ce_per_layer[dimm->mci->n_layers-1][dimm->idx];
--	return sprintf(data, "%u\n", count);
-+	return sprintf(data, "%u\n", dimm->ce_count);
- }
+ 	dimm->dev.parent =3D &mci->dev;
+ 	if (mci->csbased)
+-		dev_set_name(&dimm->dev, "rank%d", index);
++		dev_set_name(&dimm->dev, "rank%d", dimm->idx);
+ 	else
+-		dev_set_name(&dimm->dev, "dimm%d", index);
++		dev_set_name(&dimm->dev, "dimm%d", dimm->idx);
+ 	dev_set_drvdata(&dimm->dev, dimm);
+ 	pm_runtime_forbid(&mci->dev);
 =20
- static ssize_t dimmdev_ue_count_show(struct device *dev,
-@@ -567,10 +565,8 @@ static ssize_t dimmdev_ue_count_show(struct device *de=
-v,
- 				      char *data)
+@@ -916,7 +915,8 @@ static const struct device_type mci_attr_type =3D {
+ int edac_create_sysfs_mci_device(struct mem_ctl_info *mci,
+ 				 const struct attribute_group **groups)
  {
- 	struct dimm_info *dimm =3D to_dimm(dev);
--	u32 count;
-=20
--	count =3D dimm->mci->ue_per_layer[dimm->mci->n_layers-1][dimm->idx];
--	return sprintf(data, "%u\n", count);
-+	return sprintf(data, "%u\n", dimm->ue_count);
- }
-=20
- /* dimm/rank attribute files */
-@@ -666,7 +662,9 @@ static ssize_t mci_reset_counters_store(struct device *=
-dev,
- 					const char *data, size_t count)
- {
- 	struct mem_ctl_info *mci =3D to_mci(dev);
--	int cnt, row, chan, i;
+-	int i, err;
 +	struct dimm_info *dimm;
-+	int row, chan;
-+
- 	mci->ue_mc =3D 0;
- 	mci->ce_mc =3D 0;
- 	mci->ue_noinfo_count =3D 0;
-@@ -682,11 +680,9 @@ static ssize_t mci_reset_counters_store(struct device =
-*dev,
- 			ri->channels[chan]->ce_count =3D 0;
- 	}
++	int err;
 =20
--	cnt =3D 1;
--	for (i =3D 0; i < mci->n_layers; i++) {
--		cnt *=3D mci->layers[i].size;
--		memset(mci->ce_per_layer[i], 0, cnt * sizeof(u32));
--		memset(mci->ue_per_layer[i], 0, cnt * sizeof(u32));
+ 	/* get the /sys/devices/system/edac subsys reference */
+ 	mci->dev.type =3D &mci_attr_type;
+@@ -940,13 +940,12 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info =
+*mci,
+ 	/*
+ 	 * Create the dimm/rank devices
+ 	 */
+-	for (i =3D 0; i < mci->tot_dimms; i++) {
+-		struct dimm_info *dimm =3D mci->dimms[i];
 +	mci_for_each_dimm(mci, dimm) {
-+		dimm->ue_count =3D 0;
-+		dimm->ce_count =3D 0;
- 	}
+ 		/* Only expose populated DIMMs */
+ 		if (!dimm->nr_pages)
+ 			continue;
 =20
- 	mci->start_time =3D jiffies;
+-		err =3D edac_create_dimm_object(mci, dimm, i);
++		err =3D edac_create_dimm_object(mci, dimm);
+ 		if (err)
+ 			goto fail_unregister_dimm;
+ 	}
+@@ -961,12 +960,9 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info *=
+mci,
+ 	return 0;
+=20
+ fail_unregister_dimm:
+-	for (i--; i >=3D 0; i--) {
+-		struct dimm_info *dimm =3D mci->dimms[i];
+-		if (!dimm->nr_pages)
+-			continue;
+-
+-		device_unregister(&dimm->dev);
++	mci_for_each_dimm(mci, dimm) {
++		if (device_is_registered(&dimm->dev))
++			device_unregister(&dimm->dev);
+ 	}
+ 	device_unregister(&mci->dev);
+=20
+@@ -978,7 +974,7 @@ int edac_create_sysfs_mci_device(struct mem_ctl_info *m=
+ci,
+  */
+ void edac_remove_sysfs_mci_device(struct mem_ctl_info *mci)
+ {
+-	int i;
++	struct dimm_info *dimm;
+=20
+ 	edac_dbg(0, "\n");
+=20
+@@ -989,8 +985,7 @@ void edac_remove_sysfs_mci_device(struct mem_ctl_info *=
+mci)
+ 	edac_delete_csrow_objects(mci);
+ #endif
+=20
+-	for (i =3D 0; i < mci->tot_dimms; i++) {
+-		struct dimm_info *dimm =3D mci->dimms[i];
++	mci_for_each_dimm(mci, dimm) {
+ 		if (dimm->nr_pages =3D=3D 0)
+ 			continue;
+ 		edac_dbg(1, "unregistering device %s\n", dev_name(&dimm->dev));
 diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index 842080d7b33a..e0b90c6d7d63 100644
+index fb31e80dfe94..842080d7b33a 100644
 --- a/drivers/edac/ghes_edac.c
 +++ b/drivers/edac/ghes_edac.c
-@@ -347,11 +347,8 @@ void ghes_edac_report_mem_error(int sev, struct cper_s=
-ec_mem_err *mem_err)
- 				     mem_err->mem_dev_handle);
+@@ -82,11 +82,11 @@ static void ghes_edac_count_dimms(const struct dmi_head=
+er *dh, void *arg)
+ static int get_dimm_smbios_index(u16 handle)
+ {
+ 	struct mem_ctl_info *mci =3D ghes_pvt->mci;
+-	int i;
++	struct dimm_info *dimm;
 =20
- 		index =3D get_dimm_smbios_index(mem_err->mem_dev_handle);
--		if (index >=3D 0) {
-+		if (index >=3D 0)
- 			e->top_layer =3D index;
--			e->enable_per_layer_report =3D true;
--		}
--
+-	for (i =3D 0; i < mci->tot_dimms; i++) {
+-		if (mci->dimms[i]->smbios_handle =3D=3D handle)
+-			return i;
++	mci_for_each_dimm(mci, dimm) {
++		if (dimm->smbios_handle =3D=3D handle)
++			return dimm->idx;
  	}
- 	if (p > e->location)
- 		*(p - 1) =3D '\0';
+ 	return -1;
+ }
+diff --git a/drivers/edac/i5100_edac.c b/drivers/edac/i5100_edac.c
+index 134586753311..0ddc41e47a96 100644
+--- a/drivers/edac/i5100_edac.c
++++ b/drivers/edac/i5100_edac.c
+@@ -846,20 +846,17 @@ static void i5100_init_interleaving(struct pci_dev *p=
+dev,
+=20
+ static void i5100_init_csrows(struct mem_ctl_info *mci)
+ {
+-	int i;
+ 	struct i5100_priv *priv =3D mci->pvt_info;
++	struct dimm_info *dimm;
+=20
+-	for (i =3D 0; i < mci->tot_dimms; i++) {
+-		struct dimm_info *dimm;
+-		const unsigned long npages =3D i5100_npages(mci, i);
+-		const unsigned int chan =3D i5100_csrow_to_chan(mci, i);
+-		const unsigned int rank =3D i5100_csrow_to_rank(mci, i);
++	mci_for_each_dimm(mci, dimm) {
++		const unsigned long npages =3D i5100_npages(mci, dimm->idx);
++		const unsigned int chan =3D i5100_csrow_to_chan(mci, dimm->idx);
++		const unsigned int rank =3D i5100_csrow_to_rank(mci, dimm->idx);
+=20
+ 		if (!npages)
+ 			continue;
+=20
+-		dimm =3D edac_get_dimm(mci, chan, rank, 0);
+-
+ 		dimm->nr_pages =3D npages;
+ 		dimm->grain =3D 32;
+ 		dimm->dtype =3D (priv->mtr[chan][rank].width =3D=3D 4) ?
 diff --git a/include/linux/edac.h b/include/linux/edac.h
-index 8beb6e834be9..8e72222e50b0 100644
+index 79c5564ee314..8beb6e834be9 100644
 --- a/include/linux/edac.h
 +++ b/include/linux/edac.h
-@@ -383,6 +383,9 @@ struct dimm_info {
- 	unsigned int csrow, cschannel;	/* Points to the old API data */
+@@ -599,6 +599,13 @@ struct mem_ctl_info {
+ 	u16 fake_inject_count;
+ };
 =20
- 	u16 smbios_handle;              /* Handle for SMBIOS type 17 */
++#define mci_for_each_dimm(mci, dimm)				\
++	for ((dimm) =3D (mci)->dimms[0];				\
++	     (dimm);						\
++	     (dimm) =3D (dimm)->idx + 1 < (mci)->tot_dimms	\
++		     ? (mci)->dimms[(dimm)->idx + 1]		\
++		     : NULL)
 +
-+	u32 ce_count;
-+	u32 ue_count;
- };
-=20
  /**
-@@ -453,8 +456,6 @@ struct errcount_attribute_data {
-  * @location:			location of the error
-  * @label:			label of the affected DIMM(s)
-  * @other_detail:		other driver-specific detail about the error
-- * @enable_per_layer_report:	if false, the error affects all layers
-- *				(typically, a memory controller error)
-  */
- struct edac_raw_error_desc {
- 	/*
-@@ -475,7 +476,6 @@ struct edac_raw_error_desc {
- 	unsigned long syndrome;
- 	const char *msg;
- 	const char *other_detail;
--	bool enable_per_layer_report;
- };
-=20
- /* MEMORY controller information structure
-@@ -565,7 +565,6 @@ struct mem_ctl_info {
- 	 */
- 	u32 ce_noinfo_count, ue_noinfo_count;
- 	u32 ue_mc, ce_mc;
--	u32 *ce_per_layer[EDAC_MAX_LAYERS], *ue_per_layer[EDAC_MAX_LAYERS];
-=20
- 	struct completion complete;
-=20
+  * edac_get_dimm_by_index - Get DIMM info from a memory controller
+  *                          given by an index
 --=20
 2.20.1
 
