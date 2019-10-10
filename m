@@ -2,66 +2,46 @@ Return-Path: <SRS0=1LRz=YD=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F4DC10F14
-	for <linux-edac@archiver.kernel.org>; Thu, 10 Oct 2019 12:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B30C4360C
+	for <linux-edac@archiver.kernel.org>; Thu, 10 Oct 2019 13:41:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 025142067B
-	for <linux-edac@archiver.kernel.org>; Thu, 10 Oct 2019 12:48:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C041F2067B
+	for <linux-edac@archiver.kernel.org>; Thu, 10 Oct 2019 13:41:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rys6iX0a"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="c/ckwYqE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733300AbfJJMsX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 10 Oct 2019 08:48:23 -0400
-Received: from mail-io1-f51.google.com ([209.85.166.51]:43168 "EHLO
-        mail-io1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733288AbfJJMsX (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Oct 2019 08:48:23 -0400
-Received: by mail-io1-f51.google.com with SMTP id v2so13295325iob.10
-        for <linux-edac@vger.kernel.org>; Thu, 10 Oct 2019 05:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=7hnwTmWKxZRMhBuGtUZVHMQJTMq8PwR793RimsSOwC8=;
-        b=Rys6iX0aNnYNA2K7F2/6bqhp6i3T+jLnCG4t+ShzzdJd+f8WfnLvZYYMfPAAT+nKGm
-         Bpo9B4/mpMCWjyDciNerWmLWRlzJDkCJrzdMHNNp6ZDJo3Ix5h+HhnSEi5FE1Gl9buZ5
-         fFMdThGVl2rd0DTxRhQAL9vb6Kel8+VWi0hxlV8KJ6cSeGYbA/L0FIiIccN6w6VtyXJw
-         Qz4wgndzglycEVmRWVA0qS94nMsRSF842DfbHlNTGwQauw29aCY8i1p5hd9OEix5YRI5
-         4Fb3A6KnPun4k8sR7o0HxnBKzo/V6QNHzsx1UIZchPhBSsBFs9yaCvIK2s8IF9Thb5ed
-         D3vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=7hnwTmWKxZRMhBuGtUZVHMQJTMq8PwR793RimsSOwC8=;
-        b=cxy9+X0REt69hdBNznQLH7UNf/8Hhsj05eE0CVpKAtzfQL8qrj+Ks5gbfgA+n8+xVF
-         4GJaxJFA/ovyA+kY0VRLm141csIm/QSjdyiIsNC5Qp7CD2E3vH6zZ5vQ28cR0oox8UhP
-         2odKRAliG/5AYq9Z/sk2W44L0seuxAAwOdjlYRhDB2w/x93fEOJM5Ny1snF25DSKjq3j
-         7pyWNcYNGVkDZfD3HXbYXZuCeDTYQCnQA/3IMUHTC+Qwh5MNE5tGFzZ2DjZc6KHhi7qB
-         9S55dxAroM4aqm87X4JTmCkobsAucrkUQ/PoFHwoCZFBE4egLeNjETsCNJIINX43ZbzX
-         kQHw==
-X-Gm-Message-State: APjAAAWGTHGrPDCRFwEaLpLV2cZt/3HkNHGAsgu74wvxGpPGz8UUo14u
-        LZ4+LjFftqH+xwu+3AJCdDR0XGK6
-X-Google-Smtp-Source: APXvYqwiR/a8tmTTz1cIycA6fuBiQIWV36xPd2H6e1wg+ZEd5p6cKAl4gmdQ5O/cyJk8GHSppQA+5Q==
-X-Received: by 2002:a6b:e008:: with SMTP id z8mr1450801iog.273.1570711702522;
-        Thu, 10 Oct 2019 05:48:22 -0700 (PDT)
-Received: from ?IPv6:2001:1970:535e:cd00:e378:c9fb:7183:d83d? ([2001:1970:535e:cd00:e378:c9fb:7183:d83d])
-        by smtp.gmail.com with ESMTPSA id c65sm1322364ilg.26.2019.10.10.05.48.21
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Oct 2019 05:48:21 -0700 (PDT)
-Subject: Re: [GIT PULL] EDAC pile for 5.4 -> AMD family 17h, model 70h support
-To:     Borislav Petkov <bp@alien8.de>
+        id S2388165AbfJJNlj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 10 Oct 2019 09:41:39 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:46004 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733228AbfJJNlj (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 10 Oct 2019 09:41:39 -0400
+Received: from zn.tnic (p200300EC2F0A630049CEEE8F373FE59E.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:6300:49ce:ee8f:373f:e59e])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 32D7B1EC0391;
+        Thu, 10 Oct 2019 15:41:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1570714898;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=iG8IuNXynO8vItVbElLmRDDO00r9i+9u7IdxbTcOn/Q=;
+        b=c/ckwYqEhTq2pSRZQgDcehyZdFKIJDsMTyOFYzUvJgqxXL3OpROPbaQt+IKU87mSespYpT
+        upVaI34R1qU2Nxj0XlbMxjHPejHdn/pKv2vD7wtHO9IsFwJGjKG3+WKJ5cqTU/pUY/6B1q
+        3bJ+LbIArneVVzCdc/wtfZz1J6zB/j8=
+Date:   Thu, 10 Oct 2019 15:41:28 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Jean-Frederic <jfgaudreault@gmail.com>
 Cc:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-References: <20190924092644.GC19317@zn.tnic>
- <CAEVokG7UmudOALmeTBq2NgFSiZyGq_6b58nHt2UUHAM2Mzbw+Q@mail.gmail.com>
- <20191007071502.GA24289@zn.tnic>
+Subject: Re: [GIT PULL] EDAC pile for 5.4 -> AMD family 17h, model 70h support
+Message-ID: <20191010134128.GF7658@zn.tnic>
+References: <20191007071502.GA24289@zn.tnic>
  <CAEVokG51DtL1g+9YFK6RE=3m-wtjV1VN=vV56b5-3=K21=Jmrw@mail.gmail.com>
  <20191008115041.GD14765@zn.tnic>
  <678ba7d1-cf3d-4101-1819-29b291cf236d@amd.com>
@@ -70,29 +50,28 @@ References: <20190924092644.GC19317@zn.tnic>
  <724d6f97-61f2-94bd-3f4b-793a55b6ac15@amd.com>
  <CAEVokG4T5q8PBmf4=vLjPWQjzL_Xwu6yF81=mLjkpoJSoCggkw@mail.gmail.com>
  <20191010095650.GC7658@zn.tnic>
-From:   Jean-Frederic <jfgaudreault@gmail.com>
-Message-ID: <9f3ce002-7380-0e93-7bd5-20bb944d0b77@gmail.com>
-Date:   Thu, 10 Oct 2019 08:48:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <9f3ce002-7380-0e93-7bd5-20bb944d0b77@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191010095650.GC7658@zn.tnic>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <9f3ce002-7380-0e93-7bd5-20bb944d0b77@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 2019-10-10 5:56 a.m., Borislav Petkov wrote:
-> Check all the BIOS menus. 
-I did recheck all menus in advanced mode several times. I used my bios fairly often when I got this new system, I would also have seen it before I would think.
+On Thu, Oct 10, 2019 at 08:48:20AM -0400, Jean-Frederic wrote:
+> I did recheck all menus in advanced mode several times. I used my bios
+> fairly often when I got this new system, I would also have seen it
+> before I would think.
 
-> Platform first error handling meands, the BIOS gets to see the error
-> first. 
-Thanks for the explanation.
+I have the faint suspicion that our perfectly capable BIOS writers
+forgot to add a disable functionality. Let's see what Yazen finds out
+first, though.
 
 -- 
-Jean-Frédéric
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
