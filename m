@@ -2,93 +2,74 @@ Return-Path: <SRS0=uCOu=YH=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA025ECE587
-	for <linux-edac@archiver.kernel.org>; Mon, 14 Oct 2019 17:53:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A62CBC4CECE
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Oct 2019 21:21:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B8C9320873
-	for <linux-edac@archiver.kernel.org>; Mon, 14 Oct 2019 17:53:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="PwG15lss"
+	by mail.kernel.org (Postfix) with ESMTP id 84FA920650
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Oct 2019 21:21:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730723AbfJNRxb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 14 Oct 2019 13:53:31 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:57130 "EHLO mail.skyhub.de"
+        id S2387557AbfJNVVE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 14 Oct 2019 17:21:04 -0400
+Received: from mga18.intel.com ([134.134.136.126]:21857 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728941AbfJNRxb (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 14 Oct 2019 13:53:31 -0400
-Received: from zn.tnic (p200300EC2F065800329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2f06:5800:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6901D1EC0C81;
-        Mon, 14 Oct 2019 19:53:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1571075609;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=FRnrE36V97yr2XOoiWhH71sP1a5VryRZPc2CnW5w4ps=;
-        b=PwG15lssyWuknhNOgr5mQ89PPSlPUlWHTsdSVJA3ATJGrU3rEkyasLCnAQjx9ivE5Kg1WZ
-        xdQ5KGFyM6pmCyYqa0Zq/cm+V4Vw4wadZmJfs4a4RUjgNfl8ly5p3fi7fhKbIzG0AM8Bdg
-        lgaDGcsVGendS0gHLwAr+oO8TtEPhns=
-Date:   Mon, 14 Oct 2019 19:53:19 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     James Morse <james.morse@arm.com>
-Cc:     linux-edac@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Robert Richter <rrichter@marvell.com>,
-        John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH 0/2] EDAC, ghes: Fix use after free and add reference
-Message-ID: <20191014175319.GH4715@zn.tnic>
-References: <20191014171919.85044-1-james.morse@arm.com>
- <20191014173006.GG4715@zn.tnic>
- <86ba3fcf-d29c-1d6a-d8c3-2a03cb11263e@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <86ba3fcf-d29c-1d6a-d8c3-2a03cb11263e@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1731044AbfJNVVD (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 14 Oct 2019 17:21:03 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Oct 2019 14:21:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,296,1566889200"; 
+   d="scan'208";a="185610162"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by orsmga007.jf.intel.com with ESMTP; 14 Oct 2019 14:21:03 -0700
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     tony.luck@intel.com, bp@alien8.de, tglx@linutronix.de,
+        mingo@redhat.com, hpa@zytor.com, bberg@redhat.com
+Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hdegoede@redhat.com,
+        ckellner@redhat.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH 2/2] x86, mce: Add additional kernel boot parameter
+Date:   Mon, 14 Oct 2019 14:21:01 -0700
+Message-Id: <20191014212101.25719-2-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20191014212101.25719-1-srinivas.pandruvada@linux.intel.com>
+References: <2c2b65c23be3064504566c5f621c1f37bf7e7326.camel@redhat.com>
+ <20191014212101.25719-1-srinivas.pandruvada@linux.intel.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 06:40:33PM +0100, James Morse wrote:
-> Keeping both avoids the !pvt check in ghes_edac_report_mem_error() going wrong, but I'm
-> not entirely sure what that is trying to stop...
+Add one boot option to specify thermal throttle warning. The default
+interval is 8 seconds.
 
-It must've been some sanity-check in
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-  f04c62a7036a ("ghes_edac: add support for reporting errors via EDAC")
-
-> The possibility of races between notifications and unregister only occurred to me after
-> testing the first patch, so they ended up as different things in my head: I thought it
-> deserved its own commit log as its unrelated to the KASAN splat.
-
-To me they fix two different aspects of the missing counting on unreg.
-
-> I think you need some kind of reference count to know how many more GHES.x there are out
-> there that may call unregister, otherwise you race with notifications.
-
-Provided unregister cannot be called concurrently, the
-
-        if (!ghes_pvt)
-                return;
-
-in ghes_edac_unregister() should suffice.
-
-But just to be on the safe side, it could get an "instance_mutex" or so
-under which ghes_pvt is set and cleared and then that silly counter can
-simply go away.
-
-Thoughts?
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a84a83f8881e..6dce92ac28d0 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5334,6 +5334,11 @@
+ 			as generic guest with no PV drivers. Currently support
+ 			XEN HVM, KVM, HYPER_V and VMWARE guest.
+ 
++	x86_therm_warn_delay=	[X86] Specify threshold to warn user about an
++			active thermal throttling condition in milli seconds.
++			If the thermal throttling is still active after this
++			interval, this event is logged in the kernel logs.
++
+ 	xirc2ps_cs=	[NET,PCMCIA]
+ 			Format:
+ 			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
 -- 
-Regards/Gruss,
-    Boris.
+2.17.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
