@@ -2,94 +2,106 @@ Return-Path: <SRS0=Ovzb=YI=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C077C10F14
-	for <linux-edac@archiver.kernel.org>; Tue, 15 Oct 2019 12:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1636C10F14
+	for <linux-edac@archiver.kernel.org>; Tue, 15 Oct 2019 13:25:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6800A21A49
-	for <linux-edac@archiver.kernel.org>; Tue, 15 Oct 2019 12:13:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6850E21835
+	for <linux-edac@archiver.kernel.org>; Tue, 15 Oct 2019 13:25:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="uspgVD+P"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="lcDbr/U4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbfJOMNQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 15 Oct 2019 08:13:16 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:14668 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726423AbfJOMNP (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 15 Oct 2019 08:13:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1571141594; x=1602677594;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=xGLkeCy55JZslCZd5P+Gri+DOIbpI9xCoQlPZNd+zRA=;
-  b=uspgVD+PWGXTmKbng5j0/wanVhwLetMZhdlY1VsIK3WRMIx5+Jr+5A2Z
-   GuvnZVqQmjWSdNhtXQBIlgGHYQwgsoEJtLGoAiPRAoGI26Jj8on7olE+S
-   j7ZNRHyOB2MYpI082n5b3ZEfpHwRXu1C02O+I4Ucdgg6wPsBJIIfwypnm
-   I=;
-X-IronPort-AV: E=Sophos;i="5.67,299,1566864000"; 
-   d="scan'208";a="429217749"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-55156cd4.us-west-2.amazon.com) ([10.124.125.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 15 Oct 2019 12:10:14 +0000
-Received: from EX13MTAUEA001.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2b-55156cd4.us-west-2.amazon.com (Postfix) with ESMTPS id 0C4BCA1FA9;
-        Tue, 15 Oct 2019 12:10:12 +0000 (UTC)
-Received: from EX13D19EUB003.ant.amazon.com (10.43.166.69) by
- EX13MTAUEA001.ant.amazon.com (10.43.61.82) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Tue, 15 Oct 2019 12:10:12 +0000
-Received: from ua9e4f3715fbc5f.ant.amazon.com (10.43.162.200) by
- EX13D19EUB003.ant.amazon.com (10.43.166.69) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Tue, 15 Oct 2019 12:10:02 +0000
-From:   Hanna Hawa <hhhawa@amazon.com>
-To:     <bp@alien8.de>, <mchehab@kernel.org>, <mark.rutland@arm.com>,
-        <james.morse@arm.com>, <robh+dt@kernel.org>,
-        <frowand.list@gmail.com>, <davem@davemloft.net>,
-        <gregkh@linuxfoundation.org>, <linus.walleij@linaro.org>,
-        <daniel@iogearbox.net>, <paulmck@linux.ibm.com>,
-        <Sudeep.Holla@arm.com>
-CC:     <linux-kernel@vger.kernel.org>, <linux-edac@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <dwmw@amazon.co.uk>,
-        <benh@amazon.com>, <ronenk@amazon.com>, <talel@amazon.com>,
-        <jonnyc@amazon.com>, <hanochu@amazon.com>, <hhhawa@amazon.com>
-Subject: [PATCH v7 2/3] of: EXPORT_SYMBOL_GPL of_find_next_cache_node
-Date:   Tue, 15 Oct 2019 13:09:26 +0100
-Message-ID: <20191015120927.10470-3-hhhawa@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191015120927.10470-1-hhhawa@amazon.com>
-References: <20191015120927.10470-1-hhhawa@amazon.com>
+        id S1731964AbfJONZz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 15 Oct 2019 09:25:55 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:53230 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728372AbfJONZy (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 15 Oct 2019 09:25:54 -0400
+Received: from zn.tnic (p200300EC2F1578001D8C11C1C84560F1.dip0.t-ipconnect.de [IPv6:2003:ec:2f15:7800:1d8c:11c1:c845:60f1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9F2211EC0CA1;
+        Tue, 15 Oct 2019 15:25:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1571145953;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=qbTOTz8IVBsTPv5SpqRTtz8dxulzzuKW6Y6hsH889rg=;
+        b=lcDbr/U4qAd46WF3DeShxAmNHOR2cBd26XTwZPfRqwk/WIBivM4j5GsKLuUTQWu/rB+r1a
+        IL8iaHvXDcdwwPstnSwWU2Kw/0etmTmUkcrG0le65okd9CK1PVsPoEozRw7/fqdIS3CkF2
+        ckufaFJjEuKpS7xYPuvnKtULzz3XT14=
+Date:   Tue, 15 Oct 2019 15:25:49 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     James Morse <james.morse@arm.com>
+Cc:     linux-edac@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Robert Richter <rrichter@marvell.com>,
+        John Garry <john.garry@huawei.com>
+Subject: Re: [PATCH 0/2] EDAC, ghes: Fix use after free and add reference
+Message-ID: <20191015132549.GC596@zn.tnic>
+References: <20191014171919.85044-1-james.morse@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.200]
-X-ClientProxiedBy: EX13D25UWB003.ant.amazon.com (10.43.161.33) To
- EX13D19EUB003.ant.amazon.com (10.43.166.69)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191014171919.85044-1-james.morse@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Make of_find_next_cache_node() available for modules.
+On Mon, Oct 14, 2019 at 06:19:17PM +0100, James Morse wrote:
+> Hello,
+> 
+> ghes_edac can only be registered once, later attempts will silently
+> do nothing as the driver is already setup. The unregister path also
+> only expects to be called once, but doesn't check.
+> 
+> This leads to KASAN splats if multiple GHES entries are unregistered,
+> as the free()d memory is dereferenced, and if we're lucky, free()d
+> a second time.
+> 
+> Link: lore.kernel.org/r/304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com
+> 
+> Patch 1 is the minimum needed to prevent the dereference and double
+> free, but this does expose the lack of symmetry. If we unregister
+> one GHES entry, subsequent notifications will be lost.
+> Unregistering is unsafe if another CPU is using the free()d memory in
+> ghes_edac_report_mem_error().
+> 
+> To fix this, Patch 2 uses ghes_init as a reference count.
+> 
+> We can now unbind all the GHES entries, causing ghes_edac to be
+> unregistered, and start rebinding them again.
+> 
+> 
+> Thanks,
+> 
+> James Morse (2):
+>   EDAC, ghes: Fix Use after free in ghes_edac remove path
+>   EDAC, ghes: Reference count GHES users of ghes_edac
+> 
+>  drivers/edac/ghes_edac.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-Signed-off-by: Hanna Hawa <hhhawa@amazon.com>
----
- drivers/of/base.c | 1 +
- 1 file changed, 1 insertion(+)
+Patches squashed and queued here:
 
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index 20e0e7ee4edf..fe22c7428958 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -2172,6 +2172,7 @@ struct device_node *of_find_next_cache_node(const struct device_node *np)
- 
- 	return NULL;
- }
-+EXPORT_SYMBOL_GPL(of_find_next_cache_node);
- 
- /**
-  * of_find_last_cache_level - Find the level at which the last cache is
+https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git/log/?h=edac-urgent
+
+Will send it to Linus soonish as it is stable material, I guess.
+
+In the meantime, we can iron the whole deal out and improve it.
+
+Thx.
+
 -- 
-2.17.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
