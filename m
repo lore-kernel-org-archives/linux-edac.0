@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A8D4FA372A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6689BFA3728
 	for <linux-edac@archiver.kernel.org>; Wed, 16 Oct 2019 16:34:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2D8E321D7D
+	by mail.kernel.org (Postfix) with ESMTP id 4B78421D7F
 	for <linux-edac@archiver.kernel.org>; Wed, 16 Oct 2019 16:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405951AbfJPQed (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 16 Oct 2019 12:34:33 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4226 "EHLO huawei.com"
+        id S2405459AbfJPQee (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 16 Oct 2019 12:34:34 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4227 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2405459AbfJPQed (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S1730251AbfJPQed (ORCPT <rfc822;linux-edac@vger.kernel.org>);
         Wed, 16 Oct 2019 12:34:33 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id B80A8A606563A56AFC52;
+        by Forcepoint Email with ESMTP id B4790F4FF67101A94860;
         Thu, 17 Oct 2019 00:34:31 +0800 (CST)
 Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.202.226.55) by
  DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 17 Oct 2019 00:34:21 +0800
+ 14.3.439.0; Thu, 17 Oct 2019 00:34:22 +0800
 From:   Shiju Jose <shiju.jose@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     <linuxarm@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
-Subject: [PATCH 3/7] rasdaemon: fix missing fclose in ras-events.c:select_tracing_timestamp()
-Date:   Wed, 16 Oct 2019 17:33:57 +0100
-Message-ID: <20191016163401.16980-4-shiju.jose@huawei.com>
+Subject: [PATCH 4/7] rasdaemon: fix memory leak in ras-events.c:add_event_handler()
+Date:   Wed, 16 Oct 2019 17:33:58 +0100
+Message-ID: <20191016163401.16980-5-shiju.jose@huawei.com>
 X-Mailer: git-send-email 2.19.2.windows.1
 In-Reply-To: <20191016163401.16980-1-shiju.jose@huawei.com>
 References: <Shiju Jose>
@@ -44,8 +44,8 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch adds fix for missing fclose() in select_tracing_timestamp()
-when return fail if can't parse /proc/uptime.
+This patch rearranges the free(page) call to prevent the
+memory leak when __toggle_ras_mc_event() fail.
 
 Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
 ---
@@ -53,23 +53,25 @@ Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/ras-events.c b/ras-events.c
-index d543251..fc6b288 100644
+index fc6b288..f912dae 100644
 --- a/ras-events.c
 +++ b/ras-events.c
-@@ -600,12 +600,12 @@ static int select_tracing_timestamp(struct ras_events *ras)
- 		return 0;
- 	}
- 	rc = fscanf(fp, "%zu.%u ", &uptime, &j1);
-+	fclose(fp);
- 	if (rc <= 0) {
- 		log(TERM, LOG_ERR, "Can't parse /proc/uptime!\n");
- 		return -1;
- 	}
- 	now = time(NULL);
--	fclose(fp);
+@@ -688,6 +688,7 @@ static int add_event_handler(struct ras_events *ras, struct pevent *pevent,
  
- 	ras->use_uptime = 1;
- 	ras->uptime_diff = now - uptime;
+ 	/* Enable RAS events */
+ 	rc = __toggle_ras_mc_event(ras, group, event, 1);
++	free(page);
+ 	if (rc < 0) {
+ 		log(TERM, LOG_ERR, "Can't enable %s:%s tracing\n",
+ 		    group, event);
+@@ -697,7 +698,6 @@ static int add_event_handler(struct ras_events *ras, struct pevent *pevent,
+ 
+ 	log(ALL, LOG_INFO, "Enabled event %s:%s\n", group, event);
+ 
+-	free(page);
+ 	return 0;
+ }
+ 
 -- 
 2.1.4
 
