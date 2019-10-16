@@ -2,37 +2,38 @@ Return-Path: <SRS0=QPPE=YJ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84158FA372B
-	for <linux-edac@archiver.kernel.org>; Wed, 16 Oct 2019 16:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E8CEFA372E
+	for <linux-edac@archiver.kernel.org>; Wed, 16 Oct 2019 16:34:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 68FD021D80
+	by mail.kernel.org (Postfix) with ESMTP id E108621A4C
 	for <linux-edac@archiver.kernel.org>; Wed, 16 Oct 2019 16:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730251AbfJPQee (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S2404724AbfJPQee (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Wed, 16 Oct 2019 12:34:34 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4192 "EHLO huawei.com"
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4228 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2405428AbfJPQee (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S2404676AbfJPQee (ORCPT <rfc822;linux-edac@vger.kernel.org>);
         Wed, 16 Oct 2019 12:34:34 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id D6682295809DADCB1C00;
-        Thu, 17 Oct 2019 00:34:26 +0800 (CST)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id BB5E56CA3D3A6D709533;
+        Thu, 17 Oct 2019 00:34:31 +0800 (CST)
 Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.202.226.55) by
  DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 17 Oct 2019 00:34:15 +0800
+ 14.3.439.0; Thu, 17 Oct 2019 00:34:24 +0800
 From:   Shiju Jose <shiju.jose@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     <linuxarm@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
-Subject: [PATCH 0/7] rasdaemon: add fixes, database closure and signal handling
-Date:   Wed, 16 Oct 2019 17:33:54 +0100
-Message-ID: <20191016163401.16980-1-shiju.jose@huawei.com>
+Subject: [PATCH 5/7] rasdaemon: delete multiple definitions of ARRAY_SIZE
+Date:   Wed, 16 Oct 2019 17:33:59 +0100
+Message-ID: <20191016163401.16980-6-shiju.jose@huawei.com>
 X-Mailer: git-send-email 2.19.2.windows.1
-In-Reply-To: <Shiju Jose>
+In-Reply-To: <20191016163401.16980-1-shiju.jose@huawei.com>
 References: <Shiju Jose>
+ <20191016163401.16980-1-shiju.jose@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -43,31 +44,71 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch set add
-1. fixes for some memory leaks and file closure.
-2. closure for the sqlite3 database.
-3. signal handling for the cleanup.
+This patch deletes multiple definitions of ARRAY_SIZE and
+move the definition to a common file.
 
-Shiju Jose (7):
-  rasdaemon: fix cleanup issues in
-    ras-events.c:read_ras_event_all_cpus()
-  rasdaemon: fix memory leak in ras-events.c:handle_ras_events()
-  rasdaemon: fix missing fclose in
-    ras-events.c:select_tracing_timestamp()
-  rasdaemon: fix memory leak in ras-events.c:add_event_handler()
-  rasdaemon: delete multiple definitions of ARRAY_SIZE
-  rasdaemon: add closure and cleanups for the database
-  rasdaemon: add signal handling for the cleanup
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ ras-diskerror-handler.c | 2 --
+ ras-mce-handler.h       | 3 ---
+ ras-record.c            | 3 ---
+ ras-record.h            | 2 ++
+ 4 files changed, 2 insertions(+), 8 deletions(-)
 
- ras-diskerror-handler.c    |   2 -
- ras-events.c               |  88 +++++++++++++++++++++++++++-----
- ras-mce-handler.h          |   3 --
- ras-non-standard-handler.c |  16 ++++++
- ras-non-standard-handler.h |   6 ++-
- ras-record.c               | 123 +++++++++++++++++++++++++++++++++++++++++++--
- ras-record.h               |   5 ++
- 7 files changed, 222 insertions(+), 21 deletions(-)
-
+diff --git a/ras-diskerror-handler.c b/ras-diskerror-handler.c
+index 271dfac..68c0c77 100644
+--- a/ras-diskerror-handler.c
++++ b/ras-diskerror-handler.c
+@@ -50,8 +50,6 @@ static const struct {
+ 	{ -EIO,       "I/O error" },
+ };
+ 
+-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(*(x)))
+-
+ static const char *get_blk_error(int err)
+ {
+ 	int i;
+diff --git a/ras-mce-handler.h b/ras-mce-handler.h
+index 94395eb..4d615b4 100644
+--- a/ras-mce-handler.h
++++ b/ras-mce-handler.h
+@@ -24,9 +24,6 @@
+ #include "ras-events.h"
+ #include "libtrace/event-parse.h"
+ 
+-
+-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(*(x)))
+-
+ enum cputype {
+ 	CPU_GENERIC,
+ 	CPU_P6OLD,
+diff --git a/ras-record.c b/ras-record.c
+index ae5d359..8f1c550 100644
+--- a/ras-record.c
++++ b/ras-record.c
+@@ -35,9 +35,6 @@
+ 
+ #define SQLITE_RAS_DB RASSTATEDIR "/" RAS_DB_FNAME
+ 
+-
+-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(*(x)))
+-
+ /*
+  * Table and functions to handle ras:mc_event
+  */
+diff --git a/ras-record.h b/ras-record.h
+index 5311c67..c9af5ae 100644
+--- a/ras-record.h
++++ b/ras-record.h
+@@ -23,6 +23,8 @@
+ #include <stdint.h>
+ #include "config.h"
+ 
++#define ARRAY_SIZE(x) (sizeof(x)/sizeof(*(x)))
++
+ extern long user_hz;
+ 
+ struct ras_events *ras;
 -- 
 2.1.4
 
