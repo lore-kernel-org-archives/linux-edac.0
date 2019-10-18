@@ -1,41 +1,43 @@
-Return-Path: <SRS0=bsh0=YK=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=dmrF=YL=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76650CA9EC8
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Oct 2019 23:53:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A80CA9EA0
+	for <linux-edac@archiver.kernel.org>; Fri, 18 Oct 2019 06:46:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4A36D21897
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Oct 2019 23:53:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B0AC222C5
+	for <linux-edac@archiver.kernel.org>; Fri, 18 Oct 2019 06:46:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="sbFTsqrD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391061AbfJQXxV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 17 Oct 2019 19:53:21 -0400
-Received: from mga17.intel.com ([192.55.52.151]:50947 "EHLO mga17.intel.com"
+        id S1727332AbfJRGqv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 18 Oct 2019 02:46:51 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:35948 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729190AbfJQXxU (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 17 Oct 2019 19:53:20 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Oct 2019 16:53:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,309,1566889200"; 
-   d="scan'208";a="200547487"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-  by orsmga006.jf.intel.com with ESMTP; 17 Oct 2019 16:53:20 -0700
-Received: from orsmsx121.amr.corp.intel.com (10.22.225.226) by
- ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 17 Oct 2019 16:53:19 -0700
-Received: from orsmsx115.amr.corp.intel.com ([169.254.4.146]) by
- ORSMSX121.amr.corp.intel.com ([169.254.10.88]) with mapi id 14.03.0439.000;
- Thu, 17 Oct 2019 16:53:19 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Peter Zijlstra <peterz@infradead.org>,
+        id S1726986AbfJRGqv (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 18 Oct 2019 02:46:51 -0400
+Received: from zn.tnic (p200300EC2F0DFC00F134DAC2492356BC.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:fc00:f134:dac2:4923:56bc])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5F3691EC0CBD;
+        Fri, 18 Oct 2019 08:46:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1571381210;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=ikLh5u7rammITd8Jjc7lWpZdtiSeDNWp7kW6/YVwUxw=;
+        b=sbFTsqrDHhVSu9S5cRZfKl3mojHe1A+zddnnhPDz3Wg0q0Dw0tueoJQz3IJ7FV9MesOVQk
+        /qW21QR2PGiPUQymlsGOXwmBoYyyc9ZsNtwJ/S6+TB00WfG1ADE+4NroLGH5AbzWfUYybw
+        J+bmM5bSWV83za5ukhg6poB7N18M4ro=
+Date:   Fri, 18 Oct 2019 08:46:42 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         "tglx@linutronix.de" <tglx@linutronix.de>,
         "mingo@redhat.com" <mingo@redhat.com>,
@@ -46,13 +48,9 @@ CC:     Peter Zijlstra <peterz@infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "hdegoede@redhat.com" <hdegoede@redhat.com>,
         "ckellner@redhat.com" <ckellner@redhat.com>
-Subject: RE: [PATCH 1/2] x86, mce, therm_throt: Optimize logging of thermal
+Subject: Re: [PATCH 1/2] x86, mce, therm_throt: Optimize logging of thermal
  throttle messages
-Thread-Topic: [PATCH 1/2] x86, mce, therm_throt: Optimize logging of thermal
- throttle messages
-Thread-Index: AQHVgtVLxuJrYmx6hUyzyzJQOp33Lqdb2lSAgABPIQCAATmTgIAAYKeAgAGZqlCAAHqDgP//rfgg
-Date:   Thu, 17 Oct 2019 23:53:18 +0000
-Message-ID: <3908561D78D1C84285E8C5FCA982C28F7F4A6045@ORSMSX115.amr.corp.intel.com>
+Message-ID: <20191018064642.GA17053@zn.tnic>
 References: <2c2b65c23be3064504566c5f621c1f37bf7e7326.camel@redhat.com>
  <20191014212101.25719-1-srinivas.pandruvada@linux.intel.com>
  <20191015084833.GD2311@hirez.programming.kicks-ass.net>
@@ -61,28 +59,36 @@ References: <2c2b65c23be3064504566c5f621c1f37bf7e7326.camel@redhat.com>
  <20191016140001.GF1138@zn.tnic>
  <3908561D78D1C84285E8C5FCA982C28F7F4A57D0@ORSMSX115.amr.corp.intel.com>
  <20191017214445.GG14441@zn.tnic>
-In-Reply-To: <20191017214445.GG14441@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMGYzOWExNTUtM2Q3Ny00Y2Y4LTkyZjQtMjc1ODlkMDQwNDQzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiczZkajBFc09rN0pkd1dWYWNXYkxYVlpxOWhkWW9qSHRCNTBtYlAyN1B3akpvK1RXYlVrSmVTNHdhY0ttR2w4TCJ9
-x-ctpclassification: CTP_NT
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.140]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <3908561D78D1C84285E8C5FCA982C28F7F4A6045@ORSMSX115.amr.corp.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3908561D78D1C84285E8C5FCA982C28F7F4A6045@ORSMSX115.amr.corp.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-PiAqIHdlIHRocm90dGxlIHRoZSBtYWNoaW5lIGZyb20gd2l0aGluIHRoZSBrZXJuZWwgLSB3aGF0
-ZXZlciB0aGF0IG1heSBtZWFuDQo+ICogaWYgdGhhdCBkb2Vzbid0IGhlbHAsIHdlIHN0b3Agc2No
-ZWR1bGluZyAhcm9vdCB0YXNrcw0KPiAqIGlmIHRoYXQgZG9lc24ndCBoZWxwLCB3ZSBoYWx0DQoN
-ClRoZSBzaWxpY29uIHdpbGwgZG8gdGhhdCAiaGFsdCIgc3RlcCBhbGwgYnkgaXRzZWxmIGlmIHRo
-ZSB0ZW1wZXJhdHVyZQ0KY29udGludWVzIHRvIHJpc2UgYW5kIGhpdHMgdGhlIGhpZ2hlc3Qgb2Yg
-dGhlIHRlbXBlcmF0dXJlIHRocmVzaG9sZHMuDQoNCi1Ub255DQo=
+On Thu, Oct 17, 2019 at 11:53:18PM +0000, Luck, Tony wrote:
+> > * we throttle the machine from within the kernel - whatever that may mean
+> > * if that doesn't help, we stop scheduling !root tasks
+> > * if that doesn't help, we halt
+> 
+> The silicon will do that "halt" step all by itself if the temperature
+> continues to rise and hits the highest of the temperature thresholds.
+
+Oh, I know that. But that is not of our concern - I believe we're
+discussing right now what to do when the lower, softer limits are
+reached and the thermal interrupt fires.
+
+When the hw forces HLT, it means we didn't do a very good job earlier,
+before it got so hot.
+
+:-)
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
