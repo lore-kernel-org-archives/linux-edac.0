@@ -2,139 +2,109 @@ Return-Path: <SRS0=dmrF=YL=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 973E5CA9EA0
-	for <linux-edac@archiver.kernel.org>; Fri, 18 Oct 2019 15:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76190CA9EA9
+	for <linux-edac@archiver.kernel.org>; Fri, 18 Oct 2019 15:55:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6EC6021852
-	for <linux-edac@archiver.kernel.org>; Fri, 18 Oct 2019 15:31:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="IzCUbMDj"
+	by mail.kernel.org (Postfix) with ESMTP id 51B1F2064B
+	for <linux-edac@archiver.kernel.org>; Fri, 18 Oct 2019 15:55:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408771AbfJRPb2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 18 Oct 2019 11:31:28 -0400
-Received: from mail-eopbgr810051.outbound.protection.outlook.com ([40.107.81.51]:25120
-        "EHLO NAM01-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2408707AbfJRPb2 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 18 Oct 2019 11:31:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KxcFbBOG0I+qxoBrmELebOcuNF0eHsMKqIE3AclSAO+UwyTqVILt1VLWTFlrpa1J983/3jtmNmtBcOXwGGpI+vve83mHChBWkR4VhicaDyE22x9bdq1DPGYMp3LLThvMX/1AMQ1ksSbY9uLrejzA4kk6+xdtFuyyI7QZH9r50XyTsg8RY249PwlcoVgcR3bML2VmLOHotp1ejya+kkecUnaVc7i7z/BSRvmnFz+O+TlXOMWmsub0HEJnbnPsZbyVK619A/xZlQGVzPTr2D85gvB6uCtm2X01nxOotULjoQoy+SoGQyrGWJl4GitrdtBz3vm+2pcFTz5J+gpS2LO+cA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iku+TKnvbZmtq9iYbqUwsbJE3nAHw2CQQfrwb9S1V5s=;
- b=e/QWG+42nnUz/pTg3Lk3ukz+XDcILhAmPAvR2szpEYdUSbdpCALjGfvig0RPcbzatuqmcsDqrnnM5Zc8qjGecvNgfna23sHVdYky7F9KWm1NqRHXFTCswxDW8COOBuSFTcetqSQdePYJesiHjD9Ja1bZx5p2kxS7VTjsbJu/4klE/Q4UlifvPC9795zs1H1F50bd2stYy/sLBc7y2IFtpTNNLr+VR1S01xVoUkkOh8jcQMqszXsXfanVuTH1X+f/wwigfYbs85iZk8KykxWkF+/lzxqPDY4JnhTP1y5askdpnFJV+G0d85PIpWEcFFfUdnibxG+t7BGGyIydz8xaJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iku+TKnvbZmtq9iYbqUwsbJE3nAHw2CQQfrwb9S1V5s=;
- b=IzCUbMDj2JsXOQfrrpZgH0Yeu41sRsGuoOb0vwI3J0xafppA9ZotGp2R4qubpjZ3HlJhzxQPOtb5qT3tJSm+gY9Kr0+f3ZkqwL8wj1NIef08cgH7O7rsIPlaOcH+aeLtyzgptKjj+i/fxsgl0wAX5RP9Cs9afI3lUG9sT7wILDE=
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
- SN6PR12MB2670.namprd12.prod.outlook.com (52.135.103.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.16; Fri, 18 Oct 2019 15:31:25 +0000
-Received: from SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::ac86:15de:e8d6:61c8]) by SN6PR12MB2639.namprd12.prod.outlook.com
- ([fe80::ac86:15de:e8d6:61c8%7]) with mapi id 15.20.2367.019; Fri, 18 Oct 2019
- 15:31:25 +0000
-From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
+        id S1727610AbfJRPzS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 18 Oct 2019 11:55:18 -0400
+Received: from mga17.intel.com ([192.55.52.151]:58075 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726506AbfJRPzR (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 18 Oct 2019 11:55:17 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Oct 2019 08:55:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,312,1566889200"; 
+   d="scan'208";a="221781346"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.31])
+  by fmsmga004.fm.intel.com with ESMTP; 18 Oct 2019 08:55:17 -0700
+Message-ID: <0f78feb77feba6d3add74a46a16b9d0b3b9c3653.camel@linux.intel.com>
+Subject: Re: [PATCH 1/2] x86, mce, therm_throt: Optimize logging of thermal
+ throttle messages
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     "Luck, Tony" <tony.luck@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "bberg@redhat.com" <bberg@redhat.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>
-Subject: [PATCH 0/6] AMD64 EDAC: Check for nodes without memory, etc.
-Thread-Topic: [PATCH 0/6] AMD64 EDAC: Check for nodes without memory, etc.
-Thread-Index: AQHVhcka4q8ovNc5PECMwVgUuntBSw==
-Date:   Fri, 18 Oct 2019 15:31:25 +0000
-Message-ID: <20191018153114.39378-1-Yazen.Ghannam@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN1PR12CA0046.namprd12.prod.outlook.com
- (2603:10b6:802:20::17) To SN6PR12MB2639.namprd12.prod.outlook.com
- (2603:10b6:805:6f::16)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Yazen.Ghannam@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [165.204.78.2]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 910463fe-e19b-4729-4e5d-08d753e03c99
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: SN6PR12MB2670:
-x-ms-exchange-purlcount: 3
-x-ld-processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR12MB2670F38C9B08E94A15B63E43F86C0@SN6PR12MB2670.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 01949FE337
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(376002)(396003)(366004)(136003)(39860400002)(199004)(189003)(6512007)(6306002)(1076003)(14444005)(316002)(3846002)(4326008)(6116002)(66946007)(66066001)(25786009)(256004)(66476007)(5660300002)(6916009)(2351001)(66556008)(66446008)(14454004)(26005)(486006)(99286004)(52116002)(305945005)(2616005)(50226002)(7736002)(476003)(2501003)(478600001)(6436002)(2906002)(5640700003)(6506007)(102836004)(71200400001)(36756003)(966005)(8676002)(64756008)(186003)(81166006)(81156014)(8936002)(6486002)(86362001)(386003)(71190400001)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2670;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mB7rMSiSxlskcrIfue65J/ZednmJSsYtr230Aez+z0FyRLbn4UUXwr+u+/Hctr6T3p1dzzwXd0BFrQXlURMcnwk6wPg4fsin50oQN52F+d+Q31H6lkQgrCMdt1yEUTxQUPRbqFsvIvYAZNtAZaQRhzCYeyd6WA6XB3PcR4F5AFeDdFqTacnFLGpnK+ogoa3PBSam0c4yxtcUdcojAD9/KGAhG9px5S9u2l4r09Nrq2NdZsZgi+UDJW4aOO4EnJWidj1pFOgV+uBqB1pTyPRU1NmaZVggCXF5wSEslTkgQpz3AQiDmSJ2VewPySvqZqa+2vq1cqxmtFVrWo7QRIMe36tYEgflwy1Lm/3CM9+4LNn37+VdE+IVCQNRbhU4/ShTydmuvnnZjhH3sExKZqIs+13PWo2TwglY5jj4BLe3/Bv6Rc/WBYcICdArpBi+/Zqbh3OFUnwO63mo2zDZvact2w==
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 910463fe-e19b-4729-4e5d-08d753e03c99
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2019 15:31:25.2763
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: L6S718wxKGqaHaihR66pl30ww8ITXh2cJDK6hMXmHk4wXcGi0uoMHq7q6QEXZL+smMpIhoIbXNxDm+TqrDUAWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2670
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "ckellner@redhat.com" <ckellner@redhat.com>
+Date:   Fri, 18 Oct 2019 08:55:17 -0700
+In-Reply-To: <20191018132309.GD17053@zn.tnic>
+References: <2c2b65c23be3064504566c5f621c1f37bf7e7326.camel@redhat.com>
+         <20191014212101.25719-1-srinivas.pandruvada@linux.intel.com>
+         <20191015084833.GD2311@hirez.programming.kicks-ass.net>
+         <f481b4ab6dfebbc0637c843e5f1cd4ddfd4bd60b.camel@linux.intel.com>
+         <20191016081405.GO2328@hirez.programming.kicks-ass.net>
+         <20191016140001.GF1138@zn.tnic>
+         <3908561D78D1C84285E8C5FCA982C28F7F4A57D0@ORSMSX115.amr.corp.intel.com>
+         <20191017214445.GG14441@zn.tnic>
+         <c2ce4ef128aad84616b2dc21f6230ad4db12194b.camel@linux.intel.com>
+         <20191018132309.GD17053@zn.tnic>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-3.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+On Fri, 2019-10-18 at 15:23 +0200, Borislav Petkov wrote:
+> On Fri, Oct 18, 2019 at 05:26:36AM -0700, Srinivas Pandruvada wrote:
+> > Server/desktops generally rely on the embedded controller for FAN
+> > control, which  kernel have no control. For them this warning helps
+> > to
+> > either bring in additional cooling or fix existing cooling.
+> 
+> How exactly does this warning help? A detailed example please.
+I assume that someone is having performance issues or occasion reboots,
+look at the logs. Is it a fair assumption? If not, logging has no
+value.
 
-Hi Boris,
+In the current code, this logging is misleading. It is reporting all
+normal throttling at PROCHOT.
 
-This set contains the next revision of the RFC patches I included with
-the last AMD64 EDAC updates. I dropped the RFC tags, and I added a
-couple of new patches.
+But if a system is running at up to 87.5% of duty cycle on top of
+lowest possible frequency of around 800MHz, someone will notice.
+If logs are not the starting point, someone has to run tools like
+turbostat and understand the cause of performance issues. Then probably
+someone cleanup air vents on dusty desktop sitting under the desk.
 
-Most of these patches address the issue where the module check and
-complains about DRAM ECC on nodes without memory.
-
-Patch 3 is new and came out of looking at the family type structs and
-the boot flow.
-
-Patch 6 fixes the "grain not set" warning that was recently introduced.
+Anyway, we can provide better document for the sysfs counters this code
+is dumping and how to interpret them with or without logging support. I
+can add some document under kernel documentation.
 
 Thanks,
-Yazen
+Srinivas
 
-Links:
-https://lkml.kernel.org/r/20190821235938.118710-9-Yazen.Ghannam@amd.com
-https://lkml.kernel.org/r/20190821235938.118710-10-Yazen.Ghannam@amd.com
-https://lkml.kernel.org/r/20190821235938.118710-11-Yazen.Ghannam@amd.com
 
-Yazen Ghannam (6):
-  EDAC/amd64: Make struct amd64_family_type global
-  EDAC/amd64: Gather hardware information early
-  EDAC/amd64: Save max number of controllers to family type
-  EDAC/amd64: Use cached data when checking for ECC
-  EDAC/amd64: Check for memory before fully initializing an instance
-  EDAC/amd64: Set grain per DIMM
 
- drivers/edac/amd64_edac.c | 174 ++++++++++++++++++++------------------
- drivers/edac/amd64_edac.h |   1 +
- 2 files changed, 94 insertions(+), 81 deletions(-)
 
---=20
-2.17.1
+> 
+> > If something needs to force throttle from kernel, then we should
+> > use
+> > some offset from the max temperature (aka TJMax), instead of this
+> > warning threshold. Then we can use idle injection or change duty
+> > cycle
+> > of CPU clocks.
+> 
+> Yes, as I said, all this needs to be properly defined first. That is,
+> *if* there's even need for reacting to thermal interrupts in the
+> kernel.
+> 
 
