@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF8D4CA9EAF
-	for <linux-edac@archiver.kernel.org>; Sun, 27 Oct 2019 21:16:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C555CA9EBC
+	for <linux-edac@archiver.kernel.org>; Sun, 27 Oct 2019 21:24:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AF6BB205C9
-	for <linux-edac@archiver.kernel.org>; Sun, 27 Oct 2019 21:16:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C24C222C9
+	for <linux-edac@archiver.kernel.org>; Sun, 27 Oct 2019 21:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572210960;
-	bh=5bYkzf0cOA1DnTlb6MM2s3nSpeMQETLnobPhmKDtXlM=;
+	s=default; t=1572211474;
+	bh=+9jZZGeI7w6970cSzL2GnY+5H/WDdvxEd0GZbvc3oaQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BJ5qrb6+Oz/f5aGT9/KcOS0OwTI+Rr+UVmX2cEjPuD6EGjPznOW3tT6e2jC+ZeFny
-	 ecDsk6BUjIeMNB+Qx9iA8UwJh4eAF5Uls8GLs2XyZGUR7K6YrcG+DSgIesQjRLBUSD
-	 rK/S5PqaeGhwwtLK0Xp0HfSQH7+0e5kRd9Aup9rI=
+	b=uxRRapRe4n9Ox3KNsyp5BL7+Pojb/eOkAfGgKhNpjMy7OYnLR5jddO5HcEXQB6bC1
+	 pgQAypsNIKRIF2VOMRZLsO48kslTba4dO8tG0LTbqmFDgD9XlME6FD3ZFzXf9b0O8j
+	 g9QK5ydH8NaEni/c9589EWUS180fpOw21plNPxuo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730724AbfJ0VPx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 27 Oct 2019 17:15:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35332 "EHLO mail.kernel.org"
+        id S1732524AbfJ0VYd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 27 Oct 2019 17:24:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730718AbfJ0VPw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 27 Oct 2019 17:15:52 -0400
+        id S1732534AbfJ0VYc (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 27 Oct 2019 17:24:32 -0400
 Received: from localhost (100.50.158.77.rev.sfr.net [77.158.50.100])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 685C920717;
-        Sun, 27 Oct 2019 21:15:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B8BCC21783;
+        Sun, 27 Oct 2019 21:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572210952;
-        bh=5bYkzf0cOA1DnTlb6MM2s3nSpeMQETLnobPhmKDtXlM=;
+        s=default; t=1572211471;
+        bh=+9jZZGeI7w6970cSzL2GnY+5H/WDdvxEd0GZbvc3oaQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TW18KZMRhG3/qMSQkI5O3hS5BRah9IJmrgfjA5ksW1QnkuGllQZ32CIpiBKilGPY1
-         CItYhFTcXChp2XzadaAUyPjGwFMIalZhFd0QAd1D35ZQ3XLb2XPs4rLy/Wcv0WpNsL
-         rLT0rUnFfDMXpAjKxMcFLcJ07YefNNlq2WVm7QBw=
+        b=ChvKMzfBeWdcS63/aRH0G2THLmFDINW5sFUObdsrITpuxpvTpA6GizIBeVnUN3ltU
+         SUf9Y1JNrWKzctjxyVrDC8E5NxVwbd6xmp/tWvcoKZlfyTSXpX3eYws8qko41HiBU7
+         i6h0hQKyPsEy5WLe2H8cKraWAuKIN/1XJClLSS8c=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,12 +48,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Robert Richter <rrichter@marvell.com>,
         Tony Luck <tony.luck@intel.com>
-Subject: [PATCH 4.19 72/93] EDAC/ghes: Fix Use after free in ghes_edac remove path
-Date:   Sun, 27 Oct 2019 22:01:24 +0100
-Message-Id: <20191027203309.714870582@linuxfoundation.org>
+Subject: [PATCH 5.3 162/197] EDAC/ghes: Fix Use after free in ghes_edac remove path
+Date:   Sun, 27 Oct 2019 22:01:20 +0100
+Message-Id: <20191027203402.547589321@linuxfoundation.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191027203251.029297948@linuxfoundation.org>
-References: <20191027203251.029297948@linuxfoundation.org>
+In-Reply-To: <20191027203351.684916567@linuxfoundation.org>
+References: <20191027203351.684916567@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -122,7 +122,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/edac/ghes_edac.c
 +++ b/drivers/edac/ghes_edac.c
-@@ -532,7 +532,11 @@ void ghes_edac_unregister(struct ghes *g
+@@ -553,7 +553,11 @@ void ghes_edac_unregister(struct ghes *g
  	if (!ghes_pvt)
  		return;
  
