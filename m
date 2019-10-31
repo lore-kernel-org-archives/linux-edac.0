@@ -1,138 +1,104 @@
-Return-Path: <SRS0=7k/q=YU=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=B+lX=YY=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C555CA9EBC
-	for <linux-edac@archiver.kernel.org>; Sun, 27 Oct 2019 21:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F15CA9ECB
+	for <linux-edac@archiver.kernel.org>; Thu, 31 Oct 2019 13:04:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C24C222C9
-	for <linux-edac@archiver.kernel.org>; Sun, 27 Oct 2019 21:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572211474;
-	bh=+9jZZGeI7w6970cSzL2GnY+5H/WDdvxEd0GZbvc3oaQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uxRRapRe4n9Ox3KNsyp5BL7+Pojb/eOkAfGgKhNpjMy7OYnLR5jddO5HcEXQB6bC1
-	 pgQAypsNIKRIF2VOMRZLsO48kslTba4dO8tG0LTbqmFDgD9XlME6FD3ZFzXf9b0O8j
-	 g9QK5ydH8NaEni/c9589EWUS180fpOw21plNPxuo=
+	by mail.kernel.org (Postfix) with ESMTP id 9BDDB2087E
+	for <linux-edac@archiver.kernel.org>; Thu, 31 Oct 2019 13:04:53 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="k6aVHZ3/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732524AbfJ0VYd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 27 Oct 2019 17:24:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46158 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732534AbfJ0VYc (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 27 Oct 2019 17:24:32 -0400
-Received: from localhost (100.50.158.77.rev.sfr.net [77.158.50.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B8BCC21783;
-        Sun, 27 Oct 2019 21:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572211471;
-        bh=+9jZZGeI7w6970cSzL2GnY+5H/WDdvxEd0GZbvc3oaQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ChvKMzfBeWdcS63/aRH0G2THLmFDINW5sFUObdsrITpuxpvTpA6GizIBeVnUN3ltU
-         SUf9Y1JNrWKzctjxyVrDC8E5NxVwbd6xmp/tWvcoKZlfyTSXpX3eYws8qko41HiBU7
-         i6h0hQKyPsEy5WLe2H8cKraWAuKIN/1XJClLSS8c=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, John Garry <john.garry@huawei.com>,
-        James Morse <james.morse@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Richter <rrichter@marvell.com>,
-        Tony Luck <tony.luck@intel.com>
-Subject: [PATCH 5.3 162/197] EDAC/ghes: Fix Use after free in ghes_edac remove path
-Date:   Sun, 27 Oct 2019 22:01:20 +0100
-Message-Id: <20191027203402.547589321@linuxfoundation.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191027203351.684916567@linuxfoundation.org>
-References: <20191027203351.684916567@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S1726506AbfJaNEw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 31 Oct 2019 09:04:52 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:43570 "EHLO
+        forwardcorp1j.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726462AbfJaNEw (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 31 Oct 2019 09:04:52 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net [IPv6:2a02:6b8:0:1619::162])
+        by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 2C9B72E1334;
+        Thu, 31 Oct 2019 16:04:49 +0300 (MSK)
+Received: from sas1-7fab0cd91cd2.qloud-c.yandex.net (sas1-7fab0cd91cd2.qloud-c.yandex.net [2a02:6b8:c14:3a93:0:640:7fab:cd9])
+        by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id 9vpXUf9EwB-4miWoHML;
+        Thu, 31 Oct 2019 16:04:49 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
+        t=1572527089; bh=6iAxRGCXq1sNutNdEIlG19f9Dse4BaappT9yMPPGsYE=;
+        h=Message-ID:Date:To:From:Subject:Cc;
+        b=k6aVHZ3/szB6z72xd7PSQ1+1V1nkBbDYxaiCRswy3x1D2UNxKv1CdRZUSBhecBDFx
+         NTwVEK1SOGluxT4dM2mrIWiXl8Po8N3ZE5JP74c12c8cP7qrYdFGxDDCR0ALH89CoB
+         r3cDjHRQ3lx833AMPxAVGk4R8X2HUw8tan+Z679U=
+Authentication-Results: mxbackcorp1j.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:8554:53c0:3d75:2e8a])
+        by sas1-7fab0cd91cd2.qloud-c.yandex.net (nwsmtp/Yandex) with ESMTPSA id DRfOBZAwWO-4mWuT29H;
+        Thu, 31 Oct 2019 16:04:48 +0300
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client certificate not present)
+Subject: [PATCH] x86/MCE/AMD: fix warning about sleep-in-atomic at early boot
+From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
+Cc:     x86@kernel.org
+Date:   Thu, 31 Oct 2019 16:04:48 +0300
+Message-ID: <157252708836.3876.4604398213417262402.stgit@buzz>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: James Morse <james.morse@arm.com>
+Function smca_configure() is called only for current cpu thus
+rdmsr_safe_on_cpu() could be replaced with atomic rdmsr_safe().
 
-commit 1e72e673b9d102ff2e8333e74b3308d012ddf75b upstream.
+ BUG: sleeping function called from invalid context at kernel/sched/completion.c:99
+ in_atomic(): 1, irqs_disabled(): 1, pid: 0, name: swapper/1
+ CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.19.79-16 #1
+ Hardware name: GIGABYTE R181-Z90-00/MZ91-FS0-00, BIOS R11 10/25/2019
+ Call Trace:
+  dump_stack+0x5c/0x7b
+  ___might_sleep+0xec/0x110
+  wait_for_completion+0x39/0x160
+  ? __rdmsr_safe_on_cpu+0x45/0x60
+  rdmsr_safe_on_cpu+0xae/0xf0
+  ? wrmsr_on_cpus+0x20/0x20
+  ? machine_check_poll+0xfd/0x1f0
+  ? mce_amd_feature_init+0x190/0x2d0
+  mce_amd_feature_init+0x190/0x2d0
+  mcheck_cpu_init+0x11a/0x460
+  identify_cpu+0x3e2/0x560
+  identify_secondary_cpu+0x13/0x80
+  smp_store_cpu_info+0x45/0x50
+  start_secondary+0xaa/0x200
+  secondary_startup_64+0xa4/0xb0
 
-ghes_edac models a single logical memory controller, and uses a global
-ghes_init variable to ensure only the first ghes_edac_register() will
-do anything.
+Except warning in kernel log everything works fine.
 
-ghes_edac is registered the first time a GHES entry in the HEST is
-probed. There may be multiple entries, so subsequent attempts to
-register ghes_edac are silently ignored as the work has already been
-done.
-
-When a GHES entry is unregistered, it calls ghes_edac_unregister(),
-which free()s the memory behind the global variables in ghes_edac.
-
-But there may be multiple GHES entries, the next call to
-ghes_edac_unregister() will dereference the free()d memory, and attempt
-to free it a second time.
-
-This may also be triggered on a platform with one GHES entry, if the
-driver is unbound/re-bound and unbound. The re-bind step will do
-nothing because of ghes_init, the second unbind will then do the same
-work as the first.
-
-Doing the unregister work on the first call is unsafe, as another
-CPU may be processing a notification in ghes_edac_report_mem_error(),
-using the memory we are about to free.
-
-ghes_init is already half of the reference counting. We only need
-to do the register work for the first call, and the unregister work
-for the last. Add the unregister check.
-
-This means we no longer free ghes_edac's memory while there are
-GHES entries that may receive a notification.
-
-This was detected by KASAN and DEBUG_TEST_DRIVER_REMOVE.
-
- [ bp: merge into a single patch. ]
-
-Fixes: 0fe5f281f749 ("EDAC, ghes: Model a single, logical memory controller")
-Reported-by: John Garry <john.garry@huawei.com>
-Signed-off-by: James Morse <james.morse@arm.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Robert Richter <rrichter@marvell.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: <stable@vger.kernel.org>
-Link: https://lkml.kernel.org/r/20191014171919.85044-2-james.morse@arm.com
-Link: https://lkml.kernel.org/r/304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+Fixes: 5896820e0aa3 ("x86/mce/AMD, EDAC/mce_amd: Define and use tables for known SMCA IP types")
+Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 ---
- drivers/edac/ghes_edac.c |    4 ++++
- 1 file changed, 4 insertions(+)
+ arch/x86/kernel/cpu/mce/amd.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -553,7 +553,11 @@ void ghes_edac_unregister(struct ghes *g
- 	if (!ghes_pvt)
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 6ea7fdc82f3c..c7ab0d38af79 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -269,7 +269,7 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 	if (smca_banks[bank].hwid)
  		return;
  
-+	if (atomic_dec_return(&ghes_init))
-+		return;
-+
- 	mci = ghes_pvt->mci;
-+	ghes_pvt = NULL;
- 	edac_mc_del_mc(mci->pdev);
- 	edac_mc_free(mci);
- }
-
+-	if (rdmsr_safe_on_cpu(cpu, MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
++	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
+ 		pr_warn("Failed to read MCA_IPID for bank %d\n", bank);
+ 		return;
+ 	}
 
