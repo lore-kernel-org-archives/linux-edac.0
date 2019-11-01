@@ -2,79 +2,93 @@ Return-Path: <SRS0=4KW/=YZ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D41CA9ECF
-	for <linux-edac@archiver.kernel.org>; Fri,  1 Nov 2019 15:54:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F1A1CA9ED0
+	for <linux-edac@archiver.kernel.org>; Fri,  1 Nov 2019 16:37:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3533C208E3
-	for <linux-edac@archiver.kernel.org>; Fri,  1 Nov 2019 15:54:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="CEtN9CI/"
+	by mail.kernel.org (Postfix) with ESMTP id 302AD21835
+	for <linux-edac@archiver.kernel.org>; Fri,  1 Nov 2019 16:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727956AbfKAPyY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 1 Nov 2019 11:54:24 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:52652 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727123AbfKAPyY (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 1 Nov 2019 11:54:24 -0400
-Received: from nazgul.tnic (unknown [46.218.74.72])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 25F2B1EC0AD6;
-        Fri,  1 Nov 2019 16:54:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1572623663;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=vU6VGS46rfg0BH1qVh/1bYvbh3G5urqXBMKadSJ/iro=;
-        b=CEtN9CI/TgQxUo/VD7Kqn6nOrA9q5B2ao4s5aCW7j8Qmsw2QNYdFSTuignxxD4ju5GyXO1
-        hARQDoV7vZMX0kTTW7dteByHvEglKiVCfP9rVcQrrcC+jOoW+j7ltgLDCr/6hbGrW0bwaB
-        f2yNmiSyVSHHwMhuqmWXAJiDj4yt18Y=
-Date:   Fri, 1 Nov 2019 16:54:12 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
-Cc:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/6] AMD64 EDAC: Check for nodes without memory, etc.
-Message-ID: <20191101155412.GA2300@nazgul.tnic>
-References: <20191022203448.13962-1-Yazen.Ghannam@amd.com>
- <20191025133456.GA6483@zn.tnic>
- <BYAPR12MB2630ED1425A3F01727E1C45BF8620@BYAPR12MB2630.namprd12.prod.outlook.com>
+        id S1729026AbfKAQhr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 1 Nov 2019 12:37:47 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:60104 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727626AbfKAQhq (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 1 Nov 2019 12:37:46 -0400
+Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tip-bot2@linutronix.de>)
+        id 1iQZve-0002yY-9u; Fri, 01 Nov 2019 17:37:38 +0100
+Received: from [127.0.1.1] (localhost [IPv6:::1])
+        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id DC4B91C0315;
+        Fri,  1 Nov 2019 17:37:37 +0100 (CET)
+Date:   Fri, 01 Nov 2019 16:37:37 -0000
+From:   "tip-bot2 for Tony Luck" <tip-bot2@linutronix.de>
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: ras/core] x86/mce: Add Xeon Icelake to list of CPUs that support PPIN
+Cc:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "linux-edac" <linux-edac@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "x86-ml" <x86@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+        Borislav Petkov <bp@alien8.de>, linux-kernel@vger.kernel.org
+In-Reply-To: <20191028163719.19708-1-tony.luck@intel.com>
+References: <20191028163719.19708-1-tony.luck@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB2630ED1425A3F01727E1C45BF8620@BYAPR12MB2630.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Message-ID: <157262625753.29376.16645566147052348797.tip-bot2@tip-bot2>
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot2.linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Fri, Nov 01, 2019 at 03:19:36PM +0000, Ghannam, Yazen wrote:
-> Is the module being probed twice? We have this problem in general, e.g. the
-> module gets loaded multiple times on failure.
+The following commit has been merged into the ras/core branch of tip:
 
-Yap, it looks like it.
+Commit-ID:     dc6b025de95bcd22ff37c4fabb022ec8a027abf1
+Gitweb:        https://git.kernel.org/tip/dc6b025de95bcd22ff37c4fabb022ec8a027abf1
+Author:        Tony Luck <tony.luck@intel.com>
+AuthorDate:    Mon, 28 Oct 2019 09:37:19 -07:00
+Committer:     Borislav Petkov <bp@suse.de>
+CommitterDate: Fri, 01 Nov 2019 17:29:36 +01:00
 
-> The clue for me is that node 0 gets detected twice. This is done in
-> per_family_init() early in probe_one_instance().
->
-> In any case, I think we can make !ecc_enabled(pvt) in probe_one_instance() a
-> failure now that we have an explicit check for memory on a node. In other
-> words, if we have memory and ECC is disabled then this is a failure for the
-> module.
+x86/mce: Add Xeon Icelake to list of CPUs that support PPIN
 
-Yeah, for that case we should be printing ecc_msg. Makes sense.
+New CPU model, same MSRs to control and read the inventory number.
 
-Thx.
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/20191028163719.19708-1-tony.luck@intel.com
+---
+ arch/x86/kernel/cpu/mce/intel.c | 1 +
+ 1 file changed, 1 insertion(+)
 
--- 
-Regards/Gruss,
-    Boris.
-
-ECO tip #101: Trim your mails when you reply.
---
+diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
+index 68a1d25..e270d07 100644
+--- a/arch/x86/kernel/cpu/mce/intel.c
++++ b/arch/x86/kernel/cpu/mce/intel.c
+@@ -484,6 +484,7 @@ static void intel_ppin_init(struct cpuinfo_x86 *c)
+ 	case INTEL_FAM6_BROADWELL_D:
+ 	case INTEL_FAM6_BROADWELL_X:
+ 	case INTEL_FAM6_SKYLAKE_X:
++	case INTEL_FAM6_ICELAKE_X:
+ 	case INTEL_FAM6_XEON_PHI_KNL:
+ 	case INTEL_FAM6_XEON_PHI_KNM:
+ 
