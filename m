@@ -7,66 +7,66 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27348C5DF62
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:33:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC643C5DF63
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:33:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D4E9A2187F
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:33:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8823F222C5
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:33:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="rXl9YJAY";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="ofBWLLhW"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="CS5LhbNV";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="oe9hZaVg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731749AbfKFJdo (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 6 Nov 2019 04:33:44 -0500
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:47866 "EHLO
+        id S1730091AbfKFJdr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 6 Nov 2019 04:33:47 -0500
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:35586 "EHLO
         mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730806AbfKFJdh (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Nov 2019 04:33:37 -0500
+        by vger.kernel.org with ESMTP id S1731762AbfKFJdq (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Nov 2019 04:33:46 -0500
 Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA69UI3s002504;
-        Wed, 6 Nov 2019 01:33:31 -0800
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA69UIxP002503;
+        Wed, 6 Nov 2019 01:33:39 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=pfpt0818;
- bh=28ko0/C+71KwI1IFv1fLLYYIQVTMncihhaWc6VOSZ7k=;
- b=rXl9YJAYgTs1t3cos3qXbpOx8M+D7oJ9nXrNC3lbl8QUmQciC31eUqiK2+neTUR9eURE
- W3pJNPrVvdjH7dKqtYcmnazMKlrWd751LfqiQTqyR8fRiCfo3iMCNMnw231iy5d/pe14
- 96ftrMPrGRPAQVmDxCJUDMEsrvngMDoI+7C5unP2whe6Zt2y0mZXpgmrLv25NmQRRonO
- TnttKgbPRiCd3PojUs19ygLInwHScR4AH3c/a4ugIGZ9CKPE4F82ENAP3EoAZSVA9GHL
- PvZf+8DKJGflQ52bIshIcUHnU7OOpyd/jDNIiTu7yCcQUo5gqwwqoIH8g6Gp9bgYYlk7 kw== 
-Received: from sc-exch01.marvell.com ([199.233.58.181])
-        by mx0a-0016f401.pphosted.com with ESMTP id 2w3eud3c88-1
+ bh=oHO92d7KGndljACQeZ/Sx00cl4+R7rl70yEiWGIEkHM=;
+ b=CS5LhbNVDn5asvEfA24l+JLZ6bLUsHn2iuJgfwLWa832zGUtUioy207hq/4I+dbwbbpM
+ mR+S1Zw5Mwq2cX+tbD3oYEkjg6EM4SoNxmzOScP80bHU2JGcPhlA+uvtxUJvNDBuwnxK
+ ORaulRFg2iQz9UAUqHgke3Ys2adqqHSZj3bsNoOiYDZXq/P4wFotfgg/nDgYW1TmcTti
+ HZk7EFtRAy/Bp7HJkiX3FC3ss9lx0ERYgfytkXSNFPzf8EFr2GtFbgUznq2j9/NfJxY8
+ Rk8QKppqZbDnyd1yhvEk9tBpGuamtvAxl5+2WNzAhkMgFWWyWgUimAC+2oS6NY7dt74m LA== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2w3eud3c8v-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 06 Nov 2019 01:33:30 -0800
-Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH01.marvell.com
- (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 6 Nov
- 2019 01:33:29 -0800
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com (104.47.33.55) by
+        Wed, 06 Nov 2019 01:33:39 -0800
+Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 6 Nov
+ 2019 01:33:38 -0800
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com (104.47.33.52) by
  SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 6 Nov 2019 01:33:29 -0800
+ 15.0.1367.3 via Frontend Transport; Wed, 6 Nov 2019 01:33:38 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a1I0GRpESFKtgjtApa44PgsVcuvTOCynaVCOASxPj9sapmemZ80aYUJpbEk4oW516K/grL3uPidN1S2nAV4S2LTAbBFtnh52jED5FJS+nHm1hcXW5CUwqaXKxtgZ6qDe/iNSLiHY47cpMjyrvUBsBe9jE83iqni9tNHRvGUrOY3fVzKfQdCt/cWoL7hdY9XXH5ocivT+BAp5aKfrAxgYxEKfHjHHSBbO4U+E955+Pe1N4W/D0x9Ufi1+tX2TiLDBUZoEsIjD6BHcJ5fkvPMMytMmp7UHWb/Harr8+XBOS0kpHJnYwt1rmx4Su9q3gPRRjFyyylPbPJHZJrW7ky4q7w==
+ b=T4/MWgCYIHv/iNEXytDcaShJfKF4W3vXfxctdZQ8YufaVUwLfC7/7A5vY0MLWB/0bqX4xLGLtEMtHliGbK/EKg8N/fj7ls2kdbkgm2LHkC3mJZkuEwzou3yxD2cxzI3O4sp7BPIVtFDUG2mqWsjJ+HBH8SHlt5BToAd99l+a0viQrMk0TLwrOpxfs247HUvHJVMEpTkyoa9wF6c+7bnq5Zw2p2MLDa1OwtVwlmgpDz3+4hray31JXf0U+7v9ACcIaUGTGnS8U0pNf4XguMMr9KJkIBJTD2OYyWXY3ufRSMzlHMinfbSMhB49aZH+JUyt+wtuu5E52zlaRUcWXArO8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=28ko0/C+71KwI1IFv1fLLYYIQVTMncihhaWc6VOSZ7k=;
- b=FaiacnNxpvA/2HgEaOzqGE8qx+TzYEj+Ah7RoSWm9OdRjCVuXfkkeX9R0CIQfYoNIwBKj8pgGfVl3s4e+QDUD2Zb1MvLEc2xkGFj+1JxE7Wnw07DFBFxWP0E5JtRdoII/rKV0fnvL/SrjHzUa126+8Kg5079v+lFj+iG3ckOisTrBXjXTWySkryIrSOZ9M8LATN40d6MQBs9KqDUK+MW8r8/3SWYkugxTjdQnaiyYzj8yG7EoLdXIDOMzpaLsZKx0qWtUe0XKBVm+VHw5JTMunjSscE3jHGraNe1RFLVzTkVnsZPJuhluiGg+tneuy6b9NHQG6I1XxFP8HFkoXRQNw==
+ bh=oHO92d7KGndljACQeZ/Sx00cl4+R7rl70yEiWGIEkHM=;
+ b=XtuMKRN3yUIWjZuUsJ+IiXDRpVTatZaZe8ZeaB13h1kWKHD5iTWc7Ki9ksfCdIPN0amNVxFqzgo6aiZvCEK7PRwBYgj3sr+ADsbFpWQWMRMZ35jO0bg1aQW19fV5dXQLIdjsMxQuBTfCRiaSNhMw4bOJ9CZmd5NCLCobltogWw90d1ZkRLUZ09FJnkaf8wCCc1mOw+kdT+rf8fpZzmEZ6t6b+/CFeZDogwtnbJTLBNqE9l4Ux8mdUJmCjxbSKt7cvUi+B1wA8/1D4bmkq5moF2Km3Veg8e9d4+txsCAAbkqA0PPuWDR+Xe51cYz1rg5l/guKb7hmfJbwehS1tN6G7w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
  dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=28ko0/C+71KwI1IFv1fLLYYIQVTMncihhaWc6VOSZ7k=;
- b=ofBWLLhWO7mmAbg1oKiZwEHmgOhcFMLfYMI18Z6KOroNDke1MQR0YuAvCUK/eO604JEypmo9fudIANW5jDkxnwlnytS11HJAi/wGXsNJ54gAhEUKaJ+RBw7oVkBIzXOE0ZLd8b//FLfiCp6Y8DdGwvlpO9QHAUUwvaJZu+vfZvM=
+ bh=oHO92d7KGndljACQeZ/Sx00cl4+R7rl70yEiWGIEkHM=;
+ b=oe9hZaVgLiIbotatMOs3daDUW51d0jPteHZutTkMQVuVN1dfBxNAvY2nFfzSKKn/T/mRgujrLyfn2/Ala0jAfEUJ3U5us12s6csjW9yMRA/IZm5/esNPiWc3imFCL/5ekosEwJ3ufNfxeAHd9sAEWirMSqzDKvVHm5KpN/scBLc=
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
  MN2PR18MB3165.namprd18.prod.outlook.com (10.255.236.86) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Wed, 6 Nov 2019 09:33:27 +0000
+ 15.20.2430.20; Wed, 6 Nov 2019 09:33:37 +0000
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::c4a:cf3c:f530:fba6]) by MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::c4a:cf3c:f530:fba6%6]) with mapi id 15.20.2430.020; Wed, 6 Nov 2019
- 09:33:27 +0000
+ 09:33:37 +0000
 From:   Robert Richter <rrichter@marvell.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -76,13 +76,11 @@ CC:     James Morse <james.morse@arm.com>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>
-Subject: [PATCH v2 12/20] EDAC, ghes: Unify trace_mc_event() code with edac_mc
- driver
-Thread-Topic: [PATCH v2 12/20] EDAC, ghes: Unify trace_mc_event() code with
- edac_mc driver
-Thread-Index: AQHVlIU+HDuE1rmeak2rq0BZPausfA==
-Date:   Wed, 6 Nov 2019 09:33:27 +0000
-Message-ID: <20191106093239.25517-13-rrichter@marvell.com>
+Subject: [PATCH v2 16/20] EDAC, mc: Reorder functions edac_mc_alloc*()
+Thread-Topic: [PATCH v2 16/20] EDAC, mc: Reorder functions edac_mc_alloc*()
+Thread-Index: AQHVlIVEtGWzd75N5UyGMXXJHwKI3g==
+Date:   Wed, 6 Nov 2019 09:33:37 +0000
+Message-ID: <20191106093239.25517-17-rrichter@marvell.com>
 References: <20191106093239.25517-1-rrichter@marvell.com>
 In-Reply-To: <20191106093239.25517-1-rrichter@marvell.com>
 Accept-Language: en-US
@@ -96,28 +94,28 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-originating-ip: [31.208.96.227]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b89a4bef-3b57-4150-c509-08d7629c60c6
+x-ms-office365-filtering-correlation-id: 463f5088-f9a2-416d-bd2f-08d7629c6670
 x-ms-traffictypediagnostic: MN2PR18MB3165:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB3165E0FBE645D570637390C5D9790@MN2PR18MB3165.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-microsoft-antispam-prvs: <MN2PR18MB3165E37137264955814210BFD9790@MN2PR18MB3165.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2276;
 x-forefront-prvs: 02135EB356
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(52116002)(305945005)(6486002)(76176011)(71190400001)(71200400001)(256004)(11346002)(446003)(7736002)(14444005)(6436002)(4326008)(6512007)(66446008)(66556008)(66476007)(66946007)(64756008)(5660300002)(1076003)(476003)(6116002)(3846002)(110136005)(54906003)(36756003)(2906002)(8676002)(99286004)(81166006)(81156014)(316002)(8936002)(50226002)(486006)(6506007)(386003)(102836004)(66066001)(2616005)(86362001)(478600001)(25786009)(186003)(14454004)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3165;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(52116002)(305945005)(6486002)(76176011)(71190400001)(71200400001)(256004)(11346002)(446003)(7736002)(6436002)(4326008)(6512007)(66446008)(66556008)(66476007)(66946007)(64756008)(5660300002)(1076003)(476003)(6116002)(3846002)(110136005)(54906003)(36756003)(2906002)(8676002)(99286004)(81166006)(81156014)(316002)(8936002)(50226002)(486006)(6506007)(386003)(102836004)(66066001)(2616005)(86362001)(478600001)(25786009)(186003)(14454004)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3165;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: marvell.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GR1/2v6SXD09vtuaYSaWto9rQNB9SwZl2/giajI4ir0CCx1ilRXxFxaSAdhsXDdDsYMu6njrCSwczZ8kev2lVzmPOvnRW4hcA6zI+LZyfZPvSkwGaLX2IwmO0WKgRY+qA3WMB/irZeqpngiVp+239f5VMVKVyHk70ufobICIbAiVmzL+G5Y9yhcSfGgQYESL8zKbt02kW4HqiCcbZJ3KVJrnLKfWw3xjYpHx10zWcVFDRA2f6ByNZ5pFtXU4o4Gn41LFDfd4Rv6yaiybSR8rpV/RXJgBXuUocAETpQltGT7H8gZWqgqo+zdvsfKl6S58IfPRePjKCJDmbLQ2+QUanyB6dBiS1TA2JOyxGgzbWjYulmLfE9tFI/E9zcq4eUI+fOgy5Jggp5q5lRDz+gOUmx9R3N2nv7Q+wlhbAJQe6nC5+7sP6/MzRQmmeDKq0vLD
+x-microsoft-antispam-message-info: WtJGPrew3L5TSGkTFMnq+FBzCTTe7/xIqqceEusermJf6T8m1WUgG75C+JRgnwjx5/l/CgTBpCZ7+X75DQhmcR14YApkbTbnSgT7+fhzwyQxpME/reFHLJe4eURH0HUyJtI+jSF4rB5T6kkoYLsGs0zA+EYKHoM6u/RT+BKQnNHllJml7gc+LJECLllCQ56+bwfeJCVAJTSBaRBCnAyqZaTRSIcWDyDeanE+b4cPYS1999yGGZsm8jrS/1jT8jqqm8qFYQjCB/RyowBK67e8O2FFvxhmla2t60L/HVW6Zf/fNJhWZ4wDoVjlMPns48saSjWo/mDCYvfgAmSOtSaLaUFABmCamCZ0AjNJstVSGETANOwOYP51nocKmYGN9WqVdPViqi27pOpgOX/EfdigWs7dc3At/4E60ZuvRs3Zpr84DORWZ/IeOJrYRemNwEDp
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: b89a4bef-3b57-4150-c509-08d7629c60c6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 09:33:27.6662
+X-MS-Exchange-CrossTenant-Network-Message-Id: 463f5088-f9a2-416d-bd2f-08d7629c6670
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 09:33:37.1627
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fAZ3Kamb4MGn1C5JsJpmXfD94d/c9v9C2VizUEwykmolpoG0R8uoNIntb5DOJtrNI5qNXb23bACtN+8FhwGZvw==
+X-MS-Exchange-CrossTenant-userprincipalname: uKHgLulGvfQjVYt6HLv8H+DCxEjzBbogtt8rfScv1II6Cd0dTAsw58+55CXllfEOMaS1f6gBOEk97Hddh+q0oQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB3165
 X-OriginatorOrg: marvell.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
@@ -127,112 +125,210 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The code in ghes_edac.c and edac_mc.c for grain_bits calculation and
-calling trace_mc_event() is now the same. Move it to a single location
-in edac_raw_mc_handle_error().
-
-The only difference is the missing IS_ENABLED(CONFIG_RAS) switch, but
-this is needed for ghes too.
+Reorder the new created functions edac_mc_alloc_csrows() and
+edac_mc_alloc_dimms() and move them before edac_mc_alloc(). No further
+code changes.
 
 Signed-off-by: Robert Richter <rrichter@marvell.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- drivers/edac/edac_mc.c   | 30 +++++++++++++++---------------
- drivers/edac/ghes_edac.c | 13 -------------
- 2 files changed, 15 insertions(+), 28 deletions(-)
+ drivers/edac/edac_mc.c | 171 ++++++++++++++++++++---------------------
+ 1 file changed, 84 insertions(+), 87 deletions(-)
 
 diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index f76252b7a787..b6032f51338e 100644
+index 042a4504bb7f..bbe37af487c3 100644
 --- a/drivers/edac/edac_mc.c
 +++ b/drivers/edac/edac_mc.c
-@@ -1057,6 +1057,21 @@ void edac_raw_mc_handle_error(const enum hw_event_mc=
-_err_type type,
- {
- 	char detail[80];
- 	int pos[EDAC_MAX_LAYERS] =3D { e->top_layer, e->mid_layer, e->low_layer }=
-;
-+	u8 grain_bits;
-+
-+	/* Sanity-check driver-supplied grain value. */
-+	if (WARN_ON_ONCE(!e->grain))
-+		e->grain =3D 1;
-+
-+	grain_bits =3D fls_long(e->grain - 1);
-+
-+	/* Report the error via the trace interface */
-+	if (IS_ENABLED(CONFIG_RAS))
-+		trace_mc_event(type, e->msg, e->label, e->error_count,
-+			       mci->mc_idx, e->top_layer, e->mid_layer,
-+			       e->low_layer,
-+			       (e->page_frame_number << PAGE_SHIFT) | e->offset_in_page,
-+			       grain_bits, e->syndrome, e->other_detail);
-=20
- 	/* Memory type dependent details about the error */
- 	if (type =3D=3D HW_EVENT_ERR_CORRECTED) {
-@@ -1097,7 +1112,6 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
-type type,
- 	int row =3D -1, chan =3D -1;
- 	int pos[EDAC_MAX_LAYERS] =3D { top_layer, mid_layer, low_layer };
- 	int i, n_labels =3D 0;
--	u8 grain_bits;
- 	struct edac_raw_error_desc *e =3D &mci->error_desc;
-=20
- 	edac_dbg(3, "MC%d\n", mci->mc_idx);
-@@ -1235,20 +1249,6 @@ void edac_mc_handle_error(const enum hw_event_mc_err=
-_type type,
- 	if (p > e->location)
- 		*(p - 1) =3D '\0';
-=20
--	/* Sanity-check driver-supplied grain value. */
--	if (WARN_ON_ONCE(!e->grain))
--		e->grain =3D 1;
--
--	grain_bits =3D fls_long(e->grain - 1);
--
--	/* Report the error via the trace interface */
--	if (IS_ENABLED(CONFIG_RAS))
--		trace_mc_event(type, e->msg, e->label, e->error_count,
--			       mci->mc_idx, e->top_layer, e->mid_layer,
--			       e->low_layer,
--			       (e->page_frame_number << PAGE_SHIFT) | e->offset_in_page,
--			       grain_bits, e->syndrome, e->other_detail);
--
- 	edac_raw_mc_handle_error(type, mci, e);
+@@ -305,93 +305,6 @@ static void _edac_mc_free(struct mem_ctl_info *mci)
+ 	kfree(mci);
  }
- EXPORT_SYMBOL_GPL(edac_mc_handle_error);
-diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index cb1ab44361f0..725b9c58c028 100644
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -207,7 +207,6 @@ void ghes_edac_report_mem_error(int sev, struct cper_se=
-c_mem_err *mem_err)
- 	struct ghes_edac_pvt *pvt;
- 	unsigned long flags;
- 	char *p;
--	u8 grain_bits;
 =20
- 	/*
- 	 * We can do the locking below because GHES defers error processing
-@@ -443,18 +442,6 @@ void ghes_edac_report_mem_error(int sev, struct cper_s=
-ec_mem_err *mem_err)
- 	if (p > pvt->other_detail)
- 		*(p - 1) =3D '\0';
+-static int edac_mc_alloc_csrows(struct mem_ctl_info *mci);
+-static int edac_mc_alloc_dimms(struct mem_ctl_info *mci);
+-
+-struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
+-				   unsigned int n_layers,
+-				   struct edac_mc_layer *layers,
+-				   unsigned int sz_pvt)
+-{
+-	struct mem_ctl_info *mci;
+-	struct edac_mc_layer *layer;
+-	unsigned int idx, size, tot_dimms =3D 1;
+-	unsigned int tot_csrows =3D 1, tot_channels =3D 1;
+-	void *pvt, *ptr =3D NULL;
+-	bool per_rank =3D false;
+-
+-	if (WARN_ON(n_layers > EDAC_MAX_LAYERS || n_layers =3D=3D 0))
+-		return NULL;
+-
+-	/*
+-	 * Calculate the total amount of dimms and csrows/cschannels while
+-	 * in the old API emulation mode
+-	 */
+-	for (idx =3D 0; idx < n_layers; idx++) {
+-		tot_dimms *=3D layers[idx].size;
+-		if (layers[idx].is_virt_csrow)
+-			tot_csrows *=3D layers[idx].size;
+-		else
+-			tot_channels *=3D layers[idx].size;
+-
+-		if (layers[idx].type =3D=3D EDAC_MC_LAYER_CHIP_SELECT)
+-			per_rank =3D true;
+-	}
+-
+-	/* Figure out the offsets of the various items from the start of an mc
+-	 * structure.  We want the alignment of each item to be at least as
+-	 * stringent as what the compiler would provide if we could simply
+-	 * hardcode everything into a single struct.
+-	 */
+-	mci	=3D edac_align_ptr(&ptr, sizeof(*mci), 1);
+-	layer	=3D edac_align_ptr(&ptr, sizeof(*layer), n_layers);
+-	pvt	=3D edac_align_ptr(&ptr, sz_pvt, 1);
+-	size	=3D ((unsigned long)pvt) + sz_pvt;
+-
+-	edac_dbg(1, "allocating %u bytes for mci data (%d %s, %d csrows/channels)=
+\n",
+-		 size,
+-		 tot_dimms,
+-		 per_rank ? "ranks" : "dimms",
+-		 tot_csrows * tot_channels);
+-
+-	mci =3D kzalloc(size, GFP_KERNEL);
+-	if (mci =3D=3D NULL)
+-		return NULL;
+-
+-	/* Adjust pointers so they point within the memory we just allocated
+-	 * rather than an imaginary chunk of memory located at address 0.
+-	 */
+-	layer =3D (struct edac_mc_layer *)(((char *)mci) + ((unsigned long)layer)=
+);
+-	pvt =3D sz_pvt ? (((char *)mci) + ((unsigned long)pvt)) : NULL;
+-
+-	/* setup index and various internal pointers */
+-	mci->mc_idx =3D mc_num;
+-	mci->tot_dimms =3D tot_dimms;
+-	mci->pvt_info =3D pvt;
+-	mci->n_layers =3D n_layers;
+-	mci->layers =3D layer;
+-	memcpy(mci->layers, layers, sizeof(*layer) * n_layers);
+-	mci->nr_csrows =3D tot_csrows;
+-	mci->num_cschannel =3D tot_channels;
+-	mci->csbased =3D per_rank;
+-
+-	if (edac_mc_alloc_csrows(mci))
+-		goto error;
+-
+-	if (edac_mc_alloc_dimms(mci))
+-		goto error;
+-
+-	mci->op_state =3D OP_ALLOC;
+-
+-	return mci;
+-
+-error:
+-	_edac_mc_free(mci);
+-
+-	return NULL;
+-}
+-EXPORT_SYMBOL_GPL(edac_mc_alloc);
+-
+ static int edac_mc_alloc_csrows(struct mem_ctl_info *mci)
+ {
+ 	unsigned int tot_csrows =3D mci->nr_csrows;
+@@ -520,6 +433,90 @@ static int edac_mc_alloc_dimms(struct mem_ctl_info *mc=
+i)
+ 	return 0;
+ }
 =20
--	/* Sanity-check driver-supplied grain value. */
--	if (WARN_ON_ONCE(!e->grain))
--		e->grain =3D 1;
--
--	grain_bits =3D fls_long(e->grain - 1);
--
--	/* Generate the trace event */
--	trace_mc_event(type, e->msg, e->label, e->error_count,
--		       mci->mc_idx, e->top_layer, e->mid_layer, e->low_layer,
--		       (e->page_frame_number << PAGE_SHIFT) | e->offset_in_page,
--		       grain_bits, e->syndrome, e->other_detail);
--
- 	edac_raw_mc_handle_error(type, mci, e);
- unlock:
- 	spin_unlock_irqrestore(&ghes_lock, flags);
++struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
++				   unsigned int n_layers,
++				   struct edac_mc_layer *layers,
++				   unsigned int sz_pvt)
++{
++	struct mem_ctl_info *mci;
++	struct edac_mc_layer *layer;
++	unsigned int idx, size, tot_dimms =3D 1;
++	unsigned int tot_csrows =3D 1, tot_channels =3D 1;
++	void *pvt, *ptr =3D NULL;
++	bool per_rank =3D false;
++
++	if (WARN_ON(n_layers > EDAC_MAX_LAYERS || n_layers =3D=3D 0))
++		return NULL;
++
++	/*
++	 * Calculate the total amount of dimms and csrows/cschannels while
++	 * in the old API emulation mode
++	 */
++	for (idx =3D 0; idx < n_layers; idx++) {
++		tot_dimms *=3D layers[idx].size;
++		if (layers[idx].is_virt_csrow)
++			tot_csrows *=3D layers[idx].size;
++		else
++			tot_channels *=3D layers[idx].size;
++
++		if (layers[idx].type =3D=3D EDAC_MC_LAYER_CHIP_SELECT)
++			per_rank =3D true;
++	}
++
++	/* Figure out the offsets of the various items from the start of an mc
++	 * structure.  We want the alignment of each item to be at least as
++	 * stringent as what the compiler would provide if we could simply
++	 * hardcode everything into a single struct.
++	 */
++	mci	=3D edac_align_ptr(&ptr, sizeof(*mci), 1);
++	layer	=3D edac_align_ptr(&ptr, sizeof(*layer), n_layers);
++	pvt	=3D edac_align_ptr(&ptr, sz_pvt, 1);
++	size	=3D ((unsigned long)pvt) + sz_pvt;
++
++	edac_dbg(1, "allocating %u bytes for mci data (%d %s, %d csrows/channels)=
+\n",
++		 size,
++		 tot_dimms,
++		 per_rank ? "ranks" : "dimms",
++		 tot_csrows * tot_channels);
++
++	mci =3D kzalloc(size, GFP_KERNEL);
++	if (mci =3D=3D NULL)
++		return NULL;
++
++	/* Adjust pointers so they point within the memory we just allocated
++	 * rather than an imaginary chunk of memory located at address 0.
++	 */
++	layer =3D (struct edac_mc_layer *)(((char *)mci) + ((unsigned long)layer)=
+);
++	pvt =3D sz_pvt ? (((char *)mci) + ((unsigned long)pvt)) : NULL;
++
++	/* setup index and various internal pointers */
++	mci->mc_idx =3D mc_num;
++	mci->tot_dimms =3D tot_dimms;
++	mci->pvt_info =3D pvt;
++	mci->n_layers =3D n_layers;
++	mci->layers =3D layer;
++	memcpy(mci->layers, layers, sizeof(*layer) * n_layers);
++	mci->nr_csrows =3D tot_csrows;
++	mci->num_cschannel =3D tot_channels;
++	mci->csbased =3D per_rank;
++
++	if (edac_mc_alloc_csrows(mci))
++		goto error;
++
++	if (edac_mc_alloc_dimms(mci))
++		goto error;
++
++	mci->op_state =3D OP_ALLOC;
++
++	return mci;
++
++error:
++	_edac_mc_free(mci);
++
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(edac_mc_alloc);
++
+ void edac_mc_free(struct mem_ctl_info *mci)
+ {
+ 	edac_dbg(1, "\n");
 --=20
 2.20.1
 
