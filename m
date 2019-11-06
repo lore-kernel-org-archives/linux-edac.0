@@ -7,84 +7,82 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2FEDC5DF63
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56579C5DF65
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8C0BD2087E
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AB3E217F4
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="ZRPo+CIZ";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="WFe6L8/g"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="FgEXFthC";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="ws75bOz6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731743AbfKFJdn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 6 Nov 2019 04:33:43 -0500
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:12762 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731712AbfKFJdm (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Nov 2019 04:33:42 -0500
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA69VKLT027217;
-        Wed, 6 Nov 2019 01:33:35 -0800
+        id S1731327AbfKFJdh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 6 Nov 2019 04:33:37 -0500
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:16304 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731153AbfKFJdg (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Nov 2019 04:33:36 -0500
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA69UVbg002968;
+        Wed, 6 Nov 2019 01:33:28 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=pfpt0818;
- bh=1TFVM5ORM0P3zV7f/gRuhjY4rmk0XP4KnO4NIoEQzaY=;
- b=ZRPo+CIZ27YeUmJ/Ouuy5CeYGwxoGBPYNmP940FhSnsm0BA2TDANfIP2uIbmn3h3EpWH
- 0idcnf2+WG0qo0IdVMKvmu6oQtmvJCEmL2DMYPf84wj6bzw2jhqnParwQFOuFzsLod2a
- kC/uTyDZtTN0x/Q9d2R8riXStNo50lvsDXYxQbfZg86gskqV26z2JBn4hT1a3lAMBAOT
- sOWoRxcRNYW+Iiqi+NK6SBIJznp50LMLjC6ar6hSjcdCaL6SYpL477IhroFRBy7Tj09h
- VFkLG7qV5LdDcAzRBe1Di1+l98BiVEn/JgykKm+OktinURV1VrXdNUSMMz6ZdtpyuXft IA== 
-Received: from sc-exch04.marvell.com ([199.233.58.184])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2w19amyakg-1
+ bh=XNb2IwKFs7xqhsbp0NuXTpSpc68SXycHhJlp2ERbujo=;
+ b=FgEXFthCexwHIIp1scTCVAha+c3yBAV5nyC5zEX6kB289l6OE0drPC3EW5+8gslYaHyx
+ fzQQF2ZzC79dSuub8Y+bygsaJDitpowWkHegCGjGS8dAHgb8tgzbm1I4887sqFK2/xJE
+ rQYzj2Pk/9W/yQ8knJhHwR1sAXsyjSYxb8pIbOn0IKv/xq3RDey4mvzRLLZ0O51RBwJ6
+ J/+j/spnyZjYsg6yRirUoMsuSGUuuyOpW3QrBj663PZKDiml+qppvy/6OI0r1nw92uR5
+ D+LsqVi0/OK8xKvDvwk4DB5c06g6mpfcCe/lqv+qKHmd50tff0oy7LATj4MYRtLiVJ7f cA== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2w3eud3c81-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 06 Nov 2019 01:33:35 -0800
-Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 6 Nov
- 2019 01:33:33 -0800
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com (104.47.33.59) by
- SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 6 Nov 2019 01:33:32 -0800
+        Wed, 06 Nov 2019 01:33:27 -0800
+Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 6 Nov
+ 2019 01:33:27 -0800
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com (104.47.33.51) by
+ SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Wed, 6 Nov 2019 01:33:26 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AyNsS/MbNjE6/a+e1PMw+9rspZSx/ASi5mq8+0tlnbFwwbbpfJgMbpfXoZvgep2yWYW6CgMJBmCWC4PQfgvYwYJvqafFD0YoVhSD27kXh4jU4bZf+hFb55YNaQC2YMI1cZlvU0oQKoanmEZsPFq6fccb0U5ktsA1UFUvxCHiDxMwnSKlGj5gSC5KCsqlYk3qjcBclRY8Z4HInk/lyf5pWjKM+9bKKPeAvhFyOjC+GFD+oVQL9Bnqch9Z/gRfqkRX76KkAlX+s9fEPmbCFwQJpDqLTCPdKNe4HQDGVV2ObOdkzMFex66m2arRMl6jde6u9VoaPuz+dGBzk7QrBfxkNA==
+ b=F5sK0Df+xaYfZcf4FhqatRIgRX2jSSDWs6E/K2BR4Xw4hfZwUpoDsbfxo76VJOj4dz2EbH1cyM8Pla6EO8Lp/FD6iRO1ojmteBbw0qXIRX50U+NjosLi7bE67CU5zR6d1BhGiaNzc7eW0cG977qOOQeZfjigg+B/3/qfWUUOTSqDIUI2RYZBF822Vmi0WM1jAZ+UM0jvHDot1fZv3RSyW6I470WPXOkLzipLsobIYrgt76Zpc6YCVrqAcrcOY+CB+d9ij5uc+NIphy251mKqAlATO1WMrweMm46sSYggcc6i531C07laWzWIvrABMMw9f/rc4bVfJTFY6MZvIu8pLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1TFVM5ORM0P3zV7f/gRuhjY4rmk0XP4KnO4NIoEQzaY=;
- b=SsR7dGYN6XPG2pfbh8NDZVhhhGvikAyqlVCMv2IsYiuParLjunXmcea6rCIMiphQ/CfWQ1037Sl+tkCtO4MNQi4v4mPsG115QcnJnENzZfuUQ/UgnrrX4ihviyg/C50mWXNfeI2O2A38a0DMoPsThqC1Q4KB6o/J5KTujamTHoNUhUgBEu26+E1KKZ8J7V+pnQq2pQy7cQn0Mzex6kyRqmjFt+czuTUCWlc/eqW0/IoIpNMTn0wvqbg3otQHYSfu2uBVdKyDzheza1nLn8Yhlwf7RIy29J/3olbNvkSYinbeoXorr8cg9zUSC73XEdA3SP/jShNnm/fKP1PoDkpxbQ==
+ bh=XNb2IwKFs7xqhsbp0NuXTpSpc68SXycHhJlp2ERbujo=;
+ b=IK5VRB8iyfE6X8yQfGI1H0QcljGu8rHviLTJ3wFzauk6xouW3FUYkiFmZTfC96UY+JDF7O2cY+LmB/GB9a0z2QFFfvzthwxQU/0O+bULuI5Gl5H5oBQcyBVwBdwk44xBluHk1QyHo0o6a4rwMivUhTqsJtlZuY6u3lAeZUkTT5mgTo98oyXlaw+pxY0myYl3AOebPqujyo92zgLyil3r8JyPq8KI7LzChlIqDvUC8RUaTfKrMxDBtP/gHV+fGAhB0iQ+rEEoRCJ8uzKYg+BPp4FBZ4pvvBIa0ZLOILtpnez/TzE7kE/P9wHizsillHPLUCv27dubWajoY5sTe/6PJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
  dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1TFVM5ORM0P3zV7f/gRuhjY4rmk0XP4KnO4NIoEQzaY=;
- b=WFe6L8/gYGyGOqseUvvSeMePrMQFHhpcAhJPc8XLoQpqGqKW1Y/dN+6e1h7XgNE0Kk6eyi8+VSJ/FQSAiAkqVnxcG8UJL7XahYB4gEvXZFnfukEKj3fez0uQ9ZkubmzGDGUhvOShZ8yqTcfHCdaDOvLfxXGecpfuoiG/290mo2k=
+ bh=XNb2IwKFs7xqhsbp0NuXTpSpc68SXycHhJlp2ERbujo=;
+ b=ws75bOz6aPGKQUC5XV0TJuNc4yXC88iMOMF8IgAnaW2rFEUGJaIRhKbhYuXUuYwcXnDT87Y7kjw1V+J3G6ZCPwDaTyhYoyVIoLxcHbXM4+EG0YeZApCGhkUX5tK9eURNc2YRNiFwxJBa8D7C/gpKXxQxbGhsTjUx3ubLpQncTTc=
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
  MN2PR18MB3165.namprd18.prod.outlook.com (10.255.236.86) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Wed, 6 Nov 2019 09:33:30 +0000
+ 15.20.2430.20; Wed, 6 Nov 2019 09:33:25 +0000
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::c4a:cf3c:f530:fba6]) by MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::c4a:cf3c:f530:fba6%6]) with mapi id 15.20.2430.020; Wed, 6 Nov 2019
- 09:33:30 +0000
+ 09:33:25 +0000
 From:   Robert Richter <rrichter@marvell.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
+        Tony Luck <tony.luck@intel.com>
 CC:     James Morse <james.morse@arm.com>,
         Robert Richter <rrichter@marvell.com>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: [PATCH v2 13/20] EDAC, Documentation: Describe CPER module definition
- and DIMM ranks
-Thread-Topic: [PATCH v2 13/20] EDAC, Documentation: Describe CPER module
- definition and DIMM ranks
-Thread-Index: AQHVlIU/GtvaA83eREuXj+Z4hz4EIg==
-Date:   Wed, 6 Nov 2019 09:33:30 +0000
-Message-ID: <20191106093239.25517-14-rrichter@marvell.com>
+        "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>
+Subject: [PATCH v2 11/20] EDAC, ghes: Remove intermediate buffer
+ pvt->detail_location
+Thread-Topic: [PATCH v2 11/20] EDAC, ghes: Remove intermediate buffer
+ pvt->detail_location
+Thread-Index: AQHVlIU9Dt1I/qDcNkGuWwAY2UMBUw==
+Date:   Wed, 6 Nov 2019 09:33:25 +0000
+Message-ID: <20191106093239.25517-12-rrichter@marvell.com>
 References: <20191106093239.25517-1-rrichter@marvell.com>
 In-Reply-To: <20191106093239.25517-1-rrichter@marvell.com>
 Accept-Language: en-US
@@ -98,28 +96,28 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-originating-ip: [31.208.96.227]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2a1a2d69-357c-4a73-1fe3-08d7629c6238
+x-ms-office365-filtering-correlation-id: 4fb5ccb7-e30d-4777-11e1-08d7629c5f6b
 x-ms-traffictypediagnostic: MN2PR18MB3165:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB31650CC33ACC23A01E0D3D71D9790@MN2PR18MB3165.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-microsoft-antispam-prvs: <MN2PR18MB3165D08DCEAD9736BE57444BD9790@MN2PR18MB3165.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1824;
 x-forefront-prvs: 02135EB356
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(52116002)(305945005)(6486002)(76176011)(71190400001)(71200400001)(256004)(11346002)(446003)(7736002)(14444005)(6436002)(4326008)(6512007)(66446008)(66556008)(66476007)(66946007)(64756008)(5660300002)(1076003)(476003)(6116002)(3846002)(110136005)(54906003)(36756003)(2906002)(8676002)(99286004)(81166006)(81156014)(316002)(8936002)(50226002)(486006)(6506007)(386003)(102836004)(66066001)(2616005)(86362001)(478600001)(25786009)(186003)(14454004)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3165;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(52116002)(305945005)(6486002)(76176011)(71190400001)(71200400001)(256004)(11346002)(446003)(7736002)(6436002)(4326008)(6512007)(66446008)(66556008)(66476007)(66946007)(64756008)(5660300002)(1076003)(476003)(6116002)(3846002)(110136005)(54906003)(36756003)(2906002)(8676002)(99286004)(81166006)(81156014)(316002)(8936002)(50226002)(486006)(6506007)(386003)(102836004)(66066001)(2616005)(86362001)(478600001)(25786009)(186003)(14454004)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3165;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: marvell.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BWEK9AYir7LdYl68B+5lxnEX0CZ2KWdV2Nr8JpI3QQoLXxTT2QZZPZClVwb6K+anG3W07PrvMjKlmVP/Usyyf1TfZf+ggQ40a+PeYR5aZMDhfAs0FMkZfaBaLggFTYtjhJWMkoEtZD3QASzPn/AWhIMGtCsfrdGg63HB+E1cLEKa+ck+jdeG393yZRkeRubD1z3uvdzEH5MjfqLDXvu/XzdMoHgDN2Um8ClvQkgbAlIAj/b03S87H5XL2GEmb19htuY7RDPtCnXRTSH2X4nXP2jobwpuHG3p0xlGpplF427KDJXB83vGDz+H5nNSpoASQUYJ04rzLvl6tO6x4LkWGqOXvM1Zoe10rgNLUwvo40TjXW0CnztpZDvuySfOx/Gv8+f2hE4g0qm4JYI/F08QaxRnP4IN1JX7q4Yl253QXvXLXnqjegVnyRCTyzeVvzbu
+x-microsoft-antispam-message-info: EXz61B048kBzJpbX/gqMXeC6U5nRjX+HeojLds+uM0I2fuJsfE0CDKhbT8xl1RShJRvoCy6C541HAyB+0iHPDmittef6mbQanpWAsQfsw1pDZEF1QzSlzyQvmnNnxkfaPNqwClNl9rIS177EcflvPuS58rZ0IFRIx8MOm2tOyWAOVdqtXqfvM/09YLSfRS1fGFP8DDkrZFBDLTeEubHGwDhvzgyF/KAHdhA0L5lIQgaTmxPJiPrenSE2CVA7vqM8Hbpng9Iis+AFtbeLluXmbdTsbLdjQ9Bgac0SDhzOVvgQjxh7Oi5algqdU//6G3z4hz4EhK1ViaJE5mFzzviMbs3HOq0LeACtmfSnTNNaJsK5DZ+r/aJ2f3cc2s0L+8gt7KvZSvkL3g02bo/cZxtw/lEzrW2hUCwTfUQOH+q6oovD/w4TqwtLXCpWvaIebzSj
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a1a2d69-357c-4a73-1fe3-08d7629c6238
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 09:33:30.1788
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fb5ccb7-e30d-4777-11e1-08d7629c5f6b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 09:33:25.4235
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jG5x9JpgnoT9WcWC8A9H04R3i0oXAxJAyP4NEZB62EzTrOB/zwfw6DGHm+H6mqjS34+KESnVVlkTsY2Pbh6sqQ==
+X-MS-Exchange-CrossTenant-userprincipalname: QsHobY5MBmoy7INThQGl505VAgLlaBia/LBRguQh4cyae0A4hWnvdjUqnHRLjr+yKBEMlIMoX9crZdhVG9QKxQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB3165
 X-OriginatorOrg: marvell.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
@@ -129,76 +127,60 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Update on CPER DIMM naming convention and DIMM ranks.
+detail_location[] is used to collect two location strings so they can
+be passed as one to trace_mc_event(). Instead of having an extra copy
+step, assemble the location string in other_detail[] from the
+beginning.
+
+Using other_detail[] to call trace_mc_event() is now the same as in
+edac_mc.c and code can be unified.
 
 Signed-off-by: Robert Richter <rrichter@marvell.com>
+Reviewed-by: James Morse <james.morse@arm.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/ras.rst | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+ drivers/edac/ghes_edac.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/=
-ras.rst
-index 2b20f5f7380d..26e02a59f0f4 100644
---- a/Documentation/admin-guide/ras.rst
-+++ b/Documentation/admin-guide/ras.rst
-@@ -330,9 +330,12 @@ There can be multiple csrows and multiple channels.
+diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+index 4acb456c20f7..cb1ab44361f0 100644
+--- a/drivers/edac/ghes_edac.c
++++ b/drivers/edac/ghes_edac.c
+@@ -21,8 +21,7 @@ struct ghes_edac_pvt {
+ 	struct mem_ctl_info *mci;
 =20
- .. [#f4] Nowadays, the term DIMM (Dual In-line Memory Module) is widely
-   used to refer to a memory module, although there are other memory
--  packaging alternatives, like SO-DIMM, SIMM, etc. Along this document,
--  and inside the EDAC system, the term "dimm" is used for all memory
--  modules, even when they use a different kind of packaging.
-+  packaging alternatives, like SO-DIMM, SIMM, etc. The UEFI
-+  specification (Version 2.7) defines a memory module in the Common
-+  Platform Error Record (CPER) section to be an SMBIOS Memory Device
-+  (Type 17). Along this document, and inside the EDAC system, the term
-+  "dimm" is used for all memory modules, even when they use a
-+  different kind of packaging.
+ 	/* Buffers for the error handling routine */
+-	char detail_location[240];
+-	char other_detail[160];
++	char other_detail[400];
+ 	char msg[80];
+ };
 =20
- Memory controllers allow for several csrows, with 8 csrows being a
- typical value. Yet, the actual number of csrows depends on the layout of
-@@ -349,12 +352,14 @@ controllers. The following example will assume 2 chan=
-nels:
- 	|            |  ``ch0``  |  ``ch1``  |
- 	+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
- 	| ``csrow0`` |  DIMM_A0  |  DIMM_B0  |
--	+------------+           |           |
--	| ``csrow1`` |           |           |
-+	|            |   rank0   |   rank0   |
-+	+------------+     -     |     -     |
-+	| ``csrow1`` |   rank1   |   rank1   |
- 	+------------+-----------+-----------+
- 	| ``csrow2`` |  DIMM_A1  | DIMM_B1   |
--	+------------+           |           |
--	| ``csrow3`` |           |           |
-+	|            |   rank0   |   rank0   |
-+	+------------+     -     |     -     |
-+	| ``csrow3`` |   rank1   |   rank1   |
- 	+------------+-----------+-----------+
+@@ -369,6 +368,8 @@ void ghes_edac_report_mem_error(int sev, struct cper_se=
+c_mem_err *mem_err)
 =20
- In the above example, there are 4 physical slots on the motherboard
-@@ -374,11 +379,13 @@ which the memory DIMM is placed. Thus, when 1 DIMM is=
- placed in each
- Channel, the csrows cross both DIMMs.
+ 	/* All other fields are mapped on e->other_detail */
+ 	p =3D pvt->other_detail;
++	p +=3D snprintf(p, sizeof(pvt->other_detail),
++		"APEI location: %s ", e->location);
+ 	if (mem_err->validation_bits & CPER_MEM_VALID_ERROR_STATUS) {
+ 		u64 status =3D mem_err->error_status;
 =20
- Memory DIMMs come single or dual "ranked". A rank is a populated csrow.
--Thus, 2 single ranked DIMMs, placed in slots DIMM_A0 and DIMM_B0 above
--will have just one csrow (csrow0). csrow1 will be empty. On the other
--hand, when 2 dual ranked DIMMs are similarly placed, then both csrow0
--and csrow1 will be populated. The pattern repeats itself for csrow2 and
--csrow3.
-+In the example above 2 dual ranked DIMMs are similarly placed. Thus,
-+both csrow0 and csrow1 are populated. On the other hand, when 2 single
-+ranked DIMMs are placed in slots DIMM_A0 and DIMM_B0, then they will
-+have just one csrow (csrow0) and csrow1 will be empty. The pattern
-+repeats itself for csrow2 and csrow3. Also note that some memory
-+controller doesn't have any logic to identify the memory module, see
-+``rankX`` directories below.
+@@ -449,12 +450,10 @@ void ghes_edac_report_mem_error(int sev, struct cper_=
+sec_mem_err *mem_err)
+ 	grain_bits =3D fls_long(e->grain - 1);
 =20
- The representation of the above is reflected in the directory
- tree in EDAC's sysfs interface. Starting in directory
+ 	/* Generate the trace event */
+-	snprintf(pvt->detail_location, sizeof(pvt->detail_location),
+-		 "APEI location: %s %s", e->location, e->other_detail);
+ 	trace_mc_event(type, e->msg, e->label, e->error_count,
+ 		       mci->mc_idx, e->top_layer, e->mid_layer, e->low_layer,
+ 		       (e->page_frame_number << PAGE_SHIFT) | e->offset_in_page,
+-		       grain_bits, e->syndrome, pvt->detail_location);
++		       grain_bits, e->syndrome, e->other_detail);
+=20
+ 	edac_raw_mc_handle_error(type, mci, e);
+ unlock:
 --=20
 2.20.1
 
