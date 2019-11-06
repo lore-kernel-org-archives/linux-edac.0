@@ -2,71 +2,69 @@ Return-Path: <SRS0=1gXh=Y6=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0375C5DF63
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB5EC5DF62
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9215A21929
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0A2221929
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 09:34:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="I9Mt4UAU";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="dmc/3sKo"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="Jc+eB01y";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="ZJFXaI/m"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729841AbfKFJdT (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S1725868AbfKFJdT (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Wed, 6 Nov 2019 04:33:19 -0500
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:42896 "EHLO
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:32502 "EHLO
         mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727642AbfKFJdT (ORCPT
+        by vger.kernel.org with ESMTP id S1727618AbfKFJdT (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Nov 2019 04:33:19 -0500
 Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA69UIxI002503;
-        Wed, 6 Nov 2019 01:33:12 -0800
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA69UQxR002783;
+        Wed, 6 Nov 2019 01:33:02 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pfpt0818;
- bh=aLaTuVZChfzcoBY6BX5AGWUoC40fMoccLj2A6AQxBNc=;
- b=I9Mt4UAUR0186E0dVwxThSbamnLtfqhSkHMjIWkF/oocaDJ8bD4D4btUZ5mFQfN1vca4
- P5/RtfgNaBjTWmVZCHTbJ+bEhGYglQJFJv/cwQu7tGtBk+5gSrHgIe2tsDIRW1Zp5f6V
- 0mPBSGXUjH8gGBsXfFZTLEUklSlLpJTtl8KtQm0WKhASxVLYooUkhrRn/pzAiTPDtwlw
- LC7S2zVPtmWTInE+w0cmw0EtSUwngayYS7DqqerygF40jFURrQmvYegV9Yv/IAhuF+H8
- sYcKAFIBcZJzN4pKGz/ilDp1Q+IxOSHorgk6ZUEexFZCN5ymMUMbxIEZX+wGaB5Wxt2P bA== 
-Received: from sc-exch03.marvell.com ([199.233.58.183])
-        by mx0a-0016f401.pphosted.com with ESMTP id 2w3eud3c6h-1
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pfpt0818; bh=p2asbBPKuTPQwL9Z1tgP4EbxKegqCdylo0cRHfNbaAo=;
+ b=Jc+eB01yb/LbpLJjVTw1pt5RWxm5ZKZLaoTkSJDT5IK0Tnr03M5355Z714Yg8BzrCj4U
+ BBTx9pQeWNEKMDD4RY+9iQDY/WXLVcQeVC7zKe424D7Xy2bUGniOVGY2ZHYnmm7bOW9I
+ gQhc3OQlED5CHhboVMMYZxt2hYRjGiQM2l8QjXwValqemfOrc+J2iO9DEebD+lZGLDBz
+ suPFeSwHfN5vg1i72tlWyFx+gJWnOSfJCaAUZGAriehIztFk0axZrCId5Np76Pw2x+8x
+ dS1JdMrH7C1OGE7QxIrFExp/NVunFnJObuXeEV+OGLfwMjbGGoTTNA2x+Si6WPeCGfKB uQ== 
+Received: from sc-exch02.marvell.com ([199.233.58.182])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2w3eud3c5p-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 06 Nov 2019 01:33:12 -0800
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH03.marvell.com
- (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 6 Nov
- 2019 01:33:11 -0800
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com (104.47.33.57) by
- SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 6 Nov 2019 01:33:11 -0800
+        Wed, 06 Nov 2019 01:33:02 -0800
+Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH02.marvell.com
+ (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 6 Nov
+ 2019 01:32:59 -0800
+Received: from NAM05-CO1-obe.outbound.protection.outlook.com (104.47.48.54) by
+ SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Wed, 6 Nov 2019 01:32:59 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CPz2cbitsvDgyGZWm4NuLTbNregSZ8L1traQTRGow6k8CIGMoaUyHtl964IlHy95aKQ+l0vKaHY7IBSblG6KODPEObZXF7QqjfVK83IhHgL0QgOfazZawFCzmQN03jbva+dn+j5di0Zd3zKjuLrJaTPgHveT982vgj4Q1eucMLXa4IVtiBKZUElFzpefpdrCx3bkF4FeAzYJ2a8znCbhN51qZRTMhnZygbTi0yDAxcO+2Ir2pgvVQ+drpT5P/Rc14LoV99RgNc9ni8TCp8kVmD6xQG4Rmykqw96XtdHvmdCVZejlKde+FxWdgrNxkG0qx81ruY2dcntC3BDIjOHRQw==
+ b=oMHVWmPpPKQE42fNj88GSNCgAtBTP7o2rNKlA/SL5Efn7W5tDV14c27ImNcsLeo/sVUzLGp777RQgwg9c2rKBVYjbfN1KR7ixnnkeWpMVFxI11r/vfzGaoNEsbkrlUUuclonObf6R4U06F1kictDulQJ8S1yZzbAUqbcaEP2eOU3EpuGRIZkUZP4/iuqDT3JXxrX1L00IOf2/OGapXX6eS/2DJTG66T9a18uW3166NjE73Lnw4H8yDbJXU+22f3w4JVRPcBFlvbGvrkLnpDeM6cnIxRoNE/SR+AZA9qd2xv9HIawd8CU/UjCqgY/lgtmal5NnjgAzptZCCwTI4/kmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aLaTuVZChfzcoBY6BX5AGWUoC40fMoccLj2A6AQxBNc=;
- b=EXAWTgVVbOBXYE/1P0IPcgRmJj+pjlbYCbwDKGSuMJWVl2O8R2gcPl9twauiAG0esJ5C68dCBHtlJ+rKCSUWcmDSXtL0LwGj2EMAhLeRH58aOxxfjDIZJdBB20nuhRTmRERTUKWmeT+u8SCJ520mncV4zwWVPRnJ7fm95iakaSkrCj+HRH4WxidB5HUArrsGs2UpkFhd1ioTONaQBmHQyJ6atC7tzwSFQSu2zDoS3GdxDP02yvImkYf9652yoEsbuIt3XKwbZgzLlQ/BgxSmkLVnNP1k1LW4jTMuTgPo+1kPY8yj3lLVjetC+su4Zt2EHlrelVN885PE7vHwbX14xQ==
+ bh=p2asbBPKuTPQwL9Z1tgP4EbxKegqCdylo0cRHfNbaAo=;
+ b=CIO/6pyxq5kHKj9NPe9N7Sb6GHlOiNauRXKDRt5XaCUlnZVatRwcCdQxiN+cdd/HSyQF7f1YQyDJg9/2oZXHpkqCuIqSGKYj+rBgm/B6CDOQOYkPhsrhwtlxpPKWtZufjsHjKiy/qEHGpFDr6vJQM1+EoxhWhfMZga+y2jG5oifhv+FkiZxFj/uWLu0bDeEUOP+Fy97lYNvIZscj1TM334+e0zC9uZyF9U4UPSCiMKonjFQp9X61jMfAOY3LHnfTheNO16uo2tc4sWy/tCPKvoYwysO/s+vFH5MwDaWECTzmAfH8JiF83ZUFp+9jILXMmnkfT0GcCBmvq4vGJEyovA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
  dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aLaTuVZChfzcoBY6BX5AGWUoC40fMoccLj2A6AQxBNc=;
- b=dmc/3sKoXCicSnuZL8pDy8AKSV7QtnCXZTK+HtWEt2xiGuSLKiuFHw3T1akUiICdB0c5ZVbDedT/buwomN/Pm2/7Q1Ntfv/xhVrldvBRYSlXAH/onwz+tnUVS3lElE/x5iDnrrA2OW9orQaGENQCdJM1htF0nbM7Svi31w421+U=
+ bh=p2asbBPKuTPQwL9Z1tgP4EbxKegqCdylo0cRHfNbaAo=;
+ b=ZJFXaI/mGzFQOWz9VHf/3uFW6ZEprcFQdzD17ERc6HpasWXkijcZbKLNBUrXfPZvtJZ0baGYw24t8mkbTsVEhUHHS+PZk36FHYm8BPQEI4P2pK0+vEzjB/eH/bmBnuNhDPC7nECjY8Idn7b4L1lNANr9p9TsHga+bAPq2CbPUR0=
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
  MN2PR18MB3165.namprd18.prod.outlook.com (10.255.236.86) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Wed, 6 Nov 2019 09:33:09 +0000
+ 15.20.2430.20; Wed, 6 Nov 2019 09:32:58 +0000
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::c4a:cf3c:f530:fba6]) by MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::c4a:cf3c:f530:fba6%6]) with mapi id 15.20.2430.020; Wed, 6 Nov 2019
- 09:33:09 +0000
+ 09:32:58 +0000
 From:   Robert Richter <rrichter@marvell.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -74,15 +72,12 @@ To:     Borislav Petkov <bp@alien8.de>,
 CC:     James Morse <james.morse@arm.com>,
         Robert Richter <rrichter@marvell.com>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>
-Subject: [PATCH v2 04/20] EDAC, mc: Do not BUG_ON() in edac_mc_alloc()
-Thread-Topic: [PATCH v2 04/20] EDAC, mc: Do not BUG_ON() in edac_mc_alloc()
-Thread-Index: AQHVlIUz7boQWMifeEOuGHD4/0UIaQ==
-Date:   Wed, 6 Nov 2019 09:33:09 +0000
-Message-ID: <20191106093239.25517-5-rrichter@marvell.com>
-References: <20191106093239.25517-1-rrichter@marvell.com>
-In-Reply-To: <20191106093239.25517-1-rrichter@marvell.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 00/20] EDAC: Rework edac_mc and ghes drivers
+Thread-Topic: [PATCH v2 00/20] EDAC: Rework edac_mc and ghes drivers
+Thread-Index: AQHVlIUsauSGdd6usk+YjQIQVCTkCw==
+Date:   Wed, 6 Nov 2019 09:32:58 +0000
+Message-ID: <20191106093239.25517-1-rrichter@marvell.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -94,28 +89,28 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-originating-ip: [31.208.96.227]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f1438922-e2cb-4ad7-3426-08d7629c55ee
+x-ms-office365-filtering-correlation-id: 7e694da3-a4d3-4903-0662-08d7629c4f2b
 x-ms-traffictypediagnostic: MN2PR18MB3165:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB316594AC69F8A49DD2BE5DCDD9790@MN2PR18MB3165.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-microsoft-antispam-prvs: <MN2PR18MB3165083D4CBC58C73909285DD9790@MN2PR18MB3165.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
 x-forefront-prvs: 02135EB356
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(52116002)(305945005)(6486002)(4744005)(76176011)(71190400001)(71200400001)(256004)(11346002)(446003)(7736002)(14444005)(6436002)(4326008)(6512007)(66446008)(66556008)(66476007)(66946007)(64756008)(5660300002)(1076003)(476003)(6116002)(3846002)(110136005)(54906003)(36756003)(2906002)(8676002)(99286004)(81166006)(81156014)(316002)(8936002)(50226002)(486006)(6506007)(386003)(102836004)(66066001)(2616005)(86362001)(478600001)(25786009)(186003)(14454004)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3165;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(199004)(189003)(52116002)(305945005)(6486002)(71190400001)(71200400001)(256004)(7736002)(14444005)(6436002)(4326008)(6512007)(66446008)(66556008)(66476007)(66946007)(64756008)(5660300002)(1076003)(476003)(6116002)(3846002)(110136005)(54906003)(36756003)(2906002)(8676002)(99286004)(81166006)(81156014)(316002)(8936002)(50226002)(486006)(6506007)(386003)(102836004)(66066001)(2616005)(86362001)(478600001)(25786009)(186003)(14454004)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB3165;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: marvell.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xuVTvOqnYvzCV+XioAJ+xN+YDGUvTYwZC+R+c/3Ar8oCl6B/A/roJV0xeqgqpV3aZ9kZutTy/QCCg3UTbbJm1q0zubA0Oh2NyGfCYEzj6Ma0dWnen65AZ6gF/s+YPVqZ/HFRBWjvIzEPlOU6YidfgUPCNuAxHaf0VQTMDQT9XR94RfTo+ymtH3e8ZCYK69nFEx1yFLWUBuKHNEaiEsVItBaciMGJ9wlVXJeChyBRA3KfguzbpR0QnviLfYFx7/Cbs1wfswN5li4ODIGlJEbVmIQp7yQHAHUXb4NIxAn2mt/Dc+PozE/vgZ+TZghgslVX7JYmdXYJ73d0FwQsDqc5eSS5XmiroNo+Al22P4Sbj+GFSSBFgxu3TUqWIZCBAqw6WfHVyD3AQ94l3CBEYwUABmN848OjvZ+LYxULkwcs2uDlNok1m13+2rgMUVzVN8cG
+x-microsoft-antispam-message-info: a+6FwMwePrMbR8iPhrhao9WICM0m/v/3aMBYKa1266kXg7dmKg15sD0hRCcgj4gEPrd4pa+dXaRkgYagycbCAa6rqDGg833p+f8OEeMQOMPz/eNxZ+l0hFHEzTGtQABwvGhjJmreZOgC3C1ogaNUx+ECWBvGOKh5SIO+0LgR5DlZiOAkMz2J0doNqiMkn2idU4DZ3+VkbFNah3qxNddM3ZmZCOhiQpWc2gwD4s9uLTTe6TE+7eQF9eeWWokQH7G6Zlt7HlaN6+bckTjLElpF9cqo7Wdi1tUS+qp1iIh0bkIB4zeD1ZOXebKKVXRgFACJIAv7BoIV9kIgtUvewqiybsq854Spu4s2hcPbQ+cz8jqAn/oGufppS8KZde4JVMukv9AsLGSDz3xc/txNGafBgmnyVNAYdoAwIILkoH5zh9BF9gAimk+yytE/S2na4iMD
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1438922-e2cb-4ad7-3426-08d7629c55ee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 09:33:09.5707
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e694da3-a4d3-4903-0662-08d7629c4f2b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 09:32:58.1982
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LXgYLU15vqg8A+yCjGZ/0YkaZxEVmOhtX/hChHOgcmg9nTYacAQhj1O9vGE7FcrhO2wKeovsjQEABfiH2C2bCw==
+X-MS-Exchange-CrossTenant-userprincipalname: Iss4iLQyR2rVCQqnYOBbx9xtiGyiPllIoKCAXAXf8OVYTgsVpB+bho/FT46/7/6qjxwwLrT2rnWrktIq1Mb0yQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB3165
 X-OriginatorOrg: marvell.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
@@ -125,31 +120,84 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-No need to crash the system in case edac_mc_alloc() is called with
-invalid arguments, just warn and return. This would cause a checkpatch
-warning when touching the code later, so just fix it.
+This patch set is a rework of the ghes_edac and edac_mc driver. It
+addresses issues found during code review and while working with the
+code. The changes include:
 
-Signed-off-by: Robert Richter <rrichter@marvell.com>
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/edac/edac_mc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ * improve function interfaces and data structures to decrease
+   complexity such as number of function arguments, unused data, etc.
+   (#1, #2, #14, #17, #18, #19),
 
-diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index c5240bb4c6c0..f2cbca77bc50 100644
---- a/drivers/edac/edac_mc.c
-+++ b/drivers/edac/edac_mc.c
-@@ -323,7 +323,9 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
- 	int i, j, row, chn, n, len;
- 	bool per_rank =3D false;
-=20
--	BUG_ON(n_layers > EDAC_MAX_LAYERS || n_layers =3D=3D 0);
-+	if (WARN_ON(n_layers > EDAC_MAX_LAYERS || n_layers =3D=3D 0))
-+		return NULL;
-+
- 	/*
- 	 * Calculate the total amount of dimms and csrows/cschannels while
- 	 * in the old API emulation mode
+ * add helper functions and factor out code (#3, #15, #16, #20)
+
+ * fix style issues found by checkpatch (#4)
+
+ * improve code readability (#5, #6, #7, #8)
+
+ * use of standard kernel macros (#9)
+
+ * code unification (#10, #11, #12)
+
+ * documentation updates (#13)
+
+v2:
+ * rebased onto edac-for-next and ghes locking fix
+ * moved adding idx to struct dimm_info to patch "EDAC: Remove
+   EDAC_DIMM_OFF() macro"
+ * added patch: "EDAC, mc: Remove needless zero string termination"
+ * added Mauro's Reviewed-by: tags
+ * moved patches to the end:
+   EDAC, mc: Remove per layer counters
+   EDAC, mc: Split edac_mc_alloc() into smaller functions
+   EDAC, mc: Reorder functions edac_mc_alloc*()
+   EDAC, mc: Rework edac_raw_mc_handle_error() to use struct dimm_info
+   EDAC: Store error type in struct edac_raw_error_desc
+   EDAC, mc: Determine mci pointer from the error descriptor
+   EDAC, mc: Create new function edac_inc_csrow()
+
+
+Robert Richter (20):
+  EDAC: Replace EDAC_DIMM_PTR() macro with edac_get_dimm() function
+  EDAC: Remove EDAC_DIMM_OFF() macro
+  EDAC: Introduce mci_for_each_dimm() iterator
+  EDAC, mc: Do not BUG_ON() in edac_mc_alloc()
+  EDAC, mc: Remove needless zero string termination
+  EDAC, mc: Reduce indentation level in edac_mc_handle_error()
+  EDAC, mc: Rename iterator variable to idx
+  EDAC: Remove misleading comment in struct edac_raw_error_desc
+  EDAC, ghes: Use standard kernel macros for page calculations
+  EDAC, ghes: Fix grain calculation
+  EDAC, ghes: Remove intermediate buffer pvt->detail_location
+  EDAC, ghes: Unify trace_mc_event() code with edac_mc driver
+  EDAC, Documentation: Describe CPER module definition and DIMM ranks
+  EDAC, mc: Remove per layer counters
+  EDAC, mc: Split edac_mc_alloc() into smaller functions
+  EDAC, mc: Reorder functions edac_mc_alloc*()
+  EDAC, mc: Rework edac_raw_mc_handle_error() to use struct dimm_info
+  EDAC: Store error type in struct edac_raw_error_desc
+  EDAC, mc: Determine mci pointer from the error descriptor
+  EDAC, mc: Create new function edac_inc_csrow()
+
+ Documentation/admin-guide/ras.rst |  31 +-
+ drivers/edac/edac_mc.c            | 477 +++++++++++++++---------------
+ drivers/edac/edac_mc.h            |   8 +-
+ drivers/edac/edac_mc_sysfs.c      |  65 ++--
+ drivers/edac/ghes_edac.c          |  56 ++--
+ drivers/edac/i10nm_base.c         |   3 +-
+ drivers/edac/i3200_edac.c         |   3 +-
+ drivers/edac/i5000_edac.c         |   5 +-
+ drivers/edac/i5100_edac.c         |  14 +-
+ drivers/edac/i5400_edac.c         |   3 +-
+ drivers/edac/i7300_edac.c         |   3 +-
+ drivers/edac/i7core_edac.c        |   3 +-
+ drivers/edac/ie31200_edac.c       |   7 +-
+ drivers/edac/pnd2_edac.c          |   4 +-
+ drivers/edac/sb_edac.c            |   2 +-
+ drivers/edac/skx_base.c           |   3 +-
+ drivers/edac/ti_edac.c            |   2 +-
+ include/linux/edac.h              | 153 +++++-----
+ 18 files changed, 401 insertions(+), 441 deletions(-)
+
 --=20
 2.20.1
 
