@@ -2,58 +2,63 @@ Return-Path: <SRS0=1gXh=Y6=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17CD8C5DF60
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 01:25:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16088C5DF61
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 01:25:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BCF2F2247B
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 01:25:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B49D82245C
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Nov 2019 01:25:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="inPdGsTZ"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="tJlAKsaR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730478AbfKFBZC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 5 Nov 2019 20:25:02 -0500
+        id S1729614AbfKFBZI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 5 Nov 2019 20:25:08 -0500
 Received: from mail-eopbgr820079.outbound.protection.outlook.com ([40.107.82.79]:36833
         "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729614AbfKFBZC (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 5 Nov 2019 20:25:02 -0500
+        id S1730769AbfKFBZH (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 5 Nov 2019 20:25:07 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fzxlHGmAkyhMd0k/eQudJ1133dyrRR7zStrJjss6DncOASD3JgDS0Tz9p4oq2NIVFLVFim0qmbP+5ygcA1U5GrWURr0UadfFAUWWPSNpP1QobK9wr0P0b8MPDnA8v9GYisTOZUAaRLs+3Q/KOcOjzfeRchwUOWADMkxgk3a3eKvpenUuoQcROP7+jaRVQEBQSprV2ApGoet7hyEUQ83hpB0zwfp5izCHYIPhhGvgy1VN0izCmkL+2LGZjJ5jnhfybrBqnI1Kb5bjxEUDEjs2xHu1Jrl6tGwU68Vkp+xkD3d6lR2IiCvpIWBYoiiDxdHzscHboDQ5e9E5kMv3z593eA==
+ b=B1nuv38WwZJnbEczTqPaZ4qTRxD3/zxLRUUx2RAVnxzQdlLl0HLXRT6cCBCg3YTGKSidcrzoqVmvr/zyNaSsZlYMeR098i0oQTq3x83GmEXf2ZVQ84SyM7BWObqkiNZFf4MuNP8jSjcuyXSjZgYNFV6BwG8CnzjgTucOSG9nVpU9F+E+zGddFEHV4NL3yh6gD83ecx/kePYdfse6a1AuqYI5TeHx85TQYebjY1JejhSYJ3xgzIs2dr3+4CKPpmpwWCotWeGDKDnw0YEXVs2D2D9ThcQ+D8ur0Bu/Mvs31zFDzDACg3/E9RJFxMDvWWm9TjgjboSrobS0FHH8a8nEgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BfZZlLC1GaolrthWLsWfBce1z4UYwyRfPAAIgv1ezr8=;
- b=Lf1RnztAhPTtZ19TIWTu4568eAEsQ+cLkYeFv8ctL4KgOr8wnXxsihq9RWz8Tf0mqZ6wA6mgm7IQt/3K5ekSCQcdeWZnXrt92rogBO2/flgFKOD1RvslBWX7MNeXpIUEDhorjLZPsrpf30tjvF1SIL/hnICzIui9A30TbNgnBSYG4fcfRyN1oxMfttg3kdmpG5rvWpDqxww57n8lf7HE93UnMz/b1VuLgHE/3b7Fu8RC5xHp4PR68IuhT5BLu4F77Z1gNEpQcgQjMbsgWxE3psmCkVEz6NTER/nEqJkw0Wr6Soa35JXjnnprXda+WAXqE1RAEvl7sG7kvEU6t4juSQ==
+ bh=xPdFnmmQ0WisiQ0Q2OwvnHI7ffddDpTtaxufw+gY9Ng=;
+ b=QKPYw3bQHr48/mWhTR3xvzyad1v1dq7gOJW0hBJM3j2Zf/PNzJRzk31OMvEE5PsbUJFZpwDMFufUwcUu5/IgEJ5zr+FaI9c+F9um0IFD/Foa3riVgOPcp6wEprs8sn1uXj2cOQSoLNiGfQ0SOmxojiOqKisrBzJ9PE9xrnkcLJIQo27xyTxLlo5AktijZmqwQ5Y53b13hy4g3R1j3j4KII2hmWuDPn5ERXyEO0o+8Wju94cihTi5Phe/SbfAiLf9tfabtuLHFUfvSCkSix8Xc3xiEV/U/YqJLGTN3rRTIAK6gSknUL5OgtdCWiKssFvnImgtseMFV1YMf7yGlZl5kQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BfZZlLC1GaolrthWLsWfBce1z4UYwyRfPAAIgv1ezr8=;
- b=inPdGsTZYwWgoi5VJm2FDGilOSM4aBAkeG0uAWtcSyPV11IBvd54mOlsOrat1isZB0C+4eWeQ7NUFjglQliBAabuBaEwH89GmWUvvZWjIOTNarNc8FGGku+IXMcPz7rBVHzlpNMxx1D/UelEocLX4mJGPmUmP3XgFw2SLaHG1NE=
+ bh=xPdFnmmQ0WisiQ0Q2OwvnHI7ffddDpTtaxufw+gY9Ng=;
+ b=tJlAKsaR3sf8rbxxlc+RkQAczVwwLAU2W/rD5akdkp/tpQfXbIWpPuKYPXINGHjaoLZ5yglaj6wd4S1iZD13PM4NUw3uY9aW7JPB416tXlCAYkxkf81PbZc6UEI7Jg4zwoDKwsFaBbij2o82/HH7TBce5US6h5J8yEPPuWDsR4g=
 Received: from SN6PR12MB2639.namprd12.prod.outlook.com (52.135.103.16) by
  SN6PR12MB2783.namprd12.prod.outlook.com (52.135.107.146) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2408.24; Wed, 6 Nov 2019 01:24:59 +0000
+ 15.20.2408.24; Wed, 6 Nov 2019 01:25:02 +0000
 Received: from SN6PR12MB2639.namprd12.prod.outlook.com
  ([fe80::2819:e697:4314:56ba]) by SN6PR12MB2639.namprd12.prod.outlook.com
  ([fe80::2819:e697:4314:56ba%3]) with mapi id 15.20.2408.024; Wed, 6 Nov 2019
- 01:24:59 +0000
+ 01:25:02 +0000
 From:   "Ghannam, Yazen" <Yazen.Ghannam@amd.com>
 To:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 CC:     "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "bp@alien8.de" <bp@alien8.de>
-Subject: [PATCH v3 0/5] AMD64 EDAC: Check for nodes without memory, etc.
-Thread-Topic: [PATCH v3 0/5] AMD64 EDAC: Check for nodes without memory, etc.
-Thread-Index: AQHVlEEBkkiHg8UvLEKx+Q/uzElWBg==
-Date:   Wed, 6 Nov 2019 01:24:59 +0000
-Message-ID: <20191106012448.243970-1-Yazen.Ghannam@amd.com>
+Subject: [PATCH v3 5/5] EDAC/amd64: Check for memory before fully initializing
+ an instance
+Thread-Topic: [PATCH v3 5/5] EDAC/amd64: Check for memory before fully
+ initializing an instance
+Thread-Index: AQHVlEECwn3bnSYYRUK/Y8obdVXQEg==
+Date:   Wed, 6 Nov 2019 01:25:01 +0000
+Message-ID: <20191106012448.243970-6-Yazen.Ghannam@amd.com>
+References: <20191106012448.243970-1-Yazen.Ghannam@amd.com>
+In-Reply-To: <20191106012448.243970-1-Yazen.Ghannam@amd.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -68,30 +73,30 @@ x-mailer: git-send-email 2.17.1
 x-originating-ip: [165.204.78.2]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d79883c3-615e-4675-6a99-08d762582386
+x-ms-office365-filtering-correlation-id: 9490d007-b841-40b9-5b25-08d762582527
 x-ms-traffictypediagnostic: SN6PR12MB2783:
 x-ms-exchange-purlcount: 1
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR12MB27839A7E8E7F3B6DA20C19E5F8790@SN6PR12MB2783.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-microsoft-antispam-prvs: <SN6PR12MB2783B0C8CE9EFBD9DB6F1D4BF8790@SN6PR12MB2783.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 02135EB356
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(366004)(396003)(346002)(39860400002)(136003)(189003)(199004)(186003)(5660300002)(86362001)(386003)(4326008)(102836004)(6506007)(1076003)(52116002)(966005)(6306002)(2906002)(5640700003)(99286004)(6116002)(36756003)(54906003)(14454004)(25786009)(4744005)(486006)(66556008)(81156014)(6916009)(305945005)(7736002)(26005)(6512007)(2616005)(66066001)(2501003)(66946007)(316002)(64756008)(478600001)(50226002)(71190400001)(71200400001)(81166006)(8676002)(256004)(2351001)(8936002)(6436002)(476003)(6486002)(66446008)(66476007)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2783;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(979002)(4636009)(376002)(366004)(396003)(346002)(39860400002)(136003)(189003)(199004)(186003)(5660300002)(86362001)(386003)(4326008)(102836004)(6506007)(1076003)(52116002)(966005)(6306002)(2906002)(5640700003)(99286004)(6116002)(36756003)(54906003)(14454004)(25786009)(486006)(66556008)(446003)(11346002)(81156014)(6916009)(76176011)(305945005)(7736002)(26005)(6512007)(2616005)(66066001)(2501003)(66946007)(316002)(64756008)(478600001)(50226002)(71190400001)(71200400001)(81166006)(8676002)(256004)(14444005)(2351001)(8936002)(6436002)(476003)(6486002)(66446008)(66476007)(3846002)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR12MB2783;H:SN6PR12MB2639.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: r8kNFiK5x9oGlRN22S2TEmOrIIhH71PlAkl6te2z5et3atL1EXTPMLvbaOKZK8qDoUlQNjYHSLosgECGMMlbowPP5xKpk2kveS6/EmXbJ+KkKatesYGiMp3976CsAqFITuLH3ZT0cyXx7IpnyFZcEzI5F3cSt3KyxPu+/bSyYEMjOeblwnn7ZS1SqhKiP5be83HbwZotOtVLiW+HtqJU7wafd9KdrUB2PgISbwWWTpHosNtoNaV1MT67H1K9cowZDduXZETffQchRKeD8jrWNqEDL2XxM8FWPu50Y9v/nmj/pvdi6rJ9aY4D95kbpzQJ+KF08VoWO+o6GaV777IYqkXwo/GXJ6pLo3AadC2if1yhEEV/7sbqPd3XQXliYkM4snzklPdTE3Rqvk23EU9Qm9JMrBaM5TCC2ftgOjCoRmm/YBXb98NYA781CMCAF4HOpPxSq74n0jOgCwN1uEPkZQyfU4rEcOINSWbJgIkdvKE=
+x-microsoft-antispam-message-info: FXdAP/lf7i1CaFONqkSjRlbTHRp1IzTJZDNw8rH0akyRQC3R1C+MsgYV0dRyjGP3Zn621exBVhVQpEdPpKUigoqVPRYiw14FIdfFT5mp1U4WgH7SGOD4u9Lzjn8BQnPXfX3FzWi8hf9CkQs4/CORdGAYZFRsKXHQH1iyvnoBcmjGbHnyMG9gJRZj0e7yraI5Tq/FUofWZMGKeMFwChTBP/zQJnk7sBR+4MRStU4+iA4Nlytqp78mlRmA7CyLneTzaKULBrHcia23LZ3H4oXnz84GNH3rI1LDqqvgZX4f48OJgM0OOvqP9qic/Vamo8MLwE0tt4TMAc8G+8FVpJIgTTVSDBQiowO1Pe0O0/VxJjmnjWUOMt7wcX9Q9Uw5u0cy+98mQD1BDho2nuVZVxdoVZZRgwdrBb7boPAOgeFzxLQgghIbeFfP4cVhEQzFXz1KETS4bsJIT8OWAEXAKoZ8q776+8T0icPXFyOkyzjjUoI=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d79883c3-615e-4675-6a99-08d762582386
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 01:24:59.1288
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9490d007-b841-40b9-5b25-08d762582527
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2019 01:25:01.8663
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZINDXTHtvHSL7h2FEMXGVhUm+1jtnmk1BRpdydnuf6mJ9lA49Pi2/dl0a3Q8dD9x8mm4R856f9CXsvQHxM8AJQ==
+X-MS-Exchange-CrossTenant-userprincipalname: fr3XO24ZneFR/53ODEKtq0TjjlSPV2G0lQIx39A8fKdIpDKsveTshO5Qz/h+PJtWuz/nG9elsrKrJFshfS+12w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2783
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
@@ -100,32 +105,101 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Hi Boris,
+Return early before checking for ECC if the node does not have any
+populated memory.
 
-These patches address the issue where the module checks and complains
-about DRAM ECC on nodes without memory.
+Free any cached hardware data before returning. Also, return 0 in this
+case since this is not a failure. Other nodes may have memory and the
+module should attempt to load an instance for them.
 
-Changes from last revision:
-  1) Dropped patch 6 which was for adding a grain value.
-  2) Added an error code for !ecc_enabled() in patch 5.
+Move printing of hardware information to after the instance is
+initialized, so that the information is only printed for nodes with
+memory.
 
-Thanks,
-Yazen
+Return an error code when ECC is disabled. This check happens after
+checking for memory. The module should explicitly fail to load if memory
+is populated on a node and ECC is disabled.
 
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
 Link:
-https://lkml.kernel.org/r/20191022203448.13962-1-Yazen.Ghannam@amd.com
+https://lkml.kernel.org/r/20191022203448.13962-6-Yazen.Ghannam@amd.com
 
-Yazen Ghannam (5):
-  EDAC/amd64: Make struct amd64_family_type global
-  EDAC/amd64: Gather hardware information early
-  EDAC/amd64: Save max number of controllers to family type
-  EDAC/amd64: Use cached data when checking for ECC
-  EDAC/amd64: Check for memory before fully initializing an instance
+v2 -> v3:
+* Add error code to !ecc_enabled() path.
 
- drivers/edac/amd64_edac.c | 196 +++++++++++++++++++-------------------
- drivers/edac/amd64_edac.h |   2 +
- 2 files changed, 99 insertions(+), 99 deletions(-)
+v1 -> v2:
+* No change.
 
+rfc -> v1:
+* Change message severity to "info".
+  * Nodes without memory is a valid configuration. The user doesn't
+    need to be warned.
+* Drop "DRAM ECC disabled" from message.
+  * The message is given when no memory was detected on a node.
+  * The state of DRAM ECC is not checked here.
+
+ drivers/edac/amd64_edac.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index d38ba7f17753..3aeb5173e200 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2848,8 +2848,6 @@ static void read_mc_regs(struct amd64_pvt *pvt)
+ 	edac_dbg(1, "  DIMM type: %s\n", edac_mem_types[pvt->dram_type]);
+=20
+ 	determine_ecc_sym_sz(pvt);
+-
+-	dump_misc_regs(pvt);
+ }
+=20
+ /*
+@@ -3491,6 +3489,19 @@ static int init_one_instance(struct amd64_pvt *pvt)
+ 	return 0;
+ }
+=20
++static bool instance_has_memory(struct amd64_pvt *pvt)
++{
++	bool cs_enabled =3D false;
++	int cs =3D 0, dct =3D 0;
++
++	for (dct =3D 0; dct < fam_type->max_mcs; dct++) {
++		for_each_chip_select(cs, dct, pvt)
++			cs_enabled |=3D csrow_enabled(cs, dct, pvt);
++	}
++
++	return cs_enabled;
++}
++
+ static int probe_one_instance(unsigned int nid)
+ {
+ 	struct pci_dev *F3 =3D node_to_amd_nb(nid)->misc;
+@@ -3520,8 +3531,14 @@ static int probe_one_instance(unsigned int nid)
+ 	if (ret < 0)
+ 		goto err_enable;
+=20
++	ret =3D 0;
++	if (!instance_has_memory(pvt)) {
++		amd64_info("Node %d: No DIMMs detected.\n", nid);
++		goto err_enable;
++	}
++
+ 	if (!ecc_enabled(pvt)) {
+-		ret =3D 0;
++		ret =3D -ENODEV;
+=20
+ 		if (!ecc_enable_override)
+ 			goto err_enable;
+@@ -3546,6 +3563,8 @@ static int probe_one_instance(unsigned int nid)
+ 		goto err_enable;
+ 	}
+=20
++	dump_misc_regs(pvt);
++
+ 	return ret;
+=20
+ err_enable:
 --=20
 2.17.1
 
