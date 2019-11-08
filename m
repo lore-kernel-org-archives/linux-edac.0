@@ -1,107 +1,199 @@
-Return-Path: <SRS0=uR2G=Y7=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=nLbu=ZA=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E820C5DF60
-	for <linux-edac@archiver.kernel.org>; Thu,  7 Nov 2019 19:59:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7626DFC6194
+	for <linux-edac@archiver.kernel.org>; Fri,  8 Nov 2019 11:58:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 54FB4214D8
-	for <linux-edac@archiver.kernel.org>; Thu,  7 Nov 2019 19:59:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C0FE2084D
+	for <linux-edac@archiver.kernel.org>; Fri,  8 Nov 2019 11:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1573214319;
+	bh=UfxJx9uniduwgP9FegUeu7x2UFPsH3p8h2KakbrthM8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=0z1RARe3ynmsH4qpihmcdCHRKA0WdpbnnYIa3UI6PX2NjRDMJY1IXdCQFMq2D5zWx
+	 dhCvtW0V/0629QClP3kT4DOt6ICJHEGzl38rari48cFHbY2i42dv5FvO3WsSLCb/I1
+	 Xp/A1sgS8+mEjWB4OA3Krpa4BazFRhYRfNOHPPMM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbfKGT7o (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 7 Nov 2019 14:59:44 -0500
-Received: from mga06.intel.com ([134.134.136.31]:34947 "EHLO mga06.intel.com"
+        id S2390834AbfKHLoi (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 8 Nov 2019 06:44:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59610 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbfKGT7o (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 7 Nov 2019 14:59:44 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Nov 2019 11:59:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,279,1569308400"; 
-   d="scan'208";a="233379310"
-Received: from tthayer-hp-z620.an.intel.com ([10.122.105.146])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2019 11:59:43 -0800
-From:   thor.thayer@linux.intel.com
-To:     bp@alien8.de, mchehab@kernel.org, tony.luck@intel.com,
-        james.morse@arm.com, rrichter@marvell.com
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thor Thayer <thor.thayer@linux.intel.com>
-Subject: [PATCH 1/2] EDAC/altera: Cleanup the ECC Manager
-Date:   Thu,  7 Nov 2019 14:01:29 -0600
-Message-Id: <1573156890-26891-2-git-send-email-thor.thayer@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1573156890-26891-1-git-send-email-thor.thayer@linux.intel.com>
-References: <1573156890-26891-1-git-send-email-thor.thayer@linux.intel.com>
+        id S2390823AbfKHLoh (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 8 Nov 2019 06:44:37 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 40BFA2245B;
+        Fri,  8 Nov 2019 11:44:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573213477;
+        bh=UfxJx9uniduwgP9FegUeu7x2UFPsH3p8h2KakbrthM8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hzelbH4RqxjjJC3KQQAOwhOANkbf6nDMD3c3L0kqrBzf60XNM/mY0wm7Rnw+GqU6r
+         f4+bY8o+IfKm6FbPKKLXt7It860hSAzkze6Qg+ovbsVo0SM9vr5+iK1NQe0naWqs2A
+         spkn+GKqibHIUKHrapGON+oqEjOI6YMh27UHwTpQ=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Aristeu Rozanski <aris@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-edac <linux-edac@vger.kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 059/103] EDAC, sb_edac: Return early on ADDRV bit and address type test
+Date:   Fri,  8 Nov 2019 06:42:24 -0500
+Message-Id: <20191108114310.14363-59-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191108114310.14363-1-sashal@kernel.org>
+References: <20191108114310.14363-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Thor Thayer <thor.thayer@linux.intel.com>
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 
-Cleanup the ECC Manager peripheral test in probe function as
-suggested by James.
-Remove the check for Stratix10.
+[ Upstream commit dcc960b225ceb2bd66c45e0845d03e577f7010f9 ]
 
-Suggested-by: James Morse <james.morse@arm.com>
-Signed-off-by: Thor Thayer <thor.thayer@linux.intel.com>
+Users of the mce_register_decode_chain() are called for every logged
+error. EDAC drivers should check:
+
+1) Is this a memory error? [bit 7 in status register]
+2) Is there a valid address? [bit 58 in status register]
+3) Is the address a system address? [bitfield 8:6 in misc register]
+
+The sb_edac driver performed test "1" twice. Waited far too long to
+perform check "2". Didn't do check "3" at all.
+
+Fix it by moving the test for valid address from
+sbridge_mce_output_error() into sbridge_mce_check_error() and add a test
+for the type immediately after. Delete the redundant check for the type
+of the error from sbridge_mce_output_error().
+
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: Aristeu Rozanski <aris@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Link: http://lkml.kernel.org/r/20180907230828.13901-2-tony.luck@intel.com
+[ Re-word commit message. ]
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/altera_edac.c | 21 +--------------------
- 1 file changed, 1 insertion(+), 20 deletions(-)
+ drivers/edac/sb_edac.c | 68 ++++++++++++++++++++++--------------------
+ 1 file changed, 35 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index fbda4b876afd..e893ff8731cb 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1013,11 +1013,6 @@ static int socfpga_is_a10(void)
- 	return of_machine_is_compatible("altr,socfpga-arria10");
- }
+diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+index b0b390a1da154..ddd5990211f8a 100644
+--- a/drivers/edac/sb_edac.c
++++ b/drivers/edac/sb_edac.c
+@@ -2915,35 +2915,27 @@ static void sbridge_mce_output_error(struct mem_ctl_info *mci,
+ 	 *	cccc = channel
+ 	 * If the mask doesn't match, report an error to the parsing logic
+ 	 */
+-	if (! ((errcode & 0xef80) == 0x80)) {
+-		optype = "Can't parse: it is not a mem";
+-	} else {
+-		switch (optypenum) {
+-		case 0:
+-			optype = "generic undef request error";
+-			break;
+-		case 1:
+-			optype = "memory read error";
+-			break;
+-		case 2:
+-			optype = "memory write error";
+-			break;
+-		case 3:
+-			optype = "addr/cmd error";
+-			break;
+-		case 4:
+-			optype = "memory scrubbing error";
+-			break;
+-		default:
+-			optype = "reserved";
+-			break;
+-		}
++	switch (optypenum) {
++	case 0:
++		optype = "generic undef request error";
++		break;
++	case 1:
++		optype = "memory read error";
++		break;
++	case 2:
++		optype = "memory write error";
++		break;
++	case 3:
++		optype = "addr/cmd error";
++		break;
++	case 4:
++		optype = "memory scrubbing error";
++		break;
++	default:
++		optype = "reserved";
++		break;
+ 	}
  
--static int socfpga_is_s10(void)
--{
--	return of_machine_is_compatible("altr,socfpga-stratix10");
--}
+-	/* Only decode errors with an valid address (ADDRV) */
+-	if (!GET_BITFIELD(m->status, 58, 58))
+-		return;
 -
- static __init int __maybe_unused
- altr_init_a10_ecc_block(struct device_node *np, u32 irq_mask,
- 			u32 ecc_ctrl_en_mask, bool dual_port)
-@@ -1125,9 +1120,6 @@ static int __init __maybe_unused altr_init_a10_ecc_device_type(char *compat)
- 	int irq;
- 	struct device_node *child, *np;
+ 	if (pvt->info.type == KNIGHTS_LANDING) {
+ 		if (channel == 14) {
+ 			edac_dbg(0, "%s%s err_code:%04x:%04x EDRAM bank %d\n",
+@@ -3049,17 +3041,11 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
+ {
+ 	struct mce *mce = (struct mce *)data;
+ 	struct mem_ctl_info *mci;
+-	struct sbridge_pvt *pvt;
+ 	char *type;
  
--	if (!socfpga_is_a10() && !socfpga_is_s10())
--		return -ENODEV;
+ 	if (edac_get_report_status() == EDAC_REPORTING_DISABLED)
+ 		return NOTIFY_DONE;
+ 
+-	mci = get_mci_for_node_id(mce->socketid, IMC0);
+-	if (!mci)
+-		return NOTIFY_DONE;
+-	pvt = mci->pvt_info;
 -
- 	np = of_find_compatible_node(NULL, NULL,
- 				     "altr,socfpga-a10-ecc-manager");
- 	if (!np) {
-@@ -2270,18 +2262,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
- 		if (!of_device_is_available(child))
- 			continue;
+ 	/*
+ 	 * Just let mcelog handle it if the error is
+ 	 * outside the memory controller. A memory error
+@@ -3069,6 +3055,22 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
+ 	if ((mce->status & 0xefff) >> 7 != 1)
+ 		return NOTIFY_DONE;
  
--		if (of_device_is_compatible(child, "altr,socfpga-a10-l2-ecc") || 
--		    of_device_is_compatible(child, "altr,socfpga-a10-ocram-ecc") ||
--		    of_device_is_compatible(child, "altr,socfpga-eth-mac-ecc") ||
--		    of_device_is_compatible(child, "altr,socfpga-nand-ecc") ||
--		    of_device_is_compatible(child, "altr,socfpga-dma-ecc") ||
--		    of_device_is_compatible(child, "altr,socfpga-usb-ecc") ||
--		    of_device_is_compatible(child, "altr,socfpga-qspi-ecc") ||
--#ifdef CONFIG_EDAC_ALTERA_SDRAM
--		    of_device_is_compatible(child, "altr,sdram-edac-s10") ||
--#endif
--		    of_device_is_compatible(child, "altr,socfpga-sdmmc-ecc"))
--
-+		if (of_match_node(altr_edac_a10_device_of_match, child))
- 			altr_edac_a10_device_add(edac, child);
- 
- #ifdef CONFIG_EDAC_ALTERA_SDRAM
++	/* Check ADDRV bit in STATUS */
++	if (!GET_BITFIELD(mce->status, 58, 58))
++		return NOTIFY_DONE;
++
++	/* Check MISCV bit in STATUS */
++	if (!GET_BITFIELD(mce->status, 59, 59))
++		return NOTIFY_DONE;
++
++	/* Check address type in MISC (physical address only) */
++	if (GET_BITFIELD(mce->misc, 6, 8) != 2)
++		return NOTIFY_DONE;
++
++	mci = get_mci_for_node_id(mce->socketid, IMC0);
++	if (!mci)
++		return NOTIFY_DONE;
++
+ 	if (mce->mcgstatus & MCG_STATUS_MCIP)
+ 		type = "Exception";
+ 	else
 -- 
-2.7.4
+2.20.1
 
