@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7626DFC6194
-	for <linux-edac@archiver.kernel.org>; Fri,  8 Nov 2019 11:58:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA14FA372C
+	for <linux-edac@archiver.kernel.org>; Fri,  8 Nov 2019 12:07:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C0FE2084D
-	for <linux-edac@archiver.kernel.org>; Fri,  8 Nov 2019 11:58:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71A3D222C4
+	for <linux-edac@archiver.kernel.org>; Fri,  8 Nov 2019 12:07:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573214319;
-	bh=UfxJx9uniduwgP9FegUeu7x2UFPsH3p8h2KakbrthM8=;
+	s=default; t=1573214848;
+	bh=e6NTprb3jfTz+2nF7tlFhfvKaDMh0ejXCMzptpLJ9aA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=0z1RARe3ynmsH4qpihmcdCHRKA0WdpbnnYIa3UI6PX2NjRDMJY1IXdCQFMq2D5zWx
-	 dhCvtW0V/0629QClP3kT4DOt6ICJHEGzl38rari48cFHbY2i42dv5FvO3WsSLCb/I1
-	 Xp/A1sgS8+mEjWB4OA3Krpa4BazFRhYRfNOHPPMM=
+	b=fIlVnMH3QNSf1zydMzjI1T7d1f/LR4UfNl88f2LOF5HLLtLrZoei7R0P9QZK+0nrR
+	 hRbyXBroNmwhyTzkjZdlh7dTvovtA/9lZhKriIlQL/AFJYUY1K9qWHXbbdaUc/NsYq
+	 bKBXSM+3XM/fB6C1A4pf4BP8FTxAEB/GSQrLXBPc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390834AbfKHLoi (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 8 Nov 2019 06:44:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59610 "EHLO mail.kernel.org"
+        id S2389105AbfKHMHS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 8 Nov 2019 07:07:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54074 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390823AbfKHLoh (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 8 Nov 2019 06:44:37 -0500
+        id S2389080AbfKHLlA (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 8 Nov 2019 06:41:00 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 40BFA2245B;
-        Fri,  8 Nov 2019 11:44:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A25DE21D7E;
+        Fri,  8 Nov 2019 11:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573213477;
-        bh=UfxJx9uniduwgP9FegUeu7x2UFPsH3p8h2KakbrthM8=;
+        s=default; t=1573213258;
+        bh=e6NTprb3jfTz+2nF7tlFhfvKaDMh0ejXCMzptpLJ9aA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hzelbH4RqxjjJC3KQQAOwhOANkbf6nDMD3c3L0kqrBzf60XNM/mY0wm7Rnw+GqU6r
-         f4+bY8o+IfKm6FbPKKLXt7It860hSAzkze6Qg+ovbsVo0SM9vr5+iK1NQe0naWqs2A
-         spkn+GKqibHIUKHrapGON+oqEjOI6YMh27UHwTpQ=
+        b=Ze7CrEFRHCpqVE+fRp9TpcOVzjPXAXVFd0540Yzx4sP3LZ5Hf5HS6xkTpY6exSzn3
+         /rVwvj3K+Z6w7lvdkHUDf3iX6EEC+ELA/wjLhJFtzSpcYwte7G5ICNLi3Nohnh4k16
+         n4VN2CP7vDTu+sUVjId0hq7xtXnKcXIBFckVcglM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
@@ -46,12 +46,12 @@ Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
         linux-edac <linux-edac@vger.kernel.org>,
         Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.14 059/103] EDAC, sb_edac: Return early on ADDRV bit and address type test
-Date:   Fri,  8 Nov 2019 06:42:24 -0500
-Message-Id: <20191108114310.14363-59-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 123/205] EDAC, sb_edac: Return early on ADDRV bit and address type test
+Date:   Fri,  8 Nov 2019 06:36:30 -0500
+Message-Id: <20191108113752.12502-123-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191108114310.14363-1-sashal@kernel.org>
-References: <20191108114310.14363-1-sashal@kernel.org>
+In-Reply-To: <20191108113752.12502-1-sashal@kernel.org>
+References: <20191108113752.12502-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -95,10 +95,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 35 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
-index b0b390a1da154..ddd5990211f8a 100644
+index 72cea3cb86224..7447f1453200d 100644
 --- a/drivers/edac/sb_edac.c
 +++ b/drivers/edac/sb_edac.c
-@@ -2915,35 +2915,27 @@ static void sbridge_mce_output_error(struct mem_ctl_info *mci,
+@@ -2912,35 +2912,27 @@ static void sbridge_mce_output_error(struct mem_ctl_info *mci,
  	 *	cccc = channel
  	 * If the mask doesn't match, report an error to the parsing logic
  	 */
@@ -153,7 +153,7 @@ index b0b390a1da154..ddd5990211f8a 100644
  	if (pvt->info.type == KNIGHTS_LANDING) {
  		if (channel == 14) {
  			edac_dbg(0, "%s%s err_code:%04x:%04x EDRAM bank %d\n",
-@@ -3049,17 +3041,11 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
+@@ -3046,17 +3038,11 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
  {
  	struct mce *mce = (struct mce *)data;
  	struct mem_ctl_info *mci;
@@ -171,7 +171,7 @@ index b0b390a1da154..ddd5990211f8a 100644
  	/*
  	 * Just let mcelog handle it if the error is
  	 * outside the memory controller. A memory error
-@@ -3069,6 +3055,22 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
+@@ -3066,6 +3052,22 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
  	if ((mce->status & 0xefff) >> 7 != 1)
  		return NOTIFY_DONE;
  
