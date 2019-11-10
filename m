@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73690C17443
-	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 02:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B1CC17440
+	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 02:55:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 45A1421019
-	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 02:52:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C7F921019
+	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 02:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573354341;
-	bh=youHC11LHjAs4CWKcmpmT/pWr3+p84Nsi0dY0gcXfR8=;
+	s=default; t=1573354552;
+	bh=0TzDo2o1u8nxxb/Sq/KXyMi+SDVIeTDpEFCStzh3eEk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=AzjLhz9zQmlPWgZo+SLsRCnQe82VhTPu4mLNW1X24/x/mPUxjYv1NReL2dhs6an8W
-	 kS5Alu5jnQrVM2F1ZfTorjzMV/i8nr1LDcvfUM66qH5duwKy9GXo0J4B4+oU66VXc7
-	 lPmPMCQFYXUMwEDBIpgvj3aDn3JGeN3ggz+1EB28=
+	b=npz/WsOWjFH/A7fU6Xnmzqq88d2j6v7E8zRDCcj5x/DuhgZi5pKRTSGdN9f7hyJGr
+	 uVCcUH2NWlMufmeGIqJifjHGSH6f9C1pQIScGmjsei2RnL9rCkdVBovv4uiWhETHHO
+	 MGmOHfiE0G5/pbJlY6qQm5W34KvuvbndK0cHPmXU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730041AbfKJCvn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 9 Nov 2019 21:51:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36614 "EHLO mail.kernel.org"
+        id S1727084AbfKJCzv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 9 Nov 2019 21:55:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33068 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730030AbfKJCvm (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:51:42 -0500
+        id S1726856AbfKJCuL (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:50:11 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9829C22583;
-        Sun, 10 Nov 2019 02:51:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B9880225AD;
+        Sun, 10 Nov 2019 02:50:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354301;
-        bh=youHC11LHjAs4CWKcmpmT/pWr3+p84Nsi0dY0gcXfR8=;
+        s=default; t=1573354210;
+        bh=0TzDo2o1u8nxxb/Sq/KXyMi+SDVIeTDpEFCStzh3eEk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ltsF3wRNvGeXBriGZr5AY7RnZ1AnsF1UF9kPMJ5RJRBB+jABKRhjNgTHNjZAooRRw
-         tjIWRgS9ikX4Kv6wwpup5UoY3TsAFnRbHRD+JZqu2PtNQ2jsJjHOm1GhjMe3IQ0TNi
-         S0uIjcvvKI2tps3RMQJrvupOGe1ijKcRR+S/bG3o=
+        b=U7j8hhBJqNPebKejfF6P7bz669i+q1YRZxfMKoUlySjzRyU7vuVJgEkR3HhW7FT3Y
+         bpXHmlWCfLqcsbqFpuO7+GFbUePj/IWm8a3jZyI2U1qA7u+hE1vhIIF46byAiwKZpF
+         Mj7zYk5TA8T3F9dq7nhHq+w/i5wurYebLEbgk7AM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Justin Ernst <justin.ernst@hpe.com>, Borislav Petkov <bp@suse.de>,
         Russ Anderson <russ.anderson@hpe.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.4 37/40] EDAC: Raise the maximum number of memory controllers
-Date:   Sat,  9 Nov 2019 21:50:29 -0500
-Message-Id: <20191110025032.827-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 50/66] EDAC: Raise the maximum number of memory controllers
+Date:   Sat,  9 Nov 2019 21:48:29 -0500
+Message-Id: <20191110024846.32598-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110025032.827-1-sashal@kernel.org>
-References: <20191110025032.827-1-sashal@kernel.org>
+In-Reply-To: <20191110024846.32598-1-sashal@kernel.org>
+References: <20191110024846.32598-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -95,7 +95,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/edac.h b/include/linux/edac.h
-index 4fe67b853de04..9bb4f3311e137 100644
+index 9e0d78966552c..c6233227720c7 100644
 --- a/include/linux/edac.h
 +++ b/include/linux/edac.h
 @@ -17,6 +17,7 @@
