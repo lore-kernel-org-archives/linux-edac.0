@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD94CC17443
-	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 02:59:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8718C43331
+	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 03:09:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B21BF214E0
-	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 02:59:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E7EA21850
+	for <linux-edac@archiver.kernel.org>; Sun, 10 Nov 2019 03:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573354761;
-	bh=UupwU4breSByp96+YTz2uZ3ED3NUHaAkfOoof3kWAeI=;
+	s=default; t=1573355381;
+	bh=8YwN1mIPCq0li5Fv10AaqXAk7tANchOV30SvSfyabI8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=1SVRIwqopBG2Ge/27CGdUrL4czF/UlR8Vf9RszYLA1l+1YFqGw9ZFCDAnVwGnUR4u
-	 pFWEE4IgrfHPfjULrv8clBc1V4girQfKTIKGdYPQa7BaF2klz+M40njEiP5nenRz3t
-	 UGRPRRbZ+h4CpOIGmCwTWyrB+7fKNvtqcq5nh8tE=
+	b=HQbzb6OZkU0JSuM7Fwkb4QCJLqEWQHRSrFMtL3wS+vTLeibrzXA0/DePKxbXlsZlM
+	 XDLB6wV/AfIjlEfsRnXgyGdiDZ11uai2i81Sw+bbt2LhFmivxzFKjXgSEbROkS9goY
+	 JKiQJY5/cWkKkLvzZEu2tm28xEgyc/OPWGzccI+k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727900AbfKJC6v (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 9 Nov 2019 21:58:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47258 "EHLO mail.kernel.org"
+        id S1728575AbfKJCoc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 9 Nov 2019 21:44:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43916 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729294AbfKJC4r (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:56:47 -0500
+        id S1727549AbfKJCob (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:44:31 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B692D2248D;
-        Sun, 10 Nov 2019 02:48:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CE29D21848;
+        Sun, 10 Nov 2019 02:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354082;
-        bh=UupwU4breSByp96+YTz2uZ3ED3NUHaAkfOoof3kWAeI=;
+        s=default; t=1573353870;
+        bh=8YwN1mIPCq0li5Fv10AaqXAk7tANchOV30SvSfyabI8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1fZdsG2214Sgo192WU71izkQ9jWTrlvAFPD/zVuGdb0ADB1lddiwLKrCDwT9qusQT
-         dxv9gGetScYS37Y3zRn6QsYyo0v6x9fVh8llQZUuhIF498xc05VEGXI9/HCjkzCUCk
-         kP0MJomnVR2BY1YzveDQWtogfOCjyjPFAn4y19i0=
+        b=JHG3rCPgP6Pk3voZK1r4IQ8tSdJI3+Cf9Z6EkTuM98PvbZStLr/wGO50T7q4gGJyG
+         3sV86Qlvt+nHgse103iyN7x4TufnqgsNOIircR3W6QVlHeGiwSl9lztgQL9ZbUTVyq
+         /Ow/zeAdxIjHwtocmuG0BkoysJYo7FYHbyWfzXjo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Justin Ernst <justin.ernst@hpe.com>, Borislav Petkov <bp@suse.de>,
         Russ Anderson <russ.anderson@hpe.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.14 080/109] EDAC: Raise the maximum number of memory controllers
-Date:   Sat,  9 Nov 2019 21:45:12 -0500
-Message-Id: <20191110024541.31567-80-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 150/191] EDAC: Raise the maximum number of memory controllers
+Date:   Sat,  9 Nov 2019 21:39:32 -0500
+Message-Id: <20191110024013.29782-150-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110024541.31567-1-sashal@kernel.org>
-References: <20191110024541.31567-1-sashal@kernel.org>
+In-Reply-To: <20191110024013.29782-1-sashal@kernel.org>
+References: <20191110024013.29782-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -95,7 +95,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/edac.h b/include/linux/edac.h
-index cd75c173fd00b..90f72336aea66 100644
+index bffb97828ed67..958d69332c1d5 100644
 --- a/include/linux/edac.h
 +++ b/include/linux/edac.h
 @@ -17,6 +17,7 @@
@@ -106,7 +106,7 @@ index cd75c173fd00b..90f72336aea66 100644
  
  #define EDAC_DEVICE_NAME_LEN	31
  
-@@ -667,6 +668,6 @@ struct mem_ctl_info {
+@@ -670,6 +671,6 @@ struct mem_ctl_info {
  /*
   * Maximum number of memory controllers in the coherent fabric.
   */
