@@ -2,36 +2,35 @@ Return-Path: <SRS0=K3rn=ZE=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C75F3C43331
-	for <linux-edac@archiver.kernel.org>; Tue, 12 Nov 2019 12:30:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73EF8C43331
+	for <linux-edac@archiver.kernel.org>; Tue, 12 Nov 2019 12:30:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A8D2221D7F
-	for <linux-edac@archiver.kernel.org>; Tue, 12 Nov 2019 12:30:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 511F0206BB
+	for <linux-edac@archiver.kernel.org>; Tue, 12 Nov 2019 12:30:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbfKLMam (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 12 Nov 2019 07:30:42 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:6641 "EHLO huawei.com"
+        id S1727002AbfKLMav (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 12 Nov 2019 07:30:51 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:41274 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726985AbfKLMam (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 12 Nov 2019 07:30:42 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id C16DFB6AB842F8FFAD7C;
-        Tue, 12 Nov 2019 20:30:37 +0800 (CST)
+        id S1726988AbfKLMav (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 12 Nov 2019 07:30:51 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id EAC559130E44FA4FC548;
+        Tue, 12 Nov 2019 20:30:31 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 12 Nov 2019 20:30:27 +0800
+ 14.3.439.0; Tue, 12 Nov 2019 20:30:22 +0800
 From:   Xiaofei Tan <tanxiaofei@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     Xiaofei Tan <tanxiaofei@huawei.com>, <linuxarm@huawei.com>,
         <shiju.jose@huawei.com>, <jonathan.cameron@huawei.com>
-Subject: [PATCH 7/9] rasdaemon: split PCIe local table decode function to reduce length
-Date:   Tue, 12 Nov 2019 20:27:12 +0800
-Message-ID: <1573561634-225173-8-git-send-email-tanxiaofei@huawei.com>
+Subject: [PATCH 2/9] rasdaemon: fix an warning reported by PC-Lint
+Date:   Tue, 12 Nov 2019 20:27:07 +0800
+Message-ID: <1573561634-225173-3-git-send-email-tanxiaofei@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1573561634-225173-1-git-send-email-tanxiaofei@huawei.com>
 References: <1573561634-225173-1-git-send-email-tanxiaofei@huawei.com>
@@ -44,119 +43,27 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch splits function decode_hip08_pcie_local_error() to reduce
-length. Move header decoding and register dump to single function
-separately.
+This patch fixes the following warning, and no function change.
+Warning -- Storage class specified after a type
 
 Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
 ---
- non-standard-hisi_hip08.c | 75 ++++++++++++++++++++++++++++-------------------
- 1 file changed, 45 insertions(+), 30 deletions(-)
+ non-standard-hisi_hip08.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/non-standard-hisi_hip08.c b/non-standard-hisi_hip08.c
-index ea640a6..fcc7a0e 100644
+index 1774ec7..5e4b6a0 100644
 --- a/non-standard-hisi_hip08.c
 +++ b/non-standard-hisi_hip08.c
-@@ -868,36 +868,12 @@ static int decode_hip08_oem_type2_error(struct ras_events *ras,
- 	return 0;
- }
+@@ -811,8 +811,7 @@ struct ras_ns_dec_tab hip08_ns_oem_tab[] = {
+ 	{ /* sentinel */ }
+ };
  
--static int decode_hip08_pcie_local_error(struct ras_events *ras,
--					 struct ras_ns_dec_tab *dec_tab,
--					 struct trace_seq *s,
--					 struct ras_non_standard_event *event)
-+static void decode_pcie_local_err_hdr(struct ras_ns_dec_tab *dec_tab,
-+				      struct trace_seq *s,
-+				      const struct hisi_pcie_local_err_sec *err)
+-__attribute__((constructor))
+-static void hip08_init(void)
++static void __attribute__((constructor)) hip08_init(void)
  {
--	const struct hisi_pcie_local_err_sec *err =
--			(struct hisi_pcie_local_err_sec *)event->error;
- 	char buf[1024];
- 	char *p = buf;
--	uint32_t i;
--
--	if (err->val_bits == 0) {
--		trace_seq_printf(s, "%s: no valid error information\n",
--				 __func__);
--		return -1;
--	}
--
--#ifdef HAVE_SQLITE3
--	if (!dec_tab->stmt_dec_record) {
--		if (ras_mc_add_vendor_table(ras, &dec_tab->stmt_dec_record,
--				&hip08_pcie_local_event_tab) != SQLITE_OK) {
--			trace_seq_printf(s,
--				"create sql hip08_pcie_local_event_tab fail\n");
--			return -1;
--		}
--	}
--#endif
--	record_vendor_data(dec_tab, hisi_oem_data_type_text,
--			   hip08_pcie_local_field_timestamp,
--			   0, event->timestamp);
- 
- 	p += sprintf(p, "[ ");
- 	p += sprintf(p, "table_version=%d ", err->version);
-@@ -962,11 +938,17 @@ static int decode_hip08_pcie_local_error(struct ras_events *ras,
- 				   err->err_type, NULL);
- 	}
- 	p += sprintf(p, "]");
--
--	trace_seq_printf(s, "\nHISI HIP08: PCIe local error\n");
- 	trace_seq_printf(s, "%s\n", buf);
-+}
-+
-+static void decode_pcie_local_err_regs(struct ras_ns_dec_tab *dec_tab,
-+				       struct trace_seq *s,
-+				       const struct hisi_pcie_local_err_sec *err)
-+{
-+	char buf[1024];
-+	char *p = buf;
-+	uint32_t i;
- 
--	p = buf;
- 	trace_seq_printf(s, "Reg Dump:\n");
- 	for (i = 0; i < 33; i++) {
- 		if (err->val_bits & BIT(HISI_PCIE_LOCAL_VALID_ERR_MISC + i)) {
-@@ -981,6 +963,39 @@ static int decode_hip08_pcie_local_error(struct ras_events *ras,
- 			   hip08_pcie_local_field_regs_dump, 0, buf);
- 
- 	step_vendor_data_tab(dec_tab, "hip08_pcie_local_event_tab");
-+}
-+
-+static int decode_hip08_pcie_local_error(struct ras_events *ras,
-+					 struct ras_ns_dec_tab *dec_tab,
-+					 struct trace_seq *s,
-+					 struct ras_non_standard_event *event)
-+{
-+	const struct hisi_pcie_local_err_sec *err =
-+			(struct hisi_pcie_local_err_sec *)event->error;
-+
-+	if (err->val_bits == 0) {
-+		trace_seq_printf(s, "%s: no valid error information\n",
-+				 __func__);
-+		return -1;
-+	}
-+
-+#ifdef HAVE_SQLITE3
-+	if (!dec_tab->stmt_dec_record) {
-+		if (ras_mc_add_vendor_table(ras, &dec_tab->stmt_dec_record,
-+				&hip08_pcie_local_event_tab) != SQLITE_OK) {
-+			trace_seq_printf(s,
-+				"create sql hip08_pcie_local_event_tab fail\n");
-+			return -1;
-+		}
-+	}
-+#endif
-+	record_vendor_data(dec_tab, hisi_oem_data_type_text,
-+			   hip08_pcie_local_field_timestamp,
-+			   0, event->timestamp);
-+
-+	trace_seq_printf(s, "\nHISI HIP08: PCIe local error\n");
-+	decode_pcie_local_err_hdr(dec_tab, s, err);
-+	decode_pcie_local_err_regs(dec_tab, s, err);
- 
- 	return 0;
+ 	register_ns_dec_tab(hip08_ns_oem_tab);
  }
 -- 
 2.8.1
