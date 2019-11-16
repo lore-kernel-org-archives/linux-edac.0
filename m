@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42AA6C33C8C
-	for <linux-edac@archiver.kernel.org>; Sat, 16 Nov 2019 15:41:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE047C432C3
+	for <linux-edac@archiver.kernel.org>; Sat, 16 Nov 2019 16:15:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 131B82075B
-	for <linux-edac@archiver.kernel.org>; Sat, 16 Nov 2019 15:41:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A851521823
+	for <linux-edac@archiver.kernel.org>; Sat, 16 Nov 2019 16:15:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573918890;
-	bh=sJJLiwpOvgcSG95me1xpezoQaHq1vBEc0vPQTntpyhA=;
+	s=default; t=1573920907;
+	bh=7Jtc+OPj6lJy4u5O+w2EvlERek4r1QK+X5iuHSA0rN0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=RBjx9/zKr7+D8AfBOLGLPeuzhrPxln9rvdtHBjSXdh9NQCTeWM2IO4ttTOcdpLaac
-	 TIhZWYuz54zkbtl7BAJ1gGWVA0xgfuVPyWkZDzHwehclc6FqlDzCZXq+mFgiH/p9XU
-	 JoeJDOVFQQIzD9mIkODJ7wGF69e+lG9VRgyqIu7E=
+	b=2HCg56cUkc8GpzooAQfHp0wUly6pEc81OiJ6wYs66GQnh1LIFU3tOOx/IxXTZku2y
+	 ufj/gAHdvCnFGLmdqV7odBkZ31sfcgoW335Hz3YERseQ5d0gNmDWge2qJVXAB4Jn/3
+	 8mYtQYG/8lXDRn0uqWxW+rlzV+DrF6Jy91Q2aDyg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727793AbfKPPl1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 16 Nov 2019 10:41:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44506 "EHLO mail.kernel.org"
+        id S1729757AbfKPQPC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 16 Nov 2019 11:15:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54362 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727869AbfKPPl1 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 16 Nov 2019 10:41:27 -0500
+        id S1728698AbfKPPrg (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 16 Nov 2019 10:47:36 -0500
 Received: from sasha-vm.mshome.net (unknown [50.234.116.4])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0F99E207DD;
-        Sat, 16 Nov 2019 15:41:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D21FD208D4;
+        Sat, 16 Nov 2019 15:47:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573918886;
-        bh=sJJLiwpOvgcSG95me1xpezoQaHq1vBEc0vPQTntpyhA=;
+        s=default; t=1573919256;
+        bh=7Jtc+OPj6lJy4u5O+w2EvlERek4r1QK+X5iuHSA0rN0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jwhNd48rIycBTQnCAHQkqlPnvCYpboFv/XIcH+P1xQcx1vBuT0roQDE1T/L/sQ3H4
-         iN9yT9z0ZJU3uZSpp6EhXpKU32Lqz7r+24LuRptOdPbB3zedQuoq4WwGpLYZ15lYaY
-         3n9ONjmlSQa5QjcsD2CpoIN9JX1UkX8JhWPUICKM=
+        b=1D8Of+tqmkSixvOYysSo1uRtCnRvQr4HMprdjTWRNzgsf+sXlkPUkdxEnK7JgfRdJ
+         5jVZyE69dmE9Xj8H35w5KxoG1T1mtmMulTXhg/8QCOHrVa0UfOsQU+IYBWnsBU8nbu
+         mxiquQa9MJZg5QyEfLkqifBkgHF24i6f7YH6QKh4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
@@ -48,12 +48,12 @@ Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Sergey Temerkhanov <s.temerkhanov@gmail.com>,
         linux-edac <linux-edac@vger.kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.19 015/237] EDAC, thunderx: Fix memory leak in thunderx_l2c_threaded_isr()
-Date:   Sat, 16 Nov 2019 10:37:30 -0500
-Message-Id: <20191116154113.7417-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 009/150] EDAC, thunderx: Fix memory leak in thunderx_l2c_threaded_isr()
+Date:   Sat, 16 Nov 2019 10:45:07 -0500
+Message-Id: <20191116154729.9573-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191116154113.7417-1-sashal@kernel.org>
-References: <20191116154113.7417-1-sashal@kernel.org>
+In-Reply-To: <20191116154729.9573-1-sashal@kernel.org>
+References: <20191116154729.9573-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,10 +86,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/edac/thunderx_edac.c b/drivers/edac/thunderx_edac.c
-index c009d94f40c52..34be60fe68922 100644
+index f35d87519a3e8..dfefa39e93519 100644
 --- a/drivers/edac/thunderx_edac.c
 +++ b/drivers/edac/thunderx_edac.c
-@@ -1884,7 +1884,7 @@ static irqreturn_t thunderx_l2c_threaded_isr(int irq, void *irq_id)
+@@ -1905,7 +1905,7 @@ static irqreturn_t thunderx_l2c_threaded_isr(int irq, void *irq_id)
  	default:
  		dev_err(&l2c->pdev->dev, "Unsupported device: %04x\n",
  			l2c->pdev->device);
@@ -98,7 +98,7 @@ index c009d94f40c52..34be60fe68922 100644
  	}
  
  	while (CIRC_CNT(l2c->ring_head, l2c->ring_tail,
-@@ -1906,7 +1906,7 @@ static irqreturn_t thunderx_l2c_threaded_isr(int irq, void *irq_id)
+@@ -1927,7 +1927,7 @@ static irqreturn_t thunderx_l2c_threaded_isr(int irq, void *irq_id)
  		l2c->ring_tail++;
  	}
  
