@@ -7,48 +7,49 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B63C43141
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 06:02:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 903CBC43215
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 06:08:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 00E1E222DC
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 06:02:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DDAC208CE
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 06:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574143375;
-	bh=8YwN1mIPCq0li5Fv10AaqXAk7tANchOV30SvSfyabI8=;
+	s=default; t=1574143726;
+	bh=e6NTprb3jfTz+2nF7tlFhfvKaDMh0ejXCMzptpLJ9aA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=AgEhJ/ntb4k44rIGjl+3aO2H7zWvgA6RY0n/8m04m7ub0w5Ba3GM0Hng7MijtEN5e
-	 9UxEv8j3wxmR66qwIa2Ww//nkYVneVSXqnFzjpoRzgqhD7E+ioUk4Z5vnXp9be5Ai7
-	 1cJg3WJMRcvu1dIcHovnVJIYC0N7sxNN4ZjsJoMQ=
+	b=1ZGgZl+5/orKydXcG8y4mtmsTjvkWTi1eeMUofjV4CvsoKW7rjsuWIorqgsS5waMI
+	 +xORSLJV2nKpnaYHt2jlU41WjJK5XWNkBXQXG3Ke++7euMNmiji2VIr/kKpDE3iDIW
+	 FeNYB6yYlP16Tb9kHGt1CqscluviMCzaBbBVMRVM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729946AbfKSFlX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 19 Nov 2019 00:41:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35790 "EHLO mail.kernel.org"
+        id S1729118AbfKSFaV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 19 Nov 2019 00:30:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49062 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729531AbfKSFlU (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 19 Nov 2019 00:41:20 -0500
+        id S1728011AbfKSFaT (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 19 Nov 2019 00:30:19 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AF79F21823;
-        Tue, 19 Nov 2019 05:41:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F4F721783;
+        Tue, 19 Nov 2019 05:30:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574142080;
-        bh=8YwN1mIPCq0li5Fv10AaqXAk7tANchOV30SvSfyabI8=;
+        s=default; t=1574141418;
+        bh=e6NTprb3jfTz+2nF7tlFhfvKaDMh0ejXCMzptpLJ9aA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fDd96QiEp1XXXZaJnlVahfiWzc12CzcE60MAcaMst8Xh+zLi7dccvPuEz8sxFfGBq
-         jh6xyF4f0KIwzXvvnA4Udd3TT8tJ3UB6VTco4DMgr5G66RB79e+Q4qxA0pkPsAqQc0
-         U6g0wiII8RgaBy4GFnAljTpOktHuCS59kJZkP05I=
+        b=RofLT1euoN9hEihrUqJZU5n9phdsrl54WwW+FLVYO4EVJUN1i4YagkQR4/mzpq/y7
+         FB0hotGZDveXii4XrRrfXx6cfEImgHrh5xzWgiKLDkAFoZYiuocBXBso6XR2nBeEA+
+         DtGlBwqdEVJwdUD23cmDsAuSN7Jha7C3a5ZivFT4=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Justin Ernst <justin.ernst@hpe.com>,
-        Borislav Petkov <bp@suse.de>,
-        Russ Anderson <russ.anderson@hpe.com>,
+        stable@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Aristeu Rozanski <aris@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 381/422] EDAC: Raise the maximum number of memory controllers
-Date:   Tue, 19 Nov 2019 06:19:38 +0100
-Message-Id: <20191119051423.753292334@linuxfoundation.org>
+        linux-edac <linux-edac@vger.kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.19 155/422] EDAC, sb_edac: Return early on ADDRV bit and address type test
+Date:   Tue, 19 Nov 2019 06:15:52 +0100
+Message-Id: <20191119051408.616187733@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191119051400.261610025@linuxfoundation.org>
 References: <20191119051400.261610025@linuxfoundation.org>
@@ -61,61 +62,139 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Justin Ernst <justin.ernst@hpe.com>
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 
-[ Upstream commit 6b58859419554fb824e09cfdd73151a195473cbc ]
+[ Upstream commit dcc960b225ceb2bd66c45e0845d03e577f7010f9 ]
 
-We observe an oops in the skx_edac module during boot:
+Users of the mce_register_decode_chain() are called for every logged
+error. EDAC drivers should check:
 
-  EDAC MC0: Giving out device to module skx_edac controller Skylake Socket#0 IMC#0
-  EDAC MC1: Giving out device to module skx_edac controller Skylake Socket#0 IMC#1
-  EDAC MC2: Giving out device to module skx_edac controller Skylake Socket#1 IMC#0
-  ...
-  EDAC MC13: Giving out device to module skx_edac controller Skylake Socket#0 IMC#1
-  EDAC MC14: Giving out device to module skx_edac controller Skylake Socket#1 IMC#0
-  EDAC MC15: Giving out device to module skx_edac controller Skylake Socket#1 IMC#1
-  Too many memory controllers: 16
-  EDAC MC: Removed device 0 for skx_edac Skylake Socket#0 IMC#0
+1) Is this a memory error? [bit 7 in status register]
+2) Is there a valid address? [bit 58 in status register]
+3) Is the address a system address? [bitfield 8:6 in misc register]
 
-We observe there are two memory controllers per socket, with a limit
-of 16. Raise the maximum number of memory controllers from 16 to 2 *
-MAX_NUMNODES (1024).
+The sb_edac driver performed test "1" twice. Waited far too long to
+perform check "2". Didn't do check "3" at all.
 
-[ bp: This is just a band-aid fix until we've sorted out the whole issue
-  with the bus_type association and handling in EDAC and can get rid of
-  this arbitrary limit. ]
+Fix it by moving the test for valid address from
+sbridge_mce_output_error() into sbridge_mce_check_error() and add a test
+for the type immediately after. Delete the redundant check for the type
+of the error from sbridge_mce_output_error().
 
-Signed-off-by: Justin Ernst <justin.ernst@hpe.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Acked-by: Russ Anderson <russ.anderson@hpe.com>
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: Aristeu Rozanski <aris@redhat.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-edac@vger.kernel.org
-Link: https://lkml.kernel.org/r/20180925143449.284634-1-justin.ernst@hpe.com
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Link: http://lkml.kernel.org/r/20180907230828.13901-2-tony.luck@intel.com
+[ Re-word commit message. ]
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/linux/edac.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/edac/sb_edac.c | 68 ++++++++++++++++++++++--------------------
+ 1 file changed, 35 insertions(+), 33 deletions(-)
 
-diff --git a/include/linux/edac.h b/include/linux/edac.h
-index bffb97828ed67..958d69332c1d5 100644
---- a/include/linux/edac.h
-+++ b/include/linux/edac.h
-@@ -17,6 +17,7 @@
- #include <linux/completion.h>
- #include <linux/workqueue.h>
- #include <linux/debugfs.h>
-+#include <linux/numa.h>
+diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+index 72cea3cb86224..7447f1453200d 100644
+--- a/drivers/edac/sb_edac.c
++++ b/drivers/edac/sb_edac.c
+@@ -2912,35 +2912,27 @@ static void sbridge_mce_output_error(struct mem_ctl_info *mci,
+ 	 *	cccc = channel
+ 	 * If the mask doesn't match, report an error to the parsing logic
+ 	 */
+-	if (! ((errcode & 0xef80) == 0x80)) {
+-		optype = "Can't parse: it is not a mem";
+-	} else {
+-		switch (optypenum) {
+-		case 0:
+-			optype = "generic undef request error";
+-			break;
+-		case 1:
+-			optype = "memory read error";
+-			break;
+-		case 2:
+-			optype = "memory write error";
+-			break;
+-		case 3:
+-			optype = "addr/cmd error";
+-			break;
+-		case 4:
+-			optype = "memory scrubbing error";
+-			break;
+-		default:
+-			optype = "reserved";
+-			break;
+-		}
++	switch (optypenum) {
++	case 0:
++		optype = "generic undef request error";
++		break;
++	case 1:
++		optype = "memory read error";
++		break;
++	case 2:
++		optype = "memory write error";
++		break;
++	case 3:
++		optype = "addr/cmd error";
++		break;
++	case 4:
++		optype = "memory scrubbing error";
++		break;
++	default:
++		optype = "reserved";
++		break;
+ 	}
  
- #define EDAC_DEVICE_NAME_LEN	31
+-	/* Only decode errors with an valid address (ADDRV) */
+-	if (!GET_BITFIELD(m->status, 58, 58))
+-		return;
+-
+ 	if (pvt->info.type == KNIGHTS_LANDING) {
+ 		if (channel == 14) {
+ 			edac_dbg(0, "%s%s err_code:%04x:%04x EDRAM bank %d\n",
+@@ -3046,17 +3038,11 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
+ {
+ 	struct mce *mce = (struct mce *)data;
+ 	struct mem_ctl_info *mci;
+-	struct sbridge_pvt *pvt;
+ 	char *type;
  
-@@ -670,6 +671,6 @@ struct mem_ctl_info {
- /*
-  * Maximum number of memory controllers in the coherent fabric.
-  */
--#define EDAC_MAX_MCS	16
-+#define EDAC_MAX_MCS	2 * MAX_NUMNODES
+ 	if (edac_get_report_status() == EDAC_REPORTING_DISABLED)
+ 		return NOTIFY_DONE;
  
- #endif
+-	mci = get_mci_for_node_id(mce->socketid, IMC0);
+-	if (!mci)
+-		return NOTIFY_DONE;
+-	pvt = mci->pvt_info;
+-
+ 	/*
+ 	 * Just let mcelog handle it if the error is
+ 	 * outside the memory controller. A memory error
+@@ -3066,6 +3052,22 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
+ 	if ((mce->status & 0xefff) >> 7 != 1)
+ 		return NOTIFY_DONE;
+ 
++	/* Check ADDRV bit in STATUS */
++	if (!GET_BITFIELD(mce->status, 58, 58))
++		return NOTIFY_DONE;
++
++	/* Check MISCV bit in STATUS */
++	if (!GET_BITFIELD(mce->status, 59, 59))
++		return NOTIFY_DONE;
++
++	/* Check address type in MISC (physical address only) */
++	if (GET_BITFIELD(mce->misc, 6, 8) != 2)
++		return NOTIFY_DONE;
++
++	mci = get_mci_for_node_id(mce->socketid, IMC0);
++	if (!mci)
++		return NOTIFY_DONE;
++
+ 	if (mce->mcgstatus & MCG_STATUS_MCIP)
+ 		type = "Exception";
+ 	else
 -- 
 2.20.1
 
