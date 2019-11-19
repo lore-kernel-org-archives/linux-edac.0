@@ -2,201 +2,107 @@ Return-Path: <SRS0=tNR+=ZL=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 903CBC43215
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 06:08:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 442A0C43215
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 11:15:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5DDAC208CE
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 06:08:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574143726;
-	bh=e6NTprb3jfTz+2nF7tlFhfvKaDMh0ejXCMzptpLJ9aA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=1ZGgZl+5/orKydXcG8y4mtmsTjvkWTi1eeMUofjV4CvsoKW7rjsuWIorqgsS5waMI
-	 +xORSLJV2nKpnaYHt2jlU41WjJK5XWNkBXQXG3Ke++7euMNmiji2VIr/kKpDE3iDIW
-	 FeNYB6yYlP16Tb9kHGt1CqscluviMCzaBbBVMRVM=
+	by mail.kernel.org (Postfix) with ESMTP id 1B63C2230B
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Nov 2019 11:15:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="TCAKKh4J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729118AbfKSFaV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 19 Nov 2019 00:30:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49062 "EHLO mail.kernel.org"
+        id S1727584AbfKSLPP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 19 Nov 2019 06:15:15 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:50036 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728011AbfKSFaT (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 19 Nov 2019 00:30:19 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1725904AbfKSLPO (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 19 Nov 2019 06:15:14 -0500
+Received: from zn.tnic (p200300EC2F0EDC00DDCC46785D6B318A.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:dc00:ddcc:4678:5d6b:318a])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F4F721783;
-        Tue, 19 Nov 2019 05:30:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574141418;
-        bh=e6NTprb3jfTz+2nF7tlFhfvKaDMh0ejXCMzptpLJ9aA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RofLT1euoN9hEihrUqJZU5n9phdsrl54WwW+FLVYO4EVJUN1i4YagkQR4/mzpq/y7
-         FB0hotGZDveXii4XrRrfXx6cfEImgHrh5xzWgiKLDkAFoZYiuocBXBso6XR2nBeEA+
-         DtGlBwqdEVJwdUD23cmDsAuSN7Jha7C3a5ZivFT4=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Aristeu Rozanski <aris@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@suse.de>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 155/422] EDAC, sb_edac: Return early on ADDRV bit and address type test
-Date:   Tue, 19 Nov 2019 06:15:52 +0100
-Message-Id: <20191119051408.616187733@linuxfoundation.org>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191119051400.261610025@linuxfoundation.org>
-References: <20191119051400.261610025@linuxfoundation.org>
-User-Agent: quilt/0.66
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id ED7521EC0CAF;
+        Tue, 19 Nov 2019 12:15:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1574162113;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=G8bIPI7eMqwT4OGw64KYwiD4+/Nz3AJ6bpqyvoHxzGE=;
+        b=TCAKKh4JmkRfTPQI9eYekH1jkcNRfLWs2H7MPLEUB7wha5+Lq494+gA97L1SeLaGW53dkj
+        7lYAoRjzC4VBvHeUtDK5doEfPxgW2MvVKPiGQpKSb83sxjMbFd2mMgulnY9OmgO7vGuqPs
+        5EISsFBde5P8qseJj7C9XA9+xybjNJw=
+Date:   Tue, 19 Nov 2019 12:15:08 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Subject: Re: [PATCH v3 01/19] x86/msr-index: Clean up bit defines for
+ IA32_FEATURE_CONTROL MSR
+Message-ID: <20191119111445.GB27787@zn.tnic>
+References: <20191119031240.7779-1-sean.j.christopherson@intel.com>
+ <20191119031240.7779-2-sean.j.christopherson@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191119031240.7779-2-sean.j.christopherson@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+On Mon, Nov 18, 2019 at 07:12:22PM -0800, Sean Christopherson wrote:
+> As pointed out by Boris, the defines for bits in IA32_FEATURE_CONTROL
+> are quite a mouthful, especially the VMX bits which must differentiate
+> between enabling VMX inside and outside SMX (TXT) operation.  Rename the
+> bit defines to abbreviate FEATURE_CONTROL as FEAT_CTL so that they're a
+> little friendlier on the eyes.  Keep the full name for the MSR itself to
+> help even the most obtuse reader decipher the abbreviation, and to match
+> the name used by the Intel SDM.
+> 
+> Opportunistically fix a few other annoyances with the defines:
+> 
+>   - Relocate the bit defines so that they immediately follow the MSR
+>     define, e.g. aren't mistaken as belonging to MISC_FEATURE_CONTROL.
+>   - Add whitespace around the block of feature control defines to make
+>     it clear that FEAT_CTL is indeed short for FEATURE_CONTROL.
+>   - Use BIT() instead of manually encoding the bit shift.
+>   - Use "VMX" instead of "VMXON" to match the SDM.
+>   - Append "_ENABLED" to the LMCE bit to be consistent with the verbiage
+>     used for all other feature control bits.  (LCME is an acronym for
+>     Local Machine Check Exception, i.e. LMCE_ENABLED is not redundant).
 
-[ Upstream commit dcc960b225ceb2bd66c45e0845d03e577f7010f9 ]
+Sure but SDM calls it LMCE_ON. What is our current decision on sticking
+to SDM bit names? I guess we don't...
 
-Users of the mce_register_decode_chain() are called for every logged
-error. EDAC drivers should check:
+But above you say "to match the SDM"...
 
-1) Is this a memory error? [bit 7 in status register]
-2) Is there a valid address? [bit 58 in status register]
-3) Is the address a system address? [bitfield 8:6 in misc register]
+Thx.
 
-The sb_edac driver performed test "1" twice. Waited far too long to
-perform check "2". Didn't do check "3" at all.
-
-Fix it by moving the test for valid address from
-sbridge_mce_output_error() into sbridge_mce_check_error() and add a test
-for the type immediately after. Delete the redundant check for the type
-of the error from sbridge_mce_output_error().
-
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: Aristeu Rozanski <aris@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Link: http://lkml.kernel.org/r/20180907230828.13901-2-tony.luck@intel.com
-[ Re-word commit message. ]
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/edac/sb_edac.c | 68 ++++++++++++++++++++++--------------------
- 1 file changed, 35 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
-index 72cea3cb86224..7447f1453200d 100644
---- a/drivers/edac/sb_edac.c
-+++ b/drivers/edac/sb_edac.c
-@@ -2912,35 +2912,27 @@ static void sbridge_mce_output_error(struct mem_ctl_info *mci,
- 	 *	cccc = channel
- 	 * If the mask doesn't match, report an error to the parsing logic
- 	 */
--	if (! ((errcode & 0xef80) == 0x80)) {
--		optype = "Can't parse: it is not a mem";
--	} else {
--		switch (optypenum) {
--		case 0:
--			optype = "generic undef request error";
--			break;
--		case 1:
--			optype = "memory read error";
--			break;
--		case 2:
--			optype = "memory write error";
--			break;
--		case 3:
--			optype = "addr/cmd error";
--			break;
--		case 4:
--			optype = "memory scrubbing error";
--			break;
--		default:
--			optype = "reserved";
--			break;
--		}
-+	switch (optypenum) {
-+	case 0:
-+		optype = "generic undef request error";
-+		break;
-+	case 1:
-+		optype = "memory read error";
-+		break;
-+	case 2:
-+		optype = "memory write error";
-+		break;
-+	case 3:
-+		optype = "addr/cmd error";
-+		break;
-+	case 4:
-+		optype = "memory scrubbing error";
-+		break;
-+	default:
-+		optype = "reserved";
-+		break;
- 	}
- 
--	/* Only decode errors with an valid address (ADDRV) */
--	if (!GET_BITFIELD(m->status, 58, 58))
--		return;
--
- 	if (pvt->info.type == KNIGHTS_LANDING) {
- 		if (channel == 14) {
- 			edac_dbg(0, "%s%s err_code:%04x:%04x EDRAM bank %d\n",
-@@ -3046,17 +3038,11 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
- {
- 	struct mce *mce = (struct mce *)data;
- 	struct mem_ctl_info *mci;
--	struct sbridge_pvt *pvt;
- 	char *type;
- 
- 	if (edac_get_report_status() == EDAC_REPORTING_DISABLED)
- 		return NOTIFY_DONE;
- 
--	mci = get_mci_for_node_id(mce->socketid, IMC0);
--	if (!mci)
--		return NOTIFY_DONE;
--	pvt = mci->pvt_info;
--
- 	/*
- 	 * Just let mcelog handle it if the error is
- 	 * outside the memory controller. A memory error
-@@ -3066,6 +3052,22 @@ static int sbridge_mce_check_error(struct notifier_block *nb, unsigned long val,
- 	if ((mce->status & 0xefff) >> 7 != 1)
- 		return NOTIFY_DONE;
- 
-+	/* Check ADDRV bit in STATUS */
-+	if (!GET_BITFIELD(mce->status, 58, 58))
-+		return NOTIFY_DONE;
-+
-+	/* Check MISCV bit in STATUS */
-+	if (!GET_BITFIELD(mce->status, 59, 59))
-+		return NOTIFY_DONE;
-+
-+	/* Check address type in MISC (physical address only) */
-+	if (GET_BITFIELD(mce->misc, 6, 8) != 2)
-+		return NOTIFY_DONE;
-+
-+	mci = get_mci_for_node_id(mce->socketid, IMC0);
-+	if (!mci)
-+		return NOTIFY_DONE;
-+
- 	if (mce->mcgstatus & MCG_STATUS_MCIP)
- 		type = "Exception";
- 	else
 -- 
-2.20.1
+Regards/Gruss,
+    Boris.
 
-
-
+https://people.kernel.org/tglx/notes-about-netiquette
