@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D46C43215
-	for <linux-edac@archiver.kernel.org>; Fri, 22 Nov 2019 11:21:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4134C43215
+	for <linux-edac@archiver.kernel.org>; Fri, 22 Nov 2019 11:26:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3FF2020708
-	for <linux-edac@archiver.kernel.org>; Fri, 22 Nov 2019 11:21:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C55420672
+	for <linux-edac@archiver.kernel.org>; Fri, 22 Nov 2019 11:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574421705;
-	bh=0TzDo2o1u8nxxb/Sq/KXyMi+SDVIeTDpEFCStzh3eEk=;
+	s=default; t=1574421968;
+	bh=youHC11LHjAs4CWKcmpmT/pWr3+p84Nsi0dY0gcXfR8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=gGu/rplEePHzuRl27IG4DP4Veme8Od6pZ/+XGjEDhwt/1+WmXKrWReN+DHa/7uJpf
-	 jaCsB0C+q5pk4DOo8tb0Q7dGkvo+x9tCWMC2b/x9DpDnHZLMTxIwIMTNBoyMd9lSLn
-	 MAl1DXrSdKcsEgS5ryugLnMHUQAYFpuv+0VOIu1A=
+	b=wqUvrDR0I0qQPeM/5E2aX/5mHJv+i2fLLrY1aix8qvgzvR2uG58sZpKfVXQfxh7BL
+	 Q7PG/i7WiaYSpIURqaRR+vW3hVm1RFnQwQjtlpyBI6GHQj2r2KcFnSvcY5HBl1ZocS
+	 3KT+b6J++sYQY/6FMIiXGKq9VYRW6XPZiHgogprY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729368AbfKVKor (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 22 Nov 2019 05:44:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50784 "EHLO mail.kernel.org"
+        id S1727574AbfKVKfF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 22 Nov 2019 05:35:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60748 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727630AbfKVKoq (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 22 Nov 2019 05:44:46 -0500
+        id S1727561AbfKVKfD (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 22 Nov 2019 05:35:03 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8312720717;
-        Fri, 22 Nov 2019 10:44:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 739E920656;
+        Fri, 22 Nov 2019 10:35:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574419486;
-        bh=0TzDo2o1u8nxxb/Sq/KXyMi+SDVIeTDpEFCStzh3eEk=;
+        s=default; t=1574418903;
+        bh=youHC11LHjAs4CWKcmpmT/pWr3+p84Nsi0dY0gcXfR8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1qZgQC28leLQVYHbvJpm3Vx0nd+p8LrYHdNnaDtFipUAh/iA0aVhbxFMomJMjulxB
-         urcTYILi4oU0NYnqeMkjSa5iCGMNL80hbJAM0GhahIsJTTQDzRT/RmXgW/hiuyU42f
-         7dpdKganmAaATSy9hxbAlbjqvQB/vGKWckKmbxgo=
+        b=hoU7WGjH17D45ooH8DLm04fTYQHUfddQ86bi7+wOFZNiyk7Jdaf0AQs/ZALwI3iqe
+         JmbjtKXFx5+cJAgxmzDkZyxp3D2ziUn+ElTQ6FZZAXu1ZFqvmI54FnOuGC94kdIBhM
+         G4k8zNQkpoM05vEZkhEUFVgdEDdTdqVxi9mv7SGg=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -46,12 +46,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Russ Anderson <russ.anderson@hpe.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.9 129/222] EDAC: Raise the maximum number of memory controllers
-Date:   Fri, 22 Nov 2019 11:27:49 +0100
-Message-Id: <20191122100912.297510008@linuxfoundation.org>
+Subject: [PATCH 4.4 092/159] EDAC: Raise the maximum number of memory controllers
+Date:   Fri, 22 Nov 2019 11:28:03 +0100
+Message-Id: <20191122100813.313867059@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191122100830.874290814@linuxfoundation.org>
-References: <20191122100830.874290814@linuxfoundation.org>
+In-Reply-To: <20191122100704.194776704@linuxfoundation.org>
+References: <20191122100704.194776704@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -97,7 +97,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/edac.h b/include/linux/edac.h
-index 9e0d78966552c..c6233227720c7 100644
+index 4fe67b853de04..9bb4f3311e137 100644
 --- a/include/linux/edac.h
 +++ b/include/linux/edac.h
 @@ -17,6 +17,7 @@
