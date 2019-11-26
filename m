@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51180C432C3
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9AAAC432C0
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2F08220863
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4FC620863
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727718AbfKZMQE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 26 Nov 2019 07:16:04 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:6718 "EHLO huawei.com"
+        id S1727750AbfKZMQF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 26 Nov 2019 07:16:05 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:6715 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727761AbfKZMQD (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 26 Nov 2019 07:16:03 -0500
+        id S1727615AbfKZMQF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 26 Nov 2019 07:16:05 -0500
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id E077CC634F8B1661B388;
-        Tue, 26 Nov 2019 20:16:00 +0800 (CST)
+        by Forcepoint Email with ESMTP id EDCC8DF58BAEA934655D;
+        Tue, 26 Nov 2019 20:15:55 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 26 Nov 2019 20:15:51 +0800
+ 14.3.439.0; Tue, 26 Nov 2019 20:15:46 +0800
 From:   Xiaofei Tan <tanxiaofei@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     Xiaofei Tan <tanxiaofei@huawei.com>, <linuxarm@huawei.com>,
         <shiju.jose@huawei.com>, <jonathan.cameron@huawei.com>
-Subject: [PATCH v2 6/9] rasdaemon: fix magic number issues reported by static code analysis for hip08
-Date:   Tue, 26 Nov 2019 20:12:33 +0800
-Message-ID: <1574770356-129510-7-git-send-email-tanxiaofei@huawei.com>
+Subject: [PATCH v2 1/9] rasdaemon: decode submodule of OEM type1 for hip08
+Date:   Tue, 26 Nov 2019 20:12:28 +0800
+Message-ID: <1574770356-129510-2-git-send-email-tanxiaofei@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
 References: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
@@ -43,116 +43,351 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Fix magic number issues reported by static code analysis for hip08.
+Decode submodule of OEM type1 for hip08, and reconstruct the functions
+of geting OEM module name and submodule name.
 
 Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
 ---
- non-standard-hisi_hip08.c | 32 ++++++++++++++++++++------------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+ non-standard-hisi_hip08.c | 283 +++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 219 insertions(+), 64 deletions(-)
 
 diff --git a/non-standard-hisi_hip08.c b/non-standard-hisi_hip08.c
-index f2df496..dfb3e51 100644
+index 5e4b6a0..6fff21a 100644
 --- a/non-standard-hisi_hip08.c
 +++ b/non-standard-hisi_hip08.c
-@@ -78,6 +78,14 @@
- #define HISI_PCIE_LOCAL_VALID_ERR_SEVERITY	BIT(8)
- #define HISI_PCIE_LOCAL_VALID_ERR_MISC		9
- 
-+#define HISI_PCIE_LOCAL_ERR_MISC_MAX	33
-+#define HISI_BUF_LEN	1024
-+
-+#define HISI_ERR_SEVERITY_NFE	0
-+#define HISI_ERR_SEVERITY_FE	1
-+#define HISI_ERR_SEVERITY_CE	2
-+#define HISI_ERR_SEVERITY_NONE	3
-+
- struct hisi_oem_type1_err_sec {
- 	uint32_t   val_bits;
- 	uint8_t    version;
-@@ -132,7 +140,7 @@ struct hisi_pcie_local_err_sec {
- 	uint8_t    err_severity;
- 	uint16_t   err_type;
- 	uint8_t    reserv[2];
--	uint32_t   err_misc[33];
-+	uint32_t   err_misc[HISI_PCIE_LOCAL_ERR_MISC_MAX];
+@@ -182,6 +182,13 @@ enum {
+ 	hip08_pcie_local_field_regs_dump,
  };
  
- enum hisi_oem_data_type {
-@@ -193,10 +201,10 @@ struct hisi_module_info {
++struct hisi_module_info {
++	int id;
++	const char *name;
++	const char **sub;
++	int sub_num;
++};
++
+ /* helper functions */
  static char *err_severity(uint8_t err_sev)
  {
- 	switch (err_sev) {
--	case 0: return "recoverable";
--	case 1: return "fatal";
--	case 2: return "corrected";
--	case 3: return "none";
-+	case HISI_ERR_SEVERITY_NFE: return "recoverable";
-+	case HISI_ERR_SEVERITY_FE: return "fatal";
-+	case HISI_ERR_SEVERITY_CE: return "corrected";
-+	case HISI_ERR_SEVERITY_NONE: return "none";
- 	}
+@@ -194,37 +201,137 @@ static char *err_severity(uint8_t err_sev)
  	return "unknown";
  }
-@@ -565,7 +573,7 @@ static void decode_oem_type1_err_hdr(struct ras_ns_dec_tab *dec_tab,
- 				     struct trace_seq *s,
- 				     const struct hisi_oem_type1_err_sec *err)
- {
--	char buf[1024];
-+	char buf[HISI_BUF_LEN];
- 	char *p = buf;
  
- 	p += sprintf(p, "[ ");
-@@ -631,7 +639,7 @@ static void decode_oem_type1_err_regs(struct ras_ns_dec_tab *dec_tab,
- 				      struct trace_seq *s,
- 				      const struct hisi_oem_type1_err_sec *err)
- {
--	char buf[1024];
-+	char buf[HISI_BUF_LEN];
- 	char *p = buf;
+-static char *oem_type1_module_name(uint8_t module_id)
+-{
+-	switch (module_id) {
+-	case HISI_OEM_MODULE_ID_MN: return "MN";
+-	case HISI_OEM_MODULE_ID_PLL: return "PLL";
+-	case HISI_OEM_MODULE_ID_SLLC: return "SLLC";
+-	case HISI_OEM_MODULE_ID_AA: return "AA";
+-	case HISI_OEM_MODULE_ID_SIOE: return "SIOE";
+-	case HISI_OEM_MODULE_ID_POE: return "POE";
+-	case HISI_OEM_MODULE_ID_DISP: return "DISP";
+-	case HISI_OEM_MODULE_ID_LPC: return "LPC";
+-	case HISI_OEM_MODULE_ID_GIC: return "GIC";
+-	case HISI_OEM_MODULE_ID_RDE: return "RDE";
+-	case HISI_OEM_MODULE_ID_SAS: return "SAS";
+-	case HISI_OEM_MODULE_ID_SATA: return "SATA";
+-	case HISI_OEM_MODULE_ID_USB: return "USB";
+-	}
+-	return "unknown";
+-}
++static const char *pll_submodule_name[] = {
++	"TB_PLL0",
++	"TB_PLL1",
++	"TB_PLL2",
++	"TB_PLL3",
++	"TA_PLL0",
++	"TA_PLL1",
++	"TA_PLL2",
++	"TA_PLL3",
++	"NIMBUS_PLL0",
++	"NIMBUS_PLL1",
++	"NIMBUS_PLL2",
++	"NIMBUS_PLL3",
++	"NIMBUS_PLL4",
++};
  
- 	trace_seq_printf(s, "Reg Dump:\n");
-@@ -713,7 +721,7 @@ static void decode_oem_type2_err_hdr(struct ras_ns_dec_tab *dec_tab,
- 				     struct trace_seq *s,
- 				     const struct hisi_oem_type2_err_sec *err)
- {
--	char buf[1024];
-+	char buf[HISI_BUF_LEN];
- 	char *p = buf;
+-static char *oem_type2_module_name(uint8_t module_id)
+-{
+-	switch (module_id) {
+-	case HISI_OEM_MODULE_ID_SMMU: return "SMMU";
+-	case HISI_OEM_MODULE_ID_HHA: return "HHA";
+-	case HISI_OEM_MODULE_ID_HLLC: return "HLLC";
+-	case HISI_OEM_MODULE_ID_PA: return "PA";
+-	case HISI_OEM_MODULE_ID_DDRC: return "DDRC";
+-	}
+-	return "unknown module";
+-}
++static const char *sllc_submodule_name[] = {
++	"TB_SLLC0",
++	"TB_SLLC1",
++	"TB_SLLC2",
++	"TA_SLLC0",
++	"TA_SLLC1",
++	"TA_SLLC2",
++	"NIMBUS_SLLC0",
++	"NIMBUS_SLLC1",
++};
++
++static const char *sioe_submodule_name[] = {
++	"TB_SIOE0",
++	"TB_SIOE1",
++	"TB_SIOE2",
++	"TB_SIOE3",
++	"TA_SIOE0",
++	"TA_SIOE1",
++	"TA_SIOE2",
++	"TA_SIOE3",
++	"NIMBUS_SIOE0",
++	"NIMBUS_SIOE1",
++};
++
++static const char *poe_submodule_name[] = {
++	"TB_POE",
++	"TA_POE",
++};
++
++static const char *disp_submodule_name[] = {
++	"TB_PERI_DISP",
++	"TB_POE_DISP",
++	"TB_GIC_DISP",
++	"TA_PERI_DISP",
++	"TA_POE_DISP",
++	"TA_GIC_DISP",
++	"HAC_DISP",
++	"PCIE_DISP",
++	"IO_MGMT_DISP",
++	"NETWORK_DISP",
++};
++
++static const char *sas_submodule_name[] = {
++	"SAS0",
++	"SAS1",
++};
++
++static const struct hisi_module_info hisi_oem_type1_module[] = {
++	{
++		.id = HISI_OEM_MODULE_ID_PLL,
++		.name = "PLL",
++		.sub = pll_submodule_name,
++		.sub_num = ARRAY_SIZE(pll_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_SAS,
++		.name = "SAS",
++		.sub = sas_submodule_name,
++		.sub_num = ARRAY_SIZE(sas_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_POE,
++		.name = "POE",
++		.sub = poe_submodule_name,
++		.sub_num = ARRAY_SIZE(poe_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_SLLC,
++		.name = "SLLC",
++		.sub = sllc_submodule_name,
++		.sub_num = ARRAY_SIZE(sllc_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_SIOE,
++		.name = "SIOE",
++		.sub = sioe_submodule_name,
++		.sub_num = ARRAY_SIZE(sioe_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_DISP,
++		.name = "DISP",
++		.sub = disp_submodule_name,
++		.sub_num = ARRAY_SIZE(disp_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_MN,
++		.name = "MN",
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_AA,
++		.name = "AA",
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_LPC,
++		.name = "LPC",
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_GIC,
++		.name = "GIC",
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_RDE,
++		.name = "RDE",
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_SATA,
++		.name = "SATA",
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_USB,
++		.name = "USB",
++	},
++	{
++	}
++};
  
- 	p += sprintf(p, "[ ");
-@@ -778,7 +786,7 @@ static void decode_oem_type2_err_regs(struct ras_ns_dec_tab *dec_tab,
- 				      struct trace_seq *s,
- 				      const struct hisi_oem_type2_err_sec *err)
- {
--	char buf[1024];
-+	char buf[HISI_BUF_LEN];
- 	char *p = buf;
+ static const char *smmu_submodule_name[] = {
+ 	"HAC_SMMU",
+@@ -257,27 +364,72 @@ static const char *ddrc_submodule_name[] = {
+ 	"TB_DDRC3",
+ };
  
- 	trace_seq_printf(s, "Reg Dump:\n");
-@@ -871,7 +879,7 @@ static void decode_pcie_local_err_hdr(struct ras_ns_dec_tab *dec_tab,
- 				      struct trace_seq *s,
- 				      const struct hisi_pcie_local_err_sec *err)
+-static const char *oem_type2_sub_module_name(uint8_t module_id, uint8_t sub_module_id)
++static const struct hisi_module_info hisi_oem_type2_module[] = {
++	{
++		.id = HISI_OEM_MODULE_ID_SMMU,
++		.name = "SMMU",
++		.sub = smmu_submodule_name,
++		.sub_num = ARRAY_SIZE(smmu_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_HHA,
++		.name = "HHA",
++		.sub = hha_submodule_name,
++		.sub_num = ARRAY_SIZE(hha_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_PA,
++		.name = "PA",
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_HLLC,
++		.name = "HLLC",
++		.sub = hllc_submodule_name,
++		.sub_num = ARRAY_SIZE(hllc_submodule_name),
++	},
++	{
++		.id = HISI_OEM_MODULE_ID_DDRC,
++		.name = "DDRC",
++		.sub = ddrc_submodule_name,
++		.sub_num = ARRAY_SIZE(ddrc_submodule_name),
++	},
++	{
++	}
++};
++
++static const char *oem_module_name(const struct hisi_module_info *info,
++				   uint8_t module_id)
  {
--	char buf[1024];
-+	char buf[HISI_BUF_LEN];
- 	char *p = buf;
+-	switch (module_id) {
+-	case HISI_OEM_MODULE_ID_SMMU:
+-		if (sub_module_id < sizeof(smmu_submodule_name)/sizeof(char *))
+-			return smmu_submodule_name[sub_module_id];
+-		break;
+-	case HISI_OEM_MODULE_ID_HLLC:
+-		if (sub_module_id < sizeof(hllc_submodule_name)/sizeof(char *))
+-			return hllc_submodule_name[sub_module_id];
+-		break;
+-	case HISI_OEM_MODULE_ID_PA:
+-		return "PA";
+-	case HISI_OEM_MODULE_ID_HHA:
+-		if (sub_module_id < sizeof(hha_submodule_name)/sizeof(char *))
+-			return hha_submodule_name[sub_module_id];
+-		break;
+-	case HISI_OEM_MODULE_ID_DDRC:
+-		if (sub_module_id < sizeof(ddrc_submodule_name)/sizeof(char *))
+-			return ddrc_submodule_name[sub_module_id];
+-		break;
++	const struct hisi_module_info *module = &info[0];
++
++	for (; module->name; module++) {
++		if (module->id != module_id)
++			continue;
++
++		return module->name;
++	}
++
++	return "unknown";
++}
++
++static const char *oem_submodule_name(const struct hisi_module_info *info,
++				      uint8_t module_id, uint8_t sub_module_id)
++{
++	const struct hisi_module_info *module = &info[0];
++
++	for (; module->name; module++) {
++		const char **submodule = module->sub;
++
++		if (module->id != module_id)
++			continue;
++
++		if (module->sub == NULL)
++			return module->name;
++
++		if (sub_module_id >= module->sub_num)
++			return "unknown";
++
++		return submodule[sub_module_id];
+ 	}
  
- 	p += sprintf(p, "[ ");
-@@ -944,12 +952,12 @@ static void decode_pcie_local_err_regs(struct ras_ns_dec_tab *dec_tab,
- 				       struct trace_seq *s,
- 				       const struct hisi_pcie_local_err_sec *err)
- {
--	char buf[1024];
-+	char buf[HISI_BUF_LEN];
- 	char *p = buf;
- 	uint32_t i;
+ 	return "unknown";
+@@ -467,23 +619,24 @@ static int decode_hip08_oem_type1_error(struct ras_events *ras,
+ 	}
  
- 	trace_seq_printf(s, "Reg Dump:\n");
--	for (i = 0; i < 33; i++) {
-+	for (i = 0; i < HISI_PCIE_LOCAL_ERR_MISC_MAX; i++) {
- 		if (err->val_bits & BIT(HISI_PCIE_LOCAL_VALID_ERR_MISC + i)) {
- 			trace_seq_printf(s, "ERR_MISC_%d=0x%x\n", i,
- 					 err->err_misc[i]);
+ 	if (err->val_bits & HISI_OEM_VALID_MODULE_ID) {
+-		p += sprintf(p, "module=%s ",
+-			     oem_type1_module_name(err->module_id));
++		const char *str = oem_module_name(hisi_oem_type1_module,
++						  err->module_id);
++
++		p += sprintf(p, "module=%s ", str);
+ 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+ 				   hip08_oem_type1_field_module_id,
+-				   0, oem_type1_module_name(err->module_id));
++				   0, str);
+ 	}
+ 
+ 	if (err->val_bits & HISI_OEM_VALID_SUB_MODULE_ID) {
+-		char submodule_name[64];
++		const char *str = oem_submodule_name(hisi_oem_type1_module,
++						     err->module_id,
++						     err->sub_module_id);
+ 
+-		sprintf(submodule_name, "%s%d",
+-			oem_type1_module_name(err->module_id),
+-			err->sub_module_id);
+-		p += sprintf(p, "submodule=%s ", submodule_name);
++		p += sprintf(p, "submodule=%s ", str);
+ 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+ 				   hip08_oem_type1_field_sub_module_id,
+-				   0, submodule_name);
++				   0, str);
+ 	}
+ 
+ 	if (err->val_bits & HISI_OEM_VALID_ERR_SEVERITY) {
+@@ -596,16 +749,18 @@ static int decode_hip08_oem_type2_error(struct ras_events *ras,
+ 	}
+ 
+ 	if (err->val_bits & HISI_OEM_VALID_MODULE_ID) {
+-		p += sprintf(p, "module=%s ",
+-			     oem_type2_module_name(err->module_id));
++		const char *str = oem_module_name(hisi_oem_type2_module,
++						  err->module_id);
++		p += sprintf(p, "module=%s ", str);
+ 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+ 				   hip08_oem_type2_field_module_id,
+-				   0, oem_type2_module_name(err->module_id));
++				   0, str);
+ 	}
+ 
+ 	if (err->val_bits & HISI_OEM_VALID_SUB_MODULE_ID) {
+-		const char *str = oem_type2_sub_module_name(err->module_id,
+-							    err->sub_module_id);
++		const char *str = oem_submodule_name(hisi_oem_type2_module,
++						     err->module_id,
++						     err->sub_module_id);
+ 
+ 		p += sprintf(p, "submodule=%s ", str);
+ 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
 -- 
 2.8.1
 
