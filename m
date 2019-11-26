@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13134C43215
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8A1C432C3
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E9EE7207DD
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8A3A2075C
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727638AbfKZMQA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 26 Nov 2019 07:16:00 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:6713 "EHLO huawei.com"
+        id S1727764AbfKZMQB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 26 Nov 2019 07:16:01 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:6712 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727615AbfKZMQA (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 26 Nov 2019 07:16:00 -0500
+        id S1727630AbfKZMQB (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 26 Nov 2019 07:16:01 -0500
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id CF9454E8D6BCB32FB638;
+        by Forcepoint Email with ESMTP id D443F3E9A34C1C088605;
         Tue, 26 Nov 2019 20:15:55 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 26 Nov 2019 20:15:49 +0800
+ 14.3.439.0; Tue, 26 Nov 2019 20:15:47 +0800
 From:   Xiaofei Tan <tanxiaofei@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     Xiaofei Tan <tanxiaofei@huawei.com>, <linuxarm@huawei.com>,
         <shiju.jose@huawei.com>, <jonathan.cameron@huawei.com>
-Subject: [PATCH v2 4/9] rasdaemon: split OEM type2 table decode function to reduce length
-Date:   Tue, 26 Nov 2019 20:12:31 +0800
-Message-ID: <1574770356-129510-5-git-send-email-tanxiaofei@huawei.com>
+Subject: [PATCH v2 2/9] rasdaemon: fix sub module name of HHA and DDRC for hip08
+Date:   Tue, 26 Nov 2019 20:12:29 +0800
+Message-ID: <1574770356-129510-3-git-send-email-tanxiaofei@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
 References: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
@@ -43,119 +43,57 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch splits function decode_hip08_oem_type2_error() to reduce
-length. Move header decoding and register dump to single function
-separately.
+Fix sub module name of HHA and DDRC for hip08, and add const to the
+pointer parameter 'name' of step_vendor_data_tab().
 
 Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
 ---
- non-standard-hisi_hip08.c | 73 +++++++++++++++++++++++++++++------------------
- 1 file changed, 45 insertions(+), 28 deletions(-)
+ non-standard-hisi_hip08.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/non-standard-hisi_hip08.c b/non-standard-hisi_hip08.c
-index 79fc1b9..bd68291 100644
+index 6fff21a..421e03c 100644
 --- a/non-standard-hisi_hip08.c
 +++ b/non-standard-hisi_hip08.c
-@@ -709,36 +709,13 @@ static int decode_hip08_oem_type1_error(struct ras_events *ras,
- 	return 0;
- }
+@@ -347,21 +347,21 @@ static const char *hllc_submodule_name[] = {
+ };
  
--static int decode_hip08_oem_type2_error(struct ras_events *ras,
--					struct ras_ns_dec_tab *dec_tab,
--					struct trace_seq *s,
--					struct ras_non_standard_event *event)
-+static void decode_oem_type2_err_hdr(struct ras_ns_dec_tab *dec_tab,
-+				     struct trace_seq *s,
-+				     const struct hisi_oem_type2_err_sec *err)
- {
--	const struct hisi_oem_type2_err_sec *err =
--			(struct hisi_oem_type2_err_sec *)event->error;
- 	char buf[1024];
- 	char *p = buf;
+ static const char *hha_submodule_name[] = {
+-	"TA_HHA0",
+-	"TA_HHA1",
+ 	"TB_HHA0",
+-	"TB_HHA1"
++	"TB_HHA1",
++	"TA_HHA0",
++	"TA_HHA1"
+ };
  
--	if (err->val_bits == 0) {
--		trace_seq_printf(s, "%s: no valid error information\n",
--				 __func__);
--		return -1;
--	}
--
--#ifdef HAVE_SQLITE3
--	if (!dec_tab->stmt_dec_record) {
--		if (ras_mc_add_vendor_table(ras, &dec_tab->stmt_dec_record,
--			&hip08_oem_type2_event_tab) != SQLITE_OK) {
--			trace_seq_printf(s,
--				"create sql hip08_oem_type2_event_tab fail\n");
--			return -1;
--		}
--	}
--#endif
--	record_vendor_data(dec_tab, hisi_oem_data_type_text,
--			   hip08_oem_type2_field_timestamp,
--			   0, event->timestamp);
--
- 	p += sprintf(p, "[ ");
- 	p += sprintf(p, "table_version=%d ", err->version);
- 	record_vendor_data(dec_tab, hisi_oem_data_type_int,
-@@ -794,10 +771,16 @@ static int decode_hip08_oem_type2_error(struct ras_events *ras,
+ static const char *ddrc_submodule_name[] = {
+-	"TA_DDRC0",
+-	"TA_DDRC1",
+-	"TA_DDRC2",
+-	"TA_DDRC3",
+ 	"TB_DDRC0",
+ 	"TB_DDRC1",
+ 	"TB_DDRC2",
+ 	"TB_DDRC3",
++	"TA_DDRC0",
++	"TA_DDRC1",
++	"TA_DDRC2",
++	"TA_DDRC3",
+ };
+ 
+ static const struct hisi_module_info hisi_oem_type2_module[] = {
+@@ -526,7 +526,8 @@ static void record_vendor_data(struct ras_ns_dec_tab *dec_tab,
  	}
- 
- 	p += sprintf(p, "]");
--	trace_seq_printf(s, "\nHISI HIP08: OEM Type-2 Error\n");
- 	trace_seq_printf(s, "%s\n", buf);
-+}
-+
-+static void decode_oem_type2_err_regs(struct ras_ns_dec_tab *dec_tab,
-+				      struct trace_seq *s,
-+				      const struct hisi_oem_type2_err_sec *err)
-+{
-+	char buf[1024];
-+	char *p = buf;
- 
--	p = buf;
- 	trace_seq_printf(s, "Reg Dump:\n");
- 	if (err->val_bits & HISI_OEM_TYPE2_VALID_ERR_FR) {
- 		trace_seq_printf(s, "ERR_FR_0=0x%x\n", err->err_fr_0);
-@@ -846,6 +829,40 @@ static int decode_hip08_oem_type2_error(struct ras_events *ras,
- 			   hip08_oem_type2_field_regs_dump, 0, buf);
- 
- 	step_vendor_data_tab(dec_tab, "hip08_oem_type2_event_tab");
-+}
-+
-+static int decode_hip08_oem_type2_error(struct ras_events *ras,
-+					struct ras_ns_dec_tab *dec_tab,
-+					struct trace_seq *s,
-+					struct ras_non_standard_event *event)
-+{
-+	const struct hisi_oem_type2_err_sec *err =
-+			(struct hisi_oem_type2_err_sec *)event->error;
-+
-+	if (err->val_bits == 0) {
-+		trace_seq_printf(s, "%s: no valid error information\n",
-+				 __func__);
-+		return -1;
-+	}
-+
-+#ifdef HAVE_SQLITE3
-+	if (!dec_tab->stmt_dec_record) {
-+		if (ras_mc_add_vendor_table(ras, &dec_tab->stmt_dec_record,
-+			&hip08_oem_type2_event_tab) != SQLITE_OK) {
-+			trace_seq_printf(s,
-+				"create sql hip08_oem_type2_event_tab fail\n");
-+			return -1;
-+		}
-+	}
-+#endif
-+	record_vendor_data(dec_tab, hisi_oem_data_type_text,
-+			   hip08_oem_type2_field_timestamp,
-+			   0, event->timestamp);
-+
-+
-+	trace_seq_printf(s, "\nHISI HIP08: OEM Type-2 Error\n");
-+	decode_oem_type2_err_hdr(dec_tab, s, err);
-+	decode_oem_type2_err_regs(dec_tab, s, err);
- 
- 	return 0;
  }
+ 
+-static int step_vendor_data_tab(struct ras_ns_dec_tab *dec_tab, char *name)
++static int step_vendor_data_tab(struct ras_ns_dec_tab *dec_tab,
++				const char *name)
+ {
+ 	int rc;
+ 
 -- 
 2.8.1
 
