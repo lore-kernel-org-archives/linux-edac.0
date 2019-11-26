@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A975C43141
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03B46C432C0
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C0162075C
+	by mail.kernel.org (Postfix) with ESMTP id DB9252075C
 	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727630AbfKZMQC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S1727773AbfKZMQC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Tue, 26 Nov 2019 07:16:02 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:6714 "EHLO huawei.com"
+Received: from szxga05-in.huawei.com ([45.249.212.191]:6717 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727717AbfKZMQC (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S1727718AbfKZMQC (ORCPT <rfc822;linux-edac@vger.kernel.org>);
         Tue, 26 Nov 2019 07:16:02 -0500
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id DBAF6C749A254BAEF5CA;
-        Tue, 26 Nov 2019 20:15:55 +0800 (CST)
+        by Forcepoint Email with ESMTP id D76EB2E4A2391A4296F6;
+        Tue, 26 Nov 2019 20:16:00 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 26 Nov 2019 20:15:48 +0800
+ 14.3.439.0; Tue, 26 Nov 2019 20:15:50 +0800
 From:   Xiaofei Tan <tanxiaofei@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     Xiaofei Tan <tanxiaofei@huawei.com>, <linuxarm@huawei.com>,
         <shiju.jose@huawei.com>, <jonathan.cameron@huawei.com>
-Subject: [PATCH v2 3/9] rasdaemon: split OEM type1 table decode function to reduce length
-Date:   Tue, 26 Nov 2019 20:12:30 +0800
-Message-ID: <1574770356-129510-4-git-send-email-tanxiaofei@huawei.com>
+Subject: [PATCH v2 5/9] rasdaemon: split PCIe local table decode function to reduce length
+Date:   Tue, 26 Nov 2019 20:12:32 +0800
+Message-ID: <1574770356-129510-6-git-send-email-tanxiaofei@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
 References: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
@@ -43,37 +43,37 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch splits function decode_hip08_oem_type1_error() to reduce
+This patch splits function decode_hip08_pcie_local_error() to reduce
 length. Move header decoding and register dump to single function
 separately.
 
 Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
 ---
- non-standard-hisi_hip08.c | 76 ++++++++++++++++++++++++++++-------------------
- 1 file changed, 46 insertions(+), 30 deletions(-)
+ non-standard-hisi_hip08.c | 75 ++++++++++++++++++++++++++++-------------------
+ 1 file changed, 45 insertions(+), 30 deletions(-)
 
 diff --git a/non-standard-hisi_hip08.c b/non-standard-hisi_hip08.c
-index 421e03c..79fc1b9 100644
+index bd68291..f2df496 100644
 --- a/non-standard-hisi_hip08.c
 +++ b/non-standard-hisi_hip08.c
-@@ -561,38 +561,13 @@ static int step_vendor_data_tab(struct ras_ns_dec_tab *dec_tab, char *name)
+@@ -867,36 +867,12 @@ static int decode_hip08_oem_type2_error(struct ras_events *ras,
+ 	return 0;
  }
- #endif
  
--/* error data decoding functions */
--static int decode_hip08_oem_type1_error(struct ras_events *ras,
--					struct ras_ns_dec_tab *dec_tab,
--					struct trace_seq *s,
--					struct ras_non_standard_event *event)
-+static void decode_oem_type1_err_hdr(struct ras_ns_dec_tab *dec_tab,
-+				     struct trace_seq *s,
-+				     const struct hisi_oem_type1_err_sec *err)
+-static int decode_hip08_pcie_local_error(struct ras_events *ras,
+-					 struct ras_ns_dec_tab *dec_tab,
+-					 struct trace_seq *s,
+-					 struct ras_non_standard_event *event)
++static void decode_pcie_local_err_hdr(struct ras_ns_dec_tab *dec_tab,
++				      struct trace_seq *s,
++				      const struct hisi_pcie_local_err_sec *err)
  {
--	const struct hisi_oem_type1_err_sec *err =
--			(struct hisi_oem_type1_err_sec*)event->error;
+-	const struct hisi_pcie_local_err_sec *err =
+-			(struct hisi_pcie_local_err_sec *)event->error;
  	char buf[1024];
  	char *p = buf;
- 
+-	uint32_t i;
+-
 -	if (err->val_bits == 0) {
 -		trace_seq_printf(s, "%s: no valid error information\n",
 -				 __func__);
@@ -83,54 +83,53 @@ index 421e03c..79fc1b9 100644
 -#ifdef HAVE_SQLITE3
 -	if (!dec_tab->stmt_dec_record) {
 -		if (ras_mc_add_vendor_table(ras, &dec_tab->stmt_dec_record,
--					    &hip08_oem_type1_event_tab)
--			!= SQLITE_OK) {
+-				&hip08_pcie_local_event_tab) != SQLITE_OK) {
 -			trace_seq_printf(s,
--					"create sql hip08_oem_type1_event_tab fail\n");
+-				"create sql hip08_pcie_local_event_tab fail\n");
 -			return -1;
 -		}
 -	}
 -#endif
 -	record_vendor_data(dec_tab, hisi_oem_data_type_text,
--			   hip08_oem_type1_field_timestamp,
+-			   hip08_pcie_local_field_timestamp,
 -			   0, event->timestamp);
--
+ 
  	p += sprintf(p, "[ ");
  	p += sprintf(p, "table_version=%d ", err->version);
- 	record_vendor_data(dec_tab, hisi_oem_data_type_int,
-@@ -649,10 +624,16 @@ static int decode_hip08_oem_type1_error(struct ras_events *ras,
+@@ -961,11 +937,17 @@ static int decode_hip08_pcie_local_error(struct ras_events *ras,
+ 				   err->err_type, NULL);
  	}
- 
  	p += sprintf(p, "]");
--	trace_seq_printf(s, "\nHISI HIP08: OEM Type-1 Error\n");
+-
+-	trace_seq_printf(s, "\nHISI HIP08: PCIe local error\n");
  	trace_seq_printf(s, "%s\n", buf);
 +}
 +
-+static void decode_oem_type1_err_regs(struct ras_ns_dec_tab *dec_tab,
-+				      struct trace_seq *s,
-+				      const struct hisi_oem_type1_err_sec *err)
++static void decode_pcie_local_err_regs(struct ras_ns_dec_tab *dec_tab,
++				       struct trace_seq *s,
++				       const struct hisi_pcie_local_err_sec *err)
 +{
 +	char buf[1024];
 +	char *p = buf;
++	uint32_t i;
  
 -	p = buf;
  	trace_seq_printf(s, "Reg Dump:\n");
- 	if (err->val_bits & HISI_OEM_TYPE1_VALID_ERR_MISC_0) {
- 		trace_seq_printf(s, "ERR_MISC0=0x%x\n", err->err_misc_0);
-@@ -689,6 +670,41 @@ static int decode_hip08_oem_type1_error(struct ras_events *ras,
- 			   hip08_oem_type1_field_regs_dump, 0, buf);
+ 	for (i = 0; i < 33; i++) {
+ 		if (err->val_bits & BIT(HISI_PCIE_LOCAL_VALID_ERR_MISC + i)) {
+@@ -980,6 +962,39 @@ static int decode_hip08_pcie_local_error(struct ras_events *ras,
+ 			   hip08_pcie_local_field_regs_dump, 0, buf);
  
- 	step_vendor_data_tab(dec_tab, "hip08_oem_type1_event_tab");
+ 	step_vendor_data_tab(dec_tab, "hip08_pcie_local_event_tab");
 +}
 +
-+/* error data decoding functions */
-+static int decode_hip08_oem_type1_error(struct ras_events *ras,
-+					struct ras_ns_dec_tab *dec_tab,
-+					struct trace_seq *s,
-+					struct ras_non_standard_event *event)
++static int decode_hip08_pcie_local_error(struct ras_events *ras,
++					 struct ras_ns_dec_tab *dec_tab,
++					 struct trace_seq *s,
++					 struct ras_non_standard_event *event)
 +{
-+	const struct hisi_oem_type1_err_sec *err =
-+			(struct hisi_oem_type1_err_sec*)event->error;
++	const struct hisi_pcie_local_err_sec *err =
++			(struct hisi_pcie_local_err_sec *)event->error;
 +
 +	if (err->val_bits == 0) {
 +		trace_seq_printf(s, "%s: no valid error information\n",
@@ -141,21 +140,20 @@ index 421e03c..79fc1b9 100644
 +#ifdef HAVE_SQLITE3
 +	if (!dec_tab->stmt_dec_record) {
 +		if (ras_mc_add_vendor_table(ras, &dec_tab->stmt_dec_record,
-+					    &hip08_oem_type1_event_tab)
-+			!= SQLITE_OK) {
++				&hip08_pcie_local_event_tab) != SQLITE_OK) {
 +			trace_seq_printf(s,
-+					"create sql hip08_oem_type1_event_tab fail\n");
++				"create sql hip08_pcie_local_event_tab fail\n");
 +			return -1;
 +		}
 +	}
 +#endif
 +	record_vendor_data(dec_tab, hisi_oem_data_type_text,
-+			   hip08_oem_type1_field_timestamp,
++			   hip08_pcie_local_field_timestamp,
 +			   0, event->timestamp);
 +
-+	trace_seq_printf(s, "\nHISI HIP08: OEM Type-1 Error\n");
-+	decode_oem_type1_err_hdr(dec_tab, s, err);
-+	decode_oem_type1_err_regs(dec_tab, s, err);
++	trace_seq_printf(s, "\nHISI HIP08: PCIe local error\n");
++	decode_pcie_local_err_hdr(dec_tab, s, err);
++	decode_pcie_local_err_regs(dec_tab, s, err);
  
  	return 0;
  }
