@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9AAAC432C0
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C22C432C3
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B4FC620863
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C823420835
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Nov 2019 12:16:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727750AbfKZMQF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 26 Nov 2019 07:16:05 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:6715 "EHLO huawei.com"
+        id S1727761AbfKZMQG (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 26 Nov 2019 07:16:06 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:6720 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727615AbfKZMQF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 26 Nov 2019 07:16:05 -0500
+        id S1727717AbfKZMQG (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 26 Nov 2019 07:16:06 -0500
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id EDCC8DF58BAEA934655D;
-        Tue, 26 Nov 2019 20:15:55 +0800 (CST)
+        by Forcepoint Email with ESMTP id E42CC32A04E34E5C5E9D;
+        Tue, 26 Nov 2019 20:16:00 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 26 Nov 2019 20:15:46 +0800
+ 14.3.439.0; Tue, 26 Nov 2019 20:15:53 +0800
 From:   Xiaofei Tan <tanxiaofei@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     Xiaofei Tan <tanxiaofei@huawei.com>, <linuxarm@huawei.com>,
         <shiju.jose@huawei.com>, <jonathan.cameron@huawei.com>
-Subject: [PATCH v2 1/9] rasdaemon: decode submodule of OEM type1 for hip08
-Date:   Tue, 26 Nov 2019 20:12:28 +0800
-Message-ID: <1574770356-129510-2-git-send-email-tanxiaofei@huawei.com>
+Subject: [PATCH v2 8/9] rasdaemon: fix case style issues for enum constant
+Date:   Tue, 26 Nov 2019 20:12:35 +0800
+Message-ID: <1574770356-129510-9-git-send-email-tanxiaofei@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
 References: <1574770356-129510-1-git-send-email-tanxiaofei@huawei.com>
@@ -43,351 +43,416 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Decode submodule of OEM type1 for hip08, and reconstruct the functions
-of geting OEM module name and submodule name.
+Change lowercase letters of enum constant to uppercase ones.
 
 Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
 ---
- non-standard-hisi_hip08.c | 283 +++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 219 insertions(+), 64 deletions(-)
+ non-standard-hisi_hip08.c | 192 +++++++++++++++++++++++-----------------------
+ 1 file changed, 96 insertions(+), 96 deletions(-)
 
 diff --git a/non-standard-hisi_hip08.c b/non-standard-hisi_hip08.c
-index 5e4b6a0..6fff21a 100644
+index 3ac5a70..f8f8e1d 100644
 --- a/non-standard-hisi_hip08.c
 +++ b/non-standard-hisi_hip08.c
-@@ -182,6 +182,13 @@ enum {
- 	hip08_pcie_local_field_regs_dump,
+@@ -144,50 +144,50 @@ struct hisi_pcie_local_err_sec {
  };
  
-+struct hisi_module_info {
-+	int id;
-+	const char *name;
-+	const char **sub;
-+	int sub_num;
-+};
-+
- /* helper functions */
- static char *err_severity(uint8_t err_sev)
+ enum hisi_oem_data_type {
+-	hisi_oem_data_type_int,
+-	hisi_oem_data_type_int64,
+-	hisi_oem_data_type_text,
++	HISI_OEM_DATA_TYPE_INT,
++	HISI_OEM_DATA_TYPE_INT64,
++	HISI_OEM_DATA_TYPE_TEXT,
+ };
+ 
+ enum {
+-	hip08_oem_type1_field_id,
+-	hip08_oem_type1_field_timestamp,
+-	hip08_oem_type1_field_version,
+-	hip08_oem_type1_field_soc_id,
+-	hip08_oem_type1_field_socket_id,
+-	hip08_oem_type1_field_nimbus_id,
+-	hip08_oem_type1_field_module_id,
+-	hip08_oem_type1_field_sub_module_id,
+-	hip08_oem_type1_field_err_sev,
+-	hip08_oem_type1_field_regs_dump,
++	HIP08_OEM_TYPE1_FIELD_ID,
++	HIP08_OEM_TYPE1_FIELD_TIMESTAMP,
++	HIP08_OEM_TYPE1_FIELD_VERSION,
++	HIP08_OEM_TYPE1_FIELD_SOC_ID,
++	HIP08_OEM_TYPE1_FIELD_SOCKET_ID,
++	HIP08_OEM_TYPE1_FIELD_NIMBUS_ID,
++	HIP08_OEM_TYPE1_FIELD_MODULE_ID,
++	HIP08_OEM_TYPE1_FIELD_SUB_MODULE_ID,
++	HIP08_OEM_TYPE1_FIELD_ERR_SEV,
++	HIP08_OEM_TYPE1_FIELD_REGS_DUMP,
+ };
+ 
+ enum {
+-	hip08_oem_type2_field_id,
+-	hip08_oem_type2_field_timestamp,
+-	hip08_oem_type2_field_version,
+-	hip08_oem_type2_field_soc_id,
+-	hip08_oem_type2_field_socket_id,
+-	hip08_oem_type2_field_nimbus_id,
+-	hip08_oem_type2_field_module_id,
+-	hip08_oem_type2_field_sub_module_id,
+-	hip08_oem_type2_field_err_sev,
+-	hip08_oem_type2_field_regs_dump,
++	HIP08_OEM_TYPE2_FIELD_ID,
++	HIP08_OEM_TYPE2_FIELD_TIMESTAMP,
++	HIP08_OEM_TYPE2_FIELD_VERSION,
++	HIP08_OEM_TYPE2_FIELD_SOC_ID,
++	HIP08_OEM_TYPE2_FIELD_SOCKET_ID,
++	HIP08_OEM_TYPE2_FIELD_NIMBUS_ID,
++	HIP08_OEM_TYPE2_FIELD_MODULE_ID,
++	HIP08_OEM_TYPE2_FIELD_SUB_MODULE_ID,
++	HIP08_OEM_TYPE2_FIELD_ERR_SEV,
++	HIP08_OEM_TYPE2_FIELD_REGS_DUMP,
+ };
+ 
+ enum {
+-	hip08_pcie_local_field_id,
+-	hip08_pcie_local_field_timestamp,
+-	hip08_pcie_local_field_version,
+-	hip08_pcie_local_field_soc_id,
+-	hip08_pcie_local_field_socket_id,
+-	hip08_pcie_local_field_nimbus_id,
+-	hip08_pcie_local_field_sub_module_id,
+-	hip08_pcie_local_field_core_id,
+-	hip08_pcie_local_field_port_id,
+-	hip08_pcie_local_field_err_sev,
+-	hip08_pcie_local_field_err_type,
+-	hip08_pcie_local_field_regs_dump,
++	HIP08_PCIE_LOCAL_FIELD_ID,
++	HIP08_PCIE_LOCAL_FIELD_TIMESTAMP,
++	HIP08_PCIE_LOCAL_FIELD_VERSION,
++	HIP08_PCIE_LOCAL_FIELD_SOC_ID,
++	HIP08_PCIE_LOCAL_FIELD_SOCKET_ID,
++	HIP08_PCIE_LOCAL_FIELD_NIMBUS_ID,
++	HIP08_PCIE_LOCAL_FIELD_SUB_MODULE_ID,
++	HIP08_PCIE_LOCAL_FIELD_CORE_ID,
++	HIP08_PCIE_LOCAL_FIELD_PORT_ID,
++	HIP08_PCIE_LOCAL_FIELD_ERR_SEV,
++	HIP08_PCIE_LOCAL_FIELD_ERR_TYPE,
++	HIP08_PCIE_LOCAL_FIELD_REGS_DUMP,
+ };
+ 
+ struct hisi_module_info {
+@@ -520,13 +520,13 @@ static void record_vendor_data(struct ras_ns_dec_tab *dec_tab,
+ 			       int id, int64_t data, const char *text)
  {
-@@ -194,37 +201,137 @@ static char *err_severity(uint8_t err_sev)
- 	return "unknown";
+ 	switch (data_type) {
+-	case hisi_oem_data_type_int:
++	case HISI_OEM_DATA_TYPE_INT:
+ 		sqlite3_bind_int(dec_tab->stmt_dec_record, id, data);
+ 		break;
+-	case hisi_oem_data_type_int64:
++	case HISI_OEM_DATA_TYPE_INT64:
+ 		sqlite3_bind_int64(dec_tab->stmt_dec_record, id, data);
+ 		break;
+-	case hisi_oem_data_type_text:
++	case HISI_OEM_DATA_TYPE_TEXT:
+ 		sqlite3_bind_text(dec_tab->stmt_dec_record, id, text, -1, NULL);
+ 		break;
+ 	default:
+@@ -579,27 +579,27 @@ static void decode_oem_type1_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 	char *end = buf + HISI_BUF_LEN;
+ 
+ 	p += snprintf(p, end - p, "[ table_version=%d ", err->version);
+-	record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-			   hip08_oem_type1_field_version, err->version, NULL);
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++			   HIP08_OEM_TYPE1_FIELD_VERSION, err->version, NULL);
+ 
+ 	if (err->val_bits & HISI_OEM_VALID_SOC_ID && IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "SOC_ID=%d ", err->soc_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_oem_type1_field_soc_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_OEM_TYPE1_FIELD_SOC_ID,
+ 				   err->soc_id, NULL);
+ 	}
+ 
+ 	if (err->val_bits & HISI_OEM_VALID_SOCKET_ID && IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "socket_ID=%d ", err->socket_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_oem_type1_field_socket_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_OEM_TYPE1_FIELD_SOCKET_ID,
+ 				   err->socket_id, NULL);
+ 	}
+ 
+ 	if (err->val_bits & HISI_OEM_VALID_NIMBUS_ID && IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "nimbus_ID=%d ", err->nimbus_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_oem_type1_field_nimbus_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_OEM_TYPE1_FIELD_NIMBUS_ID,
+ 				   err->nimbus_id, NULL);
+ 	}
+ 
+@@ -608,8 +608,8 @@ static void decode_oem_type1_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 						  err->module_id);
+ 
+ 		p += snprintf(p, end - p, "module=%s ", str);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_oem_type1_field_module_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_OEM_TYPE1_FIELD_MODULE_ID,
+ 				   0, str);
+ 	}
+ 
+@@ -620,8 +620,8 @@ static void decode_oem_type1_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 						     err->sub_module_id);
+ 
+ 		p += snprintf(p, end - p, "submodule=%s ", str);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_oem_type1_field_sub_module_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_OEM_TYPE1_FIELD_SUB_MODULE_ID,
+ 				   0, str);
+ 	}
+ 
+@@ -629,8 +629,8 @@ static void decode_oem_type1_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "error_severity=%s ",
+ 			     err_severity(err->err_severity));
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_oem_type1_field_err_sev,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_OEM_TYPE1_FIELD_ERR_SEV,
+ 				   0, err_severity(err->err_severity));
+ 	}
+ 
+@@ -691,8 +691,8 @@ static void decode_oem_type1_err_regs(struct ras_ns_dec_tab *dec_tab,
+ 		*p = '\0';
+ 	}
+ 
+-	record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-			   hip08_oem_type1_field_regs_dump, 0, buf);
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++			   HIP08_OEM_TYPE1_FIELD_REGS_DUMP, 0, buf);
+ 	step_vendor_data_tab(dec_tab, "hip08_oem_type1_event_tab");
  }
  
--static char *oem_type1_module_name(uint8_t module_id)
--{
--	switch (module_id) {
--	case HISI_OEM_MODULE_ID_MN: return "MN";
--	case HISI_OEM_MODULE_ID_PLL: return "PLL";
--	case HISI_OEM_MODULE_ID_SLLC: return "SLLC";
--	case HISI_OEM_MODULE_ID_AA: return "AA";
--	case HISI_OEM_MODULE_ID_SIOE: return "SIOE";
--	case HISI_OEM_MODULE_ID_POE: return "POE";
--	case HISI_OEM_MODULE_ID_DISP: return "DISP";
--	case HISI_OEM_MODULE_ID_LPC: return "LPC";
--	case HISI_OEM_MODULE_ID_GIC: return "GIC";
--	case HISI_OEM_MODULE_ID_RDE: return "RDE";
--	case HISI_OEM_MODULE_ID_SAS: return "SAS";
--	case HISI_OEM_MODULE_ID_SATA: return "SATA";
--	case HISI_OEM_MODULE_ID_USB: return "USB";
--	}
--	return "unknown";
--}
-+static const char *pll_submodule_name[] = {
-+	"TB_PLL0",
-+	"TB_PLL1",
-+	"TB_PLL2",
-+	"TB_PLL3",
-+	"TA_PLL0",
-+	"TA_PLL1",
-+	"TA_PLL2",
-+	"TA_PLL3",
-+	"NIMBUS_PLL0",
-+	"NIMBUS_PLL1",
-+	"NIMBUS_PLL2",
-+	"NIMBUS_PLL3",
-+	"NIMBUS_PLL4",
-+};
+@@ -722,8 +722,8 @@ static int decode_hip08_oem_type1_error(struct ras_events *ras,
+ 		}
+ 	}
+ #endif
+-	record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-			   hip08_oem_type1_field_timestamp,
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++			   HIP08_OEM_TYPE1_FIELD_TIMESTAMP,
+ 			   0, event->timestamp);
  
--static char *oem_type2_module_name(uint8_t module_id)
--{
--	switch (module_id) {
--	case HISI_OEM_MODULE_ID_SMMU: return "SMMU";
--	case HISI_OEM_MODULE_ID_HHA: return "HHA";
--	case HISI_OEM_MODULE_ID_HLLC: return "HLLC";
--	case HISI_OEM_MODULE_ID_PA: return "PA";
--	case HISI_OEM_MODULE_ID_DDRC: return "DDRC";
--	}
--	return "unknown module";
--}
-+static const char *sllc_submodule_name[] = {
-+	"TB_SLLC0",
-+	"TB_SLLC1",
-+	"TB_SLLC2",
-+	"TA_SLLC0",
-+	"TA_SLLC1",
-+	"TA_SLLC2",
-+	"NIMBUS_SLLC0",
-+	"NIMBUS_SLLC1",
-+};
-+
-+static const char *sioe_submodule_name[] = {
-+	"TB_SIOE0",
-+	"TB_SIOE1",
-+	"TB_SIOE2",
-+	"TB_SIOE3",
-+	"TA_SIOE0",
-+	"TA_SIOE1",
-+	"TA_SIOE2",
-+	"TA_SIOE3",
-+	"NIMBUS_SIOE0",
-+	"NIMBUS_SIOE1",
-+};
-+
-+static const char *poe_submodule_name[] = {
-+	"TB_POE",
-+	"TA_POE",
-+};
-+
-+static const char *disp_submodule_name[] = {
-+	"TB_PERI_DISP",
-+	"TB_POE_DISP",
-+	"TB_GIC_DISP",
-+	"TA_PERI_DISP",
-+	"TA_POE_DISP",
-+	"TA_GIC_DISP",
-+	"HAC_DISP",
-+	"PCIE_DISP",
-+	"IO_MGMT_DISP",
-+	"NETWORK_DISP",
-+};
-+
-+static const char *sas_submodule_name[] = {
-+	"SAS0",
-+	"SAS1",
-+};
-+
-+static const struct hisi_module_info hisi_oem_type1_module[] = {
-+	{
-+		.id = HISI_OEM_MODULE_ID_PLL,
-+		.name = "PLL",
-+		.sub = pll_submodule_name,
-+		.sub_num = ARRAY_SIZE(pll_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_SAS,
-+		.name = "SAS",
-+		.sub = sas_submodule_name,
-+		.sub_num = ARRAY_SIZE(sas_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_POE,
-+		.name = "POE",
-+		.sub = poe_submodule_name,
-+		.sub_num = ARRAY_SIZE(poe_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_SLLC,
-+		.name = "SLLC",
-+		.sub = sllc_submodule_name,
-+		.sub_num = ARRAY_SIZE(sllc_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_SIOE,
-+		.name = "SIOE",
-+		.sub = sioe_submodule_name,
-+		.sub_num = ARRAY_SIZE(sioe_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_DISP,
-+		.name = "DISP",
-+		.sub = disp_submodule_name,
-+		.sub_num = ARRAY_SIZE(disp_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_MN,
-+		.name = "MN",
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_AA,
-+		.name = "AA",
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_LPC,
-+		.name = "LPC",
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_GIC,
-+		.name = "GIC",
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_RDE,
-+		.name = "RDE",
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_SATA,
-+		.name = "SATA",
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_USB,
-+		.name = "USB",
-+	},
-+	{
-+	}
-+};
+ 	trace_seq_printf(s, "\nHISI HIP08: OEM Type-1 Error\n");
+@@ -742,27 +742,27 @@ static void decode_oem_type2_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 	char *end = buf + HISI_BUF_LEN;
  
- static const char *smmu_submodule_name[] = {
- 	"HAC_SMMU",
-@@ -257,27 +364,72 @@ static const char *ddrc_submodule_name[] = {
- 	"TB_DDRC3",
- };
+ 	p += snprintf(p, end - p, "[ table_version=%d ", err->version);
+-	record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-			   hip08_oem_type2_field_version, err->version, NULL);
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++			   HIP08_OEM_TYPE2_FIELD_VERSION, err->version, NULL);
  
--static const char *oem_type2_sub_module_name(uint8_t module_id, uint8_t sub_module_id)
-+static const struct hisi_module_info hisi_oem_type2_module[] = {
-+	{
-+		.id = HISI_OEM_MODULE_ID_SMMU,
-+		.name = "SMMU",
-+		.sub = smmu_submodule_name,
-+		.sub_num = ARRAY_SIZE(smmu_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_HHA,
-+		.name = "HHA",
-+		.sub = hha_submodule_name,
-+		.sub_num = ARRAY_SIZE(hha_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_PA,
-+		.name = "PA",
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_HLLC,
-+		.name = "HLLC",
-+		.sub = hllc_submodule_name,
-+		.sub_num = ARRAY_SIZE(hllc_submodule_name),
-+	},
-+	{
-+		.id = HISI_OEM_MODULE_ID_DDRC,
-+		.name = "DDRC",
-+		.sub = ddrc_submodule_name,
-+		.sub_num = ARRAY_SIZE(ddrc_submodule_name),
-+	},
-+	{
-+	}
-+};
-+
-+static const char *oem_module_name(const struct hisi_module_info *info,
-+				   uint8_t module_id)
- {
--	switch (module_id) {
--	case HISI_OEM_MODULE_ID_SMMU:
--		if (sub_module_id < sizeof(smmu_submodule_name)/sizeof(char *))
--			return smmu_submodule_name[sub_module_id];
--		break;
--	case HISI_OEM_MODULE_ID_HLLC:
--		if (sub_module_id < sizeof(hllc_submodule_name)/sizeof(char *))
--			return hllc_submodule_name[sub_module_id];
--		break;
--	case HISI_OEM_MODULE_ID_PA:
--		return "PA";
--	case HISI_OEM_MODULE_ID_HHA:
--		if (sub_module_id < sizeof(hha_submodule_name)/sizeof(char *))
--			return hha_submodule_name[sub_module_id];
--		break;
--	case HISI_OEM_MODULE_ID_DDRC:
--		if (sub_module_id < sizeof(ddrc_submodule_name)/sizeof(char *))
--			return ddrc_submodule_name[sub_module_id];
--		break;
-+	const struct hisi_module_info *module = &info[0];
-+
-+	for (; module->name; module++) {
-+		if (module->id != module_id)
-+			continue;
-+
-+		return module->name;
-+	}
-+
-+	return "unknown";
-+}
-+
-+static const char *oem_submodule_name(const struct hisi_module_info *info,
-+				      uint8_t module_id, uint8_t sub_module_id)
-+{
-+	const struct hisi_module_info *module = &info[0];
-+
-+	for (; module->name; module++) {
-+		const char **submodule = module->sub;
-+
-+		if (module->id != module_id)
-+			continue;
-+
-+		if (module->sub == NULL)
-+			return module->name;
-+
-+		if (sub_module_id >= module->sub_num)
-+			return "unknown";
-+
-+		return submodule[sub_module_id];
+ 	if (err->val_bits & HISI_OEM_VALID_SOC_ID && IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "SOC_ID=%d ", err->soc_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_oem_type2_field_soc_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_OEM_TYPE2_FIELD_SOC_ID,
+ 				   err->soc_id, NULL);
  	}
  
- 	return "unknown";
-@@ -467,23 +619,24 @@ static int decode_hip08_oem_type1_error(struct ras_events *ras,
+ 	if (err->val_bits & HISI_OEM_VALID_SOCKET_ID && IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "socket_ID=%d ", err->socket_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_oem_type2_field_socket_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_OEM_TYPE2_FIELD_SOCKET_ID,
+ 				   err->socket_id, NULL);
  	}
  
- 	if (err->val_bits & HISI_OEM_VALID_MODULE_ID) {
--		p += sprintf(p, "module=%s ",
--			     oem_type1_module_name(err->module_id));
-+		const char *str = oem_module_name(hisi_oem_type1_module,
-+						  err->module_id);
-+
-+		p += sprintf(p, "module=%s ", str);
- 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
- 				   hip08_oem_type1_field_module_id,
--				   0, oem_type1_module_name(err->module_id));
-+				   0, str);
+ 	if (err->val_bits & HISI_OEM_VALID_NIMBUS_ID && IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "nimbus_ID=%d ", err->nimbus_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_oem_type2_field_nimbus_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_OEM_TYPE2_FIELD_NIMBUS_ID,
+ 				   err->nimbus_id, NULL);
  	}
  
- 	if (err->val_bits & HISI_OEM_VALID_SUB_MODULE_ID) {
--		char submodule_name[64];
-+		const char *str = oem_submodule_name(hisi_oem_type1_module,
-+						     err->module_id,
-+						     err->sub_module_id);
+@@ -771,8 +771,8 @@ static void decode_oem_type2_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 						  err->module_id);
  
--		sprintf(submodule_name, "%s%d",
--			oem_type1_module_name(err->module_id),
--			err->sub_module_id);
--		p += sprintf(p, "submodule=%s ", submodule_name);
-+		p += sprintf(p, "submodule=%s ", str);
- 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
- 				   hip08_oem_type1_field_sub_module_id,
--				   0, submodule_name);
-+				   0, str);
+ 		p += snprintf(p, end - p, "module=%s ", str);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_oem_type2_field_module_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_OEM_TYPE2_FIELD_MODULE_ID,
+ 				   0, str);
  	}
  
- 	if (err->val_bits & HISI_OEM_VALID_ERR_SEVERITY) {
-@@ -596,16 +749,18 @@ static int decode_hip08_oem_type2_error(struct ras_events *ras,
+@@ -783,8 +783,8 @@ static void decode_oem_type2_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 						     err->sub_module_id);
+ 
+ 		p += snprintf(p, end - p, "submodule=%s ", str);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_oem_type2_field_sub_module_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_OEM_TYPE2_FIELD_SUB_MODULE_ID,
+ 				   0, str);
  	}
  
- 	if (err->val_bits & HISI_OEM_VALID_MODULE_ID) {
--		p += sprintf(p, "module=%s ",
--			     oem_type2_module_name(err->module_id));
-+		const char *str = oem_module_name(hisi_oem_type2_module,
-+						  err->module_id);
-+		p += sprintf(p, "module=%s ", str);
- 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
- 				   hip08_oem_type2_field_module_id,
--				   0, oem_type2_module_name(err->module_id));
-+				   0, str);
+@@ -792,8 +792,8 @@ static void decode_oem_type2_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "error_severity=%s ",
+ 			     err_severity(err->err_severity));
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_oem_type2_field_err_sev,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_OEM_TYPE2_FIELD_ERR_SEV,
+ 				   0, err_severity(err->err_severity));
  	}
  
- 	if (err->val_bits & HISI_OEM_VALID_SUB_MODULE_ID) {
--		const char *str = oem_type2_sub_module_name(err->module_id,
--							    err->sub_module_id);
-+		const char *str = oem_submodule_name(hisi_oem_type2_module,
-+						     err->module_id,
-+						     err->sub_module_id);
+@@ -864,8 +864,8 @@ static void decode_oem_type2_err_regs(struct ras_ns_dec_tab *dec_tab,
+ 		*p = '\0';
+ 	}
  
- 		p += sprintf(p, "submodule=%s ", str);
- 		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-	record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-			   hip08_oem_type2_field_regs_dump, 0, buf);
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++			   HIP08_OEM_TYPE2_FIELD_REGS_DUMP, 0, buf);
+ 	step_vendor_data_tab(dec_tab, "hip08_oem_type2_event_tab");
+ }
+ 
+@@ -893,8 +893,8 @@ static int decode_hip08_oem_type2_error(struct ras_events *ras,
+ 		}
+ 	}
+ #endif
+-	record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-			   hip08_oem_type2_field_timestamp,
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++			   HIP08_OEM_TYPE2_FIELD_TIMESTAMP,
+ 			   0, event->timestamp);
+ 
+ 	trace_seq_printf(s, "\nHISI HIP08: OEM Type-2 Error\n");
+@@ -913,31 +913,31 @@ static void decode_pcie_local_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 	char *end = buf + HISI_BUF_LEN;
+ 
+ 	p += snprintf(p, end - p, "[ table_version=%d ", err->version);
+-	record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-			   hip08_pcie_local_field_version,
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++			   HIP08_PCIE_LOCAL_FIELD_VERSION,
+ 			   err->version, NULL);
+ 
+ 	if (err->val_bits & HISI_PCIE_LOCAL_VALID_SOC_ID &&
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "SOC_ID=%d ", err->soc_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_pcie_local_field_soc_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_PCIE_LOCAL_FIELD_SOC_ID,
+ 				   err->soc_id, NULL);
+ 	}
+ 
+ 	if (err->val_bits & HISI_PCIE_LOCAL_VALID_SOCKET_ID &&
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "socket_ID=%d ", err->socket_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_pcie_local_field_socket_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_PCIE_LOCAL_FIELD_SOCKET_ID,
+ 				   err->socket_id, NULL);
+ 	}
+ 
+ 	if (err->val_bits & HISI_PCIE_LOCAL_VALID_NIMBUS_ID &&
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "nimbus_ID=%d ", err->nimbus_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_pcie_local_field_nimbus_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_PCIE_LOCAL_FIELD_NIMBUS_ID,
+ 				   err->nimbus_id, NULL);
+ 	}
+ 
+@@ -945,24 +945,24 @@ static void decode_pcie_local_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "submodule=%s ",
+ 			      pcie_local_sub_module_name(err->sub_module_id));
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_pcie_local_field_sub_module_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_PCIE_LOCAL_FIELD_SUB_MODULE_ID,
+ 				   0, pcie_local_sub_module_name(err->sub_module_id));
+ 	}
+ 
+ 	if (err->val_bits & HISI_PCIE_LOCAL_VALID_CORE_ID &&
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "core_ID=core%d ", err->core_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_pcie_local_field_core_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_PCIE_LOCAL_FIELD_CORE_ID,
+ 				   err->core_id, NULL);
+ 	}
+ 
+ 	if (err->val_bits & HISI_PCIE_LOCAL_VALID_PORT_ID &&
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "port_ID=port%d ", err->port_id);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_pcie_local_field_port_id,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_PCIE_LOCAL_FIELD_PORT_ID,
+ 				   err->port_id, NULL);
+ 	}
+ 
+@@ -970,16 +970,16 @@ static void decode_pcie_local_err_hdr(struct ras_ns_dec_tab *dec_tab,
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "error_severity=%s ",
+ 			      err_severity(err->err_severity));
+-		record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-				   hip08_pcie_local_field_err_sev,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++				   HIP08_PCIE_LOCAL_FIELD_ERR_SEV,
+ 				   0, err_severity(err->err_severity));
+ 	}
+ 
+ 	if (err->val_bits & HISI_PCIE_LOCAL_VALID_ERR_TYPE &&
+ 	    IN_RANGE(p, buf, end)) {
+ 		p += snprintf(p, end - p, "error_type=0x%x ", err->err_type);
+-		record_vendor_data(dec_tab, hisi_oem_data_type_int,
+-				   hip08_pcie_local_field_err_type,
++		record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_INT,
++				   HIP08_PCIE_LOCAL_FIELD_ERR_TYPE,
+ 				   err->err_type, NULL);
+ 	}
+ 
+@@ -1014,8 +1014,8 @@ static void decode_pcie_local_err_regs(struct ras_ns_dec_tab *dec_tab,
+ 		*p = '\0';
+ 	}
+ 
+-	record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-			   hip08_pcie_local_field_regs_dump, 0, buf);
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++			   HIP08_PCIE_LOCAL_FIELD_REGS_DUMP, 0, buf);
+ 	step_vendor_data_tab(dec_tab, "hip08_pcie_local_event_tab");
+ }
+ 
+@@ -1043,8 +1043,8 @@ static int decode_hip08_pcie_local_error(struct ras_events *ras,
+ 		}
+ 	}
+ #endif
+-	record_vendor_data(dec_tab, hisi_oem_data_type_text,
+-			   hip08_pcie_local_field_timestamp,
++	record_vendor_data(dec_tab, HISI_OEM_DATA_TYPE_TEXT,
++			   HIP08_PCIE_LOCAL_FIELD_TIMESTAMP,
+ 			   0, event->timestamp);
+ 
+ 	trace_seq_printf(s, "\nHISI HIP08: PCIe local error\n");
 -- 
 2.8.1
 
