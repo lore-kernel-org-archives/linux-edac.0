@@ -2,133 +2,92 @@ Return-Path: <SRS0=nePw=ZU=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC90C432C0
-	for <linux-edac@archiver.kernel.org>; Thu, 28 Nov 2019 11:02:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D2EC432C3
+	for <linux-edac@archiver.kernel.org>; Thu, 28 Nov 2019 12:56:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DDF1020880
-	for <linux-edac@archiver.kernel.org>; Thu, 28 Nov 2019 11:02:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C87E221787
+	for <linux-edac@archiver.kernel.org>; Thu, 28 Nov 2019 12:56:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbfK1LCh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 28 Nov 2019 06:02:37 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2134 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726670AbfK1LCh (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 28 Nov 2019 06:02:37 -0500
-Received: from lhreml707-cah.china.huawei.com (unknown [172.18.7.107])
-        by Forcepoint Email with ESMTP id AEB06E27E06C92C1AF82;
-        Thu, 28 Nov 2019 11:02:35 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- lhreml707-cah.china.huawei.com (10.201.108.48) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 28 Nov 2019 11:02:34 +0000
-Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 28 Nov
- 2019 11:02:33 +0000
-Subject: Re: linuxnext-20191127 edac warns (was Re: edac KASAN warning in
- experimental arm64 allmodconfig boot)
-To:     Robert Richter <rrichter@marvell.com>
-CC:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        wanghuiqiang <wanghuiqiang@huawei.com>,
-        Xiaofei Tan <tanxiaofei@huawei.com>,
-        Linuxarm <linuxarm@huawei.com>,
-        "Huangming (Mark)" <huangming23@huawei.com>
-References: <304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com>
- <93bdc04e-9e8f-b766-6e97-9fd9e1460a8c@huawei.com>
- <20191121142302.rhvgkgqpiubidhtu@rric.localdomain>
- <4ff7631f-fbb7-e45f-87dd-9223beca4da7@huawei.com>
- <20191122112842.tmf4lkj52hpv6tqd@rric.localdomain>
- <4c1bd075-75ec-8445-9595-467b88a406b3@huawei.com>
- <957a809b-9efd-0979-df5d-a4f095da6147@huawei.com>
- <20191127205400.cip7hdbhcdokofel@rric.localdomain>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <7131f2b9-d4c3-b858-2d17-c56003789df2@huawei.com>
-Date:   Thu, 28 Nov 2019 11:02:32 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
-MIME-Version: 1.0
-In-Reply-To: <20191127205400.cip7hdbhcdokofel@rric.localdomain>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.46]
-X-ClientProxiedBy: lhreml720-chm.china.huawei.com (10.201.108.71) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+        id S1726448AbfK1M4t (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 28 Nov 2019 07:56:49 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:47357 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726320AbfK1M4t (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 28 Nov 2019 07:56:49 -0500
+Received: from orion.localdomain ([95.117.37.214]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mj8Vx-1hvDjy246X-00fC0B; Thu, 28 Nov 2019 13:54:35 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     tim@buttersideup.com, james.morse@arm.com, rrichter@marvell.com,
+        jdelvare@suse.com, linux@roeck-us.net, miquel.raynal@bootlin.com,
+        richard@nod.at, vigneshr@ti.com, linux-crypto@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-pci@vger.kernel.org
+Subject: [PATCH 4/6] edac: i82443bxgx_edac: use pci_get_device_by_id()
+Date:   Thu, 28 Nov 2019 13:54:04 +0100
+Message-Id: <20191128125406.10417-4-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20191128125406.10417-1-info@metux.net>
+References: <20191128125406.10417-1-info@metux.net>
+X-Provags-ID: V03:K1:9EUuGTPFx9yVqpEoKdlnLYODqk9fzt9TtUcFLxUJNQuCt8Dur2J
+ ACsPPHh76A4wFy8Z88Uwcih8Gh0dLZpBgM8CFlKvY0QA8CbpcQLiyPn2pyQvfVC0LvrKJga
+ Cc1aJBxlcwchVkCPVIP3TXc8IMtS9wGQaNQjzGegaEmSeVHuId1bQ7trzN6njcAQpcGXqw0
+ CyUuKxSGvW13czLk3/woA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/fn+U6evcp8=:mG00zLE+KR2h6oHqb9009C
+ L0fikJ9nBQgS+pmDUpSajRT4HUgHowXnOvY7nwciAUil9VzSSq5nS6YUn9wUiEJbCmBNMLBBi
+ 9GNdhWPS1tyZZwSwlZKHW8wKz+wikAN8xUu6xrk4YFNN23kXZplI4zmNLc+Lm5NyhRAcNdTIn
+ zy59HI05sybYGVBCSLYg7ZHBT8R1zeYbZwKMqGNW4KS58cEhkWwLinI5jCexhRJ84HZZ+BoN1
+ G3gCzTOfZgWRYOZCs88AkG/lhETTv0KlMQYhKgL7ekvBt7psZVSXZ/8i3OBWs8nO/GhCTTNyJ
+ zoZAY24hx+Pi36uQKrn26DyHbKnFkAWh/JhYMI+8XYHj3RMrXDJmLGAADEQ8R7udrni5VDqRQ
+ lIUeB02b37i4SJS82xbox6wwsVxwI4Y0yKU7hg41FJkk0yO59QBugIBSQMqoMuC8LwGZhF5Tt
+ ChOYleEqTKERFMWYdnAQpTtmOUQYPTKU/6K02ai1cOGFMYV2JbZk1eMDM/7homG2m5rb9bIIl
+ FtwTTsakh/VyDO4Xv+1wDFd/Ikjme1b8mbIQclCY8siGvzx4CZh0wrQpHYOLhR6tJC17XL3mK
+ IaVxXZbWmn5zjH4JoffpYxppi9setLwa8TImMh23Np222al9COuJD16fmAPMYIbRxoHwrk4HP
+ 8Sd3yluxx5TCu/GorU/8vmVsRwGuRqEDm9KjAC2Cnn94lyTRGo1dVG/xfH+/xJGUfQgeab/lE
+ IAshHFivK66H3YugaZnI3Fi5fIl4E0cFBdikOvm05PGkuNcE6Jv9wBeexKJo7o3NB+eECt7hu
+ 99QB4XBE7inceZX+WISbvRB+ohIstws4Entssak1jqg2wR4RN1TBTWYp/wY0m2rLoAKQCa+x/
+ B6FZ1HHlOMjNBYVsVT/A==
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
+Use the new pci_get_device_by_id() helper in order to reduce
+a bit of boilerplate.
 
-Hi Robert,
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+---
+ drivers/edac/i82443bxgx_edac.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-> thank you for testing.
+diff --git a/drivers/edac/i82443bxgx_edac.c b/drivers/edac/i82443bxgx_edac.c
+index a2ca929e2168..c01f51a4848c 100644
+--- a/drivers/edac/i82443bxgx_edac.c
++++ b/drivers/edac/i82443bxgx_edac.c
+@@ -407,15 +407,13 @@ static int __init i82443bxgx_edacmc_init(void)
+ 		goto fail0;
+ 
+ 	if (mci_pdev == NULL) {
+-		const struct pci_device_id *id = &i82443bxgx_pci_tbl[0];
+ 		int i = 0;
+ 		i82443bxgx_registered = 0;
+ 
+-		while (mci_pdev == NULL && id->vendor != 0) {
+-			mci_pdev = pci_get_device(id->vendor,
+-					id->device, NULL);
++		while (mci_pdev == NULL && i82443bxgx_pci_tbl[i].vendor) {
++			mci_pdev = pci_get_device_by_id(
++				&i82443bxgx_pci_tbl[i]);
+ 			i++;
+-			id = &i82443bxgx_pci_tbl[i];
+ 		}
+ 		if (!mci_pdev) {
+ 			edac_dbg(0, "i82443bxgx pci_get_device fail\n");
+-- 
+2.11.0
 
-I'm just stumbling across these, TBH.
-
-> 
-> On 27.11.19 17:07:33, John Garry wrote:
-> 
->> [snip]
->>
->> I have test enabled:
->> +CONFIG_DEBUG_TEST_DRIVER_REMOVE=y
->> +CONFIG_KASAN=y
->> +CONFIG_DEBUG_KMEMLEAK=y
-> 
-> Is this a regression (did it work before?), or a new test that you
-> newly run?
-
-linuxnext-20191119 does not look to have the issue - that's when I 
-cherry-pick your refcount fix - but has lots of memory leaks:
-
-root@(none)$
-root@(none)$ echo scan > /sys/kernel/debug/kmemleak
-root@(none)$ [  121.639978] kmemleak: 128 new suspected memory leaks 
-(see /sys/kernel/debug/kmemleak)
-
-root@(none)$ cat /sys/kernel/debug/kmemleak
-unreferenced object 0xffff00236c24ba00 (size 256):
-   comm "swapper/0", pid 1, jiffies 4294897826 (age 107.824s)
-   hex dump (first 32 bytes):
-     00 40 2d 3c 23 00 ff ff 00 48 2d 3c 23 00 ff ff  .@-<#....H-<#...
-     00 50 2d 3c 23 00 ff ff 00 58 2d 3c 23 00 ff ff  .P-<#....X-<#...
-   backtrace:
-     [<0000000009aed8e3>] __kmalloc+0x1e0/0x2c0
-     [<00000000bf599427>] edac_mc_alloc+0x31c/0x888
-     [<00000000c070e314>] ghes_edac_register+0x15c/0x390
-     [<00000000e4aad1c2>] ghes_probe+0x28c/0x5f0
-     [<0000000079c357cb>] platform_drv_probe+0x70/0xd8
-     [<00000000d4ab9188>] really_probe+0x118/0x548
-     [<00000000763d50f1>] driver_probe_device+0x7c/0x148
-     [<0000000058e623c3>] device_driver_attach+0x94/0xa0
-     [<00000000d7cb679d>] __driver_attach+0xa4/0x110
-     [<000000007d0942a0>] bus_for_each_dev+0xe8/0x158
-     [<000000004cf734d1>] driver_attach+0x30/0x40
-     [<000000009aa3536e>] bus_add_driver+0x234/0x2f0
-     [<00000000d163cfe0>] driver_register+0xbc/0x1d0
-     [<000000007e4f0ac1>] __platform_driver_register+0x7c/0x88
-     [<00000000a63c8dd0>] ghes_init+0xbc/0x14c
-     [<00000000356c8a7f>] do_one_initcall+0xb4/0x254
-unreferenced object 0xffff00233c2d4000 (size 1024):
-   comm "swapper/0", pid 1, jiffies 4294897826 (age 107.824s)
-   hex dump (first 32 bytes):
-     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-   backtrace:
-     [<000000004945469f>] kmem_cache_alloc+0x188/0x260
-     [<0000000032ea779d>] edac_mc_alloc+0x38c/0x888
-
-Unfortunately v5.4 has similar memory leaks.
-
-Thanks,
-John
