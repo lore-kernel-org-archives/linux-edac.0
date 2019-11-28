@@ -1,184 +1,218 @@
-Return-Path: <SRS0=vd1W=ZT=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=nePw=ZU=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UPPERCASE_50_75,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE29C432C0
-	for <linux-edac@archiver.kernel.org>; Wed, 27 Nov 2019 21:55:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3BAC43215
+	for <linux-edac@archiver.kernel.org>; Thu, 28 Nov 2019 01:40:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5776D20665
-	for <linux-edac@archiver.kernel.org>; Wed, 27 Nov 2019 21:55:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="PuzDK/lD";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="Ek5kM6Ee"
+	by mail.kernel.org (Postfix) with ESMTP id 3BE932178F
+	for <linux-edac@archiver.kernel.org>; Thu, 28 Nov 2019 01:40:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727394AbfK0Vy4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 27 Nov 2019 16:54:56 -0500
-Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:7298 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727105AbfK0Vyz (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 27 Nov 2019 16:54:55 -0500
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xARLniuO004627;
-        Wed, 27 Nov 2019 13:54:46 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pfpt0818; bh=3ou5LSPKzHI7VRUtHJwVEDsvioukhl0QAzjiQwo506c=;
- b=PuzDK/lDBOAywNwy/seAR9XZF3eBkkcEHfGFlDdCFv6+XnudWyEnsslxg40QWqiQcnXm
- tHGsSXrb7v1/XhWBofM3BJjrUHbJlpd13pO4KP7bic5J0JTTA1ynzbtVZffhkeg3SRki
- +M9Z7xPJ3rnzwpCHb3wbPWgry4LbPOj+l+HDRRZjTgiapXWhKXcy8jsvm5/jG2TLoqKk
- fR3sCGxW99MKKh7v/9qfyqDF+jpJ8P7n9deDXFeOfH/w5S7wPtgzrsACVJ7Znv52UiQh
- Q3DIujdiqxiz3Cuh8RvQPiMHPOI5DSA/nli3M2bTsL7frpxjMA70GWIwatjRL37J7qN7 vQ== 
-Received: from sc-exch04.marvell.com ([199.233.58.184])
-        by mx0b-0016f401.pphosted.com with ESMTP id 2whd08mrcp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 27 Nov 2019 13:54:46 -0800
-Received: from SC-EXCH02.marvell.com (10.93.176.82) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Wed, 27 Nov
- 2019 13:54:45 -0800
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com (104.47.49.50) by
- SC-EXCH02.marvell.com (10.93.176.82) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 27 Nov 2019 13:54:44 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YbDMy5djV6VKu7wtf93cCvON8we5fcK0W+s5OAWktKU7dDtFFHNd9hwTW90rjGAGMqU1FtgY5FfaujMhRA34bF0H+6ZiAdGhfP0te5/I6qv7qXoa7zZmLO65+MCbJD2SYxxFzlJYMjkPq/udWY5vtqPc5LX07aiiSKqkR51CfI/QZRdTnwLszU7uFcy0UR/ivPIPilO/Y4TOvjbNKFzjHZlRaqT6KfZ2h10GoeucAedtQwPdwZMiTokQiaw7aMyTAy2JurZTOJeXnUMpjkBsVlvEMHm7fNjR9Fvm6cxSZ3oxX4HkdvSLuhFuS9ypV5lv7m6TJQ0LlVzhReQtml1Kqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ou5LSPKzHI7VRUtHJwVEDsvioukhl0QAzjiQwo506c=;
- b=BZ3hHY2O9zd3kRW4TJP+n+Tra+zgrqMBh/SoB2LtgCANrIB15Y4/d/uHaXAgvq7E9AiaTLlU+B2/aUWEeKtvjzMm3zPFy320k/XHvZEbVBRYWEhUFXaQeDm4SCzspGyeS8SKhU4AIzTL3Pdoe9nw7fY1+xMA8MRSJPAefEYEmvd/Oykv300ndTF9iQO3OV4QNTodPheieEe8VbL/zIcUprz0vNgoRmYvY8NF4WJN/SF55VXQtMweQLftgD4WdX0jxG2a1dT6DszIwAKhV3c0GRmeaDU/bpCosUhH6Tp8i6RCEIAC4KY8aFEEv7mFaXR4JWGNoyJWfliR14E+aOdWxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ou5LSPKzHI7VRUtHJwVEDsvioukhl0QAzjiQwo506c=;
- b=Ek5kM6EezUiegJcvLh6OVfBk/Vh0gQIaq2VoySw8tfArduNz4FT/RhPnT7EyhPeN1sSWviKxVmGfrL/1U1XLAK4riNnRCI5cFmxXIHv+NlG59FCdpscxtbka5wlKm3Y9v+j8Ds4RPjUYLekESs0WBl3mw4O5xihivXqTQTVCazY=
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
- MN2PR18MB2477.namprd18.prod.outlook.com (20.179.81.152) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.22; Wed, 27 Nov 2019 21:54:43 +0000
-Received: from MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::657c:6c81:859d:106]) by MN2PR18MB3408.namprd18.prod.outlook.com
- ([fe80::657c:6c81:859d:106%7]) with mapi id 15.20.2474.023; Wed, 27 Nov 2019
- 21:54:43 +0000
-From:   Robert Richter <rrichter@marvell.com>
-To:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>
-CC:     James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH 00/10] EDAC: Rework core and ghes drivers, part two
-Thread-Topic: [PATCH 00/10] EDAC: Rework core and ghes drivers, part two
-Thread-Index: AQHVpW1G1p0gsbgfOUOkTAsvn77vZQ==
-Date:   Wed, 27 Nov 2019 21:54:43 +0000
-Message-ID: <20191127215415.11230-1-rrichter@marvell.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0102CA0017.eurprd01.prod.exchangelabs.com
- (2603:10a6:7:14::30) To MN2PR18MB3408.namprd18.prod.outlook.com
- (2603:10b6:208:165::10)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.20.1
-x-originating-ip: [31.208.96.227]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 07841ab0-4dc3-4770-01cb-08d77384694c
-x-ms-traffictypediagnostic: MN2PR18MB2477:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB24770FF4CDCEB0B18286CC8AD9440@MN2PR18MB2477.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 023495660C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(376002)(136003)(346002)(396003)(39860400002)(189003)(199004)(14454004)(305945005)(110136005)(6306002)(256004)(186003)(1076003)(4326008)(966005)(86362001)(6436002)(8676002)(6486002)(81156014)(2906002)(81166006)(386003)(6512007)(478600001)(54906003)(99286004)(52116002)(8936002)(25786009)(7736002)(66946007)(6116002)(26005)(316002)(66066001)(50226002)(36756003)(71190400001)(3846002)(66476007)(66556008)(64756008)(66446008)(71200400001)(102836004)(2616005)(6506007)(5660300002);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2477;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: marvell.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Url1HfyNy/qnK8vNFCjqDNaA+GDyk05IAZ6tZLhpeFYweQzxiyyDReoV57vu6Tq7TIEG9HdW/zwD+81wq89PtvmbGT6MmcJvXbCKaOCboTP2Iwr7xX8jGDAdbxjBVa8v8WLUJbvDavTjDi/M0BF8/E/vGtTh3KD2mSec1JZRNFba2Jk1veQm9/3T/JAGyE+TpHQT+R7U0biLrLokZEjOqhoz3Bg2qI4yU1xFwtlvYr+4d7dgz8c9Z0LTwQFhuaSfkTftQ7ebkbdsG7DEVQQnH7tR0f5hfAfCrr62Ar/wdZoL25D95TlncQTVQ0MxoLHV1Y2krWa6Hzv8yHJKjYO+a2UCW4ISwbPSzpLcAFhDg2xzFqZK+ADZKshuNJhKjj/Lfx28FtFmUPcauhXEd0gHQAGkjBEJnd1T8CtMvUrjThvUrWPykC+b0p4aWm7Sc071rhRb6M+mb7qSL5RrPkB6IE6ZwgTVWX/UgWzndrsloMA=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        id S1727857AbfK1Bkk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 27 Nov 2019 20:40:40 -0500
+Received: from mga02.intel.com ([134.134.136.20]:10957 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727768AbfK1BkZ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 27 Nov 2019 20:40:25 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Nov 2019 17:40:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,251,1571727600"; 
+   d="scan'208";a="221166519"
+Received: from sjchrist-coffee.jf.intel.com ([10.54.74.41])
+  by orsmga002.jf.intel.com with ESMTP; 27 Nov 2019 17:40:20 -0800
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org
+Cc:     "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+        Len Brown <lenb@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, Borislav Petkov <bp@suse.de>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Subject: [PATCH v4 17/19] KVM: VMX: Use VMX_FEATURE_* flags to define VMCS control bits
+Date:   Wed, 27 Nov 2019 17:40:14 -0800
+Message-Id: <20191128014016.4389-18-sean.j.christopherson@intel.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191128014016.4389-1-sean.j.christopherson@intel.com>
+References: <20191128014016.4389-1-sean.j.christopherson@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07841ab0-4dc3-4770-01cb-08d77384694c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2019 21:54:43.6929
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UlNa4iRHT7dOChwqJgim03OADR9mMXXztjHBvghn7aScVoLShXv7406GqWmHDXA1gXPRgUAzVQ7/jjFIw7kWCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2477
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-27_04:2019-11-27,2019-11-27 signatures=0
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patch set is part two of a rework of the ghes_edac and edac_mc
-driver. It addresses issues found during code review and while working
-with the code. Part one has been included to v5.5, see:
+Define the VMCS execution control flags (consumed by KVM) using their
+associated VMX_FEATURE_* to provide a strong hint that new VMX features
+are expected to be added to VMX_FEATURE and considered for reporting via
+/proc/cpuinfo.
 
- https://lore.kernel.org/patchwork/cover/1093488/
+No functional change intended.
 
-The changes of this series include:
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+---
+ arch/x86/include/asm/vmx.h | 105 +++++++++++++++++++------------------
+ 1 file changed, 55 insertions(+), 50 deletions(-)
 
- * add helper functions and factor out code (#1, #2, #5)
-
- * improve function interfaces and data structures to decrease
-   complexity such as number of function arguments, unused data, etc.
-   (#3, #4, #7, #8, #9, #10),
-
- * minor functional fixes (#6)
-
- * improve code readability (#9)
-
-Changes compared to part one:
- * rebased onto 5781823fd0d3 ("EDAC/altera: Use the Altera System
-   Manager driver")
- * reworded patch subjects
- * reordered patches
- * collected Mauro's Reviewed-by-tags (note: I kept them though there
-   has been small conflicts but dropped it when reworked)
- * dropped: "EDAC/mc: Rework edac_raw_mc_handle_error() to use struct
-   dimm_info"
- * split "EDAC/mc: Remove per layer counters" into smaller changes
- * added:
-   "EDAC/mc: Report "unknown memory" on too many DIMM labels found"
-   "EDAC/mc: Remove enable_per_layer_report function arguments"
-   "EDAC/mc: Pass the error descriptor to error reporting functions"
-   "EDAC/mc: Remove detail[] string and cleanup error string
-   generation"
- * moved to the end:
-   "EDAC/mc: Remove per layer counters"
-
-
-Robert Richter (10):
-  EDAC/mc: Split edac_mc_alloc() into smaller functions
-  EDAC/mc: Reorder functions edac_mc_alloc*()
-  EDAC: Store error type in struct edac_raw_error_desc
-  EDAC/mc: Determine mci pointer from the error descriptor
-  EDAC/mc: Create new function edac_inc_csrow()
-  EDAC/mc: Report "unknown memory" on too many DIMM labels found
-  EDAC/mc: Remove enable_per_layer_report function arguments
-  EDAC/mc: Pass the error descriptor to error reporting functions
-  EDAC/mc: Remove detail[] string and cleanup error string generation
-  EDAC/mc: Remove per layer counters
-
- drivers/edac/edac_mc.c       | 496 ++++++++++++++++-------------------
- drivers/edac/edac_mc.h       |   6 +-
- drivers/edac/edac_mc_sysfs.c |  20 +-
- drivers/edac/ghes_edac.c     |  16 +-
- include/linux/edac.h         |   8 +-
- 5 files changed, 248 insertions(+), 298 deletions(-)
-
---=20
-2.20.1
+diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
+index 1835767aa335..9fbba31be825 100644
+--- a/arch/x86/include/asm/vmx.h
++++ b/arch/x86/include/asm/vmx.h
+@@ -15,67 +15,70 @@
+ #include <linux/bitops.h>
+ #include <linux/types.h>
+ #include <uapi/asm/vmx.h>
++#include <asm/vmxfeatures.h>
++
++#define VMCS_CONTROL_BIT(x)	BIT(VMX_FEATURE_##x & 0x1f)
+ 
+ /*
+  * Definitions of Primary Processor-Based VM-Execution Controls.
+  */
+-#define CPU_BASED_VIRTUAL_INTR_PENDING          0x00000004
+-#define CPU_BASED_USE_TSC_OFFSETING             0x00000008
+-#define CPU_BASED_HLT_EXITING                   0x00000080
+-#define CPU_BASED_INVLPG_EXITING                0x00000200
+-#define CPU_BASED_MWAIT_EXITING                 0x00000400
+-#define CPU_BASED_RDPMC_EXITING                 0x00000800
+-#define CPU_BASED_RDTSC_EXITING                 0x00001000
+-#define CPU_BASED_CR3_LOAD_EXITING		0x00008000
+-#define CPU_BASED_CR3_STORE_EXITING		0x00010000
+-#define CPU_BASED_CR8_LOAD_EXITING              0x00080000
+-#define CPU_BASED_CR8_STORE_EXITING             0x00100000
+-#define CPU_BASED_TPR_SHADOW                    0x00200000
+-#define CPU_BASED_VIRTUAL_NMI_PENDING		0x00400000
+-#define CPU_BASED_MOV_DR_EXITING                0x00800000
+-#define CPU_BASED_UNCOND_IO_EXITING             0x01000000
+-#define CPU_BASED_USE_IO_BITMAPS                0x02000000
+-#define CPU_BASED_MONITOR_TRAP_FLAG             0x08000000
+-#define CPU_BASED_USE_MSR_BITMAPS               0x10000000
+-#define CPU_BASED_MONITOR_EXITING               0x20000000
+-#define CPU_BASED_PAUSE_EXITING                 0x40000000
+-#define CPU_BASED_ACTIVATE_SECONDARY_CONTROLS   0x80000000
++#define CPU_BASED_VIRTUAL_INTR_PENDING          VMCS_CONTROL_BIT(VIRTUAL_INTR_PENDING)
++#define CPU_BASED_USE_TSC_OFFSETING             VMCS_CONTROL_BIT(TSC_OFFSETTING)
++#define CPU_BASED_HLT_EXITING                   VMCS_CONTROL_BIT(HLT_EXITING)
++#define CPU_BASED_INVLPG_EXITING                VMCS_CONTROL_BIT(INVLPG_EXITING)
++#define CPU_BASED_MWAIT_EXITING                 VMCS_CONTROL_BIT(MWAIT_EXITING)
++#define CPU_BASED_RDPMC_EXITING                 VMCS_CONTROL_BIT(RDPMC_EXITING)
++#define CPU_BASED_RDTSC_EXITING                 VMCS_CONTROL_BIT(RDTSC_EXITING)
++#define CPU_BASED_CR3_LOAD_EXITING		VMCS_CONTROL_BIT(CR3_LOAD_EXITING)
++#define CPU_BASED_CR3_STORE_EXITING		VMCS_CONTROL_BIT(CR3_STORE_EXITING)
++#define CPU_BASED_CR8_LOAD_EXITING              VMCS_CONTROL_BIT(CR8_LOAD_EXITING)
++#define CPU_BASED_CR8_STORE_EXITING             VMCS_CONTROL_BIT(CR8_STORE_EXITING)
++#define CPU_BASED_TPR_SHADOW                    VMCS_CONTROL_BIT(VIRTUAL_TPR)
++#define CPU_BASED_VIRTUAL_NMI_PENDING		VMCS_CONTROL_BIT(VIRTUAL_NMI_PENDING)
++#define CPU_BASED_MOV_DR_EXITING                VMCS_CONTROL_BIT(MOV_DR_EXITING)
++#define CPU_BASED_UNCOND_IO_EXITING             VMCS_CONTROL_BIT(UNCOND_IO_EXITING)
++#define CPU_BASED_USE_IO_BITMAPS                VMCS_CONTROL_BIT(USE_IO_BITMAPS)
++#define CPU_BASED_MONITOR_TRAP_FLAG             VMCS_CONTROL_BIT(MONITOR_TRAP_FLAG)
++#define CPU_BASED_USE_MSR_BITMAPS               VMCS_CONTROL_BIT(USE_MSR_BITMAPS)
++#define CPU_BASED_MONITOR_EXITING               VMCS_CONTROL_BIT(MONITOR_EXITING)
++#define CPU_BASED_PAUSE_EXITING                 VMCS_CONTROL_BIT(PAUSE_EXITING)
++#define CPU_BASED_ACTIVATE_SECONDARY_CONTROLS   VMCS_CONTROL_BIT(SEC_CONTROLS)
+ 
+ #define CPU_BASED_ALWAYSON_WITHOUT_TRUE_MSR	0x0401e172
+ 
+ /*
+  * Definitions of Secondary Processor-Based VM-Execution Controls.
+  */
+-#define SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES 0x00000001
+-#define SECONDARY_EXEC_ENABLE_EPT               0x00000002
+-#define SECONDARY_EXEC_DESC			0x00000004
+-#define SECONDARY_EXEC_RDTSCP			0x00000008
+-#define SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE   0x00000010
+-#define SECONDARY_EXEC_ENABLE_VPID              0x00000020
+-#define SECONDARY_EXEC_WBINVD_EXITING		0x00000040
+-#define SECONDARY_EXEC_UNRESTRICTED_GUEST	0x00000080
+-#define SECONDARY_EXEC_APIC_REGISTER_VIRT       0x00000100
+-#define SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY    0x00000200
+-#define SECONDARY_EXEC_PAUSE_LOOP_EXITING	0x00000400
+-#define SECONDARY_EXEC_RDRAND_EXITING		0x00000800
+-#define SECONDARY_EXEC_ENABLE_INVPCID		0x00001000
+-#define SECONDARY_EXEC_ENABLE_VMFUNC            0x00002000
+-#define SECONDARY_EXEC_SHADOW_VMCS              0x00004000
+-#define SECONDARY_EXEC_ENCLS_EXITING		0x00008000
+-#define SECONDARY_EXEC_RDSEED_EXITING		0x00010000
+-#define SECONDARY_EXEC_ENABLE_PML               0x00020000
+-#define SECONDARY_EXEC_PT_CONCEAL_VMX		0x00080000
+-#define SECONDARY_EXEC_XSAVES			0x00100000
+-#define SECONDARY_EXEC_PT_USE_GPA		0x01000000
+-#define SECONDARY_EXEC_MODE_BASED_EPT_EXEC	0x00400000
+-#define SECONDARY_EXEC_TSC_SCALING              0x02000000
++#define SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES VMCS_CONTROL_BIT(VIRT_APIC_ACCESSES)
++#define SECONDARY_EXEC_ENABLE_EPT               VMCS_CONTROL_BIT(EPT)
++#define SECONDARY_EXEC_DESC			VMCS_CONTROL_BIT(DESC_EXITING)
++#define SECONDARY_EXEC_RDTSCP			VMCS_CONTROL_BIT(RDTSCP)
++#define SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE   VMCS_CONTROL_BIT(VIRTUAL_X2APIC)
++#define SECONDARY_EXEC_ENABLE_VPID              VMCS_CONTROL_BIT(VPID)
++#define SECONDARY_EXEC_WBINVD_EXITING		VMCS_CONTROL_BIT(WBINVD_EXITING)
++#define SECONDARY_EXEC_UNRESTRICTED_GUEST	VMCS_CONTROL_BIT(UNRESTRICTED_GUEST)
++#define SECONDARY_EXEC_APIC_REGISTER_VIRT       VMCS_CONTROL_BIT(APIC_REGISTER_VIRT)
++#define SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY    VMCS_CONTROL_BIT(VIRT_INTR_DELIVERY)
++#define SECONDARY_EXEC_PAUSE_LOOP_EXITING	VMCS_CONTROL_BIT(PAUSE_LOOP_EXITING)
++#define SECONDARY_EXEC_RDRAND_EXITING		VMCS_CONTROL_BIT(RDRAND_EXITING)
++#define SECONDARY_EXEC_ENABLE_INVPCID		VMCS_CONTROL_BIT(INVPCID)
++#define SECONDARY_EXEC_ENABLE_VMFUNC            VMCS_CONTROL_BIT(VMFUNC)
++#define SECONDARY_EXEC_SHADOW_VMCS              VMCS_CONTROL_BIT(SHADOW_VMCS)
++#define SECONDARY_EXEC_ENCLS_EXITING		VMCS_CONTROL_BIT(ENCLS_EXITING)
++#define SECONDARY_EXEC_RDSEED_EXITING		VMCS_CONTROL_BIT(RDSEED_EXITING)
++#define SECONDARY_EXEC_ENABLE_PML               VMCS_CONTROL_BIT(PAGE_MOD_LOGGING)
++#define SECONDARY_EXEC_PT_CONCEAL_VMX		VMCS_CONTROL_BIT(PT_CONCEAL_VMX)
++#define SECONDARY_EXEC_XSAVES			VMCS_CONTROL_BIT(XSAVES)
++#define SECONDARY_EXEC_MODE_BASED_EPT_EXEC	VMCS_CONTROL_BIT(MODE_BASED_EPT_EXEC)
++#define SECONDARY_EXEC_PT_USE_GPA		VMCS_CONTROL_BIT(PT_USE_GPA)
++#define SECONDARY_EXEC_TSC_SCALING              VMCS_CONTROL_BIT(TSC_SCALING)
+ #define SECONDARY_EXEC_ENABLE_USR_WAIT_PAUSE	0x04000000
+ 
+-#define PIN_BASED_EXT_INTR_MASK                 0x00000001
+-#define PIN_BASED_NMI_EXITING                   0x00000008
+-#define PIN_BASED_VIRTUAL_NMIS                  0x00000020
+-#define PIN_BASED_VMX_PREEMPTION_TIMER          0x00000040
+-#define PIN_BASED_POSTED_INTR                   0x00000080
++#define PIN_BASED_EXT_INTR_MASK                 VMCS_CONTROL_BIT(INTR_EXITING)
++#define PIN_BASED_NMI_EXITING                   VMCS_CONTROL_BIT(NMI_EXITING)
++#define PIN_BASED_VIRTUAL_NMIS                  VMCS_CONTROL_BIT(VIRTUAL_NMIS)
++#define PIN_BASED_VMX_PREEMPTION_TIMER          VMCS_CONTROL_BIT(PREEMPTION_TIMER)
++#define PIN_BASED_POSTED_INTR                   VMCS_CONTROL_BIT(POSTED_INTR)
+ 
+ #define PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR	0x00000016
+ 
+@@ -114,7 +117,9 @@
+ #define VMX_MISC_MSR_LIST_MULTIPLIER		512
+ 
+ /* VMFUNC functions */
+-#define VMX_VMFUNC_EPTP_SWITCHING               0x00000001
++#define VMFUNC_CONTROL_BIT(x)	BIT((VMX_FEATURE_##x & 0x1f) - 28)
++
++#define VMX_VMFUNC_EPTP_SWITCHING               VMFUNC_CONTROL_BIT(EPTP_SWITCHING)
+ #define VMFUNC_EPTP_ENTRIES  512
+ 
+ static inline u32 vmx_basic_vmcs_revision_id(u64 vmx_basic)
+-- 
+2.24.0
 
