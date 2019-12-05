@@ -4,69 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79236C43603
-	for <linux-edac@archiver.kernel.org>; Thu,  5 Dec 2019 09:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A7D1C2D0BF
+	for <linux-edac@archiver.kernel.org>; Thu,  5 Dec 2019 09:38:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3791B24652
-	for <linux-edac@archiver.kernel.org>; Thu,  5 Dec 2019 09:38:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26F1A24652
+	for <linux-edac@archiver.kernel.org>; Thu,  5 Dec 2019 09:38:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="kXjORx3k";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="jqqEQUm8"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="gvHokiDf";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="BG0ubPOm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728932AbfLEJil (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 5 Dec 2019 04:38:41 -0500
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:16036 "EHLO
+        id S1729217AbfLEJiP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 5 Dec 2019 04:38:15 -0500
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:20256 "EHLO
         mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729280AbfLEJiT (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 Dec 2019 04:38:19 -0500
+        by vger.kernel.org with ESMTP id S1729215AbfLEJiN (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 Dec 2019 04:38:13 -0500
 Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB59avmB023516;
-        Thu, 5 Dec 2019 01:38:13 -0800
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xB59b4jG023588;
+        Thu, 5 Dec 2019 01:38:04 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=pfpt0818;
- bh=7QCxQf32pX5GTSWyiY2ZvY/59cTZ0aadsulEaPBkvR8=;
- b=kXjORx3kQDN2gqTrrhiJjXH+bjQlf81rbkv1LaR4kU6dQ8noJqrIutrouX66jhJI9u7Y
- W2eJELkedX1ZQ1DCd1yHw1lzZYKDBBXo7oOPYwmg1BSmXCKAdBEUX8pNgev7BRA5bmVV
- CzIr2dwPELG6UmmE/kA25YFipan6mn7VG38QXIsXk/8mkK5V9ogbGnvqM/vRRvWsdLwZ
- oy6bHj/GXO2eVe2ERc+Ov72BOFcaIGY2uXYWTu0Yofgco0vDTQ8HyoR+Rj1gi/tHFX4R
- OzJ4VOOrQQtLGqSAhfPbxYPL4pEcv3Db3vcP2oGivQsHxg/t2H0499cKrM/BsdyiLKiB ug== 
+ bh=VcgVg3uNsxjAXMRsTRXPElCFXShVxk/CBxpn72jvrUY=;
+ b=gvHokiDfALardjgCAm02HAcooTe0w2w9J4E/KSIXBrvOlEw76STX2KyTcWK1IiGRuJ+M
+ Gul/9ihcuOtafK2klMX+HJCwQbDx+NqDb0ls2Wr1/HZ94AgCWc7Jh3q8LjVQb0RNMIu0
+ 3BxvdF4F2eIx/OeBzERBywkoGT7qUQ1CnjPui17Gtik5BrnPCIOLspwBsT5paAXfMMkV
+ rX9YtcmBsKvZfPmigPUSD9q8sl011G1ypo6Zn+jKotS+2C6AgNNHxdzFsys9gaO3kixs
+ 2XgXHPyp9wBrOpHw6ytBvBYcMyUjtu8CWnDGke9p3LgOFlGVtNrKuOLfZkIoog8mXn/z tA== 
 Received: from sc-exch02.marvell.com ([199.233.58.182])
-        by mx0a-0016f401.pphosted.com with ESMTP id 2wnvgvrd0a-1
+        by mx0a-0016f401.pphosted.com with ESMTP id 2wnvgvrcyq-2
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 05 Dec 2019 01:38:12 -0800
-Received: from SC-EXCH01.marvell.com (10.93.176.81) by SC-EXCH02.marvell.com
+        Thu, 05 Dec 2019 01:38:03 -0800
+Received: from SC-EXCH03.marvell.com (10.93.176.83) by SC-EXCH02.marvell.com
  (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Thu, 5 Dec
- 2019 01:38:11 -0800
+ 2019 01:38:03 -0800
 Received: from NAM02-BL2-obe.outbound.protection.outlook.com (104.47.38.55) by
- SC-EXCH01.marvell.com (10.93.176.81) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Thu, 5 Dec 2019 01:38:11 -0800
+ SC-EXCH03.marvell.com (10.93.176.83) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Thu, 5 Dec 2019 01:38:02 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JTiZfwMEF12prDRJrecbeOEdISgzR0e5sPglUcG5GICbifXO+5R3/M6qG843Wgho3j6M1vdjd3BII0UdJSbCo8UnefNr1dr2HqhGt/2jf5+qkUKahrCQ1DsVN0GxU08KYMtcyBfiK+xaPSTI1kLR8WwGL+Z3cg1LbQs8i/+TuoWZx8MBC5a9lfBsUUHQDe5hV46Eu5LSdd0KiD7IG7oGr7Tso3uFRxSshBrcko05BqbFpJRP+FoLIuWlx+yM9LNi21z5zI2rY+zkvhdLfZG4YCqzX4SXxPUCP5QiN2S2a6+4ib6BQo8TVvd/t2qGTvJJLHhRlanQE74JtvJExanCUA==
+ b=R44g7vy9ZETo2XpG7TwEA/b9UtV+iW8aONDR5V9h7r/E4+sILFmL2hnVqbShOE7Q1m1sglgYlsOR5A3WTWS7wAmXzlHC9LHmaoI0pMXKC1x1cLneLGOY4T2wt/6cOKXfVLFe5EaWaKJGbE9+nOmQrhaYASVGiMK6abUw1o1HRoqMKlJT3uRMe7VTJdPNhVTso/t1OM0AMjrYTPv//dFU+/GIbKDdP+r6ymTMlkdROvb8Ct9bQXZrN9KPUU0ZH9HMpzCK0xjQaPjjporu4fqPJ5iAKbgPaYpLqby8aWThJsNR3MgE1sqCP83mVdXppyef9qdJ8MBNIbhnQJn0j4+iUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7QCxQf32pX5GTSWyiY2ZvY/59cTZ0aadsulEaPBkvR8=;
- b=OHPp+dOz7gcE80asxd5NGPHjhacobbs93KCaxxYHge2WnCiLceq8YhAb2s8FacQn51bKlBUsXG3uxIkuElzz3s8Qjw4rGLLfqJHtDjGGY3MZf9+p0UCPqDPLH4MwSDpttzfKrBQtbSOeS27FpyQGfIfywbn5BzFo6le2AJN65sPF08JXpw8cwOVGKg0+hpGkCFKw5fJg972gx+2n4Q1GDhFYeGhbhQkbef/K+000DoEeeUael26TJIEysuSKVYXSq/UZTJO2mHKrAZS0ETqLsYKUG5UhBNv4nHHkvsvFWyTDiIhK0XX01f9qdKs9YhKnqkyksn3OeX3qHQEZpiXQvw==
+ bh=VcgVg3uNsxjAXMRsTRXPElCFXShVxk/CBxpn72jvrUY=;
+ b=P2rQemk92VsOyjWQnuog1X7SSYVf7qDoxxg4X9itajJEaJSye8wGN63ns09aNt82IIsegZbJ0NzuIdd4CCJjEIi/j8A5f/Fny5fQ6QGhGyiO9lrxEZ8jhgSGU6IrN/mO85AXIuiLVZOS1P4ez8QZ5OwX59L/nw5SzEPZBlnUAwjJxdD2JW9hAusacEyW4a1oxodzwgMhf/a/yeExevxFHwWdww56Pi8P9HIky1gVoTuyVeBH2IwgfsX5N61oGno2EXIm7axICSX3UhG3zkEnjDZkPs2nwG1GcXiun+yULtM4V9sHB68FfqMM6BHwCUX5XlrBoQpYzrkx1QMVPKDbHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
  dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7QCxQf32pX5GTSWyiY2ZvY/59cTZ0aadsulEaPBkvR8=;
- b=jqqEQUm8ZwBskL3yoxPRZ5stLVo7UmW/DL6oSUi9vB3WQzZgZz4JGxYkhAIVZkcw13wrHm6zacn3Y0olMOJqMwW1H+p+oF4zulqL138nu4JrYELKaq/itZD6zmH9e6YUSmEuJXb5VUtlgyRS70LsYQr+P0N2WzmmRD629D6Z0YY=
+ bh=VcgVg3uNsxjAXMRsTRXPElCFXShVxk/CBxpn72jvrUY=;
+ b=BG0ubPOmSpEpALan8OsOmLzqM8H5WuJO52JJisBK4aAFm7Ri0S12/NlC+ug3PjrRb4GG0+RNFCyPUjNTq1e5kfcl2YfyyD2I7kS2i/bDgwIbt4IhlSKoAryKMgLqnXP4GLGCeIEqGj4fR9LfacAnfQy/GbHIhf39BUvXFCc97d4=
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com (10.255.237.10) by
  MN2PR18MB2367.namprd18.prod.outlook.com (20.179.80.88) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.21; Thu, 5 Dec 2019 09:38:10 +0000
+ 15.20.2495.21; Thu, 5 Dec 2019 09:38:02 +0000
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::657c:6c81:859d:106]) by MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::657c:6c81:859d:106%7]) with mapi id 15.20.2516.014; Thu, 5 Dec 2019
- 09:38:10 +0000
+ 09:38:02 +0000
 From:   Robert Richter <rrichter@marvell.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -74,14 +74,14 @@ To:     Borislav Petkov <bp@alien8.de>,
 CC:     James Morse <james.morse@arm.com>,
         Robert Richter <rrichter@marvell.com>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 07/10] EDAC/mc: Remove enable_per_layer_report function
- arguments
-Thread-Topic: [PATCH v2 07/10] EDAC/mc: Remove enable_per_layer_report
- function arguments
-Thread-Index: AQHVq0+0Niy4TymAK06bA7H1VLoYzw==
-Date:   Thu, 5 Dec 2019 09:38:10 +0000
-Message-ID: <20191205093739.4040-8-rrichter@marvell.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "kbuild test robot" <lkp@intel.com>
+Subject: [PATCH v2 03/10] EDAC: Store error type in struct edac_raw_error_desc
+Thread-Topic: [PATCH v2 03/10] EDAC: Store error type in struct
+ edac_raw_error_desc
+Thread-Index: AQHVq0+wAVwKV0n23Uap0dgfSroNbA==
+Date:   Thu, 5 Dec 2019 09:38:02 +0000
+Message-ID: <20191205093739.4040-4-rrichter@marvell.com>
 References: <20191205093739.4040-1-rrichter@marvell.com>
 In-Reply-To: <20191205093739.4040-1-rrichter@marvell.com>
 Accept-Language: en-US
@@ -95,28 +95,28 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-originating-ip: [31.208.96.227]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6ad335bf-fda5-4cf9-33ed-08d77966d752
+x-ms-office365-filtering-correlation-id: bc4c514a-eab2-41e7-c8bd-08d77966d26e
 x-ms-traffictypediagnostic: MN2PR18MB2367:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR18MB2367BF2E4DA0B754CDE1AC6BD95C0@MN2PR18MB2367.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-microsoft-antispam-prvs: <MN2PR18MB23678974ED35E0A5FFA0E6EFD95C0@MN2PR18MB2367.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 02426D11FE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(376002)(136003)(346002)(366004)(396003)(189003)(199004)(81166006)(14454004)(36756003)(6512007)(316002)(478600001)(54906003)(5660300002)(110136005)(186003)(8936002)(50226002)(6486002)(26005)(99286004)(66556008)(66476007)(81156014)(71190400001)(86362001)(66946007)(66446008)(64756008)(25786009)(8676002)(2906002)(71200400001)(6506007)(4326008)(2616005)(11346002)(102836004)(305945005)(1076003)(76176011)(52116002);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2367;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(376002)(136003)(346002)(366004)(396003)(189003)(199004)(81166006)(14444005)(14454004)(36756003)(6512007)(316002)(478600001)(54906003)(5660300002)(110136005)(186003)(8936002)(50226002)(6486002)(26005)(99286004)(66556008)(66476007)(81156014)(71190400001)(86362001)(66946007)(66446008)(64756008)(25786009)(8676002)(2906002)(71200400001)(6506007)(4326008)(2616005)(11346002)(102836004)(305945005)(1076003)(76176011)(52116002);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2367;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: marvell.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GJaneQdJ+ye+CQkQWSBc52Ji3wRI+bSoMSHUTt0E5SAR2hDjKcg9ufawdUgzSZHQ24Y2khwCeWNTKLA5AxUO9bljq58Q/27Hxw+t9l9dZrxK0aj+kkQG9nFhF67OB24nS4zaWVPcHGBAwPyzRgFzQrVP6pZDtsei/iBcSAij1mS2tHePqaAW3cRiojjR9DhJt2PYgxWmo8OplDuexnj64iPTzJfDkeeMqisL3W7yzprEPkPHJ7O722l9R9IilfrMuvjP3favu9HR37WZ8B5oYCVJU4lHMKwsb0RM3//7P6OGH0A93HPVv1wpakBplv75WYbINRfqFqGPslGsV2Alz82eWyCGVOQpj0fiaqFI3KXS9Fhyv6G7GxTXmI01b6FjGMVfTvysPozms5CHHFC2PlbzdCOURHXoUXrYqc2vi1iCwP77pXkTO6tQSyDFKSyW
+x-microsoft-antispam-message-info: Tgmpy8AriyGpKImrwZnacIIF12rbdHb585o2s07JqLAw4oyAFYgo2ceimcVA99vrHri0GsDLcHP/xpIQMKKwRpmb2DxTlgWe4Lp+1JnsOZvPYRi0w0zqAQpYdh5i/aQbr9gUpTPYdbUHSXHfLebzQwIxZXJ9bgtA0E/R6JLTImaHy/uaWvqbqINXBxET/u1Q5RWzEoz2tSBl0fPsWgIhYwfh9pOYkomO3WJ/Ry6j3tRGImegU0gqxsiNzMYsUuFZuraDjiHiUjwtBufKBAkVJfF7QbZFB0Q8Xpcw2r+kv3aJICadD+6o5nYyBYPjb5aKY2EsJtB+DALDzo9wAXveLua3iO0ejA2wj4HDecgz7Qz5UsFdXPl9exctCj2NA0LDKRpADr1eQeP8KEDsnV2b55DJuTN0jd6/DqEEI5QorRQcY66WvC3AGHxeRIsaRuSH
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ad335bf-fda5-4cf9-33ed-08d77966d752
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2019 09:38:10.5246
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc4c514a-eab2-41e7-c8bd-08d77966d26e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2019 09:38:02.2204
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dKjhof8Mp+YM9FFxIV3FLGRq7gFETmRpepNungfAp7I5hZH9/38vz26PRqYPk8q3MP5UQWB09ph8DvtpLR+7rQ==
+X-MS-Exchange-CrossTenant-userprincipalname: Jt7oRtyIPqRh7+Dn1idaVAxarBlUM1ebOnsxjaSqHqoQjpT7uhWNBPBiq2bCjQykTJg4TXROrgo0elCf3P3Mqw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2367
 X-OriginatorOrg: marvell.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
@@ -126,220 +126,161 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Many functions carry the enable_per_layer_report argument. This is a
-bool value indicating the error information contains some location
-data where the error occurred. This can easily being determined by
-checking the pos[] array for values. Negative values indicate there is
-no location available. So if the top layer is negative, the error
-location is unknown.
+Store the error type in struct edac_raw_error_desc. This makes the
+type parameter of edac_raw_mc_handle_error() obsolete.
 
-Just check if the top layer is negative and remove
-enable_per_layer_report as function argument and also from struct
-edac_raw_error_desc.
-
+Reported-by: kbuild test robot <lkp@intel.com>
 Signed-off-by: Robert Richter <rrichter@marvell.com>
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
- drivers/edac/edac_mc.c   | 42 +++++++++++++++++++---------------------
- drivers/edac/ghes_edac.c |  5 +----
- include/linux/edac.h     |  3 ---
- 3 files changed, 21 insertions(+), 29 deletions(-)
+ drivers/edac/edac_mc.c   | 10 +++++-----
+ drivers/edac/edac_mc.h   |  4 +---
+ drivers/edac/ghes_edac.c | 11 +++++------
+ include/linux/edac.h     |  2 ++
+ 4 files changed, 13 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index 2b12320ce2f1..38a9a68eebfe 100644
+index f2dee4e8ba85..ecab08032b4a 100644
 --- a/drivers/edac/edac_mc.c
 +++ b/drivers/edac/edac_mc.c
-@@ -946,7 +946,6 @@ const char *edac_layer_name[] =3D {
- EXPORT_SYMBOL_GPL(edac_layer_name);
-=20
- static void edac_inc_ce_error(struct mem_ctl_info *mci,
--			      bool enable_per_layer_report,
- 			      const int pos[EDAC_MAX_LAYERS],
- 			      const u16 count)
- {
-@@ -954,7 +953,7 @@ static void edac_inc_ce_error(struct mem_ctl_info *mci,
-=20
- 	mci->ce_mc +=3D count;
-=20
--	if (!enable_per_layer_report) {
-+	if (pos[0] < 0) {
- 		mci->ce_noinfo_count +=3D count;
- 		return;
- 	}
-@@ -971,7 +970,6 @@ static void edac_inc_ce_error(struct mem_ctl_info *mci,
+@@ -1084,8 +1084,7 @@ static void edac_ue_error(struct mem_ctl_info *mci,
+ 	edac_inc_ue_error(mci, enable_per_layer_report, pos, error_count);
  }
 =20
- static void edac_inc_ue_error(struct mem_ctl_info *mci,
--				    bool enable_per_layer_report,
- 				    const int pos[EDAC_MAX_LAYERS],
- 				    const u16 count)
+-void edac_raw_mc_handle_error(const enum hw_event_mc_err_type type,
+-			      struct mem_ctl_info *mci,
++void edac_raw_mc_handle_error(struct mem_ctl_info *mci,
+ 			      struct edac_raw_error_desc *e)
  {
-@@ -979,7 +977,7 @@ static void edac_inc_ue_error(struct mem_ctl_info *mci,
+ 	char detail[80];
+@@ -1100,14 +1099,14 @@ void edac_raw_mc_handle_error(const enum hw_event_m=
+c_err_type type,
 =20
- 	mci->ue_mc +=3D count;
+ 	/* Report the error via the trace interface */
+ 	if (IS_ENABLED(CONFIG_RAS))
+-		trace_mc_event(type, e->msg, e->label, e->error_count,
++		trace_mc_event(e->type, e->msg, e->label, e->error_count,
+ 			       mci->mc_idx, e->top_layer, e->mid_layer,
+ 			       e->low_layer,
+ 			       (e->page_frame_number << PAGE_SHIFT) | e->offset_in_page,
+ 			       grain_bits, e->syndrome, e->other_detail);
 =20
--	if (!enable_per_layer_report) {
-+	if (pos[0] < 0) {
- 		mci->ue_noinfo_count +=3D count;
- 		return;
- 	}
-@@ -1003,7 +1001,6 @@ static void edac_ce_error(struct mem_ctl_info *mci,
- 			  const char *label,
- 			  const char *detail,
- 			  const char *other_detail,
--			  const bool enable_per_layer_report,
- 			  const unsigned long page_frame_number,
- 			  const unsigned long offset_in_page,
- 			  long grain)
-@@ -1026,7 +1023,7 @@ static void edac_ce_error(struct mem_ctl_info *mci,
- 				       error_count, msg, msg_aux, label,
- 				       location, detail);
- 	}
--	edac_inc_ce_error(mci, enable_per_layer_report, pos, error_count);
-+	edac_inc_ce_error(mci, pos, error_count);
-=20
- 	if (mci->scrub_mode =3D=3D SCRUB_SW_SRC) {
- 		/*
-@@ -1056,8 +1053,7 @@ static void edac_ue_error(struct mem_ctl_info *mci,
- 			  const char *location,
- 			  const char *label,
- 			  const char *detail,
--			  const char *other_detail,
--			  const bool enable_per_layer_report)
-+			  const char *other_detail)
- {
- 	char *msg_aux =3D "";
-=20
-@@ -1086,7 +1082,7 @@ static void edac_ue_error(struct mem_ctl_info *mci,
- 			      msg, msg_aux, label, location, detail);
- 	}
-=20
--	edac_inc_ue_error(mci, enable_per_layer_report, pos, error_count);
-+	edac_inc_ue_error(mci, pos, error_count);
- }
-=20
- static void edac_inc_csrow(struct edac_raw_error_desc *e, int row, int cha=
-n)
-@@ -1136,16 +1132,16 @@ void edac_raw_mc_handle_error(struct edac_raw_error=
-_desc *e)
+ 	/* Memory type dependent details about the error */
+-	if (type =3D=3D HW_EVENT_ERR_CORRECTED) {
++	if (e->type =3D=3D HW_EVENT_ERR_CORRECTED) {
+ 		snprintf(detail, sizeof(detail),
  			"page:0x%lx offset:0x%lx grain:%ld syndrome:0x%lx",
  			e->page_frame_number, e->offset_in_page,
- 			e->grain, e->syndrome);
--		edac_ce_error(mci, e->error_count, pos, e->msg, e->location, e->label,
--			      detail, e->other_detail, e->enable_per_layer_report,
-+		edac_ce_error(mci, e->error_count, pos, e->msg, e->location,
-+			      e->label, detail, e->other_detail,
- 			      e->page_frame_number, e->offset_in_page, e->grain);
- 	} else {
- 		snprintf(detail, sizeof(detail),
- 			"page:0x%lx offset:0x%lx grain:%ld",
- 			e->page_frame_number, e->offset_in_page, e->grain);
-=20
--		edac_ue_error(mci, e->error_count, pos, e->msg, e->location, e->label,
--			      detail, e->other_detail, e->enable_per_layer_report);
-+		edac_ue_error(mci, e->error_count, pos, e->msg, e->location,
-+			      e->label, detail, e->other_detail);
- 	}
-=20
-=20
-@@ -1170,6 +1166,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
+@@ -1152,6 +1151,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
 type type,
- 	int pos[EDAC_MAX_LAYERS] =3D { top_layer, mid_layer, low_layer };
- 	int i, n_labels =3D 0;
- 	struct edac_raw_error_desc *e =3D &mci->error_desc;
-+	bool any_memory =3D true;
-=20
- 	edac_dbg(3, "MC%d\n", mci->mc_idx);
-=20
-@@ -1188,9 +1185,9 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
+ 	/* Fills the error report buffer */
+ 	memset(e, 0, sizeof (*e));
+ 	e->error_count =3D error_count;
++	e->type =3D type;
+ 	e->top_layer =3D top_layer;
+ 	e->mid_layer =3D mid_layer;
+ 	e->low_layer =3D low_layer;
+@@ -1282,6 +1282,6 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
 type type,
-=20
- 	/*
- 	 * Check if the event report is consistent and if the memory
--	 * location is known. If it is known, enable_per_layer_report will be
--	 * true, the DIMM(s) label info will be filled and the per-layer
--	 * error counters will be incremented.
-+	 * location is known. If it is known, the DIMM(s) label info
-+	 * will be filled and the per-layer error counters will be
-+	 * incremented.
- 	 */
- 	for (i =3D 0; i < mci->n_layers; i++) {
- 		if (pos[i] >=3D (int)mci->layers[i].size) {
-@@ -1208,7 +1205,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
-type type,
- 			pos[i] =3D -1;
- 		}
- 		if (pos[i] >=3D 0)
--			e->enable_per_layer_report =3D true;
-+			any_memory =3D false;
- 	}
-=20
- 	/*
-@@ -1238,10 +1235,11 @@ void edac_mc_handle_error(const enum hw_event_mc_er=
-r_type type,
- 			e->grain =3D dimm->grain;
-=20
- 		/*
--		 * If the error is memory-controller wide, there's no need to
--		 * seek for the affected DIMMs because the whole
--		 * channel/memory controller/...  may be affected.
--		 * Also, don't show errors for empty DIMM slots.
-+		 * If the error is memory-controller wide, there's no
-+		 * need to seek for the affected DIMMs because the
-+		 * whole channel/memory controller/... may be
-+		 * affected. Also, don't show errors for empty DIMM
-+		 * slots.
- 		 */
- 		if (!dimm->nr_pages)
- 			continue;
-@@ -1277,7 +1275,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_=
-type type,
- 			chan =3D -2;
- 	}
-=20
--	if (!e->enable_per_layer_report)
-+	if (any_memory)
- 		strcpy(e->label, "any memory");
- 	else if (!*e->label)
- 		strcpy(e->label, "unknown memory");
-diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index bef8a428c429..cb3dab56a875 100644
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -355,11 +355,8 @@ void ghes_edac_report_mem_error(int sev, struct cper_s=
-ec_mem_err *mem_err)
- 				     mem_err->mem_dev_handle);
-=20
- 		index =3D get_dimm_smbios_index(mci, mem_err->mem_dev_handle);
--		if (index >=3D 0) {
-+		if (index >=3D 0)
- 			e->top_layer =3D index;
--			e->enable_per_layer_report =3D true;
--		}
--
- 	}
  	if (p > e->location)
  		*(p - 1) =3D '\0';
+=20
+-	edac_raw_mc_handle_error(type, mci, e);
++	edac_raw_mc_handle_error(mci, e);
+ }
+ EXPORT_SYMBOL_GPL(edac_mc_handle_error);
+diff --git a/drivers/edac/edac_mc.h b/drivers/edac/edac_mc.h
+index 02aac5c61d00..5d78be774f9e 100644
+--- a/drivers/edac/edac_mc.h
++++ b/drivers/edac/edac_mc.h
+@@ -212,7 +212,6 @@ extern int edac_mc_find_csrow_by_page(struct mem_ctl_in=
+fo *mci,
+  * edac_raw_mc_handle_error() - Reports a memory event to userspace withou=
+t
+  *	doing anything to discover the error location.
+  *
+- * @type:		severity of the error (CE/UE/Fatal)
+  * @mci:		a struct mem_ctl_info pointer
+  * @e:			error description
+  *
+@@ -220,8 +219,7 @@ extern int edac_mc_find_csrow_by_page(struct mem_ctl_in=
+fo *mci,
+  * only be called directly when the hardware error come directly from BIOS=
+,
+  * like in the case of APEI GHES driver.
+  */
+-void edac_raw_mc_handle_error(const enum hw_event_mc_err_type type,
+-			      struct mem_ctl_info *mci,
++void edac_raw_mc_handle_error(struct mem_ctl_info *mci,
+ 			      struct edac_raw_error_desc *e);
+=20
+ /**
+diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+index b99080d8a10c..7c3e5264a41e 100644
+--- a/drivers/edac/ghes_edac.c
++++ b/drivers/edac/ghes_edac.c
+@@ -201,7 +201,6 @@ static void ghes_edac_dmidecode(const struct dmi_header=
+ *dh, void *arg)
+=20
+ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+ {
+-	enum hw_event_mc_err_type type;
+ 	struct edac_raw_error_desc *e;
+ 	struct mem_ctl_info *mci;
+ 	struct ghes_edac_pvt *pvt;
+@@ -240,17 +239,17 @@ void ghes_edac_report_mem_error(int sev, struct cper_=
+sec_mem_err *mem_err)
+=20
+ 	switch (sev) {
+ 	case GHES_SEV_CORRECTED:
+-		type =3D HW_EVENT_ERR_CORRECTED;
++		e->type =3D HW_EVENT_ERR_CORRECTED;
+ 		break;
+ 	case GHES_SEV_RECOVERABLE:
+-		type =3D HW_EVENT_ERR_UNCORRECTED;
++		e->type =3D HW_EVENT_ERR_UNCORRECTED;
+ 		break;
+ 	case GHES_SEV_PANIC:
+-		type =3D HW_EVENT_ERR_FATAL;
++		e->type =3D HW_EVENT_ERR_FATAL;
+ 		break;
+ 	default:
+ 	case GHES_SEV_NO:
+-		type =3D HW_EVENT_ERR_INFO;
++		e->type =3D HW_EVENT_ERR_INFO;
+ 	}
+=20
+ 	edac_dbg(1, "error validation_bits: 0x%08llx\n",
+@@ -442,7 +441,7 @@ void ghes_edac_report_mem_error(int sev, struct cper_se=
+c_mem_err *mem_err)
+ 	if (p > pvt->other_detail)
+ 		*(p - 1) =3D '\0';
+=20
+-	edac_raw_mc_handle_error(type, mci, e);
++	edac_raw_mc_handle_error(mci, e);
+=20
+ unlock:
+ 	spin_unlock_irqrestore(&ghes_lock, flags);
 diff --git a/include/linux/edac.h b/include/linux/edac.h
-index 6703eb492cd2..815f246e0abd 100644
+index cc31b9742684..6703eb492cd2 100644
 --- a/include/linux/edac.h
 +++ b/include/linux/edac.h
-@@ -454,8 +454,6 @@ struct errcount_attribute_data {
-  * @location:			location of the error
-  * @label:			label of the affected DIMM(s)
-  * @other_detail:		other driver-specific detail about the error
-- * @enable_per_layer_report:	if false, the error affects all layers
-- *				(typically, a memory controller error)
-  */
- struct edac_raw_error_desc {
- 	char location[LOCATION_SIZE];
-@@ -472,7 +470,6 @@ struct edac_raw_error_desc {
- 	unsigned long syndrome;
- 	const char *msg;
- 	const char *other_detail;
--	bool enable_per_layer_report;
- };
+@@ -442,6 +442,7 @@ struct errcount_attribute_data {
+  * struct edac_raw_error_desc - Raw error report structure
+  * @grain:			minimum granularity for an error report, in bytes
+  * @error_count:		number of errors of the same type
++ * @type:			severity of the error (CE/UE/Fatal)
+  * @top_layer:			top layer of the error (layer[0])
+  * @mid_layer:			middle layer of the error (layer[1])
+  * @low_layer:			low layer of the error (layer[2])
+@@ -462,6 +463,7 @@ struct edac_raw_error_desc {
+ 	long grain;
 =20
- /* MEMORY controller information structure
+ 	u16 error_count;
++	enum hw_event_mc_err_type type;
+ 	int top_layer;
+ 	int mid_layer;
+ 	int low_layer;
 --=20
 2.20.1
 
