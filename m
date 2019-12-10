@@ -7,50 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23CCAC00454
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:15:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E904DC43603
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:20:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EC35A205C9
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:15:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD65921556
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:20:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576012541;
-	bh=NjRlAIeHy2SuCz+QP9LYcmS5+EbVEaQg+w2B50lwxqo=;
+	s=default; t=1576012832;
+	bh=qdaUEd6RSCneTSpQtuhwyYlffqnjWBzGQouSCxqiKgs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=EYkyQp/hVNeMxstkSo/b3ndFx1Y25V7LebryVGhrduvhDDwJjYJ2HkrJBoz3KRwMS
-	 RYncAHHSHsjK0n9XXwHDPUbIZ58becCebGhK8CZlyrS7GA3YJxy4Gaqkv0ptORBTnk
-	 4akwMwXcv4abbHvgTOH7+itwTu66OuQHKjyqE+XY=
+	b=U8eTUERwdVfPGLO5cBCYVLQMT5D1+Nct4CBLsjSLSLGDHg8zSuYluzZeSuVgKT0Bm
+	 FMRaGkkN22bb+EF2Q2Ve2nOR7augz8AHisOhb7QUC+Ds7qE4efzwK4xNoIF7jv+IMn
+	 1FDm66lLgJiqLOi9acDtSHJxW72wXgF8RorNaBss=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728860AbfLJVPc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 Dec 2019 16:15:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40016 "EHLO mail.kernel.org"
+        id S1727733AbfLJVUX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 Dec 2019 16:20:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35644 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728985AbfLJVNe (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:13:34 -0500
+        id S1728381AbfLJVMJ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:12:09 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 636C521D7D;
-        Tue, 10 Dec 2019 21:13:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 358B0246B5;
+        Tue, 10 Dec 2019 21:12:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576012413;
-        bh=NjRlAIeHy2SuCz+QP9LYcmS5+EbVEaQg+w2B50lwxqo=;
+        s=default; t=1576012329;
+        bh=qdaUEd6RSCneTSpQtuhwyYlffqnjWBzGQouSCxqiKgs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=w0WFqYaUnogY7mp3wL20P6sgLzJZ+lfUEvfDkkYIfscf+OFoYqnOJHTnIzhRMj/F/
-         Avxi6cur3P2cRDwbaH3u0lqzL4ee1XEgrPeji5VD+UX3wC0RhWka4KNpjOZbVBRyE7
-         BvCs3kkZKGY1OnGI+Kzh1NlrxMJ7JXAvTgZz3luE=
+        b=YqyeRVFqpx4daUCRMeRCId8Rv2j5CafFRqo2fMJNtWlV0hf9+5gOG1xegoMhy8i5N
+         i1wqFDsS11fvmdb65ETjROwvYqIlDwNa3ExGnPWrTy0OKJqZOrBnupj+NmEPngMrBW
+         Jcx4P2nwGXjdngFMXVm4+U2/ZMq+oHlMd0xS+MHE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Robert Richter <rrichter@marvell.com>,
-        John Garry <john.garry@huawei.com>,
-        Borislav Petkov <bp@suse.de>, huangming23@huawei.com,
-        James Morse <james.morse@arm.com>, linuxarm@huawei.com,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        tanxiaofei@huawei.com, Tony Luck <tony.luck@intel.com>,
-        wanghuiqiang@huawei.com, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 5.4 330/350] EDAC/ghes: Do not warn when incrementing refcount on 0
-Date:   Tue, 10 Dec 2019 16:07:15 -0500
-Message-Id: <20191210210735.9077-291-sashal@kernel.org>
+        James Morse <james.morse@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 261/350] EDAC/ghes: Fix grain calculation
+Date:   Tue, 10 Dec 2019 16:06:06 -0500
+Message-Id: <20191210210735.9077-222-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -65,71 +64,91 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Robert Richter <rrichter@marvell.com>
 
-[ Upstream commit 16214bd9e43a31683a7073664b000029bba00354 ]
+[ Upstream commit 7088e29e0423d3195e09079b4f849ec4837e5a75 ]
 
-The following warning from the refcount framework is seen during ghes
-initialization:
+The current code to convert a physical address mask to a grain
+(defined as granularity in bytes) is:
 
-  EDAC MC0: Giving out device to module ghes_edac.c controller ghes_edac: DEV ghes (INTERRUPT)
-  ------------[ cut here ]------------
-  refcount_t: increment on 0; use-after-free.
-  WARNING: CPU: 36 PID: 1 at lib/refcount.c:156 refcount_inc_checked
- [...]
-  Call trace:
-   refcount_inc_checked
-   ghes_edac_register
-   ghes_probe
-   ...
+	e->grain = ~(mem_err->physical_addr_mask & ~PAGE_MASK);
 
-It warns if the refcount is incremented from zero. This warning is
-reasonable as a kernel object is typically created with a refcount of
-one and freed once the refcount is zero. Afterwards the object would be
-"used-after-free".
+This is broken in several ways:
 
-For GHES, the refcount is initialized with zero, and that is why this
-message is seen when initializing the first instance. However, whenever
-the refcount is zero, the device will be allocated and registered. Since
-the ghes_reg_mutex protects the refcount and serializes allocation and
-freeing of ghes devices, a use-after-free cannot happen here.
+1) It calculates to wrong grain values. E.g., a physical address mask
+of ~0xfff should give a grain of 0x1000. Without considering
+PAGE_MASK, there is an off-by-one. Things are worse when also
+filtering it with ~PAGE_MASK. This will calculate to a grain with the
+upper bits set. In the example it even calculates to ~0.
 
-Instead of using refcount_inc() for the first instance, use
-refcount_set(). This can be used here because the refcount is zero at
-this point and can not change due to its protection by the mutex.
+2) The grain does not depend on and is unrelated to the kernel's
+page-size. The page-size only matters when unmapping memory in
+memory_failure(). Smaller grains are wrongly rounded up to the
+page-size, on architectures with a configurable page-size (e.g. arm64)
+this could round up to the even bigger page-size of the hypervisor.
 
-Fixes: 23f61b9fc5cc ("EDAC/ghes: Fix locking and memory barrier issues")
-Reported-by: John Garry <john.garry@huawei.com>
+Fix this with:
+
+	e->grain = ~mem_err->physical_addr_mask + 1;
+
+The grain_bits are defined as:
+
+	grain = 1 << grain_bits;
+
+Change also the grain_bits calculation accordingly, it is the same
+formula as in edac_mc.c now and the code can be unified.
+
+The value in ->physical_addr_mask coming from firmware is assumed to
+be contiguous, but this is not sanity-checked. However, in case the
+mask is non-contiguous, a conversion to grain_bits effectively
+converts the grain bit mask to a power of 2 by rounding it up.
+
+Suggested-by: James Morse <james.morse@arm.com>
 Signed-off-by: Robert Richter <rrichter@marvell.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Tested-by: John Garry <john.garry@huawei.com>
-Cc: <huangming23@huawei.com>
-Cc: James Morse <james.morse@arm.com>
-Cc: <linuxarm@huawei.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: <tanxiaofei@huawei.com>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 Cc: Tony Luck <tony.luck@intel.com>
-Cc: <wanghuiqiang@huawei.com>
-Link: https://lkml.kernel.org/r/20191121213628.21244-1-rrichter@marvell.com
+Link: https://lkml.kernel.org/r/20191106093239.25517-11-rrichter@marvell.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/ghes_edac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/edac/ghes_edac.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index 1858baa96211b..523dd56a798c9 100644
+index f6f6a688c009d..1858baa96211b 100644
 --- a/drivers/edac/ghes_edac.c
 +++ b/drivers/edac/ghes_edac.c
-@@ -572,8 +572,8 @@ int ghes_edac_register(struct ghes *ghes, struct device *dev)
- 	ghes_pvt = pvt;
- 	spin_unlock_irqrestore(&ghes_lock, flags);
+@@ -231,6 +231,7 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+ 	/* Cleans the error report buffer */
+ 	memset(e, 0, sizeof (*e));
+ 	e->error_count = 1;
++	e->grain = 1;
+ 	strcpy(e->label, "unknown label");
+ 	e->msg = pvt->msg;
+ 	e->other_detail = pvt->other_detail;
+@@ -326,7 +327,7 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
  
--	/* only increment on success */
--	refcount_inc(&ghes_refcount);
-+	/* only set on success */
-+	refcount_set(&ghes_refcount, 1);
+ 	/* Error grain */
+ 	if (mem_err->validation_bits & CPER_MEM_VALID_PA_MASK)
+-		e->grain = ~(mem_err->physical_addr_mask & ~PAGE_MASK);
++		e->grain = ~mem_err->physical_addr_mask + 1;
  
- unlock:
- 	mutex_unlock(&ghes_reg_mutex);
+ 	/* Memory error location, mapped on e->location */
+ 	p = e->location;
+@@ -442,8 +443,13 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+ 	if (p > pvt->other_detail)
+ 		*(p - 1) = '\0';
+ 
++	/* Sanity-check driver-supplied grain value. */
++	if (WARN_ON_ONCE(!e->grain))
++		e->grain = 1;
++
++	grain_bits = fls_long(e->grain - 1);
++
+ 	/* Generate the trace event */
+-	grain_bits = fls_long(e->grain);
+ 	snprintf(pvt->detail_location, sizeof(pvt->detail_location),
+ 		 "APEI location: %s %s", e->location, e->other_detail);
+ 	trace_mc_event(type, e->msg, e->label, e->error_count,
 -- 
 2.20.1
 
