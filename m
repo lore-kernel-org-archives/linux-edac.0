@@ -2,85 +2,103 @@ Return-Path: <SRS0=CgzK=2A=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB644C43603
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 09:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B2DC2D0C5
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 10:07:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84AB72073B
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 09:00:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="sREOE+3A"
+	by mail.kernel.org (Postfix) with ESMTP id 8F1C32073D
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 10:07:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727177AbfLJJAW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 Dec 2019 04:00:22 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:53914 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726932AbfLJJAW (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 10 Dec 2019 04:00:22 -0500
-Received: from zn.tnic (p200300EC2F07FE00E11D102681F6043D.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:fe00:e11d:1026:81f6:43d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1BBA81EC0CD6;
-        Tue, 10 Dec 2019 10:00:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1575968420;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Q8W1C4hoH3jVijRxBfnvDQINP6tFJNcnFZZxrT3G3zw=;
-        b=sREOE+3ARq+Py/mtg2KXtEP5iYwTca542BPBj/T8HQ+6YQew2PfZ8X9c8NtjSJYqR/6a9E
-        iUaKsvqgK5FS79BDPQSpgVaW/WKHPCd6bFxA/Epx41q8Ru/0alj9GTrPHaZZELgD8ZxclE
-        PJcMciOn14m63KmPeoKyU/OMPe6pKZ8=
-Date:   Tue, 10 Dec 2019 10:00:13 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     'Aristeu Rozanski' <aris@redhat.com>,
-        "'linux-edac@vger.kernel.org'" <linux-edac@vger.kernel.org>,
-        'Mauro Carvalho Chehab' <mchehab@kernel.org>
-Subject: Re: [PATCH] EDAC: skx_common: downgrade message importance on
- missing PCI device
-Message-ID: <20191210090013.GA9395@zn.tnic>
-References: <20191204212325.c4k47p5hrnn3vpb5@redhat.com>
- <3908561D78D1C84285E8C5FCA982C28F7F4F13AB@ORSMSX115.amr.corp.intel.com>
- <3908561D78D1C84285E8C5FCA982C28F7F4F19BD@ORSMSX115.amr.corp.intel.com>
+        id S1727032AbfLJKHR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 Dec 2019 05:07:17 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:40584 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726574AbfLJKHR (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 10 Dec 2019 05:07:17 -0500
+Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tip-bot2@linutronix.de>)
+        id 1iecQ3-0006LC-Jb; Tue, 10 Dec 2019 11:07:03 +0100
+Received: from [127.0.1.1] (localhost [IPv6:::1])
+        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 203F61C2905;
+        Tue, 10 Dec 2019 11:07:03 +0100 (CET)
+Date:   Tue, 10 Dec 2019 10:07:03 -0000
+From:   "tip-bot2 for Konstantin Khlebnikov" <tip-bot2@linutronix.de>
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: ras/core] x86/MCE/AMD: Do not use rdmsr_safe_on_cpu() in
+ smca_configure()
+Cc:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        Borislav Petkov <bp@suse.de>,
+        Yazen Ghannam <yazen.ghannam@amd.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        "linux-edac" <linux-edac@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Luck <tony.luck@intel.com>, "x86-ml" <x86@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <157252708836.3876.4604398213417262402.stgit@buzz>
+References: <157252708836.3876.4604398213417262402.stgit@buzz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3908561D78D1C84285E8C5FCA982C28F7F4F19BD@ORSMSX115.amr.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Message-ID: <157597242302.30329.18337877757273874643.tip-bot2@tip-bot2>
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot2.linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 12:02:45AM +0000, Luck, Tony wrote:
-> > This looks like we call skx_init() once per core. Do we keep calling it because
-> > the calls are failing?  Or do we do that even when calls succeed?
-> >
-> > I was only really expecting that skx_init() would be called once.
-> 
-> So (by experimentation) it seems that if the module load fails it
-> will be retried num_online_cpus times (though not bound to each
-> CPU in turn ... it will maybe try the init call on the same CPU multiple
-> times, but miss running on some CPUs).
-> 
-> If the load succeeds, then whoever is repeating the load decides
-> to stop.
+The following commit has been merged into the ras/core branch of tip:
 
-That's the result of our conversion to MODULE_DEVICE_TABLE to match CPU
-models. So it tries once on each CPU:
+Commit-ID:     17ba1939e3676417590ec6f7555608e137e1719a
+Gitweb:        https://git.kernel.org/tip/17ba1939e3676417590ec6f7555608e137e1719a
+Author:        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+AuthorDate:    Thu, 31 Oct 2019 16:04:48 +03:00
+Committer:     Borislav Petkov <bp@suse.de>
+CommitterDate: Mon, 09 Dec 2019 14:54:59 +01:00
 
-https://lkml.kernel.org/r/20191107103857.GC19501@zn.tnic
+x86/MCE/AMD: Do not use rdmsr_safe_on_cpu() in smca_configure()
 
-I have no clean solution for this except maybe remembering the return
-value of the first instance probing in the edac core module and then
-asking it... it ain't pretty though.
+The function smca_configure() is called only on the current CPU
+therefore replace rdmsr_safe_on_cpu() with atomic rdmsr_safe() and avoid
+the IPI.
 
--- 
-Regards/Gruss,
-    Boris.
+ [ bp: Cleanup commit message. ]
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/157252708836.3876.4604398213417262402.stgit@buzz
+---
+ arch/x86/kernel/cpu/mce/amd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 5167bd2..e41e3b4 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -269,7 +269,7 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 	if (smca_banks[bank].hwid)
+ 		return;
+ 
+-	if (rdmsr_safe_on_cpu(cpu, MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
++	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
+ 		pr_warn("Failed to read MCA_IPID for bank %d\n", bank);
+ 		return;
+ 	}
