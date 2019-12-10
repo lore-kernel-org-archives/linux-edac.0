@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C92A2C00454
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6041DC2D0BF
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:33:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9D31B2073B
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:31:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35781222C4
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:33:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576013503;
-	bh=sRMkYV2/C/tecaShU+16UzRv9dkZmj2gA34u0AUAxQs=;
+	s=default; t=1576013626;
+	bh=9/VaL0mt3ammd0UTAq+BxX5Xi9rXPHlE/4fMfXXunUg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jGaTWJvurwZIggtsvHLmjXuloSIjhq1uVVyTRf1IItFPSkcL5alHaMseKpa+4OwPU
-	 9X37mkrjCK1CpaUAsmERkxS2H+3LqqS5SOlKzLp4qZ4V0eKNFTVt4aDkEIcglRYaYn
-	 PPu3mryhUNU+VRTGDubb72/yY9e6JBKmYh4F3x3o=
+	b=zXDTcT3UWgNPZahZBWj3M1p4G1KoCJJVZzfPmjSuaIDp02SJDi0MvQQ+Ap7xDQfRZ
+	 EyF3Zb2Vn3Y3KNR02gKMOX5gnU63nOH+743F5aZARYc7CUCnjVqR0Z/Ao/sTsb9KZd
+	 +lyqpoDnLe8NIbBbupudSDnhYgN9ppw6/JvLucSc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727114AbfLJVbl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 Dec 2019 16:31:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57802 "EHLO mail.kernel.org"
+        id S1729831AbfLJVdp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 Dec 2019 16:33:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728147AbfLJVJY (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:09:24 -0500
+        id S1729821AbfLJVdo (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:33:44 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 150272469E;
-        Tue, 10 Dec 2019 21:09:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B8209207FF;
+        Tue, 10 Dec 2019 21:33:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576012163;
-        bh=sRMkYV2/C/tecaShU+16UzRv9dkZmj2gA34u0AUAxQs=;
+        s=default; t=1576013623;
+        bh=9/VaL0mt3ammd0UTAq+BxX5Xi9rXPHlE/4fMfXXunUg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dSg4Vw7sjwelosF12nRL3xW8tB5DxKcMRxDNmrnyGqp5om6l1KjMoe3+dd+ZhDAKI
-         /ADFzEH2iBrK4mODuJn9fw3eck165Bl/m9+X8M/wIFiwIL4VxY97jTuf6prUjXWb1Q
-         AaFnJ+cQj/1/z9NH4gFuUK11X43YtpV0IOT5MIj0=
+        b=mPkZgD88VapTSZSX6cakwhqU9fnb3sQrslNOfqFPsPrWazFhg6MgsxDTAl/aDm8Ge
+         2pyxIkYxY9IRiRhlmXZOrxJE28r7nVFP/Ht6KyHPxnWPcqnWNbneClabF9YGa16lNp
+         FSeFLPeFlPW2fV2XQxqN+lrIBcZMhxnXf1ribF+g=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Benjamin Berg <bberg@redhat.com>, Borislav Petkov <bp@suse.de>,
@@ -50,12 +50,12 @@ Cc:     Benjamin Berg <bberg@redhat.com>, Borislav Petkov <bp@suse.de>,
         Thomas Gleixner <tglx@linutronix.de>,
         Tony Luck <tony.luck@intel.com>, x86-ml <x86@kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 5.4 124/350] x86/mce: Lower throttling MCE messages' priority to warning
-Date:   Tue, 10 Dec 2019 16:03:49 -0500
-Message-Id: <20191210210735.9077-85-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 066/177] x86/mce: Lower throttling MCE messages' priority to warning
+Date:   Tue, 10 Dec 2019 16:30:30 -0500
+Message-Id: <20191210213221.11921-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
-References: <20191210210735.9077-1-sashal@kernel.org>
+In-Reply-To: <20191210213221.11921-1-sashal@kernel.org>
+References: <20191210213221.11921-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -108,14 +108,14 @@ Cc: x86-ml <x86@kernel.org>
 Link: https://lkml.kernel.org/r/20191009155424.249277-1-bberg@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/x86/kernel/cpu/mce/therm_throt.c | 2 +-
+ arch/x86/kernel/cpu/mcheck/therm_throt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/cpu/mce/therm_throt.c b/arch/x86/kernel/cpu/mce/therm_throt.c
-index 6e2becf547c5e..bc441d68d0602 100644
---- a/arch/x86/kernel/cpu/mce/therm_throt.c
-+++ b/arch/x86/kernel/cpu/mce/therm_throt.c
-@@ -188,7 +188,7 @@ static void therm_throt_process(bool new_event, int event, int level)
+diff --git a/arch/x86/kernel/cpu/mcheck/therm_throt.c b/arch/x86/kernel/cpu/mcheck/therm_throt.c
+index ee229ceee745c..ec6a07b04fdbb 100644
+--- a/arch/x86/kernel/cpu/mcheck/therm_throt.c
++++ b/arch/x86/kernel/cpu/mcheck/therm_throt.c
+@@ -185,7 +185,7 @@ static void therm_throt_process(bool new_event, int event, int level)
  	/* if we just entered the thermal event */
  	if (new_event) {
  		if (event == THERMAL_THROTTLING_EVENT)
