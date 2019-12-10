@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73366C3F68F
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:39:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C640C00454
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 22:07:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40EAC24683
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 21:39:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1656207FF
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 22:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576013953;
-	bh=W+MCgi8gWmKuX1hkzI5Fp8rT7VdolDvphHPJra1QdFI=;
+	s=default; t=1576015662;
+	bh=zV8A7mKAvJi5fGwgLRCUQ6iODeRngAsJUKOjqNntEVc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IeUUhZbBRLeNbkdNFLCaBu8mNJnqkg4Ic4GmCBT38KolKBhYEAFeLJugPOKficFt3
-	 luLRi/1yqMnuXYc8QixwHjZu6F71IhB7cwDYvgkMAxwFSjvawENRhG2mwSjEFSLr75
-	 pOBcFq1VYb43RG65/z+HGRaEu6EQmAF9Ah4cLUvE=
+	b=pe9ARDdSp+zf+93VZig3OM/+EuU0QJkeYBkOFnx9rdVAW1E0H9I41R8P+Q7tqbDhS
+	 wc6xhGDTMMg/vcb/Z1lUzHp8PO0aowF/17J+cVX+KhBJK6ytlpH00Ic+Ch5KKIesIu
+	 xlvtHb3jxz5wXw+wcU5DTrFWgArgSYtLg4f6WPjs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727131AbfLJVjH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 Dec 2019 16:39:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40612 "EHLO mail.kernel.org"
+        id S1729349AbfLJWFD (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 Dec 2019 17:05:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36164 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727970AbfLJVfG (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:35:06 -0500
+        id S1729334AbfLJWFD (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 10 Dec 2019 17:05:03 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E95F3214AF;
-        Tue, 10 Dec 2019 21:35:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DF78522464;
+        Tue, 10 Dec 2019 22:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576013705;
-        bh=W+MCgi8gWmKuX1hkzI5Fp8rT7VdolDvphHPJra1QdFI=;
+        s=default; t=1576015501;
+        bh=zV8A7mKAvJi5fGwgLRCUQ6iODeRngAsJUKOjqNntEVc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kfEUqvaTUGxVKgZRHhv/JYyPhliOqh7WVTvD4gIdwp1ldkp3RLH1xpdlxJ06/1LXy
-         klL1b42Nj/1d820Ip8DjxyOMWaMZlHSh8Eo9DOl3q7WHEWfJsIykGZHfB9gnVEVxVe
-         CMFn7pJyoDXDk+s33JXSPm9k4xATdbzmzUF/UWoA=
+        b=kYEcH6xGaYAtxoWsBPIhIgx3Fl9WNCCS6hIjsmQUcgJCW2odFF+ZgTSKWvsGZQR/W
+         liJ34BFpeYitCxENt76xlgJ/9lm9IHRCQCwMlQ5SQFvccu0xI4+nBOWq0ko30yMXV9
+         RJqqKDmpNIyMlHa7Q8vL1Og3SU2pT/LF0RuY8TOY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Robert Richter <rrichter@marvell.com>,
@@ -47,12 +47,12 @@ Cc:     Robert Richter <rrichter@marvell.com>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.19 134/177] EDAC/ghes: Fix grain calculation
-Date:   Tue, 10 Dec 2019 16:31:38 -0500
-Message-Id: <20191210213221.11921-134-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 101/130] EDAC/ghes: Fix grain calculation
+Date:   Tue, 10 Dec 2019 17:02:32 -0500
+Message-Id: <20191210220301.13262-101-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210213221.11921-1-sashal@kernel.org>
-References: <20191210213221.11921-1-sashal@kernel.org>
+In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
+References: <20191210220301.13262-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -114,10 +114,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index 574bce603337f..78c339da19b56 100644
+index 6f80eb65c26ca..acae392786695 100644
 --- a/drivers/edac/ghes_edac.c
 +++ b/drivers/edac/ghes_edac.c
-@@ -210,6 +210,7 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+@@ -187,6 +187,7 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
  	/* Cleans the error report buffer */
  	memset(e, 0, sizeof (*e));
  	e->error_count = 1;
@@ -125,7 +125,7 @@ index 574bce603337f..78c339da19b56 100644
  	strcpy(e->label, "unknown label");
  	e->msg = pvt->msg;
  	e->other_detail = pvt->other_detail;
-@@ -305,7 +306,7 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+@@ -282,7 +283,7 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
  
  	/* Error grain */
  	if (mem_err->validation_bits & CPER_MEM_VALID_PA_MASK)
@@ -134,7 +134,7 @@ index 574bce603337f..78c339da19b56 100644
  
  	/* Memory error location, mapped on e->location */
  	p = e->location;
-@@ -412,8 +413,13 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+@@ -389,8 +390,13 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
  	if (p > pvt->other_detail)
  		*(p - 1) = '\0';
  
