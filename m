@@ -7,55 +7,55 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EFB3C43603
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14ECAC43603
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 52E792071E
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D467B2073D
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="a9JxCM3p"
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="p1vu6kW4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727104AbfLJAIp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 9 Dec 2019 19:08:45 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:6165 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726495AbfLJAIo (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Dec 2019 19:08:44 -0500
+        id S1727383AbfLJAIs (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 9 Dec 2019 19:08:48 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:26792 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbfLJAIs (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Dec 2019 19:08:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1575936524; x=1607472524;
+  t=1575936527; x=1607472527;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=fpv4VG7PIjudrNgaI7UFOxOh5o/9bkkIlS+d2xSAdhI=;
-  b=a9JxCM3pEHc0hF4kMWssEhkOR8fhK0pAtwzp2ty7BFzWT/2NTKzsW2zm
-   yn+C1+1VYc6ZHAQqBeGuXuF5J6JF2vmjO9Jft0J7rYk80KsCGsOkeCmrK
-   daVCNGr1jFpDPoS/bu33rLvuxu0sRTC/7/rtsSwVV3poUfvHsYzD7g2lt
-   w=;
-IronPort-SDR: 7mN0fRfcHf5mgSLbtzcJ/TUol1ei8kMCusTiSYbu7F8XfET/DGC0HP+u2MQBFlSeWVjYLT/UAM
- JVcZlVW2ZG4A==
+  bh=yjeP0QuBYLEgvRSy1iLZMZ2p3fhxAaIk9IqnOA42U9c=;
+  b=p1vu6kW4Wg38uHPFy6eR7lP4tYzlXnXNUIipWY8qj3U0DPH1P4dZSw/B
+   rMofkjyI+ykZmajHoy6sZAnj0c/vHxLGTWT53VPCcRf08I1Tw1k8LilfP
+   lkVi3rYLDExyyoIQuZDC+KbhOmoafPb2LplepnzjKFlelfIT/BCByI6C3
+   E=;
+IronPort-SDR: ZxTWYGc3xAQiywURUKXpRF+BOi14qJ40xrlN88Np3HyCPuouUMY9VSQrWT8mmjVOuvdWFyrS3W
+ +vdFYklKOa+w==
 X-IronPort-AV: E=Sophos;i="5.69,297,1571702400"; 
-   d="scan'208";a="4144095"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-57e1d233.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 10 Dec 2019 00:08:33 +0000
-Received: from u7588a65da6b65f.ant.amazon.com (iad7-ws-svc-lb50-vlan3.amazon.com [10.0.93.214])
-        by email-inbound-relay-1e-57e1d233.us-east-1.amazon.com (Postfix) with ESMTPS id 4AE891416B1;
-        Tue, 10 Dec 2019 00:08:29 +0000 (UTC)
+   d="scan'208";a="6901785"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.124.125.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 10 Dec 2019 00:08:46 +0000
+Received: from u7588a65da6b65f.ant.amazon.com (pdx2-ws-svc-lb17-vlan2.amazon.com [10.247.140.66])
+        by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS id 85FF9A24A6;
+        Tue, 10 Dec 2019 00:08:45 +0000 (UTC)
 Received: from u7588a65da6b65f.ant.amazon.com (localhost [127.0.0.1])
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id xBA08OKm018214
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id xBA08ft1018300
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 10 Dec 2019 01:08:24 +0100
+        Tue, 10 Dec 2019 01:08:41 +0100
 Received: (from jschoenh@localhost)
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id xBA08Mbg018201;
-        Tue, 10 Dec 2019 01:08:22 +0100
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id xBA08dUi018294;
+        Tue, 10 Dec 2019 01:08:39 +0100
 From:   =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>
 To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
 Cc:     =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>,
         linux-edac@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org
-Subject: [PATCH 1/6] x86/mce: Take action on UCNA/Deferred errors again
-Date:   Tue, 10 Dec 2019 01:07:28 +0100
-Message-Id: <20191210000733.17979-2-jschoenh@amazon.de>
+Subject: [PATCH 5/6] x86/mce: Pass MCE message to mce_panic() on failed kernel recovery
+Date:   Tue, 10 Dec 2019 01:07:32 +0100
+Message-Id: <20191210000733.17979-6-jschoenh@amazon.de>
 X-Mailer: git-send-email 2.22.0.3.gb49bb57c8208.dirty
 In-Reply-To: <20191210000733.17979-1-jschoenh@amazon.de>
 References: <20191210000733.17979-1-jschoenh@amazon.de>
@@ -67,51 +67,29 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Linux 3.19 commit fa92c5869426 ("x86, mce: Support memory error recovery
-for both UCNA and Deferred error in machine_check_poll") added handling
-of UCNA and Deferred errors by adding them to the ring for SRAO errors.
+In commit b2f9d678e28c ("x86/mce: Check for faults tagged in
+EXTABLE_CLASS_FAULT exception table entries") another call to mce_panic()
+was introduced. Pass the message of the handled MCE to that instance
+of mce_panic() as well, as there doesn't seem to be a reason not to.
 
-Later, Linux 4.3 commit fd4cf79fcc4b ("x86/mce: Remove the MCE ring for
-Action Optional errors") switched storage from the SRAO ring to the
-unified pool that is still in use today. In order to only act on the
-intended errors, a filter for MCE_AO_SEVERITY was used -- effectively
-removing handling of UCNA/Deferred errors again.
-
-Extend the severity filter to include UCNA/Deferred errors once more.
-
-Fixes: fd4cf79fcc4b ("x86/mce: Remove the MCE ring for Action Optional errors")
 Signed-off-by: Jan H. Schönherr <jschoenh@amazon.de>
 ---
- arch/x86/kernel/cpu/mce/core.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ arch/x86/kernel/cpu/mce/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 743370ee4983..d5a8b99f7ba3 100644
+index b11a74e3fea9..677e9079e5ba 100644
 --- a/arch/x86/kernel/cpu/mce/core.c
 +++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -595,14 +595,16 @@ static int srao_decode_notifier(struct notifier_block *nb, unsigned long val,
- 	struct mce *mce = (struct mce *)data;
- 	unsigned long pfn;
+@@ -1351,7 +1351,7 @@ void do_machine_check(struct pt_regs *regs, long error_code)
+ 		ist_end_non_atomic();
+ 	} else {
+ 		if (!fixup_exception(regs, X86_TRAP_MC, error_code, 0))
+-			mce_panic("Failed kernel mode recovery", &m, NULL);
++			mce_panic("Failed kernel mode recovery", &m, msg);
+ 	}
  
--	if (!mce)
-+	if (!mce || !mce_usable_address(mce))
- 		return NOTIFY_DONE;
- 
--	if (mce_usable_address(mce) && (mce->severity == MCE_AO_SEVERITY)) {
--		pfn = mce->addr >> PAGE_SHIFT;
--		if (!memory_failure(pfn, 0))
--			set_mce_nospec(pfn);
--	}
-+	if (mce->severity != MCE_AO_SEVERITY &&
-+	    mce->severity != MCE_DEFERRED_SEVERITY)
-+		return NOTIFY_DONE;
-+
-+	pfn = mce->addr >> PAGE_SHIFT;
-+	if (!memory_failure(pfn, 0))
-+		set_mce_nospec(pfn);
- 
- 	return NOTIFY_OK;
- }
+ out_ist:
 -- 
 2.22.0.3.gb49bb57c8208.dirty
 
