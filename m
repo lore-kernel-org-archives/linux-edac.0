@@ -2,61 +2,63 @@ Return-Path: <SRS0=CgzK=2A=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0253C43603
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA66C04E30
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B89C12077B
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61A8A2071E
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 00:08:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="fTe1UkzT"
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="vcwxagY6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727091AbfLJAIe (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 9 Dec 2019 19:08:34 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:56151 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726495AbfLJAIe (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Dec 2019 19:08:34 -0500
+        id S1727333AbfLJAIm (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 9 Dec 2019 19:08:42 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:26780 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727104AbfLJAIm (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Dec 2019 19:08:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1575936513; x=1607472513;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2ObfhbJnesYSKLUKnizFOGo4UGmfq6qSeIpPjwf+Vj8=;
-  b=fTe1UkzTz+9q9t20qKOL+r4pgyppxFoNVof/l2RcGhB6jhaRblrrTUcZ
-   DUJRD3oZz88JFpRKq9NiK0KhDCkj5LW95UNTdUzLAjpk6hf2FGrZ9pc9a
-   jwfmoXXuwIMT7z8En5QIeC8Ubi8/FLVxwOWBoBZot05TaEH909hiXdirn
-   0=;
-IronPort-SDR: MwarwKjk72zhe/uq0vsRp2RvWq0sHEppjVD+ReNmvecDtUkpVXTCyILG7qGvDOaxWmWLiv5NHF
- dfmIvjvNotcw==
+  t=1575936521; x=1607472521;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HicyFk+3d8ZmzP7+t6CcJT69ujvdkdzFVSdbujksngc=;
+  b=vcwxagY6j3Tuo2L5Lv9VL1YM4TBsHLEwtABqGZG9KvUWdL91hw/e6tyw
+   umEBAyrgh8MeJePedJ9LVnvLO2Zh789fRLO9Yx62Uy6BtGNmaZpChLQ1Y
+   ay6LeafwSrJfVm62aurQI2CbVUBrHagrYedsgU5+OAkMkLEH1ZwtFAKT8
+   Y=;
+IronPort-SDR: ez3FEeS2blQmwMhwslx8x+/APd4ERBvv+LDhRT6+W/JeOvkbo1LG1bpQ7PN1I5hiRe/dydg7zM
+ vCbHFNWlkQSQ==
 X-IronPort-AV: E=Sophos;i="5.69,297,1571702400"; 
-   d="scan'208";a="7765080"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-67b371d8.us-east-1.amazon.com) ([10.124.125.6])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 10 Dec 2019 00:08:29 +0000
-Received: from u7588a65da6b65f.ant.amazon.com (iad7-ws-svc-lb50-vlan3.amazon.com [10.0.93.214])
-        by email-inbound-relay-1a-67b371d8.us-east-1.amazon.com (Postfix) with ESMTPS id C5128A24BD;
-        Tue, 10 Dec 2019 00:08:24 +0000 (UTC)
+   d="scan'208";a="6901773"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com) ([10.124.125.6])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 10 Dec 2019 00:08:38 +0000
+Received: from u7588a65da6b65f.ant.amazon.com (pdx2-ws-svc-lb17-vlan2.amazon.com [10.247.140.66])
+        by email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com (Postfix) with ESMTPS id 53F50A1DD0;
+        Tue, 10 Dec 2019 00:08:37 +0000 (UTC)
 Received: from u7588a65da6b65f.ant.amazon.com (localhost [127.0.0.1])
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id xBA08KNK018186
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id xBA08Xpk018257
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 10 Dec 2019 01:08:20 +0100
+        Tue, 10 Dec 2019 01:08:33 +0100
 Received: (from jschoenh@localhost)
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id xBA08HSV018176;
-        Tue, 10 Dec 2019 01:08:17 +0100
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id xBA08UvI018248;
+        Tue, 10 Dec 2019 01:08:30 +0100
 From:   =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>
 To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
 Cc:     =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>,
         linux-edac@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org
-Subject: [PATCH 0/6] x86/mce: Various fixes and cleanups for MCE handling
-Date:   Tue, 10 Dec 2019 01:07:27 +0100
-Message-Id: <20191210000733.17979-1-jschoenh@amazon.de>
+Subject: [PATCH 3/6] x86/mce: Fix possibly incorrect severity calculation on AMD
+Date:   Tue, 10 Dec 2019 01:07:30 +0100
+Message-Id: <20191210000733.17979-4-jschoenh@amazon.de>
 X-Mailer: git-send-email 2.22.0.3.gb49bb57c8208.dirty
+In-Reply-To: <20191210000733.17979-1-jschoenh@amazon.de>
+References: <20191210000733.17979-1-jschoenh@amazon.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,28 +67,31 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi.
+The function mce_severity_amd_smca() requires m->bank to be initialized
+for correct operation. Fix the one case, where mce_severity() is called
+without doing so.
 
-Here is a series of smallish fixes/cleanups for the handling of MCEs.
+Fixes: 6bda529ec42e ("x86/mce: Grade uncorrected errors for SMCA-enabled systems")
+Fixes: d28af26faa0b ("x86/MCE: Initialize mce.bank in the case of a fatal error in mce_no_way_out()")
+Signed-off-by: Jan H. Schönherr <jschoenh@amazon.de>
+---
+ arch/x86/kernel/cpu/mce/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Note, that except for patches 2 and 4, the patches are just compile tested.
-
-Regards
-Jan
-
-Jan H. Schönherr (6):
-  x86/mce: Take action on UCNA/Deferred errors again
-  x86/mce: Make mce=nobootlog work again
-  x86/mce: Fix possibly incorrect severity calculation on AMD
-  x86/mce: Fix handling of optional message string
-  x86/mce: Pass MCE message to mce_panic() on failed kernel recovery
-  x86/mce: Remove mce_inject_log() in favor of mce_log()
-
- arch/x86/kernel/cpu/mce/core.c     | 59 ++++++++++++------------------
- arch/x86/kernel/cpu/mce/inject.c   |  2 +-
- arch/x86/kernel/cpu/mce/internal.h |  2 -
- 3 files changed, 25 insertions(+), 38 deletions(-)
-
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 81ab25d5357a..6afb9de251f2 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -809,8 +809,8 @@ static int mce_no_way_out(struct mce *m, char **msg, unsigned long *validp,
+ 		if (quirk_no_way_out)
+ 			quirk_no_way_out(i, m, regs);
+ 
++		m->bank = i;
+ 		if (mce_severity(m, mca_cfg.tolerant, &tmp, true) >= MCE_PANIC_SEVERITY) {
+-			m->bank = i;
+ 			mce_read_aux(m, i);
+ 			*msg = tmp;
+ 			return 1;
 -- 
 2.22.0.3.gb49bb57c8208.dirty
 
