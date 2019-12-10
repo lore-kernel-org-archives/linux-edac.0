@@ -2,128 +2,203 @@ Return-Path: <SRS0=CgzK=2A=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70716C43603
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 22:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C1ADC3F68F
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 23:25:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 422342053B
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 22:42:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 125F2214AF
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Dec 2019 23:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576017756;
-	bh=jM5M41eLThGmjjSeUOOPEKb7rEhNaBrdBPMfbYzqH3Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=o7JLgcqXSjvwpNCHlvFnEQOTFfSpQvobNJRBvvB0vplzYfyP9bb2cuBldQwOrYNu4
-	 f1/1RMFiXjfDd2Egei8hmDISTHtr+OovXLpePI3uQR5hZaH07SsgslDbggghjXlBu/
-	 PnyOZ2Jn/MGSQ+I/LHUbW4/PKfqN2SCfy0qNyxYI=
+	s=default; t=1576020338;
+	bh=ZFu4Hwm9TXqLd33Z1de6lnSizTJgOLyN8HGrecf9HLY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:List-ID:From;
+	b=YnLKCHb3grC/Mb2mY4dvxfBCLiDBrPCd21j8fi3cirwRoGFpZ4h74H7PLo8T08oCw
+	 akPY9VcjoMYS44G/E9tCeUK+baj5fDjSOue01RTBsa2PRgS37YjTkqUK4jfwQErDRO
+	 hT3C9Z0AJQ1E6sc0OBgyJ2WLxNVf7G0VAD0z3Wh0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728346AbfLJWbW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 Dec 2019 17:31:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51334 "EHLO mail.kernel.org"
+        id S1727050AbfLJXZd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 Dec 2019 18:25:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58370 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728308AbfLJWbV (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:31:21 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726930AbfLJXZd (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 10 Dec 2019 18:25:33 -0500
+Received: from localhost (mobile-166-170-223-177.mycingular.net [166.170.223.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 40E5A24653;
-        Tue, 10 Dec 2019 22:31:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EEC0B20663;
+        Tue, 10 Dec 2019 23:25:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576017080;
-        bh=jM5M41eLThGmjjSeUOOPEKb7rEhNaBrdBPMfbYzqH3Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jgiZ8/mSygeYG5huXtwqNkldAc9nGi8byz4vG3xXwpGalNG9xHJkTR9ohO2maI5S1
-         ejuo9Dwd4NVxHxpV5ZXM8GLdBoadcHusUZ0kTY9QMLwOGqMsBrT2AzZJnno7l7vsbY
-         DOpWYLw2jJ0NR3GHcUr1JD7byCFWQAAoqS+Dnrq0=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Benjamin Berg <bberg@redhat.com>, Borislav Petkov <bp@suse.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>, x86-ml <x86@kernel.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.9 37/91] x86/mce: Lower throttling MCE messages' priority to warning
-Date:   Tue, 10 Dec 2019 17:29:41 -0500
-Message-Id: <20191210223035.14270-37-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210223035.14270-1-sashal@kernel.org>
-References: <20191210223035.14270-1-sashal@kernel.org>
+        s=default; t=1576020332;
+        bh=ZFu4Hwm9TXqLd33Z1de6lnSizTJgOLyN8HGrecf9HLY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=X4udzvXQ7snjmIabgtXdmw+W789EOtzVGrt2DaBfrBK0qaF4Wr94f9MMFJh+3xzvx
+         +qQ8ecyou8iYR2vXOI5MxMI+Ryr8L3bTtQ83PA7j8M6JolUcxsGbNtz120G2bswz+g
+         meHCfapKZI2D3fn5ZQLjpvlegaqmwITN38H8if4A=
+Date:   Tue, 10 Dec 2019 17:25:29 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org, tim@buttersideup.com,
+        james.morse@arm.com, rrichter@marvell.com, jdelvare@suse.com,
+        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+        linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH 6/6] (v3) drivers: hwmon: i5k_amb: simplify probing /
+ device identification
+Message-ID: <20191210232529.GA171629@google.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bee7ba11-6b4a-1cc7-ee8c-ddf17cb8daca@roeck-us.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Benjamin Berg <bberg@redhat.com>
+On Thu, Nov 28, 2019 at 06:21:31AM -0800, Guenter Roeck wrote:
+> On 11/28/19 4:54 AM, Enrico Weigelt, metux IT consult wrote:
+> > Simpilify the probing by putting all chip-specific data directly
+> > into the pci match table, removing the redundant chipset_ids table.
+> > 
+> > Changes v3:
+> >      * use pci_get_device_by_id() introduces by a previous patch
+> >        of this queue
+> > 
+> > Changes v2:
+> >      * use PCI_DEVICE_DATA() macro in the pci match table
+> >      * directly pass the pci device id to i5k_channel_probe(),
+> >        instead of computing it internally by extra offset parameter
+> > 
+> > Submitted: 2019-06-06
+> > Signed-off-by: Enrico Weigelt <info@metux.net>
+> 
+> I don't immediately see how this is better. I am not even sure if it
+> is correct.
 
-[ Upstream commit 9c3bafaa1fd88e4dd2dba3735a1f1abb0f2c7bb7 ]
+I don't mind this, but:
 
-On modern CPUs it is quite normal that the temperature limits are
-reached and the CPU is throttled. In fact, often the thermal design is
-not sufficient to cool the CPU at full load and limits can quickly be
-reached when a burst in load happens. This will even happen with
-technologies like RAPL limitting the long term power consumption of
-the package.
+  1) I don't maintain this file, so my opinion doesn't count much.
 
-Also, these limits are "softer", as Srinivas explains:
+  2) I despise the pci_get_device() interfaces because they're
+  inefficient, not hotplug-safe, they circumvent the device model
+  claim mechanism, and it's hard to do the reference counting
+  correctly.
 
-"CPU temperature doesn't have to hit max(TjMax) to get these warnings.
-OEMs ha[ve] an ability to program a threshold where a thermal interrupt
-can be generated. In some systems the offset is 20C+ (Read only value).
+  3) There are several things going on in this patch and it would be
+  easier to read if you could split them into separate patches:
 
-In recent systems, there is another offset on top of it which can be
-programmed by OS, once some agent can adjust power limits dynamically.
-By default this is set to low by the firmware, which I guess the
-prime motivation of Benjamin to submit the patch."
+    - Removing the redundancy between chipset_ids[] and i5k_amb_ids[].
+      This seems like a nice change.
 
-So these messages do not usually indicate a hardware issue (e.g.
-insufficient cooling). Log them as warnings to avoid confusion about
-their severity.
+    - The "chipset_ids[i].fbd0 + 1" thing was weird and the new
+      ".driver_data + 1" is still weird.  Those are PCI device IDs,
+      and addition is not a valid operation on those IDs.  IMHO both
+      PCI_DEVICE_ID_INTEL_5000_FBD0 and PCI_DEVICE_ID_INTEL_5000_FBD1
+      should be listed explicitly in the driver instead of trying to
+      compute PCI_DEVICE_ID_INTEL_5000_FBD1.
 
- [ bp: Massage commit mesage. ]
+    - Replacing the hard-coding of PCI_VENDOR_ID_INTEL with the vendor
+      ID from i5k_amb_ids[] seems worthwhile and should be its own
+      separate patch (if possible).
 
-Signed-off-by: Benjamin Berg <bberg@redhat.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Tested-by: Christian Kellner <ckellner@redhat.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/20191009155424.249277-1-bberg@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/x86/kernel/cpu/mcheck/therm_throt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+    - Changing to use pci_get_device_by_id().  This should be trivial
+      to verify, like the other patches.
 
-diff --git a/arch/x86/kernel/cpu/mcheck/therm_throt.c b/arch/x86/kernel/cpu/mcheck/therm_throt.c
-index c460c91d0c8fd..be2439592b0ec 100644
---- a/arch/x86/kernel/cpu/mcheck/therm_throt.c
-+++ b/arch/x86/kernel/cpu/mcheck/therm_throt.c
-@@ -190,7 +190,7 @@ static int therm_throt_process(bool new_event, int event, int level)
- 	/* if we just entered the thermal event */
- 	if (new_event) {
- 		if (event == THERMAL_THROTTLING_EVENT)
--			pr_crit("CPU%d: %s temperature above threshold, cpu clock throttled (total events = %lu)\n",
-+			pr_warn("CPU%d: %s temperature above threshold, cpu clock throttled (total events = %lu)\n",
- 				this_cpu,
- 				level == CORE_LEVEL ? "Core" : "Package",
- 				state->count);
--- 
-2.20.1
-
+> > ---
+> >   drivers/hwmon/i5k_amb.c | 38 +++++++++++++++-----------------------
+> >   1 file changed, 15 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/drivers/hwmon/i5k_amb.c b/drivers/hwmon/i5k_amb.c
+> > index b09c39abd3a8..cb85607d104f 100644
+> > --- a/drivers/hwmon/i5k_amb.c
+> > +++ b/drivers/hwmon/i5k_amb.c
+> > @@ -414,16 +414,14 @@ static int i5k_amb_add(void)
+> >   }
+> >   static int i5k_find_amb_registers(struct i5k_amb_data *data,
+> > -					    unsigned long devid)
+> > +				  const struct pci_device_id *devid)
+> >   {
+> >   	struct pci_dev *pcidev;
+> >   	u32 val32;
+> >   	int res = -ENODEV;
+> >   	/* Find AMB register memory space */
+> > -	pcidev = pci_get_device(PCI_VENDOR_ID_INTEL,
+> > -				devid,
+> > -				NULL);
+> > +	pcidev = pci_get_device_by_id(devid);
+> >   	if (!pcidev)
+> >   		return -ENODEV;
+> > @@ -447,14 +445,15 @@ static int i5k_find_amb_registers(struct i5k_amb_data *data,
+> >   	return res;
+> >   }
+> > -static int i5k_channel_probe(u16 *amb_present, unsigned long dev_id)
+> > +static int i5k_channel_probe(u16 *amb_present, unsigned int vendor,
+> > +			     unsigned int device)
+> >   {
+> >   	struct pci_dev *pcidev;
+> >   	u16 val16;
+> >   	int res = -ENODEV;
+> >   	/* Copy the DIMM presence map for these two channels */
+> > -	pcidev = pci_get_device(PCI_VENDOR_ID_INTEL, dev_id, NULL);
+> > +	pcidev = pci_get_device(vendor, device, NULL);
+> >   	if (!pcidev)
+> >   		return -ENODEV;
+> > @@ -473,23 +472,12 @@ static int i5k_channel_probe(u16 *amb_present, unsigned long dev_id)
+> >   	return res;
+> >   }
+> > -static struct {
+> > -	unsigned long err;
+> > -	unsigned long fbd0;
+> > -} chipset_ids[]  = {
+> > -	{ PCI_DEVICE_ID_INTEL_5000_ERR, PCI_DEVICE_ID_INTEL_5000_FBD0 },
+> > -	{ PCI_DEVICE_ID_INTEL_5400_ERR, PCI_DEVICE_ID_INTEL_5400_FBD0 },
+> > -	{ 0, 0 }
+> > -};
+> > -
+> > -#ifdef MODULE
+> >   static const struct pci_device_id i5k_amb_ids[] = {
+> > -	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_5000_ERR) },
+> > -	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_5400_ERR) },
+> > +	{ PCI_DEVICE_DATA(INTEL, 5000_ERR, PCI_DEVICE_ID_INTEL_5000_FBD0) },
+> > +	{ PCI_DEVICE_DATA(INTEL, 5400_ERR, PCI_DEVICE_ID_INTEL_5400_FBD0) },
+> >   	{ 0, }
+> >   };
+> >   MODULE_DEVICE_TABLE(pci, i5k_amb_ids);
+> > -#endif
+> >   static int i5k_amb_probe(struct platform_device *pdev)
+> >   {
+> > @@ -504,22 +492,26 @@ static int i5k_amb_probe(struct platform_device *pdev)
+> >   	/* Figure out where the AMB registers live */
+> >   	i = 0;
+> >   	do {
+> > -		res = i5k_find_amb_registers(data, chipset_ids[i].err);
+> > +		res = i5k_find_amb_registers(data, &i5k_amb_ids[i]);
+> >   		if (res == 0)
+> >   			break;
+> >   		i++;
+> > -	} while (chipset_ids[i].err);
+> > +	} while (i5k_amb_ids[i].device);
+> >   	if (res)
+> >   		goto err;
+> >   	/* Copy the DIMM presence map for the first two channels */
+> > -	res = i5k_channel_probe(&data->amb_present[0], chipset_ids[i].fbd0);
+> > +	res = i5k_channel_probe(&data->amb_present[0],
+> > +				i5k_amb_ids[i].vendor,
+> > +				i5k_amb_ids[i].driver_data);
+> >   	if (res)
+> >   		goto err;
+> >   	/* Copy the DIMM presence map for the optional second two channels */
+> > -	i5k_channel_probe(&data->amb_present[2], chipset_ids[i].fbd0 + 1);
+> > +	i5k_channel_probe(&data->amb_present[2],
+> > +			  i5k_amb_ids[i].vendor,
+> > +			  i5k_amb_ids[i].driver_data+1);
+> >   	/* Set up resource regions */
+> >   	reso = request_mem_region(data->amb_base, data->amb_len, DRVNAME);
+> > 
+> 
