@@ -1,112 +1,131 @@
-Return-Path: <SRS0=EtPA=2C=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=XUF3=2D=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD952C43603
-	for <linux-edac@archiver.kernel.org>; Thu, 12 Dec 2019 18:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C509C43603
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Dec 2019 05:36:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B406D2073D
-	for <linux-edac@archiver.kernel.org>; Thu, 12 Dec 2019 18:34:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDCB12253D
+	for <linux-edac@archiver.kernel.org>; Fri, 13 Dec 2019 05:36:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="ke98tlqB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730431AbfLLSem (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 12 Dec 2019 13:34:42 -0500
-Received: from mga14.intel.com ([192.55.52.115]:13397 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730291AbfLLSel (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 12 Dec 2019 13:34:41 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Dec 2019 10:27:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,306,1571727600"; 
-   d="scan'208";a="239043222"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.202])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2019 10:27:21 -0800
-Date:   Thu, 12 Dec 2019 10:27:21 -0800
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Liran Alon <liran.alon@oracle.com>
-Cc:     Jim Mattson <jmattson@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
-        Len Brown <lenb@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kvm list <kvm@vger.kernel.org>, linux-edac@vger.kernel.org,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Subject: Re: [PATCH v4 11/19] x86/cpu: Print VMX flags in /proc/cpuinfo using
- VMX_FEATURES_*
-Message-ID: <20191212182721.GI3163@linux.intel.com>
-References: <20191128014016.4389-12-sean.j.christopherson@intel.com>
- <20191212122646.GE4991@zn.tnic>
- <d0b21e7e-69f5-09f9-3e1c-14d49fa42b9f@redhat.com>
- <4A24DE75-4E68-4EC6-B3F3-4ACB0EE82BF0@oracle.com>
- <17c6569e-d0af-539c-6d63-f4c07367d8d1@redhat.com>
- <20191212174357.GE3163@linux.intel.com>
- <52dd758d-a590-52a6-4248-22d6852b75cd@redhat.com>
- <DA429131-7A4C-4B74-A020-6CE7622ED2F8@oracle.com>
- <CALMp9eRAYj=dKDtnPymkUA_OOMv+9a4WdPNt4hdpFtBgzwNA9w@mail.gmail.com>
- <EA5BE610-6E9C-4357-AD62-5678C7E81043@oracle.com>
+        id S1732005AbfLMFga (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 13 Dec 2019 00:36:30 -0500
+Received: from m228-4.mailgun.net ([159.135.228.4]:62591 "EHLO
+        m228-4.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725799AbfLMFg3 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 13 Dec 2019 00:36:29 -0500
+X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Fri, 13 Dec 2019 00:36:28 EST
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1576215389; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=YrvqTP9z2N2j9Eee0g2uwcZZNKGFYVYmedHWIpnWR2A=;
+ b=ke98tlqB0DqnwllNR09AoTB5VzWwmsAVdXC+vhCUXDypdSfLLFIFosW0Wb7x6rKm+e7g39hh
+ kawar/xjpKCJV21zMJ/TwssDKW5gaLQMv+5/D8TPJNuyHaYxRyefYdzIAlZf0H6ACISkpiCM
+ I+vY190Y+TOyXPDqjr6ozLEmess=
+X-Mailgun-Sending-Ip: 159.135.228.4
+X-Mailgun-Sid: WyJlNGY0ZCIsICJsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5df3222c.7fd25d5ad3e8-smtp-out-n01;
+ Fri, 13 Dec 2019 05:31:24 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id A8198C447A2; Fri, 13 Dec 2019 05:31:24 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: saiprakash.ranjan)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id C1B48C433CB;
+        Fri, 13 Dec 2019 05:31:23 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <EA5BE610-6E9C-4357-AD62-5678C7E81043@oracle.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 13 Dec 2019 11:01:23 +0530
+From:   Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Evan Green <evgreen@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS 
+        <devicetree@vger.kernel.org>, Tony Luck <tony.luck@intel.com>,
+        psodagud@codeaurora.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        tsoni@codeaurora.org, LKML <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Robert Richter <rrichter@marvell.com>,
+        Andy Gross <agross@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-edac@vger.kernel.org
+Subject: Re: [PATCH 2/2] drivers: edac: Add EDAC support for Kryo CPU caches
+In-Reply-To: <5df16ebe.1c69fb81.6481f.a011@mx.google.com>
+References: <cover.1575529553.git.saiprakash.ranjan@codeaurora.org>
+ <0101016ed57a6311-e815485c-4b77-4342-a3de-203673941602-000000@us-west-2.amazonses.com>
+ <CAE=gft5JvCegmrjkKuxYr9dgASPFCkgy97O1XGRyKDF6xT=BMA@mail.gmail.com>
+ <5df16ebe.1c69fb81.6481f.a011@mx.google.com>
+Message-ID: <624229b9b2d5bf4b5eccf7778b420e2d@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 08:04:19PM +0200, Liran Alon wrote:
+On 2019-12-12 04:03, Stephen Boyd wrote:
+> Quoting Evan Green (2019-12-11 11:32:37)
+>> Hi Sai,
+>> 
+>> On Thu, Dec 5, 2019 at 1:53 AM Sai Prakash Ranjan
+>> <saiprakash.ranjan@codeaurora.org> wrote:
+>> > diff --git a/drivers/edac/qcom_kryo_edac.c b/drivers/edac/qcom_kryo_edac.c
+>> > new file mode 100644
+>> > index 000000000000..05b60ad3cb0e
+>> > --- /dev/null
+>> > +++ b/drivers/edac/qcom_kryo_edac.c
+>> > @@ -0,0 +1,679 @@
+> [...]
+>> > +static const struct error_record serror_record[] = {
+>> > +       { 0x1,  "Errors due to fault injection"         },
+>> > +       { 0x2,  "ECC error from internal data buffer"   },
+>> > +       { 0x6,  "ECC error on cache data RAM"           },
+>> > +       { 0x7,  "ECC error on cache tag or dirty RAM"   },
+>> > +       { 0x8,  "Parity error on TLB data RAM"          },
+>> > +       { 0x9,  "Parity error on TLB tag RAM"           },
+>> > +       { 0x12, "Error response for a cache copyback"   },
+>> > +       { 0x15, "Deferred error not supported"          },
+>> > +};
+>> > +
+>> > +static const struct error_type err_type[] = {
+>> > +       { edac_device_handle_ce, "Kryo L1 Corrected Error"      },
+>> > +       { edac_device_handle_ue, "Kryo L1 Uncorrected Error"    },
+>> > +       { edac_device_handle_ue, "Kryo L1 Deferred Error"       },
+>> > +       { edac_device_handle_ce, "Kryo L2 Corrected Error"      },
+>> > +       { edac_device_handle_ue, "Kryo L2 Uncorrected Error"    },
+>> > +       { edac_device_handle_ue, "Kryo L2 Deferred Error"       },
+>> > +       { edac_device_handle_ce, "L3 Corrected Error"           },
+>> > +       { edac_device_handle_ue, "L3 Uncorrected Error"         },
+>> > +       { edac_device_handle_ue, "L3 Deferred Error"            },
+>> > +};
+>> 
+>> A comment is warranted to indicate that err_type is indexed by the
+>> enum, as this would be easy to mess up in later changes.
 > 
+> Instead of a comment please use array indexing.
 > 
-> > On 12 Dec 2019, at 19:57, Jim Mattson <jmattson@google.com> wrote:
-> > 
-> > On Thu, Dec 12, 2019 at 9:53 AM Liran Alon <liran.alon@oracle.com> wrote:
-> > 
-> >> Why should CPU VMX features be treated differently than standard CPUID deduced features?
-> > 
-> > Do we have the right Intel people on the recipient list to answer this
-> > question? Presumably, Intel felt that this information should be
-> > available in supervisor mode only.
-> > 
-> > Sean?
-> 
-> Good question. Probably because it just makes sense that Ring3 will never need to use
-> this info as all VMX instructions are privileged. i.e. Can only be executed in Ring0.
+> 	[KRYO_L1_CE] = { edac_device_handle_ce, "Kryo L1..." },
+> 	...
 
-I highly doubt ring0 vs. ring3 was a motivating factor.  I suspect the MSR
-interface is primarily driven by VMX's allowed-0 vs. allowed-1 behavior,
-which would be awkward to encode in CPUID.  Reporting via MSR also likely
-provided more flexibility for updating/fixing CPU behavior, e.g. patching
-the RDMSR hook is likely far easier than patching CPUID.
+Will do this in the next spin.
 
-Even if the architects intended the information to be supervisor-only,
-that's just their opinion, no?
+-Sai
 
-> De-facto in KVM we have discovered this assumption to be problematic BTW,
-> as KVM created an interface to query VMX MSRs values to properly define the requested
-> vCPU model. :P (See kvm_get_msr_feature())
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
