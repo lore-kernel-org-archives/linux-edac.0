@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 228A1C43603
-	for <linux-edac@archiver.kernel.org>; Mon, 16 Dec 2019 18:26:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8E6AC43603
+	for <linux-edac@archiver.kernel.org>; Mon, 16 Dec 2019 18:34:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE9312176D
-	for <linux-edac@archiver.kernel.org>; Mon, 16 Dec 2019 18:26:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D02C206EC
+	for <linux-edac@archiver.kernel.org>; Mon, 16 Dec 2019 18:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576520816;
-	bh=o5DgSwACQn3g13+wAyuxHX+E7BQK/uk71Z4ObQXjzYg=;
+	s=default; t=1576521296;
+	bh=Ul+6vb0R77VIZx6xIPBeeZvukDJoyv1LW2mE2NNbkms=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=WM0Cq/ir+T/mifIaT+m/hNUUJbmMyd7LZeuFkoj59JefTANa9PHCyr3BJPIEivzr8
-	 MmaWtwIOo9X9hV+apaRmcN/n/PpTIAp1HPGL7H+3yKRd6hBAOqyuDCxc1dxfUNmETV
-	 md7fP8y+k+JdZ3pfMbO2yFWFu4Gffsr8LvIHm54U=
+	b=WUXCkPw22d8ySzSpRETrHJMxQdGDlDV2Zwbb3ggJCipiCQJ/JoPxVcIkR7xngB5bj
+	 OldaIv0Wi+r71mzG9lSl4J7CVPzuHgoPRH4QjH6WOis7J/iCDbSMyhn6uIg5B44fgH
+	 SCTUFwGwjauUwLD+CGT9JCTJJ/5jqLeoKWpkJsXY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731541AbfLPSQ3 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 16 Dec 2019 13:16:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39032 "EHLO mail.kernel.org"
+        id S1730299AbfLPSIm (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 16 Dec 2019 13:08:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50404 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731535AbfLPSQ3 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 16 Dec 2019 13:16:29 -0500
+        id S1730296AbfLPSIl (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 16 Dec 2019 13:08:41 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35BA8207FF;
-        Mon, 16 Dec 2019 18:16:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3AC6A206EC;
+        Mon, 16 Dec 2019 18:08:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576520188;
-        bh=o5DgSwACQn3g13+wAyuxHX+E7BQK/uk71Z4ObQXjzYg=;
+        s=default; t=1576519720;
+        bh=Ul+6vb0R77VIZx6xIPBeeZvukDJoyv1LW2mE2NNbkms=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JZKoJYzFyKGvWckqmZcrAm/p78wFbI7zTGEVb5qVjz8jHp+r6UphP0P5LdwSE5d+P
-         /C9hSVobbxbJFxxWVBD0AvKjYXrwjmo1rjLNzqI/CpruFGS77yYONRrP/7NS2OmrNp
-         fDy5WSjXT4EdBQql//ZQcEVC0C7Ix9qrsfF/4Pdg=
+        b=vnjjoAWeqRRiojYWb/KA9p/0CT/y3xgmPnL+CuNTCi9GQ+x+1vrkAG7x2dxYojQo3
+         VZbFGn+pJ3Na7FPn8c99aCR9O/CtkK21pUR+fznQV0YNO/M5AQd4yMoYOuKmWByt9D
+         e1IOXQPgFfuRrCYzLrc7fuAD1Nc/o/LUuyRD+h7g=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -49,12 +49,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Robert Richter <rrichter@marvell.com>,
         Tony Luck <tony.luck@intel.com>
-Subject: [PATCH 5.4 053/177] EDAC/altera: Use fast register IO for S10 IRQs
-Date:   Mon, 16 Dec 2019 18:48:29 +0100
-Message-Id: <20191216174830.591722289@linuxfoundation.org>
+Subject: [PATCH 5.3 042/180] EDAC/altera: Use fast register IO for S10 IRQs
+Date:   Mon, 16 Dec 2019 18:48:02 +0100
+Message-Id: <20191216174817.274664572@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191216174811.158424118@linuxfoundation.org>
-References: <20191216174811.158424118@linuxfoundation.org>
+In-Reply-To: <20191216174806.018988360@linuxfoundation.org>
+References: <20191216174806.018988360@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -111,7 +111,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/edac/altera_edac.c
 +++ b/drivers/edac/altera_edac.c
-@@ -560,6 +560,7 @@ static const struct regmap_config s10_sd
+@@ -561,6 +561,7 @@ static const struct regmap_config s10_sd
  	.reg_write = s10_protected_reg_write,
  	.use_single_read = true,
  	.use_single_write = true,
