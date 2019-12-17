@@ -4,47 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-11.8 required=3.0
 	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1A4C43603
-	for <linux-edac@archiver.kernel.org>; Tue, 17 Dec 2019 10:01:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEDAC2D0C8
+	for <linux-edac@archiver.kernel.org>; Tue, 17 Dec 2019 10:01:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 63DEB20733
-	for <linux-edac@archiver.kernel.org>; Tue, 17 Dec 2019 10:01:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED2052082E
+	for <linux-edac@archiver.kernel.org>; Tue, 17 Dec 2019 10:01:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727120AbfLQKBY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 17 Dec 2019 05:01:24 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:54861 "EHLO
+        id S1727435AbfLQKB3 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 17 Dec 2019 05:01:29 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:54876 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727039AbfLQKBX (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 17 Dec 2019 05:01:23 -0500
+        with ESMTP id S1727425AbfLQKB3 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 17 Dec 2019 05:01:29 -0500
 Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tip-bot2@linutronix.de>)
-        id 1ih9fB-0003qk-Hn; Tue, 17 Dec 2019 11:01:09 +0100
+        id 1ih9fA-0003qa-Vo; Tue, 17 Dec 2019 11:01:09 +0100
 Received: from [127.0.1.1] (localhost [IPv6:::1])
-        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 3E6311C2A30;
-        Tue, 17 Dec 2019 11:01:09 +0100 (CET)
-Date:   Tue, 17 Dec 2019 10:01:09 -0000
-From:   "tip-bot2 for Konstantin Khlebnikov" <tip-bot2@linutronix.de>
+        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 926221C2A30;
+        Tue, 17 Dec 2019 11:01:08 +0100 (CET)
+Date:   Tue, 17 Dec 2019 10:01:08 -0000
+From:   "tip-bot2 for Arnd Bergmann" <tip-bot2@linutronix.de>
 Reply-to: linux-kernel@vger.kernel.org
 To:     linux-tip-commits@vger.kernel.org
-Subject: [tip: ras/urgent] x86/MCE/AMD: Do not use rdmsr_safe_on_cpu() in
- smca_configure()
-Cc:     Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        Borislav Petkov <bp@suse.de>,
-        Yazen Ghannam <yazen.ghannam@amd.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+Subject: [tip: ras/core] x86/mce/therm_throt: Mark throttle_active_work() as
+ __maybe_unused
+Cc:     Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@suse.de>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        bberg@redhat.com, ckellner@redhat.com,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        hdegoede@redhat.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
         "linux-edac" <linux-edac@vger.kernel.org>,
-        <stable@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Tony Luck <tony.luck@intel.com>, "x86-ml" <x86@kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <157252708836.3876.4604398213417262402.stgit@buzz>
-References: <157252708836.3876.4604398213417262402.stgit@buzz>
+In-Reply-To: <20191210203925.3119091-1-arnd@arndb.de>
+References: <20191210203925.3119091-1-arnd@arndb.de>
 MIME-Version: 1.0
-Message-ID: <157657686913.30329.12674595394156740801.tip-bot2@tip-bot2>
+Message-ID: <157657686842.30329.4552093141575050735.tip-bot2@tip-bot2>
 X-Mailer: tip-git-log-daemon
 Robot-ID: <tip-bot2.linutronix.de>
 Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
@@ -58,78 +60,54 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The following commit has been merged into the ras/urgent branch of tip:
+The following commit has been merged into the ras/core branch of tip:
 
-Commit-ID:     246ff09f89e54fdf740a8d496176c86743db3ec7
-Gitweb:        https://git.kernel.org/tip/246ff09f89e54fdf740a8d496176c86743db3ec7
-Author:        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-AuthorDate:    Thu, 31 Oct 2019 16:04:48 +03:00
+Commit-ID:     db1ae0314f47e88ae06679270adf17ffa245afd4
+Gitweb:        https://git.kernel.org/tip/db1ae0314f47e88ae06679270adf17ffa245afd4
+Author:        Arnd Bergmann <arnd@arndb.de>
+AuthorDate:    Tue, 10 Dec 2019 21:39:13 +01:00
 Committer:     Borislav Petkov <bp@suse.de>
-CommitterDate: Tue, 17 Dec 2019 09:39:33 +01:00
+CommitterDate: Tue, 17 Dec 2019 10:26:28 +01:00
 
-x86/MCE/AMD: Do not use rdmsr_safe_on_cpu() in smca_configure()
+x86/mce/therm_throt: Mark throttle_active_work() as __maybe_unused
 
-... because interrupts are disabled that early and sending IPIs can
-deadlock:
+throttle_active_work() is only called if CONFIG_SYSFS is set, otherwise
+we get a harmless warning:
 
-  BUG: sleeping function called from invalid context at kernel/sched/completion.c:99
-  in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/1
-  no locks held by swapper/1/0.
-  irq event stamp: 0
-  hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-  hardirqs last disabled at (0): [<ffffffff8106dda9>] copy_process+0x8b9/0x1ca0
-  softirqs last  enabled at (0): [<ffffffff8106dda9>] copy_process+0x8b9/0x1ca0
-  softirqs last disabled at (0): [<0000000000000000>] 0x0
-  Preemption disabled at:
-  [<ffffffff8104703b>] start_secondary+0x3b/0x190
-  CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.5.0-rc2+ #1
-  Hardware name: GIGABYTE MZ01-CE1-00/MZ01-CE1-00, BIOS F02 08/29/2018
-  Call Trace:
-   dump_stack
-   ___might_sleep.cold.92
-   wait_for_completion
-   ? generic_exec_single
-   rdmsr_safe_on_cpu
-   ? wrmsr_on_cpus
-   mce_amd_feature_init
-   mcheck_cpu_init
-   identify_cpu
-   identify_secondary_cpu
-   smp_store_cpu_info
-   start_secondary
-   secondary_startup_64
+  arch/x86/kernel/cpu/mce/therm_throt.c:238:13: error: 'throttle_active_work' \
+	  defined but not used [-Werror=unused-function]
 
-The function smca_configure() is called only on the current CPU anyway,
-therefore replace rdmsr_safe_on_cpu() with atomic rdmsr_safe() and avoid
-the IPI.
+Mark the function as __maybe_unused to avoid the warning.
 
- [ bp: Update commit message. ]
-
-Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Fixes: f6656208f04e ("x86/mce/therm_throt: Optimize notifications of thermal throttle")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: bberg@redhat.com
+Cc: ckellner@redhat.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: hdegoede@redhat.com
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: <stable@vger.kernel.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Tony Luck <tony.luck@intel.com>
 Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/157252708836.3876.4604398213417262402.stgit@buzz
+Link: https://lkml.kernel.org/r/20191210203925.3119091-1-arnd@arndb.de
 ---
- arch/x86/kernel/cpu/mce/amd.c | 2 +-
+ arch/x86/kernel/cpu/mce/therm_throt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-index 5167bd2..e41e3b4 100644
---- a/arch/x86/kernel/cpu/mce/amd.c
-+++ b/arch/x86/kernel/cpu/mce/amd.c
-@@ -269,7 +269,7 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
- 	if (smca_banks[bank].hwid)
- 		return;
+diff --git a/arch/x86/kernel/cpu/mce/therm_throt.c b/arch/x86/kernel/cpu/mce/therm_throt.c
+index b38010b..8963493 100644
+--- a/arch/x86/kernel/cpu/mce/therm_throt.c
++++ b/arch/x86/kernel/cpu/mce/therm_throt.c
+@@ -235,7 +235,7 @@ static void get_therm_status(int level, bool *proc_hot, u8 *temp)
+ 	*temp = (msr_val >> 16) & 0x7F;
+ }
  
--	if (rdmsr_safe_on_cpu(cpu, MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
-+	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
- 		pr_warn("Failed to read MCA_IPID for bank %d\n", bank);
- 		return;
- 	}
+-static void throttle_active_work(struct work_struct *work)
++static void __maybe_unused throttle_active_work(struct work_struct *work)
+ {
+ 	struct _thermal_state *state = container_of(to_delayed_work(work),
+ 						struct _thermal_state, therm_work);
