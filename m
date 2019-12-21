@@ -2,243 +2,120 @@ Return-Path: <SRS0=iMRh=2L=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC90C43603
-	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 04:47:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5315C2D0C0
+	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 09:24:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 837F92253D
-	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 04:47:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEF89206D3
+	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 09:24:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726717AbfLUEpx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 20 Dec 2019 23:45:53 -0500
-Received: from mga03.intel.com ([134.134.136.65]:31824 "EHLO mga03.intel.com"
+        id S1725907AbfLUJYG (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 21 Dec 2019 04:24:06 -0500
+Received: from mx2.suse.de ([195.135.220.15]:55324 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726613AbfLUEpw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 20 Dec 2019 23:45:52 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Dec 2019 20:45:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,338,1571727600"; 
-   d="scan'208";a="222620045"
-Received: from sjchrist-coffee.jf.intel.com ([10.54.74.202])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2019 20:45:50 -0800
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org
-Cc:     "H. Peter Anvin" <hpa@zytor.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        Len Brown <lenb@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, Borislav Petkov <bp@suse.de>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Subject: [PATCH v5 00/19] x86/cpu: Clean up handling of VMX features
-Date:   Fri, 20 Dec 2019 20:44:54 -0800
-Message-Id: <20191221044513.21680-1-sean.j.christopherson@intel.com>
-X-Mailer: git-send-email 2.24.1
+        id S1725845AbfLUJYG (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 21 Dec 2019 04:24:06 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 60011AC23;
+        Sat, 21 Dec 2019 09:24:04 +0000 (UTC)
+Date:   Sat, 21 Dec 2019 10:23:53 +0100
+From:   Borislav Petkov <bp@suse.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-edac <linux-edac@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] RAS urgent for 5.5
+Message-ID: <20191221092353.GA5832@zn.tnic>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Clean up a handful of interrelated warts in the kernel's handling of VMX:
+Hi Linus,
 
-  - Enable VMX in IA32_FEATURE_CONTROL during boot instead of on-demand
-    during KVM load to avoid future contention over IA32_FEATURE_CONTROL.
+please pull three urgent RAS fixes for the AMD side of things:
 
-  - Rework VMX feature reporting so that it is accurate and up-to-date,
-    now and in the future.
+- initialize struct mce.bank so that calculated error severity on AMD
+SMCA machines is correct
 
-  - Consolidate code across CPUs that support VMX.
+- do not send IPIs early during bank initialization, when interrupts are
+disabled
 
-This series stems from two separate but related issues.  The first issue,
-pointed out by Boris in the SGX enabling series[*], is that the kernel
-currently doesn't ensure the IA32_FEATURE_CONTROL MSR is configured during
-boot.  The second issue is that the kernel's reporting of VMX features is
-stale, potentially inaccurate, and difficult to maintain.
+- a fix for when only a subset of MCA banks are enabled, which led to
+boot hangs on some new AMD CPUs.
 
-v5:
-  - Rebase to tip/master, ec7b10f2d023 ("Merge branch 'x86/cleanups'")
-  - Fix a missing IA32_FEAT_CTL change in the idle driver (which amusingly
-    reads the MSR to deal with SGX). [kbuild test robot]
-  - Tweak the displayed names for VMX flags. [Boris, Paolo, Liran]
-  - Add a comment above the raw rdmsr() calls in the VMX feature flag
-    parsing. [Boris]
-  - Fix a few changelog typos. [Boris]
-  - Use VMX_F() instead of F() for the VMX flag extraction macro. [Boris]
-  - Drop 'PROC' from the PRIMARY_CTLS and SECONDARY_CTLS enums to keep
-    line lengths sane.
-  - Keep the pr_fmt at the top of feat_ctl.c when the flag populating code
-    is introduced (previously got buried in the middle of the file).
+Thx.
 
-v4:
-  - Rebase to tip/master, 8a1b070333f4 ("Merge branch 'WIP.x86/mm'")
-  - Rename everything feature control related to IA32_FEAT_CTL. [Boris]
-  - Minor coding style tweaks [Boris and Jarkko].
-  - Print VMX feature flags in "vmx flags" to avoid polluting "flags",
-    but keep printing the current synthetic VMX in "flags" so as not to
-    break the ABI. [Boris]
-  - Don't bother printing an error message in the extremely unlikely
-    event VMX is supported but IA32_FEAT_CTL doesn't exist. [Boris]
-  - Beef up a few changelogs and comments. [Boris]
-  - Add a comment in the LMCE code for the new WARN. [Jarkko]
-  - Check CONFIG_KVM_INTEL instead of CONFIG_KVM when deciding whether
-    or not to enable VMX.
-  - Add a patch to introduce X86_FEATURE_MSR_IA32_FEAT_CTL.
-  - Dropped Jim's Reviewed-by from a few KVM patches due to the above
-    addition.
+---
+The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
 
-v3:
-  - Rebase to tip/master, ceceaf1f12ba ("Merge branch 'WIP.x86/cleanups'").
-  - Rename the feature control MSR bit defines [Boris].
-  - Rewrite the error message displayed when reading feature control MSR
-    faults on a VMX capable CPU to explicitly state that it's likely a
-    hardware or hypervisor issue [Boris].
-  - Collect a Reviewed-by for the LMCE change [Boris].
-  - Enable VMX in feature control (if it's unlocked) if and only if
-    KVM is enabled [Paolo].
-  - Remove a big pile of redudant MSR defines from the KVM selftests that
-    was discovered when renaming the feature control defines.
-  - Fix a changelog typo [Boris].
+  Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
 
-v2:
-  - Rebase to latest tip/x86/cpu (1edae1ae6258, "x86/Kconfig: Enforce...)
-  - Collect Jim's reviews.
-  - Fix a typo in setting of EPT capabilities [TonyWWang-oc].
-  - Remove defines for reserved VMX feature flags [Paolo].
-  - Print the VMX features under "flags" and maintain all existing names
-    to be backward compatible with the ABI [Paolo].
-  - Create aggregate APIC features to report FLEXPRIORITY and APICV, so
-    that the full feature *and* their associated individual features are
-    printed, e.g. to aid in recognizing why an APIC feature isn't being
-    used.
-  - Fix a few copy paste errors in changelogs.
+are available in the Git repository at:
 
-v1 cover letter:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git ras-urgent-for-linus
 
-== IA32_FEATURE_CONTROL ==
-Lack of IA32_FEATURE_CONTROL configuration during boot isn't a functional
-issue in the current kernel as the majority of platforms set and lock
-IA32_FEATURE_CONTROL in firmware.  And when the MSR is left unlocked, KVM
-is the only subsystem that writes IA32_FEATURE_CONTROL.  That will change
-if/when SGX support is enabled, as SGX will also want to fully enable
-itself when IA32_FEATURE_CONTROL is unlocked.
+for you to fetch changes up to a3a57ddad061acc90bef39635caf2b2330ce8f21:
 
-== VMX Feature Reporting ==
-VMX features are not enumerated via CPUID, but instead are enumerated
-through VMX MSRs.  As a result, new VMX features are not automatically
-reported via /proc/cpuinfo.
+  x86/mce: Fix possibly incorrect severity calculation on AMD (2019-12-17 09:39:53 +0100)
 
-An attempt was made long ago to report interesting and/or meaningful VMX
-features by synthesizing select features into a Linux-defined cpufeatures
-word.  Synthetic feature flags worked for the initial purpose, but the
-existence of the synthetic flags was forgotten almost immediately, e.g.
-only one new flag (EPT A/D) has been added in the the decade since the
-synthetic VMX features were introduced, while VMX and KVM have gained
-support for many new features.
+----------------------------------------------------------------
+Jan H. Schönherr (1):
+      x86/mce: Fix possibly incorrect severity calculation on AMD
 
-Placing the synthetic flags in x86_capability also allows them to be
-queried via cpu_has() and company, which is misleading as the flags exist
-purely for reporting via /proc/cpuinfo.  KVM, the only in-kernel user of
-VMX, ignores the flags.
+Konstantin Khlebnikov (1):
+      x86/MCE/AMD: Do not use rdmsr_safe_on_cpu() in smca_configure()
 
-Last but not least, VMX features are reported in /proc/cpuinfo even
-when VMX is unusable due to lack of enabling in IA32_FEATURE_CONTROL.
+Yazen Ghannam (1):
+      x86/MCE/AMD: Allow Reserved types to be overwritten in smca_banks[]
 
-== Caveats ==
-All of the testing of non-standard flows was done in a VM, as I don't
-have a system that leaves IA32_FEATURE_CONTROL unlocked, or locks it with
-VMX disabled.
+ arch/x86/kernel/cpu/mce/amd.c  | 4 ++--
+ arch/x86/kernel/cpu/mce/core.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-The Centaur and Zhaoxin changes are somewhat speculative, as I haven't
-confirmed they actually support IA32_FEATURE_CONTROL, or that they want to
-gain "official" KVM support.  I assume they unofficially support KVM given
-that both CPUs went through the effort of enumerating VMX features.  That
-in turn would require them to support IA32_FEATURE_CONTROL since KVM will
-fault and refuse to load if the MSR doesn't exist.
-
-[*] https://lkml.kernel.org/r/20190925085156.GA3891@zn.tnic
-
-Sean Christopherson (19):
-  x86/msr-index: Clean up bit defines for IA32_FEATURE_CONTROL MSR
-  selftests: kvm: Replace manual MSR defs with common msr-index.h
-  tools arch x86: Sync msr-index.h from kernel sources
-  x86/intel: Initialize IA32_FEAT_CTL MSR at boot
-  x86/mce: WARN once if IA32_FEAT_CTL MSR is left unlocked
-  x86/centaur: Use common IA32_FEAT_CTL MSR initialization
-  x86/zhaoxin: Use common IA32_FEAT_CTL MSR initialization
-  x86/cpu: Clear VMX feature flag if VMX is not fully enabled
-  x86/vmx: Introduce VMX_FEATURES_*
-  x86/cpu: Detect VMX features on Intel, Centaur and Zhaoxin CPUs
-  x86/cpu: Print VMX flags in /proc/cpuinfo using VMX_FEATURES_*
-  x86/cpu: Set synthetic VMX cpufeatures during init_ia32_feat_ctl()
-  x86/cpufeatures: Add flag to track whether MSR IA32_FEAT_CTL is
-    configured
-  KVM: VMX: Drop initialization of IA32_FEAT_CTL MSR
-  KVM: VMX: Use VMX feature flag to query BIOS enabling
-  KVM: VMX: Check for full VMX support when verifying CPU compatibility
-  KVM: VMX: Use VMX_FEATURE_* flags to define VMCS control bits
-  perf/x86: Provide stubs of KVM helpers for non-Intel CPUs
-  KVM: VMX: Allow KVM_INTEL when building for Centaur and/or Zhaoxin
-    CPUs
-
- MAINTAINERS                                   |   2 +-
- arch/x86/Kconfig.cpu                          |   8 +
- arch/x86/boot/mkcpustr.c                      |   1 +
- arch/x86/include/asm/cpufeatures.h            |   1 +
- arch/x86/include/asm/msr-index.h              |  14 +-
- arch/x86/include/asm/perf_event.h             |  22 +-
- arch/x86/include/asm/processor.h              |   4 +
- arch/x86/include/asm/vmx.h                    | 105 +--
- arch/x86/include/asm/vmxfeatures.h            |  86 +++
- arch/x86/kernel/cpu/Makefile                  |   6 +-
- arch/x86/kernel/cpu/centaur.c                 |  35 +-
- arch/x86/kernel/cpu/common.c                  |   3 +
- arch/x86/kernel/cpu/cpu.h                     |   4 +
- arch/x86/kernel/cpu/feat_ctl.c                | 144 ++++
- arch/x86/kernel/cpu/intel.c                   |  49 +-
- arch/x86/kernel/cpu/mce/intel.c               |  15 +-
- arch/x86/kernel/cpu/mkcapflags.sh             |  15 +-
- arch/x86/kernel/cpu/proc.c                    |  15 +
- arch/x86/kernel/cpu/zhaoxin.c                 |  35 +-
- arch/x86/kvm/Kconfig                          |  10 +-
- arch/x86/kvm/vmx/nested.c                     |   4 +-
- arch/x86/kvm/vmx/vmx.c                        |  67 +-
- arch/x86/kvm/vmx/vmx.h                        |   2 +-
- arch/x86/kvm/x86.c                            |   2 +-
- drivers/idle/intel_idle.c                     |   2 +-
- tools/arch/x86/include/asm/msr-index.h        |  14 +-
- tools/power/x86/turbostat/turbostat.c         |   4 +-
- tools/testing/selftests/kvm/Makefile          |   4 +-
- .../selftests/kvm/include/x86_64/processor.h  | 726 +-----------------
- tools/testing/selftests/kvm/lib/x86_64/vmx.c  |   8 +-
- 30 files changed, 420 insertions(+), 987 deletions(-)
- create mode 100644 arch/x86/include/asm/vmxfeatures.h
- create mode 100644 arch/x86/kernel/cpu/feat_ctl.c
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 5167bd2bb6b1..d6cf5c18a7e0 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -266,10 +266,10 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 	smca_set_misc_banks_map(bank, cpu);
+ 
+ 	/* Return early if this bank was already initialized. */
+-	if (smca_banks[bank].hwid)
++	if (smca_banks[bank].hwid && smca_banks[bank].hwid->hwid_mcatype != 0)
+ 		return;
+ 
+-	if (rdmsr_safe_on_cpu(cpu, MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
++	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
+ 		pr_warn("Failed to read MCA_IPID for bank %d\n", bank);
+ 		return;
+ 	}
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 5f42f25bac8f..2e2a421c8528 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -819,8 +819,8 @@ static int mce_no_way_out(struct mce *m, char **msg, unsigned long *validp,
+ 		if (quirk_no_way_out)
+ 			quirk_no_way_out(i, m, regs);
+ 
++		m->bank = i;
+ 		if (mce_severity(m, mca_cfg.tolerant, &tmp, true) >= MCE_PANIC_SEVERITY) {
+-			m->bank = i;
+ 			mce_read_aux(m, i);
+ 			*msg = tmp;
+ 			return 1;
 
 -- 
-2.24.1
+Regards/Gruss,
+    Boris.
 
+SUSE Software Solutions Germany GmbH, GF: Felix Imendörffer, HRB 36809, AG Nürnberg
