@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D3BFC2D0D4
-	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 04:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9741C43603
+	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 04:47:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4BFA921927
-	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 04:47:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6A9421927
+	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 04:47:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727382AbfLUEr2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 20 Dec 2019 23:47:28 -0500
-Received: from mga03.intel.com ([134.134.136.65]:31824 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726867AbfLUEp5 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S1726876AbfLUEp5 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Fri, 20 Dec 2019 23:45:57 -0500
+Received: from mga03.intel.com ([134.134.136.65]:31827 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726705AbfLUEpz (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 20 Dec 2019 23:45:55 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Dec 2019 20:45:55 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Dec 2019 20:45:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,338,1571727600"; 
-   d="scan'208";a="222620075"
+   d="scan'208";a="222620067"
 Received: from sjchrist-coffee.jf.intel.com ([10.54.74.202])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2019 20:45:55 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2019 20:45:53 -0800
 From:   Sean Christopherson <sean.j.christopherson@intel.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -53,9 +53,9 @@ Cc:     "H. Peter Anvin" <hpa@zytor.com>,
         linux-edac@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-kselftest@vger.kernel.org, Borislav Petkov <bp@suse.de>,
         Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Subject: [PATCH v5 05/19] x86/mce: WARN once if IA32_FEAT_CTL MSR is left unlocked
-Date:   Fri, 20 Dec 2019 20:44:59 -0800
-Message-Id: <20191221044513.21680-6-sean.j.christopherson@intel.com>
+Subject: [PATCH v5 03/19] tools arch x86: Sync msr-index.h from kernel sources
+Date:   Fri, 20 Dec 2019 20:44:57 -0800
+Message-Id: <20191221044513.21680-4-sean.j.christopherson@intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191221044513.21680-1-sean.j.christopherson@intel.com>
 References: <20191221044513.21680-1-sean.j.christopherson@intel.com>
@@ -66,39 +66,93 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-WARN if the IA32_FEAT_CTL MSR is somehow left unlocked now that CPU
-initialization unconditionally locks the MSR.
+Sync msr-index.h to pull in recent renames of the IA32_FEATURE_CONTROL
+MSR definitions.  Update KVM's VMX selftest and turbostat accordingly.
+Keep the full name in turbostat's output to avoid breaking someone's
+workflow, e.g. if a script is looking for the full name.
+
+While using the renamed defines is by no means necessary, do the sync
+now to avoid leaving a landmine that will get stepped on the next time
+msr-index.h needs to be refreshed for some other reason.
+
+No functional change intended.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- arch/x86/kernel/cpu/mce/intel.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ tools/arch/x86/include/asm/msr-index.h       | 14 ++++++++------
+ tools/power/x86/turbostat/turbostat.c        |  4 ++--
+ tools/testing/selftests/kvm/lib/x86_64/vmx.c |  8 ++++----
+ 3 files changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index c238518b84a2..5627b1091b85 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -116,14 +116,15 @@ static bool lmce_supported(void)
- 	/*
- 	 * BIOS should indicate support for LMCE by setting bit 20 in
- 	 * IA32_FEAT_CTL without which touching MCG_EXT_CTL will generate a #GP
--	 * fault.
-+	 * fault.  The MSR must also be locked for LMCE_ENABLED to take effect.
-+	 * WARN if the MSR isn't locked as init_ia32_feat_ctl() unconditionally
-+	 * locks the MSR in the event that it wasn't already locked by BIOS.
- 	 */
- 	rdmsrl(MSR_IA32_FEAT_CTL, tmp);
--	if ((tmp & (FEAT_CTL_LOCKED | FEAT_CTL_LMCE_ENABLED)) ==
--		   (FEAT_CTL_LOCKED | FEAT_CTL_LMCE_ENABLED))
--		return true;
-+	if (WARN_ON_ONCE(!(tmp & FEAT_CTL_LOCKED)))
-+		return false;
+diff --git a/tools/arch/x86/include/asm/msr-index.h b/tools/arch/x86/include/asm/msr-index.h
+index 084e98da04a7..ebe1685e92dd 100644
+--- a/tools/arch/x86/include/asm/msr-index.h
++++ b/tools/arch/x86/include/asm/msr-index.h
+@@ -558,7 +558,14 @@
+ #define MSR_IA32_EBL_CR_POWERON		0x0000002a
+ #define MSR_EBC_FREQUENCY_ID		0x0000002c
+ #define MSR_SMI_COUNT			0x00000034
+-#define MSR_IA32_FEATURE_CONTROL        0x0000003a
++
++/* Referred to as IA32_FEATURE_CONTROL in Intel's SDM. */
++#define MSR_IA32_FEAT_CTL		0x0000003a
++#define FEAT_CTL_LOCKED				BIT(0)
++#define FEAT_CTL_VMX_ENABLED_INSIDE_SMX		BIT(1)
++#define FEAT_CTL_VMX_ENABLED_OUTSIDE_SMX	BIT(2)
++#define FEAT_CTL_LMCE_ENABLED			BIT(20)
++
+ #define MSR_IA32_TSC_ADJUST             0x0000003b
+ #define MSR_IA32_BNDCFGS		0x00000d90
  
--	return false;
-+	return tmp & FEAT_CTL_LMCE_ENABLED;
+@@ -566,11 +573,6 @@
+ 
+ #define MSR_IA32_XSS			0x00000da0
+ 
+-#define FEATURE_CONTROL_LOCKED				(1<<0)
+-#define FEATURE_CONTROL_VMXON_ENABLED_INSIDE_SMX	(1<<1)
+-#define FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX	(1<<2)
+-#define FEATURE_CONTROL_LMCE				(1<<20)
+-
+ #define MSR_IA32_APICBASE		0x0000001b
+ #define MSR_IA32_APICBASE_BSP		(1<<8)
+ #define MSR_IA32_APICBASE_ENABLE	(1<<11)
+diff --git a/tools/power/x86/turbostat/turbostat.c b/tools/power/x86/turbostat/turbostat.c
+index 5d0fddda842c..31c1ca0bb3ee 100644
+--- a/tools/power/x86/turbostat/turbostat.c
++++ b/tools/power/x86/turbostat/turbostat.c
+@@ -4499,10 +4499,10 @@ void decode_feature_control_msr(void)
+ {
+ 	unsigned long long msr;
+ 
+-	if (!get_msr(base_cpu, MSR_IA32_FEATURE_CONTROL, &msr))
++	if (!get_msr(base_cpu, MSR_IA32_FEAT_CTL, &msr))
+ 		fprintf(outf, "cpu%d: MSR_IA32_FEATURE_CONTROL: 0x%08llx (%sLocked %s)\n",
+ 			base_cpu, msr,
+-			msr & FEATURE_CONTROL_LOCKED ? "" : "UN-",
++			msr & FEAT_CTL_LOCKED ? "" : "UN-",
+ 			msr & (1 << 18) ? "SGX" : "");
  }
  
- bool mce_intel_cmci_poll(void)
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/vmx.c b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+index f6ec97b7eaef..85064baf5e97 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/vmx.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+@@ -157,11 +157,11 @@ bool prepare_for_vmx_operation(struct vmx_pages *vmx)
+ 	 *  Bit 2: Enables VMXON outside of SMX operation. If clear, VMXON
+ 	 *    outside of SMX causes a #GP.
+ 	 */
+-	required = FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX;
+-	required |= FEATURE_CONTROL_LOCKED;
+-	feature_control = rdmsr(MSR_IA32_FEATURE_CONTROL);
++	required = FEAT_CTL_VMX_ENABLED_OUTSIDE_SMX;
++	required |= FEAT_CTL_LOCKED;
++	feature_control = rdmsr(MSR_IA32_FEAT_CTL);
+ 	if ((feature_control & required) != required)
+-		wrmsr(MSR_IA32_FEATURE_CONTROL, feature_control | required);
++		wrmsr(MSR_IA32_FEAT_CTL, feature_control | required);
+ 
+ 	/* Enter VMX root operation. */
+ 	*(uint32_t *)(vmx->vmxon) = vmcs_revision();
 -- 
 2.24.1
 
