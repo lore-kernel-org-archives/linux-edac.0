@@ -1,106 +1,90 @@
-Return-Path: <SRS0=0+z2=2K=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=iMRh=2L=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7FFC43603
-	for <linux-edac@archiver.kernel.org>; Fri, 20 Dec 2019 10:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA6D2C2D0D2
+	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 03:45:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F216124680
-	for <linux-edac@archiver.kernel.org>; Fri, 20 Dec 2019 10:01:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="bj1zdVv6"
+	by mail.kernel.org (Postfix) with ESMTP id C1932218AC
+	for <linux-edac@archiver.kernel.org>; Sat, 21 Dec 2019 03:45:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbfLTKBS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 20 Dec 2019 05:01:18 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:42598 "EHLO mail.skyhub.de"
+        id S1726705AbfLUDo6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 20 Dec 2019 22:44:58 -0500
+Received: from mga06.intel.com ([134.134.136.31]:51368 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727125AbfLTKBR (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 20 Dec 2019 05:01:17 -0500
-Received: from zn.tnic (p200300EC2F0ED600DC469E28B29B59E9.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:d600:dc46:9e28:b29b:59e9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8EBC71EC0BED;
-        Fri, 20 Dec 2019 11:01:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1576836072;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=J9ZbXx7RpnpGdgXShhHuSdTfqcI201yCQjR96TrdpMw=;
-        b=bj1zdVv6FHWicQElw4VdiT+haffgKB5M5KZUhRYbFllPOzdbC3KQwWc2dhBA2z5X81w4WL
-        oQNrPPokyvAS3Q3+5rqj2n3mjuXJSoPB5EAfdiWTj6bJVt6Av0V/n/FLD/XvbGmBNoTOdY
-        68tfxihXyAIhbtpx5d5KXMjsg/+MoiQ=
-Date:   Fri, 20 Dec 2019 11:01:06 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Jan =?utf-8?Q?H=2E_Sch=C3=B6nherr?= <jschoenh@amazon.de>
-Cc:     Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+        id S1726613AbfLUDo5 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 20 Dec 2019 22:44:57 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Dec 2019 19:44:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,338,1571727600"; 
+   d="scan'208";a="228789519"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.202])
+  by orsmga002.jf.intel.com with ESMTP; 20 Dec 2019 19:44:54 -0800
+Date:   Fri, 20 Dec 2019 19:44:54 -0800
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org
-Subject: Re: [PATCH 4/6] x86/mce: Fix handling of optional message string
-Message-ID: <20191220100106.GB1397@zn.tnic>
-References: <20191210000733.17979-1-jschoenh@amazon.de>
- <20191210000733.17979-5-jschoenh@amazon.de>
- <20191216173737.GF17380@zn.tnic>
- <47be6ccd-0387-47c0-6f01-1304ce26780f@amazon.de>
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+        Len Brown <lenb@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Subject: Re: [PATCH v4 00/19] x86/cpu: Clean up handling of VMX features
+Message-ID: <20191221034454.GB22351@linux.intel.com>
+References: <20191128014016.4389-1-sean.j.christopherson@intel.com>
+ <20191212140755.GF4991@zn.tnic>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <47be6ccd-0387-47c0-6f01-1304ce26780f@amazon.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191212140755.GF4991@zn.tnic>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 06:49:32PM +0100, Jan H. Schönherr wrote:
-> Not quite. mce_panic() already handles NULL as a value for "exp" (not "msg").
+On Thu, Dec 12, 2019 at 03:07:55PM +0100, Borislav Petkov wrote:
+> On Wed, Nov 27, 2019 at 05:39:57PM -0800, Sean Christopherson wrote:
+> > Clean up a handful of interrelated warts in the kernel's handling of VMX:
+> > 
+> >   - Enable VMX in IA32_FEATURE_CONTROL during boot instead of on-demand
+> >     during KVM load to avoid future contention over IA32_FEATURE_CONTROL.
+> > 
+> >   - Rework VMX feature reporting so that it is accurate and up-to-date,
+> >     now and in the future.
+> > 
+> >   - Consolidate code across CPUs that support VMX.
 > 
-> We still need to pass NULL or a proper pointer. Not some uninitialized, potentially
-> random data.
+> Ok, this is shaping up slowly to be upstream-ready, AFAICT.
 > 
-> So, at the very least we need to initialize "tmp" in mce_no_way_out(), if you're looking
-> for a minimal patch.
+> How are we merging the next revision, after the minor things have been
+> taken care of? Through tip?
+> 
+> Paolo?
 
-Yes, sure, this is what I'm thinking of.
-
-And yes, I'm not going to cry if we don't print the immensely helpful
-"Unknown" anymore.</sarcasm>
-
----
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 68dd4b358740..fd23f9f53379 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -798,7 +798,7 @@ EXPORT_SYMBOL_GPL(machine_check_poll);
- static int mce_no_way_out(struct mce *m, char **msg, unsigned long *validp,
- 			  struct pt_regs *regs)
- {
--	char *tmp;
-+	char *tmp = NULL;
- 	int i;
- 
- 	for (i = 0; i < this_cpu_read(mce_num_banks); i++) {
-@@ -1223,8 +1223,8 @@ void do_machine_check(struct pt_regs *regs, long error_code)
- 	DECLARE_BITMAP(toclear, MAX_NR_BANKS);
- 	struct mca_config *cfg = &mca_cfg;
- 	int cpu = smp_processor_id();
--	char *msg = "Unknown";
- 	struct mce m, *final;
-+	char *msg = NULL;
- 	int worst = 0;
- 
- 	/*
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Tip would be my preference, we'll need to rebase the SGX series on this
+and tip would probably be slightly more convenient for that. 
