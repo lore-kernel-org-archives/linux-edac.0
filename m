@@ -2,56 +2,55 @@ Return-Path: <SRS0=P19g=2T=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAD_ENC_HEADER,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E932C2D0D1
-	for <linux-edac@archiver.kernel.org>; Sun, 29 Dec 2019 17:50:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E7EC2D0CE
+	for <linux-edac@archiver.kernel.org>; Sun, 29 Dec 2019 17:58:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5004F222D9
-	for <linux-edac@archiver.kernel.org>; Sun, 29 Dec 2019 17:50:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 111DD2464B
+	for <linux-edac@archiver.kernel.org>; Sun, 29 Dec 2019 17:58:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1577641859;
-	bh=pDa/f9AcJMh7khYqN1ssSqjeFxVXOoWorA1MKXmZNW8=;
+	s=default; t=1577642335;
+	bh=+hfMZu4utFr+JkBt/yrr4yw7uYIzzkrDyjpekVgkpE8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=awdFRbQ9XzVZt0myOf97+1sKpKbb7nDaAJRDuWS4msNOlGypSpenS9KCMmstq/eDs
-	 ZxGfOvXmrcKO/U/nwszvsVe/xOm3F/NQbayYacflx2xSfeiGfbxSOi1fEsjf/WK9iu
-	 Y0PUVhd3YhBVlyyRFVLONmb5zrcCo1zk3viQsl7k=
+	b=gWlO4q5s5E4XPfl5+oPHAVU9yeU3Jo+lWLuPSYPzSSFft9rNHy0bGqxdMzfWEV/gK
+	 mowtT1N6SVpDL50NDiHgukJDnpuqrnvye5lmfaze1peYxsk9SvIsrUFId2lg6y1c59
+	 sOpbK5ipAwl0RWRC0BlPsci03PB2JL0ij9lbDa5Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731995AbfL2Ru6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 29 Dec 2019 12:50:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35786 "EHLO mail.kernel.org"
+        id S2387634AbfL2R6y (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 29 Dec 2019 12:58:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731972AbfL2Ru6 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 29 Dec 2019 12:50:58 -0500
+        id S1733207AbfL2R6x (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 29 Dec 2019 12:58:53 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D333C207FD;
-        Sun, 29 Dec 2019 17:50:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 65F3C24650;
+        Sun, 29 Dec 2019 17:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577641857;
-        bh=pDa/f9AcJMh7khYqN1ssSqjeFxVXOoWorA1MKXmZNW8=;
+        s=default; t=1577642332;
+        bh=+hfMZu4utFr+JkBt/yrr4yw7uYIzzkrDyjpekVgkpE8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LWsomwJ5Ew1zjEatVArLVzPUAKra/XyxPWlocSV1gRTUGOSDdaBAE0dkY2G9aqjtF
-         ZJxXcmob/fpo+jdrRhP3ukpPc3PLC4lIWWZ9tZkJLmZTva6Uj7nhY7LGFVAyGeP4xe
-         uK4366L58/3dOZvjgtt5YR1Ixtrtqc3uQrO3jWRA=
+        b=Q8MHASBiK2BZZ6ZFQH0hl7Ur0xFYQMoG/U0GbG0As7jIXOjpENML/dWdQYq8VxJwi
+         ayDbHoNOcOco1ONufFNHHbJxJflmY15W+LdzAUIVFa+ZxbAxFl7ZzymBFybusn5MmB
+         oqP79XZ1+Yr4v3TOjSHzxi+xd++q3kl2offkfDzc=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Yazen Ghannam <yazen.ghannam@amd.com>,
-        Borislav Petkov <bp@suse.de>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Richter <rrichter@marvell.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.4 187/434] EDAC/amd64: Set grain per DIMM
-Date:   Sun, 29 Dec 2019 18:24:00 +0100
-Message-Id: <20191229172714.243284613@linuxfoundation.org>
+        stable@vger.kernel.org,
+        "=?UTF-8?q?Jan=20H . =20Sch=C3=B6nherr?=" <jschoenh@amazon.de>,
+        Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        linux-edac <linux-edac@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>, x86-ml <x86@kernel.org>,
+        Yazen Ghannam <Yazen.Ghannam@amd.com>
+Subject: [PATCH 5.4 423/434] x86/mce: Fix possibly incorrect severity calculation on AMD
+Date:   Sun, 29 Dec 2019 18:27:56 +0100
+Message-Id: <20191229172731.249449127@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191229172702.393141737@linuxfoundation.org>
 References: <20191229172702.393141737@linuxfoundation.org>
@@ -64,57 +63,44 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+From: Jan H. Schönherr <jschoenh@amazon.de>
 
-[ Upstream commit 466503d6b1b33be46ab87c6090f0ade6c6011cbc ]
+commit a3a57ddad061acc90bef39635caf2b2330ce8f21 upstream.
 
-The following commit introduced a warning on error reports without a
-non-zero grain value.
+The function mce_severity_amd_smca() requires m->bank to be initialized
+for correct operation. Fix the one case, where mce_severity() is called
+without doing so.
 
-  3724ace582d9 ("EDAC/mc: Fix grain_bits calculation")
-
-The amd64_edac_mod module does not provide a value, so the warning will
-be given on the first reported memory error.
-
-Set the grain per DIMM to cacheline size (64 bytes). This is the current
-recommendation.
-
-Fixes: 3724ace582d9 ("EDAC/mc: Fix grain_bits calculation")
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Fixes: 6bda529ec42e ("x86/mce: Grade uncorrected errors for SMCA-enabled systems")
+Fixes: d28af26faa0b ("x86/MCE: Initialize mce.bank in the case of a fatal error in mce_no_way_out()")
+Signed-off-by: Jan H. Schönherr <jschoenh@amazon.de>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Cc: James Morse <james.morse@arm.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Robert Richter <rrichter@marvell.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20191022203448.13962-7-Yazen.Ghannam@amd.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: <stable@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86-ml <x86@kernel.org>
+Cc: Yazen Ghannam <Yazen.Ghannam@amd.com>
+Link: https://lkml.kernel.org/r/20191210000733.17979-4-jschoenh@amazon.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
 ---
- drivers/edac/amd64_edac.c | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/x86/kernel/cpu/mce/core.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index c1d4536ae466..cc5e56d752c8 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -2936,6 +2936,7 @@ static int init_csrows_df(struct mem_ctl_info *mci)
- 			dimm->mtype = pvt->dram_type;
- 			dimm->edac_mode = edac_mode;
- 			dimm->dtype = dev_type;
-+			dimm->grain = 64;
- 		}
- 	}
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -814,8 +814,8 @@ static int mce_no_way_out(struct mce *m,
+ 		if (quirk_no_way_out)
+ 			quirk_no_way_out(i, m, regs);
  
-@@ -3012,6 +3013,7 @@ static int init_csrows(struct mem_ctl_info *mci)
- 			dimm = csrow->channels[j]->dimm;
- 			dimm->mtype = pvt->dram_type;
- 			dimm->edac_mode = edac_mode;
-+			dimm->grain = 64;
- 		}
- 	}
- 
--- 
-2.20.1
-
++		m->bank = i;
+ 		if (mce_severity(m, mca_cfg.tolerant, &tmp, true) >= MCE_PANIC_SEVERITY) {
+-			m->bank = i;
+ 			mce_read_aux(m, i);
+ 			*msg = tmp;
+ 			return 1;
 
 
