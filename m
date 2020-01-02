@@ -2,79 +2,156 @@ Return-Path: <SRS0=NzRl=2X=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1469C2D0C2
-	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 18:01:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3A1C3276F
+	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 22:42:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 77A5121582
-	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 18:01:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="PQAb8bkB"
+	by mail.kernel.org (Postfix) with ESMTP id C3386217F4
+	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 22:42:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1578004945;
+	bh=Cx/xZ2CdBultJ1QQYrebdLtgIDl5PklKrm8PpPvqR0s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=aOB0xGdKB2zr4iqN0D1x00RMUHJdZb5zqJOYvTxLrgoVau98kBumJcrfuiYtWrKCh
+	 Li0wgDgQoDJqQ9CcDYR2o+5A+zxtor71qbzWtIFBNlHwBDhPPhsITlmPZ2skAFjHZP
+	 F/Hp79xFlAnX5B0303jtM0piBIeFf+2tgDAe5rEM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727905AbgABSBn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 2 Jan 2020 13:01:43 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:54980 "EHLO mail.skyhub.de"
+        id S1731302AbgABWmV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 2 Jan 2020 17:42:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46558 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727890AbgABSBn (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 2 Jan 2020 13:01:43 -0500
-Received: from zn.tnic (p200300EC2F00E700329C23FFFEA6A903.dip0.t-ipconnect.de [IPv6:2003:ec:2f00:e700:329c:23ff:fea6:a903])
+        id S1730472AbgABWgF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 2 Jan 2020 17:36:05 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7A2E51EC0419;
-        Thu,  2 Jan 2020 19:01:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1577988097;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=tT0jvwjEfaD2BIfE3OdrlYZgbSWvbo0cYYcu6rKbP80=;
-        b=PQAb8bkB51WAgC5xGXXhFRDSY09onyZvEJoWoMXreMVZWQWnzog+GHEVELPv7STBa53feX
-        MK6obYcvNOZIc5L1kHTN9iKY6PAf+I37Xc4/aMJ135WO9SQOwrstgKhttGgydPvPidAaDy
-        z7rYqs+AuvvPDKmA53Ia+Y26j/90+uI=
-Date:   Thu, 2 Jan 2020 19:01:30 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Bhaskar Upadhaya <bupadhaya@marvell.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-edac@vger.kernel.org, lenb@kernel.org, rafael@kernel.org,
-        gkulkarni@marvell.com, rrichter@marvell.com,
-        bhaskar.upadhaya.linux@gmail.com
-Subject: Re: [RFC PATCH] apei/ghes: fix ghes_poll_func by registering in
- non-deferrable mode
-Message-ID: <20200102180130.GG8345@zn.tnic>
-References: <1576652618-27017-1-git-send-email-bupadhaya@marvell.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id DA7E121835;
+        Thu,  2 Jan 2020 22:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578004564;
+        bh=Cx/xZ2CdBultJ1QQYrebdLtgIDl5PklKrm8PpPvqR0s=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=s+N0ym+xhbEvBu3sz9EYWSDe4RK/CiSSrnVIKWphbjCEfItnglWaGyfO1NoWl1Z/j
+         Yyhhuq79PZDhznsU2gJEiXOh2Axp4wSAygRW2H79OrTZkJDS3Elmxxna69FR4CKmG5
+         EwZyE9b+6QyWnOJe8bSQmYJJmo+dvKBIlE8i5lfI=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Borislav Petkov <bp@suse.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.4 052/137] EDAC/ghes: Fix grain calculation
+Date:   Thu,  2 Jan 2020 23:07:05 +0100
+Message-Id: <20200102220553.544836208@linuxfoundation.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200102220546.618583146@linuxfoundation.org>
+References: <20200102220546.618583146@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1576652618-27017-1-git-send-email-bupadhaya@marvell.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 11:03:38PM -0800, Bhaskar Upadhaya wrote:
-> Currently Linux register ghes_poll_func with TIMER_DEFERRABLE flag,
-> because of which it is serviced when the CPU eventually wakes up with a
-> subsequent non-deferrable timer and not at the configured polling interval.
-> 
-> For polling mode, the polling interval configured by firmware should not
-> be exceeded as per ACPI_6_3 spec[refer Table 18-394],
+From: Robert Richter <rrichter@marvell.com>
 
-I see
+[ Upstream commit 7088e29e0423d3195e09079b4f849ec4837e5a75 ]
 
-"Table 18-394 Hardware Error Notification Structure"
+The current code to convert a physical address mask to a grain
+(defined as granularity in bytes) is:
 
-where does it say that the interval should not be exceeded and what is
-going to happen if it gets exceeded?
+	e->grain = ~(mem_err->physical_addr_mask & ~PAGE_MASK);
 
-IOW, are you fixing something you're observing on some platform or
-you're reading the spec only?
+This is broken in several ways:
 
+1) It calculates to wrong grain values. E.g., a physical address mask
+of ~0xfff should give a grain of 0x1000. Without considering
+PAGE_MASK, there is an off-by-one. Things are worse when also
+filtering it with ~PAGE_MASK. This will calculate to a grain with the
+upper bits set. In the example it even calculates to ~0.
+
+2) The grain does not depend on and is unrelated to the kernel's
+page-size. The page-size only matters when unmapping memory in
+memory_failure(). Smaller grains are wrongly rounded up to the
+page-size, on architectures with a configurable page-size (e.g. arm64)
+this could round up to the even bigger page-size of the hypervisor.
+
+Fix this with:
+
+	e->grain = ~mem_err->physical_addr_mask + 1;
+
+The grain_bits are defined as:
+
+	grain = 1 << grain_bits;
+
+Change also the grain_bits calculation accordingly, it is the same
+formula as in edac_mc.c now and the code can be unified.
+
+The value in ->physical_addr_mask coming from firmware is assumed to
+be contiguous, but this is not sanity-checked. However, in case the
+mask is non-contiguous, a conversion to grain_bits effectively
+converts the grain bit mask to a power of 2 by rounding it up.
+
+Suggested-by: James Morse <james.morse@arm.com>
+Signed-off-by: Robert Richter <rrichter@marvell.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Link: https://lkml.kernel.org/r/20191106093239.25517-11-rrichter@marvell.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/edac/ghes_edac.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+index e3fa4390f846..4ddbf6604e2a 100644
+--- a/drivers/edac/ghes_edac.c
++++ b/drivers/edac/ghes_edac.c
+@@ -189,6 +189,7 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
+ 	/* Cleans the error report buffer */
+ 	memset(e, 0, sizeof (*e));
+ 	e->error_count = 1;
++	e->grain = 1;
+ 	strcpy(e->label, "unknown label");
+ 	e->msg = pvt->msg;
+ 	e->other_detail = pvt->other_detail;
+@@ -284,7 +285,7 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
+ 
+ 	/* Error grain */
+ 	if (mem_err->validation_bits & CPER_MEM_VALID_PA_MASK)
+-		e->grain = ~(mem_err->physical_addr_mask & ~PAGE_MASK);
++		e->grain = ~mem_err->physical_addr_mask + 1;
+ 
+ 	/* Memory error location, mapped on e->location */
+ 	p = e->location;
+@@ -391,8 +392,13 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
+ 	if (p > pvt->other_detail)
+ 		*(p - 1) = '\0';
+ 
++	/* Sanity-check driver-supplied grain value. */
++	if (WARN_ON_ONCE(!e->grain))
++		e->grain = 1;
++
++	grain_bits = fls_long(e->grain - 1);
++
+ 	/* Generate the trace event */
+-	grain_bits = fls_long(e->grain);
+ 	snprintf(pvt->detail_location, sizeof(pvt->detail_location),
+ 		 "APEI location: %s %s", e->location, e->other_detail);
+ 	trace_mc_event(type, e->msg, e->label, e->error_count,
 -- 
-Regards/Gruss,
-    Boris.
+2.20.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
+
