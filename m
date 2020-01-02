@@ -7,50 +7,54 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 356ABC3276E
-	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 22:47:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF14C3276E
+	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 22:48:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0811420866
-	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 22:47:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FEAC20848
+	for <linux-edac@archiver.kernel.org>; Thu,  2 Jan 2020 22:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578005256;
-	bh=Cx/xZ2CdBultJ1QQYrebdLtgIDl5PklKrm8PpPvqR0s=;
+	s=default; t=1578005304;
+	bh=ce8sunsG4amcUwA6+ItXrcDL/VQudn8Nnp9EgFOR4FM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=D1EgGc9/jQhimaGIL5JTQI5W0rXEdMJmrO/iImcvNA9EyHJ29zVQ1R6vXeV//oYko
-	 HF1pzfhiBkP5Cl6qWlLB9HpDFO+IFHv3PlV3CDzam8yyflUEYy/jdoPBg9cwKCN0W0
-	 AHR0dmjB+I529JSsn82TUc9TW1hR34CCJ+5FDzTQ=
+	b=Xidog+e9k8eF4ZqoDKzRYY9BuSQNMGrYq3kV22sxtOyL8JO9VnH8HXSda+J7fHoRp
+	 l5+UOE/f0/QISZ4HifaHXk4yhp/OSESvlYpcEU7lzQrE9t/JUkhB8K3agdyLYWh0Ap
+	 GZvyo7uqziNQQZvD4eqPX89UhiP6M2gGiK+DARnI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729373AbgABW33 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 2 Jan 2020 17:29:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60504 "EHLO mail.kernel.org"
+        id S1729940AbgABW2Y (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 2 Jan 2020 17:28:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58084 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730048AbgABW31 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 2 Jan 2020 17:29:27 -0500
+        id S1729732AbgABW2X (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 2 Jan 2020 17:28:23 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ADD0F20866;
-        Thu,  2 Jan 2020 22:29:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BEEFB2253D;
+        Thu,  2 Jan 2020 22:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578004167;
-        bh=Cx/xZ2CdBultJ1QQYrebdLtgIDl5PklKrm8PpPvqR0s=;
+        s=default; t=1578004103;
+        bh=ce8sunsG4amcUwA6+ItXrcDL/VQudn8Nnp9EgFOR4FM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P3H8pw/JyDAJ/SKVbJOCQMj6y74xb8dwAOza2SY/4VbsCZplymYMvFZ1c8kCd0Uhf
-         a5MytjlElslrx6/InlWL7mbIzNxoZJSUczhoWSkeEUiLVDlR+ANofNv0NYlFAkF0IH
-         3gJ9WPkh+P/qn0AVY6YQXMer01ISAPNVPrIVzFFw=
+        b=TPrcExjbWAQmr+XkEjGZJ2pM3/qB01FZORpirM0ESvmycXCbnqA3xMcXzKgb8NQ/6
+         +8uh04VxYnmaVw9tgDe5C78TZ8J+6hbBECw+yCjEk+Gk1mwZ+Q41B49Le8b9R1k3a+
+         iVf/XAMzWQC5VLlrCmpSfdn6eUA6OdkM66/xoFck=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
+        stable@vger.kernel.org, Benjamin Berg <bberg@redhat.com>,
         Borislav Petkov <bp@suse.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        linux-edac <linux-edac@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Luck <tony.luck@intel.com>, x86-ml <x86@kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.9 065/171] EDAC/ghes: Fix grain calculation
-Date:   Thu,  2 Jan 2020 23:06:36 +0100
-Message-Id: <20200102220555.906743841@linuxfoundation.org>
+Subject: [PATCH 4.9 038/171] x86/mce: Lower throttling MCE messages priority to warning
+Date:   Thu,  2 Jan 2020 23:06:09 +0100
+Message-Id: <20200102220552.307572770@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200102220546.960200039@linuxfoundation.org>
 References: <20200102220546.960200039@linuxfoundation.org>
@@ -63,93 +67,65 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Robert Richter <rrichter@marvell.com>
+From: Benjamin Berg <bberg@redhat.com>
 
-[ Upstream commit 7088e29e0423d3195e09079b4f849ec4837e5a75 ]
+[ Upstream commit 9c3bafaa1fd88e4dd2dba3735a1f1abb0f2c7bb7 ]
 
-The current code to convert a physical address mask to a grain
-(defined as granularity in bytes) is:
+On modern CPUs it is quite normal that the temperature limits are
+reached and the CPU is throttled. In fact, often the thermal design is
+not sufficient to cool the CPU at full load and limits can quickly be
+reached when a burst in load happens. This will even happen with
+technologies like RAPL limitting the long term power consumption of
+the package.
 
-	e->grain = ~(mem_err->physical_addr_mask & ~PAGE_MASK);
+Also, these limits are "softer", as Srinivas explains:
 
-This is broken in several ways:
+"CPU temperature doesn't have to hit max(TjMax) to get these warnings.
+OEMs ha[ve] an ability to program a threshold where a thermal interrupt
+can be generated. In some systems the offset is 20C+ (Read only value).
 
-1) It calculates to wrong grain values. E.g., a physical address mask
-of ~0xfff should give a grain of 0x1000. Without considering
-PAGE_MASK, there is an off-by-one. Things are worse when also
-filtering it with ~PAGE_MASK. This will calculate to a grain with the
-upper bits set. In the example it even calculates to ~0.
+In recent systems, there is another offset on top of it which can be
+programmed by OS, once some agent can adjust power limits dynamically.
+By default this is set to low by the firmware, which I guess the
+prime motivation of Benjamin to submit the patch."
 
-2) The grain does not depend on and is unrelated to the kernel's
-page-size. The page-size only matters when unmapping memory in
-memory_failure(). Smaller grains are wrongly rounded up to the
-page-size, on architectures with a configurable page-size (e.g. arm64)
-this could round up to the even bigger page-size of the hypervisor.
+So these messages do not usually indicate a hardware issue (e.g.
+insufficient cooling). Log them as warnings to avoid confusion about
+their severity.
 
-Fix this with:
+ [ bp: Massage commit mesage. ]
 
-	e->grain = ~mem_err->physical_addr_mask + 1;
-
-The grain_bits are defined as:
-
-	grain = 1 << grain_bits;
-
-Change also the grain_bits calculation accordingly, it is the same
-formula as in edac_mc.c now and the code can be unified.
-
-The value in ->physical_addr_mask coming from firmware is assumed to
-be contiguous, but this is not sanity-checked. However, in case the
-mask is non-contiguous, a conversion to grain_bits effectively
-converts the grain bit mask to a power of 2 by rounding it up.
-
-Suggested-by: James Morse <james.morse@arm.com>
-Signed-off-by: Robert Richter <rrichter@marvell.com>
+Signed-off-by: Benjamin Berg <bberg@redhat.com>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested-by: Christian Kellner <ckellner@redhat.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20191106093239.25517-11-rrichter@marvell.com
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/20191009155424.249277-1-bberg@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/ghes_edac.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ arch/x86/kernel/cpu/mcheck/therm_throt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index e3fa4390f846..4ddbf6604e2a 100644
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -189,6 +189,7 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
- 	/* Cleans the error report buffer */
- 	memset(e, 0, sizeof (*e));
- 	e->error_count = 1;
-+	e->grain = 1;
- 	strcpy(e->label, "unknown label");
- 	e->msg = pvt->msg;
- 	e->other_detail = pvt->other_detail;
-@@ -284,7 +285,7 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
- 
- 	/* Error grain */
- 	if (mem_err->validation_bits & CPER_MEM_VALID_PA_MASK)
--		e->grain = ~(mem_err->physical_addr_mask & ~PAGE_MASK);
-+		e->grain = ~mem_err->physical_addr_mask + 1;
- 
- 	/* Memory error location, mapped on e->location */
- 	p = e->location;
-@@ -391,8 +392,13 @@ void ghes_edac_report_mem_error(struct ghes *ghes, int sev,
- 	if (p > pvt->other_detail)
- 		*(p - 1) = '\0';
- 
-+	/* Sanity-check driver-supplied grain value. */
-+	if (WARN_ON_ONCE(!e->grain))
-+		e->grain = 1;
-+
-+	grain_bits = fls_long(e->grain - 1);
-+
- 	/* Generate the trace event */
--	grain_bits = fls_long(e->grain);
- 	snprintf(pvt->detail_location, sizeof(pvt->detail_location),
- 		 "APEI location: %s %s", e->location, e->other_detail);
- 	trace_mc_event(type, e->msg, e->label, e->error_count,
+diff --git a/arch/x86/kernel/cpu/mcheck/therm_throt.c b/arch/x86/kernel/cpu/mcheck/therm_throt.c
+index c460c91d0c8f..be2439592b0e 100644
+--- a/arch/x86/kernel/cpu/mcheck/therm_throt.c
++++ b/arch/x86/kernel/cpu/mcheck/therm_throt.c
+@@ -190,7 +190,7 @@ static int therm_throt_process(bool new_event, int event, int level)
+ 	/* if we just entered the thermal event */
+ 	if (new_event) {
+ 		if (event == THERMAL_THROTTLING_EVENT)
+-			pr_crit("CPU%d: %s temperature above threshold, cpu clock throttled (total events = %lu)\n",
++			pr_warn("CPU%d: %s temperature above threshold, cpu clock throttled (total events = %lu)\n",
+ 				this_cpu,
+ 				level == CORE_LEVEL ? "Core" : "Package",
+ 				state->count);
 -- 
 2.20.1
 
