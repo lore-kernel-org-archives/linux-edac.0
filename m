@@ -5,48 +5,48 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 134F8C2D0C2
-	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:07:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2F1CC32767
+	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:07:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D4D0A222C3
-	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:07:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A50A722314
+	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:07:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="g/bqTZWT"
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="Fk6TLzpd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727746AbgACPHn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 3 Jan 2020 10:07:43 -0500
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:20597 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727701AbgACPHn (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 3 Jan 2020 10:07:43 -0500
+        id S1727769AbgACPHp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 3 Jan 2020 10:07:45 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:2000 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727701AbgACPHp (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 3 Jan 2020 10:07:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1578064063; x=1609600063;
+  t=1578064064; x=1609600064;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TInWHT1nyTPvbMS5z8zVcpKZsV2aYQwc/ahyoW7Tc+8=;
-  b=g/bqTZWTnyFqcxFNxZ/WAaymmgnD+GtXtuhDOcXq6Dh99n3TsZuWOI2R
-   aUy5d5PS0liRSfkC0nnwCOlHN3BpjjxUZHWGnPQ0HPa5cFXuANvJFxuYn
-   25EC9Qu0XQI7+WIN8HmIEoLeFFiLA3fNAjvNJKVzd5y+jy1Wy+7hMx1RT
-   c=;
-IronPort-SDR: falGAzFI29AzgGAlTF6HJ8cdlr8CGF9r3fVDeGzcWyZcigigBzOOwnCcgoqK0nG/hMVSKii53Z
- +XFDLuKDNR7w==
-X-IronPort-AV: E=Sophos;i="5.69,391,1571702400"; 
-   d="scan'208";a="9979313"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 03 Jan 2020 15:07:40 +0000
-Received: from u7588a65da6b65f.ant.amazon.com (pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
-        by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS id 79E2EA1D03;
-        Fri,  3 Jan 2020 15:07:39 +0000 (UTC)
+  bh=iHsaaNSb6QuBd5deQsg49o2tayu5boXDGXFCOP8fQzk=;
+  b=Fk6TLzpdu7D3QWekW6/8JbQ6qiy+I3Y6wm0Z5KU9X3bJN7+e5Bvmpzd4
+   gvv5igoUd90w7nxGRwyacv26BSllz8JX2AjHwqJ0DEc/y9g7tVWmbyD5Z
+   LFpdKN/GMUSxnKnQS/kzBNSEOxovQBzH29rqGT2mqzaVKb6gHcC3hF5qe
+   A=;
+IronPort-SDR: dzSxum0Eg4ym7IdAnqI5ApmAWoDS4hbW1dA4MiC2R/lbhYUFwc/P4ZlINqPgjvjg++vg67PfRM
+ Hl3Us7UKpoPg==
+X-IronPort-AV: E=Sophos;i="5.69,390,1571702400"; 
+   d="scan'208";a="10829622"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-27fb8269.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 03 Jan 2020 15:07:44 +0000
+Received: from u7588a65da6b65f.ant.amazon.com (iad7-ws-svc-lb50-vlan3.amazon.com [10.0.93.214])
+        by email-inbound-relay-1e-27fb8269.us-east-1.amazon.com (Postfix) with ESMTPS id A32F0A1C46;
+        Fri,  3 Jan 2020 15:07:40 +0000 (UTC)
 Received: from u7588a65da6b65f.ant.amazon.com (localhost [127.0.0.1])
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id 003F7bZo020445
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id 003F7coI020473
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 3 Jan 2020 16:07:37 +0100
+        Fri, 3 Jan 2020 16:07:38 +0100
 Received: (from jschoenh@localhost)
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id 003F7bT0020444;
-        Fri, 3 Jan 2020 16:07:37 +0100
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id 003F7cqx020472;
+        Fri, 3 Jan 2020 16:07:38 +0100
 From:   =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>,
@@ -56,9 +56,9 @@ Cc:     =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org
-Subject: [PATCH v2 1/6] x86/mce: Take action on UCNA/Deferred errors again
-Date:   Fri,  3 Jan 2020 16:07:17 +0100
-Message-Id: <20200103150722.20313-2-jschoenh@amazon.de>
+Subject: [PATCH v2 4/6] x86/mce: Allow a variable number of internal MCE decode notifiers
+Date:   Fri,  3 Jan 2020 16:07:20 +0100
+Message-Id: <20200103150722.20313-5-jschoenh@amazon.de>
 X-Mailer: git-send-email 2.22.0.3.gb49bb57c8208.dirty
 In-Reply-To: <20200103150722.20313-1-jschoenh@amazon.de>
 References: <20200103150722.20313-1-jschoenh@amazon.de>
@@ -70,123 +70,74 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Commit fa92c5869426 ("x86, mce: Support memory error recovery for both
-UCNA and Deferred error in machine_check_poll") added handling of UCNA
-and Deferred errors by adding them to the ring for SRAO errors.
+Get rid of the compile time constant of internal (or mandatory)
+MCE decode notifiers in preparation for future changes. Instead,
+distinguish explicitly between internal and external MCE decode
+notifiers.
 
-Later, commit fd4cf79fcc4b ("x86/mce: Remove the MCE ring for Action
-Optional errors") switched storage from the SRAO ring to the unified
-pool that is still in use today. In order to only act on the intended
-errors, a filter for MCE_AO_SEVERITY is used -- effectively removing
-handling of UCNA/Deferred errors again.
-
-Extend the severity filter to include UCNA/Deferred errors again.
-Also, generalize the naming of the notifier from SRAO to UC to capture
-the extended scope.
-
-Note, that this change may cause a message like the following to appear,
-as the same address may be reported as SRAO and as UCNA:
-
- Memory failure: 0x5fe3284: already hardware poisoned
-
-Technically, this is a return to previous behavior.
-
-Fixes: fd4cf79fcc4b ("x86/mce: Remove the MCE ring for Action Optional errors")
 Signed-off-by: Jan H. Schönherr <jschoenh@amazon.de>
 ---
-Changes v1->v2:
-- rename notifier from SRAO to UC (as requested by Tony)
-- extend commit message (per remark from Tony)
-- don't mention Linux versions (per remark from Boris)
-
-There was some discussion on v1, whether the SRAO/UC notifier does
-the right thing or not. While it seems to be correct as is for Intel
-(per Tony), there were some concerns for AMD (per Yazen). Hence, there
-is a new patch 5 in this series, which disables the notifier on AMD.
+New in v2, preparation for patches 5 and 6.
 ---
- arch/x86/include/asm/mce.h     |  2 +-
- arch/x86/kernel/cpu/mce/core.c | 31 ++++++++++++++++---------------
- 2 files changed, 17 insertions(+), 16 deletions(-)
+ arch/x86/kernel/cpu/mce/core.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
-index dc2d4b206ab7..c8ff6f6750ef 100644
---- a/arch/x86/include/asm/mce.h
-+++ b/arch/x86/include/asm/mce.h
-@@ -144,7 +144,7 @@ struct mce_log_buffer {
- 
- enum mce_notifier_prios {
- 	MCE_PRIO_FIRST		= INT_MAX,
--	MCE_PRIO_SRAO		= INT_MAX - 1,
-+	MCE_PRIO_UC		= INT_MAX - 1,
- 	MCE_PRIO_EXTLOG		= INT_MAX - 2,
- 	MCE_PRIO_NFIT		= INT_MAX - 3,
- 	MCE_PRIO_EDAC		= INT_MAX - 4,
 diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 8994fe7751a4..16134ce587fd 100644
+index 1d91ce956772..d48deb127071 100644
 --- a/arch/x86/kernel/cpu/mce/core.c
 +++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -156,10 +156,8 @@ void mce_log(struct mce *m)
- }
+@@ -157,21 +157,24 @@ void mce_log(struct mce *m)
  EXPORT_SYMBOL_GPL(mce_log);
  
--static struct notifier_block mce_srao_nb;
--
  /*
-- * We run the default notifier if we have only the SRAO, the first and the
-+ * We run the default notifier if we have only the UC, the first and the
-  * default notifier registered. I.e., the mandatory NUM_DEFAULT_NOTIFIERS
+- * We run the default notifier if we have only the UC, the first and the
+- * default notifier registered. I.e., the mandatory NUM_DEFAULT_NOTIFIERS
++ * We run the default notifier as long as we have no external
   * notifiers registered on the chain.
   */
-@@ -580,26 +578,29 @@ static struct notifier_block first_nb = {
- 	.priority	= MCE_PRIO_FIRST,
- };
+-#define NUM_DEFAULT_NOTIFIERS	3
+ static atomic_t num_notifiers;
  
--static int srao_decode_notifier(struct notifier_block *nb, unsigned long val,
--				void *data)
-+static int uc_decode_notifier(struct notifier_block *nb, unsigned long val,
-+			      void *data)
+-void mce_register_decode_chain(struct notifier_block *nb)
++static void mce_register_decode_chain_internal(struct notifier_block *nb)
  {
- 	struct mce *mce = (struct mce *)data;
- 	unsigned long pfn;
+ 	if (WARN_ON(nb->priority > MCE_PRIO_MCELOG && nb->priority < MCE_PRIO_EDAC))
+ 		return;
  
--	if (!mce)
-+	if (!mce || !mce_usable_address(mce))
++	blocking_notifier_chain_register(&x86_mce_decoder_chain, nb);
++}
++
++void mce_register_decode_chain(struct notifier_block *nb)
++{
+ 	atomic_inc(&num_notifiers);
+ 
+-	blocking_notifier_chain_register(&x86_mce_decoder_chain, nb);
++	mce_register_decode_chain_internal(nb);
+ }
+ EXPORT_SYMBOL_GPL(mce_register_decode_chain);
+ 
+@@ -611,7 +614,7 @@ static int mce_default_notifier(struct notifier_block *nb, unsigned long val,
+ 	if (!m)
  		return NOTIFY_DONE;
  
--	if (mce_usable_address(mce) && (mce->severity == MCE_AO_SEVERITY)) {
--		pfn = mce->addr >> PAGE_SHIFT;
--		if (!memory_failure(pfn, 0))
--			set_mce_nospec(pfn);
--	}
-+	if (mce->severity != MCE_AO_SEVERITY &&
-+	    mce->severity != MCE_DEFERRED_SEVERITY)
-+		return NOTIFY_DONE;
-+
-+	pfn = mce->addr >> PAGE_SHIFT;
-+	if (!memory_failure(pfn, 0))
-+		set_mce_nospec(pfn);
+-	if (atomic_read(&num_notifiers) > NUM_DEFAULT_NOTIFIERS)
++	if (atomic_read(&num_notifiers))
+ 		return NOTIFY_DONE;
  
- 	return NOTIFY_OK;
- }
--static struct notifier_block mce_srao_nb = {
--	.notifier_call	= srao_decode_notifier,
--	.priority	= MCE_PRIO_SRAO,
-+
-+static struct notifier_block mce_uc_nb = {
-+	.notifier_call	= uc_decode_notifier,
-+	.priority	= MCE_PRIO_UC,
- };
- 
- static int mce_default_notifier(struct notifier_block *nb, unsigned long val,
-@@ -1970,7 +1971,7 @@ int __init mcheck_init(void)
+ 	__print_mce(m);
+@@ -1966,9 +1969,9 @@ __setup("mce", mcheck_enable);
+ int __init mcheck_init(void)
  {
  	mcheck_intel_therm_init();
- 	mce_register_decode_chain(&first_nb);
--	mce_register_decode_chain(&mce_srao_nb);
-+	mce_register_decode_chain(&mce_uc_nb);
- 	mce_register_decode_chain(&mce_default_nb);
+-	mce_register_decode_chain(&first_nb);
+-	mce_register_decode_chain(&mce_uc_nb);
+-	mce_register_decode_chain(&mce_default_nb);
++	mce_register_decode_chain_internal(&first_nb);
++	mce_register_decode_chain_internal(&mce_uc_nb);
++	mce_register_decode_chain_internal(&mce_default_nb);
  	mcheck_vendor_init_severity();
  
+ 	INIT_WORK(&mce_work, mce_gen_pool_process);
 -- 
 2.22.0.3.gb49bb57c8208.dirty
 
