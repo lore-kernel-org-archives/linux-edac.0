@@ -2,51 +2,51 @@ Return-Path: <SRS0=TvO3=2Y=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E11C32767
-	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:08:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB61C2D0C2
+	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:08:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A8CD422314
-	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:08:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C431A2464B
+	for <linux-edac@archiver.kernel.org>; Fri,  3 Jan 2020 15:08:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="FTTDI0rC"
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="DQ3+qIP1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbgACPIE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S1727980AbgACPIE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Fri, 3 Jan 2020 10:08:04 -0500
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:64874 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727762AbgACPID (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 3 Jan 2020 10:08:03 -0500
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:28273 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727701AbgACPIE (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 3 Jan 2020 10:08:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1578064083; x=1609600083;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iScVvzy4kldAidXvB46y5RqTW5IdFH/pNIveRmCeq3Q=;
-  b=FTTDI0rCgGp+OrKxBHgUzBwNeOgX2d3me+ujoJNbodbZSgAtuqZe+s58
-   hPJiThkNWXGG14Zb1Pk2J0o+bSGaNKO5Hg/cj53RwnYG5qj73aNPEBrRM
-   UJACxdhnME44e0sE/suXQAeiMW4Ib7CKa7xx4IgTTw2cFtI2BmHK6riqW
-   c=;
-IronPort-SDR: F9CLz6y3IrEhyxpRN784UtvWMqWOfXnbUcR98YjCf+RgGtuAUdx/g2PjEgAKVmUDqflDaEAe56
- qDocL2B+R9DQ==
+  t=1578064084; x=1609600084;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=4sqTgTN+u6x0cMWwPxL9+fdn8jhOiyRZfXoDVoHTe7Q=;
+  b=DQ3+qIP1M75gapuwNM3ThdLG0tng8bAt7LT1AhnFBlmyVo9XJsqeRMh+
+   pJaQ1P0hp87PVaW+F/GJPs8cpgjdtnMIa+3zPtRJeJjpr2daYungaqy90
+   WZZ+xY2HeJ3qrkgCWxfNcMkgCCBcX+QJ+q0ZC0NGSliMpMlNYi/UI1FBo
+   U=;
+IronPort-SDR: vKEXyCsVAAGBvB15UoH4WLyjHsp29/C13vcFVXRdggYw9zMoCecdzC/wyAVP6B2n+SHy8eF6v4
+ gzHRlF1vWvkA==
 X-IronPort-AV: E=Sophos;i="5.69,390,1571702400"; 
-   d="scan'208";a="11421828"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1e-27fb8269.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 03 Jan 2020 15:07:44 +0000
-Received: from u7588a65da6b65f.ant.amazon.com (iad7-ws-svc-lb50-vlan3.amazon.com [10.0.93.214])
-        by email-inbound-relay-1e-27fb8269.us-east-1.amazon.com (Postfix) with ESMTPS id 41B93A05E2;
+   d="scan'208";a="16652117"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 03 Jan 2020 15:07:41 +0000
+Received: from u7588a65da6b65f.ant.amazon.com (pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
+        by email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com (Postfix) with ESMTPS id E0760A18E5;
         Fri,  3 Jan 2020 15:07:39 +0000 (UTC)
 Received: from u7588a65da6b65f.ant.amazon.com (localhost [127.0.0.1])
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id 003F7b23020436
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS id 003F7cMf020481
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 3 Jan 2020 16:07:37 +0100
+        Fri, 3 Jan 2020 16:07:38 +0100
 Received: (from jschoenh@localhost)
-        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id 003F7ah5020431;
-        Fri, 3 Jan 2020 16:07:36 +0100
+        by u7588a65da6b65f.ant.amazon.com (8.15.2/8.15.2/Submit) id 003F7ckP020480;
+        Fri, 3 Jan 2020 16:07:38 +0100
 From:   =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>,
@@ -56,10 +56,12 @@ Cc:     =?UTF-8?q?Jan=20H=2E=20Sch=C3=B6nherr?= <jschoenh@amazon.de>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org
-Subject: [PATCH v2 0/6] x86/mce: Various fixes and cleanups for MCE handling
-Date:   Fri,  3 Jan 2020 16:07:16 +0100
-Message-Id: <20200103150722.20313-1-jschoenh@amazon.de>
+Subject: [PATCH v2 5/6] x86/mce: Do not take action on SRAO/Deferred errors on AMD for now
+Date:   Fri,  3 Jan 2020 16:07:21 +0100
+Message-Id: <20200103150722.20313-6-jschoenh@amazon.de>
 X-Mailer: git-send-email 2.22.0.3.gb49bb57c8208.dirty
+In-Reply-To: <20200103150722.20313-1-jschoenh@amazon.de>
+References: <20200103150722.20313-1-jschoenh@amazon.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -68,45 +70,36 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Boris.
+Per Yazen Ghannam we should not use the UC notifier for the time
+being on AMD.
 
-This is the 2nd iteration of a smallish series with some fixes/cleanups
-for the handling of MCEs. It should apply cleanly to your ras/core branch.
+Reported-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Jan H. Schönherr <jschoenh@amazon.de>
+---
+New in v2. This is due to a remark from Yazen on v1, that we shouldn't
+be handling neither SRAO nor Deferred errors in that handler.
 
-The first iteration can be found here:
-  https://lore.kernel.org/linux-edac/20191217073414.GB28788@zn.tnic/T/
+An alternative implementation would do the architecture "if" directly
+within uc_decode_notifier(), in which case we could decide to not apply
+patch 4.
+---
+ arch/x86/kernel/cpu/mce/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changes v1 -> v2:
-- dropped patches 3, 5, 6  as you already cherry-picked them into
-  ras/core or ras/urgent (this renumbers patch 4 in v1 to patch 3 in v2);
-- addressed remaining comments on patches 1-3;
-- added patch 5 as per Yazen's comment that the SRAO notifier shall
-  not be used on AMD for now;
-- added patch 4 as a prerequisite for the given realization of patch 5;
-- added patch 6 as an example, what else can be done due to patch 4.
-
-See individual patches 1-3 for more detailed comments on changes.
-
-I'm not yet convinced, that patch 6 is an entirely good idea. I've
-still included it for discussion. If we end up not doing something
-like it, we can as well rewrite patch 5 to be just another "if"
-within srao_decode_notifier()/uc_decode_notifier().
-
-Regards
-Jan
-
-Jan H. Schönherr (6):
-  x86/mce: Take action on UCNA/Deferred errors again
-  x86/mce: Make mce=nobootlog work again
-  x86/mce: Fix use of uninitialized MCE message string
-  x86/mce: Allow a variable number of internal MCE decode notifiers
-  x86/mce: Do not take action on SRAO/Deferred errors on AMD for now
-  x86/mce: Dynamically register default MCE handler
-
- arch/x86/include/asm/mce.h     |   2 +-
- arch/x86/kernel/cpu/mce/core.c | 145 ++++++++++++++++++---------------
- 2 files changed, 81 insertions(+), 66 deletions(-)
-
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index d48deb127071..d8fe5b048ee7 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1970,7 +1970,8 @@ int __init mcheck_init(void)
+ {
+ 	mcheck_intel_therm_init();
+ 	mce_register_decode_chain_internal(&first_nb);
+-	mce_register_decode_chain_internal(&mce_uc_nb);
++	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD)
++		mce_register_decode_chain_internal(&mce_uc_nb);
+ 	mce_register_decode_chain_internal(&mce_default_nb);
+ 	mcheck_vendor_init_severity();
+ 
 -- 
 2.22.0.3.gb49bb57c8208.dirty
 
