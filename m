@@ -2,90 +2,92 @@ Return-Path: <SRS0=xOtr=27=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4424C32771
-	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 01:57:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95517C32771
+	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 01:57:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B3C3C2077C
-	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 01:57:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CB502077B
+	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 01:57:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="f4oqjhGs"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="Y4b0HtrA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730609AbgAJB5I (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 9 Jan 2020 20:57:08 -0500
+        id S1730743AbgAJB5Q (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 9 Jan 2020 20:57:16 -0500
 Received: from mail-dm6nam12on2062.outbound.protection.outlook.com ([40.107.243.62]:6198
         "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730359AbgAJB5I (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 9 Jan 2020 20:57:08 -0500
+        id S1730753AbgAJB5N (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 9 Jan 2020 20:57:13 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZB8yS6EHltY5vnBeeNBevupwT7Ua+YbB6Awixd5M0PLp/iQ+ETZIrxr5ODCCyWIJy58sFnAV0ojAnnaRR2JtJ1V6+cwbFB0btpZscJ6c9MwUOL0VPLyi6kbixJrglb4kz2N4WaTFT+lz2MDJwdFzFrXiols1/gcDWkzD6ns5b2Bz4LD17xUeYHGY6tVd/ezJsOtCFP0rZnaxaW0/Sc6DQTxrvNcp6YkpyMfLtr85AJjue1jIHY+KiMFkXJ24TDhPWoqiA+Xi9OUP8m69YYGnPnL7rX4BNeHzaIxOBCEP5Uoj/kV2iRYFYqjjGh9a5yNBO/sFVkrpgR3Nt1nlm2MqbQ==
+ b=X1Ubj/0BQsYZUV9wK055gwS5Scr4r0t/iC5dJHvnWTAQe+kmYSBgQwRGziJQBMUwXPFSqf+RF62czaDkVW1WAkswUoaUHzKK/3HqSF6qwxI8GdWD2Gs92r7g40LE7INOgpQJumOsrcjHJNlZAX+3j9BJ6fL27bFUjZkpW6JP3GwzO1hZour72aFYvHmPCE9odMTNnnOrH3bWyCqLZeoDm+lVXgN4VaUMY5WbpB+K+Mbh6jawhYUrAJut2InHeu9NZfe31H2KIwKP/JWTzfCHg0jRAtI88MKJt1eWvdX5W7xGmAj4M+z6YRAhoLzSQf/PDF8Ftwv+vF2gGcQrWPL3Rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3JoyyOPOsBt0j/rd5e7H3IOxaxDVqpJTNcCr+QI8M5I=;
- b=G6slXRU/6Rxh7xnzQu4+A2zR4exASJIqdyLf8dQ9iwzwWJGGGwffx8su4SUem3duT793STjwsaCdshrE0Zw6AuGtYY5LwuCXYvKTr5Y/wC8B68pgMLq/UhBDR1LTFHL5dnCx25T6FtAtOyk2sdnINGI/GBd8AVtmwkXESL7rCCQOVng/F9v3o7UrBZC7N0/qC8ApXaKarMBOhPgo3UwtYIPorBBD5D70yiN8DtaXVktCn8U7n8tzr4+ZfP72dwerY12Kq2vMx5V0MuY3ZQFpZf8eGy6T31lno6WLBPhZzYIPWNcme1JtwkhPyKoxbJYT7wu0lb8m0eWytf9l/dptWA==
+ bh=BrHvHsssIXykmfWcnm9rjiu0DpdwjrnbKsU3ThyPYpA=;
+ b=jc+s7l1NBkE8bY6Oi+b3ajtV4TKGlL1wb0Plxb/HYMZAzCFOETjEFoCC14cAd1Vc5FElBZyQ470hyCSGzAzoCUlD6BQhxvVniC+DR4ukWfSJKiUtvGAdRDM3DiorbgzSEe6NZqVJ0bBTdJrDxr7pN6E4WsyXx/A6Pa4JB6nq81puQR2bYzibGvXt3z+fh0IjuRIOBAzRlrp1NP2+0rong5wYIq/6UFh6vudumqXXebP9YHTMS0f4pUr5Zd5LUdv1isYPHEWw6qnwiWbwH0T1kwX0fDLqvtu2g+EMz7f9krHfhPdZ7lxh1t7D6YGr4sSlObdNXL+yoEH10l1rbuzoqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3JoyyOPOsBt0j/rd5e7H3IOxaxDVqpJTNcCr+QI8M5I=;
- b=f4oqjhGsHvFGaauLFAkTLmwpSalyEqMH78iQUEqOiU7coUAOvjSkbr6PkGafCqAI71aJjofcOsSRcwUcEshGQdBpt4G1zaZ4BGuTvwDfCqH83HiE5n+rdnSBJP3mp3r/Br8gI+7S0meTpqvcy/GCmNK7XjvS/2YXJNCjQlb3zuc=
+ bh=BrHvHsssIXykmfWcnm9rjiu0DpdwjrnbKsU3ThyPYpA=;
+ b=Y4b0HtrA0e46y2g2gzpXoASYL/FIkf5pWlh5xHM1pvDuKXEJADEojQ+twHCNEX9mR/xzWZ1OeeHpoehEPqHDO2f39ihh6jiQvWEbNN6GCWOlQsp7EhEjj85ID5xUhWO3QPrVZ4boGn4Cj38G2Q1TCmBRvF46bUTIGU3u3CIRouU=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Yazen.Ghannam@amd.com; 
 Received: from BN6PR12MB1667.namprd12.prod.outlook.com (10.172.18.18) by
  BN6PR12MB1378.namprd12.prod.outlook.com (10.168.228.9) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.11; Fri, 10 Jan 2020 01:57:04 +0000
+ 15.20.2602.11; Fri, 10 Jan 2020 01:57:08 +0000
 Received: from BN6PR12MB1667.namprd12.prod.outlook.com
  ([fe80::d536:f1cd:c8d1:fe]) by BN6PR12MB1667.namprd12.prod.outlook.com
  ([fe80::d536:f1cd:c8d1:fe%12]) with mapi id 15.20.2602.017; Fri, 10 Jan 2020
- 01:57:04 +0000
+ 01:57:08 +0000
 From:   Yazen Ghannam <Yazen.Ghannam@amd.com>
 To:     linux-edac@vger.kernel.org
 Cc:     Yazen Ghannam <Yazen.Ghannam@amd.com>,
         linux-kernel@vger.kernel.org, bp@suse.de, tony.luck@intel.com,
         x86@kernel.org
-Subject: [PATCH 0/5] MCA and EDAC updates for AMD Family 19h
-Date:   Fri, 10 Jan 2020 01:56:46 +0000
-Message-Id: <20200110015651.14887-1-Yazen.Ghannam@amd.com>
+Subject: [PATCH 5/5] EDAC/amd64: Drop some family checks for newer systems
+Date:   Fri, 10 Jan 2020 01:56:51 +0000
+Message-Id: <20200110015651.14887-6-Yazen.Ghannam@amd.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200110015651.14887-1-Yazen.Ghannam@amd.com>
+References: <20200110015651.14887-1-Yazen.Ghannam@amd.com>
 Content-Type: text/plain
 X-ClientProxiedBy: SN6PR08CA0036.namprd08.prod.outlook.com
  (2603:10b6:805:66::49) To BN6PR12MB1667.namprd12.prod.outlook.com
  (2603:10b6:405:4::18)
 MIME-Version: 1.0
-Received: from ethanolx80b6host.amd.com (165.204.78.1) by SN6PR08CA0036.namprd08.prod.outlook.com (2603:10b6:805:66::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.12 via Frontend Transport; Fri, 10 Jan 2020 01:57:03 +0000
+Received: from ethanolx80b6host.amd.com (165.204.78.1) by SN6PR08CA0036.namprd08.prod.outlook.com (2603:10b6:805:66::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.12 via Frontend Transport; Fri, 10 Jan 2020 01:57:07 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [165.204.78.1]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 12c55ac2-5578-4aa5-b5bb-08d7957063ce
+X-MS-Office365-Filtering-Correlation-Id: bb66563d-a833-4b01-e2a2-08d795706663
 X-MS-TrafficTypeDiagnostic: BN6PR12MB1378:|BN6PR12MB1378:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN6PR12MB1378489021FCE355DC28F070F8380@BN6PR12MB1378.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <BN6PR12MB137866D919658A5DBE92E430F8380@BN6PR12MB1378.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-Forefront-PRVS: 02788FF38E
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(376002)(39860400002)(396003)(136003)(366004)(189003)(199004)(66556008)(2616005)(6916009)(5660300002)(8676002)(15650500001)(86362001)(66946007)(956004)(36756003)(4326008)(1076003)(81166006)(478600001)(26005)(316002)(4744005)(186003)(8936002)(66476007)(52116002)(16526019)(2906002)(7696005)(6486002)(81156014)(6666004);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR12MB1378;H:BN6PR12MB1667.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(376002)(39860400002)(396003)(136003)(366004)(189003)(199004)(66556008)(2616005)(6916009)(5660300002)(8676002)(86362001)(66946007)(956004)(36756003)(4326008)(1076003)(81166006)(478600001)(26005)(316002)(186003)(8936002)(66476007)(52116002)(16526019)(2906002)(7696005)(6486002)(81156014)(6666004);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR12MB1378;H:BN6PR12MB1667.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NCM6fTT5qm6CFKl1tZuitQYyyIrxlVw8mOD5pS6X4giQjM+OLRfNqQf6KBrkVc1PX6+c5YaHRLBd/YNHYN1wvLk4b3UGAPk6oSYCHiKX0Sd5HEMa6WTgcRMHKLesnquIwLrWSFB+L49F1g0ywrsPZEvF7lz6WwNAUTBfLrVOKpSCDKzGIuYl6TusEFHCide3y/q1S9yWAjzvaINyQ4Br3ZtYxdVi+PqRMsbf+P3rF4mNXY8zjcMlBUbJtU1PW6TQ488xouLz/1goOlyCLuqyUidMNTTJsSpZlcXjg6xpC5OjlrNGiGDqH1g6eBOmwOgpUourR4tIzPtZP3KC3TESfjTicva417hGWNKzB/5Y7GwZYc7GSekWTKq23RgYpP8EaoXAqKg0gQMYoocLgLqaoxNqeoAxtp0ihvNXYDCfGX/g063b0BJbu1ULBlwoOZPQ
+X-Microsoft-Antispam-Message-Info: 5YijJ0PymsxPVbXCXtORA3IbosJaIqKQAm5h5iVOWPwdpmHRQLsx1cp90UH4oayun1RPn1lAWI931Y2vONWNCMaWiQPQAWEmHbOwwvCS5FoeOlGidn0duYUK7SIPGQvGJ9Va0VGZKBgIOj+/sE1/StxibVh7E5QywZjMMPJJ1d36+Wha+Fg1MQsOJQ9FIwmO+BkAqbxBRusZ4oem1Hu78On/oiSqtkJ98d7gVDfTFmvGv9ufznU/aAFwmTVCsAEMEZSo0QwkPZndJ0FQGZuvmDpxi6n0HaagQ6G2+sq2S4ypLFZ5U+j0WlUxExS2c3aMJk0mVQUbfM0cYjRc7ILYm+yttxGm8SAZM9LzRu3ySPkzrmurbvQZngXLSZujg4K6tkyFzApG38mHQd9fp4WoGFC+GWpqe6accM7BLc/5YIzwfe3nbQrrnemcmsgu+BBs
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12c55ac2-5578-4aa5-b5bb-08d7957063ce
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2020 01:57:04.2000
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb66563d-a833-4b01-e2a2-08d795706663
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2020 01:57:08.5141
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uQ5f4wKzUWgVc+iIiQC7eAMNft7YpFsgLUnU1a6Zo0FxHZQsqx9wCZyePDPHYtZd8sEY7MtXIn5+jf/u9H52Rg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: RU6Wv9eT5CMtkWVP7dwbWAxRc80/KQJu6el0VwbQ+Iwsv+mk5MgpC2CNeiyYE9l66T28txBIqZ4QjWoOuGpBrg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1378
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
@@ -94,33 +96,103 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Hi Boris,
+In general, "pvt->umc != NULL" is used to check if the system is Family
+17h+. However, there are a few places that are using direct family
+checks.
 
-This patchset adds MCA and EDAC support for AMD Family 19h.
+Replace the remaining family checks with a check for "pvt->umc != NULL".
 
-There aren't any functional changes. Mostly we just need to add new PCI
-IDs and a new MCA bank type. I've also included a couple of patches that
-do away with family checks where appropriate.
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
+ drivers/edac/amd64_edac.c | 45 +++++++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 26 deletions(-)
 
-Thanks,
-Yazen
-
-Yazen Ghannam (5):
-  x86/MCE/AMD, EDAC/mce_amd: Add new Load Store unit McaType
-  EDAC/mce_amd: Always load on SMCA systems
-  x86/amd_nb: Add Family 19h PCI IDs
-  EDAC/amd64: Add family ops for Family 19h Models 00h-0Fh
-  EDAC/amd64: Drop some family checks for newer systems
-
- arch/x86/include/asm/mce.h    |  1 +
- arch/x86/kernel/amd_nb.c      |  3 ++
- arch/x86/kernel/cpu/mce/amd.c |  2 ++
- drivers/edac/amd64_edac.c     | 62 ++++++++++++++++++++---------------
- drivers/edac/amd64_edac.h     |  3 ++
- drivers/edac/mce_amd.c        | 41 ++++++++++++++++++++---
- include/linux/pci_ids.h       |  1 +
- 7 files changed, 82 insertions(+), 31 deletions(-)
-
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 2488cbf76814..4fc9f0b06ed7 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -214,7 +214,7 @@ static int __set_scrub_rate(struct amd64_pvt *pvt, u32 new_bw, u32 min_rate)
+ 
+ 	scrubval = scrubrates[i].scrubval;
+ 
+-	if (pvt->fam == 0x17 || pvt->fam == 0x18) {
++	if (pvt->umc) {
+ 		__f17h_set_scrubval(pvt, scrubval);
+ 	} else if (pvt->fam == 0x15 && pvt->model == 0x60) {
+ 		f15h_select_dct(pvt, 0);
+@@ -256,18 +256,7 @@ static int get_scrub_rate(struct mem_ctl_info *mci)
+ 	int i, retval = -EINVAL;
+ 	u32 scrubval = 0;
+ 
+-	switch (pvt->fam) {
+-	case 0x15:
+-		/* Erratum #505 */
+-		if (pvt->model < 0x10)
+-			f15h_select_dct(pvt, 0);
+-
+-		if (pvt->model == 0x60)
+-			amd64_read_pci_cfg(pvt->F2, F15H_M60H_SCRCTRL, &scrubval);
+-		break;
+-
+-	case 0x17:
+-	case 0x18:
++	if (pvt->umc) {
+ 		amd64_read_pci_cfg(pvt->F6, F17H_SCR_BASE_ADDR, &scrubval);
+ 		if (scrubval & BIT(0)) {
+ 			amd64_read_pci_cfg(pvt->F6, F17H_SCR_LIMIT_ADDR, &scrubval);
+@@ -276,11 +265,15 @@ static int get_scrub_rate(struct mem_ctl_info *mci)
+ 		} else {
+ 			scrubval = 0;
+ 		}
+-		break;
++	} else if (pvt->fam == 0x15) {
++		/* Erratum #505 */
++		if (pvt->model < 0x10)
++			f15h_select_dct(pvt, 0);
+ 
+-	default:
++		if (pvt->model == 0x60)
++			amd64_read_pci_cfg(pvt->F2, F15H_M60H_SCRCTRL, &scrubval);
++	} else {
+ 		amd64_read_pci_cfg(pvt->F3, SCRCTRL, &scrubval);
+-		break;
+ 	}
+ 
+ 	scrubval = scrubval & 0x001F;
+@@ -1055,6 +1048,16 @@ static void determine_memory_type(struct amd64_pvt *pvt)
+ {
+ 	u32 dram_ctrl, dcsm;
+ 
++	if (pvt->umc) {
++		if ((pvt->umc[0].dimm_cfg | pvt->umc[1].dimm_cfg) & BIT(5))
++			pvt->dram_type = MEM_LRDDR4;
++		else if ((pvt->umc[0].dimm_cfg | pvt->umc[1].dimm_cfg) & BIT(4))
++			pvt->dram_type = MEM_RDDR4;
++		else
++			pvt->dram_type = MEM_DDR4;
++		return;
++	}
++
+ 	switch (pvt->fam) {
+ 	case 0xf:
+ 		if (pvt->ext_model >= K8_REV_F)
+@@ -1100,16 +1103,6 @@ static void determine_memory_type(struct amd64_pvt *pvt)
+ 	case 0x16:
+ 		goto ddr3;
+ 
+-	case 0x17:
+-	case 0x18:
+-		if ((pvt->umc[0].dimm_cfg | pvt->umc[1].dimm_cfg) & BIT(5))
+-			pvt->dram_type = MEM_LRDDR4;
+-		else if ((pvt->umc[0].dimm_cfg | pvt->umc[1].dimm_cfg) & BIT(4))
+-			pvt->dram_type = MEM_RDDR4;
+-		else
+-			pvt->dram_type = MEM_DDR4;
+-		return;
+-
+ 	default:
+ 		WARN(1, KERN_ERR "%s: Family??? 0x%x\n", __func__, pvt->fam);
+ 		pvt->dram_type = MEM_EMPTY;
 -- 
 2.17.1
 
