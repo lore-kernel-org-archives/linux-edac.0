@@ -2,193 +2,163 @@ Return-Path: <SRS0=xOtr=27=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC3CC32771
-	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 01:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C02E1C33CA2
+	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 09:50:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 48F0B2077B
-	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 01:57:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 977A02080D
+	for <linux-edac@archiver.kernel.org>; Fri, 10 Jan 2020 09:50:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="ql3Rwssr"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="qUUU0Wfg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730625AbgAJB5K (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 9 Jan 2020 20:57:10 -0500
-Received: from mail-dm6nam12on2062.outbound.protection.outlook.com ([40.107.243.62]:6198
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730604AbgAJB5J (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 9 Jan 2020 20:57:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b0tMzRho8NBaFKFUGye9IiDtVVWo81djL4hVOAq6NfkeZnvIcsCRM7Z9NQWZdk05iwb++3mC3S/EkVVLex892skSWNERxMpq80VTvj9osT5nR5yeQABQnTqPTrG1BLk/RO13rsPmgrO6ejuhHHYueLWe/QYdnOw22nUMUynFY/53Uzw1fVXYgwheqqrTDvFg7RgBnE3sElaYJC6jXEQ3wE6jiksNlS5NtyXpC22YfLi4YC3DhFH5CvvR2utWbIDpaWOngfZ9ElRgizd/s0CWLXKZCUJlQU6adcL89kKwi0xnAqSOK4aEwLzJIzqpCTBT/Z2J3MFYOxzXhhCwXYslsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1XWByoc/pPEyZrVa+QtxYjoyY9k4L7bQe6aMJwou4lQ=;
- b=HmfcfXJ4UrndKYv3xkPhxCJBf780+xYCvzFVA8hq9reLyLDk9ZaysU0Q3OG0vtScR9IuxkYcYfqQ2wNyTl39lghzT3gEz3nuFhuH2+JtyDI4EmJ+5hrbUswmLihw52jtBGBvvZoYKyUW1ONL/cmfe0ttqp4Km775eyFJ8g46PAMZy1uGyGQIBjKhdqoV07FctoUzfuAd8PaGZjLafeX/0q/DjD9fTijOLvSqn5soKPJtRhqUFfebYn8RK4WDM4bB7bEqBChOw3OpqXvZYUKo++k7Nt2kdCKAyYy0jjkCOx/dnZ2ZHd1LtBCrBEurH7Ag6fr52AkGdzHPTyIwYVDFSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1XWByoc/pPEyZrVa+QtxYjoyY9k4L7bQe6aMJwou4lQ=;
- b=ql3Rwssr6pQ1rMVxjbvqo4U4cq0Q1xFBamAV1wB7FwYPTDBub7zq+StZC23N4KC0E03a12/Pybt1vesebn3mvA4IJZjLTCLzuiSfmv58YLOLtZNyLyBAdvpBXWD3lSetztU1JVNDmkoJrL6ShVIzvL1RxLyvOPkMa1p/+3UIlOA=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Yazen.Ghannam@amd.com; 
-Received: from BN6PR12MB1667.namprd12.prod.outlook.com (10.172.18.18) by
- BN6PR12MB1378.namprd12.prod.outlook.com (10.168.228.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.11; Fri, 10 Jan 2020 01:57:05 +0000
-Received: from BN6PR12MB1667.namprd12.prod.outlook.com
- ([fe80::d536:f1cd:c8d1:fe]) by BN6PR12MB1667.namprd12.prod.outlook.com
- ([fe80::d536:f1cd:c8d1:fe%12]) with mapi id 15.20.2602.017; Fri, 10 Jan 2020
- 01:57:05 +0000
-From:   Yazen Ghannam <Yazen.Ghannam@amd.com>
-To:     linux-edac@vger.kernel.org
-Cc:     Yazen Ghannam <Yazen.Ghannam@amd.com>,
-        linux-kernel@vger.kernel.org, bp@suse.de, tony.luck@intel.com,
-        x86@kernel.org
-Subject: [PATCH 1/5] x86/MCE/AMD, EDAC/mce_amd: Add new Load Store unit McaType
-Date:   Fri, 10 Jan 2020 01:56:47 +0000
-Message-Id: <20200110015651.14887-2-Yazen.Ghannam@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200110015651.14887-1-Yazen.Ghannam@amd.com>
-References: <20200110015651.14887-1-Yazen.Ghannam@amd.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SN6PR08CA0036.namprd08.prod.outlook.com
- (2603:10b6:805:66::49) To BN6PR12MB1667.namprd12.prod.outlook.com
- (2603:10b6:405:4::18)
+        id S1727368AbgAJJuO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 10 Jan 2020 04:50:14 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:33464 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727219AbgAJJuO (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 10 Jan 2020 04:50:14 -0500
+Received: from zn.tnic (p200300EC2F0ACA0024F85FB92EE88C9E.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:ca00:24f8:5fb9:2ee8:8c9e])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B03FC1EC0CAD;
+        Fri, 10 Jan 2020 10:50:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1578649811;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mIT8Yx3kSe9Z9owbe2rOIZDAMgeLxHz7eh5yqOrcB8c=;
+        b=qUUU0WfgA+wqfA4yZuR/kqZ2+GUNSzj06F1JaEfPdEfkhMx5cVJv/fsNKW9A2z1Z3/M+Vq
+        C8E/7L2aeciYr41PhPYN0Fq44RdRUcTs6ssmFdJd5i9LEI9azk3zLu2Jbe9y+iSIBgrgfk
+        Y4EL+MxBXyNBWYa++tVpZpdRuxFix90=
+Date:   Fri, 10 Jan 2020 10:50:04 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Jan =?utf-8?Q?H=2E_Sch=C3=B6nherr?= <jschoenh@amazon.de>,
+        Yazen Ghannam <yazen.ghannam@amd.com>,
+        Tony Luck <tony.luck@intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org
+Subject: Re: [PATCH v2 1/6] x86/mce: Take action on UCNA/Deferred errors again
+Message-ID: <20200110095004.GD19453@zn.tnic>
+References: <20200103150722.20313-1-jschoenh@amazon.de>
+ <20200103150722.20313-2-jschoenh@amazon.de>
 MIME-Version: 1.0
-Received: from ethanolx80b6host.amd.com (165.204.78.1) by SN6PR08CA0036.namprd08.prod.outlook.com (2603:10b6:805:66::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.12 via Frontend Transport; Fri, 10 Jan 2020 01:57:04 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [165.204.78.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d3c103c5-eb9a-499c-372e-08d795706457
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1378:|BN6PR12MB1378:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN6PR12MB1378F02A351146589B78E6A4F8380@BN6PR12MB1378.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 02788FF38E
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(376002)(39860400002)(396003)(136003)(366004)(189003)(199004)(66556008)(2616005)(6916009)(5660300002)(8676002)(86362001)(66946007)(956004)(36756003)(4326008)(1076003)(81166006)(478600001)(26005)(316002)(186003)(8936002)(66476007)(52116002)(16526019)(2906002)(7696005)(6486002)(81156014)(6666004);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR12MB1378;H:BN6PR12MB1667.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Qisul9dwzGV+H4S5lG1lG3ciHmnmoVDJZr5hXQHPlYj1TLAxuj8bo3QjqsPucgHUIecFGHfGtt5CEjjEnn6WujAHma8KcgkMXTf2d/Nq82YMhJrG6ICgsCrYhrBOShFj9Ap6gjnq0KQ4Gj0XgfaFnKAFlhqv0c1+2n/eUzG8i1knTAMfuPCAPxwr+3bjTn0W/gnCMTwJysXNn7gu0A20C32OfWm9tKiIqmtMwmKqa2C1B5nmfFpGK1EZL/JtdMTDzpo+hlUEuQCCyIBklw93tgWYKFGMHPWMGaW4KpdGusJmeM2E4puQ/YZS2yZJkFMW2AfPuhNpp8jToPafBevZQNpKpOqRpDSomUxQP6BtYaUu5QrfgYCdoYcTELRi9w/O4YdJod4eRpxd7sN0IkNNI+r1/HZKTAAxqsn6u32t06LbH8P1vsqKUgK/YSGsUcY1
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3c103c5-eb9a-499c-372e-08d795706457
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2020 01:57:05.1026
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yAW696sYjSZMOA6NxcSg/uXB2jzEjFb2kvL7ahouSV+ozRpDIkItxjdu8E/binZXqyekK11x/W0zL/ZPxCYw7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1378
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200103150722.20313-2-jschoenh@amazon.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+On Fri, Jan 03, 2020 at 04:07:17PM +0100, Jan H. Schönherr wrote:
+> Commit fa92c5869426 ("x86, mce: Support memory error recovery for both
+> UCNA and Deferred error in machine_check_poll") added handling of UCNA
+> and Deferred errors by adding them to the ring for SRAO errors.
+> 
+> Later, commit fd4cf79fcc4b ("x86/mce: Remove the MCE ring for Action
+> Optional errors") switched storage from the SRAO ring to the unified
+> pool that is still in use today. In order to only act on the intended
+> errors, a filter for MCE_AO_SEVERITY is used -- effectively removing
+> handling of UCNA/Deferred errors again.
+> 
+> Extend the severity filter to include UCNA/Deferred errors again.
+> Also, generalize the naming of the notifier from SRAO to UC to capture
+> the extended scope.
+> 
+> Note, that this change may cause a message like the following to appear,
+> as the same address may be reported as SRAO and as UCNA:
+> 
+>  Memory failure: 0x5fe3284: already hardware poisoned
+> 
+> Technically, this is a return to previous behavior.
+> 
+> Fixes: fd4cf79fcc4b ("x86/mce: Remove the MCE ring for Action Optional errors")
+> Signed-off-by: Jan H. Schönherr <jschoenh@amazon.de>
 
-Future SMCA systems may see a new version of the Load Store unit bank
-type as indicated by its McaType value.
+Tony, ACK?
 
-Add the new (HWID, MCATYPE) tuple. Reuse the same name, since this is
-logically the same to the user.
+Also, do you want it in stable@ so that it gets backported?
 
-Also, add the new error descriptions to edac_mce_amd.
+> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+> index 8994fe7751a4..16134ce587fd 100644
+> --- a/arch/x86/kernel/cpu/mce/core.c
+> +++ b/arch/x86/kernel/cpu/mce/core.c
+> @@ -156,10 +156,8 @@ void mce_log(struct mce *m)
+>  }
+>  EXPORT_SYMBOL_GPL(mce_log);
+>  
+> -static struct notifier_block mce_srao_nb;
+> -
+>  /*
+> - * We run the default notifier if we have only the SRAO, the first and the
+> + * We run the default notifier if we have only the UC, the first and the
+>   * default notifier registered. I.e., the mandatory NUM_DEFAULT_NOTIFIERS
+>   * notifiers registered on the chain.
+>   */
+> @@ -580,26 +578,29 @@ static struct notifier_block first_nb = {
+>  	.priority	= MCE_PRIO_FIRST,
+>  };
+>  
+> -static int srao_decode_notifier(struct notifier_block *nb, unsigned long val,
+> -				void *data)
+> +static int uc_decode_notifier(struct notifier_block *nb, unsigned long val,
+> +			      void *data)
+>  {
+>  	struct mce *mce = (struct mce *)data;
+>  	unsigned long pfn;
+>  
+> -	if (!mce)
+> +	if (!mce || !mce_usable_address(mce))
+>  		return NOTIFY_DONE;
+>  
+> -	if (mce_usable_address(mce) && (mce->severity == MCE_AO_SEVERITY)) {
+> -		pfn = mce->addr >> PAGE_SHIFT;
+> -		if (!memory_failure(pfn, 0))
+> -			set_mce_nospec(pfn);
+> -	}
+> +	if (mce->severity != MCE_AO_SEVERITY &&
+> +	    mce->severity != MCE_DEFERRED_SEVERITY)
+> +		return NOTIFY_DONE;
+> +
+> +	pfn = mce->addr >> PAGE_SHIFT;
+> +	if (!memory_failure(pfn, 0))
+> +		set_mce_nospec(pfn);
 
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
----
- arch/x86/include/asm/mce.h    |  1 +
- arch/x86/kernel/cpu/mce/amd.c |  2 ++
- drivers/edac/mce_amd.c        | 28 ++++++++++++++++++++++++++++
- 3 files changed, 31 insertions(+)
+I'm wondering if in the memory_failure error() case, we should hand it
+down to the remaining notifiers.
 
-diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
-index dc2d4b206ab7..0f84c20c5429 100644
---- a/arch/x86/include/asm/mce.h
-+++ b/arch/x86/include/asm/mce.h
-@@ -290,6 +290,7 @@ extern void apei_mce_report_mem_error(int corrected,
- /* These may be used by multiple smca_hwid_mcatypes */
- enum smca_bank_types {
- 	SMCA_LS = 0,	/* Load Store */
-+	SMCA_LS_V2,	/* Load Store */
- 	SMCA_IF,	/* Instruction Fetch */
- 	SMCA_L2_CACHE,	/* L2 Cache */
- 	SMCA_DE,	/* Decoder Unit */
-diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-index d6cf5c18a7e0..b3a50d962851 100644
---- a/arch/x86/kernel/cpu/mce/amd.c
-+++ b/arch/x86/kernel/cpu/mce/amd.c
-@@ -78,6 +78,7 @@ struct smca_bank_name {
- 
- static struct smca_bank_name smca_names[] = {
- 	[SMCA_LS]	= { "load_store",	"Load Store Unit" },
-+	[SMCA_LS_V2]	= { "load_store",	"Load Store Unit" },
- 	[SMCA_IF]	= { "insn_fetch",	"Instruction Fetch Unit" },
- 	[SMCA_L2_CACHE]	= { "l2_cache",		"L2 Cache" },
- 	[SMCA_DE]	= { "decode_unit",	"Decode Unit" },
-@@ -138,6 +139,7 @@ static struct smca_hwid smca_hwid_mcatypes[] = {
- 
- 	/* ZN Core (HWID=0xB0) MCA types */
- 	{ SMCA_LS,	 HWID_MCATYPE(0xB0, 0x0), 0x1FFFFF },
-+	{ SMCA_LS_V2,	 HWID_MCATYPE(0xB0, 0x10), 0xFFFFFF },
- 	{ SMCA_IF,	 HWID_MCATYPE(0xB0, 0x1), 0x3FFF },
- 	{ SMCA_L2_CACHE, HWID_MCATYPE(0xB0, 0x2), 0xF },
- 	{ SMCA_DE,	 HWID_MCATYPE(0xB0, 0x3), 0x1FF },
-diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
-index ea622c6f3a39..aa6ea53f7d14 100644
---- a/drivers/edac/mce_amd.c
-+++ b/drivers/edac/mce_amd.c
-@@ -175,6 +175,33 @@ static const char * const smca_ls_mce_desc[] = {
- 	"L2 Fill Data error",
- };
- 
-+static const char * const smca_ls2_mce_desc[] = {
-+	"An ECC error was detected on a data cache read by a probe or victimization",
-+	"An ECC error or L2 poison was detected on a data cache read by a load",
-+	"An ECC error was detected on a data cache read-modify-write by a store",
-+	"An ECC error or poison bit mismatch was detected on a tag read by a probe or victimization",
-+	"An ECC error or poison bit mismatch was detected on a tag read by a load",
-+	"An ECC error or poison bit mismatch was detected on a tag read by a store",
-+	"An ECC error was detected on an EMEM read by a load",
-+	"An ECC error was detected on an EMEM read-modify-write by a store",
-+	"A parity error was detected in an L1 TLB entry by any access",
-+	"A parity error was detected in an L2 TLB entry by any access",
-+	"A parity error was detected in a PWC entry by any access",
-+	"A parity error was detected in an STQ entry by any access",
-+	"A parity error was detected in an LDQ entry by any access",
-+	"A parity error was detected in a MAB entry by any access",
-+	"A parity error was detected in an SCB entry state field by any access",
-+	"A parity error was detected in an SCB entry address field by any access",
-+	"A parity error was detected in an SCB entry data field by any access",
-+	"A parity error was detected in a WCB entry by any access",
-+	"A poisoned line was detected in an SCB entry by any access",
-+	"A SystemReadDataError error was reported on read data returned from L2 for a load",
-+	"A SystemReadDataError error was reported on read data returned from L2 for an SCB store",
-+	"A SystemReadDataError error was reported on read data returned from L2 for a WCB store",
-+	"A hardware assertion error was reported",
-+	"A parity error was detected in an STLF, SCB EMEM entry or SRB store data by any access",
-+};
-+
- static const char * const smca_if_mce_desc[] = {
- 	"Op Cache Microtag Probe Port Parity Error",
- 	"IC Microtag or Full Tag Multi-hit Error",
-@@ -378,6 +405,7 @@ struct smca_mce_desc {
- 
- static struct smca_mce_desc smca_mce_descs[] = {
- 	[SMCA_LS]	= { smca_ls_mce_desc,	ARRAY_SIZE(smca_ls_mce_desc)	},
-+	[SMCA_LS_V2]	= { smca_ls2_mce_desc,	ARRAY_SIZE(smca_ls2_mce_desc)	},
- 	[SMCA_IF]	= { smca_if_mce_desc,	ARRAY_SIZE(smca_if_mce_desc)	},
- 	[SMCA_L2_CACHE]	= { smca_l2_mce_desc,	ARRAY_SIZE(smca_l2_mce_desc)	},
- 	[SMCA_DE]	= { smca_de_mce_desc,	ARRAY_SIZE(smca_de_mce_desc)	},
+Which also begs the question in light of this clumsy notifier counting:
+
+How about we have the default notifier *unconditionally* print the MCE?
+I.e., if the error has reached it, it would print it. If not and some
+other notifier consumed it, it will get handled differently.
+
+This way we won't need any special counting of notifiers and special
+reg/unreg of notifiers etc.
+
+IOW, the logic would be:
+
+If something consumes the error, then it doesn't get printed. Notifier
+does NOTIFY_STOP.
+
+If nothing consumes it or something looks at it and decides that it
+should still get printed, then the last catch-all notifier callback does
+that.
+
+Thoughts?
+
 -- 
-2.17.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
