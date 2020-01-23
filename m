@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 308A3C33CB6
-	for <linux-edac@archiver.kernel.org>; Thu, 23 Jan 2020 13:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 952F7C2D0DB
+	for <linux-edac@archiver.kernel.org>; Thu, 23 Jan 2020 13:49:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 04FE520661
-	for <linux-edac@archiver.kernel.org>; Thu, 23 Jan 2020 13:44:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 664ED20661
+	for <linux-edac@archiver.kernel.org>; Thu, 23 Jan 2020 13:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579787087;
-	bh=ehtW9l9ACdNUpNo6gsMIkwoNpfOA6s3D+OSmNLbylzQ=;
+	s=default; t=1579787351;
+	bh=FoxHytvieeiMR5w2vCjs+iRWN/xe1IbjBrRYYeIbBXI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=XEKeOzFUMbCt643sPSs0U/Kua77gzJf6n8lZpPkhfvHBlFswmEVaDM4qFENcIu9qn
-	 dQWAmxBP/O3OrOqu36vDjUJx3opvPA5J5eNqvJSCkQ/f8zQ3bRWV/Jby6VV8oOkeLu
-	 H6KyVB2PjQAdj8DcfxMyjkDbryyK8R16y9Y2kDwg=
+	b=tRcYni/BHrN/ZCX31nufO+xIf1IzWUB0uPY03n1r+BA9wdr+QNVl1Z2MmvaU+U3rS
+	 YvkIIN4P6O9oUCFqQHM9bCTBFOtvbARwW8m5VhOIonJvRWU0K3DaCtP9i9D2x7bqEW
+	 iJmvJyr5RY+c4zblWCxS6mEFpahatsG5jdmVImrw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbgAWNoq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 23 Jan 2020 08:44:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33630 "EHLO mail.kernel.org"
+        id S1728792AbgAWNsY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 23 Jan 2020 08:48:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35894 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726227AbgAWNoq (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 23 Jan 2020 08:44:46 -0500
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+        id S1727194AbgAWNsX (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 23 Jan 2020 08:48:23 -0500
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C9E024688;
-        Thu, 23 Jan 2020 13:44:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7BB2A24688;
+        Thu, 23 Jan 2020 13:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579787085;
-        bh=ehtW9l9ACdNUpNo6gsMIkwoNpfOA6s3D+OSmNLbylzQ=;
+        s=default; t=1579787302;
+        bh=FoxHytvieeiMR5w2vCjs+iRWN/xe1IbjBrRYYeIbBXI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=f6itICyEccPeU2EkmbAw44eFVsEnQiCvVRTYc3RMmfw1f5V5rghHrFdF6dnC+r1wV
-         LW0nDwCzxH/GTTtVFZtYGJLOP+nJu1VWepUnkNyHvE63DC36JQuxG/BFcyxUuYXolx
-         hnkuLUgk7s2DCpWGgBq76zQCpyZ5Of2xjyCLBDDQ=
-Received: by mail-qk1-f169.google.com with SMTP id c17so3403985qkg.7;
-        Thu, 23 Jan 2020 05:44:45 -0800 (PST)
-X-Gm-Message-State: APjAAAVGqpIIeB5KV3T+3vZXkfcRfIR9lYyS07oqlxR+975ItnwWTjCS
-        hGYipOYanfuv1/Pzjs8/SQjtSXIWl9u92Es0lQ==
-X-Google-Smtp-Source: APXvYqwj1kYyeJq3Ccl1DyDpR3KLsILueUjym2UJmfupNznTqTkOSej7+FQVm2ExBXPWgHI5dXhLnNyU9f/PKwvhq6E=
-X-Received: by 2002:a05:620a:1eb:: with SMTP id x11mr16326677qkn.254.1579787084251;
- Thu, 23 Jan 2020 05:44:44 -0800 (PST)
+        b=1AS+dHLPP5rAH9T5VHs73GXahPyDACd7SwtCJD7VthNa8rx17bY8byQrbZdLVw6st
+         /McONvPTX31f0ZJEautzgUfWGlos9MYkPATUg7nOUBZrdeGgNfy+FlwtBpEwdmxnNE
+         u2QibjRJJeoNrPtP39MgM13THZKJCOfzOCTNaVJU=
+Received: by mail-qt1-f174.google.com with SMTP id c24so2475643qtp.5;
+        Thu, 23 Jan 2020 05:48:22 -0800 (PST)
+X-Gm-Message-State: APjAAAXKuxRZTOQmoiUrYjuSIMALCSfn0oJa/JIzrfJF4SonCBnu6tTp
+        WTRRDGH6j0aih2zQ5+4bWp7VoeInTfYxWSjUig==
+X-Google-Smtp-Source: APXvYqzeZnbmbU5C7iKeSjGcGtjCWg8yrdnvL6IUNbFeEnrmCjkbaCvNa0W8VIm6gLl/nyiVJznT6alXW1omCkLRUg0=
+X-Received: by 2002:ac8:6747:: with SMTP id n7mr15914499qtp.224.1579787301560;
+ Thu, 23 Jan 2020 05:48:21 -0800 (PST)
 MIME-Version: 1.0
 References: <09a2fe69-842f-01cf-1cfa-d5fc639b158a@gmail.com>
 In-Reply-To: <09a2fe69-842f-01cf-1cfa-d5fc639b158a@gmail.com>
 From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 23 Jan 2020 07:44:32 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+1S=mOS0-eb0=ibSn81ReDmDjrA9=bHpKC16w8B6Aq3Q@mail.gmail.com>
-Message-ID: <CAL_Jsq+1S=mOS0-eb0=ibSn81ReDmDjrA9=bHpKC16w8B6Aq3Q@mail.gmail.com>
+Date:   Thu, 23 Jan 2020 07:48:09 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKvFt=BM2BD9HXSEZOAzEnDwAzj7f8pGRnApA8Mp7qxBg@mail.gmail.com>
+Message-ID: <CAL_JsqKvFt=BM2BD9HXSEZOAzEnDwAzj7f8pGRnApA8Mp7qxBg@mail.gmail.com>
 Subject: Re: [PATCH v10 1/2] dt-bindings: edac: dmc-520.yaml
 To:     Shiping Ji <shiping.linux@gmail.com>
 Cc:     Borislav Petkov <bp@alien8.de>, James Morse <james.morse@arm.com>,
@@ -94,11 +94,6 @@ On Wed, Jan 22, 2020 at 6:31 PM Shiping Ji <shiping.linux@gmail.com> wrote:
 > +++ b/Documentation/devicetree/bindings/edac/dmc-520.yaml
 > @@ -0,0 +1,56 @@
 > +# SPDX-License-Identifier: GPL-2.0
-
-Dual license new bindings please:
-
-(GPL-2.0-only OR BSD-2-Clause)
-
 > +%YAML 1.2
 > +---
 > +$id: http://devicetree.org/schemas/edac/dmc-520.yaml#
@@ -125,34 +120,5 @@ Dual license new bindings please:
 > +
 > +  interrupts:
 > +    minItems: 1
-> +
-> +  interrupt-names:
-> +    minItems: 1
-> +    items:
-> +      - const: ram_ecc_errc
-> +      - const: ram_ecc_errd
-> +      - const: dram_ecc_errc
-> +      - const: dram_ecc_errd
-> +      - const: failed_access
-> +      - const: failed_prog
-> +      - const: link_err
-> +      - const: temperature_event
-> +      - const: arch_fsm
-> +      - const: phy_request
 
-This defines not just the names, but the index they must be at which I
-don't think you want.
-
-minItems: 1
-maxItems: 10
-items:
-  enum:
-    - ram_ecc_errc
-    - ram_ecc_errd
-    ...
-
-Note the lack of '-' under 'items' making it a schema that applies to all items.
-
-Run 'make dt_binding_check' as that would have caught this issue on the example.
-
-Rob
+You also need 'maxItems: 10' here.
