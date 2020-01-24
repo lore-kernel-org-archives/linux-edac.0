@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 792AFC2D0DB
-	for <linux-edac@archiver.kernel.org>; Fri, 24 Jan 2020 09:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B4BC35243
+	for <linux-edac@archiver.kernel.org>; Fri, 24 Jan 2020 11:21:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 50BC22467B
-	for <linux-edac@archiver.kernel.org>; Fri, 24 Jan 2020 09:57:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD68F214DB
+	for <linux-edac@archiver.kernel.org>; Fri, 24 Jan 2020 11:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579859858;
-	bh=UcGNx/ribASwYB5bYwww9OPS0GEK816IiSrkyUveH4I=;
+	s=default; t=1579864863;
+	bh=RdrUScjQ4MYppyBddLWVOttt3KTsGUskbpY4fRW3W0U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zv3doRA4gsbyJ6K82S/SqIXYP/6Qz2UpUvSOlMN61tPS+FYSGW0pV/2QOZLXc9UC0
-	 X1YHEfPfe59qWaPGCXDI65z5vzGTc6aTkFanSkXL0W1X99lEq6FLMlY2i42heTna+j
-	 VsVv+iYZ0bKd17poHazCkt9q4VeF7+sGNsQW8aJk=
+	b=I7iH/Fv+PeZQKxcPFK7uwhpP2LXc4u4Usx0pwb+xkJj+rzXDP10+krh3m31fQxSXi
+	 Wn53XtED5r7PXxNFcLs8C+Uq+seA8BlEXYHk1Fw42iHj4cVi18Xs04wPBNAN6uITR3
+	 1AheVh1zS84WkhVHxMG18y8vObQcMjvspj169SVE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730740AbgAXJ5h (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 24 Jan 2020 04:57:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33186 "EHLO mail.kernel.org"
+        id S2390801AbgAXLVC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 24 Jan 2020 06:21:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58938 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729990AbgAXJ5h (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 24 Jan 2020 04:57:37 -0500
-Received: from localhost (unknown [145.15.244.15])
+        id S2390993AbgAXLVB (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 24 Jan 2020 06:21:01 -0500
+Received: from localhost (ip-213-127-102-57.ip.prioritytelecom.net [213.127.102.57])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06E4720709;
-        Fri, 24 Jan 2020 09:57:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4AEFF214AF;
+        Fri, 24 Jan 2020 11:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579859856;
-        bh=UcGNx/ribASwYB5bYwww9OPS0GEK816IiSrkyUveH4I=;
+        s=default; t=1579864860;
+        bh=RdrUScjQ4MYppyBddLWVOttt3KTsGUskbpY4fRW3W0U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=btjF0CPnrPlQ7/NwsAiphbo1YABFsYjAJLI6AVEKVTSS+YjqImOD7eOwXU1n8Cduy
-         nMAejxnXFnBvsS0m7WuR05FkLMDzDIPF8aK8qW7hvS3xWGqGw707tz+lUBWLPFt+d3
-         sLc5HEcbkG6PVNDYq8gOIqhwCxLJOY3U+wdxMy0Y=
+        b=ErrqAKPG5UiNC24LHbED9qiVU5lqa9JhdzognUPA3B2yXeYHwN8qFKKaGVRAOwTF7
+         F9Fo2WOKWabXdXm5a30IVxZTXJ2zSdPXAEcLymt7ugbGGb544fpAUcRmmCmw6L8N/M
+         CvkwgrGFO84yIQ8tmFoCxdZyEc/vxZ9Zc6SpnXzw=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -47,12 +47,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         James Morse <james.morse@arm.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.14 210/343] EDAC/mc: Fix edac_mc_find() in case no device is found
-Date:   Fri, 24 Jan 2020 10:30:28 +0100
-Message-Id: <20200124092947.711378247@linuxfoundation.org>
+Subject: [PATCH 4.19 374/639] EDAC/mc: Fix edac_mc_find() in case no device is found
+Date:   Fri, 24 Jan 2020 10:29:04 +0100
+Message-Id: <20200124093133.875709390@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200124092919.490687572@linuxfoundation.org>
-References: <20200124092919.490687572@linuxfoundation.org>
+In-Reply-To: <20200124093047.008739095@linuxfoundation.org>
+References: <20200124093047.008739095@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index f7fa05fee45a1..329021189c38b 100644
+index f59511bd99261..fd440b35d76ed 100644
 --- a/drivers/edac/edac_mc.c
 +++ b/drivers/edac/edac_mc.c
-@@ -680,22 +680,18 @@ static int del_mc_from_global_list(struct mem_ctl_info *mci)
+@@ -681,22 +681,18 @@ static int del_mc_from_global_list(struct mem_ctl_info *mci)
  
  struct mem_ctl_info *edac_mc_find(int idx)
  {
