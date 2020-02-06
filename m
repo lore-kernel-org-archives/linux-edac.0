@@ -2,42 +2,49 @@ Return-Path: <SRS0=YUIN=32=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B00E9C2D0B1
-	for <linux-edac@archiver.kernel.org>; Thu,  6 Feb 2020 11:10:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37B5AC352A2
+	for <linux-edac@archiver.kernel.org>; Thu,  6 Feb 2020 12:53:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 809C6214AF
-	for <linux-edac@archiver.kernel.org>; Thu,  6 Feb 2020 11:10:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AACC21775
+	for <linux-edac@archiver.kernel.org>; Thu,  6 Feb 2020 12:53:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="oVc/RybZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YZCTWV64"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727457AbgBFLKI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 6 Feb 2020 06:10:08 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:58788 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727456AbgBFLKI (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 6 Feb 2020 06:10:08 -0500
-Received: from zn.tnic (p200300EC2F0B4B00DD2F869FBA3C2645.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:4b00:dd2f:869f:ba3c:2645])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 817641EC0304;
-        Thu,  6 Feb 2020 12:10:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1580987406;
+        id S1727690AbgBFMxo (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 6 Feb 2020 07:53:44 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35798 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727613AbgBFMxo (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 6 Feb 2020 07:53:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1580993623;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=pXe8SYdnVSzszvpvgVbWGzJVV3VL4bu8127SNhL5Ys0=;
-        b=oVc/RybZz7qAJk/F3mhpReMzBViCnUdlN1po9m7V3XyJJratrE3Bd6gHGMEownoy6y8bp2
-        ODdJ+Jh9MgNU6Kx6+dhmD9x4jE9Gt+/VqrP+P0WXCqYKQqd/q1MFGJBGOrRUq/j7y92p2F
-        mxnfjHeRvzxWhYZElVm3JQk7iXZr5TQ=
-Date:   Thu, 6 Feb 2020 12:10:01 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Prarit Bhargava <prarit@redhat.com>
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=R41SlG6aMHK5jXUAarbhZUQ8sA4pF1/4Q8fbxyhZMA4=;
+        b=YZCTWV640cA7Drsd7QSa8ADgmskNp/vvFAKWLj8ZRJPpqsc2b29dJkR5f+BEa47YV4pO4F
+        XE4lRQ0nBqfN5FQb04/wxQ06xD7u92mOoP4vRR1urSqe3KD6dEw09nfgsfcK6QvF3SqqmN
+        bAPC77bnzLWlcoEpZKEQNMDG9UteFio=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-jjCyA0VZN5WkV74i1r8WRg-1; Thu, 06 Feb 2020 07:53:38 -0500
+X-MC-Unique: jjCyA0VZN5WkV74i1r8WRg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79F52108838F;
+        Thu,  6 Feb 2020 12:53:36 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2BEA427060;
+        Thu,  6 Feb 2020 12:53:35 +0000 (UTC)
+Subject: Re: [PATCH] x86/mce: Enable HSD131, HSM142, HSW131, BDM48, and HSM142
+To:     Borislav Petkov <bp@alien8.de>
 Cc:     linux-kernel@vger.kernel.org,
         Alexander Krupp <centos@akr.yagii.de>,
         Tony Luck <tony.luck@intel.com>,
@@ -45,69 +52,85 @@ Cc:     linux-kernel@vger.kernel.org,
         Ingo Molnar <mingo@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-edac@vger.kernel.org
-Subject: Re: [PATCH] x86/mce: Enable HSD131, HSM142, HSW131, BDM48, and HSM142
-Message-ID: <20200206110811.GC9741@zn.tnic>
 References: <20200205125831.20430-1-prarit@redhat.com>
+ <20200206110811.GC9741@zn.tnic>
+From:   Prarit Bhargava <prarit@redhat.com>
+Message-ID: <1f3f5f54-eb31-1e2a-27be-7ed4cb3dc2d3@redhat.com>
+Date:   Thu, 6 Feb 2020 07:53:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20200206110811.GC9741@zn.tnic>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200205125831.20430-1-prarit@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Feb 05, 2020 at 07:58:31AM -0500, Prarit Bhargava wrote:
 
-> Subject: Re: [PATCH] x86/mce: Enable HSD131, HSM142, HSW131, BDM48, and HSM142
 
-That subject is unreadable for humans.
-
-> Intel Errata HSD131, HSM142, HSW131, and BDM48 report that
-> "spurious corrected errors may be logged in the IA32_MC0_STATUS register
-> with the valid field (bit 63) set, the uncorrected error field (bit 61)
-> not set, a Model Specific Error Code (bits [31:16]) of 0x000F, and
-> an MCA Error Code (bits [15:0]) of 0x0005."
+On 2/6/20 6:10 AM, Borislav Petkov wrote:
+> On Wed, Feb 05, 2020 at 07:58:31AM -0500, Prarit Bhargava wrote:
 > 
-> Block these spurious errors from the console and logs.
+>> Subject: Re: [PATCH] x86/mce: Enable HSD131, HSM142, HSW131, BDM48, and HSM142
+> 
+> That subject is unreadable for humans.
 
-Are they being hit in the wild or why do we need this?
+Yeah :/  I couldn't think of a better one.  Maybe "Block spurious corrected
+errors on some Intel processors"?  Any other suggestion?
 
-> Links to Intel Specification updates:
-> HSD131: https://www.intel.com/content/www/us/en/products/docs/processors/core/4th-gen-core-family-desktop-specification-update.html
-> HSM142: https://www.intel.com/content/www/us/en/products/docs/processors/core/4th-gen-core-family-mobile-specification-update.html
-> HSW131: https://www.intel.com/content/www/us/en/processors/xeon/xeon-e3-1200v3-spec-update.html
-> BDM48: https://www.intel.com/content/www/us/en/products/docs/processors/core/5th-gen-core-family-spec-update.html
+> 
+>> Intel Errata HSD131, HSM142, HSW131, and BDM48 report that
+>> "spurious corrected errors may be logged in the IA32_MC0_STATUS register
+>> with the valid field (bit 63) set, the uncorrected error field (bit 61)
+>> not set, a Model Specific Error Code (bits [31:16]) of 0x000F, and
+>> an MCA Error Code (bits [15:0]) of 0x0005."
+>>
+>> Block these spurious errors from the console and logs.
+> 
+> Are they being hit in the wild or why do we need this?
 
-Those links tend to get stale with time. If you really want to refer to
-the PDFs, add a new bugzilla entry on https://bugzilla.kernel.org/, add
-them there as an attachment and add the link to the entry to the commit
-message.
+Alexander, cc'd, is being hit by this in the wild.
 
-> Signed-off-by: Alexander Krupp <centos@akr.yagii.de>
+> 
+>> Links to Intel Specification updates:
+>> HSD131: https://www.intel.com/content/www/us/en/products/docs/processors/core/4th-gen-core-family-desktop-specification-update.html
+>> HSM142: https://www.intel.com/content/www/us/en/products/docs/processors/core/4th-gen-core-family-mobile-specification-update.html
+>> HSW131: https://www.intel.com/content/www/us/en/processors/xeon/xeon-e3-1200v3-spec-update.html
+>> BDM48: https://www.intel.com/content/www/us/en/products/docs/processors/core/5th-gen-core-family-spec-update.html
+> 
+> Those links tend to get stale with time. If you really want to refer to
+> the PDFs, add a new bugzilla entry on https://bugzilla.kernel.org/, add
+> them there as an attachment and add the link to the entry to the commit
+> message.
+> 
+>> Signed-off-by: Alexander Krupp <centos@akr.yagii.de>
+> 
+> What's that Signed-off-by: tag supposed to mean?
+> 
+>> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
+>> Cc: Tony Luck <tony.luck@intel.com>
+>> Cc: Borislav Petkov <bp@alien8.de>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: Ingo Molnar <mingo@redhat.com>
+>> Cc: "H. Peter Anvin" <hpa@zytor.com>
+>> Cc: x86@kernel.org
+>> Cc: linux-edac@vger.kernel.org
+>> ---
+>>  arch/x86/kernel/cpu/mce/core.c | 21 +++++++++++++++++++++
+>>  1 file changed, 21 insertions(+)
+> 
+> If at all, this should be done by adding an intel_filter_mce() function
+> and called from filter_mce() so that such errors don't get logged.
 
-What's that Signed-off-by: tag supposed to mean?
+I'll take a look over there.
 
-> Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: x86@kernel.org
-> Cc: linux-edac@vger.kernel.org
-> ---
->  arch/x86/kernel/cpu/mce/core.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+P.
 
-If at all, this should be done by adding an intel_filter_mce() function
-and called from filter_mce() so that such errors don't get logged.
+> 
+> Thx.
+> 
 
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
