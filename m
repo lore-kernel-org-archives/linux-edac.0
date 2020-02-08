@@ -1,78 +1,126 @@
-Return-Path: <SRS0=YUIN=32=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=0xrx=34=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA46BC2D0B1
-	for <linux-edac@archiver.kernel.org>; Thu,  6 Feb 2020 14:04:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98256C35242
+	for <linux-edac@archiver.kernel.org>; Sat,  8 Feb 2020 22:42:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7D94321775
-	for <linux-edac@archiver.kernel.org>; Thu,  6 Feb 2020 14:04:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="KSXzHkCT"
+	by mail.kernel.org (Postfix) with ESMTP id 1C24220726
+	for <linux-edac@archiver.kernel.org>; Sat,  8 Feb 2020 22:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbgBFOEm (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 6 Feb 2020 09:04:42 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:56260 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726765AbgBFOEl (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 6 Feb 2020 09:04:41 -0500
-Received: from zn.tnic (p200300EC2F0B4B0065ED6F8530E953C0.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:4b00:65ed:6f85:30e9:53c0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 567551EC0CB7;
-        Thu,  6 Feb 2020 15:04:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1580997880;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=nMDT/RnHMsdvnJe7PltUSGUscIEQcDp38vE2QnEZmQ0=;
-        b=KSXzHkCTpHFbW7xVEva2B0jCfn1/C6kyzqjRKm5q47vctKOutaODkZn2LwCHnehMTjkV8R
-        jlACfFmO3Ks9pZr7Zqd+H3jZDZg4GrJKHmuzcsc5ubiBQsCoe3j0FqABNhefTe/4/DfuWn
-        E7CI2vTfG+cRt1QBFL2udRNL4ykTs6o=
-Date:   Thu, 6 Feb 2020 15:04:34 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Prarit Bhargava <prarit@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexander Krupp <centos@akr.yagii.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-edac@vger.kernel.org
-Subject: Re: [PATCH] x86/mce: Enable HSD131, HSM142, HSW131, BDM48, and HSM142
-Message-ID: <20200206140434.GE9741@zn.tnic>
-References: <20200205125831.20430-1-prarit@redhat.com>
- <20200206110811.GC9741@zn.tnic>
- <1f3f5f54-eb31-1e2a-27be-7ed4cb3dc2d3@redhat.com>
- <e4088217-78cc-91f5-fcc9-6152aaf12caf@redhat.com>
+        id S1728250AbgBHWmX convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 8 Feb 2020 17:42:23 -0500
+Received: from mail.fireflyinternet.com ([77.68.26.236]:53090 "EHLO
+        fireflyinternet.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728247AbgBHWmX (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 8 Feb 2020 17:42:23 -0500
+X-Greylist: delayed 1037 seconds by postgrey-1.27 at vger.kernel.org; Sat, 08 Feb 2020 17:42:22 EST
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS)) x-ip-name=78.156.65.138;
+Received: from localhost (unverified [78.156.65.138]) 
+        by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id 20161011-1500050 
+        for multiple; Sat, 08 Feb 2020 22:24:44 +0000
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e4088217-78cc-91f5-fcc9-6152aaf12caf@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8BIT
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        bberg@redhat.com, bp@alien8.de, hpa@zytor.com, mingo@redhat.com,
+        tglx@linutronix.de, tony.luck@intel.com
+From:   Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20191111214312.81365-1-srinivas.pandruvada@linux.intel.com>
+Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hdegoede@redhat.com,
+        ckellner@redhat.com,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+References: <20191111214312.81365-1-srinivas.pandruvada@linux.intel.com>
+Message-ID: <158120068234.18291.7938335950259651295@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH] x86, mce, therm_throt: Optimize notifications of thermal throttle
+Date:   Sat, 08 Feb 2020 22:24:42 +0000
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Feb 06, 2020 at 08:05:24AM -0500, Prarit Bhargava wrote:
-> Sorry.  I missed this question, but I really don't understand the question.
-> Alexander posted a patch in a kernel bugzilla @ Red Hat and I modified the patch
-> with some additional changes.  I don't want him to lose credit for the work so
-> he's got a proper Signed-off-by tag for this patch.
+Quoting Srinivas Pandruvada (2019-11-11 21:43:12)
+> +static void throttle_active_work(struct work_struct *work)
+> +{
+> +       struct _thermal_state *state = container_of(to_delayed_work(work),
+> +                                               struct _thermal_state, therm_work);
+> +       unsigned int i, avg, this_cpu = smp_processor_id();
+> +       u64 now = get_jiffies_64();
+> +       bool hot;
+> +       u8 temp;
 
-This is not how this is expressed. Either you write that in free text in
-the commit message or you use Co-developed-by. More details in
+<6> [198.901895] [IGT] perf_pmu: starting subtest cpu-hotplug
+<4> [199.088851] IRQ 24: no longer affine to CPU0
+<4> [199.088871] IRQ 25: no longer affine to CPU0
+<6> [199.091679] smpboot: CPU 0 is now offline
+<6> [200.122204] smpboot: Booting Node 0 Processor 0 APIC 0x0
+<6> [200.297267] smpboot: CPU 1 is now offline
+<3> [201.218812] BUG: using smp_processor_id() in preemptible [00000000] code: kworker/1:0/17
+<4> [201.218974] caller is throttle_active_work+0x12/0x280
+<4> [201.218985] CPU: 0 PID: 17 Comm: kworker/1:0 Tainted: G     U            5.5.0-CI-CI_DRM_7867+ #1
+<4> [201.218991] Hardware name: MSI MS-7924/Z97M-G43(MS-7924), BIOS V1.12 02/15/2016
+<4> [201.219001] Workqueue: events throttle_active_work
+<4> [201.219009] Call Trace:
+<4> [201.219021]  dump_stack+0x71/0x9b
+<4> [201.219035]  debug_smp_processor_id+0xad/0xb0
+<4> [201.219047]  throttle_active_work+0x12/0x280
+<4> [201.219063]  process_one_work+0x26a/0x620
+<4> [201.219087]  worker_thread+0x37/0x380
+<4> [201.219103]  ? process_one_work+0x620/0x620
+<4> [201.219110]  kthread+0x119/0x130
+<4> [201.219119]  ? kthread_park+0x80/0x80
+<4> [201.219134]  ret_from_fork+0x3a/0x50
+<6> [201.315866] x86: Booting SMP configuration:
+<6> [201.315880] smpboot: Booting Node 0 Processor 1 APIC 0x2
+<4> [201.319814] ------------[ cut here ]------------
+<3> [201.319832] ODEBUG: init active (active state 0) object type: timer_list hint: delayed_work_timer_fn+0x0/0x10
+<4> [201.319971] WARNING: CPU: 1 PID: 14 at lib/debugobjects.c:484 debug_print_object+0x67/0x90
+<4> [201.319977] Modules linked in: vgem snd_hda_codec_hdmi i915 mei_hdcp x86_pkg_temp_thermal coretemp snd_hda_codec_realtek crct10dif_pclmul snd_hda_codec_generic crc32_pclmul snd_hda_intel snd_intel_dspcfg snd_hda_codec ghash_clmulni_intel snd_hwdep snd_hda_core snd_pcm mei_me r8169 mei realtek lpc_ich prime_numbers
+<4> [201.320023] CPU: 1 PID: 14 Comm: cpuhp/1 Tainted: G     U            5.5.0-CI-CI_DRM_7867+ #1
+<4> [201.320029] Hardware name: MSI MS-7924/Z97M-G43(MS-7924), BIOS V1.12 02/15/2016
+<4> [201.320038] RIP: 0010:debug_print_object+0x67/0x90
+<4> [201.320046] Code: 83 c2 01 8b 4b 14 4c 8b 45 00 89 15 17 f7 8b 02 8b 53 10 4c 89 e6 48 c7 c7 b0 ce 31 82 48 8b 14 d5 00 37 07 82 e8 89 7b b8 ff <0f> 0b 5b 83 05 33 fb 21 01 01 5d 41 5c c3 83 05 28 fb 21 01 01 c3
+<4> [201.320053] RSP: 0000:ffffc900000dbd40 EFLAGS: 00010286
+<4> [201.320060] RAX: 0000000000000000 RBX: ffff888408665d68 RCX: 0000000000000001
+<4> [201.320066] RDX: 0000000080000001 RSI: ffff88840d6e30f8 RDI: 00000000ffffffff
+<4> [201.320072] RBP: ffffffff826489e0 R08: ffff88840d6e30f8 R09: 0000000000000000
+<4> [201.320078] R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff822d7bd1
+<4> [201.320084] R13: ffffffff826489e0 R14: ffff88840f898300 R15: 0000000000000202
+<4> [201.320091] FS:  0000000000000000(0000) GS:ffff88840f880000(0000) knlGS:0000000000000000
+<4> [201.320098] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4> [201.320104] CR2: 0000000000000000 CR3: 0000000005610001 CR4: 00000000001606e0
+<4> [201.320109] Call Trace:
+<4> [201.320125]  __debug_object_init+0x359/0x510
+<4> [201.320140]  ? _raw_spin_unlock_irqrestore+0x34/0x60
+<4> [201.320156]  ? queue_work_node+0x70/0x70
+<4> [201.320165]  init_timer_key+0x25/0x140
+<4> [201.320180]  ? intel_thermal_supported+0x30/0x30
+<4> [201.320191]  thermal_throttle_online+0xb4/0x260
+<4> [201.320204]  ? unexpected_thermal_interrupt+0x20/0x20
+<4> [201.320213]  cpuhp_invoke_callback+0x9b/0x9d0
+<4> [201.320235]  cpuhp_thread_fun+0x1c8/0x220
+<4> [201.320249]  ? smpboot_thread_fn+0x23/0x280
+<4> [201.320259]  ? smpboot_thread_fn+0x6b/0x280
+<4> [201.320271]  smpboot_thread_fn+0x1d3/0x280
+<4> [201.320288]  ? sort_range+0x20/0x20
+<4> [201.320295]  kthread+0x119/0x130
+<4> [201.320303]  ? kthread_park+0x80/0x80
+<4> [201.320317]  ret_from_fork+0x3a/0x50
+<4> [201.320348] irq event stamp: 4846
+<4> [201.320358] hardirqs last  enabled at (4845): [<ffffffff8112dcca>] console_unlock+0x4ba/0x5a0
+<4> [201.320368] hardirqs last disabled at (4846): [<ffffffff81001ca0>] trace_hardirqs_off_thunk+0x1a/0x1c
+<4> [201.320379] softirqs last  enabled at (4746): [<ffffffff81e00385>] __do_softirq+0x385/0x47f
+<4> [201.320388] softirqs last disabled at (4739): [<ffffffff810ba15a>] irq_exit+0xba/0xc0
+<4> [201.320394] ---[ end trace 06576bf31ad2ac2b ]---
 
-Documentation/process/submitting-patches.rst
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Are we otherwise relying on current->nr_cpus_allowed == 1 here?
+(As this section is not within a preempt_disable or local_irq_disable
+region.)
+-Chris
