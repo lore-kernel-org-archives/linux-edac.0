@@ -4,48 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD512C2BA83
-	for <linux-edac@archiver.kernel.org>; Fri, 14 Feb 2020 17:56:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70983C3B1B5
+	for <linux-edac@archiver.kernel.org>; Fri, 14 Feb 2020 18:11:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AC90720848
-	for <linux-edac@archiver.kernel.org>; Fri, 14 Feb 2020 17:56:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48EF52168B
+	for <linux-edac@archiver.kernel.org>; Fri, 14 Feb 2020 18:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581702976;
-	bh=Xidm1KLHeikUqJj0mf8sqeP5+U4+kFE95p+55aYHmkY=;
+	s=default; t=1581703866;
+	bh=udPBDdvdYkxFiN4/6jnqwJPzNWTrlv9XsXtSLkNELoA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=v7IyrZ9APbyfPIKeZ9E2vaQlvhqqu+tUCmvFf611R2t/I56r0+6cdYXElm4vHh4EN
-	 vYah+uxcTUG3L03Xdpe39ytC//mvGBveJrFB2IshraFDp/xS7EoQPA/9XIWVmu9kym
-	 CBgdwZy1jvL0e3JiMTSpPbgMr3u9kcD1Sef6ew6w=
+	b=ZlVmESMded4KInJajCvYnU8vqdVC9a/uu6yXsAPhDiahQ8dEzjuAJPNxWDcqSLD4w
+	 wNNdtEb3vp+Mgk0jUPrNjKq2UhAKybPYfZ2BaAAwlaWEXRfl5lIcus7TgtclQ0tLo3
+	 eSy4rUt30Wh+fa4lZxN6GXwV+ZIQJW12yw3aEgqk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730589AbgBNR4Q (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 14 Feb 2020 12:56:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40264 "EHLO mail.kernel.org"
+        id S2404055AbgBNSLC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 14 Feb 2020 13:11:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32876 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388209AbgBNP5Y (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:57:24 -0500
+        id S1731294AbgBNPxg (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 14 Feb 2020 10:53:36 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 82BC82467B;
-        Fri, 14 Feb 2020 15:57:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 630E6222C4;
+        Fri, 14 Feb 2020 15:53:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695844;
-        bh=Xidm1KLHeikUqJj0mf8sqeP5+U4+kFE95p+55aYHmkY=;
+        s=default; t=1581695616;
+        bh=udPBDdvdYkxFiN4/6jnqwJPzNWTrlv9XsXtSLkNELoA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cjoXNR6J1NCn5p/r6TLBy/uIq1hqWzXQaSoW+horPo0F0TLNSNmqxiOJ1VsOTH6lH
-         0ubvxMYfb8bLGBaRPc+5HIIM04y9iKoQBl7Z24Wrxz9cuMbf5KvfmXpVOZzFVDv380
-         c5OkqyZ+8QiQZf9BYa0Cw4O2nUDR5inwSc2erHQE=
+        b=SE4QyeWRhwPZtTVMsFFDRsLkvxI2sQshbHKXS5D2sQyt1RnG96LmQD7oqR4cgJfhT
+         0i6za+23+uztSKFh5ntAJeG+4PRkgQCg8UluB+GYKK6fZxwBEIotPZ9nRYo/Md2CSf
+         YtWyQCS23wdb6eARpU3NWs7zv2JHQ6nzYOC9MVm8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wei Yongjun <weiyongjun1@huawei.com>, Borislav Petkov <bp@suse.de>,
-        Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.5 394/542] EDAC/sifive: Fix return value check in ecc_register()
-Date:   Fri, 14 Feb 2020 10:46:26 -0500
-Message-Id: <20200214154854.6746-394-sashal@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@suse.de>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        bberg@redhat.com, ckellner@redhat.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        hdegoede@redhat.com, "H. Peter Anvin" <hpa@zytor.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        linux-edac <linux-edac@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Luck <tony.luck@intel.com>, x86-ml <x86@kernel.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 216/542] x86/mce/therm_throt: Mark throttle_active_work() as __maybe_unused
+Date:   Fri, 14 Feb 2020 10:43:28 -0500
+Message-Id: <20200214154854.6746-216-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -58,38 +65,51 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Wei Yongjun <weiyongjun1@huawei.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-[ Upstream commit 6cd18453b68942913fd3b1913b707646e544c2ac ]
+[ Upstream commit db1ae0314f47e88ae06679270adf17ffa245afd4 ]
 
-In case of error, the function edac_device_alloc_ctl_info() returns a
-NULL pointer, not ERR_PTR(). Replace the IS_ERR() test in the return
-value check with a NULL test.
+throttle_active_work() is only called if CONFIG_SYSFS is set, otherwise
+we get a harmless warning:
 
-Fixes: 91abaeaaff35 ("EDAC/sifive: Add EDAC platform driver for SiFive SoCs")
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+  arch/x86/kernel/cpu/mce/therm_throt.c:238:13: error: 'throttle_active_work' \
+	  defined but not used [-Werror=unused-function]
+
+Mark the function as __maybe_unused to avoid the warning.
+
+Fixes: f6656208f04e ("x86/mce/therm_throt: Optimize notifications of thermal throttle")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Link: https://lkml.kernel.org/r/20200115150303.112627-1-weiyongjun1@huawei.com
+Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: bberg@redhat.com
+Cc: ckellner@redhat.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: hdegoede@redhat.com
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: x86-ml <x86@kernel.org>
+Link: https://lkml.kernel.org/r/20191210203925.3119091-1-arnd@arndb.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/sifive_edac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/x86/kernel/cpu/mce/therm_throt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/edac/sifive_edac.c b/drivers/edac/sifive_edac.c
-index c0cc72a3b2be9..3a3dcb14ed99d 100644
---- a/drivers/edac/sifive_edac.c
-+++ b/drivers/edac/sifive_edac.c
-@@ -54,8 +54,8 @@ static int ecc_register(struct platform_device *pdev)
- 	p->dci = edac_device_alloc_ctl_info(0, "sifive_ecc", 1, "sifive_ecc",
- 					    1, 1, NULL, 0,
- 					    edac_device_alloc_index());
--	if (IS_ERR(p->dci))
--		return PTR_ERR(p->dci);
-+	if (!p->dci)
-+		return -ENOMEM;
+diff --git a/arch/x86/kernel/cpu/mce/therm_throt.c b/arch/x86/kernel/cpu/mce/therm_throt.c
+index 6c3e1c92f1835..58b4ee3cda777 100644
+--- a/arch/x86/kernel/cpu/mce/therm_throt.c
++++ b/arch/x86/kernel/cpu/mce/therm_throt.c
+@@ -235,7 +235,7 @@ static void get_therm_status(int level, bool *proc_hot, u8 *temp)
+ 	*temp = (msr_val >> 16) & 0x7F;
+ }
  
- 	p->dci->dev = &pdev->dev;
- 	p->dci->mod_name = "Sifive ECC Manager";
+-static void throttle_active_work(struct work_struct *work)
++static void __maybe_unused throttle_active_work(struct work_struct *work)
+ {
+ 	struct _thermal_state *state = container_of(to_delayed_work(work),
+ 						struct _thermal_state, therm_work);
 -- 
 2.20.1
 
