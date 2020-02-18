@@ -4,40 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDFE1C34026
-	for <linux-edac@archiver.kernel.org>; Tue, 18 Feb 2020 17:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B13C34049
+	for <linux-edac@archiver.kernel.org>; Tue, 18 Feb 2020 17:23:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A899C24654
-	for <linux-edac@archiver.kernel.org>; Tue, 18 Feb 2020 17:20:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7541E2464E
+	for <linux-edac@archiver.kernel.org>; Tue, 18 Feb 2020 17:23:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1582046410;
-	bh=1/QcFFVdy6vaYY3yC/qBVxENZ9VWu8BQUFNLPDxdkwc=;
+	s=default; t=1582046590;
+	bh=j2Iac1zey820mNpdh5yJdPFMBBkcx1p+/nwylqP9Bj4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=jc52gzNHEuUTtTugF+Rf+viOhGDOZqDJlOsW/3grjRw7CFzlqn26OgVvV1/htWxLA
-	 fji7KwQzC80BMRpT5ZpDlxc88LOF2bQ5nNH3ewRCeSwyKfLG8TID+b5EMhYmxg2GzF
-	 PrMqCX4xL2I3O2ndY5EjDX7E2WdhKOLRZxHfJtsg=
+	b=U5/llvxjNJWaTdm9K3R+uoYNgCn4XlXxgVLRpv5bIEUdxZ5taCdq4ydAVkj6ZpDM/
+	 +ArcqoFaz5cx8USDKw+ZQI/FGgKeKC9oFKiDrOMVOi9I787TrmKMwXo2Ua3TcN3xHH
+	 ofuA7bhod98Qh3PurAcXbvSiUlaCvneP6XwDjSi4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbgBRRUK (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 18 Feb 2020 12:20:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45638 "EHLO mail.kernel.org"
+        id S1726736AbgBRRXF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 18 Feb 2020 12:23:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46978 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726415AbgBRRUK (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 18 Feb 2020 12:20:10 -0500
+        id S1726605AbgBRRXF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 18 Feb 2020 12:23:05 -0500
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2AA1D20801;
-        Tue, 18 Feb 2020 17:20:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5306F20801;
+        Tue, 18 Feb 2020 17:22:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582046409;
-        bh=1/QcFFVdy6vaYY3yC/qBVxENZ9VWu8BQUFNLPDxdkwc=;
+        s=default; t=1582046584;
+        bh=j2Iac1zey820mNpdh5yJdPFMBBkcx1p+/nwylqP9Bj4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FUdza3Rmbg/mS79PNLWd5ZIzn/9300o9tKNwbcJP/mcDcJzUXNmpPjr3jh0X1zJQY
-         2DeI3v9A8QBOH7SD92VtvtrHYPjrF3geQHcK40Qmlnhfnh4LVkrgJXeC+f0XbtauyE
-         Egn9ZDEQtvitjwxDPEpQNg8nsuu31Fls/i5PJ22g=
-Date:   Tue, 18 Feb 2020 17:20:00 +0000
+        b=pGRedyRNM0efhtBXW3mukIv+0Uyx6UFrCDbXNxScGGlS2kUHuf6Z9u5cvnGH2VWIy
+         VkGS9156ykY8H/gDdmCTkV+MFWiVdh3DiGfyr7ajOhFrJqs4dkwqrQ6H6z1Yn7urSI
+         cJWxWOtaqgY9/KrBPR/ucs/jZ3LiWrbmvtYMmeq8=
+Date:   Tue, 18 Feb 2020 17:22:56 +0000
 From:   Will Deacon <will@kernel.org>
 To:     Rob Herring <robh@kernel.org>
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -64,42 +65,33 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Stephen Boyd <sboyd@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Viresh Kumar <viresh.kumar@linaro.org>
-Subject: Re: [RFC PATCH 06/11] iommu: arm-smmu: Remove Calxeda secure mode
- quirk
-Message-ID: <20200218172000.GF1133@willie-the-truck>
+Subject: Re: [RFC PATCH 11/11] dt-bindings: Remove Calxeda platforms bindings
+Message-ID: <20200218172255.GG1133@willie-the-truck>
 References: <20200218171321.30990-1-robh@kernel.org>
- <20200218171321.30990-7-robh@kernel.org>
+ <20200218171321.30990-12-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200218171321.30990-7-robh@kernel.org>
+In-Reply-To: <20200218171321.30990-12-robh@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 11:13:16AM -0600, Rob Herring wrote:
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: iommu@lists.linux-foundation.org
+On Tue, Feb 18, 2020 at 11:13:21AM -0600, Rob Herring wrote:
+> Cc: devicetree@vger.kernel.org
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> Do not apply yet.
+>  .../devicetree/bindings/arm/calxeda.yaml      | 22 ----------
+>  .../devicetree/bindings/arm/calxeda/l2ecc.txt | 15 -------
+>  .../devicetree/bindings/ata/sata_highbank.txt | 44 -------------------
+>  .../devicetree/bindings/clock/calxeda.txt     | 17 -------
+>  .../memory-controllers/calxeda-ddr-ctrlr.txt  | 16 -------
+>  .../devicetree/bindings/net/calxeda-xgmac.txt | 18 --------
+>  .../bindings/phy/calxeda-combophy.txt         | 17 -------
 
-Pleeeeease? ;)
-
->  drivers/iommu/arm-smmu-impl.c | 43 -----------------------------------
->  1 file changed, 43 deletions(-)
-
-Yes, I'm happy to get rid of this. Sadly, I don't think we can remove
-anything from 'struct arm_smmu_impl' because most implementations fall
-just short of perfect.
-
-Anyway, let me know when I can push the button and I'll queue this in
-the arm-smmu tree.
-
-Cheers,
+You can drop the "calxeda,smmu-secure-config-access" from the Arm SMMU
+binding doc too (either here, or as part of the other patch).
 
 Will
