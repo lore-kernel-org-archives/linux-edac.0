@@ -1,107 +1,123 @@
-Return-Path: <SRS0=zyyJ=4V=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=/L2M=4W=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1234C3F2DB
-	for <linux-edac@archiver.kernel.org>; Wed,  4 Mar 2020 14:41:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 912ECC3F2D9
+	for <linux-edac@archiver.kernel.org>; Thu,  5 Mar 2020 16:30:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C933721744
-	for <linux-edac@archiver.kernel.org>; Wed,  4 Mar 2020 14:41:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 687BA207FD
+	for <linux-edac@archiver.kernel.org>; Thu,  5 Mar 2020 16:30:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R4bWqPW0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MlE6sAB/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388084AbgCDOlN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 4 Mar 2020 09:41:13 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33255 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388023AbgCDOlM (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 4 Mar 2020 09:41:12 -0500
-Received: by mail-wr1-f66.google.com with SMTP id x7so2727484wrr.0;
-        Wed, 04 Mar 2020 06:41:10 -0800 (PST)
+        id S1726007AbgCEQaN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 5 Mar 2020 11:30:13 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:44179 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725974AbgCEQaN (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 Mar 2020 11:30:13 -0500
+Received: by mail-ed1-f66.google.com with SMTP id g19so7498770eds.11;
+        Thu, 05 Mar 2020 08:30:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=tCtKJyb0/NtRc1ah/YeyZWRmrmSc960u9t/iq++pctQ=;
-        b=R4bWqPW02fm4nkxV0Ak9O8GdBoEajmQ37qYu+0EweklUM9nyjVIUHvh8+6oCSiZqni
-         /UI75iYEW/gPNcnB403xDMsMsPyQ0Z0XUbtWyAIuxxEF8Xl4LPj47io6o9wQbCAgtNo6
-         3e/5spSmMM50Tam8A794PbBptTnR9RaDVS5b0f56GKR9mJTV3LCr1BoSgYt9X8d0L4Gl
-         x8VZqquFLgKio7ch59MeSiqjH2tfw86Q+QCnaos0CxQaRwV+HhGkKYENhyOZEEF3hiLO
-         LQUetKEibArZLltveclWLmI2vcYFuWZNUEREFkJRnpz7XAjGeC4nU2HoAaDfY9BuCNuc
-         Xj7A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=BRXSE0XBzxMDHWIls4cOTPVu0pFheFOHSZA4RJTN0vU=;
+        b=MlE6sAB/kJpOoC/kjwwQg5tHpmLrO1QqAsarb+FmuiLnyoWB33YLjPUmg5nexdgFD0
+         zuErVK5KVhTE9hafjAGZ/7m8LEdyC8yvGv/F8hUmNwx/rMlI76NSvwhKQcVBZ3S5JeCL
+         pJrhBGFqftYh7meBALrixWPBoq48732IWy+lDoplQ9tfYaZJQdqku2TxhZvGNayZgBEe
+         +zIGM2JpLVG1Hz0BHHSA9FyqVA6CPapSN6eGUYCwv4DZ5T9FJUi0nzDntEZWlj2Wimsg
+         I/kcSy2JkHbevZSyYgBOdCxi+fSUTCw69LcgG8hmubKlUxJes9fr0fcl52H7W2B1Q9FI
+         DqAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=tCtKJyb0/NtRc1ah/YeyZWRmrmSc960u9t/iq++pctQ=;
-        b=UTqEm47uNhSYNhXLKW2QNpSThNbfNciqyVSqns78RtEn+5J3wi1njOOEw+eLfCRLaE
-         2S4UacYuzsSkccQ/tk5IIapgprdbqJFsosjyREoACFEsyK+bc65d0rbw+z8SopzeD8Jj
-         Mae3gGBd768JOT/6LYRHK78rAHroEFHMMQrXNO0loMipZcN/Zp0vYkFbKXnolfKXNBcN
-         E3BxjpzBQx4pBFZodlAzDhMa3fIMC0Dc6IGnMwAvzDP7eHwjzDz2q0kTq661nxihwV25
-         Y/8dTQEwA3v0ACJGMHgiEYfVuXiE+W9zo+kaR4Tln82i87niORW3iz3Brgk/hYksRZoO
-         s3qw==
-X-Gm-Message-State: ANhLgQ2qJHd+yZpYlW+pbNakjtVonULw4ZAsG0nwzW+5R0mm7pCJKdvB
-        6wcRDYXyPPHic3GzPLr0Kmk=
-X-Google-Smtp-Source: ADFU+vsV2rXo6R7E8LyFSyxoB2/CQNHH4LKEdBCKcqgGzs6DkRDeFKR72TjfYg/ctlXmu8Su0JfJQA==
-X-Received: by 2002:adf:cd0a:: with SMTP id w10mr4331698wrm.171.1583332869611;
-        Wed, 04 Mar 2020 06:41:09 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d16:4100:3093:39f0:d3ca:23c6])
-        by smtp.gmail.com with ESMTPSA id u20sm4195561wmj.14.2020.03.04.06.41.08
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=BRXSE0XBzxMDHWIls4cOTPVu0pFheFOHSZA4RJTN0vU=;
+        b=U3MtrWpKRI9BCc5JuB+wGO//jhy4hTKY3BLElKXRruS7Q1bS6y+xZaamHY2INEJg/7
+         WUuH5qCGayHH2RzMiY9HtF1ofUYcpv507172jh33ETmEsPH9A/xE8LdPTqSXsGx/n+px
+         /Vx6geY3cUmNPeGEuimuXrnfA8/oEsrhe0yewV/EWi/QXodYOFgJyfhvtCrTt/o6ES4S
+         YQw8VJoz7Wf27i1Jsa4puj2d/PpqT+wHzrzZA11qQ2fjhsoeYmY+crXdSy1adA2lzWJc
+         INIZbhVY1tQLsRXrTB2yP6TkHH0ZUhyWggCOgJnUUNO/EqrVdbUiul29PKlNtvQ8G8Gg
+         7QKg==
+X-Gm-Message-State: ANhLgQ14LEctfMX5T6ecuODNwnElSGQNzxvrRGi1QoUBQkhn0pIGDdA0
+        oi5jui4H24AyFLZUnnuu8UQ=
+X-Google-Smtp-Source: ADFU+vu3MUA1zppO0rZTreIKd+2o3NPVXyX5uXy3kdFGrQ34BG8nHWYEzaenpXvKwqWAjsk78BrW/Q==
+X-Received: by 2002:a05:6402:1b09:: with SMTP id by9mr9499859edb.23.1583425811053;
+        Thu, 05 Mar 2020 08:30:11 -0800 (PST)
+Received: from jwang-Latitude-5491.pb.local ([2001:1438:4010:2558:d8ec:cf8e:d7de:fb22])
+        by smtp.gmail.com with ESMTPSA id h22sm293651edq.28.2020.03.05.08.30.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 06:41:08 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Paul Walmsley <paul.walmsley@sifive.com>
-Cc:     Christoph Hellwig <hch@lst.de>, Borislav Petkov <bp@suse.de>,
-        Yash Shah <yash.shah@sifive.com>, linux-edac@vger.kernel.org,
-        Sebastian Duda <sebastian.duda@fau.de>,
-        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] MAINTAINERS: rectify EDAC-SIFIVE entry
-Date:   Wed,  4 Mar 2020 15:40:45 +0100
-Message-Id: <20200304144045.15060-1-lukas.bulwahn@gmail.com>
+        Thu, 05 Mar 2020 08:30:10 -0800 (PST)
+From:   Jack Wang <jinpuwang@gmail.com>
+To:     gregkh@linuxfoundation.org, sashal@kernel.org,
+        stable@vger.kernel.org
+Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rrichter@marvell.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jack Wang <jinpu.wang@cloud.ionos.com>
+Subject: [stable-4.14 3/3] EDAC/amd64: Set grain per DIMM
+Date:   Thu,  5 Mar 2020 17:30:07 +0100
+Message-Id: <20200305163007.25659-4-jinpuwang@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200305163007.25659-1-jinpuwang@gmail.com>
+References: <20200305163007.25659-1-jinpuwang@gmail.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Commit 9209fb51896f ("riscv: move sifive_l2_cache.c to drivers/soc") moved
-arch/riscv/mm/sifive_l2_cache.c to drivers/soc/sifive/sifive_l2_cache.c
-and adjusted the MAINTAINERS EDAC-SIFIVE entry but slipped in a mistake.
+From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Since then, ./scripts/get_maintainer.pl --self-test complains:
+[ Upstream commit 466503d6b1b33be46ab87c6090f0ade6c6011cbc ]
 
-  warning: no file matches F: drivers/soc/sifive_l2_cache.c
+The following commit introduced a warning on error reports without a
+non-zero grain value.
 
-Rectify the EDAC-SIFIVE entry in MAINTAINERS now.
+  3724ace582d9 ("EDAC/mc: Fix grain_bits calculation")
 
-Co-developed-by: Sebastian Duda <sebastian.duda@fau.de>
-Signed-off-by: Sebastian Duda <sebastian.duda@fau.de>
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+The amd64_edac_mod module does not provide a value, so the warning will
+be given on the first reported memory error.
+
+Set the grain per DIMM to cacheline size (64 bytes). This is the current
+recommendation.
+
+Fixes: 3724ace582d9 ("EDAC/mc: Fix grain_bits calculation")
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Robert Richter <rrichter@marvell.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Link: https://lkml.kernel.org/r/20191022203448.13962-7-Yazen.Ghannam@amd.com
+[jwang: backport to 4.14 for fix warning during memory error. ]
+Signed-off-by: Jack Wang <jinpu.wang@cloud.ionos.com>
 ---
-Paul, please pick this patch.
+ drivers/edac/amd64_edac.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6158a143a13e..5c755e03ddee 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6110,7 +6110,7 @@ M:	Yash Shah <yash.shah@sifive.com>
- L:	linux-edac@vger.kernel.org
- S:	Supported
- F:	drivers/edac/sifive_edac.c
--F:	drivers/soc/sifive_l2_cache.c
-+F:	drivers/soc/sifive/sifive_l2_cache.c
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 40fb0e7ff8fd..b36abd253786 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2863,6 +2863,7 @@ static int init_csrows(struct mem_ctl_info *mci)
+ 			dimm = csrow->channels[j]->dimm;
+ 			dimm->mtype = pvt->dram_type;
+ 			dimm->edac_mode = edac_mode;
++			dimm->grain = 64;
+ 		}
+ 	}
  
- EDAC-SKYLAKE
- M:	Tony Luck <tony.luck@intel.com>
 -- 
 2.17.1
 
