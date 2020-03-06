@@ -7,67 +7,70 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CBBC10DCE
-	for <linux-edac@archiver.kernel.org>; Fri,  6 Mar 2020 15:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3BAC10F00
+	for <linux-edac@archiver.kernel.org>; Fri,  6 Mar 2020 15:14:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 92C55208C3
-	for <linux-edac@archiver.kernel.org>; Fri,  6 Mar 2020 15:14:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D60020880
+	for <linux-edac@archiver.kernel.org>; Fri,  6 Mar 2020 15:14:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="EXUjQXQJ";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="pIaf0rlk"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="XB2FcrgO";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="ZxbMN36I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727152AbgCFPN7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 6 Mar 2020 10:13:59 -0500
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:28258 "EHLO
+        id S1726811AbgCFPN4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 6 Mar 2020 10:13:56 -0500
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:65114 "EHLO
         mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726861AbgCFPN6 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 Mar 2020 10:13:58 -0500
+        by vger.kernel.org with ESMTP id S1726861AbgCFPN4 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 Mar 2020 10:13:56 -0500
 Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 026F6mNp002765;
-        Fri, 6 Mar 2020 07:13:50 -0800
+        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 026F6U4q002643;
+        Fri, 6 Mar 2020 07:13:45 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=pfpt0818;
- bh=inU91/NGf5sU7Ij3RXrmFxz22l4k+U4RGAo9V+HJDW0=;
- b=EXUjQXQJyRCfvz33/eQlVTPVHPEOymQYEer2h6oLQKYwmQhUeWIcv4aLdYAtS3qr2zMU
- RHaZc3hnuAlgtNCa1Cz7YMW3KsnHTrxYentv9a2wOlGi/QnnvE+9Al0mU8F9Y2ZeZroB
- UBmWlVLwHQHHQP8PwyCmZoJStA2/1cFHCM+YTGasYJsu5Ws7GG4W4d/NJCfJA6JekNp6
- gCEGQxA5Dd0Km6RTY/aj8Sx7IccBa6EBQ5F5F1SxaS2XPpMvgzTPswRR6KlPfVUYDJtm
- uvh47WojO9cwTW5NBKyMh1C1couF21Kqg+pMvt5+mULS5l1GMJMtK0WPeBDx6lPVKydH DQ== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
-        by mx0a-0016f401.pphosted.com with ESMTP id 2yjnjhb2d7-1
+ bh=gGmTLw/nI+ckxz9eV0WxMxXmJprvIcLPEprNoZ0g2v4=;
+ b=XB2FcrgOVd9XPJA6zwIEuJgoG25sXbL4XGtCw5mn3lfsWCjzP13ttCN4M2nNLerz8MfA
+ rqCfAey0aifH6TI3lQCLTGhbci6s1jp12xdT63xbr8qe4hdWsz5/UuM5ruTzdH/rJWPb
+ 0XRDyPDjthVzZi4ZMYiNJiZQg9lILhHYje/5DZ77fWUmalhuT1cG9zi81SNoW+z/HPtS
+ fEX38Ch3NhaU2YaLMIPR//7Wmx7de/elA9mPpKys8UYu9WT8BtVo3EvdMzC31oj6WrRO
+ AIIc6noSK9UMNBjEuZlq4CO9uiVsuh+TV5bOTWA7EMa4qEx5yqnlsComO/71Fs9RQEP5 +g== 
+Received: from sc-exch01.marvell.com ([199.233.58.181])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2yjnjhb2cn-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Fri, 06 Mar 2020 07:13:50 -0800
-Received: from SC-EXCH01.marvell.com (10.93.176.81) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 6 Mar
- 2020 07:13:49 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- SC-EXCH01.marvell.com (10.93.176.81) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Fri, 6 Mar 2020 07:13:49 -0800
+        Fri, 06 Mar 2020 07:13:45 -0800
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH01.marvell.com
+ (10.93.176.81) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 6 Mar
+ 2020 07:13:43 -0800
+Received: from SC-EXCH03.marvell.com (10.93.176.83) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 6 Mar
+ 2020 07:13:43 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
+ by SC-EXCH03.marvell.com (10.93.176.83) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Fri, 6 Mar 2020 07:13:43 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lvrsTqwj0U3Jy1K1Xc1Hf0Ub1EWuUlpeO1nvFc+bwy2mX+eL2Eq/aTftJiskjQZ5Mxb7CVp4Ruh8ORm4RCvHQFbew20sHr1176zpZQL4US1ZcCAPznJmY/GCcFJLIGpivjfhFeIdJtGzQPTEKwEbGw6mrO7tW5QYLc36+s0j0AMyBWEVO3LjlpfcLCRBX0ExxZrFe2FxOYl7ehuf5j7CUDoe5YsqW90JWxvIdfQ8RZuGy12nEFofGUt1sbIPOORW032w7kKEk4x0MVom0K/yXJirLSN43FS6gEkF3T0rSbqRktR0mJxCSPiH0sp7Xjs1dIqn6JPYRZAZoMkflwnitA==
+ b=I7IRvkpguQRc0jjW+MJp5sDxh7qtepej+PABESVdolgHbiahVxy3/AZPj0MScbBhPA71YaB6WcdDVpWbGpNHzgWcyZjQddwDRT/OSD9d+ENo1MZR87lGjSGbdRrjSiYI3c48g4UIWQFwshrs/LfZUxBMGrguWo/sngS20+JDRM3d2IMcSfg0suPw/4a4stAPixpP6GZSAj1qRZ4UUAS2Sz3sWzg9U0WoTscAEybVao6ddOkAJMqJ32mYuhhn/QuqyENo1Ug/Vf2f/68iqr0lKCBlUGmMpq5zkSVZiX+Re/uGMtK3SDDwPh2bdPmIwRAzqbtwO7zS2L7wGctkrQp3QA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=inU91/NGf5sU7Ij3RXrmFxz22l4k+U4RGAo9V+HJDW0=;
- b=YcvcAvMP3ogqOKBgfm4akBbV/ZZxH7zjvJQwO15gU8dPQP9YmjSQ0yw6FcceceBT02RLVIy/caD17LpkRqX65KclRTLSK1KpHla3SJS3RsXZ2S2GsVhKx34BwEqvNv18NbABwfwr0r11if6+ftj7+3ywz61L0QdzDLavXAN9LbtmBTJbnGBoZK2mfN2epxhmuGjm3NclIXYjphT/9sikGbpIUH8AXbYuRgY4EkXFWTdw+68E26jTOEQwabN/zlKXq1LF0ugIQrG4pyg9Bigrc3jppRq1auDpRTThc7LSELD+JUej10XuhbhKx62GtmJgha3UvLrtlWNcYxkElvhLkw==
+ bh=gGmTLw/nI+ckxz9eV0WxMxXmJprvIcLPEprNoZ0g2v4=;
+ b=WUweoKsfA3iRRz8uLDpbrVkeUCgivNDmQCFlRwOdLoc45Tqru2347NKTcK0Dw43jsfeJP4rYyoYoDqpmqTt9jpRFKfMhLDrTg3UA5n2glbh/giab5WECubNCjJKkKYj9ACzudPRqyI1U5iCfHrsCQpScgnLXNXwcG3DIF0xmZ1zYqQwz12jhkdD8eIZtkkycAea1Vr5UFU4ucljPBJ6eIUendJE36xgPD3Jgx7IvdLjnBodlLdCr99AtStP9Tzx37gwgGiKzcmpI2A6jxrhqMIQWN2W00g+EkS4DXskpI63ypgQUU+/J/SULicjgzWRUcq5U9MUBNqpz5xDNADb0cg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
  dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=inU91/NGf5sU7Ij3RXrmFxz22l4k+U4RGAo9V+HJDW0=;
- b=pIaf0rlkpxUJRz8tkC78qwGCs0GRqOjWtwYMAT8PHIoN+ppg0qHIx47Xa5KtLQIL5eSuds33xKCRREOiPtNZetSzYjRfhMnbAqs9YTKfdURDmKlLNu6AGseaglc2t6whBGM8rnQtwrvQEfqhERa452t2DjOw4iREIvmaZUNJ4LI=
+ bh=gGmTLw/nI+ckxz9eV0WxMxXmJprvIcLPEprNoZ0g2v4=;
+ b=ZxbMN36Ic5Gha4Yjb25Xo7hTC5ez1OR4I1LVDaHoA+eecDwS+oUnmiPPlM/J3vc1hPZhz0BAObHsIMso07BQhHUWiOx7yjtwv6/YVfUIL0dhERrNssLsQpptfzbAQQgMcWf09NTfr2frqd8trFLgxptI5HfZA1nuSwWkemS41WU=
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com (2603:10b6:208:165::10)
  by MN2PR18MB2400.namprd18.prod.outlook.com (2603:10b6:208:ab::26) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.14; Fri, 6 Mar
- 2020 15:13:48 +0000
+ 2020 15:13:41 +0000
 Received: from MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::30c4:52fe:fdf8:faff]) by MN2PR18MB3408.namprd18.prod.outlook.com
  ([fe80::30c4:52fe:fdf8:faff%7]) with mapi id 15.20.2793.013; Fri, 6 Mar 2020
- 15:13:48 +0000
+ 15:13:41 +0000
 From:   Robert Richter <rrichter@marvell.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -76,9 +79,9 @@ CC:     James Morse <james.morse@arm.com>,
         Aristeu Rozanski <aris@redhat.com>,
         Robert Richter <rrichter@marvell.com>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 05/11] EDAC/ghes: Cleanup struct ghes_edac_dimm_fill, rename it to ghes_dimm_fill
-Date:   Fri,  6 Mar 2020 16:13:12 +0100
-Message-ID: <20200306151318.17422-6-rrichter@marvell.com>
+Subject: [PATCH 02/11] EDAC/ghes: Setup DIMM label from DMI and use it in error reports
+Date:   Fri,  6 Mar 2020 16:13:09 +0100
+Message-ID: <20200306151318.17422-3-rrichter@marvell.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306151318.17422-1-rrichter@marvell.com>
 References: <20200306151318.17422-1-rrichter@marvell.com>
@@ -89,30 +92,30 @@ X-ClientProxiedBy: HE1PR0102CA0059.eurprd01.prod.exchangelabs.com
  (2603:10b6:208:165::10)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from rric.localdomain (31.208.96.227) by HE1PR0102CA0059.eurprd01.prod.exchangelabs.com (2603:10a6:7:7d::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Fri, 6 Mar 2020 15:13:46 +0000
+Received: from rric.localdomain (31.208.96.227) by HE1PR0102CA0059.eurprd01.prod.exchangelabs.com (2603:10a6:7:7d::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Fri, 6 Mar 2020 15:13:40 +0000
 X-Mailer: git-send-email 2.20.1
 X-Originating-IP: [31.208.96.227]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a8abb355-04bc-46bf-c87e-08d7c1e0f86f
+X-MS-Office365-Filtering-Correlation-Id: d198430d-b193-4dfc-66ea-08d7c1e0f485
 X-MS-TrafficTypeDiagnostic: MN2PR18MB2400:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR18MB24003874E8631B90E34472B9D9E30@MN2PR18MB2400.namprd18.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:265;
+X-Microsoft-Antispam-PRVS: <MN2PR18MB2400B755E5DF1349D49FD3E9D9E30@MN2PR18MB2400.namprd18.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:873;
 X-Forefront-PRVS: 0334223192
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(199004)(189003)(81156014)(81166006)(5660300002)(8676002)(6666004)(54906003)(26005)(956004)(2616005)(4326008)(16526019)(316002)(110136005)(186003)(2906002)(8936002)(86362001)(6512007)(36756003)(478600001)(6486002)(1076003)(66556008)(52116002)(66946007)(66476007)(6506007);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2400;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(346002)(39850400004)(396003)(366004)(136003)(199004)(189003)(81156014)(81166006)(5660300002)(8676002)(6666004)(54906003)(26005)(956004)(2616005)(4326008)(16526019)(316002)(110136005)(186003)(2906002)(8936002)(86362001)(6512007)(36756003)(478600001)(6486002)(1076003)(66556008)(52116002)(66946007)(66476007)(6506007);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2400;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 Received-SPF: None (protection.outlook.com: marvell.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oppAOfUypQ2dJhjurYivF09QOgDyuxx35ei1a/m7ly7M3lxEgg2+e5dKXtJvq+8F9Q3HTNFxO76v7x/RlXZyX+Y4wqqak7RDiWpZtHJoSfUzpapY0YB0+WF1dxFfOGk/nngfNzE0yZM5lMVsRouUmbu2mzFl5vVHcHO7NHk4gDh5UefXi7sTXHIO6RW3+1JOMuSt18rg4qRYzxj3Krxp0rSNZuEDEmfWpqVWvnNNdHAbFYqlXp4IDPdms72W9OMGywXQLJ6mN8Y/BO6LkN2Hz/XnCia9oYM4ffGmfyL+IKzxwDk14albf2SFCi+Go41pkHr3EewWpkXaM+tRaHXv/BCUxR1m+zhLHAZLcY3C13tvoisu5u9tKyf5rfvkVaQyGzaquHgTF8IKn9XUUtcCcLJlpyDYM1fPHUvvQM936XEQrNCaxMa0E7+lq7oxECzY
-X-MS-Exchange-AntiSpam-MessageData: GtMjLCQP9dnxq3L6NtxS3GQtdWHMUJ4gpyTEmlgkcurngMMmZu9rjYYz0GbxgArdjLi7P7/5JaAXBJjNeUus2FjHmpD7ItSgkVCOcIaq3R77bBluw6RqZ23JwoqBQf9dQDmb2L4Eht289/9uuV5n4Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8abb355-04bc-46bf-c87e-08d7c1e0f86f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2020 15:13:48.3823
+X-Microsoft-Antispam-Message-Info: xogkaX6Gx8EbnGG95Kmi+KStwn0Pv78+OTRSMtPsKTvOwLKuz3yhGsPF6+OFJTLL06G6HFH+Yj4bwcz3nfuLNQ9i7N6YdQkmwJsj6p/zf5rBingvqTew8ybNa1wnfOqUw1EUqK/WrKpsoMsPx+tdXQMyaoH2mmDmjP1S2dAV1fhP3kv6TJG07rYf2x6vaH1eCrYzmrolomZWpiM0KICfnEe5zv5VezRU/Olz02lc4F7xVpRkUJhULxz5VUphRZD9IR6vu9V+TY/mbk4lD4wV1RiSq55M63yx2sP1u0jcMBmIwnyLzPHKhkc08kiCEPwLFdto1ayORs7H5kCChaPq+nF/IIK1BDnOujA3m1OmrKnYBIRKTB4YbwoJCN3lSUZDyygQt7dFNdyfrhPQEeIWTu7oG2q/HP9NY5gTMneloXHihdLF2phFPrlZGvUTp0SJ
+X-MS-Exchange-AntiSpam-MessageData: WaXeXa8PwzACbbRgOqZuPszan+Lnt6FBI3BOWTd6t30MyKrMcIK2Li+/aSrAQu0jejxCkJwgMdU/2MgE4t7wjU9y+kxF8OZrH/S8Ao9k5RA0sO9+WERzzOfGLqxWBITDYK+Z+nq7AoBPM5gb5YvzWw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d198430d-b193-4dfc-66ea-08d7c1e0f485
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2020 15:13:41.7971
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T4lAO8SjiwCQ63lOvx+wfLd9PK8E440ZCVOm1VoQNZLqtAA/hIzIrLogBPsP3PcaEbQzA2vF7QYdeAmDg4l28w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: n276Rlj3yFf5uxK1/3BcU8WaPyQ9ZgFcllQ0G+w4sLS3sEcnjRwpRUyi9BnV402m/hS5hfV2S98R3OEHSkLY9Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2400
 X-OriginatorOrg: marvell.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
@@ -122,99 +125,142 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The struct is used to store temporary data for the dmidecode callback.
-Clean this up a bit:
+The ghes driver reports errors with 'unknown label' even if the actual
+DIMM label is known, e.g.:
 
- 1) Rename it to something shorter and more reasonable.
+ EDAC MC0: 1 CE Single-bit ECC on unknown label (node:0 card:0
+   module:0 rank:1 bank:0 col:13 bit_pos:16 DIMM location:N0 DIMM_A0
+   page:0x966a9b3 offset:0x0 grain:1 syndrome:0x0 - APEI location:
+   node:0 card:0 module:0 rank:1 bank:0 col:13 bit_pos:16 DIMM
+   location:N0 DIMM_A0 status(0x0000000000000400): Storage error in
+   DRAM memory)
 
- 2) Rename member count to index since this is what it is used for.
+Fix this by using struct dimm_info's label string in error reports:
 
- 3) Move code close to ghes_edac_dmidecode() where it is used.
+ EDAC MC0: 1 CE Single-bit ECC on N0 DIMM_A0 (node:0 card:0 module:0
+   rank:1 bank:515 col:14 bit_pos:16 DIMM location:N0 DIMM_A0
+   page:0x99223d8 offset:0x0 grain:1 syndrome:0x0 - APEI location:
+   node:0 card:0 module:0 rank:1 bank:515 col:14 bit_pos:16 DIMM
+   location:N0 DIMM_A0 status(0x0000000000000400): Storage error in
+   DRAM memory)
+
+The labels are initialized by reading the bank and device strings from
+DMI. Now, the label information can also read from sysfs. E.g. a
+ThunderX2 system will show the following:
+
+ /sys/devices/system/edac/mc/mc0/dimm0/dimm_label:N0 DIMM_A0
+ /sys/devices/system/edac/mc/mc0/dimm1/dimm_label:N0 DIMM_B0
+ /sys/devices/system/edac/mc/mc0/dimm2/dimm_label:N0 DIMM_C0
+ /sys/devices/system/edac/mc/mc0/dimm3/dimm_label:N0 DIMM_D0
+ /sys/devices/system/edac/mc/mc0/dimm4/dimm_label:N0 DIMM_E0
+ /sys/devices/system/edac/mc/mc0/dimm5/dimm_label:N0 DIMM_F0
+ /sys/devices/system/edac/mc/mc0/dimm6/dimm_label:N0 DIMM_G0
+ /sys/devices/system/edac/mc/mc0/dimm7/dimm_label:N0 DIMM_H0
+ /sys/devices/system/edac/mc/mc0/dimm8/dimm_label:N1 DIMM_I0
+ /sys/devices/system/edac/mc/mc0/dimm9/dimm_label:N1 DIMM_J0
+ /sys/devices/system/edac/mc/mc0/dimm10/dimm_label:N1 DIMM_K0
+ /sys/devices/system/edac/mc/mc0/dimm11/dimm_label:N1 DIMM_L0
+ /sys/devices/system/edac/mc/mc0/dimm12/dimm_label:N1 DIMM_M0
+ /sys/devices/system/edac/mc/mc0/dimm13/dimm_label:N1 DIMM_N0
+ /sys/devices/system/edac/mc/mc0/dimm14/dimm_label:N1 DIMM_O0
+ /sys/devices/system/edac/mc/mc0/dimm15/dimm_label:N1 DIMM_P0
+
+Since dimm_labels can be rewritten, that label will be used in a later
+error report:
+
+ # echo foobar >/sys/devices/system/edac/mc/mc0/dimm0/dimm_label
+ # # some error injection here
+ # dmesg | grep foobar
+ [ 2119.784489] EDAC MC0: 1 CE Single-bit ECC on foobar (node:0 card:0
+ module:0 rank:0 bank:769 col:1 bit_pos:16 DIMM location:foobar
+ page:0x94d027 offset:0x0 grain:1 syndrome:0x0 - APEI location: node:0
+ card:0 module:0 rank:0 bank:769 col:1 bit_pos:16 DIMM location:foobar
+ status(0x0000000000000400): Storage error in DRAM memory)
 
 Signed-off-by: Robert Richter <rrichter@marvell.com>
 ---
- drivers/edac/ghes_edac.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/edac/ghes_edac.c | 44 +++++++++++++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index 438972dfea09..358519e8c2e9 100644
+index cb3dab56a875..07fa3867cba1 100644
 --- a/drivers/edac/ghes_edac.c
 +++ b/drivers/edac/ghes_edac.c
-@@ -72,11 +72,6 @@ struct memdev_dmi_entry {
- 	u16 conf_mem_clk_speed;
- } __attribute__((__packed__));
- 
--struct ghes_edac_dimm_fill {
--	struct mem_ctl_info *mci;
--	unsigned int count;
--};
--
- static void ghes_edac_count_dimms(const struct dmi_header *dh, void *arg)
- {
- 	int *num_dimm = arg;
-@@ -113,18 +108,23 @@ static void ghes_dimm_setup_label(struct dimm_info *dimm, u16 handle)
- 			"unknown memory (handle: 0x%.4x)", handle);
+@@ -87,16 +87,32 @@ static void ghes_edac_count_dimms(const struct dmi_header *dh, void *arg)
+ 		(*num_dimm)++;
  }
  
-+struct ghes_dimm_fill {
-+	struct mem_ctl_info *mci;
-+	int index;
-+};
-+
- static void ghes_edac_dmidecode(const struct dmi_header *dh, void *arg)
+-static int get_dimm_smbios_index(struct mem_ctl_info *mci, u16 handle)
++static struct dimm_info *find_dimm_by_handle(struct mem_ctl_info *mci,
++					u16 handle)
  {
--	struct ghes_edac_dimm_fill *dimm_fill = arg;
-+	struct ghes_dimm_fill *dimm_fill = arg;
- 	struct mem_ctl_info *mci = dimm_fill->mci;
+ 	struct dimm_info *dimm;
  
- 	if (dh->type == DMI_ENTRY_MEM_DEVICE) {
- 		struct memdev_dmi_entry *entry = (struct memdev_dmi_entry *)dh;
--		struct dimm_info *dimm = edac_get_dimm(mci, dimm_fill->count, 0, 0);
-+		struct dimm_info *dimm = edac_get_dimm(mci, dimm_fill->index, 0, 0);
+ 	mci_for_each_dimm(mci, dimm) {
+ 		if (dimm->smbios_handle == handle)
+-			return dimm->idx;
++			return dimm;
+ 	}
  
- 		if (entry->size == 0xffff) {
- 			pr_info("Can't get DIMM%i size\n",
--				dimm_fill->count);
-+				dimm_fill->index);
- 			dimm->nr_pages = MiB_TO_PAGES(32);/* Unknown */
- 		} else if (entry->size == 0x7fff) {
- 			dimm->nr_pages = MiB_TO_PAGES(entry->extended_size);
-@@ -197,7 +197,7 @@ static void ghes_edac_dmidecode(const struct dmi_header *dh, void *arg)
+-	return -1;
++	return NULL;
++}
++
++static void ghes_dimm_setup_label(struct dimm_info *dimm, u16 handle)
++{
++	const char *bank = NULL, *device = NULL;
++
++	dmi_memdev_name(handle, &bank, &device);
++
++	/* both strings must be non-zero */
++	if (bank && *bank && device && *device)
++		snprintf(dimm->label, sizeof(dimm->label),
++			"%s %s", bank, device);
++	else
++		snprintf(dimm->label, sizeof(dimm->label),
++			"unknown memory (handle: 0x%.4x)", handle);
+ }
+ 
+ static void ghes_edac_dmidecode(const struct dmi_header *dh, void *arg)
+@@ -179,9 +195,7 @@ static void ghes_edac_dmidecode(const struct dmi_header *dh, void *arg)
+ 		dimm->dtype = DEV_UNKNOWN;
+ 		dimm->grain = 128;		/* Likely, worse case */
+ 
+-		/*
+-		 * FIXME: It shouldn't be hard to also fill the DIMM labels
+-		 */
++		ghes_dimm_setup_label(dimm, entry->handle);
  
  		if (dimm->nr_pages) {
  			edac_dbg(1, "DIMM%i: %s size = %d MB%s\n",
--				dimm_fill->count, edac_mem_types[dimm->mtype],
-+				dimm_fill->index, edac_mem_types[dimm->mtype],
- 				PAGES_TO_MiB(dimm->nr_pages),
- 				(dimm->edac_mode != EDAC_NONE) ? "(ECC)" : "");
- 			edac_dbg(2, "\ttype %d, detail 0x%02x, width %d(total %d)\n",
-@@ -207,7 +207,7 @@ static void ghes_edac_dmidecode(const struct dmi_header *dh, void *arg)
+@@ -344,19 +358,17 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+ 	if (mem_err->validation_bits & CPER_MEM_VALID_BIT_POSITION)
+ 		p += sprintf(p, "bit_pos:%d ", mem_err->bit_pos);
+ 	if (mem_err->validation_bits & CPER_MEM_VALID_MODULE_HANDLE) {
+-		const char *bank = NULL, *device = NULL;
+-		int index = -1;
++		struct dimm_info *dimm;
  
- 		dimm->smbios_handle = entry->handle;
- 
--		dimm_fill->count++;
-+		dimm_fill->index++;
+-		dmi_memdev_name(mem_err->mem_dev_handle, &bank, &device);
+-		if (bank != NULL && device != NULL)
+-			p += sprintf(p, "DIMM location:%s %s ", bank, device);
+-		else
++		dimm = find_dimm_by_handle(mci, mem_err->mem_dev_handle);
++		if (dimm) {
++			e->top_layer = dimm->idx;
++			strcpy(e->label, dimm->label);
++			p += sprintf(p, "DIMM location:%s ", dimm->label);
++		} else {
+ 			p += sprintf(p, "DIMM DMI handle: 0x%.4x ",
+ 				     mem_err->mem_dev_handle);
+-
+-		index = get_dimm_smbios_index(mci, mem_err->mem_dev_handle);
+-		if (index >= 0)
+-			e->top_layer = index;
++		}
  	}
- }
- 
-@@ -469,7 +469,7 @@ int ghes_edac_register(struct ghes *ghes, struct device *dev)
- 	struct mem_ctl_info *mci;
- 	struct ghes_mci *pvt;
- 	struct edac_mc_layer layers[1];
--	struct ghes_edac_dimm_fill dimm_fill;
-+	struct ghes_dimm_fill dimm_fill;
- 	unsigned long flags;
- 	int idx = -1;
- 
-@@ -536,7 +536,7 @@ int ghes_edac_register(struct ghes *ghes, struct device *dev)
- 	}
- 
- 	if (!fake) {
--		dimm_fill.count = 0;
-+		dimm_fill.index = 0;
- 		dimm_fill.mci = mci;
- 		dmi_walk(ghes_edac_dmidecode, &dimm_fill);
- 	} else {
+ 	if (p > e->location)
+ 		*(p - 1) = '\0';
 -- 
 2.20.1
 
