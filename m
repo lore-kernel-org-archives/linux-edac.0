@@ -1,250 +1,174 @@
-Return-Path: <SRS0=/L2M=4W=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=++Um=4X=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBA9C3F2D8
-	for <linux-edac@archiver.kernel.org>; Thu,  5 Mar 2020 16:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06EC1C10DCE
+	for <linux-edac@archiver.kernel.org>; Fri,  6 Mar 2020 15:13:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CF3F6207FD
-	for <linux-edac@archiver.kernel.org>; Thu,  5 Mar 2020 16:30:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C401820409
+	for <linux-edac@archiver.kernel.org>; Fri,  6 Mar 2020 15:13:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n8JzhLk3"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="nfP+RdAK";
+	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="bml9E8TN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726004AbgCEQaM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 5 Mar 2020 11:30:12 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:40193 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725963AbgCEQaM (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 Mar 2020 11:30:12 -0500
-Received: by mail-ed1-f67.google.com with SMTP id a13so7522246edu.7;
-        Thu, 05 Mar 2020 08:30:10 -0800 (PST)
+        id S1726879AbgCFPN4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 6 Mar 2020 10:13:56 -0500
+Received: from mx0b-0016f401.pphosted.com ([67.231.156.173]:35258 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726811AbgCFPN4 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 Mar 2020 10:13:56 -0500
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 026F6JCP006235;
+        Fri, 6 Mar 2020 07:13:41 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=pfpt0818; bh=BZKu3akUNDzUDyWQL1R2rh4QMDJVlDNBAoWfm6D5b7E=;
+ b=nfP+RdAKerIkV22uFo7H73GRInprIKlDfiwcVdd1Lnju77DIJh/dHL2UfLyph2xLHt77
+ VLc/3VE/uuE17W+Yqf89/+nuxRVx9NgQ2FhVjjsNOBjOGKreExTwy/lX++kNN1DisYyr
+ cwOWgIVlSGtHmupj8iNuvq6/G9NPKonFzgBbooLUeVw+ncZDDjYbfTKCaWzDocxEMFni
+ eVEVBSWInOG2P5ypyqFVkyqUw/lrcJUzyHg4SPl4s5PIzKGlBN+skawdPgKn/fyY4nf6
+ rhWduQdgPafKgbjVRSpSJk1PWhVio9uboutgafpGI0m+QIXN0uxuz6lNCcxoE+xJl7fL zA== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+        by mx0b-0016f401.pphosted.com with ESMTP id 2yhn0ydfv3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Fri, 06 Mar 2020 07:13:41 -0800
+Received: from SC-EXCH04.marvell.com (10.93.176.84) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 6 Mar
+ 2020 07:13:39 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Fri, 6 Mar 2020 07:13:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VL3jtry1jM0sQ67rc0f7HdBqJpRp4AMR+WMteTCf1jZS4RW1KF+HQTHKx/3fnh92cz8ftlrww+oFcDyNVk0mE0ahiVK3+n0pxtzqH7jMEcjwpNI1dOKNP9loVMmSaO91SVyaqfZujN5MaM4J5fZyyvwPuAsHsSP5x+qPjoSNnq6PzpMNagSXpuFCEtS/68Ug2EFGjw0AkUOzzILq1r04L66ijzlWZT7XRvPVJ2CyWaCrLzpzUwFOfV1RoVZI6+nbQgzradtSZAQW5B5mkWrc0loWU6fjKVoE66wGo4y3VPeY+GAYJN+MZmaXyYKLeLzSUOC16ctMG35NCPWq9DTU8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BZKu3akUNDzUDyWQL1R2rh4QMDJVlDNBAoWfm6D5b7E=;
+ b=WqBvoWYauue79qSt25CEvOvnlbjSggm29yzTiiaCQSSpEtTEeNtkX20gNqPlrC1WEnMvzCcfyH30EU3yOrQqZ64VVCcpdB8f4StstI3W7Xaljw6cQzVpageoWuxqvfBnZnx7ajkAusPZ9BiuhU98G4PXsYh2DU+zCTsFijSRL5a35n4HWFTQdhtJjCkqcmZZeJUaZHCW0RX7SlPLhHYFBpiWDMIJSNxlX6jR8fd9FgkrGcoYL48GyHOE80CmU53OdQ97Ru3LyNgx+DImCYkg4iq7BxZOucgAbF3KQDXwPu2/RVYMLT4pNa7oyKWT/EjV6FvTS3Fav9jo8T2b8vO2rQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=er+u9V77ih48BVeG57U+ehFeWhGkKdoyt7DvlKYwru8=;
-        b=n8JzhLk3k+K8+UvPzTNYMLK8WxV5ZFNM6r7g1yK5Jt5Tl6QBW/a0n1B0Kez2uBjkEw
-         FALHHSIQxWyIknxV/320yk6iu5S7Tz+ihg7eZpInVndQ3NHYbSNCVmbkRBSj3GKdkXgK
-         yIqpaUTYSd/RX6rko+pCTwLwZooXOW7FDgRj5nFDgh0GdthCn3BkMoOsAfey//7WgqEU
-         pNNYyHWqeQGIynlkIXdPMKtAUoSc5cKFrUuwgA38ziLhNzC4GOP7ZVc6qPUwPghiVOMM
-         Ys0kGFMPynm37gzS/pchE1M93HZlVOXQ2TqPzUe6JrKjduCZpMcAi5mfhaR8i843Vj3u
-         Cj0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=er+u9V77ih48BVeG57U+ehFeWhGkKdoyt7DvlKYwru8=;
-        b=pUGVDSsnwx+yVPLBnibcsEkRqNDSbp9bWQO8E+Ufvjyim+lEYa1DkivCf6/PigLwQG
-         5hOP1LwsvVvP9oDO/iTIgPu4vHxksX31cMofxD9GI9tXGnp04lQ38I5S6EifuYtIN10l
-         CeephB0Kb29DB1yyC1jz7JS78bpFHKfRd9MkqGwUc6+0vtY+cYzIROGBJlf8lwDqmaL2
-         Fz4jSxjGXTDlxwH9Rv2dqS80YIJTdcgKUV4URMuODwvAjHqb/7xcn2waVYSQhTQNXWPO
-         Wy/a231hWIqGNrBaGlkSP7edHd3yEId3DWkOCnAj+6h/40Bzh9ZhMYOaa0jnEfFc5kHp
-         U/hQ==
-X-Gm-Message-State: ANhLgQ1JBE7VzvZUDX2DMiqq591En9nwpBJoBW1d7PpncKSqgyEMmZ7Q
-        4RAKRM6ZwpKHxY+koQ8GcEY=
-X-Google-Smtp-Source: ADFU+vtm8cHwzJrp9yfvX5j9g16j2RO2hko1IdG5FTvZiqCFmtnIqa8+ZhgzBHCVd6DOg8Qamwu56A==
-X-Received: by 2002:a05:6402:22b0:: with SMTP id cx16mr9483964edb.263.1583425810127;
-        Thu, 05 Mar 2020 08:30:10 -0800 (PST)
-Received: from jwang-Latitude-5491.pb.local ([2001:1438:4010:2558:d8ec:cf8e:d7de:fb22])
-        by smtp.gmail.com with ESMTPSA id h22sm293651edq.28.2020.03.05.08.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2020 08:30:09 -0800 (PST)
-From:   Jack Wang <jinpuwang@gmail.com>
-To:     gregkh@linuxfoundation.org, sashal@kernel.org,
-        stable@vger.kernel.org
-Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
-        Borislav Petkov <bp@suse.de>, "H. Peter Anvin" <hpa@zytor.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-edac <linux-edac@vger.kernel.org>, Pu Wen <puwen@hygon.cn>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        x86-ml <x86@kernel.org>, Jack Wang <jinpu.wang@cloud.ionos.com>
-Subject: [stable-4.14 2/3] x86/mce: Handle varying MCA bank counts
-Date:   Thu,  5 Mar 2020 17:30:06 +0100
-Message-Id: <20200305163007.25659-3-jinpuwang@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200305163007.25659-1-jinpuwang@gmail.com>
-References: <20200305163007.25659-1-jinpuwang@gmail.com>
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BZKu3akUNDzUDyWQL1R2rh4QMDJVlDNBAoWfm6D5b7E=;
+ b=bml9E8TNGYvJRBypsHfI+DYx2SAjlQZUFWZISDBYPrFwm0nS3+SqSRQT0rExlWQmlcCgkdMjZhUWJIFURoDC5haL72NkhiXInE72KUkV/zryQyYS/16bu1yMQMnCi9h97B6PKf85JoavHdXmuKSP+HZOZR+UgdTa6GSep95FoaQ=
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com (2603:10b6:208:165::10)
+ by MN2PR18MB2400.namprd18.prod.outlook.com (2603:10b6:208:ab::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.14; Fri, 6 Mar
+ 2020 15:13:37 +0000
+Received: from MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::30c4:52fe:fdf8:faff]) by MN2PR18MB3408.namprd18.prod.outlook.com
+ ([fe80::30c4:52fe:fdf8:faff%7]) with mapi id 15.20.2793.013; Fri, 6 Mar 2020
+ 15:13:37 +0000
+From:   Robert Richter <rrichter@marvell.com>
+To:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>
+CC:     James Morse <james.morse@arm.com>,
+        Aristeu Rozanski <aris@redhat.com>,
+        Robert Richter <rrichter@marvell.com>,
+        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 00/11] EDAC/ghes: Cleanup, rework and improvement of memory reporting
+Date:   Fri,  6 Mar 2020 16:13:07 +0100
+Message-ID: <20200306151318.17422-1-rrichter@marvell.com>
+X-Mailer: git-send-email 2.20.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HE1PR0102CA0059.eurprd01.prod.exchangelabs.com
+ (2603:10a6:7:7d::36) To MN2PR18MB3408.namprd18.prod.outlook.com
+ (2603:10b6:208:165::10)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from rric.localdomain (31.208.96.227) by HE1PR0102CA0059.eurprd01.prod.exchangelabs.com (2603:10a6:7:7d::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Fri, 6 Mar 2020 15:13:35 +0000
+X-Mailer: git-send-email 2.20.1
+X-Originating-IP: [31.208.96.227]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9695bb69-4050-432b-0e45-08d7c1e0f1c8
+X-MS-TrafficTypeDiagnostic: MN2PR18MB2400:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR18MB2400412D6FBA7181FB59E363D9E30@MN2PR18MB2400.namprd18.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Forefront-PRVS: 0334223192
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(346002)(39850400004)(396003)(366004)(136003)(199004)(189003)(81156014)(81166006)(5660300002)(8676002)(6666004)(54906003)(26005)(956004)(2616005)(4326008)(16526019)(316002)(110136005)(186003)(2906002)(8936002)(966005)(86362001)(6512007)(36756003)(478600001)(6486002)(1076003)(66556008)(52116002)(66946007)(66476007)(6506007);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR18MB2400;H:MN2PR18MB3408.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+Received-SPF: None (protection.outlook.com: marvell.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J3H97loLELudjl80CP9aUek5scDG+abDZWquRPmAA219H13w+dbRl1A8VIfL+rtjMRWyXyrA7apfRBs6oLOll2xGc553pCcAWbrjnHPY5i+X3BXjSiNbEiNWEDHE8HfFeiNgx2CEeEzuiaToXggRNuZMO0BxasHKaOTflM/p5CssfWgPHkXOKrY5OUFeMQ55kiFMGoibXw/5sF66XmsEX53evGSjkR9OTdSG78jKoyiVNplZhy01D8rCaLI0kUpBbfGhjcMZW+lQWSwgVZwZSA3ZJ/hYk5vIz0AfOHGGEgv+++2TJ0Z0hk2ULWGKENNQx8wc8hoLjOkSZMdd+V/ZQPp8/aOQlzgdEeyGHmSICqHg1WhtwskZnMhAOIg1dYbh2VnF3stQJh8LUOjvYCOz0wl6msMWM0Q+12QrCZxdi0YBFukA8woI/G0+FxfqPsNMEtXT/6H5/Su17x6WjmyaZ1XQMyofG2krIsmjzi3lEgmgPnXBs2L0UzCf1l9K3cQbB6vrFX2sIMuUqwDhgQ7tqQ==
+X-MS-Exchange-AntiSpam-MessageData: JPNLdwpHosuuyT9keuVtci7e2AOTgJ5BhEc5AN5q+kwCUg7+BEe+Ne025rEDJkCA8lylT/lTRJJuHSGp1DGy1gHK+Hp/Mv+hTIgddNX3EpIqE1KPjNEvDF5Vcc5i8+fG8JftFHhtjIRQdGGrv72xPw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9695bb69-4050-432b-0e45-08d7c1e0f1c8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2020 15:13:37.3807
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wFKLIUsI382SJ5CzsZGOce1LylXzlWH1svR6StE36dKVPLx32RKkjoEagizMMoUkv/iHTsB1tniclOQd8QDMtw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR18MB2400
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-03-06_04:2020-03-06,2020-03-06 signatures=0
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+This series contains a significant cleanup and rework of the ghes
+driver and improves the memory reporting as follows:
 
-[ Upstream commit 006c077041dc73b9490fffc4c6af5befe0687110 ]
+ * fix of DIMM label in error reports (patch #2),
 
-Linux reads MCG_CAP[Count] to find the number of MCA banks visible to a
-CPU. Currently, this number is the same for all CPUs and a warning is
-shown if there is a difference. The number of banks is overwritten with
-the MCG_CAP[Count] value of each following CPU that boots.
+ * creation of multiple memory controllers to group DIMMs depending on
+   the physical memory array (patches #9-#11). This should reflect the
+   memory topology of a system in sysfs. Esp. multi-node systems show
+   up with one memory controller per node now.
 
-According to the Intel SDM and AMD APM, the MCG_CAP[Count] value gives
-the number of banks that are available to a "processor implementation".
-The AMD BKDGs/PPRs further clarify that this value is per core. This
-value has historically been the same for every core in the system, but
-that is not an architectural requirement.
+The changes base on the remaining patches that are a general cleanup
+and rework:
 
-Future AMD systems may have different MCG_CAP[Count] values per core,
-so the assumption that all CPUs will have the same MCG_CAP[Count] value
-will no longer be valid.
+ * small change to edac_mc, not really dependent on the rest of the
+   series (patch #1),
 
-Also, the first CPU to boot will allocate the struct mce_banks[] array
-using the number of banks based on its MCG_CAP[Count] value. The machine
-check handler and other functions use the global number of banks to
-iterate and index into the mce_banks[] array. So it's possible to use an
-out-of-bounds index on an asymmetric system where a following CPU sees a
-MCG_CAP[Count] value greater than its predecessors.
+ * general cleanup and rework of the ghes driver (patches #3-#8).
 
-Thus, allocate the mce_banks[] array to the maximum number of banks.
-This will avoid the potential out-of-bounds index since the value of
-mca_cfg.banks is capped to MAX_NR_BANKS.
+The implementation of multiple memory controllers bases on the
+suggestion from James (see patch #11), thank you James for your
+valuable input here. The patches are created newly from scratch and
+obsolete the GHES part of my previous postings a while ago that have
+not been accepted upstream:
 
-Set the value of mca_cfg.banks equal to the max of the previous value
-and the value for the current CPU. This way mca_cfg.banks will always
-represent the max number of banks detected on any CPU in the system.
+ https://lore.kernel.org/patchwork/cover/1093488/
 
-This will ensure that all CPUs will access all the banks that are
-visible to them. A CPU that can access fewer than the max number of
-banks will find the registers of the extra banks to be read-as-zero.
+Tested on a Marvell/Cavium ThunderX2 Sabre (dual socket) system.
 
-Furthermore, print the resulting number of MCA banks in use. Do this in
-mcheck_late_init() so that the final value is printed after all CPUs
-have been initialized.
 
-Finally, get bank count from target CPU when doing injection with mce-inject
-module.
+Robert Richter (11):
+  EDAC/mc: Use int type for parameters of edac_mc_alloc()
+  EDAC/ghes: Setup DIMM label from DMI and use it in error reports
+  EDAC/ghes: Remove local variable rdr_mask in ghes_edac_dmidecode()
+  EDAC/ghes: Remove unused members of struct ghes_edac_pvt, rename it to
+    ghes_mci
+  EDAC/ghes: Cleanup struct ghes_edac_dimm_fill, rename it to
+    ghes_dimm_fill
+  EDAC/ghes: Carve out MC device handling into separate functions
+  EDAC/ghes: Have a separate code path for creating the fake MC
+  EDAC/ghes: Carve out code into ghes_edac_register_{one,fake}()
+  EDAC/ghes: Implement DIMM mapping table for SMBIOS handles
+  EDAC/ghes: Create an own device for each mci
+  EDAC/ghes: Create one memory controller per physical memory array
 
- [ bp: Remove out-of-bounds example, passify and cleanup commit message. ]
+ drivers/edac/edac_mc.c   |   7 +-
+ drivers/edac/edac_mc.h   |   6 +-
+ drivers/edac/ghes_edac.c | 514 +++++++++++++++++++++++++++++----------
+ include/linux/edac.h     |   2 -
+ 4 files changed, 390 insertions(+), 139 deletions(-)
 
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Cc: Pu Wen <puwen@hygon.cn>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Vishal Verma <vishal.l.verma@intel.com>
-Cc: x86-ml <x86@kernel.org>
-Link: https://lkml.kernel.org/r/20180727214009.78289-1-Yazen.Ghannam@amd.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-[jwang: cherry-pick to fix boot warning in
-arch/x86/kernel/cpu/mcheck/mce.c:1549 in epyc rome server]
-Signed-off-by: Jack Wang <jinpu.wang@cloud.ionos.com>
----
- arch/x86/kernel/cpu/mcheck/mce-inject.c | 14 +++++++-------
- arch/x86/kernel/cpu/mcheck/mce.c        | 22 +++++++---------------
- 2 files changed, 14 insertions(+), 22 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/mcheck/mce-inject.c b/arch/x86/kernel/cpu/mcheck/mce-inject.c
-index f12141ba9a76..e57b59762f9f 100644
---- a/arch/x86/kernel/cpu/mcheck/mce-inject.c
-+++ b/arch/x86/kernel/cpu/mcheck/mce-inject.c
-@@ -46,8 +46,6 @@
- static struct mce i_mce;
- static struct dentry *dfs_inj;
- 
--static u8 n_banks;
--
- #define MAX_FLAG_OPT_SIZE	4
- #define NBCFG			0x44
- 
-@@ -570,9 +568,15 @@ static void do_inject(void)
- static int inj_bank_set(void *data, u64 val)
- {
- 	struct mce *m = (struct mce *)data;
-+	u8 n_banks;
-+	u64 cap;
-+
-+	/* Get bank count on target CPU so we can handle non-uniform values. */
-+	rdmsrl_on_cpu(m->extcpu, MSR_IA32_MCG_CAP, &cap);
-+	n_banks = cap & MCG_BANKCNT_MASK;
- 
- 	if (val >= n_banks) {
--		pr_err("Non-existent MCE bank: %llu\n", val);
-+		pr_err("MCA bank %llu non-existent on CPU%d\n", val, m->extcpu);
- 		return -EINVAL;
- 	}
- 
-@@ -665,10 +669,6 @@ static struct dfs_node {
- static int __init debugfs_init(void)
- {
- 	unsigned int i;
--	u64 cap;
--
--	rdmsrl(MSR_IA32_MCG_CAP, cap);
--	n_banks = cap & MCG_BANKCNT_MASK;
- 
- 	dfs_inj = debugfs_create_dir("mce-inject", NULL);
- 	if (!dfs_inj)
-diff --git a/arch/x86/kernel/cpu/mcheck/mce.c b/arch/x86/kernel/cpu/mcheck/mce.c
-index 0b0e44f85393..95c09db1bba2 100644
---- a/arch/x86/kernel/cpu/mcheck/mce.c
-+++ b/arch/x86/kernel/cpu/mcheck/mce.c
-@@ -1499,13 +1499,12 @@ EXPORT_SYMBOL_GPL(mce_notify_irq);
- static int __mcheck_cpu_mce_banks_init(void)
- {
- 	int i;
--	u8 num_banks = mca_cfg.banks;
- 
--	mce_banks = kzalloc(num_banks * sizeof(struct mce_bank), GFP_KERNEL);
-+	mce_banks = kcalloc(MAX_NR_BANKS, sizeof(struct mce_bank), GFP_KERNEL);
- 	if (!mce_banks)
- 		return -ENOMEM;
- 
--	for (i = 0; i < num_banks; i++) {
-+	for (i = 0; i < MAX_NR_BANKS; i++) {
- 		struct mce_bank *b = &mce_banks[i];
- 
- 		b->ctl = -1ULL;
-@@ -1519,28 +1518,19 @@ static int __mcheck_cpu_mce_banks_init(void)
-  */
- static int __mcheck_cpu_cap_init(void)
- {
--	unsigned b;
- 	u64 cap;
-+	u8 b;
- 
- 	rdmsrl(MSR_IA32_MCG_CAP, cap);
- 
- 	b = cap & MCG_BANKCNT_MASK;
--	if (!mca_cfg.banks)
--		pr_info("CPU supports %d MCE banks\n", b);
--
--	if (b > MAX_NR_BANKS) {
--		pr_warn("Using only %u machine check banks out of %u\n",
--			MAX_NR_BANKS, b);
-+	if (WARN_ON_ONCE(b > MAX_NR_BANKS))
- 		b = MAX_NR_BANKS;
--	}
- 
--	/* Don't support asymmetric configurations today */
--	WARN_ON(mca_cfg.banks != 0 && b != mca_cfg.banks);
--	mca_cfg.banks = b;
-+	mca_cfg.banks = max(mca_cfg.banks, b);
- 
- 	if (!mce_banks) {
- 		int err = __mcheck_cpu_mce_banks_init();
--
- 		if (err)
- 			return err;
- 	}
-@@ -2470,6 +2460,8 @@ EXPORT_SYMBOL_GPL(mcsafe_key);
- 
- static int __init mcheck_late_init(void)
- {
-+	pr_info("Using %d MCE banks\n", mca_cfg.banks);
-+
- 	if (mca_cfg.recovery)
- 		static_branch_inc(&mcsafe_key);
- 
 -- 
-2.17.1
+2.20.1
 
