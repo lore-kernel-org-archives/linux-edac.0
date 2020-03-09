@@ -1,121 +1,69 @@
-Return-Path: <SRS0=CEEa=4Z=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=thy6=42=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 435B4C10DCE
-	for <linux-edac@archiver.kernel.org>; Sun,  8 Mar 2020 16:33:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D4CC10DCE
+	for <linux-edac@archiver.kernel.org>; Mon,  9 Mar 2020 00:50:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 22AC820828
-	for <linux-edac@archiver.kernel.org>; Sun,  8 Mar 2020 16:33:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 442D020866
+	for <linux-edac@archiver.kernel.org>; Mon,  9 Mar 2020 00:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1583715007;
+	bh=lWfiQdoCsnTQPI1RCdJJfvuV1crdqrAx/b6jzhDKNyw=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=qB42k+ZkUrC7Z/idArX0L59sWRDGqPVwiCyw3JQNbYwnvsRJpUtZxCIS0prfdFOSY
+	 Hw9lBryLJCYo4PtO7rIU19FWBT/rLprwsKbLX+sQ8HiNiG/vR+JP1kF5nGUfCzedFp
+	 S2LwJi/us8bLiibbjr57Psc4DWFYsTsOvGUHZHdE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbgCHQde (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 8 Mar 2020 12:33:34 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45330 "EHLO mx2.suse.de"
+        id S1726363AbgCIAuG (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 8 Mar 2020 20:50:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55544 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726292AbgCHQde (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 8 Mar 2020 12:33:34 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id A70BCAFF7;
-        Sun,  8 Mar 2020 16:33:32 +0000 (UTC)
-Date:   Sun, 8 Mar 2020 17:33:35 +0100
-From:   Borislav Petkov <bp@suse.de>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-edac <linux-edac@vger.kernel.org>,
+        id S1726352AbgCIAuG (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 8 Mar 2020 20:50:06 -0400
+Subject: Re: [GIT PULL] EDAC urgent fix for 5.6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583715006;
+        bh=lWfiQdoCsnTQPI1RCdJJfvuV1crdqrAx/b6jzhDKNyw=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=fDgPGNu1F/gcMrJ2m7Ljp1XbX7b2iPWJNa5amxOLjCLAIUOFo5BnFsj0+19VD0DJd
+         2Egvp1qMZkq0Als8aaMy2zMQ9bI+OwDCgnUVV9VYL5caW7loPNkl23BkRkQkyWPAjf
+         FHb4zCCzQ3zZVQr5UGl+QtYEfg19aB0SxkefGKHc=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200308163335.GC12445@zn.tnic>
+References: <20200308163335.GC12445@zn.tnic>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200308163335.GC12445@zn.tnic>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git
+ tags/edac_urgent-2020-03-08
+X-PR-Tracked-Commit-Id: dfc6014e3b60713f375d0601d7549eed224c4615
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: efe582a137eda93265d880494cb04370afd162f2
+Message-Id: <158371500614.10826.15867365502473300442.pr-tracker-bot@kernel.org>
+Date:   Mon, 09 Mar 2020 00:50:06 +0000
+To:     Borislav Petkov <bp@suse.de>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-edac <linux-edac@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] EDAC urgent fix for 5.6
-Message-ID: <20200308163335.GC12445@zn.tnic>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Linus,
+The pull request you sent on Sun, 8 Mar 2020 17:33:35 +0100:
 
-please pull the error reporting fix for synopsys_edac below. (Btw, doing
-signed tags only from now on.)
+> git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent-2020-03-08
 
-Thx.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/efe582a137eda93265d880494cb04370afd162f2
 
----
-The following changes since commit f8788d86ab28f61f7b46eb6be375f8a726783636:
-
-  Linux 5.6-rc3 (2020-02-23 16:17:42 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent-2020-03-08
-
-for you to fetch changes up to dfc6014e3b60713f375d0601d7549eed224c4615:
-
-  EDAC/synopsys: Do not print an error with back-to-back snprintf() calls (2020-02-27 16:44:25 +0100)
-
-----------------------------------------------------------------
-* Do not overwrite partial decoded error message in synopsys_edac (Sherry Sun)
-
-----------------------------------------------------------------
-Sherry Sun (1):
-      EDAC/synopsys: Do not print an error with back-to-back snprintf() calls
-
- drivers/edac/synopsys_edac.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 2d263382d797..880ffd833718 100644
---- a/drivers/edac/synopsys_edac.c
-+++ b/drivers/edac/synopsys_edac.c
-@@ -479,20 +479,14 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
- 		pinf = &p->ceinfo;
- 		if (!priv->p_data->quirks) {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "DDR ECC error type:%s Row %d Bank %d Col %d ",
--				  "CE", pinf->row, pinf->bank, pinf->col);
--			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "Bit Position: %d Data: 0x%08x\n",
-+				 "DDR ECC error type:%s Row %d Bank %d Col %d Bit Position: %d Data: 0x%08x",
-+				 "CE", pinf->row, pinf->bank, pinf->col,
- 				 pinf->bitpos, pinf->data);
- 		} else {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "DDR ECC error type:%s Row %d Bank %d Col %d ",
--				  "CE", pinf->row, pinf->bank, pinf->col);
--			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "BankGroup Number %d Block Number %d ",
--				 pinf->bankgrpnr, pinf->blknr);
--			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "Bit Position: %d Data: 0x%08x\n",
-+				 "DDR ECC error type:%s Row %d Bank %d Col %d BankGroup Number %d Block Number %d Bit Position: %d Data: 0x%08x",
-+				 "CE", pinf->row, pinf->bank, pinf->col,
-+				 pinf->bankgrpnr, pinf->blknr,
- 				 pinf->bitpos, pinf->data);
- 		}
- 
-@@ -509,10 +503,8 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
- 				"UE", pinf->row, pinf->bank, pinf->col);
- 		} else {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "DDR ECC error type :%s Row %d Bank %d Col %d ",
--				 "UE", pinf->row, pinf->bank, pinf->col);
--			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "BankGroup Number %d Block Number %d",
-+				 "DDR ECC error type :%s Row %d Bank %d Col %d BankGroup Number %d Block Number %d",
-+				 "UE", pinf->row, pinf->bank, pinf->col,
- 				 pinf->bankgrpnr, pinf->blknr);
- 		}
- 
+Thank you!
 
 -- 
-Regards/Gruss,
-    Boris.
-
-SUSE Software Solutions Germany GmbH, GF: Felix Imendörffer, HRB 36809, AG Nürnberg
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
