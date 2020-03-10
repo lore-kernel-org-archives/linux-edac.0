@@ -5,39 +5,39 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A0D0C18E5B
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Mar 2020 13:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27093C10F27
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Mar 2020 13:19:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 721602468F
-	for <linux-edac@archiver.kernel.org>; Tue, 10 Mar 2020 13:11:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E98CB20873
+	for <linux-edac@archiver.kernel.org>; Tue, 10 Mar 2020 13:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583845885;
-	bh=Uvu0WyXXGIrdFGCDU96MKnZBJOtUvwGuyAPktazVLOM=;
+	s=default; t=1583846392;
+	bh=BKC9Ui6VpGUgCihPifNb77Jm0CpEQJx00HBPT0gcfLI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=EV/Vw1wwIHxLZsUzvaBhfQZTxMaepkzf1TC4BUgfs/Z/avJ3HXSkdFu4hGjyxYQhn
-	 ong7uRADHXiD3YkRsEN9iWc5bxknndvjt9hb+WOiZMLXAJp++EsUaTw7MyxBJTSOb0
-	 EKDvdwuNAOGlHU+k10AstyHyfZfl/pawDrnLGPxA=
+	b=g8PXrWKbmDu6Rjg7P0hmrP/x6styGPnYl4lagTTbk+JWwBtKH1sqOZYV7e6Wb1mlg
+	 Vb+g9svSlh6CuvNbZYxtPh8iq97K2vReclpnRNrcKfV2eVo5dxo94avlgnfeTn1ONx
+	 QIwYNLIp7Mnv9WTgH87qF2bM0mXyRc5oZpgiiYcQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730949AbgCJNLY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 Mar 2020 09:11:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32852 "EHLO mail.kernel.org"
+        id S1729415AbgCJNIU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 Mar 2020 09:08:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54684 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731412AbgCJNLY (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 10 Mar 2020 09:11:24 -0400
+        id S1731096AbgCJNIT (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 10 Mar 2020 09:08:19 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DD27724649;
-        Tue, 10 Mar 2020 13:11:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 11D2A24692;
+        Tue, 10 Mar 2020 13:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583845883;
-        bh=Uvu0WyXXGIrdFGCDU96MKnZBJOtUvwGuyAPktazVLOM=;
+        s=default; t=1583845698;
+        bh=BKC9Ui6VpGUgCihPifNb77Jm0CpEQJx00HBPT0gcfLI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=17ME2voKTVwqDBCMaosX54iGK1238FysZqbfCvU4WGV9CyCeGzktiwEJa5gUkhbuM
-         rageMFZPdZabS0uEFEGylRAQqal4WZAwgcbV0vvhr7uTC4Sh0AB7EtX5MIH7EYASqh
-         yuq5LNGbj53/i/zgkMpnOzOy9yxH/AJMD+OryGDg=
+        b=v8HbFfd+jEmucIHgb1nR43zmMgC2Wq6GRXTYLATrLJ0HEmF8PvlTNSPf2XD9Rp811
+         Ip/ddlVbzaMT/mEZG0nh9HTAlzPHw+8ED/wnqub+h9Sm+rQtjS7h6u6w/hCKKqmSiH
+         C8RapeF/5VgFD++CqtqB8pbos1/pbTz1rom3DgW0=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,16 +48,15 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Robert Richter <rrichter@marvell.com>,
         Tony Luck <tony.luck@intel.com>,
+        Jack Wang <jinpu.wang@cloud.ionos.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 01/86] EDAC/amd64: Set grain per DIMM
-Date:   Tue, 10 Mar 2020 13:44:25 +0100
-Message-Id: <20200310124530.890506153@linuxfoundation.org>
+Subject: [PATCH 4.14 069/126] EDAC/amd64: Set grain per DIMM
+Date:   Tue, 10 Mar 2020 13:41:30 +0100
+Message-Id: <20200310124208.448589666@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200310124530.808338541@linuxfoundation.org>
-References: <20200310124530.808338541@linuxfoundation.org>
+In-Reply-To: <20200310124203.704193207@linuxfoundation.org>
+References: <20200310124203.704193207@linuxfoundation.org>
 User-Agent: quilt/0.66
-X-stable: review
-X-Patchwork-Hint: ignore
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -90,13 +89,15 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Robert Richter <rrichter@marvell.com>
 Cc: Tony Luck <tony.luck@intel.com>
 Link: https://lkml.kernel.org/r/20191022203448.13962-7-Yazen.Ghannam@amd.com
+[jwang: backport to 4.14 for fix warning during memory error. ]
+Signed-off-by: Jack Wang <jinpu.wang@cloud.ionos.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
  drivers/edac/amd64_edac.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 94265e4385146..05d6f9c86ac38 100644
+index 40fb0e7ff8fd9..b36abd2537863 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
 @@ -2863,6 +2863,7 @@ static int init_csrows(struct mem_ctl_info *mci)
