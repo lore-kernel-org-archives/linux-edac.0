@@ -2,93 +2,91 @@ Return-Path: <SRS0=2xhO=5C=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7071BC18E5B
-	for <linux-edac@archiver.kernel.org>; Tue, 17 Mar 2020 10:22:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 294A1C10F29
+	for <linux-edac@archiver.kernel.org>; Tue, 17 Mar 2020 13:38:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A76820658
-	for <linux-edac@archiver.kernel.org>; Tue, 17 Mar 2020 10:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584440573;
-	bh=3JhdNYW35Xr7cHItOJ5k+T6/2/lATLnR5LeNQ/kmzqQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=wX8HJyf/v4yRxb3jr0sDLH0Zqm4eeIg3wfyTFcMSRrfSsRRztXnEanwhNXZUx/b8J
-	 Mrc0Zz9WP+/lPuXNQtzVMhqXT66hVw1H2nY+uzQSDojvKskX5r60CBzkp4kvxr6MSD
-	 i4/sPJZ+HU+sQXbEphncOoDii21jqcWWo3wJR4Yw=
+	by mail.kernel.org (Postfix) with ESMTP id E39A520770
+	for <linux-edac@archiver.kernel.org>; Tue, 17 Mar 2020 13:38:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="pmDGx6Ux"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726077AbgCQKWx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 17 Mar 2020 06:22:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53410 "EHLO mail.kernel.org"
+        id S1726187AbgCQNiX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 17 Mar 2020 09:38:23 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:53120 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725730AbgCQKWw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:22:52 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1726084AbgCQNiX (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 17 Mar 2020 09:38:23 -0400
+Received: from zn.tnic (p200300EC2F0C960055604FE4C38CEC9D.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:9600:5560:4fe4:c38c:ec9d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B82D3205ED;
-        Tue, 17 Mar 2020 10:22:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584440572;
-        bh=3JhdNYW35Xr7cHItOJ5k+T6/2/lATLnR5LeNQ/kmzqQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZEAsPeRiKFScbRUEAjJzdfuOTDSm/yKlJrtz84TKJKzeqEsVKi5cPStIAg4wbA7wk
-         +4QEMjYV9+OpLSVA0brQzzDOLlRCuyAg5KuhBmloFa5fbvPH0mZhkWHF+gqNKMD+Mx
-         Er6BDZZ6SxNhW3g2CcE3EEpXQVBovZm0IzpGFy9E=
-Date:   Tue, 17 Mar 2020 11:22:49 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Manali K Shukla <manashuk@cisco.com>
-Cc:     bp@alien8.de, linux-edac@vger.kernel.org, mchehab@kernel.org,
-        linux-kernel@vger.kernel.org, xe-linux-external@cisco.com,
-        Borislav Petkov <bp@suse.de>,
-        Aristeu Rozanski Filho <arozansk@redhat.com>,
-        Justin Ernst <justin.ernst@hpe.com>,
-        Russ Anderson <rja@hpe.com>, Tony Luck <tony.luck@intel.com>
-Subject: Re: [ PATCH stable v4.19] EDAC: Drop per-memory controller buses
-Message-ID: <20200317102249.GC1130294@kroah.com>
-References: <20200312052201.49456-1-manashuk@cisco.com>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 41C631EC0CE0;
+        Tue, 17 Mar 2020 14:38:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1584452301;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=apBU1oiP7OfJ/UWSLrJmTfdlSC73HgPnz+pcwjgiq7E=;
+        b=pmDGx6UxB4G2stpVI+6ivyn6Grfk/RwDOmSYvJFqZZQrEaLYSOxrrbkVJ6Za0c1cRJeZ3Q
+        CfZh6xDqdisRJteR7FVFSAm4BwK4V5sf7Zfc+dCzroU8eW8Cdd2jPYoOKO/I47NStiZhA2
+        Mo+mmJOXFfde1rmi+m910TC0xZI4nuU=
+Date:   Tue, 17 Mar 2020 14:38:23 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Sherry Sun <sherry.sun@nxp.com>
+Cc:     mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
+        rrichter@marvell.com, michal.simek@xilinx.com,
+        manish.narani@xilinx.com, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com, frank.li@nxp.com
+Subject: Re: [patch v3] EDAC: synopsys: Fix the wrong call of pinf->col
+ parameter
+Message-ID: <20200317133823.GB15609@zn.tnic>
+References: <1584365679-27443-1-git-send-email-sherry.sun@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200312052201.49456-1-manashuk@cisco.com>
+In-Reply-To: <1584365679-27443-1-git-send-email-sherry.sun@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 10:22:01PM -0700, Manali K Shukla wrote:
-> From: Borislav Petkov <bp@suse.de>
+On Mon, Mar 16, 2020 at 09:34:39PM +0800, Sherry Sun wrote:
+> Since ZynqMP platform call zynqmp_get_error_info() function to get ce/ue
+> information. In this function, pinf->col parameter is not used, this
+> parameter is only used by Zynq platforme in zynq_get_error_info(). So
+> here pinf->col should not be called and printed for ZynqMP, need remove
+> it.
 > 
-> upstream 861e6ed667c83d64a42b0db41a22d6b4de4e913f commit
+> In order to show which function called handle_error() explicitly, here
+> use DDR_ECC_INTR_SUPPORT as check condition to distinguish Zynq and
+> ZynqMP platform instead the current way.
 > 
-> ... and use the single edac_subsys object returned from
-> subsys_system_register(). The idea is to have a single bus
-> and multiple devices on it.
+> Fixes: b500b4a029d57 ("EDAC, synopsys: Add ECC support for ZynqMP DDR controller")
+> Signed-off-by: Sherry Sun <sherry.sun@nxp.com>
+> Reviewed-by: Manish Narani <manish.narani@xilinx.com>
+> ---
+> Changes in V3:
+> - Make the check condition in handle_error() more explicitly, use 
+> quirks & DDR_ECC_INTR_SUPPORT instead !quirks, and exchange the context in
+> if/else.
 > 
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-> Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> CC: Aristeu Rozanski Filho <arozansk@redhat.com>
-> CC: Greg KH <gregkh@linuxfoundation.org>
-> CC: Justin Ernst <justin.ernst@hpe.com>
-> CC: linux-edac <linux-edac@vger.kernel.org>
-> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-> CC: Russ Anderson <rja@hpe.com>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Link: https://lkml.kernel.org/r/20180926152752.GG5584@zn.tnic
-> [Manali: backport to v4.19 -stable :
-> - removing per-MC bus, this enables to get rid of memory controllers
->   maximum number notion
-> - value of max number of memory controllers is 2 * MAX_NUMNODES. On two nodes system MAX_NUMNODES value is ‘1’ and
->   so value of max number of memory controller becomes ‘2’, this patch fixes this issue when there are only 2 nodes on the system
->   and number of memory controllers are more than ‘2’]
-> (cherry picked from commit 861e6ed667c83d64a42b0db41a22d6b4de4e913f)
-> Signed-off-by: Manali K Shukla <manashuk@cisco.com>
+> Changes in V2:
+> - Separated this patch from the original patchset.
+> 
+> ---
+>  drivers/edac/synopsys_edac.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 
-Why is this a patch for the stable trees?  What problem does it solve?
+Applied, thanks.
 
-thanks,
+-- 
+Regards/Gruss,
+    Boris.
 
-greg k-h-
+https://people.kernel.org/tglx/notes-about-netiquette
