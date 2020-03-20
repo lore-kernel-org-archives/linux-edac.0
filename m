@@ -1,89 +1,79 @@
-Return-Path: <SRS0=ZSjZ=5E=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=3nng=5F=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C64C4332B
-	for <linux-edac@archiver.kernel.org>; Thu, 19 Mar 2020 21:56:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 362BFC4332B
+	for <linux-edac@archiver.kernel.org>; Fri, 20 Mar 2020 01:56:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8695020773
-	for <linux-edac@archiver.kernel.org>; Thu, 19 Mar 2020 21:56:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="e9dj3MD+"
+	by mail.kernel.org (Postfix) with ESMTP id 0558820409
+	for <linux-edac@archiver.kernel.org>; Fri, 20 Mar 2020 01:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727202AbgCSV4E (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 19 Mar 2020 17:56:04 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:47300 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725768AbgCSV4E (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 19 Mar 2020 17:56:04 -0400
-Received: from zn.tnic (p200300EC2F0A8500B0E932A909542483.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:8500:b0e9:32a9:954:2483])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7A85D1EC0C89;
-        Thu, 19 Mar 2020 22:56:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1584654962;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=YfJGVGnBP64fSyk+ftKR5j5eZQ9Ktuhf1M9TdCPIhRs=;
-        b=e9dj3MD+giRotpcmRla82kQSwA4d41LFiTUrcfEIz2MPaSUrOvQnzwyT2b4mUVsMLMFTjo
-        lPzQle5Qy6mCh6GjCYMXBkEhFLygsWeZD7moj6z9zmO37ZUObOWmvM9OEt2Xh4OL7aU9Pn
-        INeVcDemY/CueAmJPAUD+i2raOzPH8M=
-Date:   Thu, 19 Mar 2020 22:56:07 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Huang2, Wei" <Wei.Huang2@amd.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "Ghannam, Yazen" <Yazen.Ghannam@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Koralahalli Channabasappa, Smita" 
-        <Smita.KoralahalliChannabasappa@amd.com>
-Subject: Re: [PATCH 1/1] x86/mce/amd: Add PPIN support for AMD MCE
-Message-ID: <20200319215607.GI13073@zn.tnic>
-References: <20200311044409.2717587-1-wei.huang2@amd.com>
- <20200316180829.GP26126@zn.tnic>
- <53d25b8c-dabe-1b91-4d3b-0a223075e42a@amd.com>
- <20200319202134.GG13073@zn.tnic>
- <CY4PR12MB1352F7AED37C67DAECC063E6CFF40@CY4PR12MB1352.namprd12.prod.outlook.com>
- <20200319210909.GH13073@zn.tnic>
- <CY4PR12MB1352B6348409EE4FE3D40086CFF40@CY4PR12MB1352.namprd12.prod.outlook.com>
+        id S1727183AbgCTB4X (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 19 Mar 2020 21:56:23 -0400
+Received: from smtprelay0198.hostedemail.com ([216.40.44.198]:55934 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726867AbgCTB4X (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 19 Mar 2020 21:56:23 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 65A95182CF665;
+        Fri, 20 Mar 2020 01:56:22 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: kick45_376b8a8970b3b
+X-Filterd-Recvd-Size: 1850
+Received: from XPS-9350.home (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf03.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 20 Mar 2020 01:56:20 +0000 (UTC)
+Message-ID: <e67eefc91d4f54a5fbf64be9e6bee94680461b60.camel@perches.com>
+Subject: Re: [v1,1/1] EDAC: (pnd2) Fix the log level for message "Failed to
+ register device with error %d"
+From:   Joe Perches <joe@perches.com>
+To:     Amy.Shih@advantech.com.tw, she90122@gmail.com
+Cc:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        oakley.ding@advantech.com.tw
+Date:   Thu, 19 Mar 2020 18:54:34 -0700
+In-Reply-To: <20200317062828.18807-1-Amy.Shih@advantech.com.tw>
+References: <20200317062828.18807-1-Amy.Shih@advantech.com.tw>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CY4PR12MB1352B6348409EE4FE3D40086CFF40@CY4PR12MB1352.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 09:44:48PM +0000, Huang2, Wei wrote:
-> It was from machine_check_poll() ==> mce_gather_info(), right around
-> the invoke of identify_cpu() inside arch/x86/kernel/cpu/common.c file.
+On Tue, 2020-03-17 at 06:28 +0000, Amy.Shih@advantech.com.tw wrote:
+> From: Amy Shih <amy.shih@advantech.com.tw>
+> 
+> Fix the log level from "KERN_ERR" to "KERN_INFO" for message "Failed to
+> register device with error %d", since it is not the error message but
+> the information to notice the user.
+[]
+> diff --git a/drivers/edac/pnd2_edac.c b/drivers/edac/pnd2_edac.c
+[]
+> @@ -1572,7 +1572,8 @@ static int __init pnd2_init(void)
+>  
+>  	rc = pnd2_probe();
+>  	if (rc < 0) {
+> -		pnd2_printk(KERN_ERR, "Failed to register device with error %d.\n", rc);
+> +		pnd2_printk(KERN_INFO,
+> +			    "Failed to register device with error %d.\n", rc);
 
-mcheck_cpu_init
-|->__mcheck_cpu_init_generic
-   |-> machine_check_poll
-|->__mcheck_cpu_init_vendor
+So there's no need to use the word "error"
+in the output message either.
 
-... and the vendor-specific init in __mcheck_cpu_init_vendor() happens
-only *after* it. Oh well.
+	"Failed to register device - %d\n", rc
 
-init_amd() it is then.
+would be enough.
 
-Thx.
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
