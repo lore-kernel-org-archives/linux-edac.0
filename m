@@ -5,54 +5,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B33C43331
-	for <linux-edac@archiver.kernel.org>; Wed,  1 Apr 2020 03:06:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AB1C43331
+	for <linux-edac@archiver.kernel.org>; Wed,  1 Apr 2020 05:13:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80B8C2077D
-	for <linux-edac@archiver.kernel.org>; Wed,  1 Apr 2020 03:06:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A509E2074D
+	for <linux-edac@archiver.kernel.org>; Wed,  1 Apr 2020 05:13:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGtHmylz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mX79wM0Y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731655AbgDADGL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 31 Mar 2020 23:06:11 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43176 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731565AbgDADGK (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 31 Mar 2020 23:06:10 -0400
-Received: by mail-lj1-f193.google.com with SMTP id g27so24136364ljn.10;
-        Tue, 31 Mar 2020 20:06:07 -0700 (PDT)
+        id S1731589AbgDAFNx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 1 Apr 2020 01:13:53 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:38142 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726811AbgDAFNx (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 1 Apr 2020 01:13:53 -0400
+Received: by mail-lf1-f68.google.com with SMTP id c5so19324568lfp.5;
+        Tue, 31 Mar 2020 22:13:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:from:date:message-id:subject:to:cc;
-        bh=Cncm8QU/gApJJ/eq3r8THmKymRZL/LY9q5cgRTKRs5I=;
-        b=VGtHmylzeqk02q6/FH1ZxxNVuU3blaX1gcapU99VOoalOqQhhGq5dx/euBjGrVPcz8
-         cG5HoNR42w/6abzq/JT1XUPZFQqOeRHt5gAmsYGFYo8U8qh1U+DT8zVvWrLqsgrbRc0C
-         8c9JyziOiXdH29NqE1kzBou4mae7doLVUd2eTweKZxoWKYRDwZ5uf3oe5RK8HYum9y/H
-         CDtQwUVpie6ONcKdyxxaS/9wxAnZK2SFm71Neoekh8xURrVDIQ12GutJi+OV2H1O0+0A
-         UkpX5tYeqvAvTOUxCAjY2DZsPUFAb8AwxvlN6YDRbYndkCgtg6DUg98GHRz8E1V/Ep6O
-         UIGA==
+        bh=XMjp4N6SkBeomidPSlGof0y8W8f19f9rN+PDD5MSzR8=;
+        b=mX79wM0Ys6iRYP7zbiZO2UTVcI0EFgfA7iO4H5EUpywt5FKdTbIRWKJo7ZcG2yorFI
+         iRKEGTPtt3ifxvHSp6wG6utNKuzyWpivY0Sg9qISnsMyLJAQCl6MAGYt1xjShOVyXwvV
+         Gr9jEJOyoGNqM7UhRDQG+8mIG8jmD8lIo7QMbIwIldn7xcutQ/DkmvF8kFcQDCInUYm9
+         Mkyix0+uWtOeXV+mvq3FbKT7k3q3RQuHHd62Z3K7R4GbEWNGnQB05FpBU/lATAWm/8AW
+         YUulKJMYDAgaBa3xtJLwr+7AowdOBwgLQlt54VkjRnlmnE/lojAbk1HC5PRa7oj1roZh
+         dVIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=Cncm8QU/gApJJ/eq3r8THmKymRZL/LY9q5cgRTKRs5I=;
-        b=RM2XvgbNrr7ZzX+2EAoaNTQodPNUWoPDc3hkiTjHOcseSNoJ2zWuVY8GLpKPcmbYyX
-         aUjCkj4+q7CbER0aB8qMsWeAw9kIEXCe33BUZ89vkh+1d6Hri3hiqSHM7xc43/ScTdRU
-         jBug6B29oSly4kdsKKDmA7FO199Qf4vkKKjNi0/OsaaZyfweUwr3sOF6ansoQPtNwSru
-         PX1AYIODDbWo6WaEOFHkY52ERl2RWTcDgnxzI9zyCeVi3DkXToWEYXBnCvpewBOhmCGK
-         XlsAflUfKyIYFkrQxugIkyIx2QZzm0lqBwh/4Q7Mis9W6S99zpqaL9zHtc0AwbZPLuba
-         Y6Sw==
-X-Gm-Message-State: AGi0PuYRoFgtTUP+VVKQpgtdf6wcJHtxVLCJntIZ9AMbl6J8VT6myOH1
-        Fm0GQHUClk/5PCXtG0nXo9if49klu7LrtqwR9Ec=
-X-Google-Smtp-Source: APiQypLI+1TSCwhyI5FaKsxRC08UvwMys/ji4hC4ScQIHFamJxow8zZZfWKmfWcrcTAoFT8MSfsJcfSVAJVGZhOfQc8=
-X-Received: by 2002:a2e:9b8e:: with SMTP id z14mr11839809lji.150.1585710366578;
- Tue, 31 Mar 2020 20:06:06 -0700 (PDT)
+        bh=XMjp4N6SkBeomidPSlGof0y8W8f19f9rN+PDD5MSzR8=;
+        b=lvASAZ0arung9/gAZysdtRuRCaHVcGjUtzzEmFgnmjSZ9vr+GkFCwMOoHQoAe+DKR9
+         AZGcimxkZa6WycCzNk2Xa7eJld8lA882bL0VChnchOV6btjErKmmYzbeoXp4rhor8WM8
+         D8b0llrTRMCd85C4gvuJniqcPuV11U7IAmLO14mtx2uIYMDfD2w8CbLuV1QBb2rcLedi
+         BAM5I5/ytMPrWSGKmVCin0q8yvIpQ5WrX9kycaO+gv0oiAl1GJpV/uf7AetFb9qK+3/e
+         5oKdgnOIPhmsIH1ttQgtRwLnXO5RC5nzGr0U2dwpc4rjIBfE/IdoGmVVPlXbWfGbQ5C7
+         CZEg==
+X-Gm-Message-State: AGi0PuYCJm2kwLvGtTWyy5PlfVgePywbVDJrzqJLF5zUYzOjAZd78hUX
+        FikEY2pbol6FU2Ej+YVTiJ5crTm+u4CsId9dtm0=
+X-Google-Smtp-Source: APiQypIjpsODi91FVhgnbfbLT9/wj3HuTOXlQv/Ss9qaiw2mbZ747HdPkNwE2Ig/ZXUaS9X+IrwFGM7xhSvIpEIulR8=
+X-Received: by 2002:a05:6512:3091:: with SMTP id z17mr14033512lfd.42.1585718030102;
+ Tue, 31 Mar 2020 22:13:50 -0700 (PDT)
 MIME-Version: 1.0
 From:   "she90122 ." <she90122@gmail.com>
-Date:   Wed, 1 Apr 2020 11:05:55 +0800
-Message-ID: <CAMhTFwk8Ei3o8Zwo+gZHzjv+hHtpfeWeOxFqu2s2QpaH6H2bVA@mail.gmail.com>
-Subject: [v3,1/1] EDAC: (pnd2) Change the return value of function
+Date:   Wed, 1 Apr 2020 13:13:39 +0800
+Message-ID: <CAMhTFwnDYz=SQsyT6yV+Whp6mQiCw7KTrgt-4oE3Ve3mvOKgxA@mail.gmail.com>
+Subject: [RESEND,v3,1/1] EDAC: (pnd2) Change the return value of function
  apl_check_ecc_active() & dnv_check_ecc_active() when installed the non-ECC
  memory device.
 To:     she90122 <she90122@gmail.com>
@@ -82,7 +83,7 @@ Changes in v3:
 non-ECC memory device.
 Changes in v2:
 - Remove the word "error" from output message.
----
+
  drivers/edac/pnd2_edac.c | 11 ++++++++---
  1 file changed, 8 insertions(+), 3 deletions(-)
 
