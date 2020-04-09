@@ -1,113 +1,81 @@
-Return-Path: <SRS0=hboI=5Y=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=X0v6=5Z=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6954FC2BB1D
-	for <linux-edac@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C5EC38A2D
+	for <linux-edac@archiver.kernel.org>; Thu,  9 Apr 2020 08:54:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3EB1D2078E
-	for <linux-edac@archiver.kernel.org>; Wed,  8 Apr 2020 15:48:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586360911;
-	bh=YrKwSCyyL6nlO0cCOhfxnQbvUXb9v0CXNYMRM9FudAE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UvSUb/yVca1gyhu0HJgFtGwysPUBdaAXw84PqAYGzyJkMVlkoA1/oaju7QBFwtVBf
-	 uxL9AR9XsqMtuFVqivHjC+uZjrPMkwq4XccGX1vEmBG41P56Ayfnhbzcu95ZPol1mi
-	 av698nWAn/NPAYFum25rTsTvn/vhKq31zQ50M4Y0=
+	by mail.kernel.org (Postfix) with ESMTP id E683120730
+	for <linux-edac@archiver.kernel.org>; Thu,  9 Apr 2020 08:54:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729749AbgDHPsa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 8 Apr 2020 11:48:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49356 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729663AbgDHPqc (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 8 Apr 2020 11:46:32 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 720FD21744;
-        Wed,  8 Apr 2020 15:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586360791;
-        bh=YrKwSCyyL6nlO0cCOhfxnQbvUXb9v0CXNYMRM9FudAE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=V2yl18RL6fQ8x84NU8RCm7vM++jqIRw3e3wNGTchAaAKSMi2CB5aLvyZKlZW/r+MJ
-         w6tywCe8nxmFlztFY4P6rJUAGDTN6VbSHvpUJvgbvg79nSp3UBFIu9jxqd6NvrcoKU
-         t7lL0pf/oAEuhBEdZerOagYAvXl3/8jjGtFq3EmM=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jMCuL-000cBS-KZ; Wed, 08 Apr 2020 17:46:29 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
-        linux-edac@vger.kernel.org
-Subject: [PATCH 15/35] docs: ras: get rid of some warnings
-Date:   Wed,  8 Apr 2020 17:46:07 +0200
-Message-Id: <d503dfb10c86f453de27511158c96a396a9f53de.1586359676.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <cover.1586359676.git.mchehab+huawei@kernel.org>
-References: <cover.1586359676.git.mchehab+huawei@kernel.org>
+        id S1726470AbgDIIyS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 9 Apr 2020 04:54:18 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:58548 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725997AbgDIIyS (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 9 Apr 2020 04:54:18 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 756BDA00F8B9400D6FFA;
+        Thu,  9 Apr 2020 16:54:10 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Thu, 9 Apr 2020
+ 16:54:04 +0800
+From:   Jason Yan <yanaijie@huawei.com>
+To:     <khuong@os.amperecomputing.com>, <bp@alien8.de>,
+        <mchehab@kernel.org>, <tony.luck@intel.com>, <james.morse@arm.com>,
+        <rrichter@marvell.com>, <linux-edac@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Jason Yan <yanaijie@huawei.com>
+Subject: [PATCH] EDAC, xgene: remove set but not used 'address'
+Date:   Thu, 9 Apr 2020 16:52:37 +0800
+Message-ID: <20200409085237.46642-1-yanaijie@huawei.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Sphinx produce some warnings due to a bad table format:
+Fix the following gcc warning:
 
-    Documentation/admin-guide/ras.rst:358: WARNING: Definition list ends without a blank line; unexpected unindent.
-    Documentation/admin-guide/ras.rst:358: WARNING: Definition list ends without a blank line; unexpected unindent.
-    Documentation/admin-guide/ras.rst:363: WARNING: Definition list ends without a blank line; unexpected unindent.
-    Documentation/admin-guide/ras.rst:363: WARNING: Definition list ends without a blank line; unexpected unindent.
+drivers/edac/xgene_edac.c:1486:7: warning: variable ‘address’ set but
+not used [-Wunused-but-set-variable]
+   u32 address;
+       ^~~~~~~
 
-Rearrange the things there in order to supress the warnings
-while being precise at the Sphinx output about how ranks are
-mapped into csrows.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
- Documentation/admin-guide/ras.rst | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/edac/xgene_edac.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
-index 0310db624964..22b31bc7e129 100644
---- a/Documentation/admin-guide/ras.rst
-+++ b/Documentation/admin-guide/ras.rst
-@@ -351,15 +351,17 @@ controllers. The following example will assume 2 channels:
- 	+------------+-----------+-----------+
- 	|            |  ``ch0``  |  ``ch1``  |
- 	+============+===========+===========+
--	| ``csrow0`` |  DIMM_A0  |  DIMM_B0  |
--	|            |   rank0   |   rank0   |
--	+------------+     -     |     -     |
-+	|            |**DIMM_A0**|**DIMM_B0**|
-+	+------------+-----------+-----------+
-+	| ``csrow0`` |   rank0   |   rank0   |
-+	+------------+-----------+-----------+
- 	| ``csrow1`` |   rank1   |   rank1   |
- 	+------------+-----------+-----------+
--	| ``csrow2`` |  DIMM_A1  | DIMM_B1   |
--	|            |   rank0   |   rank0   |
--	+------------+     -     |     -     |
--	| ``csrow3`` |   rank1   |   rank1   |
-+	|            |**DIMM_A1**|**DIMM_B1**|
-+	+------------+-----------+-----------+
-+	| ``csrow2`` |    rank0  |  rank0    |
-+	+------------+-----------+-----------+
-+	| ``csrow3`` |    rank1  |  rank1    |
- 	+------------+-----------+-----------+
+diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
+index e4a1032ba0b5..e5e0fbdeca29 100644
+--- a/drivers/edac/xgene_edac.c
++++ b/drivers/edac/xgene_edac.c
+@@ -1483,13 +1483,11 @@ static void xgene_edac_rb_report(struct edac_device_ctl_info *edac_dev)
+ 		return;
+ 	if (reg & STICKYERR_MASK) {
+ 		bool write;
+-		u32 address;
  
- In the above example, there are 4 physical slots on the motherboard
+ 		dev_err(edac_dev->dev, "IOB bus access error(s)\n");
+ 		if (regmap_read(ctx->edac->rb_map, RBEIR, &reg))
+ 			return;
+ 		write = reg & WRITE_ACCESS_MASK ? 1 : 0;
+-		address = RBERRADDR_RD(reg);
+ 		if (reg & AGENT_OFFLINE_ERR_MASK)
+ 			dev_err(edac_dev->dev,
+ 				"IOB bus %s access to offline agent error\n",
 -- 
-2.25.2
+2.17.2
 
