@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAFF1C2BB1D
-	for <linux-edac@archiver.kernel.org>; Fri, 10 Apr 2020 03:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 045FFC2D0EC
+	for <linux-edac@archiver.kernel.org>; Fri, 10 Apr 2020 03:48:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 846A52145D
-	for <linux-edac@archiver.kernel.org>; Fri, 10 Apr 2020 03:46:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE98B2137B
+	for <linux-edac@archiver.kernel.org>; Fri, 10 Apr 2020 03:48:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586490402;
+	s=default; t=1586490485;
 	bh=UrwSOr4h2UrF7KC5Oh4oX+BltuND9X9C5BW/wnK2KGY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uVxbS1rvlqeZaHFv1icK0lX3D76Id8lv21ctPcpeK+bwHVK6XV7LyyA7baP5Auu3J
-	 WGUyZSErKrbP0fKFtj85te5V1S95R/gtkPkE6hKpFhz5c5yylu1lOnw+tv8qeJ87tD
-	 0mrSDTmvmT/+9xkaQLcdYO6OvtWktMtfwxHnYOIs=
+	b=mBbWTXa7wOvUVvkBZbEK/wt7XlVNm3E//4R0L4Fhi82wI7Y5igoQOexKA/QFkV/mI
+	 IFhRSqmB+Bais5SjQYNCEu1ILZtNzPLTr4/FQFTVTnivN5tbSSAJ4RD6GS9Xf1RNyD
+	 polcNyeI9rjy0NrY4mRq1GvSkMJij9L+3PvIwIe8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbgDJDqi (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 9 Apr 2020 23:46:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56504 "EHLO mail.kernel.org"
+        id S1727999AbgDJDsE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 9 Apr 2020 23:48:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59214 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726082AbgDJDqi (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 9 Apr 2020 23:46:38 -0400
+        id S1727993AbgDJDsD (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 9 Apr 2020 23:48:03 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1C08D20B1F;
-        Fri, 10 Apr 2020 03:46:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8F88320A8B;
+        Fri, 10 Apr 2020 03:48:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586490397;
+        s=default; t=1586490483;
         bh=UrwSOr4h2UrF7KC5Oh4oX+BltuND9X9C5BW/wnK2KGY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K3w8uxR0ySjPqG+66MfVK3p60pz+mpnLcGmE4zz3xmLj5KlYUEvdILkQ7sijctetD
-         xCWKmHBjn6esCocdrCmse0Or7gcUQ957L+MKxMQuQMsjAARWAw9cwz5Z0LAoqbGl62
-         JlpN0Kf7EAQ673z3hDwBJSnbZ6KH4FZ/yM5o86mI=
+        b=M69NTzNFZKRz4TuElg2FBrLlxL8ELAeQm9M0V7nFVBSBlN2wK1dvUSgbclhJdJvMQ
+         /+2ay+8+wUkkEay03xWMm9SK+kW4MoX3hze7i7kRaWBPGmhjqnZkWlxspRMYGK4xn3
+         XLAW/TLTZzUiGMxcbDC4qE+jYxlLmWsEX5a2/qkk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Robert Richter <rrichter@marvell.com>,
         Borislav Petkov <bp@suse.de>,
         Aristeu Rozanski <aris@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 02/68] EDAC/mc: Report "unknown memory" on too many DIMM labels found
-Date:   Thu,  9 Apr 2020 23:45:27 -0400
-Message-Id: <20200410034634.7731-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 02/56] EDAC/mc: Report "unknown memory" on too many DIMM labels found
+Date:   Thu,  9 Apr 2020 23:47:06 -0400
+Message-Id: <20200410034800.8381-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200410034634.7731-1-sashal@kernel.org>
-References: <20200410034634.7731-1-sashal@kernel.org>
+In-Reply-To: <20200410034800.8381-1-sashal@kernel.org>
+References: <20200410034800.8381-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
