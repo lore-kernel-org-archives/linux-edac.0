@@ -2,144 +2,114 @@ Return-Path: <SRS0=Enhz=55=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MALFORMED_FREEMAIL,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DATE_IN_PAST_06_12,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D02C2BA19
-	for <linux-edac@archiver.kernel.org>; Mon, 13 Apr 2020 12:02:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B04C2BA19
+	for <linux-edac@archiver.kernel.org>; Mon, 13 Apr 2020 15:11:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D94120732
-	for <linux-edac@archiver.kernel.org>; Mon, 13 Apr 2020 12:02:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ojwONc8Z"
+	by mail.kernel.org (Postfix) with ESMTP id 9EE4A2074B
+	for <linux-edac@archiver.kernel.org>; Mon, 13 Apr 2020 15:11:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729324AbgDMMCa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 13 Apr 2020 08:02:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728558AbgDMMC3 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 13 Apr 2020 08:02:29 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22595C03BC81;
-        Mon, 13 Apr 2020 05:02:29 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id a201so9291538wme.1;
-        Mon, 13 Apr 2020 05:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=g/O468N0+e2tRsKFjrhvYQJivMOIkdyRPfvfIRlI7cs=;
-        b=ojwONc8Z7k2dO3NqAqtxYI/NeOkT4ewz0t86tv53y/pIujj+hieQ3KLNk9ftfb3jmg
-         XzOeklQQIeuJXOTvbulnoZcgspyaKep5/AGmp2QenkL3N07PZNCd1LJEbw3OM5SgktJK
-         YSv3aD3xXkxvtcKzJ6Tt5fXxxEuwFMaDn6E4hHXKuYHHJXyvNej9i/AW8GqX7Fyxswq4
-         U0QTwfSBeCgKBeiYOgx+SVuvitHnUPLDkzhF9rlr2BqY2b7qcXr/9j6UQrLGR9lQDAp4
-         /f7DMQ5OSvk1h864+BPE2VRDLK5/uvmdME9pLzezv42cx4UEFFaKMJCYhIQN0vdxhLan
-         QLVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=g/O468N0+e2tRsKFjrhvYQJivMOIkdyRPfvfIRlI7cs=;
-        b=mYUgWFs56lvKKQL8hpdEjtEO4vqrBZLy0GmbpNk8gD0YVWwvp91RHOlmGRB571PIXg
-         YaFFgHm4z/BY47L8vghLLV8xQhkETyN5NVZC3pGZ+CSltrFM1o2y/wJmyz70xLxobEZu
-         xojav1SIZC1DWEFlqTC6XMGGDiu77lpzNldjYGEmL8+MEg1pvlXFOCHZtNxjYkrQ+FWp
-         uwzGkTRRww0KHC6bl5VC7OA7Bj+1w0BbdIWp62UwQyc4iQHG1b5DWua9/kRAWIPLgCV5
-         SVZT1s8h0sTg9TWGYbau2lYZNrzV4ZwiQGujKw+JJkmCQCqKESqU97TX1wLFT+Nt8KwU
-         zmlQ==
-X-Gm-Message-State: AGi0PuaRpeiSrWPPCUGujRALR/xDwC0zQDaj0XJVTy3VbUguJbqXzm9A
-        30dfBVv4jBLXZUW7+KF6UELowEuRQ5A=
-X-Google-Smtp-Source: APiQypI/n5x0Dasbyjjtav2Kiy2dJHBsSLn588CFieJkVi6QTZqXPm+J/+su2U/4jAXj2iqawJdwFw==
-X-Received: by 2002:a1c:bc02:: with SMTP id m2mr18086398wmf.60.1586779347766;
-        Mon, 13 Apr 2020 05:02:27 -0700 (PDT)
-Received: from felia ([2001:16b8:2da9:2f00:3165:1687:284f:4993])
-        by smtp.gmail.com with ESMTPSA id a7sm14113305wmj.12.2020.04.13.05.02.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2020 05:02:27 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date:   Mon, 13 Apr 2020 14:02:25 +0200 (CEST)
-X-X-Sender: lukas@felia
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Christoph Hellwig <hch@lst.de>, Borislav Petkov <bp@suse.de>,
-        Yash Shah <yash.shah@sifive.com>, linux-edac@vger.kernel.org,
-        Sebastian Duda <sebastian.duda@fau.de>,
-        Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] MAINTAINERS: place sifive_l2_cache.c only in SIFIVE
- DRIVERS
-In-Reply-To: <20200413114702.6372-1-lukas.bulwahn@gmail.com>
-Message-ID: <alpine.DEB.2.21.2004131401190.7282@felia>
-References: <20200413114702.6372-1-lukas.bulwahn@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1729632AbgDMPLm (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 13 Apr 2020 11:11:42 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:35868 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727959AbgDMPLl (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 13 Apr 2020 11:11:41 -0400
+Received: from localhost.localdomain ([93.22.151.169])
+        by mwinf5d63 with ME
+        id SFBR2200E3fYTYl03FBR00; Mon, 13 Apr 2020 17:11:38 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 13 Apr 2020 17:11:38 +0200
+X-ME-IP: 93.22.151.169
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     jlu@pengutronix.de, bp@alien8.de, mchehab@kernel.org,
+        tony.luck@intel.com, james.morse@arm.com, rrichter@marvell.com
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] EDAC/armada_xp: Fix some log messages
+Date:   Mon, 13 Apr 2020 06:15:56 +0200
+Message-Id: <20200413041556.3514-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
+Fix some spelling (s/Aramda/Armada/) in 1 log message and in 1 comment.
 
+While at it, add some trailing '\n' in some other log message.
 
-On Mon, 13 Apr 2020, Lukas Bulwahn wrote:
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/edac/armada_xp_edac.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-> Commit 9209fb51896f ("riscv: move sifive_l2_cache.c to drivers/soc") moved
-> arch/riscv/mm/sifive_l2_cache.c to drivers/soc/sifive/sifive_l2_cache.c
-> and adjusted the MAINTAINERS EDAC-SIFIVE entry but slipped in a mistake.
-> 
-> Since then, ./scripts/get_maintainer.pl --self-test complains:
-> 
->   warning: no file matches F: drivers/soc/sifive_l2_cache.c
-> 
-> Boris suggested that sifive_l2_cache.c is considered part of the SIFIVE
-> DRIVERS, not part of EDAC-SIFIVE. So, we can simply drop this entry, and
-> by the sifive keyword pattern in SIFIVE PATTERNS, it is automatically part
-> of the SIFIVE DRIVERS.
-> 
-> Suggested-by: Borislav Petkov <bp@alien8.de>
-> Co-developed-by: Sebastian Duda <sebastian.duda@fau.de>
-> Signed-off-by: Sebastian Duda <sebastian.duda@fau.de>
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> Paul, please pick this patch.
-> 
-> v1: https://lore.kernel.org/lkml/20200304144045.15060-1-lukas.bulwahn@gmail.com/
->   - was not picked up.
-> 
-> v1-resend: https://lore.kernel.org/lkml/20200413073447.9284-1-lukas.bulwahn@gmail.com/
-> 
-> v2: reworked based on Boris comment; applies on v5.7-rc1
-> 
-> 
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e64e5db31497..e28676766b26 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6172,7 +6172,7 @@ M:	Yash Shah <yash.shah@sifive.com>
->  L:	linux-edac@vger.kernel.org
->  S:	Supported
->  F:	drivers/edac/sifive_edac.c
-> -F:	drivers/soc/sifive_l2_cache.c
-> +F:	drivers/soc/sifive/sifive_l2_cache.c
->  
->  EDAC-SKYLAKE
->  M:	Tony Luck <tony.luck@intel.com>
-> -- 
-> 2.17.1
-> 
-> 
+diff --git a/drivers/edac/armada_xp_edac.c b/drivers/edac/armada_xp_edac.c
+index a7502ebe9bdc..e3e757513d1b 100644
+--- a/drivers/edac/armada_xp_edac.c
++++ b/drivers/edac/armada_xp_edac.c
+@@ -78,7 +78,7 @@ struct axp_mc_drvdata {
+ 	char msg[128];
+ };
+ 
+-/* derived from "DRAM Address Multiplexing" in the ARAMDA XP Functional Spec */
++/* derived from "DRAM Address Multiplexing" in the ARMADA XP Functional Spec */
+ static uint32_t axp_mc_calc_address(struct axp_mc_drvdata *drvdata,
+ 				    uint8_t cs, uint8_t bank, uint16_t row,
+ 				    uint16_t col)
+@@ -160,12 +160,12 @@ static void axp_mc_check(struct mem_ctl_info *mci)
+ 		if (cnt_sbe)
+ 			cnt_sbe--;
+ 		else
+-			dev_warn(mci->pdev, "inconsistent SBE count detected");
++			dev_warn(mci->pdev, "inconsistent SBE count detected\n");
+ 	} else {
+ 		if (cnt_dbe)
+ 			cnt_dbe--;
+ 		else
+-			dev_warn(mci->pdev, "inconsistent DBE count detected");
++			dev_warn(mci->pdev, "inconsistent DBE count detected\n");
+ 	}
+ 
+ 	/* report earlier errors */
+@@ -304,7 +304,7 @@ static int axp_mc_probe(struct platform_device *pdev)
+ 
+ 	config = readl(base + SDRAM_CONFIG_REG);
+ 	if (!(config & SDRAM_CONFIG_ECC_MASK)) {
+-		dev_warn(&pdev->dev, "SDRAM ECC is not enabled");
++		dev_warn(&pdev->dev, "SDRAM ECC is not enabled\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -532,9 +532,9 @@ static int aurora_l2_probe(struct platform_device *pdev)
+ 
+ 	l2x0_aux_ctrl = readl(base + L2X0_AUX_CTRL);
+ 	if (!(l2x0_aux_ctrl & AURORA_ACR_PARITY_EN))
+-		dev_warn(&pdev->dev, "tag parity is not enabled");
++		dev_warn(&pdev->dev, "tag parity is not enabled\n");
+ 	if (!(l2x0_aux_ctrl & AURORA_ACR_ECC_EN))
+-		dev_warn(&pdev->dev, "data ECC is not enabled");
++		dev_warn(&pdev->dev, "data ECC is not enabled\n");
+ 
+ 	dci = edac_device_alloc_ctl_info(sizeof(*drvdata),
+ 					 "cpu", 1, "L", 1, 2, NULL, 0, 0);
+@@ -618,7 +618,7 @@ static int __init armada_xp_edac_init(void)
+ 
+ 	res = platform_register_drivers(drivers, ARRAY_SIZE(drivers));
+ 	if (res)
+-		pr_warn("Aramda XP EDAC drivers fail to register\n");
++		pr_warn("Armada XP EDAC drivers fail to register\n");
+ 
+ 	return 0;
+ }
+-- 
+2.20.1
 
-Please ignore this patch. I accidently sent this patch out too quickly.
-
-Please consider and pick this PATCH v3 instead:
-
-https://lore.kernel.org/lkml/20200413115255.7100-1-lukas.bulwahn@gmail.com/
-
-
-Lukas
