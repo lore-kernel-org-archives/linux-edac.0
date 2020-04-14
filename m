@@ -2,79 +2,88 @@ Return-Path: <SRS0=Oasx=56=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28A21C2BA19
-	for <linux-edac@archiver.kernel.org>; Tue, 14 Apr 2020 14:49:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C73C2BA19
+	for <linux-edac@archiver.kernel.org>; Tue, 14 Apr 2020 16:54:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED65220775
-	for <linux-edac@archiver.kernel.org>; Tue, 14 Apr 2020 14:49:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB7C82054F
+	for <linux-edac@archiver.kernel.org>; Tue, 14 Apr 2020 16:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1586883267;
+	bh=qbLirr5OJzkGy9BaDKpusPauYxAyPeK4aOYcI5WQ1pU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=KkiMM5chF752PE0wvKeg6IYJMd8mo9PVpKiT+kldIo18W0YZW8SgfEIcJhqg+U+/7
+	 sqImJmK5OK9jIm+yC56TFSMnsM3wlmlGOmsa3Qf6vyPuqywMuDA7/PLKTTx/jn/LG5
+	 JyeKPXUAzKqak+U60rtatYKACzDuIF7M/QzmoPBw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405137AbgDNOtW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 14 Apr 2020 10:49:22 -0400
-Received: from mga12.intel.com ([192.55.52.136]:35551 "EHLO mga12.intel.com"
+        id S2391314AbgDNQyZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 14 Apr 2020 12:54:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55192 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404893AbgDNOtV (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 14 Apr 2020 10:49:21 -0400
-IronPort-SDR: pkS1TwrRBC51v1wJiV3bw7VddVSGzmdtIQPHGaRnkDRxeTHa/5cTetYRnJNyVxI0N5xEVt40OB
- 2T6aL7sz8fww==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2020 07:49:17 -0700
-IronPort-SDR: GjIpOW2k/RoVuVkcRzkpJCSVz5Lypre4fXwzI8Gc2K2Rc8HR7bI//zLWy4VqwzS6dJnAlznyXw
- +4jhBO1FUTxQ==
-X-IronPort-AV: E=Sophos;i="5.72,382,1580803200"; 
-   d="scan'208";a="399973646"
-Received: from spandruv-mobl.amr.corp.intel.com ([10.251.11.11])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2020 07:49:16 -0700
-Message-ID: <64f368b6bfde0611d3a1bc24884242bc4fb4cecd.camel@linux.intel.com>
-Subject: Re: [PATCH 1/3] x86/mce/therm_throt: remove unused
- platform_thermal_notify function pointer
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
-        X86 ML <x86@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        bberg@redhat.com, bp@suse.de
-Date:   Tue, 14 Apr 2020 07:49:15 -0700
-In-Reply-To: <CAHmME9rOzmF4K965U69tFZi2SS3rW9SHed2bJ=_PD+xu8LqMYw@mail.gmail.com>
-References: <20200407063345.4484-1-Jason@zx2c4.com>
-         <bad9e0bd5504df83092c7add2d84331e164b60cc.camel@linux.intel.com>
-         <CAHmME9rOzmF4K965U69tFZi2SS3rW9SHed2bJ=_PD+xu8LqMYw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+        id S2407505AbgDNQtO (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 14 Apr 2020 12:49:14 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CBD90217BA;
+        Tue, 14 Apr 2020 16:49:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586882943;
+        bh=qbLirr5OJzkGy9BaDKpusPauYxAyPeK4aOYcI5WQ1pU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RML0oIb+532FiifWanRBbBBqIv+j5i6BLN6eFCYjNBQLfUhmR8G9N7lGqbtDNs9MC
+         NTLde4a5YJXqn4dJfQiXPzmk0paODmzEs/QGA0mDvstdgQ1WkcfK8DUoVgFADduwx6
+         BjhcIf3EhIqu6xHFgCEY/QUoiCh7IEb2An0Dn8lk=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jOOk9-0068m8-20; Tue, 14 Apr 2020 18:49:01 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        linux-edac@vger.kernel.org
+Subject: [PATCH v2 16/33] docs: ras: don't need to repeat twice the same thing
+Date:   Tue, 14 Apr 2020 18:48:42 +0200
+Message-Id: <f76dcae96de8b1bb8ee37a79781c111c825e26d6.1586881715.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1586881715.git.mchehab+huawei@kernel.org>
+References: <cover.1586881715.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, 2020-04-13 at 22:21 -0600, Jason A. Donenfeld wrote:
-> On Mon, Apr 13, 2020 at 9:56 PM Srinivas Pandruvada
-> <srinivas.pandruvada@linux.intel.com> wrote:
-> > On Tue, 2020-04-07 at 00:33 -0600, Jason A. Donenfeld wrote:
-> > > A long time ago platform_thermal_notify was added as some generic
-> > > mechanism for platform drivers to hook thermal events. It seems
-> > > as
-> > > though this has been entirely superseded, and nothing uses it.
-> > > Remove
-> > > the plumbing for this, since this code runs in an interrupt hot
-> > > path.
-> > Good idea.
-> 
-> Will you take this into your tree?
-I am not the maintainer of this tree. So I don't decide this. I can
-just give my opinion.
+We don't need to say twice "for the first time" at the same
+paragraph.
 
->  If not, how do your thermal patches
-> usually go in? A reviewed-by might be useful in that case.
-For this patch:
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/admin-guide/ras.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Pandruvada, Srinivas <srinivas.pandruvada@linux.intel.com>
-
-> 
-> Jason
+diff --git a/Documentation/admin-guide/ras.rst b/Documentation/admin-guide/ras.rst
+index 22b31bc7e129..6cbaab975ee5 100644
+--- a/Documentation/admin-guide/ras.rst
++++ b/Documentation/admin-guide/ras.rst
+@@ -212,7 +212,7 @@ EDAC - Error Detection And Correction
+    purposes.
+ 
+    When the subsystem was pushed upstream for the first time, on
+-   Kernel 2.6.16, for the first time, it was renamed to ``EDAC``.
++   Kernel 2.6.16, it was renamed to ``EDAC``.
+ 
+ Purpose
+ -------
+-- 
+2.25.2
 
