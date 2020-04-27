@@ -2,144 +2,85 @@ Return-Path: <SRS0=artR=6L=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF0AC54FD0
-	for <linux-edac@archiver.kernel.org>; Mon, 27 Apr 2020 08:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 379BBC5519F
+	for <linux-edac@archiver.kernel.org>; Mon, 27 Apr 2020 14:01:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95A982080C
-	for <linux-edac@archiver.kernel.org>; Mon, 27 Apr 2020 08:40:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BDFA2064C
+	for <linux-edac@archiver.kernel.org>; Mon, 27 Apr 2020 14:01:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="RNz1ZNap"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="o5I+3Fo2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726434AbgD0Ik0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 27 Apr 2020 04:40:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36072 "EHLO
+        id S1727966AbgD0OA7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 27 Apr 2020 10:00:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbgD0Ik0 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 27 Apr 2020 04:40:26 -0400
+        with ESMTP id S1727933AbgD0OAw (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 27 Apr 2020 10:00:52 -0400
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F1CC061A0F
-        for <linux-edac@vger.kernel.org>; Mon, 27 Apr 2020 01:40:26 -0700 (PDT)
-Received: from zn.tnic (p200300EC2F05F0006DE2BE28B1B44CEA.dip0.t-ipconnect.de [IPv6:2003:ec:2f05:f000:6de2:be28:b1b4:4cea])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADB8AC0610D5;
+        Mon, 27 Apr 2020 07:00:51 -0700 (PDT)
+Received: from zn.tnic (p200300EC2F05F000ACB29DFFDE7AC3C9.dip0.t-ipconnect.de [IPv6:2003:ec:2f05:f000:acb2:9dff:de7a:c3c9])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 86C471EC0CE4;
-        Mon, 27 Apr 2020 10:40:24 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 051BC1EC0D21;
+        Mon, 27 Apr 2020 16:00:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1587976824;
+        t=1587996050;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=66efl9yGA8XtPqDJO2F+a3izSW8JNNXA5G5BmNxgQBw=;
-        b=RNz1ZNapvcwsAPt3SDRTPfX/o8vTdxRxm6oLf5nhx5n/FMYZ8pB9sNwLkaHZjvnOMZqu8N
-        K6vGFk4PaJYnOk05LCOmcSwWKzqqY5yTRmeidfbTrEPgJ5wx+MBqMEPOM43Wpsd5mCakeV
-        uOiBnIKPWQCe3gi37aMhedCo3llm8EE=
-Date:   Mon, 27 Apr 2020 10:40:22 +0200
+        bh=gQyJ11P5tivvLKUDiEhjBf0KP30jTDiuWezjtD55r5k=;
+        b=o5I+3Fo2V/A1ngZQovDfjFGfYcSHt3DEtamirS28hpdqSZcbVvoee+Wfc78mxWcFySh7p2
+        ckyceC3H4UoG0f1kaKF65y/TnkYlKxIrnv+AV7lXlC6YQDsU8tEBcJq54+EdP7ewHsiFyk
+        QsP0skNBlv4+k5e8A8bD8K3fnhNZQxg=
+Date:   Mon, 27 Apr 2020 16:00:43 +0200
 From:   Borislav Petkov <bp@alien8.de>
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Jerry Chen <jerry.t.chen@intel.com>,
-        Jin Wen <wen.jin@intel.com>,
+To:     Robert Richter <rrichter@marvell.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
         Aristeu Rozanski <aris@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac@vger.kernel.org
-Subject: Re: [PATCH 2/2] EDAC, i10nm: Fix i10nm_edac loading failure on some
- servers
-Message-ID: <20200427084022.GC11036@zn.tnic>
-References: <20200424185738.7985-1-tony.luck@intel.com>
- <20200424185738.7985-3-tony.luck@intel.com>
+        Matthias Brugger <mbrugger@suse.com>,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 07/10] EDAC/ghes: Cleanup struct ghes_edac_dimm_fill,
+ rename it to ghes_dimm_fill
+Message-ID: <20200427135923.GF11036@zn.tnic>
+References: <20200422115814.22205-1-rrichter@marvell.com>
+ <20200422115814.22205-8-rrichter@marvell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200424185738.7985-3-tony.luck@intel.com>
+In-Reply-To: <20200422115814.22205-8-rrichter@marvell.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 11:57:38AM -0700, Tony Luck wrote:
-
-> Subject: Re: [PATCH 2/2] EDAC, i10nm: Fix i10nm_edac loading failure on some
-
-Please use "EDAC/<driver>:" prefix.
-
-And I guess that patch name should be something like:
-
-EDAC/i10nm: Update driver to support different bus number config register offsets
-
-or so.
-
-> From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+On Wed, Apr 22, 2020 at 01:58:11PM +0200, Robert Richter wrote:
+> The struct is used to store temporary data for the dmidecode callback.
+> Clean this up a bit:
 > 
-> It failed to load the i10nm_edac driver on Ice Lake and
-
-"The i10nm_edac driver failed to load ... "
-
-> Tremont/Jacobsville servers if their CPU stepping >= 4 and failed
-> on Ice Lake-D servers from stepping 0. The root cause was that for
-> Ice Lake and Tremont/Jacobsville servers with CPU stepping >=4, the
-> offset for bus number configuration register was updated from 0xcc
-> to 0xd0. For Ice Lake-D servers, all the steppings use the updated
-> 0xd0 offset.
+>  1) Rename member count to index since this is what it is used for.
 > 
-> Fix the issue by using the appropriate offset for bus number
-> configuration register according to the CPU model number and stepping.
+>  2) Move code close to ghes_edac_dmidecode() where it is used.
 > 
-> Reported-by: Jerry Chen <jerry.t.chen@intel.com>
-> Reported-and-tested-by: Jin Wen <wen.jin@intel.com>
-> Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
+>  3) While at it, use edac_get_dimm_by_index().
+> 
+> Signed-off-by: Robert Richter <rrichter@marvell.com>
 > ---
->  drivers/edac/i10nm_base.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
-> index ba4578c6ef2b..ebb45738c11b 100644
-> --- a/drivers/edac/i10nm_base.c
-> +++ b/drivers/edac/i10nm_base.c
-> @@ -122,16 +122,24 @@ static int i10nm_get_all_munits(void)
->  	return 0;
->  }
->  
-> -static struct res_config i10nm_cfg = {
-> +/* ATOM_TREMONT_D, ICELAKE_X */
+>  drivers/edac/ghes_edac.c | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
 
-That comment...
+Ok except the commit title is wrong. And yes, pls keep it "dimm_fill" -
+short and sweet and without yet another "ghes" in the name. :)
 
-> +static struct res_config i10nm_cfg0 = {
->  	.type			= I10NM,
->  	.decs_did		= 0x3452,
->  	.busno_cfg_offset	= 0xcc,
->  };
->  
-> +/* ICELAKE_D */
-
-... and that one are kinda redundant...
-
-> +static struct res_config i10nm_cfg1 = {
-> +	.type			= I10NM,
-> +	.decs_did		= 0x3452,
-> +	.busno_cfg_offset	= 0xd0,
-> +};
-> +
->  static const struct x86_cpu_id i10nm_cpuids[] = {
-> -	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT_D,	&i10nm_cfg),
-> -	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X,		&i10nm_cfg),
-> -	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_D,		&i10nm_cfg),
-> +	X86_MATCH_INTEL_FAM6_MODEL(ATOM_TREMONT_D,	&i10nm_cfg0),
-> +	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_X,		&i10nm_cfg0),
-> +	X86_MATCH_INTEL_FAM6_MODEL(ICELAKE_D,		&i10nm_cfg1),
-
-... since it is written here what what is.
-
-Anyway, just nitpicks. Other than that:
-
-Reviewed-by: Borislav Petkov <bp@suse.de>
+Thx.
 
 -- 
 Regards/Gruss,
