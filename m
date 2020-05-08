@@ -1,145 +1,113 @@
-Return-Path: <SRS0=Ex/T=6V=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=13xi=6W=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B28C47247
-	for <linux-edac@archiver.kernel.org>; Thu,  7 May 2020 14:51:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC737C38A2A
+	for <linux-edac@archiver.kernel.org>; Fri,  8 May 2020 19:30:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C80A5208D6
-	for <linux-edac@archiver.kernel.org>; Thu,  7 May 2020 14:51:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B389A208DB
+	for <linux-edac@archiver.kernel.org>; Fri,  8 May 2020 19:30:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="tBO1gh+b"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tmr8aqUv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbgEGOu7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 7 May 2020 10:50:59 -0400
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:30953 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726308AbgEGOu6 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 7 May 2020 10:50:58 -0400
+        id S1726797AbgEHTaU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 8 May 2020 15:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726767AbgEHTaU (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 8 May 2020 15:30:20 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 075BCC061A0C
+        for <linux-edac@vger.kernel.org>; Fri,  8 May 2020 12:30:19 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id k19so1158907pll.9
+        for <linux-edac@vger.kernel.org>; Fri, 08 May 2020 12:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1588863057; x=1620399057;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=8GxZ5JWaOF5dn92Ks/d0RZ9+Pn/zgloMkgU+aU97AqA=;
-  b=tBO1gh+bP8bvdAQtQj0RKYn6OzBvzvBwPBX49ObsfROMnelUTncp7dBA
-   fwZu0vvw8Wc7bIxyPBxW1qp+5Ej6ja+E4yNn/2GTRZ4Qgni10onm5iYSd
-   sGY+ihRCfoDHXd/NdxVWXmSKthn5ZC6rf/5xhQnTHrZnDWb3DyWEUDgFH
-   c=;
-IronPort-SDR: UEJZk9DZwIeWEBZQ19joB9qGIH5Isb2hyLAQgICV8zK4hgBUf4k54zDJrFfHdprBjugHv3iHXO
- gCdieeaZyYyQ==
-X-IronPort-AV: E=Sophos;i="5.73,364,1583193600"; 
-   d="scan'208";a="30530374"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-168cbb73.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 07 May 2020 14:50:41 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
-        by email-inbound-relay-2c-168cbb73.us-west-2.amazon.com (Postfix) with ESMTPS id 89215A1C36;
-        Thu,  7 May 2020 14:50:40 +0000 (UTC)
-Received: from EX13D01EUB001.ant.amazon.com (10.43.166.194) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 7 May 2020 14:50:40 +0000
-Received: from uf25486d27d2d5b.ant.amazon.com (10.43.162.200) by
- EX13D01EUB001.ant.amazon.com (10.43.166.194) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 7 May 2020 14:50:30 +0000
-From:   Talel Shenhar <talel@amazon.com>
-To:     <bp@alien8.de>, <mchehab@kernel.org>, <james.morse@arm.com>,
-        <talel@amazon.com>, <davem@davemloft.net>,
-        <gregkh@linuxfoundation.org>, <nicolas.ferre@microchip.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linux-edac@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-CC:     <hhhawa@amazon.com>, <ronenk@amazon.com>, <jonnyc@amazon.com>,
-        <hanochu@amazon.com>, <eitan@amazon.com>
-Subject: [PATCH v7 1/2] dt-bindings: edac: al-mc-edac: Amazon's Annapurna Labs Memory Controller EDAC
-Date:   Thu, 7 May 2020 17:50:01 +0300
-Message-ID: <20200507145002.22010-2-talel@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200507145002.22010-1-talel@amazon.com>
-References: <20200507145002.22010-1-talel@amazon.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G+8zSuS0S+a6U9nv66+C2u77Cjfcmm9tozvBS7DhkCQ=;
+        b=tmr8aqUveTBnlQDblMjKRB0AWuN8KV8tw9FY6Qa2lSGQPF5+I5ns/CzQQ4N7QviSlH
+         iqyyAXTkAPaqxciyCggJ2LCm90xWR042EpHQ72PxAUGXJYOYsv+1eV+fvx0h+WPcdgXG
+         fXN6CpQKRMEIh3Sr0xepm0UgsjE4+2kquAWceg29Jdv+royVE81r0e0J5yQ0uBE6umzY
+         lgRdbmgu9rQLS8aJtL1sTbDe+jix1lLBncKY+BtcYIAm4slw3980OzU+QkF/HoV9K85s
+         ypGBFMpsbvD7KWH4f7efJjRourMwJOLkO9Y5ZbSFooOSaxRBMgxgy0QsKFqyeOAP4hdN
+         YUCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G+8zSuS0S+a6U9nv66+C2u77Cjfcmm9tozvBS7DhkCQ=;
+        b=R5AYVuqrouprwP+WRwvQVyWsJqvvy7BeiKSGCpzWMpoH4pkPMuLTtxxGGsdKUSsJCq
+         qObKSsxhMctLJE56H+zB6W1gMdb0ggg5kOxKmvB9gmx8qcGULt535rsU2bx5M9/iEu0w
+         7bT0pLZO8XfCzC1f7oxAG5jddz5l5/Nmj8pUl05JyrL0mVlHXTHALqW1GI3UfQX3aAXJ
+         TGiI60/J7yHzhvGqwvpBofjJA8Mon6zxjtn6pRXza3mTNF1RgHh9FzboueH/k44moZzy
+         Xt/o7fAwhjio4KVBtIofpwAF0RdiGFPpsQVJGgKHYO1GiZVxKdHM0r/IAisILy1TKr1F
+         YKMg==
+X-Gm-Message-State: AGi0PuaTOcOkrYLYt6kqqA97F7CO4eUcD3kwAuEQZpkhwRFApw6lDJ3a
+        QFhPVjgHj1DjCRzeVWLuTvY=
+X-Google-Smtp-Source: APiQypLKtfRy5pAlnSWwbEycl/MfF4kWyY4kJ74UBFU31paR5c3rIO9w+TNnqV66VsPmGn/zJiaTzw==
+X-Received: by 2002:a17:902:bd89:: with SMTP id q9mr3808221pls.161.1588966218861;
+        Fri, 08 May 2020 12:30:18 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2691])
+        by smtp.gmail.com with ESMTPSA id y7sm2560676pfq.21.2020.05.08.12.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2020 12:30:18 -0700 (PDT)
+From:   Khem Raj <raj.khem@gmail.com>
+To:     mchehab@kernel.org, linux-edac@vger.kernel.org
+Cc:     Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] Fix system header includes
+Date:   Fri,  8 May 2020 12:30:16 -0700
+Message-Id: <20200508193016.3951932-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.200]
-X-ClientProxiedBy: EX13D25UWB003.ant.amazon.com (10.43.161.33) To
- EX13D01EUB001.ant.amazon.com (10.43.166.194)
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Document Amazon's Annapurna Labs Memory Controller EDAC SoC binding.
+Use poll.h instead of sys/poll.h
+Fixes
+warning: #warning redirecting incorrect #include <sys/poll.h> to <poll.h> [-Wcpp]
 
-Signed-off-by: Talel Shenhar <talel@amazon.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Include limits.h for PATH_MAX
+
+Fixes
+ras-events.c:359:16: error: 'PATH_MAX' undeclared (first use in this function)
+  359 |  char pipe_raw[PATH_MAX];
+      |                ^~~~~~~~
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../bindings/edac/amazon,al-mc-edac.yaml      | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml
+ ras-events.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml
-new file mode 100644
-index 000000000000..543f0a6be2f0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/edac/amazon,al-mc-edac.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Amazon's Annapurna Labs Memory Controller EDAC
-+
-+maintainers:
-+  - Talel Shenhar <talel@amazon.com>
-+  - Talel Shenhar <talelshenhar@gmail.com>
-+
-+description: |
-+  EDAC node is defined to describe on-chip error detection and correction for
-+  Amazon's Annapurna Labs Memory Controller.
-+
-+properties:
-+
-+  compatible:
-+    const: amazon,al-mc-edac
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      - description: uncorrectable error interrupt
-+      - description: correctable error interrupt
-+
-+  interrupt-names:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      - const: ue
-+      - const: ce
-+
-+required:
-+  - compatible
-+  - reg
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    edac@f0080000 {
-+      compatible = "amazon,al-mc-edac";
-+      reg = <0x0 0xf0080000 0x0 0x00010000>;
-+      interrupt-parent = <&amazon_al_system_fabric>;
-+      interrupt-names = "ue";
-+      interrupts = <20 IRQ_TYPE_LEVEL_HIGH>;
-+    };
+diff --git a/ras-events.c b/ras-events.c
+index 511c93d..400e740 100644
+--- a/ras-events.c
++++ b/ras-events.c
+@@ -18,13 +18,14 @@
+ #include <dirent.h>
+ #include <errno.h>
+ #include <fcntl.h>
++#include <limits.h>
++#include <poll.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+-#include <sys/poll.h>
+ #include <signal.h>
+ #include <sys/signalfd.h>
+ #include "libtrace/kbuffer.h"
 -- 
-2.17.1
+2.26.2
 
