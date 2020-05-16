@@ -1,177 +1,113 @@
-Return-Path: <SRS0=ygE8=65=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=teNz=66=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D4AC433E0
-	for <linux-edac@archiver.kernel.org>; Fri, 15 May 2020 21:01:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D34BC433DF
+	for <linux-edac@archiver.kernel.org>; Sat, 16 May 2020 16:21:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 287982065C
-	for <linux-edac@archiver.kernel.org>; Fri, 15 May 2020 21:01:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E098D206D8
+	for <linux-edac@archiver.kernel.org>; Sat, 16 May 2020 16:21:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZTaR9K0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726183AbgEOVBr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 15 May 2020 17:01:47 -0400
-Received: from mga03.intel.com ([134.134.136.65]:29406 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726179AbgEOVBr (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 15 May 2020 17:01:47 -0400
-IronPort-SDR: Wc1M0Y2fnBXZKQf3AUoB+SrqPQdaIwbjIYnE3Oo1VLLljULRDWRuxCKhLkjfZtvYEGUOd8yymD
- 9uTcvZZt6vJA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 14:01:47 -0700
-IronPort-SDR: TgnBGLuMbj5kA+XyCXjh0BKISuxrZiAVSMLLPw0GxJr+tWEpzyzjylfjT4705qu9mESH3R0I6/
- YPhjQVBJCuiw==
-X-IronPort-AV: E=Sophos;i="5.73,396,1583222400"; 
-   d="scan'208";a="410588355"
-Received: from agluck-desk2.sc.intel.com ([10.3.52.68])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 14:01:46 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Matthew Riley <mattdr@google.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Aristeu Rozanski <aris@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac@vger.kernel.org
-Subject: [PATCH v1 1/1] EDAC/skx: Use the mcmtr register to retrieve close_pg/bank_xor_enable
-Date:   Fri, 15 May 2020 14:01:46 -0700
-Message-Id: <20200515210146.1337-1-tony.luck@intel.com>
-X-Mailer: git-send-email 2.21.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726226AbgEPQVa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 16 May 2020 12:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726206AbgEPQVa (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 16 May 2020 12:21:30 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F3AC061A0C
+        for <linux-edac@vger.kernel.org>; Sat, 16 May 2020 09:21:30 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id r10so2515959pgv.8
+        for <linux-edac@vger.kernel.org>; Sat, 16 May 2020 09:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=Cg0ycuIrMHsEZQFx/mNctoPUaSFNFnjiuqv1mZpAwt8=;
+        b=EZTaR9K0R6l6MbzS2QBzzeWEwpjni9oRinDMbhPpA2dvtD33+EN0YbsEXbOkPyy8dx
+         pEBJmXQWjEYqRFt7aqSPIq0T/7iD4E5SZ57B5WofFlICK4xlfaQAg9ouVY/uqKENZlHo
+         DKKoB+F0m7ab/wQo0OTA23q2d5VYK2r0ikCcTxuahVKusaD4UKBcjFZGFme10mmvLrJ4
+         NhDphXQ7PSLXDluuzaxFNSqyXFvn4A31u+OfmEs3TVB9RUGaPerobwo6FTjoPREbmLKY
+         PJyoRCd/9TFJRyOp7jpgUcRGNHYIzpgMOeOm7kKk2RHMgYWOaIuNt6O1EuJMjTy7qXrU
+         4LuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Cg0ycuIrMHsEZQFx/mNctoPUaSFNFnjiuqv1mZpAwt8=;
+        b=VdznOsyhiuSYH5/jDjDs7FGLzabRvqYl9ZYux+uQS52JWGwF0PI/akTOEwlCHtLCMe
+         LNT8+TBbN4z+hehd8Mh3gm6jzYCIaSc/AWC56qQKEdvB7A2+Q6iiTx0tCfcwmeZ5KonJ
+         ZFhullE+esa6JtbC+oGsajT+ByJTUwLVtoUbzsucXvlT1cguTo1S7RekGI36qIC7hVbm
+         rUlRX2F6irNj5IxulOXo2xz6ow5gUZ7zbKGAwqJLPXrqCxH38B407aEK/DFHsQEgki9X
+         ZTN0a0se4+VTlcwxUGAsCf9LkFFLxeKpeBu8ON1TUzz56m8eDoaflz6OBT0KfOXWrOGN
+         KpRQ==
+X-Gm-Message-State: AOAM530K7tswrCbLfyf2UaWhtlRoUIyECI433HiBiOubjM2e0G0a1ATV
+        b/nysvb4SVWsHz5cQHhRImAVxMq//yyrmA==
+X-Google-Smtp-Source: ABdhPJwTuIOVuwoP2uFG8nVX6hovN/KOFAZhdDF3DQzHVW4nsYrQGoIyW5AGZOOAKAHMOzPEiOWnZg==
+X-Received: by 2002:a65:6718:: with SMTP id u24mr7797300pgf.451.1589646089501;
+        Sat, 16 May 2020 09:21:29 -0700 (PDT)
+Received: from localhost.localdomain (p2438235-ipngn200604tokaisakaetozai.aichi.ocn.ne.jp. [221.113.241.235])
+        by smtp.gmail.com with ESMTPSA id t5sm4020364pgp.80.2020.05.16.09.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2020 09:21:29 -0700 (PDT)
+From:   wata2ki <wata2ki@gmail.com>
+To:     linux-edac@vger.kernel.org
+Cc:     Naoto Yamaguchi <i33399_YAMAGUCHI@aisin-aw.co.jp>
+Subject: [PATCH] EDAC/mc: Fix memory alignment calculation formula
+Date:   Sun, 17 May 2020 01:21:15 +0900
+Message-Id: <20200516162115.16545-1-wata2ki@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+From: Naoto Yamaguchi <i33399_YAMAGUCHI@aisin-aw.co.jp>
 
-The skx_edac driver wrongly uses the mtr register to retrieve two fields
-close_pg and bank_xor_enable. Fix it by using the correct mcmtr register
-to get the two fields.
+During the development of the off-tree driver, we found a bug that
+causes alignment fault exception in mutex_lock.
 
-Cc: <stable@vger.kernel.org>
-Reported-by: Matthew Riley <mattdr@google.com>
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+Line of the code:
+ffffffc010536ce4: c85ffe62 ldaxr x2, [x19]
 
+Register value:
+x19: ffffff800e90f6c4
+
+This problem was caused by the alignment error of pvt_info
+in struct mem_ctl_info.  It is caused by a calculation formula
+error in edac_align_ptr.
+
+Existing calculation formula is using variable p, but this
+variable is address of the pointer variable not memory offset.
+In this calculation formula should use *p.
+
+Signed-off-by: Naoto Yamaguchi <i33399_YAMAGUCHI@aisin-aw.co.jp>
 ---
- drivers/edac/i10nm_base.c |  2 +-
- drivers/edac/skx_base.c   | 20 ++++++++------------
- drivers/edac/skx_common.c |  6 +++---
- drivers/edac/skx_common.h |  2 +-
- 4 files changed, 13 insertions(+), 17 deletions(-)
+ drivers/edac/edac_mc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ mode change 100644 => 100755 drivers/edac/edac_mc.c
 
-diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
-index ea8f2127e238..c8d11da85bec 100644
---- a/drivers/edac/i10nm_base.c
-+++ b/drivers/edac/i10nm_base.c
-@@ -175,7 +175,7 @@ static int i10nm_get_dimm_config(struct mem_ctl_info *mci)
- 				 mtr, mcddrtcfg, imc->mc, i, j);
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+old mode 100644
+new mode 100755
+index 75ede27bdf6a..70929f136dd7
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -271,7 +271,7 @@ void *edac_align_ptr(void **p, unsigned int size, int n_elems)
+ 	else
+ 		return (char *)ptr;
  
- 			if (IS_DIMM_PRESENT(mtr))
--				ndimms += skx_get_dimm_info(mtr, 0, dimm,
-+				ndimms += skx_get_dimm_info(mtr, 0, 0, dimm,
- 							    imc, i, j);
- 			else if (IS_NVDIMM_PRESENT(mcddrtcfg, j))
- 				ndimms += skx_get_nvdimm_info(dimm, imc, i, j,
-diff --git a/drivers/edac/skx_base.c b/drivers/edac/skx_base.c
-index 1ff22136cf72..2c7db95df326 100644
---- a/drivers/edac/skx_base.c
-+++ b/drivers/edac/skx_base.c
-@@ -169,27 +169,23 @@ static const struct x86_cpu_id skx_cpuids[] = {
- };
- MODULE_DEVICE_TABLE(x86cpu, skx_cpuids);
+-	r = (unsigned long)p % align;
++	r = (unsigned long)(*p) % align;
  
--#define SKX_GET_MTMTR(dev, reg) \
--	pci_read_config_dword((dev), 0x87c, &(reg))
--
--static bool skx_check_ecc(struct pci_dev *pdev)
-+static bool skx_check_ecc(u32 mcmtr)
- {
--	u32 mtmtr;
--
--	SKX_GET_MTMTR(pdev, mtmtr);
--
--	return !!GET_BITFIELD(mtmtr, 2, 2);
-+	return !!GET_BITFIELD(mcmtr, 2, 2);
- }
- 
- static int skx_get_dimm_config(struct mem_ctl_info *mci)
- {
- 	struct skx_pvt *pvt = mci->pvt_info;
-+	u32 mtr, mcmtr, amap, mcddrtcfg;
- 	struct skx_imc *imc = pvt->imc;
--	u32 mtr, amap, mcddrtcfg;
- 	struct dimm_info *dimm;
- 	int i, j;
- 	int ndimms;
- 
-+	/* Only the mcmtr on the first channel is effective */
-+	pci_read_config_dword(imc->chan[0].cdev, 0x87c, &mcmtr);
-+
- 	for (i = 0; i < SKX_NUM_CHANNELS; i++) {
- 		ndimms = 0;
- 		pci_read_config_dword(imc->chan[i].cdev, 0x8C, &amap);
-@@ -199,14 +195,14 @@ static int skx_get_dimm_config(struct mem_ctl_info *mci)
- 			pci_read_config_dword(imc->chan[i].cdev,
- 					      0x80 + 4 * j, &mtr);
- 			if (IS_DIMM_PRESENT(mtr)) {
--				ndimms += skx_get_dimm_info(mtr, amap, dimm, imc, i, j);
-+				ndimms += skx_get_dimm_info(mtr, mcmtr, amap, dimm, imc, i, j);
- 			} else if (IS_NVDIMM_PRESENT(mcddrtcfg, j)) {
- 				ndimms += skx_get_nvdimm_info(dimm, imc, i, j,
- 							      EDAC_MOD_STR);
- 				nvdimm_count++;
- 			}
- 		}
--		if (ndimms && !skx_check_ecc(imc->chan[0].cdev)) {
-+		if (ndimms && !skx_check_ecc(mcmtr)) {
- 			skx_printk(KERN_ERR, "ECC is disabled on imc %d\n", imc->mc);
- 			return -ENODEV;
- 		}
-diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
-index abc9ddd2b7d1..46be1a77bd1d 100644
---- a/drivers/edac/skx_common.c
-+++ b/drivers/edac/skx_common.c
-@@ -303,7 +303,7 @@ static int skx_get_dimm_attr(u32 reg, int lobit, int hibit, int add,
- #define numrow(reg)	skx_get_dimm_attr(reg, 2, 4, 12, 1, 6, "rows")
- #define numcol(reg)	skx_get_dimm_attr(reg, 0, 1, 10, 0, 2, "cols")
- 
--int skx_get_dimm_info(u32 mtr, u32 amap, struct dimm_info *dimm,
-+int skx_get_dimm_info(u32 mtr, u32 mcmtr, u32 amap, struct dimm_info *dimm,
- 		      struct skx_imc *imc, int chan, int dimmno)
- {
- 	int  banks = 16, ranks, rows, cols, npages;
-@@ -323,8 +323,8 @@ int skx_get_dimm_info(u32 mtr, u32 amap, struct dimm_info *dimm,
- 		 imc->mc, chan, dimmno, size, npages,
- 		 banks, 1 << ranks, rows, cols);
- 
--	imc->chan[chan].dimms[dimmno].close_pg = GET_BITFIELD(mtr, 0, 0);
--	imc->chan[chan].dimms[dimmno].bank_xor_enable = GET_BITFIELD(mtr, 9, 9);
-+	imc->chan[chan].dimms[dimmno].close_pg = GET_BITFIELD(mcmtr, 0, 0);
-+	imc->chan[chan].dimms[dimmno].bank_xor_enable = GET_BITFIELD(mcmtr, 9, 9);
- 	imc->chan[chan].dimms[dimmno].fine_grain_bank = GET_BITFIELD(amap, 0, 0);
- 	imc->chan[chan].dimms[dimmno].rowbits = rows;
- 	imc->chan[chan].dimms[dimmno].colbits = cols;
-diff --git a/drivers/edac/skx_common.h b/drivers/edac/skx_common.h
-index 19dd8c099520..78f8c1de0b71 100644
---- a/drivers/edac/skx_common.h
-+++ b/drivers/edac/skx_common.h
-@@ -135,7 +135,7 @@ int skx_get_all_bus_mappings(struct res_config *cfg, struct list_head **list);
- 
- int skx_get_hi_lo(unsigned int did, int off[], u64 *tolm, u64 *tohm);
- 
--int skx_get_dimm_info(u32 mtr, u32 amap, struct dimm_info *dimm,
-+int skx_get_dimm_info(u32 mtr, u32 mcmtr, u32 amap, struct dimm_info *dimm,
- 		      struct skx_imc *imc, int chan, int dimmno);
- 
- int skx_get_nvdimm_info(struct dimm_info *dimm, struct skx_imc *imc,
+ 	if (r == 0)
+ 		return (char *)ptr;
 -- 
 2.17.1
 
