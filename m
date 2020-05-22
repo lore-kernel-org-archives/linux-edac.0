@@ -1,161 +1,166 @@
-Return-Path: <SRS0=ziUm=7C=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=KRJi=7E=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47299C433E0
-	for <linux-edac@archiver.kernel.org>; Wed, 20 May 2020 14:12:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25474C433E1
+	for <linux-edac@archiver.kernel.org>; Fri, 22 May 2020 14:45:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 189E920849
-	for <linux-edac@archiver.kernel.org>; Wed, 20 May 2020 14:12:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFAAE204EF
+	for <linux-edac@archiver.kernel.org>; Fri, 22 May 2020 14:45:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=marvell.com header.i=@marvell.com header.b="p8nyKhJX";
-	dkim=pass (1024-bit key) header.d=marvell.onmicrosoft.com header.i=@marvell.onmicrosoft.com header.b="if0Rs/aw"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="swaw1mtp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbgETOML (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 20 May 2020 10:12:11 -0400
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:24270 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726436AbgETOML (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 20 May 2020 10:12:11 -0400
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04KE0WNQ031738;
-        Wed, 20 May 2020 07:11:52 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=date : from : to :
- cc : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pfpt0818; bh=XQnxEBghylMP2upIJy5d4kWbqr82RpqmQGYMxT0ahsI=;
- b=p8nyKhJXXGJPEIK7JFbNRlN8kAyKsZkdRucGWRS4VK+u2lGw22qTgQumOOa8GcC2aIo1
- O9hbg6wpc4rc638jbRboLgTXzhP9Pl32W02OKBirtzYg3JJdit1CUHvQmWvhklC0nsVX
- OmZi+9OQ0SW/+dChEuF3YWAnhXKIOU9IPrUqf2H96Rambl3aqA0YFGD2dr2O/7F/ek4N
- 9R4EELdWbNDaX83l0ErEJhtC1Y+7aHaC7l8QQq3UL+51PsouNRJuFjse8c62SrOmucTk
- GbCoQr4ga8PcvrhU+erhINanoQN7QlFgz4lFSYaZ+1OfiuwSTzppbQTVZ/JQFLOouqfd nQ== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
-        by mx0a-0016f401.pphosted.com with ESMTP id 312dhqs8u3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 20 May 2020 07:11:52 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 20 May
- 2020 07:11:50 -0700
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 20 May
- 2020 07:11:50 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
- by SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Wed, 20 May 2020 07:11:49 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Egz0V9K9IBngTGZ+44R3WdSQkGI4PXrZcQJU9wiNBqixWRJOFZUC8ZNtRxLEegytwSI/EQ5ABIlychAAI5Sw6qOacM+NsGJZE2z/xm2BE13mlUXfM0Or9rCp3fg33P7VmRffOV79CB5F6xljx2mwLt/UkTI3JGx6gB2VMUxDG8n2AN2Wm7u3HjNpCaGcADf2quecixUDZLSw2U+Z/rVDQwynU6YhZtBDCFhCywzUV/mHWsyUzJhbArWN3PGQAJh97F+k4MsjfnDW3vGao5OsKW+VCV9ESeeGUBkTyBG+tmL8SfVCm4fHEfdOXftSHbWVCm6oiBkQIkouvrmYWZz4sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XQnxEBghylMP2upIJy5d4kWbqr82RpqmQGYMxT0ahsI=;
- b=XMU0wIgBN24bU14MBaK+C19MbJfY1igTqpQ4E9ebXx7emggy24D/qZQzCuAugS6xeCkoCur1Eoz3sIJ8r2aoEDEkgSLJPUU82d8uEX5tkpvGWlE48qeVS0tSlYN0C/eDZeapRdMb+mbsXT8t/rW0XkkktcPywWR2lI0RpnZ/9b0AIvA4KFrWZtX+K9QAN4OCUDf7NKGpnilFMaDRBKQJy5MyVhqAIMwTqpZq5GSI4k6bHcfcaPogc8bHXmlQ2IpuGOX8WIzAbwzx6/mHwxHUlno0loXX/6WOeUC/gSIRs+VEgmtlhsDczpnGANa+iOmArJVGKxsTTG+ozX3YevXejw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
+        id S1730189AbgEVOpb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 22 May 2020 10:45:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730172AbgEVOpa (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 22 May 2020 10:45:30 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A284C061A0E;
+        Fri, 22 May 2020 07:45:30 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id s69so5019075pjb.4;
+        Fri, 22 May 2020 07:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XQnxEBghylMP2upIJy5d4kWbqr82RpqmQGYMxT0ahsI=;
- b=if0Rs/aw/of3EqhQ+V9TZNuJoUfKZywFLRWw35eaSXcinYeg4fxbJNW1bSwZHS2tR/iKPWm+qdqu8P1hY8p2poKhNdTKDydKeAPD/4uvwLOL2ZD52bLpZZDxFGW6O4CndNvQswuMQPcDrqg/of7CEoIV1QKWtznCVQG+K1Qao9Y=
-Authentication-Results: alien8.de; dkim=none (message not signed)
- header.d=none;alien8.de; dmarc=none action=none header.from=marvell.com;
-Received: from BYAPR18MB2661.namprd18.prod.outlook.com (2603:10b6:a03:136::26)
- by BYAPR18MB2517.namprd18.prod.outlook.com (2603:10b6:a03:135::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20; Wed, 20 May
- 2020 14:11:47 +0000
-Received: from BYAPR18MB2661.namprd18.prod.outlook.com
- ([fe80::a165:ffa5:f3eb:d62d]) by BYAPR18MB2661.namprd18.prod.outlook.com
- ([fe80::a165:ffa5:f3eb:d62d%7]) with mapi id 15.20.3021.020; Wed, 20 May 2020
- 14:11:47 +0000
-Date:   Wed, 20 May 2020 16:11:37 +0200
-From:   Robert Richter <rrichter@marvell.com>
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Aristeu Rozanski <aris@redhat.com>,
-        Matthias Brugger <mbrugger@suse.com>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] EDAC/ghes: Setup DIMM label from DMI and use it in
- error reports
-Message-ID: <20200520141137.5do7eiaoodmgxjsa@rric.localdomain>
-References: <20200518095852.28010-1-rrichter@marvell.com>
- <20200519202535.GC444@zn.tnic>
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=rrXdaPjifMrf4XwvQWVex8RQCvnU9ofzUU0gXliR/5E=;
+        b=swaw1mtpQgECkgw2Iz/+9mmP15JUnszYKlOMmg86XZ8kzTHq9biLA2qHiPCFXd5Qu+
+         DN9s5gOFC5LD5Yo1hdZ2hopDIofoJjcywYu7jnK+jZQKbbkCfsz/fKiaq7QI/pf41Wrb
+         y1whQD0ptcQDFDKyfU2HPo/oUdb2FjFzKftplCVMGNZzp1I/8L49zJfDh+7yHK+avfNe
+         S+BEe+R8s73fCKUFiD7PcVIouy87a/yV5vnjAXiMQ07ZJzOOSdomJw06DBa6cZl5DTDL
+         tdxb+ndlAaOMbCtqje5s6qU/2tO/03L2iXVxFqinSSX5Haz3B7SRxsOFnyKa8aYsDhFD
+         j/1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rrXdaPjifMrf4XwvQWVex8RQCvnU9ofzUU0gXliR/5E=;
+        b=Kx2aHWErfPHanDMfT3IVgWrIaCd0TqaUvNIM4IstOHB0rJpYQN0/+P6i+oAAMSH8PY
+         T+plxEo9w5DkwTIIVFtECViGZNIE3ZstkCsZWViTq9RhacSfjF/Kfj7P8CwetL5keF21
+         pZ5/RKVJThjkYff0AZISauvVwbmSpo1MLHQWjQhQ0IoYAPM6TAqiRtAouHpe7iPtuzgG
+         GpVC0/KdJtqRz+PSWchhqhXq/b0tPRbhCsvzJRCOcb26kK8EVbpIuuQAlLyeLXhgH0z3
+         Xg2eVw+5QRpzc8mMt3WVYUw4HZwMhjpLBAAungwV8NNrDy+lUWMCCeWFR33buxYJbEw7
+         ciDQ==
+X-Gm-Message-State: AOAM532LbhM9CGLAEw810Y0O1dshmnK2tFyCqxYdGBVysTAy7Lt832Ij
+        ZaQND/45GsEUsFxnoQSuhwY=
+X-Google-Smtp-Source: ABdhPJzdMfDd5MnULGJFuXkjBlAHVDbnewxlMrPCPazeK0Jcg0yY1FZBCYBxdkV3wdi8Y9Y06mcClA==
+X-Received: by 2002:a17:90a:ae0d:: with SMTP id t13mr4684628pjq.1.1590158729390;
+        Fri, 22 May 2020 07:45:29 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id f136sm6852659pfa.59.2020.05.22.07.45.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 22 May 2020 07:45:28 -0700 (PDT)
+Date:   Fri, 22 May 2020 07:45:27 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Alexander Monakov <amonakov@ispras.ru>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        Yazen Ghannam <yazen.ghannam@amd.com>,
+        Brian Woods <brian.woods@amd.com>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        linux-edac@vger.kernel.org
+Subject: Re: [PATCH 1/3] x86/amd_nb: add AMD family 17h model 60h PCI IDs
+Message-ID: <20200522144527.GA172805@roeck-us.net>
+References: <20200510204842.2603-1-amonakov@ispras.ru>
+ <20200510204842.2603-2-amonakov@ispras.ru>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200519202535.GC444@zn.tnic>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-ClientProxiedBy: HE1PR05CA0308.eurprd05.prod.outlook.com
- (2603:10a6:7:93::39) To BYAPR18MB2661.namprd18.prod.outlook.com
- (2603:10b6:a03:136::26)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from rric.localdomain (31.208.96.227) by HE1PR05CA0308.eurprd05.prod.outlook.com (2603:10a6:7:93::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend Transport; Wed, 20 May 2020 14:11:45 +0000
-X-Originating-IP: [31.208.96.227]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e527975-cb1a-4b7e-fd75-08d7fcc7bb85
-X-MS-TrafficTypeDiagnostic: BYAPR18MB2517:
-X-Microsoft-Antispam-PRVS: <BYAPR18MB2517933241B61F4934B3690AD9B60@BYAPR18MB2517.namprd18.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 04097B7F7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KbjYjWLzqixdUEiEm+LD/Gy1Cy9O/tAiiK1ua/aZq1+tW70dADuW+hj/ZqtK9UbWg6qDN84ESJmzuhCg+QBnAQoWuVvGzTyo4e0wRefSzB8ZAbLQZaEJ4x/1nkPXlbvZwHILTHoH16Wzhs7H3uYcXG9+Jm5//idrcl0Y9PYCGwMFZCxUZkvwVYzvyxj6gW++coSWjaxJdn6szw6KOh5ZxqZz6+UeUvoQelnuvz7z/t2qYUmO8hd5OzAzqWDjU8e7lOpFByxS3R3syRXljjvCCpEM2t0ZGfrByJrF0zUOWxBFJPTncQoWv+on7cUOumnl/Kl4IPdCNVkmGya9tncXIftF+xzMD2ToDL9um2VSTDpxpnN2v2HLGzqNQfLjqlHkPe+rC/+qybdvjoBS/0wBuQVkuFZtOHHUMGKQQsyXDQz44JASlZV1PIDnVBt8MaBS
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR18MB2661.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(396003)(376002)(39860400002)(136003)(346002)(6916009)(6666004)(26005)(66946007)(2906002)(9686003)(66556008)(86362001)(66476007)(956004)(53546011)(6506007)(5660300002)(55016002)(478600001)(54906003)(1076003)(7696005)(52116002)(186003)(16526019)(316002)(8676002)(8936002)(4326008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 2kH3DQXMxFgzmO2GHOSNLslxwEy2I3mJ+2fddvIy0Y+PZjDaq+LQ2fSzkvVC9vWPKkHhq/9MuShLs2OuT6oXfqPbZJ74ebQQs4WPEst8AsGh+VTkYgdPlaCEwXOOYrmDeZTPfNvoVpGEEE3iWY8ET+7yMn5Z9HEr9YWvQUvkK/daYsMuzCj0hUlwsABOkogc13W+QYwWW7jwBA1AyT5vj/3HTALc09uiprsnpV43mAVOZ4mixoiDyFZm8ytu7wsiPD/rypM2W3tMIDuD2k097eyC7YZPds9FAsvXfrrgOadA0/YEO55s4+g46sDu7X57MZIiZEIJRXNqFFGMH7ckYyZoabGGCp81yhcEkllVxrL3IhM3kFzh2wN7SfyQDePHm95EPF1cVR3Bk3ay+dBa8RRt30HhMhLwgHH/kPUZ1rNbF5B4jwFzbWRPHdOLQeiNE+CYkb+oE+GWsBYiBF9O18ZFb9A/Q+HSpHw1P/bqUMo=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e527975-cb1a-4b7e-fd75-08d7fcc7bb85
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2020 14:11:47.2565
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h+YPyTWlaP5nBiw2ZowmI96sEciqukNPeFlq5bQ5zcx9ao6BzQOBUdYE9jwgWZSwpKitKFEw0FvgP1AOK5B86g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR18MB2517
-X-OriginatorOrg: marvell.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
- definitions=2020-05-20_09:2020-05-20,2020-05-20 signatures=0
+In-Reply-To: <20200510204842.2603-2-amonakov@ispras.ru>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Thanks for testing.
+On Sun, May 10, 2020 at 08:48:40PM +0000, Alexander Monakov wrote:
+> Add PCI IDs for AMD Renoir (4000-series Ryzen CPUs). This is necessary
+> to enable support for temperature sensors via the k10temp module.
+> 
+> Signed-off-by: Alexander Monakov <amonakov@ispras.ru>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: x86@kernel.org
+> Cc: Yazen Ghannam <yazen.ghannam@amd.com>
+> Cc: Brian Woods <brian.woods@amd.com>
+> Cc: Clemens Ladisch <clemens@ladisch.de>
+> Cc: Jean Delvare <jdelvare@suse.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: linux-hwmon@vger.kernel.org
+> Cc: linux-edac@vger.kernel.org
+> Acked-by: Yazen Ghannam <yazen.ghannam@amd.com>
 
-On 19.05.20 22:25:35, Borislav Petkov wrote:
+For my own reference:
 
-> -/sys/devices/system/edac/mc/mc0/csrow15/ch0_dimm_label:1:mc#0memory#15
-> +/sys/devices/system/edac/mc/mc0/csrow15/ch0_dimm_label:1:unknown memory (handle: 0x0030)
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-Looks like on that system device locator or bank locator (or both) are
-empty. What shows this (esp. the Locator fields):?
+I didn't see a response from any of the x86 maintainers, so this series may
+not make it into v5.8. No idea what to do about that.
 
- dmidecode -t 17
+Guenter
 
-So maybe the check is too strict and we should allow one of both being
-empty?
-
-If the strings are missing, shouldn't we still provide the handle in
-the label information?
-
-The string 'mc#0memory#15' is also of no use as it just takes the
-mc_num and dimm_num as a reference, which can be determined from sysfs
-without that label.
-
-Your add on patch to just ignore the write does not revert to we old
-behavior as you will see now 'mc#0memory#15' in the error reports
-where you have seen 'unknown label' before.
-
-So the question is what to do if that information is missing?
-
-Note: it should better show "unknown label ..." instead of "unknown
-memory ...".
-
-Thanks,
-
--Robert
+> ---
+>  arch/x86/kernel/amd_nb.c | 5 +++++
+>  include/linux/pci_ids.h  | 1 +
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/arch/x86/kernel/amd_nb.c b/arch/x86/kernel/amd_nb.c
+> index b6b3297851f3..18f6b7c4bd79 100644
+> --- a/arch/x86/kernel/amd_nb.c
+> +++ b/arch/x86/kernel/amd_nb.c
+> @@ -18,9 +18,11 @@
+>  #define PCI_DEVICE_ID_AMD_17H_ROOT	0x1450
+>  #define PCI_DEVICE_ID_AMD_17H_M10H_ROOT	0x15d0
+>  #define PCI_DEVICE_ID_AMD_17H_M30H_ROOT	0x1480
+> +#define PCI_DEVICE_ID_AMD_17H_M60H_ROOT	0x1630
+>  #define PCI_DEVICE_ID_AMD_17H_DF_F4	0x1464
+>  #define PCI_DEVICE_ID_AMD_17H_M10H_DF_F4 0x15ec
+>  #define PCI_DEVICE_ID_AMD_17H_M30H_DF_F4 0x1494
+> +#define PCI_DEVICE_ID_AMD_17H_M60H_DF_F4 0x144c
+>  #define PCI_DEVICE_ID_AMD_17H_M70H_DF_F4 0x1444
+>  #define PCI_DEVICE_ID_AMD_19H_DF_F4	0x1654
+>  
+> @@ -33,6 +35,7 @@ static const struct pci_device_id amd_root_ids[] = {
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_ROOT) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M10H_ROOT) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M30H_ROOT) },
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M60H_ROOT) },
+>  	{}
+>  };
+>  
+> @@ -50,6 +53,7 @@ static const struct pci_device_id amd_nb_misc_ids[] = {
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_DF_F3) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M10H_DF_F3) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M30H_DF_F3) },
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M60H_DF_F3) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_CNB17H_F3) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M70H_DF_F3) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_19H_DF_F3) },
+> @@ -65,6 +69,7 @@ static const struct pci_device_id amd_nb_link_ids[] = {
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_DF_F4) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M10H_DF_F4) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M30H_DF_F4) },
+> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M60H_DF_F4) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M70H_DF_F4) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_19H_DF_F4) },
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_CNB17H_F4) },
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index 1dfc4e1dcb94..3155f5ada02e 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -550,6 +550,7 @@
+>  #define PCI_DEVICE_ID_AMD_17H_DF_F3	0x1463
+>  #define PCI_DEVICE_ID_AMD_17H_M10H_DF_F3 0x15eb
+>  #define PCI_DEVICE_ID_AMD_17H_M30H_DF_F3 0x1493
+> +#define PCI_DEVICE_ID_AMD_17H_M60H_DF_F3 0x144b
+>  #define PCI_DEVICE_ID_AMD_17H_M70H_DF_F3 0x1443
+>  #define PCI_DEVICE_ID_AMD_19H_DF_F3	0x1653
+>  #define PCI_DEVICE_ID_AMD_CNB17H_F3	0x1703
