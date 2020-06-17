@@ -2,194 +2,103 @@ Return-Path: <SRS0=dk0l=76=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21ADFC433E0
-	for <linux-edac@archiver.kernel.org>; Wed, 17 Jun 2020 07:19:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99967C433DF
+	for <linux-edac@archiver.kernel.org>; Wed, 17 Jun 2020 13:56:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF5CB2073E
-	for <linux-edac@archiver.kernel.org>; Wed, 17 Jun 2020 07:19:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CEC0214DB
+	for <linux-edac@archiver.kernel.org>; Wed, 17 Jun 2020 13:56:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtyYKKn+"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="gkxYnGfi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726025AbgFQHTb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 17 Jun 2020 03:19:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgFQHTb (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 17 Jun 2020 03:19:31 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C38C061573;
-        Wed, 17 Jun 2020 00:19:31 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id ga6so565189pjb.1;
-        Wed, 17 Jun 2020 00:19:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ZZQRc8cSih9KfpaA3PdbcUNW5+QnVP16MnOdITJs0uY=;
-        b=VtyYKKn+sOaDU5VHlilWhWIIv2BrJkFOKuEqsvLnfoNTBZ5mHTRltx4dfm1p1stZ7E
-         WoZkW6kUztSKZc8w+bFhkVEHxALpSn7ZNj8wZckvhsBDuZeCD/1ukiFIU/jRIEarAt3G
-         pDuEOdYRA5A6hy49OjN8g7ddOOtE+htt6OhqHSJFtMldh+taw2Bs4JYrD+dxLPUCVu60
-         zyYw1+f6MHtx9KU4OUYr/uJaIeYCpWxd7QSLwTxuMNSbKWkDjTV2YdBpX7oI4/Pz+90T
-         8Wh4IMAzHY690hi6WmzLhbhNlh0wTGmJGJK+vzR9rvbHBpH+TA6hgwCIQpEvebi7U1Bp
-         3yCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ZZQRc8cSih9KfpaA3PdbcUNW5+QnVP16MnOdITJs0uY=;
-        b=sRFcMBSf81QhmDRANeCUL8euTc8FXhmpzS21fpLfqtuNM+H9xnFiNHwgWqprTF68LD
-         Z4Uc7rTsDqKhAuG55sg58Vcwrkm7KzyWYY0p5CuTGXHPIxRxPEqiw5/uERMKR6jgZp8J
-         VPut8UVS3I7OyvaLNuIHXCePdQ9crH9u3RERJU8i7W2OyOLr9p//Xjkjzod1mxMDnKBr
-         5jhpKEAEJtBqSXaIufQGXhF6xxU9WSOp6FWmt+CG9j8FjtLAr12q+0f0qL0zvStQExTZ
-         2olng5L8AoGNj57MmjBJxPJgB755w9u5q3r1HfC71fZguj+3QB+c6LgypoSi4bx/yOeb
-         OFxg==
-X-Gm-Message-State: AOAM533ploVOZlU2mJd0X8U65vzVDEom7AWH2TMQXhOTgjU4NLWXQmyI
-        8vFerzgAbmMtrS3yLwnM2w==
-X-Google-Smtp-Source: ABdhPJyIeenl7cQD2kDC60mWB6VjXLS+6tkAg3ZmwdCKFO3OWqhGMdrjdWeB9LO/ibHX9g/YYbfEsA==
-X-Received: by 2002:a17:90a:6047:: with SMTP id h7mr6370455pjm.145.1592378370875;
-        Wed, 17 Jun 2020 00:19:30 -0700 (PDT)
-Received: from localhost (98.86.92.34.bc.googleusercontent.com. [34.92.86.98])
-        by smtp.gmail.com with ESMTPSA id c7sm16548917pgh.84.2020.06.17.00.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 00:19:30 -0700 (PDT)
-Date:   Wed, 17 Jun 2020 15:19:27 +0800
-From:   Jacky Hu <hengqing.hu@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-hwmon@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tony.luck@intel.com, x86@kernel.org,
-        yazen.ghannam@amd.com, bp@alien8.de, clemens@ladisch.de
-Subject: Re: [PATCH] hwmon: (k10temp) Add AMD family 17h model 60h probe
-Message-ID: <20200617071927.GA398128@i716>
-References: <20200616180940.GN13515@zn.tnic>
- <20200617013255.391975-1-hengqing.hu@gmail.com>
- <20200617034028.GA1614@roeck-us.net>
+        id S1726341AbgFQN4N (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 17 Jun 2020 09:56:13 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:42344 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726328AbgFQN4N (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 17 Jun 2020 09:56:13 -0400
+Received: from zn.tnic (p200300ec2f0bb000a115b7d9110c62d9.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:b000:a115:b7d9:110c:62d9])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B0D621EC02A1;
+        Wed, 17 Jun 2020 15:56:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1592402171;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=aMj667K2+MgzaYdx9Hm5TzQHu3XKGsh8QibgzJEAQTo=;
+        b=gkxYnGfimZ25xG09InR85i8oKDw2LhigeKcZmCwXx7PukO2/iLxtxqDr8IiHxTICrGODmP
+        7hLINuFrkgyjT5PplCO/WORTLEuq2y4aaI2FMboM2fA1zVNmrdy5vDkR56WRFskgWPOHD7
+        tCQrTxA0F53i6gqxHTLmtDN3B4uqSr0=
+Date:   Wed, 17 Jun 2020 15:56:03 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     wu000273@umn.edu
+Cc:     kjlu@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        Greg Kroah-Hartman <gregkh@suse.de>,
+        Doug Thompson <dougthompson@xmission.com>,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] edac: Fix reference count leak in
+ edac_pci_main_kobj_setup.
+Message-ID: <20200617135603.GF10118@zn.tnic>
+References: <20200528202238.18078-1-wu000273@umn.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200617034028.GA1614@roeck-us.net>
+In-Reply-To: <20200528202238.18078-1-wu000273@umn.edu>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Guenter,
-
-By increasing the regs count from 32 to 256 and looking into the output of `cat /sys/kernel/debug/k10temp-0000\:00\:18.3/svi`
-There is some data from 0x05a300 - 0x05a330
-Do you have any idea how we can guess the offset for this model?
-
-0x05a000: 00000000 00000000 00000000 00000000
-0x05a010: 00000000 00000000 00000000 00000000
-0x05a020: 00000000 00000000 00000000 00000000
-0x05a030: 00000000 00000000 00000000 00000000
-0x05a040: 00000000 00000000 00000000 00000000
-0x05a050: 00000000 00000000 00000000 00000000
-0x05a060: 00000000 00000000 00000000 00000000
-0x05a070: 00000000 00000000 00000000 00000000
-0x05a080: 00000000 00000000 00000000 00000000
-0x05a090: 00000000 00000000 00000000 00000000
-0x05a0a0: 00000000 00000000 00000000 00000000
-0x05a0b0: 00000000 00000000 00000000 00000000
-0x05a0c0: 00000000 00000000 00000000 00000000
-0x05a0d0: 00000000 00000000 00000000 00000000
-0x05a0e0: 00000000 00000000 00000000 00000000
-0x05a0f0: 00000000 00000000 00000000 00000000
-0x05a100: 00000000 00000000 00000000 00000000
-0x05a110: 00000000 00000000 00000000 00000000
-0x05a120: 00000000 00000000 00000000 00000000
-0x05a130: 00000000 00000000 00000000 00000000
-0x05a140: 00000000 00000000 00000000 00000000
-0x05a150: 00000000 00000000 00000000 00000000
-0x05a160: 00000000 00000000 00000000 00000000
-0x05a170: 00000000 00000000 00000000 00000000
-0x05a180: 00000000 00000000 00000000 00000000
-0x05a190: 00000000 00000000 00000000 00000000
-0x05a1a0: 00000000 00000000 00000000 00000000
-0x05a1b0: 00000000 00000000 00000000 00000000
-0x05a1c0: 00000000 00000000 00000000 00000000
-0x05a1d0: 00000000 00000000 00000000 00000000
-0x05a1e0: 00000000 00000000 00000000 00000000
-0x05a1f0: 00000000 00000000 00000000 00000000
-0x05a200: 00000000 00000000 00000000 00000000
-0x05a210: 00000000 00000000 00000000 00000000
-0x05a220: 00000000 00000000 00000000 00000000
-0x05a230: 00000000 00000000 00000000 00000000
-0x05a240: 00000000 00000000 00000000 00000000
-0x05a250: 00000000 00000000 00000000 00000000
-0x05a260: 00000000 00000000 00000000 00000000
-0x05a270: 00000000 00000000 00000000 00000000
-0x05a280: 00000000 00000000 00000000 00000000
-0x05a290: 00000000 00000000 00000000 00000000
-0x05a2a0: 00000000 00000000 00000000 00000000
-0x05a2b0: 00000000 00000000 00000000 00000000
-0x05a2c0: 00000000 00000000 00000000 00000000
-0x05a2d0: 00000000 00000000 00000000 00000000
-0x05a2e0: 00000000 00000000 00000000 00000000
-0x05a2f0: 00000000 00000000 00000000 00000000
-0x05a300: 00000000 00000001 00000000 00002710
-0x05a310: 00000000 00000008 0000000e 00000000
-0x05a320: 00000001 0000c000 00000000 0000000b
-0x05a330: 00000001 00000000 00000000 00000000
-0x05a340: 00000000 00000000 00000000 00000000
-0x05a350: 00000000 00000000 00000000 00000000
-0x05a360: 00000000 00000000 00000000 00000000
-0x05a370: 00000000 00000000 00000000 00000000
-0x05a380: 00000000 00000000 00000000 00000000
-0x05a390: 00000000 00000000 00000000 00000000
-0x05a3a0: 00000000 00000000 00000000 00000000
-0x05a3b0: 00000000 00000000 00000000 00000000
-0x05a3c0: 00000000 00000000 00000000 00000000
-0x05a3d0: 00000000 00000000 00000000 00000000
-0x05a3e0: 00000000 00000000 00000000 00000000
-0x05a3f0: 00000000 00000000 00000000 00000000 
-
-Thanks.
-Jacky
-On Tue, Jun 16, 2020 at 08:40:28PM -0700, Guenter Roeck wrote:
-> On Wed, Jun 17, 2020 at 09:32:55AM +0800, Jacky Hu wrote:
-> > With this patch applied, output from 4800H (idle) looks as follows:
-> > 
-> > k10temp-pci-00c3
-> > Adapter: PCI adapter
-> > Vcore:         1.55 V
-> > Vsoc:          1.55 V
-> > Tctl:         +49.6°C
-> > Tdie:         +49.6°C
-> > Icore:         0.00 A
-> > Isoc:          0.00 A
-> > 
-> > Signed-off-by: Jacky Hu <hengqing.hu@gmail.com>
-> > ---
-> >  drivers/hwmon/k10temp.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/hwmon/k10temp.c b/drivers/hwmon/k10temp.c
-> > index 8f12995ec133..287e9cf2aab9 100644
-> > --- a/drivers/hwmon/k10temp.c
-> > +++ b/drivers/hwmon/k10temp.c
-> > @@ -583,6 +583,7 @@ static int k10temp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> >  			k10temp_get_ccd_support(pdev, data, 4);
-> >  			break;
-> >  		case 0x31:	/* Zen2 Threadripper */
-> > +		case 0x60:	/* Zen2 APU */
+On Thu, May 28, 2020 at 03:22:37PM -0500, wu000273@umn.edu wrote:
+> From: Qiushi Wu <wu000273@umn.edu>
 > 
-> Unfortunately it is not that simple. Output above and the little data I have
-> available suggests that current and voltage measurements are different on the
-> APU. That means that show_current must remain false.
-> This will require a separate case statement which doesn't set any flags.
+> kobject_init_and_add() should be handled when it return an error,
+> because kobject_init_and_add() takes reference even when it fails.
+> If this function returns an error, kobject_put() must be called to
+> properly clean up the memory associated with the object. Previous
+> commit "b8eb718348b8" fixed a similar problem. Thus replace calling
+> kfree() by calling kobject_put().
 > 
-> Guenter
+> Fixes: b2ed215a3338 ("Kobject: change drivers/edac to use kobject_init_and_add")
+> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+> ---
+>  drivers/edac/edac_pci_sysfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> >  		case 0x71:	/* Zen2 */
-> >  			data->show_current = !is_threadripper() && !is_epyc();
-> >  			data->cfactor[0] = CFACTOR_ICORE;
-> > -- 
-> > 2.27.0
-> > 
+> diff --git a/drivers/edac/edac_pci_sysfs.c b/drivers/edac/edac_pci_sysfs.c
+> index 72c9eb9fdffb..53042af7262e 100644
+> --- a/drivers/edac/edac_pci_sysfs.c
+> +++ b/drivers/edac/edac_pci_sysfs.c
+> @@ -386,7 +386,7 @@ static int edac_pci_main_kobj_setup(void)
+>  
+>  	/* Error unwind statck */
+>  kobject_init_and_add_fail:
+> -	kfree(edac_pci_top_main_kobj);
+> +	kobject_put(edac_pci_top_main_kobj);
+>  
+>  kzalloc_fail:
+>  	module_put(THIS_MODULE);
+> -- 
+
+This and
+
+https://lkml.kernel.org/r/20200528203526.20908-1-wu000273@umn.edu
+
+merged into a single patch and applied.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
