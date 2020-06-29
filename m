@@ -1,69 +1,148 @@
-Return-Path: <SRS0=1Bia=AI=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=rDxN=AK=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CABBFC433E0
-	for <linux-edac@archiver.kernel.org>; Sat, 27 Jun 2020 20:25:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D544CC433E0
+	for <linux-edac@archiver.kernel.org>; Mon, 29 Jun 2020 20:14:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC15E2067D
-	for <linux-edac@archiver.kernel.org>; Sat, 27 Jun 2020 20:25:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8334206A1
+	for <linux-edac@archiver.kernel.org>; Mon, 29 Jun 2020 20:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593289527;
-	bh=4ZVFImtbaCKd0Np4tmJJBMCy0Tek++XCgT1Ml2ZJ58o=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=NpocFO+dhfClMqMLJmkrcwDjhPsQ9nppTtkaPKKbUnr1GdqMDiBFRzrOo7F9nMUrq
-	 T9xSXm7b2rtD9W2e1DQtU1GU7v/HJFAx8Gn89R+e5kDrdeGv+gI2zrTeG7UpPSyn2O
-	 gVqmQb65B/iUEZOfuVGA/+hrSCgblZ/wb5KqvvqE=
+	s=default; t=1593461691;
+	bh=N8Kw4vgdWvrmLWML7P5AQDoKHbBDhEK38kF08BLH4Gc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=hJmIp9y1X2XvmvlDaux8bKcWw8g8WReV0Ark9ZLNLz2akJAB+BHVf4ZGm9ZkDX12M
+	 fBp4OUBegR5oD6nLWsSn0uWpTQjoJt+OaXZ+j6pynlTwp0QuNTIU3ZegKNrA2YHs22
+	 J/wTo5PxQdys34b9M661920rSQTTVcPjFlqXoK6E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725900AbgF0UZP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 27 Jun 2020 16:25:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40230 "EHLO mail.kernel.org"
+        id S1728001AbgF2UOu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 29 Jun 2020 16:14:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40594 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725975AbgF0UZO (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 27 Jun 2020 16:25:14 -0400
-Subject: Re: [GIT PULL] EDAC urgent for 5.8
+        id S1732831AbgF2TaS (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 29 Jun 2020 15:30:18 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C662E251EE;
+        Mon, 29 Jun 2020 15:35:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593289513;
-        bh=4ZVFImtbaCKd0Np4tmJJBMCy0Tek++XCgT1Ml2ZJ58o=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=XF0TTRWVKcxQVKy9PRFvVilaIIIt5ERquPMGDf22xNAgPSW0UdMc2V2b8EDdy3B9r
-         VFuLlXHWgra8se6gw/tUFuOvyd99dJ6AOwQSyz6ze5EgJ3zi6s9Z9146K1FQair54U
-         yMPgUBbZvUn/1gfITnd9OZiNFwXSyahcpJdLFPcI=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200627105918.GD18956@zn.tnic>
-References: <20200627105918.GD18956@zn.tnic>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200627105918.GD18956@zn.tnic>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git
- tags/edac_urgent_for_5.8
-X-PR-Tracked-Commit-Id: ee470bb25d0dcdf126f586ec0ae6dca66cb340a4
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 42f8f9bc5cb7c35ca04a6867cc01c24538d59f7f
-Message-Id: <159328951364.11719.14509799335240723936.pr-tracker-bot@kernel.org>
-Date:   Sat, 27 Jun 2020 20:25:13 +0000
-To:     Borislav Petkov <bp@suse.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        s=default; t=1593444911;
+        bh=N8Kw4vgdWvrmLWML7P5AQDoKHbBDhEK38kF08BLH4Gc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jZLd6sgf7bEItZ76KoZsHn3uLTbfg56m9AbeyzhLvVrpdjqRnwoXb5Fcitz5am01Q
+         pMdOKboKboBX5pYFeqYnohbTibUgmRHZWJXCUVxX6RqDmLo+1SRUXrXft11fQSNh00
+         z/2OW0GhEOXZEzRfMcFu7utJjpMKyFJjfGdQdKrw=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
+        Borislav Petkov <bp@suse.de>,
+        Kim Phillips <kim.phillips@amd.com>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac <linux-edac@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.19 007/131] EDAC/amd64: Add Family 17h Model 30h PCI IDs
+Date:   Mon, 29 Jun 2020 11:32:58 -0400
+Message-Id: <20200629153502.2494656-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200629153502.2494656-1-sashal@kernel.org>
+References: <20200629153502.2494656-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-KernelTest-Patch: http://kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.131-rc1.gz
+X-KernelTest-Tree: git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+X-KernelTest-Branch: linux-4.19.y
+X-KernelTest-Patches: git://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git
+X-KernelTest-Version: 4.19.131-rc1
+X-KernelTest-Deadline: 2020-07-01T15:34+00:00
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The pull request you sent on Sat, 27 Jun 2020 12:59:18 +0200:
+From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_5.8
+[ Upstream commit 6e846239e5487cbb89ac8192d5f11437d010130e ]
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/42f8f9bc5cb7c35ca04a6867cc01c24538d59f7f
+Add the new Family 17h Model 30h PCI IDs to the AMD64 EDAC module.
 
-Thank you!
+This also fixes a probe failure that appeared when some other PCI IDs
+for Family 17h Model 30h were added to the AMD NB code.
 
+Fixes: be3518a16ef2 (x86/amd_nb: Add PCI device IDs for family 17h, model 30h)
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Tested-by: Kim Phillips <kim.phillips@amd.com>
+Cc: James Morse <james.morse@arm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>
+Link: https://lkml.kernel.org/r/20190228153558.127292-1-Yazen.Ghannam@amd.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/edac/amd64_edac.c | 13 +++++++++++++
+ drivers/edac/amd64_edac.h |  3 +++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 05d6f9c86ac38..268ada29cd987 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2209,6 +2209,15 @@ static struct amd64_family_type family_types[] = {
+ 			.dbam_to_cs		= f17_base_addr_to_cs_size,
+ 		}
+ 	},
++	[F17_M30H_CPUS] = {
++		.ctl_name = "F17h_M30h",
++		.f0_id = PCI_DEVICE_ID_AMD_17H_M30H_DF_F0,
++		.f6_id = PCI_DEVICE_ID_AMD_17H_M30H_DF_F6,
++		.ops = {
++			.early_channel_count	= f17_early_channel_count,
++			.dbam_to_cs		= f17_base_addr_to_cs_size,
++		}
++	},
+ };
+ 
+ /*
+@@ -3212,6 +3221,10 @@ static struct amd64_family_type *per_family_init(struct amd64_pvt *pvt)
+ 			fam_type = &family_types[F17_M10H_CPUS];
+ 			pvt->ops = &family_types[F17_M10H_CPUS].ops;
+ 			break;
++		} else if (pvt->model >= 0x30 && pvt->model <= 0x3f) {
++			fam_type = &family_types[F17_M30H_CPUS];
++			pvt->ops = &family_types[F17_M30H_CPUS].ops;
++			break;
+ 		}
+ 		fam_type	= &family_types[F17_CPUS];
+ 		pvt->ops	= &family_types[F17_CPUS].ops;
+diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
+index 4242f8e39c18f..de8dbb0b42b55 100644
+--- a/drivers/edac/amd64_edac.h
++++ b/drivers/edac/amd64_edac.h
+@@ -117,6 +117,8 @@
+ #define PCI_DEVICE_ID_AMD_17H_DF_F6	0x1466
+ #define PCI_DEVICE_ID_AMD_17H_M10H_DF_F0 0x15e8
+ #define PCI_DEVICE_ID_AMD_17H_M10H_DF_F6 0x15ee
++#define PCI_DEVICE_ID_AMD_17H_M30H_DF_F0 0x1490
++#define PCI_DEVICE_ID_AMD_17H_M30H_DF_F6 0x1496
+ 
+ /*
+  * Function 1 - Address Map
+@@ -284,6 +286,7 @@ enum amd_families {
+ 	F16_M30H_CPUS,
+ 	F17_CPUS,
+ 	F17_M10H_CPUS,
++	F17_M30H_CPUS,
+ 	NUM_FAMILIES,
+ };
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.25.1
+
