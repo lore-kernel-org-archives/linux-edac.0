@@ -1,148 +1,138 @@
-Return-Path: <SRS0=rDxN=AK=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=wzrH=AS=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D544CC433E0
-	for <linux-edac@archiver.kernel.org>; Mon, 29 Jun 2020 20:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FF7C433DF
+	for <linux-edac@archiver.kernel.org>; Tue,  7 Jul 2020 19:43:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8334206A1
-	for <linux-edac@archiver.kernel.org>; Mon, 29 Jun 2020 20:14:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593461691;
-	bh=N8Kw4vgdWvrmLWML7P5AQDoKHbBDhEK38kF08BLH4Gc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=hJmIp9y1X2XvmvlDaux8bKcWw8g8WReV0Ark9ZLNLz2akJAB+BHVf4ZGm9ZkDX12M
-	 fBp4OUBegR5oD6nLWsSn0uWpTQjoJt+OaXZ+j6pynlTwp0QuNTIU3ZegKNrA2YHs22
-	 J/wTo5PxQdys34b9M661920rSQTTVcPjFlqXoK6E=
+	by mail.kernel.org (Postfix) with ESMTP id 9D49920738
+	for <linux-edac@archiver.kernel.org>; Tue,  7 Jul 2020 19:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728001AbgF2UOu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:14:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40594 "EHLO mail.kernel.org"
+        id S1728190AbgGGTn0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 7 Jul 2020 15:43:26 -0400
+Received: from mga01.intel.com ([192.55.52.88]:8254 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732831AbgF2TaS (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:30:18 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C662E251EE;
-        Mon, 29 Jun 2020 15:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593444911;
-        bh=N8Kw4vgdWvrmLWML7P5AQDoKHbBDhEK38kF08BLH4Gc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jZLd6sgf7bEItZ76KoZsHn3uLTbfg56m9AbeyzhLvVrpdjqRnwoXb5Fcitz5am01Q
-         pMdOKboKboBX5pYFeqYnohbTibUgmRHZWJXCUVxX6RqDmLo+1SRUXrXft11fQSNh00
-         z/2OW0GhEOXZEzRfMcFu7utJjpMKyFJjfGdQdKrw=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
-        Borislav Petkov <bp@suse.de>,
-        Kim Phillips <kim.phillips@amd.com>,
-        James Morse <james.morse@arm.com>,
+        id S1726763AbgGGTn0 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 7 Jul 2020 15:43:26 -0400
+IronPort-SDR: MdIUgG+CuSp2Gjh0mwmQINTTzJBKGfKiOGj7hKyYeR3YmGkre++PaCh3zU9U73ExIta36dS8rU
+ YbKuUOtL3d4w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="165756287"
+X-IronPort-AV: E=Sophos;i="5.75,324,1589266800"; 
+   d="scan'208";a="165756287"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2020 12:43:25 -0700
+IronPort-SDR: 8UpS+ICVsICC80AB1clmi6e87WeOdKs4B0I79MKHkMwLKF52436Ao452/SXQ5wmQbVEYuk1DQR
+ mrxdnzrJDsXA==
+X-IronPort-AV: E=Sophos;i="5.75,324,1589266800"; 
+   d="scan'208";a="427585167"
+Received: from agluck-desk2.sc.intel.com ([10.3.52.68])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2020 12:43:25 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     Gabriele Paoloni <gabriele.paoloni@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Aristeu Rozanski <aris@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 007/131] EDAC/amd64: Add Family 17h Model 30h PCI IDs
-Date:   Mon, 29 Jun 2020 11:32:58 -0400
-Message-Id: <20200629153502.2494656-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200629153502.2494656-1-sashal@kernel.org>
-References: <20200629153502.2494656-1-sashal@kernel.org>
+        linux-edac@vger.kernel.org
+Subject: [PATCH] EDAC, i7core, sb, pnd2, skx: Fix error event severity
+Date:   Tue,  7 Jul 2020 12:43:24 -0700
+Message-Id: <20200707194324.14884-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-KernelTest-Patch: http://kernel.org/pub/linux/kernel/v4.x/stable-review/patch-4.19.131-rc1.gz
-X-KernelTest-Tree: git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-X-KernelTest-Branch: linux-4.19.y
-X-KernelTest-Patches: git://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git
-X-KernelTest-Version: 4.19.131-rc1
-X-KernelTest-Deadline: 2020-07-01T15:34+00:00
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+IA32_MCG_STATUS.RIPV indicates whether the return RIP value pushed onto
+the stack as part of machine check delivery is valid or not.
 
-[ Upstream commit 6e846239e5487cbb89ac8192d5f11437d010130e ]
+Various drivers copied a code fragment that uses the RIPV bit to
+determine the severity of the error as either HW_EVENT_ERR_UNCORRECTED
+or HW_EVENT_ERR_FATAL, but this check is reversed (marking errors where
+RIPV is set as "FATAL").
 
-Add the new Family 17h Model 30h PCI IDs to the AMD64 EDAC module.
+Reverse the tests so that the error is marked fatal when RIPV is not set.
 
-This also fixes a probe failure that appeared when some other PCI IDs
-for Family 17h Model 30h were added to the AMD NB code.
-
-Fixes: be3518a16ef2 (x86/amd_nb: Add PCI device IDs for family 17h, model 30h)
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Tested-by: Kim Phillips <kim.phillips@amd.com>
-Cc: James Morse <james.morse@arm.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-edac <linux-edac@vger.kernel.org>
-Link: https://lkml.kernel.org/r/20190228153558.127292-1-Yazen.Ghannam@amd.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Reported-by: Gabriele Paoloni <gabriele.paoloni@intel.com>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- drivers/edac/amd64_edac.c | 13 +++++++++++++
- drivers/edac/amd64_edac.h |  3 +++
- 2 files changed, 16 insertions(+)
+ drivers/edac/i7core_edac.c | 4 ++--
+ drivers/edac/pnd2_edac.c   | 2 +-
+ drivers/edac/sb_edac.c     | 4 ++--
+ drivers/edac/skx_common.c  | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 05d6f9c86ac38..268ada29cd987 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -2209,6 +2209,15 @@ static struct amd64_family_type family_types[] = {
- 			.dbam_to_cs		= f17_base_addr_to_cs_size,
+diff --git a/drivers/edac/i7core_edac.c b/drivers/edac/i7core_edac.c
+index 5860ca41185c..2acd9f9284a2 100644
+--- a/drivers/edac/i7core_edac.c
++++ b/drivers/edac/i7core_edac.c
+@@ -1710,9 +1710,9 @@ static void i7core_mce_output_error(struct mem_ctl_info *mci,
+ 	if (uncorrected_error) {
+ 		core_err_cnt = 1;
+ 		if (ripv)
+-			tp_event = HW_EVENT_ERR_FATAL;
+-		else
+ 			tp_event = HW_EVENT_ERR_UNCORRECTED;
++		else
++			tp_event = HW_EVENT_ERR_FATAL;
+ 	} else {
+ 		tp_event = HW_EVENT_ERR_CORRECTED;
+ 	}
+diff --git a/drivers/edac/pnd2_edac.c b/drivers/edac/pnd2_edac.c
+index fd363746f5b0..b8fc4b84fd86 100644
+--- a/drivers/edac/pnd2_edac.c
++++ b/drivers/edac/pnd2_edac.c
+@@ -1155,7 +1155,7 @@ static void pnd2_mce_output_error(struct mem_ctl_info *mci, const struct mce *m,
+ 	u32 optypenum = GET_BITFIELD(m->status, 4, 6);
+ 	int rc;
+ 
+-	tp_event = uc_err ? (ripv ? HW_EVENT_ERR_FATAL : HW_EVENT_ERR_UNCORRECTED) :
++	tp_event = uc_err ? (ripv ? HW_EVENT_ERR_UNCORRECTED : HW_EVENT_ERR_FATAL) :
+ 						 HW_EVENT_ERR_CORRECTED;
+ 
+ 	/*
+diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+index d414698ca324..c5ab634cb6a4 100644
+--- a/drivers/edac/sb_edac.c
++++ b/drivers/edac/sb_edac.c
+@@ -2982,9 +2982,9 @@ static void sbridge_mce_output_error(struct mem_ctl_info *mci,
+ 	if (uncorrected_error) {
+ 		core_err_cnt = 1;
+ 		if (ripv) {
+-			tp_event = HW_EVENT_ERR_FATAL;
+-		} else {
+ 			tp_event = HW_EVENT_ERR_UNCORRECTED;
++		} else {
++			tp_event = HW_EVENT_ERR_FATAL;
  		}
- 	},
-+	[F17_M30H_CPUS] = {
-+		.ctl_name = "F17h_M30h",
-+		.f0_id = PCI_DEVICE_ID_AMD_17H_M30H_DF_F0,
-+		.f6_id = PCI_DEVICE_ID_AMD_17H_M30H_DF_F6,
-+		.ops = {
-+			.early_channel_count	= f17_early_channel_count,
-+			.dbam_to_cs		= f17_base_addr_to_cs_size,
-+		}
-+	},
- };
- 
- /*
-@@ -3212,6 +3221,10 @@ static struct amd64_family_type *per_family_init(struct amd64_pvt *pvt)
- 			fam_type = &family_types[F17_M10H_CPUS];
- 			pvt->ops = &family_types[F17_M10H_CPUS].ops;
- 			break;
-+		} else if (pvt->model >= 0x30 && pvt->model <= 0x3f) {
-+			fam_type = &family_types[F17_M30H_CPUS];
-+			pvt->ops = &family_types[F17_M30H_CPUS].ops;
-+			break;
+ 	} else {
+ 		tp_event = HW_EVENT_ERR_CORRECTED;
+diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
+index 6d8d6dc626bf..2b4ce8e5ac2f 100644
+--- a/drivers/edac/skx_common.c
++++ b/drivers/edac/skx_common.c
+@@ -493,9 +493,9 @@ static void skx_mce_output_error(struct mem_ctl_info *mci,
+ 	if (uncorrected_error) {
+ 		core_err_cnt = 1;
+ 		if (ripv) {
+-			tp_event = HW_EVENT_ERR_FATAL;
+-		} else {
+ 			tp_event = HW_EVENT_ERR_UNCORRECTED;
++		} else {
++			tp_event = HW_EVENT_ERR_FATAL;
  		}
- 		fam_type	= &family_types[F17_CPUS];
- 		pvt->ops	= &family_types[F17_CPUS].ops;
-diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-index 4242f8e39c18f..de8dbb0b42b55 100644
---- a/drivers/edac/amd64_edac.h
-+++ b/drivers/edac/amd64_edac.h
-@@ -117,6 +117,8 @@
- #define PCI_DEVICE_ID_AMD_17H_DF_F6	0x1466
- #define PCI_DEVICE_ID_AMD_17H_M10H_DF_F0 0x15e8
- #define PCI_DEVICE_ID_AMD_17H_M10H_DF_F6 0x15ee
-+#define PCI_DEVICE_ID_AMD_17H_M30H_DF_F0 0x1490
-+#define PCI_DEVICE_ID_AMD_17H_M30H_DF_F6 0x1496
- 
- /*
-  * Function 1 - Address Map
-@@ -284,6 +286,7 @@ enum amd_families {
- 	F16_M30H_CPUS,
- 	F17_CPUS,
- 	F17_M10H_CPUS,
-+	F17_M30H_CPUS,
- 	NUM_FAMILIES,
- };
- 
+ 	} else {
+ 		tp_event = HW_EVENT_ERR_CORRECTED;
 -- 
-2.25.1
+2.21.1
 
