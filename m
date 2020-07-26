@@ -1,113 +1,148 @@
-Return-Path: <SRS0=Bqq3=BD=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=25Kx=BF=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 249CDC433E0
-	for <linux-edac@archiver.kernel.org>; Fri, 24 Jul 2020 11:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40B8DC433E0
+	for <linux-edac@archiver.kernel.org>; Sun, 26 Jul 2020 19:16:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6381206E3
-	for <linux-edac@archiver.kernel.org>; Fri, 24 Jul 2020 11:20:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 174C720715
+	for <linux-edac@archiver.kernel.org>; Sun, 26 Jul 2020 19:16:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="G2BoOrHO"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="PNM3pXcZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727058AbgGXLUa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 24 Jul 2020 07:20:30 -0400
-Received: from mx1.tq-group.com ([62.157.118.193]:56516 "EHLO mx1.tq-group.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726854AbgGXLU3 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 24 Jul 2020 07:20:29 -0400
-IronPort-SDR: +mN8OmgKNqY8FGU2mp2llN6LXlD8infC3173m6xTi/aqnan2hYx9I8Yhb0cmfexEzDoREDr5n/
- bMq+wZcrRmk+4NgGQnvzRZwWyxfttrGMIupyrAOBfa0r3WcLyDNDfo9IxBNkL1cTCXpIcyHI7k
- kG3P5pX3RWOmxDuEpGWXQy1SNSN/pypu7hBSNyWEeGGLwbXC50LzKJ7QxsAfTYDcTKOlqxiVAF
- lIuA5UMiZqCgO4nwrppYlRIxSw/m88gLCnArqr990weAN7md5bqPuNeSMMRAq2IhhbphjhANtu
- u+g=
-X-IronPort-AV: E=Sophos;i="5.75,390,1589234400"; 
-   d="scan'208";a="13228502"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 24 Jul 2020 13:20:24 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 24 Jul 2020 13:20:24 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Fri, 24 Jul 2020 13:20:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1595589624; x=1627125624;
-  h=from:to:cc:subject:date:message-id;
-  bh=gBgGUJe7SvJAq1Z9RuFP5VQ/8iajrgNUuzmMJsiS5Ew=;
-  b=G2BoOrHOhucrUCnJ+x8jw9Lpm9vtAX4Tqpo6Oq7PO7rrBUfogv4VBmEe
-   BLjBxa8c1T/5oDQrjgIYDthH4p64grWpTfPY5OrCUwtSd/SADUg7adrx5
-   qMt5Lvp5qBYyJLDrD7YFUOf6SBVltQ5G2/D0MzIkxC+af/y7YnV5zNtCy
-   sQFoa/3TPz5UPsanoO4x9Y9M03P/Vlppmfo3vIp1F+qDT3k++hinazBh6
-   otxGaH/bWNgQCa/iG5uB+fYHH6rD7LDtXYJktIvmxIYy7gg0ijWd+ky6E
-   NCHd+6aZzEvkxL45juTE87uTW79+32juSYc21SuS/jw3lE98Pg8l4WeS1
-   g==;
-IronPort-SDR: isC0Ja7bsaxbNXRgTWuxn2sP58DGikXYGgUtTouH87DQh/OG7S6k7LzRiUoDZhXw59VXIhe/AP
- GqBWlLP7TSl1BC1o3nF27tUot883dEge2EFuS9JwFLDMYcNDq9b2EuAgqEWCcbzqpqA4z8tWQw
- 46kiaLwNDLDaAtVSNT6azPlyclrVzXw/AhC54mLzJMGOqCqmSy2VY0bjuOKuOyg+Pf7A94Mkr5
- nDE/ZgPnwzToqwxxtYeGJCZVqzkAH56U/9K8Jr5CxOGyrsQozmc6P1wf1PKZPS0WwoiGkv1IXg
- 2x0=
-X-IronPort-AV: E=Sophos;i="5.75,390,1589234400"; 
-   d="scan'208";a="13228501"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 24 Jul 2020 13:20:24 +0200
-Received: from herburgerg-w.tq-net.de (herburgerg-w.tq-net.de [10.122.52.145])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 31CA0280065;
-        Fri, 24 Jul 2020 13:20:24 +0200 (CEST)
-From:   Gregor Herburger <gregor.herburger@ew.tq-group.com>
-To:     york.sun@nxp.com, bp@alien8.de, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rrichter@marvell.com
-Cc:     linux-edac@vger.kernel.org,
-        Gregor Herburger <gregor.herburger@ew.tq-group.com>
-Subject: [PATCH 1/1] edac: fsl_ddr_edac: fix expected data message
-Date:   Fri, 24 Jul 2020 13:18:46 +0200
-Message-Id: <20200724111846.24432-1-gregor.herburger@ew.tq-group.com>
+        id S1726144AbgGZTQk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 26 Jul 2020 15:16:40 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:17168 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726081AbgGZTQk (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 26 Jul 2020 15:16:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1595791000; x=1627327000;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=cagFj0TCeqeVSqHAz7QMf0ZKCt9DRUu1ZqptfiQt1ts=;
+  b=PNM3pXcZXdsllstqbGdsqs2Nz6nSlFqqGiab+cCvbwhyHSvMRHx1QJP0
+   5A/6MaiHepKIdpEdTMKAfC1jfG1TrBsASoP4qXcOEdvQAylALoaEcTxnU
+   x0us4DqTWsiAJJ4N2VdziatwN90jJRiV79bUDLb5GtxUSXgu48h6GzGCC
+   E=;
+IronPort-SDR: jNpza2XW413xsiQM3sT5eVNdGy5g1NDsgANwlGupQBUTwEQJzMySV8CviM7V1pccGwGI56cAF6
+ kGhYhN8NQ04g==
+X-IronPort-AV: E=Sophos;i="5.75,399,1589241600"; 
+   d="scan'208";a="61692531"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 26 Jul 2020 19:16:38 +0000
+Received: from EX13MTAUEA002.ant.amazon.com (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
+        by email-inbound-relay-2c-c6afef2e.us-west-2.amazon.com (Postfix) with ESMTPS id BC885A2330;
+        Sun, 26 Jul 2020 19:16:36 +0000 (UTC)
+Received: from EX13D01EUB001.ant.amazon.com (10.43.166.194) by
+ EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Sun, 26 Jul 2020 19:16:36 +0000
+Received: from uf25486d27d2d5b.ant.amazon.com (10.43.161.71) by
+ EX13D01EUB001.ant.amazon.com (10.43.166.194) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Sun, 26 Jul 2020 19:16:27 +0000
+From:   Talel Shenhar <talel@amazon.com>
+To:     <bp@alien8.de>, <mchehab@kernel.org>, <james.morse@arm.com>,
+        <talel@amazon.com>, <davem@davemloft.net>,
+        <gregkh@linuxfoundation.org>, <nicolas.ferre@microchip.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-edac@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+CC:     <hhhawa@amazon.com>, <ronenk@amazon.com>, <jonnyc@amazon.com>,
+        <hanochu@amazon.com>, <eitan@amazon.com>
+Subject: [PATCH v8 0/2] Amazon's Annapurna Labs Memory Controller EDAC
+Date:   Sun, 26 Jul 2020 22:15:53 +0300
+Message-ID: <20200726191555.5210-1-talel@amazon.com>
 X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.71]
+X-ClientProxiedBy: EX13D05UWC001.ant.amazon.com (10.43.162.82) To
+ EX13D01EUB001.ant.amazon.com (10.43.166.194)
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-In some cases a wrong 'Expected Data' is calculated and reported.
-When comparing Expected/Captured Data this looks like dual bit errors when
-only a single bit error occurred.
+This series introduces support for Amazon's Annapurna Labs Memory
+Controller EDAC driver.
 
-On my aarch64 machine it prints something similar to this:
-[  311.103794] EDAC FSL_DDR MC0: Faulty Data bit: 36
-[  311.108490] EDAC FSL_DDR MC0: Expected Data / ECC:   0xffffffef_ffffffff / 0x80000059
-[  311.116135] EDAC FSL_DDR MC0: Captured Data / ECC:   0xffffffff_ffffffef / 0x59
+Changes since v7:
+=================
+- rebased and retested for tag Linux 5.8-rc1
 
-Fix this by only shift the register where the error occurred.
+Changes since v6:
+=================
+- removed unused defines
+- user-visible strings changed to capital
+- removed static function names prefix from internal functions (external
+  used function, such as devm/interrupts-handlers/probe, left with the
+  prefix to allow stack trace visibility)
+- sorted function local variables declaration in a reverse Christmas tree order
+- fixed use of wrong syndrome defines
+- added a comment to interrupts handling (polling mode with interrupt mode)
+- added grain definition
+- appended "or BSD-2-Clause" to dt binding SPDX
 
-Signed-off-by: Gregor Herburger <gregor.herburger@ew.tq-group.com>
----
- drivers/edac/fsl_ddr_edac.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes since v5:
+=================
+- rebased and retested for tag Linux 5.6-rc2
+- added Reviewed-By for dt-binding (Rob Herring <robh@kernel.org>)
+- added Reviewed-By for driver (James Morse <james.morse@arm.com>)
 
-diff --git a/drivers/edac/fsl_ddr_edac.c b/drivers/edac/fsl_ddr_edac.c
-index 6d8ea226010d..4b6989cf1947 100644
---- a/drivers/edac/fsl_ddr_edac.c
-+++ b/drivers/edac/fsl_ddr_edac.c
-@@ -343,9 +343,9 @@ static void fsl_mc_check(struct mem_ctl_info *mci)
- 
- 		fsl_mc_printk(mci, KERN_ERR,
- 			"Expected Data / ECC:\t%#8.8x_%08x / %#2.2x\n",
--			cap_high ^ (1 << (bad_data_bit - 32)),
--			cap_low ^ (1 << bad_data_bit),
--			syndrome ^ (1 << bad_ecc_bit));
-+			(bad_data_bit > 31) ? cap_high ^ (1 << (bad_data_bit - 32)) : cap_high,
-+			(bad_data_bit <= 31) ? cap_low ^ (1 << (bad_data_bit)) : cap_low,
-+			(bad_ecc_bit != -1) ? syndrome ^ (1 << (bad_ecc_bit)) : syndrome);
- 	}
- 
- 	fsl_mc_printk(mci, KERN_ERR,
+Changes since v4:
+=================
+- fixed dt-binding interrupt to have min of 1
+- updated dt-binding GPL-2.0 to GPL-2.0-only
+- changed writel to relaxed flavor
+- added managed device driver unwind
+
+Changes since v3:
+=================
+- removed quotation marks and hyphen from compatible dt-binding
+- added interrupts and interrupt-names description to dt-binding
+- added missing include to dt-binding
+
+Changes since v2:
+=================
+- added missing includes
+- aggregated variables to same line
+- removed ranks read
+- added spinlock to mc reporting
+- made irq handler clearer
+- freed irq before freeing device memory
+- changed Kconfig to tristate
+- added COMPILE_TEST to Kconfig
+- converted dt binding to new scheme
+- used devm_platform_ioremap_resource instead of get&ioremap
+
+Changes since v1:
+=================
+- updated dt binding node name and added Rob Reviewed-By
+- removed auto selecting of this driver
+
+
+Talel Shenhar (2):
+  dt-bindings: edac: al-mc-edac: Amazon's Annapurna Labs Memory
+    Controller EDAC
+  EDAC: al-mc-edac: Introduce Amazon's Annapurna Labs Memory Controller
+    EDAC
+
+ .../bindings/edac/amazon,al-mc-edac.yaml      |  52 +++
+ MAINTAINERS                                   |   7 +
+ drivers/edac/Kconfig                          |   7 +
+ drivers/edac/Makefile                         |   1 +
+ drivers/edac/al_mc_edac.c                     | 354 ++++++++++++++++++
+ 5 files changed, 421 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/edac/amazon,al-mc-edac.yaml
+ create mode 100644 drivers/edac/al_mc_edac.c
+
 -- 
 2.17.1
 
