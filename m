@@ -1,124 +1,173 @@
-Return-Path: <SRS0=6D6O=BO=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=TK3m=BP=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6969BC433E0
-	for <linux-edac@archiver.kernel.org>; Tue,  4 Aug 2020 16:18:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CBA1C433E0
+	for <linux-edac@archiver.kernel.org>; Wed,  5 Aug 2020 02:11:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51E9B22B42
-	for <linux-edac@archiver.kernel.org>; Tue,  4 Aug 2020 16:18:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VriJCAZk"
+	by mail.kernel.org (Postfix) with ESMTP id 19CE222CAE
+	for <linux-edac@archiver.kernel.org>; Wed,  5 Aug 2020 02:11:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728993AbgHDQSw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 4 Aug 2020 12:18:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728271AbgHDQSv (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 4 Aug 2020 12:18:51 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A595C06174A;
-        Tue,  4 Aug 2020 09:18:51 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id a14so13351002edx.7;
-        Tue, 04 Aug 2020 09:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iw73O7zxTtWlECCxBVTbs3K0lH4NxmMjnyOEyQVNmnY=;
-        b=VriJCAZkBFkRHCN582PoHkkOpqw/g6OLh9IQ1Sus5cSS8CSyYcwUCQw3kRurT34Tc/
-         pA6moefJLXEIUuhKzPIFwbScJZZa3C4NGzkT7d0AbOATYC2ZF+IIC3e2Pkh+KGIep2nm
-         vXQRBGj0OJkWBCs7EmVtjJvapBZ/KSWhHKWdxPmcsqdqfsHTkja+32tWE1mIgjNVTV6I
-         zL1EworxqHJfFRuLSgG+QbyYpHL9lZU6wPx1aZuWWAS2tGtNpt0MMeccSdRFpLh6hWxm
-         78oufE7OuWZ+CsTBTq3OPKh4h/lPTtYiIR3XWxTBCtLqWlW3xHYCgcgFblcFSaRNimJ/
-         D3hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iw73O7zxTtWlECCxBVTbs3K0lH4NxmMjnyOEyQVNmnY=;
-        b=m1wHL06uqR6EGw+F/Khm+icn3izxPZWch/TnIvBOexKQ3F66pXLMoLO5Jb4mdgcMVo
-         3f1dFsBxweYCMKg1jlBJw4QjrIKZ5kxK+2/OnxbsMnqIwI5oZ01Ra8ryTu63dHBPpLvx
-         fUy0sD2ti0tPavHYTfAQuj0Vxr1L8xSpY1OQyWfpciWcb8tOI8W8sGfL/sTHEfmh60na
-         nrbV+ZAUbABw1QGy8TEdJCX8AGfSA7IGor68NWoSFUjA/c88w/lz6Kn7QmBCXCmZi35r
-         rJvJLj1NBRejztMlamuEbhVxMUG0P2uo+149kbnRUq6P91KH4PnXVU8jpYpieOtVtPLu
-         CRBg==
-X-Gm-Message-State: AOAM530eLTgTHKmHNdul2kxlGdRoH2IcKybUpanPsfKovAm9rAGpULoE
-        xz1cidG5W6hRXPBkMjWYRfM=
-X-Google-Smtp-Source: ABdhPJwzbzFpdu4i50fVtxewCe8ZmPJbN9uCHcWI6UYessAZzsIkeoX13JGdttLZ0pBoMFUATs7+Zw==
-X-Received: by 2002:a05:6402:c81:: with SMTP id cm1mr20534593edb.256.1596557929841;
-        Tue, 04 Aug 2020 09:18:49 -0700 (PDT)
-Received: from luca020400-arch.lan ([2001:b07:5d33:19f:d537:6bdb:9442:dd28])
-        by smtp.googlemail.com with ESMTPSA id sd8sm19224438ejb.58.2020.08.04.09.18.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2020 09:18:49 -0700 (PDT)
-From:   Luca Stefani <luca.stefani.ge1@gmail.com>
-Cc:     Luca Stefani <luca.stefani.ge1@gmail.com>,
+        id S1725904AbgHECL1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 4 Aug 2020 22:11:27 -0400
+Received: from mga17.intel.com ([192.55.52.151]:55732 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725864AbgHECL1 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 4 Aug 2020 22:11:27 -0400
+IronPort-SDR: 3CoqdszJAmEkmZm16I/Z4L0T/QtF9f57ymX4mbDM2DyIfHaeFSp+U+1JTA1ScaBsLrj9BYID69
+ i/kqkY2wELxQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9703"; a="132527039"
+X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; 
+   d="scan'208";a="132527039"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2020 19:11:26 -0700
+IronPort-SDR: 7YZv9kSyXHYI1/6wKsTsJNloUdG9Cga/wALKClNATycnIJE6k2WjwseoQyZ1ZcyItT6NMQwClN
+ hE46hxDjbpYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; 
+   d="scan'208";a="322962027"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2020 19:11:26 -0700
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
+        Andy Lutomirski <luto@kernel.org>, x86@kernel.org,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
         Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] RAS/CEC: Fix cec_init prototype
-Date:   Tue,  4 Aug 2020 18:18:47 +0200
-Message-Id: <20200804161847.825391-1-luca.stefani.ge1@gmail.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+        Cathy Zhang <cathy.zhang@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Kyung Min Park <kyung.min.park@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        linux-edac@vger.kernel.org
+Subject: [PATCH v2] x86/cpu: Use SERIALIZE in sync_core() when available
+Date:   Tue,  4 Aug 2020 19:10:59 -0700
+Message-Id: <20200805021059.1331-1-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-* late_initcall expects a function to return an integer
+The SERIALIZE instruction gives software a way to force the processor to
+complete all modifications to flags, registers and memory from previous
+instructions and drain all buffered writes to memory before the next
+instruction is fetched and executed. Thus, it serves the purpose of
+sync_core(). Use it when available.
 
-Signed-off-by: Luca Stefani <luca.stefani.ge1@gmail.com>
+Commit 7117f16bf460 ("objtool: Fix ORC vs alternatives") enforced stack
+invariance in alternatives. The iret-to-self does not comply with such
+invariance. Thus, it cannot be used inside alternative code. Instead, use
+an alternative that jumps to SERIALIZE when available.
+
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Cathy Zhang <cathy.zhang@intel.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Kyung Min Park <kyung.min.park@intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+Cc: Sean Christopherson <sean.j.christopherson@intel.com>
+Cc: linux-edac@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Suggested-by: Andy Lutomirski <luto@kernel.org>
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
- drivers/ras/cec.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+This is a v2 from my initial submission [1]. The first three patches of
+the series have been merged in Linus' tree. Hence, I am submitting only
+this patch for review.
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index 569d9ad2c594..e048e0e3949a 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -553,20 +553,20 @@ static struct notifier_block cec_nb = {
- 	.priority	= MCE_PRIO_CEC,
- };
+[1]. https://lkml.org/lkml/2020/7/27/8
+
+Changes since v1:
+ * Support SERIALIZE using alternative runtime patching.
+   (Peter Zijlstra, H. Peter Anvin)
+ * Added a note to specify which version of binutils supports SERIALIZE.
+   (Peter Zijlstra)
+ * Verified that (::: "memory") is used. (H. Peter Anvin)
+---
+ arch/x86/include/asm/special_insns.h |  2 ++
+ arch/x86/include/asm/sync_core.h     | 10 +++++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/include/asm/special_insns.h b/arch/x86/include/asm/special_insns.h
+index 59a3e13204c3..25cd67801dda 100644
+--- a/arch/x86/include/asm/special_insns.h
++++ b/arch/x86/include/asm/special_insns.h
+@@ -10,6 +10,8 @@
+ #include <linux/irqflags.h>
+ #include <linux/jump_label.h>
  
--static void __init cec_init(void)
-+static int __init cec_init(void)
++/* Instruction opcode for SERIALIZE; supported in binutils >= 2.35. */
++#define __ASM_SERIALIZE ".byte 0xf, 0x1, 0xe8"
+ /*
+  * Volatile isn't enough to prevent the compiler from reordering the
+  * read/write functions for the control registers and messing everything up.
+diff --git a/arch/x86/include/asm/sync_core.h b/arch/x86/include/asm/sync_core.h
+index fdb5b356e59b..201ea3d9a6bd 100644
+--- a/arch/x86/include/asm/sync_core.h
++++ b/arch/x86/include/asm/sync_core.h
+@@ -5,15 +5,19 @@
+ #include <linux/preempt.h>
+ #include <asm/processor.h>
+ #include <asm/cpufeature.h>
++#include <asm/special_insns.h>
+ 
+ #ifdef CONFIG_X86_32
+ static inline void iret_to_self(void)
  {
- 	if (ce_arr.disabled)
--		return;
-+		return 0;
- 
- 	ce_arr.array = (void *)get_zeroed_page(GFP_KERNEL);
- 	if (!ce_arr.array) {
- 		pr_err("Error allocating CE array page!\n");
--		return;
-+		return 1;
- 	}
- 
- 	if (create_debugfs_nodes()) {
- 		free_page((unsigned long)ce_arr.array);
--		return;
-+		return 1;
- 	}
- 
- 	INIT_DELAYED_WORK(&cec_work, cec_work_fn);
-@@ -575,6 +575,7 @@ static void __init cec_init(void)
- 	mce_register_decode_chain(&cec_nb);
- 
- 	pr_info("Correctable Errors collector initialized.\n");
-+	return 0;
+ 	asm volatile (
++		ALTERNATIVE("", "jmp 2f", X86_FEATURE_SERIALIZE)
+ 		"pushfl\n\t"
+ 		"pushl %%cs\n\t"
+ 		"pushl $1f\n\t"
+ 		"iret\n\t"
++		"2:\n\t"
++		__ASM_SERIALIZE "\n"
+ 		"1:"
+ 		: ASM_CALL_CONSTRAINT : : "memory");
  }
- late_initcall(cec_init);
+@@ -23,6 +27,7 @@ static inline void iret_to_self(void)
+ 	unsigned int tmp;
  
+ 	asm volatile (
++		ALTERNATIVE("", "jmp 2f", X86_FEATURE_SERIALIZE)
+ 		"mov %%ss, %0\n\t"
+ 		"pushq %q0\n\t"
+ 		"pushq %%rsp\n\t"
+@@ -32,6 +37,8 @@ static inline void iret_to_self(void)
+ 		"pushq %q0\n\t"
+ 		"pushq $1f\n\t"
+ 		"iretq\n\t"
++		"2:\n\t"
++		__ASM_SERIALIZE "\n"
+ 		"1:"
+ 		: "=&r" (tmp), ASM_CALL_CONSTRAINT : : "cc", "memory");
+ }
+@@ -54,7 +61,8 @@ static inline void iret_to_self(void)
+ static inline void sync_core(void)
+ {
+ 	/*
+-	 * There are quite a few ways to do this.  IRET-to-self is nice
++	 * Hardware can do this for us if SERIALIZE is available. Otherwise,
++	 * there are quite a few ways to do this.  IRET-to-self is nice
+ 	 * because it works on every CPU, at any CPL (so it's compatible
+ 	 * with paravirtualization), and it never exits to a hypervisor.
+ 	 * The only down sides are that it's a bit slow (it seems to be
 -- 
-2.28.0
+2.17.1
 
