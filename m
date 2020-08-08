@@ -5,47 +5,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20806C433E3
-	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C21C2C433DF
+	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:42:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9FCC20825
-	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:41:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95E1D22BEB
+	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:42:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596930098;
-	bh=BmFvSYOC5avABBb19lAm61NvJ0ZOipqaWWp6VsdLIJA=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=SFEqoIyIA6wxLQW+kbLf1SZySOSAc9tZd4WjLqfwidWWj0rHHOpQulN61b6rSNFfd
-	 /LXOPXmP8GnXpN7ticXTzlgGv8FrLXvY0FvCCnQ4UMxHFOtV2B1+S7GrgqFYCu7oJt
-	 ZjDUBWErvSnKzlCEkR3cS/ChNCo2E0vqBgcfMcI0=
+	s=default; t=1596930135;
+	bh=U+gWfkrY3BsVuOe18g1jlpr8DJgrJunvSINNKdy/Hcs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=BeY8dPW7ZQbY34c/PUeWYc6cgCb33aFCAqol22LKECKdriFCOS8LB1+7Uu2Y3vhJ4
+	 UFQdEq5L0xtufdXVZ5uwzZq/D4eQcdra72IWb3Mxbb0nrnfCODDfJFbiKSwoXQNTLW
+	 VgmFtdMAjwZqV2R5YuywTxAk09BVQHsaAodvKHUo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728038AbgHHXlh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 8 Aug 2020 19:41:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56272 "EHLO mail.kernel.org"
+        id S1728477AbgHHXmH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 8 Aug 2020 19:42:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55730 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727066AbgHHXkj (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 8 Aug 2020 19:40:39 -0400
+        id S1728190AbgHHXkU (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 8 Aug 2020 19:40:20 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 180F92053B;
-        Sat,  8 Aug 2020 23:40:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5024420855;
+        Sat,  8 Aug 2020 23:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596930038;
-        bh=BmFvSYOC5avABBb19lAm61NvJ0ZOipqaWWp6VsdLIJA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=OYaztwnEfGFy9pVknc+6SozoJU0EOcBWD3MucdmEwc1BM4yYCXYof/YNLYL3OjQ7o
-         Q4+IFFEjCvNxesocQN6h9sX5W3xHHlqGonqMrlAXQgtbSTXw3t+b8bknVyFk4VoyAi
-         JKN9N5CODvEiuSjl2Zav0tdfSTZ9hpkJmKDTFlAU=
+        s=default; t=1596930020;
+        bh=U+gWfkrY3BsVuOe18g1jlpr8DJgrJunvSINNKdy/Hcs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RKE4ZoprGSZoV5pj+erXQAqS4ptYGsTkcm8ou13Tv1st3nVht58QKzmNXlR+RJYP0
+         L61UFj6b5sk8Tts0JUtjY7Qz8SlFMYUYbOkLPaWTnwOnEcRtlVSxUjttNRxknecaDV
+         Jh+E8dXW7xWelGCD1zwy2INIdSmcucjrgCmNqmLM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Qiushi Wu <wu000273@umn.edu>, Borislav Petkov <bp@suse.de>,
         Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 1/9] EDAC: Fix reference count leaks
-Date:   Sat,  8 Aug 2020 19:40:28 -0400
-Message-Id: <20200808234037.3619732-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 05/14] EDAC: Fix reference count leaks
+Date:   Sat,  8 Aug 2020 19:40:04 -0400
+Message-Id: <20200808234013.3619541-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200808234013.3619541-1-sashal@kernel.org>
+References: <20200808234013.3619541-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,7 +84,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-index 93da1a45c7161..470b02fc2de96 100644
+index 0e7ea3591b781..5e75937537997 100644
 --- a/drivers/edac/edac_device_sysfs.c
 +++ b/drivers/edac/edac_device_sysfs.c
 @@ -275,6 +275,7 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
@@ -94,7 +96,7 @@ index 93da1a45c7161..470b02fc2de96 100644
  
  err_out:
 diff --git a/drivers/edac/edac_pci_sysfs.c b/drivers/edac/edac_pci_sysfs.c
-index 6e3428ba400f3..622d117e25335 100644
+index 72c9eb9fdffbe..53042af7262e2 100644
 --- a/drivers/edac/edac_pci_sysfs.c
 +++ b/drivers/edac/edac_pci_sysfs.c
 @@ -386,7 +386,7 @@ static int edac_pci_main_kobj_setup(void)
