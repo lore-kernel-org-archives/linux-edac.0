@@ -4,52 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 958D3C433E1
-	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:37:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9339DC433E3
+	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:38:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6ADD8207FB
-	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:37:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6729420855
+	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596929850;
-	bh=xfYaG1bsvUo5UvyrUtAI4ovzdgEKIRkl9oapADRDFIg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IC/wY/2QQIy59tSGSL5lAcXWJ577vFE3xBY6lbauorznvfKp6n523OAxFKM5LdFjE
-	 x0Nz749BFVnUSpyVtD5HyXBkDfUcWxsC6kPi/kAJnIWsL/V7Be423mVgsK/ST9kRv7
-	 fNHrk0b/quFLGvZ42g8ATqS3kXBw9CTJR8Us2B74=
+	s=default; t=1596929927;
+	bh=BHwwznOHRXqH0/INcL7kGleLn2SPdbjSB+EJBL7s76U=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=pwMjgOWFbmv0AFZ73u6OdJO+fMHTaxTzB6A+xP689uR7zhi6l+YPTPGdrFr/6mHh/
+	 Uttjq14K1uH5woliXJ+gz43j8tSE+T2vteOUrgnLxM4MJlbgMKbHYh2a/7EK5v86ir
+	 HwwclKwlKSW2GjlPlFFHNc2y7bYiW//rFAk61PIE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbgHHXh3 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 8 Aug 2020 19:37:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50480 "EHLO mail.kernel.org"
+        id S1728382AbgHHXir (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 8 Aug 2020 19:38:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53046 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727968AbgHHXh1 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 8 Aug 2020 19:37:27 -0400
+        id S1728380AbgHHXiq (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sat, 8 Aug 2020 19:38:46 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B6E372073E;
-        Sat,  8 Aug 2020 23:37:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AB4ED20716;
+        Sat,  8 Aug 2020 23:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596929847;
-        bh=xfYaG1bsvUo5UvyrUtAI4ovzdgEKIRkl9oapADRDFIg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RTc1w1vs7ynS+jp7sZGYRtf4wBwrok+j8mnBA21n+tbFqAcZbNZPwrKIwdOqhhAn1
-         S9VO/5GlTe/biiSXnF0deyxCxMbaOExrjNKG53Tts6MJX0X69PRMVaogSOcDmKIPdt
-         HKJ+b+uT3ZU3alOhFrRyaBcpnvVTCtFtI/0ajtQQ=
+        s=default; t=1596929926;
+        bh=BHwwznOHRXqH0/INcL7kGleLn2SPdbjSB+EJBL7s76U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PFrysYnySCAsw7G6JaZPiMTkc19x3VZgX+t6WfS0rMKoqxyuACuFYh9m1oQh1FbT+
+         zvSdbVsXCatRs53d1LQoZy+ycar282rcav4FmdiA4AnRO2cbzp6DwqXideN8AjTRnA
+         Ve+3KB0Pr5TlC0ZFx4FrLuB7ofvZqmOmRQGJwBWw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Zhenzhong Duan <zhenzhong.duan@gmail.com>,
         Borislav Petkov <bp@suse.de>,
         Yazen Ghannam <yazen.ghannam@amd.com>,
         Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 02/58] x86/mce/inject: Fix a wrong assignment of i_mce.status
-Date:   Sat,  8 Aug 2020 19:36:28 -0400
-Message-Id: <20200808233724.3618168-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 01/40] x86/mce/inject: Fix a wrong assignment of i_mce.status
+Date:   Sat,  8 Aug 2020 19:38:05 -0400
+Message-Id: <20200808233844.3618823-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200808233724.3618168-1-sashal@kernel.org>
-References: <20200808233724.3618168-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -77,7 +75,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
-index 3413b41b8d55f..dc28a615e340f 100644
+index 1f30117b24ba7..eb2d41c1816d6 100644
 --- a/arch/x86/kernel/cpu/mce/inject.c
 +++ b/arch/x86/kernel/cpu/mce/inject.c
 @@ -511,7 +511,7 @@ static void do_inject(void)
