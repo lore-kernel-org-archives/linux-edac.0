@@ -1,94 +1,111 @@
-Return-Path: <SRS0=Pg73=BS=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=VGFp=BT=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C8CDC433E1
-	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF8DC433E0
+	for <linux-edac@archiver.kernel.org>; Sun,  9 Aug 2020 04:36:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3ABF7206E9
-	for <linux-edac@archiver.kernel.org>; Sat,  8 Aug 2020 23:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1596930721;
-	bh=VLP/nBpUSkz4WWAdRvAhTstnn307YSe6AuseI60IAGI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=FOS9AFIgrwvf7yFmtgqAv8ZXNkFTfwXTAZlmq3UwfK9HI5tCsZkLyRFP1OXosCIAv
-	 8E9DLFJYnBH0VMozHzM+sbjnOOh+2/Fz1NQylsuvOsCjGRhCIoDgrSQNx21pD9RRC4
-	 73cFRrEl862UXS8Zv1B5aCzbMNAO9KLH6U5pZ9Qk=
+	by mail.kernel.org (Postfix) with ESMTP id A57E620709
+	for <linux-edac@archiver.kernel.org>; Sun,  9 Aug 2020 04:36:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="kJemo03+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbgHHXfs (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 8 Aug 2020 19:35:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47968 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726049AbgHHXfr (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 8 Aug 2020 19:35:47 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5B806206D8;
-        Sat,  8 Aug 2020 23:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596929747;
-        bh=VLP/nBpUSkz4WWAdRvAhTstnn307YSe6AuseI60IAGI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=N42b02SvhQH9fJsiDdRhhIJpsZGG5wPnKOSJ0X9iJ2wG0n5o1VblM3ECOp0L/YK7C
-         Xh3G+Dp22QGar/5ctK3J23Pj01A6ouVbfqe8G3rq92HU+of+QJjKbjjKr81wz/qHiX
-         mQz1hxSFVwMpahRcuiRBw2KbhTfyq0G+8uhZ3ysg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zhenzhong Duan <zhenzhong.duan@gmail.com>,
-        Borislav Petkov <bp@suse.de>,
-        Yazen Ghannam <yazen.ghannam@amd.com>,
-        Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 03/72] x86/mce/inject: Fix a wrong assignment of i_mce.status
-Date:   Sat,  8 Aug 2020 19:34:32 -0400
-Message-Id: <20200808233542.3617339-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200808233542.3617339-1-sashal@kernel.org>
-References: <20200808233542.3617339-1-sashal@kernel.org>
+        id S1726321AbgHIEgO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 9 Aug 2020 00:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56016 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725710AbgHIEgL (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 9 Aug 2020 00:36:11 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF76C061756
+        for <linux-edac@vger.kernel.org>; Sat,  8 Aug 2020 21:36:10 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id a79so3371552pfa.8
+        for <linux-edac@vger.kernel.org>; Sat, 08 Aug 2020 21:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P21tL7daBF3yjezrA/PL3bwhuuAyesA+HDqEdHI5eFU=;
+        b=kJemo03+X3oJOjE2qhGI/wrF+x2Bq9Nuxd1UkRw82JP/J/1UnCgQPhfTA5DK2ghreM
+         DEOYdYirxqKjEkhZ+1AdiFMgUyktbxHcmE/7fPHbx6eW1pkdy/DqqpRvl0gqVQtG3qfL
+         xem9WVqBLZcVZ8qjGhr0hy7Vut7NmmaurZt1seGoXYLBEuyjx7th9ECe4pUgaE1D4Z5e
+         a/d/rjoeiFdC7v27eGX0CH35ekQ02kYJr5DfVW8y9eusgCUHaUa3ITY3cPRKalhENr3x
+         +NREy22FYA47eKSr4VFOLVzlNoT79jUnjLM6RLRkf8CzKJ3QKHG2a0oFBPOo6JfMQSHC
+         ri5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P21tL7daBF3yjezrA/PL3bwhuuAyesA+HDqEdHI5eFU=;
+        b=s4S1i/w77y7c1+fXg0EBjNjwuS84UBntGoWFfEblKzJ002nQUE2iHdwtGM/mw7aMua
+         Oqc+/XYgSkxVr74y7wzs/lX+r+EZX9g3PRO2U2H6NsdXURFUmr4uegeyOqdm+XofmsPf
+         H371Rj8RWW7q4AGLHdPXGaW9efCxbXhkz5fuyI2sCMy+ixxyyqPxcVZXdhfKBoFRzGRG
+         sufaeePgpaZNsPahVo7XSsNEU7UHv5odiYWJqEb8T0cGiBzlqTLagvW3KhNvKGamyYQw
+         s05k8ffV2hRht0ncBH+F5AhjyAiQLrZYOURspve4X8+AFHa+aLppZePEs4ReEzH1u67l
+         e8Dw==
+X-Gm-Message-State: AOAM533L5MAB4E8JqmySO9XLlxQzLaP9LcPZswfS0y7xBZnVwo1O6uuy
+        znXC8qaT12/7g1VRFPYYbG9ijw==
+X-Google-Smtp-Source: ABdhPJyaQAVZfx7NE4LBNsDHpjcC+Y5iS7iQdOvy3wN6qrVmdEYeRBauSp4wkqNvWbki3tozGQn05g==
+X-Received: by 2002:a05:6a00:22c9:: with SMTP id f9mr2728054pfj.212.1596947769639;
+        Sat, 08 Aug 2020 21:36:09 -0700 (PDT)
+Received: from FVFX41FWHV2J.bytedance.net ([103.136.220.69])
+        by smtp.gmail.com with ESMTPSA id s2sm16267741pjb.33.2020.08.08.21.36.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 08 Aug 2020 21:36:08 -0700 (PDT)
+From:   Feng zhou <zhoufeng.zf@bytedance.com>
+To:     bp@alien8.de, mchehab@kernel.org, tony.luck@intel.com,
+        james.morse@arm.com, rrichter@marvell.com
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        liuxian.1@bytedance.com, zhoufeng.zf@bytedance.com
+Subject: [PATCH] x86/MCE/AMD, EDAC/mce_amd
+Date:   Sun,  9 Aug 2020 12:35:59 +0800
+Message-Id: <20200809043559.9740-1-zhoufeng.zf@bytedance.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Zhenzhong Duan <zhenzhong.duan@gmail.com>
+From: zhoufeng <zhoufeng.zf@bytedance.com>
 
-[ Upstream commit 5d7f7d1d5e01c22894dee7c9c9266500478dca99 ]
+The edac_mce_amd module calls decode_dram_ecc() on AMD Family17h and
+later systems. This function is used in amd64_edac_mod to do
+system-specific decoding for DRAM ECC errors. The function takes a
+"NodeId" as a parameter.
 
-The original code is a nop as i_mce.status is or'ed with part of itself,
-fix it.
+In AMD documentation, NodeId is used to identify a physical die in a
+system. This can be used to identify a node in the AMD_NB code and also
+it is used with umc_normaddr_to_sysaddr().
 
-Fixes: a1300e505297 ("x86/ras/mce_amd_inj: Trigger deferred and thresholding errors interrupts")
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@gmail.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Acked-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Link: https://lkml.kernel.org/r/20200611023238.3830-1-zhenzhong.duan@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+However, the input used for decode_dram_ecc() is currently the NUMA node
+of a logical CPU. so this will cause the address translation function to
+fail or report incorrect results.
+
+Signed-off-by: zhoufeng <zhoufeng.zf@bytedance.com>
 ---
- arch/x86/kernel/cpu/mce/inject.c | 2 +-
+ drivers/edac/mce_amd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
-index 0593b192eb8fa..7843ab3fde099 100644
---- a/arch/x86/kernel/cpu/mce/inject.c
-+++ b/arch/x86/kernel/cpu/mce/inject.c
-@@ -511,7 +511,7 @@ static void do_inject(void)
- 	 */
- 	if (inj_type == DFR_INT_INJ) {
- 		i_mce.status |= MCI_STATUS_DEFERRED;
--		i_mce.status |= (i_mce.status & ~MCI_STATUS_UC);
-+		i_mce.status &= ~MCI_STATUS_UC;
+diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
+index 325aedf46ff2..73c805113322 100644
+--- a/drivers/edac/mce_amd.c
++++ b/drivers/edac/mce_amd.c
+@@ -996,7 +996,7 @@ static void decode_smca_error(struct mce *m)
  	}
  
- 	/*
+ 	if (bank_type == SMCA_UMC && xec == 0 && decode_dram_ecc)
+-		decode_dram_ecc(cpu_to_node(m->extcpu), m);
++		decode_dram_ecc(topology_physical_package_id(m->extcpu), m);
+ }
+ 
+ static inline void amd_decode_err_code(u16 ec)
 -- 
-2.25.1
+2.20.1
 
