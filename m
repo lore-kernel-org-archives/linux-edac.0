@@ -2,34 +2,33 @@ Return-Path: <SRS0=GmLq=BX=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDC2C433DF
-	for <linux-edac@archiver.kernel.org>; Thu, 13 Aug 2020 07:57:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADDF7C433DF
+	for <linux-edac@archiver.kernel.org>; Thu, 13 Aug 2020 07:57:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 269992078B
-	for <linux-edac@archiver.kernel.org>; Thu, 13 Aug 2020 07:57:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 841412078D
+	for <linux-edac@archiver.kernel.org>; Thu, 13 Aug 2020 07:57:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726048AbgHMH5e (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 13 Aug 2020 03:57:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38446 "EHLO
+        id S1726081AbgHMH5m (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 13 Aug 2020 03:57:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726044AbgHMH5e (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 13 Aug 2020 03:57:34 -0400
+        with ESMTP id S1726044AbgHMH5m (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 13 Aug 2020 03:57:42 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10921C061757
-        for <linux-edac@vger.kernel.org>; Thu, 13 Aug 2020 00:57:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D75C061757
+        for <linux-edac@vger.kernel.org>; Thu, 13 Aug 2020 00:57:42 -0700 (PDT)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <sha@pengutronix.de>)
-        id 1k6872-000414-I2; Thu, 13 Aug 2020 09:57:24 +0200
+        id 1k6872-000412-I3; Thu, 13 Aug 2020 09:57:24 +0200
 Received: from sha by dude.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <sha@pengutronix.de>)
-        id 1k6870-0007P2-Pv; Thu, 13 Aug 2020 09:57:22 +0200
+        id 1k6870-0007Ox-Ol; Thu, 13 Aug 2020 09:57:22 +0200
 From:   Sascha Hauer <s.hauer@pengutronix.de>
 To:     linux-edac@vger.kernel.org
 Cc:     Borislav Petkov <bp@alien8.de>,
@@ -40,12 +39,10 @@ Cc:     Borislav Petkov <bp@alien8.de>,
         York Sun <york.sun@nxp.com>, kernel@pengutronix.de,
         linux-arm-kernel@lists.infradead.org,
         Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 2/2] arm64: dts: ls104x: Add L1/L2 cache edac node
-Date:   Thu, 13 Aug 2020 09:57:21 +0200
-Message-Id: <20200813075721.27981-3-s.hauer@pengutronix.de>
+Subject: [PATCH 0/2] Add L1 and L2 error detection for A53 and A57
+Date:   Thu, 13 Aug 2020 09:57:19 +0200
+Message-Id: <20200813075721.27981-1-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200813075721.27981-1-s.hauer@pengutronix.de>
-References: <20200813075721.27981-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
@@ -57,50 +54,35 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: York Sun <york.sun@nxp.com>
+This driver is based on an earlier version from York Sun which can
+be found here: https://lkml.org/lkml/2018/3/14/1203.
 
-The Cortex A53/A57 cores on the Layerscape LS104x SoCs support EDAC
-for the L1/L2 caches. Add the corresponding nodes for it.
+At that time the conclusion was that this driver is not suitable for
+mainline as it used IMPLEMENTATION DEFINED CPU registers and also
+NXP specific SMC calls. All this was used for the error injection only,
+for error reporting it is not needed.
 
-Signed-off-by: York Sun <york.sun@nxp.com>
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- arch/arm64/boot/dts/freescale/fsl-ls1043a.dtsi | 5 +++++
- arch/arm64/boot/dts/freescale/fsl-ls1046a.dtsi | 5 +++++
- 2 files changed, 10 insertions(+)
+This is another try to get this driver to mainline. All error injection
+code has been removed (though it has initially been used to test this
+driver on an i.MX8 SoC), what's left is unfortunately not testable, but
+also doesn't contain none of the doubtful code anymore.
 
-diff --git a/arch/arm64/boot/dts/freescale/fsl-ls1043a.dtsi b/arch/arm64/boot/dts/freescale/fsl-ls1043a.dtsi
-index 3b641bd432295..de218f305031f 100644
---- a/arch/arm64/boot/dts/freescale/fsl-ls1043a.dtsi
-+++ b/arch/arm64/boot/dts/freescale/fsl-ls1043a.dtsi
-@@ -838,6 +838,11 @@ optee {
- 		};
- 	};
- 
-+	edac-a53 {
-+		compatible = "arm,cortex-a53-edac";
-+		cpus = <&cpu0>, <&cpu1>, <&cpu2>, <&cpu3>;
-+	};
-+
- };
- 
- #include "qoriq-qman-portals.dtsi"
-diff --git a/arch/arm64/boot/dts/freescale/fsl-ls1046a.dtsi b/arch/arm64/boot/dts/freescale/fsl-ls1046a.dtsi
-index d4c1da3d4bde2..768fcfc44aee8 100644
---- a/arch/arm64/boot/dts/freescale/fsl-ls1046a.dtsi
-+++ b/arch/arm64/boot/dts/freescale/fsl-ls1046a.dtsi
-@@ -800,6 +800,11 @@ optee {
- 			method = "smc";
- 		};
- 	};
-+
-+	edac-a57 {
-+		compatible = "arm,cortex-a57-edac";
-+		cpus = <&cpu0>, <&cpu1>, <&cpu2>, <&cpu3>;
-+	};
- };
- 
- #include "qoriq-qman-portals.dtsi"
+Sascha Hauer (1):
+  drivers/edac: Add L1 and L2 error detection for A53 and A57
+
+York Sun (1):
+  arm64: dts: ls104x: Add L1/L2 cache edac node
+
+ .../bindings/edac/arm,cortex-a5x-edac.yaml    |  32 +++
+ .../arm64/boot/dts/freescale/fsl-ls1043a.dtsi |   5 +
+ .../arm64/boot/dts/freescale/fsl-ls1046a.dtsi |   5 +
+ drivers/edac/Kconfig                          |   6 +
+ drivers/edac/Makefile                         |   1 +
+ drivers/edac/cortex_arm64_l1_l2.c             | 208 ++++++++++++++++++
+ 6 files changed, 257 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/edac/arm,cortex-a5x-edac.yaml
+ create mode 100644 drivers/edac/cortex_arm64_l1_l2.c
+
 -- 
 2.28.0
 
