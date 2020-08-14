@@ -2,182 +2,135 @@ Return-Path: <SRS0=bJrc=BY=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D49C433DF
-	for <linux-edac@archiver.kernel.org>; Fri, 14 Aug 2020 06:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E266BC433E1
+	for <linux-edac@archiver.kernel.org>; Fri, 14 Aug 2020 19:15:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B36220838
-	for <linux-edac@archiver.kernel.org>; Fri, 14 Aug 2020 06:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597386837;
-	bh=szZVAba7Oq2urndYZFVNoJlOG9FToXK2RKzK7uibqWY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=jWO1hwGOO5pryo2fGC/MnsmsSwmAUIsqe0dlQa2byiyjsJgqT+BJKj4D6C/7vLQi4
-	 wo70SwJvB+h8z71TXQnHVFps+2+sxOsnCLeL3VNfAiq4EhoR+f7fey5PZZgOxQ2Q+z
-	 orZ73mcNT3wjTg1oYv3DSCGSVP1Aih16Ghj6tBVo=
+	by mail.kernel.org (Postfix) with ESMTP id BC5C120768
+	for <linux-edac@archiver.kernel.org>; Fri, 14 Aug 2020 19:15:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="pJP2TVZO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgHNGd5 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 14 Aug 2020 02:33:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37922 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726006AbgHNGd5 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 14 Aug 2020 02:33:57 -0400
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DE1742177B;
-        Fri, 14 Aug 2020 06:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597386836;
-        bh=szZVAba7Oq2urndYZFVNoJlOG9FToXK2RKzK7uibqWY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zsSyY/P+ITjhGuDeJwHufz9L96uH/2992vz1r0+NgX5ZnxsIQAkGGFcPOBxyrZa1S
-         55VOwt67P4v3JJfoWYZQvTNuhysvuYp9Gs3krEg61GnMacBmR3Cznx/bcEqMmj2D6U
-         xD96a2sgFGj1f4La4B6AF3oadOuq0mkSTeJOqTUY=
-Received: by mail-oi1-f170.google.com with SMTP id h3so7280801oie.11;
-        Thu, 13 Aug 2020 23:33:55 -0700 (PDT)
-X-Gm-Message-State: AOAM5331GdxWprbfEFjwQMGWZYh3/jkui+aTIVoEbrcx7ryxCePqWzW3
-        g/U9Ck7W2d/LEwyMYcnyoNR9QpNuEH86xIx7TVc=
-X-Google-Smtp-Source: ABdhPJz/fvSohK7N7lGNcLlz41tAlbnCFYoufNW9lNS3Xjm8ipo4hwja7N+I5i2hiJRdru3XqqBpkh8SkUwtfz6u03Y=
-X-Received: by 2002:a05:6808:b:: with SMTP id u11mr685223oic.33.1597386835187;
- Thu, 13 Aug 2020 23:33:55 -0700 (PDT)
+        id S1727895AbgHNTPI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 14 Aug 2020 15:15:08 -0400
+Received: from mail-bn8nam11on2081.outbound.protection.outlook.com ([40.107.236.81]:57313
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726652AbgHNTPH (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 14 Aug 2020 15:15:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mq4HD0dM7t51dfoJQMHn6eJu5TY9VkRCwd86OGW8fE35wkbw1MSldggPd6nbmaXxNTtY+fyO4zKur5nwF3Bpgev/Dkrsetqzqjz8z5kldUJvQEw3uqJQfC/BFTcwvCN7D3rVqO/IJQzxqM5hBNAQPNW+0pH9Y2Aksh8cilmN1dteHPGouqkn/xTi5ecVRVXeKb2yyOb2p9FWxmA/yaeTm1K/YzB/AnzrVBa1P/Mr+f4gvJPRSszxoMX1nC1h0pemMPaD0ypllCc6EOBDcyAvDkVVtBwwslaCISDpUKNeNps4l9Qgh2w2x0UdvWUMPAB7d4UC13rbRs/IgQYmKRGtWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MYhxE3dBuJbYbr8dmqCho8mZBcEyAEc1v/Wci4pStes=;
+ b=NsepjdCYowo4O7QEBl/UXS81LlrbVoWGCAiBHva9cZdt2woATTDZGxO/1m2JKxBCiinsdOsTl4HqZ37O+zMG5mzPqU598DCEwZVhokQYOfmn47Q8r998JheKxSnkLxKe9xa5olDoMQ51ra4FsoxDEUgcihbKP9OL8dBDoy/H4UkeObmOzNlQEckLyuAJto/Rp8YGzD4vLaCb4R9fgtv713kj81HRorV+8zuJpcEoa31x7o1eca3TyWaG7623uUAHAPaGfF+1/BO9dqr0MOGNdoI+W3c0i00eurfZ8rgaP1ABpfZJRimHaKaUYlpVkWHf7c9qVhxNoqJf0KY37+d4zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MYhxE3dBuJbYbr8dmqCho8mZBcEyAEc1v/Wci4pStes=;
+ b=pJP2TVZOgYHv63Grzh/lEFOg13B+rHV9oSh0QTBXdvHXQeiRMBWsrRI1V/Dvd/fkcEpthjaPpNharJ68gK1dyIykrexT5NqdTNdlo9h58F7Ut+xz0we1sa88lwBzMqZCjj7f1VmWZX5QVnffXs6FcQX/rx0RuV4Fg310vladzjM=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
+ by BN6PR12MB1700.namprd12.prod.outlook.com (2603:10b6:404:108::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.20; Fri, 14 Aug
+ 2020 19:14:59 +0000
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::1ef:8f33:480b:e2d0]) by BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::1ef:8f33:480b:e2d0%4]) with mapi id 15.20.3283.015; Fri, 14 Aug 2020
+ 19:14:59 +0000
+From:   Yazen Ghannam <Yazen.Ghannam@amd.com>
+To:     linux-edac@vger.kernel.org
+Cc:     Yazen Ghannam <Yazen.Ghannam@amd.com>,
+        linux-kernel@vger.kernel.org, bp@suse.de, tony.luck@intel.com,
+        x86@kernel.org, Smita.KoralahalliChannabasappa@amd.com
+Subject: [PATCH 0/2] AMD MCA Address Translation Updates
+Date:   Fri, 14 Aug 2020 19:14:47 +0000
+Message-Id: <20200814191449.183998-1-Yazen.Ghannam@amd.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SN1PR12CA0087.namprd12.prod.outlook.com
+ (2603:10b6:802:21::22) To BN8PR12MB3108.namprd12.prod.outlook.com
+ (2603:10b6:408:40::20)
 MIME-Version: 1.0
-References: <20200727181445.111002-1-alex.kluver@hpe.com>
-In-Reply-To: <20200727181445.111002-1-alex.kluver@hpe.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Fri, 14 Aug 2020 08:33:44 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHtz5wvKCmJwQ_Q8sn43bHtEq0BmMc6AndswOnt1_CG6Q@mail.gmail.com>
-Message-ID: <CAMj1kXHtz5wvKCmJwQ_Q8sn43bHtEq0BmMc6AndswOnt1_CG6Q@mail.gmail.com>
-Subject: Re: [PATCH] edac,ghes,cper: Add Row Extension to Memory Error Record
-To:     Alex Kluver <alex.kluver@hpe.com>
-Cc:     linux-edac@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        mchehab@kernel.org, russ.anderson@hpe.com,
-        Dimitri Sivanich <dimitri.sivanich@hpe.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yaz-ethanolx.amd.com (165.204.78.2) by SN1PR12CA0087.namprd12.prod.outlook.com (2603:10b6:802:21::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15 via Frontend Transport; Fri, 14 Aug 2020 19:14:58 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [165.204.78.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c41600c6-1609-4135-1d01-08d84086563e
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1700:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN6PR12MB1700574C849ED038172A653AF8400@BN6PR12MB1700.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YSrSIfA7qSWx+we1Oq9/i7qOixHwzXRSYRPKKTi81ZJKJkxaHdSukTaC7BozqpcTOwJSx3FWCxOoQN6bAM519MlXp6n8OoRv90uV1G6RoR41b3htJv4ylEHQMh9UDh9a2oGrCWhPaARg1k39zJ4JNfKd98CM/gVj6lK/lrlQq4BE6UchtCwotdpBj3e3fZEBgzwdeRUrsFnRnPfmEEvwWcHZBM/Fcm2PsARSINAKL6oWd2oFjlzKWn2immM88Klg3i+vEdrpf0ZE6lCRDuR6XNxAcRJCQUobdmd0YdcqORoiVi0B1LYInElDPWs0NFjFBw3K0ArXJVJt4P8iYmpDjg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(66556008)(36756003)(5660300002)(83380400001)(66476007)(66946007)(1076003)(2906002)(316002)(478600001)(16526019)(26005)(186003)(956004)(4326008)(6486002)(15650500001)(8676002)(52116002)(7696005)(8936002)(2616005)(6666004)(86362001)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: qEsvHlY/y9Kf6DZqxQxEsSSEseTXakJ/aGL713JbwuKdd7NNxmrf+VitbzaNtw4vWPQvIVhNFxeKrU8s8PWAP/YwGC7GoCF+YMkzJgG/HlGt48sxYZ9eJ+QUWXT5V189E5sqL+Yu8PJX+7/2cFM2uf8Do+jOwuIeZJbazgAq7JR1X8zEN+SmUfx0NBefhW5Y5seq41s2iRouhorvJDuqR1n/F02bCF8Ui0hv41kymmET2L/JI3wqveo6v9KmqNko/VeaRw+2TNXQLU0JV4lx7MaQ9uH1CvydkSwZib8+WWMGdJjcY8w/4i2DsgemvsX3zMohIA/JcjUAtaRUhy9Lct4BTTAfRMhdW3NWbi4cS1vDW9o2Hb4//C5GqNx09LkYHMV8D01hH4Dze+btWym5/z4a70FLHd0M8B5TYC/9JSEmZvl5r5R7Rl+f4Zidr/ZS4WjpUsndytEDVRe96R3hpS/p9diYRSz6vq7scDV5EgF1kEKGlmGux4NSgdcMl+5bAstUHdzm7C54wvL1A83bqMRWjZUwRoArXaCFjP91KG1xIDozq72uUycM01LCgsyzDqOWwltaRWEfX1z97J/3Z88/qLuDH6JqTizmoYLWavwQQw+XwL3U9ENPRet2rjdlEl1IaVBjNEFgPAynWWLyew==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c41600c6-1609-4135-1d01-08d84086563e
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2020 19:14:59.3979
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CoS1eupGFaJnrZfYHOWlU2xZ/nXe23RM/qGIOMc5Y9y9HnLKas/b8v/StdrHLxpZfwq5wrZF5qObZFWKn8fcYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1700
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, 27 Jul 2020 at 20:15, Alex Kluver <alex.kluver@hpe.com> wrote:
->
-> Memory errors could be printed with incorrect row values since the DIMM
-> size has outgrown the 16 bit row field in the CPER structure. UEFI
-> Specification Version 2.8 has increased the size of row by allowing it to
-> use the first 2 bits from a previously reserved space within the structure.
->
-> When needed, add the extension bits to the row value printed.
->
-> Based on UEFI 2.8 Table 299. Memory Error Record
->
-> Tested-by: Russ Anderson <russ.anderson@hpe.com>
-> Signed-off-by: Alex Kluver <alex.kluver@hpe.com>
-> ---
->  drivers/edac/ghes_edac.c    | 10 ++++++++--
->  drivers/firmware/efi/cper.c | 11 +++++++++--
->  include/linux/cper.h        |  9 +++++++--
->  3 files changed, 24 insertions(+), 6 deletions(-)
->
+From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Unless any of the EDAC folks object, I will take this as a fix via the EFI tree.
+This patchset includes updates for the MCA Address Translation process
+on recent AMD systems.
+
+Patch 1:
+Fixes an input to the address translation function. The translation
+requires a physical Die ID (NodeId in AMD documentation) rather than a
+logicial NUMA node ID. This is because the physical and logical nodes
+may not always match.
+
+Patch 2:
+Add translation support for new memory interleaving options available in
+Rome systems. The patch is based on the latest AMD reference code for
+the address translation.
+
+Both patches have fixes tags, since they do fix some issues. However,
+stable is not copied. Patch 1 needs some fixups to apply. Patch 2 is
+large and doesn't seem to meet the requirements for stable though
+comments are welcome on if it should be applied.
 
 Thanks,
-Ard.
+Yazen
 
+Muralidhara M K (1):
+  x86/MCE/AMD Support new memory interleaving schemes during address
+    translation
 
-> diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-> index cb3dab56a875..cfa3156300f5 100644
-> --- a/drivers/edac/ghes_edac.c
-> +++ b/drivers/edac/ghes_edac.c
-> @@ -337,8 +337,14 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
->                 p += sprintf(p, "rank:%d ", mem_err->rank);
->         if (mem_err->validation_bits & CPER_MEM_VALID_BANK)
->                 p += sprintf(p, "bank:%d ", mem_err->bank);
-> -       if (mem_err->validation_bits & CPER_MEM_VALID_ROW)
-> -               p += sprintf(p, "row:%d ", mem_err->row);
-> +       if (mem_err->validation_bits & (CPER_MEM_VALID_ROW | CPER_MEM_VALID_ROW_EXT)) {
-> +               u32 row_extended = 0;
-> +               if (mem_err->validation_bits & CPER_MEM_VALID_ROW_EXT)
-> +                       row_extended = (mem_err->extended & CPER_MEM_EXT_ROW_MASK)
-> +                               <<CPER_MEM_EXT_ROW_SHIFT;
-> +               row_extended |= mem_err->row;
-> +               p += sprintf(p, "row:%d ", row_extended);
-> +       }
->         if (mem_err->validation_bits & CPER_MEM_VALID_COLUMN)
->                 p += sprintf(p, "col:%d ", mem_err->column);
->         if (mem_err->validation_bits & CPER_MEM_VALID_BIT_POSITION)
-> diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
-> index f564e15fbc7e..5faaf6ecd659 100644
-> --- a/drivers/firmware/efi/cper.c
-> +++ b/drivers/firmware/efi/cper.c
-> @@ -234,8 +234,14 @@ static int cper_mem_err_location(struct cper_mem_err_compact *mem, char *msg)
->                 n += scnprintf(msg + n, len - n, "bank: %d ", mem->bank);
->         if (mem->validation_bits & CPER_MEM_VALID_DEVICE)
->                 n += scnprintf(msg + n, len - n, "device: %d ", mem->device);
-> -       if (mem->validation_bits & CPER_MEM_VALID_ROW)
-> -               n += scnprintf(msg + n, len - n, "row: %d ", mem->row);
-> +       if (mem->validation_bits & (CPER_MEM_VALID_ROW | CPER_MEM_VALID_ROW_EXT)) {
-> +               u32 row_extended = 0;
-> +               if (mem->validation_bits & CPER_MEM_VALID_ROW_EXT)
-> +                       row_extended = (mem->extended & CPER_MEM_EXT_ROW_MASK)
-> +                               <<CPER_MEM_EXT_ROW_SHIFT;
-> +               row_extended |= mem->row;
-> +               n += scnprintf(msg + n, len - n, "row: %d ", row_extended);
-> +       }
->         if (mem->validation_bits & CPER_MEM_VALID_COLUMN)
->                 n += scnprintf(msg + n, len - n, "column: %d ", mem->column);
->         if (mem->validation_bits & CPER_MEM_VALID_BIT_POSITION)
-> @@ -292,6 +298,7 @@ void cper_mem_err_pack(const struct cper_sec_mem_err *mem,
->         cmem->requestor_id = mem->requestor_id;
->         cmem->responder_id = mem->responder_id;
->         cmem->target_id = mem->target_id;
-> +       cmem->extended = mem->extended;
->         cmem->rank = mem->rank;
->         cmem->mem_array_handle = mem->mem_array_handle;
->         cmem->mem_dev_handle = mem->mem_dev_handle;
-> diff --git a/include/linux/cper.h b/include/linux/cper.h
-> index 8537e9282a65..c8313753ee49 100644
-> --- a/include/linux/cper.h
-> +++ b/include/linux/cper.h
-> @@ -230,6 +230,10 @@ enum {
->  #define CPER_MEM_VALID_RANK_NUMBER             0x8000
->  #define CPER_MEM_VALID_CARD_HANDLE             0x10000
->  #define CPER_MEM_VALID_MODULE_HANDLE           0x20000
-> +#define CPER_MEM_VALID_ROW_EXT                 0x40000
-> +
-> +#define CPER_MEM_EXT_ROW_MASK                  0x3
-> +#define CPER_MEM_EXT_ROW_SHIFT                 16
->
->  #define CPER_PCIE_VALID_PORT_TYPE              0x0001
->  #define CPER_PCIE_VALID_VERSION                        0x0002
-> @@ -443,7 +447,7 @@ struct cper_sec_mem_err_old {
->         u8      error_type;
->  };
->
-> -/* Memory Error Section (UEFI >= v2.3), UEFI v2.7 sec N.2.5 */
-> +/* Memory Error Section (UEFI >= v2.3), UEFI v2.8 sec N.2.5 */
->  struct cper_sec_mem_err {
->         u64     validation_bits;
->         u64     error_status;
-> @@ -461,7 +465,7 @@ struct cper_sec_mem_err {
->         u64     responder_id;
->         u64     target_id;
->         u8      error_type;
-> -       u8      reserved;
-> +       u8      extended;
->         u16     rank;
->         u16     mem_array_handle;       /* "card handle" in UEFI 2.4 */
->         u16     mem_dev_handle;         /* "module handle" in UEFI 2.4 */
-> @@ -483,6 +487,7 @@ struct cper_mem_err_compact {
->         u16     rank;
->         u16     mem_array_handle;
->         u16     mem_dev_handle;
-> +       u8      extended;
->  };
->
->  /* PCI Express Error Section, UEFI v2.7 sec N.2.7 */
+Yazen Ghannam (1):
+  x86/MCE/AMD, EDAC/mce_amd: Use AMD NodeId for Family17h+ DRAM Decode
+
+ arch/x86/include/asm/mce.h    |   2 +
+ arch/x86/kernel/cpu/mce/amd.c | 248 +++++++++++++++++++++++++++-------
+ drivers/edac/mce_amd.c        |   2 +-
+ 3 files changed, 202 insertions(+), 50 deletions(-)
+
+-- 
+2.25.1
+
