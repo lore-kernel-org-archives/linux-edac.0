@@ -1,91 +1,183 @@
-Return-Path: <SRS0=GmLq=BX=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=bJrc=BY=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2425C433E1
-	for <linux-edac@archiver.kernel.org>; Thu, 13 Aug 2020 15:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D49C433DF
+	for <linux-edac@archiver.kernel.org>; Fri, 14 Aug 2020 06:33:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB6A420771
-	for <linux-edac@archiver.kernel.org>; Thu, 13 Aug 2020 15:56:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B36220838
+	for <linux-edac@archiver.kernel.org>; Fri, 14 Aug 2020 06:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597386837;
+	bh=szZVAba7Oq2urndYZFVNoJlOG9FToXK2RKzK7uibqWY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=jWO1hwGOO5pryo2fGC/MnsmsSwmAUIsqe0dlQa2byiyjsJgqT+BJKj4D6C/7vLQi4
+	 wo70SwJvB+h8z71TXQnHVFps+2+sxOsnCLeL3VNfAiq4EhoR+f7fey5PZZgOxQ2Q+z
+	 orZ73mcNT3wjTg1oYv3DSCGSVP1Aih16Ghj6tBVo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbgHMP4O (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 13 Aug 2020 11:56:14 -0400
-Received: from mga01.intel.com ([192.55.52.88]:43958 "EHLO mga01.intel.com"
+        id S1726110AbgHNGd5 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 14 Aug 2020 02:33:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37922 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726167AbgHMP4O (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 13 Aug 2020 11:56:14 -0400
-IronPort-SDR: 2nQcvrtXn7w2VLb1haYZ/+vrAMjf1XLkq8s9RAd8TtHklc9BEoO2BQCmzccXk0FAx8Kn2KPTi6
- Jtptq/vkkgsA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9712"; a="172289991"
-X-IronPort-AV: E=Sophos;i="5.76,308,1592895600"; 
-   d="scan'208";a="172289991"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 08:56:13 -0700
-IronPort-SDR: jMhzdtnjezyjVPwEYYKKvZzwo20m2IfpFCrAs5K79bc/S720i1AYqzUgJYUVsbrkQCRwjJB1M0
- QIvFiayK2+BA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,308,1592895600"; 
-   d="scan'208";a="439818253"
-Received: from fmsmsx603-2.cps.intel.com (HELO fmsmsx603.amr.corp.intel.com) ([10.18.84.213])
-  by orsmga004.jf.intel.com with ESMTP; 13 Aug 2020 08:56:12 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 13 Aug 2020 08:56:12 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 13 Aug 2020 08:56:12 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.1713.004;
- Thu, 13 Aug 2020 08:56:12 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Boris Petkov <bp@alien8.de>, Aristeu Rozanski <aris@redhat.com>
-CC:     Jason Baron <jbaron@akamai.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac <linux-edac@vger.kernel.org>
-Subject: RE: [PATCH] EDAC/ie31200: fallback if host bridge device is already
- initialized
-Thread-Topic: [PATCH] EDAC/ie31200: fallback if host bridge device is already
- initialized
-Thread-Index: AQHWW59+1jV2sks7FUC1qHiVi6FaC6k2rbkAgAADSACAAAX2AIAACrMA//+amOA=
-Date:   Thu, 13 Aug 2020 15:56:11 +0000
-Message-ID: <3d552bacd3ff464a84c743da00f1fc75@intel.com>
-References: <1594923911-10885-1-git-send-email-jbaron@akamai.com>
- <20200813134406.23dvvsulfxend5jx@redhat.com>
- <FE8145F7-A6A9-446F-A13F-3A14CF6E1934@alien8.de>
- <20200813141710.ug5ei4hxoorproi4@redhat.com>
- <31B390C9-0172-4E0D-920C-19D27CA89C4D@alien8.de>
-In-Reply-To: <31B390C9-0172-4E0D-920C-19D27CA89C4D@alien8.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1726006AbgHNGd5 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 14 Aug 2020 02:33:57 -0400
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DE1742177B;
+        Fri, 14 Aug 2020 06:33:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597386836;
+        bh=szZVAba7Oq2urndYZFVNoJlOG9FToXK2RKzK7uibqWY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=zsSyY/P+ITjhGuDeJwHufz9L96uH/2992vz1r0+NgX5ZnxsIQAkGGFcPOBxyrZa1S
+         55VOwt67P4v3JJfoWYZQvTNuhysvuYp9Gs3krEg61GnMacBmR3Cznx/bcEqMmj2D6U
+         xD96a2sgFGj1f4La4B6AF3oadOuq0mkSTeJOqTUY=
+Received: by mail-oi1-f170.google.com with SMTP id h3so7280801oie.11;
+        Thu, 13 Aug 2020 23:33:55 -0700 (PDT)
+X-Gm-Message-State: AOAM5331GdxWprbfEFjwQMGWZYh3/jkui+aTIVoEbrcx7ryxCePqWzW3
+        g/U9Ck7W2d/LEwyMYcnyoNR9QpNuEH86xIx7TVc=
+X-Google-Smtp-Source: ABdhPJz/fvSohK7N7lGNcLlz41tAlbnCFYoufNW9lNS3Xjm8ipo4hwja7N+I5i2hiJRdru3XqqBpkh8SkUwtfz6u03Y=
+X-Received: by 2002:a05:6808:b:: with SMTP id u11mr685223oic.33.1597386835187;
+ Thu, 13 Aug 2020 23:33:55 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200727181445.111002-1-alex.kluver@hpe.com>
+In-Reply-To: <20200727181445.111002-1-alex.kluver@hpe.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Fri, 14 Aug 2020 08:33:44 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHtz5wvKCmJwQ_Q8sn43bHtEq0BmMc6AndswOnt1_CG6Q@mail.gmail.com>
+Message-ID: <CAMj1kXHtz5wvKCmJwQ_Q8sn43bHtEq0BmMc6AndswOnt1_CG6Q@mail.gmail.com>
+Subject: Re: [PATCH] edac,ghes,cper: Add Row Extension to Memory Error Record
+To:     Alex Kluver <alex.kluver@hpe.com>
+Cc:     linux-edac@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        mchehab@kernel.org, russ.anderson@hpe.com,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-PiA+VGVzdGVkLWJ5OiBWaXNoYWwgQWdyYXdhbCA8dmFncmF3YWxAcmVkaGF0LmNvbT4NCg0KQm9y
-aXMsDQoNCkkgYXBwbGllZCB0aGlzIHBhdGNoIHdoZW4gSmFzb24gQmFyb24gc2VudCBhIHJlbWlu
-ZGVyIGxhc3Qgd2Vlay4gSXQgaXMgc2l0dGluZyBpbiB0aGUNCmllMzEyMDAgdG9waWMgYnJhbmNo
-IG9mIHRoZSBSQVMgdHJlZSAoYW5kIGFsc28gaW4gdGhlIG5leHQgYnJhbmNoIC4uLiBzbyBoYXMg
-aGFkIGENCmNvdXBsZSBvZiBkYXlzIGluIGxpbnV4LW5leHQgdG9vKS4NCg0KVGhhdCBjb3B5IGRv
-ZXNuJ3QgaGF2ZSB0aGVzZSBBY2tlZC1ieSBhbmQgVGVzdGVkLWJ5IHRhZ3MsIGJ1dCBpcyBvdGhl
-cndpc2UgdGhlDQpzYW1lLg0KDQpJIHBsYW4gdG8gc2VuZCBhIHNlY29uZCBlZGFjIHB1bGwgcmVx
-dWVzdCB0byBMaW51cyB0b2RheS9yb21vcnJvdyB0byBwaWNrIGl0IHVwLg0KDQotVG9ueQ0KDQog
-DQo=
+On Mon, 27 Jul 2020 at 20:15, Alex Kluver <alex.kluver@hpe.com> wrote:
+>
+> Memory errors could be printed with incorrect row values since the DIMM
+> size has outgrown the 16 bit row field in the CPER structure. UEFI
+> Specification Version 2.8 has increased the size of row by allowing it to
+> use the first 2 bits from a previously reserved space within the structure.
+>
+> When needed, add the extension bits to the row value printed.
+>
+> Based on UEFI 2.8 Table 299. Memory Error Record
+>
+> Tested-by: Russ Anderson <russ.anderson@hpe.com>
+> Signed-off-by: Alex Kluver <alex.kluver@hpe.com>
+> ---
+>  drivers/edac/ghes_edac.c    | 10 ++++++++--
+>  drivers/firmware/efi/cper.c | 11 +++++++++--
+>  include/linux/cper.h        |  9 +++++++--
+>  3 files changed, 24 insertions(+), 6 deletions(-)
+>
+
+Unless any of the EDAC folks object, I will take this as a fix via the EFI tree.
+
+Thanks,
+Ard.
+
+
+> diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+> index cb3dab56a875..cfa3156300f5 100644
+> --- a/drivers/edac/ghes_edac.c
+> +++ b/drivers/edac/ghes_edac.c
+> @@ -337,8 +337,14 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+>                 p += sprintf(p, "rank:%d ", mem_err->rank);
+>         if (mem_err->validation_bits & CPER_MEM_VALID_BANK)
+>                 p += sprintf(p, "bank:%d ", mem_err->bank);
+> -       if (mem_err->validation_bits & CPER_MEM_VALID_ROW)
+> -               p += sprintf(p, "row:%d ", mem_err->row);
+> +       if (mem_err->validation_bits & (CPER_MEM_VALID_ROW | CPER_MEM_VALID_ROW_EXT)) {
+> +               u32 row_extended = 0;
+> +               if (mem_err->validation_bits & CPER_MEM_VALID_ROW_EXT)
+> +                       row_extended = (mem_err->extended & CPER_MEM_EXT_ROW_MASK)
+> +                               <<CPER_MEM_EXT_ROW_SHIFT;
+> +               row_extended |= mem_err->row;
+> +               p += sprintf(p, "row:%d ", row_extended);
+> +       }
+>         if (mem_err->validation_bits & CPER_MEM_VALID_COLUMN)
+>                 p += sprintf(p, "col:%d ", mem_err->column);
+>         if (mem_err->validation_bits & CPER_MEM_VALID_BIT_POSITION)
+> diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
+> index f564e15fbc7e..5faaf6ecd659 100644
+> --- a/drivers/firmware/efi/cper.c
+> +++ b/drivers/firmware/efi/cper.c
+> @@ -234,8 +234,14 @@ static int cper_mem_err_location(struct cper_mem_err_compact *mem, char *msg)
+>                 n += scnprintf(msg + n, len - n, "bank: %d ", mem->bank);
+>         if (mem->validation_bits & CPER_MEM_VALID_DEVICE)
+>                 n += scnprintf(msg + n, len - n, "device: %d ", mem->device);
+> -       if (mem->validation_bits & CPER_MEM_VALID_ROW)
+> -               n += scnprintf(msg + n, len - n, "row: %d ", mem->row);
+> +       if (mem->validation_bits & (CPER_MEM_VALID_ROW | CPER_MEM_VALID_ROW_EXT)) {
+> +               u32 row_extended = 0;
+> +               if (mem->validation_bits & CPER_MEM_VALID_ROW_EXT)
+> +                       row_extended = (mem->extended & CPER_MEM_EXT_ROW_MASK)
+> +                               <<CPER_MEM_EXT_ROW_SHIFT;
+> +               row_extended |= mem->row;
+> +               n += scnprintf(msg + n, len - n, "row: %d ", row_extended);
+> +       }
+>         if (mem->validation_bits & CPER_MEM_VALID_COLUMN)
+>                 n += scnprintf(msg + n, len - n, "column: %d ", mem->column);
+>         if (mem->validation_bits & CPER_MEM_VALID_BIT_POSITION)
+> @@ -292,6 +298,7 @@ void cper_mem_err_pack(const struct cper_sec_mem_err *mem,
+>         cmem->requestor_id = mem->requestor_id;
+>         cmem->responder_id = mem->responder_id;
+>         cmem->target_id = mem->target_id;
+> +       cmem->extended = mem->extended;
+>         cmem->rank = mem->rank;
+>         cmem->mem_array_handle = mem->mem_array_handle;
+>         cmem->mem_dev_handle = mem->mem_dev_handle;
+> diff --git a/include/linux/cper.h b/include/linux/cper.h
+> index 8537e9282a65..c8313753ee49 100644
+> --- a/include/linux/cper.h
+> +++ b/include/linux/cper.h
+> @@ -230,6 +230,10 @@ enum {
+>  #define CPER_MEM_VALID_RANK_NUMBER             0x8000
+>  #define CPER_MEM_VALID_CARD_HANDLE             0x10000
+>  #define CPER_MEM_VALID_MODULE_HANDLE           0x20000
+> +#define CPER_MEM_VALID_ROW_EXT                 0x40000
+> +
+> +#define CPER_MEM_EXT_ROW_MASK                  0x3
+> +#define CPER_MEM_EXT_ROW_SHIFT                 16
+>
+>  #define CPER_PCIE_VALID_PORT_TYPE              0x0001
+>  #define CPER_PCIE_VALID_VERSION                        0x0002
+> @@ -443,7 +447,7 @@ struct cper_sec_mem_err_old {
+>         u8      error_type;
+>  };
+>
+> -/* Memory Error Section (UEFI >= v2.3), UEFI v2.7 sec N.2.5 */
+> +/* Memory Error Section (UEFI >= v2.3), UEFI v2.8 sec N.2.5 */
+>  struct cper_sec_mem_err {
+>         u64     validation_bits;
+>         u64     error_status;
+> @@ -461,7 +465,7 @@ struct cper_sec_mem_err {
+>         u64     responder_id;
+>         u64     target_id;
+>         u8      error_type;
+> -       u8      reserved;
+> +       u8      extended;
+>         u16     rank;
+>         u16     mem_array_handle;       /* "card handle" in UEFI 2.4 */
+>         u16     mem_dev_handle;         /* "module handle" in UEFI 2.4 */
+> @@ -483,6 +487,7 @@ struct cper_mem_err_compact {
+>         u16     rank;
+>         u16     mem_array_handle;
+>         u16     mem_dev_handle;
+> +       u8      extended;
+>  };
+>
+>  /* PCI Express Error Section, UEFI v2.7 sec N.2.7 */
