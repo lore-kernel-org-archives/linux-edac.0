@@ -2,87 +2,187 @@ Return-Path: <SRS0=p+WZ=BZ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C49C433DF
-	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:42:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF580C433DF
+	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:50:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0DFE23B45
-	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:42:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE1612053B
+	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1597528253;
+	bh=3SVBJhgxC7BPnwhc5MJagwvxEo4I+gn2nOiPf/aUh3U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=p+JXb4cOGcOv2X5Z39CMyWuW8vvzYGUqP5nr5JwPaOIyPdEwriTmxwoSeepTH0sEY
+	 dA4Qz26nQi3FtGGJd4ilqoK+c9x8y0foTvvbPe6ght28k5yeesFa4Yz/+27V5H8XT+
+	 ZrBx61ahRY6c27FtSCapKWoHusqLlaIORaTMR9Uo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726004AbgHOVmd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 15 Aug 2020 17:42:33 -0400
-Received: from mga09.intel.com ([134.134.136.24]:22594 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725984AbgHOVmc (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sat, 15 Aug 2020 17:42:32 -0400
-IronPort-SDR: Vr93dfiLe4V4gQgGI0Ykv/q1TQ6lITZQEjuiusAICBvxGnJNAIDwXKyvHfVwGRU10iK/3c6wOM
- siEJLWDxROUg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9714"; a="155641019"
-X-IronPort-AV: E=Sophos;i="5.76,317,1592895600"; 
-   d="scan'208";a="155641019"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2020 10:21:05 -0700
-IronPort-SDR: Qce1Qa4j4E+CYhjuQPflNd6xCkbPt4BehQ3FdjzFRWIXKCA3zfigcFUvRtHQ3XV7LyyHkQqDhO
- xToqNL+1+1RQ==
-X-IronPort-AV: E=Sophos;i="5.76,317,1592895600"; 
-   d="scan'208";a="440428673"
-Received: from agluck-desk2.sc.intel.com (HELO agluck-desk2.amr.corp.intel.com) ([10.3.52.68])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2020 10:21:05 -0700
-Date:   Sat, 15 Aug 2020 10:21:03 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-edac <linux-edac@vger.kernel.org>
-Subject: Re: [GIT PULL] edac for v5.9 (part 2)
-Message-ID: <20200815172103.GA1628@agluck-desk2.amr.corp.intel.com>
-References: <20200815003645.GA22594@agluck-desk2.amr.corp.intel.com>
- <CAHk-=wgFg+RNU3Aa7paCPCLpUiTHGN1PuC2AGZoRSOxD=trKnQ@mail.gmail.com>
+        id S1728432AbgHOVuw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 15 Aug 2020 17:50:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728365AbgHOVus (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 15 Aug 2020 17:50:48 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF42AC03B3CF;
+        Sat, 15 Aug 2020 01:42:16 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id t15so8501504edq.13;
+        Sat, 15 Aug 2020 01:42:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ewcB7eh6VcMdK2/EFjX3fVLpAyAUfy8E0/JoUkn0HgI=;
+        b=LemSqFIat+3vQ38OT9v1LyTatshFL+7G3vYQYbVIX4A5glxOEnMcItzhiTISSLDMlL
+         3WDYJisn5kfjBv2GuvpCS9UJWB/bpNPHH5DHUdJRN7AiW80b+zCG94WR0GVNguFvzUCK
+         HRI5NIMN34lcNdVL4A8TmIYDbp2CxJB0tqUBlLSMU+3X/fcf330tXUj0KFjaozymLyYd
+         bEh0DbZR1tG8Uef7XZJA1NbVfVtV0rI6ZG3tBjAx00L3JQZz9sH25AyuMkfT/1FSJckt
+         mIqSMyLdrD7J8iqLa7rCww7TOWSNUHilMtk5kpGMfhrn/BvsHWfBEnsIK1vS4tJY0wV2
+         F6uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=ewcB7eh6VcMdK2/EFjX3fVLpAyAUfy8E0/JoUkn0HgI=;
+        b=MQdpLXFcRU2/TQ4BRJJOR2a+ubiNiJ+peQFiT8OYRmLMr03pCnCTjkPDfM9Zd0Ce3o
+         WB+thoNMkkhPgdJl4InEZcNXLgONNvO+HT6C++Rxo6zT3rkk/7YXqQRing10lCzxRVPG
+         hZIetFfiqFTahcXmyKXnn/nP4vIGZae6zFMsFHRMeS1QbAU0U/9MJQxl/7J6WEzFLVsQ
+         DX1UZUHUfSNyH5fr8mZJhw+GN2ZWUpYaT8BzPKT1eeXXd3xAPwHfHWQv0JSr94UMlbwG
+         xGwghhIOqODcOIMvPWhKBORHZcPAz4fk5fsHiGKRv1dH54r1reeBO5GL60ncdGuvr4t1
+         z1fg==
+X-Gm-Message-State: AOAM532a083DccpGsIj4OjlHI3uY35HN/S3XtsrFeg22BMDg1ThZTx1a
+        J4zGKWSBh4C0daxhcKMk9uPlOLYEziU=
+X-Google-Smtp-Source: ABdhPJzqteyKa596sdV7BbCkNhznlD9P2VIEirR8RoBPNKsb7K65tSiQe+n7ZJf4GiD+XRjihA2KCA==
+X-Received: by 2002:aa7:d145:: with SMTP id r5mr5916308edo.323.1597480935312;
+        Sat, 15 Aug 2020 01:42:15 -0700 (PDT)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+        by smtp.gmail.com with ESMTPSA id eb11sm2153780edb.76.2020.08.15.01.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2020 01:42:14 -0700 (PDT)
+Date:   Sat, 15 Aug 2020 10:42:12 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Yazen Ghannam <Yazen.Ghannam@amd.com>
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bp@suse.de, tony.luck@intel.com, x86@kernel.org,
+        Smita.KoralahalliChannabasappa@amd.com
+Subject: Re: [PATCH 1/2] x86/MCE/AMD, EDAC/mce_amd: Use AMD NodeId for
+ Family17h+ DRAM Decode
+Message-ID: <20200815084212.GA2444151@gmail.com>
+References: <20200814191449.183998-1-Yazen.Ghannam@amd.com>
+ <20200814191449.183998-2-Yazen.Ghannam@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgFg+RNU3Aa7paCPCLpUiTHGN1PuC2AGZoRSOxD=trKnQ@mail.gmail.com>
+In-Reply-To: <20200814191449.183998-2-Yazen.Ghannam@amd.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Sat, Aug 15, 2020 at 08:21:13AM -0700, Linus Torvalds wrote:
-> On Fri, Aug 14, 2020 at 5:36 PM Luck, Tony <tony.luck@intel.com> wrote:
-> >
-> > Here's one more pull for EDAC with a driver that I let slip
-> > through the cracks.
+
+* Yazen Ghannam <Yazen.Ghannam@amd.com> wrote:
+
+> From: Yazen Ghannam <yazen.ghannam@amd.com>
 > 
-> Shortlog? Diffstat? Just what am I getting?
+> The edac_mce_amd module calls decode_dram_ecc() on AMD Family17h and
+> later systems. This function is used in amd64_edac_mod to do
+> system-specific decoding for DRAM ECC errors. The function takes a
+> "NodeId" as a parameter.
+> 
+> In AMD documentation, NodeId is used to identify a physical die in a
+> system. This can be used to identify a node in the AMD_NB code and also
+> it is used with umc_normaddr_to_sysaddr().
+> 
+> However, the input used for decode_dram_ecc() is currently the NUMA node
+> of a logical CPU. In the default configuration, the NUMA node and
+> physical die will be equivalent, so this doesn't have an impact. But the
+> NUMA node configuration can be adjusted with optional memory
+> interleaving schemes. This will cause the NUMA node enumeration to not
+> match the physical die enumeration. The mismatch will cause the address
+> translation function to fail or report incorrect results.
+> 
+> Save the "NodeId" as a percpu value during init in AMD MCE code. Export
+> a function to return the value which can be used from modules like
+> edac_mce_amd.
+> 
+> Fixes: fbe63acf62f5 ("EDAC, mce_amd: Use cpu_to_node() to find the node ID")
+> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> ---
+>  arch/x86/include/asm/mce.h    |  2 ++
+>  arch/x86/kernel/cpu/mce/amd.c | 11 +++++++++++
+>  drivers/edac/mce_amd.c        |  2 +-
+>  3 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
+> index cf503824529c..92527cc9ed06 100644
+> --- a/arch/x86/include/asm/mce.h
+> +++ b/arch/x86/include/asm/mce.h
+> @@ -343,6 +343,8 @@ extern struct smca_bank smca_banks[MAX_NR_BANKS];
+>  extern const char *smca_get_long_name(enum smca_bank_types t);
+>  extern bool amd_mce_is_memory_error(struct mce *m);
+>  
+> +extern u8 amd_cpu_to_node(unsigned int cpu);
+> +
+>  extern int mce_threshold_create_device(unsigned int cpu);
+>  extern int mce_threshold_remove_device(unsigned int cpu);
+>  
+> diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+> index 99be063fcb1b..524edf81e287 100644
+> --- a/arch/x86/kernel/cpu/mce/amd.c
+> +++ b/arch/x86/kernel/cpu/mce/amd.c
+> @@ -202,6 +202,9 @@ static DEFINE_PER_CPU(unsigned int, bank_map);
+>  /* Map of banks that have more than MCA_MISC0 available. */
+>  static DEFINE_PER_CPU(u32, smca_misc_banks_map);
+>  
+> +/* CPUID_Fn8000001E_ECX[NodeId] used to identify a physical node/die. */
+> +static DEFINE_PER_CPU(u8, node_id);
+> +
+>  static void amd_threshold_interrupt(void);
+>  static void amd_deferred_error_interrupt(void);
+>  
+> @@ -233,6 +236,12 @@ static void smca_set_misc_banks_map(unsigned int bank, unsigned int cpu)
+>  
+>  }
+>  
+> +u8 amd_cpu_to_node(unsigned int cpu)
+> +{
+> +	return per_cpu(node_id, cpu);
+> +}
+> +EXPORT_SYMBOL_GPL(amd_cpu_to_node);
+> +
+>  static void smca_configure(unsigned int bank, unsigned int cpu)
+>  {
+>  	unsigned int i, hwid_mcatype;
+> @@ -240,6 +249,8 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+>  	u32 high, low;
+>  	u32 smca_config = MSR_AMD64_SMCA_MCx_CONFIG(bank);
+>  
+> +	this_cpu_write(node_id, cpuid_ecx(0x8000001e) & 0xFF);
 
-Ah. Looking at bash history I fumbled arguments to git pleasepull. Second try:
+So we already have this magic number used for a similar purpose, in 
+amd_get_topology():
 
-The following changes since commit 0f959e19fadf00638b686fdeb70e24dfcc7bbcac:
+                cpuid(0x8000001e, &eax, &ebx, &ecx, &edx);
 
-  Merge branch 'edac-ghes' into edac-for-next (2020-06-22 15:28:01 +0200)
+                node_id  = ecx & 0xff;
 
-are available in the Git repository at:
+Firstly, could we please at least give 0x8000001e a proper symbolic 
+name, use it in hygon.c too (which AFAIK is derived from AMD anyway), 
+and then use it in these new patches?
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_5.9_pt2
+Secondly, why not stick node_id into struct cpuinfo_x86, where the MCA 
+code can then use it without having to introduce a new percpu data 
+structure?
 
-for you to fetch changes up to 709ed1bcef12398ac1a35c149f3e582db04456c2:
+There's also the underlying assumption that there's only ever going to 
+be 256 nodes, which limitation I'm sure we'll hear about in a couple 
+of years as not being quite enough. ;-)
 
-  EDAC/ie31200: Fallback if host bridge device is already initialized (2020-08-10 11:13:06 -0700)
+So less hardcoding and more generalizations please.
 
-----------------------------------------------------------------
-Fixes for ie31200 driver that missed the first pull
+Thanks,
 
-----------------------------------------------------------------
-Jason Baron (1):
-      EDAC/ie31200: Fallback if host bridge device is already initialized
-
- drivers/edac/ie31200_edac.c | 50 ++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 47 insertions(+), 3 deletions(-)
-
--Tony
+	Ingo
