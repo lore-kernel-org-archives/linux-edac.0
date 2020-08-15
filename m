@@ -2,135 +2,88 @@ Return-Path: <SRS0=p+WZ=BZ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB8FC433E3
-	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 22:04:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BED5C433DF
+	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 22:06:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D73120639
-	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 22:04:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDE2720639
+	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 22:06:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="EhozzWmk"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="Enkvx3eC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729506AbgHOWEv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 15 Aug 2020 18:04:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45650 "EHLO
+        id S1729976AbgHOWGa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 15 Aug 2020 18:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728477AbgHOVuy (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 15 Aug 2020 17:50:54 -0400
+        with ESMTP id S1728418AbgHOVuu (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 15 Aug 2020 17:50:50 -0400
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B00C00458C;
-        Sat, 15 Aug 2020 11:33:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89947C03B3CE;
+        Sat, 15 Aug 2020 01:41:07 -0700 (PDT)
 Received: from zn.tnic (p200300ec2f1c7a00329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ec:2f1c:7a00:329c:23ff:fea6:a903])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 56E951EC0277;
-        Sat, 15 Aug 2020 20:33:11 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AC2801EC044B;
+        Sat, 15 Aug 2020 10:41:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1597516391;
+        t=1597480864;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=8BbZ63rk7VbMiYUQjJkYGKszCEMN5l41jgUUhvTPAOk=;
-        b=EhozzWmk+kL2/U5KxxkPgUx8K6UAmTLI1ZgR5AZbJMI0He/t8OVM5L7Ts1xYNrnz+/7MSc
-        0C4CT36Ji2ATnv3EboiqKdUzO3rBwwtyNqbKX5CQHqNvc/B1R9rOhQjFAbB9nwlgZyxNMR
-        zUQhBg+Jw9qsx/NC+CjSH9XlmeIKjbY=
-Date:   Sat, 15 Aug 2020 20:33:58 +0200
+        bh=CmqbmjtODYtlwRW7qWoQG1WqmoGu1ND+kuU+HHrBwFw=;
+        b=Enkvx3eCIzsidlS3C+nqS52FIeO7ezEcI27HINGWHsC2a3OXUawSC8iEolmV1uC8UL1Q7Q
+        nQchEb0VvZYIAzmKg9Hp5o/sU36IposP4sYm1Ay+AsgnzMWjzQ7W4vL2gG0MRSZmDNmpU8
+        2pPkjh0eUEUPuBB9+hu24EIEq+1WtT0=
+Date:   Sat, 15 Aug 2020 10:41:57 +0200
 From:   Borislav Petkov <bp@alien8.de>
-To:     Talel Shenhar <talel@amazon.com>
-Cc:     mchehab@kernel.org, james.morse@arm.com, davem@davemloft.net,
-        gregkh@linuxfoundation.org, nicolas.ferre@microchip.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, catalin.marinas@arm.com,
-        will@kernel.org, linux-edac@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, hhhawa@amazon.com,
-        ronenk@amazon.com, jonnyc@amazon.com, hanochu@amazon.com,
-        eitan@amazon.com
-Subject: Re: [PATCH v9 2/2] EDAC: al-mc-edac: Introduce Amazon's Annapurna
- Labs Memory Controller EDAC
-Message-ID: <20200815183358.GE25814@zn.tnic>
-References: <20200728095155.18506-1-talel@amazon.com>
- <20200728095155.18506-3-talel@amazon.com>
+To:     Alison Wang <alison.wang@nxp.com>,
+        James Morse <james.morse@arm.com>
+Cc:     mchehab@kernel.org, tony.luck@intel.com, rrichter@marvell.com,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] edac: nxp: Add L1 and L2 error detection for A53 and A72
+ cores
+Message-ID: <20200815084157.GC25814@zn.tnic>
+References: <20200709082215.12829-1-alison.wang@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200728095155.18506-3-talel@amazon.com>
+In-Reply-To: <20200709082215.12829-1-alison.wang@nxp.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Jul 28, 2020 at 12:51:55PM +0300, Talel Shenhar wrote:
-> +static void al_mc_edac_check(struct mem_ctl_info *mci)
-> +{
-> +	struct al_mc_edac *al_mc = mci->pvt_info;
-> +
-> +	if (al_mc->irq_ue <= 0)
-> +		handle_ue(mci);
-> +
-> +	if (al_mc->irq_ce <= 0)
-> +		handle_ce(mci);
-> +}
-> +
-> +static irqreturn_t al_mc_edac_irq_handler_ue(int irq, void *info)
-> +{
-> +	struct platform_device *pdev = info;
-> +	struct mem_ctl_info *mci = platform_get_drvdata(pdev);
-> +
-> +	if (handle_ue(mci))
-> +		return IRQ_HANDLED;
-> +	return IRQ_NONE;
-> +}
-> +
-> +static irqreturn_t al_mc_edac_irq_handler_ce(int irq, void *info)
-> +{
-> +	struct platform_device *pdev = info;
-> +	struct mem_ctl_info *mci = platform_get_drvdata(pdev);
-> +
-> +	if (handle_ce(mci))
-> +		return IRQ_HANDLED;
-> +	return IRQ_NONE;
-> +}
-> +
-> +static enum scrub_type al_mc_edac_get_scrub_mode(void __iomem *mmio_base)
-> +{
-> +	u32 ecccfg0;
-> +
-> +	ecccfg0 = readl(mmio_base + AL_MC_ECC_CFG);
-> +
-> +	if (FIELD_GET(AL_MC_ECC_CFG_SCRUB_DISABLED, ecccfg0))
-> +		return SCRUB_NONE;
-> +	else
-> +		return SCRUB_HW_SRC;
-> +}
-> +
-> +static void devm_al_mc_edac_free(void *data)
-> +{
-> +	edac_mc_free(data);
-> +}
-> +
-> +static void devm_al_mc_edac_del(void *data)
-> +{
-> +	edac_mc_del_mc(data);
-> +}
+On Thu, Jul 09, 2020 at 04:22:15PM +0800, Alison Wang wrote:
+> Add error detection for A53 and A72 cores. Hardware error injection is
+> supported on A53. Software error injection is supported on both.
+> For hardware error injection on A53 to work, proper access to
+> L2ACTLR_EL1, CPUACTLR_EL1 needs to be granted by EL3 firmware. This is
+> done by making an SMC call in the driver. Failure to enable access
+> disables hardware error injection. For error detection to work, another
+> SMC call enables access to L2ECTLR_EL1.
+> 
+> It is for NXP's Layerscape family LS1043A, LS1046A, LS2088A and LX2160A.
+> 
+> Signed-off-by: York Sun <york.sun@nxp.com>
+> Signed-off-by: Alison Wang <alison.wang@nxp.com>
+> ---
+>  .../bindings/edac/cortex-arm64-edac.txt       |  40 +
+>  drivers/edac/Kconfig                          |   7 +
+>  drivers/edac/Makefile                         |   1 +
+>  drivers/edac/cortex_arm64_l1_l2.c             | 738 ++++++++++++++++++
+>  drivers/edac/cortex_arm64_l1_l2.h             |  54 ++
+>  5 files changed, 840 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/edac/cortex-arm64-edac.txt
+>  create mode 100644 drivers/edac/cortex_arm64_l1_l2.c
+>  create mode 100644 drivers/edac/cortex_arm64_l1_l2.h
 
-From a previous review:
+This needs James to have a look at.
 
-I said:
-
-> Drop the "al_mc_edac_" prefix from most of the static functions. You can
-> leave it in the probe function or the IRQ handler so that it is visible
-> in stack traces but all those small functions don't need that prefix.
-
-You replied with:
-
-> Shall be part of v7.
-
-and yet it ain't part of any v<num>.
-
-Why?
+Thx.
 
 -- 
 Regards/Gruss,
