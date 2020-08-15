@@ -4,142 +4,109 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44DACC433E1
-	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A48C0C433E3
+	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:53:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21DFD204FD
-	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:51:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EE292053B
+	for <linux-edac@archiver.kernel.org>; Sat, 15 Aug 2020 21:53:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="FOb5lXu7"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="jYVoD/vX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728757AbgHOVvZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 15 Aug 2020 17:51:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45614 "EHLO
+        id S1728105AbgHOVxk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 15 Aug 2020 17:53:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728674AbgHOVvK (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 15 Aug 2020 17:51:10 -0400
+        with ESMTP id S1728240AbgHOVwl (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 15 Aug 2020 17:52:41 -0400
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA7AC03B3E7;
-        Sat, 15 Aug 2020 02:32:39 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f1c7a00329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ec:2f1c:7a00:329c:23ff:fea6:a903])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7ED9C061236;
+        Fri, 14 Aug 2020 22:51:41 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f1c7a000c615dc96c916289.dip0.t-ipconnect.de [IPv6:2003:ec:2f1c:7a00:c61:5dc9:6c91:6289])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A29941EC0411;
-        Sat, 15 Aug 2020 11:32:36 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3913C1EC03EA;
+        Sat, 15 Aug 2020 07:51:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1597483956;
+        t=1597470696;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=DVkFmgVppcUdysdhmCgRYqE3/zJKAH13Ppg3uAvwVP8=;
-        b=FOb5lXu7Kn7iS2NabxxkPOxoDuF/xer2Qu77aiDAYxskjdo45klK3RVJaZ0IF/ic4gaKoN
-        Grp08fbd9Jmd9ZWZk69bruMIgP72l56Pi5EiNwnsDXKMyaQbCipo+ZQVuPqjJFQR17MtQ+
-        qhuxBZcCdDOclWH+NnhAd6ZlXjsIHbs=
-Date:   Sat, 15 Aug 2020 11:33:32 +0200
+        bh=UaHC+XYpOhT7alhor59jrB5xm8LzwHIuR+784j8TeOo=;
+        b=jYVoD/vXSYH5s+EEyEAMfZb6pLrBYCJgMbqCrB0uJ65Qhfoz03nttKbJ7T9Gzfz8CnU0GK
+        NFnKRYyadWH2wJv80ai0YnrNPPcJcRsHFR5N5KNbyLLDIgti6eydnCzykC9iJNm9fHcVTp
+        VeKJKSP2XhHU+bhSlNEy6oeJFealQT4=
+Date:   Sat, 15 Aug 2020 07:52:27 +0200
 From:   Borislav Petkov <bp@alien8.de>
-To:     Alex Kluver <alex.kluver@hpe.com>
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ardb@kernel.org, mchehab@kernel.org, russ.anderson@hpe.com,
-        dimitri.sivanich@hpe.com
-Subject: Re: [PATCH] edac,ghes,cper: Add Row Extension to Memory Error Record
-Message-ID: <20200815093332.GD25814@zn.tnic>
-References: <20200727181445.111002-1-alex.kluver@hpe.com>
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
+        james.morse@arm.com, rrichter@marvell.com,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Replace HTTP links with HTTPS ones: EDAC-SBRIDGE
+Message-ID: <20200815055227.GA25814@zn.tnic>
+References: <20200708113546.14135-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200727181445.111002-1-alex.kluver@hpe.com>
+In-Reply-To: <20200708113546.14135-1-grandmaster@al2klimov.de>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 01:14:45PM -0500, Alex Kluver wrote:
-> Memory errors could be printed with incorrect row values since the DIMM
-> size has outgrown the 16 bit row field in the CPER structure. UEFI
-> Specification Version 2.8 has increased the size of row by allowing it to
-> use the first 2 bits from a previously reserved space within the structure.
+On Wed, Jul 08, 2020 at 01:35:46PM +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
 > 
-> When needed, add the extension bits to the row value printed.
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
 > 
-> Based on UEFI 2.8 Table 299. Memory Error Record
-> 
-> Tested-by: Russ Anderson <russ.anderson@hpe.com>
-> Signed-off-by: Alex Kluver <alex.kluver@hpe.com>
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 > ---
->  drivers/edac/ghes_edac.c    | 10 ++++++++--
->  drivers/firmware/efi/cper.c | 11 +++++++++--
->  include/linux/cper.h        |  9 +++++++--
->  3 files changed, 24 insertions(+), 6 deletions(-)
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
 > 
-> diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-> index cb3dab56a875..cfa3156300f5 100644
-> --- a/drivers/edac/ghes_edac.c
-> +++ b/drivers/edac/ghes_edac.c
-> @@ -337,8 +337,14 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
->  		p += sprintf(p, "rank:%d ", mem_err->rank);
->  	if (mem_err->validation_bits & CPER_MEM_VALID_BANK)
->  		p += sprintf(p, "bank:%d ", mem_err->bank);
-> -	if (mem_err->validation_bits & CPER_MEM_VALID_ROW)
-> -		p += sprintf(p, "row:%d ", mem_err->row);
-> +	if (mem_err->validation_bits & (CPER_MEM_VALID_ROW | CPER_MEM_VALID_ROW_EXT)) {
-> +		u32 row_extended = 0;
-> +		if (mem_err->validation_bits & CPER_MEM_VALID_ROW_EXT)
-> +			row_extended = (mem_err->extended & CPER_MEM_EXT_ROW_MASK)
-> +				<<CPER_MEM_EXT_ROW_SHIFT;
-> +		row_extended |= mem_err->row;
-> +		p += sprintf(p, "row:%d ", row_extended);
-> +	}
->  	if (mem_err->validation_bits & CPER_MEM_VALID_COLUMN)
->  		p += sprintf(p, "col:%d ", mem_err->column);
->  	if (mem_err->validation_bits & CPER_MEM_VALID_BIT_POSITION)
-> diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
-> index f564e15fbc7e..5faaf6ecd659 100644
-> --- a/drivers/firmware/efi/cper.c
-> +++ b/drivers/firmware/efi/cper.c
-> @@ -234,8 +234,14 @@ static int cper_mem_err_location(struct cper_mem_err_compact *mem, char *msg)
->  		n += scnprintf(msg + n, len - n, "bank: %d ", mem->bank);
->  	if (mem->validation_bits & CPER_MEM_VALID_DEVICE)
->  		n += scnprintf(msg + n, len - n, "device: %d ", mem->device);
-> -	if (mem->validation_bits & CPER_MEM_VALID_ROW)
-> -		n += scnprintf(msg + n, len - n, "row: %d ", mem->row);
-> +	if (mem->validation_bits & (CPER_MEM_VALID_ROW | CPER_MEM_VALID_ROW_EXT)) {
-> +		u32 row_extended = 0;
-> +		if (mem->validation_bits & CPER_MEM_VALID_ROW_EXT)
-> +			row_extended = (mem->extended & CPER_MEM_EXT_ROW_MASK)
-> +				<<CPER_MEM_EXT_ROW_SHIFT;
+>  If there are any URLs to be removed completely or at least not HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+> 
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+> 
+>  If you apply the patch, please let me know.
+> 
+> 
+>  drivers/edac/sb_edac.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+> index d414698ca324..a6704e73fcce 100644
+> --- a/drivers/edac/sb_edac.c
+> +++ b/drivers/edac/sb_edac.c
+> @@ -3552,6 +3552,6 @@ MODULE_PARM_DESC(edac_op_state, "EDAC Error Reporting state: 0=Poll,1=NMI");
+>  
+>  MODULE_LICENSE("GPL");
+>  MODULE_AUTHOR("Mauro Carvalho Chehab");
+> -MODULE_AUTHOR("Red Hat Inc. (http://www.redhat.com)");
+> +MODULE_AUTHOR("Red Hat Inc. (https://www.redhat.com)");
+>  MODULE_DESCRIPTION("MC Driver for Intel Sandy Bridge and Ivy Bridge memory controllers - "
+>  		   SBRIDGE_REVISION);
+> -- 
 
-This is not very readable.
-
-> +		row_extended |= mem->row;
-> +		n += scnprintf(msg + n, len - n, "row: %d ", row_extended);
-> +	}
-
-Both those hunks contain duplicated code which kinda wants to be an
-inline function in cper.h which returns row_extended and gets called by
-both sites. And then the call site can look very simple:
-
-        if (mem_err->validation_bits & CPER_MEM_VALID_ROW)
-                row = mem_err->row;
-
-        /* add row extension */
-        row |= cper_get_mem_extension();
-
-        p += sprintf(p, "row:%d ", row);
-
-with
-
-static inline u32 cper_get_mem_extension(void)
-{
-	if (!(mem_err->validation_bits & CPER_MEM_VALID_ROW_EXT))
-		return 0;
-
-	return (mem_err->extended & CPER_MEM_EXT_ROW_MASK) << CPER_MEM_EXT_ROW_SHIFT;
-}
-
-Something along those lines...
+Merged all your EDAC patches into one and applied. Will push out once
+-rc1 releases.
 
 Thx.
 
