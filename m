@@ -2,86 +2,81 @@ Return-Path: <SRS0=+YGW=B3=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B78C433DF
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Aug 2020 18:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3314CC433E3
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Aug 2020 18:53:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B681520758
-	for <linux-edac@archiver.kernel.org>; Mon, 17 Aug 2020 18:38:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BE8D2078B
+	for <linux-edac@archiver.kernel.org>; Mon, 17 Aug 2020 18:53:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fIPhHRoa"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="JLyHtJuM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730930AbgHQSiP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 17 Aug 2020 14:38:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38302 "EHLO
+        id S1729923AbgHQSxr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 17 Aug 2020 14:53:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730684AbgHQP6j (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 17 Aug 2020 11:58:39 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE08C061342
-        for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2020 08:58:38 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id a26so18361548ejc.2
-        for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2020 08:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nDW9UCeKCT82tfxaSNxr50xbb9G40cITAcAS3tvi8v0=;
-        b=fIPhHRoaOSDBb+ug606oRYS2+MH5nZe6EMkjdBne3K6gkNMRHGFl+IinNJuPE7HtDB
-         0P5yIMQN0vJ+D7KsSmoTREIxQXfgHlgP8SLVIrk3NC4rU/MaKeLXMJGlTIJcN3K0LVcb
-         8YQq4mPE/eHtEhAhLC0BW/HVfeotG0CFsfiPwcULNgc49IIp3BUAWu/j9DmJsEbY5Vix
-         dSa/ahzIk6ZB1COkndigQ1FITezBhbrovkBjR4XKdS84FUjDweagcSiz/Xw4WHOrYy3K
-         3hFGJOt8E4buK1kawUekKbFn9He3DVzGb0mVXYxUGMewA1jIhHXUBA22Uf/Fa9IvReEj
-         ORPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nDW9UCeKCT82tfxaSNxr50xbb9G40cITAcAS3tvi8v0=;
-        b=YH6HkcUmFmlRv1RedptiFs8Cc/iKkyOMbdCXapc1KNua6hCR9vEjpz+wASJIdGeSor
-         ssjv0ElG/qjIyExZO1rSd5BLIC3UlyqBBVTOHo4TgkuFKiALN2oL8uJ70FEd1YWP+01I
-         nAmyxSq5BgByC6KjM5L8RX4sYNnIujkt22hUkciAq1JtMsGwxCMJcsePYqxDrzWYkhyW
-         9PStwguxwVrkJ4JlZOEwEwoWrGRbpVB7WvjwggVbnCC+Dc3A2i3LkErG6yngOMs9KL6t
-         0tZDRQW6IXUFOFCXWDGm1IUDW+dgemFoS1YIhSQVgQwW8fMgQHCORIu/2iVsxshGk4aQ
-         9y6w==
-X-Gm-Message-State: AOAM530mYfbZwXtXfVFWFEHtKN/1kun2ylUbWNK8vjfPTGQGYBzRUULv
-        ruZhg5mEpinaaiYwVBTCvDViODCtkuMc+J+J1+1Jdg==
-X-Google-Smtp-Source: ABdhPJxYeqZjXIthrlvMdVffSVE1rokkXKmYeaKq142LtxPwYHooYBJSF/6fA/EUW56GiEN2+N3Z1Iot+nCiSbSHmCs=
-X-Received: by 2002:a17:906:7f05:: with SMTP id d5mr15464122ejr.122.1597679917222;
- Mon, 17 Aug 2020 08:58:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200805045955.GB9127@nazgul.tnic> <20200805095708.83939-1-luca.stefani.ge1@gmail.com>
- <20200812210909.GA3283093@google.com> <20200817151357.GK549@zn.tnic>
-In-Reply-To: <20200817151357.GK549@zn.tnic>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Mon, 17 Aug 2020 08:58:26 -0700
-Message-ID: <CABCJKuccY-wOEuQm--TQYgJvErOXu5u-jBMgCrM7JYsNqYK=gg@mail.gmail.com>
-Subject: Re: [PATCH v2] RAS/CEC: Fix cec_init prototype
-To:     Borislav Petkov <bp@alien8.de>
+        with ESMTP id S2387814AbgHQSxo (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 17 Aug 2020 14:53:44 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5D0C061389;
+        Mon, 17 Aug 2020 11:53:44 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f26be00329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ec:2f26:be00:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 594151EC026E;
+        Mon, 17 Aug 2020 20:53:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1597690421;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=R9rpQQ3QHK65dGeiLDAY9hsv8ikqXlZFeTV49qjDFhs=;
+        b=JLyHtJuMAboC+cV46FCxtaqv6/HVYof2SrVxT377a4nEjVxBhWTBBZjvB2FWruvZeCoftT
+        oxmab1CVK7Y+XDzb2G9AU00CkuADnq9K0D8MoBmdemyZFos51X34b5zQcoYRY1jtNV0Gnn
+        wuCneV/LpbFQyLhQPohnFbuIoPkCjPA=
+Date:   Mon, 17 Aug 2020 20:54:36 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Luca Stefani <luca.stefani.ge1@gmail.com>,
         Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2] RAS/CEC: Fix cec_init prototype
+Message-ID: <20200817185436.GO549@zn.tnic>
+References: <20200805045955.GB9127@nazgul.tnic>
+ <20200805095708.83939-1-luca.stefani.ge1@gmail.com>
+ <20200812210909.GA3283093@google.com>
+ <20200817151357.GK549@zn.tnic>
+ <CABCJKuccY-wOEuQm--TQYgJvErOXu5u-jBMgCrM7JYsNqYK=gg@mail.gmail.com>
+ <20200817174102.GN549@zn.tnic>
+ <CABCJKud6M+u-TUZ2w5zdPPnwJQ1b7wxXwg8Rnoc=rBC6zMvRxA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CABCJKud6M+u-TUZ2w5zdPPnwJQ1b7wxXwg8Rnoc=rBC6zMvRxA@mail.gmail.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 8:13 AM Borislav Petkov <bp@alien8.de> wrote:
->
-> On Wed, Aug 12, 2020 at 02:09:09PM -0700, Sami Tolvanen wrote:
-> > The type mismatch broke allyesconfig in my test tree and your patch
-> > fixes the issue.
->
-> How are you building your allyesconfigs? Because allyesconfig works here
-> fine on latest Linus tree.
+On Mon, Aug 17, 2020 at 11:11:02AM -0700, Sami Tolvanen wrote:
+> Not the toolchain, the tree has patches for LTO+CFI, which tends to
+> break with type mismatches. This doesn't affect just building the
+> kernel with Clang without other changes.
 
-Sorry for not clarifying. This was in a tree with patches for enabling
-Clang's Control-Flow Integrity. However, this type mismatch looks like
-something that should be fixed regardless.
+Ok, that explains it.
 
-Sami
+As for why I'm still chasing down the exact reason for the reported
+breakage: this will determine the urgency with which this fix is handled
+and to which trees it needs to go so please be more precise next time
+when saying "it broke". :)
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
