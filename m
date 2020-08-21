@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 913A6C433E1
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8809C433DF
+	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:52:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A36520738
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:37:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4BD320702
+	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:52:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598027840;
-	bh=jsOvBr9rJdDGyGjXO4I8vMC3R8xRGofJQuE2DofuJ0Q=;
+	s=default; t=1598028760;
+	bh=MFA31vlUz/wgJDKoSVzaaPhDNaXOMuJ6Cmer3jlUlVY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=pu6NGqHh6a+gXVaHO4kPO2MoMGpYdBdIhUd0cz/AJbXVjqv0efLiNMtD25yTYwXn/
-	 lYDnGUps84gWTyIlQv6ekrB/qdFeVUyC3QpIyRnPEg8sY3qz/zpr7bHKg+RBMwmpVN
-	 vNPqHOE4iKh5L88QjuJlWnoVlABAGgjROipMRsGs=
+	b=058IR9tmKiP9EQMED7NGtYGgsqcA6OtRVCKY3pWD1wZ3/OWLDvPr0jnmE4oGzyUny
+	 8n5kl/w4gGP5LTns/Oxz6nGKK9kKZLkxYwEW+/G6IxRL8Mmg70/uSKX1SiKevixMJL
+	 zQC4xpUQjREHR2Ig76tlMYLJ+K5shUSSm9sr0jzs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728554AbgHUQgj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 21 Aug 2020 12:36:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56842 "EHLO mail.kernel.org"
+        id S1728659AbgHUQwj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 21 Aug 2020 12:52:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50060 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728432AbgHUQVJ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:21:09 -0400
+        id S1728301AbgHUQTr (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:19:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6868022D6E;
-        Fri, 21 Aug 2020 16:20:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81C2B22B40;
+        Fri, 21 Aug 2020 16:18:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026813;
-        bh=jsOvBr9rJdDGyGjXO4I8vMC3R8xRGofJQuE2DofuJ0Q=;
+        s=default; t=1598026736;
+        bh=MFA31vlUz/wgJDKoSVzaaPhDNaXOMuJ6Cmer3jlUlVY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gL4AnpiLciHDq49eEl5t7sJKJK9af+0jG9zreZBGroYY1Rp4qQlzvKYiPWeN0EaTY
-         NUv+NN94lBcX0z8CoPe/6uFYDGXAcVd4BGf4DAiMAKWXxZIYn9d0ub4BWVNDfi4qsA
-         VuI4nMOOBIA6Btims+AOse2uiTmAVJcfVJpWywQ0=
+        b=kTa3La6Ve09bn8hDgTusQkp7Q8yJ8/e2v0nXTZWA15BZX37U66GePVdar5uKJDbpw
+         70ofezOjOlRXlYrLbaVBe4CuoFrbPlzrMUlq2sHcG+Of2GzWRqxRR5V28cd4bPIlz6
+         qSUyrATVZyS4pxVx2eYdtOSip55wXM3787kiZ7jo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@suse.de>,
@@ -45,12 +45,12 @@ Cc:     Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@suse.de>,
         linux-edac <linux-edac@vger.kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.9 26/26] EDAC/ie31200: Fallback if host bridge device is already initialized
-Date:   Fri, 21 Aug 2020 12:19:37 -0400
-Message-Id: <20200821161938.349246-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 38/38] EDAC/ie31200: Fallback if host bridge device is already initialized
+Date:   Fri, 21 Aug 2020 12:18:07 -0400
+Message-Id: <20200821161807.348600-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161938.349246-1-sashal@kernel.org>
-References: <20200821161938.349246-1-sashal@kernel.org>
+In-Reply-To: <20200821161807.348600-1-sashal@kernel.org>
+References: <20200821161807.348600-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -84,10 +84,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 47 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-index 1c88d97074951..3438b98e60948 100644
+index aac9b9b360b80..9e4781a807cfa 100644
 --- a/drivers/edac/ie31200_edac.c
 +++ b/drivers/edac/ie31200_edac.c
-@@ -145,6 +145,8 @@
+@@ -147,6 +147,8 @@
  	(n << (28 + (2 * skl) - PAGE_SHIFT))
  
  static int nr_channels;
@@ -96,7 +96,7 @@ index 1c88d97074951..3438b98e60948 100644
  
  struct ie31200_priv {
  	void __iomem *window;
-@@ -512,12 +514,16 @@ static int ie31200_probe1(struct pci_dev *pdev, int dev_idx)
+@@ -518,12 +520,16 @@ static int ie31200_probe1(struct pci_dev *pdev, int dev_idx)
  static int ie31200_init_one(struct pci_dev *pdev,
  			    const struct pci_device_id *ent)
  {
@@ -115,7 +115,7 @@ index 1c88d97074951..3438b98e60948 100644
  }
  
  static void ie31200_remove_one(struct pci_dev *pdev)
-@@ -526,6 +532,8 @@ static void ie31200_remove_one(struct pci_dev *pdev)
+@@ -532,6 +538,8 @@ static void ie31200_remove_one(struct pci_dev *pdev)
  	struct ie31200_priv *priv;
  
  	edac_dbg(0, "\n");
@@ -124,7 +124,7 @@ index 1c88d97074951..3438b98e60948 100644
  	mci = edac_mc_del_mc(&pdev->dev);
  	if (!mci)
  		return;
-@@ -574,17 +582,53 @@ static struct pci_driver ie31200_driver = {
+@@ -583,17 +591,53 @@ static struct pci_driver ie31200_driver = {
  
  static int __init ie31200_init(void)
  {
