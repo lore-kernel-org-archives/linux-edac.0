@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4348C433DF
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 913A6C433E1
+	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:37:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E92820578
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:24:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A36520738
+	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 16:37:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598027077;
-	bh=/lMY8eePtvGNjO1BZEJlEb7FchkMJ4xt/2arr+COr9s=;
+	s=default; t=1598027840;
+	bh=jsOvBr9rJdDGyGjXO4I8vMC3R8xRGofJQuE2DofuJ0Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=NgBBp5Cb/jVs0z1/xNdfhKKNDQj9zMHOl0rwFxIUbCp6qRaN2X09nb8iNrhDDLMMs
-	 gY4UyEFXQLw+GCYLuwmgDVCIY/BcHlhsPxsEbczTCDuL2eNfITZ4DstX3EFZxbAlA/
-	 /eFZI4GPfCaG7k4h6xr/AJpbWEOP6jGkN5mtsUTw=
+	b=pu6NGqHh6a+gXVaHO4kPO2MoMGpYdBdIhUd0cz/AJbXVjqv0efLiNMtD25yTYwXn/
+	 lYDnGUps84gWTyIlQv6ekrB/qdFeVUyC3QpIyRnPEg8sY3qz/zpr7bHKg+RBMwmpVN
+	 vNPqHOE4iKh5L88QjuJlWnoVlABAGgjROipMRsGs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728503AbgHUQWe (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 21 Aug 2020 12:22:34 -0400
+        id S1728554AbgHUQgj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 21 Aug 2020 12:36:39 -0400
 Received: from mail.kernel.org ([198.145.29.99]:56842 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728468AbgHUQVg (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:21:36 -0400
+        id S1728432AbgHUQVJ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:21:09 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3C6DB22B4D;
-        Fri, 21 Aug 2020 16:20:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6868022D6E;
+        Fri, 21 Aug 2020 16:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026843;
-        bh=/lMY8eePtvGNjO1BZEJlEb7FchkMJ4xt/2arr+COr9s=;
+        s=default; t=1598026813;
+        bh=jsOvBr9rJdDGyGjXO4I8vMC3R8xRGofJQuE2DofuJ0Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wpDy5J+Wqt/p6eDpK72ylJsCAb9crW+cfgLML2vE0ojf05eSwJoaMyk/4civWVnkT
-         S75fT4IfFatZteVufTCkvco/8kGMjnqF5+3ho+Mfr2L1ppQIv6xfc0UepiPe32x9cF
-         T7gP2aW5mc6OcIqGw6wcsuaXpaeMp5YanItxp0UM=
+        b=gL4AnpiLciHDq49eEl5t7sJKJK9af+0jG9zreZBGroYY1Rp4qQlzvKYiPWeN0EaTY
+         NUv+NN94lBcX0z8CoPe/6uFYDGXAcVd4BGf4DAiMAKWXxZIYn9d0ub4BWVNDfi4qsA
+         VuI4nMOOBIA6Btims+AOse2uiTmAVJcfVJpWywQ0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@suse.de>,
@@ -45,12 +45,12 @@ Cc:     Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@suse.de>,
         linux-edac <linux-edac@vger.kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.4 22/22] EDAC/ie31200: Fallback if host bridge device is already initialized
-Date:   Fri, 21 Aug 2020 12:20:14 -0400
-Message-Id: <20200821162014.349506-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 26/26] EDAC/ie31200: Fallback if host bridge device is already initialized
+Date:   Fri, 21 Aug 2020 12:19:37 -0400
+Message-Id: <20200821161938.349246-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821162014.349506-1-sashal@kernel.org>
-References: <20200821162014.349506-1-sashal@kernel.org>
+In-Reply-To: <20200821161938.349246-1-sashal@kernel.org>
+References: <20200821161938.349246-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -84,11 +84,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 47 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-index 18d77ace4813c..30f83fb6b145a 100644
+index 1c88d97074951..3438b98e60948 100644
 --- a/drivers/edac/ie31200_edac.c
 +++ b/drivers/edac/ie31200_edac.c
-@@ -131,6 +131,8 @@
- #define IE31200_PAGES(n)		(n << (28 - PAGE_SHIFT))
+@@ -145,6 +145,8 @@
+ 	(n << (28 + (2 * skl) - PAGE_SHIFT))
  
  static int nr_channels;
 +static struct pci_dev *mci_pdev;
@@ -96,7 +96,7 @@ index 18d77ace4813c..30f83fb6b145a 100644
  
  struct ie31200_priv {
  	void __iomem *window;
-@@ -456,12 +458,16 @@ static int ie31200_probe1(struct pci_dev *pdev, int dev_idx)
+@@ -512,12 +514,16 @@ static int ie31200_probe1(struct pci_dev *pdev, int dev_idx)
  static int ie31200_init_one(struct pci_dev *pdev,
  			    const struct pci_device_id *ent)
  {
@@ -115,7 +115,7 @@ index 18d77ace4813c..30f83fb6b145a 100644
  }
  
  static void ie31200_remove_one(struct pci_dev *pdev)
-@@ -470,6 +476,8 @@ static void ie31200_remove_one(struct pci_dev *pdev)
+@@ -526,6 +532,8 @@ static void ie31200_remove_one(struct pci_dev *pdev)
  	struct ie31200_priv *priv;
  
  	edac_dbg(0, "\n");
@@ -124,7 +124,7 @@ index 18d77ace4813c..30f83fb6b145a 100644
  	mci = edac_mc_del_mc(&pdev->dev);
  	if (!mci)
  		return;
-@@ -515,17 +523,53 @@ static struct pci_driver ie31200_driver = {
+@@ -574,17 +582,53 @@ static struct pci_driver ie31200_driver = {
  
  static int __init ie31200_init(void)
  {
