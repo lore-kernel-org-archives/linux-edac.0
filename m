@@ -1,100 +1,143 @@
-Return-Path: <SRS0=OK8f=B7=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=mYNA=CB=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6196EC433E3
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 17:28:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34FF3C433E1
+	for <linux-edac@archiver.kernel.org>; Sun, 23 Aug 2020 10:12:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BC612075E
-	for <linux-edac@archiver.kernel.org>; Fri, 21 Aug 2020 17:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598030938;
-	bh=HoRWHVr2nxkcyHpWx7uSIErrJ+zEm+ycisSWs6Uvf6c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=qltW6uKo3DK+6tuuRpEE0AW/Yq9pgbtaGwcx7heq1O0G+zwflCBxjDQY3OYPlqNHc
-	 1oBEqUPvnb0WB9PMEbZyE5aEGZhQj0xQ3N2Qqe23sZo4hcjcGBSYaqRLQAK7vhnCWr
-	 z3iHik7C+IV7PPgveFpd9FjfhGyztc0Dql5KHymU=
+	by mail.kernel.org (Postfix) with ESMTP id ED2122074D
+	for <linux-edac@archiver.kernel.org>; Sun, 23 Aug 2020 10:12:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728808AbgHUR24 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 21 Aug 2020 13:28:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46398 "EHLO mail.kernel.org"
+        id S1726444AbgHWKMN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 23 Aug 2020 06:12:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59214 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726862AbgHUQOi (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:14:38 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B71722B43;
-        Fri, 21 Aug 2020 16:14:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026472;
-        bh=HoRWHVr2nxkcyHpWx7uSIErrJ+zEm+ycisSWs6Uvf6c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JUqpTZKWQa0R90nJzo/xZhfmR/BYnbjmwGPYmRkiFpBADDwWxnd/yhyT89JvZdEXn
-         LN0O2WjWmZR6KEkqfjqOQ7TKDN8hqtgpqglKeQttt6esD5J/EeSZGqMgJAD/2ioOFp
-         81p0rzvt56vo4w2TfB7L9WN7xA3uajHt1k7P14uM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zhenzhong Duan <zhenzhong.duan@gmail.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 06/62] EDAC/mc: Call edac_inc_ue_error() before panic
-Date:   Fri, 21 Aug 2020 12:13:27 -0400
-Message-Id: <20200821161423.347071-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161423.347071-1-sashal@kernel.org>
-References: <20200821161423.347071-1-sashal@kernel.org>
+        id S1725905AbgHWKMM (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 23 Aug 2020 06:12:12 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 85514AE92;
+        Sun, 23 Aug 2020 10:12:39 +0000 (UTC)
+Date:   Sun, 23 Aug 2020 12:12:03 +0200
+From:   Borislav Petkov <bp@suse.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-edac <linux-edac@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] EDAC urgent for v5.9-rc2
+Message-ID: <20200823101203.GA27452@zn.tnic>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Zhenzhong Duan <zhenzhong.duan@gmail.com>
+Hi Linus,
 
-[ Upstream commit e9ff6636d3f97a764487999754c0bfee9d2c231e ]
+please pull a single fix which corrects a wrong error severity
+determination which got copied to a bunch of drivers too.
 
-By calling edac_inc_ue_error() before panic, we get a correct UE error
-count for core dump analysis.
+Thx.
 
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@gmail.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Link: https://lore.kernel.org/r/20200610065846.3626-2-zhenzhong.duan@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/edac/edac_mc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index 5813e931f2f00..01ff71f7b6456 100644
---- a/drivers/edac/edac_mc.c
-+++ b/drivers/edac/edac_mc.c
-@@ -950,6 +950,8 @@ static void edac_ue_error(struct edac_raw_error_desc *e)
- 			e->other_detail);
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v5.9_rc2
+
+for you to fetch changes up to 45bc6098a3e279d8e391d22428396687562797e2:
+
+  EDAC/{i7core,sb,pnd2,skx}: Fix error event severity (2020-08-18 15:40:30 +0200)
+
+----------------------------------------------------------------
+A single fix correcting a reversed error severity determination check
+which lead to a recoverable error getting marked as fatal, by Tony
+Luck.
+
+----------------------------------------------------------------
+Tony Luck (1):
+      EDAC/{i7core,sb,pnd2,skx}: Fix error event severity
+
+ drivers/edac/i7core_edac.c | 4 ++--
+ drivers/edac/pnd2_edac.c   | 2 +-
+ drivers/edac/sb_edac.c     | 4 ++--
+ drivers/edac/skx_common.c  | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/edac/i7core_edac.c b/drivers/edac/i7core_edac.c
+index 5860ca41185c..2acd9f9284a2 100644
+--- a/drivers/edac/i7core_edac.c
++++ b/drivers/edac/i7core_edac.c
+@@ -1710,9 +1710,9 @@ static void i7core_mce_output_error(struct mem_ctl_info *mci,
+ 	if (uncorrected_error) {
+ 		core_err_cnt = 1;
+ 		if (ripv)
+-			tp_event = HW_EVENT_ERR_FATAL;
+-		else
+ 			tp_event = HW_EVENT_ERR_UNCORRECTED;
++		else
++			tp_event = HW_EVENT_ERR_FATAL;
+ 	} else {
+ 		tp_event = HW_EVENT_ERR_CORRECTED;
  	}
+diff --git a/drivers/edac/pnd2_edac.c b/drivers/edac/pnd2_edac.c
+index fd363746f5b0..b8fc4b84fd86 100644
+--- a/drivers/edac/pnd2_edac.c
++++ b/drivers/edac/pnd2_edac.c
+@@ -1155,7 +1155,7 @@ static void pnd2_mce_output_error(struct mem_ctl_info *mci, const struct mce *m,
+ 	u32 optypenum = GET_BITFIELD(m->status, 4, 6);
+ 	int rc;
  
-+	edac_inc_ue_error(e);
-+
- 	if (edac_mc_get_panic_on_ue()) {
- 		panic("UE %s%son %s (%s page:0x%lx offset:0x%lx grain:%ld%s%s)\n",
- 			e->msg,
-@@ -959,8 +961,6 @@ static void edac_ue_error(struct edac_raw_error_desc *e)
- 			*e->other_detail ? " - " : "",
- 			e->other_detail);
- 	}
--
--	edac_inc_ue_error(e);
- }
+-	tp_event = uc_err ? (ripv ? HW_EVENT_ERR_FATAL : HW_EVENT_ERR_UNCORRECTED) :
++	tp_event = uc_err ? (ripv ? HW_EVENT_ERR_UNCORRECTED : HW_EVENT_ERR_FATAL) :
+ 						 HW_EVENT_ERR_CORRECTED;
  
- static void edac_inc_csrow(struct edac_raw_error_desc *e, int row, int chan)
+ 	/*
+diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+index d414698ca324..c5ab634cb6a4 100644
+--- a/drivers/edac/sb_edac.c
++++ b/drivers/edac/sb_edac.c
+@@ -2982,9 +2982,9 @@ static void sbridge_mce_output_error(struct mem_ctl_info *mci,
+ 	if (uncorrected_error) {
+ 		core_err_cnt = 1;
+ 		if (ripv) {
+-			tp_event = HW_EVENT_ERR_FATAL;
+-		} else {
+ 			tp_event = HW_EVENT_ERR_UNCORRECTED;
++		} else {
++			tp_event = HW_EVENT_ERR_FATAL;
+ 		}
+ 	} else {
+ 		tp_event = HW_EVENT_ERR_CORRECTED;
+diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
+index 6d8d6dc626bf..2b4ce8e5ac2f 100644
+--- a/drivers/edac/skx_common.c
++++ b/drivers/edac/skx_common.c
+@@ -493,9 +493,9 @@ static void skx_mce_output_error(struct mem_ctl_info *mci,
+ 	if (uncorrected_error) {
+ 		core_err_cnt = 1;
+ 		if (ripv) {
+-			tp_event = HW_EVENT_ERR_FATAL;
+-		} else {
+ 			tp_event = HW_EVENT_ERR_UNCORRECTED;
++		} else {
++			tp_event = HW_EVENT_ERR_FATAL;
+ 		}
+ 	} else {
+ 		tp_event = HW_EVENT_ERR_CORRECTED;
+
 -- 
-2.25.1
+Regards/Gruss,
+    Boris.
 
+SUSE Software Solutions Germany GmbH, GF: Felix Imendörffer, HRB 36809, AG Nürnberg
