@@ -2,63 +2,67 @@ Return-Path: <SRS0=0YUD=CC=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F53BC433DF
-	for <linux-edac@archiver.kernel.org>; Mon, 24 Aug 2020 13:03:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6A7C433E1
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Aug 2020 14:35:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77B892074D
-	for <linux-edac@archiver.kernel.org>; Mon, 24 Aug 2020 13:03:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CBDA205CB
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Aug 2020 14:35:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="XmZMWR3o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726739AbgHXND1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 24 Aug 2020 09:03:27 -0400
-Received: from foss.arm.com ([217.140.110.172]:33588 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727774AbgHXND0 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 24 Aug 2020 09:03:26 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C5921FB;
-        Mon, 24 Aug 2020 06:03:20 -0700 (PDT)
-Received: from [192.168.2.22] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E98B3F66B;
-        Mon, 24 Aug 2020 06:03:19 -0700 (PDT)
-Subject: Re: [PATCH] MAINTAINERS, edac: Calxeda Highbank, handover maintenance
- to Andre Przywara
-To:     Robert Richter <rric@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+        id S1725947AbgHXOfQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 24 Aug 2020 10:35:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725916AbgHXOfP (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 24 Aug 2020 10:35:15 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF2FC061573;
+        Mon, 24 Aug 2020 07:35:15 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f07f000b1b49965430c1c10.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:f000:b1b4:9965:430c:1c10])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8B2601EC01A8;
+        Mon, 24 Aug 2020 16:35:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1598279712;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=nH6JxYKkLy9Kr2gBQqL9SmNvqMEUYVecW8js1CIex3c=;
+        b=XmZMWR3oYsrKFToD1jenecjVxz8XYJT81N2Wh2h+aBHJ8K2rkYSg5ql5BZxjynuEovDUIe
+        jJI0uVDIXtw7qWdBvQJ8745fCDF8TeICr6GyPkc8Yf9nPKz5vA7t7A5ojIchS3C8fmcG5T
+        C54weZYwKS+cxu3L0vT+bmVSpFsyRjQ=
+Date:   Mon, 24 Aug 2020 16:35:14 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Robert Richter <rric@kernel.org>
+Cc:     Andre Przywara <andre.przywara@arm.com>,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS, edac: Calxeda Highbank, handover
+ maintenance to Andre Przywara
+Message-ID: <20200824143514.GC4732@zn.tnic>
 References: <20200824124931.2933-1-rric@kernel.org>
-From:   =?UTF-8?Q?Andr=c3=a9_Przywara?= <andre.przywara@arm.com>
-Organization: ARM Ltd.
-Message-ID: <06bfa7db-5810-a184-a26c-add3fff9badf@arm.com>
-Date:   Mon, 24 Aug 2020 14:02:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200824124931.2933-1-rric@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200824124931.2933-1-rric@kernel.org>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 24/08/2020 13:49, Robert Richter wrote:
+On Mon, Aug 24, 2020 at 02:49:31PM +0200, Robert Richter wrote:
 > I do not have hardware anymore, nor there is ongoing development. So
 > handover maintenance to Andre who already maintains the last
 > remainings of Calxeda.
 > 
 > Cc: Andre Przywara <andre.przywara@arm.com>
 > Signed-off-by: Robert Richter <rric@kernel.org>
-
-Acked-by: Andre Przywara <andre.przywara@arm.com>
-
-Thanks!
-Andre
-
 > ---
 >  MAINTAINERS | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -76,5 +80,12 @@ Andre
 >  L:	linux-edac@vger.kernel.org
 >  S:	Maintained
 >  F:	drivers/edac/highbank*
-> 
+> -- 
 
+Applied, thanks.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
