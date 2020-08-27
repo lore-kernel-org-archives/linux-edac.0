@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 947F0C433DF
-	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 07:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20134C433DF
+	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 07:08:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71E9222CAF
-	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 07:07:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F083B20786
+	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 07:07:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598512072;
-	bh=N/nhk9ZU4iq0+cgOvmAy8U6IL85LhG10MTNPMpmXw0M=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=teL1MJAnVx8JiwKAsia1Moh5Ysdb4mxeO/iUdlGJFznBXyMChMKerJf/q9OBdI6cm
-	 XOoDkV1chafZzoEMLNyNPc9SePaVkDy0q54rn+JG6B6gMtbTgBeNP6QzAEu3ZjtkC1
-	 LZig2i8L6ZM9dglbGPJ4WOrHXGXhDmacYBeDoUKk=
+	s=default; t=1598512080;
+	bh=Fn0rZm+UtPquTJVp8C3STQQnW6xRFaI+UQd529qNQHA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=pYHBIVpz82ywoSUzMSzTY4ifXBHjYyFRXPgtS9ksUxva8G6uRw8H0bQD/XFGqyUuE
+	 8TgeX7nUdcGoWvbKOJkWV5+Sg3ojLpIlHZqsVqkicEUb8cXp+YXkGu5SWz05ub2dQh
+	 hvY5gp+c8A4B84FM9xr7aSGIrVY85zWSQOQFL4iQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgH0HHv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 27 Aug 2020 03:07:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43386 "EHLO mail.kernel.org"
+        id S1728009AbgH0HH7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 27 Aug 2020 03:07:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43468 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726123AbgH0HHv (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 27 Aug 2020 03:07:51 -0400
+        id S1726123AbgH0HHz (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 27 Aug 2020 03:07:55 -0400
 Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D2F9F20786;
-        Thu, 27 Aug 2020 07:07:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BC1F522BF3;
+        Thu, 27 Aug 2020 07:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598512071;
-        bh=N/nhk9ZU4iq0+cgOvmAy8U6IL85LhG10MTNPMpmXw0M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UtVeiKwEjA811MRUai0bNAO/xw87FSHGWyrpQrDg32A/0z24mHKXEQ3gH2p6R+6P6
-         9s1CpkfYQxiILIMcpsPAk0Hs01ZBhyQbzMoXlFUqxk3wcocXXiVWJA3at0kDS2OLra
-         5hotaSRyL5GfHdrORiUMVhV2Z0AhqKmi0o8U9glg=
+        s=default; t=1598512075;
+        bh=Fn0rZm+UtPquTJVp8C3STQQnW6xRFaI+UQd529qNQHA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ky0xDoZnV/jmiNfyFyChdT7vic/gauQEEwtiEYul7mLAQudlJfM+0jIbLXxpvd2Az
+         oSApf3UxVOg6tJTW7MhA9TXFAtc2qlTSpXslGs40e3yr9biRBrAQLBa+v4NTfueJMR
+         nWIjPh73I4zUJ30pIHgJZ21nvNoz3Hq1k/UYT/jI=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Stefan Schaeckeler <sschaeck@cisco.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -51,10 +51,12 @@ To:     Stefan Schaeckeler <sschaeck@cisco.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 1/2] EDAC/aspeed: Fix handling of platform_get_irq() error
-Date:   Thu, 27 Aug 2020 09:07:42 +0200
-Message-Id: <20200827070743.26628-1-krzk@kernel.org>
+Subject: [PATCH 2/2] EDAC/ti: Fix handling of platform_get_irq() error
+Date:   Thu, 27 Aug 2020 09:07:43 +0200
+Message-Id: <20200827070743.26628-2-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200827070743.26628-1-krzk@kernel.org>
+References: <20200827070743.26628-1-krzk@kernel.org>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
@@ -63,27 +65,26 @@ X-Mailing-List: linux-edac@vger.kernel.org
 platform_get_irq() returns -ERRNO on error.  In such case comparison
 to 0 would pass the check.
 
-Fixes: 9b7e6242ee4e ("EDAC, aspeed: Add an Aspeed AST2500 EDAC driver")
+Fixes: 86a18ee21e5e ("EDAC, ti: Add support for TI keystone and DRA7xx EDAC")
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/edac/aspeed_edac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/edac/ti_edac.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
-index b194658b8b5c..fbec28dc661d 100644
---- a/drivers/edac/aspeed_edac.c
-+++ b/drivers/edac/aspeed_edac.c
-@@ -209,8 +209,8 @@ static int config_irq(void *ctx, struct platform_device *pdev)
- 	/* register interrupt handler */
- 	irq = platform_get_irq(pdev, 0);
- 	dev_dbg(&pdev->dev, "got irq %d\n", irq);
--	if (!irq)
--		return -ENODEV;
-+	if (irq < 0)
-+		return irq;
+diff --git a/drivers/edac/ti_edac.c b/drivers/edac/ti_edac.c
+index 6e52796a0b41..e7eae20f83d1 100644
+--- a/drivers/edac/ti_edac.c
++++ b/drivers/edac/ti_edac.c
+@@ -278,7 +278,8 @@ static int ti_edac_probe(struct platform_device *pdev)
  
- 	rc = devm_request_irq(&pdev->dev, irq, mcr_isr, IRQF_TRIGGER_HIGH,
- 			      DRV_NAME, ctx);
+ 	/* add EMIF ECC error handler */
+ 	error_irq = platform_get_irq(pdev, 0);
+-	if (!error_irq) {
++	if (error_irq < 0) {
++		ret = error_irq;
+ 		edac_printk(KERN_ERR, EDAC_MOD_NAME,
+ 			    "EMIF irq number not defined.\n");
+ 		goto err;
 -- 
 2.17.1
 
