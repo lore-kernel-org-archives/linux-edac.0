@@ -2,80 +2,120 @@ Return-Path: <SRS0=iHdv=CF=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3CF9C433E1
-	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 16:19:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE00CC433E6
+	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 23:51:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C137622B4D
-	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 16:19:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87F8320872
+	for <linux-edac@archiver.kernel.org>; Thu, 27 Aug 2020 23:51:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="GhtCzp23"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="VMBJqAq3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726307AbgH0QTw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 27 Aug 2020 12:19:52 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:43576 "EHLO mail.skyhub.de"
+        id S1726826AbgH0Xvp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 27 Aug 2020 19:51:45 -0400
+Received: from mout.gmx.net ([212.227.15.19]:55723 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726217AbgH0QTw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 27 Aug 2020 12:19:52 -0400
-Received: from zn.tnic (p200300ec2f104500059e4b9a4804679d.dip0.t-ipconnect.de [IPv6:2003:ec:2f10:4500:59e:4b9a:4804:679d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0D9791EC0423;
-        Thu, 27 Aug 2020 18:19:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1598545191;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=8QkVnkRzvDRQrZeUzmaDHT7ZWuqLDu370tFsz3uoBFk=;
-        b=GhtCzp23m/8JrKlNe2AI+L5CSVBCovcFE+rSdbNl4qQvwW8E7FnRgZ0Erw+L1DLPjYArHB
-        DwOaq0bqDxeRxZkmOs+1DhnUBCRyhzk1Bk9iwxBUHcD/oirjDG0Jh3JV/sSDxBkWIORIpT
-        KVeILwGC2j5EK9F3KkFa0ROUSPuQ+Ss=
-Date:   Thu, 27 Aug 2020 18:19:52 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Shiju Jose <shiju.jose@huawei.com>
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
-        rrichter@marvell.com, linuxarm@huawei.com,
-        Borislav Petkov <bp@suse.de>
-Subject: Re: [PATCH v2 1/1] EDAC/ghes: Fix for NULL pointer dereference in
- ghes_edac_register()
-Message-ID: <20200827161952.GD30897@zn.tnic>
-References: <20200827140450.1620-1-shiju.jose@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200827140450.1620-1-shiju.jose@huawei.com>
+        id S1726147AbgH0Xvo (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 27 Aug 2020 19:51:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1598572269;
+        bh=1hiWDO5qubwA61FDSyJLXx84okVXi/UAVFmPbOBlmOg=;
+        h=X-UI-Sender-Class:From:To:cc:In-reply-to:Subject:Reply-to:
+         References:Date;
+        b=VMBJqAq3VviAAC0yx1CH/97N8NsothXRmDv7liTEpb1AIbffSKToNhPGIzrYBD+Yq
+         b/LsfQpg3Zw0srQA5/ltxe7AQuexzAOm/ZTmIdA0MXuXi40AZFEgQl+79VQyAKAXW1
+         9vQ9MWDRmhKQRqihF/Pz1Ox3TTjrbrM1L9TxdBtU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from corona.crabdance.com ([173.228.106.43]) by mail.gmx.com
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MIMfW-1kPn8i3Lb2-00EPgL; Fri, 28 Aug 2020 01:51:09 +0200
+Received: by corona.crabdance.com (Postfix, from userid 1000)
+        id BC4D489976B; Thu, 27 Aug 2020 16:49:36 -0700 (PDT)
+From:   Stefan Schaeckeler <schaecsn@gmx.net>
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Tero Kristo <t-kristo@ti.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+cc:     Stefan Schaeckeler <sschaeck@cisco.com>
+In-reply-to: <20200827070743.26628-1-krzk@kernel.org>
+Subject: Re: [PATCH 1/2] EDAC/aspeed: Fix handling of platform_get_irq() error
+Content-Type: text/plain
+Reply-to: schaecsn@gmx.net
+References: <20200827070743.26628-1-krzk@kernel.org> <0D9EC2D2-C4A0-42E9-94A5-DCFBE7BFEC43@cisco.com>
+Message-Id: <20200827234936.BC4D489976B@corona.crabdance.com>
+Date:   Thu, 27 Aug 2020 16:49:36 -0700 (PDT)
+X-Provags-ID: V03:K1:azkzLvPntcmTm1iQW+tTZY0j0Bw8xT/ONekQtE1unQJo5A5nksM
+ 0GJNUHDntBKfW9JMgtHXOgakjgRZ9d8RwKK3LuJjW2SrBGuCcwnSAijTG0S5i8xcdnLb5zj
+ 7F5iRtWFoR1v5GeCwmcM5Xh0GLc1mrCjBLQ6OeRXvWaOIQY+5FyMcDI9fcDSpCObJWsjAO7
+ obEjJZR8JDf3it+0pJQ6A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9/OvK2bbtTU=:A09178/DvDkjQ5H05FibnD
+ w89W/+z13Q99JCy4Ml5fyIGmz6t/4vxovxGjIOiqURouD4X904XZFzBuuVF0CV4OWQ4uJSgfr
+ Js+n1fj7mVcuLue4jQSAMLb6N69qQZqxdmSWkx/hV8o0iQxXUio5Z6cegwcjFeWinE2OY+6rI
+ B+qUlw05W8TMComuqhTCxqZEJL8HrSD8vfpUVJHnCabVutzE3jFdU200pqISU4L2ORyccOabu
+ RxZfbAjBCvcDDVTy/g2JslmNk3gtB53yvd3hDMWAk1iSJ3KG9trmBl1jFyii4mbWTf5F+TDty
+ njlUn/VNgvwj7ppm3F4Vw/t4jdJ1/E9eXdONXlU5fNs7nzqEvrn1GFO5Rkuqi0+mHVGoYXtct
+ aI8iyVe8Dn1Qmou+mrFOAkM0XDF6ABgBaeCFjLEXD2N6yMSpa7ePXniaBqeWy5AUccEI7JKcH
+ GZY3opRgRTY3jO9+0sNnYuqa+9tuHOtvIQ53lYlnyMK0jw7zEiofOlb9+pVPXpsYBTiLfrGEy
+ NTNe/lHISwWf4OfgUGjtAuEEsiiSnePK0KmvQUcR8i9+oExuPhV15FkWBwi5zeZa2sBEZNvjt
+ 63bh/4ZG+Z12iwYMVso2kTjZnVjQdPOoHS6d1LXJIaTKsQoWIyuxBXvrpJn2tNOWHblzMAMDZ
+ 08l5eSRnp/R8CNslezuov1V0FZunXPchhwm2uKcXckI06JhR35UBh1WLm5UMk3qnoSnpqFYTo
+ Ji7GiaKfqWi9XwR0P/LaamAKarTwmMfh77FPCWOJNXqF/rJ08Ajv+JXjSh+P4oGEfk40omAhN
+ 27ql56g92KkrNLP931ubVKTBycYcqTt/5HB03FzHmhe0LYAhwt502BC1okkh43P1Kl+O28iov
+ IM9TOr/vghrLit69KdYymJ3AwhDFSmjhnPKgQpOZygZV0bgqX/pOUzqhs+Rf/MpSFxdO2fbFs
+ qLaMGJpuMHFAmdiPP6w+vfsCgWLMpoK+IVP9GoGmMrUjm0xhNFsNcSKkbQY8KUsG/vn6DaZWd
+ VDRf/aemmpa//UZDsz2DsA9CCoC/cPGlmpDRXzWPsp6IfxbHtaTjBr/V3BPn22WTTib//KFSU
+ qY2ob2LBo17tNL/KV92Ik3P+ij8EI1d0SsgLk0nedifs6pzgvkxAWE9eoQrcYvD7mSSQGnqyx
+ v7M2CaPngEQM4YgJ2FDmxC5NsUYyG9G4HO8lai/fgAY0VBbhbrz3eb4xvFg/e12PoLKI+mlxv
+ 4GADs/DrbXDGv+UgFJYASi5eaarLEJNIGhbplkA==
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 03:04:50PM +0100, Shiju Jose wrote:
-> After the 'commit b9cae27728d1 ("EDAC/ghes: Scan the system once on driver init")'
-> applied, following error has occurred in the ghes_edac_register() when
-> CONFIG_DEBUG_TEST_DRIVER_REMOVE is enabled. The null ghes_hw.dimms pointer
-> in the mci_for_each_dimm() of ghes_edac_register() caused the error.
-> 
-> The error occurs when all the previously initialized ghes instances are
-> removed and then probe a new ghes instance. In this case, the ghes_refcount
-> would be 0, ghes_hw.dimms and mci already freed. The ghes_hw.dimms would
-> be null because ghes_scan_system() would not call enumerate_dimms() again.
-> 
-> Suggested-by: Borislav Petkov <bp@suse.de>
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-> ---
->  drivers/edac/ghes_edac.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  platform_get_irq() returns -ERRNO on error.  In such case comparison
+>  to 0 would pass the check.
+>
+>  Fixes: 9b7e6242ee4e ("EDAC, aspeed: Add an Aspeed AST2500 EDAC driver")
+>  Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Thanks, queued in edac-urgent.
+Reviewed-by: Stefan Schaeckeler <schaecsn@gmx.net>
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+>  ---
+>  drivers/edac/aspeed_edac.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>  diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+>  index b194658b8b5c..fbec28dc661d 100644
+>  --- a/drivers/edac/aspeed_edac.c
+>  +++ b/drivers/edac/aspeed_edac.c
+>  @@ -209,8 +209,8 @@ static int config_irq(void *ctx, struct platform_de=
+vice *pdev)
+>   	/* register interrupt handler */
+>   	irq =3D platform_get_irq(pdev, 0);
+>   	dev_dbg(&pdev->dev, "got irq %d\n", irq);
+>  -	if (!irq)
+>  -		return -ENODEV;
+>  +	if (irq < 0)
+>  +		return irq;
+>
+>   	rc =3D devm_request_irq(&pdev->dev, irq, mcr_isr, IRQF_TRIGGER_HIGH,
+>   			      DRV_NAME, ctx);
+>  --
+>  2.17.1
+>
+>
