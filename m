@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E3CC433E7
-	for <linux-edac@archiver.kernel.org>; Tue,  1 Sep 2020 16:57:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED3CC433E6
+	for <linux-edac@archiver.kernel.org>; Tue,  1 Sep 2020 17:19:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD59720767
-	for <linux-edac@archiver.kernel.org>; Tue,  1 Sep 2020 16:57:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CEDC2078B
+	for <linux-edac@archiver.kernel.org>; Tue,  1 Sep 2020 17:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598979463;
-	bh=hD71UkAdHU63JljvrXCV2YJMQ2C4XHTG6Mc8ssXoYsI=;
+	s=default; t=1598980744;
+	bh=Y38FgM6FIMzwLyhy++yolAWrK7vhSWYLo5N1TXIn1mk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=iwKx0+vdtj0OMGf5OhOR+3ZUgl2foov3HaI9UwJW4UoOQWvs5dsCOPQGGgMPg985M
-	 2NIT0bP2jpEgOHZMhjn6guT32LaHu5lsKLKhLSmnEgQDJKDxbG7RMnBD3OVpUttz1y
-	 tmWsYsROKd+toauS9r/8fJeDb4woeg0irQmzePb4=
+	b=Tskb1aMdcshcp9JFNix/EZ53Q3MhqnsA5/KFUJHCxRtKutNgFTv+fbpmo6aqxOPAY
+	 6xykegJj5Bm8rlxfrV4Fp1fjrGh2JuegyVkrOu+5kGc6MEHr2lk3cDMXyEglsh5pnL
+	 IidcEYN1i6TyjYWV4PFoMH4swhCH79byHmXYvxUM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729795AbgIAQ5j (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 1 Sep 2020 12:57:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45752 "EHLO mail.kernel.org"
+        id S1728969AbgIAPNu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 1 Sep 2020 11:13:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57144 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729767AbgIAPXF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 1 Sep 2020 11:23:05 -0400
+        id S1728964AbgIAPNr (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 1 Sep 2020 11:13:47 -0400
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64E8A2078B;
-        Tue,  1 Sep 2020 15:23:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 682E9206EB;
+        Tue,  1 Sep 2020 15:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598973784;
-        bh=hD71UkAdHU63JljvrXCV2YJMQ2C4XHTG6Mc8ssXoYsI=;
+        s=default; t=1598973226;
+        bh=Y38FgM6FIMzwLyhy++yolAWrK7vhSWYLo5N1TXIn1mk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0HJyfQDJjJSfftBcZeZpLPa3/PdRdzmXLjBQ0JpNoCBDCvEdac8VSDBVNklenPTiu
-         rSFEiHXYfrUAGr+C12Ozs91bRcYMY73P/WYAss1v3ThL7Fin+9/SDxq7qVl0Ap0FcP
-         9Aa4ZGcSFmm5ZimOLgfxE5DDdTfOruNWHwCq2TPg=
+        b=1XmZT8Hs84+ORIukfI7uGLenC6d/Ko0e7WzIoFXqHNaDqtF8keTxu5u9oXYe/jU2C
+         8qm99dqZJiSdA/2Xk+7CHLynBeg2NDA5pS75sqSGEnJ7n9vGjhmSOeDsP/C3EMgwHB
+         ieifLcWEdvA9wXzj3wRwZlJKFs+kSuZGMqSauV8M=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -47,12 +47,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-edac <linux-edac@vger.kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 046/125] EDAC/ie31200: Fallback if host bridge device is already initialized
-Date:   Tue,  1 Sep 2020 17:10:01 +0200
-Message-Id: <20200901150936.823067999@linuxfoundation.org>
+Subject: [PATCH 4.4 28/62] EDAC/ie31200: Fallback if host bridge device is already initialized
+Date:   Tue,  1 Sep 2020 17:10:11 +0200
+Message-Id: <20200901150922.134155406@linuxfoundation.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200901150934.576210879@linuxfoundation.org>
-References: <20200901150934.576210879@linuxfoundation.org>
+In-Reply-To: <20200901150920.697676718@linuxfoundation.org>
+References: <20200901150920.697676718@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -86,11 +86,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 47 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-index aac9b9b360b80..9e4781a807cfa 100644
+index 18d77ace4813c..30f83fb6b145a 100644
 --- a/drivers/edac/ie31200_edac.c
 +++ b/drivers/edac/ie31200_edac.c
-@@ -147,6 +147,8 @@
- 	(n << (28 + (2 * skl) - PAGE_SHIFT))
+@@ -131,6 +131,8 @@
+ #define IE31200_PAGES(n)		(n << (28 - PAGE_SHIFT))
  
  static int nr_channels;
 +static struct pci_dev *mci_pdev;
@@ -98,7 +98,7 @@ index aac9b9b360b80..9e4781a807cfa 100644
  
  struct ie31200_priv {
  	void __iomem *window;
-@@ -518,12 +520,16 @@ fail_free:
+@@ -456,12 +458,16 @@ fail_free:
  static int ie31200_init_one(struct pci_dev *pdev,
  			    const struct pci_device_id *ent)
  {
@@ -117,7 +117,7 @@ index aac9b9b360b80..9e4781a807cfa 100644
  }
  
  static void ie31200_remove_one(struct pci_dev *pdev)
-@@ -532,6 +538,8 @@ static void ie31200_remove_one(struct pci_dev *pdev)
+@@ -470,6 +476,8 @@ static void ie31200_remove_one(struct pci_dev *pdev)
  	struct ie31200_priv *priv;
  
  	edac_dbg(0, "\n");
@@ -126,7 +126,7 @@ index aac9b9b360b80..9e4781a807cfa 100644
  	mci = edac_mc_del_mc(&pdev->dev);
  	if (!mci)
  		return;
-@@ -583,17 +591,53 @@ static struct pci_driver ie31200_driver = {
+@@ -515,17 +523,53 @@ static struct pci_driver ie31200_driver = {
  
  static int __init ie31200_init(void)
  {
