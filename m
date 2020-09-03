@@ -2,61 +2,63 @@ Return-Path: <SRS0=jENM=CM=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,RCVD_ILLEGAL_IP,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,RCVD_ILLEGAL_IP,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63333C433E9
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59791C2D0A5
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:02:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F37B208FE
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:01:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 283A620897
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:02:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="Lgb8SnvQ"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="jJY3Prjp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728491AbgICUBx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Sep 2020 16:01:53 -0400
-Received: from mail-mw2nam10on2074.outbound.protection.outlook.com ([40.107.94.74]:19073
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        id S1729186AbgICUCJ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Sep 2020 16:02:09 -0400
+Received: from mail-dm6nam12on2076.outbound.protection.outlook.com ([40.107.243.76]:37025
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727065AbgICUBw (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Sep 2020 16:01:52 -0400
+        id S1729020AbgICUCB (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Sep 2020 16:02:01 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jrx1B3jtCW3h8p9tu5YciBnyiAUodmhNdjxEURPYGBzOTxNbVeXFWEeCCGvVzKrxB170jlU0lQC38175gJxRqu9x2SGUPFWlc0D3HKLzZrcJ/ZQZrDxbo0wRsKvFxx9A4uy7BUqKkKQNGboCyAVXw0nEZskkyY7AcnSY6RuWZyjOEOF0ra3i+Ca3p8hgZ5w9E6ERmuzY132kRyN0fN0RPVWruTbZc/qLzO0UT5EgkHc5ZkwxxRF4NOzjgx5FcVGr0N8vIRWcUqOuKJpD3hye0tbhzD//sPib0qR9DSw7KGNoFSA5K9xFemxXyDoBxdIy1qmyP8Zlm5fFCijy9HQ6IQ==
+ b=cahbnZeXmpTTuu7DpEvoKnG9iyy6DK6exotYZljISQy6S/1qxewYD04l1QF8Gmg8QaYIxw50AmhxzRt+WSMwcBopuCvoZUHBObOgKS8O/nktqrPwN411Ob+oEc+knihfVDPNFjANlh+NPGy7BZUXklBdqfO0K5A1bczcMXOjoOtlYXNk9bLE0Sg2WoM0cFe/5dhEcFtcixFijhPJpZtOm+24Q4XDwvdpV+IfCj0vsCnpktYhFCEr7A+VTLr5FTUVNKcZlKnwsuo9yjArCrKNvjjCYNGu7NjhEUBpdVeanm1X9w7Cf808KxlrLYUFQ7DXqMetqnve0A/lkATvALR4Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QnynRoID/msCdsPMXzTyG2yVR0DacIUAXoBghpM6low=;
- b=WllarV0+lGOA23QA4hc/+N0iUhcvegXALtqRRAGyi/q06s55pVARXeZNhY69JmH9+0+UjsUIzE92sBUdY3btqq+1ahc/e1TxbElFXUPKPtpaHCC3NbpM134FEZI0FtmvLyv2yqd/sgXFZFVneV25yPstXc/5T5hRmWeeREY2wgcxN1u1N1c9m6l7mBGGU5vL8Kr8aYlH/OMr1XyFlWGw87j/+AuiVRONfScfD2+KeHZXRbCq6D6kszvQaOWgNjvt2i/aQB31yLNPkr8/6CsFG7HuErSjTnSWslnTB7qjwMy+KOrMbVsxxkj5BosJX8oKSWBjkZuV7OEL38c0jMdrjA==
+ bh=OLrKtFSUF1hi1Oba5C8ae3HZj9IXOshDWFurApbB94M=;
+ b=htiMrjMT288tpK1l26v89ZApl/T7zJQA36sgsAaBfsQplFmU1GTfAR/8r2Y0OC3vbZp89Jz+e7ttsYfaqNC1UgeuamhcjhpBR2whykDrj3wzIknRkk0MLhFpqnbVQQAe0Sa/zeruP+b6cxkf2ylHEEXiXnN5LdaRkopT2erkgvOGy3QEoIVz5bC4m1fMFwfwzJPTbl9kPUKPLkJzmPmweeFOH4nqGwOWasMYMlcthEYvahy8MwszfXYV/ugniX6gFEgjr2VRNztmdqDXWcqM3T7EF6DF7ASCyZ9H/42j0lWl77a95Ai/UJBcOPEHIAtuhCnHzQbzsqzUr5WZDFU1Ew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QnynRoID/msCdsPMXzTyG2yVR0DacIUAXoBghpM6low=;
- b=Lgb8SnvQgUMWT0n29lwJXKs7rzv5SXbl9EHUgFOfkU3iAB7HHbcCmvLYpx/k0utaiG7/SEU2Tz6qGOGMgivqYoCuGCxkkaryDbnF+nzII+u8qiZ+K1RgI+bJxU/E7g3kXWWDozpWGdYP7nZAoK34Wxc0L2HTyBSrCjBdP3B4g7M=
+ bh=OLrKtFSUF1hi1Oba5C8ae3HZj9IXOshDWFurApbB94M=;
+ b=jJY3PrjpuJOn66G9zmMEWtXtkUQ5O+5XjddI0JNewM26GZdU5S08dJphUQkgtG1vtzIXru9sOKzQrtXQhkOUeP3v8vob0OF9Kh9ID0D81y3LzAtaMALaf0KObl+iSpr/DSziyH09n5JuYPl5CCPniAl/kxmwV5kILg0cLMsJmgw=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by BN8PR12MB2980.namprd12.prod.outlook.com (2603:10b6:408:62::18) with
+ by BN8PR12MB3171.namprd12.prod.outlook.com (2603:10b6:408:99::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.25; Thu, 3 Sep
- 2020 20:01:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Thu, 3 Sep
+ 2020 20:01:50 +0000
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::b038:2a58:64e0:2a3e]) by BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::b038:2a58:64e0:2a3e%4]) with mapi id 15.20.3348.015; Thu, 3 Sep 2020
- 20:01:48 +0000
+ 20:01:50 +0000
 From:   Yazen Ghannam <Yazen.Ghannam@amd.com>
 To:     linux-edac@vger.kernel.org
 Cc:     Yazen Ghannam <Yazen.Ghannam@amd.com>,
         linux-kernel@vger.kernel.org, tony.luck@intel.com, x86@kernel.org,
         Smita.KoralahalliChannabasappa@amd.com
-Subject: [PATCH v2 0/8] AMD MCA Address Translation Updates
-Date:   Thu,  3 Sep 2020 20:01:36 +0000
-Message-Id: <20200903200144.310991-1-Yazen.Ghannam@amd.com>
+Subject: [PATCH v2 3/8] EDAC/mce_amd: Use struct cpuinfo_x86.node_id for NodeId
+Date:   Thu,  3 Sep 2020 20:01:39 +0000
+Message-Id: <20200903200144.310991-4-Yazen.Ghannam@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200903200144.310991-1-Yazen.Ghannam@amd.com>
+References: <20200903200144.310991-1-Yazen.Ghannam@amd.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SN4PR0501CA0075.namprd05.prod.outlook.com
@@ -64,32 +66,32 @@ X-ClientProxiedBy: SN4PR0501CA0075.namprd05.prod.outlook.com
  (2603:10b6:408:40::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by SN4PR0501CA0075.namprd05.prod.outlook.com (2603:10b6:803:22::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.7 via Frontend Transport; Thu, 3 Sep 2020 20:01:47 +0000
+Received: from 255.255.255.255 (255.255.255.255) by SN4PR0501CA0075.namprd05.prod.outlook.com (2603:10b6:803:22::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.7 via Frontend Transport; Thu, 3 Sep 2020 20:01:50 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 53489b0c-6d45-4364-caab-08d8504430f4
-X-MS-TrafficTypeDiagnostic: BN8PR12MB2980:
+X-MS-Office365-Filtering-Correlation-Id: 022f3f15-1d7e-4ec7-b8b3-08d85044326a
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3171:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN8PR12MB29806066E880BA652B757D6FF82C0@BN8PR12MB2980.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <BN8PR12MB31711F4FB871B2BABB6092D3F82C0@BN8PR12MB3171.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WYNHw8kHySQWo+4lOa3orDJ91OkDjcN/PFGMOwzXvoGML8wkx7d1YB7qhaxy9wvF+ZuueRgozoD+VtyvNAS1WLULrN714fjLPK31zHPHC+mn4gA9silMF3t9pP0S8jiQPsxl9zb313KXM7speryHkvEZAn8qc0tfcSN4shzNyKXid2JghD7J3z30Xr3NbkJcyr5RsDEp5SM85HDBwH2Ftvh186mSIBWZ5Dl2NQvfqrojpje90Zgh0fP1k9J1y+IvXpf8Kym0+Ta7dWOAi8aSm3xo24LSGKqJ6G9kjHL0hygFkdD+iJfcWCXD3VFmQNMcc26mzVZtiK3uUVQ+QaEhVHoQTi8paGe3qF95OB5suQyPvvo6XNuxWW4mV2JyvBEkByVEG/N2U8Tvn0y3WVo5hw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(966005)(83380400001)(8936002)(316002)(1076003)(186003)(16576012)(52116002)(5660300002)(15650500001)(6666004)(66946007)(8676002)(6916009)(86362001)(6486002)(2906002)(2616005)(36756003)(66556008)(66476007)(4326008)(478600001)(26005)(956004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: KrL3TtUyvgM62p0l3tiD7VPySIqZPis0F2SDQ0u3nUxUOBeREAJy+FRPGnfuistj1u04K8mPHm+GxO9pzSsy9J3FNiBZQG/dRE09iDtZvvfHTqKkdrcVESu9d9Hf/xTHZMyIPbUU9beYwOHphqG0mCXUQpj/OPvvWovj4Mw0ApJhkFb1Vy3rLtQeoC3XyoU+M24PEzNnIGP9zUJH3k5WGk070r3KTg+dCJCQSCOtjUtH9Yqq8q2LJ9/V+qpZ3GVCv8XIgxdFYobtGV85YT0qBlLBCj+oZ6fUeb6/z7BQ1x9dg5OQwA/XbW/TywiJjT9eLk9EqtFfUs39WOgzrJv9X4W8KQAP/pTNWhNzoWGQkoBoyS8k31g2PsZTTpifnTrZuUurxHRmHwq9cuLwJe2N3qkFYQalnMS2L8OMichYC2B3dU+D3JJ/a8a3l2rIA9PYxivkkf4gkg5Cf8EgvpTGbf1Tkn9rOP4E12ORtAcWYcUZrsQQpgc/PErEGEY4NL1NUkXGi+AsNYSV7K3f3M81gJRdO3AMlBQMnBhWmU5izA8sZ07W/uoQGdM7fkoQ5dMz4xUsfe+ucNPPOVc2furKMprJgCj2EOuMd0Wa6VMu0QL5yTTn7VZGy4I9COzplxK1We3uHzvSgLlHE6OYdtKIgg==
+X-Microsoft-Antispam-Message-Info: 7K61OJmOsvsJ/0NTyo/7u0eynsSr4IeU4DP4/iCKyxsaEoqsMHf0b7/HGdlFTm8m8Eh6VmnUektVTr8nyVm/+EO7ffQS7yVDZzBx9RQFnLsaiWGtFirH4FnPk9di4nce0kbP/gp9mOTLcAkcqIIGPMv0kLa0ByhULCfOOzvRK8kj+3J8QIniN5ruCkDHv598AhIZ7TQHHbBX3CQ5J5rH7erXbXmUhMTSzH92CqxMWLqXlO2CLlHy+GMvXodJw+v6+nYGNjR23b70l6nQlo+bqUM7gtPA3aDBELezVpRdvCl4fn9QgkzLQMhHzmZ544PpbXGAcna82OLQtuoEvbw9w2Z92BVYP3QIxwO/sxr6QFrMGtlJmv48PsNq5Wsh5HFHa44OYfbHi2faKXFStMIogg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(136003)(366004)(396003)(346002)(376002)(8936002)(36756003)(6666004)(478600001)(186003)(316002)(6486002)(966005)(26005)(8676002)(52116002)(16576012)(5660300002)(66476007)(86362001)(4326008)(6916009)(66556008)(2616005)(956004)(66946007)(2906002)(1076003)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 4ByozMbEfD0VhSND5g0pauegjp679qHLp83toec2DVQfB/M8iPd9IJxPrQdsT4/LNIgf8XY8mvr3hWzojXAUpvoMSR2kv65rBQfGNlzyYoUovYhn6tYuCChPXOC0pdetjHlLvRSbRRhrf2HfDu8q0b4sND4J5P+/lv65xd8EENF+gxMnSmtZpdqISAWGvOcDj8a10q9dG2/45c8AEgx9tBFIlMwMmYGmi0Idj3RrVx9aLs86XyWopihjSha71biceRlV1VKh2FCUG2EKyifXhAqAHs0u1va3EDlkpIg3yNBHfhv16Oj1hP/2zhgVO/yvRktZxHvZu+YnMWjCKoeuqNF6xZcY2S3EzeEe704ftgB5cFPBPBv4oFL4+gh1FKy4KI4qOvQvGRGEESvbfZ8QDo9rJKp+tkYe4iBDEcOH6Eke0P7j6LDIE8eKVUHyw8R8JbP97KrpnsWzLOS1n2zZqjAUVJX3rklH9lCdGiWCfoWZI96rnTwCSZobx+iXA8ZrJycRMMlQRtOZqbjqMmDYr9iC7dcxpBD9DeA6C3wS93QcrzBinkEz+CwMCII0hGAFujQCT2hhNuvpP19VdcqUdMXwarQ510BklaRZl3Cg5YzGSS+o4+Hl/VFD6JO1mLi8oSVaBtBIIp/EuCJRxbwOgQ==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53489b0c-6d45-4364-caab-08d8504430f4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 022f3f15-1d7e-4ec7-b8b3-08d85044326a
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 20:01:48.3521
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 20:01:50.8407
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DyIA2w7czyWqIhcHY6STVnDYgmOcB+DLBP2NYJED3HKgZw9ukQwbyzKlmdItHuh/zQQ4xtwHoxIAEDi6qD6xNg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2980
+X-MS-Exchange-CrossTenant-UserPrincipalName: JiyNinjIOKE5FUJlMPuzwVeSfHuYSqyjuU7WvlehSReiVnn5oUk+qhpSYW0QwGXULYyPKEHjColBWRKZgSDV1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3171
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
@@ -97,67 +99,51 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-This patchset includes updates for the MCA Address Translation process
-on recent AMD systems.
+The edac_mce_amd module calls decode_dram_ecc() on AMD Family17h and
+later systems. This function is used in amd64_edac_mod to do
+system-specific decoding for DRAM ECC errors. The function takes a
+"NodeId" as a parameter.
 
-Patches 1 & 3:
-Fixes an input to the address translation function. The translation
-requires a physical Die ID (NodeId in AMD documentation) rather than a
-logicial NUMA node ID. This is because the physical and logical nodes
-may not always match.
+In AMD documentation, NodeId is used to identify a physical die in a
+system. This can be used to identify a node in the AMD_NB code and also
+it is used with umc_normaddr_to_sysaddr().
 
-Patch 2:
-Removes a function that is no longer needed with Patch 1.
+However, the input used for decode_dram_ecc() is currently the NUMA node
+of a logical CPU. In the default configuration, the NUMA node and
+physical die will be equivalent, so this doesn't have an impact. But the
+NUMA node configuration can be adjusted with optional memory
+interleaving modes. This will cause the NUMA node enumeration to not
+match the physical die enumeration. The mismatch will cause the address
+translation function to fail or report incorrect results.
 
-Patches 4-7:
-Code cleanup in preparation for Patch 8.
+Use struct cpuinfo_x86.node_id for the node_id parameter to ensure the
+physical ID is used.
 
-Patch 8:
-Add translation support for new memory interleaving options available in
-Rome systems. The patch is based on the latest AMD reference code for
-the address translation.
-
-Patches 6-8 have checkpatch warnings about long lines, but I kept the
-long lines for readability.
-
-Thanks,
-Yazen
-
+Fixes: fbe63acf62f5 ("EDAC, mce_amd: Use cpu_to_node() to find the node ID")
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
 Link:
-https://lkml.kernel.org/r/20200814191449.183998-1-Yazen.Ghannam@amd.com
+https://lkml.kernel.org/r/20200814191449.183998-2-Yazen.Ghannam@amd.com
 
 v1 -> v2:
-* Save the AMD NodeId value in struct cpuinfo_x86 rather than use a
-  local value in MCA code.
-* Include code cleanup for AMD MCA Address Translation function before
-  adding new functionality.
+* Redo based on change in Patch 1.
 
-Muralidhara M K (1):
-  x86/MCE/AMD Support new memory interleaving modes during address
-    translation
+ drivers/edac/mce_amd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yazen Ghannam (7):
-  x86/CPU/AMD: Save NodeId on AMD-based systems
-  x86/CPU/AMD: Remove amd_get_nb_id()
-  EDAC/mce_amd: Use struct cpuinfo_x86.node_id for NodeId
-  x86/MCE/AMD: Use defines for register addresses in translation code
-  x86/MCE/AMD: Use macros to get bitfields in translation code
-  x86/MCE/AMD: Drop tmp variable in translation code
-  x86/MCE/AMD: Group register reads in translation code
-
- arch/x86/events/amd/core.c       |   2 +-
- arch/x86/include/asm/cacheinfo.h |   4 +-
- arch/x86/include/asm/processor.h |   3 +-
- arch/x86/kernel/amd_nb.c         |   4 +-
- arch/x86/kernel/cpu/amd.c        |  17 +-
- arch/x86/kernel/cpu/cacheinfo.c  |   8 +-
- arch/x86/kernel/cpu/hygon.c      |  11 +-
- arch/x86/kernel/cpu/mce/amd.c    | 284 ++++++++++++++++++++++---------
- arch/x86/kernel/cpu/mce/inject.c |   4 +-
- drivers/edac/amd64_edac.c        |   4 +-
- drivers/edac/mce_amd.c           |   4 +-
- 11 files changed, 233 insertions(+), 112 deletions(-)
-
+diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
+index ac9bd74c92cd..91b5e3e0744e 100644
+--- a/drivers/edac/mce_amd.c
++++ b/drivers/edac/mce_amd.c
+@@ -1003,7 +1003,7 @@ static void decode_smca_error(struct mce *m)
+ 		pr_cont(", %s.\n", smca_mce_descs[bank_type].descs[xec]);
+ 
+ 	if (bank_type == SMCA_UMC && xec == 0 && decode_dram_ecc)
+-		decode_dram_ecc(cpu_to_node(m->extcpu), m);
++		decode_dram_ecc(cpu_data(m->extcpu).node_id, m);
+ }
+ 
+ static inline void amd_decode_err_code(u16 ec)
 -- 
 2.25.1
 
