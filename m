@@ -7,55 +7,55 @@ X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MSGID_FROM_MTA_HEADER,RCVD_ILLEGAL_IP,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45193C43461
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:02:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02468C2BC0E
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:02:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B403208C7
-	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:02:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B17FD20709
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Sep 2020 20:02:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="0pttzdTQ"
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="tj4AkQC6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729037AbgICUCA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 3 Sep 2020 16:02:00 -0400
-Received: from mail-mw2nam10on2074.outbound.protection.outlook.com ([40.107.94.74]:19073
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        id S1729201AbgICUCL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 3 Sep 2020 16:02:11 -0400
+Received: from mail-dm6nam12on2060.outbound.protection.outlook.com ([40.107.243.60]:48609
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728419AbgICUB4 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 3 Sep 2020 16:01:56 -0400
+        id S1729096AbgICUCD (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 3 Sep 2020 16:02:03 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZZ3Lz6K8XhfriA7YYA2Rq5Pz/gvksA3XC2EG26m1TjO0y0HhEk/Y4VfgJ6LwGG7y8f1xgzC7625XWBVJYI1XEWUEeiWvttfaIaeIGz/eFcRj6JnatVlNmeVfGcIIh2XuQBMJEhSca1FIcJRyM8EU6JQyVYBByIkO26jhlqR9kymLdHNu8p+WgmCwFQLElZ1OgaavEn2kIz6jSTl5/VwFTu/bYo0IiraO+TDbAgFksv/puXrBbp/xc4CrrQGPX6AIlyGvSAlOZmB7LWTpHEylZmLrseAU3yQQpcXc/BIwXMu234lhZjE475ez/HqpHEt2NfvUMWPBUMxwz18KAVaMCA==
+ b=TC0N9E8yBQIf3RgikKs5D4tUyWdtuGKv7ayaf85+K6jz48xkQarlun1ZDbbYIwoUeXJSAph3YFkuUc0RA64KNP6ekLwvYxLITbE2JwXjP6Q0vapzPl4ynWVK/+7ilXBeSCjLOTVgPXbngWd+gynbw59hh99GPFnS3nDch69xNRE4PeOQFRQB86qqp353VAnMLmfvrdXFgYBBqb0fW+LN5fYZu+NGwN399FFQU9b1PmmsZ8m+MEDLQY1jf3MhdFUCQjcUf/2Sr81tvrb1f8eszlNmjNwDKKHurKOCERHCD3ul5shrT5jb6fLq/kUWWcdGdp7G18C8hbs++yfmadA9ig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wCl68feaXsAhu6E5Ks6OlNOvp6IWa0leYKgs7KR+jsE=;
- b=n0otDBGS7eKP8vC0IZedlCduvD2v7VK+Pk96DNRBuleXifLz94T5X2qeVtR40vGtkQKEg00E0tHLvWAhYj0mE1QrFdMXS9Yvaneem9xmZ1TdU/xwNLJZhHBCpSmWAZid+fWV+93VG86rKF2VirAwDyXlydfQqjwg+/CeEZ3san7B172YUexF2Fh4V/dLRbTfxJIWEI76DpMRLw5FAqfpQuA+C9ctMl+iqqZPgrWAfZzIwZsR8neQ36ANNL4Xv9Rq/EJuvxBol5fXOu1oaXMuj9DcMFVpCMujlClSuZgJOuPHlGZwbgCLHhLgK0GcyTbf+wS64lQd/ktskjHvcPGHHA==
+ bh=TSl9pFA2jll63vYbOwxcBuFJu8dLY1JxZsTMKQrGYoU=;
+ b=CzPVsrqs2g+KISSwuWScbEynPKE9Y1QBxUX4xNA3JLMxc6Oh8v6cuIDk/KdLM0/yCuVl9tLD2qyOmcWZ6tSgFFynGIUbZQfYLfE4ngcgbL6QK/KH5I3P06ButnW5duI0AOiL43ULqNVf1Ciyl3N2xCcRQ6Unr5E5gsXqhd6R3olGHfCUGp4NbIOUOcLt8pLamfDUDp1kIoZtKbvDyumHwbF6JCgiqX/NOd0kvnAHaiKKxDZ/OSo3Eb7C/t7H8nm1Vp979FBT6YLsFRZehqnpxmqGXsG47X95SQpmCyA4MJ7d/LxtiI/hx/8g5Aacv39RuN/jgVczNHa8Ci6ybLrROA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wCl68feaXsAhu6E5Ks6OlNOvp6IWa0leYKgs7KR+jsE=;
- b=0pttzdTQQvzK1LpDNgCZcwARUGmMUu0it+Of4YWplqMkK8Okju1AUaxOIagkhPFKGSC1I9Cyh9SxcbZCcQmiirAcSkc0AKyXjT1cT28BGGkNPB6YGbGwhEun7P5zRs/8ivZkXgx4obV1j9s/WB4pvZQZSvfeP0/bJABTTePI37Y=
+ bh=TSl9pFA2jll63vYbOwxcBuFJu8dLY1JxZsTMKQrGYoU=;
+ b=tj4AkQC6HHLFDql8FI7i/izaiiHlBS5Fqb8gvmBvewPq2WvAjt5fbGz+fGYVy494Bi8G98SQfn6X2LSwdB6vknf0Yg3uwCLKROnD5QVJEW5AtdvOelab7tNyQDTefpduPVfRR38qlRi1f8gt/+Zh0HHJz0Qtu8nRt/OGJKr2/d0=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by BN8PR12MB2980.namprd12.prod.outlook.com (2603:10b6:408:62::18) with
+ by BN8PR12MB3171.namprd12.prod.outlook.com (2603:10b6:408:99::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.25; Thu, 3 Sep
- 2020 20:01:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Thu, 3 Sep
+ 2020 20:01:52 +0000
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::b038:2a58:64e0:2a3e]) by BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::b038:2a58:64e0:2a3e%4]) with mapi id 15.20.3348.015; Thu, 3 Sep 2020
- 20:01:50 +0000
+ 20:01:52 +0000
 From:   Yazen Ghannam <Yazen.Ghannam@amd.com>
 To:     linux-edac@vger.kernel.org
 Cc:     Yazen Ghannam <Yazen.Ghannam@amd.com>,
         linux-kernel@vger.kernel.org, tony.luck@intel.com, x86@kernel.org,
         Smita.KoralahalliChannabasappa@amd.com
-Subject: [PATCH v2 2/8] x86/CPU/AMD: Remove amd_get_nb_id()
-Date:   Thu,  3 Sep 2020 20:01:38 +0000
-Message-Id: <20200903200144.310991-3-Yazen.Ghannam@amd.com>
+Subject: [PATCH v2 5/8] x86/MCE/AMD: Use macros to get bitfields in translation code
+Date:   Thu,  3 Sep 2020 20:01:41 +0000
+Message-Id: <20200903200144.310991-6-Yazen.Ghannam@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200903200144.310991-1-Yazen.Ghannam@amd.com>
 References: <20200903200144.310991-1-Yazen.Ghannam@amd.com>
@@ -66,32 +66,32 @@ X-ClientProxiedBy: SN4PR0501CA0075.namprd05.prod.outlook.com
  (2603:10b6:408:40::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from 255.255.255.255 (255.255.255.255) by SN4PR0501CA0075.namprd05.prod.outlook.com (2603:10b6:803:22::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.7 via Frontend Transport; Thu, 3 Sep 2020 20:01:49 +0000
+Received: from 255.255.255.255 (255.255.255.255) by SN4PR0501CA0075.namprd05.prod.outlook.com (2603:10b6:803:22::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.7 via Frontend Transport; Thu, 3 Sep 2020 20:01:51 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1fd97985-1e4a-40b6-f10b-08d8504431f1
-X-MS-TrafficTypeDiagnostic: BN8PR12MB2980:
+X-MS-Office365-Filtering-Correlation-Id: 9a482f4b-4254-4469-b805-08d850443367
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3171:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN8PR12MB29807D4DBE980991427C8FD6F82C0@BN8PR12MB2980.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-Microsoft-Antispam-PRVS: <BN8PR12MB3171E3784852FE024D8E7728F82C0@BN8PR12MB3171.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x579Sq6VM5tgDVqHocFwzfVslXEGtU8Iyx4YzjtwVTZodhGjbTD543pFeULHqA7p3VsrffLvJk7HDN7DlfCxl5xGeLRcvj6fnWKc3ocGenlB8KwJZ4Ko26IbOlqMEt8zHzIacoCXRe4PwJ5jODsI3Pm4cAYop5YjHzOfE6PI8wtDuLJJ7mpzbuTpYu6uSG8HZZF+A4jY739JcHQ4ZimSmtu9YqC7hbYnutKyxKQ4wtUxrkrbG+DVfu5EuCM/HzfHKve2akRMmOLCahqTDCDGYaCTwMwZWx4MEx5FROaCkS1FKGNnOQUWOm5qTYUIGTgyNY21g4IbI6cryzC6/8IArsSdCeGhoqTYL12qoHbCjPAXns2b7e2p67fBL3MRBhwwOhkFgoWGkkUp5daw2Es9JA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(966005)(83380400001)(8936002)(316002)(1076003)(186003)(16576012)(52116002)(5660300002)(6666004)(66946007)(8676002)(6916009)(86362001)(6486002)(2906002)(2616005)(36756003)(66556008)(66476007)(4326008)(478600001)(26005)(956004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: WQf8QZ3FcYxeRR1vZDNRJMRLgQz0K3GNMH+UrMcGaSVPxZqF0k90HeZY5gYF9mTBuOcOKyNuD4VPwdWkqMcEr9KY8+9cP7bOaXV40RQlm9cx22ssqRpu3RJQI2cQE4/PDosrga5uowJP7v+1X7paRpiNMEKWzMO4nge9SdGjOzCPXnL6zuV3CrwaqSmc2ojv8h4hTCwssjMA8/TW26aFYnRORPDLcxbrdHHl9dfsJDMEXckDcF+39U7gXQ65+0Y/OkpWd4xol+u3j7qGwPl2cUopxyaq7y/05EAbKBK2Ek+8es0SIS1MiomI4TBgeg7yseDBjVWBNcI9H5izfvpZuNKC0X7SLWBF+2jSUZKHp64cFyjAO/AeqJ/newIv1VKhJLbeCtbWfkeUYoIMD8AxgpfTBDYqsHVXeyPC4PigN2H41KOi7qiRROoP/31DSKDlfLpD58YtPHozFiE3H6KqVN+xo43Qz79w51ueXwuoDB8qpSRXW+5liTzWZD5munvwHPoKn7Wj+is0maBUeSJW+8N4VLAXWr69gSsi/6CADNxynS8rp32CDf4Y+KgITfN9khkoyLxHf0b/KYhHWNvsMzGLuyCgQZz0uUHNu+HS6+WofWM9LGhNuTKsAeX7XNR2Y9uYcfKGGs4XK0YL90SIWA==
+X-Microsoft-Antispam-Message-Info: 6umtiRzQLhnecUh46oEMzxoVj4dWiA7i/A+/fZpdbiT6Om+2T5oD2NYoV+Ge4nV5G7yuhStxNruViyhKvqRclJPYpdaNuwlrtUAkwhrYkbLO2qnGo8vzpFgTlIho/Q5n7g0ntg3zQRCXMJkmRuWXfICPVQcg95hUsNcPtd7BhxKaumTpExSw9rH8Scl2YBnT/iZFjzZCyuL7bQMR7qrE45UGHw11b3amTeRIkRD6JNZnCKQZ0rl9Idsf493FaQwSMxmTxIr4gkyP5KxEW6VJT0EGUUNX/ptxqQnS4hsdq63RgXUcKLsrnW7czGeOMt04F4DD9+uxF/eF+hyOmzN5lnQ4JZIy2oDRUnLswDAKNRc/zu/CZFkTggpWG95qP7sYM+TvGIBpQY59aB5D39v2Ng==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(136003)(366004)(396003)(346002)(376002)(8936002)(36756003)(6666004)(478600001)(186003)(316002)(6486002)(966005)(26005)(8676002)(52116002)(16576012)(5660300002)(66476007)(86362001)(4326008)(6916009)(66556008)(2616005)(956004)(66946007)(2906002)(1076003)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: P/y4R5G2tLswz9YvZoS1CgNB8V3bdma67R+dugWDfW12yfzIIlBPaYOiP8k9K5c+QqAa25ls9iBOTQ6oO9gua85bF11FnUQxQWK3UL5s9JWJCcHJMcZVwojqFvBrAADJOAphAVt78Hxbrw/tckMiNq2fk4VsX42tEq1SGVh5VkFPDJ/a9DBmmW/OwME8qstQ2WcrPEG3xGf1r/eI0dcX8ugIVVxJ2bpw8rJs6EHOpI+tE7TT/K5RTC0JQfXm0zqreGVIzT6BpFA9Dj7mxnA07HEkcoBgL1bou3jHcS7wyumu5fxO8t2WFWS7yCVA/sMKIA+ewDP1kASjjoQP4UtUil10jbibYn0iT7Vtvub+4A51JBrCXcz412Z2j0pwzEEY9bYWNY7QWGtXVVSq0FqmwJXYZe+gPDvXABjulYtq4NtBCiZs2ByoZul/TRiLJaUs8UxJgkVZKFoqesxxUz2U6BL0EEMQWqqK/1LDJRT2nS+BfvOKw73wgADj0J4NCD74xVSaeT74dTHCM5hMQA+h+QjzYnnOjc/pT3/EkbP/HSKarMbAOtf5nCc1wmGpqmstU9GwKZwxyYTErWRBhDSNf4uzILlH8eTJ17rfmOA4nPznG1lDE3UDi8aLt2e0YzzmB8DRtCYWqs6EVtLWgd3P1w==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fd97985-1e4a-40b6-f10b-08d8504431f1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a482f4b-4254-4469-b805-08d850443367
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 20:01:50.0252
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 20:01:52.4508
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ge6Dz5OjkTftm4jTbzPoasQQPqE8caNMaJduPLT2s/CKCzo/J2hxgdj4VHvB/hQ6xvZrBLNXWi+AITF1iL93gQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2980
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1rCBVejiK91usBg5M4aWA90Bm0Ybfk48fjcJq7KMgtEIGzfMFpFZZYqA6EjjX9+F1XlihjarRMds6tIS6fPDhg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3171
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
@@ -99,184 +99,133 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 
-The Last Level Cache ID is returned by amd_get_nb_id(). In practice,
-this value is the same as the AMD NodeId for callers of this function.
-The NodeId is saved in struct cpuinfo_x86.node_id.
-
-Replace calls to amd_get_nb_id() with the logical CPU's node_id and
-remove the function.
+Define macros to get individual bits and bitfields. Use these to make
+the code more readable.
 
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
 Link:
-https://lkml.kernel.org/r/20200814191449.183998-2-Yazen.Ghannam@amd.com
+https://lkml.kernel.org/r/20200814191449.183998-3-Yazen.Ghannam@amd.com
 
 v1 -> v2:
-* New patch.
+* New patch based on comments for v1 Patch 2.
 
- arch/x86/events/amd/core.c       | 2 +-
- arch/x86/include/asm/processor.h | 2 --
- arch/x86/kernel/amd_nb.c         | 4 ++--
- arch/x86/kernel/cpu/amd.c        | 6 ------
- arch/x86/kernel/cpu/cacheinfo.c  | 2 +-
- arch/x86/kernel/cpu/mce/amd.c    | 4 ++--
- arch/x86/kernel/cpu/mce/inject.c | 4 ++--
- drivers/edac/amd64_edac.c        | 4 ++--
- drivers/edac/mce_amd.c           | 2 +-
- 9 files changed, 11 insertions(+), 19 deletions(-)
+ arch/x86/kernel/cpu/mce/amd.c | 46 +++++++++++++++++------------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/arch/x86/events/amd/core.c b/arch/x86/events/amd/core.c
-index 39eb276d0277..01b9b943dcf4 100644
---- a/arch/x86/events/amd/core.c
-+++ b/arch/x86/events/amd/core.c
-@@ -538,7 +538,7 @@ static void amd_pmu_cpu_starting(int cpu)
- 	if (!x86_pmu.amd_nb_constraints)
- 		return;
- 
--	nb_id = amd_get_nb_id(cpu);
-+	nb_id = cpu_data(cpu).node_id;
- 	WARN_ON_ONCE(nb_id == BAD_APICID);
- 
- 	for_each_online_cpu(i) {
-diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-index a776b7886ec0..408977a323d3 100644
---- a/arch/x86/include/asm/processor.h
-+++ b/arch/x86/include/asm/processor.h
-@@ -871,10 +871,8 @@ extern int set_tsc_mode(unsigned int val);
- DECLARE_PER_CPU(u64, msr_misc_features_shadow);
- 
- #ifdef CONFIG_CPU_SUP_AMD
--extern u16 amd_get_nb_id(int cpu);
- extern u32 amd_get_nodes_per_socket(void);
- #else
--static inline u16 amd_get_nb_id(int cpu)		{ return 0; }
- static inline u32 amd_get_nodes_per_socket(void)	{ return 0; }
- #endif
- 
-diff --git a/arch/x86/kernel/amd_nb.c b/arch/x86/kernel/amd_nb.c
-index 18f6b7c4bd79..2bd8abdbed8e 100644
---- a/arch/x86/kernel/amd_nb.c
-+++ b/arch/x86/kernel/amd_nb.c
-@@ -384,7 +384,7 @@ struct resource *amd_get_mmconfig_range(struct resource *res)
- 
- int amd_get_subcaches(int cpu)
- {
--	struct pci_dev *link = node_to_amd_nb(amd_get_nb_id(cpu))->link;
-+	struct pci_dev *link = node_to_amd_nb(cpu_data(cpu).node_id)->link;
- 	unsigned int mask;
- 
- 	if (!amd_nb_has_feature(AMD_NB_L3_PARTITIONING))
-@@ -398,7 +398,7 @@ int amd_get_subcaches(int cpu)
- int amd_set_subcaches(int cpu, unsigned long mask)
- {
- 	static unsigned int reset, ban;
--	struct amd_northbridge *nb = node_to_amd_nb(amd_get_nb_id(cpu));
-+	struct amd_northbridge *nb = node_to_amd_nb(cpu_data(cpu).node_id);
- 	unsigned int reg;
- 	int cuid;
- 
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index 5eef4cc1e5b7..846367a69c4a 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -424,12 +424,6 @@ static void amd_detect_ppin(struct cpuinfo_x86 *c)
- 	clear_cpu_cap(c, X86_FEATURE_AMD_PPIN);
- }
- 
--u16 amd_get_nb_id(int cpu)
--{
--	return per_cpu(cpu_llc_id, cpu);
--}
--EXPORT_SYMBOL_GPL(amd_get_nb_id);
--
- u32 amd_get_nodes_per_socket(void)
- {
- 	return nodes_per_socket;
-diff --git a/arch/x86/kernel/cpu/cacheinfo.c b/arch/x86/kernel/cpu/cacheinfo.c
-index 81dfddae4470..8e34e90bb872 100644
---- a/arch/x86/kernel/cpu/cacheinfo.c
-+++ b/arch/x86/kernel/cpu/cacheinfo.c
-@@ -580,7 +580,7 @@ static void amd_init_l3_cache(struct _cpuid4_info_regs *this_leaf, int index)
- 	if (index < 3)
- 		return;
- 
--	node = amd_get_nb_id(smp_processor_id());
-+	node = cpu_data(smp_processor_id()).node_id;
- 	this_leaf->nb = node_to_amd_nb(node);
- 	if (this_leaf->nb && !this_leaf->nb->l3_cache.indices)
- 		amd_calc_l3_indices(this_leaf->nb);
 diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-index 0c6b02dd744c..be96f77004ad 100644
+index 1e0510fd5afc..90c3ad61ae19 100644
 --- a/arch/x86/kernel/cpu/mce/amd.c
 +++ b/arch/x86/kernel/cpu/mce/amd.c
-@@ -1341,7 +1341,7 @@ static int threshold_create_bank(struct threshold_bank **bp, unsigned int cpu,
- 		return -ENODEV;
- 
- 	if (is_shared_bank(bank)) {
--		nb = node_to_amd_nb(amd_get_nb_id(cpu));
-+		nb = node_to_amd_nb(cpu_data(cpu).node_id);
- 
- 		/* threshold descriptor already initialized on this node? */
- 		if (nb && nb->bank4) {
-@@ -1445,7 +1445,7 @@ static void threshold_remove_bank(struct threshold_bank *bank)
- 		 * The last CPU on this node using the shared bank is going
- 		 * away, remove that bank now.
- 		 */
--		nb = node_to_amd_nb(amd_get_nb_id(smp_processor_id()));
-+		nb = node_to_amd_nb(cpu_data(smp_processor_id()).node_id);
- 		nb->bank4 = NULL;
- 	}
- 
-diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
-index 3a44346f2276..ba491134c326 100644
---- a/arch/x86/kernel/cpu/mce/inject.c
-+++ b/arch/x86/kernel/cpu/mce/inject.c
-@@ -522,8 +522,8 @@ static void do_inject(void)
- 	if (boot_cpu_has(X86_FEATURE_AMD_DCM) &&
- 	    b == 4 &&
- 	    boot_cpu_data.x86 < 0x17) {
--		toggle_nb_mca_mst_cpu(amd_get_nb_id(cpu));
--		cpu = get_nbc_for_node(amd_get_nb_id(cpu));
-+		toggle_nb_mca_mst_cpu(cpu_data(cpu).node_id);
-+		cpu = get_nbc_for_node(cpu_data(cpu).node_id);
- 	}
- 
- 	get_online_cpus();
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index fcc08bbf6945..3f91cac00fb2 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -1133,7 +1133,7 @@ static int k8_early_channel_count(struct amd64_pvt *pvt)
- /* On F10h and later ErrAddr is MC4_ADDR[47:1] */
- static u64 get_error_address(struct amd64_pvt *pvt, struct mce *m)
- {
--	u16 mce_nid = amd_get_nb_id(m->extcpu);
-+	u16 mce_nid = cpu_data(m->extcpu).node_id;
- 	struct mem_ctl_info *mci;
- 	u8 start_bit = 1;
- 	u8 end_bit   = 47;
-@@ -3046,7 +3046,7 @@ static void get_cpus_on_this_dct_cpumask(struct cpumask *mask, u16 nid)
- 	int cpu;
- 
- 	for_each_online_cpu(cpu)
--		if (amd_get_nb_id(cpu) == nid)
-+		if (cpu_data(cpu).node_id == nid)
- 			cpumask_set_cpu(cpu, mask);
+@@ -675,6 +675,9 @@ void mce_amd_feature_init(struct cpuinfo_x86 *c)
+ 		deferred_error_interrupt_enable(c);
  }
  
-diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
-index 7f28edb070bd..ac9bd74c92cd 100644
---- a/drivers/edac/mce_amd.c
-+++ b/drivers/edac/mce_amd.c
-@@ -869,7 +869,7 @@ static void decode_mc3_mce(struct mce *m)
- static void decode_mc4_mce(struct mce *m)
- {
- 	unsigned int fam = x86_family(m->cpuid);
--	int node_id = amd_get_nb_id(m->extcpu);
-+	int node_id = cpu_data(m->extcpu).node_id;
- 	u16 ec = EC(m->status);
- 	u8 xec = XEC(m->status, 0x1f);
- 	u8 offset = 0;
++#define get_bits(x, msb, lsb)	((x & GENMASK_ULL(msb, lsb)) >> lsb)
++#define get_bit(x, bit)		((x >> bit) & BIT(0))
++
+ #define DF_F0_FABRICINSTINFO3	0x50
+ #define DF_F0_MMIOHOLE		0x104
+ #define DF_F0_DRAMBASEADDR	0x110
+@@ -704,7 +707,7 @@ int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+ 
+ 	/* Remove HiAddrOffset from normalized address, if enabled: */
+ 	if (tmp & BIT(0)) {
+-		u64 hi_addr_offset = (tmp & GENMASK_ULL(31, 20)) << 8;
++		u64 hi_addr_offset = get_bits(tmp, 31, 20) << 28;
+ 
+ 		/* Check if base 1 is used. */
+ 		if (norm_addr >= hi_addr_offset) {
+@@ -723,10 +726,10 @@ int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+ 		goto out_err;
+ 	}
+ 
+-	lgcy_mmio_hole_en = tmp & BIT(1);
+-	intlv_num_chan	  = (tmp >> 4) & 0xF;
+-	intlv_addr_sel	  = (tmp >> 8) & 0x7;
+-	dram_base_addr	  = (tmp & GENMASK_ULL(31, 12)) << 16;
++	lgcy_mmio_hole_en = get_bit(tmp, 1);
++	intlv_num_chan	  = get_bits(tmp, 7, 4);
++	intlv_addr_sel	  = get_bits(tmp, 10, 8);
++	dram_base_addr	  = get_bits(tmp, 31, 12) << 28;
+ 
+ 	/* {0, 1, 2, 3} map to address bits {8, 9, 10, 11} respectively */
+ 	if (intlv_addr_sel > 3) {
+@@ -738,9 +741,9 @@ int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+ 	if (amd_df_indirect_read(nid, 0, DF_F0_DRAMLIMITADDR + (8 * base), umc, &tmp))
+ 		goto out_err;
+ 
+-	intlv_num_sockets = (tmp >> 8) & 0x1;
+-	intlv_num_dies	  = (tmp >> 10) & 0x3;
+-	dram_limit_addr	  = ((tmp & GENMASK_ULL(31, 12)) << 16) | GENMASK_ULL(27, 0);
++	intlv_num_sockets = get_bit(tmp, 8);
++	intlv_num_dies	  = get_bits(tmp, 11, 10);
++	dram_limit_addr	  = (get_bits(tmp, 31, 12) << 28) | GENMASK_ULL(27, 0);
+ 
+ 	intlv_addr_bit = intlv_addr_sel + 8;
+ 
+@@ -793,7 +796,7 @@ int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+ 		if (amd_df_indirect_read(nid, 0, DF_F0_FABRICINSTINFO3, umc, &tmp))
+ 			goto out_err;
+ 
+-		cs_fabric_id = (tmp >> 8) & 0xFF;
++		cs_fabric_id = get_bits(tmp, 15, 8);
+ 		die_id_bit   = 0;
+ 
+ 		/* If interleaved over more than 1 channel: */
+@@ -812,16 +815,16 @@ int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+ 		/* If interleaved over more than 1 die. */
+ 		if (intlv_num_dies) {
+ 			sock_id_bit  = die_id_bit + intlv_num_dies;
+-			die_id_shift = (tmp >> 24) & 0xF;
+-			die_id_mask  = (tmp >> 8) & 0xFF;
++			die_id_shift = get_bits(tmp, 27, 24);
++			die_id_mask  = get_bits(tmp, 15, 8);
+ 
+ 			cs_id |= ((cs_fabric_id & die_id_mask) >> die_id_shift) << die_id_bit;
+ 		}
+ 
+ 		/* If interleaved over more than 1 socket. */
+ 		if (intlv_num_sockets) {
+-			socket_id_shift	= (tmp >> 28) & 0xF;
+-			socket_id_mask	= (tmp >> 16) & 0xFF;
++			socket_id_shift	= get_bits(tmp, 31, 28);
++			socket_id_mask	= get_bits(tmp, 23, 16);
+ 
+ 			cs_id |= ((cs_fabric_id & socket_id_mask) >> socket_id_shift) << sock_id_bit;
+ 		}
+@@ -834,7 +837,7 @@ int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+ 		 * bits there are. "intlv_addr_bit" tells us how many "Y" bits
+ 		 * there are (where "I" starts).
+ 		 */
+-		temp_addr_y = ret_addr & GENMASK_ULL(intlv_addr_bit-1, 0);
++		temp_addr_y = get_bits(ret_addr, intlv_addr_bit-1, 0);
+ 		temp_addr_i = (cs_id << intlv_addr_bit);
+ 		temp_addr_x = (ret_addr & GENMASK_ULL(63, intlv_addr_bit)) << num_intlv_bits;
+ 		ret_addr    = temp_addr_x | temp_addr_i | temp_addr_y;
+@@ -854,16 +857,13 @@ int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+ 	}
+ 
+ 	if (hash_enabled) {
+-		/* Save some parentheses and grab ls-bit at the end. */
+-		hashed_bit =	(ret_addr >> 12) ^
+-				(ret_addr >> 18) ^
+-				(ret_addr >> 21) ^
+-				(ret_addr >> 30) ^
+-				cs_id;
+-
+-		hashed_bit &= BIT(0);
++		hashed_bit =	get_bit(ret_addr, 12) ^
++				get_bit(ret_addr, 18) ^
++				get_bit(ret_addr, 21) ^
++				get_bit(ret_addr, 30) ^
++				get_bit(cs_id, 0);
+ 
+-		if (hashed_bit != ((ret_addr >> intlv_addr_bit) & BIT(0)))
++		if (hashed_bit != get_bit(ret_addr, intlv_addr_bit))
+ 			ret_addr ^= BIT(intlv_addr_bit);
+ 	}
+ 
 -- 
 2.25.1
 
