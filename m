@@ -4,100 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0545C43461
-	for <linux-edac@archiver.kernel.org>; Mon, 14 Sep 2020 02:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32552C433E2
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Sep 2020 06:31:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC8D32168B
-	for <linux-edac@archiver.kernel.org>; Mon, 14 Sep 2020 02:56:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA938208DB
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Sep 2020 06:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbgINC4e (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 13 Sep 2020 22:56:34 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:58376 "EHLO huawei.com"
+        id S1726126AbgINGb6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 14 Sep 2020 02:31:58 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:12248 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725973AbgINC4e (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 13 Sep 2020 22:56:34 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id B7ADABA9B79046030BEE;
-        Mon, 14 Sep 2020 10:56:30 +0800 (CST)
-Received: from linux-ibm.site (10.175.102.37) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 14 Sep 2020 10:56:20 +0800
-From:   Xiongfeng Wang <wangxiongfeng2@huawei.com>
-To:     <bp@alien8.de>, <mchehab@kernel.org>, <tony.luck@intel.com>
-CC:     <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <wangxiongfeng2@huawei.com>
-Subject: [PATCH v2] EDAC/mc_sysfs: Add missing newlines when printing {max,dimm}_location
-Date:   Mon, 14 Sep 2020 10:48:54 +0800
-Message-ID: <1600051734-8993-1-git-send-email-wangxiongfeng2@huawei.com>
-X-Mailer: git-send-email 1.7.12.4
+        id S1726075AbgINGbb (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 14 Sep 2020 02:31:31 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id A6F764523210BD948D6E;
+        Mon, 14 Sep 2020 14:31:29 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 14 Sep 2020
+ 14:31:18 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Stefan Schaeckeler <sschaeck@cisco.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        "Joel Stanley" <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+CC:     <linux-edac@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH -next] EDAC/aspeed: use module_platform_driver to simplify the code
+Date:   Mon, 14 Sep 2020 14:53:58 +0800
+Message-ID: <20200914065358.3726216-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.102.37]
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
 X-CFilter-Loop: Reflected
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Reading those sysfs entries gives:
+module_platform_driver() makes the code simpler by eliminating
+boilerplate code.
 
-  [root@localhost /]# cat /sys/devices/system/edac/mc/mc0/max_location
-  memory 3 [root@localhost /]# cat /sys/devices/system/edac/mc/mc0/dimm0/dimm_location
-  memory 0 [root@localhost /]#
-
-Add newlines after the value it prints for better readability.
-
-Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- drivers/edac/edac_mc_sysfs.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/edac/aspeed_edac.c | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
 
-diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
-index 4e6aca5..bf0e075 100644
---- a/drivers/edac/edac_mc_sysfs.c
-+++ b/drivers/edac/edac_mc_sysfs.c
-@@ -474,8 +474,12 @@ static ssize_t dimmdev_location_show(struct device *dev,
- 				     struct device_attribute *mattr, char *data)
- {
- 	struct dimm_info *dimm = to_dimm(dev);
-+	ssize_t count;
- 
--	return edac_dimm_info_location(dimm, data, PAGE_SIZE);
-+	count = edac_dimm_info_location(dimm, data, PAGE_SIZE);
-+	count += snprintf(data + count, PAGE_SIZE - count, "\n");
-+
-+	return count;
- }
- 
- static ssize_t dimmdev_label_show(struct device *dev,
-@@ -813,15 +817,21 @@ static ssize_t mci_max_location_show(struct device *dev,
- 				     char *data)
- {
- 	struct mem_ctl_info *mci = to_mci(dev);
--	int i;
-+	int i, n;
- 	char *p = data;
-+	unsigned int len = PAGE_SIZE;
- 
- 	for (i = 0; i < mci->n_layers; i++) {
--		p += sprintf(p, "%s %d ",
-+		n = snprintf(p, len, "%s %d ",
- 			     edac_layer_name[mci->layers[i].type],
- 			     mci->layers[i].size - 1);
-+		p += n;
-+		len -= n;
-+		if (!len)
-+			goto out;
- 	}
+diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+index fbec28dc661d..fde809efc520 100644
+--- a/drivers/edac/aspeed_edac.c
++++ b/drivers/edac/aspeed_edac.c
+@@ -388,23 +388,7 @@ static struct platform_driver aspeed_driver = {
+ 	.probe		= aspeed_probe,
+ 	.remove		= aspeed_remove
+ };
 -
-+	p += snprintf(p, len, "\n");
-+out:
- 	return p - data;
- }
+-
+-static int __init aspeed_init(void)
+-{
+-	return platform_driver_register(&aspeed_driver);
+-}
+-
+-
+-static void __exit aspeed_exit(void)
+-{
+-	platform_driver_unregister(&aspeed_driver);
+-}
+-
+-
+-module_init(aspeed_init);
+-module_exit(aspeed_exit);
+-
++module_platform_driver(aspeed_driver);
  
+ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("Stefan Schaeckeler <sschaeck@cisco.com>");
 -- 
-1.7.12.4
+2.25.1
 
