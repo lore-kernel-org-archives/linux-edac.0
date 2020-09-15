@@ -2,96 +2,142 @@ Return-Path: <SRS0=uN6N=CY=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A7AC433E2
-	for <linux-edac@archiver.kernel.org>; Tue, 15 Sep 2020 22:18:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D3BBC43461
+	for <linux-edac@archiver.kernel.org>; Tue, 15 Sep 2020 22:55:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59B8320771
-	for <linux-edac@archiver.kernel.org>; Tue, 15 Sep 2020 22:18:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="WOwquMcU"
+	by mail.kernel.org (Postfix) with ESMTP id 332AA20872
+	for <linux-edac@archiver.kernel.org>; Tue, 15 Sep 2020 22:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600210542;
+	bh=PhTvjHeCShScc2Nv/QfcG3cLBE7UH924WWGtpwnRci4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=aYsJUty/LxGdgRPAdW4yyV5HeG6CzqF8NI/YdZhX5fuKnQaT1w0/FjWCUvZZpmpIT
+	 ap7/G6E30j/oKINfe/TVsY1rMlyzIKl+hKalTWXT+to4NI8L8zgI/p/7evpy0yYy92
+	 fLjEHOvnDuT0nNWeBy2OdQUnRYa9SA5EWjro/+J8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727792AbgIOWSM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 15 Sep 2020 18:18:12 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:35804 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727722AbgIOQdW (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 15 Sep 2020 12:33:22 -0400
-Received: from zn.tnic (p200300ec2f0e42006096e946d741c4e4.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:4200:6096:e946:d741:c4e4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7EFAC1EC0328;
-        Tue, 15 Sep 2020 18:33:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1600187598;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=ZWwBzofbLwaO1lqUGe+0uSmnKjSrhBMl5LKNuGBjotY=;
-        b=WOwquMcUbe2yULVzAwTw4t0gqRs3C/n65jZqTEGlEt3lWGoWQjEpgrEGKOHANYtlGitY2Q
-        uIEqQxxaWIIMWBFVsBepzL1mqEJueMCtafqZjhy0etuDR+dO110j5sEfGtoKu5ltzQ0Iv+
-        UoQAgaZEi2b8SVyjillCNHouaQQ95og=
-Date:   Tue, 15 Sep 2020 18:33:12 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Alex Kluver <alex.kluver@hpe.com>
-Cc:     linux-edac@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ardb@kernel.org, mchehab@kernel.org,
-        russ.anderson@hpe.com, dimitri.sivanich@hpe.com,
-        kluveralex@gmail.com
-Subject: Re: [PATCH v2 1/2] edac,ghes,cper: Add Row Extension to Memory Error
- Record
-Message-ID: <20200915163312.GO14436@zn.tnic>
-References: <20200819143544.155096-1-alex.kluver@hpe.com>
- <20200819143544.155096-2-alex.kluver@hpe.com>
+        id S1727409AbgIOWzh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 15 Sep 2020 18:55:37 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:36338 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727401AbgIOPYm (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 15 Sep 2020 11:24:42 -0400
+Received: by mail-io1-f66.google.com with SMTP id d190so4523138iof.3;
+        Tue, 15 Sep 2020 08:24:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TQwbsrSpPsblvvewNTAvygU6LX9JkoPG3XT5duFS2B8=;
+        b=pMa5QV6rMAf2UdR/IH7HVyXxjxlV9j/Ul8p4ApSo4Kx8qYkfv1XQ8mo3567ojZEszO
+         5ozjTyPxqBj5MSdOqddKPzohM6EW0AEiPY5yWuUG0K30hx9hGSixEpmZEsqk/Jgjsp11
+         5Amn2G9hyTLVcbf0jCq5nFFEE6eN4PNB+rgD0vfRV+evLEV6OeR+I/ywK8lGeoRsSoD8
+         dM5tAXYfC35vmXY7eXaqSD1qp9ZMe95bsyUNJXa6MHrCoMYuos5R1/BOnsb1rsXl50/1
+         UA7MASY7RDgFcjKXo6BRHTN1OitNgM6/MwbfEJPIe6sltOOYpLmE6jIbTWp/1lhvDJT9
+         jXbA==
+X-Gm-Message-State: AOAM5332WGfC6JA3bWEU4g8v9YIudeuQQxFSYiM0NVDlF0f6bsKsjb+R
+        9eTmsaaKRVDkfdhOIjNnQA==
+X-Google-Smtp-Source: ABdhPJyqKFyTIVHyJqHIrEsdIMGqq15HhgpOa6nWJTDsqIgRo7dmwPY2ATDZsR/bup7/2N61XSAUZw==
+X-Received: by 2002:a05:6602:2c4d:: with SMTP id x13mr10837671iov.94.1600183478508;
+        Tue, 15 Sep 2020 08:24:38 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id i9sm4609484ils.34.2020.09.15.08.24.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2020 08:24:37 -0700 (PDT)
+Received: (nullmailer pid 1973925 invoked by uid 1000);
+        Tue, 15 Sep 2020 15:24:35 -0000
+Date:   Tue, 15 Sep 2020 09:24:35 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yash Shah <yash.shah@sifive.com>
+Cc:     palmer@dabbelt.com, paul.walmsley@sifive.com, bp@alien8.de,
+        mchehab@kernel.org, tony.luck@intel.com, aou@eecs.berkeley.edu,
+        james.morse@arm.com, rrichter@marvell.com,
+        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        sachin.ghadi@sifive.com
+Subject: Re: [PATCH v2 1/3] dt-bindings: riscv: Add DT documentation for DDR
+ Controller in SiFive SoCs
+Message-ID: <20200915152435.GB1940827@bogus>
+References: <1599457679-8947-1-git-send-email-yash.shah@sifive.com>
+ <1599457679-8947-2-git-send-email-yash.shah@sifive.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200819143544.155096-2-alex.kluver@hpe.com>
+In-Reply-To: <1599457679-8947-2-git-send-email-yash.shah@sifive.com>
 Sender: linux-edac-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 09:35:43AM -0500, Alex Kluver wrote:
-> Memory errors could be printed with incorrect row values since the DIMM
-> size has outgrown the 16 bit row field in the CPER structure. UEFI
-> Specification Version 2.8 has increased the size of row by allowing it to
-> use the first 2 bits from a previously reserved space within the structure.
+On Mon, Sep 07, 2020 at 11:17:57AM +0530, Yash Shah wrote:
+> Add device tree bindings for SiFive FU540 DDR controller driver
 > 
-> When needed, add the extension bits to the row value printed.
-> 
-> Based on UEFI 2.8 Table 299. Memory Error Record
-> 
-> Reviewed-by: Kyle Meyer <kyle.meyer@hpe.com>
-> Reviewed-by: Steve Wahl <steve.wahl@hpe.com>
-> Tested-by: Russ Anderson <russ.anderson@hpe.com>
-> Signed-off-by: Alex Kluver <alex.kluver@hpe.com>
+> Signed-off-by: Yash Shah <yash.shah@sifive.com>
+> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
 > ---
+>  .../devicetree/bindings/riscv/sifive-ddr.yaml      | 41 ++++++++++++++++++++++
+
+Bindings are organized by function, not vendor/arch generally. This goes 
+in bindings/memory-controllers/.
+
+>  1 file changed, 41 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/riscv/sifive-ddr.yaml
 > 
-> v1 -> v2:
->    * Add static inline cper_get_mem_extension() to make it 
->     more readable, as suggested by Borislav Petkov.
+> diff --git a/Documentation/devicetree/bindings/riscv/sifive-ddr.yaml b/Documentation/devicetree/bindings/riscv/sifive-ddr.yaml
+> new file mode 100644
+> index 0000000..0288119
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/riscv/sifive-ddr.yaml
+> @@ -0,0 +1,41 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/riscv/sifive-ddr.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: SiFive DDR memory controller binding
+> +
+> +description: |
+> +  The Sifive DDR controller driver is used to manage the Cadence DDR
+> +  controller present in SiFive FU540-C000 SoC. Currently the driver is
+> +  used to manage EDAC feature of the DDR controller.
+
+Bindings describe h/w not drivers. What a driver supports is irrelevant.
+
+> +
+> +maintainers:
+> +  - Yash Shah <yash.shah@sifive.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - sifive,fu540-c000-ddr
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    memory-controller@100b0000 {
+> +        compatible = "sifive,fu540-c000-ddr";
+> +        reg = <0x100b0000 0x4000>;
+> +        interrupts = <31>;
+> +    };
+> -- 
+> 2.7.4
 > 
->    * Add second patch for bank field, bank group, and chip id.
-> 
-> ---
->  drivers/edac/ghes_edac.c    |  8 ++++++--
->  drivers/firmware/efi/cper.c |  9 +++++++--
->  include/linux/cper.h        | 16 ++++++++++++++--
->  3 files changed, 27 insertions(+), 6 deletions(-)
-
-For the EDAC bits:
-
-Acked-by: Borislav Petkov <bp@suse.de>
-
-Also, I could take both through the EDAC tree, if people prefer.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
