@@ -1,62 +1,66 @@
-Return-Path: <SRS0=uN6N=CY=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=I8Wf=CZ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C72ADC31E40
-	for <linux-edac@archiver.kernel.org>; Tue, 15 Sep 2020 22:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39328C433E2
+	for <linux-edac@archiver.kernel.org>; Wed, 16 Sep 2020 16:38:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94F56208E4
-	for <linux-edac@archiver.kernel.org>; Tue, 15 Sep 2020 22:59:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6D1422403
+	for <linux-edac@archiver.kernel.org>; Wed, 16 Sep 2020 16:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600210755;
-	bh=0xyXwfxoIK/ZtHtyv1UhPApx13+V3AjswVKHmWQ82cw=;
+	s=default; t=1600274325;
+	bh=HXKmEB+gVrlnCwL4jhYUdk21Fx+cEGbZ7v9sMWjklP8=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=t7IoC3QLm7Tvp+PBxWfiNSQNGuDzLEyJjLcgonX1qlmSRHnEQ7hWZPAPC/JhZb4d5
-	 EZUjMvjfyZqriPkfhXBevtGxPuP9riN8jBsHcJxN84WODx64Tm1W2Kzgww1PhDRRr+
-	 lYDA3oBKIxnCt5595fggLa/U+xYs+f6ezIbnOpW4=
+	b=gIzTBK07gF9wXUi2Rk1qdt9vugT76mSEFPwCNnvaCCxdVkyELy+w7rdHikw4Nhc9w
+	 Zrr+vNNusURywswAHA3QjHgZ8oE6G8nMtnzhtd0L9xXBcjzHbHaCaYNU+nd5XmngQI
+	 WdE0Qw9jEV4q9TMhoVyJ8GNVqTRQ5wBlbG2XwCV4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727387AbgIOW7K (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 15 Sep 2020 18:59:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34454 "EHLO mail.kernel.org"
+        id S1726380AbgIPQhk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 16 Sep 2020 12:37:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46250 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727426AbgIOPIQ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 15 Sep 2020 11:08:16 -0400
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+        id S1726571AbgIPQf2 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 16 Sep 2020 12:35:28 -0400
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0974F20735;
-        Tue, 15 Sep 2020 15:08:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CB2BB22284;
+        Wed, 16 Sep 2020 13:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600182485;
-        bh=0xyXwfxoIK/ZtHtyv1UhPApx13+V3AjswVKHmWQ82cw=;
+        s=default; t=1600261787;
+        bh=HXKmEB+gVrlnCwL4jhYUdk21Fx+cEGbZ7v9sMWjklP8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ygYgM9m/bn66TFThps3RBp45NivF6dFd2IrQJ/yJlDwq+o3zu/o2aXDe6+eKuDFFz
-         PLLsQ5OEiyl8vcGmQlSZWp4uw3iOkasAeQDPaNPVyDxLa52lXu5nBpOszYtGNCwRIM
-         hbR9tQ38wmTvZhW+cfAbHF0TeKDmXRRnJU7erbZk=
-Received: by mail-oi1-f169.google.com with SMTP id w16so4261576oia.2;
-        Tue, 15 Sep 2020 08:08:05 -0700 (PDT)
-X-Gm-Message-State: AOAM531F8ap7J0dJU1XWJGrxggT/aZsMubkyEK7G88FkSdI52fQMwtVC
-        IhP+FTEgkEB01Kq2blNlwyg3KC5Nca4ZU26xqdM=
-X-Google-Smtp-Source: ABdhPJzAG3ESL6xwQvsmKw3etkopo2FiMleIRFHatfSzighPVWG+gBwRKvRcbxo96nRRSLkkjrR7A+yRyZJlrGpN1hs=
-X-Received: by 2002:a54:4517:: with SMTP id l23mr3918280oil.174.1600182484304;
- Tue, 15 Sep 2020 08:08:04 -0700 (PDT)
+        b=uQO56onJR6+k5d43NMLAzyz6MEFicSp6F7461G5ZQ2b5GldA75myUsfICEmpy0J9I
+         lkVENS4IZJjYTFRXZaD8JdU1nppQ5lIYQ+uQ9gkMfbgrN7Kwv9RwWo6ouMipQvVHxV
+         p2wAZQ6gyFTVO85A82cU+ZwQmlS0lQN3B0tHpGWg=
+Received: by mail-ot1-f42.google.com with SMTP id e23so6622457otk.7;
+        Wed, 16 Sep 2020 06:09:47 -0700 (PDT)
+X-Gm-Message-State: AOAM530TLHYkYzkGLarrX3x4bX98t+0eBIv2EI03Eyyxgn/Wy8ARCA3x
+        RC69pw/yjWCu5a6gaseDSKPW5Glbt/xPZxjC7Bw=
+X-Google-Smtp-Source: ABdhPJzWXGjnWT4sGj/Dszvt19cOxly0HZeAV+QlcRdZunOCvR5gkuzck5v/O3RtX241uYgNwOf7IQwEUMe0MfHJdzM=
+X-Received: by 2002:a9d:335:: with SMTP id 50mr2259149otv.90.1600261787088;
+ Wed, 16 Sep 2020 06:09:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200819143544.155096-1-alex.kluver@hpe.com>
-In-Reply-To: <20200819143544.155096-1-alex.kluver@hpe.com>
+References: <20200819143544.155096-1-alex.kluver@hpe.com> <20200819143544.155096-2-alex.kluver@hpe.com>
+ <20200915163312.GO14436@zn.tnic> <CAMj1kXHmVhB88qZc-1mHAD1ovNJQnWRBncmQJTR_4+kV0fXG5w@mail.gmail.com>
+ <CAMj1kXGvfiqZz-j5=LU0Z6yYCkr24pCz6aJS62QL8cBYUP_S=w@mail.gmail.com> <20200915171910.GQ14436@zn.tnic>
+In-Reply-To: <20200915171910.GQ14436@zn.tnic>
 From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 15 Sep 2020 18:07:53 +0300
-X-Gmail-Original-Message-ID: <CAMj1kXHHJD3cAvHiYbyj_BjVeeF6Oq3Fu92rZng_QE0BMsxOJw@mail.gmail.com>
-Message-ID: <CAMj1kXHHJD3cAvHiYbyj_BjVeeF6Oq3Fu92rZng_QE0BMsxOJw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] UEFI v2.8 Memory Error Record Updates
-To:     Alex Kluver <alex.kluver@hpe.com>
-Cc:     linux-edac@vger.kernel.org, linux-efi <linux-efi@vger.kernel.org>,
+Date:   Wed, 16 Sep 2020 16:09:36 +0300
+X-Gmail-Original-Message-ID: <CAMj1kXE6PKb==h_154hRKwZLr3Ek+4z4A8FdTHx=co18ww5d3Q@mail.gmail.com>
+Message-ID: <CAMj1kXE6PKb==h_154hRKwZLr3Ek+4z4A8FdTHx=co18ww5d3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] edac,ghes,cper: Add Row Extension to Memory Error Record
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Alex Kluver <alex.kluver@hpe.com>, linux-edac@vger.kernel.org,
+        linux-efi <linux-efi@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        mchehab@kernel.org, Borislav Petkov <bp@alien8.de>,
-        russ.anderson@hpe.com, Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+        mchehab@kernel.org, russ.anderson@hpe.com,
+        Dimitri Sivanich <dimitri.sivanich@hpe.com>,
         kluveralex@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-edac-owner@vger.kernel.org
@@ -64,35 +68,22 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, 19 Aug 2020 at 17:36, Alex Kluver <alex.kluver@hpe.com> wrote:
+On Tue, 15 Sep 2020 at 20:19, Borislav Petkov <bp@alien8.de> wrote:
 >
-> The UEFI Specification v2.8, Table 299, Memory Error Record has
-> several changes from previous versions. Bits 18 through 21 have been
-> added to the memory validation bits to include an extended version
-> of row, an option to print bank address and group separately, and chip id.
-> These patches implement bits 18 through 21 into the Memory Error Record.
+> On Tue, Sep 15, 2020 at 08:12:31PM +0300, Ard Biesheuvel wrote:
+> > Boris - do you anticipate any conflicts? If so, please take these via
+> > the EDAC tree - the CPER code is mostly self contained so I don't
+> > expect any conflicts with the EFI tree in that case.
 >
-> Change reserved field to extended field in cper_sec_mem_err structure
-> and added the extended field to the cper_mem_err_compact structure.
->
-> Print correct versions of row, bank, and chip ID.
-> ---
-> v1 -> v2:
->    * Add static inline cper_get_mem_extension to make
->      it more readable, as suggested by Borislav Petkov
->
->    * Add second patch for bank field, bank group, and chip id.
-> ---
-> Alex Kluver (2):
->   edac,ghes,cper: Add Row Extension to Memory Error Record
->   cper,edac,efi: Memory Error Record: bank group/address and chip id
->
->  drivers/edac/ghes_edac.c    | 17 +++++++++++++++--
->  drivers/firmware/efi/cper.c | 18 ++++++++++++++++--
->  include/linux/cper.h        | 24 ++++++++++++++++++++++--
->  3 files changed, 53 insertions(+), 6 deletions(-)
+> None so far, and I applied them for testing ontop of my EDAC queue for
+> 5.10 so it should be all good. But if you want me, I can test-merge your
+> branch once ready, just in case...
 >
 
-For the series,
+I managed to apply these patches by using a different base and
+cherrypicking them into efi/next
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+I expect to send out a couple of PRs tomorrow, once the bots have had
+a go at building the branches. In the meantime, you can take a look at
+
+git://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
