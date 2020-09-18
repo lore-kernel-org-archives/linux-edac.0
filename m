@@ -1,89 +1,152 @@
-Return-Path: <SRS0=dVFg=C2=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=f1F4=C3=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 471F9C43464
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Sep 2020 20:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8490C43463
+	for <linux-edac@archiver.kernel.org>; Fri, 18 Sep 2020 02:37:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB3D02075B
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Sep 2020 20:11:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="Dt67bGyJ"
+	by mail.kernel.org (Postfix) with ESMTP id 578A823772
+	for <linux-edac@archiver.kernel.org>; Fri, 18 Sep 2020 02:37:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726333AbgIQULl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 17 Sep 2020 16:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55504 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726192AbgIQULk (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 17 Sep 2020 16:11:40 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 883BDC06174A;
-        Thu, 17 Sep 2020 13:10:36 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f105300976879d3dfc1e489.dip0.t-ipconnect.de [IPv6:2003:ec:2f10:5300:9768:79d3:dfc1:e489])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 716611EC032C;
-        Thu, 17 Sep 2020 22:10:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1600373434;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=P95wvz8GjlQzrWPN6pifkKg5AF9utITXdObIIxhYzsI=;
-        b=Dt67bGyJjlr6RfszmCnyljEZg0OGNDqUff0/pv1RTRAV1uHSFteBjZwl2HCH0pnYEBTjAu
-        25I79ayECpEfvDaM2+0T8yxAbfCWVAqM0fEg8pqgJvTllxD4r7fJODLZ4UrjwszFYfFctK
-        mWj5GFONTtzeWZVLSANVDaQ65NgMIFg=
-Date:   Thu, 17 Sep 2020 22:10:27 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tony.luck@intel.com, x86@kernel.org,
-        Smita.KoralahalliChannabasappa@amd.com
-Subject: Re: [PATCH v2 1/8] x86/CPU/AMD: Save NodeId on AMD-based systems
-Message-ID: <20200917201027.GS31960@zn.tnic>
-References: <20200909180647.GF12237@zn.tnic>
- <20200909201755.GB3014671@yaz-nikka.amd.com>
- <20200910101443.GC8357@zn.tnic>
- <20200914192039.GA39519@yaz-nikka.amd.com>
- <20200915083259.GC14436@zn.tnic>
- <20200916195152.GA3042858@yaz-nikka.amd.com>
- <20200917103720.GG31960@zn.tnic>
- <20200917162053.GA234735@yaz-nikka.amd.com>
- <20200917164048.GM31960@zn.tnic>
- <20200917194425.GB504453@yaz-nikka.amd.com>
+        id S1729936AbgIRChf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 17 Sep 2020 22:37:35 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:13283 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726333AbgIRChe (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 17 Sep 2020 22:37:34 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 8BFCC36520A4953305A4;
+        Fri, 18 Sep 2020 10:37:31 +0800 (CST)
+Received: from [10.174.178.16] (10.174.178.16) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 18 Sep 2020 10:37:28 +0800
+Subject: Re: [PATCH v2] EDAC/mc_sysfs: Add missing newlines when printing
+ {max,dimm}_location
+To:     Borislav Petkov <bp@alien8.de>
+CC:     <mchehab@kernel.org>, <tony.luck@intel.com>,
+        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1600051734-8993-1-git-send-email-wangxiongfeng2@huawei.com>
+ <20200916170052.GO2643@zn.tnic>
+ <591e613e-0b53-028f-08fd-3d62a35b8c4f@huawei.com>
+ <20200917162537.GL31960@zn.tnic>
+From:   Xiongfeng Wang <wangxiongfeng2@huawei.com>
+Message-ID: <8ac6d481-e1c4-108e-dbec-b1e86b2d0e86@huawei.com>
+Date:   Fri, 18 Sep 2020 10:37:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200917194425.GB504453@yaz-nikka.amd.com>
+In-Reply-To: <20200917162537.GL31960@zn.tnic>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.16]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 02:44:25PM -0500, Yazen Ghannam wrote:
-> Yes, I think so. "Die" is not defined in CPUID(0xb), only SMT and Core,
-> so the cpu_die_id value is not valid.
 
-Right.
 
-> In which case, we can overwrite it. CPUID(0xb) doesn't have anything
-> equivalent to AMD NodeId. So on systems with CPUID < 0x1F, we should
-> be okay with using cpu_die_id equal to AMD NodeId.
+On 2020/9/18 0:25, Borislav Petkov wrote:
+> On Thu, Sep 17, 2020 at 07:38:57PM +0800, Xiongfeng Wang wrote:
+>> I am not sure if snprintf will return a value larger than its second input
+>> paramter 'size'.
+> 
+> The comment over snprintf() says
+> 
+>  * The return value is the number of characters which would be
+>  * generated for the given input, excluding the trailing null,
+>  * as per ISO C99.  If the return is greater than or equal to
+>  * @size, the resulting string is truncated.
+> 
+> And let's try it, see diff at the end. Now look what that produces:
+> 
+> [    2.594796] kernel_init: len: 16, str: [A lo]
+> 
+> it returns 16 for len even though the buffer is 5 chars long. So in our
+> patch, we'd increment by 16 which would be wrong.
+> 
+> Now let's use scnprintf():
+> 
+> [    2.700142] kernel_init: len: 4, str: [A lo]
+> 
+> Much better. Lemme do that.
+> 
+>> Not sure whether we need to check 'len' equals to 0.
+>> if (len <= 0) ?
+> 
+> Yeah, lemme fix that too, so we have now incrementally ontop:
 
-Right.
 
-> I have an idea on what to do, so I'll send another rev if that's okay.
-> Do you have any comments on the other patches in the set?
+Thansk a lot. I will send another version. Also I will change the 'snprintf' in
+'dimmdev_location_show()' to 'scnprintf'
 
-Lemme go through them these days.
+Thanks,
+Xiongfeng
 
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> 
+> ---
+> diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
+> index fa0551c81e63..c56e0004b39e 100644
+> --- a/drivers/edac/edac_mc_sysfs.c
+> +++ b/drivers/edac/edac_mc_sysfs.c
+> @@ -822,18 +822,17 @@ static ssize_t mci_max_location_show(struct device *dev,
+>  	int i, n;
+>  
+>  	for (i = 0; i < mci->n_layers; i++) {
+> -		n = snprintf(p, len, "%s %d ",
+> -			     edac_layer_name[mci->layers[i].type],
+> -			     mci->layers[i].size - 1);
+> -
+> +		n = scnprintf(p, len, "%s %d ",
+> +			      edac_layer_name[mci->layers[i].type],
+> +			      mci->layers[i].size - 1);
+>  		len -= n;
+> -		if (len < 0)
+> +		if (len <= 0)
+>  			goto out;
+>  
+>  		p += n;
+>  	}
+>  
+> -	p += snprintf(p, len, "\n");
+> +	p += scnprintf(p, len, "\n");
+>  out:
+>  	return p - data;
+>  }
+> ---
+> 
+> Test diff:
+> 
+> ---
+> diff --git a/init/main.c b/init/main.c
+> index ae78fb68d231..e2d6110d3a3d 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -1397,7 +1397,8 @@ void __weak free_initmem(void)
+>  
+>  static int __ref kernel_init(void *unused)
+>  {
+> -	int ret;
+> +	char str[5];
+> +	int ret, len;
+>  
+>  	kernel_init_freeable();
+>  	/* need to finish all async __init code before freeing the memory */
+> @@ -1419,6 +1420,11 @@ static int __ref kernel_init(void *unused)
+>  
+>  	do_sysctl_args();
+>  
+> +	len = snprintf(str, 5, "A longer string\n");
+> +
+> +	pr_info("%s: len: %d, str: [%s]\n",
+> +		__func__, len, str);
+> +
+>  	if (ramdisk_execute_command) {
+>  		ret = run_init_process(ramdisk_execute_command);
+>  		if (!ret)
+> 
