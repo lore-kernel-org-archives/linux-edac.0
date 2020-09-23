@@ -1,150 +1,173 @@
-Return-Path: <SRS0=pIdk=C6=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=+DwO=DA=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-8.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7648AC43465
-	for <linux-edac@archiver.kernel.org>; Mon, 21 Sep 2020 14:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C886C4363D
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Sep 2020 01:44:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BD1D2371F
-	for <linux-edac@archiver.kernel.org>; Mon, 21 Sep 2020 14:43:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FC63238A1
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Sep 2020 01:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600699428;
-	bh=lf35bmvkVf58PLzv2uXzL4aMrtSeqejjPYhEr5ev3Wc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=z3jTRYqZfIq9WfyoH81WuccWYbIQFyyoRGSalBK5rwnuA0tOqas5iDSMvyxTLQ7YY
-	 yGcPFC1gzfIYglIxTrX38euXgWaPQm1jguvpjZpbiYA8Mo2pT5ltLtzd3PNOoRls1Y
-	 vLakb3/0w8S+MPulqd0EF9rPIRVclJldxjH7fXks=
+	s=default; t=1600825444;
+	bh=/mv7XWqTiYWR6o/xSPo8s1q3xMl8+80d4aWHfAsgsvc=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=WoR87zGRHaFPEbeJKeUkvAciGr9sAqcjHML9ZKNlR7vIlrUtXtLKyAqOJcdHVucJN
+	 tI+PlfHlM/GMjBQajkkwre0xmEmOQPMjS2NT+0iFXXY7fXx70DxbpD9p1LnQ5UAKCR
+	 NqTGbPfqD5EMwRmRpy8+idrKlabpJwWM8bZlOP+U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728247AbgIUOnc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 21 Sep 2020 10:43:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49348 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727856AbgIUOkm (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 21 Sep 2020 10:40:42 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 52483221EC;
-        Mon, 21 Sep 2020 14:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600699241;
-        bh=lf35bmvkVf58PLzv2uXzL4aMrtSeqejjPYhEr5ev3Wc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C65I3KKaWvQ5pT9lmTTkPmpVDhLdqawKwUlXNU8J3F+afFwgYuV5d7+O6Kg3nzKDY
-         K9rMVopF2rXtNzKrVq2JtHlmWMGZQ3+jYQer6bSaYnWik8KV9SiumODHMM+JAosMda
-         CCG4jmpOl29ThNzFkxPhdCSZDEHnt/y4IVqiyxwQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Borislav Petkov <bp@suse.de>, Sasha Levin <sashal@kernel.org>,
+        id S1727075AbgIWBoD (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 22 Sep 2020 21:44:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56750 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbgIWBn7 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 22 Sep 2020 21:43:59 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F4CC061755
+        for <linux-edac@vger.kernel.org>; Tue, 22 Sep 2020 18:43:59 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id n2so23287857oij.1
+        for <linux-edac@vger.kernel.org>; Tue, 22 Sep 2020 18:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jS6qXoxP8oaPPr4z/ISWBa/fqTB0t5njLCtqvmesqnQ=;
+        b=G+hI5wX8b2Mgi7CpmlZz/BbRZ94AkUl88hXN1JwuQ34ehWFDDAH1EiGJlznX6Q1hkh
+         leoTF4ALmGHjcSFCGWQTp9oolzWxQJAfHjJcY2uTD8jw1//YObslhst7+G02nWz+wJ6H
+         SamX0bagHIpt+fJ/d7+7oToKKwlqUc5BpPiJY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jS6qXoxP8oaPPr4z/ISWBa/fqTB0t5njLCtqvmesqnQ=;
+        b=UgX/cz8mKGI8o4VEJLpkkVljzsi3isfhtfDEOn+RF8Z9zcPhxR6BWFBfw8lY4bDTOJ
+         V0TTiRduU3O3+II0DaPzNfUqWpP4P3e6RpA6Qz56dspZglVdjmvd+YWO1j+/+ye2MVyf
+         ajyhCLaw3lg45KEukX0Uk8lpTXH0lSGuqvUYpE+wz2tnW73jpWbcE1u6w6WrBlZCdq9a
+         lY7K/f+4WkUdRywMsYg3pdzvv/1wmWSakhygARX7ZJexa+niiEXDqkOLS7qyOkC9d6HW
+         iSvtPg6iugYR+964hHVA0b38UAkK/SD8EFQpysYUYfNLV0mmsLcYxU6rfhbmwoL8NLYz
+         I2Iw==
+X-Gm-Message-State: AOAM532wz6kEQs/gv5fxLQSV68uYNop4oOpq2ttQzJLyWbY+WgrkmmkR
+        XjmoKBd+gYSSvro1pXOlcY1/uA==
+X-Google-Smtp-Source: ABdhPJyPQg1FpZjcUx+RNaSk3Z0uB0vB4JXzkK2pjJD8AjXfQL76MIafNbVdr3ZrCY8bDGXBAwq3dg==
+X-Received: by 2002:aca:4142:: with SMTP id o63mr4085367oia.167.1600825436078;
+        Tue, 22 Sep 2020 18:43:56 -0700 (PDT)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id y23sm8801820ooj.34.2020.09.22.18.43.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2020 18:43:55 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+        shuah@kernel.org, rafael@kernel.org, johannes@sipsolutions.net,
+        lenb@kernel.org, james.morse@arm.com, tony.luck@intel.com,
+        bp@alien8.de, arve@android.com, tkjos@android.com,
+        maco@android.com, joel@joelfernandes.org, christian@brauner.io,
+        hridya@google.com, surenb@google.com, minyard@acm.org,
+        arnd@arndb.de, mchehab@kernel.org, rric@kernel.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
+        openipmi-developer@lists.sourceforge.net,
         linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 11/20] EDAC/ghes: Check whether the driver is on the safe list correctly
-Date:   Mon, 21 Sep 2020 10:40:18 -0400
-Message-Id: <20200921144027.2135390-11-sashal@kernel.org>
+Subject: [RFC PATCH 00/11] Introduce Simple atomic and non-atomic counters
+Date:   Tue, 22 Sep 2020 19:43:29 -0600
+Message-Id: <cover.1600816121.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200921144027.2135390-1-sashal@kernel.org>
-References: <20200921144027.2135390-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Borislav Petkov <bp@suse.de>
+This patch series is a result of discussion at the refcount_t BOF
+the Linux Plumbers Conference. In this discussion, we identifed
+a need for looking closely and investigating atomic_t usages in
+the kernel when it is used strictly as a counter wothout it
+controlling object lifetimes and state changes.
 
-[ Upstream commit 251c54ea26fa6029b01a76161a37a12fde5124e4 ]
+There are a number of atomic_t usages in the kernel where atomic_t api
+is used strictly for counting and not for managing object lifetime. In
+some cases, atomic_t might not even be needed.
+    
+The purpose of these counters is twofold: 1. clearly differentiate
+atomic_t counters from atomic_t usages that guard object lifetimes,
+hence prone to overflow and underflow errors. It allows tools that scan
+for underflow and overflow on atomic_t usages to detect overflow and
+underflows to scan just the cases that are prone to errors. 2. provides
+non-atomic counters for cases where atomic isn't necessary.
+    
+Simple atomic and non-atomic counters api provides interfaces for simple
+atomic and non-atomic counters that just count, and don't guard resource
+lifetimes. Counters will wrap around to 0 when it overflows and should
+not be used to guard resource lifetimes, device usage and open counts
+that control state changes, and pm states.
+    
+Using counter_atomic to guard lifetimes could lead to use-after free
+when it overflows and undefined behavior when used to manage state
+changes and device usage/open states.
 
-With CONFIG_DEBUG_TEST_DRIVER_REMOVE=y, a system would try to probe,
-unregister and probe again a driver.
+This patch series introduces Simple atomic and non-atomic counters.
+Counter atomic ops leverage atomic_t and provide a sub-set of atomic_t
+ops.
 
-When ghes_edac is attempted to be loaded on a system which is not on
-the safe platforms list, ghes_edac_register() would return early. The
-unregister counterpart ghes_edac_unregister() would still attempt to
-unregister and exit early at the refcount test, leading to the refcount
-underflow below.
+In addition this patch series converts a few drivers to use the new api.
+The following criteria is used for select variables for conversion:
 
-In order to not do *anything* on the unregister path too, reuse the
-force_load parameter and check it on that path too, before fumbling with
-the refcount.
+1. Variable doesn't guard object lifetimes, manage state changes e.g:
+   device usage counts, device open counts, and pm states.
+2. Variable is used for stats and counters.
+3. The conversion doesn't change the overflow behavior.
 
-  ghes_edac: ghes_edac_register: entry
-  ghes_edac: ghes_edac_register: return -ENODEV
-  ------------[ cut here ]------------
-  refcount_t: underflow; use-after-free.
-  WARNING: CPU: 10 PID: 1 at lib/refcount.c:28 refcount_warn_saturate+0xb9/0x100
-  Modules linked in:
-  CPU: 10 PID: 1 Comm: swapper/0 Not tainted 5.9.0-rc4+ #12
-  Hardware name: GIGABYTE MZ01-CE1-00/MZ01-CE1-00, BIOS F02 08/29/2018
-  RIP: 0010:refcount_warn_saturate+0xb9/0x100
-  Code: 82 e8 fb 8f 4d 00 90 0f 0b 90 90 c3 80 3d 55 4c f5 00 00 75 88 c6 05 4c 4c f5 00 01 90 48 c7 c7 d0 8a 10 82 e8 d8 8f 4d 00 90 <0f> 0b 90 90 c3 80 3d 30 4c f5 00 00 0f 85 61 ff ff ff c6 05 23 4c
-  RSP: 0018:ffffc90000037d58 EFLAGS: 00010292
-  RAX: 0000000000000026 RBX: ffff88840b8da000 RCX: 0000000000000000
-  RDX: 0000000000000001 RSI: ffffffff8216b24f RDI: 00000000ffffffff
-  RBP: ffff88840c662e00 R08: 0000000000000001 R09: 0000000000000001
-  R10: 0000000000000001 R11: 0000000000000046 R12: 0000000000000000
-  R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000000
-  FS:  0000000000000000(0000) GS:ffff88840ee80000(0000) knlGS:0000000000000000
-  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  CR2: 0000000000000000 CR3: 0000800002211000 CR4: 00000000003506e0
-  Call Trace:
-   ghes_edac_unregister
-   ghes_remove
-   platform_drv_remove
-   really_probe
-   driver_probe_device
-   device_driver_attach
-   __driver_attach
-   ? device_driver_attach
-   ? device_driver_attach
-   bus_for_each_dev
-   bus_add_driver
-   driver_register
-   ? bert_init
-   ghes_init
-   do_one_initcall
-   ? rcu_read_lock_sched_held
-   kernel_init_freeable
-   ? rest_init
-   kernel_init
-   ret_from_fork
-   ...
-  ghes_edac: ghes_edac_unregister: FALSE, refcount: -1073741824
+Please review and let me know if non-stat conversions e.g: probe_count,
+deferred_trigger_count make sense.
 
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Link: https://lkml.kernel.org/r/20200911164950.GB19320@zn.tnic
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/edac/ghes_edac.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Shuah Khan (11):
+  counters: Introduce counter and counter_atomic counters
+  selftests:lib:test_counters: add new test for counters
+  drivers/base: convert deferred_trigger_count and probe_count to
+    counter_atomic
+  drivers/base/devcoredump: convert devcd_count to counter_atomic
+  drivers/acpi: convert seqno counter_atomic
+  drivers/acpi/apei: convert seqno counter_atomic
+  drivers/android/binder: convert stats, transaction_log to
+    counter_atomic
+  drivers/base/test/test_async_driver_probe: convert to use
+    counter_atomic
+  drivers/char/ipmi: convert stats to use counter_atomic
+  drivers/misc/vmw_vmci: convert num guest devices counter to
+    counter_atomic
+  drivers/edac: convert pci counters to counter_atomic
 
-diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index cb3dab56a875d..efad23575b16b 100644
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -469,6 +469,7 @@ int ghes_edac_register(struct ghes *ghes, struct device *dev)
- 		if (!force_load && idx < 0)
- 			return -ENODEV;
- 	} else {
-+		force_load = true;
- 		idx = 0;
- 	}
- 
-@@ -566,6 +567,9 @@ void ghes_edac_unregister(struct ghes *ghes)
- 	struct mem_ctl_info *mci;
- 	unsigned long flags;
- 
-+	if (!force_load)
-+		return;
-+
- 	mutex_lock(&ghes_reg_mutex);
- 
- 	if (!refcount_dec_and_test(&ghes_refcount))
+ Documentation/core-api/counters.rst          | 158 +++++++++
+ MAINTAINERS                                  |   8 +
+ drivers/acpi/acpi_extlog.c                   |   5 +-
+ drivers/acpi/apei/ghes.c                     |   5 +-
+ drivers/android/binder.c                     |  41 +--
+ drivers/android/binder_internal.h            |   3 +-
+ drivers/base/dd.c                            |  19 +-
+ drivers/base/devcoredump.c                   |   5 +-
+ drivers/base/test/test_async_driver_probe.c  |  23 +-
+ drivers/char/ipmi/ipmi_msghandler.c          |   9 +-
+ drivers/char/ipmi/ipmi_si_intf.c             |   9 +-
+ drivers/edac/edac_pci.h                      |   5 +-
+ drivers/edac/edac_pci_sysfs.c                |  28 +-
+ drivers/misc/vmw_vmci/vmci_guest.c           |   9 +-
+ include/linux/counters.h                     | 343 +++++++++++++++++++
+ lib/Kconfig                                  |  10 +
+ lib/Makefile                                 |   1 +
+ lib/test_counters.c                          | 283 +++++++++++++++
+ tools/testing/selftests/lib/Makefile         |   1 +
+ tools/testing/selftests/lib/config           |   1 +
+ tools/testing/selftests/lib/test_counters.sh |   5 +
+ 21 files changed, 897 insertions(+), 74 deletions(-)
+ create mode 100644 Documentation/core-api/counters.rst
+ create mode 100644 include/linux/counters.h
+ create mode 100644 lib/test_counters.c
+ create mode 100755 tools/testing/selftests/lib/test_counters.sh
+
 -- 
 2.25.1
 
