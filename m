@@ -1,47 +1,39 @@
-Return-Path: <SRS0=BC9n=DB=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=mtPq=DC=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE346C4363D
-	for <linux-edac@archiver.kernel.org>; Thu, 24 Sep 2020 17:50:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D70C4346E
+	for <linux-edac@archiver.kernel.org>; Fri, 25 Sep 2020 00:54:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BCDE20709
-	for <linux-edac@archiver.kernel.org>; Thu, 24 Sep 2020 17:50:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="fJQrWWBx"
+	by mail.kernel.org (Postfix) with ESMTP id 387D7206C9
+	for <linux-edac@archiver.kernel.org>; Fri, 25 Sep 2020 00:54:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727687AbgIXRud (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 24 Sep 2020 13:50:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726477AbgIXRuc (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 24 Sep 2020 13:50:32 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA809C0613CE;
-        Thu, 24 Sep 2020 10:50:32 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0c950018c19313925c730a.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:9500:18c1:9313:925c:730a])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2067F1EC032C;
-        Thu, 24 Sep 2020 19:50:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1600969831;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=jfRzOGxtZvjYf5N7iGsgF7Urgvx5Y3pGCuZvz+8Q08g=;
-        b=fJQrWWBxWiTJFxYjQsiJTA0UTQ/IXImt1eu0XyQf2ZG3rCByXxu+0aHFUwX6chYSD8LHjm
-        4FOKL0nUOJPCgbvpVCJSMXElbiXyD8lymAvjxl/GnWEePzZWZ2WTgSCTo9gPlIQCEXxYPV
-        oVSyuPywWRjrUQiqdxdMs7p3RPSgpI4=
-Date:   Thu, 24 Sep 2020 19:50:23 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Smita Koralahalli Channabasappa <skoralah@amd.com>,
-        Punit Agrawal <punit1.agrawal@toshiba.co.jp>
-Cc:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
+        id S1726798AbgIYAyi (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 24 Sep 2020 20:54:38 -0400
+Received: from mo-csw1516.securemx.jp ([210.130.202.155]:34964 "EHLO
+        mo-csw.securemx.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726700AbgIYAyi (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 24 Sep 2020 20:54:38 -0400
+Received: by mo-csw.securemx.jp (mx-mo-csw1516) id 08P0sBXU010109; Fri, 25 Sep 2020 09:54:11 +0900
+X-Iguazu-Qid: 34trJYZuoCRlJhwH8R
+X-Iguazu-QSIG: v=2; s=0; t=1600995250; q=34trJYZuoCRlJhwH8R; m=5x7FASoPHBhzBBc9o2Kptvc5cYFjVXPhl+ozBC+N1SU=
+Received: from imx12.toshiba.co.jp (imx12.toshiba.co.jp [61.202.160.132])
+        by relay.securemx.jp (mx-mr1511) id 08P0s84l004113;
+        Fri, 25 Sep 2020 09:54:08 +0900
+Received: from enc02.toshiba.co.jp ([61.202.160.51])
+        by imx12.toshiba.co.jp  with ESMTP id 08P0s72w005008;
+        Fri, 25 Sep 2020 09:54:07 +0900 (JST)
+Received: from hop101.toshiba.co.jp ([133.199.85.107])
+        by enc02.toshiba.co.jp  with ESMTP id 08P0s7NM011090;
+        Fri, 25 Sep 2020 09:54:07 +0900
+From:   Punit Agrawal <punit1.agrawal@toshiba.co.jp>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Smita Koralahalli Channabasappa <skoralah@amd.com>,
+        Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
         x86@kernel.org, linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org, linux-edac@vger.kernel.org,
         linux-efi@vger.kernel.org, linux-acpi@vger.kernel.org,
@@ -50,64 +42,86 @@ Cc:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
         Len Brown <len.brown@intel.com>,
         Ard Biesheuvel <ardb@kernel.org>,
         Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: Re: [PATCH v4] cper, apei, mce: Pass x86 CPER through the MCA
- handling chain
-Message-ID: <20200924175023.GN5030@zn.tnic>
+Subject: Re: [PATCH v4] cper, apei, mce: Pass x86 CPER through the MCA handling chain
 References: <20200904140444.161291-1-Smita.KoralahalliChannabasappa@amd.com>
- <87wo0kiz6y.fsf@kokedama.swc.toshiba.co.jp>
- <20200923140512.GJ28545@zn.tnic>
- <87pn6chwil.fsf@kokedama.swc.toshiba.co.jp>
- <52c50f37-a86c-57ad-30e0-dac0857e4ef7@amd.com>
+        <87wo0kiz6y.fsf@kokedama.swc.toshiba.co.jp>
+        <20200923140512.GJ28545@zn.tnic>
+        <87pn6chwil.fsf@kokedama.swc.toshiba.co.jp>
+        <52c50f37-a86c-57ad-30e0-dac0857e4ef7@amd.com>
+        <20200924175023.GN5030@zn.tnic>
+Date:   Fri, 25 Sep 2020 09:54:06 +0900
+In-Reply-To: <20200924175023.GN5030@zn.tnic> (Borislav Petkov's message of
+        "Thu, 24 Sep 2020 19:50:23 +0200")
+X-TSB-HOP: ON
+Message-ID: <877dsiislt.fsf@kokedama.swc.toshiba.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <52c50f37-a86c-57ad-30e0-dac0857e4ef7@amd.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Sep 24, 2020 at 12:23:27PM -0500, Smita Koralahalli Channabasappa wrote:
-> > Even though it's not defined in the UEFI spec, it doesn't mean a
-> > structure definition cannot be created.
+Borislav Petkov <bp@alien8.de> writes:
 
-Created for what? That structure better have a big fat comment above it, what
-firmware generates its layout.
+> On Thu, Sep 24, 2020 at 12:23:27PM -0500, Smita Koralahalli Channabasappa wrote:
+>> > Even though it's not defined in the UEFI spec, it doesn't mean a
+>> > structure definition cannot be created.
+>
+> Created for what? That structure better have a big fat comment above it, what
+> firmware generates its layout.
 
-> > After all, the patch is relying on some guarantee of the meaning of
-> > the values and their ordering.
+Maybe I could've used a better choice of words - I meant to define a
+structure with meaningful member names to replace the *(ptr + i)
+accesses in the patch.
 
-AFAICT, this looks like an ad-hoc definition and the moment they change
-it in some future revision, that struct of yours becomes invalid so we'd
-need to add another one.
+The requirement for documenting the record layout doesn't change -
+whether using raw pointer arithmetic vs a structure definition.
 
-> > If the patch is relying on the definitions in the SMCA spec it is a good
+>> > After all, the patch is relying on some guarantee of the meaning of
+>> > the values and their ordering.
+>
+> AFAICT, this looks like an ad-hoc definition and the moment they change
+> it in some future revision, that struct of yours becomes invalid so we'd
+> need to add another one.
 
-Yes, what SMCA spec is that?
+If there's no spec backing the current layout, then it'll indeed be an
+ad-hoc definition of a structure in the kernel. But considering that
+it's part of firmware / OS interface for an important part of the RAS
+story I would hope that the code is based on a spec - having that
+reference included would help maintainability.
 
-> > idea to reference it here - both for review and providing relevant
-> > context for future developers.
-> 
-> Okay, I agree the structure definition will make the code less arbitrary
-> and provides relevant context compared to pointer arithmetic. I did not
-> think this way. I can try this out if no objections.
+Incompatible changes will indeed break the assumptions in the kernel and
+code will need to be updated - regardless of the choice of kernel
+implementation; pointer arithmetic, structure definition - ad-hoc or
+spec provided.
 
-Again, this struct better have "versioning" info because the moment your
-fw people change it in some future platform, this code needs touching
-again.
+Having versioning will allow running older kernels on newer hardware and
+vice versa - but I don't see why that is important only when using a
+structure based access.
 
-It probably would need touching even with the offsets if those offsets
-change but at least not having it adhere to some slow-moving spec is
-probably easier in case they wanna add/change fields.
-
-So Smita, you probably should talk to fw people about how stable that
-layout at ctx_info + 1 is going to be wrt future platforms so that
-we make sure we only access the correct offsets, now and on future
-platforms.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+>
+>> > If the patch is relying on the definitions in the SMCA spec it is a good
+>
+> Yes, what SMCA spec is that?
+>
+>> > idea to reference it here - both for review and providing relevant
+>> > context for future developers.
+>> 
+>> Okay, I agree the structure definition will make the code less arbitrary
+>> and provides relevant context compared to pointer arithmetic. I did not
+>> think this way. I can try this out if no objections.
+>
+> Again, this struct better have "versioning" info because the moment your
+> fw people change it in some future platform, this code needs touching
+> again.
+>
+> It probably would need touching even with the offsets if those offsets
+> change but at least not having it adhere to some slow-moving spec is
+> probably easier in case they wanna add/change fields.
+>
+> So Smita, you probably should talk to fw people about how stable that
+> layout at ctx_info + 1 is going to be wrt future platforms so that
+> we make sure we only access the correct offsets, now and on future
+> platforms.
+>
+> Thx.
