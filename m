@@ -2,61 +2,66 @@ Return-Path: <SRS0=me7h=DF=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA2AC4727C
-	for <linux-edac@archiver.kernel.org>; Mon, 28 Sep 2020 23:13:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38FCAC4727F
+	for <linux-edac@archiver.kernel.org>; Mon, 28 Sep 2020 23:19:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CB6D23A9A
-	for <linux-edac@archiver.kernel.org>; Mon, 28 Sep 2020 23:13:11 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gb3PRHEL"
+	by mail.kernel.org (Postfix) with ESMTP id 071A720774
+	for <linux-edac@archiver.kernel.org>; Mon, 28 Sep 2020 23:19:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1601335140;
+	bh=fXRc5gnJc5klk8pK3sLd+D64kiJ2HHZUTjfIzyUOsys=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=Ypj9XIiU3d/I+MC9PKJbm2q4xGMVQTHCdEF4fwaaBn2EUiufwy2XmM4Kp+Jw2iOcp
+	 BEcxCN6fRUnGWPs1CBSExvHsz/UnQlaj0Y6b5d4eJgQBp5LWgEy+ujj7xVVGufAjcs
+	 7D7txXpU6kjJbVagn1twD6hOwp09scO+pvKb+I5s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726932AbgI1XNK (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 28 Sep 2020 19:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36398 "EHLO
+        id S1727091AbgI1XS7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 28 Sep 2020 19:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726915AbgI1XNJ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 28 Sep 2020 19:13:09 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1D7C05BD23
-        for <linux-edac@vger.kernel.org>; Mon, 28 Sep 2020 16:13:09 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id k8so2655947pfk.2
-        for <linux-edac@vger.kernel.org>; Mon, 28 Sep 2020 16:13:09 -0700 (PDT)
+        with ESMTP id S1726973AbgI1XSn (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 28 Sep 2020 19:18:43 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D02C0613B1
+        for <linux-edac@vger.kernel.org>; Mon, 28 Sep 2020 15:42:49 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id z5so2962451ilq.5
+        for <linux-edac@vger.kernel.org>; Mon, 28 Sep 2020 15:42:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NftyTi1bwuaE14e4XfgcQF93EOxKUsMOEEQqaDTCXJ4=;
-        b=gb3PRHELtfh8s0n7btbKHS7gdHecLDH27/WSx/dTaEZqzwAyfLHcApZT5c+IqoShdm
-         0LEtidHDj3nYkCuzJeB2PL+jPZX/ntrn70g8bHDhQFR+CUPr0IDYs3hxi4tZpkrlg6d9
-         hrDzPZTP54zHmpmIZZBNppWuJmHgMncA/mXvQ=
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lfWeOnITWCeijLSuxzxiSIPC5xTsdC1wKnU7B3ZC5Lk=;
+        b=beQywzattpQ6h9VxrWUUjSXbW2NzdQ7tN01P6Fxu3w0DElSH99yNXq/oeDtcSOP/9X
+         EENXteBPokqZCQ4iUMEdnei6q+cCq5jNGrbY/ShMUDDnZsK5zrAkesLqvzbzRHGHUd2D
+         ZDoxf29bX/+HC/gfcdQn6A5JV5Bg+hGw1IFG0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NftyTi1bwuaE14e4XfgcQF93EOxKUsMOEEQqaDTCXJ4=;
-        b=bVYdTGJz+JO1Ml/VAv8Zol5RSJFH7/k/mH9J7ZHF+N7Qp3HdoDh9VvHvL6IyEnTDOZ
-         s2vHJCEuI8420GplArgVrRCHLOsyq7IKHuRWhB7H0OTKekzJPvNZQzvGGLS8Oer5BJlo
-         6WQioBj6ijW5+z5UbqDyk7KcMhfqwQS3JoZuiAtGBmyE29hKGMA/+EbCBQFiNoeml124
-         /vxCojgUFcuND3ON/rvdWnhhVM2Q/29cSfcYjE+dlGDA/vOYaD2ZETcDRAF6Xf9ACDxL
-         y2lbByN4KImiTHUmJoBlkwKtHtcvAmOHIK9jzHYtnbzJwhHa+yd9UzjXb97SZ/VTPy8D
-         rudw==
-X-Gm-Message-State: AOAM533IjOmq2SYwxJ0e7kWtGwVEIMFjEtARZ2C3ggKM6n9KdSfhYbhp
-        KVHQjZujnPITNZJMd0MGK/baTA==
-X-Google-Smtp-Source: ABdhPJwQDKOxa8hqpizwqXPcIZmf1ybA5/FNT7GiN+5miNLUE3lYvrdUP8suk6yqrm6piIZGkrVe3g==
-X-Received: by 2002:a65:494e:: with SMTP id q14mr1006851pgs.281.1601334788954;
-        Mon, 28 Sep 2020 16:13:08 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z23sm2835217pfj.177.2020.09.28.16.13.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 16:13:08 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 16:13:07 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lfWeOnITWCeijLSuxzxiSIPC5xTsdC1wKnU7B3ZC5Lk=;
+        b=l1kZvcQp/uoXjZbApXPsEtEoOtRgFt8fDhW8G7T2YVTjY/+GPOCg9SqA4P9Ssxuuyr
+         cbE6IKXOzHgYx11i0Bfiu9wiKJftx9z+Fxngtm9gsWHHN/VHN/f2ZBSlAttqlUA8rjbf
+         SOKf8EV+gC5B3RfWbioINPklslwrHzi9HGWnBTjvp6cxgVzlSBsdW/XiFXmPU95nkIN5
+         LVLNj+yAT9eIT8mJtiOYkwznwk149mpQXh4/v4JliHBPm6yzUcH4Pma5Fb/A/FX3zoyG
+         nVHLgXO08ur7LDFbteG5b+l44n1ZfZziQu03RanZRAvxu6u5fwEO9dC6iTnR7xBxmKXb
+         9PJg==
+X-Gm-Message-State: AOAM530oy6H02kDkNMY4GPBgLB0CE3hNzDzxOomcx+Kz6fuaYmxZWti3
+        ZGiuOdKvnXhmq6wwhh8gKOa/Eg==
+X-Google-Smtp-Source: ABdhPJwo+pvtsIEQwf41bcDHTqwQ2dD5eUFFFgp4elRZ673xZA4id8e/WXiXlaCwN8OjTLklnmPUJQ==
+X-Received: by 2002:a92:8591:: with SMTP id f139mr533509ilh.164.1601332969021;
+        Mon, 28 Sep 2020 15:42:49 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id l9sm1317402ilf.65.2020.09.28.15.42.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Sep 2020 15:42:48 -0700 (PDT)
+Subject: Re: [PATCH 00/11] Introduce Simple atomic and non-atomic counters
+To:     Kees Cook <keescook@chromium.org>
 Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, shuah@kernel.org,
         rafael@kernel.org, johannes@sipsolutions.net, lenb@kernel.org,
         james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
@@ -67,42 +72,36 @@ Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, shuah@kernel.org,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
         openipmi-developer@lists.sourceforge.net,
-        linux-edac@vger.kernel.org
-Subject: Re: [PATCH 00/11] Introduce Simple atomic and non-atomic counters
-Message-ID: <202009281612.EDC1C0078@keescook>
+        linux-edac@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
 References: <cover.1601073127.git.skhan@linuxfoundation.org>
- <202009260923.9A2606CFF6@keescook>
- <3929a023-eb7a-509c-50e1-ee72dca05191@linuxfoundation.org>
+ <202009260920.DC9C2743@keescook>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <1aeccb4f-df7e-60bf-1d70-dfcff5bb6f87@linuxfoundation.org>
+Date:   Mon, 28 Sep 2020 16:42:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3929a023-eb7a-509c-50e1-ee72dca05191@linuxfoundation.org>
+In-Reply-To: <202009260920.DC9C2743@keescook>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 04:41:47PM -0600, Shuah Khan wrote:
-> On 9/26/20 10:29 AM, Kees Cook wrote:
-> > On Fri, Sep 25, 2020 at 05:47:14PM -0600, Shuah Khan wrote:
-> > >     7. Verified that the test module compiles in kunit env. and test
-> > >        module can be loaded to run the test.
-> > 
-> > I meant write it using KUnit interfaces (e.g. KUNIT_EXPECT*(),
-> > kunit_test_suite(), etc):
-> > https://www.kernel.org/doc/html/latest/dev-tools/kunit/
-> > 
-> > Though I see the docs are still not updated[1] to reflect the Kconfig
-> > (CONFIG_foo_KUNIT_TEST) and file naming conventions (foo_kunit.c).
-> > 
+On 9/26/20 10:22 AM, Kees Cook wrote:
+> On Fri, Sep 25, 2020 at 05:47:14PM -0600, Shuah Khan wrote:
+>> This patch series is a result of discussion at the refcount_t BOF
+>> the Linux Plumbers Conference. In this discussion, we identified
+>> a need for looking closely and investigating atomic_t usages in
+>> the kernel when it is used strictly as a counter without it
+>> controlling object lifetimes and state changes.
 > 
-> I would like to be able to run this test outside Kunit env., hence the
-> choice to go with a module and kselftest script. It makes it easier to
-> test as part of my workflow as opposed to doing a kunit and build and
-> running it that way.
+> BTW, I realized the KSPP issue tracker hadn't broken this task out of
+> the refcount_t conversion issue[1] into a separate issue, so I've created
+> it now: https://github.com/KSPP/linux/issues/106
+> 
 
-It does -- you just load it normally like before and it prints out
-everything just fine. This is how I use the lib/test_user_copy.c and
-lib/test_overflow.c before/after their conversions.
+Cool. Thanks.
 
--- 
-Kees Cook
+-- Shuah
