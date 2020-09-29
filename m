@@ -1,151 +1,143 @@
-Return-Path: <SRS0=me7h=DF=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=y9Eg=DG=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F84C2D0A8
-	for <linux-edac@archiver.kernel.org>; Mon, 28 Sep 2020 23:29:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF318C4727C
+	for <linux-edac@archiver.kernel.org>; Tue, 29 Sep 2020 13:21:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D6F62076B
-	for <linux-edac@archiver.kernel.org>; Mon, 28 Sep 2020 23:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601335741;
-	bh=nnRug9dteeonRq+YEloKfaI1QyjcctRZlNrTT+QWteU=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=QSUEt42llIO3JAUcaguucN5+3cydaqQS3ZYZawPqat9/WVbt0e64MxB3T8HCzgey9
-	 0cg8bNoeGkjJgoxlvfh8WQpmfkr4OMGYgSm0glxaMoR2Iit5+FWofKWdrXwpNnOJJr
-	 Kx6j7eV3zctLmf8IU+tbDZMSH1RGU+2g8MbboVQs=
+	by mail.kernel.org (Postfix) with ESMTP id 3C23C21531
+	for <linux-edac@archiver.kernel.org>; Tue, 29 Sep 2020 13:21:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=amdcloud.onmicrosoft.com header.i=@amdcloud.onmicrosoft.com header.b="S//45ty/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727004AbgI1X2n (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 28 Sep 2020 19:28:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38894 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726901AbgI1X2n (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 28 Sep 2020 19:28:43 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70838C0613BE
-        for <linux-edac@vger.kernel.org>; Mon, 28 Sep 2020 15:52:44 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id m12so2674770otr.0
-        for <linux-edac@vger.kernel.org>; Mon, 28 Sep 2020 15:52:44 -0700 (PDT)
+        id S1728366AbgI2NVp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 29 Sep 2020 09:21:45 -0400
+Received: from mail-eopbgr700050.outbound.protection.outlook.com ([40.107.70.50]:24416
+        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728362AbgI2NVp (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 29 Sep 2020 09:21:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gw7SebbMHfubDpAAmiP0scq/qV3++RZjyQ56sEDEkcV41OEBYzDUE6hgxjz5zlODV/IFA/GIpxxkJPlMbrwtwz/MCZOIf6P8Bqih376HPzjaR50mvgdcGojIgAKctQf+Tbw4/Xyfcm/i4egvP1gTFpkTuOZ42aa4DDu1IsBNgVKMfGTxVG0G3fze+MNeLxqvRGUBZuiLLeghuslaUFAOM6ZrcDEuGBMdB52voSh6Mkgsinfs7nG5RDeJXPNNXL41JB/WlqXf6VthQaUfv7QWcOxAnESrxhlDpnE6DfGjQpQ6S92wfzFVwEe0oCQcAsP1OMM8EANLgMGUUKDtrlrTXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tWucHuUMxIik2nQUera2p3jYPamAy3cSiaqNTXKS6g0=;
+ b=hKqLTjWtj+Ibe3Tmc7SLMyKijtS2vOx8wo14OLy3aE1I4sNYDTpiNcuQwXRsisz1VjlBSxGuL1DEB0Htacki/vKGYzp+ylsa+3lZFrc22ZVoYhwZ6nVgwZoQyAEMCL6u1FC60FL5JyPGAkqCNeFg4DPQG7Sze1gNRFlAhiKKXtp79unGyUPCdmAj0nXSKYcRu8i4jLtp0KFsxnzpISRchfA5kW8SKXuZuprpEL/5pLHspJOwEv7prKwboAb8ab+sUATNXl8HyCzTtTtpJ6HA9v/YZuD+UA4MUVPlksts0EJz3PnkOYNgSk5dVeM6lOWwFMYJPth93RzXHQj7Gqq3fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/zjWGaKaB98mjjh0ZLrJCSXNEtOUo09qmy6NjayUDvk=;
-        b=SE0OYfnZMo5uyZPc6mgIG21MkoqGNIbmK0jm0vy2aZv5VKA6ku7jwSWs6b1NGUoty/
-         wn4UKOoXxTXy903PvYRPnkC+er2m5Wrf3iavraHJxa+QAxqpaiJN2b04VaT2qF2SzrVa
-         Hk27i3iLwkmTdLboVB3hrjT8YMf/YNUT+GaDk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/zjWGaKaB98mjjh0ZLrJCSXNEtOUo09qmy6NjayUDvk=;
-        b=C6ECBzeutZPKoSwVED739SoVux+pwIdogo9u41zzEhfbfGc3Cg1T79C8gIexk4ChoE
-         DS1L+/T5z98/bSEBgxDmExkVklsIXiD3FPN5Zt5cjlYAzxEFrdiRqsPNlbLh2W0xFYF9
-         sRLAjt0Rxzp9IEP2800aZItJ9pzuRWhZTQFLmYTJmJyiw8qoZMw+vQsZVziPcNt06Vy5
-         Nv7uLSqez8m1sh68MJlywqCKOB5COvT3bTRIaVENV1Ac4ExPLPxTYD0+vL0Xu0OGsvER
-         MJNrq2yQbeHfIoj+skLizFMhMzc3g7qOIXFJ+2urLq/aB5mzhZH97k/GxCWVaZKlcGns
-         iVLA==
-X-Gm-Message-State: AOAM531637BgMPNq0OeT/nfP1XRgefPUIcucrrjsjaXcEp/d6kU1mfGp
-        me+70m17EJIVSuj3fEYOZm2Wew==
-X-Google-Smtp-Source: ABdhPJxIHmX1phtewwAqu5CcHxH1zl2JXO7LDJyED8CkXQgctT2koxk9D4O4EqsfNA/ONHttUfK08A==
-X-Received: by 2002:a05:6830:1e56:: with SMTP id e22mr785307otj.303.1601333563685;
-        Mon, 28 Sep 2020 15:52:43 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id g23sm2586552ooh.45.2020.09.28.15.52.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2020 15:52:43 -0700 (PDT)
-Subject: Re: [PATCH 00/11] Introduce Simple atomic and non-atomic counters
-To:     Kees Cook <keescook@chromium.org>
-Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, shuah@kernel.org,
-        rafael@kernel.org, johannes@sipsolutions.net, lenb@kernel.org,
-        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
-        arve@android.com, tkjos@android.com, maco@android.com,
-        joel@joelfernandes.org, christian@brauner.io, hridya@google.com,
-        surenb@google.com, minyard@acm.org, arnd@arndb.de,
-        mchehab@kernel.org, rric@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-edac@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1601073127.git.skhan@linuxfoundation.org>
- <202009251650.193E2AD@keescook>
- <7d8f86ab-4333-afa1-6523-e42ae5c7d9b2@linuxfoundation.org>
- <202009260930.9252966D@keescook>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <31f28240-a3f1-e730-0b10-024125b1d2ab@linuxfoundation.org>
-Date:   Mon, 28 Sep 2020 16:52:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tWucHuUMxIik2nQUera2p3jYPamAy3cSiaqNTXKS6g0=;
+ b=S//45ty/RKRrz8uaDf4zHGMNlwvWTmtqLzSn3LJ+I77lWP9WKMcPr4kFKCMW6HMEbpR8uEcyETslI0TwAUVi5YbDibtn/4Gaf7o9mkHgWFcyE4FS43Iw2Cj0Vu+fuFBzHVLL2rznoDfxOI08qCruvzLAOQEg6MEkaUJ0YxNOEw0=
+Authentication-Results: alien8.de; dkim=none (message not signed)
+ header.d=none;alien8.de; dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com (20.178.210.20) by
+ BN6PR12MB1745.namprd12.prod.outlook.com (10.175.101.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3412.20; Tue, 29 Sep 2020 13:21:42 +0000
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::15c4:832:a4eb:2f1f]) by BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::15c4:832:a4eb:2f1f%6]) with mapi id 15.20.3412.029; Tue, 29 Sep 2020
+ 13:21:41 +0000
+Date:   Tue, 29 Sep 2020 08:21:17 -0500
+From:   Yazen Ghannam <yazen.ghannam@amd.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tony.luck@intel.com, x86@kernel.org,
+        Smita.KoralahalliChannabasappa@amd.com
+Subject: Re: [PATCH v2 8/8] x86/MCE/AMD Support new memory interleaving modes
+ during address translation
+Message-ID: <20200929132117.GA2219666@yaz-nikka.amd.com>
+References: <20200903200144.310991-1-Yazen.Ghannam@amd.com>
+ <20200903200144.310991-9-Yazen.Ghannam@amd.com>
+ <20200923082039.GB28545@zn.tnic>
+ <20200923162510.GB1684790@yaz-nikka.amd.com>
+ <20200925072231.GC16872@zn.tnic>
+ <20200925195127.GA323455@yaz-nikka.amd.com>
+ <20200928094759.GF1685@zn.tnic>
+ <20200928155350.GA926956@yaz-nikka.amd.com>
+ <20200928181407.GH1685@zn.tnic>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200928181407.GH1685@zn.tnic>
+X-Originating-IP: [165.204.78.2]
+X-ClientProxiedBy: DM5PR04CA0066.namprd04.prod.outlook.com
+ (2603:10b6:3:ef::28) To BN8PR12MB3108.namprd12.prod.outlook.com
+ (2603:10b6:408:40::20)
 MIME-Version: 1.0
-In-Reply-To: <202009260930.9252966D@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yaz-nikka.amd.com (165.204.78.2) by DM5PR04CA0066.namprd04.prod.outlook.com (2603:10b6:3:ef::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22 via Frontend Transport; Tue, 29 Sep 2020 13:21:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: bbdb2ffb-0647-4c3a-282e-08d8647a9a6c
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1745:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN6PR12MB1745DDADBA5BCA2C663D932FF8320@BN6PR12MB1745.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iJmkgIfcz0462gYcHNDmisfOb1D/qz6XR8t37PhKZTNkzGjsrjUQ4cTOkg05UpmbtdJn4BWbsKBbmbbrsuKfe+zRhBtrp47hKxrtMvTZUeZNO0yH2GwYvRCBRa0HFWtKvgMKQlu6IboPLyayYL+cSpi64JyH7H1kgFlvfhdwcrB6Enyzl+LzqoMyDYB46PSbif9y4eYUC4RRxV0C5DD0+GBqcfX2FOYdk7P4Uc3J1jhKvRqKv8Q0Kg28PYtMyDVPmMk5RDG1H3wnD7mtFeoZKV2LI9zvFbKJ0qiCmqBbD3aUZb9NOXVWV2yATWTL30CFFDWncnmwDuC9F3ZUEV/cCFUWCtRl9JHSjkE1T2SEOJ3p0f1+hxr+yFeJ5u5PkN3p
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(478600001)(8676002)(1076003)(316002)(86362001)(83380400001)(66476007)(66556008)(66946007)(52116002)(6916009)(7696005)(6666004)(4326008)(5660300002)(44832011)(8936002)(2906002)(33656002)(26005)(186003)(55016002)(16526019)(956004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: gHPu9Oe2hDEk9/3VJOQj6JBAHSjvElzpzjF2dKNo7Ur9ba24P+808FAJp/TWwTcnUL0rIzI0foLrAgpDIpwupg/BdQsYSPzeV6anIQVkLcwk+yL46ytps59BIGD7A6m1B+gf/PGaa7sMI4oL0TnH8fIvdTHx2L0gyoO/6nRVeYN9mzq1i85Ky9BsuMDZ/QmiqQ5Nsv6mSZP/kCkYEdifeS5I1N7jY0ZYNY/TONTlOs5mGvnypSDc/mrehSaI3U+InKe0TtqaDRXUPL8YDQa3DBGpqUtW7uV3v6F7HI11O/ADbTEKDYaRhHHLvEMWH3xtPkLsi8HwmhP2JG5l+z17pbXjDQqbuVhKJKac1R9iDXS24Id9uxXYRjumET8fwbbWWV2t90/u0swa3MheX0tK5obBK1snTNazExCw52MPus+obwxIi63ZyqntuS2CHyBQS8iivzpqtN1iK1LLY6PELo156LGZgsB0Ji1KrBUJVwTGjZb+IBgIesAwMfQzym06i6YJRWIL6trb+WqBGDQsnPko5T2KQQ8//F5uKXrFIQ0LyqckIzFbCiDli8SYsVC81PkvMq56Iicduo2fz8E5DglAJPHJFhjkt+0qAMqppneFxwQXnJEaiCDmQliR30A8iq7HAKM7zemBXOny+T/0nA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbdb2ffb-0647-4c3a-282e-08d8647a9a6c
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2020 13:21:41.7069
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kCb8CWLKGahIZd7AH1cE3ntrE8/FEvYboA/KB7LYcwxXDglddnfeRspUVRFRzU49sfCm6AwSctXNGYcvnI7i5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1745
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 9/26/20 10:33 AM, Kees Cook wrote:
-> On Fri, Sep 25, 2020 at 06:13:37PM -0600, Shuah Khan wrote:
->> On 9/25/20 5:52 PM, Kees Cook wrote:
->>> On Fri, Sep 25, 2020 at 05:47:14PM -0600, Shuah Khan wrote:
->>>> -- Addressed Kees's comments:
->>>>      1. Non-atomic counters renamed to counter_simple32 and counter_simple64
->>>>         to clearly indicate size.
->>>>      2. Added warning for counter_simple* usage and it should be used only
->>>>         when there is no need for atomicity.
->>>>      3. Renamed counter_atomic to counter_atomic32 to clearly indicate size.
->>>>      4. Renamed counter_atomic_long to counter_atomic64 and it now uses
->>>>         atomic64_t ops and indicates size.
->>>>      5. Test updated for the API renames.
->>>>      6. Added helper functions for test results printing
->>>>      7. Verified that the test module compiles in kunit env. and test
->>>>         module can be loaded to run the test.
->>>
->>> Thanks for all of this!
->>>
->>>>      8. Updated Documentation to reflect the intent to make the API
->>>>         restricted so it can never be used to guard object lifetimes
->>>>         and state management. I left _return ops for now, inc_return
->>>>         is necessary for now as per the discussion we had on this topic.
->>>
->>> I still *really* do not want dec_return() to exist. That is asking for
->>> trouble. I'd prefer inc_return() not exist either, but I can live with
->>> it. ;)
->>>
->>
-
-I didn't read this correctly the first time around.
-
->> Thanks. I am equally concerned about adding anything that can be used to
->> guard object lifetimes. So I will make sure this set won't expand and
->> plan to remove dec_return() if we don't find any usages.
+On Mon, Sep 28, 2020 at 08:14:07PM +0200, Borislav Petkov wrote:
+> On Mon, Sep 28, 2020 at 10:53:50AM -0500, Yazen Ghannam wrote:
 > 
-> I would like it much stronger than "if". dec_return() needs to be just
-> dec() and read(). It will not be less efficient (since they're both
-> inlines), but it _will_ create a case where the atomicity cannot be used
-> for ref counting. My point is that anything that _requires_ dec_return()
-> (or, frankly, inc_return()) is _not_ "just" a statistical counter. It
-> may not be a refcounter, but it relies on the inc/dec atomicity for some
-> reason beyond counting in once place and reporting it in another.
+> > I agree that the translation code is implementation-specific and applies
+> > only to DRAM ECC errors, so it make sense to have it in amd64_edac. The
+> > only issue is getting the address translation to earlier notifiers. I
+> > think we can add a new one in amd64_edac to run before others. Maybe this
+> > can be a new priority class like MCE_PRIO_PREPROCESS, or something like
+> > that for notifiers that fixup the MCE data.
 > 
+> Well, I'm not sure you need notifiers here - you wanna call
+> mce_usable_address() and in it, it should do the address conversion
+> calculation to give you a physical address which you can feed to
+> memory_failure etc.
+> 
+> Now, mce_usable_address() is core code and we can make core code call
+> into a module but that is yucky. So *that* is your reason for keeping it
+> where it is.
+>
 
-I am not thinking about efficiency rather two calls instead of one if
-an decrement needs to followed by return. In any case, I agree with you
-that there is no need to add dec_return now without any use-cases.
+Okay, we'll keep the code where it is. I'll work on another set to call
+the address translation with mce_usable_address().
 
-I will update the patch series to remove it.
+> Looking at its size:
+> 
+> $ readelf -s vmlinux | grep umc_normaddr_to
+>   2864: ffffffff817d8ae5   168 FUNC    LOCAL  DEFAULT    1 umc_normaddr_to_[...]
+>  91866: ffffffff81030e00  1127 FUNC    GLOBAL DEFAULT    1 umc_normaddr_to_[...]
+> 
+> that's something like ~1.3K and if you split it and do some
+> experimenting, you might get it even slimmer. Not that ~1.3K is that
+> huge for current standards but we should always aim at not bloating the
+> fat guy our kernel already is.
+>
 
-thanks,
--- Shuah
+Okay, I'll keep an eye on this and try to slim it down.
 
-
-
-
-
+Thanks,
+Yazen
