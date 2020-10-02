@@ -7,666 +7,115 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A8CC4363D
-	for <linux-edac@archiver.kernel.org>; Fri,  2 Oct 2020 18:06:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E34C47095
+	for <linux-edac@archiver.kernel.org>; Fri,  2 Oct 2020 20:17:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E10F20795
-	for <linux-edac@archiver.kernel.org>; Fri,  2 Oct 2020 18:06:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D9B3206FA
+	for <linux-edac@archiver.kernel.org>; Fri,  2 Oct 2020 20:17:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388270AbgJBSGN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 2 Oct 2020 14:06:13 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2952 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726224AbgJBSGN (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 2 Oct 2020 14:06:13 -0400
-Received: from lhreml715-chm.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id C8D841AD69E7502A9915;
-        Fri,  2 Oct 2020 19:06:08 +0100 (IST)
-Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.47.84.119) by
- lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Fri, 2 Oct 2020 19:06:08 +0100
-From:   Shiju Jose <shiju.jose@huawei.com>
-To:     <linux-edac@vger.kernel.org>, <mchehab+huawei@kernel.org>
-CC:     <linuxarm@huawei.com>, <tanxiaofei@huawei.com>,
-        <shiju.jose@huawei.com>
-Subject: [PATCH 1/1] rasdaemon: add support for memory_failure events
-Date:   Fri, 2 Oct 2020 19:01:44 +0100
-Message-ID: <20201002180144.1365-1-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.47.84.119]
-X-ClientProxiedBy: lhreml720-chm.china.huawei.com (10.201.108.71) To
- lhreml715-chm.china.huawei.com (10.201.108.66)
-X-CFilter-Loop: Reflected
+        id S1725813AbgJBURl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 2 Oct 2020 16:17:41 -0400
+Received: from mga07.intel.com ([134.134.136.100]:14522 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725792AbgJBURf (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 2 Oct 2020 16:17:35 -0400
+IronPort-SDR: jANedMYXm+jQXwtKpLBjXrYN0rurv5cCM8CisQZT3ahIhLvXQKuzIGhcALRW6fCHR/BYeXYPWs
+ U1a2Wn3ktfvg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="227197753"
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="227197753"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 13:17:33 -0700
+IronPort-SDR: ZKdw9NOqU9qw70x/kHYhCUkvzh66of7qE2GeNN7sZh4TvnshK9r6n1KJZFGq6xPaqvwc9wivj1
+ R14akpLdK+cA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="385960870"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orsmga001.jf.intel.com with ESMTP; 02 Oct 2020 13:17:33 -0700
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     x86@kernel.org, Borislav Petkov <bp@suse.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Len Brown <len.brown@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        linux-kernel@vger.kernel.org, Andy Lutomirski <luto@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        linux-edac@vger.kernel.org
+Subject: [PATCH 3/3] x86/mce: include type of core when reporting a machine check error
+Date:   Fri,  2 Oct 2020 13:19:31 -0700
+Message-Id: <20201002201931.2826-4-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201002201931.2826-1-ricardo.neri-calderon@linux.intel.com>
+References: <20201002201931.2826-1-ricardo.neri-calderon@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add support to log the memory_failure kernel trace
-events.
+In hybrid parts, each type of core reports different types of machine check
+errors as the machine check error blocks are tied to different parts of the
+hardware. Furthermore, errors may be different across micro-architecture
+versions. Thus, in order to decode errors, userspace tools need to know the
+type of core as well as the native model ID of the CPU which reported the
+error.
 
-Example rasdaemon log and SQLite DB output for the
-memory_failure event,
-=================================================
-rasdaemon: memory_failure_event store: 0x126ce8f8
-rasdaemon: register inserted at db
-<...>-785   [000]     0.000024: memory_failure_event: 2020-10-02 13:27:13 -0400 pfn=0x204000000 page_type=free buddy page action_result=Delayed 
+This extra information is only included in the error report only when
+running on hybrid parts. This conserves the existing behavior when running
+on non-hybrid parts. Hence, legacy userspace tools running on new kernels
+and hybrid hardware can still understand the format of the reported error
+format.
 
-CREATE TABLE memory_failure_event (id INTEGER PRIMARY KEY, timestamp TEXT, pfn TEXT, page_type TEXT, action_result TEXT);
-INSERT INTO memory_failure_event VALUES(1,'2020-10-02 13:27:13 -0400','0x204000000','free buddy page','Delayed');
-==================================================
-
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+Cc: "Ravi V Shankar" <ravi.v.shankar@intel.com>
+Cc: linux-edac@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
- .travis.yml                  |   2 +-
- Makefile.am                  |   6 +-
- configure.ac                 |  11 +++
- ras-events.c                 |  15 +++
- ras-events.h                 |   1 +
- ras-memory-failure-handler.c | 179 +++++++++++++++++++++++++++++++++++
- ras-memory-failure-handler.h |  25 +++++
- ras-record.c                 |  70 ++++++++++++++
- ras-record.h                 |  13 +++
- ras-report.c                 |  68 +++++++++++++
- ras-report.h                 |   2 +
- 11 files changed, 390 insertions(+), 2 deletions(-)
- create mode 100644 ras-memory-failure-handler.c
- create mode 100644 ras-memory-failure-handler.h
+ arch/x86/include/uapi/asm/mce.h | 1 +
+ arch/x86/kernel/cpu/mce/core.c  | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/.travis.yml b/.travis.yml
-index 79cf4ca..5bce4d4 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -20,7 +20,7 @@ before_install:
- - sudo apt-get install -y sqlite3
- install:
- - autoreconf -vfi
--- ./configure --enable-sqlite3 --enable-aer --enable-non-standard --enable-arm --enable-mce --enable-extlog --enable-devlink --enable-diskerror --enable-abrt-report --enable-hisi-ns-decode --enable-memory-ce-pfa
-+- ./configure --enable-sqlite3 --enable-aer --enable-non-standard --enable-arm --enable-mce --enable-extlog --enable-devlink --enable-diskerror --enable-memory-failure --enable-abrt-report --enable-hisi-ns-decode --enable-memory-ce-pfa
- 
- script:
- - make && sudo make install
-diff --git a/Makefile.am b/Makefile.am
-index 37a1283..a8c0507 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -48,6 +48,9 @@ endif
- if WITH_DISKERROR
-    rasdaemon_SOURCES += ras-diskerror-handler.c
- endif
-+if WITH_MEMORY_FAILURE
-+   rasdaemon_SOURCES += ras-memory-failure-handler.c
-+endif
- if WITH_ABRT_REPORT
-    rasdaemon_SOURCES += ras-report.c
- endif
-@@ -62,7 +65,8 @@ rasdaemon_LDADD = -lpthread $(SQLITE3_LIBS) libtrace/libtrace.a
- include_HEADERS = config.h  ras-events.h  ras-logger.h  ras-mc-handler.h \
- 		  ras-aer-handler.h ras-mce-handler.h ras-record.h bitfield.h ras-report.h \
- 		  ras-extlog-handler.h ras-arm-handler.h ras-non-standard-handler.h \
--		  ras-devlink-handler.h ras-diskerror-handler.h rbtree.h ras-page-isolation.h
-+		  ras-devlink-handler.h ras-diskerror-handler.h ras-memory-failure-handler.h \
-+		  rbtree.h ras-page-isolation.h
- 
- # This rule can't be called with more than one Makefile job (like make -j8)
- # I can't figure out a way to fix that
-diff --git a/configure.ac b/configure.ac
-index 318b1e6..e551694 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -111,6 +111,16 @@ AS_IF([test "x$enable_diskerror" = "xyes" || test "x$enable_all" == "xyes"], [
- AM_CONDITIONAL([WITH_DISKERROR], [test x$enable_diskerror = xyes || test x$enable_all == xyes])
- AM_COND_IF([WITH_DISKERROR], [USE_DISKERROR="yes"], [USE_DISKERROR="no"])
- 
-+AC_ARG_ENABLE([memory_failure],
-+    AS_HELP_STRING([--enable-memory-failure], [enable memory failure events (currently experimental)]))
-+
-+AS_IF([test "x$enable_memory_failure" = "xyes" || test "x$enable_all" == "xyes"], [
-+  AC_DEFINE(HAVE_MEMORY_FAILURE,1,"have memory failure events collect")
-+  AC_SUBST([WITH_MEMORY_FAILURE])
-+])
-+AM_CONDITIONAL([WITH_MEMORY_FAILURE], [test x$enable_memory_failure = xyes || test x$enable_all == xyes])
-+AM_COND_IF([WITH_MEMORY_FAILURE], [USE_MEMORY_FAILURE="yes"], [USE_MEMORY_FAILURE="no"])
-+
- AC_ARG_ENABLE([abrt_report],
-     AS_HELP_STRING([--enable-abrt-report], [enable report event to ABRT (currently experimental)]))
- 
-@@ -178,5 +188,6 @@ compile time options summary
-     ARM events          : $USE_ARM
-     DEVLINK             : $USE_DEVLINK
-     Disk I/O errors     : $USE_DISKERROR
-+    Memory Failure      : $USE_MEMORY_FAILURE
-     Memory CE PFA       : $USE_MEMORY_CE_PFA
- EOF
-diff --git a/ras-events.c b/ras-events.c
-index c797b20..1e275cc 100644
---- a/ras-events.c
-+++ b/ras-events.c
-@@ -37,6 +37,7 @@
- #include "ras-extlog-handler.h"
- #include "ras-devlink-handler.h"
- #include "ras-diskerror-handler.h"
-+#include "ras-memory-failure-handler.h"
- #include "ras-record.h"
- #include "ras-logger.h"
- #include "ras-page-isolation.h"
-@@ -231,6 +232,10 @@ int toggle_ras_mc_event(int enable)
- 	rc |= __toggle_ras_mc_event(ras, "block", "block_rq_complete", enable);
- #endif
- 
-+#ifdef HAVE_MEMORY_FAILURE
-+	rc |= __toggle_ras_mc_event(ras, "ras", "memory_failure_event", enable);
-+#endif
-+
- free_ras:
- 	free(ras);
- 	return rc;
-@@ -908,6 +913,16 @@ int handle_ras_events(int record_events)
- 	}
- #endif
- 
-+#ifdef HAVE_MEMORY_FAILURE
-+	rc = add_event_handler(ras, pevent, page_size, "ras", "memory_failure_event",
-+			       ras_memory_failure_event_handler, NULL, MF_EVENT);
-+	if (!rc)
-+		num_events++;
-+	else
-+		log(ALL, LOG_ERR, "Can't get traces from %s:%s\n",
-+		    "ras", "memory_failure_event");
-+#endif
-+
- 	if (!num_events) {
- 		log(ALL, LOG_INFO,
- 		    "Failed to trace all supported RAS events. Aborting.\n");
-diff --git a/ras-events.h b/ras-events.h
-index f028741..dfd690c 100644
---- a/ras-events.h
-+++ b/ras-events.h
-@@ -38,6 +38,7 @@ enum {
- 	EXTLOG_EVENT,
- 	DEVLINK_EVENT,
- 	DISKERROR_EVENT,
-+	MF_EVENT,
- 	NR_EVENTS
+diff --git a/arch/x86/include/uapi/asm/mce.h b/arch/x86/include/uapi/asm/mce.h
+index db9adc081c5a..e730572186d6 100644
+--- a/arch/x86/include/uapi/asm/mce.h
++++ b/arch/x86/include/uapi/asm/mce.h
+@@ -36,6 +36,7 @@ struct mce {
+ 	__u64 ppin;		/* Protected Processor Inventory Number */
+ 	__u32 microcode;	/* Microcode revision */
+ 	__u64 kflags;		/* Internal kernel use */
++	__u32 hybrid_info;	/* Type and native model ID in hybrid parts */
  };
  
-diff --git a/ras-memory-failure-handler.c b/ras-memory-failure-handler.c
-new file mode 100644
-index 0000000..9941e68
---- /dev/null
-+++ b/ras-memory-failure-handler.c
-@@ -0,0 +1,179 @@
-+/*
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2020. All rights reserved.
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ */
-+
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include "libtrace/kbuffer.h"
-+#include "ras-memory-failure-handler.h"
-+#include "ras-record.h"
-+#include "ras-logger.h"
-+#include "ras-report.h"
-+
-+/* Memory failure - various types of pages */
-+enum mf_action_page_type {
-+	MF_MSG_KERNEL,
-+	MF_MSG_KERNEL_HIGH_ORDER,
-+	MF_MSG_SLAB,
-+	MF_MSG_DIFFERENT_COMPOUND,
-+	MF_MSG_POISONED_HUGE,
-+	MF_MSG_HUGE,
-+	MF_MSG_FREE_HUGE,
-+	MF_MSG_NON_PMD_HUGE,
-+	MF_MSG_UNMAP_FAILED,
-+	MF_MSG_DIRTY_SWAPCACHE,
-+	MF_MSG_CLEAN_SWAPCACHE,
-+	MF_MSG_DIRTY_MLOCKED_LRU,
-+	MF_MSG_CLEAN_MLOCKED_LRU,
-+	MF_MSG_DIRTY_UNEVICTABLE_LRU,
-+	MF_MSG_CLEAN_UNEVICTABLE_LRU,
-+	MF_MSG_DIRTY_LRU,
-+	MF_MSG_CLEAN_LRU,
-+	MF_MSG_TRUNCATED_LRU,
-+	MF_MSG_BUDDY,
-+	MF_MSG_BUDDY_2ND,
-+	MF_MSG_DAX,
-+	MF_MSG_UNSPLIT_THP,
-+	MF_MSG_UNKNOWN,
-+};
-+
-+/* Action results for various types of pages */
-+enum mf_action_result {
-+	MF_IGNORED,     /* Error: cannot be handled */
-+	MF_FAILED,      /* Error: handling failed */
-+	MF_DELAYED,     /* Will be handled later */
-+	MF_RECOVERED,   /* Successfully recovered */
-+};
-+
-+/* memory failure page types */
-+static const struct {
-+	int	type;
-+	const char	*page_type;
-+} mf_page_type[] = {
-+	{ MF_MSG_KERNEL, "reserved kernel page" },
-+	{ MF_MSG_KERNEL_HIGH_ORDER, "high-order kernel page"},
-+	{ MF_MSG_SLAB, "kernel slab page"},
-+	{ MF_MSG_DIFFERENT_COMPOUND, "different compound page after locking"},
-+	{ MF_MSG_POISONED_HUGE, "huge page already hardware poisoned"},
-+	{ MF_MSG_HUGE, "huge page"},
-+	{ MF_MSG_FREE_HUGE, "free huge page"},
-+	{ MF_MSG_NON_PMD_HUGE, "non-pmd-sized huge page"},
-+	{ MF_MSG_UNMAP_FAILED, "unmapping failed page"},
-+	{ MF_MSG_DIRTY_SWAPCACHE, "dirty swapcache page"},
-+	{ MF_MSG_CLEAN_SWAPCACHE, "clean swapcache page"},
-+	{ MF_MSG_DIRTY_MLOCKED_LRU, "dirty mlocked LRU page"},
-+	{ MF_MSG_CLEAN_MLOCKED_LRU, "clean mlocked LRU page"},
-+	{ MF_MSG_DIRTY_UNEVICTABLE_LRU, "dirty unevictable LRU page"},
-+	{ MF_MSG_CLEAN_UNEVICTABLE_LRU, "clean unevictable LRU page"},
-+	{ MF_MSG_DIRTY_LRU, "dirty LRU page"},
-+	{ MF_MSG_CLEAN_LRU, "clean LRU page"},
-+	{ MF_MSG_TRUNCATED_LRU, "already truncated LRU page"},
-+	{ MF_MSG_BUDDY, "free buddy page"},
-+	{ MF_MSG_BUDDY_2ND, "free buddy page (2nd try)"},
-+	{ MF_MSG_DAX, "dax page"},
-+	{ MF_MSG_UNSPLIT_THP, "unsplit thp"},
-+	{ MF_MSG_UNKNOWN, "unknown page"},
-+};
-+
-+/* memory failure action results */
-+static const struct {
-+	int result;
-+	const char *action_result;
-+} mf_action_result[] = {
-+	{ MF_IGNORED, "Ignored" },
-+	{ MF_FAILED, "Failed" },
-+	{ MF_DELAYED, "Delayed" },
-+	{ MF_RECOVERED, "Recovered" },
-+};
-+
-+static const char *get_page_type(int page_type)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(mf_page_type); i++)
-+		if (mf_page_type[i].type == page_type)
-+			return mf_page_type[i].page_type;
-+
-+	return "unknown page";
-+}
-+
-+static const char *get_action_result(int result)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(mf_action_result); i++)
-+		if (mf_action_result[i].result == result)
-+			return mf_action_result[i].action_result;
-+
-+	return "unknown";
-+}
-+
-+
-+int ras_memory_failure_event_handler(struct trace_seq *s,
-+				     struct pevent_record *record,
-+				     struct event_format *event, void *context)
-+{
-+	unsigned long long val;
-+	struct ras_events *ras = context;
-+	time_t now;
-+	struct tm *tm;
-+	struct ras_mf_event ev;
-+
-+	/*
-+	 * Newer kernels (3.10-rc1 or upper) provide an uptime clock.
-+	 * On previous kernels, the way to properly generate an event would
-+	 * be to inject a fake one, measure its timestamp and diff it against
-+	 * gettimeofday. We won't do it here. Instead, let's use uptime,
-+	 * falling-back to the event report's time, if "uptime" clock is
-+	 * not available (legacy kernels).
-+	 */
-+
-+	if (ras->use_uptime)
-+		now = record->ts/user_hz + ras->uptime_diff;
-+	else
-+		now = time(NULL);
-+
-+	tm = localtime(&now);
-+	if (tm)
-+		strftime(ev.timestamp, sizeof(ev.timestamp),
-+			 "%Y-%m-%d %H:%M:%S %z", tm);
-+	trace_seq_printf(s, "%s ", ev.timestamp);
-+
-+	if (pevent_get_field_val(s,  event, "pfn", record, &val, 1) < 0)
-+		return -1;
-+	sprintf(ev.pfn, "0x%llx", val);
-+	trace_seq_printf(s, "pfn=0x%llx ", val);
-+
-+	if (pevent_get_field_val(s, event, "type", record, &val, 1) < 0)
-+		return -1;
-+	ev.page_type = get_page_type(val);
-+	trace_seq_printf(s, "page_type=%s ", ev.page_type);
-+
-+	if (pevent_get_field_val(s, event, "result", record, &val, 1) < 0)
-+		return -1;
-+	ev.action_result = get_action_result(val);
-+	trace_seq_printf(s, "action_result=%s ", ev.action_result);
-+
-+	/* Store data into the SQLite DB */
-+#ifdef HAVE_SQLITE3
-+	ras_store_mf_event(ras, &ev);
-+#endif
-+
-+#ifdef HAVE_ABRT_REPORT
-+	/* Report event to ABRT */
-+	ras_report_mf_event(ras, &ev);
-+#endif
-+
-+	return 0;
-+}
-diff --git a/ras-memory-failure-handler.h b/ras-memory-failure-handler.h
-new file mode 100644
-index 0000000..b9e9971
---- /dev/null
-+++ b/ras-memory-failure-handler.h
-@@ -0,0 +1,25 @@
-+/*
-+ * Copyright (c) Huawei Technologies Co., Ltd. 2020. All rights reserved.
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+*/
-+
-+#ifndef __RAS_MEMORY_FAILURE_HANDLER_H
-+#define __RAS_MEMORY_FAILURE_HANDLER_H
-+
-+#include "ras-events.h"
-+#include "libtrace/event-parse.h"
-+
-+int ras_memory_failure_event_handler(struct trace_seq *s,
-+				     struct pevent_record *record,
-+				     struct event_format *event, void *context);
-+
-+#endif
-diff --git a/ras-record.c b/ras-record.c
-index 549c494..1a2ea06 100644
---- a/ras-record.c
-+++ b/ras-record.c
-@@ -498,6 +498,56 @@ int ras_store_diskerror_event(struct ras_events *ras, struct diskerror_event *ev
- }
- #endif
+ #define MCE_GET_RECORD_LEN   _IOR('M', 1, int)
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index a6ff407dec71..ecac8d9b6070 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -143,6 +143,9 @@ noinstr void mce_setup(struct mce *m)
+ 	m->apicid = cpu_data(m->extcpu).initial_apicid;
+ 	m->mcgcap = __rdmsr(MSR_IA32_MCG_CAP);
  
-+/*
-+ * Table and functions to handle ras:memory_failure
-+ */
++	if (this_cpu_has(X86_FEATURE_HYBRID_CPU))
++		m->hybrid_info = cpuid_eax(0x1a);
 +
-+#ifdef HAVE_MEMORY_FAILURE
-+static const struct db_fields mf_event_fields[] = {
-+	{ .name="id",			.type="INTEGER PRIMARY KEY" },
-+	{ .name="timestamp",		.type="TEXT" },
-+	{ .name="pfn",			.type="TEXT" },
-+	{ .name="page_type",		.type="TEXT" },
-+	{ .name="action_result",	.type="TEXT" },
-+};
+ 	if (this_cpu_has(X86_FEATURE_INTEL_PPIN))
+ 		m->ppin = __rdmsr(MSR_PPIN);
+ 	else if (this_cpu_has(X86_FEATURE_AMD_PPIN))
+@@ -264,6 +267,10 @@ static void __print_mce(struct mce *m)
+ 	pr_emerg(HW_ERR "PROCESSOR %u:%x TIME %llu SOCKET %u APIC %x microcode %x\n",
+ 		m->cpuvendor, m->cpuid, m->time, m->socketid, m->apicid,
+ 		m->microcode);
 +
-+static const struct db_table_descriptor mf_event_tab = {
-+	.name = "memory_failure_event",
-+	.fields = mf_event_fields,
-+	.num_fields = ARRAY_SIZE(mf_event_fields),
-+};
-+
-+int ras_store_mf_event(struct ras_events *ras, struct ras_mf_event *ev)
-+{
-+	int rc;
-+	struct sqlite3_priv *priv = ras->db_priv;
-+
-+	if (!priv || !priv->stmt_mf_event)
-+		return 0;
-+	log(TERM, LOG_INFO, "memory_failure_event store: %p\n", priv->stmt_mf_event);
-+
-+	sqlite3_bind_text(priv->stmt_mf_event,  1, ev->timestamp, -1, NULL);
-+	sqlite3_bind_text(priv->stmt_mf_event,  2, ev->pfn, -1, NULL);
-+	sqlite3_bind_text(priv->stmt_mf_event,  3, ev->page_type, -1, NULL);
-+	sqlite3_bind_text(priv->stmt_mf_event,  4, ev->action_result, -1, NULL);
-+
-+	rc = sqlite3_step(priv->stmt_mf_event);
-+	if (rc != SQLITE_OK && rc != SQLITE_DONE)
-+		log(TERM, LOG_ERR,
-+		    "Failed to do memory_failure_event step on sqlite: error = %d\n", rc);
-+
-+	rc = sqlite3_reset(priv->stmt_mf_event);
-+	if (rc != SQLITE_OK && rc != SQLITE_DONE)
-+		log(TERM, LOG_ERR,
-+		    "Failed reset memory_failure_event on sqlite: error = %d\n",
-+		    rc);
-+
-+	log(TERM, LOG_INFO, "register inserted at db\n");
-+
-+	return rc;
-+}
-+#endif
-+
- /*
-  * Generic code
-  */
-@@ -810,6 +860,16 @@ int ras_mc_event_opendb(unsigned cpu, struct ras_events *ras)
- 	}
- #endif
- 
-+#ifdef HAVE_MEMORY_FAILURE
-+	rc = ras_mc_create_table(priv, &mf_event_tab);
-+	if (rc == SQLITE_OK) {
-+		rc = ras_mc_prepare_stmt(priv, &priv->stmt_mf_event,
-+					 &mf_event_tab);
-+		if (rc != SQLITE_OK)
-+			goto error;
-+	}
-+#endif
-+
- 	ras->db_priv = priv;
- 	return 0;
- 
-@@ -912,6 +972,16 @@ int ras_mc_event_closedb(unsigned int cpu, struct ras_events *ras)
- 	}
- #endif
- 
-+#ifdef HAVE_MEMORY_FAILURE
-+	if (priv->stmt_mf_event) {
-+		rc = sqlite3_finalize(priv->stmt_mf_event);
-+		if (rc != SQLITE_OK)
-+			log(TERM, LOG_ERR,
-+			    "cpu %u: Failed to finalize mf_event sqlite: error = %d\n",
-+			    cpu, rc);
-+	}
-+#endif
-+
- 	rc = sqlite3_close_v2(db);
- 	if (rc != SQLITE_OK)
- 		log(TERM, LOG_ERR,
-diff --git a/ras-record.h b/ras-record.h
-index cc217a9..4bbeb0c 100644
---- a/ras-record.h
-+++ b/ras-record.h
-@@ -98,6 +98,13 @@ struct diskerror_event {
- 	const char *cmd;
- };
- 
-+struct ras_mf_event {
-+	char timestamp[64];
-+	char pfn[30];
-+	const char *page_type;
-+	const char *action_result;
-+};
-+
- struct ras_mc_event;
- struct ras_aer_event;
- struct ras_extlog_event;
-@@ -106,6 +113,7 @@ struct ras_arm_event;
- struct mce_event;
- struct devlink_event;
- struct diskerror_event;
-+struct ras_mf_event;
- 
- #ifdef HAVE_SQLITE3
- 
-@@ -135,6 +143,9 @@ struct sqlite3_priv {
- #ifdef HAVE_DISKERROR
- 	sqlite3_stmt	*stmt_diskerror_event;
- #endif
-+#ifdef HAVE_MEMORY_FAILURE
-+	sqlite3_stmt	*stmt_mf_event;
-+#endif
- };
- 
- struct db_fields {
-@@ -161,6 +172,7 @@ int ras_store_non_standard_record(struct ras_events *ras, struct ras_non_standar
- int ras_store_arm_record(struct ras_events *ras, struct ras_arm_event *ev);
- int ras_store_devlink_event(struct ras_events *ras, struct devlink_event *ev);
- int ras_store_diskerror_event(struct ras_events *ras, struct diskerror_event *ev);
-+int ras_store_mf_event(struct ras_events *ras, struct ras_mf_event *ev);
- 
- #else
- static inline int ras_mc_event_opendb(unsigned cpu, struct ras_events *ras) { return 0; };
-@@ -173,6 +185,7 @@ static inline int ras_store_non_standard_record(struct ras_events *ras, struct r
- static inline int ras_store_arm_record(struct ras_events *ras, struct ras_arm_event *ev) { return 0; };
- static inline int ras_store_devlink_event(struct ras_events *ras, struct devlink_event *ev) { return 0; };
- static inline int ras_store_diskerror_event(struct ras_events *ras, struct diskerror_event *ev) { return 0; };
-+static inline int ras_store_mf_event(struct ras_events *ras, struct ras_mf_event *ev) { return 0; };
- 
- #endif
- 
-diff --git a/ras-report.c b/ras-report.c
-index 2710eac..ea3a9b6 100644
---- a/ras-report.c
-+++ b/ras-report.c
-@@ -309,6 +309,28 @@ static int set_diskerror_event_backtrace(char *buf, struct diskerror_event *ev)
- 	return 0;
++	if (this_cpu_has(X86_FEATURE_HYBRID_CPU))
++		pr_emerg(HW_ERR "HYBRID_TYPE %x HYBRID_NATIVE_MODEL_ID %x\n",
++			 m->hybrid_info >> 24, m->hybrid_info & 0xffffff);
  }
  
-+static int set_mf_event_backtrace(char *buf, struct ras_mf_event *ev)
-+{
-+	char bt_buf[MAX_BACKTRACE_SIZE];
-+
-+	if (!buf || !ev)
-+		return -1;
-+
-+	sprintf(bt_buf, "BACKTRACE="    \
-+                                                "timestamp=%s\n"	\
-+                                                "pfn=%s\n"		\
-+                                                "page_type=%s\n"	\
-+                                                "action_result=%s\n",	\
-+                                                ev->timestamp,		\
-+                                                ev->pfn,		\
-+                                                ev->page_type,		\
-+                                                ev->action_result);
-+
-+	strcat(buf, bt_buf);
-+
-+	return 0;
-+}
-+
- static int commit_report_backtrace(int sockfd, int type, void *ev){
- 	char buf[MAX_BACKTRACE_SIZE];
- 	char *pbuf = buf;
-@@ -343,6 +365,9 @@ static int commit_report_backtrace(int sockfd, int type, void *ev){
- 	case DISKERROR_EVENT:
- 		rc = set_diskerror_event_backtrace(buf, (struct diskerror_event *)ev);
- 		break;
-+	case MF_EVENT:
-+		rc = set_mf_event_backtrace(buf, (struct ras_mf_event *)ev);
-+		break;
- 	default:
- 		return -1;
- 	}
-@@ -708,3 +733,46 @@ diskerror_fail:
- 		return -1;
- 	}
- }
-+
-+int ras_report_mf_event(struct ras_events *ras, struct ras_mf_event *ev)
-+{
-+	char buf[MAX_MESSAGE_SIZE];
-+	int sockfd = 0;
-+	int done = 0;
-+	int rc = -1;
-+
-+	memset(buf, 0, sizeof(buf));
-+
-+	sockfd = setup_report_socket();
-+	if (sockfd < 0)
-+		return -1;
-+
-+	rc = commit_report_basic(sockfd);
-+	if (rc < 0)
-+		goto mf_fail;
-+
-+	rc = commit_report_backtrace(sockfd, MF_EVENT, ev);
-+	if (rc < 0)
-+		goto mf_fail;
-+
-+	sprintf(buf, "ANALYZER=%s", "rasdaemon-memory_failure");
-+	rc = write(sockfd, buf, strlen(buf) + 1);
-+	if (rc < strlen(buf) + 1)
-+		goto mf_fail;
-+
-+	sprintf(buf, "REASON=%s", "memory failure problem");
-+	rc = write(sockfd, buf, strlen(buf) + 1);
-+	if (rc < strlen(buf) + 1)
-+		goto mf_fail;
-+
-+	done = 1;
-+
-+mf_fail:
-+	if (sockfd > 0)
-+		close(sockfd);
-+
-+	if (done)
-+		return 0;
-+	else
-+		return -1;
-+}
-diff --git a/ras-report.h b/ras-report.h
-index 1d911de..e605eb1 100644
---- a/ras-report.h
-+++ b/ras-report.h
-@@ -38,6 +38,7 @@ int ras_report_non_standard_event(struct ras_events *ras, struct ras_non_standar
- int ras_report_arm_event(struct ras_events *ras, struct ras_arm_event *ev);
- int ras_report_devlink_event(struct ras_events *ras, struct devlink_event *ev);
- int ras_report_diskerror_event(struct ras_events *ras, struct diskerror_event *ev);
-+int ras_report_mf_event(struct ras_events *ras, struct ras_mf_event *ev);
- 
- #else
- 
-@@ -48,6 +49,7 @@ static inline int ras_report_non_standard_event(struct ras_events *ras, struct r
- static inline int ras_report_arm_event(struct ras_events *ras, struct ras_arm_event *ev) { return 0; };
- static inline int ras_report_devlink_event(struct ras_events *ras, struct devlink_event *ev) { return 0; };
- static inline int ras_report_diskerror_event(struct ras_events *ras, struct diskerror_event *ev) { return 0; };
-+static inline int ras_report_mf_event(struct ras_events *ras, struct ras_mf_event *ev) { return 0; };
- 
- #endif
- 
+ static void print_mce(struct mce *m)
 -- 
 2.17.1
-
 
