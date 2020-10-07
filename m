@@ -1,244 +1,250 @@
-Return-Path: <SRS0=ywMg=DN=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=fLbq=DO=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94B19C4727E
-	for <linux-edac@archiver.kernel.org>; Tue,  6 Oct 2020 20:46:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 839BBC4727E
+	for <linux-edac@archiver.kernel.org>; Wed,  7 Oct 2020 16:45:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FE2B20870
-	for <linux-edac@archiver.kernel.org>; Tue,  6 Oct 2020 20:46:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602017172;
-	bh=rmG96d3vr86mFt/186pvkfkRpXrps+ziN8lgQWQ0DF0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=E4n8mgaF4+SKcCGwa1n35w1czWLzCAWMd8CCeYoneKchdjwCTUPgMOsTlvnHrdLP1
-	 iBejtFqu3RmUndx4peIsInUh7ltVqdQM+KYEsfaQLdjfowKngwjR/d32kxV9QOBRfe
-	 M1RPyRNXPJ71FGGy3mRrBOHsLiZYoatnyHYxKqjM=
+	by mail.kernel.org (Postfix) with ESMTP id 4412D21582
+	for <linux-edac@archiver.kernel.org>; Wed,  7 Oct 2020 16:45:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbgJFUqL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 6 Oct 2020 16:46:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37316 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727415AbgJFUqG (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 6 Oct 2020 16:46:06 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 798D4C0613D2
-        for <linux-edac@vger.kernel.org>; Tue,  6 Oct 2020 13:46:04 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id t7so103217ilf.10
-        for <linux-edac@vger.kernel.org>; Tue, 06 Oct 2020 13:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bv+5GiaG/LcuKTT3iu5LLoZTiwRc7KlRllwmZiSrosw=;
-        b=FL8PP2NVW1HIPVO0IhjN7z+q8LP6474DNBoj6mJ2Xe/zmlZ5SBxBZKeP8wTK0EA4m9
-         RVkR5yD5ZzEOrrZRc1AU6QSUAUlgm0zC1pTD9wl/S/brmd6Bxo3qDwTgPVyF9v5A5Kpr
-         Z2fcw3h193wXNzMBc6N8GeXXP+IXPaNOZ3a+Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bv+5GiaG/LcuKTT3iu5LLoZTiwRc7KlRllwmZiSrosw=;
-        b=JT0s5R73ANxHCKjBIPCviLQ2ZpXs02KhuPhms2G67H432zGUGjNoMhvHfGrTTXNAtU
-         Bi/wIkQIQfJtjyuUE+sj1fF3wHug8BF3ekxaQH3CU7XTCRzwhquc06cOaOsX6jzDdz+v
-         kaVzNOtzJctsM4kiJVvOOtMraWn7Q6eoZ6vnTzyh9a9cmCTFk5U+xCmg/6jbEA4g+U5m
-         ZainZg5SPVyhbZlhP/Cv7/+itzJoOBKsVWLbpsZtRTdbhgk+Bqtu8BEO9ZJA0LJR1vdC
-         v1qownPozsnCZkdXEFnO7bKBrvVDLXO91Gbwa7uugdR/t2nAI8VgBYWMSAmRc9bSabVY
-         jmmQ==
-X-Gm-Message-State: AOAM5316Ub9OBnYlQqbMLlNR0vw0H+uflRSPhJs1X/BVTcgXNas/eRq1
-        BHbWIVA546L7syQHYhXprimktA==
-X-Google-Smtp-Source: ABdhPJy7xF551ziYXOReG4BPUfTRZBAq199bpzKm3MbF/0nJHFcRodAHVwJxtWbsU8uC4/CbzkcL1Q==
-X-Received: by 2002:a05:6e02:54d:: with SMTP id i13mr4975410ils.219.1602017163833;
-        Tue, 06 Oct 2020 13:46:03 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id s69sm1665627ili.54.2020.10.06.13.46.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2020 13:46:03 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     bp@alien8.de, mchehab@kernel.org, tony.luck@intel.com,
-        james.morse@arm.com, rric@kernel.org, gregkh@linuxfoundation.org,
-        keescook@chromium.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>
-Subject: [PATCH v2 11/11] drivers/edac: convert pci counters to counter_atomic32
-Date:   Tue,  6 Oct 2020 14:44:42 -0600
-Message-Id: <03dc29c130e6522448a4328b1cfa8fbf7c9a8c97.1602011710.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1602011710.git.skhan@linuxfoundation.org>
-References: <cover.1602011710.git.skhan@linuxfoundation.org>
+        id S1728703AbgJGQp0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 7 Oct 2020 12:45:26 -0400
+Received: from foss.arm.com ([217.140.110.172]:46888 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728779AbgJGQpT (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 7 Oct 2020 12:45:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83FAB30E;
+        Wed,  7 Oct 2020 09:45:18 -0700 (PDT)
+Received: from [172.16.1.113] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F34DD3F66B;
+        Wed,  7 Oct 2020 09:45:16 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/7] RAS/CEC: Extend CEC for errors count check on
+ short time period
+To:     Shiju Jose <shiju.jose@huawei.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "lenb@kernel.org" <lenb@kernel.org>,
+        Linuxarm <linuxarm@huawei.com>,
+        Jonathan Cameron <jonathan.cameron@huawei.com>
+References: <20201002122235.1280-1-shiju.jose@huawei.com>
+ <20201002124352.GC17436@zn.tnic>
+ <19a8cc62b11c49e9b584857a6a6664e5@huawei.com>
+ <59950d44-906b-684f-c876-e09c76e5f827@arm.com>
+ <8d826b53a3fc453ba1c468aaf8eb2e75@huawei.com>
+From:   James Morse <james.morse@arm.com>
+Message-ID: <7d15f48a-3380-6b43-04c7-7f9e67564519@arm.com>
+Date:   Wed, 7 Oct 2020 17:45:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <8d826b53a3fc453ba1c468aaf8eb2e75@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-counter_atomic* is introduced to be used when a variable is used as
-a simple counter and doesn't guard object lifetimes. This clearly
-differentiates atomic_t usages that guard object lifetimes.
+Hi Shiju,
 
-counter_atomic* variables will wrap around to 0 when it overflows and
-should not be used to guard resource lifetimes, device usage and
-open counts that control state changes, and pm states.
+On 06/10/2020 17:13, Shiju Jose wrote:
 
-atomic_t variables used for pci counters keep track of pci parity and
-non-parity errors. Convert them to use counter_atomic32.
+[...]
 
-Overflow will wrap around and reset the counts as was the case prior to
-the conversion.
+> Please find following pseudo code we added for the kernel side to make sure
+> we correctly understand your suggestions.
+> 
+> 1. Create edac device and edac device sysfs entries for the online CPU caches.
+> /drivers/edac/edac_device.c
+> struct edac_device_ctl_info  *edac_device_add_cache(unsigned int id, u8 level, u8 type) {
 
-Acked-by: Borislav Petkov <bp@suse.de>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- drivers/edac/edac_pci.h       |  5 +++--
- drivers/edac/edac_pci_sysfs.c | 28 ++++++++++++++--------------
- 2 files changed, 17 insertions(+), 16 deletions(-)
+Eh? Ah, you are adding helpers for devices that are a cache. As far as I can see, edac
+only cares about 'devices', I don't think this is needed unless there are multiple users,
+or it makes a visible difference to user-space.
 
-diff --git a/drivers/edac/edac_pci.h b/drivers/edac/edac_pci.h
-index 5175f5724cfa..797b25a6afc0 100644
---- a/drivers/edac/edac_pci.h
-+++ b/drivers/edac/edac_pci.h
-@@ -30,12 +30,13 @@
- #include <linux/pci.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
-+#include <linux/counters.h>
- 
- #ifdef CONFIG_PCI
- 
- struct edac_pci_counter {
--	atomic_t pe_count;
--	atomic_t npe_count;
-+	struct counter_atomic32 pe_count;
-+	struct counter_atomic32 npe_count;
- };
- 
- /*
-diff --git a/drivers/edac/edac_pci_sysfs.c b/drivers/edac/edac_pci_sysfs.c
-index 53042af7262e..d33a726234c0 100644
---- a/drivers/edac/edac_pci_sysfs.c
-+++ b/drivers/edac/edac_pci_sysfs.c
-@@ -23,8 +23,8 @@ static int edac_pci_log_pe = 1;		/* log PCI parity errors */
- static int edac_pci_log_npe = 1;	/* log PCI non-parity error errors */
- static int edac_pci_poll_msec = 1000;	/* one second workq period */
- 
--static atomic_t pci_parity_count = ATOMIC_INIT(0);
--static atomic_t pci_nonparity_count = ATOMIC_INIT(0);
-+static struct counter_atomic32 pci_parity_count = COUNTER_ATOMIC_INIT(0);
-+static struct counter_atomic32 pci_nonparity_count = COUNTER_ATOMIC_INIT(0);
- 
- static struct kobject *edac_pci_top_main_kobj;
- static atomic_t edac_pci_sysfs_refcount = ATOMIC_INIT(0);
-@@ -58,13 +58,13 @@ int edac_pci_get_poll_msec(void)
- /**************************** EDAC PCI sysfs instance *******************/
- static ssize_t instance_pe_count_show(struct edac_pci_ctl_info *pci, char *data)
- {
--	return sprintf(data, "%u\n", atomic_read(&pci->counters.pe_count));
-+	return sprintf(data, "%u\n", counter_atomic32_read(&pci->counters.pe_count));
- }
- 
- static ssize_t instance_npe_count_show(struct edac_pci_ctl_info *pci,
- 				char *data)
- {
--	return sprintf(data, "%u\n", atomic_read(&pci->counters.npe_count));
-+	return sprintf(data, "%u\n", counter_atomic32_read(&pci->counters.npe_count));
- }
- 
- #define to_instance(k) container_of(k, struct edac_pci_ctl_info, kobj)
-@@ -553,7 +553,7 @@ static void edac_pci_dev_parity_test(struct pci_dev *dev)
- 			edac_printk(KERN_CRIT, EDAC_PCI,
- 				"Signaled System Error on %s\n",
- 				pci_name(dev));
--			atomic_inc(&pci_nonparity_count);
-+			counter_atomic32_inc(&pci_nonparity_count);
- 		}
- 
- 		if (status & (PCI_STATUS_PARITY)) {
-@@ -561,7 +561,7 @@ static void edac_pci_dev_parity_test(struct pci_dev *dev)
- 				"Master Data Parity Error on %s\n",
- 				pci_name(dev));
- 
--			atomic_inc(&pci_parity_count);
-+			counter_atomic32_inc(&pci_parity_count);
- 		}
- 
- 		if (status & (PCI_STATUS_DETECTED_PARITY)) {
-@@ -569,7 +569,7 @@ static void edac_pci_dev_parity_test(struct pci_dev *dev)
- 				"Detected Parity Error on %s\n",
- 				pci_name(dev));
- 
--			atomic_inc(&pci_parity_count);
-+			counter_atomic32_inc(&pci_parity_count);
- 		}
- 	}
- 
-@@ -592,7 +592,7 @@ static void edac_pci_dev_parity_test(struct pci_dev *dev)
- 				edac_printk(KERN_CRIT, EDAC_PCI, "Bridge "
- 					"Signaled System Error on %s\n",
- 					pci_name(dev));
--				atomic_inc(&pci_nonparity_count);
-+				counter_atomic32_inc(&pci_nonparity_count);
- 			}
- 
- 			if (status & (PCI_STATUS_PARITY)) {
-@@ -600,7 +600,7 @@ static void edac_pci_dev_parity_test(struct pci_dev *dev)
- 					"Master Data Parity Error on "
- 					"%s\n", pci_name(dev));
- 
--				atomic_inc(&pci_parity_count);
-+				counter_atomic32_inc(&pci_parity_count);
- 			}
- 
- 			if (status & (PCI_STATUS_DETECTED_PARITY)) {
-@@ -608,7 +608,7 @@ static void edac_pci_dev_parity_test(struct pci_dev *dev)
- 					"Detected Parity Error on %s\n",
- 					pci_name(dev));
- 
--				atomic_inc(&pci_parity_count);
-+				counter_atomic32_inc(&pci_parity_count);
- 			}
- 		}
- 	}
-@@ -646,7 +646,7 @@ void edac_pci_do_parity_check(void)
- 	if (!check_pci_errors)
- 		return;
- 
--	before_count = atomic_read(&pci_parity_count);
-+	before_count = counter_atomic32_read(&pci_parity_count);
- 
- 	/* scan all PCI devices looking for a Parity Error on devices and
- 	 * bridges.
-@@ -658,7 +658,7 @@ void edac_pci_do_parity_check(void)
- 	/* Only if operator has selected panic on PCI Error */
- 	if (edac_pci_get_panic_on_pe()) {
- 		/* If the count is different 'after' from 'before' */
--		if (before_count != atomic_read(&pci_parity_count))
-+		if (before_count != counter_atomic32_read(&pci_parity_count))
- 			panic("EDAC: PCI Parity Error");
- 	}
- }
-@@ -686,7 +686,7 @@ void edac_pci_handle_pe(struct edac_pci_ctl_info *pci, const char *msg)
- {
- 
- 	/* global PE counter incremented by edac_pci_do_parity_check() */
--	atomic_inc(&pci->counters.pe_count);
-+	counter_atomic32_inc(&pci->counters.pe_count);
- 
- 	if (edac_pci_get_log_pe())
- 		edac_pci_printk(pci, KERN_WARNING,
-@@ -711,7 +711,7 @@ void edac_pci_handle_npe(struct edac_pci_ctl_info *pci, const char *msg)
- {
- 
- 	/* global NPE counter incremented by edac_pci_do_parity_check() */
--	atomic_inc(&pci->counters.npe_count);
-+	counter_atomic32_inc(&pci->counters.npe_count);
- 
- 	if (edac_pci_get_log_npe())
- 		edac_pci_printk(pci, KERN_WARNING,
--- 
-2.25.1
+Otherwise this could just go into ghes_edac.c
 
+
+How this looks to user-space probably needs discussing. We should avoid inventing anything
+new. I'd expect user-space to see something like the structure described at the top of
+edac_device.h... but I can't spot a driver using this.
+(its a shame its not the other way up, to avoid duplicating shared caches)
+
+Some archaeology may be needed!
+
+(if there is some existing structure, I agree it should be wrapped up in helpers to ensure
+its easiest to be the same. This may be what a edac_device_block is...)
+
+
+>  }
+
+
+> /drivers/base/cacheinfo.c
+> int cache_create_edac_entries(u64 mpidr, u8 cache_level, u8 cache_type)
+> { 
+> 	...
+> 	/* Get cacheinfo for each online cpus */
+> 	for_each_online_cpu(i) {
+> 		struct cpu_cacheinfo *cpu_ci = get_cpu_cacheinfo(i);
+
+I agree the structure of the caches should come from cacheinfo, and you spotted it only
+works for online CPUs!. This means there is an interaction with cpuhp here)
+
+
+> 		if (!cpu_ci || !cpu_ci->id)
+
+cpu->id?  0 is a valid id, there is an attribute flag to say this is valid.
+This field exists in struct cacheinfo, not struct cpu_cacheinfo.
+
+
+> 			continue;
+>         		... 
+> 		/*Add  the edac entry for the CPU cache */
+> 		edev_cache = edac_device_add_cache(cpu_ci->id, cpu_ci ->level, cpu_ci ->type)
+> 		if (!edev_cache)
+> 			break;
+
+This would break all other edac users.
+The edac driver for the platform should take care of creating this stuff, not the core
+cacheinfo code.
+
+The edac driver for the platform may know that L2 doesn't report RAS errors, so there is
+no point exposing it.
+
+For firmware-first, we can't know this until an error shows up, so have to create
+everything. This stuff should only be created/exported when ghes_edac.c is determined to
+be this platforms edac driver. This code should live in ghes_edac.c.
+
+
+> 		...
+> 	}
+> 	...	
+> }
+
+> unsigned int cache_get_cache_id(u64 proc_id, u8 cache_level, u8 cache_type)
+
+See get_cpu_cacheinfo_id(int cpu, int level) in next. (something very similar to this
+lived in arch/x86, bits of the MPAM tree that moved it got queued for next)
+
+
+> { 
+> 	unsigned int cache_id = 0;
+> 	...
+> 	/* Walk looking for matching cache node */   
+> 	for_each_online_cpu(i) {
+
+(there is an interaction with cpuhp here)
+
+
+> 		struct cpu_cacheinfo *cpu_ci = get_cpu_cacheinfo(i);
+> 		if (!cpu_ci || !cpu_ci->id)
+> 			continue;
+
+
+> 		id = CONV(proc_id);  /* need to check */
+
+No idea what is going on here.
+
+(Deriving an ID from the CPU_s_ that are attached to the cache is arm64 specific. This has
+to work for x86 too.
+The MPAM out-of-tree code does this as we don't have anything else. Feedback when it was
+posted as RFC was that the id values should be compacted, I was hoping we would get
+something like an id from the PPTT before needing this value as resctrl ABI for MPAM)
+
+
+> 		if((id == cpu_ci->id) && (cache_level == cpu_ci->level) && (cache_type == cpu_ci->type))  {
+> 			cache_id = cpu_ci->id;
+> 			break;
+> 		}
+> 	}
+> 	return cache_id;
+> }
+
+
+> 2. Store CPU CE count in the edac sysfs entry for the CPU cache.
+> 
+> drivers/edac/ghes_edac.c
+> void ghes_edac_report_cpu_error(int cache_id, u8 cache_level, u8 cache_type , uint32 ce_count)
+> {
+> 	...
+> 	/* Check edac entry for cache already present, if not add new entry */       
+
+You can't create devices at runtime! The notification comes in irq context, and
+edac_device_add_device() takes a mutex, and you need to allocate memory.
+
+This could be deferred to process context - but I bet its a nuisance for user-space to now
+know what counters are available until errors show up.
+
+
+> 	edev_cache = find_edac_device_cache(cache_id, cache_level, cache_type);
+> 	if (!edev_cache) {
+> 		/*Add  the edac entry for the cache */
+> 		edev_cache = edac_device_add_cache(cache_id, cache_level, cache_type);
+> 		if (!edev_cache)
+> 			return;
+> 	}
+
+Better would be to lookup the device based on the CPER. (It already looks up the DIMM
+based on the CPER)
+
+
+> 	/* Store the ce_count to /sys/devices/system/edac/ cpu/cpu<no>/L<N>cache/ce_count */
+> 	edac_device_handle_ce_count(edev_cache, ce_count, ...)
+> }
+>  
+> drivers/acpi/apei/ghes.c
+> void ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata) {
+>  	...
+>  	if (sec_sev != GHES_SEV_CORRECTED)
+>  		return;
+
+(Xiaofei Tan is looking at supporting some other of these, so you need to interact with
+that work too)
+
+
+>  	mpidr = cper_sec_proc_arm->mpidr;    
+
+You want an arch-specific call to convert this to the linux CPU number, and then use that
+everywhere. This makes the code more re-usable, and less surprising to other readers.
+
+arm64's get_logical_index() looks like it does what you want.
+
+
+>  	for(i = 0; i < cper_sec_proc_arm->err_info_num; i++) {
+>  		if(cper_sec_proc_info->type != CPER_ARM_CACHE_ERROR) 
+>  			continue; 
+>  		ce_count = cper_arm_err_info->multiple_error + 1;
+> 		cache_type = cper_arm_err_info->type;
+> 		cache_level = cper_arm_err_info->error_info<24: 22>;  
+
+> 		cache_id = cache_get_cache_id(mpidr, cache_level, cache_type);
+
+This needs to be architecture agnostic, it must take the cpu number.
+
+
+>  		if (!cache_id)
+>  			return;
+
+0 is a valid id.
+
+
+> 		ghes_edac_report_cpu_error(cache_id, cache_level, cache_type , ce_count);
+> 	}
+>               ...
+> 	return;	
+> }
+
+
+Thanks,
+
+James
