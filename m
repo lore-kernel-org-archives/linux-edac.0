@@ -1,99 +1,230 @@
-Return-Path: <SRS0=fLbq=DO=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=OxZ/=DQ=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F053C4727F
-	for <linux-edac@archiver.kernel.org>; Wed,  7 Oct 2020 18:30:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93880C433DF
+	for <linux-edac@archiver.kernel.org>; Fri,  9 Oct 2020 15:56:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 196A82173E
-	for <linux-edac@archiver.kernel.org>; Wed,  7 Oct 2020 18:30:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Oi3QTMD9"
+	by mail.kernel.org (Postfix) with ESMTP id 4961A222C4
+	for <linux-edac@archiver.kernel.org>; Fri,  9 Oct 2020 15:56:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1602258972;
+	bh=/rIYhxMA513560+sJKJLaUarM8Igz+w6pwP5NbjXQVw=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=Xhu02/Xlq7rdM+PCtfhCxNKQFcQHVjNrN0o92D7rQZBmJ4yTcHC1xkKHVOUYpYrWc
+	 l0PKQbT5Yuy6HMiGXwDMilcTTxKUOmHzjLU54CdoIFUO+jvNW8PTEiG7NQU0HQJFQ0
+	 iiBaJfiLupW8T5Cs8ezp82br8OTu0Nd1uJiLxjl8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbgJGSaU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 7 Oct 2020 14:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41046 "EHLO
+        id S2389313AbgJIP4M (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 9 Oct 2020 11:56:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727424AbgJGSaR (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 7 Oct 2020 14:30:17 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273E4C0613D4
-        for <linux-edac@vger.kernel.org>; Wed,  7 Oct 2020 11:30:16 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id 34so1902944pgo.13
-        for <linux-edac@vger.kernel.org>; Wed, 07 Oct 2020 11:30:16 -0700 (PDT)
+        with ESMTP id S2389203AbgJIP4L (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 9 Oct 2020 11:56:11 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BFF2C0613D5
+        for <linux-edac@vger.kernel.org>; Fri,  9 Oct 2020 08:56:11 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id o8so9435530otl.4
+        for <linux-edac@vger.kernel.org>; Fri, 09 Oct 2020 08:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NEnx/MaMTPdV1sePaMjyGodsEMsS+Pwmt60JRHi/cE0=;
-        b=Oi3QTMD9IkaHxDQu21atk/izzNy05UEr29GvBeVD/aPrPFrwP7zFn/Z0ocm3YCp4/G
-         MYj2vvs7sZheVYuugoADfNAzk9zrHJIcbQC6vQqHeZhqwKwGZCaiXL8Vmhwm+mooYfyf
-         NVvspGSkmv/96/hUy7UhO+Bi6+iB0pFbMjf5A=
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b32z5dKsXOrYLHbSI9QCODj0mLTC/ZJJ3E6KUm9+yHE=;
+        b=LDUnatNNn2udc+UqXUN+tdPGpv/2MM9wKl2dLPda8qil/vULNrO0DxhWPtDkcZAr7r
+         Axl53TaOKUNtScl2hLkq3wuBNt2lR3WN46nvKYP8c1uTr33qF1NY9nZeDw/6Yzf+HUky
+         iZQzHYFeB4F6JRZXy5O7uBw49tpgKhHzVWrMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NEnx/MaMTPdV1sePaMjyGodsEMsS+Pwmt60JRHi/cE0=;
-        b=LXhB84n3l1UemiozJxQVZUpmYra7kDECNIN2nRhG1n4XsTRFMO9cv4mxUgw4fnFhON
-         7A0VTfkt24hfqdPmyPTGxG1mo1XMbFxsHJ7/Q0EA/PPiS+a/Uvl/SvCk3eANigDT1C+h
-         phGet9bpMJdrFk2aag7oGaJ6F2xaKy9skxHnSrjfS1vtOndSCjeXoLHgD3fx8Pn5u3+2
-         4/BcG1ZN8sDy4tYcin/f9ecN/fFe0wwD5tDN7HvCwMujAuxhD5MAsWbye4P5Y6pTDz9m
-         /Yiuc/EmPL/2OKwodjfCKDH8cWNeXbAWbuw0nPtYf5Zc0eEvDIynTs5q8XETdbQC88R6
-         /rdQ==
-X-Gm-Message-State: AOAM530Q4tMVl6KVjuj1cr35n5KPYyWxXre7RtZTCOYnnnHqJ+lA2bgE
-        B5CBqmST/vxUntQR3oEyG3VeZQ==
-X-Google-Smtp-Source: ABdhPJwANFS6YYncg0hxvWSF1CAR8KRQ83VHR0P39mH0uwrUqNSGUcIFT7Lpzw7MABy1uBVF3jVVDw==
-X-Received: by 2002:a17:90b:4c90:: with SMTP id my16mr3717046pjb.27.1602095415557;
-        Wed, 07 Oct 2020 11:30:15 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b6sm3411877pjq.42.2020.10.07.11.30.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=b32z5dKsXOrYLHbSI9QCODj0mLTC/ZJJ3E6KUm9+yHE=;
+        b=edoTS6AjQU6qPz0vuJi1d2VxO6B7tabAzz2g0JnlwY4BDNbuZFQldQb6832Dkiw2Xq
+         I/wemTZPxgLIkQ38/AkPYkcxXNqqG2IhqIi+DMQ8yEj8xksfINurHeO292EjvXGuFO9N
+         lLAbTQa/ByoUYDhMRmPnZzAaJR15vHeEya/V+hs+pgWY3sFECAQjVRZe1l6PP4u44zeO
+         18P8Sh+e5TF4iSGax9rpOdzv2CgXe4UG+efqbTzaNjxmWvu/vlereDRvXd3YTO7Dwk1m
+         xr3Llws5blVfM8EDc+pjMNIk8Ap+6vHpRTBxaf4Kk9+83zWEGXtyERQt0XlLZVDHjmOj
+         FJ3g==
+X-Gm-Message-State: AOAM531vi+mSicV5TB9WdH0JZmzzWqcA84Hy5sKmzOg2zuA97Lkp0mv2
+        reNvu0drQqVtf+vSxri0nG4+Nw==
+X-Google-Smtp-Source: ABdhPJz3Y617hhCiPlIHjqC9vW6PFy/AnltbdLlnrMsE2eBnxmpcpkdSCIOXcudkVjETugwBP8Bj1Q==
+X-Received: by 2002:a9d:2a88:: with SMTP id e8mr8717319otb.299.1602258970850;
+        Fri, 09 Oct 2020 08:56:10 -0700 (PDT)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id e7sm7347246oia.9.2020.10.09.08.56.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2020 11:30:14 -0700 (PDT)
-Date:   Wed, 7 Oct 2020 11:30:13 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, shuah@kernel.org,
-        rafael@kernel.org, johannes@sipsolutions.net, lenb@kernel.org,
-        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
-        arve@android.com, tkjos@android.com, maco@android.com,
-        joel@joelfernandes.org, christian@brauner.io, hridya@google.com,
-        surenb@google.com, minyard@acm.org, arnd@arndb.de,
-        mchehab@kernel.org, rric@kernel.org, linux-doc@vger.kernel.org,
+        Fri, 09 Oct 2020 08:56:09 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     corbet@lwn.net, keescook@chromium.org, gregkh@linuxfoundation.org,
+        shuah@kernel.org, rafael@kernel.org, johannes@sipsolutions.net,
+        lenb@kernel.org, james.morse@arm.com, tony.luck@intel.com,
+        bp@alien8.de, arve@android.com, tkjos@android.com,
+        maco@android.com, joel@joelfernandes.org, christian@brauner.io,
+        hridya@google.com, surenb@google.com, minyard@acm.org,
+        arnd@arndb.de, mchehab@kernel.org, rric@kernel.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
         openipmi-developer@lists.sourceforge.net,
         linux-edac@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] Introduce Simple atomic counters
-Message-ID: <202010071128.0772BDD6@keescook>
-References: <cover.1602011710.git.skhan@linuxfoundation.org>
+Subject: [PATCH v3 00/11] Introduce Simple atomic counters
+Date:   Fri,  9 Oct 2020 09:55:55 -0600
+Message-Id: <cover.1602209970.git.skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1602011710.git.skhan@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Oct 06, 2020 at 02:44:31PM -0600, Shuah Khan wrote:
-> -- Addressed Kees's  and Joel's comments:
->    1. Removed dec_return interfaces (Patch 1/11)
->    2. Removed counter_simple interfaces to be added later with changes
->       to drivers that use them (if any) (Patch 1/11)
->    3. Comment and Changelogs updates to Patch 2/11
+This patch series is a result of discussion at the refcount_t BOF
+the Linux Plumbers Conference. In this discussion, we identified
+a need for looking closely and investigating atomic_t usages in
+the kernel when it is used strictly as a counter without it
+controlling object lifetimes and state changes.
 
-Thanks!
+There are a number of atomic_t usages in the kernel where atomic_t api
+is used strictly for counting and not for managing object lifetime. In
+some cases, atomic_t might not even be needed.
 
-> Kees, if this series is good, would you like to take this through your
-> tree or would you like to take this through mine?
+The purpose of these counters is to clearly differentiate atomic_t
+counters from atomic_t usages that guard object lifetimes, hence prone
+to overflow and underflow errors. It allows tools that scan for underflow
+and overflow on atomic_t usages to detect overflow and underflows to scan
+just the cases that are prone to errors.
 
-I think it's very close! I've sent reviews. Why don't you take this tree
-for now? (Originally I thought this was going through Greg's tree since
-it was touching a lot of drivers.)
+Simple atomic counters api provides interfaces for simple atomic counters
+that just count, and don't guard resource lifetimes. The interfaces are
+built on top of atomic_t api, providing a smaller subset of atomic_t
+interfaces necessary to support simple counters.
+    
+Counter wraps around to INT_MIN when it overflows and should not be used
+to guard resource lifetimes, device usage and open counts that control
+state changes, and pm states. Overflowing to INT_MIN is consistent with
+the atomic_t api, which it is built on top of.
+    
+Using counter_atomic* to guard lifetimes could lead to use-after free
+when it overflows and undefined behavior when used to manage state
+changes and device usage/open states.
+
+This patch series introduces Simple atomic counters. Counter atomic ops
+leverage atomic_t and provide a sub-set of atomic_t ops.
+
+In addition this patch series converts a few drivers to use the new api.
+The following criteria is used for select variables for conversion:
+
+1. Variable doesn't guard object lifetimes, manage state changes e.g:
+   device usage counts, device open counts, and pm states.
+2. Variable is used for stats and counters.
+3. The conversion doesn't change the overflow behavior.
+
+Note: Would like to get this into Linux 5.10-rc1 so we can continue
+updating drivers that can be updated to use this API. If this all looks
+good, Kees, would you like to take this through your tree or would you
+like to take this through mine.
+
+Changes since Patch v2:
+-- Thanks for reviews and reviewed-by, and Acked-by tags. Updated
+   the patches with the tags.
+-- Minor changes to address Greg's comment to remove default from
+   Kconfig
+-- Added Copyrights to new files
+Updates to address comments on v2 from Kees Cook
+-- Updated Patch 1/11 to make clear that the counter wraps around to
+   INT_MIN and that this behavior is consistent with the atomic_t
+   api, on which this counter built api built on top of.
+-- Other patch change logs updated with the correct wrap around
+   behavior.
+-- Patch 1/11 is updated to add tests with constants for overflow
+   and underflow.
+-- Patch 8/11 - added inits for the stat counters
+-- Patch 10/11 - fixes the vmci_num_guest_devices != 0 to >0 which is
+   safer than checking for !=0. 
+ 
+Changes since Patch v1
+-- Thanks for reviews and reviewed-by, and Acked-by tags. Updated
+   the patches with the tags.
+-- Addressed Kees's  and Joel's comments:
+   1. Removed dec_return interfaces
+   2. Removed counter_simple interfaces to be added later with changes
+      to drivers that use them (if any).
+
+Changes since RFC:
+-- Thanks for reviews and reviewed-by, and Acked-by tags. Updated
+   the patches with the tags.
+-- Addressed Kees's comments:
+   1. Non-atomic counters renamed to counter_simple32 and counter_simple64
+      to clearly indicate size.
+   2. Added warning for counter_simple* usage and it should be used only
+      when there is no need for atomicity.
+   3. Renamed counter_atomic to counter_atomic32 to clearly indicate size.
+   4. Renamed counter_atomic_long to counter_atomic64 and it now uses
+      atomic64_t ops and indicates size.
+   5. Test updated for the API renames.
+   6. Added helper functions for test results printing
+   7. Verified that the test module compiles in kunit env. and test
+      module can be loaded to run the test.
+   8. Updated Documentation to reflect the intent to make the API
+      restricted so it can never be used to guard object lifetimes
+      and state management. I left _return ops for now, inc_return
+      is necessary for now as per the discussion we had on this topic.
+-- Updated driver patches with API name changes.
+-- We discussed if binder counters can be non-atomic. For now I left
+   them the same as the RFC patch - using counter_atomic32
+-- Unrelated to this patch series:
+   The patch series review uncovered improvements could be made to
+   test_async_driver_probe and vmw_vmci/vmci_guest. I will track
+   these for fixing later.
+
+Shuah Khan (11):
+  counters: Introduce counter_atomic* counters
+  selftests:lib:test_counters: add new test for counters
+  drivers/base: convert deferred_trigger_count and probe_count to
+    counter_atomic32
+  drivers/base/devcoredump: convert devcd_count to counter_atomic32
+  drivers/acpi: convert seqno counter_atomic32
+  drivers/acpi/apei: convert seqno counter_atomic32
+  drivers/android/binder: convert stats, transaction_log to
+    counter_atomic32
+  drivers/base/test/test_async_driver_probe: convert to use
+    counter_atomic32
+  drivers/char/ipmi: convert stats to use counter_atomic32
+  drivers/misc/vmw_vmci: convert num guest devices counter to
+    counter_atomic32
+  drivers/edac: convert pci counters to counter_atomic32
+
+ Documentation/core-api/counters.rst          | 109 ++++++++++++
+ MAINTAINERS                                  |   8 +
+ drivers/acpi/acpi_extlog.c                   |   5 +-
+ drivers/acpi/apei/ghes.c                     |   5 +-
+ drivers/android/binder.c                     |  41 ++---
+ drivers/android/binder_internal.h            |   3 +-
+ drivers/base/dd.c                            |  19 +-
+ drivers/base/devcoredump.c                   |   5 +-
+ drivers/base/test/test_async_driver_probe.c  |  26 +--
+ drivers/char/ipmi/ipmi_msghandler.c          |   9 +-
+ drivers/char/ipmi/ipmi_si_intf.c             |   9 +-
+ drivers/edac/edac_pci.h                      |   5 +-
+ drivers/edac/edac_pci_sysfs.c                |  28 +--
+ drivers/misc/vmw_vmci/vmci_guest.c           |   9 +-
+ include/linux/counters.h                     | 176 +++++++++++++++++++
+ lib/Kconfig                                  |   9 +
+ lib/Makefile                                 |   1 +
+ lib/test_counters.c                          | 162 +++++++++++++++++
+ tools/testing/selftests/lib/Makefile         |   1 +
+ tools/testing/selftests/lib/config           |   1 +
+ tools/testing/selftests/lib/test_counters.sh |  10 ++
+ 21 files changed, 567 insertions(+), 74 deletions(-)
+ create mode 100644 Documentation/core-api/counters.rst
+ create mode 100644 include/linux/counters.h
+ create mode 100644 lib/test_counters.c
+ create mode 100755 tools/testing/selftests/lib/test_counters.sh
 
 -- 
-Kees Cook
+2.25.1
+
