@@ -2,215 +2,119 @@ Return-Path: <SRS0=eD8G=DV=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C134C43467
-	for <linux-edac@archiver.kernel.org>; Wed, 14 Oct 2020 09:30:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63336C433E7
+	for <linux-edac@archiver.kernel.org>; Wed, 14 Oct 2020 13:25:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 441E8214D8
-	for <linux-edac@archiver.kernel.org>; Wed, 14 Oct 2020 09:30:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC78E22203
+	for <linux-edac@archiver.kernel.org>; Wed, 14 Oct 2020 13:25:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602667830;
-	bh=a8MuFYxaVgIysdtIrpf3i9lBnP2/fWsfxDweWGTsVHc=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=HVRf76haPOc8gdFsfuz2E/xJNwjycHBTBEvJT1Gp9Ys5LsSDSpfgjgJjQqOSEna2r
-	 uETNi1zZQ7U/qHv+b/OGnobsh5sfUZ2LzXMTyGHOyUb736zY/orAX2pl4HRslG5zLP
-	 wxKM8bWsIp3HGSuhPQldyVAKfSOsIa7mlktqu7ng=
+	s=default; t=1602681915;
+	bh=Mb03TCwpDl/RTFAd/vGq/vKOdU5tWYX6TYS5So1KPfM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=dwXkVt+YP5SfU7RWlYs3m3zwmVrASLOoc0nsuRlzDjktIgJpJgZhdR3BJiEir0bwf
+	 nGZR2a2u3Dxbg0vvNJtJM3rnpzNPTFgtZKcLdpnzFFjOA2u+g9nU80NqZWYsoNJVoi
+	 MC+X98B60nraaZ7SebNJutiK6YJzL7APCg48JWC8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbgJNJa0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 14 Oct 2020 05:30:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730282AbgJNJTj (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 14 Oct 2020 05:19:39 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95421C0D942E
-        for <linux-edac@vger.kernel.org>; Tue, 13 Oct 2020 19:12:23 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id p16so3447295ilq.5
-        for <linux-edac@vger.kernel.org>; Tue, 13 Oct 2020 19:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=O0EZovHPBRBu6d4nMiG34aB96fSPYJLap8VHOicm/qs=;
-        b=DbWW5TtsBc6Dyb8YsskACaBaCbQEtISHSCVxTRgFAHlHJjmD1dU40N2/h5pZJ6i9bJ
-         +F2NBNfzuZOj7AsXvJYavEYGwGPq4uL8mop/7Jirc9xAaKdAITSdhsoI+JolGBgvo7jC
-         FaHWhFiSslkjQ7vjKYWsBMu2t4YFei5779oSs=
+        id S1727557AbgJNNZO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 14 Oct 2020 09:25:14 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43820 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725944AbgJNNZO (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 14 Oct 2020 09:25:14 -0400
+Received: by mail-oi1-f196.google.com with SMTP id l85so3171031oih.10;
+        Wed, 14 Oct 2020 06:25:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=O0EZovHPBRBu6d4nMiG34aB96fSPYJLap8VHOicm/qs=;
-        b=rDkWT9CeN5P+u6otFU/91Fn8b7elasVEtaovXNU6zzXXOQv8Jey//TvN3+Mgh0x+EP
-         QuS6+KyPrWOMOJXxQGBiacrPvsDIBXukL+4CuLnT1cav7ylyejclQP7K/U8G8c5q0Xoe
-         iEc6rl7mbJ3nOY7ygbvCKDuc/n3q3p78N3/1oJstjKnI/SoPWpAL9TVGmFxux7g7VIu6
-         u7kReIM6VauUyuqgBEiRMF0RC+bz0zIaTkjT0jRmxwdnNKdNtEQgZrWIap6pf5WWFv4H
-         dKkSqi1Yq/VPQUgU3nkZZP9FMocJZVO7h1WuzFsltAoleW344s3QTpIRApy7Bk5stsAX
-         HJHA==
-X-Gm-Message-State: AOAM532y62LyjU5lccVD9kzJvQ2UsVYf+kzhssUXAVjIZY8xf9aSy657
-        rfvF3aBSW+kP6J+BR4NpRIUPNA==
-X-Google-Smtp-Source: ABdhPJzg8Uk3iABEzJ4woM5C8q7wCnJ5fWvm66m83Hyk77SwQ9t1b/UHHFa4UxnY/E8z7l/WVw75Zg==
-X-Received: by 2002:a92:bb0d:: with SMTP id w13mr2338778ili.168.1602641542819;
-        Tue, 13 Oct 2020 19:12:22 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id 15sm1611292ilz.66.2020.10.13.19.12.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2020 19:12:22 -0700 (PDT)
-Subject: Re: [PATCH v3 00/11] Introduce Simple atomic counters
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Kees Cook <keescook@chromium.org>
-Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, shuah@kernel.org,
-        rafael@kernel.org, johannes@sipsolutions.net, lenb@kernel.org,
-        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de,
-        arve@android.com, tkjos@android.com, maco@android.com,
-        joel@joelfernandes.org, christian@brauner.io, hridya@google.com,
-        surenb@google.com, minyard@acm.org, arnd@arndb.de,
-        mchehab@kernel.org, rric@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-edac@vger.kernel.org, Will Deacon <will@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1602209970.git.skhan@linuxfoundation.org>
- <20201009193746.GA1073957@hirez.programming.kicks-ass.net>
- <202010091255.246395A6@keescook>
- <20201010110920.GQ2628@hirez.programming.kicks-ass.net>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <6e1dd408-653e-817e-b659-23649259a929@linuxfoundation.org>
-Date:   Tue, 13 Oct 2020 20:12:20 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VJpUSFln9JOiWZwDX83Xde5QvOGmiJAsY3aNUB7yL/8=;
+        b=Jrkpz1ZvObCrwgnW592a5LzSp7cCTCLDhGJBrenC8D0f+pWsWjDlgN6TH7uJ/Zt+cM
+         UFBXccE6PFqC5cbzW3G3U3wueYwqevMYYczSc5NHkvPWj31Jo/SN8vM1B+rmJU135vNf
+         Ymx191z7irylDKm3jECjrK7cMccXbOJlcd5Cc+zBv0Xeo9rpaN0Rpgd90nCAK7GbTrO6
+         F/mADPt0zAZFOEqT9uzZyZH7jMkoZKNBaIDhoLCubBtm0KPPiX9QdQNvVUzVr0GVsEid
+         BfDpxFDgA3CTTT2oZ/uo1t1QFhZZa9UTNxjk2WSSbReUw3dJaTU6w3MnnawsO0ZyZnQ4
+         sgFA==
+X-Gm-Message-State: AOAM531Vr87ruloZDYmMX5UnVo2IvqOA+cPOMhqMVGdMi0iXBL7oRf5E
+        DKd+pVfbvMtNdua3HxL9lw==
+X-Google-Smtp-Source: ABdhPJwE593vXhJaye9kSIvUe7YgQJ63WWLPs3lUh0NNUGUV1LFegtWau5fpotYXrpDETQNm60O+YQ==
+X-Received: by 2002:aca:5256:: with SMTP id g83mr2254356oib.71.1602681913507;
+        Wed, 14 Oct 2020 06:25:13 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l138sm1307457oih.32.2020.10.14.06.25.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 06:25:12 -0700 (PDT)
+Received: (nullmailer pid 1534606 invoked by uid 1000);
+        Wed, 14 Oct 2020 13:25:11 -0000
+Date:   Wed, 14 Oct 2020 08:25:11 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Sascha Hauer <s.hauer@pengutronix.de>
+Cc:     linux-edac@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rrichter@marvell.com>,
+        York Sun <york.sun@nxp.com>, kernel@pengutronix.de,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Add L1 and L2 error detection for A53 and A57
+Message-ID: <20201014132511.GA1517487@bogus>
+References: <20201013125033.4749-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20201010110920.GQ2628@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201013125033.4749-1-s.hauer@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 10/10/20 5:09 AM, Peter Zijlstra wrote:
-> On Fri, Oct 09, 2020 at 01:45:43PM -0700, Kees Cook wrote:
->> On Fri, Oct 09, 2020 at 09:37:46PM +0200, Peter Zijlstra wrote:
->>> On Fri, Oct 09, 2020 at 09:55:55AM -0600, Shuah Khan wrote:
->>>> Simple atomic counters api provides interfaces for simple atomic counters
->>>> that just count, and don't guard resource lifetimes. The interfaces are
->>>> built on top of atomic_t api, providing a smaller subset of atomic_t
->>>> interfaces necessary to support simple counters.
->>>
->>> To what actual purpose?!? AFACIT its pointless wrappery, it gets us
->>> nothing.
->>
->> It's not pointless. There is value is separating types for behavioral
->> constraint to avoid flaws. atomic_t provides a native operation. We gained
->> refcount_t for the "must not wrap" type, and this gets us the other side
->> of that behavioral type, which is "wrapping is expected". Separating the
->> atomic_t uses allows for a clearer path to being able to reason about
->> code flow, whether it be a human or a static analyzer.
+On Tue, Oct 13, 2020 at 02:50:30PM +0200, Sascha Hauer wrote:
+> This driver is based on an earlier version from York Sun which can
+> be found here: https://lkml.org/lkml/2018/3/14/1203.
 > 
-> refcount_t got us actual rutime exceptions that atomic_t doesn't. This
-> propsal gets us nothing.
+> At that time the conclusion was that this driver is not suitable for
+> mainline as it used IMPLEMENTATION DEFINED CPU registers and also
+> NXP specific SMC calls. All this was used for the error injection only,
+> for error reporting it is not needed.
+
+Have you looked at Amazon's version:
+http://lore.kernel.org/r/20200510151310.17372-2-hhhawa@amazon.com
+
+Which is an A57 EDAC driver. Looks like it never got upstream though, 
+but it's not clear why.
+
+You'll note that it doesn't have a virtual DT node either.
+
+> This is another try to get this driver to mainline. All error injection
+> code has been removed (though it has initially been used to test this
+> driver on an i.MX8 SoC), what's left is unfortunately not testable, but
+> also doesn't contain none of the doubtful code anymore.
 > 
-> atomic_t is very much expected to wrap.
+> Changes since v1:
+> - Split dt-binding into separate patch
+> - Sort local function variables in reverse-xmas tree order
+> - drop unnecessary comparison and make variable bool
 > 
->> The counter wrappers add nothing to the image size, and only serve to
->> confine the API to one that cannot be used for lifetime management.
+> Sascha Hauer (2):
+>   dt-bindings: edac: Add binding for L1/L2 error detection for Cortex
+>     A53/57
+>   drivers/edac: Add L1 and L2 error detection for A53 and A57
 > 
-> It doesn't add anything period. It doesn't get us new behaviour, it
-> splits a 'can wrap' use-case from a 'can wrap' type. That's sodding
-> pointless.
+> York Sun (1):
+>   arm64: dts: ls104x: Add L1/L2 cache edac node
 > 
-
-They don't add any new behavior, As Kees mentioned they do give us a
-way to clearly differentiate atomic usages that can wrap.
-
-Let's discuss the problem at hand before dismissing it as pointless.
-
-> Worse, it mixes 2 unrelated cases into one type, which just makes a
-> mockery of things (all the inc_return users are not statistics, some
-> might even mis-behave if they wrap).
+>  .../bindings/edac/arm,cortex-a5x-edac.yaml    |  32 +++
+>  .../arm64/boot/dts/freescale/fsl-ls1043a.dtsi |   5 +
+>  .../arm64/boot/dts/freescale/fsl-ls1046a.dtsi |   5 +
+>  drivers/edac/Kconfig                          |   6 +
+>  drivers/edac/Makefile                         |   1 +
+>  drivers/edac/cortex_arm64_l1_l2.c             | 208 ++++++++++++++++++
+>  6 files changed, 257 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/edac/arm,cortex-a5x-edac.yaml
+>  create mode 100644 drivers/edac/cortex_arm64_l1_l2.c
 > 
-
-You are right that all inc_return usages aren't statistics. There are
-3 distinct usages:
-
-1. Stats
-2. Cases where wrapping is fine
-3. Cases where wrapping could be a problem. In which case, this API
-    shouldn't be used.
-
-There is no need to keep inc_return in this API as such. I included it
-so it can be used for above cases 1 and 2, so the users don't have to
-call inc() followed by read(). It can be left out of the API.
-
-The atomic_t usages in the kernel fall into the following categories:
-
-1. Stats (tolerance for accuracy determines whether they need to be
-    atomic or not). RFC version included non-atomic API for cases
-    when lossiness is acceptable. All these cases use/need just init
-    and inc. There are two variations in this case:
-
-    a. No checks for wrapping. Use signed value.
-    b. No checks for wrapping, but return unsigned.
-
-2. Reference counters that release resource and rapping could result
-    in use-after-free type problems. There are two variations in this
-    case:
-
-    a. Increments and decrements aren't bounded.
-    b. Increments and decrements are bounded.
-
-    Currently tools that flag unsafe atomic_t usages that are candidates
-    for refcount_t conversions don't make a distinction between the two.
-
-    The second case, since increments and decrements are bounded, it is
-    safe to continue to use it. At the moment there is no good way to
-    tell them apart other than looking at each of these cases.
-
-3. Reference counters that manage/control states. Wrapping is a problem
-    in this case, as it could lead to undefined behavior. These cases
-    don't use test and free, use inc/dec. At the moment there is no good
-    way to tell them apart other than looking at each of these cases.
-    This is addressed by REFCOUNT_SATURATED case.
-
-This API addresses 1a. Stats. No checks for wrapping. Use signed value
-at the moment with plan to add support for unsigned for cases where
-unsigned is being used.
-
-It is possible to cover 2b in this API, so it becomes easier to make a
-clear distinction the two cases and we can focus on only the atomic_t
-cases that need to converted to refcount_t. This is easy to do by
-allowing max. threshold for the variable and checking against that
-and not letting it go above it.
-
-There are several atomic_t usages that use just:
-
--- init or set and inc
--- init or set and inc/dec (including the ones that manage state)
--- Increments and decrements are bounded
-
-Creating a sub-set of atomic_t api would help us with differentiate
-these cases and make it easy for us identify and fix cases where
-refcount_t should be used.
-
-Would you be open to considering a subset if it addresses 2b and
-unsigned returns for stats?
-
-thanks,
--- Shuah
-
-
-
-
-
-
-
-
-
-
-
-
+> -- 
+> 2.28.0
+> 
