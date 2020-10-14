@@ -1,109 +1,146 @@
-Return-Path: <SRS0=LDt8=DU=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=eD8G=DV=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF58CC433E7
-	for <linux-edac@archiver.kernel.org>; Tue, 13 Oct 2020 12:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8012C433DF
+	for <linux-edac@archiver.kernel.org>; Wed, 14 Oct 2020 09:17:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88BD82256D
-	for <linux-edac@archiver.kernel.org>; Tue, 13 Oct 2020 12:51:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2684520B1F
+	for <linux-edac@archiver.kernel.org>; Wed, 14 Oct 2020 09:17:57 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bbHVobEM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728199AbgJMMvF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 13 Oct 2020 08:51:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49084 "EHLO
+        id S1729143AbgJNJR4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 14 Oct 2020 05:17:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727260AbgJMMvF (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 13 Oct 2020 08:51:05 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04276C0613D0
-        for <linux-edac@vger.kernel.org>; Tue, 13 Oct 2020 05:51:05 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1kSJlE-0007le-2A; Tue, 13 Oct 2020 14:50:36 +0200
-Received: from sha by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1kSJlC-0005qL-Lp; Tue, 13 Oct 2020 14:50:34 +0200
-From:   Sascha Hauer <s.hauer@pengutronix.de>
-To:     linux-edac@vger.kernel.org
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
-        York Sun <york.sun@nxp.com>, kernel@pengutronix.de,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 1/3] dt-bindings: edac: Add binding for L1/L2 error detection for Cortex A53/57
-Date:   Tue, 13 Oct 2020 14:50:31 +0200
-Message-Id: <20201013125033.4749-2-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201013125033.4749-1-s.hauer@pengutronix.de>
-References: <20201013125033.4749-1-s.hauer@pengutronix.de>
+        with ESMTP id S1726323AbgJNJR4 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 14 Oct 2020 05:17:56 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD00C051101;
+        Wed, 14 Oct 2020 02:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=oSoCzew+YknB0dx5EoXOzxp1GOMgWSJZPnYxGNWDbHw=; b=bbHVobEMV+gxKJvM2yym+cXIBq
+        fr+AXG56PjCs1dnTUCUFhA1KXpxjWdj+INB1pvURTaabIE118jh6jK8Ie8/ARC+Pmgp45nmv/ifqS
+        mqDWYvAzc8+sJ/BAxkz2sVSKdNFeujBFY8Ovj+C/cNykURt2cFMx2UNiPpfD9qHUfsCmiLFejXHxP
+        emit1XplFzfQI+kL4BAibB+Bb6r/6UqlL6KbtRTBCtsFKGKALZpQ7G5AGARKpVFfX42onYfwZPB/b
+        F0er87EC0E3DR0lqy3cCSF/VE4aSvCn+U9OI1AMBf4CG5GRBlyMf0BFwjrx22xyBB8UuD8IQ0wcrM
+        uSW/YzsA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kScuP-0000Ui-V4; Wed, 14 Oct 2020 09:17:22 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 46051304E03;
+        Wed, 14 Oct 2020 11:17:20 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 21495201A8541; Wed, 14 Oct 2020 11:17:20 +0200 (CEST)
+Date:   Wed, 14 Oct 2020 11:17:20 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, corbet@lwn.net,
+        gregkh@linuxfoundation.org, shuah@kernel.org, rafael@kernel.org,
+        johannes@sipsolutions.net, lenb@kernel.org, james.morse@arm.com,
+        tony.luck@intel.com, bp@alien8.de, arve@android.com,
+        tkjos@android.com, maco@android.com, joel@joelfernandes.org,
+        christian@brauner.io, hridya@google.com, surenb@google.com,
+        minyard@acm.org, arnd@arndb.de, mchehab@kernel.org,
+        rric@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@driverdev.osuosl.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-edac@vger.kernel.org, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3 00/11] Introduce Simple atomic counters
+Message-ID: <20201014091720.GC2628@hirez.programming.kicks-ass.net>
+References: <cover.1602209970.git.skhan@linuxfoundation.org>
+ <20201009193746.GA1073957@hirez.programming.kicks-ass.net>
+ <202010091255.246395A6@keescook>
+ <20201010110920.GQ2628@hirez.programming.kicks-ass.net>
+ <6e1dd408-653e-817e-b659-23649259a929@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-edac@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6e1dd408-653e-817e-b659-23649259a929@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The ARM Cortex-A53 and A57 CPUs support error detection for the L1/L2
-caches. This patch adds a binding for the corresponding driver.
+On Tue, Oct 13, 2020 at 08:12:20PM -0600, Shuah Khan wrote:
 
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- .../bindings/edac/arm,cortex-a5x-edac.yaml    | 32 +++++++++++++++++++
- 1 file changed, 32 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/edac/arm,cortex-a5x-edac.yaml
+> They don't add any new behavior, As Kees mentioned they do give us a
+> way to clearly differentiate atomic usages that can wrap.
 
-diff --git a/Documentation/devicetree/bindings/edac/arm,cortex-a5x-edac.yaml b/Documentation/devicetree/bindings/edac/arm,cortex-a5x-edac.yaml
-new file mode 100644
-index 000000000000..de9325b688a0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/edac/arm,cortex-a5x-edac.yaml
-@@ -0,0 +1,32 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/edac/arm,cortex-a5x-edac.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ARM cortex A53/A57 EDAC bindings
-+
-+description: |+
-+  This contains the binding to support error detection for the L1 and L2 caches
-+  on ARM Cortex A53 and A57 cores.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: arm,cortex-a53-edac
-+      - const: arm,cortex-a57-edac
-+
-+  cpus:
-+    minItems: 1
-+    description: phandles to the cpu nodes this device handles
-+
-+required:
-+  - compatible
-+  - cpus
-+
-+examples:
-+  - |
-+    edac-a53 {
-+        compatible = "arm,cortex-a53-edac";
-+        cpus = <&cpu0 &cpu1 &cpu2 &cpu3>;
-+    };
--- 
-2.28.0
+No it doesn't! atomic_t can wrap, this thing can wrap, no distinction.
 
+All it does is fragment the API and sow confusion. FOR NO BENEFIT.
+
+> > Worse, it mixes 2 unrelated cases into one type, which just makes a
+> > mockery of things (all the inc_return users are not statistics, some
+> > might even mis-behave if they wrap).
+> > 
+> 
+> You are right that all inc_return usages aren't statistics. There are
+> 3 distinct usages:
+> 
+> 1. Stats
+> 2. Cases where wrapping is fine
+> 3. Cases where wrapping could be a problem. In which case, this API
+>    shouldn't be used.
+
+And yet, afaict patch 4 is case 3...
+
+> There is no need to keep inc_return in this API as such. I included it
+> so it can be used for above cases 1 and 2, so the users don't have to
+> call inc() followed by read(). It can be left out of the API.
+> 
+> The atomic_t usages in the kernel fall into the following categories:
+> 
+> 1. Stats (tolerance for accuracy determines whether they need to be
+>    atomic or not). RFC version included non-atomic API for cases
+>    when lossiness is acceptable. All these cases use/need just init
+>    and inc. There are two variations in this case:
+> 
+>    a. No checks for wrapping. Use signed value.
+>    b. No checks for wrapping, but return unsigned.
+> 
+> 2. Reference counters that release resource and rapping could result
+>    in use-after-free type problems. There are two variations in this
+>    case:
+> 
+>    a. Increments and decrements aren't bounded.
+>    b. Increments and decrements are bounded.
+> 
+>    Currently tools that flag unsafe atomic_t usages that are candidates
+>    for refcount_t conversions don't make a distinction between the two.
+> 
+>    The second case, since increments and decrements are bounded, it is
+>    safe to continue to use it. At the moment there is no good way to
+>    tell them apart other than looking at each of these cases.
+> 
+> 3. Reference counters that manage/control states. Wrapping is a problem
+>    in this case, as it could lead to undefined behavior. These cases
+>    don't use test and free, use inc/dec. At the moment there is no good
+>    way to tell them apart other than looking at each of these cases.
+>    This is addressed by REFCOUNT_SATURATED case.
+
+Wrong! The atomic usage in mutex doesn't fall in any of those
+categories.
+
+
+The only thing you're all saying that makes sense is that unintentional
+wrapping can have bad consequences, the rest is pure confusion.
+
+Focus on the non-wrapping cases, _everything_ else is not going
+anywhere.
+
+So audit the kernel, find the cases that should not wrap, categorize and
+create APIs for them that trap the wrapping. But don't go around
+confusing things that don't need confusion.
