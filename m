@@ -1,137 +1,145 @@
-Return-Path: <SRS0=/67M=D3=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=p9Jz=D6=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 144DCC54FB2
-	for <linux-edac@archiver.kernel.org>; Tue, 20 Oct 2020 18:43:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 664B8C55179
+	for <linux-edac@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4E772225D
-	for <linux-edac@archiver.kernel.org>; Tue, 20 Oct 2020 18:43:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 222F32463D
+	for <linux-edac@archiver.kernel.org>; Fri, 23 Oct 2020 16:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1603471135;
+	bh=nT+N+cDqRMSdMopYlBC9EqpjXb3tIbAp0+W/XgZ3fAY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=SdX6E4brKjg5zETNHhITaO4CMPmMRZyfo1sBaWFm+AkZKdVCE9mdCctKC3e3oKTxb
+	 8bYMws2fRIIVPyB04VhIh5ePyidkI+o7fRPiA7oc+1ZGKdd9m9vTlKAFxKiJVfKOvK
+	 YX65s19sgGVb00cI/OgDyIzaIHX2oQiZtuU1uMKY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437572AbgJTSmz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 20 Oct 2020 14:42:55 -0400
-Received: from smtprelay0130.hostedemail.com ([216.40.44.130]:38858 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2437566AbgJTSmy (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 20 Oct 2020 14:42:54 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 43FA51260;
-        Tue, 20 Oct 2020 18:42:51 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: humor84_3a06a8527241
-X-Filterd-Recvd-Size: 4943
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf17.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 20 Oct 2020 18:42:43 +0000 (UTC)
-Message-ID: <3bc5c2e3b3edc22a4d167ec807ecdaaf8dcda76d.camel@perches.com>
-Subject: Re: [RFC] treewide: cleanup unreachable breaks
-From:   Joe Perches <joe@perches.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-can@vger.kernel.org,
-        Network Development <netdev@vger.kernel.org>,
-        intel-wired-lan@lists.osuosl.org, ath10k@lists.infradead.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com, linux-nfc@lists.01.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-pci@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
-        storagedev@microchip.com, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-        bpf <bpf@vger.kernel.org>, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        alsa-devel@alsa-project.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        George Burgess <gbiv@google.com>
-Date:   Tue, 20 Oct 2020 11:42:42 -0700
-In-Reply-To: <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
-References: <20201017160928.12698-1-trix@redhat.com>
-         <20201018054332.GB593954@kroah.com>
-         <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1751594AbgJWQii (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 23 Oct 2020 12:38:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33132 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S465672AbgJWQds (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 23 Oct 2020 12:33:48 -0400
+Received: from mail.kernel.org (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0CECF24655;
+        Fri, 23 Oct 2020 16:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603470827;
+        bh=nT+N+cDqRMSdMopYlBC9EqpjXb3tIbAp0+W/XgZ3fAY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=MFanc/i1EBFbkN/NDUqHAK0tFpfQtmPXV1wdzzrGLfkfnjez1vBPm8ENrtO4+suSd
+         id9C4rPhvYVMEnzKV4VqgO3I/mNXI6nDbzp22JksIX82DFTnVYzciwtRcZC3Ph94WR
+         ptmM4fZTOCZT4SsBuA4Trvo50Bq02+vfyK/RUbrU=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kW00e-002Avh-W7; Fri, 23 Oct 2020 18:33:45 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, Borislav Petkov <bp@alien8.de>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 10/56] EDAC: fix some kernel-doc markups
+Date:   Fri, 23 Oct 2020 18:32:57 +0200
+Message-Id: <1d291393ba58c7b80908a3fedf02d2f53921ffe9.1603469755.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1603469755.git.mchehab+huawei@kernel.org>
+References: <cover.1603469755.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, 2020-10-19 at 12:42 -0700, Nick Desaulniers wrote:
-> On Sat, Oct 17, 2020 at 10:43 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
-> > > From: Tom Rix <trix@redhat.com>
-> > > 
-> > > This is a upcoming change to clean up a new warning treewide.
-> > > I am wondering if the change could be one mega patch (see below) or
-> > > normal patch per file about 100 patches or somewhere half way by collecting
-> > > early acks.
-> > 
-> > Please break it up into one-patch-per-subsystem, like normal, and get it
-> > merged that way.
-> > 
-> > Sending us a patch, without even a diffstat to review, isn't going to
-> > get you very far...
-> 
-> Tom,
-> If you're able to automate this cleanup, I suggest checking in a
-> script that can be run on a directory.  Then for each subsystem you
-> can say in your commit "I ran scripts/fix_whatever.py on this subdir."
->  Then others can help you drive the tree wide cleanup.  Then we can
-> enable -Wunreachable-code-break either by default, or W=2 right now
-> might be a good idea.
-> 
-> Ah, George (gbiv@, cc'ed), did an analysis recently of
-> `-Wunreachable-code-loop-increment`, `-Wunreachable-code-break`, and
-> `-Wunreachable-code-return` for Android userspace.  From the review:
-> ```
-> Spoilers: of these, it seems useful to turn on
-> -Wunreachable-code-loop-increment and -Wunreachable-code-return by
-> default for Android
-> ...
-> While these conventions about always having break arguably became
-> obsolete when we enabled -Wfallthrough, my sample turned up zero
-> potential bugs caught by this warning, and we'd need to put a lot of
-> effort into getting a clean tree. So this warning doesn't seem to be
-> worth it.
-> ```
-> Looks like there's an order of magnitude of `-Wunreachable-code-break`
-> than the other two.
-> 
-> We probably should add all 3 to W=2 builds (wrapped in cc-option).
-> I've filed https://github.com/ClangBuiltLinux/linux/issues/1180 to
-> follow up on.
+Kernel-doc markup should use this format:
+        identifier - description
 
-I suggest using W=1 as people that are doing cleanups
-generally use that and not W=123 or any other style.
+Also, some enums are using wrong names at the kernel-doc
+markup.
 
-Every other use of W= is still quite noisy and these
-code warnings are relatively trivially to fix up.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/edac/edac_device.h | 11 +++++------
+ include/linux/edac.h       |  4 ++--
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/edac/edac_device.h b/drivers/edac/edac_device.h
+index c4c0e0bdce14..f90cbbb2ff73 100644
+--- a/drivers/edac/edac_device.h
++++ b/drivers/edac/edac_device.h
+@@ -258,7 +258,7 @@ extern struct edac_device_ctl_info *edac_device_alloc_ctl_info(
+ extern void edac_device_free_ctl_info(struct edac_device_ctl_info *ctl_info);
+ 
+ /**
+- * edac_device_add_device: Insert the 'edac_dev' structure into the
++ * edac_device_add_device - Insert the 'edac_dev' structure into the
+  *	 edac_device global list and create sysfs entries associated with
+  *	 edac_device structure.
+  *
+@@ -271,9 +271,8 @@ extern void edac_device_free_ctl_info(struct edac_device_ctl_info *ctl_info);
+ extern int edac_device_add_device(struct edac_device_ctl_info *edac_dev);
+ 
+ /**
+- * edac_device_del_device:
+- *	Remove sysfs entries for specified edac_device structure and
+- *	then remove edac_device structure from global list
++ * edac_device_del_device - Remove sysfs entries for specified edac_device
++ * 	structure and then remove edac_device structure from global list
+  *
+  * @dev:
+  *	Pointer to struct &device representing the edac device
+@@ -286,7 +285,7 @@ extern int edac_device_add_device(struct edac_device_ctl_info *edac_dev);
+ extern struct edac_device_ctl_info *edac_device_del_device(struct device *dev);
+ 
+ /**
+- * Log correctable errors.
++ * edac_device_handle_ce_count - Log correctable errors.
+  *
+  * @edac_dev: pointer to struct &edac_device_ctl_info
+  * @inst_nr: number of the instance where the CE error happened
+@@ -299,7 +298,7 @@ void edac_device_handle_ce_count(struct edac_device_ctl_info *edac_dev,
+ 				 const char *msg);
+ 
+ /**
+- * Log uncorrectable errors.
++ * edac_device_handle_ue_count - Log uncorrectable errors.
+  *
+  * @edac_dev: pointer to struct &edac_device_ctl_info
+  * @inst_nr: number of the instance where the CE error happened
+diff --git a/include/linux/edac.h b/include/linux/edac.h
+index 15e8f3d8a895..52d7487f6bd4 100644
+--- a/include/linux/edac.h
++++ b/include/linux/edac.h
+@@ -229,7 +229,7 @@ enum mem_type {
+ #define MEM_FLAG_NVDIMM         BIT(MEM_NVDIMM)
+ 
+ /**
+- * enum edac-type - Error Detection and Correction capabilities and mode
++ * enum edac_type - Error Detection and Correction capabilities and mode
+  * @EDAC_UNKNOWN:	Unknown if ECC is available
+  * @EDAC_NONE:		Doesn't support ECC
+  * @EDAC_RESERVED:	Reserved ECC type
+@@ -309,7 +309,7 @@ enum scrub_type {
+ #define OP_OFFLINE		0x300
+ 
+ /**
+- * enum edac_mc_layer - memory controller hierarchy layer
++ * enum edac_mc_layer_type - memory controller hierarchy layer
+  *
+  * @EDAC_MC_LAYER_BRANCH:	memory layer is named "branch"
+  * @EDAC_MC_LAYER_CHANNEL:	memory layer is named "channel"
+-- 
+2.26.2
 
