@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABDB9C55179
-	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:18:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 893C8C5DF9D
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:18:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59DCF22284
-	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:18:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AF2822264
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:18:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="fcBVAav9"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="zjDtGi7Y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750994AbgJ0MSS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 27 Oct 2020 08:18:18 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:52216 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1750904AbgJ0MRt (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 27 Oct 2020 08:17:49 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v5so1170363wmh.1
-        for <linux-edac@vger.kernel.org>; Tue, 27 Oct 2020 05:17:47 -0700 (PDT)
+        id S2409832AbgJ0MSe (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 27 Oct 2020 08:18:34 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37517 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2899680AbgJ0MRo (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 27 Oct 2020 08:17:44 -0400
+Received: by mail-wr1-f67.google.com with SMTP id w1so1660790wrm.4
+        for <linux-edac@vger.kernel.org>; Tue, 27 Oct 2020 05:17:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DX4Vpt/5rOOp/h8PsP6BCvcutYZPagP/0wvqhEtDkrc=;
-        b=fcBVAav93bPjLTMO/GKGNWbWJSyP9xDWjrQdREKVHUObC2fvcpeMBWbKtOvwqTtDBw
-         TYuM0tjJGe4hFI+bJgCEuy05Jhcj7DoPbEbpzYlue9mGnIAJyPrd5G7jnyVyC0ouqYQE
-         KUcuZgHebd/KjJ7WpMudfra+Ob5jpn/DPH6XMb8lun7OwUCY62x1ZRk3XnvNkzK8JTfI
-         GDSUhxWu1bxiLfQLX/wnkP4DE/r3YkbU7n/g2xdLeTwmRffMBnF1fQyXeAU/KAOUkWXm
-         Qr72qjOlysXmXLLv9c8JP8XDyn+yxZSMDREYLPBPXV2IBO4ogKZ9faYnUv5Hy6pUK1mv
-         KBnw==
+        bh=83y0wprNKfgsPdFQwYqYyBfxNCy5k5K/4PHHSUQ4ytQ=;
+        b=zjDtGi7YCC7prpyZ+g0XEgVkSu5ur1n0Z+4Onn8lSH6l5HhaPb2usVEdHqyUF70A1t
+         aUTOf8Tq+CbFmCsQoZg/QZDfe6BYR/DFPrrBJwD6HiW7tjdfR/sBEWsWaZKnLZINtomX
+         mE7Ig/cZHx2rYZqBTjkzv3ijY8hAIfVQDit/QeJSY5MeOkcFLBiM+J08PWHqktFzZQwX
+         UlgrIFCSx9xqlv1zNEtaXs3tPI9VHBmr65ek6JPy/L/FS56cLdvQizETmDuasggJPK/w
+         ztxubnZy+sT2oOAiJOCkZTqyimYvjT8WSyK/j0zpzQcNL15qg7LbhswKDAJng2PiYjm9
+         YBtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DX4Vpt/5rOOp/h8PsP6BCvcutYZPagP/0wvqhEtDkrc=;
-        b=aRBkeApDjRyvzKKlZbqfKVWpmBCoIBIKff8BuViavGmfbflrPlplLRqL1vNb0MWBji
-         ZEFkvblPUOtkv+jtt/YPlliK5cXqD3dnRzB8yQBEPOVRMxFV9XDdx6zpfsuNEceIG/RJ
-         lkbYW8xPoGxFDb9hbgnL0VpDvestdpQlNytSaMQLuDMxLKadmxTYc30wbAnyTqsLozdd
-         9/9yyVS1s93OIWdezUPOn8JPKOp3zQRK0yjMHpHmd/VqXlIOd4WzflHLbnfG9lAMhB4w
-         CFXAbgwfZbEwfBbILh4R/zrLeZn0pZvipgSGSRY+VrZfCfLDudzja/BI/eawIA7t0Pie
-         BKbw==
-X-Gm-Message-State: AOAM533s3x7J7rm2Rd+KMwRhLpf+vSKzimIxVNftaaaYY5mVQSbCZis2
-        3zw/Ael4FltxV1+IYPUN1c+ccQ==
-X-Google-Smtp-Source: ABdhPJxpFHC1iDNaVhyqgdX0LXFgCHzNZUEcFDl9D5G1/wCxSZcWoj/5QOXgpccEbzpQpJAT/3s/cw==
-X-Received: by 2002:a7b:cb81:: with SMTP id m1mr2573033wmi.140.1603801066439;
-        Tue, 27 Oct 2020 05:17:46 -0700 (PDT)
+        bh=83y0wprNKfgsPdFQwYqYyBfxNCy5k5K/4PHHSUQ4ytQ=;
+        b=Ag682pPUwBd8ME3YZBdP8YyhIa8vi0JfHA0lpMv5AR5E+bsgbInVdEpgko3MjOKAuy
+         37YFQnJ8iQB/PauJPUtYatHRFzKB77D4POQb1weCE6NocXEp7PT3CefJaeS3Tf1Obcb1
+         3KeBGJGMCUrLDj3zbZqVIX8jZsr1pG/PCOshNRqu+uOMGMflpyLfFwmnL7aNPAV9kcph
+         SUO/rpxfH6N2prQOCWQeGBHa/mVHeT7w4iwnILfc9NwXnex0ZqeyJ+X7k1av72iAh5rY
+         koSMJ8awoAjgnepz+fbk/rKTBe9G0wkD/XpBsMrVngroyMyYoOSe4Mv2kyIu2+UQ/tm4
+         Llew==
+X-Gm-Message-State: AOAM532/RmrTtroDpLEtVNrARRc4AAWWURptm/yH3Y7FKM3I419nXcBr
+        rcDlSlLsRitQTi2qmMzEnksBww==
+X-Google-Smtp-Source: ABdhPJxMHI/sTmjLh3ji2z2BWBH7Xp+55j5r8SrJ3qqB6liqhHnL/S90fy042cmGylsf7I4Q+2Y+Yg==
+X-Received: by 2002:a5d:6a49:: with SMTP id t9mr2477521wrw.194.1603801062271;
+        Tue, 27 Oct 2020 05:17:42 -0700 (PDT)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
-        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.44
+        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 05:17:45 -0700 (PDT)
+        Tue, 27 Oct 2020 05:17:41 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -86,9 +86,9 @@ Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         netdev@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 5/8] edac: ghes: use krealloc_array()
-Date:   Tue, 27 Oct 2020 13:17:22 +0100
-Message-Id: <20201027121725.24660-6-brgl@bgdev.pl>
+Subject: [PATCH 3/8] vhost: vringh: use krealloc_array()
+Date:   Tue, 27 Oct 2020 13:17:20 +0100
+Message-Id: <20201027121725.24660-4-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027121725.24660-1-brgl@bgdev.pl>
 References: <20201027121725.24660-1-brgl@bgdev.pl>
@@ -105,24 +105,23 @@ calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/edac/ghes_edac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/vhost/vringh.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index a918ca93e4f7..6d1ddecbf0da 100644
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -207,8 +207,8 @@ static void enumerate_dimms(const struct dmi_header *dh, void *arg)
- 	if (!hw->num_dimms || !(hw->num_dimms % 16)) {
- 		struct dimm_info *new;
+diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
+index 8bd8b403f087..08a0e1c842df 100644
+--- a/drivers/vhost/vringh.c
++++ b/drivers/vhost/vringh.c
+@@ -198,7 +198,8 @@ static int resize_iovec(struct vringh_kiov *iov, gfp_t gfp)
  
--		new = krealloc(hw->dimms, (hw->num_dimms + 16) * sizeof(struct dimm_info),
--			        GFP_KERNEL);
-+		new = krealloc_array(hw->dimms, hw->num_dimms + 16,
-+				     sizeof(struct dimm_info), GFP_KERNEL);
- 		if (!new) {
- 			WARN_ON_ONCE(1);
- 			return;
+ 	flag = (iov->max_num & VRINGH_IOV_ALLOCATED);
+ 	if (flag)
+-		new = krealloc(iov->iov, new_num * sizeof(struct iovec), gfp);
++		new = krealloc_array(iov->iov, new_num,
++				     sizeof(struct iovec), gfp);
+ 	else {
+ 		new = kmalloc_array(new_num, sizeof(struct iovec), gfp);
+ 		if (new) {
 -- 
 2.29.1
 
