@@ -2,58 +2,58 @@ Return-Path: <SRS0=gjzS=EC=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1659AC5517A
-	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:18:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 735B8C388F9
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:19:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AACEC22264
-	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:18:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30B7F22264
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:19:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="GYoAOUdp"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="P+3tCIHO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2899684AbgJ0MRn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 27 Oct 2020 08:17:43 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44254 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2899672AbgJ0MRm (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 27 Oct 2020 08:17:42 -0400
-Received: by mail-wr1-f68.google.com with SMTP id t9so1616687wrq.11
-        for <linux-edac@vger.kernel.org>; Tue, 27 Oct 2020 05:17:41 -0700 (PDT)
+        id S2439142AbgJ0MRj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 27 Oct 2020 08:17:39 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40292 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2411653AbgJ0MRi (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 27 Oct 2020 08:17:38 -0400
+Received: by mail-wm1-f68.google.com with SMTP id k18so1201903wmj.5
+        for <linux-edac@vger.kernel.org>; Tue, 27 Oct 2020 05:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BD6BZhiJRXUg2mUZGG0fkwDlbzmZ0eUsKwHAsGlj294=;
-        b=GYoAOUdpehA8D5iOITnO5eSHqy74EWPa2UIAtVbkWsImVc99HZ2Meqd4q5mrUiPwJi
-         1APAlHnt2Cb4RjSuekciaevLzEzJMqfqHXfoSP/8Nqsfy2vu/QE/h1rKpHfgBNuem/9E
-         bOYwNpK5Rv+6EItbQEiKit8Nwszh+pcjtDbIO4wjR4xJz/1weNgEVHMghJunm+Jmvs3D
-         DwFELNR01LinoQoxBBCOkfLlLHqTKRB+bYhg8Wi8nXmI+1DlDpMCRqOKS/1P7aEomQVd
-         T289FY4bD7H12YIHjVFYqTifMYdbsOOawVKJDDr9Ow0FRgVTPhbXfojcEyRGy0x+TbG2
-         NISQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LJP6zUa9eBmdV8bx1jdaWyKmaK9MsWkK16il5Qo0OrM=;
+        b=P+3tCIHOjCZAx0wmilW2GDFvIGyFUKkJ6kMCnuzTaqTK/WVy0FTiGFvqMSEeEaTSDi
+         lidtNcACGQa4FsZTJSv/WM+PJAWcMBZ84eqrsFS5cBt5SmJFi36Zt8P8jQqLDmjkvqeW
+         khRH3E+peGeaQTCIY3Vt2p8gYCX0QOu5toB/kJmHKtw/28SJ6BKumTSSq2MJytdIAdgp
+         oJxR5uAJUIN5EhwIO49GT3ZmC5B5ob3NU85YWSk0gy8yt2me9ot389ODzNeNzE1g7isf
+         BjKSBXgUK2OMn2MduiDvTrDfwsn8XX/eMtY9lahl6HLlIYN8j7wdAJNYVoPtfuaoSs+h
+         PRUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BD6BZhiJRXUg2mUZGG0fkwDlbzmZ0eUsKwHAsGlj294=;
-        b=KlAFWpFwUiyrt4cc/Rrt6aiOeSeoIco4xjU6N66fdAhvqc4cOI4ka+/1xOAYUomrx0
-         bYlqsysQ1XwGoDqhSJbdPksgF4CY1GWnrAs6ZV/sQ9+WX8OgJF+zL61kiL4IREwBfNmQ
-         IoCmVGUq1nosz5zKUcahd2VUB4I2djoQ8dYdUxynYWWDwSWmcGRbbaPbaifmShUTJSJW
-         8neMZtfgboQ5CRFzjbX7E2DDrfFIt06SOfzcIi8tg3clfojQSDIA2I8KEOLXxp2rF+s1
-         2qdn3fbTmWM7WkXje1Nzmx/PtkoFQmFzv8LfadkdDyP+Jz3QqiqHWR0cAwl4phEzhj2c
-         MEug==
-X-Gm-Message-State: AOAM532eDwzanJtufthOXARyuBJkD+s8kBHHhXtdFx+SEsEPWPjtzcDg
-        7OjqPf+tYJ9qIYxWrwbyQ3fHWQ==
-X-Google-Smtp-Source: ABdhPJycS5PuqPPHWbBOB4wuxjdkw4uku7T6ocjCFZm8vDs8KzBrNQe0wHUyzYWAYWc0X5WB+59JaQ==
-X-Received: by 2002:a5d:6cc8:: with SMTP id c8mr2428078wrc.233.1603801060190;
-        Tue, 27 Oct 2020 05:17:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LJP6zUa9eBmdV8bx1jdaWyKmaK9MsWkK16il5Qo0OrM=;
+        b=ZjnvnH+gPh3kmPXWJWizfn1vts07mN3OFMviVtVh/eT5CfK+Ad4lH/1HxVhcZquSce
+         RzfBeZhhKWvDctmEuCgk3PKE1j2F9IvU4+Oh92v5bDgaS6vbOY66ZSBJe5xy1nFz/dek
+         UvLY13AKTUiltFOsRNsk5LKE+XXpM0RQGfJfO+UJWUuj2XHdbA/PiAfRQtWEgRz3EQBs
+         HN12Uu/3ORusNR3Tnw4HS0wxHhwp48FNlGP7cYnMhJ1bCwdVMZ0gfHmMcmGusVnI/yKT
+         4sWwXt6/hk2SGhum5P530/jAZKgH83VlH77EOUQEsvI2jDQyGVRYIgE4eI8BOlydKdFk
+         LK7Q==
+X-Gm-Message-State: AOAM532L/wv5AaIRwxfJ0pYOgFgg7Y1hH+tR8pMgFapYIFdOvNfIqrdk
+        NGcVPJXAqpJvw1sQyulfVoEioQ==
+X-Google-Smtp-Source: ABdhPJxUDPfM7/G4w39/lM3kfVBbiG37Et7vUzW73qIzYGjUaK5vAjNfvCioGZotPrXrgX+P7fvBjA==
+X-Received: by 2002:a1c:8087:: with SMTP id b129mr2477389wmd.10.1603801056147;
+        Tue, 27 Oct 2020 05:17:36 -0700 (PDT)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
-        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.38
+        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 05:17:39 -0700 (PDT)
+        Tue, 27 Oct 2020 05:17:35 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -86,12 +86,10 @@ Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         netdev@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 2/8] ALSA: pcm: use krealloc_array()
-Date:   Tue, 27 Oct 2020 13:17:19 +0100
-Message-Id: <20201027121725.24660-3-brgl@bgdev.pl>
+Subject: [PATCH 0/8] slab: provide and use krealloc_array()
+Date:   Tue, 27 Oct 2020 13:17:17 +0100
+Message-Id: <20201027121725.24660-1-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201027121725.24660-1-brgl@bgdev.pl>
-References: <20201027121725.24660-1-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -100,29 +98,38 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Use the helper that checks for overflows internally instead of manually
-calculating the size of the new array.
+Andy brought to my attention the fact that users allocating an array of
+equally sized elements should check if the size multiplication doesn't
+overflow. This is why we have helpers like kmalloc_array().
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- sound/core/pcm_lib.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+However we don't have krealloc_array() equivalent and there are many
+users who do their own multiplication when calling krealloc() for arrays.
 
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index d531e1bc2b81..c6f8f9e252e0 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -1129,8 +1129,8 @@ int snd_pcm_hw_rule_add(struct snd_pcm_runtime *runtime, unsigned int cond,
- 	if (constrs->rules_num >= constrs->rules_all) {
- 		struct snd_pcm_hw_rule *new;
- 		unsigned int new_rules = constrs->rules_all + 16;
--		new = krealloc(constrs->rules, new_rules * sizeof(*c),
--			       GFP_KERNEL);
-+		new = krealloc_array(constrs->rules, new_rules,
-+				     sizeof(*c), GFP_KERNEL);
- 		if (!new) {
- 			va_end(args);
- 			return -ENOMEM;
+This series provides krealloc_array() and uses it in a couple places.
+
+A separate series will follow adding devm_krealloc_array() which is
+needed in the xilinx adc driver.
+
+Bartosz Golaszewski (8):
+  mm: slab: provide krealloc_array()
+  ALSA: pcm: use krealloc_array()
+  vhost: vringh: use krealloc_array()
+  pinctrl: use krealloc_array()
+  edac: ghes: use krealloc_array()
+  drm: atomic: use krealloc_array()
+  hwtracing: intel: use krealloc_array()
+  dma-buf: use krealloc_array()
+
+ drivers/dma-buf/sync_file.c      |  4 ++--
+ drivers/edac/ghes_edac.c         |  4 ++--
+ drivers/gpu/drm/drm_atomic.c     |  3 ++-
+ drivers/hwtracing/intel_th/msu.c |  2 +-
+ drivers/pinctrl/pinctrl-utils.c  |  2 +-
+ drivers/vhost/vringh.c           |  3 ++-
+ include/linux/slab.h             | 11 +++++++++++
+ sound/core/pcm_lib.c             |  4 ++--
+ 8 files changed, 23 insertions(+), 10 deletions(-)
+
 -- 
 2.29.1
 
