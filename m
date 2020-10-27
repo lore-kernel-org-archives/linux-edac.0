@@ -1,126 +1,126 @@
-Return-Path: <SRS0=1wId=EB=vger.kernel.org=linux-edac-owner@kernel.org>
+Return-Path: <SRS0=gjzS=EC=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE2FC4363A
-	for <linux-edac@archiver.kernel.org>; Mon, 26 Oct 2020 21:28:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE66BC63697
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:17:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5444207F7
-	for <linux-edac@archiver.kernel.org>; Mon, 26 Oct 2020 21:28:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9D0622265
+	for <linux-edac@archiver.kernel.org>; Tue, 27 Oct 2020 12:17:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=akamai.com header.i=@akamai.com header.b="dtIa0RGe"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="fei0ANa2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733009AbgJZV2V (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 26 Oct 2020 17:28:21 -0400
-Received: from mx0b-00190b01.pphosted.com ([67.231.157.127]:62926 "EHLO
-        mx0b-00190b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733001AbgJZV2U (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 26 Oct 2020 17:28:20 -0400
-X-Greylist: delayed 2168 seconds by postgrey-1.27 at vger.kernel.org; Mon, 26 Oct 2020 17:28:19 EDT
-Received: from pps.filterd (m0050102.ppops.net [127.0.0.1])
-        by m0050102.ppops.net-00190b01. (8.16.0.42/8.16.0.42) with SMTP id 09QKjOX7020980;
-        Mon, 26 Oct 2020 20:52:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=pA/oDG+sdQV0EXxWNNoKpVQkOMlzUTuub2403I4Dcow=;
- b=dtIa0RGeDVyPWHWFUK2eKYyQr61i2AMPLOiamJXMtcMbCKxUUxCo7j1vGHrqwM6yWzad
- 12xjHuXyAOhkIcbO+hKKTzCaGDZvFBFG5GY0h87AZ6xOzAxFD519ZEzpRS+8elKmdjhq
- iYAfBhZQHIKk0QoFLKQgC5EZI+NelvTWknWlr8g2QCVo9s2ud2Dy/wzC4B6838zRz5JR
- Ud7fllRe8ykBCtaPYiIz7nWQd/yYrSVZHBnMKBp2zNFNLI7a5LtH0AzbFQc899TO70eD
- zNfFEyXVBNYZQAojuAmB6s6rw5msc02uYfMcDsFs5QQmHmUlbhu2JUpomeTx7C9ueEsu tg== 
-Received: from prod-mail-ppoint1 (prod-mail-ppoint1.akamai.com [184.51.33.18] (may be forged))
-        by m0050102.ppops.net-00190b01. with ESMTP id 34cceu9cd8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Oct 2020 20:52:07 +0000
-Received: from pps.filterd (prod-mail-ppoint1.akamai.com [127.0.0.1])
-        by prod-mail-ppoint1.akamai.com (8.16.0.42/8.16.0.42) with SMTP id 09QKow2Y025232;
-        Mon, 26 Oct 2020 16:52:06 -0400
-Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
-        by prod-mail-ppoint1.akamai.com with ESMTP id 34cfkxvyus-1;
-        Mon, 26 Oct 2020 16:52:06 -0400
-Received: from [0.0.0.0] (stag-ssh-gw01.bos01.corp.akamai.com [172.27.113.23])
-        by prod-mail-relay11.akamai.com (Postfix) with ESMTP id 9C714239E9;
-        Mon, 26 Oct 2020 20:52:06 +0000 (GMT)
-Subject: Re: Constant output in syslog of EDAC message
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Raymond Bennett <raymond.bennett@gmail.com>,
-        linux-edac@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>
-References: <CAKpodDyWSY+Wt5Q04o5EyjZZU4PFST8U9UNcjwrJZ6C=Tc744g@mail.gmail.com>
- <20201019205658.GI24325@zn.tnic>
- <e0fda286-d8e3-dabb-6cf5-fcd974e048b5@akamai.com>
- <20201020091940.GA11583@zn.tnic>
- <3d0f6dfa-850c-a4e1-c9fa-4b4ca1983650@akamai.com>
- <20201026181043.GF22116@zn.tnic>
-From:   Jason Baron <jbaron@akamai.com>
-Message-ID: <e698aaa3-2a3e-acdd-6ffe-d3275f7e7346@akamai.com>
-Date:   Mon, 26 Oct 2020 16:52:06 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S2899678AbgJ0MRr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 27 Oct 2020 08:17:47 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34869 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2899697AbgJ0MRq (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 27 Oct 2020 08:17:46 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n15so1670250wrq.2
+        for <linux-edac@vger.kernel.org>; Tue, 27 Oct 2020 05:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Yv5nQ3yDPCTR6Qr42pQX9T0J3MZN9NU/gU5iZJIrkWk=;
+        b=fei0ANa2ElSFo4FKASLBvqdzEpQMc369lxMXy79AWLlLE4ldM0t9l6k8RVF3buSnvA
+         InRbHn9r2hR680pZZ+gYHBH0cxjnXEpWTBjRsyn3pPicTDT7ROS1njEmMsQ0EtyoYRv/
+         vBz+LlGkNh9F45O2WPmNPaWYUC2TRs+1c28W6I2DHNQSUKyUoBTvCUXW/RmCgB8tOU8G
+         g5O/0EGVAt658IQXZb3tOQIDePMiXd3i3GdEI4By620HO0ioGffbTx/3svpvzdtTVEbj
+         pJSbSja7AzYXp5nq6dTEmNRhW6+2gmmrtbUq1fP5SW49DL3CQr9yND4Z3iXAPYqZ02Lj
+         0X6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Yv5nQ3yDPCTR6Qr42pQX9T0J3MZN9NU/gU5iZJIrkWk=;
+        b=qus80SfzJuuSYxnlahH0ItVqjLHKCOji3M1Ax9Fzx9oswtK1rj4tEWaH8ozp7g/M9k
+         ztNLk0+AEP5cty/rgJJ065I2g9EaBnskwD13BRslO+zyXfb0iGIGRHJOoUP8VOIqqzcC
+         CvrfZ86EpgkiZYIsoHk0x0HtUL6pMy3CdVAZpuksZrGCSsise+/Ovx1z3wxUwt9CEqIL
+         ZJyv1n2JMeDsW0u2MjRE9n1b4XWGjUsKEzG9eeyAm4s77JVVlW4j1GX+j3i/YhKrfkws
+         aQrGJXD3iAlx3ujQr7anfQzNl/ZeJrvrPXGAREBCpM38vXLxEasTns/QKQO0ShNG3Vln
+         SqFw==
+X-Gm-Message-State: AOAM530hswObYhp/eU+QSmBv2a0ybSGrYYfjzfxfYgq/biEE7+TXaeOX
+        QXrBJll4lqUuvN3wyBvtsNSBAA==
+X-Google-Smtp-Source: ABdhPJwBy/86P9NLjWm4ayzRrNeTPV1ezoUeA/zg5bUjnQJez1TgK6PN9H/ezjMnvntOGwzzJ6JYWg==
+X-Received: by 2002:a05:6000:108:: with SMTP id o8mr2545710wrx.256.1603801064364;
+        Tue, 27 Oct 2020 05:17:44 -0700 (PDT)
+Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
+        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2020 05:17:43 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        netdev@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH 4/8] pinctrl: use krealloc_array()
+Date:   Tue, 27 Oct 2020 13:17:21 +0100
+Message-Id: <20201027121725.24660-5-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.29.1
+In-Reply-To: <20201027121725.24660-1-brgl@bgdev.pl>
+References: <20201027121725.24660-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-In-Reply-To: <20201026181043.GF22116@zn.tnic>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.737
- definitions=2020-10-26_14:2020-10-26,2020-10-26 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 suspectscore=0
- adultscore=0 phishscore=0 mlxlogscore=972 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010260135
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.737
- definitions=2020-10-26_14:2020-10-26,2020-10-26 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 lowpriorityscore=0
- bulkscore=0 clxscore=1015 adultscore=0 malwarescore=0 phishscore=0
- mlxlogscore=919 impostorscore=0 suspectscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010260135
-X-Agari-Authentication-Results: mx.akamai.com; spf=${SPFResult} (sender IP is 184.51.33.18)
- smtp.mailfrom=jbaron@akamai.com smtp.helo=prod-mail-ppoint1
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
+Use the helper that checks for overflows internally instead of manually
+calculating the size of the new array.
 
-On 10/26/20 2:10 PM, Borislav Petkov wrote:
-> Hi,
-> 
-> On Mon, Oct 26, 2020 at 01:47:05PM -0400, Jason Baron wrote:
->> So, we would still continue to support edac_debug_level=N but the
->> user would have additional control.
-> 
-> Do you have any actual users needing this? If yes, what are their use
-> cases?
-> 
-> Because I have this aversion towards adding functionality just because
-> and that it potentially might be useful and "users may want". Either
-> they do and they want to use it for X or we don't do anything... yet.
-> 
-> In this particular example, those debug printks are just useless noise
-> so off they go.
-> 
-> Thx.
-> 
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ drivers/pinctrl/pinctrl-utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Boris,
+diff --git a/drivers/pinctrl/pinctrl-utils.c b/drivers/pinctrl/pinctrl-utils.c
+index f2bcbf62c03d..93df0d4c0a24 100644
+--- a/drivers/pinctrl/pinctrl-utils.c
++++ b/drivers/pinctrl/pinctrl-utils.c
+@@ -39,7 +39,7 @@ int pinctrl_utils_reserve_map(struct pinctrl_dev *pctldev,
+ 	if (old_num >= new_num)
+ 		return 0;
+ 
+-	new_map = krealloc(*map, sizeof(*new_map) * new_num, GFP_KERNEL);
++	new_map = krealloc_array(*map, new_num, sizeof(*new_map), GFP_KERNEL);
+ 	if (!new_map) {
+ 		dev_err(pctldev->dev, "krealloc(map) failed\n");
+ 		return -ENOMEM;
+-- 
+2.29.1
 
-So I was motivated by this example, where if we had this facility,
-we could easily say just go turn off that specific print instead of
-wait for a new kernel. More generally, I think as you crank up the
-verbosity there may be more of a need to customize the debug
-information, but I don't have any specific use case in mind beyond
-that.
-
-I was also curious if various subsystems would find this facility
-useful.
-
-Thanks,
-
--Jason
