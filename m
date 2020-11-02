@@ -2,61 +2,61 @@ Return-Path: <SRS0=Wzz3=EI=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFB01C00A89
-	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF6FC388F2
+	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:21:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72B592222B
-	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:21:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 845AC2222B
+	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:21:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="gVI6AXHj"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="oJDk04WZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbgKBPUv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 2 Nov 2020 10:20:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56746 "EHLO
+        id S1726088AbgKBPVt (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 2 Nov 2020 10:21:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726588AbgKBPUv (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 2 Nov 2020 10:20:51 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A506DC061A48
-        for <linux-edac@vger.kernel.org>; Mon,  2 Nov 2020 07:20:50 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id k18so9866551wmj.5
-        for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2020 07:20:50 -0800 (PST)
+        with ESMTP id S1726533AbgKBPUt (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 2 Nov 2020 10:20:49 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3827C061A49
+        for <linux-edac@vger.kernel.org>; Mon,  2 Nov 2020 07:20:48 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id x7so15084319wrl.3
+        for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2020 07:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iECHQmtOjlKNpXGH67tnBHQ9XW515B1GPzEiiSpCWAs=;
-        b=gVI6AXHj1TR9hrfeYHb9dFp1mjew1HU6tCdihy0BU74lIamhYA7I2Voy1vdbHNesjR
-         p/9fN/OWbbHskwd+E8JR5E7mlF2yPwnRyYtplyTXp1xuKHzcS1KZmAQ11HYDiDqqk7yd
-         tY/OlfBK/MIoUqiunGYPPRAv9qXuTyoKnb4oe0deS/0lvO8WRDkT4MMl7YYdbRLIjP6A
-         WZTM13vo3qiWMFhDQgKf19/bBsn2+22jmj9vBOz0Wr1g2h4AsIo5xnYen4guGQ+vuB7M
-         tIBujecjdmcR/Z2ixrsAyoeQ+6Gr/0jPL5uAk5wnvtIcZr9YQMnQKa+inwhetM8theTJ
-         LUMg==
+        bh=m2ikj+dhQ1Zeha09QctzFr3Pm7l2AwdyE1EcOPpxBQc=;
+        b=oJDk04WZntZBUbAydrL0ALwZvx6qsFnM0UTwP7yjzGp9SneSLAZ43tbdB/bF7oQqW3
+         iiuSouFoG62GGcADtc8azAKYtDYI0ZnCIVLXLENOWEvJtP9dEhgy+GyDXB3JKS+l2fGx
+         bxF0NSqOMUp/P8+SkU3s5luJjeEhP2lfKWf+pC10hdkDrEXp60OzkmeLn09PzpY01EkY
+         MwgDB4TUg62M7QnU/rsSmTQOq5JnBOcV5FU9fgHyN1JZK6xeFZDJ6PchjKtIM6/g/M7c
+         AXXVv6RED3VXkyertnMsUGPB/xvLGiikQh4Jzj9aP3M/2EMPl4c4y4bnyySk5m25IxHj
+         ZNxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iECHQmtOjlKNpXGH67tnBHQ9XW515B1GPzEiiSpCWAs=;
-        b=aovYUDFypveuW7o5CWX1zP51C0x6E5xrqyCyx5yosqgMZE7nYeA1EtaIhisyF/Dx/d
-         qkpSDjMAy8q988iYPakOmy98xe6Z59IZvR3nRKZW0XEGm8VCk+J/oMNsOVXCFNotZi34
-         LeN40j/1AR9LRjhEIw4hD79X0iu6BF0b71klOuSb7jwlDiKekLKfm62WOWAjpv2JBUqN
-         GgtJfJiKMSc3MPYfVX51DjaCyHb09Db2hnBxu9ztRcZTgT98CbjzNY1j9CG6SprZQnA/
-         tdyx0KUZh/Yd2ae0x+ADwWbfPYWBI25fd9tEIiiCcOwUakjv6EW0RxUrprrQDFf1xcEC
-         YMnw==
-X-Gm-Message-State: AOAM530qhI886RgA88J9nf8Nsa7RhxT4autj2erBX4VPhk1opJWNVF4S
-        nx16a2719sG+9uk5KeZOF8IZtg==
-X-Google-Smtp-Source: ABdhPJx9fmpXAPU0JQHKuUawZdLrOPu5JMkxXUw7mS4v/KP1pdXlJ+GdMVgsN3hdsL/yk/nVdd3HMQ==
-X-Received: by 2002:a05:600c:1497:: with SMTP id c23mr13426695wmh.95.1604330449377;
-        Mon, 02 Nov 2020 07:20:49 -0800 (PST)
+        bh=m2ikj+dhQ1Zeha09QctzFr3Pm7l2AwdyE1EcOPpxBQc=;
+        b=ri6Yneli2FW6fVm1BTkc7/1ZoUlY2mqUuXqrA8EGqM/yzYrIjxOwhCJA8l7Q5qtoy5
+         c2m2qbK1qY5qQ7x2D+dGB4I6JSyQ5B0kIkDbCb2Ab77A2qy29JQJ05+3CGA5wOEr6hSo
+         J09ksfJIeKe1hdsQS6cF4Db8cODpVujDu5MkRis8zGRaMcGq9WYOoVTuVguw0+HRk5VB
+         TOqhN7P2AcN1JsU/MSUh9APtPD45nv5qmgga8H+p4S0R8+/RJSjB+tTFTaPbWL8waPoJ
+         pjnba2mya6sMIXocROApw/zySWQHXHqrcYRG/sl5ErrxwAtwl8IEuZacw01x4uUw8GQD
+         dHkA==
+X-Gm-Message-State: AOAM530f357On+cCvAt3wgF7qsGleeWVZe494j668LClOO5hy3eSsH2l
+        /zQN6bviwFHtswt9ciXz0v1FTQ==
+X-Google-Smtp-Source: ABdhPJwvKcFeOxhAGZIOl2LHYhbvs+cPksUqs/XQ2W4u8LoRrqAy/FNPpiVpDIX+qAcFGl6qizbLQA==
+X-Received: by 2002:adf:ce12:: with SMTP id p18mr20784973wrn.52.1604330447426;
+        Mon, 02 Nov 2020 07:20:47 -0800 (PST)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
-        by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.47
+        by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 07:20:48 -0800 (PST)
+        Mon, 02 Nov 2020 07:20:46 -0800 (PST)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -89,9 +89,9 @@ Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         netdev@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 4/8] pinctrl: use krealloc_array()
-Date:   Mon,  2 Nov 2020 16:20:33 +0100
-Message-Id: <20201102152037.963-5-brgl@bgdev.pl>
+Subject: [PATCH v2 3/8] vhost: vringh: use krealloc_array()
+Date:   Mon,  2 Nov 2020 16:20:32 +0100
+Message-Id: <20201102152037.963-4-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
 References: <20201102152037.963-1-brgl@bgdev.pl>
@@ -107,24 +107,25 @@ Use the helper that checks for overflows internally instead of manually
 calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- drivers/pinctrl/pinctrl-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/vhost/vringh.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/pinctrl-utils.c b/drivers/pinctrl/pinctrl-utils.c
-index f2bcbf62c03d..93df0d4c0a24 100644
---- a/drivers/pinctrl/pinctrl-utils.c
-+++ b/drivers/pinctrl/pinctrl-utils.c
-@@ -39,7 +39,7 @@ int pinctrl_utils_reserve_map(struct pinctrl_dev *pctldev,
- 	if (old_num >= new_num)
- 		return 0;
+diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
+index 8bd8b403f087..08a0e1c842df 100644
+--- a/drivers/vhost/vringh.c
++++ b/drivers/vhost/vringh.c
+@@ -198,7 +198,8 @@ static int resize_iovec(struct vringh_kiov *iov, gfp_t gfp)
  
--	new_map = krealloc(*map, sizeof(*new_map) * new_num, GFP_KERNEL);
-+	new_map = krealloc_array(*map, new_num, sizeof(*new_map), GFP_KERNEL);
- 	if (!new_map) {
- 		dev_err(pctldev->dev, "krealloc(map) failed\n");
- 		return -ENOMEM;
+ 	flag = (iov->max_num & VRINGH_IOV_ALLOCATED);
+ 	if (flag)
+-		new = krealloc(iov->iov, new_num * sizeof(struct iovec), gfp);
++		new = krealloc_array(iov->iov, new_num,
++				     sizeof(struct iovec), gfp);
+ 	else {
+ 		new = kmalloc_array(new_num, sizeof(struct iovec), gfp);
+ 		if (new) {
 -- 
 2.29.1
 
