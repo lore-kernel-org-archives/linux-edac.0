@@ -2,66 +2,46 @@ Return-Path: <SRS0=Wzz3=EI=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AE5C388F2
-	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D23A8C00A89
+	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:41:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43B052222B
-	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:21:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BF0A2415A
+	for <linux-edac@archiver.kernel.org>; Mon,  2 Nov 2020 15:41:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="HmtPp910"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cf1MSWB7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgKBPUs (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 2 Nov 2020 10:20:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56712 "EHLO
+        id S1726014AbgKBPli (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 2 Nov 2020 10:41:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726514AbgKBPUr (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 2 Nov 2020 10:20:47 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BEEC061A48
-        for <linux-edac@vger.kernel.org>; Mon,  2 Nov 2020 07:20:46 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id n18so15052123wrs.5
-        for <linux-edac@vger.kernel.org>; Mon, 02 Nov 2020 07:20:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zsoLpTPvbfDjEd3BTKWBJg3n1+l4gj6JVB0+8bMwSMU=;
-        b=HmtPp910xThA01pL3B9QJDzM6myxOQbI+Gxv1vc6oac7iOA0ZXJQlHuq/+mHtde0X+
-         OfcMSK5kznkjMW2e37tU9WeWtUF/ehvgMx77Hvy2j/YhuAWr2JWWTq+2rF5jNonVIGbD
-         cCSqCJ03TKw0ntRupzKEmRuIb7vqNrbM7ZjMJ1dyUUTFAq7QYOcoPlQY6BSvbU5ivx1u
-         2ja7v3leUJx7kGjq4+D8hYbHBwnlqSZkHzw7OQggIsENJu2wboHE39wVaYvHlfopqTaz
-         gmSuc/NRG00fKNAAatDeqOG57nb8eBHuWtuyK6Mk/YJvrj1Yz6MBIwM8xHmW9fbnRR1V
-         p5TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zsoLpTPvbfDjEd3BTKWBJg3n1+l4gj6JVB0+8bMwSMU=;
-        b=q61G4+Pw6305AJ+BEQ5l72Oxr8S2wSL5n60hz8USu+DijusYzOooaOQKT5gSzk3p/w
-         O/polJFkGf7IRcuBs0cdGm3YTUvEnXF54G1VX+1sOQTM0n7+tOMp63M+3KtAh9mS+0/D
-         3HJXJBOnWwYY7A/vR7glYM0xvm4dzfWiosnWPeuLVM4UCzOUIBU9vKPXIXDdp1BBhk1V
-         ZooD2ZQKVnFAvRIYKm4KmJT5+BpTbEJDVsvnxzojAvnVao8N5CLf8tybEdPxSvqHPG2r
-         A+auu5Dovs8q4t3XYDk28Ppc2aPtrr/MlPn3qQS0b7DpFe56YMaqQ5DLooK0+whbwl+i
-         T+QQ==
-X-Gm-Message-State: AOAM533Ct6XG4JvXyAHhvz1EFWoCmjqmHTNchYSumqX4BCujJTAZUeBL
-        3XN/ANEFdEo0zJlRlTvckb4P2Q==
-X-Google-Smtp-Source: ABdhPJwlFwfWfCpdDsl2PScT66d3xFr7tIJPKogPvk6kP2iU+Xbqm7qx9Peryv+18kqHISpx03BO0g==
-X-Received: by 2002:adf:f3c4:: with SMTP id g4mr22117429wrp.207.1604330445459;
-        Mon, 02 Nov 2020 07:20:45 -0800 (PST)
-Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
-        by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 07:20:44 -0800 (PST)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        with ESMTP id S1725791AbgKBPlh (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 2 Nov 2020 10:41:37 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B58C0617A6;
+        Mon,  2 Nov 2020 07:41:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=UmWNoo+0jio1rsbpATbpnTKOP6YpDT2+8aHnhsn1BNQ=; b=cf1MSWB7BC+d/XGfBcQ2kzWTKP
+        Peh8sMqwcaL1avawa0skij5vzCJuMhLjyf5+3duC9LV64xK5h7mYlExaCNl16g5xIgy0XYatg9Kkf
+        8MzQdAQ7nqnViyK6PC8RcELKGC+j9GZJ7ckJm169iVg6QlV5ggKqdv+lcQqqbrPMl+FlSrL0fJtVH
+        h3aIS4VO2YSOq9iZcZt7+s5WtKwHYRjz80MESyljeOHnTABAzm0KwnO67EhkQGqAYQ3ow0H2PyBl3
+        OZ6Wcz1eC4cFYhDOYdlGwsV1WdJGKy68/ZW9RvzSJwxRicr1Ax69ZJI0224mH0dP7B11Lada3H09n
+        ylAgZRSA==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kZbx7-0002Pe-5d; Mon, 02 Nov 2020 15:41:01 +0000
+Date:   Mon, 2 Nov 2020 15:41:01 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Borislav Petkov <bp@alien8.de>,
         Tony Luck <tony.luck@intel.com>,
@@ -81,53 +61,34 @@ To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         David Rientjes <rientjes@google.com>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-gpio@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, alsa-devel@alsa-project.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 2/8] ALSA: pcm: use krealloc_array()
-Date:   Mon,  2 Nov 2020 16:20:31 +0100
-Message-Id: <20201102152037.963-3-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v2 1/8] mm: slab: provide krealloc_array()
+Message-ID: <20201102154101.GO27442@casper.infradead.org>
 References: <20201102152037.963-1-brgl@bgdev.pl>
+ <20201102152037.963-2-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201102152037.963-2-brgl@bgdev.pl>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Mon, Nov 02, 2020 at 04:20:30PM +0100, Bartosz Golaszewski wrote:
+> +Chunks allocated with `kmalloc` can be resized with `krealloc`. Similarly
+> +to `kmalloc_array`: a helper for resising arrays is provided in the form of
+> +`krealloc_array`.
 
-Use the helper that checks for overflows internally instead of manually
-calculating the size of the new array.
+Is there any reason you chose to `do_this` instead of do_this()?  The
+automarkup script turns do_this() into a nice link to the documentation
+which you're adding below.
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/pcm_lib.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index d531e1bc2b81..c6f8f9e252e0 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -1129,8 +1129,8 @@ int snd_pcm_hw_rule_add(struct snd_pcm_runtime *runtime, unsigned int cond,
- 	if (constrs->rules_num >= constrs->rules_all) {
- 		struct snd_pcm_hw_rule *new;
- 		unsigned int new_rules = constrs->rules_all + 16;
--		new = krealloc(constrs->rules, new_rules * sizeof(*c),
--			       GFP_KERNEL);
-+		new = krealloc_array(constrs->rules, new_rules,
-+				     sizeof(*c), GFP_KERNEL);
- 		if (!new) {
- 			va_end(args);
- 			return -ENOMEM;
--- 
-2.29.1
-
+Typo 'resising' resizing.
