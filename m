@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA11C55179
-	for <linux-edac@archiver.kernel.org>; Thu,  5 Nov 2020 18:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7FADC4741F
+	for <linux-edac@archiver.kernel.org>; Thu,  5 Nov 2020 18:01:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AE3F206A4
-	for <linux-edac@archiver.kernel.org>; Thu,  5 Nov 2020 18:01:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BF8720936
+	for <linux-edac@archiver.kernel.org>; Thu,  5 Nov 2020 18:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731558AbgKESBZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 5 Nov 2020 13:01:25 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2057 "EHLO
+        id S1731591AbgKESBt (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 5 Nov 2020 13:01:49 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2060 "EHLO
         frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbgKESBY (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 Nov 2020 13:01:24 -0500
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CRrVl2nfhz67J3M;
-        Fri,  6 Nov 2020 01:44:15 +0800 (CST)
+        with ESMTP id S1725862AbgKESBt (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 Nov 2020 13:01:49 -0500
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CRrSg73zhz67HHg;
+        Fri,  6 Nov 2020 01:42:27 +0800 (CST)
 Received: from lhreml715-chm.china.huawei.com (10.201.108.66) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Thu, 5 Nov 2020 18:45:30 +0100
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Thu, 5 Nov 2020 18:44:02 +0100
 Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.47.87.221) by
  lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Thu, 5 Nov 2020 17:45:29 +0000
+ 15.1.1913.5; Thu, 5 Nov 2020 17:44:01 +0000
 From:   Shiju Jose <shiju.jose@huawei.com>
 To:     <linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <james.morse@arm.com>,
@@ -37,9 +37,9 @@ To:     <linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
         <lenb@kernel.org>, <rrichter@marvell.com>
 CC:     <linuxarm@huawei.com>, <jonathan.cameron@huawei.com>,
         <shiju.jose@huawei.com>
-Subject: [RFC PATCH 4/4] ACPI / APEI: Add reporting ARM64 CPU cache corrected error count
-Date:   Thu, 5 Nov 2020 17:42:33 +0000
-Message-ID: <20201105174233.1146-5-shiju.jose@huawei.com>
+Subject: [RFC PATCH 2/4] ACPI: PPTT: Add function acpi_find_cache_info
+Date:   Thu, 5 Nov 2020 17:42:31 +0000
+Message-ID: <20201105174233.1146-3-shiju.jose@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20201105174233.1146-1-shiju.jose@huawei.com>
 References: <20201105174233.1146-1-shiju.jose@huawei.com>
@@ -54,129 +54,123 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add reporting ARM64 CPU cache corrected error count to the ghes_edac.
-The error count would be updated in the EDAC CPU cache sysfs
-interface.
+Add function acpi_find_cache_info() to find the
+information of the caches found in a CPU hierarchy
+represented in the PPTT.
 
+Co-developed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
 ---
- drivers/acpi/apei/ghes.c | 79 ++++++++++++++++++++++++++++++++++++++--
- include/linux/cper.h     |  4 ++
- 2 files changed, 80 insertions(+), 3 deletions(-)
+ drivers/acpi/pptt.c       | 62 +++++++++++++++++++++++++++++++++++++++
+ include/linux/cacheinfo.h | 12 ++++++++
+ 2 files changed, 74 insertions(+)
 
-diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-index fce7ade2aba9..b17173312087 100644
---- a/drivers/acpi/apei/ghes.c
-+++ b/drivers/acpi/apei/ghes.c
-@@ -523,6 +523,81 @@ static void ghes_handle_aer(struct acpi_hest_generic_data *gdata)
- #endif
+diff --git a/drivers/acpi/pptt.c b/drivers/acpi/pptt.c
+index de1dd605d3ad..5f46e6257e6b 100644
+--- a/drivers/acpi/pptt.c
++++ b/drivers/acpi/pptt.c
+@@ -670,6 +670,68 @@ int acpi_find_last_cache_level(unsigned int cpu)
+ 	return number_of_levels;
  }
  
-+/*
-+ * arm_err_trans_type_to_acpi_cache_type: Function to convert transaction type
-+ * in the CPER's ARM cache error structure to the ACPI PPTT cache type.
++/**
++ * acpi_find_cache_info() - Find the information of CPU caches
++ * represented in the PPTT.
++ * @cpu: Kernel logical CPU number.
++ * @cacheinfo: array of struct acpi_cacheinfo.
++ * @size: dimension of the array.
 + *
-+ * @type - transaction type. Type of cache error instruction/data/generic.
++ * Given a logical CPU number, returns the info of caches
++ * represented in the PPTT.
++ * Errors caused by lack of a PPTT table, or otherwise, return 0
++ * indicating we didn't find any cache levels.
 + *
-+ * Return: Success: ACPI PPTT cache type. Failure: Negative value.
++ * Return: total number of caches found in the CPU hierarchy or error.
 + */
-+static u8 arm_err_trans_type_to_acpi_cache_type(u8 type)
++int acpi_find_cache_info(unsigned int cpu, struct acpi_cacheinfo *cacheinfo,
++			 size_t size)
 +{
-+	switch (type) {
-+	case CPER_ARM_CACHE_TRANS_TYPE_INSTRUCTION:
-+		return ACPI_PPTT_CACHE_TYPE_INSTR;
-+	case CPER_ARM_CACHE_TRANS_TYPE_DATA:
-+		return ACPI_PPTT_CACHE_TYPE_DATA;
-+	case CPER_ARM_CACHE_TRANS_TYPE_GENERIC:
-+		return ACPI_PPTT_CACHE_TYPE_UNIFIED;
-+	default:
-+		pr_warn_ratelimited("FW_WARN GHES_PFX ARM CPER: Invalid cache transaction type\n");
-+		return -EINVAL;
++	u32 acpi_cpu_id;
++	acpi_status status;
++	struct acpi_table_header *table_hdr;
++	struct acpi_pptt_processor *cpu_node = NULL;
++	struct acpi_pptt_cache *found_cache;
++	int i, number_of_caches = 0;
++	int max_level, level = 1;
++	enum cache_type type[] = {
++		CACHE_TYPE_DATA,
++		CACHE_TYPE_INST,
++		CACHE_TYPE_UNIFIED,
++	};
++
++	if (!cacheinfo || !size)
++		return -ENOMEM;
++
++	status = acpi_get_table(ACPI_SIG_PPTT, 0, &table_hdr);
++	if (ACPI_FAILURE(status)) {
++		acpi_pptt_warn_missing();
++		return -ENOENT;
 +	}
-+}
 +
-+static void ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata)
-+{
-+	struct cper_sec_proc_arm *error = acpi_hest_get_payload(gdata);
-+	struct cper_arm_err_info *err_info;
-+	struct ghes_einfo_cpu einfo;
-+	u8 trans_type;
-+	u64 error_info;
-+	int sec_sev;
-+	int i, cache_type;
-+
-+	log_arm_hw_error(error);
-+
-+	sec_sev = ghes_severity(gdata->error_severity);
-+
-+#if defined(CONFIG_ARM64)
-+	if (sec_sev == GHES_SEV_CORRECTED) {
-+		memset(&einfo, 0, sizeof(einfo));
-+		einfo.cpu = get_logical_index(error->mpidr);
-+		if (einfo.cpu == -EINVAL)
-+			return;
-+
-+		/* ARM processor error types are cache/TLB/bus errors.
-+		 * Presently corrected error count for caches only
-+		 * is reported.
-+		 */
-+		err_info = (struct cper_arm_err_info *)(error + 1);
-+
-+		for (i = 0; i < error->err_info_num; i++) {
-+			if (err_info->type != CPER_ARM_CACHE_ERROR)
-+				continue;
-+			einfo.ce_count = err_info->multiple_error + 1;
-+
-+			error_info = err_info->error_info;
-+			if (!(error_info & CPER_ARM_ERR_VALID_TRANSACTION_TYPE) ||
-+			    !(error_info & CPER_ARM_ERR_VALID_LEVEL))
-+				continue;
-+
-+			trans_type = ((error_info >> CPER_ARM_ERR_TRANSACTION_SHIFT)
-+					& CPER_ARM_ERR_TRANSACTION_MASK);
-+			cache_type = arm_err_trans_type_to_acpi_cache_type(trans_type);
-+			if (cache_type < 0)
-+				continue;
-+			einfo.cache_type = cache_type;
-+			einfo.cache_level = ((error_info >> CPER_ARM_ERR_LEVEL_SHIFT)
-+					& CPER_ARM_ERR_LEVEL_MASK);
-+			ghes_edac_report_cpu_error(&einfo);
-+			err_info += 1;
++	acpi_cpu_id = get_acpi_id_for_cpu(cpu);
++	max_level = acpi_find_cache_levels(table_hdr, acpi_cpu_id);
++	while (level <= max_level) {
++		for (i = 0; i < ARRAY_SIZE(type); i++) {
++			found_cache = acpi_find_cache_node(table_hdr, acpi_cpu_id,
++							   type[i], level, &cpu_node);
++			if (found_cache) {
++				cacheinfo[number_of_caches].level = level;
++				cacheinfo[number_of_caches].type = acpi_cache_type(type[i]);
++				number_of_caches++;
++				if (number_of_caches >= size) {
++					acpi_put_table(table_hdr);
++					return -ENOMEM;
++				}
++			}
 +		}
++		level++;
 +	}
-+#endif
++	acpi_put_table(table_hdr);
++
++	return number_of_caches;
 +}
 +
- static BLOCKING_NOTIFIER_HEAD(vendor_record_notify_list);
+ /**
+  * cache_setup_acpi() - Override CPU cache topology with data from the PPTT
+  * @cpu: Kernel logical CPU number
+diff --git a/include/linux/cacheinfo.h b/include/linux/cacheinfo.h
+index 4f72b47973c3..7d37945d2650 100644
+--- a/include/linux/cacheinfo.h
++++ b/include/linux/cacheinfo.h
+@@ -79,6 +79,11 @@ struct cpu_cacheinfo {
+ 	bool cpu_map_populated;
+ };
  
- int ghes_register_vendor_record_notifier(struct notifier_block *nb)
-@@ -605,9 +680,7 @@ static bool ghes_do_proc(struct ghes *ghes,
- 			ghes_handle_aer(gdata);
- 		}
- 		else if (guid_equal(sec_type, &CPER_SEC_PROC_ARM)) {
--			struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
--
--			log_arm_hw_error(err);
-+			ghes_handle_arm_hw_error(gdata);
- 		} else {
- 			void *err = acpi_hest_get_payload(gdata);
- 
-diff --git a/include/linux/cper.h b/include/linux/cper.h
-index 6a511a1078ca..0ea966af6ad9 100644
---- a/include/linux/cper.h
-+++ b/include/linux/cper.h
-@@ -314,6 +314,10 @@ enum {
- #define CPER_ARM_ERR_ACCESS_MODE_SHIFT		43
- #define CPER_ARM_ERR_ACCESS_MODE_MASK		GENMASK(0,0)
- 
-+#define CPER_ARM_CACHE_TRANS_TYPE_INSTRUCTION	0
-+#define CPER_ARM_CACHE_TRANS_TYPE_DATA		1
-+#define CPER_ARM_CACHE_TRANS_TYPE_GENERIC	2
++struct acpi_cacheinfo {
++	u8 level;
++	u8 type;
++};
 +
  /*
-  * All tables and structs must be byte-packed to match CPER
-  * specification, since the tables are provided by the system BIOS
+  * Helpers to make sure "func" is executed on the cpu whose cache
+  * attributes are being detected
+@@ -114,8 +119,15 @@ static inline int acpi_find_last_cache_level(unsigned int cpu)
+ {
+ 	return 0;
+ }
++static inline int acpi_find_cache_info(unsigned int cpu, struct acpi_cacheinfo *cacheinfo,
++				       size_t size)
++{
++	return 0;
++}
+ #else
+ int acpi_find_last_cache_level(unsigned int cpu);
++int acpi_find_cache_info(unsigned int cpu, struct acpi_cacheinfo *cacheinfo,
++			 size_t size);
+ #endif
+ 
+ const struct attribute_group *cache_get_priv_group(struct cacheinfo *this_leaf);
 -- 
 2.17.1
 
