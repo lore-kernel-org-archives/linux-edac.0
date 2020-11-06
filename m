@@ -2,29 +2,28 @@ Return-Path: <SRS0=5vZG=EM=vger.kernel.org=linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C176C2D0A3
-	for <linux-edac@archiver.kernel.org>; Fri,  6 Nov 2020 14:12:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13597C4741F
+	for <linux-edac@archiver.kernel.org>; Fri,  6 Nov 2020 14:12:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2DFF207DE
-	for <linux-edac@archiver.kernel.org>; Fri,  6 Nov 2020 14:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B344F2087E
+	for <linux-edac@archiver.kernel.org>; Fri,  6 Nov 2020 14:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727314AbgKFOMl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 6 Nov 2020 09:12:41 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:6754 "EHLO
+        id S1727287AbgKFOMv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 6 Nov 2020 09:12:51 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:6753 "EHLO
         szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726939AbgKFOMl (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 Nov 2020 09:12:41 -0500
+        with ESMTP id S1726812AbgKFOMt (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 Nov 2020 09:12:49 -0500
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CSMlt3RxqzkfqP;
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CSMlt3HbSzkfn5;
         Fri,  6 Nov 2020 22:12:26 +0800 (CST)
 Received: from thunder-town.china.huawei.com (10.174.178.230) by
  DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 6 Nov 2020 22:12:27 +0800
+ 14.3.487.0; Fri, 6 Nov 2020 22:12:26 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
         "Thomas Gleixner" <tglx@linutronix.de>,
@@ -33,12 +32,10 @@ To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
         linux-edac <linux-edac@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>
 CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH v2 1/1] x86/mce: correct the detection of invalid mce priorities
-Date:   Fri, 6 Nov 2020 22:12:16 +0800
-Message-ID: <20201106141216.2062-2-thunder.leizhen@huawei.com>
+Subject: [PATCH v2 0/1] x86/mce: correct the detection of invalid mce priorities
+Date:   Fri, 6 Nov 2020 22:12:15 +0800
+Message-ID: <20201106141216.2062-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20201106141216.2062-1-thunder.leizhen@huawei.com>
-References: <20201106141216.2062-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -48,55 +45,19 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-enum mce_notifier_prios {
-	MCE_PRIO_LOWEST,
-	...
-	MCE_PRIO_CEC
-};
+v1 --> v2:
+Update the detection of invalid mce priorities, the WARN_ON() is needed.
 
-After commit c9c6d216ed28 ("x86/mce: Rename "first" function as "early""),
-the range of invalid priorities is changed. Add a new enumeration value
-MCE_PRIO_HIGHEST, so that people can add enumeration values greater than
-MCE_PRIO_CEC in the future without having to modify the function
-mce_register_decode_chain().
+v1:
+Remove the WARN_ON() in mce_register_decode_chain().
 
-Because the type of "nb->priority" is int, so the priority less than
-MCE_PRIO_LOWEST is also invalid.
+Zhen Lei (1):
+  x86/mce: correct the detection of invalid mce priorities
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
  arch/x86/include/asm/mce.h     | 3 ++-
  arch/x86/kernel/cpu/mce/core.c | 3 ++-
  2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
-index a0f147893a04..fc25c88c7ff2 100644
---- a/arch/x86/include/asm/mce.h
-+++ b/arch/x86/include/asm/mce.h
-@@ -177,7 +177,8 @@ enum mce_notifier_prios {
- 	MCE_PRIO_EXTLOG,
- 	MCE_PRIO_UC,
- 	MCE_PRIO_EARLY,
--	MCE_PRIO_CEC
-+	MCE_PRIO_CEC,
-+	MCE_PRIO_HIGHEST = MCE_PRIO_CEC
- };
- 
- struct notifier_block;
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 4102b866e7c0..0a54a2cfeeff 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -162,7 +162,8 @@ EXPORT_SYMBOL_GPL(mce_log);
- 
- void mce_register_decode_chain(struct notifier_block *nb)
- {
--	if (WARN_ON(nb->priority > MCE_PRIO_MCELOG && nb->priority < MCE_PRIO_EDAC))
-+	if (WARN_ON((nb->priority < MCE_PRIO_LOWEST) ||
-+		    (nb->priority > MCE_PRIO_HIGHEST)))
- 		return;
- 
- 	blocking_notifier_chain_register(&x86_mce_decoder_chain, nb);
 -- 
 2.26.0.106.g9fadedd
 
