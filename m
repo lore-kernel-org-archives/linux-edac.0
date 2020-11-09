@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AE2C388F7
-	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FDCC388F7
+	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32120206E5
-	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4C5320719
+	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="FyQZtjHq"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="lrGFiV0J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729760AbgKILHx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 9 Nov 2020 06:07:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59544 "EHLO
+        id S1729645AbgKILIB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 9 Nov 2020 06:08:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729627AbgKILHN (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Nov 2020 06:07:13 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DDD0C061A04
-        for <linux-edac@vger.kernel.org>; Mon,  9 Nov 2020 03:07:11 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id p8so7416829wrx.5
-        for <linux-edac@vger.kernel.org>; Mon, 09 Nov 2020 03:07:11 -0800 (PST)
+        with ESMTP id S1729609AbgKILHL (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Nov 2020 06:07:11 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00E6C061A48
+        for <linux-edac@vger.kernel.org>; Mon,  9 Nov 2020 03:07:07 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id 33so8212160wrl.7
+        for <linux-edac@vger.kernel.org>; Mon, 09 Nov 2020 03:07:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6cAnhvx340aJ9UoLX1zbzAI7OYOIgRl1WRMoR3sh/3E=;
-        b=FyQZtjHqfEyQnPv0TcpcPtzRKkDJw+5CmWnvLutUBlrvUrtATk0Us2kMQ7uvhmWfUK
-         0eNbMBkRypCB1SmS4/cqrqAasUoL4DRnxlRBQpx1RY6Tmr/Nmpi1qrl9p+XJQGfeV43E
-         mFuEs1COfnJNQITfkQgHpOePzHVg4ZkMOJ3R2gxEfTlMvi1SeMz0xGFn8SpGlE7k3cDi
-         ir/hpb8caCpkIei6+oq3/Ia4klZ1In4veaRJTPot+bbCaCVpPH5XTZ/5HXwtNVY6LaVL
-         3yuEq5NuC3KQYT8NF2HDTR54VuMPtxnryjgjsmx6McYPUOFssMfDPYJ7o2Sth0VExlL2
-         F4tA==
+        bh=m2ikj+dhQ1Zeha09QctzFr3Pm7l2AwdyE1EcOPpxBQc=;
+        b=lrGFiV0JEwMQZrmMw1exEx6p70DOim7QTqsGe9oOJfscxaaDbqtNd51mDY2gLrVO6e
+         AJaVU6gEvJ5Rqj0pmzF+RQrIAx3UUypf5ocQh5+MxoPZ8v5DbPYgi+LUXOO0xXncPOxJ
+         vazruXakD7raTY00eG7zaplUuhpuFOzAXeDC0+Go3Z91tS4RB4jYmtz+tumRzgHuHKVW
+         Q3APL+KmLaN9niAGudHytA7iWz6ha072HjPWCU0qqHVWmvaciARBx8JEUQUEjIamSyMq
+         CKw7PL+YgCXUcrNMDTeAPsCWzL8tuPTeq/pLQmlfpQnNOHY3qjMybpVo+6SdERNaMi03
+         sDgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6cAnhvx340aJ9UoLX1zbzAI7OYOIgRl1WRMoR3sh/3E=;
-        b=CmyITnmqPoUhCTUulyqcSWhbt+sVGfKXCWLbzGCuuD1+Y7opbdXBRMxuPNPIbngdrA
-         nGxHp/FVQTNAPyo7OoDzrAU+XMNtGKktrQvDNy41mOLSvGgWh5/lIGbRfHftNBNC7lUs
-         N82UajtLwHPfonAHaed+KoM9T8Ba+kzPo02Za88dhB9rNh8ug766HxPG+zs0zsNxYpg4
-         2odqmu/PfHnlFl3t1HwJyr06GlcFTyrUsEa46EJbHZ7kN466kOnl0KTv+trbyF5gNn6/
-         vwSpUxvYhXQDf71D0PPuu3bCJiyPwYF9nWnVQmEIDZ20POuPUyODXQg8HeLWJWxwxz7/
-         w/1Q==
-X-Gm-Message-State: AOAM532piPVdlrbcNbEpKn/Hy+ceOL30VIgBxz7XILKoxl2IVbQOu5Rn
-        kpiYXpdVJu9WHWopudKwKhV+fQ==
-X-Google-Smtp-Source: ABdhPJzVQIP6CvZC6MnxUgT+6qZKHTI55QEgy3Y0wnhrHAwRmJiPirAD+L1SJbeYTFQHWYNVPaOZHg==
-X-Received: by 2002:adf:a315:: with SMTP id c21mr17265337wrb.272.1604920029898;
-        Mon, 09 Nov 2020 03:07:09 -0800 (PST)
+        bh=m2ikj+dhQ1Zeha09QctzFr3Pm7l2AwdyE1EcOPpxBQc=;
+        b=fxMBZ+0MGuPmoxkv4qf3jrBMzIMRT3ofOTdbAMJrklhdS7MO1Iqdz5iL1wtk9qagq6
+         C5WVS8KY5A6hozy/Q53R1P0vz31sUhiByqwYmelTstGMCXXbOPx3Ohu94oUmx9qo8HZu
+         BMYzocaNYvbZnzAjBZ/dki6shvQVSOvDVcKgZSfFCxEqNccSYJv2KXGxD741DE2N/HO2
+         1kA0p0Q4vY9k5IXWJNhLuaBozAKp2I395uH0e00KnEdveylcppmHHIY2lk5uixVWqRAc
+         8Kupn1EQakizp9HeM3F+q5AKUoAgcD1yiopoFZh3Ag+/qX88k8p12hNXwa6DEHq3mH/i
+         FNRQ==
+X-Gm-Message-State: AOAM533MbzZYqJHDZV1n7Jhq+f4O5f4Mj7JPdsAJSMNq1frDvifORUNH
+        uH5nm+DXt18BuqJ2oebNWAJOpA==
+X-Google-Smtp-Source: ABdhPJyDQDC3mJ8XBzXRPLr9tujc8yB1EaUC1zlVXx3gghE7oqzt7WatCScZ7dhRaCoAETe4X60pOw==
+X-Received: by 2002:a5d:54c5:: with SMTP id x5mr3869675wrv.297.1604920026445;
+        Mon, 09 Nov 2020 03:07:06 -0800 (PST)
 Received: from localhost.localdomain (lfbn-nic-1-190-206.w2-15.abo.wanadoo.fr. [2.15.39.206])
-        by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.07.08
+        by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.07.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 03:07:09 -0800 (PST)
+        Mon, 09 Nov 2020 03:07:05 -0800 (PST)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -88,11 +88,10 @@ Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
         netdev@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Borislav Petkov <bp@suse.de>
-Subject: [PATCH v3 6/9] edac: ghes: use krealloc_array()
-Date:   Mon,  9 Nov 2020 12:06:51 +0100
-Message-Id: <20201109110654.12547-7-brgl@bgdev.pl>
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v3 4/9] vhost: vringh: use krealloc_array()
+Date:   Mon,  9 Nov 2020 12:06:49 +0100
+Message-Id: <20201109110654.12547-5-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201109110654.12547-1-brgl@bgdev.pl>
 References: <20201109110654.12547-1-brgl@bgdev.pl>
@@ -108,26 +107,25 @@ Use the helper that checks for overflows internally instead of manually
 calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Acked-by: Borislav Petkov <bp@suse.de>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- drivers/edac/ghes_edac.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/vhost/vringh.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index a918ca93e4f7..6d1ddecbf0da 100644
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -207,8 +207,8 @@ static void enumerate_dimms(const struct dmi_header *dh, void *arg)
- 	if (!hw->num_dimms || !(hw->num_dimms % 16)) {
- 		struct dimm_info *new;
+diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
+index 8bd8b403f087..08a0e1c842df 100644
+--- a/drivers/vhost/vringh.c
++++ b/drivers/vhost/vringh.c
+@@ -198,7 +198,8 @@ static int resize_iovec(struct vringh_kiov *iov, gfp_t gfp)
  
--		new = krealloc(hw->dimms, (hw->num_dimms + 16) * sizeof(struct dimm_info),
--			        GFP_KERNEL);
-+		new = krealloc_array(hw->dimms, hw->num_dimms + 16,
-+				     sizeof(struct dimm_info), GFP_KERNEL);
- 		if (!new) {
- 			WARN_ON_ONCE(1);
- 			return;
+ 	flag = (iov->max_num & VRINGH_IOV_ALLOCATED);
+ 	if (flag)
+-		new = krealloc(iov->iov, new_num * sizeof(struct iovec), gfp);
++		new = krealloc_array(iov->iov, new_num,
++				     sizeof(struct iovec), gfp);
+ 	else {
+ 		new = kmalloc_array(new_num, sizeof(struct iovec), gfp);
+ 		if (new) {
 -- 
 2.29.1
 
