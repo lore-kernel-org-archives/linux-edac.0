@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93BA0C4741F
-	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC27C2D0A3
+	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BDA9206E5
-	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 579B7206E5
+	for <linux-edac@archiver.kernel.org>; Mon,  9 Nov 2020 11:08:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="bV0WOhcj"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="SLmwWdYm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729526AbgKILIW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 9 Nov 2020 06:08:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59526 "EHLO
+        id S1729539AbgKILHE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 9 Nov 2020 06:07:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729551AbgKILHG (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Nov 2020 06:07:06 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB9EBC0613D3
-        for <linux-edac@vger.kernel.org>; Mon,  9 Nov 2020 03:07:05 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id 33so8212051wrl.7
-        for <linux-edac@vger.kernel.org>; Mon, 09 Nov 2020 03:07:05 -0800 (PST)
+        with ESMTP id S1729519AbgKILHD (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 9 Nov 2020 06:07:03 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71091C0613CF
+        for <linux-edac@vger.kernel.org>; Mon,  9 Nov 2020 03:07:02 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id j7so968050wrp.3
+        for <linux-edac@vger.kernel.org>; Mon, 09 Nov 2020 03:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1txfIvaUE40Ou/j75EYKcgw6u17F5C6+DdlKPQ0ay3M=;
-        b=bV0WOhcjc6Y2rIR+7HT+QGO/LnwlTLaGqiH/bueGYgN1eqaiyqgBu630Wi1/Fe4Izr
-         My6WbzMB2G0+0Jww/tXr7Bv9T9tCSh7nAf3FDc9HnmXqm0/SZK/yuCq88k07niiSIbdE
-         Kni1bJikZg3lnovvS5+pSl6sF1scmJC1eailBHWvAIqLxr8aFY7ZvU8r5E11qXi2Th71
-         zhnarT2xZ1wCpMgNr9yCr/3M5lq5u3cCkFTpjL9pfSKNowIMNdFSn0mY3iQlibP5Tto4
-         Lgmzc95ZSUUq1X+Al8zvn1+ubttScKkHoe5x6HV2U03u2h9rIhdyiJw4IDWSPdJhmDMn
-         +W6A==
+        bh=2uLK4LNo7fJGEwA0NXfYaAQzvkTW8/WkGHuVu61FcZ4=;
+        b=SLmwWdYmA2Su0OyL+219YDZzeVXOkzpy5gortE6aVnwng+6cHrJzhAQJzNByqcPbPZ
+         isbE6V3Lb9JgstbUlm/PZvCpNxelIDnwHLTINtWIzMAUAJP+6YLk/AWf+cW33RVJOvLq
+         4EQlOOLu8zd+gVrxvr0w9485FxLsZ4uiV1jlwgDMS4E7kDkszYjvid4w0z806pFvA1dO
+         U+nHioEgRrLmfLyR8tH/H/Ge3+qH76H09ubPywZEg/u4KcGzZ6YzgnyKXZKxxyWIo1cW
+         FT3Tuwvxb43JhyG0QmKnG/8uRrjp2S/bO4jEisldpzuA8EOA5eJuEswwYg/l6KV0K70j
+         EAjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1txfIvaUE40Ou/j75EYKcgw6u17F5C6+DdlKPQ0ay3M=;
-        b=t35hNIHP21D8RekUXLtxTkQvSAWH7/gQl6DszCLetS6Kcdn94rXsodzLV9x62SWkBx
-         8+saAJFbmD/WCaCmPcwwnbef0HlTSquVCVPU2igC8DUZmjWFDDFEfJusMnmR+OMTDTIA
-         d0vq6llU/Dg+JZ08WJJJQcV8lbGF7BTn5a6FvrlmgfIJ5rFg4EstflofwnWLueKwmnOL
-         xurRokU57UeGJK47L16hA8DdmKEGhOgiPyTmj+KUU5VS4LVFoIBaD6jCJNIZBoW/Omrm
-         UolmzCM56a4+7e3xVyBMAFg/MwXCXC1U5L4hTlAfcCwD6eTIJ0eKrrDba97RRbuHidyB
-         GaVw==
-X-Gm-Message-State: AOAM533l9H/EuJkNJUk2Lc2E6SY4wu7EijSdi7CcfMrJtvxrvR4mPiJT
-        co8er4VIZvCIDkHtiNQ6zEH9QQ==
-X-Google-Smtp-Source: ABdhPJzHXOuOWGraTd+tlh1Rh/Cikbums2QDN+ELEwiirpKRCwDTD+P/KjLkxHpoeG3VOPOYn45WFQ==
-X-Received: by 2002:adf:fd03:: with SMTP id e3mr11725240wrr.303.1604920024684;
-        Mon, 09 Nov 2020 03:07:04 -0800 (PST)
+        bh=2uLK4LNo7fJGEwA0NXfYaAQzvkTW8/WkGHuVu61FcZ4=;
+        b=DfI3oT6xvnhERmizudmYwDSedifXEiEW8V0QcGe8JLfrLOVtjNAsYFCGURa8nbCA3r
+         57I20jH7ZcfKR/MmuR0UyrmsDVFg5ICRtHc+qsw6ahXVPpUrI0bYfNCwOpJjVXarJprY
+         cOu2dziLK4DoyLT2EIDHNUQ0FHMsZM1hMlT+fIOEPWc3JgP3eUuDj1plQjMR0Cxclrd9
+         aziNkPc5/ezT0nVZgt3wyut5m/RRLfnj8zD2ZxwDgvsVEXlO+1xgpf+LE00lS/Vi7bjm
+         +DXFt24TiAbmyaWj3g1iL21meU/Pk3bqYinq1knjkbhOoadB7n3I93QwzLGLl3HS1liv
+         tr9w==
+X-Gm-Message-State: AOAM5301S1fDAyx/Nt4DHibqGUSfBBmM4FgQuaN44/MthxNH9wGaAI7d
+        WB4hK9EYeIDoT4uUjB4T0uYTzQ==
+X-Google-Smtp-Source: ABdhPJwC1VmwvlzIaWje0LLMyGfNJlg7DPW07nQhl2YWyOW+KS6oIpzkSUqvI/A14QOWWdg2F+P+tA==
+X-Received: by 2002:adf:9b98:: with SMTP id d24mr16961027wrc.17.1604920021208;
+        Mon, 09 Nov 2020 03:07:01 -0800 (PST)
 Received: from localhost.localdomain (lfbn-nic-1-190-206.w2-15.abo.wanadoo.fr. [2.15.39.206])
-        by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.07.02
+        by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 03:07:04 -0800 (PST)
+        Mon, 09 Nov 2020 03:07:00 -0800 (PST)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -88,11 +88,10 @@ Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
         netdev@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v3 3/9] ALSA: pcm: use krealloc_array()
-Date:   Mon,  9 Nov 2020 12:06:48 +0100
-Message-Id: <20201109110654.12547-4-brgl@bgdev.pl>
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v3 1/9] mm: slab: clarify krealloc()'s behavior with __GFP_ZERO
+Date:   Mon,  9 Nov 2020 12:06:46 +0100
+Message-Id: <20201109110654.12547-2-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201109110654.12547-1-brgl@bgdev.pl>
 References: <20201109110654.12547-1-brgl@bgdev.pl>
@@ -104,30 +103,31 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Use the helper that checks for overflows internally instead of manually
-calculating the size of the new array.
+__GFP_ZERO is ignored by krealloc() (unless we fall-back to kmalloc()
+path, in which case it's honored). Point that out in the kerneldoc.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/pcm_lib.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ mm/slab_common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index bda3514c7b2d..b7e3d8f44511 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -1129,8 +1129,8 @@ int snd_pcm_hw_rule_add(struct snd_pcm_runtime *runtime, unsigned int cond,
- 	if (constrs->rules_num >= constrs->rules_all) {
- 		struct snd_pcm_hw_rule *new;
- 		unsigned int new_rules = constrs->rules_all + 16;
--		new = krealloc(constrs->rules, new_rules * sizeof(*c),
--			       GFP_KERNEL);
-+		new = krealloc_array(constrs->rules, new_rules,
-+				     sizeof(*c), GFP_KERNEL);
- 		if (!new) {
- 			va_end(args);
- 			return -ENOMEM;
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index f9ccd5dc13f3..d6df73f79204 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1091,9 +1091,9 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
+  * @flags: the type of memory to allocate.
+  *
+  * The contents of the object pointed to are preserved up to the
+- * lesser of the new and old sizes.  If @p is %NULL, krealloc()
+- * behaves exactly like kmalloc().  If @new_size is 0 and @p is not a
+- * %NULL pointer, the object pointed to is freed.
++ * lesser of the new and old sizes (__GFP_ZERO flag is effectively ignored).
++ * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
++ * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
+  *
+  * Return: pointer to the allocated memory or %NULL in case of error
+  */
 -- 
 2.29.1
 
