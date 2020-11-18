@@ -5,44 +5,46 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	LOTS_OF_MONEY,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FDEC64E75
-	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 15:16:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F545C64E7D
+	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 15:16:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49FC72474A
+	by mail.kernel.org (Postfix) with ESMTP id 04AE724749
 	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 15:16:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727288AbgKRPQN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 18 Nov 2020 10:16:13 -0500
+        id S1726701AbgKRPQF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 18 Nov 2020 10:16:05 -0500
 Received: from mga12.intel.com ([192.55.52.136]:8041 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726336AbgKRPQF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S1726211AbgKRPQF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
         Wed, 18 Nov 2020 10:16:05 -0500
-IronPort-SDR: Y2MIooStId7wSQ174TkdaHh2uOPGlWFctZRnDtfcOMa48530j7r+N70h6OYtAqYjR/ELk92G46
- sHbfP7eNdrUA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="150399351"
+IronPort-SDR: K3HjGX1a54vaJlemn/4Jm/oaECa4wSLVdar+mMdAAk6DOHJmqdL/ag869B4F2qQuf5oZNtbyZs
+ reHre9+wqiEA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="150399361"
 X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="150399351"
+   d="scan'208";a="150399361"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:15:59 -0800
-IronPort-SDR: aTiYNJ44AM906CS+zhEMRp2fvFfXKQF7b6rvBGJ5Nwf/0Q3nXU6P0X3HedyxnM0djnyMjcm5o6
- OaFbHH0nu8Iw==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:16:03 -0800
+IronPort-SDR: YsAkNBARL3HuPONP6kRUnF11yeoR3+ZaUcpZskIYpOJG2DWYRZUtTZ+eTWadQ2Lq3sjmZnV/4z
+ mSsF6lGpIX9Q==
 X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="359492060"
+   d="scan'208";a="359492091"
 Received: from paolonig001.ir.intel.com ([163.33.183.93])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:15:56 -0800
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:16:01 -0800
 From:   Gabriele Paoloni <gabriele.paoloni@intel.com>
 To:     tony.luck@intel.com, bp@alien8.de, tglx@linutronix.de,
         mingo@redhat.com, x86@kernel.org, hpa@zytor.com,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     gabriele.paoloni@intel.com, linux-safety@lists.elisa.tech
-Subject: [PATCH 0/4] x86/MCE: some minor fixes
-Date:   Wed, 18 Nov 2020 15:15:48 +0000
-Message-Id: <20201118151552.1412-1-gabriele.paoloni@intel.com>
+Subject: [PATCH 2/4] x86/mce: move the mce_panic() call and kill_it assignments at the right places
+Date:   Wed, 18 Nov 2020 15:15:50 +0000
+Message-Id: <20201118151552.1412-3-gabriele.paoloni@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201118151552.1412-1-gabriele.paoloni@intel.com>
+References: <20201118151552.1412-1-gabriele.paoloni@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -50,24 +52,67 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-During the safety analysis that was done in the context of the
-ELISA project by the safety architecture working group some
-incorrectnesses were spotted.
-This patchset proposes some fixes.
+Right now for local MCEs we panic(),if needed, right after lmce is
+set. For global MCEs mce_reign() takes care of calling mce_panic().
+Hence this patch:
+- improves readibility by moving the conditional evaluation of
+tolerant up to when kill_it is set first
+- moves the mce_panic() call up into the statement where mce_end()
+fails
 
 Signed-off-by: Gabriele Paoloni <gabriele.paoloni@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
+---
+ arch/x86/kernel/cpu/mce/core.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-Gabriele Paoloni (4):
-  x86/mce: do not overwrite no_way_out if mce_end() fails
-  x86/mce: move the mce_panic() call and kill_it assignments at the
-    right places
-  x86/mce: for LMCE panic only if mca_cfg.tolerant < 3
-  x86/mce: remove redundant call to irq_work_queue()
-
- arch/x86/kernel/cpu/mce/core.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
-
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index b990892c6766..e025ff04438f 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1350,8 +1350,7 @@ noinstr void do_machine_check(struct pt_regs *regs)
+ 	 * severity is MCE_AR_SEVERITY we have other options.
+ 	 */
+ 	if (!(m.mcgstatus & MCG_STATUS_RIPV))
+-		kill_it = 1;
+-
++		kill_it = (cfg->tolerant == 3) ? 0 : 1;
+ 	/*
+ 	 * Check if this MCE is signaled to only this logical processor,
+ 	 * on Intel, Zhaoxin only.
+@@ -1384,8 +1383,15 @@ noinstr void do_machine_check(struct pt_regs *regs)
+ 	 * When there's any problem use only local no_way_out state.
+ 	 */
+ 	if (!lmce) {
+-		if (mce_end(order) < 0)
++		if (mce_end(order) < 0) {
+ 			no_way_out = no_way_out ? no_way_out : worst >= MCE_PANIC_SEVERITY;
++			/*
++			 * mce_reign() has probably failed hence evaluate if we need
++			 * to panic
++			 */
++			if (no_way_out && mca_cfg.tolerant < 3)
++				mce_panic("Fatal machine check on current CPU", &m, msg);
++		}
+ 	} else {
+ 		/*
+ 		 * If there was a fatal machine check we should have
+@@ -1401,15 +1407,6 @@ noinstr void do_machine_check(struct pt_regs *regs)
+ 		}
+ 	}
+ 
+-	/*
+-	 * If tolerant is at an insane level we drop requests to kill
+-	 * processes and continue even when there is no way out.
+-	 */
+-	if (cfg->tolerant == 3)
+-		kill_it = 0;
+-	else if (no_way_out)
+-		mce_panic("Fatal machine check on current CPU", &m, msg);
+-
+ 	if (worst > 0)
+ 		irq_work_queue(&mce_irq_work);
+ 
 -- 
 2.20.1
 
