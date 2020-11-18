@@ -2,133 +2,86 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	LOTS_OF_MONEY,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F545C64E7D
-	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 15:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4894EC5519F
+	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 18:37:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04AE724749
-	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 15:16:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABB0020897
+	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 18:37:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="C2dt4rX/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgKRPQF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 18 Nov 2020 10:16:05 -0500
-Received: from mga12.intel.com ([192.55.52.136]:8041 "EHLO mga12.intel.com"
+        id S1726328AbgKRShG (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 18 Nov 2020 13:37:06 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:41792 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726211AbgKRPQF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 18 Nov 2020 10:16:05 -0500
-IronPort-SDR: K3HjGX1a54vaJlemn/4Jm/oaECa4wSLVdar+mMdAAk6DOHJmqdL/ag869B4F2qQuf5oZNtbyZs
- reHre9+wqiEA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="150399361"
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="150399361"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:16:03 -0800
-IronPort-SDR: YsAkNBARL3HuPONP6kRUnF11yeoR3+ZaUcpZskIYpOJG2DWYRZUtTZ+eTWadQ2Lq3sjmZnV/4z
- mSsF6lGpIX9Q==
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="359492091"
-Received: from paolonig001.ir.intel.com ([163.33.183.93])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:16:01 -0800
-From:   Gabriele Paoloni <gabriele.paoloni@intel.com>
-To:     tony.luck@intel.com, bp@alien8.de, tglx@linutronix.de,
-        mingo@redhat.com, x86@kernel.org, hpa@zytor.com,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     gabriele.paoloni@intel.com, linux-safety@lists.elisa.tech
-Subject: [PATCH 2/4] x86/mce: move the mce_panic() call and kill_it assignments at the right places
-Date:   Wed, 18 Nov 2020 15:15:50 +0000
-Message-Id: <20201118151552.1412-3-gabriele.paoloni@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201118151552.1412-1-gabriele.paoloni@intel.com>
-References: <20201118151552.1412-1-gabriele.paoloni@intel.com>
+        id S1726200AbgKRShG (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 18 Nov 2020 13:37:06 -0500
+Received: from zn.tnic (p200300ec2f0caf00cee835374c0b640d.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:af00:cee8:3537:4c0b:640d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D18821EC03CE;
+        Wed, 18 Nov 2020 19:37:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1605724624;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=Tv6NfihzUKUgm3a3PkS8PszKx5lZ5ynU2L5TjKaof78=;
+        b=C2dt4rX/WiY8snqH+g+6DYyesgB7uIf3/dbtiTxX4wpVGn2zL2Q+kJaySkfJ6S+0WsGlxV
+        cgECDyqGXiEzXUUHyNi5JuGzHRzAZapXK/6D6Zg4SR2C9nvW+FYIOp7mq0qaFOiPFNxtRC
+        NoO7W5KVxywMNDuJvfOWtvG9IOsJ1Y0=
+Date:   Wed, 18 Nov 2020 19:36:58 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+Cc:     michal.simek@xilinx.com, mchehab@kernel.org, tony.luck@intel.com,
+        james.morse@arm.com, rric@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+Subject: Re: [PATCH] EDAC/synopsys: Fix wrong return value of mc_probe()
+Message-ID: <20201118183658.GM7472@zn.tnic>
+References: <20201116135810.3130845-1-zhangxiaoxu5@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201116135810.3130845-1-zhangxiaoxu5@huawei.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Right now for local MCEs we panic(),if needed, right after lmce is
-set. For global MCEs mce_reign() takes care of calling mce_panic().
-Hence this patch:
-- improves readibility by moving the conditional evaluation of
-tolerant up to when kill_it is set first
-- moves the mce_panic() call up into the statement where mce_end()
-fails
+On Mon, Nov 16, 2020 at 08:58:10AM -0500, Zhang Xiaoxu wrote:
+> If create the inject sysfs file failed, we should return
+> the error, rather than 0. Otherwise, there maybe error
+> pointer access.
+> 
+> Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+> ---
+>  drivers/edac/synopsys_edac.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
+> index 12211dc040e8..7e7146b22c16 100644
+> --- a/drivers/edac/synopsys_edac.c
+> +++ b/drivers/edac/synopsys_edac.c
+> @@ -1344,7 +1344,8 @@ static int mc_probe(struct platform_device *pdev)
+>  
+>  #ifdef CONFIG_EDAC_DEBUG
+>  	if (priv->p_data->quirks & DDR_ECC_DATA_POISON_SUPPORT) {
+> -		if (edac_create_sysfs_attributes(mci)) {
+> +		rc = edac_create_sysfs_attributes(mci);
+> +		if (rc) {
+>  			edac_printk(KERN_ERR, EDAC_MC,
+>  					"Failed to create sysfs entries\n");
+>  			goto free_edac_mc;
+> -- 
 
-Signed-off-by: Gabriele Paoloni <gabriele.paoloni@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
----
- arch/x86/kernel/cpu/mce/core.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+Applied, thanks.
 
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index b990892c6766..e025ff04438f 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1350,8 +1350,7 @@ noinstr void do_machine_check(struct pt_regs *regs)
- 	 * severity is MCE_AR_SEVERITY we have other options.
- 	 */
- 	if (!(m.mcgstatus & MCG_STATUS_RIPV))
--		kill_it = 1;
--
-+		kill_it = (cfg->tolerant == 3) ? 0 : 1;
- 	/*
- 	 * Check if this MCE is signaled to only this logical processor,
- 	 * on Intel, Zhaoxin only.
-@@ -1384,8 +1383,15 @@ noinstr void do_machine_check(struct pt_regs *regs)
- 	 * When there's any problem use only local no_way_out state.
- 	 */
- 	if (!lmce) {
--		if (mce_end(order) < 0)
-+		if (mce_end(order) < 0) {
- 			no_way_out = no_way_out ? no_way_out : worst >= MCE_PANIC_SEVERITY;
-+			/*
-+			 * mce_reign() has probably failed hence evaluate if we need
-+			 * to panic
-+			 */
-+			if (no_way_out && mca_cfg.tolerant < 3)
-+				mce_panic("Fatal machine check on current CPU", &m, msg);
-+		}
- 	} else {
- 		/*
- 		 * If there was a fatal machine check we should have
-@@ -1401,15 +1407,6 @@ noinstr void do_machine_check(struct pt_regs *regs)
- 		}
- 	}
- 
--	/*
--	 * If tolerant is at an insane level we drop requests to kill
--	 * processes and continue even when there is no way out.
--	 */
--	if (cfg->tolerant == 3)
--		kill_it = 0;
--	else if (no_way_out)
--		mce_panic("Fatal machine check on current CPU", &m, msg);
--
- 	if (worst > 0)
- 		irq_work_queue(&mce_irq_work);
- 
 -- 
-2.20.1
+Regards/Gruss,
+    Boris.
 
----------------------------------------------------------------------
-INTEL CORPORATION ITALIA S.p.A. con unico socio
-Sede: Milanofiori Palazzo E 4 
-CAP 20094 Assago (MI)
-Capitale Sociale Euro 104.000,00 interamente versato
-Partita I.V.A. e Codice Fiscale  04236760155
-Repertorio Economico Amministrativo n. 997124 
-Registro delle Imprese di Milano nr. 183983/5281/33
-Soggetta ad attivita' di direzione e coordinamento di 
-INTEL CORPORATION, USA
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
+https://people.kernel.org/tglx/notes-about-netiquette
