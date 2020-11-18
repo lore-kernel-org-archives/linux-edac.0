@@ -2,105 +2,81 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AA6FC2D0E4
-	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 03:12:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B50BC5519F
+	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 12:45:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D1AD2468E
-	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 03:12:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0398224180
+	for <linux-edac@archiver.kernel.org>; Wed, 18 Nov 2020 12:45:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="KVrCPU92"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726287AbgKRDMW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 17 Nov 2020 22:12:22 -0500
-Received: from mail.kingsoft.com ([114.255.44.145]:45585 "EHLO
-        mail.kingsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725613AbgKRDMV (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 17 Nov 2020 22:12:21 -0500
-X-AuditID: 0a580157-b25ff70000003991-f7-5fb48d8826ba
-Received: from mail.kingsoft.com (localhost [10.88.1.32])
-        (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client did not present a certificate)
-        by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id BD.F7.14737.88D84BF5; Wed, 18 Nov 2020 10:57:12 +0800 (HKT)
-Received: from aili-OptiPlex-7020 (172.16.253.254) by KSBJMAIL2.kingsoft.cn
- (10.88.1.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 18 Nov
- 2020 11:12:14 +0800
-Date:   Wed, 18 Nov 2020 11:12:14 +0800
-From:   Aili Yao <yaoaili@kingsoft.com>
-To:     James Morse <james.morse@arm.com>
-CC:     <rjw@rjwysocki.net>, <lenb@kernel.org>, <tony.luck@intel.com>,
-        <bp@alien8.de>, <linux-acpi@vger.kernel.org>,
-        <linux-edac@vger.kernel.org>, <yangfeng1@kingsoft.com>,
-        <CHENGUOMIN@kingsoft.com>, <yaoaili@kingsoft.com>
-Subject: Re: [PATCH] Dump cper error table in mce_panic
-Message-ID: <20201118111140.0c330108@aili-OptiPlex-7020>
-In-Reply-To: <112d8a04-4f0d-6705-4da1-e8d95a14dbaf@arm.com>
+        id S1725943AbgKRMpk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 18 Nov 2020 07:45:40 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:47560 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725747AbgKRMpk (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 18 Nov 2020 07:45:40 -0500
+Received: from zn.tnic (p200300ec2f0caf0066ae0a9db02cf7f4.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:af00:66ae:a9d:b02c:f7f4])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 257C01EC01A8;
+        Wed, 18 Nov 2020 13:45:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1605703539;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=L2ugBrbTIr2gsU7YZp4QhcDMy178gRinJLza+UP4oi8=;
+        b=KVrCPU9214MZUDQ7mAZakHuHmWrFsC3ceX4DfPxeRysevGHqu1ZuYPv5xExJJaMWl5hElw
+        HhFZ4gxnH2lnN8TiWXI3mRelHwmWsJ97eXrOdUnMArU3geMe/81Yd7Ki/KAwWcMk2axHb/
+        G91cVHfaGQWl8ZG5uCmJ0exbXLaBzNI=
+Date:   Wed, 18 Nov 2020 13:45:38 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Aili Yao <yaoaili@kingsoft.com>
+Cc:     rjw@rjwysocki.net, lenb@kernel.org, tony.luck@intel.com,
+        james.morse@arm.com, linux-acpi@vger.kernel.org,
+        linux-edac@vger.kernel.org, yangfeng1@kingsoft.com,
+        CHENGUOMIN@kingsoft.com
+Subject: Re: [PATCH v2] Dump cper error table in mce_panic
+Message-ID: <20201118124538.GI7472@zn.tnic>
 References: <20201104065057.40442-1-yaoaili126@163.com>
- <112d8a04-4f0d-6705-4da1-e8d95a14dbaf@arm.com>
-Organization: Kingsoft
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ <20201117175804.39bbbdc3.yaoaili@kingsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.16.253.254]
-X-ClientProxiedBy: KSBJMAIL1.kingsoft.cn (10.88.1.31) To KSBJMAIL2.kingsoft.cn
- (10.88.1.32)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKLMWRmVeSWpSXmKPExsXCFcGooNvRuyXe4Ns2bYvPG/6xWdzft5zJ
-        YufDt2wWy/f1M1pcONXAZHHm9CVWizcX7rE4sHt8b+1j8Vgzbw2jx+I9L5k8Nq3qZPPYcrWd
-        xePzJrkAtigum5TUnMyy1CJ9uwSujKszV7EX/OeueL9VvoHxAmcXIyeHhICJxNyu36xdjFwc
-        QgLTmSTa1q9ggXBeMEpcaOxiBKliEVCV2PTsHDuIzQZk77o3ixXEFgGyL72cwQxiMwvcY5S4
-        tSMVxBYWMJdYOm8FG4jNK2AhceT+DSYQm1PAWmLh258sILaQQIbEybdTgXo5OPgFxCReNRhD
-        HGQv8fzvWWaIVkGJkzOfsECM15E4seoY1Cp5ie1v5zBDjFGUOLzkFztEr5LEke4ZbBB2rMSy
-        ea9YJzAKz0IyahaSUbOQjFrAyLyKkaU4N91wEyMkJsJ3MM5r+qh3iJGJg/EQowQHs5IIr4vJ
-        xngh3pTEyqrUovz4otKc1OJDjNIcLErivOlzN8cLCaQnlqRmp6YWpBbBZJk4OKUamDhjm2+V
-        CLGK1ybO90vpvZHK/Jv3tDWv1veX1Z+UTTd/X7I7PUxO5o2kw4/MvmiLI1cPP9a/+Mr07433
-        jsWzrmrPNgz6+obzI5/e/EkXzs+5OE0s86OoX2/ya5dM7j2P9j19/aYxv9/rq//7CY3S9itO
-        bhQ1iBI+dJjzaOecJp27Lz9Udp2tcF4ivO5I4uObay1CvY9qasinM36IU//904JPQb7KZblq
-        eMmjtQ3Kv0/cfaBs+nfe3WeWMSxPQs/byedMfnNawnPHzj+xm2ITT6+U5ghyXHPsH8eJRcsi
-        P1w5nmPMt4T50P5T+w/wPwjYsqr1Wsd5vyVeh2dbGhxIk6u2v13QdvLpqtYi6ybVVfeVWIoz
-        Eg21mIuKEwHBq6pB+AIAAA==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201117175804.39bbbdc3.yaoaili@kingsoft.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi, Thanks for your comments!
-
-On Fri, 6 Nov 2020 19:35:32 +0000
-James Morse <james.morse@arm.com> wrote:
-
-> You appear to have something that behaves as GHES-ASSIST. Can you post the decompiled dump
-> of your HEST table? (decompiled, no binaries!) If its large, you can post it to me off
-> list and I'll copy the relevant bits here...
+On Tue, Nov 17, 2020 at 05:58:04PM +0800, Aili Yao wrote:
+> Subject: [PATCH v2] Dump cper error table in mce_panic
 > 
-I think we we can reach a consensus, from and follow Intel Document #563361 23.1 :
-Feature Name MCA 2.0 Recovery (as per EMCA Gen2 architecture)
-Feature Description
-Software layer assisted recovery from uncorrected data errors as defined by the EMCA Gen2
-specification. EMCA Gen2 is a capability that allows firmware to intercept errors triggered via Machine
-Check Architecture (corrected and uncorrected errors) enabling a Firmware First Model (FFM) of error
-handling and possible recovery.
-Use Case
-Enhanced error reporting to support Firmware First Model (FFM) with following attributes:
-1. Allows the SMM code to intercept the MCE/CMCI.
-2. Allows the SMM code to write the MCA Status/Add/Misc registers.
-3. Allows the SMM code to generate MCEs.
-4. Allows the DSM based pointer for enhanced error logs.
-5. Additional IA32_MCG_CAP bit for eMCA support
+> For X86_MCE, When BIOS option WHEA memory log is enabled,if there is a
+> ...
 
-> 
-> If and only if those GHES are marked as GHES_ASSIST.
-> 
-> If they are not, then you have a fully fledged firwmare-first system.
-> 
+This commit message makes no sense to me and I have no clue what you're
+trying to "fix". So before you do anything, please describe the problem
+you're seeing first using this structure:
 
-Yeah, This should be GHES_ASSIST, But For x86, BIOS don't supply a hest table for it as BIOS will trigger
-MCE, It's out of APEI scope. 
+Problem is A.
 
+It happens because of B.
+
+Fix it by doing C.
+
+(Potentially do D).
+
+When you do that, use simple english sentences and not complex ones.
+
+Thx.
 
 -- 
-Best Regards!
+Regards/Gruss,
+    Boris.
 
-Aili Yao
+https://people.kernel.org/tglx/notes-about-netiquette
