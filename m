@@ -2,72 +2,78 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463B5C63777
-	for <linux-edac@archiver.kernel.org>; Fri, 20 Nov 2020 17:32:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C322C2D0E4
+	for <linux-edac@archiver.kernel.org>; Fri, 20 Nov 2020 17:34:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF66F22264
-	for <linux-edac@archiver.kernel.org>; Fri, 20 Nov 2020 17:32:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C601922264
+	for <linux-edac@archiver.kernel.org>; Fri, 20 Nov 2020 17:34:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="CaDpxvvd"
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="eoSRNg9f"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728761AbgKTRcZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 20 Nov 2020 12:32:25 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:53824 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728202AbgKTRcY (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 20 Nov 2020 12:32:24 -0500
+        id S1728499AbgKTRdp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 20 Nov 2020 12:33:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60716 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728488AbgKTRdp (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 20 Nov 2020 12:33:45 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16912C0613CF;
+        Fri, 20 Nov 2020 09:33:45 -0800 (PST)
 Received: from zn.tnic (p200300ec2f11ba0074b4ba83d21d5a9c.dip0.t-ipconnect.de [IPv6:2003:ec:2f11:ba00:74b4:ba83:d21d:5a9c])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 745471EC047E;
-        Fri, 20 Nov 2020 18:32:23 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AAC031EC047E;
+        Fri, 20 Nov 2020 18:33:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1605893543;
+        t=1605893623;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=HZrEZZXLfDY6ZBG3BwoqOBdMQ5Sk++T8MhO/n+cHc/0=;
-        b=CaDpxvvdbtKE4hJTkfCdW4efawbiLUdh5aW5+vFj+22Kb9RrAdx48LAx6pSAnvWM4DHtRn
-        1L87kHuoF1nrimVsAm116Y+uLf8zBzmIsiY/gnBeq2Drk0KCyKOY+IyhtWwwTv3zSYw41H
-        h+Jsey14d0vM43GXXdsf0FLByaIGiXc=
-Date:   Fri, 20 Nov 2020 18:32:17 +0100
+        bh=7F9wI7CLFPCOZwx9Gq9w3Uf3TTwIQ/yoyoiY54mFMwc=;
+        b=eoSRNg9f849ehHv3xGJYKPUwgqQzvgHmW7lKHsCIFqrfDmNeUkmPVAFCScVoXap8S9wcHN
+        MZXugY1CfEtoa20sZ9IsRmILPzCdAoaqry1lgq5ZZAeC4rVUsXXFkcTCncO/V034l+TGaC
+        8GfrS7IGDONOtL5YFMq22/w5zjXjg4c=
+Date:   Fri, 20 Nov 2020 18:33:42 +0100
 From:   Borislav Petkov <bp@alien8.de>
-To:     Gabriele Paoloni <gabriele.paoloni@intel.com>
-Cc:     tony.luck@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        x86@kernel.org, hpa@zytor.com, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-safety@lists.elisa.tech
+To:     "Paoloni, Gabriele" <gabriele.paoloni@intel.com>
+Cc:     "Luck, Tony" <tony.luck@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-safety@lists.elisa.tech" <linux-safety@lists.elisa.tech>
 Subject: Re: [PATCH 1/4] x86/mce: do not overwrite no_way_out if mce_end()
  fails
-Message-ID: <20201120173217.GE712@zn.tnic>
+Message-ID: <20201120173342.GF712@zn.tnic>
 References: <20201118151552.1412-1-gabriele.paoloni@intel.com>
  <20201118151552.1412-2-gabriele.paoloni@intel.com>
+ <20201120170737.GD712@zn.tnic>
+ <MN2PR11MB4158BE8B738CF6F6BF9B850D88FF0@MN2PR11MB4158.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201118151552.1412-2-gabriele.paoloni@intel.com>
+In-Reply-To: <MN2PR11MB4158BE8B738CF6F6BF9B850D88FF0@MN2PR11MB4158.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 03:15:49PM +0000, Gabriele Paoloni wrote:
-> Currently if mce_end() fails no_way_out is set equal to worst.
-> worst is the worst severirty that was found in the MCA banks
-> associated to the current CPU; however at this point no_way_out
-> could be already set by mca_start() by looking at all severities
-> of all CPUs that entered the MCE handler.
-> if mce_end() fails we first check if no_way_out is already set and
-> if so we stick to it, otherwise we use the local worst value
+On Fri, Nov 20, 2020 at 05:31:32PM +0000, Paoloni, Gabriele wrote:
+> I mean that on this CPU thread at this point mce_start() already cached
+> global_nwo and hence could accumulate fatal severities of other CPUs.
 > 
-> Signed-off-by: Gabriele Paoloni <gabriele.paoloni@intel.com>
-> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> Now here if mce_end() fails we only consider the local 'worst' severity
+> and we overwrite those already cached.
 
-Also, this very likely wants Cc: stable, I'd say, considering the
-severity.
+Yap, we're on the same page. :)
+
+> If ok I will fix the grammar and rewrite this code in v2.
+
+Sure, lemme go through the rest first.
 
 Thx.
 
