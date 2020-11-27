@@ -2,67 +2,94 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	LOTS_OF_MONEY,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 347A2C2D0E4
-	for <linux-edac@archiver.kernel.org>; Tue, 24 Nov 2020 06:30:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D6CDC3E8C5
+	for <linux-edac@archiver.kernel.org>; Fri, 27 Nov 2020 16:18:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D95A62068D
-	for <linux-edac@archiver.kernel.org>; Tue, 24 Nov 2020 06:30:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB9D721534
+	for <linux-edac@archiver.kernel.org>; Fri, 27 Nov 2020 16:18:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726757AbgKXGag (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 24 Nov 2020 01:30:36 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:8393 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725786AbgKXGag (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 24 Nov 2020 01:30:36 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CgDfB1kZwz72HQ;
-        Tue, 24 Nov 2020 14:30:10 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Tue, 24 Nov 2020
- 14:30:18 +0800
-From:   Wang ShaoBo <bobo.shaobowang@huawei.com>
-To:     <bp@alien8.de>
-CC:     <mchehab@kernel.org>, <james.morse@arm.com>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <huawei.libin@huawei.com>, <cj.chengjian@huawei.com>
-Subject: [PATCH] EDAC, mv64x60: Fix error return code in mv64x60_pci_err_probe()
-Date:   Tue, 24 Nov 2020 14:30:09 +0800
-Message-ID: <20201124063009.1529-1-bobo.shaobowang@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S1730603AbgK0QSZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 27 Nov 2020 11:18:25 -0500
+Received: from mga09.intel.com ([134.134.136.24]:46780 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730324AbgK0QSZ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 27 Nov 2020 11:18:25 -0500
+IronPort-SDR: x0y67RIEi1s+LRD2SuyAMOuGErhkRJFSYNb6Mqt2n2cfN1QkikNt23jSK9GiU6kIjQoygCXUnt
+ dJFLUrmEqtNQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9818"; a="172567140"
+X-IronPort-AV: E=Sophos;i="5.78,375,1599548400"; 
+   d="scan'208";a="172567140"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2020 08:18:23 -0800
+IronPort-SDR: T/NWv4uCOBGKnlk2FygWraXekl408JsHQNbQYeOPsnFR037rmidmuwBhpKYYyBXX6kEtHakYr8
+ esiAIiCl+mpQ==
+X-IronPort-AV: E=Sophos;i="5.78,375,1599548400"; 
+   d="scan'208";a="548095098"
+Received: from paolonig001.ir.intel.com ([163.33.183.93])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2020 08:18:21 -0800
+From:   Gabriele Paoloni <gabriele.paoloni@intel.com>
+To:     tony.luck@intel.com, bp@alien8.de, tglx@linutronix.de,
+        mingo@redhat.com, x86@kernel.org, hpa@zytor.com,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     gabriele.paoloni@intel.com, linux-safety@lists.elisa.tech
+Subject: [PATCH v2 0/5] x86/MCE: some minor fixes
+Date:   Fri, 27 Nov 2020 16:18:14 +0000
+Message-Id: <20201127161819.3106432-1-gabriele.paoloni@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Fix to return -ENODEV error code when edac_pci_add_device() failed instaed
-of 0 in mv64x60_pci_err_probe(), as done elsewhere in this function.
+During the safety analysis that was done in the context of the
+ELISA project by the safety architecture working group some
+incorrectnesses were spotted.
+This patchset proposes some fixes.
 
-Fixes: 4f4aeeabc061 ("drivers-edac: add marvell mv64x60 driver")
-Signed-off-by: Wang ShaoBo <bobo.shaobowang@huawei.com>
----
- drivers/edac/mv64x60_edac.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes since v1:
+- fixed grammar
+- improved readibility of patch1 and Cc'd for stable
+- kill_it flag renamed to kill_current_task
 
-diff --git a/drivers/edac/mv64x60_edac.c b/drivers/edac/mv64x60_edac.c
-index 3c68bb525d5d..456b9ca1fe8d 100644
---- a/drivers/edac/mv64x60_edac.c
-+++ b/drivers/edac/mv64x60_edac.c
-@@ -168,6 +168,7 @@ static int mv64x60_pci_err_probe(struct platform_device *pdev)
- 
- 	if (edac_pci_add_device(pci, pdata->edac_idx) > 0) {
- 		edac_dbg(3, "failed edac_pci_add_device()\n");
-+		res = -ENODEV;
- 		goto err;
- 	}
- 
+Signed-off-by: Gabriele Paoloni <gabriele.paoloni@intel.com>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+
+Gabriele Paoloni (5):
+  x86/mce: do not overwrite no_way_out if mce_end() fails
+  x86/mce: move the mce_panic() call and 'kill_it' assignments to the
+    right places
+  x86/mce: for LMCE panic only if mca_cfg.tolerant < 3
+  x86/mce: remove redundant call to irq_work_queue()
+  x86/mce: rename kill_it as kill_current_task
+
+ arch/x86/kernel/cpu/mce/core.c | 39 +++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 22 deletions(-)
+
 -- 
-2.17.1
+2.20.1
+
+---------------------------------------------------------------------
+INTEL CORPORATION ITALIA S.p.A. con unico socio
+Sede: Milanofiori Palazzo E 4 
+CAP 20094 Assago (MI)
+Capitale Sociale Euro 104.000,00 interamente versato
+Partita I.V.A. e Codice Fiscale  04236760155
+Repertorio Economico Amministrativo n. 997124 
+Registro delle Imprese di Milano nr. 183983/5281/33
+Soggetta ad attivita' di direzione e coordinamento di 
+INTEL CORPORATION, USA
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
