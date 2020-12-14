@@ -2,98 +2,150 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E64C433FE
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Dec 2020 21:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E69C1B0E3
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Dec 2020 11:05:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B44FF233A2
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Dec 2020 21:48:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B8C822C7B
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Dec 2020 11:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394742AbgLKVAA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 11 Dec 2020 16:00:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394678AbgLKU7g (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 11 Dec 2020 15:59:36 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239D9C0613D3
-        for <linux-edac@vger.kernel.org>; Fri, 11 Dec 2020 12:58:56 -0800 (PST)
-Received: from zn.tnic (p200300ec2f124300ff68b353476082ac.dip0.t-ipconnect.de [IPv6:2003:ec:2f12:4300:ff68:b353:4760:82ac])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 854DB1EC038E;
-        Fri, 11 Dec 2020 21:58:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1607720334;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=VoygTq/Y+Bxg6S6D08rggOMa7xGIWur7eN+ClT4unSY=;
-        b=PyHxgPHaDP3Yl8wxNt/xtOJ1DFbkUfn0wy+yCnvxwzO3awRqOANsyD+zTNJAtJREKa7uB2
-        s/kkQdXEpzmHs6JF2+I2rVQzabMJyXn6o43XnQ4etzZ9krYPGNGNZBQBzcVhbW5RfdWnKG
-        Eq1bBnBxKAL63of9iKJsyhZM0qcaNxo=
-Date:   Fri, 11 Dec 2020 21:58:50 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
-Cc:     Tony Luck <tony.luck@intel.com>,
-        linux-edac <linux-edac@vger.kernel.org>
-Subject: Re: EDAC instances probing
-Message-ID: <20201211205850.GH25974@zn.tnic>
-References: <20201211181915.GD25974@zn.tnic>
- <20201211203520.GA2128@yaz-nikka.amd.com>
+        id S1729484AbgLNLFT (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 14 Dec 2020 06:05:19 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50050 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2407542AbgLNLFO (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 14 Dec 2020 06:05:14 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 28B6BAC91;
+        Mon, 14 Dec 2020 11:04:27 +0000 (UTC)
+Date:   Mon, 14 Dec 2020 12:04:22 +0100
+From:   Borislav Petkov <bp@suse.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-edac <linux-edac@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] EDAC updates for 5.11
+Message-ID: <20201214110422.GA26358@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201211203520.GA2128@yaz-nikka.amd.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 02:35:20PM -0600, Yazen Ghannam wrote:
-> I think it's okay. But it could even be a single boolean rather than a
-> bitmap. At least for amd64_edac_mod, the driver will probe all the
-> Northbridge/Data Fabric instances even if some fail.
+Hi Linus,
 
-Ah, I see what you mean. amd64_edac does the all-or-nothing thing where
-when it fails probing an instance, it unwinds. Yeah, I guess we can make
-this a bool to say "we probed already".
+please pull the accumulated EDAC tree for 5.11. It was somewhat busier
+than usual this cycle. Tag message has the details.
 
-> I don't know if the same applies to other EDAC modules.
+Thx.
 
-I'll have to have a look.
+---
 
-> Does this issue affect other modules?
+The following changes since commit 0477e92881850d44910a7e94fc2c46f96faa131f:
 
-Those:
+  Linux 5.10-rc7 (2020-12-06 14:25:12 -0800)
 
-$ git grep x86_match_cpu drivers/edac/
-drivers/edac/amd64_edac.c:3662: if (!x86_match_cpu(amd64_cpuids))
-drivers/edac/i10nm_base.c:281:  id = x86_match_cpu(i10nm_cpuids);
-drivers/edac/pnd2_edac.c:1557:  id = x86_match_cpu(pnd2_cpuids);
-drivers/edac/sb_edac.c:3513:    id = x86_match_cpu(sbridge_cpuids);
-drivers/edac/skx_base.c:659:    id = x86_match_cpu(skx_cpuids);
+are available in the Git repository at:
 
-> Also, would it make sense to go back to PCI device probing? We've still
-> needed to add PCI IDs for almost every model group. Probing by PCI
-> device should help us avoid this issue and also prevent some messages
-> where PCI IDs aren't found for supported families. For example, we had
-> that problem when Family 17h Models 30h-3Fh came out. The module would
-> load because it recognized Family 17h, but it would fail because the new
-> PCI IDs for Models 30h-3Fh were not recognized.
+  git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v5.11
 
-Just like in the other mail I just sent you.
+for you to fetch changes up to f84b799996e29ad3b37e83f7871e79023f29979d:
 
-So that's the thing - we converted to x86_match_cpu() because adding
-all those PCI IDs was tedious and using f/m/s would need a lot less
-enablement so that the drivers work out of the box most of the time.
+  Merge branches 'edac-spr', 'edac-igen6' and 'edac-misc' into edac-updates-for-v5.11 (2020-12-14 11:51:46 +0100)
 
-It's a tradeoff.
+----------------------------------------------------------------
+- Add support for AST2400 and AST2600 hw to aspeed_edac (Troy Lee)
+
+- Remove an orphaned mv64x60_edac driver. Good riddance. (Michael Ellerman)
+
+- Add a new igen6 driver for Intel client SoCs with an integrated memory
+controller and using in-band ECC (Qiuxu Zhuo and Tony Luck)
+
+- The usual smattering of fixes and cleanups all over.
+
+----------------------------------------------------------------
+Borislav Petkov (3):
+      EDAC: Do not issue useless debug statements in the polling routine
+      EDAC/amd64: Fix PCI component registration
+      Merge branches 'edac-spr', 'edac-igen6' and 'edac-misc' into edac-updates-for-v5.11
+
+Mauro Carvalho Chehab (1):
+      EDAC: Fix some kernel-doc markups
+
+Michael Ellerman (1):
+      EDAC/mv64x60: Remove orphan mv64x60 driver
+
+Qiuxu Zhuo (6):
+      EDAC: Add three new memory types
+      EDAC/igen6: Add EDAC driver for Intel client SoCs using IBECC
+      EDAC/igen6: Add debugfs interface for Intel client SoC EDAC driver
+      EDAC/i10nm: Use readl() to access MMIO registers
+      EDAC: Add DDR5 new memory type
+      EDAC/i10nm: Add Intel Sapphire Rapids server support
+
+Tom Rix (1):
+      EDAC/amd64: Remove unneeded breaks
+
+Tony Luck (2):
+      MAINTAINERS: Clean up the F: entries for some EDAC drivers
+      MAINTAINERS: Add entry for Intel IGEN6 EDAC driver
+
+Troy Lee (3):
+      dt-bindings: edac: aspeed-sdram-edac: Add ast2400/ast2600 support
+      ARM: dts: aspeed: Add AST2600 EDAC into common devicetree
+      EDAC/aspeed: Add support for AST2400 and AST2600
+
+Zhang Xiaoxu (1):
+      EDAC/synopsys: Return the correct value in mc_probe()
+
+kernel test robot (1):
+      EDAC/igen6: ecclog_llist can be static
+
+ .../devicetree/bindings/edac/aspeed-sdram-edac.txt |   9 +-
+ MAINTAINERS                                        |  11 +-
+ arch/arm/boot/dts/aspeed-g6.dtsi                   |   6 +
+ drivers/edac/Kconfig                               |  22 +-
+ drivers/edac/Makefile                              |   2 +-
+ drivers/edac/amd64_edac.c                          |  34 +-
+ drivers/edac/amd76x_edac.c                         |   1 -
+ drivers/edac/aspeed_edac.c                         |   7 +-
+ drivers/edac/e752x_edac.c                          |   1 -
+ drivers/edac/e7xxx_edac.c                          |   1 -
+ drivers/edac/edac_device.h                         |  11 +-
+ drivers/edac/edac_mc.c                             |   4 +
+ drivers/edac/i10nm_base.c                          |  39 +-
+ drivers/edac/i3000_edac.c                          |   1 -
+ drivers/edac/i3200_edac.c                          |   1 -
+ drivers/edac/i5000_edac.c                          |   2 +-
+ drivers/edac/i5400_edac.c                          |   2 +-
+ drivers/edac/i82443bxgx_edac.c                     |   1 -
+ drivers/edac/i82860_edac.c                         |   1 -
+ drivers/edac/i82875p_edac.c                        |   1 -
+ drivers/edac/i82975x_edac.c                        |   1 -
+ drivers/edac/ie31200_edac.c                        |   1 -
+ drivers/edac/igen6_edac.c                          | 977 +++++++++++++++++++++
+ drivers/edac/mv64x60_edac.c                        | 883 -------------------
+ drivers/edac/mv64x60_edac.h                        | 114 ---
+ drivers/edac/r82600_edac.c                         |   1 -
+ drivers/edac/skx_base.c                            |   6 +-
+ drivers/edac/skx_common.c                          |  23 +-
+ drivers/edac/skx_common.h                          |  16 +-
+ drivers/edac/synopsys_edac.c                       |   3 +-
+ drivers/edac/x38_edac.c                            |   1 -
+ include/linux/edac.h                               |  16 +-
+ 32 files changed, 1119 insertions(+), 1080 deletions(-)
+ create mode 100644 drivers/edac/igen6_edac.c
+ delete mode 100644 drivers/edac/mv64x60_edac.c
+ delete mode 100644 drivers/edac/mv64x60_edac.h
 
 -- 
 Regards/Gruss,
     Boris.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+SUSE Software Solutions Germany GmbH, GF: Felix Imendörffer, HRB 36809, AG Nürnberg
