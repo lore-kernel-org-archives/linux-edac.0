@@ -2,120 +2,73 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E66C433E6
-	for <linux-edac@archiver.kernel.org>; Wed, 23 Dec 2020 02:59:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4F4C433DB
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Dec 2020 09:48:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E9C420706
-	for <linux-edac@archiver.kernel.org>; Wed, 23 Dec 2020 02:59:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B206522287
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Dec 2020 09:48:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727336AbgLWCUM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 22 Dec 2020 21:20:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46354 "EHLO mail.kernel.org"
+        id S1726638AbgLWJsL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 23 Dec 2020 04:48:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56678 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728722AbgLWCUJ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:20:09 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 98064229C5;
-        Wed, 23 Dec 2020 02:19:53 +0000 (UTC)
+        id S1726142AbgLWJsK (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 23 Dec 2020 04:48:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D4D922248;
+        Wed, 23 Dec 2020 09:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608689994;
-        bh=8zxW0Coq79vbFKcoFtkC/3t6V/TI80uwbocuc8zfZKA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z+zSVQVPQw3Bxj6OdH4XybodwVrKyZYOqI59X0rG7ynAl8DH2NEH5KYBSTxXV2NRn
-         r/9qYsllMDKLtXfqWY7ripXDPjNT8MxHwr7OTSRVt37S51zRFJOnnnbt1i2eHw7rxa
-         GsbWfCI9lq99kWGzP9ZxL7eo3ogghCj6/FjZ8JzVvg59Y72iJkUiL58QhA5eSRpfq0
-         l7G0FzrSDZVpTGMEbR5eDHUwy82iZUSqC9aztHLHp5nXkEqgCnOL1v/XHLpm2SOb8X
-         OWhmbi/WMbkhh8aqTjcnWppTYorL0i5slDZdPPnaDI0KYmKyegCjBzHtqkcUOLbz69
-         FsXmjyQQBhnWQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Gabriele Paoloni <gabriele.paoloni@intel.com>,
-        Borislav Petkov <bp@suse.de>, Tony Luck <tony.luck@intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 078/130] x86/mce: Move the mce_panic() call and 'kill_it' assignments to the right places
-Date:   Tue, 22 Dec 2020 21:17:21 -0500
-Message-Id: <20201223021813.2791612-78-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
-References: <20201223021813.2791612-1-sashal@kernel.org>
+        s=k20201202; t=1608716850;
+        bh=HVYN5bHv3RMtCYGINblgwF1f73emGygvf+fsuOhpe90=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=b/WXjs63BtiPPqzNtjOj0LGFziEuCY2zUxpdK9vtt9O0c9K/SjWi8Hs9Or9dL8iYW
+         TqXfQYDzzqngLSIcSyzApIjghy1oLTr5rGgcXjkSC64BxVJ45gzdUptXDZKnzQgb+T
+         LjvGqxtLGTIDCcbYitWj07iM+EHeQgtn0Cg+GnhiuMB1pwHP1kzlQDcGMx/Bdf8fL/
+         FltKMuq6Ku5QlUG4FVBPD/UfDmHhN3cN+zrmR9N/oeR0uFWXLbE7UB8i2LZGW/ZVFd
+         KBqZp4Met/0NxMbKr9nXrH1fiteoIxvzYaF3oKvVSRja8NOdoBjnqbkXid/QdpS3rc
+         GL4EGzFH0M5Wg==
+Date:   Wed, 23 Dec 2020 10:47:26 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     lvying6 <lvying6@huawei.com>
+Cc:     <linux-edac@vger.kernel.org>, <fanwentao@huawei.com>
+Subject: Re: [PATCH rasdaemon 0/2] ras-page-isolation bugfix
+Message-ID: <20201223104726.31c2e8c8@coco.lan>
+In-Reply-To: <1604138235-7142-1-git-send-email-lvying6@huawei.com>
+References: <1604138235-7142-1-git-send-email-lvying6@huawei.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Gabriele Paoloni <gabriele.paoloni@intel.com>
+Em Sat, 31 Oct 2020 17:57:13 +0800
+lvying6 <lvying6@huawei.com> escreveu:
 
-[ Upstream commit e273e6e12ab1db3eb57712bd60655744d0091fa3 ]
+> This patchset fix two problems in ras-page-isolation.c:
+> 1. fix do_page_offline always considers kernel page offline is
+> successful
+> 2. fix page which is PAGE_OFFLINE_FAILED can not be offlined again
+> 
+> lvying (1):
+>   ras-page-isolation: fix do_page_offline always considers page offline
+>     is successful
+> 
+> lvying6 (1):
+>   ras-page-isolation: page which is PAGE_OFFLINE_FAILED can be offlined
+>     again
+> 
+>  ras-page-isolation.c | 34 +++++++++++++++++++++++-----------
+>  1 file changed, 23 insertions(+), 11 deletions(-)
+> 
 
-Right now, for local MCEs the machine calls panic(), if needed, right
-after lmce is set. For MCE broadcasting, mce_reign() takes care of
-calling mce_panic().
+Patches applied, thanks!
 
-Hence:
-- improve readability by moving the conditional evaluation of
-tolerant up to when kill_it is set first;
-- move the mce_panic() call up into the statement where mce_end()
-fails.
 
- [ bp: Massage, remove comment in the mce_end() failure case because it
-   is superfluous; use local ptr 'cfg' in both tests. ]
-
-Signed-off-by: Gabriele Paoloni <gabriele.paoloni@intel.com>
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Link: https://lkml.kernel.org/r/20201127161819.3106432-3-gabriele.paoloni@intel.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/x86/kernel/cpu/mce/core.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index c2a9762d278dd..10f69e045d3ea 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1328,8 +1328,7 @@ void do_machine_check(struct pt_regs *regs, long error_code)
- 	 * severity is MCE_AR_SEVERITY we have other options.
- 	 */
- 	if (!(m.mcgstatus & MCG_STATUS_RIPV))
--		kill_it = 1;
--
-+		kill_it = (cfg->tolerant == 3) ? 0 : 1;
- 	/*
- 	 * Check if this MCE is signaled to only this logical processor,
- 	 * on Intel only.
-@@ -1364,6 +1363,9 @@ void do_machine_check(struct pt_regs *regs, long error_code)
- 		if (mce_end(order) < 0) {
- 			if (!no_way_out)
- 				no_way_out = worst >= MCE_PANIC_SEVERITY;
-+
-+			if (no_way_out && cfg->tolerant < 3)
-+				mce_panic("Fatal machine check on current CPU", &m, msg);
- 		}
- 	} else {
- 		/*
-@@ -1380,15 +1382,6 @@ void do_machine_check(struct pt_regs *regs, long error_code)
- 		}
- 	}
- 
--	/*
--	 * If tolerant is at an insane level we drop requests to kill
--	 * processes and continue even when there is no way out.
--	 */
--	if (cfg->tolerant == 3)
--		kill_it = 0;
--	else if (no_way_out)
--		mce_panic("Fatal machine check on current CPU", &m, msg);
--
- 	if (worst > 0)
- 		irq_work_queue(&mce_irq_work);
- 
--- 
-2.27.0
-
+Thanks,
+Mauro
