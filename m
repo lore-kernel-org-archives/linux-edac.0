@@ -6,112 +6,105 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C95C43333
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 22:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5390DC433E0
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 23:59:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C4E022D08
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 22:40:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B34F20A8B
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 23:59:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732638AbhASOhb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 19 Jan 2021 09:37:31 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2368 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389495AbhASKFY (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 19 Jan 2021 05:05:24 -0500
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DKkgx048mz67bwc;
-        Tue, 19 Jan 2021 18:01:17 +0800 (CST)
-Received: from lhreml717-chm.china.huawei.com (10.201.108.68) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Tue, 19 Jan 2021 11:04:24 +0100
-Received: from lhreml715-chm.china.huawei.com (10.201.108.66) by
- lhreml717-chm.china.huawei.com (10.201.108.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 19 Jan 2021 10:04:24 +0000
-Received: from lhreml715-chm.china.huawei.com ([10.201.108.66]) by
- lhreml715-chm.china.huawei.com ([10.201.108.66]) with mapi id 15.01.2106.006;
- Tue, 19 Jan 2021 10:04:23 +0000
-From:   Shiju Jose <shiju.jose@huawei.com>
+        id S1730954AbhASX6r (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 19 Jan 2021 18:58:47 -0500
+Received: from mga14.intel.com ([192.55.52.115]:14052 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730605AbhASX6p (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 19 Jan 2021 18:58:45 -0500
+IronPort-SDR: ha3Lu4+1c8q4WW2nA7oTVwwe51MloQfA7aK55VsQukr8wNdPmwOLuSFCWEN/k5VIknRmKDU7Hm
+ 6zFmqFHz+aww==
+X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="178237128"
+X-IronPort-AV: E=Sophos;i="5.79,359,1602572400"; 
+   d="scan'208";a="178237128"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 15:58:00 -0800
+IronPort-SDR: Cr3m4y5okOrq1yhbLaWhhnHnH+hvpjKVUwfhFjIKslEtcuL+l6rDtnvmJFbtoRCs02T/kPK94B
+ lS6RZYBCqJJQ==
+X-IronPort-AV: E=Sophos;i="5.79,359,1602572400"; 
+   d="scan'208";a="402548004"
+Received: from agluck-desk2.sc.intel.com (HELO agluck-desk2.amr.corp.intel.com) ([10.3.52.68])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 15:58:00 -0800
+Date:   Tue, 19 Jan 2021 15:57:59 -0800
+From:   "Luck, Tony" <tony.luck@intel.com>
 To:     Borislav Petkov <bp@alien8.de>
-CC:     "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "james.morse@arm.com" <james.morse@arm.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-        "lenb@kernel.org" <lenb@kernel.org>,
-        "rrichter@marvell.com" <rrichter@marvell.com>,
-        Jonathan Cameron <jonathan.cameron@huawei.com>,
-        tanxiaofei <tanxiaofei@huawei.com>,
-        "linuxarm@openeuler.org" <linuxarm@openeuler.org>
-Subject: RE: [RFC PATCH 1/2] EDAC/ghes: Add EDAC device for the CPU caches
-Thread-Topic: [RFC PATCH 1/2] EDAC/ghes: Add EDAC device for the CPU caches
-Thread-Index: AQHWzYfjlbqCwiJRuEue7sP+GeTJvaoRjUKAgBcV6jCABVN5gIAA+W4Q
-Date:   Tue, 19 Jan 2021 10:04:23 +0000
-Message-ID: <51d4ecaf997043718d3066e0a45518d2@huawei.com>
-References: <20201208172959.1249-1-shiju.jose@huawei.com>
- <20201208172959.1249-2-shiju.jose@huawei.com> <20201231164409.GC4504@zn.tnic>
- <a5745b56831c461bbb2cde4afc7ee295@huawei.com>
- <20210118183637.GD30090@zn.tnic>
-In-Reply-To: <20210118183637.GD30090@zn.tnic>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.92.19]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc:     x86@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v4] x86/mce: Avoid infinite loop for copy from user
+ recovery
+Message-ID: <20210119235759.GA9970@agluck-desk2.amr.corp.intel.com>
+References: <20210111214452.1826-1-tony.luck@intel.com>
+ <20210115003817.23657-1-tony.luck@intel.com>
+ <20210115152754.GC9138@zn.tnic>
+ <20210115193435.GA4663@agluck-desk2.amr.corp.intel.com>
+ <20210115205103.GA5920@agluck-desk2.amr.corp.intel.com>
+ <20210115232346.GA7967@agluck-desk2.amr.corp.intel.com>
+ <20210119105632.GF27433@zn.tnic>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210119105632.GF27433@zn.tnic>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-SGkgQm9yaXMsDQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IEJvcmlzbGF2
-IFBldGtvdiBbbWFpbHRvOmJwQGFsaWVuOC5kZV0NCj5TZW50OiAxOCBKYW51YXJ5IDIwMjEgMTg6
-MzcNCj5UbzogU2hpanUgSm9zZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPg0KPkNjOiBsaW51eC1l
-ZGFjQHZnZXIua2VybmVsLm9yZzsgbGludXgtYWNwaUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0K
-Pmtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGphbWVzLm1vcnNlQGFybS5jb207DQo+bWNoZWhhYito
-dWF3ZWlAa2VybmVsLm9yZzsgdG9ueS5sdWNrQGludGVsLmNvbTsgcmp3QHJqd3lzb2NraS5uZXQ7
-DQo+bGVuYkBrZXJuZWwub3JnOyBycmljaHRlckBtYXJ2ZWxsLmNvbTsgSm9uYXRoYW4gQ2FtZXJv
-bg0KPjxqb25hdGhhbi5jYW1lcm9uQGh1YXdlaS5jb20+OyB0YW54aWFvZmVpIDx0YW54aWFvZmVp
-QGh1YXdlaS5jb20+Ow0KPmxpbnV4YXJtQG9wZW5ldWxlci5vcmcNCj5TdWJqZWN0OiBSZTogW1JG
-QyBQQVRDSCAxLzJdIEVEQUMvZ2hlczogQWRkIEVEQUMgZGV2aWNlIGZvciB0aGUgQ1BVDQo+Y2Fj
-aGVzDQo+DQo+T24gRnJpLCBKYW4gMTUsIDIwMjEgYXQgMTE6MDY6MzBBTSArMDAwMCwgU2hpanUg
-Sm9zZSB3cm90ZToNCj4+IEwyIGNhY2hlIGNvcnJlY3RlZCBlcnJvcnMgYXJlIGRldGVjdGVkIG9j
-Y2FzaW9uYWxseSBvbiBmZXcgb2Ygb3VyDQo+PiBBUk02NCBoYXJkd2FyZSBib2FyZHMuIFRob3Vn
-aCBpdCBpcyByYXJlLCB0aGUgcHJvYmFiaWxpdHkgb2YgdGhlIENQVQ0KPj4gY2FjaGUgZXJyb3Jz
-IGZyZXF1ZW50bHkgb2NjdXJyaW5nIGNhbid0IGJlIGF2b2lkZWQuDQo+PiBUaGUgZWFybGllciBm
-YWlsdXJlIGRldGVjdGlvbiBieSBtb25pdG9yaW5nIHRoZSBjYWNoZSBjb3JyZWN0ZWQgZXJyb3Jz
-DQo+PiBmb3IgdGhlIGZyZXF1ZW50IG9jY3VycmVuY2VzIGFuZCB0YWtpbmcgcHJldmVudGl2ZSBh
-Y3Rpb24gY291bGQNCj4+IHByZXZlbnQgbW9yZSBzZXJpb3VzIGhhcmR3YXJlIGZhdWx0cy4NCj4+
-DQo+PiBPbiBJbnRlbCBhcmNoaXRlY3R1cmVzLCBjYWNoZSBjb3JyZWN0ZWQgZXJyb3JzIGFyZSBy
-ZXBvcnRlZCBhbmQgdGhlDQo+PiBhZmZlY3RlZCBjb3JlcyBhcmUgb2ZmbGluZSBpbiB0aGUgYXJj
-aGl0ZWN0dXJlIHNwZWNpZmljIG1ldGhvZC4NCj4+IGh0dHA6Ly93d3cubWNlbG9nLm9yZy9jYWNo
-ZS5odG1sDQo+Pg0KPj4gSG93ZXZlciBmb3IgdGhlIGZpcm13YXJlLWZpcnN0IGVycm9yIHJlcG9y
-dGluZywgc3BlY2lmaWNhbGx5IG9uDQo+PiBBUk02NCBhcmNoaXRlY3R1cmVzLCB0aGVyZSBpcyBu
-byBwcm92aXNpb24gcHJlc2VudCBmb3IgcmVwb3J0aW5nIHRoZQ0KPj4gY2FjaGUgY29ycmVjdGVk
-IGVycm9yIGNvdW50IHRvIHRoZSB1c2VyLXNwYWNlIGFuZCB0YWtpbmcgcHJldmVudGl2ZQ0KPj4g
-YWN0aW9uIHN1Y2ggYXMgb2ZmbGluZSB0aGUgYWZmZWN0ZWQgY29yZXMuDQo+DQo+SG93IGhhcmQg
-d2FzIGl0IHRvIHdyaXRlIHRoYXQgaW4geW91ciBmaXJzdCBzdWJtaXNzaW9uPyBXaGF0IGRvIHlv
-dSB0aGluaw0KPndvdWxkIGJlIHRoZSBiZXN0IHdheSB0byBwZXJzdWFkZSBhIHBhdGNoIHJldmll
-d2VyL21haW50YWluZXIgdG8gdGFrZSBhDQo+bG9vayBhdCB5b3VyIHN1Ym1pc3Npb24/DQo+DQo+
-PiA+V2h5IGEgc2VwYXJhdGUgS2NvbmZpZyBpdGVtPw0KPj4gQ09ORklHX0VEQUNfR0hFU19DUFVf
-Q0FDSEVfRVJST1IgaXMgYWRkZWQgdG8gbWFrZSB0aGlzIGZlYXR1cmUNCj4+IG9wdGlvbmFsIG9u
-bHkgZm9yIHRoZSBwbGF0Zm9ybXMgd2hpY2ggbmVlZCB0aGlzIGFuZCBzdXBwb3J0ZWQuDQo+Pg0K
-Pj4gPg0KPj4gPj4gKwlkZXBlbmRzIG9uIEVEQUNfR0hFUw0KPg0KPmRlcGVuZHMgb24gRURBQ19H
-SEVTIGhhcmRseSBleHByZXNzZXMgd2hpY2ggcGxhdGZvcm1zIG5lZWQgaXQvc3VwcG9ydCBpdC4N
-Cj4NCj5JZiBhbnl0aGluZywgZGVwZW5kcyBvbiBBUk02NC4NClN1cmUuIEkgd2lsbCBhZGQgZGVw
-ZW5kZW5jeSBvbiBBUk02NC4NClRoaXMgRURBQyBjb2RlIGZvciB0aGUgY2FjaGUgZXJyb3JzIGlz
-ICBhcmNoaXRlY3R1cmUgaW5kZXBlbmRlbnQgZm9yIHRoZQ0KZmlybXdhcmUtZmlyc3QgZXJyb3Ig
-cmVwb3J0aW5nIGFuZCAgY291bGQgYmUgdXNlZCBmb3Igb3RoZXIgYXJjaGl0ZWN0dXJlcywNCnRo
-b3VnaCBub3cgd2UgbmVlZCBpdCBmb3IgdGhlIEFSTTY0LiANCg0KPg0KPj4gPkluaXQgc3R1ZmYg
-YmVsb25ncyBpbnRvIGdoZXNfc2Nhbl9zeXN0ZW0oKS4NCj4+ID4NCj4+IERpZCB5b3UgbWVhbiBj
-YWxsaW5nICBnaGVzX2VkYWNfY3JlYXRlX2NwdV9kZXZpY2UoKSBpbiB0aGUNCj5naGVzX3NjYW5f
-c3lzdGVtKCk/DQo+DQo+SSBtZWFuLCBhbGwgaGFyZHdhcmUgZGlzY292ZXJ5IG5lZWRzIHRvIGhh
-cHBlbiBpbiBnaGVzX3NjYW5fc3lzdGVtDQo+LSB5b3UgZG9uJ3QgbmVlZCB0byBjYWxsIHRob3Nl
-IGZyb20gb3V0c2lkZSB0aGUgZHJpdmVyLCBpbg0KPmdoZXNfZWRhY19yZWdpc3RlcigpLg0KDQpz
-dXJlLiBXaWxsIG1vZGlmeS4NCj4NCj4tLQ0KPlJlZ2FyZHMvR3J1c3MsDQo+ICAgIEJvcmlzLg0K
-DQpUaGFua3MsDQpTaGlqdQ0K
+On Tue, Jan 19, 2021 at 11:56:32AM +0100, Borislav Petkov wrote:
+> On Fri, Jan 15, 2021 at 03:23:46PM -0800, Luck, Tony wrote:
+> > On Fri, Jan 15, 2021 at 12:51:03PM -0800, Luck, Tony wrote:
+> > >  static void kill_me_now(struct callback_head *ch)
+> > >  {
+> > > +	p->mce_count = 0;
+> > >  	force_sig(SIGBUS);
+> > >  }
+> > 
+> > Brown paper bag time ... I just pasted that line from kill_me_maybe()
+> > and I thought I did a re-compile ... but obviously not since it gives
+> > 
+> > error: ‘p’ undeclared (first use in this function)
+> > 
+> > Option a) (just like kill_me_maybe)
+> > 
+> > struct task_struct *p = container_of(cb, struct task_struct, mce_kill_me);
+> > 
+> > Option b) (simpler ... not sure why PeterZ did the container_of thing
+> > 
+> > 	current->mce_count = 0;
+> 
+> Right, he says it is the canonical way to get it out of callback_head.
+> I don't think current will change while the #MC handler runs but we can
+> adhere to the design pattern here and do container_of() ...
+
+Ok ... I'll use the canonical way.
+
+But now I've run into a weird issue. I'd run some basic tests with a
+dozen machine checks in each of:
+1) user access
+2) kernel copyin
+3) futex (multiple accesses from kernel before task_work())
+
+and it passed my tests before I posted.
+
+But the real validation folks took my patch and found that it has
+destabilized cases 1 & 2 (and case 3 also chokes if you repeat a few
+more times). System either hangs or panics. Generally before 100
+injection/conumption cycles.
+
+Their tests are still just doing one at a time (i.e. complete recovery
+of one machine cehck before injecting the next error). So there aren't
+any complicated race conditions.
+
+So if you see anything obviously broken, let me know. Otherwise I'll
+be poking around at the patch to figure out what is wrong.
+
+-Tony
