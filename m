@@ -2,136 +2,91 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D896BC433E0
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 18:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F6AC433DB
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 22:36:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD02822CAD
-	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 18:28:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70A8D23104
+	for <linux-edac@archiver.kernel.org>; Tue, 19 Jan 2021 22:36:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727135AbhASQqG (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 19 Jan 2021 11:46:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53070 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389476AbhASQmd (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 19 Jan 2021 11:42:33 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA92C061574;
-        Tue, 19 Jan 2021 08:41:50 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0bca005ed5ab9a356b3c50.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:ca00:5ed5:ab9a:356b:3c50])
+        id S2389600AbhASOhv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 19 Jan 2021 09:37:51 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:39556 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732603AbhASK5T (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 19 Jan 2021 05:57:19 -0500
+Received: from zn.tnic (p200300ec2f0bca00c2aa0e949335efb7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:ca00:c2aa:e94:9335:efb7])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3D9BF1EC0622;
-        Tue, 19 Jan 2021 17:41:49 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 91FEF1EC05DD;
+        Tue, 19 Jan 2021 11:56:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1611074509;
+        t=1611053792;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:
-         content-transfer-encoding:content-transfer-encoding:in-reply-to:
-         references; bh=Nv5jEc80G7wIwGUWg/8u6iDRcfP4GOU2xU+S4vSqdhM=;
-        b=cDZk3NDXmtZkGgYH3An5E3NgTLjk31sxorcy0zuCXX7FUml2fHLNT97eMj0yxlSiSMKj3R
-        NI5K9ONgS+23GMpQeqdDWtdWCoYjMqdhDTfP1kSRBJcWzhOht1uQY36j49IlJc8rlH4/Ol
-        HyugGkJpiTqiL4msbKrfCuRfW4kZjrw=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rCir/nAqMuATcSo3nza+fGR+2FWhLGn2xxPdAjuV8tE=;
+        b=fB0hmIsZJxjjgz1H87jtFUaF+J4zpP0lN4z551FDlWXQWl88afoJXgJdKH8fLaFem1IBAN
+        eCvZJnB/T8SSneqQkPdNpcezGYy7gBbe0PpaR6KvE/EF3lryYyIG47t/HvEhJSCSpi61TJ
+        CwQn7IZ9YkFwV8nipIEOmcQtfKuG5nU=
+Date:   Tue, 19 Jan 2021 11:56:32 +0100
 From:   Borislav Petkov <bp@alien8.de>
-To:     linux-edac <linux-edac@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] EDAC/amd64: Issue probing messages only on properly detected hardware
-Date:   Tue, 19 Jan 2021 17:41:41 +0100
-Message-Id: <20210119164141.17417-1-bp@alien8.de>
-X-Mailer: git-send-email 2.29.2
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     x86@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v4] x86/mce: Avoid infinite loop for copy from user
+ recovery
+Message-ID: <20210119105632.GF27433@zn.tnic>
+References: <20210111214452.1826-1-tony.luck@intel.com>
+ <20210115003817.23657-1-tony.luck@intel.com>
+ <20210115152754.GC9138@zn.tnic>
+ <20210115193435.GA4663@agluck-desk2.amr.corp.intel.com>
+ <20210115205103.GA5920@agluck-desk2.amr.corp.intel.com>
+ <20210115232346.GA7967@agluck-desk2.amr.corp.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210115232346.GA7967@agluck-desk2.amr.corp.intel.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Borislav Petkov <bp@suse.de>
+On Fri, Jan 15, 2021 at 03:23:46PM -0800, Luck, Tony wrote:
+> On Fri, Jan 15, 2021 at 12:51:03PM -0800, Luck, Tony wrote:
+> >  static void kill_me_now(struct callback_head *ch)
+> >  {
+> > +	p->mce_count = 0;
+> >  	force_sig(SIGBUS);
+> >  }
+> 
+> Brown paper bag time ... I just pasted that line from kill_me_maybe()
+> and I thought I did a re-compile ... but obviously not since it gives
+> 
+> error: ‘p’ undeclared (first use in this function)
+> 
+> Option a) (just like kill_me_maybe)
+> 
+> struct task_struct *p = container_of(cb, struct task_struct, mce_kill_me);
+> 
+> Option b) (simpler ... not sure why PeterZ did the container_of thing
+> 
+> 	current->mce_count = 0;
 
-amd64_edac was converted to CPU family autoprobing (from PCI device IDs)
-to not have to add a new PCI device ID a new platform is shipped but to
-support the whole family directly.
+Right, he says it is the canonical way to get it out of callback_head.
+I don't think current will change while the #MC handler runs but we can
+adhere to the design pattern here and do container_of() ...
 
-However, this caused a lot of noise in dmesg even when the machine
-doesn't have ECC DIMMs or ECC has been disabled in the BIOS:
-
-  EDAC MC: Ver: 3.0.0
-  EDAC amd64: F17h detected (node 0).
-  EDAC amd64: Node 0: DRAM ECC disabled.
-  EDAC amd64: F17h detected (node 1).
-  EDAC amd64: Node 1: DRAM ECC disabled.
-  EDAC amd64: F17h detected (node 2).
-  EDAC amd64: Node 2: DRAM ECC disabled.
-  EDAC amd64: F17h detected (node 3).
-  EDAC amd64: Node 3: DRAM ECC disabled.
-  EDAC amd64: F17h detected (node 4).
-  EDAC amd64: Node 4: DRAM ECC disabled.
-  EDAC amd64: F17h detected (node 5).
-  EDAC amd64: Node 5: DRAM ECC disabled.
-  EDAC amd64: F17h detected (node 6).
-  EDAC amd64: Node 6: DRAM ECC disabled.
-  EDAC amd64: F17h detected (node 7).
-  EDAC amd64: Node 7: DRAM ECC disabled.
-
-or even
-
-$ grep EDAC dmesg.log | sed 's/\[.*\] //' | sort | uniq -c
-    128 EDAC amd64: F17h detected (node 0).
-    128 EDAC amd64: Node 0: DRAM ECC disabled.
-      1 EDAC MC: Ver: 3.0.0
-
-on a big machine. Yap, that's once per CPU for 128 of them.
-
-So move the init messages after all probing has succeeded to avoid
-unnecessary spew in dmesg.
-
-Signed-off-by: Borislav Petkov <bp@suse.de>
----
- drivers/edac/amd64_edac.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 9868f95a5622..9fa4dfc6ebee 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -3528,8 +3528,7 @@ static bool ecc_enabled(struct amd64_pvt *pvt)
- 				     MSR_IA32_MCG_CTL, nid);
- 	}
- 
--	amd64_info("Node %d: DRAM ECC %s.\n",
--		   nid, (ecc_en ? "enabled" : "disabled"));
-+	edac_dbg(3, "Node %d: DRAM ECC %s.\n", nid, (ecc_en ? "enabled" : "disabled"));
- 
- 	if (!ecc_en || !nb_mce_en)
- 		return false;
-@@ -3689,11 +3688,6 @@ static struct amd64_family_type *per_family_init(struct amd64_pvt *pvt)
- 		return NULL;
- 	}
- 
--	amd64_info("%s %sdetected (node %d).\n", fam_type->ctl_name,
--		     (pvt->fam == 0xf ?
--				(pvt->ext_model >= K8_REV_F  ? "revF or later "
--							     : "revE or earlier ")
--				 : ""), pvt->mc_node_id);
- 	return fam_type;
- }
- 
-@@ -3865,6 +3859,12 @@ static int probe_one_instance(unsigned int nid)
- 		goto err_enable;
- 	}
- 
-+	amd64_info("%s %sdetected (node %d).\n", fam_type->ctl_name,
-+		     (pvt->fam == 0xf ?
-+				(pvt->ext_model >= K8_REV_F  ? "revF or later "
-+							     : "revE or earlier ")
-+				 : ""), pvt->mc_node_id);
-+
- 	dump_misc_regs(pvt);
- 
- 	return ret;
 -- 
-2.29.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
