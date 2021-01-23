@@ -2,244 +2,166 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 903F2C4332B
-	for <linux-edac@archiver.kernel.org>; Thu, 21 Jan 2021 21:12:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C9B3C433DB
+	for <linux-edac@archiver.kernel.org>; Sat, 23 Jan 2021 04:46:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D33C23A53
-	for <linux-edac@archiver.kernel.org>; Thu, 21 Jan 2021 21:12:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E66D82370D
+	for <linux-edac@archiver.kernel.org>; Sat, 23 Jan 2021 04:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727497AbhAUVMB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 21 Jan 2021 16:12:01 -0500
-Received: from mga14.intel.com ([192.55.52.115]:11671 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727457AbhAUVLA (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 21 Jan 2021 16:11:00 -0500
-IronPort-SDR: XRRKeFJq/BTbt4KEJlScneN4Q7YrInsrVOzh2O9X74v55KULBYamMnj/Tf6iDiGi5ZZujg3e1v
- mdvDyEE4lTaA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="178567844"
-X-IronPort-AV: E=Sophos;i="5.79,365,1602572400"; 
-   d="scan'208";a="178567844"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 13:10:00 -0800
-IronPort-SDR: mivUkPtMTq+2YxUYYHU6a6jY5lhCpSm6CQ6kFo0esSvqZwTl7bi+YtusSy51YHaXRtuZ5WKJOj
- 9i9vrFNOJpiQ==
-X-IronPort-AV: E=Sophos;i="5.79,365,1602572400"; 
-   d="scan'208";a="348048621"
-Received: from agluck-desk2.sc.intel.com (HELO agluck-desk2.amr.corp.intel.com) ([10.3.52.68])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 13:10:00 -0800
-Date:   Thu, 21 Jan 2021 13:09:59 -0800
-From:   "Luck, Tony" <tony.luck@intel.com>
+        id S1726614AbhAWEqH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 22 Jan 2021 23:46:07 -0500
+Received: from mail-bn8nam12on2070.outbound.protection.outlook.com ([40.107.237.70]:10240
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726609AbhAWEqF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 22 Jan 2021 23:46:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=USwE52CRoIKYxEA36iMtvZAfzW5+8wiSiQ0dAfTa+wPcJKZLeb4FTJ5G3NJNXeLH3w5iQ5Wxup1shEoZ7urgmqDXBlfZL/LH32gEyj2L84i6wc7L9+2gv2EnD1prdvUAPRGpInUaTEl/EDiUek6yMt5UQ7InYvyjguV529QiBXUP6al09MUEYFzBRuGKVK0nAMo3Rc/xPn6UxBqcSRdGxqfO6MDf0i04QFcBlF690lhzc1d2pdwucQjBm1B5DnN5KUZ+OYIGhRGuyPyBm/NrN2R7reGUSYgMUTOzpSxRqTWnxnq7qSHGPrynZGRQKXaLe/UenIxvkzJVd9uPMuSqsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o7SAWqHfsktGVxfvgVRwdUHU+gWvsgIb1zgFs7B5eQ0=;
+ b=h+XURHzS+0QlW3esYJlMxlIei+40eMse2MqnhWjMDcofkZj/DAgGMZqhpHZNlxzm2u+uFhBhgWQt6Z96iJFppEa81wmO2USW4VbH65jT1z/GBN1XqZoUirP+x9odRlrIjSedAhnp0G+E044WgMPwaAAJqhcTvpoCb7iIV1NOa820hgreJvrCH6XdrwHLI+48Q+DUr5V5syAfaeUB2Do0Xa7jYpED0+9aXnZEXx044IUrjRp0yat6z9+5brKksIBmU/60URlaMwdPJWDWid+mzbp11TeqNc2Yri2u5H9B7lG8FuvQDT0kB6bj+z1Usn9E4cGdhtoALwG4Kdgrda6c7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o7SAWqHfsktGVxfvgVRwdUHU+gWvsgIb1zgFs7B5eQ0=;
+ b=4OzQFX94drvdnMFzh7LuryOtTgGwfnaRsounUNu2Z8Q5L6G2B+b5osAJrAXDnXmWijyNBGhehUQFNPrjIyAvH518du/KG9j994cVD2eeTyvviv2s2zlY+fXtCCmoSAgS2Ad3u6mEjhDwTfFKPNuAeiRK9Pi9hBff1UVIr0KG2nU=
+Authentication-Results: alien8.de; dkim=none (message not signed)
+ header.d=none;alien8.de; dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
+ by BN7PR12MB2836.namprd12.prod.outlook.com (2603:10b6:408:32::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.12; Sat, 23 Jan
+ 2021 04:45:11 +0000
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::866:baa9:f17d:d6b4]) by BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::866:baa9:f17d:d6b4%3]) with mapi id 15.20.3763.017; Sat, 23 Jan 2021
+ 04:45:11 +0000
+Date:   Fri, 22 Jan 2021 22:45:02 -0600
+From:   Yazen Ghannam <yazen.ghannam@amd.com>
 To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v4] x86/mce: Avoid infinite loop for copy from user
- recovery
-Message-ID: <20210121210959.GA10304@agluck-desk2.amr.corp.intel.com>
-References: <20210111214452.1826-1-tony.luck@intel.com>
- <20210115003817.23657-1-tony.luck@intel.com>
- <20210115152754.GC9138@zn.tnic>
- <20210115193435.GA4663@agluck-desk2.amr.corp.intel.com>
- <20210115205103.GA5920@agluck-desk2.amr.corp.intel.com>
- <20210115232346.GA7967@agluck-desk2.amr.corp.intel.com>
- <20210119105632.GF27433@zn.tnic>
- <20210119235759.GA9970@agluck-desk2.amr.corp.intel.com>
- <20210120121812.GF825@zn.tnic>
-MIME-Version: 1.0
+Cc:     Tony Luck <tony.luck@intel.com>,
+        linux-edac <linux-edac@vger.kernel.org>
+Subject: Re: EDAC instances probing
+Message-ID: <20210123044502.GA869026@yaz-nikka.amd.com>
+References: <20201211181915.GD25974@zn.tnic>
+ <20201211203520.GA2128@yaz-nikka.amd.com>
+ <20201211205850.GH25974@zn.tnic>
+ <20210113203316.GI16960@zn.tnic>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210120121812.GF825@zn.tnic>
+In-Reply-To: <20210113203316.GI16960@zn.tnic>
+X-Originating-IP: [165.204.78.2]
+X-ClientProxiedBy: SN7PR04CA0077.namprd04.prod.outlook.com
+ (2603:10b6:806:121::22) To BN8PR12MB3108.namprd12.prod.outlook.com
+ (2603:10b6:408:40::20)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yaz-nikka.amd.com (165.204.78.2) by SN7PR04CA0077.namprd04.prod.outlook.com (2603:10b6:806:121::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11 via Frontend Transport; Sat, 23 Jan 2021 04:45:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 647f0ec9-6bce-4e83-5809-08d8bf59aac6
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2836:
+X-Microsoft-Antispam-PRVS: <BN7PR12MB28360D4D3DB6C8F1AB315527F8BF0@BN7PR12MB2836.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:64;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YI6cpM7Zc39FIeHyVBabvu4BVDtGnoAeLFMgmQh6PLt7Dncaw7W5EQsFwHEOT6v9L7QOQ9JY3x9T330Rf2A62kLqs0l+lUt83q40TGEeN/KoGfCqXYGan2zgZ213pHmaTqkSNS5ZDEF1cl0+Adzc38BLh1YLISq623g1xTjW79fqCMWIzPwuyJpfZpwAeWBcLsOd3A/9kL6jBSxqoBT/dKKLRrodbIBmEvdlIXot0+Wlf4y8bKN2a0rKSaTCFmPIH41yhyFV0czMelHm9R+pu+ga7dDCCQG6tTOaHYdMvPlic92QHNj2pg4B/UyqWiqx8m2XoeR5PFshOKdQVzy2pE4x12aL6LWDPHKF0pqjK3Gn5ycGSTfdHObQqZDRlaH3Nokm+zXYtncVNhNm+ZmecQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39860400002)(366004)(396003)(136003)(8936002)(6916009)(33656002)(5660300002)(956004)(16526019)(54906003)(66556008)(6666004)(186003)(66476007)(66946007)(478600001)(83380400001)(44832011)(316002)(3480700007)(55016002)(7116003)(4326008)(26005)(1076003)(7696005)(86362001)(2906002)(8676002)(52116002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?KVdT649eiIMzqCa0lO27bMRcz9+ihRVVLpU3a1lRcnhSAZef/bDGbTRGRyty?=
+ =?us-ascii?Q?HLsw293DGCOyr6HVzVn7YGDsxqUBthCob7FDiZeuMFRb6qfYnax8aS9nxxEA?=
+ =?us-ascii?Q?2eBYK6B8IpouHLcb8XJFfy8dfM1ebyVi7L+11Vo4Ebhv6ImedV45tAn0l9JJ?=
+ =?us-ascii?Q?3l/6ZQcaVuXex9RNx2I0kbQJ/xVpFi7I2q60ynkk8uyRCI4kqDOmhSfVGbWR?=
+ =?us-ascii?Q?T/vqrczPRm8oAJBP8qzppPNnYplnuPC4Urg4rI6S801+nKuKsR+Ml+yQqYOx?=
+ =?us-ascii?Q?kN72fBtTXcW+dVJPBZnPZzWIOrPHwaLl+U+TJyywTl7sTy+Bm5Rsyc9iKzoI?=
+ =?us-ascii?Q?4ab1rzdXeT8/hBGQA61blIV+MfBcn86/tGXuSXsnXJOY9jNoFkOKaZbSUmcZ?=
+ =?us-ascii?Q?pp8i6sZ6oK2B+cuU4j9vB7nRvUPq6YPm8X4MWd6QWMloPZX4G8NlShKmblc+?=
+ =?us-ascii?Q?mASzC949IGu/qG0rRM8hbvWobO3E0+qEvTJl29mSdqtczKq8JgdnUTggfUIj?=
+ =?us-ascii?Q?cQQCG6Z39So2RH/rXlMm1fKefjLv/UXNI7GsZSl+pXne2zNiW16kSb0oRpc9?=
+ =?us-ascii?Q?0Won5DE2DNqdweVDBzdoq5jBWU5B68t8EofhFToxyJcgC55ZvRWYb3Zu5pCc?=
+ =?us-ascii?Q?s3co2Q+O6SZnhgT40MClEhdkkd5HMd7tCdB0I/fyl/SeeaSLolHBifP+h84Q?=
+ =?us-ascii?Q?6TDMoHPse5zF/ev8X5nKwhRqt8d5KKyioVQYOCI+ETqtqn3dWUAKjrgnBREQ?=
+ =?us-ascii?Q?j7SJsrO0i4locRoGGL1N05GXYP8ejxB6t0Zh49jlEJ89/ES8rPd1LImCLzgI?=
+ =?us-ascii?Q?7JZ5pSfyQDMmDQDQPXJfiJbscECZKurqnCWrX3NDh6ZQ1hFOcnZJ9nI2TB0b?=
+ =?us-ascii?Q?QmzMqQ2sreQI5DJ5PyWx+I6dCIKANyC6hcCPyL/TO1xncPlGPq5H+cIeTvky?=
+ =?us-ascii?Q?lnzDAEhxwriZK9eRiBYkACxoqHprfZif62/+vBZWZSlXCFdtFGT+JPIWsjqm?=
+ =?us-ascii?Q?wXF8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 647f0ec9-6bce-4e83-5809-08d8bf59aac6
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2021 04:45:11.4153
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jj/kdHwTN3nUUQsMCYe55bzgsR12LqztyYkyGdbFPGeh9PMozLjB9t37TkHX756prXYrksee0itLOJJCBGycQQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2836
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 01:18:12PM +0100, Borislav Petkov wrote:
-> On Tue, Jan 19, 2021 at 03:57:59PM -0800, Luck, Tony wrote:
-> > But the real validation folks took my patch and found that it has
-> > destabilized cases 1 & 2 (and case 3 also chokes if you repeat a few
-> > more times). System either hangs or panics. Generally before 100
-> > injection/conumption cycles.
+On Wed, Jan 13, 2021 at 09:33:16PM +0100, Borislav Petkov wrote:
+> I'm soo stupid. Usually I do the simplest solution but this time it has
+> escaped me.
 > 
-> Hmm, that mce_count increment and check stuff might turn out to be
-> fragile in the face of a race condition. But I don't see it...
+> But I caught it now:
+> 
+> ---
+> diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+> index 9868f95a5622..105d00b27be2 100644
+> --- a/drivers/edac/amd64_edac.c
+> +++ b/drivers/edac/amd64_edac.c
+> @@ -3528,8 +3528,7 @@ static bool ecc_enabled(struct amd64_pvt *pvt)
+>  				     MSR_IA32_MCG_CTL, nid);
+>  	}
+>  
+> -	amd64_info("Node %d: DRAM ECC %s.\n",
+> -		   nid, (ecc_en ? "enabled" : "disabled"));
+> +	edac_dbg(3, "Node %d: DRAM ECC %s.\n", nid, (ecc_en ? "enabled" : "disabled"));
+>  
+>  	if (!ecc_en || !nb_mce_en)
+>  		return false;
+> @@ -3689,11 +3688,6 @@ static struct amd64_family_type *per_family_init(struct amd64_pvt *pvt)
+>  		return NULL;
+>  	}
+>  
+> -	amd64_info("%s %sdetected (node %d).\n", fam_type->ctl_name,
+> -		     (pvt->fam == 0xf ?
+> -				(pvt->ext_model >= K8_REV_F  ? "revF or later "
+> -							     : "revE or earlier ")
+> -				 : ""), pvt->mc_node_id);
+>  	return fam_type;
+>  }
+>  
+> @@ -3867,6 +3861,12 @@ static int probe_one_instance(unsigned int nid)
+>  
+>  	dump_misc_regs(pvt);
+>  
+> +	amd64_info("%s %sdetected (node %d).\n", fam_type->ctl_name,
+> +		     (pvt->fam == 0xf ?
+> +				(pvt->ext_model >= K8_REV_F  ? "revF or later "
+> +							     : "revE or earlier ")
+> +				 : ""), pvt->mc_node_id);
+> +
+>  	return ret;
+>  
+>  err_enable:
+> 
+> --
 
-I can't see what the race is either.  As far as I can see the flow
-looks like this (for a machine check in user mode)
+I like it. I tested it out on one of my server systems, and it seems to
+work well.
 
-	user-mode
+Tested-by: Yazen Ghannam <yazen.ghannam@amd.com>
 
-		do_machine_check() [in atomic context on IST etc.]
-
-			queue_task_work()
-				increments current->mce_count
-				first (only) call saves address etc. and calls task_work_add()
-		return from machine check
-
-Plausibly we might context switch to another process here. We could even
-resume on a different CPU.
-
-		do_task_work() [in process context]
-
-			kill_me_maybe()
-				sets mce_count back to zero, ready for another #MC
-				memory_failure()
-				send SIGBUS
-
-The kernel get_user() case is similar, but may take extra machine checks before
-before calling code decides get_user() really is going to keep saying -EFAULT.
-
-
-But, on a whim, I changed the type of mce_count from "int" to "atomic_t" and
-fixeed up the increment & clear to use atomic_inc_return() and atomic_set().
-See updated patch below.
-
-I can't see why this should have made any difference. But the "int" version
-crashes in a few dozen machine checks. The "atomic_t" version has run many
-thousands of machine checks (10213 in the current boot according to /proc/interrupts)
-with no issues.
-
--Tony
-
-From d1b003f1de92f87c8dc53dd710fd79ad6e277364 Mon Sep 17 00:00:00 2001
-From: Tony Luck <tony.luck@intel.com>
-Date: Wed, 20 Jan 2021 12:40:50 -0800
-Subject: [PATCH] x86/mce: Avoid infinite loop for copy from user recovery
-
-Recovery action when get_user() triggers a machine check uses the fixup
-path to make get_user() return -EFAULT.  Also queue_task_work() sets up
-so that kill_me_maybe() will be called on return to user mode to send a
-SIGBUS to the current process.
-
-But there are places in the kernel where the code assumes that this
-EFAULT return was simply because of a page fault. The code takes some
-action to fix that, and then retries the access. This results in a second
-machine check.
-
-While processing this second machine check queue_task_work() is called
-again. But since this uses the same callback_head structure that
-was used in the first call, the net result is an entry on the
-current->task_works list that points to itself. When task_work_run()
-is called it loops forever in this code:
-
-		do {
-			next = work->next;
-			work->func(work);
-			work = next;
-			cond_resched();
-		} while (work);
-
-Add a counter (current->mce_count) to keep track of repeated machine checks
-before task_work() is called. First machine check saves the address information
-and calls task_work_add(). Subsequent machine checks before that task_work
-call back is executed check that the address is in the same page as the first
-machine check (since the callback will offline exactly one page).
-
-Expected worst case is two machine checks before moving on (e.g. one user
-access with page faults disabled, then a repeat to the same addrsss with
-page faults enabled). Just in case there is some code that loops forever
-enforce a limit of 10.
-
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- arch/x86/kernel/cpu/mce/core.c | 35 +++++++++++++++++++++++++++-------
- include/linux/sched.h          |  1 +
- 2 files changed, 29 insertions(+), 7 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 13d3f1cbda17..4a8660058b67 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1238,6 +1238,9 @@ static void __mc_scan_banks(struct mce *m, struct pt_regs *regs, struct mce *fin
- 
- static void kill_me_now(struct callback_head *ch)
- {
-+	struct task_struct *p = container_of(ch, struct task_struct, mce_kill_me);
-+
-+	atomic_set(&p->mce_count, 0);
- 	force_sig(SIGBUS);
- }
- 
-@@ -1246,6 +1249,7 @@ static void kill_me_maybe(struct callback_head *cb)
- 	struct task_struct *p = container_of(cb, struct task_struct, mce_kill_me);
- 	int flags = MF_ACTION_REQUIRED;
- 
-+	atomic_set(&p->mce_count, 0);
- 	pr_err("Uncorrected hardware memory error in user-access at %llx", p->mce_addr);
- 
- 	if (!p->mce_ripv)
-@@ -1266,12 +1270,29 @@ static void kill_me_maybe(struct callback_head *cb)
- 	}
- }
- 
--static void queue_task_work(struct mce *m, int kill_current_task)
-+static void queue_task_work(struct mce *m, char *msg, int kill_current_task)
- {
--	current->mce_addr = m->addr;
--	current->mce_kflags = m->kflags;
--	current->mce_ripv = !!(m->mcgstatus & MCG_STATUS_RIPV);
--	current->mce_whole_page = whole_page(m);
-+	int count = atomic_inc_return(&current->mce_count);
-+
-+	/* First call, save all the details */
-+	if (count == 1) {
-+		current->mce_addr = m->addr;
-+		current->mce_kflags = m->kflags;
-+		current->mce_ripv = !!(m->mcgstatus & MCG_STATUS_RIPV);
-+		current->mce_whole_page = whole_page(m);
-+	}
-+
-+	/* Ten is likley overkill. Don't expect more than two faults before task_work() */
-+	if (count > 10)
-+		mce_panic("Too many machine checks while accessing user data", m, msg);
-+
-+	/* Second or later call, make sure page address matches the one from first call */
-+	if (count > 1 && (current->mce_addr >> PAGE_SHIFT) != (m->addr >> PAGE_SHIFT))
-+		mce_panic("Machine checks to different user pages", m, msg);
-+
-+	/* Do not call task_work_add() more than once */
-+	if (count > 1)
-+		return;
- 
- 	if (kill_current_task)
- 		current->mce_kill_me.func = kill_me_now;
-@@ -1414,7 +1435,7 @@ noinstr void do_machine_check(struct pt_regs *regs)
- 		/* If this triggers there is no way to recover. Die hard. */
- 		BUG_ON(!on_thread_stack() || !user_mode(regs));
- 
--		queue_task_work(&m, kill_current_task);
-+		queue_task_work(&m, msg, kill_current_task);
- 
- 	} else {
- 		/*
-@@ -1432,7 +1453,7 @@ noinstr void do_machine_check(struct pt_regs *regs)
- 		}
- 
- 		if (m.kflags & MCE_IN_KERNEL_COPYIN)
--			queue_task_work(&m, kill_current_task);
-+			queue_task_work(&m, msg, kill_current_task);
- 	}
- out:
- 	mce_wrmsrl(MSR_IA32_MCG_STATUS, 0);
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 6e3a5eeec509..5727d59ab737 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1362,6 +1362,7 @@ struct task_struct {
- 					mce_whole_page : 1,
- 					__mce_reserved : 62;
- 	struct callback_head		mce_kill_me;
-+	atomic_t			mce_count;
- #endif
- 
- #ifdef CONFIG_KRETPROBES
--- 
-2.21.1
-
+Thanks,
+Yazen
