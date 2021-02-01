@@ -2,467 +2,116 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1D00C433E0
-	for <linux-edac@archiver.kernel.org>; Fri, 29 Jan 2021 12:02:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28DCFC433DB
+	for <linux-edac@archiver.kernel.org>; Mon,  1 Feb 2021 00:08:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A45464E33
-	for <linux-edac@archiver.kernel.org>; Fri, 29 Jan 2021 12:02:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC85264E27
+	for <linux-edac@archiver.kernel.org>; Mon,  1 Feb 2021 00:08:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232389AbhA2MB7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 29 Jan 2021 07:01:59 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2456 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232442AbhA2L66 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 29 Jan 2021 06:58:58 -0500
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DRsts4L07z67gRx;
-        Fri, 29 Jan 2021 17:47:01 +0800 (CST)
-Received: from lhreml715-chm.china.huawei.com (10.201.108.66) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 29 Jan 2021 10:50:24 +0100
-Received: from DESKTOP-6T4S3DQ.china.huawei.com (10.47.27.74) by
- lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 29 Jan 2021 09:50:22 +0000
-From:   Shiju Jose <shiju.jose@huawei.com>
-To:     <linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <james.morse@arm.com>,
-        <bp@alien8.de>, <tony.luck@intel.com>, <rjw@rjwysocki.net>,
-        <lenb@kernel.org>, <rrichter@marvell.com>,
-        <mchehab+huawei@kernel.org>
-CC:     <linuxarm@openeuler.org>, <xuwei5@huawei.com>,
-        <jonathan.cameron@huawei.com>, <john.garry@huawei.com>,
-        <tanxiaofei@huawei.com>, <shameerali.kolothum.thodi@huawei.com>,
-        <salil.mehta@huawei.com>, <shiju.jose@huawei.com>
-Subject: [PATCH v2 1/2] EDAC/ghes: Add EDAC device for reporting the CPU cache errors
-Date:   Fri, 29 Jan 2021 09:48:31 +0000
-Message-ID: <20210129094832.2090-2-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210129094832.2090-1-shiju.jose@huawei.com>
-References: <20210129094832.2090-1-shiju.jose@huawei.com>
+        id S229656AbhBAAIR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 31 Jan 2021 19:08:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230218AbhBAAIA (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 31 Jan 2021 19:08:00 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC812C061573
+        for <linux-edac@vger.kernel.org>; Sun, 31 Jan 2021 16:07:19 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id kg20so21597807ejc.4
+        for <linux-edac@vger.kernel.org>; Sun, 31 Jan 2021 16:07:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pmarks-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=0eLo56GbbOQEWcRbyLNsYNAG4DPjrW+fOVigYq9vZ5I=;
+        b=BxAAy2286rUkiEpV6htMzexnFgIO37Vxn/yVZPIEAy1N71SJD0JIyTNOz9/YdB0IdW
+         KQqP+yd2Bb0q466XDht8M6Of/ylZGlHBmADW7IMhRjQxPZHBfBQer3KjFJvjXyHA3js8
+         y1HvP2jSsstJv9HJN5StI/+nqI3uk9at7Gd2Yc/IutYweYt/9UNWih5p171aSW8sjNkd
+         iBnSHR6sg/BI7tt+feEDZ8NrLPZ5JzbNV6q3m+cPaekExLVrUrbibjqkQMU60xDX9g5E
+         Xsm4n5sXGlcycvPO9UWu3BYPBdkZdEBcf+O37hV+ycEwXDio3MilY4rmL49h9y5y36GS
+         I9wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=0eLo56GbbOQEWcRbyLNsYNAG4DPjrW+fOVigYq9vZ5I=;
+        b=hphHv2qsG/f/lWCCVUY4Hjql+SdqCaetX11YQxfGx4y+5udtvdFEPA3GFsWmL2bLEH
+         ERRYo2VOjPXzIGlgD8sigPYxuRKITEkll6kLLurIB/O0aC57OeNS0cXQqSlp6Z3+qlGV
+         bbF2VEBtwUmLxxDrS3vCQUmU0NLpmjiKDYenH0a65eEyZbMk/+mv0x9kKjIBsXFFU9Fe
+         V5nufJadKqob3js1RdUWC2bg7zlwM0Ry9t7vOo3VgUjVuLlkzLICN4sY/UCYHpSoEVBP
+         hs21sXUhujx+jEwNxpvCvLA6u4OlYDF0R5xtGBTOsrP+mNanV0oxiaHcbrqbWxxd4DUO
+         p4iA==
+X-Gm-Message-State: AOAM531pbERYeqYFVLeRz8w0klKJUOIeCg+jOU+3LfU9+mzUB0GIwPXT
+        jWrEFQieJWC3+Qz4rfSxPnBjOhXU/CSV8+ulyLfpzC6rU5Q=
+X-Google-Smtp-Source: ABdhPJzUvEyEmyA3ueeMlqT9W5xRS1TXt8hqz6kQkj3t/r1Pua0yHMmtla/aaqhrSKUQ23pLlw7MgvPktXiMr1Y9nMg=
+X-Received: by 2002:a17:906:c954:: with SMTP id fw20mr14988469ejb.342.1612138038149;
+ Sun, 31 Jan 2021 16:07:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.47.27.74]
-X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
- lhreml715-chm.china.huawei.com (10.201.108.66)
-X-CFilter-Loop: Reflected
+From:   Paul Marks <paul@pmarks.net>
+Date:   Sun, 31 Jan 2021 16:07:06 -0800
+Message-ID: <CAHq9+ShGiB_H6-E=L398zYR=ja16r2OuvJZfU4KLof=segyJbw@mail.gmail.com>
+Subject: ie31200_edac missing PCI ID for i3-4370
+To:     linux-edac@vger.kernel.org
+Cc:     jbaron@akamai.com, bp@alien8.de, m.chehab@samsung.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-CPU L2 cache corrected errors are detected occasionally on
-few of our ARM64 hardware boards. Though it is rare, the
-probability of the CPU cache errors frequently occurring
-can't be avoided. The earlier failure detection by monitoring
-the cache corrected errors for the frequent occurrences and
-taking preventive action could prevent more serious hardware
-faults.
+I have an ASRock C226M WS with an i3-4370 CPU.
 
-On Intel architectures, cache corrected errors are reported and
-the affected cores are offlined in the architecture specific method.
-http://www.mcelog.org/cache.html
+# lspci -vnn
+00:00.0 Host bridge [0600]: Intel Corporation 4th Gen Core Processor
+            DRAM Controller [8086:0c00] (rev 06)
+        Subsystem: ASRock Incorporation 4th Gen Core Processor
+            DRAM Controller [1849:0c00]
+        Flags: bus master, fast devsel, latency 0
+        Capabilities: [e0] Vendor Specific Information: Len=0c <?>
+        Kernel driver in use: hsw_uncore
 
-However for the firmware-first error reporting, specifically on
-ARM64 architectures, there is no provision present for reporting
-the cache corrected error count to the user-space and taking
-preventive action such as offline the affected cores.
+But edac-util doesn't work:
 
-For this purpose, it was suggested to create the CPU EDAC
-device for the CPU caches for reporting the cache error count
-for the firmware-first error reporting.
-The EDAC device blocks for the CPU caches would be created
-based on the cache information obtained from the cpu_cacheinfo.
+# edac-util -v
+edac-util: Fatal: Unable to get EDAC data: Unable to find EDAC data in sysfs
 
-User-space application could monitor the recorded corrected error
-count for the earlier hardware failure detection and could take
-preventive action, such as offline the corresponding CPU core/s.
+I tried this ham-fisted patch:
 
-Add an EDAC device and device blocks for the CPU caches
-based on the cache information from the cpu_cacheinfo.
-The cache's corrected error count would be stored in the
-/sys/devices/system/edac/cpu/cpu*/cache*/ce_count.
+# diff -u ./drivers/edac/ie31200_edac.c{.old,}
+--- ./drivers/edac/ie31200_edac.c.old
++++ ./drivers/edac/ie31200_edac.c
+@@ -58,7 +58,7 @@
+ #define PCI_DEVICE_ID_INTEL_IE31200_HB_3 0x0150
+ #define PCI_DEVICE_ID_INTEL_IE31200_HB_4 0x0158
+ #define PCI_DEVICE_ID_INTEL_IE31200_HB_5 0x015c
+-#define PCI_DEVICE_ID_INTEL_IE31200_HB_6 0x0c04
++#define PCI_DEVICE_ID_INTEL_IE31200_HB_6 0x0c00
+ #define PCI_DEVICE_ID_INTEL_IE31200_HB_7 0x0c08
+ #define PCI_DEVICE_ID_INTEL_IE31200_HB_8 0x1918
+ #define PCI_DEVICE_ID_INTEL_IE31200_HB_9 0x5918
 
-Issues and possible solutions,
-1.Cache info is not available for the CPUs offline.
- EDAC device interface requires creating EDAC device
- and device blocks together. It requires the number
- of caches per CPU as device blocks for the creation.
- However, this info is not available for the
- offlined CPUs.
-Tested Solution: Find the max number of caches among
-  online CPUs, create the EDAC device for CPUs caches
-  and get and populate the cache info for an offline
-  CPU later, when the error is reported on that CPU for
-  the first time.
+And it seems happy now:
 
-2. Reporting error count for the Shared caches.
-   There are few possible solutions,
-Tested Solution:
-    Kernel would report a new error count for a shared cache
-    through the EDAC device block for that CPU on which the error
-	is reported. Then user-space application would sum the total
-	error count from EDAC device block of all the CPUs in the
-	shared CPU list of that shared cache.
+# lspci -vnn
+00:00.0 Host bridge [0600]: Intel Corporation 4th Gen Core Processor
+            DRAM Controller [8086:0c00] (rev 06)
+        Subsystem: ASRock Incorporation 4th Gen Core Processor
+            DRAM Controller [1849:0c00]
+        Flags: bus master, fast devsel, latency 0
+        Capabilities: [e0] Vendor Specific Information: Len=0c <?>
+        Kernel driver in use: hsw_uncore
+        Kernel modules: ie31200_edac
 
-For the firmware-first error reporting, add an interface in the
-ghes_edac allow to report a CPU corrected error count.
+# edac-util -v
+mc0: 0 Uncorrected Errors with no DIMM info
+mc0: 0 Corrected Errors with no DIMM info
+mc0: csrow0: 0 Uncorrected Errors
+mc0: csrow0: mc#0csrow#0channel#0: 0 Corrected Errors
+mc0: csrow1: 0 Uncorrected Errors
+mc0: csrow1: mc#0csrow#1channel#0: 0 Corrected Errors
+edac-util: No errors to report.
 
-Suggested-by: James Morse <james.morse@arm.com>
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- Documentation/ABI/testing/sysfs-devices-edac |  15 ++
- drivers/acpi/apei/ghes.c                     |   8 +-
- drivers/edac/Kconfig                         |  12 ++
- drivers/edac/ghes_edac.c                     | 186 +++++++++++++++++++
- include/acpi/ghes.h                          |  27 +++
- 5 files changed, 247 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-devices-edac b/Documentation/ABI/testing/sysfs-devices-edac
-index 256a9e990c0b..56a18b0af419 100644
---- a/Documentation/ABI/testing/sysfs-devices-edac
-+++ b/Documentation/ABI/testing/sysfs-devices-edac
-@@ -155,3 +155,18 @@ Description:	This attribute file displays the total count of uncorrectable
- 		errors that have occurred on this DIMM. If panic_on_ue is set, this
- 		counter will not have a chance to increment, since EDAC will panic the
- 		system
-+
-+What:           /sys/devices/system/edac/cpu/cpu*/cache*/ce_count
-+Date:           December 2020
-+Contact:        linux-edac@vger.kernel.org
-+Description:    This attribute file displays the total count of correctable
-+                errors that have occurred on this CPU cache. This count is very important
-+                to examine. CEs provide early indications that a cache is beginning
-+                to fail. This count field should be monitored for non-zero values
-+                and report such information to the system administrator.
-+
-+What:           /sys/devices/system/edac/cpu/cpu*/cache*/ue_count
-+Date:           December 2020
-+Contact:        linux-edac@vger.kernel.org
-+Description:    This attribute file displays the total count of uncorrectable
-+                errors that have occurred on this CPU cache.
-diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-index fce7ade2aba9..139540f2c8f4 100644
---- a/drivers/acpi/apei/ghes.c
-+++ b/drivers/acpi/apei/ghes.c
-@@ -1452,4 +1452,10 @@ static int __init ghes_init(void)
- err:
- 	return rc;
- }
--device_initcall(ghes_init);
-+
-+/*
-+ * device_initcall_sync() is added instead of the device_initcall()
-+ * because the CPU cacheinfo should be populated and is required for
-+ * adding the CPU cache edac device in the ghes_edac_register().
-+ */
-+device_initcall_sync(ghes_init);
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 81c42664f21b..39fb53aa9cd9 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -74,6 +74,18 @@ config EDAC_GHES
- 
- 	  In doubt, say 'Y'.
- 
-+config EDAC_GHES_CPU_CACHE_ERROR
-+	bool "EDAC device for reporting firmware-first BIOS detected CPU cache error count"
-+	depends on EDAC_GHES
-+	depends on (ARM64 || COMPILE_TEST)
-+	help
-+	  EDAC device for the firmware-first BIOS detected CPU cache error count,
-+	  reported via ACPI APEI/GHES. By enabling this option, EDAC device for
-+	  the CPU hierarchy and edac device blocks for the caches would be created.
-+	  The cache error count is shared with the userspace via the CPU EDAC
-+	  device's sysfs interface. This option is architecure independent though
-+	  currently it is tested and enabled for ARM64 only.
-+
- config EDAC_AMD64
- 	tristate "AMD64 (Opteron, Athlon64)"
- 	depends on AMD_NB && EDAC_DECODE_MCE
-diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
-index 6d1ddecbf0da..400b50be0c33 100644
---- a/drivers/edac/ghes_edac.c
-+++ b/drivers/edac/ghes_edac.c
-@@ -12,6 +12,9 @@
- #include <acpi/ghes.h>
- #include <linux/edac.h>
- #include <linux/dmi.h>
-+#if defined(CONFIG_EDAC_GHES_CPU_CACHE_ERROR)
-+#include <linux/cacheinfo.h>
-+#endif
- #include "edac_module.h"
- #include <ras/ras_event.h>
- 
-@@ -57,6 +60,21 @@ module_param(force_load, bool, 0);
- 
- static bool system_scanned;
- 
-+#if defined(CONFIG_EDAC_GHES_CPU_CACHE_ERROR)
-+struct ghes_edac_cpu_block {
-+	int cpu;
-+	u8 level;
-+	u8 type;
-+	int block_nr;
-+	bool info_populated;
-+};
-+
-+static struct ghes_edac_cpu_block __percpu *edac_cpu_block_list;
-+
-+static struct edac_device_ctl_info *cpu_edac_dev;
-+static unsigned int num_caches_per_cpu;
-+#endif
-+
- /* Memory Device - Type 17 of SMBIOS spec */
- struct memdev_dmi_entry {
- 	u8 type;
-@@ -225,6 +243,164 @@ static void enumerate_dimms(const struct dmi_header *dh, void *arg)
- 	hw->num_dimms++;
- }
- 
-+#if defined(CONFIG_EDAC_GHES_CPU_CACHE_ERROR)
-+static void ghes_edac_get_cpu_cacheinfo(void)
-+{
-+	int cpu;
-+	struct cpu_cacheinfo *this_cpu_ci;
-+
-+	/*
-+	 * Find the maximum number of caches present in the CPU heirarchy
-+	 * among the online CPUs.
-+	 */
-+	for_each_online_cpu(cpu) {
-+		this_cpu_ci = get_cpu_cacheinfo(cpu);
-+		if (!this_cpu_ci)
-+			continue;
-+		if (num_caches_per_cpu < this_cpu_ci->num_leaves)
-+			num_caches_per_cpu = this_cpu_ci->num_leaves;
-+	}
-+}
-+
-+static  int ghes_edac_add_cpu_device(struct device *dev)
-+{
-+	int rc;
-+
-+	cpu_edac_dev = edac_device_alloc_ctl_info(0, "cpu",  num_possible_cpus(),
-+						  "cache", num_caches_per_cpu, 0, NULL,
-+						  0, edac_device_alloc_index());
-+	if (!cpu_edac_dev) {
-+		pr_warn("ghes-edac cpu edac device registration failed\n");
-+		return -ENOMEM;
-+	}
-+
-+	cpu_edac_dev->dev = dev;
-+	cpu_edac_dev->ctl_name = "cpu_edac_dev";
-+	cpu_edac_dev->dev_name = "ghes";
-+	cpu_edac_dev->mod_name = "ghes_edac.c";
-+	rc = edac_device_add_device(cpu_edac_dev);
-+	if (rc > 0) {
-+		pr_warn("edac_device_add_device failed\n");
-+		edac_device_free_ctl_info(cpu_edac_dev);
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
-+static  void ghes_edac_delete_cpu_device(void)
-+{
-+	num_caches_per_cpu = 0;
-+	if (cpu_edac_dev) {
-+		edac_device_del_device(cpu_edac_dev->dev);
-+		edac_device_free_ctl_info(cpu_edac_dev);
-+	}
-+	free_percpu(edac_cpu_block_list);
-+}
-+
-+static int ghes_edac_populate_cache_info(int cpu)
-+{
-+	struct ghes_edac_cpu_block *block;
-+	struct cpu_cacheinfo *this_cpu_ci;
-+	struct cacheinfo *this_leaf;
-+	int i, num_caches;
-+
-+	this_cpu_ci = get_cpu_cacheinfo(cpu);
-+	if (!this_cpu_ci || !this_cpu_ci->info_list || !this_cpu_ci->num_leaves)
-+		return	-EINVAL;
-+
-+	this_leaf = this_cpu_ci->info_list;
-+	/*
-+	 * Cache info would not be available for a CPU which is offline. However EDAC device
-+	 * creation requires the number of device blocks (for example max number of caches
-+	 * among CPUs). The cache info in the edac_cpu_block_list would be populated when
-+	 * the first error is reported on that cpu. Thus we need to restrict the number
-+	 * of caches if the CPU's num_leaves exceed the max number of caches per cpu
-+	 * calculated in the init time.
-+	 */
-+	num_caches = min(num_caches_per_cpu, this_cpu_ci->num_leaves);
-+
-+	/*
-+	 * The edac CPU cache device blocks entries in the sysfs should match with the
-+	 * CPU cache structure in the sysfs so that the affected cpus for a shared cache
-+	 * can be easily extracted in the userspace.
-+	 */
-+	block = per_cpu_ptr(edac_cpu_block_list, cpu);
-+	for (i = 0; i < num_caches; i++) {
-+		block->cpu = cpu;
-+		block->level = this_leaf->level;
-+		block->type = this_leaf->type;
-+		block->block_nr = i;
-+		block->info_populated = true;
-+		this_leaf++;
-+		block++;
-+	}
-+
-+	return 0;
-+}
-+
-+static void ghes_edac_create_cpu_device(struct device *dev)
-+{
-+	int cpu;
-+
-+	if (!num_caches_per_cpu)
-+		return;
-+
-+	/*
-+	 * Allocate EDAC CPU cache list.
-+	 * EDAC device interface require creating the CPU cache hierarchy for all
-+	 * the CPUs together. Thus need to allocate edac_cpu_block_list for the
-+	 * maximum number of caches per cpu among all the CPUs irrespective of
-+	 * the number of caches per CPU might vary.
-+	 */
-+	edac_cpu_block_list =  __alloc_percpu(sizeof(struct ghes_edac_cpu_block) * num_caches_per_cpu,
-+					      __alignof__(u64));
-+	if (!edac_cpu_block_list)
-+		return;
-+
-+	if (ghes_edac_add_cpu_device(dev)) {
-+		ghes_edac_delete_cpu_device();
-+		return;
-+	}
-+
-+	/*
-+	 * Populate EDAC CPU cache list with cache's information.
-+	 */
-+	for_each_online_cpu(cpu)
-+		ghes_edac_populate_cache_info(cpu);
-+}
-+
-+void ghes_edac_report_cpu_error(struct ghes_einfo_cpu *einfo)
-+{
-+	struct ghes_edac_cpu_block *block;
-+	int i;
-+
-+	if (!einfo || !(einfo->ce_count) || !num_caches_per_cpu)
-+		return;
-+
-+	/*
-+	 * EDAC device require the number of device blocks (for example max number of caches
-+	 * among CPUs) during the creation. For the CPUs that were offline in the cpu edac
-+	 * init and become online later, the cache info would be populated when the first
-+	 * error is reported  on that cpu.
-+	 */
-+	block = per_cpu_ptr(edac_cpu_block_list, einfo->cpu);
-+	if (!block->info_populated) {
-+		if (ghes_edac_populate_cache_info(einfo->cpu))
-+			return;
-+	}
-+
-+	for (i = 0; i < num_caches_per_cpu; i++) {
-+		if ((block->level == einfo->cache_level) && (block->type == einfo->cache_type)) {
-+			edac_device_handle_ce_count(cpu_edac_dev, einfo->ce_count,
-+						    einfo->cpu, block->block_nr, "");
-+			break;
-+		}
-+		block++;
-+	}
-+}
-+#endif
-+
- static void ghes_scan_system(void)
- {
- 	if (system_scanned)
-@@ -232,6 +408,8 @@ static void ghes_scan_system(void)
- 
- 	dmi_walk(enumerate_dimms, &ghes_hw);
- 
-+	ghes_edac_get_cpu_cacheinfo();
-+
- 	system_scanned = true;
- }
- 
-@@ -620,6 +798,10 @@ int ghes_edac_register(struct ghes *ghes, struct device *dev)
- 		goto unlock;
- 	}
- 
-+#if defined(CONFIG_EDAC_GHES_CPU_CACHE_ERROR)
-+	ghes_edac_create_cpu_device(dev);
-+#endif
-+
- 	spin_lock_irqsave(&ghes_lock, flags);
- 	ghes_pvt = pvt;
- 	spin_unlock_irqrestore(&ghes_lock, flags);
-@@ -669,6 +851,10 @@ void ghes_edac_unregister(struct ghes *ghes)
- 	if (mci)
- 		edac_mc_free(mci);
- 
-+#if defined(CONFIG_EDAC_GHES_CPU_CACHE_ERROR)
-+	ghes_edac_delete_cpu_device();
-+#endif
-+
- unlock:
- 	mutex_unlock(&ghes_reg_mutex);
- }
-diff --git a/include/acpi/ghes.h b/include/acpi/ghes.h
-index 34fb3431a8f3..e019ad88fdc3 100644
---- a/include/acpi/ghes.h
-+++ b/include/acpi/ghes.h
-@@ -73,6 +73,24 @@ void ghes_unregister_vendor_record_notifier(struct notifier_block *nb);
- 
- int ghes_estatus_pool_init(int num_ghes);
- 
-+/**
-+ * struct ghes_einfo_cpu  - structure to pass the CPU error info to the edac
-+ * @cpu: CPU index.
-+ * @error_type: error type, cache/TLB/bus/ etc.
-+ * @cache_level: cache level.
-+ * @cache_type: ACPI cache type.
-+ * @ue_count: CPU uncorrectable error count.
-+ * @ce_count: CPU correctable error count.
-+ */
-+struct ghes_einfo_cpu {
-+	int cpu;
-+	u8 error_type;
-+	u8 cache_level;
-+	u8 cache_type;
-+	u16 ue_count;
-+	u16 ce_count;
-+};
-+
- /* From drivers/edac/ghes_edac.c */
- 
- #ifdef CONFIG_EDAC_GHES
-@@ -98,6 +116,15 @@ static inline void ghes_edac_unregister(struct ghes *ghes)
- }
- #endif
- 
-+#ifdef CONFIG_EDAC_GHES_CPU_CACHE_ERROR
-+void ghes_edac_report_cpu_error(struct ghes_einfo_cpu *einfo_cpu);
-+
-+#else
-+static inline void ghes_edac_report_cpu_error(struct ghes_einfo_cpu *einfo_cpu)
-+{
-+}
-+#endif
-+
- static inline int acpi_hest_get_version(struct acpi_hest_generic_data *gdata)
- {
- 	return gdata->revision >> 8;
--- 
-2.17.1
-
+I don't know if it's truly working because I can't overclock the RAM
+to induce ECC errors, but still I think adding 8086:0c00 to this
+driver could be useful.
