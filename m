@@ -2,93 +2,141 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2EDCC433E0
-	for <linux-edac@archiver.kernel.org>; Tue,  2 Feb 2021 22:13:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D78A2C433DB
+	for <linux-edac@archiver.kernel.org>; Thu,  4 Feb 2021 23:23:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A54A964F7F
-	for <linux-edac@archiver.kernel.org>; Tue,  2 Feb 2021 22:13:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 872E764FB1
+	for <linux-edac@archiver.kernel.org>; Thu,  4 Feb 2021 23:23:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234702AbhBBWM4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 2 Feb 2021 17:12:56 -0500
-Received: from mga17.intel.com ([192.55.52.151]:43374 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234706AbhBBWMv (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 2 Feb 2021 17:12:51 -0500
-IronPort-SDR: 00h68qkAOAN9KnAySTFuQOExcvsjkdOMyl8dujB2FyMLCwShaqyhjk4SaQwsXJj3UKxDU5kkti
- xsF43/Bbs6wA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="160704518"
-X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; 
-   d="scan'208";a="160704518"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 14:12:07 -0800
-IronPort-SDR: w126W91cTxhj9RDnAU3n/zMgWaUBBy6DDJyPibqCceUyqSoGT4ZpmHZyvkdqEklQvd4+cWeeUX
- X0kaj3ozw/aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,396,1602572400"; 
-   d="scan'208";a="579200629"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Feb 2021 14:12:07 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 2 Feb 2021 14:12:06 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 2 Feb 2021 14:12:06 -0800
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2106.002;
- Tue, 2 Feb 2021 14:12:06 -0800
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-CC:     "x86@kernel.org" <x86@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Darren Hart" <dvhart@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-Subject: RE: [PATCH v5] x86/mce: Avoid infinite loop for copy from user
- recovery
-Thread-Topic: [PATCH v5] x86/mce: Avoid infinite loop for copy from user
- recovery
-Thread-Index: AQHW820jWhd/BlkCukOtPpk65S5gH6o6RPEAgAA7fACAA1zygIAF1CqAgAGTOQD//8zdUIAA3A0A//+LxOA=
-Date:   Tue, 2 Feb 2021 22:12:06 +0000
-Message-ID: <6e719355ea7f472e94b5bd45105c7ebe@intel.com>
-References: <20210119235759.GA9970@agluck-desk2.amr.corp.intel.com>
- <20210120121812.GF825@zn.tnic>
- <20210121210959.GA10304@agluck-desk2.amr.corp.intel.com>
- <20210125225509.GA7149@agluck-desk2.amr.corp.intel.com>
- <20210126110314.GC6514@zn.tnic>
- <20210126223605.GA14355@agluck-desk2.amr.corp.intel.com>
- <20210128175735.GB2120@zn.tnic>
- <20210201185812.GA54867@agluck-desk2.amr.corp.intel.com>
- <20210202110126.GB18075@zn.tnic> <d99c43608909400199e9384bb7425beb@intel.com>
- <20210202210600.GF18075@zn.tnic>
-In-Reply-To: <20210202210600.GF18075@zn.tnic>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S229823AbhBDXXd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 4 Feb 2021 18:23:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229711AbhBDXXc (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 4 Feb 2021 18:23:32 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF2DC0613D6
+        for <linux-edac@vger.kernel.org>; Thu,  4 Feb 2021 15:22:51 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id l12so6512013edt.3
+        for <linux-edac@vger.kernel.org>; Thu, 04 Feb 2021 15:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pmarks-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fF/cBVN9sMvuy/5U25BO/hvEP1rybsV0ISj0med5yfA=;
+        b=kV9R780dMa68FFW3ZGIoqSom0fm4/ljgLvd1ChUoUZnc//EGIShYtsyd2mnsb4/B5v
+         5dTJjCct+z6YRok9Dj9MlhojekWUPKa8SvwnfNz06R+W3tZFv8d7wexsaXVOCWYSOA/O
+         bP0DnLLVQGQT0DSS9fUAv49TOILNAk7tSa4lst00MrXuJZrDQ+tnsxFYGfRQhvBqGpkT
+         4RUb6zwvd8hoNrYc6bN6yabvJZKzQtApNiJdPIcBZGCm1LNKVO8UfoHqworkaSJTEwn5
+         rXaumX6nTiUQW7ebESJ+a1foyy4pngq+WlWV/7oYP60PmlbILS6KyNDU4Pqrr6vQcdpk
+         y0KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fF/cBVN9sMvuy/5U25BO/hvEP1rybsV0ISj0med5yfA=;
+        b=Zq9yU857IS+4wYhMJqEB9ME8OLuQALB6UA23OyxjlqEDyLR/OXW9Z52l8UQNLhQTvX
+         URa8p9OEZSKZ4qWN2a9LltEt0DGiv0WRnJMIG5YuEkPQgYi5nMOK8R4v77ZNiRHF3RF5
+         3v7KLE7mk3gMhWHuDjBWUfkZEM1iMyuQXQ8bGHnZBt4ykLoFF4rLdW/b7lbMkaFO2cHh
+         AOB6zk0gv+bD5/fPg3KL4NuVnIYueWvtFiCVq+wYaIb1h/blJqPAg4hXgozSZQ3DIjiL
+         xYd+/8/wVKLKDwG52+6seNOiVM87wyrkghxWxv6moo+ckTVBiwLZT8piFeppmiXmsVh3
+         zpUw==
+X-Gm-Message-State: AOAM531dYlgKYJfd8UQtlN2HQu1zhs54hV0D99yN0dUiOOagmIDdzPni
+        PIzTBvq/GXW7qF7iW11JLzyT94rAUsQh8E8vW3KiRZfV
+X-Google-Smtp-Source: ABdhPJxdpXeKNOBvTYhpk9RNc8Moqrw8lfkorBjO53yLnZIYC28WFvZC1yrFqv8uyqFec95z7HceAiucMgK1VvUsecQ=
+X-Received: by 2002:aa7:dd49:: with SMTP id o9mr915623edw.14.1612480970377;
+ Thu, 04 Feb 2021 15:22:50 -0800 (PST)
 MIME-Version: 1.0
+References: <CAHq9+ShGiB_H6-E=L398zYR=ja16r2OuvJZfU4KLof=segyJbw@mail.gmail.com>
+ <ecb895bf-f384-e5e6-d434-d3a8e06eaf47@akamai.com>
+In-Reply-To: <ecb895bf-f384-e5e6-d434-d3a8e06eaf47@akamai.com>
+From:   Paul Marks <paul@pmarks.net>
+Date:   Thu, 4 Feb 2021 15:22:38 -0800
+Message-ID: <CAHq9+Si+oyG=8j6xs-a=Jq+8vxU3eHzNOzbA9JXonsFvHd=O=A@mail.gmail.com>
+Subject: Re: ie31200_edac missing PCI ID for i3-4370
+To:     Jason Baron <jbaron@akamai.com>
+Cc:     linux-edac@vger.kernel.org, bp@alien8.de, m.chehab@samsung.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-PiBTbyB0aGF0ICJzeXN0ZW0gaGFuZyBvciBwYW5pYyIgd2hpY2ggdGhlIHZhbGlkYXRpb24gZm9s
-a3MgdHJpZ2dlcmVkLA0KPiB0aGF0IGNhbm5vdCBiZSByZXByb2R1Y2VkIGFueW1vcmU/IERpZCB0
-aGV5IHJ1biB0aGUgbGF0ZXN0IHZlcnNpb24gb2YNCj4gdGhlIHBhdGNoPw0KDQpJIHdpbGwgZ2V0
-IHRoZSB2YWxpZGF0aW9uIGZvbGtzIHRvIHJ1biB0aGUgbGF0ZXN0IHZlcnNpb24gKGFuZCBwbGF5
-IGFyb3VuZCB3aXRoDQpoeXBlcnRocmVhZGluZyBpZiB0aGV5IHNlZSBwcm9ibGVtcykuDQoNCi1U
-b255DQo=
+On Thu, Feb 4, 2021 at 2:59 PM Jason Baron <jbaron@akamai.com> wrote:
+>
+> On 1/31/21 7:07 PM, Paul Marks wrote:
+> > I have an ASRock C226M WS with an i3-4370 CPU.
+> >
+> > # lspci -vnn
+> > 00:00.0 Host bridge [0600]: Intel Corporation 4th Gen Core Processor
+> >             DRAM Controller [8086:0c00] (rev 06)
+> >         Subsystem: ASRock Incorporation 4th Gen Core Processor
+> >             DRAM Controller [1849:0c00]
+> >         Flags: bus master, fast devsel, latency 0
+> >         Capabilities: [e0] Vendor Specific Information: Len=0c <?>
+> >         Kernel driver in use: hsw_uncore
+> >
+> > But edac-util doesn't work:
+> >
+> > # edac-util -v
+> > edac-util: Fatal: Unable to get EDAC data: Unable to find EDAC data in sysfs
+> >
+> > I tried this ham-fisted patch:
+> >
+> > # diff -u ./drivers/edac/ie31200_edac.c{.old,}
+> > --- ./drivers/edac/ie31200_edac.c.old
+> > +++ ./drivers/edac/ie31200_edac.c
+> > @@ -58,7 +58,7 @@
+> >  #define PCI_DEVICE_ID_INTEL_IE31200_HB_3 0x0150
+> >  #define PCI_DEVICE_ID_INTEL_IE31200_HB_4 0x0158
+> >  #define PCI_DEVICE_ID_INTEL_IE31200_HB_5 0x015c
+> > -#define PCI_DEVICE_ID_INTEL_IE31200_HB_6 0x0c04
+> > +#define PCI_DEVICE_ID_INTEL_IE31200_HB_6 0x0c00
+> >  #define PCI_DEVICE_ID_INTEL_IE31200_HB_7 0x0c08
+> >  #define PCI_DEVICE_ID_INTEL_IE31200_HB_8 0x1918
+> >  #define PCI_DEVICE_ID_INTEL_IE31200_HB_9 0x5918
+>
+> just curious why you removed here and didn't just add?
+
+This is not a serious patch, just a one-liner to demonstrate the problem.
+
+>
+> >
+> > And it seems happy now:
+> >
+> > # lspci -vnn
+> > 00:00.0 Host bridge [0600]: Intel Corporation 4th Gen Core Processor
+> >             DRAM Controller [8086:0c00] (rev 06)
+> >         Subsystem: ASRock Incorporation 4th Gen Core Processor
+> >             DRAM Controller [1849:0c00]
+> >         Flags: bus master, fast devsel, latency 0
+> >         Capabilities: [e0] Vendor Specific Information: Len=0c <?>
+> >         Kernel driver in use: hsw_uncore
+> >         Kernel modules: ie31200_edac
+> >
+> > # edac-util -v
+> > mc0: 0 Uncorrected Errors with no DIMM info
+> > mc0: 0 Corrected Errors with no DIMM info
+> > mc0: csrow0: 0 Uncorrected Errors
+> > mc0: csrow0: mc#0csrow#0channel#0: 0 Corrected Errors
+> > mc0: csrow1: 0 Uncorrected Errors
+> > mc0: csrow1: mc#0csrow#1channel#0: 0 Corrected Errors
+> > edac-util: No errors to report.
+> >
+> > I don't know if it's truly working because I can't overclock the RAM
+> > to induce ECC errors, but still I think adding 8086:0c00 to this
+> > driver could be useful.
+> >
+>
+> Cool yeah - I think it makes sense to add if can confirm
+> that the Intel datasheet says that this cpu uses the same
+> registers to read errors from as the others. I can certainly
+> confirm that the other pci ids do increment ce counts...
+>
+> Thanks,
+>
+> -Jason
