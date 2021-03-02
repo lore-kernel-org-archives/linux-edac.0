@@ -2,40 +2,37 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15349C433E0
-	for <linux-edac@archiver.kernel.org>; Fri, 26 Feb 2021 17:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0620C433E6
+	for <linux-edac@archiver.kernel.org>; Wed,  3 Mar 2021 02:01:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C348B64F17
-	for <linux-edac@archiver.kernel.org>; Fri, 26 Feb 2021 17:59:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C4E464E75
+	for <linux-edac@archiver.kernel.org>; Wed,  3 Mar 2021 02:01:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbhBZR7U (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 26 Feb 2021 12:59:20 -0500
-Received: from mga14.intel.com ([192.55.52.115]:5134 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229949AbhBZR7U (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 26 Feb 2021 12:59:20 -0500
-IronPort-SDR: NVFVAGmqR6E4V6vh+JaHh+Fq7Oc1/eTFdu+NuscGoMZhGqxQxzjZYSaObO0A7lifXuk9VKCvvZ
- 74jtN9M4ikrA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="185265198"
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
-   d="scan'208";a="185265198"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 09:58:39 -0800
-IronPort-SDR: QHSNmYkMoCK8MwS31AsKm/UZdgerEwOX1IHFXVdS2UQgJCL8Dvt9egpqf/7O9lSnPTns7KXiRP
- Kv3nhlu00h7Q==
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
-   d="scan'208";a="405065941"
-Received: from agluck-desk2.sc.intel.com (HELO agluck-desk2.amr.corp.intel.com) ([10.3.52.146])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 09:58:39 -0800
-Date:   Fri, 26 Feb 2021 09:58:37 -0800
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Aili Yao <yaoaili@kingsoft.com>
-Cc:     Oscar Salvador <osalvador@suse.de>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+j44CA55u05LmfKQ==?= 
+        id S235557AbhCCBu1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 2 Mar 2021 20:50:27 -0500
+Received: from mail.kingsoft.com ([114.255.44.146]:45931 "EHLO
+        mail.kingsoft.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1576816AbhCBEcy (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 1 Mar 2021 23:32:54 -0500
+X-AuditID: 0a580157-f39ff7000005df43-4d-603db95d708e
+Received: from mail.kingsoft.com (localhost [10.88.1.32])
+        (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client did not present a certificate)
+        by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id 50.37.57155.D59BD306; Tue,  2 Mar 2021 12:04:45 +0800 (HKT)
+Received: from alex-virtual-machine (172.16.253.254) by KSBJMAIL2.kingsoft.cn
+ (10.88.1.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Tue, 2 Mar 2021
+ 12:32:07 +0800
+Date:   Tue, 2 Mar 2021 12:32:07 +0800
+From:   Aili Yao <yaoaili@kingsoft.com>
+To:     "Luck, Tony" <tony.luck@intel.com>
+CC:     Oscar Salvador <osalvador@suse.de>,
+        "HORIGUCHI =?UTF-8?B?TkFPWUE=?=( =?UTF-8?B?5aCA5Y+j44CA55u05Lmf?=)" 
         <naoya.horiguchi@nec.com>, "david@redhat.com" <david@redhat.com>,
         "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
         "bp@alien8.de" <bp@alien8.de>,
@@ -45,183 +42,73 @@ Cc:     Oscar Salvador <osalvador@suse.de>,
         "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "yangfeng1@kingsoft.com" <yangfeng1@kingsoft.com>
+        "yangfeng1@kingsoft.com" <yangfeng1@kingsoft.com>,
+        <yaoaili@kingsoft.com>
 Subject: Re: [PATCH] mm,hwpoison: return -EBUSY when page already poisoned
-Message-ID: <20210226175837.GA184397@agluck-desk2.amr.corp.intel.com>
+Message-ID: <20210302123207.0217e5c4@alex-virtual-machine>
+In-Reply-To: <20210226175837.GA184397@agluck-desk2.amr.corp.intel.com>
 References: <20210224151619.67c29731@alex-virtual-machine>
- <20210224103105.GA16368@linux>
- <20210225114329.4e1a41c6@alex-virtual-machine>
- <20210225112818.GA10141@hori.linux.bs1.fc.nec.co.jp>
- <20210225113930.GA7227@localhost.localdomain>
- <20210226105250.3a15e35c@alex-virtual-machine>
+        <20210224103105.GA16368@linux>
+        <20210225114329.4e1a41c6@alex-virtual-machine>
+        <20210225112818.GA10141@hori.linux.bs1.fc.nec.co.jp>
+        <20210225113930.GA7227@localhost.localdomain>
+        <20210226105250.3a15e35c@alex-virtual-machine>
+        <20210226175837.GA184397@agluck-desk2.amr.corp.intel.com>
+Organization: kingsoft
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210226105250.3a15e35c@alex-virtual-machine>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.16.253.254]
+X-ClientProxiedBy: KSBJMAIL1.kingsoft.cn (10.88.1.31) To KSBJMAIL2.kingsoft.cn
+ (10.88.1.32)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNIsWRmVeSWpSXmKPExsXCFcGooBu70zbBYF67gMWc9WvYLD5v+Mdm
+        8XX9L2aLaRvFLS6camCyuLxrDpvFvTX/WS0uHVjAZHGx8QCjxZlpRRabN01ltnhz4R6LxY8N
+        j1kdeD2+t/axeCze85LJY9OqTjaPTZ8msXu8O3eO3ePEjN8sHi+ubmTxeL/vKpvH5tPVHp83
+        yXmcaPnCGsAdxWWTkpqTWZZapG+XwJXxd9EVtoI93BX7Pps3MH7i6GLk5JAQMJF4PmElcxcj
+        F4eQwHQmiZ5b75lBEkICLxkllm8oBLFZBFQk9nUtZwex2QRUJXbdm8UKYosIqElcWvwArJlZ
+        YA6rxNeZ85lAEsICXhJf7q9lBLF5BawkVkx5B2ZzCrhJnN71kR1i2wMmiV3HZ4Nt4xcQk+i9
+        8p8J4iR7ibYti6CaBSVOznzCAmIzC+hInFh1jBnClpfY/nYO1KWKEoeX/GKH6FWSONI9gw3C
+        jpVYNu8V6wRG4VlIRs1CMmoWklELGJlXMbIU56YbbmKExF/4DsZ5TR/1DjEycTAeYpTgYFYS
+        4T352TJBiDclsbIqtSg/vqg0J7X4EKM0B4uSOK+wi02CkEB6YklqdmpqQWoRTJaJg1OqgWn7
+        LKVHvm81N8i2/b3hO9VHdcaT1MuaXwoMp1z1spd5c8nzWCOHqMRR+8X3nObyqPcJHzfN+7iG
+        UchHe+WMgwuS8n7xJ0k9zrpwb0r/ygoXrxWr2T5d0vLO+H33dkTAl/XFhyy1Mq7Jfq4+oFG6
+        cUqeNpeXfEtiOnOq/5Ubff6cVWK/43aIR9p5+Sqs3vyHq/d9tV1UwRKPuYu3l8pOWZSp072z
+        +rlZxHrXHN+Hj2sll8Ul3L+zmbs38kXvrvSenc/2NNS8kb2bsrH8hqACy+qsV2+uCKz5X3o/
+        VzQu+Mi+7iPOJ5c8XROjl+DWKdFzQdl7wfy5wkWvVeY0/nRqc3A7YtXemlbOcGcO6xPFMCWW
+        4oxEQy3mouJEAGhR4eguAwAA
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Fri, Feb 26, 2021 at 10:52:50AM +0800, Aili Yao wrote:
-> Hi naoya,Oscar,david:
-> > 
-> > > We could use some negative value (error code) to report the reported case,
-> > > then as you mentioned above, some callers need change to handle the
-> > > new case, and the same is true if you use some positive value.
-> > > My preference is -EHWPOISON, but other options are fine if justified well.  
-> > 
-> > -EHWPOISON seems like a good fit.
-> > 
-> I am OK with the -EHWPOISON error code, But I have one doubt here:
-> When we return this -EHWPOISON error code, Does this means we have to add a new error code
-> to error-base.h or errno.h? Is this easy realized?
+On Fri, 26 Feb 2021 09:58:37 -0800
+"Luck, Tony" <tony.luck@intel.com> wrote:
 
-The page already poisoned isn't really an error though. Just the result
-of a race condition.  What if we added an extra argument to memory_failure()
-so it can tell the caller that the specific reason for the early successful
-return is that the page was already poisoned?
+> On Fri, Feb 26, 2021 at 10:52:50AM +0800, Aili Yao wrote:
+> > Hi naoya,Oscar,david:  
+> > >   
+> > > > We could use some negative value (error code) to report the reported case,
+> > > > then as you mentioned above, some callers need change to handle the
+> > > > new case, and the same is true if you use some positive value.
+> > > > My preference is -EHWPOISON, but other options are fine if justified well.    
+> > > 
+> > > -EHWPOISON seems like a good fit.
+> > >   
+> > I am OK with the -EHWPOISON error code, But I have one doubt here:
+> > When we return this -EHWPOISON error code, Does this means we have to add a new error code
+> > to error-base.h or errno.h? Is this easy realized?  
+> 
+> The page already poisoned isn't really an error though. Just the result
+> of a race condition.  What if we added an extra argument to memory_failure()
+> so it can tell the caller that the specific reason for the early successful
+> return is that the page was already poisoned?
+> 
 
-Something like this (untested - patch against v5.11):
+It may be not an error, Is it reasonable to return a positive value like MF_HWPOISON, it seems the 0
+return code donesn't tell the whole story. 
 
--Tony
+Your patch seems more safer, But I don't know if it's worth such multi module modifications for this case.
+It really should be referenced to other maintainers and reviewers and thet can give more expert suggestions.
 
----
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index e133ce1e562b..0e32c4d879fb 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -637,6 +637,7 @@ static int uc_decode_notifier(struct notifier_block *nb, unsigned long val,
- {
- 	struct mce *mce = (struct mce *)data;
- 	unsigned long pfn;
-+	int already = 0;
- 
- 	if (!mce || !mce_usable_address(mce))
- 		return NOTIFY_DONE;
-@@ -646,8 +647,9 @@ static int uc_decode_notifier(struct notifier_block *nb, unsigned long val,
- 		return NOTIFY_DONE;
- 
- 	pfn = mce->addr >> PAGE_SHIFT;
--	if (!memory_failure(pfn, 0)) {
--		set_mce_nospec(pfn, whole_page(mce));
-+	if (!memory_failure(pfn, 0, &already)) {
-+		if (!already)
-+			set_mce_nospec(pfn, whole_page(mce));
- 		mce->kflags |= MCE_HANDLED_UC;
- 	}
- 
-@@ -1245,15 +1247,19 @@ static void kill_me_maybe(struct callback_head *cb)
- {
- 	struct task_struct *p = container_of(cb, struct task_struct, mce_kill_me);
- 	int flags = MF_ACTION_REQUIRED;
-+	int already = 0;
- 
- 	pr_err("Uncorrected hardware memory error in user-access at %llx", p->mce_addr);
- 
- 	if (!p->mce_ripv)
- 		flags |= MF_MUST_KILL;
- 
--	if (!memory_failure(p->mce_addr >> PAGE_SHIFT, flags) &&
-+	if (!memory_failure(p->mce_addr >> PAGE_SHIFT, flags, &already) &&
- 	    !(p->mce_kflags & MCE_IN_KERNEL_COPYIN)) {
--		set_mce_nospec(p->mce_addr >> PAGE_SHIFT, p->mce_whole_page);
-+		if (already)
-+			force_sig(SIGBUS); // BETTER CODE NEEDED HERE!!!
-+		else
-+			set_mce_nospec(p->mce_addr >> PAGE_SHIFT, p->mce_whole_page);
- 		sync_core();
- 		return;
- 	}
-@@ -1440,7 +1446,7 @@ noinstr void do_machine_check(struct pt_regs *regs)
- EXPORT_SYMBOL_GPL(do_machine_check);
- 
- #ifndef CONFIG_MEMORY_FAILURE
--int memory_failure(unsigned long pfn, int flags)
-+int memory_failure(unsigned long pfn, int flags, int *already)
- {
- 	/* mce_severity() should not hand us an ACTION_REQUIRED error */
- 	BUG_ON(flags & MF_ACTION_REQUIRED);
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index eef4ffb6122c..24c36623e492 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -480,7 +480,7 @@ static ssize_t hard_offline_page_store(struct device *dev,
- 	if (kstrtoull(buf, 0, &pfn) < 0)
- 		return -EINVAL;
- 	pfn >>= PAGE_SHIFT;
--	ret = memory_failure(pfn, 0);
-+	ret = memory_failure(pfn, 0, NULL);
- 	return ret ? ret : count;
- }
- 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index ecdf8a8cd6ae..88b92820465c 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -3045,7 +3045,7 @@ enum mf_flags {
- 	MF_MUST_KILL = 1 << 2,
- 	MF_SOFT_OFFLINE = 1 << 3,
- };
--extern int memory_failure(unsigned long pfn, int flags);
-+extern int memory_failure(unsigned long pfn, int flags, int *already);
- extern void memory_failure_queue(unsigned long pfn, int flags);
- extern void memory_failure_queue_kick(int cpu);
- extern int unpoison_memory(unsigned long pfn);
-diff --git a/mm/hwpoison-inject.c b/mm/hwpoison-inject.c
-index 1ae1ebc2b9b1..bfd5151dcd3f 100644
---- a/mm/hwpoison-inject.c
-+++ b/mm/hwpoison-inject.c
-@@ -48,7 +48,7 @@ static int hwpoison_inject(void *data, u64 val)
- 
- inject:
- 	pr_info("Injecting memory failure at pfn %#lx\n", pfn);
--	return memory_failure(pfn, 0);
-+	return memory_failure(pfn, 0, NULL);
- }
- 
- static int hwpoison_unpoison(void *data, u64 val)
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 6a660858784b..ade1956632aa 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -907,7 +907,7 @@ static int madvise_inject_error(int behavior,
- 		} else {
- 			pr_info("Injecting memory failure for pfn %#lx at process virtual address %#lx\n",
- 				 pfn, start);
--			ret = memory_failure(pfn, MF_COUNT_INCREASED);
-+			ret = memory_failure(pfn, MF_COUNT_INCREASED, NULL);
- 		}
- 
- 		if (ret)
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index e9481632fcd1..e8508e4d70e5 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -1388,7 +1388,7 @@ static int memory_failure_dev_pagemap(unsigned long pfn, int flags,
-  * Must run in process context (e.g. a work queue) with interrupts
-  * enabled and no spinlocks hold.
-  */
--int memory_failure(unsigned long pfn, int flags)
-+int memory_failure(unsigned long pfn, int flags, int *already)
- {
- 	struct page *p;
- 	struct page *hpage;
-@@ -1418,6 +1418,8 @@ int memory_failure(unsigned long pfn, int flags)
- 	if (PageHuge(p))
- 		return memory_failure_hugetlb(pfn, flags);
- 	if (TestSetPageHWPoison(p)) {
-+		if (already)
-+			*already = 1;
- 		pr_err("Memory failure: %#lx: already hardware poisoned\n",
- 			pfn);
- 		return 0;
-@@ -1624,7 +1626,7 @@ static void memory_failure_work_func(struct work_struct *work)
- 		if (entry.flags & MF_SOFT_OFFLINE)
- 			soft_offline_page(entry.pfn, entry.flags);
- 		else
--			memory_failure(entry.pfn, entry.flags);
-+			memory_failure(entry.pfn, entry.flags, NULL);
- 	}
- }
- 
+Thanks!
+Aili Yao
