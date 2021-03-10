@@ -2,301 +2,124 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3814BC433DB
-	for <linux-edac@archiver.kernel.org>; Wed, 10 Mar 2021 08:43:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A83BC433E9
+	for <linux-edac@archiver.kernel.org>; Wed, 10 Mar 2021 09:46:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1D5B64FF6
-	for <linux-edac@archiver.kernel.org>; Wed, 10 Mar 2021 08:43:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C0A164FE3
+	for <linux-edac@archiver.kernel.org>; Wed, 10 Mar 2021 09:46:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232318AbhCJImj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 10 Mar 2021 03:42:39 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:41312 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbhCJImP (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 10 Mar 2021 03:42:15 -0500
-Received: from mail-wm1-f70.google.com ([209.85.128.70])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lJuMl-0003i0-6C
-        for linux-edac@vger.kernel.org; Wed, 10 Mar 2021 08:38:51 +0000
-Received: by mail-wm1-f70.google.com with SMTP id a65so862773wmh.1
-        for <linux-edac@vger.kernel.org>; Wed, 10 Mar 2021 00:38:51 -0800 (PST)
+        id S232503AbhCJJpo (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 10 Mar 2021 04:45:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232540AbhCJJpb (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 10 Mar 2021 04:45:31 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96736C06174A
+        for <linux-edac@vger.kernel.org>; Wed, 10 Mar 2021 01:45:31 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id a18so22522421wrc.13
+        for <linux-edac@vger.kernel.org>; Wed, 10 Mar 2021 01:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=0Erx94zt8ljBM/yS3nXtNjrWvctYWuUVNAQLWpYJJRo=;
+        b=gmhG//67uUiQkJT3GRUTS9z+Tq+SpQbswnEQR3XBOpiU7cuv9y1ZxqWW5di7WTiU0z
+         5IGBqN7qnmOOotjHLYfwHb3ymzghFWrRTY1lWccM1Jx+OctRRl2HrazL+Ie3zn+oOLg4
+         +Cr93FaZA5kDLdCQdfSnM2ocPGfjV/4QFyjlmLL+A/yeCntkZRxL1Y6VHE3Ix0XGWvt0
+         6g/f18dGAHNtTske/QJGnxe1q9MAz0KsF1R4s87be2nrW/bOkzR56VrkiKlK8Lct6oeX
+         n8ruIEf/G85aTXWUgm6d5CINJa9ul6yAnrKIqzkWyNT+48PSH1UtSBhOAi5f8ntwPNJr
+         7JyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sJ+sWBPv8WTfBNPzw5KlNRJFjLSGVwyyKfH3WBvU8l8=;
-        b=XAQwWozx4HgzLh7dTYypNyHM9o62DdkrznZw4CWURZzJqZvSYqtd3RS4styGSdkowy
-         2Wk/v4xeFyQKYTzrsOcoKtiRg4qP2LgElcHLCrZiHBqe/4Mr15znsCAKta0q3aiAY05W
-         aiVPhb8/mszX9y/7GxMCPxgEMZ0wX4L4hI3yWoyT/B8y8X8q+ZhmUGrvYKTo2F94uhep
-         eJXYN2cALhI1e/QAtJMJcqU4U1xviQ20P5hvbRGd+LcLm6tm45Dw5rScQDzT3jCvfma/
-         JIaELCdswBGggD1Kk7bTPSqRx1tAf3FaphbhzWkWmbH0xtTmRbDmdutArFZJAF1EFiGF
-         xlMQ==
-X-Gm-Message-State: AOAM532F5RsyNETlrl7dqi7rH8A92NYAi6k/gCpBR9097BbDHC5TLPmx
-        LdUllpjUvfa/9yozl6mGjZMchQtKTqKP1MwcK/VoT5BnwMkoacfcH0EGqjm0G91m3aWqP77MjJh
-        MPA0KsfW/4j22Vj3bbCgCYAafF64L63vF83x6/Hc=
-X-Received: by 2002:a05:600c:35cd:: with SMTP id r13mr2199382wmq.186.1615365530697;
-        Wed, 10 Mar 2021 00:38:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxffKMarXt3WZ+2PQHxVk57BSqlnROHSdAmLc0YNptS3mf1yMHQoutG4Gedc/GO/nV/7BS6Sw==
-X-Received: by 2002:a05:600c:35cd:: with SMTP id r13mr2199348wmq.186.1615365530484;
-        Wed, 10 Mar 2021 00:38:50 -0800 (PST)
-Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.gmail.com with ESMTPSA id u20sm32781061wru.6.2021.03.10.00.38.49
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=0Erx94zt8ljBM/yS3nXtNjrWvctYWuUVNAQLWpYJJRo=;
+        b=B+rKk5F2p9Q4qrMTE/+SH2zpnvSC6R1RfANQi/KwCtJAZ1TEYKk7iVtLJvrdatyc0r
+         U3C8fEtnHTmdrrJfrzOAi8zHrwOiEksjQFcZ49H8SISNZKXwBbBRRkRscXfcloEw9lE/
+         TPKtv40HECMgKZFk9NwsBHaDHinvlXyG8mqST371ctb67y9vl3UdeCNWEUE3uDcmHZo0
+         /qIJsF/tFZ2pF2YeO1O7U+Y1I6u3/OK67QQv4z4Dx1ZPPR+Bl6CjNqtIf6FcL/l6Lx9B
+         f9gnJTMYv7TW+ZNf0yoIcGRPl0aUYUCWp4z+lhlNu8Cmv+EdE2bnV5cWfh4NX2YEx8+Q
+         fKdA==
+X-Gm-Message-State: AOAM531JRVNnRCDIZP0GEupmF5DXzvTrXIIACqY09O3Wf2YporueU/R9
+        e4CC2z+NerLrYqUaInG78hEzvA==
+X-Google-Smtp-Source: ABdhPJxcv9V5lAz+sEJ4HCtbzjFqfXkdmpxw/ngT7vdSlUljH3RkiAsQdLLVCP49qFAMYuC+GEIjxg==
+X-Received: by 2002:a5d:6381:: with SMTP id p1mr2649040wru.266.1615369530343;
+        Wed, 10 Mar 2021 01:45:30 -0800 (PST)
+Received: from dell ([91.110.221.204])
+        by smtp.gmail.com with ESMTPSA id c9sm11764201wrr.78.2021.03.10.01.45.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 00:38:50 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+        Wed, 10 Mar 2021 01:45:29 -0800 (PST)
+Date:   Wed, 10 Mar 2021 09:45:27 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 List-Id: <soc.lore.kernel.org>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
         Dinh Nguyen <dinguyen@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
-        Lee Jones <lee.jones@linaro.org>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-fpga@vger.kernel.org,
         netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
         arm@kernel.org, soc@kernel.org, Arnd Bergmann <arnd@arndb.de>,
         Olof Johansson <olof@lixom.net>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [RFC v2 3/5] arm64: socfpga: rename ARCH_STRATIX10 to ARCH_SOCFPGA64
-Date:   Wed, 10 Mar 2021 09:38:37 +0100
-Message-Id: <20210310083840.481615-1-krzysztof.kozlowski@canonical.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210310083327.480837-1-krzysztof.kozlowski@canonical.com>
+Subject: Re: [RFC v2 3/5] arm64: socfpga: rename ARCH_STRATIX10 to
+ ARCH_SOCFPGA64
+Message-ID: <20210310094527.GA701493@dell>
 References: <20210310083327.480837-1-krzysztof.kozlowski@canonical.com>
+ <20210310083840.481615-1-krzysztof.kozlowski@canonical.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210310083840.481615-1-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Prepare for merging Stratix 10, Agilex and N5X into one arm64
-architecture by first renaming the ARCH_STRATIX10 into ARCH_SOCFPGA64.
+On Wed, 10 Mar 2021, Krzysztof Kozlowski wrote:
 
-The existing ARCH_SOCFPGA (in ARMv7) Kconfig symbol cannot be used
-because altera_edac driver builds differently between them (with
-ifdefs).
+> Prepare for merging Stratix 10, Agilex and N5X into one arm64
+> architecture by first renaming the ARCH_STRATIX10 into ARCH_SOCFPGA64.
+> 
+> The existing ARCH_SOCFPGA (in ARMv7) Kconfig symbol cannot be used
+> because altera_edac driver builds differently between them (with
+> ifdefs).
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  arch/arm64/Kconfig.platforms                |  7 ++++---
+>  arch/arm64/boot/dts/altera/Makefile         |  2 +-
+>  arch/arm64/configs/defconfig                |  2 +-
+>  drivers/clk/Makefile                        |  2 +-
+>  drivers/clk/socfpga/Kconfig                 |  4 ++--
+>  drivers/edac/Kconfig                        |  2 +-
+>  drivers/edac/altera_edac.c                  | 10 +++++-----
+>  drivers/firmware/Kconfig                    |  2 +-
+>  drivers/fpga/Kconfig                        |  2 +-
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- arch/arm64/Kconfig.platforms                |  7 ++++---
- arch/arm64/boot/dts/altera/Makefile         |  2 +-
- arch/arm64/configs/defconfig                |  2 +-
- drivers/clk/Makefile                        |  2 +-
- drivers/clk/socfpga/Kconfig                 |  4 ++--
- drivers/edac/Kconfig                        |  2 +-
- drivers/edac/altera_edac.c                  | 10 +++++-----
- drivers/firmware/Kconfig                    |  2 +-
- drivers/fpga/Kconfig                        |  2 +-
- drivers/mfd/Kconfig                         |  2 +-
- drivers/net/ethernet/stmicro/stmmac/Kconfig |  4 ++--
- drivers/reset/Kconfig                       |  2 +-
- 12 files changed, 21 insertions(+), 20 deletions(-)
+>  drivers/mfd/Kconfig                         |  2 +-
 
-diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
-index cdfd5fed457f..78bba3633eab 100644
---- a/arch/arm64/Kconfig.platforms
-+++ b/arch/arm64/Kconfig.platforms
-@@ -254,10 +254,11 @@ config ARCH_SEATTLE
- 	help
- 	  This enables support for AMD Seattle SOC Family
- 
--config ARCH_STRATIX10
--	bool "Altera's Stratix 10 SoCFPGA Family"
-+config ARCH_SOCFPGA64
-+	bool "Intel's SoCFPGA ARMv8 Families"
- 	help
--	  This enables support for Altera's Stratix 10 SoCFPGA Family.
-+	  This enables support for Intel's SoCFPGA ARMv8 families:
-+	  Stratix 10 (ex. Altera), Agilex and eASIC N5X.
- 
- config ARCH_SYNQUACER
- 	bool "Socionext SynQuacer SoC Family"
-diff --git a/arch/arm64/boot/dts/altera/Makefile b/arch/arm64/boot/dts/altera/Makefile
-index 10119c7ab437..b45b92f8b4ec 100644
---- a/arch/arm64/boot/dts/altera/Makefile
-+++ b/arch/arm64/boot/dts/altera/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
--dtb-$(CONFIG_ARCH_STRATIX10) += socfpga_stratix10_socdk.dtb \
-+dtb-$(CONFIG_ARCH_SOCFPGA64) += socfpga_stratix10_socdk.dtb \
- 				socfpga_stratix10_socdk_nand.dtb
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index d612f633b771..ee742900a150 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -50,7 +50,7 @@ CONFIG_ARCH_RENESAS=y
- CONFIG_ARCH_ROCKCHIP=y
- CONFIG_ARCH_S32=y
- CONFIG_ARCH_SEATTLE=y
--CONFIG_ARCH_STRATIX10=y
-+CONFIG_ARCH_SOCFPGA64=y
- CONFIG_ARCH_SYNQUACER=y
- CONFIG_ARCH_TEGRA=y
- CONFIG_ARCH_SPRD=y
-diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
-index 12e46b12e587..e34457539edf 100644
---- a/drivers/clk/Makefile
-+++ b/drivers/clk/Makefile
-@@ -107,7 +107,7 @@ obj-$(CONFIG_CLK_SIFIVE)		+= sifive/
- obj-$(CONFIG_ARCH_SOCFPGA)		+= socfpga/
- obj-$(CONFIG_ARCH_AGILEX)		+= socfpga/
- obj-$(CONFIG_ARCH_N5X)			+= socfpga/
--obj-$(CONFIG_ARCH_STRATIX10)		+= socfpga/
-+obj-$(CONFIG_ARCH_SOCFPGA64)		+= socfpga/
- obj-$(CONFIG_PLAT_SPEAR)		+= spear/
- obj-y					+= sprd/
- obj-$(CONFIG_ARCH_STI)			+= st/
-diff --git a/drivers/clk/socfpga/Kconfig b/drivers/clk/socfpga/Kconfig
-index 7d4772faf93d..8cf3dfdba255 100644
---- a/drivers/clk/socfpga/Kconfig
-+++ b/drivers/clk/socfpga/Kconfig
-@@ -2,5 +2,5 @@
- config COMMON_CLK_SOCFPGA64
- 	bool
- 	# Intel Stratix / Agilex / N5X clock controller support
--	default y if ARCH_AGILEX || ARCH_N5X || ARCH_STRATIX10
--	depends on ARCH_AGILEX || ARCH_N5X || ARCH_STRATIX10
-+	default y if ARCH_AGILEX || ARCH_N5X || ARCH_SOCFPGA64
-+	depends on ARCH_AGILEX || ARCH_N5X || ARCH_SOCFPGA64
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 27d0c4cdc58d..97fa2056bd47 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -396,7 +396,7 @@ config EDAC_THUNDERX
- 
- config EDAC_ALTERA
- 	bool "Altera SOCFPGA ECC"
--	depends on EDAC=y && (ARCH_SOCFPGA || ARCH_STRATIX10)
-+	depends on EDAC=y && (ARCH_SOCFPGA || ARCH_SOCFPGA64)
- 	help
- 	  Support for error detection and correction on the
- 	  Altera SOCs. This is the global enable for the
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index e91cf1147a4e..ba11219664ca 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1502,7 +1502,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	dci->dev_name = ecc_name;
- 
- 	/* Update the PortB IRQs - A10 has 4, S10 has 2, Index accordingly */
--#ifdef CONFIG_ARCH_STRATIX10
-+#ifdef CONFIG_ARCH_SOCFPGA64
- 	altdev->sb_irq = irq_of_parse_and_map(np, 1);
- #else
- 	altdev->sb_irq = irq_of_parse_and_map(np, 2);
-@@ -1521,7 +1521,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 		goto err_release_group_1;
- 	}
- 
--#ifdef CONFIG_ARCH_STRATIX10
-+#ifdef CONFIG_ARCH_SOCFPGA64
- 	/* Use IRQ to determine SError origin instead of assigning IRQ */
- 	rc = of_property_read_u32_index(np, "interrupts", 1, &altdev->db_irq);
- 	if (rc) {
-@@ -1931,7 +1931,7 @@ static int altr_edac_a10_device_add(struct altr_arria10_edac *edac,
- 		goto err_release_group1;
- 	}
- 
--#ifdef CONFIG_ARCH_STRATIX10
-+#ifdef CONFIG_ARCH_SOCFPGA64
- 	/* Use IRQ to determine SError origin instead of assigning IRQ */
- 	rc = of_property_read_u32_index(np, "interrupts", 0, &altdev->db_irq);
- 	if (rc) {
-@@ -2016,7 +2016,7 @@ static const struct irq_domain_ops a10_eccmgr_ic_ops = {
- /************** Stratix 10 EDAC Double Bit Error Handler ************/
- #define to_a10edac(p, m) container_of(p, struct altr_arria10_edac, m)
- 
--#ifdef CONFIG_ARCH_STRATIX10
-+#ifdef CONFIG_ARCH_SOCFPGA64
- /* panic routine issues reboot on non-zero panic_timeout */
- extern int panic_timeout;
- 
-@@ -2109,7 +2109,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
- 					 altr_edac_a10_irq_handler,
- 					 edac);
- 
--#ifdef CONFIG_ARCH_STRATIX10
-+#ifdef CONFIG_ARCH_SOCFPGA64
- 	{
- 		int dberror, err_addr;
- 
-diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
-index 3f14dffb9669..59660798f05f 100644
---- a/drivers/firmware/Kconfig
-+++ b/drivers/firmware/Kconfig
-@@ -206,7 +206,7 @@ config FW_CFG_SYSFS_CMDLINE
- 
- config INTEL_STRATIX10_SERVICE
- 	tristate "Intel Stratix10 Service Layer"
--	depends on (ARCH_STRATIX10 || ARCH_AGILEX) && HAVE_ARM_SMCCC
-+	depends on (ARCH_SOCFPGA64 || ARCH_AGILEX) && HAVE_ARM_SMCCC
- 	default n
- 	help
- 	  Intel Stratix10 service layer runs at privileged exception level,
-diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-index 5ff9438b7b46..7f7504d1c961 100644
---- a/drivers/fpga/Kconfig
-+++ b/drivers/fpga/Kconfig
-@@ -60,7 +60,7 @@ config FPGA_MGR_ZYNQ_FPGA
- 
- config FPGA_MGR_STRATIX10_SOC
- 	tristate "Intel Stratix10 SoC FPGA Manager"
--	depends on (ARCH_STRATIX10 && INTEL_STRATIX10_SERVICE)
-+	depends on (ARCH_SOCFPGA64 && INTEL_STRATIX10_SERVICE)
- 	help
- 	  FPGA manager driver support for the Intel Stratix10 SoC.
- 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index a03de3f7a8ed..8fbd10cc6944 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -32,7 +32,7 @@ config MFD_ALTERA_A10SR
- 
- config MFD_ALTERA_SYSMGR
- 	bool "Altera SOCFPGA System Manager"
--	depends on (ARCH_SOCFPGA || ARCH_STRATIX10) && OF
-+	depends on (ARCH_SOCFPGA || ARCH_SOCFPGA64) && OF
- 	select MFD_SYSCON
- 	help
- 	  Select this to get System Manager support for all Altera branded
-diff --git a/drivers/net/ethernet/stmicro/stmmac/Kconfig b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-index e675ba12fde2..ab6eb792fbdb 100644
---- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
-+++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
-@@ -140,8 +140,8 @@ config DWMAC_ROCKCHIP
- 
- config DWMAC_SOCFPGA
- 	tristate "SOCFPGA dwmac support"
--	default (ARCH_SOCFPGA || ARCH_STRATIX10)
--	depends on OF && (ARCH_SOCFPGA || ARCH_STRATIX10 || COMPILE_TEST)
-+	default (ARCH_SOCFPGA || ARCH_SOCFPGA64)
-+	depends on OF && (ARCH_SOCFPGA || ARCH_SOCFPGA64 || COMPILE_TEST)
- 	select MFD_SYSCON
- 	help
- 	  Support for ethernet controller on Altera SOCFPGA
-diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-index 4171c6f76385..fa7f1394697b 100644
---- a/drivers/reset/Kconfig
-+++ b/drivers/reset/Kconfig
-@@ -183,7 +183,7 @@ config RESET_SCMI
- 
- config RESET_SIMPLE
- 	bool "Simple Reset Controller Driver" if COMPILE_TEST
--	default ARCH_AGILEX || ARCH_ASPEED || ARCH_BCM4908 || ARCH_BITMAIN || ARCH_REALTEK || ARCH_STM32 || ARCH_STRATIX10 || ARCH_SUNXI || ARC
-+	default ARCH_AGILEX || ARCH_ASPEED || ARCH_BCM4908 || ARCH_BITMAIN || ARCH_REALTEK || ARCH_STM32 || ARCH_SOCFPGA64 || ARCH_SUNXI || ARC
- 	help
- 	  This enables a simple reset controller driver for reset lines that
- 	  that can be asserted and deasserted by toggling bits in a contiguous,
+If it's okay with everyone else, it'll be okay with me:
+
+Acked-by: Lee Jones <lee.jones@linaro.org>
+
+>  drivers/net/ethernet/stmicro/stmmac/Kconfig |  4 ++--
+>  drivers/reset/Kconfig                       |  2 +-
+>  12 files changed, 21 insertions(+), 20 deletions(-)
+
 -- 
-2.25.1
-
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
