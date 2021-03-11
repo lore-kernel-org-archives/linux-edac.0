@@ -2,131 +2,107 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC96C43381
-	for <linux-edac@archiver.kernel.org>; Thu, 11 Mar 2021 15:28:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9998C433DB
+	for <linux-edac@archiver.kernel.org>; Thu, 11 Mar 2021 17:06:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5C4664DF5
-	for <linux-edac@archiver.kernel.org>; Thu, 11 Mar 2021 15:28:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7128364FEB
+	for <linux-edac@archiver.kernel.org>; Thu, 11 Mar 2021 17:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234427AbhCKP2K (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 11 Mar 2021 10:28:10 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:34336 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234176AbhCKP1u (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 11 Mar 2021 10:27:50 -0500
-Received: from mail-lj1-f199.google.com ([209.85.208.199])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lKNE5-0005lY-F0
-        for linux-edac@vger.kernel.org; Thu, 11 Mar 2021 15:27:49 +0000
-Received: by mail-lj1-f199.google.com with SMTP id x11so8667256ljm.5
-        for <linux-edac@vger.kernel.org>; Thu, 11 Mar 2021 07:27:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xL1edBPIXb5EtPx7dtqi4BTArR+ixt/89Ez9ALjb7AY=;
-        b=n17RUgVaEqBiIhxFcP+u7VJ1UxpIbWIc0GW+18AJbBsgeIVaLgemsyFgKfMw13pBJ4
-         Xh8w4KLzKIkIDryKF7mjL3gXg7yXMJwEpnl8cY9NJbDiH+hce9Bg1xdQltbPCNj4wnOH
-         MkY3nqoaPnfoKK/ZtJoLq6YkP1zbNOdaGDF4eIvViN5Rn02ZjjRiwyw7qGsrM1oU7lhD
-         zYjeZenxb5y3QBdRgzez4agQ70pfy++julKESL7jLFEwurcX1B5yFSmeDq3U+TXFxVea
-         4uJ7rjtHZLAylCf2Bdot8yYH6KLWvdWXWb75AeaDYM6G+MmPjP1j0bdHmzOzmjWT2A67
-         1w+Q==
-X-Gm-Message-State: AOAM533tsTFyDw0EpzjeCQ3iY5gdapGDze5w/9If6UV7GTUFnmYZtHD9
-        vfBN5drE2BFTB+qASKT9ChBHVemXR4BWE28o3VIFVCwvWRhTq3z71EoaU5h9CCcjxiO7RmaIk23
-        RrUynyraay0U17DyQP0P5kaPWM5oAMv9oSJqLLH8=
-X-Received: by 2002:a05:6402:10c8:: with SMTP id p8mr8958388edu.144.1615476457313;
-        Thu, 11 Mar 2021 07:27:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwym688lccoWS0vQKon5fsVW74N9HWG5xLsZvi1pg+uqrC83DObGrD7/MK6ibsjBN6gGqRDFQ==
-X-Received: by 2002:a05:6402:10c8:: with SMTP id p8mr8958352edu.144.1615476457175;
-        Thu, 11 Mar 2021 07:27:37 -0800 (PST)
-Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.gmail.com with ESMTPSA id eo22sm1528960ejc.0.2021.03.11.07.27.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 07:27:36 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-List-Id: <soc.lore.kernel.org>
-To:     Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Moritz Fischer <mdf@kernel.org>, Tom Rix <trix@redhat.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jose Abreu <joabreu@synopsys.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org,
-        netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH v3 12/15] fpga: altera: use ARCH_INTEL_SOCFPGA also for 32-bit ARM SoCs
-Date:   Thu, 11 Mar 2021 16:27:35 +0100
-Message-Id: <20210311152735.1318487-1-krzysztof.kozlowski@canonical.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210311152545.1317581-1-krzysztof.kozlowski@canonical.com>
-References: <20210311152545.1317581-1-krzysztof.kozlowski@canonical.com>
+        id S229804AbhCKRGY convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 11 Mar 2021 12:06:24 -0500
+Received: from mga03.intel.com ([134.134.136.65]:17589 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230046AbhCKRF4 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 11 Mar 2021 12:05:56 -0500
+IronPort-SDR: sxolkFIWZJZtgDX2iitjkpbdMW3EwlRVC5T3c9Q+ZUaOtfmZwsAWTLaaJzfJdKGjlDHeuQfShi
+ 3utg7r/YMeyA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="188739272"
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
+   d="scan'208";a="188739272"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 09:05:55 -0800
+IronPort-SDR: UnBMPMNAmjlV2lOgE13+gfTJozcsEO11D+J/l9JEvw33mJDqzC0k9EivlWoaoCOoaNpc9n0Wfa
+ PAmHtPuL316g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
+   d="scan'208";a="372391140"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+  by orsmga006.jf.intel.com with ESMTP; 11 Mar 2021 09:05:55 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 11 Mar 2021 09:05:54 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 11 Mar 2021 09:05:54 -0800
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2106.013;
+ Thu, 11 Mar 2021 09:05:54 -0800
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     =?iso-2022-jp?B?SE9SSUdVQ0hJIE5BT1lBKBskQktZOH0hIUQ+TGkbKEIp?= 
+        <naoya.horiguchi@nec.com>, Aili Yao <yaoaili@kingsoft.com>
+CC:     Oscar Salvador <osalvador@suse.de>,
+        "david@redhat.com" <david@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "yangfeng1@kingsoft.com" <yangfeng1@kingsoft.com>
+Subject: RE: [PATCH] mm,hwpoison: return -EBUSY when page already poisoned
+Thread-Topic: [PATCH] mm,hwpoison: return -EBUSY when page already poisoned
+Thread-Index: AQHXCnz5ja9ELypBUEatGW66U99st6pnoa2AgAEgN4CAAIHfAIAAAyEAgAAQXwD//9g7gIABDSmAgAALNoCAB2DqAIAAiu0AgABOzQD//+3L0IABObiAgAAiT4CAACi3AIAAmjmAgACgEACAAGnOwIAHwDQAgAHAYACAAADA4A==
+Date:   Thu, 11 Mar 2021 17:05:53 +0000
+Message-ID: <db80e98d2b264e988596d0d7d7c8a776@intel.com>
+References: <20210303115710.2e9f8e23@alex-virtual-machine>
+ <20210303163912.3d508e0f@alex-virtual-machine>
+ <1a78e9abdc134e35a5efcbf6b2fd2263@intel.com>
+ <20210304101653.546a9da1@alex-virtual-machine>
+ <20210304121941.667047c3@alex-virtual-machine>
+ <20210304144524.795872d7@alex-virtual-machine>
+ <20210304235720.GA215567@agluck-desk2.amr.corp.intel.com>
+ <20210305093016.40c87375@alex-virtual-machine>
+ <aee5176eafb54c88b19a5b2671d0a1fc@intel.com>
+ <20210310141042.4db9ea29@alex-virtual-machine>
+ <20210311085529.GA22268@hori.linux.bs1.fc.nec.co.jp>
+In-Reply-To: <20210311085529.GA22268@hori.linux.bs1.fc.nec.co.jp>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-ARCH_SOCFPGA is being renamed to ARCH_INTEL_SOCFPGA so adjust the
-32-bit ARM drivers to rely on new symbol.
+> I guess that p->mce_vaddr stores the virtual address of the error here.
+> If so, sending SIGBUS with the address looks enough as we do now, so why
+> do you walk page table to find the error virtual address?
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
----
- drivers/fpga/Kconfig | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+p->mce_vaddr only has the virtual address for the COPYIN case. In that code
+path we decode the kernel instruction that hit the fault in order to find the virtual
+address. That's easy because:
 
-diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-index fd325e9c5ce6..b1026c6fb119 100644
---- a/drivers/fpga/Kconfig
-+++ b/drivers/fpga/Kconfig
-@@ -14,13 +14,13 @@ if FPGA
- 
- config FPGA_MGR_SOCFPGA
- 	tristate "Altera SOCFPGA FPGA Manager"
--	depends on ARCH_SOCFPGA || COMPILE_TEST
-+	depends on ARCH_INTEL_SOCFPGA || COMPILE_TEST
- 	help
- 	  FPGA manager driver support for Altera SOCFPGA.
- 
- config FPGA_MGR_SOCFPGA_A10
- 	tristate "Altera SoCFPGA Arria10"
--	depends on ARCH_SOCFPGA || COMPILE_TEST
-+	depends on ARCH_INTEL_SOCFPGA || COMPILE_TEST
- 	select REGMAP_MMIO
- 	help
- 	  FPGA manager driver support for Altera Arria10 SoCFPGA.
-@@ -99,7 +99,7 @@ config FPGA_BRIDGE
- 
- config SOCFPGA_FPGA_BRIDGE
- 	tristate "Altera SoCFPGA FPGA Bridges"
--	depends on ARCH_SOCFPGA && FPGA_BRIDGE
-+	depends on ARCH_INTEL_SOCFPGA && FPGA_BRIDGE
- 	help
- 	  Say Y to enable drivers for FPGA bridges for Altera SOCFPGA
- 	  devices.
--- 
-2.25.1
+1) The kernel RIP is known to be good (can't page fault etc. on kernel address).
+2) There are only a half dozen instructions used by the kernel for get_user() or
+     copy_from_user().
 
+When the machine check happens during user execution accessing poison data
+we only have the physical address (from MCi_ADDR).
+
+-Tony
