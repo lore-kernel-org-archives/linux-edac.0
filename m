@@ -2,76 +2,94 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED46BC433DB
-	for <linux-edac@archiver.kernel.org>; Mon, 29 Mar 2021 09:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EBAC433C1
+	for <linux-edac@archiver.kernel.org>; Mon, 29 Mar 2021 16:13:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC91F6195E
-	for <linux-edac@archiver.kernel.org>; Mon, 29 Mar 2021 09:50:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 503F261960
+	for <linux-edac@archiver.kernel.org>; Mon, 29 Mar 2021 16:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231686AbhC2Jt6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 29 Mar 2021 05:49:58 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:40070 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231594AbhC2Jtb (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 29 Mar 2021 05:49:31 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UThbzQ9_1617011366;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0UThbzQ9_1617011366)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 29 Mar 2021 17:49:26 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     tony.luck@intel.com
-Cc:     bp@alien8.de, tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        hpa@zytor.com, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH] x86/mce/dev-mcelog: Fix potential memory access error
-Date:   Mon, 29 Mar 2021 17:49:20 +0800
-Message-Id: <1617011360-102531-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S230358AbhC2QMq convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 29 Mar 2021 12:12:46 -0400
+Received: from mga11.intel.com ([192.55.52.93]:52406 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230362AbhC2QMV (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 29 Mar 2021 12:12:21 -0400
+IronPort-SDR: BDhejDPbmdXwwlp3p2IQOWnQR69O2wwfhPzF/W4NojeH7cNnWsRXN5f7CT1LCT0Qb77Uhwney0
+ xqxZxyhnDdKg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="188311718"
+X-IronPort-AV: E=Sophos;i="5.81,288,1610438400"; 
+   d="scan'208";a="188311718"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 09:12:19 -0700
+IronPort-SDR: Ywc2bagZ1nzzoME6LaH3jnzZ1I16yUvRE+5CK+GulRa/bf8ymgaHUvA4Kie3og30AEuRfYQOSc
+ StATGDkHWnAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,288,1610438400"; 
+   d="scan'208";a="454618452"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+  by orsmga001.jf.intel.com with ESMTP; 29 Mar 2021 09:12:18 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 29 Mar 2021 09:12:17 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 29 Mar 2021 09:12:16 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2106.013;
+ Mon, 29 Mar 2021 09:12:16 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Yang Li <yang.lee@linux.alibaba.com>
+CC:     "bp@alien8.de" <bp@alien8.de>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] x86/mce/dev-mcelog: Fix potential memory access error
+Thread-Topic: [PATCH] x86/mce/dev-mcelog: Fix potential memory access error
+Thread-Index: AQHXJIDSM+kFcRvHZ0aVR9xYGcvpeqqbIiLg
+Date:   Mon, 29 Mar 2021 16:12:16 +0000
+Message-ID: <745eaeb668bc43deb8eb7db7a3342691@intel.com>
+References: <1617011360-102531-1-git-send-email-yang.lee@linux.alibaba.com>
+In-Reply-To: <1617011360-102531-1-git-send-email-yang.lee@linux.alibaba.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Using set_bit() to set a bit in an integer is not a good idea, since
-the function expects an unsigned long as argument, which can be 64bit
-wide.
-Coverity reports this problem as
-
-High:Out-of-bounds access(INCOMPATIBLE_CAST)
-CWE119: Out-of-bounds access to a scalar
-Pointer "&mcelog->flags" points to an object whose effective type is
-"unsigned int" (32 bits, unsigned) but is dereferenced as a wider
-"unsigned long" (64 bits, unsigned). This may lead to memory corruption.
-
-/home/heyuan.shy/git-repo/linux/arch/x86/kernel/cpu/mce/dev-mcelog.c:
-dev_mce_log
-
-Just use BIT instead.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- arch/x86/kernel/cpu/mce/dev-mcelog.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/dev-mcelog.c b/arch/x86/kernel/cpu/mce/dev-mcelog.c
-index 100fbee..fd7b1b4 100644
---- a/arch/x86/kernel/cpu/mce/dev-mcelog.c
-+++ b/arch/x86/kernel/cpu/mce/dev-mcelog.c
-@@ -51,7 +51,7 @@ static int dev_mce_log(struct notifier_block *nb, unsigned long val,
- 	 * earlier errors are the more interesting ones:
- 	 */
- 	if (entry >= mcelog->len) {
 -		set_bit(MCE_OVERFLOW, (unsigned long *)&mcelog->flags);
 +		mcelog->flags |= BIT(MCE_OVERFLOW);
- 		goto unlock;
- 	}
- 
--- 
-1.8.3.1
+
+set_bit() is an atomic operation because it might race with the code to
+get and clear this bit:
+
+                do {
+                        flags = mcelog->flags;
+                } while (cmpxchg(&mcelog->flags, flags, 0) != flags);
+
+Originally this was needed because mcelog could be called from #MC
+context.
+
+That's all changed now and the machine check notifier chain routines are
+called in a kernel thread. So some other locking (mutex?) could be used
+to protect access to mcelog->flags.
+
+-Tony
 
