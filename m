@@ -2,329 +2,118 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB19C433ED
-	for <linux-edac@archiver.kernel.org>; Thu,  1 Apr 2021 11:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5047C433ED
+	for <linux-edac@archiver.kernel.org>; Thu,  1 Apr 2021 17:58:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3739610CF
-	for <linux-edac@archiver.kernel.org>; Thu,  1 Apr 2021 11:07:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E1E56112E
+	for <linux-edac@archiver.kernel.org>; Thu,  1 Apr 2021 17:58:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232565AbhDALHB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 1 Apr 2021 07:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59392 "EHLO
+        id S236801AbhDAR6m (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:58:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233744AbhDALGc (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 1 Apr 2021 07:06:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A51C061788
-        for <linux-edac@vger.kernel.org>; Thu,  1 Apr 2021 04:06:31 -0700 (PDT)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1lRv9a-0000Bj-9G; Thu, 01 Apr 2021 13:06:22 +0200
-Received: from sha by dude02.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1lRv9Y-0008Pt-Eo; Thu, 01 Apr 2021 13:06:20 +0200
-From:   Sascha Hauer <s.hauer@pengutronix.de>
-To:     linux-edac@vger.kernel.org
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>,
-        York Sun <york.sun@nxp.com>, kernel@pengutronix.de,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Subject: [PATCH 1/2] drivers/edac: Add L1 and L2 error detection for A53 and A57
-Date:   Thu,  1 Apr 2021 13:06:14 +0200
-Message-Id: <20210401110615.15326-2-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210401110615.15326-1-s.hauer@pengutronix.de>
-References: <20210401110615.15326-1-s.hauer@pengutronix.de>
+        with ESMTP id S236883AbhDARzg (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 1 Apr 2021 13:55:36 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F03C02FEA8;
+        Thu,  1 Apr 2021 09:12:42 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f08870070b45f06e9fedc1b.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:8700:70b4:5f06:e9fe:dc1b])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AB3DC1EC0516;
+        Thu,  1 Apr 2021 18:12:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1617293560;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=D5AcjEpLI6NGptAOcU3s8MiJCsw0QoCR1oFeiyhm3WI=;
+        b=ICGT7NtqfpvmcbkOCvNVXfUSW4DiRDjsdi0Vfd1AnVEq9yQ03QGiNrhU8M9mztVs53ktGI
+        QvcFxQNBAszJ08e0c4IkAcajOFOUfOHHuPSEYOnp4dtBxuBzBzxCnJfHyrjYZwSwZLtk5V
+        sb7NQpWtiZStw5rQZ37/DaMnXqZQryA=
+Date:   Thu, 1 Apr 2021 18:12:37 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     William Roche <william.roche@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        linux-edac@vger.kernel.org
+Subject: Re: [PATCH v1] RAS/CEC: Memory Corrected Errors consistent event
+ filtering
+Message-ID: <20210401161237.GC28954@zn.tnic>
+References: <1616783429-6793-1-git-send-email-william.roche@oracle.com>
+ <20210326190242.GI25229@zn.tnic>
+ <fac89612-e15c-2940-9d6d-70a812dbe99c@oracle.com>
+ <20210326224310.GL25229@zn.tnic>
+ <3ee5551c-d311-1939-315f-a4712e3821ff@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-edac@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3ee5551c-d311-1939-315f-a4712e3821ff@oracle.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The Cortex A53 and A57 cores have error detection capabilities for the
-L1/L2 Caches, this patch adds a driver for them.
+On Mon, Mar 29, 2021 at 11:44:05AM +0200, William Roche wrote:
+> I totally agree with you, and in order to schedule a replacement, MCEs
+> information (enriched by the notifiers chain) are more meaningful than
+> only PFN values.
 
-Unfortunately there is no robust way to inject errors into the caches,
-so this driver doesn't contain any code to actually test it. It has
-been tested though with code taken from an older version of this driver
-found here: https://lkml.org/lkml/2018/3/14/1203. For reasons stated
-in this thread the error injection code is not suitable for mainline,
-so it is removed from the driver.
+Well, if you want to collect errors and analyze patterns in order to
+detect hw going bad, you're probably better off disabling the CEC
+altogether - either disable it in Kconfig or boot with ras=cec_disable.
 
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- drivers/edac/Kconfig              |   6 +
- drivers/edac/Makefile             |   1 +
- drivers/edac/cortex_arm64_l1_l2.c | 218 ++++++++++++++++++++++++++++++
- 3 files changed, 225 insertions(+)
- create mode 100644 drivers/edac/cortex_arm64_l1_l2.c
+> 1/ Giving back ras_cec a consistent behavior where the first occurrence
+> of a CE doesn't generate an MCE message from the MCE_HANDLED_CEC
+> notifiers, and a consistent behavior between the slot 0 and the other
+> pfn slots.
 
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 27d0c4cdc58d..b038aed35e93 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -538,4 +538,10 @@ config EDAC_DMC520
- 	  Support for error detection and correction on the
- 	  SoCs with ARM DMC-520 DRAM controller.
- 
-+config EDAC_CORTEX_ARM64_L1_L2
-+	tristate "ARM Cortex A57/A53"
-+	depends on ARM64
-+	help
-+	  Support for L1/L2 cache error detection on ARM Cortex A57 and A53.
-+
- endif # EDAC
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index 2d1641a27a28..5849d8bb32ae 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -84,3 +84,4 @@ obj-$(CONFIG_EDAC_QCOM)			+= qcom_edac.o
- obj-$(CONFIG_EDAC_ASPEED)		+= aspeed_edac.o
- obj-$(CONFIG_EDAC_BLUEFIELD)		+= bluefield_edac.o
- obj-$(CONFIG_EDAC_DMC520)		+= dmc520_edac.o
-+obj-$(CONFIG_EDAC_CORTEX_ARM64_L1_L2)	+= cortex_arm64_l1_l2.o
-diff --git a/drivers/edac/cortex_arm64_l1_l2.c b/drivers/edac/cortex_arm64_l1_l2.c
-new file mode 100644
-index 000000000000..3b1e2f3ccab6
---- /dev/null
-+++ b/drivers/edac/cortex_arm64_l1_l2.c
-@@ -0,0 +1,218 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Cortex A57 and A53 EDAC L1 and L2 cache error detection
-+ *
-+ * Copyright (c) 2020 Pengutronix, Sascha Hauer <s.hauer@pengutronix.de>
-+ *
-+ * Based on Code from:
-+ * Copyright (c) 2018, NXP Semiconductor
-+ * Author: York Sun <york.sun@nxp.com>
-+ *
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/of_platform.h>
-+#include <linux/of_device.h>
-+#include <linux/bitfield.h>
-+#include <asm/smp_plat.h>
-+
-+#include "edac_module.h"
-+
-+#define DRVNAME				"cortex-arm64-edac"
-+
-+#define CPUMERRSR_EL1_RAMID		GENMASK(30, 24)
-+
-+#define CPUMERRSR_EL1_VALID		BIT(31)
-+#define CPUMERRSR_EL1_FATAL		BIT(63)
-+
-+#define L1_I_TAG_RAM			0x00
-+#define L1_I_DATA_RAM			0x01
-+#define L1_D_TAG_RAM			0x08
-+#define L1_D_DATA_RAM			0x09
-+#define L1_D_DIRTY_RAM			0x14
-+#define TLB_RAM				0x18
-+
-+#define L2MERRSR_EL1_VALID		BIT(31)
-+#define L2MERRSR_EL1_FATAL		BIT(63)
-+
-+struct merrsr {
-+	u64 cpumerr;
-+	u64 l2merr;
-+};
-+
-+#define MESSAGE_SIZE 64
-+
-+#define SYS_CPUMERRSR_EL1			sys_reg(3, 1, 15, 2, 2)
-+#define SYS_L2MERRSR_EL1			sys_reg(3, 1, 15, 2, 3)
-+
-+static struct cpumask compat_mask;
-+
-+static void report_errors(struct edac_device_ctl_info *edac_ctl, int cpu,
-+			  struct merrsr *merrsr)
-+{
-+	char msg[MESSAGE_SIZE];
-+	u64 cpumerr = merrsr->cpumerr;
-+	u64 l2merr = merrsr->l2merr;
-+
-+	if (cpumerr & CPUMERRSR_EL1_VALID) {
-+		const char *str;
-+		bool fatal = cpumerr & CPUMERRSR_EL1_FATAL;
-+
-+		switch (FIELD_GET(CPUMERRSR_EL1_RAMID, cpumerr)) {
-+		case L1_I_TAG_RAM:
-+			str = "L1-I Tag RAM";
-+			break;
-+		case L1_I_DATA_RAM:
-+			str = "L1-I Data RAM";
-+			break;
-+		case L1_D_TAG_RAM:
-+			str = "L1-D Tag RAM";
-+			break;
-+		case L1_D_DATA_RAM:
-+			str = "L1-D Data RAM";
-+			break;
-+		case L1_D_DIRTY_RAM:
-+			str = "L1 Dirty RAM";
-+			break;
-+		case TLB_RAM:
-+			str = "TLB RAM";
-+			break;
-+		default:
-+			str = "unknown";
-+			break;
-+		}
-+
-+		snprintf(msg, MESSAGE_SIZE, "%s %s error(s) on CPU %d",
-+			 str, fatal ? "fatal" : "correctable", cpu);
-+
-+		if (fatal)
-+			edac_device_handle_ue(edac_ctl, cpu, 0, msg);
-+		else
-+			edac_device_handle_ce(edac_ctl, cpu, 0, msg);
-+	}
-+
-+	if (l2merr & L2MERRSR_EL1_VALID) {
-+		bool fatal = l2merr & L2MERRSR_EL1_FATAL;
-+
-+		snprintf(msg, MESSAGE_SIZE, "L2 %s error(s) on CPU %d",
-+			 fatal ? "fatal" : "correctable", cpu);
-+		if (fatal)
-+			edac_device_handle_ue(edac_ctl, cpu, 1, msg);
-+		else
-+			edac_device_handle_ce(edac_ctl, cpu, 1, msg);
-+	}
-+}
-+
-+static void read_errors(void *data)
-+{
-+	struct merrsr *merrsr = data;
-+
-+	merrsr->cpumerr = read_sysreg_s(SYS_CPUMERRSR_EL1);
-+	write_sysreg_s(0, SYS_CPUMERRSR_EL1);
-+	merrsr->l2merr = read_sysreg_s(SYS_L2MERRSR_EL1);
-+	write_sysreg_s(0, SYS_L2MERRSR_EL1);
-+}
-+
-+static void cortex_arm64_edac_check(struct edac_device_ctl_info *edac_ctl)
-+{
-+	struct merrsr merrsr;
-+	int cpu;
-+
-+	for_each_cpu_and(cpu, cpu_online_mask, &compat_mask) {
-+		smp_call_function_single(cpu, read_errors, &merrsr, true);
-+		report_errors(edac_ctl, cpu, &merrsr);
-+	}
-+}
-+
-+static int cortex_arm64_edac_probe(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_ctl;
-+	struct device *dev = &pdev->dev;
-+	int rc;
-+
-+	edac_ctl = edac_device_alloc_ctl_info(0, "cpu",
-+					      num_possible_cpus(), "L", 2, 1, NULL, 0,
-+					      edac_device_alloc_index());
-+	if (!edac_ctl)
-+		return -ENOMEM;
-+
-+	edac_ctl->edac_check = cortex_arm64_edac_check;
-+	edac_ctl->dev = dev;
-+	edac_ctl->mod_name = dev_name(dev);
-+	edac_ctl->dev_name = dev_name(dev);
-+	edac_ctl->ctl_name = DRVNAME;
-+	dev_set_drvdata(dev, edac_ctl);
-+
-+	rc = edac_device_add_device(edac_ctl);
-+	if (rc)
-+		goto out_dev;
-+
-+	return 0;
-+
-+out_dev:
-+	edac_device_free_ctl_info(edac_ctl);
-+
-+	return rc;
-+}
-+
-+static int cortex_arm64_edac_remove(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_ctl = dev_get_drvdata(&pdev->dev);
-+
-+	edac_device_del_device(edac_ctl->dev);
-+	edac_device_free_ctl_info(edac_ctl);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id cortex_arm64_edac_of_match[] = {
-+	{ .compatible = "arm,cortex-a53" },
-+	{ .compatible = "arm,cortex-a57" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cortex_arm64_edac_of_match);
-+
-+static struct platform_driver cortex_arm64_edac_driver = {
-+	.probe = cortex_arm64_edac_probe,
-+	.remove = cortex_arm64_edac_remove,
-+	.driver = {
-+		.name = DRVNAME,
-+	},
-+};
-+
-+static int __init cortex_arm64_edac_driver_init(void)
-+{
-+	struct device_node *np;
-+	int cpu;
-+	struct platform_device *pdev;
-+	int err;
-+
-+	for_each_possible_cpu(cpu) {
-+		np = of_get_cpu_node(cpu, NULL);
-+
-+		if (of_match_node(cortex_arm64_edac_of_match, np))
-+			cpumask_set_cpu(cpu, &compat_mask);
-+	}
-+
-+	if (cpumask_empty(&compat_mask))
-+		return 0;
-+
-+	err = platform_driver_register(&cortex_arm64_edac_driver);
-+        if (err)
-+                return err;
-+
-+	pdev = platform_device_register_simple(DRVNAME, -1, NULL, 0);
-+	if (IS_ERR(pdev)) {
-+		pr_err("failed to register cortex arm64 edac device\n");
-+		platform_driver_unregister(&cortex_arm64_edac_driver);
-+		return PTR_ERR(pdev);
-+	}
-+
-+	return 0;
-+}
-+
-+device_initcall(cortex_arm64_edac_driver_init);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR("Sascha Hauer <s.hauer@pengutronix.de>");
-+MODULE_DESCRIPTION("Cortex A57 and A53 L1 and L2 cache EDAC driver");
+If by this you mean the issue with the return value, then sure.
+
+If you mean something else, you'd have to be more specific.
+
+> 2/ Give the CE MCE information when the action threshold is reached to
+> help the administrator identify what generated the PFN "Soft-offlining"
+> or "Invalid pfn" message.
+> 
+> When ras_cec is enabled it hides most of the CE errors, but when the
+> action threshold is reached all notifiers can generate their indication
+> about the error that appeared too often.
+> 
+> An administrator getting too many action threshold CE errors can
+> schedule a replacement based on the indications provided by his EDAC
+> module etc...
+
+Well, this works probably only in theory.
+
+First of all, the CEC sees the error first, before the EDAC drivers.
+
+But, in order to map from the virtual address to the actual DIMM, you
+need the EDAC drivers to have a go at the error. In many cases not even
+the EDAC drivers can give you that mapping because, well, hw/fw does its
+own stuff underneath, predictive fault bla, added value crap, whatever,
+so that we can't even get a "DIMM X on processor Y caused the error."
+
+I know, your assumption is that if a page gets offlined by the CEC, then
+all the errors' addresses are coming from the same physical DIMM. And
+that is probably correct in most cases but I'm not convinced for all.
+
+In any case, what we could do - which is pretty easy and cheap - is to
+fix the retval of cec_add_elem() to communicate to the caller that it
+offlined a page and this way tell the notifier chain that the error
+needs to be printed into dmesg with a statement sayin that DIMM Y got
+just one more page offlined.
+
+Over time, if a DIMM is going bad, one should be able to grep dmesg and
+correlate all those offlined pages to DIMMs and then maybe see a pattern
+and eventually schedule a downtime.
+
+A lot of ifs, I know. :-\
+
 -- 
-2.29.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
