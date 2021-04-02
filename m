@@ -3,33 +3,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E12BC43461
-	for <linux-edac@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCB1C433ED
+	for <linux-edac@archiver.kernel.org>; Fri,  2 Apr 2021 10:07:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 044BC60FE6
-	for <linux-edac@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B3416113A
+	for <linux-edac@archiver.kernel.org>; Fri,  2 Apr 2021 10:07:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236587AbhDASLN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:11:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37004 "EHLO mail.kernel.org"
+        id S234432AbhDBKHA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 2 Apr 2021 06:07:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39062 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236809AbhDASDB (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:03:01 -0400
+        id S229924AbhDBKHA (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 2 Apr 2021 06:07:00 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F74461355;
-        Thu,  1 Apr 2021 15:37:09 +0000 (UTC)
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.misterjones.org)
+        by mail.kernel.org (Postfix) with ESMTPSA id D6F24610D0;
+        Fri,  2 Apr 2021 10:06:58 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=wait-a-minute.misterjones.org)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lRzNb-0057PC-4y; Thu, 01 Apr 2021 16:37:07 +0100
-Date:   Thu, 01 Apr 2021 16:37:06 +0100
-Message-ID: <87pmzeow2l.wl-maz@kernel.org>
+        id 1lSGhc-005I5C-Q5; Fri, 02 Apr 2021 11:06:56 +0100
+Date:   Fri, 02 Apr 2021 11:06:56 +0100
+Message-ID: <87czvdf1a7.wl-maz@kernel.org>
 From:   Marc Zyngier <maz@kernel.org>
 To:     Sascha Hauer <s.hauer@pengutronix.de>
 Cc:     linux-edac@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
@@ -41,10 +41,10 @@ Cc:     linux-edac@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
         linux-arm-kernel@lists.infradead.org,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH 2/2] dt-bindings: arm: cpus: Add edac-enabled property
-In-Reply-To: <20210401110615.15326-3-s.hauer@pengutronix.de>
+Subject: Re: [PATCH 1/2] drivers/edac: Add L1 and L2 error detection for A53 and A57
+In-Reply-To: <20210401110615.15326-2-s.hauer@pengutronix.de>
 References: <20210401110615.15326-1-s.hauer@pengutronix.de>
-        <20210401110615.15326-3-s.hauer@pengutronix.de>
+        <20210401110615.15326-2-s.hauer@pengutronix.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
  (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -58,61 +58,190 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, 01 Apr 2021 12:06:15 +0100,
+On Thu, 01 Apr 2021 12:06:14 +0100,
 Sascha Hauer <s.hauer@pengutronix.de> wrote:
 > 
-> Some CPUs like the Cortex-A53 and Cortex-A57 have Error Detection And
-> Correction (EDAC) support on their L1 and L2 caches. This is implemented
-> in implementation defined registers, so usage of this functionality is
-> not safe in virtualized environments or when EL3 already uses these
-> registers.
-> This patch adds a edac-enabled flag which can be explicitly set when
-> EDAC can be used.
+> The Cortex A53 and A57 cores have error detection capabilities for the
+> L1/L2 Caches, this patch adds a driver for them.
+> 
+> Unfortunately there is no robust way to inject errors into the caches,
+> so this driver doesn't contain any code to actually test it. It has
+> been tested though with code taken from an older version of this driver
+> found here: https://lkml.org/lkml/2018/3/14/1203. For reasons stated
+> in this thread the error injection code is not suitable for mainline,
+> so it is removed from the driver.
 > 
 > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 > ---
->  Documentation/devicetree/bindings/arm/cpus.yaml | 6 ++++++
->  drivers/edac/cortex_arm64_l1_l2.c               | 7 +++++--
->  2 files changed, 11 insertions(+), 2 deletions(-)
+>  drivers/edac/Kconfig              |   6 +
+>  drivers/edac/Makefile             |   1 +
+>  drivers/edac/cortex_arm64_l1_l2.c | 218 ++++++++++++++++++++++++++++++
+>  3 files changed, 225 insertions(+)
+>  create mode 100644 drivers/edac/cortex_arm64_l1_l2.c
 > 
-> diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
-> index 26b886b20b27..74be19c0544a 100644
-> --- a/Documentation/devicetree/bindings/arm/cpus.yaml
-> +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
-> @@ -270,6 +270,12 @@ properties:
->        For PSCI based platforms, the name corresponding to the index of the PSCI
->        PM domain provider, must be "psci".
+> diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+> index 27d0c4cdc58d..b038aed35e93 100644
+> --- a/drivers/edac/Kconfig
+> +++ b/drivers/edac/Kconfig
+> @@ -538,4 +538,10 @@ config EDAC_DMC520
+>  	  Support for error detection and correction on the
+>  	  SoCs with ARM DMC-520 DRAM controller.
 >  
-> +  edac-enabled:
-> +    $ref: '/schemas/types.yaml#/definitions/flag'
-> +    description:
-> +      Some CPUs support Error Detection And Correction (EDAC) on their L1 and
-> +      L2 caches. This flag marks this function as usable.
-> +
->    qcom,saw:
->      $ref: '/schemas/types.yaml#/definitions/phandle'
->      description: |
-> diff --git a/drivers/edac/cortex_arm64_l1_l2.c b/drivers/edac/cortex_arm64_l1_l2.c
-> index 3b1e2f3ccab6..6d5355bae80c 100644
-> --- a/drivers/edac/cortex_arm64_l1_l2.c
-> +++ b/drivers/edac/cortex_arm64_l1_l2.c
-> @@ -190,8 +190,11 @@ static int __init cortex_arm64_edac_driver_init(void)
->  	for_each_possible_cpu(cpu) {
->  		np = of_get_cpu_node(cpu, NULL);
->  
-> -		if (of_match_node(cortex_arm64_edac_of_match, np))
-> -			cpumask_set_cpu(cpu, &compat_mask);
-> +		if (!of_match_node(cortex_arm64_edac_of_match, np))
-> +			continue;
-> +		if (!of_property_read_bool(np, "edac-enabled"))
-> +			continue;
-> +		cpumask_set_cpu(cpu, &compat_mask);
->  	}
->  
->  	if (cpumask_empty(&compat_mask))
+> +config EDAC_CORTEX_ARM64_L1_L2
+> +	tristate "ARM Cortex A57/A53"
+> +	depends on ARM64
+> +	help
+> +	  Support for L1/L2 cache error detection on ARM Cortex A57 and A53.
 
-This last hunk must be part of the initial patch. Otherwise, it breaks
-exactly as described in the commit message.
+I went through the TRMs for a few other Cortex-A cores, and this
+feature looks more common than this comment suggests. At least A35 and
+A72 implement something similar (if not strictly identical), probably
+owing to their ancestry.
+
+> +
+>  endif # EDAC
+> diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
+> index 2d1641a27a28..5849d8bb32ae 100644
+> --- a/drivers/edac/Makefile
+> +++ b/drivers/edac/Makefile
+> @@ -84,3 +84,4 @@ obj-$(CONFIG_EDAC_QCOM)			+= qcom_edac.o
+>  obj-$(CONFIG_EDAC_ASPEED)		+= aspeed_edac.o
+>  obj-$(CONFIG_EDAC_BLUEFIELD)		+= bluefield_edac.o
+>  obj-$(CONFIG_EDAC_DMC520)		+= dmc520_edac.o
+> +obj-$(CONFIG_EDAC_CORTEX_ARM64_L1_L2)	+= cortex_arm64_l1_l2.o
+> diff --git a/drivers/edac/cortex_arm64_l1_l2.c b/drivers/edac/cortex_arm64_l1_l2.c
+> new file mode 100644
+> index 000000000000..3b1e2f3ccab6
+> --- /dev/null
+> +++ b/drivers/edac/cortex_arm64_l1_l2.c
+> @@ -0,0 +1,218 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Cortex A57 and A53 EDAC L1 and L2 cache error detection
+> + *
+> + * Copyright (c) 2020 Pengutronix, Sascha Hauer <s.hauer@pengutronix.de>
+> + *
+> + * Based on Code from:
+> + * Copyright (c) 2018, NXP Semiconductor
+> + * Author: York Sun <york.sun@nxp.com>
+> + *
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/of_device.h>
+> +#include <linux/bitfield.h>
+> +#include <asm/smp_plat.h>
+> +
+> +#include "edac_module.h"
+> +
+> +#define DRVNAME				"cortex-arm64-edac"
+> +
+> +#define CPUMERRSR_EL1_RAMID		GENMASK(30, 24)
+> +
+> +#define CPUMERRSR_EL1_VALID		BIT(31)
+> +#define CPUMERRSR_EL1_FATAL		BIT(63)
+> +
+> +#define L1_I_TAG_RAM			0x00
+> +#define L1_I_DATA_RAM			0x01
+> +#define L1_D_TAG_RAM			0x08
+> +#define L1_D_DATA_RAM			0x09
+> +#define L1_D_DIRTY_RAM			0x14
+> +#define TLB_RAM				0x18
+> +
+> +#define L2MERRSR_EL1_VALID		BIT(31)
+> +#define L2MERRSR_EL1_FATAL		BIT(63)
+> +
+> +struct merrsr {
+> +	u64 cpumerr;
+> +	u64 l2merr;
+> +};
+> +
+> +#define MESSAGE_SIZE 64
+> +
+> +#define SYS_CPUMERRSR_EL1			sys_reg(3, 1, 15, 2, 2)
+> +#define SYS_L2MERRSR_EL1			sys_reg(3, 1, 15, 2, 3)
+> +
+> +static struct cpumask compat_mask;
+> +
+> +static void report_errors(struct edac_device_ctl_info *edac_ctl, int cpu,
+> +			  struct merrsr *merrsr)
+> +{
+> +	char msg[MESSAGE_SIZE];
+> +	u64 cpumerr = merrsr->cpumerr;
+> +	u64 l2merr = merrsr->l2merr;
+> +
+> +	if (cpumerr & CPUMERRSR_EL1_VALID) {
+> +		const char *str;
+> +		bool fatal = cpumerr & CPUMERRSR_EL1_FATAL;
+> +
+> +		switch (FIELD_GET(CPUMERRSR_EL1_RAMID, cpumerr)) {
+> +		case L1_I_TAG_RAM:
+> +			str = "L1-I Tag RAM";
+> +			break;
+> +		case L1_I_DATA_RAM:
+> +			str = "L1-I Data RAM";
+> +			break;
+> +		case L1_D_TAG_RAM:
+> +			str = "L1-D Tag RAM";
+> +			break;
+> +		case L1_D_DATA_RAM:
+> +			str = "L1-D Data RAM";
+> +			break;
+> +		case L1_D_DIRTY_RAM:
+> +			str = "L1 Dirty RAM";
+> +			break;
+> +		case TLB_RAM:
+> +			str = "TLB RAM";
+> +			break;
+> +		default:
+> +			str = "unknown";
+> +			break;
+> +		}
+> +
+> +		snprintf(msg, MESSAGE_SIZE, "%s %s error(s) on CPU %d",
+> +			 str, fatal ? "fatal" : "correctable", cpu);
+> +
+> +		if (fatal)
+> +			edac_device_handle_ue(edac_ctl, cpu, 0, msg);
+> +		else
+> +			edac_device_handle_ce(edac_ctl, cpu, 0, msg);
+> +	}
+> +
+> +	if (l2merr & L2MERRSR_EL1_VALID) {
+> +		bool fatal = l2merr & L2MERRSR_EL1_FATAL;
+> +
+> +		snprintf(msg, MESSAGE_SIZE, "L2 %s error(s) on CPU %d",
+> +			 fatal ? "fatal" : "correctable", cpu);
+
+The shared nature of the L2 makes the CPU it has been detected on
+pretty much irrelevant. What you really want here is the CPUID+Way
+that is in the register data.
+
+> +		if (fatal)
+> +			edac_device_handle_ue(edac_ctl, cpu, 1, msg);
+> +		else
+> +			edac_device_handle_ce(edac_ctl, cpu, 1, msg);
+> +	}
+> +}
+> +
+> +static void read_errors(void *data)
+> +{
+> +	struct merrsr *merrsr = data;
+> +
+> +	merrsr->cpumerr = read_sysreg_s(SYS_CPUMERRSR_EL1);
+> +	write_sysreg_s(0, SYS_CPUMERRSR_EL1);
+> +	merrsr->l2merr = read_sysreg_s(SYS_L2MERRSR_EL1);
+> +	write_sysreg_s(0, SYS_L2MERRSR_EL1);
+
+If an error happens between read and write, you lose it. That's not
+great. You could improve things by only writing 0 if you have found an
+error. You probably also need an isb after the write if you want it to
+take effect in a timely manner.
+
+I'm also not sure of how valuable it is to probe for L2 errors on each
+CPU, given that it is shared with up to 3 other cores. You probably
+want to use the cache topology information for this.
 
 Thanks,
 
