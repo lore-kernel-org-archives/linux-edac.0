@@ -2,78 +2,120 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 840CBC433B4
-	for <linux-edac@archiver.kernel.org>; Wed, 28 Apr 2021 03:17:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BEAC433ED
+	for <linux-edac@archiver.kernel.org>; Wed, 28 Apr 2021 08:26:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55E1F613FB
-	for <linux-edac@archiver.kernel.org>; Wed, 28 Apr 2021 03:17:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36AB861004
+	for <linux-edac@archiver.kernel.org>; Wed, 28 Apr 2021 08:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbhD1DRt (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 27 Apr 2021 23:17:49 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:41018 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229556AbhD1DRt (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 27 Apr 2021 23:17:49 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R521e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=kaige.fu@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UX1cOJN_1619579822;
-Received: from localhost(mailfrom:kaige.fu@linux.alibaba.com fp:SMTPD_---0UX1cOJN_1619579822)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 28 Apr 2021 11:17:03 +0800
-From:   Kaige Fu <kaige.fu@linux.alibaba.com>
-To:     linux-edac@vger.kernel.org
-Cc:     Kaige Fu <kaige.fu@linux.alibaba.com>,
-        Shannon Zhao <shannon.zhao@linux.alibaba.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rrichter@marvell.com>
-Subject: [PATCH] EDAC/mce_amd: Print !SMCA processor warning for 0x19 family
-Date:   Wed, 28 Apr 2021 11:15:06 +0800
-Message-Id: <93c212e8b182843d0a113cb05571416ba19bc355.1619576976.git.kaige.fu@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S236730AbhD1I1j (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 28 Apr 2021 04:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231635AbhD1I1j (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 28 Apr 2021 04:27:39 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56A1C061574;
+        Wed, 28 Apr 2021 01:26:54 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f0c17008308f228c3da0e92.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:1700:8308:f228:c3da:e92])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 789411EC030F;
+        Wed, 28 Apr 2021 10:26:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1619598413;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=6QLJ84BEqH6pg6keQJFyDrwvGJncmGtdigES8LiCe4o=;
+        b=iU0y6g5hxfoIh6zs4gbLkJDGPLeqU0s6B2V5sBVeYzDdJP1DAC+KAToe05vlxxy8V8qeXu
+        79SE5fIJShK38LtTBVwr8vPPbb6rDFmdglnIeVxVcUBijH8KAofOEoV5XiEXNrznKW/Xuk
+        luh3KUMkMRsnnLPgPH4aD0fzqvnU5Uo=
+Date:   Wed, 28 Apr 2021 10:26:52 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Sanjana Srinidhi <sanjanasrinidhi1810@gmail.com>
+Cc:     mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
+        rric@kernel.org, linux-edac@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Add blank line after declarations
+Message-ID: <YIkbtllJ65MF55wg@zn.tnic>
+References: <20210428081412.dyxwuh3soluhd4h6@sanjana-VirtualBox>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210428081412.dyxwuh3soluhd4h6@sanjana-VirtualBox>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-KVM doesn't enable SMCA for 0x19 family AMD processors.
-Consequently, a warning as following will be print when load
-edac_mce_amd.ko in a virtual machine.
+On Wed, Apr 28, 2021 at 01:44:12PM +0530, Sanjana Srinidhi wrote:
+> Blank line is added after declarations to maintain code uniformity.
+> 
+> Signed-off-by: Sanjana Srinidhi <sanjanasrinidhi1810@gmail.com>
+> ---
+>  drivers/edac/edac_mc.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-"Huh? What family is it: 0x19?!"
+Before you send a patch, do:
 
-To make the log more clear, this patch prints !SMCA processor
-warning for 0x19 family.
+git log -p -1 | ./scripts/get_maintainer.pl
 
-Signed-off-by: Kaige Fu <kaige.fu@linux.alibaba.com>
-Cc: Shannon Zhao <shannon.zhao@linux.alibaba.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: James Morse <james.morse@arm.com>
-Cc: Robert Richter <rrichter@marvell.com>
-Cc: linux-edac@vger.kernel.org
----
- drivers/edac/mce_amd.c | 1 +
- 1 file changed, 1 insertion(+)
+that'll give you who to Cc. Then you'll see that there's no
 
-diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
-index 5dd905a3f30c..0602082c1ef0 100644
---- a/drivers/edac/mce_amd.c
-+++ b/drivers/edac/mce_amd.c
-@@ -1229,6 +1229,7 @@ static int __init mce_amd_init(void)
- 
- 	case 0x17:
- 	case 0x18:
-+	case 0x19:
- 		pr_warn_once("Decoding supported only on Scalable MCA processors.\n");
- 		return -EINVAL;
- 
+edac@vger.kernel.org
+
+mailing list but
+
+linux-edac@vger.kernel.org
+
+I've fixed up that now.
+
+There's no
+
+kernel@vger.kernel.org
+
+either.
+
+> diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+> index f6d462d0be2d..6b776bebd83f 100644
+> --- a/drivers/edac/edac_mc.c
+> +++ b/drivers/edac/edac_mc.c
+> @@ -674,6 +674,7 @@ int edac_mc_add_mc_with_groups(struct mem_ctl_info *mci,
+>  			       const struct attribute_group **groups)
+>  {
+>  	int ret = -EINVAL;
+> +
+>  	edac_dbg(0, "\n");
+>  
+>  #ifdef CONFIG_EDAC_DEBUG
+> @@ -833,9 +834,11 @@ int edac_mc_find_csrow_by_page(struct mem_ctl_info *mci, unsigned long page)
+>  
+>  	for (i = 0; i < mci->nr_csrows; i++) {
+>  		struct csrow_info *csrow = csrows[i];
+> +
+>  		n = 0;
+>  		for (j = 0; j < csrow->nr_channels; j++) {
+>  			struct dimm_info *dimm = csrow->channels[j]->dimm;
+> +
+>  			n += dimm->nr_pages;
+>  		}
+>  		if (n == 0)
+> -- 
+
+Please no, this is adding useless churn.
+
+Such stylistic changes - if they would make sense at all - should be
+done as part of other fixes - not as a standalone patch.
+
+Thx.
+
 -- 
-1.8.3.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
