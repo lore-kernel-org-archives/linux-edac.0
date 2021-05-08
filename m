@@ -2,87 +2,68 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD4AC433ED
-	for <linux-edac@archiver.kernel.org>; Fri,  7 May 2021 20:32:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0082BC433B4
+	for <linux-edac@archiver.kernel.org>; Sat,  8 May 2021 01:51:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B61766141E
-	for <linux-edac@archiver.kernel.org>; Fri,  7 May 2021 20:32:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5F336143B
+	for <linux-edac@archiver.kernel.org>; Sat,  8 May 2021 01:51:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229747AbhEGUdf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 7 May 2021 16:33:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51936 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbhEGUde (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 7 May 2021 16:33:34 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5768C061574;
-        Fri,  7 May 2021 13:32:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=7uEo0yILZDktWTcgQe09bvJOkPNWx/Z2YDd+juoo00A=; b=ySbdN6IygKSvlxitmXwnD6+FSy
-        u6loF7+xVFRTyc6Q1Z/edgACQrPUNDAl71Nk5xm3Bmay0D6lTEavUv9ROwG7Ul+sF8deO1pQSXVaN
-        g31xbvabnNN5uj9mzljr8cR+FkuSVZqwuaDbZFmUwo+VmEs+xNalCXu3yjTfi63zw9DCXukt3Apy1
-        5lFUwqXeg8VvFBM0xRtLdYcujigFRVIvuG6xF7uaFplefRekNPXWl+o8FRLMDXKryhf1Ou16skQj7
-        EgVlDiI1Y2oaSgE3UkVsUNRI+CPR20ozio6SuzrtYu5649KQs0lee+zpsLXNyrJ4TApQrn0Lz6bbH
-        XcG0iZEQ==;
-Received: from [2601:1c0:6280:3f0::7376]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lf79B-007ASt-CD; Fri, 07 May 2021 20:32:29 +0000
-Subject: Re: [PATCH 00/25] AMD MCA Address Translation Updates
-To:     Yazen Ghannam <Yazen.Ghannam@amd.com>, linux-edac@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, tony.luck@intel.com, x86@kernel.org,
-        Smita.KoralahalliChannabasappa@amd.com
-References: <20210507190140.18854-1-Yazen.Ghannam@amd.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1bd2362b-9bbd-c813-e678-66119b53859f@infradead.org>
-Date:   Fri, 7 May 2021 13:32:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S230246AbhEHBwr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 7 May 2021 21:52:47 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:18368 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230140AbhEHBwq (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 7 May 2021 21:52:46 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FcVcK0TS7zlbwn;
+        Sat,  8 May 2021 09:49:37 +0800 (CST)
+Received: from huawei.com (10.174.28.241) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Sat, 8 May 2021
+ 09:51:34 +0800
+From:   Bixuan Cui <cuibixuan@huawei.com>
+To:     <cuibixuan@huawei.com>, Tero Kristo <kristo@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>
+CC:     <linux-edac@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+Subject: [PATCH -next] EDAC: ti: Add missing MODULE_DEVICE_TABLE
+Date:   Sat, 8 May 2021 11:15:06 +0800
+Message-ID: <20210508031506.53687-1-cuibixuan@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20210507190140.18854-1-Yazen.Ghannam@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.28.241]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 5/7/21 12:01 PM, Yazen Ghannam wrote:
-> From: Yazen Ghannam <yazen.ghannam@amd.com>
-> 
-...
-> 
-> Rome:
->   No interleaving
->   Nodes-per-Socket 0 (NPS0)
->   Nodes-per-Socket 1 (NPS1)
->   Nodes-per-Socket 2 (NPS2)
->   Nodes-per-Socket 4 (NPS4)
->   NPS2 w/o hashing
->   NPS4 w/o hashing
-> 
-> Thanks,
-> Yazen
+This patch adds missing MODULE_DEVICE_TABLE definition which generates
+correct modalias for automatic loading of this driver when it is built
+as an external module.
 
-Hi Yazen,
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
+---
+ drivers/edac/ti_edac.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-It appears that you need to provide a glossary of acronyms, e.g.:
-
-DF = (Data Fabric ?)
-CS =
-MCE =
-NPS = Nodes per Socket
-etc.
-
-
-thanks.
--- 
-~Randy
+diff --git a/drivers/edac/ti_edac.c b/drivers/edac/ti_edac.c
+index e7eae20f83d1..169f96e51c29 100644
+--- a/drivers/edac/ti_edac.c
++++ b/drivers/edac/ti_edac.c
+@@ -197,6 +197,7 @@ static const struct of_device_id ti_edac_of_match[] = {
+ 	{ .compatible = "ti,emif-dra7xx", .data = (void *)EMIF_TYPE_DRA7 },
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, ti_edac_of_match);
+ 
+ static int _emif_get_id(struct device_node *node)
+ {
 
