@@ -2,37 +2,43 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F2AC47083
-	for <linux-edac@archiver.kernel.org>; Mon, 31 May 2021 14:55:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B562AC47080
+	for <linux-edac@archiver.kernel.org>; Mon, 31 May 2021 16:30:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D0A061378
-	for <linux-edac@archiver.kernel.org>; Mon, 31 May 2021 14:55:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98B5661370
+	for <linux-edac@archiver.kernel.org>; Mon, 31 May 2021 16:30:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234210AbhEaO5U (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 31 May 2021 10:57:20 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:3356 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234294AbhEaOyy (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 31 May 2021 10:54:54 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4FtyqX5ffTz66Ql;
-        Mon, 31 May 2021 22:49:28 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 31 May 2021 22:53:11 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 31 May 2021 22:53:10 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S233039AbhEaQbz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 31 May 2021 12:31:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41322 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234574AbhEaQ3w (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 31 May 2021 12:29:52 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46F44C061231;
+        Mon, 31 May 2021 07:57:50 -0700 (PDT)
+Received: from zn.tnic (p200300ec2f080f002c54d32600da041e.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:f00:2c54:d326:da:41e])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CE2831EC03D5;
+        Mon, 31 May 2021 16:57:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1622473068;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=q7UmMu6yCEwDn6Mhju/5FZSpRM+RHoqO1YzwnVQdAIc=;
+        b=CnuqzZp9CdIqZCLzQ/uVm/VkRZPAVWiKX6Ujd8k8/5gz7ZyPKx2HrfSRB8bHOcPB0Ndx2x
+        5If4ygHSaRaj2YwFd+7G3YcIUzLndyEgJVBDtJXeT4C5hEUIpFT+99CAf5zBRUpjPIsbBI
+        B4beGHQQWlCAKGw5o9PAQfLZgl7YT4c=
+Date:   Mon, 31 May 2021 16:57:39 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
         Robert Richter <rric@kernel.org>,
@@ -42,100 +48,39 @@ To:     Borislav Petkov <bp@alien8.de>,
         Jan Luebbe <jlu@pengutronix.de>,
         Andre Przywara <andre.przywara@arm.com>,
         Channagoud Kadabi <ckadabi@codeaurora.org>,
-        "Venkata Narendra Kumar Gutta" <vnkgutta@codeaurora.org>,
+        Venkata Narendra Kumar Gutta <vnkgutta@codeaurora.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "Khuong Dinh" <khuong@os.amperecomputing.com>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
         York Sun <york.sun@nxp.com>,
         linux-edac <linux-edac@vger.kernel.org>,
         linux-mips <linux-mips@vger.kernel.org>,
         linux-arm-msm <linux-arm-msm@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH v2 1/3] edac: Fix error return code when edac_pci_add_device() fails
-Date:   Mon, 31 May 2021 22:53:00 +0800
-Message-ID: <20210531145302.9655-2-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210531145302.9655-1-thunder.leizhen@huawei.com>
+Subject: Re: [PATCH v2 3/3] edac: Use 'ret' instead of 'res' to store the
+ return value
+Message-ID: <YLT5Y+FRhUWWszOq@zn.tnic>
 References: <20210531145302.9655-1-thunder.leizhen@huawei.com>
+ <20210531145302.9655-4-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210531145302.9655-4-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-When edac_pci_add_device() fails, fix to return -ENODEV from the error
-handling case instead of 0.
+On Mon, May 31, 2021 at 10:53:02PM +0800, Zhen Lei wrote:
+> Usually 'ret' or 'rc' is used as the abbreviation for 'return code', and
+> 'res' is used as the abbreviation for 'resource'.
 
-The "goto err" in octeon_pci_probe() is removed to simplify code.
+Or "result."
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/edac/amd8111_edac.c    | 1 +
- drivers/edac/mpc85xx_edac.c    | 1 +
- drivers/edac/octeon_edac-pci.c | 9 ++-------
- 3 files changed, 4 insertions(+), 7 deletions(-)
+Please refrain from doing pointless patches like that - it is a totally
+unnecessary churn.
 
-diff --git a/drivers/edac/amd8111_edac.c b/drivers/edac/amd8111_edac.c
-index 7508aa416ddbd7b..16b28da6489177a 100644
---- a/drivers/edac/amd8111_edac.c
-+++ b/drivers/edac/amd8111_edac.c
-@@ -480,6 +480,7 @@ static int amd8111_pci_probe(struct pci_dev *dev,
- 	if (edac_pci_add_device(pci_info->edac_dev, pci_info->edac_idx) > 0) {
- 		printk(KERN_ERR "failed to add edac_pci for %s\n",
- 			pci_info->ctl_name);
-+		ret = -ENODEV;
- 		goto err_edac_free_ctl;
- 	}
- 
-diff --git a/drivers/edac/mpc85xx_edac.c b/drivers/edac/mpc85xx_edac.c
-index 67f7bc3fe5b3b62..312de75e66b851e 100644
---- a/drivers/edac/mpc85xx_edac.c
-+++ b/drivers/edac/mpc85xx_edac.c
-@@ -248,6 +248,7 @@ static int mpc85xx_pci_err_probe(struct platform_device *op)
- 
- 	if (edac_pci_add_device(pci, pdata->edac_idx) > 0) {
- 		edac_dbg(3, "failed edac_pci_add_device()\n");
-+		res = -ENODEV;
- 		goto err;
- 	}
- 
-diff --git a/drivers/edac/octeon_edac-pci.c b/drivers/edac/octeon_edac-pci.c
-index 28b238eecefcc9d..07995de4ea703ee 100644
---- a/drivers/edac/octeon_edac-pci.c
-+++ b/drivers/edac/octeon_edac-pci.c
-@@ -60,7 +60,6 @@ static void octeon_pci_poll(struct edac_pci_ctl_info *pci)
- static int octeon_pci_probe(struct platform_device *pdev)
- {
- 	struct edac_pci_ctl_info *pci;
--	int res = 0;
- 
- 	pci = edac_pci_alloc_ctl_info(0, "octeon_pci_err");
- 	if (!pci)
-@@ -76,15 +75,11 @@ static int octeon_pci_probe(struct platform_device *pdev)
- 
- 	if (edac_pci_add_device(pci, 0) > 0) {
- 		pr_err("%s: edac_pci_add_device() failed\n", __func__);
--		goto err;
-+		edac_pci_free_ctl_info(pci);
-+		return -ENODEV;
- 	}
- 
- 	return 0;
--
--err:
--	edac_pci_free_ctl_info(pci);
--
--	return res;
- }
- 
- static int octeon_pci_remove(struct platform_device *pdev)
 -- 
-2.26.0.106.g9fadedd
+Regards/Gruss,
+    Boris.
 
-
+https://people.kernel.org/tglx/notes-about-netiquette
