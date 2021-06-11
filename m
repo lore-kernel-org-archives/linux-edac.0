@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 541A0C48BD1
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 538E0C48BE8
+	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B95E60FE9
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D0C660C40
+	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbhFKRDt (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 11 Jun 2021 13:03:49 -0400
+        id S231582AbhFKRDu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 11 Jun 2021 13:03:50 -0400
 Received: from mga06.intel.com ([134.134.136.31]:56284 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231553AbhFKRDs (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 11 Jun 2021 13:03:48 -0400
-IronPort-SDR: /W00vI96cSHst7dEHD523X9/hUA7MDx3EOwHYaxZA9oz+Q2JXgZRarn/8bnZufZXWTr/QGMJ9u
- SnEUE61XKh8g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="266715349"
+        id S231459AbhFKRDt (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 11 Jun 2021 13:03:49 -0400
+IronPort-SDR: PRmtbWUGwrEujnn/9perHqeuh1Out4A8aDnV38MEloeM58+p3r8gocGqMNbYDdWN+RDJICN3Z8
+ gW6iEcYCF99A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="266715353"
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="266715349"
+   d="scan'208";a="266715353"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:36 -0700
-IronPort-SDR: 4TgZR69ad4IDrXRLwAr2qnCxH0WflIiKDR5COVOZ9LNc9FtDL+7aV1PTcbQO/jM4ywBx9Uo3Fr
- AzjCjVWbYD8A==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
+IronPort-SDR: 2y/3jazTNf9fK36WhAP1wWeLB/lRWw6Dj5mJk4JABy394QA8aYYrP4mKoXnHVpkMWAlavT3hIP
+ qbHKrpfoUiZA==
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="483329860"
+   d="scan'208";a="483329872"
 Received: from agluck-desk2.sc.intel.com ([10.3.52.146])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:36 -0700
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
 From:   Tony Luck <tony.luck@intel.com>
 To:     tony.luck@intel.com
 Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
@@ -39,9 +39,9 @@ Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/6] EDAC/skx_common: Add new ADXL components for 2-level memory
-Date:   Fri, 11 Jun 2021 10:01:18 -0700
-Message-Id: <20210611170123.1057025-2-tony.luck@intel.com>
+Subject: [PATCH 4/6] EDAC/igen6: Add Intel ICL-NNPI SoC support
+Date:   Fri, 11 Jun 2021 10:01:21 -0700
+Message-Id: <20210611170123.1057025-5-tony.luck@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210611170123.1057025-1-tony.luck@intel.com>
 References: <20210611170123.1057025-1-tony.luck@intel.com>
@@ -53,207 +53,77 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 
-Some Intel servers may configure memory in 2 levels, using
-fast "near" memory (e.g. DDR) as a cache for larger, slower,
-"far" memory (e.g. 3D X-point).
-
-In these configurations the BIOS ADXL address translation for
-an address in a 2-level memory range will provide details of
-both the "near" and far components.
-
-Current exported ADXL components are only for 1-level memory
-system or for 2nd level memory of 2-level memory system. So
-add new ADXL components for 1st level memory of 2-level memory
-system to fully support 2-level memory system and the detection
-of memory error source(1st level memory or 2nd level memory).
+The Ice Lake Neural Network Processor for Deep Learning Inference
+(ICL-NNPI) SoC shares the same memory controller and In-Band ECC with
+Elkhart Lake SoC. Add the ICL-NNPI compute die IDs for EDAC support.
 
 Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- drivers/edac/skx_common.c | 67 ++++++++++++++++++++++++++++++++-------
- drivers/edac/skx_common.h | 11 +++++++
- 2 files changed, 67 insertions(+), 11 deletions(-)
+ drivers/edac/igen6_edac.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
-index 81c3e2ec6f56..c8691abb720d 100644
---- a/drivers/edac/skx_common.c
-+++ b/drivers/edac/skx_common.c
-@@ -23,10 +23,13 @@
- #include "skx_common.h"
+diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
+index 6be9986fc6bd..0fedf2d206d3 100644
+--- a/drivers/edac/igen6_edac.c
++++ b/drivers/edac/igen6_edac.c
+@@ -183,6 +183,12 @@ static struct work_struct ecclog_work;
+ #define DID_EHL_SKU14	0x4534
+ #define DID_EHL_SKU15	0x4536
  
- static const char * const component_names[] = {
--	[INDEX_SOCKET]	= "ProcessorSocketId",
--	[INDEX_MEMCTRL]	= "MemoryControllerId",
--	[INDEX_CHANNEL]	= "ChannelId",
--	[INDEX_DIMM]	= "DimmSlotId",
-+	[INDEX_SOCKET]		= "ProcessorSocketId",
-+	[INDEX_MEMCTRL]		= "MemoryControllerId",
-+	[INDEX_CHANNEL]		= "ChannelId",
-+	[INDEX_DIMM]		= "DimmSlotId",
-+	[INDEX_NM_MEMCTRL]	= "NmMemoryControllerId",
-+	[INDEX_NM_CHANNEL]	= "NmChannelId",
-+	[INDEX_NM_DIMM]		= "NmDimmSlotId",
- };
- 
- static int component_indices[ARRAY_SIZE(component_names)];
-@@ -34,12 +37,14 @@ static int adxl_component_count;
- static const char * const *adxl_component_names;
- static u64 *adxl_values;
- static char *adxl_msg;
-+static unsigned long adxl_nm_bitmap;
- 
- static char skx_msg[MSG_SIZE];
- static skx_decode_f skx_decode;
- static skx_show_retry_log_f skx_show_retry_rd_err_log;
- static u64 skx_tolm, skx_tohm;
- static LIST_HEAD(dev_edac_list);
-+static bool skx_mem_cfg_2lm;
- 
- int __init skx_adxl_get(void)
++/* Compute die IDs for ICL-NNPI with IBECC */
++#define DID_ICL_SKU8	0x4581
++#define DID_ICL_SKU10	0x4585
++#define DID_ICL_SKU11	0x4589
++#define DID_ICL_SKU12	0x458d
++
+ static bool ehl_ibecc_available(struct pci_dev *pdev)
  {
-@@ -56,14 +61,25 @@ int __init skx_adxl_get(void)
- 		for (j = 0; names[j]; j++) {
- 			if (!strcmp(component_names[i], names[j])) {
- 				component_indices[i] = j;
-+
-+				if (i >= INDEX_NM_FIRST)
-+					adxl_nm_bitmap |= 1 << i;
-+
- 				break;
- 			}
- 		}
- 
--		if (!names[j])
-+		if (!names[j] && i < INDEX_NM_FIRST)
- 			goto err;
- 	}
- 
-+	if (skx_mem_cfg_2lm) {
-+		if (!adxl_nm_bitmap)
-+			skx_printk(KERN_NOTICE, "Not enough ADXL components for 2-level memory.\n");
-+		else
-+			edac_dbg(2, "adxl_nm_bitmap: 0x%lx\n", adxl_nm_bitmap);
-+	}
-+
- 	adxl_component_names = names;
- 	while (*names++)
- 		adxl_component_count++;
-@@ -99,7 +115,7 @@ void __exit skx_adxl_put(void)
- 	kfree(adxl_msg);
+ 	u32 v;
+@@ -212,6 +218,17 @@ static u64 ehl_err_addr_to_imc_addr(u64 eaddr)
+ 	return eaddr;
  }
  
--static bool skx_adxl_decode(struct decoded_addr *res)
-+static bool skx_adxl_decode(struct decoded_addr *res, bool error_in_1st_level_mem)
- {
- 	struct skx_dev *d;
- 	int i, len = 0;
-@@ -116,11 +132,20 @@ static bool skx_adxl_decode(struct decoded_addr *res)
- 	}
- 
- 	res->socket  = (int)adxl_values[component_indices[INDEX_SOCKET]];
--	res->imc     = (int)adxl_values[component_indices[INDEX_MEMCTRL]];
--	res->channel = (int)adxl_values[component_indices[INDEX_CHANNEL]];
--	res->dimm    = (int)adxl_values[component_indices[INDEX_DIMM]];
-+	if (error_in_1st_level_mem) {
-+		res->imc     = (adxl_nm_bitmap & BIT_NM_MEMCTRL) ?
-+			       (int)adxl_values[component_indices[INDEX_NM_MEMCTRL]] : -1;
-+		res->channel = (adxl_nm_bitmap & BIT_NM_CHANNEL) ?
-+			       (int)adxl_values[component_indices[INDEX_NM_CHANNEL]] : -1;
-+		res->dimm    = (adxl_nm_bitmap & BIT_NM_DIMM) ?
-+			       (int)adxl_values[component_indices[INDEX_NM_DIMM]] : -1;
-+	} else {
-+		res->imc     = (int)adxl_values[component_indices[INDEX_MEMCTRL]];
-+		res->channel = (int)adxl_values[component_indices[INDEX_CHANNEL]];
-+		res->dimm    = (int)adxl_values[component_indices[INDEX_DIMM]];
-+	}
- 
--	if (res->imc > NUM_IMC - 1) {
-+	if (res->imc > NUM_IMC - 1 || res->imc < 0) {
- 		skx_printk(KERN_ERR, "Bad imc %d\n", res->imc);
- 		return false;
- 	}
-@@ -151,6 +176,11 @@ static bool skx_adxl_decode(struct decoded_addr *res)
- 	return true;
- }
- 
-+void skx_set_mem_cfg(bool mem_cfg_2lm)
++static bool icl_ibecc_available(struct pci_dev *pdev)
 +{
-+	skx_mem_cfg_2lm = mem_cfg_2lm;
-+}
++	u32 v;
 +
- void skx_set_decode(skx_decode_f decode, skx_show_retry_log_f show_retry_log)
- {
- 	skx_decode = decode;
-@@ -578,6 +608,21 @@ static void skx_mce_output_error(struct mem_ctl_info *mci,
- 			     optype, skx_msg);
- }
- 
-+static bool skx_error_in_1st_level_mem(const struct mce *m)
-+{
-+	u32 errcode;
-+
-+	if (!skx_mem_cfg_2lm)
++	if (pci_read_config_dword(pdev, CAPID_C_OFFSET, &v))
 +		return false;
 +
-+	errcode = GET_BITFIELD(m->status, 0, 15);
-+
-+	if ((errcode & 0xef80) != 0x280)
-+		return false;
-+
-+	return true;
++	return !(CAPID_C_IBECC & v) &&
++		(boot_cpu_data.x86_stepping >= 1);
 +}
 +
- int skx_mce_check_error(struct notifier_block *nb, unsigned long val,
- 			void *data)
- {
-@@ -597,7 +642,7 @@ int skx_mce_check_error(struct notifier_block *nb, unsigned long val,
- 	res.addr = mce->addr;
- 
- 	if (adxl_component_count) {
--		if (!skx_adxl_decode(&res))
-+		if (!skx_adxl_decode(&res, skx_error_in_1st_level_mem(mce)))
- 			return NOTIFY_DONE;
- 	} else if (!skx_decode || !skx_decode(&res)) {
- 		return NOTIFY_DONE;
-diff --git a/drivers/edac/skx_common.h b/drivers/edac/skx_common.h
-index bf56bebff138..8b5a49058ce4 100644
---- a/drivers/edac/skx_common.h
-+++ b/drivers/edac/skx_common.h
-@@ -9,6 +9,8 @@
- #ifndef _SKX_COMM_EDAC_H
- #define _SKX_COMM_EDAC_H
- 
-+#include <linux/bits.h>
-+
- #define MSG_SIZE		1024
- 
- /*
-@@ -92,9 +94,17 @@ enum {
- 	INDEX_MEMCTRL,
- 	INDEX_CHANNEL,
- 	INDEX_DIMM,
-+	INDEX_NM_FIRST,
-+	INDEX_NM_MEMCTRL = INDEX_NM_FIRST,
-+	INDEX_NM_CHANNEL,
-+	INDEX_NM_DIMM,
- 	INDEX_MAX
+ static struct res_config ehl_cfg = {
+ 	.num_imc	 = 1,
+ 	.ibecc_base	 = 0xdc00,
+@@ -220,6 +237,14 @@ static struct res_config ehl_cfg = {
+ 	.err_addr_to_imc_addr  = ehl_err_addr_to_imc_addr,
  };
  
-+#define BIT_NM_MEMCTRL	BIT_ULL(INDEX_NM_MEMCTRL)
-+#define BIT_NM_CHANNEL	BIT_ULL(INDEX_NM_CHANNEL)
-+#define BIT_NM_DIMM	BIT_ULL(INDEX_NM_DIMM)
++static struct res_config icl_cfg = {
++	.num_imc	 = 1,
++	.ibecc_base	 = 0xd800,
++	.ibecc_available = icl_ibecc_available,
++	.err_addr_to_sys_addr  = ehl_err_addr_to_sys_addr,
++	.err_addr_to_imc_addr  = ehl_err_addr_to_imc_addr,
++};
 +
- struct decoded_addr {
- 	struct skx_dev *dev;
- 	u64	addr;
-@@ -133,6 +143,7 @@ typedef void (*skx_show_retry_log_f)(struct decoded_addr *res, char *msg, int le
- int __init skx_adxl_get(void);
- void __exit skx_adxl_put(void);
- void skx_set_decode(skx_decode_f decode, skx_show_retry_log_f show_retry_log);
-+void skx_set_mem_cfg(bool mem_cfg_2lm);
- 
- int skx_get_src_id(struct skx_dev *d, int off, u8 *id);
- int skx_get_node_id(struct skx_dev *d, u8 *id);
+ static const struct pci_device_id igen6_pci_tbl[] = {
+ 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), (kernel_ulong_t)&ehl_cfg },
+ 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), (kernel_ulong_t)&ehl_cfg },
+@@ -232,6 +257,10 @@ static const struct pci_device_id igen6_pci_tbl[] = {
+ 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), (kernel_ulong_t)&ehl_cfg },
+ 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), (kernel_ulong_t)&ehl_cfg },
+ 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), (kernel_ulong_t)&icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), (kernel_ulong_t)&icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), (kernel_ulong_t)&icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), (kernel_ulong_t)&icl_cfg },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(pci, igen6_pci_tbl);
 -- 
 2.29.2
 
