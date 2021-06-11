@@ -2,47 +2,47 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06F85C48BE0
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B321CC48BD1
+	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDDC5613C3
+	by mail.kernel.org (Postfix) with ESMTP id 9BD5A613C3
 	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbhFKRDv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S231593AbhFKRDv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Fri, 11 Jun 2021 13:03:51 -0400
-Received: from mga06.intel.com ([134.134.136.31]:56300 "EHLO mga06.intel.com"
+Received: from mga06.intel.com ([134.134.136.31]:56402 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231486AbhFKRDt (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 11 Jun 2021 13:03:49 -0400
-IronPort-SDR: oxi6bvk54GrNA6wq/+P2j1wYWOmV4MjMkFnaA+AZ5QNFAc/kOOZCYOqJZiFfKqOLEiWEHal+Xd
- oayAa1qDu5AQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="266715355"
+        id S231466AbhFKRDs (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 11 Jun 2021 13:03:48 -0400
+IronPort-SDR: i85QvnlqfS0lSJ3aGGP9I8E8h7zjJFOGjDO9+s+w+lHsdMJGoeSwG/Jk5Yx2TCXOQGd/+MJbzI
+ ILpWLe298C5A==
+X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="266715352"
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="266715355"
+   d="scan'208";a="266715352"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:38 -0700
-IronPort-SDR: Ywr2jnrcqIBjm4iteW2aAPRJ5MXx97lyemAqD6vabtChcUz1AFO1WyQ5t22N7DcllKHVsKZexO
- luAaDMLMhVWg==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
+IronPort-SDR: bnpeAnruE27xQ7fAWvi2s0yr0rY3PQYLR6e1zzW56RdNS2PcWiQoBmUFHsy32ZJS+mN+CQIpPz
+ Vb8vZZg9npDg==
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="483329878"
+   d="scan'208";a="483329868"
 Received: from agluck-desk2.sc.intel.com ([10.3.52.146])
   by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
 From:   Tony Luck <tony.luck@intel.com>
 To:     tony.luck@intel.com
 Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Vrukesh V Panse <vrukesh.v.panse@intel.com>,
+        Hongyu Ning <hongyu.ning@linux.intel.com>,
         Aristeu Rozanski <aris@redhat.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] EDAC/igen6: Add Intel Alder Lake SoC support
-Date:   Fri, 11 Jun 2021 10:01:23 -0700
-Message-Id: <20210611170123.1057025-7-tony.luck@intel.com>
+Subject: [PATCH 3/6] EDAC/i10nm: Add support for high bandwidth memory
+Date:   Fri, 11 Jun 2021 10:01:20 -0700
+Message-Id: <20210611170123.1057025-4-tony.luck@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210611170123.1057025-1-tony.luck@intel.com>
 References: <20210611170123.1057025-1-tony.luck@intel.com>
@@ -54,236 +54,326 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 
-Alder Lake SoC shares the same memory controller and In-Band ECC
-(IBECC) IP with Tiger Lake SoC. Like Tiger Lake, it also has two
-memory controllers each associated one IBECC instance. The minor
-differences include the MMIO offset of each memory controller and
-the type of memory error address logged in the IBECC.
+A future Xeon processor will include in-package HBM (high bandwidth
+memory). The in-package HBM memory controller shares the same
+architecture with the regular DDR memory controller.
 
-So add Alder Lake compute die IDs, adjust the MMIO offset for each
-memory controller and handle the type of memory error address logged
-in the IBECC for Alder Lake EDAC support.
+Add the HBM memory controller devices for EDAC support.
 
-Tested-by: Vrukesh V Panse <vrukesh.v.panse@intel.com>
+Tested-by: Hongyu Ning <hongyu.ning@linux.intel.com>
 Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- drivers/edac/igen6_edac.c | 84 ++++++++++++++++++++++++++++++++++-----
- 1 file changed, 73 insertions(+), 11 deletions(-)
+ drivers/edac/i10nm_base.c | 132 ++++++++++++++++++++++++++++++++++----
+ drivers/edac/skx_common.c |  15 +++--
+ drivers/edac/skx_common.h |  20 +++++-
+ 3 files changed, 148 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index 9f653ace50e7..a07bbfd075d0 100644
---- a/drivers/edac/igen6_edac.c
-+++ b/drivers/edac/igen6_edac.c
-@@ -27,7 +27,7 @@
- #include "edac_mc.h"
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index 91431d8922a0..fb7e72d3fd2c 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -13,7 +13,7 @@
  #include "edac_module.h"
+ #include "skx_common.h"
  
--#define IGEN6_REVISION	"v2.4"
-+#define IGEN6_REVISION	"v2.5"
+-#define I10NM_REVISION	"v0.0.4"
++#define I10NM_REVISION	"v0.0.5"
+ #define EDAC_MOD_STR	"i10nm_edac"
  
- #define EDAC_MOD_STR	"igen6_edac"
- #define IGEN6_NMI_NAME	"igen6_ibecc"
-@@ -75,7 +75,7 @@
- #define IBECC_ACTIVATE_EN		BIT(0)
+ /* Debug macros */
+@@ -26,19 +26,33 @@
+ 	pci_read_config_dword((d)->uracu, 0xd8 + (i) * 4, &(reg))
+ #define I10NM_GET_SAD(d, offset, i, reg)\
+ 	pci_read_config_dword((d)->sad_all, (offset) + (i) * 8, &(reg))
++#define I10NM_GET_HBM_IMC_BAR(d, reg)	\
++	pci_read_config_dword((d)->uracu, 0xd4, &(reg))
++#define I10NM_GET_CAPID3_CFG(d, reg)	\
++	pci_read_config_dword((d)->pcu_cr3, 0x90, &(reg))
+ #define I10NM_GET_DIMMMTR(m, i, j)	\
+-	readl((m)->mbase + 0x2080c + (i) * (m)->chan_mmio_sz + (j) * 4)
++	readl((m)->mbase + ((m)->hbm_mc ? 0x80c : 0x2080c) + \
++	(i) * (m)->chan_mmio_sz + (j) * 4)
+ #define I10NM_GET_MCDDRTCFG(m, i, j)	\
+-	readl((m)->mbase + 0x20970 + (i) * (m)->chan_mmio_sz + (j) * 4)
++	readl((m)->mbase + ((m)->hbm_mc ? 0x970 : 0x20970) + \
++	(i) * (m)->chan_mmio_sz + (j) * 4)
+ #define I10NM_GET_MCMTR(m, i)		\
+-	readl((m)->mbase + 0x20ef8 + (i) * (m)->chan_mmio_sz)
++	readl((m)->mbase + ((m)->hbm_mc ? 0xef8 : 0x20ef8) + \
++	(i) * (m)->chan_mmio_sz)
+ #define I10NM_GET_AMAP(m, i)		\
+-	readl((m)->mbase + 0x20814 + (i) * (m)->chan_mmio_sz)
++	readl((m)->mbase + ((m)->hbm_mc ? 0x814 : 0x20814) + \
++	(i) * (m)->chan_mmio_sz)
  
- /* IBECC error log */
--#define ECC_ERROR_LOG_OFFSET		(IBECC_BASE + 0x170)
-+#define ECC_ERROR_LOG_OFFSET		(IBECC_BASE + res_cfg->ibecc_error_log_offset)
- #define ECC_ERROR_LOG_CE		BIT_ULL(62)
- #define ECC_ERROR_LOG_UE		BIT_ULL(63)
- #define ECC_ERROR_LOG_ADDR_SHIFT	5
-@@ -89,27 +89,32 @@
- #define MCHBAR_SIZE			0x10000
- 
- /* Parameters for the channel decode stage */
--#define MAD_INTER_CHANNEL_OFFSET	0x5000
-+#define IMC_BASE			(res_cfg->imc_base)
-+#define MAD_INTER_CHANNEL_OFFSET	IMC_BASE
- #define MAD_INTER_CHANNEL_DDR_TYPE(v)	GET_BITFIELD(v, 0, 2)
- #define MAD_INTER_CHANNEL_ECHM(v)	GET_BITFIELD(v, 3, 3)
- #define MAD_INTER_CHANNEL_CH_L_MAP(v)	GET_BITFIELD(v, 4, 4)
- #define MAD_INTER_CHANNEL_CH_S_SIZE(v)	((u64)GET_BITFIELD(v, 12, 19) << 29)
- 
- /* Parameters for DRAM decode stage */
--#define MAD_INTRA_CH0_OFFSET		0x5004
-+#define MAD_INTRA_CH0_OFFSET		(IMC_BASE + 4)
- #define MAD_INTRA_CH_DIMM_L_MAP(v)	GET_BITFIELD(v, 0, 0)
- 
- /* DIMM characteristics */
--#define MAD_DIMM_CH0_OFFSET		0x500c
-+#define MAD_DIMM_CH0_OFFSET		(IMC_BASE + 0xc)
- #define MAD_DIMM_CH_DIMM_L_SIZE(v)	((u64)GET_BITFIELD(v, 0, 6) << 29)
- #define MAD_DIMM_CH_DLW(v)		GET_BITFIELD(v, 7, 8)
- #define MAD_DIMM_CH_DIMM_S_SIZE(v)	((u64)GET_BITFIELD(v, 16, 22) << 29)
- #define MAD_DIMM_CH_DSW(v)		GET_BITFIELD(v, 24, 25)
- 
-+/* Hash for memory controller selection */
-+#define MAD_MC_HASH_OFFSET		(IMC_BASE + 0x1b8)
-+#define MAC_MC_HASH_LSB(v)		GET_BITFIELD(v, 1, 3)
+ #define I10NM_GET_SCK_MMIO_BASE(reg)	(GET_BITFIELD(reg, 0, 28) << 23)
+ #define I10NM_GET_IMC_MMIO_OFFSET(reg)	(GET_BITFIELD(reg, 0, 10) << 12)
+ #define I10NM_GET_IMC_MMIO_SIZE(reg)	((GET_BITFIELD(reg, 13, 23) - \
+ 					 GET_BITFIELD(reg, 0, 10) + 1) << 12)
++#define I10NM_GET_HBM_IMC_MMIO_OFFSET(reg)	\
++	((GET_BITFIELD(reg, 0, 10) << 12) + 0x140000)
 +
- /* Hash for channel selection */
--#define CHANNEL_HASH_OFFSET		0X5024
-+#define CHANNEL_HASH_OFFSET		(IMC_BASE + 0x24)
- /* Hash for enhanced channel selection */
--#define CHANNEL_EHASH_OFFSET		0X5028
-+#define CHANNEL_EHASH_OFFSET		(IMC_BASE + 0x28)
- #define CHANNEL_HASH_MASK(v)		(GET_BITFIELD(v, 6, 19) << 6)
- #define CHANNEL_HASH_LSB_MASK_BIT(v)	GET_BITFIELD(v, 24, 26)
- #define CHANNEL_HASH_MODE(v)		GET_BITFIELD(v, 28, 28)
-@@ -121,15 +126,17 @@
- static struct res_config {
- 	bool machine_check;
- 	int num_imc;
-+	u32 imc_base;
- 	u32 cmf_base;
- 	u32 cmf_size;
- 	u32 ms_hash_offset;
- 	u32 ibecc_base;
-+	u32 ibecc_error_log_offset;
- 	bool (*ibecc_available)(struct pci_dev *pdev);
- 	/* Convert error address logged in IBECC to system physical address */
- 	u64 (*err_addr_to_sys_addr)(u64 eaddr, int mc);
- 	/* Convert error address logged in IBECC to integrated memory controller address */
--	u64 (*err_addr_to_imc_addr)(u64 eaddr);
-+	u64 (*err_addr_to_imc_addr)(u64 eaddr, int mc);
- } *res_cfg;
++#define I10NM_HBM_IMC_MMIO_SIZE		0x9000
++#define I10NM_IS_HBM_PRESENT(reg)	GET_BITFIELD(reg, 27, 30)
++#define I10NM_IS_HBM_IMC(reg)		GET_BITFIELD(reg, 29, 29)
  
- struct igen6_imc {
-@@ -209,6 +216,12 @@ static struct work_struct ecclog_work;
- /* Compute die IDs for Tiger Lake with IBECC */
- #define DID_TGL_SKU	0x9a14
- 
-+/* Compute die IDs for Alder Lake with IBECC */
-+#define DID_ADL_SKU1	0x4601
-+#define DID_ADL_SKU2	0x4602
-+#define DID_ADL_SKU3	0x4621
-+#define DID_ADL_SKU4	0x4641
-+
- static bool ehl_ibecc_available(struct pci_dev *pdev)
- {
- 	u32 v;
-@@ -224,7 +237,7 @@ static u64 ehl_err_addr_to_sys_addr(u64 eaddr, int mc)
- 	return eaddr;
+ #define I10NM_MAX_SAD			16
+ #define I10NM_SAD_ENABLE(reg)		GET_BITFIELD(reg, 0, 0)
+@@ -94,7 +108,7 @@ static bool i10nm_check_2lm(struct res_config *cfg)
+ 	return false;
  }
  
--static u64 ehl_err_addr_to_imc_addr(u64 eaddr)
-+static u64 ehl_err_addr_to_imc_addr(u64 eaddr, int mc)
+-static int i10nm_get_all_munits(void)
++static int i10nm_get_ddr_munits(void)
  {
- 	if (eaddr < igen6_tolud)
- 		return eaddr;
-@@ -315,22 +328,51 @@ static u64 tgl_err_addr_to_sys_addr(u64 eaddr, int mc)
- 	return mem_addr_to_sys_addr(maddr);
+ 	struct pci_dev *mdev;
+ 	void __iomem *mbase;
+@@ -122,7 +136,7 @@ static int i10nm_get_all_munits(void)
+ 		edac_dbg(2, "socket%d mmio base 0x%llx (reg 0x%x)\n",
+ 			 j++, base, reg);
+ 
+-		for (i = 0; i < I10NM_NUM_IMC; i++) {
++		for (i = 0; i < I10NM_NUM_DDR_IMC; i++) {
+ 			mdev = pci_get_dev_wrapper(d->seg, d->bus[0],
+ 						   12 + i, 0);
+ 			if (i == 0 && !mdev) {
+@@ -158,6 +172,90 @@ static int i10nm_get_all_munits(void)
+ 	return 0;
  }
  
--static u64 tgl_err_addr_to_imc_addr(u64 eaddr)
-+static u64 tgl_err_addr_to_imc_addr(u64 eaddr, int mc)
- {
- 	return eaddr;
- }
- 
-+static u64 adl_err_addr_to_sys_addr(u64 eaddr, int mc)
++static bool i10nm_check_hbm_imc(struct skx_dev *d)
 +{
-+	return mem_addr_to_sys_addr(eaddr);
++	u32 reg;
++
++	if (I10NM_GET_CAPID3_CFG(d, reg)) {
++		i10nm_printk(KERN_ERR, "Failed to get capid3_cfg\n");
++		return false;
++	}
++
++	return I10NM_IS_HBM_PRESENT(reg) != 0;
 +}
 +
-+static u64 adl_err_addr_to_imc_addr(u64 eaddr, int mc)
++static int i10nm_get_hbm_munits(void)
 +{
-+	u64 imc_addr, ms_s_size = igen6_pvt->ms_s_size;
-+	struct igen6_imc *imc = &igen6_pvt->imc[mc];
-+	int intlv_bit;
-+	u32 mc_hash;
++	struct pci_dev *mdev;
++	void __iomem *mbase;
++	u32 reg, off, mcmtr;
++	struct skx_dev *d;
++	int i, lmc;
++	u64 base;
 +
-+	if (eaddr >= 2 * ms_s_size)
-+		return eaddr - ms_s_size;
++	list_for_each_entry(d, i10nm_edac_list, list) {
++		d->pcu_cr3 = pci_get_dev_wrapper(d->seg, d->bus[1], 30, 3);
++		if (!d->pcu_cr3)
++			return -ENODEV;
 +
-+	mc_hash = readl(imc->window + MAD_MC_HASH_OFFSET);
++		if (!i10nm_check_hbm_imc(d)) {
++			i10nm_printk(KERN_DEBUG, "No hbm memory\n");
++			return -ENODEV;
++		}
 +
-+	intlv_bit = MAC_MC_HASH_LSB(mc_hash) + 6;
++		if (I10NM_GET_SCK_BAR(d, reg)) {
++			i10nm_printk(KERN_ERR, "Failed to get socket bar\n");
++			return -ENODEV;
++		}
++		base = I10NM_GET_SCK_MMIO_BASE(reg);
 +
-+	imc_addr = GET_BITFIELD(eaddr, intlv_bit + 1, 63) << intlv_bit |
-+		   GET_BITFIELD(eaddr, 0, intlv_bit - 1);
++		if (I10NM_GET_HBM_IMC_BAR(d, reg)) {
++			i10nm_printk(KERN_ERR, "Failed to get hbm mc bar\n");
++			return -ENODEV;
++		}
++		base += I10NM_GET_HBM_IMC_MMIO_OFFSET(reg);
 +
-+	return imc_addr;
++		lmc = I10NM_NUM_DDR_IMC;
++
++		for (i = 0; i < I10NM_NUM_HBM_IMC; i++) {
++			mdev = pci_get_dev_wrapper(d->seg, d->bus[0],
++						   12 + i / 4, 1 + i % 4);
++			if (i == 0 && !mdev) {
++				i10nm_printk(KERN_ERR, "No hbm mc found\n");
++				return -ENODEV;
++			}
++			if (!mdev)
++				continue;
++
++			d->imc[lmc].mdev = mdev;
++			off = i * I10NM_HBM_IMC_MMIO_SIZE;
++
++			edac_dbg(2, "hbm mc%d mmio base 0x%llx size 0x%x\n",
++				 lmc, base + off, I10NM_HBM_IMC_MMIO_SIZE);
++
++			mbase = ioremap(base + off, I10NM_HBM_IMC_MMIO_SIZE);
++			if (!mbase) {
++				i10nm_printk(KERN_ERR, "Failed to ioremap for hbm mc 0x%llx\n",
++					     base + off);
++				return -ENOMEM;
++			}
++
++			d->imc[lmc].mbase = mbase;
++			d->imc[lmc].hbm_mc = true;
++
++			mcmtr = I10NM_GET_MCMTR(&d->imc[lmc], 0);
++			if (!I10NM_IS_HBM_IMC(mcmtr)) {
++				i10nm_printk(KERN_ERR, "This isn't an hbm mc!\n");
++				return -ENODEV;
++			}
++
++			lmc++;
++		}
++	}
++
++	return 0;
 +}
 +
- static struct res_config ehl_cfg = {
- 	.num_imc		= 1,
-+	.imc_base		= 0x5000,
- 	.ibecc_base		= 0xdc00,
- 	.ibecc_available	= ehl_ibecc_available,
-+	.ibecc_error_log_offset	= 0x170,
- 	.err_addr_to_sys_addr	= ehl_err_addr_to_sys_addr,
- 	.err_addr_to_imc_addr	= ehl_err_addr_to_imc_addr,
- };
+ static struct res_config i10nm_cfg0 = {
+ 	.type			= I10NM,
+ 	.decs_did		= 0x3452,
+@@ -181,6 +279,7 @@ static struct res_config spr_cfg = {
+ 	.decs_did		= 0x3252,
+ 	.busno_cfg_offset	= 0xd0,
+ 	.ddr_chan_mmio_sz	= 0x8000,
++	.hbm_chan_mmio_sz	= 0x4000,
+ 	.support_ddr5		= true,
+ 	.sad_all_devfn		= PCI_DEVFN(10, 0),
+ 	.sad_all_offset		= 0x300,
+@@ -216,13 +315,13 @@ static int i10nm_get_dimm_config(struct mem_ctl_info *mci,
+ 	struct dimm_info *dimm;
+ 	int i, j, ndimms;
  
- static struct res_config icl_cfg = {
- 	.num_imc		= 1,
-+	.imc_base		= 0x5000,
- 	.ibecc_base		= 0xd800,
-+	.ibecc_error_log_offset	= 0x170,
- 	.ibecc_available	= icl_ibecc_available,
- 	.err_addr_to_sys_addr	= ehl_err_addr_to_sys_addr,
- 	.err_addr_to_imc_addr	= ehl_err_addr_to_imc_addr,
-@@ -339,15 +381,28 @@ static struct res_config icl_cfg = {
- static struct res_config tgl_cfg = {
- 	.machine_check		= true,
- 	.num_imc		= 2,
-+	.imc_base		= 0x5000,
- 	.cmf_base		= 0x11000,
- 	.cmf_size		= 0x800,
- 	.ms_hash_offset		= 0xac,
- 	.ibecc_base		= 0xd400,
-+	.ibecc_error_log_offset	= 0x170,
- 	.ibecc_available	= tgl_ibecc_available,
- 	.err_addr_to_sys_addr	= tgl_err_addr_to_sys_addr,
- 	.err_addr_to_imc_addr	= tgl_err_addr_to_imc_addr,
- };
+-	for (i = 0; i < I10NM_NUM_CHANNELS; i++) {
++	for (i = 0; i < imc->num_channels; i++) {
+ 		if (!imc->mbase)
+ 			continue;
  
-+static struct res_config adl_cfg = {
-+	.machine_check		= true,
-+	.num_imc		= 2,
-+	.imc_base		= 0xd800,
-+	.ibecc_base		= 0xd400,
-+	.ibecc_error_log_offset	= 0x68,
-+	.ibecc_available	= tgl_ibecc_available,
-+	.err_addr_to_sys_addr	= adl_err_addr_to_sys_addr,
-+	.err_addr_to_imc_addr	= adl_err_addr_to_imc_addr,
-+};
+ 		ndimms = 0;
+ 		amap = I10NM_GET_AMAP(imc, i);
+-		for (j = 0; j < I10NM_NUM_DIMMS; j++) {
++		for (j = 0; j < imc->num_dimms; j++) {
+ 			dimm = edac_get_dimm(mci, i, j, 0);
+ 			mtr = I10NM_GET_DIMMMTR(imc, i, j);
+ 			mcddrtcfg = I10NM_GET_MCDDRTCFG(imc, i, j);
+@@ -335,8 +434,9 @@ static int __init i10nm_init(void)
+ 
+ 	skx_set_mem_cfg(i10nm_check_2lm(cfg));
+ 
+-	rc = i10nm_get_all_munits();
+-	if (rc < 0)
++	rc = i10nm_get_ddr_munits();
 +
- static const struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), (kernel_ulong_t)&ehl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), (kernel_ulong_t)&ehl_cfg },
-@@ -365,6 +420,10 @@ static const struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), (kernel_ulong_t)&icl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), (kernel_ulong_t)&icl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_TGL_SKU), (kernel_ulong_t)&tgl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU1), (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), (kernel_ulong_t)&adl_cfg },
- 	{ },
- };
- MODULE_DEVICE_TABLE(pci, igen6_pci_tbl);
-@@ -624,7 +683,7 @@ static void ecclog_work_cb(struct work_struct *work)
- 			ECC_ERROR_LOG_ADDR_SHIFT;
- 		res.mc	     = node->mc;
- 		res.sys_addr = res_cfg->err_addr_to_sys_addr(eaddr, res.mc);
--		res.imc_addr = res_cfg->err_addr_to_imc_addr(eaddr);
-+		res.imc_addr = res_cfg->err_addr_to_imc_addr(eaddr, res.mc);
++	if (i10nm_get_hbm_munits() && rc)
+ 		goto fail;
  
- 		mci = igen6_pvt->imc[res.mc].mci;
+ 	list_for_each_entry(d, i10nm_edac_list, list) {
+@@ -357,7 +457,15 @@ static int __init i10nm_init(void)
+ 			d->imc[i].lmc = i;
+ 			d->imc[i].src_id  = src_id;
+ 			d->imc[i].node_id = node_id;
+-			d->imc[i].chan_mmio_sz = cfg->ddr_chan_mmio_sz;
++			if (d->imc[i].hbm_mc) {
++				d->imc[i].chan_mmio_sz = cfg->hbm_chan_mmio_sz;
++				d->imc[i].num_channels = I10NM_NUM_HBM_CHANNELS;
++				d->imc[i].num_dimms    = I10NM_NUM_HBM_DIMMS;
++			} else {
++				d->imc[i].chan_mmio_sz = cfg->ddr_chan_mmio_sz;
++				d->imc[i].num_channels = I10NM_NUM_DDR_CHANNELS;
++				d->imc[i].num_dimms    = I10NM_NUM_DDR_DIMMS;
++			}
  
-@@ -1071,6 +1130,9 @@ static int igen6_mem_slice_setup(u64 mchbar)
- 	edac_dbg(0, "ms_s_size: %llu MiB, ms_l_map %d\n",
- 		 ms_s_size >> 20, ms_l_map);
+ 			rc = skx_register_mci(&d->imc[i], d->imc[i].mdev,
+ 					      "Intel_10nm Socket", EDAC_MOD_STR,
+diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
+index c8691abb720d..5e83f59bef8a 100644
+--- a/drivers/edac/skx_common.c
++++ b/drivers/edac/skx_common.c
+@@ -343,9 +343,9 @@ int skx_get_dimm_info(u32 mtr, u32 mcmtr, u32 amap, struct dimm_info *dimm,
  
-+	if (!size)
-+		return 0;
+ 	ranks = numrank(mtr);
+ 	rows = numrow(mtr);
+-	cols = numcol(mtr);
++	cols = imc->hbm_mc ? 6 : numcol(mtr);
+ 
+-	if (cfg->support_ddr5 && (amap & 0x8)) {
++	if (cfg->support_ddr5 && ((amap & 0x8) || imc->hbm_mc)) {
+ 		banks = 32;
+ 		mtype = MEM_DDR5;
+ 	} else {
+@@ -374,8 +374,13 @@ int skx_get_dimm_info(u32 mtr, u32 mcmtr, u32 amap, struct dimm_info *dimm,
+ 	dimm->dtype = get_width(mtr);
+ 	dimm->mtype = mtype;
+ 	dimm->edac_mode = EDAC_SECDED; /* likely better than this */
+-	snprintf(dimm->label, sizeof(dimm->label), "CPU_SrcID#%u_MC#%u_Chan#%u_DIMM#%u",
+-		 imc->src_id, imc->lmc, chan, dimmno);
 +
- 	cmf = ioremap(base, size);
- 	if (!cmf) {
- 		igen6_printk(KERN_ERR, "Failed to ioremap cmf 0x%llx\n", base);
++	if (imc->hbm_mc)
++		snprintf(dimm->label, sizeof(dimm->label), "CPU_SrcID#%u_HBMC#%u_Chan#%u",
++			 imc->src_id, imc->lmc, chan);
++	else
++		snprintf(dimm->label, sizeof(dimm->label), "CPU_SrcID#%u_MC#%u_Chan#%u_DIMM#%u",
++			 imc->src_id, imc->lmc, chan, dimmno);
+ 
+ 	return 1;
+ }
+@@ -703,6 +708,8 @@ void skx_remove(void)
+ 		}
+ 		if (d->util_all)
+ 			pci_dev_put(d->util_all);
++		if (d->pcu_cr3)
++			pci_dev_put(d->pcu_cr3);
+ 		if (d->sad_all)
+ 			pci_dev_put(d->sad_all);
+ 		if (d->uracu)
+diff --git a/drivers/edac/skx_common.h b/drivers/edac/skx_common.h
+index 34e89f7ddf93..01f67e731766 100644
+--- a/drivers/edac/skx_common.h
++++ b/drivers/edac/skx_common.h
+@@ -32,9 +32,17 @@
+ #define SKX_NUM_CHANNELS	3	/* Channels per memory controller */
+ #define SKX_NUM_DIMMS		2	/* Max DIMMS per channel */
+ 
+-#define I10NM_NUM_IMC		4
+-#define I10NM_NUM_CHANNELS	2
+-#define I10NM_NUM_DIMMS		2
++#define I10NM_NUM_DDR_IMC	4
++#define I10NM_NUM_DDR_CHANNELS	2
++#define I10NM_NUM_DDR_DIMMS	2
++
++#define I10NM_NUM_HBM_IMC	16
++#define I10NM_NUM_HBM_CHANNELS	2
++#define I10NM_NUM_HBM_DIMMS	1
++
++#define I10NM_NUM_IMC		(I10NM_NUM_DDR_IMC + I10NM_NUM_HBM_IMC)
++#define I10NM_NUM_CHANNELS	MAX(I10NM_NUM_DDR_CHANNELS, I10NM_NUM_HBM_CHANNELS)
++#define I10NM_NUM_DIMMS		MAX(I10NM_NUM_DDR_DIMMS, I10NM_NUM_HBM_DIMMS)
+ 
+ #define MAX(a, b)	((a) > (b) ? (a) : (b))
+ #define NUM_IMC		MAX(SKX_NUM_IMC, I10NM_NUM_IMC)
+@@ -56,12 +64,16 @@ struct skx_dev {
+ 	struct pci_dev *sad_all;
+ 	struct pci_dev *util_all;
+ 	struct pci_dev *uracu; /* for i10nm CPU */
++	struct pci_dev *pcu_cr3; /* for HBM memory detection */
+ 	u32 mcroute;
+ 	struct skx_imc {
+ 		struct mem_ctl_info *mci;
+ 		struct pci_dev *mdev; /* for i10nm CPU */
+ 		void __iomem *mbase;  /* for i10nm CPU */
+ 		int chan_mmio_sz;     /* for i10nm CPU */
++		int num_channels; /* channels per memory controller */
++		int num_dimms; /* dimms per channel */
++		bool hbm_mc;
+ 		u8 mc;	/* system wide mc# */
+ 		u8 lmc;	/* socket relative mc# */
+ 		u8 src_id, node_id;
+@@ -132,6 +144,8 @@ struct res_config {
+ 	int busno_cfg_offset;
+ 	/* Per DDR channel memory-mapped I/O size */
+ 	int ddr_chan_mmio_sz;
++	/* Per HBM channel memory-mapped I/O size */
++	int hbm_chan_mmio_sz;
+ 	bool support_ddr5;
+ 	/* SAD device number and function number */
+ 	unsigned int sad_all_devfn;
 -- 
 2.29.2
 
