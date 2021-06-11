@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 538E0C48BE8
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE70EC48BE5
+	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D0C660C40
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C747760FE9
+	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231582AbhFKRDu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S231558AbhFKRDu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Fri, 11 Jun 2021 13:03:50 -0400
-Received: from mga06.intel.com ([134.134.136.31]:56284 "EHLO mga06.intel.com"
+Received: from mga06.intel.com ([134.134.136.31]:56300 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231459AbhFKRDt (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 11 Jun 2021 13:03:49 -0400
-IronPort-SDR: PRmtbWUGwrEujnn/9perHqeuh1Out4A8aDnV38MEloeM58+p3r8gocGqMNbYDdWN+RDJICN3Z8
- gW6iEcYCF99A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="266715353"
+        id S231489AbhFKRDs (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 11 Jun 2021 13:03:48 -0400
+IronPort-SDR: A2vnqnge8X5+Swt8bz/zGm9fgRVIQHOLsH/2qQsRttXmMXRx636z7kcDK55tDiEkY7cKEzmZu0
+ znoY4xjkFSVw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="266715350"
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="266715353"
+   d="scan'208";a="266715350"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
-IronPort-SDR: 2y/3jazTNf9fK36WhAP1wWeLB/lRWw6Dj5mJk4JABy394QA8aYYrP4mKoXnHVpkMWAlavT3hIP
- qbHKrpfoUiZA==
+IronPort-SDR: EBKoTBwQWQw/+LkVBqj3DJNRPVOWO1o6uPBZaWKh/0iBHji0UlRfIXmzlsya330okKDUiTgOM7
+ mA/Z+lMvCr8w==
 X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="483329872"
+   d="scan'208";a="483329865"
 Received: from agluck-desk2.sc.intel.com ([10.3.52.146])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:36 -0700
 From:   Tony Luck <tony.luck@intel.com>
 To:     tony.luck@intel.com
 Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
@@ -39,9 +39,9 @@ Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] EDAC/igen6: Add Intel ICL-NNPI SoC support
-Date:   Fri, 11 Jun 2021 10:01:21 -0700
-Message-Id: <20210611170123.1057025-5-tony.luck@intel.com>
+Subject: [PATCH 2/6] EDAC/i10nm: Add detection of memory levels for ICX/SPR servers
+Date:   Fri, 11 Jun 2021 10:01:19 -0700
+Message-Id: <20210611170123.1057025-3-tony.luck@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210611170123.1057025-1-tony.luck@intel.com>
 References: <20210611170123.1057025-1-tony.luck@intel.com>
@@ -53,77 +53,129 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 
-The Ice Lake Neural Network Processor for Deep Learning Inference
-(ICL-NNPI) SoC shares the same memory controller and In-Band ECC with
-Elkhart Lake SoC. Add the ICL-NNPI compute die IDs for EDAC support.
+Current i10nm_edac driver is only for system configured in 1-level
+memory. If the system is configured in 2-level memory, the driver
+doesn't report the 1st level memory DIMM for the error address, even
+if the error occurs in the 1st level memory.
+
+Both Ice Lake servers and Sapphire Rapids servers can be configured
+in 2-level memory. Add detection of memory levels to i10nm_edac for
+the two kinds of servers so that the driver can report the 2nd level
+memory DIMM or the 1st level memory DIMM according to error source.
 
 Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- drivers/edac/igen6_edac.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/edac/i10nm_base.c | 39 +++++++++++++++++++++++++++++++++++++++
+ drivers/edac/skx_common.h |  3 +++
+ 2 files changed, 42 insertions(+)
 
-diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index 6be9986fc6bd..0fedf2d206d3 100644
---- a/drivers/edac/igen6_edac.c
-+++ b/drivers/edac/igen6_edac.c
-@@ -183,6 +183,12 @@ static struct work_struct ecclog_work;
- #define DID_EHL_SKU14	0x4534
- #define DID_EHL_SKU15	0x4536
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index 238a4ad1e526..91431d8922a0 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -24,6 +24,8 @@
+ 	pci_read_config_dword((d)->uracu, 0xd0, &(reg))
+ #define I10NM_GET_IMC_BAR(d, i, reg)	\
+ 	pci_read_config_dword((d)->uracu, 0xd8 + (i) * 4, &(reg))
++#define I10NM_GET_SAD(d, offset, i, reg)\
++	pci_read_config_dword((d)->sad_all, (offset) + (i) * 8, &(reg))
+ #define I10NM_GET_DIMMMTR(m, i, j)	\
+ 	readl((m)->mbase + 0x2080c + (i) * (m)->chan_mmio_sz + (j) * 4)
+ #define I10NM_GET_MCDDRTCFG(m, i, j)	\
+@@ -38,6 +40,10 @@
+ #define I10NM_GET_IMC_MMIO_SIZE(reg)	((GET_BITFIELD(reg, 13, 23) - \
+ 					 GET_BITFIELD(reg, 0, 10) + 1) << 12)
  
-+/* Compute die IDs for ICL-NNPI with IBECC */
-+#define DID_ICL_SKU8	0x4581
-+#define DID_ICL_SKU10	0x4585
-+#define DID_ICL_SKU11	0x4589
-+#define DID_ICL_SKU12	0x458d
++#define I10NM_MAX_SAD			16
++#define I10NM_SAD_ENABLE(reg)		GET_BITFIELD(reg, 0, 0)
++#define I10NM_SAD_NM_CACHEABLE(reg)	GET_BITFIELD(reg, 5, 5)
 +
- static bool ehl_ibecc_available(struct pci_dev *pdev)
- {
- 	u32 v;
-@@ -212,6 +218,17 @@ static u64 ehl_err_addr_to_imc_addr(u64 eaddr)
- 	return eaddr;
+ static struct list_head *i10nm_edac_list;
+ 
+ static struct pci_dev *pci_get_dev_wrapper(int dom, unsigned int bus,
+@@ -63,6 +69,31 @@ static struct pci_dev *pci_get_dev_wrapper(int dom, unsigned int bus,
+ 	return pdev;
  }
  
-+static bool icl_ibecc_available(struct pci_dev *pdev)
++static bool i10nm_check_2lm(struct res_config *cfg)
 +{
-+	u32 v;
++	struct skx_dev *d;
++	u32 reg;
++	int i;
 +
-+	if (pci_read_config_dword(pdev, CAPID_C_OFFSET, &v))
-+		return false;
++	list_for_each_entry(d, i10nm_edac_list, list) {
++		d->sad_all = pci_get_dev_wrapper(d->seg, d->bus[1],
++						 PCI_SLOT(cfg->sad_all_devfn),
++						 PCI_FUNC(cfg->sad_all_devfn));
++		if (!d->sad_all)
++			continue;
 +
-+	return !(CAPID_C_IBECC & v) &&
-+		(boot_cpu_data.x86_stepping >= 1);
++		for (i = 0; i < I10NM_MAX_SAD; i++) {
++			I10NM_GET_SAD(d, cfg->sad_all_offset, i, reg);
++			if (I10NM_SAD_ENABLE(reg) && I10NM_SAD_NM_CACHEABLE(reg)) {
++				edac_dbg(2, "2-level memory configuration.\n");
++				return true;
++			}
++		}
++	}
++
++	return false;
 +}
 +
- static struct res_config ehl_cfg = {
- 	.num_imc	 = 1,
- 	.ibecc_base	 = 0xdc00,
-@@ -220,6 +237,14 @@ static struct res_config ehl_cfg = {
- 	.err_addr_to_imc_addr  = ehl_err_addr_to_imc_addr,
+ static int i10nm_get_all_munits(void)
+ {
+ 	struct pci_dev *mdev;
+@@ -132,6 +163,8 @@ static struct res_config i10nm_cfg0 = {
+ 	.decs_did		= 0x3452,
+ 	.busno_cfg_offset	= 0xcc,
+ 	.ddr_chan_mmio_sz	= 0x4000,
++	.sad_all_devfn		= PCI_DEVFN(29, 0),
++	.sad_all_offset		= 0x108,
  };
  
-+static struct res_config icl_cfg = {
-+	.num_imc	 = 1,
-+	.ibecc_base	 = 0xd800,
-+	.ibecc_available = icl_ibecc_available,
-+	.err_addr_to_sys_addr  = ehl_err_addr_to_sys_addr,
-+	.err_addr_to_imc_addr  = ehl_err_addr_to_imc_addr,
-+};
-+
- static const struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), (kernel_ulong_t)&ehl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), (kernel_ulong_t)&ehl_cfg },
-@@ -232,6 +257,10 @@ static const struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), (kernel_ulong_t)&ehl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), (kernel_ulong_t)&ehl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), (kernel_ulong_t)&ehl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), (kernel_ulong_t)&icl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), (kernel_ulong_t)&icl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), (kernel_ulong_t)&icl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), (kernel_ulong_t)&icl_cfg },
- 	{ },
+ static struct res_config i10nm_cfg1 = {
+@@ -139,6 +172,8 @@ static struct res_config i10nm_cfg1 = {
+ 	.decs_did		= 0x3452,
+ 	.busno_cfg_offset	= 0xd0,
+ 	.ddr_chan_mmio_sz	= 0x4000,
++	.sad_all_devfn		= PCI_DEVFN(29, 0),
++	.sad_all_offset		= 0x108,
  };
- MODULE_DEVICE_TABLE(pci, igen6_pci_tbl);
+ 
+ static struct res_config spr_cfg = {
+@@ -147,6 +182,8 @@ static struct res_config spr_cfg = {
+ 	.busno_cfg_offset	= 0xd0,
+ 	.ddr_chan_mmio_sz	= 0x8000,
+ 	.support_ddr5		= true,
++	.sad_all_devfn		= PCI_DEVFN(10, 0),
++	.sad_all_offset		= 0x300,
+ };
+ 
+ static const struct x86_cpu_id i10nm_cpuids[] = {
+@@ -296,6 +333,8 @@ static int __init i10nm_init(void)
+ 		return -ENODEV;
+ 	}
+ 
++	skx_set_mem_cfg(i10nm_check_2lm(cfg));
++
+ 	rc = i10nm_get_all_munits();
+ 	if (rc < 0)
+ 		goto fail;
+diff --git a/drivers/edac/skx_common.h b/drivers/edac/skx_common.h
+index 8b5a49058ce4..34e89f7ddf93 100644
+--- a/drivers/edac/skx_common.h
++++ b/drivers/edac/skx_common.h
+@@ -133,6 +133,9 @@ struct res_config {
+ 	/* Per DDR channel memory-mapped I/O size */
+ 	int ddr_chan_mmio_sz;
+ 	bool support_ddr5;
++	/* SAD device number and function number */
++	unsigned int sad_all_devfn;
++	int sad_all_offset;
+ };
+ 
+ typedef int (*get_dimm_config_f)(struct mem_ctl_info *mci,
 -- 
 2.29.2
 
