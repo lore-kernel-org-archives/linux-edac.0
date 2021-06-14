@@ -2,378 +2,164 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B321CC48BD1
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7960C2B9F4
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Jun 2021 21:21:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BD5A613C3
-	for <linux-edac@archiver.kernel.org>; Fri, 11 Jun 2021 17:01:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B609461209
+	for <linux-edac@archiver.kernel.org>; Mon, 14 Jun 2021 21:21:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231593AbhFKRDv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 11 Jun 2021 13:03:51 -0400
-Received: from mga06.intel.com ([134.134.136.31]:56402 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231466AbhFKRDs (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Fri, 11 Jun 2021 13:03:48 -0400
-IronPort-SDR: i85QvnlqfS0lSJ3aGGP9I8E8h7zjJFOGjDO9+s+w+lHsdMJGoeSwG/Jk5Yx2TCXOQGd/+MJbzI
- ILpWLe298C5A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10012"; a="266715352"
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="266715352"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
-IronPort-SDR: bnpeAnruE27xQ7fAWvi2s0yr0rY3PQYLR6e1zzW56RdNS2PcWiQoBmUFHsy32ZJS+mN+CQIpPz
- Vb8vZZg9npDg==
-X-IronPort-AV: E=Sophos;i="5.83,265,1616482800"; 
-   d="scan'208";a="483329868"
-Received: from agluck-desk2.sc.intel.com ([10.3.52.146])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2021 10:01:37 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     tony.luck@intel.com
-Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Hongyu Ning <hongyu.ning@linux.intel.com>,
-        Aristeu Rozanski <aris@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
+        id S234356AbhFNVXu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 14 Jun 2021 17:23:50 -0400
+Received: from mail-mw2nam12on2087.outbound.protection.outlook.com ([40.107.244.87]:53473
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234397AbhFNVXt (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 14 Jun 2021 17:23:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GzxpDb4PBP/62KtWnFhbtDBlWNwVWgYAYPjWNg5i5fiPuiGObd98sUTr4kDxw5FK7ZaNoVkYd+e8M9BW9m6STo0X0oe25zBAMDuf8hug59ZVNRWIF+b8q/f6sJufS4d1BGeUZhr4Mdevv7d5RXIbhLz8Cq6t/fOj3r7aDXWXxBKfrusTtKyx5mNIjvk3g9pWwCxxCKNBMiVVBYGHyz67nmRJInfcw4iAwdJluie/iYzdjIenyayz6XzDFr/QH4//oiyRv920ziX8cKaU2OpvqXu27J8Lo2MOxfKx0Q4nPcql9cHCOFm/wp/kSfBeil83fXcxcad7HLfui0pzvL3p+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lLC7XkH7zKA/gzvQENAfyU0qM1jY9yXmi+1PyGaYn+s=;
+ b=iD6W0lKnrmcWNgki8Z4o994im624JTRJslsJHBKNwMKka3+qmZ/UCC+8IZapuSghhWuVxbU9EPG1ojcsfLY1irXc0eeakGuQo8qFc3WIPa04Wl52Y9vSkQExTAqzCKuZDOOpt6f+V/CaA2OW5c5m3zmPBeE+4mCSZd1J+RMvDlQ9FYNyrhVwWOKf5u+bSF/pRpf+WJd5vG4eRUhSq/n0vjGOGW4Bs8BmkNjWF9VOoxcEkcptUVVO79DW/MDQsVug82+RXGZzmD2HZ/w56Dhz9ZQlab3w9pPi+gcshAblCBAFwadZCi0ImXCLZm6Ua1q67hvquLVKY7gXYXq04Rb9Vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lLC7XkH7zKA/gzvQENAfyU0qM1jY9yXmi+1PyGaYn+s=;
+ b=WObb+NlaP7bBwUr1KpfPG13+M+6DEoLWtGyHPKPK6pSYTPSn44GftsWcuL3PNFfu1hmqzFx3gtRnP8kcpPH4DXOVpirP5lqEArYUpcXQKQZCPB8lQArzmIbdn4rPp2mfypVjYOdqkEd2vE/cRghvcRW0tpcSK0jaYTjBNuEFJfw=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2685.namprd12.prod.outlook.com (2603:10b6:805:67::33)
+ by SA0PR12MB4559.namprd12.prod.outlook.com (2603:10b6:806:9e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Mon, 14 Jun
+ 2021 21:21:45 +0000
+Received: from SN6PR12MB2685.namprd12.prod.outlook.com
+ ([fe80::c8f:eff7:df51:c837]) by SN6PR12MB2685.namprd12.prod.outlook.com
+ ([fe80::c8f:eff7:df51:c837%6]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
+ 21:21:45 +0000
+From:   Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+To:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org
+Cc:     Tony Luck <tony.luck@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/6] EDAC/i10nm: Add support for high bandwidth memory
-Date:   Fri, 11 Jun 2021 10:01:20 -0700
-Message-Id: <20210611170123.1057025-4-tony.luck@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210611170123.1057025-1-tony.luck@intel.com>
-References: <20210611170123.1057025-1-tony.luck@intel.com>
+        James Morse <james.morse@arm.com>, yazen.ghannam@amd.com,
+        Robert Richter <rric@kernel.org>,
+        Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Subject: [PATCH] EDAC/mce_amd: Reduce unnecessary spew in dmesg if SMCA feature bit is not exposed
+Date:   Mon, 14 Jun 2021 16:21:29 -0500
+Message-Id: <20210614212129.227698-1-Smita.KoralahalliChannabasappa@amd.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [165.204.184.1]
+X-ClientProxiedBy: BN9PR03CA0931.namprd03.prod.outlook.com
+ (2603:10b6:408:108::6) To SN6PR12MB2685.namprd12.prod.outlook.com
+ (2603:10b6:805:67::33)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ethanolx50f7host.amd.com (165.204.184.1) by BN9PR03CA0931.namprd03.prod.outlook.com (2603:10b6:408:108::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20 via Frontend Transport; Mon, 14 Jun 2021 21:21:43 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d40569d4-bf94-499b-32c1-08d92f7a693c
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4559:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB45596A9C44A7861B160EA7AB90319@SA0PR12MB4559.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1BvMmtlpv/zrNbvhU8nKL5wWfE9q30cP8jo4J3sI1zpCo7FuL2UdlkxXg/vBEX+LScJUQBYN8xi3R1zWiyGFeKMHlPdm6QG5okq4/+9eobY9rQZvxcMxKbxNfbmh2OnKQ4iDNFBuQbNVP2zWx0rQMJ1hc23hMpvQquseZKYYxUGo1UJ8c5Qwwii6LakpiQdro6QCOteEDKrdmYVRRB61lzoUfgoTBSu2k+TAoO9Qkq6YKQy8CLFCPGcXI6afqfJZNK8x3afZf/1vECrs46mnw1ptBIyGJkZ5Pi1kg5rVN+V7w/SUNHkuJ65Wf/54vgNRyC9KNAiO3Cd3eGzrsRRn3ZGClTu1sOfch4uBmkD28XZ2TzYttHcpZZyYwZnaOxWIX7kkgPcaFDxnfUHOnGqANG+zXaaixGdIVf4cEFvg8v6aklC9SyBcgQJUx/KwrWOFRVHdEFr4hcUroEcJkfieNU7/92b6H25WjolqSY3fgOsBNkEpaXEiZA5+DmpM4DwldWXjMhqnfooeGkkl7uTYcSANvza2JFAl+jnhipumzNHntqG64w04pWjenC0zajSdbSpzEsex3vkUBWu3DfoCJ3N0NwKPJSlhGXS/fFyIlU2LjwLh5LNq2eu4jq2W+mEvIpZthwOKZNZkgOP8gwVweQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR12MB2685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39860400002)(396003)(366004)(136003)(376002)(4326008)(83380400001)(8676002)(86362001)(6666004)(2616005)(956004)(478600001)(316002)(36756003)(5660300002)(66476007)(6486002)(8936002)(26005)(38100700002)(1076003)(52116002)(66946007)(186003)(38350700002)(16526019)(66556008)(54906003)(7696005)(2906002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cgNdnNALooQbkvhgrCpsOTZe1wgtUb0R8CJxRZGDH7k19G/eTlQR+QxUBN5C?=
+ =?us-ascii?Q?PCy28b3hKdD8tRH3ly3CiATLXqVqUmVrvd/bOfwdQ2SlgsRDlWLUXrj+cKFk?=
+ =?us-ascii?Q?AfSu/rJ3w+UpcOl1su4Q1zaeEOrjrAkMCOr2Enwl7tGFxUS6ihLgWrBxRN5r?=
+ =?us-ascii?Q?TKQtnsmYu2IAy6gPAJCPg4ZwFLIPrg1jejP0jJnskDmCK3AsYxU5pw9xi9S3?=
+ =?us-ascii?Q?o2RQI7538p2yvGmUt2KPkKglOsOQ7eAx3FZJFxJYCZoWT4QnwtEMSr1Og8DQ?=
+ =?us-ascii?Q?KqIZDCaFYGXbHc+5w/hOxVS3Z//B7eFCaGM92lGRoPRcAaFbZLGXkyIPcI1g?=
+ =?us-ascii?Q?ZbsYhAh/yrmDuO6+r9Mki2z/3QHCJtFPtMsEBBRz6ko7XFj5kIzaKuSAynxu?=
+ =?us-ascii?Q?F0931eKtJjDZu9Tof8DPk+7w9L/l7fmLodKW9PYEng1UyrwbOAIFGbB8TRp/?=
+ =?us-ascii?Q?OJdErJH3LvYXxjHwxe6ocG1CQ5abCFD5poRFvaa1k+Oa2oyojnw5s4CfdQwf?=
+ =?us-ascii?Q?2chc0bY8MTEMAX/Emkbbr/ETomMKGfWMIY981qpBWXmZ4HCX9nwojtlHjdas?=
+ =?us-ascii?Q?AiZDV0NRTwPfVuRS5haAH3ZLUdh5xJNsONHEEliYBGlkiTekwUKZ2G8zpH4o?=
+ =?us-ascii?Q?LwpV++wM0vXJdY1iMEmTHRErUz8qfAS0NJhOBVWhT+YJoVrypH3KzyRIGCQq?=
+ =?us-ascii?Q?ZgRDHoKLlQg9cBzKumUZVjPG4Yh6qA3LJH9Kf4e/LNJ0xpF/0/pUr9Uf7ltZ?=
+ =?us-ascii?Q?mPwY2EUIjg9hsUcMmGDs0v+WUllpx3Y3+36aOM9Vwvkgp0PtYg2iNTjyc3YD?=
+ =?us-ascii?Q?AeGG3dovIu1XU2BCk0N1OSSiPRwYktr6ac91NTTAG71kbN2iU+SWOwLQs6Ym?=
+ =?us-ascii?Q?k0KN/3A9oK+sdNfETt431BOhCnWWRBcpRJDDaoiWx6RNctAUm7ZVya9tmQOX?=
+ =?us-ascii?Q?FT1aT/RK7yl9D502PhQhocw5kSGS/qLBULl9IvFQASLsIcVZ8VUP5CWihKV8?=
+ =?us-ascii?Q?Hvyh6hbJZ04ZCyMt6zM/vygfuQTSHhgVByU2KwgQJQakbQxTKrWTsCjCSWOT?=
+ =?us-ascii?Q?J0PSypVGRg3EhMRntT6A7L1lvRygoQmN219xDK37ln1/ZItp/7atbxWMNGy5?=
+ =?us-ascii?Q?jBDIFB5i6HKvDtDSN3sN8/8bzUjUpIm06zl6CYJ74NiGWfqaVpDOIYqYIhO4?=
+ =?us-ascii?Q?W+ZnEZv/SclAhTGZPuF+M1RMy43gfLo+OsOGssYEjGC3bsSh9bHu4HnZY60m?=
+ =?us-ascii?Q?iOMhmXlr0yALAv4MXFvdVT21BpqlbK2mUAa0tvjYigC9k/2cXUjnh9SIhQOo?=
+ =?us-ascii?Q?aPg+r5dPx4sM4GuiOYn+hI8K?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d40569d4-bf94-499b-32c1-08d92f7a693c
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2021 21:21:44.9263
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bWqg21vnQjlI2YvPd/S3lLYLJAKkwcwSh+MAtmXJK3c4Jte1MqIuTnr7jXy/hQmLz09RyyVqrqQWc2ZeeM6poA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4559
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+The SMCA feature bit is not exposed on the guest.
 
-A future Xeon processor will include in-package HBM (high bandwidth
-memory). The in-package HBM memory controller shares the same
-architecture with the regular DDR memory controller.
+This causes a lot of noise in dmesg as the warning is printed for each
+logical CPU.
 
-Add the HBM memory controller devices for EDAC support.
+$ dmesg |grep -i family
 
-Tested-by: Hongyu Ning <hongyu.ning@linux.intel.com>
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+[    0.031000] smpboot: CPU0: AMD EPYC-Milan Processor (family: 0x19, model: 0x1, stepping: 0x1)
+[    4.653422] Huh? What family is it: 0x19?!
+[    4.720732] Huh? What family is it: 0x19?!
+[    6.171028] Huh? What family is it: 0x19?!
+[    6.766552] Huh? What family is it: 0x19?!
+[    6.811119] Huh? What family is it: 0x19?!
+[    6.839855] Huh? What family is it: 0x19?!
+
+Give these messages debug severity and output once as it is mostly useful
+for module developers and just noise for users.
+
+Rephrase the statement to make it more meaningful.
+
+Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
 ---
- drivers/edac/i10nm_base.c | 132 ++++++++++++++++++++++++++++++++++----
- drivers/edac/skx_common.c |  15 +++--
- drivers/edac/skx_common.h |  20 +++++-
- 3 files changed, 148 insertions(+), 19 deletions(-)
+ drivers/edac/mce_amd.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
-index 91431d8922a0..fb7e72d3fd2c 100644
---- a/drivers/edac/i10nm_base.c
-+++ b/drivers/edac/i10nm_base.c
-@@ -13,7 +13,7 @@
- #include "edac_module.h"
- #include "skx_common.h"
+diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
+index 5dd905a3f30c..2a9899088389 100644
+--- a/drivers/edac/mce_amd.c
++++ b/drivers/edac/mce_amd.c
+@@ -1227,13 +1227,9 @@ static int __init mce_amd_init(void)
+ 		fam_ops.mc2_mce = f16h_mc2_mce;
+ 		break;
  
--#define I10NM_REVISION	"v0.0.4"
-+#define I10NM_REVISION	"v0.0.5"
- #define EDAC_MOD_STR	"i10nm_edac"
+-	case 0x17:
+-	case 0x18:
+-		pr_warn_once("Decoding supported only on Scalable MCA processors.\n");
+-		return -EINVAL;
+-
+ 	default:
+-		printk(KERN_WARNING "Huh? What family is it: 0x%x?!\n", c->x86);
++		pr_debug_once("MCE decoding is not supported for family: 0x%x\n",
++			      c->x86);
+ 		return -EINVAL;
+ 	}
  
- /* Debug macros */
-@@ -26,19 +26,33 @@
- 	pci_read_config_dword((d)->uracu, 0xd8 + (i) * 4, &(reg))
- #define I10NM_GET_SAD(d, offset, i, reg)\
- 	pci_read_config_dword((d)->sad_all, (offset) + (i) * 8, &(reg))
-+#define I10NM_GET_HBM_IMC_BAR(d, reg)	\
-+	pci_read_config_dword((d)->uracu, 0xd4, &(reg))
-+#define I10NM_GET_CAPID3_CFG(d, reg)	\
-+	pci_read_config_dword((d)->pcu_cr3, 0x90, &(reg))
- #define I10NM_GET_DIMMMTR(m, i, j)	\
--	readl((m)->mbase + 0x2080c + (i) * (m)->chan_mmio_sz + (j) * 4)
-+	readl((m)->mbase + ((m)->hbm_mc ? 0x80c : 0x2080c) + \
-+	(i) * (m)->chan_mmio_sz + (j) * 4)
- #define I10NM_GET_MCDDRTCFG(m, i, j)	\
--	readl((m)->mbase + 0x20970 + (i) * (m)->chan_mmio_sz + (j) * 4)
-+	readl((m)->mbase + ((m)->hbm_mc ? 0x970 : 0x20970) + \
-+	(i) * (m)->chan_mmio_sz + (j) * 4)
- #define I10NM_GET_MCMTR(m, i)		\
--	readl((m)->mbase + 0x20ef8 + (i) * (m)->chan_mmio_sz)
-+	readl((m)->mbase + ((m)->hbm_mc ? 0xef8 : 0x20ef8) + \
-+	(i) * (m)->chan_mmio_sz)
- #define I10NM_GET_AMAP(m, i)		\
--	readl((m)->mbase + 0x20814 + (i) * (m)->chan_mmio_sz)
-+	readl((m)->mbase + ((m)->hbm_mc ? 0x814 : 0x20814) + \
-+	(i) * (m)->chan_mmio_sz)
- 
- #define I10NM_GET_SCK_MMIO_BASE(reg)	(GET_BITFIELD(reg, 0, 28) << 23)
- #define I10NM_GET_IMC_MMIO_OFFSET(reg)	(GET_BITFIELD(reg, 0, 10) << 12)
- #define I10NM_GET_IMC_MMIO_SIZE(reg)	((GET_BITFIELD(reg, 13, 23) - \
- 					 GET_BITFIELD(reg, 0, 10) + 1) << 12)
-+#define I10NM_GET_HBM_IMC_MMIO_OFFSET(reg)	\
-+	((GET_BITFIELD(reg, 0, 10) << 12) + 0x140000)
-+
-+#define I10NM_HBM_IMC_MMIO_SIZE		0x9000
-+#define I10NM_IS_HBM_PRESENT(reg)	GET_BITFIELD(reg, 27, 30)
-+#define I10NM_IS_HBM_IMC(reg)		GET_BITFIELD(reg, 29, 29)
- 
- #define I10NM_MAX_SAD			16
- #define I10NM_SAD_ENABLE(reg)		GET_BITFIELD(reg, 0, 0)
-@@ -94,7 +108,7 @@ static bool i10nm_check_2lm(struct res_config *cfg)
- 	return false;
- }
- 
--static int i10nm_get_all_munits(void)
-+static int i10nm_get_ddr_munits(void)
- {
- 	struct pci_dev *mdev;
- 	void __iomem *mbase;
-@@ -122,7 +136,7 @@ static int i10nm_get_all_munits(void)
- 		edac_dbg(2, "socket%d mmio base 0x%llx (reg 0x%x)\n",
- 			 j++, base, reg);
- 
--		for (i = 0; i < I10NM_NUM_IMC; i++) {
-+		for (i = 0; i < I10NM_NUM_DDR_IMC; i++) {
- 			mdev = pci_get_dev_wrapper(d->seg, d->bus[0],
- 						   12 + i, 0);
- 			if (i == 0 && !mdev) {
-@@ -158,6 +172,90 @@ static int i10nm_get_all_munits(void)
- 	return 0;
- }
- 
-+static bool i10nm_check_hbm_imc(struct skx_dev *d)
-+{
-+	u32 reg;
-+
-+	if (I10NM_GET_CAPID3_CFG(d, reg)) {
-+		i10nm_printk(KERN_ERR, "Failed to get capid3_cfg\n");
-+		return false;
-+	}
-+
-+	return I10NM_IS_HBM_PRESENT(reg) != 0;
-+}
-+
-+static int i10nm_get_hbm_munits(void)
-+{
-+	struct pci_dev *mdev;
-+	void __iomem *mbase;
-+	u32 reg, off, mcmtr;
-+	struct skx_dev *d;
-+	int i, lmc;
-+	u64 base;
-+
-+	list_for_each_entry(d, i10nm_edac_list, list) {
-+		d->pcu_cr3 = pci_get_dev_wrapper(d->seg, d->bus[1], 30, 3);
-+		if (!d->pcu_cr3)
-+			return -ENODEV;
-+
-+		if (!i10nm_check_hbm_imc(d)) {
-+			i10nm_printk(KERN_DEBUG, "No hbm memory\n");
-+			return -ENODEV;
-+		}
-+
-+		if (I10NM_GET_SCK_BAR(d, reg)) {
-+			i10nm_printk(KERN_ERR, "Failed to get socket bar\n");
-+			return -ENODEV;
-+		}
-+		base = I10NM_GET_SCK_MMIO_BASE(reg);
-+
-+		if (I10NM_GET_HBM_IMC_BAR(d, reg)) {
-+			i10nm_printk(KERN_ERR, "Failed to get hbm mc bar\n");
-+			return -ENODEV;
-+		}
-+		base += I10NM_GET_HBM_IMC_MMIO_OFFSET(reg);
-+
-+		lmc = I10NM_NUM_DDR_IMC;
-+
-+		for (i = 0; i < I10NM_NUM_HBM_IMC; i++) {
-+			mdev = pci_get_dev_wrapper(d->seg, d->bus[0],
-+						   12 + i / 4, 1 + i % 4);
-+			if (i == 0 && !mdev) {
-+				i10nm_printk(KERN_ERR, "No hbm mc found\n");
-+				return -ENODEV;
-+			}
-+			if (!mdev)
-+				continue;
-+
-+			d->imc[lmc].mdev = mdev;
-+			off = i * I10NM_HBM_IMC_MMIO_SIZE;
-+
-+			edac_dbg(2, "hbm mc%d mmio base 0x%llx size 0x%x\n",
-+				 lmc, base + off, I10NM_HBM_IMC_MMIO_SIZE);
-+
-+			mbase = ioremap(base + off, I10NM_HBM_IMC_MMIO_SIZE);
-+			if (!mbase) {
-+				i10nm_printk(KERN_ERR, "Failed to ioremap for hbm mc 0x%llx\n",
-+					     base + off);
-+				return -ENOMEM;
-+			}
-+
-+			d->imc[lmc].mbase = mbase;
-+			d->imc[lmc].hbm_mc = true;
-+
-+			mcmtr = I10NM_GET_MCMTR(&d->imc[lmc], 0);
-+			if (!I10NM_IS_HBM_IMC(mcmtr)) {
-+				i10nm_printk(KERN_ERR, "This isn't an hbm mc!\n");
-+				return -ENODEV;
-+			}
-+
-+			lmc++;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static struct res_config i10nm_cfg0 = {
- 	.type			= I10NM,
- 	.decs_did		= 0x3452,
-@@ -181,6 +279,7 @@ static struct res_config spr_cfg = {
- 	.decs_did		= 0x3252,
- 	.busno_cfg_offset	= 0xd0,
- 	.ddr_chan_mmio_sz	= 0x8000,
-+	.hbm_chan_mmio_sz	= 0x4000,
- 	.support_ddr5		= true,
- 	.sad_all_devfn		= PCI_DEVFN(10, 0),
- 	.sad_all_offset		= 0x300,
-@@ -216,13 +315,13 @@ static int i10nm_get_dimm_config(struct mem_ctl_info *mci,
- 	struct dimm_info *dimm;
- 	int i, j, ndimms;
- 
--	for (i = 0; i < I10NM_NUM_CHANNELS; i++) {
-+	for (i = 0; i < imc->num_channels; i++) {
- 		if (!imc->mbase)
- 			continue;
- 
- 		ndimms = 0;
- 		amap = I10NM_GET_AMAP(imc, i);
--		for (j = 0; j < I10NM_NUM_DIMMS; j++) {
-+		for (j = 0; j < imc->num_dimms; j++) {
- 			dimm = edac_get_dimm(mci, i, j, 0);
- 			mtr = I10NM_GET_DIMMMTR(imc, i, j);
- 			mcddrtcfg = I10NM_GET_MCDDRTCFG(imc, i, j);
-@@ -335,8 +434,9 @@ static int __init i10nm_init(void)
- 
- 	skx_set_mem_cfg(i10nm_check_2lm(cfg));
- 
--	rc = i10nm_get_all_munits();
--	if (rc < 0)
-+	rc = i10nm_get_ddr_munits();
-+
-+	if (i10nm_get_hbm_munits() && rc)
- 		goto fail;
- 
- 	list_for_each_entry(d, i10nm_edac_list, list) {
-@@ -357,7 +457,15 @@ static int __init i10nm_init(void)
- 			d->imc[i].lmc = i;
- 			d->imc[i].src_id  = src_id;
- 			d->imc[i].node_id = node_id;
--			d->imc[i].chan_mmio_sz = cfg->ddr_chan_mmio_sz;
-+			if (d->imc[i].hbm_mc) {
-+				d->imc[i].chan_mmio_sz = cfg->hbm_chan_mmio_sz;
-+				d->imc[i].num_channels = I10NM_NUM_HBM_CHANNELS;
-+				d->imc[i].num_dimms    = I10NM_NUM_HBM_DIMMS;
-+			} else {
-+				d->imc[i].chan_mmio_sz = cfg->ddr_chan_mmio_sz;
-+				d->imc[i].num_channels = I10NM_NUM_DDR_CHANNELS;
-+				d->imc[i].num_dimms    = I10NM_NUM_DDR_DIMMS;
-+			}
- 
- 			rc = skx_register_mci(&d->imc[i], d->imc[i].mdev,
- 					      "Intel_10nm Socket", EDAC_MOD_STR,
-diff --git a/drivers/edac/skx_common.c b/drivers/edac/skx_common.c
-index c8691abb720d..5e83f59bef8a 100644
---- a/drivers/edac/skx_common.c
-+++ b/drivers/edac/skx_common.c
-@@ -343,9 +343,9 @@ int skx_get_dimm_info(u32 mtr, u32 mcmtr, u32 amap, struct dimm_info *dimm,
- 
- 	ranks = numrank(mtr);
- 	rows = numrow(mtr);
--	cols = numcol(mtr);
-+	cols = imc->hbm_mc ? 6 : numcol(mtr);
- 
--	if (cfg->support_ddr5 && (amap & 0x8)) {
-+	if (cfg->support_ddr5 && ((amap & 0x8) || imc->hbm_mc)) {
- 		banks = 32;
- 		mtype = MEM_DDR5;
- 	} else {
-@@ -374,8 +374,13 @@ int skx_get_dimm_info(u32 mtr, u32 mcmtr, u32 amap, struct dimm_info *dimm,
- 	dimm->dtype = get_width(mtr);
- 	dimm->mtype = mtype;
- 	dimm->edac_mode = EDAC_SECDED; /* likely better than this */
--	snprintf(dimm->label, sizeof(dimm->label), "CPU_SrcID#%u_MC#%u_Chan#%u_DIMM#%u",
--		 imc->src_id, imc->lmc, chan, dimmno);
-+
-+	if (imc->hbm_mc)
-+		snprintf(dimm->label, sizeof(dimm->label), "CPU_SrcID#%u_HBMC#%u_Chan#%u",
-+			 imc->src_id, imc->lmc, chan);
-+	else
-+		snprintf(dimm->label, sizeof(dimm->label), "CPU_SrcID#%u_MC#%u_Chan#%u_DIMM#%u",
-+			 imc->src_id, imc->lmc, chan, dimmno);
- 
- 	return 1;
- }
-@@ -703,6 +708,8 @@ void skx_remove(void)
- 		}
- 		if (d->util_all)
- 			pci_dev_put(d->util_all);
-+		if (d->pcu_cr3)
-+			pci_dev_put(d->pcu_cr3);
- 		if (d->sad_all)
- 			pci_dev_put(d->sad_all);
- 		if (d->uracu)
-diff --git a/drivers/edac/skx_common.h b/drivers/edac/skx_common.h
-index 34e89f7ddf93..01f67e731766 100644
---- a/drivers/edac/skx_common.h
-+++ b/drivers/edac/skx_common.h
-@@ -32,9 +32,17 @@
- #define SKX_NUM_CHANNELS	3	/* Channels per memory controller */
- #define SKX_NUM_DIMMS		2	/* Max DIMMS per channel */
- 
--#define I10NM_NUM_IMC		4
--#define I10NM_NUM_CHANNELS	2
--#define I10NM_NUM_DIMMS		2
-+#define I10NM_NUM_DDR_IMC	4
-+#define I10NM_NUM_DDR_CHANNELS	2
-+#define I10NM_NUM_DDR_DIMMS	2
-+
-+#define I10NM_NUM_HBM_IMC	16
-+#define I10NM_NUM_HBM_CHANNELS	2
-+#define I10NM_NUM_HBM_DIMMS	1
-+
-+#define I10NM_NUM_IMC		(I10NM_NUM_DDR_IMC + I10NM_NUM_HBM_IMC)
-+#define I10NM_NUM_CHANNELS	MAX(I10NM_NUM_DDR_CHANNELS, I10NM_NUM_HBM_CHANNELS)
-+#define I10NM_NUM_DIMMS		MAX(I10NM_NUM_DDR_DIMMS, I10NM_NUM_HBM_DIMMS)
- 
- #define MAX(a, b)	((a) > (b) ? (a) : (b))
- #define NUM_IMC		MAX(SKX_NUM_IMC, I10NM_NUM_IMC)
-@@ -56,12 +64,16 @@ struct skx_dev {
- 	struct pci_dev *sad_all;
- 	struct pci_dev *util_all;
- 	struct pci_dev *uracu; /* for i10nm CPU */
-+	struct pci_dev *pcu_cr3; /* for HBM memory detection */
- 	u32 mcroute;
- 	struct skx_imc {
- 		struct mem_ctl_info *mci;
- 		struct pci_dev *mdev; /* for i10nm CPU */
- 		void __iomem *mbase;  /* for i10nm CPU */
- 		int chan_mmio_sz;     /* for i10nm CPU */
-+		int num_channels; /* channels per memory controller */
-+		int num_dimms; /* dimms per channel */
-+		bool hbm_mc;
- 		u8 mc;	/* system wide mc# */
- 		u8 lmc;	/* socket relative mc# */
- 		u8 src_id, node_id;
-@@ -132,6 +144,8 @@ struct res_config {
- 	int busno_cfg_offset;
- 	/* Per DDR channel memory-mapped I/O size */
- 	int ddr_chan_mmio_sz;
-+	/* Per HBM channel memory-mapped I/O size */
-+	int hbm_chan_mmio_sz;
- 	bool support_ddr5;
- 	/* SAD device number and function number */
- 	unsigned int sad_all_devfn;
 -- 
-2.29.2
+2.17.1
 
