@@ -2,64 +2,87 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0CBC2B9F4
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Jun 2021 08:21:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB9EC2B9F4
+	for <linux-edac@archiver.kernel.org>; Sat, 19 Jun 2021 16:02:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EBA2613F5
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Jun 2021 08:21:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C176611B0
+	for <linux-edac@archiver.kernel.org>; Sat, 19 Jun 2021 16:02:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230422AbhFQIXg (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 17 Jun 2021 04:23:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37770 "EHLO
+        id S234693AbhFSQEQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 19 Jun 2021 12:04:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230334AbhFQIXf (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 17 Jun 2021 04:23:35 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01DEEC061760;
-        Thu, 17 Jun 2021 01:21:27 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0eb200ab657fc0ea7e4260.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:b200:ab65:7fc0:ea7e:4260])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8DBFB1EC0556;
-        Thu, 17 Jun 2021 10:21:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1623918086;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=p9KkfoMxQXHVpn5PWqJhxG6N2m4bA23fyu2hCz87bkc=;
-        b=MtphHVOANg6LtS7S0gOt47DNm2PwKzgTbELvCzIF3EBJVD8T++yhUobH30A4tJMq5I+loj
-        oeOmDta0pVA240jqgwjSgbdDOC9Jl2xiGynvIrEkLrCc1zXkdYFQr6ddLn94q7VE+BWbe6
-        ryqLv/2QhuZLQep3VB4mtHc+Y3o8e1o=
-Date:   Thu, 17 Jun 2021 10:21:14 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Zou Wei <zou_wei@huawei.com>
-Cc:     mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
-        rric@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] edac: Convert list_for_each to entry variant
-Message-ID: <YMsF+lGa/kCLvzRA@zn.tnic>
-References: <1623740110-15764-1-git-send-email-zou_wei@huawei.com>
+        with ESMTP id S234676AbhFSQEP (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 19 Jun 2021 12:04:15 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12641C061574;
+        Sat, 19 Jun 2021 09:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=yZ8EK1peAp+rZl27kQzykP0A4qIXhF51chdQ2bPPVLI=; b=fCjCu26Cv4SbTA95lx5fBaSHfw
+        Eu7OaIBaVgzL1bI3leej0PLBVAHkWiXnT7aP4uyagGhvpojh7/uP+sxBC3r2Ng0pQ5IdmAqSHnmOK
+        fqZQZU71msvGGcpB4UWM+aZDEkBuxdrj+4jy4a6ph7EjSV9Am3IH19w2isE07fu/Inb/dqJqYnCUx
+        0OkXZo4Jp6XVvQ6XURTIUk2rpPM5uTA5IizYlfuzjUBvXjoSuHGIaVZ53FQk4mAIlCciwGmk7Qvi6
+        NTfpa93G6uYJ951EzMXVRUy623he7XmGot5EvvMNcpn4Mf01OXcKKM7iJA7rae0PixaxAis7IUMTN
+        XmOf5UHg==;
+Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ludQ4-00HFmD-6K; Sat, 19 Jun 2021 16:02:04 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-edac@vger.kernel.org
+Subject: [PATCH] EDAC/igen6: fix core dependency
+Date:   Sat, 19 Jun 2021 09:02:03 -0700
+Message-Id: <20210619160203.2026-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1623740110-15764-1-git-send-email-zou_wei@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Jun 15, 2021 at 02:55:10PM +0800, Zou Wei wrote:
-> convert list_for_each() to list_for_each_entry() where
-> applicable.
+igen6_edac needs mce_register()/unregister() functions,
+so it should depend on X86_MCE (or X86_MCE_INTEL).
 
-That conversion is applicable to one more place in that file...
+That change prevents these build errors:
 
--- 
-Regards/Gruss,
-    Boris.
+ld: drivers/edac/igen6_edac.o: in function `igen6_remove':
+igen6_edac.c:(.text+0x494): undefined reference to `mce_unregister_decode_chain'
+ld: drivers/edac/igen6_edac.o: in function `igen6_probe':
+igen6_edac.c:(.text+0xf5b): undefined reference to `mce_register_decode_chain'
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Fixes: 10590a9d4f23e ("EDAC/igen6: Add EDAC driver for Intel client SoCs using IBECC")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac@vger.kernel.org
+---
+ drivers/edac/Kconfig |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--- linux-next-20210618.orig/drivers/edac/Kconfig
++++ linux-next-20210618/drivers/edac/Kconfig
+@@ -270,7 +270,8 @@ config EDAC_PND2
+ 
+ config EDAC_IGEN6
+ 	tristate "Intel client SoC Integrated MC"
+-	depends on PCI && X86_64 && PCI_MMCONFIG && ARCH_HAVE_NMI_SAFE_CMPXCHG
++	depends on PCI && PCI_MMCONFIG && ARCH_HAVE_NMI_SAFE_CMPXCHG
++	depends on X64_64 && X86_MCE_INTEL
+ 	help
+ 	  Support for error detection and correction on the Intel
+ 	  client SoC Integrated Memory Controller using In-Band ECC IP.
