@@ -2,87 +2,85 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB9EC2B9F4
-	for <linux-edac@archiver.kernel.org>; Sat, 19 Jun 2021 16:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01957C48BDF
+	for <linux-edac@archiver.kernel.org>; Sun, 20 Jun 2021 21:08:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C176611B0
-	for <linux-edac@archiver.kernel.org>; Sat, 19 Jun 2021 16:02:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD3246113C
+	for <linux-edac@archiver.kernel.org>; Sun, 20 Jun 2021 21:08:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234693AbhFSQEQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 19 Jun 2021 12:04:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234676AbhFSQEP (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 19 Jun 2021 12:04:15 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12641C061574;
-        Sat, 19 Jun 2021 09:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=yZ8EK1peAp+rZl27kQzykP0A4qIXhF51chdQ2bPPVLI=; b=fCjCu26Cv4SbTA95lx5fBaSHfw
-        Eu7OaIBaVgzL1bI3leej0PLBVAHkWiXnT7aP4uyagGhvpojh7/uP+sxBC3r2Ng0pQ5IdmAqSHnmOK
-        fqZQZU71msvGGcpB4UWM+aZDEkBuxdrj+4jy4a6ph7EjSV9Am3IH19w2isE07fu/Inb/dqJqYnCUx
-        0OkXZo4Jp6XVvQ6XURTIUk2rpPM5uTA5IizYlfuzjUBvXjoSuHGIaVZ53FQk4mAIlCciwGmk7Qvi6
-        NTfpa93G6uYJ951EzMXVRUy623he7XmGot5EvvMNcpn4Mf01OXcKKM7iJA7rae0PixaxAis7IUMTN
-        XmOf5UHg==;
-Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ludQ4-00HFmD-6K; Sat, 19 Jun 2021 16:02:04 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
+        id S230212AbhFTVKh convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 20 Jun 2021 17:10:37 -0400
+Received: from mga02.intel.com ([134.134.136.20]:49973 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230211AbhFTVKg (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 20 Jun 2021 17:10:36 -0400
+IronPort-SDR: cVmc/qwAv0SENsiG5xf84sDK3g3RWIWZLCTgoyF5+S45ukYRXhsYECykNqGtbPuTHLRlnJv0Oy
+ lzaUf2cG1qWw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10021"; a="193881080"
+X-IronPort-AV: E=Sophos;i="5.83,288,1616482800"; 
+   d="scan'208";a="193881080"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2021 14:08:23 -0700
+IronPort-SDR: LoETC79phESlLsHLXENMdPX+o3OVdAnbaw1KZvlfwip+5kqIjQ/NVTOgdEvp/pk8peT8m1dvPT
+ zDSJOj6lHzaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,288,1616482800"; 
+   d="scan'208";a="453686096"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Jun 2021 14:08:23 -0700
+Received: from shsmsx606.ccr.corp.intel.com (10.109.6.216) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Sun, 20 Jun 2021 14:08:22 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ SHSMSX606.ccr.corp.intel.com (10.109.6.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Mon, 21 Jun 2021 05:08:19 +0800
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2242.008;
+ Sun, 20 Jun 2021 14:08:17 -0700
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-edac@vger.kernel.org
-Subject: [PATCH] EDAC/igen6: fix core dependency
-Date:   Sat, 19 Jun 2021 09:02:03 -0700
-Message-Id: <20210619160203.2026-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: RE: [PATCH] EDAC/igen6: fix core dependency
+Thread-Topic: [PATCH] EDAC/igen6: fix core dependency
+Thread-Index: AQHXZSR20xaNNpx7sU2QBycvvxKAS6sdZfpA
+Date:   Sun, 20 Jun 2021 21:08:17 +0000
+Message-ID: <7b21e5405e4b4838b2b469fcf67eb40e@intel.com>
+References: <20210619160203.2026-1-rdunlap@infradead.org>
+In-Reply-To: <20210619160203.2026-1-rdunlap@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-igen6_edac needs mce_register()/unregister() functions,
-so it should depend on X86_MCE (or X86_MCE_INTEL).
+> igen6_edac needs mce_register()/unregister() functions,
+> so it should depend on X86_MCE (or X86_MCE_INTEL).
 
-That change prevents these build errors:
+Thanks Randy
 
-ld: drivers/edac/igen6_edac.o: in function `igen6_remove':
-igen6_edac.c:(.text+0x494): undefined reference to `mce_unregister_decode_chain'
-ld: drivers/edac/igen6_edac.o: in function `igen6_probe':
-igen6_edac.c:(.text+0xf5b): undefined reference to `mce_register_decode_chain'
+Also reported by the lkp robot (e-mail from the robot got to
+me about six hours after your fix).
 
-Fixes: 10590a9d4f23e ("EDAC/igen6: Add EDAC driver for Intel client SoCs using IBECC")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-edac@vger.kernel.org
----
- drivers/edac/Kconfig |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Applied.
 
---- linux-next-20210618.orig/drivers/edac/Kconfig
-+++ linux-next-20210618/drivers/edac/Kconfig
-@@ -270,7 +270,8 @@ config EDAC_PND2
- 
- config EDAC_IGEN6
- 	tristate "Intel client SoC Integrated MC"
--	depends on PCI && X86_64 && PCI_MMCONFIG && ARCH_HAVE_NMI_SAFE_CMPXCHG
-+	depends on PCI && PCI_MMCONFIG && ARCH_HAVE_NMI_SAFE_CMPXCHG
-+	depends on X64_64 && X86_MCE_INTEL
- 	help
- 	  Support for error detection and correction on the Intel
- 	  client SoC Integrated Memory Controller using In-Band ECC IP.
+-Tony
