@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FE9C48BC2
-	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DDB3C48BE5
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF9C161075
-	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7870610A0
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230321AbhFWTYL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 23 Jun 2021 15:24:11 -0400
-Received: from mail-dm3nam07on2082.outbound.protection.outlook.com ([40.107.95.82]:56929
-        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
+        id S231250AbhFWTYM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 23 Jun 2021 15:24:12 -0400
+Received: from mail-dm6nam12on2041.outbound.protection.outlook.com ([40.107.243.41]:25341
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231127AbhFWTXn (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 23 Jun 2021 15:23:43 -0400
+        id S231137AbhFWTXo (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 23 Jun 2021 15:23:44 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WkzrnAH8rmBj3cRm1tAoTgWCpa+aKAhG4Xf88tN1Lb8KNembhNYBoZw5oLXRBt1VoqMloIbi/j06/B3h0qN2eIW6EmpmpCSIb2U3B0UM9e46EfKOXPaiOweyU34O1m99LmO4Frx2+fe8IKsb2h0u9R7elJ8DAfGwerg0eWxwlaKMoXa5gOk94+VkHIQnyO2X7qPvdkOURkBYH8pKMLDYviVDj4JQCaSrQ/BjNh9hmQUBHVEEkeun5VqOMCE+fIUSMrnwBsiE3kvqQEOm3eO+d8Mm9qvXpauQ53jcIiCR1sceoJ8V68UhlEHuv7hIE2HvShuJ9DNLvl+Cdk7Xd+w1bQ==
+ b=cWn/MHkMtxiISP7C7WuFkM2wg1VZ5EejcZdLCcy/aFbCsg/ciXQMKBKSOMzKmBLDoouABIPwgfDtTuELA7kKCZed6hgab4y/2QBwB6vBUaSA/UzY1EQ9gt8udhRc6jSAI5gWPHBpSnxRxCMcOb8HgM2r7sEkDt0/ip6RYHamfiYh+nJBGHMOvJtV+LZQMVagcfCSHY+RNpAmSfMl7Ohx4VTBIIZ9f5BaYf1QHRmrSwcj9scZSb+YY+BRASDR8r4NPEpu07LBkffWcSrzouDiMJDQQqpdfFPEcdKKRXL0XXOcQJDARaOIRMxHv0V5ab+jVscwfwKIXN1nOysNqLIOTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6OvMqmAqnLwQ4zUjnHpcQlik/wjixZfjd2ICnY/XYLw=;
- b=T4nMcfQSUsqBm+oj7yZYVYGZfC6rUp0f8tLtlC36fLNeuqb+NfP8nF8p6wRtzNpp+lhgDA2da9k5LFoRqKe1S6OxSLyPGHtxC2C9vcmB6s5StV8oZtJSPnXDCHMWs5ip/Rgmr4dOB91ayYYpb41kp9pcJEE0Cx1JBzWSJR90kMigZUSVZ6Y9l1iLKO6HMbLZve9nK0aUg1X3FL6E7cm36HjpWomfL2kNKdxCeWyJ+sHBDlYmHlLUPf3oIATnHn1vubqZZ5TC5bZF1E0H/5322PZuwrvpq1AgdjG/WbF3l6ueSjmOZU7X9bTTXMYEyi0sZqstSPnnK/4VGbKNzGlZ0A==
+ bh=oh6U44yBDt2WHECznV8IpYYwub/rQ9MTHTJTv2E8F6U=;
+ b=h7JVlRWuk/7BWtpp98iXkzey4Nn2WmonQ4jlKIK1dRYPx6FrtRcmOW3DutVEqCYgvGqjH7Oh2lZgFCxUDzONHSHwtGe3XWASjhHMqvRa+IVT/oGGBDIGa6a2genXjlQ3UkZGiGGC+TfY+hyrTFXE42rZnMqGsYRljT4kj/mmASGh356S8qqQ6rjUdJkF7t/7t95dVYQJU/+gS829CDg5k2aSnoYCUkt3PnigLwgUvSm/19V0G8+P19Yi0nr70/Ng8dr2NRGfB8frfdmu5UcLRmSpFuExPpScHo+omeIemJhexnCh7hAAMA6VflUM7jUXnGZh7Yddsq4UayfOkcao4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6OvMqmAqnLwQ4zUjnHpcQlik/wjixZfjd2ICnY/XYLw=;
- b=ZpTjHAbg7ESdatGgUQfqQeuWKhcRgeOjC/yCcB+ILbCtFrTPloy2JItMusnoo8ohOrrkgTpJhydsqmfKPkrfDlfvQUYUekUlFldpwLhTaSHjszSgw5LzIsiXOJrfIJMlAup5yzc5tK6Ni7SIa+TUKjzB/wBZfbLViOVZNP2XPPk=
+ bh=oh6U44yBDt2WHECznV8IpYYwub/rQ9MTHTJTv2E8F6U=;
+ b=a1GZTjcPAoncJnAmCXMtwWFcJN+bI0XBL2ALXnxdZcg1T03dqRhDYDYHSj4qrLjA7ibv4evo6lLWwHtOE+NspF/uygYUwacESXsLg25S8ibccOd1kgLJmQLPGFI5FlNS9GqDmXaWLX7wuqvi4fBa0JFi464h50qXnhngpi1Ei2c=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by BN6PR1201MB0211.namprd12.prod.outlook.com (2603:10b6:405:55::13) with
+ by BN6PR12MB1187.namprd12.prod.outlook.com (2603:10b6:404:1b::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.21; Wed, 23 Jun
- 2021 19:20:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Wed, 23 Jun
+ 2021 19:20:50 +0000
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::c099:e7a1:249a:a8a2]) by BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::c099:e7a1:249a:a8a2%7]) with mapi id 15.20.4242.025; Wed, 23 Jun 2021
- 19:20:58 +0000
+ 19:20:50 +0000
 From:   Yazen Ghannam <yazen.ghannam@amd.com>
 To:     linux-edac@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, bp@alien8.de, mchehab@kernel.org,
         tony.luck@intel.com, Smita.KoralahalliChannabasappa@amd.com,
         Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH v2 23/31] EDAC/amd64: Define function to calculate CS ID
-Date:   Wed, 23 Jun 2021 19:19:54 +0000
-Message-Id: <20210623192002.3671647-24-yazen.ghannam@amd.com>
+Subject: [PATCH v2 14/31] EDAC/amd64: Remove goto statements
+Date:   Wed, 23 Jun 2021 19:19:45 +0000
+Message-Id: <20210623192002.3671647-15-yazen.ghannam@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210623192002.3671647-1-yazen.ghannam@amd.com>
 References: <20210623192002.3671647-1-yazen.ghannam@amd.com>
@@ -64,196 +64,108 @@ X-ClientProxiedBy: BLAPR03CA0107.namprd03.prod.outlook.com
  (2603:10b6:408:40::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yaz-ethanolx.amd.com (165.204.184.1) by BLAPR03CA0107.namprd03.prod.outlook.com (2603:10b6:208:32a::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19 via Frontend Transport; Wed, 23 Jun 2021 19:20:58 +0000
+Received: from yaz-ethanolx.amd.com (165.204.184.1) by BLAPR03CA0107.namprd03.prod.outlook.com (2603:10b6:208:32a::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19 via Frontend Transport; Wed, 23 Jun 2021 19:20:49 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e5a44db7-a71f-4b2b-a884-08d9367c07f3
-X-MS-TrafficTypeDiagnostic: BN6PR1201MB0211:
+X-MS-Office365-Filtering-Correlation-Id: 1f22547e-be81-4f03-a7e5-08d9367c0304
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1187:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN6PR1201MB0211CA6F6416C14925CA1133F8089@BN6PR1201MB0211.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <BN6PR12MB1187AA1695E1AAEDF5764ABEF8089@BN6PR12MB1187.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:590;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bdektN/B7eQFCMioD9T87Cp5Rd/YDU1FdtXyfTy1ZWjulThkCDBMFQTd6keGQz83AZD0jDIMz97upuPZC8+wnls6Vi6uozqGegA/AhuNimYm5a/mAbLCLNJWW30lZXYayUiiO139OjPlhqywDQL6HkelQADHCRAONJQSu8s4XEBGOTpOELPJTWsDecIRD9FTZgQ1O6l4xy5QZlMDMlzRhuG65tsdxSLYR13F4hP3jmpwJ0PAzuVUEuaJFScXVU3rgkLsn3Xc5h0x8juvUojlDcZxepE0Baol+m+dh7m8pivBZbtEVVkVnq7U+JGBn+RBmOvMFnt0X50ph/zQyAmlODz0M9at9WTBhYEI6pHYdAa29xY+HOlRutYw+UfOj1cQFCN50eOgXMk9WGLZAmBGC7wFeesbby8YVkulyIj8ztq6z6gMWHJv7xYO9JuI8ci71lVFJ15egDpc2lVrdIik4M/8+gL/KOHnN1+IktBlFLm2u0MXwn8vHjkjbyia9GJdMoEN4GxpHVnTUVhWPQ50qb5osULVounyCKeggvG/cY00e9R4U0zFKekfy117mvJIwe/Xcd3uvF+FMflNHYUSy18xgJIZK0uuMPBOvbgrGl2GFxHvBmsPX9kF2saOmPMRE4iPC6rQ3IRSYviOjNuEua94aFusOVqwDZkl1MrwzVbrTu6bBVA9R7bQIuzKJ9SwZpJxWoN8RN4OFLBB7Yz2GNnTd0oXitaDMue2esJ105LCgsysJDziDSNODZJ0y0HHoTWJlFMN8KPgHsAVqLqQ8g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(136003)(39860400002)(396003)(346002)(1076003)(6666004)(86362001)(956004)(66946007)(2616005)(36756003)(316002)(5660300002)(83380400001)(6486002)(966005)(38100700002)(478600001)(26005)(16526019)(186003)(7696005)(52116002)(6916009)(8676002)(66556008)(66476007)(4326008)(8936002)(2906002)(38350700002)(44832011);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: gSGZZ9u7iZDPmF8xbbmjoAog9wcj03UWhcJLZ/VddUTCvZfkcY4gaqySASANqhJGE6H5/wtVmVSTwHkcLoYKne5GazPl97nY1HCg4u6NBYy3yf5BSFd3NMdC3CMznFXQgiyWPdoMwk9Pyz9t56DQXfvxyCjl35WzCZLqN0ot5cFnrzThKdlqZUJRPBU9Mi02jMxepepUS4A3du4VFxoFCSWSfDTWvloAKAwsVZrC/b0LcL4sTpRURJEwwVBXaIZ882WvYeod/DdCkaxKJ428phLUBrlxybjrPiAqiPSmDHx+vzl1f0QO/40dtiS4uCw53O2c85OXCzOXXa3JM/ANpP6g7SWahU52C8BF5kogjFcwqdkdPHYFZQhEMLPIC0/795zkuuzdMDAJdNHrEi5rLSVOBhT1VzMOxl8h31+VQOKtS89h5w/5iAc/y7a26g/Oz1rboDg0DyZnJ84yxe4kO4+leqebhGks2v2rwVxfpGAmY8sh8qVM8QPhj/o5WdzlKbQ307m4F41kmDNKr+EefexpcG83yMCn/HZQAdKXNpiTc9OAM31GbvT3IqVIuRZOFpCm9ae6iELczUapHVcoJczAq4eBf+O1QQcGw/TplqFv1Buz/IsBrCeJXT+GHLSDKfYGQQCjwpC59Jn0ttLtLLw4LtNSSal01WNqemT9c/MwppxETzQGJTb5spTa4lwRABrLThbqjishSWJ29Imfj3nSiNOJMquuerEsdmfAkiANbcTU4LKVAfcMusEJdBJp+zPmIsFuQxYV0yi29y3b9RAMxIQMcCN+OYOg3WpMprtJjXGt87cAaSTuuuYMlaR5uA6lOVKVYWYptN1TC/In0g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(39860400002)(366004)(396003)(966005)(36756003)(38350700002)(38100700002)(44832011)(83380400001)(6916009)(26005)(7696005)(5660300002)(186003)(16526019)(66946007)(6486002)(4326008)(52116002)(8676002)(478600001)(6666004)(1076003)(2906002)(86362001)(66476007)(2616005)(66556008)(8936002)(316002)(956004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YANHg0vbQTl7PTp2hqsNQwk4kFCEE+qr4wQ7YLv96vlr94n9DlpcvI4oNXE5?=
- =?us-ascii?Q?2Em1fVZqulQVjEYyC77+l5TfkvyGjMXjlHZpaCAHIa+Et1VXKykSVoL7hVKR?=
- =?us-ascii?Q?LrqzFhL7QvR11UWBSfZNzONqZ3qR8z9QLCcw2yAkStWHEUffM2when41tagM?=
- =?us-ascii?Q?rDoFWnQoQo33iqpyY7HZbv2SZcDY2FReu88/lKpEvMz/acb5ZiTHM3vcPvHa?=
- =?us-ascii?Q?gNMYQgW/OkghXuDH9bvLi47FzCFm3yRSe4DYy/sGgpdcRed3Em18S93wFMlN?=
- =?us-ascii?Q?XdEy1LEzR4ccHQ0Tdyf1O6IHT4v6YIsIXxwLq3CqYR0X3ot+q5M4ZwYS83Hs?=
- =?us-ascii?Q?toWJnqiy2RNEkBAF18lenn9a5unGZB2DNRiuKBfBg0RB8CDIFrYICAKJLAWf?=
- =?us-ascii?Q?uG6BkmtT8RscahHdyK20ruwGuV+Bek63wAAljuV0LVcuev1OZLyZVdgAjybf?=
- =?us-ascii?Q?PD5L0nx9muAAflaBhbO1uNmLtp7xncUE4bXLEsP1ziiXsU+ccz2TQ9PHYFAC?=
- =?us-ascii?Q?Uvtxc+STmhrN2Oe0ruRWzG1wJ2EnLLKpMzlip3KgmaPhlZwZ0u6dJdwuYl/6?=
- =?us-ascii?Q?1f3FjpXdZf5ciX+AaF9cP3PhGg4hJE95ybNec8XZ0VO9KPfluvGWXek/+pBa?=
- =?us-ascii?Q?rIg4eVSFfxVL2Av0RfS7ltr1wJdt8HWMgxT27062oRVEyEP7SsXuLSe3C13L?=
- =?us-ascii?Q?AKg+dmEV1wmu1RZ5wfgT8ucKECekdmnWnJznKpqXKrnGrvTMjdAEybrt3W40?=
- =?us-ascii?Q?6fEN1MZBHq9T40C6FAKF1k/Psg8+AZ/QJZ7cr1ZBes1ZuAaWCC0HP4YTSmTj?=
- =?us-ascii?Q?CSLDgsiw4AlPFMRAbeJoWCJGn9bG0Jhol/zjbqbKrCiwkNi6ML8vlYLi8Iqx?=
- =?us-ascii?Q?M+MfUb4oXlVNjzUIuIbagwa0vbaUtX6xH2mWc0iLN87Q7xCiWg8hlTZMIcIX?=
- =?us-ascii?Q?lI6rmGjz0XyaBdK+Xr3cDgdXek4KYS+jCWK0FPZGORaFbfTLOa9L61qwxdU/?=
- =?us-ascii?Q?4FgnCkxB7CAdfpWROVP5Mg9xAhNJWfTtZc70KVLzvYVQpscgvqWR3lwssDH/?=
- =?us-ascii?Q?3Ax33ODIlHP330P7OpkLQ/drV3Ht4TA7x38GicNWMBQV523RFRIQctx+pLqs?=
- =?us-ascii?Q?VudKXKBBCgK088UyIkZyeklj35isSifymugnNGWMKLUyyVtmzMK56S+RMgSG?=
- =?us-ascii?Q?algVRPx+CRPYBuk7a1XH7SCbnRd9U98b37bb50a95LELVtzPqRZLph8vkPWQ?=
- =?us-ascii?Q?uAdnHdcI7Y0cBL0n7/efQybnBMhjFCriUA/yBZeHw+pTF68QFndq6kDubfTm?=
- =?us-ascii?Q?lUdosk2PBoUeUalOjdx7Jfn/?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7k8XLIAx7Hfdt83ZKgoZotmDpwf8LfqEvmC+WB0mDyi6zOu4XLhvfGsyQQet?=
+ =?us-ascii?Q?ibVbkTMUpDaDoa41orpIchKg4EO8u1N9T928j6FWaCrdMu1lTh93dbywu0hB?=
+ =?us-ascii?Q?VAo+uY/IJBB3QCDnj9YO+BPh6TtUKTE6tBPik2BvyGGPhqz8xDWWqTPMT1yB?=
+ =?us-ascii?Q?6cAo11Riwc9bLJSEL9+N79lKUrzya90egX1jT0jOwrmXec6zzv9dbBvbgp/r?=
+ =?us-ascii?Q?GlHKlFx/Q9tVqo93VTUrXPhr7czSqoIX5blX+3QK6VfNE/TybVRm7YFEvsss?=
+ =?us-ascii?Q?sI5t2Uz6LZM+lLdZ79VJrzl3txqBoPasBe+ycC+Vj2SrzThi/nndEyJmf5l8?=
+ =?us-ascii?Q?VAEOw+sPBelrE8zuWjndHfFqzNndXhjaUPzsQCpy0TiEU/uK+obKvl0Y0AXJ?=
+ =?us-ascii?Q?4u/UEN52QIpVQBilWDQH8AE31bN9cuETG6xrCbSU0fapvih+8Gyb/+Tv98Ch?=
+ =?us-ascii?Q?4HGsvqjRYAAr/P4XwVvFP39RquGRUhV7UKZpgTE5EKkN7cpt9dajzA9XyPGY?=
+ =?us-ascii?Q?zwM8QSpG8e+2KumsEkwlctSRaC4D5HOGGti5X9trg7rqDuisYikCm/PDZNQ4?=
+ =?us-ascii?Q?qrrLoQ+59i6z52/C5DohnnW2CZXjZXpcP5ocgYkWyFoX9bp7K5DRfS/eZ8yu?=
+ =?us-ascii?Q?CRcvxsVdLgwRgsAlZPRD9Qa9mIHaMpAxfJBPF84bOx6z0lk91AcWUBjGVJ2v?=
+ =?us-ascii?Q?Jha8cA4i96rZ769KGA9NTwaJfDfYyfhnFWUY1JOBqy57VoFRp+pjxZAHz7xZ?=
+ =?us-ascii?Q?hiTxHSUylMhHaRv4bi4ZVuU35LxFZ8Lpi0n94zz71KGpeTdJbftGruuI/ck1?=
+ =?us-ascii?Q?phKjsFI3Z521MfauDXwNBAt29PK3ZJ9MttGwZHPXBP29aYkUrz9YBZzPB2EK?=
+ =?us-ascii?Q?KHkLnuKx7Nu+zYHaj3qxkbw6K3kjsGNYAtSCS5zktavns7bmx3+Pqc3FJIWS?=
+ =?us-ascii?Q?x3qx8Hn5uZRMaQyMNu7ihQQyGa1KiVxZMfdDsWmSxUparKCc/8N/RsOHdwqw?=
+ =?us-ascii?Q?Curnl/zwUDuWt//HakjFAhPn3deal1wiav6726xi6wjVQbfarjO1+zbkvVyj?=
+ =?us-ascii?Q?C+4a3gUnFFshKGQE6VhKtX9+FDj4lGdcGzxQbo+URNcV0dkpLaQEn1yX1uHN?=
+ =?us-ascii?Q?G86LjO3mwCOHg7rol1NcrYcJuYy3LWYa4KKwkukN50fp8DK133w94MUe9tHY?=
+ =?us-ascii?Q?unnL/en7bCcT3y3hMDHX4FNDYI/URno1rTATSIG4ocTXB3oKh3i0RmCw2rBw?=
+ =?us-ascii?Q?gKlTr6XjfzkyXV9hc2dYk2hA3kbaOOtFEmeAqhwHHtOVcwV5uf6cOFLyeHg5?=
+ =?us-ascii?Q?VeEA6zlQmw0DlSNVI+++R7Ss?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5a44db7-a71f-4b2b-a884-08d9367c07f3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f22547e-be81-4f03-a7e5-08d9367c0304
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 19:20:58.9158
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 19:20:50.6535
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rV8d8nvTTzVwxGphgbwb91WediuZIASgzeHgyrUpnCDIxxwr2VIxlKr6AQQCX4hSErZ6QnjdZfNsmVj/SPGlPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0211
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ke/NSIB7zVWf9y4Sj8bkFipdU0oyINnHvGxGBEr8btfJu7mLMj7K+DWv2gEi+OsuAfZ4p/Ugt/tT8XUg+oOf4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1187
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Move code used to calculate the CS ID into a separate helper function.
-
-Drop redundant code comment about reading DF register.
-
-The "num_intlv_bits" variable is left uninitialized as it will be removed
-in a later patch.
+...and just return error codes directly.
 
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
 Link:
-https://lkml.kernel.org/r/20210507190140.18854-20-Yazen.Ghannam@amd.com
+https://lkml.kernel.org/r/20210507190140.18854-11-Yazen.Ghannam@amd.com
 
 v1->v2:
 * Moved from arch/x86 to EDAC.
 
- drivers/edac/amd64_edac.c | 98 +++++++++++++++++++--------------------
- 1 file changed, 48 insertions(+), 50 deletions(-)
+ drivers/edac/amd64_edac.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index b497af7c3561..0270bf4f1f90 100644
+index de80a224ef12..3f1ff5adce4a 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
-@@ -1286,12 +1286,54 @@ static void get_intlv_num_chan(struct addr_ctx *ctx)
- 	}
+@@ -1390,28 +1390,25 @@ static int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr
+ 		return -EINVAL;
+ 
+ 	if (get_dram_addr_map(&ctx))
+-		goto out_err;
++		return -EINVAL;
+ 
+ 	if (df_ops->get_intlv_mode(&ctx))
+-		goto out_err;
++		return -EINVAL;
+ 
+ 	if (denormalize_addr(&ctx))
+-		goto out_err;
++		return -EINVAL;
+ 
+ 	if (add_base_and_hole(&ctx))
+-		goto out_err;
++		return -EINVAL;
+ 
+ 	if (ctx.dehash_addr && ctx.dehash_addr(&ctx))
+-		goto out_err;
++		return -EINVAL;
+ 
+ 	if (addr_over_limit(&ctx))
+-		goto out_err;
++		return -EINVAL;
+ 
+ 	*sys_addr = ctx.ret_addr;
+ 	return 0;
+-
+-out_err:
+-	return -EINVAL;
  }
  
--static int denormalize_addr(struct addr_ctx *ctx)
-+static int calculate_cs_id(struct addr_ctx *ctx)
- {
-+	u8 die_id_shift, die_id_mask, socket_id_shift, socket_id_mask;
-+	u8 die_id_bit, sock_id_bit, cs_fabric_id, cs_mask = 0;
- 	u32 tmp;
- 
--	u8 die_id_shift, die_id_mask, socket_id_shift, socket_id_mask;
--	u8 num_intlv_bits, cs_mask = 0;
-+	if (amd_df_indirect_read(ctx->nid, df_regs[FAB_BLK_INST_INFO_3], ctx->inst_id, &tmp))
-+		return -EINVAL;
-+
-+	cs_fabric_id = (tmp >> 8) & 0xFF;
-+	die_id_bit   = 0;
-+
-+	/* If interleaved over more than 1 channel: */
-+	if (ctx->intlv_num_chan) {
-+		die_id_bit = ctx->intlv_num_chan;
-+		cs_mask	   = (1 << die_id_bit) - 1;
-+		ctx->cs_id = cs_fabric_id & cs_mask;
-+	}
-+
-+	sock_id_bit = die_id_bit;
-+
-+	if (ctx->intlv_num_dies || ctx->intlv_num_sockets)
-+		if (amd_df_indirect_read(ctx->nid, df_regs[SYS_FAB_ID_MASK], ctx->inst_id, &tmp))
-+			return -EINVAL;
-+
-+	/* If interleaved over more than 1 die: */
-+	if (ctx->intlv_num_dies) {
-+		sock_id_bit  = die_id_bit + ctx->intlv_num_dies;
-+		die_id_shift = (tmp >> 24) & 0xF;
-+		die_id_mask  = (tmp >> 8) & 0xFF;
-+
-+		ctx->cs_id |= ((cs_fabric_id & die_id_mask) >> die_id_shift) << die_id_bit;
-+	}
-+
-+	/* If interleaved over more than 1 socket: */
-+	if (ctx->intlv_num_sockets) {
-+		socket_id_shift	= (tmp >> 28) & 0xF;
-+		socket_id_mask	= (tmp >> 16) & 0xFF;
-+
-+		ctx->cs_id |= ((cs_fabric_id & socket_id_mask) >> socket_id_shift) << sock_id_bit;
-+	}
-+
-+	return 0;
-+}
-+
-+static int denormalize_addr(struct addr_ctx *ctx)
-+{
-+	u8 num_intlv_bits;
- 
- 	/* Return early if no interleaving. */
- 	if (ctx->intlv_mode == NONE)
-@@ -1306,56 +1348,12 @@ static int denormalize_addr(struct addr_ctx *ctx)
- 
- 	ctx->make_space_for_cs_id(ctx);
- 
-+	if (calculate_cs_id(ctx))
-+		return -EINVAL;
-+
- 	if (num_intlv_bits > 0) {
--		u8 die_id_bit, sock_id_bit, cs_fabric_id;
- 		u64 temp_addr_i;
- 
--		/*
--		 * Read FabricBlockInstanceInformation3_CS[BlockFabricID].
--		 * This is the fabric id for this coherent slave. Use
--		 * umc/channel# as instance id of the coherent slave
--		 * for FICAA.
--		 */
--		if (amd_df_indirect_read(ctx->nid, df_regs[FAB_BLK_INST_INFO_3],
--					 ctx->inst_id, &tmp))
--			return -EINVAL;
--
--		cs_fabric_id = (tmp >> 8) & 0xFF;
--		die_id_bit   = 0;
--
--		/* If interleaved over more than 1 channel: */
--		if (ctx->intlv_num_chan) {
--			die_id_bit = ctx->intlv_num_chan;
--			cs_mask	   = (1 << die_id_bit) - 1;
--			ctx->cs_id = cs_fabric_id & cs_mask;
--		}
--
--		sock_id_bit = die_id_bit;
--
--		if (ctx->intlv_num_dies || ctx->intlv_num_sockets)
--			if (amd_df_indirect_read(ctx->nid, df_regs[SYS_FAB_ID_MASK],
--						 ctx->inst_id, &tmp))
--				return -EINVAL;
--
--		/* If interleaved over more than 1 die. */
--		if (ctx->intlv_num_dies) {
--			sock_id_bit  = die_id_bit + ctx->intlv_num_dies;
--			die_id_shift = (tmp >> 24) & 0xF;
--			die_id_mask  = (tmp >> 8) & 0xFF;
--
--			ctx->cs_id |= ((cs_fabric_id & die_id_mask)
--					>> die_id_shift) << die_id_bit;
--		}
--
--		/* If interleaved over more than 1 socket. */
--		if (ctx->intlv_num_sockets) {
--			socket_id_shift	= (tmp >> 28) & 0xF;
--			socket_id_mask	= (tmp >> 16) & 0xFF;
--
--			ctx->cs_id |= ((cs_fabric_id & socket_id_mask)
--					>> socket_id_shift) << sock_id_bit;
--		}
--
- 		/*
- 		 * The pre-interleaved address consists of XXXXXXIIIYYYYY
- 		 * where III is the ID for this CS, and XXXXXXYYYYY are the
+ static int get_channel_from_ecc_syndrome(struct mem_ctl_info *, u16);
 -- 
 2.25.1
 
