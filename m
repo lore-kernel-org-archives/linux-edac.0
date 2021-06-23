@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F0AC4743C
-	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD2BC48BE5
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7212B610A0
-	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67E8D60FF4
+	for <linux-edac@archiver.kernel.org>; Wed, 23 Jun 2021 19:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230377AbhFWTXY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 23 Jun 2021 15:23:24 -0400
-Received: from mail-dm6nam12on2041.outbound.protection.outlook.com ([40.107.243.41]:25341
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        id S230393AbhFWTXZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 23 Jun 2021 15:23:25 -0400
+Received: from mail-co1nam11on2042.outbound.protection.outlook.com ([40.107.220.42]:24416
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230235AbhFWTXQ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S230232AbhFWTXQ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
         Wed, 23 Jun 2021 15:23:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sjd+h24chr0wxRavw8mGWH5G2CKkrw0wf/G3n2KCRxTb82VfrtfPi34J3TO+7JNjD6OxU5EsRpyhahxohE9VZK6+OEws40R1n5awWhvfGJ8VUfnrkH08kH7p00Rb+1pKQY5+Y2SFjolemNShe4jiPMWe1deDFRdb+0APdWmi+2Qem/HJF0NeyM1NqybT7LBDHeCZNoDvVRTZrtyoQd8Osl57hSKA3L8Bj4askICK03trz7Ln6RLAPfVDZurN/33DMYx2TIV9lsCsv7++LncQRaVBavSTONeJEajz9F22Oe5FtaKCOVb+a4FgGavrkDiWt3J2+5OJ6A8EAkpcSWAVsQ==
+ b=XK6bFjtq3cZ58C3wqIJPZmttHEM1heJdmHQ+FMOpkoUyaZvhYYfsGd8kqX92KVWL9D1mlzs0l8CTjD5PKUb9exeXZRAfY0N4HQ4C1CShZg5Uvv8JnWAEGu8yknpRRqaZPutqlIdvPqxjZrdgeH4aql9TGuuQNH0vjrpYlF3vu/REvdzhBS74W9XxeAfhAwVATITks6wOTz1edVFG46dGpYY1+117bUWm1wpru22QwmGqtXDPB8lJz5Ab9IekruhlTCW6YjE3x0ryIgaRZi5YnaXIfzatkwM2nOMWEMpVvsHsGAqFJwe+FUvarntcc1CvMpujIBPrGF34tTeAq3BY3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p5XYnTeYPU22+AA8MkCJ9DPq1b6bI3iXpoOQqC7SCNo=;
- b=W13FL4GtASq9n/chLkX5KuzeuPsvzGKJJR2xEamhOZIIlExDq2gsGlIFLXLvV8sVzXREnykS1vF2EUMzNepaP7HHHFqX/vF4tBISkqo0AX4TqVKU75PNr2kpI4r0ZQpdDNoi47VuUe4g56/1vr4a7GtETb8fSCmpYjIFMxAnmYdOIpdC6djODtwNTitxmnLSCjaoxGGD+29Z10HHMMsWymse75qiUyYC+mP8UlvxgoOwx47uwJfM8h7OZxhX1XQIe426jtxWeEn2EKN+NEIuOpcTzg6Qc3JOSLj/RfyPklOBbOzOIe7gegfqkkI0jQCTJE/1pmoSDK3EGxvJYkNgqQ==
+ bh=GFtaxCgkzTOevnAp/johgkt7aCy6Y1zqUF7KYEJLKGQ=;
+ b=Glw7GgeTB3Nygmg89+IVNGllyP1vqPIyil+4lCkqLhvevyawWx1dgtxGOS3Lu/pr7WBnWVjkny53sZ7abdNKcmT2XIcikTFdvpHbha30gtKfmth4xy3LwaJ1tU1WT5LC4XW1p6I/H3sByd3eXy6dgbfX77GTbs64z5biH9U+DY1mHnpfUkslykdAo7Xf8J0nxwvPHbBxvmBQeCp/kBLchTthuUWpClyylY7cLD8hGOE32MnVr68P1F1O1bzQMboD41XCEBQEbm9kbpZpbwZmN3fan0IKGpZBloemEAxlMzzPuJq6GoXZVWshGwIdgGatfsieMNwLskmjWsynYV7CPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p5XYnTeYPU22+AA8MkCJ9DPq1b6bI3iXpoOQqC7SCNo=;
- b=jmxGCaFyGOadbt4VJUUfktDAM3Pqqz3jobZjuSTfDPM06xWk5ev53X6/92+c/UtHsGdBBaDQeN2MhQYsEhv1Jk5nqMg4zTe9qKAcDwVxR27nz4ex/GFIoTJfWFR+JWH2Z5mSJXPORpTzGba2oMyjGF5goSQMgYUiAM3mDq14hmI=
+ bh=GFtaxCgkzTOevnAp/johgkt7aCy6Y1zqUF7KYEJLKGQ=;
+ b=LLkeg1W5jqYm7rf1SWKQ3a3J7n/qdZWGRkIg2RhnCwIutNGePpLWy7DGg28OkMxEC5ZmLrYo6dpz6rnc7hoj9+rb9N9CTK6gL2V0BCJFSqi8tVftUQTqvaL1vPU77BkgxFveNI41gslQiohknxL9dxupfjKN8OQnhsDlclcu54w=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by BN6PR12MB1187.namprd12.prod.outlook.com (2603:10b6:404:1b::19) with
+ by BN8PR12MB3218.namprd12.prod.outlook.com (2603:10b6:408:6b::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Wed, 23 Jun
- 2021 19:20:49 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Wed, 23 Jun
+ 2021 19:20:55 +0000
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::c099:e7a1:249a:a8a2]) by BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::c099:e7a1:249a:a8a2%7]) with mapi id 15.20.4242.025; Wed, 23 Jun 2021
- 19:20:48 +0000
+ 19:20:54 +0000
 From:   Yazen Ghannam <yazen.ghannam@amd.com>
 To:     linux-edac@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, bp@alien8.de, mchehab@kernel.org,
         tony.luck@intel.com, Smita.KoralahalliChannabasappa@amd.com,
         Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH v2 12/31] EDAC/amd64: Define function to dehash address
-Date:   Wed, 23 Jun 2021 19:19:43 +0000
-Message-Id: <20210623192002.3671647-13-yazen.ghannam@amd.com>
+Subject: [PATCH v2 19/31] EDAC/amd64: Define function to get number of interleaved dies
+Date:   Wed, 23 Jun 2021 19:19:50 +0000
+Message-Id: <20210623192002.3671647-20-yazen.ghannam@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210623192002.3671647-1-yazen.ghannam@amd.com>
 References: <20210623192002.3671647-1-yazen.ghannam@amd.com>
@@ -64,151 +64,157 @@ X-ClientProxiedBy: BLAPR03CA0107.namprd03.prod.outlook.com
  (2603:10b6:408:40::20)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yaz-ethanolx.amd.com (165.204.184.1) by BLAPR03CA0107.namprd03.prod.outlook.com (2603:10b6:208:32a::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19 via Frontend Transport; Wed, 23 Jun 2021 19:20:48 +0000
+Received: from yaz-ethanolx.amd.com (165.204.184.1) by BLAPR03CA0107.namprd03.prod.outlook.com (2603:10b6:208:32a::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19 via Frontend Transport; Wed, 23 Jun 2021 19:20:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c6d73653-6272-4b35-cbdf-08d9367c0200
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1187:
+X-MS-Office365-Filtering-Correlation-Id: c836860d-97f4-450c-7ca7-08d9367c059c
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3218:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN6PR12MB11874EFD71E70EC78B1237FFF8089@BN6PR12MB1187.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <BN8PR12MB321872EAFC5A13903E5C8460F8089@BN8PR12MB3218.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0vVjBPc/srNvk1m+XBeCutir71mwITSmMNEmQe9GkSgB5McYn2la3k5EB/wjGssOFdk82zH1N/VwtxzeaZNG0ooLJBj/NAL5U2ebQ8r2xYxidMp9D++Z6+/I3k87eyFVOLdQrVGb/pYB4/aB4gTvfskzjecxNxqePL3j9jOXp8dXzUxDEaJgHX10Ep3GhXjbIpg8rw686TB0l9bH1m792HquIQ/8RYKlIv8Vgeottp5xuLe2w4W0JhacxHEW8/XfI8rNRTjdpUu6xRvPW1ugkwpliwmL60j5au25f6mq50zjdGbZdl1IJvttfbX/rHco4W6t2W54ZIvLd2NLKnuLVEpAFkbQTKRic3K22JUKNIip8qbVeS61T3FEHGCbIk7ko1XSzmUV+JEBDTULccZ7a47JR6wf7yHb15E1/BOlgAd2wH/hPIUNKfUpN5P7iaBciuOET9xaXuXci8qp27QOEvpbqwzm5qfSJeoykmUfm8gruoq5g8Bl87nVqxqC/x0yOcZybup8XIIfNtYs43BGJVaIjyPFd4VY1HLicap4ynayoF2PDECHwkSfKjqmGxbTWoybXCSc4Sv6X8C8OI8zqy93GQI4bgJFeiA3vGwQlfz3qNFTTOACkmsTP2QlfYtBLcntzWYv7EvGHPjKcSJsTFvn8eCnjoYnZ2ornYXnUFQjxGJmoZZW3WCVV+TDNuCY1yQCExKWr+a8BdgA5bhPIitrLyN/wwcg6XqQeM9qvJ7g8jzOI/zfOmYTD26VPP/WG9426zkz0WUhuIXvsRHIx9uV6jDDKLR3ztCMLqabSe3+Bb6a+lMaqz396jxM60ZEH5W1ivnTXhq5b2iABIuQEw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(39860400002)(366004)(396003)(966005)(36756003)(38350700002)(38100700002)(44832011)(83380400001)(6916009)(26005)(7696005)(5660300002)(186003)(16526019)(66946007)(6486002)(4326008)(52116002)(8676002)(478600001)(6666004)(1076003)(2906002)(86362001)(66476007)(2616005)(66556008)(8936002)(316002)(956004);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 8JuAfKC2YsN/X88lSDz73Q4anTwZDWxCdvO3kJC4FEkcPH1owaAD9SwVmw+f9ITAbzgdg+5A3PGEXc4loRcMzxaa97yxvz1RQlsR/OKD1IUEHf4/0GQ/MlKCGbMTmtCGpi1F0CdywKYQaEAoZ/4hBmvVdVLNQKB3qb7Ja0t3ihMlfOefbaack3UezMB+vBGhztGyUkjWpDS36XMB2eaNYrvE/A4buB+6GxF6OlxPoYfLK7Rr9YiAPC4TsG9TkziqppN/F2vdMotuEM4QDZAUjLXg2XrZxxXl6H3cgwrf6V6DVGQdCIVzzYrht0qkpNIKdCIdKxHegXHcXse/yfxUDB6UM3aPgIUxqJP+oiNyAVbnRd6V3QeBsiS80SJBYN486SEEcZ9P5TamewD8fyPOqy3D0L1ATBL2Qj+LJXLOdVufgF+1NtriEBioZS+Omo784PosCr6612C/WVbtGoyp1N+vf9iHM2OGwJ20yLP3AKQNUuMzOT581CNP9or0d33CbJqYa7KtMi9mjB1cNMtnIsP828730lP3CAgbnU8Lg6+7xk0hhipq2BBXHHNrlxwGxw+LdwZ3du/xUa5QG8w/9wA+VKMP9ncxfUM3fRs0dad9+cUS0cEp5cUMGBYz4lRzaxl72MqkveFlnMKUW0vB5H/gWVBRiYFzAL3I37SxMUFGEcBVBfBHeOxhsMRYVYrfF4zGW/0qiATKGniZSyWB3lELBUujsOGzEcuteClWiKh96XPdHAW3m3fyb1c8SwaWFDX7z+Us8L1qG5ZSFOYPfK3ryu5sdLNRG8g/+lR3RiZdZUO1tqd67sS129YIZlmw
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(39860400002)(396003)(366004)(346002)(316002)(6486002)(6666004)(26005)(16526019)(38100700002)(38350700002)(956004)(44832011)(2616005)(86362001)(2906002)(186003)(1076003)(6916009)(966005)(83380400001)(478600001)(66946007)(5660300002)(7696005)(8676002)(8936002)(36756003)(52116002)(4326008)(66556008)(66476007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?44SK/AETLKwb++fViIq6Z0ZxQiu7LBD3GzbWzQQu80rwi7m1r6l51sJGOoL4?=
- =?us-ascii?Q?6VHNKEbjXDQQaiPEcTV5AK5RzdsZ6ahIJZzSrP93Y44yfNyFJEezPl5WGDga?=
- =?us-ascii?Q?4RKYOqMVDKYZo3VKzRNW4unG5LrQ5XPDiZA09rWe+J779ISXJCy5l9ZAP0xL?=
- =?us-ascii?Q?8bqTpDF8CQA2DKn4rV3fjMBbySLJuHofTKYeKkQtKy9iGuoJgOIgQFU7gZao?=
- =?us-ascii?Q?6/vh4RrRXAgvMnxpEcfjkP7wYqiC0CU9Se/7gvmn3iH2QGEaCIbiCSCY+gDb?=
- =?us-ascii?Q?5gDXt/yGbhiEdue7dhqXRjcMtzter00G6Mr/07ATb+mLZrC2MzJVYALfTSmJ?=
- =?us-ascii?Q?/rAkEsOkREnzJ9lr4aIjqgGqJjg19R3zO4FyoLemLvSQjsOuEWbKGRi3YTYy?=
- =?us-ascii?Q?kf0bHawUxplP+Mlzc4LV6coWofpJxcKeI83e6XPUluGuUmAFKi4UQehiT7l0?=
- =?us-ascii?Q?YfEnnK9/CwWWb02nXO4UVW4ibd4ae3kkDtK4gCWM275S+Uo49g6W53MkJ5i7?=
- =?us-ascii?Q?5KIm38WiZJ52lhsDb3jCfCBryoS5AsUf5gJ+BqkG554dOBPS80qeODa2dIHr?=
- =?us-ascii?Q?d6cDNE0zHcrQw0b4l8B9FH+P+uM7IitiuiClHNyC0gGCioYvwvOkESIJLBnv?=
- =?us-ascii?Q?8Y8/vQuf16VnCsB5fEw/brjfj7KgR6NjBLdJawtgViDJEO78AEElIjQgcyWq?=
- =?us-ascii?Q?vJ5tsruGjXKdyHMgU87ROoyH960PRz/5Iljlh5pAyBcvrrX95X3ndXHk7NAc?=
- =?us-ascii?Q?7aqwaUZ3aUJaKWT231IpCIMYwJcgGYqsswHOyhiD6adSFgKyS4hg/adRxRaW?=
- =?us-ascii?Q?ob2XCaWR0Nkbwhiyq8CyBfI8EJBGd9Xr/4w9TtrivBC+IFAHZyBySS/7Nabn?=
- =?us-ascii?Q?HVlRQYusuf/9PdRu54mH04LaPAxV80lM5M/u3qcCWw80wVOJNh31k/UjZtgd?=
- =?us-ascii?Q?3f0OOXmI7ZjSYCotzkDAZI/0h1IRHfcTIttJ9rMhHnL9MBgnkWlVu4FEtb9U?=
- =?us-ascii?Q?HxAuv0aJGub3mvq81cRtC6+BUzK3tDpmtblw2UK6CCD6LqH30y0YuD9XwNu1?=
- =?us-ascii?Q?CyByCpg4famyXIFbK3JS1UxxVu87/tqoDkhNAFYwojSGkeAzwbiW9/v58gBS?=
- =?us-ascii?Q?4xFB0LQRLvM1AeBK0+bwvxSXZBsDa9EeaYrCUXwwJh1XMF0zrosRivUQHJ7C?=
- =?us-ascii?Q?mI2p/HsV73YXZ4g+a7taqHAX3DSnwuGjb2ftXqx42+jMHDeUye8aE3o5NWMV?=
- =?us-ascii?Q?Sqo/CsvpCebxm4V5m2Vh/ZziSofWbkQSryXNKYCLwYkohF6UqeDgjfDG4nIJ?=
- =?us-ascii?Q?xlDB8oatVVKrh5r07dAji/jA?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hy1yzkmUAouDCd2C9/xXDYIJVdwx43VQB+KJZPPZlKUizgwLZ7wqFbN5AYp6?=
+ =?us-ascii?Q?d1YrnZGBsnr/hvdMEvGDjFyHjLni9sJxTZvktS+JpiIJF0chSGlIDhx+mHLJ?=
+ =?us-ascii?Q?uilsJkpJLHhILiBiNSi8nsIKN3LlrGoX12ZqWaFw9GvG/GThqNILJmQqlr7Y?=
+ =?us-ascii?Q?8+J3UGRJv4K4YLN/S/eAyxmmgIcONjwgij78qF9d3819xDxEMD0PdYBHEc+c?=
+ =?us-ascii?Q?M1Oeecynl4fo50nUPnDspCKTi0g2aFUVj1Sym6qhIvGQ2QiK6BJtOfQxS1Ni?=
+ =?us-ascii?Q?BzZuqYGFsZPnUoEZxENe1CqwJAYfpDN9RPQcYTR5kbg3b1Vw2hfgCCK+ygz4?=
+ =?us-ascii?Q?Fe/G5M0AW89cZnp1cww8BMhHyGPWQNm9BSQ5OWgY8S/zzE9p/BuJM1vt6s70?=
+ =?us-ascii?Q?PkyNsU618CtwYQx3iWVokXZpO3SU5VHfh4y/kswSn019hzPr5SSYi0cWQOVw?=
+ =?us-ascii?Q?DeWkkpFR0SuwQ8ZHyCJHZy3Y4ZZwe/McNDpyHgm0ebLWyR36UW7TvVDnyPN2?=
+ =?us-ascii?Q?4LH8GDGXnn+UIn9Vv2eyh5qeF9IQgyG76h3F4CKcw32SnsDKLRG8SyrVAUEQ?=
+ =?us-ascii?Q?knHhr6Wt1VtBRjoltjLQpbFqY1QlAKV3SpAYLPa8xByjqxwnxjgQD0stIl+4?=
+ =?us-ascii?Q?GjUWLzEtWQ1waMjR2heLLAvnJwtPKzstzbJdXnkcamaj7TubgyeI+moiZNGk?=
+ =?us-ascii?Q?Pqk2xKPACikAYJPYdhGesKHprUAlZ+b3WC6zUiSZKDdhmqJKKDZ8otBYNuJV?=
+ =?us-ascii?Q?ctDO0viukxmoMbCrY+EzXeIBlCSYPtOlF+trPOTM4FMkY2AjlJSQpiWG5Gqz?=
+ =?us-ascii?Q?iKAhUrWv6XgYwfvHzffQuabgkNUeclkug+0x9LaVZO5x5+s8VK86HPZRkOnz?=
+ =?us-ascii?Q?NCmVjTwjGGOLpUMlS8yBqt5XP84SwIMqUsgmpKO09U1QeUStkrpCt8qmAxWf?=
+ =?us-ascii?Q?uvhf0K9iNgSRNu8WmORr0bijNc9mPt4gRFI96dCb+fV4wmOaF/dSLyBQDrYc?=
+ =?us-ascii?Q?iSMJk8O4+tOhOZJPAZh2D8YEpMMk6OrTj4WwLqJsrer9t0P9XhdNFk9lksRy?=
+ =?us-ascii?Q?ewx80lTkjoM0N5MEHoEuC4JG3ghLI3ClWUnujK4vLbA83S04JxQC5oeyk7R7?=
+ =?us-ascii?Q?KoPiEQdre1SwL8wOIF4n/+e1PxDgUX+vuEynzrdUT/LKG0yyULZ1V5lxT0lN?=
+ =?us-ascii?Q?Nru0lItZ1DY+jXhFaRzRqEsr511l++8ufZ8pNZTzn39XA6myzTbkNpPrvE6a?=
+ =?us-ascii?Q?2UJ+OOEsTd5p2AciltQfaNOusOqRBV8lT+201xP7p2q/VZZXkyqdyU056Y+7?=
+ =?us-ascii?Q?yNjeCwXsM+bwOPhU1FK/RB/9?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6d73653-6272-4b35-cbdf-08d9367c0200
+X-MS-Exchange-CrossTenant-Network-Message-Id: c836860d-97f4-450c-7ca7-08d9367c059c
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 19:20:48.8836
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2021 19:20:54.9121
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x9hVH3e4y3s7P724imFNmE/QoPHOc8zLThUdMXsZq3LBY19zRPPXEeG7r/yQYAwSvlWw7ofTyRxTp5Fx5YY73g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1187
+X-MS-Exchange-CrossTenant-UserPrincipalName: MmviUMK1iHeYNJ1h+hdtAqG1dIOoIbYlqEgNW96OT194EfeBQqItke3ThpL9QCrSNungs5yyhEa+7eFWdDY0Aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3218
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Move the dehashing code into a separate helper function. Define a
-DF2-specific function for the current code. Specific helper functions
-will be added for future DF versions.
-
-The dehashing code is tied to interleaving mode rather than Data Fabric
-version, so save the function pointer in the ctx struct. The name
-include "df2" because this mode only exists on DF2.
+Move parsing of the number of interleaved dies to a separate helper
+function. This will be expanded for future DF versions. Also, drop an
+unneeded assert to match the reference code.
 
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
 Link:
-https://lkml.kernel.org/r/20210507190140.18854-9-Yazen.Ghannam@amd.com
+https://lkml.kernel.org/r/20210507190140.18854-16-Yazen.Ghannam@amd.com
 
 v1->v2:
 * Moved from arch/x86 to EDAC.
-* Add new function pointer in ctx struct.
+* Add new function to data_fabric_ops.
 
- drivers/edac/amd64_edac.c | 37 ++++++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+ drivers/edac/amd64_edac.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 68c4aecd5e7a..46b0279a2e12 100644
+index 80192a05bb93..360fbecf0d8b 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
-@@ -1098,7 +1098,7 @@ struct addr_ctx {
+@@ -1098,6 +1098,7 @@ struct addr_ctx {
  	u8 map_num;
  	u8 intlv_addr_bit;
+ 	u8 intlv_num_chan;
++	u8 intlv_num_dies;
  	u8 cs_id;
--	bool hash_enabled;
-+	int (*dehash_addr)(struct addr_ctx *ctx);
+ 	int (*dehash_addr)(struct addr_ctx *ctx);
+ };
+@@ -1105,6 +1106,7 @@ struct addr_ctx {
+ struct data_fabric_ops {
+ 	u64 (*get_hi_addr_offset)(struct addr_ctx *ctx);
+ 	int (*get_intlv_mode)(struct addr_ctx *ctx);
++	void (*get_intlv_num_dies)(struct addr_ctx *ctx);
  };
  
- struct data_fabric_ops {
-@@ -1111,13 +1111,29 @@ static u64 get_hi_addr_offset_df2(struct addr_ctx *ctx)
- 	return (ctx->reg_dram_offset & GENMASK_ULL(31, 20)) << 8;
+ static u64 get_hi_addr_offset_df2(struct addr_ctx *ctx)
+@@ -1145,9 +1147,15 @@ static int get_intlv_mode_df2(struct addr_ctx *ctx)
+ 	return 0;
  }
  
-+static int dehash_addr_df2(struct addr_ctx *ctx)
++static void get_intlv_num_dies_df2(struct addr_ctx *ctx)
 +{
-+	u8 hashed_bit =	(ctx->ret_addr >> 12) ^
-+			(ctx->ret_addr >> 18) ^
-+			(ctx->ret_addr >> 21) ^
-+			(ctx->ret_addr >> 30) ^
-+			ctx->cs_id;
-+
-+	hashed_bit &= BIT(0);
-+
-+	if (hashed_bit != ((ctx->ret_addr >> ctx->intlv_addr_bit) & BIT(0)))
-+		ctx->ret_addr ^= BIT(ctx->intlv_addr_bit);
-+
-+	return 0;
++	ctx->intlv_num_dies  = (ctx->reg_limit_addr >> 10) & 0x3;
 +}
 +
- static int get_intlv_mode_df2(struct addr_ctx *ctx)
- {
- 	ctx->intlv_mode = (ctx->reg_base_addr >> 4) & 0xF;
+ struct data_fabric_ops df2_ops = {
+ 	.get_hi_addr_offset		=	&get_hi_addr_offset_df2,
+ 	.get_intlv_mode			=	&get_intlv_mode_df2,
++	.get_intlv_num_dies		=	&get_intlv_num_dies_df2,
+ };
  
- 	if (ctx->intlv_mode == 8) {
- 		ctx->intlv_mode = DF2_HASH_2CH;
--		ctx->hash_enabled = true;
-+		ctx->dehash_addr = &dehash_addr_df2;
- 	}
+ struct data_fabric_ops *df_ops;
+@@ -1249,7 +1257,7 @@ static int denormalize_addr(struct addr_ctx *ctx)
+ 	u32 tmp;
  
- 	if (ctx->intlv_mode != NONE &&
-@@ -1347,8 +1363,6 @@ static int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr
- {
- 	u64 dram_limit_addr;
+ 	u8 die_id_shift, die_id_mask, socket_id_shift, socket_id_mask;
+-	u8 intlv_num_dies, intlv_num_sockets;
++	u8 intlv_num_sockets;
+ 	u8 num_intlv_bits, cs_mask = 0;
  
--	u8 hashed_bit;
+ 	/* Return early if no interleaving. */
+@@ -1260,19 +1268,12 @@ static int denormalize_addr(struct addr_ctx *ctx)
+ 		return -EINVAL;
+ 
+ 	intlv_num_sockets = (ctx->reg_limit_addr >> 8) & 0x1;
+-	intlv_num_dies	  = (ctx->reg_limit_addr >> 10) & 0x3;
+ 
+ 	get_intlv_num_chan(ctx);
++	df_ops->get_intlv_num_dies(ctx);
+ 
+ 	num_intlv_bits = ctx->intlv_num_chan;
 -
- 	struct addr_ctx ctx;
- 
- 	memset(&ctx, 0, sizeof(ctx));
-@@ -1379,19 +1393,8 @@ static int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr
- 	if (add_base_and_hole(&ctx))
- 		goto out_err;
- 
--	if (ctx.hash_enabled) {
--		/* Save some parentheses and grab ls-bit at the end. */
--		hashed_bit =	(ctx.ret_addr >> 12) ^
--				(ctx.ret_addr >> 18) ^
--				(ctx.ret_addr >> 21) ^
--				(ctx.ret_addr >> 30) ^
--				ctx.cs_id;
--
--		hashed_bit &= BIT(0);
--
--		if (hashed_bit != ((ctx.ret_addr >> ctx.intlv_addr_bit) & BIT(0)))
--			ctx.ret_addr ^= BIT(ctx.intlv_addr_bit);
+-	if (intlv_num_dies > 2) {
+-		pr_err("%s: Invalid number of interleaved nodes/dies %d.\n",
+-			__func__, intlv_num_dies);
+-		return -EINVAL;
 -	}
-+	if (ctx.dehash_addr && ctx.dehash_addr(&ctx))
-+		goto out_err;
+-
+-	num_intlv_bits += intlv_num_dies;
++	num_intlv_bits += ctx->intlv_num_dies;
  
- 	/* Is calculated system address is above DRAM limit address? */
- 	if (ctx.ret_addr > dram_limit_addr)
+ 	/* Add a bit if sockets are interleaved. */
+ 	num_intlv_bits += intlv_num_sockets;
+@@ -1310,14 +1311,14 @@ static int denormalize_addr(struct addr_ctx *ctx)
+ 
+ 		sock_id_bit = die_id_bit;
+ 
+-		if (intlv_num_dies || intlv_num_sockets)
++		if (ctx->intlv_num_dies || intlv_num_sockets)
+ 			if (amd_df_indirect_read(ctx->nid, df_regs[SYS_FAB_ID_MASK],
+ 						 ctx->inst_id, &tmp))
+ 				return -EINVAL;
+ 
+ 		/* If interleaved over more than 1 die. */
+-		if (intlv_num_dies) {
+-			sock_id_bit  = die_id_bit + intlv_num_dies;
++		if (ctx->intlv_num_dies) {
++			sock_id_bit  = die_id_bit + ctx->intlv_num_dies;
+ 			die_id_shift = (tmp >> 24) & 0xF;
+ 			die_id_mask  = (tmp >> 8) & 0xFF;
+ 
 -- 
 2.25.1
 
