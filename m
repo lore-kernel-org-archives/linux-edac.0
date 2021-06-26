@@ -2,132 +2,83 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD4FC2B9F4
-	for <linux-edac@archiver.kernel.org>; Fri, 25 Jun 2021 15:49:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EB1C49EA6
+	for <linux-edac@archiver.kernel.org>; Sat, 26 Jun 2021 16:52:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1C8C61952
-	for <linux-edac@archiver.kernel.org>; Fri, 25 Jun 2021 15:49:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B49161C35
+	for <linux-edac@archiver.kernel.org>; Sat, 26 Jun 2021 16:52:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbhFYPwI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 25 Jun 2021 11:52:08 -0400
-Received: from angie.orcam.me.uk ([78.133.224.34]:59976 "EHLO
-        angie.orcam.me.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbhFYPwH (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 25 Jun 2021 11:52:07 -0400
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-        id E9E1592009C; Fri, 25 Jun 2021 17:49:44 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by angie.orcam.me.uk (Postfix) with ESMTP id E628892009B;
-        Fri, 25 Jun 2021 17:49:44 +0200 (CEST)
-Date:   Fri, 25 Jun 2021 17:49:44 +0200 (CEST)
-From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Kurt Martin <kmartin@wavecomp.com>
-cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org, Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Willy Tarreau <w@1wt.eu>,
-        "Maciej W. Rozycki" <macro@linux-mips.org>,
-        linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Remove dead linux-mips.org references
-In-Reply-To: <20210625110419.24503-1-lukas.bulwahn@gmail.com>
-Message-ID: <alpine.DEB.2.21.2106251722470.37803@angie.orcam.me.uk>
-References: <20210625110419.24503-1-lukas.bulwahn@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S230214AbhFZQzE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 26 Jun 2021 12:55:04 -0400
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:41584 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230354AbhFZQzE (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 26 Jun 2021 12:55:04 -0400
+Received: by mail-oi1-f173.google.com with SMTP id t40so15415941oiw.8;
+        Sat, 26 Jun 2021 09:52:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RjZxnCKisu/yuzm/zETycG8rc5tC3RzprLyQlbTug+k=;
+        b=Isftq1UNErzdesqAEC5Xpl6aw+KheApI5VPBxaacd0pDFZ5gIow9ns7L6D1Uvo6cKG
+         nL3QVSKLtRpfBTKW6Qrl+q7vgIdObvvF8s7FQIcbQq6GvPqSNnvEgWqfICwhJcn/6tYG
+         RYlENqDVpCvt/nT9f8Bp1THsHgGBEGqbthe3KAyFy+KnAwiBfmCQCp3of9rwE9HJUb1r
+         ZRiurocZejtE9Z4GopvXYMZVpN7ojGGYGdIxqGxlFCAcY/NJem1Yc586aTL6gb8GZKv8
+         jo2yBxYgxkplYtyGpkgxv78pJBZxmg3JA8VD4sMSzjHoMf21PFr6EiFlJWP6OMAGPsvg
+         RRKg==
+X-Gm-Message-State: AOAM53386eepEm5CnR07snW7zwT9u+H8t8F6g2Bm3/6O/c5tgLmaDAPH
+        pd6OYU5/2Q3pMMm3ngCu3YXd03M6YbN3rmovj1k=
+X-Google-Smtp-Source: ABdhPJyC5a301nKdQKjA2vzaDvUaVKdwf4Qr5aWApiVCV+yMVGfkYFXsZGAJvjRNQhA8AeUHlFWL/Eit5p59ZFQn3tk=
+X-Received: by 2002:aca:c60c:: with SMTP id w12mr15647925oif.46.1624726359841;
+ Sat, 26 Jun 2021 09:52:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20210625110419.24503-1-lukas.bulwahn@gmail.com> <20210625110419.24503-4-lukas.bulwahn@gmail.com>
+In-Reply-To: <20210625110419.24503-4-lukas.bulwahn@gmail.com>
+From:   =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date:   Sat, 26 Jun 2021 18:52:28 +0200
+Message-ID: <CAAdtpL6CMAbBPJr3La31Y3AYY48TjLZhDHjKWjUJxXdBS--Xmw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] arch: mips: remove dead references
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        "Maciej W . Rozycki" <macro@orcam.me.uk>
+Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>, Willy Tarreau <w@1wt.eu>,
+        linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-[Adding Ralf and Kurt to the list of recipients.]
+On Fri, Jun 25, 2021 at 1:05 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+>
+> The domain lookup for linux-mips.org fails for quite some time now.
+> Further, the two links:
+>
+>   http://decstation.unix-ag.org/
 
-On Fri, 25 Jun 2021, Lukas Bulwahn wrote:
+https://web.archive.org/web/20061010210936/http://decstation.unix-ag.org/
 
-> The domain lookup for linux-mips.org fails for quite some time now. Hence,
-> webpages, the patchwork instance and Ralf Baechle's email there is not
-> reachable anymore.
+>   http://www.computer-refuge.org/classiccmp/ftp.digital.com/pub/DEC/TriAdd/
 
- Well, mail forwarding has now been set up for my old LMO address, and so 
-I believe for Ralf's.  Any other resources remain unavailable.
+https://web.archive.org/web/20050205114151/ftp.digital.com/pub/DEC/TriAdd/
 
-> In the discussion of that patch series, Kurt Martin promised to get
-> linux-mips.org back online. Four months have now passed and the webpage is
-> still not back online. So, I suggest to remove these dead references.
-> Probably, we do not lose much if the linux-mips.org webpage never comes back.
+> refer to old webpages or contain no further technical information.
 
- While most resources have been migrated I think the wiki was unique and 
-valuable.  Perhaps we could preserve read-only references to archive.org 
-dumps?  It's not clear to me what our policy is here though, if any.
+FWIW the information is still online somewhere.
 
-> The domain lookup for linux-mips.org fails for quite some time now. Hence,
-> webpages, the patchwork instance and Ralf Baechle's email there is not
-> reachable anymore.
-
- Let's see if the copy of this message intended for Ralf bounces.
-
-> I removed dead references or replaced them with their living counterparts if
-> available. However, these two cases remain and somebody might want to have a look:
-> 
->   1. case in ./arch/mips/include/asm/page.h:
-> 
-> <snip>
-> /*
->  * RELOC_HIDE was originally added by 6007b903dfe5f1d13e0c711ac2894bdd4a61b1ad
->  * (lmo) rsp. 8431fd094d625b94d364fe393076ccef88e6ce18 (kernel.org).  The
->  * discussion can be found in
->  * https://lore.kernel.org/lkml/a2ebde260608230500o3407b108hc03debb9da6e62c@mail.gmail.com
->  *
->  * It is unclear if the misscompilations mentioned in
->  * https://lore.kernel.org/lkml/1281303490-390-1-git-send-email-namhyung@gmail.com
->  * also affect MIPS so we keep this one until GCC 3.x has been retired
->  * before we can apply https://patchwork.linux-mips.org/patch/1541/
->  */
-> </snip>
-> 
->   Decision: Keep as is. Although GCC 3.x is long retired, it is unclear what
->   https://patchwork.linux-mips.org/patch/1541/ is and if it has been already
->   applied or not.
->   Question: does anyone know how to identify this patch?
-
- It's on archive.org, marked rejected:
-
-<https://web.archive.org/web/20180829170737/https://patchwork.linux-mips.org/patch/1541/>
-
-or alternatively: <https://lore.kernel.org/patchwork/patch/210989/> (with 
-no proper status).  Given the note it might make sense to re-evaluate the 
-patch.  Thanks for the heads-up!
-
->   2. case in ./drivers/parport/parport_ip32.c:
-> 
->     linux-mips.org tree is referred to in an old To do item:
-> 
-> <snip>
->  * To do:
->  *
->  *      Fully implement ECP mode.
->  *      EPP and ECP mode need to be tested.  I currently do not own any
->  *      peripheral supporting these extended mode, and cannot test them.
->  *      If DMA mode works well, decide if support for PIO FIFO modes should be
->  *      dropped.
->  *      Use the io{read,write} family functions when they become available in
->  *      the linux-mips.org tree.  Note: the MIPS specific functions readsb()
->  *      and writesb() are to be translated by ioread8_rep() and iowrite8_rep()
->  *      respectively.
-> </snip>
-> 
->   Decision: Keep as is; anyone that wants to follow up on this will probably
->   understand that the reference is outdated anyway.
-
- Note that a copy of the LMO tree remains available online at: 
-<git://git.kernel.org/pub/scm/linux/kernel/git/ralf/linux.git>, so any 
-references or git commit IDs are reachable.  Perhaps it would be good to 
-add an actual reference somewhere though.
-
-  Maciej
+> Remove all those dead references.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  arch/mips/Kconfig             |  8 +-------
+>  arch/mips/jazz/Kconfig        | 12 +++---------
+>  tools/include/nolibc/nolibc.h |  3 +--
+>  3 files changed, 5 insertions(+), 18 deletions(-)
