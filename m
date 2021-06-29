@@ -4,33 +4,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81809C11F67
-	for <linux-edac@archiver.kernel.org>; Tue, 29 Jun 2021 23:42:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC0AC11F67
+	for <linux-edac@archiver.kernel.org>; Tue, 29 Jun 2021 23:44:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AA9E61D74
-	for <linux-edac@archiver.kernel.org>; Tue, 29 Jun 2021 23:42:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 37C6A61D3D
+	for <linux-edac@archiver.kernel.org>; Tue, 29 Jun 2021 23:44:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235473AbhF2XpZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 29 Jun 2021 19:45:25 -0400
-Received: from mga09.intel.com ([134.134.136.24]:18675 "EHLO mga09.intel.com"
+        id S235226AbhF2XrQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 29 Jun 2021 19:47:16 -0400
+Received: from mga05.intel.com ([192.55.52.43]:14594 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235295AbhF2XpY (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 29 Jun 2021 19:45:24 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="208208662"
+        id S232615AbhF2XrP (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 29 Jun 2021 19:47:15 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10030"; a="293897879"
 X-IronPort-AV: E=Sophos;i="5.83,310,1616482800"; 
-   d="scan'208";a="208208662"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2021 16:42:56 -0700
+   d="scan'208";a="293897879"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2021 16:44:47 -0700
 X-IronPort-AV: E=Sophos;i="5.83,310,1616482800"; 
-   d="scan'208";a="625815383"
+   d="scan'208";a="641504140"
 Received: from agluck-desk2.sc.intel.com (HELO agluck-desk2.amr.corp.intel.com) ([10.3.52.146])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2021 16:42:56 -0700
-Date:   Tue, 29 Jun 2021 16:42:55 -0700
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2021 16:44:47 -0700
+Date:   Tue, 29 Jun 2021 16:44:46 -0700
 From:   "Luck, Tony" <tony.luck@intel.com>
-To:     torvalds@agluck-desk2.amr.corp.intel.com
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Bixuan Cui <cuibixuan@huawei.com>,
         Borislav Petkov <bp@suse.de>,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
@@ -39,7 +39,7 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Bixuan Cui <cuibixuan@huawei.com>,
         Yazen Ghannam <yazen.ghannam@amd.com>,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: [GIT PULL] ras/edac changes for v5.14
-Message-ID: <20210629234255.GA1239879@agluck-desk2.amr.corp.intel.com>
+Message-ID: <20210629234446.GA1239895@agluck-desk2.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
