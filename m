@@ -2,70 +2,114 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA45C11F65
-	for <linux-edac@archiver.kernel.org>; Wed, 30 Jun 2021 18:34:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C609C07E99
+	for <linux-edac@archiver.kernel.org>; Mon,  5 Jul 2021 13:08:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCD6D613F1
-	for <linux-edac@archiver.kernel.org>; Wed, 30 Jun 2021 18:34:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CCF0613D1
+	for <linux-edac@archiver.kernel.org>; Mon,  5 Jul 2021 13:08:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232851AbhF3ShZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 30 Jun 2021 14:37:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39164 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232745AbhF3ShZ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 30 Jun 2021 14:37:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id DD0F461419;
-        Wed, 30 Jun 2021 18:34:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625078095;
-        bh=o7HWFBp8JYLf/BFqmOzk6+xx+xon3y637YTwer/C800=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=M8rIc/WiM5Z3dKLaLSRul49OfyxMr9JF0kKsPc8SNWB0rkOy3gOSZm4cZrG3xPwzL
-         482FaStSQLW/QCLBdhcsxNcSdwzO+AyONFu3+JpGC/T3gRv3HBQPc3SI8A2bvh0OZ1
-         6uLscZ3BofyuCZBvCiOrLC0F3gm5ah51EMWEW21d2KxzbAPybBjHUIx3Nn5knUEKBN
-         Fzs7oG/aJaO7SC7ZQSQez22A0VlFnX3FxEkKPdozKjWMH8iL7NJkOFNCsrH5Jz7TgQ
-         BwRis1/TTQTGsd726PdNWRAal1mRrd8dxzpqilvr1zE06y/1Me+ajc0Ju/xHlFeqQe
-         ovPS9VLDZGJOQ==
-Subject: Re: [GIT PULL] ras/edac changes for v5.14
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20210629234446.GA1239895@agluck-desk2.amr.corp.intel.com>
-References: <20210629234446.GA1239895@agluck-desk2.amr.corp.intel.com>
-X-PR-Tracked-List-Id: <linux-edac.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20210629234446.GA1239895@agluck-desk2.amr.corp.intel.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v5.14
-X-PR-Tracked-Commit-Id: 0a9ece9ba154dd6205709108180952c55e630833
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4b5e35ce075817bc36d7c581b22853be984e5b41
-Message-Id: <162507809577.10377.5016426522118551443.pr-tracker-bot@kernel.org>
-Date:   Wed, 30 Jun 2021 18:34:55 +0000
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Bixuan Cui <cuibixuan@huawei.com>,
-        Borislav Petkov <bp@suse.de>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Yazen Ghannam <yazen.ghannam@amd.com>,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+        id S231183AbhGENLF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 5 Jul 2021 09:11:05 -0400
+Received: from mail-m118208.qiye.163.com ([115.236.118.208]:25360 "EHLO
+        mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230188AbhGENLF (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 5 Jul 2021 09:11:05 -0400
+X-Greylist: delayed 446 seconds by postgrey-1.27 at vger.kernel.org; Mon, 05 Jul 2021 09:11:04 EDT
+Received: from localhost.localdomain (unknown [113.118.122.203])
+        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id C6A8CE03BD;
+        Mon,  5 Jul 2021 21:00:58 +0800 (CST)
+From:   Ding Hui <dinghui@sangfor.com.cn>
+To:     tony.luck@intel.com, bp@alien8.de, bp@suse.de,
+        naoya.horiguchi@nec.com, osalvador@suse.de, peterz@infradead.org
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        hpa@zytor.com, youquan.song@intel.com, huangcun@sangfor.com.cn,
+        stable@vger.kernel.org, Ding Hui <dinghui@sangfor.com.cn>
+Subject: [PATCH v1] x86/mce: Fix endless loop when run task works after #MC
+Date:   Mon,  5 Jul 2021 20:59:21 +0800
+Message-Id: <20210705125921.936-1-dinghui@sangfor.com.cn>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZQxhDT1ZJHUxOHR0eTkJMSk5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+        hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PVE6Sjo6Tz9WTRkWFEMTGU8T
+        SRIwCzhVSlVKTUlOT0JLS05CTU5KVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
+        QVlKSkhVSkpDVUpJSVVJS0hZV1kIAVlBSE9CSTcG
+X-HM-Tid: 0a7a76c1f02a2c17kusnc6a8ce03bd
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The pull request you sent on Tue, 29 Jun 2021 16:44:46 -0700:
+Recently we encounter multi #MC on the same task when it's
+task_work_run() has not been called, current->mce_kill_me was
+added to task_works list more than once, that make a circular
+linked task_works, so task_work_run() will do a endless loop.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v5.14
+More seriously, the SIGBUS signal can not be delivered to the
+userspace task which tigger the #MC and I met #MC flood.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4b5e35ce075817bc36d7c581b22853be984e5b41
+I borrowed mce_kill_me.func to check whether current->mce_kill_me
+has been added to task_works, prevent duplicate addition. When
+work function be called, the task_works must has been taken,
+so it is safe to be cleared in callback.
 
-Thank you!
+Fixed: commit 5567d11c21a1 ("x86/mce: Send #MC singal from task work")
+Cc: <stable@vger.kernel.org> #v5.8+
+Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
+---
+ arch/x86/kernel/cpu/mce/core.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 22791aadc085..32fb9ded6b85 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1250,6 +1250,7 @@ static void __mc_scan_banks(struct mce *m, struct pt_regs *regs, struct mce *fin
+ 
+ static void kill_me_now(struct callback_head *ch)
+ {
++	WRITE_ONCE(ch->func, NULL);
+ 	force_sig(SIGBUS);
+ }
+ 
+@@ -1259,6 +1260,8 @@ static void kill_me_maybe(struct callback_head *cb)
+ 	int flags = MF_ACTION_REQUIRED;
+ 	int ret;
+ 
++	WRITE_ONCE(cb->func, NULL);
++
+ 	pr_err("Uncorrected hardware memory error in user-access at %llx", p->mce_addr);
+ 
+ 	if (!p->mce_ripv)
+@@ -1289,17 +1292,20 @@ static void kill_me_maybe(struct callback_head *cb)
+ 
+ static void queue_task_work(struct mce *m, int kill_current_task)
+ {
++	struct callback_head ch;
++
+ 	current->mce_addr = m->addr;
+ 	current->mce_kflags = m->kflags;
+ 	current->mce_ripv = !!(m->mcgstatus & MCG_STATUS_RIPV);
+ 	current->mce_whole_page = whole_page(m);
+ 
+ 	if (kill_current_task)
+-		current->mce_kill_me.func = kill_me_now;
++		ch.func = kill_me_now;
+ 	else
+-		current->mce_kill_me.func = kill_me_maybe;
++		ch.func = kill_me_maybe;
+ 
+-	task_work_add(current, &current->mce_kill_me, TWA_RESUME);
++	if (!cmpxchg(&current->mce_kill_me.func, NULL, ch.func))
++		task_work_add(current, &current->mce_kill_me, TWA_RESUME);
+ }
+ 
+ /*
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.17.1
+
