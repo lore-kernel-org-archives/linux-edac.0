@@ -2,89 +2,108 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADA7C07E9B
-	for <linux-edac@archiver.kernel.org>; Tue,  6 Jul 2021 19:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF80C07E95
+	for <linux-edac@archiver.kernel.org>; Wed,  7 Jul 2021 03:39:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11E6F61C70
-	for <linux-edac@archiver.kernel.org>; Tue,  6 Jul 2021 19:06:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53C7D61C88
+	for <linux-edac@archiver.kernel.org>; Wed,  7 Jul 2021 03:39:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbhGFTJI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 6 Jul 2021 15:09:08 -0400
-Received: from mga11.intel.com ([192.55.52.93]:6713 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231693AbhGFTJH (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 6 Jul 2021 15:09:07 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="206166886"
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; 
-   d="scan'208";a="206166886"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2021 12:06:28 -0700
-X-IronPort-AV: E=Sophos;i="5.83,329,1616482800"; 
-   d="scan'208";a="427687592"
-Received: from agluck-desk2.sc.intel.com ([10.3.52.146])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2021 12:06:27 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Tony Luck <tony.luck@intel.com>, Ding Hui <dinghui@sangfor.com.cn>,
-        naoya.horiguchi@nec.com, osalvador@suse.de,
-        Youquan Song <youquan.song@intel.com>, huangcun@sangfor.com.cn,
-        x86@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] x86/mce: Drop copyin special case for #MC
-Date:   Tue,  6 Jul 2021 12:06:20 -0700
-Message-Id: <20210706190620.1290391-4-tony.luck@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210706190620.1290391-1-tony.luck@intel.com>
-References: <20210706190620.1290391-1-tony.luck@intel.com>
+        id S230019AbhGGDmR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 6 Jul 2021 23:42:17 -0400
+Received: from mail-m118208.qiye.163.com ([115.236.118.208]:63328 "EHLO
+        mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229996AbhGGDmQ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 6 Jul 2021 23:42:16 -0400
+Received: from [0.0.0.0] (unknown [113.118.122.203])
+        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id DDDF8E0170;
+        Wed,  7 Jul 2021 11:39:31 +0800 (CST)
+Subject: Re: [PATCH v2] x86/mce: Fix endless loop when run task works after
+ #MC
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     bp@alien8.de, bp@suse.de, naoya.horiguchi@nec.com,
+        osalvador@suse.de, peterz@infradead.org,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
+        hpa@zytor.com, youquan.song@intel.com, huangcun@sangfor.com.cn,
+        stable@vger.kernel.org
+References: <20210706121606.15864-1-dinghui@sangfor.com.cn>
+ <20210706164451.GA1289248@agluck-desk2.amr.corp.intel.com>
+From:   Ding Hui <dinghui@sangfor.com.cn>
+Message-ID: <6a1b1371-50e4-f0f6-1ebd-0a91fc9d7bcc@sangfor.com.cn>
+Date:   Wed, 7 Jul 2021 11:39:25 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210706164451.GA1289248@agluck-desk2.amr.corp.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZGUJOHVYfHR4ZTxlCTRlKSklVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+        hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PhA6LTo5Lz9JPh5RPgNJEigO
+        DksaCS1VSlVKTUlOTUlCSkxISk5NVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
+        QVlKSkhVSkpDVUpJSVVJS0hZV1kIAVlBSEJLTDcG
+X-HM-Tid: 0a7a7f0ca4732c17kusndddf8e0170
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Fixes to the iterator code to handle faults that are not on
-page boundaries mean that the special case for machine check
-during copy from user is no longer needed.
+On 2021/7/7 0:44, Luck, Tony wrote:
+> On Tue, Jul 06, 2021 at 08:16:06PM +0800, Ding Hui wrote:
+>> Recently we encounter multi #MC on the same task when it's
+>> task_work_run() has not been called, current->mce_kill_me was
+>> added to task_works list more than once, that make a circular
+>> linked task_works, so task_work_run() will do a endless loop.
+> 
+> I saw the same and posted a similar fix a while back:
+> 
+> https://www.spinics.net/lists/linux-mm/msg251006.html
+> 
+> It didn't get merged because some validation tests began failing
+> around the same time.  I'm now pretty sure I understand what happened
+> with those other tests.
+> 
+> I'll post my updated version (second patch in a three part series)
+> later today.
+> 
 
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- arch/x86/lib/copy_user_64.S | 13 -------------
- 1 file changed, 13 deletions(-)
+Thanks for your fixes.
 
-diff --git a/arch/x86/lib/copy_user_64.S b/arch/x86/lib/copy_user_64.S
-index 57b79c577496..2797e630b9b1 100644
---- a/arch/x86/lib/copy_user_64.S
-+++ b/arch/x86/lib/copy_user_64.S
-@@ -234,24 +234,11 @@ EXPORT_SYMBOL(copy_user_enhanced_fast_string)
-  */
- SYM_CODE_START_LOCAL(.Lcopy_user_handle_tail)
- 	movl %edx,%ecx
--	cmp $X86_TRAP_MC,%eax		/* check if X86_TRAP_MC */
--	je 3f
- 1:	rep movsb
- 2:	mov %ecx,%eax
- 	ASM_CLAC
- 	ret
- 
--	/*
--	 * Return zero to pretend that this copy succeeded. This
--	 * is counter-intuitive, but needed to prevent the code
--	 * in lib/iov_iter.c from retrying and running back into
--	 * the poison cache line again. The machine check handler
--	 * will ensure that a SIGBUS is sent to the task.
--	 */
--3:	xorl %eax,%eax
--	ASM_CLAC
--	ret
--
- 	_ASM_EXTABLE_CPY(1b, 2b)
- SYM_CODE_END(.Lcopy_user_handle_tail)
- 
+After digging my original problem, maybe I find out why I met #MC flood.
+
+My test case:
+1. run qemu-kvm guest VM, OS is memtest86+.iso
+2. inject SRAR UE to VM memory and wait #MC
+When VM trigger #MC, I expect that qemu will receive SIGBUS signal ASAP, 
+and with the modifed qemu, I will kill VM.
+
+In this case, do_machine_check() maybe called by kvm_machine_check() in 
+vmx.c.
+
+Before [1], memory_failure() is called in do_machine_check(), so 
+TIF_SIGPENDING is set on due to SIGBUS signal, vcpu_run() checked the 
+pending singal, so return to qemu to handle SIGBUS.
+
+After [1], do_machine_check() only add task work but not send SIGBUS 
+directly, vcpu_run() will not break the for-loop because 
+vcpu_enter_guest() return 1 and not set TIF_SIGPENDING on, task works 
+never executed until sth else happen. So the kvm enter guest repeatedly 
+and the #MC is triggered repeatedly.
+
+Can you consider to fix cases like this?
+
+And do you mind to give me some advice for my temporary workaround about 
+this #MC flood:
+I want to check the context of do_machine_check() is exception or kvm, 
+and fallback to call kill_me_xxx directly when in kvm context. (I 
+already tested simply and met my expection)
+
+[1]: commit 5567d11c21a1 ("x86/mce: Send #MC singal from task work")
 -- 
-2.29.2
-
+Thanks,
+- Ding Hui
