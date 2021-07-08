@@ -2,127 +2,196 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1B5C07E9E
-	for <linux-edac@archiver.kernel.org>; Wed,  7 Jul 2021 09:51:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04E09C07E96
+	for <linux-edac@archiver.kernel.org>; Thu,  8 Jul 2021 19:35:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33EBF61C89
-	for <linux-edac@archiver.kernel.org>; Wed,  7 Jul 2021 09:51:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA5E861621
+	for <linux-edac@archiver.kernel.org>; Thu,  8 Jul 2021 19:35:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231367AbhGGJyP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 7 Jul 2021 05:54:15 -0400
-Received: from mail-m118208.qiye.163.com ([115.236.118.208]:35846 "EHLO
-        mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231362AbhGGJyN (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 7 Jul 2021 05:54:13 -0400
-Received: from [0.0.0.0] (unknown [113.118.122.203])
-        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id 0C072E0335;
-        Wed,  7 Jul 2021 17:51:28 +0800 (CST)
-Subject: Re: [PATCH v2] x86/mce: Fix endless loop when run task works after
- #MC
-From:   Ding Hui <dinghui@sangfor.com.cn>
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     bp@alien8.de, bp@suse.de, naoya.horiguchi@nec.com,
-        osalvador@suse.de, peterz@infradead.org,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, x86@kernel.org,
-        hpa@zytor.com, youquan.song@intel.com, huangcun@sangfor.com.cn,
-        stable@vger.kernel.org
-References: <20210706121606.15864-1-dinghui@sangfor.com.cn>
- <20210706164451.GA1289248@agluck-desk2.amr.corp.intel.com>
- <6a1b1371-50e4-f0f6-1ebd-0a91fc9d7bcc@sangfor.com.cn>
-Message-ID: <fffec03b-2601-a0c0-5954-ee05fe046ba1@sangfor.com.cn>
-Date:   Wed, 7 Jul 2021 17:51:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229631AbhGHTiI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 8 Jul 2021 15:38:08 -0400
+Received: from mail-bn8nam11on2065.outbound.protection.outlook.com ([40.107.236.65]:52160
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229497AbhGHTiH (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 8 Jul 2021 15:38:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J55HpShWXFQ2EI4qRoqTF51Fn96/UdQJKK1HIWOkdScjDY1tAqsF9ph8Ldc2iq17GE3YVbgHofQnAdCTwXajcwV0Lk/w9ooYtBheWANGsx/OkkB8leyGGu7A6HFplcYFttdVp2g8vzrcasgtIH7yBXGaaUHuPBZc2yga33DjptWsDA8reLyOkkzmqdq3Q5cSodtEaE1Au7UvlSCp1uibrvglYUvhZWiA0Tcx1e1VeGme0JtWeQLJUkzux4Ah/LmSp6D9v3y8nC/HqTQ8g9X0XMGXQG/qOOxXOx2kefEmBOZtX1RW6Cl75hmCh8uhMP4eDwH5SwUjxiiaz0c1GFAJNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sak4XYXVtoAtArtxkB42NYx+sKcLwNpELzfbSm9ia+c=;
+ b=RL/QaF91DLN6eToBsVQwBi0cZj1jJvAVsbbpwpvo43leQwigMmWRKAr+4MOxz/WPJ7evtMdapZYOBK3FKQL+dxYKL5sy9L2zII9kaSU6BWQjvEV54opBwbc15qGSzOpiySINp3zEzSwUXi0XbXvz/vviY+BFoDXUw8O1IzdC3r1Hz5BWoXEUhzxvcFWADBPf8iy7yd2drlgU/Kz4GmTIZ0xq29Kq83Plfb7IIKuLehKLoGqrbQ4XuUkScOC6kWnXWQ3sbaTmtxhcFFFTRueKxiKsqe8XSwCjXbsLxi0FmCyGCInUW2/vdBD1vCgajTTJC1D1i68hCcwn8KHbjiOwHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sak4XYXVtoAtArtxkB42NYx+sKcLwNpELzfbSm9ia+c=;
+ b=XjXK3/83ptDIpzbjppZilAjdpPz1YVmym0gc2IkCi1DnPw5EwQphykAbRr3inGndsLLWv7gob1UUP+FEtShep6w2L87kMgcGFnKQtIZf1GY08sj/5JeeXxAO8Ao1M8nJL8CAmHqnc2A8vl/U9LyfHN68XWL8NZbJgBT5M+o1c18=
+Authentication-Results: alien8.de; dkim=none (message not signed)
+ header.d=none;alien8.de; dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
+ by BN8PR12MB3633.namprd12.prod.outlook.com (2603:10b6:408:49::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.32; Thu, 8 Jul
+ 2021 19:35:23 +0000
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::c099:e7a1:249a:a8a2]) by BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::c099:e7a1:249a:a8a2%7]) with mapi id 15.20.4287.035; Thu, 8 Jul 2021
+ 19:35:23 +0000
+Date:   Thu, 8 Jul 2021 15:35:17 -0400
+From:   Yazen Ghannam <yazen.ghannam@amd.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, tony.luck@intel.com,
+        Smita.KoralahalliChannabasappa@amd.com
+Subject: Re: [PATCH v2 03/31] EDAC/amd64: Don't use naked values for DF
+ registers
+Message-ID: <20210708193517.GA15605@aus-x-yghannam.amd.com>
+References: <20210623192002.3671647-1-yazen.ghannam@amd.com>
+ <20210623192002.3671647-4-yazen.ghannam@amd.com>
+ <YNX0ZLRSLgmm2LiA@zn.tnic>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YNX0ZLRSLgmm2LiA@zn.tnic>
+X-ClientProxiedBy: BN9PR03CA0491.namprd03.prod.outlook.com
+ (2603:10b6:408:130::16) To BN8PR12MB3108.namprd12.prod.outlook.com
+ (2603:10b6:408:40::20)
 MIME-Version: 1.0
-In-Reply-To: <6a1b1371-50e4-f0f6-1ebd-0a91fc9d7bcc@sangfor.com.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZGU9LTFYZQk1OGRpPTUJNHkJVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-        hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PRQ6Pxw4ND9RKh08ORg6Fks5
-        MjMaCUpVSlVKTUlOTU5KT0NDQkNPVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
-        QVlKSkhVSkpDVUpJSVVJS0hZV1kIAVlBT05ISTcG
-X-HM-Tid: 0a7a806127a32c17kusn0c072e0335
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from aus-x-yghannam.amd.com (165.204.25.250) by BN9PR03CA0491.namprd03.prod.outlook.com (2603:10b6:408:130::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend Transport; Thu, 8 Jul 2021 19:35:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9e14ee3b-0471-4212-cd7e-08d942478773
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3633:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN8PR12MB36335A55DA8B9B551D2A83E7F8199@BN8PR12MB3633.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mNFur5I0tc/Piia03NZqknl3/V261NvxK9C6+cMWMFXkKZhM2nCJCobUxYKLo/OX43VOY+WX/rZYfR6NzXMXxT8rBxu04yRE0hahN6MXKGrXd8f7FGhHnCQcKlsk8301aLgFRn6dHLJ009GvAC3+XelRPRG4KG1i+Fa8ma0VRMs8NchkcGWVt+iBWIKGnW8wnjtEG1jVWx3Hn4YXIYoYYzDEzMkf/y2FQlktXAsPsCG5ppLnE8qNwqaFrvg0eEZTN4f41FRrKzvhZdLUF9qyHXxTCin164QKLZgxKXGu4kasiHj/uJb0e31sJVG0LdPyOURArT+ZpxNTE21W+KrFK5uBzoP4ME+pZpxcj4VgCIEOlQEHSC+Z85jIDmtbdt4mIvf9WSG6skUCboRlDTwPKCbIdnCyvcGPOcHmvCtRsOfCQBefbwMEONG3Pv9empOY90VSF/u7pGvJLuhC/fc/FV4k0NNNAqI4nqHLI8NR01UZVn1EBFY5qtsiAVkruUzuFOtnBuKcwrrKnNsAdL+1lFKD2hLbHJJgAoowTnxXl/ql2PaaMvisJkyGnJCVXOgC0ns0reqFIQCke6fKRtJ5hNZJCTcY17p2CbW56i6kJchsE/WbJbG7tdGkHxF3c/VA+6QNm9mz510h7qF3kqQvQmcggUqwj2WfmooozxU6De2YqI5bTtLZ/MjIRC+j7pBdOrxHEVDQ1vZqP/ioynz/93toBlcFANy4w0rKJjswvos=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39860400002)(396003)(346002)(136003)(376002)(38100700002)(38350700002)(8936002)(66946007)(7696005)(52116002)(55016002)(2906002)(8676002)(6666004)(956004)(44832011)(66476007)(1076003)(5660300002)(316002)(186003)(33656002)(6916009)(86362001)(66556008)(26005)(4326008)(478600001)(83380400001)(41403002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BF4ikv19m6akFGtEhDWh8zR6y6lUsDYIGFO/UH68vbgMw36bOMTosJHQzx+9?=
+ =?us-ascii?Q?vxcHQmpm2dHlCgvzqmKJbgqTHLOfVBXN0K3ZsRi0ye0rR3ZVQBvhWb2VBCLU?=
+ =?us-ascii?Q?wFlX4jFmaCfaZw14WYiTr0wZ2CMbTkuYMhbon3AE97zNYaa8KEkIcHU0jPDX?=
+ =?us-ascii?Q?/uqIhSsC/HREpbUWVwIHvpAF2LrUJA/JsEMIKFG8ZZNq5GLhUjhW1+oW4mkG?=
+ =?us-ascii?Q?AamZGQOCxeTKkzEip6YpPK0as3KKyHswCOYTOZnL8eiGxyaQ0STADxjOTV/5?=
+ =?us-ascii?Q?blTOkSUbm1Q0nJWbktXLMT4gzhxWM4InNSO7WIMbBLBTLk1/3ghpyAZmS2v+?=
+ =?us-ascii?Q?mQhE6rawWYbu7NMFc7z6NaAbZrZgVFvyNwPjv4J6O+WTmR7BchU692Y7TRkU?=
+ =?us-ascii?Q?11gSnzkh00na2HMllQktma3LXnvn5QR1nWQ7YpW6DzMuPH+HRIxAAx7/Fi7w?=
+ =?us-ascii?Q?3D8y4h6kPdL/0D0HKoYG3hHQD65hk6LZu9g8pgRrCCqtBBpXxzC6+rELZAof?=
+ =?us-ascii?Q?54EEcZXeDcafJ1DLRQ4jqYy7oU6Du85qHUPQjW8CXCVwNoDLQoxvmzF73g09?=
+ =?us-ascii?Q?ZeFtA+GeKxjQDDHs1yhyJdmCbRuemfrY8wAx1fsthlPCMi7RvmTT2MzTgwCh?=
+ =?us-ascii?Q?c6342vIeQH1xsnfSk/7D3n8BMFvaBTkSU7cpmwFdwANrpcqU9nEKL9daqDp1?=
+ =?us-ascii?Q?/2kl4x5gSpgESEdJT2pXNptmGrsadPlXOw1ffGv31of9kjMGAWxzO8VPd/D7?=
+ =?us-ascii?Q?4syGcm9uyXJGVrbb5oWKSjm4uIlAjk/2PbLqUgF26bU3q8YJMzSS9ZMM84KU?=
+ =?us-ascii?Q?zBktxPpCArnH3f8YtJeNh7Uqkio75hGUy0+gUW7RWM8Tr/lrcqq17PdiVZLv?=
+ =?us-ascii?Q?ST3/hb0ARzsrtU6iLazeZVEzs6NZCYw1Y1XESEFDy6DMJ8lEdGQvCG5NtiEZ?=
+ =?us-ascii?Q?j2sVf03AdYdu61GIwk07tAtvozo5OmbJdZaY3fJPngTaS6+oKDEXUJMsNcfR?=
+ =?us-ascii?Q?nhBQrAukaULH9o3Gq0C7u4VTopkez/aot9xxte4TdKtFwltRvxO+J64NJmHl?=
+ =?us-ascii?Q?f2/T2/MDaQtrUYsFZlcZPKcTsr8DihNNb2vGdMtCjKKI7vgiJR3zkrWYWsg0?=
+ =?us-ascii?Q?RCKIlUWuPW89YMBjs3HP1pCJIjYm+eOK5+ApTwZvciGgy12c7WHNMVlQEXs3?=
+ =?us-ascii?Q?PoNTi1ruD0enUfiW4HTUW44yC2yiZgLLOm0zlyOfbqgKlGiX+EkhChMS9IDY?=
+ =?us-ascii?Q?FK4LiSQu2z4yBREp+2VM1zwr7zkDGLkUnGEKlPQE1aVf5WyB9+Dv5R5vWhF0?=
+ =?us-ascii?Q?f4yfM7fu8OBqJ5PLCILjfs2z?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e14ee3b-0471-4212-cd7e-08d942478773
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2021 19:35:23.4629
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j/aAyoi69GVC9wiEc/62tk0MO/cricaEiaXi/gmjKYrZ86iH3QgQTIYITzDJDZc/gPWe8onHQhWW1ddLNne8Kw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3633
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 2021/7/7 11:39, Ding Hui wrote:
-> On 2021/7/7 0:44, Luck, Tony wrote:
->> On Tue, Jul 06, 2021 at 08:16:06PM +0800, Ding Hui wrote:
->>> Recently we encounter multi #MC on the same task when it's
->>> task_work_run() has not been called, current->mce_kill_me was
->>> added to task_works list more than once, that make a circular
->>> linked task_works, so task_work_run() will do a endless loop.
->>
->> I saw the same and posted a similar fix a while back:
->>
->> https://www.spinics.net/lists/linux-mm/msg251006.html
->>
->> It didn't get merged because some validation tests began failing
->> around the same time.  I'm now pretty sure I understand what happened
->> with those other tests.
->>
->> I'll post my updated version (second patch in a three part series)
->> later today.
->>
+On Fri, Jun 25, 2021 at 05:21:08PM +0200, Borislav Petkov wrote:
+> On Wed, Jun 23, 2021 at 07:19:34PM +0000, Yazen Ghannam wrote:
+> > +static struct df_reg df_regs[] = {
+> > +	/* D18F0x50 (FabricBlockInstanceInformation3_CS) */
+> > +	[FAB_BLK_INST_INFO_3]	=	{0, 0x50},
+> > +	/* D18F0x104 (DramHoleControl) */
+> > +	[DRAM_HOLE_CTL]		=	{0, 0x104},
+> > +	/* D18F0x110 (DramBaseAddress) */
+> > +	[DRAM_BASE_ADDR]	=	{0, 0x110},
+> > +	/* D18F0x114 (DramLimitAddress) */
+> > +	[DRAM_LIMIT_ADDR]	=	{0, 0x114},
+> > +	/* D18F0x1B4 (DramOffset) */
+> > +	[DRAM_OFFSET]		=	{0, 0x1B4},
+> > +	/* D18F1x208 (SystemFabricIdMask) */
+> > +	[SYS_FAB_ID_MASK]	=	{1, 0x208},
+> > +};
+> > +
+> >  static int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr)
+> >  {
+> >  	u64 dram_base_addr, dram_limit_addr, dram_hole_base;
+> > @@ -1059,8 +1091,9 @@ static int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr
+> >  	u8 cs_mask, cs_id = 0;
+> >  	bool hash_enabled = false;
+> >  
+> > -	/* Read D18F0x1B4 (DramOffset), check if base 1 is used. */
+> > -	if (amd_df_indirect_read(nid, 0, 0x1B4, umc, &tmp))
+> > +	struct df_reg reg;
+> > +
+> > +	if (amd_df_indirect_read(nid, df_regs[DRAM_OFFSET], umc, &tmp))
+> >  		goto out_err;
+> >  
+> >  	/* Remove HiAddrOffset from normalized address, if enabled: */
+> > @@ -1073,8 +1106,9 @@ static int umc_normaddr_to_sysaddr(u64 norm_addr, u16 nid, u8 umc, u64 *sys_addr
+> >  		}
+> >  	}
+> >  
+> > -	/* Read D18F0x110 (DramBaseAddress). */
+> > -	if (amd_df_indirect_read(nid, 0, 0x110 + (8 * base), umc, &tmp))
+> > +	reg = df_regs[DRAM_BASE_ADDR];
+> > +	reg.offset += base * 8;
 > 
-> Thanks for your fixes.
+> So this looks weird: you have a df_regs[] array of all those different
+> DF registers which I'd assume is a read-only thing because, well, those
+> func and offset things are immutable, i.e., hw registers offsets etc.
 > 
-> After digging my original problem, maybe I find out why I met #MC flood.
+> But then here you go and and modify the offset.
 > 
-> My test case:
-> 1. run qemu-kvm guest VM, OS is memtest86+.iso
-> 2. inject SRAR UE to VM memory and wait #MC
-> When VM trigger #MC, I expect that qemu will receive SIGBUS signal ASAP, 
-> and with the modifed qemu, I will kill VM.
+> And that df_regs array is globally visible in the driver and if some
+> later functionality decides to use it, it'll see the modified offset.
 > 
-> In this case, do_machine_check() maybe called by kvm_machine_check() in 
-> vmx.c.
+> IOW, I'd make that array read only (const) and use local vars instead to
+> pass down to amd_df_indirect_read().
 > 
-> Before [1], memory_failure() is called in do_machine_check(), so 
-> TIF_SIGPENDING is set on due to SIGBUS signal, vcpu_run() checked the 
-> pending singal, so return to qemu to handle SIGBUS.
+> And I'm also questioning what the point is for that df_reg thing?
 > 
-> After [1], do_machine_check() only add task work but not send SIGBUS 
-> directly, vcpu_run() will not break the for-loop because 
-> vcpu_enter_guest() return 1 and not set TIF_SIGPENDING on, task works 
-> never executed until sth else happen. So the kvm enter guest repeatedly 
-> and the #MC is triggered repeatedly.
+> You have them defined but then you have to change them.
 > 
-
-Sorry for my incorrect description.
-
-I figure out that my test kernel is not the lastest, it's without [2] 
-commit 72c3c0fe54a3 （"x86/kvm: Use generic xfer to guest work 
-function"), so vcpu_run() only care about signal_pending but not 
-TIF_NOTIFY_RESUME which set on in task_work_add().
-
-After [2], #MC flood should not exist.
-
-Also thank Thomas Gleixner.
-
-> Can you consider to fix cases like this?
+> I.e., you can just as well pass in func and offset separately and be
+> done with it.
 > 
-> And do you mind to give me some advice for my temporary workaround about 
-> this #MC flood:
-> I want to check the context of do_machine_check() is exception or kvm, 
-> and fallback to call kill_me_xxx directly when in kvm context. (I 
-> already tested simply and met my expection)
-> 
+> But maybe there's something else happening in the patches which comes
+> later and which will make me go, ahaa.
+>
 
-So ignore my ask, please.
+You're right that the values should be immutable. The changes done here
+are only for this pair of base/limit registers. Most of the time we'll
+only use 2 pairs (4 registers). But some systems will need to look at 16
+pairs, and so this current approach seemed nicer than writing out 32
+registers with mostly redundant information.
 
-> [1]: commit 5567d11c21a1 ("x86/mce: Send #MC singal from task work")
+I was trying to make the code more "self-documenting" and move away from
+magic numbers, etc. But it all looks okay to me, so I'm not sure which
+way to go (magic numbers + code comments, something else, etc.).
 
+So I'm inclined to stick with passing in the func/offset values and
+dropping the df_regs thing.
 
--- 
 Thanks,
-- Ding Hui
+Yazen
+
