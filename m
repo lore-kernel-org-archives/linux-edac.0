@@ -2,90 +2,82 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D195CC1B08C
-	for <linux-edac@archiver.kernel.org>; Thu, 15 Jul 2021 13:58:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96BF1C636C8
+	for <linux-edac@archiver.kernel.org>; Thu, 15 Jul 2021 18:58:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC1B7613DC
-	for <linux-edac@archiver.kernel.org>; Thu, 15 Jul 2021 13:58:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 804E7613ED
+	for <linux-edac@archiver.kernel.org>; Thu, 15 Jul 2021 18:58:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238237AbhGOOBV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 15 Jul 2021 10:01:21 -0400
-Received: from smtp-relay-canonical-0.canonical.com ([185.125.188.120]:44394
-        "EHLO smtp-relay-canonical-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229637AbhGOOBU (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 15 Jul 2021 10:01:20 -0400
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 69DFA408AD;
-        Thu, 15 Jul 2021 13:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1626357506;
-        bh=Cl2Z4fkPQ4YWZ9DFZjI76elK6rvIDL5Xxs/GYAwsJ5c=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-        b=c+f5DW3fRovP4PppXJ+3G7D63Ukw1ThI+F0iU3Tf10NiIJsAdYH3khUy3HBmzF+Qh
-         YfTyiwyAqg8CCEd9IL19IrC4QnQ2/ruTR/SvbupN5zCiThC+wBPHbIgXlul6aSjh28
-         1Y8u9chciqu2vZZWEAUdKFaL0qAXqyh0olA/bf2GzFqe5JCP2MJkXivuE6WdAd1+cM
-         KnUnkJGJSRpNgZ06BcDpY3rqVcCn4uGPkThKZwnOZH9c7HTIcJOtawCL/n6u/yQkIc
-         MaTyYGmCmtJ90q8oe2bRGefJRebg6ntmfkTYsGhvWtwxRpAowKNSCAW/vDVTT7IVbA
-         OmsbL2Aahppfg==
-From:   Colin King <colin.king@canonical.com>
-To:     Borislav Petkov <bp@alien8.de>,
+        id S242907AbhGOTBY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 15 Jul 2021 15:01:24 -0400
+Received: from mga01.intel.com ([192.55.52.88]:58175 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242613AbhGOS7s (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 15 Jul 2021 14:59:48 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232440214"
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; 
+   d="scan'208";a="232440214"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 11:55:37 -0700
+X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; 
+   d="scan'208";a="489554318"
+Received: from agluck-desk2.sc.intel.com ([10.3.52.146])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 11:55:36 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Doug Thompson <dougthompson@xmission.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-edac@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers/edac: add missing macro arguments and missing macro edac_pci_remove_sysfs
-Date:   Thu, 15 Jul 2021 14:58:26 +0100
-Message-Id: <20210715135826.26241-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.31.1
+        linux-edac@vger.kernel.org,
+        bowsingbetee <bowsingbetee@protonmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH Linus - please apply] EDAC/igen6: fix core dependency AGAIN
+Date:   Thu, 15 Jul 2021 11:55:31 -0700
+Message-Id: <20210715185531.1374900-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+From: Randy Dunlap <rdunlap@infradead.org>
 
-The macros edac_pci_handle_pe and edac_pci_handle_npe are missing their
-arguments and don't match the function prototypes they replace. Also
-macro edac_pci_remove_sysfs is missing. Fix this by adding in the missing
-arguments and missing macro.
+My previous patch had a typo/thinko which prevents this driver
+from being enabled: change X64_64 to X86_64.
 
-Fixes: d4c1465b7de9 ("drivers/edac: fix edac_pci sysfs")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Fixes: 0a9ece9ba154 ("EDAC/igen6: fix core dependency")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac@vger.kernel.org
+Cc: bowsingbetee <bowsingbetee@protonmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Tony Luck <tony.luck@intel.com>
 ---
- drivers/edac/edac_module.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/edac/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/edac/edac_module.h b/drivers/edac/edac_module.h
-index aa1f91688eb8..ed194ba2c207 100644
---- a/drivers/edac/edac_module.h
-+++ b/drivers/edac/edac_module.h
-@@ -123,8 +123,9 @@ extern void edac_pci_handle_npe(struct edac_pci_ctl_info *pci,
- #define edac_sysfs_pci_teardown()
- #define edac_pci_get_check_errors()
- #define edac_pci_get_poll_msec()
--#define edac_pci_handle_pe()
--#define edac_pci_handle_npe()
-+#define edac_pci_remove_sysfs(pci)
-+#define edac_pci_handle_pe(pci, msg)
-+#define edac_pci_handle_npe(pci, msg)
- #endif				/* CONFIG_PCI */
- 
- #endif				/* __EDAC_MODULE_H__ */
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index 91164c5f0757..2fc4c3f91fd5 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -271,7 +271,7 @@ config EDAC_PND2
+ config EDAC_IGEN6
+ 	tristate "Intel client SoC Integrated MC"
+ 	depends on PCI && PCI_MMCONFIG && ARCH_HAVE_NMI_SAFE_CMPXCHG
+-	depends on X64_64 && X86_MCE_INTEL
++	depends on X86_64 && X86_MCE_INTEL
+ 	help
+ 	  Support for error detection and correction on the Intel
+ 	  client SoC Integrated Memory Controller using In-Band ECC IP.
 -- 
-2.31.1
+2.29.2
 
