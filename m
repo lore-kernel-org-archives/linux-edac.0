@@ -2,109 +2,89 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6436FC636CB
-	for <linux-edac@archiver.kernel.org>; Sat, 17 Jul 2021 21:05:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27ECFC07E9D
+	for <linux-edac@archiver.kernel.org>; Mon, 19 Jul 2021 16:10:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42D1461106
-	for <linux-edac@archiver.kernel.org>; Sat, 17 Jul 2021 21:05:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1659E61364
+	for <linux-edac@archiver.kernel.org>; Mon, 19 Jul 2021 16:10:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235272AbhGQVID (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 17 Jul 2021 17:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231542AbhGQVIB (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 17 Jul 2021 17:08:01 -0400
-X-Greylist: delayed 352 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 17 Jul 2021 14:05:04 PDT
-Received: from smtp.gentoo.org (smtp.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256F1C061762;
-        Sat, 17 Jul 2021 14:05:04 -0700 (PDT)
-From:   Joshua Kinard <kumba@gentoo.org>
-Subject: Re: [PATCH v2 1/3] MAINTAINERS: mark sections from Ralf Baechle
- orphan
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>
-Cc:     "Maciej W . Rozycki" <macro@orcam.me.uk>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>, Willy Tarreau <w@1wt.eu>,
-        linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
-        kernel-janitors <kernel-janitors@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210625110419.24503-1-lukas.bulwahn@gmail.com>
- <20210625110419.24503-2-lukas.bulwahn@gmail.com>
- <CAKXUXMxFBaBneVZf3WCCYJ8Theu55Nf-gFe=hs5u3mMVd41mTw@mail.gmail.com>
-Openpgp: preference=signencrypt
-Message-ID: <c9e6753b-ce4d-fe63-1b4d-fc37cca77a3b@gentoo.org>
-Date:   Sat, 17 Jul 2021 16:59:08 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1346843AbhGSPaR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 19 Jul 2021 11:30:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40238 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1348311AbhGSPYm (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 19 Jul 2021 11:24:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 830CC61474;
+        Mon, 19 Jul 2021 16:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626710650;
+        bh=QD1d3pOJsWBYGMDUpWa4YS0LLXpRn9mRsdxNn5EXTc0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=iXnppbAJPUVPcHXHEPq/ksqf/tV3zS7ikPd9Jg19fz0wTJi6Nk/FaUECMNVUjuT31
+         gKwREWS78IE6VF4g5FzYgVDXlnuVKcAyL5Dv8jB3lZ2qecQjFUpuEgvUhkzujH1o50
+         8yZnve3RoCs2Wuefe7bDEDAa2RkqqI3K+elPBbB0=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-edac@vger.kernel.org,
+        bowsingbetee <bowsingbetee@protonmail.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [PATCH 5.13 024/351] EDAC/igen6: fix core dependency AGAIN
+Date:   Mon, 19 Jul 2021 16:49:30 +0200
+Message-Id: <20210719144945.330192667@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210719144944.537151528@linuxfoundation.org>
+References: <20210719144944.537151528@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-In-Reply-To: <CAKXUXMxFBaBneVZf3WCCYJ8Theu55Nf-gFe=hs5u3mMVd41mTw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 7/17/2021 03:03, Lukas Bulwahn wrote:
-> On Fri, Jun 25, 2021 at 1:04 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->>
->> The domain lookup for linux-mips.org fails for quite some time now. Hence,
->> webpages, the patchwork instance and Ralf Baechle's email there is not
->> reachable anymore.
->>
-> 
-> There has not been any specific comment on marking kernel parts solely
-> "maintained" by Ralf Baechle as Orphan.
-> 
-> So, given the feedback on this overall patch set from Maciej and Kurt:
-> - the domain lookup for linux-mips.org does resolve again.
-> - the patchwork instance moved.
-> - Ralf Baechle's email now does at least forward somewhere.
-> 
-> However, it still holds that:
-> 
-> Ralf Baechle has not been active since February 2018; so, set all
-> MAINTAINERS sections with Ralf as sole maintainer to Orphan, and give
-> others a chance to claim maintainership if these sections are still of
-> interest.
-> 
-> I suggest that independent of the other patches in this patch set, I
-> rework the commit message of this patch here (basically dropping the
-> first sentence) and send out a final patch for this subject that
-> Thomas can then pick.
-> 
-> Any comments or rejections to that suggestion?
-> 
-> Lukas
+From: Randy Dunlap <rdunlap@infradead.org>
+
+commit a1c9ca5f65c9acfd7c02474b9d5cacbd7ea288df upstream.
+
+My previous patch had a typo/thinko which prevents this driver
+from being enabled: change X64_64 to X86_64.
+
+Fixes: 0a9ece9ba154 ("EDAC/igen6: fix core dependency")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-edac@vger.kernel.org
+Cc: bowsingbetee <bowsingbetee@protonmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/edac/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -271,7 +271,7 @@ config EDAC_PND2
+ config EDAC_IGEN6
+ 	tristate "Intel client SoC Integrated MC"
+ 	depends on PCI && PCI_MMCONFIG && ARCH_HAVE_NMI_SAFE_CMPXCHG
+-	depends on X64_64 && X86_MCE_INTEL
++	depends on X86_64 && X86_MCE_INTEL
+ 	help
+ 	  Support for error detection and correction on the Intel
+ 	  client SoC Integrated Memory Controller using In-Band ECC IP.
 
 
->> @@ -9654,9 +9652,8 @@ F:        Documentation/devicetree/bindings/iio/gyroscope/invensense,mpu3050.yaml
->>  F:     drivers/iio/gyro/mpu3050*
->>
->>  IOC3 ETHERNET DRIVER
->> -M:     Ralf Baechle <ralf@linux-mips.org>
->>  L:     linux-mips@vger.kernel.org
->> -S:     Maintained
->> +S:     Orphan
->>  F:     drivers/net/ethernet/sgi/ioc3-eth.c
-
-Thomas virtually re-wrote this driver, so it is probably more appropriate to
-leave it as maintained, but mark him as the maintainer.
-
--- 
-Joshua Kinard
-Gentoo/MIPS
-kumba@gentoo.org
-rsa6144/5C63F4E3F5C6C943 2015-04-27
-177C 1972 1FB8 F254 BAD0 3E72 5C63 F4E3 F5C6 C943
-
-"The past tempts us, the present confuses us, the future frightens us.  And
-our lives slip away, moment by moment, lost in that vast, terrible in-between."
-
---Emperor Turhan, Centauri Republic
