@@ -2,84 +2,144 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E550EC4338F
-	for <linux-edac@archiver.kernel.org>; Wed, 11 Aug 2021 11:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B440C4338F
+	for <linux-edac@archiver.kernel.org>; Wed, 11 Aug 2021 21:06:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3FA060EB5
-	for <linux-edac@archiver.kernel.org>; Wed, 11 Aug 2021 11:36:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CD276044F
+	for <linux-edac@archiver.kernel.org>; Wed, 11 Aug 2021 21:06:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237300AbhHKLgg (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 11 Aug 2021 07:36:36 -0400
-Received: from cmccmta2.chinamobile.com ([221.176.66.80]:9303 "EHLO
-        cmccmta2.chinamobile.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237154AbhHKLgg (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 11 Aug 2021 07:36:36 -0400
-X-Greylist: delayed 568 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Aug 2021 07:36:35 EDT
-Received: from spf.mail.chinamobile.com (unknown[172.16.121.13]) by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66113b3bef0d-63f44; Wed, 11 Aug 2021 19:25:50 +0800 (CST)
-X-RM-TRANSID: 2ee66113b3bef0d-63f44
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG: 00000000
-Received: from localhost.localdomain (unknown[223.112.105.130])
-        by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee76113b3b87fe-3c7c3;
-        Wed, 11 Aug 2021 19:25:50 +0800 (CST)
-X-RM-TRANSID: 2ee76113b3b87fe-3c7c3
-From:   Tang Bin <tangbin@cmss.chinamobile.com>
-To:     kristo@kernel.org, bp@alien8.de, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: [PATCH] EDAC/ti: Remove redundant error messages
-Date:   Wed, 11 Aug 2021 19:26:26 +0800
-Message-Id: <20210811112626.27848-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.20.1.windows.1
+        id S232058AbhHKVGp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 11 Aug 2021 17:06:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36305 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231740AbhHKVGp (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 11 Aug 2021 17:06:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1628715980;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=Ge0GTZUIjxikgSWkPB8zfOtpvL+2/SFPvGVsbcuYMDw=;
+        b=TioJd4tKo2tAa6ykiIeMHFWWandOn3T9Vs60ZZajmm6kjt9u2F1DXIlhuwrB3Hf7zt8lfN
+        WfN5nDKulk0bSstFXafaWkJbaJ942im/OXbM/c8X21nEcolo/NePGVj+0j40NDuOKmdTt3
+        Z6wARcvK1Vu4UNCdDB8L5K1LQWpQ0G4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-06BHg_uoN0OVyFP1lRgvtA-1; Wed, 11 Aug 2021 17:06:19 -0400
+X-MC-Unique: 06BHg_uoN0OVyFP1lRgvtA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3531344B1;
+        Wed, 11 Aug 2021 21:06:17 +0000 (UTC)
+Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AFE11ABD8;
+        Wed, 11 Aug 2021 21:06:13 +0000 (UTC)
+From:   Jeff Moyer <jmoyer@redhat.com>
+To:     dan.j.williams@intel.com, David Hildenbrand <david@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org,
+        x86@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: [patch, v2] x86/pat: pass valid address to sanitize_phys()
+X-PGP-KeyID: 1F78E1B4
+X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
+Date:   Wed, 11 Aug 2021 17:07:37 -0400
+Message-ID: <x49o8a3pu5i.fsf@segfault.boston.devel.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-In the function ti_edac_probe, devm_ioremap_resource() and
-platform_get_irq() have already contains error message, so
-remove the redundant error messages.
+The end address passed to memtype_reserve() is handed directly to
+sanitize_phys().  However, end is exclusive and sanitize_phys() expects
+an inclusive address.  If end falls at the end of the physical address
+space, sanitize_phys() will return 0.  This can result in drivers
+failing to load, and the following warning:
 
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+[    9.999440] mpt3sas version 29.100.01.00 loaded
+[    9.999817] mpt3sas_cm0: 64 BIT PCI BUS DMA ADDRESSING SUPPORTED, total mem (65413664 kB)
+[    9.999819] ------------[ cut here ]------------
+[    9.999826] WARNING: CPU: 26 PID: 749 at arch/x86/mm/pat.c:354 reserve_memtype+0x262/0x450
+[    9.999828] reserve_memtype failed: [mem 0x3ffffff00000-0xffffffffffffffff], req uncached-minus
+[    9.999828] Modules linked in: mpt3sas(+) bnxt_en(+) ahci(+) crct10dif_pclmul crct10dif_common nvme crc32c_intel libahci nvme_core libata raid_class scsi_transport_sas devlink drm_panel_orientation_quirks nfit libnvdimm dm_mirror dm_region_hash dm_log dm_mod
+[    9.999840] CPU: 26 PID: 749 Comm: systemd-udevd Not tainted 3.10.0-1077.el7_7.mpt3sas_test008.x86_64 #1
+[    9.999842] Hardware name: Inspur SA5112M5/SA5112M5, BIOS 4.1.12 02/24/2021
+[    9.999843] Call Trace:
+[    9.999851]  [<ffffffffa497c4e4>] dump_stack+0x19/0x1b
+[    9.999857]  [<ffffffffa429bc08>] __warn+0xd8/0x100
+[    9.999859]  [<ffffffffa429bc8f>] warn_slowpath_fmt+0x5f/0x80
+[    9.999861]  [<ffffffffa427b1f2>] reserve_memtype+0x262/0x450
+[    9.999867]  [<ffffffffa4276254>] __ioremap_caller+0xf4/0x330
+[    9.999872]  [<ffffffffc04620a1>] ? mpt3sas_base_map_resources+0x151/0xa60 [mpt3sas]
+[    9.999875]  [<ffffffffa42764aa>] ioremap_nocache+0x1a/0x20
+[    9.999879]  [<ffffffffc04620a1>] mpt3sas_base_map_resources+0x151/0xa60 [mpt3sas]
+[    9.999884]  [<ffffffffa442656b>] ? __kmalloc+0x1eb/0x230
+[    9.999889]  [<ffffffffc0465555>] mpt3sas_base_attach+0xf5/0xa50 [mpt3sas]
+[    9.999894]  [<ffffffffc046af3c>] _scsih_probe+0x4ec/0xb00 [mpt3sas]
+[    9.999901]  [<ffffffffa45d297a>] local_pci_probe+0x4a/0xb0
+[    9.999903]  [<ffffffffa45d40c9>] pci_device_probe+0x109/0x160
+[    9.999909]  [<ffffffffa46b7225>] driver_probe_device+0xc5/0x3e0
+[    9.999910]  [<ffffffffa46b7623>] __driver_attach+0x93/0xa0
+[    9.999912]  [<ffffffffa46b7590>] ? __device_attach+0x50/0x50
+[    9.999914]  [<ffffffffa46b4dc5>] bus_for_each_dev+0x75/0xc0
+[    9.999916]  [<ffffffffa46b6b9e>] driver_attach+0x1e/0x20
+[    9.999918]  [<ffffffffa46b6640>] bus_add_driver+0x200/0x2d0
+[    9.999920]  [<ffffffffa46b7cb4>] driver_register+0x64/0xf0
+[    9.999922]  [<ffffffffa45d3905>] __pci_register_driver+0xa5/0xc0
+[    9.999924]  [<ffffffffc049b000>] ? 0xffffffffc049afff
+[    9.999928]  [<ffffffffc049b16e>] _mpt3sas_init+0x16e/0x1000 [mpt3sas]
+[    9.999933]  [<ffffffffa420210a>] do_one_initcall+0xba/0x240
+[    9.999940]  [<ffffffffa431e95a>] load_module+0x271a/0x2bb0
+[    9.999946]  [<ffffffffa45b0600>] ? ddebug_proc_write+0x100/0x100
+[    9.999948]  [<ffffffffa431eedf>] SyS_init_module+0xef/0x140
+[    9.999954]  [<ffffffffa498fed2>] system_call_fastpath+0x25/0x2a
+[    9.999955] ---[ end trace 6d6eea4438db89ef ]---
+[    9.999957] ioremap reserve_memtype failed -22
+[   10.000087] mpt3sas_cm0: unable to map adapter memory! or resource not found
+[   10.000334] mpt3sas_cm0: failure at drivers/scsi/mpt3sas/mpt3sas_scsih.c:10597/_scsih_probe()!
+
+(Note that this warning was from an older distribution kernel, so line
+numbers and file names may not line up with the current tree.)
+
+Fix this by passing the inclusive end address to sanitize_phys().
+
+Fixes: 510ee090abc3 ("x86/mm/pat: Prepare {reserve, free}_memtype() for "decoy" addresses")
+Signed-off-by: Jeff Moyer <jmoyer@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
 ---
- drivers/edac/ti_edac.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+v2:
+- Add the warning splat to the commit log. (tglx)
+- Use parenthesis when referring to function names. (tglx)
+- Add a comment to the code. (tglx)
+- Use inclusive/exclusive instead of interval notation.
 
-diff --git a/drivers/edac/ti_edac.c b/drivers/edac/ti_edac.c
-index 169f96e51..6971ded59 100644
---- a/drivers/edac/ti_edac.c
-+++ b/drivers/edac/ti_edac.c
-@@ -245,11 +245,8 @@ static int ti_edac_probe(struct platform_device *pdev)
+diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
+index 3112ca7786ed..4ba2a3ee4bce 100644
+--- a/arch/x86/mm/pat/memtype.c
++++ b/arch/x86/mm/pat/memtype.c
+@@ -583,7 +583,12 @@ int memtype_reserve(u64 start, u64 end, enum page_cache_mode req_type,
+ 	int err = 0;
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	reg = devm_ioremap_resource(dev, res);
--	if (IS_ERR(reg)) {
--		edac_printk(KERN_ERR, EDAC_MOD_NAME,
--			    "EMIF controller regs not defined\n");
-+	if (IS_ERR(reg))
- 		return PTR_ERR(reg);
--	}
- 
- 	layers[0].type = EDAC_MC_LAYER_ALL_MEM;
- 	layers[0].size = 1;
-@@ -281,8 +278,6 @@ static int ti_edac_probe(struct platform_device *pdev)
- 	error_irq = platform_get_irq(pdev, 0);
- 	if (error_irq < 0) {
- 		ret = error_irq;
--		edac_printk(KERN_ERR, EDAC_MOD_NAME,
--			    "EMIF irq number not defined.\n");
- 		goto err;
- 	}
- 
--- 
-2.20.1.windows.1
-
-
+ 	start = sanitize_phys(start);
+-	end = sanitize_phys(end);
++
++	/*
++	 * The end address passed into this function is exclusive, but
++	 * sanitize_phys() expects an inclusive address.
++	 */
++	end = sanitize_phys(end - 1) + 1;
+ 	if (start >= end) {
+ 		WARN(1, "%s failed: [mem %#010Lx-%#010Lx], req %s\n", __func__,
+ 				start, end - 1, cattr_name(req_type));
 
