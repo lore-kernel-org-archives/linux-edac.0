@@ -2,29 +2,30 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3751BC4338F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F076C4320A
 	for <linux-edac@archiver.kernel.org>; Wed, 18 Aug 2021 00:29:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E53961052
+	by mail.kernel.org (Postfix) with ESMTP id 73D9561051
 	for <linux-edac@archiver.kernel.org>; Wed, 18 Aug 2021 00:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235730AbhHRAa1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S235847AbhHRAa1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Tue, 17 Aug 2021 20:30:27 -0400
 Received: from mga12.intel.com ([192.55.52.136]:60945 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234302AbhHRAa0 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        id S234818AbhHRAa0 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
         Tue, 17 Aug 2021 20:30:26 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="195807457"
+X-IronPort-AV: E=McAfee;i="6200,9189,10079"; a="195807460"
 X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; 
-   d="scan'208";a="195807457"
+   d="scan'208";a="195807460"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2021 17:29:52 -0700
 X-IronPort-AV: E=Sophos;i="5.84,330,1620716400"; 
-   d="scan'208";a="520687339"
+   d="scan'208";a="520687348"
 Received: from agluck-desk2.sc.intel.com ([10.3.52.146])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2021 17:29:52 -0700
 From:   Tony Luck <tony.luck@intel.com>
@@ -34,58 +35,57 @@ Cc:     Jue Wang <juew@google.com>, Ding Hui <dinghui@sangfor.com.cn>,
         Youquan Song <youquan.song@intel.com>, huangcun@sangfor.com.cn,
         x86@kernel.org, linux-edac@vger.kernel.org, linux-mm@kvack.org,
         linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v2 0/3] More machine check recovery fixes
-Date:   Tue, 17 Aug 2021 17:29:39 -0700
-Message-Id: <20210818002942.1607544-1-tony.luck@intel.com>
+Subject: [PATCH v2 3/3] x86/mce: Drop copyin special case for #MC
+Date:   Tue, 17 Aug 2021 17:29:42 -0700
+Message-Id: <20210818002942.1607544-4-tony.luck@intel.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210706190620.1290391-1-tony.luck@intel.com>
+In-Reply-To: <20210818002942.1607544-1-tony.luck@intel.com>
 References: <20210706190620.1290391-1-tony.luck@intel.com>
+ <20210818002942.1607544-1-tony.luck@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Fix a couple of issues in machine check handling
+Fixes to the iterator code to handle faults that are not on
+page boundaries mean that the special case for machine check
+during copy from user is no longer needed.
 
-1) A repeated machine check inside the kernel without calling the task
-   work function between machine checks it will go into an infinite
-   loop
-2) Machine checks in kernel functions copying data from user addresses
-   send SIGBUS to the user as if the application had consumed the
-   poison. But this is wrong. The user should see either an -EFAULT
-   error return or a reduced byte count (in the case of write(2)).
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ arch/x86/lib/copy_user_64.S | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-My latest tests have been on v4.14-rc6 with this patch (that's already
-in -mm) applied:
-https://lore.kernel.org/r/20210817053703.2267588-1-naoya.horiguchi@linux.dev
-
-Changes since v1:
-1) Fix bug in kill_me_never() that forgot to clear p->mce_count so
-   repeated recovery in the same task would trigger the panic for
-	"Machine checks to different user pages"
-   [Note to Jue Wang ... this *might* be why your test that injects
-    two errors into the same buffer passed to a write(2) syscall
-    failed with this message]
-2) Re-order patches so that "Avoid infinite loop" can be backported
-   to stable.
-
-Note that the other two parts of this series depend upon Al Viro's
-extensive re-work to lib/iov_iter.c ... so don't try to backport those
-without also picking up Al's work.
-
-Tony Luck (3):
-  x86/mce: Avoid infinite loop for copy from user recovery
-  x86/mce: Change to not send SIGBUS error during copy from user
-  x86/mce: Drop copyin special case for #MC
-
- arch/x86/kernel/cpu/mce/core.c | 62 ++++++++++++++++++++++++----------
- arch/x86/lib/copy_user_64.S    | 13 -------
- include/linux/sched.h          |  1 +
- 3 files changed, 45 insertions(+), 31 deletions(-)
-
-
-base-commit: 7c60610d476766e128cc4284bb6349732cbd6606
+diff --git a/arch/x86/lib/copy_user_64.S b/arch/x86/lib/copy_user_64.S
+index 57b79c577496..2797e630b9b1 100644
+--- a/arch/x86/lib/copy_user_64.S
++++ b/arch/x86/lib/copy_user_64.S
+@@ -234,24 +234,11 @@ EXPORT_SYMBOL(copy_user_enhanced_fast_string)
+  */
+ SYM_CODE_START_LOCAL(.Lcopy_user_handle_tail)
+ 	movl %edx,%ecx
+-	cmp $X86_TRAP_MC,%eax		/* check if X86_TRAP_MC */
+-	je 3f
+ 1:	rep movsb
+ 2:	mov %ecx,%eax
+ 	ASM_CLAC
+ 	ret
+ 
+-	/*
+-	 * Return zero to pretend that this copy succeeded. This
+-	 * is counter-intuitive, but needed to prevent the code
+-	 * in lib/iov_iter.c from retrying and running back into
+-	 * the poison cache line again. The machine check handler
+-	 * will ensure that a SIGBUS is sent to the task.
+-	 */
+-3:	xorl %eax,%eax
+-	ASM_CLAC
+-	ret
+-
+ 	_ASM_EXTABLE_CPY(1b, 2b)
+ SYM_CODE_END(.Lcopy_user_handle_tail)
+ 
 -- 
 2.29.2
 
