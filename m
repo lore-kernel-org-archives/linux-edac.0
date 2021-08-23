@@ -2,111 +2,117 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14130C4338F
-	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 18:45:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44924C4338F
+	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 20:41:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE277613CF
-	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 18:45:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2779A61262
+	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 20:41:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbhHWSqc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 23 Aug 2021 14:46:32 -0400
-Received: from mga02.intel.com ([134.134.136.20]:7614 "EHLO mga02.intel.com"
+        id S232486AbhHWUmI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 23 Aug 2021 16:42:08 -0400
+Received: from mga12.intel.com ([192.55.52.136]:19218 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231695AbhHWSqb (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 23 Aug 2021 14:46:31 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="204360206"
+        id S232503AbhHWUmH (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 23 Aug 2021 16:42:07 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="196753074"
 X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="204360206"
+   d="scan'208";a="196753074"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 11:45:48 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 13:41:23 -0700
 X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="535472897"
+   d="scan'208";a="535505880"
 Received: from agluck-desk2.sc.intel.com (HELO agluck-desk2.amr.corp.intel.com) ([10.3.52.146])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 11:45:48 -0700
-Date:   Mon, 23 Aug 2021 11:45:47 -0700
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 13:41:23 -0700
+Date:   Mon, 23 Aug 2021 13:41:22 -0700
 From:   "Luck, Tony" <tony.luck@intel.com>
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Sumanth Kamatala <skamatala@juniper.net>
-Subject: Re: [PATCH] x86/mce/dev-mcelog: Call mce_register_decode_chain()
- much earlier
-Message-ID: <20210823184547.GA1638691@agluck-desk2.amr.corp.intel.com>
+Subject: [PATCH v2] x86/mce: Defer processing early errors until
+ mcheck_late_init()
+Message-ID: <20210823204122.GA1640015@agluck-desk2.amr.corp.intel.com>
 References: <20210819224452.1619400-1-tony.luck@intel.com>
  <YR+f/fdGIxWcLTP2@zn.tnic>
  <20210820144314.GA1622759@agluck-desk2.amr.corp.intel.com>
  <YR/Oxark0bhLlona@zn.tnic>
+ <20210823184547.GA1638691@agluck-desk2.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YR/Oxark0bhLlona@zn.tnic>
+In-Reply-To: <20210823184547.GA1638691@agluck-desk2.amr.corp.intel.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Fri, Aug 20, 2021 at 05:48:21PM +0200, Borislav Petkov wrote:
-> On Fri, Aug 20, 2021 at 07:43:14AM -0700, Luck, Tony wrote:
-> > How can the kernel tell that all consumers have registered? Is there
-> > some new kernel crystal ball functionality that can predict that an
-> > EDAC driver module is going to be loaded at some point in the future
-> > when user space is up and running :-)
-> 
-> The crystal ball is called mcheck_late_init(). There's even:
-> 
->         /*
->          * Flush out everything that has been logged during early boot, now that
->          * everything has been initialized (workqueues, decoders, ...).
->          */
->         mce_schedule_work();
-> 
-> in there. That thing is late_initcall() and by that time mcelog should
-> have been registered. And I wonder why isn't that working as expected...
-> 
-> > I think the best we could do would be to set a timer for some point
-> > far enough out (one minute?, two minutes?) to give a chance for
-> > modules to load.
-> 
-> Forget modules - only the built-in stuff. We cannot be waiting
-> indefinitely until someone loads mcelog for decoding.
+When a fatal machine check results in a system reset, Linux does
+not clear the error(s) from machine check bank(s).
 
-I added some traces:
+Hardware preserves the machine check banks across a warm reset.
 
-$ dmesg | grep mce:
-[    0.033648] mce: mce_register_decode_chain fn=mce_early_notifier+0x0/0x50 pri=6
-[    0.033655] mce: mce_register_decode_chain fn=uc_decode_notifier+0x0/0xd0 pri=5
-[    0.033659] mce: mce_register_decode_chain fn=mce_default_notifier+0x0/0x30 pri=0
-[    4.392631] mce: [Hardware Error]: Machine check events logged
-[    4.393356] mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 0: a000000000004321
-[    4.395352] mce: [Hardware Error]: TSC 0
-[    4.396352] mce: [Hardware Error]: PROCESSOR 0:406f1 TIME 1629743651 SOCKET 0 APIC 0 microcode b000019
-[   15.172861] mce: mce_register_decode_chain fn=dev_mce_log+0x0/0x110 pri=1
-[   15.192101] mce: mcheck_late_init: calling mce_schedule_work()
-[   31.618245] mce: mce_register_decode_chain fn=sbridge_mce_check_error+0x0/0x92 [sb_edac] pri=2
+During initialization of the kernel after the reboot, Linux reads,
+logs, and clears all machine check banks.
 
-So you are right that mcheck_late_init() is called after dev_mce_log()
-is registered.  But it seems someone kicks the queue long before that
-happens.  Probably this:
+But there is a problem. In:
+commit 5de97c9f6d85 ("x86/mce: Factor out and deprecate the /dev/mcelog driver")
+the call to mce_register_decode_chain() moved later in the boot sequence.
+This means that /dev/mcelog doesn't see those early error logs.
 
-void mce_log(struct mce *m)
-{
-        if (!mce_gen_pool_add(m))
-                irq_work_queue(&mce_irq_work);
-}
+This was partially fixed by:
+commit cd9c57cad3fe ("x86/MCE: Dump MCE to dmesg if no consumers")
 
-Could we add a flag:
+which made sure that the logs were not lost completely by printing
+to the console. But parsing console logs is error prone. Users
+of /dev/mcelog should expect to find any early errors logged to
+standard places.
 
-static bool mce_ready_to_rock; // better name needed :-)
+Delay processing logs until after all built-in code has had a chance
+to register on the mce notifier chain (modules are still out of luck,
+there's not way to know how long to wait for those to load).
 
-Which gets set in mcheck_late_init(). Then mce_log() becomes:
+Fixes: 5de97c9f6d85 ("x86/mce: Factor out and deprecate the /dev/mcelog driver")
+Reported-by: Sumanth Kamatala <skamatala@juniper.net>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ arch/x86/kernel/cpu/mce/core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-void mce_log(struct mce *m)
-{
-        if (!mce_gen_pool_add(m) && mce_ready_to_rock)
-                irq_work_queue(&mce_irq_work);
-}
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 22791aadc085..593af202f586 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -129,6 +129,8 @@ static void (*quirk_no_way_out)(int bank, struct mce *m, struct pt_regs *regs);
+  */
+ BLOCKING_NOTIFIER_HEAD(x86_mce_decoder_chain);
+ 
++static bool mce_init_complete;
++
+ /* Do initial initialization of a struct mce */
+ noinstr void mce_setup(struct mce *m)
+ {
+@@ -155,7 +157,7 @@ EXPORT_PER_CPU_SYMBOL_GPL(injectm);
+ 
+ void mce_log(struct mce *m)
+ {
+-	if (!mce_gen_pool_add(m))
++	if (!mce_gen_pool_add(m) && mce_init_complete)
+ 		irq_work_queue(&mce_irq_work);
+ }
+ EXPORT_SYMBOL_GPL(mce_log);
+@@ -2771,6 +2773,8 @@ static int __init mcheck_late_init(void)
+ 
+ 	mcheck_debugfs_init();
+ 
++	mce_init_complete = true;
++
+ 	/*
+ 	 * Flush out everything that has been logged during early boot, now that
+ 	 * everything has been initialized (workqueues, decoders, ...).
+-- 
+2.29.2
 
--Tony
