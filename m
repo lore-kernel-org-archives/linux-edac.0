@@ -2,130 +2,137 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45E89C4338F
-	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 17:30:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BACCBC4338F
+	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 18:12:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2930E61374
-	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 17:30:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0A5F61391
+	for <linux-edac@archiver.kernel.org>; Mon, 23 Aug 2021 18:12:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229479AbhHWRaq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 23 Aug 2021 13:30:46 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:42596 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229471AbhHWRap (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 23 Aug 2021 13:30:45 -0400
-Received: from zn.tnic (p200300ec2f07d9009c2198849783fa17.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:d900:9c21:9884:9783:fa17])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 63E151EC0354;
-        Mon, 23 Aug 2021 19:29:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1629739797;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=k7kW0H/f78ipggRR3pMr7cXUnVjI28dbJ/hrQ806WjA=;
-        b=hDhXULFWcHFsoJBIsrfHxmwpgT3Wnl9sEleCLnWDCuz5POadrad9gy5ajW3R69VqkH+gH5
-        9K0Vr0mUo/r33+mjTLFeLTpCv/rZPsIGkCo79PEIkh4IMsknG5IJuzQARW/Ns9Myjbjs+G
-        dE1D547ttNlcLZzDNJGnSf6K/ahRXc0=
-Date:   Mon, 23 Aug 2021 19:30:34 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Len Baker <len.baker@gmx.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        David Laight <David.Laight@aculab.com>,
-        Kees Cook <keescook@chromium.org>,
-        linux-hardening@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] EDAC/mc: Prefer strscpy over strcpy
-Message-ID: <YSPbOo90alPsv4vL@zn.tnic>
-References: <20210814075527.5999-1-len.baker@gmx.com>
+        id S230018AbhHWSMz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 23 Aug 2021 14:12:55 -0400
+Received: from mail-bn8nam12on2078.outbound.protection.outlook.com ([40.107.237.78]:57057
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229676AbhHWSMz (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 23 Aug 2021 14:12:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ExvIDXAjaTGp5cHGcG8XuXRwzTBomZKFmWUjjMUrpI3BrMvBZUO75jxJ2b6ucQnv93ER/cc0eiPSFbXLshxnlvVt7HuKxf3krlcXSpvJ2/GOBuI6l1tW7NrmaM0g8rAYRs+lf2rC0XDl3Oqn38IdNs5mX/7qc5oJ59i4o7WFnC297gLoQyC95YCcNd3N6vHyrpE6xoH2ILsrwLEEXD8B8VX5ESK4poebfhN3FJ3xoz9abFBRiLhAsVHGndaY7K+tOXmhBzh/9zZBX3/z3Img7K1U1GckM9ilYrkyFHKd5TwDfvyudL6uJDdaTtmZk7/Huhw+RWbzSyy/3EljNJA4lQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2gZQj1Nivwk29O3gtHJlbF6zzCaovhX+6S1ars+hkbA=;
+ b=DVNe8XDTWYLiiK01d2Ty3TaAgrcz07cQgji1celnIubXG88MG/07Z/7xFmrMwbO93zsfKI2wAqC22myZowpJw2NS92HhgNJ5uH6cWat9hDqbZgtuKk/p2yX6rtzlWM5PNJm/09r9WmyIbvdymRMek1ymlMEbmtH1oOEnkDv/rhvzRqza3OzW7X/izDI+cn2H+0ZbdTe4pJwexw3c3QFnnwzSniWYlO6p6EWywACyvnNXIwlXA8B0Ae67F8hNTKM88noAJs8hp1q3rg6H0gH0cRe1SlApTplk3EI36Qpe5bwosN5e0b9SyXScHeqTRVtqmaKqt17dZKAJM+YBCSSz6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2gZQj1Nivwk29O3gtHJlbF6zzCaovhX+6S1ars+hkbA=;
+ b=0IrvL6/NnZcpYysSu2sODYP1HT9NpF4vSAhxRfFHb0crNTEaxT7lGkMQSw3OLaDz7iWIV88DzDVkW6qxP5HhcQkPofYFwBNYxrOVGtPFXgDG8e9/Dj/sas+BtaOVxtuGXwiQCiYYDR9vL26c1/cG3UEQCRGHnBu17UpDfBAgFGM=
+Received: from MW4PR04CA0297.namprd04.prod.outlook.com (2603:10b6:303:89::32)
+ by DM6PR12MB5533.namprd12.prod.outlook.com (2603:10b6:5:1bc::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Mon, 23 Aug
+ 2021 18:12:10 +0000
+Received: from CO1NAM11FT056.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:89:cafe::b8) by MW4PR04CA0297.outlook.office365.com
+ (2603:10b6:303:89::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
+ Transport; Mon, 23 Aug 2021 18:12:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT056.mail.protection.outlook.com (10.13.175.107) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 18:12:10 +0000
+Received: from SLES15.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.12; Mon, 23 Aug
+ 2021 13:12:07 -0500
+From:   Naveen Krishna Chatradhi <nchatrad@amd.com>
+To:     <linux-edac@vger.kernel.org>, <x86@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <mchehab@kernel.org>,
+        <Yazen.Ghannam@amd.com>, Muralidhara M K <muralimk@amd.com>
+Subject: [PATCH v3 0/3] x86/edac/amd64: Add support for noncpu nodes
+Date:   Tue, 24 Aug 2021 00:24:34 +0530
+Message-ID: <20210823185437.94417-1-nchatrad@amd.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210806074350.114614-4-nchatrad@amd.com>
+References: <20210806074350.114614-4-nchatrad@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210814075527.5999-1-len.baker@gmx.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 56e723ec-fa54-40d7-d064-08d966618660
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5533:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB55332DD5722A604251B4839AE8C49@DM6PR12MB5533.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HtFBmrtOvfdqfaRP0z8Ly1ROgQqPTOGH2lp+3CuM2g4tViz0Kwp4OW50Zw4mumsw1wANIZqPSch3gEo/s0qY1C6DuqsUvBtslt74ce4JFGG91sejc/A4V8QUJ6ffMPcU1yH9glM7rSGaKVCf8iEN7Ds+bps0SprGLAHipgEfMg8BR4XUVNoLVli0HrEZKU36K7iEnr5eUZYXAlqZB9ZYbfeXB1op9iNmtW+8fbRyG7UaxECx2xo7BfwyqIeXTyyKlghvvWs4oQZHX7n+H6Eyy142fKHVllgJrcsXDLBrUanLgSZPQlHz5kCnYN8Kp6dlXXDuwhi/eORRms0zbktcSkbNQ3v6BDFo2HX9o3GBOOOqkmROiOe20iUZ/IfHbj5YMJ0vCp4EPM9MvDLuM3XpTgf+1PYbBQE2yFzh+8vLc/3ytDpTtrGIswxayFDRkz3dMVzWa+dgKTenObqEQc5551h2/qEV4JkuYSxoFdJQZxHI2hWxPV4PvNXjRT/rQRVGsOqF+xDJvfh8kL3c3UgE+hhLbgpTLfaSQ8Sxrc+zcomY2zwA2GoKLcyqa3DwxRh1p6Xlz6khgG7pKh7GF4AT5mO4yp9Aw4giJ6dbOV27+LRQjNv7HURktzFcG3EaGMgHhk5ik3ncF5ob3UZFqz9jw+8xMuqbZPC9oPW1dVIiwECMD/H3l6wksV4nuX1PKzsMMTWSCa/Yck02QnJz42I3K/FwdmZzXsPDBMbttFz9yzOMC5wNwyiP7DBLlfgrDbLUzpUYlcdx1S6sU6frYS3bk5N7dZy2wquyfDX0VKBnRNrO0FohN43PKxcwQe2MQ/snO5Bz+LMm2HlKK+5jEbi7XFgedMnGbOSfr7IPdzcxZW0=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(346002)(136003)(46966006)(36840700001)(34020700004)(70206006)(6666004)(81166007)(70586007)(47076005)(83380400001)(82310400003)(82740400003)(356005)(186003)(2906002)(16526019)(426003)(36860700001)(26005)(8936002)(4326008)(36756003)(8676002)(54906003)(316002)(478600001)(110136005)(5660300002)(2616005)(1076003)(336012)(7696005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 18:12:10.0429
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56e723ec-fa54-40d7-d064-08d966618660
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT056.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB5533
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Sat, Aug 14, 2021 at 09:55:27AM +0200, Len Baker wrote:
-> strcpy() performs no bounds checking on the destination buffer. This
-> could result in linear overflows beyond the end of the buffer, leading
-> to all kinds of misbehaviors. The safe replacement is strscpy().
-> 
-> This is a previous step in the path to remove the strcpy() function
+From: Muralidhara M K <muralimk@amd.com>
 
-"previous step"?
+On newer heterogeneous systems the data fabrics of the CPUs and GPUs
+are connected directly via a custom links.
 
-> entirely from the kernel.
-> 
-> Signed-off-by: Len Baker <len.baker@gmx.com>
+This patchset do not have any dependency on series by Yazen Ghannam
+AMD MCA Address Translation Updates
+[https://patchwork.kernel.org/project/linux-edac/list/?series=505989]
 
-...
+This patchset does the following
+1. Add support for northbridges on Aldebaran
+        * x86/amd_nb: Add support for northbridges on Aldebaran
+2. Modifies the amd64_edac module to
+   a. Handle the UMCs on the noncpu nodes,
+        * EDAC/mce_amd: Extract node id from MCA_IPID
+   b. Enumerate PCI IDs and HBM memory
+        * EDAC/amd64: Enumerate memory on noncpu nodes
 
-> diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-> index f6d462d0be2d..7aea6c502316 100644
-> --- a/drivers/edac/edac_mc.c
-> +++ b/drivers/edac/edac_mc.c
-> @@ -1032,6 +1032,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_type type,
->  	int i, n_labels = 0;
->  	struct edac_raw_error_desc *e = &mci->error_desc;
->  	bool any_memory = true;
-> +	size_t len;
-> 
->  	edac_dbg(3, "MC%d\n", mci->mc_idx);
-> 
-> @@ -1086,6 +1087,7 @@ void edac_mc_handle_error(const enum hw_event_mc_err_type type,
->  	 */
->  	p = e->label;
->  	*p = '\0';
-> +	len = sizeof(e->label);
-> 
->  	mci_for_each_dimm(mci, dimm) {
->  		if (top_layer >= 0 && top_layer != dimm->location[0])
-> @@ -1114,10 +1116,12 @@ void edac_mc_handle_error(const enum hw_event_mc_err_type type,
->  			*p = '\0';
->  		} else {
->  			if (p != e->label) {
-> -				strcpy(p, OTHER_LABEL);
-> -				p += strlen(OTHER_LABEL);
-> +				strscpy(p, OTHER_LABEL, len);
+Muralidhara M K (1):
+  x86/amd_nb: Add support for northbridges on Aldebaran
 
-Hm, maybe I'm missing something but looking at that strscpy()
-definition, why aren't you doing:
+Naveen Krishna Chatradhi (2):
+  EDAC/mce_amd: Extract node id from MCA_IPID
+  EDAC/amd64: Enumerate memory on noncpu nodes
 
-				num = strscpy(p, OTHER_LABEL, len);
-				if (num < 0)
-					/* just in case */
-					break;
-
-				len -= num;
-				p   += num;
-
-since that function supposedly returns the number of chars copied.
-
-> +				len -= strlen(p);
-> +				p += strlen(p);
->  			}
-> -			strcpy(p, dimm->label);
-> +			strscpy(p, dimm->label, len);
-> +			len -= strlen(p);
->  			p += strlen(p);
-
-Ditto.
-
-Thx.
+ arch/x86/include/asm/amd_nb.h |  10 ++
+ arch/x86/kernel/amd_nb.c      |  63 +++++++++-
+ drivers/edac/amd64_edac.c     | 219 ++++++++++++++++++++++++++++++----
+ drivers/edac/amd64_edac.h     |  28 +++++
+ drivers/edac/mce_amd.c        |  19 ++-
+ include/linux/pci_ids.h       |   1 +
+ 6 files changed, 308 insertions(+), 32 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
