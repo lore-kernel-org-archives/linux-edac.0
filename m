@@ -2,148 +2,233 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3239C432BE
-	for <linux-edac@archiver.kernel.org>; Wed,  1 Sep 2021 17:08:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CD5EC432BE
+	for <linux-edac@archiver.kernel.org>; Wed,  1 Sep 2021 18:17:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4B646108B
-	for <linux-edac@archiver.kernel.org>; Wed,  1 Sep 2021 17:08:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 424ED61053
+	for <linux-edac@archiver.kernel.org>; Wed,  1 Sep 2021 18:17:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236271AbhIARJg (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 1 Sep 2021 13:09:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344682AbhIARJf (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 1 Sep 2021 13:09:35 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB4BEC061575
-        for <linux-edac@vger.kernel.org>; Wed,  1 Sep 2021 10:08:37 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id m4so86685pll.0
-        for <linux-edac@vger.kernel.org>; Wed, 01 Sep 2021 10:08:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=v2XLK1vGEzZIOUNqlY1IqHLpN0ROAFUqn3UGHO+I7VY=;
-        b=XBA1O65n1gbN6cPrV9+41k+LTAxZPhtbxDBy0Fw52JYq0fkfVH/ULgkMybhenv1Fbe
-         OWmT5fPGUNXNOFCKPxdPryVD2wWXaOgXTniMM6GEVMKWbTZwhCha83BC0q2tidTZeihN
-         bLRdKI98ux6DRbs/QfKl/GhuepsqeURaJd2i8o4V0OUvmrYsHlqRBuhMv6cNansgfYsG
-         uBfoKqGidMO4wM8lRXOXNx6aRteVYMLbg1KAxKcXaTYyiR4GIMvHCFxC+EOY9eH7dbql
-         wMf9kC00jcAZ1mFjd87/VYI+7cJGB6el9GIO7jcXsowkHZoaxtdUByN/9IEilenErD3R
-         RWTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=v2XLK1vGEzZIOUNqlY1IqHLpN0ROAFUqn3UGHO+I7VY=;
-        b=hUakcHRCBcG5mNMsu3ZnrO42uWcl0HVLzLbtT/G+ZhetZxm0H75lMSiBN0qMpnALwR
-         VurKYkLKHy0j9ncSbCEFCenF9Ftb6lqvB1klgrTJooBKsVqMBgAGIA9eQAUgpQWowoYq
-         m0ZSSQ8WC4Y9SIkiWJXiLNH70NL48kJXe6xZ66BzS4GoWL/+i/k4hZ2CRgfEMlArqV0p
-         +bO3wtCRYQu1QO/Rudtt9pzdxQVUwKy2zcQ5ZCj+hB74MAHBxd576D4kYoiDzUbY8Sfw
-         2xTViqKvk340vSu2gqtRE5s6kIRwyYReYI2fC+XB0ArD/fmh2+h0QYVvFn44H+gKO2MX
-         1h9w==
-X-Gm-Message-State: AOAM532jBwc/6DnBt/UbywbFlXq/W7RY/U+vnqIaXCscUd/yDcgsJD+5
-        70GdCNL1jSLCf51GfR7wXUVm2M724ljl9mvKBHFg+MomEPPrHw==
-X-Google-Smtp-Source: ABdhPJzFS2Yz4XqYRzwEigrdW654194TKs8JtrS0A1uDukRefQWLrvwzu4krQD/ftL/oMNqO0O9vxaK3fbV1sRX0sOs=
-X-Received: by 2002:a17:90a:1991:: with SMTP id 17mr375005pji.149.1630516117376;
- Wed, 01 Sep 2021 10:08:37 -0700 (PDT)
+        id S1344384AbhIASS3 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 1 Sep 2021 14:18:29 -0400
+Received: from mail-dm6nam11on2082.outbound.protection.outlook.com ([40.107.223.82]:43872
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230063AbhIASS3 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 1 Sep 2021 14:18:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=InyzQ2xL2l/+hZcrsAvw+BNavTq/V3fFESDHUtMeoDIYpjq1XZtG/EOsL38hYvU9qDJu64HhPYNxdY230LsWgInaTsTKSiPC5xOBJmj+lYV+iCAeg2LAH4seRO27AaipcHxnxy8qvs/nfKdf18w1l42B6yuBJ1ZuOigIhZPWTkAqMl35oyZEO7OyjpyFpeYT8e7HFy1klKa2cs6BUm2iAuayhY4ZhUqAIBsKascaf/+yUiUQIZPpHZfPzNG9plElLhEQLQ+bTqH2k/xVi9QNzsIqAz0Bfq5V7gUplVSKi/0TzmkJCnL7lJ3svEbob0BsEbHfV16yB6VkI9AvtNAzFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pByIuFVCs0ancoZARuutkQoNNTSHqHiFn8E2ji6kDtE=;
+ b=VhE9JVscEfJcRu3fztgWnKBF0fsTcA6DY9r4nyTJXzypNbV1yx+02WQmdLD6X8YsrHYnOEKTeWuiqEp+1WkFFUnIpzQyWZHfXL3TXwOFPW7l3vUt27g3pRivVLGkflnji83H5BzjR0nGNy261izyrKW1B7zr8rUQAQU0Xc1sZi+CmtQm+zKWNlIvOyik2K2HY4LTJ2zDrVr7F8L4uZFiFgAznuKTBatj7jryRb/X49kboWRr1R3Bi3N8HF8GQj/UGXiGuikQH5DUL8eZOtBiQ6M2o47z/6yCvMICoSGhJIGryn+lWYZUC2yhgwFNOSrVVVKBnioHxXevChaSuWvwYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pByIuFVCs0ancoZARuutkQoNNTSHqHiFn8E2ji6kDtE=;
+ b=KnFTkezZAL7Y9icnDrivMwA3Rdr1ebGsAZb5ydEuBkquQDVNVAjBKzpCSBJO84ILM4ClwGF/R8vbNvXBlDpQGsWajH0v6gn07yGrki7jOjPJM7VjXhejR9toslm2zS7GH8OynITvbUkDZIrkrwnio9p5qID6kJZjJ1aialirhOc=
+Authentication-Results: alien8.de; dkim=none (message not signed)
+ header.d=none;alien8.de; dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
+ by BN8PR12MB2883.namprd12.prod.outlook.com (2603:10b6:408:98::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Wed, 1 Sep
+ 2021 18:17:29 +0000
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::dd2d:805d:50ad:33c5]) by BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::dd2d:805d:50ad:33c5%7]) with mapi id 15.20.4457.025; Wed, 1 Sep 2021
+ 18:17:29 +0000
+Date:   Wed, 1 Sep 2021 18:17:21 +0000
+From:   Yazen Ghannam <yazen.ghannam@amd.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Naveen Krishna Chatradhi <nchatrad@amd.com>,
+        linux-edac@vger.kernel.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org, mchehab@kernel.org,
+        Muralidhara M K <muralimk@amd.com>
+Subject: Re: [PATCH v3 1/3] x86/amd_nb: Add support for northbridges on
+ Aldebaran
+Message-ID: <YS/Dsc2gWGGCWnbs@yaz-ubuntu>
+References: <20210806074350.114614-4-nchatrad@amd.com>
+ <20210823185437.94417-1-nchatrad@amd.com>
+ <20210823185437.94417-2-nchatrad@amd.com>
+ <YSYeo6S2OSZbBpb4@zn.tnic>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YSYeo6S2OSZbBpb4@zn.tnic>
+X-ClientProxiedBy: BN0PR04CA0123.namprd04.prod.outlook.com
+ (2603:10b6:408:ed::8) To BN8PR12MB3108.namprd12.prod.outlook.com
+ (2603:10b6:408:40::20)
 MIME-Version: 1.0
-References: <x49o8a3pu5i.fsf@segfault.boston.devel.redhat.com>
-In-Reply-To: <x49o8a3pu5i.fsf@segfault.boston.devel.redhat.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Wed, 1 Sep 2021 10:08:26 -0700
-Message-ID: <CAPcyv4hbwLjE599cKXKCOST1LF1NUhKv-YvNnU5jcV_xZbAzxg@mail.gmail.com>
-Subject: Re: [patch, v2] x86/pat: pass valid address to sanitize_phys()
-To:     Jeff Moyer <jmoyer@redhat.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yaz-ubuntu (165.204.25.250) by BN0PR04CA0123.namprd04.prod.outlook.com (2603:10b6:408:ed::8) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Wed, 1 Sep 2021 18:17:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 797f6a91-1aba-42c1-94e7-08d96d74c204
+X-MS-TrafficTypeDiagnostic: BN8PR12MB2883:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN8PR12MB2883F5EBEF7C44027D00D0C4F8CD9@BN8PR12MB2883.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BMM59g/jhY52nmGOZsxWQuVEelAXBBPUPGF6CxI2KB6syWQe+Io7/D2XHHiX0+np2zPitwyg6kDNQ8APrGIUEp5SoVQ+6wsFNdI0YBL9ae2+MzzxutBsEJPYXg2Rhj5XXD7Wj/6CJvG8NCLogpGShrGDz6PLL+a5mRNKNNcBn1Ggm/WimCCPYRHtGVlXnpwaSQpGUUDAfbcuNal2oPDTr1cIm29DCFAoPBuVNpKakFEvn7McAki+ZAOLbmAXqitlFcPvxMWWXYyJiawsKChDhSoP70VBflIPTMeI2cJzZPzLhvMp4EoOmQx9bSxGNltCzLg3k39LiZuyV0EJcnnRyGXp1vLJHiQFuNbg3uo+5ZB4hEEqU3bLrjtHk8UnWcHnUU2MhawfBIt86A698L+X1KbJiX3mrb62Id0zDId++zKE2IDtJtwpTZV7v4QNRFK5qF3Zlh7WvGjt0Quh33QRsd+lh8LLtVNpklfKR0nT70ucmewmF2TbdxmrE5FzOL5WZzJs0lH1jXL0t9kqvZGD+hpjB76W0oT9fXsH5eiasc/WodGMatN8hUn3C2HssGvkBx6EEpf53nPOSPs4iwG6uVrNpGp1v36ehRjlsGXDshyUU4NEuF40J774eRlO8LepA57FlJpocmsNOWKC4ZS4pQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(396003)(376002)(136003)(39860400002)(38100700002)(478600001)(66556008)(8936002)(5660300002)(66946007)(66476007)(6916009)(316002)(9686003)(186003)(54906003)(44832011)(6666004)(4326008)(956004)(83380400001)(86362001)(8676002)(33716001)(6496006)(2906002)(55016002)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eqgEEmRRkTLr2aPU1LIGT6ffqust4PFUQM6gv8v5powuyhr6XCdRRj3QkhEE?=
+ =?us-ascii?Q?PVRu3Q3nj/9KmuR8MQ63eAnftLWbsdlUEl9gYSd8qJ3wdrestRS5LBpjRotF?=
+ =?us-ascii?Q?ALeqLGtrBCjdngxC7TRHubPz+gFLeBA5V6RjuCi04mtJ7ycBdfm+y9tGC9PT?=
+ =?us-ascii?Q?qIETZEpp8e9RP31r+vvo74HWt8dQ2zutMwZlstml1dliNT+DyTiCf11bVZ3X?=
+ =?us-ascii?Q?+Pt+znUjwL8Wa+bZmPYo/asCZ20qYTj4J+ULRmrcDJ8SrLSCKkPSx9qEqBB7?=
+ =?us-ascii?Q?8AmPrmErZ8gB8dRR0efhxQaR+JlhFOcX80fEFYMbm6qBfvqqA7jFudrKh5Ph?=
+ =?us-ascii?Q?Vb7+1c45wzqgztn8AiA2X1cst2CYMolt+zQAxlNwy0D+so5yXMrWuTlT3XOX?=
+ =?us-ascii?Q?nOdWqBiJeGd2UBzdkNevoOIFuuNi5kUMpHpmz/LiS0Eb6xs438phg1/co4xB?=
+ =?us-ascii?Q?+RiZHjpNjnaixeKez4EwxfFOZIrHn9tt1B/bjAWeUcDxG+Em7r/6z9tg2HS6?=
+ =?us-ascii?Q?ons5T9RacneKnpXFFoauKCjaYQfPVca7yi0VkrIVIOeFF+oNh/IgYx5iGyxT?=
+ =?us-ascii?Q?pCyv36OP/eb/qOWffG7lbJhZiyi0734X6RHZz+HsNXR/YoInaZwQp58uIQJu?=
+ =?us-ascii?Q?ApN3MzJBslh6ZJkw7A7Sya6yLqlwnI1BupmrYAJxs+ClhALFfMrYS66NaUw1?=
+ =?us-ascii?Q?/Pne29svxGP3x3ytE64DjNFnBua4WdDYDMLu/2GT9cuoTp/ManPzGsaAGw7o?=
+ =?us-ascii?Q?cUKZ3Mj+HTyyAexLFmwwYCsmoHoyQ8Y3k3v6EWs/as9CPyDHyQyjEBS5MNdz?=
+ =?us-ascii?Q?7PyLNFfpMW5zIzUdcGjVT8T9yzPFW/SHB9GBivcch3CTsIt8tn6DHiotXD/0?=
+ =?us-ascii?Q?xT/r0FgggloERvvQzSHrePIdkf1xnlo8tA4e/guea7J7suR/bV0Oat3+Iy88?=
+ =?us-ascii?Q?Re6G0FBUnzBdF597m5iN8FpYCaKSAvJLNQBSQssvoq52XpaABhGHLrJKJB8T?=
+ =?us-ascii?Q?Sn+67OkiNGhyTCaR6c9nOFmmY5HoULOoR3cbtvDZW1g82ZtpBt1BKbfbM3VZ?=
+ =?us-ascii?Q?MHG+OtCenA7HClFWyqh1BAEDsEWvr79GdjA1/VDhr5cREk2lUzjhSgMuuKD9?=
+ =?us-ascii?Q?IXPm1dUOqflWyy4kWRhrE/arkwJvhK+IR+KOAr1APdyAVP+TrVbutw4VI8ZF?=
+ =?us-ascii?Q?aj6GLxPo1rt3h82oxRTNbe7lgM29S9FfZ/JLbUa+aVV4hX2u5iL0s/Pic8xS?=
+ =?us-ascii?Q?TMhLVsm3hnQl7cNfNNxbNSEq0A8OmPa1bQf/KqCj0fDKxESN6Sz/OV+hOUBk?=
+ =?us-ascii?Q?25b44SVRR3bpxzyGGlMfSrg+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 797f6a91-1aba-42c1-94e7-08d96d74c204
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 18:17:28.9978
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oSDTDwpJWYhljdzhGQI3jOZTCAqpWWY4xdQhwtjx+CzL3H7PxZd0TWuQwKTm1cSJooXmV6hmIESFW78oLL4prg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2883
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Aug 11, 2021 at 2:06 PM Jeff Moyer <jmoyer@redhat.com> wrote:
+On Wed, Aug 25, 2021 at 12:42:43PM +0200, Borislav Petkov wrote:
+> On Tue, Aug 24, 2021 at 12:24:35AM +0530, Naveen Krishna Chatradhi wrote:
+...
+> > 
+> > The GPU nodes are enumerated in sequential order based on the
+> > PCI hierarchy, and the first GPU node is assumed to have an "AMD Node
+> > ID" value of 8 (the second GPU node has 9, etc.).
+> 
+> What does that mean? The GPU nodes are simply numerically after the CPU
+> nodes or how am I to understand this nomenclature?
 >
-> The end address passed to memtype_reserve() is handed directly to
-> sanitize_phys().  However, end is exclusive and sanitize_phys() expects
-> an inclusive address.  If end falls at the end of the physical address
-> space, sanitize_phys() will return 0.  This can result in drivers
-> failing to load, and the following warning:
->
-> [    9.999440] mpt3sas version 29.100.01.00 loaded
-> [    9.999817] mpt3sas_cm0: 64 BIT PCI BUS DMA ADDRESSING SUPPORTED, tota=
-l mem (65413664 kB)
-> [    9.999819] ------------[ cut here ]------------
-> [    9.999826] WARNING: CPU: 26 PID: 749 at arch/x86/mm/pat.c:354 reserve=
-_memtype+0x262/0x450
-> [    9.999828] reserve_memtype failed: [mem 0x3ffffff00000-0xffffffffffff=
-ffff], req uncached-minus
-> [    9.999828] Modules linked in: mpt3sas(+) bnxt_en(+) ahci(+) crct10dif=
-_pclmul crct10dif_common nvme crc32c_intel libahci nvme_core libata raid_cl=
-ass scsi_transport_sas devlink drm_panel_orientation_quirks nfit libnvdimm =
-dm_mirror dm_region_hash dm_log dm_mod
-> [    9.999840] CPU: 26 PID: 749 Comm: systemd-udevd Not tainted 3.10.0-10=
-77.el7_7.mpt3sas_test008.x86_64 #1
-> [    9.999842] Hardware name: Inspur SA5112M5/SA5112M5, BIOS 4.1.12 02/24=
-/2021
-> [    9.999843] Call Trace:
-> [    9.999851]  [<ffffffffa497c4e4>] dump_stack+0x19/0x1b
-> [    9.999857]  [<ffffffffa429bc08>] __warn+0xd8/0x100
-> [    9.999859]  [<ffffffffa429bc8f>] warn_slowpath_fmt+0x5f/0x80
-> [    9.999861]  [<ffffffffa427b1f2>] reserve_memtype+0x262/0x450
-> [    9.999867]  [<ffffffffa4276254>] __ioremap_caller+0xf4/0x330
-> [    9.999872]  [<ffffffffc04620a1>] ? mpt3sas_base_map_resources+0x151/0=
-xa60 [mpt3sas]
-> [    9.999875]  [<ffffffffa42764aa>] ioremap_nocache+0x1a/0x20
-> [    9.999879]  [<ffffffffc04620a1>] mpt3sas_base_map_resources+0x151/0xa=
-60 [mpt3sas]
-> [    9.999884]  [<ffffffffa442656b>] ? __kmalloc+0x1eb/0x230
-> [    9.999889]  [<ffffffffc0465555>] mpt3sas_base_attach+0xf5/0xa50 [mpt3=
-sas]
-> [    9.999894]  [<ffffffffc046af3c>] _scsih_probe+0x4ec/0xb00 [mpt3sas]
-> [    9.999901]  [<ffffffffa45d297a>] local_pci_probe+0x4a/0xb0
-> [    9.999903]  [<ffffffffa45d40c9>] pci_device_probe+0x109/0x160
-> [    9.999909]  [<ffffffffa46b7225>] driver_probe_device+0xc5/0x3e0
-> [    9.999910]  [<ffffffffa46b7623>] __driver_attach+0x93/0xa0
-> [    9.999912]  [<ffffffffa46b7590>] ? __device_attach+0x50/0x50
-> [    9.999914]  [<ffffffffa46b4dc5>] bus_for_each_dev+0x75/0xc0
-> [    9.999916]  [<ffffffffa46b6b9e>] driver_attach+0x1e/0x20
-> [    9.999918]  [<ffffffffa46b6640>] bus_add_driver+0x200/0x2d0
-> [    9.999920]  [<ffffffffa46b7cb4>] driver_register+0x64/0xf0
-> [    9.999922]  [<ffffffffa45d3905>] __pci_register_driver+0xa5/0xc0
-> [    9.999924]  [<ffffffffc049b000>] ? 0xffffffffc049afff
-> [    9.999928]  [<ffffffffc049b16e>] _mpt3sas_init+0x16e/0x1000 [mpt3sas]
-> [    9.999933]  [<ffffffffa420210a>] do_one_initcall+0xba/0x240
-> [    9.999940]  [<ffffffffa431e95a>] load_module+0x271a/0x2bb0
-> [    9.999946]  [<ffffffffa45b0600>] ? ddebug_proc_write+0x100/0x100
-> [    9.999948]  [<ffffffffa431eedf>] SyS_init_module+0xef/0x140
-> [    9.999954]  [<ffffffffa498fed2>] system_call_fastpath+0x25/0x2a
-> [    9.999955] ---[ end trace 6d6eea4438db89ef ]---
-> [    9.999957] ioremap reserve_memtype failed -22
-> [   10.000087] mpt3sas_cm0: unable to map adapter memory! or resource not=
- found
-> [   10.000334] mpt3sas_cm0: failure at drivers/scsi/mpt3sas/mpt3sas_scsih=
-.c:10597/_scsih_probe()!
->
-> (Note that this warning was from an older distribution kernel, so line
-> numbers and file names may not line up with the current tree.)
->
-> Fix this by passing the inclusive end address to sanitize_phys().
->
-> Fixes: 510ee090abc3 ("x86/mm/pat: Prepare {reserve, free}_memtype() for "=
-decoy" addresses")
-> Signed-off-by: Jeff Moyer <jmoyer@redhat.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Yes, the GPU nodes will be numerically after the CPU nodes. However, there
+will be a gap in the "Node ID" values. For example, if there is one CPU node
+and two GPU nodes, then the "Node ID" values will look like this:
+
+CPU Node0 -> System Node ID 0
+GPU Node0 -> System Node ID 8
+GPU Node1 -> System Node ID 9
+ 
+...
+> > + * of 8 (the second GPU node has 9, etc.).
+> > + */
+> > +#define NONCPU_NODE_INDEX	8
+> 
+> Why is this assumed? Can it instead be read from the hardware somewhere?
+> Or there simply won't be more than 8 CPU nodes anyway? Not at least in
+> the near future?
+>
+
+Yes, the intention is to leave a big enough gap for at least the forseeable
+future.
+ 
+> I'd prefer stuff to be read out directly from the hardware so that when
+> the hardware changes, the code just works instead of doing assumptions
+> which get invalidated later.
+>
+
+So after going through the latest documentation and asking the one of our
+hardware folks, it looks like we have an option to read this value from one of
+the Data Fabric registers. Hopefully, whatever solution we settle on will
+stick for a while. The Data Fabric registers are not architectural, and
+registers and fields have changed between model groups.
+ 
+...
+> > +static const struct pci_device_id amd_noncpu_root_ids[] = {
+> 
+> Why is that "noncpu" thing everywhere? Is this thing going to be
+> anything else besides a GPU?
+> 
+> If not, you can simply call it
+> 
+> 	amd_gpu_root_ids
+> 
+> to mean *exactly* what they are. PCI IDs on the GPU.
+>
+
+These devices aren't officially GPUs, since they don't have graphics/video
+capabilities. Can we come up with a new term for this class of devices? Maybe
+accelerators or something?
+
+In any case, GPU is still used throughout documentation and code, so it's fair
+to just stick with "gpu".
+ 
+...
+> >  
+> > -	nb = kcalloc(misc_count, sizeof(struct amd_northbridge), GFP_KERNEL);
+> > +	if (misc_count_noncpu) {
+> > +		/*
+> > +		 * The first non-CPU Node ID starts at 8 even if there are fewer
+> > +		 * than 8 CPU nodes. To maintain the AMD Node ID to Linux amd_nb
+> > +		 * indexing scheme, allocate the number of GPU nodes plus 8.
+> > +		 * Some allocated amd_northbridge structures will go unused when
+> > +		 * the number of CPU nodes is less than 8, but this tradeoff is to
+> > +		 * keep things relatively simple.
+> 
+> Why simple?
+> 
+> What's wrong with having
+> 
+> [node IDs][GPU node IDs]
+> 
+> i.e., the usual nodes come first and the GPU ones after it.
+> 
+> You enumerate everything properly here so you can control what goes
+> where. Which means, you don't need this NONCPU_NODE_INDEX non-sense at
+> all.
+> 
+> Hmmm?
+>
+
+We use the Node ID to index into the amd_northbridge.nb array, e.g. in
+node_to_amd_nb().
+
+We can get the Node ID of a GPU node when processing an MCA error as in Patch
+2 of this set. The hardware is going to give us a value of 8 or more.
+
+So, for example, if we set up the "nb" array like this for 1 CPU and 2 GPUs:
+[ID:Type] : [0: CPU], [8: GPU], [9: GPU]
+ 
+Then I think we'll need some more processing at runtime to map, for example,
+an error from GPU Node 9 to NB array Index 2, etc.
+
+Or we can manage this at init time like this:
+[0: CPU], [1: NULL], [2: NULL], [3: NULL], [4: NULL], [5: NULL], [6: NULL],
+[7, NULL], [8: GPU], [9: GPU]
+
+And at runtime, the code which does Node ID to NB entry just works. This
+applies to node_to_amd_nb(), places where we loop over amd_nb_num(), etc.
+
+What do you think?
+
+Thanks,
+Yazen
