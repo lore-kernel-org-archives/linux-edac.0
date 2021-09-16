@@ -2,74 +2,72 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA6FAC433F5
-	for <linux-edac@archiver.kernel.org>; Thu, 16 Sep 2021 23:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ECD8C433F5
+	for <linux-edac@archiver.kernel.org>; Thu, 16 Sep 2021 23:13:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A996E60F26
-	for <linux-edac@archiver.kernel.org>; Thu, 16 Sep 2021 23:12:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A3E161209
+	for <linux-edac@archiver.kernel.org>; Thu, 16 Sep 2021 23:13:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241374AbhIPXOQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 16 Sep 2021 19:14:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44424 "EHLO mail.kernel.org"
+        id S241647AbhIPXPO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 16 Sep 2021 19:15:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45076 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241424AbhIPXOM (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 16 Sep 2021 19:14:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 69C4161207;
-        Thu, 16 Sep 2021 23:12:46 +0000 (UTC)
+        id S241556AbhIPXPF (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 16 Sep 2021 19:15:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E4F4B6120F;
+        Thu, 16 Sep 2021 23:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631833971;
-        bh=lgwwHwJaUSTOpaC6rM+1sKIX081VOJVPAVfOgDBtSQY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mZyiW2bHj2IMIH1GZdnCAwunUT7URPV/2m/BPKWYQ/Qe6LOxRmvRZjGl9X5+lwn58
-         Vr/VxSFCcZHkXJx7hnbYA7OVjjLvRYt1plGqofqWPvMHze8QDM+wxknDsQcH+MWCVb
-         kg05cptu7hjTc8JclPnL+0NVBJkvu0/v95CzVG4bPhJwarLksJlPn4UzZRcwrtVTlP
-         fYpWZEBUaqiSCKfh6PMTFjbB/DxYZy6aFpybl5xnmZbWtsdsytaHja2j2YcFM4IgWn
-         iJewZvZdv96LxIEOqG9gHr6HxSo3vjcSvZofn3XrY0LcEot1EES+3YExO8ICLXmm9g
-         GkQOnkscTwa+w==
+        s=k20201202; t=1631834023;
+        bh=Ct8BzDiQhEyelaPo0OWbDjNfR2tnMEW48s94JN5yi+o=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=Sg/Nc/c23vvvzhF5CGMUz0E3b4w6BS6Z5idLkBIE7I9t7LiPoSouYvRns6dhJaWIp
+         X8ccvRPqaSAtt4srk3tOabBLzj/io7moyP41c4LMdX0wy/xoaB7qlatZ2DMp5zqdj0
+         zTT0Y7kfVDP1pP7BZcJ2E3983jiUYf0C6MezwSAUR+/okCqYdARWUGnoJds1mNwioW
+         ctg87EmEhPbuIyMDYFuJixM3EiwPF4WcFtwLsBPwvMlY/gEqLUxTgmg6BgzHlCTJVo
+         QbORpxRXnhGr2zFsZsptYINIPApN8SYL27vWpux/aGlNuZGbh2abbXn06e2iiMhfaG
+         VhhuU4d4FBfng==
+Subject: Re: [PATCH 1/2] EDAC/synopsys: add support for version 3 of the
+ Synopsys EDAC DDR
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     michal.simek@xilinx.com, mchehab@kernel.org, tony.luck@intel.com,
+        james.morse@arm.com, rric@kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org
+References: <20210831200316.3208310-1-dinguyen@kernel.org>
+ <YUHcmlo2c4t9MSKK@zn.tnic>
 From:   Dinh Nguyen <dinguyen@kernel.org>
-To:     michal.simek@xilinx.com
-Cc:     dinguyen@kernel.org, bp@alien8.de, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
-Subject: [PATCHv2 2/2] EDAC/synopsys: v3.80a of the synopsys edac contoller is also on the N5X
-Date:   Thu, 16 Sep 2021 18:12:31 -0500
-Message-Id: <20210916231231.1430499-2-dinguyen@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210916231231.1430499-1-dinguyen@kernel.org>
-References: <20210916231231.1430499-1-dinguyen@kernel.org>
+Message-ID: <5b509fb8-b0d3-026b-0a30-a74df45d9332@kernel.org>
+Date:   Thu, 16 Sep 2021 18:13:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YUHcmlo2c4t9MSKK@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Intel's N5X platform is also using the Synopsys EDAC controller.
 
-Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
----
-v2: no changes
----
- drivers/edac/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 2fc4c3f91fd5..df46e7483aa0 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -484,7 +484,7 @@ config EDAC_ARMADA_XP
- 
- config EDAC_SYNOPSYS
- 	tristate "Synopsys DDR Memory Controller"
--	depends on ARCH_ZYNQ || ARCH_ZYNQMP
-+	depends on ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_N5X
- 	help
- 	  Support for error detection and correction on the Synopsys DDR
- 	  memory controller.
--- 
-2.25.1
+On 9/15/21 6:44 AM, Borislav Petkov wrote:
+> On Tue, Aug 31, 2021 at 03:03:15PM -0500, Dinh Nguyen wrote:
+>> This patch adds support for version 3.80a of the Synopsys DDR controller
+> 
+> Avoid having "This patch" or "This commit" in the commit message. It is
+> tautologically useless.
+> 
+> Also, do
+> 
+> $ git grep 'This patch' Documentation/process
+> 
+
+Sent v2 with a better commit message.
+
+Dinh
 
