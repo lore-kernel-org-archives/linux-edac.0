@@ -2,91 +2,165 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D311C433EF
-	for <linux-edac@archiver.kernel.org>; Mon, 27 Sep 2021 22:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C44C433EF
+	for <linux-edac@archiver.kernel.org>; Tue, 28 Sep 2021 16:04:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E72BC60F4F
-	for <linux-edac@archiver.kernel.org>; Mon, 27 Sep 2021 22:08:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FFC661354
+	for <linux-edac@archiver.kernel.org>; Tue, 28 Sep 2021 16:04:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237963AbhI0WJ4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 27 Sep 2021 18:09:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237871AbhI0WJx (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 27 Sep 2021 18:09:53 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C66C05174B;
-        Mon, 27 Sep 2021 15:05:37 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f088a00839935e3d35582f9.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:8a00:8399:35e3:d355:82f9])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 34CAA1EC04E4;
-        Tue, 28 Sep 2021 00:05:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1632780332;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=AlsOtt1HkU9FHs1jkzkGfXAXEYqguAUFS1q2I7ksodo=;
-        b=Knfz4Ihnj3SPawJGXShW+AkVXIiVjF2HujWe+6V6Or/F6oYI4kxme0OQlShLrctpOKMLAX
-        aVJai24kdEs8+l44exepufmGN8bkgxmmtxJnHieNaoLAXjYZUj+GDOW9Bf0j0PeVwHXBhF
-        UFK1BYvepeFHbN/9S3rjd4VHLYKy9b8=
-Date:   Tue, 28 Sep 2021 00:05:22 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Smita Koralahalli Channabasappa <skoralah@amd.com>
-Cc:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-        x86@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, yazen.ghannam@amd.com
-Subject: Re: [PATCH 1/5] x86/mce/inject: Check if a bank is unpopulated
- before error simulation
-Message-ID: <YVJAIlGr5EvepsOg@zn.tnic>
-References: <20210915232739.6367-1-Smita.KoralahalliChannabasappa@amd.com>
- <20210915232739.6367-2-Smita.KoralahalliChannabasappa@amd.com>
- <YU2Lm+11Pqg/RBK3@zn.tnic>
- <60d4f6be-76f7-e4b6-6fb5-2af78b01d32d@amd.com>
- <YVImVgsxyfQO7TGI@zn.tnic>
- <7e790ba1-0b31-690c-7bd3-d8361109cef5@amd.com>
+        id S241810AbhI1QGL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 28 Sep 2021 12:06:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47508 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241825AbhI1QGJ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 28 Sep 2021 12:06:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 405076128E;
+        Tue, 28 Sep 2021 16:04:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632845070;
+        bh=01wz6erCakbXSf2MOUj5I3H7r0o1qQPsOzBsFvpd0uE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=EUS18fCmOq0in3hvpKrWA84T6wNO8t+f/UE0xjgCEvVLjrKHlWgErtSDuy2KfxaDA
+         NW1orpik6JsIDvaVl98XKp9f9h1xIIBOWb306jthQ4CApK2w9oP0EX2KocJ/N/jblf
+         e1PHvA5xK1L1N56FP5yPD00kGe/Uit8cz81u+Bs2H85F7SeLQwBhC/3FYV20cgzA+k
+         NrnzUZGDXcMNNIq2yhJSwexYGgDImo6UuSrqKejKEYwWwCr89SNbPkiFBkab73NJut
+         XFX5gTAaFdXvnoUuaJcLRZUwytAhcwK4i88NeHs7K7DAqzg2iQUbBkaZ3Okk+dL5a+
+         0O8pWobAkHeGA==
+From:   Dinh Nguyen <dinguyen@kernel.org>
+To:     michal.simek@xilinx.com
+Cc:     dinguyen@kernel.org, bp@alien8.de, mchehab@kernel.org,
+        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
+Subject: [PATCHv3 2/3] EDAC/synopsys: add support for version 3 of the Synopsys EDAC DDR
+Date:   Tue, 28 Sep 2021 11:04:22 -0500
+Message-Id: <20210928160423.271187-2-dinguyen@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210928160423.271187-1-dinguyen@kernel.org>
+References: <20210928160423.271187-1-dinguyen@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7e790ba1-0b31-690c-7bd3-d8361109cef5@amd.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, Sep 27, 2021 at 04:56:17PM -0500, Smita Koralahalli Channabasappa wrote:
-> Yes, this makes sense to me now. But you meant to say inj_ipid_set()
-> instead of inj_bank_set()..?
+Adds support for version 3.80a of the Synopsys DDR controller with EDAC. This
+version of the controller has the following differences:
 
-Yeah, I had it correct before:
+- UE/CE are auto cleared
+- Interrupts are supported by default
 
-"This whole thing belongs into inj_ipid_set() where you should verify... "
+Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
+---
+v3: Address comments from Michal Simek
+    use bit macro
+    removed extra "cleared" word from comment section about v3.0
+v2: remove "This patch" from commit message
+---
+ drivers/edac/synopsys_edac.c | 49 ++++++++++++++++++++++++++++++------
+ 1 file changed, 42 insertions(+), 7 deletions(-)
 
-> 
-> Something like this:
-> 
-> -MCE_INJECT_SET(ipid)
-> 
-> +static int inj_ipid_set(void *data, u64 val)
-> +{
-> +	struct mce *m = (struct mce*)data;
-> 
-> +	if cpu_feature_enabled(X86_FEATURE_SMCA)) {
-> 
-> +		rdmsrl_on_cpu(..
-> 		..
-> 		..
-> +	m->ipid = val;
-> +	..
-> +}
-
-Yes, and return proper error codes.
-
-Thx.
-
+diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
+index bf237fccb444..66ee37ea0acc 100644
+--- a/drivers/edac/synopsys_edac.c
++++ b/drivers/edac/synopsys_edac.c
+@@ -101,6 +101,7 @@
+ /* DDR ECC Quirks */
+ #define DDR_ECC_INTR_SUPPORT		BIT(0)
+ #define DDR_ECC_DATA_POISON_SUPPORT	BIT(1)
++#define DDR_ECC_INTR_SELF_CLEAR		BIT(2)
+ 
+ /* ZynqMP Enhanced DDR memory controller registers that are relevant to ECC */
+ /* ECC Configuration Registers */
+@@ -171,6 +172,10 @@
+ #define DDR_QOS_IRQ_EN_OFST		0x20208
+ #define DDR_QOS_IRQ_DB_OFST		0x2020C
+ 
++/* DDR QOS Interrupt register definitions */
++#define DDR_UE_MASK			BIT(9)
++#define DDR_CE_MASK			BIT(8)
++
+ /* ECC Corrected Error Register Mask and Shifts*/
+ #define ECC_CEADDR0_RW_MASK		0x3FFFF
+ #define ECC_CEADDR0_RNK_MASK		BIT(24)
+@@ -533,10 +538,16 @@ static irqreturn_t intr_handler(int irq, void *dev_id)
+ 	priv = mci->pvt_info;
+ 	p_data = priv->p_data;
+ 
+-	regval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
+-	regval &= (DDR_QOSCE_MASK | DDR_QOSUE_MASK);
+-	if (!(regval & ECC_CE_UE_INTR_MASK))
+-		return IRQ_NONE;
++	/*
++	 * v3.0 of the controller has the ce/ue bits cleared automatically,
++	 * so this condition does not apply.
++	 */
++	if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR)) {
++		regval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
++		regval &= (DDR_QOSCE_MASK | DDR_QOSUE_MASK);
++		if (!(regval & ECC_CE_UE_INTR_MASK))
++			return IRQ_NONE;
++	}
+ 
+ 	status = p_data->get_error_info(priv);
+ 	if (status)
+@@ -548,7 +559,9 @@ static irqreturn_t intr_handler(int irq, void *dev_id)
+ 
+ 	edac_dbg(3, "Total error count CE %d UE %d\n",
+ 		 priv->ce_cnt, priv->ue_cnt);
+-	writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
++	/* v3.0 of the controller does not have this register */
++	if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR))
++		writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -834,8 +847,13 @@ static void mc_init(struct mem_ctl_info *mci, struct platform_device *pdev)
+ static void enable_intr(struct synps_edac_priv *priv)
+ {
+ 	/* Enable UE/CE Interrupts */
+-	writel(DDR_QOSUE_MASK | DDR_QOSCE_MASK,
+-			priv->baseaddr + DDR_QOS_IRQ_EN_OFST);
++	if (priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR)
++		writel(DDR_UE_MASK | DDR_CE_MASK,
++		       priv->baseaddr + ECC_CLR_OFST);
++	else
++		writel(DDR_QOSUE_MASK | DDR_QOSCE_MASK,
++		       priv->baseaddr + DDR_QOS_IRQ_EN_OFST);
++
+ }
+ 
+ static void disable_intr(struct synps_edac_priv *priv)
+@@ -890,6 +908,19 @@ static const struct synps_platform_data zynqmp_edac_def = {
+ 			  ),
+ };
+ 
++static const struct synps_platform_data synopsys_edac_def = {
++	.get_error_info	= zynqmp_get_error_info,
++	.get_mtype	= zynqmp_get_mtype,
++	.get_dtype	= zynqmp_get_dtype,
++	.get_ecc_state	= zynqmp_get_ecc_state,
++	.quirks         = (DDR_ECC_INTR_SUPPORT | DDR_ECC_INTR_SELF_CLEAR
++#ifdef CONFIG_EDAC_DEBUG
++			  | DDR_ECC_DATA_POISON_SUPPORT
++#endif
++			  ),
++};
++
++
+ static const struct of_device_id synps_edac_match[] = {
+ 	{
+ 		.compatible = "xlnx,zynq-ddrc-a05",
+@@ -899,6 +930,10 @@ static const struct of_device_id synps_edac_match[] = {
+ 		.compatible = "xlnx,zynqmp-ddrc-2.40a",
+ 		.data = (void *)&zynqmp_edac_def
+ 	},
++	{
++		.compatible = "snps,ddrc-3.80a",
++		.data = (void *)&synopsys_edac_def
++	},
+ 	{
+ 		/* end of table */
+ 	}
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
