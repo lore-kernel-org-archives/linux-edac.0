@@ -2,107 +2,118 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF039C433EF
-	for <linux-edac@archiver.kernel.org>; Thu, 30 Sep 2021 14:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4929C433F5
+	for <linux-edac@archiver.kernel.org>; Sun,  3 Oct 2021 18:16:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EB3861A02
-	for <linux-edac@archiver.kernel.org>; Thu, 30 Sep 2021 14:25:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AECF161A0C
+	for <linux-edac@archiver.kernel.org>; Sun,  3 Oct 2021 18:16:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245591AbhI3O0t (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 30 Sep 2021 10:26:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34892 "EHLO
+        id S231421AbhJCSSp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 3 Oct 2021 14:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348704AbhI3O0t (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 30 Sep 2021 10:26:49 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7545DC06176A
-        for <linux-edac@vger.kernel.org>; Thu, 30 Sep 2021 07:25:06 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jlu@pengutronix.de>)
-        id 1mVwzg-0007y2-Sk; Thu, 30 Sep 2021 16:25:04 +0200
-Received: from localhost ([127.0.0.1])
-        by ptx.hi.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <jlu@pengutronix.de>)
-        id 1mVwzg-0005e1-Al; Thu, 30 Sep 2021 16:25:04 +0200
-Message-ID: <a3550d31dd72faeb6219d878cc7920dd11a1a5fb.camel@pengutronix.de>
-Subject: Re: Bug in EDAC error handling of Marvell Armada XP
-From:   Jan =?ISO-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>
-To:     "Potsch, Hans (Nokia - DE/Stuttgart)" <hans.potsch@nokia.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Cc:     "Glock, Harald (Nokia - DE/Stuttgart)" <harald.glock@nokia.com>
-Date:   Thu, 30 Sep 2021 16:25:04 +0200
-In-Reply-To: <AM8PR07MB8172B5AB7AD5DAE78CA4624CFEAA9@AM8PR07MB8172.eurprd07.prod.outlook.com>
-References: <AM8PR07MB8172B5AB7AD5DAE78CA4624CFEAA9@AM8PR07MB8172.eurprd07.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.0 (by Flathub.org) 
+        with ESMTP id S231296AbhJCSSo (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 3 Oct 2021 14:18:44 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E7B8C061780
+        for <linux-edac@vger.kernel.org>; Sun,  3 Oct 2021 11:16:57 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id g2so12590461pfc.6
+        for <linux-edac@vger.kernel.org>; Sun, 03 Oct 2021 11:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=GQhMyogHN7y8nehFLIZCJ9ROYU/DzWV4+WI3lnHC9VE=;
+        b=HJXXYtLIklgXaY1BKE1WVSZvqJvgRFJ2bq1B/kZyIKmuyJio1QqAerURv3BoGAPnBP
+         iFO1Q69rFetDZXN0JzSr5DJVZ7BI8+AlXG1hz+3f9vlBS48Tjk45M0iLdVaYND48Ctnk
+         RugsYl8YFR9fUC6fv9pL/2LGvUNSedKbeNlZ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=GQhMyogHN7y8nehFLIZCJ9ROYU/DzWV4+WI3lnHC9VE=;
+        b=RCwL8Ln/pkloP8E0SbwwAlBjI3dPAzSxrgoE1aSieXI+V9qNzTMno+dCODqXt9zeVY
+         9TP3UvLAMIi0vDmY1aiz2LlpcnOJisMIBZGEC18coTknEQYhkBwYX5NgDHMH4rZPAnuG
+         uF5CrjO2btsai+nVz7CWrJmXhYs54nYIElQ523TtkochKcmMsgfs6Q/sClWhqWjM79Yz
+         NaULsHKsoR7oS0MQMAygBv3g422hIm1/hdLn9c779rJ1slocTXThVX1csshXhQcblNdk
+         RxstGOM3NV9xYqSo7j1/CkMjwdsEaEvK9GiCXudyhIHaK0odCJeFTGOBBpiWD4o7CQCX
+         dpcw==
+X-Gm-Message-State: AOAM532eDQCyLQCZqWpY27r8dE9OJz2xsKtfvIEcU/YmBrS3Mu/l5KNf
+        MIwJeMEpnM1yv88Njx6DTup9fg==
+X-Google-Smtp-Source: ABdhPJyr4km4MCiJoBD0XdidzykZY8m5fGbJA0/LZPs13VQG6nURhAMkwoirnnMoaWuzJeCGvoRjIw==
+X-Received: by 2002:a63:e516:: with SMTP id r22mr7622020pgh.197.1633285016627;
+        Sun, 03 Oct 2021 11:16:56 -0700 (PDT)
+Received: from ebadger-ThinkPad-T590 (cpe-75-80-179-40.san.res.rr.com. [75.80.179.40])
+        by smtp.gmail.com with ESMTPSA id j7sm11028777pjf.18.2021.10.03.11.16.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Oct 2021 11:16:56 -0700 (PDT)
+Date:   Sun, 3 Oct 2021 11:16:53 -0700
+From:   Eric Badger <ebadger@purestorage.com>
+To:     ebadger@purestorage.com
+Cc:     Eric Badger <ebadger@purestorage.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        "open list:EDAC-CORE" <linux-edac@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH] EDAC/mc_sysfs: Print MC-scope sysfs counters unsigned
+Message-ID: <20211003181653.GA685515@ebadger-ThinkPad-T590>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: jlu@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-edac@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Hans,
+This is cosmetically nicer for counts > INT32_MAX, and aligns the
+MC-scope format with that of the lower layer sysfs counter files.
 
-On Thu, 2021-09-30 at 12:55 +0000, Potsch, Hans (Nokia - DE/Stuttgart) wrote:
-> Hi Jan, all,
->  
-> we recently discovered strange traces when our system is experiencing ECC
-> errors.
->  
-> When system is detecting ECC errors it sometimes reports the same amount of CE
-> and UE (correctable and uncorrectable errors) or sometimes even 0 UE.
-> Please see these examples:
->  
-> EDAC MC0: 3 CE marvell,armada-xp-sdram-controller on any memory ( page:0x0
-> offset:0x0 grain:8 syndrome:0x0 - details unavailable (multiple errors))
-> EDAC MC0: 3 UE marvell,armada-xp-sdram-controller on any memory ( page:0x0
-> offset:0x0 grain:8 - details unavailable (multiple errors))
->  
-> EDAC MC0: 0 UE marvell,armada-xp-sdram-controller on any memory ( page:0x0
-> offset:0x0 grain:8 - details unavailable (multiple errors))
->  
-> While looking at the code we noticed that in the drivers/edac/armada_xp_edac.c
-> file the probably incorrect parameter is passed to the edac_mc_handle_error()
-> function.
->
-> Please see the following git diff which should pass the correct parameter
-> diff --git a/drivers/edac/armada_xp_edac.c b/drivers/edac/armada_xp_edac.c
-> index e3e757513d1b..b1f46a974b9e 100644
-> --- a/drivers/edac/armada_xp_edac.c
-> +++ b/drivers/edac/armada_xp_edac.c
-> @@ -178,7 +178,7 @@ static void axp_mc_check(struct mem_ctl_info *mci)
->                                      "details unavailable (multiple errors)");
->         if (cnt_dbe)
->                 edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
-> -                                    cnt_sbe, /* error count */
-> +                                    cnt_dbe, /* error count */
->                                      0, 0, 0, /* pfn, offset, syndrome */
->                                      -1, -1, -1, /* top, mid, low layer */
->                                      mci->ctl_name,
+Signed-off-by: Eric Badger <ebadger@purestorage.com>
+---
+ drivers/edac/edac_mc_sysfs.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Yes, this is a bug and your fix looks correct.
-
-> Currently our system is running kernel version 5.10.49.
-> Investigation showed, that also latest RC still has this bug 
-> armada_xp_edac.c - drivers/edac/armada_xp_edac.c - Linux source code (v5.15-
-> rc3) - Bootlin
-
-Were you able to verify that your change fixes the issue? If so, I'd ack a
-properly formatted patch submission.
-
-I don't have access to the hardware at the moment, so I can't easily test it
-myself.
-
-Thanks,
-Jan
+diff --git a/drivers/edac/edac_mc_sysfs.c b/drivers/edac/edac_mc_sysfs.c
+index 2f9f1e7..0a638c9 100644
+--- a/drivers/edac/edac_mc_sysfs.c
++++ b/drivers/edac/edac_mc_sysfs.c
+@@ -744,7 +744,7 @@ static ssize_t mci_ue_count_show(struct device *dev,
+ {
+ 	struct mem_ctl_info *mci = to_mci(dev);
+ 
+-	return sprintf(data, "%d\n", mci->ue_mc);
++	return sprintf(data, "%u\n", mci->ue_mc);
+ }
+ 
+ static ssize_t mci_ce_count_show(struct device *dev,
+@@ -753,7 +753,7 @@ static ssize_t mci_ce_count_show(struct device *dev,
+ {
+ 	struct mem_ctl_info *mci = to_mci(dev);
+ 
+-	return sprintf(data, "%d\n", mci->ce_mc);
++	return sprintf(data, "%u\n", mci->ce_mc);
+ }
+ 
+ static ssize_t mci_ce_noinfo_show(struct device *dev,
+@@ -762,7 +762,7 @@ static ssize_t mci_ce_noinfo_show(struct device *dev,
+ {
+ 	struct mem_ctl_info *mci = to_mci(dev);
+ 
+-	return sprintf(data, "%d\n", mci->ce_noinfo_count);
++	return sprintf(data, "%u\n", mci->ce_noinfo_count);
+ }
+ 
+ static ssize_t mci_ue_noinfo_show(struct device *dev,
+@@ -771,7 +771,7 @@ static ssize_t mci_ue_noinfo_show(struct device *dev,
+ {
+ 	struct mem_ctl_info *mci = to_mci(dev);
+ 
+-	return sprintf(data, "%d\n", mci->ue_noinfo_count);
++	return sprintf(data, "%u\n", mci->ue_noinfo_count);
+ }
+ 
+ static ssize_t mci_seconds_show(struct device *dev,
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+1.9.1
+
