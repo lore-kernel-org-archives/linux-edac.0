@@ -2,20 +2,20 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77BB8C433EF
-	for <linux-edac@archiver.kernel.org>; Wed, 20 Oct 2021 06:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 247A7C433FE
+	for <linux-edac@archiver.kernel.org>; Wed, 20 Oct 2021 06:38:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DB6A610A3
+	by mail.kernel.org (Postfix) with ESMTP id 035E6611F2
 	for <linux-edac@archiver.kernel.org>; Wed, 20 Oct 2021 06:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229809AbhJTGlD (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S229691AbhJTGlD (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Wed, 20 Oct 2021 02:41:03 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:25302 "EHLO
+Received: from szxga02-in.huawei.com ([45.249.212.188]:25301 "EHLO
         szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbhJTGk5 (ORCPT
+        with ESMTP id S229771AbhJTGk5 (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Wed, 20 Oct 2021 02:40:57 -0400
 Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HZ16S6z9gzbhGc;
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HZ16S6mW8zbhGZ;
         Wed, 20 Oct 2021 14:34:08 +0800 (CST)
 Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
  dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
@@ -29,9 +29,9 @@ From:   Xiaofei Tan <tanxiaofei@huawei.com>
 To:     <mchehab@kernel.org>, <linux-edac@vger.kernel.org>
 CC:     <shiju.jose@huawei.com>, <linuxarm@openeuler.org>,
         <jonathan.cameron@huawei.com>, Xiaofei Tan <tanxiaofei@huawei.com>
-Subject: [PATCH 4/4] rasdaemon: Add some modules supported by hisi common error section
-Date:   Wed, 20 Oct 2021 14:33:40 +0800
-Message-ID: <20211020063340.26079-5-tanxiaofei@huawei.com>
+Subject: [PATCH 3/4] rasdaemon: Fix some print format issues for hisi common error section
+Date:   Wed, 20 Oct 2021 14:33:39 +0800
+Message-ID: <20211020063340.26079-4-tanxiaofei@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211020063340.26079-1-tanxiaofei@huawei.com>
 References: <20211020063340.26079-1-tanxiaofei@huawei.com>
@@ -46,32 +46,73 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add some modules supported by hisi common error section. Besides,
-HHA is the module for some old platform, and it takes the same place
-of MATA, so remove it.
+It is not right to use '%d' to print uint8_t and uint16_t, although
+there is no function issue. Change to use '%hhu' and '%hu' separately.
 
 Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
 ---
- non-standard-hisilicon.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ non-standard-hisilicon.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/non-standard-hisilicon.c b/non-standard-hisilicon.c
-index f9c7bd4..1432163 100644
+index 3fccff6..f9c7bd4 100644
 --- a/non-standard-hisilicon.c
 +++ b/non-standard-hisilicon.c
-@@ -184,7 +184,11 @@ static const char* module_name[] = {
- 	"SEC",
- 	"RDE",
- 	"MEE",
--	"HHA",
-+	"L4D",
-+	"Tsensor",
-+	"ROH",
-+	"BTC",
-+	"HILINK"
- };
+@@ -198,7 +198,7 @@ static const char* get_soc_desc(uint8_t soc_id)
+ static void decode_module(struct hisi_event *event, uint8_t module_id)
+ {
+ 	if (module_id >= sizeof(module_name)/sizeof(char *))
+-		HISI_SNPRINTF(event->error_msg, "module=unknown(id=%d) ", module_id);
++		HISI_SNPRINTF(event->error_msg, "module=unknown(id=%hhu) ", module_id);
+ 	else
+ 		HISI_SNPRINTF(event->error_msg, "module=%s ", module_name[module_id]);
+ }
+@@ -207,36 +207,36 @@ static void decode_hisi_common_section_hdr(struct ras_ns_ev_decoder *ev_decoder,
+ 					  const struct hisi_common_error_section *err,
+ 					  struct hisi_event *event)
+ {
+-	HISI_SNPRINTF(event->error_msg, "[ table_version=%d", err->version);
++	HISI_SNPRINTF(event->error_msg, "[ table_version=%hhu", err->version);
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_SOC_ID))
+ 		HISI_SNPRINTF(event->error_msg, "soc=%s", get_soc_desc(err->soc_id));
  
- static const char* get_soc_desc(uint8_t soc_id)
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_SOCKET_ID))
+-		HISI_SNPRINTF(event->error_msg, "socket_id=%d", err->socket_id);
++		HISI_SNPRINTF(event->error_msg, "socket_id=%hhu", err->socket_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_TOTEM_ID))
+-		HISI_SNPRINTF(event->error_msg, "totem_id=%d", err->totem_id);
++		HISI_SNPRINTF(event->error_msg, "totem_id=%hhu", err->totem_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_NIMBUS_ID))
+-		HISI_SNPRINTF(event->error_msg, "nimbus_id=%d", err->nimbus_id);
++		HISI_SNPRINTF(event->error_msg, "nimbus_id=%hhu", err->nimbus_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_SUBSYSTEM_ID))
+-		HISI_SNPRINTF(event->error_msg, "subsystem_id=%d", err->subsystem_id);
++		HISI_SNPRINTF(event->error_msg, "subsystem_id=%hhu", err->subsystem_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_MODULE_ID))
+ 		decode_module(event, err->module_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_SUBMODULE_ID))
+-		HISI_SNPRINTF(event->error_msg, "submodule_id=%d", err->submodule_id);
++		HISI_SNPRINTF(event->error_msg, "submodule_id=%hhu", err->submodule_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_CORE_ID))
+-		HISI_SNPRINTF(event->error_msg, "core_id=%d", err->core_id);
++		HISI_SNPRINTF(event->error_msg, "core_id=%hhu", err->core_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_PORT_ID))
+-		HISI_SNPRINTF(event->error_msg, "port_id=%d", err->port_id);
++		HISI_SNPRINTF(event->error_msg, "port_id=%hhu", err->port_id);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_ERR_TYPE))
+-		HISI_SNPRINTF(event->error_msg, "err_type=%d", err->err_type);
++		HISI_SNPRINTF(event->error_msg, "err_type=%hu", err->err_type);
+ 
+ 	if (err->val_bits & BIT(HISI_COMMON_VALID_PCIE_INFO))
+ 		HISI_SNPRINTF(event->error_msg, "pcie_device_id=%04x:%02x:%02x.%x",
 -- 
 2.33.0
 
