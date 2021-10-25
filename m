@@ -2,142 +2,184 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAA4C433F5
-	for <linux-edac@archiver.kernel.org>; Thu, 21 Oct 2021 16:41:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51EE7C433F5
+	for <linux-edac@archiver.kernel.org>; Mon, 25 Oct 2021 13:56:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BBB06152B
-	for <linux-edac@archiver.kernel.org>; Thu, 21 Oct 2021 16:41:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2820960E73
+	for <linux-edac@archiver.kernel.org>; Mon, 25 Oct 2021 13:56:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232063AbhJUQnk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 21 Oct 2021 12:43:40 -0400
-Received: from mail-bn8nam12on2082.outbound.protection.outlook.com ([40.107.237.82]:55009
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232146AbhJUQnX (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 21 Oct 2021 12:43:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mk6Lxr9Cq5D0xMZ3AzVqtexX1pTVrSOtM8T+xH40iHjSMGjHv8OkEjhj6XGMRkT9jG5NaHGTSYk5bgQlu8GLbw55A9jnYbEU7TMo4dWMZIPgELowboVSsbvCLMkdxjdSDsNy7xCAopN56IIgv36KT/j0YY3VjqJmPbZ1vSWgQNvZCEFAIgkDLiC6+vRwoCSo8pUh1J65uFtxSp+7jvsOXYuAk8e7aiGuUIq0zXrK5CMezp0wHnVkuQLVGhvEqAMfOi09K8ekOocEtxUyvCW4MAa5no3g5brlK0xk3zFYbvR9B1Q7IbrSefv0gOHH+oy2o3kAgZyumbtm3i8oOE5I4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t4gR1ZK5JLkQTFECrpXtDkpuTZt2o0oX4IkmtWMoE3w=;
- b=RfkKxR/wQic5uljUyd0XW9gLv7stZOg/tLCWMKN2/MjEf81bMxu9DPWQ8Hi6uivL3n0SOVhmI0E215Nx7q+U3co+9+4vy6gCNo/83m1WXE8Tp+VsLfOdmCORNbqfZPG8STS+4laLBdwzWVl8c5pZNBF8uJgbVSBoBqgQqB2Q5Bsa+PWjqJ0/YFCtL4AYRc+Da3gkUTyp2PoCM7AaK2hXHpsK+DXblvazTdzT36nS/FC/fLA4+aqr4nl35S+8yNJK/c9S7Hn0bJn/7S3j7RZY/+NiL+ZO6ILGwC2+o5Jy6KbDoy3NSjK3b8Ly+G9FxOcEdPs81PebGUxRPCCju585Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t4gR1ZK5JLkQTFECrpXtDkpuTZt2o0oX4IkmtWMoE3w=;
- b=JSUqJOmpkiphSD9urDnvVoQGRzhdNoHQOCj/jioEHFiEcb2X6W0rOGt6eEfh++XZ4xquckXiyBgrQsmRNA8XRWXU5vx/G3IEudVqjUiNmLUTzXE4ZDYNuXP5r3kwZSoUb77K6rtI8Ds8thcEWpNMPZYzq7hEgmYSN1megZ6ViTs=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by BN7PR12MB2595.namprd12.prod.outlook.com (2603:10b6:408:30::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18; Thu, 21 Oct
- 2021 16:40:59 +0000
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::d075:22bc:12ee:e73e]) by BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::d075:22bc:12ee:e73e%7]) with mapi id 15.20.4608.018; Thu, 21 Oct 2021
- 16:40:59 +0000
-Date:   Thu, 21 Oct 2021 16:40:51 +0000
-From:   Yazen Ghannam <yazen.ghannam@amd.com>
-To:     Naveen Krishna Chatradhi <nchatrad@amd.com>
-Cc:     linux-edac@vger.kernel.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, bp@alien8.de, mingo@redhat.com,
-        mchehab@kernel.org, Muralidhara M K <muralimk@amd.com>
-Subject: Re: [PATCH v4 4/4] EDAC/amd64: Enumerate memory on Aldebaran GPU
- nodes
-Message-ID: <YXGYEz8MmPybnoI0@yaz-ubuntu>
-References: <20210823185437.94417-1-nchatrad@amd.com>
- <20211014185400.10451-1-nchatrad@amd.com>
- <20211014185400.10451-5-nchatrad@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211014185400.10451-5-nchatrad@amd.com>
-X-ClientProxiedBy: BL1PR13CA0438.namprd13.prod.outlook.com
- (2603:10b6:208:2c3::23) To BN8PR12MB3108.namprd12.prod.outlook.com
- (2603:10b6:408:40::20)
+        id S232779AbhJYN7I (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 25 Oct 2021 09:59:08 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:39238 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230225AbhJYN7I (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 25 Oct 2021 09:59:08 -0400
+Received: from zn.tnic (p200300ec2f0f4e00a9aecab73d80ddb1.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:4e00:a9ae:cab7:3d80:ddb1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C85941EC04F2;
+        Mon, 25 Oct 2021 15:56:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1635170204;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=9vcw/G3G8TQiJIk2OJLutgGZViY71B8IEbfeewsQb/U=;
+        b=rgfokybylLH9QkNR9EtK6heI0+s1mfTbk62b6DqtZyIjWUNyejE/sj31AiYx7rE1t6KP1K
+        e1m5ymVhAe6pF+23oSydWnReCRtIVQXrMGKGa8h53Yf2FtX1Rgfh7g1r5YnVj/xOHOIk6W
+        OIA8uJY3zO4jhBFCZMTrEs11Db5vV5Y=
+Date:   Mon, 25 Oct 2021 15:56:43 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, yazen.ghannam@amd.com
+Subject: Re: [PATCH v2 1/5] x86/mce/inject: Check if a bank is unpopulated
+ before error injection
+Message-ID: <YXa3m7SWAhRcFi35@zn.tnic>
+References: <20211019233641.140275-1-Smita.KoralahalliChannabasappa@amd.com>
+ <20211019233641.140275-2-Smita.KoralahalliChannabasappa@amd.com>
 MIME-Version: 1.0
-Received: from yaz-ubuntu (165.204.25.250) by BL1PR13CA0438.namprd13.prod.outlook.com (2603:10b6:208:2c3::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.10 via Frontend Transport; Thu, 21 Oct 2021 16:40:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef0ab217-798c-4843-629f-08d994b18fec
-X-MS-TrafficTypeDiagnostic: BN7PR12MB2595:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN7PR12MB2595A1A6D00F6A26836F3AEDF8BF9@BN7PR12MB2595.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u2ZDxn6GCMFnHyyYuNAqWT3f/rApSj+xWBAoxWuE22oc+T5pGPN1sLYpDMNoTIAxkZImssOlHZZJDf5UN9YLBCFQ0qCtTfkNA4IzaUBHVvSONS6SZ6WNp3xDYFDEDEyoOuQspHb/VXD/5VpwcSv+QdqCLfIXfkJbU/9t+udUkZo7E4lWYMei0aspF0+aLwFb6G5S1r4hwWGgMYxod/HlvFpWNfhNW7A/foH8TfEuddIolC9AY+EYumHYSfZbNVwf4TXyM83S38hf8MF6HKvnYYsYhxLD8iqTZFtfHolAAf/R7IClodUmTslrcLw9oeTiNefFRel1SEeucCTalPBinrYM/O2M3TSsqEbdocCCTR67QZvS/PretDAalFfIUT6Drb550BKfjSVb6pAaU5pZKhnwQ8UGOy7eZI7ph/LFV6QfbzCL4OTm7O2BILv23BsyZSmQ7KzAQQJuTuGeKoYoZAtP1NZbO7lGvQW83b49l9HtdcR9OxCXQm+aZJDoFC+AqNbHOJjZz9O4HPDJkuFyZW0Ews1eaRn0rfW87JAOyCGdZg9v6bv9HUMd1wd5wSr+A5PM0SdX0z/Ao67l356OlgVv4kRQJcZ90TcEtBUE0wdesykP4QdlutSY+raAlBGDgAEf6x1yErSIaWd6cpgUaw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(5660300002)(66946007)(6636002)(86362001)(2906002)(33716001)(9686003)(55016002)(6666004)(6496006)(8676002)(38100700002)(956004)(186003)(6862004)(508600001)(4326008)(316002)(26005)(66556008)(8936002)(44832011)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bFQlEe6tPaRck8OrM2VxWzSsqPYjwOO7SGB/VRkQxdbzOPLJPn2LOwmz1lTc?=
- =?us-ascii?Q?2JH4y6kR+gcP8/1uQor177jvwOWzSjiLmWYpQIeXPHqVdhVU62yWm+iK1ntx?=
- =?us-ascii?Q?sfmOfIzX7Bw1s6OA/0w6AE7ufkL98znK7M2DM+lcVSll2zU9BBGSsZExLXcA?=
- =?us-ascii?Q?N/Z1inGVHv5MpY8jyx8XSa0LnuGyr7v8jwxmJyszaiO0lN8jeBCtdal/3lUa?=
- =?us-ascii?Q?BpCbP1Fey9s1LKDxBgV4T9zctNNQs86w++aZ1dfo1+1AOCPr82/npNJFMmGv?=
- =?us-ascii?Q?2S5ZcHpeXvvwXzUt5tDvPvYwtl1JVTmhI4j4fOiQmS1Q0WMwd18yKv1OzUl1?=
- =?us-ascii?Q?uOgjyzqMajazUZEZqT/yMWtqrdLSx1/MpXa5odT+tWTIs4N6pDqjlA6r5oIZ?=
- =?us-ascii?Q?kvp/+tZbmg7MwNbVixjbDe1JkcxD3MqWMybdx9uf5S/aGxTStKd7Rp/E2ZWW?=
- =?us-ascii?Q?vTFmSTpDyzcv2wax7/KO/lYrKbd7JANpIjg48dS/FAjKSp0vFJtBxCLKHuQ1?=
- =?us-ascii?Q?2vCuD8/SC0fANcOZpdwkRVVaKj00qjGk+8yh5DOGEtl3oUc/Ej+NOwwec+C1?=
- =?us-ascii?Q?pfkBcInWlbsMnO62hOKvEogozw1m9m8Tp5WnWkGMsCaoRlQVsOj2ZOgv5bJm?=
- =?us-ascii?Q?zcpDi56XVPlZtrtj44olkXZeohjWzL7F6hm68E/oY1oINKx2TARUq4XOl+km?=
- =?us-ascii?Q?Y3OZyMB87sh+NGz2BPVUPE0MHlVNLj71ei7ekTxf72jOQ5z7vnvC+0tZ7TSK?=
- =?us-ascii?Q?uhatW5QV7th0PGOaS9pdyPqVsZqD7wSRnIn0mGO6DmVLROPd94nTPNNqu6B3?=
- =?us-ascii?Q?G7YTnQ9JiUllssCK4oIAH1b/0iWTHgDHdCmJe1DDiiBI1xw2C9h9MluA+qQf?=
- =?us-ascii?Q?j92pXnULCjjdOFDhiLJ19r2VWezoAZmd/+9fGpUrJdo5n/PngbM62Gf0bFqL?=
- =?us-ascii?Q?29NZCzQt6aGT3HWg8g3F/pcMLGyWvNGfHVENaP4D7FfQO6+YDB58Km3P98OU?=
- =?us-ascii?Q?SoSlLT6zy+b8PZsKrmUDXVZgwwNqsrIPobPr8LNKfDncIj5dluLhCUlxR27Q?=
- =?us-ascii?Q?JTXK8W+4T1JZ7HBAzQXHOAfCuUqnVhYmIsFPjcSVKHgzWq2umeoid9IK/cdx?=
- =?us-ascii?Q?Qq7ClgfZrd8sAHY7ipOFAoGuNvJxjKKkD06WGcTKpwQl2X+o/UF2qpMsTM6+?=
- =?us-ascii?Q?vVCeSYdbaE3aei4x+1D8HNFfdQWuaOZc2nmsuV/Yi1Tn9pe7Nxuid2lMkz+B?=
- =?us-ascii?Q?dHgfw7QTcfdfO0B8ff4R2FtS1Jl1Pd67iIxWzplA4pQ3PKvtRsJY/XvB/Fcv?=
- =?us-ascii?Q?vhvcVbu+09enrOU6NLxW4ckc?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef0ab217-798c-4843-629f-08d994b18fec
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2021 16:40:59.7080
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yghannam@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2595
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211019233641.140275-2-Smita.KoralahalliChannabasappa@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 12:24:00AM +0530, Naveen Krishna Chatradhi wrote:
-...
-> @@ -3726,6 +3935,17 @@ static struct amd64_family_type *per_family_init(struct amd64_pvt *pvt)
->  			pvt->ops = &family_types[F17_M70H_CPUS].ops;
->  			fam_type->ctl_name = "F19h_M20h";
->  			break;
-> +		} else if (pvt->model >= 0x30 && pvt->model <= 0x3f) {
-> +			if (pvt->mc_node_id >= amd_cpu_node_count()) {
-> +				fam_type = &family_types[ALDEBARAN_GPUS];
+On Tue, Oct 19, 2021 at 06:36:37PM -0500, Smita Koralahalli wrote:
+> The MCA_IPID register uniquely identifies a bank's type on Scalable MCA
+> (SMCA) systems. When an MCA bank is not populated, the MCA_IPID register
+> will read as zero and writes to it will be ignored.
+> 
+> On a "hw" error injection check the value of this register before trying
+> to inject the error.
+> 
+> Do not impose any limitation on a "sw" injection and allow the user to
+> test out all the decoding paths without relying on the available hardware,
+> as its purpose is to just test the code.
+> 
+> Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+> ---
+> v2:
+> 	simulate -> inject.
+> 	Corrected according to kernel commenting style.
+> 	boot_cpu_has() -> cpu_feature_enabled().
+> 	Error simulation not possible: Bank %llu unpopulated ->
+> 	Cannot set IPID - bank %llu unpopulated.
+> 	Used user provided IPID value on sw injection without checking
+> 	underlying hardware and defined it under inj_ipid_set().
+> ---
+>  arch/x86/kernel/cpu/mce/inject.c | 39 +++++++++++++++++++++++++++++---
+>  1 file changed, 36 insertions(+), 3 deletions(-)
 
-The fam_type needs to become part of amd64_pvt.
+So I gave it a critical look and did some modifications, see below.
+Looking at those IPID MSRs - they're all read-only, which means for !sw
+injection, all the module can do is check whether they're 0 - and fail
+injection in that case - and do the injection otherwise.
 
-Otherwise, what happens here is the module loads on a CPU node and sets a CPU
-family type. Then a GPU node is probed and the family type is overwritten
-with a GPU family type.
+Ok?
 
-> +				pvt->ops = &family_types[ALDEBARAN_GPUS].ops;
-> +				pvt->is_gpu = true;
-> +			} else {
-> +				fam_type = &family_types[F19_CPUS];
-> +				pvt->ops = &family_types[F19_CPUS].ops;
-> +				fam_type->ctl_name = "F19h_M30h";
-> +			}
-> +			break;
->  		}
->  		fam_type	= &family_types[F19_CPUS];
->  		pvt->ops	= &family_types[F19_CPUS].ops;
-> @@ -3808,9 +4028,10 @@ static int init_one_instance(struct amd64_pvt *pvt)
+---
+From: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Date: Tue, 19 Oct 2021 18:36:37 -0500
+Subject: [PATCH] x86/mce/inject: Check if a bank is populated before error
+ injection
 
-Thanks,
-Yazen
+The MCA_IPID register uniquely identifies a bank's type on Scalable MCA
+(SMCA) systems. When an MCA bank is not populated, the MCA_IPID register
+will read as zero and writes to it will be ignored.
+
+On a hw-type error injection (injection which writes the actual MCA
+registers in an attempt to cause a real MCE) check the value of this
+register before trying to inject the error.
+
+Do not impose any limitation on a sw-type injection (software-only
+injection) and allow the user to test out all the decoding paths without
+relying on the available hardware, as its purpose is to just test the
+code.
+
+ [ bp: Heavily massage. ]
+
+Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Link: https://lkml.kernel.org/r/20211019233641.140275-2-Smita.KoralahalliChannabasappa@amd.com
+---
+ arch/x86/kernel/cpu/mce/inject.c | 42 +++++++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
+index 0bfc14041bbb..3333ae7886bd 100644
+--- a/arch/x86/kernel/cpu/mce/inject.c
++++ b/arch/x86/kernel/cpu/mce/inject.c
+@@ -74,7 +74,6 @@ MCE_INJECT_SET(status);
+ MCE_INJECT_SET(misc);
+ MCE_INJECT_SET(addr);
+ MCE_INJECT_SET(synd);
+-MCE_INJECT_SET(ipid);
+ 
+ #define MCE_INJECT_GET(reg)						\
+ static int inj_##reg##_get(void *data, u64 *val)			\
+@@ -95,6 +94,20 @@ DEFINE_SIMPLE_ATTRIBUTE(status_fops, inj_status_get, inj_status_set, "%llx\n");
+ DEFINE_SIMPLE_ATTRIBUTE(misc_fops, inj_misc_get, inj_misc_set, "%llx\n");
+ DEFINE_SIMPLE_ATTRIBUTE(addr_fops, inj_addr_get, inj_addr_set, "%llx\n");
+ DEFINE_SIMPLE_ATTRIBUTE(synd_fops, inj_synd_get, inj_synd_set, "%llx\n");
++
++/* Use the user provided IPID value on a sw injection. */
++static int inj_ipid_set(void *data, u64 val)
++{
++	struct mce *m = (struct mce *)data;
++
++	if (cpu_feature_enabled(X86_FEATURE_SMCA)) {
++		if (inj_type == SW_INJ)
++			m->ipid = val;
++	}
++
++	return 0;
++}
++
+ DEFINE_SIMPLE_ATTRIBUTE(ipid_fops, inj_ipid_get, inj_ipid_set, "%llx\n");
+ 
+ static void setup_inj_struct(struct mce *m)
+@@ -577,6 +590,33 @@ static int inj_bank_set(void *data, u64 val)
+ 	}
+ 
+ 	m->bank = val;
++
++	/*
++	 * sw-only injection allows to write arbitrary values into the MCA registers
++	 * because it tests only the decoding paths.
++	 */
++	if (inj_type == SW_INJ)
++		goto inject;
++
++	/*
++	 * Read IPID value to determine if a bank is populated on the target
++	 * CPU.
++	 */
++	if (cpu_feature_enabled(X86_FEATURE_SMCA)) {
++		u64 ipid;
++
++		if (rdmsrl_on_cpu(m->extcpu, MSR_AMD64_SMCA_MCx_IPID(val), &ipid)) {
++			pr_err("Error reading IPID on CPU%d\n", m->extcpu);
++			return -EINVAL;
++		}
++
++		if (!ipid) {
++			pr_err("Cannot inject into bank %llu - it is unpopulated\n", val);
++			return -ENODEV;
++		}
++	}
++
++inject:
+ 	do_inject();
+ 
+ 	/* Reset injection struct */
+-- 
+2.29.2
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
