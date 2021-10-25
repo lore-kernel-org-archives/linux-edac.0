@@ -2,44 +2,44 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B51C0C433F5
-	for <linux-edac@archiver.kernel.org>; Mon, 25 Oct 2021 14:51:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4572C433F5
+	for <linux-edac@archiver.kernel.org>; Mon, 25 Oct 2021 14:51:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90BBF60F0F
-	for <linux-edac@archiver.kernel.org>; Mon, 25 Oct 2021 14:51:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE8D960EE9
+	for <linux-edac@archiver.kernel.org>; Mon, 25 Oct 2021 14:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233582AbhJYOxh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 25 Oct 2021 10:53:37 -0400
-Received: from mail-dm3nam07on2069.outbound.protection.outlook.com ([40.107.95.69]:49377
-        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
+        id S233724AbhJYOyD (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 25 Oct 2021 10:54:03 -0400
+Received: from mail-dm6nam11on2069.outbound.protection.outlook.com ([40.107.223.69]:39617
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233661AbhJYOxJ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Mon, 25 Oct 2021 10:53:09 -0400
+        id S233586AbhJYOx5 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Mon, 25 Oct 2021 10:53:57 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MZucI4MqiadID6tBMMvigJ3VoXMuyJTm7VnNV/tAMGleLJP+vhP/S83YTXehUAODAVczW3C9iR5gJKbErmOIDMLYtc+JZ/zgW+XSfJbNcYo54rhZ8lVn0uWvzzdlFgxMWBk/Sej2XGe3cMDmEsVfBMR0AQeDf+ThQ/iYfWiKpoJvlXM8sL3VDtoXpsyrRmXVAz27ELq8Kv+PwZHbaSrGahAmu1d8FRFW2TRf0tiUvfrI+f4RpPyZjsz26NK7zyW29L2h26B78PbEJWkhkr24g9p4WLr2HVZkmHK0WGQFjMKGNfpsXxptevIaN8eV+EtC9APhv1Vc1DRLGbE87jLaiw==
+ b=P9JVn8QunbqTrBF9qlYfhjWFEVS7c4b0nUPcZue32qeoOBNSXEbQr7yZljh5ZhD+RAkNcjCPfwtnzCN3Rg4aJnaLw1uqyHa+iI9j6MuLJCo8iUsnSKGP/dAmFNhfhzAmNRCFzCu70JVArnHEIVf68GcRHcBLWxhZDtoMC6K6nIWI5bUhANZpWEHvfT1tMCXV1FgKPIIMzeXvStzLcaLm9zpYV3LY0owwbbK1iWZiHoKv8XzoZlW0oiUiFwd4afu06b3iDF0/onYfY5lwAEJFC9hQdToA6Vcc/QGorUOI8NcWdaAEv4+IUNAHOv2oD+ICxYzEf1QSYc9JveJM6NjuTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EUJ0a2+DYtAsQJNxVoFvBK7Q/KA2sSe2bk0k7NCdjg0=;
- b=FHP3Uokj1PlHlui8jdsvHLPYkCZFcnnw+0BWiRPqeO7gm2VWwgpToSV7Zud78RIKENHSDQhUePAR1XZ8sBynRu+I/sEsVLluV74XdczhQcb+j3mmztqgGuueRncbhD6NpRntneCxxFMyDd8y3sHgZW/aA0Lstg0G+4HAUE2l4Hm9SePP/MgHH3al+pR+OinSZx2Kiv4wR1r8tR8Pq2+ajELg5LpQO1Ycw0BAr92jaw33YvqacZtLpIHoTDz2AxuGj9C45L7/ZqqWHALb3qU65wXooM800gcmU96xEIuLoATaG4Zi0A/Oc14ajwhwC+sciUZFu6AeQiBj8bRiFzgUEQ==
+ bh=+blj1t7a5shRe+d53g/Rx2t+hUA6Myi82y9QkqFBbsw=;
+ b=X4JZOCTA7n/1kpzH/7O51HT0qykklLYx0hSImTGP6L/iC2EZrjabnD+qUBJ6KLsI2DpU4FAr1Jc6aWn1Hujc3em/19/p+iXw/AmhpdZdSirOB0p6SeL0oO0s4ZHC01/32mH/ZkF41LHRAtKlqyUaTE2dQc97IpwFke7ln3R+pWw0t1Hx8RwOrHBDUPxfIBTcdLO4S15G66uIadDZwrJEoDx7eeP14nLvrCRUBtNRPraPez2wv/NFRmloS/OxuzfhAUFbA07VDMgUOxdu2BMAYS5zGj3les3zTz4Lm3zxi51ouRgKspo6dNvdGeKcQWRMeeYKNDxy7v3EQzWA9FWxIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EUJ0a2+DYtAsQJNxVoFvBK7Q/KA2sSe2bk0k7NCdjg0=;
- b=oRLAA0WxQHpvLhPeD+LBkAFrcfjRzd+fVXohAyp90UNM1z3yHaafS/yF4390CsXEfS25Uq/8OY7nAxvdFUt/VIPsohZBjxPx2C7Simu2LqjsvTk65TrasxugdJAIg9jtQ+uqaDU6icDMHySAaapbEm2d6CUwLR7k+OBJnzx+wbY=
-Received: from MW4PR04CA0097.namprd04.prod.outlook.com (2603:10b6:303:83::12)
- by BN8PR12MB3603.namprd12.prod.outlook.com (2603:10b6:408:4a::21) with
+ bh=+blj1t7a5shRe+d53g/Rx2t+hUA6Myi82y9QkqFBbsw=;
+ b=ocZzIQuRGvyjnZgoLml93xdxWE9/827jTpENuU949BVLtv8dWEum+FAPSRNnQfQ82T8g/69i4p2O9r/p6gOLUiZS21R3soijoUetp+3zf6Mxnv/0YAJLfaTKsLfqmvysgAgmnKgnLanOR8ynodAK4I9zz2esIBvnw5DBYpu2QII=
+Received: from MW2PR16CA0071.namprd16.prod.outlook.com (2603:10b6:907:1::48)
+ by MN2PR12MB2910.namprd12.prod.outlook.com (2603:10b6:208:af::27) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.15; Mon, 25 Oct
- 2021 14:50:42 +0000
-Received: from CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:83:cafe::c1) by MW4PR04CA0097.outlook.office365.com
- (2603:10b6:303:83::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18 via Frontend
- Transport; Mon, 25 Oct 2021 14:50:42 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.18; Mon, 25 Oct
+ 2021 14:51:33 +0000
+Received: from CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:907:1:cafe::9a) by MW2PR16CA0071.outlook.office365.com
+ (2603:10b6:907:1::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.22 via Frontend
+ Transport; Mon, 25 Oct 2021 14:51:33 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=pass action=none header.from=amd.com;
@@ -47,22 +47,25 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT061.mail.protection.outlook.com (10.13.175.200) with Microsoft SMTP
+ CO1NAM11FT009.mail.protection.outlook.com (10.13.175.61) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4628.16 via Frontend Transport; Mon, 25 Oct 2021 14:50:41 +0000
+ 15.20.4628.16 via Frontend Transport; Mon, 25 Oct 2021 14:51:33 +0000
 Received: from milan-ETHANOL-X.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Mon, 25 Oct
- 2021 09:50:37 -0500
+ 2021 09:51:02 -0500
 From:   Naveen Krishna Chatradhi <nchatrad@amd.com>
 To:     <linux-edac@vger.kernel.org>, <x86@kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <bp@alien8.de>, <mingo@redhat.com>,
         <mchehab@kernel.org>, <yazen.ghannam@amd.com>,
-        Naveen Krishna Chatradhi <nchatrad@amd.com>
-Subject: [PATCH v5 0/5] x86/edac/amd64: Add heterogeneous node support
-Date:   Mon, 25 Oct 2021 20:20:13 +0530
-Message-ID: <20211025145018.29985-1-nchatrad@amd.com>
+        Naveen Krishna Chatradhi <nchatrad@amd.com>,
+        Muralidhara M K <muralimk@amd.com>
+Subject: [PATCH v5 2/5] EDAC/mce_amd: Extract node id from MCA_IPID
+Date:   Mon, 25 Oct 2021 20:20:15 +0530
+Message-ID: <20211025145018.29985-3-nchatrad@amd.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211025145018.29985-1-nchatrad@amd.com>
+References: <20211025145018.29985-1-nchatrad@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
@@ -70,72 +73,101 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00f0028d-bfee-4363-f84c-08d997c6d114
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3603:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB360320162AD8BB99FD536E5EE8839@BN8PR12MB3603.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1122;
+X-MS-Office365-Filtering-Correlation-Id: b10a28df-f1a9-4e4a-f6d0-08d997c6efd2
+X-MS-TrafficTypeDiagnostic: MN2PR12MB2910:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB2910940EDFC2EECD5A73DF8AE8839@MN2PR12MB2910.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1060;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4o2Je5YX0CIk1vBuuv4MvXtcQOukGfOvHSEcaTb/j2ps7NTRDGrgJNkzeYIsI9JjITkET9rr8Mky9lMUtqcL6dvdBvw9XvV3EPRUwnlXrsmhZsf62xhf/vSiDiW8DVUWeG7JnJl6h7YpDuQN/oqXjp1sfVGLarkAz33cfvJFhcyL83XoKvrk4qL6HeqRVEaCVXLw8gS3IMqZf+RtSdFrKGjKaiENjPbNbbQG3ZczAaptgyJx/9hMO9K0SNvUzL2kG8n4oT+iNPileihCwi1foNF4CZglhvr9TXSTZYiYs1oovucgI1kHfIeC5NMTT6D1Qx8c4w/kEUr6TkLzROcbCMjMirA6WO1rjZ9i1IYiQyRtvfa6mhfJalwiQUmU5ItxBEtyqU2k1KtJjCvxioqROnhl7A+K9lyw9PhdQLXbBfo3xoxMPtez/QmAadz9pzNYjjqVb8fSOzqICENJtDY8BaERv/+dT+q1mjpsPgYLHssGqYfEhxcFqWNZ4Lq/EZXRyQ7vsX380sfQkp1rOi353/qNuYtzq7eHOD1tM6ir+4QYDvVf1IH6W3ECTLFYwO+HRCgbV8hajUc65SvpWaCguIfRVmLc/R3Or2i4UG+BsN6fphZNsMceN6FoLGClIc2BKjrISUFtj6Doh/dLd5v9ZSePYga9bo/6mcaocZJdL2BfYwzQKjqD6C+rUNTZy3jKX/MxstBe9MRUJhXdrprqB5JeNakWXWuTjhizUMIiUsw=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(316002)(5660300002)(7696005)(36756003)(336012)(16526019)(2616005)(26005)(186003)(426003)(8936002)(110136005)(4326008)(508600001)(83380400001)(36860700001)(2906002)(54906003)(8676002)(47076005)(81166007)(6666004)(70206006)(70586007)(82310400003)(356005)(1076003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 8ylJ4X244M3rSv9Fv98do6MPDZAeIfNWCBK/h0azJo+xZaKysbj4V5pW5EVPAaoMD284POdAPfDePH9cQSGth6YVJY5bawjOZB/fGp4D+n3ch1MVKFLk3HLfx4qF+DmWjTJA0ZJV0Y8VfPy/00yvtQZK+oacjAkhl4fV/2phPrMyNo+ulC1rvTMT6X9EAHrBDTHE9haYl+uUJNSP0g9Nn05Sc4zqNHZ8HwuIqll+C0RddQrGbnBfB7dSE9E5BQ6LblUh/Bspjw3fpmagHOyvYgSPS8T7iDXOPXvdIkp0ukBO+bNLOGQgc3eSgtMOsnR/0sgADfoLSyI8xmgPtwOkVzg9GoWwFJn3li7U0u8ffRs7G5+puqrSVTt2e/0LKMpOeAmn91J4g+enw4WfkHGPSmes99naumWkqgzX4A6Qn6f6LSRCXs9F5mQ17aJAk7vBBC3/EbcgnD20A9l/7lQK5WWEf8Bbqg9qAib/beImig7qcbN0TkcLY6bpO6BV14Ow75hqw9DQ26qxL64u8uMZtzTfGJEr1GoAQuvsdjL6awMr+yHOSJz0KGhDAA9yM5u+I2hrBoDaynUAoiTj2ypB5OCqEvGR+ZHYMP1Mcci+32yJkON/vMMUOilPQN4q3j1b627aZqIOjtSPzeqyCtaUAZ/6OcNG+Y27NhRzhYHq2aso69vY4alcSycyS+Dk7Ckczgwfc4afUG4gylKVjMMmUblyEX/nbf6PqpVmhZHjBFv2y9nip4U8SX8kzld/KT/Fl9skulOjKzxY+0o22wsElf60GQiT9+uQx5QkccKHKMbWQMtnwMxCjClD9sa/4rrW
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(4326008)(2906002)(316002)(356005)(36860700001)(2616005)(1076003)(426003)(508600001)(82310400003)(336012)(966005)(6666004)(54906003)(83380400001)(36756003)(47076005)(8936002)(70586007)(70206006)(110136005)(81166007)(5660300002)(7696005)(186003)(16526019)(26005)(8676002)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2021 14:50:41.5317
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2021 14:51:33.0176
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00f0028d-bfee-4363-f84c-08d997c6d114
+X-MS-Exchange-CrossTenant-Network-Message-Id: b10a28df-f1a9-4e4a-f6d0-08d997c6efd2
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3603
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB2910
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On newer heterogeneous systems with AMD CPUs the data fabrics of GPUs
-can be connected directly via custom links.
+On SMCA banks of the GPU nodes, the node id information is
+available in register MCA_IPID[47:44](InstanceIdHi).
 
-This series of patchset does the following
-1. amd_nb.c:
-   a. Add support for northbridges on Aldebaran GPU nodes
-   b. export AMD node map details to be used by edac and mce modules
-	
-2. mce_amd module:
-   a. Identify the node ID where the error occurred and map the node
-      id to linux enumerated node id.
+Convert the hardware node ID to a value used by Linux
+where GPU nodes are sequencially after the CPU nodes.
 
-3. amd64_edac module
-   a. Add new family op routines
-   b. Enumerate UMCs and HBMs on the GPU nodes
-   c. Move fam_type structure into amd64_pvt struct
+Co-developed-by: Muralidhara M K <muralimk@amd.com>
+Signed-off-by: Muralidhara M K <muralimk@amd.com>
+Signed-off-by: Naveen Krishna Chatradhi <nchatrad@amd.com>
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Link: https://lkml.kernel.org/r/20210823185437.94417-3-nchatrad@amd.com
+---
+Changes since v4:
+Add reviewed by Yazen
 
-This patchset is rebased on top of
-"
-commit 07416cadfdfa38283b840e700427ae3782c76f6b
-Author: Yazen Ghannam <yazen.ghannam@amd.com>
-Date:   Tue Oct 5 15:44:19 2021 +0000
+Changes since v3:
+1. Use APIs from amd_nb to identify the gpu_node_start_id and cpu_node_count.
+   Which is required to map the hardware node id to node id enumerated by Linux.
 
-    EDAC/amd64: Handle three rank interleaving mode
-"
+Changes since v2:
+1. Modified subject and commit message
+2. Added Reviewed by Yazen Ghannam
 
-Muralidhara M K (3):
-  x86/amd_nb: Add support for northbridges on Aldebaran
-  EDAC/amd64: Extend family ops functions
-  EDAC/amd64: Move struct fam_type into amd64_pvt structure
+Changes since v1:
+1. Modified the commit message
+2. rearranged the conditions before calling decode_dram_ecc()
 
-Naveen Krishna Chatradhi (2):
-  EDAC/mce_amd: Extract node id from MCA_IPID
-  EDAC/amd64: Enumerate memory on Aldebaran GPU nodes
+ drivers/edac/mce_amd.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
- arch/x86/include/asm/amd_nb.h |   9 +
- arch/x86/kernel/amd_nb.c      | 150 +++++++--
- drivers/edac/amd64_edac.c     | 592 +++++++++++++++++++++++++---------
- drivers/edac/amd64_edac.h     |  39 ++-
- drivers/edac/mce_amd.c        |  24 +-
- include/linux/pci_ids.h       |   1 +
- 6 files changed, 630 insertions(+), 185 deletions(-)
-
+diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
+index 67dbf4c31271..af6caa76adc7 100644
+--- a/drivers/edac/mce_amd.c
++++ b/drivers/edac/mce_amd.c
+@@ -2,6 +2,7 @@
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ 
++#include <asm/amd_nb.h>
+ #include <asm/cpu.h>
+ 
+ #include "mce_amd.h"
+@@ -1072,8 +1073,27 @@ static void decode_smca_error(struct mce *m)
+ 	if (xec < smca_mce_descs[bank_type].num_descs)
+ 		pr_cont(", %s.\n", smca_mce_descs[bank_type].descs[xec]);
+ 
+-	if (bank_type == SMCA_UMC && xec == 0 && decode_dram_ecc)
+-		decode_dram_ecc(topology_die_id(m->extcpu), m);
++	if (xec == 0 && decode_dram_ecc) {
++		int node_id = 0;
++
++		if (bank_type == SMCA_UMC) {
++			node_id = topology_die_id(m->extcpu);
++		} else if (bank_type == SMCA_UMC_V2) {
++			/*
++			 * SMCA_UMC_V2 exists on GPU nodes, extract the node id
++			 * from register MCA_IPID[47:44](InstanceIdHi).
++			 * The InstanceIdHi field represents the instance ID of the GPU.
++			 * Which needs to be mapped to a value used by Linux,
++			 * where GPU nodes are simply numerically after the CPU nodes.
++			 */
++			node_id = ((m->ipid >> 44) & 0xF) -
++				   amd_gpu_node_start_id() + amd_cpu_node_count();
++		} else {
++			return;
++		}
++
++		decode_dram_ecc(node_id, m);
++	}
+ }
+ 
+ static inline void amd_decode_err_code(u16 ec)
 -- 
 2.25.1
 
