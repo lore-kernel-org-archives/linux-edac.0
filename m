@@ -2,68 +2,80 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E41C433EF
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Oct 2021 20:25:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9EDC433FE
+	for <linux-edac@archiver.kernel.org>; Wed, 27 Oct 2021 11:41:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F9946103B
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Oct 2021 20:25:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FDC7610A0
+	for <linux-edac@archiver.kernel.org>; Wed, 27 Oct 2021 11:41:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239154AbhJZU2M (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 26 Oct 2021 16:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53554 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbhJZU2L (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 26 Oct 2021 16:28:11 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0894C061570;
-        Tue, 26 Oct 2021 13:25:47 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f131c00b46b7e3e031d787a.dip0.t-ipconnect.de [IPv6:2003:ec:2f13:1c00:b46b:7e3e:31d:787a])
+        id S241648AbhJ0Lnd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 27 Oct 2021 07:43:33 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:51776 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230336AbhJ0Lnd (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Wed, 27 Oct 2021 07:43:33 -0400
+Received: from zn.tnic (p200300ec2f161500de850afe3c1188c4.dip0.t-ipconnect.de [IPv6:2003:ec:2f16:1500:de85:afe:3c11:88c4])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BB1D71EC05D3;
-        Tue, 26 Oct 2021 22:25:45 +0200 (CEST)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EB7671EC061D;
+        Wed, 27 Oct 2021 13:41:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1635279945;
+        t=1635334867;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=WLlTpXinvh+EyZlgjO8NYvSEq+h4ilFLERK0QuXowpM=;
-        b=fY5TQGh9fW9CS5tZKqmOaGPw2OGjBTKjSUz81MQogjLbxsxhVnx6EYX0lYCZIFK5HSSykU
-        WQYxBGaIqluPJYPD2KdTo6Y3w/yyKlsp2G36dviCniCNSPe+KS/pqL26GVOIdTHLrZUjX5
-        tjVRVBnh3PbwIPEfHr/5x0VeMfrQOgQ=
-Date:   Tue, 26 Oct 2021 22:25:47 +0200
+        bh=8AFb4PMAeHttwC3qS0esrlJfGzXNEM1Moimt2WNSlzU=;
+        b=QyYiPlHM3SDI0E3QPXTszPfzfejgQnMuXfb1uv/NcQcTzDappkqng30GR78Djhb+HY9s5b
+        sbmK9dbaJxXdAb6QAOSa7puPB04FkN8xoOG2XCARHtcLdYocFWc9JoS0IQD6Kf9y5ikaxv
+        YdPFxjDBcULwBAD79AqjYyHzEiqrW44=
+Date:   Wed, 27 Oct 2021 13:41:03 +0200
 From:   Borislav Petkov <bp@alien8.de>
-To:     "Koralahalli Channabasappa, Smita" <skoralah@amd.com>
-Cc:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-        x86@kernel.org, linux-edac@vger.kernel.org,
+To:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
         linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
         "H . Peter Anvin" <hpa@zytor.com>, yazen.ghannam@amd.com
-Subject: Re: [PATCH v2 2/5] x86/mce/inject: Warn the user on a not set valid
- bit in MCA_STATUS
-Message-ID: <YXhkS7Ow9bdXOXpb@zn.tnic>
+Subject: Re: [PATCH v2 3/5] x86/mce: Use mca_msr_reg() in prepare_msrs()
+Message-ID: <YXk6z9xWvS4B7eRP@zn.tnic>
 References: <20211019233641.140275-1-Smita.KoralahalliChannabasappa@amd.com>
- <20211019233641.140275-3-Smita.KoralahalliChannabasappa@amd.com>
- <YXfSGW1i5dLsiX84@zn.tnic>
- <00f4a0ab-f241-6674-f37f-623f3d9a8337@amd.com>
- <YXg3rIump+CAtgs6@zn.tnic>
- <73439c67-b7a3-e43d-511b-86f4a314fa29@amd.com>
+ <20211019233641.140275-4-Smita.KoralahalliChannabasappa@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <73439c67-b7a3-e43d-511b-86f4a314fa29@amd.com>
+In-Reply-To: <20211019233641.140275-4-Smita.KoralahalliChannabasappa@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 01:53:32PM -0500, Koralahalli Channabasappa, Smita wrote:
-> Not a problem. I could have broken this down in the comments before
-> coming up with this patch.
+On Tue, Oct 19, 2021 at 06:36:39PM -0500, Smita Koralahalli wrote:
+> Replace MCx_{STATUS, ADDR, MISC} macros with mca_msr_reg().
 
-No worries - sometimes proposing the wrong thing even helps in deciding
-faster what makes sense and what not. :-)
+And this is where your commit message and patch should end. It is a bad
+idea to do textual replacements *and* functional changes in a single
+patch: it is hard to review and debug if there are possible issues. So
+you do the textual replacements in the first one and then the functional
+changes in subsequent patches.
 
-> I will make the necessary changes and set the valid bit in the next
-> revision of the patch series.
+> Also, restructure the code to avoid multiple initializations for MCA
+> registers.
+
+What multiple initializations?
+
+> SMCA machines define a different set of MSRs for MCA registers
+> and mca_msr_reg() returns the proper MSR address for SMCA and legacy
+> processors.
+> 
+> Initialize MCA_MISC and MCA_SYND registers at the end after initializing
+> MCx_{STATUS, DESTAT} which is further explained in the next patch.
+
+And this should be *in* the next patch.
+
+Also, there's no concept of "next patch" when you do git log on the
+upstream tree and use different sorting etc. So a patch should be
+self-contained and do one change only.
+
+There's very good documentation in Documentation/process/, expecially
+Documentation/process/submitting-patches.rst, which explains how a patch
+should look like.
 
 Thx.
 
