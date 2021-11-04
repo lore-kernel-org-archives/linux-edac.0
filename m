@@ -2,142 +2,76 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B540FC433FE
-	for <linux-edac@archiver.kernel.org>; Tue,  2 Nov 2021 18:03:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0BB3C433EF
+	for <linux-edac@archiver.kernel.org>; Thu,  4 Nov 2021 08:16:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8336860230
-	for <linux-edac@archiver.kernel.org>; Tue,  2 Nov 2021 18:03:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91D45611C9
+	for <linux-edac@archiver.kernel.org>; Thu,  4 Nov 2021 08:16:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231340AbhKBSGU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 2 Nov 2021 14:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230392AbhKBSGU (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 2 Nov 2021 14:06:20 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10564C061714;
-        Tue,  2 Nov 2021 11:03:44 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0f6200329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:6200:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 862C51EC0295;
-        Tue,  2 Nov 2021 19:03:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1635876223;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=2cRQS7O7L2Z/48DbfCY2EPH6+yBs7CP8ey5aYVYfKQE=;
-        b=Zn0eb3UQYP7NKSGIc/K4vjCS72vPOfrMz9v5IvB7Wnl0ReaNkvbBJYhON5fHRedkjqk60U
-        pPPF6LBXYiCG44zEp5aBsJdyu1uun8qlsq6AXlArsPCusjIUpxDNPo6I6kn2Tczj5nH6KI
-        2/2XdpCLrXLSin4JCCZ/V3yQO4bKNdM=
-Date:   Tue, 2 Nov 2021 19:03:38 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Naveen Krishna Chatradhi <nchatrad@amd.com>
-Cc:     linux-edac@vger.kernel.org, x86@kernel.org,
-        linux-kernel@vger.kernel.org, mingo@redhat.com, mchehab@kernel.org,
-        yazen.ghannam@amd.com, Muralidhara M K <muralimk@amd.com>
-Subject: Re: [PATCH v6 1/5] x86/amd_nb: Add support for northbridges on
- Aldebaran
-Message-ID: <YYF9ei59G/OUyZqR@zn.tnic>
-References: <20211028130106.15701-1-nchatrad@amd.com>
- <20211028130106.15701-2-nchatrad@amd.com>
+        id S230334AbhKDIS4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 4 Nov 2021 04:18:56 -0400
+Received: from m15114.mail.126.com ([220.181.15.114]:50282 "EHLO
+        m15114.mail.126.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230084AbhKDIS4 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 4 Nov 2021 04:18:56 -0400
+X-Greylist: delayed 1812 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Nov 2021 04:18:53 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=pAMgP
+        U5O60xaFOyhRL1qBr0mrX5w3vzc+YINRhtl3Dk=; b=WLPMpHzxQ6UQ2dp1iWFF0
+        FjeEs9mlWcSksQyOr6j3G8B444+hKKUOcS+5PIUaHpMFiVDd2QMq0Ee08fq2ysnE
+        hbLHua6Kf8iNg147yhM2OAEKNLgqRKVydMauNZB6bKEJolABqlV2UfiaJo1MARAv
+        wdt4MyCMONY5VKHPHkzIFc=
+Received: from pek-lpd-ccm5.wrs.com (unknown [60.247.85.82])
+        by smtp7 (Coremail) with SMTP id DsmowADHDk+Pj4NhZAinWw--.41518S2;
+        Thu, 04 Nov 2021 15:45:37 +0800 (CST)
+From:   Zhaolong Zhang <zhangzl2013@126.com>
+To:     Zhaolong Zhang <zhangzl2013@126.com>,
+        Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] x86/mce: correct cpu_missing reporting in mce_timed_out
+Date:   Thu,  4 Nov 2021 15:44:31 +0800
+Message-Id: <20211104074431.1091525-1-zhangzl2013@126.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211028130106.15701-2-nchatrad@amd.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DsmowADHDk+Pj4NhZAinWw--.41518S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKw15GrWkAFyUXF47ZFy3XFb_yoWfZwcEgw
+        n3tw4jkr4fXFy29wnrJa1jqr12qa4SyFsYvw4fta4YyFyqqFWDua1YkFy3AFn3K34rJrW8
+        ZrZ5Ar4vvw4j9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbZYw5UUUUU==
+X-Originating-IP: [60.247.85.82]
+X-CM-SenderInfo: x2kd0wt2osiiat6rjloofrz/1tbi4wFBz1pD-dKMJwAAsx
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Oct 28, 2021 at 06:31:02PM +0530, Naveen Krishna Chatradhi wrote:
+set cpu_missing before mce_panic() so that it prints correct msg.
 
-Staring at this more...
+Signed-off-by: Zhaolong Zhang <zhangzl2013@126.com>
+---
+ arch/x86/kernel/cpu/mce/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +/*
-> + * Newer AMD CPUs and GPUs whose data fabrics can be connected via custom xGMI
-> + * links, comes with registers to gather local and remote node type map info.
-> + *
-> + * "Local Node Type" refers to nodes with the same type as that from which the
-> + * register is read, and "Remote Node Type" refers to nodes with a different type.
-> + *
-> + * This function, reads the registers from GPU DF function 1.
-> + * Hence, local nodes are GPU and remote nodes are CPUs.
-> + */
-> +static int amd_get_node_map(void)
-
-... so this is a generic function name...
-
-> +{
-> +	struct amd_node_map *nodemap;
-> +	struct pci_dev *pdev;
-> +	u32 tmp;
-> +
-> +	pdev = pci_get_device(PCI_VENDOR_ID_AMD,
-> +			      PCI_DEVICE_ID_AMD_ALDEBARAN_DF_F1, NULL);
-
-... but this here is trying to get the Aldebaran PCI device function.
-
- So what happens if in the future, the GPU is a different one and it
-gets RAS functionality and PCI device functions too? You'd probably need
-to add that new GPU support too.
-
-And then looking at that patch again, see how this new code is bolted on
-and sure, it all is made to work, but it is strenuous and you have to
-always pay attention to what type of devices you're dealing with.
-
-And the next patch does:
-
-	... if (bank_type == SMCA_UMC_V2) {
-
-	/* do UMC v2 special stuff here. */
-
-which begs the question: wouldn't this GPU PCI devices enumeration be a
-lot cleaner if it were separate?
-
-I.e., in amd_nb.c you'd have
-
-init_amd_nbs:
-
-        amd_cache_northbridges();
-        amd_cache_gart();
-	amd_cache_gpu_devices();
-
-and in this last one you do your enumeration. Completely separate data
-structures and all. Adding a new device support would then be trivial.
-
-And then looking at the next patch again, you have:
-
-+		} else if (bank_type == SMCA_UMC_V2) {
-+			/*
-+			 * SMCA_UMC_V2 exists on GPU nodes, extract the node id
-+			 * from register MCA_IPID[47:44](InstanceIdHi).
-+			 * The InstanceIdHi field represents the instance ID of the GPU.
-+			 * Which needs to be mapped to a value used by Linux,
-+			 * where GPU nodes are simply numerically after the CPU nodes.
-+			 */
-+			node_id = ((m->ipid >> 44) & 0xF) -
-+				   amd_gpu_node_start_id() + amd_cpu_node_count();
-
-where instead of exporting those functions and having the caller do the
-calculations, you'd have a function in amd_nb.c which is called
-
-	amd_get_gpu_node_id(unsigned long ipid)
-
-which will use those separate data structures mentioned above and give
-you the node id.
-
-And those GPU node IDs are placed numerically after the CPU nodes so
-your code doesn't need to do anything special - just read out registers
-and cache them.
-
-And you don't need those exports either - it is all nicely encapsulated
-and a single function is used to get the callers what they wanna know.
-
-Hmmm?
-
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 50a3e455cded..ccefe131ab55 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -903,13 +903,13 @@ static int mce_timed_out(u64 *t, const char *msg)
+ 	if (!mca_cfg.monarch_timeout)
+ 		goto out;
+ 	if ((s64)*t < SPINUNIT) {
++		cpu_missing = 1;
+ 		if (mca_cfg.tolerant <= 1) {
+ 			if (cpumask_and(&mce_missing_cpus, cpu_online_mask, &mce_missing_cpus))
+ 				pr_emerg("CPUs not responding to MCE broadcast (may include false positives): %*pbl\n",
+ 					 cpumask_pr_args(&mce_missing_cpus));
+ 			mce_panic(msg, NULL, NULL);
+ 		}
+-		cpu_missing = 1;
+ 		return 1;
+ 	}
+ 	*t -= SPINUNIT;
 -- 
-Regards/Gruss,
-    Boris.
+2.27.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
