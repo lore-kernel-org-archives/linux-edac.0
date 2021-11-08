@@ -2,106 +2,248 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF59C433FE
-	for <linux-edac@archiver.kernel.org>; Mon,  8 Nov 2021 09:32:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FE83C43217
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Nov 2021 10:13:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BCB16120D
-	for <linux-edac@archiver.kernel.org>; Mon,  8 Nov 2021 09:32:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 699256120D
+	for <linux-edac@archiver.kernel.org>; Mon,  8 Nov 2021 10:13:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238428AbhKHJeq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 8 Nov 2021 04:34:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57586 "EHLO
+        id S238728AbhKHKQ0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 8 Nov 2021 05:16:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238427AbhKHJeq (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 8 Nov 2021 04:34:46 -0500
+        with ESMTP id S238649AbhKHKPj (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 8 Nov 2021 05:15:39 -0500
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41011C061570;
-        Mon,  8 Nov 2021 01:32:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 270B9C061227;
+        Mon,  8 Nov 2021 02:12:43 -0800 (PST)
 Received: from zn.tnic (p200300ec2f33110088892b77bd117736.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:8889:2b77:bd11:7736])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 234ED1EC04CB;
-        Mon,  8 Nov 2021 10:31:59 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 97BC51EC0535;
+        Mon,  8 Nov 2021 11:12:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1636363919;
+        t=1636366361;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=h2P/LNsljnY2z25eHjXfrbalNQAopI8XuC/MPUOiOeg=;
-        b=bbedHRaR+iUfc85Q/LtqyY8fN7WM7vFvq8uyTEHnWtM4Bqg4bIgsenUX2TTXQULh2guDWM
-        2zyYyeoqhlFmAGiWx4J7ogH6Aga+U/9nHipLllRNoBCtl3OjoNtlaQ8Ka0/7osFkTimIkW
-        IXUkuIKtOozULHGi4wWcl0MVTqeOIgk=
-Date:   Mon, 8 Nov 2021 10:31:52 +0100
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZSl40zXDlt+0/rSkoDA+/axSBICuEw4xrW9t+JeAzRg=;
+        b=O9utTH7kzvF0ogbSAjrVux8Q2NyGvuXt2DXX+lXMfGwQDD5NsnAlA7vS1HO+tdNI+F2ntn
+        CZwfQStJuxv3i5Q66Ie7iUHTOBEhoA6pq6felnVAUxHBDq6LlMPMTRyA2hQo7p+FfRiqlX
+        omkNlvF2ej63UhZNrO1CmPB0HckLABU=
 From:   Borislav Petkov <bp@alien8.de>
-To:     Zhaolong Zhang <zhangzl2013@126.com>
-Cc:     Tony Luck <tony.luck@intel.com>, x86@kernel.org,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Paul E . McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH] x86/mce: drop cpu_missing since we have more capable
- mce_missing_cpus
-Message-ID: <YYjuiHN1wKt82fjs@zn.tnic>
-References: <572d793c.f2e.17cede4cbf0.Coremail.zhangzl2013@126.com>
- <20211108082832.142436-1-zhangzl2013@126.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: [PATCH v0 42/42] notifier: Return an error when callback is already registered
+Date:   Mon,  8 Nov 2021 11:11:57 +0100
+Message-Id: <20211108101157.15189-43-bp@alien8.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20211108101157.15189-1-bp@alien8.de>
+References: <20211108101157.15189-1-bp@alien8.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211108082832.142436-1-zhangzl2013@126.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Mon, Nov 08, 2021 at 04:28:32PM +0800, Zhaolong Zhang wrote:
-> move mce_missing_cpus checking into mce_panic() as well, because we don't want
-> to lose the cpu missing information in case mca_cfg.tolerant > 1 and there is
-> no_way_out.
-> 
-> Signed-off-by: Zhaolong Zhang <zhangzl2013@126.com>
-> ---
->  arch/x86/kernel/cpu/mce/core.c | 38 ++++++++++++++++++++--------------
->  1 file changed, 22 insertions(+), 16 deletions(-)
+From: Borislav Petkov <bp@suse.de>
 
-I was actually expecting to see something like this:
+The notifier registration routine doesn't return a proper error value
+when a callback has already been registered, leading people to track
+whether that registration has happened at the call site:
 
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 6ed365337a3b..30de00fe0d7a 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -99,7 +99,6 @@ struct mca_config mca_cfg __read_mostly = {
+  https://lore.kernel.org/amd-gfx/20210512013058.6827-1-mukul.joshi@amd.com/
+
+Which is unnecessary.
+
+Return -EEXIST to signal that case so that callers can act accordingly.
+Enforce callers to check the return value, leading to loud screaming
+during build:
+
+  arch/x86/kernel/cpu/mce/core.c: In function ‘mce_register_decode_chain’:
+  arch/x86/kernel/cpu/mce/core.c:167:2: error: ignoring return value of \
+   ‘blocking_notifier_chain_register’, declared with attribute warn_unused_result [-Werror=unused-result]
+    blocking_notifier_chain_register(&x86_mce_decoder_chain, nb);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Drop the WARN too, while at it.
+
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Borislav Petkov <bp@suse.de>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Ayush Sawal <ayush.sawal@chelsio.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rohit Maheshwari <rohitm@chelsio.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Vinay Kumar Yadav <vinay.yadav@chelsio.com>
+Cc: alsa-devel@alsa-project.org
+Cc: bcm-kernel-feedback-list@broadcom.com
+Cc: intel-gfx@lists.freedesktop.org
+Cc: intel-gvt-dev@lists.freedesktop.org
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-clk@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-edac@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-remoteproc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-xtensa@linux-xtensa.org
+Cc: netdev@vger.kernel.org
+Cc: openipmi-developer@lists.sourceforge.net
+Cc: rcu@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: x86@kernel.org
+Cc: xen-devel@lists.xenproject.org
+---
+ include/linux/notifier.h |  8 ++++----
+ kernel/notifier.c        | 36 +++++++++++++++++++-----------------
+ 2 files changed, 23 insertions(+), 21 deletions(-)
+
+diff --git a/include/linux/notifier.h b/include/linux/notifier.h
+index 87069b8459af..45cc5a8d0fd8 100644
+--- a/include/linux/notifier.h
++++ b/include/linux/notifier.h
+@@ -141,13 +141,13 @@ extern void srcu_init_notifier_head(struct srcu_notifier_head *nh);
  
- static DEFINE_PER_CPU(struct mce, mces_seen);
- static unsigned long mce_need_notify;
--static int cpu_missing;
+ #ifdef __KERNEL__
  
- /*
-  * MCA banks polled by the period polling timer for corrected events.
-@@ -314,8 +313,6 @@ static void mce_panic(const char *msg, struct mce *final, char *exp)
- 		if (!apei_err)
- 			apei_err = apei_write_mce(final);
- 	}
--	if (cpu_missing)
--		pr_emerg(HW_ERR "Some CPUs didn't answer in synchronization\n");
- 	if (exp)
- 		pr_emerg(HW_ERR "Machine check: %s\n", exp);
- 	if (!fake_panic) {
-@@ -891,7 +888,6 @@ static int mce_timed_out(u64 *t, const char *msg)
- 					 cpumask_pr_args(&mce_missing_cpus));
- 			mce_panic(msg, NULL, NULL);
- 		}
--		cpu_missing = 1;
- 		return 1;
- 	}
- 	*t -= SPINUNIT;
-@@ -2702,7 +2698,6 @@ struct dentry *mce_get_debugfs_dir(void)
+-extern int atomic_notifier_chain_register(struct atomic_notifier_head *nh,
++extern int __must_check atomic_notifier_chain_register(struct atomic_notifier_head *nh,
+ 		struct notifier_block *nb);
+-extern int blocking_notifier_chain_register(struct blocking_notifier_head *nh,
++extern int __must_check blocking_notifier_chain_register(struct blocking_notifier_head *nh,
+ 		struct notifier_block *nb);
+-extern int raw_notifier_chain_register(struct raw_notifier_head *nh,
++extern int __must_check raw_notifier_chain_register(struct raw_notifier_head *nh,
+ 		struct notifier_block *nb);
+-extern int srcu_notifier_chain_register(struct srcu_notifier_head *nh,
++extern int __must_check srcu_notifier_chain_register(struct srcu_notifier_head *nh,
+ 		struct notifier_block *nb);
  
- static void mce_reset(void)
+ extern int atomic_notifier_chain_unregister(struct atomic_notifier_head *nh,
+diff --git a/kernel/notifier.c b/kernel/notifier.c
+index b8251dc0bc0f..451ef3f73ad2 100644
+--- a/kernel/notifier.c
++++ b/kernel/notifier.c
+@@ -20,13 +20,11 @@ BLOCKING_NOTIFIER_HEAD(reboot_notifier_list);
+  */
+ 
+ static int notifier_chain_register(struct notifier_block **nl,
+-		struct notifier_block *n)
++				   struct notifier_block *n)
  {
--	cpu_missing = 0;
- 	atomic_set(&mce_fake_panicked, 0);
- 	atomic_set(&mce_executing, 0);
- 	atomic_set(&mce_callin, 0);
-
+ 	while ((*nl) != NULL) {
+-		if (unlikely((*nl) == n)) {
+-			WARN(1, "double register detected");
+-			return 0;
+-		}
++		if (unlikely((*nl) == n))
++			return -EEXIST;
+ 		if (n->priority > (*nl)->priority)
+ 			break;
+ 		nl = &((*nl)->next);
+@@ -134,10 +132,11 @@ static int notifier_call_chain_robust(struct notifier_block **nl,
+  *
+  *	Adds a notifier to an atomic notifier chain.
+  *
+- *	Currently always returns zero.
++ *	Returns 0 on success, %-EEXIST on error.
+  */
+-int atomic_notifier_chain_register(struct atomic_notifier_head *nh,
+-		struct notifier_block *n)
++int __must_check
++atomic_notifier_chain_register(struct atomic_notifier_head *nh,
++			       struct notifier_block *n)
+ {
+ 	unsigned long flags;
+ 	int ret;
+@@ -216,10 +215,11 @@ NOKPROBE_SYMBOL(atomic_notifier_call_chain);
+  *	Adds a notifier to a blocking notifier chain.
+  *	Must be called in process context.
+  *
+- *	Currently always returns zero.
++ *	Returns 0 on success, %-EEXIST on error.
+  */
+-int blocking_notifier_chain_register(struct blocking_notifier_head *nh,
+-		struct notifier_block *n)
++int __must_check
++blocking_notifier_chain_register(struct blocking_notifier_head *nh,
++				 struct notifier_block *n)
+ {
+ 	int ret;
+ 
+@@ -335,10 +335,11 @@ EXPORT_SYMBOL_GPL(blocking_notifier_call_chain);
+  *	Adds a notifier to a raw notifier chain.
+  *	All locking must be provided by the caller.
+  *
+- *	Currently always returns zero.
++ *	Returns 0 on success, %-EEXIST on error.
+  */
+-int raw_notifier_chain_register(struct raw_notifier_head *nh,
+-		struct notifier_block *n)
++int __must_check
++raw_notifier_chain_register(struct raw_notifier_head *nh,
++			    struct notifier_block *n)
+ {
+ 	return notifier_chain_register(&nh->head, n);
+ }
+@@ -406,10 +407,11 @@ EXPORT_SYMBOL_GPL(raw_notifier_call_chain);
+  *	Adds a notifier to an SRCU notifier chain.
+  *	Must be called in process context.
+  *
+- *	Currently always returns zero.
++ *	Returns 0 on success, %-EEXIST on error.
+  */
+-int srcu_notifier_chain_register(struct srcu_notifier_head *nh,
+-		struct notifier_block *n)
++int __must_check
++srcu_notifier_chain_register(struct srcu_notifier_head *nh,
++			     struct notifier_block *n)
+ {
+ 	int ret;
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.29.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
