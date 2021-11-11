@@ -2,51 +2,71 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA7DC433EF
-	for <linux-edac@archiver.kernel.org>; Wed, 10 Nov 2021 19:56:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A70FBC433F5
+	for <linux-edac@archiver.kernel.org>; Thu, 11 Nov 2021 12:39:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90BD961106
-	for <linux-edac@archiver.kernel.org>; Wed, 10 Nov 2021 19:56:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EEF060EE9
+	for <linux-edac@archiver.kernel.org>; Thu, 11 Nov 2021 12:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231464AbhKJT6t convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 10 Nov 2021 14:58:49 -0500
-Received: from host.holol.com ([5.9.97.152]:42132 "EHLO host.holol.com"
+        id S232033AbhKKMmd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 11 Nov 2021 07:42:33 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:50642 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230195AbhKJT6t (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 10 Nov 2021 14:58:49 -0500
-X-Greylist: delayed 125230 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Nov 2021 14:58:48 EST
-Received: from [212.102.57.163] (port=53196 helo=g-c-co.com)
-        by host.holol.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <barakat@g-c-co.com>)
-        id 1mkN8d-0006ci-M7
-        for linux-edac@vger.kernel.org; Tue, 09 Nov 2021 12:09:56 +0300
-Reply-To: Dr.Ngui@vger.kernel.org, Karen <kngui777@gmail.com>
-From:   Mrs Karen Ngui <karen.n1@pm.me>
-To:     linux-edac@vger.kernel.org
-Subject: VE~INMAIL
-Date:   9 Nov 2021 09:08:51 +0000
-Message-ID: <20211109090851.2BCC6D169ACEEE51@pm.me>
+        id S231951AbhKKMmd (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 11 Nov 2021 07:42:33 -0500
+Received: from zn.tnic (p200300ec2f0fc200bb2554a44f8eb9ed.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:c200:bb25:54a4:4f8e:b9ed])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2CE1F1EC0532;
+        Thu, 11 Nov 2021 13:39:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1636634383;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=pudPfA/TcO8YJorHN3KVppXQPK26ggKvCxR2WK1znys=;
+        b=HUAKOUVVLAv4WBJdGohH5WkjVM5Qn/W1tlHtUCSGDBLIWeDQxhlpLatWdx/MVM32l0PVHk
+        oJtc7Gd0jggSqkOYvvseFtLX28VibICefe8q2w53+JQzo8ScpczOsdpYptevMIGQqmvFAR
+        lSk4F0C6dbQelvsWrWupcU2nrNDWaFM=
+Date:   Thu, 11 Nov 2021 13:39:40 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Naveen Krishna Chatradhi <nchatrad@amd.com>
+Cc:     linux-edac@vger.kernel.org, x86@kernel.org,
+        linux-kernel@vger.kernel.org, mingo@redhat.com, mchehab@kernel.org,
+        yazen.ghannam@amd.com, Muralidhara M K <muralimk@amd.com>
+Subject: Re: [PATCH v6 4/5] EDAC/amd64: Move struct fam_type into amd64_pvt
+ structure
+Message-ID: <YY0PDMUjcbrfY9EB@zn.tnic>
+References: <20211028130106.15701-1-nchatrad@amd.com>
+ <20211028130106.15701-5-nchatrad@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - host.holol.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - g-c-co.com
-X-Get-Message-Sender-Via: host.holol.com: authenticated_id: barakat@g-c-co.com
-X-Authenticated-Sender: host.holol.com: barakat@g-c-co.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211028130106.15701-5-nchatrad@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-I hope you have positive and great start this new week, consider 
-this e-mail as a kind reminder of my previous e-mail sent to you 
-at the beginning of last week.
+On Thu, Oct 28, 2021 at 06:31:05PM +0530, Naveen Krishna Chatradhi wrote:
+> diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
+> index 881ff6322bc9..82d9f64aa150 100644
+> --- a/drivers/edac/amd64_edac.h
+> +++ b/drivers/edac/amd64_edac.h
+> @@ -389,6 +389,8 @@ struct amd64_pvt {
+>  	enum mem_type dram_type;
+>  
+>  	struct amd64_umc *umc;	/* UMC registers */
+> +
+> +	struct amd64_family_type *fam_type;
 
-Do confirm if you got it ?
+With my suggestion to the previous patch to assign ops and per-family
+members dynamically, you can just as well get rid of struct
+amd64_family_type and put its members directly in the pvt structure.
 
-Warm regards .... Mrs Karen Ngui,
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
