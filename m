@@ -2,57 +2,82 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B8FCC433FE
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Nov 2021 09:01:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C420FC433F5
+	for <linux-edac@archiver.kernel.org>; Thu, 18 Nov 2021 22:44:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2506663212
-	for <linux-edac@archiver.kernel.org>; Tue, 16 Nov 2021 09:01:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A44C4611C5
+	for <linux-edac@archiver.kernel.org>; Thu, 18 Nov 2021 22:44:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232694AbhKPJEf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 16 Nov 2021 04:04:35 -0500
-Received: from mail.bizjoindeal.pl ([80.211.97.164]:57934 "EHLO
-        mail.bizjoindeal.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232727AbhKPJE0 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 Nov 2021 04:04:26 -0500
-X-Greylist: delayed 583 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Nov 2021 04:04:26 EST
-Received: by mail.bizjoindeal.pl (Postfix, from userid 1001)
-        id 67278A288F; Tue, 16 Nov 2021 08:51:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bizjoindeal.pl;
-        s=mail; t=1637052704;
-        bh=JZuQ1fK7zFtz2oeUB7Xfid9vb7kUywdmDd2OluR8ywA=;
-        h=Date:From:To:Subject:From;
-        b=NZCUEcTuKHYGsFjJiJ/JgyKNsu8I8AWVgmd3eQnskW1QLZMXqOD3NELQ6aYf3VIOT
-         /vDH7iK40ixu7FrO9beq84nt04+zmlK4fV97PFQHsXqV/kYy6Lk2eQKY2xe1YEU3gT
-         uYJi2Mtojy8kOce/sSM1AVwBkyozBbEaZCffKp7IA9TWW4OoeDBgYhDfCt7kPagVEM
-         GP8fwzJx28yCPGyRuGYOyaf+LyfciQwA7HiRZdOzJkPWq1X5NwPtLR9Ftx29ztdmwO
-         ehlh6s6DKA3CMur+vnL9jE9NyRhDfC5yhX/Bye+uGVdmOepy+PuGEztLRt7+1XXYfe
-         /mr8Q4U3MC8BQ==
-Received: by mail.bizjoindeal.pl for <linux-edac@vger.kernel.org>; Tue, 16 Nov 2021 08:51:12 GMT
-Message-ID: <20211116074500-0.1.60.f0wc.0.s39pmbjvc5@bizjoindeal.pl>
-Date:   Tue, 16 Nov 2021 08:51:12 GMT
-From:   "Dorian Kwiatkowski" <dorian.kwiatkowski@bizjoindeal.pl>
-To:     <linux-edac@vger.kernel.org>
-Subject: Fotowoltaika dla firm
-X-Mailer: mail.bizjoindeal.pl
+        id S231895AbhKRWrA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 18 Nov 2021 17:47:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35066 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232469AbhKRWq6 (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 18 Nov 2021 17:46:58 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C9F97600D4;
+        Thu, 18 Nov 2021 22:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637275437;
+        bh=N9jTIFliNnDCqYanHCgoS9+gfA6v3yNGg/McyII/kPs=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=LAWLApl0V0aUK4UdGPZtWzjV87bJ994Bz/Bp+N5n/sxm9Xjzi1pyKn4vQMs70LZWT
+         9QevPtT/DcJiBjeGgvNyLxBYcKJVudgntS3V+qyBtPjcdPc26hqNNPh0KL3bSJ5Cw1
+         tIgQ9fjjFgRlPG5+m7cJK4svRNS+Zu6aji+Wuaxk5/eyDTV6m8p63iDYRlYdjm7eb4
+         8ms4xctUUfe0cZu7cJY1tGKm3RXaH9CVrz8vIp/yTOvswnICaQNU1Vs93AjkqGvXsM
+         R80ZfgJn3Bszg/tHNoF7BkYi6Pt531JMMiGcw43aKVHWREagwhm8Imh4bQAbF13yu+
+         /PGynoCpgMpTQ==
+Subject: Re: [PATCHv4 1/4] EDAC/synopsys: use the quirk for version instead of
+ ddr version
+To:     bp@alien8.de
+Cc:     linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20211012190709.1504152-1-dinguyen@kernel.org>
+From:   Dinh Nguyen <dinguyen@kernel.org>
+Message-ID: <778158cf-fbe9-0a65-7982-5372592e5ad2@kernel.org>
+Date:   Thu, 18 Nov 2021 16:43:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211012190709.1504152-1-dinguyen@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Boris,
 
-kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC dostrzegam mo=C5=BC=
-liwo=C5=9B=C4=87 redukcji op=C5=82at za pr=C4=85d.
+can you please take this series through your tree?
 
-Odpowiednio dobrana instalacja fotowoltaiczna to rozwi=C4=85zanie, kt=C3=B3=
-re pozwala wygenerowa=C4=87 spore oszcz=C4=99dno=C5=9Bci w skali roku.
+Thanks,
+Dinh
 
-Chcia=C5=82bym porozmawia=C4=87 z Pa=C5=84stwem o tego typu rozwi=C4=85za=
-niu, a tak=C5=BCe przedstawi=C4=87 wst=C4=99pne kalkulacje.
-
-Czy s=C4=85 Pa=C5=84stwo zainteresowani?
-
-Pozdrawiam,
-Dorian Kwiatkowski
+On 10/12/21 2:07 PM, Dinh Nguyen wrote:
+> Version 2.40a supports DDR_ECC_INTR_SUPPORT for a quirk, so use that
+> quirk to determine a call to setup_address_map().
+> 
+> Reviewed-by: Michal Simek <michal.simek@xilinx.com>
+> Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
+> ---
+> v4: add Reviewed-by
+> v3: new patch
+> ---
+>   drivers/edac/synopsys_edac.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
+> index 7e7146b22c16..bf237fccb444 100644
+> --- a/drivers/edac/synopsys_edac.c
+> +++ b/drivers/edac/synopsys_edac.c
+> @@ -1352,8 +1352,7 @@ static int mc_probe(struct platform_device *pdev)
+>   		}
+>   	}
+>   
+> -	if (of_device_is_compatible(pdev->dev.of_node,
+> -				    "xlnx,zynqmp-ddrc-2.40a"))
+> +	if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT)
+>   		setup_address_map(priv);
+>   #endif
+>   
+> 
