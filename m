@@ -2,81 +2,91 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D860C433F5
-	for <linux-edac@archiver.kernel.org>; Wed,  1 Dec 2021 03:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1DE7C433EF
+	for <linux-edac@archiver.kernel.org>; Thu,  2 Dec 2021 13:32:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346395AbhLADMi (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 30 Nov 2021 22:12:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346357AbhLADMh (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 30 Nov 2021 22:12:37 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD801C061574;
-        Tue, 30 Nov 2021 19:09:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=8Y/Yf1DFpXZ40Q8rAYKo+hnEhIQdPQLV0bx1iRLRFLc=; b=F0LCgZGB1f7DpUjH25+8gVSMmU
-        Hf2KWDLiLXV1tL9G0mL/dpsYnOOqwpB6qMM14uxqFNekVI/FLjXxYqAXUP5eAGDdeUES/p7G6+btR
-        z1gO/FAF0Fuv6W4DVQ9zocr9tDndDfRrF7GaVpp7FkXoRRYFTszYgtp1WPtKNQD9eMbfDefDebg+/
-        rOdQuaEGMmBYM4MtZYvUl+f0pU205LluHLvriwvb3gG3ymW8Z51/zYQzwL2dGYEeIulT2A09y38OA
-        lSZqhiBRUMk/u2kPbdnTR/xl2IaS8tFfT8p96+M5xjRf0MEZkwUrUfoCMMJsJbpSkjVASjj8w4r4c
-        H8M1ln0g==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1msFzg-007MLx-K5; Wed, 01 Dec 2021 03:09:16 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Yash Shah <yash.shah@sifive.com>, linux-edac@vger.kernel.org,
-        Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>
-Subject: [PATCH] EDAC/sifive: fix non-kernel-doc comment
-Date:   Tue, 30 Nov 2021 19:09:13 -0800
-Message-Id: <20211201030913.10283-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+        id S231253AbhLBNfz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 2 Dec 2021 08:35:55 -0500
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:52426 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230492AbhLBNfy (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 2 Dec 2021 08:35:54 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UzAdFCh_1638451948;
+Received: from 30.240.117.107(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0UzAdFCh_1638451948)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 02 Dec 2021 21:32:29 +0800
+Message-ID: <1c4594ad-7477-9597-a627-21217f66a4f9@linux.alibaba.com>
+Date:   Thu, 2 Dec 2021 21:32:27 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.2
+Subject: Re: [PATCH] edac,ghes,cper: Add device to Memory Error Record
+Content-Language: en-US
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     mchehab@kernel.org, bp@alien8.de, james.morse@arm.com,
+        rric@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, zhangliguang@linux.alibaba.com,
+        zhuo.song@linux.alibaba.com
+References: <20211130131648.85860-1-xueshuai@linux.alibaba.com>
+ <YaZ3yiIBRj6qIg2h@agluck-desk2.amr.corp.intel.com>
+From:   Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <YaZ3yiIBRj6qIg2h@agluck-desk2.amr.corp.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-scripts/kernel-doc complains about a comment that begins with "/**"
-but is not in kernel-doc format, so correct it.
+Hi, Tony,
 
-Prevents this warning:
+> This looks OK (same as code in drivers/firmware/efi/cper.c in the
+> cper_mem_err_location() function. But that makes me wonder why there
+> is near duplication of code in ghes_edac.c?
+May it is a legacy issue.
 
-drivers/edac/sifive_edac.c:23: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * EDAC error callback
 
-Fixes: 91abaeaaff35 ("EDAC/sifive: Add EDAC platform driver for SiFive SoCs")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: Yash Shah <yash.shah@sifive.com>
-Cc: linux-edac@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tony Luck <tony.luck@intel.com>
----
- drivers/edac/sifive_edac.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The cper.c code seems to be written defensively using scnprintf()
+> instead of sprintf().  Could ghes_edac share the same code?
+I think so, ghes_edac_report_mem_error in ghes_edac.c is Long Method
+and have Duplicated Code with cper_mem_err_location,
+cper_dimm_err_location, and cper_mem_err_type_str in
+drivers/firmware/efi/cper.c.
 
---- linux-next-20211130.orig/drivers/edac/sifive_edac.c
-+++ linux-next-20211130/drivers/edac/sifive_edac.c
-@@ -19,7 +19,7 @@ struct sifive_edac_priv {
- 	struct edac_device_ctl_info *dci;
- };
- 
--/**
-+/*
-  * EDAC error callback
-  *
-  * @event: non-zero if unrecoverable.
+I will send a new patch to rework ghes_edac_report_mem_error.
+
+Cheers
+Shuai
+
+On 2021/12/1 AM3:13, Luck, Tony wrote:
+> On Tue, Nov 30, 2021 at 09:16:48PM +0800, Shuai Xue wrote:
+>> If Bit 7 of Validation Bits is valid, the device number of the memory
+>> associated with errors should be reported to Memory Error Record.
+>>
+>> Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
+>> ---
+>>  drivers/edac/ghes_edac.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+>> index a918ca93e4f7..cf98b270d6f7 100644
+>> --- a/drivers/edac/ghes_edac.c
+>> +++ b/drivers/edac/ghes_edac.c
+>> @@ -378,6 +378,8 @@ void ghes_edac_report_mem_error(int sev, struct cper_sec_mem_err *mem_err)
+>>  	if (mem_err->validation_bits & CPER_MEM_VALID_BANK_ADDRESS)
+>>  		p += sprintf(p, "bank_address:%d ",
+>>  			     mem_err->bank & CPER_MEM_BANK_ADDRESS_MASK);
+>> +	if (mem_err->validation_bits & CPER_MEM_VALID_DEVICE)
+>> +		p += sprintf(p, "device:%d ", mem_err->device);
+>>  	if (mem_err->validation_bits & (CPER_MEM_VALID_ROW | CPER_MEM_VALID_ROW_EXT)) {
+>>  		u32 row = mem_err->row;
+>>  
+> 
+> This looks OK (same as code in drivers/firmware/efi/cper.c in the
+> cper_mem_err_location() function. But that makes me wonder why there
+> is near duplication of code in ghes_edac.c?
+> 
+> The cper.c code seems to be written defensively using scnprintf()
+> instead of sprintf().  Could ghes_edac share the same code?
+> 
+> -Tony
+> 
