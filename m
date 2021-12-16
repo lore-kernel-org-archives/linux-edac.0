@@ -2,72 +2,81 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AAD4C433F5
-	for <linux-edac@archiver.kernel.org>; Wed, 15 Dec 2021 18:07:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DAC6C433F5
+	for <linux-edac@archiver.kernel.org>; Thu, 16 Dec 2021 12:54:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238548AbhLOSHQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 15 Dec 2021 13:07:16 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:39094 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238519AbhLOSHQ (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Wed, 15 Dec 2021 13:07:16 -0500
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 084E21EC02B9;
-        Wed, 15 Dec 2021 19:07:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1639591631;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Ra3WnB05nSWdBwQOHaRFNb+Tj70Io8iaKmQH1Zlg0i4=;
-        b=JEmny9mjtyhNvwXaiZ6pAfXEFdQAO+hlYr9oTcqpOG+/vFGHP9fGqr/ZiZ2vNl2K+USCjz
-        NucjLJUu0uhYKcMZq+aniootNDs/tctosuF6RXh3dtPPPYcOE3UwxqFmgcerUOILdw99/0
-        q2vxsqoevfmU5OpBS6/G0Sapysh/JBI=
-Date:   Wed, 15 Dec 2021 19:07:17 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     William Roche <william.roche@oracle.com>
-Cc:     Yazen Ghannam <yazen.ghannam@amd.com>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
-        Smita.KoralahalliChannabasappa@amd.com
-Subject: Re: [PATCH v2 2/2] EDAC/amd64: Add new register offset support and
- related changes
-Message-ID: <Ybou1VTJ8oced4Ge@zn.tnic>
-References: <20211215155309.2711917-1-yazen.ghannam@amd.com>
- <20211215155309.2711917-3-yazen.ghannam@amd.com>
- <d327bbfe-a3c0-9b26-569d-43e17dba126d@oracle.com>
+        id S236991AbhLPMyW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 16 Dec 2021 07:54:22 -0500
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:42992 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236990AbhLPMyV (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>);
+        Thu, 16 Dec 2021 07:54:21 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0V-oyp.9_1639659256;
+Received: from 30.240.114.88(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0V-oyp.9_1639659256)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 16 Dec 2021 20:54:18 +0800
+Message-ID: <74ea4177-b8b7-d60a-d468-d317b389aedd@linux.alibaba.com>
+Date:   Thu, 16 Dec 2021 20:54:16 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d327bbfe-a3c0-9b26-569d-43e17dba126d@oracle.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.2
+From:   Shuai Xue <xueshuai@linux.alibaba.com>
+Subject: Re: [PATCH v2 0/3] ghes_edac: refactor memory error reporting to
+ avoid code duplication
+To:     mchehab@kernel.org, bp@alien8.de, tony.luck@intel.com,
+        james.morse@arm.com, rric@kernel.org, ardb@kernel.org,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-efi@vger.kernel.org
+Cc:     zhangliguang@linux.alibaba.com, zhuo.song@linux.alibaba.com
+References: <20211210134019.28536-1-xueshuai@linux.alibaba.com>
+Content-Language: en-US
+In-Reply-To: <20211210134019.28536-1-xueshuai@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 05:32:27PM +0100, William Roche wrote:
-> > @@ -2174,8 +2215,13 @@ static int f17_addr_mask_to_cs_size(struct amd64_pvt *pvt, u8 umc,
-> >   	 * There is one mask per DIMM, and two Chip Selects per DIMM.
-> >   	 *	CS0 and CS1 -> DIMM0
-> >   	 *	CS2 and CS3 -> DIMM1
-> > +	 *
-> > +	 *	Systems with newer register layout have one mask per Chip Select.
+Hi folks,
+
+On 2021/12/10 PM9:40, Shuai Xue wrote:
+> ghes_edac_report_mem_error() in ghes_edac.c is Long Method and have
+> Duplicated Code with cper_mem_err_location(), cper_dimm_err_location(), and
+> cper_mem_err_type_str() in drivers/firmware/efi/cper.c. In addition, the
+> cper_print_mem() in drivers/firmware/efi/cper.c only reports the error
+> status and misses its description.
 > 
-> Just a question about this comment: Can it be translated into this ?
+> This patch set is to refactor ghes_edac_report_mem_error with:
 > 
-> +	 * Except on systems with newer register layout where we have one Chip Select per DIMM.
+> - Patch 01 is to unify memory error report format with cper;
+> - Patch 02 is to introduces cper_*(), into ghes_edac_report_mem_error(),
+>   this can avoid bunch of duplicate code lines;
+> - Patch 02 is to wrap up error status decoding logics and reuse it in
+>     cper_print_mem().
+> 
+> Changes since v1:
+> https://lore.kernel.org/all/20211207031905.61906-2-xueshuai@linux.alibaba.com/
+> 
+> - add a new patch to unify ghes and cper before removing duplication.
+> - document the changes in patch description
+> - add EXPORT_SYMBOL_GPL()s for cper_*()
+> - document and the dependency and add UEFI_CPER dependency explicitly
+> Thanks Robert Richter for review comments.
+> 
+> Shuai Xue (3):
+>   ghes_edac: unify memory error report format with cper
+>   ghes_edac: refactor memory error location processing
+>   ghes_edac: refactor error status fields decoding
+> 
+>  drivers/edac/Kconfig        |   1 +
+>  drivers/edac/ghes_edac.c    | 196 +++++++-----------------------------
+>  drivers/firmware/efi/cper.c |  86 ++++++++++++----
+>  include/linux/cper.h        |   3 +
+>  4 files changed, 105 insertions(+), 181 deletions(-)
+> 
 
-Sure, but without the "we":
+I am wondering if you have any comments on this series of patches?
 
-	...
-	* On systems with the newer register layout there is one Chip Select per DIMM.
-	*/
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Best Regards,
+Shuai
