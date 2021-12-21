@@ -2,65 +2,78 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13676C433F5
-	for <linux-edac@archiver.kernel.org>; Tue, 21 Dec 2021 01:22:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 558BFC433F5
+	for <linux-edac@archiver.kernel.org>; Tue, 21 Dec 2021 11:07:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229878AbhLUBWZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 20 Dec 2021 20:22:25 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:33883 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbhLUBWZ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 20 Dec 2021 20:22:25 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JHzFj6sVRzcc4X;
-        Tue, 21 Dec 2021 09:22:01 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 09:22:23 +0800
-Received: from [10.67.100.236] (10.67.100.236) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 09:22:23 +0800
-Message-ID: <1976430a-7912-47b0-f392-20efafe11ff2@huawei.com>
-Date:   Tue, 21 Dec 2021 09:22:23 +0800
+        id S236878AbhLULHW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 21 Dec 2021 06:07:22 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:44294 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236854AbhLULHW (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Tue, 21 Dec 2021 06:07:22 -0500
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CC6E21EC0328;
+        Tue, 21 Dec 2021 12:07:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1640084836;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=xXqBzKOLuHsEcaumBBArdM0Likeo4E7ACPcERYiHJFc=;
+        b=KBposX2+wjH1MTWWTHSdMaf1VyBgjY94aCZIT/K5EhNTpPWh9V69bRQbrF3DEwyfbIjP7j
+        wBP/vzNE6sIp6+RAxc8/j9Hoox73cNGHGaTB6VGp72BMXQpv34Tv3FeqHnu38Q8MmC1v31
+        RW4nvLwIIEpaTkmOoEI6XuPPaElgvho=
+Date:   Tue, 21 Dec 2021 12:07:19 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Colin Ian King <colin.i.king@googlemail.com>
+Cc:     Tony Luck <tony.luck@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>, linux-edac@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] EDAC/sb_edac: Remove redundant initialization of
+ variable rc
+Message-ID: <YcG1Z7XlSHZJuA0j@zn.tnic>
+References: <20211126221848.1125321-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 0/4] rasdaemon: Some little fixes and add some modules
- support
-To:     <mchehab@kernel.org>, <mchehab+huawei@kernel.org>
-CC:     <shiju.jose@huawei.com>, <linuxarm@openeuler.org>,
-        <jonathan.cameron@huawei.com>, <linux-edac@vger.kernel.org>
-References: <20211020063340.26079-1-tanxiaofei@huawei.com>
-From:   tanxiaofei <tanxiaofei@huawei.com>
-In-Reply-To: <20211020063340.26079-1-tanxiaofei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.100.236]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211126221848.1125321-1-colin.i.king@gmail.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Mauro
+On Fri, Nov 26, 2021 at 10:18:48PM +0000, Colin Ian King wrote:
+> The variable rc is being initialized with a value that is never
+> read, it is being updated later on. The assignment is redundant and
+> can be removed.
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> ---
+>  drivers/edac/sb_edac.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+> index 1522d4aa2ca6..9678ab97c7ac 100644
+> --- a/drivers/edac/sb_edac.c
+> +++ b/drivers/edac/sb_edac.c
+> @@ -3439,7 +3439,7 @@ MODULE_DEVICE_TABLE(x86cpu, sbridge_cpuids);
+>  
+>  static int sbridge_probe(const struct x86_cpu_id *id)
+>  {
+> -	int rc = -ENODEV;
+> +	int rc;
+>  	u8 mc, num_mc = 0;
+>  	struct sbridge_dev *sbridge_dev;
+>  	struct pci_id_table *ptable = (struct pci_id_table *)id->driver_data;
+> -- 
 
-Please help to review this patchset, many thanks.
+Applied, thanks.
 
-在 2021/10/20 14:33, Xiaofei Tan 写道:
-> Some little fixes and add some modules support for kunpeng series.
-> 
-> Xiaofei Tan (4):
->    rasdaemon: Fix the issue of sprintf data type mismatch in uuid_le()
->    rasdaemon: Fix the issue of command option -r for hip08
->    rasdaemon: Fix some print format issues for hisi common error section
->    rasdaemon: Add some modules supported by hisi common error section
-> 
->   non-standard-hisi_hip08.c  |  6 +++---
->   non-standard-hisilicon.c   | 32 +++++++++++++++++++++-----------
->   ras-extlog-handler.c       |  2 +-
->   ras-non-standard-handler.c |  4 ++--
->   4 files changed, 27 insertions(+), 17 deletions(-)
-> 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
