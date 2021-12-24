@@ -2,90 +2,69 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED7FC433F5
-	for <linux-edac@archiver.kernel.org>; Fri, 24 Dec 2021 01:32:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E06A8C433EF
+	for <linux-edac@archiver.kernel.org>; Fri, 24 Dec 2021 10:16:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350787AbhLXBcw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 23 Dec 2021 20:32:52 -0500
-Received: from mga18.intel.com ([134.134.136.126]:9874 "EHLO mga18.intel.com"
+        id S1343939AbhLXKQC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 24 Dec 2021 05:16:02 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:54600 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245122AbhLXBcv (ORCPT <rfc822;linux-edac@vger.kernel.org>);
-        Thu, 23 Dec 2021 20:32:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640309571; x=1671845571;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=G+4Blk1PEnOk/BdXn40Lnu8L0XGoZgem6KDA9qaNe2c=;
-  b=RDU9/wYFtQQbwhIMn8sbu7y9ig1FPuGgJ5Gb6flvGMQA9OIk/tFo6gpb
-   6NrzyVhp+IbKHQErF1Al7U7WVukhSTXBcQfw10e8WJr+l/de/ZXsme5C4
-   Wda0Sr3xNxCF9b6pgGyMKT3Kfb/vqJtXhaR7G3O2KQvIwl863qO7GmoSI
-   GIjkPtQ5PR/P3TxlVvhBjFXYmX2j+z8jaS+QgD83egIZ9FiGlqm9aOQl1
-   B8qoQGI1WT5UhOMRHeQsqFfeieQOWl0wOXm8ByXB8oIxU248zD3qcOjLq
-   sNwN/oTDYnNs4Lgwrz/FMnSJEUmJtzu6pV7aR6wG9DzFTmM/+BpP7oQZB
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10207"; a="227753434"
-X-IronPort-AV: E=Sophos;i="5.88,231,1635231600"; 
-   d="scan'208";a="227753434"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2021 17:32:49 -0800
-X-IronPort-AV: E=Sophos;i="5.88,231,1635231600"; 
-   d="scan'208";a="756991241"
-Received: from qiuxu-clx.sh.intel.com ([10.239.53.115])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2021 17:32:47 -0800
-From:   Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-To:     "Luck, Tony" <tony.luck@intel.com>
-Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Borislav Petkov <bp@alien8.de>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] EDAC/i10nm: Release mdev/mbase when failing to detect HBM
-Date:   Fri, 24 Dec 2021 04:11:26 -0500
-Message-Id: <20211224091126.1246-1-qiuxu.zhuo@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <202112161000.15tF7PTx-lkp@intel.com>
-References: <202112161000.15tF7PTx-lkp@intel.com>
+        id S1343878AbhLXKQC (ORCPT <rfc822;linux-edac@vger.kernel.org>);
+        Fri, 24 Dec 2021 05:16:02 -0500
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D0FD51EC050F;
+        Fri, 24 Dec 2021 11:15:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1640340957;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=cQySeusf+rJBnK/bdhdyE8GlziROJmD+hhacXui0Y/A=;
+        b=VdW3NnHUhkvEsoKp3AurgLFWjYIeQ1M5EUJdu/FNxwAltxVKf4Rozzc03z4pBjbnHsh+DE
+        hyWeHcqpQqqVx6C4UX7dNlNuPkl7m9eJETyERe/MIKVQ4zyDf6s7i0mN0BAKPyNkpH3Ly8
+        G0aGb19hQALWhc4SkgYWlvRF9uOJodU=
+Date:   Fri, 24 Dec 2021 11:15:58 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yazen Ghannam <yazen.ghannam@amd.com>
+Cc:     Marc Bevand <m@zorinaq.com>, linux-edac@vger.kernel.org
+Subject: Re: [PATCH v2] EDAC/amd64: Add PCI device IDs for family 19h model
+ 50h
+Message-ID: <YcWd3hIJp7QY5igi@zn.tnic>
+References: <YcIk4XJaBZs/aihF@yaz-ubuntu>
+ <20211221233112.556927-1-m@zorinaq.com>
+ <YcTWNfPSadyeHn7V@yaz-ubuntu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YcTWNfPSadyeHn7V@yaz-ubuntu>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Commit in Fixes doesn't release mdev/mbase when failing to detect
-HBM. Add the code to release mdev/mbase when failing to detect HBM.
+On Thu, Dec 23, 2021 at 08:04:05PM +0000, Yazen Ghannam wrote:
+> On Tue, Dec 21, 2021 at 03:31:12PM -0800, Marc Bevand wrote:
+> > Add the new family 19h model 50h PCI IDs (device 18h functions 0 and 6)
+> > to support Ryzen 5000 APUs ("Cezanne").
+> > 
+> > Signed-off-by: Marc Bevand <m@zorinaq.com>
+> > ---
+> > V1 -> V2: rebase on latest ras.git, apply to models 0x50-0x5f
+> > 
+> > Hi Yazen, I addressed your comments in v2 of this patch, included below.
+> > Cheers, 
+> > Marc.
+> >
+> 
+> Thanks Marc. It looks good to me.
+> 
+> Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 
-Fixes: c945088384d0 ("EDAC/i10nm: Add support for high bandwidth memory")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
----
- drivers/edac/i10nm_base.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Applied, thanks.
 
-diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
-index 83345bfac246..6cf50ee0b77c 100644
---- a/drivers/edac/i10nm_base.c
-+++ b/drivers/edac/i10nm_base.c
-@@ -358,6 +358,9 @@ static int i10nm_get_hbm_munits(void)
- 
- 			mbase = ioremap(base + off, I10NM_HBM_IMC_MMIO_SIZE);
- 			if (!mbase) {
-+				pci_dev_put(d->imc[lmc].mdev);
-+				d->imc[lmc].mdev = NULL;
-+
- 				i10nm_printk(KERN_ERR, "Failed to ioremap for hbm mc 0x%llx\n",
- 					     base + off);
- 				return -ENOMEM;
-@@ -368,6 +371,12 @@ static int i10nm_get_hbm_munits(void)
- 
- 			mcmtr = I10NM_GET_MCMTR(&d->imc[lmc], 0);
- 			if (!I10NM_IS_HBM_IMC(mcmtr)) {
-+				iounmap(d->imc[lmc].mbase);
-+				d->imc[lmc].mbase = NULL;
-+				d->imc[lmc].hbm_mc = false;
-+				pci_dev_put(d->imc[lmc].mdev);
-+				d->imc[lmc].mdev = NULL;
-+
- 				i10nm_printk(KERN_ERR, "This isn't an hbm mc!\n");
- 				return -ENODEV;
- 			}
 -- 
-2.17.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
