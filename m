@@ -2,194 +2,125 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8490C433F5
-	for <linux-edac@archiver.kernel.org>; Sat, 15 Jan 2022 21:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5EAC433F5
+	for <linux-edac@archiver.kernel.org>; Sun, 16 Jan 2022 07:36:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233719AbiAOVGL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 15 Jan 2022 16:06:11 -0500
-Received: from mxout01.lancloud.ru ([45.84.86.81]:45150 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233684AbiAOVGK (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 15 Jan 2022 16:06:10 -0500
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 2176D209C7CC
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH] driver core: platform: Rename platform_get_irq_optional()
- to platform_get_irq_silent()
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>
-CC:     Andrew Lunn <andrew@lunn.ch>, Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        KVM list <kvm@vger.kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        <linux-iio@vger.kernel.org>,
-        "Linus Walleij" <linus.walleij@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        "ALSA Development Mailing List" <alsa-devel@alsa-project.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Guenter Roeck <groeck@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        <linux-phy@lists.infradead.org>, Jiri Slaby <jirislaby@kernel.org>,
-        <openipmi-developer@lists.sourceforge.net>,
-        "Khuong Dinh" <khuong@os.amperecomputing.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        Joakim Zhang <qiangqing.zhang@nxp.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        "Bartosz Golaszewski" <brgl@bgdev.pl>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "Tony Luck" <tony.luck@intel.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        "Saravanan Sekar" <sravanhome@gmail.com>,
-        Corey Minyard <minyard@acm.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        John Garry <john.garry@huawei.com>,
-        Peter Korsgaard <peter@korsgaard.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Mark Gross <markgross@kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "Sebastian Reichel" <sre@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        <platform-driver-x86@vger.kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        <linux-edac@vger.kernel.org>,
-        Mun Yew Tham <mun.yew.tham@intel.com>,
-        "Hans de Goede" <hdegoede@redhat.com>,
-        netdev <netdev@vger.kernel.org>,
-        "Yoshihiro Shimoda" <yoshihiro.shimoda.uh@renesas.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        "Liam Girdwood" <lgirdwood@gmail.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Zha Qipeng <qipeng.zha@intel.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        <linux-mediatek@lists.infradead.org>,
-        "Brian Norris" <computersforpeace@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>
-References: <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
- <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de>
- <Yd9L9SZ+g13iyKab@sirena.org.uk>
- <20220113110831.wvwbm75hbfysbn2d@pengutronix.de>
- <YeA7CjOyJFkpuhz/@sirena.org.uk>
- <20220113194358.xnnbhsoyetihterb@pengutronix.de>
- <YeCI47ltlWzjzjYy@sirena.org.uk>
- <1df04d74-8aa2-11f1-54e9-34d0e8f4e58b@omp.ru>
- <20220113224319.akljsjtu7ps75vun@pengutronix.de>
- <CAMuHMdWjo36UGde3g5ysdXpLJn=mrPp31SDODuQNPUqoc-ARrQ@mail.gmail.com>
- <20220115152102.m47snsdrw2elagak@pengutronix.de>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <77cea138-977a-1454-4808-bd16dd7d2734@omp.ru>
-Date:   Sun, 16 Jan 2022 00:06:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S234495AbiAPHgM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 16 Jan 2022 02:36:12 -0500
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:55966 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230116AbiAPHgL (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>);
+        Sun, 16 Jan 2022 02:36:11 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0V1wSe6h_1642318566;
+Received: from localhost.localdomain(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0V1wSe6h_1642318566)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sun, 16 Jan 2022 15:36:08 +0800
+From:   Shuai Xue <xueshuai@linux.alibaba.com>
+To:     bp@alien8.de, rric@kernel.org
+Cc:     mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
+        ardb@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+        xueshuai@linux.alibaba.com, zhangliguang@linux.alibaba.com,
+        zhuo.song@linux.alibaba.com
+Subject: [PATCH v3 1/2] efi/cper: add cper_mem_err_status_str to decode error description
+Date:   Sun, 16 Jan 2022 15:36:02 +0800
+Message-Id: <20220116073603.11517-2-xueshuai@linux.alibaba.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20211210134019.28536-1-xueshuai@linux.alibaba.com>
+References: <20211210134019.28536-1-xueshuai@linux.alibaba.com>
 MIME-Version: 1.0
-In-Reply-To: <20220115152102.m47snsdrw2elagak@pengutronix.de>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 1/15/22 6:21 PM, Uwe Kleine-König wrote:
+Introduce a new helper function cper_mem_err_status_str() which is used to
+decode the description of error status, and the cper_print_mem() will call
+it and report the details of error status.
 
-[...]
->>>>>> The subsystems regulator, clk and gpio have the concept of a dummy
->>>>>> resource. For regulator, clk and gpio there is a semantic difference
->>>>>> between the regular _get() function and the _get_optional() variant.
->>>>>> (One might return the dummy resource, the other won't. Unfortunately
->>>>>> which one implements which isn't the same for these three.) The
->>>>>> difference between platform_get_irq() and platform_get_irq_optional() is
->>>>>> only that the former might emit an error message and the later won't.
->>>>
->>>>    This is only a current difference but I'm still going to return 0 ISO
->>>> -ENXIO from latform_get_irq_optional(), no way I'd leave that -ENXIO there
->>>> alone... :-)
->>>
->>> This would address a bit of the critic in my commit log. But as 0 isn't
->>> a dummy value like the dummy values that exist for clk, gpiod and
->>> regulator I still think that the naming is a bad idea because it's not
->>> in the spirit of the other *_get_optional functions.
->>>
->>> Seeing you say that -ENXIO is a bad return value for
->>> platform_get_irq_optional() and 0 should be used instead, I wonder why
->>> not changing platform_get_irq() to return 0 instead of -ENXIO, too.
->>> This question is for now only about a sensible semantic. That actually
->>> changing platform_get_irq() is probably harder than changing
->>> platform_get_irq_optional() is a different story.
->>>
->>> If only platform_get_irq_optional() is changed and given that the
->>> callers have to do something like:
->>>
->>>         if (this_irq_exists()):
->>>                 ... (e.g. request_irq)
->>>         else:
->>>                 ... (e.g. setup polling)
->>>
->>> I really think it's a bad idea that this_irq_exists() has to be
->>> different for platform_get_irq() vs. platform_get_irq_optional().
->>
->> For platform_get_irq(), the IRQ being absent is an error condition,
->> hence it should return an error code.
->> For platform_get_irq_optional(), the IRQ being absent is not an error
->> condition, hence it should not return an error code, and 0 is OK.
-> 
-> Please show a few examples how this simplifies the code. If it's only
+Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
+---
+ drivers/firmware/efi/cper.c | 46 ++++++++++++++++++++++++++++++++++++-
+ include/linux/cper.h        |  1 +
+ 2 files changed, 46 insertions(+), 1 deletion(-)
 
-   As for platform_get_irq(), returning -ENXIO simplifies things a lot: you don't
-have to check for 0 at every freaking call site and have s/th like (every
-time!):
+diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
+index 6ec8edec6329..addafccecd84 100644
+--- a/drivers/firmware/efi/cper.c
++++ b/drivers/firmware/efi/cper.c
+@@ -211,6 +211,49 @@ const char *cper_mem_err_type_str(unsigned int etype)
+ }
+ EXPORT_SYMBOL_GPL(cper_mem_err_type_str);
+ 
++const char *cper_mem_err_status_str(u64 status)
++{
++	switch ((status >> 8) & 0xff) {
++	case 1:
++		return "Error detected internal to the component";
++	case 16:
++		return "Error detected in the bus";
++	case 4:
++		return "Storage error in DRAM memory";
++	case 5:
++		return "Storage error in TLB";
++	case 6:
++		return "Storage error in cache";
++	case 7:
++		return "Error in one or more functional units";
++	case 8:
++		return "component failed self test";
++	case 9:
++		return "Overflow or undervalue of internal queue";
++	case 17:
++		return "Virtual address not found on IO-TLB or IO-PDIR";
++	case 18:
++		return "Improper access error";
++	case 19:
++		return "Access to a memory address which is not mapped to any component";
++	case 20:
++		return "Loss of Lockstep";
++	case 21:
++		return "Response not associated with a request";
++	case 22:
++		return "Bus parity error - must also set the A, C, or D Bits";
++	case 23:
++		return "Detection of a PATH_ERROR ";
++	case 25:
++		return "Bus operation timeout";
++	case 26:
++		return "A read was issued to data that has been poisoned";
++	default:
++		return "reserved";
++	}
++}
++EXPORT_SYMBOL_GPL(cper_mem_err_status_str);
++
+ static int cper_mem_err_location(struct cper_mem_err_compact *mem, char *msg)
+ {
+ 	u32 len, n;
+@@ -334,7 +377,8 @@ static void cper_print_mem(const char *pfx, const struct cper_sec_mem_err *mem,
+ 		return;
+ 	}
+ 	if (mem->validation_bits & CPER_MEM_VALID_ERROR_STATUS)
+-		printk("%s""error_status: 0x%016llx\n", pfx, mem->error_status);
++		printk("%s""error_status: 0x%016llx, %s\n", pfx, mem->error_status,
++				cper_mem_err_status_str(mem->error_status));
+ 	if (mem->validation_bits & CPER_MEM_VALID_PA)
+ 		printk("%s""physical_address: 0x%016llx\n",
+ 		       pfx, mem->physical_addr);
+diff --git a/include/linux/cper.h b/include/linux/cper.h
+index 6a511a1078ca..5b1dd27b317d 100644
+--- a/include/linux/cper.h
++++ b/include/linux/cper.h
+@@ -558,6 +558,7 @@ extern const char *const cper_proc_error_type_strs[4];
+ u64 cper_next_record_id(void);
+ const char *cper_severity_str(unsigned int);
+ const char *cper_mem_err_type_str(unsigned int);
++const char *cper_mem_err_status_str(u64 status);
+ void cper_print_bits(const char *prefix, unsigned int bits,
+ 		     const char * const strs[], unsigned int strs_size);
+ void cper_mem_err_pack(const struct cper_sec_mem_err *,
+-- 
+2.20.1.12.g72788fdb
 
-	irq = platform_get_irq();
-	if (irq <= 0)
-		return irq ?: -ENXIO; // any error code you choose
-
-instead of just:
-
-	irq = platform_get_irq();
-	if (irq < 0)
-		return irq;
-
-This scales better in my book.
-
-> that a driver has to check for == 0 instead of == -ENXIO, than that's
-> not a good enough motivation to make platform_get_irq_optional()
-> different to platform_get_irq().
-
-   Again, it scales better... good motivation in my eyes.
-
-> Best regards
-> Uwe
-
-MBR, Sergey
