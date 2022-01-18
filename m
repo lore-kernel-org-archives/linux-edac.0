@@ -2,41 +2,45 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51316C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75DA7C4332F
 	for <linux-edac@archiver.kernel.org>; Tue, 18 Jan 2022 02:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344233AbiARCr6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 17 Jan 2022 21:47:58 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:54188 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344518AbiARCgq (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 17 Jan 2022 21:36:46 -0500
+        id S1344280AbiARCr7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 17 Jan 2022 21:47:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346387AbiARChv (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 17 Jan 2022 21:37:51 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87199C0619CD;
+        Mon, 17 Jan 2022 18:34:30 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC8E961278;
-        Tue, 18 Jan 2022 02:36:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28460C36AF3;
-        Tue, 18 Jan 2022 02:36:44 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1AC79B8123D;
+        Tue, 18 Jan 2022 02:34:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFB31C36AE3;
+        Tue, 18 Jan 2022 02:34:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473405;
-        bh=KqJWQTmFk9FLzV5wiYGqRA933hMUNPXcAJjCtVK8aWE=;
+        s=k20201202; t=1642473268;
+        bh=bLZe5OoYsGgnPbNAU3HWfa4F/i/GsLBmkpOXd9PxLn0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=myNI62RaPpKz5f2lS/j9HjF5Zv6/I2Iy9iMni6T1PHXhx2T2VnO/cuDnVoKcC4Z4p
-         9sJ3r3/1ggnWqOYhi4erC0trMitAg0z/H0qhis2FyII41Fc6klPtoB+dTaPZqqdWHh
-         mm4NpvvXBDVittGIXl2Mljt3im/61GiLOXng/xAkjoTlDgXUV/kafbbpZwKv/8sUz8
-         t7hsN17FKT5b9xzpf/wPy6wkw8TGPCAAOBu5gIuAI63dBBvD4lkaO5mfHHLq9BqUhy
-         klQkWDnXcx2Dp8TzP/hVyI9gG7i0NpS7J6/UZ+BO7qOp3l117QrOqSq1FxiFUwppIm
-         l3FhU3RnKCN9Q==
+        b=DLJlgU5eY2YHrerQyqMdEGfaXfFdTXZNYZcVRdoXBGSZ5r5xXZI5vooo5zawQaXfd
+         vTN+dad7c4XIIO9izAwxwJAPu/Uqj1sr1j0QB6LQq3iD5mCsgEHdaF/R3VHN+IRsW5
+         hBLx/KqMc3LIfKNxAjZgB3H7cqp5wN/NojOpxha6pHHKbihoQwwX8BexPXPR7BNBBq
+         bg+2GqiYdmCDmbIbH3MJc4nGpkUsHq2gAE+XNOY6TJmJjwZnGExH0xQMwcUKs0Ohh9
+         FKDDb4IX5e7Aohqu6rOGxcFZCLHEGDACsO0aLqBvKOZyGk54/d2vvBtmM3W6EySIIz
+         XccPf19QXYI/A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Borislav Petkov <bp@suse.de>, Sasha Levin <sashal@kernel.org>,
-        bp@alien8.de, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org,
+Cc:     Dinh Nguyen <dinguyen@kernel.org>, Borislav Petkov <bp@suse.de>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Sasha Levin <sashal@kernel.org>, bp@alien8.de,
+        mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 106/188] x86/mce: Mark mce_end() noinstr
-Date:   Mon, 17 Jan 2022 21:30:30 -0500
-Message-Id: <20220118023152.1948105-106-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 048/188] EDAC/synopsys: Use the quirk for version instead of ddr version
+Date:   Mon, 17 Jan 2022 21:29:32 -0500
+Message-Id: <20220118023152.1948105-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
 References: <20220118023152.1948105-1-sashal@kernel.org>
@@ -48,63 +52,35 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Borislav Petkov <bp@suse.de>
+From: Dinh Nguyen <dinguyen@kernel.org>
 
-[ Upstream commit b4813539d37fa31fed62cdfab7bd2dd8929c5b2e ]
+[ Upstream commit bd1d6da17c296bd005bfa656952710d256e77dd3 ]
 
-It is called by the #MC handler which is noinstr.
+Version 2.40a supports DDR_ECC_INTR_SUPPORT for a quirk, so use that
+quirk to determine a call to setup_address_map().
 
-Fixes
-
-  vmlinux.o: warning: objtool: do_machine_check()+0xbd6: call to memset() leaves .noinstr.text section
-
+Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
 Signed-off-by: Borislav Petkov <bp@suse.de>
-Link: https://lore.kernel.org/r/20211208111343.8130-9-bp@alien8.de
+Reviewed-by: Michal Simek <michal.simek@xilinx.com>
+Link: https://lkml.kernel.org/r/20211012190709.1504152-1-dinguyen@kernel.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/x86/kernel/cpu/mce/core.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/edac/synopsys_edac.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index c5a1022463bcc..c37a0bcf2744b 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1081,10 +1081,13 @@ static int mce_start(int *no_way_out)
-  * Synchronize between CPUs after main scanning loop.
-  * This invokes the bulk of the Monarch processing.
-  */
--static int mce_end(int order)
-+static noinstr int mce_end(int order)
- {
--	int ret = -1;
- 	u64 timeout = (u64)mca_cfg.monarch_timeout * NSEC_PER_USEC;
-+	int ret = -1;
-+
-+	/* Allow instrumentation around external facilities. */
-+	instrumentation_begin();
- 
- 	if (!timeout)
- 		goto reset;
-@@ -1128,7 +1131,8 @@ static int mce_end(int order)
- 		/*
- 		 * Don't reset anything. That's done by the Monarch.
- 		 */
--		return 0;
-+		ret = 0;
-+		goto out;
+diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
+index 7d08627e738b3..a5486d86fdd2f 100644
+--- a/drivers/edac/synopsys_edac.c
++++ b/drivers/edac/synopsys_edac.c
+@@ -1352,8 +1352,7 @@ static int mc_probe(struct platform_device *pdev)
+ 		}
  	}
  
- 	/*
-@@ -1144,6 +1148,10 @@ static int mce_end(int order)
- 	 * Let others run again.
- 	 */
- 	atomic_set(&mce_executing, 0);
-+
-+out:
-+	instrumentation_end();
-+
- 	return ret;
- }
+-	if (of_device_is_compatible(pdev->dev.of_node,
+-				    "xlnx,zynqmp-ddrc-2.40a"))
++	if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT)
+ 		setup_address_map(priv);
+ #endif
  
 -- 
 2.34.1
