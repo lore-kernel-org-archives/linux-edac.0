@@ -2,17 +2,17 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D08EAC433EF
-	for <linux-edac@archiver.kernel.org>; Mon, 24 Jan 2022 18:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B9EC4332F
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Jan 2022 18:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343633AbiAXS5L (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 24 Jan 2022 13:57:11 -0500
-Received: from mxout02.lancloud.ru ([45.84.86.82]:47914 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344716AbiAXSzJ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 24 Jan 2022 13:55:09 -0500
+        id S1343843AbiAXS5N (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 24 Jan 2022 13:57:13 -0500
+Received: from mxout01.lancloud.ru ([45.84.86.81]:38320 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344711AbiAXSzI (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 24 Jan 2022 13:55:08 -0500
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru F1A1E20747E6
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 9E48020624B6
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -22,13 +22,10 @@ To:     Borislav Petkov <bp@alien8.de>,
         Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
         Robert Richter <rric@kernel.org>, <linux-edac@vger.kernel.org>
-CC:     Khuong Dinh <khuong@os.amperecomputing.com>
-Subject: [PATCH 2/2] edac: xgene: fix deferred probing
-Date:   Mon, 24 Jan 2022 21:55:03 +0300
-Message-ID: <20220124185503.6720-3-s.shtylyov@omp.ru>
+Subject: [PATCH 0/2] Fix deferred probing in the EDAC drivers
+Date:   Mon, 24 Jan 2022 21:55:01 +0300
+Message-ID: <20220124185503.6720-1-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20220124185503.6720-1-s.shtylyov@omp.ru>
-References: <20220124185503.6720-1-s.shtylyov@omp.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -39,30 +36,19 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The driver overrides error codes returned by platform_get_irq_optional()
-to -EINVAL for some strange reason, so if it returns -EPROBE_DEFER, the
-driver will fail the probe permanently instead of the deferred probing.
-Switch to propagating the error codes upstream.
+Here are 2 patches against the 'edac-for-next' branch of the 'ras.git' repo
+(for the lack of a better branch for fixes?).  The affected drivers call
+platform_get_irq[_optional]() but override its result in case of error --
+which prevents the deferred probing from working.
 
-Fixes: 0d4429301c4 ("EDAC: Add APM X-Gene SoC EDAC driver")
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
----
- drivers/edac/xgene_edac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sergey Shtylyov (2):
+  edac: altera: fix deferred probing
+  edac: xgene: fix deferred probing
 
-diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
-index 2ccd1db5e98f..7197f9fa0245 100644
---- a/drivers/edac/xgene_edac.c
-+++ b/drivers/edac/xgene_edac.c
-@@ -1919,7 +1919,7 @@ static int xgene_edac_probe(struct platform_device *pdev)
- 			irq = platform_get_irq_optional(pdev, i);
- 			if (irq < 0) {
- 				dev_err(&pdev->dev, "No IRQ resource\n");
--				rc = -EINVAL;
-+				rc = irq;
- 				goto out_err;
- 			}
- 			rc = devm_request_irq(&pdev->dev, irq,
+ drivers/edac/altera_edac.c | 2 +-
+ drivers/edac/xgene_edac.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
 2.26.3
 
