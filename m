@@ -2,125 +2,80 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 878BAC433F5
-	for <linux-edac@archiver.kernel.org>; Mon, 24 Jan 2022 02:50:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BADA2C433EF
+	for <linux-edac@archiver.kernel.org>; Mon, 24 Jan 2022 08:35:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240962AbiAXCug (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 23 Jan 2022 21:50:36 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:53574 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240920AbiAXCsI (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Sun, 23 Jan 2022 21:48:08 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R881e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0V2cQ9lX_1642992483;
-Received: from localhost.localdomain(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0V2cQ9lX_1642992483)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 24 Jan 2022 10:48:04 +0800
-From:   Shuai Xue <xueshuai@linux.alibaba.com>
-To:     bp@alien8.de, rric@kernel.org
-Cc:     mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
-        ardb@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
-        xueshuai@linux.alibaba.com, zhangliguang@linux.alibaba.com,
-        zhuo.song@linux.alibaba.com
-Subject: [RESEND PATCH v3 1/2] efi/cper: add cper_mem_err_status_str to decode error description
-Date:   Mon, 24 Jan 2022 10:47:58 +0800
-Message-Id: <20220124024759.19176-2-xueshuai@linux.alibaba.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20211210134019.28536-1-xueshuai@linux.alibaba.com>
-References: <20211210134019.28536-1-xueshuai@linux.alibaba.com>
+        id S242190AbiAXIfa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 24 Jan 2022 03:35:30 -0500
+Received: from eage.unicloud.com ([220.194.70.58]:37451 "EHLO
+        spam.unicloud.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242184AbiAXIf3 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 24 Jan 2022 03:35:29 -0500
+X-Greylist: delayed 1013 seconds by postgrey-1.27 at vger.kernel.org; Mon, 24 Jan 2022 03:35:28 EST
+Received: from spam.unicloud.com (localhost [127.0.0.2] (may be forged))
+        by spam.unicloud.com with ESMTP id 20O8IZTI013105;
+        Mon, 24 Jan 2022 16:18:35 +0800 (GMT-8)
+        (envelope-from luofei@unicloud.com)
+Received: from eage.unicloud.com ([220.194.70.35])
+        by spam.unicloud.com with ESMTP id 20O8FmIt011955;
+        Mon, 24 Jan 2022 16:15:48 +0800 (GMT-8)
+        (envelope-from luofei@unicloud.com)
+Received: from localhost.localdomain (10.10.1.7) by zgys-ex-mb09.Unicloud.com
+ (10.10.0.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2375.17; Mon, 24
+ Jan 2022 16:15:47 +0800
+From:   luofei <luofei@unicloud.com>
+To:     <tony.luck@intel.com>, <bp@alien8.de>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <dave.hansen@linux.intel.com>, <x86@kernel.org>
+CC:     <hpa@zytor.com>, <linux-edac@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, luofei <luofei@unicloud.com>
+Subject: [PATCH] x86/mce: Always call kill_me_maybe() to handle memory failure in user mode
+Date:   Mon, 24 Jan 2022 03:15:01 -0500
+Message-ID: <20220124081501.235236-1-luofei@unicloud.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.10.1.7]
+X-ClientProxiedBy: zgys-ex-mb07.Unicloud.com (10.10.0.27) To
+ zgys-ex-mb09.Unicloud.com (10.10.0.24)
+X-DNSRBL: 
+X-MAIL: spam.unicloud.com 20O8IZTI013105
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Introduce a new helper function cper_mem_err_status_str() which is used to
-decode the description of error status, and the cper_print_mem() will call
-it and report the details of error status.
+Just killing the current process is not enough, it is necessory
+to offload the faulty page.
 
-Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
+In the virtualization scenario, qemu does not set MCG_STATUS_RIPV by
+default. When injecting an SRAR error into the virtual machine, only
+the current process will be killed, but the faulty page will be
+released and reused, which is very likely to cause the virtual
+machine to crash.
+
+Signed-off-by: luofei <luofei@unicloud.com>
 ---
- drivers/firmware/efi/cper.c | 46 ++++++++++++++++++++++++++++++++++++-
- include/linux/cper.h        |  1 +
- 2 files changed, 46 insertions(+), 1 deletion(-)
+ arch/x86/kernel/cpu/mce/core.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
-index 6ec8edec6329..addafccecd84 100644
---- a/drivers/firmware/efi/cper.c
-+++ b/drivers/firmware/efi/cper.c
-@@ -211,6 +211,49 @@ const char *cper_mem_err_type_str(unsigned int etype)
- }
- EXPORT_SYMBOL_GPL(cper_mem_err_type_str);
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 5818b837fd4d..bc6c353b9250 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1519,10 +1519,8 @@ noinstr void do_machine_check(struct pt_regs *regs)
+ 		BUG_ON(!on_thread_stack() || !user_mode(regs));
  
-+const char *cper_mem_err_status_str(u64 status)
-+{
-+	switch ((status >> 8) & 0xff) {
-+	case 1:
-+		return "Error detected internal to the component";
-+	case 16:
-+		return "Error detected in the bus";
-+	case 4:
-+		return "Storage error in DRAM memory";
-+	case 5:
-+		return "Storage error in TLB";
-+	case 6:
-+		return "Storage error in cache";
-+	case 7:
-+		return "Error in one or more functional units";
-+	case 8:
-+		return "component failed self test";
-+	case 9:
-+		return "Overflow or undervalue of internal queue";
-+	case 17:
-+		return "Virtual address not found on IO-TLB or IO-PDIR";
-+	case 18:
-+		return "Improper access error";
-+	case 19:
-+		return "Access to a memory address which is not mapped to any component";
-+	case 20:
-+		return "Loss of Lockstep";
-+	case 21:
-+		return "Response not associated with a request";
-+	case 22:
-+		return "Bus parity error - must also set the A, C, or D Bits";
-+	case 23:
-+		return "Detection of a PATH_ERROR ";
-+	case 25:
-+		return "Bus operation timeout";
-+	case 26:
-+		return "A read was issued to data that has been poisoned";
-+	default:
-+		return "reserved";
-+	}
-+}
-+EXPORT_SYMBOL_GPL(cper_mem_err_status_str);
-+
- static int cper_mem_err_location(struct cper_mem_err_compact *mem, char *msg)
- {
- 	u32 len, n;
-@@ -334,7 +377,8 @@ static void cper_print_mem(const char *pfx, const struct cper_sec_mem_err *mem,
- 		return;
- 	}
- 	if (mem->validation_bits & CPER_MEM_VALID_ERROR_STATUS)
--		printk("%s""error_status: 0x%016llx\n", pfx, mem->error_status);
-+		printk("%s""error_status: 0x%016llx, %s\n", pfx, mem->error_status,
-+				cper_mem_err_status_str(mem->error_status));
- 	if (mem->validation_bits & CPER_MEM_VALID_PA)
- 		printk("%s""physical_address: 0x%016llx\n",
- 		       pfx, mem->physical_addr);
-diff --git a/include/linux/cper.h b/include/linux/cper.h
-index 6a511a1078ca..5b1dd27b317d 100644
---- a/include/linux/cper.h
-+++ b/include/linux/cper.h
-@@ -558,6 +558,7 @@ extern const char *const cper_proc_error_type_strs[4];
- u64 cper_next_record_id(void);
- const char *cper_severity_str(unsigned int);
- const char *cper_mem_err_type_str(unsigned int);
-+const char *cper_mem_err_status_str(u64 status);
- void cper_print_bits(const char *prefix, unsigned int bits,
- 		     const char * const strs[], unsigned int strs_size);
- void cper_mem_err_pack(const struct cper_sec_mem_err *,
+ 		if (kill_current_task)
+-			queue_task_work(&m, msg, kill_me_now);
+-		else
+-			queue_task_work(&m, msg, kill_me_maybe);
+-
++			force_sig(SIGBUS);
++		queue_task_work(&m, msg, kill_me_maybe);
+ 	} else {
+ 		/*
+ 		 * Handle an MCE which has happened in kernel space but from
 -- 
-2.20.1.12.g72788fdb
+2.27.0
 
