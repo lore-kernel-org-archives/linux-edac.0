@@ -2,178 +2,208 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EDABC433F5
-	for <linux-edac@archiver.kernel.org>; Tue, 25 Jan 2022 05:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F57C433EF
+	for <linux-edac@archiver.kernel.org>; Tue, 25 Jan 2022 08:35:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238080AbiAYFzd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 25 Jan 2022 00:55:33 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:44568 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237554AbiAYFwN (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>);
-        Tue, 25 Jan 2022 00:52:13 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20P1ZLnE022850;
-        Tue, 25 Jan 2022 05:52:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=vsBcqelXqMImAhzK8aIgi6ri6Nu3urz0ed4+SngCWIs=;
- b=bbB9kg7Oe/fRt1Gs1osnFAPsD9V0myrv2w3E4U9D9vmrkq6kf9AJBwAN59YRwpAqAyS/
- kj91pilmiQJS6x9gCsAz00iW9RSU6u5Vo9/j02vuXDGHXLFd5jvUvCrN2E42SET7Domt
- MYIftO9wKYbaomkp0AuXDQG2G6sEuDP4yF++Wh9Ngkyun19cKVOPF6hdSVQOBfII3Ymg
- jizTBuq+KQG4qrsJpFDZBaV0mqD9vd2mroTrqXxMKLqJGspSoU10mKVhj2BPoGmloFh4
- ZdQ/01PfSSsVf+o1bNf6J7+1eT5CAWR464mGx1TAtQVg/P61KCLbzQu8uBYkeRc4odgJ dQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3dsvmjae3m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 25 Jan 2022 05:52:01 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20P5khnu101054;
-        Tue, 25 Jan 2022 05:52:01 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2041.outbound.protection.outlook.com [104.47.73.41])
-        by aserp3020.oracle.com with ESMTP id 3dtax5s623-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 25 Jan 2022 05:52:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KOXdazTDq5mqTOV/EYJ8wToU+PRU4BtU5T4bEPtzdwLg+Jdr3g/iTREU00wLMhxMB1xAjb6PccfJpxWq9eV20H6pyj9gN2neueGJDn08f3DYMzseLEFN5HSnzy13jCOMrjMMXG6guAVxHD5BLWIfTsOsVgZJu8qICm6edGywy7P7Pog9z9hsmDdaNUH+pU96e+Rk7AnOoCSGwgZotwYWcZvYNHaV6hXARosERzzLOan319lS8/qWSH2txS+6D6ClLC9rbqNIcAa75IeMDpOFH2b8hcL5rvGzhhXiLUvempnGwaAMkucu5rPk2axTuAwbVmlhvCMDKc2GFKDRg/QJsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vsBcqelXqMImAhzK8aIgi6ri6Nu3urz0ed4+SngCWIs=;
- b=dAvYD7sBknMY7ZiiPBO/Zp/yOcAgu+ywxlWREAamy0FizjYfnitSIovL7Vb8Ow6ocRmabU5Tx9Y9Jkykpq7yTj7MVFG9og971/LgJD7wGbGKb/eG+erO9CXVcvlaQG32iS17yq+g1N2HXDxE0ku7x3nAiZG1TXNlnL52pL068R7PZTxn0/c8JkRO3esCD4Pv9Tiibe/yk3bKPRTjJFbbqNBZIo8XU64yKcHzMlfRhLBkv8CztQ35s/7cT4iTiuUZDUIXP6XjgUxSydDlXxgU6sIT9ZoGTZhE1SvHufr/0FoThX67M2h1XiioP2BAXRrVWYyGRrjNp21tbIFnmvB9Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vsBcqelXqMImAhzK8aIgi6ri6Nu3urz0ed4+SngCWIs=;
- b=LOoPUDkAKmZPCjxO4c/adHBq+CwDq3/fzMVlvV0tqJrglZfw9gziqWheEZYpEPGa1HgKzIg/4H2rbTmqZfa5v88v2OP+3daZGxF7p23pQtpMSLMICfd32pevNTU4Dx0CCt2bSCYF5BMHg/YsNalz5C7vXymehTT9lHgn15e0yhs=
-Received: from CY4PR1001MB2358.namprd10.prod.outlook.com
- (2603:10b6:910:4a::32) by DM5PR10MB1401.namprd10.prod.outlook.com
- (2603:10b6:3:f::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.12; Tue, 25 Jan
- 2022 05:51:59 +0000
-Received: from CY4PR1001MB2358.namprd10.prod.outlook.com
- ([fe80::cdcc:584:3514:f052]) by CY4PR1001MB2358.namprd10.prod.outlook.com
- ([fe80::cdcc:584:3514:f052%5]) with mapi id 15.20.4909.017; Tue, 25 Jan 2022
- 05:51:59 +0000
-Date:   Tue, 25 Jan 2022 08:51:47 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     qiuxu.zhuo@intel.com
-Cc:     linux-edac@vger.kernel.org
-Subject: [bug report] EDAC/igen6: Add EDAC driver for Intel client SoCs using
- IBECC
-Message-ID: <20220125055147.GA30689@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0128.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:40::7) To CY4PR1001MB2358.namprd10.prod.outlook.com
- (2603:10b6:910:4a::32)
+        id S1354029AbiAYIft (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 25 Jan 2022 03:35:49 -0500
+Received: from mail-qv1-f51.google.com ([209.85.219.51]:38608 "EHLO
+        mail-qv1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1378752AbiAYIb3 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 25 Jan 2022 03:31:29 -0500
+Received: by mail-qv1-f51.google.com with SMTP id b12so4529982qvz.5;
+        Tue, 25 Jan 2022 00:31:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0nj3tQtaS2Jftix8pFrL2+Rvw9SRm0Q+IWJ3wAkzl0s=;
+        b=WB9h79SHkFBh8zEGcIeB7E5HjafQdfpc08WU2JJUiiPYqy9M9KJ/1Obbo3AoYDuZM1
+         L1ZQ35GjmvhlgLfu/XAavya6XuAAD+5NoospC4UKkm5iDbh8x7/5myPjkvSpHJx+1S1t
+         MJoJYqGdK7EVegPvSwcyshqEkzm5FfysYVYEy17n9KIBsqKUHA751y1SqRy7fxRZTJIJ
+         XwSLmmOSBQVCaiCt5Lp+1+6RoKze+67Ygj9GhfzsJEBTjeJWUcv/cptoSXjrRnyPWrD9
+         Bp/hDQh9OiCwjzfUPD47V6Yg/M2Hs5SNbYhyiB9BDtvD2gf0W0vSHVNHDpyLrrFV4q7J
+         DrAg==
+X-Gm-Message-State: AOAM533jz79E3Mb70YzDiCSOaQNE/eMwJqeM8QoYVLs1gyCdu9MFvtXH
+        rBe1oSOzAy87kimGpLjSGZsXQpf32NMPiu/s
+X-Google-Smtp-Source: ABdhPJxcd215HVffZw8fBf1K2zIojl7li593qA7bzWJqK/5Jrw3HmZ2JtI9Yl6fpG+4KjmAtaakXdQ==
+X-Received: by 2002:a05:6214:3006:: with SMTP id ke6mr15873363qvb.59.1643099481113;
+        Tue, 25 Jan 2022 00:31:21 -0800 (PST)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com. [209.85.219.50])
+        by smtp.gmail.com with ESMTPSA id d8sm8722166qtd.70.2022.01.25.00.31.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jan 2022 00:31:21 -0800 (PST)
+Received: by mail-qv1-f50.google.com with SMTP id k4so24225123qvt.6;
+        Tue, 25 Jan 2022 00:31:20 -0800 (PST)
+X-Received: by 2002:a05:6102:a04:: with SMTP id t4mr1874173vsa.77.1643099137125;
+ Tue, 25 Jan 2022 00:25:37 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65a58c7d-e411-4706-febe-08d9dfc6cd36
-X-MS-TrafficTypeDiagnostic: DM5PR10MB1401:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR10MB14012B353D06D149BDEC82568E5F9@DM5PR10MB1401.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XQquKZPbdZVESTfDyqpG5xXMTOL1L4EMgZq+CY9kfz7kqAiyeHhI3J5bX+g2vXZYROAk+Hm9vjN3TmgtzYJmpOp4roShXk/mJ3NqEsCxQ5CmxrOlBuQdrQ1zA04cBDlPUlETd/+rYTt0+M80OAhHCsWcR+tDNwQbGmLmjWxUz+q5Wb4/BMp579SmBNs48ha6R110PhkDP5tX0tvZcDcJ4W0IT5hb/l5P2Ik6hcYHnX35O/HYnQ0dw/UofpQhr9tCe6ldR8Iz4y1gmAXiz81oBPPE7jSm9NXd+GEJmF0/jYR5Fa522MuMy/xKGf8peQcEs16xWIcGY++zhEVw6pmwM2aYLlczxFtIfgHvnP4GvTjYBfFGNxlfncPZ9rFlg1tMzhIntQdGr3B4r2JsiviQ7ViZ9cR/QMjlLQWSEY6sepiRgpehEQ8K8T6A2amEE2klWSa+3bA/SP9VhVxAHivWewPQmuUnMwQGRwapk69doHGE3fbTiwGuk4WoORV2uk1RjNbOahJYXItqB0c+6J8ro8U7m3T0XX7tP4MX/mgsySQ28nfJcKA7fRiHTSDgJE0YP5NVG8++yOtTXboZsSfA/Dccm1bkjCy325hgrSjJMOGm3gSj5H0dRA8drpFNLzHhkKlffCfHf+J7muDOn6Yf+hwzPLRyRdwJjWtQctdK0oUARuyfgTaUSNIXYLSDk1TjVV6oRvg4Rwns3PjJ4Ql3Tw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1001MB2358.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(6029001)(7916004)(366004)(1076003)(186003)(52116002)(33656002)(6666004)(33716001)(44832011)(5660300002)(66946007)(508600001)(8676002)(2906002)(6486002)(66556008)(38100700002)(66476007)(8936002)(38350700002)(83380400001)(26005)(6512007)(9686003)(4326008)(6506007)(6916009)(86362001)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1qQqEMdZyEGz8/lp1TWfalolhLFDXcy91hK0By9f8ekB3KnealyzlCkSW0iR?=
- =?us-ascii?Q?J7nVWdyjTdI3o6hsr0PLZ3/9F4/aJUnX6um0D0nU5Md4F87+6eC/NjyO78qm?=
- =?us-ascii?Q?ELcUTl/CWijfANgSGOkQb+Ce4bAfpPjwsxdIMivqu+oR5bs0Onwpd6gkFgri?=
- =?us-ascii?Q?OSzCdh4NjAb2bOg/wkv6oy/cmNKsIlHPNznOIs6VOo3zRHyIz90zgCHvcMam?=
- =?us-ascii?Q?zLREMZ38KMOsIfTEMJ+ny5Gzll49EmAP3Mw3HFHWouNOqh1qSa7u/u0vHYJV?=
- =?us-ascii?Q?xkgiFaM8REWD3lIw7R5opsJVocBWHNGRAHpfhJkZpK/5Tb0PKgTJJ6D7TlBr?=
- =?us-ascii?Q?s5ROrx8kc6BuVx+1BqNrUJtkEMq5FjxlhkwnacOYjQQL9iEmv4TBnUkRkniW?=
- =?us-ascii?Q?XiISK8jlZ06UMd3OdDnlK3v3Ag/KUKFKlgOIy054RYwShbDnr9TDnmMfNlN5?=
- =?us-ascii?Q?+3V9cXKjIS+5LLXFrJWzsNOS2YV5vZugXCeKfU4UahBbHUZ0KTe+li/w/t0L?=
- =?us-ascii?Q?h0BafWvhSn5HcnN0NLQhiOcbhcEw9KKQrUo2gJCu2c0hxMmyUM/UXqAtkISK?=
- =?us-ascii?Q?ry+KzXFFhSFeowZByVmaj8IWqOmBbaM+EdvG6VopymlEidsAjyae6ldgSETB?=
- =?us-ascii?Q?e4V5KSxAIbskzs+UeoO5AX4Jsow5EA/zGsju5oynFgbgIQri0gZrigwN3iyJ?=
- =?us-ascii?Q?tKFokU+GPda8i1jvQyyonmviX1u2DslsYGfn3nSx+drlAoly3RBV2k/l5FO0?=
- =?us-ascii?Q?ZgOk4ZLEoGjl1W/1wlIdkIZKKWzwa8OvEOdGtGD4QnA/H2QChcN2bxaclMfx?=
- =?us-ascii?Q?2VKvIKuSW9DW3HQUdXeU3WtHiostdpqBvacCGdjeQmCYoLD6KLdjN3PqdlNU?=
- =?us-ascii?Q?amQTk/OtIfv7DLRXQqZveKR8XuAeJT1Sf8PO0ne2s2fEqhra2xnUeDiAjuhR?=
- =?us-ascii?Q?GZaHwQi6UAbdA4/X6+lsyzUDBVe7l9/7mFxQhGwxA4XINd93Heb363LPoZfT?=
- =?us-ascii?Q?/EPclfIwQ0/COck0jt5BAkbV2iaYTEcDmaGDje6i8sj6bmSUhNvhO40+LAbU?=
- =?us-ascii?Q?IAhxMH+dlffaSJWztoW1dSQ6flPA0g80j7RIBnyLcI8Rsv2jmOi1iaNhJyox?=
- =?us-ascii?Q?pmsXMofBGv/QL/rgjMjWMbwCCi7bSb8l9tGuUVdb8VmMourJIWiHPj5kAvDr?=
- =?us-ascii?Q?vyeySewzn4VcPodnTaT65ORqXXvEQTq5u1ynCnR5XYDHjTSK7SA/4oDPR5Hh?=
- =?us-ascii?Q?tACh4JsPh8nzGw2PunXMZg/IwCpp2aUZfOAhUmxKi6RVxqi/grsstd2vCPna?=
- =?us-ascii?Q?7NgIC8smd/Wj3hwsWMFW+VSeUyCbvgziUMQiX697KlBdqEOyQPJHHvHeLydd?=
- =?us-ascii?Q?kz785L+/EZie2WOgCXWjmi435HSqGN1XI0A+w+rW9vaSezE8KYxBYn57WQDd?=
- =?us-ascii?Q?Egb8Zhu30Y0kMfsMWzANL4IIHGGs1bmex8rF7cBNQwcoaBFgH9yNiKuTlC7l?=
- =?us-ascii?Q?14mHy2GncDaubMT78nEKqRGvaccEL2uMODrqgRMf5h1UB098bS/XXuPkOD/M?=
- =?us-ascii?Q?JXrqAnvvGy23Ox6dPRGRbBAlRsmvbTkRqhFT6u8Qakg96B/hzZeJ1cfRVu/7?=
- =?us-ascii?Q?W/5+EklK7g4WUoeWkBbBcEO3VNPMQmDUcrkoq8QRBpdwwue06CRIzhg2Qv9K?=
- =?us-ascii?Q?GhxZl/01MoA4Wa6HTBsZQmI/SwY=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65a58c7d-e411-4706-febe-08d9dfc6cd36
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1001MB2358.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 05:51:59.1587
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: evhca7MtxPcyLTYWSwqyMdTwy53dYReN7qJNTM32findohFAmfUU+xT9dl0KHaCNwspVnwHJt5rbKuUGsWBhqN++YYxhtuU1Vju8D0Uaq88=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1401
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10237 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 mlxscore=0
- phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2201250037
-X-Proofpoint-GUID: XHT4qichFy1oa3kDaCBDpxP3D__2O33g
-X-Proofpoint-ORIG-GUID: XHT4qichFy1oa3kDaCBDpxP3D__2O33g
+References: <CAMuHMdWsMGPiQaPS0-PJ_+Mc5VQ37YdLfbHr_aS40kB+SfW-aw@mail.gmail.com>
+ <20220112213121.5ruae5mxwj6t3qiy@pengutronix.de> <Yd9L9SZ+g13iyKab@sirena.org.uk>
+ <20220113110831.wvwbm75hbfysbn2d@pengutronix.de> <YeA7CjOyJFkpuhz/@sirena.org.uk>
+ <20220113194358.xnnbhsoyetihterb@pengutronix.de> <YeF05vBOzkN+xYCq@smile.fi.intel.com>
+ <20220115154539.j3tsz5ioqexq2yuu@pengutronix.de> <YehdsUPiOTwgZywq@smile.fi.intel.com>
+ <20220120075718.5qtrpc543kkykaow@pengutronix.de> <Ye6/NgfxsZnpXE09@smile.fi.intel.com>
+ <15796e57-f7d4-9c66-3b53-0b026eaf31d8@omp.ru>
+In-Reply-To: <15796e57-f7d4-9c66-3b53-0b026eaf31d8@omp.ru>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 25 Jan 2022 09:25:25 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXouECKa43OwUgQ6dA+gNeOqEZHZgOmQzqknzYiA924YA@mail.gmail.com>
+Message-ID: <CAMuHMdXouECKa43OwUgQ6dA+gNeOqEZHZgOmQzqknzYiA924YA@mail.gmail.com>
+Subject: Re: [PATCH] driver core: platform: Rename platform_get_irq_optional()
+ to platform_get_irq_silent()
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Andrew Lunn <andrew@lunn.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        KVM list <kvm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Guenter Roeck <groeck@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-phy@lists.infradead.org, Jiri Slaby <jirislaby@kernel.org>,
+        openipmi-developer@lists.sourceforge.net,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Saravanan Sekar <sravanhome@gmail.com>,
+        Corey Minyard <minyard@acm.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        John Garry <john.garry@huawei.com>,
+        Peter Korsgaard <peter@korsgaard.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Mark Gross <markgross@kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        platform-driver-x86@vger.kernel.org,
+        Benson Leung <bleung@chromium.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        Mun Yew Tham <mun.yew.tham@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>, netdev@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Zha Qipeng <qipeng.zha@intel.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-mediatek@lists.infradead.org,
+        Brian Norris <computersforpeace@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hello Qiuxu Zhuo,
+Hi Sergey,
 
-The patch 10590a9d4f23: "EDAC/igen6: Add EDAC driver for Intel client
-SoCs using IBECC" from Nov 5, 2020, leads to the following Smatch
-static checker warning:
+On Mon, Jan 24, 2022 at 10:02 PM Sergey Shtylyov <s.shtylyov@omp.ru> wrote:
+> On 1/24/22 6:01 PM, Andy Shevchenko wrote:
+> >>>>>>> It'd certainly be good to name anything that doesn't correspond to one
+> >>>>>>> of the existing semantics for the API (!) something different rather
+> >>>>>>> than adding yet another potentially overloaded meaning.
+> >>>>>>
+> >>>>>> It seems we're (at least) three who agree about this. Here is a patch
+> >>>>>> fixing the name.
+> >>>>>
+> >>>>> And similar number of people are on the other side.
+> >>>>
+> >>>> If someone already opposed to the renaming (and not only the name) I
+> >>>> must have missed that.
+> >>>>
+> >>>> So you think it's a good idea to keep the name
+> >>>> platform_get_irq_optional() despite the "not found" value returned by it
+> >>>> isn't usable as if it were a normal irq number?
+> >>>
+> >>> I meant that on the other side people who are in favour of Sergey's patch.
+> >>> Since that I commented already that I opposed the renaming being a standalone
+> >>> change.
+> >>>
+> >>> Do you agree that we have several issues with platform_get_irq*() APIs?
+> [...]
+> >>> 2. The vIRQ0 handling: a) WARN() followed by b) returned value 0
+> >>
+> >> I'm happy with the vIRQ0 handling. Today platform_get_irq() and it's
+> >> silent variant returns either a valid and usuable irq number or a
+> >> negative error value. That's totally fine.
+> >
+> > It might return 0.
+> > Actually it seems that the WARN() can only be issued in two cases:
+> > - SPARC with vIRQ0 in one of the array member
+> > - fallback to ACPI for GPIO IRQ resource with index 0
+>
+>    You have probably missed the recent discovery that arch/sh/boards/board-aps4*.c
+> causes IRQ0 to be passed as a direct IRQ resource?
 
-drivers/edac/igen6_edac.c:1275 igen6_init() warn: strncmp() with weird length: 10 vs 11
-drivers/edac/i10nm_base.c:552 i10nm_init() warn: strncmp() with weird length: 10 vs 11
-drivers/edac/sb_edac.c:3510 sbridge_init() warn: strncmp() with weird length: 7 vs 8
-drivers/edac/skx_base.c:657 skx_init() warn: strncmp() with weird length: 8 vs 9
-drivers/edac/pnd2_edac.c:1554 pnd2_init() warn: strncmp() with weird length: 9 vs 10
-drivers/edac/amd64_edac.c:4266 amd64_edac_init() warn: strncmp() with weird length: 10 vs 11
+So far no one reported seeing the big fat warning ;-)
 
-drivers/edac/igen6_edac.c
-    1265 };
-    1266 
-    1267 static int __init igen6_init(void)
-    1268 {
-    1269         const char *owner;
-    1270         int rc;
-    1271 
-    1272         edac_dbg(2, "\n");
-    1273 
-    1274         owner = edac_get_owner();
---> 1275         if (owner && strncmp(owner, EDAC_MOD_STR, sizeof(EDAC_MOD_STR)))
+> > The bottom line here is the SPARC case. Anybody familiar with the platform
+> > can shed a light on this. If there is no such case, we may remove warning
+> > along with ret = 0 case from platfrom_get_irq().
+>
+>    I'm afraid you're too fast here... :-)
+>    We'll have a really hard time if we continue to allow IRQ0 to be returned by
+> platform_get_irq() -- we'll have oto fileter it out in the callers then...
 
-Was strncmp() really intended?  Because this is 100% the equivalent to
-strcmp() with no limit.  Maybe sizeof(EDAC_MOD_STR) - 1?
+So far no one reported seeing the big fat warning?
 
-    1276                 return -ENODEV;
-    1277 
-    1278         edac_op_state = EDAC_OPSTATE_NMI;
-    1279 
-    1280         rc = pci_register_driver(&igen6_driver);
-    1281         if (rc)
-    1282                 return rc;
-    1283 
-    1284         igen6_printk(KERN_INFO, "%s\n", IGEN6_REVISION);
-    1285 
-    1286         return 0;
-    1287 }
+> >>> 3. The specific cookie for "IRQ not found, while no error happened" case
+> >>
+> >> Not sure what you mean here. I have no problem that a situation I can
+> >> cope with is called an error for the query function. I just do error
+> >> handling and continue happily. So the part "while no error happened" is
+> >> irrelevant to me.
+> >
+> > I meant that instead of using special error code, 0 is very much good for
+> > the cases when IRQ is not found. It allows to distinguish -ENXIO from the
+> > low layer from -ENXIO with this magic meaning.
+>
+>    I don't see how -ENXIO can trickle from the lower layers, frankly...
 
-regards,
-dan carpenter
+It might one day, leading to very hard to track bugs.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
