@@ -2,17 +2,17 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D89BC636C8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C338FC636CF
 	for <linux-edac@archiver.kernel.org>; Wed, 26 Jan 2022 20:04:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbiAZUEA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 26 Jan 2022 15:04:00 -0500
-Received: from mxout03.lancloud.ru ([45.84.86.113]:53862 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbiAZUD7 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 26 Jan 2022 15:03:59 -0500
+        id S229671AbiAZUEB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 26 Jan 2022 15:04:01 -0500
+Received: from mxout04.lancloud.ru ([45.84.86.114]:35066 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229717AbiAZUEA (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 26 Jan 2022 15:04:00 -0500
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 227AE20763EF
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 2DDBA20ACBE3
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -22,10 +22,10 @@ To:     Borislav Petkov <bp@alien8.de>,
         Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
         Robert Richter <rric@kernel.org>, <linux-edac@vger.kernel.org>
-CC:     York Sun <york.sun@nxp.com>
-Subject: [PATCH 3/5] edac: fsl_ddr: add IRQ check
-Date:   Wed, 26 Jan 2022 23:03:51 +0300
-Message-ID: <20220126200353.14582-4-s.shtylyov@omp.ru>
+CC:     Andre Przywara <andre.przywara@arm.com>
+Subject: [PATCH 5/5] edac: highbank_mc: add IRQ check
+Date:   Wed, 26 Jan 2022 23:03:53 +0300
+Message-ID: <20220126200353.14582-6-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20220126200353.14582-1-s.shtylyov@omp.ru>
 References: <20220126200353.14582-1-s.shtylyov@omp.ru>
@@ -45,27 +45,27 @@ and blithely passes the negative error codes to devm_request_irq()
 overriding the original error.  Stop calling devm_request_irq()
 with the invalid IRQ #s.
 
-Fixes: 55764ed37eec ("EDAC, fsl_ddr: Fix IRQ dispose warning when module is removed")
+Fixes: a1b01edb2745 ("edac: add support for Calxeda highbank memory controller")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/edac/fsl_ddr_edac.c | 4 ++++
+ drivers/edac/highbank_mc_edac.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/drivers/edac/fsl_ddr_edac.c b/drivers/edac/fsl_ddr_edac.c
-index 6d8ea226010d..64f1108726b0 100644
---- a/drivers/edac/fsl_ddr_edac.c
-+++ b/drivers/edac/fsl_ddr_edac.c
-@@ -586,6 +586,10 @@ int fsl_mc_err_probe(struct platform_device *op)
+diff --git a/drivers/edac/highbank_mc_edac.c b/drivers/edac/highbank_mc_edac.c
+index 61b76ec226af..36931cafcab0 100644
+--- a/drivers/edac/highbank_mc_edac.c
++++ b/drivers/edac/highbank_mc_edac.c
+@@ -230,6 +230,10 @@ static int highbank_mc_probe(struct platform_device *pdev)
+ 		goto err;
  
- 		/* register interrupts */
- 		pdata->irq = platform_get_irq(op, 0);
-+		if (pdata->irq < 0) {
-+			res = pdata->irq;
-+			goto err2;
-+		}
- 		res = devm_request_irq(&op->dev, pdata->irq,
- 				       fsl_mc_isr,
- 				       IRQF_SHARED,
+ 	irq = platform_get_irq(pdev, 0);
++	if (irq < 0) {
++		res = irq;
++		goto err;
++	}
+ 	res = devm_request_irq(&pdev->dev, irq, highbank_mc_err_handler,
+ 			       0, dev_name(&pdev->dev), mci);
+ 	if (res < 0) {
 -- 
 2.26.3
 
