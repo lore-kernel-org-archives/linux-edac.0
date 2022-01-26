@@ -2,17 +2,17 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B63C63684
-	for <linux-edac@archiver.kernel.org>; Wed, 26 Jan 2022 20:04:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 775F1C5DF62
+	for <linux-edac@archiver.kernel.org>; Wed, 26 Jan 2022 20:04:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbiAZUEA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 26 Jan 2022 15:04:00 -0500
-Received: from mxout01.lancloud.ru ([45.84.86.81]:37092 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbiAZUEA (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 26 Jan 2022 15:04:00 -0500
+        id S229698AbiAZUD7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 26 Jan 2022 15:03:59 -0500
+Received: from mxout02.lancloud.ru ([45.84.86.82]:33944 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229666AbiAZUD7 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 26 Jan 2022 15:03:59 -0500
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru A0780209BFBD
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 9798D2078F66
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -22,10 +22,10 @@ To:     Borislav Petkov <bp@alien8.de>,
         Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
         Robert Richter <rric@kernel.org>, <linux-edac@vger.kernel.org>
-CC:     Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH 4/5] edac: highbank_l2: add IRQ checks
-Date:   Wed, 26 Jan 2022 23:03:52 +0300
-Message-ID: <20220126200353.14582-5-s.shtylyov@omp.ru>
+CC:     Dinh Nguyen <dinguyen@kernel.org>
+Subject: [PATCH 2/5] edac: altera: add IRQ check for Arria10
+Date:   Wed, 26 Jan 2022 23:03:50 +0300
+Message-ID: <20220126200353.14582-3-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20220126200353.14582-1-s.shtylyov@omp.ru>
 References: <20220126200353.14582-1-s.shtylyov@omp.ru>
@@ -39,44 +39,48 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The driver neglects to check the result of platform_get_irq()'s calls
+The driver neglects to check the result of platform_get_irq()'s call
 and blithely passes the negative error codes to devm_request_irq()
 (which takes *unsigned* IRQ #), causing it to fail with -EINVAL,
 overriding the original error.  Stop calling devm_request_irq()
 with the invalid IRQ #s.
 
-Fixes: 69154d069869 ("edac: add support for Calxeda highbank L2 cache ecc")
+While at it, move the call to platform_get_irq() to the place where
+it makes more sense...
+
+Fixes: 73bcc942f427 ("EDAC, altera: Add Arria10 EDAC support")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/edac/highbank_l2_edac.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/edac/altera_edac.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/edac/highbank_l2_edac.c b/drivers/edac/highbank_l2_edac.c
-index c4549cec788b..e58c84f8e624 100644
---- a/drivers/edac/highbank_l2_edac.c
-+++ b/drivers/edac/highbank_l2_edac.c
-@@ -94,6 +94,10 @@ static int highbank_l2_err_probe(struct platform_device *pdev)
- 		goto err;
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index 3b6a2650cf5b..21b5d2fac9be 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -353,9 +353,6 @@ static int altr_sdram_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
  
- 	drvdata->db_irq = platform_get_irq(pdev, 0);
-+	if (drvdata->db_irq < 0) {
-+		res = drvdata->db_irq;
-+		goto err2;
-+	}
- 	res = devm_request_irq(&pdev->dev, drvdata->db_irq,
- 			       highbank_l2_err_handler,
- 			       0, dev_name(&pdev->dev), dci);
-@@ -101,6 +105,10 @@ static int highbank_l2_err_probe(struct platform_device *pdev)
- 		goto err2;
+-	/* Arria10 has a 2nd IRQ */
+-	irq2 = platform_get_irq(pdev, 1);
+-
+ 	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+ 	layers[0].size = 1;
+ 	layers[0].is_virt_csrow = true;
+@@ -406,6 +403,12 @@ static int altr_sdram_probe(struct platform_device *pdev)
+ 		if (res < 0)
+ 			goto err2;
  
- 	drvdata->sb_irq = platform_get_irq(pdev, 1);
-+	if (drvdata->sb_irq < 0) {
-+		res = drvdata->sb_irq;
-+		goto err2;
-+	}
- 	res = devm_request_irq(&pdev->dev, drvdata->sb_irq,
- 			       highbank_l2_err_handler,
- 			       0, dev_name(&pdev->dev), dci);
++		/* Arria10 has a 2nd IRQ */
++		irq2 = platform_get_irq(pdev, 1);
++		if (irq2 < 0) {
++			res = irq2;
++			goto err2;
++		}
+ 		res = devm_request_irq(&pdev->dev, irq2,
+ 				       altr_sdram_mc_err_handler,
+ 				       IRQF_SHARED, dev_name(&pdev->dev), mci);
 -- 
 2.26.3
 
