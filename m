@@ -2,64 +2,98 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C114C433EF
-	for <linux-edac@archiver.kernel.org>; Fri, 18 Feb 2022 11:07:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1342FC433EF
+	for <linux-edac@archiver.kernel.org>; Sun, 20 Feb 2022 11:50:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234347AbiBRLHV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 18 Feb 2022 06:07:21 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50654 "EHLO
+        id S231159AbiBTLui (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 20 Feb 2022 06:50:38 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:33472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231533AbiBRLHU (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 18 Feb 2022 06:07:20 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8B812A22B1;
-        Fri, 18 Feb 2022 03:07:03 -0800 (PST)
-Received: from zn.tnic (dslb-088-067-221-104.088.067.pools.vodafone-ip.de [88.67.221.104])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229924AbiBTLuf (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 20 Feb 2022 06:50:35 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 047FC4B87C;
+        Sun, 20 Feb 2022 03:50:14 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 441AF1EC0523;
-        Fri, 18 Feb 2022 12:06:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1645182418;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=c4c6I8GLhkF9RWrXeinlmv4me3VZ4wvoVq26Nzv3b44=;
-        b=lvRpPmqmF5peidcetEaGgL9OJ/9OdTFCY75wemCra+JHqNRGOEugflNH76wwA7UH+rDLYH
-        CvZwjmm7hP6hm4p7fOGxq80nZe1aoTqohfMdePVnvPecduIRC+bRnCZqkAOlZXsxmDWoy0
-        xNJtv02U06mRVEOCXXTaRpjn9F19eI4=
-Date:   Fri, 18 Feb 2022 12:07:04 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Luck, Tony" <tony.luck@intel.com>,
-        Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: Re: [RFC PATCH 1/2] x86/mce: Handle AMD threshold interrupt storms
-Message-ID: <Yg992OrUbfmtRizs@zn.tnic>
-References: <20220217141609.119453-1-Smita.KoralahalliChannabasappa@amd.com>
- <20220217141609.119453-2-Smita.KoralahalliChannabasappa@amd.com>
- <Yg6FqR2cMZDwdBdi@agluck-desk3.sc.intel.com>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 3A0C421991;
+        Sun, 20 Feb 2022 11:50:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1645357813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=/im0JN/3aSOtHyIEyKZQNZI+WTUe+HXYcr39tkRxEuA=;
+        b=Yz22vOy5MOK2W9S4Ke7hKUGtQTCu/Ef7Jeec4+jUj7wxhwoi/LIrI4meQvHI4RnJTwwxNF
+        P1N1Zq5ny+qSQp5uYdD9PesARoj5jDI9mo+14ltGKOdZJ9g2UkK/HLtoNoqIicsq1bnXox
+        tRWOxkAoHxSZPko04rqc/l99+zx1Kdk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1645357813;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=/im0JN/3aSOtHyIEyKZQNZI+WTUe+HXYcr39tkRxEuA=;
+        b=p8T+v/ingDVNtGfAfzemg94ORYPlmALoNfKZ/nljPX0n0pm5DllWlKr63vRjXkCE44OccB
+        5VgfJo4ekIs+vyAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2550D12FC5;
+        Sun, 20 Feb 2022 11:50:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id NPb+CPUqEmLTHgAAMHmgww
+        (envelope-from <bp@suse.de>); Sun, 20 Feb 2022 11:50:13 +0000
+Date:   Sun, 20 Feb 2022 12:50:15 +0100
+From:   Borislav Petkov <bp@suse.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-edac <linux-edac@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] EDAC fix for 5.17
+Message-ID: <YhIq94B0MpYGrEm2@zn.tnic>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Yg6FqR2cMZDwdBdi@agluck-desk3.sc.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Feb 17, 2022 at 09:28:09AM -0800, Luck, Tony wrote:
-> I've been sitting on some partially done patches to re-work
-> storm handling for Intel ... which rips out all the existing
-> storm bits and replaces with something all new. I'll post the
-> 2-part series as replies to this.
+Hi Linus,
 
-Which begs the obvious question: how much of that code can be shared
-between the two?
+please pull a fix for a long-standing, hard-to-catch issue in the EDAC
+weird struct allocation code, for 5.17.
+
+Thx.
+
+---
+
+The following changes since commit 754e0b0e35608ed5206d6a67a791563c631cec07:
+
+  Linux 5.17-rc4 (2022-02-13 12:13:30 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v5.17_rc5
+
+for you to fetch changes up to f8efca92ae509c25e0a4bd5d0a86decea4f0c41e:
+
+  EDAC: Fix calculation of returned address and next offset in edac_align_ptr() (2022-02-15 15:54:46 +0100)
+
+----------------------------------------------------------------
+- Fix a long-standing struct alignment bug in the EDAC struct allocation code
+
+----------------------------------------------------------------
+Eliav Farber (1):
+      EDAC: Fix calculation of returned address and next offset in edac_align_ptr()
+
+ drivers/edac/edac_mc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
 Regards/Gruss,
     Boris.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+SUSE Software Solutions Germany GmbH, GF: Ivo Totev, HRB 36809, AG Nürnberg
