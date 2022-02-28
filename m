@@ -2,43 +2,43 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E083C433FE
-	for <linux-edac@archiver.kernel.org>; Mon, 28 Feb 2022 16:14:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C04C433F5
+	for <linux-edac@archiver.kernel.org>; Mon, 28 Feb 2022 16:14:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237839AbiB1QPM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 28 Feb 2022 11:15:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36934 "EHLO
+        id S237840AbiB1QPN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 28 Feb 2022 11:15:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231357AbiB1QPL (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 28 Feb 2022 11:15:11 -0500
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2051.outbound.protection.outlook.com [40.107.237.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41B245069
-        for <linux-edac@vger.kernel.org>; Mon, 28 Feb 2022 08:14:31 -0800 (PST)
+        with ESMTP id S231357AbiB1QPM (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 28 Feb 2022 11:15:12 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2087.outbound.protection.outlook.com [40.107.243.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3A845069
+        for <linux-edac@vger.kernel.org>; Mon, 28 Feb 2022 08:14:33 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RQufOrGPTlBkLHxwqNEuFlwieHNEony6okxyjaBvfA3hLB89r1Zjt0Y/ExeOyeWJTCqTW5m1/031Iz0C9UF+SG94xoDKCSLRjeTrlO4O25W9Ca5lFrLCsRz6rqDjFiBj9f7/O1Hc6P4JE8JcEbq8GHpjWp+MfacZoo4+UtssaMusw1cn9cruMAHy5P5kz1HSSryCr/+IJSYDMUYUN6eW25AZifbrYJyh9oHZ2t+RNPDIMXqnaTXdTf84VxMw9C12pxFJM9aWtbsjyvjsdPDQFTLPgF518Np0765tVu/2o4kcRGgDEQSn8kRGF9y4PPyOysNX/zJt031mcEQI4WBXFA==
+ b=JW+HtR2jpUpUz5cDdeVECClLqkAO6USSAnUAuaw9o/tr24AV7KMx3ZyBhdy8TU3JI+0tthAI/6ajOQ0SuiJQuFeYxuNxvP4nfbNnTf7uwQ36Jye5LwuLVl8kWVULWKtqSl1HWHUFS2iiWwSojKZ3YdOMRqMLxZHgIg4VmZXwdhy2jZ9mEf3uXC0xCg6M1uv8aiLNabn5UOeJYZbWS6twwbELQl1VaSS8VyukJROaPh+4Cr4OWciPhDQQjavcG3xSyB0su+QWd/QhWcLr4/nykOEXQtJ5pgQt8jGn2IDBE6Q0LIcBWP/LENzvNKMpxOo/DPdTOhGg37AApewBXILjAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ELwwyrTK/loTXxwLWj3vh9eOpjPhvD0rWoA6MHUk0EY=;
- b=Z8kPE9JmLEdnJK353+W6HAPDQbv7GLxbTWYmS0nBInbE0Disa8Gp6ofo+xuEYtJkW8MbkB0Ttwj8J7SvKVwFkenS1JfzMUwXPrF3gwUDF17PqIoC0rNTE0KUGxpnFhTDTvQbxZwJ2PTrSdU6J7oLwBxzL7rUr8Cbw+Ow5io7896x7I42P34ZINvBEkc83bn7lJAvJSpcyTIUXebX/g5iUCiMi+Mi1mERLQXhpVGyf2tL/vOcjcKEfVSeE43B9o22yOkBJa2oo4f4MGDB8+oG6qRxT0y9C8PdXYa5TNbmIyQ24n6wTaGuH8wtsm+CMCNDYQsn3J14/C3lDaXNFb6dgQ==
+ bh=mZDPnzclktyJm3RC9KXrvAcsUImEf5IehWvyQoGi35M=;
+ b=Jn2eRkvusflZBUV6KVb/BOCe2eT6hysVsa3VojGBvx6RGqVkrHH4Q1bxnF4CAzHLhl0spHAA122rj8mdkb77ZECPY9to1FBSyukWdMa5tuBIfzQErZtF54AGp7TJjI/ARZ7ww0CY7yasZENNCL5OrrqpKhKiaoQJZJNDIyoHjPbnb8uxCDKfd61k4L/Gr12whiJ8m+6FnbY4S5P2/v9eaFHSzGa0LPBuMd1LBVO/uT3+GnNW6wfqKo/koGsQfplL2KejY8d7WC/JK8nNbZ1XPyhg2nGYs4SYq6BP8AMNqx7TVxSLy0/xeK9ZGGrhgxWJjicBWb5K9/rC1RE02O/l0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ELwwyrTK/loTXxwLWj3vh9eOpjPhvD0rWoA6MHUk0EY=;
- b=T3IvnrX7a+QBFjfyfOThdnISI+DQqQjnT+dN+WHwfUGLwgYsoL7rMQ386Xb74HVfh1NbRAkC10ZtPHSP0sYqd4pPt5DZMn/9fbKWQiOtnkH/4zSXMVwO1jhR097wqJAVjQfbt+Do7bx7ddNTHfFjJFife/MuwtHw0+QEI5tolyw=
-Received: from BN0PR04CA0198.namprd04.prod.outlook.com (2603:10b6:408:e9::23)
- by BYAPR12MB2998.namprd12.prod.outlook.com (2603:10b6:a03:dd::16) with
+ bh=mZDPnzclktyJm3RC9KXrvAcsUImEf5IehWvyQoGi35M=;
+ b=C2CfTXy7TzMAavV2m29OA9fh85iGM4tLwT6VHwi40r1BxBB5XLxH570T7lDstWqGUaGVM85PJPSyvtyVQ/Pw0SZYFtI4FJPzciSOjB4J3YxInGTV5nQKd7zWcnCjLpXGqWdgQCK5nqVFaUKTkcPBb3ICBaUfHNkZ5nBEovVMJ3U=
+Received: from BN9PR03CA0079.namprd03.prod.outlook.com (2603:10b6:408:fc::24)
+ by BN8PR12MB3555.namprd12.prod.outlook.com (2603:10b6:408:48::28) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Mon, 28 Feb
- 2022 16:14:26 +0000
-Received: from BN8NAM11FT015.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e9:cafe::81) by BN0PR04CA0198.outlook.office365.com
- (2603:10b6:408:e9::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Mon, 28 Feb
+ 2022 16:14:32 +0000
+Received: from BN8NAM11FT021.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fc:cafe::2a) by BN9PR03CA0079.outlook.office365.com
+ (2603:10b6:408:fc::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21 via Frontend
- Transport; Mon, 28 Feb 2022 16:14:26 +0000
+ Transport; Mon, 28 Feb 2022 16:14:31 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,21 +46,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT015.mail.protection.outlook.com (10.13.176.90) with Microsoft SMTP
+ BN8NAM11FT021.mail.protection.outlook.com (10.13.177.114) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5017.22 via Frontend Transport; Mon, 28 Feb 2022 16:14:26 +0000
+ 15.20.5017.22 via Frontend Transport; Mon, 28 Feb 2022 16:14:31 +0000
 Received: from milan-ETHANOL-X.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 28 Feb
- 2022 10:14:23 -0600
+ 2022 10:14:28 -0600
 From:   Naveen Krishna Chatradhi <nchatrad@amd.com>
 To:     <linux-edac@vger.kernel.org>
 CC:     <bp@alien8.de>, <mingo@redhat.com>, <mchehab@kernel.org>,
         <yazen.ghannam@amd.com>, Muralidhara M K <muralimk@amd.com>,
         "Naveen Krishna Chatradhi" <nchatrad@amd.com>
-Subject: [PATCH 03/14] EDAC/amd64: Add prep_chip_selects() into pvt->ops
-Date:   Mon, 28 Feb 2022 21:43:43 +0530
-Message-ID: <20220228161354.54923-4-nchatrad@amd.com>
+Subject: [PATCH 05/14] EDAC/amd64: Add get_ecc_sym_sz() into pvt->ops
+Date:   Mon, 28 Feb 2022 21:43:45 +0530
+Message-ID: <20220228161354.54923-6-nchatrad@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220228161354.54923-1-nchatrad@amd.com>
 References: <20220228161354.54923-1-nchatrad@amd.com>
@@ -71,32 +71,32 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a135b692-48d2-45a5-07a7-08d9fad5640b
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2998:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB2998440D44CE69855981B964E8019@BYAPR12MB2998.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 9d54dd3d-7142-4aca-8535-08d9fad56756
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3555:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB3555C5FA1C71C19BBB5367F0E8019@BN8PR12MB3555.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hB+8seHmwbOO+FBy0c4ksw7QZfAPdg8vr6hx41zwMAsoI2JZHSIERNBxXszZXypi5g0tbBtV1S9+Dp0g7fYPqmbmcvh1oFPH5+cPwE8EraI41MFvJ45EqYYDBz4+IBdGIh4X3hfU+65uzuKL4HebcukADG3dIWiWSt++vIrkGAiptsbTQOnjFmpAIKtR1AefGWRf9keaZKSAYk1fqC8md50Xt1TXmvXnLiDayTmZyRN8c6flZ7fNt/8JlwXm5y4TbTP/VZzBdl4fjKKgkxBsVDSigAb1nVPw6b52Ne+QGUC8pPO8BI6FquhU8QWlzImpleqWIBfqXNYq7mHg9d/7sWNB/+cQSK7zf+CVFUHlm4fggOC8hz5YxvzyQD8XZ4ihKYpCsgOqwuAnfmDLc5wGc3Cu3KdjEL5/gCulHKMcA0OmxMgD/DBmmTvSVqWKWzW98jWkxNHQz2lOUuRxiD+FWvCdZgoZTHRBff3LtPAjgm8/LDmNY1WPh/XGvGw6cnjd7cAXQdnwfJmzC8hEfz9gdsOqWICbppiFqgr/lzU0WnFCWZww6FJD5KNLImpE+Z0InJmHDIelITnW3a0GZ1Mu5T3CNCulxBtmynlxkjGoEL/eXEv4kisjcwfM4I4oFahhXuC1EJ5tYx942NY0tGocUsu3t1aIGMgnPLjfqbjNMH5Lsamod4qkBJLNYfsOQdtTJGJ/vwRILtBTOIwmjmx9OIDUHrx9xFEYWhscOEBgT8WabDP/OHeBPcdeZd4AcrLO9xWPG2yfE5SG3ZtOXJK1XNK+jFHzylgj+XfQeL1v9t4=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(8936002)(47076005)(40460700003)(316002)(2616005)(1076003)(7696005)(16526019)(6916009)(26005)(426003)(336012)(186003)(6666004)(54906003)(83380400001)(36860700001)(4326008)(70206006)(70586007)(81166007)(8676002)(82310400004)(2906002)(356005)(508600001)(966005)(5660300002)(36756003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: iWEc5HgL8Bvz2dsPcwgJCxNJAZRIygcOcIGJp5UKRh/wum+qFMOgcYe3a1DlFRlj9dS10Q/p854YmwphakzHq9Isqa+Zv1M+wueyKQO7mmY+nbXie4a2ydOemZeEmj9TwraosoFLRmz5E36cAH7cuG/0wSLnavkeCPSXTLU/sxbqhSRWlN0IjP4DYVCLSePD7zW4c18d4gaMuYxDNjWrBfZpwm66GIJRwMWyhQ3RGkH7fIiMl6OhtDOWBJ4crRnSmorPtPxx074MEV72uYYKzsQBd0VAKo0+e0diviplszqpULD0b5ZAPZDsFK5Pq0796ENuRyCgjiYe83mqV6p0y8a/WbdYetQ2hAKZeqRGichZBFSpkPdpnD0t7XR30PEvdyEs6PGyaq6G54vZwJkGW7LCFkdhhTTPNwIRo1sXGFWzSD0iLIELYDR9HMhGAmeSZl8olmdmvcFHvnOdWPR8/+E983QeUF4iYC0rQu7BfNfRNgK906cruXMWR2ekVjtxX6EEqKXkbsLbzZqsWEOWScUnmCn/FqdwjpjuM+xjs27WHyDd8xs1KE7e3jUul1pg+qlGyv3yZzNP41L3/yoceDgDs3LZkCqRnTVNSquq4UMNIcGnuNJkC85FUr60IKvfJiABUvXQllBHqnE1GshnXL4HpmYruUR5LRV9gKRPv0RNJqRf+U5+13494FMdItxKUDK9CeYc2Ql/2c+L+j3Vcs5QvdTM/yV3aula/Jq0NX/DeI+m22Xuy+F1zO06Wk653V8pkOMLxL/hbn9j6Wsgrwd2ueWduQOgTMvX36iVr/M=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(81166007)(316002)(356005)(2906002)(36860700001)(36756003)(8936002)(40460700003)(5660300002)(47076005)(508600001)(83380400001)(2616005)(426003)(336012)(966005)(8676002)(186003)(4326008)(26005)(70586007)(16526019)(6666004)(7696005)(70206006)(82310400004)(6916009)(54906003)(1076003)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 16:14:26.2277
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 16:14:31.7556
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a135b692-48d2-45a5-07a7-08d9fad5640b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d54dd3d-7142-4aca-8535-08d9fad56756
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT015.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT021.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2998
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3555
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Muralidhara M K <muralimk@amd.com>
 
-Add function pointer for prep_chip_selects() in pvt->ops and assign
-family specific prep_chip_selects() definitions appropriately.
+Add function pointer for determine_ecc_sym_sz() in pvt->ops and assign
+family specific get_ecc_sym_sz() definitions appropriately.
 
 Signed-off-by: Muralidhara M K <muralimk@amd.com>
 Signed-off-by: Naveen Krishna Chatradhi <nchatrad@amd.com>
@@ -104,164 +104,145 @@ Signed-off-by: Naveen Krishna Chatradhi <nchatrad@amd.com>
 This patch is created by splitting the 5/12th patch in series
 [v7 5/12] https://patchwork.kernel.org/project/linux-edac/patch/20220203174942.31630-6-nchatrad@amd.com/
 
- drivers/edac/amd64_edac.c | 68 ++++++++++++++++++++++++++++-----------
+ drivers/edac/amd64_edac.c | 49 ++++++++++++++++++++++++---------------
  drivers/edac/amd64_edac.h |  1 +
- 2 files changed, 50 insertions(+), 19 deletions(-)
+ 2 files changed, 31 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 985c59d23a20..708c4bbc0d1c 100644
+index 07428a6c7683..69c33eb17e4f 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
-@@ -1490,28 +1490,51 @@ static void dump_misc_regs(struct amd64_pvt *pvt)
- /*
-  * See BKDG, F2x[1,0][5C:40], F2[1,0][6C:60]
-  */
--static void prep_chip_selects(struct amd64_pvt *pvt)
-+static void k8_prep_chip_selects(struct amd64_pvt *pvt)
- {
--	if (pvt->fam == 0xf && pvt->ext_model < K8_REV_F) {
--		pvt->csels[0].b_cnt = pvt->csels[1].b_cnt = 8;
--		pvt->csels[0].m_cnt = pvt->csels[1].m_cnt = 8;
--	} else if (pvt->fam == 0x15 && pvt->model == 0x30) {
--		pvt->csels[0].b_cnt = pvt->csels[1].b_cnt = 4;
--		pvt->csels[0].m_cnt = pvt->csels[1].m_cnt = 2;
--	} else if (pvt->fam >= 0x17) {
--		int umc;
--
--		for_each_umc(umc) {
--			pvt->csels[umc].b_cnt = 4;
--			pvt->csels[umc].m_cnt = 2;
--		}
-+	if (pvt->ext_model < K8_REV_F) {
-+		pvt->csels[0].b_cnt = 8;
-+		pvt->csels[1].b_cnt = 8;
-+
-+		pvt->csels[0].m_cnt = 8;
-+		pvt->csels[1].m_cnt = 8;
-+	} else if (pvt->ext_model >= K8_REV_F) {
-+		pvt->csels[0].b_cnt = 8;
-+		pvt->csels[1].b_cnt = 8;
-+
-+		pvt->csels[0].m_cnt = 4;
-+		pvt->csels[1].m_cnt = 4;
-+	}
-+}
- 
--	} else {
--		pvt->csels[0].b_cnt = pvt->csels[1].b_cnt = 8;
--		pvt->csels[0].m_cnt = pvt->csels[1].m_cnt = 4;
-+static void f15_m30h_prep_chip_selects(struct amd64_pvt *pvt)
-+{
-+	pvt->csels[0].b_cnt = 4;
-+	pvt->csels[1].b_cnt = 4;
-+
-+	pvt->csels[0].m_cnt = 2;
-+	pvt->csels[1].m_cnt = 2;
-+}
-+
-+static void f17_prep_chip_selects(struct amd64_pvt *pvt)
-+{
-+	int umc;
-+
-+	for_each_umc(umc) {
-+		pvt->csels[umc].b_cnt = 4;
-+		pvt->csels[umc].m_cnt = 2;
+@@ -3176,26 +3176,11 @@ static void free_mc_sibling_devs(struct amd64_pvt *pvt)
  	}
  }
  
-+static void default_prep_chip_selects(struct amd64_pvt *pvt)
+-static void determine_ecc_sym_sz(struct amd64_pvt *pvt)
++static void f1x_determine_ecc_sym_sz(struct amd64_pvt *pvt)
+ {
+ 	pvt->ecc_sym_sz = 4;
+ 
+-	if (pvt->umc) {
+-		u8 i;
+-
+-		for_each_umc(i) {
+-			/* Check enabled channels only: */
+-			if (pvt->umc[i].sdp_ctrl & UMC_SDP_INIT) {
+-				if (pvt->umc[i].ecc_ctrl & BIT(9)) {
+-					pvt->ecc_sym_sz = 16;
+-					return;
+-				} else if (pvt->umc[i].ecc_ctrl & BIT(7)) {
+-					pvt->ecc_sym_sz = 8;
+-					return;
+-				}
+-			}
+-		}
+-	} else if (pvt->fam >= 0x10) {
++	if (pvt->fam >= 0x10) {
+ 		u32 tmp;
+ 
+ 		amd64_read_pci_cfg(pvt->F3, EXT_NB_MCA_CFG, &tmp);
+@@ -3209,6 +3194,26 @@ static void determine_ecc_sym_sz(struct amd64_pvt *pvt)
+ 	}
+ }
+ 
++static void f17_determine_ecc_sym_sz(struct amd64_pvt *pvt)
 +{
-+	pvt->csels[0].b_cnt = 8;
-+	pvt->csels[1].b_cnt = 8;
++	u8 i;
 +
-+	pvt->csels[0].m_cnt = 4;
-+	pvt->csels[1].m_cnt = 4;
++	pvt->ecc_sym_sz = 4;
++
++	for_each_umc(i) {
++		/* Check enabled channels only: */
++		if (pvt->umc[i].sdp_ctrl & UMC_SDP_INIT) {
++			if (pvt->umc[i].ecc_ctrl & BIT(9)) {
++				pvt->ecc_sym_sz = 16;
++				return;
++			} else if (pvt->umc[i].ecc_ctrl & BIT(7)) {
++				pvt->ecc_sym_sz = 8;
++				return;
++			}
++		}
++	}
 +}
 +
- static void read_umc_base_mask(struct amd64_pvt *pvt)
- {
- 	u32 umc_base_reg, umc_base_reg_sec;
-@@ -3282,7 +3305,7 @@ static void read_mc_regs(struct amd64_pvt *pvt)
- 	}
+ /*
+  * Retrieve the hardware registers of the memory controller.
+  */
+@@ -3312,7 +3317,7 @@ static void read_mc_regs(struct amd64_pvt *pvt)
+ 	pvt->ops->determine_memory_type(pvt);
+ 	edac_dbg(1, "  DIMM type: %s\n", edac_mem_types[pvt->dram_type]);
  
- skip:
--	prep_chip_selects(pvt);
-+	pvt->ops->prep_chip_selects(pvt);
+-	determine_ecc_sym_sz(pvt);
++	pvt->ops->determine_ecc_sym_sz(pvt);
+ }
  
- 	pvt->ops->get_base_mask(pvt);
- 
-@@ -3761,6 +3784,7 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		pvt->ops->map_sysaddr_to_csrow		= k8_map_sysaddr_to_csrow;
- 		pvt->ops->dbam_to_cs			= k8_dbam_to_chip_select;
+ /*
+@@ -3786,6 +3791,7 @@ static int per_family_init(struct amd64_pvt *pvt)
  		pvt->ops->get_base_mask			= read_dct_base_mask;
-+		pvt->ops->prep_chip_selects		= k8_prep_chip_selects;
+ 		pvt->ops->prep_chip_selects		= k8_prep_chip_selects;
+ 		pvt->ops->determine_memory_type		= f1x_determine_memory_type;
++		pvt->ops->determine_ecc_sym_sz		= f1x_determine_ecc_sym_sz;
  		break;
  
  	case 0x10:
-@@ -3771,6 +3795,7 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		pvt->ops->map_sysaddr_to_csrow		= f1x_map_sysaddr_to_csrow;
- 		pvt->ops->dbam_to_cs			= f10_dbam_to_chip_select;
+@@ -3798,6 +3804,7 @@ static int per_family_init(struct amd64_pvt *pvt)
  		pvt->ops->get_base_mask			= read_dct_base_mask;
-+		pvt->ops->prep_chip_selects		= default_prep_chip_selects;
+ 		pvt->ops->prep_chip_selects		= default_prep_chip_selects;
+ 		pvt->ops->determine_memory_type		= f1x_determine_memory_type;
++		pvt->ops->determine_ecc_sym_sz		= f1x_determine_ecc_sym_sz;
  		break;
  
  	case 0x15:
-@@ -3779,11 +3804,13 @@ static int per_family_init(struct amd64_pvt *pvt)
- 			pvt->f1_id			= PCI_DEVICE_ID_AMD_15H_M30H_NB_F1;
- 			pvt->f2_id			= PCI_DEVICE_ID_AMD_15H_M30H_NB_F2;
- 			pvt->ops->dbam_to_cs		= f16_dbam_to_chip_select;
-+			pvt->ops->prep_chip_selects	= f15_m30h_prep_chip_selects;
- 		} else if (pvt->model == 0x60) {
- 			pvt->ctl_name			= "F15h_M60h";
- 			pvt->f1_id			= PCI_DEVICE_ID_AMD_15H_M60H_NB_F1;
- 			pvt->f2_id			= PCI_DEVICE_ID_AMD_15H_M60H_NB_F2;
- 			pvt->ops->dbam_to_cs		= f15_m60h_dbam_to_chip_select;
-+			pvt->ops->prep_chip_selects	= default_prep_chip_selects;
- 		} else if (pvt->model == 0x13) {
- 		/* Richland is only client */
- 			return -ENODEV;
-@@ -3812,6 +3839,7 @@ static int per_family_init(struct amd64_pvt *pvt)
+@@ -3826,6 +3833,7 @@ static int per_family_init(struct amd64_pvt *pvt)
  		pvt->ops->map_sysaddr_to_csrow		= f1x_map_sysaddr_to_csrow;
- 		pvt->ops->dbam_to_cs			= f16_dbam_to_chip_select;
  		pvt->ops->get_base_mask			= read_dct_base_mask;
-+		pvt->ops->prep_chip_selects		= default_prep_chip_selects;
+ 		pvt->ops->determine_memory_type		= f1x_determine_memory_type;
++		pvt->ops->determine_ecc_sym_sz		= f1x_determine_ecc_sym_sz;
+ 		break;
+ 
+ 	case 0x16:
+@@ -3844,6 +3852,7 @@ static int per_family_init(struct amd64_pvt *pvt)
+ 		pvt->ops->get_base_mask			= read_dct_base_mask;
+ 		pvt->ops->prep_chip_selects		= default_prep_chip_selects;
+ 		pvt->ops->determine_memory_type		= f1x_determine_memory_type;
++		pvt->ops->determine_ecc_sym_sz		= f1x_determine_ecc_sym_sz;
  		break;
  
  	case 0x17:
-@@ -3842,6 +3870,7 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		pvt->ops->early_channel_count		= f17_early_channel_count;
- 		pvt->ops->dbam_to_cs			= f17_addr_mask_to_cs_size;
+@@ -3876,6 +3885,7 @@ static int per_family_init(struct amd64_pvt *pvt)
  		pvt->ops->get_base_mask			= read_umc_base_mask;
-+		pvt->ops->prep_chip_selects		= f17_prep_chip_selects;
+ 		pvt->ops->prep_chip_selects		= f17_prep_chip_selects;
+ 		pvt->ops->determine_memory_type		= f17_determine_memory_type;
++		pvt->ops->determine_ecc_sym_sz		= f17_determine_ecc_sym_sz;
  
  		if (pvt->fam == 0x18) {
  			pvt->ctl_name			= "F18h";
-@@ -3878,6 +3907,7 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		pvt->ops->early_channel_count		= f17_early_channel_count;
- 		pvt->ops->dbam_to_cs			= f17_addr_mask_to_cs_size;
+@@ -3914,6 +3924,7 @@ static int per_family_init(struct amd64_pvt *pvt)
  		pvt->ops->get_base_mask			= read_umc_base_mask;
-+		pvt->ops->prep_chip_selects		= f17_prep_chip_selects;
+ 		pvt->ops->prep_chip_selects		= f17_prep_chip_selects;
+ 		pvt->ops->determine_memory_type		= f17_determine_memory_type;
++		pvt->ops->determine_ecc_sym_sz		= f17_determine_ecc_sym_sz;
  		break;
  
  	default:
-@@ -3887,7 +3917,7 @@ static int per_family_init(struct amd64_pvt *pvt)
- 
+@@ -3924,7 +3935,7 @@ static int per_family_init(struct amd64_pvt *pvt)
  	/* ops required for all the families */
  	if (!pvt->ops->early_channel_count || !pvt->ops->dbam_to_cs ||
--	    !pvt->ops->get_base_mask) {
-+	    !pvt->ops->get_base_mask || !pvt->ops->prep_chip_selects) {
+ 	    !pvt->ops->get_base_mask || !pvt->ops->prep_chip_selects ||
+-	    !pvt->ops->determine_memory_type) {
++	    !pvt->ops->determine_memory_type || !pvt->ops->determine_ecc_sym_sz) {
  		edac_dbg(1, "Common helper routines not defined.\n");
  		return -EFAULT;
  	}
 diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-index cf38367e3aa1..cca59a1b3021 100644
+index 4d8830b8afa2..f6769148d8b7 100644
 --- a/drivers/edac/amd64_edac.h
 +++ b/drivers/edac/amd64_edac.h
-@@ -465,6 +465,7 @@ struct low_ops {
- 	int  (*dbam_to_cs)(struct amd64_pvt *pvt, u8 dct,
- 			   unsigned int cs_mode, int cs_mask_nr);
+@@ -467,6 +467,7 @@ struct low_ops {
  	void (*get_base_mask)(struct amd64_pvt *pvt);
-+	void (*prep_chip_selects)(struct amd64_pvt *pvt);
+ 	void (*prep_chip_selects)(struct amd64_pvt *pvt);
+ 	void (*determine_memory_type)(struct amd64_pvt *pvt);
++	void (*determine_ecc_sym_sz)(struct amd64_pvt *pvt);
  };
  
  int __amd64_read_pci_cfg_dword(struct pci_dev *pdev, int offset,
