@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2908C433FE
-	for <linux-edac@archiver.kernel.org>; Tue,  1 Mar 2022 07:33:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80CBEC433F5
+	for <linux-edac@archiver.kernel.org>; Tue,  1 Mar 2022 08:11:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233022AbiCAHeY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 1 Mar 2022 02:34:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46788 "EHLO
+        id S233173AbiCAIMg (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 1 Mar 2022 03:12:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233038AbiCAHeW (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Mar 2022 02:34:22 -0500
+        with ESMTP id S233166AbiCAIMe (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Mar 2022 03:12:34 -0500
 Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B667DE35
-        for <linux-edac@vger.kernel.org>; Mon, 28 Feb 2022 23:33:42 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39E3883003;
+        Tue,  1 Mar 2022 00:11:54 -0800 (PST)
 Received: from integral2.. (unknown [182.2.70.248])
-        by gnuweeb.org (Postfix) with ESMTPSA id D746E7EC80;
-        Tue,  1 Mar 2022 07:24:19 +0000 (UTC)
+        by gnuweeb.org (Postfix) with ESMTPSA id B483F7EC80;
+        Tue,  1 Mar 2022 08:11:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-        s=default; t=1646119464;
-        bh=1DueruguqzudzU4GLjRyxswwEsV4p5hsQfPer9dQXT8=;
+        s=default; t=1646122313;
+        bh=zdjHxjV5WVf3cpuRmNxzzSq7B8CXjRT0mG4Lpjuog2o=;
         h=From:To:Cc:Subject:Date:From;
-        b=G5gwpQCdmlm5t/p/wxxAzp/RXTiXr1Y04KnGzgMFFhBW+7FaNJG04kAgnKqRlrpS/
-         il6amVuOoRF2OQ+gAmgCfAtyLs6EwTPV7n6mTAa9ruwT4LeYy1DiS8fl1iY1f2JxTa
-         VCMQyTFtF3hh3TQjprQyI34ykBVajgjz9BPwfwan7TiPPeBqzI8C7Au45iBtd0D9z9
-         sV+iNxiEqlVn0WZ84I08nOjY4fBN6pZy64VHoGQ1EqNy9seM9DTAqU75XlAxF8p6gd
-         tg04GfphsxQ1vqM/qTN0ydZjrEi7zthDCYmGpVYyYQtrfUUexHOwZ6kVUYcqo9vcgA
-         jnC+Pn80t8SgQ==
+        b=MfhrwLxxD6kbQ0SCSfBIQCUUYcBnNglFhXQXnhx/zNIuKqnZ8rpvS9rEsrnnw+FY3
+         2+63aUj+4tLVqiBi/2dVnNroml53rrruClzZjOQq8C3sgSvFd78yqmU3jNm/4t7Ksy
+         dyi4+DiYLpgTO0D+lxna9FaZiWY3HRdpu9MKni9Na1lN3Vy6kSmckbp9ztBihmrgAc
+         NuYlJR243Pg6pdV9TQEW62Lr1qPmT4ROCcaR1JEldcAM8CzanzU3emU2jkd51JE8Dr
+         A+/gLVNsuNmxLnZyNcUkhHc3K45rVnugcvoa8bEomUH95jN+a0TLq18y9RVyAar8Y7
+         lv15MZzmpjdkA==
 From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
@@ -35,10 +35,11 @@ Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
         Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
         linux-kernel@vger.kernel.org, gwml@vger.gnuweeb.org,
         x86@kernel.org, stable@vger.kernel.org,
+        Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>,
         Ammar Faizi <ammarfaizi2@gnuweeb.org>
-Subject: [PATCH 0/2] Two x86 fixes
-Date:   Tue,  1 Mar 2022 14:23:51 +0700
-Message-Id: <20220301072353.95749-1-ammarfaizi2@gnuweeb.org>
+Subject: [PATCH v3 0/2] Two x86 fixes
+Date:   Tue,  1 Mar 2022 15:11:31 +0700
+Message-Id: <20220301081133.106875-1-ammarfaizi2@gnuweeb.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -50,7 +51,36 @@ Hi,
 
 Two fixes for x86 arch.
 
-[PATCH 1/2] x86/delay: Fix the wrong asm constraint in `delay_loop()`
+## Changelog
+v3:
+  - Fold in changes from Alviro, the previous version is still
+    leaking @bank[n].
+
+v2:
+  - Fix wrong copy/paste.
+
+## Summary
+[PATCH v3 1/2] x86/delay: Fix the wrong asm constraint in `delay_loop()`
+
+The asm constraint does not reflect that the asm statement can modify
+the value of @loops. But the asm statement in delay_loop() does change
+the @loops.
+
+If by any chance the compiler inlines this function, it may clobber
+random stuff (e.g. local variable, important temporary value in reg,
+etc.).
+
+Fortunately, delay_loop() is only called indirectly (so it can't
+inline), and then the register it clobbers is %rax (which is by the
+nature of the calling convention, it's a caller saved register), so it
+didn't yield any bug.
+
+^ That shouldn't be an excuse for using the wrong constraint anyway.
+
+This changes "a" (as an input) to "+a" (as an input and output).
+
+
+[PATCH v3 2/2] x86/mce/amd: Fix memory leak when `threshold_create_bank()` fails.
 
 @bp is a local variable, calling mce_threshold_remove_device() when
 threshold_create_bank() fails will not free the @bp. Note that
@@ -61,25 +91,12 @@ At that point, the @threshold_banks per-CPU variable is still NULL,
 so the mce_threshold_remove_device() will just be a no-op and the
 @bp is leaked.
 
-Fix this by calling kfree() and early returning when we fail.
+Fix this by storing @bp to @threshold_banks before the loop, so in
+case we fail, mce_threshold_remove_device() will free the @bp.
 
 This bug is introduced by commit 6458de97fc15530b544 ("x86/mce/amd:
 Straighten CPU hotplug path") [1].
 
-Link: https://lore.kernel.org/all/20200403161943.1458-6-bp@alien8.de [1]
-
-[PATCH 2/2] x86/mce/amd: Fix memory leak when `threshold_create_bank()` fails.
-
-@bp is a local variable, calling mce_threshold_remove_device() when
-threshold_create_bank() fails will not free the @bp. Note that
-mce_threshold_remove_device() frees the @bp only if it's already
-stored in the @threshold_banks per-CPU variable.
-
-At that point, the @threshold_banks per-CPU variable is still NULL,
-so the mce_threshold_remove_device() will just be a no-op and the
-@bp is leaked.
-
-Fix this by calling kfree() and early returning when we fail.
 
 Cc: Borislav Petkov <bp@alien8.de>
 Cc: Dave Hansen <dave.hansen@linux.intel.com>
@@ -87,16 +104,16 @@ Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>
 Signed-off-by: Ammar Faizi <ammarfaizi2@gnuweeb.org>
 ---
-
 Ammar Faizi (2):
   x86/delay: Fix the wrong asm constraint in `delay_loop()`
   x86/mce/amd: Fix memory leak when `threshold_create_bank()` fails
 
- arch/x86/kernel/cpu/mce/amd.c | 9 ++++-----
- arch/x86/lib/delay.c          | 4 ++--
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ arch/x86/kernel/cpu/mce/amd.c | 16 ++++++++++------
+ arch/x86/lib/delay.c          |  4 ++--
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
 
 base-commit: 7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
