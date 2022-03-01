@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FCFEC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2908C433FE
 	for <linux-edac@archiver.kernel.org>; Tue,  1 Mar 2022 07:33:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232940AbiCAHeX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 1 Mar 2022 02:34:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46736 "EHLO
+        id S233022AbiCAHeY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 1 Mar 2022 02:34:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233022AbiCAHeW (ORCPT
+        with ESMTP id S233038AbiCAHeW (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Mar 2022 02:34:22 -0500
 Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 752187DE38
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B667DE35
         for <linux-edac@vger.kernel.org>; Mon, 28 Feb 2022 23:33:42 -0800 (PST)
 Received: from integral2.. (unknown [182.2.70.248])
-        by gnuweeb.org (Postfix) with ESMTPSA id 6FA437EDA2;
-        Tue,  1 Mar 2022 07:24:31 +0000 (UTC)
+        by gnuweeb.org (Postfix) with ESMTPSA id D746E7EC80;
+        Tue,  1 Mar 2022 07:24:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-        s=default; t=1646119476;
-        bh=oduq7UbWH4yY7hi8T5IT1C8abw9Vor905WGb4sLdUnQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TBp3j/Fqcss/3NXNfLhqpiGq5+F0a9kmmYlsNW76kM7KmCFmclci5SUTGrefVy4hI
-         nHCjc50jwNtfVCX20O/xJ6TgHUdOsXLmtoymbV7hlCwZjeplUEUrYqFh9ldjzay1oB
-         cXEoeHFXVHtC/fqYGbtYQS4j0PH+q7siofvBQfXlmLTdZJRYc+CuAEDXezp5zwSFQ+
-         4YyZz/XcQph1EBDf35eeLE1gvCX9agwvxrUMJUdrMPcFjHq3mNaluHQmEMRTV1DqID
-         MbPTqDd8DfVbV6dOPNlNbFpgHI++HPnzTuYTImQIyipG7jhrGgbYt0IuLJ44mesSWE
-         P04lgLLNjtOTA==
+        s=default; t=1646119464;
+        bh=1DueruguqzudzU4GLjRyxswwEsV4p5hsQfPer9dQXT8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=G5gwpQCdmlm5t/p/wxxAzp/RXTiXr1Y04KnGzgMFFhBW+7FaNJG04kAgnKqRlrpS/
+         il6amVuOoRF2OQ+gAmgCfAtyLs6EwTPV7n6mTAa9ruwT4LeYy1DiS8fl1iY1f2JxTa
+         VCMQyTFtF3hh3TQjprQyI34ykBVajgjz9BPwfwan7TiPPeBqzI8C7Au45iBtd0D9z9
+         sV+iNxiEqlVn0WZ84I08nOjY4fBN6pZy64VHoGQ1EqNy9seM9DTAqU75XlAxF8p6gd
+         tg04GfphsxQ1vqM/qTN0ydZjrEi7zthDCYmGpVYyYQtrfUUexHOwZ6kVUYcqo9vcgA
+         jnC+Pn80t8SgQ==
 From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
 To:     Borislav Petkov <bp@alien8.de>
 Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
@@ -36,17 +36,21 @@ Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
         linux-kernel@vger.kernel.org, gwml@vger.gnuweeb.org,
         x86@kernel.org, stable@vger.kernel.org,
         Ammar Faizi <ammarfaizi2@gnuweeb.org>
-Subject: [PATCH 2/2] x86/mce/amd: Fix memory leak when `threshold_create_bank()` fails
-Date:   Tue,  1 Mar 2022 14:23:53 +0700
-Message-Id: <20220301072353.95749-3-ammarfaizi2@gnuweeb.org>
+Subject: [PATCH 0/2] Two x86 fixes
+Date:   Tue,  1 Mar 2022 14:23:51 +0700
+Message-Id: <20220301072353.95749-1-ammarfaizi2@gnuweeb.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220301072353.95749-1-ammarfaizi2@gnuweeb.org>
-References: <20220301072353.95749-1-ammarfaizi2@gnuweeb.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
+
+Hi,
+
+Two fixes for x86 arch.
+
+[PATCH 1/2] x86/delay: Fix the wrong asm constraint in `delay_loop()`
 
 @bp is a local variable, calling mce_threshold_remove_device() when
 threshold_create_bank() fails will not free the @bp. Note that
@@ -64,43 +68,38 @@ Straighten CPU hotplug path") [1].
 
 Link: https://lore.kernel.org/all/20200403161943.1458-6-bp@alien8.de [1]
 
+[PATCH 2/2] x86/mce/amd: Fix memory leak when `threshold_create_bank()` fails.
+
+@bp is a local variable, calling mce_threshold_remove_device() when
+threshold_create_bank() fails will not free the @bp. Note that
+mce_threshold_remove_device() frees the @bp only if it's already
+stored in the @threshold_banks per-CPU variable.
+
+At that point, the @threshold_banks per-CPU variable is still NULL,
+so the mce_threshold_remove_device() will just be a no-op and the
+@bp is leaked.
+
+Fix this by calling kfree() and early returning when we fail.
+
 Cc: Borislav Petkov <bp@alien8.de>
 Cc: Dave Hansen <dave.hansen@linux.intel.com>
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Tony Luck <tony.luck@intel.com>
-Fixes: 6458de97fc15530b54477c4e2b70af653e8ac3d9 ("x86/mce/amd: Straighten CPU hotplug path")
-Cc: stable@vger.kernel.org # v5.8+
 Signed-off-by: Ammar Faizi <ammarfaizi2@gnuweeb.org>
 ---
- arch/x86/kernel/cpu/mce/amd.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-index 9f4b508886dd..75d019dfe8d6 100644
---- a/arch/x86/kernel/cpu/mce/amd.c
-+++ b/arch/x86/kernel/cpu/mce/amd.c
-@@ -1350,15 +1350,14 @@ int mce_threshold_create_device(unsigned int cpu)
- 		if (!(this_cpu_read(bank_map) & (1 << bank)))
- 			continue;
- 		err = threshold_create_bank(bp, cpu, bank);
--		if (err)
--			goto out_err;
-+		if (err) {
-+			kfree(bp);
-+			return err;
-+		}
- 	}
- 	this_cpu_write(threshold_banks, bp);
- 
- 	if (thresholding_irq_en)
- 		mce_threshold_vector = amd_threshold_interrupt;
- 	return 0;
--out_err:
--	mce_threshold_remove_device(cpu);
--	return err;
- }
+Ammar Faizi (2):
+  x86/delay: Fix the wrong asm constraint in `delay_loop()`
+  x86/mce/amd: Fix memory leak when `threshold_create_bank()` fails
+
+ arch/x86/kernel/cpu/mce/amd.c | 9 ++++-----
+ arch/x86/lib/delay.c          | 4 ++--
+ 2 files changed, 6 insertions(+), 7 deletions(-)
+
+
+base-commit: 7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
 -- 
 2.32.0
 
