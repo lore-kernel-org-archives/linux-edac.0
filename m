@@ -2,151 +2,186 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D08FC433EF
-	for <linux-edac@archiver.kernel.org>; Wed,  2 Mar 2022 17:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 110EAC433EF
+	for <linux-edac@archiver.kernel.org>; Wed,  2 Mar 2022 23:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242020AbiCBRvA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 2 Mar 2022 12:51:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38090 "EHLO
+        id S229450AbiCBXqF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 2 Mar 2022 18:46:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236917AbiCBRu7 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 2 Mar 2022 12:50:59 -0500
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE462C121;
-        Wed,  2 Mar 2022 09:50:16 -0800 (PST)
-Received: by mail-oo1-f54.google.com with SMTP id o7-20020a056820040700b003205d5eae6eso2240202oou.5;
-        Wed, 02 Mar 2022 09:50:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iaHBmL19/aGsObKDNYAKvkBrYFk5c1tAvLVtd0VRmtM=;
-        b=vrQWmFmrG+gdoMwEZXAtPPI0+9gucvFk2eka5lgZzf1LImUDR2TTDGVAd9v9mfqjRO
-         pF6X32sPhal3PmG5+iAeAO9rP0YTkppRgwUbIaHqYKongJIX0SnpnJ6QKolZPOXVHaCL
-         WdPJMjp6kC1RXaPI1jCz5qF3W6hbCOO3CdCeYkYhktbPT3btGqPq1RZvFm+tcf422EjK
-         0cEt0GkheB5QK15jyBCuOHrtOXrgvp4yDR1LPH+U4mcXUY3RLEJxrYlbeDKLSwIjDof8
-         6/TkRqZu7/Gvwl8eWhVo/VW66ugGv2Dmtfy8eh+F1X/8a9oPZ56ejtXwZWCIZzirjpo9
-         Mc1w==
-X-Gm-Message-State: AOAM531kYxDuq/wzOBxZMPfxnva2G0YzIspdHg69GCyGRO7YL6cKWkqM
-        3ml/TOUXMJGlcQsLynEz7ZfojzPiNg==
-X-Google-Smtp-Source: ABdhPJzUSrz4rx3I2XeOi33guW/PnNOyNKyG6Hw6f5iggsUNXdmqsv4Cp2y6zU1f0m8KB9v/1tlNhw==
-X-Received: by 2002:a4a:7601:0:b0:2e0:3c62:4787 with SMTP id t1-20020a4a7601000000b002e03c624787mr15642954ooc.11.1646243415969;
-        Wed, 02 Mar 2022 09:50:15 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id l1-20020a4aa781000000b0031cf8e00738sm7916823oom.1.2022.03.02.09.50.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 09:50:15 -0800 (PST)
-Received: (nullmailer pid 3953295 invoked by uid 1000);
-        Wed, 02 Mar 2022 17:50:13 -0000
-Date:   Wed, 2 Mar 2022 11:50:13 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Medad CChien <medadyoung@gmail.com>
-Cc:     rric@kernel.org, james.morse@arm.com, tony.luck@intel.com,
-        mchehab@kernel.org, bp@alien8.de, benjaminfair@google.com,
-        yuenn@google.com, venture@google.com, KWLIU@nuvoton.com,
-        YSCHU@nuvoton.com, JJLIU0@nuvoton.com, KFTING@nuvoton.com,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
-        Medad CChien <ctcchien@nuvoton.com>,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dt-bindings: edac: npcm-edac.yaml
-Message-ID: <Yh+uVYzaXdfEaW7R@robh.at.kernel.org>
-References: <20220302092434.16625-1-ctcchien@nuvoton.com>
- <20220302092434.16625-3-ctcchien@nuvoton.com>
+        with ESMTP id S229519AbiCBXqB (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 2 Mar 2022 18:46:01 -0500
+Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD6D239D5C;
+        Wed,  2 Mar 2022 15:43:54 -0800 (PST)
+Received: from [192.168.43.69] (unknown [182.2.41.243])
+        by gnuweeb.org (Postfix) with ESMTPSA id 1DEAD7E6A5;
+        Wed,  2 Mar 2022 23:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
+        s=default; t=1646263662;
+        bh=A0wJxlPbC6L5g/52O5FkT+betn2pvQrCWGTRFCIy5gg=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+        b=TfZn8Kq++xUqI9AHW+rba3Ml8VA1cFtpJ/+y9jbgAdML//eyjZyT0eIgzQf2AR677
+         xtQes501LvCiOoVx2OS2LSkTS6+xHOdawqZoF4Z06cJQSMDg8D8S4K3+Nt+8h00nCM
+         cce/fHLpJUg2RJa9xktbajVJjTqkNdiBuVLrKAMIoo3wXrvCjw6GvCe4jkKd6wMxcy
+         jxp8b56394wTwg0mS5VE5/TDSrTQk/2T9ADCCkRLF/ZO53une4ImRGKTRXO5q7CSUH
+         bpsAFuxdbSXLMEfWcQWdd4RvOTj65JM2ObXz/Fo3iXaWpQfvB+xB1EQmIZa2ruD09r
+         19BF0Q3n/Cjdg==
+Message-ID: <109a10da-d1d1-c47a-2f04-31796457f6ff@gnuweeb.org>
+Date:   Thu, 3 Mar 2022 06:27:33 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220302092434.16625-3-ctcchien@nuvoton.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 2/2] x86/mce/amd: Fix memory leak when
+ `threshold_create_bank()` fails
+Content-Language: en-US
+From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
+To:     Yazen Ghannam <yazen.ghannam@amd.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, gwml@vger.gnuweeb.org,
+        x86@kernel.org, stable@vger.kernel.org,
+        Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>,
+        Jiri Hladky <hladky.jiri@googlemail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20220301094608.118879-1-ammarfaizi2@gnuweeb.org>
+ <20220301094608.118879-3-ammarfaizi2@gnuweeb.org>
+ <Yh+oyD/5M3TW5ZMM@yaz-ubuntu>
+ <4371a592-6686-c535-4daf-993dedb43cd4@gnuweeb.org>
+In-Reply-To: <4371a592-6686-c535-4daf-993dedb43cd4@gnuweeb.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Mar 02, 2022 at 05:24:33PM +0800, Medad CChien wrote:
-> Add the device tree bindings for the EDAC driver npcm-edac.
+On 3/3/22 6:20 AM, Ammar Faizi wrote:
+> On 3/3/22 12:26 AM, Yazen Ghannam wrote:
+>> Hi Ammar,
 > 
-> Signed-off-by: Medad CChien <ctcchien@nuvoton.com>
-> ---
->  .../devicetree/bindings/edac/npcm-edac.yaml   | 62 +++++++++++++++++++
->  1 file changed, 62 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/edac/npcm-edac.yaml
+> Hi Yazen,
 > 
-> diff --git a/Documentation/devicetree/bindings/edac/npcm-edac.yaml b/Documentation/devicetree/bindings/edac/npcm-edac.yaml
-> new file mode 100644
-> index 000000000000..936e9787ec80
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/edac/npcm-edac.yaml
-
-nuvoton,npcm-memory-controller.yaml
-
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/edac/npcm-edac.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Nuvoton NPCM Memory Controller EDAC
-
-Drop 'EDAC'
-
-> +
-> +maintainers:
-> +  - Medad CChien <ctcchien@nuvoton.com>
-> +
-> +description: |
-> +  The Nuvoton BMC SoC supports DDR4 memory with and without ECC (error
-> +  correction check).
-> +
-> +  The memory controller supports single bit error correction, double bit
-> +  error detection (in-line ECC in which a section (1/8th) of the
-> +  memory device used to store data is used for ECC storage).
-> +
-> +  Note, the bootloader must configure ECC mode for the memory controller.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nuvoton,npcm8xx-memory-controller
-> +      - nuvoton,npcm7xx-memory-controller
-
-Don't use wildcards in compatible strings. Use specific SoC.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    minItems: 1
-> +    items:
-> +      - description: uncorrectable error interrupt
-> +      - description: correctable error interrupt
-> +
-> +  interrupt-names:
-> +    minItems: 1
-> +    items:
-> +      - const: ue
-> +      - const: ce
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    ahb {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +        mc: memory-controller@f0824000 {
-> +            compatible = "nuvoton,npcm7xx-memory-controller";
-> +            reg = <0x0 0xf0824000 0x0 0x1000>;
-> +            interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-> +        };
-> +    };
-> +
-> -- 
-> 2.17.1
+>> ...
+>> The threshold interrupt handler uses this pointer. I think the goal here is to
+>> set this pointer when the list is fully formed and clear this pointer before
+>> making any changes to the list. Otherwise, the interrupt handler will operate
+>> on incomplete data if an interrupt comes in the middle of these updates.
+>>
+>> The changes below should deal with memory leak issue while avoiding a race
+>> with the threshold interrupt. What do you think?
 > 
+> Thanks for taking a look into this. I didn't notice that before. The
+> changes look good to me, extra improvements:
+> 
+> 1) _mce_threshold_remove_device() should be static as we don't use it
+>     in another translation unit.
+> 2) Minor cleanup, we don't need "goto out_err", just early return
+>     directly.
+> 
+> I will fold them in...
+> 
+
+Please review the patch below, if you think it looks good, I will
+send this for the v5 series. I added your sign-off.
+
+ From cae3965734a67d11a5286c612dfddf52398defc8 Mon Sep 17 00:00:00 2001
+From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+Date: Thu, 3 Mar 2022 05:07:38 +0700
+Subject: [PATCH v5 2/2] x86/MCE/AMD: Fix memory leak when `threshold_create_bank()` fails
+
+In mce_threshold_create_device(), when threshold_create_bank() fails,
+the @bp will be leaked, because mce_threshold_remove_device() will
+not free the @bp. It only frees the @bp when we've already written
+the @bp to the @threshold_banks per-CPU variable, but at the point,
+we haven't.
+
+Fix this by extracting the cleanup part into a new static function
+_mce_threshold_remove_device(), then use it from create and remove
+device function.
+
+Also, eliminate the "goto out_err". Just early return inside the loop
+when we fail.
+
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: stable@vger.kernel.org # v5.8+
+Fixes: 6458de97fc15 ("x86/mce/amd: Straighten CPU hotplug path")
+Co-authored-by: Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>
+Signed-off-by: Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>
+Co-authored-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+---
+  arch/x86/kernel/cpu/mce/amd.c | 31 ++++++++++++++++++-------------
+  1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 9f4b508886dd..ac7246a4de08 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -1293,10 +1293,22 @@ static void threshold_remove_bank(struct threshold_bank *bank)
+  	kfree(bank);
+  }
+  
++static void _mce_threshold_remove_device(struct threshold_bank **bp)
++{
++	unsigned int bank, numbanks = this_cpu_read(mce_num_banks);
++
++	for (bank = 0; bank < numbanks; bank++) {
++		if (bp[bank]) {
++			threshold_remove_bank(bp[bank]);
++			bp[bank] = NULL;
++		}
++	}
++	kfree(bp);
++}
++
+  int mce_threshold_remove_device(unsigned int cpu)
+  {
+  	struct threshold_bank **bp = this_cpu_read(threshold_banks);
+-	unsigned int bank, numbanks = this_cpu_read(mce_num_banks);
+  
+  	if (!bp)
+  		return 0;
+@@ -1307,13 +1319,7 @@ int mce_threshold_remove_device(unsigned int cpu)
+  	 */
+  	this_cpu_write(threshold_banks, NULL);
+  
+-	for (bank = 0; bank < numbanks; bank++) {
+-		if (bp[bank]) {
+-			threshold_remove_bank(bp[bank]);
+-			bp[bank] = NULL;
+-		}
+-	}
+-	kfree(bp);
++	_mce_threshold_remove_device(bp);
+  	return 0;
+  }
+  
+@@ -1350,15 +1356,14 @@ int mce_threshold_create_device(unsigned int cpu)
+  		if (!(this_cpu_read(bank_map) & (1 << bank)))
+  			continue;
+  		err = threshold_create_bank(bp, cpu, bank);
+-		if (err)
+-			goto out_err;
++		if (err) {
++			_mce_threshold_remove_device(bp);
++			return err;
++		}
+  	}
+  	this_cpu_write(threshold_banks, bp);
+  
+  	if (thresholding_irq_en)
+  		mce_threshold_vector = amd_threshold_interrupt;
+  	return 0;
+-out_err:
+-	mce_threshold_remove_device(cpu);
+-	return err;
+  }
+
+-- 
+Ammar Faizi
