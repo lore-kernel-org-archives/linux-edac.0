@@ -2,84 +2,106 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CDF1C433EF
-	for <linux-edac@archiver.kernel.org>; Wed,  2 Mar 2022 23:58:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A54C433F5
+	for <linux-edac@archiver.kernel.org>; Thu,  3 Mar 2022 00:07:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbiCBX7i (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 2 Mar 2022 18:59:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45742 "EHLO
+        id S230096AbiCCAIU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 2 Mar 2022 19:08:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbiCBX7i (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 2 Mar 2022 18:59:38 -0500
+        with ESMTP id S230027AbiCCAHs (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 2 Mar 2022 19:07:48 -0500
 Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F32AE73;
-        Wed,  2 Mar 2022 15:58:53 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0878CB0EA2;
+        Wed,  2 Mar 2022 16:07:03 -0800 (PST)
 Received: from [192.168.43.69] (unknown [182.2.41.243])
-        by gnuweeb.org (Postfix) with ESMTPSA id 129EC7E245;
-        Wed,  2 Mar 2022 23:20:12 +0000 (UTC)
+        by gnuweeb.org (Postfix) with ESMTPSA id E76197E29A;
+        Thu,  3 Mar 2022 00:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-        s=default; t=1646263219;
-        bh=5bGlzJLdBkS0s/8eCPQY/1VF/vxcLCuznCGM29opc6k=;
+        s=default; t=1646266023;
+        bh=FXJ5RIO8Oqa50icw+tN38pTqQ1lL1MDXri2vESEbOg0=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=W+PKSiy4sQMg8AB3zmI4CC8KjCEDgOfXLzi14enl7mT5F/qloWJkRGyqi23pQoVxb
-         whxvILmeTXP2pi+q7IG11yU8YDTGHz4um1Il+92Bq+Vp/DlzJOJa1wutiX0Mz73ejG
-         5uqGLSerp6LzOygMwO8ViKymzTmARAbiB7k8Baz36Snqi6IHu97i6VyZnv8srp1RlW
-         g/EQug7jQNxQE1jWQ6QAZstmaFdJLxDsZe8UjBcJOmwu6qcZQtIBMH+xz9OD+jTR1r
-         0uTxP/1vfrwTVc8tc77gsi+ES/BXvVKkekHgtzNHRuV7BtVgS109H1VzduYDz21KSt
-         ogciKlIRVtgHA==
-Message-ID: <4371a592-6686-c535-4daf-993dedb43cd4@gnuweeb.org>
-Date:   Thu, 3 Mar 2022 06:20:09 +0700
+        b=Qs9kOFlmA24f/j91hiJ5vZ3XiNoZkicH8EA217zJ1ThsXNvKfiiqjO7jYUumaa7bZ
+         8/H1DD9nGRCQUQtxXuWMDRO8pyV6jPga/5rXM6xOWVIfSdwY6xfzf3BPsDmR8bhJqj
+         r1vIt6IKpd4bg6BbOZmYLO+J2y+J+SPtJ6f6tA4CneYu8CmiviamL/qocX7V4NgVmK
+         T6HlKHPP7BApNnUeNaZJcy7aorzSN5XKQgcE1m3nGdxj1jgUJc3Pcc62v3lVZUFaPO
+         ulS5kViDcEBZDYlGNUCLG2i0PIWua8fPKz8gZ+m4wS15XdA6sysccIAUZHPAuVIvSV
+         Mf7KExPwK02Ew==
+Message-ID: <4f7d2b07-c5e5-33dc-f6a7-c62b1c5329b9@gnuweeb.org>
+Date:   Thu, 3 Mar 2022 07:06:52 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 2/2] x86/mce/amd: Fix memory leak when
- `threshold_create_bank()` fails
+Subject: Re: [PATCH v4 1/2] x86/delay: Fix the wrong asm constraint in
+ `delay_loop()`
 Content-Language: en-US
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
+To:     Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>
 Cc:     Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gwml@vger.gnuweeb.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
         x86@kernel.org, stable@vger.kernel.org,
-        Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>,
         Jiri Hladky <hladky.jiri@googlemail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Laight <David.Laight@ACULAB.COM>
 References: <20220301094608.118879-1-ammarfaizi2@gnuweeb.org>
- <20220301094608.118879-3-ammarfaizi2@gnuweeb.org>
- <Yh+oyD/5M3TW5ZMM@yaz-ubuntu>
+ <20220301094608.118879-2-ammarfaizi2@gnuweeb.org>
+ <CAOG64qPgTv5tQNknuG9d-=oL2EPQQ1ys7xu2FoBpNLyzv1qYzA@mail.gmail.com>
 From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
-In-Reply-To: <Yh+oyD/5M3TW5ZMM@yaz-ubuntu>
+In-Reply-To: <CAOG64qPgTv5tQNknuG9d-=oL2EPQQ1ys7xu2FoBpNLyzv1qYzA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 3/3/22 12:26 AM, Yazen Ghannam wrote:
-> Hi Ammar,
-
-Hi Yazen,
-
-> ...
-> The threshold interrupt handler uses this pointer. I think the goal here is to
-> set this pointer when the list is fully formed and clear this pointer before
-> making any changes to the list. Otherwise, the interrupt handler will operate
-> on incomplete data if an interrupt comes in the middle of these updates.
+On 3/1/22 6:33 PM, Alviro Iskandar Setiawan wrote:
+> hi sir, it might also be interesting to know that even if it never be
+> inlined, it's still potential to break.
 > 
-> The changes below should deal with memory leak issue while avoiding a race
-> with the threshold interrupt. What do you think?
+> for example this code (https://godbolt.org/z/xWMTxhTET)
+> 
+>    __attribute__((__noinline__)) static void x(int a)
+>    {
+>        asm("xorl\t%%r8d, %%r8d"::"a"(a));
+>    }
+> 
+>    extern int p(void);
+> 
+>    int f(void)
+>    {
+>        int ret = p();
+>        x(ret);
+>        return ret;
+>    }
+> 
+> translates to this asm
+> 
+>    x:
+>            movl    %edi, %eax
+>            xorl    %r8d, %r8d
+>            ret
+>    f:
+>            subq    $8, %rsp
+>            call    p
+>            movl    %eax, %r8d
+>            movl    %eax, %edi
+>            call    x
+>            movl    %r8d, %eax
+>            addq    $8, %rsp
+>            ret
+> 
+> See the %r8d? It should be clobbered by a function call too. But since
+> no one tells the compiler that we clobber %r8d, it assumes %r8d never
+> changes after that call. The compiler thinks x() is static and will
+> not clobber %r8d, even the ABI says %r8d will be clobbered by a
+> function call. So i think it should be backported to the stable
+> kernel, it's still a fix
 
-Thanks for taking a look into this. I didn't notice that before. The
-changes look good to me, extra improvements:
-
-1) _mce_threshold_remove_device() should be static as we don't use it
-    in another translation unit.
-2) Minor cleanup, we don't need "goto out_err", just early return
-    directly.
-
-I will fold them in...
+Thanks. I will add CC stable in the v5.
 
 -- 
 Ammar Faizi
