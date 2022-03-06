@@ -2,130 +2,87 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FC3C433F5
-	for <linux-edac@archiver.kernel.org>; Sat,  5 Mar 2022 01:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44FB0C433F5
+	for <linux-edac@archiver.kernel.org>; Sun,  6 Mar 2022 16:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230355AbiCEBmO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 4 Mar 2022 20:42:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40086 "EHLO
+        id S232792AbiCFQTa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 6 Mar 2022 11:19:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiCEBmN (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 4 Mar 2022 20:42:13 -0500
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB257CA73B;
-        Fri,  4 Mar 2022 17:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646444484; x=1677980484;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=T1BLLpcj77s9dl2kYpzLwwHh62xO9d6FgWuFJjNZukw=;
-  b=EmDW0I8GDDVA/XaCZ+hHpL2KVqqWMZ8Zx6Q4fT3aMzNweTjxzEpRDHWI
-   DckdU7FZZ7PZ+pCbutUuA3m1pDFH5JjtcIcroGykPnmimnOtAot/TWzTX
-   OSANYnLCgX/ZvhcO9E4bM7Qa8s6EhWOii72CIhCbGzEqaws0Ya4SAOIul
-   MHoIjSMujE1MV7vjvxHyAIXMftrmzlIqVOGKxRH9uAULgnnl85UFl3lpV
-   T/kFHF0OnIuNoc1gV2ynCBgv0eGHg2Mj85ZCA5wDY7IXYPXKjMA/pMXdw
-   yOoAWao9sGDaYmeXQzgCz7gR30kflmRJjIdLJ5ljtiUJdbbbY6t5h+fLe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10276"; a="253831821"
-X-IronPort-AV: E=Sophos;i="5.90,156,1643702400"; 
-   d="scan'208";a="253831821"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2022 17:41:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,156,1643702400"; 
-   d="scan'208";a="640761161"
-Received: from pglc00012.png.intel.com ([10.221.207.32])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Mar 2022 17:41:20 -0800
-From:   niravkumar.l.rabara@intel.com
-To:     dinguyen@kernel.org, bp@alien8.de, mchehab@kernel.org,
-        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
-        niravkumar.l.rabara@intel.com, linux-edac@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH] EDAC: altera: Add SDRAM ECC check for U-Boot
-Date:   Sat,  5 Mar 2022 09:41:18 +0800
-Message-Id: <20220305014118.4794-1-niravkumar.l.rabara@intel.com>
-X-Mailer: git-send-email 2.19.0
+        with ESMTP id S232759AbiCFQTa (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 6 Mar 2022 11:19:30 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9638426AF9;
+        Sun,  6 Mar 2022 08:18:37 -0800 (PST)
+Received: from nazgul.tnic (dynamic-002-247-254-159.2.247.pool.telefonica.de [2.247.254.159])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B35D11EC03EA;
+        Sun,  6 Mar 2022 17:18:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1646583510;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=GHrftsko6o7ywdr7kHv1WL65OJ0Akz2CAgOo/zvybAc=;
+        b=BVquDaj4RfD5jJNHLd9PL/IfZlK3Kf9C0SBp129+PVh0UaqWUQEmmrb+selSKaLUPUFcGO
+        pHFMeUv3JNOhIzMFo40kdllo8KTYdZmTQ4hCpfiMG0UV6F4yn3sEH2ZGVPcZpfBC0YCNma
+        /9OBH6Cavsut284Gocix5X6SjeWccP8=
+Date:   Sun, 6 Mar 2022 17:18:31 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yazen Ghannam <yazen.ghannam@amd.com>
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
+        rric@kernel.org, Smita.KoralahalliChannabasappa@amd.com,
+        william.roche@oracle.com
+Subject: Re: [PATCH v4 0/2] AMD Family 19h Models 10h-1Fh Updates
+Message-ID: <YiTezZBrQ8PVu80E@nazgul.tnic>
+References: <20220202144307.2678405-1-yazen.ghannam@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220202144307.2678405-1-yazen.ghannam@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Rabara Niravkumar L <niravkumar.l.rabara@intel.com>
+On Wed, Feb 02, 2022 at 02:43:05PM +0000, Yazen Ghannam wrote:
+> Hi all,
+> 
+> This set adds support for AMD Family 19h Models 10h-1Fh and A0h-AFh.
+> 
+> Patch 1 sets the "memory type" per DIMM. 
+> 
+> Patch 2 adds register offset and other minor changes introduced with
+> these new models.
+> 
+> Thanks,
+> Yazen
+> 
+> Link:
+> https://lore.kernel.org/r/20211228200615.412999-1-yazen.ghannam@amd.com
+> 
+> v3->v4:
+> * Updated patch 1 to cache dram_type in struct umc.
+> * Fixed uninitiliazed variable warning in patch 2.
+> * Switched to a single register helper function.
+> 
+> v2->v3:
+> * Patch 1 completely reworked.
+> * Patch 2 updated based on comments from William.
+> 
+> Yazen Ghannam (2):
+>   EDAC/amd64: Set memory type per DIMM
+>   EDAC/amd64: Add new register offset support and related changes
+> 
+>  drivers/edac/amd64_edac.c | 113 +++++++++++++++++++++++++++++++-------
+>  drivers/edac/amd64_edac.h |  17 ++++++
+>  2 files changed, 109 insertions(+), 21 deletions(-)
 
-A bug in legacy U-Boot causes a crash during SDRAM boot if ECC
-is not enabled in the bitstream but enabled in the Linux config.
+Queued, thanks.
 
-Memory mapped read of the ECC Enabled bit was only enabled
-if U-Boot determined ECC was enabled in the bitstream.
-
-The Linux driver checks the ECC enable bit using a memory map
-read. In the ECC disabled bitstream case, U-Boot didn't
-enable ECC register memory map reads and since they are not
-allowed this results in a crash.
-
-This patch always reads the ECC Enable register through a
-SMC call which is always allowed and it works with legacy
-and current U-Boot.
-
-Signed-off-by: Rabara Niravkumar L <niravkumar.l.rabara@intel.com>
----
- drivers/edac/altera_edac.c | 40 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 5dd29789f97d..e7e8e624a436 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1083,8 +1083,46 @@ static int __init __maybe_unused altr_init_a10_ecc_device_type(char *compat)
- 
- #ifdef CONFIG_EDAC_ALTERA_SDRAM
- 
-+/*
-+ * A legacy U-Boot bug only enabled memory mapped access to the ECC Enable
-+ * register if ECC is enabled. Linux checks the ECC Enable register to
-+ * determine ECC status.
-+ * Use an SMC call (which always works) to determine ECC enablement.
-+ */
-+static int altr_s10_sdram_check_ecc_deps(struct altr_edac_device_dev *device)
-+{
-+	const struct edac_device_prv_data *prv = device->data;
-+	unsigned long sdram_ecc_addr;
-+	struct arm_smccc_res result;
-+	struct device_node *np;
-+	phys_addr_t sdram_addr;
-+	u32 read_reg;
-+	int ret;
-+
-+	np = of_find_compatible_node(NULL, NULL, "altr,sdr-ctl");
-+	if (!np)
-+		goto sdram_err;
-+
-+	sdram_addr = of_translate_address(np, of_get_address(np, 0,
-+							     NULL, NULL));
-+	of_node_put(np);
-+	sdram_ecc_addr = (unsigned long)sdram_addr + prv->ecc_en_ofst;
-+	arm_smccc_smc(INTEL_SIP_SMC_REG_READ, sdram_ecc_addr,
-+		      0, 0, 0, 0, 0, 0, &result);
-+	read_reg = (unsigned int)result.a1;
-+	ret = (int)result.a0;
-+	if (!ret && (read_reg & prv->ecc_enable_mask))
-+		return 0;
-+
-+sdram_err:
-+	edac_printk(KERN_ERR, EDAC_DEVICE,
-+		    "%s: No ECC present or ECC disabled.\n",
-+		    device->edac_dev_name);
-+	return -ENODEV;
-+}
-+
- static const struct edac_device_prv_data s10_sdramecc_data = {
--	.setup = altr_check_ecc_deps,
-+	.setup = altr_s10_sdram_check_ecc_deps,
- 	.ce_clear_mask = ALTR_S10_ECC_SERRPENA,
- 	.ue_clear_mask = ALTR_S10_ECC_DERRPENA,
- 	.ecc_enable_mask = ALTR_S10_ECC_EN,
 -- 
-2.19.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
