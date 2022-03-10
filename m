@@ -2,39 +2,39 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B11AC4167B
-	for <linux-edac@archiver.kernel.org>; Thu, 10 Mar 2022 09:53:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4365CC433EF
+	for <linux-edac@archiver.kernel.org>; Thu, 10 Mar 2022 09:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241089AbiCJJyS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 10 Mar 2022 04:54:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35578 "EHLO
+        id S240968AbiCJJyY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 10 Mar 2022 04:54:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241041AbiCJJyF (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Mar 2022 04:54:05 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA2B4F46E;
-        Thu, 10 Mar 2022 01:52:54 -0800 (PST)
+        with ESMTP id S241065AbiCJJyP (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Mar 2022 04:54:15 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2730D43495;
+        Thu, 10 Mar 2022 01:53:01 -0800 (PST)
 Received: from zn.tnic (p200300ea97193878fa50b3d92789953a.dip0.t-ipconnect.de [IPv6:2003:ea:9719:3878:fa50:b3d9:2789:953a])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BC9AB1EC0651;
-        Thu, 10 Mar 2022 10:52:52 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 161DB1EC0666;
+        Thu, 10 Mar 2022 10:52:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1646905972;
+        t=1646905974;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=fbXtm+u+HV2in2x2Bb5FmI1JrBfMuSPunOHCJM5U8Co=;
-        b=fsHT9qYakv16ceHXVMwAcHsqxUPmuvNmXVktZEQAkayxG4UAcJjSTQDO1VrciAJSWA8Whg
-        byzw6siriYEWcivvhDbsqOGgc1XKbfszVqr2fc953x+6CadDfi4dBkFQBpaPYa3Ps4mMYT
-        Hj7iyJBcEmYaVCO9FgqQp+q0CBhEZXE=
+        bh=C7SYYYmumQIkxqqsiGcyl2TiH2G1lYGXE1GrXXcBob8=;
+        b=Ii/dYHkpaq43SMEdSWX4MR6Z7g6ssoQ7Tx/VYrv43CcM56pDfFrklpCjuR9prAo6cz1rWr
+        mZfHQ/mgz0TpIYt8vWSiaLGQw4VZOJleN8DBJOMvL0ZZYLc1g12X2kGmOp5YYt3L4O5suF
+        yRtdP/RYoJIhXH6Nk4Y2K8tE+mfpC2U=
 From:   Borislav Petkov <bp@alien8.de>
 To:     linux-edac <linux-edac@vger.kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/5] EDAC/device: Get rid of the silly one-shot memory allocation in edac_device_alloc_ctl_info()
-Date:   Thu, 10 Mar 2022 10:52:52 +0100
-Message-Id: <20220310095254.1510-4-bp@alien8.de>
+Subject: [PATCH 5/5] EDAC/mc: Get rid of edac_align_ptr()
+Date:   Thu, 10 Mar 2022 10:52:54 +0100
+Message-Id: <20220310095254.1510-6-bp@alien8.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220310095254.1510-1-bp@alien8.de>
 References: <20220310095254.1510-1-bp@alien8.de>
@@ -46,221 +46,93 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Borislav Petkov <bp@suse.de>
 
-Use boring kzalloc() instead. Add pointers to the different allocated
-members in struct edac_device_ctl_info for easier freeing later.
-
-One of the reasons, perhaps, why it was done this way is to be able to
-do a single kfree(ctl_info) without having to kfree() the other parts of
-the struct too but that is not nearly a sensible reason as to why there
-should be this obscure pointer alignment.
-
-There should be no functional changes resulting from this.
+Get rid of it now that it is unused.
 
 Signed-off-by: Borislav Petkov <bp@suse.de>
 ---
- drivers/edac/edac_device.c       | 109 ++++++++++++-------------------
- drivers/edac/edac_device.h       |  14 ++++
- drivers/edac/edac_device_sysfs.c |   5 +-
- 3 files changed, 57 insertions(+), 71 deletions(-)
+ drivers/edac/edac_mc.c     | 55 --------------------------------------
+ drivers/edac/edac_module.h |  2 --
+ 2 files changed, 57 deletions(-)
 
-diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-index 8c4d947fb848..3c91156bbd27 100644
---- a/drivers/edac/edac_device.c
-+++ b/drivers/edac/edac_device.c
-@@ -59,87 +59,59 @@ struct edac_device_ctl_info *edac_device_alloc_ctl_info(
- 	struct edac_device_instance *dev_inst, *inst;
- 	struct edac_device_block *dev_blk, *blk_p, *blk;
- 	struct edac_dev_sysfs_block_attribute *dev_attrib, *attrib_p, *attrib;
--	unsigned total_size;
--	unsigned count;
- 	unsigned instance, block, attr;
--	void *pvt, *p;
-+	void *pvt;
- 	int err;
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index b9b298a59f46..387b6851c975 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -170,61 +170,6 @@ const char * const edac_mem_types[] = {
+ };
+ EXPORT_SYMBOL_GPL(edac_mem_types);
  
- 	edac_dbg(4, "instances=%d blocks=%d\n", nr_instances, nr_blocks);
- 
--	/* Calculate the size of memory we need to allocate AND
--	 * determine the offsets of the various item arrays
--	 * (instance,block,attrib) from the start of an  allocated structure.
--	 * We want the alignment of each item  (instance,block,attrib)
--	 * to be at least as stringent as what the compiler would
--	 * provide if we could simply hardcode everything into a single struct.
--	 */
--	p = NULL;
--	dev_ctl = edac_align_ptr(&p, sizeof(*dev_ctl), 1);
-+	dev_ctl = kzalloc(sizeof(struct edac_device_ctl_info), GFP_KERNEL);
-+	if (!dev_ctl)
-+		return NULL;
- 
--	/* Calc the 'end' offset past end of ONE ctl_info structure
--	 * which will become the start of the 'instance' array
--	 */
--	dev_inst = edac_align_ptr(&p, sizeof(*dev_inst), nr_instances);
-+	dev_inst = kmalloc_array(nr_instances,
-+				 sizeof(struct edac_device_instance),
-+				 GFP_KERNEL | __GFP_ZERO);
-+	if (!dev_inst)
-+		goto free;
- 
--	/* Calc the 'end' offset past the instance array within the ctl_info
--	 * which will become the start of the block array
--	 */
--	count = nr_instances * nr_blocks;
--	dev_blk = edac_align_ptr(&p, sizeof(*dev_blk), count);
-+	dev_ctl->instances = dev_inst;
- 
--	/* Calc the 'end' offset past the dev_blk array
--	 * which will become the start of the attrib array, if any.
--	 */
--	/* calc how many nr_attrib we need */
--	if (nr_attrib > 0)
--		count *= nr_attrib;
--	dev_attrib = edac_align_ptr(&p, sizeof(*dev_attrib), count);
-+	dev_blk = kmalloc_array(nr_instances * nr_blocks,
-+				sizeof(struct edac_device_block),
-+				GFP_KERNEL | __GFP_ZERO);
-+	if (!dev_blk)
-+		goto free;
- 
--	/* Calc the 'end' offset past the attributes array */
--	pvt = edac_align_ptr(&p, sz_private, 1);
-+	dev_ctl->blocks = dev_blk;
- 
--	/* 'pvt' now points to where the private data area is.
--	 * At this point 'pvt' (like dev_inst,dev_blk and dev_attrib)
--	 * is baselined at ZERO
--	 */
--	total_size = ((unsigned long)pvt) + sz_private;
-+	if (nr_attrib) {
-+		dev_attrib = kmalloc_array(nr_attrib,
-+					   sizeof(struct edac_dev_sysfs_block_attribute),
-+					   GFP_KERNEL | __GFP_ZERO);
-+		if (!dev_attrib)
-+			goto free;
- 
--	/* Allocate the amount of memory for the set of control structures */
--	dev_ctl = kzalloc(total_size, GFP_KERNEL);
--	if (dev_ctl == NULL)
--		return NULL;
-+		dev_ctl->attribs = dev_attrib;
-+	}
- 
--	/* Adjust pointers so they point within the actual memory we
--	 * just allocated rather than an imaginary chunk of memory
--	 * located at address 0.
--	 * 'dev_ctl' points to REAL memory, while the others are
--	 * ZERO based and thus need to be adjusted to point within
--	 * the allocated memory.
--	 */
--	dev_inst = (struct edac_device_instance *)
--		(((char *)dev_ctl) + ((unsigned long)dev_inst));
--	dev_blk = (struct edac_device_block *)
--		(((char *)dev_ctl) + ((unsigned long)dev_blk));
--	dev_attrib = (struct edac_dev_sysfs_block_attribute *)
--		(((char *)dev_ctl) + ((unsigned long)dev_attrib));
--	pvt = sz_private ? (((char *)dev_ctl) + ((unsigned long)pvt)) : NULL;
+-/**
+- * edac_align_ptr - Prepares the pointer offsets for a single-shot allocation
+- * @p:		pointer to a pointer with the memory offset to be used. At
+- *		return, this will be incremented to point to the next offset
+- * @size:	Size of the data structure to be reserved
+- * @n_elems:	Number of elements that should be reserved
+- *
+- * If 'size' is a constant, the compiler will optimize this whole function
+- * down to either a no-op or the addition of a constant to the value of '*p'.
+- *
+- * The 'p' pointer is absolutely needed to keep the proper advancing
+- * further in memory to the proper offsets when allocating the struct along
+- * with its embedded structs, as edac_device_alloc_ctl_info() does it
+- * above, for example.
+- *
+- * At return, the pointer 'p' will be incremented to be used on a next call
+- * to this function.
+- */
+-void *edac_align_ptr(void **p, unsigned int size, int n_elems)
+-{
+-	unsigned int align, r;
+-	void *ptr = *p;
 -
--	/* Begin storing the information into the control info structure */
--	dev_ctl->dev_idx = device_index;
--	dev_ctl->nr_instances = nr_instances;
--	dev_ctl->instances = dev_inst;
--	dev_ctl->pvt_info = pvt;
-+	if (sz_private) {
-+		pvt = kzalloc(sz_private, GFP_KERNEL);
-+		if (!pvt)
-+			goto free;
-+
-+		dev_ctl->pvt_info = pvt;
-+	}
-+
-+	dev_ctl->dev_idx	= device_index;
-+	dev_ctl->nr_instances	= nr_instances;
- 
- 	/* Default logging of CEs and UEs */
- 	dev_ctl->log_ce = 1;
- 	dev_ctl->log_ue = 1;
- 
- 	/* Name of this edac device */
--	snprintf(dev_ctl->name,sizeof(dev_ctl->name),"%s",edac_device_name);
+-	*p += size * n_elems;
 -
--	edac_dbg(4, "edac_dev=%p next after end=%p\n",
--		 dev_ctl, pvt + sz_private);
-+	snprintf(dev_ctl->name, sizeof(dev_ctl->name),"%s", edac_device_name);
+-	/*
+-	 * 'p' can possibly be an unaligned item X such that sizeof(X) is
+-	 * 'size'.  Adjust 'p' so that its alignment is at least as
+-	 * stringent as what the compiler would provide for X and return
+-	 * the aligned result.
+-	 * Here we assume that the alignment of a "long long" is the most
+-	 * stringent alignment that the compiler will ever provide by default.
+-	 * As far as I know, this is a reasonable assumption.
+-	 */
+-	if (size > sizeof(long))
+-		align = sizeof(long long);
+-	else if (size > sizeof(int))
+-		align = sizeof(long);
+-	else if (size > sizeof(short))
+-		align = sizeof(int);
+-	else if (size > sizeof(char))
+-		align = sizeof(short);
+-	else
+-		return (char *)ptr;
+-
+-	r = (unsigned long)ptr % align;
+-
+-	if (r == 0)
+-		return (char *)ptr;
+-
+-	*p += align - r;
+-
+-	return (void *)(((unsigned long)ptr) + align - r);
+-}
+-
+ static void _edac_mc_free(struct mem_ctl_info *mci)
+ {
+ 	put_device(&mci->dev);
+diff --git a/drivers/edac/edac_module.h b/drivers/edac/edac_module.h
+index aa1f91688eb8..96f6de0c8ff6 100644
+--- a/drivers/edac/edac_module.h
++++ b/drivers/edac/edac_module.h
+@@ -59,8 +59,6 @@ extern void edac_device_reset_delay_period(struct edac_device_ctl_info
+ 					   *edac_dev, unsigned long value);
+ extern void edac_mc_reset_delay_period(unsigned long value);
  
- 	/* Initialize every Instance */
- 	for (instance = 0; instance < nr_instances; instance++) {
-@@ -210,10 +182,8 @@ struct edac_device_ctl_info *edac_device_alloc_ctl_info(
- 	 * Initialize the 'root' kobj for the edac_device controller
- 	 */
- 	err = edac_device_register_sysfs_main_kobj(dev_ctl);
--	if (err) {
--		kfree(dev_ctl);
--		return NULL;
--	}
-+	if (err)
-+		goto free;
- 
- 	/* at this point, the root kobj is valid, and in order to
- 	 * 'free' the object, then the function:
-@@ -223,6 +193,11 @@ struct edac_device_ctl_info *edac_device_alloc_ctl_info(
- 	 */
- 
- 	return dev_ctl;
-+
-+free:
-+	__edac_device_free_ctl_info(dev_ctl);
-+
-+	return NULL;
- }
- EXPORT_SYMBOL_GPL(edac_device_alloc_ctl_info);
- 
-diff --git a/drivers/edac/edac_device.h b/drivers/edac/edac_device.h
-index fc2d2c218064..3f44e6b9d387 100644
---- a/drivers/edac/edac_device.h
-+++ b/drivers/edac/edac_device.h
-@@ -216,6 +216,8 @@ struct edac_device_ctl_info {
- 	 */
- 	u32 nr_instances;
- 	struct edac_device_instance *instances;
-+	struct edac_device_block *blocks;
-+	struct edac_dev_sysfs_block_attribute *attribs;
- 
- 	/* Event counters for the this whole EDAC Device */
- 	struct edac_device_counter counters;
-@@ -348,4 +350,16 @@ edac_device_handle_ue(struct edac_device_ctl_info *edac_dev, int inst_nr,
+-extern void *edac_align_ptr(void **p, unsigned size, int n_elems);
+-
+ /*
+  * EDAC debugfs functions
   */
- extern int edac_device_alloc_index(void);
- extern const char *edac_layer_name[];
-+
-+/* Free the actual struct */
-+static inline void __edac_device_free_ctl_info(struct edac_device_ctl_info *ci)
-+{
-+	if (ci) {
-+		kfree(ci->pvt_info);
-+		kfree(ci->attribs);
-+		kfree(ci->blocks);
-+		kfree(ci->instances);
-+		kfree(ci);
-+	}
-+}
- #endif
-diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-index 5e7593753799..e748a5addd38 100644
---- a/drivers/edac/edac_device_sysfs.c
-+++ b/drivers/edac/edac_device_sysfs.c
-@@ -207,10 +207,7 @@ static void edac_device_ctrl_master_release(struct kobject *kobj)
- 	/* decrement the EDAC CORE module ref count */
- 	module_put(edac_dev->owner);
- 
--	/* free the control struct containing the 'main' kobj
--	 * passed in to this routine
--	 */
--	kfree(edac_dev);
-+	__edac_device_free_ctl_info(edac_dev);
- }
- 
- /* ktype for the main (master) kobject */
 -- 
 2.29.2
 
