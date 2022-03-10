@@ -2,42 +2,39 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED873C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8322C433EF
 	for <linux-edac@archiver.kernel.org>; Thu, 10 Mar 2022 09:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241063AbiCJJyS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 10 Mar 2022 04:54:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35498 "EHLO
+        id S241082AbiCJJyR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 10 Mar 2022 04:54:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241033AbiCJJyE (ORCPT
+        with ESMTP id S241035AbiCJJyE (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Mar 2022 04:54:04 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8163B434A1;
-        Thu, 10 Mar 2022 01:52:53 -0800 (PST)
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1667149CA4;
+        Thu, 10 Mar 2022 01:52:52 -0800 (PST)
 Received: from zn.tnic (p200300ea97193878fa50b3d92789953a.dip0.t-ipconnect.de [IPv6:2003:ea:9719:3878:fa50:b3d9:2789:953a])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 292681EC0644;
-        Thu, 10 Mar 2022 10:52:52 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EE0BF1EC01B7;
+        Thu, 10 Mar 2022 10:52:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1646905972;
+        t=1646905971;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V0Fb300fSebS4i9B9w/sAZrMoYBxU/8cREsoOOVoTbM=;
-        b=Yp3eidbngjg7IwQDczK2Pm2FpoQo2PycDMK2CzW4MJdqHg8+FMfvGunUWnrf+4nKCw0BQA
-        Q+4LuiBqLoSAlSrWt5Lca5mFlELxdtsVwglrd72jhG/6Xuwhh+rLGfaLulkj49PgP1WGDh
-        wkc3W2lj5Qv5430qmZ6Shw7KdIU3hRw=
+         content-transfer-encoding:content-transfer-encoding:in-reply-to:
+         references; bh=54g/KLNxFZUCNgDdfbbvQe9FV9KHLwA0GlD8+QFm/ew=;
+        b=seF945U41RIEfNSDGl8769zQRFeRffsGu/9/qujHfZ/05wE1KjfQ53sliy++nvBbrp3C+C
+        p8dl5D04xClU7O/biMarlMwNQaAQWvfqK5KQ+w+YervOYHJOP4BkvdOncvz1XTUASy1ZP1
+        2IaGn7NphOW5yJvPlOCPN1YVT1Den8o=
 From:   Borislav Petkov <bp@alien8.de>
 To:     linux-edac <linux-edac@vger.kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/5] EDAC/pci: Get rid of the silly one-shot memory allocation in edac_pci_alloc_ctl_info()
-Date:   Thu, 10 Mar 2022 10:52:51 +0100
-Message-Id: <20220310095254.1510-3-bp@alien8.de>
+Subject: [PATCH 0/5] EDAC: Remove edac_align_ptr()
+Date:   Thu, 10 Mar 2022 10:52:49 +0100
+Message-Id: <20220310095254.1510-1-bp@alien8.de>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220310095254.1510-1-bp@alien8.de>
-References: <20220310095254.1510-1-bp@alien8.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -46,64 +43,46 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Borislav Petkov <bp@suse.de>
 
-Use boring kzalloc() instead.
+Hi,
 
-There should be no functional changes resulting from this.
+this edac_align_ptr() thing was part of the original EDAC upstreaming
+effort in 2006:
 
-Signed-off-by: Borislav Petkov <bp@suse.de>
----
- drivers/edac/edac_pci.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+  da9bb1d27b21 ("[PATCH] EDAC: core EDAC support code")
 
-diff --git a/drivers/edac/edac_pci.c b/drivers/edac/edac_pci.c
-index 48c844a72a27..2205d7e731db 100644
---- a/drivers/edac/edac_pci.c
-+++ b/drivers/edac/edac_pci.c
-@@ -29,32 +29,31 @@ static LIST_HEAD(edac_pci_list);
- static atomic_t pci_indexes = ATOMIC_INIT(0);
- 
- struct edac_pci_ctl_info *edac_pci_alloc_ctl_info(unsigned int sz_pvt,
--						const char *edac_pci_name)
-+						  const char *edac_pci_name)
- {
- 	struct edac_pci_ctl_info *pci;
--	void *p = NULL, *pvt;
--	unsigned int size;
- 
- 	edac_dbg(1, "\n");
- 
--	pci = edac_align_ptr(&p, sizeof(*pci), 1);
--	pvt = edac_align_ptr(&p, 1, sz_pvt);
--	size = ((unsigned long)pvt) + sz_pvt;
--
--	/* Alloc the needed control struct memory */
--	pci = kzalloc(size, GFP_KERNEL);
--	if (pci  == NULL)
-+	pci = kzalloc(sizeof(struct edac_pci_ctl_info), GFP_KERNEL);
-+	if (!pci)
- 		return NULL;
- 
--	/* Now much private space */
--	pvt = sz_pvt ? ((char *)pci) + ((unsigned long)pvt) : NULL;
-+	if (sz_pvt) {
-+		pci->pvt_info = kzalloc(sz_pvt, GFP_KERNEL);
-+		if (!pci->pvt_info)
-+			goto free;
-+	}
- 
--	pci->pvt_info = pvt;
- 	pci->op_state = OP_ALLOC;
- 
- 	snprintf(pci->name, strlen(edac_pci_name) + 1, "%s", edac_pci_name);
- 
- 	return pci;
-+
-+free:
-+	kfree(pci);
-+	return NULL;
- }
- EXPORT_SYMBOL_GPL(edac_pci_alloc_ctl_info);
- 
+Comment above the usage says:
+
+"Everything is kmalloc'ed as one big chunk - more efficient."
+
+but I don't think that "efficiency" is measurable anymore. Then, 15+
+years ago probably.
+
+So get rid of it in favor of simple kzalloc() allocations for the couple
+of structures needed at each call site.
+
+It boots fine here with amd64_edac but I'd greatly appreciate testing
+with other EDAC drivers.
+
+Thx!
+
+Borislav Petkov (5):
+  EDAC/mc: Get rid of silly one-shot struct allocation in
+    edac_mc_alloc()
+  EDAC/pci: Get rid of the silly one-shot memory allocation in
+    edac_pci_alloc_ctl_info()
+  EDAC/device: Get rid of the silly one-shot memory allocation in
+    edac_device_alloc_ctl_info()
+  EDAC/device: Sanitize edac_device_alloc_ctl_info() definition
+  EDAC/mc: Get rid of edac_align_ptr()
+
+ drivers/edac/edac_device.c       | 135 +++++++++++++------------------
+ drivers/edac/edac_device.h       |  14 ++++
+ drivers/edac/edac_device_sysfs.c |   5 +-
+ drivers/edac/edac_mc.c           |  96 +++-------------------
+ drivers/edac/edac_module.h       |   2 -
+ drivers/edac/edac_pci.c          |  25 +++---
+ 6 files changed, 95 insertions(+), 182 deletions(-)
+
 -- 
 2.29.2
 
