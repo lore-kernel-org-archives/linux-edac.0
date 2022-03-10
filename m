@@ -2,77 +2,137 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA79C433F5
-	for <linux-edac@archiver.kernel.org>; Thu, 10 Mar 2022 01:57:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48809C433EF
+	for <linux-edac@archiver.kernel.org>; Thu, 10 Mar 2022 09:53:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbiCJB6H (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 9 Mar 2022 20:58:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44338 "EHLO
+        id S241007AbiCJJyB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 10 Mar 2022 04:54:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239159AbiCJB55 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 9 Mar 2022 20:57:57 -0500
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A6B2128652;
-        Wed,  9 Mar 2022 17:56:58 -0800 (PST)
-Received: from [192.168.43.69] (unknown [114.10.7.234])
-        by gnuweeb.org (Postfix) with ESMTPSA id 95EB37E2CF;
-        Thu, 10 Mar 2022 01:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-        s=default; t=1646877417;
-        bh=S24z/t0QvOEntOijnJinUqvbbvEQPEekxjzJptrBJeE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=UbgY3rrFyFXJ/ibKUs7htmEdqCjrbw9WZEtiv/C1zfOOIurJqnvsu3ksOzcVltmLc
-         BpTQmvmUKMBDmH8yRtW2KnSfnvvhAt57669e3cqNigGB11tua8eE6LrnSq2nQWnN3w
-         l0VwWFMN5wRQygja9COGAxzHPgOquxXuu2v7jvrPixz0XvIfTgDG+iXRr0uUsIFwf2
-         /ID4a/Fv4af7n1hMddxfx1qmKcfYtuRVUBxYMkMasRM4JHiMPKHdnUea8zpLCdhntC
-         70/1CxeDetnnZk9/Il0Azr18Eogxnz6zB81Ox8s455pn6BEf85HToK4FPbXJx4Chrs
-         8LaReuVb4ty0Q==
-Message-ID: <2530ff9c-4861-2295-6156-356da33f9565@gnuweeb.org>
-Date:   Thu, 10 Mar 2022 08:56:37 +0700
+        with ESMTP id S240968AbiCJJx7 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Mar 2022 04:53:59 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056733A1A5;
+        Thu, 10 Mar 2022 01:52:52 -0800 (PST)
+Received: from zn.tnic (p200300ea97193878fa50b3d92789953a.dip0.t-ipconnect.de [IPv6:2003:ea:9719:3878:fa50:b3d9:2789:953a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8DE4C1EC0628;
+        Thu, 10 Mar 2022 10:52:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1646905971;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8HPBjAt12e9y+TmY1dLjbvw33G2uomnQGijd5JC3m8U=;
+        b=KGR5aVyoePUhfWWGQ90BrMCUmM2ACWD0mPuEAqaJktxQNn2is9iehnVj+35VLdirW+7gT3
+        MMnnlxVOyoMwOnRRoQeRiVOi0Se0mAvDStnRruhoowhMyGkU7azV+uYU0A6VFW+1bYCO7j
+        A/kWzzuhspgNAlmlK+XzcTyuyrQroz8=
+From:   Borislav Petkov <bp@alien8.de>
+To:     linux-edac <linux-edac@vger.kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/5] EDAC/mc: Get rid of silly one-shot struct allocation in edac_mc_alloc()
+Date:   Thu, 10 Mar 2022 10:52:50 +0100
+Message-Id: <20220310095254.1510-2-bp@alien8.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20220310095254.1510-1-bp@alien8.de>
+References: <20220310095254.1510-1-bp@alien8.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 2/2] x86/mce/amd: Fix memory leak when
- `threshold_create_bank()` fails
-Content-Language: en-US
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gwml@vger.gnuweeb.org,
-        x86@kernel.org, stable@vger.kernel.org,
-        Alviro Iskandar Setiawan <alviro.iskandar@gmail.com>,
-        Jiri Hladky <hladky.jiri@googlemail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alviro Iskandar Setiawan <alviro.iskandar@gnuweeb.org>
-References: <20220301094608.118879-1-ammarfaizi2@gnuweeb.org>
- <20220301094608.118879-3-ammarfaizi2@gnuweeb.org>
- <Yh+oyD/5M3TW5ZMM@yaz-ubuntu>
- <4371a592-6686-c535-4daf-993dedb43cd4@gnuweeb.org>
- <109a10da-d1d1-c47a-2f04-31796457f6ff@gnuweeb.org>
- <20220303015826.4176416-1-alviro.iskandar@gnuweeb.org>
- <49313736-61f8-d001-0fe4-b6166c859585@gnuweeb.org>
- <9dfe087a-f941-1bc4-657d-7e7c198888ff@gnuweeb.org>
- <b18bac61-a27f-8de5-8aa5-10bda9309ac5@gnuweeb.org>
- <YikUW0i4hSh7t74c@yaz-ubuntu>
-From:   Ammar Faizi <ammarfaizi2@gnuweeb.org>
-In-Reply-To: <YikUW0i4hSh7t74c@yaz-ubuntu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 3/10/22 3:55 AM, Yazen Ghannam wrote:
-> The commit message should use passive voice: no "I" or "we".
-> 
-> Otherwise, I think the patch looks good.
+From: Borislav Petkov <bp@suse.de>
 
-Fixed in the v5 revision, thanks!
+This has probably meant something at some point but there's no need for
+it anymore - the struct mem_ctl_info allocation can happen with normal,
+boring k*alloc() calls like everyone else does it.
 
-Link: https://lore.kernel.org/lkml/20220310015306.445359-1-ammarfaizi2@gnuweeb.org/
+No functional changes.
 
+Signed-off-by: Borislav Petkov <bp@suse.de>
+---
+ drivers/edac/edac_mc.c | 41 +++++++++++++----------------------------
+ 1 file changed, 13 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index f5677d81bd2d..b9b298a59f46 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -257,6 +257,8 @@ static void mci_release(struct device *dev)
+ 		}
+ 		kfree(mci->csrows);
+ 	}
++	kfree(mci->pvt_info);
++	kfree(mci->layers);
+ 	kfree(mci);
+ }
+ 
+@@ -392,9 +394,8 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
+ {
+ 	struct mem_ctl_info *mci;
+ 	struct edac_mc_layer *layer;
+-	unsigned int idx, size, tot_dimms = 1;
++	unsigned int idx, tot_dimms = 1;
+ 	unsigned int tot_csrows = 1, tot_channels = 1;
+-	void *pvt, *ptr = NULL;
+ 	bool per_rank = false;
+ 
+ 	if (WARN_ON(n_layers > EDAC_MAX_LAYERS || n_layers == 0))
+@@ -416,41 +417,25 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
+ 			per_rank = true;
+ 	}
+ 
+-	/* Figure out the offsets of the various items from the start of an mc
+-	 * structure.  We want the alignment of each item to be at least as
+-	 * stringent as what the compiler would provide if we could simply
+-	 * hardcode everything into a single struct.
+-	 */
+-	mci	= edac_align_ptr(&ptr, sizeof(*mci), 1);
+-	layer	= edac_align_ptr(&ptr, sizeof(*layer), n_layers);
+-	pvt	= edac_align_ptr(&ptr, sz_pvt, 1);
+-	size	= ((unsigned long)pvt) + sz_pvt;
+-
+-	edac_dbg(1, "allocating %u bytes for mci data (%d %s, %d csrows/channels)\n",
+-		 size,
+-		 tot_dimms,
+-		 per_rank ? "ranks" : "dimms",
+-		 tot_csrows * tot_channels);
+-
+-	mci = kzalloc(size, GFP_KERNEL);
+-	if (mci == NULL)
++	mci = kzalloc(sizeof(struct mem_ctl_info), GFP_KERNEL);
++	if (!mci)
+ 		return NULL;
+ 
++	mci->layers = kmalloc_array(n_layers, sizeof(struct edac_mc_layer), GFP_KERNEL | __GFP_ZERO);
++	if (!mci->layers)
++		goto error;
++
++	mci->pvt_info = kzalloc(sz_pvt, GFP_KERNEL);
++	if (!mci->pvt_info)
++		goto error;
++
+ 	mci->dev.release = mci_release;
+ 	device_initialize(&mci->dev);
+ 
+-	/* Adjust pointers so they point within the memory we just allocated
+-	 * rather than an imaginary chunk of memory located at address 0.
+-	 */
+-	layer = (struct edac_mc_layer *)(((char *)mci) + ((unsigned long)layer));
+-	pvt = sz_pvt ? (((char *)mci) + ((unsigned long)pvt)) : NULL;
+-
+ 	/* setup index and various internal pointers */
+ 	mci->mc_idx = mc_num;
+ 	mci->tot_dimms = tot_dimms;
+-	mci->pvt_info = pvt;
+ 	mci->n_layers = n_layers;
+-	mci->layers = layer;
+ 	memcpy(mci->layers, layers, sizeof(*layer) * n_layers);
+ 	mci->nr_csrows = tot_csrows;
+ 	mci->num_cschannel = tot_channels;
 -- 
-Ammar Faizi
+2.29.2
+
