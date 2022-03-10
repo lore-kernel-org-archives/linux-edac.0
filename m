@@ -2,39 +2,39 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48809C433EF
-	for <linux-edac@archiver.kernel.org>; Thu, 10 Mar 2022 09:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87CEEC433F5
+	for <linux-edac@archiver.kernel.org>; Thu, 10 Mar 2022 09:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241007AbiCJJyB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 10 Mar 2022 04:54:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34840 "EHLO
+        id S241077AbiCJJyR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 10 Mar 2022 04:54:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240968AbiCJJx7 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Mar 2022 04:53:59 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056733A1A5;
-        Thu, 10 Mar 2022 01:52:52 -0800 (PST)
+        with ESMTP id S241034AbiCJJyE (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Mar 2022 04:54:04 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FE14BB97;
+        Thu, 10 Mar 2022 01:52:54 -0800 (PST)
 Received: from zn.tnic (p200300ea97193878fa50b3d92789953a.dip0.t-ipconnect.de [IPv6:2003:ea:9719:3878:fa50:b3d9:2789:953a])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8DE4C1EC0628;
-        Thu, 10 Mar 2022 10:52:51 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6B5D91EC0657;
+        Thu, 10 Mar 2022 10:52:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1646905971;
+        t=1646905973;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8HPBjAt12e9y+TmY1dLjbvw33G2uomnQGijd5JC3m8U=;
-        b=KGR5aVyoePUhfWWGQ90BrMCUmM2ACWD0mPuEAqaJktxQNn2is9iehnVj+35VLdirW+7gT3
-        MMnnlxVOyoMwOnRRoQeRiVOi0Se0mAvDStnRruhoowhMyGkU7azV+uYU0A6VFW+1bYCO7j
-        A/kWzzuhspgNAlmlK+XzcTyuyrQroz8=
+        bh=sOz3IsU1XG3CZ3H5QYkSj2D2RKEPjahq9MTYiDMHFSY=;
+        b=ozSHGnFb1ZeCWOZ+DcXBU0wyUkTKWLr1uErV+2jdLN8IdQN6W71XU68blZaDedEXdmqF8h
+        GxkuElTPlQNhNz9lI3lgwug5IyFi+hZ7qF6jy9fjNoeRD6D0m7xrSzZbHmOR0xBYJVfVyQ
+        dEC/rTJuSY/dBr9npmhE/+3fPgY8c/I=
 From:   Borislav Petkov <bp@alien8.de>
 To:     linux-edac <linux-edac@vger.kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/5] EDAC/mc: Get rid of silly one-shot struct allocation in edac_mc_alloc()
-Date:   Thu, 10 Mar 2022 10:52:50 +0100
-Message-Id: <20220310095254.1510-2-bp@alien8.de>
+Subject: [PATCH 4/5] EDAC/device: Sanitize edac_device_alloc_ctl_info() definition
+Date:   Thu, 10 Mar 2022 10:52:53 +0100
+Message-Id: <20220310095254.1510-5-bp@alien8.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220310095254.1510-1-bp@alien8.de>
 References: <20220310095254.1510-1-bp@alien8.de>
@@ -46,93 +46,88 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Borislav Petkov <bp@suse.de>
 
-This has probably meant something at some point but there's no need for
-it anymore - the struct mem_ctl_info allocation can happen with normal,
-boring k*alloc() calls like everyone else does it.
+Shorten argument names, correct formatting, sort local vars in reverse
+x-mas tree order.
 
 No functional changes.
 
 Signed-off-by: Borislav Petkov <bp@suse.de>
 ---
- drivers/edac/edac_mc.c | 41 +++++++++++++----------------------------
- 1 file changed, 13 insertions(+), 28 deletions(-)
+ drivers/edac/edac_device.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index f5677d81bd2d..b9b298a59f46 100644
---- a/drivers/edac/edac_mc.c
-+++ b/drivers/edac/edac_mc.c
-@@ -257,6 +257,8 @@ static void mci_release(struct device *dev)
- 		}
- 		kfree(mci->csrows);
- 	}
-+	kfree(mci->pvt_info);
-+	kfree(mci->layers);
- 	kfree(mci);
+diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+index 3c91156bbd27..b737349184e3 100644
+--- a/drivers/edac/edac_device.c
++++ b/drivers/edac/edac_device.c
+@@ -47,18 +47,19 @@ static void edac_device_dump_device(struct edac_device_ctl_info *edac_dev)
  }
+ #endif				/* CONFIG_EDAC_DEBUG */
  
-@@ -392,9 +394,8 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
+-struct edac_device_ctl_info *edac_device_alloc_ctl_info(
+-	unsigned sz_private,
+-	char *edac_device_name, unsigned nr_instances,
+-	char *edac_block_name, unsigned nr_blocks,
+-	unsigned offset_value,		/* zero, 1, or other based offset */
+-	struct edac_dev_sysfs_block_attribute *attrib_spec, unsigned nr_attrib,
+-	int device_index)
++/*
++ * @off_val: zero, 1, or other based offset
++ */
++struct edac_device_ctl_info *
++edac_device_alloc_ctl_info(unsigned pvt_sz, char *dev_name, unsigned nr_instances,
++			   char *blk_name, unsigned nr_blocks, unsigned off_val,
++			   struct edac_dev_sysfs_block_attribute *attrib_spec,
++			   unsigned nr_attrib, int device_index)
  {
- 	struct mem_ctl_info *mci;
- 	struct edac_mc_layer *layer;
--	unsigned int idx, size, tot_dimms = 1;
-+	unsigned int idx, tot_dimms = 1;
- 	unsigned int tot_csrows = 1, tot_channels = 1;
--	void *pvt, *ptr = NULL;
- 	bool per_rank = false;
- 
- 	if (WARN_ON(n_layers > EDAC_MAX_LAYERS || n_layers == 0))
-@@ -416,41 +417,25 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
- 			per_rank = true;
+-	struct edac_device_ctl_info *dev_ctl;
+-	struct edac_device_instance *dev_inst, *inst;
+-	struct edac_device_block *dev_blk, *blk_p, *blk;
+ 	struct edac_dev_sysfs_block_attribute *dev_attrib, *attrib_p, *attrib;
++	struct edac_device_block *dev_blk, *blk_p, *blk;
++	struct edac_device_instance *dev_inst, *inst;
++	struct edac_device_ctl_info *dev_ctl;
+ 	unsigned instance, block, attr;
+ 	void *pvt;
+ 	int err;
+@@ -95,8 +96,8 @@ struct edac_device_ctl_info *edac_device_alloc_ctl_info(
+ 		dev_ctl->attribs = dev_attrib;
  	}
  
--	/* Figure out the offsets of the various items from the start of an mc
--	 * structure.  We want the alignment of each item to be at least as
--	 * stringent as what the compiler would provide if we could simply
--	 * hardcode everything into a single struct.
--	 */
--	mci	= edac_align_ptr(&ptr, sizeof(*mci), 1);
--	layer	= edac_align_ptr(&ptr, sizeof(*layer), n_layers);
--	pvt	= edac_align_ptr(&ptr, sz_pvt, 1);
--	size	= ((unsigned long)pvt) + sz_pvt;
--
--	edac_dbg(1, "allocating %u bytes for mci data (%d %s, %d csrows/channels)\n",
--		 size,
--		 tot_dimms,
--		 per_rank ? "ranks" : "dimms",
--		 tot_csrows * tot_channels);
--
--	mci = kzalloc(size, GFP_KERNEL);
--	if (mci == NULL)
-+	mci = kzalloc(sizeof(struct mem_ctl_info), GFP_KERNEL);
-+	if (!mci)
- 		return NULL;
+-	if (sz_private) {
+-		pvt = kzalloc(sz_private, GFP_KERNEL);
++	if (pvt_sz) {
++		pvt = kzalloc(pvt_sz, GFP_KERNEL);
+ 		if (!pvt)
+ 			goto free;
  
-+	mci->layers = kmalloc_array(n_layers, sizeof(struct edac_mc_layer), GFP_KERNEL | __GFP_ZERO);
-+	if (!mci->layers)
-+		goto error;
-+
-+	mci->pvt_info = kzalloc(sz_pvt, GFP_KERNEL);
-+	if (!mci->pvt_info)
-+		goto error;
-+
- 	mci->dev.release = mci_release;
- 	device_initialize(&mci->dev);
+@@ -111,7 +112,7 @@ struct edac_device_ctl_info *edac_device_alloc_ctl_info(
+ 	dev_ctl->log_ue = 1;
  
--	/* Adjust pointers so they point within the memory we just allocated
--	 * rather than an imaginary chunk of memory located at address 0.
--	 */
--	layer = (struct edac_mc_layer *)(((char *)mci) + ((unsigned long)layer));
--	pvt = sz_pvt ? (((char *)mci) + ((unsigned long)pvt)) : NULL;
--
- 	/* setup index and various internal pointers */
- 	mci->mc_idx = mc_num;
- 	mci->tot_dimms = tot_dimms;
--	mci->pvt_info = pvt;
- 	mci->n_layers = n_layers;
--	mci->layers = layer;
- 	memcpy(mci->layers, layers, sizeof(*layer) * n_layers);
- 	mci->nr_csrows = tot_csrows;
- 	mci->num_cschannel = tot_channels;
+ 	/* Name of this edac device */
+-	snprintf(dev_ctl->name, sizeof(dev_ctl->name),"%s", edac_device_name);
++	snprintf(dev_ctl->name, sizeof(dev_ctl->name),"%s", dev_name);
+ 
+ 	/* Initialize every Instance */
+ 	for (instance = 0; instance < nr_instances; instance++) {
+@@ -122,15 +123,14 @@ struct edac_device_ctl_info *edac_device_alloc_ctl_info(
+ 		inst->blocks = blk_p;
+ 
+ 		/* name of this instance */
+-		snprintf(inst->name, sizeof(inst->name),
+-			 "%s%u", edac_device_name, instance);
++		snprintf(inst->name, sizeof(inst->name), "%s%u", dev_name, instance);
+ 
+ 		/* Initialize every block in each instance */
+ 		for (block = 0; block < nr_blocks; block++) {
+ 			blk = &blk_p[block];
+ 			blk->instance = inst;
+ 			snprintf(blk->name, sizeof(blk->name),
+-				 "%s%d", edac_block_name, block+offset_value);
++				 "%s%d", blk_name, block + off_val);
+ 
+ 			edac_dbg(4, "instance=%d inst_p=%p block=#%d block_p=%p name='%s'\n",
+ 				 instance, inst, block, blk, blk->name);
 -- 
 2.29.2
 
