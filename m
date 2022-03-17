@@ -2,74 +2,81 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FECBC433F5
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Mar 2022 12:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3146DC433F5
+	for <linux-edac@archiver.kernel.org>; Thu, 17 Mar 2022 23:37:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234026AbiCQMy7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 17 Mar 2022 08:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38276 "EHLO
+        id S230060AbiCQXiq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 17 Mar 2022 19:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234293AbiCQMxB (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 17 Mar 2022 08:53:01 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78FF51FAA0B;
-        Thu, 17 Mar 2022 05:50:47 -0700 (PDT)
-Received: from [127.0.0.1] (pd95ca587.dip0.t-ipconnect.de [217.92.165.135])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C17BE1EC063F;
-        Thu, 17 Mar 2022 13:50:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1647521442;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EY+OVlK3FNjPeuxT1E19uUsmlLA7v3Vf0nxQLY63VP8=;
-        b=QMbTN2lzFuaJF5Ls5pbKgje3WyjB6xCyDSeGcHyA/A65kzY3q58KzvglWSOzq/ZQ6851av
-        pQKmCvSgjj6ZEKSEns6SZpuEOouk2AzEOLxqtxxYFbt9V9X+Jc2ZNnW1uSqOArBuptgc1U
-        pdM+HDeptKw1t7S5XFAjwrY6lp/QIEk=
-Date:   Thu, 17 Mar 2022 12:50:38 +0000
-From:   Boris Petkov <bp@alien8.de>
-To:     Medad CChien <medadyoung@gmail.com>, rric@kernel.org,
-        james.morse@arm.com, YSCHU@nuvoton.com, mchehab@kernel.org,
-        tony.luck@intel.com, benjaminfair@google.com, venture@google.com,
-        KWLIU@nuvoton.com, robh+dt@kernel.org, JJLIU0@nuvoton.com,
-        KFTING@nuvoton.com, avifishman70@gmail.com, yuenn@google.com,
-        tali.perry1@gmail.com, tmaimon77@gmail.com, ctcchien@nuvoton.com
-CC:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org
-Subject: Re: [PATCH v5 3/3] EDAC: nuvoton: Add NPCM memory controller driver
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20220317015854.18864-4-ctcchien@nuvoton.com>
-References: <20220317015854.18864-1-ctcchien@nuvoton.com> <20220317015854.18864-4-ctcchien@nuvoton.com>
-Message-ID: <37361667-C932-4139-B649-52DE029BDEE5@alien8.de>
+        with ESMTP id S229713AbiCQXip (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 17 Mar 2022 19:38:45 -0400
+Received: from out30-57.freemail.mail.aliyun.com (out30-57.freemail.mail.aliyun.com [115.124.30.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9D22986F6;
+        Thu, 17 Mar 2022 16:37:27 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R961e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0V7TGI0g_1647560243;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V7TGI0g_1647560243)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 18 Mar 2022 07:37:24 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     dinguyen@kernel.org
+Cc:     bp@alien8.de, mchehab@kernel.org, tony.luck@intel.com,
+        james.morse@arm.com, rric@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] EDAC/altera: Remove unnecessary print function dev_err()
+Date:   Fri, 18 Mar 2022 07:37:22 +0800
+Message-Id: <20220317233722.109036-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On March 17, 2022 1:58:54 AM UTC, Medad CChien <medadyoung@gmail=2Ecom> wro=
-te:
->Add support for Nuvoton NPCM SoC=2E
->
->Signed-off-by: Medad CChien <ctcchien@nuvoton=2Ecom>
->Reported-by: kernel test robot <lkp@intel=2Ecom>
+The print function dev_err() is redundant because platform_get_irq()
+already prints an error.
 
-What exactly has the robot reported here?
+Eliminate the follow coccicheck warnings:
+./drivers/edac/altera_edac.c:2153:2-9: line 2153 is redundant because
+platform_get_irq() already prints an error
+./drivers/edac/altera_edac.c:2188:2-9: line 2188 is redundant because
+platform_get_irq() already prints an error
 
->---
-> drivers/edac/Kconfig     |   9 +
-> drivers/edac/Makefile    |   1 +
-> drivers/edac/npcm_edac=2Ec | 710 +++++++++++++++++++++++++++++++++++++++
-> 3 files changed, 720 insertions(+)
-> create mode 100644 drivers/edac/npcm_edac=2Ec
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ drivers/edac/altera_edac.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-I don't see a MAINTAINERS file entry so that people can Cc you on bugs=2E =
-See the other EDAC drivers for an example=2E=20
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index e7e8e624a436..47dc35938fa8 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -2149,10 +2149,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	edac->sb_irq = platform_get_irq(pdev, 0);
+-	if (edac->sb_irq < 0) {
+-		dev_err(&pdev->dev, "No SBERR IRQ resource\n");
++	if (edac->sb_irq < 0)
+ 		return edac->sb_irq;
+-	}
+ 
+ 	irq_set_chained_handler_and_data(edac->sb_irq,
+ 					 altr_edac_a10_irq_handler,
+@@ -2184,10 +2182,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+ 	}
+ #else
+ 	edac->db_irq = platform_get_irq(pdev, 1);
+-	if (edac->db_irq < 0) {
+-		dev_err(&pdev->dev, "No DBERR IRQ resource\n");
++	if (edac->db_irq < 0)
+ 		return edac->db_irq;
+-	}
+ 	irq_set_chained_handler_and_data(edac->db_irq,
+ 					 altr_edac_a10_irq_handler, edac);
+ #endif
+-- 
+2.20.1.7.g153144c
 
---=20
-Sent from a small device: formatting sux and brevity is inevitable=2E 
