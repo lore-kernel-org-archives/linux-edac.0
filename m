@@ -2,81 +2,54 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3146DC433F5
-	for <linux-edac@archiver.kernel.org>; Thu, 17 Mar 2022 23:37:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03109C4332F
+	for <linux-edac@archiver.kernel.org>; Fri, 18 Mar 2022 08:48:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbiCQXiq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 17 Mar 2022 19:38:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47564 "EHLO
+        id S233944AbiCRIt2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 18 Mar 2022 04:49:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbiCQXip (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 17 Mar 2022 19:38:45 -0400
-Received: from out30-57.freemail.mail.aliyun.com (out30-57.freemail.mail.aliyun.com [115.124.30.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9D22986F6;
-        Thu, 17 Mar 2022 16:37:27 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R961e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0V7TGI0g_1647560243;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V7TGI0g_1647560243)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 18 Mar 2022 07:37:24 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     dinguyen@kernel.org
-Cc:     bp@alien8.de, mchehab@kernel.org, tony.luck@intel.com,
-        james.morse@arm.com, rric@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] EDAC/altera: Remove unnecessary print function dev_err()
-Date:   Fri, 18 Mar 2022 07:37:22 +0800
-Message-Id: <20220317233722.109036-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+        with ESMTP id S233949AbiCRIt0 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 18 Mar 2022 04:49:26 -0400
+Received: from mail.postform.pl (mail.postform.pl [195.231.64.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102F52613
+        for <linux-edac@vger.kernel.org>; Fri, 18 Mar 2022 01:48:07 -0700 (PDT)
+Received: by mail.postform.pl (Postfix, from userid 1001)
+        id 890F0AA9E2; Fri, 18 Mar 2022 08:37:36 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=postform.pl; s=mail;
+        t=1647592749; bh=Cp7iEcBs6UYsUZoqwaSKv66JiG6VJnuY7Lx3D9vYwU4=;
+        h=Date:From:To:Subject:From;
+        b=KPhLH9RWV1JlhhhuTALDRMtKos2mP80A8G6vtN6MTf+tYyf3u5w0ij4xoXHMGUgzd
+         pQFIjhDMXIKwgpcUMe4XCiJEdC4AGYf2r6Vuezu00ZOJrGGn0XrieyzL7N93wW51Qk
+         YSwlhup0YKTXUIBDdyCM7ZBHlPL+eg5cATJk0eZBksaJ1XGunjkgJod1akVZac09Xk
+         Z+qkvlU8H3VofflzCYy/oHqgvmwHKKc/71wt3bRkZQ8SVU5UmHyd7uCLl1TtZaGeU8
+         1l7dlCt8OrsRuvwFK7+V5T2ap3Xqj28/nNpql2FN6k5z+hsFG1zXEQjmp1Ih7bonDl
+         75P1gGeFpwcxw==
+Received: by mail.postform.pl for <linux-edac@vger.kernel.org>; Fri, 18 Mar 2022 08:36:44 GMT
+Message-ID: <20220318074502-0.1.1i.jnob.0.cbo3hoq882@postform.pl>
+Date:   Fri, 18 Mar 2022 08:36:44 GMT
+From:   "Norbert Karecki" <norbert.karecki@postform.pl>
+To:     <linux-edac@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.postform.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The print function dev_err() is redundant because platform_get_irq()
-already prints an error.
+Dzie=C5=84 dobry,
 
-Eliminate the follow coccicheck warnings:
-./drivers/edac/altera_edac.c:2153:2-9: line 2153 is redundant because
-platform_get_irq() already prints an error
-./drivers/edac/altera_edac.c:2188:2-9: line 2188 is redundant because
-platform_get_irq() already prints an error
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/edac/altera_edac.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index e7e8e624a436..47dc35938fa8 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -2149,10 +2149,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
- 	}
- 
- 	edac->sb_irq = platform_get_irq(pdev, 0);
--	if (edac->sb_irq < 0) {
--		dev_err(&pdev->dev, "No SBERR IRQ resource\n");
-+	if (edac->sb_irq < 0)
- 		return edac->sb_irq;
--	}
- 
- 	irq_set_chained_handler_and_data(edac->sb_irq,
- 					 altr_edac_a10_irq_handler,
-@@ -2184,10 +2182,8 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
- 	}
- #else
- 	edac->db_irq = platform_get_irq(pdev, 1);
--	if (edac->db_irq < 0) {
--		dev_err(&pdev->dev, "No DBERR IRQ resource\n");
-+	if (edac->db_irq < 0)
- 		return edac->db_irq;
--	}
- 	irq_set_chained_handler_and_data(edac->db_irq,
- 					 altr_edac_a10_irq_handler, edac);
- #endif
--- 
-2.20.1.7.g153144c
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
+
+Pozdrawiam
+Norbert Karecki
