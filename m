@@ -2,191 +2,435 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21EF0C433EF
-	for <linux-edac@archiver.kernel.org>; Tue, 29 Mar 2022 15:24:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B630C433EF
+	for <linux-edac@archiver.kernel.org>; Wed, 30 Mar 2022 20:02:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238485AbiC2P0B (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 29 Mar 2022 11:26:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39900 "EHLO
+        id S1350873AbiC3UEC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 30 Mar 2022 16:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238464AbiC2P0B (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 29 Mar 2022 11:26:01 -0400
-X-Greylist: delayed 1523 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 29 Mar 2022 08:24:17 PDT
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [IPv6:2620:100:9001:583::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18EB422BC3
-        for <linux-edac@vger.kernel.org>; Tue, 29 Mar 2022 08:24:16 -0700 (PDT)
-Received: from pps.filterd (m0050093.ppops.net [127.0.0.1])
-        by m0050093.ppops.net-00190b01. (8.16.1.2/8.16.1.2) with ESMTP id 22TDK6if012342;
-        Tue, 29 Mar 2022 15:58:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=lEBXlVIia/ZC8aDGibfGXF0VmAeSEZd/fxUpoJqRSjg=;
- b=PdVuw6KGBvnhPnkfmoAAkGV6pVdHrcqZEoqADZ4i5k0yMnFK6s0b6AvN+9X/VIAtMse5
- cQj4CT8EEbu8YVXLQSQq9+zJxegavWCjQs2doMjLFOU067wsSasoxnTTiYUwu/9hIE5/
- +0ynm4tCqjmvEI1cnvI67S4UmwpC2Lp9QwBEokudKH1d9Yd/xIGbTGST9JWPpCTsNSpD
- 5mds0qeNGI/bGdd6stJM0hYjnrz4IZrTF4hBjetEKXrpz6MPFuDYiYow6zs43CXIeYz/
- /dU/1XyA+qVpV841BYvIaZkwkWVuwKmAAXrI5zCQBleg8Ku6w+6wGa9Ic3mjk0TgvwYZ 1g== 
-Received: from prod-mail-ppoint3 (a72-247-45-31.deploy.static.akamaitechnologies.com [72.247.45.31] (may be forged))
-        by m0050093.ppops.net-00190b01. (PPS) with ESMTPS id 3f1tywyfyj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 29 Mar 2022 15:58:51 +0100
-Received: from pps.filterd (prod-mail-ppoint3.akamai.com [127.0.0.1])
-        by prod-mail-ppoint3.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 22TEoChV002241;
-        Tue, 29 Mar 2022 10:58:50 -0400
-Received: from prod-mail-relay19.dfw02.corp.akamai.com ([172.27.165.173])
-        by prod-mail-ppoint3.akamai.com with ESMTP id 3f2g477kr3-1;
-        Tue, 29 Mar 2022 10:58:50 -0400
-Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
-        by prod-mail-relay19.dfw02.corp.akamai.com (Postfix) with ESMTP id 750AD60494;
-        Tue, 29 Mar 2022 14:58:50 +0000 (GMT)
-Message-ID: <8e44d499-ad55-d90a-d4e6-2a97aa6d0c41@akamai.com>
-Date:   Tue, 29 Mar 2022 10:58:50 -0400
+        with ESMTP id S1350844AbiC3UD6 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 30 Mar 2022 16:03:58 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2083.outbound.protection.outlook.com [40.107.94.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DF34091B;
+        Wed, 30 Mar 2022 13:02:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bM6IelgVe1dTWSCBOYiLgq7afJEHaavXwP/LNY+9vfRcaD/h3Cu8JDFIYkxhy6BjQSDG3wMSHHpJsXFkKw7HUEhB2hObKCzB5sEvvB4J5iWdXyUrdKlD9CFxgJ+K4S3VDv/+Src1HcsegZX205dZZ9BYXJBk1ZnFgi2gdRj90ApeVhncXoszqJI3WWySw0U8O72YqSWss7x7fNjnH5PyCnvclO67ywz+4qQ9cD6BlBY5GmRzEBsCNhTT5viiuk3qRO9p4mebrgiEhCcJAvUVr35MgrWNW/ovoxoX/5EtB1CgtrzhTH7dOPgLkWmUpUKqXQ+KiAT5tF/tQNMAszsofA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+rY+hiDCPfvF8rN5nPoN8G7nPxYihft4UY/voxKaneM=;
+ b=XNzDapRVhoN9xfC/uzb+BAZIMj1BMrBIco7320i/+pDB6uMOkRa0+AU093ieT2MGeG4KFUi0N5qB/gs5FPhbfmq9tF3t+tdqn+oVjc39dA4uCo5XGWKzeB5M6I+s223G6cMTGpo0MIN9zKxRUSBl8m0rkxz8VkWtIbHCzu4VwvymWXGl3paf5L1S/G34/AVyLpbObOCXeluFjkOtbbEBi2u4RJWrJaSV5l16y/v3e74fSgjGqwz8rhM7ivUGNQ/0BsVrAANQrG4ice+OPpST82WZQeuLQfwoDhOikumH6s2c8l+a0wOi2ZZ8KRkrJ+jv1WPhIfPfIrtojxofAySKQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+rY+hiDCPfvF8rN5nPoN8G7nPxYihft4UY/voxKaneM=;
+ b=xekPBBlx8f30ZMIRkRzm8L8YEVbHzRRZOu8xEyIvcDcEz9xPha57kQbqMkt9o856lbyjFEOAJamXyKQf1uPFt+zKM2XBdTrFCOjpmHFBDlrGR5O56upx4rVThO5unV8HGHKZ59zaaD44WcAYOF7CysCpuNyf8d8tZU3VXLfZLYM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
+ by BN7PR12MB2643.namprd12.prod.outlook.com (2603:10b6:408:29::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.18; Wed, 30 Mar
+ 2022 20:02:10 +0000
+Received: from BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::6589:ebfc:1f11:3df0]) by BN8PR12MB3108.namprd12.prod.outlook.com
+ ([fe80::6589:ebfc:1f11:3df0%5]) with mapi id 15.20.5102.023; Wed, 30 Mar 2022
+ 20:02:10 +0000
+Date:   Wed, 30 Mar 2022 20:02:01 +0000
+From:   Yazen Ghannam <yazen.ghannam@amd.com>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     bp@alien8.de, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        bilbao@vt.edu
+Subject: Re: [PATCH 1/2] x86/mce: Extend AMD severity grading function with
+ new types of errors
+Message-ID: <YkS3OYMrWJEyZsnb@yaz-ubuntu>
+References: <20220328134131.736572-1-carlos.bilbao@amd.com>
+ <20220328134131.736572-2-carlos.bilbao@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220328134131.736572-2-carlos.bilbao@amd.com>
+X-ClientProxiedBy: MN2PR19CA0034.namprd19.prod.outlook.com
+ (2603:10b6:208:178::47) To BN8PR12MB3108.namprd12.prod.outlook.com
+ (2603:10b6:408:40::20)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] EDAC/ie31200: Add Skylake-S support
-Content-Language: en-US
-To:     joshuahant@gmail.com
-Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220322184717.29882-1-joshuahant@gmail.com>
-From:   Jason Baron <jbaron@akamai.com>
-In-Reply-To: <20220322184717.29882-1-joshuahant@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
- definitions=2022-03-29_05:2022-03-29,2022-03-29 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 bulkscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 phishscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203290090
-X-Proofpoint-GUID: 3699bTS29VG-4cRLp8e2QsfVNTK3I_f-
-X-Proofpoint-ORIG-GUID: 3699bTS29VG-4cRLp8e2QsfVNTK3I_f-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-29_05,2022-03-29_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 clxscore=1011 spamscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0
- impostorscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203290091
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ae7bb170-5cbb-4376-3718-08da12882c98
+X-MS-TrafficTypeDiagnostic: BN7PR12MB2643:EE_
+X-Microsoft-Antispam-PRVS: <BN7PR12MB2643AC76CBBB4B9999D7F34EF81F9@BN7PR12MB2643.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XIW7ltLRacMA0A2GyZiCgKSKGkC9YhBKelCxQvsBFYOh8IdvWQ2rfFUx4zqO0vNQ+KVtOgz4lrbP1aD5UiB3nD6u9oWmmutMlu281Nein7aYAjc84wKeSn4OdiNRK5oSiGvCouRdEEogPLkIvDYiWSug+TDRwHYnBrbsgyPwDX+E5w7nL8hKqKiC4WA1PyHWzgo4zuQ0Cspls1Gaursb+pG11BK91q1vYt9CZEtvIGlD3V26jJiXPDz7l9+F3rAIK1t+3VQG7Qk4UreOttYLChKH9VMjlOjZQ3YsGNNdo3F6A52fT+UdBhLvPOavIKahQv7YQvk6XNiVczfc2w6wPDwHc3NstIZG1jb8a1UGF+mEnmseI63WPwyhEpio2BzKR3BUMGz3q+KNRBQWx1FPzuhhTECeTVVy1/dKlntTXd+Ka4gxktb+Cb2aQpiW3sjbufRCzCLGxfhy4Qpi7VPYnM+jFsHCEGuRAWjedlw83Iww9CFHqA/ok1T7jJrTkEKm6pWZgBrQQfs69uD0rHQoiDWhTR8F3cIwkVTvwFzswgShfEgogIp8EdXb8HqVz10JAt5wwyDeS8zPBGh0UsEjk01uvUKqRtVxkah4k9y7ZD3fG6sxBgXekY74c/3J3TUFd4L+3umRpSOhW2f/QJj6FA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(7916004)(366004)(44832011)(186003)(26005)(6512007)(9686003)(6506007)(316002)(6636002)(6666004)(8936002)(508600001)(86362001)(6486002)(6862004)(33716001)(2906002)(8676002)(4326008)(83380400001)(38100700002)(66556008)(66946007)(66476007)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8h0vJz4ASCnCNqf/8ySe+oRnRu16d8WUEvSzkebKxdEV2c0JMnErPRzF7vHf?=
+ =?us-ascii?Q?xd3JGs7aESfyg3rNM0pUXH98kF/Vnigrf2O2kw13zO6Tm64B3KAngb0RAaZe?=
+ =?us-ascii?Q?CHJRejnJKCbtoJQ2qLSqX2TgivdZ8SqAk2prs+dcRXFWWyY6SxvGE20yUtnb?=
+ =?us-ascii?Q?X0M5M5rmGVGMAiE8wiSHEi5POiYbRAVTGyy6jo55upQ8/xu8btIp6MKN4Sqa?=
+ =?us-ascii?Q?XnQgjJ/T08JtwQYQWSNr6RPeJzyIzfteP5T/Aas2jY+C24bCtcrkUJQ+VOnH?=
+ =?us-ascii?Q?gAYgey5wsT64ve8DNhM3VpacZmrc7FPCT8yFPm/46QREWiVzCugIX6UzGo9h?=
+ =?us-ascii?Q?tSJrXM2niNXNVlvirXZboXjnjvdqhfzx/Cgmv3eU5z7aHBSUC9fyKqfibr9R?=
+ =?us-ascii?Q?E5cuOOuqa4tS260fAdqGYMJpmI7XXC/rlVaOnOQQNegurHxKddRns6aT8nkq?=
+ =?us-ascii?Q?iTy0WMewKhrMXAAD61OEReoPIMqdsK81zH4YLrQaE7rhV5wDH71D8NvNc7/j?=
+ =?us-ascii?Q?3P9ukXmKsfVnngxidLo3n+RqawQ1wUksLEBqK3J4lsD2v96fHfVTZIKdD4vW?=
+ =?us-ascii?Q?RfZhSVqip70sDagFobBZ8gPdzmHmhdB+TwHbgm/9sXkD6LWv/pMSp4v5OnsB?=
+ =?us-ascii?Q?W9kCz1KioDdkUw8Y7KV2U+Jy2bxgHxy5Cx9ptu1QQzZz3dfQW3ku4NpmBX6+?=
+ =?us-ascii?Q?BtFZym/x0jKrNsx4qdYM4wSqXBqwThJSfH8SyOe1PzgSEmxgtnszir2Mz1E6?=
+ =?us-ascii?Q?qyAo+Z0888yj0FGsC/3ECyp3lyhGcIawtAGYiA6eKyFQMxrRLbccziLZw6jV?=
+ =?us-ascii?Q?IKkE6L8qjpDGUEbz7HULJ3qM2BoCyQNUxVIqVv14k2IYorUUnA3TG38JaEih?=
+ =?us-ascii?Q?raBKEpT0naCbzbrb0LZRnWQnO5eHBSNxBE9z7cEHd7//jJH4OJ4sSSkR7Z44?=
+ =?us-ascii?Q?j0tuBKtT6Hl7TPNiy2IQqBcF8B0zcFYzDviJImGTcc3b7fF38auOgYM1XEsl?=
+ =?us-ascii?Q?hbkYZr6KvJR7tYpJR+wimJpyc/bWauA2Hb/CpNI6kxmq8YoMmGRD6jw6+MsB?=
+ =?us-ascii?Q?GMxQMqTjY/RlszAhT/9jMbP3Gm4go3hU2UZvxul1Bdy6q8K7IuZ76afJRZdz?=
+ =?us-ascii?Q?KQ8BAUnTG7TuoC3tDuBbKY3+oDL2ML754BKXIZk8XX4BYf60I/vb2TlsR+SE?=
+ =?us-ascii?Q?M2m/spPjZfyTKrzCL0L3u34pFT6U08anVqzt0tD6ZRvvP3dJAAAqn2couM+F?=
+ =?us-ascii?Q?IBbp2f4/08IJHyXvGF7wIzYFXN7pY8Yo0j3wBfn+Ae4q0Tlg6VecqN7cxYd2?=
+ =?us-ascii?Q?7ktZS7Lcc+fx30H5SEt16OT3t58kAgLExzwPr/2T2q+BODxulSwZuBV1TxZM?=
+ =?us-ascii?Q?bhaiNjl3pg5w+tsbMC9zfhdpfdGvOv0J3S3wUMI/xx5TU8SjJ4mbQ1q6+qE4?=
+ =?us-ascii?Q?rruAHypPwxHB7jJWtZOVnMTfLgM69ltLn8xlCQuEERmi8cUqdc/HN3FTd9A8?=
+ =?us-ascii?Q?2m8hzaiWcvNlz+OoofQAc+EdfiFc0MGEWjCyB3+3lzXN1dvUHkLF525bMj4v?=
+ =?us-ascii?Q?+O/1A4AQJoLCyn/Ey0fx0mv1hHuHJyKmUHBg4CT+eyUiKlWlHvik6MIsd/uK?=
+ =?us-ascii?Q?V205eUoPtaLrTzIScOKE44BePNsDX4S3KZBbP72M5sVpd8jezq1/sPxlxAF7?=
+ =?us-ascii?Q?SyiWLKycp53EbAyElaJ2ghNrHmJjfFCWtRwkMW1eYxSZQBeXG/1y0ZMRfwux?=
+ =?us-ascii?Q?KTctke63Nw=3D=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae7bb170-5cbb-4376-3718-08da12882c98
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2022 20:02:10.2027
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 28rvx4gjt0Sdt3U439mrcV2CJGXTILaU2tBviFwsVSTW56RauZsj7B5m5eDp/9Mu66Aqvw2IXhNssD3rPYESkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2643
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-
-
-On 3/22/22 14:47, joshuahant@gmail.com wrote:
-> From: Josh Hant <joshuahant@gmail.com>
+On Mon, Mar 28, 2022 at 08:41:32AM -0500, Carlos Bilbao wrote:
+> The MCE handler needs to understand the severity of the machine errors to
+> act accordingly. In the case of AMD, very few errors are covered in the
+> grading logic.
 > 
-> Add device IDs for Skylake-S CPUs according to datasheet.
+> Extend the MCEs severity grading of AMD to cover new types of machine
+> errors.
 > 
-> Signed-off-by: Josh Hant <joshuahant@gmail.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
 > ---
-> Dear all,
+>  arch/x86/include/asm/mce.h         |   6 +
+>  arch/x86/kernel/cpu/mce/severity.c | 180 +++++++++++++++++++++++------
+>  2 files changed, 150 insertions(+), 36 deletions(-)
 > 
-> I found that edac-util -v shows no memory controllers when using an
-> Intel i5-6100T with a Supermicro X11SAE motherboard. With this patch,
-> the ECC memory is detected. I tried to follow previous patches
-> that added new families of processors to the module.
-> 
-> This is my first submission to the kernel so please let me know if I
-> missed something in the process.
-> 
-> Thanks,
-> Josh Hant
-> 
+> diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
+> index cc73061e7255..6b1ef40f8580 100644
+> --- a/arch/x86/include/asm/mce.h
+> +++ b/arch/x86/include/asm/mce.h
+> @@ -50,6 +50,12 @@
+>  #define MCI_STATUS_POISON	BIT_ULL(43)  /* access poisonous data */
+>  #define MCI_STATUS_SCRUB	BIT_ULL(40)  /* Error detected during scrub operation */
+>  
+> +/* AMD Error codes from PPR(s) section 3.1 Machine Check Architecture */
+> +#define ERRORCODE_T_MSK GENMASK(3, 2) /* Mask for transaction type bits */
+> +#define ERRORCODE_M_MSK GENMASK(7, 4) /* Mask for memory transaction type */
+> +#define ERRORCODE_T_DATA  0x4  /* Transaction type of error is Data */
+> +#define ERRORCODE_M_FETCH 0x50 /* Memory transaction type of error is Instruction Fetch */
+> +
+>  /*
+>   * McaX field if set indicates a given bank supports MCA extensions:
+>   *  - Deferred error interrupt type is specifiable by bank.
+> diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
+> index 1add86935349..4a089e9dbbaf 100644
+> --- a/arch/x86/kernel/cpu/mce/severity.c
+> +++ b/arch/x86/kernel/cpu/mce/severity.c
+> @@ -327,59 +327,167 @@ static __always_inline int mce_severity_amd_smca(struct mce *m, enum context err
+>  }
+>  
+>  /*
+> - * See AMD Error Scope Hierarchy table in a newer BKDG. For example
+> - * 49125_15h_Models_30h-3Fh_BKDG.pdf, section "RAS Features"
+> + * Evaluate the severity of an overflow error for AMD systems, dependent on
+> + * the recoverity features available.
+>   */
+> -static noinstr int mce_severity_amd(struct mce *m, struct pt_regs *regs, char **msg, bool is_excp)
+> +static noinstr int mce_grade_overflow_amd(struct mce *m, enum context ctx)
+>  {
+> -	enum context ctx = error_context(m, regs);
+> +	int ret;
+>  
+> -	/* Processor Context Corrupt, no need to fumble too much, die! */
+> -	if (m->status & MCI_STATUS_PCC)
+> +	/*
+> +	 * On older systems where overflow_recov flag is not present, we
+> +	 * should simply panic if an error overflow occurs. If
+> +	 * overflow_recov flag is present and set, then software can try
+> +	 * to at least kill process to prolong system operation.
+> +	 */
+> +	if (mce_flags.overflow_recov) {
+> +		if (mce_flags.smca) {
+> +			ret = mce_severity_amd_smca(m, ctx);
+> +		} else {
+> +			/* kill current process */
+> +			ret = MCE_AR_SEVERITY;
+> +		}
+> +		return ret;
+> +	}
+> +
+> +	/* at least one error was not logged */
+> +	if (m->status & MCI_STATUS_OVER)
+>  		return MCE_PANIC_SEVERITY;
+>  
+> -	if (m->status & MCI_STATUS_UC) {
+> +	/*
+> +	 * For any other case, return MCE_UC_SEVERITY so that we log the
+> +	 * error and exit #MC handler.
+> +	 */
+> +	return MCE_UC_SEVERITY;
+> +}
+>  
+> -		if (ctx == IN_KERNEL)
+> -			return MCE_PANIC_SEVERITY;
+> +/*
+> + * See AMD PPR(s) section 3.1 Machine Check Architecture
+> + */
+> +static noinstr int mce_severity_amd(struct mce *m, struct pt_regs *regs, char **msg, bool is_excp)
+> +{
+> +	enum context ctx = error_context(m, regs);
+> +	int ret;
+>  
+> -		/*
+> -		 * On older systems where overflow_recov flag is not present, we
+> -		 * should simply panic if an error overflow occurs. If
+> -		 * overflow_recov flag is present and set, then software can try
+> -		 * to at least kill process to prolong system operation.
+> -		 */
+> -		if (mce_flags.overflow_recov) {
+> -			if (mce_flags.smca)
+> -				return mce_severity_amd_smca(m, ctx);
+> +	/*
+> +	 * Default return values. The poll handler catches these and passes
+> +	 * responsibility of decoding them to EDAC
+> +	 */
+> +	ret = MCE_KEEP_SEVERITY;
+>  
+> -			/* kill current process */
+> -			return MCE_AR_SEVERITY;
+> -		} else {
+> -			/* at least one error was not logged */
+> -			if (m->status & MCI_STATUS_OVER)
+> -				return MCE_PANIC_SEVERITY;
+> +	/*
+> +	 * Evaluate the severity of deferred errors for AMD systems, for which only
+> +	 * scrub error is interesting to notify an action requirement.
+> +	 */
+> +	if (m->status & MCI_STATUS_DEFERRED) {
+> +		if (m->status & MCI_STATUS_SCRUB)
+
+Multi-line if-else statements should have braces. This is true even for
+conditions with a single line. This is a coding style point.
+
+In other words, if all conditions are a single line, then no braces needed.
+But if any of the conditions has multiple lines, then all conditions need
+braces.
+
+> +			ret = MCE_AR_SEVERITY;
+
+This is wrong. Action required is for errors that need to be handled
+immediately and where recovery is possible, like a poison consumption
+machine check exception.
+
+Also, the SCRUB indicator does not contribute any new or interesting
+information in terms of OS actions.
+
+> +		else {
+> +			/*
+> +			 * deferred error: poll handler catches these and adds to mce_ring so
+> +			 * memory-failure can take recovery actions.
+> +			 */
+> +			ret = MCE_DEFERRED_SEVERITY;
+>  		}
+> +		goto amd_severity;
+> +	}
+>  
+> -		/*
+> -		 * For any other case, return MCE_UC_SEVERITY so that we log the
+> -		 * error and exit #MC handler.
+> -		 */
+> -		return MCE_UC_SEVERITY;
+> +	/* If the UC bit is not set, the error has been corrected */
+> +	if (!(m->status & MCI_STATUS_UC)) {
+> +		ret = MCE_KEEP_SEVERITY;
+> +		goto amd_severity;
+>  	}
+>  
+>  	/*
+> -	 * deferred error: poll handler catches these and adds to mce_ring so
+> -	 * memory-failure can take recovery actions.
+> +	 * Evaluate the severity of memory poison for AMD systems,
+> +	 * depending on the context in which the MCE happened.
+>  	 */
+> -	if (m->status & MCI_STATUS_DEFERRED)
+> -		return MCE_DEFERRED_SEVERITY;
+> +	if (m->status & MCI_STATUS_POISON) {
+> +		switch (ctx) {
+> +		case IN_USER:
+> +			ret = MCE_AR_SEVERITY;
+> +			break;
+> +		case IN_KERNEL_RECOV:
+> +#ifdef CONFIG_MEMORY_FAILURE
+> +			ret = MCE_AR_SEVERITY;
+> +#else
+> +			ret = MCE_PANIC_SEVERITY;
+> +#endif
+> +			break;
+> +		case IN_KERNEL:
+> +			ret = MCE_PANIC_SEVERITY;
+> +			break;
+
+Is this case needed if it's identical to the default?
+
+> +		default:
+> +			ret = MCE_PANIC_SEVERITY;
+> +		}
+> +
+> +		goto amd_severity;
+> +	}
+> +
+> +	/* Processor Context Corrupt, no need to fumble too much, die! */
+> +	if (m->status & MCI_STATUS_PCC) {
+> +		ret = MCE_PANIC_SEVERITY;
+> +		goto amd_severity;
+> +	}
+
+This should be the first condition checked.
+
+>  
+>  	/*
+> -	 * corrected error: poll handler catches these and passes responsibility
+> -	 * of decoding the error to EDAC
+> +	 * Evaluate the severity of data load error for AMD systems,
+> +	 * depending on the context in which the MCE happened.
+>  	 */
+> -	return MCE_KEEP_SEVERITY;
+> +	if ((m->status & ERRORCODE_T_MSK) == ERRORCODE_T_DATA) {
+
+This information is not useful for determining severity.
+
+> +		switch (ctx) {
+> +		case IN_USER:
+> +		case IN_KERNEL_RECOV:
+> +			ret = MCE_AR_SEVERITY;
+> +			break;
+> +		case IN_KERNEL:
+> +			ret = MCE_PANIC_SEVERITY;
+> +			break;
+> +		default:
+> +			ret = MCE_PANIC_SEVERITY;
+> +		}
+> +
+> +		goto amd_severity;
+> +	}
+> +
+> +
+> +	/*
+> +	 * Evaluate the severity of an instruction fetch error for AMD systems,
+> +	 * depending on the context in which the MCE happened.
+> +	 */
+> +	if ((m->status & ERRORCODE_M_MSK) == ERRORCODE_M_FETCH) {
+
+This information is not useful for determining severity.
+
+> +		switch (ctx) {
+> +		case IN_USER:
+> +			ret = MCE_AR_SEVERITY;
+> +			break;
+> +		case IN_KERNEL_RECOV:
+> +#ifdef CONFIG_MEMORY_FAILURE
+> +			ret = MCE_AR_SEVERITY;
+> +#else
+> +			ret = MCE_PANIC_SEVERITY;
+> +#endif
+> +			break;
+> +		case IN_KERNEL:
+> +			ret = MCE_PANIC_SEVERITY;
+> +			break;
+> +		default:
+> +			ret = MCE_PANIC_SEVERITY;
+> +		}
+> +
+> +		goto amd_severity;
+> +	}
+> +
+> +	if (m->status & MCI_STATUS_OVER) {
+> +		ret = mce_grade_overflow_amd(m, ctx);
+> +		goto amd_severity;
+> +	}
+
+This condition should be checked earlier.
+
+> +
+> +	if (ctx == IN_KERNEL)
+> +		ret = MCE_PANIC_SEVERITY;
+
+This condition should be checked earlier. This would avoid the redundant
+checks above.
 
 
-Hi Josh,
+Overall, the severity code should be audited and simplified first. Existing
+cases should then be updated with useful information like messages. Finally,
+new cases can be added if and only if they are unique, i.e. they're not
+already covered by existing cases.
 
-Thanks for your submission! Some comments below.
+The current code already follows the hardware documentation for the most part.
+Here's an example of how it can be simplified.
 
->  drivers/edac/ie31200_edac.c | 26 +++++++++++++++++---------
->  1 file changed, 17 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-> index 9a9ff5ad611a..96a3f70d06e6 100644
-> --- a/drivers/edac/ie31200_edac.c
-> +++ b/drivers/edac/ie31200_edac.c
-> @@ -20,11 +20,14 @@
->   * 0c08: Xeon E3-1200 v3 Processor DRAM Controller
->   * 1918: Xeon E3-1200 v5 Skylake Host Bridge/DRAM Registers
->   * 5918: Xeon E3-1200 Xeon E3-1200 v6/7th Gen Core Processor Host Bridge/DRAM Registers
-> + * 190f: 6th Gen Core Dual-Core Processor Host Bridge/DRAM Registers
-> + * 191f: 6th Gen Core Quad-Core Processor Host Bridge/DRAM Registers
->   * 3e..: 8th/9th Gen Core Processor Host Bridge/DRAM Registers
->   *
->   * Based on Intel specification:
->   * https://urldefense.com/v3/__https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xeon-e3-1200v3-vol-2-datasheet.pdf__;!!GjvTz_vk!AMVZ8h7gNGrptmwFk4tdnr0n6gUXJhZWRRjaZ3_usWEhORCh3fhbT-HVOitdUQ$ 
->   * https://urldefense.com/v3/__http://www.intel.com/content/www/us/en/processors/xeon/xeon-e3-1200-family-vol-2-datasheet.html__;!!GjvTz_vk!AMVZ8h7gNGrptmwFk4tdnr0n6gUXJhZWRRjaZ3_usWEhORCh3fhbT-HdDfO4eA$ 
-> + * https://urldefense.com/v3/__https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/desktop-6th-gen-core-family-datasheet-vol-2.pdf__;!!GjvTz_vk!AMVZ8h7gNGrptmwFk4tdnr0n6gUXJhZWRRjaZ3_usWEhORCh3fhbT-Ef_03qbw$ 
+Pseudocode:
 
+	if "PCC bit set"
+		PANIC
 
-I didn't find register #s in the above doc. But this one seems to have them:
+	if "Deferred bit set"
+		DEFERRED
 
-https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/xeon-e3-1200v6-vol-2-datasheet.pdf
+	if "UC bit not set"
+		KEEP
 
+	if "Overflow recovery not supported" and "Overflow bit set"
+		PANIC
 
->   * https://urldefense.com/v3/__https://www.intel.com/content/www/us/en/processors/core/7th-gen-core-family-mobile-h-processor-lines-datasheet-vol-2.html__;!!GjvTz_vk!AMVZ8h7gNGrptmwFk4tdnr0n6gUXJhZWRRjaZ3_usWEhORCh3fhbT-EznD3gEQ$ 
->   * https://urldefense.com/v3/__https://www.intel.com/content/www/us/en/products/docs/processors/core/8th-gen-core-family-datasheet-vol-2.html__;!!GjvTz_vk!AMVZ8h7gNGrptmwFk4tdnr0n6gUXJhZWRRjaZ3_usWEhORCh3fhbT-FmC7_jRg$ 
->   *
-> @@ -53,15 +56,17 @@
->  #define ie31200_printk(level, fmt, arg...) \
->  	edac_printk(level, "ie31200", fmt, ##arg)
-> 
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_1 0x0108
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_2 0x010c
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_3 0x0150
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_4 0x0158
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_5 0x015c
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_6 0x0c04
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_7 0x0c08
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_8 0x1918
-> -#define PCI_DEVICE_ID_INTEL_IE31200_HB_9 0x5918
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_1  0x0108
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_2  0x010c
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_3  0x0150
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_4  0x0158
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_5  0x015c
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_6  0x0c04
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_7  0x0c08
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_8  0x190F
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_9  0x1918
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_10 0x191F
-> +#define PCI_DEVICE_ID_INTEL_IE31200_HB_11 0x5918
-> 
->  /* Coffee Lake-S */
->  #define PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_MASK 0x3e00
-> @@ -80,6 +85,7 @@
->  #define DEVICE_ID_SKYLAKE_OR_LATER(did)                                        \
->  	(((did) == PCI_DEVICE_ID_INTEL_IE31200_HB_8) ||                        \
->  	 ((did) == PCI_DEVICE_ID_INTEL_IE31200_HB_9) ||                        \
-> +	 ((did) == PCI_DEVICE_ID_INTEL_IE31200_HB_10) ||                       \
->  	 (((did) & PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_MASK) ==                 \
->  	  PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_MASK))
+	if "MCA recovery (SUCCOR) not supported"
+		PANIC
 
-Looks like PCI_DEVICE_ID_INTEL_IE31200_HB_11 is missing from this check? IE you added
-two new device ids, but added only 1 new check?
+	if "In kernel context"
+		PANIC
 
-> 
-> @@ -577,6 +583,8 @@ static const struct pci_device_id ie31200_pci_tbl[] = {
->  	{ PCI_VEND_DEV(INTEL, IE31200_HB_7),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
->  	{ PCI_VEND_DEV(INTEL, IE31200_HB_8),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
->  	{ PCI_VEND_DEV(INTEL, IE31200_HB_9),      PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-> +	{ PCI_VEND_DEV(INTEL, IE31200_HB_10),     PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-> +	{ PCI_VEND_DEV(INTEL, IE31200_HB_11),     PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
->  	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_1),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
->  	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_2),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
->  	{ PCI_VEND_DEV(INTEL, IE31200_HB_CFL_3),  PCI_ANY_ID, PCI_ANY_ID, 0, 0, IE31200 },
-> --
-> 2.34.1
-> 
+	else
+		AR
 
 
-Also, just to confirm that after this patch the edac memory info/size is consistent with
-what's in /proc/meminfo, dmidecode -t memory?
+Notes:
+
+1) The Deferred and !UC cases are moved up compared to documentation. It
+looks like you had a similar idea. This saves an indentation level since all
+the following cases are for uncorrectable errors.
+
+2) The TCC check is not included. This is because TCC has a similar function
+to RIPV|EIPV *. And the only use is in conjunction with "kernel context". So
+this is redundant as "UC in kernel context" is a PANIC.
+
+	* A TCC check can be done as an alternative to mc_recoverable(). But
+	  let's not worry about that now.
+
+3) There is no SMCA check. This is because SMCA is used only to determine if
+the TCC bit *may* be defined.
+
+So please do the code simplification in a first patch. Then add messages for
+those existing cases in a second patch.
 
 Thanks,
-
--Jason
+Yazen
