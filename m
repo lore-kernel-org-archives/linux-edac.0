@@ -2,90 +2,83 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED55AC433F5
-	for <linux-edac@archiver.kernel.org>; Mon,  4 Apr 2022 22:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE3FC433F5
+	for <linux-edac@archiver.kernel.org>; Mon,  4 Apr 2022 22:45:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229654AbiDDWrR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 4 Apr 2022 18:47:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59734 "EHLO
+        id S230244AbiDDWrp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 4 Apr 2022 18:47:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344328AbiDDWqy (ORCPT
+        with ESMTP id S1344674AbiDDWqy (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Mon, 4 Apr 2022 18:46:54 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6C5B037BC0;
-        Mon,  4 Apr 2022 14:56:58 -0700 (PDT)
-Received: from sequoia (162-237-133-238.lightspeed.rcsntx.sbcglobal.net [162.237.133.238])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 43C0A20DFD57;
-        Mon,  4 Apr 2022 14:56:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 43C0A20DFD57
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1649109418;
-        bh=wNfTyQ0SC36j/wUbbN5U+OxggsGjrkK87ERhY/VNu3c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kGygIAxVJ5W7hFUPl2Hl83I78rz5tvoUcXvk2nYbbbr7x5stmKlG4Wwbgt1+8BJlJ
-         tf/xDB7QHJCZiQRHh7gmmkaQCuDUrvJulWQH9+aHBRr/4h4IhPWU5Rp9RZrvbwMxfk
-         eJuji+vCAPk65uyd925d1qRrxF5ZZIbQ5WexhL6M=
-Date:   Mon, 4 Apr 2022 16:56:40 -0500
-From:   Tyler Hicks <tyhicks@linux.microsoft.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Borislav Petkov <bp@alien8.de>
-Cc:     Sasha Levin <sashal@kernel.org>, Lei Wang <lewan@microsoft.com>,
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9710937BD7;
+        Mon,  4 Apr 2022 14:57:04 -0700 (PDT)
+Received: from zn.tnic (p2e55dff8.dip0.t-ipconnect.de [46.85.223.248])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2554E1EC04AD;
+        Mon,  4 Apr 2022 23:56:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1649109419;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1v8Nh6GMcNHzf1PKyvbirBT1D8L1EYpKSAB3t1pC2ok=;
+        b=hRsUotSJcUNsyuGu0M85tQbulpFIJ6YBu/iJsodQyWyxCLmysp5No/OERS6Tqs0H3vbW3k
+        HvAyG/nRv+rLVoHEYJjw23HxSrGIkv4Z0/kKAdf62dRpqZTkPlW/vfFmQqo5BC1/UkhXjv
+        LfM6EmuqVpbYvbNtAi7w6W8GaJfhJFI=
+Date:   Mon, 4 Apr 2022 23:56:56 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
         Tony Luck <tony.luck@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sinan Kaya <okaya@kernel.org>,
-        Shiping Ji <shiping.linux@gmail.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
         James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] EDAC/dmc520: Don't print an error for each unconfigured
- interrupt line
-Message-ID: <20220404215640.GA626436@sequoia>
-References: <20220111163800.22362-1-tyhicks@linux.microsoft.com>
- <YeRkGvestiloCAUV@zn.tnic>
- <20220118152816.GA89184@sequoia>
- <Yeb4sK+ZmSHjWPWL@zn.tnic>
- <20220118195401.GB89184@sequoia>
- <YecrXidqecoYI/xg@zn.tnic>
- <YefXQHXNlsxk8yUc@kroah.com>
- <Yefb7zO9p1iPF3Jm@zn.tnic>
- <YefnuCPwMq5V2lgl@kroah.com>
+        Robert Richter <rric@kernel.org>,
+        Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: Re: [PATCH v4 2/3] x86/mce: Define function to extract ErrorAddr
+ from MCA_ADDR
+Message-ID: <YktpqKye+t462Y1p@zn.tnic>
+References: <20220225193342.215780-1-Smita.KoralahalliChannabasappa@amd.com>
+ <20220225193342.215780-3-Smita.KoralahalliChannabasappa@amd.com>
+ <YkWrlTIK/ZxsQekX@zn.tnic>
+ <YkmeJFXXbu3aLzzw@zn.tnic>
+ <Yknsbp+zMh8Uev8+@zn.tnic>
+ <87mth2kkhc.ffs@tglx>
+ <YkoHKTuGaFfsF6qb@zn.tnic>
+ <54599d6c-204e-d7f6-21b6-15df7acad53d@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YefnuCPwMq5V2lgl@kroah.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <54599d6c-204e-d7f6-21b6-15df7acad53d@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 2022-01-19 11:28:08, Greg Kroah-Hartman wrote:
-> On Wed, Jan 19, 2022 at 10:37:51AM +0100, Borislav Petkov wrote:
-> > On Wed, Jan 19, 2022 at 10:17:52AM +0100, Greg Kroah-Hartman wrote:
-> > > For this specific change, I do NOT think it should be backported at all,
-> > > mostly for the reason that people are still arguing over the whole
-> > > platform_get_*_optional() mess that we currently have.  Let's not go and
-> > > backport anything right now to stable trees until we have all of that
-> > > sorted out, as it looks like it all might be changing again.  See:
-> > > 	https://lore.kernel.org/r/20220110195449.12448-1-s.shtylyov@omp.ru
-> > > for all of the gory details and the 300+ emails written on the topic so
-> > > far.
-> > 
-> > It sounds to me I should not even take this patch upstream yet,
-> > considering that's still ongoing...
-> 
-> Yes, I would not take that just yet at all.  Let's let the api argument
-> settle down a bit first.
+On Mon, Apr 04, 2022 at 01:55:21PM -0700, Smita Koralahalli wrote:
+> I didn't quite understand what needs to be moved to mce/internal.h. Was that
+> addressed to me?  The function call smca_extract_err_addr() is in mce/core.c
+> and the definition in mce.h
 
-The API argument seems to have fizzled out in v2:
+In your current v4, the function definition is in
+arch/x86/kernel/cpu/mce/amd.c
 
- https://lore.kernel.org/lkml/20220212201631.12648-1-s.shtylyov@omp.ru/
+However, since it needs to be inlined into both callsites because
+mce_read_aux() is marked noinstr, the definition should be
 
-Can this fix be merged since there seem to be no API changes coming
-soon? Boris, feel free to strip off the cc stable tag.
+static __always_inline void smca_extract_err_addr(struct mce *m)
 
-Tyler
+and that definition should be in the header mce/internal.h
 
-> 
-> thanks,
-> 
-> greg k-h
-> 
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
