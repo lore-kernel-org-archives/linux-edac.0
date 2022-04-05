@@ -2,44 +2,44 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 665C7C4332F
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Apr 2022 04:06:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FD80C433F5
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Apr 2022 04:07:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231605AbiDFEIY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 6 Apr 2022 00:08:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51090 "EHLO
+        id S240800AbiDFEIh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 6 Apr 2022 00:08:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1572925AbiDERUz (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 5 Apr 2022 13:20:55 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2059.outbound.protection.outlook.com [40.107.236.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066B613E08;
-        Tue,  5 Apr 2022 10:18:56 -0700 (PDT)
+        with ESMTP id S1572995AbiDERna (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 5 Apr 2022 13:43:30 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam08on2062.outbound.protection.outlook.com [40.107.102.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EC3B91A9;
+        Tue,  5 Apr 2022 10:41:31 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LmhqqmVxfwxH3AgJwL4V867hp5a/XC+ChYxhFGb/Te/C8SrAdLq/6j4s1ZJnE9vtiLrIYDr7MDe+1wfIj2InHQyLMRU9T98EEo0fQrIhztSQFrvK8Kk6mRqeM/J4QSUAOpjvQpnhc+qXdtmjRlO1wNKQLjCdq7S3ot50Cplr2lXyYufjWzh1mPwxRYp4f5MtjaszLwPbSIvSRJmRa5k66B/yfL407GCfQvJyBBIzYKDNIFf+zajaZ6MD1rRAjL5h5He8KO+mAf/k46SpytrpyYrg7pOpNN+ulvflawCV93pN97Z2Q9wtj3ipj+W86Svp0yAmOMXPjBC8TDF4TH8vJw==
+ b=bDZUivlWHHZUzLFHr7aqR37e4YjbyPfr4hAnIe77bP0GX6shq5LldrLmN6Ubq+9oaCX2/K/2wFAYrFELYdrtrOSU5lIqhlvZVd9oMILd5Afas6x8zNBJ06PG9KrfkK1kQC2/lSf8JnPmCAUc2wu172xjVnBISMejGkN7UW4qFky68oKoqtbsk2rSIY7h8U9fYcR6yl7M39hM/WjAvTRCwWG1HIBVj/XOARVAZuWc878SnANWN9n8BSep80ivgZ2kDi2cw79WmyxGGnghuYyLFdmeumTLnfhyLTg0+eW3w5W4yGNT4iWZ86cN7AY1iuETH38fQPXpXBvPCfLOeonEog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xhYzRqCc66sajwvMDJGLk9r5jVJAkigW8dFGt+3wlTo=;
- b=YL/CQwMkcqT0qSYNdXX9mo9otP2yrDK7WfXwa0IChMvDyZNxbxfEmkNwdU7pO7nvZIHj+YtFs+gd9VixoVDNXQ0i+eBJuC+RB1yBtJn56hDL2CyQZJrOEr7tdAPONHae92nxNU+Ll7MF0Wljo8d0p3m0k6mYOFCPToIYrzGgEM838VpffebErYNe4i+8ZEJfCGGw16NYG7PH1UJV4gEX7SN8uEFE5lkDxlMgpvTplfwuBQ1dImSYVf/BTNQhPsbOXsfuQ0dHs1VKtjr7Jfn4M8+al2i5SWty4hFBU0qZGJuX+bLFgwQleJZVntX29o63Nmh7OsPyXoWsnY6THjfn2Q==
+ bh=ivyLuN48NtH1RRa4wwVkzzmeC78DirHzhue0sQOJJu0=;
+ b=JdtRhz7trgzNmT6bxwfuUBt3WZ8lApLSof0q6C/2kDfjgkrK8Gz6Rq8WLa/3sBTIgjfhO6g9OFR07+9ZOusBmli+bnCWEVIEg1Lb08a3hzvZnI/4BYHpRGRcVmLDnbs6LyTljqMvWgcsgqVf/FRE1123+f16c6dgnog+HiNbTdj2Ac93e/lxNgIadf6Z/UI3Ne2w4DHXR03diYG/AIzudu3A4HqjbYE6+zhTRiXuJCRNDoKLSX8BXMfpJuVBjd/w6sZtfDQt6esq47zpEHn68KCNNuuP5zJkdx4WWVayXznjD3f87gWVkhU5fhn1+ez0P4Plf5wlXIhYBqMbdiqLJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xhYzRqCc66sajwvMDJGLk9r5jVJAkigW8dFGt+3wlTo=;
- b=JXeHtKRBfEQggEZ17Isux8Jj4z+vwpI2GYrAprkCCoNW1r+0qnug/uP3jIKzlRNYU1b5vVCckfg4z8s8CITcinzPJuv1OgBvpasc7ffEy4xEWrw/Knm5uPb4c+M9rTY/QDe/KJE39bv9MToHeno5kyjgeEMFg7IJw8blnmThKDU=
+ bh=ivyLuN48NtH1RRa4wwVkzzmeC78DirHzhue0sQOJJu0=;
+ b=GA8o5wnczXiuTxf9RKlMcLTZUezrXuswsUkqrU5l8Xb31iUIh9Z12DwV9rGr1zJqJnaN+C4DOR9fv9xgaaNCceIKBRXfEtN7Qgzh9f8DeiADUaAI82Hgx2McAayTz7/SaeLwpCPh0mMvB28r5X/gcgXT6MMOwqv+/95mrtOzyg4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by BY5PR12MB4901.namprd12.prod.outlook.com (2603:10b6:a03:1c5::11) with
+ by DM6PR12MB4252.namprd12.prod.outlook.com (2603:10b6:5:211::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Tue, 5 Apr
- 2022 17:18:51 +0000
+ 2022 17:41:29 +0000
 Received: from BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::a941:fe42:23a5:c501]) by BN8PR12MB3108.namprd12.prod.outlook.com
  ([fe80::a941:fe42:23a5:c501%3]) with mapi id 15.20.5123.031; Tue, 5 Apr 2022
- 17:18:51 +0000
-Date:   Tue, 5 Apr 2022 17:18:45 +0000
+ 17:41:29 +0000
+Date:   Tue, 5 Apr 2022 17:41:25 +0000
 From:   Yazen Ghannam <yazen.ghannam@amd.com>
 To:     Carlos Bilbao <carlos.bilbao@amd.com>
 Cc:     bp@alien8.de, tglx@linutronix.de, mingo@redhat.com,
@@ -48,250 +48,94 @@ Cc:     bp@alien8.de, tglx@linutronix.de, mingo@redhat.com,
         bilbao@vt.edu
 Subject: Re: [PATCH v2 1/2] x86/mce: Extend AMD severity grading function
  with new types of errors
-Message-ID: <Ykx59WvoWKi2y23x@yaz-ubuntu>
+Message-ID: <Ykx/RYZpKi5SQ/NN@yaz-ubuntu>
 References: <20220331163849.6850-1-carlos.bilbao@amd.com>
  <20220331163849.6850-2-carlos.bilbao@amd.com>
+ <Ykx59WvoWKi2y23x@yaz-ubuntu>
+ <ec7dc7e7-5808-58f8-cbe9-d8fdd2de4c35@amd.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220331163849.6850-2-carlos.bilbao@amd.com>
-X-ClientProxiedBy: BLAPR03CA0048.namprd03.prod.outlook.com
- (2603:10b6:208:32d::23) To BN8PR12MB3108.namprd12.prod.outlook.com
+In-Reply-To: <ec7dc7e7-5808-58f8-cbe9-d8fdd2de4c35@amd.com>
+X-ClientProxiedBy: BLAPR03CA0026.namprd03.prod.outlook.com
+ (2603:10b6:208:32b::31) To BN8PR12MB3108.namprd12.prod.outlook.com
  (2603:10b6:408:40::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cb9d441a-b737-46ab-66d6-08da17285aa2
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4901:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB4901C3C392009856A46DAF65F8E49@BY5PR12MB4901.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 12fb42e3-6d10-4781-7533-08da172b83d8
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4252:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB425203ED34ACBF50FEFE2786F8E49@DM6PR12MB4252.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZHUslQiXn0Uw+tb5vLYxCdDJzIbqqZZg5KnpeQm66wfXDwqJNv6Obc+c6Vzzh8KsrzmWedzRGh7uYmVl/FvjdcpuqZcE5UQfYST5u2IRZbeyYZ29/L9Dw8v1GSN4K4tpNVpop7a3zs7Opskqm9StbDgDXAGlNR9sjNfDlXI8Is24BSxD9oL4OvGcRll4Nqj+XaPcQvFS1SB4tzv+uU3zGaQEp9MbpiU6Q/+hcdrqXf95OhEUlxc79yyyLiCvyN6GB3Sy7P3Paq45quNu+AgJKVbVwAL8siE2fsdqVUXp4XAOX08gP3/Z9IIpMvlm0L+LjUSu8dePJuJmrrlmo3fdvTYiVu2xBlmX5MfNerqyP1/y06kFilH1jm1vZpafgU9z8bCt9G0p9UcuYI9D5G/mJ1Rqpfx68KmZDPpJh0dr84B7Wdbyyb3Iq1DMBOquugy8Lk1Jx0anT5QFJ84e034fKjYzifFMqe59eQ95bgiwaI1po9q6+dgoNielDYdVTK6hE622DGNT4yJdqo2KIxTnvV/d6l0LjHoa0VwJXeFBUQqGQs8R0fShbk6zT0xHpFAsAUo3hwvqRb/aw17w5gSKtHQr7pmSK0Gma+cKvgzXVnWcfIFq4bi++IcjQx/Ejowshl7hezbkX0CVYhK+bSbGpA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(7916004)(366004)(6486002)(38100700002)(186003)(26005)(316002)(44832011)(86362001)(8936002)(508600001)(2906002)(6506007)(6636002)(9686003)(6512007)(6666004)(5660300002)(66946007)(66476007)(66556008)(8676002)(83380400001)(4326008)(33716001)(6862004);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: l2Wtz4mfaRmXvbLf4tsBlVUeQN+RKAL1rXR1EV+IrlWI2M0MdzC/Ss5GvVAPpll3aO7FxW0gq5F14wspmC79MQjbNXcZUJ+dX+q3gIP5Pr0aEE/5Yzbpri00pjBxm/WHf1oE3Wil1j15HjUzP4jxygWUEAMnX4/1ePzsB2YxB65JBkuFRiYbAwT/oRx1nmrmDoKNoqyrSYHBpCkf2FcJWahkLDzywshKt9aY4WSddvG84ah9opS8EEoZN8b1gSuMLsrGQVnEwlPjTW/QzITXcp3nb0ajIiAq0y+DNLsVZiY9gA7wPzTOXZQfxCIpZSYwlWdDycu76WQ6cFhtZf0Sxt2Frh8m0XzwHRCY0lTd0zo4jfp/ppewwmaj8XPfHWX2h9oUQlgHRMTdm24L4EKrHOj6bELJBnYGSfxjukvpHxPUOd2MeyJI9bWOQteMcEXhuG27PrWf3+6Zl1/4pdCGMeIvtxAU6G2vs1Jz8hd0WlPBJNcJreszvEh6kd9Lt+OkgrlHmXRr4Y74lwq+k7wgUBUhxA6Uo1wLreR1mDR25O4xYVPUZcy83B1y6wnKP+aEU1kRa7s5YR4APJ+LXnDxnQLOTzK2auFEyZUp6XcNQsvkhSPUGncp32V0eIBuJnMcwxU6kc970Vd+nzEqmbS7Ng==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(4636009)(366004)(6636002)(6486002)(8676002)(66476007)(26005)(186003)(66946007)(4326008)(66556008)(508600001)(6862004)(316002)(9686003)(86362001)(2906002)(6506007)(38100700002)(53546011)(33716001)(83380400001)(44832011)(8936002)(5660300002)(4744005)(6666004)(6512007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lz7XB8NCcHW0vYZtX1TCwyW6Vu1hCc5/v4hmUzB01uVAmuGgXLAz/F1wjmk4?=
- =?us-ascii?Q?bt2yk7423yp0zEEcpjO1ryN/qf0l9Q4gA9KOWV+aExX9/0bipHAYSm6y0eT2?=
- =?us-ascii?Q?+wmkGJvvKfgucM2tGrMbz5urbCMzrQhgWda8tJa328cOhuDusizevVO0ZjYE?=
- =?us-ascii?Q?kPXEy62VevUi7BpE/iH9GvgMqe/F9t6QKIfLqaRqAobByynU+j1vbENoNiOl?=
- =?us-ascii?Q?TAav6QuZBPp1x2actGjQG3sIoBnnp5JFO3pTjIwtDccub0A5rbI7cfMYmOjf?=
- =?us-ascii?Q?Z8k2cuSdg2Cd2ZZCiaKuk8ekD1IAlglPpsZdbGZrOcBTIxUncAY0j6UQKHno?=
- =?us-ascii?Q?ltQPrjlT8DngNm0jdeneoh5MlsyYCPppF5socmPQCG+8LvQMVhW520tePok5?=
- =?us-ascii?Q?+tFODJJAZmEt1D+cKcDHb0tswnSg1lCG8oVxUU1XLt2xlYlgQBS/oObiNuAk?=
- =?us-ascii?Q?KygN7b+EkZBg1YzAkmt0RbW3krG23AqD0p8e4ZkrAf3HTBGVWy5v7kUGFEIp?=
- =?us-ascii?Q?fzwfKZDwAX9eFy61F+yMwaiMFG11uzrvJb6A4BbF6UKxKeH/2OGAzKQ/CrI4?=
- =?us-ascii?Q?sJqDKpM4VDqeVCnXmLHq/FgNrDm65dVQeGaLjrDmDiaKfO4rW8Tax4gUH2Sm?=
- =?us-ascii?Q?O51aI1IbO2TGs47Tm/HSgwLVzsYuAIMf+D9+dKcoaGocc/BYlW2BIK/9ywdZ?=
- =?us-ascii?Q?nlR6mNZlqSwzr4vEuooxV9IDWMdLqCnnvZgDFg1OYCM9GS+8+bWiu1p0xveh?=
- =?us-ascii?Q?tAT1lGaCuB+ngaFl1xRJ6EMhGqCok7S/AGe763SJRwt8lRpY3BqPThh30x2b?=
- =?us-ascii?Q?w2Ubdz8qF5CoFH9kcXHADbbsGfE0fEvXMozVJqXQMXV4vuHCfqoXSMTCzCQJ?=
- =?us-ascii?Q?l8yBRVRsdeCX0gUgbctrgIkj1mfXSW+hZki2jwSLvkik2O9KxKdyXPYbk5ZA?=
- =?us-ascii?Q?EjWeTbxClExaolgJf94jduPV8MPla4W31Unm36roXj/+kcRcm+1boY1dXVtH?=
- =?us-ascii?Q?d6inuqQ43Y3P4bA9428WO39EP3QqPM5ZylBLzEDLpUCmmzwxjEoBwyf+HctB?=
- =?us-ascii?Q?oxIgcapT2ypuyse1+S7/1wrSpoXOOhzEZa/7E7BuHMsUKy+Kw3vAfodcqOlo?=
- =?us-ascii?Q?pc8L7vvSTmgFdM1HqrnX86uoXH/F1knQ9w9L4B1ohcocsO5MHStEKsik8C6j?=
- =?us-ascii?Q?OqCFVekWbSJeQQ8tty/E9ncrM/vO9pnSPORPaZfXcDjt7j5RpENeQ3jNQxNH?=
- =?us-ascii?Q?cCCHFNKFDv0WuBi12ihUbdGyxJGpkTn2xVV+1aD/F0GCuGfhkA5mvloxFFof?=
- =?us-ascii?Q?ndIbWuD3eJbaDCLth4Fc94dbARAtebmGP+HmTPOnJt4rFYc5peVb+y6rzI9i?=
- =?us-ascii?Q?vv2nFd3eTAAwZeTk8rwam/hE28pOkb2WJ4QQJHes53f/EzV8e8U+9uvtb/32?=
- =?us-ascii?Q?U5UebJxc2u8CH+Xj27k4n4xJkL8RbBuDdswJdrk5ccu+3Ho1w0HJwMdH+WDM?=
- =?us-ascii?Q?hD7luuIap7OiNv3X6Yf6eQ6sfJ3TErvGyA2F/q9LaWApzL4bDbyD5CfvwfoN?=
- =?us-ascii?Q?V70y/7X6yUbGpWy97Mm1NgczxuUbrWD1SxxHNMxcONyb+wc4LFd0NOtTX+bQ?=
- =?us-ascii?Q?ce9Y0zqBLU6MxEBIwPcY0SdcGr1SWyjO3mttp80UX4LDa7NEMKbIzDqkiczd?=
- =?us-ascii?Q?2zK4B9kCBzrrn0k2JLrLhBQTHioAtbfnfJ9yIxXbD7VCf4qGRz5aydT9uN+0?=
- =?us-ascii?Q?evgosYcXoA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wp8R3/I+P/r8ymHkilP0dMKkPlXCh4FUIVLwVRFLS9yzzKzLXyWSYoxa/dun?=
+ =?us-ascii?Q?xNC7OvrbOb7rEPWLjpfauQQ19A9BMv703CH04LcyGt7aehfTjf4qREKiu166?=
+ =?us-ascii?Q?lj1IWnU6zft+yZ6pKYTGBlRoqQkQhNR7kPQ3busyHAie3+LSImhvdAd57S6n?=
+ =?us-ascii?Q?TNvOUktt7iV8vs8JJUu1MtbXb025RJAuVTGfYw1X9XU4nAU2scce4zwqMMTE?=
+ =?us-ascii?Q?p9s02TOPfA0eipUt1mcbQ1uKjjhdqLo3j0hydP+p7uIiddB8CI0H1ZBXdtcD?=
+ =?us-ascii?Q?HFX2JUmR4AyRPM3qzfEYzwhwwqK2nP2Tl9YewZ/ABLvHJwnHN0gj8Rb3Y06a?=
+ =?us-ascii?Q?4ZBPhsqxmBvCYb6NI1MjtdUkyaeaf2Hd32w4asEhRhPyj8e0pAfC7EbsVDbb?=
+ =?us-ascii?Q?Cb2+guRqOaMHMxR30noz7jNRwWTq+A83FhzWcE+KTPhbRwOUpcPXvqK29adE?=
+ =?us-ascii?Q?32191C60+aebLxMlRUn19m1EDXJi4NQW899jzP0b8IBqkhGPQ+yThRPb3YIw?=
+ =?us-ascii?Q?6oi4qJHGqqzdaxZ43whv9z1+ZGEwnhBQ5U1pA8T2Yx3C/ltTDxdTYYfaboTU?=
+ =?us-ascii?Q?GqOD4xBjQoIqslf9yYSA/7xdMDk4/6r+riGNr3XDHKhfnP6WefE1AwH+ElVl?=
+ =?us-ascii?Q?cxMglIfGxUE5+cF69EA2kGT9gmua1aZtCwjxOzEbayAErLN6zLemXJY9jF3h?=
+ =?us-ascii?Q?TY8lRcseNs40LUyf3PsvWEP1hdcEqilXALIcMvpKAMMJGhS8EF7eNsqDRnSm?=
+ =?us-ascii?Q?ticeowW6yHE5PvZ3nofY4GttrDFodMCJt6ggkMbcifZ3b2Bj9Hl3xl5pwmEo?=
+ =?us-ascii?Q?s+MKsFDvBv/cJHJiT3br4aXxVfdmNNwZOlao21U8e1YfbHJttv3GmHUU/MmI?=
+ =?us-ascii?Q?rHWmmSX6mNXcYW8pobuAIaZdItdYMD9GVfnEWkLNtBT4Kejtrp24A3adykcv?=
+ =?us-ascii?Q?OqCYSniVX1jT/QpxCbVKincBIYIlRZOTC3mj6yp5gNuOXM57gUasxsmWAW7I?=
+ =?us-ascii?Q?dn7Us5VXc6PIKyERMfOkCre9s6mFIZsJNQysRcXLRbiLv+XQ5/28h+YPIKQu?=
+ =?us-ascii?Q?7/Bmk+I00ykh3tlQP0O/OJGUvAEKtw4tzZiLt9v8pd8Msyw/ZbNP9WNpLiVk?=
+ =?us-ascii?Q?3Q/hn2B7fDmyy+rOx9WRzN9NfznxLViixVwaX7tPu/dkPUP97Y9sF6Z3570d?=
+ =?us-ascii?Q?r8oulUz85crCKIOgC9ujlm5+hsHY7FfeA7eYoe53YqdAvuV3b+hbypXv0D8G?=
+ =?us-ascii?Q?uYRGxnttLCHc7z01QRgOa/3+3oXR6SaWwRqIPUQi2kcGv17b7sG2fehVhC2G?=
+ =?us-ascii?Q?4LCp4qVb9MUOPROFYwXZG+i0LHIGPO8XIMTZ5ylXv+S4vW+QtxPfbWnCkHXR?=
+ =?us-ascii?Q?yjSU4ZHJowB+o82OuayX9r0d6Avb3FbWhp5AH8P3mAIFz8D81MZpi2K+zSI6?=
+ =?us-ascii?Q?KlNOOonpV/iXee+dxygU+EAfYWkFRosFkJpxTfJ22M48McFACchfOkA4LPxE?=
+ =?us-ascii?Q?MctvJlz0s5AkIGGtpCI+qecQ/m4gow+sv3s3viiT29GNV7rQ2uDupnWyM/xl?=
+ =?us-ascii?Q?8ftEAyIUPWKKwbJPuXXci+D6h8cSjH61WFg0UbVGcOvkAg9sNCV96kWeXb+5?=
+ =?us-ascii?Q?oMCJJB2br/AUhWWTXQEbV0kJAT4gcuHN/WsJmvK5zLX41WEj3O2KPG28zjxB?=
+ =?us-ascii?Q?ZoMD1i1DTtZzdUYGsSX2OIRWUj+By1YdQjG8inNZXnyHlxVRXIXVvM67Ls+S?=
+ =?us-ascii?Q?9DXwQDkb8A=3D=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb9d441a-b737-46ab-66d6-08da17285aa2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12fb42e3-6d10-4781-7533-08da172b83d8
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 17:18:51.5100
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 17:41:29.0473
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t5+ZnXHsNhrMNNAxIA9ZzseZDGfY5oSWiF7GA/M+yhr8RKyYKnyGJPzNFtiV73hntqs7tzV1LazBPlWevHqLZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4901
+X-MS-Exchange-CrossTenant-UserPrincipalName: V1K7wbHUquIhfHAaLhaCLxnvfiHufGoLDgdiuTrjfQEy1ZYgeKIncsQ/ujAKLR5QdlY+LGY/2jgCfjjuf9K8Gg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4252
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Mar 31, 2022 at 11:38:49AM -0500, Carlos Bilbao wrote:
-> The MCE handler needs to understand the severity of the machine errors to
-> act accordingly. In the case of AMD, very few errors are covered in the
-> grading logic.
+On Tue, Apr 05, 2022 at 12:24:31PM -0500, Carlos Bilbao wrote:
+> On 4/5/2022 12:18 PM, Yazen Ghannam wrote:
+> > On Thu, Mar 31, 2022 at 11:38:49AM -0500, Carlos Bilbao wrote:
+> >> The MCE handler needs to understand the severity of the machine errors to
+> >> act accordingly. In the case of AMD, very few errors are covered in the
+> >> grading logic.
+> >>
+> >> Extend the MCEs severity grading of AMD to cover new types of machine
+> >> errors.
+> >>
+> > 
+> > This patch does not add new types of machine errors. Please update the commit
+> > message (and cover letter) to be consistent with changes made between patch
+> > revisions.
+> >  
 > 
-> Extend the MCEs severity grading of AMD to cover new types of machine
-> errors.
+> I'm thinking "cover error cases not previously considered".
 >
 
-This patch does not add new types of machine errors. Please update the commit
-message (and cover letter) to be consistent with changes made between patch
-revisions.
- 
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
-> ---
->  arch/x86/kernel/cpu/mce/severity.c | 104 ++++++++++-------------------
->  1 file changed, 37 insertions(+), 67 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
-> index 1add86935349..4d52eef21230 100644
-> --- a/arch/x86/kernel/cpu/mce/severity.c
-> +++ b/arch/x86/kernel/cpu/mce/severity.c
-> @@ -301,85 +301,55 @@ static noinstr int error_context(struct mce *m, struct pt_regs *regs)
->  	}
->  }
->  
-> -static __always_inline int mce_severity_amd_smca(struct mce *m, enum context err_ctx)
-> -{
-> -	u64 mcx_cfg;
-> -
-> -	/*
-> -	 * We need to look at the following bits:
-> -	 * - "succor" bit (data poisoning support), and
-> -	 * - TCC bit (Task Context Corrupt)
-> -	 * in MCi_STATUS to determine error severity.
-> -	 */
-> -	if (!mce_flags.succor)
-> -		return MCE_PANIC_SEVERITY;
-> -
-> -	mcx_cfg = mce_rdmsrl(MSR_AMD64_SMCA_MCx_CONFIG(m->bank));
-> -
-> -	/* TCC (Task context corrupt). If set and if IN_KERNEL, panic. */
-> -	if ((mcx_cfg & MCI_CONFIG_MCAX) &&
-> -	    (m->status & MCI_STATUS_TCC) &&
-> -	    (err_ctx == IN_KERNEL))
-> -		return MCE_PANIC_SEVERITY;
-> -
-> -	 /* ...otherwise invoke hwpoison handler. */
-> -	return MCE_AR_SEVERITY;
-> -}
-> -
->  /*
-> - * See AMD Error Scope Hierarchy table in a newer BKDG. For example
-> - * 49125_15h_Models_30h-3Fh_BKDG.pdf, section "RAS Features"
-> + * See AMD PPR(s) section 3.1 Machine Check Architecture
-
-I don't know that section numbers will be consistent between different PPR
-versions, so having the section name is a good idea. The "Machine Check Error
-Handling" section is what the severity grading function is based on.
-
->   */
->  static noinstr int mce_severity_amd(struct mce *m, struct pt_regs *regs, char **msg, bool is_excp)
->  {
-> -	enum context ctx = error_context(m, regs);
-> +	int ret;
-> +
-> +	/*
-> +	 * Default return value: Action required, the error must be handled
-> +	 * immediately.
-> +	 */
-> +	ret = MCE_AR_SEVERITY;
->  
->  	/* Processor Context Corrupt, no need to fumble too much, die! */
-> -	if (m->status & MCI_STATUS_PCC)
-> -		return MCE_PANIC_SEVERITY;
-> +	if (m->status & MCI_STATUS_PCC) {
-> +		ret = MCE_PANIC_SEVERITY;
-> +		goto amd_severity;
-> +	}
->  
-> -	if (m->status & MCI_STATUS_UC) {
-> +	/*
-> +	 * Evaluate the severity of deferred errors for AMD systems, for which only
-> +	 * scrub error is interesting to notify an action requirement. The poll
-> +	 * handler catches deferred errors and adds to mce_ring so memorty-failure
-> +	 * can take recovery actions.
-> +	 */
-
-I think this whole comment can be dropped. The "scrub error" part is not
-correct. The polling function may find deferred errors, but they are most
-likely to be see by the deferred error interrupt handler on modern AMD
-systems. The "mce_ring" was removed a long time ago (in v4.3).
-
-> +	if (m->status & MCI_STATUS_DEFERRED) {
-> +		ret = MCE_DEFERRED_SEVERITY;
-> +		goto amd_severity;
-> +	}
->  
-> -		if (ctx == IN_KERNEL)
-> -			return MCE_PANIC_SEVERITY;
-> +	/* If the UC bit is not set, the error has been corrected */
-
-This comment is not true. Deferred errors are an example of an uncorrectable
-error where UC is not set.
-
-> +	if (!(m->status & MCI_STATUS_UC)) {
-> +		ret = MCE_KEEP_SEVERITY;
-> +		goto amd_severity;
-> +	}
->  
-> -		/*
-> -		 * On older systems where overflow_recov flag is not present, we
-> -		 * should simply panic if an error overflow occurs. If
-> -		 * overflow_recov flag is present and set, then software can try
-> -		 * to at least kill process to prolong system operation.
-> -		 */
-> -		if (mce_flags.overflow_recov) {
-> -			if (mce_flags.smca)
-> -				return mce_severity_amd_smca(m, ctx);
-> -
-> -			/* kill current process */
-> -			return MCE_AR_SEVERITY;
-> -		} else {
-> -			/* at least one error was not logged */
-> -			if (m->status & MCI_STATUS_OVER)
-> -				return MCE_PANIC_SEVERITY;
-> -		}
-> -
-> -		/*
-> -		 * For any other case, return MCE_UC_SEVERITY so that we log the
-> -		 * error and exit #MC handler.
-> -		 */
-> -		return MCE_UC_SEVERITY;
-> +	if (((m->status & MCI_STATUS_OVER) && !mce_flags.overflow_recov)
-> +	     || !mce_flags.succor) {
-
-I appreciate merged two cases together that have the same result. But I feel
-keeping them separate may be easier to follow. They can also each have their
-own code comments. Or keep them together and explain each within the same
-comment block.
-
-Also, there's a checkpatch "CHECK" here. You'll see it when using the
-"--strict" flag with checkpatch.
-
-> +		ret = MCE_PANIC_SEVERITY;
-> +		goto amd_severity;
->  	}
->  
-> -	/*
-> -	 * deferred error: poll handler catches these and adds to mce_ring so
-> -	 * memory-failure can take recovery actions.
-> -	 */
-> -	if (m->status & MCI_STATUS_DEFERRED)
-> -		return MCE_DEFERRED_SEVERITY;
-> +	if (error_context(m, regs) == IN_KERNEL) {
-> +		ret = MCE_PANIC_SEVERITY;
-> +	}
-
-Braces aren't needed here. The previous comment about braces was for when
-there's a block of "if/else-if/else" statements. A single "if" statement with
-a single line doesn't need braces.
-
->  
-> -	/*
-> -	 * corrected error: poll handler catches these and passes responsibility
-> -	 * of decoding the error to EDAC
-> -	 */
-> -	return MCE_KEEP_SEVERITY;
-> +amd_severity:
-
-This label doesn't look right to me. Maybe I'm too used to seeing "out" and
-"err" labels.
-
-Please see "Documentation/process/coding-style.rst" section (7) "Centralized
-exiting of functions".
-
-Maybe something like "out_ret_severity" to indicate the code is going to exit
-and return the severity. Or maybe just use "out"? Maybe others have thoughts
-on this.
+Please elaborate. It seems that all the cases in this patch are already
+covered in the existing code. This patch seems to simplify the existing code.
 
 Thanks,
-Yazen
+Yazen 
