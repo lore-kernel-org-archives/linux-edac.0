@@ -2,43 +2,42 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C26ACC433EF
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Apr 2022 10:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D54AC433EF
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Apr 2022 10:06:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351176AbiDFKIU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 6 Apr 2022 06:08:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56192 "EHLO
+        id S1351428AbiDFKIW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 6 Apr 2022 06:08:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348736AbiDFKHC (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Apr 2022 06:07:02 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A7E2494B;
-        Tue,  5 Apr 2022 23:35:59 -0700 (PDT)
+        with ESMTP id S1343622AbiDFKHG (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Apr 2022 06:07:06 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E9FC6F3F;
+        Tue,  5 Apr 2022 23:36:09 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S0LV4utRvBL9PiVyXg0O3u5J0YMgqqpC60ceoB8F3jZcYM87pvXU10B+PHMQpzXKJH8qD2dPXIM+WtlQXN8SrBSQx+KYYjSlCnouBZz1fgsfTKasbqcI+uwG7otlbEhwVfRFgxVnX86ck+ZGDCUCIBztOfT+CXbHUpU8cIwcjCvGbnFkzzCIdE/6lnJfzB04O5NGTPX0LzJ9LSeVe/UuDMNx21QnRxH7clrKa7KiKUFgxXuqusO8fo6Nu0oP/czc+LnSDrONcQssyK3+o+y+luS9PdPKSO09v+L0PQE2I9+1L1ySy7Roeng+zaGtt8mxx+EztVetGTJdKOr5Yiybfw==
+ b=VEZE5j7+MS2yk5fYrCB6nVtVVjGk9MqnF3spTgrvct3mnIaYSY2ERWsY3n5pDw3AgaCOczWDdwhkMatnDzufFITlFk/s4xK/JkfYZ6U3+YldQltaJA85IWhdNQL8+3VY2YbWwBc256+a0U2oJlapoG88SXb0TuvaZuFmO0D+MMTjgqLO2n3en80D4Rnva2NnaqhmUqqFU5FB+Xkl7FASzkTGBMjeATk4Jj1frmrtXoL3RnYhfCXb4T3Ap7LrHmf/Zhf2kfipfXSj/zRUuF6zq0wpDNDiMSBLJkeSZUOJnPgUHXtYUjf90NiMUqQE2Npcj6JxY2TVTCFHaTcIWmljqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jb+LtWe1krJpWmlvEgjq+Z8PkUwRd5RU8PfxThJ3fYA=;
- b=QefB6E717TAYV7Lr+eA2gPVUeNp5RgoIt4OOOmVjWdu91rNxWtzahZSKva2+AtB+hb62ReJeoIzUCDXCZmcn+Y4xO9Dh8ZfDbc9CSxSwZmCm+UzrVszpvcKbNpfFx/bXyyt28pyT/ptHPM3EVZxT2QNmYqGtCjU/KVzVO+O57a7KP48X+XlrOBCxQAsdysi1dZU5curn+B2HsANs6fp3BbR5IfbNt/gaImL5Xhpy+NicjYZB4lnBuULS4Yr6UhElY5BFIfwVWwJ8cRCIgA4flAO1BK9HLJy7ugwMScgX80ryqf4IR3pdaFuS8xjPSinYSFzQdOSJYQanKs357LxaVQ==
+ bh=1VlTqkxDIxDU73UZf91V0PrK0Txhqggj600+WuSGKkc=;
+ b=cuDVU0aV+LLA89R5aIz8O4bt02p+E+blIe6gr2/O5HqIW+fWFFIjbI3D7k5SsXD5PhDoM0Z7zU264IdZR/BSo7GNcDcxVbUGAPDqOV9LJ6ohS6xMmT2G/Pk85fRv4BKrU8pp26ohLNW/HJs3rvIJ5inXO4rg5PKiinwvzDslbLecwCQbvxf93mckjB2F3wwE53nnb8ggCmpSpSKddWK2tEG0rsiflvNpR/6vf5xxq2IWGq/+60KB6wLHT7AorRjM+fhjFPP9RhuxTqNMnQ0DoaU7tFlRQ/aJjK5op7jUgDOxyw+W7Qg0PpGKoJsWH9yOMGaOf2CqtWZKSUmg3fnJvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jb+LtWe1krJpWmlvEgjq+Z8PkUwRd5RU8PfxThJ3fYA=;
- b=uJxTbYoDqG0Ed/cZ6QUo7bv3mtgs0rxJxDS/vt6y1BZ+PYIcVODiWbKWY2s/sC5Fh2xXi9tH2JrBaG7Mgi9NWCDnEwL6p0Sr+epTWfsiGn6L880WTsB66r4Cn+nvsksErOyXT101p/VhCSxcnoaJMI6sVxVgA8LMFzbNAXLaK0o=
-Received: from DS7PR03CA0352.namprd03.prod.outlook.com (2603:10b6:8:55::32) by
- BY5PR12MB4997.namprd12.prod.outlook.com (2603:10b6:a03:1d6::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
- 2022 06:35:57 +0000
-Received: from DM6NAM11FT051.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:55:cafe::e0) by DS7PR03CA0352.outlook.office365.com
- (2603:10b6:8:55::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.21 via Frontend
- Transport; Wed, 6 Apr 2022 06:35:57 +0000
+ bh=1VlTqkxDIxDU73UZf91V0PrK0Txhqggj600+WuSGKkc=;
+ b=d0iD5kLE1/IxoMA2/4F6jm4o7ZfQR2Rl8R6pJsfMMfOAOjsX14QPkOMPMnZSHcu+Wunh6XP57y876R2Ya1tk+COR9p7WzGF8X+PIiXoRw+645IGopbI9yIiGtD/ffNO4djnUM9T47+8yd9KTVNmcud3xUC1Q5sgKdWc7YvE+we4=
+Received: from DM5PR07CA0057.namprd07.prod.outlook.com (2603:10b6:4:ad::22) by
+ MW3PR12MB4345.namprd12.prod.outlook.com (2603:10b6:303:59::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5123.31; Wed, 6 Apr 2022 06:36:06 +0000
+Received: from DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:ad:cafe::8c) by DM5PR07CA0057.outlook.office365.com
+ (2603:10b6:4:ad::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31 via Frontend
+ Transport; Wed, 6 Apr 2022 06:36:06 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,13 +45,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT051.mail.protection.outlook.com (10.13.172.243) with Microsoft SMTP
+ DM6NAM11FT057.mail.protection.outlook.com (10.13.172.252) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5144.20 via Frontend Transport; Wed, 6 Apr 2022 06:35:56 +0000
+ 15.20.5144.20 via Frontend Transport; Wed, 6 Apr 2022 06:36:06 +0000
 Received: from ethanolx50f7host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
- 2022 01:35:55 -0500
+ 2022 01:36:05 -0500
 From:   Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
 To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
 CC:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
@@ -60,10 +59,12 @@ CC:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <x86@kernel.org>
-Subject: [RFC PATCH 0/5] Handle corrected machine check interrupt storms
-Date:   Wed, 6 Apr 2022 01:35:37 -0500
-Message-ID: <20220406063542.183946-1-Smita.KoralahalliChannabasappa@amd.com>
+Subject: [RFC PATCH 5/5] x86/mce: Handle AMD threshold interrupt storms
+Date:   Wed, 6 Apr 2022 01:35:42 -0500
+Message-ID: <20220406063542.183946-6-Smita.KoralahalliChannabasappa@amd.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220406063542.183946-1-Smita.KoralahalliChannabasappa@amd.com>
+References: <20220406063542.183946-1-Smita.KoralahalliChannabasappa@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.180.168.240]
@@ -71,66 +72,150 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1f0e4fe8-0caa-4973-82c9-08da1797b4e2
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4997:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB49979AABBD8466D7C6D223B790E79@BY5PR12MB4997.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 2c33f646-9fd2-4919-193d-08da1797ba70
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4345:EE_
+X-Microsoft-Antispam-PRVS: <MW3PR12MB434563C50E115ABBA64FAAA990E79@MW3PR12MB4345.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: clfM2WRtsfLIUOV4sViy4OYlXNyR8foSyhX2la7c7FLh1QbuwZnGGlvwNaNyJFiIEYjQMfRpv8UjSrZ4ENEzhy/mpAeRB9t7KwFlrktJ9fGi8OMP8Soo/QhugRwH6m8kG83N1ckHDDpMhMbG3gc2yvSOO7pI62vGRELbv237I3nwhx8ylN35HN/9N7J6zW7jmBtmN4oj6P5FPHk4/Y5SMtb+50AdPp/hU8Rdhs0XT59KHo9DjtufNriPJUd8NJtspeuLLOeDxAlXDidX8ZeQhbh8kOlr3C028vvNQ9WewINz/bjju4eWmx7hg2JyMgbnqF0NdLdNx0joLEBg41wyta3lWS9AAW30jYGrgAnKbnVCv4Bitf/FbR/NHxUBDYXcahy7mhNpD5I14DpQcCtgCaQue2jrPvQoZv18I6F8jSeY791bW3x1KIeukKAjwCqIR+XPgSQaJEkavV6q60Lv1k0j24FtBXO6PWH5tE/AEQviIi4xsqIhRl0GtubsF4bcPml626fmh8U3zWkgmzPciskHYSbfP3Zg3a2ODXqdDepG5IacZw+gAsWvqZK7sAB+b4JHuoziaHNbySjo/Jw7TfgJ1TG+KzUZmRgprUlztv3C7eIaexrVUfp6jkxhax+spAyewFbAtysRzOOEfUsAr5pl5mOFyFHS1I2UFl011AU2Gad2yueOgaJwFtPbVOZJDmQVj2ADQuiTMkRbStz9ig==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(336012)(508600001)(86362001)(426003)(8936002)(82310400005)(2616005)(5660300002)(26005)(186003)(16526019)(1076003)(6666004)(47076005)(7696005)(83380400001)(40460700003)(110136005)(36756003)(70206006)(70586007)(316002)(2906002)(8676002)(4326008)(81166007)(356005)(54906003)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: U5eqYI9TvSqvX01gPSu7Gf5LoawKuDeD6ZptWyevlh20WixwT0oVKp6MnztEJaQYdq/bP3L5A7eAaBEoKgtZ+gcZ4BpSyu6GnDxoWOnCfPL6e5JfmNJidBruiVUYLZuGgDd1Sp0DHmGiITav39vr/ffVFpPkvPrDiYFzogU5flkaWaK3ZV0x4cKrMLmIuhs5ZQzmv7PH+MNmv5sbLjWvY7ZMz5PaWFl+FJSj+v39VVIvZkeKI7jl/wsYNhZiOXRiYcHy81bFEHmf44UQq2NbOzyYmKL4RGbVfF9bRmCH7H7IU5nrgfrjsBwguQvFjxMC234dKUKepHFV+E34GvGMP84uXFkDVy3KPUL2D2TZ4Ni5u89GwbLZU1TVSI5cQYZc1uNdNrU8821/L/6z7GqNBTw9QhaHhMY4ZINAQ0dPxZqikwIeHtJWx6vuRCAej2Vh8rZTXFET5aL+GXEH2UqKaBSpFakISbT94lsOy7NYV4iyX3ELAVyGoER/Ygt7v1c6uYcYTCrGV7nXdFcKmpqkGgVFVqIQQVfOQTk8UlEP0IqbotlVC3BRh8tbka+cw6M8ixZQAvgu28VEd7KUWmz9s4NtTMg0nRFsP1gqydvpBY5IWALiDVSK0RjlV7ggKN5+DSzv6KeF0c+/5fRVRdML/2SyVv4D960Kfo2xJrN9nGlvn9xEp3E5SLLBlBS4WDjbU84bGFYv+v4g8zjpP6ovqHCVfunUf7AIgpEGvDPzhZo=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(6666004)(2616005)(83380400001)(7696005)(81166007)(40460700003)(47076005)(86362001)(186003)(26005)(54906003)(70206006)(336012)(82310400005)(316002)(16526019)(8676002)(36756003)(2906002)(110136005)(4326008)(70586007)(1076003)(426003)(356005)(508600001)(5660300002)(36860700001)(8936002)(36900700001)(309714004);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 06:35:56.7496
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 06:36:06.0818
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f0e4fe8-0caa-4973-82c9-08da1797b4e2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c33f646-9fd2-4919-193d-08da1797ba70
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT051.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT057.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4997
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4345
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Extend the logic of handling Intel's corrected machine check interrupt
-storms to AMD's threshold interrupts.
+Extend the logic of handling CMCI storms to AMD threshold interrupts.
 
-First two patches are from Tony which cleans up the existing storm
-handling for Intel and proposes per CPU per bank storm handling.
+Rely on the similar approach as of Intel's CMCI to mitigate storms per
+CPU and per bank. But, unlike CMCI, do not set thresholds and reduce
+interrupt rate on a storm. Rather, disable the interrupt on the
+corresponding CPU and bank. Re-enable back the interrupts if enough
+consecutive polls of the bank show no corrected errors (30, as
+programmed by Intel).
 
-Third and fourth patches do some cleanup and refactoring on the CMCI
-storm handling in order to extend similar workaround for AMD's threshold
-interrupt storms. These two patches could be merged into Tony's second
-patch of CMCI storm mitigation.
+Turning off the threshold interrupts would be a better solution on AMD
+systems as other error severities will still be handled even if the
+threshold interrupts are disabled.
 
-AMD's storm mitigation for threshold interrupts also relies on per CPU
-per bank approach similar to Intel. But unlike CMCI storm handling it does
-not set thresholds to reduce rate of interrupts on a storm. Rather it
-turns off the interrupt on the current CPU and bank if there is a storm
-and re-enables back the interrupts when the storm subsides.
+Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+---
+ arch/x86/kernel/cpu/mce/amd.c      | 49 ++++++++++++++++++++++++++++++
+ arch/x86/kernel/cpu/mce/core.c     |  1 +
+ arch/x86/kernel/cpu/mce/internal.h |  4 +++
+ 3 files changed, 54 insertions(+)
 
-It is okay to turn off threshold interrupts on AMD systems as other error
-severities continue to be handled even if the threshold interrupts are
-turned off. Uncorrected errors will generate a #MC and deferred errors
-have a unique separate deferred error interrupt. The final patch adds
-support for handling threshold interrupt storms on AMD systems.
-
-Smita Koralahalli (3):
-  x86/mce: Introduce a function pointer mce_handle_storm
-  x86/mce: Move storm handling to core.
-  x86/mce: Handle AMD threshold interrupt storms
-
-Tony Luck (2):
-  x86/mce: Remove old CMCI storm mitigation code
-  x86/mce: Add per-bank CMCI storm mitigation
-
- arch/x86/kernel/cpu/mce/amd.c      |  49 ++++++++
- arch/x86/kernel/cpu/mce/core.c     | 129 +++++++++++++++++----
- arch/x86/kernel/cpu/mce/intel.c    | 179 +++++++----------------------
- arch/x86/kernel/cpu/mce/internal.h |  42 +++++--
- 4 files changed, 231 insertions(+), 168 deletions(-)
-
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 1940d305db1c..941b09f4dac5 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -466,6 +466,47 @@ static void threshold_restart_bank(void *_tr)
+ 	wrmsr(tr->b->address, lo, hi);
+ }
+ 
++static void _reset_block(struct threshold_block *block)
++{
++	struct thresh_restart tr;
++
++	memset(&tr, 0, sizeof(tr));
++	tr.b = block;
++	threshold_restart_bank(&tr);
++}
++
++static void toggle_interrupt_reset_block(struct threshold_block *block, bool on)
++{
++	if (!block)
++		return;
++
++	block->interrupt_enable = !!on;
++	_reset_block(block);
++}
++
++void mce_amd_handle_storm(int bank, bool on)
++{
++	struct threshold_block *first_block = NULL, *block = NULL, *tmp = NULL;
++	struct threshold_bank **bp = this_cpu_read(threshold_banks);
++	unsigned long flags;
++
++	if (!bp)
++		return;
++
++	local_irq_save(flags);
++
++	first_block = bp[bank]->blocks;
++	if (!first_block)
++		goto end;
++
++	toggle_interrupt_reset_block(first_block, on);
++
++	list_for_each_entry_safe(block, tmp, &first_block->miscj, miscj)
++		toggle_interrupt_reset_block(block, on);
++end:
++	local_irq_restore(flags);
++}
++
+ static void mce_threshold_block_init(struct threshold_block *b, int offset)
+ {
+ 	struct thresh_restart tr = {
+@@ -867,6 +908,7 @@ static void amd_threshold_interrupt(void)
+ 	struct threshold_block *first_block = NULL, *block = NULL, *tmp = NULL;
+ 	struct threshold_bank **bp = this_cpu_read(threshold_banks);
+ 	unsigned int bank, cpu = smp_processor_id();
++	u64 status;
+ 
+ 	/*
+ 	 * Validate that the threshold bank has been initialized already. The
+@@ -880,6 +922,13 @@ static void amd_threshold_interrupt(void)
+ 		if (!(per_cpu(bank_map, cpu) & (1 << bank)))
+ 			continue;
+ 
++		rdmsrl(mca_msr_reg(bank, MCA_STATUS), status);
++		track_cmci_storm(bank, status);
++
++		/* Return early on an interrupt storm */
++		if (this_cpu_read(bank_storm[bank]))
++			return;
++
+ 		first_block = bp[bank]->blocks;
+ 		if (!first_block)
+ 			continue;
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 6caee488bf7d..c510dd17f2c5 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -2078,6 +2078,7 @@ static void __mcheck_cpu_init_vendor(struct cpuinfo_x86 *c)
+ 
+ 	case X86_VENDOR_AMD: {
+ 		mce_amd_feature_init(c);
++		mce_handle_storm = mce_amd_handle_storm;
+ 		break;
+ 		}
+ 
+diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
+index 49907cadf9ad..b9e8c8155c66 100644
+--- a/arch/x86/kernel/cpu/mce/internal.h
++++ b/arch/x86/kernel/cpu/mce/internal.h
+@@ -213,7 +213,11 @@ extern bool filter_mce(struct mce *m);
+ 
+ #ifdef CONFIG_X86_MCE_AMD
+ extern bool amd_filter_mce(struct mce *m);
++void track_cmci_storm(int bank, u64 status);
++void mce_amd_handle_storm(int bank, bool on);
+ #else
++static inline void track_cmci_storm(int bank, u64 status) { }
++# define mce_amd_handle_storm mce_handle_storm_default
+ static inline bool amd_filter_mce(struct mce *m) { return false; }
+ #endif
+ 
 -- 
 2.17.1
 
