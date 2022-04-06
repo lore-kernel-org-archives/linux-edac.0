@@ -2,372 +2,347 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1C9C433F5
-	for <linux-edac@archiver.kernel.org>; Wed,  6 Apr 2022 10:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A1CC4167D
+	for <linux-edac@archiver.kernel.org>; Wed,  6 Apr 2022 17:56:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348909AbiDFKI0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 6 Apr 2022 06:08:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52832 "EHLO
+        id S239601AbiDFR6B (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 6 Apr 2022 13:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245525AbiDFKHG (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Apr 2022 06:07:06 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2082.outbound.protection.outlook.com [40.107.94.82])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 618B7C6F3E;
-        Tue,  5 Apr 2022 23:36:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nj4MnzuK1ljBBEh76na5ZcUPQBxSemoMyDgarheZnw7dzZR2VrFSb8ec7xPKNkgF0CUfJ/OSKlzgKCDTwoPFWpQy+nBukoM+6QcFtfeohxCAH+1SL4imlPunn0pJgp3ClQ0idOwLuA4DE3cC6JPGC2a33Ci4soFaT4F7zdUPhgBXwq0cpN1yn4N5XDQEsYbeBy1B1dzoGwIuDNh6VT9dWAQsT0F3/wJ1lwapzKRbwVc+uUYYKO0wjRWyB7f2jcN2AOTsPol6/Z0phtpM4hD7FvWqbW7c4YQJnu8rYALIKU46g4ccuYD9Rw7bohPt1EJTLSUv88rwSWZr/cEhAmxZAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C+8GKPehvHpdlqm1HL5LfuFgl9gX+YhcAcsVIMeyzI8=;
- b=BPzp4h+DQJw+8636PCb3gtAKBGIvhM6uvo6E7UBvFSZgI1ZTZCCSh6PcZNfjvu7jCWzWZN9yNRg8lyKNALyl9WLlP7zdxhxNoMm7lb8smHVVvdLqKcV3/rcoS7PohvMHtNwoZscVJ5kQ//PQIE4f2RGDHk425RMIo+KD49TL9pKWvBWH1pNgdcwIvXxYKCgaB8r22nB6NnUONhzAihelaXjRB5gmxewsIiONsQJPO7t2xO3JC1UgQamkJgSSxe0cPvMiPKoUby9CK63Ok1jvDa9QIasMnla5AyGoudgbzKZdxYpJHor9d6ZmQfyvlRz+SJSMNdrlQ3ay4LBibecc3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C+8GKPehvHpdlqm1HL5LfuFgl9gX+YhcAcsVIMeyzI8=;
- b=Y8Gsb2o++Sm6AvBd3cXBzQzDq9YnEdWmQl5x7cKd/DbIFuq4bHymlQF9ZzncIOn50UIARahXqo88mWer8+BJ9mdRwADrU1BDzTL6jP7N36Ub8ma4GITp+sTmYbR0wlVLiRGCYhfz0yLIUsALzJ9OJBODD8Vfoc0m5euX6qn8FzE=
-Received: from DM6PR03CA0020.namprd03.prod.outlook.com (2603:10b6:5:40::33) by
- DM5PR12MB2439.namprd12.prod.outlook.com (2603:10b6:4:b4::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5123.31; Wed, 6 Apr 2022 06:36:04 +0000
-Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:40:cafe::dc) by DM6PR03CA0020.outlook.office365.com
- (2603:10b6:5:40::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31 via Frontend
- Transport; Wed, 6 Apr 2022 06:36:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5144.20 via Frontend Transport; Wed, 6 Apr 2022 06:36:03 +0000
-Received: from ethanolx50f7host.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
- 2022 01:36:02 -0500
-From:   Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
-CC:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-        <hpa@zytor.com>, Yazen Ghannam <yazen.ghannam@amd.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <x86@kernel.org>
-Subject: [RFC PATCH 4/5] x86/mce: Move storm handling to core.
-Date:   Wed, 6 Apr 2022 01:35:41 -0500
-Message-ID: <20220406063542.183946-5-Smita.KoralahalliChannabasappa@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220406063542.183946-1-Smita.KoralahalliChannabasappa@amd.com>
-References: <20220406063542.183946-1-Smita.KoralahalliChannabasappa@amd.com>
+        with ESMTP id S239942AbiDFR5m (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 6 Apr 2022 13:57:42 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA3DA1578F8;
+        Wed,  6 Apr 2022 09:08:18 -0700 (PDT)
+Received: from zn.tnic (p2e55dff8.dip0.t-ipconnect.de [46.85.223.248])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E86941EC0531;
+        Wed,  6 Apr 2022 18:08:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1649261293;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=LaD6kLx2lHmaoJGZnze6BBGNKdyNqLYnWL7U7Z2JqwU=;
+        b=rBJn66aefcq4wxaoMV8nYj8XwS/L+1kwr4ULrnEWk0Eg3vhCa4j2q9kyiEVbVmSGYuH5np
+        2UwoLiIwH1R8aXC6em5E9vgPpY7xJhTtdVIKC1r3WvLkuIeiYUd3UY5OVWwSOK9E7YaphK
+        YuQHn4GLYxz8AZ3N/jI5VSYeNAL+hoo=
+Date:   Wed, 6 Apr 2022 18:08:12 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Cc:     x86@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: Re: [PATCH v4 1/2] x86/mce: Check for writes ignored in MCA_STATUS
+ register
+Message-ID: <Yk267A1MKOo2AlXQ@zn.tnic>
+References: <20220214233640.70510-1-Smita.KoralahalliChannabasappa@amd.com>
+ <20220214233640.70510-2-Smita.KoralahalliChannabasappa@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cbf7c2ab-29c7-4f4a-5696-08da1797b916
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2439:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB24397D07FDFAF3716CFE701690E79@DM5PR12MB2439.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DjIaiaMjiizQ6/Jq09e0S8xaoBJAXffrOKRMyNSi8yjYqsNqYfbj6ESsWNM7NMq0R5PCQrXFNjFlPBMGJTTxC0iA0E0Rqe9hJpfSC7zQh5B2EVfo7kHMV3eJJCGwi3qorzN1EUEMx8UxMp464fGENJWwIivX1vSvx5itjmf/DEKYUg39ofGVY+BMYyfc4aUIbJFkw/ESRvazdcnFtq29UFTMkq88menRFa8vbZTOMGDZJ/8+3jWZHdhS8uT8DVB5FoQp4PQwvNHmZL6gDU/S5tnzbBZ1zsyBLCoLqt4MAbbIhCosaEIBAFec4wD401J8YtvfLh/CtQOj9QwoPu44N6dXhtu+QjCcYPZmx8v2TpWo69FWEGGATgFGb7x/9CcSjrWjA2rOsatNpXIv+dHKxPtVNfaGw8hCAnR8FLWfTepnXW/EO/utFz9yC2E/2WIpobDdr0SgaIBIgzzoh7X+9RQp58Tzrf6xHnQVUJk210OcCzj6SKYOQQ8zZzdnaXmHhueJEpGvoXE8W/h0DyCqr68ULtDK1bmm1+1oqlx6iraUwMiLU0XgelWjEQhY0Tp/0r7jiygoQ+BN4Pc6d2gvdiOPfGLbBXN74SZOM5VPvuWq/Xl6DQUcnTv+z2mGWNU7h11BKBxyZOZ4ww1y2z6U6HumD+AWJGJCj2lhsLpvjbuzxwYmKn492AJDLV0FQZ5oz77lsUjESVLXzzMR14TONw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(5660300002)(6666004)(70586007)(70206006)(36756003)(83380400001)(7696005)(86362001)(82310400005)(26005)(336012)(4326008)(186003)(1076003)(2616005)(8676002)(508600001)(426003)(8936002)(40460700003)(16526019)(110136005)(54906003)(2906002)(36860700001)(316002)(356005)(47076005)(81166007)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 06:36:03.8002
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbf7c2ab-29c7-4f4a-5696-08da1797b916
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2439
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220214233640.70510-2-Smita.KoralahalliChannabasappa@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-AMD's storm handling for threshold interrupts is similar to Intel's CMCI
-storm handling. Hence, make the storm handling code common by moving to
-core and removing the vendor exclusivity.
+On Mon, Feb 14, 2022 at 05:36:39PM -0600, Smita Koralahalli wrote:
+> diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
+> index 5fbd7ffb3233..43ba63b7dc73 100644
+> --- a/arch/x86/kernel/cpu/mce/inject.c
+> +++ b/arch/x86/kernel/cpu/mce/inject.c
+> @@ -470,11 +470,36 @@ static void toggle_nb_mca_mst_cpu(u16 nid)
+>  		       __func__, PCI_FUNC(F3->devfn), NBCFG);
+>  }
+>  
+> +struct mce_err_handler {
+> +	struct mce *mce;
+> +	int err;
+> +};
 
-On the contrary, setting different thresholds to reduce rate of interrupts
-in IA32_MCi_CTL2 register is kept Intel intact as the storm handling for
-AMD slightly differs where in it handles the storms by turning off the
-interrupts.
+Well, we already have a struct mce i_mce which serves as a sort-of
+global container for injection data which gets dumped into the hardware
+upon injection time.
 
-No functional changes.
+Now you're adding another struct which contains additional info and are
+adding a pointer to that i_mce.
 
-Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+But this is not a clean design - when you do stuff like that you need to
+unify all those global-info-containing structs and make the code dealing
+with them straight-forward . I.e., if you don't look at the big picture
+of a design, it soon grows into an unwieldy mess which some poor sod
+would need to clean up afterwards and that poor sod is in most cases the
+maintainer.
+
+So I went and did that ontop of your patch, this is one possible way to
+do it but it.
+
+Here it is, a combined diff ontop of tip:ras/core. Please split it into
+patches: first patch converts to the new descriptor and then a second
+one adds the MCA_STATUS checking bits.
+
+There are a couple of other changes in there, if they're not clear, feel
+free to ask.
+
+Thx.
+
 ---
-This is another patch which can be merged into Tony's per CPU per bank
-CMCI storm mitigation.
----
- arch/x86/kernel/cpu/mce/core.c     |  81 +++++++++++++++++++++++
- arch/x86/kernel/cpu/mce/intel.c    | 100 +----------------------------
- arch/x86/kernel/cpu/mce/internal.h |  25 ++++++++
- 3 files changed, 107 insertions(+), 99 deletions(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index db6d60825e77..6caee488bf7d 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -611,6 +611,87 @@ static struct notifier_block mce_default_nb = {
- 	.priority	= MCE_PRIO_LOWEST,
- };
+diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
+index 43ba63b7dc73..0fd1eea2f754 100644
+--- a/arch/x86/kernel/cpu/mce/inject.c
++++ b/arch/x86/kernel/cpu/mce/inject.c
+@@ -33,10 +33,14 @@
  
-+/*
-+ * CMCI storm tracking state
-+ *	stormy_bank_count: per-cpu count of MC banks in storm state
-+ *	bank_history: bitmask tracking of corrected errors seen in each bank
-+ *	bank_time_stamp: last time (in jiffies) that each bank was polled
-+ */
-+DEFINE_PER_CPU(int, stormy_bank_count);
-+DEFINE_PER_CPU(u64 [MAX_NR_BANKS], bank_history);
-+DEFINE_PER_CPU(bool [MAX_NR_BANKS], bank_storm);
-+DEFINE_PER_CPU(unsigned long [MAX_NR_BANKS], bank_time_stamp);
-+
-+void cmci_storm_begin(int bank)
-+{
-+	__set_bit(bank, this_cpu_ptr(mce_poll_banks));
-+	this_cpu_write(bank_storm[bank], true);
-+
-+	/*
-+	 * If this is the first bank on this CPU to enter storm mode
-+	 * start polling
-+	 */
-+	if (this_cpu_inc_return(stormy_bank_count) == 1)
-+		mce_timer_kick(true);
-+}
-+
-+void cmci_storm_end(int bank)
-+{
-+	__clear_bit(bank, this_cpu_ptr(mce_poll_banks));
-+	this_cpu_write(bank_history[bank], 0ull);
-+	this_cpu_write(bank_storm[bank], false);
-+
-+	/* If no banks left in storm mode, stop polling */
-+	if (!this_cpu_dec_return(stormy_bank_count))
-+		mce_timer_kick(false);
-+}
-+
-+void track_cmci_storm(int bank, u64 status)
-+{
-+	unsigned long now = jiffies, delta;
-+	unsigned int shift = 1;
-+	u64 history;
-+
-+	/*
-+	 * When a bank is in storm mode, the history mask covers about
-+	 * one second of elapsed time. Check how long it has been since
-+	 * this bank was last polled, and compute a shift value to update
-+	 * the history bitmask.  When not in storm mode, each consecutive
-+	 * poll of the bank is logged in the next history bit, so shift
-+	 * is kept at "1".
-+	 */
-+	if (this_cpu_read(bank_storm[bank])) {
-+		delta = now - this_cpu_read(bank_time_stamp[bank]);
-+		shift = (delta + HZBITS) / HZBITS;
-+	}
-+
-+	/* If has been a long time since the last poll, clear history */
-+	if (shift >= 64)
-+		history = 0;
-+	else
-+		history = this_cpu_read(bank_history[bank]) << shift;
-+	this_cpu_write(bank_time_stamp[bank], now);
-+
-+	/* History keeps track of corrected errors. VAL=1 && UC=0 */
-+	if ((status & (MCI_STATUS_VAL | MCI_STATUS_UC)) == MCI_STATUS_VAL)
-+		history |= 1;
-+	this_cpu_write(bank_history[bank], history);
-+
-+	if (this_cpu_read(bank_storm[bank])) {
-+		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD - 1, 0))
-+			return;
-+		pr_notice("CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), bank);
-+		mce_handle_storm(bank, true);
-+		cmci_storm_end(bank);
-+	} else {
-+		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
-+			return;
-+		pr_notice("CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), bank);
-+		mce_handle_storm(bank, false);
-+		cmci_storm_begin(bank);
-+	}
-+}
-+
- /*
-  * Read ADDR and MISC registers.
-  */
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index 7edc31742fe0..6cc9aa97c092 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -47,17 +47,7 @@ static DEFINE_PER_CPU(mce_banks_t, mce_banks_owned);
-  */
- static DEFINE_RAW_SPINLOCK(cmci_discover_lock);
+ #include "internal.h"
  
 -/*
-- * CMCI storm tracking state
-- *	stormy_bank_count: per-cpu count of MC banks in storm state
-- *	bank_history: bitmask tracking of corrected errors seen in each bank
-- *	bank_time_stamp: last time (in jiffies) that each bank was polled
-- *	cmci_threshold: MCi_CTL2 threshold for each bank when there is no storm
+- * Collect all the MCi_XXX settings
 - */
--static DEFINE_PER_CPU(int, stormy_bank_count);
--static DEFINE_PER_CPU(u64 [MAX_NR_BANKS], bank_history);
--static DEFINE_PER_CPU(bool [MAX_NR_BANKS], bank_storm);
--static DEFINE_PER_CPU(unsigned long [MAX_NR_BANKS], bank_time_stamp);
-+/* MCi_CTL2 threshold for each bank when there is no storm */
- static int cmci_threshold[MAX_NR_BANKS];
+-static struct mce i_mce;
++static bool hw_injection_possible = true;
++
++/* Collect all the MCi_XXX settings */
++static struct inject_desc {
++	struct mce m;
++	int err;
++} inj_desc;
++
+ static struct dentry *dfs_inj;
  
- /* Linux non-storm CMCI threshold (may be overridden by BIOS */
-@@ -70,24 +60,6 @@ static int cmci_threshold[MAX_NR_BANKS];
-  */
- #define CMCI_STORM_THRESHOLD	32749
+ #define MAX_FLAG_OPT_SIZE	4
+@@ -110,9 +114,11 @@ static int inj_ipid_set(void *data, u64 val)
  
--/*
-- * How many errors within the history buffer mark the start of a storm
-- */
--#define STORM_BEGIN_THRESHOLD	5
--
--/*
-- * How many polls of machine check bank without an error before declaring
-- * the storm is over
-- */
--#define STORM_END_POLL_THRESHOLD	30
--
--/*
-- * When there is no storm each "bit" in the history represents
-- * this many jiffies. When there is a storm every poll() takes
-- * one history bit.
-- */
--#define HZBITS (HZ / 64)
--
- static int cmci_supported(int *banks)
+ DEFINE_SIMPLE_ATTRIBUTE(ipid_fops, inj_ipid_get, inj_ipid_set, "%llx\n");
+ 
+-static void setup_inj_struct(struct mce *m)
++static void setup_inj_struct(void)
  {
- 	u64 cap;
-@@ -167,76 +139,6 @@ void mce_intel_handle_storm(int bank, bool on)
- 		cmci_set_threshold(bank, CMCI_STORM_THRESHOLD);
+-	memset(m, 0, sizeof(struct mce));
++	struct mce *m = &inj_desc.m;
++
++	memset(&inj_desc, 0, sizeof(struct inject_desc));
+ 
+ 	m->cpuvendor = boot_cpu_data.x86_vendor;
+ 	m->time	     = ktime_get_real_seconds();
+@@ -470,84 +476,78 @@ static void toggle_nb_mca_mst_cpu(u16 nid)
+ 		       __func__, PCI_FUNC(F3->devfn), NBCFG);
  }
  
--static void cmci_storm_begin(int bank)
--{
--	__set_bit(bank, this_cpu_ptr(mce_poll_banks));
--	this_cpu_write(bank_storm[bank], true);
+-struct mce_err_handler {
+-	struct mce *mce;
+-	int err;
+-};
 -
--	/*
--	 * If this is the first bank on this CPU to enter storm mode
--	 * start polling
--	 */
--	if (this_cpu_inc_return(stormy_bank_count) == 1)
--		mce_timer_kick(true);
--}
+-static struct mce_err_handler mce_err;
 -
--static void cmci_storm_end(int bank)
--{
--	__clear_bit(bank, this_cpu_ptr(mce_poll_banks));
--	this_cpu_write(bank_history[bank], 0ull);
--	this_cpu_write(bank_storm[bank], false);
+-static bool prepare_mca_status(struct mce *m)
++static bool prepare_mca_status(void)
+ {
+-	u32 status_reg = mca_msr_reg(m->bank, MCA_STATUS);
+-	u64 status_val = m->status;
++	u32 status_reg = mca_msr_reg(inj_desc.m.bank, MCA_STATUS);
++	u64 status_val = inj_desc.m.status;
+ 
+ 	wrmsrl(status_reg, status_val);
+ 	rdmsrl(status_reg, status_val);
+ 
+-	return status_val;
++	return status_val == inj_desc.m.status;
+ }
+ 
+-static void prepare_msrs(void *info)
++static void prepare_msrs(void *unused)
+ {
+-	struct mce_err_handler *i_mce_err = ((struct mce_err_handler *)info);
+-	struct mce m = *i_mce_err->mce;
+-	u8 b = m.bank;
++	struct mce *m = &inj_desc.m;
++	u8 b = inj_desc.m.bank;
+ 
+-	if (!prepare_mca_status(&m)) {
++	if (!prepare_mca_status()) {
+ 		pr_err("Platform does not allow error injection, try using APEI EINJ instead.\n");
+-		i_mce_err->err = -EINVAL;
++		inj_desc.err = -EINVAL;
++		hw_injection_possible = false;
+ 		return;
+ 	}
+ 
+-	wrmsrl(MSR_IA32_MCG_STATUS, m.mcgstatus);
++	wrmsrl(MSR_IA32_MCG_STATUS, m->mcgstatus);
+ 
+ 	if (boot_cpu_has(X86_FEATURE_SMCA)) {
+-		if (m.inject_flags == DFR_INT_INJ) {
+-			wrmsrl(MSR_AMD64_SMCA_MCx_DESTAT(b), m.status);
+-			wrmsrl(MSR_AMD64_SMCA_MCx_DEADDR(b), m.addr);
++		if (m->inject_flags == DFR_INT_INJ) {
++			wrmsrl(MSR_AMD64_SMCA_MCx_DESTAT(b), m->status);
++			wrmsrl(MSR_AMD64_SMCA_MCx_DEADDR(b), m->addr);
+ 		} else {
+-			wrmsrl(MSR_AMD64_SMCA_MCx_STATUS(b), m.status);
+-			wrmsrl(MSR_AMD64_SMCA_MCx_ADDR(b), m.addr);
++			wrmsrl(MSR_AMD64_SMCA_MCx_STATUS(b), m->status);
++			wrmsrl(MSR_AMD64_SMCA_MCx_ADDR(b), m->addr);
+ 		}
+ 
+-		wrmsrl(MSR_AMD64_SMCA_MCx_MISC(b), m.misc);
+-		wrmsrl(MSR_AMD64_SMCA_MCx_SYND(b), m.synd);
++		wrmsrl(MSR_AMD64_SMCA_MCx_MISC(b), m->misc);
++		wrmsrl(MSR_AMD64_SMCA_MCx_SYND(b), m->synd);
+ 	} else {
+-		wrmsrl(MSR_IA32_MCx_STATUS(b), m.status);
+-		wrmsrl(MSR_IA32_MCx_ADDR(b), m.addr);
+-		wrmsrl(MSR_IA32_MCx_MISC(b), m.misc);
++		wrmsrl(MSR_IA32_MCx_STATUS(b), m->status);
++		wrmsrl(MSR_IA32_MCx_ADDR(b), m->addr);
++		wrmsrl(MSR_IA32_MCx_MISC(b), m->misc);
+ 	}
+ }
+ 
+-static void do_inject(void)
++static int do_inject(void)
+ {
++	struct mce *m = &inj_desc.m;
++	unsigned int cpu = m->extcpu;
+ 	u64 mcg_status = 0;
+-	unsigned int cpu = i_mce.extcpu;
+-	u8 b = i_mce.bank;
++	u8 b = m->bank;
+ 
+-	mce_err.mce = &i_mce;
+-	mce_err.err = 0;
++	m->tsc = rdtsc_ordered();
+ 
+-	i_mce.tsc = rdtsc_ordered();
++	m->status |= MCI_STATUS_VAL;
+ 
+-	i_mce.status |= MCI_STATUS_VAL;
++	if (m->misc)
++		m->status |= MCI_STATUS_MISCV;
+ 
+-	if (i_mce.misc)
+-		i_mce.status |= MCI_STATUS_MISCV;
 -
--	/* If no banks left in storm mode, stop polling */
--	if (!this_cpu_dec_return(stormy_bank_count))
--		mce_timer_kick(false);
--}
--
--void track_cmci_storm(int bank, u64 status)
--{
--	unsigned long now = jiffies, delta;
--	unsigned int shift = 1;
--	u64 history;
--
--	/*
--	 * When a bank is in storm mode, the history mask covers about
--	 * one second of elapsed time. Check how long it has been since
--	 * this bank was last polled, and compute a shift value to update
--	 * the history bitmask.  When not in storm mode, each consecutive
--	 * poll of the bank is logged in the next history bit, so shift
--	 * is kept at "1".
--	 */
--	if (this_cpu_read(bank_storm[bank])) {
--		delta = now - this_cpu_read(bank_time_stamp[bank]);
--		shift = (delta + HZBITS) / HZBITS;
--	}
--
--	/* If has been a long time since the last poll, clear history */
--	if (shift >= 64)
--		history = 0;
--	else
--		history = this_cpu_read(bank_history[bank]) << shift;
--	this_cpu_write(bank_time_stamp[bank], now);
--
--	/* History keeps track of corrected errors. VAL=1 && UC=0 */
--	if ((status & (MCI_STATUS_VAL | MCI_STATUS_UC)) == MCI_STATUS_VAL)
--		history |= 1;
--	this_cpu_write(bank_history[bank], history);
--
--	if (this_cpu_read(bank_storm[bank])) {
--		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD - 1, 0))
--			return;
--		pr_notice("CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), bank);
--		mce_handle_storm(bank, true);
--		cmci_storm_end(bank);
--	} else {
--		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
--			return;
--		pr_notice("CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), bank);
--		mce_handle_storm(bank, false);
--		cmci_storm_begin(bank);
--	}
--}
--
+-	if (i_mce.synd)
+-		i_mce.status |= MCI_STATUS_SYNDV;
++	if (m->synd)
++		m->status |= MCI_STATUS_SYNDV;
+ 
+ 	if (inj_type == SW_INJ) {
+-		mce_log(&i_mce);
+-		return;
++		mce_log(m);
++		return 0;
+ 	}
+ 
++	if (!hw_injection_possible)
++		return -EINVAL;
++
+ 	/* prep MCE global settings for the injection */
+ 	mcg_status = MCG_STATUS_MCIP | MCG_STATUS_EIPV;
+ 
+-	if (!(i_mce.status & MCI_STATUS_PCC))
++	if (!(m->status & MCI_STATUS_PCC))
+ 		mcg_status |= MCG_STATUS_RIPV;
+ 
+ 	/*
+@@ -556,8 +556,8 @@ static void do_inject(void)
+ 	 * - MCx_STATUS[UC] cleared: deferred errors are _not_ UC
+ 	 */
+ 	if (inj_type == DFR_INT_INJ) {
+-		i_mce.status |= MCI_STATUS_DEFERRED;
+-		i_mce.status &= ~MCI_STATUS_UC;
++		m->status |= MCI_STATUS_DEFERRED;
++		m->status &= ~MCI_STATUS_UC;
+ 	}
+ 
+ 	/*
+@@ -578,13 +578,13 @@ static void do_inject(void)
+ 
+ 	toggle_hw_mce_inject(cpu, true);
+ 
+-	i_mce.mcgstatus = mcg_status;
+-	i_mce.inject_flags = inj_type;
+-	smp_call_function_single(cpu, prepare_msrs, &mce_err, 0);
++	m->mcgstatus = mcg_status;
++	m->inject_flags = inj_type;
++	smp_call_function_single(cpu, prepare_msrs, NULL, 0);
+ 
+ 	toggle_hw_mce_inject(cpu, false);
+ 
+-	if (mce_err.err)
++	if (inj_desc.err)
+ 		goto err;
+ 
+ 	switch (inj_type) {
+@@ -601,6 +601,7 @@ static void do_inject(void)
+ err:
+ 	cpus_read_unlock();
+ 
++	return inj_desc.err;
+ }
+ 
  /*
-  * The interrupt handler. This is called on every event.
-  * Just call the poller directly to log any events.
+@@ -611,6 +612,7 @@ static int inj_bank_set(void *data, u64 val)
+ {
+ 	struct mce *m = (struct mce *)data;
+ 	u8 n_banks;
++	int err;
+ 	u64 cap;
+ 
+ 	/* Get bank count on target CPU so we can handle non-uniform values. */
+@@ -650,12 +652,12 @@ static int inj_bank_set(void *data, u64 val)
+ 	}
+ 
+ inject:
+-	do_inject();
++	err = do_inject();
+ 
+ 	/* Reset injection struct */
+-	setup_inj_struct(&i_mce);
++	setup_inj_struct();
+ 
+-	return mce_err.err;
++	return err;
+ }
+ 
+ MCE_INJECT_GET(bank);
+@@ -745,7 +747,7 @@ static void __init debugfs_init(void)
+ 
+ 	for (i = 0; i < ARRAY_SIZE(dfs_fls); i++)
+ 		debugfs_create_file(dfs_fls[i].name, dfs_fls[i].perm, dfs_inj,
+-				    &i_mce, dfs_fls[i].fops);
++				    &inj_desc.m, dfs_fls[i].fops);
+ }
+ 
+ static int __init inject_init(void)
+@@ -758,7 +760,7 @@ static int __init inject_init(void)
+ 	register_nmi_handler(NMI_LOCAL, mce_raise_notify, 0, "mce_notify");
+ 	mce_register_injector_chain(&inject_nb);
+ 
+-	setup_inj_struct(&i_mce);
++	setup_inj_struct();
+ 
+ 	pr_info("Machine check injector initialized\n");
+ 
 diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index c95802db9535..49907cadf9ad 100644
+index 4ae0e603f7fa..7e03f5b7f6bd 100644
 --- a/arch/x86/kernel/cpu/mce/internal.h
 +++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -60,6 +60,31 @@ static inline bool intel_filter_mce(struct mce *m) { return false; }
+@@ -211,7 +211,7 @@ noinstr u64 mce_rdmsrl(u32 msr);
  
- void mce_timer_kick(bool storm);
- extern void (*mce_handle_storm)(int bank, bool on);
-+void cmci_storm_begin(int bank);
-+void cmci_storm_end(int bank);
-+
-+DECLARE_PER_CPU(int, stormy_bank_count);
-+DECLARE_PER_CPU(u64 [MAX_NR_BANKS], bank_history);
-+DECLARE_PER_CPU(bool [MAX_NR_BANKS], bank_storm);
-+DECLARE_PER_CPU(unsigned long [MAX_NR_BANKS], bank_time_stamp);
-+
-+/*
-+ * How many errors within the history buffer mark the start of a storm
-+ */
-+#define STORM_BEGIN_THRESHOLD	5
-+
-+/*
-+ * How many polls of machine check bank without an error before declaring
-+ * the storm is over
-+ */
-+#define STORM_END_POLL_THRESHOLD	30
-+
-+/*
-+ * When there is no storm each "bit" in the history represents
-+ * this many jiffies. When there is a storm every poll() takes
-+ * one history bit.
-+ */
-+#define HZBITS (HZ / 64)
- 
- #ifdef CONFIG_ACPI_APEI
- int apei_write_mce(struct mce *m);
--- 
-2.17.1
+ static __always_inline u32 mca_msr_reg(int bank, enum mca_msr reg)
+ {
+-	if (mce_flags.smca) {
++	if (cpu_feature_enabled(X86_FEATURE_SMCA)) {
+ 		switch (reg) {
+ 		case MCA_CTL:	 return MSR_AMD64_SMCA_MCx_CTL(bank);
+ 		case MCA_ADDR:	 return MSR_AMD64_SMCA_MCx_ADDR(bank);
 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
