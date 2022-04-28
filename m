@@ -2,61 +2,82 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8B0C433F5
-	for <linux-edac@archiver.kernel.org>; Thu, 28 Apr 2022 08:36:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C4CC433EF
+	for <linux-edac@archiver.kernel.org>; Thu, 28 Apr 2022 13:46:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344511AbiD1Ijw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 28 Apr 2022 04:39:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41414 "EHLO
+        id S235816AbiD1Nth (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 28 Apr 2022 09:49:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344815AbiD1IjR (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 28 Apr 2022 04:39:17 -0400
-X-Greylist: delayed 872 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 28 Apr 2022 01:32:38 PDT
-Received: from mail.profitbizdesign.com.pl (mail.profitbizdesign.com.pl [94.177.252.218])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178A1A0BDF
-        for <linux-edac@vger.kernel.org>; Thu, 28 Apr 2022 01:32:37 -0700 (PDT)
-Received: by mail.profitbizdesign.com.pl (Postfix, from userid 1001)
-        id D077DA96D6; Thu, 28 Apr 2022 09:11:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=profitbizdesign.com.pl; s=mail; t=1651133537;
-        bh=Rfzvu4C+yJ1wyuJ4V+t/udh6cgYEQVnY6S5ltO4wdNg=;
-        h=Date:From:To:Subject:From;
-        b=NN2KkxMmyXEUZhKKYQH9caTC0LpQke08JJHgGNOV01c0ar8SCh72ncurwtCZpwBIp
-         mD02EVJca35eAkhSMjsA1BY6VQDWGa2uT/jxoZZeCBnK0GSvLM97qdOQcltClOdxiy
-         vFEWz8BNe/DP8KDeQw0/HgAhRPbzBCx3ig99FYjOy27mnJt+/WHT6YU3LUP+3fVn+4
-         4rT44bqr9NL+irYsKRM4ytV0RCGdfX3ZoTtH3U5GYu4QR3ZUiD0BKH8mvS2+Rw9wlC
-         jcxuKwA1Q0uSgPTUPyaAfdz9FSd9nEmDvdeVCOqXxeHpry8V2nNzeGQ9XBdUoZMGJW
-         e59Sqd12iGKkQ==
-Received: by mail.profitbizdesign.com.pl for <linux-edac@vger.kernel.org>; Thu, 28 Apr 2022 08:10:19 GMT
-Message-ID: <20220428074503-0.1.1z.5zp4.0.e9sz19ugfg@profitbizdesign.com.pl>
-Date:   Thu, 28 Apr 2022 08:10:19 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@profitbizdesign.com.pl>
-To:     <linux-edac@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.profitbizdesign.com.pl
+        with ESMTP id S229709AbiD1Ntg (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 28 Apr 2022 09:49:36 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51DBB443F4;
+        Thu, 28 Apr 2022 06:46:22 -0700 (PDT)
+Received: from zn.tnic (p5de8eeb4.dip0.t-ipconnect.de [93.232.238.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D04EC1EC0535;
+        Thu, 28 Apr 2022 15:46:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1651153576;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=B1N//0VjX+LuzCM370MMHHTQD8wP/75xtQyHF1CH7v0=;
+        b=XlYUyElz/R1ZCGLFXvBYvnOSGQGppRNt/yV9SL2lRWqbZ5HNPv4ME2TnNNxRJkzdXpNGZv
+        jpyLGCi6i9W0czQf4n+GhAUCvte3HxxkkUwmSzIj6YXt7XzTbA9ARXzQIBiJqd2NUuHrBP
+        dWVRwKspjMeO3zihsIsVbykbIHnU1uo=
+Date:   Thu, 28 Apr 2022 15:46:13 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Sherry Sun <sherry.sun@nxp.com>
+Cc:     michal.simek@xilinx.com, Shubhrajyoti.datta@xilinx.com,
+        mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
+        rric@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com
+Subject: Re: [PATCH V2] EDAC/synopsys: Add edac driver support for i.MX
+ platforms
+Message-ID: <Ymqapaw8hznHy996@zn.tnic>
+References: <20220428023209.18087-1-sherry.sun@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220428023209.18087-1-sherry.sun@nxp.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Thu, Apr 28, 2022 at 10:32:09AM +0800, Sherry Sun wrote:
+> i.MX8MP use synopsys v3.70a ddr controller IP, so add edac support
+> for i.MX8MP based on the EDAC_SYNOPSYS driver.
+> 
+> Signed-off-by: Sherry Sun <sherry.sun@nxp.com>
+> ---
+> Changes in V2:
+> 1. Improve the patch title and the commit message.
+> ---
+>  drivers/edac/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+> index 23f11554f400..d3e2477948c8 100644
+> --- a/drivers/edac/Kconfig
+> +++ b/drivers/edac/Kconfig
+> @@ -485,7 +485,7 @@ config EDAC_ARMADA_XP
+>  
+>  config EDAC_SYNOPSYS
+>  	tristate "Synopsys DDR Memory Controller"
+> -	depends on ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTEL_SOCFPGA
+> +	depends on ARCH_ZYNQ || ARCH_ZYNQMP || ARCH_INTEL_SOCFPGA || ARCH_MXC
+>  	help
+>  	  Support for error detection and correction on the Synopsys DDR
+>  	  memory controller.
+> -- 
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+Applied, thanks.
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+-- 
+Regards/Gruss,
+    Boris.
 
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
-
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
-
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
+https://people.kernel.org/tglx/notes-about-netiquette
