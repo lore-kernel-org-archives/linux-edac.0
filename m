@@ -2,85 +2,104 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAD88C4332F
-	for <linux-edac@archiver.kernel.org>; Wed,  4 May 2022 21:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49980C433EF
+	for <linux-edac@archiver.kernel.org>; Thu,  5 May 2022 07:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243876AbiEDVbE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 4 May 2022 17:31:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43208 "EHLO
+        id S1344449AbiEEHdS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 5 May 2022 03:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235839AbiEDVbC (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 4 May 2022 17:31:02 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 620E446665;
-        Wed,  4 May 2022 14:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=dpN78FnXP8xKsKthCe3ePYGrznnidWC78ijJKGIis+s=; b=VzNshjcWDWgTdIjmwACWbnjJ/H
-        mQcB13lNG3fglzHQC/FUqdo2dvwKWsRAKNIc/TJuBa97Z8kYuf2lpVRvpBu62ga3ovDrsi08aDNiE
-        OlqogXHjD4qsmKbgS2LbXN2AOGnhdCvdtCVo6IDt0imworVavUuV/zNlIT6mNaTQhnLm07TNtoK4m
-        Ihl3ULKYuFP6cuYPQF485CZFlEA6oPcsLGDcH0IfHz/dstflDSmqrZB+ksN5MQ7uiQlVVpBT+K7Ib
-        0RM9kXieFgdNepPjq9LySneGSuViPcHimXjyBUf5+knfLf159kvuFYr1c8xkwmLdvzZ/p8/HjZAHo
-        dOADxIVQ==;
-Received: from [179.113.53.197] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nmMWW-0004FF-4B; Wed, 04 May 2022 23:27:04 +0200
-Message-ID: <976c2d62-09e7-9f8d-d978-12749a2f70e6@igalia.com>
-Date:   Wed, 4 May 2022 18:26:28 -0300
+        with ESMTP id S1344142AbiEEHdR (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 May 2022 03:33:17 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A5D29801;
+        Thu,  5 May 2022 00:29:38 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id j4so6046488lfh.8;
+        Thu, 05 May 2022 00:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=6Z3ugqzs69IZl2+sRBwHWpG9kKlwl5WbPNjhplCiidk=;
+        b=NLnXMShaRN7PFstFtp8tEoVSOhftf8xxi0e83XfbK5BkN2iQ8x6cZgI8cOHrXkau6N
+         QCfJH+/eiJeveTWsc/Wy4YmWIIDlcr3IDSOQXHB8LXW1qOgYWCq52+SmQQ4VQQdBNrj4
+         6LwIQKCd6kqAdMSC4cHBaKQJIGP1MFrnrjRU0Pn5klIABxim8rvlc8nZbdFO9B67MrC8
+         iSchmvzpQDBS7k2oRxryDg7m/Tjm5LT5A3Xo6lWFQOYPZpNX1ieE9oZsgiXaKgWOuiS/
+         JE1SzzPfpZ7KWUpWof7vsPq0O/xAq3viH5rHjblyvfnM2t0IkX/k4du+kMlbaGzXxPEA
+         TMaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6Z3ugqzs69IZl2+sRBwHWpG9kKlwl5WbPNjhplCiidk=;
+        b=mLv2mSDEcbj+eIIdShIqJ8hb+/B07epIfZdVvDouSyQraHm8wMVKf1hx6GFYKCRxzK
+         Z4JcVUTYtaHslIKOrkDvyDjTH80bDp+mRTAyhTB+Kw6Xz8XMt8Cdp3+xcX+Y7yCXGDmk
+         X5uOMXM+2VhfcpxCWgyIdB5LaudTaNvRrwrrK84z2w+NqeW6oODq97/cmGIBu0Y2EvPC
+         wqxedVO0tr7xZu+yEq2C8JatRxiZBkkxljib4OxlqJIPhmWZz5+U/ZcoNdz0Oe3pS/as
+         nk8Rc8URObEm8vACmVM6VuIR66yex/xNAEjPLqI9xjK6hcfFtvpEk0f7ASIpEWPdTn89
+         cFDA==
+X-Gm-Message-State: AOAM531Rxp/0gsqvKjq5pOWnYkn4RpUHLKVciodlBks4AC4H2rwaPXEk
+        PO6FbhfIum+Ll7h+8sO4QTjWwhKfrhm7r5pFl/w=
+X-Google-Smtp-Source: ABdhPJwWrkWiEJE8wFxjLWt23K89Z5Y+pMlvG1QF6O0ewp61J8ENn3UK3Mk3CGRcyf6V/ntmhPUqWSTVxcUQ2sMYgFo=
+X-Received: by 2002:a05:6512:c03:b0:447:7912:7e6b with SMTP id
+ z3-20020a0565120c0300b0044779127e6bmr17101977lfu.508.1651735776564; Thu, 05
+ May 2022 00:29:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 07/30] mips: ip22: Reword PANICED to PANICKED and remove
- useless header
-Content-Language: en-US
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
-        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
-        halves@canonical.com, fabiomirmar@gmail.com,
-        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
-        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
-        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-8-gpiccoli@igalia.com>
- <20220504203224.GA23475@alpha.franken.de>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20220504203224.GA23475@alpha.franken.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220503094728.926-1-ctcchien@nuvoton.com> <20220503094728.926-2-ctcchien@nuvoton.com>
+ <776bb807-feba-7c75-d280-11c33e33f71d@molgen.mpg.de>
+In-Reply-To: <776bb807-feba-7c75-d280-11c33e33f71d@molgen.mpg.de>
+From:   Medad Young <medadyoung@gmail.com>
+Date:   Thu, 5 May 2022 15:29:25 +0800
+Message-ID: <CAHpyw9dJqzgf_LKD9cmumoPMCNX92Pd9+m5xxDwxoLsEyVX1gg@mail.gmail.com>
+Subject: Re: [PATCH v8 1/3] ARM: dts: nuvoton: Add memory controller node
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+Cc:     rric@kernel.org, James Morse <james.morse@arm.com>,
+        tony.luck@intel.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Patrick Venture <venture@google.com>, KWLIU@nuvoton.com,
+        YSCHU@nuvoton.com, JJLIU0@nuvoton.com, KFTING <KFTING@nuvoton.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>, ctcchien@nuvoton.com,
+        devicetree <devicetree@vger.kernel.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-edac <linux-edac@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 04/05/2022 17:32, Thomas Bogendoerfer wrote:
-> [...]
-> 
-> applied to mips-next.
-> 
-> Thomas.
-> 
+Dear Paul,
 
-Thanks a bunch Thomas =)
+Paul Menzel <pmenzel@molgen.mpg.de> =E6=96=BC 2022=E5=B9=B45=E6=9C=883=E6=
+=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=885:56=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Dear Medad,
+>
+>
+> Thank you for v8.
+>
+> Am 03.05.22 um 11:47 schrieb Medad CChien:
+> > ECC must be configured in the BootBlock header.
+> > Then, you can read error counts via
+> > the EDAC kernel framework.
+>
+> Please reflow for 75 characters per line.
+
+OK, I will reflow for 75 characters per line.
+
+>
+> [=E2=80=A6]
+>
+>
+> Kind regards,
+>
+> Paul
+
+B.R.
+Medad
