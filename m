@@ -2,58 +2,142 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF76C433EF
-	for <linux-edac@archiver.kernel.org>; Fri,  6 May 2022 07:55:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C190C433FE
+	for <linux-edac@archiver.kernel.org>; Fri,  6 May 2022 13:41:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381824AbiEFH6k (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 6 May 2022 03:58:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47478 "EHLO
+        id S1441869AbiEFNph (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 6 May 2022 09:45:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353947AbiEFH6i (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 May 2022 03:58:38 -0400
-X-Greylist: delayed 526 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 06 May 2022 00:54:56 PDT
-Received: from mail.greatagencyonline.pl (mail.greatagencyonline.pl [89.40.125.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFFEA67D09
-        for <linux-edac@vger.kernel.org>; Fri,  6 May 2022 00:54:56 -0700 (PDT)
-Received: by mail.greatagencyonline.pl (Postfix, from userid 1001)
-        id 24990AA656; Fri,  6 May 2022 08:43:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=greatagencyonline.pl;
-        s=mail; t=1651823022;
-        bh=ksvwLPFdjL017OLwir5xHXy3Vmrj/5fhZ5DwBI62qzc=;
-        h=Date:From:To:Subject:From;
-        b=gEi7jR+A1t7RYS1bBq8J8ZC/oXDjmGtNa0pzzNePs4Fgt0D9JWJOJClcFdIO+oJ+C
-         1q6hxN8gNE/SGjfM9uLml7V9foaj7lj6uui1ojOlRYWPGMiTNxNHef8rdA8vRR+3kJ
-         wcC2r8+3IsGCTqdl+EVKuoObz4JNH+D4r1U+Br6d1hxtCwUCYk2yavQaBPAh7fTau5
-         /P36yuQqnwgHUGvKjt3RdeT/8qgw11bgoOnlIUlWmPQPB+60tb2JGmaNfzE86yQqym
-         sMcmppK78mb4gXUZq4L/v9X6ObRkDjM4SCcm0Sa3JBVzduGdglsCkoFVlxBBy883/7
-         wpHaycCkq4V2Q==
-Received: by mail.greatagencyonline.pl for <linux-edac@vger.kernel.org>; Fri,  6 May 2022 07:43:41 GMT
-Message-ID: <20220506073002-0.1.3r.k1fh.0.cf3qry1cip@greatagencyonline.pl>
-Date:   Fri,  6 May 2022 07:43:41 GMT
-From:   =?UTF-8?Q? "Miko=C5=82aj_Rudzik" ?= 
-        <mikolaj.rudzik@greatagencyonline.pl>
-To:     <linux-edac@vger.kernel.org>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.greatagencyonline.pl
+        with ESMTP id S1441880AbiEFNpb (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 May 2022 09:45:31 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17016692A0
+        for <linux-edac@vger.kernel.org>; Fri,  6 May 2022 06:41:45 -0700 (PDT)
+Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Kvs7D1Zx0z67tDy;
+        Fri,  6 May 2022 21:37:12 +0800 (CST)
+Received: from lhreml715-chm.china.huawei.com (10.201.108.66) by
+ fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 6 May 2022 15:41:43 +0200
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.47.73.106) by
+ lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 6 May 2022 14:41:42 +0100
+From:   <shiju.jose@huawei.com>
+To:     <linux-edac@vger.kernel.org>, <mchehab@kernel.org>
+CC:     <linuxarm@huawei.com>, <tanxiaofei@huawei.com>,
+        <jonathan.cameron@huawei.com>, <prime.zeng@hisilicon.com>,
+        <luoshengwei@huawei.com>, <panjunchong@hisilicon.com>,
+        <fenglei47@h-partners.com>, <shiju.jose@huawei.com>
+Subject: [PATCH 04/10] rasdaemon: ras-mc-ctl: Modify error statistics for HiSilicon KunPeng9xx common errors
+Date:   Fri, 6 May 2022 14:33:01 +0100
+Message-ID: <20220506133307.1799-5-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20220506133307.1799-1-shiju.jose@huawei.com>
+References: <20220506133307.1799-1-shiju.jose@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.47.73.106]
+X-ClientProxiedBy: lhreml744-chm.china.huawei.com (10.201.108.194) To
+ lhreml715-chm.china.huawei.com (10.201.108.66)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Dzie=C5=84 dobry,
+From: Shiju Jose <shiju.jose@huawei.com>
 
-chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
-skania nowych zlece=C5=84 ze strony www.
+Modify the error statistics for the HiSilicon KunPeng9xx platforms common errors
+to display the statistics and error info based on the module and the error severity.
 
-Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
-, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
-=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
-jonowania strony w Google.
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ util/ras-mc-ctl.in | 40 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
-Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
+diff --git a/util/ras-mc-ctl.in b/util/ras-mc-ctl.in
+index b22dd60..08eb287 100755
+--- a/util/ras-mc-ctl.in
++++ b/util/ras-mc-ctl.in
+@@ -1537,7 +1537,7 @@ sub vendor_errors_summary
+     require DBI;
+     my ($num_args, $platform_id);
+     my ($query, $query_handle, $count, $out);
+-    my ($module_id, $sub_module_id, $err_severity, $err_sev, $err_info);
++    my ($module_id, $sub_module_id, $err_severity, $err_sev);
+ 
+     $num_args = $#ARGV + 1;
+     $platform_id = 0;
+@@ -1614,13 +1614,18 @@ sub vendor_errors_summary
+ 
+     # HiSilicon Kunpeng9xx common errors
+     if ($platform_id eq HISILICON_KUNPENG_9XX) {
+-        $query = "select err_info, count(*) from hisi_common_section";
++        $query = "select err_severity, module_id, count(*) from hisi_common_section_v2 group by err_severity, module_id";
+         $query_handle = $dbh->prepare($query);
+         $query_handle->execute();
+-        $query_handle->bind_columns(\($err_info, $count));
++        $query_handle->bind_columns(\($err_severity, $module_id, $count));
+         $out = "";
++        $err_sev = "";
+         while($query_handle->fetch()) {
+-            $out .= "\terrors: $count\n";
++            if ($err_severity ne $err_sev) {
++                $out .= "$err_severity errors:\n";
++                $err_sev = $err_severity;
++            }
++            $out .= "\t$module_id: $count\n";
+         }
+         if ($out ne "") {
+             print "HiSilicon Kunpeng9xx common error events summary:\n$out\n";
+@@ -1638,8 +1643,8 @@ sub vendor_errors
+     require DBI;
+     my ($num_args, $platform_id);
+     my ($query, $query_handle, $id, $timestamp, $out);
+-    my ($version, $soc_id, $socket_id, $nimbus_id, $core_id, $port_id);
+-    my ($module_id, $sub_module_id, $err_severity, $err_type, $err_info, $regs);
++    my ($version, $soc_id, $socket_id, $totem_id, $nimbus_id, $sub_system_id, $core_id, $port_id);
++    my ($module_id, $sub_module_id, $err_severity, $err_type, $pcie_info, $regs);
+ 
+     $num_args = $#ARGV + 1;
+     $platform_id = 0;
+@@ -1727,15 +1732,28 @@ sub vendor_errors
+ 
+     # HiSilicon Kunpeng9xx common errors
+     if ($platform_id eq HISILICON_KUNPENG_9XX) {
+-        $query = "select id, timestamp, err_info, regs_dump from hisi_common_section order by id";
++        $query = "select id, timestamp, version, soc_id, socket_id, totem_id, nimbus_id, sub_system_id, module_id, sub_module_id, core_id, port_id, err_type, pcie_info, err_severity, regs_dump from hisi_common_section_v2 order by id, module_id, err_severity";
+         $query_handle = $dbh->prepare($query);
+         $query_handle->execute();
+-        $query_handle->bind_columns(\($id, $timestamp, $err_info, $regs));
++        $query_handle->bind_columns(\($id, $timestamp, $version, $soc_id, $socket_id, $totem_id, $nimbus_id, $sub_system_id, $module_id, $sub_module_id, $core_id, $port_id, $err_type, $pcie_info, $err_severity, $regs));
+         $out = "";
+         while($query_handle->fetch()) {
+-            $out .= "$id. $timestamp ";
+-            $out .= "Error Info:$err_info \n" if ($err_info);
+-            $out .= "Error Registers: $regs\n\n" if ($regs);
++            $out .= "$id. $timestamp Error Info: ";
++            $out .= "version=$version, ";
++            $out .= "soc_id=$soc_id, " if ($soc_id);
++            $out .= "socket_id=$socket_id, " if ($socket_id);
++            $out .= "totem_id=$totem_id, " if ($totem_id);
++            $out .= "nimbus_id=$nimbus_id, " if ($nimbus_id);
++            $out .= "sub_system_id=$sub_system_id, " if ($sub_system_id);
++            $out .= "module_id=$module_id, " if ($module_id);
++            $out .= "sub_module_id=$sub_module_id, " if ($sub_module_id);
++            $out .= "core_id=$core_id, " if ($core_id);
++            $out .= "port_id=$port_id, " if ($port_id);
++            $out .= "err_type=$err_type, " if ($err_type);
++            $out .= "pcie_info=$pcie_info, " if ($pcie_info);
++            $out .= "err_severity=$err_severity, " if ($err_severity);
++            $out .= "Error Registers: $regs" if ($regs);
++            $out .= "\n\n";
+         }
+         if ($out ne "") {
+             print "HiSilicon Kunpeng9xx common error events:\n$out\n";
+-- 
+2.25.1
 
-
-Pozdrawiam,
-Miko=C5=82aj Rudzik
