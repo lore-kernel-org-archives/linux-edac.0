@@ -2,173 +2,104 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 811B0C433FE
-	for <linux-edac@archiver.kernel.org>; Fri,  6 May 2022 13:42:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49E55C433EF
+	for <linux-edac@archiver.kernel.org>; Sat,  7 May 2022 10:33:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1441826AbiEFNpq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 6 May 2022 09:45:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44366 "EHLO
+        id S237793AbiEGKhQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 7 May 2022 06:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1441906AbiEFNpb (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 6 May 2022 09:45:31 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09C222BC9
-        for <linux-edac@vger.kernel.org>; Fri,  6 May 2022 06:41:46 -0700 (PDT)
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Kvs8n0NdLz684Xd;
-        Fri,  6 May 2022 21:38:33 +0800 (CST)
-Received: from lhreml715-chm.china.huawei.com (10.201.108.66) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 6 May 2022 15:41:45 +0200
-Received: from P_UKIT01-A7bmah.china.huawei.com (10.47.73.106) by
- lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 6 May 2022 14:41:44 +0100
-From:   <shiju.jose@huawei.com>
-To:     <linux-edac@vger.kernel.org>, <mchehab@kernel.org>
-CC:     <linuxarm@huawei.com>, <tanxiaofei@huawei.com>,
-        <jonathan.cameron@huawei.com>, <prime.zeng@hisilicon.com>,
-        <luoshengwei@huawei.com>, <panjunchong@hisilicon.com>,
-        <fenglei47@h-partners.com>, <shiju.jose@huawei.com>
-Subject: [PATCH 09/10] rasdaemon: ras-mc-ctl: Updated HiSilicon platform name
-Date:   Fri, 6 May 2022 14:33:06 +0100
-Message-ID: <20220506133307.1799-10-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20220506133307.1799-1-shiju.jose@huawei.com>
-References: <20220506133307.1799-1-shiju.jose@huawei.com>
+        with ESMTP id S236372AbiEGKhP (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 7 May 2022 06:37:15 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C992D1ED;
+        Sat,  7 May 2022 03:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651919609; x=1683455609;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tz4eaxNFw3OE/vYEfmWYD9ee4vGmGUyLKAFHoXsKn8Q=;
+  b=kgDPj8hGIsQ2S/dIq0sRi9iT4oiK18Z0EJR68cKN19CnmC2SyL5eoBFx
+   6K3q6O7VF845lDASmDO5Ue3HyFcunueF9PYPdUkNyLyLdAs6V1jgbnvjB
+   sZG2QxPp85lKrTZCeFjFvT55NJvSh+c+xB+JVkGmpcMATlVF+Lc9G+uVm
+   4Uu4DCKdCFXBiwUerjhIe0WcAtewvEKFrMCiU4aWiyUEiO7hxSyKvKzj5
+   PEqS9ZVyelpM8B+tBXKFMAvfZfSEm/Nsne2gt8jBxVllSoY4am+PzZ89n
+   2U9iATPW+tTqbrwqYHsaOrN244sa8ORH+ABixS90BTXmbWlo0St3P79hQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10339"; a="268589634"
+X-IronPort-AV: E=Sophos;i="5.91,207,1647327600"; 
+   d="scan'208";a="268589634"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2022 03:33:29 -0700
+X-IronPort-AV: E=Sophos;i="5.91,207,1647327600"; 
+   d="scan'208";a="550239830"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2022 03:33:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nnHkV-00D3B8-LA;
+        Sat, 07 May 2022 13:33:19 +0300
+Date:   Sat, 7 May 2022 13:33:19 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Wolfram Sang <wsa@kernel.org>, Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Tan Jui Nee <jui.nee.tan@intel.com>,
+        Kate Hsuan <hpa@redhat.com>,
+        Jonathan Yong <jonathan.yong@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-edac@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v4 0/8] platform/x86: introduce p2sb_bar() helper
+Message-ID: <YnZK75D3fMvLSgAD@smile.fi.intel.com>
+References: <20220131151346.45792-1-andriy.shevchenko@linux.intel.com>
+ <20220308205016.2c0112ad@md1za8fc.ad001.siemens.net>
+ <YnJ0tdGTzTRYEISn@smile.fi.intel.com>
+ <20220504171007.2f641098@md1za8fc.ad001.siemens.net>
+ <CAHp75Vfh5DbiGQ4NLv+hhYyRx5wDbMjFmgO5sNZ7864ipRrDHg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.47.73.106]
-X-ClientProxiedBy: lhreml744-chm.china.huawei.com (10.201.108.194) To
- lhreml715-chm.china.huawei.com (10.201.108.66)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vfh5DbiGQ4NLv+hhYyRx5wDbMjFmgO5sNZ7864ipRrDHg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Shiju Jose <shiju.jose@huawei.com>
+On Wed, May 04, 2022 at 05:55:26PM +0200, Andy Shevchenko wrote:
+> On Wed, May 4, 2022 at 5:10 PM Henning Schild
+> <henning.schild@siemens.com> wrote:
+> > Am Wed, 4 May 2022 15:42:29 +0300
+> > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
 
-Updated the HiSilicon platform name as KunPeng9xx.
+> ...
 
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- util/ras-mc-ctl.in | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+> > Let me know if you need it in another shape or form.
+> 
+> Form is okay, just would be nice if you can retest what I have in the
+> branch as an updated version.
 
-diff --git a/util/ras-mc-ctl.in b/util/ras-mc-ctl.in
-index 75981a0..1cc19b3 100755
---- a/util/ras-mc-ctl.in
-+++ b/util/ras-mc-ctl.in
-@@ -1529,7 +1529,7 @@ sub errors
- 
- # Definitions of the vendor platform IDs.
- use constant {
--    HISILICON_KUNPENG_9XX => "Kunpeng9xx",
-+    HISILICON_KUNPENG_9XX => "KunPeng9xx",
- };
- 
- sub vendor_errors_summary
-@@ -1552,7 +1552,7 @@ sub vendor_errors_summary
- 
-     my $dbh = DBI->connect("dbi:SQLite:dbname=$dbname", "", "", {});
- 
--    # HiSilicon Kunpeng9xx errors
-+    # HiSilicon KunPeng9xx errors
-     if ($platform_id eq HISILICON_KUNPENG_9XX) {
- 	$found_platform = 1;
-         $query = "select err_severity, module_id, count(*) from hip08_oem_type1_event_v2 group by err_severity, module_id";
-@@ -1569,7 +1569,7 @@ sub vendor_errors_summary
-             $out .= "\t$module_id: $count\n";
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx OEM type1 error events summary:\n$out\n";
-+            print "HiSilicon KunPeng9xx OEM type1 error events summary:\n$out\n";
-         }
-         $query_handle->finish;
- 
-@@ -1587,7 +1587,7 @@ sub vendor_errors_summary
-             $out .= "\t$module_id: $count\n";
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx OEM type2 error events summary:\n$out\n";
-+            print "HiSilicon KunPeng9xx OEM type2 error events summary:\n$out\n";
-         }
-         $query_handle->finish;
- 
-@@ -1605,7 +1605,7 @@ sub vendor_errors_summary
-             $out .= "\t$sub_module_id: $count\n";
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx PCIe controller error events summary:\n$out\n";
-+            print "HiSilicon KunPeng9xx PCIe controller error events summary:\n$out\n";
-         }
-         $query_handle->finish;
- 
-@@ -1623,7 +1623,7 @@ sub vendor_errors_summary
-             $out .= "\t$module_id: $count\n";
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx common error events summary:\n$out\n";
-+            print "HiSilicon KunPeng9xx common error events summary:\n$out\n";
-         }
-         $query_handle->finish;
-     }
-@@ -1660,7 +1660,7 @@ sub vendor_errors
- 
-     my $dbh = DBI->connect("dbi:SQLite:dbname=$dbname", "", "", {});
- 
--    # HiSilicon Kunpeng9xx errors
-+    # HiSilicon KunPeng9xx errors
-     if ($platform_id eq HISILICON_KUNPENG_9XX) {
- 	$found_platform = 1;
-         $query = "select id, timestamp, version, soc_id, socket_id, nimbus_id, module_id, sub_module_id, err_severity, regs_dump from hip08_oem_type1_event_v2 order by id, module_id, err_severity";
-@@ -1684,7 +1684,7 @@ sub vendor_errors
- 	    }
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx OEM type1 error events:\n$out\n";
-+            print "HiSilicon KunPeng9xx OEM type1 error events:\n$out\n";
-         }
-         $query_handle->finish;
- 
-@@ -1709,7 +1709,7 @@ sub vendor_errors
- 	    }
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx OEM type2 error events:\n$out\n";
-+            print "HiSilicon KunPeng9xx OEM type2 error events:\n$out\n";
-         }
-         $query_handle->finish;
- 
-@@ -1736,7 +1736,7 @@ sub vendor_errors
- 	    }
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx PCIe controller error events:\n$out\n";
-+            print "HiSilicon KunPeng9xx PCIe controller error events:\n$out\n";
-         }
-         $query_handle->finish;
- 
-@@ -1767,7 +1767,7 @@ sub vendor_errors
- 	    }
-         }
-         if ($out ne "") {
--            print "HiSilicon Kunpeng9xx common error events:\n$out\n";
-+            print "HiSilicon KunPeng9xx common error events:\n$out\n";
-         }
-         $query_handle->finish;
-     }
-@@ -1784,7 +1784,7 @@ sub vendor_errors
- sub vendor_platforms
- {
-         print "\nSupported platforms for the vendor-specific errors:\n";
--        print "\tHiSilicon Kunpeng9xx, platform-id=\"", HISILICON_KUNPENG_9XX, "\"\n";
-+        print "\tHiSilicon KunPeng9xx, platform-id=\"", HISILICON_KUNPENG_9XX, "\"\n";
-         print "\n";
- }
- 
+Is there any news? I would like to send a new version sooner than later.
+We may also apply the patches from this series and when you will be ready
+apply yours.
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
