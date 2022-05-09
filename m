@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED4EBC4332F
-	for <linux-edac@archiver.kernel.org>; Mon,  9 May 2022 14:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4580C433EF
+	for <linux-edac@archiver.kernel.org>; Mon,  9 May 2022 14:56:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237659AbiEIPAP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 9 May 2022 11:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33264 "EHLO
+        id S237759AbiEIPAQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 9 May 2022 11:00:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237915AbiEIPAA (ORCPT
+        with ESMTP id S237914AbiEIPAA (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Mon, 9 May 2022 11:00:00 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2071.outbound.protection.outlook.com [40.107.220.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1505624BB3C;
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2082.outbound.protection.outlook.com [40.107.223.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D3524BB29;
         Mon,  9 May 2022 07:56:01 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lart38qQF3Ixr4PDpYS9SC61KZpO7TYWLkkDoKfp7e8wglbuJJO5T2zW4cOP83tRWjcJg0MzB6efhJaup+RNauloLSzKbTg77MIMArghDtu5jfPhoEo7xhx9wseBNIznSwzMqeQexZ2tMQyvHawjVd591VS1wFwKp27+v+/cNVdA2Fn5bbsHkWRdYUXNhzmqD7RQLnZyZdMBDkk1cG1jX8kEqkQX4h9swp90G7NzflYoFIqehFQdC24eKpCsse7SR3opgzJ3ce/MtgVLKmT++7G2FCSP7pBfWNZprxanfzoz3/nqtkq1mNEiay8La0pl9kxV1Dr6DK5J2dRdaqYNGQ==
+ b=GXmH2EH9fAxP2jAOPpQn5FSbLCm73Q7RGWddalGMsSN7VYJ91WumVEol4qyUTIK/YfiVZZ3LWxDB24I7wKoRPSZ6VFjR5Ijz2yP2DkWGasGv9kWm8GOGt6AJRR4NSeiZlh+d/ak0OD88qY5ilEvr+wfiVcmdwzk8RYda0ewU+jBMqmRT+iY0sUvcWnfj8zJXkPkl/stj52MxMXg26w1XxzsyhO0eZWcmGQo57CRxxN71vgsYZ+8CfE6uzc+IYmxr5QOFtQKuhI+9i0RuiIQnhoyKSTn9hAqdNw4dWzzVHC+aChjIWKQUNTtSnSn+pbnYJzTc6Aajou+xyGwWNz74Qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3/9uipsGXJHM3Xgxbxirb1tYrINsZH6/D+fhAqxkgIc=;
- b=fpuzaLJyZmNHkOFbXTAWC79DVLWR1cvqF1ebGC3T3QTAuOZGiJjyHspE47pq/s2yqXxU0lKauMAxtMD1IQBVha66SBzsEd10l+Daislxqyz2nEoBaCIt8LX5cnzJBmnabwEV2Annlp64blm5ttnunffRjOLdmgEipM/1PamcrrYSSkeR272wp84dRQQk08AaAn1lZZmCoy4Q8grjZTP0fv6WHERSIuQMbpc9QbVqdrXgMX859NIk/jeFOKHD/dUJBxM5cgjEMKKYwBHLUjoiNTKB4IlUVVvAWoBvFJ2wuXUUd6YU1AxkVTDOy2uAq1EndmK+sN6aIpZ0BoX4fQGLCw==
+ bh=WOP6sdubyHv8i9LkxrD85AO2qRI7kXMvNjTNtlJkwNg=;
+ b=DNQSDPy2AVdvakfGWnU4TPE5MvpV7hVucNmpp2I92U2UwTK/0bENlfa7GlashBcaSzskkMVsFNWT3NQAVLeE5hjau9LIatiJ9Th5ubjBoOj7C6cBwdKOmgJjXO2JJ2lH4GTeJQecODR8nBd4FOn9u+cAAo4bICUaWmktG7Sl4kfUwWtJ+214jN30xLYJdmHkT0wutQJW7gCsnpSgwVwg/UlbboanPlo7Nvsq265cyZofAUW/7o2rqFvp9+HlyvBJeulwaqo4Y+n0szMg6nQHua9AvAinifAUPH3pEJ/KtWjry+R1lAW7H3UEyDJMgxfMXOcRpZuzZYzK+Rq2O970GA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3/9uipsGXJHM3Xgxbxirb1tYrINsZH6/D+fhAqxkgIc=;
- b=NdvPJMiAWQxOlX3QpefRpqNZ7sq008Vx7z0KMVnjXGjcz73uZcKjpUCBXdyJlgfU5TcbhpSYyHyK3mrZuuIEqFpw1GIvTKe83AAJX7/Lq1Co7xid2lkvX42pDNz7FRtcPIeopAwVppZb+8CogjWafPrt043wc2PIXlJScWySs3Q=
-Received: from MW4PR03CA0221.namprd03.prod.outlook.com (2603:10b6:303:b9::16)
- by CY5PR12MB6276.namprd12.prod.outlook.com (2603:10b6:930:f::6) with
+ bh=WOP6sdubyHv8i9LkxrD85AO2qRI7kXMvNjTNtlJkwNg=;
+ b=bXKj9wqHSdkRk3evdlcOMQAjy58iQhUAMf7cuuP/slXIUL6J/yXIBGyrmIddNeaDRpXh4wlEkFDqEj6GJiOwrvAxnqR3jGDIRGGoV8mDmCF1bQJRbv6xx//g+eaQmFE1Gesg9+WZ5OG/a/ISqRTMfzGj968JLAk54AWBNfWKxvA=
+Received: from MW4PR03CA0215.namprd03.prod.outlook.com (2603:10b6:303:b9::10)
+ by CH2PR12MB4181.namprd12.prod.outlook.com (2603:10b6:610:a8::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.20; Mon, 9 May
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Mon, 9 May
  2022 14:55:59 +0000
 Received: from CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b9:cafe::7d) by MW4PR03CA0221.outlook.office365.com
- (2603:10b6:303:b9::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24 via Frontend
+ (2603:10b6:303:b9:cafe::17) by MW4PR03CA0215.outlook.office365.com
+ (2603:10b6:303:b9::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.22 via Frontend
  Transport; Mon, 9 May 2022 14:55:59 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
@@ -48,20 +48,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CO1NAM11FT012.mail.protection.outlook.com (10.13.175.192) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5227.15 via Frontend Transport; Mon, 9 May 2022 14:55:58 +0000
+ 15.20.5227.15 via Frontend Transport; Mon, 9 May 2022 14:55:59 +0000
 Received: from yaz-ethanolx.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 9 May
- 2022 09:55:51 -0500
+ 2022 09:55:52 -0500
 From:   Yazen Ghannam <yazen.ghannam@amd.com>
 To:     <bp@alien8.de>, <linux-edac@vger.kernel.org>
 CC:     <linux-kernel@vger.kernel.org>,
         <Smita.KoralahalliChannabasappa@amd.com>, <muralidhara.mk@amd.com>,
         <naveenkrishna.chatradhi@amd.com>,
         Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH 16/18] EDAC/amd64: Add dump_misc_regs() into pvt->ops
-Date:   Mon, 9 May 2022 14:55:32 +0000
-Message-ID: <20220509145534.44912-17-yazen.ghannam@amd.com>
+Subject: [PATCH 18/18] EDAC/amd64: Add get_err_info() into pvt->ops
+Date:   Mon, 9 May 2022 14:55:34 +0000
+Message-ID: <20220509145534.44912-19-yazen.ghannam@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220509145534.44912-1-yazen.ghannam@amd.com>
 References: <20220509145534.44912-1-yazen.ghannam@amd.com>
@@ -73,128 +73,108 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1773b72f-abe8-4fe4-b29c-08da31cc074a
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6276:EE_
-X-Microsoft-Antispam-PRVS: <CY5PR12MB6276CB465E83FF411CEA5D28F8C69@CY5PR12MB6276.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 66ea85d1-2c1c-4a13-e817-08da31cc07a2
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4181:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4181052444433A81010D88BEF8C69@CH2PR12MB4181.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3s/Tep/cilmP+pUCKLZ0kyEdP83Tbbm2e6codtvCcWZvhkSCmkhRuu1QxqAgZbKYw96cFUk/OexZP1b8vP4zKuKebH7JlK7zQKUyhvOLYn0DuQBTmRxjycdHQgE8EBlO++48dXAe6Z/3xmmlusBNxTfTWyjOWLwqmaMN12DDxnf+gpg98d51l+sq1cNA2jp2uFi/fiUh8xlv5B0HRRIkTsDnTk8nPcUbx26shYZ0nuz+q/8jdWvYSBFIoE5yxl+wj+5ctu3yimWKqyCmnaYQ20S4W2olFXBlBPd5yNjbiL87SbXDGmtjhiRaMUsXIEex7L69Uyy9JKEnxjp61I0/VnNxRDpDqirOCwHZ3+esBU3jFFG0jtqXc1ozlrocUqOVrIMlnELtA/IqPi3FNcidJtVeM6/gJ4SYDF9reKBosbPmHz6T5tG08YSk2Q5EcIWmBVf+b5JEKLURvIO19bFtWZqImU76tFWlO4DHQ5P9Ska0cSkq4C+AHo+kLJYM/2FD7kYdEA9yDUZlT+Iz6emnduPyEJ27+JAXEaZGYp4M0QTZlL5VswYQgn/LMnjDa+KF7N+5GhrM7P1Mujz6EhZR3RmSDgTvUj1rI1JZkthNo9jJOSkZgTqCPl86XBpeQOjBCCpN6cO4fosDekbsSkjiajSJTFMPsqoQNft667UAKO4evBoyLmbgdwhpkgNqxnnrsDBU8kWECdyHhnbfs/WScA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(508600001)(316002)(8936002)(36860700001)(110136005)(16526019)(54906003)(8676002)(356005)(4326008)(86362001)(70206006)(70586007)(44832011)(26005)(83380400001)(6666004)(40460700003)(7696005)(186003)(1076003)(2616005)(426003)(336012)(82310400005)(2906002)(47076005)(36756003)(5660300002)(81166007)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: k8gOzJOPJPQ1jDZabKcjg220uNJCwrvkRMkyCOXWPBtrjIFSsD+nlGmGo9fotyQDCUHY3y2Sqx+B4qYV0VETVy+pD6HiWEj1lp6fu5pmqctXreqKcE/TDys43XKrArPFJhhJwtzbknPwul4dEm5EwgUaGNRp6mO5xbi3Qx4dGw56ujoqs5HkyB/mfDdN3UB1A2Ek0Bs2jSswYS7Tj6EiQk8IWTv74vDSoYlZcPCK5bk4NkKpTx8Q6O9hkg0JttZi80HnNFsItRHSjdIt+nxW5rl54RnMrKlQCninLYzLOMb/V9XvysCVF6zv+7uMLLlrXj4KnbxmGiBzsQUUKNNjUi03VSFyy0m268BdEn2X1nu6YDqgUHNhbalgit+DnDSHbgyfuzo3qee6YuDogm99yFMlePtxqRA6N7k5n6YI71cej6/KR6TliCe9dGzXGk/L2ZEmzCxrG7R+EBrsVCQQA6OK7+1+XF6SAMTNpW9RIu6tPIa1O7BuHgsW/rvUuqkwVAKXEmOhKyv0b3rLBnkVIh392MiakGv9lWRpDZDOlZWSWJ9D1wUBSAuDtqdY6dCF7A7pYmWECiFoO/9yjJrZhQc5GpmgJjUisr7PxC1VpUgQ9KPpMLBHp6ZXPmC3w0CJw0bhTUpeAUBuySF3N7pZn/9yjf+I21wJD1d55FHzmo0ZTyiulfpP2B6ft4Fb2NHFkpruSRDoeXB2+68kVMKEEw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(44832011)(2906002)(36756003)(356005)(40460700003)(36860700001)(16526019)(8936002)(81166007)(5660300002)(110136005)(4326008)(1076003)(186003)(83380400001)(70206006)(47076005)(426003)(336012)(508600001)(70586007)(8676002)(2616005)(82310400005)(54906003)(316002)(7696005)(6666004)(86362001)(26005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 14:55:58.9896
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2022 14:55:59.5677
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1773b72f-abe8-4fe4-b29c-08da31cc074a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66ea85d1-2c1c-4a13-e817-08da31cc07a2
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT012.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6276
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4181
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Muralidhara M K <muralidhara.mk@amd.com>
 
-GPU Nodes will print out different information and registers compared to
-existing systems. A function pointer should be used rather than
-introduce another branching condition.
+GPU Nodes will use a different method to determine the chip select
+and channel of an error. A function pointer should be used rather
+than introduce another branching condition.
 
-Prepare for this by adding dump_misc_regs() to pvt->ops and set it as
-needed based on currently supported systems.
+Prepare for this by adding get_err_info() to pvt->ops. This function is
+only called from the modern code path, so a legacy function is not
+defined.
 
 Use a "umc" prefix for modern systems, since these use Unified Memory
 Controllers (UMCs).
-
-Use a "dct" prefix for newly-defined legacy functions, since these
-systems use DRAM Controllers (DCTs).
 
 Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
 Signed-off-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
 [Rebased/reworked patch and reworded commit message]
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
- drivers/edac/amd64_edac.c | 21 ++++++---------------
+ drivers/edac/amd64_edac.c | 15 ++++++++++-----
  drivers/edac/amd64_edac.h |  1 +
- 2 files changed, 7 insertions(+), 15 deletions(-)
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 5beeeb2fd6a8..b4c9d224f564 100644
+index 248d1082736e..81d165bcd252 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
-@@ -1394,7 +1394,7 @@ static void debug_display_dimm_sizes_df(struct amd64_pvt *pvt, u8 ctrl)
- 	}
- }
- 
--static void __dump_misc_regs_df(struct amd64_pvt *pvt)
-+static void umc_dump_misc_regs(struct amd64_pvt *pvt)
- {
- 	struct amd64_umc *umc;
- 	u32 i, tmp, umc_base;
-@@ -1437,8 +1437,7 @@ static void __dump_misc_regs_df(struct amd64_pvt *pvt)
- 	}
- }
- 
--/* Display and decode various NB registers for debug purposes. */
--static void __dump_misc_regs(struct amd64_pvt *pvt)
-+static void dct_dump_misc_regs(struct amd64_pvt *pvt)
- {
- 	edac_dbg(1, "F3xE8 (NB Cap): 0x%08x\n", pvt->nbcap);
- 
-@@ -1473,17 +1472,6 @@ static void __dump_misc_regs(struct amd64_pvt *pvt)
- 	edac_dbg(1, "  DramHoleValid: %s\n", dhar_valid(pvt) ? "yes" : "no");
- }
- 
--/* Display and decode various NB registers for debug purposes. */
--static void dump_misc_regs(struct amd64_pvt *pvt)
--{
--	if (pvt->umc)
--		__dump_misc_regs_df(pvt);
--	else
--		__dump_misc_regs(pvt);
--
--	amd64_info("using x%u syndromes.\n", pvt->ecc_sym_sz);
--}
--
- /*
-  * See BKDG, F2x[1,0][5C:40], F2[1,0][6C:60]
+@@ -3067,10 +3067,16 @@ static inline void decode_bus_error(int node_id, struct mce *m)
+  * Currently, we can derive the channel number by looking at the 6th nibble in
+  * the instance_id. For example, instance_id=0xYXXXXX where Y is the channel
+  * number.
++ *
++ * csrow can be derived from the lower 3 bits of MCA_SYND value.
++ *
++ * For DRAM ECC errors, the Chip Select number is given in bits [2:0] of
++ * the MCA_SYND[ErrorInformation] field.
   */
-@@ -3766,6 +3754,7 @@ static struct low_ops umc_ops = {
- 	.determine_edac_cap		= umc_determine_edac_cap,
- 	.determine_edac_ctl_cap		= umc_determine_edac_ctl_cap,
+-static int find_umc_channel(struct mce *m)
++static void umc_get_err_info(struct mce *m, struct err_info *err)
+ {
+-	return (m->ipid & GENMASK(31, 0)) >> 20;
++	err->channel = (m->ipid & GENMASK(31, 0)) >> 20;
++	err->csrow = m->synd & 0x7;
+ }
+ 
+ static void decode_umc_error(int node_id, struct mce *m)
+@@ -3092,8 +3098,6 @@ static void decode_umc_error(int node_id, struct mce *m)
+ 	if (m->status & MCI_STATUS_DEFERRED)
+ 		ecc_type = 3;
+ 
+-	err.channel = find_umc_channel(m);
+-
+ 	if (!(m->status & MCI_STATUS_SYNDV)) {
+ 		err.err_code = ERR_SYND;
+ 		goto log_error;
+@@ -3108,7 +3112,7 @@ static void decode_umc_error(int node_id, struct mce *m)
+ 			err.err_code = ERR_CHANNEL;
+ 	}
+ 
+-	err.csrow = m->synd & 0x7;
++	pvt->ops->get_err_info(m, &err);
+ 
+ 	if (umc_normaddr_to_sysaddr(m->addr, pvt->mc_node_id, err.channel, &sys_addr)) {
+ 		err.err_code = ERR_NORM_ADDR;
+@@ -3757,6 +3761,7 @@ static struct low_ops umc_ops = {
  	.init_csrows			= umc_init_csrows,
-+	.dump_misc_regs			= umc_dump_misc_regs,
+ 	.dump_misc_regs			= umc_dump_misc_regs,
+ 	.get_cs_mode			= umc_get_cs_mode,
++	.get_err_info			= umc_get_err_info,
  	.setup_mci_misc_attrs		= setup_mci_misc_attrs,
  };
- 
-@@ -3783,6 +3772,7 @@ static struct low_ops dct_ops = {
- 	.determine_edac_cap		= dct_determine_edac_cap,
- 	.determine_edac_ctl_cap		= dct_determine_edac_ctl_cap,
- 	.init_csrows			= dct_init_csrows,
-+	.dump_misc_regs			= dct_dump_misc_regs,
- 	.setup_mci_misc_attrs		= setup_mci_misc_attrs,
- };
- 
-@@ -4093,7 +4083,8 @@ static int probe_one_instance(unsigned int nid)
- 
- 	amd64_info("%s detected (node %d).\n", pvt->ctl_name, pvt->mc_node_id);
- 
--	dump_misc_regs(pvt);
-+	/* Display and decode various registers for debug purposes. */
-+	pvt->ops->dump_misc_regs(pvt);
- 
- 	return ret;
  
 diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-index 1b879c3cfb36..4e7467c285b9 100644
+index 1f64c08ae0ce..d5a64b0639bb 100644
 --- a/drivers/edac/amd64_edac.h
 +++ b/drivers/edac/amd64_edac.h
-@@ -478,6 +478,7 @@ struct low_ops {
- 	void (*determine_edac_ctl_cap)(struct mem_ctl_info *mci, struct amd64_pvt *pvt);
- 	void (*setup_mci_misc_attrs)(struct mem_ctl_info *mci);
+@@ -480,6 +480,7 @@ struct low_ops {
  	int  (*init_csrows)(struct mem_ctl_info *mci);
-+	void (*dump_misc_regs)(struct amd64_pvt *pvt);
+ 	void (*dump_misc_regs)(struct amd64_pvt *pvt);
+ 	int  (*get_cs_mode)(int dimm, u8 ctrl, struct amd64_pvt *pvt);
++	void (*get_err_info)(struct mce *m, struct err_info *err);
  };
  
  int __amd64_read_pci_cfg_dword(struct pci_dev *pdev, int offset,
