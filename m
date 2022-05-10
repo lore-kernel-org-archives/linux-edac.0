@@ -2,174 +2,121 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7053EC433F5
-	for <linux-edac@archiver.kernel.org>; Tue, 10 May 2022 15:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8DDC4167D
+	for <linux-edac@archiver.kernel.org>; Tue, 10 May 2022 15:24:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242540AbiEJP1l (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 May 2022 11:27:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58634 "EHLO
+        id S1345813AbiEJP15 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 10 May 2022 11:27:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345865AbiEJP11 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 10 May 2022 11:27:27 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE4E6C2F;
-        Tue, 10 May 2022 08:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652195870; x=1683731870;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Y7E4CLRa6BgtD+lqadZc0VtoWUMuhkwoVujS7HBVdOA=;
-  b=As11Y4/5EZEMN1iV5KohWMCQ5SvtcxXQmFl2FIcY3mSXjR+QEP3Pn96u
-   nfGl4RbAgWQCTFnDrNam/EV5f3k4CHMrSQiMnDeajAtrAwWlSh3LEz5bg
-   bbwxIRRORjohaXyyt1LdJ2kDTA0QSA6CMA/O0MI2JV3HcayyXhqHYdn2L
-   yyiX0XYoHBPDdlSbTgSituPJaXIcjat6M/x8Bib0c7A152w3xFaa3VUmw
-   87uVT0n04Y80fsX8izGJgV4vRxiqlkRtz0bZdv7sgX8ZwWc6QodhmkklH
-   XGdOodk1xNbypAd9vx6I89qpch6IUum+q03SYwYg1vdy38BSwkHUfBGDX
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="355830866"
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; 
-   d="scan'208";a="355830866"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2022 08:17:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,214,1647327600"; 
-   d="scan'208";a="635995834"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga004.fm.intel.com with ESMTP; 10 May 2022 08:17:32 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 9DA63590; Tue, 10 May 2022 18:15:16 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Tony Luck <tony.luck@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>, Jean Delvare <jdelvare@suse.de>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?q?=C5=81ukasz=20Bartosik?= <lb@semihalf.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Yong <jonathan.yong@intel.com>,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Peter Tyser <ptyser@xes-inc.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Mark Gross <markgross@kernel.org>,
-        Henning Schild <henning.schild@siemens.com>
-Subject: [PATCH v5 4/8] mfd: lpc_ich: Switch to generic p2sb_bar()
-Date:   Tue, 10 May 2022 18:14:47 +0300
-Message-Id: <20220510151451.85561-5-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220510151451.85561-1-andriy.shevchenko@linux.intel.com>
-References: <20220510151451.85561-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S1345836AbiEJP1P (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 10 May 2022 11:27:15 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD665E145;
+        Tue, 10 May 2022 08:16:09 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 88D9E21BB4;
+        Tue, 10 May 2022 15:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1652195767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=OZqtmv8UjkqRBSiOYZ6ar9KDyJT6hDNxXl9SSULCXTQ=;
+        b=fGhdvJlPt//dq0KQAtVijfj/ESEJ/OC2EKpevE2XN9mzQ9A1L9iCAxeXNQ+pUyb1Mv1UlE
+        HCruB1nKt1ZaJRQk1txzbCvkQt9XnVOQap2jC6oxObMWliWuUvAfiBCulbtCmC4sio8+xa
+        +ZqWsGMsijF1KXpHWJf4ANyjUo2sNOU=
+Received: from suse.cz (unknown [10.100.208.146])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 2901B2C141;
+        Tue, 10 May 2022 15:16:06 +0000 (UTC)
+Date:   Tue, 10 May 2022 17:16:01 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     akpm@linux-foundation.org, bhe@redhat.com,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, coresight@lists.linaro.org,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
+        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
+        will@kernel.org
+Subject: Re: [PATCH 14/30] panic: Properly identify the panic event to the
+ notifiers' callbacks
+Message-ID: <YnqBsXBImU64PAOL@alley>
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-15-gpiccoli@igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220427224924.592546-15-gpiccoli@igalia.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Instead of open coding p2sb_bar() functionality we are going to
-use generic library. There is one more user en route.
+On Wed 2022-04-27 19:49:08, Guilherme G. Piccoli wrote:
+> The notifiers infrastructure provides a way to pass an "id" to the
+> callbacks to determine what kind of event happened, i.e., what is
+> the reason behind they getting called.
+> 
+> The panic notifier currently pass 0, but this is soon to be
+> used in a multi-targeted notifier, so let's pass a meaningful
+> "id" over there.
+>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+> ---
+>  include/linux/panic_notifier.h | 5 +++++
+>  kernel/panic.c                 | 2 +-
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
+> index 41e32483d7a7..07dced83a783 100644
+> --- a/include/linux/panic_notifier.h
+> +++ b/include/linux/panic_notifier.h
+> @@ -9,4 +9,9 @@ extern struct atomic_notifier_head panic_notifier_list;
+>  
+>  extern bool crash_kexec_post_notifiers;
+>  
+> +enum panic_notifier_val {
+> +	PANIC_UNUSED,
+> +	PANIC_NOTIFIER = 0xDEAD,
+> +};
 
-This is more than just a clean-up. It also fixes a potential issue
-seen when SPI BAR is 64-bit. The current code works if and only if
-the PCI BAR of the hidden device is inside 4G address space. In case
-when firmware decides to go above 4G, we will get a wrong address.
+Hmm, this looks like a hack. PANIC_UNUSED will never be used.
+All notifiers will be always called with PANIC_NOTIFIER.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Tested-by: Henning Schild <henning.schild@siemens.com>
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/mfd/Kconfig   |  1 +
- drivers/mfd/lpc_ich.c | 27 ++++++++-------------------
- 2 files changed, 9 insertions(+), 19 deletions(-)
+The @val parameter is normally used when the same notifier_list
+is used in different situations.
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 3b59456f5545..9566341de470 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -572,6 +572,7 @@ config LPC_ICH
- 	tristate "Intel ICH LPC"
- 	depends on PCI
- 	select MFD_CORE
-+	select P2SB if X86
- 	help
- 	  The LPC bridge function of the Intel ICH provides support for
- 	  many functional units. This driver provides needed support for
-diff --git a/drivers/mfd/lpc_ich.c b/drivers/mfd/lpc_ich.c
-index d9175cb8a2d5..e360651c5406 100644
---- a/drivers/mfd/lpc_ich.c
-+++ b/drivers/mfd/lpc_ich.c
-@@ -45,6 +45,7 @@
- #include <linux/mfd/core.h>
- #include <linux/mfd/lpc_ich.h>
- #include <linux/platform_data/itco_wdt.h>
-+#include <linux/platform_data/x86/p2sb.h>
- 
- #define ACPIBASE		0x40
- #define ACPIBASE_GPE_OFF	0x28
-@@ -71,8 +72,6 @@
- #define BCR			0xdc
- #define BCR_WPD			BIT(0)
- 
--#define SPIBASE_APL_SZ		4096
--
- #define GPIOBASE_ICH0		0x58
- #define GPIOCTRL_ICH0		0x5C
- #define GPIOBASE_ICH6		0x48
-@@ -1134,6 +1133,7 @@ static int lpc_ich_init_spi(struct pci_dev *dev)
- 	struct resource *res = &intel_spi_res[0];
- 	struct intel_spi_boardinfo *info;
- 	u32 spi_base, rcba;
-+	int ret;
- 
- 	info = devm_kzalloc(&dev->dev, sizeof(*info), GFP_KERNEL);
- 	if (!info)
-@@ -1164,30 +1164,19 @@ static int lpc_ich_init_spi(struct pci_dev *dev)
- 		}
- 		break;
- 
--	case INTEL_SPI_BXT: {
--		unsigned int p2sb = PCI_DEVFN(13, 0);
--		unsigned int spi = PCI_DEVFN(13, 2);
--		struct pci_bus *bus = dev->bus;
--
-+	case INTEL_SPI_BXT:
- 		/*
- 		 * The P2SB is hidden by BIOS and we need to unhide it in
- 		 * order to read BAR of the SPI flash device. Once that is
- 		 * done we hide it again.
- 		 */
--		pci_bus_write_config_byte(bus, p2sb, 0xe1, 0x0);
--		pci_bus_read_config_dword(bus, spi, PCI_BASE_ADDRESS_0,
--					  &spi_base);
--		if (spi_base != ~0) {
--			res->start = spi_base & 0xfffffff0;
--			res->end = res->start + SPIBASE_APL_SZ - 1;
--
--			info->set_writeable = lpc_ich_bxt_set_writeable;
--			info->data = dev;
--		}
-+		ret = p2sb_bar(dev->bus, PCI_DEVFN(13, 2), res);
-+		if (ret)
-+			return ret;
- 
--		pci_bus_write_config_byte(bus, p2sb, 0xe1, 0x1);
-+		info->set_writeable = lpc_ich_bxt_set_writeable;
-+		info->data = dev;
- 		break;
--	}
- 
- 	default:
- 		return -EINVAL;
--- 
-2.35.1
+But you are going to use it when the same notifier is used
+in more lists. This is normally distinguished by the @nh
+(atomic_notifier_head) parameter.
 
+IMHO, it is a bad idea. First, it would confuse people because
+it does not follow the original design of the parameters.
+Second, the related code must be touched anyway when
+the notifier is moved into another list so it does not
+help much.
+
+Or do I miss anything, please?
+
+Best Regards,
+Petr
