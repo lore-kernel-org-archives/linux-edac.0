@@ -2,191 +2,107 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74774C4332F
-	for <linux-edac@archiver.kernel.org>; Tue, 10 May 2022 20:13:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EB45C433EF
+	for <linux-edac@archiver.kernel.org>; Wed, 11 May 2022 08:14:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbiEJUNQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 10 May 2022 16:13:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49742 "EHLO
+        id S242116AbiEKIOP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 11 May 2022 04:14:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229660AbiEJUNM (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 10 May 2022 16:13:12 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D764F1A051;
-        Tue, 10 May 2022 13:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=gJbDvxZCHLE9Xc3dgTDCPLuG4mRgGmv6OD8aG7M3JDQ=; b=g3Nx+lB9bAjkoFhfBAw/tKnujE
-        HE49wVGnvYPT6LdjDh7XC7p9pg3dQOiKQmVqs5yBTQcMLD/Qb7loz7GoYe9PtUSJMIbL1xCX7WOmP
-        Vje/KjqWSNfESrwYFEgzZTAiGGwdZ+mo/M5Y4DNbzDEU8fdx1WAqo3dhuepVJxkwfJ6AyMl1hzYbL
-        37Bt4s+cXuNOUF+dflK9we5prMFoOFLTCAg4y4fzR8H75s0j2xAYXr1Tlb+YwkS4w97u5Z+/kankc
-        sGAGYvqPkX6LoRGzU4WQr1NirsakQGzt8bG3WfLCBDveLwXiZiOyOvqFNe/oiLGpRxJijV5VJBRHK
-        Ucite2AA==;
-Received: from [177.183.162.244] (helo=[192.168.0.5])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1noWDn-0000dk-Tv; Tue, 10 May 2022 22:12:41 +0200
-Message-ID: <24a56892-adb3-809c-8c35-b5b5f001c283@igalia.com>
-Date:   Tue, 10 May 2022 17:11:08 -0300
+        with ESMTP id S237220AbiEKIOO (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 11 May 2022 04:14:14 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6352A3135F;
+        Wed, 11 May 2022 01:14:13 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id q76so1133604pgq.10;
+        Wed, 11 May 2022 01:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FS66Oj11w6MDEI4rAEPsn2TlYuqzBpV411AM7ZB6FsQ=;
+        b=YyNwaloW6KJqGPI4bLpuUOQnt1mWqMi58do3k/0z5ptZBG5OVdWJpWkjuT+TaAB/IF
+         p67J09KqgHwDb0UpMPQkQpBz9czIZX79tFT+cCSEtUq2K9icud0z4/Zn8KgQkSRcPssP
+         0FUb9URr4xMqiNiitafx7SASicr1eh64MCSLQBunZrHFaZnkRjPBFZ8iEkHyWRkywsKW
+         cLHOz7TMRWxFpOoAXy3Sy3i5uWtgt/dimowvC/OugzsDWJdqris41O6HmmTVM2wOVk6V
+         HLplzClSYY2pTpUAAC3ooixRoClys6VDaxSDbG0lBS6H6Ek3qFDwhLwGckIH9NqqiCWN
+         DNkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FS66Oj11w6MDEI4rAEPsn2TlYuqzBpV411AM7ZB6FsQ=;
+        b=AoLr6ql0q0rT4Nc4O+2LGF/g2CEKJNDDs5Mjh1loV0Le7/RoCUuzd9EsiKcXmz+ZbZ
+         Sed0sPgd5GLv+QkavhpYIGZ3UYkAJBoJiAvkOa42azmiTqcNyUCPv6EeOxvuNRRFuBgc
+         SICgnVyCQDq7Rwt1V8zB1eGe/oIrY9IKb+X4sn6gYl8NX+SEFubwDcDF/sXDzrYIwyRM
+         hwFfVWic/773NZOxgqdYPOVB0O9/088NzovYzklWSriKrcO1zOZNrV0QTEk7Wq0GtSRW
+         kzJJ1MkqckmaCG0wxi5gDedvJsrrOjKP6WdvKAfSw2XQ4Kkb4cN9mIPjtdueAaZc2ss4
+         u2ig==
+X-Gm-Message-State: AOAM530WFxzwjQuFnIs+8ywAIuG0xQgCSaO4CntZ95u/5nZtx+K4+q/u
+        A1sL+xja1BcnMbnU0SBX+uw=
+X-Google-Smtp-Source: ABdhPJwW2EQ62mEqtFDiymJuZi3mPDxbIp6q6bPnVvC+2v/YBF/u42PcoVpZZg8JjJCZKRtWEWsG0A==
+X-Received: by 2002:a63:1804:0:b0:3db:2d5:3efc with SMTP id y4-20020a631804000000b003db02d53efcmr4297364pgl.250.1652256851472;
+        Wed, 11 May 2022 01:14:11 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+        by smtp.googlemail.com with ESMTPSA id 12-20020a170902e9cc00b0015e8d4eb29esm1062763plk.232.2022.05.11.01.14.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 01:14:11 -0700 (PDT)
+From:   Miaoqian Lin <linmq006@gmail.com>
+To:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Greg Kroah-Hartman <gregkh@suse.de>,
+        Doug Thompson <dougthompson@xmission.com>,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linmq006@gmail.com
+Subject: [PATCH] EDAC: Fix some refcount leaks
+Date:   Wed, 11 May 2022 12:14:02 +0400
+Message-Id: <20220511081402.19784-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 01/30] x86/crash,reboot: Avoid re-disabling VMX in all
- CPUs on crash/restart
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-xtensa@linux-xtensa.org, netdev@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-        sparclinux@vger.kernel.org, xen-devel@lists.xenproject.org,
-        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
-        halves@canonical.com, fabiomirmar@gmail.com,
-        alejandro.j.jimenez@oracle.com, andriy.shevchenko@linux.intel.com,
-        arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
-        d.hatayama@jp.fujitsu.com, dave.hansen@linux.intel.com,
-        dyoung@redhat.com, feng.tang@intel.com, gregkh@linuxfoundation.org,
-        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
-        jgross@suse.com, john.ogness@linutronix.de, keescook@chromium.org,
-        luto@kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-        paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org, "David P . Reed" <dpreed@deepplum.com>,
-        Paolo Bonzini <pbonzini@redhat.com>
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-2-gpiccoli@igalia.com> <Ynk40U/KA+hLBZRC@google.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <Ynk40U/KA+hLBZRC@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 09/05/2022 12:52, Sean Christopherson wrote:
-> I find the shortlog to be very confusing, the bug has nothing to do with disabling
-> VMX and I distinctly remember wrapping VMXOFF with exception fixup to prevent doom
-> if VMX is already disabled :-).  The issue is really that nmi_shootdown_cpus() doesn't
-> play nice with being called twice.
-> 
+kobject_init_and_add() takes reference even when it fails.
+According to the doc of kobject_init_and_add()
 
-Hey Sean, OK - I agree with you, the issue is really about the double
-list addition.
+   If this function returns an error, kobject_put() must be called to
+   properly clean up the memory associated with the object.
 
-> [...]
-> 
-> Call stacks for the two callers would be very, very helpful.
-> [...]
+Fix this by calling kobject_put() when kobject_init_and_add() fails.
 
-> This feels like were just adding more duct tape to the mess.  nmi_shootdown() is
-> still unsafe for more than one caller, and it takes a _lot_ of staring and searching
-> to understand that crash_smp_send_stop() is invoked iff CONFIG_KEXEC_CORE=y, i.e.
-> that it will call smp_ops.crash_stop_other_cpus() and not just smp_send_stop().
-> 
-> Rather than shared a flag between two relatively unrelated functions, what if we
-> instead disabling virtualization in crash_nmi_callback() and then turn the reboot
-> call into a nop if an NMI shootdown has already occurred?  That will also add a
-> bit of documentation about multiple shootdowns not working.
-> 
-> And I believe there's also a lurking bug in native_machine_emergency_restart() that
-> can be fixed with cleanup.  SVM can also block INIT and so should be disabled during
-> an emergency reboot.
-> 
-> The attached patches are compile tested only.  If they seem sane, I'll post an
-> official mini series.
+Fixes: b2ed215a3338 ("Kobject: change drivers/edac to use kobject_init_and_add")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/edac/edac_device_sysfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks Sean, it makes sense - my patch is more a "band-aid" whereas
-yours fixes it in a more generic way. Confess I found the logic of your
-patch complex, but as you said, it requires a *lot* of code analysis to
-understand these multiple shutdown patches, the problem is complicated
-by nature heh
+diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
+index 9a61d92bdf42..08cba532ad48 100644
+--- a/drivers/edac/edac_device_sysfs.c
++++ b/drivers/edac/edac_device_sysfs.c
+@@ -542,7 +542,7 @@ static int edac_device_create_block(struct edac_device_ctl_info *edac_dev,
+ 		edac_dbg(1, "Failed to register instance '%s'\n", block->name);
+ 		kobject_put(main_kobj);
+ 		err = -ENODEV;
+-		goto err_out;
++		goto err_on_attrib;
+ 	}
+ 
+ 	/* If there are driver level block attributes, then added them
+@@ -640,7 +640,7 @@ static int edac_device_create_instance(struct edac_device_ctl_info *edac_dev,
+ 		edac_dbg(2, "Failed to register instance '%s'\n",
+ 			 instance->name);
+ 		kobject_put(main_kobj);
+-		goto err_out;
++		goto edac_device_create_instance;
+ 	}
+ 
+ 	edac_dbg(4, "now register '%d' blocks for instance %d\n",
+-- 
+2.25.1
 
-I've tested your patch 0001 and it works well for all cases [0], so go
-ahead and submit the miniseries, feel free to add:
-
-Reported-and-tested-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-
-
-I've read patch 0002 and it makes sense to me as well, a good proactive
-bug fix =)
-
-With that said, I'll of course drop this one from V2 of this series.
-Cheers,
-
-
-Guilherme
-
-
-
-
-[0]
-A summary of my tests and the code paths that the panic shutdown take
-depending on some conditions:
-
-New function that disables VMX/SVM: cpu_crash_disable_virtualization()
-[should be executed in every online CPU on shutdown)
-
-The panic path triggers the following call stacks depending on kdump and
-post_notifiers:
-
-
-(1) kexec/kdump + !crash_kexec_post_notifiers
-->machine_crash_shutdown()
-----.crash_shutdown() <custom handler>
-------native_machine_crash_shutdown() [all custom handlers except Xen PV
-call the native generic function]
---------crash_smp_send_stop()
-----------kdump_nmi_shootdown_cpus()
-------------nmi_shootdown_cpus(kdump_nmi_callback)
---------------crash_nmi_callback()
-----------------kdump_nmi_callback()
-------------------cpu_crash_disable_virtualization()
-
-
-(2) kexec/kdump + crash_kexec_post_notifiers
-->crash_smp_send_stop()
-----kdump_nmi_shootdown_cpus()
-------nmi_shootdown_cpus(kdump_nmi_callback)
---------crash_nmi_callback()
-----------kdump_nmi_callback()
-------------cpu_crash_disable_virtualization()
-
-After this path, will execute machine_crash_shutdown() but
-crash_smp_send_stop()
-is guarded against double execution. Also, emergency restart calls
-emergency_vmx_disable_all() .
-
-
-(3) !kexec/kdump + crash_kexec_post_notifiers
-
-Same as (2)
-
-
-(4) !kexec/kdump + !crash_kexec_post_notifiers
--> smp_send_stop()
-----native_stop_other_cpus()
-------apic_send_IPI_allbutself(REBOOT_VECTOR)
---------sysvec_reboot
-----------cpu_emergency_vmxoff() <if the IPI approach succeeded, CPU
-stopped here>
-
-If not:
-------register_stop_handler()
---------apic_send_IPI_allbutself(NMI_VECTOR)
-----------smp_stop_nmi_callback()
-------------cpu_emergency_vmxoff()
-
-After that, emergency_vmx_disable_all() gets called in the emergency
-restart path as well.
