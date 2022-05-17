@@ -2,80 +2,64 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F368EC433F5
-	for <linux-edac@archiver.kernel.org>; Tue, 17 May 2022 15:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1711EC433F5
+	for <linux-edac@archiver.kernel.org>; Tue, 17 May 2022 16:23:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244212AbiEQP5G (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 17 May 2022 11:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36016 "EHLO
+        id S1350874AbiEQQXj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 17 May 2022 12:23:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242914AbiEQP5F (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 17 May 2022 11:57:05 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7289B140C1;
-        Tue, 17 May 2022 08:57:04 -0700 (PDT)
-Received: from zn.tnic (p200300ea97465748329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9746:5748:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 972B61EC058A;
-        Tue, 17 May 2022 17:56:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1652803018;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=xAoKdhS9VQX3sDi3PtJLveP3nETFOwHhfka6pQzBXGU=;
-        b=bceHcIIS99GQ/0tNwT2xlMPQYBVBV2HCV09v0FFKfh+/hf0aZXDNvJfwne+ZLmhSbYV9hu
-        qOrN7zfpvFgBKJG0wLxHZ3rBCU4jlaKH9yprxRLQuTN+TBSVBk88y43FDVnMMx/CGgfZQ6
-        rs+/5262WEgEtg2xucQcHHQiSvKQsw4=
-Date:   Tue, 17 May 2022 17:56:53 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
-        rric@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] edac: i5100_edac: Remove unused inline function
- i5100_nrecmema_dm_buf_id()
-Message-ID: <YoPFxaLSi2kmC9Nf@zn.tnic>
-References: <20220514080433.29944-1-yuehaibing@huawei.com>
+        with ESMTP id S234372AbiEQQXf (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 17 May 2022 12:23:35 -0400
+X-Greylist: delayed 2247 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 May 2022 09:23:35 PDT
+Received: from mail.neweas.com (mail.neweas.com [162.19.155.127])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C7E3B3D1
+        for <linux-edac@vger.kernel.org>; Tue, 17 May 2022 09:23:34 -0700 (PDT)
+Received: by mail.neweas.com (Postfix, from userid 1002)
+        id 27E6C22D43; Tue, 17 May 2022 15:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=neweas.com; s=mail;
+        t=1652802367; bh=qQhd+6rcOH+OhrNQ6A9OWLCE/79cwvyTtb6LUe1aYuU=;
+        h=Date:From:To:Subject:From;
+        b=v4biqUp74abbAY8xWRXJo/iB+HjkTslIycVjXg5Oa7uRWRQXLgt8SQHiMreJZ7nV5
+         jxCwiMcY0jKpEriF4PGZ6cWOzlmrfDymQ/8XBr/dG1XLNRNcTzJKz55WVEFefQwS0q
+         kDlHOscdzc/M4ZfJayOxBXcS8mDjreGIFf9nh0w4zwKue1fEHxqT8AVKgCJ2yN+A2q
+         N1PzV8LdjDWO5Hd19ak/1ctFTsADLCefc3dkb/FJuM9t/hmtXRfQXKZ6CGsRrjtSwc
+         9bAEinGcG4kEtGqO0Jer86uYvJIBmTLXB+fuWPQSVQNG2aKKpv4ZXwHXG201DHWj1u
+         v8fAx2HA9s1fA==
+Received: by mail.neweas.com for <linux-edac@vger.kernel.org>; Tue, 17 May 2022 15:45:46 GMT
+Message-ID: <20220517141500-0.1.f.103v.0.hjtjk3zce2@neweas.com>
+Date:   Tue, 17 May 2022 15:45:46 GMT
+From:   "Luca Gauthier" <luca.gauthier@neweas.com>
+To:     <linux-edac@vger.kernel.org>
+Subject: New collaboration
+X-Mailer: mail.neweas.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220514080433.29944-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Sat, May 14, 2022 at 04:04:33PM +0800, YueHaibing wrote:
-> commit a4972b1b9a04 ("edac: i5100_edac: Remove unused i5100_recmema_dm_buf_id")
-> leave this behind, remove it.
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/edac/i5100_edac.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/edac/i5100_edac.c b/drivers/edac/i5100_edac.c
-> index 324a46b8479b..f5d82518c15e 100644
-> --- a/drivers/edac/i5100_edac.c
-> +++ b/drivers/edac/i5100_edac.c
-> @@ -244,11 +244,6 @@ static inline u32 i5100_nrecmema_rank(u32 a)
->  	return a >>  8 & ((1 << 3) - 1);
->  }
->  
-> -static inline u32 i5100_nrecmema_dm_buf_id(u32 a)
-> -{
-> -	return a & ((1 << 8) - 1);
-> -}
-> -
->  static inline u32 i5100_nrecmemb_cas(u32 a)
->  {
->  	return a >> 16 & ((1 << 13) - 1);
-> -- 
+Hello,
 
-Applied, thanks.
+are you looking for more business clients?
 
--- 
-Regards/Gruss,
-    Boris.
+We would like to start working with you as a partner in acquiring or exch=
+anging leads, which directly translates into mutual benefits in the form =
+of an increased client portfolio.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+We work in the sector of internet marketing and as one of the first in Eu=
+rope SEO Agencies we=E2=80=99ve introduced the SEO 360 service which allo=
+ws your clients to gain the access to original SEO consultations.
+
+By choosing to work with us you receive support in achieving your busines=
+s goals, and help in handling Digital Marketing for your clients.
+
+We support over 237 partner companies. We have one of the biggest executi=
+ve departments in Europe at our disposal, we=E2=80=99ve prepared over 200=
+0 campaigns in Europe and 200 in the USA and Canada.
+
+Are you interested in the details of our partnership programme?
+
+Yours sincerely,
+Luca Gauthier
