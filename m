@@ -2,80 +2,70 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D85C433EF
-	for <linux-edac@archiver.kernel.org>; Fri, 20 May 2022 12:09:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9BCCC433FE
+	for <linux-edac@archiver.kernel.org>; Sat, 21 May 2022 11:12:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241533AbiETMJf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 20 May 2022 08:09:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38740 "EHLO
+        id S1344955AbiEULMq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 21 May 2022 07:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241234AbiETMJc (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 20 May 2022 08:09:32 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE6514FC8F;
-        Fri, 20 May 2022 05:09:31 -0700 (PDT)
-Received: from zn.tnic (p200300ea974657be329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9746:57be:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1D61B1EC0432;
-        Fri, 20 May 2022 14:09:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1653048566;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=wAUEpaxcn1VjODERDlTBwD2l2P5Ti2X7RxSfo/FhO7g=;
-        b=AqccEl2YFLgHBwWukfM15c26wLyTYp0BTcTwKa5inCPcJkkJ2RtctkhhZRtxbyPGKt3hqq
-        Fe8H2STvPhOoTipdnMQQYblJR7q+zAcAMhK9FaKkyY+rLrq3bTZNJn0a1+j8kB+iUppIny
-        oFERssQ2eEB/XA65/bk9GLDZJb0c+NQ=
-Date:   Fri, 20 May 2022 14:09:21 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Medad Young <medadyoung@gmail.com>
-Cc:     rric@kernel.org, James Morse <james.morse@arm.com>,
-        tony.luck@intel.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Patrick Venture <venture@google.com>, KWLIU@nuvoton.com,
-        YSCHU@nuvoton.com, JJLIU0@nuvoton.com, KFTING <KFTING@nuvoton.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>, ctcchien@nuvoton.com,
-        linux-edac <linux-edac@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>
-Subject: Re: [PATCH v9 1/3] ARM: dts: nuvoton: Add memory controller node
-Message-ID: <YoeE8cBhUkF3K44/@zn.tnic>
-References: <20220510031056.1657-1-ctcchien@nuvoton.com>
- <20220510031056.1657-2-ctcchien@nuvoton.com>
- <YoUwe6Tj4Uh6ukc8@zn.tnic>
- <CAHpyw9fjThEP4NuU08aNJ_raHpq9-j9KgBb8YuZ_shXTjhm3JA@mail.gmail.com>
- <YoYPGWreQuF9QZzc@zn.tnic>
- <CAHpyw9es-n+bW9SsGBmmr3ghBFk8Q8E6ZTbE42BpU-6p8LfHtw@mail.gmail.com>
+        with ESMTP id S1353474AbiEULMT (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 21 May 2022 07:12:19 -0400
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DA433351;
+        Sat, 21 May 2022 04:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zQtBKPg+d+cC4XEdv1IkBWPPxZwE5zveLcgSMEEGK7k=;
+  b=FQWHsvmiTLuqeVMY/uIL3NAmScLE+bf7gE4E6RdyY7bh6G5qnwAmKapw
+   2QO4cqiqehvX38tprHeZpMH/V6MvliexjmRMBNItTE0WqvdYUsET7c7nu
+   +uJu8ztdaUCLncnxWrOg0NhAl3hqR1hFNDA+U897f++cg33l+kGrl0nne
+   o=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.91,242,1647298800"; 
+   d="scan'208";a="14727936"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:11:59 +0200
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Khuong Dinh <khuong@os.amperecomputing.com>
+Cc:     kernel-janitors@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] EDAC/xgene: fix typo in comment
+Date:   Sat, 21 May 2022 13:10:49 +0200
+Message-Id: <20220521111145.81697-39-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHpyw9es-n+bW9SsGBmmr3ghBFk8Q8E6ZTbE42BpU-6p8LfHtw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Fri, May 20, 2022 at 10:31:05AM +0800, Medad Young wrote:
-> for the second warning, I did upadate my .git/config according to your
-> advise. but I thought I met orthe problem, I will try to fix it
+Spelling mistake (triple letters) in comment.
+Detected with the help of Coccinelle.
 
-You need to do "git commit --amend" on the patch so that it updates the
-author.
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-> for the first warning, did I really need to fix it?
+---
+ drivers/edac/xgene_edac.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, you need to fix both.
+diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
+index 7197f9fa0245..54081403db4f 100644
+--- a/drivers/edac/xgene_edac.c
++++ b/drivers/edac/xgene_edac.c
+@@ -501,7 +501,7 @@ static int xgene_edac_mc_remove(struct xgene_edac_mc_ctx *mcu)
+ #define MEMERR_L2C_L2ESRA_PAGE_OFFSET		0x0804
+ 
+ /*
+- * Processor Module Domain (PMD) context - Context for a pair of processsors.
++ * Processor Module Domain (PMD) context - Context for a pair of processors.
+  * Each PMD consists of 2 CPUs and a shared L2 cache. Each CPU consists of
+  * its own L1 cache.
+  */
 
-Again, before you send, run checkpatch on your patches, one by one.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
