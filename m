@@ -2,92 +2,153 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 778B6C433EF
-	for <linux-edac@archiver.kernel.org>; Fri,  3 Jun 2022 17:34:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B31DCCA473
+	for <linux-edac@archiver.kernel.org>; Mon,  6 Jun 2022 16:41:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344516AbiFCRee (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 3 Jun 2022 13:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40290 "EHLO
+        id S231142AbiFFQl4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 6 Jun 2022 12:41:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344509AbiFCRee (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 3 Jun 2022 13:34:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 717BF52E4A
-        for <linux-edac@vger.kernel.org>; Fri,  3 Jun 2022 10:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654277670;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/Ca1MSou98O4NdvVroyRc5kObHKDy6N8tL0SYQPt+OE=;
-        b=f/BkpUV6Cq5ZtKvqea5cSSVGOYFVCiGeGSDt0iqOrd1e9aCdcY/bIe2wNzLp+bEwpfw+5o
-        UY/UEuQ7vwKipG4y5ljVRwGYgiMa3lxn5HsXzV9TqZf5+qbUwAqiKgjQYC3BO4RfBbgn3D
-        W/UQoke7PG/zeeASfZMX83myIUTiBdw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-fMHQfR9QNhOr0gh0IvSkKQ-1; Fri, 03 Jun 2022 13:34:27 -0400
-X-MC-Unique: fMHQfR9QNhOr0gh0IvSkKQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE76685A5B9;
-        Fri,  3 Jun 2022 17:34:26 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B2FA51410DDB;
-        Fri,  3 Jun 2022 17:34:26 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 253HYQvJ025627;
-        Fri, 3 Jun 2022 13:34:26 -0400
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 253HYQSf025624;
-        Fri, 3 Jun 2022 13:34:26 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Fri, 3 Jun 2022 13:34:26 -0400 (EDT)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Borislav Petkov <bp@suse.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org
-Subject: Re: Warnings when suspending to disk
-In-Reply-To: <Ypjr5yIMan1N0bqH@yaz-fattaah>
-Message-ID: <alpine.LRH.2.02.2206031327190.25179@file01.intranet.prod.int.rdu2.redhat.com>
-References: <alpine.LRH.2.02.2205301145540.25840@file01.intranet.prod.int.rdu2.redhat.com> <YpUcf19E+qgb6Eyu@kroah.com> <alpine.LRH.2.02.2205310324410.13770@file01.intranet.prod.int.rdu2.redhat.com> <Ypjr5yIMan1N0bqH@yaz-fattaah>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+        with ESMTP id S230514AbiFFQl4 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 6 Jun 2022 12:41:56 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E76DF8B;
+        Mon,  6 Jun 2022 09:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654533714; x=1686069714;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=RI6UqOh9xYxAqMF8vYRnoqK0g1vUqPho6h1TZ3tsMs0=;
+  b=bKyKxpFTr8JCaLEaBiVouN7EWZFr0Us16prKB3fJBifWg8wFJR6IXnDl
+   lIycI/p1K/l5r062zHjleG0TPR+Mi8sQyzpVGM9xvU525ZR8NPhWZyAx9
+   RCiGVubp0nV5JvoY8rv7/iD5B4yppw0Ps+3RUV0Nq15lWjuWeB+Z6LbjW
+   rqKt90BGoUU+9xacVwwCCcOMqL6ozKBAGtqoMytyg6Cw82tQoPc6fBwCl
+   Gridm6KbiseW3mlYt8WEBnK9iRn9ZbsEE6OZYHsugfH4/Yeyrtt6cRDdv
+   +JMvT39SgGJ7rcG48sZct/kkiFxLEeCH72B425UjKuDXVq2X3ch1pfP4S
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="275446378"
+X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
+   d="scan'208";a="275446378"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2022 09:41:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; 
+   d="scan'208";a="906623914"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga005.fm.intel.com with ESMTP; 06 Jun 2022 09:41:47 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 7CE85A97; Mon,  6 Jun 2022 19:41:50 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Tony Luck <tony.luck@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>, Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Yong <jonathan.yong@intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: [PATCH v6 03/12] mfd: lpc_ich: Factor out lpc_ich_enable_spi_write()
+Date:   Mon,  6 Jun 2022 19:41:29 +0300
+Message-Id: <20220606164138.66535-4-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
+References: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
+Factor out duplicate code to lpc_ich_enable_spi_write() helper function.
 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Tested-by: Henning Schild <henning.schild@siemens.com>
+Acked-by: Hans de Goede <hdegoede@redhat.com>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/mfd/lpc_ich.c | 31 ++++++++++++++-----------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
 
-On Thu, 2 Jun 2022, Yazen Ghannam wrote:
-
-> On Tue, May 31, 2022 at 03:42:12AM -0400, Mikulas Patocka wrote:
-> 
-> ...
-> 
-> > > > The machine is two six-core Opterons 8435.
-> > > > 
-> > > > Mikulas
-> 
-> Hi Mikulas,
-> 
-> I'm not able to reproduce this issue on the systems I have access to. But I
-> think the following patch may be the solution. Can you please try this?
-> 
-> Thanks,
-> Yazen
-
-I tried this patch and it doesn't help.
-
-With this patch, it's even worse - before the patch, I had 48 warnings per 
-suspend, with the patch, I have 72 warnings.
-
-Mikulas
+diff --git a/drivers/mfd/lpc_ich.c b/drivers/mfd/lpc_ich.c
+index 9ffab9aafd81..d9175cb8a2d5 100644
+--- a/drivers/mfd/lpc_ich.c
++++ b/drivers/mfd/lpc_ich.c
+@@ -1100,35 +1100,32 @@ static bool lpc_ich_byt_set_writeable(void __iomem *base, void *data)
+ 	return val & BYT_BCR_WPD;
+ }
+ 
+-static bool lpc_ich_lpt_set_writeable(void __iomem *base, void *data)
++static bool lpc_ich_set_writeable(struct pci_bus *bus, unsigned int devfn)
+ {
+-	struct pci_dev *pdev = data;
+ 	u32 bcr;
+ 
+-	pci_read_config_dword(pdev, BCR, &bcr);
++	pci_bus_read_config_dword(bus, devfn, BCR, &bcr);
+ 	if (!(bcr & BCR_WPD)) {
+ 		bcr |= BCR_WPD;
+-		pci_write_config_dword(pdev, BCR, bcr);
+-		pci_read_config_dword(pdev, BCR, &bcr);
++		pci_bus_write_config_dword(bus, devfn, BCR, bcr);
++		pci_bus_read_config_dword(bus, devfn, BCR, &bcr);
+ 	}
+ 
+ 	return bcr & BCR_WPD;
+ }
+ 
+-static bool lpc_ich_bxt_set_writeable(void __iomem *base, void *data)
++static bool lpc_ich_lpt_set_writeable(void __iomem *base, void *data)
+ {
+-	unsigned int spi = PCI_DEVFN(13, 2);
+-	struct pci_bus *bus = data;
+-	u32 bcr;
++	struct pci_dev *pdev = data;
+ 
+-	pci_bus_read_config_dword(bus, spi, BCR, &bcr);
+-	if (!(bcr & BCR_WPD)) {
+-		bcr |= BCR_WPD;
+-		pci_bus_write_config_dword(bus, spi, BCR, bcr);
+-		pci_bus_read_config_dword(bus, spi, BCR, &bcr);
+-	}
++	return lpc_ich_set_writeable(pdev->bus, pdev->devfn);
++}
+ 
+-	return bcr & BCR_WPD;
++static bool lpc_ich_bxt_set_writeable(void __iomem *base, void *data)
++{
++	struct pci_dev *pdev = data;
++
++	return lpc_ich_set_writeable(pdev->bus, PCI_DEVFN(13, 2));
+ }
+ 
+ static int lpc_ich_init_spi(struct pci_dev *dev)
+@@ -1185,7 +1182,7 @@ static int lpc_ich_init_spi(struct pci_dev *dev)
+ 			res->end = res->start + SPIBASE_APL_SZ - 1;
+ 
+ 			info->set_writeable = lpc_ich_bxt_set_writeable;
+-			info->data = bus;
++			info->data = dev;
+ 		}
+ 
+ 		pci_bus_write_config_byte(bus, p2sb, 0xe1, 0x1);
+-- 
+2.35.1
 
