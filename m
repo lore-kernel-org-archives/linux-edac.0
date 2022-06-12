@@ -2,189 +2,144 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F65BC43334
-	for <linux-edac@archiver.kernel.org>; Sat, 11 Jun 2022 10:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FAF5C433EF
+	for <linux-edac@archiver.kernel.org>; Sun, 12 Jun 2022 16:23:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbiFKKcS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 11 Jun 2022 06:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55464 "EHLO
+        id S231528AbiFLQX4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 12 Jun 2022 12:23:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230088AbiFKKcO (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 11 Jun 2022 06:32:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 32D98131
-        for <linux-edac@vger.kernel.org>; Sat, 11 Jun 2022 03:32:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654943531;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=JD69J2sLUFBpAYD/xB2JKlPgocy/ryA5OTBJSpAmob4=;
-        b=XWrpXxXgRM7+4l6CBbJuYGdYIqQY9xSzpIO6DVzvCJWZeo3WwucYpLQJGaxST0iufilh1R
-        rFXyb1hAbMpv9I/kftMufRN2jYOGb8By5zL3Qji+Mmy2MEbNrPTr2tNGyrZIAqz3yVjbGi
-        I70o2b4Ih/KfycB+B2TKDeW8opKqWH0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-213-Ktr_Xw39O5WI9C1k7jIHXA-1; Sat, 11 Jun 2022 06:32:05 -0400
-X-MC-Unique: Ktr_Xw39O5WI9C1k7jIHXA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 773A485A580;
-        Sat, 11 Jun 2022 10:32:04 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A1A22166B26;
-        Sat, 11 Jun 2022 10:32:04 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 25BAW4bZ010370;
-        Sat, 11 Jun 2022 06:32:04 -0400
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 25BAW3gg010366;
-        Sat, 11 Jun 2022 06:32:03 -0400
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Sat, 11 Jun 2022 06:32:03 -0400 (EDT)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Borislav Petkov <bp@suse.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org
-Subject: Re: Warnings when suspending to disk
-In-Reply-To: <YqD1YjeovGu28xsP@yaz-fattaah>
-Message-ID: <alpine.LRH.2.02.2206110625280.9999@file01.intranet.prod.int.rdu2.redhat.com>
-References: <alpine.LRH.2.02.2205301145540.25840@file01.intranet.prod.int.rdu2.redhat.com> <YpUcf19E+qgb6Eyu@kroah.com> <alpine.LRH.2.02.2205310324410.13770@file01.intranet.prod.int.rdu2.redhat.com> <Ypjr5yIMan1N0bqH@yaz-fattaah>
- <alpine.LRH.2.02.2206031327190.25179@file01.intranet.prod.int.rdu2.redhat.com> <YqD1YjeovGu28xsP@yaz-fattaah>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+        with ESMTP id S229452AbiFLQXz (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 12 Jun 2022 12:23:55 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21ACC5E15C
+        for <linux-edac@vger.kernel.org>; Sun, 12 Jun 2022 09:23:54 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id c130-20020a1c3588000000b0039c6fd897b4so354922wma.4
+        for <linux-edac@vger.kernel.org>; Sun, 12 Jun 2022 09:23:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Bp1t0MAX0vF2MFrixDjLhlmP3KLo6hgWxyC3M+usaE8=;
+        b=R/sEjCaZtQEnfPFaK+UnnTh0wg4bRV6svzZB+oS2hfNNJzpfcRRfcZmCJOP8EySmQd
+         g+xcBgfqADhJshLEY78CKFvKjnbnDQTiZlNPaYQ4krJN4DIZr0DcF9zio2w2kHV8Sq+E
+         bLM/i/SzIos3D8gnl2FjBUdtUwk4BOXJ/p4Gz7UFvasXpv6HXMR+5PupsiPSPR0TnZya
+         F4NsEqC4DRhyBo+zGRqyKs6C3D88H2ZM6iKWsmgHMRXInXx2VY+xkqjwHyZXLhqJ9DIi
+         GLX8O48hgFb+6agiYOXIOISy12Ll9TGb3KH9UckWOW5W3iIlklqwzjxaxwQD5RPR2Sdf
+         1JcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Bp1t0MAX0vF2MFrixDjLhlmP3KLo6hgWxyC3M+usaE8=;
+        b=vVVIwP+UzTRs32YQs+Mp2/CPLt+uglzU+LWAl3rk3HznIHrPyV8YRsKVuczohuCmh2
+         1ph7klrQzzmCZCeSdKPcWp+qbhI+Nxkl/ynqymyh2ok5VIYk4QmLuiHMQt5jTkA0tedH
+         W0F+7MCuBeezSQVJ8k2PSj/CVbwPZ8ZpyqAdO8LpJEIv2e66FVAa50IAbFv5VynAeItD
+         buyilS9OCfYpGHUU+cpRDde0mXBfd59O5GL5DEpe6GXkXYcRQNY9VkMBypTdh3CISuMd
+         7E/5QvPSE22nnuNr6Aa+3I7eJBdzni/bvBg8RRCtUBVTUns7Kb2z6xGOsiTb2YXV/6lc
+         vNrA==
+X-Gm-Message-State: AOAM532rjYLjqW2qiNm6SXVmwXNX1F++dzrWR2TNIFFWvX8gPVtTBAyG
+        gxDZ2M/T2E9HAVhRqsTCAS5yXQ==
+X-Google-Smtp-Source: ABdhPJyPL0K+xAMvnRb2ONEX1jWjnGDkkA7zHOBZU3POgTFS7NF7cqaibZCvN8D1E1ysUwm9U4xflg==
+X-Received: by 2002:a05:600c:2682:b0:39c:8ec6:57d9 with SMTP id 2-20020a05600c268200b0039c8ec657d9mr3559545wmt.99.1655051032703;
+        Sun, 12 Jun 2022 09:23:52 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id bh8-20020a05600c3d0800b003942a244ee6sm6005715wmb.43.2022.06.12.09.23.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jun 2022 09:23:51 -0700 (PDT)
+Date:   Sun, 12 Jun 2022 17:23:47 +0100
+From:   Phillip Potter <phil@philpotter.co.uk>
+To:     Bill Wendling <morbo@google.com>
+Cc:     isanbard@gmail.com, Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Jan Kara <jack@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        netdev@vger.kernel.org, alsa-devel@alsa-project.org,
+        llvm@lists.linux.dev
+Subject: Re: [PATCH 08/12] cdrom: use correct format characters
+Message-ID: <YqYTExy0IpVbunBL@equinox>
+References: <20220609221702.347522-1-morbo@google.com>
+ <20220609221702.347522-9-morbo@google.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220609221702.347522-9-morbo@google.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-
-
-On Wed, 8 Jun 2022, Yazen Ghannam wrote:
-
-> On Fri, Jun 03, 2022 at 01:34:26PM -0400, Mikulas Patocka wrote:
+On Thu, Jun 09, 2022 at 10:16:27PM +0000, Bill Wendling wrote:
+> From: Bill Wendling <isanbard@gmail.com>
 > 
-> ...
+> When compiling with -Wformat, clang emits the following warnings:
 > 
-> > I tried this patch and it doesn't help.
+> drivers/cdrom/cdrom.c:3454:48: error: format string is not a string literal (potentially insecure) [-Werror,-Wformat-security]
+>         ret = scnprintf(info + *pos, max_size - *pos, header);
+>                                                       ^~~~~~
 > 
-> Thanks Mikulas for testing.
+> Use a string literal for the format string.
 > 
-> I'm still not able to reproduce the exact issue. But I was able to reproduce
-> the same symptom by hacking the kernel and doing CPU hotplug.
-
-I also see the warnings when disabling cores.
-
-> Can you please try the following patch? This seems to work in my hacked case.
-> I also tried to write out a detailed description of the issue to the best of
-> my knowledge.
-
-This patch works - there are no longer any warnings on CPU disable or on 
-suspend to disk.
-
-Mikulas
-
-> Thanks,
-> Yazen
-> 
-> ========================
-> 
-> >From d1fa5cdc7f29bf810215f0a83f16bc7435e55240 Mon Sep 17 00:00:00 2001
-> From: Yazen Ghannam <yazen.ghannam@amd.com>
-> Date: Mon, 6 Jun 2022 19:45:56 +0000
-> Subject: [PATCH] x86/MCE/AMD: Decrement threshold_bank refcount when removing
->  threshold blocks
-> 
-> AMD systems from Family 10h to 16h share MCA bank 4 across multiple CPUs.
-> Therefore, the threshold_bank structure for bank 4, and its threshold_block
-> structures, will be initialized once at boot time. And the kobject for the
-> shared bank will be added to each of the CPUs that share it. Furthermore,
-> the threshold_blocks for the shared bank will be added again to the bank's
-> kobject. These additions will increase the refcount for the bank's kobject.
-> 
-> For example, a shared bank with two blocks and shared across two CPUs will
-> be set up like this:
-> 
-> CPU0 init
->   bank create and add; bank refcount = 1; threshold_create_bank()
->     block 0 init and add; bank refcount = 2; allocate_threshold_blocks()
->     block 1 init and add; bank refcount = 3; allocate_threshold_blocks()
-> CPU1 init
->   bank add; bank refcount = 3; threshold_create_bank()
->     block 0 add; bank refcount = 4; __threshold_add_blocks()
->     block 1 add; bank refcount = 5; __threshold_add_blocks()
-> 
-> Currently in threshold_remove_bank(), if the bank is shared then
-> __threshold_remove_blocks() is called. Here the shared bank's kobject and
-> the bank's blocks' kobjects are deleted. This is done on the first call
-> even while the structures are still shared. Subsequent calls from other
-> CPUs that share the structures will attempt to delete the kobjects.
-> 
-> During kobject_del(), kobject->sd is removed. If the kobject is not part of
-> a kset with default_groups, then subsequent kobject_del() calls seem safe
-> even with kobject->sd == NULL.
-> 
-> Originally, the AMD MCA thresholding structures did not use default_groups.
-> And so the above behavior was not apparent.
-> 
-> However, a recent change implemented default_groups for the thresholding
-> structures. Therefore, kobject_del() will go down the sysfs_remove_groups()
-> code path. In this case, the first kobject_del() may succeed and remove
-> kobject->sd. But subsequent kobject_del() calls will give a WARNing in
-> kernfs_remove_by_name_ns() since kobject->sd == NULL.
-> 
-> Use kobject_put() on the shared bank's kobject when "removing" blocks. This
-> decrements the bank's refcount while keeping kobjects enabled until the
-> bank is no longer shared. At that point, kobject_put() will be called on
-> the blocks which drives their refcount to 0 and deletes them and also
-> decrementing the bank's refcount. And finally kobject_put() will be called
-> on the bank driving its refcount to 0 and deleting it.
-> 
-> With this patch and the example above:
-> 
-> CPU1 shutdown
->   bank is shared; bank refcount = 5; threshold_remove_bank()
->     block 0 put parent bank; bank refcount = 4; __threshold_remove_blocks()
->     block 1 put parent bank; bank refcount = 3; __threshold_remove_blocks()
-> CPU0 shutdown
->   bank is no longer shared; bank refcount = 3; threshold_remove_bank()
->     block 0 put block; bank refcount = 2; deallocate_threshold_blocks()
->     block 1 put block; bank refcount = 1; deallocate_threshold_blocks()
->   put bank; bank refcount = 0; threshold_remove_bank()
-> 
-> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-
-Tested-by: Mikulas Patocka <mpatocka@redhat.com>
-
+> Link: https://github.com/ClangBuiltLinux/linux/issues/378
+> Signed-off-by: Bill Wendling <isanbard@gmail.com>
 > ---
->  arch/x86/kernel/cpu/mce/amd.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/cdrom/cdrom.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-> index 2b7ee4a6c6ba..680b75d23a03 100644
-> --- a/arch/x86/kernel/cpu/mce/amd.c
-> +++ b/arch/x86/kernel/cpu/mce/amd.c
-> @@ -1260,10 +1260,10 @@ static void __threshold_remove_blocks(struct threshold_bank *b)
->  	struct threshold_block *pos = NULL;
->  	struct threshold_block *tmp = NULL;
+> diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
+> index 416f723a2dbb..52b40120c76e 100644
+> --- a/drivers/cdrom/cdrom.c
+> +++ b/drivers/cdrom/cdrom.c
+> @@ -3451,7 +3451,7 @@ static int cdrom_print_info(const char *header, int val, char *info,
+>  	struct cdrom_device_info *cdi;
+>  	int ret;
 >  
-> -	kobject_del(b->kobj);
-> +	kobject_put(b->kobj);
+> -	ret = scnprintf(info + *pos, max_size - *pos, header);
+> +	ret = scnprintf(info + *pos, max_size - *pos, "%s", header);
+>  	if (!ret)
+>  		return 1;
 >  
->  	list_for_each_entry_safe(pos, tmp, &b->blocks->miscj, miscj)
-> -		kobject_del(&pos->kobj);
-> +		kobject_put(b->kobj);
->  }
->  
->  static void threshold_remove_bank(struct threshold_bank *bank)
 > -- 
-> 2.25.1
+> 2.36.1.255.ge46751e96f-goog
 > 
 
+Hi Bill,
+
+Thank you for the patch, much appreciated.
+
+Looking at this though, all callers of cdrom_print_info() provide 'header'
+as a string literal defined within the driver, when making the call.
+Therefore, I'm not convinced this change is necessary for cdrom.c -
+that said, in this particular use case I don't think it would hurt
+either.
+
+I've followed the other responses on parts of this series, so I
+understand that a different solution is potentially in the works.
+Thought I'd respond anyway though out of courtesy.
+
+All the best,
+Phil (Uniform CDROM Maintainer)
