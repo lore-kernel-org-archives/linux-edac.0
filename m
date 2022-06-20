@@ -2,95 +2,76 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03EFFCCA473
-	for <linux-edac@archiver.kernel.org>; Wed, 15 Jun 2022 14:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5AAC43334
+	for <linux-edac@archiver.kernel.org>; Mon, 20 Jun 2022 16:21:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234503AbiFOOh4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 15 Jun 2022 10:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52594 "EHLO
+        id S244492AbiFTQVh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 20 Jun 2022 12:21:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230160AbiFOOhz (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 15 Jun 2022 10:37:55 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4708D13CE1;
-        Wed, 15 Jun 2022 07:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=75kgVCcqOPOLeu4JBiLLFab/dM4uNZ1dcLuvpDx9ZCg=; b=kAIWl67VuUe8cBDkmFOZTh4b+J
-        Uy6PgE2+CwIEzhFEfsXCTAadcMkk5TefuTIBHvgzxNrjmUz+/r/f3fMBR5i8mMC7UweLMh9MkeJoD
-        97gkOJRUGibA77qDy9s4vL7NkQkS1Sv+TX4WpruLFHmbGvImVgE9LeYadgdIraA8AGxMlB+PxaWy/
-        1adKvJuvvpCbTsZosCqi5SMDlMupfKEgEY7JpKMS8HhvbF7gyowCTheRqW0YX0S9D05qpW9G1fKLt
-        DJUWQ6k8Tz/HxaHb6kuJRSWnDBXrsJA/DQco3hh/lFSm8XLWvSeNFNfH2bKr+ugXM0hH/Gw2zl2s+
-        laFslj7w==;
-Received: from 179.red-81-39-194.dynamicip.rima-tde.net ([81.39.194.179] helo=[192.168.15.167])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1o1U8m-002LYs-SW; Wed, 15 Jun 2022 16:37:04 +0200
-Message-ID: <362f6520-8209-1721-823c-11928338f57d@igalia.com>
-Date:   Wed, 15 Jun 2022 11:36:39 +0200
+        with ESMTP id S243978AbiFTQVX (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 20 Jun 2022 12:21:23 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B40141A071;
+        Mon, 20 Jun 2022 09:21:22 -0700 (PDT)
+Received: from zn.tnic (p200300ea974657f0329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9746:57f0:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7B55B1EC05ED;
+        Mon, 20 Jun 2022 18:21:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1655742076;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=T48rGXc2UHAUKkDOY5tz9vpt/ugxavpsm8or1kKDdLs=;
+        b=qnidU6MWxcN8zvm5swGUEpplVS2B6i5n6LyV6OlZGNmQYD2JT6ieZnQ0JmTscm0Yummm9Z
+        jFJe36mmrDvWlny0QJhDw34bVOgxqLtCHXU5BhiyLllCyCVtrZWtvtqZLKqocfl1lU70Q0
+        ETAbyh5EopQbk7pEbNS4FdUXCWVEUGc=
+Date:   Mon, 20 Jun 2022 18:21:11 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yazen Ghannam <yazen.ghannam@amd.com>
+Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Smita.KoralahalliChannabasappa@amd.com, muralidhara.mk@amd.com,
+        naveenkrishna.chatradhi@amd.com
+Subject: Re: [PATCH 12/18] EDAC/amd64: Add determine_edac_cap() into pvt->ops
+Message-ID: <YrCed0NnrVUjKoJh@zn.tnic>
+References: <20220509145534.44912-1-yazen.ghannam@amd.com>
+ <20220509145534.44912-13-yazen.ghannam@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 24/30] panic: Refactor the panic path
-Content-Language: en-US
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     bhe@redhat.com, d.hatayama@jp.fujitsu.com,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Mark Rutland <mark.rutland@arm.com>, mikelley@microsoft.com,
-        vkuznets@redhat.com, akpm@linux-foundation.org,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
-        xen-devel@lists.xenproject.org, x86@kernel.org,
-        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
-        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
-        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
-        corbet@lwn.net, dave.hansen@linux.intel.com, dyoung@redhat.com,
-        feng.tang@intel.com, gregkh@linuxfoundation.org,
-        hidehiro.kawai.ez@hitachi.com, jgross@suse.com,
-        john.ogness@linutronix.de, keescook@chromium.org, luto@kernel.org,
-        mhiramat@kernel.org, mingo@redhat.com, paulmck@kernel.org,
-        peterz@infradead.org, rostedt@goodmis.org,
-        senozhatsky@chromium.org, stern@rowland.harvard.edu,
-        tglx@linutronix.de, vgoyal@redhat.com, will@kernel.org
-References: <20220427224924.592546-1-gpiccoli@igalia.com>
- <20220427224924.592546-25-gpiccoli@igalia.com>
- <87fskzuh11.fsf@email.froward.int.ebiederm.org>
- <0d084eed-4781-c815-29c7-ac62c498e216@igalia.com> <Yqic0R8/UFqTbbMD@alley>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <Yqic0R8/UFqTbbMD@alley>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220509145534.44912-13-yazen.ghannam@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Perfect Petr, thanks for your feedback!
+Back to those...
 
-I'll be out for some weeks, but after that what I'm doing is to split
-the series in 2 parts:
+On Mon, May 09, 2022 at 02:55:28PM +0000, Yazen Ghannam wrote:
+> From: Muralidhara M K <muralidhara.mk@amd.com>
+> 
+> GPU Nodes will have different criteria for checking the EDAC
+> capabilities of a controller. A function pointer should be used rather
+> than introduce another branching condition.
+> 
+> Prepare for this by adding determine_edac_cap() to pvt->ops and set it
+> as needed based on currently supported systems.
+> 
+> Use a "umc" prefix for modern systems, since these use Unified Memory
+> Controllers (UMCs).
+> 
+> Use a "dct" prefix for newly-defined legacy functions, since these
+> systems use DRAM Controllers (DCTs).
 
-(a) The general fixes, which should be reviewed by subsystem maintainers
-and even merged individually by them.
+Please refrain from adding those boilerplates to each commit message. Do
+it once for the first patch and then no need anymore. It is clear what's
+going on.
 
-(b) The proper panic refactor, which includes the notifiers list split,
-etc. I'll think about what I consider the best solution for the
-crash_dump required ones, and will try to split in very simple patches
-to make it easier to review.
+Thx.
 
-Cheers,
+-- 
+Regards/Gruss,
+    Boris.
 
-
-Guilherme
+https://people.kernel.org/tglx/notes-about-netiquette
