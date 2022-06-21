@@ -2,148 +2,124 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A65CC43334
-	for <linux-edac@archiver.kernel.org>; Tue, 21 Jun 2022 05:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69845C433EF
+	for <linux-edac@archiver.kernel.org>; Tue, 21 Jun 2022 11:58:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344794AbiFUFIc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 21 Jun 2022 01:08:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36932 "EHLO
+        id S1349283AbiFUL6t (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 21 Jun 2022 07:58:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243284AbiFUFI1 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 21 Jun 2022 01:08:27 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50F220F56;
-        Mon, 20 Jun 2022 22:08:26 -0700 (PDT)
+        with ESMTP id S1350349AbiFUL63 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 21 Jun 2022 07:58:29 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFCF92AC69;
+        Tue, 21 Jun 2022 04:58:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655788106; x=1687324106;
+  t=1655812708; x=1687348708;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=okitOvPYmnWiWxNrowvVr/Wz4wPde4s/6xq0EI+i8N4=;
-  b=DMpfWXT6pDQ6Tcx11jSjRQkL1dKmpoNxvXVLZAKI03rIeO2VlxpQlUlB
-   Pqy4AOhkhTsw1zggTCTf5jovBM++IKotnYGSRXcxYgIOsYRJCboRnCyop
-   xBhyhiCanN6X+NjCL6chBlnpRMJ1ev9gIoqppd3dSQx3f9bgrMKOhvM7n
-   djuK6T71M5gg38gPcwSxNMxWhcxnL8pC4uY4NjXMRfG9qE3vZuyjM+jYm
-   MvbR5eQLVoehZ/HljrJhCt6DW/RqIOqvCq04+01TV7Te13IrEJTXwRIw/
-   CdlvKze0adwvKQRFn5sVJm6fRcHuCGQACUy3AmYMIHvB63jtXbll6v1D+
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="280076187"
+  bh=fJlvgZDVU/+AbpIeOVnnvWZJsUD7oZ1ag94qSd3Xs98=;
+  b=C/zx29/uNzbeu5d194OVBcPzGgzeDLqJBnM+PcMJdGBdVx9RXfRQExn6
+   YLKa8td27UEjgnRwoQJpB0x/yDzbydEPNuvI0DBqf88oBqE1MDjhcR2jV
+   daDGADbHhR3tSkwOSP0+dI+nqY+0r6DhZub3oNrVGZY0r90+n2sNzcSPs
+   UR0y/rqFVhYNylrA2Rv5oNwQPWgX9BkuaEjI/g1KH1zWQTWLFnwZwmyAo
+   fRXq3e2SEtwKwfwU6GN5vNudPnsRejw/N62NJZWJ3YNbTdI/tXIKnoQ/N
+   2f3Sl7FGEyqqB47kgVV9Uo/m3b9XPNOTG52AzmU8tokgSev2de6hWtx6d
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="278869433"
 X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; 
-   d="scan'208";a="280076187"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 22:08:26 -0700
+   d="scan'208";a="278869433"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2022 04:58:28 -0700
 X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; 
-   d="scan'208";a="833408152"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2022 22:08:26 -0700
-Date:   Mon, 20 Jun 2022 22:08:25 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-Cc:     Borislav Petkov <bp@alien8.de>, hpa@zytor.com,
-        Yazen Ghannam <yazen.ghannam@amd.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [RFC PATCH 4/5] x86/mce: Move storm handling to core.
-Message-ID: <YrFSSZqjtWlm9rUr@agluck-desk3.sc.intel.com>
-References: <20220406063542.183946-1-Smita.KoralahalliChannabasappa@amd.com>
- <20220406063542.183946-5-Smita.KoralahalliChannabasappa@amd.com>
+   d="scan'208";a="538012895"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2022 04:58:21 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1o3cWP-000r07-2e;
+        Tue, 21 Jun 2022 14:58:17 +0300
+Date:   Tue, 21 Jun 2022 14:58:16 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Tony Luck <tony.luck@intel.com>, Wolfram Sang <wsa@kernel.org>,
+        Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Henning Schild <henning.schild@siemens.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Yong <jonathan.yong@intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-edac@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v6 00/12] platform/x86: introduce p2sb_bar() helper
+Message-ID: <YrGyWCaY+swYAYzH@smile.fi.intel.com>
+References: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
+ <YqBS8I62YBPFC9iS@google.com>
+ <CAHp75Ve9Lju8AEQd5huz1aYGg4sOu-ae7tTdyDWCXPCBR=wXbQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220406063542.183946-5-Smita.KoralahalliChannabasappa@amd.com>
+In-Reply-To: <CAHp75Ve9Lju8AEQd5huz1aYGg4sOu-ae7tTdyDWCXPCBR=wXbQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Wed, Apr 06, 2022 at 01:35:41AM -0500, Smita Koralahalli wrote:
-> +	/*
-> +	 * When a bank is in storm mode, the history mask covers about
-> +	 * one second of elapsed time. Check how long it has been since
-> +	 * this bank was last polled, and compute a shift value to update
-> +	 * the history bitmask.  When not in storm mode, each consecutive
-> +	 * poll of the bank is logged in the next history bit, so shift
-> +	 * is kept at "1".
-> +	 */
-> +	if (this_cpu_read(bank_storm[bank])) {
-> +		delta = now - this_cpu_read(bank_time_stamp[bank]);
-> +		shift = (delta + HZBITS) / HZBITS;
-> +	}
+On Wed, Jun 08, 2022 at 12:50:44PM +0200, Andy Shevchenko wrote:
+> On Wed, Jun 8, 2022 at 9:42 AM Lee Jones <lee.jones@linaro.org> wrote:
+> >
+> > On Mon, 06 Jun 2022, Andy Shevchenko wrote:
+> >
+> > > There are a few users that would like to utilize P2SB mechanism of hiding
+> > > and unhiding a device from the PCI configuration space.
+> > >
+> > > Here is the series to consolidate p2sb handling code for existing users
+> > > and to provide a generic way for new comer(s).
+> > >
+> > > It also includes a patch to enable GPIO controllers on Apollo Lake
+> > > when it's used with ABL bootloader w/o ACPI support.
+> > >
+> > > The patch that brings the helper ("platform/x86/intel: Add Primary to
+> > > Sideband (P2SB) bridge support") has a commit message that sheds a light
+> > > on what the P2SB is and why this is needed.
+> > >
+> > > I have tested this on Apollo Lake platform (I'm able to see SPI NOR and
+> > > since we have an ACPI device for GPIO I do not see any attempts to recreate
+> > > one).
+> > >
+> > > The series is ready to be merged via MFD tree, but see below.
+> > >
+> > > The series also includes updates for Simatic IPC drivers that partially
+> > > tagged by respective maintainers (the main question is if Pavel is okay
+> > > with the last three patches, since I believe Hans is okay with removing
+> > > some code under PDx86). Hence the first 8 patches can be merged right
+> > > away and the rest when Pavel does his review.
+> >
+> > Can we just wait for Pavel's review, then merge them all at once?
+> 
+> Sure, it would be the best course of action.
 
-Apologies for the long delay in following up on this.
+Pavel, do you have a chance to review the patches (last three) that touch
+LED drivers? What would be your verdict?
 
-I tested out your patches on an Intel system, and they "work"
-in that storms are detected, mitigations applied, and then the
-storm end is detected and the system returns to regular mode.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-But the storm end happens far more quickly than I expected (in
-just over a second).  So I stared again at the code above, and
-realized it doesn't do what I expected.  Not your fault, you
-just copied from my patches ... which means that my comment
-didn't help explain what I was trying to do ... and so it wasn't
-obvious that:
-1) the test is backwards (need to adjust when the bank is NOT in
-storm mode ... in storm mode we poll every second).
-2) I can't even remember what I was trying to do with HZBITS, but
-it seems wrong too. Just need to use HZ.
 
-Patch below to be merged back into the series. This lets things
-run for just over 30 seconds without finding a logged error while
-polling in storm mode. Which is what I wanted.
-
-[  111.486306] mce: CPU48 BANK7 CMCI storm detected
-[  111.486394] mce: [Hardware Error]: Machine check events logged
-[  111.486401] mce: [Hardware Error]: Machine check events logged
-[  142.861874] mce: CPU48 BANK7 CMCI storm subsided
-
--Tony
-
----
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 74254f15f5db..8e6b77349911 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -655,16 +655,16 @@ void track_cmci_storm(int bank, u64 status)
- 	u64 history;
- 
- 	/*
--	 * When a bank is in storm mode, the history mask covers about
--	 * one second of elapsed time. Check how long it has been since
--	 * this bank was last polled, and compute a shift value to update
--	 * the history bitmask.  When not in storm mode, each consecutive
--	 * poll of the bank is logged in the next history bit, so shift
--	 * is kept at "1".
-+	 * When a bank is in storm mode it is polled once per second and
-+	 * the history mask will record about the last minute of poll results.
-+	 * If it is not in storm mode, then the bank is only checked when
-+	 * there is a CMCI interrupt. Check how long it has been since
-+	 * this bank was last checked, and adjust the amount of "shift"
-+	 * to apply to history.
- 	 */
--	if (this_cpu_read(bank_storm[bank])) {
-+	if (!this_cpu_read(bank_storm[bank])) {
- 		delta = now - this_cpu_read(bank_time_stamp[bank]);
--		shift = (delta + HZBITS) / HZBITS;
-+		shift = (delta + HZ) / HZ;
- 	}
- 
- 	/* If has been a long time since the last poll, clear history */
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index b9e8c8155c66..b88773a212cf 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -79,13 +79,6 @@ DECLARE_PER_CPU(unsigned long [MAX_NR_BANKS], bank_time_stamp);
-  */
- #define STORM_END_POLL_THRESHOLD	30
- 
--/*
-- * When there is no storm each "bit" in the history represents
-- * this many jiffies. When there is a storm every poll() takes
-- * one history bit.
-- */
--#define HZBITS (HZ / 64)
--
- #ifdef CONFIG_ACPI_APEI
- int apei_write_mce(struct mce *m);
- ssize_t apei_read_mce(struct mce *m, u64 *record_id);
