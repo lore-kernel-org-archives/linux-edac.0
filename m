@@ -2,183 +2,229 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70392C433EF
-	for <linux-edac@archiver.kernel.org>; Thu, 14 Jul 2022 06:49:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5EECCA47B
+	for <linux-edac@archiver.kernel.org>; Thu, 14 Jul 2022 09:37:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232740AbiGNGtz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 14 Jul 2022 02:49:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33706 "EHLO
+        id S238303AbiGNJh0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 14 Jul 2022 05:37:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232166AbiGNGtx (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Jul 2022 02:49:53 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A29DB248F3;
-        Wed, 13 Jul 2022 23:49:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cK3sfR7NL1gZj3ZiP+drmLqqWFBsj/2v6WaPWarnvxiIRrxBiHO2jfk7qi54v46pfdfVpssRmtrokzSY3sAjic9pW81BZOUlJbAu8C3HPdtqbBfMbASPpIY+t3Ul0FNhhmvgavFTzmqUYNjPdCj33ypWpXllXfL+tMESNEPALtSxM1JTTEnZ0Jesl8o9U57v6zc0+hnMhTh2aFSUTF2zaxcJOA2h5mrTU2kyu5ZABIr8lFZ54LNAGpLfWsVxqcNQxlbx6cHMkGcb3Pta9cF7ZJpGudh6E09B4z0EYO7EZbwns6pNPobB2XKVpybSHOBPd0AW6JKILoX5euRaN5YvFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U1MTe11M8InRq0mXZaKrsH1hS7ogsyaztNB9+XCzSq0=;
- b=HXOMA9GpcgWy7wq77TGOrQRZV99jtQpE69G7oveiqA5k2mt7tSNPFaYcjwc8DEWa1+y1/JKtszFg5AweygZmwNhMtgJmwGnTiWJivEEu+nNwoMNVVL33VjU9JWDBVkp8dNDZoLdERSN3G+dxr5XXA2VVN6heuDQDH2/oV54Z0bU5F38Azf+Tpu9H9A3iiwFCHnyQ7+iVVNHuzTjN3rY6JPD7hFf9TgomiovQMTeCk6fCuElnemcXM/mYARMWLBgq9NRfMEC+U6aEByimoAspy91h9qzjmeoAS/Brf+p+TAVdEBC1+5p/TTry30BE/0hL6kTy2amHi79C0fHP3eJEhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U1MTe11M8InRq0mXZaKrsH1hS7ogsyaztNB9+XCzSq0=;
- b=FmGc8o2KBSerrqiHxCijaJlx6+kqntxFC7nsBYcfzgFL0LKHOLBdhrH/ZjH4DCTXUaibfqX0JQMekg52v1+ScqYpgDxtdeBib8CalMUWVQlf723IS3djERf8SdKwuQu3mYr3Oie6n/eL43yk/rRo5JYGTx6CLKEQTcpFRwH2Y53E2b6CDyY32Y+NiAM6zWpsViRxrMmU9M7fwdBB1j8vMu7t/TZOpUCarg6YoztwW18vuf8w0wtNIVXdqgiN4daSApXC2SULaqG9NBG62hlndbJlJtotDXIK3/NCepcu4pV7oI4tV6+nCYfHv4MHTyewccsmhlwyMvivD9zibsvi9w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- BYAPR12MB2744.namprd12.prod.outlook.com (2603:10b6:a03:69::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5417.26; Thu, 14 Jul 2022 06:49:50 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::b148:f3bb:5247:a55d]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::b148:f3bb:5247:a55d%2]) with mapi id 15.20.5417.026; Thu, 14 Jul 2022
- 06:49:50 +0000
-Message-ID: <da970752-0d99-9c81-07d8-2eeb783093d3@nvidia.com>
-Date:   Thu, 14 Jul 2022 07:49:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [GIT PULL 1/7] soc/tegra: Changes for v5.20-rc1
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        arm-soc <arm@kernel.org>, SoC Team <soc@kernel.org>,
-        "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-edac@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
+        with ESMTP id S238260AbiGNJhZ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Jul 2022 05:37:25 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF3D2371B2
+        for <linux-edac@vger.kernel.org>; Thu, 14 Jul 2022 02:37:23 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 8-20020a05600c024800b003a2fe343db1so863319wmj.1
+        for <linux-edac@vger.kernel.org>; Thu, 14 Jul 2022 02:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=SzhVHfRoTJrnpDanrMQh8Ww74DmMD2/mZU8JBmDOY6U=;
+        b=w+SFia/W6qX5vP8nw0AjesFXx0zp6LOc8q909IC4Cp95MZ71BILXXzMnC/3WOsIdct
+         CkYau2KI5/JEJ94jeRt3YB5ZPPzWtM5XHvFatRoNYbDQHm9H3PyTO3kZoJtZQZbeFVex
+         wuXzGkhH5Omos/WJIs5Gmht6ZF8kawYZFanMIDuB+LmNS/xzLCiKfD6Qpd/G8xN3uwF5
+         vSLbfC2nRkiow5AqDQ0LkAPV2AlMYzgAjJZlb1n8JFE/uvm3zQI3xjVNyqv3H24yUvmN
+         F3+DR4PDRPQVSlxRXc5UIZrP4UcgIWHALHsSrTkHe+InkX1J5061qEIJSY3iZlzvjmfO
+         oVcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=SzhVHfRoTJrnpDanrMQh8Ww74DmMD2/mZU8JBmDOY6U=;
+        b=i6+AxBdTJkpFCYSEfigNAbAZmRN426AWrcYpXzUjj5UiZLNbGXPXAbU8cOuyLunsd1
+         0xSHrWIgviSlvbO6C60EKfJF9c1BxfQMnKCtjgj3NHo6bjCP702psRUNU2nLZKsyBwc0
+         q8cmIyGvJq5bySUASTNcPSjXlhbv0GNcwzSKCvXl1IAEdKSjRtK3HhaPkFNN/Zj+q7T3
+         7O78TCP/zn9H2CDkW2wnQ/cL3BkVS0rCQgx5z22pTDi/j0xdCt9MjapSjNdRyxD1BnJR
+         yQaJ/NRBTBq44xE7qRwQUcy4SZ9+ILuQDp2vxLzSp427u+48aQyN6pPEU3W1NXTJO0Fv
+         f9PA==
+X-Gm-Message-State: AJIora8VDdLcka5FyBz0MkSUMGLIqWwrfvGoTJL3O6OjHY7AiBllabT0
+        hPgJEU1vL51kFTrd4NRUyj8tSw==
+X-Google-Smtp-Source: AGRyM1sYAcheIlzffIBizpYIN7jFiJ0gX1659DuMbABmoyKT1xnuz89E+Mbrc/U/du9waWQjzl2Ikg==
+X-Received: by 2002:a05:600c:1e18:b0:3a0:4865:3784 with SMTP id ay24-20020a05600c1e1800b003a048653784mr8096924wmb.139.1657791442299;
+        Thu, 14 Jul 2022 02:37:22 -0700 (PDT)
+Received: from google.com (cpc155339-bagu17-2-0-cust87.1-3.cable.virginm.net. [86.27.177.88])
+        by smtp.gmail.com with ESMTPSA id z16-20020adff1d0000000b0021d65675583sm987947wro.52.2022.07.14.02.37.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jul 2022 02:37:21 -0700 (PDT)
+Date:   Thu, 14 Jul 2022 10:37:19 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Henning Schild <henning.schild@siemens.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Tony Luck <tony.luck@intel.com>, Wolfram Sang <wsa@kernel.org>,
+        Jean Delvare <jdelvare@suse.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Yong <jonathan.yong@intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-edac@vger.kernel.org, linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>
-References: <20220708185608.676474-1-thierry.reding@gmail.com>
- <20220708185608.676474-2-thierry.reding@gmail.com>
- <CAK8P3a1bKUr77t9xkNAX=-RqzRme6Hymr3V=36MSHT_sOFEW5A@mail.gmail.com>
- <Ys6lXD6BSxjH02mW@orome>
- <CAK8P3a0cSq47B=acZ854TVu=RckJNfyfKdqQUMzCX7SsV7Wt0g@mail.gmail.com>
- <d12fa14a-bf0d-4e98-acd8-69229315d660@nvidia.com>
- <CAK8P3a1sDbtEUaT7Z5k_SfUcA7OBUxkny7kmKOMFaE96qaGeXg@mail.gmail.com>
-From:   Jon Hunter <jonathanh@nvidia.com>
-In-Reply-To: <CAK8P3a1sDbtEUaT7Z5k_SfUcA7OBUxkny7kmKOMFaE96qaGeXg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0048.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::10) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
+        Robert Richter <rric@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Tyser <ptyser@xes-inc.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mark Gross <markgross@kernel.org>
+Subject: Re: [PATCH v6 00/12] platform/x86: introduce p2sb_bar() helper
+Message-ID: <Ys/jz7HqhrxSCOnV@google.com>
+References: <20220606164138.66535-1-andriy.shevchenko@linux.intel.com>
+ <YqBS8I62YBPFC9iS@google.com>
+ <CAHp75Ve9Lju8AEQd5huz1aYGg4sOu-ae7tTdyDWCXPCBR=wXbQ@mail.gmail.com>
+ <YrGyWCaY+swYAYzH@smile.fi.intel.com>
+ <YryAXlZqcr/liN7n@smile.fi.intel.com>
+ <20220629191406.35965d5b@md1za8fc.ad001.siemens.net>
+ <Ys71dyMdozGUAto0@smile.fi.intel.com>
+ <20220713204827.0b290fd7@md1za8fc.ad001.siemens.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a30e60d1-da49-408e-f55a-08da65650c31
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2744:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MJfDxU+7WTxgQDb3Vcm/nL1nmFEnyEBfiBYA/uZmbTPmXPDFADj4iYjMe8PCe8FfUFgIcSLz4GsVkv7S/NQUhX5hau22SzPkPro6N94n1zR1cTGgHC2dCmhLUd7N3Mh+p+vpdc0jmVnVQtxmR3+/XDwnjjFFMfIMLb2awYpcPgfPDNIPzc84Oy1LQ0Sp/zDdBNQJDVFmAATTRGI/JvMo/TW/imtyVKb2CKiw3Ma8fDn41zaNjlVGwF1H5NPyIX3t2Tc8nb5uuSWOM8A5eIG/4DT22VcdZRIUwT5pShwelmV7ZZgcnpOaxauPint2Pbvd4tgN4US+oAc4Ca9IVwTQO+jPDnkzFsSicoga6talaWvoe17o8rvrP6wGA+3zOt/Dp3mHkn06EpXK2qDIHehmXKUBM8JCj3YVllxLO8Ht0fqFRVp1MZggcReax6ahCnGqNIOIlDBfNXyyA2AS6ojKGtccUC6shmE8mKt+JWIJ8tWW7cVtj+7pQsKI/KUtRbGaC2fYTH0gQBmxwFMu1AlKUYFFvIKnVJ7VgA5FnC9IQfm4GauZeoIEzGgOu0c97y/ZakkRAskCT6HJB/RDpXyxibIcg6+e9jVSvApdJuj7NmT+Mf2YoisYPRKhH+amRW1GpvVeQHCcYuO39s8PFzQZQUPMCrQK0ISGWHwHm3CFDNpO78RCmZ79Iz79bDmm69/nS061KRp6FPeMjBQmqn3bJc/eaJrfUnfz7WvmcdlI3c3NrQvo1lbPOHYc/Xk1dRFc6m5DOidUQ0+nL/4I+dgf7OelGtntGn41rDkUC7qFJ89+xB6J5Y+SReCu1IzcWxLbKnDz1JpWWFexwx5UBrAoyyqKGHh1V1sPJ4KHJWauPKU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(366004)(39860400002)(136003)(346002)(376002)(478600001)(54906003)(316002)(186003)(36756003)(6916009)(2616005)(83380400001)(7416002)(66476007)(55236004)(31686004)(41300700001)(6666004)(66556008)(66946007)(4326008)(8676002)(8936002)(53546011)(5660300002)(2906002)(6486002)(6506007)(86362001)(31696002)(6512007)(26005)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXJBTG5ZQlRhY2tuV1p1OGtnQWdxODBKK0daQlZZU0gyc01HUFJTdlV5U05J?=
- =?utf-8?B?ZDVnZlV6TVZ3endnSkM0c0lLSjlWVkpuR0doTFdmMm1aQktyNDJCaWh2ak5s?=
- =?utf-8?B?bTVEWTkxQWlUeEdYM1QxOStIeGJLc09nVUExcUgrUldadFJEZjlMTU03UHRK?=
- =?utf-8?B?bE4rK2dDbFdzSEpxRFc2UUp0NzdqeiszOWhBaHB0RGdiNFJmcnA5QjRURjkx?=
- =?utf-8?B?dXNvZFM0QjFRVzVEc04zQVkzU0RacjhqdWVCU2NFQ2lrSlU5UlVtL05HbTd4?=
- =?utf-8?B?a0VITlAwNmJTMjdMcER5eFJsTEQ1SXQ2d1lWNnF3Y2h5YVdITURYMzlEZ0xq?=
- =?utf-8?B?cXo4Z0hycTl6R2lIcEZZeHhMQUZnUUR3TmgrcFcrZGEyUEJCdVhrZkd1dTBM?=
- =?utf-8?B?Q25ITnFDK1lmZ2lkejRnaWl4RndudkdZbmM5NnNWWmN1dGxjdnpTbHIxT2I3?=
- =?utf-8?B?VngwSTh0VEZ0ek1FNDVma3J1SjNYRnJkV1J3NlJyb0RKL3l2QXpaRk40SVYz?=
- =?utf-8?B?dmRLNitGZWRzV3V2UDg0QXNsVGZBWHpNdEdEbStKSHltNVMvQnYvNHZaN3Yy?=
- =?utf-8?B?WjVBL3dGU25URGQreEZvRytOT1gvOVZTVGlJd2hFMHcxdy9WNjhFRm9RbEZu?=
- =?utf-8?B?VHNjMk44OVh2eWJka0lodUxEYmh4alU3ZWJESVIwNlVDbEU0OVEzZVYvV3Rs?=
- =?utf-8?B?VExHZVQ0KzJ2SUFLU2Nwc0pPN0xjMndld0tBbC8zV3UwVWRRRzhjZHJ4K0xR?=
- =?utf-8?B?NUZtL2dWNVRYSDU5aFVoWFNTc1NRSWMzUGRqcy9mMUVyUUhBUXo3T3ZNYlo4?=
- =?utf-8?B?YzdxQm5KZXpLV1FjNWpmMDRsNmV3emF4SmV2Z1p1emJwQXo3VjI4a0FiOGQv?=
- =?utf-8?B?NzJBR252UW5uSDk3dThoYUREZGRSMjBlaUFBTjNXOHNxam0wRDhuSDBDUXpN?=
- =?utf-8?B?d0tmck1UMHFBV0xvcGNqalB4SXJMVCtYa21WUlJPOWljck5pUUQxQkswZDlh?=
- =?utf-8?B?RUVVeXNVVkdXOFkxU2pGbHdZa0tRZ2lCTlJpOW00cW1XSzc4WUJxcGNvRk95?=
- =?utf-8?B?ZTNjNEFHd1JURWx4NjMxM3hPZkppVHlmRGl1YmQ2dlZEZXJKeHR0amtzbUJi?=
- =?utf-8?B?a1BwYXMyclRGbE4rdHQ1ckdqZmpxUWxheGhPOHI1SlFLcDVURXRTNXAvY0lT?=
- =?utf-8?B?UDc5MjJicU0vc2EzZnNZZDI2d01MVDRqZFJoTWpQVlBidy9YSUZHUHo1bVVq?=
- =?utf-8?B?NDVMSnRvZ05ueWNQR0d5WXh0QlJlZG9rR0UwbGhkazJnTHNjYWw3WFQvcFJP?=
- =?utf-8?B?WVFRdVFsR1N2dVpVWUpLRVY0VkNKQjhNTHJpdGRZOU0wMGc0KzRIYzJOekRx?=
- =?utf-8?B?aHRlRVdCd09EZkJKYm92ajlUY2ZEOTB0dUlPSzRkL3o5bFJZMUlUWjRycThk?=
- =?utf-8?B?VTZmcWE2aUZmYkNEZE9VSGtqUDdWVEdHWVpHRTRKV2ZIOXc1L0puV3lONDFC?=
- =?utf-8?B?MlhpNmcxMWxVM3hDN2RVS2JOM1pQS3RweXhXMUdYNE14OW1zeDM2V0ZuOGs4?=
- =?utf-8?B?VENoMlFOVHJUWXV4dThuVFh0eS9uaHVJRHRETmE5d28rdUp1S2RFV0dlRy9x?=
- =?utf-8?B?VU9OMlpONko4cVNkZ2VCV0VpSWh3ZC90Um41M1ptazZzSG5oYWtER04rbnFH?=
- =?utf-8?B?WGxOeFEvUERrOW8zZVRNRmxueTZzS2RQbGNudFkwUTYyU0wzTDRiZWVTcnZh?=
- =?utf-8?B?YXRtOE9oREFGbjd0elpycDZldFhGOXNTUHJiMFBpaVNGakNPWHNJQWVlWjcv?=
- =?utf-8?B?V0dsUXlZbWhIWEtHOXNiKzR1VnhYSDFxSDJUc0U5eVlONHpwdWp1eldtdlZs?=
- =?utf-8?B?NzkxeXA5Uis5T3pLYUpCNkdaU25Rc2ZRMENXVitaYlArNzg5d2RHdDVHS0Mw?=
- =?utf-8?B?OEhwU3ozYWtYWUVGb1Z0WHRzdnVodUgxbjJ6UDB5WUVBVG84UkoyYlprRlNn?=
- =?utf-8?B?QW92T0dNZXNmV24weG84eitzZzF5a1pyd3FrT1JRNDNqajRKSWN6LzJhUDJs?=
- =?utf-8?B?NDVSN3dZYmZ2YXJ2ZzVBaEFaM0NwdktZOXQ3QzRGN094QVRaWFlIVXNQUkhS?=
- =?utf-8?B?WWwyM05PdFlXMEFvaDVqMUw1U0lkT3AwUjY1TkZnWnhmNUVRdnlUcUZ1TVVL?=
- =?utf-8?B?N0E9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a30e60d1-da49-408e-f55a-08da65650c31
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 06:49:49.9392
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nnjtmS6GuWrMwR1exjf6sGXk1Uq8OVXrDFt2xhB5wDhSoawZ6irEg4zD6PIIe7cNUU6ud+1+FkRk6MSQx7q1SA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2744
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220713204827.0b290fd7@md1za8fc.ad001.siemens.net>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
+On Wed, 13 Jul 2022, Henning Schild wrote:
 
-On 13/07/2022 13:36, Arnd Bergmann wrote:
-> On Wed, Jul 13, 2022 at 2:19 PM Jon Hunter <jonathanh@nvidia.com> wrote:
->> On 13/07/2022 13:14, Arnd Bergmann wrote:
->>>>> For the other patches, I found two more problems:
->>>>>
->>>>>> Bitan Biswas (1):
->>>>>>         soc/tegra: fuse: Expose Tegra production status
->>>>>
->>>>> Please don't just add random attributes in the soc device infrastructure.
->>>>> This one has a completely generic name but a SoC specific
->>>>> meaning, and it lacks a description in Documentation/ABI.
->>>>> Not sure what the right ABI is here, but this is something that needs
->>>>> to be discussed more broadly when you send a new version.
->>>>
->>>> I wasn't aware that the SoC device infrastructure was restricted to only
->>>> standardized attributes. Looks like there are a few other outliers that
->>>> add custom attributes: UX500, ARM Integrator and RealView, and OMAP2.
->>>>
->>>> Do we have some other place where this kind of thing can be exposed? Or
->>>> do we just need to come up with some better way of namespacing these?
->>>> Perhaps it would also be sufficient if all of these were better
->>>> documented so that people know what to look for on their platform of
->>>> interest.
->>>
->>> It's not a 100% strict rule, I've just tried to limit it as much as possible,
->>> and sometimes missed drivers doing it anyway. My main goal here is
->>> to make things consistent between SoC families, so if one piece of
->>> information is provided by a number of them, I'd rather have a standard
->>> attribute, or a common way of encoding this in the existing attributes
->>> than to have too many custom attributes with similar names.
->>
->>
->> Makes sense. Any recommendations for this specific attribute? I could
->> imagine other vendors may have engineering devices and production
->> versions. This is slightly different from the silicon version.
+> Am Wed, 13 Jul 2022 19:40:23 +0300
+> schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
 > 
-> Not sure, I haven't seen this one referenced elsewhere so far.
+> > On Wed, Jun 29, 2022 at 07:14:06PM +0200, Henning Schild wrote:
+> > > Am Wed, 29 Jun 2022 19:39:58 +0300
+> > > schrieb Andy Shevchenko <andriy.shevchenko@linux.intel.com>:
+> > >   
+> > > > +Cc: Rafael
+> > > > 
+> > > > On Tue, Jun 21, 2022 at 02:58:16PM +0300, Andy Shevchenko wrote:  
+> > > > > On Wed, Jun 08, 2022 at 12:50:44PM +0200, Andy Shevchenko
+> > > > > wrote:    
+> > > > > > On Wed, Jun 8, 2022 at 9:42 AM Lee Jones
+> > > > > > <lee.jones@linaro.org> wrote:    
+> > > > > > > On Mon, 06 Jun 2022, Andy Shevchenko wrote:
+> > > > > > >    
+> > > > > > > > There are a few users that would like to utilize P2SB
+> > > > > > > > mechanism of hiding and unhiding a device from the PCI
+> > > > > > > > configuration space.
+> > > > > > > >
+> > > > > > > > Here is the series to consolidate p2sb handling code for
+> > > > > > > > existing users and to provide a generic way for new
+> > > > > > > > comer(s).
+> > > > > > > >
+> > > > > > > > It also includes a patch to enable GPIO controllers on
+> > > > > > > > Apollo Lake when it's used with ABL bootloader w/o ACPI
+> > > > > > > > support.
+> > > > > > > >
+> > > > > > > > The patch that brings the helper ("platform/x86/intel: Add
+> > > > > > > > Primary to Sideband (P2SB) bridge support") has a commit
+> > > > > > > > message that sheds a light on what the P2SB is and why
+> > > > > > > > this is needed.
+> > > > > > > >
+> > > > > > > > I have tested this on Apollo Lake platform (I'm able to
+> > > > > > > > see SPI NOR and since we have an ACPI device for GPIO I
+> > > > > > > > do not see any attempts to recreate one).
+> > > > > > > >
+> > > > > > > > The series is ready to be merged via MFD tree, but see
+> > > > > > > > below.
+> > > > > > > >
+> > > > > > > > The series also includes updates for Simatic IPC drivers
+> > > > > > > > that partially tagged by respective maintainers (the main
+> > > > > > > > question is if Pavel is okay with the last three patches,
+> > > > > > > > since I believe Hans is okay with removing some code
+> > > > > > > > under PDx86). Hence the first 8 patches can be merged
+> > > > > > > > right away and the rest when Pavel does his review.    
+> > > > > > >
+> > > > > > > Can we just wait for Pavel's review, then merge them all at
+> > > > > > > once?    
+> > > > > > 
+> > > > > > Sure, it would be the best course of action.    
+> > > > > 
+> > > > > Pavel, do you have a chance to review the patches (last three)
+> > > > > that touch LED drivers? What would be your verdict?    
+> > > > 
+> > > > Lee, Rafael,
+> > > > 
+> > > > It seems quite hard to get Pavel's attention to this series [1].
+> > > > It's already passed more than 3 weeks for any sign of review of
+> > > > three top patches of the series that touched LED subsystem. The
+> > > > entire series has all necessary tags, but for LED changes.
+> > > > 
+> > > > Note, that the top of this series is not done by me and was sent
+> > > > for preliminary review much earlier [2], altogether it makes
+> > > > months of no response from the maintainer.
+> > > > 
+> > > > The nature of patches is pretty simple and doesn't touch any of
+> > > > other than Simatic LED drivers nor LED core. Moreover, it was
+> > > > written by Siemens, who produces the H/W in question and very
+> > > > well tested as a separate change and as part of the series.  
+> > > 
+> > > The code has been reviewed and is in fact pretty simple. The only
+> > > questionable but pragmatic change that might catch the attention of
+> > > a pedantic reviewer is that i did put the gpio implementation of the
+> > > driver under the same/existing kernel config switch.
+> > >   
+> > > > I think to move forward we may ask Rafael to review it on behalf
+> > > > of good maintainer and with his approval apply entire series.
+> > > > 
+> > > > Thoughts?  
+> > > 
+> > > Thanks for pushing this Andy. I was wondering how and when that
+> > > story would continue. Technically these changes should really go in
+> > > one badge or we need to find a way to separate them somehow. I
+> > > would try to go that extra mile to get out of your way. But i am
+> > > kind of afraid such an effort might also end up touching the same
+> > > files and block us at the same maintainer.
+> > > 
+> > > Did anyone check whether Pavel was active at all in those last
+> > > months and maybe other patches waiting for review? Hope he is fine
+> > > and active and just somehow forgot/overlooked/ignored this one.  
+> > 
+> > I have send a private mail to Pavel and have got no response.
+> > Can we move this forward, let's say, by applying first 8 patches?
 > 
-> What is the actual information this encodes in your case? Is this fused
-> down in a way that production devices lose access to certain features
-> that could be security critical but are useful for development?
+> I am sorry that situation is now coming. Both simatic-ipc and that
+> appollo lake pinctrl driver compete for the same device memory. That
+> conflict was known and we agreed on sorting it out together somehow.
+> Not applying my patches could leave my LED drivers simply not working
+> any longer, or worse ... them making the apollolake platform stuff act
+> up somehow weird with unexpected EBUSY.
+> 
+> The series can not be split, or we have to write additional code to
+> properly deal with the conflict. I could envision my LED drivers still
+> accessing raw memory and ignoring EBUSY (very hacky! ... and touching
+> "we need Pavel code")
+> 
+> Another way could maybe be. Do the whole P2SB but do not make
+> apollolake pinctrl come up without ACPI. Somewhere in patches 1-8 there
+> is code which makes the pinctrl stuff come up for certain CPUs without
+> ACPI. It is really only some out of many CPUs which have pinctrl, and i
+> am not sure i remember what that has to do with the P2SB helpers as
+> such. The helpers are a refactoring, while the "bring up apollolake
+> pinctrl at all times" is a functional change ... now causing conflict.
+> 
+> And maybe there is a way/process to escalate to another maintainer.
+> Does anyone even know what is going on with Pavel? 
 
-Yes I believe it is precisely that. Exact details I am not clear on, but 
-I see a lot of references to this throughout our userspace and testing 
-code.
+I'll take the hit.  He had his chance.
 
-Jon
+I'm happy to move forward with Andy's review.
+
+(Side note: Seeing as Pavel hasn't been seen for 2 months, I'll also
+ follow-up on  the LED ML to offer to become temporary maintainer for a
+ bit)
 
 -- 
-nvpublic
+Lee Jones [李琼斯]
+Principal Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
