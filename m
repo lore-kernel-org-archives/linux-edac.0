@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6815C28D13
-	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E70C32789
+	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:15:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238386AbiHVTPQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 22 Aug 2022 15:15:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43718 "EHLO
+        id S238410AbiHVTPS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 22 Aug 2022 15:15:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238327AbiHVTOx (ORCPT
+        with ESMTP id S238350AbiHVTOx (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Mon, 22 Aug 2022 15:14:53 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 344A52CC85;
-        Mon, 22 Aug 2022 12:14:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D5BEE2CC9B;
+        Mon, 22 Aug 2022 12:14:48 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id F417BDA9;
-        Mon, 22 Aug 2022 22:17:47 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com F417BDA9
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 4EACBDAC;
+        Mon, 22 Aug 2022 22:17:49 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 4EACBDAC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1661195868;
-        bh=5GQ+Lu5cZ60j6lrIxqJ+5IoeFT+Ib3LpXYUblly4fgw=;
+        d=baikalelectronics.ru; s=mail; t=1661195869;
+        bh=K258ftqJ/6fH7i95l7cXsjWtgIhNBwGLWowAwjCwKj0=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=VxHKtOBKCmupuVgUwx44ECfZReAwyoEC+G9WUuq7V9pmyO3bH1goI500dA5CN6p2L
-         qK5HpM//a9OHI1o671uOL/ihciiFTXqGDwF+w2kcUU799WqEtcgQWZxuaYsYRUGjZs
-         td5gAY7gnAyO/uwir9Ss6CZwdSfKvXZwrGEydx44=
+        b=A6Y21ZpjdjAxP9Lbd3+1n7Cniqk7fJj7TxX1HZqeSTZYdi+lw0l15xzpifuwwt0zJ
+         zzBsag98A8meYSYD8/9T+y3K/GOQp0vQY1Lj36S+eBWIR9mbxfpzSEyMjuNJXWg0Ac
+         CEdl+KTpNggkq8VOb2bgLo8gQb+dsBjMCly6nxQk=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:14:33 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:14:35 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Dinh Nguyen <dinguyen@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 07/18] EDAC/synopsys: Parse ADDRMAP[7-8] CSRs for (LP)DDR4 only
-Date:   Mon, 22 Aug 2022 22:14:16 +0300
-Message-ID: <20220822191427.27969-8-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 09/18] EDAC/synopsys: Set actual DIMM ECC errors grain
+Date:   Mon, 22 Aug 2022 22:14:18 +0300
+Message-ID: <20220822191427.27969-10-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,57 +58,57 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-These CSRs contain the SDRAM Bank Groups and row[16]/row[17] bits mapping,
-which are applicable for the DDR4 and LPDDR4 memory only. For the rest of
-the memories the ADDRMAP[7-8] are unused by the controller and may be read
-as garbage (for instance, return an outcome of the previous read
-operation). The retrieved values might be perceived by the HIF/SDRAM
-mapping detection procedure as normal bit positions, which is wrong. So
-let's parse these registers only if they are applicable for the detected
-DDR protocol.
+It was wrong to set the DIMM errors grain parameter to just 1 byte because
+DW uMCTL2 DDRC calculates ECC for each SDRAM word and passes it as an
+additional byte of data to the memory chips. SDRAM word is the actual
+DQ-bus width determined by the DQ-width set during the IP-core synthesize
+and the DQ-bus mode (part of the DQ-bus actually used to get data from the
+memory chips) selected during the DDR controller initial setup procedure.
+Thus let's set the MCI DIMMs grain based on these parameters determined
+during the DW uMCTL2 DDRC config getting procedure.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ drivers/edac/synopsys_edac.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index b6296bbd1a45..998600670c75 100644
+index e7f8d448850b..af34a83dc1ef 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -1005,12 +1005,15 @@ static void snps_setup_row_address_map(struct snps_edac_priv *priv, u32 *addrmap
- 	priv->row_shift[15] = (((addrmap[6] >> 24) & ROW_MAX_VAL_MASK) ==
- 				ROW_MAX_VAL_MASK) ? 0 : (((addrmap[6] >> 24) &
- 				ROW_MAX_VAL_MASK) + ROW_B15_BASE);
--	priv->row_shift[16] = ((addrmap[7] & ROW_MAX_VAL_MASK) ==
--				ROW_MAX_VAL_MASK) ? 0 : ((addrmap[7] &
--				ROW_MAX_VAL_MASK) + ROW_B16_BASE);
--	priv->row_shift[17] = (((addrmap[7] >> 8) & ROW_MAX_VAL_MASK) ==
--				ROW_MAX_VAL_MASK) ? 0 : (((addrmap[7] >> 8) &
--				ROW_MAX_VAL_MASK) + ROW_B17_BASE);
-+
-+	if (priv->info.sdram_mode == MEM_DDR4 || priv->info.sdram_mode == MEM_LPDDR4) {
-+		priv->row_shift[16] = ((addrmap[7] & ROW_MAX_VAL_MASK) ==
-+					ROW_MAX_VAL_MASK) ? 0 : ((addrmap[7] &
-+					ROW_MAX_VAL_MASK) + ROW_B16_BASE);
-+		priv->row_shift[17] = (((addrmap[7] >> 8) & ROW_MAX_VAL_MASK) ==
-+					ROW_MAX_VAL_MASK) ? 0 : (((addrmap[7] >> 8) &
-+					ROW_MAX_VAL_MASK) + ROW_B17_BASE);
-+	}
- }
+@@ -26,9 +26,6 @@
+ /* Number of channels per memory controller */
+ #define SNPS_EDAC_NR_CHANS		1
  
- static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addrmap)
-@@ -1126,6 +1129,10 @@ static void snps_setup_bank_address_map(struct snps_edac_priv *priv, u32 *addrma
+-/* Granularity of reported error in bytes */
+-#define SNPS_EDAC_ERR_GRAIN		1
+-
+ #define SNPS_EDAC_MSG_SIZE		256
  
- static void snps_setup_bg_address_map(struct snps_edac_priv *priv, u32 *addrmap)
- {
-+	/* Bank group signals are available on the DDR4 memory only */
-+	if (priv->info.sdram_mode != MEM_DDR4)
-+		return;
+ #define SNPS_EDAC_MOD_STRING		"snps_edac"
+@@ -733,9 +730,12 @@ static void snps_init_csrows(struct mem_ctl_info *mci)
+ 	struct snps_edac_priv *priv = mci->pvt_info;
+ 	struct csrow_info *csi;
+ 	struct dimm_info *dimm;
+-	u32 size, row;
++	u32 size, row, width;
+ 	int j;
+ 
++	/* Actual SDRAM-word width for which ECC is calculated */
++	width = 1U << (priv->info.dq_width - priv->info.dq_mode);
 +
- 	priv->bankgrp_shift[0] = (addrmap[8] &
- 				BANKGRP_MAX_VAL_MASK) + BANKGRP_B0_BASE;
- 	priv->bankgrp_shift[1] = (((addrmap[8] >> 8) & BANKGRP_MAX_VAL_MASK) ==
+ 	for (row = 0; row < mci->nr_csrows; row++) {
+ 		csi = mci->csrows[row];
+ 		size = snps_get_memsize();
+@@ -745,7 +745,7 @@ static void snps_init_csrows(struct mem_ctl_info *mci)
+ 			dimm->edac_mode	= EDAC_SECDED;
+ 			dimm->mtype	= priv->info.sdram_mode;
+ 			dimm->nr_pages	= (size >> PAGE_SHIFT) / csi->nr_channels;
+-			dimm->grain	= SNPS_EDAC_ERR_GRAIN;
++			dimm->grain	= width;
+ 			dimm->dtype	= priv->info.dev_cfg;
+ 		}
+ 	}
 -- 
 2.35.1
 
