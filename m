@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C7EC38145
-	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA00BC32772
+	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:21:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238531AbiHVTVr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 22 Aug 2022 15:21:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46334 "EHLO
+        id S238541AbiHVTVs (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 22 Aug 2022 15:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238710AbiHVTU6 (ORCPT
+        with ESMTP id S238702AbiHVTU6 (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Mon, 22 Aug 2022 15:20:58 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1392F15807;
-        Mon, 22 Aug 2022 12:20:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D4A9513D16;
+        Mon, 22 Aug 2022 12:20:24 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id E3F3EDA2;
-        Mon, 22 Aug 2022 22:23:35 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com E3F3EDA2
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 34957DA7;
+        Mon, 22 Aug 2022 22:23:33 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 34957DA7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1661196215;
-        bh=6swM1whTtvPfTaOrJikk+hfpL/sTWjJYu/9G57jnEaU=;
+        d=baikalelectronics.ru; s=mail; t=1661196213;
+        bh=5W87r9e5gmEIVrY+SuohfrbYYcVZMla2WpXatnUI8rQ=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=E0Z4/y2TB16bsvPvNSif5uE2i/GjZiWpqaEZ+QAe86dss87n2sYQ9z+0ldrpxSjgt
-         FFbRT+idoxGExAMS2/ZTczPBB2PFo04ls3stzAFa58ZMRSytIVDR7XQlXTeAut7Ko2
-         asARih1+dYjDIcjzgi7CztslfGvoZVjBlTpVW/IU=
+        b=Kygu68Z+hzn9mm4veQd4PG3IupqXp7pBl8SZt9udcOBoHcGiEvRA4FFB4oy8JE12i
+         aKxoLZQLUZocobInTTksNRJ8ksc+YDMZaKNuooedh7IRsMC4H5ZIsD8PqmRysHiCZw
+         YBpl6A6nmq2/dmLGEzYhMX4QjLkpICWyknZObvIE=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:20:21 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:20:17 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -48,203 +48,152 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 09/13] EDAC/synopsys: Add DFI alert_n IRQ support
-Date:   Mon, 22 Aug 2022 22:19:52 +0300
-Message-ID: <20220822191957.28546-10-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 05/13] EDAC/synopsys: Drop ECC poison address from private data
+Date:   Mon, 22 Aug 2022 22:19:48 +0300
+Message-ID: <20220822191957.28546-6-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220822191957.28546-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220822191957.28546-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-In accordance with [1] DW uMCTL2 DDR controller can generate an IRQ in
-case if an attached SDRAM detects a CRC/Parity error. That capability is
-mainly applicable for the DDR4 memory which has an additional signals
-PARITY/ALERT_n indicating the even SDRAM address/command parity signal and
-alert if the parity turns to be not even. But in accordance with [1] at
-least the SDRAM address/command parity is calculated irrespective of the
-memory protocol and then sent out by means of the dfi_parity_n signal
-further to the DDR PHY. So depending on the DDR protocol and the DDR PHY
-implementation the CRC/Parity error can be checked at some point
-independently from the DDR devices type and then signaled via the
-dfi_alert_n line. In anycase it would be very much useful to catch the
-event and at least warn the user about problems with the DFI/SDRAM signals
-integrity.
+Since the driver now has the generic Sys/SDRAM address translation
+interface there is no need in preserving the poisonous address in the
+driver private data especially seeing it is used in the framework of the
+DebugFS node anyway. So let's drop the snps_edac_priv.poison_addr field
+and just perform Sys/SDRAM back and forth address translation right in
+place of the "inject_data_error" node accessors.
 
-So here we suggest to add the DFI CRC/Parity IRQs handling support. First
-the IRQ line is requested by the name "dfi_e" (defined in the DT-bindings)
-and register its handler in case of the platform with the individual DW
-uMCTL2 DDRC IRQs. If individual IRQs are unavailable the common IRQ
-handler will call the DFI CRC/Parity event handler. Note the handler
-doesn't do much. It just checks the IRQ status, reads the number of
-errors, reports the fatal error to the MCI core and clears the IRQ status.
-Alas neither the erroneous SDRAM address nor the executed command are
-available in this case. Secondly the DFI CRC/Parity IRQ is
-enabled/disabled together with the ECC CE/UE interrupts in the controller
-probe procedure.  Finally the CRC/Parity capability is advertised by the
-EDAC controller capabilities flags.
-
-[1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
-    Databook, Version 3.91a, October 2020, p.131-132
+It causes a bit more modifications than a simple field removal. Since the
+poisonous address is not preserved now there is no point in having the
+snps_data_poison_setup() method so its content can be moved right into the
+"inject_data_error" write operation. For the same reason there is no point
+in printing the ECCPOISONADDR{0,1} registers content in the
+"inject_data_error" read operation. Since the CSRs content is now parsed
+anyway let's print the SDRAM address instead.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 78 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 3 deletions(-)
+ drivers/edac/synopsys_edac.c | 68 +++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index e7d59238c5ca..cdfa0e16bc5c 100644
+index 2b8de7e8fae1..05201f5a284e 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -80,6 +80,12 @@
- #define ECC_POISON0_OFST		0xB8
- #define ECC_POISON1_OFST		0xBC
+@@ -407,7 +407,6 @@ struct snps_ecc_status {
+  * @lock:		Concurrent CSRs access lock.
+  * @message:		Buffer for framing the event specific info.
+  * @stat:		ECC status information.
+- * @poison_addr:	Data poison address.
+  */
+ struct snps_edac_priv {
+ 	struct snps_ddrc_info info;
+@@ -418,9 +417,6 @@ struct snps_edac_priv {
+ 	spinlock_t lock;
+ 	char message[SNPS_EDAC_MSG_SIZE];
+ 	struct snps_ecc_status stat;
+-#ifdef CONFIG_EDAC_DEBUG
+-	ulong poison_addr;
+-#endif
+ };
  
-+/* DDR CRC/Parity register */
-+#define DDR_CRCPARCTL0_OFST		0xC0
-+#define DDR_CRCPARCTL1_OFST		0xC4
-+#define DDR_CRCPARCTL2_OFST		0xC8
-+#define DDR_CRCPARSTAT_OFST		0xCC
-+
- /* DDR Address map0 Registers */
- #define DDR_ADDRMAP0_OFST		0x200
- 
-@@ -153,6 +159,13 @@
- #define ECC_CEADDR1_BANK_MASK		GENMASK(23, 16)
- #define ECC_CEADDR1_COL_MASK		GENMASK(11, 0)
- 
-+/* DDR CRC/Parity register definitions */
-+#define DDR_CRCPARCTL0_CLR_ALRT_ERRCNT	BIT(2)
-+#define DDR_CRCPARCTL0_CLR_ALRT_ERR	BIT(1)
-+#define DDR_CRCPARCTL0_EN_ALRT_IRQ	BIT(0)
-+#define DDR_CRCPARSTAT_ALRT_ERR		BIT(16)
-+#define DDR_CRCPARSTAT_ALRT_CNT_MASK	GENMASK(15, 0)
-+
- /* ECC Poison register shifts */
- #define ECC_POISON0_RANK_MASK		GENMASK(27, 24)
- #define ECC_POISON0_COL_MASK		GENMASK(11, 0)
-@@ -829,6 +842,48 @@ static irqreturn_t snps_ue_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+/**
-+ * snps_dfi_irq_handler - DFI CRC/Parity error interrupt handler.
-+ * @irq:        IRQ number.
-+ * @dev_id:     Device ID.
-+ *
-+ * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-+ */
-+static irqreturn_t snps_dfi_irq_handler(int irq, void *dev_id)
-+{
-+	struct mem_ctl_info *mci = dev_id;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	unsigned long flags;
-+	u32 regval;
-+	u16 ecnt;
-+
-+	/* Make sure IRQ is caused by an DFI alert error */
-+	regval = readl(priv->baseaddr + DDR_CRCPARSTAT_OFST);
-+	if (!(regval & DDR_CRCPARSTAT_ALRT_ERR))
-+		return IRQ_NONE;
-+
-+	/* Just a number of CRC/Parity errors is available */
-+	ecnt = FIELD_GET(DDR_CRCPARSTAT_ALRT_CNT_MASK, regval);
-+
-+	/* Report the detected errors with just the custom message */
-+	snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
-+		 "DFI CRC/Parity error detected on dfi_alert_n");
-+
-+	edac_mc_handle_error(HW_EVENT_ERR_FATAL, mci, ecnt,
-+			     0, 0, 0, 0, 0, -1, priv->message, "");
-+
-+	/* Make sure the DFI alert IRQ status is cleared */
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	regval = readl(priv->baseaddr + DDR_CRCPARCTL0_OFST) |
-+		 DDR_CRCPARCTL0_CLR_ALRT_ERR | DDR_CRCPARCTL0_CLR_ALRT_ERRCNT;
-+	writel(regval, priv->baseaddr + DDR_CRCPARCTL0_OFST);
-+
-+	spin_unlock_irqrestore(&priv->lock, flags);
-+
-+	return IRQ_HANDLED;
-+}
-+
  /**
-  * snps_com_irq_handler - Interrupt IRQ signal handler.
-  * @irq:        IRQ number.
-@@ -844,6 +899,8 @@ static irqreturn_t snps_com_irq_handler(int irq, void *dev_id)
+@@ -1713,44 +1709,32 @@ static int snps_hif_sdram_map_show(struct seq_file *s, void *data)
  
- 	rc |= snps_ue_irq_handler(irq, dev_id);
+ DEFINE_SHOW_ATTRIBUTE(snps_hif_sdram_map);
  
-+	rc |= snps_dfi_irq_handler(irq, dev_id);
+-/**
+- * snps_data_poison_setup - Update poison registers.
+- * @priv:		DDR memory controller private instance data.
+- *
+- * Update poison registers as per DDR mapping.
+- * Return: none.
+- */
+-static void snps_data_poison_setup(struct snps_edac_priv *priv)
+-{
+-	struct snps_sdram_addr sdram;
+-	u32 regval;
+-
+-	snps_map_sys_to_sdram(priv, priv->poison_addr, &sdram);
+-
+-	regval = FIELD_PREP(ECC_POISON0_RANK_MASK, sdram.rank) |
+-		 FIELD_PREP(ECC_POISON0_COL_MASK, sdram.col);
+-	writel(regval, priv->baseaddr + ECC_POISON0_OFST);
+-
+-	regval = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, sdram.bankgrp) |
+-		 FIELD_PREP(ECC_POISON1_BANK_MASK, sdram.bank) |
+-		 FIELD_PREP(ECC_POISON1_ROW_MASK, sdram.row);
+-	writel(regval, priv->baseaddr + ECC_POISON1_OFST);
+-}
+-
+ static ssize_t snps_inject_data_error_read(struct file *filep, char __user *ubuf,
+ 					   size_t size, loff_t *offp)
+ {
+ 	struct mem_ctl_info *mci = filep->private_data;
+ 	struct snps_edac_priv *priv = mci->pvt_info;
++	struct snps_sdram_addr sdram;
+ 	char buf[SNPS_DBGFS_BUF_LEN];
++	dma_addr_t sys;
++	u32 regval;
+ 	int pos;
+ 
+-	pos = scnprintf(buf, sizeof(buf), "Poison0 Addr: 0x%08x\n\r",
+-			readl(priv->baseaddr + ECC_POISON0_OFST));
+-	pos += scnprintf(buf + pos, sizeof(buf) - pos, "Poison1 Addr: 0x%08x\n\r",
+-			 readl(priv->baseaddr + ECC_POISON1_OFST));
+-	pos += scnprintf(buf + pos, sizeof(buf) - pos, "Error injection Address: 0x%lx\n\r",
+-			 priv->poison_addr);
++	regval = readl(priv->baseaddr + ECC_POISON0_OFST);
++	sdram.rank = FIELD_GET(ECC_POISON0_RANK_MASK, regval);
++	sdram.col = FIELD_GET(ECC_POISON0_COL_MASK, regval);
 +
- 	return rc;
++	regval = readl(priv->baseaddr + ECC_POISON1_OFST);
++	sdram.bankgrp = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, regval);
++	sdram.bank = FIELD_PREP(ECC_POISON1_BANK_MASK, regval);
++	sdram.row = FIELD_PREP(ECC_POISON1_ROW_MASK, regval);
++
++	snps_map_sdram_to_sys(priv, &sdram, &sys);
++
++	pos = scnprintf(buf, sizeof(buf),
++			"%pad: Row %hu Rank %hu Bank %hhu Bank Group %hhu Rank %hhu\n",
++			&sys, sdram.row, sdram.col, sdram.bank, sdram.bankgrp,
++			sdram.rank);
+ 
+ 	return simple_read_from_buffer(ubuf, size, offp, buf, pos);
  }
+@@ -1760,13 +1744,25 @@ static ssize_t snps_inject_data_error_write(struct file *filep, const char __use
+ {
+ 	struct mem_ctl_info *mci = filep->private_data;
+ 	struct snps_edac_priv *priv = mci->pvt_info;
++	struct snps_sdram_addr sdram;
++	u32 regval;
++	u64 sys;
+ 	int rc;
  
-@@ -859,11 +916,16 @@ static void snps_enable_irq(struct snps_edac_priv *priv)
- 		return;
- 	}
- 
--	/* IRQs Enable/Disable feature has been available since v3.10a */
-+	/*
-+	 * ECC IRQs Enable/Disable feature has been available since v3.10a,
-+	 * while CRC/Parity interrupts control - since v2.10a.
-+	 */
- 	spin_lock_irqsave(&priv->lock, flags);
- 
- 	writel(ECC_CTRL_EN_CE_IRQ | ECC_CTRL_EN_UE_IRQ,
- 	       priv->baseaddr + ECC_CLR_OFST);
-+	writel(DDR_CRCPARCTL0_EN_ALRT_IRQ,
-+	       priv->baseaddr + DDR_CRCPARCTL0_OFST);
- 
- 	spin_unlock_irqrestore(&priv->lock, flags);
- }
-@@ -883,6 +945,7 @@ static void snps_disable_irq(struct snps_edac_priv *priv)
- 	spin_lock_irqsave(&priv->lock, flags);
- 
- 	writel(0, priv->baseaddr + ECC_CLR_OFST);
-+	writel(0, priv->baseaddr + DDR_CRCPARCTL0_OFST);
- 
- 	spin_unlock_irqrestore(&priv->lock, flags);
- }
-@@ -1483,7 +1546,8 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
- 	mci->mtype_cap = MEM_FLAG_LPDDR | MEM_FLAG_DDR2 | MEM_FLAG_LPDDR2 |
- 			 MEM_FLAG_DDR3 | MEM_FLAG_LPDDR3 |
- 			 MEM_FLAG_DDR4 | MEM_FLAG_LPDDR4;
--	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
-+	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED | EDAC_FLAG_PARITY;
-+	mci->edac_cap = mci->edac_ctl_cap;
- 
- 	if (priv->info.caps & SNPS_CAP_ECC_SCRUB) {
- 		mci->scrub_mode = SCRUB_HW_SRC;
-@@ -1493,7 +1557,6 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
- 		mci->scrub_cap = SCRUB_FLAG_SW_SRC;
- 	}
- 
--	mci->edac_cap = EDAC_FLAG_SECDED;
- 	mci->ctl_name = "snps_umctl2_ddrc";
- 	mci->dev_name = SNPS_EDAC_MOD_STRING;
- 	mci->mod_name = SNPS_EDAC_MOD_VER;
-@@ -1559,6 +1622,15 @@ static int snps_request_ind_irq(struct mem_ctl_info *mci)
+-	rc = kstrtoul_from_user(ubuf, size, 0, &priv->poison_addr);
++	rc = kstrtou64_from_user(ubuf, size, 0, &sys);
+ 	if (rc)
  		return rc;
- 	}
  
-+	irq = platform_get_irq_byname_optional(priv->pdev, "dfi_e");
-+	if (irq > 0) {
-+		rc = devm_request_irq(dev, irq, snps_dfi_irq_handler, 0, "dfi_e", mci);
-+		if (rc) {
-+			edac_printk(KERN_ERR, EDAC_MC, "Failed to request DFI IRQ\n");
-+			return rc;
-+		}
-+	}
+-	snps_data_poison_setup(priv);
++	snps_map_sys_to_sdram(priv, sys, &sdram);
 +
- 	return 0;
- }
++	regval = FIELD_PREP(ECC_POISON0_RANK_MASK, sdram.rank) |
++		 FIELD_PREP(ECC_POISON0_COL_MASK, sdram.col);
++	writel(regval, priv->baseaddr + ECC_POISON0_OFST);
++
++	regval = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, sdram.bankgrp) |
++		 FIELD_PREP(ECC_POISON1_BANK_MASK, sdram.bank) |
++		 FIELD_PREP(ECC_POISON1_ROW_MASK, sdram.row);
++	writel(regval, priv->baseaddr + ECC_POISON1_OFST);
  
+ 	return size;
+ }
 -- 
 2.35.1
 
