@@ -2,36 +2,38 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5CDC28D13
-	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032E8C28D13
+	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:14:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238028AbiHVTOg (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 22 Aug 2022 15:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43656 "EHLO
+        id S238237AbiHVTOk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 22 Aug 2022 15:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237630AbiHVTOf (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 22 Aug 2022 15:14:35 -0400
+        with ESMTP id S235927AbiHVTOj (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 22 Aug 2022 15:14:39 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 32108D123;
-        Mon, 22 Aug 2022 12:14:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A3C3828E36;
+        Mon, 22 Aug 2022 12:14:37 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 17BADDA2;
-        Mon, 22 Aug 2022 22:17:43 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 17BADDA2
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 6268ADA4;
+        Mon, 22 Aug 2022 22:17:46 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 6268ADA4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baikalelectronics.ru; s=mail; t=1661195866;
-        bh=qoJ69h1k3U6tE2d+piipf8/dBLDjRPPtovgGvrTg9Ts=;
-        h=From:To:CC:Subject:Date:From;
-        b=IVZL/LhecFnAtXC3Ze0iETn7tASb6e6IzApXB1rAjrFnKSnhcYPh0biqXO7ce78LT
-         iwZBvr3w/lIQjzAdu+9VzyqNhmAb14d2cZApUq6vw/jCRLtuK/QP7eGB6o+fBkIUc0
-         sXrhsfCTGONbh43w+96t30d1jlSfYrZWZ2SuTcR4=
+        bh=TPeq2Si62asloW2zZBCIFMbdjMgkAtayM/DHkCBcuBM=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+        b=ps01/HuGO90TcQOPy6kYseX+Pzvr5Fz7B76pWKvfjwO7V7nQ+sN7gijgl7AvCn8F6
+         FDklrB4ycJ+n8e0XFD1OiAQPGsR99VRyBRRFuJcuvcc6Z88eGrHkhooVaUfzrrNviR
+         NKn+56dIQoMZvfy+gyqWUncKylK+S2k3M9y3tHM4=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:14:28 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:14:30 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -41,136 +43,101 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <punnaiah.choudary.kalluri@xilinx.com>,
         Manish Narani <manish.narani@xilinx.com>,
         Dinh Nguyen <dinguyen@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 00/18] EDAC/synopsys: Add generic DDRC info and address mapping
-Date:   Mon, 22 Aug 2022 22:14:09 +0300
-Message-ID: <20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 02/18] EDAC/mc: Extend memtypes with LPDDR(mDDR) and LPDDR2
+Date:   Mon, 22 Aug 2022 22:14:11 +0300
+Message-ID: <20220822191427.27969-3-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru>
+References: <20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patchset is a second one in the series created in the framework of my
-Baikal-T1 DDRC-related work:
+These are normal memory types [1] which can be met on the real hardware.
+DW uMCTL2 DDRC IP-core can be configured to have them supported [2,3].
+Let's extend the EDAC memory types enumeration with the corresponding IDs
+then.
 
-[1: In-progress] EDAC/mc/synopsys: Various fixes and cleanups
-Link: https://lore.kernel.org/linux-edac/20220822190730.27277-1-Sergey.Semin@baikalelectronics.ru/
-[2: In-progress] EDAC/synopsys: Add generic DDRC info and address mapping
-Link: ---you are looking at it---
-[3: To be submitted] EDAC/synopsys: Add generic resources and Baikal-T1 support
-Link:
-
-Note the patchsets above must be merged in the same order as they are
-placed in the list in order to prevent conflicts. Nothing prevents them
-from being reviewed synchronously though. Any tests are very welcome.
-Thanks in advance.
-
-The second patchset mainly concerns converting the DW uMCTL2 DDRC driver
-to being more generic so later it would be extended with our DDR
-controller support and further with new DW uMCTL2 DDRC IP-core
-compilations.
-
-The series starts with the Error-injection functionality movement to
-DebugFS. Indeed the Debug-parts should be in the dedicated DebugFS. SysFS
-is not a place for it, moreover seeing later we'll add some more debug
-nodes.
-
-Afterwards even though it isn't advertised but even at this stage the DW
-uMCTL2 DDRC driver supports a bit more DDR protocols than it actually
-specifies in the mem_ctrl_info.mtype_cap field. So first we suggest to
-extend the MCI core memory types enumeration with LPDDR (mDDR) and LPDDR2,
-which support can be enabled in the DW uMCTL2 DDR controller. Second we
-need to make sure all the possible DDR protocol types are correctly
-detected during the DW uMCTL DDRC probe procedure.
-
-Then a bit painful patch goes. Alas we have to deviate the driver from the
-EDAC standard private data allocation/initialization pattern. Since we are
-going to add the DW uMCTL2 IP-core specific parameters detection procedure
-and later on implement additional platform resources requests there is no
-other choice but to allocate the driver private data at the early stage of
-the device probe procedure even before it's possible to allocate the MCI
-descriptor. The DW uMCTL2 DDRC platform resources and configuration info
-will be then utilized to properly allocate and initialize the
-mem_ctrl_info structure instance.
-
-Third patch in the series is very important. It provides the DW uMCTL2
-DDRC parameters detection procedure. The DDRC and ECC parameters detected
-at this stage will be then utilized to make the driver working with much
-wider set of the DW uMCTL2 revisions and configurations. In particular
-from now the driver will retrieve the next DDRC info at the probe stage:
-ECC type, SDRAM protocol (DDR type), Full and actual DQ-bus width, SDRAM
-and HIF burst length, Core/SDRAM frequency ration, number of SDRAM ranks.
-The DDRC parameters structure will be extended with some more fields later
-in this and the next patchset. The provided private DDRC parameters
-infrastructure can be utilized to implement the platform-specific
-capabilities so the platform data and its quirks are replaced with it.
-
-The detected at the probe stage DW uMCTL2 DDRC parameters can be now used
-to implement the configuration specific functionality. In particular first
-we introduce the conditional ADDRMAP* CSRs mapping since some of these
-CSRs and their fields are left unused by the controller in some cases.
-Secondly actual DIMM ECC errors grain, ECC corrected bit, full data
-pattern and syndrome are determined based on the DDRC parameters.
-
-Afterwards goes a series of the patches which introduce an interface to
-generically determine the system address based on the SDRAM address and
-vice-versa. Thus we'll be able to report actual PFN and offset in case of
-the corrected and uncorrected errors. So first we get to convert the
-currently available HIF/SDRAM mapping table utilized for the
-errors-injection functionality into a more generic Sys<->SDRAM address
-translation interface. Secondly we suggest to conform the SDRAM column
-address mapping detection algorithm with what is defined in the DW uMCTL2
-DDRC hw reference manual. After adding a handy DebugFS node to read the
-HIF/SDRAM mapping and the system address regions support we finally
-introduce the erroneous page-frame/offset reporting to the MCI core. Since
-the full SDRAM address mapping is now always available we suggest to use
-it for the attached memory size calculation, which is a more correct
-approach rather than the si_meminfo()-based one.
+[1] https://en.wikipedia.org/wiki/LPDDR
+[2] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+Databook, Version 3.91a, October 2020, p.501
+[3] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+Databook, Version 3.91a, October 2020, p.1717
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-Cc: Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>
-Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-Cc: Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>
-Cc: Manish Narani <manish.narani@xilinx.com>
-Cc: Dinh Nguyen <dinguyen@kernel.org>
-Cc: James Morse <james.morse@arm.com>
-Cc: Robert Richter <rric@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-edac@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+---
+ drivers/edac/edac_mc.c | 2 ++
+ include/linux/edac.h   | 6 ++++++
+ 2 files changed, 8 insertions(+)
 
-Serge Semin (18):
-  EDAC/synopsys: Convert sysfs nodes to debugfs ones
-  EDAC/mc: Extend memtypes with LPDDR(mDDR) and LPDDR2
-  EDAC/synopsys: Extend memtypes supported by controller
-  EDAC/synopsys: Detach private data from mci instance
-  EDAC/synopsys: Add DDRC basic parameters infrastructure
-  EDAC/synopsys: Convert plat-data to plat-init function
-  EDAC/synopsys: Parse ADDRMAP[7-8] CSRs for (LP)DDR4 only
-  EDAC/synopsys: Parse ADDRMAP[0] CSR for multi-ranks case only
-  EDAC/synopsys: Set actual DIMM ECC errors grain
-  EDAC/synopsys: Get corrected bit position
-  EDAC/synopsys: Read full data pattern on errors
-  EDAC/synopsys: Read data syndrome on errors
-  EDAC/synopsys: Introduce System/SDRAM address translation interface
-  EDAC/synopsys: Simplify HIF/SDRAM column mapping get procedure
-  EDAC/synopsys: Add HIF/SDRAM mapping debugfs node
-  EDAC/synopsys: Add erroneous page-frame/offset reporting
-  EDAC/synopsys: Add system address regions support
-  EDAC/synopsys: Add mapping-based memory size calculation
-
- drivers/edac/edac_mc.c       |    2 +
- drivers/edac/synopsys_edac.c | 1773 ++++++++++++++++++++++++----------
- include/linux/edac.h         |    6 +
- 3 files changed, 1290 insertions(+), 491 deletions(-)
-
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index 634c41ea7804..e353e98e01e2 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -151,10 +151,12 @@ const char * const edac_mem_types[] = {
+ 	[MEM_RDR]	= "Registered-SDR",
+ 	[MEM_DDR]	= "Unbuffered-DDR",
+ 	[MEM_RDDR]	= "Registered-DDR",
++	[MEM_LPDDR]	= "Low-Power-(m)DDR-RAM",
+ 	[MEM_RMBS]	= "RMBS",
+ 	[MEM_DDR2]	= "Unbuffered-DDR2",
+ 	[MEM_FB_DDR2]	= "FullyBuffered-DDR2",
+ 	[MEM_RDDR2]	= "Registered-DDR2",
++	[MEM_LPDDR2]	= "Low-Power-DDR2-RAM",
+ 	[MEM_XDR]	= "XDR",
+ 	[MEM_DDR3]	= "Unbuffered-DDR3",
+ 	[MEM_RDDR3]	= "Registered-DDR3",
+diff --git a/include/linux/edac.h b/include/linux/edac.h
+index fa4bda2a70f6..89167a4459d5 100644
+--- a/include/linux/edac.h
++++ b/include/linux/edac.h
+@@ -157,6 +157,7 @@ static inline char *mc_event_error_type(const unsigned int err_type)
+  *			This is a variant of the DDR memories.
+  *			A registered memory has a buffer inside it, hiding
+  *			part of the memory details to the memory controller.
++ * @MEM_LPDDR:		Low-Power DDR memory (mDDR).
+  * @MEM_RMBS:		Rambus DRAM, used on a few Pentium III/IV controllers.
+  * @MEM_DDR2:		DDR2 RAM, as described at JEDEC JESD79-2F.
+  *			Those memories are labeled as "PC2-" instead of "PC" to
+@@ -167,6 +168,7 @@ static inline char *mc_event_error_type(const unsigned int err_type)
+  *			a chip select signal.
+  * @MEM_RDDR2:		Registered DDR2 RAM
+  *			This is a variant of the DDR2 memories.
++ * @MEM_LPDDR2:		Low-Power DDR2 memory.
+  * @MEM_XDR:		Rambus XDR
+  *			It is an evolution of the original RAMBUS memories,
+  *			created to compete with DDR2. Weren't used on any
+@@ -199,10 +201,12 @@ enum mem_type {
+ 	MEM_RDR,
+ 	MEM_DDR,
+ 	MEM_RDDR,
++	MEM_LPDDR,
+ 	MEM_RMBS,
+ 	MEM_DDR2,
+ 	MEM_FB_DDR2,
+ 	MEM_RDDR2,
++	MEM_LPDDR2,
+ 	MEM_XDR,
+ 	MEM_DDR3,
+ 	MEM_RDDR3,
+@@ -230,10 +234,12 @@ enum mem_type {
+ #define MEM_FLAG_RDR		BIT(MEM_RDR)
+ #define MEM_FLAG_DDR		BIT(MEM_DDR)
+ #define MEM_FLAG_RDDR		BIT(MEM_RDDR)
++#define MEM_FLAG_LPDDR		BIT(MEM_LPDDR)
+ #define MEM_FLAG_RMBS		BIT(MEM_RMBS)
+ #define MEM_FLAG_DDR2		BIT(MEM_DDR2)
+ #define MEM_FLAG_FB_DDR2	BIT(MEM_FB_DDR2)
+ #define MEM_FLAG_RDDR2		BIT(MEM_RDDR2)
++#define MEM_FLAG_LPDDR2		BIT(MEM_LPDDR2)
+ #define MEM_FLAG_XDR		BIT(MEM_XDR)
+ #define MEM_FLAG_DDR3		BIT(MEM_DDR3)
+ #define MEM_FLAG_RDDR3		BIT(MEM_RDDR3)
 -- 
 2.35.1
 
