@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 274FCC32774
-	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:21:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EEC6C28D13
+	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:22:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238349AbiHVTVs (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 22 Aug 2022 15:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46344 "EHLO
+        id S238552AbiHVTV7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 22 Aug 2022 15:21:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238706AbiHVTU6 (ORCPT
+        with ESMTP id S238716AbiHVTU6 (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Mon, 22 Aug 2022 15:20:58 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ADB2013D45;
-        Mon, 22 Aug 2022 12:20:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6A68E15820;
+        Mon, 22 Aug 2022 12:20:34 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 8E82FDA9;
-        Mon, 22 Aug 2022 22:23:34 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 8E82FDA9
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 90C11DA3;
+        Mon, 22 Aug 2022 22:23:36 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 90C11DA3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1661196214;
-        bh=hvldx64g2L6X+9yrJcqAyNeVPAaiuKHUOlWSlc8zeO8=;
+        d=baikalelectronics.ru; s=mail; t=1661196216;
+        bh=wku7u/iSUztYZ4YyKZErSj2fMZzBfaaRtgq0auiZEuw=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=WeZ2BLvqXNo+AAaS9wfvHlBXhL/wXkZbhSJmII9yFzjov6etCql5ZVFpn3RuuSGT6
-         NrxbCP9tUBlLyRql4JPWTOIBGx3ey1A9QxTSoVb6T9LZX2tvZmXeNpo+7efoEscA7K
-         66k/JH38zRBdJhAB8Sau+lpBRDvVMJ6+qy1mbFTk=
+        b=LNGdKf0DgN4f+vqoqZliJum63i8RSPJ2aUqctRt3UrkcZxGErEzwr/EtOx/BKlI8Y
+         5qc6XXC80ZUxdfOwAcTMRK6Ntc3TV/gXFhtPzmR6c9s3XW2yDzXDMdtNYK8yBSzZYU
+         0KT+k6kElM9LVG1NYw0UkOPz01ytTfGjNqoiDbLM=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:20:20 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:20:22 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -48,9 +48,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 07/13] EDAC/synopsys: Split up ECC UE/CE IRQs handler
-Date:   Mon, 22 Aug 2022 22:19:50 +0300
-Message-ID: <20220822191957.28546-8-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 10/13] EDAC/synopsys: Add reference clocks support
+Date:   Mon, 22 Aug 2022 22:19:53 +0300
+Message-ID: <20220822191957.28546-11-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220822191957.28546-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220822191957.28546-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -61,407 +61,204 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-DW uMCTL2 DDRC IP-core doesn't have common IRQ line. Instead it provides
-individual IRQ output signals for each controller event like: corrected
-error, uncorrected error, DFI parity error, address protection, scrubber
-done, and so on. So the common IRQ handler implemented in the Synopsys
-EDAC driver isn't device-specific but is a particular platform specific.
-Obviously it won't be suitable for the generic devices which are added to
-the platforms with the original individual IRQs as it has happened in our
-case.
-
-So let's split up the common IRQ handler into two ones handling ECC
-corrected and uncorrected errors. It won't be that hard since both
-sub-methods it calls are already logically divided into two CE/UE parts.
-What we need to do is to move these parts into the dedicated methods and
-redefine the local variables a bit. The new methods will be simply called
-from the common IRQs handler if one is utilized on the particular
-platform. Otherwise each new IRQ handler will be called on particular
-interrupt request (the IRQ handlers registration will be added a bit
-later). Note we now can discard the snps_ecc_status structure as unneeded
-since the error data is collected and reported now within a single method.
+Currently the driver doesn't support any clock-related resources request
+and handling, fairly assuming that all of them are supposed to be enabled
+anyway in order for the system to work correctly. It's true for the Core
+and AXI Ports reference clocks, but the CSR (APB) and Scrubber clocks
+might still be disabled in case if the system firmware doesn't imply any
+other software touching the DDR controller internals. Since the DW uMCTL2
+DDRC driver does access the controller registers at the very least we need
+to make sure the APB clock is enabled. Let's add the reference clocks
+support then. First of all the driver will request all the clocks possibly
+defined for the controller (Core, AXI, APB and Scrubber). Secondly the APB
+clock will be enabled/disabled only since the Scrubber is currently
+unsupported by the driver, and the Core and AXI clocks feed the critical
+system parts so we need to avoid touching them with a risk to de-stabilize
+the system memory. Please note the clocks connection IDs have been chosen
+in accordance with the DT-bindings.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 272 +++++++++++++++++------------------
- 1 file changed, 135 insertions(+), 137 deletions(-)
+ drivers/edac/synopsys_edac.c | 101 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 98 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 028a9ad70d49..ac0123ff4595 100644
+index cdfa0e16bc5c..d6d5dfabddf5 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -143,7 +143,6 @@
- #define DDR_QOS_IRQ_STAT_OFST		0x20200
- #define DDR_QOSUE_MASK			BIT(2)
- #define DDR_QOSCE_MASK			BIT(1)
--#define ECC_CE_UE_INTR_MASK		(DDR_QOSUE_MASK | DDR_QOSCE_MASK)
- #define DDR_QOS_IRQ_EN_OFST		0x20208
- #define DDR_QOS_IRQ_DB_OFST		0x2020C
+@@ -8,6 +8,7 @@
  
-@@ -372,31 +371,19 @@ struct snps_sdram_addr {
- /**
-  * struct snps_ecc_error_info - ECC error log information.
-  * @sdram:	SDRAM address.
-+ * @ecnt:	Number of detected errors.
-  * @bitpos:	Bit position.
-  * @data:	Data causing the error.
-  * @syndrome:	Erroneous data syndrome.
-  */
- struct snps_ecc_error_info {
- 	struct snps_sdram_addr sdram;
-+	u16 ecnt;
- 	u32 bitpos;
- 	u64 data;
- 	u32 syndrome;
+ #include <linux/bits.h>
+ #include <linux/bitfield.h>
++#include <linux/clk.h>
+ #include <linux/edac.h>
+ #include <linux/fs.h>
+ #include <linux/log2.h>
+@@ -301,6 +302,25 @@ enum snps_ecc_mode {
+ 	SNPS_ECC_ADVX4X8 = 5,
  };
  
--/**
-- * struct snps_ecc_status - ECC status information to report.
-- * @ce_cnt:	Correctable error count.
-- * @ue_cnt:	Uncorrectable error count.
-- * @ceinfo:	Correctable error log information.
-- * @ueinfo:	Uncorrectable error log information.
-- */
--struct snps_ecc_status {
--	u32 ce_cnt;
--	u32 ue_cnt;
--	struct snps_ecc_error_info ceinfo;
--	struct snps_ecc_error_info ueinfo;
--};
--
++/**
++ * enum snps_ref_clk - DW uMCTL2 DDR controller clocks.
++ * @SNPS_CSR_CLK:	CSR/APB interface clock.
++ * @SNPS_AXI_CLK:	AXI (AHB) Port reference clock.
++ * @SNPS_CORE_CLK:	DDR controller (including DFI) clock. SDRAM clock
++ *			matches runs with this freq in 1:1 ratio mode and
++ *			with twice of this freq in case of 1:2 ratio mode.
++ * @SNPS_SBR_CLK:	Scrubber port reference clock (synchronous to
++ *			the core clock).
++ * @SNPS_MAX_NCLK:	Total number of clocks.
++ */
++enum snps_ref_clk {
++	SNPS_CSR_CLK,
++	SNPS_AXI_CLK,
++	SNPS_CORE_CLK,
++	SNPS_SBR_CLK,
++	SNPS_MAX_NCLK
++};
++
  /**
-  * struct snps_edac_priv - DDR memory controller private data.
-  * @info:		DDR controller config info.
-@@ -406,7 +393,6 @@ struct snps_ecc_status {
+  * struct snps_ddrc_info - DDR controller platform parameters.
+  * @caps:		DDR controller capabilities.
+@@ -405,6 +425,7 @@ struct snps_ecc_error_info {
+  * @pdev:		Platform device.
   * @baseaddr:		Base address of the DDR controller.
   * @lock:		Concurrent CSRs access lock.
++ * @clks:		Controller reference clocks.
   * @message:		Buffer for framing the event specific info.
-- * @stat:		ECC status information.
   */
  struct snps_edac_priv {
- 	struct snps_ddrc_info info;
-@@ -416,7 +402,6 @@ struct snps_edac_priv {
+@@ -414,6 +435,7 @@ struct snps_edac_priv {
+ 	struct platform_device *pdev;
  	void __iomem *baseaddr;
  	spinlock_t lock;
++	struct clk_bulk_data clks[SNPS_MAX_NCLK];
  	char message[SNPS_EDAC_MSG_SIZE];
--	struct snps_ecc_status stat;
  };
  
- /**
-@@ -688,130 +673,178 @@ static inline u32 snps_get_bitpos(u32 bitnum, enum snps_dq_width dq_width)
+@@ -974,6 +996,60 @@ static struct snps_edac_priv *snps_create_data(struct platform_device *pdev)
+ 	return priv;
  }
  
- /**
-- * snps_get_error_info - Get the current ECC error info.
-- * @priv:	DDR memory controller private instance data.
-+ * snps_ce_irq_handler - Corrected error interrupt handler.
-+ * @irq:        IRQ number.
-+ * @dev_id:     Device ID.
-  *
-- * Return: one if there is no error otherwise returns zero.
-+ * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-  */
--static int snps_get_error_info(struct snps_edac_priv *priv)
-+static irqreturn_t snps_ce_irq_handler(int irq, void *dev_id)
- {
--	struct snps_ecc_status *p;
--	u32 regval, clearval;
-+	struct mem_ctl_info *mci = dev_id;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	struct snps_ecc_error_info einfo;
- 	unsigned long flags;
--	void __iomem *base;
-+	u32 qosval, regval;
-+	dma_addr_t sys;
- 
--	base = priv->baseaddr;
--	p = &priv->stat;
-+	/* Make sure IRQ is caused by a corrected ECC error */
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP) {
-+		qosval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
-+		if (!(qosval & DDR_QOSCE_MASK))
-+			return IRQ_NONE;
- 
--	regval = readl(base + ECC_STAT_OFST);
--	if (!regval)
--		return 1;
-+		qosval &= DDR_QOSCE_MASK;
++/**
++ * snps_get_res - Get platform device resources.
++ * @priv:	DDR memory controller private instance data.
++ *
++ * It's supposed to request all the controller resources available for the
++ * particular platform and enable all the required for the driver normal
++ * work. Note only the CSR and Scrubber clocks are supposed to be switched
++ * on/off by the driver.
++ *
++ * Return: negative errno if failed to get the resources, otherwise - zero.
++ */
++static int snps_get_res(struct snps_edac_priv *priv)
++{
++	const char * const ids[] = {
++		[SNPS_CSR_CLK] = "pclk",
++		[SNPS_AXI_CLK] = "aclk",
++		[SNPS_CORE_CLK] = "core",
++		[SNPS_SBR_CLK] = "sbr",
++	};
++	int i, rc;
++
++	for (i = 0; i < SNPS_MAX_NCLK; i++)
++		priv->clks[i].id = ids[i];
++
++	rc = devm_clk_bulk_get_optional(&priv->pdev->dev, SNPS_MAX_NCLK,
++					priv->clks);
++	if (rc) {
++		edac_printk(KERN_INFO, EDAC_MC, "Failed to get ref clocks\n");
++		return rc;
 +	}
- 
--	p->ceinfo.bitpos = FIELD_GET(ECC_STAT_BITNUM_MASK, regval);
-+	regval = readl(priv->baseaddr + ECC_STAT_OFST);
-+	if (!FIELD_GET(ECC_STAT_CE_MASK, regval))
-+		return IRQ_NONE;
- 
--	regval = readl(base + ECC_ERRCNT_OFST);
--	p->ce_cnt = FIELD_GET(ECC_ERRCNT_CECNT_MASK, regval);
--	p->ue_cnt = FIELD_GET(ECC_ERRCNT_UECNT_MASK, regval);
--	if (!p->ce_cnt)
--		goto ue_err;
-+	/* Read error info like bit position, SDRAM address, data, syndrome */
-+	einfo.bitpos = FIELD_GET(ECC_STAT_BITNUM_MASK, regval);
-+	einfo.bitpos = snps_get_bitpos(einfo.bitpos, priv->info.dq_width);
- 
--	p->ceinfo.bitpos = snps_get_bitpos(p->ceinfo.bitpos, priv->info.dq_width);
-+	regval = readl(priv->baseaddr + ECC_ERRCNT_OFST);
-+	einfo.ecnt = FIELD_GET(ECC_ERRCNT_CECNT_MASK, regval);
- 
--	regval = readl(base + ECC_CEADDR0_OFST);
--	p->ceinfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
--	p->ceinfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
-+	regval = readl(priv->baseaddr + ECC_CEADDR0_OFST);
-+	einfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
-+	einfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
- 
--	regval = readl(base + ECC_CEADDR1_OFST);
--	p->ceinfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
--	p->ceinfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
--	p->ceinfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
-+	regval = readl(priv->baseaddr + ECC_CEADDR1_OFST);
-+	einfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
-+	einfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
-+	einfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
- 
--	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
-+	einfo.data = readl(priv->baseaddr + ECC_CSYND0_OFST);
- 	if (priv->info.dq_width == SNPS_DQ_64)
--		p->ceinfo.data |= (u64)readl(base + ECC_CSYND1_OFST) << 32;
--
--	p->ceinfo.syndrome = readl(base + ECC_CSYND2_OFST);
-+		einfo.data |= (u64)readl(priv->baseaddr + ECC_CSYND1_OFST) << 32;
- 
--ue_err:
--	if (!p->ue_cnt)
--		goto out;
-+	einfo.syndrome = readl(priv->baseaddr + ECC_CSYND2_OFST);
- 
--	regval = readl(base + ECC_UEADDR0_OFST);
--	p->ueinfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
--	p->ueinfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
-+	/* Report the detected errors with the corresponding sys address */
-+	snps_map_sdram_to_sys(priv, &einfo.sdram, &sys);
- 
--	regval = readl(base + ECC_UEADDR1_OFST);
--	p->ueinfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
--	p->ueinfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
--	p->ueinfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
-+	snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
-+		 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Bit %d Data 0x%08llx",
-+		 einfo.sdram.row, einfo.sdram.col, einfo.sdram.bank,
-+		 einfo.sdram.bankgrp, einfo.sdram.rank,
-+		 einfo.bitpos, einfo.data);
- 
--	p->ueinfo.data = readl(base + ECC_UESYND0_OFST);
--	if (priv->info.dq_width == SNPS_DQ_64)
--		p->ueinfo.data |= (u64)readl(base + ECC_UESYND1_OFST) << 32;
--
--	p->ueinfo.syndrome = readl(base + ECC_UESYND2_OFST);
-+	edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, einfo.ecnt,
-+			     PHYS_PFN(sys), offset_in_page(sys),
-+			     einfo.syndrome, einfo.sdram.rank, 0, -1,
-+			     priv->message, "");
- 
--out:
-+	/* Make sure the CE IRQ status is cleared */
- 	spin_lock_irqsave(&priv->lock, flags);
- 
--	clearval = readl(base + ECC_CLR_OFST) |
--		   ECC_CTRL_CLR_CE_ERR | ECC_CTRL_CLR_CE_ERRCNT |
--		   ECC_CTRL_CLR_UE_ERR | ECC_CTRL_CLR_UE_ERRCNT;
--	writel(clearval, base + ECC_CLR_OFST);
-+	regval = readl(priv->baseaddr + ECC_CLR_OFST) |
-+		 ECC_CTRL_CLR_CE_ERR | ECC_CTRL_CLR_CE_ERRCNT;
-+	writel(regval, priv->baseaddr + ECC_CLR_OFST);
- 
- 	spin_unlock_irqrestore(&priv->lock, flags);
- 
--	return 0;
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP)
-+		writel(qosval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
 +
-+	return IRQ_HANDLED;
- }
- 
- /**
-- * snps_handle_error - Handle Correctable and Uncorrectable errors.
-- * @mci:	EDAC memory controller instance.
-- * @p:		Synopsys ECC status structure.
-+ * snps_ue_irq_handler - Uncorrected error interrupt handler.
-+ * @irq:        IRQ number.
-+ * @dev_id:     Device ID.
-  *
-- * Handles ECC correctable and uncorrectable errors.
-+ * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-  */
--static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *p)
-+static irqreturn_t snps_ue_irq_handler(int irq, void *dev_id)
- {
-+	struct mem_ctl_info *mci = dev_id;
- 	struct snps_edac_priv *priv = mci->pvt_info;
--	struct snps_ecc_error_info *pinf;
-+	struct snps_ecc_error_info einfo;
-+	unsigned long flags;
-+	u32 qosval, regval;
- 	dma_addr_t sys;
- 
--	if (p->ce_cnt) {
--		pinf = &p->ceinfo;
-+	/* Make sure IRQ is caused by an uncorrected ECC error */
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP) {
-+		qosval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
-+		if (!(regval & DDR_QOSUE_MASK))
-+			return IRQ_NONE;
-+
-+		qosval &= DDR_QOSUE_MASK;
++	/*
++	 * Don't touch the Core and AXI clocks since they are critical for the
++	 * stable system functioning and are supposed to have been enabled
++	 * anyway.
++	 */
++	rc = clk_prepare_enable(priv->clks[SNPS_CSR_CLK].clk);
++	if (rc) {
++		edac_printk(KERN_INFO, EDAC_MC, "Couldn't enable CSR clock\n");
++		return rc;
 +	}
- 
--		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
--			 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Bit %d Data 0x%08llx",
--			 pinf->sdram.row, pinf->sdram.col, pinf->sdram.bank,
--			 pinf->sdram.bankgrp, pinf->sdram.rank,
--			 pinf->bitpos, pinf->data);
-+	regval = readl(priv->baseaddr + ECC_STAT_OFST);
-+	if (!FIELD_GET(ECC_STAT_UE_MASK, regval))
-+		return IRQ_NONE;
- 
--		snps_map_sdram_to_sys(priv, &pinf->sdram, &sys);
-+	/* Read error info like SDRAM address, data and syndrome */
-+	regval = readl(priv->baseaddr + ECC_ERRCNT_OFST);
-+	einfo.ecnt = FIELD_GET(ECC_ERRCNT_UECNT_MASK, regval);
- 
--		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, p->ce_cnt,
--				     PHYS_PFN(sys), offset_in_page(sys),
--				     pinf->syndrome, pinf->sdram.rank, 0, -1,
--				     priv->message, "");
--	}
-+	regval = readl(priv->baseaddr + ECC_UEADDR0_OFST);
-+	einfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
-+	einfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
- 
--	if (p->ue_cnt) {
--		pinf = &p->ueinfo;
-+	regval = readl(priv->baseaddr + ECC_UEADDR1_OFST);
-+	einfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
-+	einfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
-+	einfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
- 
--		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
--			 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Data 0x%08llx",
--			 pinf->sdram.row, pinf->sdram.col, pinf->sdram.bank,
--			 pinf->sdram.bankgrp, pinf->sdram.rank,
--			 pinf->data);
-+	einfo.data = readl(priv->baseaddr + ECC_UESYND0_OFST);
-+	if (priv->info.dq_width == SNPS_DQ_64)
-+		einfo.data |= (u64)readl(priv->baseaddr + ECC_UESYND1_OFST) << 32;
- 
--		snps_map_sdram_to_sys(priv, &pinf->sdram, &sys);
-+	einfo.syndrome = readl(priv->baseaddr + ECC_UESYND2_OFST);
- 
--		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, p->ue_cnt,
--				     PHYS_PFN(sys), offset_in_page(sys),
--				     pinf->syndrome, pinf->sdram.rank, 0, -1,
--				     priv->message, "");
--	}
-+	/* Report the detected errors with the corresponding sys address */
-+	snps_map_sdram_to_sys(priv, &einfo.sdram, &sys);
 +
-+	snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
-+		 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Data 0x%08llx",
-+		 einfo.sdram.row, einfo.sdram.col, einfo.sdram.bank,
-+		 einfo.sdram.bankgrp, einfo.sdram.rank,
-+		 einfo.data);
-+
-+	edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, einfo.ecnt,
-+			     PHYS_PFN(sys), offset_in_page(sys),
-+			     einfo.syndrome, einfo.sdram.rank, 0, -1,
-+			     priv->message, "");
-+
-+	/* Make sure the UE IRQ status is cleared */
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	regval = readl(priv->baseaddr + ECC_CLR_OFST) |
-+		 ECC_CTRL_CLR_UE_ERR | ECC_CTRL_CLR_UE_ERRCNT;
-+	writel(regval, priv->baseaddr + ECC_CLR_OFST);
- 
--	memset(p, 0, sizeof(*p));
-+	spin_unlock_irqrestore(&priv->lock, flags);
-+
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP)
-+		writel(qosval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
-+
-+	return IRQ_HANDLED;
++	return 0;
 +}
 +
 +/**
-+ * snps_com_irq_handler - Interrupt IRQ signal handler.
-+ * @irq:        IRQ number.
-+ * @dev_id:     Device ID.
-+ *
-+ * Return: IRQ_NONE, if interrupts not set or IRQ_HANDLED otherwise.
++ * snps_put_res - Put platform device resources.
++ * @priv:	DDR memory controller private instance data.
 + */
-+static irqreturn_t snps_com_irq_handler(int irq, void *dev_id)
++static void snps_put_res(struct snps_edac_priv *priv)
 +{
-+	irqreturn_t rc = IRQ_NONE;
++	clk_disable_unprepare(priv->clks[SNPS_CSR_CLK].clk);
++}
 +
-+	rc |= snps_ce_irq_handler(irq, dev_id);
+ /*
+  * zynqmp_init_plat - ZynqMP-specific platform initialization.
+  * @priv:	DDR memory controller private data.
+@@ -1707,9 +1783,17 @@ static int snps_ddrc_info_show(struct seq_file *s, void *data)
+ {
+ 	struct mem_ctl_info *mci = s->private;
+ 	struct snps_edac_priv *priv = mci->pvt_info;
++	unsigned long rate;
+ 
+ 	seq_printf(s, "SDRAM: %s\n", edac_mem_types[priv->info.sdram_mode]);
+ 
++	rate = clk_get_rate(priv->clks[SNPS_CORE_CLK].clk);
++	if (rate) {
++		rate = rate / HZ_PER_MHZ;
++		seq_printf(s, "Clock: Core %luMHz SDRAM %luMHz\n",
++			   rate, priv->info.freq_ratio * rate);
++	}
 +
-+	rc |= snps_ue_irq_handler(irq, dev_id);
+ 	seq_printf(s, "DQ bus: %u/%s\n", (BITS_PER_BYTE << priv->info.dq_width),
+ 		   priv->info.dq_mode == SNPS_DQ_FULL ? "Full" :
+ 		   priv->info.dq_mode == SNPS_DQ_HALF ? "Half" :
+@@ -2018,15 +2102,21 @@ static int snps_mc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv))
+ 		return PTR_ERR(priv);
+ 
+-	rc = snps_get_ddrc_info(priv);
++	rc = snps_get_res(priv);
+ 	if (rc)
+ 		return rc;
+ 
++	rc = snps_get_ddrc_info(priv);
++	if (rc)
++		goto put_res;
 +
-+	return rc;
+ 	snps_get_addr_map(priv);
+ 
+ 	mci = snps_mc_create(priv);
+-	if (IS_ERR(mci))
+-		return PTR_ERR(mci);
++	if (IS_ERR(mci)) {
++		rc = PTR_ERR(mci);
++		goto put_res;
++	}
+ 
+ 	rc = snps_setup_irq(mci);
+ 	if (rc)
+@@ -2046,6 +2136,9 @@ static int snps_mc_probe(struct platform_device *pdev)
+ free_edac_mc:
+ 	snps_mc_free(mci);
+ 
++put_res:
++	snps_put_res(priv);
++
+ 	return rc;
  }
  
- static void snps_enable_irq(struct snps_edac_priv *priv)
-@@ -854,41 +887,6 @@ static void snps_disable_irq(struct snps_edac_priv *priv)
- 	spin_unlock_irqrestore(&priv->lock, flags);
+@@ -2066,6 +2159,8 @@ static int snps_mc_remove(struct platform_device *pdev)
+ 
+ 	snps_mc_free(mci);
+ 
++	snps_put_res(priv);
++
+ 	return 0;
  }
  
--/**
-- * snps_irq_handler - Interrupt Handler for ECC interrupts.
-- * @irq:        IRQ number.
-- * @dev_id:     Device ID.
-- *
-- * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-- */
--static irqreturn_t snps_irq_handler(int irq, void *dev_id)
--{
--	struct mem_ctl_info *mci = dev_id;
--	struct snps_edac_priv *priv;
--	int status, regval;
--
--	priv = mci->pvt_info;
--
--	if (priv->info.caps & SNPS_CAP_ZYNQMP) {
--		regval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
--		regval &= (DDR_QOSCE_MASK | DDR_QOSUE_MASK);
--		if (!(regval & ECC_CE_UE_INTR_MASK))
--			return IRQ_NONE;
--	}
--
--	status = snps_get_error_info(priv);
--	if (status)
--		return IRQ_NONE;
--
--	snps_handle_error(mci, &priv->stat);
--
--
--	if (priv->info.caps & SNPS_CAP_ZYNQMP)
--		writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
--
--	return IRQ_HANDLED;
--}
--
- /**
-  * snps_create_data - Create private data.
-  * @pdev:	platform device.
-@@ -1538,7 +1536,7 @@ static int snps_setup_irq(struct mem_ctl_info *mci)
- 		return irq;
- 	}
- 
--	ret = devm_request_irq(&priv->pdev->dev, irq, snps_irq_handler,
-+	ret = devm_request_irq(&priv->pdev->dev, irq, snps_com_irq_handler,
- 			       0, dev_name(&priv->pdev->dev), mci);
- 	if (ret < 0) {
- 		edac_printk(KERN_ERR, EDAC_MC, "Failed to request IRQ\n");
 -- 
 2.35.1
 
