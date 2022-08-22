@@ -2,38 +2,36 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA82C32772
-	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2CFC28D13
+	for <linux-edac@archiver.kernel.org>; Mon, 22 Aug 2022 19:21:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238490AbiHVTRV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 22 Aug 2022 15:17:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
+        id S237759AbiHVTVQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 22 Aug 2022 15:21:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238404AbiHVTPR (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 22 Aug 2022 15:15:17 -0400
+        with ESMTP id S238681AbiHVTUz (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 22 Aug 2022 15:20:55 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0A3E53FA24;
-        Mon, 22 Aug 2022 12:15:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D7215F86;
+        Mon, 22 Aug 2022 12:20:15 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 2F297DB0;
-        Mon, 22 Aug 2022 22:17:54 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 2F297DB0
+        by mail.baikalelectronics.com (Postfix) with ESMTP id E443CDA2;
+        Mon, 22 Aug 2022 22:23:27 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com E443CDA2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1661195874;
-        bh=WgRtkS0UOu8MMj2JUNKRYh1FdsBEkSO3jekpOwwUBjk=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=ZxFSbwKON/6IcUPUXI/hfPgA6cqoMWUq9CeZvRcedfueUa7L7FvQXEEBM9qv7IJCo
-         Ke0Tbu0snbfFn3FcxnGYYgcmBSQd+HIBUyYb9cA28KJJMWcFQhWHBEMiGF+DIvuUzL
-         4YUjmkMaureLxBWl2mlgCxBu9CxS1fhurDuYAjDE=
+        d=baikalelectronics.ru; s=mail; t=1661196208;
+        bh=KF3X090vcoA9grM0P07tsVKO0EiXk7h8wSJHSrQJgOo=;
+        h=From:To:CC:Subject:Date:From;
+        b=Gn/TCwquunznoofIfp0cPam7W9juapk3ZAlbNBTgO7CBhULSZjPpdPg0EIhuoJP2+
+         jfSorT349Mp40u+IXg7wtuJdvw8UGG27JvJpvl2KYiga3eZBUmNL1NXez0KTG+zkq0
+         mpWeGQOFp/TRnjt+Y9WrGDjaAAML3xFI/7B4NgxY=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:14:40 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 22 Aug 2022 22:20:13 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>
+        Tony Luck <tony.luck@intel.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -43,13 +41,16 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <punnaiah.choudary.kalluri@xilinx.com>,
         Manish Narani <manish.narani@xilinx.com>,
         Dinh Nguyen <dinguyen@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 16/18] EDAC/synopsys: Add erroneous page-frame/offset reporting
-Date:   Mon, 22 Aug 2022 22:14:25 +0300
-Message-ID: <20220822191427.27969-17-Sergey.Semin@baikalelectronics.ru>
-In-Reply-To: <20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru>
-References: <20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH 00/13] EDAC/synopsys: Add generic resources and Baikal-T1 support
+Date:   Mon, 22 Aug 2022 22:19:43 +0300
+Message-ID: <20220822191957.28546-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -58,254 +59,101 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Since System/SDRAM address translation interface is now available we can
-use it to determine the system address causing the ECC faults. In order to
-do so first we need to add the System->Application->HIF->SDRAM address
-translation procedures based on the DW uMCTL2 DDRC DQ-bus config and
-HIF/SDRAM mapping table retrieved on the device probe stage. Secondly for
-the sake of simplification we need to convert the snps_ecc_error_info
-structure to contain the snps_sdram_addr structure instance, since the
-erroneous SDRAM address will now participate in the address translation
-chain. Finally we need to perform the SDRAM->System address translation
-before passing the later to the edac_mc_handle_error() method.
+This patchset is a third one in the series created in the framework of my
+Baikal-T1 DDRC-related work:
 
-Note the ECC address rank needs to be retrieved now too in order to
-determine a correct system address. But the rank won't be passed to the
-MCI core for now since the MCI device is registered with a single ranked
-layer 0.
+[1: In-progress] EDAC/mc/synopsys: Various fixes and cleanups
+Link: https://lore.kernel.org/linux-edac/20220822190730.27277-1-Sergey.Semin@baikalelectronics.ru/
+[2: In-progress] EDAC/synopsys: Add generic DDRC info and address mapping
+Link: https://lore.kernel.org/linux-edac/20220822191427.27969-1-Sergey.Semin@baikalelectronics.ru/
+[3: In-progress] EDAC/synopsys: Add generic resources and Baikal-T1 support
+Link: ---you are looking at it---
+
+Note the patchsets above must be merged in the same order as they are
+placed in the list in order to prevent conflicts. Nothing prevents them
+from being reviewed synchronously though. Any tests are very welcome.
+Thanks in advance.
+
+This is a final patchset in the framework of my Synopsys DW uMCTL2 DDRC
+work, which completes the driver updates with the new functionality and
+at the closure introduces the Baikal-T1 DDRC support.
+
+The series starts from extending the Synopsys DW uMCTL2 DDRC DT-schema
+with the controller specific IRQs, clocks and resets properties. In
+addition to the Baikal-T1 DDRC is added to the DT-bindings since it's
+based on the DW uMCTL2 DDRC v2.61a.
+
+After that we suggest to finally inform the MCI core with the detected
+SDRAM ranks and make sure the detected errors are reported to the
+corresponding rank. Then we extend the DDRC capabilities with optional
+Scrub functionality. It's indeed possible to have the DW uMCTL2 controller
+with no HW-accelerated Scrub support (no RMW engine). In that case the MCI
+core is supposed to perform the erroneous location ECC update by means of
+the platform-specific scrub method.
+
+Then we get to fix the error-injection functionality a bit. First since
+the driver now has the Sys<->SDRAM address translation infrastructure we
+can use it to convert the supplied poisonous system address to the SDRAM
+one. Thus there is no longer need in preserving the address in the device
+private data. Second we suggest to add a DebuFS node-based command to
+disable the error-injection feature (no idea why it hasn't been done in
+the first place).
+
+Afterwards a series of the IRQ-related patches goes. First we introduce the
+individual DDRC event IRQs support in accordance with what has been added
+to the DT-bindings and what the native DW uMCTL2 DDR controller actually
+provides. Then aside to the ECC CE/UE errors detection we suggest to the
+DFI/SDRAM CRC/Parity errors report. It specifically useful for the DDR4
+memory which has dedicated ALARM_n signal, but can be still utilized in
+the framework of the older protocols if the device DFI-PHY calculates
+the HIF-interface signals parity. Third after adding the platform
+clock/resets request procedure we introduce the HW-accelerated Scrubber
+support. Its performance can be tuned by means of the sdram_scrub_rate
+SysFS node and the Core clock rate. Note it is possible to one-time-run
+the Scrubber in the back-to-back mode so to perform a burst-like scan of
+the whole SDRAM memory.
+
+At the patchset closure we finally fix the DW uMCTL2 DDRC kernel config to
+be available not only on the Xilinx, Intel and MXC platforms and add the
+Baikal-T1 DDRC support which the whole work has been dedicated for in the
+first place.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
----
- drivers/edac/synopsys_edac.c | 142 +++++++++++++++++++++++++++++------
- 1 file changed, 118 insertions(+), 24 deletions(-)
+Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
+Cc: Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>
+Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
+Cc: Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>
+Cc: Manish Narani <manish.narani@xilinx.com>
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: James Morse <james.morse@arm.com>
+Cc: Robert Richter <rric@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-edac@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
-diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 0ac02775aaf9..506c0fee14f0 100644
---- a/drivers/edac/synopsys_edac.c
-+++ b/drivers/edac/synopsys_edac.c
-@@ -12,6 +12,7 @@
- #include <linux/fs.h>
- #include <linux/log2.h>
- #include <linux/module.h>
-+#include <linux/pfn.h>
- #include <linux/platform_device.h>
- #include <linux/seq_file.h>
- #include <linux/spinlock.h>
-@@ -344,19 +345,13 @@ struct snps_sdram_addr {
- 
- /**
-  * struct snps_ecc_error_info - ECC error log information.
-- * @row:	Row number.
-- * @col:	Column number.
-- * @bank:	Bank number.
-- * @bankgrp:	Bank group number.
-+ * @sdram:	SDRAM address.
-  * @bitpos:	Bit position.
-  * @data:	Data causing the error.
-  * @syndrome:	Erroneous data syndrome.
-  */
- struct snps_ecc_error_info {
--	u32 row;
--	u32 col;
--	u32 bank;
--	u32 bankgrp;
-+	struct snps_sdram_addr sdram;
- 	u32 bitpos;
- 	u64 data;
- 	u32 syndrome;
-@@ -416,6 +411,21 @@ static void snps_map_app_to_hif(struct snps_edac_priv *priv,
- 	*hif = app >> priv->info.dq_width;
- }
- 
-+/**
-+ * snps_map_hif_to_app - Map HIF address to Application address.
-+ * @priv:	DDR memory controller private instance data.
-+ * @hif:	HIF address (source).
-+ * @app:	Application address (destination).
-+ *
-+ * Backward HIF-to-App translation is just the opposite DQ-width-based
-+ * shift operation.
-+ */
-+static void snps_map_hif_to_app(struct snps_edac_priv *priv,
-+				u64 hif, u64 *app)
-+{
-+	*app = hif << priv->info.dq_width;
-+}
-+
- /**
-  * snps_map_hif_to_sdram - Map HIF address to SDRAM address.
-  * @priv:	DDR memory controller private instance data.
-@@ -467,6 +477,58 @@ static void snps_map_hif_to_sdram(struct snps_edac_priv *priv,
- 	}
- }
- 
-+/**
-+ * snps_map_sdram_to_hif - Map SDRAM address to HIF address.
-+ * @priv:	DDR memory controller private instance data.
-+ * @sdram:	SDRAM address (source).
-+ * @hif:	HIF address (destination).
-+ *
-+ * SDRAM-HIF address mapping is similar to the HIF-SDRAM mapping procedure, but
-+ * we'll traverse each SDRAM rank/bank/column/row bit.
-+ *
-+ * Note the unmapped bits of the SDRAM address components will be just
-+ * ignored. So make sure the source address is valid.
-+ */
-+static void snps_map_sdram_to_hif(struct snps_edac_priv *priv,
-+				  struct snps_sdram_addr *sdram, u64 *hif)
-+{
-+	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
-+	unsigned long addr;
-+	int i;
-+
-+	*hif = 0;
-+
-+	addr = sdram->row;
-+	for_each_set_bit(i, &addr, DDR_MAX_ROW_WIDTH) {
-+		if (map->row[i] != DDR_ADDRMAP_UNUSED)
-+			*hif |= BIT_ULL(map->row[i]);
-+	}
-+
-+	addr = sdram->col;
-+	for_each_set_bit(i, &addr, DDR_MAX_COL_WIDTH) {
-+		if (map->col[i] != DDR_ADDRMAP_UNUSED)
-+			*hif |= BIT_ULL(map->col[i]);
-+	}
-+
-+	addr = sdram->bank;
-+	for_each_set_bit(i, &addr, DDR_MAX_BANK_WIDTH) {
-+		if (map->bank[i] != DDR_ADDRMAP_UNUSED)
-+			*hif |= BIT_ULL(map->bank[i]);
-+	}
-+
-+	addr = sdram->bankgrp;
-+	for_each_set_bit(i, &addr, DDR_MAX_BANKGRP_WIDTH) {
-+		if (map->bankgrp[i] != DDR_ADDRMAP_UNUSED)
-+			*hif |= BIT_ULL(map->bankgrp[i]);
-+	}
-+
-+	addr = sdram->rank;
-+	for_each_set_bit(i, &addr, DDR_MAX_RANK_WIDTH) {
-+		if (map->rank[i] != DDR_ADDRMAP_UNUSED)
-+			*hif |= BIT_ULL(map->rank[i]);
-+	}
-+}
-+
- /**
-  * snps_map_sys_to_sdram - Map System address to SDRAM address.
-  * @priv:	DDR memory controller private instance data.
-@@ -488,6 +550,27 @@ static void snps_map_sys_to_sdram(struct snps_edac_priv *priv,
- 	snps_map_hif_to_sdram(priv, hif, sdram);
- }
- 
-+/**
-+ * snps_map_sdram_to_sys - Map SDRAM address to SDRAM address.
-+ * @priv:	DDR memory controller private instance data.
-+ * @sys:	System address (source).
-+ * @sdram:	SDRAM address (destination).
-+ *
-+ * Perform a full mapping of the SDRAM address (row/column/bank/etc) to
-+ * the system address specific to the controller system bus ports.
-+ */
-+static void snps_map_sdram_to_sys(struct snps_edac_priv *priv,
-+				  struct snps_sdram_addr *sdram, dma_addr_t *sys)
-+{
-+	u64 app, hif;
-+
-+	snps_map_sdram_to_hif(priv, sdram, &hif);
-+
-+	snps_map_hif_to_app(priv, hif, &app);
-+
-+	*sys = app;
-+}
-+
- /**
-  * snps_get_bitpos - Get DQ-bus corrected bit position.
-  * @bitnum:	Bit number retrieved from the ECCSTAT.corrected_bit_num field.
-@@ -540,12 +623,13 @@ static int snps_get_error_info(struct snps_edac_priv *priv)
- 	p->ceinfo.bitpos = snps_get_bitpos(p->ceinfo.bitpos, priv->info.dq_width);
- 
- 	regval = readl(base + ECC_CEADDR0_OFST);
--	p->ceinfo.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
-+	p->ceinfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
-+	p->ceinfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
- 
- 	regval = readl(base + ECC_CEADDR1_OFST);
--	p->ceinfo.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
--	p->ceinfo.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
--	p->ceinfo.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
-+	p->ceinfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
-+	p->ceinfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
-+	p->ceinfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
- 
- 	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
- 	if (priv->info.dq_width == SNPS_DQ_64)
-@@ -558,12 +642,13 @@ static int snps_get_error_info(struct snps_edac_priv *priv)
- 		goto out;
- 
- 	regval = readl(base + ECC_UEADDR0_OFST);
--	p->ueinfo.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
-+	p->ueinfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
-+	p->ueinfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
- 
- 	regval = readl(base + ECC_UEADDR1_OFST);
--	p->ueinfo.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
--	p->ueinfo.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
--	p->ueinfo.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
-+	p->ueinfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
-+	p->ueinfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
-+	p->ueinfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
- 
- 	p->ueinfo.data = readl(base + ECC_UESYND0_OFST);
- 	if (priv->info.dq_width == SNPS_DQ_64)
-@@ -595,17 +680,22 @@ static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *
- {
- 	struct snps_edac_priv *priv = mci->pvt_info;
- 	struct snps_ecc_error_info *pinf;
-+	dma_addr_t sys;
- 
- 	if (p->ce_cnt) {
- 		pinf = &p->ceinfo;
- 
- 		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
--			 "Row %d Col %d Bank %d Bank Group %d Bit %d Data 0x%08llx",
--			 pinf->row, pinf->col, pinf->bank, pinf->bankgrp,
-+			 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Bit %d Data 0x%08llx",
-+			 pinf->sdram.row, pinf->sdram.col, pinf->sdram.bank,
-+			 pinf->sdram.bankgrp, pinf->sdram.rank,
- 			 pinf->bitpos, pinf->data);
- 
--		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
--				     p->ce_cnt, 0, 0, pinf->syndrome, 0, 0, -1,
-+		snps_map_sdram_to_sys(priv, &pinf->sdram, &sys);
-+
-+		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, p->ce_cnt,
-+				     PHYS_PFN(sys), offset_in_page(sys),
-+				     pinf->syndrome, 0, 0, -1,
- 				     priv->message, "");
- 	}
- 
-@@ -613,12 +703,16 @@ static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *
- 		pinf = &p->ueinfo;
- 
- 		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
--			 "Row %d Col %d Bank %d Bank Group %d Data 0x%08llx",
--			 pinf->row, pinf->col, pinf->bank, pinf->bankgrp,
-+			 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Data 0x%08llx",
-+			 pinf->sdram.row, pinf->sdram.col, pinf->sdram.bank,
-+			 pinf->sdram.bankgrp, pinf->sdram.rank,
- 			 pinf->data);
- 
--		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
--				     p->ue_cnt, 0, 0, pinf->syndrome, 0, 0, -1,
-+		snps_map_sdram_to_sys(priv, &pinf->sdram, &sys);
-+
-+		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, p->ue_cnt,
-+				     PHYS_PFN(sys), offset_in_page(sys),
-+				     pinf->syndrome, 0, 0, -1,
- 				     priv->message, "");
- 	}
- 
+Serge Semin (13):
+  dt-bindings: memory: snps: Extend schema with IRQs/resets/clocks props
+  dt-bindings: memory: snps: Add Baikal-T1 DDRC support
+  EDAC/synopsys: Add multi-ranked memory support
+  EDAC/synopsys: Add optional ECC Scrub support
+  EDAC/synopsys: Drop ECC poison address from private data
+  EDAC/synopsys: Add data poisoning disable support
+  EDAC/synopsys: Split up ECC UE/CE IRQs handler
+  EDAC/synopsys: Add individual named ECC IRQs support
+  EDAC/synopsys: Add DFI alert_n IRQ support
+  EDAC/synopsys: Add reference clocks support
+  EDAC/synopsys: Add ECC Scrubber support
+  EDAC/synopsys: Drop vendor-specific arch dependency
+  EDAC/synopsys: Add Baikal-T1 DDRC support
+
+ .../snps,dw-umctl2-ddrc.yaml                  |  75 +-
+ drivers/edac/Kconfig                          |   1 -
+ drivers/edac/synopsys_edac.c                  | 952 ++++++++++++++----
+ 3 files changed, 830 insertions(+), 198 deletions(-)
+
 -- 
 2.35.1
 
