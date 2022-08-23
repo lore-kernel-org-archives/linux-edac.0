@@ -2,62 +2,54 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A481C32772
-	for <linux-edac@archiver.kernel.org>; Tue, 23 Aug 2022 09:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C79C32772
+	for <linux-edac@archiver.kernel.org>; Tue, 23 Aug 2022 09:18:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348272AbiHWJMe (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 23 Aug 2022 05:12:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37608 "EHLO
+        id S239922AbiHWJR7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 23 Aug 2022 05:17:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348930AbiHWJLB (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 23 Aug 2022 05:11:01 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0099186B67
-        for <linux-edac@vger.kernel.org>; Tue, 23 Aug 2022 01:31:13 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id m5so8014836lfj.4
-        for <linux-edac@vger.kernel.org>; Tue, 23 Aug 2022 01:31:13 -0700 (PDT)
+        with ESMTP id S1350222AbiHWJQp (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 23 Aug 2022 05:16:45 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83A9F88DF9;
+        Tue, 23 Aug 2022 01:33:01 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id l21so12832707ljj.2;
+        Tue, 23 Aug 2022 01:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=jI4L08/oOi3vA6hn+7winSookomnCC3p3C6fWDFU1ZQ=;
-        b=sKEa4J+60AjbFouLxhTZ7FFrLc6wToA+E8YHmbFvZKo4SNSLs+EiU9GJmHLCt4QR0c
-         HBtnq/hax4zB6jlmw27N1BmPMQ6LtYwySctUfJGJzMamv9dvZMbLNe+31qlsAxJ4ROXE
-         vNMgTwPwEIua5mq8CI+tEUOZI8z81IHQ3zaoy4nCw6k3Hvxc8PZk9dwV8FZBX8N6VNM5
-         VOoaMV9eTmyN8POtmN/8p1ar6EH5oVaR0ZmL7scKHq2m6MYW+r3L0i7zSrLvuC21jzqm
-         AAwwAE0RhlVqTcG/Qy3CW/jMd5n/C7ZC3nX6mjfOvYXFQG/W9fiEHDrCITIDqWkreEB9
-         GCiQ==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=ZoiEZ2owYFRd9VZ4KOglg27OSgrpz66JCF4aBuAtJKk=;
+        b=XOq1D3p40qntGScT26U+WRfQkKGoZxGas4gsBYkW/tlkirRYU1vMzrPsYNj7ApNwFg
+         yKcin3ahiyq3dt2/3VQVxsTKwFrRiK2Mq8FAQ45mWJZ7Jx9ZiOX1Wzv6TIhCBWC7dD0c
+         Acw/ckgnEivCfCEe8UU8ztCo5rzvuYzqRWvkLJb9dSHrc6+zg1mpuOo2DTl0e2tfJuzw
+         hoAtsafvBXIStxBM6F3Oir2LCvFUgHpBndT1DyWnc3nOGU5t7DzIaoss1Mvh0WLv4rDW
+         e3GwJfDPGN29b7m0OF0tm3kxv+gC08kZbAK4advmaoUk7b16JRuEMasHAp16vbfFZjvB
+         m8HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=jI4L08/oOi3vA6hn+7winSookomnCC3p3C6fWDFU1ZQ=;
-        b=hb0PpC9PGmzPzU1lWyvsUchNi1xmvW+3xHlfJ5/kfKY85QVVTMqrN3shRmNScGnw80
-         Pr4KYrsHlRq5SpGzSeJdoU2Kmgt1GrxBS2AcElGY6/vISLWAlEqYCD06w7CWhrMaCCXi
-         Fp0s51HwU8nuRZJ2BwjQYOHOd0AsOvXc3Epn0TJAn6n45PrAEg6O7UhGDzeMKHUIOOHD
-         phgz+OKlhYojH1IbCTk/V4IeWz0ZqWnD5uNFYAW6VhQW1wec6DZ6vs1yfbaMg6C7fHsN
-         0XcadKdFCsTvcknAL3V1H5QikUO5AMCtBL4zm3w5rIFpFqOzBtBCAOM7LxqrH2dn4tr/
-         JyOQ==
-X-Gm-Message-State: ACgBeo2Evm/wOGe92Boqd6GgH85iSxeF2N8WB3AxLja4g3eCgpcGa1lS
-        5QH5Cj+IfIEfBlCJLBxpD2QURg==
-X-Google-Smtp-Source: AA6agR4c69hJpYe3G1HTqpbA3I/nOr5UehBAs7HWoQA/fd2Rt83G8RXxKWKGkcJln0g0NwpVQx+QSg==
-X-Received: by 2002:a05:6512:b87:b0:492:d829:36bf with SMTP id b7-20020a0565120b8700b00492d82936bfmr5558125lfv.193.1661243424994;
-        Tue, 23 Aug 2022 01:30:24 -0700 (PDT)
-Received: from [192.168.0.11] (89-27-92-210.bb.dnainternet.fi. [89.27.92.210])
-        by smtp.gmail.com with ESMTPSA id v20-20020a056512349400b0047f6b4f82d1sm2387521lfr.250.2022.08.23.01.30.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 01:30:24 -0700 (PDT)
-Message-ID: <afc181cd-46b7-4c69-d27a-d2005904f48a@linaro.org>
-Date:   Tue, 23 Aug 2022 11:30:22 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 16/20] dt-bindings: memory: snps: Detach Zynq DDRC
- controller support
-Content-Language: en-US
-To:     Serge Semin <fancer.lancer@gmail.com>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=ZoiEZ2owYFRd9VZ4KOglg27OSgrpz66JCF4aBuAtJKk=;
+        b=Y0ZzGZuVmPDmA2YKpghlPBjVMeZ6+WixUHyDjSkFW5/xGoLtY+w3byFOkluOV51uqU
+         oIiBiCWW/Na2O0xhvkf1NFAc4ghDEyQLVXiHWrGuo9qjV8ntnaS+KJU/71kIhm476xc5
+         ihF6QDMGEoEOtyftU6WbqTjHiev74KiDSE+ErDLEW8r2O2i/+8DtwyUZfXVuwg7cPxRE
+         3mgPe7CqgsIg7vm1sUdSFCRCvRFZqWAoPOsTATSQVNnEJcL0tGCERCKm5ACh3pYxjciI
+         XotuE1BTbgfeogsQW3f4MYPKmbgcDpYtbD8OvGVzfWGZnZbVnqAS4fkFq3DEP41t28Ig
+         K/4Q==
+X-Gm-Message-State: ACgBeo35aAdGCrlkX4s6ybSvTrm3HzH7ufEnLGDHTZj4kmAaU5sd+Afv
+        0g4x+VYAcZ040SlRz5+X8+E=
+X-Google-Smtp-Source: AA6agR5wYA3CsYSm/1lKwrkaVPJFswM19gUmuH7KYsJP6ehf6Jt3Cy2E6d4WejY2LgMSRG4PvC8y/A==
+X-Received: by 2002:a05:651c:158c:b0:250:a23d:2701 with SMTP id h12-20020a05651c158c00b00250a23d2701mr7259412ljq.475.1661243566343;
+        Tue, 23 Aug 2022 01:32:46 -0700 (PDT)
+Received: from mobilestation ([95.79.140.178])
+        by smtp.gmail.com with ESMTPSA id z20-20020a05651c11d400b0025dfd2f66d6sm1448143ljo.95.2022.08.23.01.32.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Aug 2022 01:32:45 -0700 (PDT)
+Date:   Tue, 23 Aug 2022 11:32:43 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Rob Herring <robh@kernel.org>,
         Michal Simek <michal.simek@xilinx.com>,
@@ -77,65 +69,65 @@ Cc:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 16/20] dt-bindings: memory: snps: Detach Zynq DDRC
+ controller support
+Message-ID: <20220823083243.aovlgu22j7uv73qv@mobilestation>
 References: <20220822190730.27277-1-Sergey.Semin@baikalelectronics.ru>
  <20220822190730.27277-17-Sergey.Semin@baikalelectronics.ru>
  <a5a15749-1047-74ea-831e-54d27a6d6cdf@linaro.org>
- <835938e3-e4f5-5029-9373-5dd59bc3b625@linaro.org>
- <20220823082748.td6pwkzj5grfno77@mobilestation>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220823082748.td6pwkzj5grfno77@mobilestation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a5a15749-1047-74ea-831e-54d27a6d6cdf@linaro.org>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 23/08/2022 11:27, Serge Semin wrote:
-> On Tue, Aug 23, 2022 at 11:22:08AM +0300, Krzysztof Kozlowski wrote:
->> On 23/08/2022 11:17, Krzysztof Kozlowski wrote:
->>> On 22/08/2022 22:07, Serge Semin wrote:
->>>> The Zynq A05 DDRC controller has nothing in common with DW uMCTL2 DDRC:
->>>> the CSRs layout is absolutely different and it doesn't has IRQ unlike DW
->>>> uMCTL2 DDR controller of all versions (v1.x, v2.x and v3.x). Thus there is
->>>> no any reason to have these controllers described by the same bindings.
->>>> Thus let's split them up.
->>>>
->>>> While at it rename the original Synopsys uMCTL2 DT-schema file to a more
->>>> descriptive - snps,dw-umctl2-ddrc.yaml and add a more detailed title and
->>>> description of the device bindings.
->>>
->>> Filename should be based on compatible, so if renaming then
->>> snps,ddrc-3.80a.yaml or snps,ddrc.yaml... which leads to original
->>> filename anyway. Therefore nack for rename.
->>>
->>> BTW, if you perform renames, generate patches with proper -M/-C/-B
->>> arguments so this is detected.
->>>
->>>
->>>>
->>>> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
->>>> --->  .../snps,dw-umctl2-ddrc.yaml                  | 51 +++++++++++++
->>>
->>> This is a mess. I did not get any cover letters, any other patches any
->>> description of relation between this and your other one.
->>>
->>> It seems you make independent and conflicting changes to the same file,
->>> so this has to be properly organized.
->>>
->>> Send entire patchset with cover letter with description of all
->>> dependencies to all maintainers.
->>>
->>> This is unreviewable now, so a no.
->>
+On Tue, Aug 23, 2022 at 11:17:23AM +0300, Krzysztof Kozlowski wrote:
+> On 22/08/2022 22:07, Serge Semin wrote:
+> > The Zynq A05 DDRC controller has nothing in common with DW uMCTL2 DDRC:
+> > the CSRs layout is absolutely different and it doesn't has IRQ unlike DW
+> > uMCTL2 DDR controller of all versions (v1.x, v2.x and v3.x). Thus there is
+> > no any reason to have these controllers described by the same bindings.
+> > Thus let's split them up.
+> > 
+> > While at it rename the original Synopsys uMCTL2 DT-schema file to a more
+> > descriptive - snps,dw-umctl2-ddrc.yaml and add a more detailed title and
+> > description of the device bindings.
 > 
->> And also untestable by Rob's bot, so will have to wait.
+
+> Filename should be based on compatible, so if renaming then
+> snps,ddrc-3.80a.yaml or snps,ddrc.yaml... which leads to original
+> filename anyway. Therefore nack for rename.
+
+New requirement? I've submitted not a single patch to the DT-bindings
+sources and didn't get any comment from Rob about that. In addition
+There are DT bindings with names different from what is defined in the
+compatible name. Moreover there are tons of bindings with various
+compatible names. What name to choose then? Finally the current name
+is too generic to use for actual DW uMCTL2 DDRC controller.
+
+-Sergey
+
 > 
-> For what reason it's untestable? The patch has no dependencies from
-> any other patchset.
-
-This one is testable, but the next one is not, because it depends on
-something. I don't see the reason to split the bindings between
-different patchsets.
-
-Best regards,
-Krzysztof
+> BTW, if you perform renames, generate patches with proper -M/-C/-B
+> arguments so this is detected.
+> 
+> 
+> > 
+> > Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+> > --->  .../snps,dw-umctl2-ddrc.yaml                  | 51 +++++++++++++
+> 
+> This is a mess. I did not get any cover letters, any other patches any
+> description of relation between this and your other one.
+> 
+> It seems you make independent and conflicting changes to the same file,
+> so this has to be properly organized.
+> 
+> Send entire patchset with cover letter with description of all
+> dependencies to all maintainers.
+> 
+> This is unreviewable now, so a no.
+> 
+> Best regards,
+> Krzysztof
