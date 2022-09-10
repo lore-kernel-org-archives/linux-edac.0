@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61705ECAAD3
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D7CBC6FA83
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:51:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbiIJTvw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S230063AbiIJTvw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Sat, 10 Sep 2022 15:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53362 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbiIJTvP (ORCPT
+        with ESMTP id S229952AbiIJTvP (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:51:15 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4941B3DBC1;
-        Sat, 10 Sep 2022 12:50:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9DF7E399FB;
+        Sat, 10 Sep 2022 12:50:41 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id A28ABDC2;
-        Sat, 10 Sep 2022 22:54:20 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com A28ABDC2
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 171F5DBF;
+        Sat, 10 Sep 2022 22:54:18 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 171F5DBF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662839660;
-        bh=qGd/wkkdyjkWoCtsiHF+qyuq61fFlZZUu5leCjPa/LM=;
+        d=baikalelectronics.ru; s=mail; t=1662839658;
+        bh=TTR2tHaPXoYu3YWMEpUL40rirMbAd2QgCqHP+y5C1uk=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=aiBdK0pjuH7/WAOG/oO812D2mPeZyy1Izc4exkeldxA1BBslt/vYzKLl+AibyzIIK
-         us/+Qk7NVdeMuRfrjr4gd3NfE+cb9ctCROggw55qMu1jZw5gwQQf/hkOKdAJiid5/a
-         uSSOlTTSy42zdZohFfqv+npZgxymMIrLKllQrzaM=
+        b=XrLXwV6ncPy4+GW9AHCFvGg0SboUVHpVvXecbgzWE+moghOlmAqDpgE6or8X8HvxB
+         q8x/rCI17mT9DVWcE2e8CE0yjeUY6BPDia23RGFdZvVBj7kCUNid3CbeqoQU6sGjPG
+         1VoWO401Ok8k+Z7vkhNnNfS0WL5/PlDrUEETFoxU=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:50:29 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:50:27 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Dinh Nguyen <dinguyen@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v2 17/18] EDAC/synopsys: Add system address regions support
-Date:   Sat, 10 Sep 2022 22:50:06 +0300
-Message-ID: <20220910195007.11027-18-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH RESEND v2 13/18] EDAC/synopsys: Introduce System/SDRAM address translation interface
+Date:   Sat, 10 Sep 2022 22:50:02 +0300
+Message-ID: <20220910195007.11027-14-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910195007.11027-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910195007.11027-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,329 +58,890 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Aside with the Application, HIF and SDRAM address spaces DW uMCTL2 DDR
-controller supports one more level of the address abstraction. It's the
-System Address Regions (SARs). By default SARs are disabled by means of
-the IP-core synthesize parameter UMCTL2_A_NSAR being set to zero. In that
-case the System and Application address spaces match. But if that
-parameter is set to non-zero value (but less than or equal to 4), then
-it's possible to define the selected number of the disjoint memory regions
-mapping to the SDRAM as consecutive addresses. So if the SARs are
-available on the particular DW uMCTL2 DDR controller, they need to be
-taken into account in order to get a correct Physical/DMA address by the
-SDRAM address and vice-versa.
+Currently the address translation is performed only in the framework of
+the ECC poison procedures. The available infrastructure is utilized for
+the device and driver debugging. Meanwhile it would be very useful to know
+not only the SDRAM address of the runtime ECC errors, but the originating
+system address exposed on the AXI/AHB ports of the DW uMCTL2 DDR
+controller. In order to be able to do so the currently available
+infrastructure needs to be properly updated.
 
-The SAR/Application address mapping support is implemented in the similar
-way as it has been done for the HIF/SDRAM address translation. First we
-get to read the mapping from the SARBASEn and SARSIZEn CSRs and save it in
-the System/Application address mapping table as the regions base address,
-size and offset. Second the detected mapping table is utilized to
-translate the system addresses to the application addresses and vice-versa
-in the framework of the sys-to-SDRAM and SDRAM-to-sys address translation
-chain. Thus the implemented functionality is integrated into the code,
-which requires to translate the addresses: ECC errors detection and ECC
-data poisoning.
+First of all it needs to be detached from under the EDAC_DEBUG config,
+since it will be always utilized by the driver. Secondly for the sake of
+the code simplification we need to split the translation procedure up into
+three stages:
+1. System<->Application address translation (just type cast for now).
+2. Application<->HIF address translation (DQ-bus width based address
+shift).
+3. HIF<->SDRAM address translation (ADDRMAPx-based mapping).
 
-Note aside with the number of SARs there is the aUMCTL2_SARMINSIZE IP-core
-parameter which indicates the SARs minimal block size. Alas it isn't
-auto-detectable, but it's critical to have a correct mapping table. So
-the suggested functionality expects it being specified for each particular
-controller otherwise the system address regions support will be forcibly
-disabled in the driver.
+Currently the 1->3 translation is only supported in the same way as it was
+before this modification (the backward address translation will be added
+later). Semantically it's the same except the next four aspects. Firstly
+ff-value is used as a marker of the unmapped HIF/SDRAM bits instead of
+zero-value which in some cases is a valid mapping bit id. Secondly
+DQ-width is used to perform the Application<->HIF address translation
+instead of the fixed 64-bit DQ-bus width assumption. Thirdly the HIF/SDRAM
+address translation procedure searches through the whole dimensions width.
+It doesn't stop at the first unmapped bit since in general some of the
+row/column/bank/etc bits (especially the column bits, like b10) can be
+left unmapped. Finally the number of supported ranks is extended to four -
+maximum possible value.
+
+Note while at it the code is simplified a bit. First of all the mapping
+table is encapsulated into a dedicated structure (snps_hif_sdram_map).
+Secondly the FIELD_GET() helper is utilized to get ADDRMAP CSR fields.
+Thirdly a more specific max-value macros have been defined.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 191 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 188 insertions(+), 3 deletions(-)
+ drivers/edac/synopsys_edac.c | 750 +++++++++++++++++++++--------------
+ 1 file changed, 453 insertions(+), 297 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 946b86149ff8..84bede647947 100644
+index 805ab7879000..9baa62f6d22b 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -15,6 +15,7 @@
- #include <linux/pfn.h>
- #include <linux/platform_device.h>
- #include <linux/seq_file.h>
-+#include <linux/sizes.h>
- #include <linux/spinlock.h>
- #include <linux/interrupt.h>
- #include <linux/of.h>
-@@ -92,6 +93,10 @@
- #define ECC_POISONPAT1_OFST		0x380
- #define ECC_POISONPAT2_OFST		0x384
+@@ -81,7 +81,7 @@
+ #define ECC_POISON1_OFST		0xBC
  
-+/* DDR SAR0 registers */
-+#define DDR_SARBASE0_OFST		0xF04
-+#define DDR_SARSIZE0_OFST		0xF08
+ /* DDR Address map0 Registers */
+-#define ECC_ADDRMAP0_OFST		0x200
++#define DDR_ADDRMAP0_OFST		0x200
+ 
+ /* DDR Software control register */
+ #define DDR_SWCTL			0x320
+@@ -156,17 +156,28 @@
+ #define ECC_CEPOISON_MASK		GENMASK(1, 0)
+ #define ECC_UEPOISON_MASK		BIT(0)
+ 
+-/* DDRC Device config shifts/masks */
+-#define DDR_MAX_ROW_SHIFT		18
+-#define DDR_MAX_COL_SHIFT		14
+-#define DDR_MAX_BANK_SHIFT		3
+-#define DDR_MAX_BANKGRP_SHIFT		2
++/* DDRC address mapping parameters */
++#define DDR_ADDRMAP_NREGS		12
+ 
+-#define ROW_MAX_VAL_MASK		0xF
+-#define COL_MAX_VAL_MASK		0xF
+-#define BANK_MAX_VAL_MASK		0x1F
+-#define BANKGRP_MAX_VAL_MASK		0x1F
+-#define RANK_MAX_VAL_MASK		0x1F
++#define DDR_MAX_ROW_WIDTH		18
++#define DDR_MAX_COL_WIDTH		14
++#define DDR_MAX_BANK_WIDTH		3
++#define DDR_MAX_BANKGRP_WIDTH		2
++#define DDR_MAX_RANK_WIDTH		2
 +
- /* DDR Master Register 0 definitions */
- #define DDR_MSTR_DEV_CFG_MASK		GENMASK(31, 30)
- #define DDR_MSTR_DEV_X4			0x0
-@@ -223,6 +228,10 @@
++#define DDR_ADDRMAP_B0_M15		GENMASK(3, 0)
++#define DDR_ADDRMAP_B8_M15		GENMASK(11, 8)
++#define DDR_ADDRMAP_B16_M15		GENMASK(19, 16)
++#define DDR_ADDRMAP_B24_M15		GENMASK(27, 24)
++
++#define DDR_ADDRMAP_B0_M31		GENMASK(4, 0)
++#define DDR_ADDRMAP_B8_M31		GENMASK(12, 8)
++#define DDR_ADDRMAP_B16_M31		GENMASK(20, 16)
++#define DDR_ADDRMAP_B24_M31		GENMASK(28, 24)
++
++#define DDR_ADDRMAP_UNUSED		((u8)-1)
++#define DDR_ADDRMAP_MAX_15		DDR_ADDRMAP_B0_M15
++#define DDR_ADDRMAP_MAX_31		DDR_ADDRMAP_B0_M31
+ 
+ #define ROW_B0_BASE			6
+ #define ROW_B1_BASE			7
+@@ -208,6 +219,7 @@
+ #define BANKGRP_B1_BASE			3
+ 
  #define RANK_B0_BASE			6
- #define RANK_B1_BASE			7
++#define RANK_B1_BASE			7
  
-+/* DDRC system address parameters */
-+#define DDR_MAX_NSAR			4
-+#define DDR_MIN_SARSIZE			SZ_256M
-+
  /**
   * enum snps_dq_width - SDRAM DQ bus width (ECC capable).
-  * SNPS_DQ_32:	32-bit memory data width.
-@@ -308,6 +317,24 @@ struct snps_ddrc_info {
+@@ -294,6 +306,41 @@ struct snps_ddrc_info {
  	unsigned int ranks;
  };
  
 +/**
-+ * struct snps_sys_app_map - System/Application mapping table.
-+ * @nsar:	Number of SARs enabled on the controller (max 4).
-+ * @minsize:	Minimal block size (from 256MB to 32GB).
-+ * @sar.base:	SAR base address aligned to minsize.
-+ * @sar.size:	SAR size aligned to minsize.
-+ * @sar.ofst:	SAR address offset.
++ * struct snps_hif_sdram_map - HIF/SDRAM mapping table.
++ * @row:	HIF bit offsets used as row address bits.
++ * @col:	HIF bit offsets used as column address bits.
++ * @bank:	HIF bit offsets used as bank address bits.
++ * @bankgrp:	HIF bit offsets used as bank group address bits.
++ * @rank:	HIF bit offsets used as rank address bits.
++ *
++ * For example, row[0] = 6 means row bit #0 is encoded by the HIF
++ * address bit #6 and vice-versa.
 + */
-+struct snps_sys_app_map {
-+	u8 nsar;
-+	u64 minsize;
-+	struct {
-+		u64 base;
-+		u64 size;
-+		u64 ofst;
-+	} sar[DDR_MAX_NSAR];
++struct snps_hif_sdram_map {
++	u8 row[DDR_MAX_ROW_WIDTH];
++	u8 col[DDR_MAX_COL_WIDTH];
++	u8 bank[DDR_MAX_BANK_WIDTH];
++	u8 bankgrp[DDR_MAX_BANKGRP_WIDTH];
++	u8 rank[DDR_MAX_RANK_WIDTH];
++};
++
++/**
++ * struct snps_sdram_addr - SDRAM address.
++ * @row:	Row number.
++ * @col:	Column number.
++ * @bank:	Bank number.
++ * @bankgrp:	Bank group number.
++ * @rank:	Rank number.
++ */
++struct snps_sdram_addr {
++	u16 row;
++	u16 col;
++	u8 bank;
++	u8 bankgrp;
++	u8 rank;
 +};
 +
  /**
-  * struct snps_hif_sdram_map - HIF/SDRAM mapping table.
-  * @row:	HIF bit offsets used as row address bits.
-@@ -374,6 +401,7 @@ struct snps_ecc_status {
+  * struct snps_ecc_error_info - ECC error log information.
+  * @row:	Row number.
+@@ -331,20 +378,17 @@ struct snps_ecc_status {
  /**
   * struct snps_edac_priv - DDR memory controller private data.
   * @info:		DDR controller config info.
-+ * @sys_app_map:	Sys/App mapping table.
-  * @hif_sdram_map:	HIF/SDRAM mapping table.
++ * @hif_sdram_map:	HIF/SDRAM mapping table.
   * @pdev:		Platform device.
   * @baseaddr:		Base address of the DDR controller.
-@@ -384,6 +412,7 @@ struct snps_ecc_status {
+  * @lock:		Concurrent CSRs access lock.
+  * @message:		Buffer for framing the event specific info.
+  * @stat:		ECC status information.
+  * @poison_addr:	Data poison address.
+- * @row_shift:		Bit shifts for row bit.
+- * @col_shift:		Bit shifts for column bit.
+- * @bank_shift:		Bit shifts for bank bit.
+- * @bankgrp_shift:	Bit shifts for bank group bit.
+- * @rank_shift:		Bit shifts for rank bit.
   */
  struct snps_edac_priv {
  	struct snps_ddrc_info info;
-+	struct snps_sys_app_map sys_app_map;
- 	struct snps_hif_sdram_map hif_sdram_map;
++	struct snps_hif_sdram_map hif_sdram_map;
  	struct platform_device *pdev;
  	void __iomem *baseaddr;
-@@ -395,6 +424,77 @@ struct snps_edac_priv {
+ 	spinlock_t lock;
+@@ -352,14 +396,97 @@ struct snps_edac_priv {
+ 	struct snps_ecc_status stat;
+ #ifdef CONFIG_EDAC_DEBUG
+ 	ulong poison_addr;
+-	u32 row_shift[18];
+-	u32 col_shift[14];
+-	u32 bank_shift[3];
+-	u32 bankgrp_shift[2];
+-	u32 rank_shift[1];
  #endif
  };
  
 +/**
-+ * snps_map_sys_to_app - Map System address to Application address.
++ * snps_map_app_to_hif - Map Application address to HIF address.
 + * @priv:	DDR memory controller private instance data.
-+ * @sys:	System address (source).
-+ * @app:	Application address (destination).
++ * @app:	Application address (source).
++ * @hif:	HIF address (destination).
 + *
-+ * System address space is used to define disjoint memory regions
-+ * mapped then to the contiguous application memory space:
-+ *
-+ *  System Address Space (SAR) <-> Application Address Space
-+ *        +------+                        +------+
-+ *        | SAR0 |----------------------->| Reg0 |
-+ *        +------+       -offset          +------+
-+ *        | ...  |           +----------->| Reg1 |
-+ *        +------+           |            +------+
-+ *        | SAR1 |-----------+            | ...  |
-+ *        +------+
-+ *        | ...  |
-+ *
-+ * The translation is done by applying the corresponding SAR offset
-+ * to the inbound system address. Note according to the hardware reference
-+ * manual the same mapping is applied to the addresses up to the next
-+ * SAR base address irrespective to the region size.
++ * HIF address is used to perform the DQ bus width aligned burst transactions.
++ * So in order to perform the Application-to-HIF address translation we just
++ * need to discard the SDRAM-word bits of the Application address.
 + */
-+static void snps_map_sys_to_app(struct snps_edac_priv *priv,
-+				dma_addr_t sys, u64 *app)
++static void snps_map_app_to_hif(struct snps_edac_priv *priv,
++				u64 app, u64 *hif)
 +{
-+	struct snps_sys_app_map *map = &priv->sys_app_map;
-+	u64 ofst;
-+	int i;
-+
-+	ofst = 0;
-+	for (i = 0; i < map->nsar; i++) {
-+		if (sys < map->sar[i].base)
-+			break;
-+
-+		ofst = map->sar[i].ofst;
-+	}
-+
-+	*app = sys - ofst;
++	*hif = app >> priv->info.dq_width;
 +}
 +
 +/**
-+ * snps_map_sys_to_app - Map Application address to System address.
++ * snps_map_hif_to_sdram - Map HIF address to SDRAM address.
 + * @priv:	DDR memory controller private instance data.
-+ * @app:	Application address (source).
-+ * @sys:	System address (destination).
++ * @hif:	HIF address (source).
++ * @sdram:	SDRAM address (destination).
 + *
-+ * Backward App-to-sys translation is easier because the application address
-+ * space is contiguous. So we just need to add the offset corresponding
-+ * to the region the passed address belongs to. Note the later offset is applied
-+ * to all the addresses above the last available region.
++ * HIF-SDRAM address mapping is configured with the ADDRMAPx registers, Based
++ * on the CSRs value the HIF address bits are mapped to the corresponding bits
++ * in the SDRAM rank/bank/column/row. If an SDRAM address bit is unused (there
++ * is no any HIF address bit corresponding to it) it will be set to zero. Using
++ * this fact we can freely set the output SDRAM address with zeros and walk
++ * over the set HIF address bits only. Similarly the unmapped HIF address bits
++ * are just ignored.
 + */
-+static void snps_map_app_to_sys(struct snps_edac_priv *priv,
-+				u64 app, dma_addr_t *sys)
++static void snps_map_hif_to_sdram(struct snps_edac_priv *priv,
++				  u64 hif, struct snps_sdram_addr *sdram)
 +{
-+	struct snps_sys_app_map *map = &priv->sys_app_map;
-+	u64 ofst, size;
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
 +	int i;
 +
-+	ofst = 0;
-+	for (i = 0, size = 0; i < map->nsar; i++) {
-+		ofst = map->sar[i].ofst;
-+		size += map->sar[i].size;
-+		if (app < size)
-+			break;
++	sdram->row = 0;
++	for (i = 0; i < DDR_MAX_ROW_WIDTH; i++) {
++		if (map->row[i] != DDR_ADDRMAP_UNUSED && hif & BIT(map->row[i]))
++			sdram->row |= BIT(i);
 +	}
 +
-+	*sys = app + ofst;
++	sdram->col = 0;
++	for (i = 0; i < DDR_MAX_COL_WIDTH; i++) {
++		if (map->col[i] != DDR_ADDRMAP_UNUSED && hif & BIT(map->col[i]))
++			sdram->col |= BIT(i);
++	}
++
++	sdram->bank = 0;
++	for (i = 0; i < DDR_MAX_BANK_WIDTH; i++) {
++		if (map->bank[i] != DDR_ADDRMAP_UNUSED && hif & BIT(map->bank[i]))
++			sdram->bank |= BIT(i);
++	}
++
++	sdram->bankgrp = 0;
++	for (i = 0; i < DDR_MAX_BANKGRP_WIDTH; i++) {
++		if (map->bankgrp[i] != DDR_ADDRMAP_UNUSED && hif & BIT(map->bankgrp[i]))
++			sdram->bankgrp |= BIT(i);
++	}
++
++	sdram->rank = 0;
++	for (i = 0; i < DDR_MAX_RANK_WIDTH; i++) {
++		if (map->rank[i] != DDR_ADDRMAP_UNUSED && hif & BIT(map->rank[i]))
++			sdram->rank |= BIT(i);
++	}
++}
++
++/**
++ * snps_map_sys_to_sdram - Map System address to SDRAM address.
++ * @priv:	DDR memory controller private instance data.
++ * @sys:	System address (source).
++ * @sdram:	SDRAM address (destination).
++ *
++ * Perform a full mapping of the system address (detected on the controller
++ * ports) to the SDRAM address tuple row/column/bank/etc.
++ */
++static void snps_map_sys_to_sdram(struct snps_edac_priv *priv,
++				  dma_addr_t sys, struct snps_sdram_addr *sdram)
++{
++	u64 app, hif;
++
++	app = sys;
++
++	snps_map_app_to_hif(priv, app, &hif);
++
++	snps_map_hif_to_sdram(priv, hif, sdram);
 +}
 +
  /**
-  * snps_map_app_to_hif - Map Application address to HIF address.
-  * @priv:	DDR memory controller private instance data.
-@@ -543,7 +643,7 @@ static void snps_map_sys_to_sdram(struct snps_edac_priv *priv,
- {
- 	u64 app, hif;
- 
--	app = sys;
-+	snps_map_sys_to_app(priv, sys, &app);
- 
- 	snps_map_app_to_hif(priv, app, &hif);
- 
-@@ -568,7 +668,7 @@ static void snps_map_sdram_to_sys(struct snps_edac_priv *priv,
- 
- 	snps_map_hif_to_app(priv, hif, &app);
- 
--	*sys = app;
-+	snps_map_app_to_sys(priv, app, sys);
- }
- 
- /**
-@@ -971,6 +1071,52 @@ static int snps_get_ddrc_info(struct snps_edac_priv *priv)
+  * snps_get_bitpos - Get DQ-bus corrected bit position.
+  * @bitnum:	Bit number retrieved from the ECCSTAT.corrected_bit_num field.
+@@ -749,6 +876,301 @@ static int snps_get_ddrc_info(struct snps_edac_priv *priv)
  	return init_plat ? init_plat(priv) : 0;
  }
  
 +/**
-+ * snps_get_sys_app_map - Get System/Application address map.
++ * snps_get_hif_row_map - Get HIF/SDRAM-row address map.
 + * @priv:	DDR memory controller private instance data.
-+ * @sarregs:	Array with SAR registers value.
++ * @addrmap:	Array with ADDRMAP registers value.
 + *
-+ * System address regions are defined by the SARBASEn and SARSIZEn registers.
-+ * Controller reference manual requires the base addresses and sizes creating
-+ * a set of ascending non-overlapped regions in order to have a linear
-+ * application address space. Doing otherwise causes unpredictable results.
++ * SDRAM-row address is defined by the fields in the ADDRMAP[5-7,9-11]
++ * registers. Those fields value indicate the HIF address bits used to encode
++ * the DDR row address.
 + */
-+static void snps_get_sys_app_map(struct snps_edac_priv *priv, u32 *sarregs)
++static void snps_get_hif_row_map(struct snps_edac_priv *priv, u32 *addrmap)
 +{
-+	struct snps_sys_app_map *map = &priv->sys_app_map;
-+	int i, ofst;
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	u8 map_row_b2_10;
++	int i;
 +
-+	/*
-+	 * SARs are supposed to be initialized in the ascending non-overlapped
-+	 * order: base[i - 1] < base[i] < etc. If that rule is broken for a SAR
-+	 * it's considered as no more SARs have been enabled, so the detection
-+	 * procedure will halt. Having the very first SAR with zero base
-+	 * address only makes sense if there is a consequent SAR.
-+	 */
-+	for (i = 0, ofst = 0; i < DDR_MAX_NSAR; i++) {
-+		map->sar[i].base = sarregs[2 * i] * map->minsize;
-+		if (map->sar[i].base)
-+			map->nsar = i + 1;
-+		else if (i && map->sar[i].base <= map->sar[i - 1].base)
-+			break;
++	for (i = 0; i < DDR_MAX_ROW_WIDTH; i++)
++		map->row[i] = DDR_ADDRMAP_UNUSED;
 +
-+		map->sar[i].size = (sarregs[2 * i + 1] + 1) * map->minsize;
-+		map->sar[i].ofst = map->sar[i].base - ofst;
-+		ofst += map->sar[i].size;
++	map->row[0] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[5]) + ROW_B0_BASE;
++	map->row[1] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[5]) + ROW_B1_BASE;
++
++	map_row_b2_10 = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[5]);
++	if (map_row_b2_10 != DDR_ADDRMAP_MAX_15) {
++		for (i = 2; i < 11; i++)
++			map->row[i] = map_row_b2_10 + i + ROW_B0_BASE;
++	} else {
++		map->row[2] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[9]) + ROW_B2_BASE;
++		map->row[3] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[9]) + ROW_B3_BASE;
++		map->row[4] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[9]) + ROW_B4_BASE;
++		map->row[5] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[9]) + ROW_B5_BASE;
++		map->row[6] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[10]) + ROW_B6_BASE;
++		map->row[7] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[10]) + ROW_B7_BASE;
++		map->row[8] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[10]) + ROW_B8_BASE;
++		map->row[9] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[10]) + ROW_B9_BASE;
++		map->row[10] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[11]) + ROW_B10_BASE;
++	}
++
++	map->row[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[5]);
++	map->row[11] = map->row[11] == DDR_ADDRMAP_MAX_15 ?
++		       DDR_ADDRMAP_UNUSED : map->row[11] + ROW_B11_BASE;
++
++	map->row[12] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[6]);
++	map->row[12] = map->row[12] == DDR_ADDRMAP_MAX_15 ?
++		       DDR_ADDRMAP_UNUSED : map->row[12] + ROW_B12_BASE;
++
++	map->row[13] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[6]);
++	map->row[13] = map->row[13] == DDR_ADDRMAP_MAX_15 ?
++		       DDR_ADDRMAP_UNUSED : map->row[13] + ROW_B13_BASE;
++
++	map->row[14] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[6]);
++	map->row[14] = map->row[14] == DDR_ADDRMAP_MAX_15 ?
++		       DDR_ADDRMAP_UNUSED : map->row[14] + ROW_B14_BASE;
++
++	map->row[15] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[6]);
++	map->row[15] = map->row[15] == DDR_ADDRMAP_MAX_15 ?
++		       DDR_ADDRMAP_UNUSED : map->row[15] + ROW_B15_BASE;
++
++	if (priv->info.sdram_mode == MEM_DDR4 || priv->info.sdram_mode == MEM_LPDDR4) {
++		map->row[16] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[7]);
++		map->row[16] = map->row[16] == DDR_ADDRMAP_MAX_15 ?
++			       DDR_ADDRMAP_UNUSED : map->row[16] + ROW_B16_BASE;
++
++		map->row[17] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[7]);
++		map->row[17] = map->row[17] == DDR_ADDRMAP_MAX_15 ?
++			       DDR_ADDRMAP_UNUSED : map->row[17] + ROW_B17_BASE;
++	}
++}
++
++/**
++ * snps_get_hif_col_map - Get HIF/SDRAM-column address map.
++ * @priv:	DDR memory controller private instance data.
++ * @addrmap:	Array with ADDRMAP registers value.
++ *
++ * SDRAM-column address is defined by the fields in the ADDRMAP[2-4]
++ * registers. Those fields value indicate the HIF address bits used to encode
++ * the DDR row address.
++ */
++static void snps_get_hif_col_map(struct snps_edac_priv *priv, u32 *addrmap)
++{
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	int i;
++
++	for (i = 0; i < DDR_MAX_COL_WIDTH; i++)
++		map->col[i] = DDR_ADDRMAP_UNUSED;
++
++	map->col[0] = 0;
++	map->col[1] = 1;
++	map->col[2] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[2]) + COL_B2_BASE;
++	map->col[3] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[2]) + COL_B3_BASE;
++
++	map->col[4] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[2]);
++	map->col[4] = map->col[4] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[4] + COL_B4_BASE;
++
++	map->col[5] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[2]);
++	map->col[5] = map->col[5] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[5] + COL_B5_BASE;
++
++	map->col[6] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[3]);
++	map->col[6] = map->col[6] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[6] + COL_B6_BASE;
++
++	map->col[7] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[3]);
++	map->col[7] = map->col[7] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[7] + COL_B7_BASE;
++
++	map->col[8] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[3]);
++	map->col[8] = map->col[8] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[8] + COL_B8_BASE;
++
++	map->col[9] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
++	map->col[9] = map->col[9] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[9] + COL_B9_BASE;
++
++	if (priv->info.dq_mode) {
++		for (i = 9; i > priv->info.dq_mode; i--) {
++			map->col[i] = map->col[i - priv->info.dq_mode];
++			map->col[i - priv->info.dq_mode] = DDR_ADDRMAP_UNUSED;
++		}
 +	}
 +
 +	/*
-+	 * SAR block size isn't auto-detectable. If one isn't specified for the
-+	 * platform there is a good chance to have invalid mapping of the
-+	 * detected SARs. So proceed with 1:1 mapping then.
++	 * Per JEDEC DDR2/3/4/mDDR specification, column address bit 10 is
++	 * reserved for indicating auto-precharge, and hence no source
++	 * address bit can be mapped to col[10].
++	 * Per JEDEC specification, column address bit 12 is reserved
++	 * for the Burst-chop status, so no source address bit mapping
++	 * for col[12] either.
 +	 */
-+	if (!map->minsize && map->nsar) {
-+		edac_printk(KERN_WARNING, EDAC_MC,
-+			    "No block size specified. Discard SARs mapping\n");
-+		map->nsar = 0;
++	if (priv->info.dq_mode == SNPS_DQ_FULL) {
++		if (priv->info.sdram_mode == MEM_LPDDR3) {
++			map->col[10] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
++			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B10_BASE;
++
++			map->col[11] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
++			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B11_BASE;
++		} else {
++			map->col[11] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
++			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B10_BASE;
++
++			map->col[13] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
++			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B11_BASE;
++		}
++	} else if (priv->info.dq_mode == SNPS_DQ_HALF) {
++		if (priv->info.sdram_mode == MEM_LPDDR3) {
++			map->col[10] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
++			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B9_BASE;
++
++			map->col[11] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
++			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B10_BASE;
++		} else {
++			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
++			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B9_BASE;
++
++			map->col[13] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
++			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B10_BASE;
++		}
++	} else {
++		if (priv->info.sdram_mode == MEM_LPDDR3) {
++			map->col[10] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[3]);
++			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B8_BASE;
++
++			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
++			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B9_BASE;
++		} else {
++			map->col[11] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[3]);
++			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B8_BASE;
++
++			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
++			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
++				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B9_BASE;
++		}
 +	}
++}
++
++/**
++ * snps_get_hif_bank_map - Get HIF/SDRAM-bank address map.
++ * @priv:	DDR memory controller private instance data.
++ * @addrmap:	Array with ADDRMAP registers value.
++ *
++ * SDRAM-bank address is defined by the fields in the ADDRMAP[1]
++ * register. Those fields value indicate the HIF address bits used to encode
++ * the DDR bank address.
++ */
++static void snps_get_hif_bank_map(struct snps_edac_priv *priv, u32 *addrmap)
++{
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	int i;
++
++	for (i = 0; i < DDR_MAX_BANK_WIDTH; i++)
++		map->bank[i] = DDR_ADDRMAP_UNUSED;
++
++	map->bank[0] = FIELD_GET(DDR_ADDRMAP_B0_M31, addrmap[1]) + BANK_B0_BASE;
++	map->bank[1] = FIELD_GET(DDR_ADDRMAP_B8_M31, addrmap[1]) + BANK_B1_BASE;
++
++	map->bank[2] = FIELD_GET(DDR_ADDRMAP_B16_M31, addrmap[1]);
++	map->bank[2] = map->bank[2] == DDR_ADDRMAP_MAX_31 ?
++		       DDR_ADDRMAP_UNUSED : map->bank[2] + BANK_B2_BASE;
++}
++
++/**
++ * snps_get_hif_bankgrp_map - Get HIF/SDRAM-bank group address map.
++ * @priv:	DDR memory controller private instance data.
++ * @addrmap:	Array with ADDRMAP registers value.
++ *
++ * SDRAM-bank group address is defined by the fields in the ADDRMAP[8]
++ * register. Those fields value indicate the HIF address bits used to encode
++ * the DDR bank group address.
++ */
++static void snps_get_hif_bankgrp_map(struct snps_edac_priv *priv, u32 *addrmap)
++{
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	int i;
++
++	for (i = 0; i < DDR_MAX_BANKGRP_WIDTH; i++)
++		map->bankgrp[i] = DDR_ADDRMAP_UNUSED;
++
++	/* Bank group signals are available on the DDR4 memory only */
++	if (priv->info.sdram_mode != MEM_DDR4)
++		return;
++
++	map->bankgrp[0] = FIELD_GET(DDR_ADDRMAP_B0_M31, addrmap[8]) + BANKGRP_B0_BASE;
++
++	map->bankgrp[1] = FIELD_GET(DDR_ADDRMAP_B8_M31, addrmap[8]);
++	map->bankgrp[1] = map->bankgrp[1] == DDR_ADDRMAP_MAX_31 ?
++			  DDR_ADDRMAP_UNUSED : map->bankgrp[1] + BANKGRP_B1_BASE;
++}
++
++/**
++ * snps_get_hif_rank_map - Get HIF/SDRAM-rank address map.
++ * @priv:	DDR memory controller private instance data.
++ * @addrmap:	Array with ADDRMAP registers value.
++ *
++ * SDRAM-rank address is defined by the fields in the ADDRMAP[0]
++ * register. Those fields value indicate the HIF address bits used to encode
++ * the DDR rank address.
++ */
++static void snps_get_hif_rank_map(struct snps_edac_priv *priv, u32 *addrmap)
++{
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	int i;
++
++	for (i = 0; i < DDR_MAX_RANK_WIDTH; i++)
++		map->rank[i] = DDR_ADDRMAP_UNUSED;
++
++	if (priv->info.ranks > 1) {
++		map->rank[0] = FIELD_GET(DDR_ADDRMAP_B0_M31, addrmap[0]);
++		map->rank[0] = map->rank[0] == DDR_ADDRMAP_MAX_31 ?
++			       DDR_ADDRMAP_UNUSED : map->rank[0] + RANK_B0_BASE;
++	}
++
++	if (priv->info.ranks > 2) {
++		map->rank[1] = FIELD_GET(DDR_ADDRMAP_B8_M31, addrmap[0]);
++		map->rank[1] = map->rank[1] == DDR_ADDRMAP_MAX_31 ?
++			       DDR_ADDRMAP_UNUSED : map->rank[1] + RANK_B1_BASE;
++	}
++}
++
++/**
++ * snps_get_addr_map - Get HIF/SDRAM/etc address map from CSRs.
++ * @priv:	DDR memory controller private instance data.
++ *
++ * Parse the controller registers content creating the addresses mapping tables.
++ * They will be used for the erroneous and poison addresses encode/decode.
++ */
++static void snps_get_addr_map(struct snps_edac_priv *priv)
++{
++	u32 regval[DDR_ADDRMAP_NREGS];
++	int i;
++
++	for (i = 0; i < DDR_ADDRMAP_NREGS; i++)
++		regval[i] = readl(priv->baseaddr + DDR_ADDRMAP0_OFST + i * 4);
++
++	snps_get_hif_row_map(priv, regval);
++
++	snps_get_hif_col_map(priv, regval);
++
++	snps_get_hif_bank_map(priv, regval);
++
++	snps_get_hif_bankgrp_map(priv, regval);
++
++	snps_get_hif_rank_map(priv, regval);
 +}
 +
  /**
-  * snps_get_hif_row_map - Get HIF/SDRAM-row address map.
-  * @priv:	DDR memory controller private instance data.
-@@ -1220,9 +1366,14 @@ static void snps_get_hif_rank_map(struct snps_edac_priv *priv, u32 *addrmap)
+  * snps_init_csrows - Initialize the csrow data.
+  * @mci:	EDAC memory controller instance.
+@@ -934,285 +1356,21 @@ DEFINE_SHOW_ATTRIBUTE(snps_ddrc_info);
   */
- static void snps_get_addr_map(struct snps_edac_priv *priv)
+ static void snps_data_poison_setup(struct snps_edac_priv *priv)
  {
--	u32 regval[DDR_ADDRMAP_NREGS];
-+	u32 regval[max(DDR_ADDRMAP_NREGS, 2 * DDR_MAX_NSAR)];
- 	int i;
+-	int col = 0, row = 0, bank = 0, bankgrp = 0, rank = 0, regval;
+-	int index;
+-	ulong hif_addr = 0;
+-
+-	hif_addr = priv->poison_addr >> 3;
+-
+-	for (index = 0; index < DDR_MAX_ROW_SHIFT; index++) {
+-		if (priv->row_shift[index])
+-			row |= (((hif_addr >> priv->row_shift[index]) &
+-						BIT(0)) << index);
+-		else
+-			break;
+-	}
+-
+-	for (index = 0; index < DDR_MAX_COL_SHIFT; index++) {
+-		if (priv->col_shift[index] || index < 3)
+-			col |= (((hif_addr >> priv->col_shift[index]) &
+-						BIT(0)) << index);
+-		else
+-			break;
+-	}
+-
+-	for (index = 0; index < DDR_MAX_BANK_SHIFT; index++) {
+-		if (priv->bank_shift[index])
+-			bank |= (((hif_addr >> priv->bank_shift[index]) &
+-						BIT(0)) << index);
+-		else
+-			break;
+-	}
+-
+-	for (index = 0; index < DDR_MAX_BANKGRP_SHIFT; index++) {
+-		if (priv->bankgrp_shift[index])
+-			bankgrp |= (((hif_addr >> priv->bankgrp_shift[index])
+-						& BIT(0)) << index);
+-		else
+-			break;
+-	}
++	struct snps_sdram_addr sdram;
++	u32 regval;
  
-+	for (i = 0; i < 2 * DDR_MAX_NSAR; i++)
-+		regval[i] = readl(priv->baseaddr + DDR_SARBASE0_OFST + i * 4);
-+
-+	snps_get_sys_app_map(priv, regval);
-+
- 	for (i = 0; i < DDR_ADDRMAP_NREGS; i++)
- 		regval[i] = readl(priv->baseaddr + DDR_ADDRMAP0_OFST + i * 4);
+-	if (priv->rank_shift[0])
+-		rank = (hif_addr >> priv->rank_shift[0]) & BIT(0);
++	snps_map_sys_to_sdram(priv, priv->poison_addr, &sdram);
  
-@@ -1413,6 +1564,37 @@ static int snps_ddrc_info_show(struct seq_file *s, void *data)
+-	regval = FIELD_PREP(ECC_POISON0_RANK_MASK, rank) |
+-		 FIELD_PREP(ECC_POISON0_COL_MASK, col);
++	regval = FIELD_PREP(ECC_POISON0_RANK_MASK, sdram.rank) |
++		 FIELD_PREP(ECC_POISON0_COL_MASK, sdram.col);
+ 	writel(regval, priv->baseaddr + ECC_POISON0_OFST);
  
- DEFINE_SHOW_ATTRIBUTE(snps_ddrc_info);
+-	regval = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, bankgrp) |
+-		 FIELD_PREP(ECC_POISON1_BANK_MASK, bank) |
+-		 FIELD_PREP(ECC_POISON1_ROW_MASK, row);
++	regval = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, sdram.bankgrp) |
++		 FIELD_PREP(ECC_POISON1_BANK_MASK, sdram.bank) |
++		 FIELD_PREP(ECC_POISON1_ROW_MASK, sdram.row);
+ 	writel(regval, priv->baseaddr + ECC_POISON1_OFST);
+ }
  
-+static int snps_sys_app_map_show(struct seq_file *s, void *data)
-+{
-+	struct mem_ctl_info *mci = s->private;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	struct snps_sys_app_map *map = &priv->sys_app_map;
-+	u64 size;
-+	int i;
-+
-+	if (!map->nsar) {
-+		seq_puts(s, "No SARs detected\n");
-+		return 0;
-+	}
-+
-+	seq_printf(s, "%9s %-37s %-18s %-37s\n",
-+		   "", "System address", "Offset", "App address");
-+
-+	for (i = 0, size = 0; i < map->nsar; i++) {
-+		seq_printf(s, "Region %d: ", i);
-+		seq_printf(s, "0x%016llx-0x%016llx ", map->sar[i].base,
-+			   map->sar[i].base + map->sar[i].size - 1);
-+		seq_printf(s, "0x%016llx ", map->sar[i].ofst);
-+		seq_printf(s, "0x%016llx-0x%016llx\n", size,
-+			   size + map->sar[i].size - 1);
-+		size += map->sar[i].size;
-+	}
-+
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(snps_sys_app_map);
-+
- static u8 snps_find_sdram_dim(struct snps_edac_priv *priv, u8 hif, char *dim)
+-static void snps_setup_row_address_map(struct snps_edac_priv *priv, u32 *addrmap)
+-{
+-	u32 addrmap_row_b2_10;
+-	int index;
+-
+-	priv->row_shift[0] = (addrmap[5] & ROW_MAX_VAL_MASK) + ROW_B0_BASE;
+-	priv->row_shift[1] = ((addrmap[5] >> 8) &
+-			ROW_MAX_VAL_MASK) + ROW_B1_BASE;
+-
+-	addrmap_row_b2_10 = (addrmap[5] >> 16) & ROW_MAX_VAL_MASK;
+-	if (addrmap_row_b2_10 != ROW_MAX_VAL_MASK) {
+-		for (index = 2; index < 11; index++)
+-			priv->row_shift[index] = addrmap_row_b2_10 +
+-				index + ROW_B0_BASE;
+-
+-	} else {
+-		priv->row_shift[2] = (addrmap[9] &
+-				ROW_MAX_VAL_MASK) + ROW_B2_BASE;
+-		priv->row_shift[3] = ((addrmap[9] >> 8) &
+-				ROW_MAX_VAL_MASK) + ROW_B3_BASE;
+-		priv->row_shift[4] = ((addrmap[9] >> 16) &
+-				ROW_MAX_VAL_MASK) + ROW_B4_BASE;
+-		priv->row_shift[5] = ((addrmap[9] >> 24) &
+-				ROW_MAX_VAL_MASK) + ROW_B5_BASE;
+-		priv->row_shift[6] = (addrmap[10] &
+-				ROW_MAX_VAL_MASK) + ROW_B6_BASE;
+-		priv->row_shift[7] = ((addrmap[10] >> 8) &
+-				ROW_MAX_VAL_MASK) + ROW_B7_BASE;
+-		priv->row_shift[8] = ((addrmap[10] >> 16) &
+-				ROW_MAX_VAL_MASK) + ROW_B8_BASE;
+-		priv->row_shift[9] = ((addrmap[10] >> 24) &
+-				ROW_MAX_VAL_MASK) + ROW_B9_BASE;
+-		priv->row_shift[10] = (addrmap[11] &
+-				ROW_MAX_VAL_MASK) + ROW_B10_BASE;
+-	}
+-
+-	priv->row_shift[11] = (((addrmap[5] >> 24) & ROW_MAX_VAL_MASK) ==
+-				ROW_MAX_VAL_MASK) ? 0 : (((addrmap[5] >> 24) &
+-				ROW_MAX_VAL_MASK) + ROW_B11_BASE);
+-	priv->row_shift[12] = ((addrmap[6] & ROW_MAX_VAL_MASK) ==
+-				ROW_MAX_VAL_MASK) ? 0 : ((addrmap[6] &
+-				ROW_MAX_VAL_MASK) + ROW_B12_BASE);
+-	priv->row_shift[13] = (((addrmap[6] >> 8) & ROW_MAX_VAL_MASK) ==
+-				ROW_MAX_VAL_MASK) ? 0 : (((addrmap[6] >> 8) &
+-				ROW_MAX_VAL_MASK) + ROW_B13_BASE);
+-	priv->row_shift[14] = (((addrmap[6] >> 16) & ROW_MAX_VAL_MASK) ==
+-				ROW_MAX_VAL_MASK) ? 0 : (((addrmap[6] >> 16) &
+-				ROW_MAX_VAL_MASK) + ROW_B14_BASE);
+-	priv->row_shift[15] = (((addrmap[6] >> 24) & ROW_MAX_VAL_MASK) ==
+-				ROW_MAX_VAL_MASK) ? 0 : (((addrmap[6] >> 24) &
+-				ROW_MAX_VAL_MASK) + ROW_B15_BASE);
+-
+-	if (priv->info.sdram_mode == MEM_DDR4 || priv->info.sdram_mode == MEM_LPDDR4) {
+-		priv->row_shift[16] = ((addrmap[7] & ROW_MAX_VAL_MASK) ==
+-					ROW_MAX_VAL_MASK) ? 0 : ((addrmap[7] &
+-					ROW_MAX_VAL_MASK) + ROW_B16_BASE);
+-		priv->row_shift[17] = (((addrmap[7] >> 8) & ROW_MAX_VAL_MASK) ==
+-					ROW_MAX_VAL_MASK) ? 0 : (((addrmap[7] >> 8) &
+-					ROW_MAX_VAL_MASK) + ROW_B17_BASE);
+-	}
+-}
+-
+-static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addrmap)
+-{
+-	int index;
+-
+-	priv->col_shift[0] = 0;
+-	priv->col_shift[1] = 1;
+-	priv->col_shift[2] = (addrmap[2] & COL_MAX_VAL_MASK) + COL_B2_BASE;
+-	priv->col_shift[3] = ((addrmap[2] >> 8) &
+-			COL_MAX_VAL_MASK) + COL_B3_BASE;
+-	priv->col_shift[4] = (((addrmap[2] >> 16) & COL_MAX_VAL_MASK) ==
+-			COL_MAX_VAL_MASK) ? 0 : (((addrmap[2] >> 16) &
+-					COL_MAX_VAL_MASK) + COL_B4_BASE);
+-	priv->col_shift[5] = (((addrmap[2] >> 24) & COL_MAX_VAL_MASK) ==
+-			COL_MAX_VAL_MASK) ? 0 : (((addrmap[2] >> 24) &
+-					COL_MAX_VAL_MASK) + COL_B5_BASE);
+-	priv->col_shift[6] = ((addrmap[3] & COL_MAX_VAL_MASK) ==
+-			COL_MAX_VAL_MASK) ? 0 : ((addrmap[3] &
+-					COL_MAX_VAL_MASK) + COL_B6_BASE);
+-	priv->col_shift[7] = (((addrmap[3] >> 8) & COL_MAX_VAL_MASK) ==
+-			COL_MAX_VAL_MASK) ? 0 : (((addrmap[3] >> 8) &
+-					COL_MAX_VAL_MASK) + COL_B7_BASE);
+-	priv->col_shift[8] = (((addrmap[3] >> 16) & COL_MAX_VAL_MASK) ==
+-			COL_MAX_VAL_MASK) ? 0 : (((addrmap[3] >> 16) &
+-					COL_MAX_VAL_MASK) + COL_B8_BASE);
+-	priv->col_shift[9] = (((addrmap[3] >> 24) & COL_MAX_VAL_MASK) ==
+-			COL_MAX_VAL_MASK) ? 0 : (((addrmap[3] >> 24) &
+-					COL_MAX_VAL_MASK) + COL_B9_BASE);
+-	if (priv->info.dq_mode == SNPS_DQ_FULL) {
+-		if (priv->info.sdram_mode == MEM_LPDDR3) {
+-			priv->col_shift[10] = ((addrmap[4] &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				((addrmap[4] & COL_MAX_VAL_MASK) +
+-				 COL_B10_BASE);
+-			priv->col_shift[11] = (((addrmap[4] >> 8) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[4] >> 8) & COL_MAX_VAL_MASK) +
+-				 COL_B11_BASE);
+-		} else {
+-			priv->col_shift[11] = ((addrmap[4] &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				((addrmap[4] & COL_MAX_VAL_MASK) +
+-				 COL_B10_BASE);
+-			priv->col_shift[13] = (((addrmap[4] >> 8) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[4] >> 8) & COL_MAX_VAL_MASK) +
+-				 COL_B11_BASE);
+-		}
+-	} else if (priv->info.dq_mode == SNPS_DQ_HALF) {
+-		if (priv->info.sdram_mode == MEM_LPDDR3) {
+-			priv->col_shift[10] = (((addrmap[3] >> 24) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[3] >> 24) & COL_MAX_VAL_MASK) +
+-				 COL_B9_BASE);
+-			priv->col_shift[11] = ((addrmap[4] &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				((addrmap[4] & COL_MAX_VAL_MASK) +
+-				 COL_B10_BASE);
+-		} else {
+-			priv->col_shift[11] = (((addrmap[3] >> 24) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[3] >> 24) & COL_MAX_VAL_MASK) +
+-				 COL_B9_BASE);
+-			priv->col_shift[13] = ((addrmap[4] &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				((addrmap[4] & COL_MAX_VAL_MASK) +
+-				 COL_B10_BASE);
+-		}
+-	} else {
+-		if (priv->info.sdram_mode == MEM_LPDDR3) {
+-			priv->col_shift[10] = (((addrmap[3] >> 16) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[3] >> 16) & COL_MAX_VAL_MASK) +
+-				 COL_B8_BASE);
+-			priv->col_shift[11] = (((addrmap[3] >> 24) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[3] >> 24) & COL_MAX_VAL_MASK) +
+-				 COL_B9_BASE);
+-		} else {
+-			priv->col_shift[11] = (((addrmap[3] >> 16) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[3] >> 16) & COL_MAX_VAL_MASK) +
+-				 COL_B8_BASE);
+-			priv->col_shift[13] = (((addrmap[3] >> 24) &
+-				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[3] >> 24) & COL_MAX_VAL_MASK) +
+-				 COL_B9_BASE);
+-		}
+-	}
+-
+-	if (priv->info.dq_mode) {
+-		for (index = 9; index > priv->info.dq_mode; index--) {
+-			priv->col_shift[index] =
+-				priv->col_shift[index - priv->info.dq_mode];
+-			priv->col_shift[index - priv->info.dq_mode] = 0;
+-		}
+-	}
+-
+-}
+-
+-static void snps_setup_bank_address_map(struct snps_edac_priv *priv, u32 *addrmap)
+-{
+-	priv->bank_shift[0] = (addrmap[1] & BANK_MAX_VAL_MASK) + BANK_B0_BASE;
+-	priv->bank_shift[1] = ((addrmap[1] >> 8) &
+-				BANK_MAX_VAL_MASK) + BANK_B1_BASE;
+-	priv->bank_shift[2] = (((addrmap[1] >> 16) &
+-				BANK_MAX_VAL_MASK) == BANK_MAX_VAL_MASK) ? 0 :
+-				(((addrmap[1] >> 16) & BANK_MAX_VAL_MASK) +
+-				 BANK_B2_BASE);
+-
+-}
+-
+-static void snps_setup_bg_address_map(struct snps_edac_priv *priv, u32 *addrmap)
+-{
+-	/* Bank group signals are available on the DDR4 memory only */
+-	if (priv->info.sdram_mode != MEM_DDR4)
+-		return;
+-
+-	priv->bankgrp_shift[0] = (addrmap[8] &
+-				BANKGRP_MAX_VAL_MASK) + BANKGRP_B0_BASE;
+-	priv->bankgrp_shift[1] = (((addrmap[8] >> 8) & BANKGRP_MAX_VAL_MASK) ==
+-				BANKGRP_MAX_VAL_MASK) ? 0 : (((addrmap[8] >> 8)
+-				& BANKGRP_MAX_VAL_MASK) + BANKGRP_B1_BASE);
+-
+-}
+-
+-static void snps_setup_rank_address_map(struct snps_edac_priv *priv, u32 *addrmap)
+-{
+-	/* Ranks mapping is unavailable for the single-ranked memory */
+-	if (priv->info.ranks > 1) {
+-		priv->rank_shift[0] = ((addrmap[0] & RANK_MAX_VAL_MASK) ==
+-					RANK_MAX_VAL_MASK) ? 0 : ((addrmap[0] &
+-					RANK_MAX_VAL_MASK) + RANK_B0_BASE);
+-	}
+-}
+-
+-/**
+- * snps_setup_address_map -	Set Address Map by querying ADDRMAP registers.
+- * @priv:		DDR memory controller private instance data.
+- *
+- * Set Address Map by querying ADDRMAP registers.
+- *
+- * Return: none.
+- */
+-static void snps_setup_address_map(struct snps_edac_priv *priv)
+-{
+-	u32 addrmap[12];
+-	int index;
+-
+-	for (index = 0; index < 12; index++) {
+-		u32 addrmap_offset;
+-
+-		addrmap_offset = ECC_ADDRMAP0_OFST + (index * 4);
+-		addrmap[index] = readl(priv->baseaddr + addrmap_offset);
+-	}
+-
+-	snps_setup_row_address_map(priv, addrmap);
+-
+-	snps_setup_column_address_map(priv, addrmap);
+-
+-	snps_setup_bank_address_map(priv, addrmap);
+-
+-	snps_setup_bg_address_map(priv, addrmap);
+-
+-	snps_setup_rank_address_map(priv, addrmap);
+-}
+-
+ static ssize_t snps_inject_data_error_read(struct file *filep, char __user *ubuf,
+ 					   size_t size, loff_t *offp)
  {
- 	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
-@@ -1610,6 +1792,9 @@ static void snps_create_debugfs_nodes(struct mem_ctl_info *mci)
+@@ -1305,10 +1463,6 @@ SNPS_DEBUGFS_FOPS(snps_inject_data_poison, snps_inject_data_poison_read,
+  */
+ static void snps_create_debugfs_nodes(struct mem_ctl_info *mci)
+ {
+-	struct snps_edac_priv *priv = mci->pvt_info;
+-
+-	snps_setup_address_map(priv);
+-
  	edac_debugfs_create_file("ddrc_info", 0400, mci->debugfs, mci,
  				 &snps_ddrc_info_fops);
  
-+	edac_debugfs_create_file("sys_app_map", 0400, mci->debugfs, mci,
-+				 &snps_sys_app_map_fops);
-+
- 	edac_debugfs_create_file("hif_sdram_map", 0400, mci->debugfs, mci,
- 				 &snps_hif_sdram_map_fops);
+@@ -1348,6 +1502,8 @@ static int snps_mc_probe(struct platform_device *pdev)
+ 	if (rc)
+ 		return rc;
  
++	snps_get_addr_map(priv);
++
+ 	mci = snps_mc_create(priv);
+ 	if (IS_ERR(mci))
+ 		return PTR_ERR(mci);
 -- 
 2.37.2
 
