@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71977ECAAD3
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:43:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E84C6FA82
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:44:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbiIJTn5 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:43:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35310 "EHLO
+        id S229827AbiIJToA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:44:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229796AbiIJTng (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:43:36 -0400
+        with ESMTP id S229716AbiIJTnh (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:43:37 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D48624A131;
-        Sat, 10 Sep 2022 12:43:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A19FF4A112;
+        Sat, 10 Sep 2022 12:43:21 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 9F225DBC;
-        Sat, 10 Sep 2022 22:46:36 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 9F225DBC
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 0A652DBE;
+        Sat, 10 Sep 2022 22:46:38 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 0A652DBE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662839196;
-        bh=c2KDKfbI5k0kD8up5rTK06u62IYkdIDkizAoNpJYaaE=;
+        d=baikalelectronics.ru; s=mail; t=1662839198;
+        bh=jZl4LFCCJHqUzmC0B1mzH2VxWHws8KHONWhMao5yJb8=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=p2DtjjMOx6Hyj5aXks0jWPL3YxKfCUaJAoCAxbGPjfedE2okLXcXfmV8leXURXbOP
-         gzGFYqnhKrygZ7/Z9gIroEpbSaZxMQ4QL7MJP3Ah3ll02D7LlBrlKKlvm8QdjMAG+k
-         EFJJ52juIKqUvJQrVWytqXdURmNeO3dP4WKZYM7s=
+        b=oUU9aPLObFomzOyptiSZlPMSKs9IlR9PhTvqcdQCvwMbIuIe37NkS86a0BNYzdHvb
+         6Lrr1EK+s0Cda3LQx+PmGzodNigz8D42P7ZhiYPcCxNDBtbpwx9JTgXN6CwFo9z1PO
+         pbUX5KeAbl1vXH9/wuywIzKxVBm0wKlST61SPrlE=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:42:45 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:42:47 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -50,9 +50,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 08/19] EDAC/synopsys: Drop local to_mci macro implementation
-Date:   Sat, 10 Sep 2022 22:42:26 +0300
-Message-ID: <20220910194237.10142-9-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v2 10/19] EDAC/synopsys: Shorten out struct ecc_error_info.bankgrpnr field name
+Date:   Sat, 10 Sep 2022 22:42:28 +0300
+Message-ID: <20220910194237.10142-11-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910194237.10142-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910194237.10142-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,31 +63,83 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The to_mci macro was added in commit 1a81361f75d8 ("EDAC, synopsys: Add
-Error Injection support for ZynqMP DDR controller") together with the
-errors injection debug feature. It turns our the macro with the same
-semantic and name has already been defined in the edac_mc.h (former
-edac_core.h) header file. No idea why it was needed to have a local
-version with the same semantic, but now there is no point in that. Drop
-the local implementation for good then.
+None of the ecc_error_info structure fields has "nr" suffix even though
+each of them do re-present some number (row number, column number, bank
+number). Let's drop the suffix from the bankgrpnr field name for the sake
+of unification. While at it drop the word "Number" from the CE/UE error
+messages too since it doesn't give any helpful info there.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/edac/synopsys_edac.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 592c7753184f..9a039aa0c308 100644
+index 3a863c012eb6..2740f6c8c249 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -949,7 +949,6 @@ static const struct of_device_id synps_edac_match[] = {
- MODULE_DEVICE_TABLE(of, synps_edac_match);
- 
- #ifdef CONFIG_EDAC_DEBUG
--#define to_mci(k) container_of(k, struct mem_ctl_info, dev)
+@@ -273,17 +273,17 @@
+  * @row:	Row number.
+  * @col:	Column number.
+  * @bank:	Bank number.
++ * @bankgrp:	Bank group number.
+  * @bitpos:	Bit position.
+  * @data:	Data causing the error.
+- * @bankgrpnr:	Bank group number.
+  */
+ struct ecc_error_info {
+ 	u32 row;
+ 	u32 col;
+ 	u32 bank;
++	u32 bankgrp;
+ 	u32 bitpos;
+ 	u32 data;
+-	u32 bankgrpnr;
+ };
  
  /**
-  * ddr_poison_setup -	Update poison registers.
+@@ -434,7 +434,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
+ 	regval = readl(base + ECC_CEADDR1_OFST);
+ 	p->ceinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
+ 					ECC_CEADDR1_BNKNR_SHIFT;
+-	p->ceinfo.bankgrpnr = (regval &	ECC_CEADDR1_BNKGRP_MASK) >>
++	p->ceinfo.bankgrp = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
+ 					ECC_CEADDR1_BNKGRP_SHIFT;
+ 	p->ceinfo.col = (regval & ECC_CEADDR1_COL_MASK);
+ 	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
+@@ -448,7 +448,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
+ 	regval = readl(base + ECC_UEADDR0_OFST);
+ 	p->ueinfo.row = (regval & ECC_CEADDR0_RW_MASK);
+ 	regval = readl(base + ECC_UEADDR1_OFST);
+-	p->ueinfo.bankgrpnr = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
++	p->ueinfo.bankgrp = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
+ 					ECC_CEADDR1_BNKGRP_SHIFT;
+ 	p->ueinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
+ 					ECC_CEADDR1_BNKNR_SHIFT;
+@@ -484,9 +484,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
+ 		pinf = &p->ceinfo;
+ 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+-				 "DDR ECC error type:%s Row %d Col %d Bank %d BankGroup Number %d Bit Position: %d Data: 0x%08x",
++				 "DDR ECC error type:%s Row %d Col %d Bank %d Bank Group %d Bit Position: %d Data: 0x%08x",
+ 				 "CE", pinf->row, pinf->col, pinf->bank,
+-				 pinf->bankgrpnr, pinf->bitpos, pinf->data);
++				 pinf->bankgrp, pinf->bitpos, pinf->data);
+ 		} else {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+ 				 "DDR ECC error type:%s Row %d Bank %d Col %d Bit Position: %d Data: 0x%08x",
+@@ -503,9 +503,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
+ 		pinf = &p->ueinfo;
+ 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+-				 "DDR ECC error type :%s Row %d Col %d Bank %d BankGroup Number %d",
++				 "DDR ECC error type :%s Row %d Col %d Bank %d Bank Group %d",
+ 				 "UE", pinf->row, pinf->col, pinf->bank,
+-				 pinf->bankgrpnr);
++				 pinf->bankgrp);
+ 		} else {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+ 				 "DDR ECC error type :%s Row %d Bank %d Col %d ",
 -- 
 2.37.2
 
