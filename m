@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E63ECAAD3
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:57:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7372AC6FA82
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230126AbiIJT5w (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:57:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40526 "EHLO
+        id S230176AbiIJT6A (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:58:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbiIJT5X (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:57:23 -0400
+        with ESMTP id S229997AbiIJT5Z (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:57:25 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 90A5245F7F;
-        Sat, 10 Sep 2022 12:57:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9646246D85;
+        Sat, 10 Sep 2022 12:57:09 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 26BFFDA8;
-        Sat, 10 Sep 2022 23:00:53 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 26BFFDA8
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 8EB55DB9;
+        Sat, 10 Sep 2022 23:00:54 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 8EB55DB9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662840053;
-        bh=C1cHVya5vTRX4BQybgGAblj68eUfTg6JA+yP2FgH028=;
+        d=baikalelectronics.ru; s=mail; t=1662840054;
+        bh=b4v569UoUsQ14XJS9pLHTnZU6ML40N2gkX2cC2Onuis=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=jFNNMjAMSit/oQmQ5gkfa1u0hXBIhLI/13fYl3wrKOEDQgeh6/fXXPA2oDFd2ES9y
-         GHdpsp7WtcaZ3jlrktQwnOCDs+bq46Z0lXP7Eb3ZJyC942JMg0eqC8e5TDBA6RB+Fx
-         KEin80j9t7fyxHBXMbeMeUr2c5Sqb3UHxczRufS4=
+        b=ohL4bbFfKZj9B8vlFuDylXu+bhcY5eEmakOX9SZbSkuPYFgePixCQo4WDwziKI5qq
+         8JvnwtbnJRnRCbAexIVZ+mNdq1gQn6lRPvrMZsGYeol25e2U/kNNNAiaZhBG2lXn95
+         YGXPyfiWiPaT3bqUUFmBihQSGOQMG499E6XquHDw=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:02 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:03 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -35,24 +35,23 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Manish Narani <manish.narani@xilinx.com>
+        Serge Semin <fancer.lancer@gmail.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
         Punnaiah Choudary Kalluri 
         <punnaiah.choudary.kalluri@xilinx.com>,
+        Manish Narani <manish.narani@xilinx.com>,
         Dinh Nguyen <dinguyen@kernel.org>,
         James Morse <james.morse@arm.com>,
         Robert Richter <rric@kernel.org>,
         Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v2 02/15] dt-bindings: memory: snps: Extend schema with IRQs/resets/clocks props
-Date:   Sat, 10 Sep 2022 22:56:46 +0300
-Message-ID: <20220910195659.11843-3-Sergey.Semin@baikalelectronics.ru>
+        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 04/15] dt-bindings: memory: Add Baikal-T1 DDRC DT-schema
+Date:   Sat, 10 Sep 2022 22:56:48 +0300
+Message-ID: <20220910195659.11843-5-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,117 +62,124 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-First of all the DW uMCTL2 DDRC IP-core supports the individual IRQ lines
-for each standard event: ECC Corrected Error, ECC Uncorrected Error, ECC
-Address Protection, Scrubber-Done signal, DFI Parity/CRC Error. It's
-possible that the platform engineers merge them up in the IRQ controller
-level. So let's add both configuration support to the DT-schema.
-
-Secondly the DW uMCTL2 DDRC IP-core can have clock sources like APB
-reference clock, AXI-ports clock, main DDRC core reference clock and
-Scrubber low-power clock. In addition to that each clock domain can have a
-dedicated reset signal. Let's add the properties for at least the denoted
-clock sources and the corresponding reset controls.
-
-Note the IRQs and the phandles order is deliberately not fixed since some
-of the sources may be absent depending on the IP-core synthesize
-parameters and the particular platform setups.
+Baikal-T1 DDR controller is based on the DW uMCTL2 DDRC IP-core v2.51a
+with up to DDR3 protocol capability and 32-bit data bus + 8-bit ECC. There
+are individual IRQs for each ECC and DFI events. The dedicated scrubber
+clock source is absent since it's fully synchronous to the core clock.
+In addition to that the DFI-DDR PHY CSRs can be accessed via a separate
+registers space.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 
 ---
 
 Changelog v2:
-- Replace "snps,ddrc-3.80a" compatible string with "snps,dw-umctl2-ddrc"
-  in the example.
-- Move unrelated changes in to the dedicated patches. (@Krzysztof)
-- Use the IRQ macros in the example. (@Krzysztof)
+- Keep the alphabetically ordered compatible strings list. (@Krzysztof)
+- Fix grammar nitpicks in the patch log. (@Krzysztof)
+- Drop the PHY CSR region. (@Rob)
+- Move the device bindings to the separate DT-schema.
 ---
- .../snps,dw-umctl2-ddrc.yaml                  | 61 ++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+ .../memory-controllers/baikal,bt1-ddrc.yaml   | 91 +++++++++++++++++++
+ 1 file changed, 91 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml
 
-diff --git a/Documentation/devicetree/bindings/memory-controllers/snps,dw-umctl2-ddrc.yaml b/Documentation/devicetree/bindings/memory-controllers/snps,dw-umctl2-ddrc.yaml
-index fb571d3d665d..e68c4306025a 100644
---- a/Documentation/devicetree/bindings/memory-controllers/snps,dw-umctl2-ddrc.yaml
-+++ b/Documentation/devicetree/bindings/memory-controllers/snps,dw-umctl2-ddrc.yaml
-@@ -33,11 +33,55 @@ properties:
-         const: xlnx,zynqmp-ddrc-2.40a
- 
-   interrupts:
--    maxItems: 1
-+    description:
-+      DW uMCTL2 DDRC IP-core provides individual IRQ signal for each event":"
-+      ECC Corrected Error, ECC Uncorrected Error, ECC Address Protection,
-+      Scrubber-Done signal, DFI Parity/CRC Error. Some platforms may have the
-+      signals merged before they reach the IRQ controller or have some of them
-+      absent in case if the corresponding feature is unavailable/disabled.
-+    minItems: 1
-+    maxItems: 5
+diff --git a/Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml b/Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml
+new file mode 100644
+index 000000000000..a778acdd6928
+--- /dev/null
++++ b/Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml
+@@ -0,0 +1,91 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/memory-controllers/baikal,bt1-ddrc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Baikal-T1 DDR Controller
++
++maintainers:
++  - Serge Semin <fancer.lancer@gmail.com>
++
++description:
++  Baikal-T1 DDRC is based on the DW uMCTL2 DDRC IP-core v2.51a with DDR2
++  and DDR3 protocol capability, 32-bit data bus + 8-bit ECC + up to 2
++  SDRAM ranks. There are individual IRQs for each ECC and DFI events.
++  The dedicated scrubber clock source is absent since it's fully
++  synchronous to the core clock.
++
++allOf:
++  - $ref: /schemas/memory-controllers/snps,dw-umctl2-ddrc.yaml#
++
++properties:
++  compatible:
++    const: baikal,bt1-ddrc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 4
 +
 +  interrupt-names:
-+    minItems: 1
-+    maxItems: 5
-+    oneOf:
-+      - description: Common ECC CE/UE/Scrubber/DFI Errors IRQ
-+        items:
-+          - const: ecc
-+      - description: Individual ECC CE/UE/Scrubber/DFI Errors IRQs
-+        items:
-+          enum: [ ecc_ce, ecc_ue, ecc_ap, ecc_sbr, dfi_e ]
- 
-   reg:
-     maxItems: 1
- 
++    items:
++      - const: dfi_e
++      - const: ecc_ce
++      - const: ecc_ue
++      - const: ecc_sbr
++
 +  clocks:
-+    description:
-+      A standard set of the clock sources contains CSRs bus clock, AXI-ports
-+      reference clock, DDRC core clock, Scrubber standalone clock
-+      (synchronous to the DDRC clock).
-+    minItems: 1
-+    maxItems: 4
++    maxItems: 3
 +
 +  clock-names:
-+    minItems: 1
-+    maxItems: 4
 +    items:
-+      enum: [ pclk, aclk, core, sbr ]
++      - const: pclk
++      - const: aclk
++      - const: core
 +
 +  resets:
-+    description:
-+      Each clock domain can have separate reset signal.
-+    minItems: 1
-+    maxItems: 4
++    maxItems: 2
 +
 +  reset-names:
-+    minItems: 1
-+    maxItems: 4
 +    items:
-+      enum: [ prst, arst, core, sbr ]
++      - const: arst
++      - const: core
 +
- required:
-   - compatible
-   - reg
-@@ -55,5 +99,20 @@ examples:
- 
-       interrupt-parent = <&gic>;
-       interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
-+      interrupt-names = "ecc";
-+    };
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - interrupt-names
++
++additionalProperties: false
++
++examples:
 +  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/mips-gic.h>
++    #include <dt-bindings/clock/bt1-ccu.h>
++    #include <dt-bindings/reset/bt1-ccu.h>
 +
-+    memory-controller@3d400000 {
-+      compatible = "snps,dw-umctl2-ddrc";
-+      reg = <0x3d400000 0x400000>;
++    memory-controller@1f042000 {
++      compatible = "baikal,bt1-ddrc";
++      reg = <0x1f042000 0x1000>;
 +
-+      interrupts = <147 IRQ_TYPE_LEVEL_HIGH>, <148 IRQ_TYPE_LEVEL_HIGH>,
-+                   <149 IRQ_TYPE_LEVEL_HIGH>, <150 IRQ_TYPE_LEVEL_HIGH>;
-+      interrupt-names = "ecc_ce", "ecc_ue", "ecc_sbr", "dfi_e";
++      interrupts = <GIC_SHARED 96 IRQ_TYPE_LEVEL_HIGH>,
++                   <GIC_SHARED 97 IRQ_TYPE_LEVEL_HIGH>,
++                   <GIC_SHARED 98 IRQ_TYPE_LEVEL_HIGH>,
++                   <GIC_SHARED 99 IRQ_TYPE_LEVEL_HIGH>;
++      interrupt-names = "dfi_e", "ecc_ce", "ecc_ue", "ecc_sbr";
 +
-+      clocks = <&pclk>, <&aclk>, <&core_clk>, <&sbr_clk>;
-+      clock-names = "pclk", "aclk", "core", "sbr";
-     };
- ...
++      clocks = <&ccu_sys CCU_SYS_APB_CLK>,
++               <&ccu_axi CCU_AXI_DDR_CLK>,
++               <&ccu_pll CCU_DDR_PLL>;
++      clock-names = "pclk", "aclk", "core";
++
++      resets = <&ccu_axi CCU_AXI_DDR_RST>,
++               <&ccu_sys CCU_SYS_DDR_INIT_RST>;
++      reset-names = "arst", "core";
++    };
++...
 -- 
 2.37.2
 
