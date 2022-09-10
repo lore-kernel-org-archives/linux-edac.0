@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7372AC6FA82
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:58:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2641ECAAD3
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230176AbiIJT6A (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40550 "EHLO
+        id S229927AbiIJT6B (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbiIJT5Z (ORCPT
+        with ESMTP id S229789AbiIJT5Z (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:57:25 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9646246D85;
-        Sat, 10 Sep 2022 12:57:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0C19047BB0;
+        Sat, 10 Sep 2022 12:57:19 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 8EB55DB9;
-        Sat, 10 Sep 2022 23:00:54 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 8EB55DB9
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 96A00DBD;
+        Sat, 10 Sep 2022 23:00:58 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 96A00DBD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662840054;
-        bh=b4v569UoUsQ14XJS9pLHTnZU6ML40N2gkX2cC2Onuis=;
+        d=baikalelectronics.ru; s=mail; t=1662840058;
+        bh=evl0QMbGUuK/VXmVFTFt7CDJBznWz4C4rkPe+VRXbvI=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=ohL4bbFfKZj9B8vlFuDylXu+bhcY5eEmakOX9SZbSkuPYFgePixCQo4WDwziKI5qq
-         8JvnwtbnJRnRCbAexIVZ+mNdq1gQn6lRPvrMZsGYeol25e2U/kNNNAiaZhBG2lXn95
-         YGXPyfiWiPaT3bqUUFmBihQSGOQMG499E6XquHDw=
+        b=Uweo5280VyjXFAZ3PggU/9ogmf6kTDN4pgivwpaQO/gOUoUsS2UT4Qa8nyTRxQSRe
+         VwXVhhb0SiBhpT/Wj3yYFD68W4Ttt/Rw5yn4mEn0dz7zLEpfUNGYCnjrlbrexxpcp3
+         TWu6bZkuql3lYwvYOqafARTeFJTn1ebO6dMY8mdM=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:03 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:07 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -34,9 +34,10 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Serge Semin <fancer.lancer@gmail.com>
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
         Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
@@ -44,14 +45,14 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <punnaiah.choudary.kalluri@xilinx.com>,
         Manish Narani <manish.narani@xilinx.com>,
         Dinh Nguyen <dinguyen@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 04/15] dt-bindings: memory: Add Baikal-T1 DDRC DT-schema
-Date:   Sat, 10 Sep 2022 22:56:48 +0300
-Message-ID: <20220910195659.11843-5-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v2 10/15] EDAC/synopsys: Add individual named ECC IRQs support
+Date:   Sat, 10 Sep 2022 22:56:54 +0300
+Message-ID: <20220910195659.11843-11-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -62,124 +63,135 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Baikal-T1 DDR controller is based on the DW uMCTL2 DDRC IP-core v2.51a
-with up to DDR3 protocol capability and 32-bit data bus + 8-bit ECC. There
-are individual IRQs for each ECC and DFI events. The dedicated scrubber
-clock source is absent since it's fully synchronous to the core clock.
-In addition to that the DFI-DDR PHY CSRs can be accessed via a separate
-registers space.
+Currently the DW uMCTL2 DDRC EDAC driver supports a common unnamed IRQ
+only. It isn't suitable for our platform which has the individual IRQ
+lines for each DDRC event (ECC UE, ECC CE, DFI parity error, Scrubber
+done, etc).  Moreover the DW uMCTL2 DDRC IP-core doesn't have an option to
+be configured with a common interrupts output line. So in order to have
+the generic DW uMCTL2 DDR controller and our platform supported by the
+driver we need to add the individual, per DDRC event, IRQs request
+support. There is not much to do really since the common IRQs handler has
+already been split up into the sub-handlers. So the only thing we need to
+do is first try to request the individual IRQs, if failed then fallback to
+the common IRQ. The IRQ names are used in accordance with the DW uMCTL2
+DDRC DT-bindings.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-
 ---
+ drivers/edac/synopsys_edac.c | 91 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 81 insertions(+), 10 deletions(-)
 
-Changelog v2:
-- Keep the alphabetically ordered compatible strings list. (@Krzysztof)
-- Fix grammar nitpicks in the patch log. (@Krzysztof)
-- Drop the PHY CSR region. (@Rob)
-- Move the device bindings to the separate DT-schema.
----
- .../memory-controllers/baikal,bt1-ddrc.yaml   | 91 +++++++++++++++++++
- 1 file changed, 91 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml
-
-diff --git a/Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml b/Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml
-new file mode 100644
-index 000000000000..a778acdd6928
---- /dev/null
-+++ b/Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml
-@@ -0,0 +1,91 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/memory-controllers/baikal,bt1-ddrc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
+index e5359ff2ed25..6a47e53deab5 100644
+--- a/drivers/edac/synopsys_edac.c
++++ b/drivers/edac/synopsys_edac.c
+@@ -1524,25 +1524,96 @@ static void snps_mc_free(struct mem_ctl_info *mci)
+ 	edac_mc_free(mci);
+ }
+ 
+-static int snps_setup_irq(struct mem_ctl_info *mci)
++/**
++ * snps_request_ind_irq - Request individual DDRC IRQs.
++ * @mci:	EDAC memory controller instance.
++ *
++ * Return: 0 if the IRQs were successfully requested, 1 if the individual IRQs
++ * are unavailable, otherwise negative errno.
++ */
++static int snps_request_ind_irq(struct mem_ctl_info *mci)
+ {
+ 	struct snps_edac_priv *priv = mci->pvt_info;
+-	int ret, irq;
++	struct device *dev = &priv->pdev->dev;
++	int rc, irq;
+ 
+-	irq = platform_get_irq(priv->pdev, 0);
+-	if (irq < 0) {
+-		edac_printk(KERN_ERR, EDAC_MC,
+-			    "No IRQ %d in DT\n", irq);
++	irq = platform_get_irq_byname_optional(priv->pdev, "ecc_ce");
++	if (irq == -ENXIO)
++		return 1;
++	if (irq < 0)
++		return irq;
 +
-+title: Baikal-T1 DDR Controller
++	rc = devm_request_irq(dev, irq, snps_ce_irq_handler, 0, "ecc_ce", mci);
++	if (rc) {
++		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC CE IRQ\n");
++		return rc;
++	}
 +
-+maintainers:
-+  - Serge Semin <fancer.lancer@gmail.com>
++	irq = platform_get_irq_byname(priv->pdev, "ecc_ue");
++	if (irq < 0)
+ 		return irq;
 +
-+description:
-+  Baikal-T1 DDRC is based on the DW uMCTL2 DDRC IP-core v2.51a with DDR2
-+  and DDR3 protocol capability, 32-bit data bus + 8-bit ECC + up to 2
-+  SDRAM ranks. There are individual IRQs for each ECC and DFI events.
-+  The dedicated scrubber clock source is absent since it's fully
-+  synchronous to the core clock.
++	rc = devm_request_irq(dev, irq, snps_ue_irq_handler, 0, "ecc_ue", mci);
++	if (rc) {
++		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC UE IRQ\n");
++		return rc;
++	}
 +
-+allOf:
-+  - $ref: /schemas/memory-controllers/snps,dw-umctl2-ddrc.yaml#
++	return 0;
++}
 +
-+properties:
-+  compatible:
-+    const: baikal,bt1-ddrc
++/**
++ * snps_request_com_irq - Request common DDRC IRQ.
++ * @mci:	EDAC memory controller instance.
++ *
++ * It first attempts to get the named IRQ. If failed the method fallbacks
++ * to first available one.
++ *
++ * Return: 0 if the IRQ was successfully requested otherwise negative errno.
++ */
++static int snps_request_com_irq(struct mem_ctl_info *mci)
++{
++	struct snps_edac_priv *priv = mci->pvt_info;
++	struct device *dev = &priv->pdev->dev;
++	int rc, irq;
 +
-+  reg:
-+    maxItems: 1
++	irq = platform_get_irq_byname_optional(priv->pdev, "ecc");
++	if (irq < 0) {
++		irq = platform_get_irq(priv->pdev, 0);
++		if (irq < 0)
++			return irq;
+ 	}
+ 
+-	ret = devm_request_irq(&priv->pdev->dev, irq, snps_com_irq_handler,
+-			       0, dev_name(&priv->pdev->dev), mci);
+-	if (ret < 0) {
++	rc = devm_request_irq(dev, irq, snps_com_irq_handler, 0, "ecc", mci);
++	if (rc) {
+ 		edac_printk(KERN_ERR, EDAC_MC, "Failed to request IRQ\n");
+-		return ret;
++		return rc;
+ 	}
+ 
++	return 0;
++}
 +
-+  interrupts:
-+    maxItems: 4
++/**
++ * snps_setup_irq - Request and enable DDRC IRQs.
++ * @mci:	EDAC memory controller instance.
++ *
++ * It first tries to get and request individual IRQs. If failed the method
++ * fallbacks to the common IRQ line case. The IRQs will be enabled only if
++ * some of these requests have been successful.
++ *
++ * Return: 0 if IRQs were successfully setup otherwise negative errno.
++ */
++static int snps_setup_irq(struct mem_ctl_info *mci)
++{
++	struct snps_edac_priv *priv = mci->pvt_info;
++	int rc;
 +
-+  interrupt-names:
-+    items:
-+      - const: dfi_e
-+      - const: ecc_ce
-+      - const: ecc_ue
-+      - const: ecc_sbr
++	rc = snps_request_ind_irq(mci);
++	if (rc > 0)
++		rc = snps_request_com_irq(mci);
++	if (rc)
++		return rc;
 +
-+  clocks:
-+    maxItems: 3
-+
-+  clock-names:
-+    items:
-+      - const: pclk
-+      - const: aclk
-+      - const: core
-+
-+  resets:
-+    maxItems: 2
-+
-+  reset-names:
-+    items:
-+      - const: arst
-+      - const: core
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/mips-gic.h>
-+    #include <dt-bindings/clock/bt1-ccu.h>
-+    #include <dt-bindings/reset/bt1-ccu.h>
-+
-+    memory-controller@1f042000 {
-+      compatible = "baikal,bt1-ddrc";
-+      reg = <0x1f042000 0x1000>;
-+
-+      interrupts = <GIC_SHARED 96 IRQ_TYPE_LEVEL_HIGH>,
-+                   <GIC_SHARED 97 IRQ_TYPE_LEVEL_HIGH>,
-+                   <GIC_SHARED 98 IRQ_TYPE_LEVEL_HIGH>,
-+                   <GIC_SHARED 99 IRQ_TYPE_LEVEL_HIGH>;
-+      interrupt-names = "dfi_e", "ecc_ce", "ecc_ue", "ecc_sbr";
-+
-+      clocks = <&ccu_sys CCU_SYS_APB_CLK>,
-+               <&ccu_axi CCU_AXI_DDR_CLK>,
-+               <&ccu_pll CCU_DDR_PLL>;
-+      clock-names = "pclk", "aclk", "core";
-+
-+      resets = <&ccu_axi CCU_AXI_DDR_RST>,
-+               <&ccu_sys CCU_SYS_DDR_INIT_RST>;
-+      reset-names = "arst", "core";
-+    };
-+...
+ 	snps_enable_irq(priv);
+ 
+ 	return 0;
 -- 
 2.37.2
 
