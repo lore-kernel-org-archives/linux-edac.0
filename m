@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F5CC6FA82
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:43:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D28C6ECAAD3
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbiIJTnf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:43:35 -0400
+        id S229651AbiIJTny (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:43:54 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbiIJTnU (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:43:20 -0400
+        with ESMTP id S229657AbiIJTnf (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:43:35 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 623AD491FF;
-        Sat, 10 Sep 2022 12:43:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4FE2F4A80C;
+        Sat, 10 Sep 2022 12:43:15 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 040BADBB;
-        Sat, 10 Sep 2022 22:46:36 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 040BADBB
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 48C70DBD;
+        Sat, 10 Sep 2022 22:46:37 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 48C70DBD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662839196;
-        bh=/Wwg8uRjXKA66HOYpbFIEeBk3ZXkTNU7lcZPEN/Bn58=;
+        d=baikalelectronics.ru; s=mail; t=1662839197;
+        bh=LUPXyemSFRHrwPi5Jdm2svUi6MnLZLaRKsSq0R6CkYE=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=es49GdaWF9p95PslD2CzSHdhFXGgFNT5y96OYV7re5NCTnDCJovgvwGBUZmpEgYj2
-         6sSa5j53hW4IV6wL9tcJjnCCVMxRreHIWGdFzO6is6c6CXvVcsZmh/TbRZcMY+VhiG
-         362Ot1OjzoyCPbObSDECbJBTjLxPdM5ffuYW7HwU=
+        b=hrs63lqHLd9uks9pJVwjTOuopAfn4fz2zVwTmGLe2cvjO8Qs63AfcLmGozmixwU0t
+         ZiQ9tIh7/GK5O3JAKgcpgL10Wz63SgL1V1uoY1hVLSF103V7j6odDImJnC9N/4Eol+
+         xLSnls5bVUiPrhYTnpHtavjkFnw0lZf6Re9zmWeo=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:42:45 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:42:46 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -50,9 +50,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 07/19] EDAC/synopsys: Drop internal CE and UE counters
-Date:   Sat, 10 Sep 2022 22:42:25 +0300
-Message-ID: <20220910194237.10142-8-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v2 09/19] EDAC/synopsys: Drop struct ecc_error_info.blknr field
+Date:   Sat, 10 Sep 2022 22:42:27 +0300
+Message-ID: <20220910194237.10142-10-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910194237.10142-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910194237.10142-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,51 +63,93 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-First of all they aren't exposed anyhow by the driver. Secondly the EDAC
-core already tracks the total amount of correctable and uncorrectable
-errors (see mem_ctl_info.{ce_mc,ue_mc} fields usage). Let's drop the
-useless internal counters then for good.
+Even though the ECC(C|U)ADDR1 CSR description indeed says it's a "Block
+number" in the DW uMCTL2 DDRC hw reference manuals, the corresponding
+register field name (ECC(C|U)ADDR1.ecc_(un)corr_col) and the rest of the
+hw documentation refer to the field as the SDRAM address column. Thus
+let's use the already available ecc_error_info.col field to read the
+column number to and drop the questionable ecc_error_info.blknr field for
+good.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/edac/synopsys_edac.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index e9002d9b3f09..592c7753184f 100644
+index 9a039aa0c308..3a863c012eb6 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -309,8 +309,6 @@ struct synps_ecc_status {
-  * @message:		Buffer for framing the event specific info.
-  * @stat:		ECC status information.
-  * @p_data:		Platform data.
-- * @ce_cnt:		Correctable Error count.
-- * @ue_cnt:		Uncorrectable Error count.
-  * @poison_addr:	Data poison address.
-  * @row_shift:		Bit shifts for row bit.
-  * @col_shift:		Bit shifts for column bit.
-@@ -324,8 +322,6 @@ struct synps_edac_priv {
- 	char message[SYNPS_EDAC_MSG_SIZE];
- 	struct synps_ecc_status stat;
- 	const struct synps_platform_data *p_data;
--	u32 ce_cnt;
--	u32 ue_cnt;
- #ifdef CONFIG_EDAC_DEBUG
- 	ulong poison_addr;
- 	u32 row_shift[18];
-@@ -595,12 +591,8 @@ static irqreturn_t intr_handler(int irq, void *dev_id)
- 	if (status)
- 		return IRQ_NONE;
+@@ -178,7 +178,7 @@
+ #define ECC_CEADDR0_RNK_MASK		BIT(24)
+ #define ECC_CEADDR1_BNKGRP_MASK		0x3000000
+ #define ECC_CEADDR1_BNKNR_MASK		0x70000
+-#define ECC_CEADDR1_BLKNR_MASK		0xFFF
++#define ECC_CEADDR1_COL_MASK		0xFFF
+ #define ECC_CEADDR1_BNKGRP_SHIFT	24
+ #define ECC_CEADDR1_BNKNR_SHIFT		16
  
--	priv->ce_cnt += priv->stat.ce_cnt;
--	priv->ue_cnt += priv->stat.ue_cnt;
- 	handle_error(mci, &priv->stat);
+@@ -276,7 +276,6 @@
+  * @bitpos:	Bit position.
+  * @data:	Data causing the error.
+  * @bankgrpnr:	Bank group number.
+- * @blknr:	Block number.
+  */
+ struct ecc_error_info {
+ 	u32 row;
+@@ -285,7 +284,6 @@ struct ecc_error_info {
+ 	u32 bitpos;
+ 	u32 data;
+ 	u32 bankgrpnr;
+-	u32 blknr;
+ };
  
--	edac_dbg(3, "Total error count CE %d UE %d\n",
--		 priv->ce_cnt, priv->ue_cnt);
+ /**
+@@ -438,7 +436,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
+ 					ECC_CEADDR1_BNKNR_SHIFT;
+ 	p->ceinfo.bankgrpnr = (regval &	ECC_CEADDR1_BNKGRP_MASK) >>
+ 					ECC_CEADDR1_BNKGRP_SHIFT;
+-	p->ceinfo.blknr = (regval & ECC_CEADDR1_BLKNR_MASK);
++	p->ceinfo.col = (regval & ECC_CEADDR1_COL_MASK);
+ 	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
+ 	edac_dbg(2, "ECCCSYN0: 0x%08X ECCCSYN1: 0x%08X ECCCSYN2: 0x%08X\n",
+ 		 readl(base + ECC_CSYND0_OFST), readl(base + ECC_CSYND1_OFST),
+@@ -454,7 +452,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
+ 					ECC_CEADDR1_BNKGRP_SHIFT;
+ 	p->ueinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
+ 					ECC_CEADDR1_BNKNR_SHIFT;
+-	p->ueinfo.blknr = (regval & ECC_CEADDR1_BLKNR_MASK);
++	p->ueinfo.col = (regval & ECC_CEADDR1_COL_MASK);
+ 	p->ueinfo.data = readl(base + ECC_UESYND0_OFST);
  
- 	if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS)
- 		writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
+ out:
+@@ -486,10 +484,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
+ 		pinf = &p->ceinfo;
+ 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+-				 "DDR ECC error type:%s Row %d Bank %d BankGroup Number %d Block Number %d Bit Position: %d Data: 0x%08x",
+-				 "CE", pinf->row, pinf->bank,
+-				 pinf->bankgrpnr, pinf->blknr,
+-				 pinf->bitpos, pinf->data);
++				 "DDR ECC error type:%s Row %d Col %d Bank %d BankGroup Number %d Bit Position: %d Data: 0x%08x",
++				 "CE", pinf->row, pinf->col, pinf->bank,
++				 pinf->bankgrpnr, pinf->bitpos, pinf->data);
+ 		} else {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+ 				 "DDR ECC error type:%s Row %d Bank %d Col %d Bit Position: %d Data: 0x%08x",
+@@ -506,9 +503,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
+ 		pinf = &p->ueinfo;
+ 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+-				 "DDR ECC error type :%s Row %d Bank %d BankGroup Number %d Block Number %d",
+-				 "UE", pinf->row, pinf->bank,
+-				 pinf->bankgrpnr, pinf->blknr);
++				 "DDR ECC error type :%s Row %d Col %d Bank %d BankGroup Number %d",
++				 "UE", pinf->row, pinf->col, pinf->bank,
++				 pinf->bankgrpnr);
+ 		} else {
+ 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
+ 				 "DDR ECC error type :%s Row %d Bank %d Col %d ",
 -- 
 2.37.2
 
