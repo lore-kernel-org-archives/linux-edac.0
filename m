@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A56D4C6FA82
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:58:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09964ECAAD3
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:58:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbiIJT6L (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:58:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40478 "EHLO
+        id S230248AbiIJT6V (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:58:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230091AbiIJT5e (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:57:34 -0400
+        with ESMTP id S230110AbiIJT5m (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:57:42 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3D11B474CA;
-        Sat, 10 Sep 2022 12:57:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6A0314505F;
+        Sat, 10 Sep 2022 12:57:26 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id E9F87DA5;
-        Sat, 10 Sep 2022 23:00:57 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com E9F87DA5
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 8A8C1DC0;
+        Sat, 10 Sep 2022 23:01:00 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 8A8C1DC0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662840057;
-        bh=0tsEL5BRHD+E3jNgz9wuLh2XsyldDO4cSjYtpKNv8qE=;
+        d=baikalelectronics.ru; s=mail; t=1662840060;
+        bh=qNZYfzRhCSk+DoU9MciK/MnO5mCLIMFMYLryxawEE+s=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=rfmvG1HZCA5I/0TFGlZLuwMR6PkOb0sEeeo6o6+Xz1mIYA+UGU1TdDySBVcvstibr
-         QIoo3N1qSoupWgxGu2UfXxXB1tfZF3Y86M+wfP3eFVGvGFL8G5r7G5/OBbmalEd5Ia
-         P0QLFWr1wVcmfkbduFFYoxiFNtzWO5WUDIiLM8g0=
+        b=T2IDbqjzVgQUKoyJhlXBB1STWI3VzL3J49fjRet3DPQf0gYmAe9+ZODieuExVHeVp
+         ZxCfFVNHtsAchaQlMASUi1LU6sxV+7pDEPCI5Co99h84oDEHzRgovo99OUY9CLqU0c
+         eWd97DPIkBnUfUwYXvvm6T4QVr4I0HesJVh3J3co=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:07 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:09 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -50,9 +50,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 09/15] EDAC/synopsys: Split up ECC UE/CE IRQs handler
-Date:   Sat, 10 Sep 2022 22:56:53 +0300
-Message-ID: <20220910195659.11843-10-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v2 13/15] EDAC/synopsys: Add ECC Scrubber support
+Date:   Sat, 10 Sep 2022 22:56:57 +0300
+Message-ID: <20220910195659.11843-14-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,407 +63,471 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-DW uMCTL2 DDRC IP-core doesn't have common IRQ line. Instead it provides
-individual IRQ output signals for each controller event like: corrected
-error, uncorrected error, DFI parity error, address protection, scrubber
-done, and so on. So the common IRQ handler implemented in the Synopsys
-EDAC driver isn't device-specific but is a particular platform specific.
-Obviously it won't be suitable for the generic devices which are added to
-the platforms with the original individual IRQs as it has happened in our
-case.
+DW uMCTL2 DDR controller IP-core can by synthesized with an embedded
+Scrubber engine. The ECC Scrubber (SBR) is a block which initiates
+periodic background burst read commands to the DDRC and further towards
+the DDR memory in an attempt to trigger Correctable or Uncorrectable
+errors. If a Correctable error is detected the ECC Scrub feature will
+execute the Read-Modify-Write (RMW) procedure in order to fix the ECC. In
+case of the Uncorrectable error it will be just reported as the
+corresponding IRQ event. So it's definitely very useful feature. Let's add
+it to the driver then especially seeing the MCI core already has some
+infrastructure for it.
 
-So let's split up the common IRQ handler into two ones handling ECC
-corrected and uncorrected errors. It won't be that hard since both
-sub-methods it calls are already logically divided into two CE/UE parts.
-What we need to do is to move these parts into the dedicated methods and
-redefine the local variables a bit. The new methods will be simply called
-from the common IRQs handler if one is utilized on the particular
-platform. Otherwise each new IRQ handler will be called on particular
-interrupt request (the IRQ handlers registration will be added a bit
-later). Note we now can discard the snps_ecc_status structure as unneeded
-since the error data is collected and reported now within a single method.
+First of all even though the Core clock rate is only used for the Scrub
+rate calculations we need to have the Scrubber clock enabled if one is
+supplied otherwise the engine won't work.
+
+Secondly the Scrubber engine support needs to be detected. Alas there is
+no any special CSR indicating whether the DW uMCTL2 DDRC IP-core has been
+synthesized with one embedded. Instead we suggest to implement the
+detection procedure based on the Scrubber-specific CSRs writability. So if
+the SBRWDATA0 CSR is writable then the CSR exists, which means the
+Scrubber is available, otherwise the capability will be considered as
+absent.
+
+Thirdly the MCI core provides two callbacks utilized for the Scrubber
+tuning: set the Scrubber bandwidth in bytes, which can also be used to
+disable the periodic scrubbing, and get the Scrubber bandwidth (zero if
+disabled). We can implement both of them by using the Scrubber CSRs the
+controller provides. In particular aside with the back-to-back periodic
+reads the Scrubber provides a way to delay the next read command for the
+predefined set of 512's Core/Scrubber clock cycles. It can be used to
+change the Scrubber bandwidth from the DDR maximal bandwidth (no delay) to
+up to (0x1FFF * 512) Core/Scrubber clock cycles (see the inline comments
+for details and utilized formulae). Note the Scrubber clock must be
+synchronous to the Core clock by the controller design so here we get to
+use the Core clock rate for the calculations. Pleas also note if no Core
+clock specified the Scrubber will still be supported, but the bandwidth
+will be used directly to calculate the Scrubber reads interval. The
+back-to-back reads mode in this case will be indicated by the INT_MAX
+bandwidth.
+
+Fourthly the back-to-back scrubbing most likely will cause the significant
+system performance drop. The manual says that it has been added to the
+controller for the initial SDRAM initialization and the fast SDRAM
+scrubbing after getting out of the low-power state. In anyway it is
+supposed to be enabled only for a single SDRAM pass. We get to preserve
+that semantic here so the back-to-back scrubbing will be disabled in the
+Scrubber Done IRQ handler.
+
+Finally the denoted scrub-rate callbacks and the SCRUB_FLAG_HW_PROG and
+SCRUB_FLAG_HW_TUN flags will set to the MCI descriptor based on the
+detected Scrubber capability. So no capability - no flags and no
+callbacks.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 272 +++++++++++++++++------------------
- 1 file changed, 135 insertions(+), 137 deletions(-)
+ drivers/edac/synopsys_edac.c | 304 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 304 insertions(+)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 1df5be2af1de..e5359ff2ed25 100644
+index 4b204b2050d4..0a00e80ddeb9 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -143,7 +143,6 @@
- #define DDR_QOS_IRQ_STAT_OFST		0x20200
- #define DDR_QOSUE_MASK			BIT(2)
- #define DDR_QOSCE_MASK			BIT(1)
--#define ECC_CE_UE_INTR_MASK		(DDR_QOSUE_MASK | DDR_QOSCE_MASK)
- #define DDR_QOS_IRQ_EN_OFST		0x20208
- #define DDR_QOS_IRQ_DB_OFST		0x2020C
+@@ -18,6 +18,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/sizes.h>
+ #include <linux/spinlock.h>
++#include <linux/units.h>
+ #include <linux/interrupt.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+@@ -34,6 +35,7 @@
  
-@@ -372,31 +371,19 @@ struct snps_sdram_addr {
- /**
-  * struct snps_ecc_error_info - ECC error log information.
-  * @sdram:	SDRAM address.
-+ * @ecnt:	Number of detected errors.
-  * @bitpos:	Bit position.
-  * @data:	Data causing the error.
-  * @syndrome:	Erroneous data syndrome.
-  */
- struct snps_ecc_error_info {
- 	struct snps_sdram_addr sdram;
-+	u16 ecnt;
- 	u32 bitpos;
- 	u64 data;
- 	u32 syndrome;
- };
+ /* DDR capabilities */
+ #define SNPS_CAP_ECC_SCRUB		BIT(0)
++#define SNPS_CAP_ECC_SCRUBBER		BIT(1)
+ #define SNPS_CAP_ZYNQMP			BIT(31)
  
--/**
-- * struct snps_ecc_status - ECC status information to report.
-- * @ce_cnt:	Correctable error count.
-- * @ue_cnt:	Uncorrectable error count.
-- * @ceinfo:	Correctable error log information.
-- * @ueinfo:	Uncorrectable error log information.
-- */
--struct snps_ecc_status {
--	u32 ce_cnt;
--	u32 ue_cnt;
--	struct snps_ecc_error_info ceinfo;
--	struct snps_ecc_error_info ueinfo;
--};
--
- /**
-  * struct snps_edac_priv - DDR memory controller private data.
-  * @info:		DDR controller config info.
-@@ -406,7 +393,6 @@ struct snps_ecc_status {
-  * @baseaddr:		Base address of the DDR controller.
-  * @lock:		Concurrent CSRs access lock.
-  * @message:		Buffer for framing the event specific info.
-- * @stat:		ECC status information.
-  */
- struct snps_edac_priv {
- 	struct snps_ddrc_info info;
-@@ -416,7 +402,6 @@ struct snps_edac_priv {
- 	void __iomem *baseaddr;
- 	spinlock_t lock;
- 	char message[SNPS_EDAC_MSG_SIZE];
--	struct snps_ecc_status stat;
- };
+ /* Synopsys uMCTL2 DDR controller registers that are relevant to ECC */
+@@ -102,6 +104,12 @@
+ #define DDR_SARBASE0_OFST		0xF04
+ #define DDR_SARSIZE0_OFST		0xF08
  
++/* ECC Scrubber registers */
++#define ECC_SBRCTL_OFST			0xF24
++#define ECC_SBRSTAT_OFST		0xF28
++#define ECC_SBRWDATA0_OFST		0xF2C
++#define ECC_SBRWDATA1_OFST		0xF30
++
+ /* DDR Master Register 0 definitions */
+ #define DDR_MSTR_DEV_CFG_MASK		GENMASK(31, 30)
+ #define DDR_MSTR_DEV_X4			0x0
+@@ -244,6 +252,18 @@
+ #define DDR_MAX_NSAR			4
+ #define DDR_MIN_SARSIZE			SZ_256M
+ 
++/* ECC Scrubber registers definitions */
++#define ECC_SBRCTL_SCRUB_INTERVAL	GENMASK(20, 8)
++#define ECC_SBRCTL_INTERVAL_STEP	512
++#define ECC_SBRCTL_INTERVAL_MIN		0
++#define ECC_SBRCTL_INTERVAL_SAFE	1
++#define ECC_SBRCTL_INTERVAL_MAX		(ECC_SBRCTL_SCRUB_INTERVAL >> 8)
++#define ECC_SBRCTL_SCRUB_BURST		GENMASK(6, 4)
++#define ECC_SBRCTL_SCRUB_MODE_WR	BIT(2)
++#define ECC_SBRCTL_SCRUB_EN		BIT(0)
++#define ECC_SBRSTAT_SCRUB_DONE		BIT(1)
++#define ECC_SBRSTAT_SCRUB_BUSY		BIT(0)
++
  /**
-@@ -688,130 +673,178 @@ static inline u32 snps_get_bitpos(u32 bitnum, enum snps_dq_width dq_width)
+  * enum snps_dq_width - SDRAM DQ bus width (ECC capable).
+  * SNPS_DQ_32:	32-bit memory data width.
+@@ -906,6 +926,47 @@ static irqreturn_t snps_dfi_irq_handler(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
  }
  
- /**
-- * snps_get_error_info - Get the current ECC error info.
-- * @priv:	DDR memory controller private instance data.
-+ * snps_ce_irq_handler - Corrected error interrupt handler.
++/**
++ * snps_sbr_irq_handler - Scrubber Done interrupt handler.
 + * @irq:        IRQ number.
 + * @dev_id:     Device ID.
-  *
-- * Return: one if there is no error otherwise returns zero.
++ *
++ * It just checks whether the IRQ has been caused by the Scrubber Done event
++ * and disables the back-to-back scrubbing by falling back to the smallest
++ * delay between the Scrubber read commands.
++ *
 + * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-  */
--static int snps_get_error_info(struct snps_edac_priv *priv)
-+static irqreturn_t snps_ce_irq_handler(int irq, void *dev_id)
- {
--	struct snps_ecc_status *p;
--	u32 regval, clearval;
++ */
++static irqreturn_t snps_sbr_irq_handler(int irq, void *dev_id)
++{
 +	struct mem_ctl_info *mci = dev_id;
 +	struct snps_edac_priv *priv = mci->pvt_info;
-+	struct snps_ecc_error_info einfo;
- 	unsigned long flags;
--	void __iomem *base;
-+	u32 qosval, regval;
-+	dma_addr_t sys;
- 
--	base = priv->baseaddr;
--	p = &priv->stat;
-+	/* Make sure IRQ is caused by a corrected ECC error */
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP) {
-+		qosval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
-+		if (!(qosval & DDR_QOSCE_MASK))
-+			return IRQ_NONE;
- 
--	regval = readl(base + ECC_STAT_OFST);
--	if (!regval)
--		return 1;
-+		qosval &= DDR_QOSCE_MASK;
-+	}
- 
--	p->ceinfo.bitpos = FIELD_GET(ECC_STAT_BITNUM_MASK, regval);
-+	regval = readl(priv->baseaddr + ECC_STAT_OFST);
-+	if (!FIELD_GET(ECC_STAT_CE_MASK, regval))
-+		return IRQ_NONE;
- 
--	regval = readl(base + ECC_ERRCNT_OFST);
--	p->ce_cnt = FIELD_GET(ECC_ERRCNT_CECNT_MASK, regval);
--	p->ue_cnt = FIELD_GET(ECC_ERRCNT_UECNT_MASK, regval);
--	if (!p->ce_cnt)
--		goto ue_err;
-+	/* Read error info like bit position, SDRAM address, data, syndrome */
-+	einfo.bitpos = FIELD_GET(ECC_STAT_BITNUM_MASK, regval);
-+	einfo.bitpos = snps_get_bitpos(einfo.bitpos, priv->info.dq_width);
- 
--	p->ceinfo.bitpos = snps_get_bitpos(p->ceinfo.bitpos, priv->info.dq_width);
-+	regval = readl(priv->baseaddr + ECC_ERRCNT_OFST);
-+	einfo.ecnt = FIELD_GET(ECC_ERRCNT_CECNT_MASK, regval);
- 
--	regval = readl(base + ECC_CEADDR0_OFST);
--	p->ceinfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
--	p->ceinfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
-+	regval = readl(priv->baseaddr + ECC_CEADDR0_OFST);
-+	einfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
-+	einfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
- 
--	regval = readl(base + ECC_CEADDR1_OFST);
--	p->ceinfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
--	p->ceinfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
--	p->ceinfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
-+	regval = readl(priv->baseaddr + ECC_CEADDR1_OFST);
-+	einfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
-+	einfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
-+	einfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
- 
--	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
-+	einfo.data = readl(priv->baseaddr + ECC_CSYND0_OFST);
- 	if (priv->info.dq_width == SNPS_DQ_64)
--		p->ceinfo.data |= (u64)readl(base + ECC_CSYND1_OFST) << 32;
--
--	p->ceinfo.syndrome = readl(base + ECC_CSYND2_OFST);
-+		einfo.data |= (u64)readl(priv->baseaddr + ECC_CSYND1_OFST) << 32;
- 
--ue_err:
--	if (!p->ue_cnt)
--		goto out;
-+	einfo.syndrome = readl(priv->baseaddr + ECC_CSYND2_OFST);
- 
--	regval = readl(base + ECC_UEADDR0_OFST);
--	p->ueinfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
--	p->ueinfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
-+	/* Report the detected errors with the corresponding sys address */
-+	snps_map_sdram_to_sys(priv, &einfo.sdram, &sys);
- 
--	regval = readl(base + ECC_UEADDR1_OFST);
--	p->ueinfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
--	p->ueinfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
--	p->ueinfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
-+	snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
-+		 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Bit %d Data 0x%08llx",
-+		 einfo.sdram.row, einfo.sdram.col, einfo.sdram.bank,
-+		 einfo.sdram.bankgrp, einfo.sdram.rank,
-+		 einfo.bitpos, einfo.data);
- 
--	p->ueinfo.data = readl(base + ECC_UESYND0_OFST);
--	if (priv->info.dq_width == SNPS_DQ_64)
--		p->ueinfo.data |= (u64)readl(base + ECC_UESYND1_OFST) << 32;
--
--	p->ueinfo.syndrome = readl(base + ECC_UESYND2_OFST);
-+	edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, einfo.ecnt,
-+			     PHYS_PFN(sys), offset_in_page(sys),
-+			     einfo.syndrome, einfo.sdram.rank, 0, -1,
-+			     priv->message, "");
- 
--out:
-+	/* Make sure the CE IRQ status is cleared */
- 	spin_lock_irqsave(&priv->lock, flags);
- 
--	clearval = readl(base + ECC_CLR_OFST) |
--		   ECC_CTRL_CLR_CE_ERR | ECC_CTRL_CLR_CE_ERRCNT |
--		   ECC_CTRL_CLR_UE_ERR | ECC_CTRL_CLR_UE_ERRCNT;
--	writel(clearval, base + ECC_CLR_OFST);
-+	regval = readl(priv->baseaddr + ECC_CLR_OFST) |
-+		 ECC_CTRL_CLR_CE_ERR | ECC_CTRL_CLR_CE_ERRCNT;
-+	writel(regval, priv->baseaddr + ECC_CLR_OFST);
- 
- 	spin_unlock_irqrestore(&priv->lock, flags);
- 
--	return 0;
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP)
-+		writel(qosval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
-+
-+	return IRQ_HANDLED;
- }
- 
- /**
-- * snps_handle_error - Handle Correctable and Uncorrectable errors.
-- * @mci:	EDAC memory controller instance.
-- * @p:		Synopsys ECC status structure.
-+ * snps_ue_irq_handler - Uncorrected error interrupt handler.
-+ * @irq:        IRQ number.
-+ * @dev_id:     Device ID.
-  *
-- * Handles ECC correctable and uncorrectable errors.
-+ * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-  */
--static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *p)
-+static irqreturn_t snps_ue_irq_handler(int irq, void *dev_id)
- {
-+	struct mem_ctl_info *mci = dev_id;
- 	struct snps_edac_priv *priv = mci->pvt_info;
--	struct snps_ecc_error_info *pinf;
-+	struct snps_ecc_error_info einfo;
 +	unsigned long flags;
-+	u32 qosval, regval;
- 	dma_addr_t sys;
- 
--	if (p->ce_cnt) {
--		pinf = &p->ceinfo;
-+	/* Make sure IRQ is caused by an uncorrected ECC error */
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP) {
-+		qosval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
-+		if (!(regval & DDR_QOSUE_MASK))
-+			return IRQ_NONE;
++	u32 regval, en;
 +
-+		qosval &= DDR_QOSUE_MASK;
-+	}
- 
--		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
--			 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Bit %d Data 0x%08llx",
--			 pinf->sdram.row, pinf->sdram.col, pinf->sdram.bank,
--			 pinf->sdram.bankgrp, pinf->sdram.rank,
--			 pinf->bitpos, pinf->data);
-+	regval = readl(priv->baseaddr + ECC_STAT_OFST);
-+	if (!FIELD_GET(ECC_STAT_UE_MASK, regval))
++	/* Make sure IRQ is caused by the Scrubber Done event */
++	regval = readl(priv->baseaddr + ECC_SBRSTAT_OFST);
++	if (!(regval & ECC_SBRSTAT_SCRUB_DONE))
 +		return IRQ_NONE;
- 
--		snps_map_sdram_to_sys(priv, &pinf->sdram, &sys);
-+	/* Read error info like SDRAM address, data and syndrome */
-+	regval = readl(priv->baseaddr + ECC_ERRCNT_OFST);
-+	einfo.ecnt = FIELD_GET(ECC_ERRCNT_UECNT_MASK, regval);
- 
--		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, p->ce_cnt,
--				     PHYS_PFN(sys), offset_in_page(sys),
--				     pinf->syndrome, pinf->sdram.rank, 0, -1,
--				     priv->message, "");
--	}
-+	regval = readl(priv->baseaddr + ECC_UEADDR0_OFST);
-+	einfo.sdram.rank = FIELD_GET(ECC_CEADDR0_RANK_MASK, regval);
-+	einfo.sdram.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
- 
--	if (p->ue_cnt) {
--		pinf = &p->ueinfo;
-+	regval = readl(priv->baseaddr + ECC_UEADDR1_OFST);
-+	einfo.sdram.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
-+	einfo.sdram.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
-+	einfo.sdram.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
- 
--		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
--			 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Data 0x%08llx",
--			 pinf->sdram.row, pinf->sdram.col, pinf->sdram.bank,
--			 pinf->sdram.bankgrp, pinf->sdram.rank,
--			 pinf->data);
-+	einfo.data = readl(priv->baseaddr + ECC_UESYND0_OFST);
-+	if (priv->info.dq_width == SNPS_DQ_64)
-+		einfo.data |= (u64)readl(priv->baseaddr + ECC_UESYND1_OFST) << 32;
- 
--		snps_map_sdram_to_sys(priv, &pinf->sdram, &sys);
-+	einfo.syndrome = readl(priv->baseaddr + ECC_UESYND2_OFST);
- 
--		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, p->ue_cnt,
--				     PHYS_PFN(sys), offset_in_page(sys),
--				     pinf->syndrome, pinf->sdram.rank, 0, -1,
--				     priv->message, "");
--	}
-+	/* Report the detected errors with the corresponding sys address */
-+	snps_map_sdram_to_sys(priv, &einfo.sdram, &sys);
 +
-+	snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
-+		 "Row %hu Col %hu Bank %hhu Bank Group %hhu Rank %hhu Data 0x%08llx",
-+		 einfo.sdram.row, einfo.sdram.col, einfo.sdram.bank,
-+		 einfo.sdram.bankgrp, einfo.sdram.rank,
-+		 einfo.data);
-+
-+	edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci, einfo.ecnt,
-+			     PHYS_PFN(sys), offset_in_page(sys),
-+			     einfo.syndrome, einfo.sdram.rank, 0, -1,
-+			     priv->message, "");
-+
-+	/* Make sure the UE IRQ status is cleared */
 +	spin_lock_irqsave(&priv->lock, flags);
 +
-+	regval = readl(priv->baseaddr + ECC_CLR_OFST) |
-+		 ECC_CTRL_CLR_UE_ERR | ECC_CTRL_CLR_UE_ERRCNT;
-+	writel(regval, priv->baseaddr + ECC_CLR_OFST);
- 
--	memset(p, 0, sizeof(*p));
++	regval = readl(priv->baseaddr + ECC_SBRCTL_OFST);
++	en = regval & ECC_SBRCTL_SCRUB_EN;
++	writel(regval & ~en, priv->baseaddr + ECC_SBRCTL_OFST);
++
++	regval = FIELD_PREP(ECC_SBRCTL_SCRUB_INTERVAL, ECC_SBRCTL_INTERVAL_SAFE);
++	writel(regval, priv->baseaddr + ECC_SBRCTL_OFST);
++
++	writel(regval | en, priv->baseaddr + ECC_SBRCTL_OFST);
++
 +	spin_unlock_irqrestore(&priv->lock, flags);
 +
-+	if (priv->info.caps & SNPS_CAP_ZYNQMP)
-+		writel(qosval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
++	edac_mc_printk(mci, KERN_WARNING, "Back-to-back scrubbing disabled\n");
 +
 +	return IRQ_HANDLED;
 +}
 +
+ /**
+  * snps_com_irq_handler - Interrupt IRQ signal handler.
+  * @irq:        IRQ number.
+@@ -915,6 +976,8 @@ static irqreturn_t snps_dfi_irq_handler(int irq, void *dev_id)
+  */
+ static irqreturn_t snps_com_irq_handler(int irq, void *dev_id)
+ {
++	struct mem_ctl_info *mci = dev_id;
++	struct snps_edac_priv *priv = mci->pvt_info;
+ 	irqreturn_t rc = IRQ_NONE;
+ 
+ 	rc |= snps_ce_irq_handler(irq, dev_id);
+@@ -923,6 +986,9 @@ static irqreturn_t snps_com_irq_handler(int irq, void *dev_id)
+ 
+ 	rc |= snps_dfi_irq_handler(irq, dev_id);
+ 
++	if (priv->info.caps & SNPS_CAP_ECC_SCRUBBER)
++		rc |= snps_sbr_irq_handler(irq, dev_id);
++
+ 	return rc;
+ }
+ 
+@@ -972,6 +1038,205 @@ static void snps_disable_irq(struct snps_edac_priv *priv)
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ }
+ 
 +/**
-+ * snps_com_irq_handler - Interrupt IRQ signal handler.
-+ * @irq:        IRQ number.
-+ * @dev_id:     Device ID.
++ * snps_get_sdram_bw - Get SDRAM bandwidth.
++ * @priv:	DDR memory controller private instance data.
 + *
-+ * Return: IRQ_NONE, if interrupts not set or IRQ_HANDLED otherwise.
++ * The SDRAM interface bandwidth is calculated based on the DDRC Core clock rate
++ * and the DW uMCTL2 IP-core parameters like DQ-bus width and mode and
++ * Core/SDRAM clocks frequency ratio. Note it returns the theoretical bandwidth
++ * which in reality is hardly possible to reach.
++ *
++ * Return: SDRAM bandwidth or zero if no Core clock specified.
 + */
-+static irqreturn_t snps_com_irq_handler(int irq, void *dev_id)
++static u64 snps_get_sdram_bw(struct snps_edac_priv *priv)
 +{
-+	irqreturn_t rc = IRQ_NONE;
++	unsigned long rate;
 +
-+	rc |= snps_ce_irq_handler(irq, dev_id);
++	/*
++	 * Depending on the ratio mode the SDRAM clock either matches the Core
++	 * clock or runs with the twice its frequency.
++	 */
++	rate = clk_get_rate(priv->clks[SNPS_CORE_CLK].clk);
++	rate *= priv->info.freq_ratio;
 +
-+	rc |= snps_ue_irq_handler(irq, dev_id);
++	/*
++	 * Scale up by 2 since it's DDR (Double Data Rate) and subtract the
++	 * DQ-mode since in non-Full mode only a part of the DQ-bus is utilised
++	 * on each SDRAM clock edge.
++	 */
++	return (2U << (priv->info.dq_width - priv->info.dq_mode)) * (u64)rate;
++}
++
++/**
++ * snps_get_scrub_bw - Get Scrubber bandwidth.
++ * @priv:	DDR memory controller private instance data.
++ * @interval:	Scrub interval.
++ *
++ * DW uMCTL2 DDRC Scrubber performs periodical progressive burst reads (RMW if
++ * ECC CE is detected) commands from the whole memory space. The read commands
++ * can be delayed by means of the SBRCTL.scrub_interval field. The Scrubber
++ * cycles look as follows:
++ *
++ * |---HIF-burst-read---|-------delay-------|-HIF-burst-read-| etc
++ *
++ * Tb = Bl*[DQ]/Bw[RAM] Td = 512*interval/Fc - periods of the stages, where
++ * Bl - HIF burst length, [DQ] - Full DQ-bus width, Bw[RAM] - SDRAM bandwidth,
++ * Fc - Core clock frequency (Scrubber and Core clocks are synchronous).
++ *
++ * After some simple calculations the expressions above can be used to get the
++ * next Scrubber bandwidth formulae:
++ *
++ * Bw[Sbr] = Bw[RAM] / (1 + F * interval), where
++ * F = 2 * 512 * Fr * Fc * [DQ]e - interval scale factor with
++ * Fr - HIF/SDRAM clock frequency ratio (1 or 2), [DQ]e - DQ-bus width mode.
++ *
++ * Return: Scrubber bandwidth or zero if no Core clock specified.
++ */
++static u64 snps_get_scrub_bw(struct snps_edac_priv *priv, u32 interval)
++{
++	unsigned long fac;
++	u64 bw_ram;
++
++	fac = (2 * ECC_SBRCTL_INTERVAL_STEP * priv->info.freq_ratio) /
++	      (priv->info.hif_burst_len * (1UL << priv->info.dq_mode));
++
++	bw_ram = snps_get_sdram_bw(priv);
++
++	do_div(bw_ram, 1 + fac * interval);
++
++	return bw_ram;
++}
++
++/**
++ * snps_get_scrub_interval - Get Scrubber delay interval.
++ * @priv:	DDR memory controller private instance data.
++ * @bw:		Scrubber bandwidth.
++ *
++ * Similarly to the Scrubber bandwidth the interval formulae can be inferred
++ * from the same expressions:
++ *
++ * interval = (Bw[RAM] - Bw[Sbr]) / (F * Bw[Sbr])
++ *
++ * Return: Scrubber delay interval or zero if no Core clock specified.
++ */
++static u32 snps_get_scrub_interval(struct snps_edac_priv *priv, u32 bw)
++{
++	unsigned long fac;
++	u64 bw_ram;
++
++	fac = (2 * priv->info.freq_ratio * ECC_SBRCTL_INTERVAL_STEP) /
++	      (priv->info.hif_burst_len * (1UL << priv->info.dq_mode));
++
++	bw_ram = snps_get_sdram_bw(priv);
++
++	/* Divide twice so not to cause the integer overflow in (fac * bw) */
++	bw_ram -= bw;
++	do_div(bw_ram, bw);
++	do_div(bw_ram, fac);
++
++	return bw_ram;
++}
++
++/**
++ * snps_set_sdram_scrub_rate - Set the Scrubber bandwidth.
++ * @mci:	EDAC memory controller instance.
++ * @bw:		Bandwidth.
++ *
++ * It calculates the delay between the Scrubber read commands based on the
++ * specified bandwidth and the Core clock rate. If the Core clock is unavailable
++ * the passed bandwidth will be directly used as the interval value.
++ *
++ * Note the method warns about the back-to-back scrubbing since it may
++ * significantly degrade the system performance. This mode is supposed to be
++ * used for a single SDRAM scrubbing pass only. So it will be turned off in the
++ * Scrubber Done IRQ handler.
++ *
++ * Return: Actually set bandwidth (interval-based approximated bandwidth if the
++ * Core clock is unavailable) or zero if the Scrubber was disabled.
++ */
++static int snps_set_sdram_scrub_rate(struct mem_ctl_info *mci, u32 bw)
++{
++	struct snps_edac_priv *priv = mci->pvt_info;
++	u32 regval, interval;
++	unsigned long flags;
++	u64 bw_min, bw_max;
++
++	/* Don't bother with the calculations just disable and return. */
++	if (!bw) {
++		spin_lock_irqsave(&priv->lock, flags);
++
++		regval = readl(priv->baseaddr + ECC_SBRCTL_OFST);
++		regval &= ~ECC_SBRCTL_SCRUB_EN;
++		writel(regval, priv->baseaddr + ECC_SBRCTL_OFST);
++
++		spin_unlock_irqrestore(&priv->lock, flags);
++
++		return 0;
++	}
++
++	/* If no Core clock specified fallback to the direct interval setup. */
++	bw_max = snps_get_scrub_bw(priv, ECC_SBRCTL_INTERVAL_MIN);
++	if (bw_max) {
++		bw_min = snps_get_scrub_bw(priv, ECC_SBRCTL_INTERVAL_MAX);
++		bw = clamp_t(u64, bw, bw_min, bw_max);
++
++		interval = snps_get_scrub_interval(priv, bw);
++	} else {
++		bw = clamp_val(bw, ECC_SBRCTL_INTERVAL_MIN, ECC_SBRCTL_INTERVAL_MAX);
++
++		interval = ECC_SBRCTL_INTERVAL_MAX - bw;
++	}
++
++	/*
++	 * SBRCTL.scrub_en bitfield must be accessed separately from the other
++	 * CSR bitfields. It means the flag must be set/clear with no updates
++	 * to the rest of the fields.
++	 */
++	spin_lock_irqsave(&priv->lock, flags);
++
++	regval = FIELD_PREP(ECC_SBRCTL_SCRUB_INTERVAL, interval);
++	writel(regval, priv->baseaddr + ECC_SBRCTL_OFST);
++
++	writel(regval | ECC_SBRCTL_SCRUB_EN, priv->baseaddr + ECC_SBRCTL_OFST);
++
++	spin_unlock_irqrestore(&priv->lock, flags);
++
++	if (!interval)
++		edac_mc_printk(mci, KERN_WARNING, "Back-to-back scrubbing enabled\n");
++
++	if (!bw_max)
++		return interval ? bw : INT_MAX;
++
++	return snps_get_scrub_bw(priv, interval);
++}
++
++/**
++ * snps_get_sdram_scrub_rate - Get the Scrubber bandwidth.
++ * @mci:	EDAC memory controller instance.
++ *
++ * Return: Scrubber bandwidth (interval-based approximated bandwidth if the
++ * Core clock is unavailable) or zero if the Scrubber was disabled.
++ */
++static int snps_get_sdram_scrub_rate(struct mem_ctl_info *mci)
++{
++	struct snps_edac_priv *priv = mci->pvt_info;
++	u32 regval;
++	u64 bw;
++
++	regval = readl(priv->baseaddr + ECC_SBRCTL_OFST);
++	if (!(regval & ECC_SBRCTL_SCRUB_EN))
++		return 0;
++
++	regval = FIELD_GET(ECC_SBRCTL_SCRUB_INTERVAL, regval);
++
++	bw = snps_get_scrub_bw(priv, regval);
++	if (!bw)
++		return regval ? ECC_SBRCTL_INTERVAL_MAX - regval : INT_MAX;
++
++	return bw;
++}
++
+ /**
+  * snps_create_data - Create private data.
+  * @pdev:	platform device.
+@@ -1038,7 +1303,18 @@ static int snps_get_res(struct snps_edac_priv *priv)
+ 		return rc;
+ 	}
+ 
++	rc = clk_prepare_enable(priv->clks[SNPS_SBR_CLK].clk);
++	if (rc) {
++		edac_printk(KERN_INFO, EDAC_MC, "Couldn't enable Scrubber clock\n");
++		goto err_disable_pclk;
++	}
++
+ 	return 0;
++
++err_disable_pclk:
++	clk_disable_unprepare(priv->clks[SNPS_CSR_CLK].clk);
 +
 +	return rc;
  }
  
- static void snps_enable_irq(struct snps_edac_priv *priv)
-@@ -854,41 +887,6 @@ static void snps_disable_irq(struct snps_edac_priv *priv)
- 	spin_unlock_irqrestore(&priv->lock, flags);
+ /**
+@@ -1047,6 +1323,8 @@ static int snps_get_res(struct snps_edac_priv *priv)
+  */
+ static void snps_put_res(struct snps_edac_priv *priv)
+ {
++	clk_disable_unprepare(priv->clks[SNPS_SBR_CLK].clk);
++
+ 	clk_disable_unprepare(priv->clks[SNPS_CSR_CLK].clk);
  }
  
--/**
-- * snps_irq_handler - Interrupt Handler for ECC interrupts.
-- * @irq:        IRQ number.
-- * @dev_id:     Device ID.
-- *
-- * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-- */
--static irqreturn_t snps_irq_handler(int irq, void *dev_id)
--{
--	struct mem_ctl_info *mci = dev_id;
--	struct snps_edac_priv *priv;
--	int status, regval;
--
--	priv = mci->pvt_info;
--
--	if (priv->info.caps & SNPS_CAP_ZYNQMP) {
--		regval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
--		regval &= (DDR_QOSCE_MASK | DDR_QOSUE_MASK);
--		if (!(regval & ECC_CE_UE_INTR_MASK))
--			return IRQ_NONE;
--	}
--
--	status = snps_get_error_info(priv);
--	if (status)
--		return IRQ_NONE;
--
--	snps_handle_error(mci, &priv->stat);
--
--
--	if (priv->info.caps & SNPS_CAP_ZYNQMP)
--		writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
--
--	return IRQ_HANDLED;
--}
--
- /**
-  * snps_create_data - Create private data.
-  * @pdev:	platform device.
-@@ -1538,7 +1536,7 @@ static int snps_setup_irq(struct mem_ctl_info *mci)
- 		return irq;
+@@ -1147,6 +1425,14 @@ static int snps_get_ddrc_info(struct snps_edac_priv *priv)
+ 	if (!(regval & ECC_CFG0_DIS_SCRUB))
+ 		priv->info.caps |= SNPS_CAP_ECC_SCRUB;
+ 
++	/* Auto-detect the scrubber by writing to the SBRWDATA0 CSR */
++	regval = readl(priv->baseaddr + ECC_SBRWDATA0_OFST);
++	writel(~regval, priv->baseaddr + ECC_SBRWDATA0_OFST);
++	if (regval != readl(priv->baseaddr + ECC_SBRWDATA0_OFST)) {
++		priv->info.caps |= SNPS_CAP_ECC_SCRUBBER;
++		writel(regval, priv->baseaddr + ECC_SBRWDATA0_OFST);
++	}
++
+ 	/* Auto-detect the basic HIF/SDRAM bus parameters */
+ 	regval = readl(priv->baseaddr + DDR_MSTR_OFST);
+ 
+@@ -1633,6 +1919,12 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
+ 		mci->scrub_cap = SCRUB_FLAG_SW_SRC;
  	}
  
--	ret = devm_request_irq(&priv->pdev->dev, irq, snps_irq_handler,
-+	ret = devm_request_irq(&priv->pdev->dev, irq, snps_com_irq_handler,
- 			       0, dev_name(&priv->pdev->dev), mci);
- 	if (ret < 0) {
- 		edac_printk(KERN_ERR, EDAC_MC, "Failed to request IRQ\n");
++	if (priv->info.caps & SNPS_CAP_ECC_SCRUBBER) {
++		mci->scrub_cap |= SCRUB_FLAG_HW_PROG | SCRUB_FLAG_HW_TUN;
++		mci->set_sdram_scrub_rate = snps_set_sdram_scrub_rate;
++		mci->get_sdram_scrub_rate = snps_get_sdram_scrub_rate;
++	}
++
+ 	mci->ctl_name = "snps_umctl2_ddrc";
+ 	mci->dev_name = SNPS_EDAC_MOD_STRING;
+ 	mci->mod_name = SNPS_EDAC_MOD_VER;
+@@ -1707,6 +1999,16 @@ static int snps_request_ind_irq(struct mem_ctl_info *mci)
+ 		}
+ 	}
+ 
++	irq = platform_get_irq_byname_optional(priv->pdev, "ecc_sbr");
++	if (irq > 0) {
++		rc = devm_request_irq(dev, irq, snps_sbr_irq_handler, 0, "ecc_sbr", mci);
++		if (rc) {
++			edac_printk(KERN_ERR, EDAC_MC, "Failed to request Sbr IRQ\n");
++			return rc;
++		}
++	}
++
++
+ 	return 0;
+ }
+ 
+@@ -1813,6 +2115,8 @@ static int snps_ddrc_info_show(struct seq_file *s, void *data)
+ 	if (priv->info.caps) {
+ 		if (priv->info.caps & SNPS_CAP_ECC_SCRUB)
+ 			seq_puts(s, " +Scrub");
++		if (priv->info.caps & SNPS_CAP_ECC_SCRUBBER)
++			seq_puts(s, " +Scrubber");
+ 		if (priv->info.caps & SNPS_CAP_ZYNQMP)
+ 			seq_puts(s, " +ZynqMP");
+ 	} else {
 -- 
 2.37.2
 
