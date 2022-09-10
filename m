@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63016ECAAD3
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:51:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC3BC6FA82
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:51:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbiIJTvd (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:51:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54712 "EHLO
+        id S229941AbiIJTvu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:51:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbiIJTvH (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:51:07 -0400
+        with ESMTP id S229826AbiIJTvO (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:51:14 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 39BFB36DCF;
-        Sat, 10 Sep 2022 12:50:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 457CD357D4;
+        Sat, 10 Sep 2022 12:50:53 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id C5BD3DB3;
-        Sat, 10 Sep 2022 22:54:18 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com C5BD3DB3
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 4812DDB9;
+        Sat, 10 Sep 2022 22:54:21 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 4812DDB9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662839658;
-        bh=M2sqJ7eGZxvslMncHSPF+Ax1itPM6j6VfuFSuY/BgGg=;
+        d=baikalelectronics.ru; s=mail; t=1662839661;
+        bh=HPHDfyJrEYpaEFhSpc1k6K86wG14xYplLp+NbPkZqWo=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=gIeW5zTePl3/+nzJG3EJ+TiWZj4MK+JDjc8kWZLgQRoR4Hc1LEhNDpqGtQo/lKnFO
-         nLkO3gFKSki5dhn6lvQS9M5d3ZLDhzNOFW9ZgYhvJ/3QqGWhbXmppRP6j+B1GrWNBb
-         MH2m8PzvBPXbGvJ/hUVEZOpHuuDTD7AMy2eoIT8s=
+        b=pUIXAd5vciQNU61b15y4AebY0eGmCtt/hUN5McYf4fLf2AYXyn3woR7eFcLpwcX5X
+         adQnm5E+CkFBb1j7PZjaKShx3W7zn7hN6Q8Kz8Hm+gS1OpOrBzmUPBPW84vjTTRq9b
+         XQ0st63bn4VIvDkizEjCh9T8S+bDXf/rIMte/BUs=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:50:27 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:50:30 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -45,152 +45,147 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Dinh Nguyen <dinguyen@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v2 14/18] EDAC/synopsys: Simplify HIF/SDRAM column mapping get procedure
-Date:   Sat, 10 Sep 2022 22:50:03 +0300
-Message-ID: <20220910195007.11027-15-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH RESEND v2 18/18] EDAC/synopsys: Add mapping-based memory size calculation
+Date:   Sat, 10 Sep 2022 22:50:07 +0300
+Message-ID: <20220910195007.11027-19-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910195007.11027-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910195007.11027-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-What is currently implemented in the driver by means of the multiple
-if-else-if-else statements in fact is described in the hardware reference
-manual [1]. It says:
-1. All of the column bits shift up 1 bit when only half of the data bus is
-in use. In this case, for instance, you need to look at
-ADDRMAP3.addrmap_col_b6 instead to determine the value of column address
-bit 7.
-2. All of the column bits shift up 2 bits when only a quarter of the data
-bus is in use. In this case, for instance, you need to look at
-ADDRMAP2.addrmap_col_b5 instead to determine the value of column address
-bit 7.
-3. In addition to the above, the column bit 10 is reserved for the
-auto-precharge command in DDR2/3/4/mDDR. So the column bits must be
-further shifted up 1 bit when one of these DDR protocols is enabled.
+Currently the size of the memory attached to the controller is retrieved
+by means of the si_meminfo() method. It isn't quite correct because the
+system may have more than one memory controller. There is a better and
+more portable approach available to find out the attached memory size.
+Since now we have the full HIF/SDRAM mapping table available right in the
+device probe procedure and the DQ-bus width is detected at that stage too,
+that info can be used to calculate the total memory size accessible
+over the corresponding DW uMCTL2 DDR controller. It can be done since the
+hardware reference manual demands that none two SDRAM bits are mapped to
+the same HIF bit [1] and that the unused SDRAM address bits mapping must
+be disabled [2].
 
-So taking into account all of the notes above and what the column bit 12
-is always reserved, the SDRAM column bits mapping procedure can be
-significantly simplified. Initially we get to read the mapping as if for
-the LPDDR2/3/4 memory with Full DQ-bus utilized. Then we shift the column
-bits up in accordance with the detected DQ-bus width mode. That's it.
-Simple, canonical and scalable.
+Note the size calculation procedure takes the ranks mapping into account.
+That part will be removed after we add the multi-ranked MC registration.
+
+[1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+    Databook, Version 3.91a, October 2020, p.108
+[2] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+    Databook, Version 3.91a, October 2020, p.109
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 83 ++++++++++++------------------------
- 1 file changed, 27 insertions(+), 56 deletions(-)
+ drivers/edac/synopsys_edac.c | 66 ++++++++++++++++++++++++++----------
+ 1 file changed, 49 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 9baa62f6d22b..9c4f7d60b820 100644
+index 84bede647947..e1e5468acbd2 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -990,8 +990,22 @@ static void snps_get_hif_col_map(struct snps_edac_priv *priv, u32 *addrmap)
- 	map->col[9] = map->col[9] == DDR_ADDRMAP_MAX_15 ?
- 		      DDR_ADDRMAP_UNUSED : map->col[9] + COL_B9_BASE;
- 
-+	map->col[10] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
-+	map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
-+		      DDR_ADDRMAP_UNUSED : map->col[10] + COL_B10_BASE;
-+
-+	map->col[11] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
-+	map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
-+		      DDR_ADDRMAP_UNUSED : map->col[11] + COL_B11_BASE;
-+
-+	/*
-+	 * In case of the non-Full DQ bus mode the lowest columns are
-+	 * unmapped and used by the controller to read the full DQ word
-+	 * in multiple cycles (col[0] for the Half bus mode, col[0:1] for
-+	 * the Quarter bus mode).
-+	 */
- 	if (priv->info.dq_mode) {
--		for (i = 9; i > priv->info.dq_mode; i--) {
-+		for (i = 11 + priv->info.dq_mode; i >= priv->info.dq_mode; i--) {
- 			map->col[i] = map->col[i - priv->info.dq_mode];
- 			map->col[i - priv->info.dq_mode] = DDR_ADDRMAP_UNUSED;
- 		}
-@@ -1001,65 +1015,22 @@ static void snps_get_hif_col_map(struct snps_edac_priv *priv, u32 *addrmap)
- 	 * Per JEDEC DDR2/3/4/mDDR specification, column address bit 10 is
- 	 * reserved for indicating auto-precharge, and hence no source
- 	 * address bit can be mapped to col[10].
-+	 */
-+	if (priv->info.sdram_mode == MEM_LPDDR || priv->info.sdram_mode == MEM_DDR2 ||
-+	    priv->info.sdram_mode == MEM_DDR3 || priv->info.sdram_mode == MEM_DDR4) {
-+		for (i = 12 + priv->info.dq_mode; i > 10; i--) {
-+			map->col[i] = map->col[i - 1];
-+			map->col[i - 1] = DDR_ADDRMAP_UNUSED;
-+		}
-+	}
-+
-+	/*
- 	 * Per JEDEC specification, column address bit 12 is reserved
- 	 * for the Burst-chop status, so no source address bit mapping
- 	 * for col[12] either.
- 	 */
--	if (priv->info.dq_mode == SNPS_DQ_FULL) {
--		if (priv->info.sdram_mode == MEM_LPDDR3) {
--			map->col[10] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
--			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B10_BASE;
--
--			map->col[11] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
--			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B11_BASE;
--		} else {
--			map->col[11] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
--			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B10_BASE;
--
--			map->col[13] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
--			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B11_BASE;
--		}
--	} else if (priv->info.dq_mode == SNPS_DQ_HALF) {
--		if (priv->info.sdram_mode == MEM_LPDDR3) {
--			map->col[10] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
--			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B9_BASE;
--
--			map->col[11] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
--			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B10_BASE;
--		} else {
--			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
--			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B9_BASE;
--
--			map->col[13] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
--			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B10_BASE;
--		}
--	} else {
--		if (priv->info.sdram_mode == MEM_LPDDR3) {
--			map->col[10] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[3]);
--			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B8_BASE;
--
--			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
--			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B9_BASE;
--		} else {
--			map->col[11] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[3]);
--			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B8_BASE;
--
--			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
--			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
--				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B9_BASE;
--		}
--	}
-+	map->col[13] = map->col[12];
-+	map->col[12] = DDR_ADDRMAP_UNUSED;
+@@ -960,20 +960,6 @@ static inline enum dev_type snps_get_dtype(u32 mstr)
+ 	return DEV_UNKNOWN;
  }
  
+-/**
+- * snps_get_memsize - Read the size of the attached memory device.
+- *
+- * Return: the memory size in bytes.
+- */
+-static u32 snps_get_memsize(void)
+-{
+-	struct sysinfo inf;
+-
+-	si_meminfo(&inf);
+-
+-	return inf.totalram * inf.mem_unit;
+-}
+-
  /**
+  * snps_get_mtype - Returns controller memory type.
+  * @mstr:	Master CSR value.
+@@ -1388,6 +1374,51 @@ static void snps_get_addr_map(struct snps_edac_priv *priv)
+ 	snps_get_hif_rank_map(priv, regval);
+ }
+ 
++/**
++ * snps_get_sdram_size - Calculate SDRAM size.
++ * @priv:	DDR memory controller private data.
++ *
++ * The total size of the attached memory is calculated based on the HIF/SDRAM
++ * mapping table. It can be done since the hardware reference manual demands
++ * that none two SDRAM bits should be mapped to the same HIF bit and that the
++ * unused SDRAM address bits mapping must be disabled.
++ *
++ * Return: the memory size in bytes.
++ */
++static u64 snps_get_sdram_size(struct snps_edac_priv *priv)
++{
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	u64 size = 0;
++	int i;
++
++	for (i = 0; i < DDR_MAX_ROW_WIDTH; i++) {
++		if (map->row[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_COL_WIDTH; i++) {
++		if (map->col[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_BANK_WIDTH; i++) {
++		if (map->bank[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_BANKGRP_WIDTH; i++) {
++		if (map->bankgrp[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_RANK_WIDTH; i++) {
++		if (map->rank[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	return 1ULL << (size + priv->info.dq_width);
++}
++
+ /**
+  * snps_init_csrows - Initialize the csrow data.
+  * @mci:	EDAC memory controller instance.
+@@ -1400,7 +1431,8 @@ static void snps_init_csrows(struct mem_ctl_info *mci)
+ 	struct snps_edac_priv *priv = mci->pvt_info;
+ 	struct csrow_info *csi;
+ 	struct dimm_info *dimm;
+-	u32 size, row, width;
++	u32 row, width;
++	u64 size;
+ 	int j;
+ 
+ 	/* Actual SDRAM-word width for which ECC is calculated */
+@@ -1408,13 +1440,13 @@ static void snps_init_csrows(struct mem_ctl_info *mci)
+ 
+ 	for (row = 0; row < mci->nr_csrows; row++) {
+ 		csi = mci->csrows[row];
+-		size = snps_get_memsize();
++		size = snps_get_sdram_size(priv);
+ 
+ 		for (j = 0; j < csi->nr_channels; j++) {
+ 			dimm		= csi->channels[j]->dimm;
+ 			dimm->edac_mode	= EDAC_SECDED;
+ 			dimm->mtype	= priv->info.sdram_mode;
+-			dimm->nr_pages	= (size >> PAGE_SHIFT) / csi->nr_channels;
++			dimm->nr_pages	= PHYS_PFN(size) / csi->nr_channels;
+ 			dimm->grain	= width;
+ 			dimm->dtype	= priv->info.dev_cfg;
+ 		}
 -- 
 2.37.2
 
