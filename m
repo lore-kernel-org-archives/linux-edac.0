@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E36F5C6FA82
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:51:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFF1C6FA83
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:51:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbiIJTvY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
+        id S230007AbiIJTv0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:51:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229909AbiIJTvA (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:51:00 -0400
+        with ESMTP id S229919AbiIJTvB (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:51:01 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9C23137188;
-        Sat, 10 Sep 2022 12:50:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 13CF532BA3;
+        Sat, 10 Sep 2022 12:50:47 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 5345BDA8;
-        Sat, 10 Sep 2022 22:54:17 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 5345BDA8
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 6C4D7DC0;
+        Sat, 10 Sep 2022 22:54:19 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 6C4D7DC0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662839657;
-        bh=E4knlAbVAx6HqLoVD1pCtK6eKLHPGzyuaR49oROlAWw=;
+        d=baikalelectronics.ru; s=mail; t=1662839659;
+        bh=F7VO/av0SRD4yobJKltu4xKD3FVv7YOOlNZLINK8uxQ=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=SMvWV5BcGAWIs0fL7XnHX9eJXXLBf+gHqZmt3yjawpr2XRRYoP9hHOhu4oV6+YUpo
-         aKNPDMNcoVgbFsvn09T1NKu3rsCOCM7yXge0CB8TEBUEO9MDlwBPez8KFwqND+vJhf
-         oRm9VI9i0Hb4ZLCDqZrhaGrFri9DOkAJMkEWyIdo=
+        b=OdGRqAkEE55GDR4xJIqQGqbqeqzEa8CPZscz8vRk54ltzYFm86Gs6qnX5gYr04jkc
+         Z3kgQiEmJmTwMJ6CwxrsYvNk29wABwCJNaB8JoPHl2VF7d2yMrjnD2cjvJbBsQgTjG
+         m4ZZyk5mIIkhibBc2NdCcV4VjhwNtT/bJoakVipE=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:50:26 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:50:28 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -45,9 +45,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Dinh Nguyen <dinguyen@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v2 12/18] EDAC/synopsys: Read data syndrome on errors
-Date:   Sat, 10 Sep 2022 22:50:01 +0300
-Message-ID: <20220910195007.11027-13-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH RESEND v2 15/18] EDAC/synopsys: Add HIF/SDRAM mapping debugfs node
+Date:   Sat, 10 Sep 2022 22:50:04 +0300
+Message-ID: <20220910195007.11027-16-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910195007.11027-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910195007.11027-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -58,78 +58,138 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-In case of the corrected and uncorrected errors DW uMCTL2 DDR controller
-preserves the ECC syndrome of the erroneous data pattern in the ECCCSYN2
-and ECCUSYN2 CSRs [1]. Seeing the MCI core permits supplying the ECC
-syndrome to the error reporting method, let's read it from the CSRs and
-pass the value out to the core so to provide more details of the happened
-error.
+Since we are about to add the address mapping to decode the erroneous
+SDRAM address it will be useful to have a way to get an info regarding the
+most complicated part of the address translation - HIF/SDRAM mapping table
+just for in case something gets wrong in the implemented translation
+procedures. Let's add the DebugFS node which can be used to print the
+HIF/SDRAM mapping table in the hexdump-like manner: first line will
+contain the HIF address bit position units, first column will contain the
+HIF address bit position tens, the line and column intersection will have
+the SDRAM dimension (row/column/bank/etc) and bit position which is used
+to encode the corresponding HIF address bit.
+
+Note DW uMCTL2 DDRC IP-core doesn't have a parameter to set the HIF
+address width. Instead we've used the maximum value (60 bits) of the
+UMCTL2_A_ADDRW synthesize parameter [1]. That parameter defines the
+controller ports address bus width and in case if the DQ bus width equals
+to eight bits defines the HIF address width too. So its upper constraints
+is fully applicable in this case.
 
 [1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
-    Databook, Version 3.91a, October 2020, p.826, p.837
+    Databook, Version 3.91a, October 2020, p.515
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/edac/synopsys_edac.c | 82 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 00417f368893..805ab7879000 100644
+index 9c4f7d60b820..26fd797d3f00 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -302,6 +302,7 @@ struct snps_ddrc_info {
-  * @bankgrp:	Bank group number.
-  * @bitpos:	Bit position.
-  * @data:	Data causing the error.
-+ * @syndrome:	Erroneous data syndrome.
-  */
- struct snps_ecc_error_info {
- 	u32 row;
-@@ -310,6 +311,7 @@ struct snps_ecc_error_info {
- 	u32 bankgrp;
- 	u32 bitpos;
- 	u64 data;
-+	u32 syndrome;
- };
+@@ -159,6 +159,7 @@
+ /* DDRC address mapping parameters */
+ #define DDR_ADDRMAP_NREGS		12
  
- /**
-@@ -421,9 +423,7 @@ static int snps_get_error_info(struct snps_edac_priv *priv)
- 	if (priv->info.dq_width == SNPS_DQ_64)
- 		p->ceinfo.data |= (u64)readl(base + ECC_CSYND1_OFST) << 32;
++#define DDR_MAX_HIF_WIDTH		60
+ #define DDR_MAX_ROW_WIDTH		18
+ #define DDR_MAX_COL_WIDTH		14
+ #define DDR_MAX_BANK_WIDTH		3
+@@ -1318,6 +1319,84 @@ static int snps_ddrc_info_show(struct seq_file *s, void *data)
  
--	edac_dbg(2, "ECCCSYN0: 0x%08X ECCCSYN1: 0x%08X ECCCSYN2: 0x%08X\n",
--		 readl(base + ECC_CSYND0_OFST), readl(base + ECC_CSYND1_OFST),
--		 readl(base + ECC_CSYND2_OFST));
-+	p->ceinfo.syndrome = readl(base + ECC_CSYND2_OFST);
+ DEFINE_SHOW_ATTRIBUTE(snps_ddrc_info);
  
- ue_err:
- 	if (!p->ue_cnt)
-@@ -441,6 +441,8 @@ static int snps_get_error_info(struct snps_edac_priv *priv)
- 	if (priv->info.dq_width == SNPS_DQ_64)
- 		p->ueinfo.data |= (u64)readl(base + ECC_UESYND1_OFST) << 32;
- 
-+	p->ueinfo.syndrome = readl(base + ECC_UESYND2_OFST);
++static u8 snps_find_sdram_dim(struct snps_edac_priv *priv, u8 hif, char *dim)
++{
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	int i;
 +
- out:
- 	spin_lock_irqsave(&priv->lock, flags);
++	for (i = 0; i < DDR_MAX_ROW_WIDTH; i++) {
++		if (map->row[i] == hif) {
++			*dim = 'r';
++			return i;
++		}
++	}
++
++	for (i = 0; i < DDR_MAX_COL_WIDTH; i++) {
++		if (map->col[i] == hif) {
++			*dim = 'c';
++			return i;
++		}
++	}
++
++	for (i = 0; i < DDR_MAX_BANK_WIDTH; i++) {
++		if (map->bank[i] == hif) {
++			*dim = 'b';
++			return i;
++		}
++	}
++
++	for (i = 0; i < DDR_MAX_BANKGRP_WIDTH; i++) {
++		if (map->bankgrp[i] == hif) {
++			*dim = 'g';
++			return i;
++		}
++	}
++
++	for (i = 0; i < DDR_MAX_RANK_WIDTH; i++) {
++		if (map->rank[i] == hif) {
++			*dim = 'a';
++			return i;
++		}
++	}
++
++	return DDR_ADDRMAP_UNUSED;
++}
++
++static int snps_hif_sdram_map_show(struct seq_file *s, void *data)
++{
++	struct mem_ctl_info *mci = s->private;
++	struct snps_edac_priv *priv = mci->pvt_info;
++	char dim, buf[SNPS_DBGFS_BUF_LEN];
++	const int line_len = 10;
++	u8 bit;
++	int i;
++
++	seq_printf(s, "%3s", "");
++	for (i = 0; i < line_len; i++)
++		seq_printf(s, " %02d ", i);
++
++	for (i = 0; i < DDR_MAX_HIF_WIDTH; i++) {
++		if (i % line_len == 0)
++			seq_printf(s, "\n%02d ", i);
++
++		bit = snps_find_sdram_dim(priv, i, &dim);
++
++		if (bit != DDR_ADDRMAP_UNUSED)
++			scnprintf(buf, SNPS_DBGFS_BUF_LEN, "%c%hhu", dim, bit);
++		else
++			scnprintf(buf, SNPS_DBGFS_BUF_LEN, "--");
++
++		seq_printf(s, "%3s ", buf);
++	}
++	seq_putc(s, '\n');
++
++	seq_puts(s, "r - row, c - column, b - bank, g - bank group, a - rank\n");
++
++	return 0;
++}
++
++DEFINE_SHOW_ATTRIBUTE(snps_hif_sdram_map);
++
+ /**
+  * snps_data_poison_setup - Update poison registers.
+  * @priv:		DDR memory controller private instance data.
+@@ -1437,6 +1516,9 @@ static void snps_create_debugfs_nodes(struct mem_ctl_info *mci)
+ 	edac_debugfs_create_file("ddrc_info", 0400, mci->debugfs, mci,
+ 				 &snps_ddrc_info_fops);
  
-@@ -475,7 +477,7 @@ static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *
- 			 pinf->bitpos, pinf->data);
- 
- 		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
--				     p->ce_cnt, 0, 0, 0, 0, 0, -1,
-+				     p->ce_cnt, 0, 0, pinf->syndrome, 0, 0, -1,
- 				     priv->message, "");
- 	}
- 
-@@ -488,7 +490,7 @@ static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *
- 			 pinf->data);
- 
- 		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
--				     p->ue_cnt, 0, 0, 0, 0, 0, -1,
-+				     p->ue_cnt, 0, 0, pinf->syndrome, 0, 0, -1,
- 				     priv->message, "");
- 	}
++	edac_debugfs_create_file("hif_sdram_map", 0400, mci->debugfs, mci,
++				 &snps_hif_sdram_map_fops);
++
+ 	edac_debugfs_create_file("inject_data_error", 0600, mci->debugfs, mci,
+ 				 &snps_inject_data_error);
  
 -- 
 2.37.2
