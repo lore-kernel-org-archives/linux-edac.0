@@ -2,31 +2,31 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2641ECAAD3
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC86C6FA89
+	for <linux-edac@archiver.kernel.org>; Sat, 10 Sep 2022 19:58:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbiIJT6B (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 10 Sep 2022 15:58:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41020 "EHLO
+        id S230202AbiIJT6C (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 10 Sep 2022 15:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229789AbiIJT5Z (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:57:25 -0400
+        with ESMTP id S230052AbiIJT52 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 10 Sep 2022 15:57:28 -0400
 Received: from mail.baikalelectronics.com (mail.baikalelectronics.com [87.245.175.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0C19047BB0;
-        Sat, 10 Sep 2022 12:57:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 11F424504A;
+        Sat, 10 Sep 2022 12:57:14 -0700 (PDT)
 Received: from mail (mail.baikal.int [192.168.51.25])
-        by mail.baikalelectronics.com (Postfix) with ESMTP id 96A00DBD;
-        Sat, 10 Sep 2022 23:00:58 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 96A00DBD
+        by mail.baikalelectronics.com (Postfix) with ESMTP id 9C54CDBC;
+        Sat, 10 Sep 2022 23:00:56 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.baikalelectronics.com 9C54CDBC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baikalelectronics.ru; s=mail; t=1662840058;
-        bh=evl0QMbGUuK/VXmVFTFt7CDJBznWz4C4rkPe+VRXbvI=;
+        d=baikalelectronics.ru; s=mail; t=1662840056;
+        bh=iiuELFMYspx8+vlrwKdZM4fx0g6sV+ojseVw14/aQyE=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=Uweo5280VyjXFAZ3PggU/9ogmf6kTDN4pgivwpaQO/gOUoUsS2UT4Qa8nyTRxQSRe
-         VwXVhhb0SiBhpT/Wj3yYFD68W4Ttt/Rw5yn4mEn0dz7zLEpfUNGYCnjrlbrexxpcp3
-         TWu6bZkuql3lYwvYOqafARTeFJTn1ebO6dMY8mdM=
+        b=lMG2pbNlTvnwmI4d/Mh2RzYbyPwFi+d192Pbwv814ttU8rvcLcl6tWuzfr4pf6bYJ
+         y+Onq2sn2NwkrNLO/JjYSOxUU5Nwvt+Ov/uw5kKwTIeQCTrO7F3lugywQyBPW3Mf+8
+         2/hQayjcrzGjiKc9Ey2nK7d4x/qeI3OVY9U4bBE4=
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:07 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 10 Sep 2022 22:57:05 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -50,9 +50,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 10/15] EDAC/synopsys: Add individual named ECC IRQs support
-Date:   Sat, 10 Sep 2022 22:56:54 +0300
-Message-ID: <20220910195659.11843-11-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v2 07/15] EDAC/synopsys: Drop ECC poison address from private data
+Date:   Sat, 10 Sep 2022 22:56:51 +0300
+Message-ID: <20220910195659.11843-8-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -63,135 +63,139 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Currently the DW uMCTL2 DDRC EDAC driver supports a common unnamed IRQ
-only. It isn't suitable for our platform which has the individual IRQ
-lines for each DDRC event (ECC UE, ECC CE, DFI parity error, Scrubber
-done, etc).  Moreover the DW uMCTL2 DDRC IP-core doesn't have an option to
-be configured with a common interrupts output line. So in order to have
-the generic DW uMCTL2 DDR controller and our platform supported by the
-driver we need to add the individual, per DDRC event, IRQs request
-support. There is not much to do really since the common IRQs handler has
-already been split up into the sub-handlers. So the only thing we need to
-do is first try to request the individual IRQs, if failed then fallback to
-the common IRQ. The IRQ names are used in accordance with the DW uMCTL2
-DDRC DT-bindings.
+Since the driver now has the generic Sys/SDRAM address translation
+interface there is no need in preserving the poisonous address in the
+driver private data especially seeing it is used in the framework of the
+DebugFS node anyway. So let's drop the snps_edac_priv.poison_addr field
+and just perform Sys/SDRAM back and forth address translation right in
+place of the "inject_data_error" node accessors.
+
+It causes a bit more modifications than a simple field removal. Since the
+poisonous address is not preserved now there is no point in having the
+snps_data_poison_setup() method so its content can be moved right into the
+"inject_data_error" write operation. For the same reason there is no point
+in printing the ECCPOISONADDR{0,1} registers content in the
+"inject_data_error" read operation. Since the CSRs content is now parsed
+anyway let's print the SDRAM address instead.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 91 ++++++++++++++++++++++++++++++++----
- 1 file changed, 81 insertions(+), 10 deletions(-)
+ drivers/edac/synopsys_edac.c | 68 +++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index e5359ff2ed25..6a47e53deab5 100644
+index b36f7ec4a79e..8771d69f6c5a 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -1524,25 +1524,96 @@ static void snps_mc_free(struct mem_ctl_info *mci)
- 	edac_mc_free(mci);
- }
+@@ -407,7 +407,6 @@ struct snps_ecc_status {
+  * @lock:		Concurrent CSRs access lock.
+  * @message:		Buffer for framing the event specific info.
+  * @stat:		ECC status information.
+- * @poison_addr:	Data poison address.
+  */
+ struct snps_edac_priv {
+ 	struct snps_ddrc_info info;
+@@ -418,9 +417,6 @@ struct snps_edac_priv {
+ 	spinlock_t lock;
+ 	char message[SNPS_EDAC_MSG_SIZE];
+ 	struct snps_ecc_status stat;
+-#ifdef CONFIG_EDAC_DEBUG
+-	ulong poison_addr;
+-#endif
+ };
  
--static int snps_setup_irq(struct mem_ctl_info *mci)
-+/**
-+ * snps_request_ind_irq - Request individual DDRC IRQs.
-+ * @mci:	EDAC memory controller instance.
-+ *
-+ * Return: 0 if the IRQs were successfully requested, 1 if the individual IRQs
-+ * are unavailable, otherwise negative errno.
-+ */
-+static int snps_request_ind_irq(struct mem_ctl_info *mci)
+ /**
+@@ -1713,44 +1709,32 @@ static int snps_hif_sdram_map_show(struct seq_file *s, void *data)
+ 
+ DEFINE_SHOW_ATTRIBUTE(snps_hif_sdram_map);
+ 
+-/**
+- * snps_data_poison_setup - Update poison registers.
+- * @priv:		DDR memory controller private instance data.
+- *
+- * Update poison registers as per DDR mapping.
+- * Return: none.
+- */
+-static void snps_data_poison_setup(struct snps_edac_priv *priv)
+-{
+-	struct snps_sdram_addr sdram;
+-	u32 regval;
+-
+-	snps_map_sys_to_sdram(priv, priv->poison_addr, &sdram);
+-
+-	regval = FIELD_PREP(ECC_POISON0_RANK_MASK, sdram.rank) |
+-		 FIELD_PREP(ECC_POISON0_COL_MASK, sdram.col);
+-	writel(regval, priv->baseaddr + ECC_POISON0_OFST);
+-
+-	regval = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, sdram.bankgrp) |
+-		 FIELD_PREP(ECC_POISON1_BANK_MASK, sdram.bank) |
+-		 FIELD_PREP(ECC_POISON1_ROW_MASK, sdram.row);
+-	writel(regval, priv->baseaddr + ECC_POISON1_OFST);
+-}
+-
+ static ssize_t snps_inject_data_error_read(struct file *filep, char __user *ubuf,
+ 					   size_t size, loff_t *offp)
  {
+ 	struct mem_ctl_info *mci = filep->private_data;
  	struct snps_edac_priv *priv = mci->pvt_info;
--	int ret, irq;
-+	struct device *dev = &priv->pdev->dev;
-+	int rc, irq;
++	struct snps_sdram_addr sdram;
+ 	char buf[SNPS_DBGFS_BUF_LEN];
++	dma_addr_t sys;
++	u32 regval;
+ 	int pos;
  
--	irq = platform_get_irq(priv->pdev, 0);
--	if (irq < 0) {
--		edac_printk(KERN_ERR, EDAC_MC,
--			    "No IRQ %d in DT\n", irq);
-+	irq = platform_get_irq_byname_optional(priv->pdev, "ecc_ce");
-+	if (irq == -ENXIO)
-+		return 1;
-+	if (irq < 0)
-+		return irq;
+-	pos = scnprintf(buf, sizeof(buf), "Poison0 Addr: 0x%08x\n\r",
+-			readl(priv->baseaddr + ECC_POISON0_OFST));
+-	pos += scnprintf(buf + pos, sizeof(buf) - pos, "Poison1 Addr: 0x%08x\n\r",
+-			 readl(priv->baseaddr + ECC_POISON1_OFST));
+-	pos += scnprintf(buf + pos, sizeof(buf) - pos, "Error injection Address: 0x%lx\n\r",
+-			 priv->poison_addr);
++	regval = readl(priv->baseaddr + ECC_POISON0_OFST);
++	sdram.rank = FIELD_GET(ECC_POISON0_RANK_MASK, regval);
++	sdram.col = FIELD_GET(ECC_POISON0_COL_MASK, regval);
 +
-+	rc = devm_request_irq(dev, irq, snps_ce_irq_handler, 0, "ecc_ce", mci);
-+	if (rc) {
-+		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC CE IRQ\n");
-+		return rc;
-+	}
++	regval = readl(priv->baseaddr + ECC_POISON1_OFST);
++	sdram.bankgrp = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, regval);
++	sdram.bank = FIELD_PREP(ECC_POISON1_BANK_MASK, regval);
++	sdram.row = FIELD_PREP(ECC_POISON1_ROW_MASK, regval);
 +
-+	irq = platform_get_irq_byname(priv->pdev, "ecc_ue");
-+	if (irq < 0)
- 		return irq;
++	snps_map_sdram_to_sys(priv, &sdram, &sys);
 +
-+	rc = devm_request_irq(dev, irq, snps_ue_irq_handler, 0, "ecc_ue", mci);
-+	if (rc) {
-+		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC UE IRQ\n");
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * snps_request_com_irq - Request common DDRC IRQ.
-+ * @mci:	EDAC memory controller instance.
-+ *
-+ * It first attempts to get the named IRQ. If failed the method fallbacks
-+ * to first available one.
-+ *
-+ * Return: 0 if the IRQ was successfully requested otherwise negative errno.
-+ */
-+static int snps_request_com_irq(struct mem_ctl_info *mci)
-+{
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	struct device *dev = &priv->pdev->dev;
-+	int rc, irq;
-+
-+	irq = platform_get_irq_byname_optional(priv->pdev, "ecc");
-+	if (irq < 0) {
-+		irq = platform_get_irq(priv->pdev, 0);
-+		if (irq < 0)
-+			return irq;
- 	}
++	pos = scnprintf(buf, sizeof(buf),
++			"%pad: Row %hu Rank %hu Bank %hhu Bank Group %hhu Rank %hhu\n",
++			&sys, sdram.row, sdram.col, sdram.bank, sdram.bankgrp,
++			sdram.rank);
  
--	ret = devm_request_irq(&priv->pdev->dev, irq, snps_com_irq_handler,
--			       0, dev_name(&priv->pdev->dev), mci);
--	if (ret < 0) {
-+	rc = devm_request_irq(dev, irq, snps_com_irq_handler, 0, "ecc", mci);
-+	if (rc) {
- 		edac_printk(KERN_ERR, EDAC_MC, "Failed to request IRQ\n");
--		return ret;
-+		return rc;
- 	}
+ 	return simple_read_from_buffer(ubuf, size, offp, buf, pos);
+ }
+@@ -1760,13 +1744,25 @@ static ssize_t snps_inject_data_error_write(struct file *filep, const char __use
+ {
+ 	struct mem_ctl_info *mci = filep->private_data;
+ 	struct snps_edac_priv *priv = mci->pvt_info;
++	struct snps_sdram_addr sdram;
++	u32 regval;
++	u64 sys;
+ 	int rc;
  
-+	return 0;
-+}
-+
-+/**
-+ * snps_setup_irq - Request and enable DDRC IRQs.
-+ * @mci:	EDAC memory controller instance.
-+ *
-+ * It first tries to get and request individual IRQs. If failed the method
-+ * fallbacks to the common IRQ line case. The IRQs will be enabled only if
-+ * some of these requests have been successful.
-+ *
-+ * Return: 0 if IRQs were successfully setup otherwise negative errno.
-+ */
-+static int snps_setup_irq(struct mem_ctl_info *mci)
-+{
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	int rc;
-+
-+	rc = snps_request_ind_irq(mci);
-+	if (rc > 0)
-+		rc = snps_request_com_irq(mci);
-+	if (rc)
-+		return rc;
-+
- 	snps_enable_irq(priv);
+-	rc = kstrtoul_from_user(ubuf, size, 0, &priv->poison_addr);
++	rc = kstrtou64_from_user(ubuf, size, 0, &sys);
+ 	if (rc)
+ 		return rc;
  
- 	return 0;
+-	snps_data_poison_setup(priv);
++	snps_map_sys_to_sdram(priv, sys, &sdram);
++
++	regval = FIELD_PREP(ECC_POISON0_RANK_MASK, sdram.rank) |
++		 FIELD_PREP(ECC_POISON0_COL_MASK, sdram.col);
++	writel(regval, priv->baseaddr + ECC_POISON0_OFST);
++
++	regval = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, sdram.bankgrp) |
++		 FIELD_PREP(ECC_POISON1_BANK_MASK, sdram.bank) |
++		 FIELD_PREP(ECC_POISON1_ROW_MASK, sdram.row);
++	writel(regval, priv->baseaddr + ECC_POISON1_OFST);
+ 
+ 	return size;
+ }
 -- 
 2.37.2
 
