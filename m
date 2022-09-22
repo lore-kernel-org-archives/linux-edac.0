@@ -2,38 +2,38 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D2D9C6FA82
-	for <linux-edac@archiver.kernel.org>; Thu, 22 Sep 2022 19:51:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 348D8ECAAD8
+	for <linux-edac@archiver.kernel.org>; Thu, 22 Sep 2022 19:52:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230079AbiIVTv6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 22 Sep 2022 15:51:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49102 "EHLO
+        id S232301AbiIVTv7 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 22 Sep 2022 15:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232312AbiIVTvs (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 22 Sep 2022 15:51:48 -0400
+        with ESMTP id S232499AbiIVTvw (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 22 Sep 2022 15:51:52 -0400
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1508E10C78E;
-        Thu, 22 Sep 2022 12:51:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607BB10C7B0;
+        Thu, 22 Sep 2022 12:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663876307; x=1695412307;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1Dio6FuAowFSRZXpVJEI0kJ8UFwvjWovjlQsBMPapkk=;
-  b=DVsai5c1GpFcgrO2K9GFywrgT3u3exlF3Tw1Fv8w29M1TSHv73nmk1EF
-   LmP5bAVZCw4HC562Y+yyIw8FRwfUV5uq1CzsvOs/It792ysFJeUY3fxO6
-   szdT5QEXU5aPgKskw3vMGEMMEfl94jbloJTRXmDWXOyjTkdPI7apZPZJE
-   /ldw2R/BXfGWuBJ8acT85hMiOyaHP63eEFC+ahQnQLhHhP9I+YVMXignw
-   T/ni1rNtWwikW92CXUNcLSzta2iUDIfd3gBSi0enufARHKHajQDKWZWrz
-   h/dYMC6mrLPWT3jTbcNd2gf3Qi5jycjDIXEuAPi3ICPx/jI9bnxxrVEH5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="280783420"
+  t=1663876309; x=1695412309;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=l6xuREr5UrI3+dsdLTmENRLQcn+EsoLCovev/Oo8570=;
+  b=CQRIm2xoDtsedZhE4oUCcotCrAnFfP27nAjv0GRyN96TOXQd5bNwGnsL
+   iAjAP+aiO+AroOcl0pTZRsSzsh8gQqkApc1M7WBDpkkDpgTALdHZnYbv2
+   EuOzHfHa2oru1DA3QybrtxkjlrsuoFXx+/qnVdnmdteRX3Xe91+NWtjhW
+   kzR85iGVufBLPSBQweYIi3jG5qomBe5vs8WJ+wIJ18ZZIlgURwwMqz9uL
+   FA6TV7/j2LXVXpDRS6002rczwDeLWAZ7Je8IwCF6AZ41CMsSWjpgzSk9u
+   nLFq0mng+A2OF4GMacaICMvzso4hP69Iqg/7FjipDNVf7MFiF1+ybjkYE
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="280783422"
 X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="280783420"
+   d="scan'208";a="280783422"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 12:51:45 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 12:51:46 -0700
 X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="622246712"
+   d="scan'208";a="622246718"
 Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
   by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 12:51:45 -0700
 From:   Tony Luck <tony.luck@intel.com>
@@ -43,66 +43,118 @@ Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
         Carlos Bilbao <carlos.bilbao@amd.com>, x86@kernel.org,
         linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
         Tony Luck <tony.luck@intel.com>
-Subject: [PATCH 0/2] Dump stack after certain machine checks
-Date:   Thu, 22 Sep 2022 12:51:34 -0700
-Message-Id: <20220922195136.54575-1-tony.luck@intel.com>
+Subject: [PATCH 2/2] x86/mce: Dump the stack for recoverable machine checks in kernel context
+Date:   Thu, 22 Sep 2022 12:51:36 -0700
+Message-Id: <20220922195136.54575-3-tony.luck@intel.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220922195136.54575-1-tony.luck@intel.com>
+References: <20220922195136.54575-1-tony.luck@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-In general it isn't very useful to dump the kernel stack in the panic
-from a fatal machine check. The problem is almost always hardware
-related, so knowing how the kernel got to the routine that triggered the
-machine check isn't useful.
+It isn't generally useful to dump the stack for a fatal machine check.
+The error was detected by hardware when some parity or ECC check failed,
+software isn't the problem.
 
-But Linux now has the capability to recover from most user mode and a
-few kernel mode memory related machine checks. Validation folks are
-testing that out and occasionally bring a kernel log like this to me:
+But the kernel now has a few places where it can recover from a machine
+check by treating it as an error. E.g. when copying parameters for system
+calls from an application.
 
-[69608.047771] mce: [Hardware Error]: Machine check: Data load in unrecoverable area of kernel
-[69608.021729] mce: [Hardware Error]: TSC 7874eb580177 ADDR 43bb84bd00 MISC 86 PPIN 9f061818e1a92082 
-[69608.047773] Kernel panic - not syncing: Fatal local machine check
-[69608.021720] mce: [Hardware Error]: RIP 10:<ffffffff8b767517> {copy_page+0x7/0x10}
+In order to ease the hunt for additional code flows where machine check
+errors can be recovered it is useful to know, for example, why the
+kernel was copying a page. Perhaps that code sequence can be modified to
+handle machine checks as errors.
 
-All I can tell them is that Linux was copying a page and hit poison in
-the source of the copy. But there are lots of reasons why Linux may be
-copying a page. A stack trace would help figure out if:
-1) the test was bad and just injected an error into the wrong location
-2) an injected error sat around in memory and was later consumed
+Add a new machine check severity value to indicate when a stack dump
+may be useful.
 
-Case 2 will help identify places where Linux might use a "safe" copy
-function that returns an error to the caller which may attempt some sort
-of recovery.
-
-Patch 1 cleans up the Intel severity calculation by using a new severity
-table entry instead of some, now dubious, code to adjust the severity
-for errors in kernel context.
-
-Patch 2 adds a new severity level that triggers printing a stack trace.
-
-I've only updated the Intel severity calculation to use this new
-severity level. I'm not sure if AMD also has situations where this would
-be useful. If so, then mce_severity_amd() would need to be updated too
-to return different severity for IN_KERNEL and IN_KERNEL_RECOV cases.
-
-I've tested this out on systems that do both broadcast and local machine
-checks.
-
-Tony Luck (2):
-  x86/mce: Use severity table to handle uncorrected errors in kernel
-  x86/mce: Dump the stack for recoverable machine checks in kernel
-    context
-
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
  arch/x86/kernel/cpu/mce/internal.h |  1 +
  arch/x86/kernel/cpu/mce/core.c     | 11 +++++++++--
- arch/x86/kernel/cpu/mce/severity.c | 10 ++++++----
- 3 files changed, 16 insertions(+), 6 deletions(-)
+ arch/x86/kernel/cpu/mce/severity.c |  2 +-
+ 3 files changed, 11 insertions(+), 3 deletions(-)
 
-
-base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
+diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
+index 7e03f5b7f6bd..f03aaff79e39 100644
+--- a/arch/x86/kernel/cpu/mce/internal.h
++++ b/arch/x86/kernel/cpu/mce/internal.h
+@@ -18,6 +18,7 @@ enum severity_level {
+ 	MCE_UC_SEVERITY,
+ 	MCE_AR_SEVERITY,
+ 	MCE_PANIC_SEVERITY,
++	MCE_PANIC_STACKDUMP_SEVERITY,
+ };
+ 
+ extern struct blocking_notifier_head x86_mce_decoder_chain;
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 2c8ec5c71712..69ec63eaa625 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -44,6 +44,7 @@
+ #include <linux/sync_core.h>
+ #include <linux/task_work.h>
+ #include <linux/hardirq.h>
++#include <linux/sched/debug.h>
+ 
+ #include <asm/intel-family.h>
+ #include <asm/processor.h>
+@@ -254,6 +255,9 @@ static noinstr void mce_panic(const char *msg, struct mce *final, char *exp)
+ 			wait_for_panic();
+ 		barrier();
+ 
++		if (final->severity == MCE_PANIC_STACKDUMP_SEVERITY)
++			show_stack(NULL, NULL, KERN_DEFAULT);
++
+ 		bust_spinlocks(1);
+ 		console_verbose();
+ 	} else {
+@@ -864,6 +868,7 @@ static __always_inline int mce_no_way_out(struct mce *m, char **msg, unsigned lo
+ 					  struct pt_regs *regs)
+ {
+ 	char *tmp = *msg;
++	int severity;
+ 	int i;
+ 
+ 	for (i = 0; i < this_cpu_read(mce_num_banks); i++) {
+@@ -876,9 +881,11 @@ static __always_inline int mce_no_way_out(struct mce *m, char **msg, unsigned lo
+ 			quirk_sandybridge_ifu(i, m, regs);
+ 
+ 		m->bank = i;
+-		if (mce_severity(m, regs, &tmp, true) >= MCE_PANIC_SEVERITY) {
++		severity = mce_severity(m, regs, &tmp, true);
++		if (severity >= MCE_PANIC_SEVERITY) {
+ 			mce_read_aux(m, i);
+ 			*msg = tmp;
++			m->severity = severity;
+ 			return 1;
+ 		}
+ 	}
+@@ -994,7 +1001,7 @@ static void mce_reign(void)
+ 	 */
+ 	if (m && global_worst >= MCE_PANIC_SEVERITY) {
+ 		/* call mce_severity() to get "msg" for panic */
+-		mce_severity(m, NULL, &msg, true);
++		m->severity = mce_severity(m, NULL, &msg, true);
+ 		mce_panic("Fatal machine check", m, msg);
+ 	}
+ 
+diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
+index c4477162c07d..89d083c5bd06 100644
+--- a/arch/x86/kernel/cpu/mce/severity.c
++++ b/arch/x86/kernel/cpu/mce/severity.c
+@@ -174,7 +174,7 @@ static struct severity {
+ 		USER
+ 		),
+ 	MCESEV(
+-		PANIC, "Data load in unrecoverable area of kernel",
++		PANIC_STACKDUMP, "Data load in unrecoverable area of kernel",
+ 		SER, MASK(MCI_STATUS_OVER|MCI_UC_SAR|MCI_ADDR|MCACOD, MCI_UC_SAR|MCI_ADDR|MCACOD_DATA),
+ 		KERNEL
+ 		),
 -- 
 2.37.3
 
