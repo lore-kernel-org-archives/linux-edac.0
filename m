@@ -2,34 +2,34 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21DB5C38A02
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 312F5C4321E
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbiJAAVM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 20:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53772 "EHLO
+        id S232682AbiJAAVL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232550AbiJAAUj (ORCPT
+        with ESMTP id S232539AbiJAAUj (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:20:39 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 54D3832ED3;
-        Fri, 30 Sep 2022 17:19:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F334A34712;
+        Fri, 30 Sep 2022 17:19:16 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 9A4E9E0EEB;
-        Fri, 30 Sep 2022 02:41:29 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 7C760E0EEF;
+        Fri, 30 Sep 2022 02:41:32 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=2CwythZaVkDVwiZu6qDNtumG0Qw4C9wenI+T237p7RI=; b=vCYTwO+22bqQ
-        XkC5PCL9Ftptxlukka3WENVrbIrdeC+yVTQVFyeyNTC4TQpX4yDEMz+AHsiP/KTy
-        kf72PsvOXOqh77VH2qQBAVJqHSpTsIRDuvS0hPOo2bE7aEE/4f2oAaPengMN+EZM
-        nRelf/rTxGjF0c+UChETjbf9wqfrDL0=
+         bh=FSUroiQZu9eBHFsrzKlw5DvkC1tmdHVvc41FQINu1OU=; b=XsSQ3I6+dCHA
+        A85JM13JWFAFzb97rymvbrQ+ztbwMKEnwKzm9taO9BnvRbF60UFc645AJqygdUHz
+        DPCJ2WYhgMMMR4PxBKyFEwKzHhokX1G3Ja1YymGddkmxeJLXSc564hondksxGbyw
+        mgx6dM4vj+jOdBPTpsLSxTWLx9XkoZk=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 8D779E0EEA;
-        Fri, 30 Sep 2022 02:41:29 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 6EFDDE0EEA;
+        Fri, 30 Sep 2022 02:41:32 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:30 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:33 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -53,9 +53,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 04/13] EDAC/synopsys: Add optional ECC Scrub support
-Date:   Fri, 30 Sep 2022 02:41:12 +0300
-Message-ID: <20220929234121.13955-5-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v3 08/13] EDAC/synopsys: Add individual named ECC IRQs support
+Date:   Fri, 30 Sep 2022 02:41:16 +0300
+Message-ID: <20220929234121.13955-9-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
@@ -68,86 +68,135 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-DW uMCTL2 DDRC ECC has a so called ECC Scrub feature in case if an
-single-bit error is detected. The scrub is executed as a new RMW operation
-to the location that resulted in a single-bit error thus fixing the ECC
-code preserved in the SDRAM. But that feature not only optional, but also
-runtime switchable. So there can be platforms with DW uMCTL2 DDRC not
-supporting hardware-base scrub. In those cases the single-bit errors will
-still be detected but won't be fixed until the next SDRAM write commands
-to the erroneous location. Since the ECC Scrub feature availability is
-detectable by means of the ECCCFG0.dis_scrub flag state we can use it to
-tune the MCI core up so one would automatically execute the
-platform-specific the platform-specific scrubbing to the affected SDRAM
-location. It's now possible to be done since the DW uMCTL2 DDRC driver
-supports the actual system address reported to the MCI core. The only
-thing left to do is to auto-detect the ECC Scrub feature availability and
-set the mem_ctl.info.scrub_mode mode with SCRUB_SW_SRC if the feature is
-unavailable. The rest will be done by the MCI core when the single-bit
-errors happen.
+Currently the DW uMCTL2 DDRC EDAC driver supports a common unnamed IRQ
+only. It isn't suitable for our platform which has the individual IRQ
+lines for each DDRC event (ECC UE, ECC CE, DFI parity error, Scrubber
+done, etc).  Moreover the DW uMCTL2 DDRC IP-core doesn't have an option to
+be configured with a common interrupts output line. So in order to have
+the generic DW uMCTL2 DDR controller and our platform supported by the
+driver we need to add the individual, per DDRC event, IRQs request
+support. There is not much to do really since the common IRQs handler has
+already been split up into the sub-handlers. So the only thing we need to
+do is first try to request the individual IRQs, if failed then fallback to
+the common IRQ. The IRQ names are used in accordance with the DW uMCTL2
+DDRC DT-bindings.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/edac/synopsys_edac.c | 91 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 81 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index d5d82531719b..b36f7ec4a79e 100644
+index e5359ff2ed25..6a47e53deab5 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -32,6 +32,7 @@
- #define SNPS_EDAC_MOD_VER		"1"
+@@ -1524,25 +1524,96 @@ static void snps_mc_free(struct mem_ctl_info *mci)
+ 	edac_mc_free(mci);
+ }
  
- /* DDR capabilities */
-+#define SNPS_CAP_ECC_SCRUB		BIT(0)
- #define SNPS_CAP_ZYNQMP			BIT(31)
+-static int snps_setup_irq(struct mem_ctl_info *mci)
++/**
++ * snps_request_ind_irq - Request individual DDRC IRQs.
++ * @mci:	EDAC memory controller instance.
++ *
++ * Return: 0 if the IRQs were successfully requested, 1 if the individual IRQs
++ * are unavailable, otherwise negative errno.
++ */
++static int snps_request_ind_irq(struct mem_ctl_info *mci)
+ {
+ 	struct snps_edac_priv *priv = mci->pvt_info;
+-	int ret, irq;
++	struct device *dev = &priv->pdev->dev;
++	int rc, irq;
  
- /* Synopsys uMCTL2 DDR controller registers that are relevant to ECC */
-@@ -114,6 +115,7 @@
- #define DDR_MSTR_MEM_LPDDR4		BIT(5)
- 
- /* ECC CFG0 register definitions */
-+#define ECC_CFG0_DIS_SCRUB		BIT(4)
- #define ECC_CFG0_MODE_MASK		GENMASK(2, 0)
- 
- /* ECC status register definitions */
-@@ -1008,6 +1010,10 @@ static int snps_get_ddrc_info(struct snps_edac_priv *priv)
- 		return -ENXIO;
+-	irq = platform_get_irq(priv->pdev, 0);
+-	if (irq < 0) {
+-		edac_printk(KERN_ERR, EDAC_MC,
+-			    "No IRQ %d in DT\n", irq);
++	irq = platform_get_irq_byname_optional(priv->pdev, "ecc_ce");
++	if (irq == -ENXIO)
++		return 1;
++	if (irq < 0)
++		return irq;
++
++	rc = devm_request_irq(dev, irq, snps_ce_irq_handler, 0, "ecc_ce", mci);
++	if (rc) {
++		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC CE IRQ\n");
++		return rc;
++	}
++
++	irq = platform_get_irq_byname(priv->pdev, "ecc_ue");
++	if (irq < 0)
+ 		return irq;
++
++	rc = devm_request_irq(dev, irq, snps_ue_irq_handler, 0, "ecc_ue", mci);
++	if (rc) {
++		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC UE IRQ\n");
++		return rc;
++	}
++
++	return 0;
++}
++
++/**
++ * snps_request_com_irq - Request common DDRC IRQ.
++ * @mci:	EDAC memory controller instance.
++ *
++ * It first attempts to get the named IRQ. If failed the method fallbacks
++ * to first available one.
++ *
++ * Return: 0 if the IRQ was successfully requested otherwise negative errno.
++ */
++static int snps_request_com_irq(struct mem_ctl_info *mci)
++{
++	struct snps_edac_priv *priv = mci->pvt_info;
++	struct device *dev = &priv->pdev->dev;
++	int rc, irq;
++
++	irq = platform_get_irq_byname_optional(priv->pdev, "ecc");
++	if (irq < 0) {
++		irq = platform_get_irq(priv->pdev, 0);
++		if (irq < 0)
++			return irq;
  	}
  
-+	/* Assume HW-src scrub is always available if it isn't disabled */
-+	if (!(regval & ECC_CFG0_DIS_SCRUB))
-+		priv->info.caps |= SNPS_CAP_ECC_SCRUB;
+-	ret = devm_request_irq(&priv->pdev->dev, irq, snps_com_irq_handler,
+-			       0, dev_name(&priv->pdev->dev), mci);
+-	if (ret < 0) {
++	rc = devm_request_irq(dev, irq, snps_com_irq_handler, 0, "ecc", mci);
++	if (rc) {
+ 		edac_printk(KERN_ERR, EDAC_MC, "Failed to request IRQ\n");
+-		return ret;
++		return rc;
+ 	}
+ 
++	return 0;
++}
 +
- 	/* Auto-detect the basic HIF/SDRAM bus parameters */
- 	regval = readl(priv->baseaddr + DDR_MSTR_OFST);
- 
-@@ -1484,8 +1490,14 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
- 			 MEM_FLAG_DDR3 | MEM_FLAG_LPDDR3 |
- 			 MEM_FLAG_DDR4 | MEM_FLAG_LPDDR4;
- 	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
--	mci->scrub_cap = SCRUB_FLAG_HW_SRC;
--	mci->scrub_mode = SCRUB_NONE;
++/**
++ * snps_setup_irq - Request and enable DDRC IRQs.
++ * @mci:	EDAC memory controller instance.
++ *
++ * It first tries to get and request individual IRQs. If failed the method
++ * fallbacks to the common IRQ line case. The IRQs will be enabled only if
++ * some of these requests have been successful.
++ *
++ * Return: 0 if IRQs were successfully setup otherwise negative errno.
++ */
++static int snps_setup_irq(struct mem_ctl_info *mci)
++{
++	struct snps_edac_priv *priv = mci->pvt_info;
++	int rc;
 +
-+	if (priv->info.caps & SNPS_CAP_ECC_SCRUB) {
-+		mci->scrub_mode = SCRUB_HW_SRC;
-+		mci->scrub_cap = SCRUB_FLAG_HW_SRC;
-+	} else {
-+		mci->scrub_mode = SCRUB_SW_SRC;
-+		mci->scrub_cap = SCRUB_FLAG_SW_SRC;
-+	}
++	rc = snps_request_ind_irq(mci);
++	if (rc > 0)
++		rc = snps_request_com_irq(mci);
++	if (rc)
++		return rc;
++
+ 	snps_enable_irq(priv);
  
- 	mci->edac_cap = EDAC_FLAG_SECDED;
- 	mci->ctl_name = "snps_umctl2_ddrc";
-@@ -1578,6 +1590,8 @@ static int snps_ddrc_info_show(struct seq_file *s, void *data)
- 
- 	seq_puts(s, "Caps:");
- 	if (priv->info.caps) {
-+		if (priv->info.caps & SNPS_CAP_ECC_SCRUB)
-+			seq_puts(s, " +Scrub");
- 		if (priv->info.caps & SNPS_CAP_ZYNQMP)
- 			seq_puts(s, " +ZynqMP");
- 	} else {
+ 	return 0;
 -- 
 2.37.3
 
