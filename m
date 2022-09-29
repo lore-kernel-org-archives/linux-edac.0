@@ -2,41 +2,42 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E4ACC433FE
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 01:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CE1C433FE
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 01:14:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232782AbiJABOX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 21:14:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37626 "EHLO
+        id S232895AbiJABO0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 21:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232457AbiJABOU (ORCPT
+        with ESMTP id S232528AbiJABOU (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 21:14:20 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 87A3E1B9C3;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E54021B9C4;
         Fri, 30 Sep 2022 18:14:12 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 4FC26E0EC7;
-        Fri, 30 Sep 2022 02:27:30 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id C57D6E0EC0;
+        Fri, 30 Sep 2022 02:27:25 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=sP/91KMd3AknZQ6PYaDkaWEp8kyLDM1XvKv7Fl4OhwA=; b=Jkn31ib01hGt
-        HN8oYUH8hBBCaTBFrLRwRM5ru42dQbwcSWaLseiUaRxbl051KkozGTPd6b8XSfhV
-        TBUXO3oI2veIOcl1oqWbkqHOWNz+4ArlY98uTT1cReFiXjOwmXOD0/2jMW7z3LJ9
-        2J8Gu87uG+JfCfZfKl6k54LfLvMa6L4=
+         bh=lm5LL8kY8kQ4OnI9A4Rer43zqRodegSDSnCK9gejy9A=; b=k8mubSC4x27h
+        cCi2cHvbFGDU1Plfqx9a3LqxhpHu6d6tKEA9fU0JKIlapzrpbA6oAC+66AZ9/WVQ
+        1VfmlMCa73J2X94iyYzq+dZ/NJn15WrSmA6W+bCYUR6E0KmpgxZ4v3X3pysG6dDT
+        IswIOrcuvN4HSGZvw2thgkjbHSbz22k=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 4257EE0E6B;
-        Fri, 30 Sep 2022 02:27:30 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id B4854E0E6B;
+        Fri, 30 Sep 2022 02:27:25 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:27:31 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:27:26 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>
+        Robert Richter <rric@kernel.org>,
+        Manish Narani <manish.narani@xilinx.com>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -44,7 +45,6 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
         Punnaiah Choudary Kalluri 
         <punnaiah.choudary.kalluri@xilinx.com>,
-        Manish Narani <manish.narani@xilinx.com>,
         Dinh Nguyen <dinguyen@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -52,109 +52,157 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v3 09/17] EDAC/synopsys: Drop struct ecc_error_info.blknr field
-Date:   Fri, 30 Sep 2022 02:27:04 +0300
-Message-ID: <20220929232712.12202-10-Sergey.Semin@baikalelectronics.ru>
+        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Borislav Petkov <bp@suse.de>
+Subject: [PATCH RESEND v3 02/17] EDAC/synopsys: Fix generic device type detection procedure
+Date:   Fri, 30 Sep 2022 02:26:57 +0300
+Message-ID: <20220929232712.12202-3-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [192.168.168.10]
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Even though the ECC(C|U)ADDR1 CSR description indeed says it's a "Block
-number" in the DW uMCTL2 DDRC hw reference manuals, the corresponding
-register field name (ECC(C|U)ADDR1.ecc_(un)corr_col) and the rest of the
-hw documentation refer to the field as the SDRAM address column. Thus
-let's use the already available ecc_error_info.col field to read the
-column number to and drop the questionable ecc_error_info.blknr field for
-good.
+First of all the enum dev_type constants define the Memory devices, i.e.
+DRAM chips, DQ-bus width (see the enumberation kdoc for details). So what
+is returned from the zynqmp_get_dtype() procedure is definitely wrong.
+Secondly the DRAM chips type has nothing to do with the data bus width
+specified in the MSTR.data_bus_width CSR field. The later one just
+determines the part of the whole DQ-bus used to access the data from the
+all DRAM chips. So it doesn't indicate the individual chips type. Thirdly
+the DRAM chips type can be determined only in case of the DDR4 protocol by
+means of the MSTR.device_config field state (it is supposed to be set by
+the system firmware). Finally the DW uMCTL2 DDRC ECC capability doesn't
+depend on the memory chips type. Moreover it doesn't depend on the data
+bus width in runtime either. The IP-core reference manual says in [1,2]
+that the ECC support can't be enabled during the IP-core synthesizes for
+the DRAM data bus widths other than 16, 32 or 64. At the same time the
+bus width mode (MSTR.data_bus_width) doesn't change the ECC feature
+availability. Thus it was wrong to determine the ECC state with respect to
+the DQ-bus width mode.
 
+Let's fix all of the mistakes above in the zynqmp_get_dtype() and
+zynqmp_get_ecc_state() methods. In accordance with the DW uMCTL2 DDRC
+nature the DRAM chips type in most of the cases will be unknown except
+when DDR4 protocol is utilized. ECC availability will be determined by the
+ECCCFG0.ecc_mode field state only.
+
+[1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+Databook, Version 3.91a, October 2020, p. 421.
+[2] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+Databook, Version 3.91a, October 2020, p. 633.
+
+Fixes: b500b4a029d5 ("EDAC, synopsys: Add ECC support for ZynqMP DDR controller")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+
 ---
- drivers/edac/synopsys_edac.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+
+Changelog v2:
+- Include "linux/bitfield.h" header file to get the FIELD_GET macro
+  definition. (@tbot)
+---
+ drivers/edac/synopsys_edac.c | 57 +++++++++++++++++-------------------
+ 1 file changed, 27 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 9a039aa0c308..3a863c012eb6 100644
+index c78fb5781ff9..17960f7ca29b 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -178,7 +178,7 @@
- #define ECC_CEADDR0_RNK_MASK		BIT(24)
- #define ECC_CEADDR1_BNKGRP_MASK		0x3000000
- #define ECC_CEADDR1_BNKNR_MASK		0x70000
--#define ECC_CEADDR1_BLKNR_MASK		0xFFF
-+#define ECC_CEADDR1_COL_MASK		0xFFF
- #define ECC_CEADDR1_BNKGRP_SHIFT	24
- #define ECC_CEADDR1_BNKNR_SHIFT		16
- 
-@@ -276,7 +276,6 @@
-  * @bitpos:	Bit position.
-  * @data:	Data causing the error.
-  * @bankgrpnr:	Bank group number.
-- * @blknr:	Block number.
+@@ -6,6 +6,7 @@
+  * Copyright (C) 2012 - 2014 Xilinx, Inc.
   */
- struct ecc_error_info {
- 	u32 row;
-@@ -285,7 +284,6 @@ struct ecc_error_info {
- 	u32 bitpos;
- 	u32 data;
- 	u32 bankgrpnr;
--	u32 blknr;
- };
+ 
++#include <linux/bitfield.h>
+ #include <linux/edac.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+@@ -142,7 +143,12 @@
+ #define ECC_CTRL_EN_CE_IRQ		BIT(8)
+ #define ECC_CTRL_EN_UE_IRQ		BIT(9)
+ 
+-/* DDR Control Register width definitions  */
++/* DDR Master Register 0 definitions */
++#define DDR_MSTR_DEV_CFG_MASK		GENMASK(31, 30)
++#define DDR_MSTR_DEV_X4			0x0
++#define DDR_MSTR_DEV_X8			0x1
++#define DDR_MSTR_DEV_X16		0x2
++#define DDR_MSTR_DEV_X32		0x3
+ #define DDRCTL_EWDTH_16			2
+ #define DDRCTL_EWDTH_32			1
+ #define DDRCTL_EWDTH_64			0
+@@ -671,26 +677,25 @@ static enum dev_type zynq_get_dtype(const void __iomem *base)
+  */
+ static enum dev_type zynqmp_get_dtype(const void __iomem *base)
+ {
+-	enum dev_type dt;
+-	u32 width;
+-
+-	width = readl(base + CTRL_OFST);
+-	width = (width & ECC_CTRL_BUSWIDTH_MASK) >> ECC_CTRL_BUSWIDTH_SHIFT;
+-	switch (width) {
+-	case DDRCTL_EWDTH_16:
+-		dt = DEV_X2;
+-		break;
+-	case DDRCTL_EWDTH_32:
+-		dt = DEV_X4;
+-		break;
+-	case DDRCTL_EWDTH_64:
+-		dt = DEV_X8;
+-		break;
+-	default:
+-		dt = DEV_UNKNOWN;
++	u32 regval;
++
++	regval = readl(base + DDR_MSTR_OFST);
++	if (!(regval & MEM_TYPE_DDR4))
++		return DEV_UNKNOWN;
++
++	regval = FIELD_GET(DDR_MSTR_DEV_CFG_MASK, regval);
++	switch (regval) {
++	case DDR_MSTR_DEV_X4:
++		return DEV_X4;
++	case DDR_MSTR_DEV_X8:
++		return DEV_X8;
++	case DDR_MSTR_DEV_X16:
++		return DEV_X16;
++	case DDR_MSTR_DEV_X32:
++		return DEV_X32;
+ 	}
+ 
+-	return dt;
++	return DEV_UNKNOWN;
+ }
  
  /**
-@@ -438,7 +436,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
- 					ECC_CEADDR1_BNKNR_SHIFT;
- 	p->ceinfo.bankgrpnr = (regval &	ECC_CEADDR1_BNKGRP_MASK) >>
- 					ECC_CEADDR1_BNKGRP_SHIFT;
--	p->ceinfo.blknr = (regval & ECC_CEADDR1_BLKNR_MASK);
-+	p->ceinfo.col = (regval & ECC_CEADDR1_COL_MASK);
- 	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
- 	edac_dbg(2, "ECCCSYN0: 0x%08X ECCCSYN1: 0x%08X ECCCSYN2: 0x%08X\n",
- 		 readl(base + ECC_CSYND0_OFST), readl(base + ECC_CSYND1_OFST),
-@@ -454,7 +452,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
- 					ECC_CEADDR1_BNKGRP_SHIFT;
- 	p->ueinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
- 					ECC_CEADDR1_BNKNR_SHIFT;
--	p->ueinfo.blknr = (regval & ECC_CEADDR1_BLKNR_MASK);
-+	p->ueinfo.col = (regval & ECC_CEADDR1_COL_MASK);
- 	p->ueinfo.data = readl(base + ECC_UESYND0_OFST);
+@@ -727,19 +732,11 @@ static bool zynq_get_ecc_state(void __iomem *base)
+  */
+ static bool zynqmp_get_ecc_state(void __iomem *base)
+ {
+-	enum dev_type dt;
+-	u32 ecctype;
++	u32 regval;
  
- out:
-@@ -486,10 +484,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
- 		pinf = &p->ceinfo;
- 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "DDR ECC error type:%s Row %d Bank %d BankGroup Number %d Block Number %d Bit Position: %d Data: 0x%08x",
--				 "CE", pinf->row, pinf->bank,
--				 pinf->bankgrpnr, pinf->blknr,
--				 pinf->bitpos, pinf->data);
-+				 "DDR ECC error type:%s Row %d Col %d Bank %d BankGroup Number %d Bit Position: %d Data: 0x%08x",
-+				 "CE", pinf->row, pinf->col, pinf->bank,
-+				 pinf->bankgrpnr, pinf->bitpos, pinf->data);
- 		} else {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
- 				 "DDR ECC error type:%s Row %d Bank %d Col %d Bit Position: %d Data: 0x%08x",
-@@ -506,9 +503,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
- 		pinf = &p->ueinfo;
- 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "DDR ECC error type :%s Row %d Bank %d BankGroup Number %d Block Number %d",
--				 "UE", pinf->row, pinf->bank,
--				 pinf->bankgrpnr, pinf->blknr);
-+				 "DDR ECC error type :%s Row %d Col %d Bank %d BankGroup Number %d",
-+				 "UE", pinf->row, pinf->col, pinf->bank,
-+				 pinf->bankgrpnr);
- 		} else {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
- 				 "DDR ECC error type :%s Row %d Bank %d Col %d ",
+-	dt = zynqmp_get_dtype(base);
+-	if (dt == DEV_UNKNOWN)
+-		return false;
++	regval = readl(base + ECC_CFG0_OFST) & SCRUB_MODE_MASK;
+ 
+-	ecctype = readl(base + ECC_CFG0_OFST) & SCRUB_MODE_MASK;
+-	if ((ecctype == SCRUB_MODE_SECDED) &&
+-	    ((dt == DEV_X2) || (dt == DEV_X4) || (dt == DEV_X8)))
+-		return true;
+-
+-	return false;
++	return (regval == SCRUB_MODE_SECDED);
+ }
+ 
+ /**
 -- 
 2.37.3
 
