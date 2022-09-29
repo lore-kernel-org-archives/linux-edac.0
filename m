@@ -2,35 +2,34 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2CCC433FE
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2997FC433F5
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232169AbiJAAOV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 20:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33894 "EHLO
+        id S232233AbiJAAOW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:14:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231233AbiJAAOU (ORCPT
+        with ESMTP id S231859AbiJAAOU (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:14:20 -0400
-X-Greylist: delayed 603 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Sep 2022 17:14:15 PDT
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 342701BC63B;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6D2F81BE784;
         Fri, 30 Sep 2022 17:14:15 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id D0730E0ED1;
-        Fri, 30 Sep 2022 02:36:31 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id C8A69E0EDE;
+        Fri, 30 Sep 2022 02:36:38 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=KwyTjzyrYNEk+t6o0jftTpBsKJZt6rkkthg6rtDJxmo=; b=e62heODP16sy
-        DbIiprblRcI8bjvBG+q9iPcX4NTWXYlDCgzE83YrXHAT59ElB6M5uH3cGE7MJb3F
-        SPA4um1/95cQqDZxIHLlBwa0yx2yYOf0SO4OmS6b/c0ZCivSQd61oaT2Xjx1FXVn
-        yAMo9+UELWtobuNdk61cSx4is5B1tqs=
+         bh=okIVpyfoGlEW1Hxvcm8w+CRE1E3C28Kn50cbDgxN1aw=; b=DoaSgVqbi6VV
+        tvW2KlYOXGxYxz5e9HaIf/DaByJs3heDLdMyB1I6VGMiUNMGQiAMg26XvQRP6D+W
+        h1vW66UZ5CpkHrOnNM0ianigCDTfukDYSRaWmzLVc0veCpvrNIgbLIb5RPX2R+xP
+        WF2Hfo10bX1OksN7gUIITsUHrYjndPQ=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id C16CCE0E70;
-        Fri, 30 Sep 2022 02:36:31 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id BD331E0E70;
+        Fri, 30 Sep 2022 02:36:38 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:36:32 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:36:39 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -49,310 +48,92 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Dinh Nguyen <dinguyen@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v3 01/18] EDAC/synopsys: Convert sysfs nodes to debugfs ones
-Date:   Fri, 30 Sep 2022 02:35:13 +0300
-Message-ID: <20220929233530.13016-2-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH RESEND v3 11/18] EDAC/synopsys: Read full data pattern on errors
+Date:   Fri, 30 Sep 2022 02:35:23 +0300
+Message-ID: <20220929233530.13016-12-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [192.168.168.10]
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The DW uMCTL2 DDRC EDAC driver supports creating two sysfs nodes:
-"inject_data_error" and "inject_data_poison". First of them is responsible
-for setting the error-injecting physical address up. The second one is
-supposed to be used to enable the hardware capability of the correctable
-and uncorrectable error injection. As you can see the semantics of these
-nodes is pure debug. They are even created only if the EDAC_DEBUG kernel
-config is enabled. Thus there is no point in having these nodes exported
-in the sysfs. Let's move them to DebugFS in the device private directory
-as this should have been done in the first place.
+DW uMCTL2 DDRC calculates ECC for the DQ-bus word. If non-Full bus width
+mode is activated the leftover DQ-bits will be padded with zeros, but the
+ECC syndrome is calculated for the whole width anyway [1]. For some reason
+the DW uMCTL2 DDRC driver currently doesn't read the whole SDRAM word in
+case of the ECC errors even though the 64-bit DQ-bus has been supported
+for a long time. Let's fix that by extending the data field of the ECC
+error info structure and reading the upper 32-bits part of the data
+pattern if an ECC error happens and the DDR controller has been configured
+with the 64-bits DQ bus. As before the data will be printed as a part of
+the custom error message passed to the edac_mc_handle_error() method.
 
-While at it we suggest to move the address map initialization procedure
-invocation to the DebugFS nodes creating function and create an empty
-snps_create_debugfs_nodes() method in case if the EDAC_DEBUG config is
-disabled. Thus the DW uMCTL2 DDRC EDAC probe procedure will get to be a
-bit simpler.
+[1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+    Databook, Version 3.91a, October 2020, p.424-425
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 221 +++++++++++++++++++----------------
- 1 file changed, 122 insertions(+), 99 deletions(-)
+ drivers/edac/synopsys_edac.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 7833bcff3e2e..b2a2f938045c 100644
+index 1cfbc5a2a564..00417f368893 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -9,6 +9,7 @@
- #include <linux/bitfield.h>
- #include <linux/bits.h>
- #include <linux/edac.h>
-+#include <linux/fs.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/spinlock.h>
-@@ -640,6 +641,16 @@ static int snps_setup_irq(struct mem_ctl_info *mci, struct platform_device *pdev
- 
- #ifdef CONFIG_EDAC_DEBUG
- 
-+#define SNPS_DEBUGFS_FOPS(__name, __read, __write) \
-+	static const struct file_operations __name = {	\
-+		.owner = THIS_MODULE,		\
-+		.open = simple_open,		\
-+		.read = __read,			\
-+		.write = __write,		\
-+	}
-+
-+#define SNPS_DBGFS_BUF_LEN 128
-+
- /**
-  * snps_data_poison_setup - Update poison registers.
-  * @priv:		DDR memory controller private instance data.
-@@ -700,90 +711,6 @@ static void snps_data_poison_setup(struct snps_edac_priv *priv)
- 	writel(regval, priv->baseaddr + ECC_POISON1_OFST);
- }
- 
--static ssize_t inject_data_error_show(struct device *dev,
--				      struct device_attribute *mattr,
--				      char *data)
--{
--	struct mem_ctl_info *mci = to_mci(dev);
--	struct snps_edac_priv *priv = mci->pvt_info;
--
--	return sprintf(data, "Poison0 Addr: 0x%08x\n\rPoison1 Addr: 0x%08x\n\r"
--			"Error injection Address: 0x%lx\n\r",
--			readl(priv->baseaddr + ECC_POISON0_OFST),
--			readl(priv->baseaddr + ECC_POISON1_OFST),
--			priv->poison_addr);
--}
--
--static ssize_t inject_data_error_store(struct device *dev,
--				       struct device_attribute *mattr,
--				       const char *data, size_t count)
--{
--	struct mem_ctl_info *mci = to_mci(dev);
--	struct snps_edac_priv *priv = mci->pvt_info;
--
--	if (kstrtoul(data, 0, &priv->poison_addr))
--		return -EINVAL;
--
--	snps_data_poison_setup(priv);
--
--	return count;
--}
--
--static ssize_t inject_data_poison_show(struct device *dev,
--				       struct device_attribute *mattr,
--				       char *data)
--{
--	struct mem_ctl_info *mci = to_mci(dev);
--	struct snps_edac_priv *priv = mci->pvt_info;
--	const char *errstr;
--	u32 regval;
--
--	regval = readl(priv->baseaddr + ECC_CFG1_OFST);
--	errstr = FIELD_GET(ECC_CEPOISON_MASK, regval) == ECC_CEPOISON_MASK ?
--		 "Correctable Error" : "UnCorrectable Error";
--
--	return sprintf(data, "Data Poisoning: %s\n\r", errstr);
--}
--
--static ssize_t inject_data_poison_store(struct device *dev,
--					struct device_attribute *mattr,
--					const char *data, size_t count)
--{
--	struct mem_ctl_info *mci = to_mci(dev);
--	struct snps_edac_priv *priv = mci->pvt_info;
--
--	writel(0, priv->baseaddr + DDR_SWCTL);
--	if (strncmp(data, "CE", 2) == 0)
--		writel(ECC_CEPOISON_MASK, priv->baseaddr + ECC_CFG1_OFST);
--	else
--		writel(ECC_UEPOISON_MASK, priv->baseaddr + ECC_CFG1_OFST);
--	writel(1, priv->baseaddr + DDR_SWCTL);
--
--	return count;
--}
--
--static DEVICE_ATTR_RW(inject_data_error);
--static DEVICE_ATTR_RW(inject_data_poison);
--
--static int snps_create_sysfs_attributes(struct mem_ctl_info *mci)
--{
--	int rc;
--
--	rc = device_create_file(&mci->dev, &dev_attr_inject_data_error);
--	if (rc < 0)
--		return rc;
--	rc = device_create_file(&mci->dev, &dev_attr_inject_data_poison);
--	if (rc < 0)
--		return rc;
--	return 0;
--}
--
--static void snps_remove_sysfs_attributes(struct mem_ctl_info *mci)
--{
--	device_remove_file(&mci->dev, &dev_attr_inject_data_error);
--	device_remove_file(&mci->dev, &dev_attr_inject_data_poison);
--}
--
- static void snps_setup_row_address_map(struct snps_edac_priv *priv, u32 *addrmap)
- {
- 	u32 addrmap_row_b2_10;
-@@ -1004,7 +931,115 @@ static void snps_setup_address_map(struct snps_edac_priv *priv)
- 
- 	snps_setup_rank_address_map(priv, addrmap);
- }
--#endif /* CONFIG_EDAC_DEBUG */
-+
-+static ssize_t snps_inject_data_error_read(struct file *filep, char __user *ubuf,
-+					   size_t size, loff_t *offp)
-+{
-+	struct mem_ctl_info *mci = filep->private_data;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	char buf[SNPS_DBGFS_BUF_LEN];
-+	int pos;
-+
-+	pos = scnprintf(buf, sizeof(buf), "Poison0 Addr: 0x%08x\n\r",
-+			readl(priv->baseaddr + ECC_POISON0_OFST));
-+	pos += scnprintf(buf + pos, sizeof(buf) - pos, "Poison1 Addr: 0x%08x\n\r",
-+			 readl(priv->baseaddr + ECC_POISON1_OFST));
-+	pos += scnprintf(buf + pos, sizeof(buf) - pos, "Error injection Address: 0x%lx\n\r",
-+			 priv->poison_addr);
-+
-+	return simple_read_from_buffer(ubuf, size, offp, buf, pos);
-+}
-+
-+static ssize_t snps_inject_data_error_write(struct file *filep, const char __user *ubuf,
-+					    size_t size, loff_t *offp)
-+{
-+	struct mem_ctl_info *mci = filep->private_data;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	int rc;
-+
-+	rc = kstrtoul_from_user(ubuf, size, 0, &priv->poison_addr);
-+	if (rc)
-+		return rc;
-+
-+	snps_data_poison_setup(priv);
-+
-+	return size;
-+}
-+
-+SNPS_DEBUGFS_FOPS(snps_inject_data_error, snps_inject_data_error_read,
-+		  snps_inject_data_error_write);
-+
-+static ssize_t snps_inject_data_poison_read(struct file *filep, char __user *ubuf,
-+					    size_t size, loff_t *offp)
-+{
-+	struct mem_ctl_info *mci = filep->private_data;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	char buf[SNPS_DBGFS_BUF_LEN];
-+	const char *errstr;
-+	u32 regval;
-+	int pos;
-+
-+	regval = readl(priv->baseaddr + ECC_CFG1_OFST);
-+	errstr = FIELD_GET(ECC_CEPOISON_MASK, regval) == ECC_CEPOISON_MASK ?
-+		 "Correctable Error" : "UnCorrectable Error";
-+
-+	pos = scnprintf(buf, sizeof(buf), "Data Poisoning: %s\n\r", errstr);
-+
-+	return simple_read_from_buffer(ubuf, size, offp, buf, pos);
-+}
-+
-+static ssize_t snps_inject_data_poison_write(struct file *filep, const char __user *ubuf,
-+					     size_t size, loff_t *offp)
-+{
-+	struct mem_ctl_info *mci = filep->private_data;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	char buf[SNPS_DBGFS_BUF_LEN];
-+	int rc;
-+
-+	rc = simple_write_to_buffer(buf, sizeof(buf), offp, ubuf, size);
-+	if (rc < 0)
-+		return rc;
-+
-+	writel(0, priv->baseaddr + DDR_SWCTL);
-+	if (strncmp(buf, "CE", 2) == 0)
-+		writel(ECC_CEPOISON_MASK, priv->baseaddr + ECC_CFG1_OFST);
-+	else
-+		writel(ECC_UEPOISON_MASK, priv->baseaddr + ECC_CFG1_OFST);
-+	writel(1, priv->baseaddr + DDR_SWCTL);
-+
-+	return size;
-+}
-+
-+SNPS_DEBUGFS_FOPS(snps_inject_data_poison, snps_inject_data_poison_read,
-+		  snps_inject_data_poison_write);
-+
-+/**
-+ * snps_create_debugfs_nodes -	Create DebugFS nodes.
-+ * @mci:	EDAC memory controller instance.
-+ *
-+ * Create DW uMCTL2 EDAC driver DebugFS nodes in the device private
-+ * DebugFS directory.
-+ *
-+ * Return: none.
-+ */
-+static void snps_create_debugfs_nodes(struct mem_ctl_info *mci)
-+{
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+
-+	snps_setup_address_map(priv);
-+
-+	edac_debugfs_create_file("inject_data_error", 0600, mci->debugfs, mci,
-+				 &snps_inject_data_error);
-+
-+	edac_debugfs_create_file("inject_data_poison", 0600, mci->debugfs, mci,
-+				 &snps_inject_data_poison);
-+}
-+
-+#else /* !CONFIG_EDAC_DEBUG */
-+
-+static inline void snps_create_debugfs_nodes(struct mem_ctl_info *mci) {}
-+
-+#endif /* !CONFIG_EDAC_DEBUG */
+@@ -309,7 +309,7 @@ struct snps_ecc_error_info {
+ 	u32 bank;
+ 	u32 bankgrp;
+ 	u32 bitpos;
+-	u32 data;
++	u64 data;
+ };
  
  /**
-  * snps_mc_probe - Check controller and bind driver.
-@@ -1070,17 +1105,9 @@ static int snps_mc_probe(struct platform_device *pdev)
- 		goto free_edac_mc;
- 	}
+@@ -418,6 +418,8 @@ static int snps_get_error_info(struct snps_edac_priv *priv)
+ 	p->ceinfo.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
  
--#ifdef CONFIG_EDAC_DEBUG
--	rc = snps_create_sysfs_attributes(mci);
--	if (rc) {
--		edac_printk(KERN_ERR, EDAC_MC, "Failed to create sysfs entries\n");
--		goto free_edac_mc;
--	}
-+	snps_create_debugfs_nodes(mci);
+ 	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
++	if (priv->info.dq_width == SNPS_DQ_64)
++		p->ceinfo.data |= (u64)readl(base + ECC_CSYND1_OFST) << 32;
  
--	snps_setup_address_map(priv);
--#endif
--
--	return rc;
-+	return 0;
+ 	edac_dbg(2, "ECCCSYN0: 0x%08X ECCCSYN1: 0x%08X ECCCSYN2: 0x%08X\n",
+ 		 readl(base + ECC_CSYND0_OFST), readl(base + ECC_CSYND1_OFST),
+@@ -436,6 +438,8 @@ static int snps_get_error_info(struct snps_edac_priv *priv)
+ 	p->ueinfo.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
  
- free_edac_mc:
- 	edac_mc_free(mci);
-@@ -1101,10 +1128,6 @@ static int snps_mc_remove(struct platform_device *pdev)
+ 	p->ueinfo.data = readl(base + ECC_UESYND0_OFST);
++	if (priv->info.dq_width == SNPS_DQ_64)
++		p->ueinfo.data |= (u64)readl(base + ECC_UESYND1_OFST) << 32;
  
- 	snps_disable_irq(priv);
+ out:
+ 	spin_lock_irqsave(&priv->lock, flags);
+@@ -466,7 +470,7 @@ static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *
+ 		pinf = &p->ceinfo;
  
--#ifdef CONFIG_EDAC_DEBUG
--	snps_remove_sysfs_attributes(mci);
--#endif
--
- 	edac_mc_del_mc(&pdev->dev);
- 	edac_mc_free(mci);
+ 		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
+-			 "Row %d Col %d Bank %d Bank Group %d Bit %d Data 0x%08x",
++			 "Row %d Col %d Bank %d Bank Group %d Bit %d Data 0x%08llx",
+ 			 pinf->row, pinf->col, pinf->bank, pinf->bankgrp,
+ 			 pinf->bitpos, pinf->data);
  
+@@ -479,8 +483,9 @@ static void snps_handle_error(struct mem_ctl_info *mci, struct snps_ecc_status *
+ 		pinf = &p->ueinfo;
+ 
+ 		snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
+-			 "Row %d Col %d Bank %d Bank Group %d",
+-			 pinf->row, pinf->col, pinf->bank, pinf->bankgrp);
++			 "Row %d Col %d Bank %d Bank Group %d Data 0x%08llx",
++			 pinf->row, pinf->col, pinf->bank, pinf->bankgrp,
++			 pinf->data);
+ 
+ 		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
+ 				     p->ue_cnt, 0, 0, 0, 0, 0, -1,
 -- 
 2.37.3
 
