@@ -2,42 +2,41 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6698CC43219
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 01:14:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56DF3C433FE
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 01:14:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbiJABO1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 21:14:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37646 "EHLO
+        id S231895AbiJABO2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 21:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232808AbiJABOY (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 21:14:24 -0400
+        with ESMTP id S232867AbiJABOZ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 21:14:25 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C2421B9CC;
-        Fri, 30 Sep 2022 18:14:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0F5381B9EE;
+        Fri, 30 Sep 2022 18:14:19 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 2508DE0EBB;
-        Fri, 30 Sep 2022 02:27:25 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 56A8EE0ECF;
+        Fri, 30 Sep 2022 02:27:36 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=U+7CjhwpbjiIIOfODLWwzstc/ZqbWDmexGEbDxuL8KY=; b=NF2Y0OrXkT2l
-        gQ/o4VVYUiD0zM3VnPTrI+K3vVaEk2/I8CYZ20m2o4CKVW14wTRD7u1cRvbHj6GR
-        d3UbYNChe6iTdY200QdExvzfOnEIPSOQ/hk3J6EF0mSjS0eKxz0ZEWLYqv4wSlnT
-        4+rXEpvUwPtEf/inIhuTXUtpzq0AgrI=
+         bh=iu/VwO2qZUPMNudOmqxx7rZGgy9vQ1Y2psYBXC9hJP8=; b=IDYxMrSHbeLm
+        oakl2a74iO+IYiC3GN8kDlcRQnPVuLKUfE5DkM/vtSoqB53DEtf0x938W653kmG5
+        9tjwwXHXLbF3xKDQTSsw6TOsWkAyOR7a2IQPAiLhvg1Zy4D9XsuB8HLtFdA3L07S
+        MEpXE+h4nlEsuLQM15RMfjzT/j/T2Bg=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 15ABFE0E6B;
-        Fri, 30 Sep 2022 02:27:25 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 4867BE0E6B;
+        Fri, 30 Sep 2022 02:27:36 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:27:25 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:27:37 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Dinh Nguyen <dinguyen@kernel.org>
+        Robert Richter <rric@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -46,279 +45,268 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Punnaiah Choudary Kalluri 
         <punnaiah.choudary.kalluri@xilinx.com>,
         Manish Narani <manish.narani@xilinx.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Borislav Petkov <bp@suse.de>
-Subject: [PATCH RESEND v3 01/17] EDAC/synopsys: Fix native uMCTL2 IRQs handling procedure
-Date:   Fri, 30 Sep 2022 02:26:56 +0300
-Message-ID: <20220929232712.12202-2-Sergey.Semin@baikalelectronics.ru>
+        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH RESEND v3 17/17] EDAC/synopsys: Convert to using BIT/GENMASK/FIELD_x macros
+Date:   Fri, 30 Sep 2022 02:27:12 +0300
+Message-ID: <20220929232712.12202-18-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [192.168.168.10]
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The generic DW uMCTL2 DDRC v3.x support was added in commit f7824ded4149
-("EDAC/synopsys: Add support for version 3 of the Synopsys EDAC DDR"). It
-hasn't been done quiet well there with respect to the IRQs handling
-procedure. An attempt to fix that was introduced in the recent commit
-4bcffe941758 ("EDAC/synopsys: Re-enable the error interrupts on v3 hw").
-Alas again it didn't provide quite complete solution.
+Instead of using the very handy helpers denoted in the subject the driver
+has been created with the open-coded {mask,shift} statements. It makes the
+code bulky, prone to mistakes and much harder to read. Seeing there are
+many places in the driver implementing the CSR fields get/set pattern
+let's use the FIELD_GET()/FIELD_PREP() macros introduced in the kernel
+specifically for that case. In addition we suggest to use the BIT() and
+GENMASK() macros to generate the CSR flags/masks. While at it unify the
+row, column, rank, bank and bank group macros names to be looking in the
+same way as the fields of the snps_ecc_error_info structure.
 
-First of all the commit f7824ded4149 ("EDAC/synopsys: Add support for
-version 3 of the Synopsys EDAC DDR") log says that v3.80a "has UE/CE auto
-cleared". They aren't in none of the IP-core versions. The IRQ status can
-be cleared by means of setting the ECCCLR/ECCCTL register self-cleared
-flags 0-3. The pending IRQ clearance is done in the respective
-get_error_info() method of the driver. Thus defining a quirk flag with the
-"DDR_ECC_INTR_SELF_CLEAR" name was at least very inaccurate if not to say
-misleading. So was adding the comments about the "ce/ue bits automatically
-cleared".
-
-Second, disabling the being handled IRQ in the handler doesn't make sense
-in Linux since the IC line is masked during that procedure anyway. So
-disabling the IRQ in one part of the handler and enabling it at the end of
-the method is simply redundant. (See, the ZynqMP-specific code with the
-QoS IRQ CSR didn't do that originally.)
-
-Finally calling the zynqmp_get_error_info() method concurrently with the
-enable_irq()/disable_irq() functions causes the IRQs mask state race
-condition. Starting from DW uMCTL2 DDRC IP-core v3.10a [1] the ECCCLR
-register has been renamed to ECCCTL and has been equipped with CE/UE IRQs
-enable/disable flags [2]. So the CSR now serves for the IRQ status and
-control functions used concurrently during the IRQ handling and the IRQ
-disabling/enabling. Thus the corresponding critical section must be
-protected with the IRQ-safe spin-lock.
-
-So let's fix all the problems noted above. First the
-DDR_ECC_INTR_SELF_CLEAR flag is renamed to SYNPS_ZYNQMP_IRQ_REGS. Its
-semantic is now the opposite: the quirk means having the ZynqMP IRQ CSRs
-available on the platform. Second the DDR_UE_MASK and DDR_CE_MASK macros
-are renamed to imply being used in the framework of the ECCCLR/ECCCTL CSRs
-accesses. Third all the misleading comments are removed. Finally the
-ECC_CLR_OFST register IOs are now protected with the IRQ-safe spin-lock
-taken in order to prevent the IRQ status clearance and IRQ enable/disable
-race condition.
-
-[1] DesignWare Cores Enhanced Universal DDR Memory and Protocol
-Controllers (uMCTL2/uPCTL2), Release Notes, Version 3.91a, October 2020,
-p. 27.
-[2] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2),
-Databook Version 3.91a, October 2020, p.818-819.
-
-Fixes: f7824ded4149 ("EDAC/synopsys: Add support for version 3 of the Synopsys EDAC DDR")
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 76 +++++++++++++++++++++++-------------
- 1 file changed, 48 insertions(+), 28 deletions(-)
+ drivers/edac/synopsys_edac.c | 123 +++++++++++++++++------------------
+ 1 file changed, 60 insertions(+), 63 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index f7d37c282819..c78fb5781ff9 100644
+index 49bb28af448b..7833bcff3e2e 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -9,6 +9,7 @@
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include <linux/bitfield.h>
++#include <linux/bits.h>
  #include <linux/edac.h>
  #include <linux/module.h>
  #include <linux/platform_device.h>
-+#include <linux/spinlock.h>
- #include <linux/interrupt.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-@@ -88,7 +89,7 @@
- /* DDR ECC Quirks */
- #define DDR_ECC_INTR_SUPPORT		BIT(0)
- #define DDR_ECC_DATA_POISON_SUPPORT	BIT(1)
--#define DDR_ECC_INTR_SELF_CLEAR		BIT(2)
-+#define SYNPS_ZYNQMP_IRQ_REGS		BIT(2)
- 
- /* ZynqMP Enhanced DDR memory controller registers that are relevant to ECC */
- /* ECC Configuration Registers */
-@@ -133,11 +134,13 @@
- 
- #define ECC_ADDRMAP0_OFFSET		0x200
- 
--/* Control register bitfield definitions */
-+/* ECC control/clear register definitions */
- #define ECC_CTRL_BUSWIDTH_MASK		0x3000
- #define ECC_CTRL_BUSWIDTH_SHIFT		12
- #define ECC_CTRL_CLR_CE_ERRCNT		BIT(2)
- #define ECC_CTRL_CLR_UE_ERRCNT		BIT(3)
-+#define ECC_CTRL_EN_CE_IRQ		BIT(8)
-+#define ECC_CTRL_EN_UE_IRQ		BIT(9)
- 
- /* DDR Control Register width definitions  */
+@@ -91,22 +92,19 @@
+ #define DDR_MSTR_DEV_X8			0x1
+ #define DDR_MSTR_DEV_X16		0x2
+ #define DDR_MSTR_DEV_X32		0x3
+-#define DDR_MSTR_BUSWIDTH_MASK		0x3000
+-#define DDR_MSTR_BUSWIDTH_SHIFT		12
++#define DDR_MSTR_BUSWIDTH_MASK		GENMASK(13, 12)
  #define DDRCTL_EWDTH_16			2
-@@ -164,10 +167,6 @@
+ #define DDRCTL_EWDTH_32			1
+ #define DDRCTL_EWDTH_64			0
+ 
+ /* ECC CFG0 register definitions */
+-#define ECC_CFG0_MODE_MASK		0x7
++#define ECC_CFG0_MODE_MASK		GENMASK(2, 0)
+ #define ECC_CFG0_MODE_SECDED		0x4
+ 
+ /* ECC status register definitions */
+-#define ECC_STAT_UECNT_MASK		0xF0000
+-#define ECC_STAT_UECNT_SHIFT		16
+-#define ECC_STAT_CECNT_MASK		0xF00
+-#define ECC_STAT_CECNT_SHIFT		8
+-#define ECC_STAT_BITNUM_MASK		0x7F
++#define ECC_STAT_UE_MASK		GENMASK(23, 16)
++#define ECC_STAT_CE_MASK		GENMASK(15, 8)
++#define ECC_STAT_BITNUM_MASK		GENMASK(6, 0)
+ 
+ /* ECC control/clear register definitions */
+ #define ECC_CTRL_CLR_CE_ERR		BIT(0)
+@@ -117,49 +115,41 @@
+ #define ECC_CTRL_EN_UE_IRQ		BIT(9)
+ 
+ /* ECC error count register definitions */
+-#define ECC_ERRCNT_UECNT_MASK		0xFFFF0000
+-#define ECC_ERRCNT_UECNT_SHIFT		16
+-#define ECC_ERRCNT_CECNT_MASK		0xFFFF
++#define ECC_ERRCNT_UECNT_MASK		GENMASK(31, 16)
++#define ECC_ERRCNT_CECNT_MASK		GENMASK(15, 0)
+ 
+ /* DDR QOS Interrupt register definitions */
+ #define DDR_QOS_IRQ_STAT_OFST		0x20200
+-#define DDR_QOSUE_MASK			0x4
+-#define	DDR_QOSCE_MASK			0x2
+-#define	ECC_CE_UE_INTR_MASK		0x6
++#define DDR_QOSUE_MASK			BIT(2)
++#define DDR_QOSCE_MASK			BIT(1)
++#define ECC_CE_UE_INTR_MASK		(DDR_QOSUE_MASK | DDR_QOSCE_MASK)
  #define DDR_QOS_IRQ_EN_OFST		0x20208
  #define DDR_QOS_IRQ_DB_OFST		0x2020C
  
--/* DDR QOS Interrupt register definitions */
--#define DDR_UE_MASK			BIT(9)
--#define DDR_CE_MASK			BIT(8)
--
  /* ECC Corrected Error Register Mask and Shifts*/
- #define ECC_CEADDR0_RW_MASK		0x3FFFF
- #define ECC_CEADDR0_RNK_MASK		BIT(24)
-@@ -300,6 +299,7 @@ struct synps_ecc_status {
- /**
-  * struct synps_edac_priv - DDR memory controller private instance data.
-  * @baseaddr:		Base address of the DDR controller.
-+ * @lock:		Concurrent CSRs access lock.
-  * @message:		Buffer for framing the event specific info.
-  * @stat:		ECC status information.
-  * @p_data:		Platform data.
-@@ -314,6 +314,7 @@ struct synps_ecc_status {
-  */
- struct synps_edac_priv {
- 	void __iomem *baseaddr;
-+	spinlock_t lock;
- 	char message[SYNPS_EDAC_MSG_SIZE];
- 	struct synps_ecc_status stat;
- 	const struct synps_platform_data *p_data;
-@@ -409,7 +410,8 @@ static int zynq_get_error_info(struct synps_edac_priv *priv)
- static int zynqmp_get_error_info(struct synps_edac_priv *priv)
- {
- 	struct synps_ecc_status *p;
--	u32 regval, clearval = 0;
-+	u32 regval, clearval;
-+	unsigned long flags;
- 	void __iomem *base;
+-#define ECC_CEADDR0_RW_MASK		0x3FFFF
+-#define ECC_CEADDR0_RNK_MASK		BIT(24)
+-#define ECC_CEADDR1_BNKGRP_MASK		0x3000000
+-#define ECC_CEADDR1_BNKNR_MASK		0x70000
+-#define ECC_CEADDR1_COL_MASK		0xFFF
+-#define ECC_CEADDR1_BNKGRP_SHIFT	24
+-#define ECC_CEADDR1_BNKNR_SHIFT		16
++#define ECC_CEADDR0_RANK_MASK		GENMASK(27, 24)
++#define ECC_CEADDR0_ROW_MASK		GENMASK(17, 0)
++#define ECC_CEADDR1_BANKGRP_MASK	GENMASK(25, 24)
++#define ECC_CEADDR1_BANK_MASK		GENMASK(23, 16)
++#define ECC_CEADDR1_COL_MASK		GENMASK(11, 0)
  
- 	base = priv->baseaddr;
-@@ -452,11 +454,16 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
- 					ECC_CEADDR1_BNKNR_SHIFT;
- 	p->ueinfo.blknr = (regval & ECC_CEADDR1_BLKNR_MASK);
+ /* ECC Poison register shifts */
+-#define ECC_POISON0_RANK_SHIFT		24
+-#define ECC_POISON0_RANK_MASK		BIT(24)
+-#define ECC_POISON0_COLUMN_SHIFT	0
+-#define ECC_POISON0_COLUMN_MASK		0xFFF
+-#define ECC_POISON1_BG_SHIFT		28
+-#define ECC_POISON1_BG_MASK		0x30000000
+-#define ECC_POISON1_BANKNR_SHIFT	24
+-#define ECC_POISON1_BANKNR_MASK		0x7000000
+-#define ECC_POISON1_ROW_SHIFT		0
+-#define ECC_POISON1_ROW_MASK		0x3FFFF
++#define ECC_POISON0_RANK_MASK		GENMASK(27, 24)
++#define ECC_POISON0_COL_MASK		GENMASK(11, 0)
++#define ECC_POISON1_BANKGRP_MASK	GENMASK(29, 28)
++#define ECC_POISON1_BANK_MASK		GENMASK(26, 24)
++#define ECC_POISON1_ROW_MASK		GENMASK(17, 0)
+ 
+ /* DDR Memory type defines */
+-#define MEM_TYPE_DDR3			0x1
+-#define MEM_TYPE_LPDDR3			0x8
+-#define MEM_TYPE_DDR2			0x4
+-#define MEM_TYPE_DDR4			0x10
+-#define MEM_TYPE_LPDDR4			0x20
++#define MEM_TYPE_DDR3			BIT(0)
++#define MEM_TYPE_DDR2			BIT(2)
++#define MEM_TYPE_LPDDR3			BIT(3)
++#define MEM_TYPE_DDR4			BIT(4)
++#define MEM_TYPE_LPDDR4			BIT(5)
+ 
+ /* DDRC ECC CE & UE poison mask */
+-#define ECC_CEPOISON_MASK		0x3
+-#define ECC_UEPOISON_MASK		0x1
++#define ECC_CEPOISON_MASK		GENMASK(1, 0)
++#define ECC_UEPOISON_MASK		BIT(0)
+ 
+ /* DDRC Device config shifts/masks */
+ #define DDR_MAX_ROW_SHIFT		18
+@@ -304,38 +294,40 @@ static int snps_get_error_info(struct snps_edac_priv *priv)
+ 	if (!regval)
+ 		return 1;
+ 
+-	p->ceinfo.bitpos = (regval & ECC_STAT_BITNUM_MASK);
++	p->ceinfo.bitpos = FIELD_GET(ECC_STAT_BITNUM_MASK, regval);
+ 
+ 	regval = readl(base + ECC_ERRCNT_OFST);
+-	p->ce_cnt = regval & ECC_ERRCNT_CECNT_MASK;
+-	p->ue_cnt = (regval & ECC_ERRCNT_UECNT_MASK) >> ECC_ERRCNT_UECNT_SHIFT;
++	p->ce_cnt = FIELD_GET(ECC_ERRCNT_CECNT_MASK, regval);
++	p->ue_cnt = FIELD_GET(ECC_ERRCNT_UECNT_MASK, regval);
+ 	if (!p->ce_cnt)
+ 		goto ue_err;
+ 
+ 	regval = readl(base + ECC_CEADDR0_OFST);
+-	p->ceinfo.row = (regval & ECC_CEADDR0_RW_MASK);
++	p->ceinfo.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
++
+ 	regval = readl(base + ECC_CEADDR1_OFST);
+-	p->ceinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
+-					ECC_CEADDR1_BNKNR_SHIFT;
+-	p->ceinfo.bankgrp = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
+-					ECC_CEADDR1_BNKGRP_SHIFT;
+-	p->ceinfo.col = (regval & ECC_CEADDR1_COL_MASK);
++	p->ceinfo.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
++	p->ceinfo.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
++	p->ceinfo.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
++
+ 	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
++
+ 	edac_dbg(2, "ECCCSYN0: 0x%08X ECCCSYN1: 0x%08X ECCCSYN2: 0x%08X\n",
+ 		 readl(base + ECC_CSYND0_OFST), readl(base + ECC_CSYND1_OFST),
+ 		 readl(base + ECC_CSYND2_OFST));
++
+ ue_err:
+ 	if (!p->ue_cnt)
+ 		goto out;
+ 
+ 	regval = readl(base + ECC_UEADDR0_OFST);
+-	p->ueinfo.row = (regval & ECC_CEADDR0_RW_MASK);
++	p->ueinfo.row = FIELD_GET(ECC_CEADDR0_ROW_MASK, regval);
++
+ 	regval = readl(base + ECC_UEADDR1_OFST);
+-	p->ueinfo.bankgrp = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
+-					ECC_CEADDR1_BNKGRP_SHIFT;
+-	p->ueinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
+-					ECC_CEADDR1_BNKNR_SHIFT;
+-	p->ueinfo.col = (regval & ECC_CEADDR1_COL_MASK);
++	p->ueinfo.bankgrp = FIELD_GET(ECC_CEADDR1_BANKGRP_MASK, regval);
++	p->ueinfo.bank = FIELD_GET(ECC_CEADDR1_BANK_MASK, regval);
++	p->ueinfo.col = FIELD_GET(ECC_CEADDR1_COL_MASK, regval);
++
  	p->ueinfo.data = readl(base + ECC_UESYND0_OFST);
-+
+ 
  out:
--	clearval = ECC_CTRL_CLR_CE_ERR | ECC_CTRL_CLR_CE_ERRCNT;
--	clearval |= ECC_CTRL_CLR_UE_ERR | ECC_CTRL_CLR_UE_ERRCNT;
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	clearval = readl(base + ECC_CLR_OFST) |
-+		   ECC_CTRL_CLR_CE_ERR | ECC_CTRL_CLR_CE_ERRCNT |
-+		   ECC_CTRL_CLR_UE_ERR | ECC_CTRL_CLR_UE_ERRCNT;
- 	writel(clearval, base + ECC_CLR_OFST);
--	writel(0x0, base + ECC_CLR_OFST);
-+
-+	spin_unlock_irqrestore(&priv->lock, flags);
- 
- 	return 0;
- }
-@@ -516,24 +523,42 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
- 
- static void enable_intr(struct synps_edac_priv *priv)
+@@ -510,7 +502,8 @@ static bool snps_get_ecc_state(void __iomem *base)
  {
-+	unsigned long flags;
-+
- 	/* Enable UE/CE Interrupts */
--	if (priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR)
--		writel(DDR_UE_MASK | DDR_CE_MASK,
--		       priv->baseaddr + ECC_CLR_OFST);
--	else
-+	if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS) {
- 		writel(DDR_QOSUE_MASK | DDR_QOSCE_MASK,
- 		       priv->baseaddr + DDR_QOS_IRQ_EN_OFST);
+ 	u32 regval;
  
-+		return;
-+	}
-+
-+	/* IRQs Enable/Disable feature has been available since v3.10a */
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	writel(ECC_CTRL_EN_CE_IRQ | ECC_CTRL_EN_UE_IRQ,
-+	       priv->baseaddr + ECC_CLR_OFST);
-+
-+	spin_unlock_irqrestore(&priv->lock, flags);
+-	regval = readl(base + ECC_CFG0_OFST) & ECC_CFG0_MODE_MASK;
++	regval = readl(base + ECC_CFG0_OFST);
++	regval = FIELD_GET(ECC_CFG0_MODE_MASK, regval);
+ 
+ 	return (regval == ECC_CFG0_MODE_SECDED);
+ }
+@@ -697,13 +690,13 @@ static void snps_data_poison_setup(struct snps_edac_priv *priv)
+ 	if (priv->rank_shift[0])
+ 		rank = (hif_addr >> priv->rank_shift[0]) & BIT(0);
+ 
+-	regval = (rank << ECC_POISON0_RANK_SHIFT) & ECC_POISON0_RANK_MASK;
+-	regval |= (col << ECC_POISON0_COLUMN_SHIFT) & ECC_POISON0_COLUMN_MASK;
++	regval = FIELD_PREP(ECC_POISON0_RANK_MASK, rank) |
++		 FIELD_PREP(ECC_POISON0_COL_MASK, col);
+ 	writel(regval, priv->baseaddr + ECC_POISON0_OFST);
+ 
+-	regval = (bankgrp << ECC_POISON1_BG_SHIFT) & ECC_POISON1_BG_MASK;
+-	regval |= (bank << ECC_POISON1_BANKNR_SHIFT) & ECC_POISON1_BANKNR_MASK;
+-	regval |= (row << ECC_POISON1_ROW_SHIFT) & ECC_POISON1_ROW_MASK;
++	regval = FIELD_PREP(ECC_POISON1_BANKGRP_MASK, bankgrp) |
++		 FIELD_PREP(ECC_POISON1_BANK_MASK, bank) |
++		 FIELD_PREP(ECC_POISON1_ROW_MASK, row);
+ 	writel(regval, priv->baseaddr + ECC_POISON1_OFST);
  }
  
- static void disable_intr(struct synps_edac_priv *priv)
+@@ -742,10 +735,14 @@ static ssize_t inject_data_poison_show(struct device *dev,
  {
-+	unsigned long flags;
+ 	struct mem_ctl_info *mci = to_mci(dev);
+ 	struct snps_edac_priv *priv = mci->pvt_info;
++	const char *errstr;
++	u32 regval;
 +
- 	/* Disable UE/CE Interrupts */
--	if (priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR)
--		writel(0x0, priv->baseaddr + ECC_CLR_OFST);
--	else
-+	if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS) {
- 		writel(DDR_QOSUE_MASK | DDR_QOSCE_MASK,
- 		       priv->baseaddr + DDR_QOS_IRQ_DB_OFST);
-+
-+		return;
-+	}
-+
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	writel(0, priv->baseaddr + ECC_CLR_OFST);
-+
-+	spin_unlock_irqrestore(&priv->lock, flags);
++	regval = readl(priv->baseaddr + ECC_CFG1_OFST);
++	errstr = FIELD_GET(ECC_CEPOISON_MASK, regval) == ECC_CEPOISON_MASK ?
++		 "Correctable Error" : "UnCorrectable Error";
+ 
+-	return sprintf(data, "Data Poisoning: %s\n\r",
+-			(((readl(priv->baseaddr + ECC_CFG1_OFST)) & 0x3) == 0x3)
+-			? ("Correctable Error") : ("UnCorrectable Error"));
++	return sprintf(data, "Data Poisoning: %s\n\r", errstr);
  }
  
- /**
-@@ -553,11 +578,7 @@ static irqreturn_t intr_handler(int irq, void *dev_id)
- 	priv = mci->pvt_info;
- 	p_data = priv->p_data;
+ static ssize_t inject_data_poison_store(struct device *dev,
+@@ -852,7 +849,7 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
+ 	int index;
  
--	/*
--	 * v3.0 of the controller has the ce/ue bits cleared automatically,
--	 * so this condition does not apply.
--	 */
--	if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR)) {
-+	if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS) {
- 		regval = readl(priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
- 		regval &= (DDR_QOSCE_MASK | DDR_QOSUE_MASK);
- 		if (!(regval & ECC_CE_UE_INTR_MASK))
-@@ -574,11 +595,9 @@ static irqreturn_t intr_handler(int irq, void *dev_id)
+ 	memtype = readl(priv->baseaddr + DDR_MSTR_OFST);
+-	width = (memtype & DDR_MSTR_BUSWIDTH_MASK) >> DDR_MSTR_BUSWIDTH_SHIFT;
++	width = FIELD_GET(DDR_MSTR_BUSWIDTH_MASK, memtype);
  
- 	edac_dbg(3, "Total error count CE %d UE %d\n",
- 		 priv->ce_cnt, priv->ue_cnt);
--	/* v3.0 of the controller does not have this register */
--	if (!(priv->p_data->quirks & DDR_ECC_INTR_SELF_CLEAR))
-+
-+	if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS)
- 		writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
--	else
--		enable_intr(priv);
- 
- 	return IRQ_HANDLED;
- }
-@@ -900,7 +919,7 @@ static const struct synps_platform_data zynqmp_edac_def = {
- 	.get_mtype	= zynqmp_get_mtype,
- 	.get_dtype	= zynqmp_get_dtype,
- 	.get_ecc_state	= zynqmp_get_ecc_state,
--	.quirks         = (DDR_ECC_INTR_SUPPORT
-+	.quirks         = (DDR_ECC_INTR_SUPPORT | SYNPS_ZYNQMP_IRQ_REGS
- #ifdef CONFIG_EDAC_DEBUG
- 			  | DDR_ECC_DATA_POISON_SUPPORT
- #endif
-@@ -912,7 +931,7 @@ static const struct synps_platform_data synopsys_edac_def = {
- 	.get_mtype	= zynqmp_get_mtype,
- 	.get_dtype	= zynqmp_get_dtype,
- 	.get_ecc_state	= zynqmp_get_ecc_state,
--	.quirks         = (DDR_ECC_INTR_SUPPORT | DDR_ECC_INTR_SELF_CLEAR
-+	.quirks         = (DDR_ECC_INTR_SUPPORT
- #ifdef CONFIG_EDAC_DEBUG
- 			  | DDR_ECC_DATA_POISON_SUPPORT
- #endif
-@@ -1360,6 +1379,7 @@ static int mc_probe(struct platform_device *pdev)
- 	priv = mci->pvt_info;
- 	priv->baseaddr = baseaddr;
- 	priv->p_data = p_data;
-+	spin_lock_init(&priv->lock);
- 
- 	mc_init(mci, pdev);
- 
+ 	priv->col_shift[0] = 0;
+ 	priv->col_shift[1] = 1;
 -- 
 2.37.3
 
