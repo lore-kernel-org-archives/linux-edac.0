@@ -2,34 +2,34 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5901C4167B
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:14:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A0BC433FE
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232301AbiJAAOZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 20:14:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33892 "EHLO
+        id S232328AbiJAAO0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232223AbiJAAOW (ORCPT
+        with ESMTP id S232254AbiJAAOW (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:14:22 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6D5141BE785;
-        Fri, 30 Sep 2022 17:14:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E320C1BE794;
+        Fri, 30 Sep 2022 17:14:20 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 35D0AE0ED4;
-        Fri, 30 Sep 2022 02:36:33 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 5225EE0EE5;
+        Fri, 30 Sep 2022 02:36:43 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=x8I3gzj0E45aSX1C7FH1PsX3pFFI9mtYLJ/RDgR1DJQ=; b=a0npqAjEYKNW
-        cCKAxuE2ayXfB1BgD2MgRituJYN2xuhijtnbtkuwPZJxml5ILwBoZs+vdHn55EaP
-        XATLDtYRA2naJrNfTn1J4VNBHarAgE1oI2neIGk6Y8aXJ2ITTVpNAigK5BAwduI/
-        4ObfUvocOG91z75QhPg0fa/LVryrktE=
+         bh=fLk6rJYWeyYo4X/R2uE+Au2WurJdhW4dQUs6qfLE/oo=; b=tJDA55MjLgJ5
+        JBicrg77k89Ow7lQHHk80YN0RaIExFZd1gHmOxVOZsWrtI7eG1A6qFBFaWAYA6ta
+        36zK8LfUBXh7taF0eZqJ5G2fmV1X0Bq7NRa0Ife+Vp/HfW6/bbtS/l/EA/SGutIs
+        /jZMgeyJEH48iXbnmtou5mjsV9069gk=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 28370E0E70;
-        Fri, 30 Sep 2022 02:36:33 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 41F07E0E70;
+        Fri, 30 Sep 2022 02:36:43 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:36:33 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:36:44 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -48,9 +48,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Dinh Nguyen <dinguyen@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v3 03/18] EDAC/synopsys: Extend memtypes supported by controller
-Date:   Fri, 30 Sep 2022 02:35:15 +0300
-Message-ID: <20220929233530.13016-4-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH RESEND v3 18/18] EDAC/synopsys: Add mapping-based memory size calculation
+Date:   Fri, 30 Sep 2022 02:35:30 +0300
+Message-ID: <20220929233530.13016-19-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
@@ -63,154 +63,134 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-In accordance with [1] the DW uMCTL2 DDR controllers can support the next
-DDR protocols: LPDDR, (LP)DDR(2|3|4). If the controller is configured to
-support several of these memory chip types only one of these modes will be
-able to be enabled at runtime [2]. Taking all of that into account in
-order to have a generic DW uMCTL2 DDR controller support in the driver we
-need to update the snps_get_mtype() procedure so one would be able to
-detect all the currently supported memory types in accordance with the
-table defined in [2]. Note alas it's not possible do determine which MEMC
-DDR configs were enabled at the IP-core synthesize. Thus we have no choice
-but to initialize the mci->mtype_cap field with all the types claimed to
-be supported by the reference manual.
+Currently the size of the memory attached to the controller is retrieved
+by means of the si_meminfo() method. It isn't quite correct because the
+system may have more than one memory controller. There is a better and
+more portable approach available to find out the attached memory size.
+Since now we have the full HIF/SDRAM mapping table available right in the
+device probe procedure and the DQ-bus width is detected at that stage too,
+that info can be used to calculate the total memory size accessible
+over the corresponding DW uMCTL2 DDR controller. It can be done since the
+hardware reference manual demands that none two SDRAM bits are mapped to
+the same HIF bit [1] and that the unused SDRAM address bits mapping must
+be disabled [2].
 
-While at it convert the MEM_TYPE_* macros to have a unified within the
-driver name - attach DDR_MSTR prefix indicating the CSR macro is defined
-for.
+Note the size calculation procedure takes the ranks mapping into account.
+That part will be removed after we add the multi-ranked MC registration.
 
 [1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
-Databook, Version 3.91a, October 2020, p.501
+    Databook, Version 3.91a, October 2020, p.108
 [2] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
-Databook, Version 3.91a, October 2020, p.501
+    Databook, Version 3.91a, October 2020, p.109
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 59 +++++++++++++++++++++---------------
- 1 file changed, 35 insertions(+), 24 deletions(-)
+ drivers/edac/synopsys_edac.c | 66 ++++++++++++++++++++++++++----------
+ 1 file changed, 49 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index b2a2f938045c..5adf6598465a 100644
+index 84bede647947..e1e5468acbd2 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -97,6 +97,14 @@
- #define DDRCTL_EWDTH_16			2
- #define DDRCTL_EWDTH_32			1
- #define DDRCTL_EWDTH_64			0
-+#define DDR_MSTR_MEM_MASK		GENMASK(5, 0)
-+#define DDR_MSTR_MEM_DDR2		0
-+#define DDR_MSTR_MEM_DDR3		BIT(0)
-+#define DDR_MSTR_MEM_LPDDR		BIT(1)
-+#define DDR_MSTR_MEM_LPDDR2		BIT(2)
-+#define DDR_MSTR_MEM_LPDDR3		BIT(3)
-+#define DDR_MSTR_MEM_DDR4		BIT(4)
-+#define DDR_MSTR_MEM_LPDDR4		BIT(5)
- 
- /* ECC CFG0 register definitions */
- #define ECC_CFG0_MODE_MASK		GENMASK(2, 0)
-@@ -141,13 +149,6 @@
- #define ECC_POISON1_BANK_MASK		GENMASK(26, 24)
- #define ECC_POISON1_ROW_MASK		GENMASK(17, 0)
- 
--/* DDR Memory type defines */
--#define MEM_TYPE_DDR3			BIT(0)
--#define MEM_TYPE_DDR2			BIT(2)
--#define MEM_TYPE_LPDDR3			BIT(3)
--#define MEM_TYPE_DDR4			BIT(4)
--#define MEM_TYPE_LPDDR4			BIT(5)
--
- /* DDRC ECC CE & UE poison mask */
- #define ECC_CEPOISON_MASK		GENMASK(1, 0)
- #define ECC_UEPOISON_MASK		BIT(0)
-@@ -473,7 +474,7 @@ static enum dev_type snps_get_dtype(const void __iomem *base)
- 	u32 regval;
- 
- 	regval = readl(base + DDR_MSTR_OFST);
--	if (!(regval & MEM_TYPE_DDR4))
-+	if (!(regval & DDR_MSTR_MEM_DDR4))
- 		return DEV_UNKNOWN;
- 
- 	regval = FIELD_GET(DDR_MSTR_DEV_CFG_MASK, regval);
-@@ -534,21 +535,29 @@ static u32 snps_get_memsize(void)
-  */
- static enum mem_type snps_get_mtype(const void __iomem *base)
- {
--	enum mem_type mt;
--	u32 memtype;
-+	u32 regval;
- 
--	memtype = readl(base + DDR_MSTR_OFST);
-+	regval = readl(base + DDR_MSTR_OFST);
-+	regval = FIELD_GET(DDR_MSTR_MEM_MASK, regval);
- 
--	if ((memtype & MEM_TYPE_DDR3) || (memtype & MEM_TYPE_LPDDR3))
--		mt = MEM_DDR3;
--	else if (memtype & MEM_TYPE_DDR2)
--		mt = MEM_RDDR2;
--	else if ((memtype & MEM_TYPE_LPDDR4) || (memtype & MEM_TYPE_DDR4))
--		mt = MEM_DDR4;
--	else
--		mt = MEM_EMPTY;
-+	switch (regval) {
-+	case DDR_MSTR_MEM_DDR2:
-+		return MEM_DDR2;
-+	case DDR_MSTR_MEM_DDR3:
-+		return MEM_DDR3;
-+	case DDR_MSTR_MEM_LPDDR:
-+		return MEM_LPDDR;
-+	case DDR_MSTR_MEM_LPDDR2:
-+		return MEM_LPDDR2;
-+	case DDR_MSTR_MEM_LPDDR3:
-+		return MEM_LPDDR3;
-+	case DDR_MSTR_MEM_DDR4:
-+		return MEM_DDR4;
-+	case DDR_MSTR_MEM_LPDDR4:
-+		return MEM_LPDDR4;
-+	}
- 
--	return mt;
-+	return MEM_RESERVED;
+@@ -960,20 +960,6 @@ static inline enum dev_type snps_get_dtype(u32 mstr)
+ 	return DEV_UNKNOWN;
  }
  
+-/**
+- * snps_get_memsize - Read the size of the attached memory device.
+- *
+- * Return: the memory size in bytes.
+- */
+-static u32 snps_get_memsize(void)
+-{
+-	struct sysinfo inf;
+-
+-	si_meminfo(&inf);
+-
+-	return inf.totalram * inf.mem_unit;
+-}
+-
  /**
-@@ -596,7 +605,9 @@ static void snps_mc_init(struct mem_ctl_info *mci, struct platform_device *pdev)
- 	platform_set_drvdata(pdev, mci);
+  * snps_get_mtype - Returns controller memory type.
+  * @mstr:	Master CSR value.
+@@ -1388,6 +1374,51 @@ static void snps_get_addr_map(struct snps_edac_priv *priv)
+ 	snps_get_hif_rank_map(priv, regval);
+ }
  
- 	/* Initialize controller capabilities and configuration */
--	mci->mtype_cap = MEM_FLAG_DDR3 | MEM_FLAG_DDR2;
-+	mci->mtype_cap = MEM_FLAG_LPDDR | MEM_FLAG_DDR2 | MEM_FLAG_LPDDR2 |
-+			 MEM_FLAG_DDR3 | MEM_FLAG_LPDDR3 |
-+			 MEM_FLAG_DDR4 | MEM_FLAG_LPDDR4;
- 	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
- 	mci->scrub_cap = SCRUB_FLAG_HW_SRC;
- 	mci->scrub_mode = SCRUB_NONE;
-@@ -802,7 +813,7 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
- 			COL_MAX_VAL_MASK) ? 0 : (((addrmap[3] >> 24) &
- 					COL_MAX_VAL_MASK) + COL_B9_BASE);
- 	if (width == DDRCTL_EWDTH_64) {
--		if (memtype & MEM_TYPE_LPDDR3) {
-+		if (memtype & DDR_MSTR_MEM_LPDDR3) {
- 			priv->col_shift[10] = ((addrmap[4] &
- 				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
- 				((addrmap[4] & COL_MAX_VAL_MASK) +
-@@ -822,7 +833,7 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
- 				 COL_B11_BASE);
++/**
++ * snps_get_sdram_size - Calculate SDRAM size.
++ * @priv:	DDR memory controller private data.
++ *
++ * The total size of the attached memory is calculated based on the HIF/SDRAM
++ * mapping table. It can be done since the hardware reference manual demands
++ * that none two SDRAM bits should be mapped to the same HIF bit and that the
++ * unused SDRAM address bits mapping must be disabled.
++ *
++ * Return: the memory size in bytes.
++ */
++static u64 snps_get_sdram_size(struct snps_edac_priv *priv)
++{
++	struct snps_hif_sdram_map *map = &priv->hif_sdram_map;
++	u64 size = 0;
++	int i;
++
++	for (i = 0; i < DDR_MAX_ROW_WIDTH; i++) {
++		if (map->row[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_COL_WIDTH; i++) {
++		if (map->col[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_BANK_WIDTH; i++) {
++		if (map->bank[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_BANKGRP_WIDTH; i++) {
++		if (map->bankgrp[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	for (i = 0; i < DDR_MAX_RANK_WIDTH; i++) {
++		if (map->rank[i] != DDR_ADDRMAP_UNUSED)
++			size++;
++	}
++
++	return 1ULL << (size + priv->info.dq_width);
++}
++
+ /**
+  * snps_init_csrows - Initialize the csrow data.
+  * @mci:	EDAC memory controller instance.
+@@ -1400,7 +1431,8 @@ static void snps_init_csrows(struct mem_ctl_info *mci)
+ 	struct snps_edac_priv *priv = mci->pvt_info;
+ 	struct csrow_info *csi;
+ 	struct dimm_info *dimm;
+-	u32 size, row, width;
++	u32 row, width;
++	u64 size;
+ 	int j;
+ 
+ 	/* Actual SDRAM-word width for which ECC is calculated */
+@@ -1408,13 +1440,13 @@ static void snps_init_csrows(struct mem_ctl_info *mci)
+ 
+ 	for (row = 0; row < mci->nr_csrows; row++) {
+ 		csi = mci->csrows[row];
+-		size = snps_get_memsize();
++		size = snps_get_sdram_size(priv);
+ 
+ 		for (j = 0; j < csi->nr_channels; j++) {
+ 			dimm		= csi->channels[j]->dimm;
+ 			dimm->edac_mode	= EDAC_SECDED;
+ 			dimm->mtype	= priv->info.sdram_mode;
+-			dimm->nr_pages	= (size >> PAGE_SHIFT) / csi->nr_channels;
++			dimm->nr_pages	= PHYS_PFN(size) / csi->nr_channels;
+ 			dimm->grain	= width;
+ 			dimm->dtype	= priv->info.dev_cfg;
  		}
- 	} else if (width == DDRCTL_EWDTH_32) {
--		if (memtype & MEM_TYPE_LPDDR3) {
-+		if (memtype & DDR_MSTR_MEM_LPDDR3) {
- 			priv->col_shift[10] = (((addrmap[3] >> 24) &
- 				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
- 				(((addrmap[3] >> 24) & COL_MAX_VAL_MASK) +
-@@ -842,7 +853,7 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
- 				 COL_B10_BASE);
- 		}
- 	} else {
--		if (memtype & MEM_TYPE_LPDDR3) {
-+		if (memtype & DDR_MSTR_MEM_LPDDR3) {
- 			priv->col_shift[10] = (((addrmap[3] >> 16) &
- 				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
- 				(((addrmap[3] >> 16) & COL_MAX_VAL_MASK) +
 -- 
 2.37.3
 
