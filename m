@@ -2,34 +2,34 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C267C4332F
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E58C433FE
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232257AbiJAAOW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 20:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33888 "EHLO
+        id S232286AbiJAAOX (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:14:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231298AbiJAAOU (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:14:20 -0400
+        with ESMTP id S232183AbiJAAOV (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:14:21 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 54F261BE782;
-        Fri, 30 Sep 2022 17:14:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5DB611BE78C;
+        Fri, 30 Sep 2022 17:14:19 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id DBF96E0EDA;
-        Fri, 30 Sep 2022 02:36:36 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id B9DD0E0EE1;
+        Fri, 30 Sep 2022 02:36:40 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=D65qudqE/ZEcZviOvFPE9+XbDAmFqIx7CZ3DB/NhvX4=; b=mK6IvTR9g7tt
-        7cVqjYJG+wkAQwI2l0PLvg8WUmbKMo5xAPZqrSux+ET7fgbnmezAguOTNQ7LFsJa
-        0HgACogY/leLuJbKlvVHXJxYX5WsebyX7zCvQFWUDrP6MEKJIoJ0EKBwGwFzaXMy
-        lCLELBAyMXtzlIkpjT+H24kiuxj4i4s=
+         bh=YDzYuOyuDWeLpM4botukPDxFRqBQd1koKC81hFPdd2Q=; b=fxhBJcJS0XdK
+        wzUpSA/CLfYsVvdrEqKui019XvcrQw+EtHUpcOa3xiGkwIUgpWAG5uar3NTTDoit
+        6uLPEsP/9ccfbQ2G6+KEOI8SVfH6jCEM7MDKvX3bYRoFRMeojJqWTRF7QW+zPSAq
+        xzv5Roig5u+tp0nEiM1aJjnzP2LSTSM=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id C2DBDE0E70;
-        Fri, 30 Sep 2022 02:36:36 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id AD9EFE0E70;
+        Fri, 30 Sep 2022 02:36:40 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:36:37 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:36:41 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -48,9 +48,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Dinh Nguyen <dinguyen@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v3 08/18] EDAC/synopsys: Parse ADDRMAP[0] CSR for multi-ranks case only
-Date:   Fri, 30 Sep 2022 02:35:20 +0300
-Message-ID: <20220929233530.13016-9-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH RESEND v3 14/18] EDAC/synopsys: Simplify HIF/SDRAM column mapping get procedure
+Date:   Fri, 30 Sep 2022 02:35:26 +0300
+Message-ID: <20220929233530.13016-15-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
@@ -63,36 +63,136 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The ADDRMAP[0] CSR contains the SDRAM Rank bits mapping. Obviously it's
-applicable for the multi-ranked memory only. If either the attached memory
-isn't multi-ranked or the controller simply doesn't support the multi-rank
-memory, parsing the ADDRMAP[0] CSR will be not just pointless, but in the
-later case erroneous since the CSR may contain garbage data. So make sure
-the ADDRMAP[0] register is only parsed if the multi-ranked memory setup
-has been detected.
+What is currently implemented in the driver by means of the multiple
+if-else-if-else statements in fact is described in the hardware reference
+manual [1]. It says:
+1. All of the column bits shift up 1 bit when only half of the data bus is
+in use. In this case, for instance, you need to look at
+ADDRMAP3.addrmap_col_b6 instead to determine the value of column address
+bit 7.
+2. All of the column bits shift up 2 bits when only a quarter of the data
+bus is in use. In this case, for instance, you need to look at
+ADDRMAP2.addrmap_col_b5 instead to determine the value of column address
+bit 7.
+3. In addition to the above, the column bit 10 is reserved for the
+auto-precharge command in DDR2/3/4/mDDR. So the column bits must be
+further shifted up 1 bit when one of these DDR protocols is enabled.
+
+So taking into account all of the notes above and what the column bit 12
+is always reserved, the SDRAM column bits mapping procedure can be
+significantly simplified. Initially we get to read the mapping as if for
+the LPDDR2/3/4 memory with Full DQ-bus utilized. Then we shift the column
+bits up in accordance with the detected DQ-bus width mode. That's it.
+Simple, canonical and scalable.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/edac/synopsys_edac.c | 83 ++++++++++++------------------------
+ 1 file changed, 27 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index a55ae7ff931c..87acb683ab5c 100644
+index 9baa62f6d22b..9c4f7d60b820 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -1143,9 +1143,12 @@ static void snps_setup_bg_address_map(struct snps_edac_priv *priv, u32 *addrmap)
+@@ -990,8 +990,22 @@ static void snps_get_hif_col_map(struct snps_edac_priv *priv, u32 *addrmap)
+ 	map->col[9] = map->col[9] == DDR_ADDRMAP_MAX_15 ?
+ 		      DDR_ADDRMAP_UNUSED : map->col[9] + COL_B9_BASE;
  
- static void snps_setup_rank_address_map(struct snps_edac_priv *priv, u32 *addrmap)
- {
--	priv->rank_shift[0] = ((addrmap[0] & RANK_MAX_VAL_MASK) ==
--				RANK_MAX_VAL_MASK) ? 0 : ((addrmap[0] &
--				RANK_MAX_VAL_MASK) + RANK_B0_BASE);
-+	/* Ranks mapping is unavailable for the single-ranked memory */
-+	if (priv->info.ranks > 1) {
-+		priv->rank_shift[0] = ((addrmap[0] & RANK_MAX_VAL_MASK) ==
-+					RANK_MAX_VAL_MASK) ? 0 : ((addrmap[0] &
-+					RANK_MAX_VAL_MASK) + RANK_B0_BASE);
++	map->col[10] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
++	map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[10] + COL_B10_BASE;
++
++	map->col[11] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
++	map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
++		      DDR_ADDRMAP_UNUSED : map->col[11] + COL_B11_BASE;
++
++	/*
++	 * In case of the non-Full DQ bus mode the lowest columns are
++	 * unmapped and used by the controller to read the full DQ word
++	 * in multiple cycles (col[0] for the Half bus mode, col[0:1] for
++	 * the Quarter bus mode).
++	 */
+ 	if (priv->info.dq_mode) {
+-		for (i = 9; i > priv->info.dq_mode; i--) {
++		for (i = 11 + priv->info.dq_mode; i >= priv->info.dq_mode; i--) {
+ 			map->col[i] = map->col[i - priv->info.dq_mode];
+ 			map->col[i - priv->info.dq_mode] = DDR_ADDRMAP_UNUSED;
+ 		}
+@@ -1001,65 +1015,22 @@ static void snps_get_hif_col_map(struct snps_edac_priv *priv, u32 *addrmap)
+ 	 * Per JEDEC DDR2/3/4/mDDR specification, column address bit 10 is
+ 	 * reserved for indicating auto-precharge, and hence no source
+ 	 * address bit can be mapped to col[10].
++	 */
++	if (priv->info.sdram_mode == MEM_LPDDR || priv->info.sdram_mode == MEM_DDR2 ||
++	    priv->info.sdram_mode == MEM_DDR3 || priv->info.sdram_mode == MEM_DDR4) {
++		for (i = 12 + priv->info.dq_mode; i > 10; i--) {
++			map->col[i] = map->col[i - 1];
++			map->col[i - 1] = DDR_ADDRMAP_UNUSED;
++		}
 +	}
++
++	/*
+ 	 * Per JEDEC specification, column address bit 12 is reserved
+ 	 * for the Burst-chop status, so no source address bit mapping
+ 	 * for col[12] either.
+ 	 */
+-	if (priv->info.dq_mode == SNPS_DQ_FULL) {
+-		if (priv->info.sdram_mode == MEM_LPDDR3) {
+-			map->col[10] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
+-			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B10_BASE;
+-
+-			map->col[11] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
+-			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B11_BASE;
+-		} else {
+-			map->col[11] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
+-			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B10_BASE;
+-
+-			map->col[13] = FIELD_GET(DDR_ADDRMAP_B8_M15, addrmap[4]);
+-			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B11_BASE;
+-		}
+-	} else if (priv->info.dq_mode == SNPS_DQ_HALF) {
+-		if (priv->info.sdram_mode == MEM_LPDDR3) {
+-			map->col[10] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
+-			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B9_BASE;
+-
+-			map->col[11] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
+-			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B10_BASE;
+-		} else {
+-			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
+-			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B9_BASE;
+-
+-			map->col[13] = FIELD_GET(DDR_ADDRMAP_B0_M15, addrmap[4]);
+-			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B10_BASE;
+-		}
+-	} else {
+-		if (priv->info.sdram_mode == MEM_LPDDR3) {
+-			map->col[10] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[3]);
+-			map->col[10] = map->col[10] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[10] + COL_B8_BASE;
+-
+-			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
+-			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B9_BASE;
+-		} else {
+-			map->col[11] = FIELD_GET(DDR_ADDRMAP_B16_M15, addrmap[3]);
+-			map->col[11] = map->col[11] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[11] + COL_B8_BASE;
+-
+-			map->col[11] = FIELD_GET(DDR_ADDRMAP_B24_M15, addrmap[3]);
+-			map->col[13] = map->col[13] == DDR_ADDRMAP_MAX_15 ?
+-				       DDR_ADDRMAP_UNUSED : map->col[13] + COL_B9_BASE;
+-		}
+-	}
++	map->col[13] = map->col[12];
++	map->col[12] = DDR_ADDRMAP_UNUSED;
  }
  
  /**
