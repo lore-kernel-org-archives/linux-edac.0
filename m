@@ -2,36 +2,38 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D11B7C433F5
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:14:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E582BC433FE
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232470AbiJAAOj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 20:14:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33960 "EHLO
+        id S232696AbiJAAVF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:21:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232324AbiJAAO0 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:14:26 -0400
+        with ESMTP id S232659AbiJAAUg (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:20:36 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 76D731BE78C;
-        Fri, 30 Sep 2022 17:14:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D492101CB;
+        Fri, 30 Sep 2022 17:19:11 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id ADA3CE0ED7;
-        Fri, 30 Sep 2022 02:36:34 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 242A9E0EF0;
+        Fri, 30 Sep 2022 02:41:33 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=vZRhAeJiXZSREzBskGa/lggDDqMYGJN17FGoT0sV1lE=; b=IeP8cY+EsgTo
-        4areXsoF8/rNYYDJyPNez2pd9N9A0DuqjIlYO24z8f+8bvjn/kCtZKgET18AB5Gf
-        P9bqHPDyv9kpdRgHoZCV5Qr+kfY3fmT+8eFmHc4+6804yIb3GJsDVZvySk53rPad
-        jZMUIOYjceJ/vxQkB29GRlBHRgNAcqU=
+         bh=V+LYuHHwVzIfwO4GN5TFmT/NrO82zLGdoLVWT5TMKS4=; b=hlDKoL63cdWd
+        3rwWkpnUmw5W4WTazGhbpe+0MKFsOrTqRnavXQ6nb4zKLMTk1wB3Yx0sFIjzE0lj
+        6RtgO8oJk7H/6BerGcdOZtYJVieZR6fFvQythlkbXNYixaQxttpzWa9BFyOT6Fmi
+        e+MqiNicSLIQNBcu4hCrv7nyd+pYOg0=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 9EA8EE0E70;
-        Fri, 30 Sep 2022 02:36:34 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 15EF5E0EEA;
+        Fri, 30 Sep 2022 02:41:33 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:36:35 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:33 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
-To:     Michal Simek <michal.simek@xilinx.com>,
+To:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tony Luck <tony.luck@intel.com>,
@@ -46,500 +48,210 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <punnaiah.choudary.kalluri@xilinx.com>,
         Manish Narani <manish.narani@xilinx.com>,
         Dinh Nguyen <dinguyen@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v3 05/18] EDAC/synopsys: Add DDRC basic parameters infrastructure
-Date:   Fri, 30 Sep 2022 02:35:17 +0300
-Message-ID: <20220929233530.13016-6-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v3 09/13] EDAC/synopsys: Add DFI alert_n IRQ support
+Date:   Fri, 30 Sep 2022 02:41:17 +0300
+Message-ID: <20220929234121.13955-10-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
-References: <20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
+References: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [192.168.168.10]
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Currently the driver supports a single DW uMCTL2 DDRC IP-core: 64-bit DQ
-bus, ECC SEC/DED with always on Scrub (HW-src scrub). This makes the
-driver application being very limited. In addition to that lacking of any
-controller capabilities/parameters infrastructure makes it harder to add
-optional features support. Let's overcome all of that by adding a simple
-DW uMCTL2 DDRC IP-core parameters infrastructure. It's made of the
-snps_ddrc_info structure and a new method snps_get_ddrc_info() introduced
-to fill the structure fields in. The structure contains the IP-core
-parameters needed to create a more comprehensive driver and will be used
-in the driver to activate/de-activate various features:
-- ECC Mode: SEC/DED or Advanced X4/X8 ECC features. (Currently SEC/DED is
-  only supported.)
-- SDRAM mode: (LP)DDR[2-4] memory interfaces. (Required for the HIF/SDRAM
-  address translation.)
-- Memory Device config: Memory chips detected on the platform. (Applicable
-  for DDR4 setups only.)
-- DQ-bus width: Maximal DQ-bus width utilized by the device. (Required for
-  the Application/HIF address translation.)
-- DQ-bus mode: Actual DQ-bus width used to access the memory devices.
-  (Required for the HIF/SDRAM address translation and ECC grain calc.)
-- HIF/SDRAM burst length: Required for the Scrubber bandwidth
-  calculation.
-- HIF/SDRAM frequency ratio: Required for the SDRAM bandwidth
-  calculation.
-- SDRAM ranks number: Required for the Application/HIF address
-  translation.
+In accordance with [1] DW uMCTL2 DDR controller can generate an IRQ in
+case if an attached SDRAM detects a CRC/Parity error. That capability is
+mainly applicable for the DDR4 memory which has an additional signals
+PARITY/ALERT_n indicating the even SDRAM address/command parity signal and
+alert if the parity turns to be not even. But in accordance with [1] at
+least the SDRAM address/command parity is calculated irrespective of the
+memory protocol and then sent out by means of the dfi_parity_n signal
+further to the DDR PHY. So depending on the DDR protocol and the DDR PHY
+implementation the CRC/Parity error can be checked at some point
+independently from the DDR devices type and then signaled via the
+dfi_alert_n line. In anycase it would be very much useful to catch the
+event and at least warn the user about problems with the DFI/SDRAM signals
+integrity.
 
-The list can be easily updated should any additional features support is
-required to be added in future, but at this stage the driver is fixed in a
-few places to have the new infrastructure utilized: SDRAM column address
-mapper, MCI csrows initialization.
+So here we suggest to add the DFI CRC/Parity IRQs handling support. First
+the IRQ line is requested by the name "dfi_e" (defined in the DT-bindings)
+and register its handler in case of the platform with the individual DW
+uMCTL2 DDRC IRQs. If individual IRQs are unavailable the common IRQ
+handler will call the DFI CRC/Parity event handler. Note the handler
+doesn't do much. It just checks the IRQ status, reads the number of
+errors, reports the fatal error to the MCI core and clears the IRQ status.
+Alas neither the erroneous SDRAM address nor the executed command are
+available in this case. Secondly the DFI CRC/Parity IRQ is
+enabled/disabled together with the ECC CE/UE interrupts in the controller
+probe procedure.  Finally the CRC/Parity capability is advertised by the
+EDAC controller capabilities flags.
 
-Note getting all of these parameters in a single method is very suitable
-from two perspectives. First it localizes the IP-core parameters detection
-thus improving the code readability and maintainability. Second it's very
-suitable for the platform-specific quirks implementation. Since some of
-the IP-core parameters can't be auto-detected at run-time, they will be
-able to be fixed right in the parameters getter by means of the platform
-quirks.
+[1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
+    Databook, Version 3.91a, October 2020, p.131-132
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 268 +++++++++++++++++++++++++++--------
- 1 file changed, 211 insertions(+), 57 deletions(-)
+ drivers/edac/synopsys_edac.c | 78 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 75 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index f2f83b24d62c..b4db70224ee9 100644
+index 6a47e53deab5..8d8952826bce 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -12,6 +12,7 @@
- #include <linux/fs.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/seq_file.h>
- #include <linux/spinlock.h>
- #include <linux/interrupt.h>
- #include <linux/of.h>
-@@ -87,16 +88,21 @@
- /* DDR Software control register */
- #define DDR_SWCTL			0x320
+@@ -80,6 +80,12 @@
+ #define ECC_POISON0_OFST		0xB8
+ #define ECC_POISON1_OFST		0xBC
  
-+/* ECC Poison pattern registers */
-+#define ECC_POISONPAT0_OFST		0x37C
-+#define ECC_POISONPAT1_OFST		0x380
-+#define ECC_POISONPAT2_OFST		0x384
++/* DDR CRC/Parity register */
++#define DDR_CRCPARCTL0_OFST		0xC0
++#define DDR_CRCPARCTL1_OFST		0xC4
++#define DDR_CRCPARCTL2_OFST		0xC8
++#define DDR_CRCPARSTAT_OFST		0xCC
 +
- /* DDR Master Register 0 definitions */
- #define DDR_MSTR_DEV_CFG_MASK		GENMASK(31, 30)
- #define DDR_MSTR_DEV_X4			0x0
- #define DDR_MSTR_DEV_X8			0x1
- #define DDR_MSTR_DEV_X16		0x2
- #define DDR_MSTR_DEV_X32		0x3
-+#define DDR_MSTR_ACT_RANKS_MASK		GENMASK(27, 24)
-+#define DDR_MSTR_FREQ_RATIO11		BIT(22)
-+#define DDR_MSTR_BURST_RDWR		GENMASK(19, 16)
- #define DDR_MSTR_BUSWIDTH_MASK		GENMASK(13, 12)
--#define DDRCTL_EWDTH_16			2
--#define DDRCTL_EWDTH_32			1
--#define DDRCTL_EWDTH_64			0
- #define DDR_MSTR_MEM_MASK		GENMASK(5, 0)
- #define DDR_MSTR_MEM_DDR2		0
- #define DDR_MSTR_MEM_DDR3		BIT(0)
-@@ -108,7 +114,6 @@
+ /* DDR Address map0 Registers */
+ #define DDR_ADDRMAP0_OFST		0x200
  
- /* ECC CFG0 register definitions */
- #define ECC_CFG0_MODE_MASK		GENMASK(2, 0)
--#define ECC_CFG0_MODE_SECDED		0x4
+@@ -153,6 +159,13 @@
+ #define ECC_CEADDR1_BANK_MASK		GENMASK(23, 16)
+ #define ECC_CEADDR1_COL_MASK		GENMASK(11, 0)
  
- /* ECC status register definitions */
- #define ECC_STAT_UE_MASK		GENMASK(23, 16)
-@@ -206,6 +211,91 @@
- 
- #define RANK_B0_BASE			6
- 
-+/**
-+ * enum snps_dq_width - SDRAM DQ bus width (ECC capable).
-+ * SNPS_DQ_32:	32-bit memory data width.
-+ * SNPS_DQ_64:	64-bit memory data width.
-+ */
-+enum snps_dq_width {
-+	SNPS_DQ_32 = 2,
-+	SNPS_DQ_64 = 3,
-+};
++/* DDR CRC/Parity register definitions */
++#define DDR_CRCPARCTL0_CLR_ALRT_ERRCNT	BIT(2)
++#define DDR_CRCPARCTL0_CLR_ALRT_ERR	BIT(1)
++#define DDR_CRCPARCTL0_EN_ALRT_IRQ	BIT(0)
++#define DDR_CRCPARSTAT_ALRT_ERR		BIT(16)
++#define DDR_CRCPARSTAT_ALRT_CNT_MASK	GENMASK(15, 0)
 +
-+/**
-+ * enum snps_dq_mode - SDRAM DQ bus mode.
-+ * @SNPS_DQ_FULL:	Full DQ bus width.
-+ * @SNPS_DQ_HALF:	Half DQ bus width.
-+ * @SNPS_DQ_QRTR:	Quarter DQ bus width.
-+ */
-+enum snps_dq_mode {
-+	SNPS_DQ_FULL = 0,
-+	SNPS_DQ_HALF = 1,
-+	SNPS_DQ_QRTR = 2,
-+};
-+
-+/**
-+ * enum snps_burst_length - HIF/SDRAM burst transactions length.
-+ * @SNPS_DDR_BL2:	Burst length 2xSDRAM-words.
-+ * @SNPS_DDR_BL4:	Burst length 4xSDRAM-words.
-+ * @SNPS_DDR_BL8:	Burst length 8xSDRAM-words.
-+ * @SNPS_DDR_BL16:	Burst length 16xSDRAM-words.
-+ */
-+enum snps_burst_length {
-+	SNPS_DDR_BL2 = 2,
-+	SNPS_DDR_BL4 = 4,
-+	SNPS_DDR_BL8 = 8,
-+	SNPS_DDR_BL16 = 16,
-+};
-+
-+/**
-+ * enum snps_freq_ratio - HIF:SDRAM frequency ratio mode.
-+ * @SNPS_FREQ_RATIO11:	1:1 frequency mode.
-+ * @SNPS_FREQ_RATIO12:	1:2 frequency mode.
-+ */
-+enum snps_freq_ratio {
-+	SNPS_FREQ_RATIO11 = 1,
-+	SNPS_FREQ_RATIO12 = 2,
-+};
-+
-+/**
-+ * enum snps_ecc_mode - ECC mode.
-+ * @SNPS_ECC_DISABLED:	ECC is disabled/unavailable.
-+ * @SNPS_ECC_SECDED:	SEC/DED over 1 beat ECC (SideBand/Inline).
-+ * @SNPS_ECC_ADVX4X8:	Advanced ECC X4/X8 (SideBand).
-+ */
-+enum snps_ecc_mode {
-+	SNPS_ECC_DISABLED = 0,
-+	SNPS_ECC_SECDED = 4,
-+	SNPS_ECC_ADVX4X8 = 5,
-+};
-+
-+/**
-+ * struct snps_ddrc_info - DDR controller platform parameters.
-+ * @caps:		DDR controller capabilities.
-+ * @sdram_mode:		Current SDRAM mode selected.
-+ * @dev_cfg:		Current memory device config (if applicable).
-+ * @dq_width:		Memory data bus width (width of the DQ signals
-+ *			connected to SDRAM chips).
-+ * @dq_mode:		Proportion of the DQ bus utilized to access SDRAM.
-+ * @sdram_burst_len:	SDRAM burst transaction length.
-+ * @hif_burst_len:	HIF burst transaction length (Host Interface).
-+ * @freq_ratio:		HIF/SDRAM frequency ratio mode.
-+ * @ecc_mode:		ECC mode enabled for the DDR controller (SEC/DED, etc).
-+ * @ranks:		Number of ranks enabled to access DIMM (1, 2 or 4).
-+ */
-+struct snps_ddrc_info {
-+	unsigned int caps;
-+	enum mem_type sdram_mode;
-+	enum dev_type dev_cfg;
-+	enum snps_dq_width dq_width;
-+	enum snps_dq_mode dq_mode;
-+	enum snps_burst_length sdram_burst_len;
-+	enum snps_burst_length hif_burst_len;
-+	enum snps_freq_ratio freq_ratio;
-+	enum snps_ecc_mode ecc_mode;
-+	unsigned int ranks;
-+};
-+
- /**
-  * struct snps_ecc_error_info - ECC error log information.
-  * @row:	Row number.
-@@ -240,6 +330,7 @@ struct snps_ecc_status {
- 
- /**
-  * struct snps_edac_priv - DDR memory controller private data.
-+ * @info:		DDR controller config info.
-  * @pdev:		Platform device.
-  * @baseaddr:		Base address of the DDR controller.
-  * @lock:		Concurrent CSRs access lock.
-@@ -254,6 +345,7 @@ struct snps_ecc_status {
-  * @rank_shift:		Bit shifts for rank bit.
-  */
- struct snps_edac_priv {
-+	struct snps_ddrc_info info;
- 	struct platform_device *pdev;
- 	void __iomem *baseaddr;
- 	spinlock_t lock;
-@@ -492,23 +584,19 @@ static struct snps_edac_priv *snps_create_data(struct platform_device *pdev)
- 
- /**
-  * snps_get_dtype - Return the controller memory width.
-- * @base:	DDR memory controller base address.
-+ * @mstr:	Master CSR value.
-  *
-  * Get the EDAC device type width appropriate for the current controller
-  * configuration.
-  *
-  * Return: a device type width enumeration.
-  */
--static enum dev_type snps_get_dtype(const void __iomem *base)
-+static inline enum dev_type snps_get_dtype(u32 mstr)
- {
--	u32 regval;
--
--	regval = readl(base + DDR_MSTR_OFST);
--	if (!(regval & DDR_MSTR_MEM_DDR4))
-+	if (!(mstr & DDR_MSTR_MEM_DDR4))
- 		return DEV_UNKNOWN;
- 
--	regval = FIELD_GET(DDR_MSTR_DEV_CFG_MASK, regval);
--	switch (regval) {
-+	switch (FIELD_GET(DDR_MSTR_DEV_CFG_MASK, mstr)) {
- 	case DDR_MSTR_DEV_X4:
- 		return DEV_X4;
- 	case DDR_MSTR_DEV_X8:
-@@ -522,24 +610,6 @@ static enum dev_type snps_get_dtype(const void __iomem *base)
- 	return DEV_UNKNOWN;
- }
- 
--/**
-- * snps_get_ecc_state - Return the controller ECC enable/disable status.
-- * @base:	DDR memory controller base address.
-- *
-- * Get the ECC enable/disable status for the controller.
-- *
-- * Return: a ECC status boolean i.e true/false - enabled/disabled.
-- */
--static bool snps_get_ecc_state(void __iomem *base)
--{
--	u32 regval;
--
--	regval = readl(base + ECC_CFG0_OFST);
--	regval = FIELD_GET(ECC_CFG0_MODE_MASK, regval);
--
--	return (regval == ECC_CFG0_MODE_SECDED);
--}
--
- /**
-  * snps_get_memsize - Read the size of the attached memory device.
-  *
-@@ -556,21 +626,16 @@ static u32 snps_get_memsize(void)
- 
- /**
-  * snps_get_mtype - Returns controller memory type.
-- * @base:	Synopsys ECC status structure.
-+ * @mstr:	Master CSR value.
-  *
-  * Get the EDAC memory type appropriate for the current controller
-  * configuration.
-  *
-  * Return: a memory type enumeration.
-  */
--static enum mem_type snps_get_mtype(const void __iomem *base)
-+static inline enum mem_type snps_get_mtype(u32 mstr)
- {
--	u32 regval;
--
--	regval = readl(base + DDR_MSTR_OFST);
--	regval = FIELD_GET(DDR_MSTR_MEM_MASK, regval);
--
--	switch (regval) {
-+	switch (FIELD_GET(DDR_MSTR_MEM_MASK, mstr)) {
- 	case DDR_MSTR_MEM_DDR2:
- 		return MEM_DDR2;
- 	case DDR_MSTR_MEM_DDR3:
-@@ -590,6 +655,69 @@ static enum mem_type snps_get_mtype(const void __iomem *base)
- 	return MEM_RESERVED;
+ /* ECC Poison register shifts */
+ #define ECC_POISON0_RANK_MASK		GENMASK(27, 24)
+ #define ECC_POISON0_COL_MASK		GENMASK(11, 0)
+@@ -829,6 +842,48 @@ static irqreturn_t snps_ue_irq_handler(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
  }
  
 +/**
-+ * snps_get_ddrc_info - Get the DDR controller config data.
-+ * @priv:	DDR memory controller private data.
++ * snps_dfi_irq_handler - DFI CRC/Parity error interrupt handler.
++ * @irq:        IRQ number.
++ * @dev_id:     Device ID.
 + *
-+ * Return: negative errno if no ECC detected, otherwise - zero.
++ * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
 + */
-+static int snps_get_ddrc_info(struct snps_edac_priv *priv)
++static irqreturn_t snps_dfi_irq_handler(int irq, void *dev_id)
 +{
-+	int (*init_plat)(struct snps_edac_priv *priv);
-+	u32 regval;
-+
-+	/* Before getting the DDRC parameters make sure ECC is enabled */
-+	regval = readl(priv->baseaddr + ECC_CFG0_OFST);
-+
-+	priv->info.ecc_mode = FIELD_GET(ECC_CFG0_MODE_MASK, regval);
-+	if (priv->info.ecc_mode != SNPS_ECC_SECDED) {
-+		edac_printk(KERN_INFO, EDAC_MC, "SEC/DED ECC not enabled\n");
-+		return -ENXIO;
-+	}
-+
-+	/* Auto-detect the basic HIF/SDRAM bus parameters */
-+	regval = readl(priv->baseaddr + DDR_MSTR_OFST);
-+
-+	priv->info.sdram_mode = snps_get_mtype(regval);
-+	priv->info.dev_cfg = snps_get_dtype(regval);
-+
-+	priv->info.dq_mode = FIELD_GET(DDR_MSTR_BUSWIDTH_MASK, regval);
-+
-+	/*
-+	 * Assume HIF burst length matches the SDRAM burst length since it's
-+	 * not auto-detectable
-+	 */
-+	priv->info.sdram_burst_len = FIELD_GET(DDR_MSTR_BURST_RDWR, regval) << 1;
-+	priv->info.hif_burst_len = priv->info.sdram_burst_len;
-+
-+	/* Retrieve the current HIF/SDRAM frequency ratio: 1:1 vs 1:2 */
-+	priv->info.freq_ratio = !(regval & DDR_MSTR_FREQ_RATIO11) + 1;
-+
-+	/* Activated ranks field: set bit corresponds to populated rank */
-+	priv->info.ranks = FIELD_GET(DDR_MSTR_ACT_RANKS_MASK, regval);
-+	priv->info.ranks = hweight_long(priv->info.ranks);
-+
-+	/* Auto-detect the DQ bus width by using the ECC-poison pattern CSR */
-+	writel(0, priv->baseaddr + DDR_SWCTL);
-+
-+	/*
-+	 * If poison pattern [32:64] is changeable then DQ is 64-bit wide.
-+	 * Note the feature has been available since IP-core v2.51a.
-+	 */
-+	regval = readl(priv->baseaddr + ECC_POISONPAT1_OFST);
-+	writel(~regval, priv->baseaddr + ECC_POISONPAT1_OFST);
-+	if (regval != readl(priv->baseaddr + ECC_POISONPAT1_OFST)) {
-+		priv->info.dq_width = SNPS_DQ_64;
-+		writel(regval, priv->baseaddr + ECC_POISONPAT1_OFST);
-+	} else {
-+		priv->info.dq_width = SNPS_DQ_32;
-+	}
-+
-+	writel(1, priv->baseaddr + DDR_SWCTL);
-+
-+	return 0;
-+}
-+
- /**
-  * snps_init_csrows - Initialize the csrow data.
-  * @mci:	EDAC memory controller instance.
-@@ -612,10 +740,10 @@ static void snps_init_csrows(struct mem_ctl_info *mci)
- 		for (j = 0; j < csi->nr_channels; j++) {
- 			dimm		= csi->channels[j]->dimm;
- 			dimm->edac_mode	= EDAC_SECDED;
--			dimm->mtype	= snps_get_mtype(priv->baseaddr);
-+			dimm->mtype	= priv->info.sdram_mode;
- 			dimm->nr_pages	= (size >> PAGE_SHIFT) / csi->nr_channels;
- 			dimm->grain	= SNPS_EDAC_ERR_GRAIN;
--			dimm->dtype	= snps_get_dtype(priv->baseaddr);
-+			dimm->dtype	= priv->info.dev_cfg;
- 		}
- 	}
- }
-@@ -729,6 +857,33 @@ static int snps_setup_irq(struct mem_ctl_info *mci)
- 
- #define SNPS_DBGFS_BUF_LEN 128
- 
-+static int snps_ddrc_info_show(struct seq_file *s, void *data)
-+{
-+	struct mem_ctl_info *mci = s->private;
++	struct mem_ctl_info *mci = dev_id;
 +	struct snps_edac_priv *priv = mci->pvt_info;
++	unsigned long flags;
++	u32 regval;
++	u16 ecnt;
 +
-+	seq_printf(s, "SDRAM: %s\n", edac_mem_types[priv->info.sdram_mode]);
++	/* Make sure IRQ is caused by an DFI alert error */
++	regval = readl(priv->baseaddr + DDR_CRCPARSTAT_OFST);
++	if (!(regval & DDR_CRCPARSTAT_ALRT_ERR))
++		return IRQ_NONE;
 +
-+	seq_printf(s, "DQ bus: %u/%s\n", (BITS_PER_BYTE << priv->info.dq_width),
-+		   priv->info.dq_mode == SNPS_DQ_FULL ? "Full" :
-+		   priv->info.dq_mode == SNPS_DQ_HALF ? "Half" :
-+		   priv->info.dq_mode == SNPS_DQ_QRTR ? "Quarter" :
-+		   "Unknown");
-+	seq_printf(s, "Burst: SDRAM %u HIF %u\n", priv->info.sdram_burst_len,
-+		   priv->info.hif_burst_len);
++	/* Just a number of CRC/Parity errors is available */
++	ecnt = FIELD_GET(DDR_CRCPARSTAT_ALRT_CNT_MASK, regval);
 +
-+	seq_printf(s, "Ranks: %u\n", priv->info.ranks);
++	/* Report the detected errors with just the custom message */
++	snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
++		 "DFI CRC/Parity error detected on dfi_alert_n");
 +
-+	seq_printf(s, "ECC: %s\n",
-+		   priv->info.ecc_mode == SNPS_ECC_SECDED ? "SEC/DED" :
-+		   priv->info.ecc_mode == SNPS_ECC_ADVX4X8 ? "Advanced X4/X8" :
-+		   "Unknown");
++	edac_mc_handle_error(HW_EVENT_ERR_FATAL, mci, ecnt,
++			     0, 0, 0, 0, 0, -1, priv->message, "");
 +
-+	return 0;
++	/* Make sure the DFI alert IRQ status is cleared */
++	spin_lock_irqsave(&priv->lock, flags);
++
++	regval = readl(priv->baseaddr + DDR_CRCPARCTL0_OFST) |
++		 DDR_CRCPARCTL0_CLR_ALRT_ERR | DDR_CRCPARCTL0_CLR_ALRT_ERRCNT;
++	writel(regval, priv->baseaddr + DDR_CRCPARCTL0_OFST);
++
++	spin_unlock_irqrestore(&priv->lock, flags);
++
++	return IRQ_HANDLED;
 +}
 +
-+DEFINE_SHOW_ATTRIBUTE(snps_ddrc_info);
-+
  /**
-  * snps_data_poison_setup - Update poison registers.
-  * @priv:		DDR memory controller private instance data.
-@@ -850,12 +1005,8 @@ static void snps_setup_row_address_map(struct snps_edac_priv *priv, u32 *addrmap
+  * snps_com_irq_handler - Interrupt IRQ signal handler.
+  * @irq:        IRQ number.
+@@ -844,6 +899,8 @@ static irqreturn_t snps_com_irq_handler(int irq, void *dev_id)
  
- static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addrmap)
- {
--	u32 width, memtype;
- 	int index;
+ 	rc |= snps_ue_irq_handler(irq, dev_id);
  
--	memtype = readl(priv->baseaddr + DDR_MSTR_OFST);
--	width = FIELD_GET(DDR_MSTR_BUSWIDTH_MASK, memtype);
--
- 	priv->col_shift[0] = 0;
- 	priv->col_shift[1] = 1;
- 	priv->col_shift[2] = (addrmap[2] & COL_MAX_VAL_MASK) + COL_B2_BASE;
-@@ -879,8 +1030,8 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
- 	priv->col_shift[9] = (((addrmap[3] >> 24) & COL_MAX_VAL_MASK) ==
- 			COL_MAX_VAL_MASK) ? 0 : (((addrmap[3] >> 24) &
- 					COL_MAX_VAL_MASK) + COL_B9_BASE);
--	if (width == DDRCTL_EWDTH_64) {
--		if (memtype & DDR_MSTR_MEM_LPDDR3) {
-+	if (priv->info.dq_mode == SNPS_DQ_FULL) {
-+		if (priv->info.sdram_mode == MEM_LPDDR3) {
- 			priv->col_shift[10] = ((addrmap[4] &
- 				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
- 				((addrmap[4] & COL_MAX_VAL_MASK) +
-@@ -899,8 +1050,8 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
- 				(((addrmap[4] >> 8) & COL_MAX_VAL_MASK) +
- 				 COL_B11_BASE);
- 		}
--	} else if (width == DDRCTL_EWDTH_32) {
--		if (memtype & DDR_MSTR_MEM_LPDDR3) {
-+	} else if (priv->info.dq_mode == SNPS_DQ_HALF) {
-+		if (priv->info.sdram_mode == MEM_LPDDR3) {
- 			priv->col_shift[10] = (((addrmap[3] >> 24) &
- 				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
- 				(((addrmap[3] >> 24) & COL_MAX_VAL_MASK) +
-@@ -920,7 +1071,7 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
- 				 COL_B10_BASE);
- 		}
- 	} else {
--		if (memtype & DDR_MSTR_MEM_LPDDR3) {
-+		if (priv->info.sdram_mode == MEM_LPDDR3) {
- 			priv->col_shift[10] = (((addrmap[3] >> 16) &
- 				COL_MAX_VAL_MASK) == COL_MAX_VAL_MASK) ? 0 :
- 				(((addrmap[3] >> 16) & COL_MAX_VAL_MASK) +
-@@ -941,10 +1092,11 @@ static void snps_setup_column_address_map(struct snps_edac_priv *priv, u32 *addr
- 		}
- 	}
- 
--	if (width) {
--		for (index = 9; index > width; index--) {
--			priv->col_shift[index] = priv->col_shift[index - width];
--			priv->col_shift[index - width] = 0;
-+	if (priv->info.dq_mode) {
-+		for (index = 9; index > priv->info.dq_mode; index--) {
-+			priv->col_shift[index] =
-+				priv->col_shift[index - priv->info.dq_mode];
-+			priv->col_shift[index - priv->info.dq_mode] = 0;
- 		}
- 	}
- 
-@@ -1106,6 +1258,9 @@ static void snps_create_debugfs_nodes(struct mem_ctl_info *mci)
- 
- 	snps_setup_address_map(priv);
- 
-+	edac_debugfs_create_file("ddrc_info", 0400, mci->debugfs, mci,
-+				 &snps_ddrc_info_fops);
++	rc |= snps_dfi_irq_handler(irq, dev_id);
 +
- 	edac_debugfs_create_file("inject_data_error", 0600, mci->debugfs, mci,
- 				 &snps_inject_data_error);
+ 	return rc;
+ }
  
-@@ -1138,10 +1293,9 @@ static int snps_mc_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv))
- 		return PTR_ERR(priv);
+@@ -859,11 +916,16 @@ static void snps_enable_irq(struct snps_edac_priv *priv)
+ 		return;
+ 	}
  
--	if (!snps_get_ecc_state(baseaddr)) {
--		edac_printk(KERN_INFO, EDAC_MC, "ECC not enabled\n");
--		return -ENXIO;
--	}
-+	rc = snps_get_ddrc_info(priv);
-+	if (rc)
-+		return rc;
+-	/* IRQs Enable/Disable feature has been available since v3.10a */
++	/*
++	 * ECC IRQs Enable/Disable feature has been available since v3.10a,
++	 * while CRC/Parity interrupts control - since v2.10a.
++	 */
+ 	spin_lock_irqsave(&priv->lock, flags);
  
- 	mci = snps_mc_create(priv);
- 	if (IS_ERR(mci))
+ 	writel(ECC_CTRL_EN_CE_IRQ | ECC_CTRL_EN_UE_IRQ,
+ 	       priv->baseaddr + ECC_CLR_OFST);
++	writel(DDR_CRCPARCTL0_EN_ALRT_IRQ,
++	       priv->baseaddr + DDR_CRCPARCTL0_OFST);
+ 
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ }
+@@ -883,6 +945,7 @@ static void snps_disable_irq(struct snps_edac_priv *priv)
+ 	spin_lock_irqsave(&priv->lock, flags);
+ 
+ 	writel(0, priv->baseaddr + ECC_CLR_OFST);
++	writel(0, priv->baseaddr + DDR_CRCPARCTL0_OFST);
+ 
+ 	spin_unlock_irqrestore(&priv->lock, flags);
+ }
+@@ -1483,7 +1546,8 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
+ 	mci->mtype_cap = MEM_FLAG_LPDDR | MEM_FLAG_DDR2 | MEM_FLAG_LPDDR2 |
+ 			 MEM_FLAG_DDR3 | MEM_FLAG_LPDDR3 |
+ 			 MEM_FLAG_DDR4 | MEM_FLAG_LPDDR4;
+-	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
++	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED | EDAC_FLAG_PARITY;
++	mci->edac_cap = mci->edac_ctl_cap;
+ 
+ 	if (priv->info.caps & SNPS_CAP_ECC_SCRUB) {
+ 		mci->scrub_mode = SCRUB_HW_SRC;
+@@ -1493,7 +1557,6 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
+ 		mci->scrub_cap = SCRUB_FLAG_SW_SRC;
+ 	}
+ 
+-	mci->edac_cap = EDAC_FLAG_SECDED;
+ 	mci->ctl_name = "snps_umctl2_ddrc";
+ 	mci->dev_name = SNPS_EDAC_MOD_STRING;
+ 	mci->mod_name = SNPS_EDAC_MOD_VER;
+@@ -1559,6 +1622,15 @@ static int snps_request_ind_irq(struct mem_ctl_info *mci)
+ 		return rc;
+ 	}
+ 
++	irq = platform_get_irq_byname_optional(priv->pdev, "dfi_e");
++	if (irq > 0) {
++		rc = devm_request_irq(dev, irq, snps_dfi_irq_handler, 0, "dfi_e", mci);
++		if (rc) {
++			edac_printk(KERN_ERR, EDAC_MC, "Failed to request DFI IRQ\n");
++			return rc;
++		}
++	}
++
+ 	return 0;
+ }
+ 
 -- 
 2.37.3
 
