@@ -2,34 +2,34 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E582BC433FE
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72723C43217
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232696AbiJAAVF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 20:21:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51404 "EHLO
+        id S232786AbiJAAVG (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:21:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232659AbiJAAUg (ORCPT
+        with ESMTP id S232660AbiJAAUg (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:20:36 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D492101CB;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D59336DC8;
         Fri, 30 Sep 2022 17:19:11 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 242A9E0EF0;
-        Fri, 30 Sep 2022 02:41:33 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id CE36EE0EF4;
+        Fri, 30 Sep 2022 02:41:35 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=V+LYuHHwVzIfwO4GN5TFmT/NrO82zLGdoLVWT5TMKS4=; b=hlDKoL63cdWd
-        3rwWkpnUmw5W4WTazGhbpe+0MKFsOrTqRnavXQ6nb4zKLMTk1wB3Yx0sFIjzE0lj
-        6RtgO8oJk7H/6BerGcdOZtYJVieZR6fFvQythlkbXNYixaQxttpzWa9BFyOT6Fmi
-        e+MqiNicSLIQNBcu4hCrv7nyd+pYOg0=
+         bh=tIFko1L6or88/GVnsEDwf0248T9U3azU2y4h1UIalJo=; b=nXFrPkkrCooC
+        cJf+DC2Xy1Xgu8TZDAoy5YzJXJA5J4axFdnC3opfES1zF87HNqaZLto+5mqgQXed
+        hpLKnda9hvmyw3J53/pivKYRjYrZ24tOOI0dAJZL3rHsIlUbxYICNKxBPAOqA6+/
+        9rgsdEzvbi39SST5OoKnU8OTqMczQec=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 15EF5E0EEA;
-        Fri, 30 Sep 2022 02:41:33 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id C2824E0EEA;
+        Fri, 30 Sep 2022 02:41:35 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:33 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:36 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -53,205 +53,74 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 09/13] EDAC/synopsys: Add DFI alert_n IRQ support
-Date:   Fri, 30 Sep 2022 02:41:17 +0300
-Message-ID: <20220929234121.13955-10-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v3 13/13] EDAC/synopsys: Add Baikal-T1 DDRC support
+Date:   Fri, 30 Sep 2022 02:41:21 +0300
+Message-ID: <20220929234121.13955-14-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [192.168.168.10]
 X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-In accordance with [1] DW uMCTL2 DDR controller can generate an IRQ in
-case if an attached SDRAM detects a CRC/Parity error. That capability is
-mainly applicable for the DDR4 memory which has an additional signals
-PARITY/ALERT_n indicating the even SDRAM address/command parity signal and
-alert if the parity turns to be not even. But in accordance with [1] at
-least the SDRAM address/command parity is calculated irrespective of the
-memory protocol and then sent out by means of the dfi_parity_n signal
-further to the DDR PHY. So depending on the DDR protocol and the DDR PHY
-implementation the CRC/Parity error can be checked at some point
-independently from the DDR devices type and then signaled via the
-dfi_alert_n line. In anycase it would be very much useful to catch the
-event and at least warn the user about problems with the DFI/SDRAM signals
-integrity.
+Baikal-T1 SoC is equipped with the DW uMCTl2 DDRC of v2.61a with 32-bit
+DQ-bus accepting DDR2/DDR3 SDRAMs of up to 2 ranks, 1:2 HIF/SDRAM clocks
+rate ratio, HIF interface burst length of 8 Full DQ-bus words, 40-bit
+System/Application address width and 128-bits data width, 3 System address
+regions with block size 256MB. There is SEC/DED ECC capability with Scrub
+(RMW) and Scrubber features.
 
-So here we suggest to add the DFI CRC/Parity IRQs handling support. First
-the IRQ line is requested by the name "dfi_e" (defined in the DT-bindings)
-and register its handler in case of the platform with the individual DW
-uMCTL2 DDRC IRQs. If individual IRQs are unavailable the common IRQ
-handler will call the DFI CRC/Parity event handler. Note the handler
-doesn't do much. It just checks the IRQ status, reads the number of
-errors, reports the fatal error to the MCI core and clears the IRQ status.
-Alas neither the erroneous SDRAM address nor the executed command are
-available in this case. Secondly the DFI CRC/Parity IRQ is
-enabled/disabled together with the ECC CE/UE interrupts in the controller
-probe procedure.  Finally the CRC/Parity capability is advertised by the
-EDAC controller capabilities flags.
-
-[1] DesignWare® Cores Enhanced Universal DDR Memory Controller (uMCTL2)
-    Databook, Version 3.91a, October 2020, p.131-132
+Since the Baikal-T1 DDR controller is capable of the ECC let's add it to
+the DW uMCTL2 DDRC EDAC driver. The most of the parameters above will be
+autodetected except HIF burst length and SAR block size, which will be set
+by means of the Baikal-T1-specific initialization method. The controller
+compatible string "baikal,bt1-ddrc" will be used to attach the driver to
+the kernel device. It's chosen in accordance with the just updated
+DT-bindings.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 78 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 3 deletions(-)
+ drivers/edac/synopsys_edac.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 6a47e53deab5..8d8952826bce 100644
+index 0a00e80ddeb9..24cd8f23242a 100644
 --- a/drivers/edac/synopsys_edac.c
 +++ b/drivers/edac/synopsys_edac.c
-@@ -80,6 +80,12 @@
- #define ECC_POISON0_OFST		0xB8
- #define ECC_POISON1_OFST		0xBC
- 
-+/* DDR CRC/Parity register */
-+#define DDR_CRCPARCTL0_OFST		0xC0
-+#define DDR_CRCPARCTL1_OFST		0xC4
-+#define DDR_CRCPARCTL2_OFST		0xC8
-+#define DDR_CRCPARSTAT_OFST		0xCC
-+
- /* DDR Address map0 Registers */
- #define DDR_ADDRMAP0_OFST		0x200
- 
-@@ -153,6 +159,13 @@
- #define ECC_CEADDR1_BANK_MASK		GENMASK(23, 16)
- #define ECC_CEADDR1_COL_MASK		GENMASK(11, 0)
- 
-+/* DDR CRC/Parity register definitions */
-+#define DDR_CRCPARCTL0_CLR_ALRT_ERRCNT	BIT(2)
-+#define DDR_CRCPARCTL0_CLR_ALRT_ERR	BIT(1)
-+#define DDR_CRCPARCTL0_EN_ALRT_IRQ	BIT(0)
-+#define DDR_CRCPARSTAT_ALRT_ERR		BIT(16)
-+#define DDR_CRCPARSTAT_ALRT_CNT_MASK	GENMASK(15, 0)
-+
- /* ECC Poison register shifts */
- #define ECC_POISON0_RANK_MASK		GENMASK(27, 24)
- #define ECC_POISON0_COL_MASK		GENMASK(11, 0)
-@@ -829,6 +842,48 @@ static irqreturn_t snps_ue_irq_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+/**
-+ * snps_dfi_irq_handler - DFI CRC/Parity error interrupt handler.
-+ * @irq:        IRQ number.
-+ * @dev_id:     Device ID.
-+ *
-+ * Return: IRQ_NONE, if interrupt not set or IRQ_HANDLED otherwise.
-+ */
-+static irqreturn_t snps_dfi_irq_handler(int irq, void *dev_id)
-+{
-+	struct mem_ctl_info *mci = dev_id;
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	unsigned long flags;
-+	u32 regval;
-+	u16 ecnt;
-+
-+	/* Make sure IRQ is caused by an DFI alert error */
-+	regval = readl(priv->baseaddr + DDR_CRCPARSTAT_OFST);
-+	if (!(regval & DDR_CRCPARSTAT_ALRT_ERR))
-+		return IRQ_NONE;
-+
-+	/* Just a number of CRC/Parity errors is available */
-+	ecnt = FIELD_GET(DDR_CRCPARSTAT_ALRT_CNT_MASK, regval);
-+
-+	/* Report the detected errors with just the custom message */
-+	snprintf(priv->message, SNPS_EDAC_MSG_SIZE,
-+		 "DFI CRC/Parity error detected on dfi_alert_n");
-+
-+	edac_mc_handle_error(HW_EVENT_ERR_FATAL, mci, ecnt,
-+			     0, 0, 0, 0, 0, -1, priv->message, "");
-+
-+	/* Make sure the DFI alert IRQ status is cleared */
-+	spin_lock_irqsave(&priv->lock, flags);
-+
-+	regval = readl(priv->baseaddr + DDR_CRCPARCTL0_OFST) |
-+		 DDR_CRCPARCTL0_CLR_ALRT_ERR | DDR_CRCPARCTL0_CLR_ALRT_ERRCNT;
-+	writel(regval, priv->baseaddr + DDR_CRCPARCTL0_OFST);
-+
-+	spin_unlock_irqrestore(&priv->lock, flags);
-+
-+	return IRQ_HANDLED;
-+}
-+
- /**
-  * snps_com_irq_handler - Interrupt IRQ signal handler.
-  * @irq:        IRQ number.
-@@ -844,6 +899,8 @@ static irqreturn_t snps_com_irq_handler(int irq, void *dev_id)
- 
- 	rc |= snps_ue_irq_handler(irq, dev_id);
- 
-+	rc |= snps_dfi_irq_handler(irq, dev_id);
-+
- 	return rc;
- }
- 
-@@ -859,11 +916,16 @@ static void snps_enable_irq(struct snps_edac_priv *priv)
- 		return;
- 	}
- 
--	/* IRQs Enable/Disable feature has been available since v3.10a */
-+	/*
-+	 * ECC IRQs Enable/Disable feature has been available since v3.10a,
-+	 * while CRC/Parity interrupts control - since v2.10a.
-+	 */
- 	spin_lock_irqsave(&priv->lock, flags);
- 
- 	writel(ECC_CTRL_EN_CE_IRQ | ECC_CTRL_EN_UE_IRQ,
- 	       priv->baseaddr + ECC_CLR_OFST);
-+	writel(DDR_CRCPARCTL0_EN_ALRT_IRQ,
-+	       priv->baseaddr + DDR_CRCPARCTL0_OFST);
- 
- 	spin_unlock_irqrestore(&priv->lock, flags);
- }
-@@ -883,6 +945,7 @@ static void snps_disable_irq(struct snps_edac_priv *priv)
- 	spin_lock_irqsave(&priv->lock, flags);
- 
- 	writel(0, priv->baseaddr + ECC_CLR_OFST);
-+	writel(0, priv->baseaddr + DDR_CRCPARCTL0_OFST);
- 
- 	spin_unlock_irqrestore(&priv->lock, flags);
- }
-@@ -1483,7 +1546,8 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
- 	mci->mtype_cap = MEM_FLAG_LPDDR | MEM_FLAG_DDR2 | MEM_FLAG_LPDDR2 |
- 			 MEM_FLAG_DDR3 | MEM_FLAG_LPDDR3 |
- 			 MEM_FLAG_DDR4 | MEM_FLAG_LPDDR4;
--	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
-+	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED | EDAC_FLAG_PARITY;
-+	mci->edac_cap = mci->edac_ctl_cap;
- 
- 	if (priv->info.caps & SNPS_CAP_ECC_SCRUB) {
- 		mci->scrub_mode = SCRUB_HW_SRC;
-@@ -1493,7 +1557,6 @@ static struct mem_ctl_info *snps_mc_create(struct snps_edac_priv *priv)
- 		mci->scrub_cap = SCRUB_FLAG_SW_SRC;
- 	}
- 
--	mci->edac_cap = EDAC_FLAG_SECDED;
- 	mci->ctl_name = "snps_umctl2_ddrc";
- 	mci->dev_name = SNPS_EDAC_MOD_STRING;
- 	mci->mod_name = SNPS_EDAC_MOD_VER;
-@@ -1559,6 +1622,15 @@ static int snps_request_ind_irq(struct mem_ctl_info *mci)
- 		return rc;
- 	}
- 
-+	irq = platform_get_irq_byname_optional(priv->pdev, "dfi_e");
-+	if (irq > 0) {
-+		rc = devm_request_irq(dev, irq, snps_dfi_irq_handler, 0, "dfi_e", mci);
-+		if (rc) {
-+			edac_printk(KERN_ERR, EDAC_MC, "Failed to request DFI IRQ\n");
-+			return rc;
-+		}
-+	}
-+
+@@ -1342,6 +1342,20 @@ static int zynqmp_init_plat(struct snps_edac_priv *priv)
  	return 0;
  }
  
++/*
++ * bt1_init_plat - Baikal-T1-specific platform initialization.
++ * @priv:	DDR memory controller private data.
++ *
++ * Return: always zero.
++ */
++static int bt1_init_plat(struct snps_edac_priv *priv)
++{
++	priv->info.hif_burst_len = SNPS_DDR_BL8;
++	priv->sys_app_map.minsize = DDR_MIN_SARSIZE;
++
++	return 0;
++}
++
+ /**
+  * snps_get_dtype - Return the controller memory width.
+  * @mstr:	Master CSR value.
+@@ -2470,6 +2484,7 @@ static int snps_mc_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id snps_edac_match[] = {
+ 	{ .compatible = "xlnx,zynqmp-ddrc-2.40a", .data = zynqmp_init_plat },
++	{ .compatible = "baikal,bt1-ddrc", .data = bt1_init_plat },
+ 	{ .compatible = "snps,ddrc-3.80a" },
+ 	{ }
+ };
 -- 
 2.37.3
 
