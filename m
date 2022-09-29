@@ -2,34 +2,34 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 312F5C4321E
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7A9C4332F
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232682AbiJAAVL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 20:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53764 "EHLO
+        id S232828AbiJAAVN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232539AbiJAAUj (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:20:39 -0400
+        with ESMTP id S232554AbiJAAUk (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:20:40 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F334A34712;
-        Fri, 30 Sep 2022 17:19:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 40B151EAD8;
+        Fri, 30 Sep 2022 17:19:17 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 7C760E0EEF;
-        Fri, 30 Sep 2022 02:41:32 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 1E609E0EF3;
+        Fri, 30 Sep 2022 02:41:35 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=FSUroiQZu9eBHFsrzKlw5DvkC1tmdHVvc41FQINu1OU=; b=XsSQ3I6+dCHA
-        A85JM13JWFAFzb97rymvbrQ+ztbwMKEnwKzm9taO9BnvRbF60UFc645AJqygdUHz
-        DPCJ2WYhgMMMR4PxBKyFEwKzHhokX1G3Ja1YymGddkmxeJLXSc564hondksxGbyw
-        mgx6dM4vj+jOdBPTpsLSxTWLx9XkoZk=
+         bh=Xu2Ex94wJPgdS3t1g5yaUvjwM6m1WNpsYXjF2p7Kc0s=; b=a16bd/XvBBqW
+        My9ttTsvwAswUSyM+lQoAYnyIa5hXvKnJ/l8n7MaFKBJk+ehPlhIcXWlBWVprx0K
+        QE/z64+ZpRjzNyN5hqZAn0Y3gmGMqVqS7OeHMDKz8i1IlxW6gqPHwtxX6dOXaeI3
+        /dWsxO5PVOgIkhhC6g8JDfa6vVTReR8=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 6EFDDE0EEA;
-        Fri, 30 Sep 2022 02:41:32 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 101B0E0EEA;
+        Fri, 30 Sep 2022 02:41:35 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:33 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:35 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -53,9 +53,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 08/13] EDAC/synopsys: Add individual named ECC IRQs support
-Date:   Fri, 30 Sep 2022 02:41:16 +0300
-Message-ID: <20220929234121.13955-9-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v3 12/13] EDAC/synopsys: Drop vendor-specific arch dependency
+Date:   Fri, 30 Sep 2022 02:41:20 +0300
+Message-ID: <20220929234121.13955-13-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
@@ -68,135 +68,27 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Currently the DW uMCTL2 DDRC EDAC driver supports a common unnamed IRQ
-only. It isn't suitable for our platform which has the individual IRQ
-lines for each DDRC event (ECC UE, ECC CE, DFI parity error, Scrubber
-done, etc).  Moreover the DW uMCTL2 DDRC IP-core doesn't have an option to
-be configured with a common interrupts output line. So in order to have
-the generic DW uMCTL2 DDR controller and our platform supported by the
-driver we need to add the individual, per DDRC event, IRQs request
-support. There is not much to do really since the common IRQs handler has
-already been split up into the sub-handlers. So the only thing we need to
-do is first try to request the individual IRQs, if failed then fallback to
-the common IRQ. The IRQ names are used in accordance with the DW uMCTL2
-DDRC DT-bindings.
+DW uMCTL2 DDRC EDAC driver is no longer specific to particular DDRC
+versions. It's generic in the most of the aspects now. So set its kernel
+config independently from the ZynqMP/IntelFPAG/MXC platforms.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 91 ++++++++++++++++++++++++++++++++----
- 1 file changed, 81 insertions(+), 10 deletions(-)
+ drivers/edac/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index e5359ff2ed25..6a47e53deab5 100644
---- a/drivers/edac/synopsys_edac.c
-+++ b/drivers/edac/synopsys_edac.c
-@@ -1524,25 +1524,96 @@ static void snps_mc_free(struct mem_ctl_info *mci)
- 	edac_mc_free(mci);
- }
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index 98bcdadf4143..6aa59a0bacf1 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -486,7 +486,6 @@ config EDAC_ARMADA_XP
  
--static int snps_setup_irq(struct mem_ctl_info *mci)
-+/**
-+ * snps_request_ind_irq - Request individual DDRC IRQs.
-+ * @mci:	EDAC memory controller instance.
-+ *
-+ * Return: 0 if the IRQs were successfully requested, 1 if the individual IRQs
-+ * are unavailable, otherwise negative errno.
-+ */
-+static int snps_request_ind_irq(struct mem_ctl_info *mci)
- {
- 	struct snps_edac_priv *priv = mci->pvt_info;
--	int ret, irq;
-+	struct device *dev = &priv->pdev->dev;
-+	int rc, irq;
- 
--	irq = platform_get_irq(priv->pdev, 0);
--	if (irq < 0) {
--		edac_printk(KERN_ERR, EDAC_MC,
--			    "No IRQ %d in DT\n", irq);
-+	irq = platform_get_irq_byname_optional(priv->pdev, "ecc_ce");
-+	if (irq == -ENXIO)
-+		return 1;
-+	if (irq < 0)
-+		return irq;
-+
-+	rc = devm_request_irq(dev, irq, snps_ce_irq_handler, 0, "ecc_ce", mci);
-+	if (rc) {
-+		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC CE IRQ\n");
-+		return rc;
-+	}
-+
-+	irq = platform_get_irq_byname(priv->pdev, "ecc_ue");
-+	if (irq < 0)
- 		return irq;
-+
-+	rc = devm_request_irq(dev, irq, snps_ue_irq_handler, 0, "ecc_ue", mci);
-+	if (rc) {
-+		edac_printk(KERN_ERR, EDAC_MC, "Failed to request ECC UE IRQ\n");
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * snps_request_com_irq - Request common DDRC IRQ.
-+ * @mci:	EDAC memory controller instance.
-+ *
-+ * It first attempts to get the named IRQ. If failed the method fallbacks
-+ * to first available one.
-+ *
-+ * Return: 0 if the IRQ was successfully requested otherwise negative errno.
-+ */
-+static int snps_request_com_irq(struct mem_ctl_info *mci)
-+{
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	struct device *dev = &priv->pdev->dev;
-+	int rc, irq;
-+
-+	irq = platform_get_irq_byname_optional(priv->pdev, "ecc");
-+	if (irq < 0) {
-+		irq = platform_get_irq(priv->pdev, 0);
-+		if (irq < 0)
-+			return irq;
- 	}
- 
--	ret = devm_request_irq(&priv->pdev->dev, irq, snps_com_irq_handler,
--			       0, dev_name(&priv->pdev->dev), mci);
--	if (ret < 0) {
-+	rc = devm_request_irq(dev, irq, snps_com_irq_handler, 0, "ecc", mci);
-+	if (rc) {
- 		edac_printk(KERN_ERR, EDAC_MC, "Failed to request IRQ\n");
--		return ret;
-+		return rc;
- 	}
- 
-+	return 0;
-+}
-+
-+/**
-+ * snps_setup_irq - Request and enable DDRC IRQs.
-+ * @mci:	EDAC memory controller instance.
-+ *
-+ * It first tries to get and request individual IRQs. If failed the method
-+ * fallbacks to the common IRQ line case. The IRQs will be enabled only if
-+ * some of these requests have been successful.
-+ *
-+ * Return: 0 if IRQs were successfully setup otherwise negative errno.
-+ */
-+static int snps_setup_irq(struct mem_ctl_info *mci)
-+{
-+	struct snps_edac_priv *priv = mci->pvt_info;
-+	int rc;
-+
-+	rc = snps_request_ind_irq(mci);
-+	if (rc > 0)
-+		rc = snps_request_com_irq(mci);
-+	if (rc)
-+		return rc;
-+
- 	snps_enable_irq(priv);
- 
- 	return 0;
+ config EDAC_SYNOPSYS
+ 	tristate "Synopsys DDR Memory Controller"
+-	depends on ARCH_ZYNQMP || ARCH_INTEL_SOCFPGA || ARCH_MXC
+ 	help
+ 	  Support for error detection and correction on the Synopsys DDR
+ 	  memory controller.
 -- 
 2.37.3
 
