@@ -2,34 +2,34 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67886C4167E
-	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 01:14:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1A0C32771
+	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 01:14:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233033AbiJABO3 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 30 Sep 2022 21:14:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37794 "EHLO
+        id S232820AbiJABOY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Sep 2022 21:14:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232939AbiJABO0 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 21:14:26 -0400
+        with ESMTP id S232465AbiJABOU (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 21:14:20 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 267A8257;
-        Fri, 30 Sep 2022 18:14:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C1E31262D;
+        Fri, 30 Sep 2022 18:14:12 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 162F9E0EC5;
-        Fri, 30 Sep 2022 02:27:29 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 46568E0ECA;
+        Fri, 30 Sep 2022 02:27:32 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
         :content-type:content-type:date:from:from:in-reply-to:message-id
         :mime-version:references:reply-to:subject:subject:to:to; s=post;
-         bh=2WCmk8xy8co84l2XgKX3SXdrH4Vci1wnK45tr2AGCq8=; b=mZf/5OVZTke0
-        rBTsrVmNz3ebbGGDlUaF5cvrf+flaIR8wHkYy5uxCFshc2M7W9hpP4b4JTJDiCWm
-        NxaMjWlclyAsxtsUH1kJyRMT+BwbLhMT8SVDpxw5WcXXOGb65mblLRvoNKkjW/4C
-        9h3/WTPN6+qumljzGG9DLVry2SY09UI=
+         bh=Jg6A2tfxOzNgGT4avwsXtljvj9hjtMePgR4Isdw42jc=; b=Kgenq2VZ6ec5
+        P+yJvszCIqACL5/FK26zFAc5yAkNPwJZbbdhXxZYXd5S0z1h7hOIgkY2F04/bFjs
+        RnppGGYzsbsAX0lZ+WboifDc+O8POZKaNkvVDHhlTU/0Rlvx14S4OnUo+1TvCY9c
+        fmALpnmnzAHLm1IEfehwvouuqAduTDk=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id 090A3E0E6B;
-        Fri, 30 Sep 2022 02:27:29 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id 35A47E0E6B;
+        Fri, 30 Sep 2022 02:27:32 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:27:29 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:27:33 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -53,9 +53,9 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND v3 07/17] EDAC/synopsys: Drop internal CE and UE counters
-Date:   Fri, 30 Sep 2022 02:27:02 +0300
-Message-ID: <20220929232712.12202-8-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH RESEND v3 12/17] EDAC/mc: Init DIMM labels in MC registration method
+Date:   Fri, 30 Sep 2022 02:27:07 +0300
+Message-ID: <20220929232712.12202-13-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
 References: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
@@ -68,51 +68,110 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-First of all they aren't exposed anyhow by the driver. Secondly the EDAC
-core already tracks the total amount of correctable and uncorrectable
-errors (see mem_ctl_info.{ce_mc,ue_mc} fields usage). Let's drop the
-useless internal counters then for good.
+As a preparation before adding the unique MC index allocation procedure we
+need to move the DIMM labels initialization to the memory controller
+registration method. It's required because the labels contain the MC index
+as the "mc%u" part of the string, which in case of the auto-generated
+index isn't available at the moment of the MCI/csrow/dimms descriptor
+allocation.
+
+So nothing complex is done here. Just move the labels initialization from
+edac_mc_alloc_dimms() to the dedicated method edac_mc_init_labels() and
+call it from edac_mc_add_mc_with_groups().
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 ---
- drivers/edac/synopsys_edac.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/edac/edac_mc.c | 48 +++++++++++++++++++++++++++---------------
+ 1 file changed, 31 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index e9002d9b3f09..592c7753184f 100644
---- a/drivers/edac/synopsys_edac.c
-+++ b/drivers/edac/synopsys_edac.c
-@@ -309,8 +309,6 @@ struct synps_ecc_status {
-  * @message:		Buffer for framing the event specific info.
-  * @stat:		ECC status information.
-  * @p_data:		Platform data.
-- * @ce_cnt:		Correctable Error count.
-- * @ue_cnt:		Uncorrectable Error count.
-  * @poison_addr:	Data poison address.
-  * @row_shift:		Bit shifts for row bit.
-  * @col_shift:		Bit shifts for column bit.
-@@ -324,8 +322,6 @@ struct synps_edac_priv {
- 	char message[SYNPS_EDAC_MSG_SIZE];
- 	struct synps_ecc_status stat;
- 	const struct synps_platform_data *p_data;
--	u32 ce_cnt;
--	u32 ue_cnt;
- #ifdef CONFIG_EDAC_DEBUG
- 	ulong poison_addr;
- 	u32 row_shift[18];
-@@ -595,12 +591,8 @@ static irqreturn_t intr_handler(int irq, void *dev_id)
- 	if (status)
- 		return IRQ_NONE;
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index 6faeb2ab3960..24814839d885 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -256,7 +256,6 @@ static int edac_mc_alloc_dimms(struct mem_ctl_info *mci)
+ 	unsigned int pos[EDAC_MAX_LAYERS];
+ 	unsigned int row, chn, idx;
+ 	int layer;
+-	void *p;
  
--	priv->ce_cnt += priv->stat.ce_cnt;
--	priv->ue_cnt += priv->stat.ue_cnt;
- 	handle_error(mci, &priv->stat);
+ 	/*
+ 	 * Allocate and fill the dimm structs
+@@ -271,7 +270,6 @@ static int edac_mc_alloc_dimms(struct mem_ctl_info *mci)
+ 	for (idx = 0; idx < mci->tot_dimms; idx++) {
+ 		struct dimm_info *dimm;
+ 		struct rank_info *chan;
+-		int n, len;
  
--	edac_dbg(3, "Total error count CE %d UE %d\n",
--		 priv->ce_cnt, priv->ue_cnt);
+ 		chan = mci->csrows[row]->channels[chn];
  
- 	if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS)
- 		writel(regval, priv->baseaddr + DDR_QOS_IRQ_STAT_OFST);
+@@ -282,22 +280,9 @@ static int edac_mc_alloc_dimms(struct mem_ctl_info *mci)
+ 		dimm->mci = mci;
+ 		dimm->idx = idx;
+ 
+-		/*
+-		 * Copy DIMM location and initialize it.
+-		 */
+-		len = sizeof(dimm->label);
+-		p = dimm->label;
+-		n = scnprintf(p, len, "mc#%u", mci->mc_idx);
+-		p += n;
+-		len -= n;
+-		for (layer = 0; layer < mci->n_layers; layer++) {
+-			n = scnprintf(p, len, "%s#%u",
+-				      edac_layer_name[mci->layers[layer].type],
+-				      pos[layer]);
+-			p += n;
+-			len -= n;
++		/* Copy DIMM location */
++		for (layer = 0; layer < mci->n_layers; layer++)
+ 			dimm->location[layer] = pos[layer];
+-		}
+ 
+ 		/* Link it to the csrows old API data */
+ 		chan->dimm = dimm;
+@@ -510,6 +495,33 @@ void edac_mc_reset_delay_period(unsigned long value)
+ 
+ 
+ 
++/**
++ * edac_mc_init_labels() - Initialize DIMM labels
++ *
++ * @mci: pointer to the mci structure which DIMM labels need to be initialized
++ *
++ * .. note::
++ *	locking model: must be called with the mem_ctls_mutex lock held
++ */
++static void edac_mc_init_labels(struct mem_ctl_info *mci)
++{
++	int n, len, layer;
++	unsigned int idx;
++	char *p;
++
++	for (idx = 0; idx < mci->tot_dimms; idx++) {
++		len = sizeof(mci->dimms[idx]->label);
++		p = mci->dimms[idx]->label;
++
++		n = scnprintf(p, len, "mc#%u", mci->mc_idx);
++		for (layer = 0; layer < mci->n_layers; layer++) {
++			n += scnprintf(p + n, len - n, "%s#%u",
++				      edac_layer_name[mci->layers[layer].type],
++				      mci->dimms[idx]->location[layer]);
++		}
++	}
++}
++
+ /* Return 0 on success, 1 on failure.
+  * Before calling this function, caller must
+  * assign a unique value to mci->mc_idx.
+@@ -637,6 +649,8 @@ int edac_mc_add_mc_with_groups(struct mem_ctl_info *mci,
+ 		goto fail0;
+ 	}
+ 
++	edac_mc_init_labels(mci);
++
+ 	if (add_mc_to_global_list(mci))
+ 		goto fail0;
+ 
 -- 
 2.37.3
 
