@@ -2,41 +2,43 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BA7FC4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18263C433F5
 	for <linux-edac@archiver.kernel.org>; Sat,  1 Oct 2022 00:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232804AbiJAAVH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S232800AbiJAAVH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Fri, 30 Sep 2022 20:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51656 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232665AbiJAAUh (ORCPT
+        with ESMTP id S232662AbiJAAUh (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Sep 2022 20:20:37 -0400
 Received: from post.baikalelectronics.com (post.baikalelectronics.com [213.79.110.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D292CF2;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9D54A31DEF;
         Fri, 30 Sep 2022 17:19:11 -0700 (PDT)
 Received: from post.baikalelectronics.com (localhost.localdomain [127.0.0.1])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id DC705E0EE6;
-        Fri, 30 Sep 2022 02:41:26 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id C19EDE0EF1;
+        Fri, 30 Sep 2022 02:41:33 +0300 (MSK)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         baikalelectronics.ru; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:from:from:message-id
-        :mime-version:reply-to:subject:subject:to:to; s=post; bh=ig3kMBD
-        2ApDEX00NwIiM6QbIZrbB3d9bZ25RFOcbO6Y=; b=eslDq2NWLn658mFguE8az0H
-        chChbsLwMn5AXt0FpVmYiID4XtNc0m6Jz4v8P1Al0aN5QVxsmkIQbQONZCSqZH5K
-        ZkYSVN7RN57ATGJLAqw/50VeEaYf90k8pp35NLIuHPExazOJ/zJgSwYyqBfD8dlU
-        S815dYIC8DoQFBkAO/zk=
+        :content-type:content-type:date:from:from:in-reply-to:message-id
+        :mime-version:references:reply-to:subject:subject:to:to; s=post;
+         bh=JmyWEFHqnZbX/7cjgk0aJnlcaMnB6W0vJpBtKtboKLM=; b=MduLogv8+/Mz
+        5wpquD8FEHH9Q63r+pi5F8jYdzg8h0Weyo6pR1OIBdnJTdSfSbsED6AvWGNj7x+b
+        FjVnZJHmgj/QSsrCRiVm6ojaq0BLMnmTGmJJG2Od79cGgIv3c2XJ3zF+Oi3Vzk14
+        dwVpS6I1sHgYu9E5+c+r+u1oCOl4i00=
 Received: from mail.baikal.int (mail.baikal.int [192.168.51.25])
-        by post.baikalelectronics.com (Proxmox) with ESMTP id C66F5E0E70;
-        Fri, 30 Sep 2022 02:41:26 +0300 (MSK)
+        by post.baikalelectronics.com (Proxmox) with ESMTP id B1BE0E0EEA;
+        Fri, 30 Sep 2022 02:41:33 +0300 (MSK)
 Received: from localhost (192.168.168.10) by mail (192.168.51.25) with
- Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:27 +0300
+ Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 30 Sep 2022 02:41:34 +0300
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Michal Simek <michal.simek@xilinx.com>,
         Borislav Petkov <bp@alien8.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>
 CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         Serge Semin <fancer.lancer@gmail.com>,
         Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
@@ -46,17 +48,17 @@ CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
         <punnaiah.choudary.kalluri@xilinx.com>,
         Manish Narani <manish.narani@xilinx.com>,
         Dinh Nguyen <dinguyen@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
         Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 00/13] EDAC/synopsys: Add generic resources and Baikal-T1 support
-Date:   Fri, 30 Sep 2022 02:41:08 +0300
-Message-ID: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
+Subject: [PATCH v3 10/13] EDAC/synopsys: Add reference clocks support
+Date:   Fri, 30 Sep 2022 02:41:18 +0300
+Message-ID: <20220929234121.13955-11-Sergey.Semin@baikalelectronics.ru>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
+References: <20220929234121.13955-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -66,129 +68,204 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-This patchset is a third one in the series created in the framework of my
-Baikal-T1 DDRC-related work:
-
-[1: In-progress] EDAC/mc/synopsys: Various fixes and cleanups
-Link: https://lore.kernel.org/linux-edac/20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru
-[2: In-progress] EDAC/synopsys: Add generic DDRC info and address mapping
-Link: https://lore.kernel.org/linux-edac/20220929233530.13016-1-Sergey.Semin@baikalelectronics.ru
-[3: In-progress] EDAC/synopsys: Add generic resources and Baikal-T1 support
-Link: ---you are looking at it---
-
-Note the patchsets above must be merged in the same order as they are
-placed in the list in order to prevent conflicts. Nothing prevents them
-from being reviewed synchronously though. Any tests are very welcome.
-Thanks in advance.
-
-This is a final patchset in the framework of my Synopsys DW uMCTL2 DDRC
-work, which completes the driver updates with the new functionality and
-at the closure introduces the Baikal-T1 DDRC support.
-
-The series starts from extending the Synopsys DW uMCTL2 DDRC DT-schema
-with the controller specific IRQs, clocks and resets properties. In
-addition to the Baikal-T1 DDRC is added to the DT-bindings since it's
-based on the DW uMCTL2 DDRC v2.61a.
-
-After that we suggest to finally inform the MCI core with the detected
-SDRAM ranks and make sure the detected errors are reported to the
-corresponding rank. Then we extend the DDRC capabilities with optional
-Scrub functionality. It's indeed possible to have the DW uMCTL2 controller
-with no HW-accelerated Scrub support (no RMW engine). In that case the MCI
-core is supposed to perform the erroneous location ECC update by means of
-the platform-specific scrub method.
-
-Then we get to fix the error-injection functionality a bit. First since
-the driver now has the Sys<->SDRAM address translation infrastructure we
-can use it to convert the supplied poisonous system address to the SDRAM
-one. Thus there is no longer need in preserving the address in the device
-private data. Second we suggest to add a DebuFS node-based command to
-disable the error-injection feature (no idea why it hasn't been done in
-the first place).
-
-Afterwards a series of the IRQ-related patches goes. First we introduce the
-individual DDRC event IRQs support in accordance with what has been added
-to the DT-bindings and what the native DW uMCTL2 DDR controller actually
-provides. Then aside to the ECC CE/UE errors detection we suggest to the
-DFI/SDRAM CRC/Parity errors report. It specifically useful for the DDR4
-memory which has dedicated ALARM_n signal, but can be still utilized in
-the framework of the older protocols if the device DFI-PHY calculates
-the HIF-interface signals parity. Third after adding the platform
-clock/resets request procedure we introduce the HW-accelerated Scrubber
-support. Its performance can be tuned by means of the sdram_scrub_rate
-SysFS node and the Core clock rate. Note it is possible to one-time-run
-the Scrubber in the back-to-back mode so to perform a burst-like scan of
-the whole SDRAM memory.
-
-At the patchset closure we finally fix the DW uMCTL2 DDRC kernel config to
-be available not only on the Xilinx, Intel and MXC platforms and add the
-Baikal-T1 DDRC support which the whole work has been dedicated for in the
-first place.
-
-Link: https://lore.kernel.org/linux-edac/20220822191957.28546-1-Sergey.Semin@baikalelectronics.ru/
-Changelog v2:
-- Replace "snps,ddrc-3.80a" compatible string with "snps,dw-umctl2-ddrc"
-  in the example.
-- Move unrelated changes in to the dedicated patches. (@Krzysztof)
-- Use the IRQ macros in the example. (@Krzysztof)
-- Add a new patch:
-[PATCH v2 01/15] dt-bindings: memory: snps: Replace opencoded numbers with macros
-  (@Krzysztof)
-- Add a new patch:
-[PATCH v2 03/15] dt-bindings: memory: snps: Convert the schema to being generic
-  (@Krzysztof)
-- Drop the PHY CSR region. (@Rob)
-- Move the Baikal-T1 DDRC bindings to the separate DT-schema.
-
-Link: https://lore.kernel.org/linux-edac/20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru
-Changelog v3:
-- Create common DT-schema instead of using the generic device DT-bindings.
-  (@Rob)
-- Drop the merged in patches:
-[PATCH v2 01/15] dt-bindings: memory: snps: Replace opencoded numbers with macros
-[PATCH v2 02/15] dt-bindings: memory: snps: Extend schema with IRQs/resets/clocks props
-  (@Krzysztof)
+Currently the driver doesn't support any clock-related resources request
+and handling, fairly assuming that all of them are supposed to be enabled
+anyway in order for the system to work correctly. It's true for the Core
+and AXI Ports reference clocks, but the CSR (APB) and Scrubber clocks
+might still be disabled in case if the system firmware doesn't imply any
+other software touching the DDR controller internals. Since the DW uMCTL2
+DDRC driver does access the controller registers at the very least we need
+to make sure the APB clock is enabled. Let's add the reference clocks
+support then. First of all the driver will request all the clocks possibly
+defined for the controller (Core, AXI, APB and Scrubber). Secondly the APB
+clock will be enabled/disabled only since the Scrubber is currently
+unsupported by the driver, and the Core and AXI clocks feed the critical
+system parts so we need to avoid touching them with a risk to de-stabilize
+the system memory. Please note the clocks connection IDs have been chosen
+in accordance with the DT-bindings.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-Cc: Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>
-Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-Cc: Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>
-Cc: Manish Narani <manish.narani@xilinx.com>
-Cc: Dinh Nguyen <dinguyen@kernel.org>
-Cc: James Morse <james.morse@arm.com>
-Cc: Robert Richter <rric@kernel.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: devicetree@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-edac@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+---
+ drivers/edac/synopsys_edac.c | 101 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 98 insertions(+), 3 deletions(-)
 
-Serge Semin (13):
-  dt-bindings: memory: snps: Convert the schema to being generic
-  dt-bindings: memory: Add Baikal-T1 DDRC DT-schema
-  EDAC/synopsys: Add multi-ranked memory support
-  EDAC/synopsys: Add optional ECC Scrub support
-  EDAC/synopsys: Drop ECC poison address from private data
-  EDAC/synopsys: Add data poisoning disable support
-  EDAC/synopsys: Split up ECC UE/CE IRQs handler
-  EDAC/synopsys: Add individual named ECC IRQs support
-  EDAC/synopsys: Add DFI alert_n IRQ support
-  EDAC/synopsys: Add reference clocks support
-  EDAC/synopsys: Add ECC Scrubber support
-  EDAC/synopsys: Drop vendor-specific arch dependency
-  EDAC/synopsys: Add Baikal-T1 DDRC support
-
- .../memory-controllers/baikal,bt1-ddrc.yaml   |  91 ++
- .../snps,dw-umctl2-common.yaml                |  75 ++
- .../snps,dw-umctl2-ddrc.yaml                  |  57 +-
- drivers/edac/Kconfig                          |   1 -
- drivers/edac/synopsys_edac.c                  | 952 ++++++++++++++----
- 5 files changed, 933 insertions(+), 243 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/memory-controllers/baikal,bt1-ddrc.yaml
- create mode 100644 Documentation/devicetree/bindings/memory-controllers/snps,dw-umctl2-common.yaml
-
+diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
+index 8d8952826bce..4b204b2050d4 100644
+--- a/drivers/edac/synopsys_edac.c
++++ b/drivers/edac/synopsys_edac.c
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/bits.h>
++#include <linux/clk.h>
+ #include <linux/edac.h>
+ #include <linux/fs.h>
+ #include <linux/log2.h>
+@@ -301,6 +302,25 @@ enum snps_ecc_mode {
+ 	SNPS_ECC_ADVX4X8 = 5,
+ };
+ 
++/**
++ * enum snps_ref_clk - DW uMCTL2 DDR controller clocks.
++ * @SNPS_CSR_CLK:	CSR/APB interface clock.
++ * @SNPS_AXI_CLK:	AXI (AHB) Port reference clock.
++ * @SNPS_CORE_CLK:	DDR controller (including DFI) clock. SDRAM clock
++ *			matches runs with this freq in 1:1 ratio mode and
++ *			with twice of this freq in case of 1:2 ratio mode.
++ * @SNPS_SBR_CLK:	Scrubber port reference clock (synchronous to
++ *			the core clock).
++ * @SNPS_MAX_NCLK:	Total number of clocks.
++ */
++enum snps_ref_clk {
++	SNPS_CSR_CLK,
++	SNPS_AXI_CLK,
++	SNPS_CORE_CLK,
++	SNPS_SBR_CLK,
++	SNPS_MAX_NCLK
++};
++
+ /**
+  * struct snps_ddrc_info - DDR controller platform parameters.
+  * @caps:		DDR controller capabilities.
+@@ -405,6 +425,7 @@ struct snps_ecc_error_info {
+  * @pdev:		Platform device.
+  * @baseaddr:		Base address of the DDR controller.
+  * @lock:		Concurrent CSRs access lock.
++ * @clks:		Controller reference clocks.
+  * @message:		Buffer for framing the event specific info.
+  */
+ struct snps_edac_priv {
+@@ -414,6 +435,7 @@ struct snps_edac_priv {
+ 	struct platform_device *pdev;
+ 	void __iomem *baseaddr;
+ 	spinlock_t lock;
++	struct clk_bulk_data clks[SNPS_MAX_NCLK];
+ 	char message[SNPS_EDAC_MSG_SIZE];
+ };
+ 
+@@ -974,6 +996,60 @@ static struct snps_edac_priv *snps_create_data(struct platform_device *pdev)
+ 	return priv;
+ }
+ 
++/**
++ * snps_get_res - Get platform device resources.
++ * @priv:	DDR memory controller private instance data.
++ *
++ * It's supposed to request all the controller resources available for the
++ * particular platform and enable all the required for the driver normal
++ * work. Note only the CSR and Scrubber clocks are supposed to be switched
++ * on/off by the driver.
++ *
++ * Return: negative errno if failed to get the resources, otherwise - zero.
++ */
++static int snps_get_res(struct snps_edac_priv *priv)
++{
++	const char * const ids[] = {
++		[SNPS_CSR_CLK] = "pclk",
++		[SNPS_AXI_CLK] = "aclk",
++		[SNPS_CORE_CLK] = "core",
++		[SNPS_SBR_CLK] = "sbr",
++	};
++	int i, rc;
++
++	for (i = 0; i < SNPS_MAX_NCLK; i++)
++		priv->clks[i].id = ids[i];
++
++	rc = devm_clk_bulk_get_optional(&priv->pdev->dev, SNPS_MAX_NCLK,
++					priv->clks);
++	if (rc) {
++		edac_printk(KERN_INFO, EDAC_MC, "Failed to get ref clocks\n");
++		return rc;
++	}
++
++	/*
++	 * Don't touch the Core and AXI clocks since they are critical for the
++	 * stable system functioning and are supposed to have been enabled
++	 * anyway.
++	 */
++	rc = clk_prepare_enable(priv->clks[SNPS_CSR_CLK].clk);
++	if (rc) {
++		edac_printk(KERN_INFO, EDAC_MC, "Couldn't enable CSR clock\n");
++		return rc;
++	}
++
++	return 0;
++}
++
++/**
++ * snps_put_res - Put platform device resources.
++ * @priv:	DDR memory controller private instance data.
++ */
++static void snps_put_res(struct snps_edac_priv *priv)
++{
++	clk_disable_unprepare(priv->clks[SNPS_CSR_CLK].clk);
++}
++
+ /*
+  * zynqmp_init_plat - ZynqMP-specific platform initialization.
+  * @priv:	DDR memory controller private data.
+@@ -1707,9 +1783,17 @@ static int snps_ddrc_info_show(struct seq_file *s, void *data)
+ {
+ 	struct mem_ctl_info *mci = s->private;
+ 	struct snps_edac_priv *priv = mci->pvt_info;
++	unsigned long rate;
+ 
+ 	seq_printf(s, "SDRAM: %s\n", edac_mem_types[priv->info.sdram_mode]);
+ 
++	rate = clk_get_rate(priv->clks[SNPS_CORE_CLK].clk);
++	if (rate) {
++		rate = rate / HZ_PER_MHZ;
++		seq_printf(s, "Clock: Core %luMHz SDRAM %luMHz\n",
++			   rate, priv->info.freq_ratio * rate);
++	}
++
+ 	seq_printf(s, "DQ bus: %u/%s\n", (BITS_PER_BYTE << priv->info.dq_width),
+ 		   priv->info.dq_mode == SNPS_DQ_FULL ? "Full" :
+ 		   priv->info.dq_mode == SNPS_DQ_HALF ? "Half" :
+@@ -2018,15 +2102,21 @@ static int snps_mc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(priv))
+ 		return PTR_ERR(priv);
+ 
+-	rc = snps_get_ddrc_info(priv);
++	rc = snps_get_res(priv);
+ 	if (rc)
+ 		return rc;
+ 
++	rc = snps_get_ddrc_info(priv);
++	if (rc)
++		goto put_res;
++
+ 	snps_get_addr_map(priv);
+ 
+ 	mci = snps_mc_create(priv);
+-	if (IS_ERR(mci))
+-		return PTR_ERR(mci);
++	if (IS_ERR(mci)) {
++		rc = PTR_ERR(mci);
++		goto put_res;
++	}
+ 
+ 	rc = snps_setup_irq(mci);
+ 	if (rc)
+@@ -2046,6 +2136,9 @@ static int snps_mc_probe(struct platform_device *pdev)
+ free_edac_mc:
+ 	snps_mc_free(mci);
+ 
++put_res:
++	snps_put_res(priv);
++
+ 	return rc;
+ }
+ 
+@@ -2066,6 +2159,8 @@ static int snps_mc_remove(struct platform_device *pdev)
+ 
+ 	snps_mc_free(mci);
+ 
++	snps_put_res(priv);
++
+ 	return 0;
+ }
+ 
 -- 
 2.37.3
 
