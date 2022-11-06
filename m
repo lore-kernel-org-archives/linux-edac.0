@@ -2,64 +2,76 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5007C433FE
-	for <linux-edac@archiver.kernel.org>; Sun,  6 Nov 2022 13:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C494EC4332F
+	for <linux-edac@archiver.kernel.org>; Sun,  6 Nov 2022 16:36:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbiKFNjR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sun, 6 Nov 2022 08:39:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46538 "EHLO
+        id S229915AbiKFQgl convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 6 Nov 2022 11:36:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbiKFNjQ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sun, 6 Nov 2022 08:39:16 -0500
-X-Greylist: delayed 73 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Nov 2022 05:39:15 PST
-Received: from jari.cn (unknown [218.92.28.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6DC20F1E
-        for <linux-edac@vger.kernel.org>; Sun,  6 Nov 2022 05:39:15 -0800 (PST)
-Received: by ajax-webmail-localhost.localdomain (Coremail) ; Sun, 6 Nov 2022
- 21:33:01 +0800 (GMT+08:00)
-X-Originating-IP: [182.148.13.29]
-Date:   Sun, 6 Nov 2022 21:33:01 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   wangkailong@jari.cn
-To:     bp@alien8.de, mchehab@kernel.org, tony.luck@intel.com,
-        james.morse@arm.com, rric@kernel.org
+        with ESMTP id S229823AbiKFQgk (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 6 Nov 2022 11:36:40 -0500
+X-Greylist: delayed 630 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Nov 2022 08:36:39 PST
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41B5FAE49
+        for <linux-edac@vger.kernel.org>; Sun,  6 Nov 2022 08:36:39 -0800 (PST)
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay01.hostedemail.com (Postfix) with ESMTP id D682B1C652A;
+        Sun,  6 Nov 2022 16:26:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 6487D17;
+        Sun,  6 Nov 2022 16:25:20 +0000 (UTC)
+Message-ID: <72d228fc27951a7ba9e607d9fc433b3c64a801e3.camel@perches.com>
+Subject: Re: [PATCH] EDAC: altera: Remove unnecessary print function
+ dev_err()
+From:   Joe Perches <joe@perches.com>
+To:     wangkailong@jari.cn, bp@alien8.de, mchehab@kernel.org,
+        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org
 Cc:     linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject:  [PATCH] EDAC: altera: Remove unnecessary print function dev_err()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT6.0.1 build 20210329(c53f3fee)
- Copyright (c) 2002-2022 www.mailtech.cn
- mispb-4e503810-ca60-4ec8-a188-7102c18937cf-zhkzyfz.cn
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Date:   Sun, 06 Nov 2022 08:26:04 -0800
+In-Reply-To: <cf4581a.ba.1844d24fef3.Coremail.wangkailong@jari.cn>
+References: <cf4581a.ba.1844d24fef3.Coremail.wangkailong@jari.cn>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Message-ID: <cf4581a.ba.1844d24fef3.Coremail.wangkailong@jari.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: AQAAfwB3jOKOt2djuokBAA--.55W
-X-CM-SenderInfo: 5zdqwypdlo00nj6mt2flof0/1tbiAQATB2FEYx0CNQAJsw
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+X-Rspamd-Queue-Id: 6487D17
+X-Stat-Signature: nwagrj9zn7r167ofd8wyn3ziaqqiegqf
+X-Rspamd-Server: rspamout08
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19NVUyMV9EgdLGR/NZuAAOGhLlXbrm2DI0=
+X-HE-Tag: 1667751920-668540
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-RWxpbWluYXRlIHRoZSBmb2xsb3cgY29jY2ljaGVjayB3YXJuaW5nOgoKLi9kcml2ZXJzL2VkYWMv
-YWx0ZXJhX2VkYWMuYzoyMTUzOjItOTogbGluZSAyMTUzIGlzIHJlZHVuZGFudCBiZWNhdXNlCnBs
-YXRmb3JtX2dldF9pcnEoKSBhbHJlYWR5IHByaW50cyBhbiBlcnJvcgouL2RyaXZlcnMvZWRhYy9h
-bHRlcmFfZWRhYy5jOjIxODg6Mi05OiBsaW5lIDIxODggaXMgcmVkdW5kYW50IGJlY2F1c2UKcGxh
-dGZvcm1fZ2V0X2lycSgpIGFscmVhZHkgcHJpbnRzIGFuIGVycm9yCgpTaWduZWQtb2ZmLWJ5OiBL
-YWlMb25nIFdhbmcgPHdhbmdrYWlsb25nQGphcmkuY24+Ci0tLQogZHJpdmVycy9lZGFjL2FsdGVy
-YV9lZGFjLmMgfCAyIC0tCiAxIGZpbGUgY2hhbmdlZCwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuYyBiL2RyaXZlcnMvZWRhYy9hbHRlcmFfZWRh
-Yy5jCmluZGV4IGU3ZThlNjI0YTQzNi4uYmQ1YjE1Y2ViODcyIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2VkYWMvYWx0ZXJhX2VkYWMuYworKysgYi9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuYwpAQCAt
-MjE1MCw3ICsyMTUwLDYgQEAgc3RhdGljIGludCBhbHRyX2VkYWNfYTEwX3Byb2JlKHN0cnVjdCBw
-bGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiAKIAllZGFjLT5zYl9pcnEgPSBwbGF0Zm9ybV9nZXRfaXJx
-KHBkZXYsIDApOwogCWlmIChlZGFjLT5zYl9pcnEgPCAwKSB7Ci0JCWRldl9lcnIoJnBkZXYtPmRl
-diwgIk5vIFNCRVJSIElSUSByZXNvdXJjZVxuIik7CiAJCXJldHVybiBlZGFjLT5zYl9pcnE7CiAJ
-fQogCkBAIC0yMTg1LDcgKzIxODQsNiBAQCBzdGF0aWMgaW50IGFsdHJfZWRhY19hMTBfcHJvYmUo
-c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKICNlbHNlCiAJZWRhYy0+ZGJfaXJxID0gcGxh
-dGZvcm1fZ2V0X2lycShwZGV2LCAxKTsKIAlpZiAoZWRhYy0+ZGJfaXJxIDwgMCkgewotCQlkZXZf
-ZXJyKCZwZGV2LT5kZXYsICJObyBEQkVSUiBJUlEgcmVzb3VyY2VcbiIpOwogCQlyZXR1cm4gZWRh
-Yy0+ZGJfaXJxOwogCX0KIAlpcnFfc2V0X2NoYWluZWRfaGFuZGxlcl9hbmRfZGF0YShlZGFjLT5k
-Yl9pcnEsCi0tIAoyLjI1LjEK
+On Sun, 2022-11-06 at 21:33 +0800, wangkailong@jari.cn wrote:
+> Eliminate the follow coccicheck warning:
+> 
+> ./drivers/edac/altera_edac.c:2153:2-9: line 2153 is redundant because
+> platform_get_irq() already prints an error
+> ./drivers/edac/altera_edac.c:2188:2-9: line 2188 is redundant because
+> platform_get_irq() already prints an error
+[]
+> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+[]
+> @@ -2150,7 +2150,6 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+>  
+>  	edac->sb_irq = platform_get_irq(pdev, 0);
+>  	if (edac->sb_irq < 0) {
+> -		dev_err(&pdev->dev, "No SBERR IRQ resource\n");
+>  		return edac->sb_irq;
+>  	}
+
+Should delete now unnecessary braces too
+
+>  
+> @@ -2185,7 +2184,6 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+>  #else
+>  	edac->db_irq = platform_get_irq(pdev, 1);
+>  	if (edac->db_irq < 0) {
+> -		dev_err(&pdev->dev, "No DBERR IRQ resource\n");
+>  		return edac->db_irq;
+>  	}
+>  	irq_set_chained_handler_and_data(edac->db_irq,
+
