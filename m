@@ -2,39 +2,41 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4396DC4332F
-	for <linux-edac@archiver.kernel.org>; Tue, 15 Nov 2022 16:04:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC6D3C4167B
+	for <linux-edac@archiver.kernel.org>; Tue, 15 Nov 2022 16:04:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229575AbiKOQEl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 15 Nov 2022 11:04:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57720 "EHLO
+        id S229557AbiKOQEn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 15 Nov 2022 11:04:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbiKOQEj (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 15 Nov 2022 11:04:39 -0500
+        with ESMTP id S232249AbiKOQEk (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 15 Nov 2022 11:04:40 -0500
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E551236
-        for <linux-edac@vger.kernel.org>; Tue, 15 Nov 2022 08:04:36 -0800 (PST)
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NBWCQ4v06z6H75W;
-        Wed, 16 Nov 2022 00:02:10 +0800 (CST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70BBD62F7
+        for <linux-edac@vger.kernel.org>; Tue, 15 Nov 2022 08:04:39 -0800 (PST)
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NBWCX2DDDz6HJW0;
+        Wed, 16 Nov 2022 00:02:16 +0800 (CST)
 Received: from lhrpeml500006.china.huawei.com (7.191.161.198) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 15 Nov 2022 17:04:33 +0100
+ 15.1.2375.31; Tue, 15 Nov 2022 17:04:37 +0100
 Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.156.200) by
  lhrpeml500006.china.huawei.com (7.191.161.198) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 15 Nov 2022 16:04:33 +0000
+ 15.1.2375.31; Tue, 15 Nov 2022 16:04:36 +0000
 From:   <shiju.jose@huawei.com>
 To:     <linux-edac@vger.kernel.org>, <mchehab@kernel.org>
 CC:     <linuxarm@huawei.com>, <tanxiaofei@huawei.com>,
         <jonathan.cameron@huawei.com>, <prime.zeng@hisilicon.com>,
         <luoshengwei@huawei.com>, <panjunchong@hisilicon.com>,
         <fenglei47@h-partners.com>, <shiju.jose@huawei.com>
-Subject: [PATCH v3 00/11] rasdaemon: Add cpu fault isolation support and improvements to the HiSilicon vendor specific code
-Date:   Tue, 15 Nov 2022 16:04:08 +0000
-Message-ID: <20221115160419.355-1-shiju.jose@huawei.com>
+Subject: [PATCH v3 06/11] rasdaemon: ras-mc-ctl: Add printing usage if necessary parameters are not passed for the vendor-error options
+Date:   Tue, 15 Nov 2022 16:04:14 +0000
+Message-ID: <20221115160419.355-7-shiju.jose@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20221115160419.355-1-shiju.jose@huawei.com>
+References: <20221115160419.355-1-shiju.jose@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -48,62 +50,34 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Shiju Jose <shiju.jose@huawei.com>
 
-1. Support cpu fault isolation for the corrected and recoverable errors.
-2. Add features and improvements to the HiSilicon vendor specific code.
-3. Bug fix for a memory out-of-bounds issue.
-4. Add four new modules supported by HiSilicon common error section
+Add printing usage if necessary parameters are not passed
+for the vendor-errors options.
 
-Change History:
-v1 -> v2
-1. Use standard length PATH_MAX for path name space allocation
-   to replace the macro MAX_PATH_LEN in the cpu fault isolation
-   implementation.
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ util/ras-mc-ctl.in | 2 ++
+ 1 file changed, 2 insertions(+)
 
-v2 -> v3
-1. Add four new modules supported by HiSilicon common error section.
-
-Shengwei Luo (2):
-  rasdaemon: Support cpu fault isolation for corrected errors
-  rasdaemon: Support cpu fault isolation for recoverable errors
-
-Shiju Jose (8):
-  rasdaemon: Modify recording Hisilicon common error data
-  rasdaemon: ras-mc-ctl: Modify error statistics for HiSilicon
-    KunPeng9xx common errors
-  rasdaemon: ras-mc-ctl: Reformat error info of the HiSilicon Kunpeng920
-  rasdaemon: ras-mc-ctl: Add printing usage if necessary parameters are
-    not passed for the vendor-error options
-  rasdaemon: ras-mc-ctl: Add support to display the HiSilicon vendor
-    errors for a specified module
-  rasdaemon: ras-mc-ctl: Relocate reading and display Kunpeng920 errors
-    to under Kunpeng9xx
-  rasdaemon: ras-mc-ctl: Updated HiSilicon platform name
-  rasdaemon: Fix for a memory out-of-bounds issue and optimized code to
-    remove duplicate function.
-
-Xiaofei Tan (1):
-  rasdaemon: Add four modules supported by HiSilicon common section
-
- Makefile.am                |   6 +-
- configure.ac               |  11 +
- misc/rasdaemon.env         |  17 ++
- non-standard-hisi_hip08.c  |   6 +-
- non-standard-hisilicon.c   | 134 +++++++++---
- queue.c                    | 119 +++++++++++
- queue.h                    |  39 ++++
- ras-arm-handler.c          | 113 +++++++++++
- ras-arm-handler.h          |  18 ++
- ras-cpu-isolation.c        | 405 +++++++++++++++++++++++++++++++++++++
- ras-cpu-isolation.h        |  69 +++++++
- ras-events.c               |   9 +-
- ras-non-standard-handler.c |  16 +-
- util/ras-mc-ctl.in         | 196 ++++++++++--------
- 14 files changed, 1032 insertions(+), 126 deletions(-)
- create mode 100644 queue.c
- create mode 100644 queue.h
- create mode 100644 ras-cpu-isolation.c
- create mode 100644 ras-cpu-isolation.h
-
+diff --git a/util/ras-mc-ctl.in b/util/ras-mc-ctl.in
+index 8755b6f..959ea6b 100755
+--- a/util/ras-mc-ctl.in
++++ b/util/ras-mc-ctl.in
+@@ -1544,6 +1544,7 @@ sub vendor_errors_summary
+     if ($num_args ne 0) {
+         $platform_id = $ARGV[0];
+     } else {
++        usage(1);
+         return;
+     }
+ 
+@@ -1651,6 +1652,7 @@ sub vendor_errors
+     if ($num_args ne 0) {
+         $platform_id = $ARGV[0];
+     } else {
++        usage(1);
+         return;
+     }
+ 
 -- 
 2.25.1
 
