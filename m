@@ -2,147 +2,983 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9689C433FE
-	for <linux-edac@archiver.kernel.org>; Thu, 10 Nov 2022 21:36:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D16C433FE
+	for <linux-edac@archiver.kernel.org>; Tue, 15 Nov 2022 16:04:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232351AbiKJVgb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 10 Nov 2022 16:36:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48978 "EHLO
+        id S237426AbiKOQEk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 15 Nov 2022 11:04:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232391AbiKJVg3 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 10 Nov 2022 16:36:29 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2061.outbound.protection.outlook.com [40.107.94.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3E51C10C
-        for <linux-edac@vger.kernel.org>; Thu, 10 Nov 2022 13:36:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U27fyLYrqvxij7pMPOEUJO3insOIE7vFBfuL1hOAt73bRXioVljfNWPxHXCy/04akluoJXs+tr+mPUbCsG+KySv/lBENbThf1nj43P+MinECP/cab0r6xiPEal7wUoOLRouds/ZQMwh1nTMpMVgR0UniOLL7WdftfTwyMm/gpHJw9PBVjjyqmJaPuG7pf3zLT+hRfqJW6w19FrjEVcOHbOLzpkjpXnXrsgy155kwuMVVvd4JRfHZTzj8UVOEJJ/RX/c1XSyu7BWBaCwSmh/rY2CWL1gaXm0ye7A6RJSfpRjTUKI1RsMDDj6XQPETi22Z/8vzi1rl/MJfY/0qpjtqlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jT6UpuTD1MhZVtAOaZQDkg9KcU4NgpHb7CjxrH/rNXI=;
- b=cSQ6nsaPL7CLBEdJ3eavs0vDLOuRFlUd2ElNuPWuoJFiT13kdLJhlZOvJkX3J6dklY2CDctEM1TToXc7zhwHu/hXKDFODAzmVbanU6y4Zx6dzBloxUpsIPeZaH7lXpZBgxGPuE8FZSNBISPa7HehFbNbVZtC/S9E0uGvMBf+F118OW4gwvIP9jTD6RR7cChre+h/A9ywulphljNjwtS2UXJuNjIKR2torNQFx+T5GxV0BTVc8i9QRB4kgIjRm6uCe+pcsG4j3+Kz/0eABM/oU1LEIhAsYfvKXLd/tfqk12uzp8yXSzBjCYrEnj6T1ZHE7J8etqfJTro5dcngZUEfaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jT6UpuTD1MhZVtAOaZQDkg9KcU4NgpHb7CjxrH/rNXI=;
- b=NBmJVTGqOQDdgGmfraxDfQNjLeDZkAQvyVMbN+sCJIdHWVoFYQ4wp5QUujv4yGuowo4+AwtdVM9S3FjG4uB6lr77wPvr/b9JlYuR9GeUDHT4lz60l3GCuhL2u59+9Mqf+6WY6Uv1rc0O/zAAzZtMszyHJCamG6HDc/xwN4Mg4qQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by SN7PR12MB7249.namprd12.prod.outlook.com (2603:10b6:806:2a9::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.13; Thu, 10 Nov
- 2022 21:36:26 +0000
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::ee94:4f22:751d:278a]) by BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::ee94:4f22:751d:278a%7]) with mapi id 15.20.5813.012; Thu, 10 Nov 2022
- 21:36:26 +0000
-Date:   Thu, 10 Nov 2022 21:36:22 +0000
-From:   Yazen Ghannam <yazen.ghannam@amd.com>
-To:     Peng Wu <wupeng58@huawei.com>
-Cc:     bp@alien8.de, mchehab@kernel.org, james.morse@arm.com,
-        rric@kernel.org, linux-edac@vger.kernel.org, liwei391@huawei.com
-Subject: Re: [PATCH] EDAC/amd64: fix possible leak in hw_info_get()
-Message-ID: <Y21u1otQgMnmYzV7@yaz-fattaah>
-References: <20221110025256.37599-1-wupeng58@huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221110025256.37599-1-wupeng58@huawei.com>
-X-ClientProxiedBy: CH2PR11CA0009.namprd11.prod.outlook.com
- (2603:10b6:610:54::19) To BN8PR12MB3108.namprd12.prod.outlook.com
- (2603:10b6:408:40::20)
+        with ESMTP id S229575AbiKOQEj (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 15 Nov 2022 11:04:39 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7662AD9A
+        for <linux-edac@vger.kernel.org>; Tue, 15 Nov 2022 08:04:36 -0800 (PST)
+Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.200])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NBWCT22Gbz67nWm;
+        Wed, 16 Nov 2022 00:02:13 +0800 (CST)
+Received: from lhrpeml500006.china.huawei.com (7.191.161.198) by
+ fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 17:04:34 +0100
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.156.200) by
+ lhrpeml500006.china.huawei.com (7.191.161.198) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 15 Nov 2022 16:04:33 +0000
+From:   <shiju.jose@huawei.com>
+To:     <linux-edac@vger.kernel.org>, <mchehab@kernel.org>
+CC:     <linuxarm@huawei.com>, <tanxiaofei@huawei.com>,
+        <jonathan.cameron@huawei.com>, <prime.zeng@hisilicon.com>,
+        <luoshengwei@huawei.com>, <panjunchong@hisilicon.com>,
+        <fenglei47@h-partners.com>, <shiju.jose@huawei.com>
+Subject: [PATCH v3 01/11] rasdaemon: Support cpu fault isolation for corrected errors
+Date:   Tue, 15 Nov 2022 16:04:09 +0000
+Message-ID: <20221115160419.355-2-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20221115160419.355-1-shiju.jose@huawei.com>
+References: <20221115160419.355-1-shiju.jose@huawei.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3108:EE_|SN7PR12MB7249:EE_
-X-MS-Office365-Filtering-Correlation-Id: 391215a9-8e6a-41fa-3ce8-08dac3639ee0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N/GHdutxHMmdSuKRX9zJfdX2kaL+wgwwjEEa3Pyt3ldelifIDNQCTiah3nZ/vf+szIP26yJBERN0lNHWAMuFX8lIDlV+4xXGV4mr6Hlm8oROFohE4kv+Yvx/4/jHiOBjY3uzT48WqPFvOfV0qSs6K0/N297JzaSAWKus2flo6sk4fMMLwW/UvRY7+hiQMCgdkZ1RADi40dHJ4Etn3/Z4v3q8KPfDJWCME/QPufj0iVn4vyqBh0aTnsdpLAOB9oz1SVua55vzArMUeIW/SOMn8km427A1MN3J911QMt9hPGWRum6Kti2Enn8yQGM+/AMkAwR18K09Mm9IdnDaAcGToxbi+2Pmoqfe53PRI0l3qi8uzqu67RofF4Ir69j6fvApmuPU8iyG0v3wn4bknRJ/Z1tC2hiZ9JTL9ilrcJKO+mSKGdNOGzf9VJiNaXhyOYUeGG8u8CLn2D0A/egG4WY9Pn1mrX0zdVtFSMNA28a1SyH29xaCAP7AnR1SxUwIgosrRc4CyPHPOqcPZIun4eDjSsfJoSpOQyZ2GEA5pAT9QWN89xHO26a6Eq5XN7q1zsSqlcUdezcFEjtL+hFRiwIuVoo6zjqsMySdKXSguv1+FLAnoQnz7d60FE7xps79vvOATPkXQK/6gKsTe5jPSPBIFwITcrJ88+3y5baRmDRCrMUi/54AnAKIAoIQZ6Ox2qw6YGEjIIimFnOESWSCadP/2A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(7916004)(136003)(366004)(346002)(376002)(39860400002)(396003)(451199015)(6506007)(41300700001)(186003)(5660300002)(83380400001)(6666004)(6916009)(38100700002)(316002)(9686003)(66556008)(66476007)(8936002)(4326008)(8676002)(66946007)(26005)(6512007)(86362001)(6486002)(478600001)(33716001)(44832011)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Z2opAAcv6u1safwFLMb0G9fqKhZdpy06dLFbl4708Z7Mk28UCpSXi/m/lvVr?=
- =?us-ascii?Q?PkhJBLENxl7sN/Sf9Bn5ifnq7+ZdnkZmmhLAsApaKyIZI0M2WzyBRW8ysFJe?=
- =?us-ascii?Q?HoShl+2jhDW0y9bw1LDd3CXCSv9XTapEu8kpdtKZUXwlp1E5qrVU2cuMR2e8?=
- =?us-ascii?Q?BfP0iNe1Qdfp9gCuZYeaFjq3ef5lC8AYhCb71wIpKYFYmKOLNI3VwJMxCCJ9?=
- =?us-ascii?Q?NZwvcUii8PtQofcVNL5wvmWWfivn1PiprmCcvTBfzVi8ASgyAhsvDXBvuAge?=
- =?us-ascii?Q?xO6J5B+bX8UQ493a/AwOpy8j5Yvw8euHE0ra6GYico/TWG9uwZLA2Rjmj26Y?=
- =?us-ascii?Q?gWPq7O3efcxy+SgOOy4R1TkwuwZ5Xu7NTcN0DUUtOptH0itL927N1fyPBcod?=
- =?us-ascii?Q?swuHJB4E1wNOUzw11AuwW4ps3gubRXzs9puiVVy7NKgBbOPO2uiM+NkRO3cW?=
- =?us-ascii?Q?Jg4/bUwo0LIWNGpGpMkv96ME12iXi4ObwfAicq1jSnUQXGsLuok/YbAtARFd?=
- =?us-ascii?Q?cZ55oFgbX7aG5DJA0LC5sRVVmJUGrMTEFzEBlE4ftjZRy9gg/tt5QA5NS9KA?=
- =?us-ascii?Q?sILGOK1D66aFiLcYsTCAwAPiaiqM0Usg4rp/BsGeBdGRPEw+KG4LzUwg6EGm?=
- =?us-ascii?Q?i88mpcK8GKHtvu33oqf0y0cDEop4uLWMloI7MexXA0xKXYJ7IB6KmGf3JQDg?=
- =?us-ascii?Q?EvxLQhyvTLi9aZMQ8PXOpvLceeSCJzaeQqG5VeS2x49rl9H1YRnXHiSGPQD8?=
- =?us-ascii?Q?uLA/CpRqoCH7YfGaMNSxHv5AjgjEEeCeVJ9IQYOWzrvhAb1foSGYuBG5lWay?=
- =?us-ascii?Q?Kzmui0X5oogaAOHO74kXbDfCW6thsbcaseKCp0JqvMGwNlg6IQojadiqwHm6?=
- =?us-ascii?Q?T3UFALnPqkDFrTnPv2yjJ4HdWyl8qZhsUqD6iOeifX6AkCzN/U8jY/wwI3bK?=
- =?us-ascii?Q?7uC98TcCZBLCnM+6dO1Fc3hydsLK82fecQqdHKNjveaZ/N5vMBEDq0WaBGn+?=
- =?us-ascii?Q?m/3O2KkpTS1K6GsNRC8wlM8CYWY1oAcGOIn4Ox0i7VJEtQV6yM+2jddne0dJ?=
- =?us-ascii?Q?im6SReL/Vis7+DlCPPFK1PhZ5qqL1X1YaqCPVmTaWBJN2yxDXr3LN8GdXp66?=
- =?us-ascii?Q?/Q7xpHhUyQ7Icq05mWJqXhTPSw+BXOu26HuqWgdvhFWdkk6qiOrbPsxWAXMD?=
- =?us-ascii?Q?kD3JUJAzMlTX18SFef3S4jZRkFvEKaqSGyC2eruHG0qatx9BJbRW3bhbqzFu?=
- =?us-ascii?Q?CtwBjgGY/hgu5XHg6dK0Ur2TxAi41jvcOnf+YJ26hQPXDCk7joTCTXVN2sna?=
- =?us-ascii?Q?88VsESNABiO4ndVm+zYWRHXOBRoox43j2VR2cpTo+5JxeRQXqAglNacg4mhf?=
- =?us-ascii?Q?n8YXYFDzrg2b6ybT9iFjTxLcJFtNr8OpU8sr2ar5rwtX2OGpjfIeawxQ8uuO?=
- =?us-ascii?Q?2YIeHWL9X2qg2J/pBJVCwAYLGt1AWwAZbPKPLN1llukE7o0zyqkkaHYhqTVH?=
- =?us-ascii?Q?mcGRUPDJ5LLijeeF5qoE1jE8s6EwVjT5Y2uQq8PkzQkcIDIvvJWYM5EhLPMq?=
- =?us-ascii?Q?RcnS+BPWyRjnplSrCuS8U1X8K/OQdSJcQYRbyulM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 391215a9-8e6a-41fa-3ce8-08dac3639ee0
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2022 21:36:26.6333
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xztkLul7rgbQKilYNPCsfhL82bcUFnT2FAZCCVuryGO6lNTFDy1l2gSzhC3kXAX+0RwXWjGxDB1p8t5zwcv7ZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7249
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.48.156.200]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500006.china.huawei.com (7.191.161.198)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 02:52:56AM +0000, Peng Wu wrote:
-> Add missing kfree() in an error path in hw_info_get()
-> to avoid a memory leak.
-> 
-> Fixes: 80355a3b2db9 ("EDAC/amd64: Gather hardware information early")
-> Signed-off-by: Peng Wu <wupeng58@huawei.com>
-> ---
->  drivers/edac/amd64_edac.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-> index 2f854feeeb23..b64b774eb974 100644
-> --- a/drivers/edac/amd64_edac.c
-> +++ b/drivers/edac/amd64_edac.c
-> @@ -4108,8 +4108,10 @@ static int hw_info_get(struct amd64_pvt *pvt)
->  	}
->  
->  	ret = reserve_mc_sibling_devs(pvt, pci_id1, pci_id2);
-> -	if (ret)
-> +	if (ret) {
-> +		kfree(pvt->umc);
->  		return ret;
-> +	}
->  
->  	read_mc_regs(pvt);
->  
-> -- 
+From: Shengwei Luo <luoshengwei@huawei.com>
 
-Hi Peng Wu,
+When the corrected errors exceed the set limit in cycle, try to
+offline the related cpu core.
 
-Thank you for your submisssion.
+Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
+Signed-off-by: Junchong Pan <panjunchong@hisilicon.com>
+Signed-off-by: Lei Feng <fenglei47@h-partners.com>
+Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ Makefile.am         |   6 +-
+ configure.ac        |  11 ++
+ misc/rasdaemon.env  |  17 ++
+ queue.c             | 119 ++++++++++++++
+ queue.h             |  39 +++++
+ ras-arm-handler.c   |  97 +++++++++++
+ ras-arm-handler.h   |  18 ++
+ ras-cpu-isolation.c | 388 ++++++++++++++++++++++++++++++++++++++++++++
+ ras-cpu-isolation.h |  67 ++++++++
+ ras-events.c        |   9 +-
+ 10 files changed, 769 insertions(+), 2 deletions(-)
+ create mode 100644 queue.c
+ create mode 100644 queue.h
+ create mode 100644 ras-cpu-isolation.c
+ create mode 100644 ras-cpu-isolation.h
 
-This is already handled in the error path.
+diff --git a/Makefile.am b/Makefile.am
+index a322b9a..36e7d4e 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -69,13 +69,17 @@ endif
+ if WITH_AMP_NS_DECODE
+    rasdaemon_SOURCES += non-standard-ampere.c
+ endif
++if WITH_CPU_FAULT_ISOLATION
++   rasdaemon_SOURCES += ras-cpu-isolation.c queue.c
++endif
+ rasdaemon_LDADD = -lpthread $(SQLITE3_LIBS) libtrace/libtrace.a
+ 
+ include_HEADERS = config.h  ras-events.h  ras-logger.h  ras-mc-handler.h \
+ 		  ras-aer-handler.h ras-mce-handler.h ras-record.h bitfield.h ras-report.h \
+ 		  ras-extlog-handler.h ras-arm-handler.h ras-non-standard-handler.h \
+ 		  ras-devlink-handler.h ras-diskerror-handler.h rbtree.h ras-page-isolation.h \
+-		  non-standard-hisilicon.h non-standard-ampere.h ras-memory-failure-handler.h
++		  non-standard-hisilicon.h non-standard-ampere.h ras-memory-failure-handler.h \
++		  ras-cpu-isolation.h queue.h
+ 
+ # This rule can't be called with more than one Makefile job (like make -j8)
+ # I can't figure out a way to fix that
+diff --git a/configure.ac b/configure.ac
+index a77991f..e0ed751 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -161,6 +161,16 @@ AS_IF([test "x$enable_amp_ns_decode" = "xyes" || test "x$enable_all" == "xyes"],
+ AM_CONDITIONAL([WITH_AMP_NS_DECODE], [test x$enable_amp_ns_decode = xyes || test x$enable_all == xyes])
+ AM_COND_IF([WITH_AMP_NS_DECODE], [USE_AMP_NS_DECODE="yes"], [USE_AMP_NS_DECODE="no"])
+ 
++AC_ARG_ENABLE([cpu_fault_isolation],
++    AS_HELP_STRING([--enable-cpu-fault-isolation], [enable cpu online fault isolation]))
++
++AS_IF([test "x$enable_cpu_fault_isolation" = "xyes" || test "x$enable_all" == "xyes"], [
++  AC_DEFINE(HAVE_CPU_FAULT_ISOLATION,1,"have cpu online fault isolation")
++  AC_SUBST([WITH_CPU_FAULT_ISOLATION])
++])
++AM_CONDITIONAL([WITH_CPU_FAULT_ISOLATION], [test x$enable_cpu_fault_isolation = xyes || test x$enable_all == xyes])
++AM_COND_IF([WITH_CPU_FAULT_ISOLATION], [USE_CPU_FAULT_ISOLATION="yes"], [USE_CPU_FAULT_ISOLATION="no"])
++
+ test "$sysconfdir" = '${prefix}/etc' && sysconfdir=/etc
+ 
+ CFLAGS="$CFLAGS -Wall -Wmissing-prototypes -Wstrict-prototypes"
+@@ -201,4 +211,5 @@ compile time options summary
+     Memory Failure      : $USE_MEMORY_FAILURE
+     Memory CE PFA       : $USE_MEMORY_CE_PFA
+     AMP RAS errors      : $USE_AMP_NS_DECODE
++    CPU fault isolation : $USE_CPU_FAULT_ISOLATION
+ EOF
+diff --git a/misc/rasdaemon.env b/misc/rasdaemon.env
+index 12fd766..7cb18e8 100644
+--- a/misc/rasdaemon.env
++++ b/misc/rasdaemon.env
+@@ -27,3 +27,20 @@ PAGE_CE_THRESHOLD="50"
+ # soft-then-hard   First try to soft offline, then try hard offlining.
+ # Note: default offline choice is "soft".
+ PAGE_CE_ACTION="soft"
++
++# CPU Online Fault Isolation
++# Whether to enable cpu online fault isolation (yes|no).
++CPU_ISOLATION_ENABLE="no"
++# Specify the threshold of CE numbers.
++#
++# Format:
++#   [0-9]+[unit]
++#
++# Supported units:
++# CPU_CE_THRESHOLD: no unit
++# CPU_ISOLATION_CYCLE: D|d (day), H|h (hour), M|m (minute), S|s (second), default is in second
++CPU_CE_THRESHOLD="18"
++CPU_ISOLATION_CYCLE="24h"
++
++# Prevent excessive isolation from causing an avalanche effect
++CPU_ISOLATION_LIMIT="10"
+\ No newline at end of file
+diff --git a/queue.c b/queue.c
+new file mode 100644
+index 0000000..65b6fb8
+--- /dev/null
++++ b/queue.c
+@@ -0,0 +1,119 @@
++/*
++ * Copyright (c) Huawei Technologies Co., Ltd. 2021-2021. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include "queue.h"
++#include "ras-logger.h"
++
++int is_empty(struct link_queue *queue)
++{
++	if (queue)
++		return queue->size == 0;
++
++	return 1;
++}
++
++struct link_queue *init_queue(void)
++{
++	struct link_queue *queue = NULL;
++
++	queue = (struct link_queue *)malloc(sizeof(struct link_queue));
++	if (queue == NULL) {
++		log(TERM, LOG_ERR, "Failed to allocate memory for queue.\n");
++		return NULL;
++	}
++
++	queue->size = 0;
++	queue->head = NULL;
++	queue->tail = NULL;
++
++	return queue;
++}
++
++void clear_queue(struct link_queue *queue)
++{
++	if (queue == NULL)
++		return;
++
++	struct queue_node *node = queue->head;
++	struct queue_node *tmp = NULL;
++
++	while (node != NULL) {
++		tmp = node;
++		node = node->next;
++		free(tmp);
++	}
++
++	queue->head = NULL;
++	queue->tail = NULL;
++	queue->size = 0;
++}
++
++void free_queue(struct link_queue *queue)
++{
++	clear_queue(queue);
++
++	if (queue)
++		free(queue);
++}
++
++/* It should be guranteed that the param is not NULL */
++void push(struct link_queue *queue, struct queue_node *node)
++{
++	/* there is no element in the queue */
++	if (queue->head == NULL)
++		queue->head = node;
++	else
++		queue->tail->next = node;
++
++	queue->tail = node;
++	(queue->size)++;
++}
++
++int pop(struct link_queue *queue)
++{
++	struct queue_node *tmp = NULL;
++
++	if (queue == NULL || is_empty(queue))
++		return -1;
++
++	tmp = queue->head;
++	queue->head = queue->head->next;
++	free(tmp);
++	(queue->size)--;
++
++	return 0;
++}
++
++struct queue_node *front(struct link_queue *queue)
++{
++	if (queue == NULL)
++		return NULL;
++
++	return queue->head;
++}
++
++struct queue_node *node_create(time_t time, unsigned int value)
++{
++	struct queue_node *node = NULL;
++
++	node = (struct queue_node *)malloc(sizeof(struct queue_node));
++	if (node != NULL) {
++		node->time = time;
++		node->value = value;
++		node->next = NULL;
++	}
++
++	return node;
++}
+diff --git a/queue.h b/queue.h
+new file mode 100644
+index 0000000..5459f40
+--- /dev/null
++++ b/queue.h
+@@ -0,0 +1,39 @@
++/*
++ * Copyright (c) Huawei Technologies Co., Ltd. 2021-2021. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ */
++
++#ifndef __RAS_QUEUE_H
++#define __RAS_QUEUE_H
++
++struct queue_node {
++	time_t time;
++	unsigned int value;
++	struct queue_node *next;
++};
++
++struct link_queue {
++	struct queue_node *head;
++	struct queue_node *tail;
++	int size;
++};
++
++int is_empty(struct link_queue *queue);
++struct link_queue *init_queue(void);
++void clear_queue(struct link_queue *queue);
++void free_queue(struct link_queue *queue);
++void push(struct link_queue *queue, struct queue_node *node);
++int pop(struct link_queue *queue);
++struct queue_node *front(struct link_queue *queue);
++struct queue_node *node_create(time_t time, unsigned int value);
++
++#endif
+diff --git a/ras-arm-handler.c b/ras-arm-handler.c
+index 1149dc6..9c7a3c3 100644
+--- a/ras-arm-handler.c
++++ b/ras-arm-handler.c
+@@ -22,6 +22,10 @@
+ #include "ras-report.h"
+ #include "ras-non-standard-handler.h"
+ #include "non-standard-ampere.h"
++#include "ras-cpu-isolation.h"
++
++#define ARM_ERR_VALID_ERROR_COUNT BIT(0)
++#define ARM_ERR_VALID_FLAGS BIT(1)
+ 
+ void display_raw_data(struct trace_seq *s,
+ 		const uint8_t *buf,
+@@ -42,6 +46,93 @@ void display_raw_data(struct trace_seq *s,
+ 	}
+ }
+ 
++#ifdef HAVE_CPU_FAULT_ISOLATION
++static int count_errors(struct ras_arm_event *ev)
++{
++	struct ras_arm_err_info *err_info;
++	int num_pei;
++	int err_info_size = sizeof(struct ras_arm_err_info);
++	int num = 0;
++	int i;
++	int error_count;
++
++	if (ev->pei_len % err_info_size != 0) {
++		log(TERM, LOG_ERR,
++			"The event data does not match to the ARM Processor Error Information Structure\n");
++		return num;
++	}
++	num_pei = ev->pei_len / err_info_size;
++	err_info = (struct ras_arm_err_info *)(ev->pei_error);
++
++	for (i = 0; i < num_pei; ++i) {
++		error_count = 1;
++		if (err_info->validation_bits & ARM_ERR_VALID_ERROR_COUNT) {
++			/*
++			 * The value of this field is defined as follows:
++			 * 0: Single Error
++			 * 1: Multiple Errors
++			 * 2-65535: Error Count
++			 */
++			error_count = err_info->multiple_error + 1;
++		}
++
++		num += error_count;
++		err_info += 1;
++	}
++	log(TERM, LOG_INFO, "%d error in cpu core catched\n", num);
++	return num;
++}
++
++static int ras_handle_cpu_error(struct trace_seq *s,
++			 struct pevent_record *record,
++			 struct event_format *event,
++			 struct ras_arm_event *ev, time_t now)
++{
++	unsigned long long val;
++	int cpu;
++	char *severity;
++	struct error_info err_info;
++
++	if (pevent_get_field_val(s, event, "cpu", record, &val, 1) < 0)
++		return -1;
++	cpu = val;
++	trace_seq_printf(s, "\n cpu: %d", cpu);
++
++	/* record cpu error */
++	if (pevent_get_field_val(s, event, "sev", record, &val, 1) < 0)
++		return -1;
++	/* refer to UEFI_2_9 specification chapter N2.2 Table N-5 */
++	switch (val) {
++	case GHES_SEV_NO:
++		severity = "Informational";
++		break;
++	case GHES_SEV_CORRECTED:
++		severity = "Corrected";
++		break;
++	case GHES_SEV_RECOVERABLE:
++		severity = "Recoverable";
++		break;
++	default:
++	case GHES_SEV_PANIC:
++		severity = "Fatal";
++	}
++	trace_seq_printf(s, "\n severity: %s", severity);
++
++	if (val == GHES_SEV_CORRECTED) {
++		int nums = count_errors(ev);
++
++		if (nums > 0) {
++			err_info.nums = nums;
++			err_info.time = now;
++			err_info.err_type = val;
++			ras_record_cpu_error(&err_info, cpu);
++		}
++	}
++
++	return 0;
++}
++#endif
++
+ int ras_arm_event_handler(struct trace_seq *s,
+ 			 struct pevent_record *record,
+ 			 struct event_format *event, void *context)
+@@ -52,6 +143,7 @@ int ras_arm_event_handler(struct trace_seq *s,
+ 	struct tm *tm;
+ 	struct ras_arm_event ev;
+ 	int len = 0;
++
+ 	memset(&ev, 0, sizeof(ev));
+ 
+ 	/*
+@@ -139,6 +231,11 @@ int ras_arm_event_handler(struct trace_seq *s,
+ 	display_raw_data(s, ev.vsei_error, ev.oem_len);
+ #endif
+ 
++#ifdef HAVE_CPU_FAULT_ISOLATION
++	if (ras_handle_cpu_error(s, record, event, &ev, now) < 0)
++		return -1;
++#endif
++
+ 	/* Insert data into the SGBD */
+ #ifdef HAVE_SQLITE3
+ 	ras_store_arm_record(ras, &ev);
+diff --git a/ras-arm-handler.h b/ras-arm-handler.h
+index 563a2d3..52813e7 100644
+--- a/ras-arm-handler.h
++++ b/ras-arm-handler.h
+@@ -17,6 +17,24 @@
+ #include "ras-events.h"
+ #include "libtrace/event-parse.h"
+ 
++/*
++ * ARM Processor Error Information Structure, According to
++ * UEFI_2_9 specification chapter N2.4.4.
++ */
++#pragma pack(1)
++struct ras_arm_err_info {
++	uint8_t version;
++	uint8_t length;
++	uint16_t validation_bits;
++	uint8_t type;
++	uint16_t multiple_error;
++	uint8_t flags;
++	uint64_t error_info;
++	uint64_t virt_fault_addr;
++	uint64_t physical_fault_addr;
++};
++#pragma pack()
++
+ int ras_arm_event_handler(struct trace_seq *s,
+ 			 struct pevent_record *record,
+ 			 struct event_format *event, void *context);
+diff --git a/ras-cpu-isolation.c b/ras-cpu-isolation.c
+new file mode 100644
+index 0000000..1694a08
+--- /dev/null
++++ b/ras-cpu-isolation.c
+@@ -0,0 +1,388 @@
++/*
++ * Copyright (c) Huawei Technologies Co., Ltd. 2021-2021. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ */
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <fcntl.h>
++#include <errno.h>
++#include <unistd.h>
++#include <limits.h>
++#include <ctype.h>
++#include "ras-logger.h"
++#include "ras-cpu-isolation.h"
++
++#define SECOND_OF_MON (30 * 24 * 60 * 60)
++#define SECOND_OF_DAY (24 * 60 * 60)
++#define SECOND_OF_HOU (60 * 60)
++#define SECOND_OF_MIN (60)
++
++#define LIMIT_OF_CPU_THRESHOLD 10000
++#define INIT_OF_CPU_THRESHOLD 18
++#define DEC_CHECK 10
++#define LAST_BIT_OF_UL 5
++
++static struct cpu_info *cpu_infos;
++static unsigned int ncores;
++static unsigned int enabled = 1;
++static const char *cpu_path_format = "/sys/devices/system/cpu/cpu%d/online";
++
++static const struct param normal_units[] = {
++	{"", 1},
++	{}
++};
++
++static const struct param cycle_units[] = {
++	{"d", SECOND_OF_DAY},
++	{"h", SECOND_OF_HOU},
++	{"m", SECOND_OF_MIN},
++	{"s", 1},
++	{}
++};
++
++static struct isolation_param threshold = {
++	.name = "CPU_CE_THRESHOLD",
++	.units = normal_units,
++	.value = INIT_OF_CPU_THRESHOLD,
++	.limit = LIMIT_OF_CPU_THRESHOLD
++};
++
++static struct isolation_param cpu_limit = {
++	.name = "CPU_ISOLATION_LIMIT",
++	.units = normal_units
++};
++
++static struct isolation_param cycle = {
++	.name = "CPU_ISOLATION_CYCLE",
++	.units = cycle_units,
++	.value = SECOND_OF_DAY,
++	.limit = SECOND_OF_MON
++};
++
++static const char * const cpu_state[] = {
++	[CPU_OFFLINE] = "offline",
++	[CPU_ONLINE] = "online",
++	[CPU_OFFLINE_FAILED] = "offline-failed",
++	[CPU_UNKNOWN] = "unknown"
++};
++
++static int open_sys_file(unsigned int cpu, int __oflag, const char *format)
++{
++	int fd;
++	char path[PATH_MAX] = "";
++	char real_path[PATH_MAX] = "";
++
++	snprintf(path, sizeof(path), format, cpu);
++	if (strlen(path) > PATH_MAX || realpath(path, real_path) == NULL) {
++		log(TERM, LOG_ERR, "[%s]:open file: %s failed\n", __func__, path);
++		return -1;
++	}
++	fd = open(real_path, __oflag);
++	if (fd == -1) {
++		log(TERM, LOG_ERR, "[%s]:open file: %s failed\n", __func__, real_path);
++		return -1;
++	}
++
++	return fd;
++}
++
++static int get_cpu_status(unsigned int cpu)
++{
++	int fd, num;
++	char buf[2] = "";
++
++	fd = open_sys_file(cpu, O_RDONLY, cpu_path_format);
++	if (fd == -1)
++		return CPU_UNKNOWN;
++
++	if (read(fd, buf, 1) <= 0 || sscanf(buf, "%d", &num) != 1)
++		num = CPU_UNKNOWN;
++
++	close(fd);
++
++	return (num < 0 || num > CPU_UNKNOWN) ? CPU_UNKNOWN : num;
++}
++
++static int init_cpu_info(unsigned int cpus)
++{
++	ncores = cpus;
++	cpu_infos = (struct cpu_info *)malloc(sizeof(*cpu_infos) * cpus);
++	if (!cpu_infos) {
++		log(TERM, LOG_ERR,
++			"Failed to allocate memory for cpu infos in %s.\n", __func__);
++		return -1;
++	}
++
++	for (unsigned int i = 0; i < cpus; ++i) {
++		cpu_infos[i].ce_nums = 0;
++		cpu_infos[i].state = get_cpu_status(i);
++		cpu_infos[i].ce_queue = init_queue();
++
++		if (cpu_infos[i].ce_queue == NULL) {
++			log(TERM, LOG_ERR,
++				"Failed to allocate memory for cpu ce queue in %s.\n", __func__);
++			return -1;
++		}
++	}
++	/* set limit of offlined cpu limit according to number of cpu */
++	cpu_limit.limit = cpus - 1;
++	cpu_limit.value = 0;
++
++	return 0;
++}
++
++static void check_config(struct isolation_param *config)
++{
++	if (config->value > config->limit) {
++		log(TERM, LOG_WARNING, "Value: %lu exceed limit: %lu, set to limit\n",
++			config->value, config->limit);
++		config->value = config->limit;
++	}
++}
++
++static int parse_ul_config(struct isolation_param *config, char *env, unsigned long *value)
++{
++	char *unit = NULL;
++	int env_size, has_unit = 0;
++
++	if (!env || strlen(env) == 0)
++		return -1;
++
++	env_size = strlen(env);
++	unit = env + env_size - 1;
++
++	if (isalpha(*unit)) {
++		has_unit = 1;
++		env_size--;
++		if (env_size <= 0)
++			return -1;
++	}
++
++	for (int i = 0; i < env_size; ++i) {
++		if (isdigit(env[i])) {
++			if (*value > ULONG_MAX / DEC_CHECK ||
++				(*value == ULONG_MAX / DEC_CHECK && env[i] - '0' > LAST_BIT_OF_UL)) {
++				log(TERM, LOG_ERR, "%s is out of range: %lu\n", env, ULONG_MAX);
++				return -1;
++			}
++			*value = DEC_CHECK * (*value) + (env[i] - '0');
++		} else
++			return -1;
++	}
++
++	if (!has_unit)
++		return 0;
++
++	for (const struct param *units = config->units; units->name; units++) {
++		/* value character and unit character are both valid */
++		if (!strcasecmp(unit, units->name)) {
++			if (*value > (ULONG_MAX / units->value)) {
++				log(TERM, LOG_ERR,
++				    "%s is out of range: %lu\n", env, ULONG_MAX);
++				return -1;
++			}
++			*value = (*value) * units->value;
++			return 0;
++		}
++	}
++	log(TERM, LOG_ERR, "Invalid unit %s\n", unit);
++	return -1;
++}
++
++static void init_config(struct isolation_param *config)
++{
++	char *env = getenv(config->name);
++	unsigned long value = 0;
++
++	if (parse_ul_config(config, env, &value) < 0) {
++		log(TERM, LOG_ERR, "Invalid %s: %s! Use default value %lu.\n",
++			config->name, env, config->value);
++		return;
++	}
++
++	config->value = value;
++	check_config(config);
++}
++
++static int check_config_status(void)
++{
++	char *env = getenv("CPU_ISOLATION_ENABLE");
++
++	if (env == NULL || strcasecmp(env, "yes"))
++		return -1;
++
++	return 0;
++}
++
++void ras_cpu_isolation_init(unsigned int cpus)
++{
++	if (init_cpu_info(cpus) < 0 || check_config_status() < 0) {
++		enabled = 0;
++		log(TERM, LOG_WARNING, "Cpu fault isolation is disabled\n");
++		return;
++	}
++
++	log(TERM, LOG_INFO, "Cpu fault isolation is enabled\n");
++	init_config(&threshold);
++	init_config(&cpu_limit);
++	init_config(&cycle);
++}
++
++void cpu_infos_free(void)
++{
++	if (cpu_infos) {
++		for (int i = 0; i < ncores; ++i)
++			free_queue(cpu_infos[i].ce_queue);
++
++		free(cpu_infos);
++	}
++}
++
++static int do_cpu_offline(unsigned int cpu)
++{
++	int fd, rc;
++	char buf[2] = "";
++
++	cpu_infos[cpu].state = CPU_OFFLINE_FAILED;
++	fd = open_sys_file(cpu, O_RDWR, cpu_path_format);
++	if (fd == -1)
++		return HANDLE_FAILED;
++
++	strcpy(buf, "0");
++	rc = write(fd, buf, strlen(buf));
++	if (rc < 0) {
++		log(TERM, LOG_ERR, "cpu%u offline failed, errno:%d\n", cpu, errno);
++		close(fd);
++		return HANDLE_FAILED;
++	}
++
++	close(fd);
++	/* check wthether the cpu is isolated successfully */
++	cpu_infos[cpu].state = get_cpu_status(cpu);
++
++	if (cpu_infos[cpu].state == CPU_OFFLINE)
++		return HANDLE_SUCCEED;
++
++	return HANDLE_FAILED;
++}
++
++static int do_ce_handler(unsigned int cpu)
++{
++	struct link_queue *queue = cpu_infos[cpu].ce_queue;
++	unsigned int tmp;
++	/*
++	 * Since we just count all error numbers in setted cycle, we store the time
++	 * and error numbers from current event to the queue, then everytime we
++	 * calculate the period from beginning time to ending time, if the period
++	 * exceeds setted cycle, we pop the beginning time and error until the period
++	 * from new beginning time to ending time is less than cycle.
++	 */
++	while (queue->head && queue->tail && queue->tail->time - queue->head->time > cycle.value) {
++		tmp = queue->head->value;
++		if (pop(queue) == 0)
++			cpu_infos[cpu].ce_nums -= tmp;
++	}
++	log(TERM, LOG_INFO,
++		"Current number of Corrected Errors in cpu%d in the cycle is %lu\n",
++		cpu, cpu_infos[cpu].ce_nums);
++
++	if (cpu_infos[cpu].ce_nums >= threshold.value) {
++		log(TERM, LOG_INFO,
++			"Corrected Errors exceeded threshold %lu, try to offline cpu%u\n",
++			threshold.value, cpu);
++		return do_cpu_offline(cpu);
++	}
++	return HANDLE_NOTHING;
++}
++
++static int error_handler(unsigned int cpu, struct error_info *err_info)
++{
++	int ret = HANDLE_NOTHING;
++
++	switch (err_info->err_type) {
++	case CE:
++		ret = do_ce_handler(cpu);
++		break;
++	default:
++		break;
++	}
++
++	return ret;
++}
++
++static void record_error_info(unsigned int cpu, struct error_info *err_info)
++{
++	switch (err_info->err_type) {
++	case CE:
++	{
++		struct queue_node *node = node_create(err_info->time, err_info->nums);
++
++		if (node == NULL) {
++			log(TERM, LOG_ERR, "Fail to allocate memory for queue node\n");
++			return;
++		}
++		push(cpu_infos[cpu].ce_queue, node);
++		cpu_infos[cpu].ce_nums += err_info->nums;
++		break;
++	}
++	default:
++		break;
++	}
++}
++
++void ras_record_cpu_error(struct error_info *err_info, int cpu)
++{
++	int ret;
++
++	if (enabled == 0)
++		return;
++
++	if (cpu >= ncores || cpu < 0) {
++		log(TERM, LOG_ERR,
++			"The current cpu %d has exceed the total number of cpu:%u\n", cpu, ncores);
++		return;
++	}
++
++	log(TERM, LOG_INFO, "Handling error on cpu%d\n", cpu);
++	cpu_infos[cpu].state = get_cpu_status(cpu);
++
++	if (cpu_infos[cpu].state != CPU_ONLINE) {
++		log(TERM, LOG_INFO, "Cpu%d is not online or unknown, ignore\n", cpu);
++		return;
++	}
++
++	record_error_info(cpu, err_info);
++	/*
++	 * Since user may change cpu state, we get current offlined
++	 * cpu numbers every recording time.
++	 */
++	if (ncores - sysconf(_SC_NPROCESSORS_ONLN) >= cpu_limit.value) {
++		log(TERM, LOG_WARNING,
++			"Offlined cpus have exceeded limit: %lu, choose to do nothing\n",
++			cpu_limit.value);
++		return;
++	}
++
++	ret = error_handler(cpu, err_info);
++	if (ret == HANDLE_NOTHING)
++		log(TERM, LOG_WARNING, "Doing nothing in the cpu%d\n", cpu);
++	else if (ret == HANDLE_SUCCEED) {
++		log(TERM, LOG_INFO, "Offline cpu%d succeed, the state is %s\n",
++			cpu, cpu_state[cpu_infos[cpu].state]);
++		clear_queue(cpu_infos[cpu].ce_queue);
++		cpu_infos[cpu].ce_nums = 0;
++	} else
++		log(TERM, LOG_WARNING, "Offline cpu%d fail, the state is %s\n",
++			cpu, cpu_state[cpu_infos[cpu].state]);
++}
+diff --git a/ras-cpu-isolation.h b/ras-cpu-isolation.h
+new file mode 100644
+index 0000000..35b5225
+--- /dev/null
++++ b/ras-cpu-isolation.h
+@@ -0,0 +1,67 @@
++/*
++ * Copyright (c) Huawei Technologies Co., Ltd. 2021-2021. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ */
++
++#ifndef __RAS_CPU_ISOLATION_H
++#define __RAS_CPU_ISOLATION_H
++
++#include "queue.h"
++
++#define MAX_BUF_LEN 1024
++
++struct param {
++	char *name;
++	unsigned long value;
++};
++
++struct isolation_param {
++	char *name;
++	const struct param *units;
++	unsigned long value;
++	unsigned long limit;
++};
++
++enum cpu_state {
++	CPU_OFFLINE,
++	CPU_ONLINE,
++	CPU_OFFLINE_FAILED,
++	CPU_UNKNOWN,
++};
++
++enum error_handle_result {
++	HANDLE_FAILED = -1,
++	HANDLE_SUCCEED,
++	HANDLE_NOTHING,
++};
++
++enum error_type {
++	CE = 1
++};
++
++struct cpu_info {
++	unsigned long ce_nums;
++	struct link_queue *ce_queue;
++	enum cpu_state state;
++};
++
++struct error_info {
++	unsigned long nums;
++	time_t time;
++	enum error_type err_type;
++};
++
++void ras_cpu_isolation_init(unsigned int cpus);
++void ras_record_cpu_error(struct error_info *err_info, int cpu);
++void cpu_infos_free(void);
++
++#endif
+diff --git a/ras-events.c b/ras-events.c
+index 39cab20..beda655 100644
+--- a/ras-events.c
++++ b/ras-events.c
+@@ -42,6 +42,7 @@
+ #include "ras-record.h"
+ #include "ras-logger.h"
+ #include "ras-page-isolation.h"
++#include "ras-cpu-isolation.h"
+ 
+ /*
+  * Polling time, if read() doesn't block. Currently, trace_pipe_raw never
+@@ -856,6 +857,10 @@ int handle_ras_events(int record_events)
+ 
+ 	cpus = get_num_cpus(ras);
+ 
++#ifdef HAVE_CPU_FAULT_ISOLATION
++	ras_cpu_isolation_init(cpus);
++#endif
++
+ #ifdef HAVE_MCE
+ 	rc = register_mce_handler(ras, cpus);
+ 	if (rc)
+@@ -982,6 +987,8 @@ err:
+ 		}
+ 		free(ras);
+ 	}
+-
++#ifdef HAVE_CPU_FAULT_ISOLATION
++	cpu_infos_free();
++#endif
+ 	return rc;
+ }
+-- 
+2.25.1
 
-If hw_info_get() fails, then we jump to the "err_enable" label in
-probe_one_instance(). This calls hw_info_put() which frees the "umc" array.
-
-Is there a case where this path isn't followed?
-
-Thanks,
-Yazen
