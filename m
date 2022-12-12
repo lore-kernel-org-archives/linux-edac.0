@@ -2,75 +2,124 @@ Return-Path: <linux-edac-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B79BC4332F
-	for <linux-edac@archiver.kernel.org>; Sat, 10 Dec 2022 02:28:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D12C04FDE
+	for <linux-edac@archiver.kernel.org>; Mon, 12 Dec 2022 05:55:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229545AbiLJC2Q (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 9 Dec 2022 21:28:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
+        id S230515AbiLLFzH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 12 Dec 2022 00:55:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiLJC2P (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 9 Dec 2022 21:28:15 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC6A2C67C;
-        Fri,  9 Dec 2022 18:28:14 -0800 (PST)
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NTWxd4qQfzRphm;
-        Sat, 10 Dec 2022 10:27:17 +0800 (CST)
-Received: from [10.174.151.185] (10.174.151.185) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sat, 10 Dec 2022 10:28:11 +0800
-Subject: Re: [PATCH] mce: fix missing stack-dumping in mce_panic()
-To:     <bp@alien8.de>, <tglx@linutronix.de>, <mingo@redhat.com>,
-        <dave.hansen@linux.intel.com>
-CC:     <x86@kernel.org>, <hpa@zytor.com>, <linux-edac@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Tony Luck <tony.luck@intel.com>
-References: <20221202163728.392509-1-linmiaohe@huawei.com>
-From:   Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <470ffd37-3f65-7ad1-71cb-a1d4547d8afa@huawei.com>
-Date:   Sat, 10 Dec 2022 10:28:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        with ESMTP id S230498AbiLLFzG (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 12 Dec 2022 00:55:06 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C854CE2D
+        for <linux-edac@vger.kernel.org>; Sun, 11 Dec 2022 21:55:05 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id d7so10979101pll.9
+        for <linux-edac@vger.kernel.org>; Sun, 11 Dec 2022 21:55:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NrhqU0YeLI505f3HkmmLlBSRikE7SJQhGguGbIbcneY=;
+        b=SQ5GHKCNaAwPBZIU08JKNhKj4YVRK/AsGdPoYyXjIimFTZ6XfHHKeT6Ot01D3Ki/88
+         FvYWFQsRD2LfohhTpA/FqyefjNjc3gBLt30bnKpcDOJ8UgEXcF7G4ZQH+n+WQrVWVvfG
+         ReqsuZlc3IX+x3gCYFHRzLb1WJVjzmdKgW2/C055Sw9R8j7SZEskTuY/ZZePmTQMRytm
+         BSk/aK0fgBeJuLFE0G1fI23ZeZhrBmT8F3T1suy2L47gEkuZ/6bx1alqupExTZEr7cED
+         hZH4csy9GdKchL5ZfHaKD21/QCgQw/9WIJwF+Vkml79gg/kYp32o0i3RiTiEI/AN7E5g
+         AuGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NrhqU0YeLI505f3HkmmLlBSRikE7SJQhGguGbIbcneY=;
+        b=lLpya2pWHMdAu6kd6TWkyUVOsSyk48TCSpX+jwbVfiAQ2jwfMdiha6LHj+29ZCJB3G
+         j5XQYtIhsAFE59sshatixjK0GbYxGvRgGLp6buYCvZwslE5R01+peKSLUZ/LcHTV02bA
+         7gmVH9R/3Q4iP1HTLigm/Nsg7LzUphcw0Ckyrkmts+pj1hOEcbd4v4m3wpuiWhs/PB6e
+         qSTxt7PfmTIgqZlh6oKQsiAJfYliXpjaY1fau2OFxWjMbwz6B27ngeM1zZsAg7F1C2ck
+         Sbav0R0Nxl/IvYuzmgaMq+xr/J2n3BuVhI7HNsKR/Vzd1f++ZDA1MLBrQhNqDCWU3t4x
+         DpFA==
+X-Gm-Message-State: ANoB5pnB8gLxZH+rcCVJU3zpN4RirbFJZKPL67mMuDwGmwYezXPGSCYK
+        NaftGILoBBugylXsa0/M9WJ/
+X-Google-Smtp-Source: AA0mqf7yJuIGPGBSOjf/2toXY87/kNjjjBafuyDhCulX9TELztvYqu+Lr6tUs46bV63pUwkzms/MDA==
+X-Received: by 2002:a17:90a:c791:b0:216:ed9:cadc with SMTP id gn17-20020a17090ac79100b002160ed9cadcmr14653355pjb.21.1670824504614;
+        Sun, 11 Dec 2022 21:55:04 -0800 (PST)
+Received: from thinkpad ([220.158.159.33])
+        by smtp.gmail.com with ESMTPSA id u6-20020a17090a1f0600b0020647f279fbsm4566248pja.29.2022.12.11.21.54.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Dec 2022 21:55:03 -0800 (PST)
+Date:   Mon, 12 Dec 2022 11:24:56 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+Cc:     andersson@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, bp@alien8.de,
+        tony.luck@intel.com, konrad.dybcio@linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
+        linux-edac@vger.kernel.org, quic_ppareek@quicinc.com
+Subject: Re: [PATCH 01/12] dt-bindings: arm: msm: Update the maintainers for
+ LLCC
+Message-ID: <20221212055456.GB20655@thinkpad>
+References: <20221207135922.314827-1-manivannan.sadhasivam@linaro.org>
+ <20221207135922.314827-2-manivannan.sadhasivam@linaro.org>
+ <5b731ae4-ae5f-af2a-3357-e5e33612a977@quicinc.com>
 MIME-Version: 1.0
-In-Reply-To: <20221202163728.392509-1-linmiaohe@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.151.185]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5b731ae4-ae5f-af2a-3357-e5e33612a977@quicinc.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 2022/12/3 0:37, Miaohe Lin wrote:
-> When machine check exception occurs, there is no stack-dumping now in
-> mce_panic(). It's because bust_spinlocks(1) is called prematurely so
-> oops_in_progress will be >= 2 when trying to call dump_stack() in
-> panic(). Thus dump_stack() won't be called as this is considered as
-> nested stack-dumping.
-> 
-> Signed-off-by: Miaohe Lin <linmiaohe@huawei.com>
+Hi Sai,
 
-Friendly ping. ;)
-
-> ---
->  arch/x86/kernel/cpu/mce/core.c | 1 -
->  1 file changed, 1 deletion(-)
+On Thu, Dec 08, 2022 at 08:45:48AM +0530, Sai Prakash Ranjan wrote:
+> Hi Mani,
 > 
-> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-> index 2c8ec5c71712..c40dad1a6749 100644
-> --- a/arch/x86/kernel/cpu/mce/core.c
-> +++ b/arch/x86/kernel/cpu/mce/core.c
-> @@ -254,7 +254,6 @@ static noinstr void mce_panic(const char *msg, struct mce *final, char *exp)
->  			wait_for_panic();
->  		barrier();
->  
-> -		bust_spinlocks(1);
->  		console_verbose();
->  	} else {
->  		/* Don't log too much for fake panic */
+> On 12/7/2022 7:29 PM, Manivannan Sadhasivam wrote:
+> > Rishabh Bhatnagar has left Qualcomm, and there is no evidence of him
+> > maintaining with a new identity. So his entry needs to be removed.
+> > 
+> > Also, Sai Prakash Ranjan's email address should be updated to use
+> > quicinc domain.
+> > 
+> > Cc: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> >   Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml | 3 +--
+> >   1 file changed, 1 insertion(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml b/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml
+> > index 38efcad56dbd..d1df49ffcc1b 100644
+> > --- a/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml
+> > +++ b/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml
+> > @@ -7,8 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+> >   title: Last Level Cache Controller
+> >   maintainers:
+> > -  - Rishabh Bhatnagar <rishabhb@codeaurora.org>
+> > -  - Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+> > +  - Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+> 
+> Thanks for updating, I believe you can add yourself as well now since
+> you maintain LLCC driver.
 > 
 
+I only maintain the EDAC driver, so I'll leave llcc to you :)
+
+> Either way,
+> 
+> Acked-by: Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+> 
+
+Thanks,
+Mani
+
+> 
+> Thanks,
+> Sai
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
