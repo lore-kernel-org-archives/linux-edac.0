@@ -2,77 +2,133 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7348AC4167B
-	for <linux-edac@archiver.kernel.org>; Fri, 30 Dec 2022 01:56:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E67F1C4167B
+	for <linux-edac@archiver.kernel.org>; Fri, 30 Dec 2022 14:48:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbiL3B4u (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 29 Dec 2022 20:56:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42904 "EHLO
+        id S235071AbiL3OsL (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 30 Dec 2022 09:48:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbiL3B4s (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 29 Dec 2022 20:56:48 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59E7611C04;
-        Thu, 29 Dec 2022 17:56:47 -0800 (PST)
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NjpHf0QJCzmWyC;
-        Fri, 30 Dec 2022 09:55:26 +0800 (CST)
-Received: from [10.174.151.185] (10.174.151.185) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Fri, 30 Dec 2022 09:56:44 +0800
-Subject: Re: [PATCH] mce: fix missing stack-dumping in mce_panic()
-To:     Borislav Petkov <bp@alien8.de>
-CC:     "Luck, Tony" <tony.luck@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-References: <20221202163728.392509-1-linmiaohe@huawei.com>
- <SJ1PR11MB60830CE8C3F79C9531C8567AFC179@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <5cf492bf-9807-a091-6ac2-a953fce276da@huawei.com> <Y61/+V47qH/8OVxp@zn.tnic>
- <1e97c11d-99b6-c06f-b67f-c56ba6653d27@huawei.com> <Y62NVThhnGtnj71u@zn.tnic>
-From:   Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <276c9e6b-d647-6f7f-7bd1-c1f45ca23261@huawei.com>
-Date:   Fri, 30 Dec 2022 09:56:44 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        with ESMTP id S235034AbiL3OsK (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 30 Dec 2022 09:48:10 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8952CB84D;
+        Fri, 30 Dec 2022 06:48:06 -0800 (PST)
+Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0B1DC1EC064A;
+        Fri, 30 Dec 2022 15:48:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1672411685;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=D8sh2IxPMw6n2bzVvHUCXWtyK943VHmfJSYwXW9Zz/M=;
+        b=agDQ4GxxoXEsC19IJOa2d2on/k1krQbu/8gwkOoIwR1BrNouEe7/U86KO55VW2iek8IWVf
+        A+Dk39F91IKG01cy4wUmbLRfTNb3kdN/RUNaYBDPYzJYLd2+a7kNEB3byinTIoLxdxkC/d
+        aHdu9Hs359m0H1mXQlpU1IO3brGZxuA=
+Date:   Fri, 30 Dec 2022 15:48:01 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Farber, Eliav" <farbere@amazon.com>
+Cc:     mchehab@kernel.org, tony.luck@intel.com, james.morse@arm.com,
+        rric@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, talel@amazon.com, jonnyc@amazon.com,
+        hhhawa@amazon.com, hanochu@amazon.com, itamark@amazon.com,
+        shellykz@amazon.com, amitlavi@amazon.com, dkl@amazon.com
+Subject: Re: [PATCH v2] edac: fix period calculation in
+ edac_device_reset_delay_period()
+Message-ID: <Y676ITA0tCjEo3av@zn.tnic>
+References: <20221020124458.22153-1-farbere@amazon.com>
+ <Y62xA548/wQAggRL@zn.tnic>
+ <aebd2f07-674c-b848-69e7-5479d111bad1@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <Y62NVThhnGtnj71u@zn.tnic>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.151.185]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aebd2f07-674c-b848-69e7-5479d111bad1@amazon.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On 2022/12/29 20:51, Borislav Petkov wrote:
-> On Thu, Dec 29, 2022 at 08:33:55PM +0800, Miaohe Lin wrote:
->> I think
-> 
-> You think or you know?
+On Thu, Dec 29, 2022 at 10:17:48PM +0200, Farber, Eliav wrote:
+> The one-liner below will not work. See the comment in
+> edac_device_workq_setup() that explains why round is used:
 
-The problem code logic exists since that time.
+Bah, right you are - there's that "optimization".
 
-> 
-> I'm assuming reverting 6e6f0a1f0fa6 shows the MCE panic?
+Ok, I've applied this:
 
-Yes, that's right.
+---
+From: Eliav Farber <farbere@amazon.com>
+Date: Thu, 20 Oct 2022 12:44:58 +0000
+Subject: [PATCH] EDAC/device: Fix period calculation in
+ edac_device_reset_delay_period()
 
-> 
-> I guess the original issue that commit was fixing is to save that
-> redundant oops message but Tony seems to want to see it now and I'm not
-> sure how much we care about 80x50 screens nowadays... :-)
+Fix period calculation in case user sets a value of 1000.  The input of
+round_jiffies_relative() should be in jiffies and not in milli-seconds.
 
-80x50 screens should be really uncommon now. But avoiding redundant oops message
-should always save our time. ;)
+  [ bp: Use the same code pattern as in edac_device_workq_setup() for
+    clarity. ]
 
-Thanks,
-Miaohe Lin
+Fixes: c4cf3b454eca ("EDAC: Rework workqueue handling")
+Signed-off-by: Eliav Farber <farbere@amazon.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/20221020124458.22153-1-farbere@amazon.com
+---
+ drivers/edac/edac_device.c | 17 ++++++++---------
+ drivers/edac/edac_module.h |  2 +-
+ 2 files changed, 9 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+index 19522c568aa5..878deb4880cd 100644
+--- a/drivers/edac/edac_device.c
++++ b/drivers/edac/edac_device.c
+@@ -394,17 +394,16 @@ static void edac_device_workq_teardown(struct edac_device_ctl_info *edac_dev)
+  *	Then restart the workq on the new delay
+  */
+ void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev,
+-					unsigned long value)
++				    unsigned long msec)
+ {
+-	unsigned long jiffs = msecs_to_jiffies(value);
+-
+-	if (value == 1000)
+-		jiffs = round_jiffies_relative(value);
+-
+-	edac_dev->poll_msec = value;
+-	edac_dev->delay	    = jiffs;
++	edac_dev->poll_msec = msec;
++	edac_dev->delay	    = msecs_to_jiffies(msec);
+ 
+-	edac_mod_work(&edac_dev->work, jiffs);
++	/* See comment in edac_device_workq_setup() above */
++	if (edac_dev->poll_msec == 1000)
++		edac_mod_work(&edac_dev->work, round_jiffies_relative(edac_dev->delay));
++	else
++		edac_mod_work(&edac_dev->work, edac_dev->delay);
+ }
+ 
+ int edac_device_alloc_index(void)
+diff --git a/drivers/edac/edac_module.h b/drivers/edac/edac_module.h
+index 763c076d96f2..47593afdc234 100644
+--- a/drivers/edac/edac_module.h
++++ b/drivers/edac/edac_module.h
+@@ -53,7 +53,7 @@ bool edac_stop_work(struct delayed_work *work);
+ bool edac_mod_work(struct delayed_work *work, unsigned long delay);
+ 
+ extern void edac_device_reset_delay_period(struct edac_device_ctl_info
+-					   *edac_dev, unsigned long value);
++					   *edac_dev, unsigned long msec);
+ extern void edac_mc_reset_delay_period(unsigned long value);
+ 
+ /*
+-- 
+2.35.1
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
