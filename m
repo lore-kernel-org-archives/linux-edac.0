@@ -2,53 +2,53 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D29CC32793
-	for <linux-edac@archiver.kernel.org>; Wed, 18 Jan 2023 15:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A774FC32793
+	for <linux-edac@archiver.kernel.org>; Wed, 18 Jan 2023 15:10:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbjARPJq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 18 Jan 2023 10:09:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41172 "EHLO
+        id S231655AbjARPJv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 18 Jan 2023 10:09:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231515AbjARPJb (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 18 Jan 2023 10:09:31 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2EF51554D
-        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:09:30 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id g205so9324996pfb.6
-        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:09:30 -0800 (PST)
+        with ESMTP id S231626AbjARPJo (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 18 Jan 2023 10:09:44 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 302A12B601
+        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:09:42 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id b12so24714475pgj.6
+        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:09:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9g1r2YkbrCTL06JBn8TcdxJnLCnZpZqC+qdq6jkkxOk=;
-        b=rmGHhTlj8O6W1yPAhd3uk2Ho8WDQV2ls8DgNFrQvHO8xa5RrlA6ALv/tHMw3UtegjW
-         uqKI8SSb5ozUimyYj7w3LSV61Kuk7og8suQrm1s2/uBYGWx1E8e8+UTZWwXFYUkb9eEL
-         lo4+CJxoKxTh9NmrYfhJ8cQFpyT9/yvaUSXXInOg50ZEnzW3wCzXGWjkf/N2pSJxrcnx
-         O2lXZ3BPh1lMOkLCDCqNEQTA5yPe7iKk5Q2QO7A1+syXPfPEX9xHDqByGpjF2QPNeACx
-         NJKYI778puEQkLpRby0cQlida5hNSZRwwTyoxlUd4xBBmwuL+76wvu9c/ou2wdGNsAkc
-         q7vw==
+        bh=jXuVNaTN8VlggSdcrqnxpaEGm5VyBVkNPNZuLm2UVUQ=;
+        b=eXeh3yGVsH9ffM3jicbIsyf8jsrDa5kqR1E3UQGIGTQKTitp9gSaGd/JMuK3t0iLYV
+         KkFtkPPrZx/r5KylQPaS0s9oAh/m3W3HdLeoW8VFxGfXHDRQdsmTCFO0av+fur/vi1TX
+         RLqXV/qF4sBk0DEHhysTXbZ/LYRTl9CkwQEGhiOaZCVbohgbfATxUbeeJxB2Xnl7hban
+         d7yprmgPtYXdFxIhx8pJQ9fhGzxuyFtIj4Rk9lB/bi1hhoZGyNvW8ijm3c2fwvLk25jF
+         PeDCF6M0So7AyXvaNw0N9vI/Khm4ATbMS/SKqzlIzWvh/eUTxDR/zJ8VJ5EDM7Z5Opjx
+         VjSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9g1r2YkbrCTL06JBn8TcdxJnLCnZpZqC+qdq6jkkxOk=;
-        b=JNeX54q8qPH+SgxhIuROZ5kPucb5mcczHo2P8OlYQGhJMfXAiCcMMIbT+xpy1/JHHf
-         1Rjb8uUl4vavypkbcEZ5zIjQmDTwTcuVWsI334Kt6UpBdSB48AJkB3K8esvp4oP6s8dc
-         StcFBvvp622bcQssLIw/z13Fiv7ofJmxiy7s4+LC48chzNZi+zqplqXGQENzYWXr33Im
-         UMBC0SgbAmoXVa425N7pMjNhfEuh3Yev0SKn4K70dN+Qv8gD7HjoYrMun1ORqcWHK+rK
-         KhptL/ertUahgS6MS2lAm9KYhQ3bCUx7FK2DJsebbLS58z3b/TE8YXL3rA9fzsYu2MXU
-         bKUw==
-X-Gm-Message-State: AFqh2krfrpfInDsvVTHlGQ/XOfaGymQnosaofnlJ+Bi+bicjh24CQCkz
-        HUVWGA9IksH+WYBKubYAObcY
-X-Google-Smtp-Source: AMrXdXvZOMcQB/ZBoqS+3k2rADk7d3DCLX6WFNCx/MxVUn82xQIrp1DOK76Vvu1vLwsXnqn861Rddg==
-X-Received: by 2002:aa7:9a50:0:b0:589:b85:1e32 with SMTP id x16-20020aa79a50000000b005890b851e32mr7763285pfj.16.1674054570482;
-        Wed, 18 Jan 2023 07:09:30 -0800 (PST)
+        bh=jXuVNaTN8VlggSdcrqnxpaEGm5VyBVkNPNZuLm2UVUQ=;
+        b=w0QkT/rFlFFhslhHObyMilTkIBBN1mokm5mGn5yhJ7oA1bwOKnMit2s3j+mfJdWU3W
+         WLyUvBHh78yOB7B+aiQ9ijrScJiV3jD4V2Uz0Big7E2ypDBuG/a5qi5smAkeI7APnSQb
+         yiS7krn/ZQPK9N3eBkAQKLr5Nj7MQ6eRNBJTryozsMsJNYyvn0ybVQ2VTNU4McT0JWCX
+         ObMnq0I5gb5IsdAsVLLnMwJnIUKvlQgo4r2XG6cKkHlnp+zys9KVVwgDFftnBM3lpl8I
+         TL53ONcvHlIFX2rFbgGFYxtKTVMWF2rZxDzJ3OQSr2v+rJWdO5Y1xKF/ZC1psN2cGTmx
+         M8gQ==
+X-Gm-Message-State: AFqh2kp7rgMxPJEkP20VMLeuRthpaUhTOkZ0I4Z2XCnpzObcfETnlgD6
+        DXurYk05S6Zw8lZ27GVOSglm
+X-Google-Smtp-Source: AMrXdXupg+FJU9gCGZn0pA4MSvTGTZj/iNGqwm+Tn9dHNYuSRVGDFJsSd2WJPflryOxKI2zn2RlM1w==
+X-Received: by 2002:a05:6a00:3390:b0:58c:6ba1:58dd with SMTP id cm16-20020a056a00339000b0058c6ba158ddmr8010503pfb.11.1674054581652;
+        Wed, 18 Jan 2023 07:09:41 -0800 (PST)
 Received: from localhost.localdomain ([27.111.75.61])
-        by smtp.gmail.com with ESMTPSA id i15-20020aa796ef000000b0058d9623e7f1sm6721544pfq.73.2023.01.18.07.09.25
+        by smtp.gmail.com with ESMTPSA id i15-20020aa796ef000000b0058d9623e7f1sm6721544pfq.73.2023.01.18.07.09.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 07:09:29 -0800 (PST)
+        Wed, 18 Jan 2023 07:09:40 -0800 (PST)
 From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To:     andersson@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, bp@alien8.de,
@@ -59,10 +59,10 @@ Cc:     quic_saipraka@quicinc.com, konrad.dybcio@linaro.org,
         linux-edac@vger.kernel.org, quic_ppareek@quicinc.com,
         luca.weiss@fairphone.com, ahalaney@redhat.com, steev@kali.org,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        stable@vger.kernel.org
-Subject: [PATCH v6 03/17] EDAC/qcom: Do not pass llcc_driv_data as edac_device_ctl_info's pvt_info
-Date:   Wed, 18 Jan 2023 20:38:50 +0530
-Message-Id: <20230118150904.26913-4-manivannan.sadhasivam@linaro.org>
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v6 05/17] dt-bindings: arm: msm: Fix register regions used for LLCC banks
+Date:   Wed, 18 Jan 2023 20:38:52 +0530
+Message-Id: <20230118150904.26913-6-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230118150904.26913-1-manivannan.sadhasivam@linaro.org>
 References: <20230118150904.26913-1-manivannan.sadhasivam@linaro.org>
@@ -72,55 +72,178 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The memory for "llcc_driv_data" is allocated by the LLCC driver. But when
-it is passed as "pvt_info" to the EDAC core, it will get freed during the
-qcom_edac driver release. So when the qcom_edac driver gets probed again,
-it will try to use the freed data leading to the use-after-free bug.
+Register regions of the LLCC banks are located at different addresses.
+Currently, the binding just lists the LLCC0 base address and tries to
+cover all the banks using a single size. This is entirely wrong as there
+are other register regions that happen to lie inside the size covered by
+the binding such as the memory controller and holes.
 
-Hence, do not pass "llcc_driv_data" as pvt_info but rather reference it
-using the "platform_data" in the qcom_edac driver.
+So this needs to be fixed by specifying the base address of individual
+LLCC banks. This approach will break the existing users of this binding
+as the register regions are split and the drivers now cannot use
+LLCC0 register region for accessing rest of the banks (which is wrong
+anyway).
 
-Cc: <stable@vger.kernel.org> # 4.20
-Fixes: 27450653f1db ("drivers: edac: Add EDAC driver support for QCOM SoCs")
-Tested-by: Steev Klimaszewski <steev@kali.org> # Thinkpad X13s
-Tested-by: Andrew Halaney <ahalaney@redhat.com> # sa8540p-ride
-Reported-by: Steev Klimaszewski <steev@kali.org>
-Reviewed-by: Borislav Petkov (AMD) <bp@alien8.de>
+But considering the fact that the binding was wrong from the day one and
+also the device drivers going wrong by the binding, this breakage is
+acceptable.
+
+Reported-by: Parikshit Pareek <quic_ppareek@quicinc.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- drivers/edac/qcom_edac.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ .../bindings/arm/msm/qcom,llcc.yaml           | 125 ++++++++++++++++--
+ 1 file changed, 114 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/edac/qcom_edac.c b/drivers/edac/qcom_edac.c
-index 9e77fa84e84f..3256254c3722 100644
---- a/drivers/edac/qcom_edac.c
-+++ b/drivers/edac/qcom_edac.c
-@@ -252,7 +252,7 @@ dump_syn_reg_values(struct llcc_drv_data *drv, u32 bank, int err_type)
- static int
- dump_syn_reg(struct edac_device_ctl_info *edev_ctl, int err_type, u32 bank)
- {
--	struct llcc_drv_data *drv = edev_ctl->pvt_info;
-+	struct llcc_drv_data *drv = edev_ctl->dev->platform_data;
- 	int ret;
+diff --git a/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml b/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml
+index d1df49ffcc1b..050e21d4a03e 100644
+--- a/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml
++++ b/Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml
+@@ -33,14 +33,12 @@ properties:
+       - qcom,sm8550-llcc
  
- 	ret = dump_syn_reg_values(drv, bank, err_type);
-@@ -289,7 +289,7 @@ static irqreturn_t
- llcc_ecc_irq_handler(int irq, void *edev_ctl)
- {
- 	struct edac_device_ctl_info *edac_dev_ctl = edev_ctl;
--	struct llcc_drv_data *drv = edac_dev_ctl->pvt_info;
-+	struct llcc_drv_data *drv = edac_dev_ctl->dev->platform_data;
- 	irqreturn_t irq_rc = IRQ_NONE;
- 	u32 drp_error, trp_error, i;
- 	int ret;
-@@ -358,7 +358,6 @@ static int qcom_llcc_edac_probe(struct platform_device *pdev)
- 	edev_ctl->dev_name = dev_name(dev);
- 	edev_ctl->ctl_name = "llcc";
- 	edev_ctl->panic_on_ue = LLCC_ERP_PANIC_ON_UE;
--	edev_ctl->pvt_info = llcc_driv_data;
+   reg:
+-    items:
+-      - description: LLCC base register region
+-      - description: LLCC broadcast base register region
++    minItems: 2
++    maxItems: 9
  
- 	rc = edac_device_add_device(edev_ctl);
- 	if (rc)
+   reg-names:
+-    items:
+-      - const: llcc_base
+-      - const: llcc_broadcast_base
++    minItems: 2
++    maxItems: 9
+ 
+   interrupts:
+     maxItems: 1
+@@ -50,15 +48,120 @@ required:
+   - reg
+   - reg-names
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sc7180-llcc
++              - qcom,sm6350-llcc
++    then:
++      properties:
++        reg:
++          items:
++            - description: LLCC0 base register region
++            - description: LLCC broadcast base register region
++        reg-names:
++          items:
++            - const: llcc0_base
++            - const: llcc_broadcast_base
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sc7280-llcc
++    then:
++      properties:
++        reg:
++          items:
++            - description: LLCC0 base register region
++            - description: LLCC1 base register region
++            - description: LLCC broadcast base register region
++        reg-names:
++          items:
++            - const: llcc0_base
++            - const: llcc1_base
++            - const: llcc_broadcast_base
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sc8180x-llcc
++              - qcom,sc8280xp-llcc
++    then:
++      properties:
++        reg:
++          items:
++            - description: LLCC0 base register region
++            - description: LLCC1 base register region
++            - description: LLCC2 base register region
++            - description: LLCC3 base register region
++            - description: LLCC4 base register region
++            - description: LLCC5 base register region
++            - description: LLCC6 base register region
++            - description: LLCC7 base register region
++            - description: LLCC broadcast base register region
++        reg-names:
++          items:
++            - const: llcc0_base
++            - const: llcc1_base
++            - const: llcc2_base
++            - const: llcc3_base
++            - const: llcc4_base
++            - const: llcc5_base
++            - const: llcc6_base
++            - const: llcc7_base
++            - const: llcc_broadcast_base
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sdm845-llcc
++              - qcom,sm8150-llcc
++              - qcom,sm8250-llcc
++              - qcom,sm8350-llcc
++              - qcom,sm8450-llcc
++    then:
++      properties:
++        reg:
++          items:
++            - description: LLCC0 base register region
++            - description: LLCC1 base register region
++            - description: LLCC2 base register region
++            - description: LLCC3 base register region
++            - description: LLCC broadcast base register region
++        reg-names:
++          items:
++            - const: llcc0_base
++            - const: llcc1_base
++            - const: llcc2_base
++            - const: llcc3_base
++            - const: llcc_broadcast_base
++
+ additionalProperties: false
+ 
+ examples:
+   - |
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 
+-    system-cache-controller@1100000 {
+-      compatible = "qcom,sdm845-llcc";
+-      reg = <0x1100000 0x200000>, <0x1300000 0x50000> ;
+-      reg-names = "llcc_base", "llcc_broadcast_base";
+-      interrupts = <GIC_SPI 582 IRQ_TYPE_LEVEL_HIGH>;
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        system-cache-controller@1100000 {
++            compatible = "qcom,sdm845-llcc";
++            reg = <0 0x01100000 0 0x50000>, <0 0x01180000 0 0x50000>,
++                <0 0x01200000 0 0x50000>, <0 0x01280000 0 0x50000>,
++                <0 0x01300000 0 0x50000>;
++            reg-names = "llcc0_base", "llcc1_base", "llcc2_base",
++                "llcc3_base", "llcc_broadcast_base";
++            interrupts = <GIC_SPI 582 IRQ_TYPE_LEVEL_HIGH>;
++        };
+     };
 -- 
 2.25.1
 
