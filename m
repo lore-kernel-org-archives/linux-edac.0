@@ -2,53 +2,53 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB137C32793
-	for <linux-edac@archiver.kernel.org>; Wed, 18 Jan 2023 15:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4857C38147
+	for <linux-edac@archiver.kernel.org>; Wed, 18 Jan 2023 15:10:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231691AbjARPKU (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 18 Jan 2023 10:10:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41662 "EHLO
+        id S231734AbjARPK6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 18 Jan 2023 10:10:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231682AbjARPJ5 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 18 Jan 2023 10:09:57 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43945222E4
-        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:09:47 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so1807102pjq.0
-        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:09:47 -0800 (PST)
+        with ESMTP id S231786AbjARPKH (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 18 Jan 2023 10:10:07 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62123344D
+        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:10:03 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id g68so23618543pgc.11
+        for <linux-edac@vger.kernel.org>; Wed, 18 Jan 2023 07:10:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e9QXXi64w5AkU0+SlZ8zyP2UpGIuUHr0Btt1KBRAP8A=;
-        b=obtgJhJLbF4zWUDolIBzQPaWeCJD4k73tplZA2oseQtFWjew9LCQd9iWssEKhC60G4
-         QJZouobxHZsRUV+v0NgrkDrkrLtepNVemS1x+00LcFX2iwGozOuS5MWLRVWFbm6PHNge
-         zNWmWkn/r8C4zdZGguEztP6KTdOFRZUT/jVj0vkG7PUgoBRnDGOkEB3adUea/U9aoC6S
-         TvzZFiX/zZT4DfkhlMUFl2BOZ9f0djgiAYYVIy/QbIlH3aCgQLr2n7ZBsNctRMe9YHDb
-         Z1Sq6rFOmmXIh/xS7PPsaCNNktEq2XJPBkcZ759uigRjj9AlCi1Bz96CYp0HiV/Cf1rb
-         ZyFA==
+        bh=cEcc2ZZg4+/rCWO8lF+EBDL5HIag6zFEZ6LhCeBUUxo=;
+        b=SF0jnonDRV3kMcVclflOD2iajoDlCgYs+7RCBsuEuTbAUtPpOd051QxBH225nYEe0j
+         Wk7K28q+az5tsoheuC4aGX0bgSFN7k0Vtt0G0ChpVLhfmHZbdK8w84laJV+yrBSNmswB
+         XI6NZgoKeBfDSIef82be5y5+3HHpwTFwN9Xoi1nUaUwR81eOGaxpFfsoMAZ5tGhYDRPN
+         qWhPD5MUhGK7waGozSvl5VJg1U4LsL2YiMOwEFoMZFDIR1bUIN0XXezUVKTZUTH1tH5m
+         O4OIz6PnAzQXZkm7m0GIvKtjNOOPzoLBRjfuaj2hFbmYUm8SjMfS2H5/0/t2IWkXuG6l
+         OJXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=e9QXXi64w5AkU0+SlZ8zyP2UpGIuUHr0Btt1KBRAP8A=;
-        b=IZiOlQbNUFyfwainBLrRJDYQsOsXOXgBRphBSQwtTXQMSh0RZyEX7xSnjtlnubnDRx
-         YKVniPolJUjNNJT75Fx8MZFoffO/eg5ySROiGwZaxFtbk1Wkc0qfPaXGKlnlS2jINNnO
-         hUp/hpSuMBzmJzU3QTY8BQPzcg3xKcb3tJm7EA9XBZrMyPkHVuO3ySvqcSbAqxkjmTiQ
-         +trzPMTwpobiSnxSZlw+/eGoZYU170O74uElz8gLlNt3GEzjeHBxPiLVwqoCf3NynZBA
-         nlatIr4ZJnlbyTC3DNIpFws7kOOmyr385+NNvB9KncZ89gNYoYkKP+NcpNl/X3XbXewJ
-         9d8g==
-X-Gm-Message-State: AFqh2kpj+DNnMBZA0lkSGugG435F2gqlVgLJwWNi0Z+rFwC9p3lfNU68
-        8gZnrr4+1/dr2bdiF9SrmqA/
-X-Google-Smtp-Source: AMrXdXudo2SgQfYV2NRx9IPy1Dx4CtZVDyyWiTYIZ8R4pxcG4AMOnDrL8NF4HyzKb/JjyMl+KsOmYA==
-X-Received: by 2002:a05:6a20:9e0e:b0:ac:7a44:db55 with SMTP id ms14-20020a056a209e0e00b000ac7a44db55mr6345038pzb.39.1674054587110;
-        Wed, 18 Jan 2023 07:09:47 -0800 (PST)
+        bh=cEcc2ZZg4+/rCWO8lF+EBDL5HIag6zFEZ6LhCeBUUxo=;
+        b=4OVB+p0ZsBYbOVHBun7GJSz7+D2gBPe7jWF4X2a0O+dtEYLBOTasW4UegUwQGRcVwQ
+         TwQBQXbANaijxEoUr4OqhULyLAapTPGehjUuB9zqB3fd1dWTh49BzJ9JLPeTJwhhuAQt
+         NlitNs4FiulLgg4gGFxlf6skGElogNtda12Y9j03zSQq67iBbBhyOsMNQl6L0op4tDBW
+         2F/CTOBYKeJIvBY56LRU9Lma0KlDYjSbh09PXWBXKZHhVcC4+FyfnyXWnIb409S2o7o8
+         6iXKLox4ishRhzZtA5FYn53RwdgmX+l0mZx9fP5etEWtSOACHIXmit6FTzoeNMLWvxZr
+         Nliw==
+X-Gm-Message-State: AFqh2kr/OSilVnmmzIMeOqZY1apApvrpU+B9N5FsREyRDPAmMNmKmM6Z
+        I+fgDwflIvShK7x9Zp86Xngx
+X-Google-Smtp-Source: AMrXdXsQHYRmOryPXtwWfuYEySKTMiOyDnNTqUQWNw+ESAAg1dOAhAWgoXvMEjompjkzgvz9mP7Jpw==
+X-Received: by 2002:a05:6a00:3691:b0:580:d409:396c with SMTP id dw17-20020a056a00369100b00580d409396cmr8995745pfb.6.1674054603390;
+        Wed, 18 Jan 2023 07:10:03 -0800 (PST)
 Received: from localhost.localdomain ([27.111.75.61])
-        by smtp.gmail.com with ESMTPSA id i15-20020aa796ef000000b0058d9623e7f1sm6721544pfq.73.2023.01.18.07.09.42
+        by smtp.gmail.com with ESMTPSA id i15-20020aa796ef000000b0058d9623e7f1sm6721544pfq.73.2023.01.18.07.09.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 07:09:46 -0800 (PST)
+        Wed, 18 Jan 2023 07:10:02 -0800 (PST)
 From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To:     andersson@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, bp@alien8.de,
@@ -59,9 +59,9 @@ Cc:     quic_saipraka@quicinc.com, konrad.dybcio@linaro.org,
         linux-edac@vger.kernel.org, quic_ppareek@quicinc.com,
         luca.weiss@fairphone.com, ahalaney@redhat.com, steev@kali.org,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v6 06/17] arm64: dts: qcom: sdm845: Fix the base addresses of LLCC banks
-Date:   Wed, 18 Jan 2023 20:38:53 +0530
-Message-Id: <20230118150904.26913-7-manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v6 09/17] arm64: dts: qcom: sc8280xp: Fix the base addresses of LLCC banks
+Date:   Wed, 18 Jan 2023 20:38:56 +0530
+Message-Id: <20230118150904.26913-10-manivannan.sadhasivam@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230118150904.26913-1-manivannan.sadhasivam@linaro.org>
 References: <20230118150904.26913-1-manivannan.sadhasivam@linaro.org>
@@ -76,30 +76,32 @@ and holes in between. So it is not a correct approach to cover these
 banks with a single offset/size. Instead, the individual bank's base
 address needs to be specified in devicetree with the exact size.
 
-On SDM845, the size of the LLCC bank 0 needs to be reduced to 0x4500 as
-there are LLCC BWMON registers located after this range.
-
 Reported-by: Parikshit Pareek <quic_ppareek@quicinc.com>
+Tested-by: Steev Klimaszewski <steev@kali.org> # Thinkpad X13s
+Tested-by: Andrew Halaney <ahalaney@redhat.com> # sa8540p-ride
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 65032b94b46d..4db68d4d78df 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -2132,8 +2132,11 @@ uart15: serial@a9c000 {
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+index 109c9d2b684d..0510a5d510e7 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+@@ -1856,8 +1856,14 @@ opp-6 {
  
- 		llcc: system-cache-controller@1100000 {
- 			compatible = "qcom,sdm845-llcc";
--			reg = <0 0x01100000 0 0x31000>, <0 0x01300000 0 0x50000>;
+ 		system-cache-controller@9200000 {
+ 			compatible = "qcom,sc8280xp-llcc";
+-			reg = <0 0x09200000 0 0x58000>, <0 0x09600000 0 0x58000>;
 -			reg-names = "llcc_base", "llcc_broadcast_base";
-+			reg = <0 0x01100000 0 0x45000>, <0 0x01180000 0 0x50000>,
-+			      <0 0x01200000 0 0x50000>, <0 0x01280000 0 0x50000>,
-+			      <0 0x01300000 0 0x50000>;
++			reg = <0 0x09200000 0 0x58000>, <0 0x09280000 0 0x58000>,
++			      <0 0x09300000 0 0x58000>, <0 0x09380000 0 0x58000>,
++			      <0 0x09400000 0 0x58000>, <0 0x09480000 0 0x58000>,
++			      <0 0x09500000 0 0x58000>, <0 0x09580000 0 0x58000>,
++			      <0 0x09600000 0 0x58000>;
 +			reg-names = "llcc0_base", "llcc1_base", "llcc2_base",
-+				    "llcc3_base", "llcc_broadcast_base";
++				    "llcc3_base", "llcc4_base", "llcc5_base",
++				    "llcc6_base", "llcc7_base",  "llcc_broadcast_base";
  			interrupts = <GIC_SPI 582 IRQ_TYPE_LEVEL_HIGH>;
  		};
  
