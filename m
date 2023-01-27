@@ -2,43 +2,43 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5714DC54EAA
-	for <linux-edac@archiver.kernel.org>; Fri, 27 Jan 2023 17:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B1BC38142
+	for <linux-edac@archiver.kernel.org>; Fri, 27 Jan 2023 17:07:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235083AbjA0RGz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 27 Jan 2023 12:06:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34308 "EHLO
+        id S235104AbjA0RHl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 27 Jan 2023 12:07:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234982AbjA0RGX (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 27 Jan 2023 12:06:23 -0500
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2057.outbound.protection.outlook.com [40.107.223.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7949E2684E;
-        Fri, 27 Jan 2023 09:05:29 -0800 (PST)
+        with ESMTP id S235026AbjA0RH1 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 27 Jan 2023 12:07:27 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on20622.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e89::622])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8309986EAC;
+        Fri, 27 Jan 2023 09:06:18 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g3FYDHJVVpRsLXCyK9lbigfyzPJsO0qunkygXHjBsdgj5xxvL8YW8dpdkQV6PBS9d/ISBHmsQTb/omq7hDCtFfTT2EuisEdankaIqeGl7pQEk8vtjYqNNG0J6NnzfxhzZa8AbCmGJSbzR9eDznhnCwP2Kn5l44ClA+OUaNuG66Xi4cM39+JEjs5izSvlOGDre/VT68zMd+ZHWc/V25ZD9xoISzAdOjv53/+W3azb+AqJxMB+XT/jTSA4l5rBQP7o5PZfvkRZbVP+pPB/L2zpI7bpjTA1CndRCUHscdU7Skw83q80F2eX9E2Cw3q4m8bn8p4N56NroNP/Yexxpu9PzQ==
+ b=cCZAj1A3GMK9n0/0aURDJ1MyWWDsRPAQoF3dKIHMUkNxFh1+yE0TKCZyC69xZQn5E4YOkFW0JuxXZH52QiMlTpSynhfjg5zzvQubU8AdDHMFRhSsywLv/NmUPI+4p1qh9LFKDlU4yi8W0RLl7X5Rjkw06vV/7TaomR1ZegvEBTewOfOhvG0W0DWkQGZ1pE7hT4XCe4l5IbJrqCry0xixQA3VDYLd5ZTtbG4pxqKdj+M3lEc/JWa2SSZ3YLMKj1qf4myQVpLIlxT6R1rcCqRIO8qJSDMH4kRasGISaAWVtZ5EQIFFz4oK3nHPzbzi7ibMDcrVZ2Vtx/o1jwpOGSOFMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ROeIX5lny5eSt8wgK5KhTZ+Q/2Q2xDc0dJ+L0hd62Zs=;
- b=boOtzy5ECjexxiQv3N5DcWrFWErbeOCeZhHzoFwijs7c5xKLH2Sc6rZaBlirXRWD5fNwHj84bdtW1UHfK+oyRboz4lyOC8goy0Kr7260BoxcweKyUlrGKsvQTFam1qgqcmNUWs2ZsgDttFq9N9cnQmwtdBrpNdq2MuhkidFNDrUjKNqI4HHyKaNVbTqsbJx13pYxmq8clVNBFn1Tz762nn/UFPqb73JbflOBDLS8a84H/AILfLrhY7fu2QcL3GMzxPhToP+3lMbdokusQ0OomFkg4VbYszxtozAdBDZ48oMXadPFl7XGPyEtntIZlM/tJjkETdyCYvnaBCtLV12pWw==
+ bh=TOw4CeLcFhN8zTDuNyCccuduK8o748M5EJqwKg6eRV8=;
+ b=kG5X+ANrBeriwStRq/36lvCcBSA5m/N9CJJEsnGxjxyQcA6YxI100HTz0rNoA5zIiEMmeEV2VnoExICnL3jZzHB8jTwnket0L0PIfqlWcRdrSwWeVVJbXbbjhSb0T2JPvzVA22jy7o771CwLCh92RmPbghUQ1OpI97eLSx0nxF3GO/TbjwZGBiBwEoly7hfTrW2Q4p9/r7z5Y8bbtOWKrjWURUp+ZkPXRMMM0s4PXbl0ttBSz75iaZ8YjWgRmIL3B/puDyle7LL5UDPx6Vru0YUfYiHobhqvydjR9RL9PwqMBpt8iFN+BpaSKz2HynHLq0ux0ucj9iBam0o8gndg/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ROeIX5lny5eSt8wgK5KhTZ+Q/2Q2xDc0dJ+L0hd62Zs=;
- b=SN8PFPwhroQwpnYYpgyE+s3KR0L4mt/ffnNCkV9846WrmhbYEF2496NsfM/kwatOalhD77wK1zuJvuM05lXGuzh1mZUAkMDQ4VA/Q5/vQycCictfot6qcQJTS0irTD1KY1uzvCppfvQjQ0EvnFsOBqcDGeB3R0u3cWSRajPoIdA=
-Received: from BN8PR04CA0049.namprd04.prod.outlook.com (2603:10b6:408:d4::23)
- by IA1PR12MB8237.namprd12.prod.outlook.com (2603:10b6:208:3f3::16) with
+ bh=TOw4CeLcFhN8zTDuNyCccuduK8o748M5EJqwKg6eRV8=;
+ b=k2SK9e5Z0bFnL4tGJmlf55fV3lgSVPTXs+GUuOaHt7FLPYUi6ECkBK3DaTCIDKmnQjfsamISgM10IepGDirKcm3ZoZUQ1w7w4hUm3Yj7dJF2pn2TF33TxNXfjWjhoxH2cpZZJXkvYjX5ByVb+9+0LvVghR6yikaBftkWBWAu6RE=
+Received: from BN8PR04CA0060.namprd04.prod.outlook.com (2603:10b6:408:d4::34)
+ by SA1PR12MB7343.namprd12.prod.outlook.com (2603:10b6:806:2b5::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Fri, 27 Jan
- 2023 17:04:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Fri, 27 Jan
+ 2023 17:04:33 +0000
 Received: from BN8NAM11FT089.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:d4:cafe::fc) by BN8PR04CA0049.outlook.office365.com
- (2603:10b6:408:d4::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.25 via Frontend
- Transport; Fri, 27 Jan 2023 17:04:37 +0000
+ (2603:10b6:408:d4:cafe::18) by BN8PR04CA0060.outlook.office365.com
+ (2603:10b6:408:d4::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22 via Frontend
+ Transport; Fri, 27 Jan 2023 17:04:32 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,19 +48,19 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BN8NAM11FT089.mail.protection.outlook.com (10.13.176.105) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6023.16 via Frontend Transport; Fri, 27 Jan 2023 17:04:37 +0000
+ 15.20.6023.16 via Frontend Transport; Fri, 27 Jan 2023 17:04:32 +0000
 Received: from yaz-ethanolx.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 27 Jan
- 2023 11:04:36 -0600
+ 2023 11:04:31 -0600
 From:   Yazen Ghannam <yazen.ghannam@amd.com>
 To:     <bp@alien8.de>, <linux-edac@vger.kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <muralidhara.mk@amd.com>,
         <naveenkrishna.chatradhi@amd.com>,
         Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH v2 15/22] EDAC/amd64: Split read_mc_regs() into dct/umc functions
-Date:   Fri, 27 Jan 2023 17:04:12 +0000
-Message-ID: <20230127170419.1824692-16-yazen.ghannam@amd.com>
+Subject: [PATCH v2 03/22] EDAC/amd64: Remove PCI Function 6
+Date:   Fri, 27 Jan 2023 17:04:00 +0000
+Message-ID: <20230127170419.1824692-4-yazen.ghannam@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230127170419.1824692-1-yazen.ghannam@amd.com>
 References: <20230127170419.1824692-1-yazen.ghannam@amd.com>
@@ -72,113 +72,203 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT089:EE_|IA1PR12MB8237:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c0f837d-8b11-41a2-570b-08db00889256
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT089:EE_|SA1PR12MB7343:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff0deac8-b69f-4a69-49fa-08db00888fb1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IUc7ppeaMG6Uyfbm9vfnVjWy3YOeieXz0y7fXxZ95W++NbtdvpQDt/XyQ4brEeqQX3eizX+Kfm5Xj0AfGjwwV9RJeG5mzvJrascTi9LHvvW+V7tpShSE3mHJsWYW9qXwyfYbZI95ep0iEeYgIOpcVynBY1crtru9e/uw6/4uOkHA6/XFBpNfmlK202kwzNOvvE5mRA7rjMrKkxbZPX78QyWwJDfqqK+n99ZpuN95jQnBtzoem77Gx1rKbHWdcOly/tfJQZbQvOQ7t3Xqsv+/rpNZDsqCgs9utR4glwxkjZ2yODa6eXQpbcJvq+rCAtttCkRkDeF3bMYie6FtR3WRtUScu0rTApkANoZcx6+VNBF8mL5BjpcUfX5hnOJOQT4nlqvIW8CTo2gvqgaVIpUCxtl0K5PZaNeEbeexNPoLa97Z//IJn4LFuLfctfSkubDEZm41Xq7lMzLutBQ/j3bh1OEDxuC43sXc88z7izBin1FW8QfUItZHwEmIOZEOwbiICUNJQWKRC1wJK4bMtR2D/M4zRHwgaNSMBby9wwtyGsxS9a4iN25gUSQyq85mVpS/lojUZ+K2nPFuaeNCk/hYlH63rCr2kKBBXBUENaIk19VbW2stOFtb5vf5bI3w/d7G6vri02+QJFO7hlWM4+DR0WVBNHypKgSRMau0UcXDyzCrML8aDJ7HUNOhXFWau1aFFxkqu9z4MUZhP11ewqgmrxEmQHDv7ewuKGEZr0rOA+tkcmd1KZ3rHE152TaSzjRr/RVNkKdUP/W5SYvdd+AiZA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(396003)(346002)(376002)(451199018)(36840700001)(46966006)(40470700004)(186003)(86362001)(16526019)(1076003)(26005)(478600001)(6666004)(966005)(70586007)(70206006)(426003)(47076005)(8676002)(5660300002)(44832011)(40460700003)(356005)(40480700001)(41300700001)(8936002)(82740400003)(7696005)(2906002)(36860700001)(36756003)(4326008)(110136005)(82310400005)(81166007)(83380400001)(316002)(54906003)(2616005)(336012)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: eph98u+DhyrWtv6+LR/wMYQFC+5Zlreb5zJTnmZD3LoMlv1U7jHoyZLY68XTXv/KgpReXionK8n3hlKMYUVFu67MjJyPT1l/vYKCCD8Inzue27IFGqlz2KTQmh7iSP0jywLI8ePKjkJsvVT5ZHgKhDZQs+cC9CGVbee2/rBx5EQaBhD01pMFP0AkJkIQpCQpJBUTnmj7IbCijHbntsyr3qmXZbUGgaVdzCT9wH/62X7/A8shKKTU3Oj2cTbQPcaVFgur/l8vsnl7C1ghPTGT+ZXjlj0BCJZPX1Do+on55eq0NUbpstDXu9gq+j/ajmlMjtzgb1JqkIEnxfMpJCXytaOi5iYHbmZzmCO13q50VNFdsMozrfttFBHblC1vnw143ZgTTFeGd+HKP9ZBOKRJYMfSDNmINFiOqOc2rcoacQUsEWUTv4kti+Fxw0eKB691Jf4bQs9oO5eNMLUBypNSzfja6GUFOYUhZ0ESybm+Rk+JD8gVSguMbhDnK2CO8VQQt63xd7/clczLXA9QSM7qDdaM6SJAfxT+8INiQSLP4sVyVm6grBrYsqIyNIdqFQQIDffeRKzav1QHhVFZo3SH55I3+gE8UxDlnV1B0Aaf3zGXtBHvOv//3gIvRAhquak9m9SKbZNZjDnu6mLkT5RqxbSWCrWUoADuDshTgZh+9Vmx7HiplzE1fhlwKM2I/cAh0oFX0cKgaQ2POHS++8EeZrGY5+xU9ih1lo85ZSx59vaAjsknVyFECFE7UYCFN0HtPFpTqbk8HcCg3IJ+tMcSnw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(346002)(39860400002)(396003)(376002)(136003)(451199018)(46966006)(36840700001)(40470700004)(2906002)(44832011)(40460700003)(356005)(1076003)(81166007)(110136005)(2616005)(36860700001)(186003)(70586007)(336012)(26005)(426003)(40480700001)(16526019)(83380400001)(70206006)(6666004)(47076005)(4326008)(5660300002)(86362001)(8676002)(316002)(8936002)(966005)(36756003)(41300700001)(7696005)(478600001)(82740400003)(54906003)(82310400005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 17:04:37.3428
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 17:04:32.8901
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c0f837d-8b11-41a2-570b-08db00889256
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff0deac8-b69f-4a69-49fa-08db00888fb1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT089.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8237
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7343
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Muralidhara M K <muralidhara.mk@amd.com>
+PCI Function 6 is used on Family 17h and later to access scrub
+registers. With scrub access removed, this function has no other use.
 
-...and call them from their respective hw_info_get() paths.
+Remove all Function 6 PCI IDs and related code.
 
-ECC symbol size is not needed on UMC systems, so determine_ecc_sym_sz()
-is left out of the UMC path.
-
-Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
-Co-developed-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
-Signed-off-by: Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
-[Rebased/reworked patch and reworded commit message]
-Co-developed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
 Link:
-https://lore.kernel.org/r/20220509145534.44912-11-yazen.ghannam@amd.com
+https://lore.kernel.org/r/20220509145534.44912-4-yazen.ghannam@amd.com
 
 v1->v2:
-* Call functions directly instead of using pointers.
+* Also remove "pvt->F6" pointer.
 
- drivers/edac/amd64_edac.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ drivers/edac/amd64_edac.c | 22 +---------------------
+ drivers/edac/amd64_edac.h | 12 ++----------
+ 2 files changed, 3 insertions(+), 31 deletions(-)
 
 diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 0d0e563c99db..757d35fad2a6 100644
+index 07a89df0d4f4..dce2179ad454 100644
 --- a/drivers/edac/amd64_edac.c
 +++ b/drivers/edac/amd64_edac.c
-@@ -3089,7 +3089,7 @@ static void determine_ecc_sym_sz(struct amd64_pvt *pvt)
+@@ -2906,7 +2906,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F17_CPUS] = {
+ 		.ctl_name = "F17h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_17H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_17H_DF_F6,
+ 		.max_mcs = 2,
+ 		.ops = {
+ 			.early_channel_count	= f17_early_channel_count,
+@@ -2916,7 +2915,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F17_M10H_CPUS] = {
+ 		.ctl_name = "F17h_M10h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_17H_M10H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_17H_M10H_DF_F6,
+ 		.max_mcs = 2,
+ 		.ops = {
+ 			.early_channel_count	= f17_early_channel_count,
+@@ -2926,7 +2924,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F17_M30H_CPUS] = {
+ 		.ctl_name = "F17h_M30h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_17H_M30H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_17H_M30H_DF_F6,
+ 		.max_mcs = 8,
+ 		.ops = {
+ 			.early_channel_count	= f17_early_channel_count,
+@@ -2936,7 +2933,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F17_M60H_CPUS] = {
+ 		.ctl_name = "F17h_M60h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_17H_M60H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_17H_M60H_DF_F6,
+ 		.max_mcs = 2,
+ 		.ops = {
+ 			.early_channel_count	= f17_early_channel_count,
+@@ -2946,7 +2942,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F17_M70H_CPUS] = {
+ 		.ctl_name = "F17h_M70h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_17H_M70H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_17H_M70H_DF_F6,
+ 		.max_mcs = 2,
+ 		.ops = {
+ 			.early_channel_count	= f17_early_channel_count,
+@@ -2956,7 +2951,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F19_CPUS] = {
+ 		.ctl_name = "F19h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_19H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_19H_DF_F6,
+ 		.max_mcs = 8,
+ 		.ops = {
+ 			.early_channel_count	= f17_early_channel_count,
+@@ -2966,7 +2960,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F19_M10H_CPUS] = {
+ 		.ctl_name = "F19h_M10h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_19H_M10H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_19H_M10H_DF_F6,
+ 		.max_mcs = 12,
+ 		.flags.zn_regs_v2 = 1,
+ 		.ops = {
+@@ -2977,7 +2970,6 @@ static struct amd64_family_type family_types[] = {
+ 	[F19_M50H_CPUS] = {
+ 		.ctl_name = "F19h_M50h",
+ 		.f0_id = PCI_DEVICE_ID_AMD_19H_M50H_DF_F0,
+-		.f6_id = PCI_DEVICE_ID_AMD_19H_M50H_DF_F6,
+ 		.max_mcs = 2,
+ 		.ops = {
+ 			.early_channel_count	= f17_early_channel_count,
+@@ -3290,7 +3282,7 @@ static void decode_umc_error(int node_id, struct mce *m)
  /*
-  * Retrieve the hardware registers of the memory controller.
+  * Use pvt->F3 which contains the F3 CPU PCI device to get the related
+  * F1 (AddrMap) and F2 (Dct) devices. Return negative value on error.
+- * Reserve F0 and F6 on systems with a UMC.
++ * Reserve F0 on systems with a UMC.
   */
--static void __read_mc_regs_df(struct amd64_pvt *pvt)
-+static void umc_read_mc_regs(struct amd64_pvt *pvt)
- {
- 	u8 nid = pvt->mc_node_id;
- 	struct amd64_umc *umc;
-@@ -3113,7 +3113,7 @@ static void __read_mc_regs_df(struct amd64_pvt *pvt)
-  * Retrieve the hardware registers of the memory controller (this includes the
-  * 'Address Map' and 'Misc' device regs)
-  */
--static void read_mc_regs(struct amd64_pvt *pvt)
-+static void dct_read_mc_regs(struct amd64_pvt *pvt)
- {
- 	unsigned int range;
- 	u64 msr_val;
-@@ -3134,12 +3134,6 @@ static void read_mc_regs(struct amd64_pvt *pvt)
- 		edac_dbg(0, "  TOP_MEM2 disabled\n");
+ static int
+ reserve_mc_sibling_devs(struct amd64_pvt *pvt, u16 pci_id1, u16 pci_id2)
+@@ -3302,21 +3294,11 @@ reserve_mc_sibling_devs(struct amd64_pvt *pvt, u16 pci_id1, u16 pci_id2)
+ 			return -ENODEV;
+ 		}
+ 
+-		pvt->F6 = pci_get_related_function(pvt->F3->vendor, pci_id2, pvt->F3);
+-		if (!pvt->F6) {
+-			pci_dev_put(pvt->F0);
+-			pvt->F0 = NULL;
+-
+-			edac_dbg(1, "F6 not found: device 0x%x\n", pci_id2);
+-			return -ENODEV;
+-		}
+-
+ 		if (!pci_ctl_dev)
+ 			pci_ctl_dev = &pvt->F0->dev;
+ 
+ 		edac_dbg(1, "F0: %s\n", pci_name(pvt->F0));
+ 		edac_dbg(1, "F3: %s\n", pci_name(pvt->F3));
+-		edac_dbg(1, "F6: %s\n", pci_name(pvt->F6));
+ 
+ 		return 0;
  	}
+@@ -3352,7 +3334,6 @@ static void free_mc_sibling_devs(struct amd64_pvt *pvt)
+ {
+ 	if (pvt->umc) {
+ 		pci_dev_put(pvt->F0);
+-		pci_dev_put(pvt->F6);
+ 	} else {
+ 		pci_dev_put(pvt->F1);
+ 		pci_dev_put(pvt->F2);
+@@ -4078,7 +4059,6 @@ static int hw_info_get(struct amd64_pvt *pvt)
+ 			return -ENOMEM;
  
--	if (pvt->umc) {
--		__read_mc_regs_df(pvt);
--
--		goto skip;
--	}
--
- 	amd64_read_pci_cfg(pvt->F3, NBCAP, &pvt->nbcap);
+ 		pci_id1 = fam_type->f0_id;
+-		pci_id2 = fam_type->f6_id;
+ 	} else {
+ 		pci_id1 = fam_type->f1_id;
+ 		pci_id2 = fam_type->f2_id;
+diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
+index 48f1d97e1274..2d5ea9ca3868 100644
+--- a/drivers/edac/amd64_edac.h
++++ b/drivers/edac/amd64_edac.h
+@@ -115,21 +115,13 @@
+ #define PCI_DEVICE_ID_AMD_16H_M30H_NB_F1 0x1581
+ #define PCI_DEVICE_ID_AMD_16H_M30H_NB_F2 0x1582
+ #define PCI_DEVICE_ID_AMD_17H_DF_F0	0x1460
+-#define PCI_DEVICE_ID_AMD_17H_DF_F6	0x1466
+ #define PCI_DEVICE_ID_AMD_17H_M10H_DF_F0 0x15e8
+-#define PCI_DEVICE_ID_AMD_17H_M10H_DF_F6 0x15ee
+ #define PCI_DEVICE_ID_AMD_17H_M30H_DF_F0 0x1490
+-#define PCI_DEVICE_ID_AMD_17H_M30H_DF_F6 0x1496
+ #define PCI_DEVICE_ID_AMD_17H_M60H_DF_F0 0x1448
+-#define PCI_DEVICE_ID_AMD_17H_M60H_DF_F6 0x144e
+ #define PCI_DEVICE_ID_AMD_17H_M70H_DF_F0 0x1440
+-#define PCI_DEVICE_ID_AMD_17H_M70H_DF_F6 0x1446
+ #define PCI_DEVICE_ID_AMD_19H_DF_F0	0x1650
+-#define PCI_DEVICE_ID_AMD_19H_DF_F6	0x1656
+ #define PCI_DEVICE_ID_AMD_19H_M10H_DF_F0 0x14ad
+-#define PCI_DEVICE_ID_AMD_19H_M10H_DF_F6 0x14b3
+ #define PCI_DEVICE_ID_AMD_19H_M50H_DF_F0 0x166a
+-#define PCI_DEVICE_ID_AMD_19H_M50H_DF_F6 0x1670
  
- 	read_dram_ctl_register(pvt);
-@@ -3180,9 +3174,6 @@ static void read_mc_regs(struct amd64_pvt *pvt)
- 		amd64_read_dct_pci_cfg(pvt, 1, DCHR0, &pvt->dchr1);
- 	}
+ /*
+  * Function 1 - Address Map
+@@ -354,7 +346,7 @@ struct amd64_pvt {
+ 	struct low_ops *ops;
  
--skip:
--
--
- 	determine_ecc_sym_sz(pvt);
- }
+ 	/* pci_device handles which we utilize */
+-	struct pci_dev *F0, *F1, *F2, *F3, *F6;
++	struct pci_dev *F0, *F1, *F2, *F3;
  
-@@ -3658,7 +3649,7 @@ static int dct_hw_info_get(struct amd64_pvt *pvt)
+ 	u16 mc_node_id;		/* MC index of this MC node */
+ 	u8 fam;			/* CPU family */
+@@ -501,7 +493,7 @@ struct amd64_family_flags {
  
- 	dct_prep_chip_selects(pvt);
- 	dct_read_base_mask(pvt);
--	read_mc_regs(pvt);
-+	dct_read_mc_regs(pvt);
- 	dct_determine_memory_type(pvt);
- 
- 	return 0;
-@@ -3672,7 +3663,7 @@ static int umc_hw_info_get(struct amd64_pvt *pvt)
- 
- 	umc_prep_chip_selects(pvt);
- 	umc_read_base_mask(pvt);
--	read_mc_regs(pvt);
-+	umc_read_mc_regs(pvt);
- 	umc_determine_memory_type(pvt);
- 
- 	return 0;
+ struct amd64_family_type {
+ 	const char *ctl_name;
+-	u16 f0_id, f1_id, f2_id, f6_id;
++	u16 f0_id, f1_id, f2_id;
+ 	/* Maximum number of memory controllers per die/node. */
+ 	u8 max_mcs;
+ 	struct amd64_family_flags flags;
 -- 
 2.25.1
 
