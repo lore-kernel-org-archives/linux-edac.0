@@ -2,78 +2,57 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3AA3C61DA3
-	for <linux-edac@archiver.kernel.org>; Sat,  4 Mar 2023 03:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FFBDC678DB
+	for <linux-edac@archiver.kernel.org>; Tue,  7 Mar 2023 11:12:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbjCDDb5 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 3 Mar 2023 22:31:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52992 "EHLO
+        id S230000AbjCGLMY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 7 Mar 2023 06:12:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjCDDb4 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 3 Mar 2023 22:31:56 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8481D1717;
-        Fri,  3 Mar 2023 19:31:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677900715; x=1709436715;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=lC00a7QDvJed45Tjn97fOVsXMY/DvRnzQH44GylGkVo=;
-  b=WehblqwStfcOFO6OaBeuVjPZYyGnAJq0y9C8o7M7d4788c5g4rSVHNpu
-   p+RuAQKNzz+grvvCaFFtOkfumFci17qHS4scOlSlQtS7yAcLSm7kagBHI
-   EHBV3H58PM8TWgfqf4t9BPqUvxG1COIKg4HOWf3XiOm7MjQwpRhlwmFd/
-   6WFr+RfCGFeO2pDWPr9LGbR4Vz87mkgCacQKakFxB79F/9EP5NvWFjVX0
-   0HIsHHFFITSrJFSXXJ4Hz+7aHkrnzRZTucWsTh4dvttg7L6b34iLS2njQ
-   FFxskdK2M5kmdQIC/+PNiELAy4TYRP4b1N1DItITlTUgoW9kYmnX1r763
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="335240484"
-X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="335240484"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 19:31:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="652994789"
-X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; 
-   d="scan'208";a="652994789"
-Received: from qiuxu-clx.sh.intel.com ([10.239.53.105])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 19:31:52 -0800
-From:   Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-To:     Kamati Srinivas <quic_kamasrin@quicinc.com>
-Cc:     James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_stummala@quicinc.com
-Subject: RE: [PATCH 0/2] edac: Add support to handle Deferred Error
-Date:   Sat,  4 Mar 2023 11:30:21 +0800
-Message-Id: <20230304033021.35896-1-qiuxu.zhuo@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230303125408.26971-1-quic_kamasrin@quicinc.com>
-References: <20230303125408.26971-1-quic_kamasrin@quicinc.com>
+        with ESMTP id S231249AbjCGLLm (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 7 Mar 2023 06:11:42 -0500
+Received: from mail.ettrick.pl (mail.ettrick.pl [141.94.21.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A5F54C94
+        for <linux-edac@vger.kernel.org>; Tue,  7 Mar 2023 03:10:22 -0800 (PST)
+Received: by mail.ettrick.pl (Postfix, from userid 1002)
+        id 420D0A2FF4; Mon,  6 Mar 2023 09:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ettrick.pl; s=mail;
+        t=1678093339; bh=KHux3km3Civcx5ChslOYQZwQRBjoJa4kWJfGcMIuN6w=;
+        h=Date:From:To:Subject:From;
+        b=iHbh/ufreMZnQ0cHeSFBb0pKfFxQkaaF20Mm1+gC6ZRvzv9UHk81pQbq8uxaRUzkZ
+         6Sqb90WC79TGKb0REypNVNwhEMJV8sI8tLYdIeJbQXX3k4Zi6N7+7MmP0so0Q3jKkC
+         ZcbXynAfD2OmDYsZ/SWG+SDZt79ovM2+T/tduQCcivnxNeVnhVjhMrZ2BmXx/mJFw1
+         UesCFrldZeE7U4rYCuQq8MZfNZZkrK0AV8VNX9C8ZgaB71+p7l71B86ewbABNt5mIE
+         Fx6Pg+V55OIp/5ziarA9eBoG+epUB23bciUghMWnV69OSkLMrKQclc6XEuaqsMe+aJ
+         pnHl0dbSe4rVw==
+Received: by mail.ettrick.pl for <linux-edac@vger.kernel.org>; Mon,  6 Mar 2023 09:00:53 GMT
+Message-ID: <20230306074500-0.1.97.36zoy.0.toco61lt5q@ettrick.pl>
+Date:   Mon,  6 Mar 2023 09:00:53 GMT
+From:   "Norbert Karecki" <norbert.karecki@ettrick.pl>
+To:     <linux-edac@vger.kernel.org>
+Subject: Fotowoltaika - nowe warunki
+X-Mailer: mail.ettrick.pl
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-> From: Kamati Srinivas <quic_kamasrin@quicinc.com>
-> ...
->
-> This patchset adds support to handle Deferred error, also
+Dzie=C5=84 dobry,
 
-  It would be better if there is a use case showing some EDAC
-  driver(s) needs this newly added "Deferred Error" code
-  in the EDAC core.
+chcia=C5=82bym poinformowa=C4=87, i=C5=BC mog=C4=85 Pa=C5=84stwo uzyska=C4=
+=87 dofinansowanie na systemy fotowoltaiczne w ramach nowej edycji progra=
+mu M=C3=B3j Pr=C4=85d.
 
-  -Qiuxu
+Program zapewnia 6000 z=C5=82 dofinansowania na instalacj=C4=99 paneli i =
+16 000 z=C5=82 na magazyn energii, ni=C5=BCsze cen pr=C4=85du i mo=C5=BCl=
+iwo=C5=9B=C4=87 odliczenia koszt=C3=B3w zwi=C4=85zanych z instalacj=C4=85=
+ fotowoltaiki w ramach rozliczenia PIT (tzw. ulga termomodernizacyjna).
 
-> cleans up the code for log_ue/ce and corresponding APIs.
-> 
-> Kamati Srinivas (2):
->   edac: Modify sysfs enabled values log_ue, log_ce to bool
->   edac: Add support to handle DE (Deferred Errors)
-> 
->  drivers/edac/edac_device.c       | 57 ++++++++++++++++++++++++++++++--
->  drivers/edac/edac_device.h       | 34 +++++++++++++++++--
->  drivers/edac/edac_device_sysfs.c | 50 ++++++++++++++++++++++++----
->  3 files changed, 130 insertions(+), 11 deletions(-)
+Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
+temacie?
+
+
+Pozdrawiam,
+Norbert Karecki
