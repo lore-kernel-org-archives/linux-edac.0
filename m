@@ -2,325 +2,174 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58BBCC7618A
-	for <linux-edac@archiver.kernel.org>; Fri, 17 Mar 2023 17:20:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D84C6FD1D
+	for <linux-edac@archiver.kernel.org>; Sat, 18 Mar 2023 01:48:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbjCQRU6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 17 Mar 2023 13:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44018 "EHLO
+        id S229639AbjCRBse (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 17 Mar 2023 21:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbjCQRU5 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 17 Mar 2023 13:20:57 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7DCE1FCC;
-        Fri, 17 Mar 2023 10:20:55 -0700 (PDT)
+        with ESMTP id S229473AbjCRBsd (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 17 Mar 2023 21:48:33 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1426D3C786;
+        Fri, 17 Mar 2023 18:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1679073655; x=1710609655;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=oJsYNmQ1zuWvFk0z3p6eEFzy5K8dnpk/uBDHIDe5jzM=;
-  b=D1fpl8v2G09PMYebKFNjH9PkN6xjYH9wtt7SYfb0XDfNjv9L18+j2rRD
-   kVnlMcydV6JK9Fgob2/W+68h2zuwpt8x7wZrCMEWtjqdCl+DYidmIhVOd
-   Ze6wEM2UJmerC9w+1yaWAMsjFHI/c8BlRmuoSpVDv5g4uyop9iBhq+eEB
-   pmeHybng2VvDTtu0BuQ+SngdxFM2GO6YZ7auWwSBK73wCVy+JbWPSRJyV
-   RzK99QyyUSlIwTz2X7QF1tq4hvjlyeO7+cjeTjscFWekiS8p7T3Bwm/EN
-   RjVyUTC+YENbk73mpHalHuSksFh+TNQdWlBoSNCnEzbI3AC1r2d7f3hCY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="339858244"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="339858244"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 10:20:49 -0700
+  t=1679104112; x=1710640112;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZEIyleGGb8UU0vqHVOdtpSNb6wHhAr0V3A6sC6d3dGc=;
+  b=Fe3vnq4UCZXq+Gy11EqZ1pwFkwwHnh9CYeJFOwYDfv06oH1WGHMUQc9q
+   PCapGkPACDbP4J1okhyZc8NcKatxLlGAr3whGwLOdzt5Z9OcempwMrr+G
+   NGxoQAcMMOrgAXllmTrUhClHoHRvl0SaXqy1BZ2NElRQL5BQ/oYJjQmbH
+   d0Emwln9IA8BvEKbLh4ocg5cxnftiGJx3c/ylLVJtbEw6ZZJis5A7cVNu
+   lsVH0ta0TtGTI0aAXe1GuZI1ODBweCYnZ8aQud7ZdY/kMmwutQsXzEz/R
+   OYzNcOk36I4A1iCqnxyOS1q58SsNnddiMSHJAj5TtTB+K3qAp+W+5cgUC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="338416570"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
+   d="scan'208";a="338416570"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 18:48:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="804166610"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; 
-   d="scan'208";a="804166610"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2023 10:20:49 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Smita.KoralahalliChannabasappa@amd.com,
-        dave.hansen@linux.intel.com, hpa@zytor.com,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, patches@lists.linux.dev,
-        Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v3 4/5] x86/mce: Move storm handling to core.
-Date:   Fri, 17 Mar 2023 10:20:41 -0700
-Message-Id: <20230317172042.117201-5-tony.luck@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230317172042.117201-1-tony.luck@intel.com>
-References: <ZBR+GMH0olGoDMGs@yaz-fattaah>
- <20230317172042.117201-1-tony.luck@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="680484443"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; 
+   d="scan'208";a="680484443"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 17 Mar 2023 18:48:28 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pdLgJ-0009io-2m;
+        Sat, 18 Mar 2023 01:48:27 +0000
+Date:   Sat, 18 Mar 2023 09:48:14 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+        linux-edac@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, git@amd.com,
+        devicetree@vger.kernel.org, bp@alien8.de,
+        krzysztof.kozlowski@linaro.org, mchehab@kernel.org,
+        tony.luck@intel.com, james.morse@arm.com, rric@kernel.org,
+        michal.simek@xilinx.com
+Subject: Re: [PATCH v4 2/2] edac/xilinx: Add EDAC support for Xilinx DDR
+ controller
+Message-ID: <202303180902.boahuY9A-lkp@intel.com>
+References: <20230317140425.16827-3-shubhrajyoti.datta@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230317140425.16827-3-shubhrajyoti.datta@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Hi Shubhrajyoti,
 
-AMD's storm handling for threshold interrupts is similar to Intel's CMCI
-storm handling. Hence, make the storm handling code common by moving to
-core and removing the vendor exclusivity.
+I love your patch! Yet something to improve:
 
-On the contrary, setting different thresholds to reduce rate of interrupts
-in IA32_MCi_CTL2 register is kept Intel intact as the storm handling for
-AMD slightly differs where in it handles the storms by turning off the
-interrupts.
+[auto build test ERROR on v6.2]
+[cannot apply to ras/edac-for-next linus/master v6.3-rc2 v6.3-rc1 next-20230317]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-No functional changes.
+url:    https://github.com/intel-lab-lkp/linux/commits/Shubhrajyoti-Datta/dt-bindings-edac-Add-support-for-Xilinx-Versal-EDAC-DDRMC/20230317-220620
+patch link:    https://lore.kernel.org/r/20230317140425.16827-3-shubhrajyoti.datta%40amd.com
+patch subject: [PATCH v4 2/2] edac/xilinx: Add EDAC support for Xilinx DDR controller
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230318/202303180902.boahuY9A-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e559cd43b0a69ecf03e6f571f85953dbf8186549
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shubhrajyoti-Datta/dt-bindings-edac-Add-support-for-Xilinx-Versal-EDAC-DDRMC/20230317-220620
+        git checkout e559cd43b0a69ecf03e6f571f85953dbf8186549
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/edac/
 
-[Tony: Same as Smita's original, plus changes rolled in from prior patches]
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303180902.boahuY9A-lkp@intel.com/
 
-Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- arch/x86/kernel/cpu/mce/internal.h | 18 ++++++
- arch/x86/kernel/cpu/mce/core.c     | 81 ++++++++++++++++++++++++++
- arch/x86/kernel/cpu/mce/intel.c    | 93 +-----------------------------
- 3 files changed, 100 insertions(+), 92 deletions(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index f37816b4d4cf..9b2c54f30fb9 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -60,6 +60,24 @@ static inline bool intel_filter_mce(struct mce *m) { return false; }
- 
- void mce_timer_kick(bool storm);
- void mce_handle_storm(int bank, bool on);
-+void cmci_storm_begin(int bank);
-+void cmci_storm_end(int bank);
-+
-+DECLARE_PER_CPU(int, stormy_bank_count);
-+DECLARE_PER_CPU(u64 [MAX_NR_BANKS], bank_history);
-+DECLARE_PER_CPU(bool [MAX_NR_BANKS], bank_storm);
-+DECLARE_PER_CPU(unsigned long [MAX_NR_BANKS], bank_time_stamp);
-+
-+/*
-+ * How many errors within the history buffer mark the start of a storm
-+ */
-+#define STORM_BEGIN_THRESHOLD	5
-+
-+/*
-+ * How many polls of machine check bank without an error before declaring
-+ * the storm is over
-+ */
-+#define STORM_END_POLL_THRESHOLD	30
- 
- #ifdef CONFIG_ACPI_APEI
- int apei_write_mce(struct mce *m);
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index f4d2a7ba29f7..d27daa199523 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -613,6 +613,87 @@ static struct notifier_block mce_default_nb = {
- 	.priority	= MCE_PRIO_LOWEST,
- };
- 
-+/*
-+ * CMCI storm tracking state
-+ *	stormy_bank_count: per-cpu count of MC banks in storm state
-+ *	bank_history: bitmask tracking of corrected errors seen in each bank
-+ *	bank_time_stamp: last time (in jiffies) that each bank was polled
-+ */
-+DEFINE_PER_CPU(int, stormy_bank_count);
-+DEFINE_PER_CPU(u64 [MAX_NR_BANKS], bank_history);
-+DEFINE_PER_CPU(bool [MAX_NR_BANKS], bank_storm);
-+DEFINE_PER_CPU(unsigned long [MAX_NR_BANKS], bank_time_stamp);
-+
-+void cmci_storm_begin(int bank)
-+{
-+	__set_bit(bank, this_cpu_ptr(mce_poll_banks));
-+	this_cpu_write(bank_storm[bank], true);
-+
-+	/*
-+	 * If this is the first bank on this CPU to enter storm mode
-+	 * start polling
-+	 */
-+	if (this_cpu_inc_return(stormy_bank_count) == 1)
-+		mce_timer_kick(true);
-+}
-+
-+void cmci_storm_end(int bank)
-+{
-+	__clear_bit(bank, this_cpu_ptr(mce_poll_banks));
-+	this_cpu_write(bank_history[bank], 0ull);
-+	this_cpu_write(bank_storm[bank], false);
-+
-+	/* If no banks left in storm mode, stop polling */
-+	if (!this_cpu_dec_return(stormy_bank_count))
-+		mce_timer_kick(false);
-+}
-+
-+void track_cmci_storm(int bank, u64 status)
-+{
-+	unsigned long now = jiffies, delta;
-+	unsigned int shift = 1;
-+	u64 history;
-+
-+	/*
-+	 * When a bank is in storm mode it is polled once per second and
-+	 * the history mask will record about the last minute of poll results.
-+	 * If it is not in storm mode, then the bank is only checked when
-+	 * there is a CMCI interrupt. Check how long it has been since
-+	 * this bank was last checked, and adjust the amount of "shift"
-+	 * to apply to history.
-+	 */
-+	if (!this_cpu_read(bank_storm[bank])) {
-+		delta = now - this_cpu_read(bank_time_stamp[bank]);
-+		shift = (delta + HZ) / HZ;
-+	}
-+
-+	/* If has been a long time since the last poll, clear history */
-+	if (shift >= 64)
-+		history = 0;
-+	else
-+		history = this_cpu_read(bank_history[bank]) << shift;
-+	this_cpu_write(bank_time_stamp[bank], now);
-+
-+	/* History keeps track of corrected errors. VAL=1 && UC=0 */
-+	if ((status & (MCI_STATUS_VAL | MCI_STATUS_UC)) == MCI_STATUS_VAL)
-+		history |= 1;
-+	this_cpu_write(bank_history[bank], history);
-+
-+	if (this_cpu_read(bank_storm[bank])) {
-+		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD - 1, 0))
-+			return;
-+		pr_notice("CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), bank);
-+		mce_handle_storm(bank, true);
-+		cmci_storm_end(bank);
-+	} else {
-+		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
-+			return;
-+		pr_notice("CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), bank);
-+		mce_handle_storm(bank, false);
-+		cmci_storm_begin(bank);
-+	}
-+}
-+
- /*
-  * Read ADDR and MISC registers.
-  */
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index 4238b73c2143..6cc9aa97c092 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -47,17 +47,7 @@ static DEFINE_PER_CPU(mce_banks_t, mce_banks_owned);
-  */
- static DEFINE_RAW_SPINLOCK(cmci_discover_lock);
- 
--/*
-- * CMCI storm tracking state
-- *	stormy_bank_count: per-cpu count of MC banks in storm state
-- *	bank_history: bitmask tracking of corrected errors seen in each bank
-- *	bank_time_stamp: last time (in jiffies) that each bank was polled
-- *	cmci_threshold: MCi_CTL2 threshold for each bank when there is no storm
-- */
--static DEFINE_PER_CPU(int, stormy_bank_count);
--static DEFINE_PER_CPU(u64 [MAX_NR_BANKS], bank_history);
--static DEFINE_PER_CPU(bool [MAX_NR_BANKS], bank_storm);
--static DEFINE_PER_CPU(unsigned long [MAX_NR_BANKS], bank_time_stamp);
-+/* MCi_CTL2 threshold for each bank when there is no storm */
- static int cmci_threshold[MAX_NR_BANKS];
- 
- /* Linux non-storm CMCI threshold (may be overridden by BIOS */
-@@ -70,17 +60,6 @@ static int cmci_threshold[MAX_NR_BANKS];
-  */
- #define CMCI_STORM_THRESHOLD	32749
- 
--/*
-- * How many errors within the history buffer mark the start of a storm
-- */
--#define STORM_BEGIN_THRESHOLD	5
--
--/*
-- * How many polls of machine check bank without an error before declaring
-- * the storm is over
-- */
--#define STORM_END_POLL_THRESHOLD	30
--
- static int cmci_supported(int *banks)
- {
- 	u64 cap;
-@@ -160,76 +139,6 @@ void mce_intel_handle_storm(int bank, bool on)
- 		cmci_set_threshold(bank, CMCI_STORM_THRESHOLD);
- }
- 
--static void cmci_storm_begin(int bank)
--{
--	__set_bit(bank, this_cpu_ptr(mce_poll_banks));
--	this_cpu_write(bank_storm[bank], true);
--
--	/*
--	 * If this is the first bank on this CPU to enter storm mode
--	 * start polling
--	 */
--	if (this_cpu_inc_return(stormy_bank_count) == 1)
--		mce_timer_kick(true);
--}
--
--static void cmci_storm_end(int bank)
--{
--	__clear_bit(bank, this_cpu_ptr(mce_poll_banks));
--	this_cpu_write(bank_history[bank], 0ull);
--	this_cpu_write(bank_storm[bank], false);
--
--	/* If no banks left in storm mode, stop polling */
--	if (!this_cpu_dec_return(stormy_bank_count))
--		mce_timer_kick(false);
--}
--
--void track_cmci_storm(int bank, u64 status)
--{
--	unsigned long now = jiffies, delta;
--	unsigned int shift = 1;
--	u64 history;
--
--	/*
--	 * When a bank is in storm mode it is polled once per second and
--	 * the history mask will record about the last minute of poll results.
--	 * If it is not in storm mode, then the bank is only checked when
--	 * there is a CMCI interrupt. Check how long it has been since
--	 * this bank was last checked, and adjust the amount of "shift"
--	 * to apply to history.
--	 */
--	if (!this_cpu_read(bank_storm[bank])) {
--		delta = now - this_cpu_read(bank_time_stamp[bank]);
--		shift = (delta + HZ) / HZ;
--	}
--
--	/* If has been a long time since the last poll, clear history */
--	if (shift >= 64)
--		history = 0;
--	else
--		history = this_cpu_read(bank_history[bank]) << shift;
--	this_cpu_write(bank_time_stamp[bank], now);
--
--	/* History keeps track of corrected errors. VAL=1 && UC=0 */
--	if ((status & (MCI_STATUS_VAL | MCI_STATUS_UC)) == MCI_STATUS_VAL)
--		history |= 1;
--	this_cpu_write(bank_history[bank], history);
--
--	if (this_cpu_read(bank_storm[bank])) {
--		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD - 1, 0))
--			return;
--		pr_notice("CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), bank);
--		mce_handle_storm(bank, true);
--		cmci_storm_end(bank);
--	} else {
--		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
--			return;
--		pr_notice("CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), bank);
--		mce_handle_storm(bank, false);
--		cmci_storm_begin(bank);
--	}
--}
--
- /*
-  * The interrupt handler. This is called on every event.
-  * Just call the poller directly to log any events.
+   In file included from <command-line>:
+   drivers/edac/versal_edac.c: In function 'setup_column_address_map':
+>> drivers/edac/versal_edac.c:852:38: error: 'COL_0_MASK' undeclared (first use in this function); did you mean 'CH_0_MASK'?
+     852 |         priv->col_bit[0] = FIELD_GET(COL_0_MASK, regval);
+         |                                      ^~~~~~~~~~
+   include/linux/compiler_types.h:338:23: note: in definition of macro '__compiletime_assert'
+     338 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:128:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     128 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/edac/versal_edac.c:852:28: note: in expansion of macro 'FIELD_GET'
+     852 |         priv->col_bit[0] = FIELD_GET(COL_0_MASK, regval);
+         |                            ^~~~~~~~~
+   drivers/edac/versal_edac.c:852:38: note: each undeclared identifier is reported only once for each function it appears in
+     852 |         priv->col_bit[0] = FIELD_GET(COL_0_MASK, regval);
+         |                                      ^~~~~~~~~~
+   include/linux/compiler_types.h:338:23: note: in definition of macro '__compiletime_assert'
+     338 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:128:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     128 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/edac/versal_edac.c:852:28: note: in expansion of macro 'FIELD_GET'
+     852 |         priv->col_bit[0] = FIELD_GET(COL_0_MASK, regval);
+         |                            ^~~~~~~~~
+
+
+vim +852 drivers/edac/versal_edac.c
+
+   845	
+   846	static void setup_column_address_map(struct edac_priv *priv)
+   847	{
+   848		u32 regval;
+   849		union edac_info cols;
+   850	
+   851		regval = readl(priv->ddrmc_noc_baseaddr + XDDR_NOC_REG_ADEC8_OFFSET);
+ > 852		priv->col_bit[0] = FIELD_GET(COL_0_MASK, regval);
+   853	
+   854		regval = readl(priv->ddrmc_noc_baseaddr + XDDR_NOC_REG_ADEC9_OFFSET);
+   855		cols.i  = regval;
+   856		priv->col_bit[1] = cols.col1;
+   857		priv->col_bit[2] = cols.col2;
+   858		priv->col_bit[3] = cols.col3;
+   859		priv->col_bit[4] = cols.col4;
+   860		priv->col_bit[5] = cols.col5;
+   861	
+   862		regval = readl(priv->ddrmc_noc_baseaddr + XDDR_NOC_REG_ADEC10_OFFSET);
+   863		cols.i  = regval;
+   864		priv->col_bit[6] = cols.col1;
+   865		priv->col_bit[7] = cols.col2;
+   866		priv->col_bit[8] = cols.col3;
+   867		priv->col_bit[9] = cols.col4;
+   868	}
+   869	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
