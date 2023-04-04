@@ -2,164 +2,90 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B0EC76196
-	for <linux-edac@archiver.kernel.org>; Mon,  3 Apr 2023 21:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EEFC76196
+	for <linux-edac@archiver.kernel.org>; Tue,  4 Apr 2023 02:26:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233378AbjDCVHv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 3 Apr 2023 17:07:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47640 "EHLO
+        id S231786AbjDDC0E (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 3 Apr 2023 22:26:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233558AbjDCVHm (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 3 Apr 2023 17:07:42 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C9FD3C05;
-        Mon,  3 Apr 2023 14:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680556059; x=1712092059;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=fYZQDLM69ukAcHy2Lr4F4fSjXY8oE5A3ji5UAJN5ox0=;
-  b=gBOGNkCCPAPog4kGKFKj1upDW1HyYKmeqTN0FRfJhuSq+P/D7tozxPJ2
-   MEi2sRxTz9yT8kxChqcLjXlSW+CODRV7A76UrMaNR19dG1w8oEqpOb6Ic
-   XUq1QjK3rT9ZE3GaqC3xpUfZuUUsRZg13n6y+32mtZLpFtjsS76jGOQ5O
-   CqaPDkfCa/qVgsyFzWlEeN4YGOs0DsstRD34xH5RJX07TEKuoMEeNsBh+
-   00kDFm8516HM8uLnCgJcT8bbtTpX7SHKiGIN7WiYQ7e20HRvN3xVPeaaW
-   nDSrxkq/YDK0T689hZST91QjsOndMdQ6yalM3J5/HY9tPtnBxeA0ROiK1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="330590869"
-X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="330590869"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 14:07:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="775354456"
-X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; 
-   d="scan'208";a="775354456"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 14:07:25 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
-        Smita.KoralahalliChannabasappa@amd.com,
-        dave.hansen@linux.intel.com, x86@kernel.org,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v4 3/5] x86/mce: Introduce mce_handle_storm() to deal with begin/end of storms
-Date:   Mon,  3 Apr 2023 14:07:14 -0700
-Message-Id: <20230403210716.347773-4-tony.luck@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230403210716.347773-1-tony.luck@intel.com>
-References: <ZCRYl9c7xgIJ+pJe@yaz-sghr>
- <20230403210716.347773-1-tony.luck@intel.com>
+        with ESMTP id S231450AbjDDC0D (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 3 Apr 2023 22:26:03 -0400
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F344D1BFA;
+        Mon,  3 Apr 2023 19:26:01 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0VfJnoQY_1680575158;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VfJnoQY_1680575158)
+          by smtp.aliyun-inc.com;
+          Tue, 04 Apr 2023 10:25:59 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     yazen.ghannam@amd.com
+Cc:     bp@alien8.de, tony.luck@intel.com, james.morse@arm.com,
+        mchehab@kernel.org, rric@kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next v2] EDAC/amd64: clean up some inconsistent indentings
+Date:   Tue,  4 Apr 2023 10:25:57 +0800
+Message-Id: <20230404022557.46409-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
+Use consistent indentation to improve the readability and eliminate
+the below warning:
 
-Intel and AMD need to take different actions when a storm begins or
-ends. Prepare for the storm code moving from intel.c into core.c by
-adding a function that checks CPU vendor to pick the right action.
+drivers/edac/amd64_edac.c:1279 umc_determine_edac_cap() warn: inconsistent indenting
 
-No functional changes.
-
-[Tony: Changed from function pointer to regular function]
-
-Signed-off-by: Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Tested-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4639
+Fixes: f6a4b4a1aa16 ("EDAC/amd64: Split determine_edac_cap() into dct/umc functions")
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- arch/x86/kernel/cpu/mce/internal.h |  3 +++
- arch/x86/kernel/cpu/mce/core.c     |  9 +++++++++
- arch/x86/kernel/cpu/mce/intel.c    | 12 ++++++++++--
- 3 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index 8d3a740a66ff..68288099b125 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -43,12 +43,14 @@ extern mce_banks_t mce_banks_ce_disabled;
- void track_cmci_storm(int bank, u64 status);
+change in v2:
+--According to yazen's suggestion, include a fixes tag and
+  describe the changes in the commit message
+
+ drivers/edac/amd64_edac.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 6dad0f1064c0..5c4292e65b96 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -1276,19 +1276,19 @@ static unsigned long umc_determine_edac_cap(struct amd64_pvt *pvt)
+ 	u8 i, umc_en_mask = 0, dimm_ecc_en_mask = 0;
+ 	unsigned long edac_cap = EDAC_FLAG_NONE;
  
- #ifdef CONFIG_X86_MCE_INTEL
-+void mce_intel_handle_storm(int bank, bool on);
- void cmci_disable_bank(int bank);
- void intel_init_cmci(void);
- void intel_init_lmce(void);
- void intel_clear_lmce(void);
- bool intel_filter_mce(struct mce *m);
- #else
-+static inline void mce_intel_handle_storm(int bank, bool on) { }
- static inline void cmci_disable_bank(int bank) { }
- static inline void intel_init_cmci(void) { }
- static inline void intel_init_lmce(void) { }
-@@ -57,6 +59,7 @@ static inline bool intel_filter_mce(struct mce *m) { return false; }
- #endif
+-		for_each_umc(i) {
+-			if (!(pvt->umc[i].sdp_ctrl & UMC_SDP_INIT))
+-				continue;
++	for_each_umc(i) {
++		if (!(pvt->umc[i].sdp_ctrl & UMC_SDP_INIT))
++			continue;
  
- void mce_timer_kick(bool storm);
-+void mce_handle_storm(int bank, bool on);
+-			umc_en_mask |= BIT(i);
++		umc_en_mask |= BIT(i);
  
- #ifdef CONFIG_ACPI_APEI
- int apei_write_mce(struct mce *m);
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 20347eb65b8b..099d8444aca4 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1975,6 +1975,15 @@ static void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c)
- 	intel_clear_lmce();
- }
- 
-+void mce_handle_storm(int bank, bool on)
-+{
-+	switch (boot_cpu_data.x86_vendor) {
-+	case X86_VENDOR_INTEL:
-+		mce_intel_handle_storm(bank, on);
-+		break;
+-			/* UMC Configuration bit 12 (DimmEccEn) */
+-			if (pvt->umc[i].umc_cfg & BIT(12))
+-				dimm_ecc_en_mask |= BIT(i);
+-		}
++		/* UMC Configuration bit 12 (DimmEccEn) */
++		if (pvt->umc[i].umc_cfg & BIT(12))
++			dimm_ecc_en_mask |= BIT(i);
 +	}
-+}
-+
- static void __mcheck_cpu_init_vendor(struct cpuinfo_x86 *c)
- {
- 	switch (c->x86_vendor) {
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index 4106877de028..a8248514a689 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -152,6 +152,14 @@ static void cmci_set_threshold(int bank, int thresh)
- 	raw_spin_unlock_irqrestore(&cmci_discover_lock, flags);
- }
  
-+void mce_intel_handle_storm(int bank, bool on)
-+{
-+	if (on)
-+		cmci_set_threshold(bank, CMCI_STORM_THRESHOLD);
-+	else
-+		cmci_set_threshold(bank, cmci_threshold[bank]);
-+}
-+
- static void cmci_storm_begin(int bank)
- {
- 	__set_bit(bank, this_cpu_ptr(mce_poll_banks));
-@@ -211,13 +219,13 @@ void track_cmci_storm(int bank, u64 status)
- 		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD - 1, 0))
- 			return;
- 		pr_notice("CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), bank);
--		cmci_set_threshold(bank, cmci_threshold[bank]);
-+		mce_handle_storm(bank, false);
- 		cmci_storm_end(bank);
- 	} else {
- 		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
- 			return;
- 		pr_notice("CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), bank);
--		cmci_set_threshold(bank, CMCI_STORM_THRESHOLD);
-+		mce_handle_storm(bank, true);
- 		cmci_storm_begin(bank);
- 	}
+-		if (umc_en_mask == dimm_ecc_en_mask)
+-			edac_cap = EDAC_FLAG_SECDED;
++	if (umc_en_mask == dimm_ecc_en_mask)
++		edac_cap = EDAC_FLAG_SECDED;
+ 
+ 	return edac_cap;
  }
 -- 
-2.39.2
+2.20.1.7.g153144c
 
