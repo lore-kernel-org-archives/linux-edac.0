@@ -2,62 +2,77 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 654CCC761A6
-	for <linux-edac@archiver.kernel.org>; Tue,  4 Apr 2023 16:07:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A9FCC76196
+	for <linux-edac@archiver.kernel.org>; Mon, 10 Apr 2023 13:16:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235693AbjDDQHO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 4 Apr 2023 12:07:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43048 "EHLO
+        id S229700AbjDJNP6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 10 Apr 2023 09:15:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235707AbjDDQHO (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 4 Apr 2023 12:07:14 -0400
-X-Greylist: delayed 4194 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 04 Apr 2023 09:07:13 PDT
-Received: from mail.feshiecree.pl (mail.feshiecree.pl [89.40.114.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 547FD449C
-        for <linux-edac@vger.kernel.org>; Tue,  4 Apr 2023 09:07:13 -0700 (PDT)
-Received: by mail.feshiecree.pl (Postfix, from userid 1001)
-        id 7F96E889D5; Tue,  4 Apr 2023 08:50:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=feshiecree.pl;
-        s=mail; t=1680594658;
-        bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
-        h=Date:From:To:Subject:From;
-        b=r2lbLn8OzNMhehjY3Nf6R+5YXoLaVCmWcHE3k91Duea89NH+PAGfgN7QqW6WlvhxH
-         1tu28din4HcIBSogj+vrj1tc96zSGRdW/fJlBQxl6xkq2gtv33UfzriAgI6l7uk79h
-         DUk8ApBf8nvoglhDrPeOBBZQg3mypyK7yd9X94pHFpQZh/r/hXYZqxwES+IwdsjOPz
-         L3qQudKJqJZXUq+7Fgs1GrbuIIvaSHBsYRB3vmXtVsJgkSxMmd4ga/kiSlfcQjxZUt
-         I7sbTpBcyVFXff+oeXBaU+ae50DxzVwyt+MBH35IDb3FHISm5NW401zCHS6qk5CIGy
-         pQ2YtzVO4CBLg==
-Received: by feshiecree.pl for <linux-edac@vger.kernel.org>; Tue,  4 Apr 2023 07:50:27 GMT
-Message-ID: <20230404074504-0.1.1t.5nef.0.th88o8crx0@feshiecree.pl>
-Date:   Tue,  4 Apr 2023 07:50:27 GMT
-From:   "Krystian Wieczorek" <krystian.wieczorek@feshiecree.pl>
-To:     <linux-edac@vger.kernel.org>
-Subject: W sprawie samochodu
-X-Mailer: mail.feshiecree.pl
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229614AbjDJNP6 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 10 Apr 2023 09:15:58 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904C64687;
+        Mon, 10 Apr 2023 06:15:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1681132557; x=1712668557;
+  h=from:to:cc:subject:date:message-id;
+  bh=u5tzT5HAj5F9flU09hnwvyF0s5KiBKIQ5wca2zvBD2A=;
+  b=AaonuUtr0+x8GdO4gR0inMnmBMr2K606ObjfT2s2MKT7iqKxHqDmszwY
+   aE3ottGVBh0HZvxocr5Zs5oIRTQEe0ugMwU6xoaA0J6m7UM+T+RmMlSlj
+   akPALe2rH9cZcNixZgrrOtcvsXS6PBTYecmJePe6ToZh33+enCHn61tye
+   fpenTZk4USLVILQ74eON6CrKoPuWFGnUp5lwPvn4kbiDwmNNLox/liz/4
+   T49F5qsWQapnaOW4B47B8XptkQrorMclti9dkdobkHbGsUcVPSL2SGwZV
+   Gj7LZVhrm8jd2ZWHydZoQ8sju/Vyq2OxpFs4rjgRkxGuN2jYVLenu2KCF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="429635847"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
+   d="scan'208";a="429635847"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 06:15:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10675"; a="720813918"
+X-IronPort-AV: E=Sophos;i="5.98,333,1673942400"; 
+   d="scan'208";a="720813918"
+Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2023 06:15:54 -0700
+From:   Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+To:     Tony Luck <tony.luck@intel.com>
+Cc:     Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Borislav Petkov <bp@alien8.de>,
+        Aristeu Rozanski <aris@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Li Zhang <li4.zhang@intel.com>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] EDAC/i10nm: Add Intel Sierra Forest server support
+Date:   Mon, 10 Apr 2023 21:15:31 +0800
+Message-Id: <20230410131531.11914-1-qiuxu.zhuo@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Dzie=C5=84 dobry,
+The Sierra Forest CPU model uses similar memory controller registers as
+Granite Rapids server. Add Sierra Forest CPU model ID for EDAC support.
 
-chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
-, je=C5=9Bli chodzi o system monitoringu GPS.
+Tested-by: Li Zhang <li4.zhang@intel.com>
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+---
+ drivers/edac/i10nm_base.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
-e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
-a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index 0a4691792801..a897b6aff368 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -906,6 +906,7 @@ static const struct x86_cpu_id i10nm_cpuids[] = {
+ 	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(SAPPHIRERAPIDS_X,	X86_STEPPINGS(0x0, 0xf), &spr_cfg),
+ 	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(EMERALDRAPIDS_X,	X86_STEPPINGS(0x0, 0xf), &spr_cfg),
+ 	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(GRANITERAPIDS_X,	X86_STEPPINGS(0x0, 0xf), &gnr_cfg),
++	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(SIERRAFOREST_X,	X86_STEPPINGS(0x0, 0xf), &gnr_cfg),
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(x86cpu, i10nm_cpuids);
+-- 
+2.17.1
 
-Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
-dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
-szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
-mne znaczenie.
-
-Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
-b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
-
-
-Pozdrawiam
-Krystian Wieczorek
