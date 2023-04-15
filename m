@@ -2,111 +2,69 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA3BC7619A
-	for <linux-edac@archiver.kernel.org>; Wed, 12 Apr 2023 09:23:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1874C77B73
+	for <linux-edac@archiver.kernel.org>; Sat, 15 Apr 2023 20:29:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229817AbjDLJX2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 12 Apr 2023 05:23:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
+        id S229667AbjDOU3m (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 15 Apr 2023 16:29:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjDLJX0 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 12 Apr 2023 05:23:26 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA04F61B5;
-        Wed, 12 Apr 2023 02:23:25 -0700 (PDT)
-Received: from lhrpeml500006.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PxGBt2lVVz6J7Dj;
-        Wed, 12 Apr 2023 16:31:18 +0800 (CST)
-Received: from SecurePC30232.china.huawei.com (10.122.247.234) by
- lhrpeml500006.china.huawei.com (7.191.161.198) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 12 Apr 2023 09:33:40 +0100
-From:   <shiju.jose@huawei.com>
-To:     <mchehab@kernel.org>, <linux-cxl@vger.kernel.org>,
-        <linux-edac@vger.kernel.org>
-CC:     <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
-        <shiju.jose@huawei.com>
-Subject: [RFC PATCH 1/7] rasdaemon: Add common function to convert timestamp in the CXL event records to the broken-down time format
-Date:   Wed, 12 Apr 2023 16:33:05 +0800
-Message-ID: <20230412083312.1384-2-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.35.1.windows.2
-In-Reply-To: <20230412083312.1384-1-shiju.jose@huawei.com>
-References: <20230412083312.1384-1-shiju.jose@huawei.com>
+        with ESMTP id S229545AbjDOU3l (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 15 Apr 2023 16:29:41 -0400
+X-Greylist: delayed 501 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 15 Apr 2023 13:29:38 PDT
+Received: from ns2.wdyn.eu (ns2.wdyn.eu [5.252.227.236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D591E1BCA
+        for <linux-edac@vger.kernel.org>; Sat, 15 Apr 2023 13:29:38 -0700 (PDT)
+Message-ID: <b14a8fd2-4c11-1d76-f27d-e9d10c94ca9d@wetzel-home.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=wetzel-home.de;
+        s=wetzel-home; t=1681590070;
+        bh=Ktj9egby/5Ek+E3eu87dOH7Oln7ZltNgsI3Fu2LwgPE=;
+        h=Date:To:From:Subject;
+        b=hvIHs8s0nwYApo4ari+PB4wN/4HCsbk2bQOEcFenAca2nan9UmMrMBc3KfO8sZdGH
+         P5gF+B/8imHb+QAI4CaxXkEQtR0/nl+XZ/8oEeDSWZbaL2G2CCJ6z1q4XNKXb3/0ER
+         K6P1618Q9WfaOjtOci8D6J/sQ4NAfrVgtlcJzWGU=
+Date:   Sat, 15 Apr 2023 22:21:07 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.122.247.234]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500006.china.huawei.com (7.191.161.198)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+To:     linux-edac@vger.kernel.org
+Content-Language: en-US
+From:   Alexander Wetzel <alexander@wetzel-home.de>
+Subject: ECC DDR5 ram with i9-12950HX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Shiju Jose <shiju.jose@huawei.com>
+Hello,
 
-Add common function to convert the timestamp in the CXL event records
-in nanoseconds to the broken-down time format.
+I've problems getting ECC ram working in a Thinkpad P16.
 
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- ras-cxl-handler.c | 36 ++++++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 16 deletions(-)
+The processor is a i9-12950HX with ECC ram but at least a 6.2.11 kernel 
+is not detecting the memory controller:
 
-diff --git a/ras-cxl-handler.c b/ras-cxl-handler.c
-index adc2fa3..ad93558 100644
---- a/ras-cxl-handler.c
-+++ b/ras-cxl-handler.c
-@@ -23,6 +23,25 @@
- #include "ras-report.h"
- #include <endian.h>
- 
-+/* Common Functions */
-+static void convert_timestamp(unsigned long long ts, char *ts_ptr, uint16_t size)
-+{
-+	/* CXL Specification 3.0
-+	 * Overflow timestamp - The number of unsigned nanoseconds
-+	 * that have elapsed since midnight, 01-Jan-1970 UTC
-+	 */
-+	time_t ts_secs = ts / 1000000000ULL;
-+	struct tm *tm;
-+
-+	tm = localtime(&ts_secs);
-+	if (tm)
-+		strftime(ts_ptr, size, "%Y-%m-%d %H:%M:%S %z", tm);
-+
-+	if (!ts || !tm)
-+		strncpy(ts_ptr, "1970-01-01 00:00:00 +0000",
-+			size);
-+}
-+
- /* Poison List: Payload out flags */
- #define CXL_POISON_FLAG_MORE            BIT(0)
- #define CXL_POISON_FLAG_OVERFLOW        BIT(1)
-@@ -160,22 +179,7 @@ int ras_cxl_poison_event_handler(struct trace_seq *s,
- 	if (ev.flags & CXL_POISON_FLAG_OVERFLOW) {
- 		if (tep_get_field_val(s,  event, "overflow_t", record, &val, 1) < 0)
- 			return -1;
--		if (val) {
--			/* CXL Specification 3.0
--			 * Overflow timestamp - The number of unsigned nanoseconds
--			 * that have elapsed since midnight, 01-Jan-1970 UTC
--			 */
--			time_t ovf_ts_secs = val / 1000000000ULL;
--
--			tm = localtime(&ovf_ts_secs);
--			if (tm) {
--				strftime(ev.overflow_ts, sizeof(ev.overflow_ts),
--					 "%Y-%m-%d %H:%M:%S %z", tm);
--			}
--		}
--		if (!val || !tm)
--			strncpy(ev.overflow_ts, "1970-01-01 00:00:00 +0000",
--				sizeof(ev.overflow_ts));
-+		convert_timestamp(val, ev.overflow_ts, sizeof(ev.overflow_ts));
- 	} else
- 		strncpy(ev.overflow_ts, "1970-01-01 00:00:00 +0000", sizeof(ev.overflow_ts));
- 	if (trace_seq_printf(s, "overflow timestamp:%s\n", ev.overflow_ts) <= 0)
--- 
-2.25.1
+# edac-util
+edac-util: Error: No memory controller data found.
+
+The only reference to edac on kernel boot is that here:
+[    1.237414] EDAC MC: Ver: 3.0.0
+
+For my understanding this here looks like the memory controller:
+0000:00:14.2 RAM memory: Intel Corporation Alder Lake-S PCH Shared SRAM 
+(rev 11)
+
+But there is no driver for the device (8086:7aa7) in 6.2.11 I can find.
+I was assuming that igen6_edac is supporting Alder Lake CPUs but even 
+when loaded manually it's not working...
+
+Is there a way to get ECC working with linux? Are there any patches I 
+could apply?
+
+Alexander
+
+
+
+
+
 
