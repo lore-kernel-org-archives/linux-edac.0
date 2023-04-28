@@ -2,102 +2,101 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 540E4C6FD18
-	for <linux-edac@archiver.kernel.org>; Tue, 25 Apr 2023 20:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E249C77B60
+	for <linux-edac@archiver.kernel.org>; Fri, 28 Apr 2023 15:55:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231927AbjDYUiq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 25 Apr 2023 16:38:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46530 "EHLO
+        id S229662AbjD1Pz0 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Fri, 28 Apr 2023 11:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236282AbjDYUi3 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 25 Apr 2023 16:38:29 -0400
-X-Greylist: delayed 1533 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Apr 2023 13:38:27 PDT
-Received: from a1-bg02.venev.name (a1-bg02.venev.name [213.240.239.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B74E1447C
-        for <linux-edac@vger.kernel.org>; Tue, 25 Apr 2023 13:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=venev.name;
-        s=default; h=Content-Transfer-Encoding:Message-Id:Date:Subject:To:From:
-        Content-Type:Reply-To:Sender; bh=LKX7u/ciibcBQSMy3W8isKuhRcRHd0tKSxfPOyufmRM=
-        ; b=bUL1yN16i5Yn2yoy601zUNODdy7n325zD3CxNnUJ0cYyLqDapsWBPZRLF+bW0BaeaSVqk+457
-        YlnL3+XWuZ/z+dI27RlqZJ/Nnrm7aYk33F/J45mV01ebaZvMi1v4K5lY6dnSgtwwX71SyC0U1NyGR
-        D546iskCX0/7Iuut1tYQGZxHLA4zRyac/+V6AdTRQULtRH6vcO8YbeiPYqrLvZMA1AnJe2rTRlan/
-        ZxeaySrA+fvjtT//VmU0TXXavzGJ3hTcKmAG7TrCXDrx5pvqq6ysln6FdfcQhC+b2FiT2hGoBw77j
-        2MQ4rtxoFYtTuNbkjy2yAkLF4tulIcvCnzOygF7CpAktvKCMaBeYwTN8n3/L/MC07VF1oxEIUqu7H
-        6QQBe/7Sb6wpU3Exi+oCosq/Qsb4SUQ1yq6yITHxPg7U7zQf9kJnZ437qHFNo5X1I67eelZNKgn07
-        gk1sE1ipB7M2E0sQ9GJ+M7a8Q/1WFxLhLTdm8cUpgNW+j6TLf1n3GA0qT0T51PRC7QSqi3mut/Nzk
-        TzsoC/paiMHPr0hIXLv3PcFRfWo46ldycfZnRYYu0e1NkW+rOlHJ1iASShgZaF15c5iPijSD/GPcD
-        zuFtnlHsXCxc2TYfhqv4K/YclBeD5YIF2lN5MgiJ4xqtOzOMb5q1LQMyEtlr7iLL/4SoVr4=;
-Received: from a1-bg02.venev.name ([213.240.239.49] helo=pmx1.venev.name)
-        by a1-bg02.venev.name with esmtps
-        id 1prP1r-001MQx-0a
-        (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-        (envelope-from <hristo@venev.name>);
-        Tue, 25 Apr 2023 20:12:47 +0000
-Received: from venev.name ([213.240.239.49])
-        by pmx1.venev.name with ESMTPSA
-        id Zt99Cj80SGTT8wQAdB6GMg
-        (envelope-from <hristo@venev.name>); Tue, 25 Apr 2023 20:12:47 +0000
-From:   Hristo Venev <hristo@venev.name>
-To:     Yazen Ghannam <yazen.ghannam@amd.com>
-Cc:     Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org,
-        Hristo Venev <hristo@venev.name>
-Subject: [PATCH] EDAC/amd64: Add support for ECC on family 19h model 60h-6Fh
-Date:   Tue, 25 Apr 2023 23:12:39 +0300
-Message-Id: <20230425201239.324476-1-hristo@venev.name>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S229615AbjD1PzZ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Fri, 28 Apr 2023 11:55:25 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D672D51
+        for <linux-edac@vger.kernel.org>; Fri, 28 Apr 2023 08:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682697324; x=1714233324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vWQ6HuHvMfoZwIRbm0AfKIPepmhNW+hfiTMObR9wbaE=;
+  b=UroVtqXHShCr87MZj5eA4ccxgjn55l9jqQc/MAm+/W2AO+2JZxo+CNF5
+   RzxKaE6ukKflCQTvdFQK3CiD/LWztVewBiT92BKAvYD5Z6MDls/xUAmtz
+   U3ssJhrWzlMplgesRCt0Fortoq2uvtpco6YNFyHmgZ83wmV13reM4DkGJ
+   LQvqBuNhW9tOvKA380yhHjK0+7mL/v94C7/Rv+fwTKx+Tzqg/wQwYdrI7
+   3Ktx39rkhf9ImaiDM+N2p4BwLngFXVnFK47cw3XOHhH8mA+6HGcUQY6Lz
+   wFxrGw+3ea4H55SoHfKLyT0NqOrRWKnCTfYQKW04fV/kn8VmHghoAyf8D
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="332100751"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="332100751"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 08:55:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="645184887"
+X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
+   d="scan'208";a="645184887"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.78])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 08:55:23 -0700
+Date:   Fri, 28 Apr 2023 08:55:22 -0700
+From:   Tony Luck <tony.luck@intel.com>
+To:     Alexander Wetzel <alexander@wetzel-home.de>
+Cc:     linux-edac@vger.kernel.org
+Subject: Re: ECC DDR5 ram with i9-12950HX
+Message-ID: <ZEvsamYDRi7wZr/b@agluck-desk3.sc.intel.com>
+References: <b14a8fd2-4c11-1d76-f27d-e9d10c94ca9d@wetzel-home.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b14a8fd2-4c11-1d76-f27d-e9d10c94ca9d@wetzel-home.de>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Ryzen 9 7950X uses model 61h. Treat it as Epyc 9004, but with 2 channels
-instead of 12.
+On Sat, Apr 15, 2023 at 10:21:07PM +0200, Alexander Wetzel wrote:
+> Hello,
+> 
+> I've problems getting ECC ram working in a Thinkpad P16.
+> 
+> The processor is a i9-12950HX with ECC ram but at least a 6.2.11 kernel is
+> not detecting the memory controller:
+> 
+> # edac-util
+> edac-util: Error: No memory controller data found.
+> 
+> The only reference to edac on kernel boot is that here:
+> [    1.237414] EDAC MC: Ver: 3.0.0
+> 
+> For my understanding this here looks like the memory controller:
+> 0000:00:14.2 RAM memory: Intel Corporation Alder Lake-S PCH Shared SRAM (rev
+> 11)
+> 
+> But there is no driver for the device (8086:7aa7) in 6.2.11 I can find.
+> I was assuming that igen6_edac is supporting Alder Lake CPUs but even when
+> loaded manually it's not working...
+> 
+> Is there a way to get ECC working with linux? Are there any patches I could
+> apply?
 
-I tested this with two 32GB dual-rank DIMMs. The sizes appear to be
-reported correctly:
+Alexander
 
-    [    2.122750] EDAC MC0: Giving out device to module amd64_edac controller F19h_M60h: DEV 0000:00:18.3 (INTERRUPT)
-    [    2.122751] EDAC amd64: F19h_M60h detected (node 0).
-    [    2.122754] EDAC MC: UMC0 chip selects:
-    [    2.122754] EDAC amd64: MC: 0:     0MB 1:     0MB
-    [    2.122755] EDAC amd64: MC: 2: 16384MB 3: 16384MB
-    [    2.122757] EDAC MC: UMC1 chip selects:
-    [    2.122757] EDAC amd64: MC: 0:     0MB 1:     0MB
-    [    2.122758] EDAC amd64: MC: 2: 16384MB 3: 16384MB
-    [    2.122759] AMD64 EDAC driver v3.5.0
+You don't need an EDAC driver to turn on ECC. Your BIOS should have
+done all the necessary memory controller and chipset magic to enable
+ECC. So you should already be getting the extra reliability that
+ECC memory provides.
 
-ECC errors can also be detected:
+EDAC driver serve two purposes:
 
-    [  313.747594] mce: [Hardware Error]: Machine check events logged
-    [  313.747597] [Hardware Error]: Corrected error, no action required.
-    [  313.747613] [Hardware Error]: CPU:0 (19:61:2) MC21_STATUS[Over|CE|MiscV|AddrV|-|-|SyndV|CECC|-|-|-]: 0xdc2040000400011b
-    [  313.747632] [Hardware Error]: Error Addr: 0x00000007ff7e93c0
-    [  313.747639] [Hardware Error]: IPID: 0x0000009600050f00, Syndrome: 0x000100010a801203
-    [  313.747652] [Hardware Error]: Unified Memory Controller Ext. Error Code: 0, DRAM ECC error.
-    [  313.747669] EDAC MC0: 1 CE Cannot decode normalized address on mc#0csrow#3channel#0 (csrow:3 channel:0 page:0x0 offset:0x0 grain:64 syndrome:0x1)
-    [  313.747672] [Hardware Error]: cache level: L3/GEN, tx: GEN, mem-tx: RD
+1) To provide an accurate enumeration of which size/type DIMMs are in
+each slot. This is required by large HPC clusters to check that the
+DIMM configuration on every node of the thousands in their cluster
+without having to physically open each machine.
 
-Signed-off-by: Hristo Venev <hristo@venev.name>
----
- drivers/edac/amd64_edac.c | 4 ++++
- 1 file changed, 4 insertions(+)
+2) When there are memory errors, translate the physical address recorded
+by the CPU to the specific DIMM that was the source of the error (to
+speed up diagnosis of the problem and fixing it in one try).
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index b55129425c81..1080784e2784 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -3816,6 +3816,10 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		case 0x50 ... 0x5f:
- 			pvt->ctl_name			= "F19h_M50h";
- 			break;
-+		case 0x60 ... 0x6f:
-+			pvt->ctl_name			= "F19h_M60h";
-+			pvt->flags.zn_regs_v2		= 1;
-+			break;
- 		case 0xa0 ... 0xaf:
- 			pvt->ctl_name			= "F19h_MA0h";
- 			pvt->max_mcs			= 12;
--- 
-2.40.0
+I'm sorry that there isn't an EDAC driver for your system. Most
+of the effort here goes to EDAC for server systems.
 
+-Tony
