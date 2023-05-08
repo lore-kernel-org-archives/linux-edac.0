@@ -2,131 +2,148 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B80C1C77B7F
-	for <linux-edac@archiver.kernel.org>; Fri,  5 May 2023 12:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4654EC77B7D
+	for <linux-edac@archiver.kernel.org>; Mon,  8 May 2023 02:09:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230358AbjEEMZ4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 5 May 2023 08:25:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41308 "EHLO
+        id S232161AbjEHCJ2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 7 May 2023 22:09:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbjEEMZz (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 5 May 2023 08:25:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6757C1AEFA;
-        Fri,  5 May 2023 05:25:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EC85863DC9;
-        Fri,  5 May 2023 12:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A76DC433D2;
-        Fri,  5 May 2023 12:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683289553;
-        bh=PCb1VWZ2OJyBbD3H9w56ZNJoJky13otK2RlGn8Op0Xw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=BXMlEUwRP8gfpynsRGWGe+MH/DrBrlLHE1IsBkJbuebrwAo3Hhd0vbFQEW8Wpqibu
-         8iSurJEp/1bXtwPYQHRFykFS8DY94M7ewRj3EUzO7lPJ8muI6DHeQeJk5eOt5sKgvv
-         qDn94A6y9JmiowHg+SVR+fg2rbS9xg+CPF8ICTz5rCJ/60paryRPeK+mlOtKRnnzOG
-         OdTYcEfNWJD+G/Ce0mVx8gru1E6EQjtVyBUxaC/GxklQTIs9VJlyTahu6l0cgS0Szu
-         5/j0FXza1gR2422GsWw8RFrmQz28wNp3sS4Rd1byEstE7i+WklP/LoNfMQAvcY8Mz4
-         mQv8EK8CVKFBg==
-Message-ID: <9d3f4dc3-300e-314e-040b-d360ed092366@kernel.org>
-Date:   Fri, 5 May 2023 07:25:51 -0500
+        with ESMTP id S231738AbjEHCJ1 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 7 May 2023 22:09:27 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84318124BE;
+        Sun,  7 May 2023 19:09:25 -0700 (PDT)
+Received: from dggpemm500001.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QF4Qy28c7zLntj;
+        Mon,  8 May 2023 10:06:34 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 8 May 2023 10:09:22 +0800
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+To:     Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mm@kvack.org>, <jane.chu@oracle.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: [PATCH] x86/mce: set MCE_IN_KERNEL_COPYIN for all MC-Safe Copy
+Date:   Mon, 8 May 2023 10:22:33 +0800
+Message-ID: <20230508022233.13890-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 2/2] EDAC/altera: Check previous DDR DBE during driver
- probe
-Content-Language: en-US
-To:     niravkumar.l.rabara@intel.com
-Cc:     bp@alien8.de, james.morse@arm.com, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mchehab@kernel.org, rric@kernel.org,
-        tony.luck@intel.com
-References: <20230503061000.3279381-1-niravkumar.l.rabara@intel.com>
- <20230503101821.3342935-1-niravkumar.l.rabara@intel.com>
- <20230503101821.3342935-3-niravkumar.l.rabara@intel.com>
-From:   Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20230503101821.3342935-3-niravkumar.l.rabara@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
+Both EX_TYPE_FAULT_MCE_SAFE and EX_TYPE_DEFAULT_MCE_SAFE exception
+fixup types are used to identify fixups which allow in kernel #MC
+recovery, that is the Machine Check Safe Copy.
 
+For now, the MCE_IN_KERNEL_COPYIN flag is only set for EX_TYPE_COPY
+and EX_TYPE_UACCESS when copy from user, and corrupted page is
+isolated in this case, for MC-safe copy, memory_failure() is not
+always called, some places, like __wp_page_copy_user, copy_subpage,
+copy_user_gigantic_page and ksm_might_need_to_copy manually call
+memory_failure_queue() to cope with such unhandled error pages,
+recently coredump hwposion recovery support[1] is asked to do the
+same thing, and there are some other already existed MC-safe copy
+scenarios, eg, nvdimm, dm-writecache, dax, which has similar issue.
 
-On 5/3/23 05:18, niravkumar.l.rabara@intel.com wrote:
-> From: Niravkumar L Rabara <niravkumar.l.rabara@intel.com>
-> 
-> Add DDR DBE check during driver probe to notify user if previous
-> reboot cause by DDR DBE and print DBE error related information.
-> 
-> Signed-off-by: Niravkumar L Rabara <niravkumar.l.rabara@intel.com>
-> ---
->   drivers/edac/altera_edac.c | 29 ++++++++++++++++++++++++-----
->   1 file changed, 24 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-> index 8b31cd54bdb6..398a49a3eb89 100644
-> --- a/drivers/edac/altera_edac.c
-> +++ b/drivers/edac/altera_edac.c
-> @@ -2159,6 +2159,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
->   #ifdef CONFIG_64BIT
->   	{
->   		int dberror, err_addr;
-> +		struct arm_smccc_res result;
->   
->   		edac->panic_notifier.notifier_call = s10_edac_dberr_handler;
->   		atomic_notifier_chain_register(&panic_notifier_list,
-> @@ -2168,11 +2169,28 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
->   		regmap_read(edac->ecc_mgr_map, S10_SYSMGR_UE_VAL_OFST,
->   			    &dberror);
->   		if (dberror) {
-> -			regmap_read(edac->ecc_mgr_map, S10_SYSMGR_UE_ADDR_OFST,
-> -				    &err_addr);
-> -			edac_printk(KERN_ERR, EDAC_DEVICE,
-> -				    "Previous Boot UE detected[0x%X] @ 0x%X\n",
-> -				    dberror, err_addr);
-> +			/* Bit-31 is set if previous DDR UE happened */
-> +			if (dberror & (1 << 31)) {
-> +				/* Read previous DDR UE info */
-> +				arm_smccc_smc(INTEL_SIP_SMC_READ_SEU_ERR, 0,
-> +					0, 0, 0, 0, 0, 0, &result);
+The best way to fix them is set MCE_IN_KERNEL_COPYIN to MCE_SAFE
+exception, then kill_me_never() will be queued to call memory_failure()
+in do_machine_check() to isolate corrupted page, which avoid calling
+memory_failure_queue() after every MC-safe copy return.
 
-Please run checkpatch --strict to align these.
+[1] https://lkml.kernel.org/r/20230417045323.11054-1-wangkefeng.wang@huawei.com
 
-> +
-> +				if (!(int)result.a0) {
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ arch/x86/kernel/cpu/mce/severity.c |  3 +--
+ mm/ksm.c                           |  1 -
+ mm/memory.c                        | 12 +++---------
+ 3 files changed, 4 insertions(+), 12 deletions(-)
 
-Why the typecast to int?
+diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
+index c4477162c07d..63e94484c5d6 100644
+--- a/arch/x86/kernel/cpu/mce/severity.c
++++ b/arch/x86/kernel/cpu/mce/severity.c
+@@ -293,12 +293,11 @@ static noinstr int error_context(struct mce *m, struct pt_regs *regs)
+ 	case EX_TYPE_COPY:
+ 		if (!copy_user)
+ 			return IN_KERNEL;
+-		m->kflags |= MCE_IN_KERNEL_COPYIN;
+ 		fallthrough;
+ 
+ 	case EX_TYPE_FAULT_MCE_SAFE:
+ 	case EX_TYPE_DEFAULT_MCE_SAFE:
+-		m->kflags |= MCE_IN_KERNEL_RECOV;
++		m->kflags |= MCE_IN_KERNEL_RECOV | MCE_IN_KERNEL_COPYIN;
+ 		return IN_KERNEL_RECOV;
+ 
+ 	default:
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 0156bded3a66..7abdf4892387 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -2794,7 +2794,6 @@ struct page *ksm_might_need_to_copy(struct page *page,
+ 	if (new_page) {
+ 		if (copy_mc_user_highpage(new_page, page, address, vma)) {
+ 			put_page(new_page);
+-			memory_failure_queue(page_to_pfn(page), 0);
+ 			return ERR_PTR(-EHWPOISON);
+ 		}
+ 		SetPageDirty(new_page);
+diff --git a/mm/memory.c b/mm/memory.c
+index 5e2c6b1fc00e..c0f586257017 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -2814,10 +2814,8 @@ static inline int __wp_page_copy_user(struct page *dst, struct page *src,
+ 	unsigned long addr = vmf->address;
+ 
+ 	if (likely(src)) {
+-		if (copy_mc_user_highpage(dst, src, addr, vma)) {
+-			memory_failure_queue(page_to_pfn(src), 0);
++		if (copy_mc_user_highpage(dst, src, addr, vma))
+ 			return -EHWPOISON;
+-		}
+ 		return 0;
+ 	}
+ 
+@@ -5852,10 +5850,8 @@ static int copy_user_gigantic_page(struct folio *dst, struct folio *src,
+ 
+ 		cond_resched();
+ 		if (copy_mc_user_highpage(dst_page, src_page,
+-					  addr + i*PAGE_SIZE, vma)) {
+-			memory_failure_queue(page_to_pfn(src_page), 0);
++					  addr + i*PAGE_SIZE, vma))
+ 			return -EHWPOISON;
+-		}
+ 	}
+ 	return 0;
+ }
+@@ -5871,10 +5867,8 @@ static int copy_subpage(unsigned long addr, int idx, void *arg)
+ 	struct copy_subpage_arg *copy_arg = arg;
+ 
+ 	if (copy_mc_user_highpage(copy_arg->dst + idx, copy_arg->src + idx,
+-				  addr, copy_arg->vma)) {
+-		memory_failure_queue(page_to_pfn(copy_arg->src + idx), 0);
++				  addr, copy_arg->vma))
+ 		return -EHWPOISON;
+-	}
+ 	return 0;
+ }
+ 
+-- 
+2.35.3
 
-> +					edac_printk(KERN_ERR, EDAC_DEVICE,
-> +					"Previous DDR UE:Count=0x%X,Address=0x%X,ErrorData=0x%X\n"
-> +					, (unsigned int)result.a1, (unsigned int)result.a2
-> +					, (unsigned int)result.a3);
-> +				} else {
-> +					edac_printk(KERN_ERR, EDAC_DEVICE,
-> +						"INTEL_SIP_SMC_SEU_ERR_STATUS failed\n");
-> +				}
-> +			} else {
-> +				regmap_read(edac->ecc_mgr_map, S10_SYSMGR_UE_ADDR_OFST,
-> +						&err_addr);
-> +				edac_printk(KERN_ERR, EDAC_DEVICE,
-> +						"Previous Boot UE detected[0x%X] @ 0x%X\n",
-> +						dberror, err_addr);
-> +			}
->   			/* Reset the sticky registers */
->   			regmap_write(edac->ecc_mgr_map,
->   				     S10_SYSMGR_UE_VAL_OFST, 0);
-> @@ -2180,6 +2198,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
->   				     S10_SYSMGR_UE_ADDR_OFST, 0);
->   		}
->   	}
-> +
-
-Stray newline.
-
->   #else
->   	edac->db_irq = platform_get_irq(pdev, 1);
->   	if (edac->db_irq < 0)
