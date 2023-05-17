@@ -2,78 +2,100 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A663C7EE24
-	for <linux-edac@archiver.kernel.org>; Wed, 17 May 2023 02:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76EBBC7EE23
+	for <linux-edac@archiver.kernel.org>; Wed, 17 May 2023 06:24:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbjEQCtw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 16 May 2023 22:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34460 "EHLO
+        id S232655AbjEQGYl (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 17 May 2023 02:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231710AbjEQCtv (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 16 May 2023 22:49:51 -0400
-Received: from out-30.mta0.migadu.com (out-30.mta0.migadu.com [IPv6:2001:41d0:1004:224b::1e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C30103
-        for <linux-edac@vger.kernel.org>; Tue, 16 May 2023 19:49:49 -0700 (PDT)
+        with ESMTP id S232630AbjEQGYe (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 17 May 2023 02:24:34 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB0530DF
+        for <linux-edac@vger.kernel.org>; Tue, 16 May 2023 23:24:33 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-24e0c29733fso467113a91.2
+        for <linux-edac@vger.kernel.org>; Tue, 16 May 2023 23:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684304673; x=1686896673;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LfKdoeG8mu6zu/394MW7KJlMb3XJq7sqRyZaWwU7lKw=;
+        b=LthWTdYNEHl//JSltdWk6o4MZfNEHIaNGaUvCCXZYbeJF733AaYRuqtb+nfPPRW0kk
+         tQi/Ynm9/+RqdtDkeb9Dhwqr0kI9+35GVjH3k0X6uFb916LUQAfbQCvxGQHtwOsUcBt/
+         C/fDbm+RWl0c6njfv540SHGchbkG7zlvxoZbamN1Asktng4PH5X4Zod96okvPIfNQLH+
+         KnGDcIrEJPn4vnl9N615WDmBSqUrKtneDlZPLp3tss2QppTJEPfFduZ4dYyW1oox2bvk
+         IZXpCIqmWpM1x6PjEbLseafyinWRE5ZasmttDD5qJ9q9GXBiGCNCRaQEhf1uiDc3a1SQ
+         NoKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684304673; x=1686896673;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LfKdoeG8mu6zu/394MW7KJlMb3XJq7sqRyZaWwU7lKw=;
+        b=fidJPP/KjJbn0ijdo+PLlsr9uUTd3TiACQIqSLYbwPxNKI/fYG0wP9G/oflK6Ofrv1
+         Y4Itu+El9QXN3/FiA1T6ouE1rRwHlUSwYNLN9CRCpDIPTuQEIBGiMpL1YESmUH4Jb/Cr
+         Te8ClBGF4cd1FxEBvuGfK8oTqbHwfyt3Bvq9BamyGQ0XbjzEGR8BBYRyzKeFDIW5rsdo
+         Cojqgs9c0Tn6id9so57I/OJxLoXoyXeBE4Bo6s3b+ZMbPg+NuC4MIe6GoH18Xn0BagbX
+         d8F48m+75v9ypSmRj8Q3e515RQcGglGCqcdD/bTqFoMPVLPI/mWJGRUHBxQbCTDCfGw2
+         /ODA==
+X-Gm-Message-State: AC+VfDyYrknmdTPfqr8plWLAjBBWagtfX51yaLzfSjv6Uus5UbB0vh+2
+        IoA/+0jjUSar94m84lh51UrZ
+X-Google-Smtp-Source: ACHHUZ7qPiZFvMENE+qrkdJFxvEhxBUWv6GWj5OFTtoSWNkxuB+w5W56ExURaU55ZWmVj8d4MaPA+A==
+X-Received: by 2002:a17:90a:ce87:b0:250:2d62:d3e2 with SMTP id g7-20020a17090ace8700b002502d62d3e2mr38404744pju.22.1684304673008;
+        Tue, 16 May 2023 23:24:33 -0700 (PDT)
+Received: from localhost.localdomain ([59.92.102.59])
+        by smtp.gmail.com with ESMTPSA id z22-20020a17090acb1600b002508f0ac3edsm693282pjt.53.2023.05.16.23.24.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 May 2023 23:24:32 -0700 (PDT)
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     andersson@kernel.org, bp@alien8.de, mchehab@kernel.org
+Cc:     james.morse@arm.com, rric@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v7 1/2] EDAC/qcom: Remove extra error no assignment in qcom_llcc_core_setup()
+Date:   Wed, 17 May 2023 11:54:19 +0530
+Message-Id: <20230517062421.56970-2-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230517062421.56970-1-manivannan.sadhasivam@linaro.org>
+References: <20230517062421.56970-1-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1684291788;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EsjCPqdF40VbunsnjYkM84s06frJ/PE3tIX8ln1mLtg=;
-        b=u/2LVRmhcj6ji42+Sypiqe+H+fGDwKhUxX5ugAbRDYH+axy3T+GMXgaXvH9omlrPL/AANS
-        Xqf7jvnjHAKwQXhIf3PW1UFg6gC621lO9NmxM40leVC0L2NFOomNJhjRV4HWhpnnPekxGM
-        daiQXXsVo6PLRxMqC7yZ5sVy8b2K0Yg=
-Date:   Wed, 17 May 2023 02:49:47 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   "Yajun Deng" <yajun.deng@linux.dev>
-Message-ID: <f0a8449f4a428300a5143b6ea3a51b82@linux.dev>
-Subject: Re: [PATCH] EDAC: Expose node link in sysfs if CONFIG_NUMA
-To:     "Luck, Tony" <tony.luck@intel.com>,
-        "Borislav Petkov" <bp@alien8.de>
-Cc:     james.morse@arm.com, mchehab@kernel.org, rric@kernel.org,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-doc@vger.kernel.org
-In-Reply-To: <SJ1PR11MB60831CF4AC4E4C23DE362E0DFC799@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <SJ1PR11MB60831CF4AC4E4C23DE362E0DFC799@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20230516111942.GCZGNmzu3Abd4KmZu3@fat_crate.local>
- <20230516103403.GBZGNcG7Q1sdtUpcHW@fat_crate.local>
- <20230516080748.3155788-1-yajun.deng@linux.dev>
- <e930d9a3efd6d99d2badc7bdff713afd@linux.dev>
- <3509bcc597e37616cf45247e8f92d369@linux.dev>
- <20230516121018.GDZGNyqjm9YWQp2Of4@fat_crate.local>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-May 17, 2023 1:25 AM, "Luck, Tony" <tony.luck@intel.com> wrote:=0A=0A>>> =
-If we have '/sys/devices/system/node/node0/mc0', by comparing the number=
-=0A>>> of dimm and MemTotal in meminfo. It is easy to know that the dimm =
-didn't=0A>>> recognized whether it belonged to this NUMA node or not.=0A>=
-> =0A>> mc !=3D NUMA node.=0A> =0A> Modern systems have multiple memory c=
-ontrollers per socket.=0A> On an Icelake server I see:=0A> =0A> $ cd /sys=
-/devices/system/edac/mc=0A> $ ls -l=0A> total 0=0A> drwxr-xr-x. 5 root ro=
-ot 0 May 16 10:13 mc0=0A> drwxr-xr-x. 3 root root 0 May 16 10:13 mc1=0A> =
-drwxr-xr-x. 5 root root 0 May 16 10:13 mc2=0A> drwxr-xr-x. 3 root root 0 =
-May 16 10:13 mc3=0A> drwxr-xr-x. 5 root root 0 May 16 10:13 mc4=0A> drwxr=
--xr-x. 3 root root 0 May 16 10:13 mc5=0A> drwxr-xr-x. 5 root root 0 May 1=
-6 10:13 mc6=0A> drwxr-xr-x. 3 root root 0 May 16 10:13 mc7=0A> drwxr-xr-x=
-. 2 root root 0 May 16 10:13 power=0A> lrwxrwxrwx. 1 root root 0 May 16 0=
-3:11 subsystem -> ../../../../bus/edac=0A> -rw-r--r--. 1 root root 4096 M=
-ay 16 03:11 uevent=0A> =0A> But I can figure out the socket topology with=
-:=0A> =0A> $ grep . mc*/mc_name=0A> mc0/mc_name:Intel_10nm Socket#0 IMC#0=
-=0A> mc1/mc_name:Intel_10nm Socket#0 IMC#1=0A> mc2/mc_name:Intel_10nm Soc=
-ket#0 IMC#2=0A> mc3/mc_name:Intel_10nm Socket#0 IMC#3=0A> mc4/mc_name:Int=
-el_10nm Socket#1 IMC#0=0A> mc5/mc_name:Intel_10nm Socket#1 IMC#1=0A> mc6/=
-mc_name:Intel_10nm Socket#1 IMC#2=0A> mc7/mc_name:Intel_10nm Socket#1 IMC=
-#3=0A> =0A> I think this should help connect "mc*" to which node=0A> they=
- belong to.=0A> =0A=0AThanks! =0AYes, mc_name may show the NUMA id, it de=
-pends on the vendor edac modules.=0A=0AOn the other hand, this directory =
-'/sys/devices/system/node/node0/' should=0Ashow all resources that belong=
- to it. It already has cpu and memory symbolic=0Alink. Memory controller =
-also belongs to one NUMA. The memory controller=0Asymbolic link should ap=
-pear under node* directory.=0A=0A> -Tony
+If the ret variable is initialized with -EINVAL, then there is no need to
+assign it again in the default case of qcom_llcc_core_setup().
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/edac/qcom_edac.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/edac/qcom_edac.c b/drivers/edac/qcom_edac.c
+index 265e0fb39bc7..53d666ffcb1f 100644
+--- a/drivers/edac/qcom_edac.c
++++ b/drivers/edac/qcom_edac.c
+@@ -170,7 +170,7 @@ static int qcom_llcc_core_setup(struct regmap *llcc_bcast_regmap)
+ static int
+ qcom_llcc_clear_error_status(int err_type, struct llcc_drv_data *drv)
+ {
+-	int ret = 0;
++	int ret = -EINVAL;
+ 
+ 	switch (err_type) {
+ 	case LLCC_DRAM_CE:
+@@ -198,7 +198,6 @@ qcom_llcc_clear_error_status(int err_type, struct llcc_drv_data *drv)
+ 			return ret;
+ 		break;
+ 	default:
+-		ret = -EINVAL;
+ 		edac_printk(KERN_CRIT, EDAC_LLCC, "Unexpected error type: %d\n",
+ 			    err_type);
+ 	}
+-- 
+2.25.1
+
