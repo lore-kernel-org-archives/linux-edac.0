@@ -2,79 +2,63 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB0DC77B7A
-	for <linux-edac@archiver.kernel.org>; Sat,  3 Jun 2023 06:50:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6AD0C7EE2E
+	for <linux-edac@archiver.kernel.org>; Sat,  3 Jun 2023 09:35:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232004AbjFCGua (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 3 Jun 2023 02:50:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40050 "EHLO
+        id S231864AbjFCJfC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 3 Jun 2023 05:35:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231444AbjFCGu3 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 3 Jun 2023 02:50:29 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA550E58;
-        Fri,  2 Jun 2023 23:50:27 -0700 (PDT)
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QY9Rq21RwztQTy;
-        Sat,  3 Jun 2023 14:48:07 +0800 (CST)
-Received: from huawei.com (10.175.104.170) by canpemm500002.china.huawei.com
- (7.192.104.244) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sat, 3 Jun
- 2023 14:50:24 +0800
-From:   Miaohe Lin <linmiaohe@huawei.com>
-To:     <tony.luck@intel.com>, <bp@alien8.de>
-CC:     <james.morse@arm.com>, <mchehab@kernel.org>, <rric@kernel.org>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linmiaohe@huawei.com>
-Subject: [PATCH] EDAC/mc: fix potential memoryleak in edac_mc_alloc()
-Date:   Sat, 3 Jun 2023 22:41:31 +0800
-Message-ID: <20230603144131.832804-1-linmiaohe@huawei.com>
-X-Mailer: git-send-email 2.23.0
+        with ESMTP id S230084AbjFCJez (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 3 Jun 2023 05:34:55 -0400
+X-Greylist: delayed 89344 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 02:34:53 PDT
+Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66933E56
+        for <linux-edac@vger.kernel.org>; Sat,  3 Jun 2023 02:34:53 -0700 (PDT)
+Received: by mail.webtopbits.pl (Postfix, from userid 1001)
+        id 24DB6A38FC; Fri,  2 Jun 2023 09:45:41 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
+        s=mail; t=1685695548;
+        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
+        h=Date:From:To:Subject:From;
+        b=spCxLwez+mhGa7md+pU5I6lZIawhuiS+2cuT9Y5TGfB4Xwx+a2sIxmITbANXUJwhB
+         vVxRmdPNvLeCwz9mf2pBy9St32ScOZ20858mLp71LAU7bJ/3nIu2q9qQrh7Ed+p/MT
+         MyVxk35KYGquch48Elo8n4SelAbZcX+d5ui4Ddv7LdaTHP3/4Mbqgi0HZaVDiBEfN1
+         ++QbvKr3iRVyYNMatwyXbKw5m584oBlNbPjmI6GXT+7QXEHUzqS1DPuIXefYow5MJE
+         vyoMRHqg3YtvnLq2HkJQT8T+NvfTUe1dBoLpcE6aV+IestGyHCjmPv2ayh84PZICRY
+         32tt8O0jywGaA==
+Received: by mail.webtopbits.pl for <linux-edac@vger.kernel.org>; Fri,  2 Jun 2023 08:45:39 GMT
+Message-ID: <20230602085530-0.1.8w.5kjq.0.g6brym9pro@webtopbits.pl>
+Date:   Fri,  2 Jun 2023 08:45:39 GMT
+From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
+To:     <linux-edac@vger.kernel.org>
+Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
+X-Mailer: mail.webtopbits.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.104.170]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-When fails to allocate memory for layers or pvt_info, _edac_mc_free()
-will be called to release the resource of edac mc but mci->dev is not
-even initialized at that time. _edac_mc_free() will fail to release
-the allocated memory.
+Dzie=C5=84 dobry,
 
-Fixes: 0bbb265f7089 ("EDAC/mc: Get rid of silly one-shot struct allocation in edac_mc_alloc()")
-Signed-off-by: Miaohe Lin <linmiaohe@huawei.com>
----
- drivers/edac/edac_mc.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
 
-diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
-index 6faeb2ab3960..89dc5954d19e 100644
---- a/drivers/edac/edac_mc.c
-+++ b/drivers/edac/edac_mc.c
-@@ -364,6 +364,8 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
- 	mci = kzalloc(sizeof(struct mem_ctl_info), GFP_KERNEL);
- 	if (!mci)
- 		return NULL;
-+	mci->dev.release = mci_release;
-+	device_initialize(&mci->dev);
- 
- 	mci->layers = kcalloc(n_layers, sizeof(struct edac_mc_layer), GFP_KERNEL);
- 	if (!mci->layers)
-@@ -373,9 +375,6 @@ struct mem_ctl_info *edac_mc_alloc(unsigned int mc_num,
- 	if (!mci->pvt_info)
- 		goto error;
- 
--	mci->dev.release = mci_release;
--	device_initialize(&mci->dev);
--
- 	/* setup index and various internal pointers */
- 	mci->mc_idx = mc_num;
- 	mci->tot_dimms = tot_dimms;
--- 
-2.27.0
+Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
+alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
+=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
 
+Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
+g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
+=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
+mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
+ na oczekiwane rezultaty.
+
+Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
+stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
+ si=C4=99 skontaktowa=C4=87?
+
+
+Pozdrawiam
+Kamil Durjasz
