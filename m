@@ -2,63 +2,64 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6AD0C7EE2E
-	for <linux-edac@archiver.kernel.org>; Sat,  3 Jun 2023 09:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A178C7EE23
+	for <linux-edac@archiver.kernel.org>; Sun,  4 Jun 2023 16:05:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231864AbjFCJfC (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 3 Jun 2023 05:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
+        id S229449AbjFDQFI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sun, 4 Jun 2023 12:05:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230084AbjFCJez (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 3 Jun 2023 05:34:55 -0400
-X-Greylist: delayed 89344 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 02:34:53 PDT
-Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66933E56
-        for <linux-edac@vger.kernel.org>; Sat,  3 Jun 2023 02:34:53 -0700 (PDT)
-Received: by mail.webtopbits.pl (Postfix, from userid 1001)
-        id 24DB6A38FC; Fri,  2 Jun 2023 09:45:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
-        s=mail; t=1685695548;
-        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
-        h=Date:From:To:Subject:From;
-        b=spCxLwez+mhGa7md+pU5I6lZIawhuiS+2cuT9Y5TGfB4Xwx+a2sIxmITbANXUJwhB
-         vVxRmdPNvLeCwz9mf2pBy9St32ScOZ20858mLp71LAU7bJ/3nIu2q9qQrh7Ed+p/MT
-         MyVxk35KYGquch48Elo8n4SelAbZcX+d5ui4Ddv7LdaTHP3/4Mbqgi0HZaVDiBEfN1
-         ++QbvKr3iRVyYNMatwyXbKw5m584oBlNbPjmI6GXT+7QXEHUzqS1DPuIXefYow5MJE
-         vyoMRHqg3YtvnLq2HkJQT8T+NvfTUe1dBoLpcE6aV+IestGyHCjmPv2ayh84PZICRY
-         32tt8O0jywGaA==
-Received: by mail.webtopbits.pl for <linux-edac@vger.kernel.org>; Fri,  2 Jun 2023 08:45:39 GMT
-Message-ID: <20230602085530-0.1.8w.5kjq.0.g6brym9pro@webtopbits.pl>
-Date:   Fri,  2 Jun 2023 08:45:39 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
-To:     <linux-edac@vger.kernel.org>
-Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
-X-Mailer: mail.webtopbits.pl
+        with ESMTP id S230005AbjFDQFH (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sun, 4 Jun 2023 12:05:07 -0400
+Received: from lobo.ruivo.org (lobo.ruivo.org [173.14.175.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56352DE
+        for <linux-edac@vger.kernel.org>; Sun,  4 Jun 2023 09:05:05 -0700 (PDT)
+Received: by lobo.ruivo.org (Postfix, from userid 1011)
+        id 43BAB529B3; Sun,  4 Jun 2023 12:05:02 -0400 (EDT)
+Received: from jake.ruivo.org (bob.qemu.ruivo [192.168.72.19])
+        by lobo.ruivo.org (Postfix) with ESMTPA id EEABD5260A;
+        Sun,  4 Jun 2023 12:04:42 -0400 (EDT)
+Received: by jake.ruivo.org (Postfix, from userid 1000)
+        id E12EC220074; Sun,  4 Jun 2023 12:04:42 -0400 (EDT)
+Date:   Sun, 4 Jun 2023 12:04:42 -0400
+From:   Aristeu Rozanski <aris@ruivo.org>
+To:     "Luck, Tony" <tony.luck@intel.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        Aristeu Rozanski <aris@redhat.com>
+Subject: Re: [PATCH] mce: prevent concurrent polling of MCE events
+Message-ID: <20230604160442.GN4090740@cathedrallabs.org>
+References: <20230515143225.GC4090740@cathedrallabs.org>
+ <20230515145227.GGZGJHKyH9sAfToD03@fat_crate.local>
+ <SJ1PR11MB6083576B4BE589D6F04559A5FC789@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20230515183050.GJZGJ6Wsmr4Yf/H5Ps@fat_crate.local>
+ <SJ1PR11MB6083DC9538CDB6E7FA8B803BFC789@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20230515194423.GKZGKLl+8mJiLoJAp1@fat_crate.local>
+ <SJ1PR11MB6083B867B6B95820366C08BDFC789@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20230523141523.GL4090740@cathedrallabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230523141523.GL4090740@cathedrallabs.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Tue, May 23, 2023 at 10:15:23AM -0400, Aristeu Rozanski wrote:
+> On Mon, May 15, 2023 at 08:07:10PM +0000, Luck, Tony wrote:
+> > I disabled CMCI for debugging reasons. Aristeu needs to comment on
+> > his use case.
+> 
+> Got an answer from them. They disable it in two lines of products
+> (one uses IceLake, the other uses Sapphire Rapids) and in these lines
+> they can use thresholding to signal UCNA without signaling any corrected
+> events and it won't work with CMCI enabled. They did make Intel aware of
+> it (maybe you heard details about it? If not I can get them in contact with
+> you) but it's not certain if this can be fixed or not.
 
-w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
+Tony?
 
-Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
-alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
-=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
+-- 
+Aristeu
 
-Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
-g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
-=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
-mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
- na oczekiwane rezultaty.
-
-Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
-stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
- si=C4=99 skontaktowa=C4=87?
-
-
-Pozdrawiam
-Kamil Durjasz
