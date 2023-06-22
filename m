@@ -2,414 +2,145 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2C8EB64D8
-	for <linux-edac@archiver.kernel.org>; Thu, 22 Jun 2023 06:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F018EB64D8
+	for <linux-edac@archiver.kernel.org>; Thu, 22 Jun 2023 13:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjFVGmY (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 22 Jun 2023 02:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52568 "EHLO
+        id S229840AbjFVNS6 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 22 Jun 2023 09:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230136AbjFVGmX (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 22 Jun 2023 02:42:23 -0400
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2071.outbound.protection.outlook.com [40.107.95.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDBC019AB;
-        Wed, 21 Jun 2023 23:42:21 -0700 (PDT)
+        with ESMTP id S230187AbjFVNS5 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 22 Jun 2023 09:18:57 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E9A198;
+        Thu, 22 Jun 2023 06:18:56 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fG+ccaxzmSnRKED7nKS2/czB8QPXDTe/OI2UWNzgH5v3+5ZMaUW1D/Bhi3Km79a/gv7DxLG3dGvo3+iqgBXLbVZiDhv3phwMMUqAxSXYt0TLqveOACvNQlHwBvxYBI6+K13nAJBe8byTLW93Zar9or44xdo1LjPC1GzREIOHKW2d1gLxUYPzKLryYjmIMxNVrt/J3v27NCU7dO9eq7eEnvLPsAvPPRfmg/xlnCuj8u4iPSOTcs7qT8iRBz/8TTsD0epylYs5GVb0YTV668aA3cBbmuMGOJiDV6132c4ulb4fxI/oSxWw6E3rU1IQRL/M4g837mZf9Z5S4ciusiD93Q==
+ b=C6vxBYZN+rdE7ad220YvGz+/JjJnGHcjlZ/CrTddC/rNsKdsSdrefASFKQ5gYYopR/5bAQgnC42ADJ8CDheUJT27LaKMR4mZO3DaqYfnF9jj8zqJHkEshXVUNYfjQN3TiajAfpk+KftpuCOat2DMjmPWWhiTzR/34+Yw9/VYdoHHnMOYGr6yysQ6tLXLhKrM8LQlJ/k9f5ByfQ7O7jSEJe7Q3oLhaRT2ktJczde3cDaqtRu//46Ece84cCqeAG2zWwQ2aHWspN8h3M46KoeU4EIT8TW7ZK6n/8HaEoZfTWaTO+AVoOAeInLqrtFFB+r3c2vOURRbsQzo1vcikl63yA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HMqa0n9bFoHl7hzK9wPRKnG5YOiXC3bMF5kUyIN0OUI=;
- b=jmq12+pppJOzM59AD9DYX4HIFOHOVXmd9iUCZTDf+dsnnv/dx+vhoD5n6uS7Pj8LEJiz/xiex2qt20LsYRiOFud/GmWgk/SuMIBH9WuGwKSmrSXcoL+xbiveoyCqEedcsi3w0BLSej/WS/7jBagAtwpiKYjSCrTwqZa8JsTK1nNJYrTC2sLMvT8/4awpQ+4f2NxRnMGrsgJ2rDzUEQG6jn+WcX8DyQUrFSpmkOeHgbRpsm1QqJQ/nj4nfD5O9S19hqsbR9mWCQU6/c0AFOEykR4h7K1fdMvBTLb1abPzljmQ2Tr/D0I1bYhYQwr5/j343oNrgdpAx8PSfKt4tCqt8g==
+ bh=2KmocMG7BBQNO6Tdd3y0QzNKlMi08DyAx0t25guv2SU=;
+ b=Of/i0N3LRt0neAKn/ILKDZVuSUl5xSaCHzQ8C9/OVaTrx0oQ/hVwOTHL6k48frzM5nqSdzRFQ8IsckSPPBowtcVT/oly8swi6pT3C+HTrMhtdv8mQl3K2lcu3aelakuwbjxo9+6yiStpLCEjbR2ZzXceU/Jr5NHkCUzfteuowpXVBwvMCd8zPixB5Dt+7gNgH0NhfRXVoD3+8jyL4mO4mXCQCrqxzkuZslHWpwtzCJess5fcuat7ANFGqxM85R4IyaxKL1BXlyGGUShRBLhr6qZxl0UCjKiEOVJy2s5x5ZuPrXYq/DQMzJABrDOkaHaZEj8i0zBvKCsRz+tVrrdpKw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HMqa0n9bFoHl7hzK9wPRKnG5YOiXC3bMF5kUyIN0OUI=;
- b=S0akqZ/nP/Pe3RzM9tsB/UJHFS/zECrbw0pzkiOZSaNl5conSJl7Ct4yAroplV/ShuJrDW++BzRX/vObIaQ3S2kZYTagB5M9qw7f36RuTv9PXuiKUueWdUF27Ns3UJvbinAF0sJlmoFF5N3PU2Kd25MjM9cvjxlTFeRDdUvJ0OZUUs2L5Z5Qfmmue1ssqXrb9+0qUCEffR/hdGuBlhU0+8gMkbhzM/vDFvbpNN3rV812GQs48Du/5+zO4qXNx0hpQTOUd81Uhn55PUwcRPTOB5mAJyXfmburJESjkiQolbQt4L2Dezhi+XWoiZ6fB8NTgHuzjnFSDJxYV/Y+AO5BQA==
-Received: from BY3PR04CA0010.namprd04.prod.outlook.com (2603:10b6:a03:217::15)
- by DM4PR12MB7672.namprd12.prod.outlook.com (2603:10b6:8:103::18) with
+ bh=2KmocMG7BBQNO6Tdd3y0QzNKlMi08DyAx0t25guv2SU=;
+ b=q/VmTcLrQ/hy1cNd0cpt6aZCEnKdkJCEniLlx8cxvZuQPFeozDRvD/CG9KgsRJ675RZEMMa9zbfim8CNyT6kOwk9gy29pRPrhaL0ZXjmH58OfJNC+mSU6fYTOgXvWf5t3WB6UbIxFsG+WoW9bT2LeR40LP9iE+TfokMp/VeL6LQ=
+Received: from DM5PR08CA0041.namprd08.prod.outlook.com (2603:10b6:4:60::30) by
+ LV8PR12MB9081.namprd12.prod.outlook.com (2603:10b6:408:188::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.36; Thu, 22 Jun
- 2023 06:42:19 +0000
-Received: from CO1PEPF000042AD.namprd03.prod.outlook.com
- (2603:10b6:a03:217:cafe::d6) by BY3PR04CA0010.outlook.office365.com
- (2603:10b6:a03:217::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 22 Jun
+ 2023 13:18:55 +0000
+Received: from SA2PEPF0000150A.namprd04.prod.outlook.com
+ (2603:10b6:4:60:cafe::40) by DM5PR08CA0041.outlook.office365.com
+ (2603:10b6:4:60::30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24 via Frontend
- Transport; Thu, 22 Jun 2023 06:42:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CO1PEPF000042AD.mail.protection.outlook.com (10.167.243.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6521.17 via Frontend Transport; Thu, 22 Jun 2023 06:42:19 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Wed, 21 Jun 2023
- 23:42:08 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Wed, 21 Jun
- 2023 23:42:08 -0700
-Received: from vdi.nvidia.com (10.127.8.14) by mail.nvidia.com (10.129.68.7)
- with Microsoft SMTP Server id 15.2.986.37 via Frontend Transport; Wed, 21 Jun
- 2023 23:42:07 -0700
-From:   Shravan Kumar Ramani <shravankr@nvidia.com>
-To:     James Morse <james.morse@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Richter <rric@kernel.org>
-CC:     Shravan Kumar Ramani <shravankr@nvidia.com>,
-        <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v0 RESEND] EDAC/bluefield_edac: Add SMC support
-Date:   Thu, 22 Jun 2023 02:42:04 -0400
-Message-ID: <6cdf948948ddd9d5e8ff770b001a7c123465a8ea.1682581034.git.shravankr@nvidia.com>
-X-Mailer: git-send-email 2.30.1
+ Transport; Thu, 22 Jun 2023 13:18:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SA2PEPF0000150A.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6521.17 via Frontend Transport; Thu, 22 Jun 2023 13:18:54 +0000
+Received: from quartz-7b1chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 22 Jun
+ 2023 08:18:53 -0500
+From:   Yazen Ghannam <yazen.ghannam@amd.com>
+To:     <linux-edac@vger.kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <tony.luck@intel.com>,
+        <x86@kernel.org>, Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: [PATCH 1/2] x86/mce: Disable preemption for CPER decoding
+Date:   Thu, 22 Jun 2023 08:18:40 -0500
+Message-ID: <20230622131841.3153672-2-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230622131841.3153672-1-yazen.ghannam@amd.com>
+References: <20230622131841.3153672-1-yazen.ghannam@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042AD:EE_|DM4PR12MB7672:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7475b909-733f-48ed-37b1-08db72ebd386
+X-MS-TrafficTypeDiagnostic: SA2PEPF0000150A:EE_|LV8PR12MB9081:EE_
+X-MS-Office365-Filtering-Correlation-Id: e4939043-1299-49f5-0a02-08db73233a9e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eDIKVeYf/MeIIP434C9Q8dqjV2jI8F22mjy3xBWkTnfol0+rh7B1jNysTA33xfVN6qRnP6NZqmoQLzx1eCpZ/NdYdGdejmsOPEQeu+8dJmI1vdoAvcFlEdC/Z32/z37fvEusfAaBSoTo8URqCS4rgBqVrZFrnVOo6twG8c3Y8lDFwzTMotKUvAxZQ4bCQeSj/W2XenPnl+sYZ3b7YG+2ntv2T/tToCfD0A1zjntgMtfy9y4hWBkTLeJaqK56/CeQUgMpw70iECqnjkRDA++uLzVpnKA2OeFOkB0RGRfXSnmTrHiHX5f3T62WAMDBGDhTfhdBd61W6QLkcrIlt6E2QGlcdPe3dhI8nbAc4YZr/aAO42X066KD46mjY2gsc+LBuRzYRGC8sx3tcHA4508Y/B141ljOM6l9efDbe6KUDGNcJnJ4180xgQUtGnJHewmXatig8FLT/76/OSmxZGAuIYipE33y3BhK7u19dHM5TIHQmYmNv8e8tf6Ku6NysRmNfmnJRoztqYCVQ584GfR5MnGRldEXSd/+EzUqp5lipIKJBGCNX+ZGE5vNkX0/k80r2dT0iH+uVP/x/HwBiOsmjBPDfX4cIBIwLv63Mi+Btroz6BDr/RPVzJUI5q38fC7agadtUADG/hIRDK9Hm1oXxCbIMy7Pi8Eh3yqg9Cpw78enI3EtWsX5wpvH1nnCwdrU4UP4Qz2LcRY3OWID0XVbNTfWCgHnUUwrBQRVIBk0gWbmMk1mMOT42u3+zjAW5J+3
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(136003)(346002)(376002)(451199021)(36840700001)(46966006)(40470700004)(47076005)(8936002)(83380400001)(54906003)(6666004)(7696005)(316002)(41300700001)(8676002)(26005)(36756003)(86362001)(4326008)(2616005)(186003)(336012)(5660300002)(70206006)(82310400005)(110136005)(70586007)(426003)(7636003)(356005)(40460700003)(82740400003)(2906002)(478600001)(36860700001)(40480700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 06:42:19.3789
+X-Microsoft-Antispam-Message-Info: lqk8tB0rvuM/VmSA+Y5OEJ5GjRL3UqHKxkh0hOC0gQdS5uVbMpi8qMPlvZ4Ndtne98aPhPhaSPitrBE1YFcfxotYXkWjI733TkkTBL7tniZ3QOdpTCbgPuPilWvzRnEa/MfI7LUU2wenhkI6P8ESvCJnggE9uLXwWGUz665wP2mzyRmnAGWTRLvwU8F6rwoxOykxQ0+gRMKxDS4ozSoD8Qch27n5WSy3mr6ucCzUJeGDCZjMVPWVued4vq8F48TsWdC3hse9PDvsgped1eYF9oavNffDRXgXpCdofHgL2n1jOCaDlsv69xdVCaVWAEjI20Wa39Qh6LEYsDqNq12Ev8BRgugCkLIXeF/g00Kmsr9i9hl/40fzzHT4oDGublDAtAnKCf2KpAAvA6+RBhvxNLBjGrmFgYYoE2cQ1eHLIx0+xkgFXL4MC5367JeN1XlAyknvirtOLEIqzsIJfWNQpygRzQ9CyqZ7wqCfHCREtnMXWv4W+j4xOdiZimyBacaotPsBWRE6Bhh/+O7smPNfZJ03oQqCA3SiqYPXvb8ZImbb/QBExGuacS1GqVaVxZ6muWwYKtIh/AOIdnLU/n3kjYmKI1PKz42GrUs1GX/LxzA8JTDLkzrl0MYI9Pl77EWQXZn9bJz8QzK/BZ1XjbHXMHu1ke2V0L7vR9OoTONV/yW3utIKfenI2lSSCz+GHHNr7fKNSPRQSuYt5l9y2sSm/mqFpdcUn1fDj24wUJcweL5htRjZTpTOg9OuMDfbIuULbd177Pg8KF96qb0nad9yaw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(39860400002)(396003)(451199021)(36840700001)(46966006)(40470700004)(70206006)(70586007)(4326008)(316002)(8676002)(8936002)(6916009)(16526019)(41300700001)(26005)(186003)(2616005)(1076003)(54906003)(40460700003)(6666004)(426003)(336012)(7696005)(82310400005)(2906002)(5660300002)(478600001)(40480700001)(44832011)(81166007)(356005)(82740400003)(47076005)(36860700001)(83380400001)(36756003)(86362001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 13:18:54.6917
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7475b909-733f-48ed-37b1-08db72ebd386
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042AD.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4939043-1299-49f5-0a02-08db73233a9e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF0000150A.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7672
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9081
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add secure read/write calls to bluefield_edac. The ACPI
-table entry decides whether the secure calls need to be
-used for accessing the EMI registers.
+Scalable MCA systems may report errors found during boot-time polling
+through the ACPI Boot Error Record Table (BERT). The errors are logged
+in an "x86 Processor" Common Platform Error Record (CPER). The format of
+the x86 CPER does not include a logical CPU number, but it does provide
+the logical APIC ID for the logical CPU. Also, it does not explicitly
+provide MCA error information, but it can share this information using
+an "MSR Context" defined in the CPER format.
 
-Signed-off-by: Shravan Kumar Ramani <shravankr@nvidia.com>
+The MCA error information is parsed by
+1) Checking that the context matches the Scalable MCA register space.
+2) Finding the logical CPU that matches the logical APIC ID from the
+   CPER.
+3) Filling in struct mce with the relevant data and logging it.
+
+All the above is done when the BERT is processed during late init. This
+can be scheduled on any CPU, and it may be preemptible.
+
+This results in two issues.
+1) mce_setup() includes a call to smp_processor_id(). This will throw a
+   warning if preemption is enabled.
+2) mce_setup() will pull info from the executing CPU, so some info in
+   struct mce may be incorrect for the CPU with the error. For example,
+   in a dual-socket system, an error logged in socket 1 CPU but
+   processed by a socket 0 CPU will save the PPIN of the socket 0 CPU.
+
+Fix the first issue by locally disabling preemption before calling
+mce_setup().
+
+Fixes: 4a24d80b8c3e ("x86/mce, cper: Pass x86 CPER through the MCA handling chain")
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: stable@vger.kernel.org
 ---
- drivers/edac/bluefield_edac.c | 176 ++++++++++++++++++++++++++++++----
- 1 file changed, 156 insertions(+), 20 deletions(-)
+ arch/x86/kernel/cpu/mce/apei.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/edac/bluefield_edac.c b/drivers/edac/bluefield_edac.c
-index e4736eb37bfb..cb9e42ef64d1 100644
---- a/drivers/edac/bluefield_edac.c
-+++ b/drivers/edac/bluefield_edac.c
-@@ -47,13 +47,25 @@
- #define MLXBF_EDAC_MAX_DIMM_PER_MC	2
- #define MLXBF_EDAC_ERROR_GRAIN		8
+diff --git a/arch/x86/kernel/cpu/mce/apei.c b/arch/x86/kernel/cpu/mce/apei.c
+index 8ed341714686..2a7a51ca2995 100644
+--- a/arch/x86/kernel/cpu/mce/apei.c
++++ b/arch/x86/kernel/cpu/mce/apei.c
+@@ -97,7 +97,9 @@ int apei_smca_report_x86_error(struct cper_ia_proc_ctx *ctx_info, u64 lapic_id)
+ 	if (ctx_info->reg_arr_size < 48)
+ 		return -EINVAL;
  
-+#define MLXBF_WRITE_REG_32		(0x82000009)
-+#define MLXBF_READ_REG_32		(0x8200000A)
-+#define MLXBF_WRITE_REG_64		(0x8200000B)
-+#define MLXBF_READ_REG_64		(0x8200000C)
-+#define MLXBF_SIP_SVC_UID		(0x8200ff01)
-+#define MLXBF_SIP_SVC_VERSION		(0x8200ff03)
-+
-+#define MLXBF_SMCCC_ACCESS_VIOLATION	(-4)
-+
-+#define MLXBF_SVC_REQ_MAJOR		0
-+#define MLXBF_SVC_REQ_MINOR		3
-+
- /*
-- * Request MLNX_SIP_GET_DIMM_INFO
-+ * Request MLXBF_SIP_GET_DIMM_INFO
-  *
-  * Retrieve information about DIMM on a certain slot.
-  *
-  * Call register usage:
-- * a0: MLNX_SIP_GET_DIMM_INFO
-+ * a0: MLXBF_SIP_GET_DIMM_INFO
-  * a1: (Memory controller index) << 16 | (Dimm index in memory controller)
-  * a2-7: not used.
-  *
-@@ -61,7 +73,7 @@
-  * a0: MLXBF_DIMM_INFO defined below describing the DIMM.
-  * a1-3: not used.
-  */
--#define MLNX_SIP_GET_DIMM_INFO		0x82000008
-+#define MLXBF_SIP_GET_DIMM_INFO		0x82000008
++	get_cpu();
+ 	mce_setup(&m);
++	put_cpu();
  
- /* Format for the SMC response about the memory information */
- #define MLXBF_DIMM_INFO__SIZE_GB GENMASK_ULL(15, 0)
-@@ -72,9 +84,12 @@
- #define MLXBF_DIMM_INFO__PACKAGE_X GENMASK_ULL(31, 24)
- 
- struct bluefield_edac_priv {
-+	struct device *dev;
- 	int dimm_ranks[MLXBF_EDAC_MAX_DIMM_PER_MC];
- 	void __iomem *emi_base;
- 	int dimm_per_mc;
-+	bool svc_sreg_support;
-+	u32 sreg_tbl_edac;
- };
- 
- static u64 smc_call1(u64 smc_op, u64 smc_arg)
-@@ -86,6 +101,71 @@ static u64 smc_call1(u64 smc_op, u64 smc_arg)
- 	return res.a0;
- }
- 
-+static int secure_readl(void __iomem *addr, uint32_t *result, uint32_t sreg_tbl)
-+{
-+	struct arm_smccc_res res;
-+	int status;
-+
-+	arm_smccc_smc(MLXBF_READ_REG_32, sreg_tbl, (uintptr_t)addr,
-+		      0, 0, 0, 0, 0, &res);
-+
-+	status = res.a0;
-+
-+	switch (status) {
-+	case SMCCC_RET_NOT_SUPPORTED:
-+	case MLXBF_SMCCC_ACCESS_VIOLATION:
-+		return -1;
-+	default:
-+		*result = (uint32_t)res.a1;
-+		return 0;
-+	}
-+}
-+
-+static int secure_writel(void __iomem *addr, uint32_t data, uint32_t sreg_tbl)
-+{
-+	struct arm_smccc_res res;
-+	int status;
-+
-+	arm_smccc_smc(MLXBF_WRITE_REG_32, sreg_tbl, data, (uintptr_t)addr,
-+		      0, 0, 0, 0, &res);
-+
-+	status = res.a0;
-+
-+	switch (status) {
-+	case SMCCC_RET_NOT_SUPPORTED:
-+	case MLXBF_SMCCC_ACCESS_VIOLATION:
-+		return -1;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static int edac_readl(void __iomem *addr, uint32_t *result,
-+		      bool sreg_support, uint32_t sreg_tbl)
-+{
-+	int err = 0;
-+
-+	if (sreg_support)
-+		err = secure_readl(addr, result, sreg_tbl);
-+	else
-+		*result = readl(addr);
-+
-+	return err;
-+}
-+
-+static int edac_writel(void __iomem *addr, uint32_t data,
-+		       bool sreg_support, uint32_t sreg_tbl)
-+{
-+	int err = 0;
-+
-+	if (sreg_support)
-+		err = secure_writel(addr, data, sreg_tbl);
-+	else
-+		writel(data, addr);
-+
-+	return err;
-+}
-+
- /*
-  * Gather the ECC information from the External Memory Interface registers
-  * and report it to the edac handler.
-@@ -99,7 +179,7 @@ static void bluefield_gather_report_ecc(struct mem_ctl_info *mci,
- 	u32 ecc_latch_select, dram_syndrom, serr, derr, syndrom;
- 	enum hw_event_mc_err_type ecc_type;
- 	u64 ecc_dimm_addr;
--	int ecc_dimm;
-+	int ecc_dimm, err;
- 
- 	ecc_type = is_single_ecc ? HW_EVENT_ERR_CORRECTED :
- 				   HW_EVENT_ERR_UNCORRECTED;
-@@ -109,14 +189,22 @@ static void bluefield_gather_report_ecc(struct mem_ctl_info *mci,
- 	 * registers with information about the last ECC error occurrence.
- 	 */
- 	ecc_latch_select = MLXBF_ECC_LATCH_SEL__START;
--	writel(ecc_latch_select, priv->emi_base + MLXBF_ECC_LATCH_SEL);
-+	err = edac_writel(priv->emi_base + MLXBF_ECC_LATCH_SEL,
-+			  ecc_latch_select, priv->svc_sreg_support,
-+			  priv->sreg_tbl_edac);
-+	if (err)
-+		dev_err(priv->dev, "ECC latch select write failed.\n");
- 
- 	/*
- 	 * Verify that the ECC reported info in the registers is of the
- 	 * same type as the one asked to report. If not, just report the
- 	 * error without the detailed information.
- 	 */
--	dram_syndrom = readl(priv->emi_base + MLXBF_SYNDROM);
-+	err = edac_readl(priv->emi_base + MLXBF_SYNDROM, &dram_syndrom,
-+			 priv->svc_sreg_support, priv->sreg_tbl_edac);
-+	if (err)
-+		dev_err(priv->dev, "DRAM syndrom read failed.\n");
-+
- 	serr = FIELD_GET(MLXBF_SYNDROM__SERR, dram_syndrom);
- 	derr = FIELD_GET(MLXBF_SYNDROM__DERR, dram_syndrom);
- 	syndrom = FIELD_GET(MLXBF_SYNDROM__SYN, dram_syndrom);
-@@ -127,13 +215,24 @@ static void bluefield_gather_report_ecc(struct mem_ctl_info *mci,
- 		return;
- 	}
- 
--	dram_additional_info = readl(priv->emi_base + MLXBF_ADD_INFO);
-+	err = edac_readl(priv->emi_base + MLXBF_ADD_INFO, &dram_additional_info,
-+			 priv->svc_sreg_support, priv->sreg_tbl_edac);
-+	if (err)
-+		dev_err(priv->dev, "DRAM additional info read failed.\n");
-+
- 	err_prank = FIELD_GET(MLXBF_ADD_INFO__ERR_PRANK, dram_additional_info);
- 
- 	ecc_dimm = (err_prank >= 2 && priv->dimm_ranks[0] <= 2) ? 1 : 0;
- 
--	edea0 = readl(priv->emi_base + MLXBF_ERR_ADDR_0);
--	edea1 = readl(priv->emi_base + MLXBF_ERR_ADDR_1);
-+	err = edac_readl(priv->emi_base + MLXBF_ERR_ADDR_0, &edea0,
-+			 priv->svc_sreg_support, priv->sreg_tbl_edac);
-+	if (err)
-+		dev_err(priv->dev, "Error addr 0 read failed.\n");
-+
-+	err = edac_readl(priv->emi_base + MLXBF_ERR_ADDR_1, &edea1,
-+			 priv->svc_sreg_support, priv->sreg_tbl_edac);
-+	if (err)
-+		dev_err(priv->dev, "Error addr 1 read failed.\n");
- 
- 	ecc_dimm_addr = ((u64)edea1 << 32) | edea0;
- 
-@@ -147,6 +246,7 @@ static void bluefield_edac_check(struct mem_ctl_info *mci)
- {
- 	struct bluefield_edac_priv *priv = mci->pvt_info;
- 	u32 ecc_count, single_error_count, double_error_count, ecc_error = 0;
-+	int err;
- 
- 	/*
- 	 * The memory controller might not be initialized by the firmware
-@@ -155,7 +255,11 @@ static void bluefield_edac_check(struct mem_ctl_info *mci)
- 	if (mci->edac_cap == EDAC_FLAG_NONE)
- 		return;
- 
--	ecc_count = readl(priv->emi_base + MLXBF_ECC_CNT);
-+	err = edac_readl(priv->emi_base + MLXBF_ECC_CNT, &ecc_count,
-+			 priv->svc_sreg_support, priv->sreg_tbl_edac);
-+	if (err)
-+		dev_err(priv->dev, "ECC count read failed.\n");
-+
- 	single_error_count = FIELD_GET(MLXBF_ECC_CNT__SERR_CNT, ecc_count);
- 	double_error_count = FIELD_GET(MLXBF_ECC_CNT__DERR_CNT, ecc_count);
- 
-@@ -172,15 +276,19 @@ static void bluefield_edac_check(struct mem_ctl_info *mci)
- 	}
- 
- 	/* Write to clear reported errors. */
--	if (ecc_count)
--		writel(ecc_error, priv->emi_base + MLXBF_ECC_ERR);
-+	if (ecc_count) {
-+		err = edac_writel(priv->emi_base + MLXBF_ECC_ERR, ecc_error,
-+				  priv->svc_sreg_support, priv->sreg_tbl_edac);
-+		if (err)
-+			dev_err(priv->dev, "ECC Error write failed.\n");
-+	}
- }
- 
- /* Initialize the DIMMs information for the given memory controller. */
- static void bluefield_edac_init_dimms(struct mem_ctl_info *mci)
- {
- 	struct bluefield_edac_priv *priv = mci->pvt_info;
--	int mem_ctrl_idx = mci->mc_idx;
-+	u64 mem_ctrl_idx = mci->mc_idx;
- 	struct dimm_info *dimm;
- 	u64 smc_info, smc_arg;
- 	int is_empty = 1, i;
-@@ -189,7 +297,7 @@ static void bluefield_edac_init_dimms(struct mem_ctl_info *mci)
- 		dimm = mci->dimms[i];
- 
- 		smc_arg = mem_ctrl_idx << 16 | i;
--		smc_info = smc_call1(MLNX_SIP_GET_DIMM_INFO, smc_arg);
-+		smc_info = smc_call1(MLXBF_SIP_GET_DIMM_INFO, smc_arg);
- 
- 		if (!FIELD_GET(MLXBF_DIMM_INFO__SIZE_GB, smc_info)) {
- 			dimm->mtype = MEM_EMPTY;
-@@ -244,6 +352,7 @@ static int bluefield_edac_mc_probe(struct platform_device *pdev)
- 	struct bluefield_edac_priv *priv;
- 	struct device *dev = &pdev->dev;
- 	struct edac_mc_layer layers[1];
-+	struct arm_smccc_res res;
- 	struct mem_ctl_info *mci;
- 	struct resource *emi_res;
- 	unsigned int mc_idx, dimm_count;
-@@ -280,12 +389,40 @@ static int bluefield_edac_mc_probe(struct platform_device *pdev)
- 
- 	priv = mci->pvt_info;
- 
-+	/*
-+	 * ACPI indicates whether we use SMCs to access registers or not.
-+	 * If sreg_tbl_perf is not present, just assume we're not using SMCs.
-+	 */
-+	if (device_property_read_u32(dev,
-+				     "sec_reg_block", &priv->sreg_tbl_edac)) {
-+		priv->svc_sreg_support = false;
-+	} else {
-+		/*
-+		 * Check service version to see if we actually do support the
-+		 * needed SMCs. If we have the calls we need, mark support for
-+		 * them in the pmc struct.
-+		 */
-+		arm_smccc_smc(MLXBF_SIP_SVC_VERSION, 0, 0, 0, 0, 0, 0, 0, &res);
-+		if (res.a0 == MLXBF_SVC_REQ_MAJOR &&
-+		    res.a1 >= MLXBF_SVC_REQ_MINOR) {
-+			priv->svc_sreg_support = true;
-+		} else {
-+			dev_err(dev, "Required SMCs are not supported.\n");
-+			ret = -EINVAL;
-+			goto err;
-+		}
-+	}
-+
- 	priv->dimm_per_mc = dimm_count;
--	priv->emi_base = devm_ioremap_resource(dev, emi_res);
--	if (IS_ERR(priv->emi_base)) {
--		dev_err(dev, "failed to map EMI IO resource\n");
--		ret = PTR_ERR(priv->emi_base);
--		goto err;
-+	if (!priv->svc_sreg_support) {
-+		priv->emi_base = devm_ioremap_resource(dev, emi_res);
-+		if (IS_ERR(priv->emi_base)) {
-+			dev_err(dev, "failed to map EMI IO resource\n");
-+			ret = PTR_ERR(priv->emi_base);
-+			goto err;
-+		}
-+	} else {
-+		priv->emi_base = (void __iomem *)emi_res->start;
- 	}
- 
- 	mci->pdev = dev;
-@@ -320,7 +457,6 @@ static int bluefield_edac_mc_probe(struct platform_device *pdev)
- 	edac_mc_free(mci);
- 
- 	return ret;
--
- }
- 
- static int bluefield_edac_mc_remove(struct platform_device *pdev)
+ 	m.extcpu = -1;
+ 	m.socketid = -1;
 -- 
-2.30.1
+2.34.1
 
