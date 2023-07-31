@@ -2,47 +2,43 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95DECC001DF
-	for <linux-edac@archiver.kernel.org>; Mon, 31 Jul 2023 07:14:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F262EC001DF
+	for <linux-edac@archiver.kernel.org>; Mon, 31 Jul 2023 09:44:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231394AbjGaHOy (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 31 Jul 2023 03:14:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53066 "EHLO
+        id S232359AbjGaJoF (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 31 Jul 2023 05:44:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231389AbjGaHMT (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 31 Jul 2023 03:12:19 -0400
-Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDBD3C2F;
-        Mon, 31 Jul 2023 00:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690787425; x=1722323425;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=g76n0qqOm69A/O2uudI0FugS1H+Frufn6xIPQbl7rb0=;
-  b=jMH4gTLRnsxoiPbhogqlJMq1DJBR7igoG12cNvXjV7ZVulpLOKH0o1+W
-   1Xzl+n3dO50lcZjAbaKCufhe3xHOyPfIpwakzmf+/wwxaYku11GWzJ7yP
-   SJSpyDJwIR9hbUD3oDFWhdN+SW9qxR2WeV/zcUbhXcbMcUyPRHZv7J+gf
-   17GTZWMZZfvSe/ETEbhTzDhQO/kHTUgDWLVF0yxJy3RJ4oFWFfl6lAxUI
-   9gke3crME7gla6vaOddT5JFkpM9TXaaLlvmqIfefe5J6kNHrY6D3GEBi/
-   DYvwMt8SHUWYHSEFXJnepjpPenMKrBPEaybm+8ug13xyjFAx2eFfSehyN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="432750225"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="432750225"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:10:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="798157799"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="798157799"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga004.fm.intel.com with ESMTP; 31 Jul 2023 00:10:09 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S232228AbjGaJns (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 31 Jul 2023 05:43:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F5EB1722;
+        Mon, 31 Jul 2023 02:43:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C789C60FE0;
+        Mon, 31 Jul 2023 09:43:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF064C433C8;
+        Mon, 31 Jul 2023 09:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1690796608;
+        bh=lbshF7OnIf+ShzXg9sWYCNJD7v4GqiDpC1WTlweUVIw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jA6auAhOhFj5SZDRCEf2dZqVFRoPfsG08UJgYypsJjaXcRuJIvWWXIhRSIIpK9Shp
+         ozxGEb8OrB52TVM8mvm6ELO8Bjvc6MZms4+pZNp8MBiqt7lnp5HCLoP4RNq0RueNAE
+         YX4r/uBUyO5sdRou/PP4ipFPMyYT0OrMBm/sRc9Ve5fThd2+57fTvl7t9ZhmEPp3Lh
+         4WOZyZUfl3Fb2BviKBayRNiLZWEo8DDunJYoijrZCjHyF/UqD/cxDXnG8Rux4UZNCu
+         c7Iw4n7RRvscYp7z4hzCMxtPFNgpvghtt00/1Tcd/0d63wKan/msaki0A7NIwthB9K
+         +Se4fZCsj8nSQ==
+Date:   Mon, 31 Jul 2023 18:43:09 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     Xin Li <xin3.li@intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
@@ -67,7 +63,6 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Kim Phillips <kim.phillips@amd.com>,
-        Xin Li <xin3.li@intel.com>,
         Hyeonggon Yoo <42.hyeyoo@gmail.com>,
         "Liam R . Howlett" <Liam.Howlett@Oracle.com>,
         Sebastian Reichel <sebastian.reichel@collabora.com>,
@@ -107,60 +102,75 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH v9 34/36] x86/syscall: Split IDT syscall setup code into idt_syscall_init()
-Date:   Sun, 30 Jul 2023 23:41:31 -0700
-Message-Id: <20230731064133.3881-5-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230731064133.3881-1-xin3.li@intel.com>
-References: <20230731064133.3881-1-xin3.li@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v9 05/36] x86/opcode: Add ERETU, ERETS instructions to
+ x86-opcode-map
+Message-Id: <20230731184309.9888dfd44fa1a5fd69c779cd@kernel.org>
+In-Reply-To: <20230731063317.3720-6-xin3.li@intel.com>
+References: <20230731063317.3720-1-xin3.li@intel.com>
+        <20230731063317.3720-6-xin3.li@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Split IDT syscall setup code into idt_syscall_init() to make it
-cleaner to add FRED syscall setup code.
+On Sun, 30 Jul 2023 23:32:46 -0700
+Xin Li <xin3.li@intel.com> wrote:
 
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
- arch/x86/kernel/cpu/common.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+> From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
+> 
+> Add instruction opcodes used by FRED ERETU/ERETS to x86-opcode-map.
+> 
+> Opcode numbers are per FRED spec v5.0.
+> 
+> Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> Signed-off-by: Xin Li <xin3.li@intel.com>
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 331b06d19f7f..bb03dacc5fb8 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -2027,10 +2027,8 @@ static void wrmsrl_cstar(unsigned long val)
- 		wrmsrl(MSR_CSTAR, val);
- }
- 
--/* May not be marked __init: used by software suspend */
--void syscall_init(void)
-+static inline void idt_syscall_init(void)
- {
--	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
- 	wrmsrl(MSR_LSTAR, (unsigned long)entry_SYSCALL_64);
- 
- #ifdef CONFIG_IA32_EMULATION
-@@ -2064,6 +2062,15 @@ void syscall_init(void)
- 	       X86_EFLAGS_AC|X86_EFLAGS_ID);
- }
- 
-+/* May not be marked __init: used by software suspend */
-+void syscall_init(void)
-+{
-+	/* The default user and kernel segments */
-+	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
-+
-+	idt_syscall_init();
-+}
-+
- #else	/* CONFIG_X86_64 */
- 
- #ifdef CONFIG_STACKPROTECTOR
+This looks good to me. (ERETS has the opcode F2 0F 01 CA, ERETU
+has the opcode F3 0F 01 CA)
+
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thank you,
+
+> ---
+>  arch/x86/lib/x86-opcode-map.txt       | 2 +-
+>  tools/arch/x86/lib/x86-opcode-map.txt | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+> index 5168ee0360b2..7a269e269dc0 100644
+> --- a/arch/x86/lib/x86-opcode-map.txt
+> +++ b/arch/x86/lib/x86-opcode-map.txt
+> @@ -1052,7 +1052,7 @@ EndTable
+>  
+>  GrpTable: Grp7
+>  0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
+> -1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
+> +1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+>  2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+>  3: LIDT Ms
+>  4: SMSW Mw/Rv
+> diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
+> index 5168ee0360b2..7a269e269dc0 100644
+> --- a/tools/arch/x86/lib/x86-opcode-map.txt
+> +++ b/tools/arch/x86/lib/x86-opcode-map.txt
+> @@ -1052,7 +1052,7 @@ EndTable
+>  
+>  GrpTable: Grp7
+>  0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
+> -1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
+> +1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+>  2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+>  3: LIDT Ms
+>  4: SMSW Mw/Rv
+> -- 
+> 2.34.1
+> 
+
+
 -- 
-2.34.1
-
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
