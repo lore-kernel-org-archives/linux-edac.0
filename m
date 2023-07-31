@@ -2,41 +2,41 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E15C10F00
-	for <linux-edac@archiver.kernel.org>; Mon, 31 Jul 2023 07:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9FBAC05051
+	for <linux-edac@archiver.kernel.org>; Mon, 31 Jul 2023 07:02:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbjGaHCJ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 31 Jul 2023 03:02:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42652 "EHLO
+        id S230448AbjGaHCM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 31 Jul 2023 03:02:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbjGaHCG (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 31 Jul 2023 03:02:06 -0400
+        with ESMTP id S230418AbjGaHCJ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Mon, 31 Jul 2023 03:02:09 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F220186;
-        Mon, 31 Jul 2023 00:02:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F67E75;
+        Mon, 31 Jul 2023 00:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690786925; x=1722322925;
+  t=1690786928; x=1722322928;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+857ZiZ3kYB9kvyULHXUrCarfExj5Gil+GQ461ib92M=;
-  b=NE4em+KwgK+XoH/U7xVPtrVo6rpE0Dy4VRKTigLSgq2pLWRSRYyeqyT3
-   zk9R/n0uB1yqFlMwabpgzPknIwroSMZGdFeDA9P4INOL8lZO5uj4+qg2f
-   uQ/q13Nh8u59aehP0x2GChul1f6nXuab2LXKaekVEnDfUUDvH0mJu0f5d
-   ASibBM4CfGnxm+gbGWJnjDnaUsNuPOpwEn/sFWJtYmoPslM9l6j6HiXTF
-   opnY/E8H8M2V1fd8NhPA6NqaSybSK9paXNHhujmFdTHmlW4D82ybYB/+5
-   tUQCzMUtQCMjk6gvtq/d9eg1cI5o+9RYcg4N9LdnCIjRevhybKUFqivzN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371648781"
+  bh=4BQfFZvfF2FO6NJuqP2rESZLyKeNKRqaVIW2rUp/ej0=;
+  b=cF7XRDwAKTjuuVKtgbseu/ZpyezQjKakUB+gzqfjSXcV9KQb647sywGP
+   FeD3RIoGZZ4DA/61OVfF1M0dGTmv+FA+ebd7NdcTnZZhPhnKaUrmOTnJc
+   DddYi9KRe8L+8nE5ha8yif34TsWufvoBVHteUxKgaQbePrXDxVx9uU+hy
+   3Kwu2WbYIodq0FO3iAmubdKoqal+QOpESg/Miowha8tL9VjSe9s8bHaiu
+   lVQQCrZhI7dwlzxdcW8JMAez7veZmQUD1TI6MnfwdzfYtQdTpMbckCNKF
+   h4UkfbmRC7PCuJFdaIdqKYRVfqLgpEc+zgm21uIKY/SuWBaGBQVKNLzpu
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="371648855"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="371648781"
+   d="scan'208";a="371648855"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:01:55 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:01:57 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="871543364"
+   d="scan'208";a="871543375"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:01:56 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2023 00:01:58 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -106,9 +106,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH v9 06/36] x86/objtool: Teach objtool about ERETU and ERETS
-Date:   Sun, 30 Jul 2023 23:32:47 -0700
-Message-Id: <20230731063317.3720-7-xin3.li@intel.com>
+Subject: [PATCH v9 08/36] x86/cpu: Add MSR numbers for FRED configuration
+Date:   Sun, 30 Jul 2023 23:32:49 -0700
+Message-Id: <20230731063317.3720-9-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230731063317.3720-1-xin3.li@intel.com>
 References: <20230731063317.3720-1-xin3.li@intel.com>
@@ -120,46 +120,67 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Update the objtool decoder to know about the ERETU and ERETS
-instructions (type INSN_CONTEXT_SWITCH).
+Add MSR numbers for the FRED configuration registers.
 
+Originally-by: Megha Dey <megha.dey@intel.com>
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- tools/objtool/arch/x86/decode.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ arch/x86/include/asm/msr-index.h       | 13 ++++++++++++-
+ tools/arch/x86/include/asm/msr-index.h | 13 ++++++++++++-
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
-index 2e1caabecb18..a486485cff20 100644
---- a/tools/objtool/arch/x86/decode.c
-+++ b/tools/objtool/arch/x86/decode.c
-@@ -509,11 +509,20 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index a00a53e15ab7..111fb76f6dbe 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -36,8 +36,19 @@
+ #define EFER_FFXSR		(1<<_EFER_FFXSR)
+ #define EFER_AUTOIBRS		(1<<_EFER_AUTOIBRS)
  
- 		if (op2 == 0x01) {
+-/* Intel MSRs. Some also available on other CPUs */
++/* FRED MSRs */
++#define MSR_IA32_FRED_RSP0	0x1cc /* Level 0 stack pointer */
++#define MSR_IA32_FRED_RSP1	0x1cd /* Level 1 stack pointer */
++#define MSR_IA32_FRED_RSP2	0x1ce /* Level 2 stack pointer */
++#define MSR_IA32_FRED_RSP3	0x1cf /* Level 3 stack pointer */
++#define MSR_IA32_FRED_STKLVLS	0x1d0 /* Exception stack levels */
++#define MSR_IA32_FRED_SSP0	MSR_IA32_PL0_SSP /* Level 0 shadow stack pointer */
++#define MSR_IA32_FRED_SSP1	0x1d1 /* Level 1 shadow stack pointer */
++#define MSR_IA32_FRED_SSP2	0x1d2 /* Level 2 shadow stack pointer */
++#define MSR_IA32_FRED_SSP3	0x1d3 /* Level 3 shadow stack pointer */
++#define MSR_IA32_FRED_CONFIG	0x1d4 /* Entrypoint and interrupt stack level */
  
--			if (modrm == 0xca)
--				insn->type = INSN_CLAC;
--			else if (modrm == 0xcb)
--				insn->type = INSN_STAC;
--
-+			switch (insn_last_prefix_id(&ins)) {
-+			case INAT_PFX_REPE:
-+			case INAT_PFX_REPNE:
-+				if (modrm == 0xca)
-+					/* eretu/erets */
-+					insn->type = INSN_CONTEXT_SWITCH;
-+				break;
-+			default:
-+				if (modrm == 0xca)
-+					insn->type = INSN_CLAC;
-+				else if (modrm == 0xcb)
-+					insn->type = INSN_STAC;
-+				break;
-+			}
- 		} else if (op2 >= 0x80 && op2 <= 0x8f) {
++/* Intel MSRs. Some also available on other CPUs */
+ #define MSR_TEST_CTRL				0x00000033
+ #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT	29
+ #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT		BIT(MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT)
+diff --git a/tools/arch/x86/include/asm/msr-index.h b/tools/arch/x86/include/asm/msr-index.h
+index 3aedae61af4f..565cade0785a 100644
+--- a/tools/arch/x86/include/asm/msr-index.h
++++ b/tools/arch/x86/include/asm/msr-index.h
+@@ -36,8 +36,19 @@
+ #define EFER_FFXSR		(1<<_EFER_FFXSR)
+ #define EFER_AUTOIBRS		(1<<_EFER_AUTOIBRS)
  
- 			insn->type = INSN_JUMP_CONDITIONAL;
+-/* Intel MSRs. Some also available on other CPUs */
++/* FRED MSRs */
++#define MSR_IA32_FRED_RSP0	0x1cc /* Level 0 stack pointer */
++#define MSR_IA32_FRED_RSP1	0x1cd /* Level 1 stack pointer */
++#define MSR_IA32_FRED_RSP2	0x1ce /* Level 2 stack pointer */
++#define MSR_IA32_FRED_RSP3	0x1cf /* Level 3 stack pointer */
++#define MSR_IA32_FRED_STKLVLS	0x1d0 /* Exception stack levels */
++#define MSR_IA32_FRED_SSP0	MSR_IA32_PL0_SSP /* Level 0 shadow stack pointer */
++#define MSR_IA32_FRED_SSP1	0x1d1 /* Level 1 shadow stack pointer */
++#define MSR_IA32_FRED_SSP2	0x1d2 /* Level 2 shadow stack pointer */
++#define MSR_IA32_FRED_SSP3	0x1d3 /* Level 3 shadow stack pointer */
++#define MSR_IA32_FRED_CONFIG	0x1d4 /* Entrypoint and interrupt stack level */
+ 
++/* Intel MSRs. Some also available on other CPUs */
+ #define MSR_TEST_CTRL				0x00000033
+ #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT	29
+ #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT		BIT(MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT)
 -- 
 2.34.1
 
