@@ -2,61 +2,123 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 673A4C04FDF
-	for <linux-edac@archiver.kernel.org>; Tue,  1 Aug 2023 11:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA852C0015E
+	for <linux-edac@archiver.kernel.org>; Tue,  1 Aug 2023 13:03:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233272AbjHAL6D (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 1 Aug 2023 07:58:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49804 "EHLO
+        id S232568AbjHANDO (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 1 Aug 2023 09:03:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234448AbjHAL57 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Aug 2023 07:57:59 -0400
-Received: from mail.cothiafon.pl (mail.cothiafon.pl [217.61.106.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08511A1
-        for <linux-edac@vger.kernel.org>; Tue,  1 Aug 2023 04:57:59 -0700 (PDT)
-Received: by mail.cothiafon.pl (Postfix, from userid 1002)
-        id A988383126; Mon, 31 Jul 2023 10:36:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cothiafon.pl; s=mail;
-        t=1690792563; bh=dwoca0X6C9VXklO/zRgFQCPapTk5LFz4tKaENdvy6Po=;
-        h=Date:From:To:Subject:From;
-        b=QSJLobZzl+QUfGYsX93huASFaoxXr8L3J6o9DPcK3YsEORPM2aIF0RaioRtiPw9xT
-         VrGHK6mzrIezdixR9ePFXlKTqvTkB2CC5mwl5kj/24KXJwnd6ngIzqtHQ7Dli+e8vp
-         iXWqcY1qKosdO12LJCatzhCG/rrapjnYuUTu0MYuoSTQqq7/mGeOV8wIaf9R3iCxBP
-         Lw4ATzHuDrrVPvxXNrBVExECZ1w6+wdBacif70fKOCxKkIAd7n1defwrHsUQ8qy0r3
-         JKgmLcI8abTmZjIqDSKmfC0MBuiuJImAB4SQeWAAkLejk+W2vbEP0mwS6sBP2PGyy5
-         dPyGadcyc1+aA==
-Received: by mail.cothiafon.pl for <linux-edac@vger.kernel.org>; Mon, 31 Jul 2023 08:35:48 GMT
-Message-ID: <20230731095940-0.1.28.omqa.0.71bg61pbnp@cothiafon.pl>
-Date:   Mon, 31 Jul 2023 08:35:48 GMT
-From:   =?UTF-8?Q? "Rados=C5=82aw_Grabowski" ?= 
-        <radoslaw.grabowski@cothiafon.pl>
-To:     <linux-edac@vger.kernel.org>
-Subject: W sprawie samochodu
-X-Mailer: mail.cothiafon.pl
+        with ESMTP id S232364AbjHANDO (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Aug 2023 09:03:14 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D6D31AA;
+        Tue,  1 Aug 2023 06:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GWiMsfat+BRyslkDKxTk4DrpasSmhXX1x9NIMnqNp+U=; b=pVVMMv9mJ3P7n2Pg071xoYksdK
+        xBLJ8ZTlpFbic/85m30ybcx9Idc+Jq8yP8Rrr5fiUSzzOlYK+JWYhZkQQn/67jGoQyJfVqoJEIeim
+        tTExlHg9EFtChpQPkIoIfdO6XudfnwrXEdT/45vavnCOS9WmZuQk385z1RAFWS9q72iO3bWQUsykW
+        hEYr/hRkJYyUFJrhG2kYooD+k+gIFteiWqD4tE6yK488HbCx6aBNrlYnxDo8sgb5vXbQfpoRtpKXi
+        +fB+tQKIxRtv7Pf5nmMnFbtkbydeM7Gl6c3hNolw6Xjcz8abx2iV5jltmcuV+GRTNu8yvZx5Uu7Ei
+        qUJppYZA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qQp1O-008w3Q-3u; Tue, 01 Aug 2023 13:02:42 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B8B633002D3;
+        Tue,  1 Aug 2023 15:02:40 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 96CCC20A9524A; Tue,  1 Aug 2023 15:02:40 +0200 (CEST)
+Date:   Tue, 1 Aug 2023 15:02:40 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Xin Li <xin3.li@intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Tony Luck <tony.luck@intel.com>,
+        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Babu Moger <babu.moger@amd.com>,
+        Jim Mattson <jmattson@google.com>,
+        Sandipan Das <sandipan.das@amd.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Reinette Chatre <reinette.chatre@intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        Breno Leitao <leitao@debian.org>,
+        Nikunj A Dadhania <nikunj@amd.com>,
+        Brian Gerst <brgerst@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Ze Gao <zegao2021@gmail.com>, Fei Li <fei1.li@intel.com>,
+        Conghui <conghui.chen@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Jane Malalane <jane.malalane@citrix.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Yantengsi <siyanteng@loongson.cn>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Sathvika Vasireddy <sv@linux.ibm.com>
+Subject: Re: [PATCH RESEND v9 00/36] x86: enable FRED for x86-64
+Message-ID: <20230801130240.GA80967@hirez.programming.kicks-ass.net>
+References: <20230801083318.8363-1-xin3.li@intel.com>
+ <20230801105236.GB79828@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230801105236.GB79828@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Tue, Aug 01, 2023 at 12:52:36PM +0200, Peter Zijlstra wrote:
 
-chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
-, je=C5=9Bli chodzi o system monitoringu GPS.
+> I also believe there is a kernel.org service for sending patch series,
+> but i'm not sure I remember the details.
 
-Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
-e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
-a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+https://b4.docs.kernel.org/en/latest/contributor/send.html
 
-Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
-dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
-szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
-mne znaczenie.
-
-Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
-b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
-
-
-Pozdrawiam
-Rados=C5=82aw Grabowski
