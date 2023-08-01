@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 102FEC001E0
-	for <linux-edac@archiver.kernel.org>; Tue,  1 Aug 2023 09:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD81EB64DD
+	for <linux-edac@archiver.kernel.org>; Tue,  1 Aug 2023 09:06:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232635AbjHAJGa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 1 Aug 2023 05:06:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60462 "EHLO
+        id S232651AbjHAJGf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 1 Aug 2023 05:06:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232641AbjHAJF6 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Aug 2023 05:05:58 -0400
+        with ESMTP id S232212AbjHAJGA (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 1 Aug 2023 05:06:00 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A2F83C33;
-        Tue,  1 Aug 2023 02:04:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B954223;
+        Tue,  1 Aug 2023 02:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690880658; x=1722416658;
+  t=1690880662; x=1722416662;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=dQPbDjEqQWsCazdenr4wm1/cp/YJX7zOnAx3X5niG4Q=;
-  b=i+qMSTofigtvuDV7T7c6SrRXh+uq0c2c4WS4tdcxPSbBhwyTZ3n/eDFV
-   wX8IErQoXQ0Sw4gjz1qEqlam9TATnNv0fMexkbyJh3qkOk/OAzHt/ELqt
-   Rq4noDNq2ABQJ2G544iYXj0gtroENWW07CsVUapOxHp1ZFFhGdCXKawRG
-   hHoMRLABmuRXfls1B6+4ZmMNYSi3knkE8jSG6l+CU3yW2KI76MmER2+ou
-   0uG+cRF3UVha0rjV4Da7lUyHpq0r47TRI/Jmtja2EnvzfJ6rXltFW3LFh
-   C5fAjqSAI683Btyeu9J2ikB/oOPUhySywAC13UKQap4holM2TvqEk/A5y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082747"
+  bh=e41GdB5DEWVT44n/+24ZLrn6jlcg49oHxwygKL8Pbqk=;
+  b=ivQaRzX9QKMqLDtyO37fbTr4tKzXpQmb8IyR2LrnTSQZCpkE32Xsa+Ai
+   CRkr4wXZ2i6anXCcuamMPSnwMc5OhG7wrUcsxFhsbQCSES8MREsn6moNV
+   S7H6kup3NYQW2ZVRlvKPCFbQAAfXlNRUnp9a17AkamKO7Ilbzye1Nkrql
+   7WcIzeGix09bq0gmZZqMeV3xTaN2/mdPtCDrDoTeuVfjb9SSGOFSRsvca
+   ty38IzMkgsExwWL8dsREiljGBGg+bLN/wtNGHDeXbgo4L/FBZMUaB6nWr
+   RIBeHmOR4pTD5UwHQWT5scixPL0F6m+elW7d2D8kGbSPC9np80AJ75hVQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082815"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="433082747"
+   d="scan'208";a="433082815"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:02:10 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:02:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975217074"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975217082"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="975217074"
+   d="scan'208";a="975217082"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:02:09 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:02:11 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -106,9 +106,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH RESEND v9 21/36] x86/fred: Add a machine check entry stub for FRED
-Date:   Tue,  1 Aug 2023 01:33:03 -0700
-Message-Id: <20230801083318.8363-22-xin3.li@intel.com>
+Subject: [PATCH RESEND v9 23/36] x86/entry: Remove idtentry_sysvec from entry_{32,64}.S
+Date:   Tue,  1 Aug 2023 01:33:05 -0700
+Message-Id: <20230801083318.8363-24-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230801083318.8363-1-xin3.li@intel.com>
 References: <20230801083318.8363-1-xin3.li@intel.com>
@@ -118,64 +118,63 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add a machine check entry stub for FRED.
+idtentry_sysvec is really just DECLARE_IDTENTRY defined in
+<asm/idtentry.h>, no need to define it separately.
 
-Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
+ arch/x86/entry/entry_32.S       | 4 ----
+ arch/x86/entry/entry_64.S       | 8 --------
+ arch/x86/include/asm/idtentry.h | 2 +-
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-Changes since v5:
-* Disallow #DB inside #MCE for robustness sake (Peter Zijlstra).
----
- arch/x86/include/asm/fred.h    |  1 +
- arch/x86/kernel/cpu/mce/core.c | 15 +++++++++++++++
- 2 files changed, 16 insertions(+)
-
-diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
-index 2a7c47dfd733..f559dd9dc4f2 100644
---- a/arch/x86/include/asm/fred.h
-+++ b/arch/x86/include/asm/fred.h
-@@ -115,6 +115,7 @@ typedef DECLARE_FRED_HANDLER((*fred_handler));
- DECLARE_FRED_HANDLER(fred_exc_nmi);
- DECLARE_FRED_HANDLER(fred_exc_debug);
- DECLARE_FRED_HANDLER(fred_exc_page_fault);
-+DECLARE_FRED_HANDLER(fred_exc_machine_check);
+diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
+index 6e6af42e044a..e0f22ad8ff7e 100644
+--- a/arch/x86/entry/entry_32.S
++++ b/arch/x86/entry/entry_32.S
+@@ -649,10 +649,6 @@ SYM_CODE_START_LOCAL(asm_\cfunc)
+ SYM_CODE_END(asm_\cfunc)
+ .endm
  
- #endif /* __ASSEMBLY__ */
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /*
+  * Include the defines which emit the idt entries which are shared
+  * shared between 32 and 64 bit and emit the __irqentry_text_* markers
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index 8069151176f2..44f14b990597 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -438,14 +438,6 @@ SYM_CODE_END(\asmsym)
+ 	idtentry \vector asm_\cfunc \cfunc has_error_code=1
+ .endm
  
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index b8ad5a5b4026..98456e20f155 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -52,6 +52,7 @@
- #include <asm/mce.h>
- #include <asm/msr.h>
- #include <asm/reboot.h>
-+#include <asm/fred.h>
+-/*
+- * System vectors which invoke their handlers directly and are not
+- * going through the regular common device interrupt handling code.
+- */
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /**
+  * idtentry_mce_db - Macro to generate entry stubs for #MC and #DB
+  * @vector:		Vector number
+diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
+index cd5c10a74071..6817c0f8e323 100644
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -447,7 +447,7 @@ __visible noinstr void func(struct pt_regs *regs,			\
  
- #include "internal.h"
+ /* System vector entries */
+ #define DECLARE_IDTENTRY_SYSVEC(vector, func)				\
+-	idtentry_sysvec vector func
++	DECLARE_IDTENTRY(vector, func)
  
-@@ -2118,6 +2119,20 @@ DEFINE_IDTENTRY_MCE_USER(exc_machine_check)
- 	exc_machine_check_user(regs);
- 	local_db_restore(dr7);
- }
-+
-+#ifdef CONFIG_X86_FRED
-+DEFINE_FRED_HANDLER(fred_exc_machine_check)
-+{
-+	unsigned long dr7;
-+
-+	dr7 = local_db_save();
-+	if (user_mode(regs))
-+		exc_machine_check_user(regs);
-+	else
-+		exc_machine_check_kernel(regs);
-+	local_db_restore(dr7);
-+}
-+#endif
- #else
- /* 32bit unified entry point */
- DEFINE_IDTENTRY_RAW(exc_machine_check)
+ #ifdef CONFIG_X86_64
+ # define DECLARE_IDTENTRY_MCE(vector, func)				\
 -- 
 2.34.1
 
