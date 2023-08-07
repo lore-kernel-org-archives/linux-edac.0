@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0016AC04E69
-	for <linux-edac@archiver.kernel.org>; Mon,  7 Aug 2023 15:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC69C04A6A
+	for <linux-edac@archiver.kernel.org>; Mon,  7 Aug 2023 15:08:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbjHGPIo (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 7 Aug 2023 11:08:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
+        id S229591AbjHGPIp (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Mon, 7 Aug 2023 11:08:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbjHGPIn (ORCPT
+        with ESMTP id S229592AbjHGPIn (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Mon, 7 Aug 2023 11:08:43 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38751737;
-        Mon,  7 Aug 2023 08:08:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2422C1FCE;
+        Mon,  7 Aug 2023 08:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
-        Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
-        Content-ID:Content-Description:In-Reply-To;
-        bh=jVZ9rt84fY/SCIKuioMTW0aEVXr50l2Bm4273NqkiiM=; b=rtaOKSS819RjtduPkO6fmwE0tr
-        pDbqcL4U+u1TDVL3x0BnvX3wVb5qWt28y0gmOl2DKTNZlQS7uKKTPAPTJ0gV+ZHNX9Q9bmOZFFdtx
-        1vig5erg6vGUpRVZ43Xo/Z1ccNF2AusINF0lwekmD+Mx9IepwS8VK1lbF9024j/iBpwhnjhT4EdXt
-        h3kA/ZocnAxtnCuM7905FC9I7MjU1yCR+EgGrU2GH24AYLLSMP0utoNPxq2dsvK5uyeM/wOSFj9qj
-        pcwQJYTQxF6QA0qiXWxeHTdxzKNVasCqHSjW6400jQ6edKy/dssxzg8tN1N7AlZeQRR30FdBpBkDK
-        P3irErjw==;
+        d=infradead.org; s=casper.20170209; h=Subject:Cc:To:From:Date:Message-ID:
+        Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=Cc7Qso+rtqYL4z41yt/S7GCvRApv9pu8SfGh30r2Ct4=; b=MKv0W1lCMX7Ig/GFUcBTKF23rP
+        kfBI64q+FB4WSJjX6NLuD/+/rI1HuEZYBeNX4bB27POHliDxcoNHoNoWlsu9NHNEwKx6wwKUH/LBO
+        fqV+CBH06QCDe0I9F8TZ0t4NMynLzlsPSklN7kaf3+B0oxuZhz1PqzcCXYjfy8Z6Z2XAjLtwJXjBB
+        jf/rRReJO/M2ohlj0sKH7G/H4XsMbNe/2MTZh0mqu74JeloE+UbHZR7veW953WyUdAVKlhl6YMdyz
+        pPiZMhetJCBDFbwW/n6JlAULYU0CFK0YTLWocYBY27vtMfOvclELTaZho3UbToYjWu3l2gMyc0zbA
+        ECZ/gBzQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1qT1pQ-00BlpD-1F; Mon, 07 Aug 2023 15:07:28 +0000
+        id 1qT1pP-00BlpC-Vn; Mon, 07 Aug 2023 15:07:28 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A25D53005A2;
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8AB0C30014A;
         Mon,  7 Aug 2023 17:07:27 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-        id 7B13B201FD2EA; Mon,  7 Aug 2023 17:07:27 +0200 (CEST)
-Message-ID: <20230807150405.757666627@infradead.org>
+        id 6D7CA2028F056; Mon,  7 Aug 2023 17:07:27 +0200 (CEST)
+Message-ID: <20230807123806.700370534@infradead.org>
 User-Agent: quilt/0.66
-Date:   Mon, 07 Aug 2023 14:38:08 +0200
+Date:   Mon, 07 Aug 2023 14:38:06 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     x86@kernel.org
 Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
@@ -55,60 +55,12 @@ Cc:     peterz@infradead.org, mingo@redhat.com, acme@kernel.org,
         linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-pm@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/3] x86/cpu: Fix Crestmont uarch
-References: <20230807123806.700370534@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH 0/3] x86/cpu: Cleanup of INTEL_FAM6_foo
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Sierra Forest and Grand Ridge are both E-core only using Crestmont
-micro-architecture, They fit the pre-existing naming scheme prefectly
-fine, adhere to it.
+Hi,
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- arch/x86/include/asm/intel-family.h                         |    5 ++---
- drivers/edac/i10nm_base.c                                   |    2 +-
- drivers/platform/x86/intel/speed_select_if/isst_if_common.c |    2 +-
- 3 files changed, 4 insertions(+), 5 deletions(-)
-
---- a/arch/x86/include/asm/intel-family.h
-+++ b/arch/x86/include/asm/intel-family.h
-@@ -155,9 +155,8 @@
- 
- #define INTEL_FAM6_ATOM_GRACEMONT	0xBE /* Alderlake N */
- 
--#define INTEL_FAM6_SIERRAFOREST_X	0xAF
--
--#define INTEL_FAM6_GRANDRIDGE		0xB6
-+#define INTEL_FAM6_ATOM_CRESTMONT_X	0xAF /* Sierra Forest */
-+#define INTEL_FAM6_ATOM_CRESTMONT	0xB6 /* Grand Ridge */
- 
- /* Xeon Phi */
- 
---- a/drivers/edac/i10nm_base.c
-+++ b/drivers/edac/i10nm_base.c
-@@ -906,7 +906,7 @@ static const struct x86_cpu_id i10nm_cpu
- 	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(SAPPHIRERAPIDS_X,	X86_STEPPINGS(0x0, 0xf), &spr_cfg),
- 	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(EMERALDRAPIDS_X,	X86_STEPPINGS(0x0, 0xf), &spr_cfg),
- 	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(GRANITERAPIDS_X,	X86_STEPPINGS(0x0, 0xf), &gnr_cfg),
--	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(SIERRAFOREST_X,	X86_STEPPINGS(0x0, 0xf), &gnr_cfg),
-+	X86_MATCH_INTEL_FAM6_MODEL_STEPPINGS(ATOM_CRESTMONT_X,	X86_STEPPINGS(0x0, 0xf), &gnr_cfg),
- 	{}
- };
- MODULE_DEVICE_TABLE(x86cpu, i10nm_cpuids);
---- a/drivers/platform/x86/intel/speed_select_if/isst_if_common.c
-+++ b/drivers/platform/x86/intel/speed_select_if/isst_if_common.c
-@@ -720,7 +720,7 @@ static struct miscdevice isst_if_char_dr
- 
- static const struct x86_cpu_id hpm_cpu_ids[] = {
- 	X86_MATCH_INTEL_FAM6_MODEL(GRANITERAPIDS_X,	NULL),
--	X86_MATCH_INTEL_FAM6_MODEL(SIERRAFOREST_X,	NULL),
-+	X86_MATCH_INTEL_FAM6_MODEL(ATOM_CRESTMONT_X,	NULL),
- 	{}
- };
- 
-
+I seem to have missed 'spring' but here goes...
 
