@@ -2,49 +2,48 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF0BCC05051
-	for <linux-edac@archiver.kernel.org>; Tue,  8 Aug 2023 19:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7E2C001DB
+	for <linux-edac@archiver.kernel.org>; Tue,  8 Aug 2023 20:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235938AbjHHTWf (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 8 Aug 2023 15:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53344 "EHLO
+        id S232479AbjHHUft (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 8 Aug 2023 16:35:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236198AbjHHTWB (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 8 Aug 2023 15:22:01 -0400
-X-Greylist: delayed 2978 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Aug 2023 09:45:44 PDT
+        with ESMTP id S232125AbjHHUfg (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 8 Aug 2023 16:35:36 -0400
 Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 707E810E9D1;
-        Tue,  8 Aug 2023 09:45:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 818731A776;
+        Tue,  8 Aug 2023 10:06:13 -0700 (PDT)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E14CA40E0195;
-        Tue,  8 Aug 2023 14:20:22 +0000 (UTC)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C086D40E01A2;
+        Tue,  8 Aug 2023 14:37:46 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
         header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
         by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id HuT5X_6YHG5g; Tue,  8 Aug 2023 14:20:21 +0000 (UTC)
+        with ESMTP id iOGadB4WTIeI; Tue,  8 Aug 2023 14:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1691504421; bh=Ja/4Je+eQgflIPt0xBBlPFb2JkS0+HhGaeLu0Idap6o=;
+        t=1691505464; bh=RnwN9On2kYCW9ShSPXeXJUgGMNKP19hlGSAZXu85hPs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U1SjwFKpQtDG5Qh7oIa3iME7IroVA+8T10PvQZHUUqAtxqdnLOVc2MQDG4JB1jpZT
-         gKykGZhQn2JZ9G/0Ncw8EfTy5rYEyUSznPl7lrOc4IJ1bfEBAdsSZ06aCgTcf8xKBr
-         scvAmXm96mihB3D0klClpiJHyYCPkiErUjBOansPrh+DBDFi+YqLVbk/wyIvhLqzYp
-         hLNtH0wimamG0TVvOWOL5tjPoAMUVLstyfzLjuCXNdF1P3R2bxgxtAN4sCUHp+6b0D
-         qotyPf84fVzrKhUiX0MivWmUGgB1PnMPtuRpMHzeEzPg88cVerUb9cAomVUoZoOeoF
-         u59MsfV241sDqEYUrkXatwWEr4KrBhxEvV7gP0Nl+wjveRve69qa4XOffEmbPPnuc6
-         4LZY7U60JwXokXFhkGyV26ypAHMMyRKgL2+sytv7InAhg81GavOCpvFziYfmbhCYss
-         0mtmBwpE+CE9p4EuPmHRBsvTHCb4JKlTLBc6fggqvHVvanIM6rUH76+BNwDS4mQ+bN
-         gXqMFohgHGEzHnbKsay1bRGfggNsPY97AO9qqRXiewZEZRpJPoba2S6cs0v5rvrOKk
-         uuxNk0e8pYKcr0m4wrX/OkueOQCCa/7YzGhidZ1WJXtroJwS6FyBxnZ4IE0X6rSU7R
-         m6n1b+yARY+iSUe2ebx8/YP4=
+        b=Y4p2yn7OdX7hMDsJj4EtycNDY6a31nhcuq2+a4boa3uEI9pAGgLL+NRqzROGW7As2
+         sCalnbdyOMBQSfGrgWpCpaPODC+vFyIfYZWv7Yb7vJXbEuBRxZewPSroaQVQ6+hDHi
+         xUekxj+dT14iNrNH3slTZ3RidWswTCUmt5qTfu/eKQ35sm6YEDOpMgnJZS1Q7c5jra
+         p7+VfswwxMwhXMwYxuXLObkGLFKGqxitXZtRFTQ0E+BLfp+UqwFpIsUlDYQX3MJWy0
+         zd4SRELRdlLQvqoXXcrzITnDT9DmW98ISESR1MxY+5Vy7CbCx9yugzuS9FTFP/YkJe
+         yWJOD872Uy5HnE+zxIawqIsUpdoIvpaAPD04AZAbDuimDEVVOQz0+xnVqya79Evp42
+         LJv2p08WgoOy9X3lHzEx7IkR6M6Yjw+ugAmhyST4AC3SI7geotDbdIRv2ZwjZt5zGE
+         mvobHNL8TkjiJwqzESJE1PyMsbuQbYzsFT2PnnYMVK2C+B/CrbLf3dsSmK6Lc3jePc
+         DoMd6azNkmC7N7A6jqp9qKboRb5loWxnDMjrhJURRsy/kT4/CFSTB6yriWAKARC72X
+         eitHrwaaRyFkJGKf4UkpvK28jzztjirgKMUUy4E/l203eTbUOBj9UuknVaY2HS5oJZ
+         jkFgqKizq+zLbJ+iXexP0daY=
 Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
         (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E3C2940E01A2;
-        Tue,  8 Aug 2023 14:20:11 +0000 (UTC)
-Date:   Tue, 8 Aug 2023 16:20:07 +0200
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C5ABE40E01A3;
+        Tue,  8 Aug 2023 14:37:35 +0000 (UTC)
+Date:   Tue, 8 Aug 2023 16:37:35 +0200
 From:   Borislav Petkov <bp@alien8.de>
 To:     Yazen Ghannam <yazen.ghannam@amd.com>
 Cc:     "Limonciello, Mario" <mario.limonciello@amd.com>,
@@ -54,35 +53,38 @@ Cc:     "Limonciello, Mario" <mario.limonciello@amd.com>,
         avadhut.naik@amd.com
 Subject: Re: [PATCH 1/2] platform/x86/amd: Introduce AMD Address Translation
  Library
-Message-ID: <20230808142007.GCZNJPFy8PqTJgTAN5@fat_crate.local>
+Message-ID: <20230808143735.GDZNJTL0DlJd3225db@fat_crate.local>
 References: <20230802185504.606855-1-yazen.ghannam@amd.com>
  <20230802185504.606855-2-yazen.ghannam@amd.com>
  <58934edf-4fad-48e0-bc5d-62712b11e607@amd.com>
  <894b3737-1a0a-4139-9c73-686a95481795@amd.com>
  <B3BE6B56-FBAB-4878-A45D-E95AFAC86AB1@alien8.de>
  <f989cd56-a066-409a-8d82-40d0bc6ff89b@amd.com>
+ <20230808142007.GCZNJPFy8PqTJgTAN5@fat_crate.local>
+ <a62282e0-3784-4d96-b632-fdd6d2627ca3@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f989cd56-a066-409a-8d82-40d0bc6ff89b@amd.com>
+In-Reply-To: <a62282e0-3784-4d96-b632-fdd6d2627ca3@amd.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-On Tue, Aug 08, 2023 at 10:07:19AM -0400, Yazen Ghannam wrote:
-> But just because there's existing vendor-specific code in arch/x86 doesn't
-> necessarily mean we should keep adding to it. So is this okay?
+On Tue, Aug 08, 2023 at 10:28:51AM -0400, Yazen Ghannam wrote:
+> Because this isn't intended to be only for MCA errors. The translation code
+> is related to the AMD Data Fabric. And it'll be a common back-end for memory
+> errors coming from MCA and CXL.
 
-I'd say since it is not so close to the arch/ part, drivers/ras/ is more
-fitting IMO. Just like mce_amd is in drivers/edac/.
+But EDAC is not only about memory errors. Why not extend this into
+something which does other RAS functionality instead of doing a second
+one which is more or less related?
 
-Which reminds me: why aren't you adding it to
+mce_amd is already loaded on the system, why add a second module if it
+can be part of the first one just the same?
 
-drivers/edac/mce_amd.c
-
-?
-
-That is an MCE decoder *already*.
+Strictly speaking, this all should've been drivers/ras/ from the very
+beginning and all EDAC should move there but that's going to be madness
+to do now.
 
 Thx.
 
