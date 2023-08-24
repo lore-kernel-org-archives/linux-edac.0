@@ -2,253 +2,1860 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 921C7EE499F
-	for <linux-edac@archiver.kernel.org>; Fri, 18 Aug 2023 23:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F92BC71153
+	for <linux-edac@archiver.kernel.org>; Thu, 24 Aug 2023 18:20:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242004AbjHRXHQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Fri, 18 Aug 2023 19:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
+        id S243014AbjHXSUJ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 24 Aug 2023 14:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242052AbjHRXG4 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Fri, 18 Aug 2023 19:06:56 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 079FA421B;
-        Fri, 18 Aug 2023 16:06:54 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4ff9121fd29so2096145e87.3;
-        Fri, 18 Aug 2023 16:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692400012; x=1693004812;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wi1v1waR7elBm9hwQEyjXxrKEyCGT4bzLcQaPHnjWJE=;
-        b=I36Tk/y4RBcvvwHnvzu0xlLQYHQkE7MpPAdflv1XeJdKGxMBj3hhLD+/pUDaon6mPv
-         dB8zjgCPOWdVbFRn3FM2WxeG4ggC7FMZbX7JYHUy4M3uZwA7QyaWZH6ioge/eDkleX4z
-         2H2z5d4BNT7wPfHwZtg7Vz8n2H9HE8w8mn2gsJ3FC8iINXVG5v6IjdbzfEtD4vgC4XwX
-         Xg/Mn2p6lHxvRp2HlibVkeTmb4Rq+YzyT++Xtjpp1b3xuIyDwKllW6Ll48D4v3E43RPg
-         u5Gli6Hwv35jyfHk+i9h4MHfOxQUzY8fnc1jYfvx25dKP8Gpa81Xk64IXpnECaqC5pbd
-         I6aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692400012; x=1693004812;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wi1v1waR7elBm9hwQEyjXxrKEyCGT4bzLcQaPHnjWJE=;
-        b=Va8bTL+YPh5BLbqS9Zv201mLA5soBm7V7Sve2rT1DO/1GAjl0sUPWzOI8i6ul6LdRV
-         l3aTpxW7XJslz29oWQyai+i/f/X6LAmCBdjtQcryZA3lggn41HBNs8Gt+K7fiB607qc+
-         gNIbnAClOhx6mjwLXtkg7KoMZKhifB3hpEOkM9LV6p+uPCBaz6/MX5sV3jcda9p4tpxH
-         +mtm/J4xxgZIqs5NFfuN97bdj6lN3tn8pd9fjKlXjo+oogZ6h0vWWl6pwbcmz6tQjmCv
-         esPvIj+edgKA88Jzuzti0reTLgWSC+JCYVJ9WuPEcYD0je2u7BylDL+Spe6ZRUef/qdv
-         bUDw==
-X-Gm-Message-State: AOJu0YzT+CeJbrLuVVwyI+5wEgJMVaC/1P9UkX7xu0goJW7aacMh+YT0
-        DSXPlAT5E0WOlM69uoX+GkU=
-X-Google-Smtp-Source: AGHT+IFRRghkgAQG0AHq+6D2jL23ilgWcL8c/ti1/LIZ+VFKc2mmT9b4RNtcxJgb6ugqMiSuLCxj1g==
-X-Received: by 2002:a05:6512:15aa:b0:4fb:c885:425 with SMTP id bp42-20020a05651215aa00b004fbc8850425mr427470lfb.9.1692400011892;
-        Fri, 18 Aug 2023 16:06:51 -0700 (PDT)
-Received: from mobilestation ([95.79.200.178])
-        by smtp.gmail.com with ESMTPSA id 14-20020ac2482e000000b004fe1ee6546esm531665lft.168.2023.08.18.16.06.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 16:06:51 -0700 (PDT)
-Date:   Sat, 19 Aug 2023 02:06:49 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Borislav Petkov <bp@alien8.de>,
-        James Morse <james.morse@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Robert Richter <rric@kernel.org>,
-        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-        Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-        Punnaiah Choudary Kalluri 
-        <punnaiah.choudary.kalluri@xilinx.com>,
-        Manish Narani <manish.narani@xilinx.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 00/17] EDAC/mc/synopsys: Various fixes and
- cleanups
-Message-ID: <dzgdh2ghcphserxywjrlgusukghgj2t7yg6bo6ychade7b2sbm@7khr6s3df7ui>
-References: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929232712.12202-1-Sergey.Semin@baikalelectronics.ru>
+        with ESMTP id S243004AbjHXSTw (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 24 Aug 2023 14:19:52 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A936319BF;
+        Thu, 24 Aug 2023 11:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1692901186; x=1724437186;
+  h=date:from:to:cc:subject:message-id;
+  bh=KBHkj7fzcIJg0KrCWqTdGCNjPHAqvcLqIcfCGqNO8Yo=;
+  b=RTcpkYsFIUhj2fxdsP6uY1lEMw0P0DvtSHXshNon5lnwo/FtPgfZ6MTV
+   0bfhbV0iNkaV8j5FrVLeQRUx5LOz72C1Q17b1PS43Qb3hHt8Dd9KzkgJd
+   +WdDn1p8YjnTiMKI6/dnUSNPhwkq5DDWTs1LADToRqtqqxcp85xwTPCvz
+   +LRWXyQ/4im5KNCm3H7v3o0oohKzSvkSozFkohxX6voQDKZY61RXjR9+z
+   QOEY9XZfkdyrRCg0q0EnxWElcVjX0Fr5potGiqZqLnhNFS1xKPhrUVEy/
+   kceBaaWnF8Vn4UOHwaBC06jqB1AyUBo/W7Rp9w5HGiebXUyiSFraIupY2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="405522484"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="405522484"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2023 11:19:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10812"; a="860814171"
+X-IronPort-AV: E=Sophos;i="6.02,195,1688454000"; 
+   d="scan'208";a="860814171"
+Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 24 Aug 2023 11:19:37 -0700
+Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qZEvg-0002tY-29;
+        Thu, 24 Aug 2023 18:19:36 +0000
+Date:   Fri, 25 Aug 2023 02:19:00 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Linux Memory Management List <linux-mm@kvack.org>,
+        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
+        bpf@vger.kernel.org, cgroups@vger.kernel.org,
+        cluster-devel@redhat.com, devicetree@vger.kernel.org,
+        dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, keyrings@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: [linux-next:master] BUILD REGRESSION
+ 2b3bd393093b04d4882152398019cbb96b0440ff
+Message-ID: <202308250221.YqxTUwh9-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Hi Borislav
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 2b3bd393093b04d4882152398019cbb96b0440ff  Add linux-next specific files for 20230824
 
-On Fri, Sep 30, 2022 at 02:26:55AM +0300, Serge Semin wrote:
-> This patchset is a first one in the series created in the framework of
-> my Baikal-T1 DDRC-related work:
-> 
-> [1: In-progress] EDAC/mc/synopsys: Various fixes and cleanups
-> Link: ---you are looking at it---
-> [2: In-progress] EDAC/synopsys: Add generic DDRC info and address mapping
-> Link: https://lore.kernel.org/linux-edac/20220910195007.11027-1-Sergey.Semin@baikalelectronics.ru
-> [3: In-progress] EDAC/synopsys: Add generic resources and Baikal-T1 support
-> Link: https://lore.kernel.org/linux-edac/20220910195659.11843-1-Sergey.Semin@baikalelectronics.ru
+Error/Warning reports:
 
-I'm terribly sorry for a very long delay with addressing your comments
-in this patchset. I have been very busy all that time with another
-kernel drivers. Now I am finally able to get back to this series.
+https://lore.kernel.org/oe-kbuild-all/202308111853.ISf5a6VC-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308112307.TPmYbd3L-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308112326.AJAVWCOC-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308162234.Y7j8JEIF-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308170007.OzhdwITj-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308170206.fZG3V1Gy-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308171521.DFEZZNuE-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308171801.P2Rd8yeL-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308211837.4VBSUAtZ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308212225.fGjY1rr6-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308212225.rDBrZgwf-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308212348.1TirdKeg-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308220024.7HnE6uda-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308220116.C2UzYhrZ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308220517.9ZeSFZc3-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308220614.h0EIBlon-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308230251.2EhAALdZ-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308231008.lxCTs3d2-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308240556.jFbsuVxg-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308241150.LquDYwGT-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202308241954.oRNfVqmB-lkp@intel.com
 
-This patchset and another two ones have been successfully rebased onto
-the latest kernel version - 6.5-rc5. No regression has been spotted in
-my environment.
+Error/Warning: (recently discovered and may have been fixed)
 
-Regarding your comments to this series. I've got a general gist
-concerning my patchlog messages. I'll convert all of them to using the
-imperative mood and drop "what" description in v4.
+../lib/gcc/loongarch64-linux/13.2.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
+ERROR: modpost: ".L874" [drivers/mtd/nand/raw/nand.ko] undefined!
+arch/arc/kernel/setup.c:82:13: warning: variable 'atomic' set but not used [-Wunused-but-set-variable]
+arch/csky/include/asm/ptrace.h:100:11: error: expected ';' before 'void'
+arch/csky/include/asm/ptrace.h:99:11: error: expected ';' before 'int'
+arch/csky/include/asm/traps.h:43:11: error: expected ';' before 'void'
+arch/loongarch/kernel/asm-offsets.c:172:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
+arch/microblaze/include/asm/cacheflush.h:77:13: warning: 'flush_dcache_folio' defined but not used [-Wunused-function]
+arch/um/os-Linux/umid.c:106:23: warning: '__builtin___sprintf_chk' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+arch/x86/events/amd/iommu.c:441:57: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
+block/disk-events.c:300: warning: Excess function parameter 'events' description in 'disk_force_media_change'
+drivers/clk/clk-lmk04832.c:1297:36: warning: '%02d' directive writing between 2 and 11 bytes into a region of size between 0 and 3 [-Wformat-overflow=]
+drivers/clk/clk-lmk04832.c:1312:31: warning: '%02d' directive writing between 2 and 11 bytes into a region of size 6 [-Wformat-overflow=]
+drivers/crypto/hifn_795x.c:2396:64: warning: '%s' directive output may be truncated writing up to 7871 bytes into a region of size 128 [-Wformat-truncation=]
+drivers/crypto/hifn_795x.c:2396:64: warning: '%s' directive output may be truncated writing up to 8831 bytes into a region of size 128 [-Wformat-truncation=]
+drivers/crypto/intel/qat/qat_common/adf_isr.c:197:19: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 5 [-Wformat-truncation=]
+drivers/crypto/intel/qat/qat_common/adf_isr.c:197:47: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 5 [-Wformat-truncation=]
+drivers/crypto/intel/qat/qat_common/adf_isr.c:197:47: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size between 0 and 5 [-Wformat-truncation=]
+drivers/dma/dw-edma/dw-edma-v0-debugfs.c:193:36: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
+drivers/dma/dw-edma/dw-edma-v0-debugfs.c:193:50: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
+drivers/dma/dw-edma/dw-edma-v0-debugfs.c:256:50: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
+drivers/dma/dw-edma/dw-hdma-v0-debugfs.c:125:36: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
+drivers/dma/dw-edma/dw-hdma-v0-debugfs.c:125:50: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
+drivers/dma/dw-edma/dw-hdma-v0-debugfs.c:142:50: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
+drivers/dma/tegra20-apb-dma.c:1496:64: warning: '%d' directive output may be truncated writing between 1 and 8 bytes into a region of size 5 [-Wformat-truncation=]
+drivers/edac/sb_edac.c:1678:41: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 3 [-Wformat-truncation=]
+drivers/firmware/turris-mox-rwtm.c:255:90: warning: '%08x' directive writing 8 bytes into a region of size between 7 and 9 [-Wformat-overflow=]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_dpia.c:427:17: warning: 'dp_decide_lane_settings' accessing 4 bytes in a region of size 1 [-Wstringop-overflow=]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training_fixed_vs_pe_retimer.c:426:25: warning: 'dp_decide_lane_settings' accessing 4 bytes in a region of size 1 [-Wstringop-overflow=]
+drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:516: warning: Function parameter or member 'xcc_id' not described in 'amdgpu_mm_wreg_mmio_rlc'
+drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c:123: warning: Excess function parameter 'db_index' description in 'amdgpu_doorbell_index_on_bar'
+drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c:123: warning: Function parameter or member 'doorbell_index' not described in 'amdgpu_doorbell_index_on_bar'
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c:1037:101: warning: '%012llX' directive output may be truncated writing between 12 and 16 bytes into a region of size between 9 and 14 [-Wformat-truncation=]
+drivers/gpu/drm/drm_gpuva_mgr.c:1079:32: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/drm_gpuva_mgr.c:1079:39: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/i915/display/intel_tc.c:1845:11: error: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 3 [-Werror=format-truncation=]
+drivers/gpu/drm/tests/drm_kunit_helpers.c:172: warning: expecting prototype for drm_kunit_helper_context_alloc(). Prototype was for drm_kunit_helper_acquire_ctx_alloc() instead
+drivers/hwmon/i5k_amb.c:284:13: warning: '_label' directive output may be truncated writing 6 bytes into a region of size between 2 and 11 [-Wformat-truncation=]
+drivers/hwmon/i5k_amb.c:299:13: warning: '_input' directive output may be truncated writing 6 bytes into a region of size between 2 and 11 [-Wformat-truncation=]
+drivers/hwmon/i5k_amb.c:314:13: warning: '_min' directive output may be truncated writing 4 bytes into a region of size between 2 and 11 [-Wformat-truncation=]
+drivers/hwmon/i5k_amb.c:330:13: warning: '_mid' directive output may be truncated writing 4 bytes into a region of size between 2 and 11 [-Wformat-truncation=]
+drivers/hwmon/i5k_amb.c:346:13: warning: '_max' directive output may be truncated writing 4 bytes into a region of size between 2 and 11 [-Wformat-truncation=]
+drivers/hwmon/i5k_amb.c:362:13: warning: '_alarm' directive output may be truncated writing 6 bytes into a region of size between 2 and 11 [-Wformat-truncation=]
+drivers/infiniband/hw/qib/qib_init.c:586:46: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 3 [-Wformat-truncation=]
+drivers/infiniband/hw/qib/qib_verbs.c:1554:26: warning: '%s' directive output may be truncated writing up to 64 bytes into a region of size 43 [-Wformat-truncation=]
+drivers/infiniband/hw/qib/qib_verbs.c:1554:40: warning: '%s' directive output may be truncated writing up to 64 bytes into a region of size 43 [-Wformat-truncation=]
+drivers/leds/leds-lp55xx-common.c:184:57: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 5 and 24 [-Wformat-truncation=]
+drivers/media/platform/cadence/cdns-csi2rx.c:422:41: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
+drivers/media/radio/radio-shark2.c:191:17: warning: '%s' directive output may be truncated writing up to 35 bytes into a region of size 32 [-Wformat-truncation=]
+drivers/mfd/cs42l43.c:1076:12: warning: 'cs42l43_suspend' defined but not used [-Wunused-function]
+drivers/mfd/cs42l43.c:1106:12: warning: 'cs42l43_resume' defined but not used [-Wunused-function]
+drivers/mfd/cs42l43.c:1124:12: warning: 'cs42l43_runtime_suspend' defined but not used [-Wunused-function]
+drivers/mfd/cs42l43.c:1138:12: warning: 'cs42l43_runtime_resume' defined but not used [-Wunused-function]
+drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:277:31: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
+drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:277:59: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 6 [-Wformat-truncation=]
+drivers/net/ethernet/broadcom/bnx2x/bnx2x_ethtool.c:3199:43: warning: '%d' directive output may be truncated writing between 1 and 7 bytes into a region of size 5 [-Wformat-truncation=]
+drivers/net/ethernet/marvell/octeontx2/af/cgx.c:1644:49: warning: '%d' directive writing between 1 and 11 bytes into a region of size between 4 and 6 [-Wformat-overflow=]
+drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1809:58: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+drivers/net/ethernet/mellanox/mlx5/core/en/reporter_rx.c:718:46: warning: '%s' directive output may be truncated writing up to 255 bytes into a region of size between 220 and 230 [-Wformat-truncation=]
+drivers/net/ethernet/mellanox/mlxsw/core_thermal.c:545:66: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 7 [-Wformat-truncation=]
+drivers/net/ethernet/qlogic/netxen/netxen_nic_main.c:1054:45: warning: '%d' directive writing between 1 and 11 bytes into a region of size between 4 and 19 [-Wformat-overflow=]
+drivers/net/ethernet/qlogic/qede/qede_main.c:1903:47: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 5 and 20 [-Wformat-truncation=]
+drivers/net/ethernet/qlogic/qede/qede_main.c:1903:61: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size between 5 and 20 [-Wformat-truncation=]
+drivers/net/ethernet/qlogic/qlcnic/qlcnic_main.c:1771:49: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size between 9 and 24 [-Wformat-truncation=]
+drivers/net/virtio_net.c:4101:36: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+drivers/net/virtio_net.c:4101:48: warning: '%d' directive writing between 1 and 11 bytes into a region of size 10 [-Wformat-overflow=]
+drivers/net/virtio_net.c:4101:50: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+drivers/net/virtio_net.c:4102:35: warning: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Wformat-overflow=]
+drivers/net/virtio_net.c:4102:49: warning: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Wformat-overflow=]
+drivers/of/unittest.c:3763:14: error: 'overlays' undeclared (first use in this function)
+drivers/of/unittest.c:3763:36: error: dereferencing pointer to incomplete type 'struct overlay_info'
+drivers/of/unittest.c:3763:48: error: increment of pointer to an incomplete type 'struct overlay_info'
+drivers/of/unittest.c:3773:8: error: too many arguments to function 'of_overlay_fdt_apply'
+drivers/opp/debugfs.c:63:42: warning: '%.1d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+drivers/parisc/led.c:693:24: warning: '%s' directive output may be truncated writing up to 64 bytes into a region of size 26 [-Wformat-truncation=]
+drivers/pci/controller/dwc/pci-keystone.c:1189:55: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+drivers/pci/hotplug/cpci_hotplug_core.c:215:44: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+drivers/pinctrl/pinctrl-cy8c95x0.c:168: warning: Function parameter or member 'gpio_reset' not described in 'cy8c95x0_pinctrl'
+drivers/platform/x86/think-lmi.c:756:14: warning: '%s' directive argument is null [-Wformat-overflow=]
+drivers/power/supply/bq2415x_charger.c:1501:36: warning: '%d' directive writing between 1 and 10 bytes into a region of size 6 [-Wformat-overflow=]
+drivers/power/supply/cros_peripheral_charger.c:20:26: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+drivers/rpmsg/rpmsg_char.c:75: warning: Function parameter or member 'remote_flow_restricted' not described in 'rpmsg_eptdev'
+drivers/rpmsg/rpmsg_char.c:75: warning: Function parameter or member 'remote_flow_updated' not described in 'rpmsg_eptdev'
+drivers/scsi/myrs.c:1089:10: warning: 'physical device - not rebuilding
+drivers/usb/gadget/function/f_mass_storage.c:2946:48: warning: '%d' directive output may be truncated writing between 1 and 9 bytes into a region of size 5 [-Wformat-truncation=]
+drivers/vdpa/pds/debugfs.c:266:49: warning: '%02d' directive output may be truncated writing between 2 and 11 bytes into a region of size 6 [-Wformat-truncation=]
+drivers/watchdog/stm32_iwdg.c:215:34: warning: 'stm32_iwdg_of_match' defined but not used [-Wunused-const-variable=]
+fs/dlm/debug_fs.c:1031:43: warning: '_queued_asts' directive output may be truncated writing 12 bytes into a region of size between 8 and 72 [-Wformat-truncation=]
+fs/dlm/debug_fs.c:1031:50: warning: '_queued_asts' directive output may be truncated writing 12 bytes into a region of size between 8 and 72 [-Wformat-truncation=]
+fs/gfs2/super.c:767: warning: Function parameter or member 'who' not described in 'gfs2_freeze_super'
+fs/gfs2/super.c:822: warning: Function parameter or member 'who' not described in 'gfs2_thaw_super'
+fs/smb/server/smb2pdu.c:4166: warning: Excess function parameter 'infoclass_size' description in 'buffer_check_err'
+fs/tracefs/event_inode.c:58: warning: Function parameter or member 'del_list' not described in 'eventfs_file'
+fs/tracefs/event_inode.c:58: warning: Function parameter or member 'is_freed' not described in 'eventfs_file'
+fs/tracefs/event_inode.c:58: warning: Function parameter or member 'rcu' not described in 'eventfs_file'
+include/linux/dynamic_debug.h:269:33: warning: '%s' directive argument is null [-Wformat-overflow=]
+include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' writing 18446744073709551615 bytes into a region of size between 1 and 9223372036854775807 [-Wstringop-overflow=]
+include/linux/printk.h:455:44: warning: '%s' directive argument is null [-Wformat-overflow=]
+kernel/bpf/core.c:596:3: warning: '%s' directive argument is null [-Wformat-overflow=]
+kernel/bpf/core.c:596:54: warning: '%s' directive argument is null [-Wformat-overflow=]
+kernel/bpf/core.c:596:54: warning: '%s' directive argument is null [-Wformat-truncation=]
+kernel/bpf/map_iter.c:200:17: warning: no previous declaration for 'bpf_map_sum_elem_count' [-Wmissing-declarations]
+lib/vsprintf.c:2893:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+mm/mempolicy.c:3118:26: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+net/bpf/test_run.c:559:15: warning: no previous declaration for 'bpf_fentry_test_sinfo' [-Wmissing-declarations]
+net/bpf/test_run.c:569:17: warning: no previous declaration for 'bpf_modify_return_test2' [-Wmissing-declarations]
+net/core/selftests.c:404:38: warning: '%s' directive output may be truncated writing likely 30 or more bytes into a region of size 28 [-Wformat-truncation=]
+net/socket.c:1678:21: warning: no previous declaration for 'update_socket_protocol' [-Wmissing-declarations]
+security/keys/proc.c:211:19: warning: '%llu' directive writing between 1 and 18 bytes into a region of size 16 [-Wformat-overflow=]
+security/keys/proc.c:213:23: warning: 'h' directive writing 1 byte into a region of size between 0 and 15 [-Wformat-overflow=]
+security/keys/proc.c:213:44: warning: 'h' directive writing 1 byte into a region of size between 0 and 15 [-Wformat-overflow=]
+security/keys/proc.c:215:24: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+security/keys/proc.c:217:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
+sound/firewire/fireworks/fireworks.c:97:14: warning: ', GUID ' directive output may be truncated writing 7 bytes into a region of size between 4 and 77 [-Wformat-truncation=]
+sound/hda/intel-sdw-acpi.c:34:21: warning: '-subproperties' directive output may be truncated writing 14 bytes into a region of size between 8 and 17 [-Wformat-truncation=]
+sound/hda/intel-sdw-acpi.c:34:35: warning: '-subproperties' directive output may be truncated writing 14 bytes into a region of size between 7 and 17 [-Wformat-truncation=]
+sound/hda/intel-sdw-acpi.c:34:35: warning: '-subproperties' directive output may be truncated writing 14 bytes into a region of size between 8 and 17 [-Wformat-truncation=]
+sound/pci/riptide/riptide.c:2109:55: warning: '%x' directive output may be truncated writing between 1 and 4 bytes into a region of size between 0 and 37 [-Wformat-truncation=]
+sound/pci/riptide/riptide.c:2109:69: warning: '%x' directive output may be truncated writing between 1 and 4 bytes into a region of size between 0 and 37 [-Wformat-truncation=]
+sound/soc/amd/ps/pci-ps.c:277:49: warning: '-subproperties' directive output may be truncated writing 14 bytes into a region of size between 8 and 17 [-Wformat-truncation=]
 
-Regarding the main issue of detaching the Zynq A05 DDRC part from the
-Synopsys uMCTL2 driver. I see there is another ZynqMP mem-ctl driver
-has been added recently. It's ZynqMP OCM. During its review you
-settled that it's possible to have two different EDAC drivers executed
-on the system.
-https://lore.kernel.org/linux-edac/BY5PR12MB4258CB67B70D71F107EC1E9DDB3E9@BY5PR12MB4258.namprd12.prod.outlook.com/
-So it's no longer issue in this series and the Zynq A05 DDRC part can
-be freely moved to a separate driver as I originally intended.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-Regarding the MC identifiers patch. I'll revise it one more time
-whether it needs to be changed. In anyway I still find it very handy
-to have a functionality of dynamic or alias-based MC identifier
-allocation.
+drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c:38:32: warning: cast from 'mtk_vcodec_ipi_handler' (aka 'void (*)(void *, unsigned int, void *)') to 'ipi_handler_t' (aka 'void (*)(const void *, unsigned int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+kernel/cgroup/cgroup.c:1104:22: warning: 'compare_css_sets' accessing 4 bytes in a region of size 0 [-Wstringop-overflow=]
+lib/crypto/mpi/mpi-inv.c:34:15: warning: variable 'k' set but not used [-Wunused-but-set-variable]
+sh4-linux-gcc: internal compiler error: Segmentation fault signal terminated program cc1
+{standard input}: Warning: end of file not at end of a line; newline inserted
+{standard input}:1095: Error: pcrel too far
+{standard input}:1211: Warning: overflow in branch to .L99; converted into longer instruction sequence
+{standard input}:1454: Error: pcrel too far
+{standard input}:611: Warning: end of file not at end of a line; newline inserted
+{standard input}:835: Warning: overflow in branch to .L85; converted into longer instruction sequence
+{standard input}:944: Error: unknown pseudo-op: `.'
 
-I'll respond to your comment sent to the patch 1 of this series. Then
-I'll fix all the issues described above and resubmit v4. Then we'll be
-able to get back to a standard review procedure.
+Error/Warning ids grouped by kconfigs:
 
-Once again sorry for the huge delay with proceeding in this patchset
-review.
+gcc_recent_errors
+|-- alpha-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- alpha-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-marvell-octeontx2-af-cgx.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-marvell-octeontx2-nic-otx2_pf.c:warning:snprintf-output-may-be-truncated-before-the-last-format-character
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-vdpa-pds-debugfs.c:warning:02d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   `-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|-- alpha-defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- alpha-randconfig-r004-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   `-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|-- alpha-randconfig-r034-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   `-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|-- arc-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- arc-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- arc-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- arc-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- arc-randconfig-001-20230824
+|   |-- arch-arc-kernel-setup.c:warning:variable-atomic-set-but-not-used
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- arc-randconfig-r011-20230824
+|   |-- arch-arc-kernel-setup.c:warning:variable-atomic-set-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- arc-randconfig-r032-20230824
+|   |-- arch-arc-kernel-setup.c:warning:variable-atomic-set-but-not-used
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- arc-vdk_hs38_smp_defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   `-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|-- arm-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- arm-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- security-keys-proc.c:warning:h-directive-writing-byte-into-a-region-of-size-between-and
+|   `-- security-keys-proc.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|-- arm-randconfig-001-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- security-keys-proc.c:warning:h-directive-writing-byte-into-a-region-of-size-between-and
+|   `-- security-keys-proc.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|-- arm64-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- arm64-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- csky-allmodconfig
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-int
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-void
+|   |-- arch-csky-include-asm-traps.h:error:expected-before-void
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-hifn_795x.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-broadcom-bnx2x-bnx2x_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-pci-controller-dwc-pci-keystone.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- csky-allnoconfig
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-int
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-void
+|   |-- arch-csky-include-asm-traps.h:error:expected-before-void
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- csky-allyesconfig
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-int
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-void
+|   |-- arch-csky-include-asm-traps.h:error:expected-before-void
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-hifn_795x.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-broadcom-bnx2x-bnx2x_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-pci-controller-dwc-pci-keystone.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- csky-defconfig
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-int
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-void
+|   |-- arch-csky-include-asm-traps.h:error:expected-before-void
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- csky-randconfig-r031-20230824
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-int
+|   |-- arch-csky-include-asm-ptrace.h:error:expected-before-void
+|   |-- arch-csky-include-asm-traps.h:error:expected-before-void
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-power-supply-bq2415x_charger.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-alldefconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- i386-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- i386-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-buildonly-randconfig-001-20230824
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-buildonly-randconfig-002-20230824
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-buildonly-randconfig-003-20230824
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-buildonly-randconfig-004-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-buildonly-randconfig-005-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-watchdog-stm32_iwdg.c:warning:stm32_iwdg_of_match-defined-but-not-used
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- include-linux-printk.h:warning:s-directive-argument-is-null
+|   `-- kernel-bpf-core.c:warning:s-directive-argument-is-null
+|-- i386-buildonly-randconfig-006-20230824
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-debian-10.3
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- net-socket.c:warning:no-previous-declaration-for-update_socket_protocol
+|-- i386-randconfig-001-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-randconfig-002-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- include-linux-printk.h:warning:s-directive-argument-is-null
+|-- i386-randconfig-003-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- include-linux-dynamic_debug.h:warning:s-directive-argument-is-null
+|   |-- include-linux-printk.h:warning:s-directive-argument-is-null
+|   `-- lib-vsprintf.c:warning:writing-byte-into-a-region-of-size
+|-- i386-randconfig-004-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- include-linux-printk.h:warning:s-directive-argument-is-null
+|-- i386-randconfig-005-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-randconfig-006-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- i386-randconfig-141-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- kernel-bpf-core.c:warning:s-directive-argument-is-null
+|-- loongarch-allmodconfig
+|   `-- lib-gcc-loongarch64-linux-..-plugin-include-config-loongarch-loongarch-opts.h:fatal-error:loongarch-def.h:No-such-file-or-directory
+|-- loongarch-allnoconfig
+|   |-- arch-loongarch-kernel-asm-offsets.c:warning:no-previous-prototype-for-output_thread_lbt_defines
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- loongarch-allyesconfig
+|   `-- lib-gcc-loongarch64-linux-..-plugin-include-config-loongarch-loongarch-opts.h:fatal-error:loongarch-def.h:No-such-file-or-directory
+|-- loongarch-defconfig
+|   |-- arch-loongarch-kernel-asm-offsets.c:warning:no-previous-prototype-for-output_thread_lbt_defines
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   `-- sound-hda-intel-sdw-acpi.c:warning:subproperties-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|-- loongarch-randconfig-r003-20230824
+|   |-- arch-loongarch-kernel-asm-offsets.c:warning:no-previous-prototype-for-output_thread_lbt_defines
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   `-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|-- m68k-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   `-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|-- m68k-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- m68k-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   `-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|-- m68k-defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- m68k-hp300_defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- m68k-mvme16x_defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- m68k-sun3_defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- microblaze-allmodconfig
+|   |-- arch-microblaze-include-asm-cacheflush.h:warning:flush_dcache_folio-defined-but-not-used
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-hifn_795x.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-broadcom-bnx2x-bnx2x_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-pci-controller-dwc-pci-keystone.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- microblaze-allnoconfig
+|   |-- arch-microblaze-include-asm-cacheflush.h:warning:flush_dcache_folio-defined-but-not-used
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- microblaze-allyesconfig
+|   |-- arch-microblaze-include-asm-cacheflush.h:warning:flush_dcache_folio-defined-but-not-used
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-hifn_795x.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-broadcom-bnx2x-bnx2x_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-pci-controller-dwc-pci-keystone.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- microblaze-defconfig
+|   |-- arch-microblaze-include-asm-cacheflush.h:warning:flush_dcache_folio-defined-but-not-used
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- microblaze-randconfig-r002-20230824
+|   |-- arch-microblaze-include-asm-cacheflush.h:warning:flush_dcache_folio-defined-but-not-used
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- mips-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- mips-randconfig-r023-20230824
+|   `-- include-linux-fortify-string.h:warning:__builtin_memcpy-writing-bytes-into-a-region-of-size-between-and
+|-- nios2-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   `-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|-- nios2-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- nios2-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   `-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|-- nios2-defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- nios2-randconfig-r015-20230824
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- nios2-randconfig-r036-20230824
+|   `-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|-- openrisc-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-broadcom-bnx2x-bnx2x_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-pci-controller-dwc-pci-keystone.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- openrisc-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- openrisc-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-broadcom-bnx2x-bnx2x_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-pci-controller-dwc-pci-keystone.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- openrisc-randconfig-r012-20230824
+|   `-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|-- parisc-allmodconfig
+|   |-- ERROR:L874-drivers-mtd-nand-raw-nand.ko-undefined
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-parisc-led.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- parisc-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- parisc-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-parisc-led.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- parisc-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   `-- drivers-parisc-led.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|-- parisc-randconfig-r001-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-mellanox-mlx5-core-en-reporter_rx.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- sound-pci-riptide-riptide.c:warning:x-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|-- parisc-randconfig-r016-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-tegra20-apb-dma.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-parisc-led.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-pci-controller-dwc-pci-keystone.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-usb-gadget-function-f_mass_storage.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   `-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|-- parisc-randconfig-r025-20230824
+|   |-- drivers-crypto-hifn_795x.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-parisc-led.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   `-- drivers-watchdog-stm32_iwdg.c:warning:stm32_iwdg_of_match-defined-but-not-used
+|-- parisc64-alldefconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   `-- drivers-parisc-led.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|-- parisc64-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   `-- drivers-parisc-led.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|-- powerpc-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- powerpc-arches_defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- powerpc-canyonlands_defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- powerpc-currituck_defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- powerpc-wii_defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- riscv-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- riscv-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- riscv-rv32_defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- s390-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- s390-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- sh-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- sh4-linux-gcc:internal-compiler-error:Segmentation-fault-signal-terminated-program-cc1
+|   |-- standard-input:Error:pcrel-too-far
+|   |-- standard-input:Error:unknown-pseudo-op:
+|   `-- standard-input:Warning:end-of-file-not-at-end-of-a-line-newline-inserted
+|-- sh-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- sh-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- sh4-linux-gcc:internal-compiler-error:Segmentation-fault-signal-terminated-program-cc1
+|   |-- standard-input:Error:pcrel-too-far
+|   `-- standard-input:Warning:end-of-file-not-at-end-of-a-line-newline-inserted
+|-- sh-randconfig-r013-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-watchdog-stm32_iwdg.c:warning:stm32_iwdg_of_match-defined-but-not-used
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- sh4-linux-gcc:internal-compiler-error:Segmentation-fault-signal-terminated-program-cc1
+|   |-- standard-input:Error:pcrel-too-far
+|   `-- standard-input:Warning:end-of-file-not-at-end-of-a-line-newline-inserted
+|-- sh-randconfig-r022-20230824
+|   |-- standard-input:Warning:overflow-in-branch-to-.L85-converted-into-longer-instruction-sequence
+|   `-- standard-input:Warning:overflow-in-branch-to-.L99-converted-into-longer-instruction-sequence
+|-- sparc-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-marvell-octeontx2-af-cgx.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-marvell-octeontx2-nic-otx2_pf.c:warning:snprintf-output-may-be-truncated-before-the-last-format-character
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-vdpa-pds-debugfs.c:warning:02d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- sparc-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- sparc-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-marvell-octeontx2-af-cgx.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-marvell-octeontx2-nic-otx2_pf.c:warning:snprintf-output-may-be-truncated-before-the-last-format-character
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-vdpa-pds-debugfs.c:warning:02d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- sparc-defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- sparc-randconfig-r006-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   `-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|-- sparc-randconfig-r022-20230824
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- sparc64-allmodconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-marvell-octeontx2-af-cgx.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-marvell-octeontx2-nic-otx2_pf.c:warning:snprintf-output-may-be-truncated-before-the-last-format-character
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-vdpa-pds-debugfs.c:warning:02d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- sparc64-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-marvell-octeontx2-af-cgx.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-marvell-octeontx2-nic-otx2_pf.c:warning:snprintf-output-may-be-truncated-before-the-last-format-character
+|   |-- drivers-net-ethernet-mellanox-mlxsw-core_thermal.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-netxen-netxen_nic_main.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-ethernet-qlogic-qlcnic-qlcnic_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-vdpa-pds-debugfs.c:warning:02d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- sparc64-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- um-defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- um-i386_defconfig
+|   |-- arch-um-os-Linux-umid.c:warning:__builtin___sprintf_chk-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   `-- net-socket.c:warning:no-previous-declaration-for-update_socket_protocol
+|-- um-x86_64_defconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- x86_64-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|-- x86_64-allyesconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-infiniband-hw-qib-qib_verbs.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-smb-server-smb2pdu.c:warning:Excess-function-parameter-infoclass_size-description-in-buffer_check_err
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- x86_64-buildonly-randconfig-001-20230824
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- drivers-watchdog-stm32_iwdg.c:warning:stm32_iwdg_of_match-defined-but-not-used
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- x86_64-buildonly-randconfig-002-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-firmware-turris-mox-rwtm.c:warning:08x-directive-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-leds-leds-lp55xx-common.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- sound-pci-riptide-riptide.c:warning:x-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|-- x86_64-buildonly-randconfig-003-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   `-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|-- x86_64-buildonly-randconfig-004-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:warning:u-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-opp-debugfs.c:warning:.1d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- x86_64-buildonly-randconfig-005-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- drivers-power-supply-cros_peripheral_charger.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- net-core-selftests.c:warning:s-directive-output-may-be-truncated-writing-likely-or-more-bytes-into-a-region-of-size
+|   |-- security-keys-proc.c:warning:h-directive-writing-byte-into-a-region-of-size-between-and
+|   |-- security-keys-proc.c:warning:llu-directive-writing-between-and-bytes-into-a-region-of-size
+|   `-- security-keys-proc.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|-- x86_64-buildonly-randconfig-006-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras_eeprom.c:warning:012llX-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-hwmon-i5k_amb.c:warning:_alarm-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_input-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_label-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_max-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_mid-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_min-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-infiniband-hw-qib-qib_init.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-infiniband-hw-qib-qib_verbs.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-aquantia-atlantic-aq_ethtool.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-ethernet-qlogic-qede-qede_main.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-opp-debugfs.c:warning:.1d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- kernel-bpf-map_iter.c:warning:no-previous-declaration-for-bpf_map_sum_elem_count
+|   |-- net-bpf-test_run.c:warning:no-previous-declaration-for-bpf_fentry_test_sinfo
+|   |-- net-bpf-test_run.c:warning:no-previous-declaration-for-bpf_modify_return_test2
+|   |-- net-socket.c:warning:no-previous-declaration-for-update_socket_protocol
+|   `-- sound-pci-riptide-riptide.c:warning:x-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|-- x86_64-defconfig
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- include-linux-printk.h:warning:s-directive-argument-is-null
+|   |-- lib-vsprintf.c:warning:writing-byte-into-a-region-of-size
+|   |-- mm-mempolicy.c:warning:writing-byte-into-a-region-of-size
+|   `-- sound-hda-intel-sdw-acpi.c:warning:subproperties-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|-- x86_64-randconfig-011-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_resume-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_runtime_suspend-defined-but-not-used
+|   |-- drivers-mfd-cs42l43.c:warning:cs42l43_suspend-defined-but-not-used
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- include-linux-printk.h:warning:s-directive-argument-is-null
+|-- x86_64-randconfig-012-20230824
+|   |-- arch-x86-events-amd-iommu.c:warning:u-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-platform-x86-think-lmi.c:warning:s-directive-argument-is-null
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- include-linux-printk.h:warning:s-directive-argument-is-null
+|   |-- sound-firewire-fireworks-fireworks.c:warning:GUID-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- sound-hda-intel-sdw-acpi.c:warning:subproperties-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   `-- sound-soc-amd-ps-pci-ps.c:warning:subproperties-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|-- x86_64-randconfig-013-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-leds-leds-lp55xx-common.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- include-linux-dynamic_debug.h:warning:s-directive-argument-is-null
+|   `-- lib-vsprintf.c:warning:writing-byte-into-a-region-of-size
+|-- x86_64-randconfig-014-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- x86_64-randconfig-015-20230824
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- drivers-opp-debugfs.c:warning:.1d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- kernel-bpf-map_iter.c:warning:no-previous-declaration-for-bpf_map_sum_elem_count
+|   |-- net-bpf-test_run.c:warning:no-previous-declaration-for-bpf_fentry_test_sinfo
+|   |-- net-bpf-test_run.c:warning:no-previous-declaration-for-bpf_modify_return_test2
+|   `-- net-socket.c:warning:no-previous-declaration-for-update_socket_protocol
+|-- x86_64-randconfig-016-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-edac-sb_edac.c:warning:u-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- include-linux-printk.h:warning:s-directive-argument-is-null
+|-- x86_64-randconfig-071-20230824
+|   |-- drivers-clk-clk-lmk04832.c:warning:02d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-clk-clk-lmk04832.c:warning:02d-directive-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras_eeprom.c:warning:012llX-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-i915-display-intel_tc.c:error:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- drivers-pci-hotplug-cpci_hotplug_core.c:warning:snprintf-output-may-be-truncated-before-the-last-format-character
+|   |-- drivers-pinctrl-pinctrl-cy8c95x0.c:warning:Function-parameter-or-member-gpio_reset-not-described-in-cy8c95x0_pinctrl
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- net-socket.c:warning:no-previous-declaration-for-update_socket_protocol
+|-- x86_64-randconfig-072-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- kernel-bpf-core.c:warning:s-directive-argument-is-null
+|-- x86_64-randconfig-073-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- x86_64-randconfig-074-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-infiniband-hw-qib-qib_verbs.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   |-- fs-dlm-debug_fs.c:warning:_queued_asts-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- x86_64-randconfig-075-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-dma-dw-edma-dw-edma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-dma-dw-edma-dw-hdma-v0-debugfs.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_ras_eeprom.c:warning:012llX-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-hwmon-i5k_amb.c:warning:_alarm-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_input-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_label-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_max-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_mid-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-hwmon-i5k_amb.c:warning:_min-directive-output-may-be-truncated-writing-bytes-into-a-region-of-size-between-and
+|   |-- drivers-media-platform-cadence-cdns-csi2rx.c:warning:u-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- drivers-opp-debugfs.c:warning:.1d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-scsi-myrs.c:warning:physical-device-not-rebuilding
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_freeze_super
+|   |-- fs-gfs2-super.c:warning:Function-parameter-or-member-who-not-described-in-gfs2_thaw_super
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   |-- kernel-bpf-map_iter.c:warning:no-previous-declaration-for-bpf_map_sum_elem_count
+|   |-- net-bpf-test_run.c:warning:no-previous-declaration-for-bpf_fentry_test_sinfo
+|   |-- net-bpf-test_run.c:warning:no-previous-declaration-for-bpf_modify_return_test2
+|   `-- net-socket.c:warning:no-previous-declaration-for-update_socket_protocol
+|-- x86_64-randconfig-076-20230824
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training_dpia.c:warning:dp_decide_lane_settings-accessing-bytes-in-a-region-of-size
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training_fixed_vs_pe_retimer.c:warning:dp_decide_lane_settings-accessing-bytes-in-a-region-of-size
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-media-radio-radio-shark2.c:warning:s-directive-output-may-be-truncated-writing-up-to-bytes-into-a-region-of-size
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- x86_64-randconfig-161-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_device.c:warning:Function-parameter-or-member-xcc_id-not-described-in-amdgpu_mm_wreg_mmio_rlc
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-leds-leds-lp55xx-common.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- lib-vsprintf.c:warning:writing-byte-into-a-region-of-size
+|-- x86_64-randconfig-r033-20230824
+|   |-- arch-x86-events-amd-iommu.c:warning:u-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-crypto-intel-qat-qat_common-adf_isr.c:warning:d-directive-output-may-be-truncated-writing-between-and-bytes-into-a-region-of-size-between-and
+|   |-- drivers-net-virtio_net.c:warning:d-directive-writing-between-and-bytes-into-a-region-of-size
+|   |-- drivers-net-virtio_net.c:warning:sprintf-may-write-a-terminating-nul-past-the-end-of-the-destination
+|   |-- drivers-of-unittest.c:error:dereferencing-pointer-to-incomplete-type-struct-overlay_info
+|   |-- drivers-of-unittest.c:error:increment-of-pointer-to-an-incomplete-type-struct-overlay_info
+|   |-- drivers-of-unittest.c:error:overlays-undeclared-(first-use-in-this-function)
+|   |-- drivers-of-unittest.c:error:too-many-arguments-to-function-of_overlay_fdt_apply
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|   `-- include-linux-printk.h:warning:s-directive-argument-is-null
+|-- x86_64-rhel-8.3
+|   |-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+|   |-- drivers-gpu-drm-drm_gpuva_mgr.c:warning:variable-prev-set-but-not-used
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-del_list-not-described-in-eventfs_file
+|   |-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-is_freed-not-described-in-eventfs_file
+|   `-- fs-tracefs-event_inode.c:warning:Function-parameter-or-member-rcu-not-described-in-eventfs_file
+|-- xtensa-allnoconfig
+|   `-- block-disk-events.c:warning:Excess-function-parameter-events-description-in-disk_force_media_change
+`-- xtensa-randconfig-r122-20230824
+    `-- kernel-cgroup-cgroup.c:warning:compare_css_sets-accessing-bytes-in-a-region-of-size
+clang_recent_errors
+|-- arm-multi_v5_defconfig
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- hexagon-randconfig-001-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- hexagon-randconfig-002-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- hexagon-randconfig-r005-20230824
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- hexagon-randconfig-r024-20230824
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   `-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|-- hexagon-randconfig-r026-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   |-- drivers-media-platform-mediatek-vcodec-common-mtk_vcodec_fw_vpu.c:warning:cast-from-mtk_vcodec_ipi_handler-(aka-void-(-)(void-unsigned-int-void-)-)-to-ipi_handler_t-(aka-void-(-)(const-void-unsigned-i
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-randconfig-011-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-randconfig-012-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-randconfig-013-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-randconfig-014-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-randconfig-015-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-randconfig-016-20230824
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- i386-randconfig-r014-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- mips-ath79_defconfig
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- mips-cu1000-neo_defconfig
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- s390-randconfig-001-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_restricted-not-described-in-rpmsg_eptdev
+|   |-- drivers-rpmsg-rpmsg_char.c:warning:Function-parameter-or-member-remote_flow_updated-not-described-in-rpmsg_eptdev
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- x86_64-randconfig-001-20230824
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Excess-function-parameter-db_index-description-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_doorbell_mgr.c:warning:Function-parameter-or-member-doorbell_index-not-described-in-amdgpu_doorbell_index_on_bar
+|   |-- drivers-gpu-drm-tests-drm_kunit_helpers.c:warning:expecting-prototype-for-drm_kunit_helper_context_alloc().-Prototype-was-for-drm_kunit_helper_acquire_ctx_alloc()-instead
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- x86_64-randconfig-002-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- x86_64-randconfig-003-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- x86_64-randconfig-004-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- x86_64-randconfig-005-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+|-- x86_64-randconfig-006-20230824
+|   `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
+`-- x86_64-rhel-8.3-rust
+    `-- lib-crypto-mpi-mpi-inv.c:warning:variable-k-set-but-not-used
 
-Regards
--Serge(y)
+elapsed time: 757m
 
-> 
-> Note the patchsets above must be merged in the same order as they are
-> placed in the list in order to prevent conflicts. Nothing prevents them
-> from being reviewed synchronously though. Any tests are very welcome.
-> Thanks in advance.
-> 
-> Regarding this series content. It's an initial patchset which
-> traditionally provides various fixes, cleanups and modifications required
-> for the more comfortable further features development. The main goal of it
-> though is to detach the Xilinx Zynq A05 DDRC related code into the
-> dedicated driver since first it has nothing to do with the Synopsys DW
-> uMCTL2 DDR controller and second it will be a great deal obstacle on the
-> way of extending the Synopsys-part functionality.
-> 
-> The series starts with fixes patches, which in short concern the next
-> aspects: touching the ZynqMP-specific CSRs on the Xilinx ZinqMP platform
-> only, serializing an access to the ECCCLR register, adding correct memory
-> devices type detection, setting a correct value to the
-> mem_ctl_info.scrub_cap field, dropping an erroneous ADDRMAP[4] parsing and
-> getting back a correct order of the ECC errors info detection procedure.
-> 
-> Afterwards the patchset provides several cleanup patches required for the
-> more coherent code splitting up (Xilinx Zynq A05 and Synopsys DW uMCTL2)
-> so the provided modifications would be useful in both drivers. First we
-> get to replace the platform resource manual IO-remapping with the
-> devm_platform_ioremap_resource() method call. Secondly we suggest to drop:
-> internal CE/UE errors counters, local to_mci() macros definition, some
-> redundant ecc_error_info structure fields and redundant info from the
-> error message, duplicated dimm->nr_pages debug printout and spaces from
-> the MEM_TYPE flags declarations. (The later two updates concern the MCI
-> core part.) Thirdly before splitting up the driver we need to add an
-> unique MC index allocation infrastructure to the MCI core.  It's required
-> since after splitting the driver up we'll need to make sure both device
-> types could be correctly probed on the same platform. Finally the Xilinx
-> Zynq A05 part of the driver is moved out to a dedicated driver where it
-> should been originally placed. After that the platform-specific setups API
-> is removed from the Synopsys DW uMCTL2 DDRC driver since it's no longer
-> required.
-> 
-> Finally as the cherry on the cake we suggest to unify the DW uMCTL2 DDRC
-> driver entities naming and replace the open-coded "shift/mask" patter with
-> the kernel helpers like BIT/GENMASK/FIELD_x in there. It shall
-> significantly improve the code readability.
-> 
-> Link: https://lore.kernel.org/linux-edac/20220822190730.27277-1-Sergey.Semin@baikalelectronics.ru/
-> Changelog v2:
-> - Move Synopsys DW uMCTL2 DDRC bindings file renaming to a separate patch.
->   (@Krzysztof)
-> - Introduce a new compatible string "snps,dw-umctl2-ddrc" matching the new
->   DT-schema name.
-> - Forgot to fix some of the prefix of the SYNPS_ZYNQMP_IRQ_REGS macro
->   in several places. (@tbot)
-> - Drop the no longer used "priv" pointer from the mc_init() function.
->   (@tbot)
-> - Include "linux/bitfield.h" header file to get the FIELD_GET macro
->   definition. (@tbot)
-> - Drop the already merged in patches:
-> [PATCH 12/20] EDAC/mc: Replace spaces with tabs in memtype flags definition
-> [PATCH 13/20] EDAC/mc: Drop duplicated dimm->nr_pages debug printout
-> 
-> Link: https://lore.kernel.org/linux-edac/20220910194237.10142-1-Sergey.Semin@baikalelectronics.ru
-> Changelog v3:
-> - Drop the no longer used "priv" pointer from the mc_init() function.
->   (@tbot)
-> - Drop the merged in patches:
-> [PATCH v2 14/19] dt-bindings: memory: snps: Detach Zynq DDRC controller support
-> [PATCH v2 15/19] dt-bindings: memory: snps: Use more descriptive device name
->   (@Krzysztof)
-> 
-> Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-> Cc: Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>
-> Cc: Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>
-> Cc: Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>
-> Cc: Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>
-> Cc: Manish Narani <manish.narani@xilinx.com>
-> Cc: Dinh Nguyen <dinguyen@kernel.org>
-> Cc: James Morse <james.morse@arm.com>
-> Cc: Robert Richter <rric@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-edac@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> 
-> Serge Semin (17):
->   EDAC/synopsys: Fix native uMCTL2 IRQs handling procedure
->   EDAC/synopsys: Fix generic device type detection procedure
->   EDAC/synopsys: Fix mci->scrub_cap field setting
->   EDAC/synopsys: Drop erroneous ADDRMAP4.addrmap_col_b10 parse
->   EDAC/synopsys: Fix reading errors count before ECC status
->   EDAC/synopsys: Use platform device devm ioremap method
->   EDAC/synopsys: Drop internal CE and UE counters
->   EDAC/synopsys: Drop local to_mci macro implementation
->   EDAC/synopsys: Drop struct ecc_error_info.blknr field
->   EDAC/synopsys: Shorten out struct ecc_error_info.bankgrpnr field name
->   EDAC/synopsys: Drop redundant info from error message
->   EDAC/mc: Init DIMM labels in MC registration method
->   EDAC/mc: Add MC unique index allocation procedure
->   EDAC/synopsys: Detach Zynq DDRC controller support
->   EDAC/synopsys: Drop unused platform-specific setup API
->   EDAC/synopsys: Unify the driver entities naming
->   EDAC/synopsys: Convert to using BIT/GENMASK/FIELD_x macros
-> 
->  MAINTAINERS                  |   1 +
->  drivers/edac/Kconfig         |   9 +-
->  drivers/edac/Makefile        |   1 +
->  drivers/edac/edac_mc.c       | 135 +++++-
->  drivers/edac/edac_mc.h       |   4 +
->  drivers/edac/synopsys_edac.c | 903 ++++++++++++-----------------------
->  drivers/edac/zynq_edac.c     | 501 +++++++++++++++++++
->  7 files changed, 927 insertions(+), 627 deletions(-)
->  create mode 100644 drivers/edac/zynq_edac.c
-> 
-> -- 
-> 2.37.3
-> 
-> 
+configs tested: 178
+configs skipped: 2
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r004-20230824   gcc  
+alpha                randconfig-r034-20230824   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20230824   gcc  
+arc                  randconfig-r011-20230824   gcc  
+arc                  randconfig-r032-20230824   gcc  
+arc                    vdk_hs38_smp_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                          moxart_defconfig   clang
+arm                        multi_v5_defconfig   clang
+arm                       netwinder_defconfig   clang
+arm                   randconfig-001-20230824   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r031-20230824   gcc  
+hexagon               randconfig-001-20230824   clang
+hexagon               randconfig-002-20230824   clang
+hexagon              randconfig-r005-20230824   clang
+hexagon              randconfig-r024-20230824   clang
+hexagon              randconfig-r026-20230824   clang
+i386                             alldefconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20230824   gcc  
+i386         buildonly-randconfig-002-20230824   gcc  
+i386         buildonly-randconfig-003-20230824   gcc  
+i386         buildonly-randconfig-004-20230824   gcc  
+i386         buildonly-randconfig-005-20230824   gcc  
+i386         buildonly-randconfig-006-20230824   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20230824   gcc  
+i386                  randconfig-002-20230824   gcc  
+i386                  randconfig-003-20230824   gcc  
+i386                  randconfig-004-20230824   gcc  
+i386                  randconfig-005-20230824   gcc  
+i386                  randconfig-006-20230824   gcc  
+i386                  randconfig-011-20230824   clang
+i386                  randconfig-012-20230824   clang
+i386                  randconfig-013-20230824   clang
+i386                  randconfig-014-20230824   clang
+i386                  randconfig-015-20230824   clang
+i386                  randconfig-016-20230824   clang
+i386                 randconfig-r014-20230824   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20230824   gcc  
+loongarch            randconfig-r003-20230824   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          hp300_defconfig   gcc  
+m68k                        mvme16x_defconfig   gcc  
+m68k                           sun3_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+microblaze           randconfig-r002-20230824   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                          ath79_defconfig   clang
+mips                     cu1000-neo_defconfig   clang
+mips                        omega2p_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r015-20230824   gcc  
+nios2                randconfig-r036-20230824   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc             randconfig-r012-20230824   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r001-20230824   gcc  
+parisc               randconfig-r016-20230824   gcc  
+parisc               randconfig-r025-20230824   gcc  
+parisc64                         alldefconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc                      arches_defconfig   gcc  
+powerpc                 canyonlands_defconfig   gcc  
+powerpc                   currituck_defconfig   gcc  
+powerpc                         wii_defconfig   gcc  
+powerpc64            randconfig-r035-20230824   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20230824   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20230824   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                   randconfig-r013-20230824   gcc  
+sh                           se7722_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r006-20230824   gcc  
+sparc                randconfig-r022-20230824   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r021-20230824   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20230824   gcc  
+x86_64       buildonly-randconfig-002-20230824   gcc  
+x86_64       buildonly-randconfig-003-20230824   gcc  
+x86_64       buildonly-randconfig-004-20230824   gcc  
+x86_64       buildonly-randconfig-005-20230824   gcc  
+x86_64       buildonly-randconfig-006-20230824   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20230824   clang
+x86_64                randconfig-002-20230824   clang
+x86_64                randconfig-003-20230824   clang
+x86_64                randconfig-004-20230824   clang
+x86_64                randconfig-005-20230824   clang
+x86_64                randconfig-006-20230824   clang
+x86_64                randconfig-011-20230824   gcc  
+x86_64                randconfig-012-20230824   gcc  
+x86_64                randconfig-013-20230824   gcc  
+x86_64                randconfig-014-20230824   gcc  
+x86_64                randconfig-015-20230824   gcc  
+x86_64                randconfig-016-20230824   gcc  
+x86_64                randconfig-071-20230824   gcc  
+x86_64                randconfig-072-20230824   gcc  
+x86_64                randconfig-073-20230824   gcc  
+x86_64                randconfig-074-20230824   gcc  
+x86_64                randconfig-075-20230824   gcc  
+x86_64                randconfig-076-20230824   gcc  
+x86_64               randconfig-r033-20230824   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa               randconfig-r023-20230824   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
