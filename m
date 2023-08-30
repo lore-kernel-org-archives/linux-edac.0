@@ -2,80 +2,76 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3556DC83F1A
-	for <linux-edac@archiver.kernel.org>; Tue, 29 Aug 2023 23:05:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EEFAC83F17
+	for <linux-edac@archiver.kernel.org>; Wed, 30 Aug 2023 18:53:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240949AbjH2XEj (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 29 Aug 2023 19:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56082 "EHLO
+        id S237799AbjH3Sw1 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:52:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240656AbjH2XEd (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 29 Aug 2023 19:04:33 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BC1D1BE;
-        Tue, 29 Aug 2023 16:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693350271; x=1724886271;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vXqICYnzaOqND5FKQagieBrPrd0aeYtrLg1HfahufbI=;
-  b=a3+/2AHTQ889q1iiczg1drbrSxFt30FCYulK2dIitGT/gUxg8JI0HrcJ
-   3MXKga3DTVSzyyN9zgbDRf+zWMth3Qpu26YnUW8u2zFfT1zseiZHzaDn6
-   IImLy/Ik7fqLtmT9cxb1NVKV2bQJQmMzcyHFq4YgsrfkE0JvLqdCHIMSg
-   eytfL6hu1agKN7RUbLE0rouNsNtMPslMvBuNRZh3ju6dpwJnkdcMvz1mg
-   BLcgj42v3gQqyCx+76cM248VjEHi7APnvez6Ga6XrnXxbzmtQoDgB1Sw2
-   XBa0okY4q3U6nf7GqRUbClZrCdG8qlAhGtppPFD6TvPkiwFaEDoJ901rS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="365703695"
-X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="365703695"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 16:04:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10817"; a="742014351"
-X-IronPort-AV: E=Sophos;i="6.02,211,1688454000"; 
-   d="scan'208";a="742014351"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.74])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2023 16:04:29 -0700
-Date:   Tue, 29 Aug 2023 16:04:28 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Borislav Petkov <bp@alien8.de>, linux-edac@vger.kernel.org,
+        with ESMTP id S243707AbjH3LeS (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 30 Aug 2023 07:34:18 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B498132;
+        Wed, 30 Aug 2023 04:34:16 -0700 (PDT)
+Received: from nazgul.tnic (unknown [78.130.214.203])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6D4D81EC08F9;
+        Wed, 30 Aug 2023 13:34:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1693395254;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=kyrJuOePM6iTnqDG/fqXmuj6BgFDXnc1OpummGdqoKk=;
+        b=Rv5vok3kkjHpodzGz6dXlJ08m3i9Xxymtas3l8jZ+cnHwNA7rBknQfHyQA8I1G2ZBVSw1n
+        3WeBwD7f19u4zN6vw8Te1ShmYUlNvJ/BpHRkKrqvMHO7oTGGBanvzdZ9WeIq1aoTRSA2jf
+        ZDaTb1N7DYuqzLqBhvCeufB9+Ju4h5I=
+Date:   Wed, 30 Aug 2023 13:34:21 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Shravan Kumar Ramani <shravankr@nvidia.com>
+Cc:     James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>, linux-edac@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [GIT PULL] EDAC drivers
-Message-ID: <ZO55fLRfOawcoxQt@agluck-desk3>
+Subject: Re: [PATCH v1] EDAC/bluefield_edac: Use ARM SMC for EMI access
+Message-ID: <20230830113421.GBZO8pPUILVoBUVlki@fat_crate.local>
+References: <7a67e5fd25664f4c2277283e15b438e826b3c163.1693392576.git.shravankr@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <7a67e5fd25664f4c2277283e15b438e826b3c163.1693392576.git.shravankr@nvidia.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The following changes since commit 6eaae198076080886b9e7d57f4ae06fa782f90ef:
+On Wed, Aug 30, 2023 at 06:56:14AM -0400, Shravan Kumar Ramani wrote:
+> Add secure read/write calls (arm_smccc_smc) to bluefield_edac.
+> The ACPI table entry decides whether SMC is need for accessing
 
-  Linux 6.5-rc3 (2023-07-23 15:24:10 -0700)
+SMC? Self-Modifying Code?
 
-are available in the Git repository at:
+> the registers in the External Memory Interface block. If not,
+> the registers may be mapped and accessed directly.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v6.6
+I'm sure there's a human readable explanation for the above.
 
-for you to fetch changes up to ce53ad81ed36c24aff075f94474adecfabfcf239:
+> v0 -> v1
+> Updated commit message
 
-  EDAC/igen6: Fix the issue of no error events (2023-08-02 13:09:56 -0700)
+I still have no clue what those secure calls are.
 
-----------------------------------------------------------------
-Intel EDAC fixes:
+I'm sure there's some ARM documentation which you use in order to
+explain why those are needed.
 
-- Old igen6 driver could lose pending events during initialization
-- Sapphire Rapids workstations have fewer memory controllers than their
-  bigger siblings. This confused the driver.
+> +static int edac_readl(void __iomem *addr, uint32_t *result,
 
-----------------------------------------------------------------
-Qiuxu Zhuo (2):
-      EDAC/i10nm: Skip the absent memory controllers
-      EDAC/igen6: Fix the issue of no error events
+No "edac_" previxes to driver-local functions. They belong to the EDAC
+subsystem.
 
- drivers/edac/i10nm_base.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++-----
- drivers/edac/igen6_edac.c |  8 ++++----
- 2 files changed, 53 insertions(+), 9 deletions(-)
+-- 
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
