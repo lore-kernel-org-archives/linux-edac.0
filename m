@@ -2,127 +2,102 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07E85EE021A
-	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 02:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F81CA0EF3
+	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233965AbjINCrM (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 13 Sep 2023 22:47:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57092 "EHLO
+        id S234197AbjINFTQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:19:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229669AbjINCrM (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 13 Sep 2023 22:47:12 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5070B1724;
-        Wed, 13 Sep 2023 19:47:08 -0700 (PDT)
+        with ESMTP id S234655AbjINFTQ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:16 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F071BD0;
+        Wed, 13 Sep 2023 22:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694659628; x=1726195628;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7AqD5A5iW3EXE8bXRwZVy9z6UDY0KU2vLZ++lAl1CMw=;
-  b=U0mDZCYVkizoSA50yIm3OFJ3HO24ja5FLma0OCr7Z3t11wm5M4yjaJ1z
-   IJrqq3v7B8425Jeg91Bq4nS+TI//bxDB+tl1niONSdDxApsSxM/BWLcIa
-   nXYHkYI6mw1p0M1JOCSkTPf95dfpGYvghXhqdSiPqMr3KGtyNs0UFy5wo
-   W8fEIWXtomFoXXnyfHBns2GvdJlH8BYya00j7APjWCZ7gi9CtFP5Zmb+v
-   QAje1ohcceG83ZlmCfAkfj8ePIcLJltH2HgJ+8a5WyAMDBs7x+RZhXRrF
-   qGGx4TqIHPjwQldUYo+nvVY77l858ILMeHJD2yS4eaSstcGEXPjY4hbDd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="378760918"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="378760918"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 19:47:08 -0700
+  t=1694668752; x=1726204752;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=5bEJT87B98JS6iQ6LlrNVmLBQuK2BkIiNY3V5ZdVNuo=;
+  b=NvRI9X19L5Srs533HXrl8oZ193+s7XrFmm7Z/SLhyqtN2AWg/jtcTdmh
+   zVm+kbUJGNyX+xPrvBfnASNFTL9TSf2oJt7UhFEHGH7SlKISn+Uv4XjJG
+   V8Idv+jhqjphOoUiL+sRN2ngsAiuvqfR8soY/TiDWJNbJstQfympMi68Y
+   aLtOTiCvyjzlC7cV25cx8PU1+CCC05MgSWg1m8a47gtk23pexRPvQeaxF
+   TM8w82HkepOrjqHQKI9Uh9qXg0gVuiVE5xkTjKb6qiuAKYHuizVeyvNzw
+   5z/9TfcWr4rFB7SaI/iBtNkYT3TAV1QQ6tANp6o+/UQyAvIGWyi/azc1k
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661078"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="382661078"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="868067061"
-X-IronPort-AV: E=Sophos;i="6.02,144,1688454000"; 
-   d="scan'208";a="868067061"
-Received: from zhiquan-linux-dev.bj.intel.com ([10.238.156.102])
-  by orsmga004.jf.intel.com with ESMTP; 13 Sep 2023 19:47:04 -0700
-From:   Zhiquan Li <zhiquan1.li@intel.com>
-To:     x86@kernel.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        bp@alien8.de, tony.luck@intel.com, naoya.horiguchi@nec.com
-Cc:     zhiquan1.li@intel.com, Youquan Song <youquan.song@intel.com>
-Subject: [PATCH RESEND v2] x86/mce: Set PG_hwpoison page flag to avoid the capture kernel panic
-Date:   Thu, 14 Sep 2023 11:05:39 +0800
-Message-Id: <20230914030539.1622477-1-zhiquan1.li@intel.com>
-X-Mailer: git-send-email 2.25.1
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488736"
+X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
+   d="scan'208";a="779488736"
+Received: from unknown (HELO fred..) ([172.25.112.68])
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:28 -0700
+From:   Xin Li <xin3.li@intel.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
+        mhiramat@kernel.org, andrew.cooper3@citrix.com,
+        jiangshanlai@gmail.com
+Subject: [PATCH v10 01/38] x86/cpufeatures: Add the cpu feature bit for WRMSRNS
+Date:   Wed, 13 Sep 2023 21:47:28 -0700
+Message-Id: <20230914044805.301390-2-xin3.li@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
+References: <20230914044805.301390-1-xin3.li@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Kdump can exclude the HWPosion page to avoid touch the error page
-again, the prerequisite is the PG_hwpoison page flag is set.
-However, for some MCE fatal error cases, there is no opportunity
-to queue a task for calling memory_failure(), as a result,
-the capture kernel touches the error page again and panics.
+WRMSRNS is an instruction that behaves exactly like WRMSR, with
+the only difference being that it is not a serializing instruction
+by default. Under certain conditions, WRMSRNS may replace WRMSR to
+improve performance.
 
-Add function mce_set_page_hwpoison_now() which marks a page as
-HWPoison before kernel panic() for MCE error, so that the dump
-program can check and skip the error page and prevent the capture
-kernel panic.
+Add the CPU feature bit for WRMSRNS.
 
-[Tony: Changed TestSetPageHWPoison() to SetPageHWPoison()]
-
-Co-developed-by: Youquan Song <youquan.song@intel.com>
-Signed-off-by: Youquan Song <youquan.song@intel.com>
-Signed-off-by: Zhiquan Li <zhiquan1.li@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Naoya Horiguchi <naoya.horiguchi@nec.com>
-
+Tested-by: Shan Kang <shan.kang@intel.com>
+Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
-V2 RESEND notes:
-- No changes on this, just rebasing as v6.6-rc1 is out.
-- Added the tag from Naoya.
-  Link: https://lore.kernel.org/all/20230719211625.298785-1-tony.luck@intel.com/#t
+ arch/x86/include/asm/cpufeatures.h       | 1 +
+ tools/arch/x86/include/asm/cpufeatures.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-Changes since V1:
-- Revised the commit message as per Naoya's suggestion.
-- Replaced "TODO" comment in code with comments based on mailing list
-  discussion on the lack of value in covering other page types.
-  Link: https://lore.kernel.org/all/20230127015030.30074-1-tony.luck@intel.com/
----
- arch/x86/kernel/cpu/mce/core.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 6f35f724cc14..2725698268f3 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -156,6 +156,22 @@ void mce_unregister_decode_chain(struct notifier_block *nb)
- }
- EXPORT_SYMBOL_GPL(mce_unregister_decode_chain);
- 
-+/*
-+ * Kdump can exclude the HWPosion page to avoid touch the error page again,
-+ * the prerequisite is the PG_hwpoison page flag is set. However, for some
-+ * MCE fatal error cases, there are no opportunity to queue a task
-+ * for calling memory_failure(), as a result, the capture kernel panics.
-+ * This function marks the page as HWPoison before kernel panic() for MCE.
-+ */
-+static void mce_set_page_hwpoison_now(unsigned long pfn)
-+{
-+	struct page *p;
-+
-+	p = pfn_to_online_page(pfn);
-+	if (p)
-+		SetPageHWPoison(p);
-+}
-+
- static void __print_mce(struct mce *m)
- {
- 	pr_emerg(HW_ERR "CPU %d: Machine Check%s: %Lx Bank %d: %016Lx\n",
-@@ -286,6 +302,8 @@ static noinstr void mce_panic(const char *msg, struct mce *final, char *exp)
- 	if (!fake_panic) {
- 		if (panic_timeout == 0)
- 			panic_timeout = mca_cfg.panic_timeout;
-+		if (final && (final->status & MCI_STATUS_ADDRV))
-+			mce_set_page_hwpoison_now(final->addr >> PAGE_SHIFT);
- 		panic(msg);
- 	} else
- 		pr_emerg(HW_ERR "Fake kernel panic: %s\n", msg);
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 58cb9495e40f..330876d34b68 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -322,6 +322,7 @@
+ #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
+ #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
+ #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
++#define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-Serializing Write to Model Specific Register instruction */
+ #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
+ #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
+ #define X86_FEATURE_LAM			(12*32+26) /* Linear Address Masking */
+diff --git a/tools/arch/x86/include/asm/cpufeatures.h b/tools/arch/x86/include/asm/cpufeatures.h
+index 798e60b5454b..1b9d86ba5bc2 100644
+--- a/tools/arch/x86/include/asm/cpufeatures.h
++++ b/tools/arch/x86/include/asm/cpufeatures.h
+@@ -318,6 +318,7 @@
+ #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
+ #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
+ #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
++#define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-Serializing Write to Model Specific Register instruction */
+ #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
+ #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
+ #define X86_FEATURE_LAM			(12*32+26) /* Linear Address Masking */
 -- 
-2.25.1
+2.34.1
 
