@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B05EDE981
-	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF99EDE985
+	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235322AbjINFTn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 14 Sep 2023 01:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46340 "EHLO
+        id S235114AbjINFTq (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:19:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235099AbjINFT3 (ORCPT
+        with ESMTP id S235124AbjINFT3 (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:29 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB7431FD3;
-        Wed, 13 Sep 2023 22:19:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF25E1BD4;
+        Wed, 13 Sep 2023 22:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1694668761; x=1726204761;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=f4gesqgoemAM7gLIVW0tfHuShJv23oH28+TguMOULZ8=;
-  b=YDT11ingk/LNd6kajFrUH4J1X9fsZxGja8m0eM6ICUnThJbLxuuxmaZ4
-   wVWZ1EqzyWajNGqeQe1tAmsy1W71i4Uxr/tLi4f5yPNJ9OafhVK/ZzY6/
-   SFSXlHx4NnVHowecWNCif+Pt1FU3ZQqIbfuPx5/31sUOwEeD6ZmurTjZO
-   tnT/STNq+q00xRA0XTafAZAUnNXyRt1P/whkPN8dVK/P3s9Q3YeBFLs3d
-   D33FOdik6lSMnv+1FMAGYCrzgo+OUSXqxXzIJgXzB18qrdreIxi4RqZYT
-   T6Qtiev+WoSfxq6gNuf+arKlBHsmNz7VE0K/7zywPDz7FTJQZ4jika7pM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661300"
+  bh=daicXFK30tmpTUp95RTD2ZQAe5K9xY8zuW1WSEbSaqA=;
+  b=c91nZfFofOZKNdKrmUhQGL3nbvAwZhFXJyaEsMh+EWgPagnwj67J7ibY
+   AmDAhHQG5z+A5fZxH6K6e89v7f3v62GSgMsjwN4vrOoIFdKrTaE3sTROY
+   g6ncn/XW0XPwrolGq8g3y/2qCSaZLgV68/tjYeAHzaxhjqwkKHq+hH1tf
+   GdopUPAphxt+gLtd5p6NIII77ZJHAz9DRqCaagaqCp9UOdyfooS6m/UHU
+   Hhq6ev4aSvWBYPJn3k2/lEwAdBOHGR9SQxIwSGMU4vE0EsCVr/b8DgdSh
+   LyYc5J+4G8Pe8XMcudmF838Ycq8Uz/Haeed/n9HqxjS3roqG5H1T1Egxu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661341"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="382661300"
+   d="scan'208";a="382661341"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:38 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488793"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488802"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="779488793"
+   d="scan'208";a="779488802"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:38 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:39 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com
-Subject: [PATCH v10 18/38] x86/fred: Reserve space for the FRED stack frame
-Date:   Wed, 13 Sep 2023 21:47:45 -0700
-Message-Id: <20230914044805.301390-19-xin3.li@intel.com>
+Subject: [PATCH v10 21/38] x86/fred: No ESPFIX needed when FRED is enabled
+Date:   Wed, 13 Sep 2023 21:47:48 -0700
+Message-Id: <20230914044805.301390-22-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
 References: <20230914044805.301390-1-xin3.li@intel.com>
@@ -62,46 +62,42 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-When using FRED, reserve space at the top of the stack frame, just
-like i386 does.
+Because FRED always restores the full value of %rsp, ESPFIX is
+no longer needed when it's enabled.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/include/asm/thread_info.h | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ arch/x86/kernel/espfix_64.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/x86/include/asm/thread_info.h b/arch/x86/include/asm/thread_info.h
-index d63b02940747..12da7dfd5ef1 100644
---- a/arch/x86/include/asm/thread_info.h
-+++ b/arch/x86/include/asm/thread_info.h
-@@ -31,7 +31,9 @@
-  * In vm86 mode, the hardware frame is much longer still, so add 16
-  * bytes to make room for the real-mode segments.
-  *
-- * x86_64 has a fixed-length stack frame.
-+ * x86-64 has a fixed-length stack frame, but it depends on whether
-+ * or not FRED is enabled. Future versions of FRED might make this
-+ * dynamic, but for now it is always 2 words longer.
-  */
- #ifdef CONFIG_X86_32
- # ifdef CONFIG_VM86
-@@ -39,8 +41,12 @@
- # else
- #  define TOP_OF_KERNEL_STACK_PADDING 8
- # endif
--#else
--# define TOP_OF_KERNEL_STACK_PADDING 0
-+#else /* x86-64 */
-+# ifdef CONFIG_X86_FRED
-+#  define TOP_OF_KERNEL_STACK_PADDING (2 * 8)
-+# else
-+#  define TOP_OF_KERNEL_STACK_PADDING 0
-+# endif
- #endif
+diff --git a/arch/x86/kernel/espfix_64.c b/arch/x86/kernel/espfix_64.c
+index 16f9814c9be0..6726e0473d0b 100644
+--- a/arch/x86/kernel/espfix_64.c
++++ b/arch/x86/kernel/espfix_64.c
+@@ -106,6 +106,10 @@ void __init init_espfix_bsp(void)
+ 	pgd_t *pgd;
+ 	p4d_t *p4d;
  
- /*
++	/* FRED systems always restore the full value of %rsp */
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		return;
++
+ 	/* Install the espfix pud into the kernel page directory */
+ 	pgd = &init_top_pgt[pgd_index(ESPFIX_BASE_ADDR)];
+ 	p4d = p4d_alloc(&init_mm, pgd, ESPFIX_BASE_ADDR);
+@@ -129,6 +133,10 @@ void init_espfix_ap(int cpu)
+ 	void *stack_page;
+ 	pteval_t ptemask;
+ 
++	/* FRED systems always restore the full value of %rsp */
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		return;
++
+ 	/* We only have to do this once... */
+ 	if (likely(per_cpu(espfix_stack, cpu)))
+ 		return;		/* Already initialized */
 -- 
 2.34.1
 
