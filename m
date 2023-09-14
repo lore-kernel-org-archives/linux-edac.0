@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E35EEDE98F
-	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58426EDE981
+	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235460AbjINFTx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 14 Sep 2023 01:19:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49260 "EHLO
+        id S235176AbjINFTz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:19:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235144AbjINFT3 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:29 -0400
+        with ESMTP id S235164AbjINFTa (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:30 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C28591FDC;
-        Wed, 13 Sep 2023 22:19:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9D01BD9;
+        Wed, 13 Sep 2023 22:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1694668762; x=1726204762;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=m7R91mzhAyMwuxf88uvtu3V1UGcA6vznqDxNdL57F/c=;
-  b=dDcQJUjJrPEaEE6iYwnAL4W+3ZiDIqKPvQ80QJvHyunisaaptRhg7MCW
-   XZRBi9uAnGvZEAFpZMRKwcA5hFVqhWOAx5rg3kgtqRhB+QVIo438n7O19
-   pvieavFEU4bIepgwFDoWANfM9Eor1UeDIjfPBNk9WbEF6KexYkZyB5BRS
-   Mtvvi0O7GCQZVrseJ7KHxo28SKLR1p92rce7YYwGvLzKaR82fTqI8L3/7
-   fvGxFZPyUZa0+6f5OtOR/8o6zVo/7IMx0Esp3QPO/iZgpUbpMLq8vxanS
-   vHcHVerWIyuQ2Ga8GwfullB3Tnb3DiC9iwjWynyeMt8eVC2yz1Ya2pgKD
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661356"
+  bh=FcZc1QeKj2isPTwOBVaGNTy+si5WeOaciLFU4yv7EQo=;
+  b=jIncnZMVrIxcwet3pbSY+w+8fYvnN+RdF4lUowsl/oXQDZuU+8ssGNGe
+   97GTfAOF7Cjr6HxaJ73az9OLXKmMcdxGzANL7FLHEPLGoXOXmZMF3DNOs
+   BYYQ0Ij5CvhNQ8Qw04nATKdmgXkNbd2Qlw/5cerzm6WsXW8vl4Rci25nt
+   2fn/fRT0knxHPUTw+iy0v4lwJPWuozezZagPZsbuqaoCf9D9cx0UubXxB
+   5atw500QOMAtwU0NFdxRbsKJuw+znOm4sCy0yoatf8xVBrZCS2fbmiEWk
+   tucqwrhgAEF0zVk4xhw5P2yDPXzs7mkg7dohjxdOORO0uYbXRWG8G5dbw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661407"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="382661356"
+   d="scan'208";a="382661407"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:41 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488805"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488817"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="779488805"
+   d="scan'208";a="779488817"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:40 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:42 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com
-Subject: [PATCH v10 22/38] x86/fred: Allow single-step trap and NMI when starting a new task
-Date:   Wed, 13 Sep 2023 21:47:49 -0700
-Message-Id: <20230914044805.301390-23-xin3.li@intel.com>
+Subject: [PATCH v10 26/38] x86/fred: Add a NMI entry stub for FRED
+Date:   Wed, 13 Sep 2023 21:47:53 -0700
+Message-Id: <20230914044805.301390-27-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
 References: <20230914044805.301390-1-xin3.li@intel.com>
@@ -62,93 +62,65 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Entering a new task is logically speaking a return from a system call
-(exec, fork, clone, etc.). As such, if ptrace enables single stepping
-a single step exception should be allowed to trigger immediately upon
-entering user space. This is not optional.
+On a FRED system, NMIs nest both with themselves and faults, transient
+information is saved into the stack frame, and NMI unblocking only
+happens when the stack frame indicates that so should happen.
 
-NMI should *never* be disabled in user space. As such, this is an
-optional, opportunistic way to catch errors.
-
-Allow single-step trap and NMI when starting a new task, thus once
-the new task enters user space, single-step trap and NMI are both
-enabled immediately.
+Thus, the NMI entry stub for FRED is really quite small...
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
+ arch/x86/kernel/nmi.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-Changes since v8:
-* Use high-order 48 bits above the lowest 16 bit SS only when FRED
-  is enabled (Thomas Gleixner).
----
- arch/x86/kernel/process_64.c | 38 ++++++++++++++++++++++++++++++------
- 1 file changed, 32 insertions(+), 6 deletions(-)
-
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index 4f87f5987ae8..c075591b7b46 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -56,6 +56,7 @@
- #include <asm/resctrl.h>
- #include <asm/unistd.h>
- #include <asm/fsgsbase.h>
+diff --git a/arch/x86/kernel/nmi.c b/arch/x86/kernel/nmi.c
+index a0c551846b35..58843fdf5cd0 100644
+--- a/arch/x86/kernel/nmi.c
++++ b/arch/x86/kernel/nmi.c
+@@ -34,6 +34,7 @@
+ #include <asm/cache.h>
+ #include <asm/nospec-branch.h>
+ #include <asm/sev.h>
 +#include <asm/fred.h>
- #ifdef CONFIG_IA32_EMULATION
- /* Not included via unistd.h */
- #include <asm/unistd_32_ia32.h>
-@@ -528,7 +529,7 @@ void x86_gsbase_write_task(struct task_struct *task, unsigned long gsbase)
- static void
- start_thread_common(struct pt_regs *regs, unsigned long new_ip,
- 		    unsigned long new_sp,
--		    unsigned int _cs, unsigned int _ss, unsigned int _ds)
-+		    u16 _cs, u16 _ss, u16 _ds)
- {
- 	WARN_ON_ONCE(regs != current_pt_regs());
  
-@@ -545,11 +546,36 @@ start_thread_common(struct pt_regs *regs, unsigned long new_ip,
- 	loadsegment(ds, _ds);
- 	load_gs_index(0);
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/nmi.h>
+@@ -643,6 +644,33 @@ void nmi_backtrace_stall_check(const struct cpumask *btp)
  
--	regs->ip		= new_ip;
--	regs->sp		= new_sp;
--	regs->cs		= _cs;
--	regs->ss		= _ss;
--	regs->flags		= X86_EFLAGS_IF;
-+	regs->ip	= new_ip;
-+	regs->sp	= new_sp;
-+	regs->csx	= _cs;
-+	regs->ssx	= _ss;
-+	/*
-+	 * Allow single-step trap and NMI when starting a new task, thus
-+	 * once the new task enters user space, single-step trap and NMI
-+	 * are both enabled immediately.
-+	 *
-+	 * Entering a new task is logically speaking a return from a
-+	 * system call (exec, fork, clone, etc.). As such, if ptrace
-+	 * enables single stepping a single step exception should be
-+	 * allowed to trigger immediately upon entering user space.
-+	 * This is not optional.
-+	 *
-+	 * NMI should *never* be disabled in user space. As such, this
-+	 * is an optional, opportunistic way to catch errors.
-+	 *
-+	 * Paranoia: High-order 48 bits above the lowest 16 bit SS are
-+	 * discarded by the legacy IRET instruction on all Intel, AMD,
-+	 * and Cyrix/Centaur/VIA CPUs, thus can be set unconditionally,
-+	 * even when FRED is not enabled. But we choose the safer side
-+	 * to use these bits only when FRED is enabled.
-+	 */
-+	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
-+		regs->fred_ss.swevent	= true;
-+		regs->fred_ss.nmi	= true;
-+	}
+ #endif
+ 
++#ifdef CONFIG_X86_FRED
++/*
++ * With FRED, CR2/DR6 is pushed to #PF/#DB stack frame during FRED
++ * event delivery, i.e., there is no problem of transient states.
++ * And NMI unblocking only happens when the stack frame indicates
++ * that so should happen.
++ *
++ * Thus, the NMI entry stub for FRED is really straightforward and
++ * as simple as most exception handlers. As such, #DB is allowed
++ * during NMI handling.
++ */
++DEFINE_FREDENTRY_NMI(exc_nmi)
++{
++	irqentry_state_t irq_state;
 +
-+	regs->flags	= X86_EFLAGS_IF | X86_EFLAGS_FIXED;
- }
- 
- void
++	if (IS_ENABLED(CONFIG_SMP) && arch_cpu_is_offline(smp_processor_id()))
++		return;
++
++	irq_state = irqentry_nmi_enter(regs);
++
++	inc_irq_stat(__nmi_count);
++	default_do_nmi(regs);
++
++	irqentry_nmi_exit(regs, irq_state);
++}
++#endif
++
+ void stop_nmi(void)
+ {
+ 	ignore_nmis++;
 -- 
 2.34.1
 
