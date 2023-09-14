@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F81CA0EF3
-	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A11C4CA553E
+	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234197AbjINFTQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 14 Sep 2023 01:19:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49120 "EHLO
+        id S234856AbjINFTS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234655AbjINFTQ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:16 -0400
+        with ESMTP id S234793AbjINFTR (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:17 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F071BD0;
-        Wed, 13 Sep 2023 22:19:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 396E01BCF;
+        Wed, 13 Sep 2023 22:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694668752; x=1726204752;
+  t=1694668753; x=1726204753;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5bEJT87B98JS6iQ6LlrNVmLBQuK2BkIiNY3V5ZdVNuo=;
-  b=NvRI9X19L5Srs533HXrl8oZ193+s7XrFmm7Z/SLhyqtN2AWg/jtcTdmh
-   zVm+kbUJGNyX+xPrvBfnASNFTL9TSf2oJt7UhFEHGH7SlKISn+Uv4XjJG
-   V8Idv+jhqjphOoUiL+sRN2ngsAiuvqfR8soY/TiDWJNbJstQfympMi68Y
-   aLtOTiCvyjzlC7cV25cx8PU1+CCC05MgSWg1m8a47gtk23pexRPvQeaxF
-   TM8w82HkepOrjqHQKI9Uh9qXg0gVuiVE5xkTjKb6qiuAKYHuizVeyvNzw
-   5z/9TfcWr4rFB7SaI/iBtNkYT3TAV1QQ6tANp6o+/UQyAvIGWyi/azc1k
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661078"
+  bh=5CJMqB3+DFFPkJgP2JbGGqYZrsstVDR6C7ywuBVlQe8=;
+  b=EJ5wum8fTFWWsM5pqgUVWpw2kZG401piaxZ0NYuhv4536JI69P2ssGMc
+   gsxG/MO3OwmgmBuVm0BQTd4qB1JjgGsb6yaNTKEXmsuFMPYrddZxhQnVm
+   LWndUQUaOMEbTC7CGBuz5auVE90KVwf8Rp/OXWagYcBkoxd2Ar5zCDG81
+   GPSm2ejVjogMj+N8fsRb21j7YC3XR094k3Bl/nb5K5z+nH2aE7HcWWMga
+   mNpkxjABr4PFeVkQ5JBuqJltx6z8dsgArT3ATNcqnqtRYhmRSdRMiAhKy
+   XejKt+A1/CYn1CUQ3sX0UyhXpH30RpxPaBcI7OuzTmZkwpMf8A/yuGtKc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661117"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="382661078"
+   d="scan'208";a="382661117"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:29 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488736"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488746"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="779488736"
+   d="scan'208";a="779488746"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:28 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:30 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com
-Subject: [PATCH v10 01/38] x86/cpufeatures: Add the cpu feature bit for WRMSRNS
-Date:   Wed, 13 Sep 2023 21:47:28 -0700
-Message-Id: <20230914044805.301390-2-xin3.li@intel.com>
+Subject: [PATCH v10 04/38] x86/entry: Remove idtentry_sysvec from entry_{32,64}.S
+Date:   Wed, 13 Sep 2023 21:47:31 -0700
+Message-Id: <20230914044805.301390-5-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
 References: <20230914044805.301390-1-xin3.li@intel.com>
@@ -60,44 +60,64 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-WRMSRNS is an instruction that behaves exactly like WRMSR, with
-the only difference being that it is not a serializing instruction
-by default. Under certain conditions, WRMSRNS may replace WRMSR to
-improve performance.
-
-Add the CPU feature bit for WRMSRNS.
+idtentry_sysvec is really just DECLARE_IDTENTRY defined in
+<asm/idtentry.h>, no need to define it separately.
 
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/include/asm/cpufeatures.h       | 1 +
- tools/arch/x86/include/asm/cpufeatures.h | 1 +
- 2 files changed, 2 insertions(+)
+ arch/x86/entry/entry_32.S       | 4 ----
+ arch/x86/entry/entry_64.S       | 8 --------
+ arch/x86/include/asm/idtentry.h | 2 +-
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 58cb9495e40f..330876d34b68 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -322,6 +322,7 @@
- #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
- #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
- #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
-+#define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-Serializing Write to Model Specific Register instruction */
- #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
- #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
- #define X86_FEATURE_LAM			(12*32+26) /* Linear Address Masking */
-diff --git a/tools/arch/x86/include/asm/cpufeatures.h b/tools/arch/x86/include/asm/cpufeatures.h
-index 798e60b5454b..1b9d86ba5bc2 100644
---- a/tools/arch/x86/include/asm/cpufeatures.h
-+++ b/tools/arch/x86/include/asm/cpufeatures.h
-@@ -318,6 +318,7 @@
- #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
- #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
- #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
-+#define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-Serializing Write to Model Specific Register instruction */
- #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
- #define X86_FEATURE_AVX_IFMA            (12*32+23) /* "" Support for VPMADD52[H,L]UQ */
- #define X86_FEATURE_LAM			(12*32+26) /* Linear Address Masking */
+diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
+index 6e6af42e044a..e0f22ad8ff7e 100644
+--- a/arch/x86/entry/entry_32.S
++++ b/arch/x86/entry/entry_32.S
+@@ -649,10 +649,6 @@ SYM_CODE_START_LOCAL(asm_\cfunc)
+ SYM_CODE_END(asm_\cfunc)
+ .endm
+ 
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /*
+  * Include the defines which emit the idt entries which are shared
+  * shared between 32 and 64 bit and emit the __irqentry_text_* markers
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index 43606de22511..9cdb61ea91de 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -432,14 +432,6 @@ SYM_CODE_END(\asmsym)
+ 	idtentry \vector asm_\cfunc \cfunc has_error_code=1
+ .endm
+ 
+-/*
+- * System vectors which invoke their handlers directly and are not
+- * going through the regular common device interrupt handling code.
+- */
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /**
+  * idtentry_mce_db - Macro to generate entry stubs for #MC and #DB
+  * @vector:		Vector number
+diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
+index 05fd175cec7d..cfca68f6cb84 100644
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -447,7 +447,7 @@ __visible noinstr void func(struct pt_regs *regs,			\
+ 
+ /* System vector entries */
+ #define DECLARE_IDTENTRY_SYSVEC(vector, func)				\
+-	idtentry_sysvec vector func
++	DECLARE_IDTENTRY(vector, func)
+ 
+ #ifdef CONFIG_X86_64
+ # define DECLARE_IDTENTRY_MCE(vector, func)				\
 -- 
 2.34.1
 
