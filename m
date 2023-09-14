@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7A3EDE983
-	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A578EDE982
+	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:20:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235861AbjINFUz (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 14 Sep 2023 01:20:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40880 "EHLO
+        id S235925AbjINFU5 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:20:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235199AbjINFUC (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:20:02 -0400
+        with ESMTP id S235356AbjINFUF (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:20:05 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 530E12122;
-        Wed, 13 Sep 2023 22:19:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B20AB2134;
+        Wed, 13 Sep 2023 22:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694668766; x=1726204766;
+  t=1694668767; x=1726204767;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=T0jTyejyJ8JvDYansScu0V1dL1MHLI4ucPruSc2ZVaA=;
-  b=h0h99R6OY5/nOSiEIXvynNt43Y4BJHh6hoxNoYCgOCp24tPeHsnB9KjE
-   iT9l5pGI3OWBVbUBbcirR9tb6Ra3j79x4OzXkwJJJ7ojocxN/QFHZ49Vc
-   YVrytypL6blQbjGGUZPjsNwgeqOEd7pKyt5oVqAwWfiS60DqvKBy2YLEm
-   gAxZYJp6wlpBm/e0DWg0DOp4kPVtnZxP3m1s/NkiQ1Rk9bxq22wMvDnmp
-   m91A/li/977op/1/zgjFpmAl8fKlOVyHopwk5/2QFR3wiF1+pX1+212cw
-   K6B9I3hDxp8fdm4kfcrilLpIhL//IR2gKzuUCXHumSV1WkBHa3vgXaNre
+  bh=24bZxrNwN6mEn31ObZA79OqggozStalI8dlLgDZYX38=;
+  b=FcOJKbkI2JxS0MuL1xkMWMFKkzmaXpJh5Wek5BaOChLRVlSUpttnyDgi
+   0tLtQpYumIvj6+c7Qhgyp2LbTF882dvvjtPRwSzdnLUL+ezPgZafXcFdh
+   u1H8ElVmng/Q1PbApNxPfuemnCb8SMyvToe162WSDC2SfEgLhcmddK9pD
+   K/bSt0uZ8KsHINHNIkLjldk8U82VDFx603cVgpO9C4Yooc5vdDXtav3h7
+   gSvSplb6Gax+HPYSoY7VcjpimXBNTV/uCoBJ8vvPtUJnsS/o1iVOvH3r2
+   +qRz0+htpsWhTy+Dng91D2svXNSfM3QWhhBQZZJxoJCPYU7b+zA/tje9r
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661510"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661561"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="382661510"
+   d="scan'208";a="382661561"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:47 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488841"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488853"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="779488841"
+   d="scan'208";a="779488853"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:46 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:48 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com
-Subject: [PATCH v10 34/38] KVM: VMX: Call fred_entry_from_kvm() for IRQ/NMI handling
-Date:   Wed, 13 Sep 2023 21:48:01 -0700
-Message-Id: <20230914044805.301390-35-xin3.li@intel.com>
+Subject: [PATCH v10 38/38] x86/fred: Invoke FRED initialization code to enable FRED
+Date:   Wed, 13 Sep 2023 21:48:05 -0700
+Message-Id: <20230914044805.301390-39-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
 References: <20230914044805.301390-1-xin3.li@intel.com>
@@ -60,58 +60,117 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-When FRED is enabled, call fred_entry_from_kvm() to handle IRQ/NMI in
-IRQ/NMI induced VM exits.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
+Let cpu_init_exception_handling() call cpu_init_fred_exceptions() to
+initialize FRED. However if FRED is unavailable or disabled, it falls
+back to set up TSS IST and initialize IDT.
+
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Co-developed-by: Xin Li <xin3.li@intel.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/kvm/vmx/vmx.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 72e3943f3693..db55b8418fa3 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -38,6 +38,7 @@
- #include <asm/desc.h>
- #include <asm/fpu/api.h>
- #include <asm/fpu/xstate.h>
+Changes since v8:
+* Move this patch after all required changes are in place (Thomas
+  Gleixner).
+---
+ arch/x86/kernel/cpu/common.c | 17 ++++++++++++-----
+ arch/x86/kernel/irqinit.c    |  7 ++++++-
+ arch/x86/kernel/traps.c      |  5 ++++-
+ 3 files changed, 22 insertions(+), 7 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 4cb36e241c9a..e230d3f4c556 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -61,6 +61,7 @@
+ #include <asm/microcode.h>
+ #include <asm/intel-family.h>
+ #include <asm/cpu_device_id.h>
 +#include <asm/fred.h>
- #include <asm/idtentry.h>
- #include <asm/io.h>
- #include <asm/irq_remapping.h>
-@@ -6962,14 +6963,16 @@ static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)
- {
- 	u32 intr_info = vmx_get_intr_info(vcpu);
- 	unsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;
--	gate_desc *desc = (gate_desc *)host_idt_base + vector;
+ #include <asm/uv/uv.h>
+ #include <asm/set_memory.h>
+ #include <asm/traps.h>
+@@ -2128,7 +2129,10 @@ void syscall_init(void)
+ 	/* The default user and kernel segments */
+ 	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
  
- 	if (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,
- 	    "unexpected VM-Exit interrupt info: 0x%x", intr_info))
- 		return;
- 
- 	kvm_before_interrupt(vcpu, KVM_HANDLING_IRQ);
--	vmx_do_interrupt_irqoff(gate_offset(desc));
+-	idt_syscall_init();
 +	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		fred_entry_from_kvm(EVENT_TYPE_EXTINT, vector);
++		fred_syscall_init();
 +	else
-+		vmx_do_interrupt_irqoff(gate_offset((gate_desc *)host_idt_base + vector));
- 	kvm_after_interrupt(vcpu);
++		idt_syscall_init();
+ }
  
- 	vcpu->arch.at_instruction_boundary = true;
-@@ -7262,7 +7265,10 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
- 	if ((u16)vmx->exit_reason.basic == EXIT_REASON_EXCEPTION_NMI &&
- 	    is_nmi(vmx_get_intr_info(vcpu))) {
- 		kvm_before_interrupt(vcpu, KVM_HANDLING_NMI);
--		vmx_do_nmi_irqoff();
-+		if (cpu_feature_enabled(X86_FEATURE_FRED))
-+			fred_entry_from_kvm(EVENT_TYPE_NMI, NMI_VECTOR);
-+		else
-+			vmx_do_nmi_irqoff();
- 		kvm_after_interrupt(vcpu);
- 	}
+ #else	/* CONFIG_X86_64 */
+@@ -2244,8 +2248,9 @@ void cpu_init_exception_handling(void)
+ 	/* paranoid_entry() gets the CPU number from the GDT */
+ 	setup_getcpu(cpu);
  
+-	/* IST vectors need TSS to be set up. */
+-	tss_setup_ist(tss);
++	/* For IDT mode, IST vectors need to be set in TSS. */
++	if (!cpu_feature_enabled(X86_FEATURE_FRED))
++		tss_setup_ist(tss);
+ 	tss_setup_io_bitmap(tss);
+ 	set_tss_desc(cpu, &get_cpu_entry_area(cpu)->tss.x86_tss);
+ 
+@@ -2254,8 +2259,10 @@ void cpu_init_exception_handling(void)
+ 	/* GHCB needs to be setup to handle #VC. */
+ 	setup_ghcb();
+ 
+-	/* Finally load the IDT */
+-	load_current_idt();
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		cpu_init_fred_exceptions();
++	else
++		load_current_idt();
+ }
+ 
+ /*
+diff --git a/arch/x86/kernel/irqinit.c b/arch/x86/kernel/irqinit.c
+index c683666876f1..f79c5edc0b89 100644
+--- a/arch/x86/kernel/irqinit.c
++++ b/arch/x86/kernel/irqinit.c
+@@ -28,6 +28,7 @@
+ #include <asm/setup.h>
+ #include <asm/i8259.h>
+ #include <asm/traps.h>
++#include <asm/fred.h>
+ #include <asm/prom.h>
+ 
+ /*
+@@ -96,7 +97,11 @@ void __init native_init_IRQ(void)
+ 	/* Execute any quirks before the call gates are initialised: */
+ 	x86_init.irqs.pre_vector_init();
+ 
+-	idt_setup_apic_and_irq_gates();
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		fred_complete_exception_setup();
++	else
++		idt_setup_apic_and_irq_gates();
++
+ 	lapic_assign_system_vectors();
+ 
+ 	if (!acpi_ioapic && !of_ioapic && nr_legacy_irqs()) {
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 848c85208a57..0ee78a30e14a 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -1411,7 +1411,10 @@ void __init trap_init(void)
+ 
+ 	/* Initialize TSS before setting up traps so ISTs work */
+ 	cpu_init_exception_handling();
++
+ 	/* Setup traps as cpu_init() might #GP */
+-	idt_setup_traps();
++	if (!cpu_feature_enabled(X86_FEATURE_FRED))
++		idt_setup_traps();
++
+ 	cpu_init();
+ }
 -- 
 2.34.1
 
