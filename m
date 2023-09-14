@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD7CCA553E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD8AEEB59C
 	for <linux-edac@archiver.kernel.org>; Thu, 14 Sep 2023 05:19:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234792AbjINFTR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 14 Sep 2023 01:19:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49136 "EHLO
+        id S234666AbjINFTW (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 14 Sep 2023 01:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234666AbjINFTQ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:16 -0400
+        with ESMTP id S234891AbjINFTU (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 14 Sep 2023 01:19:20 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B841BD1;
-        Wed, 13 Sep 2023 22:19:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C05FA1BD0;
+        Wed, 13 Sep 2023 22:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694668752; x=1726204752;
+  t=1694668755; x=1726204755;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=kr0CN67v2SsYJemD+2TL2DrONkvf6IluzdZd2yzKUPQ=;
-  b=jJch0jSelqttXXnO0lNMwKOqfjoHUyUWi9zCcyYg8AHRFKky0+MhyTMf
-   7sY6eFW8BY1ESEhhbHeXxu8Pzq3gQM37CIl1JudF72pkqKWMZsOIOY7R/
-   iLQtdqsfyBs6WeuK+becdEKj3QoVdoF1vY22dNkUSYkXQZLtA4O3VkDuI
-   BDbHzDYFNYkGPltDD35z18KPU4m2JCyEoGnlbPljDqC4n1JNv9IUNVaHS
-   +f9/YrwcXrmAi073w4OJ5EHhe2Xy04+zDAf3ep5bwpe88MgDyWhHa/QUS
-   J52h3m0yGIvQXJr9D4Ysq8nAnwaUAHRMJb/WHHPovl2KBr+iOq9hr3Aqe
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661090"
+  bh=lOSfyYhj6fFAdH4YWvO21Rsoh1uWrkdsP+wGjxpQoYw=;
+  b=N7+pKcCO1NGRU6lrAiktrtmv5EO7Y72+fG9g6+YhNLhfMNPtmWpGW05r
+   7qk1JctQjiUJ/xH0JvYBCrSvqJJ06FUJS9ysso5tE2kHgBnK8mgSKZApy
+   NJZXpoBlmdiJKSaSKh/j5lc0iJr8Ymxo5lb1bGBIZzv3FRbvHNR87iVbM
+   58No0xBm1xAMBZqRFdJk533aP0UNO8XSDadVszpYuFMLVGLmoW09JrJjX
+   ADqfDWbppkAzkJ3ryv5AYLTgb1a+brWwFjVcS1dK0B+nb2XewmplNTpR3
+   /Be2u1KZy3moQgby6ICOKYPaq9n/zjLkdNGmEa8/joC+pJYfPqtsHHtF7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661182"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="382661090"
+   d="scan'208";a="382661182"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:30 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488739"
+X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488764"
 X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="779488739"
+   d="scan'208";a="779488764"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:29 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:33 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com
-Subject: [PATCH v10 02/38] x86/opcode: Add the WRMSRNS instruction to the x86 opcode map
-Date:   Wed, 13 Sep 2023 21:47:29 -0700
-Message-Id: <20230914044805.301390-3-xin3.li@intel.com>
+Subject: [PATCH v10 09/38] x86/fred: Disable FRED support if CONFIG_X86_FRED is disabled
+Date:   Wed, 13 Sep 2023 21:47:36 -0700
+Message-Id: <20230914044805.301390-10-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
 References: <20230914044805.301390-1-xin3.li@intel.com>
@@ -60,42 +60,72 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add the opcode used by WRMSRNS, which is the non-serializing version of
-WRMSR and may replace it to improve performance, to the x86 opcode map.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
+Add CONFIG_X86_FRED to <asm/disabled-features.h> to make
+cpu_feature_enabled() work correctly with FRED.
+
+Originally-by: Megha Dey <megha.dey@intel.com>
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/lib/x86-opcode-map.txt       | 2 +-
- tools/arch/x86/lib/x86-opcode-map.txt | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/x86/include/asm/disabled-features.h       | 8 +++++++-
+ tools/arch/x86/include/asm/disabled-features.h | 8 +++++++-
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
-index 5168ee0360b2..1efe1d9bf5ce 100644
---- a/arch/x86/lib/x86-opcode-map.txt
-+++ b/arch/x86/lib/x86-opcode-map.txt
-@@ -1051,7 +1051,7 @@ GrpTable: Grp6
- EndTable
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index 702d93fdd10e..3cde57cb5093 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -117,6 +117,12 @@
+ #define DISABLE_IBT	(1 << (X86_FEATURE_IBT & 31))
+ #endif
  
- GrpTable: Grp7
--0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
-+0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
- 1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
- 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
- 3: LIDT Ms
-diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
-index 5168ee0360b2..1efe1d9bf5ce 100644
---- a/tools/arch/x86/lib/x86-opcode-map.txt
-+++ b/tools/arch/x86/lib/x86-opcode-map.txt
-@@ -1051,7 +1051,7 @@ GrpTable: Grp6
- EndTable
++#ifdef CONFIG_X86_FRED
++# define DISABLE_FRED	0
++#else
++# define DISABLE_FRED	(1 << (X86_FEATURE_FRED & 31))
++#endif
++
+ /*
+  * Make sure to add features to the correct mask
+  */
+@@ -134,7 +140,7 @@
+ #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
+ 			 DISABLE_CALL_DEPTH_TRACKING|DISABLE_USER_SHSTK)
+ #define DISABLED_MASK12	(DISABLE_LAM)
+-#define DISABLED_MASK13	0
++#define DISABLED_MASK13	(DISABLE_FRED)
+ #define DISABLED_MASK14	0
+ #define DISABLED_MASK15	0
+ #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
+diff --git a/tools/arch/x86/include/asm/disabled-features.h b/tools/arch/x86/include/asm/disabled-features.h
+index fafe9be7a6f4..d540ecdd8812 100644
+--- a/tools/arch/x86/include/asm/disabled-features.h
++++ b/tools/arch/x86/include/asm/disabled-features.h
+@@ -105,6 +105,12 @@
+ # define DISABLE_TDX_GUEST	(1 << (X86_FEATURE_TDX_GUEST & 31))
+ #endif
  
- GrpTable: Grp7
--0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
-+0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
- 1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
- 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
- 3: LIDT Ms
++#ifdef CONFIG_X86_FRED
++# define DISABLE_FRED	0
++#else
++# define DISABLE_FRED	(1 << (X86_FEATURE_FRED & 31))
++#endif
++
+ /*
+  * Make sure to add features to the correct mask
+  */
+@@ -122,7 +128,7 @@
+ #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
+ 			 DISABLE_CALL_DEPTH_TRACKING)
+ #define DISABLED_MASK12	(DISABLE_LAM)
+-#define DISABLED_MASK13	0
++#define DISABLED_MASK13	(DISABLE_FRED)
+ #define DISABLED_MASK14	0
+ #define DISABLED_MASK15	0
+ #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
 -- 
 2.34.1
 
