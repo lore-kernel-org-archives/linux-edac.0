@@ -2,22 +2,22 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCF71CD13D8
-	for <linux-edac@archiver.kernel.org>; Sat, 16 Sep 2023 13:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B269CD13DA
+	for <linux-edac@archiver.kernel.org>; Sat, 16 Sep 2023 13:04:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239195AbjIPNDu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 16 Sep 2023 09:03:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38192 "EHLO
+        id S239251AbjIPNDw (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 16 Sep 2023 09:03:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232621AbjIPNDe (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 16 Sep 2023 09:03:34 -0400
+        with ESMTP id S233337AbjIPNDl (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 16 Sep 2023 09:03:41 -0400
 Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3251B2;
-        Sat, 16 Sep 2023 06:03:28 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---0VsA36uP_1694869403;
-Received: from localhost.localdomain(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0VsA36uP_1694869403)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79287DD;
+        Sat, 16 Sep 2023 06:03:34 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---0VsA36wZ_1694869410;
+Received: from localhost.localdomain(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0VsA36wZ_1694869410)
           by smtp.aliyun-inc.com;
-          Sat, 16 Sep 2023 21:03:24 +0800
+          Sat, 16 Sep 2023 21:03:31 +0800
 From:   Shuai Xue <xueshuai@linux.alibaba.com>
 To:     keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
         rafael@kernel.org, lenb@kernel.org, james.morse@arm.com,
@@ -28,9 +28,9 @@ Cc:     linux-hardening@vger.kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
         linux-efi@vger.kernel.org, acpica-devel@lists.linuxfoundation.org,
         xueshuai@linux.alibaba.com, baolin.wang@linux.alibaba.com
-Subject: [RFC PATCH 3/9] ACPI: APEI: ERST: Emit the mce_record tracepoint
-Date:   Sat, 16 Sep 2023 21:03:10 +0800
-Message-Id: <20230916130316.65815-4-xueshuai@linux.alibaba.com>
+Subject: [RFC PATCH 7/9] ACPI: APEI: ESRT: kick ghes_report_chain notifier to report serialized memory errors
+Date:   Sat, 16 Sep 2023 21:03:14 +0800
+Message-Id: <20230916130316.65815-8-xueshuai@linux.alibaba.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230916130316.65815-1-xueshuai@linux.alibaba.com>
 References: <20230916130316.65815-1-xueshuai@linux.alibaba.com>
@@ -40,44 +40,67 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-After /dev/mcelog character device deprecated by commit 5de97c9f6d85
-("x86/mce: Factor out and deprecate the /dev/mcelog driver"), the
-serialized hardware error log, a.k.a MCE record, of previous boot in
-persistent storage is not collected via APEI ERST.
-
-Emit the mce_record tracepoint so that it can consumed by the new
-generation rasdaemon.
+Introduce a new pstore_record type, PSTORE_TYPE_CPER_MEM, so that
+serialized memory errors can be retrieved and saved as a file in pstore
+file system. While the serialized errors is retrieved from ERST
+backend, kick ghes_report_chain notifier.
 
 Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
 ---
- drivers/acpi/apei/erst.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/acpi/apei/erst.c | 5 +++++
+ fs/pstore/platform.c     | 1 +
+ include/linux/pstore.h   | 3 +++
+ 3 files changed, 9 insertions(+)
 
 diff --git a/drivers/acpi/apei/erst.c b/drivers/acpi/apei/erst.c
-index 528ac5eb4871..f789e3df73a9 100644
+index f789e3df73a9..665b8f93dab3 100644
 --- a/drivers/acpi/apei/erst.c
 +++ b/drivers/acpi/apei/erst.c
-@@ -26,6 +26,8 @@
+@@ -26,6 +26,7 @@
  #include <linux/vmalloc.h>
  #include <linux/mm.h> /* kvfree() */
  #include <acpi/apei.h>
-+/* only define CREATE_TRACE_POINTS once */
-+#include <trace/events/mce.h>
++#include <acpi/ghes.h>
+ /* only define CREATE_TRACE_POINTS once */
+ #include <trace/events/mce.h>
  
- #include "apei-internal.h"
- 
-@@ -1063,8 +1065,10 @@ static ssize_t erst_reader(struct pstore_record *record)
- 		record->compressed = true;
- 	} else if (guid_equal(&rcd->sec_hdr.section_type, &CPER_SECTION_TYPE_DMESG))
- 		record->type = PSTORE_TYPE_DMESG;
--	else if (guid_equal(&rcd->sec_hdr.section_type, &CPER_SECTION_TYPE_MCE))
-+	else if (guid_equal(&rcd->sec_hdr.section_type, &CPER_SECTION_TYPE_MCE)) {
-+		trace_mce_record((struct mce *)rcd->data);
+@@ -1068,6 +1069,10 @@ static ssize_t erst_reader(struct pstore_record *record)
+ 	else if (guid_equal(&rcd->sec_hdr.section_type, &CPER_SECTION_TYPE_MCE)) {
+ 		trace_mce_record((struct mce *)rcd->data);
  		record->type = PSTORE_TYPE_MCE;
-+	}
++	} else if (guid_equal(&rcd->sec_hdr.section_type, &CPER_SEC_PLATFORM_MEM)) {
++		record->type = PSTORE_TYPE_CPER_MEM;
++		arch_apei_report_mem_error(0x2, (struct cper_sec_mem_err *)rcd->data);
++		atomic_notifier_call_chain(&ghes_report_chain, 0x2, rcd->data);
+ 	}
  	else
  		record->type = PSTORE_TYPE_MAX;
+diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
+index e5bca9a004cc..4e63ac8be755 100644
+--- a/fs/pstore/platform.c
++++ b/fs/pstore/platform.c
+@@ -51,6 +51,7 @@ static const char * const pstore_type_names[] = {
+ 	"powerpc-common",
+ 	"pmsg",
+ 	"powerpc-opal",
++	"cper-mem",
+ };
  
+ static int pstore_new_entry;
+diff --git a/include/linux/pstore.h b/include/linux/pstore.h
+index ad44b3baf10e..d18ecaacd1b5 100644
+--- a/include/linux/pstore.h
++++ b/include/linux/pstore.h
+@@ -40,6 +40,9 @@ enum pstore_type_id {
+ 	PSTORE_TYPE_PMSG	= 7,
+ 	PSTORE_TYPE_PPC_OPAL	= 8,
+ 
++	/* APEI section */
++	PSTORE_TYPE_CPER_MEM		= 9,
++
+ 	/* End of the list */
+ 	PSTORE_TYPE_MAX
+ };
 -- 
 2.41.0
 
