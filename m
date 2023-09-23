@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89C86CE7A8C
-	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:11:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B6D8CE7A88
+	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:11:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231511AbjIWKMA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        id S231303AbjIWKMA (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
         Sat, 23 Sep 2023 06:12:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59004 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231393AbjIWKLw (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:11:52 -0400
+        with ESMTP id S231476AbjIWKL6 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:11:58 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119511A8;
-        Sat, 23 Sep 2023 03:11:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462471BE;
+        Sat, 23 Sep 2023 03:11:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463905; x=1726999905;
+  t=1695463908; x=1726999908;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/vulkjS/nAxN+RJ3C7R6J4h15cqNiAED/GUC9x16vUQ=;
-  b=QOYoVbkxcmt/7LwWVahKIIt/Sz4sD0tXHIC3jexpGOx4UiGMHFKD+QIt
-   /qFCKQ5AOgBSWiS0ODeiKZ/lsahrW+Ktz+WW9tdduvzyDpo/HbWw59Tj5
-   JfxsmnYAjlW2OgLlgoQkvc0wUrKunrp1ZSlzb0O+okR+71sJ6V85v/DwW
-   Q7TnCL25UA5OpLPKopfEMTJsgDllIX4SQZknGdTlNTwAqoUedpApNmN/d
-   I5HXbziikfegppcUIZ8Jo/rZiHptCTbrVsj3towi1G8W6PCMeFTdApUMM
-   C+wWRKmZqta/7b4tOeUYFarOI798RCfGbup8/y5TkYx5RTUdSlN76z5sz
+  bh=m7R91mzhAyMwuxf88uvtu3V1UGcA6vznqDxNdL57F/c=;
+  b=lI3qFdBJ0gCc7+51MCb+eAv5IiowMkXv3og/CBaw/6tkoV8wy2mGUviT
+   PYOP9T7oueM4cPUQLlt/QUHvEBwadIDOxJ8sKmjcY0HnkU2EU3vyuA6rl
+   kKkMWLw5k3mMXqyYJq9GT52TEj3IymjS543L+ircqKG/qQapW9JzjdA8Z
+   Yj9Jq1JQqMCxLgw03R4vRj3l8vRqg0PFJ4rRIXFhEmqTYaW55wJIdTrWb
+   8SrLaU3WgyCuGNha1CNMUezExH/liIDAF8w5MYAwa2JRW+WE/OEyWblPu
+   raCnzzZ4u2tTJ63/SbUrVNsluNIlYy/evAHRKm6mzCpHbZQs+H5teYeRs
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492265"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492338"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492265"
+   d="scan'208";a="447492338"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:44 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388154"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388180"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388154"
+   d="scan'208";a="813388180"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:43 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:46 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v11 16/37] x86/ptrace: Add FRED additional information to the pt_regs structure
-Date:   Sat, 23 Sep 2023 02:41:51 -0700
-Message-Id: <20230923094212.26520-17-xin3.li@intel.com>
+Subject: [PATCH v11 22/37] x86/fred: Allow single-step trap and NMI when starting a new task
+Date:   Sat, 23 Sep 2023 02:41:57 -0700
+Message-Id: <20230923094212.26520-23-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -60,125 +60,95 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-FRED defines additional information in the upper 48 bits of cs/ss
-fields. Therefore add the information definitions into the pt_regs
-structure.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Specially introduce a new structure fred_ss to denote the FRED flags
-above SS selector, which avoids FRED_SSX_ macros and makes the code
-simpler and easier to read.
+Entering a new task is logically speaking a return from a system call
+(exec, fork, clone, etc.). As such, if ptrace enables single stepping
+a single step exception should be allowed to trigger immediately upon
+entering user space. This is not optional.
+
+NMI should *never* be disabled in user space. As such, this is an
+optional, opportunistic way to catch errors.
+
+Allow single-step trap and NMI when starting a new task, thus once
+the new task enters user space, single-step trap and NMI are both
+enabled immediately.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
 
-Changes since v9:
-* Introduce a new structure fred_ss to denote the FRED flags above SS
-  selector, which avoids FRED_SSX_ macros and makes the code simpler
-  and easier to read (Thomas Gleixner).
-* Use type u64 to define FRED bit fields instead of type unsigned int
-  (Thomas Gleixner).
-
 Changes since v8:
-* Reflect stack frame definition changes from FRED spec 3.0 to 5.0.
-* Use __packed instead of __attribute__((__packed__)) (Borislav Petkov).
-* Put all comments above the members, like the rest of the file does
-  (Borislav Petkov).
-
-Changes since v3:
-* Rename csl/ssl of the pt_regs structure to csx/ssx (x for extended)
-  (Andrew Cooper).
+* Use high-order 48 bits above the lowest 16 bit SS only when FRED
+  is enabled (Thomas Gleixner).
 ---
- arch/x86/include/asm/ptrace.h | 51 +++++++++++++++++++++++++++++++----
- 1 file changed, 46 insertions(+), 5 deletions(-)
+ arch/x86/kernel/process_64.c | 38 ++++++++++++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
-index f08ea073edd6..5786c8ca5f4c 100644
---- a/arch/x86/include/asm/ptrace.h
-+++ b/arch/x86/include/asm/ptrace.h
-@@ -56,6 +56,25 @@ struct pt_regs {
+diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
+index 4f87f5987ae8..c075591b7b46 100644
+--- a/arch/x86/kernel/process_64.c
++++ b/arch/x86/kernel/process_64.c
+@@ -56,6 +56,7 @@
+ #include <asm/resctrl.h>
+ #include <asm/unistd.h>
+ #include <asm/fsgsbase.h>
++#include <asm/fred.h>
+ #ifdef CONFIG_IA32_EMULATION
+ /* Not included via unistd.h */
+ #include <asm/unistd_32_ia32.h>
+@@ -528,7 +529,7 @@ void x86_gsbase_write_task(struct task_struct *task, unsigned long gsbase)
+ static void
+ start_thread_common(struct pt_regs *regs, unsigned long new_ip,
+ 		    unsigned long new_sp,
+-		    unsigned int _cs, unsigned int _ss, unsigned int _ds)
++		    u16 _cs, u16 _ss, u16 _ds)
+ {
+ 	WARN_ON_ONCE(regs != current_pt_regs());
  
- #else /* __i386__ */
+@@ -545,11 +546,36 @@ start_thread_common(struct pt_regs *regs, unsigned long new_ip,
+ 	loadsegment(ds, _ds);
+ 	load_gs_index(0);
  
-+struct fred_ss {
-+	u64	ss	: 16,	// SS selector
-+		sti	:  1,	// STI state
-+		swevent	:  1,	// Set if syscall, sysenter or INT n
-+		nmi	:  1,	// Event is NMI type
-+			: 13,
-+		vector	:  8,	// Event vector
-+			:  8,
-+		type	:  4,	// Event type
-+			:  4,
-+		enclave	:  1,	// Event was incident to enclave execution
-+		lm	:  1,	// CPU was in long mode
-+		nested	:  1,	// Nested exception during FRED delivery
-+				// not set for #DF
-+			:  1,
-+		insnlen	:  4;	// The length of the instruction causing the event
-+				// Only set for INT0, INT1, INT3, INT n, SYSCALL
-+};				// and SYSENTER. 0 otherwise.
+-	regs->ip		= new_ip;
+-	regs->sp		= new_sp;
+-	regs->cs		= _cs;
+-	regs->ss		= _ss;
+-	regs->flags		= X86_EFLAGS_IF;
++	regs->ip	= new_ip;
++	regs->sp	= new_sp;
++	regs->csx	= _cs;
++	regs->ssx	= _ss;
++	/*
++	 * Allow single-step trap and NMI when starting a new task, thus
++	 * once the new task enters user space, single-step trap and NMI
++	 * are both enabled immediately.
++	 *
++	 * Entering a new task is logically speaking a return from a
++	 * system call (exec, fork, clone, etc.). As such, if ptrace
++	 * enables single stepping a single step exception should be
++	 * allowed to trigger immediately upon entering user space.
++	 * This is not optional.
++	 *
++	 * NMI should *never* be disabled in user space. As such, this
++	 * is an optional, opportunistic way to catch errors.
++	 *
++	 * Paranoia: High-order 48 bits above the lowest 16 bit SS are
++	 * discarded by the legacy IRET instruction on all Intel, AMD,
++	 * and Cyrix/Centaur/VIA CPUs, thus can be set unconditionally,
++	 * even when FRED is not enabled. But we choose the safer side
++	 * to use these bits only when FRED is enabled.
++	 */
++	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
++		regs->fred_ss.swevent	= true;
++		regs->fred_ss.nmi	= true;
++	}
 +
- struct pt_regs {
- 	/*
- 	 * C ABI says these regs are callee-preserved. They aren't saved on
-@@ -85,6 +104,12 @@ struct pt_regs {
- 	 * - the syscall number (syscall, sysenter, int80)
- 	 * - error_code stored by the CPU on traps and exceptions
- 	 * - the interrupt number for device interrupts
-+	 *
-+	 * A FRED stack frame starts here:
-+	 *   1) It _always_ includes an error code;
-+	 *
-+	 *   2) The return frame for ERET[US] starts here, but
-+	 *	the content of orig_ax is ignored.
- 	 */
- 	unsigned long orig_ax;
++	regs->flags	= X86_EFLAGS_IF | X86_EFLAGS_FIXED;
+ }
  
-@@ -92,20 +117,36 @@ struct pt_regs {
- 	unsigned long ip;
- 
- 	union {
--		u64	csx;	// The full 64-bit data slot containing CS
--		u16	cs;	// CS selector
-+		u64	csx;		// The full data for FRED
-+		/*
-+		 * The 'cs' member should be defined as a 16-bit bit-field
-+		 * along with the 'sl' and 'wfe' members, which however
-+		 * breaks compiling REG_OFFSET_NAME(cs), because compilers
-+		 * disallow calculating the address of a bit-field.
-+		 *
-+		 * Therefore 'cs" is defined as an individual member with
-+		 * type u16.
-+		 */
-+		u16	cs;		// CS selector
-+		u64		: 16,
-+			sl	:  2,	// Stack level at event time
-+			wfe	:  1,	// IBT is in WAIT_FOR_BRANCH_STATE
-+				: 45;
- 	};
- 
- 	unsigned long flags;
- 	unsigned long sp;
- 
- 	union {
--		u64	ssx;	// The full 64-bit data slot containing SS
--		u16	ss;	// SS selector
-+		u64		ssx;		// The full data for FRED
-+		u16		ss;		// SS selector
-+		struct fred_ss	fred_ss;	// The fred extension
- 	};
- 
- 	/*
--	 * Top of stack on IDT systems.
-+	 * Top of stack on IDT systems, while FRED systems have extra fields
-+	 * defined above for storing exception related information, e.g. CR2 or
-+	 * DR6.
- 	 */
- };
- 
+ void
 -- 
 2.34.1
 
