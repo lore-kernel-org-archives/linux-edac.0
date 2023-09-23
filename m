@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58900CE7A9F
-	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:11:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E01C1CE7A96
+	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231432AbjIWKL4 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 23 Sep 2023 06:11:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42332 "EHLO
+        id S231463AbjIWKL5 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 23 Sep 2023 06:11:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231316AbjIWKLr (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:11:47 -0400
+        with ESMTP id S231373AbjIWKLu (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:11:50 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17B81A7;
-        Sat, 23 Sep 2023 03:11:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E85A919F;
+        Sat, 23 Sep 2023 03:11:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463901; x=1726999901;
+  t=1695463904; x=1726999904;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=peVjyb58aU5czBXdVg55hBuRdCD6fg7woOPGVcAZ2Yw=;
-  b=M3hVEUI5h1b5or0ZOjQT37Alr/yWGcnLCC0SVFIpBOePGgTr+FkgUxOR
-   0lNy9ETXkMMsRDQSWQFAIFkoXzAZ2EPlhF4EqQ4hmU4jgaZY4Cz2rVvC8
-   Y7U07bT0GSN4lKVXwwj1reeGTJ34n5K2Phdjgy7YH1hdd7Vc+NrEyauEv
-   je8+lInI6ENeh5WbTFJe1ASUE2IjARkyolXZvoNxCxrFmOyVToI4GDq1q
-   iD/CZKEkUZqNQqcM1hI4e92tErF4NOMEjCko6iypGv0KjKDbEHcOvswMT
-   Bsce3/5MbEcfj0Y8oPx2rOcpE7itJr2SabV33B1xBtICuGS9R6YQDOvJH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492132"
+  bh=nnaiSfOR32UqURagnGQyKATdoHKyxN7QZzCa/h9+/jY=;
+  b=loCMPhojLXtMwU6w8DVPX7Uf6B41ko73La/Azqg5OEqaEYqGxJQX77nr
+   UeoapNHu3u+leM3CxPRJmJBY+IXnFZPenIC8pJgzzmOEslyBbhGTdurX9
+   Rj7veLRMpUIVv0KpkcN49sbjShg6EJpvhmDLqdljFWkJ7gAWRLZspSUeJ
+   fNIAUfudZjAh8xAYvUIxHg0EF/JXmvJlroRPl9U+qQEe2/7wtqHIAN43+
+   CpeDEvocAb+EhbGLh6zojpok88bhXJixEciJ3apArkPYpIW+eC6Z+dT2A
+   NmWpPkM6aGPG3xHJ3OkH/skRj7I5dLyO34glsM6ouWcObtJZnbiCwvkBr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492216"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492132"
+   d="scan'208";a="447492216"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:38 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388115"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388141"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388115"
+   d="scan'208";a="813388141"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:38 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:41 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v11 05/37] x86/trapnr: Add event type macros to <asm/trapnr.h>
-Date:   Sat, 23 Sep 2023 02:41:40 -0700
-Message-Id: <20230923094212.26520-6-xin3.li@intel.com>
+Subject: [PATCH v11 12/37] x86/objtool: Teach objtool about ERET[US]
+Date:   Sat, 23 Sep 2023 02:41:47 -0700
+Message-Id: <20230923094212.26520-13-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -60,83 +60,48 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Intel VT-x classifies events into eight different types, which is
-inherited by FRED for event identification. As such, event type
-becomes a common x86 concept, and should be defined in a common x86
-header.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Add event type macros to <asm/trapnr.h>, and use it in <asm/vmx.h>.
+Update the objtool decoder to know about the ERET[US] instructions
+(type INSN_CONTEXT_SWITCH).
 
-Suggested-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
+ tools/objtool/arch/x86/decode.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-Changes since v10:
-* A few comment fixes and improvements (Andrew Cooper).
----
- arch/x86/include/asm/trapnr.h | 12 ++++++++++++
- arch/x86/include/asm/vmx.h    | 17 +++++++++--------
- 2 files changed, 21 insertions(+), 8 deletions(-)
-
-diff --git a/arch/x86/include/asm/trapnr.h b/arch/x86/include/asm/trapnr.h
-index f5d2325aa0b7..8d1154cdf787 100644
---- a/arch/x86/include/asm/trapnr.h
-+++ b/arch/x86/include/asm/trapnr.h
-@@ -2,6 +2,18 @@
- #ifndef _ASM_X86_TRAPNR_H
- #define _ASM_X86_TRAPNR_H
+diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
+index c0f25d00181e..6999f478c155 100644
+--- a/tools/objtool/arch/x86/decode.c
++++ b/tools/objtool/arch/x86/decode.c
+@@ -509,11 +509,20 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
  
-+/*
-+ * Event type codes used by FRED, Intel VT-x and AMD SVM
-+ */
-+#define EVENT_TYPE_EXTINT	0	// External interrupt
-+#define EVENT_TYPE_RESERVED	1
-+#define EVENT_TYPE_NMI		2	// NMI
-+#define EVENT_TYPE_HWEXC	3	// Hardware originated traps, exceptions
-+#define EVENT_TYPE_SWINT	4	// INT n
-+#define EVENT_TYPE_PRIV_SWEXC	5	// INT1
-+#define EVENT_TYPE_SWEXC	6	// INTO, INT3
-+#define EVENT_TYPE_OTHER	7	// FRED SYSCALL/SYSENTER, VT-x MTF
-+
- /* Interrupts/Exceptions */
+ 		if (op2 == 0x01) {
  
- #define X86_TRAP_DE		 0	/* Divide-by-zero */
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 0e73616b82f3..4dba17363008 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -17,6 +17,7 @@
- #include <linux/types.h>
+-			if (modrm == 0xca)
+-				insn->type = INSN_CLAC;
+-			else if (modrm == 0xcb)
+-				insn->type = INSN_STAC;
+-
++			switch (insn_last_prefix_id(&ins)) {
++			case INAT_PFX_REPE:
++			case INAT_PFX_REPNE:
++				if (modrm == 0xca)
++					/* eretu/erets */
++					insn->type = INSN_CONTEXT_SWITCH;
++				break;
++			default:
++				if (modrm == 0xca)
++					insn->type = INSN_CLAC;
++				else if (modrm == 0xcb)
++					insn->type = INSN_STAC;
++				break;
++			}
+ 		} else if (op2 >= 0x80 && op2 <= 0x8f) {
  
- #include <uapi/asm/vmx.h>
-+#include <asm/trapnr.h>
- #include <asm/vmxfeatures.h>
- 
- #define VMCS_CONTROL_BIT(x)	BIT(VMX_FEATURE_##x & 0x1f)
-@@ -374,14 +375,14 @@ enum vmcs_field {
- #define VECTORING_INFO_DELIVER_CODE_MASK    	INTR_INFO_DELIVER_CODE_MASK
- #define VECTORING_INFO_VALID_MASK       	INTR_INFO_VALID_MASK
- 
--#define INTR_TYPE_EXT_INTR              (0 << 8) /* external interrupt */
--#define INTR_TYPE_RESERVED              (1 << 8) /* reserved */
--#define INTR_TYPE_NMI_INTR		(2 << 8) /* NMI */
--#define INTR_TYPE_HARD_EXCEPTION	(3 << 8) /* processor exception */
--#define INTR_TYPE_SOFT_INTR             (4 << 8) /* software interrupt */
--#define INTR_TYPE_PRIV_SW_EXCEPTION	(5 << 8) /* ICE breakpoint - undocumented */
--#define INTR_TYPE_SOFT_EXCEPTION	(6 << 8) /* software exception */
--#define INTR_TYPE_OTHER_EVENT           (7 << 8) /* other event */
-+#define INTR_TYPE_EXT_INTR		(EVENT_TYPE_EXTINT << 8)	/* external interrupt */
-+#define INTR_TYPE_RESERVED		(EVENT_TYPE_RESERVED << 8)	/* reserved */
-+#define INTR_TYPE_NMI_INTR		(EVENT_TYPE_NMI << 8)		/* NMI */
-+#define INTR_TYPE_HARD_EXCEPTION	(EVENT_TYPE_HWEXC << 8)		/* processor exception */
-+#define INTR_TYPE_SOFT_INTR		(EVENT_TYPE_SWINT << 8)		/* software interrupt */
-+#define INTR_TYPE_PRIV_SW_EXCEPTION	(EVENT_TYPE_PRIV_SWEXC << 8)	/* ICE breakpoint */
-+#define INTR_TYPE_SOFT_EXCEPTION	(EVENT_TYPE_SWEXC << 8)		/* software exception */
-+#define INTR_TYPE_OTHER_EVENT		(EVENT_TYPE_OTHER << 8)		/* other event */
- 
- /* GUEST_INTERRUPTIBILITY_INFO flags. */
- #define GUEST_INTR_STATE_STI		0x00000001
+ 			insn->type = INSN_JUMP_CONDITIONAL;
 -- 
 2.34.1
 
