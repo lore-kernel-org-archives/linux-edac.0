@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5614CE7A89
-	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E3B6CE7A89
+	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:14:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231549AbjIWKNZ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 23 Sep 2023 06:13:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44534 "EHLO
+        id S231168AbjIWKOb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 23 Sep 2023 06:14:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231657AbjIWKMV (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:12:21 -0400
+        with ESMTP id S231158AbjIWKOQ (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:14:16 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E372E42;
-        Sat, 23 Sep 2023 03:11:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2451733;
+        Sat, 23 Sep 2023 03:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463915; x=1726999915;
+  t=1695463929; x=1726999929;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=1q9TX+E9M+XAvCy1QsZHulLmmodNJZdOtsrh5PyAo94=;
-  b=BSoRMQU3UDlxsImqiXJoM4K5k+zFH3SpWys/576wd49w8l61JyMxqsbG
-   C0YmByCxgI4hvFIwfb68sDcByyWtz0kXM8eMLXra3nViNrHXlU9wQgwkl
-   UIfN5uG7JGOSofS7lkKIOsl3znipGNUNasDGloS4qKX+hI83E2ftMvH94
-   8v0Vatc79B09u0Mk0SGzdCXkaItWrLF6G/M9cr22WLeX/eEsEUNTX+SaZ
-   9Rl8rTRKX4LQkmhNRlYOXRX38QfGwPj8xFy6JsbUCQu408lszOHhRKSd1
-   060IKVzwcBG7y21YgZ5ETiTKPcexlYHwKfADrDEhs8tmPTjRcMyEcwwXH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492435"
+  bh=dp4g3U5j1+mHLqLShoixZI9RDsoukyKAu6bCdytj8jk=;
+  b=bLQY4bdOT3wjV8b2BfFCfeFJAJYzr06hcUl+W+MNXreUSv7xKotPnT3V
+   oGFvx0CUpZk5ZnwPwKmhYImXjRQ8oSrMyUEp8bYo8Z2KZf3R99aS4uNeI
+   I6zuyIPKZNH9H1rlZTbAwFuAm2PinZfoxtDtGPgjgs5EgEfV6MtOK8jXm
+   K1DYJO/AuuCSNQSvb8BX3RqwhqyKMJBnLnhaivhr6Oe11IpUnI2RcdUma
+   YNhTADBguUMwKW3uHGo8PaddYILIkQFk+woxHOAImGIfuaBCu1N6j0nOn
+   9XdM4GE1AkKSCqRUkvPKQ0wQhZy5GrUQGAltI3Bcz25g2re3VZ+ss0sNz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492537"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492435"
+   d="scan'208";a="447492537"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:51 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388252"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388206"
+   d="scan'208";a="813388252"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:50 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:54 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v11 30/37] x86/fred: Let ret_from_fork_asm() jmp to asm_fred_exit_user when FRED is enabled
-Date:   Sat, 23 Sep 2023 02:42:05 -0700
-Message-Id: <20230923094212.26520-31-xin3.li@intel.com>
+Subject: [PATCH v11 37/37] x86/fred: Invoke FRED initialization code to enable FRED
+Date:   Sat, 23 Sep 2023 02:42:12 -0700
+Message-Id: <20230923094212.26520-38-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -62,47 +62,123 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Let ret_from_fork_asm() jmp to asm_fred_exit_user when FRED is enabled,
-otherwise the existing IDT code is chosen.
+Let cpu_init_exception_handling() call cpu_init_fred_exceptions() to
+initialize FRED. However if FRED is unavailable or disabled, it falls
+back to set up TSS IST and initialize IDT.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Co-developed-by: Xin Li <xin3.li@intel.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/entry/entry_64.S      | 6 ++++++
- arch/x86/entry/entry_64_fred.S | 1 +
- 2 files changed, 7 insertions(+)
 
-diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index 179e08d34eb6..f7db3a12ccb1 100644
---- a/arch/x86/entry/entry_64.S
-+++ b/arch/x86/entry/entry_64.S
-@@ -309,7 +309,13 @@ SYM_CODE_START(ret_from_fork_asm)
- 	 * and unwind should work normally.
- 	 */
- 	UNWIND_HINT_REGS
-+
-+#ifdef CONFIG_X86_FRED
-+	ALTERNATIVE "jmp swapgs_restore_regs_and_return_to_usermode", \
-+		    "jmp asm_fred_exit_user", X86_FEATURE_FRED
-+#else
- 	jmp	swapgs_restore_regs_and_return_to_usermode
-+#endif
- SYM_CODE_END(ret_from_fork_asm)
- .popsection
+Changes since v10:
+* No need to invalidate SYSCALL and SYSENTER MSRs (Thomas Gleixner).
+
+Changes since v8:
+* Move this patch after all required changes are in place (Thomas
+  Gleixner).
+---
+ arch/x86/kernel/cpu/common.c | 22 +++++++++++++++++-----
+ arch/x86/kernel/irqinit.c    |  7 ++++++-
+ arch/x86/kernel/traps.c      |  5 ++++-
+ 3 files changed, 27 insertions(+), 7 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 2ee4e7b597a3..e7a5b9831252 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -61,6 +61,7 @@
+ #include <asm/microcode.h>
+ #include <asm/intel-family.h>
+ #include <asm/cpu_device_id.h>
++#include <asm/fred.h>
+ #include <asm/uv/uv.h>
+ #include <asm/ia32.h>
+ #include <asm/set_memory.h>
+@@ -2112,7 +2113,15 @@ void syscall_init(void)
+ 	/* The default user and kernel segments */
+ 	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
  
-diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
-index 37a1dd5e8ace..5781c3411b44 100644
---- a/arch/x86/entry/entry_64_fred.S
-+++ b/arch/x86/entry/entry_64_fred.S
-@@ -32,6 +32,7 @@
- SYM_CODE_START_NOALIGN(asm_fred_entrypoint_user)
- 	FRED_ENTER
- 	call	fred_entry_from_user
-+SYM_INNER_LABEL(asm_fred_exit_user, SYM_L_GLOBAL)
- 	FRED_EXIT
- 	ERETU
- SYM_CODE_END(asm_fred_entrypoint_user)
+-	idt_syscall_init();
++	/*
++	 * Except the IA32_STAR MSR, there is NO need to setup SYSCALL and
++	 * SYSENTER MSRs for FRED, because FRED uses the ring 3 FRED
++	 * entrypoint for SYSCALL and SYSENTER, and ERETU is the only legit
++	 * instruction to return to ring 3 (both sysexit and sysret cause
++	 * #UD when FRED is enabled).
++	 */
++	if (!cpu_feature_enabled(X86_FEATURE_FRED))
++		idt_syscall_init();
+ }
+ 
+ #else	/* CONFIG_X86_64 */
+@@ -2228,8 +2237,9 @@ void cpu_init_exception_handling(void)
+ 	/* paranoid_entry() gets the CPU number from the GDT */
+ 	setup_getcpu(cpu);
+ 
+-	/* IST vectors need TSS to be set up. */
+-	tss_setup_ist(tss);
++	/* For IDT mode, IST vectors need to be set in TSS. */
++	if (!cpu_feature_enabled(X86_FEATURE_FRED))
++		tss_setup_ist(tss);
+ 	tss_setup_io_bitmap(tss);
+ 	set_tss_desc(cpu, &get_cpu_entry_area(cpu)->tss.x86_tss);
+ 
+@@ -2238,8 +2248,10 @@ void cpu_init_exception_handling(void)
+ 	/* GHCB needs to be setup to handle #VC. */
+ 	setup_ghcb();
+ 
+-	/* Finally load the IDT */
+-	load_current_idt();
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		cpu_init_fred_exceptions();
++	else
++		load_current_idt();
+ }
+ 
+ /*
+diff --git a/arch/x86/kernel/irqinit.c b/arch/x86/kernel/irqinit.c
+index c683666876f1..f79c5edc0b89 100644
+--- a/arch/x86/kernel/irqinit.c
++++ b/arch/x86/kernel/irqinit.c
+@@ -28,6 +28,7 @@
+ #include <asm/setup.h>
+ #include <asm/i8259.h>
+ #include <asm/traps.h>
++#include <asm/fred.h>
+ #include <asm/prom.h>
+ 
+ /*
+@@ -96,7 +97,11 @@ void __init native_init_IRQ(void)
+ 	/* Execute any quirks before the call gates are initialised: */
+ 	x86_init.irqs.pre_vector_init();
+ 
+-	idt_setup_apic_and_irq_gates();
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		fred_complete_exception_setup();
++	else
++		idt_setup_apic_and_irq_gates();
++
+ 	lapic_assign_system_vectors();
+ 
+ 	if (!acpi_ioapic && !of_ioapic && nr_legacy_irqs()) {
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 848c85208a57..0ee78a30e14a 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -1411,7 +1411,10 @@ void __init trap_init(void)
+ 
+ 	/* Initialize TSS before setting up traps so ISTs work */
+ 	cpu_init_exception_handling();
++
+ 	/* Setup traps as cpu_init() might #GP */
+-	idt_setup_traps();
++	if (!cpu_feature_enabled(X86_FEATURE_FRED))
++		idt_setup_traps();
++
+ 	cpu_init();
+ }
 -- 
 2.34.1
 
