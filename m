@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD21CE7A9C
-	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:12:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541E0CE7A8B
+	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:12:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231638AbjIWKMP (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 23 Sep 2023 06:12:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
+        id S231733AbjIWKMh (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 23 Sep 2023 06:12:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231377AbjIWKLu (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:11:50 -0400
+        with ESMTP id S231555AbjIWKMD (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:12:03 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686391A7;
-        Sat, 23 Sep 2023 03:11:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 455E5CDF;
+        Sat, 23 Sep 2023 03:11:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463904; x=1726999904;
+  t=1695463912; x=1726999912;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=szPt1r95a6G9RGqQRcu9cfSwmWMFMGoo6TuZWPez9pk=;
-  b=aiHp3F93ZLAAx68RVNAF9kDM48Xa4MHBEVCM0o7rJH0sKCBEdKCIyB1x
-   Ip7LpJojTmQfHM9DuxeA6AeyAyukQImVfp8Nid6IXm3jmoPgaiGMbjtSH
-   8obi3zGXrgb7JsG7WXXxo9Cbt8Cb3hLmADuIgIjxBKsHJ+oSjaFnJuf8B
-   6p5IpWXil2gARsKf9soNV8ts4mXAHTjBDM67MlzR0CzL9r7JIb9NQgSGH
-   1tRJz0pbjlykJ3aNi1ZiTGqTBXRmMDWnpe8zmWja1nMxanmShFGTSmFDs
-   Kmv6lGFcahhw5t/RWJ1qo8iuDhsrE0L/qzvzzmD/BNrfm0REJU1ui78gx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492240"
+  bh=bNtEfhEic2/4eI6U3F6LZD3GtdQN7TZ08d/4AOd+L9I=;
+  b=LZ2QO50YfqdDo8MkxH7jn0cK9EzSuhuOH0Liq8Ra7laGgJV7BFrLvuWl
+   5ck1IsGyzIYRExmfyAhQ+Np1MkhaCqbwV5hCpRg/4RmtJcKhzewsFR+BQ
+   HvsQMGqpdeutNBdeoLotc22LW+zOBTxNbIdzWRYKUK+sAthn8iil/M8wo
+   oRa4ZMrcRqwnx1/3B5UqTIm73vkbGSDY/FkC7V2rfXftOAf4ukNvTZTDT
+   L+aUA9o3YbVNQ8XlAS/HTEgWI9y1H+H/errtdLfVo5TYuAj1ncCgOxifO
+   SfJ23tBhmkeVnFxQbrAqWqAaQfrtTGCTS7DfVmlIymV9JpAtEHLl3iZFI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492399"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492240"
+   d="scan'208";a="447492399"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:43 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388148"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388196"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388148"
+   d="scan'208";a="813388196"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:42 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:49 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v11 14/37] x86/cpu: Add MSR numbers for FRED configuration
-Date:   Sat, 23 Sep 2023 02:41:49 -0700
-Message-Id: <20230923094212.26520-15-xin3.li@intel.com>
+Subject: [PATCH v11 27/37] x86/fred: Add a machine check entry stub for FRED
+Date:   Sat, 23 Sep 2023 02:42:02 -0700
+Message-Id: <20230923094212.26520-28-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -60,69 +60,69 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
+Like #DB, when occurred on different ring level, i.e., from user or kernel
+context, #MCE needs to be handled on different stack: User #MCE on current
+task stack, while kernel #MCE on a dedicated stack.
 
-Add MSR numbers for the FRED configuration registers per FRED spec 5.0.
+This is exactly how FRED event delivery invokes an exception handler: ring
+3 event on level 0 stack, i.e., current task stack; ring 0 event on the
+#MCE dedicated stack specified in the IA32_FRED_STKLVLS MSR. So unlike IDT,
+the FRED machine check entry stub doesn't do stack switch.
 
-Originally-by: Megha Dey <megha.dey@intel.com>
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/include/asm/msr-index.h       | 13 ++++++++++++-
- tools/arch/x86/include/asm/msr-index.h | 13 ++++++++++++-
- 2 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 6a6b0f763f67..200d7715696d 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -36,8 +36,19 @@
- #define EFER_FFXSR		(1<<_EFER_FFXSR)
- #define EFER_AUTOIBRS		(1<<_EFER_AUTOIBRS)
+Changes since v5:
+* Disallow #DB inside #MCE for robustness sake (Peter Zijlstra).
+---
+ arch/x86/kernel/cpu/mce/core.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 6f35f724cc14..da0a4a102afe 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -52,6 +52,7 @@
+ #include <asm/mce.h>
+ #include <asm/msr.h>
+ #include <asm/reboot.h>
++#include <asm/fred.h>
  
--/* Intel MSRs. Some also available on other CPUs */
-+/* FRED MSRs */
-+#define MSR_IA32_FRED_RSP0	0x1cc			/* Level 0 stack pointer */
-+#define MSR_IA32_FRED_RSP1	0x1cd			/* Level 1 stack pointer */
-+#define MSR_IA32_FRED_RSP2	0x1ce			/* Level 2 stack pointer */
-+#define MSR_IA32_FRED_RSP3	0x1cf			/* Level 3 stack pointer */
-+#define MSR_IA32_FRED_STKLVLS	0x1d0			/* Exception stack levels */
-+#define MSR_IA32_FRED_SSP0	MSR_IA32_PL0_SSP	/* Level 0 shadow stack pointer */
-+#define MSR_IA32_FRED_SSP1	0x1d1			/* Level 1 shadow stack pointer */
-+#define MSR_IA32_FRED_SSP2	0x1d2			/* Level 2 shadow stack pointer */
-+#define MSR_IA32_FRED_SSP3	0x1d3			/* Level 3 shadow stack pointer */
-+#define MSR_IA32_FRED_CONFIG	0x1d4			/* Entrypoint and interrupt stack level */
+ #include "internal.h"
  
-+/* Intel MSRs. Some also available on other CPUs */
- #define MSR_TEST_CTRL				0x00000033
- #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT	29
- #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT		BIT(MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT)
-diff --git a/tools/arch/x86/include/asm/msr-index.h b/tools/arch/x86/include/asm/msr-index.h
-index a00a53e15ab7..fc75e3ca47d9 100644
---- a/tools/arch/x86/include/asm/msr-index.h
-+++ b/tools/arch/x86/include/asm/msr-index.h
-@@ -36,8 +36,19 @@
- #define EFER_FFXSR		(1<<_EFER_FFXSR)
- #define EFER_AUTOIBRS		(1<<_EFER_AUTOIBRS)
- 
--/* Intel MSRs. Some also available on other CPUs */
-+/* FRED MSRs */
-+#define MSR_IA32_FRED_RSP0	0x1cc			/* Level 0 stack pointer */
-+#define MSR_IA32_FRED_RSP1	0x1cd			/* Level 1 stack pointer */
-+#define MSR_IA32_FRED_RSP2	0x1ce			/* Level 2 stack pointer */
-+#define MSR_IA32_FRED_RSP3	0x1cf			/* Level 3 stack pointer */
-+#define MSR_IA32_FRED_STKLVLS	0x1d0			/* Exception stack levels */
-+#define MSR_IA32_FRED_SSP0	MSR_IA32_PL0_SSP	/* Level 0 shadow stack pointer */
-+#define MSR_IA32_FRED_SSP1	0x1d1			/* Level 1 shadow stack pointer */
-+#define MSR_IA32_FRED_SSP2	0x1d2			/* Level 2 shadow stack pointer */
-+#define MSR_IA32_FRED_SSP3	0x1d3			/* Level 3 shadow stack pointer */
-+#define MSR_IA32_FRED_CONFIG	0x1d4			/* Entrypoint and interrupt stack level */
- 
-+/* Intel MSRs. Some also available on other CPUs */
- #define MSR_TEST_CTRL				0x00000033
- #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT	29
- #define MSR_TEST_CTRL_SPLIT_LOCK_DETECT		BIT(MSR_TEST_CTRL_SPLIT_LOCK_DETECT_BIT)
+@@ -2144,6 +2145,31 @@ DEFINE_IDTENTRY_MCE_USER(exc_machine_check)
+ 	exc_machine_check_user(regs);
+ 	local_db_restore(dr7);
+ }
++
++#ifdef CONFIG_X86_FRED
++/*
++ * When occurred on different ring level, i.e., from user or kernel
++ * context, #MCE needs to be handled on different stack: User #MCE
++ * on current task stack, while kernel #MCE on a dedicated stack.
++ *
++ * This is exactly how FRED event delivery invokes an exception
++ * handler: ring 3 event on level 0 stack, i.e., current task stack;
++ * ring 0 event on the #MCE dedicated stack specified in the
++ * IA32_FRED_STKLVLS MSR. So unlike IDT, the FRED machine check entry
++ * stub doesn't do stack switch.
++ */
++DEFINE_FREDENTRY_MCE(exc_machine_check)
++{
++	unsigned long dr7;
++
++	dr7 = local_db_save();
++	if (user_mode(regs))
++		exc_machine_check_user(regs);
++	else
++		exc_machine_check_kernel(regs);
++	local_db_restore(dr7);
++}
++#endif
+ #else
+ /* 32bit unified entry point */
+ DEFINE_IDTENTRY_RAW(exc_machine_check)
 -- 
 2.34.1
 
