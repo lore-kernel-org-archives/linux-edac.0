@@ -2,117 +2,87 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFB7CE7A88
-	for <linux-edac@archiver.kernel.org>; Sat, 23 Sep 2023 10:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB89CE7A88
+	for <linux-edac@archiver.kernel.org>; Sun, 24 Sep 2023 02:52:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbjIWKPn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 23 Sep 2023 06:15:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40822 "EHLO
+        id S229712AbjIXCwH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 23 Sep 2023 22:52:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231713AbjIWKPZ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 06:15:25 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4114910C1;
-        Sat, 23 Sep 2023 03:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463920; x=1726999920;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=MZgokrEaX/IcaX3hD6O7bYEAIXqVjdzkrr/jdEXzfh8=;
-  b=cqZIw/GH/2210S2Zzg56rpU4JD+tvIVoft0VnGbzfvZj6nYlJbBnZsjb
-   EdECRi2YzccxaRkXbG5w0xYrZkWyHPDScax6AfFTk+YOkw0Le/jhcBVSR
-   dJnO2GVJ3jw5rcppjdwMfISE5+bUtm7dGC2n5Ji24YGiWoKIK1WDYKev9
-   mf7bPlSf1K0Gld7ZhUrXL3uYkJHK5ZejgdWBDMVtTVcjI7rwaXNrw/5nU
-   4a3K5oXI02LtAeYDegd74LHSwi6emEl+io1g23YJePz59ebxmI3MXn/Ei
-   S7Vi69C+VHo8fT0m5azS/EeN9Fv1CseT/OM1mdGlquCsG4RpWCPP+YKDc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492485"
-X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492485"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388225"
-X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388225"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:52 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
-        mhiramat@kernel.org, andrew.cooper3@citrix.com,
-        jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v11 34/37] KVM: VMX: Call fred_entry_from_kvm() for IRQ/NMI handling
-Date:   Sat, 23 Sep 2023 02:42:09 -0700
-Message-Id: <20230923094212.26520-35-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
-References: <20230923094212.26520-1-xin3.li@intel.com>
+        with ESMTP id S229437AbjIXCwH (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 23 Sep 2023 22:52:07 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8604E10C
+        for <linux-edac@vger.kernel.org>; Sat, 23 Sep 2023 19:52:00 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3ab3aa9ae33so2945464b6e.2
+        for <linux-edac@vger.kernel.org>; Sat, 23 Sep 2023 19:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1695523920; x=1696128720; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qoxOpoYwwbcXvP8AhdHBWCEQ7XvmIo4NgjxEavDKJS0=;
+        b=R7+78uPj1vsN9ArLH0OMzIGPyTzfVp7iVwptGLxavDM/4VWGPINkimkMWDGhYsJLLA
+         KPLMZ/osNzryQT/bOFE2YrFLhsv5W1qWrGIgc+K6wycrLBQMNxtGOYN15t0Ewsl6cHcD
+         nCBea44ociJPStjlivuIrUJ/jNR6rTgPiY/E0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695523920; x=1696128720;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qoxOpoYwwbcXvP8AhdHBWCEQ7XvmIo4NgjxEavDKJS0=;
+        b=XfNnioY8NJFC/tMBQm2LSsZs1z0iRzPM8FA2hmksosvPDAGoIMxfWrd0UO7LdpUXDO
+         pyB6/tNmSICSWq/E1olKSApvhTZjn4kBNw/eMB/LkTUcNhSRwNzv173EI906PWSmBSws
+         WDYHNi6xThe5FZaj0ULQSQwMjXlLuX3Ya8BPCAvK3vEPtS5zvo09tSvO2HVqnoWKa4+D
+         umzvZg8UqA/XUDrwyLi8B0wU6naytlb9n+H5h8SL3w5dNg0MADC8GCUmcowIXDT0CPD6
+         wjSjLDdhaBRIIYc/0PDYtJyNLT8plParc/NcAKy/2hWbAlBpfwr/KDBr4DLy15+y3O0y
+         w/Yw==
+X-Gm-Message-State: AOJu0YyQnLOZGXfzK/xrccx/EYsAHU7ev3xdsFeRFv+alS9sA1kYuhln
+        FWxchBswjpxirURSxkGnQ4Tbmg==
+X-Google-Smtp-Source: AGHT+IHcUoAikiUF1QqzgTagOroRwcP1YpmHmYrwno+IIkRbBhz92pli07wtVSNBbwi76ORGeUjvtg==
+X-Received: by 2002:aca:1c14:0:b0:3a7:aa1:f883 with SMTP id c20-20020aca1c14000000b003a70aa1f883mr3738720oic.29.1695523919867;
+        Sat, 23 Sep 2023 19:51:59 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id jg13-20020a17090326cd00b001bba669a7eesm6038250plb.52.2023.09.23.19.51.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Sep 2023 19:51:58 -0700 (PDT)
+Date:   Sat, 23 Sep 2023 19:51:58 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Justin Stitt <justinstitt@google.com>
+Cc:     Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v4] EDAC/mc_sysfs: refactor deprecated strncpy
+Message-ID: <202309231950.698026E687@keescook>
+References: <20230918-strncpy-drivers-edac-edac_mc_sysfs-c-v4-1-38a23d2fcdd8@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918-strncpy-drivers-edac-edac_mc_sysfs-c-v4-1-38a23d2fcdd8@google.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-When FRED is enabled, call fred_entry_from_kvm() to handle IRQ/NMI in
-IRQ/NMI induced VM exits.
+On Mon, Sep 18, 2023 at 07:47:29AM +0000, Justin Stitt wrote:
+> `strncpy` is deprecated for use on NUL-terminated destination strings [1].
+> 
+> We've already calculated bounds, possible truncation with '\0' or '\n'
+> and manually NUL-terminated. The situation is now just a literal byte
+> copy from one buffer to another, let's treat it as such and use a less
+> ambiguous interface in memcpy.
+> 
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strncpy-on-nul-terminated-strings [1]
+> Link: https://github.com/KSPP/linux/issues/90
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Justin Stitt <justinstitt@google.com>
 
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
----
- arch/x86/kvm/vmx/vmx.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Yeah, I think this looks good now. If a v5 is needed, a tiny improvement
+would be to update the Subject: to "...: replace strncpy with memcpy".
 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 72e3943f3693..db55b8418fa3 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -38,6 +38,7 @@
- #include <asm/desc.h>
- #include <asm/fpu/api.h>
- #include <asm/fpu/xstate.h>
-+#include <asm/fred.h>
- #include <asm/idtentry.h>
- #include <asm/io.h>
- #include <asm/irq_remapping.h>
-@@ -6962,14 +6963,16 @@ static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)
- {
- 	u32 intr_info = vmx_get_intr_info(vcpu);
- 	unsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;
--	gate_desc *desc = (gate_desc *)host_idt_base + vector;
- 
- 	if (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,
- 	    "unexpected VM-Exit interrupt info: 0x%x", intr_info))
- 		return;
- 
- 	kvm_before_interrupt(vcpu, KVM_HANDLING_IRQ);
--	vmx_do_interrupt_irqoff(gate_offset(desc));
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		fred_entry_from_kvm(EVENT_TYPE_EXTINT, vector);
-+	else
-+		vmx_do_interrupt_irqoff(gate_offset((gate_desc *)host_idt_base + vector));
- 	kvm_after_interrupt(vcpu);
- 
- 	vcpu->arch.at_instruction_boundary = true;
-@@ -7262,7 +7265,10 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
- 	if ((u16)vmx->exit_reason.basic == EXIT_REASON_EXCEPTION_NMI &&
- 	    is_nmi(vmx_get_intr_info(vcpu))) {
- 		kvm_before_interrupt(vcpu, KVM_HANDLING_NMI);
--		vmx_do_nmi_irqoff();
-+		if (cpu_feature_enabled(X86_FEATURE_FRED))
-+			fred_entry_from_kvm(EVENT_TYPE_NMI, NMI_VECTOR);
-+		else
-+			vmx_do_nmi_irqoff();
- 		kvm_after_interrupt(vcpu);
- 	}
- 
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
 -- 
-2.34.1
-
+Kees Cook
