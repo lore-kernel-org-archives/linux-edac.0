@@ -2,49 +2,45 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C7DE8181F
-	for <linux-edac@archiver.kernel.org>; Tue, 26 Sep 2023 06:38:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C696EE14D8
+	for <linux-edac@archiver.kernel.org>; Tue, 26 Sep 2023 06:47:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233655AbjIZGiT (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 26 Sep 2023 02:38:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56576 "EHLO
+        id S229585AbjIZGra (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 26 Sep 2023 02:47:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231549AbjIZGiS (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 26 Sep 2023 02:38:18 -0400
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F760E6;
-        Mon, 25 Sep 2023 23:38:09 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R341e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=34;SR=0;TI=SMTPD_---0Vsvr0J9_1695710284;
-Received: from 30.240.112.49(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0Vsvr0J9_1695710284)
+        with ESMTP id S229685AbjIZGr3 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 26 Sep 2023 02:47:29 -0400
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3378E6;
+        Mon, 25 Sep 2023 23:47:22 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=xueshuai@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0Vsvn-Og_1695710837;
+Received: from 30.240.112.49(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0Vsvn-Og_1695710837)
           by smtp.aliyun-inc.com;
-          Tue, 26 Sep 2023 14:38:07 +0800
-Message-ID: <078b410f-e3b2-0355-d993-40ac46b99870@linux.alibaba.com>
-Date:   Tue, 26 Sep 2023 14:38:04 +0800
+          Tue, 26 Sep 2023 14:47:19 +0800
+Message-ID: <9ae398ff-c6a2-fde8-a767-3b42a86b9c38@linux.alibaba.com>
+Date:   Tue, 26 Sep 2023 14:47:17 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.14.0
-Subject: Re: [RESEND PATCH v8 2/2] ACPI: APEI: handle synchronous exceptions
- in task work
+Subject: Re: [RFC PATCH v2 1/9] pstore: move pstore creator id, section type
+ and record struct to common header
 Content-Language: en-US
-To:     Jarkko Sakkinen <jarkko@kernel.org>, rafael@kernel.org,
-        wangkefeng.wang@huawei.com, tanxiaofei@huawei.com,
-        mawupeng1@huawei.com, tony.luck@intel.com, linmiaohe@huawei.com,
-        naoya.horiguchi@nec.com, james.morse@arm.com,
-        gregkh@linuxfoundation.org, will@kernel.org
-Cc:     linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        linux-edac@vger.kernel.org, acpica-devel@lists.linuxfoundation.org,
-        stable@vger.kernel.org, x86@kernel.org, justin.he@arm.com,
-        ardb@kernel.org, ying.huang@intel.com, ashish.kalra@amd.com,
-        baolin.wang@linux.alibaba.com, bp@alien8.de, tglx@linutronix.de,
-        mingo@redhat.com, dave.hansen@linux.intel.com, lenb@kernel.org,
-        hpa@zytor.com, robert.moore@intel.com, lvying6@huawei.com,
-        xiexiuqi@huawei.com, zhuo.song@linux.alibaba.com
-References: <20221027042445.60108-1-xueshuai@linux.alibaba.com>
- <20230919022127.69732-3-xueshuai@linux.alibaba.com>
- <CVS371QBH3QK.3354DSBK53OFS@suppilovahvero>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     tony.luck@intel.com, gpiccoli@igalia.com, rafael@kernel.org,
+        lenb@kernel.org, james.morse@arm.com, bp@alien8.de,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, ardb@kernel.org,
+        robert.moore@intel.com, linux-hardening@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-efi@vger.kernel.org,
+        acpica-devel@lists.linuxfoundation.org,
+        baolin.wang@linux.alibaba.com
+References: <20230925074426.97856-1-xueshuai@linux.alibaba.com>
+ <20230925074426.97856-2-xueshuai@linux.alibaba.com>
+ <202309251012.AD87704BB@keescook>
 From:   Shuai Xue <xueshuai@linux.alibaba.com>
-In-Reply-To: <CVS371QBH3QK.3354DSBK53OFS@suppilovahvero>
+In-Reply-To: <202309251012.AD87704BB@keescook>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -53,67 +49,23 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 
 
-On 2023/9/25 23:00, Jarkko Sakkinen wrote:
-> On Tue Sep 19, 2023 at 5:21 AM EEST, Shuai Xue wrote:
->> Hardware errors could be signaled by synchronous interrupt, e.g.  when an
->> error is detected by a background scrubber, or signaled by synchronous
->> exception, e.g. when an uncorrected error is consumed. Both synchronous and
->> asynchronous error are queued and handled by a dedicated kthread in
->> workqueue.
->>
->> commit 7f17b4a121d0 ("ACPI: APEI: Kick the memory_failure() queue for
->> synchronous errors") keep track of whether memory_failure() work was
->> queued, and make task_work pending to flush out the workqueue so that the
->> work for synchronous error is processed before returning to user-space.
->> The trick ensures that the corrupted page is unmapped and poisoned. And
->> after returning to user-space, the task starts at current instruction which
->> triggering a page fault in which kernel will send SIGBUS to current process
->> due to VM_FAULT_HWPOISON.
->>
->> However, the memory failure recovery for hwpoison-aware mechanisms does not
->> work as expected. For example, hwpoison-aware user-space processes like
->> QEMU register their customized SIGBUS handler and enable early kill mode by
->> seting PF_MCE_EARLY at initialization. Then the kernel will directy notify
->> the process by sending a SIGBUS signal in memory failure with wrong
->> si_code: the actual user-space process accessing the corrupt memory
->> location, but its memory failure work is handled in a kthread context, so
->> it will send SIGBUS with BUS_MCEERR_AO si_code to the actual user-space
->> process instead of BUS_MCEERR_AR in kill_proc().
->>
->> To this end, separate synchronous and asynchronous error handling into
->> different paths like X86 platform does:
->>
->> - valid synchronous errors: queue a task_work to synchronously send SIGBUS
->>   before ret_to_user.
->> - valid asynchronous errors: queue a work into workqueue to asynchronously
->>   handle memory failure.
->> - abnormal branches such as invalid PA, unexpected severity, no memory
->>   failure config support, invalid GUID section, OOM, etc.
->>
->> Then for valid synchronous errors, the current context in memory failure is
->> exactly belongs to the task consuming poison data and it will send SIBBUS
->> with proper si_code.
->>
->> Fixes: 7f17b4a121d0 ("ACPI: APEI: Kick the memory_failure() queue for synchronous errors")
->> Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
->> Tested-by: Ma Wupeng <mawupeng1@huawei.com>
->> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
->> Reviewed-by: Xiaofei Tan <tanxiaofei@huawei.com>
->> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+On 2023/9/26 01:13, Kees Cook wrote:
+> On Mon, Sep 25, 2023 at 03:44:18PM +0800, Shuai Xue wrote:
+>> Move pstore creator id, section type and record struct to the common
+>> header, so that it can be use by MCE and GHES driver.
 > 
-> Did 7f17b4a121d0 actually break something that was not broken before?
+> I would prefer this was not in the pstore header -- this is a backend
+> detail that should stay in backend headers.
 > 
-> If not, this is (afaik) not a bug fix.
+> -Kees
+> 
 
-Hi, Jarkko,
+Hi, Kees,
 
-It did not. It keeps track of whether memory_failure() work was queued,
-and makes task_work pending to flush out the queue. But if no work queued for
-synchronous error due to abnormal branches, it does not do a force kill to
-current process resulting a hard lockup due to exception loop.
+Which file do you prefer? Do you mean "include/linux/cper.h", it defines
+the standard CPER sections, e.g. CPER_SEC_PLATFORM_MEM, CPER_SEC_PCIE, etc.
 
-It is fine to me to remove the bug fix tag if you insist on removing it.
+Thank you for comments.
 
 Best Regards,
 Shuai
-
