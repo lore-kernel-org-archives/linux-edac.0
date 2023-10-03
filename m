@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6ECE75431
-	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 06:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C19E7542F
+	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 06:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239466AbjJCG6u (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 3 Oct 2023 02:58:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44568 "EHLO
+        id S239400AbjJCG64 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 3 Oct 2023 02:58:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239187AbjJCG6h (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 02:58:37 -0400
+        with ESMTP id S239485AbjJCG6m (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 02:58:42 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A312721;
-        Mon,  2 Oct 2023 23:55:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A2E2D4D;
+        Mon,  2 Oct 2023 23:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696316147; x=1727852147;
+  t=1696316150; x=1727852150;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/UldAmuJEnsflYS2+cyLAQ4E+J1yAKX8pToUnF0eneI=;
-  b=mzyYokYvPpfU+XH4AQorFYfpIEOHM6rXxgiUlcxEAn6yqCRrt6yzMoLC
-   M3gdwzho3vwZmBLsB1rjHq723tRSgYDK6lRZuQQU+TCiR50g7EQKF4avt
-   6oEixQ3Sc/55SioaPfoDKUmadMddzGVrxu8GDzUgYOHuEGPFqZPnnkYBg
-   b+ALdUhPF1V51fxjRl94kYODRKDwhqHzg79olq7MYwJwFAf0BzpvTSv7A
-   txmFEnLYXPNQTfrGYwjlynqoMHfU6T9jvRA59YvxLjFqUgEVhgfuIM+KS
-   ie5Nk2c1o5rq3ilIu5yskAYXjcbOXnretxnsBPr9WlwNJ3FwCAHd/KIvz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858304"
+  bh=KVAH30AJVp6O2e8FLYlwUzaPcwlh2ELK9dDq37AIdDs=;
+  b=Z1LAqzi+Z3ye68zKOI2in3pIFKFY+Ay3dgi0OQrOWruDTJZoDjwpznfs
+   N91WrtwrvnoRypg0vwvp1JFD8CjGAKv6xhQ/4y7u8Y2hrKDxNAK/hR7HH
+   IOkNa0F13FTUIwYxHCxL45QrnTl3UtM8UC8A60bJwTQxu14i0aaeYAMm+
+   FmHM3gUN9V9NWWu7g1htpJzbBzg6nzS8suOkA0/9nz6WNFXtGsOF9kfJ5
+   ldjdyJEhSE+20+4JB6RTxLglKyiPpZ6leRrY+9zUvD+VU6PckhVpICGBY
+   vHn74pxuUGt3FcZxt97J++g9GbmA+fT+2kkW06KZMVlPmQ1rvw0uVYz2D
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858350"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367858304"
+   d="scan'208";a="367858350"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:51 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081901004"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081901025"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1081901004"
+   d="scan'208";a="1081901025"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:50 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:52 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v12 32/37] x86/entry/calling: Allow PUSH_AND_CLEAR_REGS being used beyond actual entry code
-Date:   Mon,  2 Oct 2023 23:24:53 -0700
-Message-Id: <20231003062458.23552-33-xin3.li@intel.com>
+Subject: [PATCH v12 35/37] x86/syscall: Split IDT syscall setup code into idt_syscall_init()
+Date:   Mon,  2 Oct 2023 23:24:56 -0700
+Message-Id: <20231003062458.23552-36-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
 References: <20231003062458.23552-1-xin3.li@intel.com>
@@ -60,74 +60,52 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Because FRED uses the ring 3 FRED entrypoint for SYSCALL and SYSENTER and
+ERETU is the only legit instruction to return to ring 3, there is NO need
+to setup SYSCALL and SYSENTER MSRs for FRED, except the IA32_STAR MSR.
 
-PUSH_AND_CLEAR_REGS could be used besides actual entry code; in that case
-%rbp shouldn't be cleared (otherwise the frame pointer is destroyed) and
-UNWIND_HINT shouldn't be added.
+Split IDT syscall setup code into idt_syscall_init() to make it easy to
+skip syscall setup code when FRED is enabled.
 
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/entry/calling.h | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ arch/x86/kernel/cpu/common.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/entry/calling.h b/arch/x86/entry/calling.h
-index f6907627172b..eb57c023d5df 100644
---- a/arch/x86/entry/calling.h
-+++ b/arch/x86/entry/calling.h
-@@ -65,7 +65,7 @@ For 32-bit we have the following conventions - kernel is built with
-  * for assembly code:
-  */
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 9b1cb6c938c4..69f9bdab19a9 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -2078,10 +2078,8 @@ static void wrmsrl_cstar(unsigned long val)
+ 		wrmsrl(MSR_CSTAR, val);
+ }
  
--.macro PUSH_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0
-+.macro PUSH_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0 unwind_hint=1
- 	.if \save_ret
- 	pushq	%rsi		/* pt_regs->si */
- 	movq	8(%rsp), %rsi	/* temporarily store the return address in %rsi */
-@@ -87,14 +87,17 @@ For 32-bit we have the following conventions - kernel is built with
- 	pushq	%r13		/* pt_regs->r13 */
- 	pushq	%r14		/* pt_regs->r14 */
- 	pushq	%r15		/* pt_regs->r15 */
+-/* May not be marked __init: used by software suspend */
+-void syscall_init(void)
++static inline void idt_syscall_init(void)
+ {
+-	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
+ 	wrmsrl(MSR_LSTAR, (unsigned long)entry_SYSCALL_64);
+ 
+ 	if (ia32_enabled()) {
+@@ -2115,6 +2113,15 @@ void syscall_init(void)
+ 	       X86_EFLAGS_AC|X86_EFLAGS_ID);
+ }
+ 
++/* May not be marked __init: used by software suspend */
++void syscall_init(void)
++{
++	/* The default user and kernel segments */
++	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
 +
-+	.if \unwind_hint
- 	UNWIND_HINT_REGS
-+	.endif
++	idt_syscall_init();
++}
++
+ #else	/* CONFIG_X86_64 */
  
- 	.if \save_ret
- 	pushq	%rsi		/* return address on top of stack */
- 	.endif
- .endm
- 
--.macro CLEAR_REGS
-+.macro CLEAR_REGS clear_bp=1
- 	/*
- 	 * Sanitize registers of values that a speculation attack might
- 	 * otherwise want to exploit. The lower registers are likely clobbered
-@@ -109,7 +112,9 @@ For 32-bit we have the following conventions - kernel is built with
- 	xorl	%r10d, %r10d	/* nospec r10 */
- 	xorl	%r11d, %r11d	/* nospec r11 */
- 	xorl	%ebx,  %ebx	/* nospec rbx */
-+	.if \clear_bp
- 	xorl	%ebp,  %ebp	/* nospec rbp */
-+	.endif
- 	xorl	%r12d, %r12d	/* nospec r12 */
- 	xorl	%r13d, %r13d	/* nospec r13 */
- 	xorl	%r14d, %r14d	/* nospec r14 */
-@@ -117,9 +122,9 @@ For 32-bit we have the following conventions - kernel is built with
- 
- .endm
- 
--.macro PUSH_AND_CLEAR_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0
--	PUSH_REGS rdx=\rdx, rcx=\rcx, rax=\rax, save_ret=\save_ret
--	CLEAR_REGS
-+.macro PUSH_AND_CLEAR_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0 clear_bp=1 unwind_hint=1
-+	PUSH_REGS rdx=\rdx, rcx=\rcx, rax=\rax, save_ret=\save_ret unwind_hint=\unwind_hint
-+	CLEAR_REGS clear_bp=\clear_bp
- .endm
- 
- .macro POP_REGS pop_rdi=1
+ #ifdef CONFIG_STACKPROTECTOR
 -- 
 2.34.1
 
