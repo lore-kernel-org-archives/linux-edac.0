@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B65C1E75430
-	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 06:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 565F2E75432
+	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 06:54:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239188AbjJCGyv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 3 Oct 2023 02:54:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37606 "EHLO
+        id S239216AbjJCGyx (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 3 Oct 2023 02:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230493AbjJCGym (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 02:54:42 -0400
+        with ESMTP id S239184AbjJCGyv (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 02:54:51 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DCDC6;
-        Mon,  2 Oct 2023 23:54:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B51F3DD;
+        Mon,  2 Oct 2023 23:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696316079; x=1727852079;
+  t=1696316083; x=1727852083;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=peVjyb58aU5czBXdVg55hBuRdCD6fg7woOPGVcAZ2Yw=;
-  b=UIULJJQxydyE0KknC/tregLv6MahhMflEfNPytigX72Ak6iTQ35hTjVv
-   0sFyl5WT5YPGfAdBpJC10bsVlFNRfFH3jFx+aPtgOz8wlH76HEk5W3n8F
-   kHo6b96uUmU93o3MamB2VabG8y4aAG6+2DpPfb0UV8bSqEXdp3vNsEerx
-   4M9bYdpXHB+2Ziy7/tSd89yFfTu9AISBSbCc5OJ2MOPyrR4oQH2yaSN02
-   Oav/SXZB+DN0FT2QQ30vHUgAvrqV6yFcqD68OC/3I1rs37+x+IoXvJbzW
-   NJAtIY0X6F39FjZlv7ebeIzLNLNDFYSp/FDXobkTgpoVKdqG8oLf6mVtB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367857954"
+  bh=i5VPM7WJy8QX3AfDJPn+y86GzsjxiQoeNBcvUeRwUoQ=;
+  b=OwLVC44mlD5Q1qhL+d8Y/7ROid0I25+bOxRoDRoYqNLWsX4i5CWCn9ML
+   /2mkwuBYUSH6TxanccwTrKcCNLJ6f1mysaaIQP7CPO376WixYASU0uUvX
+   7/4sFzuliY1d332HHpgRYSvwVPq3DayKfMvg5U3J8m+F0J7leENrUs8zJ
+   I66xV4eIreZ+MLntiGc84ehOTmWvvqYSG+FMy7D75NqDBWt8GSp6aPmPW
+   jynoYsf7Z4fD6vJanSCqwEd0DNGrz4xmADBVFFwo3ESsjEqZx2eiwDFYN
+   ybxt/wQG3vX1Lv1psarS/D+OsTwVm+cdwEr4AjsSvWVGt/qtGLTwVLabs
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858027"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367857954"
+   d="scan'208";a="367858027"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:37 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900910"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900928"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1081900910"
+   d="scan'208";a="1081900928"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:36 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:40 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v12 05/37] x86/trapnr: Add event type macros to <asm/trapnr.h>
-Date:   Mon,  2 Oct 2023 23:24:26 -0700
-Message-Id: <20231003062458.23552-6-xin3.li@intel.com>
+Subject: [PATCH v12 11/37] x86/opcode: Add ERET[US] instructions to the x86 opcode map
+Date:   Mon,  2 Oct 2023 23:24:32 -0700
+Message-Id: <20231003062458.23552-12-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
 References: <20231003062458.23552-1-xin3.li@intel.com>
@@ -60,83 +60,49 @@ Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Intel VT-x classifies events into eight different types, which is
-inherited by FRED for event identification. As such, event type
-becomes a common x86 concept, and should be defined in a common x86
-header.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Add event type macros to <asm/trapnr.h>, and use it in <asm/vmx.h>.
+ERETU returns from an event handler while making a transition to ring 3,
+and ERETS returns from an event handler while staying in ring 0.
 
-Suggested-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Add instruction opcodes used by ERET[US] to the x86 opcode map; opcode
+numbers are per FRED spec v5.0.
+
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 ---
+ arch/x86/lib/x86-opcode-map.txt       | 2 +-
+ tools/arch/x86/lib/x86-opcode-map.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Changes since v10:
-* A few comment fixes and improvements (Andrew Cooper).
----
- arch/x86/include/asm/trapnr.h | 12 ++++++++++++
- arch/x86/include/asm/vmx.h    | 17 +++++++++--------
- 2 files changed, 21 insertions(+), 8 deletions(-)
-
-diff --git a/arch/x86/include/asm/trapnr.h b/arch/x86/include/asm/trapnr.h
-index f5d2325aa0b7..8d1154cdf787 100644
---- a/arch/x86/include/asm/trapnr.h
-+++ b/arch/x86/include/asm/trapnr.h
-@@ -2,6 +2,18 @@
- #ifndef _ASM_X86_TRAPNR_H
- #define _ASM_X86_TRAPNR_H
+diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+index 1efe1d9bf5ce..12af572201a2 100644
+--- a/arch/x86/lib/x86-opcode-map.txt
++++ b/arch/x86/lib/x86-opcode-map.txt
+@@ -1052,7 +1052,7 @@ EndTable
  
-+/*
-+ * Event type codes used by FRED, Intel VT-x and AMD SVM
-+ */
-+#define EVENT_TYPE_EXTINT	0	// External interrupt
-+#define EVENT_TYPE_RESERVED	1
-+#define EVENT_TYPE_NMI		2	// NMI
-+#define EVENT_TYPE_HWEXC	3	// Hardware originated traps, exceptions
-+#define EVENT_TYPE_SWINT	4	// INT n
-+#define EVENT_TYPE_PRIV_SWEXC	5	// INT1
-+#define EVENT_TYPE_SWEXC	6	// INTO, INT3
-+#define EVENT_TYPE_OTHER	7	// FRED SYSCALL/SYSENTER, VT-x MTF
-+
- /* Interrupts/Exceptions */
+ GrpTable: Grp7
+ 0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
+-1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
++1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
+diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
+index 1efe1d9bf5ce..12af572201a2 100644
+--- a/tools/arch/x86/lib/x86-opcode-map.txt
++++ b/tools/arch/x86/lib/x86-opcode-map.txt
+@@ -1052,7 +1052,7 @@ EndTable
  
- #define X86_TRAP_DE		 0	/* Divide-by-zero */
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 0e73616b82f3..4dba17363008 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -17,6 +17,7 @@
- #include <linux/types.h>
- 
- #include <uapi/asm/vmx.h>
-+#include <asm/trapnr.h>
- #include <asm/vmxfeatures.h>
- 
- #define VMCS_CONTROL_BIT(x)	BIT(VMX_FEATURE_##x & 0x1f)
-@@ -374,14 +375,14 @@ enum vmcs_field {
- #define VECTORING_INFO_DELIVER_CODE_MASK    	INTR_INFO_DELIVER_CODE_MASK
- #define VECTORING_INFO_VALID_MASK       	INTR_INFO_VALID_MASK
- 
--#define INTR_TYPE_EXT_INTR              (0 << 8) /* external interrupt */
--#define INTR_TYPE_RESERVED              (1 << 8) /* reserved */
--#define INTR_TYPE_NMI_INTR		(2 << 8) /* NMI */
--#define INTR_TYPE_HARD_EXCEPTION	(3 << 8) /* processor exception */
--#define INTR_TYPE_SOFT_INTR             (4 << 8) /* software interrupt */
--#define INTR_TYPE_PRIV_SW_EXCEPTION	(5 << 8) /* ICE breakpoint - undocumented */
--#define INTR_TYPE_SOFT_EXCEPTION	(6 << 8) /* software exception */
--#define INTR_TYPE_OTHER_EVENT           (7 << 8) /* other event */
-+#define INTR_TYPE_EXT_INTR		(EVENT_TYPE_EXTINT << 8)	/* external interrupt */
-+#define INTR_TYPE_RESERVED		(EVENT_TYPE_RESERVED << 8)	/* reserved */
-+#define INTR_TYPE_NMI_INTR		(EVENT_TYPE_NMI << 8)		/* NMI */
-+#define INTR_TYPE_HARD_EXCEPTION	(EVENT_TYPE_HWEXC << 8)		/* processor exception */
-+#define INTR_TYPE_SOFT_INTR		(EVENT_TYPE_SWINT << 8)		/* software interrupt */
-+#define INTR_TYPE_PRIV_SW_EXCEPTION	(EVENT_TYPE_PRIV_SWEXC << 8)	/* ICE breakpoint */
-+#define INTR_TYPE_SOFT_EXCEPTION	(EVENT_TYPE_SWEXC << 8)		/* software exception */
-+#define INTR_TYPE_OTHER_EVENT		(EVENT_TYPE_OTHER << 8)		/* other event */
- 
- /* GUEST_INTERRUPTIBILITY_INFO flags. */
- #define GUEST_INTR_STATE_STI		0x00000001
+ GrpTable: Grp7
+ 0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
+-1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
++1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
 -- 
 2.34.1
 
