@@ -2,110 +2,161 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8C19E7542F
-	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 06:58:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52609E75433
+	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 08:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239400AbjJCG64 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 3 Oct 2023 02:58:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
+        id S231232AbjJCIjk (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 3 Oct 2023 04:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239485AbjJCG6m (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 02:58:42 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A2E2D4D;
-        Mon,  2 Oct 2023 23:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696316150; x=1727852150;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=KVAH30AJVp6O2e8FLYlwUzaPcwlh2ELK9dDq37AIdDs=;
-  b=Z1LAqzi+Z3ye68zKOI2in3pIFKFY+Ay3dgi0OQrOWruDTJZoDjwpznfs
-   N91WrtwrvnoRypg0vwvp1JFD8CjGAKv6xhQ/4y7u8Y2hrKDxNAK/hR7HH
-   IOkNa0F13FTUIwYxHCxL45QrnTl3UtM8UC8A60bJwTQxu14i0aaeYAMm+
-   FmHM3gUN9V9NWWu7g1htpJzbBzg6nzS8suOkA0/9nz6WNFXtGsOF9kfJ5
-   ldjdyJEhSE+20+4JB6RTxLglKyiPpZ6leRrY+9zUvD+VU6PckhVpICGBY
-   vHn74pxuUGt3FcZxt97J++g9GbmA+fT+2kkW06KZMVlPmQ1rvw0uVYz2D
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858350"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367858350"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081901025"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1081901025"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:52 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, xen-devel@lists.xenproject.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
-        mhiramat@kernel.org, andrew.cooper3@citrix.com,
-        jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v12 35/37] x86/syscall: Split IDT syscall setup code into idt_syscall_init()
-Date:   Mon,  2 Oct 2023 23:24:56 -0700
-Message-Id: <20231003062458.23552-36-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
-References: <20231003062458.23552-1-xin3.li@intel.com>
+        with ESMTP id S239368AbjJCIjj (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 04:39:39 -0400
+X-Greylist: delayed 613 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 03 Oct 2023 01:39:31 PDT
+Received: from out-202.mta0.migadu.com (out-202.mta0.migadu.com [91.218.175.202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3000EE4
+        for <linux-edac@vger.kernel.org>; Tue,  3 Oct 2023 01:39:31 -0700 (PDT)
+Date:   Tue, 3 Oct 2023 17:28:58 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1696321756;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=SvHEdL127DkwY1o1/aHJZdaismZDLKyIFOf23kZMKII=;
+        b=SnZnaakkCBrskHWe8xJL1L5kXJ04u9tThP9M8iKTR/CDUx+XLVjReoLcedlF6WCxvIyGD6
+        OhdcyIniVLeOQ4Kzd3U+6O26XoRzrW7252N8bpgQy1lQ/Hvcody5jaKDq/8yQ6j4TdM4hz
+        ijfc3ipmQGWFZBIAd/Eq8b9RfxVpS2E=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Naoya Horiguchi <naoya.horiguchi@linux.dev>
+To:     Shuai Xue <xueshuai@linux.alibaba.com>
+Cc:     rafael@kernel.org, wangkefeng.wang@huawei.com,
+        tanxiaofei@huawei.com, mawupeng1@huawei.com, tony.luck@intel.com,
+        linmiaohe@huawei.com, naoya.horiguchi@nec.com, james.morse@arm.com,
+        gregkh@linuxfoundation.org, will@kernel.org,
+        linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-edac@vger.kernel.org, acpica-devel@lists.linuxfoundation.org,
+        stable@vger.kernel.org, x86@kernel.org, justin.he@arm.com,
+        ardb@kernel.org, ying.huang@intel.com, ashish.kalra@amd.com,
+        baolin.wang@linux.alibaba.com, bp@alien8.de, tglx@linutronix.de,
+        mingo@redhat.com, dave.hansen@linux.intel.com, jarkko@kernel.org,
+        lenb@kernel.org, hpa@zytor.com, robert.moore@intel.com,
+        lvying6@huawei.com, xiexiuqi@huawei.com,
+        zhuo.song@linux.alibaba.com
+Subject: Re: [RESEND PATCH v8 2/2] ACPI: APEI: handle synchronous exceptions
+ in task work
+Message-ID: <20231003082858.GA750796@ik1-406-35019.vs.sakura.ne.jp>
+References: <20221027042445.60108-1-xueshuai@linux.alibaba.com>
+ <20230919022127.69732-3-xueshuai@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230919022127.69732-3-xueshuai@linux.alibaba.com>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Because FRED uses the ring 3 FRED entrypoint for SYSCALL and SYSENTER and
-ERETU is the only legit instruction to return to ring 3, there is NO need
-to setup SYSCALL and SYSENTER MSRs for FRED, except the IA32_STAR MSR.
+On Tue, Sep 19, 2023 at 10:21:27AM +0800, Shuai Xue wrote:
+> Hardware errors could be signaled by synchronous interrupt, e.g.  when an
+> error is detected by a background scrubber, or signaled by synchronous
+> exception, e.g. when an uncorrected error is consumed. Both synchronous and
+> asynchronous error are queued and handled by a dedicated kthread in
+> workqueue.
+> 
+> commit 7f17b4a121d0 ("ACPI: APEI: Kick the memory_failure() queue for
+> synchronous errors") keep track of whether memory_failure() work was
+> queued, and make task_work pending to flush out the workqueue so that the
+> work for synchronous error is processed before returning to user-space.
+> The trick ensures that the corrupted page is unmapped and poisoned. And
+> after returning to user-space, the task starts at current instruction which
+> triggering a page fault in which kernel will send SIGBUS to current process
+> due to VM_FAULT_HWPOISON.
+> 
+> However, the memory failure recovery for hwpoison-aware mechanisms does not
+> work as expected. For example, hwpoison-aware user-space processes like
+> QEMU register their customized SIGBUS handler and enable early kill mode by
+> seting PF_MCE_EARLY at initialization. Then the kernel will directy notify
+> the process by sending a SIGBUS signal in memory failure with wrong
+> si_code: the actual user-space process accessing the corrupt memory
+> location, but its memory failure work is handled in a kthread context, so
+> it will send SIGBUS with BUS_MCEERR_AO si_code to the actual user-space
+> process instead of BUS_MCEERR_AR in kill_proc().
+> 
+> To this end, separate synchronous and asynchronous error handling into
+> different paths like X86 platform does:
+> 
+> - valid synchronous errors: queue a task_work to synchronously send SIGBUS
+>   before ret_to_user.
+> - valid asynchronous errors: queue a work into workqueue to asynchronously
+>   handle memory failure.
+> - abnormal branches such as invalid PA, unexpected severity, no memory
+>   failure config support, invalid GUID section, OOM, etc.
+> 
+> Then for valid synchronous errors, the current context in memory failure is
+> exactly belongs to the task consuming poison data and it will send SIBBUS
+> with proper si_code.
+> 
+> Fixes: 7f17b4a121d0 ("ACPI: APEI: Kick the memory_failure() queue for synchronous errors")
+> Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
+> Tested-by: Ma Wupeng <mawupeng1@huawei.com>
+> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> Reviewed-by: Xiaofei Tan <tanxiaofei@huawei.com>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> ---
+>  arch/x86/kernel/cpu/mce/core.c |  9 +---
+>  drivers/acpi/apei/ghes.c       | 84 +++++++++++++++++++++-------------
+>  include/acpi/ghes.h            |  3 --
+>  mm/memory-failure.c            | 17 ++-----
+>  4 files changed, 56 insertions(+), 57 deletions(-)
+> 
+...
 
-Split IDT syscall setup code into idt_syscall_init() to make it easy to
-skip syscall setup code when FRED is enabled.
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index 4d6e43c88489..80e1ea1cc56d 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -2163,7 +2163,9 @@ static int memory_failure_dev_pagemap(unsigned long pfn, int flags,
+>   *
+>   * Return: 0 for successfully handled the memory error,
+>   *         -EOPNOTSUPP for hwpoison_filter() filtered the error event,
+> - *         < 0(except -EOPNOTSUPP) on failure.
+> + *         -EHWPOISON for already sent SIGBUS to the current process with
+> + *         the proper error info,
 
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
- arch/x86/kernel/cpu/common.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+The meaning of this comment is understood, but the sentence seems to be
+a little too long. Could you sort this out with bullet points (like below)?
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 9b1cb6c938c4..69f9bdab19a9 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -2078,10 +2078,8 @@ static void wrmsrl_cstar(unsigned long val)
- 		wrmsrl(MSR_CSTAR, val);
- }
- 
--/* May not be marked __init: used by software suspend */
--void syscall_init(void)
-+static inline void idt_syscall_init(void)
- {
--	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
- 	wrmsrl(MSR_LSTAR, (unsigned long)entry_SYSCALL_64);
- 
- 	if (ia32_enabled()) {
-@@ -2115,6 +2113,15 @@ void syscall_init(void)
- 	       X86_EFLAGS_AC|X86_EFLAGS_ID);
- }
- 
-+/* May not be marked __init: used by software suspend */
-+void syscall_init(void)
-+{
-+	/* The default user and kernel segments */
-+	wrmsr(MSR_STAR, 0, (__USER32_CS << 16) | __KERNEL_CS);
-+
-+	idt_syscall_init();
-+}
-+
- #else	/* CONFIG_X86_64 */
- 
- #ifdef CONFIG_STACKPROTECTOR
--- 
-2.34.1
+ * Return values:
+ *   0             - success
+ *   -EOPNOTSUPP   - hwpoison_filter() filtered the error event.
+ *   -EHWPOISON    - sent SIGBUS to the current process with the proper
+ *                   error info by kill_accessing_process().
+ *   other negative values - failure
 
+> + *         other negative error code on failure.
+>   */
+>  int memory_failure(unsigned long pfn, int flags)
+>  {
+> @@ -2445,19 +2447,6 @@ static void memory_failure_work_func(struct work_struct *work)
+>  	}
+>  }
+>  
+> -/*
+> - * Process memory_failure work queued on the specified CPU.
+> - * Used to avoid return-to-userspace racing with the memory_failure workqueue.
+> - */
+> -void memory_failure_queue_kick(int cpu)
+> -{
+> -	struct memory_failure_cpu *mf_cpu;
+> -
+> -	mf_cpu = &per_cpu(memory_failure_cpu, cpu);
+> -	cancel_work_sync(&mf_cpu->work);
+> -	memory_failure_work_func(&mf_cpu->work);
+> -}
+> -
+
+The declaration of memory_failure_queue_kick() still remains in include/linux/mm.h,
+so you can remove it together.
+
+Thanks,
+Naoya Horiguchi
