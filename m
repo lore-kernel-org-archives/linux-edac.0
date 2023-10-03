@@ -2,42 +2,42 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB17E7542E
-	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 06:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C45F2E75436
+	for <linux-edac@archiver.kernel.org>; Tue,  3 Oct 2023 06:55:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239313AbjJCGzI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Tue, 3 Oct 2023 02:55:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49940 "EHLO
+        id S239218AbjJCGzR (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 3 Oct 2023 02:55:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239261AbjJCGy5 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 02:54:57 -0400
+        with ESMTP id S239192AbjJCGyv (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 3 Oct 2023 02:54:51 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E157E9;
-        Mon,  2 Oct 2023 23:54:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C5F4F1;
+        Mon,  2 Oct 2023 23:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696316092; x=1727852092;
+  t=1696316085; x=1727852085;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HaNFd9+f6o42v45n40NutGcoZldX+CMRVlEU3cDygtg=;
-  b=JtCHFHMEPu5NVDh5XXdAjWkYhp1Lq5sD3SyxPQh4W1RNtsgtOIi9Me31
-   FIXQuI2z3sv6LmHyqRq2fRIs0e+bzOPv5YKHr4ryYPtyp/n1OfyaWC6hI
-   W0pi84Kt9am7AeYuMSkUIM1h6+K9dg500hi2tjaMgNsG8VyEYfRhp1d96
-   UrfOktayFp9Z1puWReVzsAfMSvbtwDT3jpLQyOZRyybi/dFgl74We2O24
-   Yh5gab4z9f7OBV3RvUEne1UJXedjEcPSSFehv1P9ZdEnT1NfyIN19MD5/
-   NvYeLAFseKRjKOqtsr5NxqCWR2odD02T+Pap+7D2ug+9HOqsSQ7AhXb7l
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858139"
+  bh=nFX1zfVQEUHSVWboxtoxLzmp8lIUuta3YE4l1C8KOLQ=;
+  b=lry1aLSZgjI5mmuMnWcSMMiUBpLLSIYmTom5dP7u5SrPYEXZ98lHGwvC
+   gHnWI9sRL8urtSW/LbkyoGx49XOCxymZ1eg2qTZTB1+oxPCkFs91+KFQu
+   URwnK/IGoyOvIaozCPmIqXK61wPb0Cm/0409hNB6tL5EzNcbyZ5yaM1/x
+   DK3Fog85rL8tmsRU/tvu2b2LgHApjbDbxBpFVIzjSDhHn2UafN6+zydb2
+   er8sRva/MXZBD1Z8RoGhW9yAW9yLL6rVL+WTk24+K5TR4tQZLt9VguE/N
+   te+apl3PqOJEeWFTJsFMxySYhPW+EdY++4qk6SKw2Dm1HEpLgmkpQhOtK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858051"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367858139"
+   d="scan'208";a="367858051"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:45 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900957"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900934"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1081900957"
+   d="scan'208";a="1081900934"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:44 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:41 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -48,14 +48,13 @@ Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         peterz@infradead.org, jgross@suse.com, ravi.v.shankar@intel.com,
         mhiramat@kernel.org, andrew.cooper3@citrix.com,
         jiangshanlai@gmail.com, nik.borisov@suse.com
-Subject: [PATCH v12 20/37] x86/fred: Disallow the swapgs instruction when FRED is enabled
-Date:   Mon,  2 Oct 2023 23:24:41 -0700
-Message-Id: <20231003062458.23552-21-xin3.li@intel.com>
+Subject: [PATCH v12 13/37] x86/cpu: Add X86_CR4_FRED macro
+Date:   Mon,  2 Oct 2023 23:24:34 -0700
+Message-Id: <20231003062458.23552-14-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
 References: <20231003062458.23552-1-xin3.li@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
@@ -63,83 +62,56 @@ X-Mailing-List: linux-edac@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-SWAPGS is no longer needed thus NOT allowed with FRED because FRED
-transitions ensure that an operating system can _always_ operate
-with its own GS base address:
-- For events that occur in ring 3, FRED event delivery swaps the GS
-  base address with the IA32_KERNEL_GS_BASE MSR.
-- ERETU (the FRED transition that returns to ring 3) also swaps the
-  GS base address with the IA32_KERNEL_GS_BASE MSR.
-
-And the operating system can still setup the GS segment for a user
-thread without the need of loading a user thread GS with:
-- Using LKGS, available with FRED, to modify other attributes of the
-  GS segment without compromising its ability always to operate with
-  its own GS base address.
-- Accessing the GS segment base address for a user thread as before
-  using RDMSR or WRMSR on the IA32_KERNEL_GS_BASE MSR.
-
-Note, LKGS loads the GS base address into the IA32_KERNEL_GS_BASE MSR
-instead of the GS segment’s descriptor cache. As such, the operating
-system never changes its runtime GS base address.
+Add X86_CR4_FRED macro for the FRED bit in %cr4. This bit must not be
+changed after initialization, so add it to the pinned CR4 bits.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
 
-Changes since v8:
-* Explain why writing directly to the IA32_KERNEL_GS_BASE MSR is
-  doing the right thing (Thomas Gleixner).
+Changes since v9:
+* Avoid a type cast by defining X86_CR4_FRED as 0 on 32-bit (Thomas
+  Gleixner).
 ---
- arch/x86/kernel/process_64.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ arch/x86/include/uapi/asm/processor-flags.h | 7 +++++++
+ arch/x86/kernel/cpu/common.c                | 5 ++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index 0f78b58021bb..4f87f5987ae8 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -166,7 +166,29 @@ static noinstr unsigned long __rdgsbase_inactive(void)
+diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
+index d898432947ff..f1a4adc78272 100644
+--- a/arch/x86/include/uapi/asm/processor-flags.h
++++ b/arch/x86/include/uapi/asm/processor-flags.h
+@@ -139,6 +139,13 @@
+ #define X86_CR4_LAM_SUP_BIT	28 /* LAM for supervisor pointers */
+ #define X86_CR4_LAM_SUP		_BITUL(X86_CR4_LAM_SUP_BIT)
  
- 	lockdep_assert_irqs_disabled();
++#ifdef __x86_64__
++#define X86_CR4_FRED_BIT	32 /* enable FRED kernel entry */
++#define X86_CR4_FRED		_BITUL(X86_CR4_FRED_BIT)
++#else
++#define X86_CR4_FRED		(0)
++#endif
++
+ /*
+  * x86-64 Task Priority Register, CR8
+  */
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 736d38abfc5a..9b1cb6c938c4 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -401,9 +401,8 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
+ }
  
--	if (!cpu_feature_enabled(X86_FEATURE_XENPV)) {
-+	/*
-+	 * SWAPGS is no longer needed thus NOT allowed with FRED because
-+	 * FRED transitions ensure that an operating system can _always_
-+	 * operate with its own GS base address:
-+	 * - For events that occur in ring 3, FRED event delivery swaps
-+	 *   the GS base address with the IA32_KERNEL_GS_BASE MSR.
-+	 * - ERETU (the FRED transition that returns to ring 3) also swaps
-+	 *   the GS base address with the IA32_KERNEL_GS_BASE MSR.
-+	 *
-+	 * And the operating system can still setup the GS segment for a
-+	 * user thread without the need of loading a user thread GS with:
-+	 * - Using LKGS, available with FRED, to modify other attributes
-+	 *   of the GS segment without compromising its ability always to
-+	 *   operate with its own GS base address.
-+	 * - Accessing the GS segment base address for a user thread as
-+	 *   before using RDMSR or WRMSR on the IA32_KERNEL_GS_BASE MSR.
-+	 *
-+	 * Note, LKGS loads the GS base address into the IA32_KERNEL_GS_BASE
-+	 * MSR instead of the GS segment’s descriptor cache. As such, the
-+	 * operating system never changes its runtime GS base address.
-+	 */
-+	if (!cpu_feature_enabled(X86_FEATURE_FRED) &&
-+	    !cpu_feature_enabled(X86_FEATURE_XENPV)) {
- 		native_swapgs();
- 		gsbase = rdgsbase();
- 		native_swapgs();
-@@ -191,7 +213,8 @@ static noinstr void __wrgsbase_inactive(unsigned long gsbase)
- {
- 	lockdep_assert_irqs_disabled();
+ /* These bits should not change their value after CPU init is finished. */
+-static const unsigned long cr4_pinned_mask =
+-	X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
+-	X86_CR4_FSGSBASE | X86_CR4_CET;
++static const unsigned long cr4_pinned_mask = X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
++					     X86_CR4_FSGSBASE | X86_CR4_CET | X86_CR4_FRED;
+ static DEFINE_STATIC_KEY_FALSE_RO(cr_pinning);
+ static unsigned long cr4_pinned_bits __ro_after_init;
  
--	if (!cpu_feature_enabled(X86_FEATURE_XENPV)) {
-+	if (!cpu_feature_enabled(X86_FEATURE_FRED) &&
-+	    !cpu_feature_enabled(X86_FEATURE_XENPV)) {
- 		native_swapgs();
- 		wrgsbase(gsbase);
- 		native_swapgs();
 -- 
 2.34.1
 
