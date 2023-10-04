@@ -2,55 +2,48 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99750E7B61A
-	for <linux-edac@archiver.kernel.org>; Wed,  4 Oct 2023 13:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C64E7B61C
+	for <linux-edac@archiver.kernel.org>; Wed,  4 Oct 2023 13:13:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242576AbjJDNNb (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 4 Oct 2023 09:13:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39644 "EHLO
+        id S242573AbjJDNNc (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 4 Oct 2023 09:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
         with ESMTP id S242435AbjJDNNb (ORCPT
         <rfc822;linux-edac@vger.kernel.org>); Wed, 4 Oct 2023 09:13:31 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7B3A9
-        for <linux-edac@vger.kernel.org>; Wed,  4 Oct 2023 06:13:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9472CB0
+        for <linux-edac@vger.kernel.org>; Wed,  4 Oct 2023 06:13:28 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qo1gc-000752-RQ; Wed, 04 Oct 2023 15:13:10 +0200
+        id 1qo1gl-0007Ur-LD; Wed, 04 Oct 2023 15:13:19 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qo1gc-00B2hg-DD; Wed, 04 Oct 2023 15:13:10 +0200
+        id 1qo1gl-00B2iG-6l; Wed, 04 Oct 2023 15:13:19 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qo1gc-008zCo-3P; Wed, 04 Oct 2023 15:13:10 +0200
+        id 1qo1gk-008zDY-Ta; Wed, 04 Oct 2023 15:13:18 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
-Cc:     Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Marvin Lin <kflin@nuvoton.com>,
-        Stanley Chu <yschu@nuvoton.com>,
+Cc:     Khuong Dinh <khuong@os.amperecomputing.com>,
         James Morse <james.morse@arm.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Richter <rric@kernel.org>, openbmc@lists.ozlabs.org,
-        linux-edac@vger.kernel.org, kernel@pengutronix.de
-Subject: [PATCH 11/21] EDAC/npcm: Convert to platform remove callback returning void
-Date:   Wed,  4 Oct 2023 15:12:44 +0200
-Message-Id: <20231004131254.2673842-12-u.kleine-koenig@pengutronix.de>
+        Robert Richter <rric@kernel.org>, linux-edac@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH 20/21] EDAC/xgene: Convert to platform remove callback returning void
+Date:   Wed,  4 Oct 2023 15:12:53 +0200
+Message-Id: <20231004131254.2673842-21-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231004131254.2673842-1-u.kleine-koenig@pengutronix.de>
 References: <20231004131254.2673842-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1923; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9elwnacy4hC51ienj2Z+Us36weEmvKfpBXTgQQ+HOVA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlHWSoRSWmM+3hSszD29TcULhrXY9FdJYJ6VvqT 9fuIDTZMdeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZR1kqAAKCRCPgPtYfRL+ TnWHB/9mCD0nPuvxj1FdGxP1d161RTZjGuin2+lSXOh0ky5nwM0cbu0UPdlq6hWl/CIHXnbLhgE QMcUeiyA/ERmTe3O8AQgNmtMpCQGa+U6a2mtrHv3Y6+rsMV0E5vikf+EK44zTPWKa6L8OqUcQCG mhhhzfQ5NjWY5Ry9OdrbmRIOmNPi+xedSWOiuNrT8Un7d/ilQgU7hqHvSQ2ConDzSdf2U8HzKd0 cNs7uqpIF6LYJSM93kZXE2s+Um7Ku4v43Lk4BKenPlUd3KcT4CQs0fZGzFWAE6goC4MBip0Gios 6mXWpdWwMTiamaNfOkPS91hVkNV9YIsIIfBgL3kUafA/iKwn
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1925; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=6VEGQt7C6nJUehXuKqKsFEkvNxw1D1brTAvSnS6IeSY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlHWTMvxqvMPRk8PU35tVshztQHIPItHXwBGDE9 sWZSExXTcuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZR1kzAAKCRCPgPtYfRL+ Tlo3CACW6KqDgd9vZ39JqIrNPrqulGeZfc87PGykmbeR6rlxyhRX2icIvx6NReU46ZMd0jRBy7T Zy8G0PMquekoP/rR6nwzAkMv1sZ58d4icvu2t+syb2GPytnWxQUhEqBQzwN20ZQ9ICO9UcR0mvJ sLGeidUYBeVe0ShvSkpIiYyceRxai+6wLoeMUGBaCK6OtbhhVsorIM+QGOjGv2yE0HFE75QZknA bIbqA8Aasc75mXiL/8/pZVuzB8f77tbBXVhV7BVLdb6K403gZ5yCKrudRNJq9VUy1Vd32cVwpuL bh91+h7j6HLDYwnfHUv/vg0igijvHiR3N5MYqEA7XGEQwEWV
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -76,40 +69,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/edac/npcm_edac.c | 6 ++----
+ drivers/edac/xgene_edac.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/edac/npcm_edac.c b/drivers/edac/npcm_edac.c
-index 6d15c1550263..2e2133b784e9 100644
---- a/drivers/edac/npcm_edac.c
-+++ b/drivers/edac/npcm_edac.c
-@@ -410,7 +410,7 @@ static int edac_probe(struct platform_device *pdev)
+diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
+index c52b9dd9154c..1b50f8160013 100644
+--- a/drivers/edac/xgene_edac.c
++++ b/drivers/edac/xgene_edac.c
+@@ -1960,7 +1960,7 @@ static int xgene_edac_probe(struct platform_device *pdev)
  	return rc;
  }
  
--static int edac_remove(struct platform_device *pdev)
-+static void edac_remove(struct platform_device *pdev)
+-static int xgene_edac_remove(struct platform_device *pdev)
++static void xgene_edac_remove(struct platform_device *pdev)
  {
- 	struct mem_ctl_info *mci = platform_get_drvdata(pdev);
- 	struct priv_data *priv = mci->pvt_info;
-@@ -426,8 +426,6 @@ static int edac_remove(struct platform_device *pdev)
- 	regmap_write(npcm_regmap, pdata->ctl_int_mask_master,
- 		     pdata->int_mask_master_global_mask);
- 	regmap_update_bits(npcm_regmap, pdata->ctl_ecc_en, pdata->ecc_en_mask, 0);
+ 	struct xgene_edac *edac = dev_get_drvdata(&pdev->dev);
+ 	struct xgene_edac_mc_ctx *mcu;
+@@ -1981,8 +1981,6 @@ static int xgene_edac_remove(struct platform_device *pdev)
+ 
+ 	list_for_each_entry_safe(node, temp_node, &edac->socs, next)
+ 		xgene_edac_soc_remove(node);
 -
 -	return 0;
  }
  
- static const struct npcm_platform_data npcm750_edac = {
-@@ -533,7 +531,7 @@ static struct platform_driver npcm_edac_driver = {
- 		.of_match_table = npcm_edac_of_match,
- 	},
- 	.probe = edac_probe,
--	.remove = edac_remove,
-+	.remove_new = edac_remove,
- };
+ static const struct of_device_id xgene_edac_of_match[] = {
+@@ -1993,7 +1991,7 @@ MODULE_DEVICE_TABLE(of, xgene_edac_of_match);
  
- module_platform_driver(npcm_edac_driver);
+ static struct platform_driver xgene_edac_driver = {
+ 	.probe = xgene_edac_probe,
+-	.remove = xgene_edac_remove,
++	.remove_new = xgene_edac_remove,
+ 	.driver = {
+ 		.name = "xgene-edac",
+ 		.of_match_table = xgene_edac_of_match,
 -- 
 2.40.1
 
