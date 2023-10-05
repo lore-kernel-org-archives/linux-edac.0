@@ -2,381 +2,165 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25E5E7C4ED
-	for <linux-edac@archiver.kernel.org>; Wed,  4 Oct 2023 18:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66DA9E92704
+	for <linux-edac@archiver.kernel.org>; Thu,  5 Oct 2023 14:17:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244513AbjJDSiE (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 4 Oct 2023 14:38:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50698 "EHLO
+        id S229523AbjJEORV (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 5 Oct 2023 10:17:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244510AbjJDSiC (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 4 Oct 2023 14:38:02 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F93CA6;
-        Wed,  4 Oct 2023 11:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696444678; x=1727980678;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=IZk3+rlL9saMs4f4kwEoKyW42P2ceIQ4ZmbhTJNBUYo=;
-  b=CVJjjYSad4gg0yshB+LwD3KvkbpR3jBWiuLvCHK5LMCdpSpcl6fUKxub
-   FoT9aWUzF8VFEG/WBKUXlq2+7IF+P9u7KyJMPdgFJB51+phmfuEeuyjU0
-   GViqQXgxtCPcHSZgn+rlJHZefYmlSef9wD49M5GN1CSIn8eUY5PpY2rGl
-   3I2wEgByXdpdS52a8ctR+7CtGVElOXxi4XYI+eZdiI9onmuZ6A69jyYTC
-   y8+zt1LCWQ+FPUzSYOpP+a/Rr3Nvsf78BaXTM9LiAn/r/IsPs3T+DAeSh
-   l865nk4Bn6DdYA5OsIOsGDACZwzvDcqP8wz7Tb1SyRZBM9zilQtH54qOY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="387133520"
-X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="387133520"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 11:36:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10853"; a="701236060"
-X-IronPort-AV: E=Sophos;i="6.03,201,1694761200"; 
-   d="scan'208";a="701236060"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.74])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2023 11:36:32 -0700
-From:   Tony Luck <tony.luck@intel.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Yazen Ghannam <yazen.ghannam@amd.com>,
-        Smita.KoralahalliChannabasappa@amd.com,
-        dave.hansen@linux.intel.com, x86@kernel.org,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v9 3/3] x86/mce: Handle Intel threshold interrupt storms
-Date:   Wed,  4 Oct 2023 11:36:23 -0700
-Message-ID: <20231004183623.17067-4-tony.luck@intel.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231004183623.17067-1-tony.luck@intel.com>
-References: <20230929181626.210782-1-tony.luck@intel.com>
- <20231004183623.17067-1-tony.luck@intel.com>
+        with ESMTP id S233840AbjJEOPL (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 5 Oct 2023 10:15:11 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on20609.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eb2::609])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A9F1FEFF;
+        Thu,  5 Oct 2023 03:13:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BhlL5y714dGS8lW2WEd6uLP0NwHPRjV+2ZaZe6I0Gy/tQTA09KHe+bKO1tiWx52L9IJiC0ZOeUVz6YwtwAUWwPBXB5zH5Sx9WRTr4Efwqg0PC7FhgvhvTSG+VnJqtcYoY2gI14ZerRRtW2XB+TipZLdn+tdGp/bJICgXEznO+hvdPxQ1NRe9XtCuqOC4YzGNM4TuDbrI1tVThlwm/5VxHkuFEbySaT0xRuLezXNrD2CZMw7ETt1GmJlpPQ5qddXlX6xK4rTE+0bwHqYIkoRP+8HqkBWjet8ifAHMPKK0oVHx6XzySWIz7k82pitsBUz/bAwPy07Axd51Ak8EkPyPXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vAdPP6AGOMVIHpt6SpOq9y5zuWl/2/h364Ql4ng3v1U=;
+ b=Hsqi0agJP3+SjTMYrNC7QK0ShNVVDGelTZWj/IU9wl7I+Di62mgmMYoLcxL099H5Ianq08DMtJnOzzMr/Na+yTaHvpQc8MRA2rYV6EkjZE7mrFi4wT6JPp7ORSDr3GkONPc01zkddqgRvg++UQjdiG8P/0R2NJxxsoC+AZlhVHb1rUkS8Adx0Sa18qLA5w8JHIxQ7N8s7wfi349JlRZ1t3yxF5GhGlMkZjxBhTZGuf22ywW4p9+THpznyN03JdWW+6S0syAK5PWDtuUTJYGPe3e/1EVaTNbtDOlDHPi6M5XpHSbY5CLPIMxRX05jtMLF9ehugyc0dca35CzRoH4XyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vAdPP6AGOMVIHpt6SpOq9y5zuWl/2/h364Ql4ng3v1U=;
+ b=AOSkNsIqYO4D7ZM2qJe82K8Wz9Y+Xq0exwPeSJ0EDHleWxGDKIFjrfXydad3bNK4RYeSFZNUWcmxnw42X3dMLiFqBWrz0mjvjdO2pRVCuN58l8l2zoHSRe7TB/k+f6OkUPW0UOJlgEYYSl8oGC0g8wQv7uWLLS+JxvKQ3bMLLXE=
+Received: from BL0PR05CA0029.namprd05.prod.outlook.com (2603:10b6:208:91::39)
+ by LV2PR12MB5895.namprd12.prod.outlook.com (2603:10b6:408:173::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.25; Thu, 5 Oct
+ 2023 10:12:52 +0000
+Received: from MN1PEPF0000F0E1.namprd04.prod.outlook.com
+ (2603:10b6:208:91:cafe::9e) by BL0PR05CA0029.outlook.office365.com
+ (2603:10b6:208:91::39) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.26 via Frontend
+ Transport; Thu, 5 Oct 2023 10:12:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ MN1PEPF0000F0E1.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6838.21 via Frontend Transport; Thu, 5 Oct 2023 10:12:52 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 5 Oct
+ 2023 05:12:51 -0500
+Received: from xhdshubhraj40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
+ Transport; Thu, 5 Oct 2023 05:12:48 -0500
+From:   Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+To:     <linux-edac@vger.kernel.org>
+CC:     <git@amd.com>, <devicetree@vger.kernel.org>,
+        <sai.krishna.potthuri@amd.com>, <krzysztof.kozlowski@linaro.org>,
+        <robh+dt@kernel.org>, <conor+dt@kernel.org>, <bp@alien8.de>,
+        <tony.luck@intel.com>, <james.morse@arm.com>, <mchehab@kernel.org>,
+        <rric@kernel.org>, <michal.simek@amd.com>
+Subject: [PATCH v9 0/2] edac: xilinx: Added EDAC support for Xilinx DDR controller
+Date:   Thu, 5 Oct 2023 15:42:40 +0530
+Message-ID: <20231005101242.14621-1-shubhrajyoti.datta@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E1:EE_|LV2PR12MB5895:EE_
+X-MS-Office365-Filtering-Correlation-Id: c26fe05d-a57b-4a9d-bd26-08dbc58ba288
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7JwftEMjinYYs+RPIbHRny9NeCXMbkLiPNnSpM+Z9P9T7hZbgqR50V4ZwXN0U93xpicooWS8ruTcmd2H4tB4qgUa1QoLJrx4qpjyJ8IW+/MO5ohdKrGdV679vopEvJVc+Nl4B1rgj3ZLl3IiZWwFQQIHPjNUzIvVx6lSkUedHz4gJHXqjzu5IGm18Rxb086C978gq+/wD5xKqQkZMivheKUZasrxnaCP7ipcBIuPLT4l02zW+FUcAZVIEO4T4rKm2mCbVBQMLxkXhiMRqy6ghNtd0dKqdGN/jI+rX/QcrKK9QSLmMZsQ0R0X1A3wIbrkzIzLxBDX0FjYhHWXUBOBxDdBkpmk2jErRkGeVbSBsVBA8iGGGrY5wYbXsytIX9Acuw5bcNsTqAGFMO5GAWdUgLmbTiLLdUe/m9Iu1BrYiYoNEaOTy8hzVsduXrLYUFfajUNQ0Z//DqafHSv/t+j53bP6dwQZnOK8DPaDiIRrMb+vqUxydhDo/mMNHPqNbNU3bvDERUBn+EM9HyAkTKVRTHNxjPnfXvpDmBSXnaU2/f1tTCtZVQKq7Uy8nHfvjg6nvuNJAG9YLbFQkQLvhoRrCpv5I4mhZGdFUuTCXmlVDVDrtrelEORWz4pzy9N2Au8Q/RPiTEOrMMy4taJm21fBEY94OWJzz/UrqRDgi/52IpZCDC8fUTIVPLY9ZPsYPaT7whEfvax0v/fODRa+4DSdXuuRd0MxgubCAXYrjpXo1PWoNTXb/q/ick7GVTFI7LQgK/SJnGrwwNnghBLHWuAZDA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(346002)(376002)(396003)(39860400002)(230922051799003)(451199024)(186009)(82310400011)(1800799009)(64100799003)(40470700004)(36840700001)(46966006)(83380400001)(356005)(40480700001)(26005)(1076003)(336012)(426003)(81166007)(82740400003)(44832011)(8936002)(41300700001)(70206006)(5660300002)(2906002)(8676002)(316002)(86362001)(4326008)(6916009)(2616005)(7416002)(36756003)(54906003)(70586007)(6666004)(478600001)(47076005)(40460700003)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2023 10:12:52.0740
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c26fe05d-a57b-4a9d-bd26-08dbc58ba288
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E1.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5895
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-Add an Intel specific hook into machine_check_poll() to keep track
-of per-CPU, per-bank corrected error logs (with a stub for the
-CONFIG_MCE_INTEL=n case).
 
-When a storm is observed the rate of interrupts is reduced by setting
-a large threshold value for this bank in IA32_MCi_CTL2. This bank is
-added to the bitmap of banks for this CPU to poll. The polling rate
-is increased to once per second.
+The integrated DDR Memory Controllers (DDRMCs) support both DDR4 and
+LPDDR4/4X memory interfaces. It has four programmable NoC interface
+ports and is designed to handle multiple streams of traffic.
 
-When a storm ends reset the threshold in IA32_MCi_CTL2 back to 1, remove
-the bank from the bitmap for polling, and change the polling rate back
-to the default.
+Optional external interface reliability include ECC error
+detection/correction and command address parity.
 
-If a CPU with banks in storm mode is taken offline, the new CPU
-that inherits ownership of those banks takes over management of
-storm(s) in the inherited bank(s).
+Adding edac support for DDR Memory controller.
 
-The cmci_discover() function was already very large. These changes
-pushed it well over the top. Refactor with three helper functions
-to bring it back under control.
 
-Updated with review comments from Yazen.
-Link: https://lore.kernel.org/r/6ae4df67-ba0b-4b50-8c1d-a5d382105ad2@amd.com
+Changes in v9:
+Update put the disable_irq out of DEBUG flag.
+Make the union packed
+Update the wording in the Kconfig
 
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+Changes in v8:
+remove disabling all interrupts
 
----
-v9: Fixed lkp randconfig build issue
----
- arch/x86/kernel/cpu/mce/internal.h  |   2 +
- arch/x86/kernel/cpu/mce/intel.c     | 202 +++++++++++++++++++++-------
- arch/x86/kernel/cpu/mce/threshold.c |   3 +
- 3 files changed, 157 insertions(+), 50 deletions(-)
+Changes in v7:
+Update the subject to add memory-controllers instead of edac
+Update the message
+Clear status after handling the error
+At probe disable all the unrequested interrupts.
+Alphabetically sorted diff
+Rename unCorrectable to uncorrectable
+Use mask0 for  GENMASK(0,5)
+Add a processbit function
 
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index 4aa957442c8d..373cc2fbad6c 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -41,12 +41,14 @@ struct dentry *mce_get_debugfs_dir(void);
- extern mce_banks_t mce_banks_ce_disabled;
- 
- #ifdef CONFIG_X86_MCE_INTEL
-+void mce_intel_handle_storm(int bank, bool on);
- void cmci_disable_bank(int bank);
- void intel_init_cmci(void);
- void intel_init_lmce(void);
- void intel_clear_lmce(void);
- bool intel_filter_mce(struct mce *m);
- #else
-+static inline void mce_intel_handle_storm(int bank, bool on) { }
- static inline void cmci_disable_bank(int bank) { }
- static inline void intel_init_cmci(void) { }
- static inline void intel_init_lmce(void) { }
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index b07656408f67..ae8817c03534 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -54,8 +54,27 @@ static DEFINE_RAW_SPINLOCK(cmci_discover_lock);
-  */
- static DEFINE_SPINLOCK(cmci_poll_lock);
- 
-+/* Linux non-storm CMCI threshold (may be overridden by BIOS) */
- #define CMCI_THRESHOLD		1
- 
-+/*
-+ * MCi_CTL2 threshold for each bank when there is no storm.
-+ * Default value for each bank may have been set by BIOS.
-+ */
-+static u16 cmci_threshold[MAX_NR_BANKS];
-+
-+/*
-+ * High threshold to limit CMCI rate during storms. Max supported is
-+ * 0x7FFF. Use this slightly smaller value so it has a distinctive
-+ * signature when some asks "Why am I not seeing all corrected errors?"
-+ * A high threshold is used instead of just disabling CMCI for a
-+ * bank because both corrected and uncorrected errors may be logged
-+ * in the same bank and signalled with CMCI. The threshold only applies
-+ * to corrected errors, so keeping CMCI enabled means that uncorrected
-+ * errors will still be processed in a timely fashion.
-+ */
-+#define CMCI_STORM_THRESHOLD	32749
-+
- static int cmci_supported(int *banks)
- {
- 	u64 cap;
-@@ -110,6 +129,31 @@ static bool lmce_supported(void)
- 	return tmp & FEAT_CTL_LMCE_ENABLED;
- }
- 
-+/*
-+ * Set a new CMCI threshold value. Preserve the state of the
-+ * MCI_CTL2_CMCI_EN bit in case this happens during a
-+ * cmci_rediscover() operation.
-+ */
-+static void cmci_set_threshold(int bank, int thresh)
-+{
-+	unsigned long flags;
-+	u64 val;
-+
-+	raw_spin_lock_irqsave(&cmci_discover_lock, flags);
-+	rdmsrl(MSR_IA32_MCx_CTL2(bank), val);
-+	val &= ~MCI_CTL2_CMCI_THRESHOLD_MASK;
-+	wrmsrl(MSR_IA32_MCx_CTL2(bank), val | thresh);
-+	raw_spin_unlock_irqrestore(&cmci_discover_lock, flags);
-+}
-+
-+void mce_intel_handle_storm(int bank, bool on)
-+{
-+	if (on)
-+		cmci_set_threshold(bank, CMCI_STORM_THRESHOLD);
-+	else
-+		cmci_set_threshold(bank, cmci_threshold[bank]);
-+}
-+
- /*
-  * The interrupt handler. This is called on every event.
-  * Just call the poller directly to log any events.
-@@ -121,72 +165,127 @@ static void intel_threshold_interrupt(void)
- 	machine_check_poll(MCP_TIMESTAMP, this_cpu_ptr(&mce_banks_owned));
- }
- 
-+/*
-+ * Check all the reasons why current CPU cannot claim
-+ * ownership of a bank.
-+ * 1: CPU already owns this bank
-+ * 2: BIOS owns this bank
-+ * 3: Some other CPU owns this bank
-+ */
-+static bool cmci_skip_bank(int bank, u64 *val)
-+{
-+	unsigned long *owned = (void *)this_cpu_ptr(&mce_banks_owned);
-+
-+	if (test_bit(bank, owned))
-+		return true;
-+
-+	/* Skip banks in firmware first mode */
-+	if (test_bit(bank, mce_banks_ce_disabled))
-+		return true;
-+
-+	rdmsrl(MSR_IA32_MCx_CTL2(bank), *val);
-+
-+	/* Already owned by someone else? */
-+	if (*val & MCI_CTL2_CMCI_EN) {
-+		clear_bit(bank, owned);
-+		__clear_bit(bank, this_cpu_ptr(mce_poll_banks));
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+/*
-+ * Decide which CMCI interrupt threshold to use:
-+ * 1: If this bank is in storm mode from whichever CPU was
-+ *    the previous owner, stay in storm mode.
-+ * 2: If ignoring any threshold set by BIOS, set Linux default
-+ * 3: Try to honor BIOS threshold (unless buggy BIOS set it at zero).
-+ */
-+static u64 cmci_pick_threshold(u64 val, int *bios_zero_thresh)
-+{
-+	if ((val & MCI_CTL2_CMCI_THRESHOLD_MASK) == CMCI_STORM_THRESHOLD)
-+		return val;
-+
-+	if (!mca_cfg.bios_cmci_threshold) {
-+		val &= ~MCI_CTL2_CMCI_THRESHOLD_MASK;
-+		val |= CMCI_THRESHOLD;
-+	} else if (!(val & MCI_CTL2_CMCI_THRESHOLD_MASK)) {
-+		/*
-+		 * If bios_cmci_threshold boot option was specified
-+		 * but the threshold is zero, we'll try to initialize
-+		 * it to 1.
-+		 */
-+		*bios_zero_thresh = 1;
-+		val |= CMCI_THRESHOLD;
-+	}
-+
-+	return val;
-+}
-+
-+/*
-+ * Try to claim ownership of a bank.
-+ */
-+static void cmci_claim_bank(int bank, u64 val, int bios_zero_thresh, int *bios_wrong_thresh)
-+{
-+	val |= MCI_CTL2_CMCI_EN;
-+	wrmsrl(MSR_IA32_MCx_CTL2(bank), val);
-+	rdmsrl(MSR_IA32_MCx_CTL2(bank), val);
-+
-+	/* If the enable bit did not stick, this bank should be polled. */
-+	if (!(val & MCI_CTL2_CMCI_EN)) {
-+		WARN_ON(!test_bit(bank, this_cpu_ptr(mce_poll_banks)));
-+		return;
-+	}
-+
-+	/* This CPU successfully set the enable bit. */
-+	set_bit(bank, (void *)this_cpu_ptr(&mce_banks_owned));
-+
-+	if ((val & MCI_CTL2_CMCI_THRESHOLD_MASK) == CMCI_STORM_THRESHOLD) {
-+		pr_notice("CPU%d BANK%d CMCI inherited storm\n", smp_processor_id(), bank);
-+		mce_inherit_storm(bank);
-+		cmci_storm_begin(bank);
-+	} else {
-+		__clear_bit(bank, this_cpu_ptr(mce_poll_banks));
-+	}
-+
-+	/*
-+	 * We are able to set thresholds for some banks that
-+	 * had a threshold of 0. This means the BIOS has not
-+	 * set the thresholds properly or does not work with
-+	 * this boot option. Note down now and report later.
-+	 */
-+	if (mca_cfg.bios_cmci_threshold && bios_zero_thresh &&
-+	    (val & MCI_CTL2_CMCI_THRESHOLD_MASK))
-+		*bios_wrong_thresh = 1;
-+
-+	/* Save default threshold for each bank */
-+	if (cmci_threshold[bank] == 0)
-+		cmci_threshold[bank] = val & MCI_CTL2_CMCI_THRESHOLD_MASK;
-+}
-+
- /*
-  * Enable CMCI (Corrected Machine Check Interrupt) for available MCE banks
-  * on this CPU. Use the algorithm recommended in the SDM to discover shared
-- * banks.
-+ * banks. Called during initial bootstrap, and also for hotplug CPU operations
-+ * to rediscover/reassign machine check banks.
-  */
- static void cmci_discover(int banks)
- {
--	unsigned long *owned = (void *)this_cpu_ptr(&mce_banks_owned);
-+	int bios_wrong_thresh = 0;
- 	unsigned long flags;
- 	int i;
--	int bios_wrong_thresh = 0;
- 
- 	raw_spin_lock_irqsave(&cmci_discover_lock, flags);
- 	for (i = 0; i < banks; i++) {
- 		u64 val;
- 		int bios_zero_thresh = 0;
- 
--		if (test_bit(i, owned))
--			continue;
--
--		/* Skip banks in firmware first mode */
--		if (test_bit(i, mce_banks_ce_disabled))
-+		if (cmci_skip_bank(i, &val))
- 			continue;
- 
--		rdmsrl(MSR_IA32_MCx_CTL2(i), val);
--
--		/* Already owned by someone else? */
--		if (val & MCI_CTL2_CMCI_EN) {
--			clear_bit(i, owned);
--			__clear_bit(i, this_cpu_ptr(mce_poll_banks));
--			continue;
--		}
--
--		if (!mca_cfg.bios_cmci_threshold) {
--			val &= ~MCI_CTL2_CMCI_THRESHOLD_MASK;
--			val |= CMCI_THRESHOLD;
--		} else if (!(val & MCI_CTL2_CMCI_THRESHOLD_MASK)) {
--			/*
--			 * If bios_cmci_threshold boot option was specified
--			 * but the threshold is zero, we'll try to initialize
--			 * it to 1.
--			 */
--			bios_zero_thresh = 1;
--			val |= CMCI_THRESHOLD;
--		}
--
--		val |= MCI_CTL2_CMCI_EN;
--		wrmsrl(MSR_IA32_MCx_CTL2(i), val);
--		rdmsrl(MSR_IA32_MCx_CTL2(i), val);
--
--		/* Did the enable bit stick? -- the bank supports CMCI */
--		if (val & MCI_CTL2_CMCI_EN) {
--			set_bit(i, owned);
--			__clear_bit(i, this_cpu_ptr(mce_poll_banks));
--			/*
--			 * We are able to set thresholds for some banks that
--			 * had a threshold of 0. This means the BIOS has not
--			 * set the thresholds properly or does not work with
--			 * this boot option. Note down now and report later.
--			 */
--			if (mca_cfg.bios_cmci_threshold && bios_zero_thresh &&
--					(val & MCI_CTL2_CMCI_THRESHOLD_MASK))
--				bios_wrong_thresh = 1;
--		} else {
--			WARN_ON(!test_bit(i, this_cpu_ptr(mce_poll_banks)));
--		}
-+		val = cmci_pick_threshold(val, &bios_zero_thresh);
-+		cmci_claim_bank(i, val, bios_zero_thresh, &bios_wrong_thresh);
- 	}
- 	raw_spin_unlock_irqrestore(&cmci_discover_lock, flags);
- 	if (mca_cfg.bios_cmci_threshold && bios_wrong_thresh) {
-@@ -225,6 +324,9 @@ static void __cmci_disable_bank(int bank)
- 	val &= ~MCI_CTL2_CMCI_EN;
- 	wrmsrl(MSR_IA32_MCx_CTL2(bank), val);
- 	__clear_bit(bank, this_cpu_ptr(mce_banks_owned));
-+
-+	if ((val & MCI_CTL2_CMCI_THRESHOLD_MASK) == CMCI_STORM_THRESHOLD)
-+		cmci_storm_end(bank);
- }
- 
- /*
-diff --git a/arch/x86/kernel/cpu/mce/threshold.c b/arch/x86/kernel/cpu/mce/threshold.c
-index ecdf13f1bb7d..209bb0b7428b 100644
---- a/arch/x86/kernel/cpu/mce/threshold.c
-+++ b/arch/x86/kernel/cpu/mce/threshold.c
-@@ -64,6 +64,9 @@ void mce_set_storm(bool storm)
- static void mce_handle_storm(unsigned int bank, bool on)
- {
- 	switch (boot_cpu_data.x86_vendor) {
-+	case X86_VENDOR_INTEL:
-+		mce_intel_handle_storm(bank, on);
-+		break;
- 	}
- }
- 
+Changes in v6:
+Fix the warn.
+
+Changes in v5:
+Update subject
+
+Changes in v4:
+Update the reviewed by tag
+Update the subject
+rename the driver file.
+fix the debugfs file.
+fix unneeded capitalisation.
+refactor code
+
+Changes in v3:
+Rebased and resent.
+
+Changes in v2:
+remove edac from compatible
+Update the description
+update the ddrmc_base and ddrmc_noc_base names
+Update a missed out file
+remove edac from compatible name
+rename ddrmc_noc_base and ddrmc_base
+
+Shubhrajyoti Datta (2):
+  dt-bindings: memory-controllers: Add support for Xilinx Versal EDAC
+    for DDRMC
+  EDAC/versal: Add a Xilinx Versal memory controller driver
+
+ .../xlnx,versal-ddrmc-edac.yaml               |   57 +
+ MAINTAINERS                                   |    7 +
+ drivers/edac/Kconfig                          |   12 +
+ drivers/edac/Makefile                         |    1 +
+ drivers/edac/versal_edac.c                    | 1065 +++++++++++++++++
+ include/linux/firmware/xlnx-zynqmp.h          |   12 +
+ 6 files changed, 1154 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/xlnx,versal-ddrmc-edac.yaml
+ create mode 100644 drivers/edac/versal_edac.c
+
 -- 
-2.41.0
+2.17.1
 
