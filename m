@@ -2,135 +2,108 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A1BC004C0
-	for <linux-edac@archiver.kernel.org>; Sat, 21 Oct 2023 17:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 478D0C001E0
+	for <linux-edac@archiver.kernel.org>; Sat, 21 Oct 2023 19:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231356AbjJUROS (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 21 Oct 2023 13:14:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48508 "EHLO
+        id S229633AbjJUTX2 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Sat, 21 Oct 2023 15:23:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231794AbjJUROR (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 21 Oct 2023 13:14:17 -0400
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 84C6C197
-        for <linux-edac@vger.kernel.org>; Sat, 21 Oct 2023 10:14:15 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id uFQvqTkB8Bo7OuFQvqjLbi; Sat, 21 Oct 2023 19:06:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1697908003;
-        bh=uy9rKGXC9pVvC/rWHxA/Lky5Qfo0J4plguAT77M6c0E=;
-        h=From:To:Cc:Subject:Date;
-        b=Iv8iVbAFNffdrdJXskC8W3teIYrEDdSHlLmFpXJJKVhCWU6rdIP4bNTywwu2Dc/FM
-         Y6S3Xu3/rFa/RQdEaJh+doF8unrzOlIMUS6VJLvxV9iOMkvCoK/r/B2LeKOW+ghYzr
-         XPjVY5OLtgidLo3P1vhiyRBHQFs4ujVAGoJvXjqe7dTqNEMwiM5XpjI5Cs80BDv3lm
-         U++OHUfO1ukV7GT1irym5H8lcl3DG/GWKVu830HMVphWbWqBzcYxr4EpHUBRyFX9u5
-         PtUmBp65B94G5nhB2hgRwfTU+VA+jC8MPT8MWQq6dzryUOyRiam7yYqT5jDLMxKqVX
-         TTv62Wd8swC3g==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 21 Oct 2023 19:06:43 +0200
-X-ME-IP: 86.243.2.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     keescook@chromium.org, Robert Richter <rric@kernel.org>,
+        with ESMTP id S229478AbjJUTX1 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Sat, 21 Oct 2023 15:23:27 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C66126;
+        Sat, 21 Oct 2023 12:23:22 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C029FC433C8;
+        Sat, 21 Oct 2023 19:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1697916202;
+        bh=yhDGV+afbKRRSHX9sgNtz5SsFfBE8tY3ozhHoe4H7gE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QnTTsZIQfovQp8cjxbyLj0z4ii9wo96GH4bh3XuUbQiaTrIw2ltzGJJNk0B9EbsgS
+         ZxN5xq8AsyFd+1tEf5wMDdKXGIrfXQgAGfCcWrWMVTe07wrQcAKlK/kop4uLKbqA6e
+         TA247/a3LeZ6zPrs7bGxQt14+ep72B5C784txzM4=
+Date:   Sat, 21 Oct 2023 21:23:18 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     keescook@chromium.org, Robert Richter <rric@kernel.org>,
         Borislav Petkov <bp@alien8.de>,
         Tony Luck <tony.luck@intel.com>,
         James Morse <james.morse@arm.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Temerkhanov <s.temerkhanov@gmail.com>
-Cc:     linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Borislav Petkov <bp@suse.de>, linux-edac@vger.kernel.org
-Subject: [PATCH] EDAC/thunderx: Fix some potential buffer overflow in thunderx_ocx_com_threaded_isr()
-Date:   Sat, 21 Oct 2023 19:06:34 +0200
-Message-Id: <a787355ac896903935dd85ac96cddf1a0afa87af.1697903882.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+        Sergey Temerkhanov <s.temerkhanov@gmail.com>,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, Borislav Petkov <bp@suse.de>,
+        linux-edac@vger.kernel.org
+Subject: Re: [PATCH v2] EDAC/thunderx: Fix some potential buffer overflow in
+ thunderx_ocx_com_threaded_isr()
+Message-ID: <2023102149-scrunch-carrousel-dcc3@gregkh>
+References: <91ec35cd8e2e86fa3d24c2e8ea6970e0437cdfd2.1697908406.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <91ec35cd8e2e86fa3d24c2e8ea6970e0437cdfd2.1697908406.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-strncat() usage in thunderx_ocx_com_threaded_isr() is wrong.
-The size given to strncat() is the maximum number of bytes that can be
-written, excluding the trailing NULL.
+On Sat, Oct 21, 2023 at 07:13:51PM +0200, Christophe JAILLET wrote:
+> strncat() usage in thunderx_ocx_com_threaded_isr() is wrong.
+> The size given to strncat() is the maximum number of bytes that can be
+> written, excluding the trailing NULL.
+> 
+> Here, the size of the 'msg' buffer is used (i.e. OCX_MESSAGE_SIZE), not
+> the space that is remaining.
+> The space for the ending NULL is also not taken into account.
+> 
+> in order to fix it:
+>    - call decode_register() before the snprintf() calls
+>    - use scnprintf() instead of snprintf() and compute, in the 'remaining'
+>      variable, the space that is still available in the 'msg' buffer
+>    - add a %s at the end of the format strings and append directly the
+>      result of decode_register() stored in 'other'
+>    - write directly at the right position in the 'msg' buffer when
+>      appending some data in the for loop.
+> 
+> Doing so, all usages of strncat() are removed.
+> 
+> Fixes: 41003396f932 ("EDAC, thunderx: Add Cavium ThunderX EDAC driver")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> This is cross-compile tested only.
+> Review with care.
+> 
+> v2: remove some other erroneous usage of strncat()
+> ---
+>  drivers/edac/thunderx_edac.c | 44 ++++++++++++++++--------------------
+>  1 file changed, 20 insertions(+), 24 deletions(-)
 
-Here, the size of the 'msg' buffer is used (i.e. OCX_MESSAGE_SIZE), not
-the space that is remaining.
-The space for the ending NULL is also not taken into account.
+Hi,
 
-in order to fix it:
-   - call decode_register() before the snprintf() calls
-   - use scnprintf() instead of snprintf() and compute, in the 'remaining'
-     variable, the space that is still available in the 'msg' buffer
-   - add a %s at the end of the format strings and append directly the
-     result of decode_register() stored in 'other'
-   - write directly at the right position in the 'msg' buffer when
-     appending some data in the for loop.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Doing so, all usages of strncat() are removed.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Fixes: 41003396f932 ("EDAC, thunderx: Add Cavium ThunderX EDAC driver")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-This is cross-compile tested only.
-Review with care.
----
- drivers/edac/thunderx_edac.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+- You have marked a patch with a Fixes: tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
 
-diff --git a/drivers/edac/thunderx_edac.c b/drivers/edac/thunderx_edac.c
-index b9c5772da959..9544836dbd19 100644
---- a/drivers/edac/thunderx_edac.c
-+++ b/drivers/edac/thunderx_edac.c
-@@ -1111,6 +1111,7 @@ static irqreturn_t thunderx_ocx_com_threaded_isr(int irq, void *irq_id)
- 
- 	unsigned long tail;
- 	struct ocx_com_err_ctx *ctx;
-+	size_t remaining;
- 	int lane;
- 	char *msg;
- 	char *other;
-@@ -1127,27 +1128,26 @@ static irqreturn_t thunderx_ocx_com_threaded_isr(int irq, void *irq_id)
- 				ARRAY_SIZE(ocx->com_err_ctx));
- 		ctx = &ocx->com_err_ctx[tail];
- 
--		snprintf(msg, OCX_MESSAGE_SIZE, "%s: OCX_COM_INT: %016llx",
--			ocx->edac_dev->ctl_name, ctx->reg_com_int);
--
- 		decode_register(other, OCX_OTHER_SIZE,
- 				ocx_com_errors, ctx->reg_com_int);
- 
--		strncat(msg, other, OCX_MESSAGE_SIZE);
-+		remaining = OCX_MESSAGE_SIZE;
-+		remaining -= scnprintf(msg, remaining, "%s: OCX_COM_INT: %016llx%s",
-+				       ocx->edac_dev->ctl_name, ctx->reg_com_int,
-+				       other);
- 
- 		for (lane = 0; lane < OCX_RX_LANES; lane++)
- 			if (ctx->reg_com_int & BIT(lane)) {
--				snprintf(other, OCX_OTHER_SIZE,
--					 "\n\tOCX_LNE_INT[%02d]: %016llx OCX_LNE_STAT11[%02d]: %016llx",
--					 lane, ctx->reg_lane_int[lane],
--					 lane, ctx->reg_lane_stat11[lane]);
--
--				strncat(msg, other, OCX_MESSAGE_SIZE);
--
- 				decode_register(other, OCX_OTHER_SIZE,
- 						ocx_lane_errors,
- 						ctx->reg_lane_int[lane]);
--				strncat(msg, other, OCX_MESSAGE_SIZE);
-+
-+				remaining -= scnprintf(msg + (OCX_MESSAGE_SIZE - remaining),
-+						       remaining,
-+						       "\n\tOCX_LNE_INT[%02d]: %016llx OCX_LNE_STAT11[%02d]: %016llx%s",
-+						       lane, ctx->reg_lane_int[lane],
-+						       lane, ctx->reg_lane_stat11[lane],
-+						       other);
- 			}
- 
- 		if (ctx->reg_com_int & OCX_COM_INT_CE)
--- 
-2.34.1
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
+thanks,
+
+greg k-h's patch email bot
