@@ -2,43 +2,43 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F122BC25B6E
-	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:44:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29A98C25B70
+	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:44:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232864AbjJYHo3 (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 25 Oct 2023 03:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
+        id S233303AbjJYHoa (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 25 Oct 2023 03:44:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233954AbjJYHny (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:43:54 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CEEE385A;
-        Wed, 25 Oct 2023 00:35:11 -0700 (PDT)
+        with ESMTP id S234693AbjJYHoN (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:44:13 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2063.outbound.protection.outlook.com [40.107.94.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 589013AB9;
+        Wed, 25 Oct 2023 00:35:28 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=beA1qDmXEI7fd0GJkR52ah3VrzJQ0KaI7NweC9yqpHZU2lMFqRekhBYNDp8e3WZ1ebHZ30eFM19XgnARrOh89QZ73z/hNnuiV5CkkPaBe9tG2tR046fKYOvwV7OeSNJ3LphQhadsqtrJM78/wkb8/LNAr5ZzcbkEqsjwmefIVC5+kIx1Z67+GMSmFzM4Xgl3hNBQ3dtKvn20SEWOgF4P/smupFz8dkhIF8yVxQ7rR0DjoMc2qHl/TXU8x5ttXhHfRGKbhqx/uQ0xmjBTODnjyRGo6eUAaQQmuGkDERMA6WXux0Z04cqvQMq72ZeibYagI1qWgUX53Eemv5ZZkoGcYw==
+ b=Do0jvJQPvCir+AupxNgiSRngdGrkfJb29xGdPrzwypjji4JtaAL8gAX6M9bKlMiK1wDot2QwcZhA6Fta4d75GuuxRRP7YmuHwEjU5AiaPRWpSaD5ngImNmZ4MZ+2ShaBTYMx7E8YyAGMGd2kadXTD/jNhHDZYiiHojmHUzBIbcdpfPoKf+0vE1ro5qYppZ7RM7vkA1imACQkeB0VdP11s3HHRyGyl7gDYXFmH++caUiZZnFcubj5/8XzWvDNMykpUv0A7pcqiQm5bIZiJ5nUZBu1MG1i/joslR969M+3UMDTzMcFfqURYGCZjo1FXsg4C1NwC1jVN9Fav14wOvfMEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fb1lA1A/zrQ11AAEuTb0poQjEohgg7ygwwoOdxYleTc=;
- b=Qaf7JRk0dwL7C0YxTvudfRR23VopYO46gmtS1f8uuPqEObSwWD4PrhsG/3HTzlmmUcyOHanpB+Xp2fLeu20w6UvI4ifbB9dALlSgHJaSl3Qv51+SjnBAQtU8FXCJOyhGXhnhyWr6gJ0yqZL3PnBoIs89B7HUcvDDbDVCKbUCGcmf/WgYjU+AJvYZRlRuTly+3YT+iNSLwaOVFlQgdH8qCXZXMcWo7WNLwA9ZpU54DSXhE54j42zIpNF9Nk1B0y6T+yQM0pT0beQ+unzgK5U97xXsD+w9LDpk0nZTvyHcVsxZqnHO4P9tYJFP2pwrXde7fdfMcTnmolZf5sBnWqES0w==
+ bh=dpoFvFcZ7Ba18t8x6fW6/vyJJIZnqfA8HkwtyKMz4aI=;
+ b=EmHL0q8dkDB4eKJjY31Rur8aGUZU30fWMDZAA3IOK+zlu+kl56J+eIfjAl4uhPqK84BONmq5CFBZZyRN0CC7I3IYuQJDXUWjhBcnalU/RuQRvAinilHc/pEeQf7m6HYQJaVJf1JuQwSTCM6I1lsD0NjUKX6hoavnhKOJY9/1V1UvAfedotppvctPiwyCbotGSYduEt5Y7pFPddKu9bPoqy+aaN7GhBu9CwDL8BrQP7fnHIpSpVG3pE49/MSRu/EMl/NGTBR1o8kK3VbiqQnn8Hib84tt9jp+pUGdkNCQCDQd7MAyx7mNABG+aLT55dZLZgcQT6q0p0XD6nrTwuIz4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fb1lA1A/zrQ11AAEuTb0poQjEohgg7ygwwoOdxYleTc=;
- b=fT7AgoGa29IazgEl6buVVKX4ywwkD46jZHjbray3Ol5QEK8cbZ8cZMrPCmflSBAMuTFN5fyzfzLSBkplrLJ2obRbIwW6Di2Fwz7IghOxCG5+DvoSFG7tU6UCWe4SusRXKlTKxSTkHQ9rvoR7jBTj3xf6z+XGwDMNOLgvFnNUWJU=
-Received: from CH2PR16CA0011.namprd16.prod.outlook.com (2603:10b6:610:50::21)
- by DS0PR12MB9322.namprd12.prod.outlook.com (2603:10b6:8:1bd::14) with
+ bh=dpoFvFcZ7Ba18t8x6fW6/vyJJIZnqfA8HkwtyKMz4aI=;
+ b=kfkuV2TtO7ZRmvnFVQhl/HzX6CW1X5fHD5hOtX2rVZoKpEwnwaTx0qKpN+Y2ZvsscYdy1DZ352SKmlUHXdsY22A17dqUGBktw9sFqGAnV2iMRbO/gMcdIjAc6lEsJk8MZWonzW3NKbAAbv9vKa6V8+eXMmZjRh9sSY0oagUt0Pw=
+Received: from SJ0PR03CA0103.namprd03.prod.outlook.com (2603:10b6:a03:333::18)
+ by MW4PR12MB7192.namprd12.prod.outlook.com (2603:10b6:303:22a::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Wed, 25 Oct
- 2023 07:35:09 +0000
-Received: from DS3PEPF000099D7.namprd04.prod.outlook.com
- (2603:10b6:610:50:cafe::5e) by CH2PR16CA0011.outlook.office365.com
- (2603:10b6:610:50::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.31; Wed, 25 Oct
+ 2023 07:35:23 +0000
+Received: from CO1PEPF000044F3.namprd05.prod.outlook.com
+ (2603:10b6:a03:333:cafe::db) by SJ0PR03CA0103.outlook.office365.com
+ (2603:10b6:a03:333::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19 via Frontend
- Transport; Wed, 25 Oct 2023 07:35:09 +0000
+ Transport; Wed, 25 Oct 2023 07:35:23 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,21 +46,23 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS3PEPF000099D7.mail.protection.outlook.com (10.167.17.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6933.18 via Frontend Transport; Wed, 25 Oct 2023 07:35:09 +0000
+ CO1PEPF000044F3.mail.protection.outlook.com (10.167.241.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6933.15 via Frontend Transport; Wed, 25 Oct 2023 07:35:22 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 25 Oct
- 2023 02:35:07 -0500
+ 2023 02:35:20 -0500
 From:   Muralidhara M K <muralimk@amd.com>
 To:     <linux-edac@vger.kernel.org>, <x86@kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <bp@alien8.de>,
         <mchehab@kernel.org>, Muralidhara M K <muralidhara.mk@amd.com>
-Subject: [PATCH 0/7] Address Translation support for MI200 and MI300 models
-Date:   Wed, 25 Oct 2023 07:33:32 +0000
-Message-ID: <20231025073339.630093-1-muralimk@amd.com>
+Subject: [PATCH 5/7] RAS: Add fixed Physical to logical CS ID mapping table
+Date:   Wed, 25 Oct 2023 07:33:37 +0000
+Message-ID: <20231025073339.630093-6-muralimk@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231025073339.630093-1-muralimk@amd.com>
+References: <20231025073339.630093-1-muralimk@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -69,83 +71,78 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D7:EE_|DS0PR12MB9322:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac3c7c43-9fe8-450b-dba8-08dbd52ceab2
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F3:EE_|MW4PR12MB7192:EE_
+X-MS-Office365-Filtering-Correlation-Id: de40815e-2f11-484d-ef59-08dbd52cf2c3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aqoZvIt1YgLXGUwd5iKcr/08V1LkkEWdagZBvK2B0YDBt6NbkfxPjy14Zz8Ry0qvgvyAXiFypWsyvcecXSnzBTt+TrKXzYK6eq6SM4nar6SLYZEbdOE3lZhtabemZUFVK38sGg+XgLmtJkubq+5Yl87U0A7Y9WynKiUfJtlJhCjJU9EM/8NH37FDL0NMWZZMNnTdvpYGYPl7flsqujF3kt5nFEd+nhF5Duk92s4Fl6W+IIxoTlMYJvEbiJ52icXHsOAoXO0npUOtP1Py74jFtvq/R1JyFmRzmClYHT+SFXR8qnN9NppcL6u5cyjSJuAMhPcimXrLyU/1sCt71zY/eEJT8jVaFZRGdRwXeDTRAieGKYLFXZsm3zpRpubtnLmVtBfpJ/ghXiyu9Z2t4WoOSOssM85Unw43NfDV09O72rHAG7Rs+CEAjeJtXr/jCyUDwQeL/gZKu0+vjwnVyTHRCcn+1d348hrxsxBdvxvmZh7iWx4MSM0iIPVwkcTN4ePYQkgkVjeqkZAheknU5GQ6Svvfge6dWPLaclqbVKD3xNpM7vI9TMupnZPvGod+AM9pTHTNiRPYd1Bx4UJJFSlsw6VqD+1bMj5roNsHSMP+cZXqOy0p7DLZwJ6dw5slJryO4K3DMhhOkQbGVxGZSUlTvLsZFSDoGPzcdn9d3kMeIpf73hSVMkaroorlZmYCoBF0otOPDzJp0DKaspGxXgNa88trZ7k+xstLZsGdKLuzIqRAHQHppsJDFF0r9lyVxfcF24X3mCFP5FCchK/QcyidnOTCuo7VDrFsXz26oEHsvfo=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(136003)(39860400002)(346002)(230922051799003)(451199024)(64100799003)(186009)(82310400011)(1800799009)(36840700001)(40470700004)(46966006)(2616005)(426003)(336012)(36756003)(26005)(16526019)(81166007)(1076003)(40480700001)(40460700003)(7696005)(47076005)(83380400001)(82740400003)(356005)(966005)(8936002)(8676002)(4326008)(478600001)(2906002)(316002)(5660300002)(41300700001)(6666004)(110136005)(36860700001)(70586007)(70206006)(54906003)(170073001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 4WQWerrufzWdGSmvgsXHqFeAfesn2l+sCJDgiMCv2hC3F5pV95dRoxlidNIlwbFXm9aRmTfmawxvkVJ+2O1oNbjI3plmeeP/JcfVv/DFPzac7v10iFipt5yaUhNlIW3TO/jXUPfD811+z02wZ1MqGpSdMnX+FCuiC83SbB8da4c0L7L34tXyJ4uOWP7YZ1Dd+DCE0Dy173A+QD14XrpfSfIYljX6f779Ta3ngjSPJPu3VwdysyLrg0NqZFLtDecnonaEyRaA0mqeiZ0nE9DA0z8QgBi6UKT+jdSrhkIvCDFfKqzG8DC4lqHuephlKbWGE+iA+sZ0lwXMrPNDvEZnEOVjOcunyn1Dv4gQ0TNsqukIka5lQ+3Wp37NgpJiMcVp+3Xjvdvzpx+zvuo8ISERAtziFe/cQvnCIRQSLUdhI5YlbUqJJd8d8elUakePA5nv1tqdQwQxzU7d9fWCdmblsIRj81P6ptzExrJqXTIXA71mvoWSh6pvPqLPMYVPMDcLMSjqlpPFgYybRWlOwJO0ax2jjg8fD7ElGAiecKPHT2PL9C01ELlJsXBFSgKPP5oZH8VKORKfQJNSP9W/QCYrIPHKBe1eGjK+gx/4SLojQcDuQCx5z9GLHW2gXJ8NHOnlKkg1A2iwJjB8zJSFrXTL2smmvJKj0vLPGXHrsasrXgb5BUQocWVi9cxw9YF1Fl030BuKjHURGTRg4sJPlBprA1YJkrJIXCCIz9/pfhX55izn/xS5STdEPcX8Dv0Eq7Gu+h2ebzhzhyT1W7f3/lwPaA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(376002)(396003)(136003)(230922051799003)(451199024)(82310400011)(64100799003)(186009)(1800799009)(36840700001)(40470700004)(46966006)(83380400001)(40460700003)(8936002)(40480700001)(5660300002)(70586007)(110136005)(70206006)(41300700001)(478600001)(7696005)(54906003)(316002)(6666004)(36756003)(8676002)(4326008)(81166007)(2906002)(426003)(356005)(16526019)(2616005)(1076003)(336012)(26005)(82740400003)(36860700001)(47076005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:35:09.5143
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:35:22.9855
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac3c7c43-9fe8-450b-dba8-08dbd52ceab2
+X-MS-Exchange-CrossTenant-Network-Message-Id: de40815e-2f11-484d-ef59-08dbd52cf2c3
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D7.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F3.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9322
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7192
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Muralidhara M K <muralidhara.mk@amd.com>
 
-This patchset adds support for MI200 heterogeneous address translation support
-and MI300A address translation support, fixups on HBM3 memory address maps.
+AMD MI300A models have a single Data Fabric (DF) instance per socket.
+So, only one out of 4 AIDs are software-visible using PCI Device 18h.
 
-The patch set depends on the Yazen's patches submitted
-"AMD Address Translation Library"
-https://lore.kernel.org/linux-edac/20231005173526.42831-1-yazen.ghannam@amd.com/T/#m4a9ddb63b334f367219ab0002a9a133e891f6aac
+Add a static lookup table for converting physical CS ID to logical
+CS ID for mapping of all 4 respective AIDs in a socket.
 
-The patchset does following
+Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
+---
+ drivers/ras/amd/atl/denormalize.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-Patch 1:
-MI200 heterogeneous address translation support.
-
-Patch 2:
-MI300 heterogeneous address translation support.
-
-Patch 3:
-Convert HBM3 MCA Decoded address to Normalized address.
-
-Patch 4:
-lookup table to get the correct cs instance id for HBM3.
-
-Patch 5:
-Convert physical cs id to logical cs id by static lookup
-table.
-
-Patch 6:
-Reading correct bit fields to get cs_fabric_id.
-
-Patch 7:
-Identify all physical pages in a row to retire all 8 columns
-of pages when the error is injected to avoid future errors.
-
-
-Muralidhara M K (7):
-  RAS: Add Address Translation support for MI200
-  RAS: Add Address Translation support for MI300
-  RAS: Add MCA Error address conversion for UMC
-  RAS: Add static lookup table to get CS physical ID
-  RAS: Add fixed Physical to logical CS ID mapping table
-  RAS: Get CS fabirc ID register bit fields
-  EDAC/amd64: RAS: platform/x86/amd: Identify all physical pages in row
-
- drivers/edac/amd64_edac.c         |   5 +
- drivers/ras/amd/atl/core.c        |   5 +-
- drivers/ras/amd/atl/dehash.c      | 149 ++++++++++++++
- drivers/ras/amd/atl/denormalize.c | 110 ++++++++++-
- drivers/ras/amd/atl/internal.h    |  27 ++-
- drivers/ras/amd/atl/map.c         | 158 ++++++++++++---
- drivers/ras/amd/atl/reg_fields.h  |  42 +++-
- drivers/ras/amd/atl/system.c      |   4 +
- drivers/ras/amd/atl/umc.c         | 309 +++++++++++++++++++++++++++++-
- include/linux/amd-atl.h           |   2 +
- 10 files changed, 778 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/ras/amd/atl/denormalize.c b/drivers/ras/amd/atl/denormalize.c
+index b233a26f68fc..4c127347a56e 100644
+--- a/drivers/ras/amd/atl/denormalize.c
++++ b/drivers/ras/amd/atl/denormalize.c
+@@ -442,6 +442,20 @@ static u16 get_logical_cs_fabric_id(struct addr_ctx *ctx)
+ 	return (phys_cs_fabric_id & df_cfg.node_id_mask) | log_cs_fabric_id;
+ }
+ 
++/* Physical CS to Logical CS mapping for MI300 AIDs */
++u16 phy_to_logicalcs_mapping_mi300_aid[] = { 12, 13, 14, 15, 8, 9, 10, 11,
++					4, 5, 6, 7, 0, 1, 2, 3,
++					28, 29, 30, 31, 24, 25, 26, 27,
++					20, 21, 22, 23, 16, 17, 18, 19};
++
++static u16 get_logical_cs_fabric_id_mi300_die(struct addr_ctx *ctx)
++{
++	if (ctx->inst_id >= sizeof(phy_to_logicalcs_mapping_mi300_aid))
++		return -EINVAL;
++
++	return phy_to_logicalcs_mapping_mi300_aid[ctx->inst_id];
++}
++
+ static int denorm_addr_common(struct addr_ctx *ctx)
+ {
+ 	u64 denorm_addr;
+@@ -451,7 +465,11 @@ static int denorm_addr_common(struct addr_ctx *ctx)
+ 	 * Convert the original physical CS Fabric ID to a logical value.
+ 	 * This is required for non-power-of-two and other interleaving modes.
+ 	 */
+-	ctx->cs_fabric_id = get_logical_cs_fabric_id(ctx);
++	if (df_cfg.rev == DF4p5 && df_cfg.flags.heterogeneous)
++		ctx->cs_fabric_id = (ctx->cs_fabric_id & df_cfg.node_id_mask) |
++				     get_logical_cs_fabric_id_mi300_die(ctx);
++	else
++		ctx->cs_fabric_id = get_logical_cs_fabric_id(ctx);
+ 
+ 	denorm_addr = make_space_for_cs_id(ctx);
+ 	cs_id = calculate_cs_id(ctx);
 -- 
 2.25.1
 
