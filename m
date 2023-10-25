@@ -2,129 +2,92 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8B4C0032E
-	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:46:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 481B3C0032E
+	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:49:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234182AbjJYHqn (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 25 Oct 2023 03:46:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48424 "EHLO
+        id S233770AbjJYHtI (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 25 Oct 2023 03:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234184AbjJYHqC (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:46:02 -0400
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2087.outbound.protection.outlook.com [40.107.212.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E215D3C01;
-        Wed, 25 Oct 2023 00:35:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aD1HXrSL4JpT7l6NTHSM/6oVuwCvTXoZldxf9+7plya0LQKL87HzAq4E5moz1ybUazpGZbXU8faqQ/GbvqiX6P6giewY01A4sr4Es+i/dzurCExDyBgZegPkyBuIjsAs0Y/Wx0Y6fWE7UoZ5Pxb+/+p9iAHp2cxE8K6h2A2mrxiHbX9lGanGD60B39PFAj69jRL9mDmFXKO6OJL6+j0TE0DoQFsSUGa8a3H7T2Ror1y76bKxKG6sE7gyxMkTdnx7YKxlBYxeFr45p8Mj9KRsL88xH8AvwBA5JaupA9KJWG91VZot8Y29EfM/fk4PB8ebUAqfzpWvzRLdQ6Z3vRQC3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AAgaZShz+j9RBH+IhtiZKlkiSI79z9oHr/WIVdQl0dA=;
- b=YMUyZGh7UE5WJdM5l4CNvXuNT8CaRMNDusUVW+7tRdEAgwBe9AJ79KsuSGVhi7y08LgXURIzlte2ktFk6n/mvx7BEHFnGQedt0ZBQTFYJjaKKz7Z0uDu5UFxDZuSfWeYsL2hSu71dP6bm2SKrRA6/ITVQpYlCirKRcJcdf2j28D5YkBMwK7JJjigQuDFsiRSsv5D4B0KTKn3/fUCLQsh7uNSTvyYs4OcJnjtPdt4SBB57wLQ1sg7cpfSYyOEIf+fx8SdwRA7k56LGPldI4MGV+XPNKwfLvJWPYkHNC23Ck9sdPKaJPAftrtdVJgzPEHhEPJvEUtlm5FdDimN+uL0dA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AAgaZShz+j9RBH+IhtiZKlkiSI79z9oHr/WIVdQl0dA=;
- b=3LTBh1zprNiwxiYzMyLsD63iw7r9+K8fGj62C0l9GCTO62o1+kEzzzz8ol6EA9aHRGKQEsv3+wR2+d77INIlGyK8IDFNVfMLIvtaAAOYgznTdipPMGiomHfbMbq98e2qPY0NBCbyA/vQhTdwloFsS+ok8qpSlvIQNLHoG4qlit4=
-Received: from BYAPR21CA0002.namprd21.prod.outlook.com (2603:10b6:a03:114::12)
- by LV2PR12MB5846.namprd12.prod.outlook.com (2603:10b6:408:175::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Wed, 25 Oct
- 2023 07:35:26 +0000
-Received: from CO1PEPF000044F0.namprd05.prod.outlook.com
- (2603:10b6:a03:114:cafe::b5) by BYAPR21CA0002.outlook.office365.com
- (2603:10b6:a03:114::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.4 via Frontend
- Transport; Wed, 25 Oct 2023 07:35:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044F0.mail.protection.outlook.com (10.167.241.70) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6933.15 via Frontend Transport; Wed, 25 Oct 2023 07:35:25 +0000
-Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 25 Oct
- 2023 02:35:22 -0500
-From:   Muralidhara M K <muralimk@amd.com>
-To:     <linux-edac@vger.kernel.org>, <x86@kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <bp@alien8.de>,
-        <mchehab@kernel.org>, Muralidhara M K <muralidhara.mk@amd.com>
-Subject: [PATCH 6/7] RAS: Get CS fabirc ID register bit fields
-Date:   Wed, 25 Oct 2023 07:33:38 +0000
-Message-ID: <20231025073339.630093-7-muralimk@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231025073339.630093-1-muralimk@amd.com>
-References: <20231025073339.630093-1-muralimk@amd.com>
+        with ESMTP id S233886AbjJYHtA (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:49:00 -0400
+X-Greylist: delayed 80520 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 Oct 2023 00:48:13 PDT
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D837D43
+        for <linux-edac@vger.kernel.org>; Wed, 25 Oct 2023 00:48:13 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D6DFF40E01B1;
+        Wed, 25 Oct 2023 07:48:11 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+        header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id KAtJL9cQPBec; Wed, 25 Oct 2023 07:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+        t=1698220089; bh=hxm/WTl8KOdQQA/wAFeOPK0hoiuC0DenxxTHxjFCxmc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XJs05RhE7SrlKG+btkQcqbIcJQvlDhg9CMLxIIATluqULQ0+UvcBrL71T+6Lc4Ae5
+         viyfz22NehegwH4E1FchxJOgnws2kzgYsvEptPqwc2HNM51bLWaPX3XIhweKYG6nrS
+         sqcIaJ+99ImZwS9Zn8vgxuBD47peTaqmHDgGPLv6hq8JQY2mT1mfHgwf2OQ0AglEl+
+         ybYlG/j4ilwN+qEYWNzyy+qZjA2bIQtvccJkhhqM5kzNm2IUUQlfZx/y4ouBqcqPFe
+         hmbvJUGwqHyfUXRb8Q3mWqe0JwfCrCLcV+ukeRmzHeQzEM4E6JYAI8oThF/55A1/gd
+         0Vc4kq3DFhVXfEozT7cOme2/18T4fjJLDs5xiPuQr3CcduPXug0PaFnTnn8wWl4bGX
+         JgEPWhO+SL74jYZ4KNFOOFUXiS2Oq/drTcdVLntoauc4AmQsVppaAgf3TEluDFjaZh
+         wzJwKUm+a62u/QLv4r03vao0VIkJ8Uship3ciBsMSGN9wKenPprXuxIfA1is5fSTbj
+         +DjRKyPjsS9mrFNMVkpppEuZN9JdspqI8cspflUjgN0AkTE06XZxKBpWn5YNMvpI9v
+         8d5Oq2NHDUEBj51s5L+wgKFy2cc44IiXnM+NhZ/s+FeJZ3UwQrfSur6SxDFXnHdtmX
+         F8MWZhq2yv8KzdNu0oO6hAmk=
+Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        (No client certificate requested)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0096940E014B;
+        Wed, 25 Oct 2023 07:48:05 +0000 (UTC)
+Date:   Wed, 25 Oct 2023 09:48:04 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Zhiquan Li <zhiquan1.li@intel.com>
+Cc:     Dan Carpenter <dan.carpenter@linaro.org>,
+        linux-edac@vger.kernel.org
+Subject: Re: [bug report] x86/mce: Mark fatal MCE's page as poison to avoid
+ panic in the kdump kernel
+Message-ID: <20231025074804.GBZTjINPXkFlpfgwV8@fat_crate.local>
+References: <12eb6db6-bc24-4e7c-af34-a5c68d49d52a@moroto.mountain>
+ <fe7d6f43-2a10-4c73-be5b-d0702d0d89c8@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F0:EE_|LV2PR12MB5846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3bbc378d-1015-4740-b5a7-08dbd52cf43d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fHS+Fz3hLFFKCUrD+XaPiWIb5aMWAjTcoxnOQOHvcoZkzs+CcZPejnmhVvT547yqsL3MCk0Slu1Krq1O0sIURLRkiA1uVp4YCuMAY1/pWE498XT/ISgz9566jOWb2Ed6rX12Q+hTnGEfobPJoqPZwetyG+YTVpFvTpZ8T/3hbm3YloTSaLk4AYDXZUL6AyD+Us+uHO8hZTteBAdUyR0GNddeGsG+AtWPs+tmYAUsjmR0upWqDNe5QnZ1VkFEmtUVUy3eT+QPgNVgf+GRXZqwbuO8xaE+uCwOhMIku5kUfVXBre+UFHazRIXPOvBL0WI8VymBY8kEkaq0pTU+1jY0Xpdq3ScRxkA5qiu0zIeeM9z6mT4b+ypzeDTNCZBwQJafs/0S0h4p+FYez8c7xwfl8SS2RDPtzf7Y+HpedhELl0sisamkKUFsOFlycMkDlnd81hHY9vqkAFc4XG52dzX37bxIOCNQoy4TReOYPpH7I5QlY9fsflQC7UaQ3JfgivdUWVKX/yI5eGqFdys8NpgUsPCB+dg9QT6kBqxeglh+dIxp3EFczVOsWNtJzuCTIBwtil42TPpferS5M9coGmet5aeP9aWkxTvvAS+CzL/19O9lR4+9mPFHyxPlOkU1Oqi+QT1x8iXwWO6jalSFCBwTuW87DMOHPrL6Wnj58xq7FVyF+G+TbpNHSNdmsaWOt7UtM1bFQILP6wE/wZNiZnIzXcuS2DNmQ9QWzbiU4S5lB2v1dJSPvJomaUoXp4f1jJXkGhdCGBvqIrDp7FMXXSV2YA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(346002)(39860400002)(136003)(230922051799003)(82310400011)(1800799009)(64100799003)(186009)(451199024)(40470700004)(36840700001)(46966006)(36756003)(478600001)(6666004)(4744005)(81166007)(426003)(5660300002)(336012)(7696005)(2906002)(83380400001)(2616005)(40460700003)(47076005)(1076003)(41300700001)(316002)(70586007)(70206006)(54906003)(110136005)(36860700001)(4326008)(8936002)(8676002)(356005)(40480700001)(16526019)(26005)(82740400003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:35:25.4613
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bbc378d-1015-4740-b5a7-08dbd52cf43d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F0.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5846
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fe7d6f43-2a10-4c73-be5b-d0702d0d89c8@intel.com>
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-From: Muralidhara M K <muralidhara.mk@amd.com>
+On Wed, Oct 25, 2023 at 02:19:26PM +0800, Zhiquan Li wrote:
+> +                       if (final && (final->status & MCI_STATUS_ADDRV))
+> +                               p = pfn_to_online_page(final->addr >> PAGE_SHIFT);
+> +                               if (p)
+> +                                       SetPageHWPoison(p);
+> 
+> The assignment can not be put into the "if" condition, checkpatch.pl script
+> will complain it.
 
-Read correct register bit fields for cs_fabric_id for
-address translation to work.
+It doesn't complain here:
 
-Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
----
- drivers/ras/amd/atl/reg_fields.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+$ git diff | ./scripts/checkpatch.pl 
+total: 0 errors, 0 warnings, 14 lines checked
 
-diff --git a/drivers/ras/amd/atl/reg_fields.h b/drivers/ras/amd/atl/reg_fields.h
-index c3853a25217b..6b60091f235b 100644
---- a/drivers/ras/amd/atl/reg_fields.h
-+++ b/drivers/ras/amd/atl/reg_fields.h
-@@ -28,14 +28,14 @@
-  *	Rev	Fieldname	Bits
-  *
-  *	D18F0x50 [Fabric Block Instance Information 3]
-- *	DF2	BlockFabricId	[19:8]
-+ *	DF2	BlockFabricId	[13:8]
-  *	DF3	BlockFabricId	[19:8]
-  *	DF3p5	BlockFabricId	[19:8]
-  *	DF4	BlockFabricId	[19:8]
-- *	DF4p5	BlockFabricId	[15:8]
-+ *	DF4p5	BlockFabricId	[19:8]
-  */
--#define DF2_CS_FABRIC_ID	GENMASK(19, 8)
--#define DF4p5_CS_FABRIC_ID	GENMASK(15, 8)
-+#define DF2_CS_FABRIC_ID	GENMASK(13, 8)
-+#define DF4p5_CS_FABRIC_ID	GENMASK(19, 8)
- 
- /*
-  * Component ID Mask
+Your patch has no obvious style problems and is ready for submission
+
+> I'll re-validate the patch and send V5 soon.
+
+When you do, please send it with my edits to the text.
+
+Zapped from tip for now.
+
+Thx.
+
 -- 
-2.25.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
