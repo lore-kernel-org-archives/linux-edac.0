@@ -2,43 +2,43 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71425C0032E
-	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8ADEC25B47
+	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233459AbjJYHhv (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 25 Oct 2023 03:37:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34092 "EHLO
+        id S233982AbjJYHiQ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 25 Oct 2023 03:38:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234231AbjJYHh0 (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:37:26 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E52673A91;
-        Wed, 25 Oct 2023 00:35:23 -0700 (PDT)
+        with ESMTP id S232691AbjJYHhd (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:37:33 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3B9E19B5;
+        Wed, 25 Oct 2023 00:35:32 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZAtQDA9+mf3bKHBddLM5gS0PfebaA2bMr4Ba1UQ6ifh3KSQR+ldiRGY9M8IRDwsmQvyzutf8xs5YQuCBAEUNdyWgnDhJZctG9i6h6Xre65dpIdxrmJIKsczJWjde0CpjUeAhKOqeHp+kXjVV2HryhxG4RkoiIGf8zHhKvQnYKEnsw0nBXF61CvJxGIUVrOhCPxiKB6HKZLzHScQhCI5zcRlN7LGlPTRnNx+F2J6F9lsSLDOf5FOZ85C+031Pj3HkRaiU+L5WfnOQBaLPwiAsD9PtpfhP46i/dR2/hPhcuRfijFEHWoSM3e+oIDF8MZO7av2LrlDKTxEKvjx6+Utsaw==
+ b=K9s0NAXkCh117UAXTm44w4ehhmSqIkKLtTdFkY8X2Tom+XG5WFeNOSyycyMxNZ9BWiqfYKSuxWQA+oQL4CS3rtPQlEq8DRIDPYLizwhhuCLXUM90VWncmCqMdGHcvIpDHkFso2Ye11AbucmLC1aSryGskHURwmJ6R8IOVPRX1EmOF5TzgAwdhFZu4eKicGvNvgiSMBYmaMbH8Ypaxfxudj4QN7x6xim7LUEcqZ671P30OCoC70+yebwT1aNRlgE0ayotYc3be9oEN/rvmSfNZdUPvUrIyFH01LRN+pe3p3QqhgiKSS8ZYeQKg10Is29g0AuTCxLur/IME/u7p9gAhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=58+8MI1ep5pIvy1pEqzcwy6/uPtpk6PWlvlZeA+v2x4=;
- b=C6KNA+mzWULBJ7Jg70L+JhzZaADkShY/PXcyXpVg4Qyo4yk/pB94TC1dgMCr1+PcX+W53jfUtfDLN2Mfonk7xc3mh92P6DfWXV635iCZudSQNnPeMqdtmgqXGSsHfW8gWoG0SBsTkQkDbTIP1NKaRNu6gYX+fFSte8d4zoP8A4s1e5BXnHuQDU+BYdA/SihLSJtgLXYwwL/GxlBMRTbpodYJXe2Y2Yn4nfngVN6VK4+SEc1k50pLdSgGgtuH/MpSBpQ/XBvhdX46CzFHNbnrMKpYRqERAH9FsZXXG6P7ov6k+DeCfvvfGO9PYxEB8l5UEISutRrWZXOmzT+UuVQZBQ==
+ bh=gyYjYPuqEyptSuSvmwm9hwLqcrOhvOuUUJ9kDFyKlKQ=;
+ b=NlJnDXIFSx1W1/qNDmEltTdu+8Lv8P2xU+ND8tq0kGSmyZavvo/ylPOK538x8Kd1JPQSe0vPx9q9NBkdjIW0pUrr74QiHM/Zv72e4rmOJWm5V4yMuoF98hY1jPLwZpIU6okv6iUDvwVnl5giVqJDrap9kBY3jEhp4PGih1MMrStlB+51BqK+86QU1AZKOc+slYmycvMumqbNu/4tIQ8tqwnCIYe6c7el6kHsO5dOvxUscbhatYqTCqTxum6ePBIsmVsMFk9xnONPzhZ7RWtLNDj53SDXAJHYaGIp8HqowV3nFi1zvFSms4rVNOrgefzwJ97GUmQpwt24kziJ0ObDxA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=58+8MI1ep5pIvy1pEqzcwy6/uPtpk6PWlvlZeA+v2x4=;
- b=sYtOfsPXc96HgkLjIFISlxkRw64WG2RA+0lIiFozvhkiNUOL7xIs8kTSFoYlvMG4LDWp+wvvZygVcojBM9MmlWClEZoBS+sro5jOd6ZHftQ6DmQSKJXFT4W8XmvHx07JpJk8m0aCIQ9ZgiYE2w3maCYGZ69QHbgSX+KDvkar8a0=
-Received: from BYAPR21CA0022.namprd21.prod.outlook.com (2603:10b6:a03:114::32)
- by SN7PR12MB6790.namprd12.prod.outlook.com (2603:10b6:806:269::15) with
+ bh=gyYjYPuqEyptSuSvmwm9hwLqcrOhvOuUUJ9kDFyKlKQ=;
+ b=jlQM8ZBjZO2ulrUq+kEmY3r1qE+WjVT3MxHZ89s+x6CUYL5mNodg+xNuqGVubdX+Pj6it3N32zvKj+9VDIibidEL38ynoT+VpPmJlE1m+FR4nr61ZsyMh7Xppimb7diFaEt5y3XEKMlKGY+d57e8nzevJHzUI7+BqfR94DicayY=
+Received: from SJ0PR03CA0221.namprd03.prod.outlook.com (2603:10b6:a03:39f::16)
+ by DM6PR12MB4514.namprd12.prod.outlook.com (2603:10b6:5:2a7::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Wed, 25 Oct
- 2023 07:35:21 +0000
-Received: from CO1PEPF000044F0.namprd05.prod.outlook.com
- (2603:10b6:a03:114:cafe::b6) by BYAPR21CA0022.outlook.office365.com
- (2603:10b6:a03:114::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.14 via Frontend
- Transport; Wed, 25 Oct 2023 07:35:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.19; Wed, 25 Oct
+ 2023 07:35:28 +0000
+Received: from CO1PEPF000044F3.namprd05.prod.outlook.com
+ (2603:10b6:a03:39f:cafe::54) by SJ0PR03CA0221.outlook.office365.com
+ (2603:10b6:a03:39f::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.35 via Frontend
+ Transport; Wed, 25 Oct 2023 07:35:27 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,20 +46,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044F0.mail.protection.outlook.com (10.167.241.70) with Microsoft
+ CO1PEPF000044F3.mail.protection.outlook.com (10.167.241.73) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6933.15 via Frontend Transport; Wed, 25 Oct 2023 07:35:20 +0000
+ 15.20.6933.15 via Frontend Transport; Wed, 25 Oct 2023 07:35:27 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 25 Oct
- 2023 02:35:17 -0500
+ 2023 02:35:25 -0500
 From:   Muralidhara M K <muralimk@amd.com>
 To:     <linux-edac@vger.kernel.org>, <x86@kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <bp@alien8.de>,
         <mchehab@kernel.org>, Muralidhara M K <muralidhara.mk@amd.com>
-Subject: [PATCH 4/7] RAS: Add static lookup table to get CS physical ID
-Date:   Wed, 25 Oct 2023 07:33:36 +0000
-Message-ID: <20231025073339.630093-5-muralimk@amd.com>
+Subject: [PATCH 7/7] EDAC/amd64: RAS: platform/x86/amd: Identify all physical pages in row
+Date:   Wed, 25 Oct 2023 07:33:39 +0000
+Message-ID: <20231025073339.630093-8-muralimk@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231025073339.630093-1-muralimk@amd.com>
 References: <20231025073339.630093-1-muralimk@amd.com>
@@ -71,96 +71,190 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F0:EE_|SN7PR12MB6790:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15db8450-d0c7-47f5-11de-08dbd52cf170
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F3:EE_|DM6PR12MB4514:EE_
+X-MS-Office365-Filtering-Correlation-Id: 588e2164-369d-491c-93a2-08dbd52cf591
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iB+CBnyYufBMuHgqws1ahWzvTGj72o4FzKF17qgAsL8jr1V4AkkpV8zFykKrVKyKM70s85hBJSK4wHlAl+Nvn1kItFQSZQbT9Vlc2Regd6d7UvgG6LlZPxtIogKeDqADcFiLZL6/HJnYY6Pc4cvH/Gil5cjLEEjEXVwoQWGsbrqqO5AYjSJBMljRm2pCB1ctDa3kzcd3Gbfi4Esbzmao8I5y/4fqo9rxbWQP85jYxnc/j/3kwtKvoA3hmSdTn/c7zzv0JPB6SLnkP5CSgzb5kXGjlpRtH0200LVjOdPy0bPeamsmhDUqGhWnuSjcPfTsyGP7NQ4JGGS9QLx7ZgtQmnXYFvU0T5NeZOda85UH0msJq0uT6LhmX9GfyGH6I0Mf/o5RjzNNkRtR7k2PQqmYLMajUBmRLY+362BkmA9KT7ZBC/GwUslIMX4pKj4409iPMOerry3XXWN2JqJWDgfM5v5eI3i3WWbNKEsprLULYIRDron1GAURMU0ugyqVbVKdAdvWlwswi5WCGmECGPqoim5Eop6a9xDu1dAk6fiDn25jM3hvBujmKtXg8gn1awpFcX7r9JugMGCNZZDZ6tl6lMcNhIQh1GCrSemu5x49tw0GnAMc+9O426fPF6lE5MywU4CTyJMcvQHKPb7vbvFrwpd2cdjIk0aBpIYE+qTPx9D53LXFgI48vAHmgn1ceRC3XszLd+7pB08MxTLIAdkKwo1Y5ObEy9/LRihIifnvIabuI9frseASUt1WgLq7C/oFREZKFTYjXCXr4MvE9GBJew==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(396003)(39860400002)(346002)(136003)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(82310400011)(40470700004)(46966006)(36840700001)(36756003)(2906002)(316002)(36860700001)(41300700001)(110136005)(70586007)(70206006)(54906003)(5660300002)(8676002)(8936002)(4326008)(478600001)(356005)(82740400003)(6666004)(40480700001)(40460700003)(47076005)(16526019)(7696005)(2616005)(26005)(336012)(426003)(81166007)(1076003)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: TEyud1PVUIzKFQMr8MeURiWCaUY5u1n6A8bTL2oA950RSL4G2aoDkHkHoCickSQfNL+CP0YXyaEDD7otuytzeHwQllj63rj7AOeXaNreRQ2sI/I5I/Awow5/lYhYIx/GLXwQZcKWLPn1kLQwbBK7S5rGBc2DXCPsMvXypL83+O6TXaDfH81VDAOFHujOdsN6mQvJQhTUPCBKLfuf3kNypYRl4cp3I2cn1q2ecQ+UVtwDHTmBkEBG9IIVpXn0wed8KgogsLJYtb/8t+lRCj9uaZw5gVkjPNzoY+vQA3TslU1YLI2OwM5Rclr4GC6cxLO0x+8jsMNgvDlPtIV6wWJcQW2rDiGzGMnRc0VCrYad5hCoIvt1OLtQttaK9nleVKNB7OYPqoaQIK7nKk7NknDLgxOnxcOtq3XFjHbcszgydUh6jJyXSHMCvnMbIeWLl4jST3NVlTB5PSdOVXLls5wLBn9AAzpTpXt2mnQHUprC448sirKWkFmJymdjAWP+6WVKyom5Gk8N6TiFeko7fkY6Ohwyjho6TWVCVdhuEgadc+XRz1lLCKBwvD0HiCPKvM877vBxQxZoc2SNf0UsdelgXS1cPZ1nYG8n85WjsXvyecMk9ccrRn8uHpLLVRjGdhVwSeOvVlt0yGXSHmgnwpj7uBMGgcK/5alyIsutBbNmVifdgHGmZJuldv2d9A7k95l76sHcPvN6q8wesMpj/RoDBGiQeqTNxQWU0yOefT57Rrgesu5ho170yqnOBuu3u3vAqfzDd97Jx5wa83FMAhUqTA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(136003)(396003)(376002)(346002)(230922051799003)(82310400011)(1800799009)(64100799003)(186009)(451199024)(46966006)(40470700004)(36840700001)(4326008)(8676002)(83380400001)(8936002)(2906002)(81166007)(356005)(82740400003)(5660300002)(41300700001)(7696005)(6666004)(40480700001)(316002)(110136005)(336012)(426003)(1076003)(26005)(478600001)(16526019)(2616005)(47076005)(36756003)(54906003)(70206006)(70586007)(40460700003)(36860700001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:35:20.7425
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:35:27.6886
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15db8450-d0c7-47f5-11de-08dbd52cf170
+X-MS-Exchange-CrossTenant-Network-Message-Id: 588e2164-369d-491c-93a2-08dbd52cf591
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F3.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6790
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4514
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Muralidhara M K <muralidhara.mk@amd.com>
 
-AMD MI300A models have a single Data Fabric (DF) instance per socket.
-So, all 4 AIDs are not software-visible (using PCI Device 18h, etc.).
+AMD systems have HBM memory embedded with the chips, The entire memory
+is managed by host OS. Error containment needs to be reliable, because
+HBM memory cannot be replaced.
 
-The MCA_IPID_UMC[InstanceId] field holds the SMN base address for the
-UMC instance and SMN address mapping repeated same for each of all 4
-AIDs in as socket.
+Persist all UMC DRAM ECC errors, the OS can make the bad or poisoned page
+state persistent so that it will not use the memory upon the next boot.
 
-Add a static lookup table by reading the UMC SMN address from the
-MCA_IPID_UMC[InstanceId] field and use the value to look up the
-CS physical ID from the table.
+The reported MCA error address in HBM in the format PC/SID/Bank/ROW/COL
+For example, In MI300A C1/C0 (column bits 1-0) is at SPA bit 6-5. Assuming
+PFN only looks at SPA bit 12 or higher, column bits 1-0 could be skipped.
+For PFN, SPA bits higher or equal than 12 matters. So column bits c2, c3
+and c4 gives 8 possible combination of addresses in a row.
+
+So, Identify all physical pages in a HBM row and retire all the pages
+to get rid of intermittent or recurrent memory errors.
 
 Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
 ---
- drivers/ras/amd/atl/umc.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ drivers/edac/amd64_edac.c |   5 ++
+ drivers/ras/amd/atl/umc.c | 103 ++++++++++++++++++++++++++++++++++++++
+ include/linux/amd-atl.h   |   2 +
+ 3 files changed, 110 insertions(+)
 
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 79c6c552ee14..d0db11e19a46 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2838,6 +2838,11 @@ static void decode_umc_error(int node_id, struct mce *m)
+ 
+ 	error_address_to_page_and_offset(sys_addr, &err);
+ 
++	if (pvt->fam == 0x19 && (pvt->model >= 0x90 && pvt->model <= 0x9f)) {
++		if (identify_poison_pages_retire_row(m))
++			return;
++	}
++
+ log_error:
+ 	__log_ecc_error(mci, &err, ecc_type);
+ }
 diff --git a/drivers/ras/amd/atl/umc.c b/drivers/ras/amd/atl/umc.c
-index fa8c3072a54f..52247a7949fb 100644
+index 52247a7949fb..d31ad7680ff1 100644
 --- a/drivers/ras/amd/atl/umc.c
 +++ b/drivers/ras/amd/atl/umc.c
-@@ -153,6 +153,35 @@ static int umc_ondie_addr_to_normaddr(u64 mca_addr, u16 nid)
- 	return mca_addr;
+@@ -255,3 +255,106 @@ int umc_mca_addr_to_sys_addr(struct mce *m, u64 *sys_addr)
+ 	return 0;
  }
- 
+ EXPORT_SYMBOL_GPL(umc_mca_addr_to_sys_addr);
++
 +/*
-+ * MCA_IPID_UMC[InstanceId] holds the SMN Base Address for a UMC instance.
-+ * MI-300 has a fixed, model-specific mapping between a UMC instance and its
-+ * related Data Fabric CS instance.
-+ * Use the UMC SMN Base Address value to find the appropriate CS instance ID.
++ * High Bandwidth Memory (HBM v3) has fixed number of columns in a
++ * row (8 columns in one HBM row).
++ * Extract column bits to find all the combination of masks to retire
++ * all the poison pages in a row.
 + */
-+static const u32 csmap[32] = {
-+	0x393f00, 0x293f00, 0x193f00, 0x093f00, 0x392f00, 0x292f00,
-+	0x192f00, 0x092f00, 0x391f00, 0x291f00, 0x191f00, 0x091f00,
-+	0x390f00, 0x290f00, 0x190f00, 0x090f00, 0x793f00, 0x693f00,
-+	0x593f00, 0x493f00, 0x792f00, 0x692f00, 0x592f00, 0x492f00,
-+	0x791f00, 0x691f00, 0x591f00, 0x491f00, 0x790f00, 0x690f00,
-+	0x590f00, 0x490f00 };
++#define MAX_COLUMNS_IN_HBM_ROW	8
 +
-+/* MCA_IPID[InstanceId] give the Instance Number UMC SmnAddr */
-+#define UMC_PHY_INSTANCE_NUM GENMASK(31, 0)
++/* The C2 bit in CH NA address */
++#define UMC_NA_C2_BIT	BIT(8)
++/* The C3 bit in CH NA address */
++#define UMC_NA_C3_BIT	BIT(9)
++/* The C4 bit in CH NA address */
++#define UMC_NA_C4_BIT	BIT(14)
 +
-+static u8 fixup_cs_inst_id(struct mce *m)
++/* masks to get all possible combinations of column addresses */
++#define C_1_1_1_MASK	(UMC_NA_C4_BIT | UMC_NA_C3_BIT | UMC_NA_C2_BIT)
++#define C_1_1_0_MASK	(UMC_NA_C4_BIT | UMC_NA_C3_BIT)
++#define C_1_0_1_MASK	(UMC_NA_C4_BIT | UMC_NA_C2_BIT)
++#define C_1_0_0_MASK	(UMC_NA_C4_BIT)
++#define C_0_1_1_MASK	(UMC_NA_C3_BIT | UMC_NA_C2_BIT)
++#define C_0_1_0_MASK	(UMC_NA_C3_BIT)
++#define C_0_0_1_MASK	(UMC_NA_C2_BIT)
++#define C_0_0_0_MASK	~C_1_1_1_MASK
++
++/* Identify all combination of column address physical pages in a row */
++static int amd_umc_identify_pages_in_row(struct mce *m, u64 *spa_addr)
 +{
-+	u32 smn_addr = FIELD_GET(UMC_PHY_INSTANCE_NUM, m->ipid);
-+	int i;
++	u8 cs_inst_id = get_cs_inst_id(m);
++	u8 socket_id = get_socket_id(m);
++	u64 norm_addr = get_norm_addr(m);
++	u8 die_id = get_die_id(m);
++	u16 df_acc_id = get_df_acc_id(m);
 +
-+	for (i = 0; i < ARRAY_SIZE(csmap); i++) {
-+		if (smn_addr == csmap[i])
-+			break;
++	u64 retire_addr, column;
++	u64 column_masks[] = { 0, C_0_0_1_MASK, C_0_1_0_MASK, C_0_1_1_MASK,
++			C_1_0_0_MASK, C_1_0_1_MASK, C_1_1_0_MASK, C_1_1_1_MASK };
++
++	/* clear and loop for all possibilities of [c4 c3 c2] */
++	norm_addr &= C_0_0_0_MASK;
++
++	for (column = 0; column < ARRAY_SIZE(column_masks); column++) {
++		retire_addr = norm_addr | column_masks[column];
++
++		if (norm_to_sys_addr(df_acc_id, socket_id, die_id, cs_inst_id, &retire_addr))
++			return -EINVAL;
++		*(spa_addr + column) = retire_addr;
 +	}
-+	return i;
++
++	return 0;
 +}
 +
- static u8 get_socket_id(struct mce *m)
- {
- 	return m->socketid;
-@@ -187,6 +216,10 @@ static u64 get_norm_addr(struct mce *m)
- #define UMC_CHANNEL_NUM	GENMASK(31, 20)
- static u8 get_cs_inst_id(struct mce *m)
- {
-+	/* MI300: static mapping table for MCA_IPID[InstanceId] to CS physical ID. */
-+	if (df_cfg.rev == DF4p5 && df_cfg.flags.heterogeneous)
-+		return fixup_cs_inst_id(m);
++/* Find any duplicate addresses in all combination of column address */
++static void amd_umc_find_duplicate_spa(u64 arr[], int *size)
++{
++	int i, j, k;
 +
- 	return FIELD_GET(UMC_CHANNEL_NUM, m->ipid);
++	/* use nested for loop to find the duplicate elements in array */
++	for (i = 0; i < *size; i++) {
++		for (j = i + 1; j < *size; j++) {
++			/* check duplicate element */
++			if (arr[i] == arr[j]) {
++				/* delete the current position of the duplicate element */
++				for (k = j; k < (*size - 1); k++)
++					arr[k] = arr[k + 1];
++
++			/* decrease the size of array after removing duplicate element */
++				(*size)--;
++
++			/* if the position of the elements is changes, don't increase index j */
++				j--;
++			}
++		}
++	}
++}
++
++int identify_poison_pages_retire_row(struct mce *m)
++{
++	int i, ret, addr_range;
++	unsigned long pfn;
++	u64 col[MAX_COLUMNS_IN_HBM_ROW];
++	u64 *spa_addr = col;
++
++	/* Identify all pages in a row */
++	pr_info("Identify all physical Pages in a row for MCE addr:0x%llx\n", m->addr);
++	ret = amd_umc_identify_pages_in_row(m, spa_addr);
++	if (!ret) {
++		for (i = 0; i < MAX_COLUMNS_IN_HBM_ROW; i++)
++			pr_info("col[%d]_addr:0x%llx ", i, spa_addr[i]);
++	}
++	/* Find duplicate entries from all 8 physical addresses in a row */
++	addr_range = ARRAY_SIZE(col);
++	amd_umc_find_duplicate_spa(spa_addr, &addr_range);
++	/* do page retirement on all system physical addresses */
++	for (i = 0; i < addr_range; i++) {
++		pfn = PHYS_PFN(spa_addr[i]);
++		memory_failure(pfn, 0);
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL(identify_poison_pages_retire_row);
+diff --git a/include/linux/amd-atl.h b/include/linux/amd-atl.h
+index c625ea3ab5d0..df24ae592c4e 100644
+--- a/include/linux/amd-atl.h
++++ b/include/linux/amd-atl.h
+@@ -25,4 +25,6 @@ static inline int amd_umc_mca_addr_to_sys_addr(struct mce *m, u64 *sys_addr)
+ 	return umc_mca_addr_to_sys_addr(m, sys_addr);
  }
  
++int identify_poison_pages_retire_row(struct mce *m);
++
+ #endif /* _AMD_ATL_H */
 -- 
 2.25.1
 
