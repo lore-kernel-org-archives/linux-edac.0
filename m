@@ -2,43 +2,43 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FD1C25B6B
-	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:37:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25255C25B47
+	for <linux-edac@archiver.kernel.org>; Wed, 25 Oct 2023 07:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234184AbjJYHhr (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Wed, 25 Oct 2023 03:37:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58446 "EHLO
+        id S234208AbjJYHht (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Wed, 25 Oct 2023 03:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234201AbjJYHhZ (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:37:25 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2057.outbound.protection.outlook.com [40.107.243.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8142B386F;
-        Wed, 25 Oct 2023 00:35:14 -0700 (PDT)
+        with ESMTP id S232865AbjJYHh1 (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Wed, 25 Oct 2023 03:37:27 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C153A9B;
+        Wed, 25 Oct 2023 00:35:24 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MsTepsn5cDVqYP6yKNteSVPcxO96ydRMOXv3rNaYNEgjOptyL8Okjkf7tl6Pu6qIK9iLRPcu5fE6uOoPENmy2YKSkVkWLVEBGtDk+/MQV9hSFaBd1B1Qj1h4buc4eyC/UolNJGwE1bwWA0XU1D00M+PFyF/R9C3+aId02Bw9kdc6ThMWj9waT85kwdm+D6FaRyeRoFhhna+vGqUOy5PvLYSUBpBfMxJwNSs8waa0I61ou5iiSXlYSNFbutv9JD/j/HBwiKnBAJdUS45tloVkr3rclUJRep+Je/DISpI17IPAJOKrU5Ja/LQBgvZ33BQsiQfA1tp+erX0ACQRSQ5aOw==
+ b=RhdF/bJ5/tS2Bxk8WbBsind90rSGp9j/C8pDbXPfx1triwVBjNjXIEbSL8BSCNbUw0NMc+2w8vKFDMN7FXJO0qES4i97eSBuh80E8AAVKoky+jnNm3sJYcWEA8MqasHKS+algxCDgZDxNAHAV53odR3fwpk4JGB5wGmBGx4o0B9Fk/7/4j1mdad6KMbOp8wiVmXnkXit6htyQv0LgbACus/pOvNXNLwtHAh4fiDTK+92uo+wy3euO4JWH5NiX79zJRdhQaecCGLnMcA2Yct2MwFjYRZqj8Wk/1orNe5d4Mzlk6RTG0o6oOASMFiTGvnOulaHNXoOfXlcfHXoys4J/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3iwyQePTgrftNMp5vZxzXiDDXXc3x4zVu7UroQvPFKM=;
- b=HlQQgJSgSmPXpCi5cIHOsortNOTYqcGCE48eS2c/LZIx+Fx+1suV18uTR7hYrh6JbXGqFtl+z4BQuCFfb+BJ+I4aC4lFYp6cVE8gaks4y6xY4i6R/dysSzpwv61ZCtPny/EvQ6LaUDw6L4BMZz69KUEB56EuhTP6AkfWb60C2+AZKMTNbWmgEACTxNVgkcAUnEFqP3WI3RcfRrMlxmzLsCIWpq5a+qVQ++8XId5m1uxHJSW7D2DLX8bieai6ipBEPNtSFrL0hh6nj0gXD+gYbyfPS7x/2aOH1tiegEmNNPxUE4S56uew96QHmEMtfwquwpjxi85DV4QDIXKYt0bzJA==
+ bh=YenW6jD8DwHsKBLoZ7mUSWL1oZeP5QZt1EbgNOwjlcU=;
+ b=kyf60T8VGXFhaQHwZFx97F67vDEj9tezJk7QnYa599DC2648oBvmcmIu4IevvltZaABQQnpDSw9ONLDCjxWSgGvIROisYqTwFHz9mKjTbyMtUjqiRXkkiAOQuNFO1BBqM8HXrfV12xG/d3lxWCJ/dojLrylT0OlJwJmzl2lHkSRxGA+lIEDlPLusDN0pAWjkevqmCw0mV1qjn2kYD8Yv5x2CfTuRxAqhTO000z9FGVfV+mxdexOzr1j3mkZmW/DljBCAEWF1/gVdV1XyKXH8Y7Jy7GTq9vHG5RUCwuGC8a0R8ED1o2g7J5wHmvXc6B+DnX9lKUdkIFxGQFzSzdR7/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
+ header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3iwyQePTgrftNMp5vZxzXiDDXXc3x4zVu7UroQvPFKM=;
- b=ShpopXXLnxTP/P5ahV8yTaPGj4dMoHEhXSBEy83dEPD/gJ674er6p1uvjn6jyzPCOX2eeDZW3z5bQfBf3exCxdEbGLoC1TqJ4eCeHr7tTWDGU1RWp1JZ890vNAXPPwAgdM/WQLX9IGYNDS3gvQ5sLmcVanAzXS4Bnk2b14mtWSk=
-Received: from DM6PR02CA0152.namprd02.prod.outlook.com (2603:10b6:5:332::19)
- by CYYPR12MB8964.namprd12.prod.outlook.com (2603:10b6:930:bc::10) with
+ bh=YenW6jD8DwHsKBLoZ7mUSWL1oZeP5QZt1EbgNOwjlcU=;
+ b=yQ0AXTA2vPy6LFUUMeTi/4463Nde8IKDNGFpHvWWxdPNLyAlYTfclNWe9hCr0tl4boo4W3QXsKdYJueMbTVfZATuOGeBd4zM5GU4uGkOwJ9aXlAlYmMZxLXZf1TYe57SnvrLAxNJ7PXnDfSo6eklnnCSNZfJ/iI3egvLIA++hOk=
+Received: from BYAPR21CA0023.namprd21.prod.outlook.com (2603:10b6:a03:114::33)
+ by CH0PR12MB5236.namprd12.prod.outlook.com (2603:10b6:610:d3::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Wed, 25 Oct
- 2023 07:35:12 +0000
-Received: from DS3PEPF000099D9.namprd04.prod.outlook.com
- (2603:10b6:5:332:cafe::ad) by DM6PR02CA0152.outlook.office365.com
- (2603:10b6:5:332::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33 via Frontend
- Transport; Wed, 25 Oct 2023 07:35:12 +0000
+ 2023 07:35:19 +0000
+Received: from CO1PEPF000044F0.namprd05.prod.outlook.com
+ (2603:10b6:a03:114:cafe::8c) by BYAPR21CA0023.outlook.office365.com
+ (2603:10b6:a03:114::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.14 via Frontend
+ Transport; Wed, 25 Oct 2023 07:35:19 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,21 +46,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS3PEPF000099D9.mail.protection.outlook.com (10.167.17.10) with Microsoft
+ CO1PEPF000044F0.mail.protection.outlook.com (10.167.241.70) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6933.15 via Frontend Transport; Wed, 25 Oct 2023 07:35:12 +0000
+ 15.20.6933.15 via Frontend Transport; Wed, 25 Oct 2023 07:35:18 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 25 Oct
- 2023 02:35:09 -0500
+ 2023 02:35:15 -0500
 From:   Muralidhara M K <muralimk@amd.com>
 To:     <linux-edac@vger.kernel.org>, <x86@kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <bp@alien8.de>,
-        <mchehab@kernel.org>, Muralidhara M K <muralidhara.mk@amd.com>,
-        Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH 1/7] RAS: Add Address Translation support for MI200
-Date:   Wed, 25 Oct 2023 07:33:33 +0000
-Message-ID: <20231025073339.630093-2-muralimk@amd.com>
+        <mchehab@kernel.org>, Muralidhara M K <muralidhara.mk@amd.com>
+Subject: [PATCH 3/7] RAS: Add MCA Error address conversion for UMC
+Date:   Wed, 25 Oct 2023 07:33:35 +0000
+Message-ID: <20231025073339.630093-4-muralimk@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231025073339.630093-1-muralimk@amd.com>
 References: <20231025073339.630093-1-muralimk@amd.com>
@@ -72,408 +71,213 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D9:EE_|CYYPR12MB8964:EE_
-X-MS-Office365-Filtering-Correlation-Id: 789d43c3-2bdd-427d-4948-08dbd52cec4a
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F0:EE_|CH0PR12MB5236:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7074fb77-3bf6-46e6-5b7c-08dbd52cf035
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ehvY4sfGrwf/Lg4JODayc7bxDKzqccha2dtW8aGkPuG+g/lTTEAqtupPwhA+IZ1AQntw52fCiRVTn/kNp9AX5l6RCrxOuDnjasroBhSYbFqt/QPC2Bh2wQ+xA+CM9Kfmr3G3Ow1iwY3uVD4+2XFHnx5XlKJiDTkPNQmxzE0+DAgzFZR0DkgUTtgDkkJcmafPKvQrwHvZAKaYlFP+Dh6kZOA5H2SEW7MmsVNbOquT/EW4eLjFEc/Y7s7ZHc9+PoyoE3yJT3Wtik+IabYkTTtwtfaMzjLJU+73kcMAHFHnbEpPC0HasPsi8faP47svu/cO1++qsi5zXrx36met9ceTPn6b1JMkcPB750rtvyBDNajuS7U52dTepbakUzf4Uc8Fa7MShgIp8nJKiYn75IMhLIQIgft4rPgRROyGLGbRcTMeb+JWvAqbA1MfKXTf9WbxVMG+yGan1aS2VM9kLUayFE3QBNZyD+quMflgHr9eNeuDLEIyyAWSaeoFOZgSWduIN63XVT0DvnMNxxJWpFXfPmhOSd5UvcXlJg3b6W2ZOTLHyOi97eS4pkYB/1aD/cqlKMVGy7jtDmsh+7hfY9cAlgaAXCqgiHGvCdCELFB+ZLHMlIrCB7WtWu71BvKmQYcvlifRSFEDcSrkwJgyWq6nwTdNJIcqiBOhBZSoDSfGmfft3bdcyuhkSdA+4DlGAybO9hjSfpFn1+u/lDNVhCx/+laHsuT7vFL2bfwMMlXyTi+rYLYjkoOgWsZuH/gSqhajw9sN3odTLSCh3bGW31HPiQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(39860400002)(396003)(136003)(230922051799003)(451199024)(82310400011)(186009)(1800799009)(64100799003)(36840700001)(40470700004)(46966006)(40480700001)(40460700003)(83380400001)(30864003)(36860700001)(2906002)(26005)(4326008)(8936002)(8676002)(336012)(36756003)(82740400003)(47076005)(2616005)(16526019)(81166007)(426003)(356005)(1076003)(6666004)(7696005)(316002)(478600001)(5660300002)(110136005)(70586007)(54906003)(70206006)(41300700001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: trspEdtej7BlUAzO0hT4NfNHMyHdHjBbADCByvh30ijtnBVABVqFot/vFigdA4paO5p4v+Bw1oI+eiyx98Fc/nGgbDyjELRwr6E+DWLRenPyQKr1RnFM8yI2FdnI4PofNlKkyEkC55ExSp8C0F783PXtGvQYLUwaOY3f6fg3nBIKe/G6HN5CadPxEqxvtcrhzYJZK/BOZFdLfB+qRYQGtNQ0tbj5vuFkvRL+8IH+lwJUTBGCXhZ74cqLGduLyOfqerewIrs+ri/qFuZn1pVocATE1ZufSjOrke/AWU3lccjZ4fEZxfphq0tcqAA4u5xH1DSmdIHVQeIYPKeON9egStGSHaePeqIiOfJab+IiJ+ZyzVUYl7i8wkzZDhdjFl/U0Mkr0WuVHXF7xRGSPQYf/jFqru0A7TSgOCKpfXDsT5bZnSiodYxWdqK5lDn7M78+BxE9f4AjE9infchTGai16ThlsYPwUSspJwZ2vIw1ysrnu1s6U/kEcUguRynX+dgSR8a5PgAOMr4MLout5cmZzWIgq6uXU8mDRFIwIgoUwAcFZPMeVDVHdfKlKB0Y1yEZScWD7pjllvQJ+dSPWeCelS+5q6NJftNipRF4yXLVv1SBN9NZLi7yYTGXPUFSzV89M3vmz+edN9r3UWGLPhyF/xZEgWtcB9v5BDn3P+/RLJahpYX2ffx4N1RDzamnBHMinyUB/6zId4JfWlHHFRoGYEO4oEf4gFOZ+fA3juXokM662+CQryKytDJC6mzY9y9Ep02CIav+eblyP2jdNKcYog==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(346002)(136003)(376002)(230922051799003)(186009)(1800799009)(451199024)(82310400011)(64100799003)(46966006)(36840700001)(40470700004)(36860700001)(2906002)(41300700001)(82740400003)(81166007)(54906003)(6666004)(316002)(7696005)(16526019)(478600001)(70206006)(70586007)(2616005)(1076003)(110136005)(426003)(336012)(40480700001)(47076005)(966005)(83380400001)(40460700003)(36756003)(5660300002)(356005)(4326008)(8676002)(8936002)(26005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:35:12.1844
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2023 07:35:18.6956
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 789d43c3-2bdd-427d-4948-08dbd52cec4a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7074fb77-3bf6-46e6-5b7c-08dbd52cf035
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D9.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F0.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8964
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5236
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Muralidhara M K <muralidhara.mk@amd.com>
 
-Add support for address translation on Data Fabric version 3.5
-Add new interleaving modes for heterogeneous model support and
-adjust how the DRAM address maps are found early in the
-translation for certain cases.
+On AMD systems with HBM3 memory, The reported MCA address is
+DRAM address which needs to be converted to normalized address
+before the data fabric address translation.
+
+MI300A models have on-chip HBM3 memory capable of On-Die ECC support.
+On-Die ECC error address to MCA is a encoded address reported with
+a DRAM address (PC/SID/Bank/ROW/COL) instead of normalized address
+unlike MI200s UMC ECC, as the implementation difference between
+HBM3 On-Die ECC and HBM2 host ECC.
+Because On-Die ECC address reporting is done in the back-end of UMC
+and it no longer has normalized address at that point.
+So software needs to convert the reported MCA Error Address back to
+normalized address.
 
 Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
-Co-developed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
- drivers/ras/amd/atl/dehash.c      |  60 +++++++++++++++++
- drivers/ras/amd/atl/denormalize.c |  11 +++-
- drivers/ras/amd/atl/internal.h    |  15 ++++-
- drivers/ras/amd/atl/map.c         | 105 +++++++++++++++++++++++++++++-
- drivers/ras/amd/atl/reg_fields.h  |  29 +++++++++
- drivers/ras/amd/atl/system.c      |   1 +
- 6 files changed, 217 insertions(+), 4 deletions(-)
+Link: https://lore.kernel.org/linux-edac/20230720125425.3735538-1-muralimk@amd.com/T/#m225efdf5812820efd084158bd8cdf40cad1a5af6
 
-diff --git a/drivers/ras/amd/atl/dehash.c b/drivers/ras/amd/atl/dehash.c
-index e501f2e918d7..5760e6bca194 100644
---- a/drivers/ras/amd/atl/dehash.c
-+++ b/drivers/ras/amd/atl/dehash.c
-@@ -395,6 +395,61 @@ static int df4p5_dehash_addr(struct addr_ctx *ctx)
- 	return 0;
- }
+ drivers/ras/amd/atl/umc.c | 145 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 145 insertions(+)
+
+diff --git a/drivers/ras/amd/atl/umc.c b/drivers/ras/amd/atl/umc.c
+index f334be0dc034..fa8c3072a54f 100644
+--- a/drivers/ras/amd/atl/umc.c
++++ b/drivers/ras/amd/atl/umc.c
+@@ -12,6 +12,147 @@
  
+ #include "internal.h"
+ 
++static bool internal_bit_wise_xor(u32 inp)
++{
++	bool tmp = 0;
++	int i;
++
++	for (i = 0; i < 32; i++)
++		tmp = tmp ^ ((inp >> i) & 0x1);
++
++	return tmp;
++}
++
 +/*
-+ * MI200 hash bits
-+ *				64K  2M  1G
-+ * CSSelect[0] = XOR of addr{8,  16, 21, 30};
-+ * CSSelect[1] = XOR of addr{9,  17, 22, 31};
-+ * CSSelect[2] = XOR of addr{10, 18, 23, 32};
-+ * CSSelect[3] = XOR of addr{11, 19, 24, 33}; - 16 and 32 channel only
-+ * CSSelect[4] = XOR of addr{12, 20, 25, 34}; - 32 channel only
++ * Mapping of MCA decoded error address bit location to
++ * normalized address on MI300A systems.
 + */
-+static int mi200_dehash_addr(struct addr_ctx *ctx)
++static const u8 umc_mca2na_mapping[] = {
++	0,  5,  6,  8,  9,  14, 12, 13,
++	10, 11, 15, 16, 17, 18, 19, 20,
++	21, 22, 23, 24, 25, 26, 27, 28,
++	7,  29, 30,
++};
++
++/* AddrHashBank and AddrHashPC/PC2 umc register bit fields */
++static struct {
++	u32 xor_enable	:1;
++	u32 col_xor	:13;
++	u32 row_xor	:18;
++} addr_hash_pc, addr_hash_bank[4];
++
++static struct {
++	u32 bank_xor	:6;
++} addr_hash_pc2;
++
++#define COLUMN_LOCATION		GENMASK(5, 1)
++#define ROW_LOCATION		GENMASK(23, 10)
++/*
++ * The location of bank, column and row are fixed.
++ * location of column bit must be NA[5].
++ * Row bits are always placed in a contiguous stretch of NA above the
++ * column and bank bits.
++ * Bits below the row bits can be either column or bank in any order,
++ * with the exception that NA[5] must be a column bit.
++ * Stack ID(SID) bits are placed in the MSB position of the NA.
++ */
++static int umc_ondie_addr_to_normaddr(u64 mca_addr, u16 nid)
 +{
-+	u8 num_intlv_bits = ctx->map.total_intlv_bits;
-+	bool hash_ctl_64k, hash_ctl_2M, hash_ctl_1G;
-+	u8 hashed_bit, intlv_bit, i;
++	u32 bank[4], bank_hash[4], pc_hash;
++	u32 col, row, rawbank = 0, pc;
++	int i, temp = 0, err;
++	u64 mca2na;
 +
-+	/* Assert that interleave bit is 8. */
-+	if (ctx->map.intlv_bit_pos != 8) {
-+		pr_warn("%s: Invalid interleave bit: %u",
-+			__func__, ctx->map.intlv_bit_pos);
-+		return -EINVAL;
-+	}
-+
-+	/* Assert that die interleaving is disabled. */
-+	if (ctx->map.num_intlv_dies > 1) {
-+		pr_warn("%s: Invalid number of interleave dies: %u",
-+			__func__, ctx->map.num_intlv_dies);
-+		return -EINVAL;
-+	}
-+
-+	/* Assert that socket interleaving is disabled. */
-+	if (ctx->map.num_intlv_sockets > 1) {
-+		pr_warn("%s: Invalid number of interleave sockets: %u",
-+			__func__, ctx->map.num_intlv_sockets);
-+		return -EINVAL;
-+	}
-+
-+	hash_ctl_64k	= FIELD_GET(DF3_HASH_CTL_64K, ctx->map.ctl);
-+	hash_ctl_2M	= FIELD_GET(DF3_HASH_CTL_2M, ctx->map.ctl);
-+	hash_ctl_1G	= FIELD_GET(DF3_HASH_CTL_1G, ctx->map.ctl);
-+
-+	for (i = 0; i < num_intlv_bits; i++) {
-+		intlv_bit = atl_get_bit(8 + i, ctx->ret_addr);
-+
-+		hashed_bit = intlv_bit;
-+		hashed_bit ^= atl_get_bit(8 + i, ctx->ret_addr);
-+		hashed_bit ^= atl_get_bit(16 + i, ctx->ret_addr) & hash_ctl_64k;
-+		hashed_bit ^= atl_get_bit(21 + i, ctx->ret_addr) & hash_ctl_2M;
-+		hashed_bit ^= atl_get_bit(30 + i, ctx->ret_addr) & hash_ctl_1G;
-+
-+		if (hashed_bit != intlv_bit)
-+			ctx->ret_addr ^= BIT_ULL(8 + i);
-+	}
-+	return 0;
-+}
-+
- int dehash_address(struct addr_ctx *ctx)
- {
- 	switch (ctx->map.intlv_mode) {
-@@ -452,6 +507,11 @@ int dehash_address(struct addr_ctx *ctx)
- 	case DF4p5_NPS1_16CHAN_2K_HASH:
- 		return df4p5_dehash_addr(ctx);
- 
-+	case MI2_HASH_8CHAN:
-+	case MI2_HASH_16CHAN:
-+	case MI2_HASH_32CHAN:
-+		return mi200_dehash_addr(ctx);
-+
- 	default:
- 		ATL_BAD_INTLV_MODE(ctx->map.intlv_mode);
- 		return -EINVAL;
-diff --git a/drivers/ras/amd/atl/denormalize.c b/drivers/ras/amd/atl/denormalize.c
-index fe1480c8e0d8..03eb1eea68f9 100644
---- a/drivers/ras/amd/atl/denormalize.c
-+++ b/drivers/ras/amd/atl/denormalize.c
-@@ -16,7 +16,7 @@
-  * Returns the Destination Fabric ID. This is the first (lowest)
-  * CS Fabric ID used within a DRAM Address map.
-  */
--static u16 get_dst_fabric_id(struct addr_ctx *ctx)
-+u16 get_dst_fabric_id(struct addr_ctx *ctx)
- {
- 	switch (df_cfg.rev) {
- 	case DF2:
-@@ -97,6 +97,9 @@ static u64 make_space_for_cs_id(struct addr_ctx *ctx)
- 	case NOHASH_8CHAN:
- 	case NOHASH_16CHAN:
- 	case NOHASH_32CHAN:
-+	case MI2_HASH_8CHAN:
-+	case MI2_HASH_16CHAN:
-+	case MI2_HASH_32CHAN:
- 	case DF2_2CHAN_HASH:
- 		return make_space_for_cs_id_at_intlv_bit(ctx);
- 
-@@ -233,6 +236,9 @@ static u16 calculate_cs_id(struct addr_ctx *ctx)
- 	case DF3_COD4_2CHAN_HASH:
- 	case DF3_COD2_4CHAN_HASH:
- 	case DF3_COD1_8CHAN_HASH:
-+	case MI2_HASH_8CHAN:
-+	case MI2_HASH_16CHAN:
-+	case MI2_HASH_32CHAN:
- 	case DF2_2CHAN_HASH:
- 		return get_cs_id_df2(ctx);
- 
-@@ -296,6 +302,9 @@ static u64 insert_cs_id(struct addr_ctx *ctx, u64 denorm_addr, u16 cs_id)
- 	case NOHASH_8CHAN:
- 	case NOHASH_16CHAN:
- 	case NOHASH_32CHAN:
-+	case MI2_HASH_8CHAN:
-+	case MI2_HASH_16CHAN:
-+	case MI2_HASH_32CHAN:
- 	case DF2_2CHAN_HASH:
- 		return insert_cs_id_at_intlv_bit(ctx, denorm_addr, cs_id);
- 
-diff --git a/drivers/ras/amd/atl/internal.h b/drivers/ras/amd/atl/internal.h
-index f3888c8fd02d..33905933e31e 100644
---- a/drivers/ras/amd/atl/internal.h
-+++ b/drivers/ras/amd/atl/internal.h
-@@ -30,6 +30,12 @@
- /* Shift needed for adjusting register values to true values. */
- #define DF_DRAM_BASE_LIMIT_LSB		28
- 
-+/* Cache Coherent Moderator Instnce Type value on register */
-+#define DF_INST_TYPE_CCM		0
-+
-+/* Maximum possible number of DRAM maps within a Data Fabric. */
-+#define DF_NUM_DRAM_MAPS_AVAILABLE	16
-+
- /*
-  * Glossary of acronyms used in address translation for Zen-based systems
-  *
-@@ -68,6 +74,9 @@ enum intlv_modes {
- 	DF4_NPS1_12CHAN_HASH		= 0x15,
- 	DF4_NPS2_5CHAN_HASH		= 0x16,
- 	DF4_NPS1_10CHAN_HASH		= 0x17,
-+	MI2_HASH_8CHAN			= 0x1C,
-+	MI2_HASH_16CHAN			= 0x1D,
-+	MI2_HASH_32CHAN			= 0x1E,
- 	DF2_2CHAN_HASH			= 0x21,
- 	/* DF4.5 modes are all IntLvNumChan + 0x20 */
- 	DF4p5_NPS1_16CHAN_1K_HASH	= 0x2C,
-@@ -94,8 +103,9 @@ enum intlv_modes {
- 
- struct df_flags {
- 	__u8	legacy_ficaa		: 1,
-+		heterogeneous		: 1,
- 		genoa_quirk		: 1,
--		__reserved_0		: 6;
-+		__reserved_0		: 5;
- };
- 
- struct df_config {
-@@ -220,6 +230,9 @@ int determine_node_id(struct addr_ctx *ctx, u8 socket_num, u8 die_num);
- int get_address_map(struct addr_ctx *ctx);
- 
- int denormalize_address(struct addr_ctx *ctx);
-+
-+u16 get_dst_fabric_id(struct addr_ctx *ctx);
-+
- int dehash_address(struct addr_ctx *ctx);
- 
- int norm_to_sys_addr(u8 socket_id, u8 die_id, u8 cs_inst_id, u64 *addr);
-diff --git a/drivers/ras/amd/atl/map.c b/drivers/ras/amd/atl/map.c
-index 05141da27028..9326f6a6b6c3 100644
---- a/drivers/ras/amd/atl/map.c
-+++ b/drivers/ras/amd/atl/map.c
-@@ -355,6 +355,101 @@ static int get_dram_addr_map(struct addr_ctx *ctx)
- 	}
- }
- 
-+static int find_moderator_instance_id(struct addr_ctx *ctx)
-+{
-+	u16 num_df_instances;
-+	u32 reg;
-+
-+	/* Read D18F0x40 (FabricBlockInstanceCount). */
-+	if (df_indirect_read_broadcast(0, 0, 0x40, &reg))
-+		return -EINVAL;
-+
-+	num_df_instances = FIELD_GET(DF_BLOCK_INSTANCE_COUNT, reg);
-+
-+	for (ctx->inst_id = 0; ctx->inst_id < num_df_instances; ctx->inst_id++) {
-+		/* Read D18F0x44 (FabricBlockInstanceInformation0). */
-+		if (df_indirect_read_instance(0, 0, 0x44, ctx->inst_id, &reg))
-+			return -EINVAL;
-+
-+		if (!reg)
-+			continue;
-+
-+		/* Match on the first CCM instance. */
-+		if (FIELD_GET(DF_INSTANCE_TYPE, reg) == DF_INST_TYPE_CCM)
-+			return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int find_map_by_dst_fabric_id(struct addr_ctx *ctx)
-+{
-+	u64 mask = df_cfg.node_id_mask;
-+
-+	for (ctx->map.num = 0; ctx->map.num < DF_NUM_DRAM_MAPS_AVAILABLE ; ctx->map.num++) {
-+		if (get_dram_addr_map(ctx))
-+			return -EINVAL;
-+
-+		/*
-+		 * Match if the Destination Fabric ID in this map is the same as
-+		 * the Fabric ID for the target memory device.
-+		 */
-+		if ((get_dst_fabric_id(ctx) & mask) == (ctx->cs_fabric_id & mask))
-+			return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+/* UMC to CS mapping for MI200 die[0]s */
-+u8 umc_to_cs_mapping_mi200_die0[] = { 28, 20, 24, 16, 12, 4, 8, 0,
-+					6, 30, 2, 26, 22, 14, 18, 10,
-+					19, 11, 15, 7, 3, 27, 31, 23,
-+					9, 1, 5, 29, 25, 17, 21, 13};
-+
-+/* UMC to CS mapping for MI200 die[1]s */
-+u8 umc_to_cs_mapping_mi200_die1[] = { 19, 11, 15, 7, 3, 27, 31, 23,
-+					9, 1, 5, 29, 25, 17, 21, 13,
-+					28, 20, 24, 16, 12, 4, 8, 0,
-+					6, 30, 2, 26, 22, 14, 18, 10};
-+
-+int get_umc_to_cs_mapping(struct addr_ctx *ctx)
-+{
-+	if (ctx->inst_id >= sizeof(umc_to_cs_mapping_mi200_die0))
-+		return -EINVAL;
++	/* Default umc base address on MI300A systems */
++	u32 gpu_umc_base = 0x90000;
 +
 +	/*
-+	 * MI200 has 2 dies and are enumerated alternatively
-+	 * die0's are enumerated as node 2, 4, 6 and 8
-+	 * die1's are enumerated as node 1, 3, 5 and 7
++	 * Error address logged on MI300A systems is ondie MCA address
++	 * in the format MCA_Addr[27:0] =
++	 *	{SID[1:0],PC[0],row[14:0],bank[3:0],col[4:0],1'b0}
++	 * The bit locations are calculated as per umc_mca2na_mapping[]
++	 * to find normalized address.
++	 * Refer F19 M90h BKDG Section 20.3.1.3 for clarifications
++	 *
++	 * XORs need to be applied based on the hash settings below.
 +	 */
-+	if (ctx->node_id % 2)
-+		ctx->inst_id = umc_to_cs_mapping_mi200_die1[ctx->inst_id];
-+	else
-+		ctx->inst_id = umc_to_cs_mapping_mi200_die0[ctx->inst_id];
 +
-+	return 0;
-+}
++	/* Calculate column and row */
++	col = FIELD_GET(COLUMN_LOCATION, mca_addr);
++	row = FIELD_GET(ROW_LOCATION, mca_addr);
 +
-+static int get_address_map_heterogeneous(struct addr_ctx *ctx)
-+{
-+	if (ctx->node_id >= amd_nb_num()) {
-+		if (get_umc_to_cs_mapping(ctx))
-+			return -EINVAL;
++	/* Apply hashing on below banks for bank calculation */
++	for (i = 0; i < 4; i++)
++		bank_hash[i] = (mca_addr >> (6 + i)) & 0x1;
++
++	/* bank hash algorithm */
++	for (i = 0; i < 4; i++) {
++		/* Read AMD PPR UMC::AddrHashBank register */
++		err = amd_smn_read(nid, gpu_umc_base + 0xC8 + (i * 4), &temp);
++		if (err)
++			return err;
++
++		addr_hash_bank[i].xor_enable = temp & 1;
++		addr_hash_bank[i].col_xor = FIELD_GET(GENMASK(13, 1), temp);
++		addr_hash_bank[i].row_xor = FIELD_GET(GENMASK(31, 14), temp);
++		/* bank hash selection */
++		bank[i] = bank_hash[i] ^ (addr_hash_bank[i].xor_enable &
++			  (internal_bit_wise_xor(col & addr_hash_bank[i].col_xor) ^
++			  internal_bit_wise_xor(row & addr_hash_bank[i].row_xor)));
 +	}
 +
-+	ctx->cs_fabric_id = ctx->inst_id;
-+	ctx->cs_fabric_id |= ctx->node_id << df_cfg.node_id_shift;
++	/* To apply hash on pc bit */
++	pc_hash = (mca_addr >> 25) & 0x1;
 +
-+	if (find_moderator_instance_id(ctx))
-+		return -EINVAL;
++	/* Read AMD PPR UMC::CH::AddrHashPC register */
++	err = amd_smn_read(nid, gpu_umc_base + 0xE0, &temp);
++	if (err)
++		return err;
 +
-+	if (find_map_by_dst_fabric_id(ctx))
-+		return -EINVAL;
++	addr_hash_pc.xor_enable = temp & 1;
++	addr_hash_pc.col_xor = FIELD_GET(GENMASK(13, 1), temp);
++	addr_hash_pc.row_xor = FIELD_GET(GENMASK(31, 14), temp);
 +
-+	return 0;
++	/* Read AMD PPR UMC::CH::AddrHashPC2 register*/
++	err = amd_smn_read(nid, gpu_umc_base + 0xE4, &temp);
++	if (err)
++		return err;
++
++	addr_hash_pc2.bank_xor = FIELD_GET(GENMASK(5, 0), temp);
++
++	/* Calculate bank value from bank[0..3], bank[4] and bank[5] */
++	for (i = 0; i < 4; i++)
++		rawbank |= (bank[i] & 1) << i;
++
++	rawbank |= (mca_addr >> 22) & 0x30;
++
++	/* pseudochannel(pc) hash selection */
++	pc = pc_hash ^ (addr_hash_pc.xor_enable &
++		(internal_bit_wise_xor(col & addr_hash_pc.col_xor) ^
++		internal_bit_wise_xor(row & addr_hash_pc.row_xor) ^
++		internal_bit_wise_xor(rawbank & addr_hash_pc2.bank_xor)));
++
++	/* Mask b'25(pc_bit) and b'[9:6](bank) */
++	mca_addr &= ~0x20003c0ULL;
++
++	for (i = 0; i < 4; i++)
++		mca_addr |= (bank[i] << (6 + i));
++
++	 mca_addr |= (pc << 25);
++
++	/* NA[4..0] is fixed */
++	mca2na = 0x0;
++	/* convert mca error address to normalized address */
++	for (i = 1; i < ARRAY_SIZE(umc_mca2na_mapping); i++)
++		mca2na |= ((mca_addr >> i) & 0x1) << umc_mca2na_mapping[i];
++
++	mca_addr = mca2na;
++	pr_info("Error Addr: 0x%016llx\n", mca_addr);
++	pr_info("Error hit on: Bank %d Row %d Column %d\n", rawbank, row, col);
++
++	return mca_addr;
 +}
 +
- static int lookup_cs_fabric_id(struct addr_ctx *ctx)
+ static u8 get_socket_id(struct mce *m)
  {
- 	u32 reg;
-@@ -482,6 +577,7 @@ static u8 get_num_intlv_chan(enum intlv_modes intlv_mode)
- 	case NOHASH_8CHAN:
- 	case DF3_COD1_8CHAN_HASH:
- 	case DF4_NPS1_8CHAN_HASH:
-+	case MI2_HASH_8CHAN:
- 	case DF4p5_NPS1_8CHAN_1K_HASH:
- 	case DF4p5_NPS1_8CHAN_2K_HASH:
- 		return 8;
-@@ -494,6 +590,7 @@ static u8 get_num_intlv_chan(enum intlv_modes intlv_mode)
- 	case DF4p5_NPS1_12CHAN_2K_HASH:
- 		return 12;
- 	case NOHASH_16CHAN:
-+	case MI2_HASH_16CHAN:
- 	case DF4p5_NPS1_16CHAN_1K_HASH:
- 	case DF4p5_NPS1_16CHAN_2K_HASH:
- 		return 16;
-@@ -501,6 +598,7 @@ static u8 get_num_intlv_chan(enum intlv_modes intlv_mode)
- 	case DF4p5_NPS0_24CHAN_2K_HASH:
- 		return 24;
- 	case NOHASH_32CHAN:
-+	case MI2_HASH_32CHAN:
- 		return 32;
- 	default:
- 		ATL_BAD_INTLV_MODE(intlv_mode);
-@@ -645,8 +743,11 @@ int get_address_map(struct addr_ctx *ctx)
+ 	return m->socketid;
+@@ -36,6 +177,10 @@ static u8 get_die_id(struct mce *m)
+ 
+ static u64 get_norm_addr(struct mce *m)
  {
- 	int ret = 0;
- 
--	/* TODO: Add special path for DF3.5 heterogeneous systems. */
--	ret = get_address_map_common(ctx);
-+	/* Add special path for DF3.5 heterogeneous systems. */
-+	if (df_cfg.flags.heterogeneous && df_cfg.rev == DF3p5)
-+		ret = get_address_map_heterogeneous(ctx);
-+	else
-+		ret = get_address_map_common(ctx);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/ras/amd/atl/reg_fields.h b/drivers/ras/amd/atl/reg_fields.h
-index d48470e12498..b85ab157773e 100644
---- a/drivers/ras/amd/atl/reg_fields.h
-+++ b/drivers/ras/amd/atl/reg_fields.h
-@@ -601,3 +601,32 @@
- #define DF2_SOCKET_ID_SHIFT	GENMASK(31, 28)
- #define DF3_SOCKET_ID_SHIFT	GENMASK(9, 8)
- #define DF4_SOCKET_ID_SHIFT	GENMASK(11, 8)
++	/* MI300: DRAM->Normalized translation */
++	if (df_cfg.rev == DF4p5 && df_cfg.flags.heterogeneous)
++		return umc_ondie_addr_to_normaddr(m->addr, get_socket_id(m));
 +
-+/*
-+ * Total number of instances of all the blocks in DF
-+ *
-+ * Access type: Broadcast
-+ *
-+ * Register
-+ *	Rev	Fieldname	Bits
-+ *
-+ *	D18F0x040 [Fabric Block Instance Count]
-+ *	DF3	BlkInstCount	[7:0]
-+ *	DF3p5	BlkInstCount	[7:0]
-+ *	DF4	BlkInstCount	[7:0]
-+ *	DF4p5	BlkInstCount	[9:0]
-+ */
-+#define DF_BLOCK_INSTANCE_COUNT	GENMASK(9, 0)
-+
-+/*
-+ * Information on the block capabilities
-+ *
-+ * Access type: Broadcast
-+ *
-+ * Register
-+ *	Rev	Fieldname	Bits
-+ *
-+ *	D18F0x044 [Fabric Block Instance Information 0]
-+ *	DF3p5	BlkInstCount	[3:0]
-+ */
-+#define DF_INSTANCE_TYPE	GENMASK(3, 0)
-diff --git a/drivers/ras/amd/atl/system.c b/drivers/ras/amd/atl/system.c
-index 86488138e120..656aac3f6c59 100644
---- a/drivers/ras/amd/atl/system.c
-+++ b/drivers/ras/amd/atl/system.c
-@@ -144,6 +144,7 @@ static int determine_df_rev_legacy(void)
+ 	return m->addr;
+ }
  
- 	if (FIELD_GET(DF4_COMPONENT_ID_MASK, fabric_id_mask0)) {
- 		df_cfg.rev = DF3p5;
-+		df_cfg.flags.heterogeneous = 1;
- 
- 		/* Read D18F1x154 (SystemFabricIdMask1) */
- 		if (df_indirect_read_broadcast(0, 1, 0x154, &fabric_id_mask1))
 -- 
 2.25.1
 
