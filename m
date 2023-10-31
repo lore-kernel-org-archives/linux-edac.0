@@ -2,63 +2,50 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B827C4332F
-	for <linux-edac@archiver.kernel.org>; Mon, 30 Oct 2023 23:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D70B4C4332F
+	for <linux-edac@archiver.kernel.org>; Tue, 31 Oct 2023 20:21:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235996AbjJ3XuJ (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Mon, 30 Oct 2023 19:50:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47032 "EHLO
+        id S231719AbjJaUVH (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Tue, 31 Oct 2023 16:21:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235990AbjJ3XuI (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Mon, 30 Oct 2023 19:50:08 -0400
+        with ESMTP id S232108AbjJaUVG (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Tue, 31 Oct 2023 16:21:06 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB693100;
-        Mon, 30 Oct 2023 16:50:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 76035C433CB;
-        Mon, 30 Oct 2023 23:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698709804;
-        bh=yE6TPz07cDO8yRD2PpcD18BEK8ueT/K071kpiowAJKo=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=vJFs/nHfghpq/cU1KKxbJalV5rB6ouHVcjcXrkG0HYLkYslMJrHCPUWf0Z23Geb7s
-         hDtPBRhArOIkzk3hB+tGdWHkP0vqOi546KyOt5LibPCEtKEk6MXFOC41+hGPNVkVPq
-         wcl83Wh/fjDFOzr8gPSYqPM4kNY1DENtHFUaI+gZRpFif4N+X8ddV8EkFLkBmAHTde
-         b5itA/VSC7AGCHiDbzq99z7XOZOVOh6FlLol0JMNC3mwXkHgK+pd2I6ch0/5si8Je0
-         tVZJem+p8fjp6j99D5PHzBaqUg/W6B9ZM0Q+pa1sqEvtMB1MKNrkGRINrDwHWzrsCW
-         24inCgdz/voMg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4B02BE0008F;
-        Mon, 30 Oct 2023 23:50:04 +0000 (UTC)
-Subject: Re: [GIT PULL] EDAC updates for v6.7
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20231027100920.GAZTuMUJEP5LI7mZ+S@fat_crate.local>
-References: <20231027100920.GAZTuMUJEP5LI7mZ+S@fat_crate.local>
-X-PR-Tracked-List-Id: <linux-edac.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20231027100920.GAZTuMUJEP5LI7mZ+S@fat_crate.local>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v6.7
-X-PR-Tracked-Commit-Id: 6f15b178cd6315c997981f76c6ebed7ad39144c5
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 66cc8838c72b165048f49f88fc9d1be996abd35b
-Message-Id: <169870980425.17163.4367361186365175089.pr-tracker-bot@kernel.org>
-Date:   Mon, 30 Oct 2023 23:50:04 +0000
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-edac <linux-edac@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20FF7F5
+        for <linux-edac@vger.kernel.org>; Tue, 31 Oct 2023 13:21:05 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EF8EC433C8;
+        Tue, 31 Oct 2023 20:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1698783664;
+        bh=TvAgpXNrBsDbGUYXMUKr4xV7wGchv/iAZ+BL6x9vO7g=;
+        h=Date:From:To:Subject:From;
+        b=FA2iCzIsaBJxIkr0ie5NG2u00l3Y/VVIRybcLdNbwd2zIQ5Y101/56Apt6FgNEuxa
+         kSOAV4gTsDYNgOTNVq2v607d8srJM9mowy8U/OcGxMVAzRLqLtXfhN0cm/so+w2qSF
+         nexnmxpKKTb7Se0veTXtI5xx5i7rzRTnydHh4Cj0=
+Date:   Tue, 31 Oct 2023 16:21:03 -0400
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     linux-edac@vger.kernel.org
+Subject: PSA: migrating linux-edac to new vger infrastructure
+Message-ID: <20231031-buffalo-of-eternal-felicity-90dca2@nitro>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
-The pull request you sent on Fri, 27 Oct 2023 12:09:20 +0200:
+Good day!
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v6.7
+I plan to migrate the linux-edac@vger.kernel.org list to the new
+infrastructure this week. We're still doing it list-by-list to make sure that
+we don't run into scaling issues with the new infra.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/66cc8838c72b165048f49f88fc9d1be996abd35b
+The migration will be performed live and should not require any downtime.
+There will be no changes to how anyone interacts with the list after
+migration is completed, so no action is required on anyone's part.
 
-Thank you!
+Please let me know if you have any concerns.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Best wishes,
+-K
