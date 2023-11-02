@@ -2,43 +2,43 @@ Return-Path: <linux-edac-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0252C4332F
-	for <linux-edac@archiver.kernel.org>; Thu,  2 Nov 2023 11:43:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44152C001B2
+	for <linux-edac@archiver.kernel.org>; Thu,  2 Nov 2023 11:43:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231343AbjKBLnB (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Thu, 2 Nov 2023 07:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49818 "EHLO
+        id S1344069AbjKBLnN (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
+        Thu, 2 Nov 2023 07:43:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230468AbjKBLnA (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Thu, 2 Nov 2023 07:43:00 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095C4187;
-        Thu,  2 Nov 2023 04:42:51 -0700 (PDT)
+        with ESMTP id S233957AbjKBLnH (ORCPT
+        <rfc822;linux-edac@vger.kernel.org>); Thu, 2 Nov 2023 07:43:07 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2072.outbound.protection.outlook.com [40.107.244.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D569B1AD;
+        Thu,  2 Nov 2023 04:42:57 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XU/OOQdYyluK/3ZXPx1uGRkvZH+qNDmri/aYnjWO0eiVsX00DJXwXTgoP1T2oWmkDzzXY9m0YZH3NIV9K1WofOZGxRHMM2YCDUjB7OfQkh5P7iPsTz8LQulSCUfCBWNpKEltGrAF6qtQupfnFm1VYBimPqn4kdhLHjubFWST7CfLAYI3IBC9CTRfS5M23URlOGyESeYB7DraxgW5e51sDb5uAb0JUqrHmc6mJyCs8SqWQJo+K9fooVK3YluODZdeKRvc2gshBfCRKgzOWidOCsco6JW+Sfuh/Mxrs6NSeCW5Tqn+3UzBcT488hBgnVqOeCnRFCb6Hcyj/8Sb21MHng==
+ b=lDv4tjY5hlFme/KaRdaacQ/vgHu/nPl8zLNO3qvdgIg5Ky28OP7HoeEjPWIgSTQLXye9TstGGW1i5ldxwREq8I392yC4/OVle2Efj1QXLvYOy6fwvuuMYB+MQ3i6CqB+/o46y7WYdOtRQtl33C4WON5uO5Ln82psA7Uw12p2+Y14gLiz4NljTy61/xu7V/CL1WzQeBld5oGgspU4Qcth23VLaCF49/v2xpQpylA4O9jXRzs1FhbcD4GA7GFfI3Le+ofs1atyLPB4uYiUdA/qY917qGLiLezW+44vQA5w7OCsJ38dLPl19rvEQc2HADx3Oi+eD3wegM+BE+05qsilpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XXgJn0z5TX54nuYWT4I7EaFe55aFSy/1UE7zmTeVDok=;
- b=ODwky00HCkM38wfZscjxGgCl/EGqp757W8W6vxPztl3JNYj9DM5fnQK63e2fJb1NRkdVYRMREKCOMvguHsjQreOtjeew7Pi3+lvb1VQUnAK9aNQpiXa7zs1UFvmILqdgw5bdu6+KHPSxefBgefd3GOwC08okZYghOp1csDsN7Li0T6K1QJkF3ckd8LMAYmGf2OSr7AR94sreAWq1x7BRvzZWTBk56DoLwkZS4SDnRuGz+F6u11qD3MaICxWjdEkRRO7nmmgsXAAYxnk9H9ZcRLReUApsNVVg5CX/PKi1RpOxZuYONhD0GOW5JgeNLP2CT6jjiyIHPiUMky7zGcSzvw==
+ bh=4ZjU784blIskKylWr0kv3DWJsauOLV/nFVrY0b7A7sU=;
+ b=Y1lAdC9Vaxm/Pb0LR0BsUrsZcLYUt1dvzyVeMPkl2hLqQbiNj67p5RtXK7mBzJ/8RfdZnXocyGhbsgyPMPAhQmdlHP3prCEGYTkByHLsm0vx7bd0bA4WFC5DuqFo5EaJdC7e7iMHYyLE91eZ3aOkACGtoOIlwMf3L5JdA8EVOzrvgb/Hr+fcUE6zN4WTOPGzS0jAyFdUXvT24UAtb/1JB0bXoqHJ32NxGg2EgQjWt2jslMu09iBZpyRYYVu9k40WfV2djOQyKhFrEVe6BRY0/cuIHNwDJ8zwYbyw7q7ERj5RB4G2zqZ6El9QGzQ7G7yulPkMYt8smNjT7e/9ndmcWg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XXgJn0z5TX54nuYWT4I7EaFe55aFSy/1UE7zmTeVDok=;
- b=4b8tyMZFGD/sqlEK2UJ7AqMutJvI0DO7Oa+YN7HtEhbJ0SaiXwAxIY+QSP4Xl2NY0KrXgbY+bDrLsClPmMwZRyNRnEGD1yXxEnEyvsbyaJ5dbmA3aZh6ZJPfi85cHYLjt6FynL/dlPeYdgdu0BrqVeVnmZXGCcOrGH9iOwVd6dc=
-Received: from CH0PR04CA0036.namprd04.prod.outlook.com (2603:10b6:610:77::11)
- by DM4PR12MB7550.namprd12.prod.outlook.com (2603:10b6:8:10e::12) with
+ bh=4ZjU784blIskKylWr0kv3DWJsauOLV/nFVrY0b7A7sU=;
+ b=yln32oZVJK3cqz0qGtEgcvP4VahoSlqTvTYWIr6XYp0i6n8w/Bs46iyfUn1B9OtVagOrLJyGVgcGYjYKbRbXucSbrIg5z6Au5UPihM3IRgdqOq0x/4yRkb10cXuoYNsPlUCOkCtzaEavPaPWlTdECxhSSqv26duouN587phhEgo=
+Received: from CH0P221CA0045.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:11d::15)
+ by IA0PR12MB8715.namprd12.prod.outlook.com (2603:10b6:208:487::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Thu, 2 Nov
- 2023 11:42:49 +0000
-Received: from DS2PEPF0000343C.namprd02.prod.outlook.com
- (2603:10b6:610:77:cafe::6e) by CH0PR04CA0036.outlook.office365.com
- (2603:10b6:610:77::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19 via Frontend
- Transport; Thu, 2 Nov 2023 11:42:49 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.28; Thu, 2 Nov
+ 2023 11:42:53 +0000
+Received: from DS2PEPF0000343D.namprd02.prod.outlook.com
+ (2603:10b6:610:11d:cafe::99) by CH0P221CA0045.outlook.office365.com
+ (2603:10b6:610:11d::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.21 via Frontend
+ Transport; Thu, 2 Nov 2023 11:42:53 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,21 +46,23 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS2PEPF0000343C.mail.protection.outlook.com (10.167.18.39) with Microsoft
+ DS2PEPF0000343D.mail.protection.outlook.com (10.167.18.40) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6954.19 via Frontend Transport; Thu, 2 Nov 2023 11:42:48 +0000
+ 15.20.6954.19 via Frontend Transport; Thu, 2 Nov 2023 11:42:53 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Thu, 2 Nov
- 2023 06:42:47 -0500
+ 2023 06:42:51 -0500
 From:   Muralidhara M K <muralimk@amd.com>
 To:     <linux-edac@vger.kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <bp@alien8.de>,
         Muralidhara M K <muralidhara.mk@amd.com>
-Subject: [PATCH v3 0/4] Few cleanups and AMD Family 19h Models 90h-9fh EDAC Support
-Date:   Thu, 2 Nov 2023 11:42:21 +0000
-Message-ID: <20231102114225.2006878-1-muralimk@amd.com>
+Subject: [PATCH v3 2/4] x86/MCE/AMD: Add new MA_LLC, USR_DP, and USR_CP bank types
+Date:   Thu, 2 Nov 2023 11:42:23 +0000
+Message-ID: <20231102114225.2006878-3-muralimk@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231102114225.2006878-1-muralimk@amd.com>
+References: <20231102114225.2006878-1-muralimk@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -69,61 +71,99 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343C:EE_|DM4PR12MB7550:EE_
-X-MS-Office365-Filtering-Correlation-Id: bee84b83-118b-4d15-ae64-08dbdb98d6ef
+X-MS-TrafficTypeDiagnostic: DS2PEPF0000343D:EE_|IA0PR12MB8715:EE_
+X-MS-Office365-Filtering-Correlation-Id: c893d8f0-943b-4f43-d864-08dbdb98d967
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YPcl9aVchjZzdEQShxA7MvCeUymYORwJKN7GCPRct79BGzsRGH9IVNvQgE7LGLhLKCOpBYkP4XXXRFg9J0ja1owd2vfblsbzIuNFkBkO5k03YPQD3XX2aKEXzewy33q2k53tmAGqjRJHthV5PrJeJZETc772jRgy1hiTOxLlj1JnwzeTM5M33xJKPsfn55X4vhbU+1Hk00GFE2fEYVyP9XGa5ZKVmIG7uv5KCq/y7xzNuQL7qyzTBzUkCdS8PpW208Ba+ovfwqYr/OWK0FA5Ur5rKfHr+ZpJ8MRf/WKOY4PEvkRfgZzlx78AJVId91h3NjEJ6lzKsIM3F5PunJyVqyrcIcFUCaCilU17ysffTDiIhUd/4uQTlsgKCCOK0kgkmOWLuMLQvjhnqyWSbIETGTJhqZLPQxzR5JKKhS0/FlyiwDe3nqzjn808cOw/1Tc+6ajg7VsBxdbS7ICYpu6zrmQSyC3HFRGYVjLuMy5z4o9KhVqKNG382MFXg2lfWiGFDbU6LLg1Xfnm4WiyeNM3+TlYynmJsnnl1HdKGN5vcCMv02OKa2ds8dMrjKg1A7WYqC4oOmi3JbeBOwYSXqnhCBAFXVYzMGuUZIdNQhne0Te9019IJxwSxDeQNaML4qPFc10cvOz7C7GeUgVSH76EWmwOQhHWNM/bcpJ+3goCKo0CmayZpAwj1hOYV/bCF6fhLc115xxozyw0VmGIj0EUH+pLhPjsSgp/E4+LoJsRqL9OvGEjgKFWnW9V4mxlrb6C
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(39860400002)(136003)(346002)(376002)(230922051799003)(451199024)(82310400011)(64100799003)(1800799009)(186009)(36840700001)(46966006)(40470700004)(40460700003)(26005)(1076003)(16526019)(6666004)(47076005)(426003)(7696005)(478600001)(8936002)(8676002)(5660300002)(70206006)(70586007)(966005)(54906003)(6916009)(316002)(4326008)(336012)(36860700001)(41300700001)(2616005)(36756003)(83380400001)(356005)(82740400003)(81166007)(40480700001)(2906002)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: PD5dPBVC/JkoLxzi99JDswLVzKp8cC+TXjPC7R7E/76tMZomBmaXs9/tASIXIpYsg/qJtvhSh8UNnc44+MVds9jcd2dIlLTQF66ZlDWuT1mQX0NdM9KOIB4GUc9oO9ky+n0CXN42CMbsbfX32iKMHLkJQZJ/8JnS7/2JpRP23nGpbEKvbUUkHucMpJMMB9vLXn3fFuBdrk0J2bcKRd8zWo0OKM1mJtOBKl8m36eKrunCEdONmc0UvME7Ue2hSO+48NmRQg+n1CIXvr5Az19o3nUyymso1sSoeIlc7sc37bsBRnKzqtMSp2/AAcOtIKbK+DCKzmcYl4wT6e1o7h0s6/808LpTf3XNKnaSmoxY3wpdzXhnbaMOC0dUHbLHCy6XwCZs3CxluK+J1vCzq+UnUNT4ZYIksgYns1VpLmXkCfkKN0R9Z52CwtIwf4Csbvf4GHWE0xafMMkh1CYQ7gUP2ox9SqswnezX1VEkZ1HT3uxUr2tYRp9lIvKATrQ7KyMdWE2uzTvsl97trYA8oeeiF5QGjVMacFna/xV2OMU9oppPYOV661PlqzCnttSVm1CNQHHFhzrtLQBNl/I4ILRWdXiQboEg0cieFQ8sqeioBwDbyz+PYmVcaCob3i4Om3Feq08LZfrkNJk+PRyxHho9EncQk06k552Pzi4CEQpDbE5esm5j3NsUNES6/cLTeLkTMu8UdTlDDHGP/JptV6Le7fx8vRFzQgJdaHCeh9Ba5tYMKgEeHHlI//QL/f1Sq11miS/jpikiCEyG0vLbTL+B/w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(376002)(39860400002)(346002)(396003)(230922051799003)(64100799003)(82310400011)(1800799009)(186009)(451199024)(36840700001)(40470700004)(46966006)(40460700003)(5660300002)(2906002)(15650500001)(41300700001)(8676002)(8936002)(4326008)(36756003)(54906003)(316002)(81166007)(26005)(82740400003)(356005)(36860700001)(336012)(47076005)(70586007)(6666004)(6916009)(70206006)(426003)(2616005)(1076003)(40480700001)(16526019)(478600001)(7696005)(83380400001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 11:42:48.9819
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 11:42:53.1249
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bee84b83-118b-4d15-ae64-08dbdb98d6ef
+X-MS-Exchange-CrossTenant-Network-Message-Id: c893d8f0-943b-4f43-d864-08dbdb98d967
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343C.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343D.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7550
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8715
 Precedence: bulk
 List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
 
 From: Muralidhara M K <muralidhara.mk@amd.com>
 
-The below patchset is based on previously submitted changes
-https://lore.kernel.org/linux-edac/20231025051455.101424-1-muralimk@amd.com/T/#m5834ca7109d159f7fc869031f3603dff8a79633c
+Add HWID and McaType values for new SMCA bank types.
 
-Patch 1:
-Remove SMCA Extended Error code descriptions, because some of the
-existing bit definitions in the CTL register of SMCA bank type are
-reassigned without defining new HWID and McaType.
+Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
+---
+Chnages:
+v2->v3: Rename usr_dp_pcs to usr_dp and same for usr_cp_pcs
 
-Patch 2:
-Add New SMCA bank types MALL, USR_DP, USR_CP.
+ arch/x86/include/asm/mce.h    | 3 +++
+ arch/x86/kernel/cpu/mce/amd.c | 6 ++++++
+ 2 files changed, 9 insertions(+)
 
-Patch 3:
-Add HBM3 memory in the enum.
-
-Patch 4:
-Add Family 19h and Models 90h-9fh Enumeration support.
-
-Muralidhara M K (4):
-  EDAC/mce_amd: Remove SMCA Extended Error code descriptions
-  x86/MCE/AMD: Add new MA_LLC, USR_DP, and USR_CP bank types
-  EDAC/mc: Add support for HBM3 memory type
-  EDAC/amd64: Add support for family 0x19, models 0x90-9f devices
-
- arch/x86/include/asm/mce.h    |   3 +
- arch/x86/kernel/cpu/mce/amd.c |   6 +
- drivers/edac/amd64_edac.c     |  62 +++--
- drivers/edac/amd64_edac.h     |   1 +
- drivers/edac/edac_mc.c        |   1 +
- drivers/edac/mce_amd.c        | 480 ----------------------------------
- include/linux/edac.h          |   3 +
- 7 files changed, 60 insertions(+), 496 deletions(-)
-
+diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
+index 6de6e1d95952..9e2bb7bdc3b3 100644
+--- a/arch/x86/include/asm/mce.h
++++ b/arch/x86/include/asm/mce.h
+@@ -311,6 +311,7 @@ enum smca_bank_types {
+ 	SMCA_PIE,	/* Power, Interrupts, etc. */
+ 	SMCA_UMC,	/* Unified Memory Controller */
+ 	SMCA_UMC_V2,
++	SMCA_MA_LLC,	/* Memory Attached Last Level Cache */
+ 	SMCA_PB,	/* Parameter Block */
+ 	SMCA_PSP,	/* Platform Security Processor */
+ 	SMCA_PSP_V2,
+@@ -326,6 +327,8 @@ enum smca_bank_types {
+ 	SMCA_SHUB,	/* System HUB Unit */
+ 	SMCA_SATA,	/* SATA Unit */
+ 	SMCA_USB,	/* USB Unit */
++	SMCA_USR_DP,	/* Ultra Short Reach Data Plane Controller */
++	SMCA_USR_CP,	/* Ultra Short Reach Control Plane Controller */
+ 	SMCA_GMI_PCS,	/* GMI PCS Unit */
+ 	SMCA_XGMI_PHY,	/* xGMI PHY Unit */
+ 	SMCA_WAFL_PHY,	/* WAFL PHY Unit */
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index f3517b8a8e91..4814d8a25ef8 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -107,6 +107,7 @@ static struct smca_bank_name smca_names[] = {
+ 	/* UMC v2 is separate because both of them can exist in a single system. */
+ 	[SMCA_UMC]			= { "umc",		"Unified Memory Controller" },
+ 	[SMCA_UMC_V2]			= { "umc_v2",		"Unified Memory Controller v2" },
++	[SMCA_MA_LLC]			= { "ma_llc",		"Memory Attached Last Level Cache" },
+ 	[SMCA_PB]			= { "param_block",	"Parameter Block" },
+ 	[SMCA_PSP ... SMCA_PSP_V2]	= { "psp",		"Platform Security Processor" },
+ 	[SMCA_SMU ... SMCA_SMU_V2]	= { "smu",		"System Management Unit" },
+@@ -119,6 +120,8 @@ static struct smca_bank_name smca_names[] = {
+ 	[SMCA_SHUB]			= { "shub",		"System Hub Unit" },
+ 	[SMCA_SATA]			= { "sata",		"SATA Unit" },
+ 	[SMCA_USB]			= { "usb",		"USB Unit" },
++	[SMCA_USR_DP]			= { "usr_dp",		"Ultra Short Reach Data Plane Controller" },
++	[SMCA_USR_CP]			= { "usr_cp",		"Ultra Short Reach Control Plane Controller" },
+ 	[SMCA_GMI_PCS]			= { "gmi_pcs",		"Global Memory Interconnect PCS Unit" },
+ 	[SMCA_XGMI_PHY]			= { "xgmi_phy",		"Ext Global Memory Interconnect PHY Unit" },
+ 	[SMCA_WAFL_PHY]			= { "wafl_phy",		"WAFL PHY Unit" },
+@@ -178,6 +181,7 @@ static const struct smca_hwid smca_hwid_mcatypes[] = {
+ 	{ SMCA_CS,	 HWID_MCATYPE(0x2E, 0x0)	},
+ 	{ SMCA_PIE,	 HWID_MCATYPE(0x2E, 0x1)	},
+ 	{ SMCA_CS_V2,	 HWID_MCATYPE(0x2E, 0x2)	},
++	{ SMCA_MA_LLC,	 HWID_MCATYPE(0x2E, 0x4)	},
+ 
+ 	/* Unified Memory Controller MCA type */
+ 	{ SMCA_UMC,	 HWID_MCATYPE(0x96, 0x0)	},
+@@ -212,6 +216,8 @@ static const struct smca_hwid smca_hwid_mcatypes[] = {
+ 	{ SMCA_SHUB,	 HWID_MCATYPE(0x80, 0x0)	},
+ 	{ SMCA_SATA,	 HWID_MCATYPE(0xA8, 0x0)	},
+ 	{ SMCA_USB,	 HWID_MCATYPE(0xAA, 0x0)	},
++	{ SMCA_USR_DP,	 HWID_MCATYPE(0x170, 0x0)	},
++	{ SMCA_USR_CP,	 HWID_MCATYPE(0x180, 0x0)	},
+ 	{ SMCA_GMI_PCS,  HWID_MCATYPE(0x241, 0x0)	},
+ 	{ SMCA_XGMI_PHY, HWID_MCATYPE(0x259, 0x0)	},
+ 	{ SMCA_WAFL_PHY, HWID_MCATYPE(0x267, 0x0)	},
 -- 
 2.25.1
 
