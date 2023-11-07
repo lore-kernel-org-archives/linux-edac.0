@@ -1,59 +1,46 @@
-Return-Path: <linux-edac-owner@vger.kernel.org>
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0375C4332F
-	for <linux-edac@archiver.kernel.org>; Sat,  4 Nov 2023 04:52:48 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229936AbjKDEwu (ORCPT <rfc822;linux-edac@archiver.kernel.org>);
-        Sat, 4 Nov 2023 00:52:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjKDEwt (ORCPT
-        <rfc822;linux-edac@vger.kernel.org>); Sat, 4 Nov 2023 00:52:49 -0400
-X-Greylist: delayed 4317 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Nov 2023 21:52:47 PDT
-Received: from mail.profitpathwaygo.com (mail.profitpathwaygo.com [141.94.21.238])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12441E5
-        for <linux-edac@vger.kernel.org>; Fri,  3 Nov 2023 21:52:47 -0700 (PDT)
-Received: by mail.profitpathwaygo.com (Postfix, from userid 1002)
-        id 9195050A52; Tue, 31 Oct 2023 08:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitpathwaygo.com;
-        s=mail; t=1698741180;
-        bh=qp3Ofokho6Ql+WtI8ZPVilyHYhskXL7fod7u9CWs8W4=;
-        h=Date:From:To:Subject:From;
-        b=EvcwakcmeoHFtNgVg+EIk8UCuvH17Nnzajd2eFEKe9Z4zRp7mZcSP/uEWIF441bK9
-         TCgdj4nQ6cKw+/GTsZ+LK8iuQJdZKtNV7Tbs30wZ9m5x7OcznUjwaeGqo4wYWOoAvs
-         zQX0HpuXbdD9IiBcDVMyPmrwAfz/oowf/CxTk5E/GU6X8EYpCXjB5jxBzbTKzEU0Uf
-         tWDHcfm13vYXSnUc2uRpuUdyVILhVF7zqi92sjkIZ17GBRAbG/whGAhOm1QvxcjAch
-         iTLA5fXgklrJiyHhsxSu7ibIGC/Y/wJ6gQ3PfDTIW6Uz95HQtBh2EuGZiEEIHgiyIy
-         uWlCSqxagRAzA==
-Received: by mail.profitpathwaygo.com for <linux-edac@vger.kernel.org>; Tue, 31 Oct 2023 08:30:48 GMT
-Message-ID: <20231031074500-0.1.2t.15sc9.0.ebl8fug8fw@profitpathwaygo.com>
-Date:   Tue, 31 Oct 2023 08:30:48 GMT
-From:   "Adam Charachuta" <adam.charachuta@profitpathwaygo.com>
-To:     <linux-edac@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania_?=
-X-Mailer: mail.profitpathwaygo.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3AB18F;
+	Tue,  7 Nov 2023 00:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2FYYS8MO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2A7C433C7;
+	Tue,  7 Nov 2023 00:00:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699315253;
+	bh=gWSQwVS/DuFY8epvQLsUoxyqrJ0L53S7NX9Y3cpdBb4=;
+	h=Date:From:To:Subject:From;
+	b=2FYYS8MOF+g1KB68wRaTBLt4qdi1oVNOVrcDhGPFKyzvQpkvWgDuhvgDRlPv0wRJ9
+	 JnCnzHfzpUgAfDJzf3Ko047wJ9qpjDPxUaQ+vacrgU1ekeVhxA1SkM+w7u2PxssFC5
+	 3MfQ3cbwb3IY+DCqoN+XoJe/TnyNPHlODGXbQPMA=
+Date: Mon, 6 Nov 2023 19:00:52 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: lartc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-assembly@vger.kernel.org, linux-bcache@vger.kernel.org, linux-bcachefs@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-btrace@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-can@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-edac@vger.kernel.org, linux-efi@vger.kernel.org
+Subject: PSA: this list has been migrated (no action required)
+Message-ID: <20231106-courageous-soft-caiman-7b3e6a@meerkat>
 Precedence: bulk
-List-ID: <linux-edac.vger.kernel.org>
 X-Mailing-List: linux-edac@vger.kernel.org
+List-Id: <linux-edac.vger.kernel.org>
+List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Dzie=C5=84 dobry,
+Hello:
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+This list has been migrated to the new vger infrastructure. You should't need
+to change anything about how you participate with the list or how you receive
+mail.
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+If something isn't working right, please reach out to helpdesk@kernel.org.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
-
-
-Pozdrawiam serdecznie
-Adam Charachuta
+Best regards,
+Konstantin
