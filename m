@@ -1,84 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="VTY0wmma"
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C226BBC
-	for <linux-edac@vger.kernel.org>; Mon, 20 Nov 2023 01:16:20 -0800 (PST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B0A3840E0171;
-	Mon, 20 Nov 2023 09:16:18 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id GP3j7CpRNPGJ; Mon, 20 Nov 2023 09:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1700471776; bh=NWudJA7sIU73lWXR1dk2xAv1aD8sQZcYhPWReGJ5VQQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VTY0wmma+bVyQGPTlfYPpMRmlvo+xduzgzjHt6W40724WHlpR9nj/QwFCaJ1HcELp
-	 IrnmjQvypMnyEXOrv01KTOVb40/etMhsM07Zjw7asbsVF1h5CPr3Ep4Oc5CwUasQ4O
-	 M5ax3nk+aAaNjanevELY+YPir1qWuVokXC2KzIwlvPrX/45vxxNsNITnj1MhUW75qK
-	 SN0FgauSxgOAPYmYohyshxU3ObJLwHtvAomNVWtq/5S0ePJLF+nd+hNw2e0/Ev4EUS
-	 41IqtQyRYcNRbz9g6sBs2nXmAA8YDpTe+vUNLFy5Pvg0+EKSBL4jQXwaMslfNGZoct
-	 hvlykPbG0FhA4ya815sZmNHhBY67A285ugw1OF/gOK3kwKWqk3h2KdERwZXUMG2qYb
-	 ZFmzMA0QamsFqORan4CvTVZhUJgAlADfI94gX2VXhDvstsFk8BfOd56o/kkDqw5g1U
-	 VmKf+//k2tg4cOOplqxTuAPviZG8P8wrd2VXcR3SuhQkekmwovkYMs0GQtP+pb5OAd
-	 Ksgz7OHD+eASsYqbIPjjtVfG31GMz5CUjm85erv8bjoHEEJrd0/C/u46bK5i/bVVSR
-	 Yg7zxHDb85EHnkcVWF+z47zVh0hBQGd17YY90ACKZxX/5JZ/etGA/EkSJjIcRIx3rb
-	 eb/k2kzZQvF7gEPNKAkKkNiI=
-Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7C05140E0031;
-	Mon, 20 Nov 2023 09:16:08 +0000 (UTC)
-Date: Mon, 20 Nov 2023 10:16:07 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: sai.krishna.potthuri@amd.com, linux-edac@vger.kernel.org,
-	tony.luck@intel.com, james.morse@arm.com, mchehab@kernel.org,
-	rric@kernel.org, shubhrajyoti.datta@gmail.com
-Subject: Re: [PATCH v2] EDAC/versal: Fix the read of the num_rows
-Message-ID: <20231120091607.GCZVsj13bBlWOhuR/Y@fat_crate.local>
-References: <20231115072055.25373-1-shubhrajyoti.datta@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="js7MhCg2"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB21BA;
+	Mon, 20 Nov 2023 06:13:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700489584; x=1732025584;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=1DDuOJefk+3o6ygYL1H6D6JOyUtWSGokeA8lulBT4/o=;
+  b=js7MhCg2iKZhxWkxlLu3Q4w5+PoKPgLwl5qDj1TQxAXUiHX9IF+UG9FP
+   z0dKwd792mJbcjZop+9QAsd6jto6ApdG7S03c0TFPu2+M+em/5c0M5Xng
+   8Mn57W2wHU4NAPYTuqsjGA69e4gWEJuSJIHu6GQa11sc/lnNWEjSYvFAq
+   1Gl05nxV+cF9l0kRBrqWWr9wcL6HasOme8GB5dSkHcHWqXFY+jEvfPfnd
+   KTO6n7D1ykrzvszKPoZbus/IcLsLODlNEEDlBqA9VTaElOMlFgcEGf6qD
+   c3SGQexN4V+KxlKxpMmkTWx8dj8F72xb0e8CWNPmge8TMx/ek4P4NU5nw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="458121746"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="458121746"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 06:12:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="801184237"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="801184237"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 20 Nov 2023 06:12:34 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 2BDE72F0; Mon, 20 Nov 2023 16:12:33 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Subject: [PATCH v2 3/4] EDAC, pnd2: Correct misleading error message in mk_region_mask()
+Date: Mon, 20 Nov 2023 16:10:47 +0200
+Message-ID: <20231120141231.1638240-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
+In-Reply-To: <20231120141231.1638240-1-andriy.shevchenko@linux.intel.com>
+References: <20231120141231.1638240-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231115072055.25373-1-shubhrajyoti.datta@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 15, 2023 at 12:50:55PM +0530, Shubhrajyoti Datta wrote:
-> Fix the read of the num_chans and num_csrows.
+The mask parameter is expected to be of a sequence of the set bits.
+It does not mean it must be power of two (only single bit set).
+Correct misleading error message.
 
-Just slapping a "Fix <bla>" oneliner is not enough.
+Suggested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: new patch as suggested (Qiuxu) 
 
-This commit message needs work. A possible way to structure is:
+ drivers/edac/pnd2_edac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-1. Prepare the context for the explanation briefly.
-
-2. Explain the problem at hand.
-
-3. "It happens because of <...>"
-
-4. "Fix it by doing X"
-
-5. "(Potentially do Y)."
-
-And some of those above are optional depending on the issue being
-explained.
-
-For more detailed info, see
-Documentation/process/submitting-patches.rst,
-Section "2) Describe your changes".
-
-Thx.
-
+diff --git a/drivers/edac/pnd2_edac.c b/drivers/edac/pnd2_edac.c
+index ee7c9b024354..969fb2465edb 100644
+--- a/drivers/edac/pnd2_edac.c
++++ b/drivers/edac/pnd2_edac.c
+@@ -329,7 +329,7 @@ static void mk_region_mask(char *name, struct region *rp, u64 base, u64 mask)
+ 		return;
+ 	}
+ 	if (mask != GENMASK_ULL(PND_MAX_PHYS_BIT, __ffs(mask))) {
+-		pr_info(FW_BUG "MOT mask not power of two\n");
++		pr_info(FW_BUG "MOT mask is invalid\n");
+ 		return;
+ 	}
+ 	if (base & ~mask) {
 -- 
-Regards/Gruss,
-    Boris.
+2.43.0.rc1.1.gbec44491f096
 
-https://people.kernel.org/tglx/notes-about-netiquette
