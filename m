@@ -1,33 +1,33 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OA3b2PjG"
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2066.outbound.protection.outlook.com [40.107.92.66])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA3D1735;
-	Tue, 28 Nov 2023 23:35:54 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0ikaEmvC"
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92B51E1;
+	Tue, 28 Nov 2023 23:35:58 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BTiq1sdXQFvaT1YToxRZFOjiPaknsqpQtuTM8a8sZPW+osvVYGg9nbVYFRXNb6V6HgwY7expKJoKjZK0wdqQmbSuAdC8O+nUsmFIxSxUYXlELbrh4G5zAJOmD9gbYG1wnVpuI5Bb1ZjMbO7WLI5mICUPlPi/KhNhGguJ0wjGi7IqKSNeJmVr54z5nyVxqtM/ZCFO/0lbJc/v4Lg5L0jUhA8J/7s9Hswu1Xdf6KbLrePdFPX7MKpLVECL1SUxRdbp7k+tFJ6vTjtu1mqpro9Zt/QqzPudbqoK57SaK3iiXsoyBUtQc8/YuRQkPWERSE8Bfd0LSGCueMtch1bjMdAfcw==
+ b=iKP3XXgAdgttPeVaWRuMRVn0I2GhzX3cBkkHvfJkgf1o4M0//3eEz9Qiz04mczkjeqJQIl+VQmawf213M2q0QILRgpRD2DPMwp/rXoQ3MrKnS9hcwwKZNuzgDooqJf1/Z4e7oWQtPL2thxy31Z0J9BkRGPy+EM+Gzt4l1R5KYe270QIrUvhdMglsV0qEGASPfb4gxRLJnDmE53gwH3oN7DziiTiDktAOTTcPXGVQD3ODRTH0JiEdZY3ltSEOnEO8gR5X8BDrNsvST+pi+5LsYsJw4aLTGpFi9swEzV3tIMt8cgF8sh52wf8jmEcCo+ccmPL1dPFfP78vZGoUab1NgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eJmwj0m4m4m8VUWsar/ZTlXGPlPxYWU5vB7Xf9/94I4=;
- b=auudVwJDgi3eVa3vPHHVzpYnxsw6WA5wuzWmHf+doRKiPIyGOzxzgPGo2TDhU6Bc1VwL8zz5ycZgJxy8J4hlrCoyZlupCeXK3ol/iarKNikUJ6s8/mxbqg3SZoStheZZr9BAEffsrRvPNmcusy4CbfUKZ9zQGOWPWK90uvt7lTCdka59DoCj+dhB8SbAC2xsGpJTWo41BPLanHEJ/KqNNq1yLLfs3hTJBobzKfZwM/WhNFyjfiFxqJyyTrrJsfTCTBYHE932YX+qlEKt1OmwcLUCx5C0i6atKjYPVDCleg3vjJlTKza+pT2EbmiI3+EbL5saBd+BDhMhI9Cz7ZjIOA==
+ bh=bRsmIIO2mD3KoxwrnP2poQfIl2uWtLwQwFukcnl9i9A=;
+ b=B/24Pw0m2YCuRj+UwVSYv+2cXmb5SG41Lj7Q0oVnx5LgSpW0wQoH8UWFEBRoa3/46qt6U0P64smSFVoF8XSmQ5l8eZNYeMHUb3sWtWcIi6+owK2rXsXtcbG3MkUaGAWRjQHwfAfUlN3nfL8TMVsdSG2lafuLPlOA40+wTsMLJnYFHxcW6KzaRylI87APdDXkT57Z9GoYpbORvfK9QZE3B0EdsF9dgW882d9WzrdBHbE/iUNH0RSPvqir8KXKlTgDkBru4TdAyaMsfDKuF9UK6IsJDV+HfIlxkchzMp/CoFSzlEvPIlFKFr7iPk8LL0ed353kFVw+yZAeVlgVbA8krA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eJmwj0m4m4m8VUWsar/ZTlXGPlPxYWU5vB7Xf9/94I4=;
- b=OA3b2PjGrpPRJp6615+a6eGFoEO6vVl+H2p5TQJ4zB08ZWNZazng4saJfJ+lXs9meHoDVkV2HlWDPtc7L0r/jUfGZivN65AB7ODhTn1LgR03HW5eZZuY1Yjcxna+ugbx132Gqo4CfgXg/dklUxxugCZ8Fjm7tfQR2zJ6l2HsK14=
-Received: from SJ0PR03CA0276.namprd03.prod.outlook.com (2603:10b6:a03:39e::11)
- by CH3PR12MB9342.namprd12.prod.outlook.com (2603:10b6:610:1cb::10) with
+ bh=bRsmIIO2mD3KoxwrnP2poQfIl2uWtLwQwFukcnl9i9A=;
+ b=0ikaEmvCgx6V0VeNeHwDkb7BfvBWOC0rt1n1d27VHe2rjR9J8nKu4ZrtgSijpbctRVLLpR4d2NaOFwrcBNZqa+gQPnvE8wmm2d3zZZrl/B/O8wG09QF4jnYR3BoRj4dWXLs8VWYAThFkZLVzaHG2eWJfCR+5WuBs7tINbzOKg4Q=
+Received: from SJ0PR03CA0283.namprd03.prod.outlook.com (2603:10b6:a03:39e::18)
+ by PH0PR12MB7093.namprd12.prod.outlook.com (2603:10b6:510:21d::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.29; Wed, 29 Nov
- 2023 07:35:52 +0000
+ 2023 07:35:55 +0000
 Received: from CO1PEPF000042A9.namprd03.prod.outlook.com
- (2603:10b6:a03:39e:cafe::25) by SJ0PR03CA0276.outlook.office365.com
- (2603:10b6:a03:39e::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27 via Frontend
- Transport; Wed, 29 Nov 2023 07:35:51 +0000
+ (2603:10b6:a03:39e:cafe::55) by SJ0PR03CA0283.outlook.office365.com
+ (2603:10b6:a03:39e::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.22 via Frontend
+ Transport; Wed, 29 Nov 2023 07:35:54 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -37,18 +37,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CO1PEPF000042A9.mail.protection.outlook.com (10.167.243.38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7046.17 via Frontend Transport; Wed, 29 Nov 2023 07:35:51 +0000
+ 15.20.7046.17 via Frontend Transport; Wed, 29 Nov 2023 07:35:54 +0000
 Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 29 Nov
- 2023 01:35:48 -0600
+ 2023 01:35:52 -0600
 From: Muralidhara M K <muralimk@amd.com>
 To: <linux-edac@vger.kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <bp@alien8.de>, <mchehab@kernel.org>,
 	Muralidhara M K <muralidhara.mk@amd.com>
-Subject: [PATCH v2 3/6] RAS: Add MCA Error address conversion for UMC
-Date: Wed, 29 Nov 2023 07:35:18 +0000
-Message-ID: <20231129073521.2127403-4-muralimk@amd.com>
+Subject: [PATCH v2 5/6] RAS: Add fixed Physical to logical CS ID mapping table
+Date: Wed, 29 Nov 2023 07:35:20 +0000
+Message-ID: <20231129073521.2127403-6-muralimk@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231129073521.2127403-1-muralimk@amd.com>
 References: <20231129073521.2127403-1-muralimk@amd.com>
@@ -64,214 +64,81 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042A9:EE_|CH3PR12MB9342:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b5a0a97-c822-46bf-b1d3-08dbf0add03d
+X-MS-TrafficTypeDiagnostic: CO1PEPF000042A9:EE_|PH0PR12MB7093:EE_
+X-MS-Office365-Filtering-Correlation-Id: 18610aa5-318e-4069-4ec7-08dbf0add21f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	fNhzHRcy7Kxg436B4I1floGlBD7mzOzHXr+HPFTIu0wH9YlexEYGh1gF6qrXnKOa6/SDibnR8t/GqRmpjW4NgrQh1nOJMYWl7y9M6KNjyBbwvGLjO+LsZZ2kVVU4hKJx+01GwUhp3yg7NBzxPoL4CSLKKXvuUwzY9HgLSIHahbl4G2Uw4Td1ISL/0pzQeSWC2T9+YanJhEqBxEkzR+81aveJ7+1cbkWGc/FfkSWy6ssszXPMKpIhHjxoGUx3ooMdu/BqAi3WWOdtPXB6rPQ3EI2yyuz6YezHjHxtM1yfAAixwM6WJ/XsDYqmKFFJRj8GayHsw0op0GYtQrF+uzEHY5ci17DHB1w1TwVUQxArUstY/O5iNOfTapWwBSdt+kvjNsDcm618LqMjMxts29wIzntLhkPg2OJDxNfGHSrimiUrjIXRBzTK2p1UMNSgECLxEgJFZSHyQ8lEQsDUx/4RLFvj9JFhbJT1/a+i0IC2WwKa0XIHFKa7aDLTlaPoeMcf/sIQQCztOig2mgGqoaUTEi7S7SoCVv2EhoNj5N9k9qOheKzz0rR9xOIVaAbDCstz9ZpYSg7La52k9AMJ+xBwn9xQBcIa5GpJAuDNluaN3BBGKdEdGt/6IeRZJe8GIsXju7lV9giV56PcjhTD5/yhxarQvT3rtZJKZcd52wC7s1M/F774SJsdEDdI4Dk9Oh1wOVClFYBQ73XHlxEn9ENaPRVYHuLeymlqSiQpxr1j6vLMtdn2oszUV1Mq90dHSMY/3HufbAeDpXWkORUhZCQsVg==
+	fnnlp4FWLoc4ePmdtpT3JSd+2SeNNqDKoVZvFRybceLDHzPtmFwmd0gGqIZLELIaNYL0s9GXZyhuLWtwmvJ1puMkGToc+NaKYDW3L+J4vQ4CW4vUgejBMsQquDhrGrgEFbbwzYVPs9k17PCL4zEIi+50etPcGjKmgJWWc+WnRP7WxxCWwUIqlcDOKfgL4H/bH5eXPsdtpFwPy8CdTheE6typ74Eq1cUTYCXRk0Dl/+BF+umltW4pvKsLwKS5GderpdliXiJfd1N3FKthqbOWnEhkAGHXklixkgz134bZV7E7fvCdrJjaKwy6denvf/k72OEgHfWbEtk2PFq8UG1kAiqdgmE11etVa2OMThGZsoe3v1THCrdy6yx9jZVXSwh2scShw+zqugKA6HiMgM5GS0lqgR+xIxGPW2QzlCEc/HfsnFU6B3uUkEx/h7uiMbL5Ue5b6ghnK7Ej0+BlDgU/pBxkQeJsBoilznq65GOcskTNW3GVF/b+v1I8EHMKBGh7s6/U8pBfRl0XB0QqTGYbvPTnlKYKYFMGNAtM3jBRGpmqIucUE/VKfN/fCjg0ErN1Iqq2RYGRwjvtZ3cpv3iXe9bo85xoquPjf07jCzsLqCxjDt5xvLMN4IjuBjqNdESk0eR5mgAhUAsqOnJAoUCZMkG+/PAXFaCDSXlACrvMNuyh41ygDMvbu44hKI+P/hTwt6amV2XqrjTNoU+PZFi3Wh0VxLFKh+ecM6OHdHtg5owfPEKr2B1eSpzN4shlZox7wK9eLipIHmb98WPEa7TR7A==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(39860400002)(346002)(396003)(136003)(230922051799003)(1800799012)(82310400011)(451199024)(64100799003)(186009)(46966006)(40470700004)(36840700001)(41300700001)(36756003)(1076003)(81166007)(47076005)(356005)(83380400001)(5660300002)(336012)(82740400003)(426003)(2906002)(16526019)(26005)(40480700001)(2616005)(36860700001)(7696005)(6666004)(8676002)(4326008)(8936002)(40460700003)(478600001)(316002)(70206006)(70586007)(54906003)(6916009)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(39860400002)(136003)(396003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(82310400011)(36840700001)(46966006)(40470700004)(316002)(2616005)(336012)(7696005)(426003)(16526019)(70206006)(70586007)(26005)(36756003)(478600001)(82740400003)(47076005)(36860700001)(83380400001)(356005)(6666004)(81166007)(40460700003)(6916009)(54906003)(1076003)(5660300002)(2906002)(41300700001)(4326008)(8936002)(8676002)(40480700001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2023 07:35:51.5363
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2023 07:35:54.6770
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b5a0a97-c822-46bf-b1d3-08dbf0add03d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18610aa5-318e-4069-4ec7-08dbf0add21f
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	CO1PEPF000042A9.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9342
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7093
 
 From: Muralidhara M K <muralidhara.mk@amd.com>
 
-On AMD systems with HBM3 memory, The reported MCA address is
-DRAM address which needs to be converted to normalized address
-before the data fabric address translation.
+AMD MI300A models have a single Data Fabric (DF) instance per socket.
+So, only one out of 4 AIDs are software-visible using PCI Device 18h.
 
-MI300A models have on-chip HBM3 memory capable of On-Die ECC support.
-On-Die ECC error address to MCA is a encoded address reported with
-a DRAM address (PC/SID/Bank/ROW/COL) instead of normalized address
-unlike MI200s UMC ECC, as the implementation difference between
-HBM3 On-Die ECC and HBM2 host ECC.
-Because On-Die ECC address reporting is done in the back-end of UMC
-and it no longer has normalized address at that point.
-So software needs to convert the reported MCA Error Address back to
-normalized address.
+Add a static lookup table for converting physical CS ID to logical
+CS ID for mapping of all 4 respective AIDs in a socket.
 
 Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
 ---
 Changes:
 v1 -> v2 : None
 
- drivers/ras/amd/atl/umc.c | 145 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 145 insertions(+)
+ drivers/ras/amd/atl/denormalize.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/ras/amd/atl/umc.c b/drivers/ras/amd/atl/umc.c
-index f334be0dc034..94eb2c5eae3b 100644
---- a/drivers/ras/amd/atl/umc.c
-+++ b/drivers/ras/amd/atl/umc.c
-@@ -12,6 +12,147 @@
- 
- #include "internal.h"
- 
-+static bool internal_bit_wise_xor(u32 inp)
-+{
-+	bool tmp = 0;
-+	int i;
-+
-+	for (i = 0; i < 32; i++)
-+		tmp = tmp ^ ((inp >> i) & 0x1);
-+
-+	return tmp;
-+}
-+
-+/*
-+ * Mapping of MCA decoded error address bit location to
-+ * normalized address on MI300A systems.
-+ */
-+static const u8 umc_mca2na_mapping[] = {
-+	0,  5,  6,  8,  9,  14, 12, 13,
-+	10, 11, 15, 16, 17, 18, 19, 20,
-+	21, 22, 23, 24, 25, 26, 27, 28,
-+	7,  29, 30,
-+};
-+
-+/* AddrHashBank and AddrHashPC/PC2 umc register bit fields */
-+static struct {
-+	u32 xor_enable	:1;
-+	u32 col_xor	:13;
-+	u32 row_xor	:18;
-+} addr_hash_pc, addr_hash_bank[4];
-+
-+static struct {
-+	u32 bank_xor	:6;
-+} addr_hash_pc2;
-+
-+#define COLUMN_LOCATION		GENMASK(5, 1)
-+#define ROW_LOCATION		GENMASK(23, 10)
-+/*
-+ * The location of bank, column and row are fixed.
-+ * location of column bit must be NA[5].
-+ * Row bits are always placed in a contiguous stretch of NA above the
-+ * column and bank bits.
-+ * Bits below the row bits can be either column or bank in any order,
-+ * with the exception that NA[5] must be a column bit.
-+ * Stack ID(SID) bits are placed in the MSB position of the NA.
-+ */
-+static int umc_ondie_addr_to_normaddr(u64 mca_addr, u16 nid)
-+{
-+	u32 bank[4], bank_hash[4], pc_hash;
-+	u32 col, row, rawbank = 0, pc;
-+	int i, temp = 0, err;
-+	u64 mca2na;
-+
-+	/* Default umc base address on MI300A systems */
-+	u32 gpu_umc_base = 0x90000;
-+
-+	/*
-+	 * Error address logged on MI300A systems is ondie MCA address
-+	 * in the format MCA_Addr[27:0] =
-+	 *	{SID[1:0],PC[0],row[14:0],bank[3:0],col[4:0],1'b0}
-+	 * The bit locations are calculated as per umc_mca2na_mapping[]
-+	 * to find normalized address.
-+	 * Refer F19 M90h BKDG Section 20.3.1.3 for clarifications
-+	 *
-+	 * XORs need to be applied based on the hash settings below.
-+	 */
-+
-+	/* Calculate column and row */
-+	col = FIELD_GET(COLUMN_LOCATION, mca_addr);
-+	row = FIELD_GET(ROW_LOCATION, mca_addr);
-+
-+	/* Apply hashing on below banks for bank calculation */
-+	for (i = 0; i < 4; i++)
-+		bank_hash[i] = (mca_addr >> (6 + i)) & 0x1;
-+
-+	/* bank hash algorithm */
-+	for (i = 0; i < 4; i++) {
-+		/* Read AMD PPR UMC::AddrHashBank register */
-+		err = amd_smn_read(nid, gpu_umc_base + 0xC8 + (i * 4), &temp);
-+		if (err)
-+			return err;
-+
-+		addr_hash_bank[i].xor_enable = temp & 1;
-+		addr_hash_bank[i].col_xor = FIELD_GET(GENMASK(13, 1), temp);
-+		addr_hash_bank[i].row_xor = FIELD_GET(GENMASK(31, 14), temp);
-+		/* bank hash selection */
-+		bank[i] = bank_hash[i] ^ (addr_hash_bank[i].xor_enable &
-+			  (internal_bit_wise_xor(col & addr_hash_bank[i].col_xor) ^
-+			  internal_bit_wise_xor(row & addr_hash_bank[i].row_xor)));
-+	}
-+
-+	/* To apply hash on pc bit */
-+	pc_hash = (mca_addr >> 25) & 0x1;
-+
-+	/* Read AMD PPR UMC::CH::AddrHashPC register */
-+	err = amd_smn_read(nid, gpu_umc_base + 0xE0, &temp);
-+	if (err)
-+		return err;
-+
-+	addr_hash_pc.xor_enable = temp & 1;
-+	addr_hash_pc.col_xor = FIELD_GET(GENMASK(13, 1), temp);
-+	addr_hash_pc.row_xor = FIELD_GET(GENMASK(31, 14), temp);
-+
-+	/* Read AMD PPR UMC::CH::AddrHashPC2 register*/
-+	err = amd_smn_read(nid, gpu_umc_base + 0xE4, &temp);
-+	if (err)
-+		return err;
-+
-+	addr_hash_pc2.bank_xor = FIELD_GET(GENMASK(5, 0), temp);
-+
-+	/* Calculate bank value from bank[0..3], bank[4] and bank[5] */
-+	for (i = 0; i < 4; i++)
-+		rawbank |= (bank[i] & 1) << i;
-+
-+	rawbank |= (mca_addr >> 22) & 0x30;
-+
-+	/* pseudochannel(pc) hash selection */
-+	pc = pc_hash ^ (addr_hash_pc.xor_enable &
-+		(internal_bit_wise_xor(col & addr_hash_pc.col_xor) ^
-+		internal_bit_wise_xor(row & addr_hash_pc.row_xor) ^
-+		internal_bit_wise_xor(rawbank & addr_hash_pc2.bank_xor)));
-+
-+	/* Mask b'25(pc_bit) and b'[9:6](bank) */
-+	mca_addr &= ~0x20003c0ULL;
-+
-+	for (i = 0; i < 4; i++)
-+		mca_addr |= (bank[i] << (6 + i));
-+
-+	 mca_addr |= (pc << 25);
-+
-+	/* NA[4..0] is fixed */
-+	mca2na = 0x0;
-+	/* convert mca error address to normalized address */
-+	for (i = 1; i < ARRAY_SIZE(umc_mca2na_mapping); i++)
-+		mca2na |= ((mca_addr >> i) & 0x1) << umc_mca2na_mapping[i];
-+
-+	mca_addr = mca2na;
-+	pr_debug("Error Addr 0x%016llx\n", mca_addr);
-+	pr_debug("Error hit on Bank %d Row %d Column %d\n", rawbank, row, col);
-+
-+	return mca_addr;
-+}
-+
- static u8 get_socket_id(struct mce *m)
- {
- 	return m->socketid;
-@@ -36,6 +177,10 @@ static u8 get_die_id(struct mce *m)
- 
- static u64 get_norm_addr(struct mce *m)
- {
-+	/* MI300: DRAM->Normalized translation */
-+	if (df_cfg.rev == DF4p5 && df_cfg.flags.heterogeneous)
-+		return umc_ondie_addr_to_normaddr(m->addr, get_socket_id(m));
-+
- 	return m->addr;
+diff --git a/drivers/ras/amd/atl/denormalize.c b/drivers/ras/amd/atl/denormalize.c
+index b233a26f68fc..4c127347a56e 100644
+--- a/drivers/ras/amd/atl/denormalize.c
++++ b/drivers/ras/amd/atl/denormalize.c
+@@ -442,6 +442,20 @@ static u16 get_logical_cs_fabric_id(struct addr_ctx *ctx)
+ 	return (phys_cs_fabric_id & df_cfg.node_id_mask) | log_cs_fabric_id;
  }
  
++/* Physical CS to Logical CS mapping for MI300 AIDs */
++u16 phy_to_logicalcs_mapping_mi300_aid[] = { 12, 13, 14, 15, 8, 9, 10, 11,
++					4, 5, 6, 7, 0, 1, 2, 3,
++					28, 29, 30, 31, 24, 25, 26, 27,
++					20, 21, 22, 23, 16, 17, 18, 19};
++
++static u16 get_logical_cs_fabric_id_mi300_die(struct addr_ctx *ctx)
++{
++	if (ctx->inst_id >= sizeof(phy_to_logicalcs_mapping_mi300_aid))
++		return -EINVAL;
++
++	return phy_to_logicalcs_mapping_mi300_aid[ctx->inst_id];
++}
++
+ static int denorm_addr_common(struct addr_ctx *ctx)
+ {
+ 	u64 denorm_addr;
+@@ -451,7 +465,11 @@ static int denorm_addr_common(struct addr_ctx *ctx)
+ 	 * Convert the original physical CS Fabric ID to a logical value.
+ 	 * This is required for non-power-of-two and other interleaving modes.
+ 	 */
+-	ctx->cs_fabric_id = get_logical_cs_fabric_id(ctx);
++	if (df_cfg.rev == DF4p5 && df_cfg.flags.heterogeneous)
++		ctx->cs_fabric_id = (ctx->cs_fabric_id & df_cfg.node_id_mask) |
++				     get_logical_cs_fabric_id_mi300_die(ctx);
++	else
++		ctx->cs_fabric_id = get_logical_cs_fabric_id(ctx);
+ 
+ 	denorm_addr = make_space_for_cs_id(ctx);
+ 	cs_id = calculate_cs_id(ctx);
 -- 
 2.25.1
 
