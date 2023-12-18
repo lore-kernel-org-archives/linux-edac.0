@@ -1,86 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB62101C9;
-	Mon, 18 Dec 2023 06:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iyTclJ8/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04D47C433C7;
-	Mon, 18 Dec 2023 06:54:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1702882462;
-	bh=WqSdOGaMwSBPoEtUznslg5s7PXAyzsMtO2SlEkxyWGY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iyTclJ8/wMW+zu7NPf5HxB+KPpilY4WTl38/pGkHfTLt355xwMgIZfyU7dIReIUB9
-	 dCraaErrmnktGo/N4KrHf0CS0DGxi1/eP5nKRH7eu1y0DlGqJ5zZxRNe0WyMz10aw4
-	 v4zHkvihss/8toJXCHaAJxfTfER2aI8wyDGUJs78=
-Date: Mon, 18 Dec 2023 07:54:20 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Shuai Xue <xueshuai@linux.alibaba.com>
-Cc: bp@alien8.de, rafael@kernel.org, wangkefeng.wang@huawei.com,
-	tanxiaofei@huawei.com, mawupeng1@huawei.com, tony.luck@intel.com,
-	linmiaohe@huawei.com, naoya.horiguchi@nec.com, james.morse@arm.com,
-	will@kernel.org, jarkko@kernel.org, linux-acpi@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org, linux-edac@vger.kernel.org,
-	acpica-devel@lists.linuxfoundation.org, stable@vger.kernel.org,
-	x86@kernel.org, justin.he@arm.com, ardb@kernel.org,
-	ying.huang@intel.com, ashish.kalra@amd.com,
-	baolin.wang@linux.alibaba.com, tglx@linutronix.de, mingo@redhat.com,
-	dave.hansen@linux.intel.com, lenb@kernel.org, hpa@zytor.com,
-	robert.moore@intel.com, lvying6@huawei.com, xiexiuqi@huawei.com,
-	zhuo.song@linux.alibaba.com
-Subject: Re: [PATCH v10 4/4] ACPI: APEI: handle synchronous exceptions in
- task work
-Message-ID: <2023121813-monthly-matriarch-2df4@gregkh>
-References: <20221027042445.60108-1-xueshuai@linux.alibaba.com>
- <20231218064521.37324-5-xueshuai@linux.alibaba.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D382C125B0;
+	Mon, 18 Dec 2023 08:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4SttCK0dlFzZdZ4;
+	Mon, 18 Dec 2023 16:24:13 +0800 (CST)
+Received: from kwepemm000017.china.huawei.com (unknown [7.193.23.46])
+	by mail.maildlp.com (Postfix) with ESMTPS id 50A1518005A;
+	Mon, 18 Dec 2023 16:24:19 +0800 (CST)
+Received: from localhost.localdomain (10.175.112.125) by
+ kwepemm000017.china.huawei.com (7.193.23.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 18 Dec 2023 16:24:18 +0800
+From: Tong Tiangen <tongtiangen@huawei.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, <wangkefeng.wang@huawei.com>, Dave Hansen
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+	<hpa@zytor.com>, Tony Luck <tony.luck@intel.com>, Andy Lutomirski
+	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton
+	<akpm@linux-foundation.org>, Naoya Horiguchi <naoya.horiguchi@nec.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+	<linux-mm@kvack.org>, Tong Tiangen <tongtiangen@huawei.com>, Guohanjun
+	<guohanjun@huawei.com>
+Subject: [PATCH -next v3 2/3] x86/mce: rename MCE_IN_KERNEL_COPYIN to MCE_IN_KERNEL_COPY_MC
+Date: Mon, 18 Dec 2023 16:23:59 +0800
+Message-ID: <20231218082400.2694698-3-tongtiangen@huawei.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231218082400.2694698-1-tongtiangen@huawei.com>
+References: <20231218082400.2694698-1-tongtiangen@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231218064521.37324-5-xueshuai@linux.alibaba.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm000017.china.huawei.com (7.193.23.46)
 
-On Mon, Dec 18, 2023 at 02:45:21PM +0800, Shuai Xue wrote:
-> Hardware errors could be signaled by asynchronous interrupt, e.g. when an
-> error is detected by a background scrubber, or signaled by synchronous
-> exception, e.g. when a CPU tries to access a poisoned cache line. Both
-> synchronous and asynchronous error are queued as a memory_failure() work
-> and handled by a dedicated kthread in workqueue.
-> 
-> However, the memory failure recovery sends SIBUS with wrong BUS_MCEERR_AO
-> si_code for synchronous errors in early kill mode, even MF_ACTION_REQUIRED
-> is set. The main problem is that the memory failure work is handled in
-> kthread context but not the user-space process which is accessing the
-> corrupt memory location, so it will send SIGBUS with BUS_MCEERR_AO si_code
-> to the user-space process instead of BUS_MCEERR_AR in kill_proc().
-> 
-> To this end, queue memory_failure() as a task_work so that the current
-> context in memory_failure() is exactly belongs to the process consuming
-> poison data and it will send SIBBUS with proper si_code.
-> 
-> Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
-> Tested-by: Ma Wupeng <mawupeng1@huawei.com>
-> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> Reviewed-by: Xiaofei Tan <tanxiaofei@huawei.com>
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> ---
->  drivers/acpi/apei/ghes.c | 77 +++++++++++++++++++++++-----------------
->  include/acpi/ghes.h      |  3 --
->  mm/memory-failure.c      | 13 -------
->  3 files changed, 44 insertions(+), 49 deletions(-)
-> 
+In the x86 mce processing, macro MCE_IN_KERNEL_COPYIN is used to identify
+copied from user. do_machine_check() uses this flag to isolate posion
+page in memory_failure(). there's nothing wrong but we can expand the use
+of this macro.
 
+Currently, there are some kernel memory copy scenarios is also mc safe
+which use copy_mc_to_kernel() or copy_mc_user_highpage(). In these
+scenarios, posion pages need to be isolated too. Therefore, a macro similar
+to MCE_IN_KERNEL_COPYIN is required. For this reason, we can rename
+MCE_IN_KERNEL_COPYIN to MCE_IN_KERNEL_COPY_MC, the new macro can be applied
+to both user-to-kernel mc safe copy and kernel-to-kernel mc safe copy.
 
-<formletter>
+Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
+---
+ arch/x86/include/asm/mce.h         | 8 ++++----
+ arch/x86/kernel/cpu/mce/core.c     | 2 +-
+ arch/x86/kernel/cpu/mce/severity.c | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
+index de3118305838..cb628ab2f32f 100644
+--- a/arch/x86/include/asm/mce.h
++++ b/arch/x86/include/asm/mce.h
+@@ -151,11 +151,11 @@
+ 
+ /*
+  * Indicates an MCE that happened in kernel space while copying data
+- * from user. In this case fixup_exception() gets the kernel to the
+- * error exit for the copy function. Machine check handler can then
+- * treat it like a fault taken in user mode.
++ * from user or kernel. In this case fixup_exception() gets the kernel
++ * to the error exit for the copy function. Machine check handler can
++ * then treat it like a fault taken in user or kernel mode.
+  */
+-#define MCE_IN_KERNEL_COPYIN	BIT_ULL(7)
++#define MCE_IN_KERNEL_COPY_MC	BIT_ULL(7)
+ 
+ /*
+  * This structure contains all data related to the MCE log.  Also
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index faef7ceed746..dbea0c395c56 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1597,7 +1597,7 @@ noinstr void do_machine_check(struct pt_regs *regs)
+ 				mce_panic("Failed kernel mode recovery", &m, msg);
+ 		}
+ 
+-		if (m.kflags & MCE_IN_KERNEL_COPYIN)
++		if (m.kflags & MCE_IN_KERNEL_COPY_MC)
+ 			queue_task_work(&m, msg, kill_me_never);
+ 	}
+ 
+diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
+index bca780fa5e57..df67a7a13034 100644
+--- a/arch/x86/kernel/cpu/mce/severity.c
++++ b/arch/x86/kernel/cpu/mce/severity.c
+@@ -292,7 +292,7 @@ static noinstr int error_context(struct mce *m, struct pt_regs *regs)
+ 	case EX_TYPE_UACCESS:
+ 		if (!copy_user)
+ 			return IN_KERNEL;
+-		m->kflags |= MCE_IN_KERNEL_COPYIN;
++		m->kflags |= MCE_IN_KERNEL_COPY_MC;
+ 		fallthrough;
+ 
+ 	case EX_TYPE_FAULT_MCE_SAFE:
+-- 
+2.25.1
 
-</formletter>
