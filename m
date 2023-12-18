@@ -1,148 +1,145 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2080.outbound.protection.outlook.com [40.107.94.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19E8101D9;
-	Mon, 18 Dec 2023 08:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4SttC80jgpz1Q6sp;
-	Mon, 18 Dec 2023 16:24:04 +0800 (CST)
-Received: from kwepemm000017.china.huawei.com (unknown [7.193.23.46])
-	by mail.maildlp.com (Postfix) with ESMTPS id 33FC9140120;
-	Mon, 18 Dec 2023 16:24:18 +0800 (CST)
-Received: from localhost.localdomain (10.175.112.125) by
- kwepemm000017.china.huawei.com (7.193.23.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 18 Dec 2023 16:24:16 +0800
-From: Tong Tiangen <tongtiangen@huawei.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, <wangkefeng.wang@huawei.com>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
-	<hpa@zytor.com>, Tony Luck <tony.luck@intel.com>, Andy Lutomirski
-	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Naoya Horiguchi <naoya.horiguchi@nec.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-edac@vger.kernel.org>,
-	<linux-mm@kvack.org>, Tong Tiangen <tongtiangen@huawei.com>, Guohanjun
-	<guohanjun@huawei.com>
-Subject: [PATCH -next v3 1/3] x86/mce: remove redundant fixup type EX_TYPE_COPY
-Date: Mon, 18 Dec 2023 16:23:58 +0800
-Message-ID: <20231218082400.2694698-2-tongtiangen@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231218082400.2694698-1-tongtiangen@huawei.com>
-References: <20231218082400.2694698-1-tongtiangen@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94402495DE;
+	Mon, 18 Dec 2023 19:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Upg9iYj4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D8XzmvWyFnPTarTDmce3OR/KtYCHJnFOT8wYLJhIMdQbfPW2d+KDa0a+ROL9lG7WfTcElKaJaGpxsb3o5TEjZey/YE9W8rDRIfozJLc+lnJF+Cjy+WW0rSiFFDdSg2dov6PhHmJQImiN3txlhz/1b4g2kan9KGJu0POOdO9JcY9tIzuqSi4xoLjS9Z3dNyoqTIjpNrAM3dX5OYYUJQW+Spl91tUiwcxl2fHVV+8pBoBuCaThLqr54dYZ6grQ1fjaKcDvYahUCuZuc02E6AGaObkU1s/IrE1I+ZmhHPMIa/IzxhBvsPVFVZtKXHRG1lfyte2eq+ek7FdLYmq+RJSrXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W2AUZAAWKVgQ5xSwKSbw+igZoRERnQMnfYj15B8a0Gw=;
+ b=bRNT/dxMAGJ1TdJsVzFwt6DS7opkLK39OvBXmTwscsSHBx+KEqLhwnW0XxYM+HD7zUUxANXa5O52AhMbrkWwrBbMXy0+ONyYrb8imvXB68aJ4jnJhCSHfkYAsxxxtNv9Xnfnwhm6znTUPq3PzHRfZF8Z3oV/tT1IG/m+VavzrbKEWhYkcq4+HVEwcj+jr1E4Xt7g74VB8VO34ykTRh9r00EN0ipJR0cqzXrNWLrv79xotOoEYO90bTP1am1RmliaDMYRPU0t3TxZIUpk20dLnKvcI4ch+Etf2sYC6wwCcBDu95CtRQLFdIcQcUw+iSqp0x31KVG2G6ldy4ZodwaD1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W2AUZAAWKVgQ5xSwKSbw+igZoRERnQMnfYj15B8a0Gw=;
+ b=Upg9iYj4cS2iG+7ylHgIDxqpmMl7EtAB2HYWelkbZGrVzmS0U1rjRdEa4Pf6C5i4XLF9YdP4E3pVLCR6oZNIRWi0CFg9IRxg4gPMBsl1cG4I2O6JwYddJST0XQOjlcEiHBXcM58UohuiildQx0GLQlgbLYv7ufdY92XhY2esSb0=
+Received: from DM6PR13CA0003.namprd13.prod.outlook.com (2603:10b6:5:bc::16) by
+ DM4PR12MB5087.namprd12.prod.outlook.com (2603:10b6:5:38a::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7091.38; Mon, 18 Dec 2023 19:04:20 +0000
+Received: from DS3PEPF000099D5.namprd04.prod.outlook.com
+ (2603:10b6:5:bc:cafe::79) by DM6PR13CA0003.outlook.office365.com
+ (2603:10b6:5:bc::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.17 via Frontend
+ Transport; Mon, 18 Dec 2023 19:04:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099D5.mail.protection.outlook.com (10.167.17.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7113.14 via Frontend Transport; Mon, 18 Dec 2023 19:04:19 +0000
+Received: from quartz-7b1chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Mon, 18 Dec
+ 2023 13:04:18 -0600
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: <bp@alien8.de>, <linux-edac@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <avadhut.naik@amd.com>,
+	<tony.luck@intel.com>, <john.allen@amd.com>, <william.roche@oracle.com>,
+	<muralidhara.mk@amd.com>, Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: [PATCH v4 0/3] AMD Address Translation Library
+Date: Mon, 18 Dec 2023 13:04:03 -0600
+Message-ID: <20231218190406.27479-1-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemm000017.china.huawei.com (7.193.23.46)
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D5:EE_|DM4PR12MB5087:EE_
+X-MS-Office365-Filtering-Correlation-Id: c842b539-2adb-475c-9e4b-08dbfffc236c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	g5VKz1qelI8ttUjQhdj1oaH09CCKiCDE1Hc5+WFrtnqMWWgTcukPnocGXnwtuf0vRG4pc3u66buTD8jafrk1kWQ+alRgLW5cEhhho/wF5ZA86dftplHq4nmhVnDVE5Ji5gCqoYhVmcvA9OAaLhJxNvSbriM3JNkBzY/3DpHqLHeZu/z0pO5BO8WSm+cmpHs+pvLnCdZ10JiKB5NAybs754rEcahv9KUfTMypQCwopRdXM1M1juYSePwYVEmJwsIgtz08yK4xhZqe78AgYlx8LNssQRTrv4nyyuJSEBskJEyW+hEQFCJw9zBy/gvM0WvLrhKueMpq2SlARwiHuPv/GbE9IGmNBbg5uslH/Mrf3l8X6DSioDxeSvY7Uocpg4e/6FvhYCx3cbJnZtAms9f7vfF6ljRoCAuymHoxrpi19rULi0/3QaLwXnx7astQHL/omyuDBFAtUQAYoPliXqWeG8G88nkXIIpdNG36oCBgJmRUchbO3MU9DJjeuKnq37XMAiKBkZwZNRuPYLa2zDGC/SQfx18XdA2grm3ujJTYc4LCEA2DUf6i1vvmCvP7xRms5FKdKuTJ2jGyXdpbqCu2DFNmoetI+w6ef7gzHYuu+jtobvwiuHnQZe5c+dT21KZAwQKBKt3+DqaM8azmmI0sok9obwCTipYbiL1pLRcf1T5zvBBIovvT2l1Ibw8LC7hVYqhHW5yPbdrF/paa1gfQDaDho3hWeXF1yZJCCqWrruz4um5OBKvhQBeNNnnEUYPWMgGW2KOKwSjOJAlRhMCKMw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(346002)(136003)(39860400002)(230922051799003)(1800799012)(451199024)(82310400011)(64100799003)(186009)(46966006)(40470700004)(36840700001)(83380400001)(16526019)(336012)(426003)(7696005)(2616005)(36860700001)(1076003)(4326008)(44832011)(47076005)(5660300002)(26005)(41300700001)(6666004)(110136005)(316002)(2906002)(478600001)(8676002)(8936002)(54906003)(70586007)(70206006)(82740400003)(36756003)(86362001)(81166007)(356005)(40480700001)(40460700003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2023 19:04:19.2500
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c842b539-2adb-475c-9e4b-08dbfffc236c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF000099D5.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5087
 
-In commit 034ff37d3407 ("x86: rewrite '__copy_user_nocache' function"),
-rewrited __copy_user_nocache() uses EX_TYPE_UACCESS instead of
-EX_TYPE_COPY，this change does not broken the MC safe copy for
-__copy_user_nocache(), but as a result, there's no place for EX_TYPE_COPY
-to use. Therefore, we remove the definition of EX_TYPE_COPY.
+Hi all,
 
-Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
----
- arch/x86/include/asm/asm.h                 |  3 ---
- arch/x86/include/asm/extable_fixup_types.h | 23 +++++++++++-----------
- arch/x86/kernel/cpu/mce/severity.c         |  1 -
- arch/x86/mm/extable.c                      |  9 ---------
- 4 files changed, 11 insertions(+), 25 deletions(-)
+This revision addresses comments from Boris for v3. The most substantial
+change is the removal of the library "stub".
 
-diff --git a/arch/x86/include/asm/asm.h b/arch/x86/include/asm/asm.h
-index fbcfec4dc4cc..692409ea0c37 100644
---- a/arch/x86/include/asm/asm.h
-+++ b/arch/x86/include/asm/asm.h
-@@ -215,9 +215,6 @@ register unsigned long current_stack_pointer asm(_ASM_SP);
- #define _ASM_EXTABLE_UA(from, to)				\
- 	_ASM_EXTABLE_TYPE(from, to, EX_TYPE_UACCESS)
- 
--#define _ASM_EXTABLE_CPY(from, to)				\
--	_ASM_EXTABLE_TYPE(from, to, EX_TYPE_COPY)
--
- #define _ASM_EXTABLE_FAULT(from, to)				\
- 	_ASM_EXTABLE_TYPE(from, to, EX_TYPE_FAULT)
- 
-diff --git a/arch/x86/include/asm/extable_fixup_types.h b/arch/x86/include/asm/extable_fixup_types.h
-index 991e31cfde94..6126af55b85b 100644
---- a/arch/x86/include/asm/extable_fixup_types.h
-+++ b/arch/x86/include/asm/extable_fixup_types.h
-@@ -36,18 +36,17 @@
- #define	EX_TYPE_DEFAULT			 1
- #define	EX_TYPE_FAULT			 2
- #define	EX_TYPE_UACCESS			 3
--#define	EX_TYPE_COPY			 4
--#define	EX_TYPE_CLEAR_FS		 5
--#define	EX_TYPE_FPU_RESTORE		 6
--#define	EX_TYPE_BPF			 7
--#define	EX_TYPE_WRMSR			 8
--#define	EX_TYPE_RDMSR			 9
--#define	EX_TYPE_WRMSR_SAFE		10 /* reg := -EIO */
--#define	EX_TYPE_RDMSR_SAFE		11 /* reg := -EIO */
--#define	EX_TYPE_WRMSR_IN_MCE		12
--#define	EX_TYPE_RDMSR_IN_MCE		13
--#define	EX_TYPE_DEFAULT_MCE_SAFE	14
--#define	EX_TYPE_FAULT_MCE_SAFE		15
-+#define	EX_TYPE_CLEAR_FS		 4
-+#define	EX_TYPE_FPU_RESTORE		 5
-+#define	EX_TYPE_BPF			 6
-+#define	EX_TYPE_WRMSR			 7
-+#define	EX_TYPE_RDMSR			 8
-+#define	EX_TYPE_WRMSR_SAFE		 9 /* reg := -EIO */
-+#define	EX_TYPE_RDMSR_SAFE		10 /* reg := -EIO */
-+#define	EX_TYPE_WRMSR_IN_MCE		11
-+#define	EX_TYPE_RDMSR_IN_MCE		12
-+#define	EX_TYPE_DEFAULT_MCE_SAFE	13
-+#define	EX_TYPE_FAULT_MCE_SAFE		14
- 
- #define	EX_TYPE_POP_REG			16 /* sp += sizeof(long) */
- #define EX_TYPE_POP_ZERO		(EX_TYPE_POP_REG | EX_DATA_IMM(0))
-diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
-index c4477162c07d..bca780fa5e57 100644
---- a/arch/x86/kernel/cpu/mce/severity.c
-+++ b/arch/x86/kernel/cpu/mce/severity.c
-@@ -290,7 +290,6 @@ static noinstr int error_context(struct mce *m, struct pt_regs *regs)
- 
- 	switch (fixup_type) {
- 	case EX_TYPE_UACCESS:
--	case EX_TYPE_COPY:
- 		if (!copy_user)
- 			return IN_KERNEL;
- 		m->kflags |= MCE_IN_KERNEL_COPYIN;
-diff --git a/arch/x86/mm/extable.c b/arch/x86/mm/extable.c
-index 271dcb2deabc..2354c0156e51 100644
---- a/arch/x86/mm/extable.c
-+++ b/arch/x86/mm/extable.c
-@@ -163,13 +163,6 @@ static bool ex_handler_uaccess(const struct exception_table_entry *fixup,
- 	return ex_handler_default(fixup, regs);
- }
- 
--static bool ex_handler_copy(const struct exception_table_entry *fixup,
--			    struct pt_regs *regs, int trapnr)
--{
--	WARN_ONCE(trapnr == X86_TRAP_GP, "General protection fault in user access. Non-canonical address?");
--	return ex_handler_fault(fixup, regs, trapnr);
--}
--
- static bool ex_handler_msr(const struct exception_table_entry *fixup,
- 			   struct pt_regs *regs, bool wrmsr, bool safe, int reg)
- {
-@@ -267,8 +260,6 @@ int fixup_exception(struct pt_regs *regs, int trapnr, unsigned long error_code,
- 		return ex_handler_fault(e, regs, trapnr);
- 	case EX_TYPE_UACCESS:
- 		return ex_handler_uaccess(e, regs, trapnr, fault_addr);
--	case EX_TYPE_COPY:
--		return ex_handler_copy(e, regs, trapnr);
- 	case EX_TYPE_CLEAR_FS:
- 		return ex_handler_clear_fs(e, regs);
- 	case EX_TYPE_FPU_RESTORE:
+Thanks,
+Yazen
+
+Yazen Ghannam (3):
+  RAS: Introduce AMD Address Translation Library
+  EDAC/amd64: Use new AMD Address Translation Library
+  Documentation: RAS: Add index and address translation section
+
+ Documentation/RAS/address-translation.rst     |  24 +
+ .../RAS/{ras.rst => error-decoding.rst}       |  11 +-
+ Documentation/RAS/index.rst                   |  14 +
+ Documentation/index.rst                       |   2 +-
+ MAINTAINERS                                   |   7 +
+ drivers/edac/Kconfig                          |   1 +
+ drivers/edac/amd64_edac.c                     | 282 +-------
+ drivers/ras/Kconfig                           |   1 +
+ drivers/ras/Makefile                          |   2 +
+ drivers/ras/amd/atl/Kconfig                   |  20 +
+ drivers/ras/amd/atl/Makefile                  |  18 +
+ drivers/ras/amd/atl/access.c                  | 106 +++
+ drivers/ras/amd/atl/core.c                    | 225 ++++++
+ drivers/ras/amd/atl/dehash.c                  | 416 +++++++++++
+ drivers/ras/amd/atl/denormalize.c             | 616 ++++++++++++++++
+ drivers/ras/amd/atl/internal.h                | 297 ++++++++
+ drivers/ras/amd/atl/map.c                     | 667 ++++++++++++++++++
+ drivers/ras/amd/atl/reg_fields.h              | 603 ++++++++++++++++
+ drivers/ras/amd/atl/system.c                  | 283 ++++++++
+ drivers/ras/amd/atl/umc.c                     |  41 ++
+ drivers/ras/ras.c                             |  31 +
+ include/linux/ras.h                           |  11 +
+ 22 files changed, 3392 insertions(+), 286 deletions(-)
+ create mode 100644 Documentation/RAS/address-translation.rst
+ rename Documentation/RAS/{ras.rst => error-decoding.rst} (73%)
+ create mode 100644 Documentation/RAS/index.rst
+ create mode 100644 drivers/ras/amd/atl/Kconfig
+ create mode 100644 drivers/ras/amd/atl/Makefile
+ create mode 100644 drivers/ras/amd/atl/access.c
+ create mode 100644 drivers/ras/amd/atl/core.c
+ create mode 100644 drivers/ras/amd/atl/dehash.c
+ create mode 100644 drivers/ras/amd/atl/denormalize.c
+ create mode 100644 drivers/ras/amd/atl/internal.h
+ create mode 100644 drivers/ras/amd/atl/map.c
+ create mode 100644 drivers/ras/amd/atl/reg_fields.h
+ create mode 100644 drivers/ras/amd/atl/system.c
+ create mode 100644 drivers/ras/amd/atl/umc.c
+
+
+base-commit: ba7d5744cf6fac619fd0bf1165c90ee930956ebc
 -- 
-2.25.1
+2.34.1
 
