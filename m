@@ -1,22 +1,22 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A18D1BDCC;
-	Mon, 15 Jan 2024 23:25:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68371BF5C;
+	Mon, 15 Jan 2024 23:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RdmgxUTx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E34C433C7;
-	Mon, 15 Jan 2024 23:25:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbMahGay"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9D0C43394;
+	Mon, 15 Jan 2024 23:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705361147;
-	bh=foiJjfDXSHgeJu4rXvZQ2haMWR0V4dhnE3D0sDjriHQ=;
+	s=k20201202; t=1705361216;
+	bh=IAAKBu3o4sQwDn5Oi2V3pX2k/oB7TFgt7tPQPHEaMe8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RdmgxUTxLfq49hLj3hpblK7uupcZuS260RpdALyJi98ZhgroJAQBscYUCLb7XbEk9
-	 KgrSjDZ8631/bMsu4CSy27D7LyxX3kPC0qVsszhZuwte26NyqhUefeTUE3BHYAt4Cj
-	 suVaNC7Q9L+qmxGn5670lL6HcbOtDeEN0UdnNhub4B0ddaT2taB/ngAk7x38Lz3nLa
-	 Q813Deo3A7s6bYkH+3Ejmx0V/AJhzs2f+5Vp/vD+kVT1Lyf+kEmaVTYRSImJ8FHMnB
-	 d2zqECTYOYe9lEgTYVVPb/uGzqalLrp7l3b118awpGyyGUD6SrN3D8PwblFRw653Dj
-	 qWdfS+ufI5tkA==
+	b=VbMahGayO6D5O0ZcZT3FcEbzl8KLwt8twRmM1SRSyY6K6dK/iJvyhsmjN4DrDKZkE
+	 QjzhW2aEgfvdpsLZOhPx6j1avGYHWx1C0BB8Hki/mhn7pFaY9gS+inhC15vnf59T/9
+	 Xdq8e4x7mSo/7pzbbDZbL0YdHa8FC5TtoPe5JL4IKRT4EAGgH7QZconLhz8fac5qEm
+	 frUUPz2fffhdfx4Okk/suLoTd4upUIm1r10TfH1BRA2coSR8/24IacXo40S+VBeBk1
+	 WIUiJazJ+CXbsdNJ4PvAHItmb7QDDC1XuMltEvkoDX0nz2GcUDnq38Tf5q1/FzCJ77
+	 0vKyWVAUhxlgg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -30,12 +30,12 @@ Cc: Zhiquan Li <zhiquan1.li@intel.com>,
 	dave.hansen@linux.intel.com,
 	x86@kernel.org,
 	linux-edac@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 14/14] x86/mce: Mark fatal MCE's page as poison to avoid panic in the kdump kernel
-Date: Mon, 15 Jan 2024 18:24:37 -0500
-Message-ID: <20240115232501.208889-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 14/14] x86/mce: Mark fatal MCE's page as poison to avoid panic in the kdump kernel
+Date: Mon, 15 Jan 2024 18:25:48 -0500
+Message-ID: <20240115232611.209265-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240115232501.208889-1-sashal@kernel.org>
-References: <20240115232501.208889-1-sashal@kernel.org>
+In-Reply-To: <20240115232611.209265-1-sashal@kernel.org>
+References: <20240115232611.209265-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.12
+X-stable-base: Linux 6.1.73
 Content-Transfer-Encoding: 8bit
 
 From: Zhiquan Li <zhiquan1.li@intel.com>
@@ -81,7 +81,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 16 insertions(+)
 
 diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 6f35f724cc14..20ab11aec60b 100644
+index f1a748da5fab..cad6ea1911e9 100644
 --- a/arch/x86/kernel/cpu/mce/core.c
 +++ b/arch/x86/kernel/cpu/mce/core.c
 @@ -44,6 +44,7 @@
@@ -92,7 +92,7 @@ index 6f35f724cc14..20ab11aec60b 100644
  
  #include <asm/intel-family.h>
  #include <asm/processor.h>
-@@ -233,6 +234,7 @@ static noinstr void mce_panic(const char *msg, struct mce *final, char *exp)
+@@ -239,6 +240,7 @@ static noinstr void mce_panic(const char *msg, struct mce *final, char *exp)
  	struct llist_node *pending;
  	struct mce_evt_llist *l;
  	int apei_err = 0;
@@ -100,7 +100,7 @@ index 6f35f724cc14..20ab11aec60b 100644
  
  	/*
  	 * Allow instrumentation around external facilities usage. Not that it
-@@ -286,6 +288,20 @@ static noinstr void mce_panic(const char *msg, struct mce *final, char *exp)
+@@ -292,6 +294,20 @@ static noinstr void mce_panic(const char *msg, struct mce *final, char *exp)
  	if (!fake_panic) {
  		if (panic_timeout == 0)
  			panic_timeout = mca_cfg.panic_timeout;
