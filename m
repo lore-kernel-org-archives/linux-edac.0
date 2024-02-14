@@ -1,400 +1,287 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876782919;
-	Tue, 13 Feb 2024 18:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707849304; cv=none; b=rvXoOSvxQp71wHS3MafBZmRg6D8qjWWm6cVTVnsovpr5QqqVAD0bC97DXFnL7Rf8JjPWOPx4iY9tCc1loeiKmlkGIkGleKcVp37jNsiV59+GLJOLS+vxOeRUnUt90oYsRDTdgYvZIy/Ywzzli904Qnh/11m0sFMnB0oC772av1g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707849304; c=relaxed/simple;
-	bh=pMJQFU0nuKzlBdA9y2O/o3Z4I6k/49p3R5XkJkL/Obs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WDqe9nS3iUZuKSfEhXjSMxF4ZI3vGcdEbBUpAopUm9uiiLp0vvWbbKBmxg2DrkveeM4XMX919CQ7/dRRkEhrDjSqxlnsrsQ3lPMcWvOm5fP6OEnBbxOAGW8+fb+c4xhCHyNiR+rKoG5D4PyJ2E09lDR7qsga06MqUlfy9Bs+Xek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=M4JttkyG; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC075945A;
+	Wed, 14 Feb 2024 03:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707881734; cv=fail; b=rf3goDawFognFr0ZKOHurfc7OIlJWySpA83OcpZKxgPkGDh7mwDTNFXUF7up+nA6EzSLy6DTXwZ1nwzGLugsjlOW6g0gRYSRCWctwVzwWth+NJaITGbyXfiyr1KQoYwjDYy5YHqGYfe/L+l6D08tMIK2pFH1MC+6f7Ss1CUmPqo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707881734; c=relaxed/simple;
+	bh=Cpi0eCfGDWwKyGH60UTituQHta3MTs2CyE01xy+ceFE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SYx0B4CtkVcDybhmRkJDNZqfTv7IQEYFIfhMd/tBvsiTsYY4b+Wv1xt17PlXtL6aEWy53OGz3pJ0WeKvzS1bkN1R1Z/Ik7YZ9vHh3gTD8vbObmyPX3LL/C08GP0iCYUQHTfMs/BLVw7MGC4PrLJJpX0+SxAVbtv9hVDTFYy4uCA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1qnibZ6Z; arc=fail smtp.client-ip=40.107.93.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="M4JttkyG"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2A00140E01A9;
-	Tue, 13 Feb 2024 18:34:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id CklShk4rq2gn; Tue, 13 Feb 2024 18:34:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1707849295; bh=Qnoqpp6UPtVAy039iLb/qnIcn87hN9Ob4iI5jL6p2yM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M4JttkyGrxlHZ1p4tqswaGwB7nUiwyb59LxzQz0IeR/Yqd6ehuYqNVpFJBAnsqX91
-	 2FOPdugf/E6/SfNC1hyvJFBl5WxeWiE+9k+YwrH6/SqN9INSurjU/7U47nHy942Hv6
-	 Icfs0psHwy5T8PMC6hbzCxxX1uuwT/dJ6abHyEBuFF513u16ZD55aPZ97tGpnpNGic
-	 5R5HDA5+IyPXPkJAzreOx2ENVLgLo/qEyH/2QcPly7z6fELjVuibelY0tRBbvd3Vei
-	 ZCAmMT8S8liKzhLFmAg9yW1q1FnOji+Sw5g6vsnQwHsqUdSNfjqPa2HjomWwa8iz2E
-	 xxZQL7d+hRQ0Q43camzhdhDmfI1S2kIrPBqaXFmisrH0uFTA36QGrFv1fXPDYVx5wi
-	 0iZsceGkwLBP1BYWQeFC9l6+n6zhE67QaJiI8W7MA7OWmjm7us3OcjX2RQ4ME7SARb
-	 brXOGHmxcMP/u4jZxSNzgX8drCs2dPkkcCDsRYFeVXRFTctMzWLQeGYSS0zEgKrSfG
-	 GQ23B0EgEZ5twfDtwIkAPV29oBuEmL4MvaaHrJHkr3WhKEPTMU1xS5gVADi9GZH/QT
-	 Fp/c6cWnrglA27QlmvUz/zYatBJGQdzoJUcIWtbPXZVaNIKhup7pysyigUiy1Mc7ob
-	 BUNaLxfqcI9ZbjDxbDPHq/Ps=
-Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BE86F40E0192;
-	Tue, 13 Feb 2024 18:34:46 +0000 (UTC)
-Date: Tue, 13 Feb 2024 19:34:39 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: linux-edac@vger.kernel.org, git@amd.com, sai.krishna.potthuri@amd.com,
-	linux-kernel@vger.kernel.org, tony.luck@intel.com,
-	james.morse@arm.com, mchehab@kernel.org, rric@kernel.org
-Subject: Re: [PATCH v3] EDAC/versal: Make the bits in error injection
- configurable
-Message-ID: <20240213183439.GDZcu2PwWnFxsRp7x2@fat_crate.local>
-References: <20240208094653.11704-1-shubhrajyoti.datta@amd.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1qnibZ6Z"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lICBWvOECGcUEbIpQRCfdGudCM4s6+ygcu7G8He710+jd/WEPO0ADTSNxOiz6gSZzR1XFhaR0CdPW3uSuUgb0JsplVSUd2Yq6gne2nsmUmFiBoYc0uNLSGE8b9TzgxiTbzXoG7xnSK9ug1XwP0+85F/viJnGVx+AosZU/WkOZIOkFkfHAwGwjfMdVQ0G/uxY+b0HKjzCxvbAleJdOyak/UvKzyTNdZ+GLl0p73Fbj0IjkcHMurBfhctJ8nlYt7c7q0Ubm0edEpn4TPwIouIG3ppIiYkuwd3tm1d9CiUpPzn5jUzlkO0Lm2s4B1CNI+LgPCKcWaydHb64jlmAD136uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/V9qXthCZLwHnNIJ3EDtMWR1WEfu1QkFnKKujxJ5uYU=;
+ b=lmi+wUl2s/DJDLNvplqX/N6bPtcEl4HWkzh6SEodDfKyvDMK+XGrpktmU42SrkzGEGotwg6t8ow5zaIPEo9Ujz0nOiwYCq9IOmxtfxFM6SfbluzRH/pS43avoZpAIju3pLoQDRGNVsMcD8eG0hRG8Do2hx8oe+M88Ljfblb42hwSr4p9cpTiv9wSLqc+hl0jMZbGLWEHwiRGqB8VdilOYr8LXjtNP1z5dgSdeSGNSDWn0knw366aV19XdSOOtqNrqMP8oDh9AmIxKRwpHOmpNQhIpvhY5VTsIWG4YofWvrOS3DrwS8o0itxSI+DletkT29hNRqcw3zRxUM3DF0h3kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/V9qXthCZLwHnNIJ3EDtMWR1WEfu1QkFnKKujxJ5uYU=;
+ b=1qnibZ6ZoGExHKcb6LjSzPAvTaYA1UWwTUCrFvmT0yT3/aJ+pjlcXrs0w139NrG6vA7a4UE2wm8A7Iq9tTZ9SQixC2v8NiVN7putIjbP5Ni1ZPKxswOW+2Ib24SJQomgjTI+JB+oZnWCH+eoZVwMzaSNkirKgVOF6H8IYflWgjk=
+Received: from BN9PR03CA0594.namprd03.prod.outlook.com (2603:10b6:408:10d::29)
+ by SA3PR12MB9179.namprd12.prod.outlook.com (2603:10b6:806:3a1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.21; Wed, 14 Feb
+ 2024 03:35:30 +0000
+Received: from BN2PEPF000044A1.namprd02.prod.outlook.com
+ (2603:10b6:408:10d:cafe::20) by BN9PR03CA0594.outlook.office365.com
+ (2603:10b6:408:10d::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39 via Frontend
+ Transport; Wed, 14 Feb 2024 03:35:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF000044A1.mail.protection.outlook.com (10.167.243.152) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7292.25 via Frontend Transport; Wed, 14 Feb 2024 03:35:30 +0000
+Received: from quartz-7b1chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 13 Feb
+ 2024 21:35:27 -0600
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: <bp@alien8.de>, <tony.luck@intel.com>, <linux-edac@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <avadhut.naik@amd.com>,
+	<john.allen@amd.com>, <muralidhara.mk@amd.com>,
+	<naveenkrishna.chatradhi@amd.com>, <sathyapriya.k@amd.com>, Yazen Ghannam
+	<yazen.ghannam@amd.com>
+Subject: [PATCH 1/2] RAS/AMD/ATL, EDAC/amd64: Move MI300 Row Retirement to ATL
+Date: Tue, 13 Feb 2024 21:35:15 -0600
+Message-ID: <20240214033516.1344948-2-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240214033516.1344948-1-yazen.ghannam@amd.com>
+References: <20240214033516.1344948-1-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240208094653.11704-1-shubhrajyoti.datta@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A1:EE_|SA3PR12MB9179:EE_
+X-MS-Office365-Filtering-Correlation-Id: e9958659-9740-423f-9d49-08dc2d0dfe18
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	uaqV9xwJ9KoaiCMqAz9wBJEc1dm67y4T+UGvqyxlkqn+WuODTa4jPLFbdglx5ipq7M9pkDRNmsVz90W+roEGlpzKuny3qtiegc8MdABb+xdZpmsRH7k4FyzCBThyxVcSMsdvP9cDwlUDXt7x5KqOD2I6qivpcEyYwjZHaNlFMn6D2jD3yMnuxRwNB74APHAJJEqogRu1yQaaPqHaM9HDDzMPBISZsIOk/bWvKrd5uAcvsO8jB2fdEl37cs3LeKehIj6KgPy/hEnzfifTy04mvJ7eqp3I/+YxA/pjDQGlQffJ0WNXIrCY7X/YEi/vVXdbtJPHRyqlSopWvyifcF21VrF7aV75L29Hpkx1ntwK/TVBwBg3phzR9QcxNRaJI91sN/MypaKlAHwPJxyP0vOcUq+CmaZzzkE1H3rfc8qA2nw6bpYsdL9p4IXUWTZ855hYTOE1DyKaHNAaBHf810NCdB83QSVu1M/2flv3zDOTBQBxi/fBtSnYgo1VN2Hm8xd1owbJTKNU2ANdpTKfdOLb0ZBmc+MxulUUrPNiXyh4ow3qxV5zlxx8mTer1GUGreWod3bmtswuTexr4nnG4q4Q/xEBXGBIeP+q+ExTHoYeEWQ=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(396003)(39860400002)(136003)(230922051799003)(82310400011)(451199024)(1800799012)(64100799003)(186009)(36840700001)(46966006)(40470700004)(7696005)(36756003)(44832011)(2906002)(70206006)(86362001)(54906003)(81166007)(336012)(8676002)(5660300002)(356005)(426003)(478600001)(82740400003)(70586007)(110136005)(6666004)(316002)(26005)(83380400001)(4326008)(1076003)(41300700001)(8936002)(2616005)(16526019);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 03:35:30.0149
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9958659-9740-423f-9d49-08dc2d0dfe18
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF000044A1.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9179
 
-On Thu, Feb 08, 2024 at 03:16:53PM +0530, Shubhrajyoti Datta wrote:
-> Currently the error injection for correctable and uncorrectable errors
-> bits are hardcoded. To make it configurable add separate sysfs
-> entries to set the bit positions for injecting CE and UE errors.
-> It injects single bit error for CE and two bits errors for UE.
-> 
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-> ---
+DRAM row retirement depends on model-specific information that is best
+done within the AMD Address Translation Library.
 
-Did some touchups ontop, especially make inject_data_ce_store() verify
-the user input first and then do the injection, just like the ue_store
-counterpart does.
+Export a generic wrapper function for other modules to use. Add any
+model-specific helpers here.
 
-Pls check whether injection still works ok.
-
-Thx.
-
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
-From: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Date: Thu, 8 Feb 2024 15:16:53 +0530
-Subject: [PATCH] EDAC/versal: Make the bit position of injected errors configurable
+ drivers/edac/Kconfig        |  1 -
+ drivers/edac/amd64_edac.c   | 48 ----------------------------------
+ drivers/ras/amd/atl/Kconfig |  1 +
+ drivers/ras/amd/atl/umc.c   | 51 +++++++++++++++++++++++++++++++++++++
+ include/linux/ras.h         |  2 ++
+ 5 files changed, 54 insertions(+), 49 deletions(-)
 
-Currently, the bit positions to inject correctable and uncorrectable
-errors are hardcoded. To make that configurable add separate sysfs entries
-to set the bit positions for injecting CE and UE errors. Allow for
-single bit error for CE and two bits errors for UE injection.
-
-  [ bp: Massage. ]
-
-Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Link: https://lore.kernel.org/r/20240208094653.11704-1-shubhrajyoti.datta@amd.com
----
- drivers/edac/versal_edac.c | 193 +++++++++++++++++++++++++++++++------
- 1 file changed, 161 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/edac/versal_edac.c b/drivers/edac/versal_edac.c
-index 62caf454b567..3016870689f1 100644
---- a/drivers/edac/versal_edac.c
-+++ b/drivers/edac/versal_edac.c
-@@ -42,8 +42,11 @@
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index 8b147403c955..16c8de5050e5 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -78,7 +78,6 @@ config EDAC_GHES
+ config EDAC_AMD64
+ 	tristate "AMD64 (Opteron, Athlon64)"
+ 	depends on AMD_NB && EDAC_DECODE_MCE
+-	depends on MEMORY_FAILURE
+ 	imply AMD_ATL
+ 	help
+ 	  Support for error detection and correction of DRAM ECC errors on
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index ee2f3ff15ab7..ca9a8641652d 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -2795,51 +2795,6 @@ static void umc_get_err_info(struct mce *m, struct err_info *err)
+ 	err->csrow = m->synd & 0x7;
+ }
  
- #define ECCW0_FLIP_CTRL				0x109C
- #define ECCW0_FLIP0_OFFSET			0x10A0
-+#define ECCW0_FLIP0_BITS			31
-+#define ECCW0_FLIP1_OFFSET			0x10A4
- #define ECCW1_FLIP_CTRL				0x10AC
- #define ECCW1_FLIP0_OFFSET			0x10B0
-+#define ECCW1_FLIP1_OFFSET			0x10B4
- #define ECCR0_CERR_STAT_OFFSET			0x10BC
- #define ECCR0_CE_ADDR_LO_OFFSET			0x10C0
- #define ECCR0_CE_ADDR_HI_OFFSET			0x10C4
-@@ -116,9 +119,6 @@
- #define XDDR_BUS_WIDTH_32			1
- #define XDDR_BUS_WIDTH_16			2
- 
--#define ECC_CEPOISON_MASK			0x1
--#define ECC_UEPOISON_MASK			0x3
+-/*
+- * When a DRAM ECC error occurs on MI300 systems, it is recommended to retire
+- * all memory within that DRAM row. This applies to the memory with a DRAM
+- * bank.
+- *
+- * To find the memory addresses, loop through permutations of the DRAM column
+- * bits and find the System Physical address of each. The column bits are used
+- * to calculate the intermediate Normalized address, so all permutations should
+- * be checked.
+- *
+- * See amd_atl::convert_dram_to_norm_addr_mi300() for MI300 address formats.
+- */
+-#define MI300_UMC_MCA_COL	GENMASK(5, 1)
+-#define MI300_NUM_COL		BIT(HWEIGHT(MI300_UMC_MCA_COL))
+-static void retire_row_mi300(struct atl_err *a_err)
+-{
+-	unsigned long addr;
+-	struct page *p;
+-	u8 col;
 -
- #define XDDR_MAX_ROW_CNT			18
- #define XDDR_MAX_COL_CNT			10
- #define XDDR_MAX_RANK_CNT			2
-@@ -133,6 +133,7 @@
-  * https://docs.xilinx.com/r/en-US/am012-versal-register-reference/PCSR_LOCK-XRAM_SLCR-Register
-  */
- #define PCSR_UNLOCK_VAL				0xF9E8D7C6
-+#define PCSR_LOCK_VAL				1
- #define XDDR_ERR_TYPE_CE			0
- #define XDDR_ERR_TYPE_UE			1
- 
-@@ -142,6 +143,7 @@
- #define XILINX_DRAM_SIZE_12G			3
- #define XILINX_DRAM_SIZE_16G			4
- #define XILINX_DRAM_SIZE_32G			5
-+#define NUM_UE_BITPOS				2
- 
- /**
-  * struct ecc_error_info - ECC error log information.
-@@ -479,7 +481,7 @@ static void err_callback(const u32 *payload, void *data)
- 	writel(regval, priv->ddrmc_baseaddr + XDDR_ISR_OFFSET);
- 
- 	/* Lock the PCSR registers */
--	writel(1, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
-+	writel(PCSR_LOCK_VAL, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
- 	edac_dbg(3, "Total error count CE %d UE %d\n",
- 		 priv->ce_cnt, priv->ue_cnt);
- }
-@@ -650,7 +652,7 @@ static void enable_intr(struct edac_priv *priv)
- 	writel(XDDR_IRQ_UE_MASK,
- 	       priv->ddrmc_baseaddr + XDDR_IRQ1_EN_OFFSET);
- 	/* Lock the PCSR registers */
--	writel(1, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
-+	writel(PCSR_LOCK_VAL, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
- }
- 
- static void disable_intr(struct edac_priv *priv)
-@@ -663,7 +665,7 @@ static void disable_intr(struct edac_priv *priv)
- 	       priv->ddrmc_baseaddr + XDDR_IRQ_DIS_OFFSET);
- 
- 	/* Lock the PCSR registers */
--	writel(1, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
-+	writel(PCSR_LOCK_VAL, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
- }
- 
- #define to_mci(k) container_of(k, struct mem_ctl_info, dev)
-@@ -734,38 +736,63 @@ static void poison_setup(struct edac_priv *priv)
- 	writel(regval, priv->ddrmc_noc_baseaddr + XDDR_NOC_REG_ADEC15_OFFSET);
- }
- 
--static ssize_t xddr_inject_data_poison_store(struct mem_ctl_info *mci,
--					     const char __user *data)
-+static void xddr_inject_data_ce_store(struct mem_ctl_info *mci, u8 ce_bitpos)
+-	for (col = 0; col < MI300_NUM_COL; col++) {
+-		a_err->addr &= ~MI300_UMC_MCA_COL;
+-		a_err->addr |= FIELD_PREP(MI300_UMC_MCA_COL, col);
+-
+-		addr = amd_convert_umc_mca_addr_to_sys_addr(a_err);
+-		if (IS_ERR_VALUE(addr))
+-			continue;
+-
+-		addr = PHYS_PFN(addr);
+-
+-		/*
+-		 * Skip invalid or already poisoned pages to avoid unnecessary
+-		 * error messages from memory_failure().
+-		 */
+-		p = pfn_to_online_page(addr);
+-		if (!p)
+-			continue;
+-
+-		if (PageHWPoison(p))
+-			continue;
+-
+-		memory_failure(addr, 0);
+-	}
+-}
+-
+ static void decode_umc_error(int node_id, struct mce *m)
  {
-+	u32 ecc0_flip0, ecc1_flip0, ecc0_flip1, ecc1_flip1;
- 	struct edac_priv *priv = mci->pvt_info;
+ 	u8 ecc_type = (m->status >> 45) & 0x3;
+@@ -2890,9 +2845,6 @@ static void decode_umc_error(int node_id, struct mce *m)
  
--	writel(0, priv->ddrmc_baseaddr + ECCW0_FLIP0_OFFSET);
--	writel(0, priv->ddrmc_baseaddr + ECCW1_FLIP0_OFFSET);
--
--	if (strncmp(data, "CE", 2) == 0) {
--		writel(ECC_CEPOISON_MASK, priv->ddrmc_baseaddr +
--		       ECCW0_FLIP0_OFFSET);
--		writel(ECC_CEPOISON_MASK, priv->ddrmc_baseaddr +
--		       ECCW1_FLIP0_OFFSET);
-+	if (ce_bitpos < ECCW0_FLIP0_BITS) {
-+		ecc0_flip0 = BIT(ce_bitpos);
-+		ecc1_flip0 = BIT(ce_bitpos);
-+		ecc0_flip1 = 0;
-+		ecc1_flip1 = 0;
- 	} else {
--		writel(ECC_UEPOISON_MASK, priv->ddrmc_baseaddr +
--		       ECCW0_FLIP0_OFFSET);
--		writel(ECC_UEPOISON_MASK, priv->ddrmc_baseaddr +
--		       ECCW1_FLIP0_OFFSET);
-+		ce_bitpos = ce_bitpos - ECCW0_FLIP0_BITS;
-+		ecc0_flip1 = BIT(ce_bitpos);
-+		ecc1_flip1 = BIT(ce_bitpos);
-+		ecc0_flip0 = 0;
-+		ecc1_flip0 = 0;
- 	}
+ 	error_address_to_page_and_offset(sys_addr, &err);
  
--	/* Lock the PCSR registers */
--	writel(1, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
+-	if (pvt->fam == 0x19 && pvt->dram_type == MEM_HBM3)
+-		retire_row_mi300(&a_err);
 -
--	return 0;
-+	writel(ecc0_flip0, priv->ddrmc_baseaddr + ECCW0_FLIP0_OFFSET);
-+	writel(ecc1_flip0, priv->ddrmc_baseaddr + ECCW1_FLIP0_OFFSET);
-+	writel(ecc0_flip1, priv->ddrmc_baseaddr + ECCW0_FLIP1_OFFSET);
-+	writel(ecc1_flip1, priv->ddrmc_baseaddr + ECCW1_FLIP1_OFFSET);
+ log_error:
+ 	__log_ecc_error(mci, &err, ecc_type);
+ }
+diff --git a/drivers/ras/amd/atl/Kconfig b/drivers/ras/amd/atl/Kconfig
+index a43513a700f1..df49c23e7f62 100644
+--- a/drivers/ras/amd/atl/Kconfig
++++ b/drivers/ras/amd/atl/Kconfig
+@@ -10,6 +10,7 @@
+ config AMD_ATL
+ 	tristate "AMD Address Translation Library"
+ 	depends on AMD_NB && X86_64 && RAS
++	depends on MEMORY_FAILURE
+ 	default N
+ 	help
+ 	  This library includes support for implementation-specific
+diff --git a/drivers/ras/amd/atl/umc.c b/drivers/ras/amd/atl/umc.c
+index 7e310d1dfcfc..08c6dbd44c62 100644
+--- a/drivers/ras/amd/atl/umc.c
++++ b/drivers/ras/amd/atl/umc.c
+@@ -239,6 +239,57 @@ static unsigned long convert_dram_to_norm_addr_mi300(unsigned long addr)
+ 	return addr;
  }
  
--static ssize_t inject_data_poison_store(struct file *file, const char __user *data,
--					size_t count, loff_t *ppos)
 +/*
-+ * To inject a correctable error, the following steps are needed:
++ * When a DRAM ECC error occurs on MI300 systems, it is recommended to retire
++ * all memory within that DRAM row. This applies to the memory with a DRAM
++ * bank.
 + *
-+ * - Write the correctable error bit position value:
-+ *	echo <bit_pos val> > /sys/kernel/debug/edac/<controller instance>/inject_ce
++ * To find the memory addresses, loop through permutations of the DRAM column
++ * bits and find the System Physical address of each. The column bits are used
++ * to calculate the intermediate Normalized address, so all permutations should
++ * be checked.
 + *
-+ * poison_setup() derives the row, column, bank, group and rank and
-+ * writes to the ADEC registers based on the address given by the user.
-+ *
-+ * The ADEC12 and ADEC13 are mask registers; write 0 to make sure default
-+ * configuration is there and no addresses are masked.
-+ *
-+ * The row, column, bank, group and rank registers are written to the
-+ * match ADEC bit to generate errors at the particular address. ADEC14
-+ * and ADEC15 have the match bits.
-+ *
-+ * xddr_inject_data_ce_store() updates the ECC FLIP registers with the
-+ * bits to be corrupted based on the bit position given by the user.
-+ *
-+ * Upon doing a read to the address the errors are injected.
++ * See amd_atl::convert_dram_to_norm_addr_mi300() for MI300 address formats.
 + */
-+static ssize_t inject_data_ce_store(struct file *file, const char __user *data,
-+				    size_t count, loff_t *ppos)
- {
- 	struct device *dev = file->private_data;
- 	struct mem_ctl_info *mci = to_mci(dev);
- 	struct edac_priv *priv = mci->pvt_info;
-+	u8 ce_bitpos;
-+	int ret;
++#define MI300_NUM_COL		BIT(HWEIGHT(MI300_UMC_MCA_COL))
++static void retire_row_mi300(struct atl_err *a_err)
++{
++	unsigned long addr;
++	struct page *p;
++	u8 col;
 +
-+	ret = kstrtou8_from_user(data, count, 0, &ce_bitpos);
-+	if (ret)
-+		return ret;
- 
- 	/* Unlock the PCSR registers */
- 	writel(PCSR_UNLOCK_VAL, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
-@@ -773,17 +800,110 @@ static ssize_t inject_data_poison_store(struct file *file, const char __user *da
- 
- 	poison_setup(priv);
- 
-+	xddr_inject_data_ce_store(mci, ce_bitpos);
-+	ret = count;
++	for (col = 0; col < MI300_NUM_COL; col++) {
++		a_err->addr &= ~MI300_UMC_MCA_COL;
++		a_err->addr |= FIELD_PREP(MI300_UMC_MCA_COL, col);
 +
- 	/* Lock the PCSR registers */
--	writel(1, priv->ddrmc_noc_baseaddr + XDDR_PCSR_OFFSET);
-+	writel(PCSR_LOCK_VAL, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
-+	writel(PCSR_LOCK_VAL, priv->ddrmc_noc_baseaddr + XDDR_PCSR_OFFSET);
++		addr = amd_convert_umc_mca_addr_to_sys_addr(a_err);
++		if (IS_ERR_VALUE(addr))
++			continue;
 +
-+	return ret;
++		addr = PHYS_PFN(addr);
++
++		/*
++		 * Skip invalid or already poisoned pages to avoid unnecessary
++		 * error messages from memory_failure().
++		 */
++		p = pfn_to_online_page(addr);
++		if (!p)
++			continue;
++
++		if (PageHWPoison(p))
++			continue;
++
++		memory_failure(addr, 0);
++	}
 +}
 +
-+static const struct file_operations xddr_inject_ce_fops = {
-+	.open = simple_open,
-+	.write = inject_data_ce_store,
-+	.llseek = generic_file_llseek,
-+};
-+
-+static void xddr_inject_data_ue_store(struct mem_ctl_info *mci, u32 val0, u32 val1)
++void amd_retire_dram_row(struct atl_err *a_err)
 +{
-+	struct edac_priv *priv = mci->pvt_info;
-+
-+	writel(val0, priv->ddrmc_baseaddr + ECCW0_FLIP0_OFFSET);
-+	writel(val0, priv->ddrmc_baseaddr + ECCW0_FLIP1_OFFSET);
-+	writel(val1, priv->ddrmc_baseaddr + ECCW1_FLIP1_OFFSET);
-+	writel(val1, priv->ddrmc_baseaddr + ECCW1_FLIP1_OFFSET);
++	if (df_cfg.rev == DF4p5 && df_cfg.flags.heterogeneous)
++		return retire_row_mi300(a_err);
 +}
++EXPORT_SYMBOL_GPL(amd_retire_dram_row);
 +
-+/*
-+ * To inject an uncorrectable error, the following steps are needed:
-+ *	echo <bit_pos val> > /sys/kernel/debug/edac/<controller instance>/inject_ue
-+ *
-+ * poison_setup() derives the row, column, bank, group and rank and
-+ * writes to the ADEC registers based on the address given by the user.
-+ *
-+ * The ADEC12 and ADEC13 are mask registers; write 0 so that none of the
-+ * addresses are masked. The row, column, bank, group and rank registers
-+ * are written to the match ADEC bit to generate errors at the
-+ * particular address. ADEC14 and ADEC15 have the match bits.
-+ *
-+ * xddr_inject_data_ue_store() updates the ECC FLIP registers with the
-+ * bits to be corrupted based on the bit position given by the user. For
-+ * uncorrectable errors
-+ * 2 bit errors are injected.
-+ *
-+ * Upon doing a read to the address the errors are injected.
-+ */
-+static ssize_t inject_data_ue_store(struct file *file, const char __user *data,
-+				    size_t count, loff_t *ppos)
-+{
-+	struct device *dev = file->private_data;
-+	struct mem_ctl_info *mci = to_mci(dev);
-+	struct edac_priv *priv = mci->pvt_info;
-+	char buf[6], *pbuf, *token[2];
-+	u32 val0 = 0, val1 = 0;
-+	u8 len, ue0, ue1;
-+	int i, ret;
-+
-+	len = min_t(size_t, count, sizeof(buf));
-+	if (copy_from_user(buf, data, len))
-+		return -EFAULT;
-+
-+	buf[len] = '\0';
-+	pbuf = &buf[0];
-+	for (i = 0; i < NUM_UE_BITPOS; i++)
-+		token[i] = strsep(&pbuf, ",");
-+
-+	ret = kstrtou8(token[0], 0, &ue0);
-+	if (ret)
-+		return ret;
-+
-+	ret = kstrtou8(token[1], 0, &ue1);
-+	if (ret)
-+		return ret;
-+
-+	if (ue0 < ECCW0_FLIP0_BITS) {
-+		val0 = BIT(ue0);
-+	} else {
-+		ue0 = ue0 - ECCW0_FLIP0_BITS;
-+		val1 = BIT(ue0);
-+	}
- 
--	xddr_inject_data_poison_store(mci, data);
-+	if (ue1 < ECCW0_FLIP0_BITS) {
-+		val0 |= BIT(ue1);
-+	} else {
-+		ue1 = ue1 - ECCW0_FLIP0_BITS;
-+		val1 |= BIT(ue1);
-+	}
- 
-+	/* Unlock the PCSR registers */
-+	writel(PCSR_UNLOCK_VAL, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
-+	writel(PCSR_UNLOCK_VAL, priv->ddrmc_noc_baseaddr + XDDR_PCSR_OFFSET);
-+
-+	poison_setup(priv);
-+
-+	xddr_inject_data_ue_store(mci, val0, val1);
-+
-+	/* Lock the PCSR registers */
-+	writel(PCSR_LOCK_VAL, priv->ddrmc_noc_baseaddr + XDDR_PCSR_OFFSET);
-+	writel(PCSR_LOCK_VAL, priv->ddrmc_baseaddr + XDDR_PCSR_OFFSET);
- 	return count;
- }
- 
--static const struct file_operations xddr_inject_enable_fops = {
-+static const struct file_operations xddr_inject_ue_fops = {
- 	.open = simple_open,
--	.write = inject_data_poison_store,
-+	.write = inject_data_ue_store,
- 	.llseek = generic_file_llseek,
- };
- 
-@@ -795,8 +915,17 @@ static void create_debugfs_attributes(struct mem_ctl_info *mci)
- 	if (!priv->debugfs)
- 		return;
- 
--	edac_debugfs_create_file("inject_error", 0200, priv->debugfs,
--				 &mci->dev, &xddr_inject_enable_fops);
-+	if (!edac_debugfs_create_file("inject_ce", 0200, priv->debugfs,
-+				      &mci->dev, &xddr_inject_ce_fops)) {
-+		debugfs_remove_recursive(priv->debugfs);
-+		return;
-+	}
-+
-+	if (!edac_debugfs_create_file("inject_ue", 0200, priv->debugfs,
-+				      &mci->dev, &xddr_inject_ue_fops)) {
-+		debugfs_remove_recursive(priv->debugfs);
-+		return;
-+	}
- 	debugfs_create_x64("address", 0600, priv->debugfs,
- 			   &priv->err_inject_addr);
- 	mci->debugfs = priv->debugfs;
+ static unsigned long get_addr(unsigned long addr)
+ {
+ 	if (df_cfg.rev == DF4p5 && df_cfg.flags.heterogeneous)
+diff --git a/include/linux/ras.h b/include/linux/ras.h
+index 09c632832bf1..a64182bc72ad 100644
+--- a/include/linux/ras.h
++++ b/include/linux/ras.h
+@@ -45,8 +45,10 @@ struct atl_err {
+ #if IS_ENABLED(CONFIG_AMD_ATL)
+ void amd_atl_register_decoder(unsigned long (*f)(struct atl_err *));
+ void amd_atl_unregister_decoder(void);
++void amd_retire_dram_row(struct atl_err *err);
+ unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct atl_err *err);
+ #else
++static inline void amd_retire_dram_row(struct atl_err *err) { }
+ static inline unsigned long
+ amd_convert_umc_mca_addr_to_sys_addr(struct atl_err *err) { return -EINVAL; }
+ #endif /* CONFIG_AMD_ATL */
 -- 
-2.43.0
+2.34.1
 
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
