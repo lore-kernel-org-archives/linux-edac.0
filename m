@@ -1,168 +1,201 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2081.outbound.protection.outlook.com [40.107.237.81])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20EF13A89A;
-	Wed, 14 Feb 2024 20:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707942198; cv=fail; b=cLWBs5RxZj3W3SZSlnDz89afgC/VV73LqIMHqQQLh37V2ahQ4NBpEfph04jkHaFJpVsFZ4CuBvH5aUmXYUyEkkY0zqVr2dnkYlEfn/Ucgh9DfLVEmgtLjAxfY34TIzyNnYECDsnPBr0QrLE0PvVQrTEGmC0CR3DYbUfCvfas3HQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707942198; c=relaxed/simple;
-	bh=d2N49HARO1EboJRLYJnCYztvTP/4WVtjbcge+2tE20s=;
-	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=a6ol2bY/Fk8iqbH9PZGhgxng7oIxo5c6dQjMuA9tlGnfHrPdGNehZivi6DFInwbaYDeRk7uGRYxa4JoNAiiKYnrcY9UMdNBDRJw014wCcNa2n/APgx3mQprWTdakCeD8178wnLeHeTjBmp1b2+jyF0ITsC87t8npxjUZ09IpbKg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Nr7DOj6X; arc=fail smtp.client-ip=40.107.237.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Nr7DOj6X"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RvtF40gPJ/YQch7zWrMh7C6FYwsFNj0xWApjPvb2klz2BLdfb46kFBD11+bwD6IH9AtgTuotPMaplqGJ4YHlQPesCVxVyUbjXoirxnM+KCllMa63U9gF7MGmyn4n9KYPOQZDGYviUlH6Y6KmUNGPMJ0GDEDIZSJ1dqV7LSLihDf3SSwhmmbUWgApaLJ7EtdNMvS8Ef/iMKnuy1LFExPUhFEXw6eyL+uqu7pTC7uJNY+1ymA2sZKzg3QfDyMI+nKd9kkPsNsLEHGe65EerSj4s4d0Zu3689Fl0tiEG5jeFTor2Jf7/hwghZGUmkXlCEmZlxIw5dKq1sv5MKmgakePPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TD9sgQD+ivkok8pmdNpaJeCrwuO5rwrvPK76WC/Q+1s=;
- b=YTu40SLIxnV2Cv373mMGHSX3uYwjCgnYc6iXxIUP3QnB1n1xEV13PMpCC9Eh9SMNdeS/op1UiH5Cf1pqPavtxmPj7KmpHtOwO4yvuFC5jlu1qI61q/8xKj6k4oZuYn5aYs+1NBR8dacr99JmZjaAoU/TaQ+8sPOvzSmKmn4/ARrXjqYwWVPPZdT+tiuLjtgONVnSOnlrrkTZMbX7Jvz/lqv9UX6x42axqYaclGvFkFsugiUMJCYTIB6CV5TRmQl/zGdy1613dFzAEUvzSdnfdYUF6ESmSsCJQ2roWLmKCSR3Zl0p8FkJtTPjYTtGF3uL2xxzKXswGEPcwFTfnHIm2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TD9sgQD+ivkok8pmdNpaJeCrwuO5rwrvPK76WC/Q+1s=;
- b=Nr7DOj6XzxcJR7HK9fon3OgLix4KcJo9YYGtvOuL/jVzhlHeOMLZ7S3iR7V/pJE9TCt3GU4zAALjmogGkm+5LwTjN0xciWnqNEyWwN4JnY9fTvMbbEJjHHnaCsPtg6ffbeXVJOnBEip2Sy3pMydkkPrIdIVhJcSBv3ukej8CWwg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by MW4PR12MB7287.namprd12.prod.outlook.com (2603:10b6:303:22c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.21; Wed, 14 Feb
- 2024 20:23:13 +0000
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::3a46:cf50:1239:510c]) by BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::3a46:cf50:1239:510c%7]) with mapi id 15.20.7270.016; Wed, 14 Feb 2024
- 20:23:13 +0000
-Message-ID: <fc83e824-f37e-4164-95b3-e57bee60b2a9@amd.com>
-Date: Wed, 14 Feb 2024 15:23:11 -0500
-User-Agent: Mozilla Thunderbird
-Cc: yazen.ghannam@amd.com, linux-kernel@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Richter
- <rric@kernel.org>, linux-edac@vger.kernel.org
-Subject: Re: [PATCH 1/7] EDAC/amd64: Remove amd64_pvt::ext_nbcfg
-Content-Language: en-US
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, bp@alien8.de
-References: <20240213112051.27715-1-jirislaby@kernel.org>
- <20240213112051.27715-2-jirislaby@kernel.org>
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-In-Reply-To: <20240213112051.27715-2-jirislaby@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN0PR07CA0013.namprd07.prod.outlook.com
- (2603:10b6:408:141::19) To BN8PR12MB3108.namprd12.prod.outlook.com
- (2603:10b6:408:40::20)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C09B66B2D;
+	Thu, 15 Feb 2024 11:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707995711; cv=none; b=rZt/eeh9kyv+4vsAX+DVKDvvlWmwEZ1Iqf+Sshrl15hcHuRoWEBdWK4fcnOqYhUwt8iuz+FmgFyqt+YTpy2R/fATr2glIS2RLuSMraj2AGGVa4/PQunWlOlFdiV04UEIrvu5W7yDOXqohafxdbcnXp3+STN928hJbuoZdsgySjE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707995711; c=relaxed/simple;
+	bh=QQvnXMSi++sGfD6je4Srj/GDNSsMMgr8SC5M7Oowa+0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VeN5m8O+JOYp1sUZFVqlUm549KVuYEeT4/LAeyoIq7bKvQCCWbi7ycI1DwDQQUFtnHpBL86LBnCri8E81MnqO+D/3BUT3yo+Jh2pT4lMQUbsJD1sA0slCtWPSRjMLJ2sZEYuh6apGBgLs3amkq4QXSJIOSX4gQmE9cy4W+NC6Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TbC6x3XWYz67MfY;
+	Thu, 15 Feb 2024 19:11:21 +0800 (CST)
+Received: from lhrpeml500006.china.huawei.com (unknown [7.191.161.198])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7334114025A;
+	Thu, 15 Feb 2024 19:15:05 +0800 (CST)
+Received: from SecurePC30232.china.huawei.com (10.122.247.234) by
+ lhrpeml500006.china.huawei.com (7.191.161.198) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 15 Feb 2024 11:15:04 +0000
+From: <shiju.jose@huawei.com>
+To: <linux-cxl@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <dan.j.williams@intel.com>, <dave@stgolabs.net>,
+	<jonathan.cameron@huawei.com>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>
+CC: <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<david@redhat.com>, <Vilas.Sridharan@amd.com>, <leo.duran@amd.com>,
+	<Yazen.Ghannam@amd.com>, <rientjes@google.com>, <jiaqiyan@google.com>,
+	<tony.luck@intel.com>, <Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<rafael@kernel.org>, <lenb@kernel.org>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<mike.malvestuto@intel.com>, <gthelen@google.com>,
+	<wschwartz@amperecomputing.com>, <dferguson@amperecomputing.com>,
+	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<linuxarm@huawei.com>, <shiju.jose@huawei.com>
+Subject: [RFC PATCH v6 01/12] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox command
+Date: Thu, 15 Feb 2024 19:14:43 +0800
+Message-ID: <20240215111455.1462-2-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.35.1.windows.2
+In-Reply-To: <20240215111455.1462-1-shiju.jose@huawei.com>
+References: <20240215111455.1462-1-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3108:EE_|MW4PR12MB7287:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a6e758c-e4ae-4e05-c357-08dc2d9ac517
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	IaWJ93eR+deFsU29mrbD8XE//5/XiLo1ysSUfhCs9g2IELJNkWUd/F7m46fcgPBuE8O1yOA0usbDDmayPDA6rNFrOCZIjIHOt3Z71jctDNr/u5EhGVDxb6E+iYcrQh0tjBpUOlQr9+VzG0m1whh3j+YqgylYl1KAXwbTbmbNro57kTaHnGC2RAhoucd23zX5Zf+a+eXUWxqQqL5qfeNF6x2YzGzRanLRFgAFQguwRhpV3ynZyYmqHaMbcLb2s1h4zbtxuO89Xq/Kj0gco6PSztLgyBl2lma06qEvnUEHbh7LdFHJzv84OVJa3+CR7Ra1yA9+jStCkxV5oIz7CGuAxa6Rnv6gqYUpQKzOLccubczrIDaF/WSuWLIe9dUIcY01IYOk0NQdhvTezIKnAYKpOW2XQRhswolym7aQG5C9w4+bCrYCFaR5nahJsD7yxoKNDfzVq2dcIk833Ic/jW6sQSw4dpXTUo4jOVs7K0wktZcgiGR8RBy9P+gmhgy3EXSZk7GbVpntmk2rXOzoGrwqbmbjPflST+2H24x0U1rblrQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(346002)(366004)(376002)(136003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(6512007)(6486002)(966005)(478600001)(41300700001)(31686004)(8936002)(8676002)(4326008)(2906002)(44832011)(5660300002)(6506007)(66946007)(53546011)(54906003)(316002)(66556008)(66476007)(2616005)(31696002)(86362001)(26005)(83380400001)(38100700002)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WkdHcWU0TUtXTnlxUFE3Nm1uZW9sZWxqdHdhaCswajgwTnE0RjhsclBuSWw0?=
- =?utf-8?B?NmJOZ0JLOHd3NDhrdkZNSHJrWW1vSG9KbU94aTlkTmtnT2U2UWFsdWROQjRi?=
- =?utf-8?B?T0pmYlpRaDhGbVdYZzFMV29mTkJ1NkFic3hNb2V6YU8vaTlDQVdKNGc1akV6?=
- =?utf-8?B?VzlVSWtBa3IrekJqSzFxMElDeVl2SFBtc0MxWXg3U0pxU0NLV2JhZkpxQVRo?=
- =?utf-8?B?ZWk1WW0vdjlIeDZTMndvNjhCNHc4T3NMbWJZMU9xRjhYL0ZiMXhhZEN5TEZV?=
- =?utf-8?B?dlFuK28zM0pXRXlweWhOQm9kNHNOWkdublI1V2l1N2VNU282L0w2NXlaeCtT?=
- =?utf-8?B?ZStQYkFwejRwVStPOEpjRDFVZkU1cVM5NTRXQ2dsU0pHQjBnMDJ2cU13c3d0?=
- =?utf-8?B?ZWtDS2lMYTVhYkpyU0MwYktMSkpiNE9NMEhnS29pT0U3UFpaL2pGWlcxSlVO?=
- =?utf-8?B?ek9lbVBDOEY3ODlzNWVpcDhSRHN1NWdDbFdMam1sdm1CMkVQcmUyL1lRclBo?=
- =?utf-8?B?UGZEczgzTE1JK3pVM2R1OE1nWjVtQWVldm5FTVZwUGlMc1JOUzRvK3daQTZT?=
- =?utf-8?B?Yi9pa3J0bGNOczcxMXpFNU84NUtnMU95U2EydDVOYkVpYmF4dnJPTkI2RjNz?=
- =?utf-8?B?RDhuTkZxaWlyYndFY3M0RGllZER3dEdSSUtJZ1JPR2dLN3JCdGNkVmtDSDBM?=
- =?utf-8?B?cTdoNm1QeVExMXZIS29zNTlESlZmazR5QVlrL3hjaUo3K0NhM0UzczBYcEtv?=
- =?utf-8?B?Z1JOMDNhNlhRcStFZ2FXZld6cWZDMDBKckZISTkwTTlCNUlsSjhSN3BhdXRI?=
- =?utf-8?B?MnprbklCcjJ6a0d5WFJDV3BxK2ZwM1pSRzNHUGNMeVAwYTFmd0N0S2hhWUtL?=
- =?utf-8?B?Nmtaa0h4RGxId0hBQlpkQ0IvZi9aeHJjeWJ1WEh5YXE0bWRFbm0rcS9QLy9O?=
- =?utf-8?B?NkRCL0xjSDhYMVFScUx0MEVENmhwWi9xb08za1IzaHd5VVg4TGhlMVBwd2Yv?=
- =?utf-8?B?Z0xFcGh0akJjeFF0TDFVaTFuZDFEYS9vMlZITXpHb0d2SGJFSGpTWDBSM2Q0?=
- =?utf-8?B?eXBvUU9wTllFT2tJUUd4SzhaNnhVa2JQbndBK1QrM3J4S0JIUWJTYmU3c2lp?=
- =?utf-8?B?SnZ4N3pWRFRQSXlmbS9rMUNSbnpKUnZqdlVNbGNaNitRMDBTaUhYb3NPVUJZ?=
- =?utf-8?B?Z1ZkclNKRVBzUFhiNElXQnhVTFdmaWhNZlRrNFZudmU4SjZHdkZEcEpxdmt3?=
- =?utf-8?B?SElBaS90bDErOHE2TnlCYi9INTJ3WnBleDVTa0NRZ1dkL2tqZGJXcTlGVHAz?=
- =?utf-8?B?QnR2c3JWZG4ybjRjRFhzUnJmZTVJTm0rVThjcGZQT1ZFcVVZd1JMSWwwNURx?=
- =?utf-8?B?ekJSWVhvMWdhM0doN1N0eGN1MEpaRWZVajFYdyt0WXk0eXplYllCU2NiV0dR?=
- =?utf-8?B?b3MxOUhMRUU2SVhYY3pYWG1GcWxLck9DeWUzSHpuaDlWcFduQnRxa2tTUGFZ?=
- =?utf-8?B?QXpYMHRUVStCb28wZFhmMURhVG5ndzVRejBZc0IxaWpTSmw0b1Z2eU93ZWNz?=
- =?utf-8?B?ZExMUGx3aFZUdFc3UCtrWU96ckF5Y0VYS1hNSThhWUFMbTNjL0ZFcGZzVmZL?=
- =?utf-8?B?QVpKcWpEc1ZlTFpXdFIyY1o1ZUFzcFp5N0toak1WQ1EzQUIrWFpIM1B6cFpO?=
- =?utf-8?B?cDFuUDdnN01TWGFadkdvcnlGUGRNSnFBaDVaMHZxK3hpajVCTWNCbkRkc3Zz?=
- =?utf-8?B?d3RPaGsxa3V6cFhYZFRycS9uQnpUN1NjTngwS3p3WDlhb3Y5NXN6UFUzZTk0?=
- =?utf-8?B?ejdoTTFuUlVDdHNONHQrdC9QcDMrU2RDaThlSEUzWU1HRDFvbE1jTzJPNzNq?=
- =?utf-8?B?YjFhZ3ZDOTdycEN3dk40L3U4V3pHcFI3dmZld3hyaUxVTGVpRTZYS2dUL2ls?=
- =?utf-8?B?WXZNeWFja1BqNnRZalYwekJ2VWhjeEdTODdpZ1VVRURVdkVvUlZ4VFhCWDRi?=
- =?utf-8?B?OXhqZzZKb25yWDFzeVhKVG5RN3M2VUh3a1luenYwZjVUNzB6bEtXUllIdjZT?=
- =?utf-8?B?aEhYd3hoVFZ6UnRZRjErenBPdDd1dkU1ZUZlbmEvOEI1OUdCKzdZNkNERHFQ?=
- =?utf-8?Q?1lue1OUvMwDm3g8+KbbWv/NbB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a6e758c-e4ae-4e05-c357-08dc2d9ac517
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 20:23:13.6093
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1REgjI3eScKmI2o4YXoDVRCDtMUM6z6VzHiMk912yMtwlrZMmUUuAmHGtFzYQpBzstUQ3LShRPJuXHkomACBGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7287
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500006.china.huawei.com (7.191.161.198)
 
-On 2/13/2024 6:20 AM, Jiri Slaby (SUSE) wrote:
-> Commit cfe40fdb4a46 (amd64_edac: add driver header) added amd64_pvt
-> struct with ext_nbcfg in it. But noone used that member since then.
-> 
-> Therefore, remove it.
-> 
-> Found by https://github.com/jirislaby/clang-struct.
-> 
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Cc: Yazen Ghannam <yazen.ghannam@amd.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: James Morse <james.morse@arm.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Robert Richter <rric@kernel.org>
-> Cc: linux-edac@vger.kernel.org
-> ---
->   drivers/edac/amd64_edac.h | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-> index 1665f7932bac..b879b12971e7 100644
-> --- a/drivers/edac/amd64_edac.h
-> +++ b/drivers/edac/amd64_edac.h
-> @@ -345,7 +345,6 @@ struct amd64_pvt {
->   	u32 dchr1;		/* DRAM Configuration High DCT1 reg */
->   	u32 nbcap;		/* North Bridge Capabilities */
->   	u32 nbcfg;		/* F10 North Bridge Configuration */
-> -	u32 ext_nbcfg;		/* Extended F10 North Bridge Configuration */
->   	u32 dhar;		/* DRAM Hoist reg */
->   	u32 dbam0;		/* DRAM Base Address Mapping reg for DCT0 */
->   	u32 dbam1;		/* DRAM Base Address Mapping reg for DCT1 */
+From: Shiju Jose <shiju.jose@huawei.com>
 
-This field likely was intended to be used with the EXT_NB_MCA_CFG definition.
-But I agree it's not used and can be removed.
+Add support for GET_SUPPORTED_FEATURES mailbox command.
 
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+CXL spec 3.1 section 8.2.9.6 describes optional device specific features.
+CXL devices supports features with changeable attributes.
+Get Supported Features retrieves the list of supported device specific
+features. The settings of a feature can be retrieved using Get Feature
+and optionally modified using Set Feature.
 
-Thanks,
-Yazen
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ drivers/cxl/core/mbox.c | 23 +++++++++++++++
+ drivers/cxl/cxlmem.h    | 62 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+
+diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
+index 27166a411705..191f51f3df0e 100644
+--- a/drivers/cxl/core/mbox.c
++++ b/drivers/cxl/core/mbox.c
+@@ -1290,6 +1290,29 @@ int cxl_set_timestamp(struct cxl_memdev_state *mds)
+ }
+ EXPORT_SYMBOL_NS_GPL(cxl_set_timestamp, CXL);
+ 
++int cxl_get_supported_features(struct cxl_memdev_state *mds,
++						struct cxl_mbox_get_supp_feats_in *pi,
++						void *feats_out)
++{
++	struct cxl_mbox_cmd mbox_cmd;
++	int rc;
++
++	mbox_cmd = (struct cxl_mbox_cmd) {
++		.opcode = CXL_MBOX_OP_GET_SUPPORTED_FEATURES,
++		.size_in = sizeof(*pi),
++		.payload_in = pi,
++		.size_out = le32_to_cpu(pi->count),
++		.payload_out = feats_out,
++		.min_out = sizeof(struct cxl_mbox_get_supp_feats_out),
++	};
++	rc = cxl_internal_send_cmd(mds, &mbox_cmd);
++	if (rc < 0)
++		return rc;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS_GPL(cxl_get_supported_features, CXL);
++
+ int cxl_mem_get_poison(struct cxl_memdev *cxlmd, u64 offset, u64 len,
+ 		       struct cxl_region *cxlr)
+ {
+diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+index 5303d6942b88..23e4d98b9bae 100644
+--- a/drivers/cxl/cxlmem.h
++++ b/drivers/cxl/cxlmem.h
+@@ -529,6 +529,7 @@ enum cxl_opcode {
+ 	CXL_MBOX_OP_SET_TIMESTAMP	= 0x0301,
+ 	CXL_MBOX_OP_GET_SUPPORTED_LOGS	= 0x0400,
+ 	CXL_MBOX_OP_GET_LOG		= 0x0401,
++	CXL_MBOX_OP_GET_SUPPORTED_FEATURES	= 0x0500,
+ 	CXL_MBOX_OP_IDENTIFY		= 0x4000,
+ 	CXL_MBOX_OP_GET_PARTITION_INFO	= 0x4100,
+ 	CXL_MBOX_OP_SET_PARTITION_INFO	= 0x4101,
+@@ -698,6 +699,64 @@ struct cxl_mbox_set_timestamp_in {
+ 
+ } __packed;
+ 
++/* Get Supported Features CXL 3.1 Spec 8.2.9.6.1 */
++/*
++ * Get Supported Features input payload
++ * CXL rev 3.1 section 8.2.9.6.1 Table 8-95
++ */
++struct cxl_mbox_get_supp_feats_in {
++	__le32 count;
++	__le16 start_index;
++	u16 reserved;
++} __packed;
++
++/*
++ * Get Supported Features Supported Feature Entry
++ * CXL rev 3.1 section 8.2.9.6.1 Table 8-97
++ */
++/* Supported Feature Entry : Payload out attribute flags */
++#define CXL_FEAT_ENTRY_FLAG_CHANGABLE	BIT(0)
++#define CXL_FEAT_ENTRY_FLAG_DEEPEST_RESET_PERSISTENCE_MASK	GENMASK(3, 1)
++#define CXL_FEAT_ENTRY_FLAG_PERSIST_ACROSS_FIRMWARE_UPDATE	BIT(4)
++#define CXL_FEAT_ENTRY_FLAG_SUPPORT_DEFAULT_SELECTION	BIT(5)
++#define CXL_FEAT_ENTRY_FLAG_SUPPORT_SAVED_SELECTION	BIT(6)
++
++enum cxl_feat_attr_value_persistence {
++	CXL_FEAT_ATTR_VALUE_PERSISTENCE_NONE,
++	CXL_FEAT_ATTR_VALUE_PERSISTENCE_CXL_RESET,
++	CXL_FEAT_ATTR_VALUE_PERSISTENCE_HOT_RESET,
++	CXL_FEAT_ATTR_VALUE_PERSISTENCE_WARM_RESET,
++	CXL_FEAT_ATTR_VALUE_PERSISTENCE_COLD_RESET,
++	CXL_FEAT_ATTR_VALUE_PERSISTENCE_MAX
++};
++
++#define CXL_FEAT_ENTRY_FLAG_PERSISTENCE_ACROSS_FW_UPDATE_MASK	BIT(4)
++#define CXL_FEAT_ENTRY_FLAG_PERSISTENCE_DEFAULT_SEL_SUPPORT_MASK	BIT(5)
++#define CXL_FEAT_ENTRY_FLAG_PERSISTENCE_SAVED_SEL_SUPPORT_MASK	BIT(6)
++
++struct cxl_mbox_supp_feat_entry {
++	uuid_t uuid;
++	__le16 feat_index;
++	__le16 get_feat_size;
++	__le16 set_feat_size;
++	__le32 attr_flags;
++	u8 get_feat_version;
++	u8 set_feat_version;
++	__le16 set_feat_effects;
++	u8 rsvd[18];
++}  __packed;
++
++/*
++ * Get Supported Features output payload
++ * CXL rev 3.1 section 8.2.9.6.1 Table 8-96
++ */
++struct cxl_mbox_get_supp_feats_out {
++	__le16 entries;
++	__le16 nsuppfeats_dev;
++	u32 reserved;
++	struct cxl_mbox_supp_feat_entry feat_entries[];
++} __packed;
++
+ /* Get Poison List  CXL 3.0 Spec 8.2.9.8.4.1 */
+ struct cxl_mbox_poison_in {
+ 	__le64 offset;
+@@ -829,6 +888,9 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
+ 			    enum cxl_event_type event_type,
+ 			    const uuid_t *uuid, union cxl_event *evt);
+ int cxl_set_timestamp(struct cxl_memdev_state *mds);
++int cxl_get_supported_features(struct cxl_memdev_state *mds,
++			       struct cxl_mbox_get_supp_feats_in *pi,
++			       void *feats_out);
+ int cxl_poison_state_init(struct cxl_memdev_state *mds);
+ int cxl_mem_get_poison(struct cxl_memdev *cxlmd, u64 offset, u64 len,
+ 		       struct cxl_region *cxlr);
+-- 
+2.34.1
+
