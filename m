@@ -1,57 +1,57 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A58115CD77;
-	Thu, 22 Feb 2024 18:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B800015DBC7;
+	Thu, 22 Feb 2024 18:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708625683; cv=none; b=mF/HPC0cZ5AeISElinUCCe5JT/ncMD5P+svDlnreCb0JSNppXvJafKvAb95uKAswh/VxBiLVtLi3JjS1Jdun2tYZZKsh0UO+u3JNR9I08dNtQHTihRWSfobXy16ls2BcJVSiHA8LGee7fcZ6empNzjkr1Btq4aCRJMgMONnosRE=
+	t=1708625687; cv=none; b=uFgmBLLJLbNsE62WrN0CTPtWXyNHf6aPIBDxVxlBiAbIc9sFZtCWHCS4eTPc+bDj+M39mCtYDl2RUtC7EKgEtVsV9fgoX/W1L85QcVOrHIHCCEy1q+MkYvWmR9Lj7M1KNPA8Syu22Wd6dfZ+J3404I+K20rYK1cZh65tRi9Dr0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708625683; c=relaxed/simple;
-	bh=lWOXT7NA1+p6N2d2CSA2dMeAJHOs07TN1uQkinNb1a8=;
+	s=arc-20240116; t=1708625687; c=relaxed/simple;
+	bh=2VBnWtOUYOYZx3D0CXbbsv1cQZySxF7anmw1+oL7qNg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eWTQxLl52k1vjtTo4DtyrfrMUzdFn7RbcZN907IySisokK8NOtc86AATBmqH30qdQAbJBPvaF3LXEzb5n1eIJGGiXvZcdCtualsok2Mnzn8nN3PcoggJzDUuAR28P2YH4r971CEJBgCGllrpWljxo8TfNl5a+4ZVywr/Q9GdfgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IQXOyUwX; arc=none smtp.client-ip=209.85.167.51
+	 MIME-Version; b=Caq5YU+ggAgWlDFjMx94GtiuwRGoUVINUqNqrigBYTV6VXCDv29bkL71ihb5H6PXbSF5Pl4J2WtgL7qsgJwcfH/5ZjzlLdTOWEa3lvKZy5cZH83Nukk8+6VRN8/5MbWBY67DJPoFat2IqWC/0btOKScaX1gpIdWum1hnstoDUKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JFLqxQq3; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IQXOyUwX"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-512bc0e8ce1so111992e87.0;
-        Thu, 22 Feb 2024 10:14:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JFLqxQq3"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d220ad10b3so807861fa.1;
+        Thu, 22 Feb 2024 10:14:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708625680; x=1709230480; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1708625684; x=1709230484; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pzoe6r6O1SQZpxBPwnEmbzP/LY9Wg9dUZAFh860tCdU=;
-        b=IQXOyUwXfw5P+5bwa/pVdJCW5sWDjEw2//iOdYMfQofGh6f8XkE6bpbVtkeenDuoVf
-         SNM/SXKmezVHGja+1xbDpKnZ5A8rbTgPIHXa+7PmS8SXj7QTcVkYpPdYXNU/mSqp0G9P
-         t/WnOh0j6fb0YmHUelwzjKyAlZe4j1FfijFJktR0M1ffg9iEOHHb27RZ3MfehGX4QEm4
-         DL31aBn73/mLBGkdeQySs4tj616JPeMJXxAPPbKLLtk0ILBTm9dKcVZtHV9v76goV2ip
-         5rYGeruLZ7kS3tfFvywBlXqj1EzNcibLDcYCfAlEWOZgpxWH4+f5imIDX3EO66xjOGLi
-         QbNQ==
+        bh=+o0t5l+gbhBR5sr353Zx4OwnR+/NtUKsRVbiL7FnCuk=;
+        b=JFLqxQq30iEscqR3gTzmDzKFdzYz8ayDFgzsDxEMxWTp946rEgYPjFDHvDr+YfU+cG
+         ZnILvtQqOdV5HvfNITdNqdpPEA+oIfAXkEx6ulbDqdsqLwg/o8O2vHGcsn1C30JpnDhC
+         paa264cO5YaHNVvySZnRC7jCHnkgNwNSUHzvIPugYrn12f/u6+jmcti8eqUWJ7+8oKIr
+         HAijBBsoRtWKIcCpxYD4Rc34Lq+UP4OE/EpCvyZr4qkwK0nguhxwXr/uESAsjBSExmy1
+         iYWDVyCrUa7rNZLcvjFElQBhbC6ctMH9XtL3jy4pX03nMx/7bmnQxR644VrUjte37MjQ
+         oHEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708625680; x=1709230480;
+        d=1e100.net; s=20230601; t=1708625684; x=1709230484;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pzoe6r6O1SQZpxBPwnEmbzP/LY9Wg9dUZAFh860tCdU=;
-        b=xGXrvsTo4wbYvWXZXjOkze0M+DYUIu+RJvY06Q8Dfi8uQLc5tLqj9mVvwFz9nOneJ8
-         6iXlTYp8xq/ii4enhpXvhgNVLU6XwYw1k2Rvx8plDHPPL3adc6BWQVz3tjIHytBWWweO
-         a4koTBj4Gspm/q1fHpWmp0TUM7GtGYsPIEavc9Apc+/SHlJlIOCKV2RlbLeu0dpfstF3
-         eBfXvhY91P5VYWMHIVj14UJ4o08FOdnQlKFIsJjdkBYykvrlELRgHMVrd0DgaNZrhI/E
-         L9nzEqfoRIi7HouApfqt/+bugPKNYLuYc0NdgdhZM2N0tUlNyPjZVMIW7zbx/xRus9ww
-         LxLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyfmqc7Z0Fdqju43sqevCPPZ7yf2Pv3dpA3k3NTjDZvJ5AUWDnnQCYPrH/+86CNO8JcHhWjgV6MlTzn9ms91RFtXnnuGxc3roTrOH2H53BlARo2FrVo44xcJJF/ptsIbmeRDbTUvvUWQ==
-X-Gm-Message-State: AOJu0YzJRyXmC6WFpk/z/imVuUKkFd1n4myvEhn8OIH6+j9iNxtWlbB8
-	b2XVHt6GPzt88nendmOEY+YiV2+QLnHkKb0H/wkFOcd9n7eAKArv
-X-Google-Smtp-Source: AGHT+IGcYWp+ryzNnOE+1eySElC1nrZpk/ByoTpbeCgHQM0hU5MtdJZ4f5r0RBCPz3VjbsW6XtHv6A==
-X-Received: by 2002:a05:6512:1384:b0:512:cb9f:a25b with SMTP id fc4-20020a056512138400b00512cb9fa25bmr6050995lfb.28.1708625680264;
-        Thu, 22 Feb 2024 10:14:40 -0800 (PST)
+        bh=+o0t5l+gbhBR5sr353Zx4OwnR+/NtUKsRVbiL7FnCuk=;
+        b=hRaXoKYTuLrRLIqcqzyWCUhFSps1741Q46u2VxE/cHkKNMEHf3pOG6YFf0Vm8gxB9O
+         n4zALjM1/kvwZ83gdufwL1hyJvskQeo0P8ySfYv//HAh0HjRSIyO/c0ybq9AQXokxXrM
+         0Uz3nxgzSPLzy3cwXEm9pC4cd2UZ45XaH6icZ7fEPFlsDx/n67jDKwyTlcZzmWC7GmOV
+         21hXiYWAOSa0++/IZsxBaL5QIPjOVjPF3ufnI8nDNRCagU6/MNotbzTPkr8XyVTioy4K
+         4aIPZ2YvuK55hW5GYInR+FfM4JjOCVJbdDhfQbFdIz0c1AsRdcFmgiyiv2ONMDbFUGAp
+         trPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKK+MYIyAPT34qeFicmmGJ59mA3+dtQprDYlTodqcm4HmyJvdg8YGrCXQec5DPGLYxtAj+ggygiPFDFPPITsh90cD2K44uqNE1Z+usRGpFeAPGJ22Osy27pNVHbkDCh1qidovXUq8Y9w==
+X-Gm-Message-State: AOJu0Yz7WiaGgE9h+ed/sYyUa1XrxsXO+atjrFHPmj5YuWQxqOHKHdyK
+	ifTfiuVhdPXW3p0qjn4/UDDihmdME6wilDgQtCi8PZzZNhEgW/jP
+X-Google-Smtp-Source: AGHT+IHujCBUf3uP+SOmn6mxJZA8UNgrf2Op4NXH3LML5XVClyL6ZZ2opxWdtVcY7NGtBDIbf+PxtA==
+X-Received: by 2002:a2e:8256:0:b0:2d2:5169:27f3 with SMTP id j22-20020a2e8256000000b002d2516927f3mr4079549ljh.34.1708625683925;
+        Thu, 22 Feb 2024 10:14:43 -0800 (PST)
 Received: from localhost ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id y10-20020ac255aa000000b00512c531ffe4sm1081849lfg.180.2024.02.22.10.14.39
+        by smtp.gmail.com with ESMTPSA id a16-20020a05651c211000b002d26782e8d9sm65176ljq.55.2024.02.22.10.14.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 10:14:39 -0800 (PST)
+        Thu, 22 Feb 2024 10:14:43 -0800 (PST)
 From: Serge Semin <fancer.lancer@gmail.com>
 To: Michal Simek <michal.simek@amd.com>,
 	Alexander Stein <alexander.stein@ew.tq-group.com>,
@@ -68,9 +68,9 @@ Cc: Serge Semin <fancer.lancer@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 11/20] EDAC/synopsys: Shorten out struct ecc_error_info.bankgrpnr field name
-Date: Thu, 22 Feb 2024 21:12:56 +0300
-Message-ID: <20240222181324.28242-12-fancer.lancer@gmail.com>
+Subject: [PATCH v5 13/20] EDAC/mc: Init DIMM labels in MC registration method
+Date: Thu, 22 Feb 2024 21:12:58 +0300
+Message-ID: <20240222181324.28242-14-fancer.lancer@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240222181324.28242-1-fancer.lancer@gmail.com>
 References: <20240222181324.28242-1-fancer.lancer@gmail.com>
@@ -82,83 +82,106 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-None of the ecc_error_info structure fields have "nr" suffix even though
-each of them do represent some number (row number, column number, bank
-number). Drop the suffix from the bankgrpnr field name for the sake of
-unification then. Similarly drop the word "Number" from the CE/UE error
-messages too since it doesn't give any helpful info there.
+Move the DIMM labels initialization to the memory controller registration
+method as a preparation before adding the generic procedure to allocate an
+unique MC index. It's required because the DIMM labels contain the MC
+index as the "mc%u" part of the string, which in case of the
+auto-generated index isn't available at the moment of the MCI/csrow/dimms
+descriptor allocation.
 
 Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
 ---
- drivers/edac/synopsys_edac.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/edac/edac_mc.c | 48 +++++++++++++++++++++++++++---------------
+ 1 file changed, 31 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 6ca119459bd3..b0ff831287f5 100644
---- a/drivers/edac/synopsys_edac.c
-+++ b/drivers/edac/synopsys_edac.c
-@@ -268,17 +268,17 @@
-  * @row:	Row number.
-  * @col:	Column number.
-  * @bank:	Bank number.
-+ * @bankgrp:	Bank group number.
-  * @bitpos:	Bit position.
-  * @data:	Data causing the error.
-- * @bankgrpnr:	Bank group number.
-  */
- struct ecc_error_info {
- 	u32 row;
- 	u32 col;
- 	u32 bank;
-+	u32 bankgrp;
- 	u32 bitpos;
- 	u32 data;
--	u32 bankgrpnr;
- };
+diff --git a/drivers/edac/edac_mc.c b/drivers/edac/edac_mc.c
+index d6eed727b0cd..c0b36349999f 100644
+--- a/drivers/edac/edac_mc.c
++++ b/drivers/edac/edac_mc.c
+@@ -257,7 +257,6 @@ static int edac_mc_alloc_dimms(struct mem_ctl_info *mci)
+ 	unsigned int pos[EDAC_MAX_LAYERS];
+ 	unsigned int row, chn, idx;
+ 	int layer;
+-	void *p;
  
- /**
-@@ -429,7 +429,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
- 	regval = readl(base + ECC_CEADDR1_OFST);
- 	p->ceinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
- 					ECC_CEADDR1_BNKNR_SHIFT;
--	p->ceinfo.bankgrpnr = (regval &	ECC_CEADDR1_BNKGRP_MASK) >>
-+	p->ceinfo.bankgrp = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
- 					ECC_CEADDR1_BNKGRP_SHIFT;
- 	p->ceinfo.col = (regval & ECC_CEADDR1_COL_MASK);
- 	p->ceinfo.data = readl(base + ECC_CSYND0_OFST);
-@@ -443,7 +443,7 @@ static int zynqmp_get_error_info(struct synps_edac_priv *priv)
- 	regval = readl(base + ECC_UEADDR0_OFST);
- 	p->ueinfo.row = (regval & ECC_CEADDR0_RW_MASK);
- 	regval = readl(base + ECC_UEADDR1_OFST);
--	p->ueinfo.bankgrpnr = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
-+	p->ueinfo.bankgrp = (regval & ECC_CEADDR1_BNKGRP_MASK) >>
- 					ECC_CEADDR1_BNKGRP_SHIFT;
- 	p->ueinfo.bank = (regval & ECC_CEADDR1_BNKNR_MASK) >>
- 					ECC_CEADDR1_BNKNR_SHIFT;
-@@ -478,9 +478,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
- 		pinf = &p->ceinfo;
- 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "DDR ECC error type:%s Row %d Col %d Bank %d BankGroup Number %d Bit Position: %d Data: 0x%08x",
-+				 "DDR ECC error type:%s Row %d Col %d Bank %d Bank Group %d Bit Position: %d Data: 0x%08x",
- 				 "CE", pinf->row, pinf->col, pinf->bank,
--				 pinf->bankgrpnr, pinf->bitpos, pinf->data);
-+				 pinf->bankgrp, pinf->bitpos, pinf->data);
- 		} else {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
- 				 "DDR ECC error type:%s Row %d Bank %d Col %d Bit Position: %d Data: 0x%08x",
-@@ -497,9 +497,9 @@ static void handle_error(struct mem_ctl_info *mci, struct synps_ecc_status *p)
- 		pinf = &p->ueinfo;
- 		if (priv->p_data->quirks & DDR_ECC_INTR_SUPPORT) {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
--				 "DDR ECC error type :%s Row %d Col %d Bank %d BankGroup Number %d",
-+				 "DDR ECC error type :%s Row %d Col %d Bank %d Bank Group %d",
- 				 "UE", pinf->row, pinf->col, pinf->bank,
--				 pinf->bankgrpnr);
-+				 pinf->bankgrp);
- 		} else {
- 			snprintf(priv->message, SYNPS_EDAC_MSG_SIZE,
- 				 "DDR ECC error type :%s Row %d Bank %d Col %d ",
+ 	/*
+ 	 * Allocate and fill the dimm structs
+@@ -272,7 +271,6 @@ static int edac_mc_alloc_dimms(struct mem_ctl_info *mci)
+ 	for (idx = 0; idx < mci->tot_dimms; idx++) {
+ 		struct dimm_info *dimm;
+ 		struct rank_info *chan;
+-		int n, len;
+ 
+ 		chan = mci->csrows[row]->channels[chn];
+ 
+@@ -283,22 +281,9 @@ static int edac_mc_alloc_dimms(struct mem_ctl_info *mci)
+ 		dimm->mci = mci;
+ 		dimm->idx = idx;
+ 
+-		/*
+-		 * Copy DIMM location and initialize it.
+-		 */
+-		len = sizeof(dimm->label);
+-		p = dimm->label;
+-		n = scnprintf(p, len, "mc#%u", mci->mc_idx);
+-		p += n;
+-		len -= n;
+-		for (layer = 0; layer < mci->n_layers; layer++) {
+-			n = scnprintf(p, len, "%s#%u",
+-				      edac_layer_name[mci->layers[layer].type],
+-				      pos[layer]);
+-			p += n;
+-			len -= n;
++		/* Copy DIMM location */
++		for (layer = 0; layer < mci->n_layers; layer++)
+ 			dimm->location[layer] = pos[layer];
+-		}
+ 
+ 		/* Link it to the csrows old API data */
+ 		chan->dimm = dimm;
+@@ -511,6 +496,33 @@ void edac_mc_reset_delay_period(unsigned long value)
+ 
+ 
+ 
++/**
++ * edac_mc_init_labels() - Initialize DIMM labels
++ *
++ * @mci: pointer to the mci structure which DIMM labels need to be initialized
++ *
++ * .. note::
++ *	locking model: must be called with the mem_ctls_mutex lock held
++ */
++static void edac_mc_init_labels(struct mem_ctl_info *mci)
++{
++	int n, len, layer;
++	unsigned int idx;
++	char *p;
++
++	for (idx = 0; idx < mci->tot_dimms; idx++) {
++		len = sizeof(mci->dimms[idx]->label);
++		p = mci->dimms[idx]->label;
++
++		n = scnprintf(p, len, "mc#%u", mci->mc_idx);
++		for (layer = 0; layer < mci->n_layers; layer++) {
++			n += scnprintf(p + n, len - n, "%s#%u",
++				      edac_layer_name[mci->layers[layer].type],
++				      mci->dimms[idx]->location[layer]);
++		}
++	}
++}
++
+ /* Return 0 on success, 1 on failure.
+  * Before calling this function, caller must
+  * assign a unique value to mci->mc_idx.
+@@ -638,6 +650,8 @@ int edac_mc_add_mc_with_groups(struct mem_ctl_info *mci,
+ 		goto fail0;
+ 	}
+ 
++	edac_mc_init_labels(mci);
++
+ 	if (add_mc_to_global_list(mci))
+ 		goto fail0;
+ 
 -- 
 2.43.0
 
