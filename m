@@ -1,237 +1,184 @@
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2069.outbound.protection.outlook.com [40.107.95.69])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1436F12BF04;
-	Mon, 26 Feb 2024 15:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708961407; cv=fail; b=E/ssLU2EUHbaoBV3iVx1J3p5sISVvuHJ8+akFniwbWqe2zPCTutZW0P/seTfjyCmrSMCBlPAdIkAA2DliyhpXNRM0KYjlqtF88x9crFexb9+Oz3Gk+CIbyPQon5Ce5vvoGXHRPEgahSePwILI6IfXP1xvN6+xFqR7bRTRI6iA1A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708961407; c=relaxed/simple;
-	bh=O2DaZKUVdJdHfqYpsi8cYS07DrBogz2tu9421v2kQuE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BxFDPz2cGBGm2GmMDMAjTy6/HyfFEFIIYb75JVeB8kt+HO3o3oNvAIFtRLSfhfb4hzCPA6WepDzxvqBS5gM0mb1DU7HXxxLJj7if5A9tigMK5qrSSrMVGj3g3d6xIdHj64PBnoCJ+BtUf33YsLhDc/308I247dvPkGl6Ezbr+bI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4Prv1yUv; arc=fail smtp.client-ip=40.107.95.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2822012BEBD;
+	Mon, 26 Feb 2024 15:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708962243; cv=none; b=ChXHu7IluvBvSd4CJ3E0VRM5gyFUTD4c5vgiXQFYn6q1sFRvOuiFarwoDF2L5aacCywFjwf9craLn/BglWrlx2tkDwr/WSOQqzwf8lb/r4Fi8tapPCzcbk2wdcP3UyS+LbdbBSvSWNV4xTrNGDwFyf8R/SVOmH8NsMsCma5NIzQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708962243; c=relaxed/simple;
+	bh=p19kTaortInEha0cwpwtBZnqivplGiTeVDdaQ9egqbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MkRr7oFhca9p+s2UgEa98fH2Iargimx05JG1fChH+Vn1CoCU2OSPCkOzY4OxfFoaSPvIRBWYRGopeN7FodpO5B4nSAtkczYkGkL4vZ2jdZxXQNNI0JqJUjkrnL75aDu+0WVCj/vYIgJJZtAy/gbBfPa4SFxXO438wKTFSI+d5NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=VrsStQxc; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4Prv1yUv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AqVG6VV000yJPQftdBl419cFKUnm0vMaVLAdmWmOsEX/Erys/NehTUYD8beJ6UawdkzJaR8CWUMoID8MiF5FKrdVQAj3AgEffkeEMUeDqhcjFENS82LRCM5JTYUPWai1f12mnvkVnXLeUNTnk0pjRFB/ajUuzAm5Jw+PuMnUuJZJYrl5TilXmX8PZPaeSowKBnyLfm6QDjBXtLISV2Ko8vjcy+s65lEApAAtno/2iJ4tlCDAEbT3RRFr0DFZDvsBS6MqU7vB5bSRyfwnkAoORrMnCz570O7TvvFX4aSXiN3S3mjcSJPNIFUa7uAgp0CIVPXOPDThf/tKhRJYduAR3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ly228eJ8AZmumPzBOy+HtVxFu7gzrh1aPSEfBgI1m6s=;
- b=SPlzADJDEAAVwAGY7E8lgOa88fdKqGCAt+ZkM0LEc5ilCBlsubAD07YzxYC1hBj0aFolCuFm8e40auKyZgad4RNKlx9g4zJrcpIWaARcunnsxV+xOjMhFTX71XSGfs3gSbFQTVWRu6ns/BOdJNL8RK/Wz97RcFyXS8mrMLQskrvU3U/a/SX13hnt0dAtOPyCcwI2GPCaYJrBBp6I1sqnqrjldx7ZsCs4ktOfm/bDbSOb8kOYsidDQgEkGcLaQqhWSfnoIcr+ZSxHhhLFhR/I7ebsrFhz0cxFNHT2QQ9AQsaDQppm5acl/wacdSa9Vsf22Y2vCYv1Sv/Is5AmEqpa1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ly228eJ8AZmumPzBOy+HtVxFu7gzrh1aPSEfBgI1m6s=;
- b=4Prv1yUvG212E4xpTKqA6g51UjgAFjNKpmXJ6hGj79p+IGeadK0/F8T5DzGbRgjd273yewKcX1fpocJgDy+zE/kMjQyhTOL06ALCQZGKjDoqhEhXhGrFFq1bQbThrTNfFz2FssQ4v2XdGfwxdtvpckOPFOW3hjREq3FMSS8Q00s=
-Received: from SJ0PR03CA0384.namprd03.prod.outlook.com (2603:10b6:a03:3a1::29)
- by IA1PR12MB7591.namprd12.prod.outlook.com (2603:10b6:208:429::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.34; Mon, 26 Feb
- 2024 15:29:58 +0000
-Received: from CO1PEPF000044FA.namprd21.prod.outlook.com
- (2603:10b6:a03:3a1:cafe::93) by SJ0PR03CA0384.outlook.office365.com
- (2603:10b6:a03:3a1::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.49 via Frontend
- Transport; Mon, 26 Feb 2024 15:29:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1PEPF000044FA.mail.protection.outlook.com (10.167.241.200) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7362.0 via Frontend Transport; Mon, 26 Feb 2024 15:29:55 +0000
-Received: from quartz-7b1chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 26 Feb
- 2024 09:29:51 -0600
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: <bp@alien8.de>, <tony.luck@intel.com>, <linux-edac@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <avadhut.naik@amd.com>,
-	<john.allen@amd.com>, <muralidhara.mk@amd.com>, <sathyapriya.k@amd.com>,
-	<naveenkrishna.chatradhi@amd.com>, Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH 2/3] RAS/AMD/FMPM: Save SPA values
-Date: Mon, 26 Feb 2024 09:29:40 -0600
-Message-ID: <20240226152941.2615007-3-yazen.ghannam@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240226152941.2615007-1-yazen.ghannam@amd.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="VrsStQxc"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BD49B40E0192;
+	Mon, 26 Feb 2024 15:43:57 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id zQBq6k5xoCaZ; Mon, 26 Feb 2024 15:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1708962234; bh=MQZvRp1V0lIMTMZthnsmol8I4kRgnl75tJYZUkvpj8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VrsStQxcO/dy3x+x3wa1y1hi5a5pKkUi36+spe97eUaQOa6OwLy03JeVYFDTTlxSm
+	 b7nv6Obb27or0Kez96zL+EV3dte70DQWWtYY5nXaJ43mgx5E9iIt2bAmZku6QOmGQm
+	 j0ehgJ8cXjloiGZpVXsbe1VTmTdzBYX6q2yqat0yX+SHtdivV/ZtoyTjcdUxeQuFvK
+	 C4gAZQodqzv858TLzmEYk8ipxM0LsuQJnRkUCVEyBk4kBglYhRie4+eSbOjSFfbTY9
+	 7Mqd7OKoLQHKdKOxhdOpsydjkBre6SHTUjMYxfdLudckSH0RiQyJGecGrQFAl9gVu2
+	 ZiQAq1Ha19Xmu6/J9pioJt9RLBpHy34pQ27fyOU9XzbueP/l9slxGncgfedfwmK2wO
+	 L8fSldA53IXqtvNxH87t8827Dlx0uQ23g6LnKlfrBYPlxln4eXIO0ST+tt+sm6sRHR
+	 TGL9tKSjcjeNuj5LJZDUtbqIgKqhBXmlXOGVpmH0DBz0K1n6A8cn+txqlLmQZrAjp2
+	 rAKPp/RAtEqNnQe/wM6Cu800xrz3mMNaY8iAOlBkxoWryUyaznS8Wb1mFRBvvhXkGG
+	 B8uAAQzyB9KShfv++tjeuh2xUPk9VBdY4b5U3QrxvbZycKbYZy+udD4LWXrhd+no2r
+	 rrWsanG6VV9X6CgsYs+YxoLQ=
+Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AC90D40E016C;
+	Mon, 26 Feb 2024 15:43:45 +0000 (UTC)
+Date: Mon, 26 Feb 2024 16:43:39 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, avadhut.naik@amd.com,
+	john.allen@amd.com, muralidhara.mk@amd.com, sathyapriya.k@amd.com,
+	naveenkrishna.chatradhi@amd.com
+Subject: Re: [PATCH 1/3] RAS: Export ras_debugfs_dir
+Message-ID: <20240226154339.GDZdyxq7YoDLPXdi8x@fat_crate.local>
 References: <20240226152941.2615007-1-yazen.ghannam@amd.com>
+ <20240226152941.2615007-2-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FA:EE_|IA1PR12MB7591:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c589e48-6623-4733-e01e-08dc36dfc8d7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Ipo+RQenvVmLqTZwuh98kRrQHXqCaLUk8OnjdbmPraIDZvZZhyoBS+OKUBVoY88AszUSMX6YY5fkdCdPZd3MYaW0qbQ2YS33gLRXiHYtNfaPjvd1dUTjvIFuQy73YWH2C0jM+mhLqX1paLKWwwueQD/SbB0Em97JVetnehXPEex4YugWondEwB1muJzyM9tlNBQ84Bm6caSVFPMTm51TQ9gTp+CL9CB2ZHhIRQnbclOtCUs6sIiE7qzOC+CzYgNED7Y/ssielv+0OrnVgvubQRNBiMl8JNrylfPu5OhxHHagdrnPzOhkNarQwWlg7f8MovcbV6JINUjigJ5kwwBC2Gryq1Zf2eGQRUJDK8FVXNHLxpw6psCLJZJQf2vY/MBdZ19YB8+1MfK+CCtNPIEAbY0CZhvH9Yi7i2eYE2npkCN1LZ8x2teY+PMAF6MTKC3XaxudnuorFkH/PzQ+qwQ9T0IDDfwB2KA7e0WUd2BHK4hJstW2EfdSbYAVRJ7f6SxgBDpDNkx3lInLvVYlh2X0sa4oGWG2DdDckkpSwQkZM4nJ6iKKoQ9ig4mdbLmP9kgIanjZR6xBawOgwNHTk32jcKBZ+/xmAjrjpDDs8YuzMkLLB3vWBJD0WXHL0giWlb1O+pEoxH0+qPkJPrraAHeWjOpj1JJrrAJRt0DZs7Z1o/6nC6fkkASObphu7v28c7HJSwwSq6TcKEFt/LU0FaQ2wni00evhSikWadGyW+6jEZgyFZ3gRxcyV6Hs83DwCf5V
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(36860700004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 15:29:55.3246
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c589e48-6623-4733-e01e-08dc36dfc8d7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044FA.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7591
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240226152941.2615007-2-yazen.ghannam@amd.com>
 
-The system physical address (SPA) of an error is not a stable value. It
-will change depending on the location of the memory: parts can be
-swapped. And it will change depending on memory topology: NUMA nodes
-and/or interleaving can be adjusted.
+On Mon, Feb 26, 2024 at 09:29:39AM -0600, Yazen Ghannam wrote:
+> ...so that RAS modules can use it.
+> 
+> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> ---
+>  drivers/ras/debugfs.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/ras/debugfs.c b/drivers/ras/debugfs.c
+> index ffb973c328e3..fd3d4595c122 100644
+> --- a/drivers/ras/debugfs.c
+> +++ b/drivers/ras/debugfs.c
+> @@ -4,6 +4,7 @@
+>  #include "debugfs.h"
+>  
+>  struct dentry *ras_debugfs_dir;
+> +EXPORT_SYMBOL_GPL(ras_debugfs_dir);
 
-Therefore, the SPA value is not part of the "FRU Memory Poison" record
-format. And it will not be saved to persistent storage.
+I am never a fan of exporting things so let's add a helper this first,
+in a separate pre-patch.
 
-However, the SPA values can be helpful during debug and for system
-admins during run time.
+Also, I'd like to have this:
 
-Save the SPA values in a separate structure. Update this when records
-are restored and when new errors are saved.
+-       fmpm_dfs_dir = debugfs_create_dir(KBUILD_MODNAME, ras_debugfs_dir);
++       fmpm_dfs_dir = debugfs_create_dir("fmpm", dfs);
 
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+so that we don't accidentally change the module name and fsck up scripts
+in the process.
+
+Thx.
+
 ---
- drivers/ras/amd/fmpm.c | 54 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
 
 diff --git a/drivers/ras/amd/fmpm.c b/drivers/ras/amd/fmpm.c
-index 80dd112b720a..04961d36dd9f 100644
+index e0811a71e6e7..b8e3e4c81f7e 100644
 --- a/drivers/ras/amd/fmpm.c
 +++ b/drivers/ras/amd/fmpm.c
-@@ -111,6 +111,9 @@ struct fru_rec {
-  */
- static struct fru_rec **fru_records;
+@@ -913,10 +913,13 @@ static const struct file_operations fmpm_fops = {
  
-+#define INVALID_SPA	~0ULL
-+static u64 *sys_addrs;
-+
- #define CPER_CREATOR_FMP						\
- 	GUID_INIT(0xcd5c2993, 0xf4b2, 0x41b2, 0xb5, 0xd4, 0xf9, 0xc3,	\
- 		  0xa0, 0x33, 0x08, 0x75)
-@@ -140,6 +143,9 @@ static unsigned int max_nr_fru;
- /* Total length of record including headers and list of descriptor entries. */
- static size_t max_rec_len;
- 
-+/* Total number of entries for the entire system. */
-+static unsigned int sys_nr_entries;
-+
- /*
-  * Protect the local records cache in fru_records and prevent concurrent
-  * writes to storage. This is only needed after init once notifier block
-@@ -269,6 +275,40 @@ static bool rec_has_fpd(struct fru_rec *rec, struct cper_fru_poison_desc *fpd)
- 	return false;
- }
- 
-+static void save_spa(struct fru_rec *rec, unsigned int entry,
-+		     u64 addr, u64 id, unsigned int cpu)
-+{
-+	unsigned int i, fru_idx, sys_entry;
-+	unsigned long sys_addr;
-+	struct atl_err a_err;
-+
-+	memset(&a_err, 0, sizeof(struct atl_err));
-+
-+	a_err.addr = addr;
-+	a_err.ipid = id;
-+	a_err.cpu  = cpu;
-+
-+	sys_addr = amd_convert_umc_mca_addr_to_sys_addr(&a_err);
-+	if (IS_ERR_VALUE(sys_addr)) {
-+		pr_debug("Failed to get system address\n");
-+		return;
-+	}
-+
-+	for (i = 0; i < sys_nr_entries; i += max_nr_entries) {
-+		fru_idx = i / max_nr_entries;
-+		if (fru_records[fru_idx] != rec)
-+			continue;
-+
-+		sys_entry = i + entry;
-+		if (sys_entry < sys_nr_entries) {
-+			sys_addrs[sys_entry] = sys_addr;
-+			pr_debug("fru_idx: %u, entry: %u, sys_entry: %u, sys_addr: 0x%016llx\n",
-+				 fru_idx, entry, sys_entry, sys_addrs[sys_entry]);
-+			break;
-+		}
-+	}
-+}
-+
- static void update_fru_record(struct fru_rec *rec, struct mce *m)
+ static void setup_debugfs(void)
  {
- 	struct cper_sec_fru_mem_poison *fmp = &rec->fmp;
-@@ -301,6 +341,7 @@ static void update_fru_record(struct fru_rec *rec, struct mce *m)
- 	entry  = fmp->nr_entries;
- 
- save_fpd:
-+	save_spa(rec, entry, m->addr, m->ipid, m->extcpu);
- 	fpd_dest  = &rec->entries[entry];
- 	memcpy(fpd_dest, &fpd, sizeof(struct cper_fru_poison_desc));
- 
-@@ -385,6 +426,7 @@ static void retire_mem_fmp(struct fru_rec *rec)
- 			continue;
- 
- 		retire_dram_row(fpd->addr, fpd->hw_id, err_cpu);
-+		save_spa(rec, i, fpd->addr, fpd->hw_id, err_cpu);
- 	}
- }
- 
-@@ -696,6 +738,8 @@ static int get_system_info(void)
- 	if (!max_nr_entries)
- 		max_nr_entries = FMPM_DEFAULT_MAX_NR_ENTRIES;
- 
-+	sys_nr_entries = max_nr_fru * max_nr_entries;
+-	if (!ras_debugfs_dir)
++	struct dentry *dfs;
 +
- 	max_rec_len  = sizeof(struct fru_rec);
- 	max_rec_len += sizeof(struct cper_fru_poison_desc) * max_nr_entries;
++	dfs = ras_get_debugfs_root();
++	if (!dfs)
+ 		return;
  
-@@ -714,6 +758,7 @@ static void free_records(void)
- 		kfree(rec);
+-	fmpm_dfs_dir = debugfs_create_dir(KBUILD_MODNAME, ras_debugfs_dir);
++	fmpm_dfs_dir = debugfs_create_dir("fmpm", dfs);
+ 	if (!fmpm_dfs_dir)
+ 		return;
  
- 	kfree(fru_records);
-+	kfree(sys_addrs);
- }
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 321af498ee11..e440b15fbabc 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -480,9 +480,15 @@ DEFINE_SHOW_ATTRIBUTE(array);
  
- static int allocate_records(void)
-@@ -734,6 +779,15 @@ static int allocate_records(void)
- 		}
- 	}
+ static int __init create_debugfs_nodes(void)
+ {
+-	struct dentry *d, *pfn, *decay, *count, *array;
++	struct dentry *d, *pfn, *decay, *count, *array, *dfs;
  
-+	sys_addrs = kcalloc(sys_nr_entries, sizeof(u64), GFP_KERNEL);
-+	if (!sys_addrs) {
-+		ret = -ENOMEM;
-+		goto out_free;
+-	d = debugfs_create_dir("cec", ras_debugfs_dir);
++	dfs = ras_get_debugfs_root();
++	if (!dfs) {
++		pr_warn("Error getting RAS debugfs root!\n");
++		return -1;
 +	}
 +
-+	for (i = 0; i < sys_nr_entries; i++)
-+		sys_addrs[i] = INVALID_SPA;
-+
- 	return ret;
++	d = debugfs_create_dir("cec", dfs);
+ 	if (!d) {
+ 		pr_warn("Error creating cec debugfs node!\n");
+ 		return -1;
+diff --git a/drivers/ras/debugfs.c b/drivers/ras/debugfs.c
+index fd3d4595c122..42afd3de68b2 100644
+--- a/drivers/ras/debugfs.c
++++ b/drivers/ras/debugfs.c
+@@ -3,11 +3,16 @@
+ #include <linux/ras.h>
+ #include "debugfs.h"
  
- out_free:
--- 
-2.34.1
+-struct dentry *ras_debugfs_dir;
+-EXPORT_SYMBOL_GPL(ras_debugfs_dir);
++static struct dentry *ras_debugfs_dir;
+ 
+ static atomic_t trace_count = ATOMIC_INIT(0);
+ 
++struct dentry *ras_get_debugfs_root(void)
++{
++	return ras_debugfs_dir;
++}
++EXPORT_SYMBOL_GPL(ras_get_debugfs_root);
++
+ int ras_userspace_consumers(void)
+ {
+ 	return atomic_read(&trace_count);
+diff --git a/drivers/ras/debugfs.h b/drivers/ras/debugfs.h
+index c07443b462ad..4749ccdeeba1 100644
+--- a/drivers/ras/debugfs.h
++++ b/drivers/ras/debugfs.h
+@@ -4,6 +4,6 @@
+ 
+ #include <linux/debugfs.h>
+ 
+-extern struct dentry *ras_debugfs_dir;
++struct dentry *ras_get_debugfs_root(void);
+ 
+ #endif /* __RAS_DEBUGFS_H__ */
 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
