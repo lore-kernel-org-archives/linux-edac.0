@@ -1,55 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9B66CC0A;
-	Thu, 29 Feb 2024 17:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53785E082;
+	Thu, 29 Feb 2024 17:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709227334; cv=none; b=MuSRoJyGeiFHIWjONmS6zJtAwAMLzggqnX0BoDqLr7U7UMseHm8z50+9WFCJpUlF0Hba9r+2KXuFlylEIsfRE+UUSot+zTnWUoSynbQvTM06NgHBHF85hpQfRCvAwt67SZdFO4CDTYrXSk2gCC62SGipVUV72UzSB+bqzy6SdP8=
+	t=1709227620; cv=none; b=potryGPIIHOjjs50krfXwEoN/rMKE0C/+rbdZV1Hj30NapaTHfTPRR8wy+YGnHKlkLn4dSorPGMMLtor1wevqQoD/zYtFxpvgCV1sIY5LkacCJawPJZgJ5Jx6wx7ZNqh4tH/LpeE2RlzLf7GHnokc7ARItkdx/AShKttRrC6Pzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709227334; c=relaxed/simple;
-	bh=5pMf8xNbpjSltvyx9wwNJBOk7UVz6y8Mo4zNiAMjkj4=;
+	s=arc-20240116; t=1709227620; c=relaxed/simple;
+	bh=/JaDBH1RUWq1bA062JryjFL4ALd2l03adAlP7w/617s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L+O2ejS9huAsRWJHbOO00lT347As6C5Rx33LYQwHr5KxzgGnVUv07nskEIpEAh6uHKxB9AmX5PzKgGOZ8LbWTeLY+h0FY8YAmVXaGdmjkwi/YGpKECuhQ0CDoJkjUeX0g8WHf4MdgwJnati3sKOETHh2xgXANy/kNbjeCv0vD1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rf9cgdX6; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=O1pZYdJUPWS6iMnuJCzTUmli+Slig/2VjLrZaUYomY8k7uUNKF+mZJzFKARedL08XtuUh5p/mBP9rvjjc7uPVHgXD7s3zvQ35NEdKHiVv6D955ZO/R78O8xyQMRSWhpSCuL/uOOIzoidTKZPsC8iv6N0U8uUzPHBNWTOBtiGVuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iE/bZrx8; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rf9cgdX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iE/bZrx8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709227332; x=1740763332;
+  t=1709227619; x=1740763619;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5pMf8xNbpjSltvyx9wwNJBOk7UVz6y8Mo4zNiAMjkj4=;
-  b=Rf9cgdX6vtSvuEl7IxTrx1WsYxFPAyCrA5vPIXoHjhP4+23g/PVXEgfs
-   Z58kecbaUYTRF9gb/+TbEEB8faN94QpVu7xvH18iXRy1QwMvZgAWMri8z
-   XhVbuGdP2gXVur49CugXlpch2JMnsRf1IlUPkepK86j3rGLtztvChgr01
-   nrpFVoN7Czwl/ZaAsnNxg3iGJKubsb0Nf0sFoj4ls4iqXfOzMbxG2bz0P
-   a63hHcGapyyXvu/WtCofuDgn1kyRpDiR7pebgPcuR6Kw9Pwv45eQNRSPs
-   F62CmoF1mCV4JF8Itj5bC4u3r+1AR/uRR9w3xfp8CE6E3Wi2m5jFuLjy8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="15130393"
+  bh=/JaDBH1RUWq1bA062JryjFL4ALd2l03adAlP7w/617s=;
+  b=iE/bZrx8WtZ7QF16L0fruAOK8FXRB00cK6Ryx/O7dTVlgV7vwOjpBjSU
+   COZOM7go0WX9RYk7Ch7A7EFrzSmKYjs/a75eFK5FavfiSjG5UmJ79EyVY
+   D+AZm4ta8c5ks5KYsgd5PXvXcoWQaBcqWLwG2VnpIDYnEvLO1Oc61ehad
+   YA7uPFnf4U6rYT7QfTY3/3jd+JhszQ6yoV9dH5qNAy0CAhU5se+BxNAqM
+   60WDqkbACjVIGdqApgO8xMiijaZ3JxDcz50w3NvxyQB/o/MEg0Usl+HrS
+   M+pExvvYPpLAZm/FckLWdtFq9MrcTzKf4ZuoN6Y/6+KI1i25gmt6hbsEc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10999"; a="3600313"
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="15130393"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 09:21:07 -0800
+   d="scan'208";a="3600313"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 09:26:58 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
-   d="scan'208";a="12585179"
+   d="scan'208";a="7820865"
 Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.105])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 09:21:04 -0800
-Date: Thu, 29 Feb 2024 09:21:02 -0800
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 09:26:58 -0800
+Date: Thu, 29 Feb 2024 09:26:56 -0800
 From: Tony Luck <tony.luck@intel.com>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>, "Naik, Avadhut" <avadnaik@amd.com>,
+To: "Naik, Avadhut" <avadnaik@amd.com>
+Cc: Borislav Petkov <bp@alien8.de>, "Mehta, Sohil" <sohil.mehta@intel.com>,
 	"x86@kernel.org" <x86@kernel.org>,
 	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
 	Avadhut Naik <avadhut.naik@amd.com>
 Subject: Re: [PATCH] x86/mce: Dynamically size space for machine check records
-Message-ID: <ZeC8_jzdFnkpPVPf@agluck-desk3>
+Message-ID: <ZeC-YGnnYAMh5kPn@agluck-desk3>
 References: <20240212175408.GIZcpbQHVjEtwRKLS-@fat_crate.local>
  <SJ1PR11MB60830AF35FA89C7869B8C11EFC482@SJ1PR11MB6083.namprd11.prod.outlook.com>
  <20240212191401.GLZcpt-XHFqPg3cDw-@fat_crate.local>
@@ -59,7 +59,7 @@ References: <20240212175408.GIZcpbQHVjEtwRKLS-@fat_crate.local>
  <20240212221913.GRZcqZYRd6EPTTnN97@fat_crate.local>
  <20240212224220.GSZcqezMhPojxvIcvO@fat_crate.local>
  <Zd--PJp-NbXGrb39@agluck-desk3>
- <015bf75e-bbe7-44ea-a176-9f1257f56b81@intel.com>
+ <8ee24cad-e9b8-4321-aad4-9a9ba4f8b7b6@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -68,90 +68,59 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <015bf75e-bbe7-44ea-a176-9f1257f56b81@intel.com>
+In-Reply-To: <8ee24cad-e9b8-4321-aad4-9a9ba4f8b7b6@amd.com>
 
-On Wed, Feb 28, 2024 at 05:56:26PM -0800, Sohil Mehta wrote:
-> A few other nits.
+On Thu, Feb 29, 2024 at 12:42:38AM -0600, Naik, Avadhut wrote:
+> Hi,
 > 
-> On 2/28/2024 3:14 PM, Tony Luck wrote:
-> > diff --git a/arch/x86/kernel/cpu/mce/genpool.c b/arch/x86/kernel/cpu/mce/genpool.c
-> > index fbe8b61c3413..a1f0a8f29cf5 100644
-> > --- a/arch/x86/kernel/cpu/mce/genpool.c
-> > +++ b/arch/x86/kernel/cpu/mce/genpool.c
-> > @@ -16,14 +16,13 @@
-> >   * used to save error information organized in a lock-less list.
-> >   *
-> >   * This memory pool is only to be used to save MCE records in MCE context.
-> > - * MCE events are rare, so a fixed size memory pool should be enough. Use
-> > - * 2 pages to save MCE events for now (~80 MCE records at most).
-> > + * MCE events are rare, so a fixed size memory pool should be enough.
-> > + * Allocate on a sliding scale based on number of CPUs.
-> >   */
-> > -#define MCE_POOLSZ	(2 * PAGE_SIZE)
-> > +#define MCE_MIN_ENTRIES	80
-> >  
-> >  static struct gen_pool *mce_evt_pool;
-> >  static LLIST_HEAD(mce_event_llist);
-> > -static char gen_pool_buf[MCE_POOLSZ];
-> >  
-> >  /*
-> >   * Compare the record "t" with each of the records on list "l" to see if
-> > @@ -118,14 +117,25 @@ int mce_gen_pool_add(struct mce *mce)
-> >  
-> >  static int mce_gen_pool_create(void)
-> >  {
-> > +	int mce_numrecords, mce_poolsz;
+> On 2/28/2024 17:14, Tony Luck wrote:
+> > Systems with a large number of CPUs may generate a large
+> > number of machine check records when things go seriously
+> > wrong. But Linux has a fixed buffer that can only capture
+> > a few dozen errors.
+> > 
+> > Allocate space based on the number of CPUs (with a minimum
+> > value based on the historical fixed buffer that could store
+> > 80 records).
+> > 
+> > Signed-off-by: Tony Luck <tony.luck@intel.com>
+> > ---
+> > 
+> > Discussion earlier concluded with the realization that it is
+> > safe to dynamically allocate the mce_evt_pool at boot time.
+> > So here's a patch to do that. Scaling algorithm here is a
+> > simple linear "4 records per possible CPU" with a minimum
+> > of 80 to match the legacy behavior. I'm open to other
+> > suggestions.
+> > 
+> > Note that I threw in a "+1" to the return from ilog2() when
+> > calling gen_pool_create(). From reading code, and running
+> > some tests, it appears that the min_alloc_order argument
+> > needs to be large enough to allocate one of the mce_evt_llist
+> > structures.
+> > 
+> > Some other gen_pool users in Linux may also need this "+1".
+> > 
 > 
-> Should order be also declared in this line? That way we can have all the
-> uninitialized 'int's together.
+> Somewhat confused here. Weren't we also exploring ways to avoid
+> duplicate records from being added to the genpool? Has something
+> changed in that regard?
 
-Sure. Even with the addition of "order" the line is still short enough.
+I'm going to cover this in the reply to Boris.
 
-> >  	struct gen_pool *tmpp;
-> >  	int ret = -ENOMEM;
-> > +	void *mce_pool;
-> > +	int order;
-> >  
-> > -	tmpp = gen_pool_create(ilog2(sizeof(struct mce_evt_llist)), -1);
-> > +	order = ilog2(sizeof(struct mce_evt_llist)) + 1;
-> 
-> I didn't exactly understand why a +1 is needed here. Do you have a
-> pointer to somewhere to help understand this?
-> 
-> Also, I think, a comment on top might be useful since this isn't obvious.
-
-gen_pool works in power-of-two blocks. The user must pick a specific
-size with the gen_pool_create() call. Internally the gen_pool code uses
-a bitmap to track which blocks in the pool are allocated/free.
-
-Looking at this specific case, sizeof(struct mce_evt_llist) is 136. So
-the original version of this code picks order 7 to allocate in 128 byte
-units. But this means that every allocation of a mce_evt_llist will take
-two 128-byte blocks.
-
-Net result is that the comment at the top of arch/x86/kernel/cpu/mce/genpool.c
-that two pages are enough for ~80 records was wrong when written. At
-that point struct mce_evt_llist was below 128, so order was 6, and each
-allocation took two blocks. So two pages = 8192 bytes divided by (2 * 64)
-results in 64 possible allocations.
-
-But over time Intel and AMD added to the structure. So the current math
-comes out at just 32 allocations before the pool is out of space.
-
-Yazen provided the right answer for this. Change to use order_base_2()
-
-> > +	tmpp = gen_pool_create(order, -1);
-> >  	if (!tmpp)
-> >  		goto out;
-> >  
-> > -	ret = gen_pool_add(tmpp, (unsigned long)gen_pool_buf, MCE_POOLSZ, -1);
 > > +	mce_numrecords = max(80, num_possible_cpus() * 4);
+> > +	mce_poolsz = mce_numrecords * (1 << order);
+> > +	mce_pool = kmalloc(mce_poolsz, GFP_KERNEL);
 > 
-> How about using MCE_MIN_ENTRIES here?
+> To err on the side of caution, wouldn't kzalloc() be a safer choice here?
 
-Oops. I meant to do that when I added the #define!
+Seems like too much caution. When mce_gen_pool_add() allocates
+an entry from the pool it does:
 
-I've also added a "#define MCE_PER_CPU 4" instead of
-a raw "4" in that expression.
+	memcpy(&node->mce, mce, sizeof(*mce));
+	llist_add(&node->llnode, &mce_event_llist);
+
+between those two lines, every field in the struct mce_evt_llist
+is written (including any holes in the struct mce part of the structure).
 
 -Tony
