@@ -1,235 +1,259 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19614171D2;
-	Tue,  5 Mar 2024 23:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C055A5381;
+	Wed,  6 Mar 2024 05:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709683092; cv=none; b=GVNEkg4d5E/8hlmYNkhEyONq74SeQF9ikLfv5uIezkIJ5BF/Ye4uzLjAWTTtBt5bNRbBJCFShky8UT2Am0ek7Vs4iIG/M0yaOf1X5VMsmwZRb2o8pS66//DIvtIhlkl8n2d2vjkaobarpENZK/t8qGk7eaqooHP99osOHV0ZHrk=
+	t=1709702874; cv=none; b=VGCz4/pVu7C+s6pQPJqtxhVeunqdtf6a0aDVery2RVo4o0znF98QI8JkVUuLBbgLqXWzBIZfPUWanWgP6oSCoAr52cpRm1JY8l8oBfhz9W5o705WHgLiqdYvGt6kAbaqltPIb9DBeDYq34moji2KaFgmkliYETW/DHxqhxyC2zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709683092; c=relaxed/simple;
-	bh=4hCUq/hjcZij7Vw+LDYWfYReVMXKhq7r70yM7c0jmfI=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XQBXJIkpkW8loVRzFCI6tUYS09q2jFZxRsP5hS2p1+1SGRWef6cJ80uwi9otRDY5dwllLpNBT3o6Yt1Jv8rIcTFoohUjjlxHsLHiR1SjErpzhiojB9HmGYKjoHRnGKuPeH74TUxpMrTd692TT8aB3iHrN6vhCAtTUMy7Ylz7AEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5z/JnQj; arc=none smtp.client-ip=209.85.210.174
+	s=arc-20240116; t=1709702874; c=relaxed/simple;
+	bh=wKnbumHw86NpSxlTFIsomzV9Cee/hsO0cJfbKBQ1Ltw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jNJ0Sm65rXK7vi9DWkGB0G9qlxUu/0X9CBCKKMGvMJxDL1U6Xazv38smkaR1x+79KxnipHkBx/C5Zq/PbpWhy8D0MUlmXHHTIZ54nMtpqINDxoc6YxLrRSXruTpQBLKhk/9VnSfSJBfg5ehTRILqQhljWgwinIzfo5n8juPsRLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nkIlz7z7; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5z/JnQj"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e56787e691so238179b3a.0;
-        Tue, 05 Mar 2024 15:58:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nkIlz7z7"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5134f830488so2295997e87.0;
+        Tue, 05 Mar 2024 21:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709683090; x=1710287890; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CRPbTjVgyE4PYwh/jnpL0ufRys+ZJBqz1o3jrQedx1Q=;
-        b=N5z/JnQjQeIeVkuECWVQX5EBNV6WMJpKOuUWKAgu98+ww5EK+7tER3tTp2IWioS4OI
-         b3GS4WdCh9ldMmhyLaeG8+UPYu0AtI2P6UDZJ9bOtBTN6mjxl2GvfmdsJwPJqqp2u5Dg
-         QtBj+G80FK8xpC1/Jhu9T9LqOyXJZ4ZsFESD2mjQ8bZkRGOMkQ0ZhwtjAa3KG8GSXqh1
-         dt+93EzJwnYJY6kwlb6qWX7gJddn8yUMTs1fBY2KN59q/wHsv6Nr/PRs1f3tUWEpI7b4
-         qTrKXAUpWnMffqvjbm+JxMkrw7DCid2MOhPQIMIc+tU1Cwtiuop0GTUab6m9AeGsH9U/
-         gWXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709683090; x=1710287890;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1709702871; x=1710307671; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CRPbTjVgyE4PYwh/jnpL0ufRys+ZJBqz1o3jrQedx1Q=;
-        b=fxnvIUYlFgFTF3AOc6+M14hYwz/nqqwLERjGXrdTSh6p4sVqZc83XDXyqz+lYv1bH5
-         E4+WVYcAskvtBda2/grpxugNQW+4LZWe6v4GF7Rd+oJ5S1ykAdFrKcN3ItWySwg72pCw
-         R7ZC7FqyYFK4Sv120TFnkhOAGeueZcqGEZ8zgD5eYvF2ZDlxjf4uI/46uuLxcbeeRYf1
-         SB5nlf+IrP4UwkO72QiECxTzt5Js2i+55zulQBFD1gSex0sKE0S7lukzbjt0VQTW2A+i
-         yZakM/uj+jWeV/yQ1MBbzSCjXWD7L8q5HCggnEnpR2qloeDpmZ0V6HcYZlpxMMdH3KxG
-         yQPw==
-X-Forwarded-Encrypted: i=1; AJvYcCUagw3p3GQp1tTIG+VEctIfmZ9VkpanYZxX5tZ393j/tenLJL9YmJx2f7D0fp6qtOGKPXvoI/lTM2Nn6OTw2ZUspMM4fqLu3u60rORI65uoHJAZh8ULOs8DunREKJsopQnISB2pFsE3J7x2Ny32MOjDp/yGL8eUBgXIV6RWqPn0u8of3Cs=
-X-Gm-Message-State: AOJu0YwDJ74QREu5IW1CjQOZFRKAqSnByFD5K+9fGVzCJlOiLQClVtzg
-	792wnV2lfNIH1HJCW/8jz4cGzpyIEr2Z4KOCB2w3bKdFHj/8yyX3
-X-Google-Smtp-Source: AGHT+IFkyfofyClB+sf4ug0A6uUDjt2ZbsKesCzqOAmB+JwKyE/QcgD3QAAH8mfPCIEOeeVjDbPGeg==
-X-Received: by 2002:a05:6a20:e111:b0:1a1:48df:d55c with SMTP id kr17-20020a056a20e11100b001a148dfd55cmr4371695pzb.0.1709683090406;
-        Tue, 05 Mar 2024 15:58:10 -0800 (PST)
-Received: from debian ([2601:641:300:14de:881:34a4:d51c:3425])
-        by smtp.gmail.com with ESMTPSA id jw13-20020a056a00928d00b006e5574db193sm9885184pfb.18.2024.03.05.15.58.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 15:58:10 -0800 (PST)
-From: fan <nifan.cxl@gmail.com>
-X-Google-Original-From: fan <fan@debian>
-Date: Tue, 5 Mar 2024 15:57:53 -0800
-To: shiju.jose@huawei.com
-Cc: linux-cxl@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-mm@kvack.org, dan.j.williams@intel.com, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, david@redhat.com,
-	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
-	rientjes@google.com, jiaqiyan@google.com, tony.luck@intel.com,
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, rafael@kernel.org,
-	lenb@kernel.org, naoya.horiguchi@nec.com, james.morse@arm.com,
-	jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	mike.malvestuto@intel.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, dferguson@amperecomputing.com,
-	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
-	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
-	linuxarm@huawei.com
-Subject: Re: [RFC PATCH v6 01/12] cxl/mbox: Add GET_SUPPORTED_FEATURES
- mailbox command
-Message-ID: <ZeexgfzE2LkiV_Na@debian>
-References: <20240215111455.1462-1-shiju.jose@huawei.com>
- <20240215111455.1462-2-shiju.jose@huawei.com>
+        bh=o6XANTBlf+Hs9bvtmVOEbSoR6w8IVhuP5PyAmad96gU=;
+        b=nkIlz7z7+/TzMXCTrizfss9B9s7aOYq+cB9Hr1H1J/v+n44zMaRXevLvK3EOOB5jEQ
+         GP3+PQAy0gbV6PSc0wO0xKzDHDm82J7Z4znTJGXDSTojTAPdoV6lvQ6O5g57zlupVLDU
+         DdoQl9LAZviwBcozn0FeoI7hP3dnExq4kLoPAUWgVRMoC7KL+A/BDNvypJWtmpNPMFCk
+         FZKD3Qsn97pkJ53IQyxoVO0rgJaNuE4PwhLKO+zb2cyJk170IfbtBNuUmOsHCa2JAUDR
+         CRb3VMYTj/EVRX3JYbuU8n32RqHHWZ51j6im5j6pssrEwbbV6LqIBuw54QYq0e7mWlwH
+         mONA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709702871; x=1710307671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o6XANTBlf+Hs9bvtmVOEbSoR6w8IVhuP5PyAmad96gU=;
+        b=fr6V+g0XvnirDDtl+V6+4lqMBupX38d5jDJ+OLWJPeErQfWICS8bjYZsdOPxnpektC
+         1DPRsAqz1/bPAbzaz+1CsetKg+vHn/kTgASfg2rij0CGzce2OOOf6oaQNPWbdvB9Cb4z
+         s7gpg2VnsGrGKclKqLzfR48/qOslT5FV68Dp1+werH02ocOzKu8SL+bmUcqbuI+o/Qmz
+         B5Bfc4R6yG67lWUGr4XHP0k0MwH4Vh1yqy2XcGxc7gpnnBkUxIU3w2CBjZda1Rd37QB7
+         JEuWQXtuh+pvtImsn8L9PWECV6403hTjEtTfzyngsEtUBTLJjEXvyEkR5lpaVj6t21i4
+         45Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCU2HsrU0K+Hoa5/YeUDReJbvo/EcvQvCatEUJO/Bjgn2G0R3dn5oZ/VcRllPlrI450XcZXf8vXpFy7rTo/3Kb1/SvZtfqwgZ+Vep9Vo2egdn6CxXDgKDL58OxFppO6NGrB3My5gzTLcaA==
+X-Gm-Message-State: AOJu0Yw/Iid+fVppU9NqjSfLg9udawGKtAzHdBtJA9P6rRoBHclvhWFN
+	pDm0W3iQyP8ehuj8vv7ReLkc4g6z62VA29km9YbSYOr5eYQ/YomGWI2v3jNJM+WmJeQQ56AOvW4
+	OpljL6Bfs7Zzz0D3C0ap7Qn0yvbWlVJBfDaPgEw==
+X-Google-Smtp-Source: AGHT+IEV8/o3jo9E7Lp/Mc9+d1xZq5uwZjt002ECMmo5PNhaBpnQ1gL7QcMHHTkoZreIlmul4g1YHUkohgFH+8dhTbE=
+X-Received: by 2002:a05:6512:3194:b0:513:5eb5:f7f4 with SMTP id
+ i20-20020a056512319400b005135eb5f7f4mr369476lfe.55.1709702870587; Tue, 05 Mar
+ 2024 21:27:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240215111455.1462-2-shiju.jose@huawei.com>
+References: <20240222181324.28242-1-fancer.lancer@gmail.com>
+In-Reply-To: <20240222181324.28242-1-fancer.lancer@gmail.com>
+From: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
+Date: Wed, 6 Mar 2024 10:57:38 +0530
+Message-ID: <CAKfKVtErVuCM+pa1e7Lwt0DUU-t-U0eNRnZSw39pfsZ8gv8QZQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/20] EDAC/mc/synopsys: Various fixes and cleanups
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Michal Simek <michal.simek@amd.com>, Alexander Stein <alexander.stein@ew.tq-group.com>, 
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Richter <rric@kernel.org>, 
+	Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>, Dinh Nguyen <dinguyen@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 15, 2024 at 07:14:43PM +0800, shiju.jose@huawei.com wrote:
-> From: Shiju Jose <shiju.jose@huawei.com>
-> 
-> Add support for GET_SUPPORTED_FEATURES mailbox command.
-> 
-> CXL spec 3.1 section 8.2.9.6 describes optional device specific features.
-> CXL devices supports features with changeable attributes.
-> Get Supported Features retrieves the list of supported device specific
-> features. The settings of a feature can be retrieved using Get Feature
-> and optionally modified using Set Feature.
-> 
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-> ---
->  drivers/cxl/core/mbox.c | 23 +++++++++++++++
->  drivers/cxl/cxlmem.h    | 62 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 85 insertions(+)
-> 
-> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> index 27166a411705..191f51f3df0e 100644
-> --- a/drivers/cxl/core/mbox.c
-> +++ b/drivers/cxl/core/mbox.c
-> @@ -1290,6 +1290,29 @@ int cxl_set_timestamp(struct cxl_memdev_state *mds)
->  }
->  EXPORT_SYMBOL_NS_GPL(cxl_set_timestamp, CXL);
->  
-> +int cxl_get_supported_features(struct cxl_memdev_state *mds,
-> +						struct cxl_mbox_get_supp_feats_in *pi,
-> +						void *feats_out)
-> +{
-> +	struct cxl_mbox_cmd mbox_cmd;
-> +	int rc;
-> +
-> +	mbox_cmd = (struct cxl_mbox_cmd) {
-> +		.opcode = CXL_MBOX_OP_GET_SUPPORTED_FEATURES,
-> +		.size_in = sizeof(*pi),
-> +		.payload_in = pi,
-> +		.size_out = le32_to_cpu(pi->count),
-> +		.payload_out = feats_out,
-> +		.min_out = sizeof(struct cxl_mbox_get_supp_feats_out),
-> +	};
-> +	rc = cxl_internal_send_cmd(mds, &mbox_cmd);
-> +	if (rc < 0)
-> +		return rc;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_get_supported_features, CXL);
-> +
->  int cxl_mem_get_poison(struct cxl_memdev *cxlmd, u64 offset, u64 len,
->  		       struct cxl_region *cxlr)
->  {
-> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
-> index 5303d6942b88..23e4d98b9bae 100644
-> --- a/drivers/cxl/cxlmem.h
-> +++ b/drivers/cxl/cxlmem.h
-> @@ -529,6 +529,7 @@ enum cxl_opcode {
->  	CXL_MBOX_OP_SET_TIMESTAMP	= 0x0301,
->  	CXL_MBOX_OP_GET_SUPPORTED_LOGS	= 0x0400,
->  	CXL_MBOX_OP_GET_LOG		= 0x0401,
-> +	CXL_MBOX_OP_GET_SUPPORTED_FEATURES	= 0x0500,
->  	CXL_MBOX_OP_IDENTIFY		= 0x4000,
->  	CXL_MBOX_OP_GET_PARTITION_INFO	= 0x4100,
->  	CXL_MBOX_OP_SET_PARTITION_INFO	= 0x4101,
-> @@ -698,6 +699,64 @@ struct cxl_mbox_set_timestamp_in {
->  
->  } __packed;
->  
-> +/* Get Supported Features CXL 3.1 Spec 8.2.9.6.1 */
+On Thu, Feb 22, 2024 at 11:52=E2=80=AFPM Serge Semin <fancer.lancer@gmail.c=
+om> wrote:
+>
+> This patchset is a first one in the series created in the framework of
+> my Synopsys DW uMCTL2 DDRC-related work:
+>
+> [1: In-progress v5] EDAC/mc/synopsys: Various fixes and cleanups
+> Link: ---you are looking at it---
+> [2: In-progress v4] EDAC/synopsys: Add generic DDRC info and address mapp=
+ing
+> Link: https://lore.kernel.org/linux-edac/20230920192806.29960-1-fancer.la=
+ncer@gmail.com
+> [3: In-progress v4] EDAC/synopsys: Add generic resources and Scrub suppor=
+t
+> Link: https://lore.kernel.org/linux-edac/20230920195720.32047-1-fancer.la=
+ncer@gmail.com
+>
+> Note the patchsets above must be merged in the same order as they are
+> placed in the list in order to prevent conflicts. Nothing prevents them
+> from being reviewed synchronously though. Any tests are very welcome.
+> Thanks in advance.
+>
+> The main goal of the entire set of the changes provided in the mentioned
+> patchsets is to as much as possible specialise the synopsys_edac.c driver
+> to be working with the Synopsys DW uMCTL2 DDR controllers of various
+> versions and synthesized parameters, and add useful error-detection
+> features.
+>
+> Regarding this series content. It's an initial patchset which
+> traditionally provides various fixes, cleanups and modifications required
+> for the more comfortable further features development. The main goal of i=
+t
+> though is to detach the Xilinx Zynq A05 DDRC related code into the
+> dedicated driver since first it has nothing to do with the Synopsys DW
+> uMCTL2 DDR controller and second it will be a great deal obstacle on the
+> way of extending the Synopsys-part functionality.
+>
+> The series starts with the fixes patches, which in short concern the next
+> aspects: touching the ZynqMP-specific CSRs on the Xilinx ZinqMP platform
+> only, serializing an access to the ECCCLR/ECCCTL register, adding correct=
+ memory
+> devices type detection, setting a correct value to the
+> mem_ctl_info.scrub_cap field, dropping an erroneous ADDRMAP[4] parsing an=
+d
+> getting back a correct order of the ECC errors info detection procedure.
+>
+> Afterwards the patchset provides several cleanup patches required for the
+> more coherent code splitting up (Xilinx Zynq A05 and Synopsys DW uMCTL2
+> DDRCs) so the provided modifications would be useful in both drivers.
+> First the platform resource open-coded IO-space remapping is replaced wit=
+h
+> the devm_platform_ioremap_resource() method call for the sake of the code
+> simplification. Secondly the next redundant entities are dropped: interna=
+l
+> CE/UE errors counters, local to_mci() macros definition, some redundant
+> ecc_error_info structure fields and redundant info from the error message=
+,
+> duplicated dimm->nr_pages debug printout and spaces from the MEM_TYPE
+> flags declarations. (The later two updates concern the MCI core part.)
+> Thirdly before detaching the Zynq A05-related code an unique MC index
+> allocation infrastructure is added to the MCI core. It's required since
+> after splitting the driver up both supported types of memory devices coul=
+d
+> be correctly probed on the same platform. Note even though it's currently
+> unsupported by the synsopsys_edac.c driver it's claimed to be possible by
+> the original driver author (it was a reason of having two unrelated
+> devices supported in a single driver). Finally the Xilinx Zynq A05 part o=
+f
+> the driver is moved out to a dedicated driver. After that the
+> platform-specific setups API is removed from the Synopsys DW uMCTL2 DDRC
+> driver since it's no longer required.
+>
+> Finally as the cherry on the cake a set of the local coding style
+> cleanups are provided: unify the DW uMCTL2 DDRC driver entities naming an=
+d
+> replace the open-coded "shift/mask" pattern with the kernel helpers like
+> BIT/GENMASK/FIELD_x in there. It shall significantly improve the code
+> readability.
+>
 
-In current code, block comments starts with /* and the real comments go
-from the second line.
+For the zynqmp
 
-Fan
-> +/*
-> + * Get Supported Features input payload
-> + * CXL rev 3.1 section 8.2.9.6.1 Table 8-95
-> + */
-> +struct cxl_mbox_get_supp_feats_in {
-> +	__le32 count;
-> +	__le16 start_index;
-> +	u16 reserved;
-> +} __packed;
-> +
-> +/*
-> + * Get Supported Features Supported Feature Entry
-> + * CXL rev 3.1 section 8.2.9.6.1 Table 8-97
-> + */
-> +/* Supported Feature Entry : Payload out attribute flags */
-> +#define CXL_FEAT_ENTRY_FLAG_CHANGABLE	BIT(0)
-> +#define CXL_FEAT_ENTRY_FLAG_DEEPEST_RESET_PERSISTENCE_MASK	GENMASK(3, 1)
-> +#define CXL_FEAT_ENTRY_FLAG_PERSIST_ACROSS_FIRMWARE_UPDATE	BIT(4)
-> +#define CXL_FEAT_ENTRY_FLAG_SUPPORT_DEFAULT_SELECTION	BIT(5)
-> +#define CXL_FEAT_ENTRY_FLAG_SUPPORT_SAVED_SELECTION	BIT(6)
-> +
-> +enum cxl_feat_attr_value_persistence {
-> +	CXL_FEAT_ATTR_VALUE_PERSISTENCE_NONE,
-> +	CXL_FEAT_ATTR_VALUE_PERSISTENCE_CXL_RESET,
-> +	CXL_FEAT_ATTR_VALUE_PERSISTENCE_HOT_RESET,
-> +	CXL_FEAT_ATTR_VALUE_PERSISTENCE_WARM_RESET,
-> +	CXL_FEAT_ATTR_VALUE_PERSISTENCE_COLD_RESET,
-> +	CXL_FEAT_ATTR_VALUE_PERSISTENCE_MAX
-> +};
-> +
-> +#define CXL_FEAT_ENTRY_FLAG_PERSISTENCE_ACROSS_FW_UPDATE_MASK	BIT(4)
-> +#define CXL_FEAT_ENTRY_FLAG_PERSISTENCE_DEFAULT_SEL_SUPPORT_MASK	BIT(5)
-> +#define CXL_FEAT_ENTRY_FLAG_PERSISTENCE_SAVED_SEL_SUPPORT_MASK	BIT(6)
-> +
-> +struct cxl_mbox_supp_feat_entry {
-> +	uuid_t uuid;
-> +	__le16 feat_index;
-> +	__le16 get_feat_size;
-> +	__le16 set_feat_size;
-> +	__le32 attr_flags;
-> +	u8 get_feat_version;
-> +	u8 set_feat_version;
-> +	__le16 set_feat_effects;
-> +	u8 rsvd[18];
-> +}  __packed;
-> +
-> +/*
-> + * Get Supported Features output payload
-> + * CXL rev 3.1 section 8.2.9.6.1 Table 8-96
-> + */
-> +struct cxl_mbox_get_supp_feats_out {
-> +	__le16 entries;
-> +	__le16 nsuppfeats_dev;
-> +	u32 reserved;
-> +	struct cxl_mbox_supp_feat_entry feat_entries[];
-> +} __packed;
-> +
->  /* Get Poison List  CXL 3.0 Spec 8.2.9.8.4.1 */
->  struct cxl_mbox_poison_in {
->  	__le64 offset;
-> @@ -829,6 +888,9 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
->  			    enum cxl_event_type event_type,
->  			    const uuid_t *uuid, union cxl_event *evt);
->  int cxl_set_timestamp(struct cxl_memdev_state *mds);
-> +int cxl_get_supported_features(struct cxl_memdev_state *mds,
-> +			       struct cxl_mbox_get_supp_feats_in *pi,
-> +			       void *feats_out);
->  int cxl_poison_state_init(struct cxl_memdev_state *mds);
->  int cxl_mem_get_poison(struct cxl_memdev *cxlmd, u64 offset, u64 len,
->  		       struct cxl_region *cxlr);
-> -- 
-> 2.34.1
-> 
+Reviewed-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+
+Thanks,
+> Changelog v2:
+> - Move Synopsys DW uMCTL2 DDRC bindings file renaming to a separate patch=
+.
+>   (@Krzysztof)
+> - Introduce a new compatible string "snps,dw-umctl2-ddrc" matching the ne=
+w
+>   DT-schema name.
+> - Forgot to fix some of the prefix of the SYNPS_ZYNQMP_IRQ_REGS macro
+>   in several places. (@tbot)
+> - Drop the no longer used "priv" pointer from the mc_init() function.
+>   (@tbot)
+> - Include "linux/bitfield.h" header file to get the FIELD_GET macro
+>   definition. (@tbot)
+> - Drop the already merged in patches:
+> [PATCH 12/20] EDAC/mc: Replace spaces with tabs in memtype flags definiti=
+on
+> [PATCH 13/20] EDAC/mc: Drop duplicated dimm->nr_pages debug printout
+>
+> Changelog v3:
+> - Drop the no longer used "priv" pointer from the mc_init() function.
+>   (@tbot)
+> - Drop the merged in patches:
+> [PATCH v2 14/19] dt-bindings: memory: snps: Detach Zynq DDRC controller s=
+upport
+> [PATCH v2 15/19] dt-bindings: memory: snps: Use more descriptive device n=
+ame
+>   (@Krzysztof)
+>
+> Changelog v4:
+> - Remove Rob, Krzysztof and DT-mailing list from Cc since the respective
+>   patches have already been merged in.
+> - Add a new patch
+>   [PATCH v4 6/20] EDAC/synopsys: Fix misleading IRQ self-cleared quirk fl=
+ag
+>   detached from the very first patch of the series.
+> - Add a new patch
+>   [PATCH v4 15/20] EDAC/mc: Re-use generic unique MC index allocation pro=
+cedure
+> - Add a new patch
+>   [PATCH v4 18/20] EDAC/synopsys: Unify CSRs macro declarations
+>   collecting the changes from various patches of the series.
+> - Drop redundant empty lines left by mistake.
+> - Drop private counters access from the check_errors() method too.
+> - Rebase onto the kernel v6.6-rcX.
+>
+> Link: https://lore.kernel.org/linux-edac/20230920191059.28395-1-fancer.la=
+ncer@gmail.com
+> Changelog v5:
+> - Fix function names in the zynq_edac.c kdoc.
+> - Rebase onto the kernel 6.8-rc3.
+>
+> Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> Cc: Punnaiah Choudary Kalluri <punnaiah.choudary.kalluri@xilinx.com>
+> Cc: Dinh Nguyen <dinguyen@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-edac@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+>
+> Serge Semin (20):
+>   EDAC/synopsys: Fix ECC status data and IRQ disable race condition
+>   EDAC/synopsys: Fix generic device type detection procedure
+>   EDAC/synopsys: Fix mci->scrub_cap field setting
+>   EDAC/synopsys: Drop erroneous ADDRMAP4.addrmap_col_b10 parse
+>   EDAC/synopsys: Fix reading errors count before ECC status
+>   EDAC/synopsys: Fix misleading IRQ self-cleared quirk flag
+>   EDAC/synopsys: Use platform device devm ioremap method
+>   EDAC/synopsys: Drop internal CE and UE counters
+>   EDAC/synopsys: Drop local to_mci() macro definition
+>   EDAC/synopsys: Drop struct ecc_error_info.blknr field
+>   EDAC/synopsys: Shorten out struct ecc_error_info.bankgrpnr field name
+>   EDAC/synopsys: Drop redundant info from the error messages
+>   EDAC/mc: Init DIMM labels in MC registration method
+>   EDAC/mc: Add generic unique MC index allocation procedure
+>   EDAC/mc: Re-use generic unique MC index allocation procedure
+>   EDAC/synopsys: Detach Zynq A05 DDRC support to separate driver
+>   EDAC/synopsys: Drop unused platform-specific setup API
+>   EDAC/synopsys: Unify CSRs macro declarations
+>   EDAC/synopsys: Unify struct/macro/function prefixes
+>   EDAC/synopsys: Convert to using BIT/GENMASK/FIELD_x macros
+>
+>  MAINTAINERS                  |   1 +
+>  drivers/edac/Kconfig         |   9 +-
+>  drivers/edac/Makefile        |   1 +
+>  drivers/edac/dmc520_edac.c   |   4 +-
+>  drivers/edac/edac_mc.c       | 135 ++++-
+>  drivers/edac/edac_mc.h       |   4 +
+>  drivers/edac/pasemi_edac.c   |   5 +-
+>  drivers/edac/ppc4xx_edac.c   |   5 +-
+>  drivers/edac/synopsys_edac.c | 967 ++++++++++++-----------------------
+>  drivers/edac/zynq_edac.c     | 501 ++++++++++++++++++
+>  10 files changed, 963 insertions(+), 669 deletions(-)
+>  create mode 100644 drivers/edac/zynq_edac.c
+>
+> --
+> 2.43.0
+>
+>
