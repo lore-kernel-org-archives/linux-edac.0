@@ -1,367 +1,487 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2048.outbound.protection.outlook.com [40.107.93.48])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F24130A6B;
-	Fri, 19 Apr 2024 16:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713543661; cv=fail; b=SeiGY27MAPp91uFYeeb4C/7pv3v50PCAtp2aU/w036cS6O3x2n0KgLIQM723VDO0CksOA5YAQm+SXbyg3UvjuQF8a6vhorqo+joYYDaPEk9dbliIpnpHMwa9PNlwY7nULnZWVbCvYMOpBhY69J2QX9hQDpNyU6zKcc72IhlvLfc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713543661; c=relaxed/simple;
-	bh=SY3BPx2WnV/kC1RnQePEDaftcMfOdHTOgTUbfja+l0o=;
-	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TatqVbVSnw2ECAWB3sRkVsqo+AvQ0xMB9o8u7sft7TaxbjRWm9QUGdmFBRweDk7qDioz3MZU/5GqpGRjYIHF/haTe/kqNKLUXsFcEWtIztA4JvEylPbmWRPCdbTXtQLeBHBX4hPHY8N74zcytDz8hqJ3tOmXNmeUaUJyS92xnNk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=15Y9IbR8; arc=fail smtp.client-ip=40.107.93.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="15Y9IbR8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SWAbNeypVMzBo2+o2WA+WUaqYGQ1RNmMq9Cgv3ST8gyKbQUNkh8F3jnxSWHe2ivD58jmODEa57PqvY8iCkM0P8IVVCPEkzWnnB5uESOv82e0MJ2h3htDcTgcDMOBuOz6IkHkiO53eOT99E5D6GziDKLp3T2rF5lGi7UXExjcmhC54hC1fTwrCbSG1fl13Lwyu9/hS7S1b7N6uolMdmOANEcnyBckNFP+nInZq/oPTjYRIOxizd7+PxvpobGNmn3Q3JQ/f/pIFEy1Xa0gJxEo/mXm/xbvEpL8yWlNwxdRQJZeYbmHQVSyFpb2CWQ9oFHJA6touur3h0qgZwerqhetuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KZQEy1AHRmhQ0FL1BsgR2bCdGdujbvwEHWBSC6b4l8g=;
- b=Pcb5b9knvDxn62ez4QN1hkE8mUsnK/F4sNGmzj06IC/WUkpy34iI/jGm3nCcGB9IHlnkLwqH/M0KWq9CDWOfenQTuKlAS4Xci/U7N07xjp3cnHztqUSUuayM9+eJoVBbf8WC8ZU+bcj/jJt/YPmGoLhIUzdRxLmFtyjpq/MPqHZI043rQMho2h7RFWwLKt12AoY7BzqYeFiQTiI/OLjze1G0qRrNsoGiY9gw9DbrIrEQrB4f7Zlnn+7MA5njtaVnqmAn1TNYiGMviyy3Btw+qUW9mBNwwZTH8Kd5KpCnJzIjGSP1WyWhJpupQ9UygAJS3S8jYYiFuXSQZAZARG9swg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KZQEy1AHRmhQ0FL1BsgR2bCdGdujbvwEHWBSC6b4l8g=;
- b=15Y9IbR8qVldjk98O1CijNKNheO93E614kjC4z5HEzO0++y7qwMU8APthjQ5OYveYio+xiMeHSLaiGeIj+qNsPM0GeKu2GFGJ/64IMH+19/eZV+24Gc50JeqcrwT+3GZU2CZl+rWpoMCGHdIZEn92jyIcLv5pP2ekahsDtTd7zw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by SJ1PR12MB6052.namprd12.prod.outlook.com (2603:10b6:a03:489::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Fri, 19 Apr
- 2024 16:20:55 +0000
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::43a5:ed10:64c2:aba3]) by BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::43a5:ed10:64c2:aba3%7]) with mapi id 15.20.7452.049; Fri, 19 Apr 2024
- 16:20:55 +0000
-Message-ID: <27fadd8a-d5a7-4b65-a2ec-c1aa04a15048@amd.com>
-Date: Fri, 19 Apr 2024 12:20:53 -0400
-User-Agent: Mozilla Thunderbird
-Cc: yazen.ghannam@amd.com, linux-kernel@vger.kernel.org,
- avadhut.naik@amd.com, muralidhara.mk@amd.com
-Subject: Re: [PATCH v3 3/4] RAS/AMD/ATL: Validate address map when information
- is gathered
-To: John Allen <john.allen@amd.com>, bp@alien8.de,
- linux-edac@vger.kernel.org, tony.luck@intel.com
-References: <20240418161417.6091-1-john.allen@amd.com>
- <20240418161417.6091-4-john.allen@amd.com>
-Content-Language: en-US
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-In-Reply-To: <20240418161417.6091-4-john.allen@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN0PR04CA0208.namprd04.prod.outlook.com
- (2603:10b6:408:e9::33) To BN8PR12MB3108.namprd12.prod.outlook.com
- (2603:10b6:408:40::20)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBE6130A5B;
+	Fri, 19 Apr 2024 16:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713545266; cv=none; b=AiB4Me3VbGzxRAGwb6CUWk0nwUAxSbQ7uvrv3tN7ewkluHFncvbDNGhJLR6HeEbkk2wJFPVaAtt62GfEaVBZI/huUsxqO3/4EiAuA3JSQRscslb3BV8QTNMJmJSlI6uSBUUlJzSilENwrMkZ89WWGdMbAQGtjRPpS8N12yicyNs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713545266; c=relaxed/simple;
+	bh=FLmy9nGhpeQpzNEGELd6fb1fl1kbOZbYo1/FiZ5frWc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MBj/tJeq2NCNK6RbCfR7UWlCXCZ6M5JzSyfhe0DNQPLj4r59NBlTJZmAQTBSQIlmDsK4czrsZwx+0vVLiuXffGK27wh5MvjePBjzJZiLwwd0voIN8qUKcD0Z0lhWZyFTjC/i4Lnf/NO1MT/iQLFH0cPwKk2G8BnKUCfvLkuTizA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VLgW31Gl2z6K626;
+	Sat, 20 Apr 2024 00:45:35 +0800 (CST)
+Received: from lhrpeml500006.china.huawei.com (unknown [7.191.161.198])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0DB10140A70;
+	Sat, 20 Apr 2024 00:47:42 +0800 (CST)
+Received: from SecurePC30232.china.huawei.com (10.122.247.234) by
+ lhrpeml500006.china.huawei.com (7.191.161.198) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 19 Apr 2024 17:47:41 +0100
+From: <shiju.jose@huawei.com>
+To: <linux-cxl@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <dan.j.williams@intel.com>, <dave@stgolabs.net>,
+	<jonathan.cameron@huawei.com>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>
+CC: <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<david@redhat.com>, <Vilas.Sridharan@amd.com>, <leo.duran@amd.com>,
+	<Yazen.Ghannam@amd.com>, <rientjes@google.com>, <jiaqiyan@google.com>,
+	<tony.luck@intel.com>, <Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<rafael@kernel.org>, <lenb@kernel.org>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<mike.malvestuto@intel.com>, <gthelen@google.com>,
+	<wschwartz@amperecomputing.com>, <dferguson@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <yazen.ghannam@amd.com>,
+	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<linuxarm@huawei.com>, <shiju.jose@huawei.com>
+Subject: [RFC PATCH v8 01/10] ras: scrub: Add scrub subsystem
+Date: Sat, 20 Apr 2024 00:47:10 +0800
+Message-ID: <20240419164720.1765-2-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.35.1.windows.2
+In-Reply-To: <20240419164720.1765-1-shiju.jose@huawei.com>
+References: <20240419164720.1765-1-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3108:EE_|SJ1PR12MB6052:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7b0163d-4148-47dd-f732-08dc608cb085
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	yfdQYMktmWkmCCGF8Po028LkLp+v4wAUUvKWgniPN9zLo+xdJrz2Ds3suIZ6xdqtkA72MqD7P9bTUpdatUPlmyl59cNuxyJv7TMdmU6io5rYk7M6kjZ51JjWVcu84t8odJ9QVh5h4e8C064UPCkP290kxpYztzeS5ixff6YFYTNX006xzAw9E4SPKsZeleUGsZ5Jxf64Lerb2GyoqjHGunX0j+VatcoHLpQHYCNWRkCwAU464qIxyEPELMgoU/nJf2MsdwiiLpUdqfjppzB7gqKthNKfswZNCI+/D59XuUDiOjeFD0W9rv8SUDRNpCfG/5gWSZrGlHRr7bWTBLIL03IXKMWVr+4qzbhzf87YBck/FkvZE3pGdg+siOiIXL+tdeTwSl70fEDPz3N3tnJF/87YGQx5Sa3tOAHWzGRCnuTRCA+MZXtE6J85QTg8UgH0wCuM9fuinm2dwGVVci8QcPbhDwhGX9ZyF0AjDBNHUCiW5yQV2QCDVtnRrbuI1q9yJ3DNATThDRzYcGDylLn8j93O/KSbAQxlxwbPC2pGNnPsdkTK5BX9haFefkILkEZZh81pCExQyxY+3aweQh462rL2TwASO6286HyUoOeyuB5ENeF4wjZsV7uLQoTpwG6rXsUnM2rwSZBdfK0xH43WvNpuojp57m6fGa8aJ23LvmA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Q2hsVFVIVUo4eWtSZGRPQ1loL0RqZXlzdFRPdCtwd2RNY2JqZ3FHcEZ2QTBB?=
- =?utf-8?B?cGVMbXdRdDVDNVZSSE5HWVd3Y1BsZ0U5Rjl1US9wTDdQcHVuWG9KNyt4VmJ0?=
- =?utf-8?B?Y05aOEhFa0g2d2pJUVIwSnlvQjdjb01DTzgzN1JRUG00cFNsa0ZUVk5BOGhD?=
- =?utf-8?B?OTRHMFMzWnRlVVYvVTBCbnpaZXlnMW0zUkFEa1U5eENhK1dDVVFDbXVDdHlX?=
- =?utf-8?B?TDdYQ1N0dXRMcUROMm1LVE9YR3RtZ2pzRFRDS0JUTTdBdUpDUTN3amRXaTNZ?=
- =?utf-8?B?enkxQnpVck55UWpmZFRZWWxEdkltS3RGMzZjTndwSytvVTVVUmZGeDhSY3Yy?=
- =?utf-8?B?RlFyeEtLWHJTSVhqV3BGSnhpZmtkRitSbEJkQlYxQzVKTk1LN0dKY2IwR1FZ?=
- =?utf-8?B?RjgvVUlHNDFZNVVITkkxRWw3Vk14VzMrSDBFOXBVVjFYWkJTZE90TVFNSlhM?=
- =?utf-8?B?THpraDBVVGEvdmlDNGN1OWdVUGxyR1BqQ2FLaXNaTmJBd3JCdFRhZUkrc2wv?=
- =?utf-8?B?SWh3Z2JTYTRWb09ydHBsanRKMDRqRWIrVVM5dHhyTUxCbFdVNWJuVGsvVWlE?=
- =?utf-8?B?Mi9VdkhpeTZvVmdSUlhUc2JiaHJMTmtYOHVlN0UxZ1dQV05yblEvcit6V2hJ?=
- =?utf-8?B?SS80U1RiaWNHa2p2eTVQUTMvRWZBTzdTM2JUZWFFL1ZBVE5XRU9QTUZBQk1J?=
- =?utf-8?B?enZ4SDdRRjFMNEo5dUJFOWt5RS9PelgySjdGc2dORk93Y3VRbnBHTFM4dktu?=
- =?utf-8?B?ZTlsekZsOWJpVnkrV3l3dm1mMnVRMi9qSEk0MjNFVTcxditYeFEzQS9HQnQz?=
- =?utf-8?B?dk04RUZDbGF4aDJPQWpYWWRCOWlkMlI1RDNTRWFvUFhxZW5rLzR0MGtYangr?=
- =?utf-8?B?WE9Ucll5MzBmTkYrYWhSdVJWN0VkbndpUnE0U1hRVjFmTncwbGx0ckNJMjJY?=
- =?utf-8?B?MjROa1ppTm5OSVRDOExrcTRLUWhhbnByZEszSWpMdGdmTWs4amt3SnVyVERW?=
- =?utf-8?B?bDAyWVc2L0pqbGRiWE5Rb1hwNDRIMnUrT2VoOXczYmkrOHpJWEkrZXhBaWtF?=
- =?utf-8?B?OExlMEdNdS9XOHdxUnhkdVZ1YnllZXZvMlhXVHZPRDZhWmk5Qmdvd0hBV3FL?=
- =?utf-8?B?Q09ITzNxWFFLYm0xWlVtMUpoMFM2a25KdVY0ZzRlVDhZL1NlaGVZN0RXV0t3?=
- =?utf-8?B?N1hXMHZiWWtHdU1KM3haK1IwaGRxM3RpUHFWcDcvekF2Wlh5cmVFWC9jMVpL?=
- =?utf-8?B?akRlMGIxOU5MZkt6QXNEU0hSOGJNK3A0TWhYZTVNSXFZWmhzemFLUW9uZjhC?=
- =?utf-8?B?M1lwUkJxL1ZEdjl1UGwzamRZZjNPekZUNVNHS2JXMG8xRUhnRmx3cjNYbERC?=
- =?utf-8?B?QUFEYlovL05tdFk2S016U2dFRU44K2ZpdWJJVWFoZ2k3RzNPL2NjS29ySG04?=
- =?utf-8?B?aTNiVmJqc1UwWGZEWkQrV2xSZkJ2UnNGTnZPSWt6b3l6dVM5SklnVW5PMVAz?=
- =?utf-8?B?SDB3cVlhbHZwUWhLd29PaU1ycHVTYlVrbVF5YmMyTU9CMGhBc2V1SVlQZnVG?=
- =?utf-8?B?OFRSSjMyMzZkYThjY2Nzd3F4YzRmWlZYUC9qd1VLWjZ2QThHSXVqZ2ZmdWJG?=
- =?utf-8?B?M2V2d2xkODVQRjFkcWlzNkNlWThiMisvN1VPMnRFWXkwTW1HRXA4QUNLTG40?=
- =?utf-8?B?ajFYUUVzRnA1TFdZSk1UR0pnaDByOHFLNzNmbUFDTTBTSGFFWjArMFVUSll0?=
- =?utf-8?B?bGlJcUM1dkRrTHppQnJ3S1BXMFZ6QVVtYjBSVmk0RlhxZCtIMjZ2ajVJRE84?=
- =?utf-8?B?d0YxZzhDcU5yck5pR0NtaU1WUGxKZDl4NE5sSFhFTHlKdDJwT01aS290ZlRu?=
- =?utf-8?B?MzZwek9pMkgvOFdIcTdNNEx3NURpaEdJWWNxOGExcGdsZWk5TzhTdk5oMDJ6?=
- =?utf-8?B?OTlEQUFDTjdLcnFCcUxDQVhYZ0pDbDA5K0ZsR0lyRzNMVWxjRFpPa2QwN2Rn?=
- =?utf-8?B?RVkvUEIzcGtaMlZxT0p1czc2cnJqc1ltdGg4RE4xQ3QvZ2Fxb29UVm42MUts?=
- =?utf-8?B?cVhlSGdOVkVrODVnWUU2bnlQbE93ZnZtZUwvRmtqRzBZR2FualJsb0ZPUFBj?=
- =?utf-8?Q?Xackit8e01y6804xDHYBp1WB9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7b0163d-4148-47dd-f732-08dc608cb085
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 16:20:55.4750
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g4KbhHhT40ioYcdzXIchTgfz8jUhBL7BIS3j0kstaiplIShqWIjkREkfXBR5U30+09F1mKyKciH9olRbkGaskA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6052
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500006.china.huawei.com (7.191.161.198)
 
-On 4/18/24 12:14, John Allen wrote:
-> Validate address maps at the time the information is gathered as the
-> address map will not change during translation.
-> 
-> Signed-off-by: John Allen <john.allen@amd.com>
-> ---
-> v2:
->   - New in v2.
-> v3:
->   - Move DF 4.5 np2 validation to patch 4.
->   - Update commit description.
-> ---
->  drivers/ras/amd/atl/dehash.c | 43 ------------------
->  drivers/ras/amd/atl/map.c    | 85 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 85 insertions(+), 43 deletions(-)
-> 
-> diff --git a/drivers/ras/amd/atl/dehash.c b/drivers/ras/amd/atl/dehash.c
-> index 4ea46262c4f5..d4ee7ecabaee 100644
-> --- a/drivers/ras/amd/atl/dehash.c
-> +++ b/drivers/ras/amd/atl/dehash.c
-> @@ -12,41 +12,10 @@
->  
->  #include "internal.h"
->  
-> -/*
-> - * Verify the interleave bits are correct in the different interleaving
-> - * settings.
-> - *
-> - * If @num_intlv_dies and/or @num_intlv_sockets are 1, it means the
-> - * respective interleaving is disabled.
-> - */
-> -static inline bool map_bits_valid(struct addr_ctx *ctx, u8 bit1, u8 bit2,
-> -				  u8 num_intlv_dies, u8 num_intlv_sockets)
-> -{
-> -	if (!(ctx->map.intlv_bit_pos == bit1 || ctx->map.intlv_bit_pos == bit2)) {
-> -		pr_debug("Invalid interleave bit: %u", ctx->map.intlv_bit_pos);
-> -		return false;
-> -	}
-> -
-> -	if (ctx->map.num_intlv_dies > num_intlv_dies) {
-> -		pr_debug("Invalid number of interleave dies: %u", ctx->map.num_intlv_dies);
-> -		return false;
-> -	}
-> -
-> -	if (ctx->map.num_intlv_sockets > num_intlv_sockets) {
-> -		pr_debug("Invalid number of interleave sockets: %u", ctx->map.num_intlv_sockets);
-> -		return false;
-> -	}
-> -
-> -	return true;
-> -}
-> -
->  static int df2_dehash_addr(struct addr_ctx *ctx)
->  {
->  	u8 hashed_bit, intlv_bit, intlv_bit_pos;
->  
-> -	if (!map_bits_valid(ctx, 8, 9, 1, 1))
-> -		return -EINVAL;
-> -
->  	intlv_bit_pos = ctx->map.intlv_bit_pos;
->  	intlv_bit = !!(BIT_ULL(intlv_bit_pos) & ctx->ret_addr);
->  
-> @@ -67,9 +36,6 @@ static int df3_dehash_addr(struct addr_ctx *ctx)
->  	bool hash_ctl_64k, hash_ctl_2M, hash_ctl_1G;
->  	u8 hashed_bit, intlv_bit, intlv_bit_pos;
->  
-> -	if (!map_bits_valid(ctx, 8, 9, 1, 1))
-> -		return -EINVAL;
-> -
->  	hash_ctl_64k = FIELD_GET(DF3_HASH_CTL_64K, ctx->map.ctl);
->  	hash_ctl_2M  = FIELD_GET(DF3_HASH_CTL_2M, ctx->map.ctl);
->  	hash_ctl_1G  = FIELD_GET(DF3_HASH_CTL_1G, ctx->map.ctl);
-> @@ -171,9 +137,6 @@ static int df4_dehash_addr(struct addr_ctx *ctx)
->  	bool hash_ctl_64k, hash_ctl_2M, hash_ctl_1G;
->  	u8 hashed_bit, intlv_bit;
->  
-> -	if (!map_bits_valid(ctx, 8, 8, 1, 2))
-> -		return -EINVAL;
-> -
->  	hash_ctl_64k = FIELD_GET(DF4_HASH_CTL_64K, ctx->map.ctl);
->  	hash_ctl_2M  = FIELD_GET(DF4_HASH_CTL_2M, ctx->map.ctl);
->  	hash_ctl_1G  = FIELD_GET(DF4_HASH_CTL_1G, ctx->map.ctl);
-> @@ -247,9 +210,6 @@ static int df4p5_dehash_addr(struct addr_ctx *ctx)
->  	u8 hashed_bit, intlv_bit;
->  	u64 rehash_vector;
->  
-> -	if (!map_bits_valid(ctx, 8, 8, 1, 2))
-> -		return -EINVAL;
-> -
->  	hash_ctl_64k = FIELD_GET(DF4_HASH_CTL_64K, ctx->map.ctl);
->  	hash_ctl_2M  = FIELD_GET(DF4_HASH_CTL_2M, ctx->map.ctl);
->  	hash_ctl_1G  = FIELD_GET(DF4_HASH_CTL_1G, ctx->map.ctl);
-> @@ -360,9 +320,6 @@ static int mi300_dehash_addr(struct addr_ctx *ctx)
->  	bool hashed_bit, intlv_bit, test_bit;
->  	u8 num_intlv_bits, base_bit, i;
->  
-> -	if (!map_bits_valid(ctx, 8, 8, 4, 1))
-> -		return -EINVAL;
-> -
->  	hash_ctl_4k  = FIELD_GET(DF4p5_HASH_CTL_4K, ctx->map.ctl);
->  	hash_ctl_64k = FIELD_GET(DF4_HASH_CTL_64K,  ctx->map.ctl);
->  	hash_ctl_2M  = FIELD_GET(DF4_HASH_CTL_2M,   ctx->map.ctl);
-> diff --git a/drivers/ras/amd/atl/map.c b/drivers/ras/amd/atl/map.c
-> index 8b908e8d7495..94c5f665d5bc 100644
-> --- a/drivers/ras/amd/atl/map.c
-> +++ b/drivers/ras/amd/atl/map.c
-> @@ -642,6 +642,87 @@ static int get_global_map_data(struct addr_ctx *ctx)
->  	return 0;
->  }
->  
-> +/*
-> + * Verify the interleave bits are correct in the different interleaving
-> + * settings.
-> + *
-> + * If @num_intlv_dies and/or @num_intlv_sockets are 1, it means the
-> + * respective interleaving is disabled.
-> + */
-> +static inline bool map_bits_valid(struct addr_ctx *ctx, u8 bit1, u8 bit2,
-> +				  u8 num_intlv_dies, u8 num_intlv_sockets)
-> +{
-> +	if (!(ctx->map.intlv_bit_pos == bit1 || ctx->map.intlv_bit_pos == bit2)) {
-> +		pr_debug("Invalid interleave bit: %u", ctx->map.intlv_bit_pos);
-> +		return false;
-> +	}
-> +
-> +	if (ctx->map.num_intlv_dies > num_intlv_dies) {
-> +		pr_debug("Invalid number of interleave dies: %u", ctx->map.num_intlv_dies);
-> +		return false;
-> +	}
-> +
-> +	if (ctx->map.num_intlv_sockets > num_intlv_sockets) {
-> +		pr_debug("Invalid number of interleave sockets: %u", ctx->map.num_intlv_sockets);
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static int validate_address_map(struct addr_ctx *ctx)
-> +{
-> +	switch (ctx->map.intlv_mode) {
-> +	case DF2_2CHAN_HASH:
-> +		if (!map_bits_valid(ctx, 8, 9, 1, 1))
-> +			goto out;
-> +		break;
-> +
+From: Shiju Jose <shiju.jose@huawei.com>
 
-This case ^^^ is the same as below and can fall through.
+Add scrub subsystem supports configuring the memory scrubbers
+in the system. The scrub subsystem provides the interface for
+registering the scrub devices. The scrub control attributes
+are provided to the user in /sys/class/ras/rasX/scrub
 
-> +	case DF3_COD4_2CHAN_HASH:
-> +	case DF3_COD2_4CHAN_HASH:
-> +	case DF3_COD1_8CHAN_HASH:
-> +		if (!map_bits_valid(ctx, 8, 9, 1, 1))
-> +			goto out;
-> +		break;
-> +
-> +	case DF4_NPS4_2CHAN_HASH:
-> +	case DF4_NPS2_4CHAN_HASH:
-> +	case DF4_NPS1_8CHAN_HASH:
-> +		if (!map_bits_valid(ctx, 8, 8, 1, 2))
-> +			goto out;
-> +		break;
-> +
+Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ .../ABI/testing/sysfs-class-scrub-configure   |  47 +++
+ drivers/ras/Kconfig                           |   7 +
+ drivers/ras/Makefile                          |   1 +
+ drivers/ras/memory_scrub.c                    | 271 ++++++++++++++++++
+ include/linux/memory_scrub.h                  |  37 +++
+ 5 files changed, 363 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-scrub-configure
+ create mode 100755 drivers/ras/memory_scrub.c
+ create mode 100755 include/linux/memory_scrub.h
 
-Same here.
-
-> +	case DF4p5_NPS4_2CHAN_1K_HASH:
-> +	case DF4p5_NPS4_2CHAN_2K_HASH:
-> +	case DF4p5_NPS2_4CHAN_1K_HASH:
-> +	case DF4p5_NPS2_4CHAN_2K_HASH:
-> +	case DF4p5_NPS1_8CHAN_1K_HASH:
-> +	case DF4p5_NPS1_8CHAN_2K_HASH:
-> +	case DF4p5_NPS1_16CHAN_1K_HASH:
-> +	case DF4p5_NPS1_16CHAN_2K_HASH:
-> +		if (!map_bits_valid(ctx, 8, 8, 1, 2))
-> +			goto out;
-> +		break;
-> +
-> +	case MI3_HASH_8CHAN:
-> +	case MI3_HASH_16CHAN:
-> +	case MI3_HASH_32CHAN:
-> +		if (!map_bits_valid(ctx, 8, 8, 4, 1))
-> +			goto out;
-> +		break;
-> +
-> +	default:
-> +		atl_debug_on_bad_intlv_mode(ctx);
-> +		return -EINVAL;
-
-This catches valid modes that don't have validation checks. We should
-drop this. Please see diff below.
-
-> +	}
-> +
-> +	return 0;
-> +
-> +out:
-> +	atl_debug(ctx, "Inconsistent address map");
-> +	return -EINVAL;
-> +}
-> +
->  static void dump_address_map(struct dram_addr_map *map)
->  {
->  	u8 i;
-> @@ -678,5 +759,9 @@ int get_address_map(struct addr_ctx *ctx)
->  
->  	dump_address_map(&ctx->map);
->  
-> +	ret = validate_address_map(ctx);
-> +	if (ret)
-> +		return ret;
-> +
->  	return ret;
->  }
-
-Thanks,
-Yazen
-
------
-
-diff --git a/drivers/ras/amd/atl/map.c b/drivers/ras/amd/atl/map.c
-index 07de50017315..75be1434505b 100644
---- a/drivers/ras/amd/atl/map.c
-+++ b/drivers/ras/amd/atl/map.c
-@@ -731,9 +731,9 @@ static int validate_address_map(struct addr_ctx *ctx)
-                        goto out;
-                break;
-
-+       /* Nothing to do for modes that don't need special validation checks. */
-        default:
--               atl_debug_on_bad_intlv_mode(ctx);
--               return -EINVAL;
-+               break;
-        }
-
-        return 0;
-
-
+diff --git a/Documentation/ABI/testing/sysfs-class-scrub-configure b/Documentation/ABI/testing/sysfs-class-scrub-configure
+new file mode 100644
+index 000000000000..3ed77dbb00ad
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-class-scrub-configure
+@@ -0,0 +1,47 @@
++What:		/sys/class/ras/
++Date:		March 2024
++KernelVersion:	6.9
++Contact:	linux-kernel@vger.kernel.org
++Description:
++		The ras/ class subdirectory belongs to the
++		common ras features such as scrub subsystem.
++
++What:		/sys/class/ras/rasX/scrub/
++Date:		March 2024
++KernelVersion:	6.9
++Contact:	linux-kernel@vger.kernel.org
++Description:
++		The /sys/class/ras/ras{0,1,2,3,...}/scrub directories
++		correspond to each scrub device registered with the
++		scrub subsystem.
++
++What:		/sys/class/ras/rasX/scrub/name
++Date:		March 2024
++KernelVersion:	6.9
++Contact:	linux-kernel@vger.kernel.org
++Description:
++		(RO) name of the memory scrubber
++
++What:		/sys/class/ras/rasX/scrub/enable_background
++Date:		March 2024
++KernelVersion:	6.9
++Contact:	linux-kernel@vger.kernel.org
++Description:
++		(RW) Enable/Disable background(patrol) scrubbing if supported.
++
++What:		/sys/class/ras/rasX/scrub/rate_available
++Date:		March 2024
++KernelVersion:	6.9
++Contact:	linux-kernel@vger.kernel.org
++Description:
++		(RO) Supported range for the scrub rate by the scrubber.
++		The scrub rate represents in hours.
++
++What:		/sys/class/ras/rasX/scrub/rate
++Date:		March 2024
++KernelVersion:	6.9
++Contact:	linux-kernel@vger.kernel.org
++Description:
++		(RW) The scrub rate specified and it must be with in the
++		supported range by the scrubber.
++		The scrub rate represents in hours.
+diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
+index fc4f4bb94a4c..181701479564 100644
+--- a/drivers/ras/Kconfig
++++ b/drivers/ras/Kconfig
+@@ -46,4 +46,11 @@ config RAS_FMPM
+ 	  Memory will be retired during boot time and run time depending on
+ 	  platform-specific policies.
+ 
++config SCRUB
++	tristate "Memory scrub driver"
++	help
++	  This option selects the memory scrub subsystem, supports
++	  configuring the parameters of underlying scrubbers in the
++	  system for the DRAM memories.
++
+ endif
+diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
+index 11f95d59d397..89bcf0d84355 100644
+--- a/drivers/ras/Makefile
++++ b/drivers/ras/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_RAS)	+= ras.o
+ obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
+ obj-$(CONFIG_RAS_CEC)	+= cec.o
++obj-$(CONFIG_SCRUB)	+= memory_scrub.o
+ 
+ obj-$(CONFIG_RAS_FMPM)	+= amd/fmpm.o
+ obj-y			+= amd/atl/
+diff --git a/drivers/ras/memory_scrub.c b/drivers/ras/memory_scrub.c
+new file mode 100755
+index 000000000000..7e995380ec3a
+--- /dev/null
++++ b/drivers/ras/memory_scrub.c
+@@ -0,0 +1,271 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Memory scrub subsystem supports configuring the registered
++ * memory scrubbers.
++ *
++ * Copyright (c) 2024 HiSilicon Limited.
++ */
++
++#define pr_fmt(fmt)     "MEM SCRUB: " fmt
++
++#include <linux/acpi.h>
++#include <linux/bitops.h>
++#include <linux/delay.h>
++#include <linux/kfifo.h>
++#include <linux/memory_scrub.h>
++#include <linux/platform_device.h>
++#include <linux/spinlock.h>
++
++/* memory scrubber config definitions */
++#define SCRUB_ID_PREFIX "ras"
++#define SCRUB_ID_FORMAT SCRUB_ID_PREFIX "%d"
++
++static DEFINE_IDA(scrub_ida);
++
++struct scrub_device {
++	int id;
++	struct device dev;
++	const struct scrub_ops *ops;
++};
++
++#define to_scrub_device(d) container_of(d, struct scrub_device, dev)
++static ssize_t enable_background_store(struct device *dev,
++				       struct device_attribute *attr,
++				       const char *buf, size_t len)
++{
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++	bool enable;
++	int ret;
++
++	ret = kstrtobool(buf, &enable);
++	if (ret < 0)
++		return ret;
++
++	ret = scrub_dev->ops->set_enabled_bg(dev, enable);
++	if (ret)
++		return ret;
++
++	return len;
++}
++
++static ssize_t enable_background_show(struct device *dev,
++				      struct device_attribute *attr, char *buf)
++{
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++	bool enable;
++	int ret;
++
++	ret = scrub_dev->ops->get_enabled_bg(dev, &enable);
++	if (ret)
++		return ret;
++
++	return sysfs_emit(buf, "%d\n", enable);
++}
++
++static ssize_t name_show(struct device *dev,
++			 struct device_attribute *attr, char *buf)
++{
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++	int ret;
++
++	ret = scrub_dev->ops->get_name(dev, buf);
++	if (ret)
++		return ret;
++
++	return strlen(buf);
++}
++
++static ssize_t rate_show(struct device *dev, struct device_attribute *attr,
++			 char *buf)
++{
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++	u64 val;
++	int ret;
++
++	ret = scrub_dev->ops->rate_read(dev, &val);
++	if (ret)
++		return ret;
++
++	return sysfs_emit(buf, "0x%llx\n", val);
++}
++
++static ssize_t rate_store(struct device *dev, struct device_attribute *attr,
++			  const char *buf, size_t len)
++{
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++	long val;
++	int ret;
++
++	ret = kstrtol(buf, 10, &val);
++	if (ret < 0)
++		return ret;
++
++	ret = scrub_dev->ops->rate_write(dev, val);
++	if (ret)
++		return ret;
++
++	return len;
++}
++
++static ssize_t rate_available_show(struct device *dev,
++				   struct device_attribute *attr,
++				   char *buf)
++{
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++	u64 min_sr, max_sr;
++	int ret;
++
++	ret = scrub_dev->ops->rate_avail_range(dev, &min_sr, &max_sr);
++	if (ret)
++		return ret;
++
++	return sysfs_emit(buf, "0x%llx-0x%llx\n", min_sr, max_sr);
++}
++
++DEVICE_ATTR_RW(enable_background);
++DEVICE_ATTR_RO(name);
++DEVICE_ATTR_RW(rate);
++DEVICE_ATTR_RO(rate_available);
++
++static struct attribute *scrub_attrs[] = {
++	&dev_attr_enable_background.attr,
++	&dev_attr_name.attr,
++	&dev_attr_rate.attr,
++	&dev_attr_rate_available.attr,
++	NULL
++};
++
++static umode_t scrub_attr_visible(struct kobject *kobj,
++				  struct attribute *a, int attr_id)
++{
++	struct device *dev = kobj_to_dev(kobj);
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++	const struct scrub_ops *ops = scrub_dev->ops;
++
++	if (a == &dev_attr_enable_background.attr) {
++		if (ops->set_enabled_bg && ops->get_enabled_bg)
++			return a->mode;
++		if (ops->get_enabled_bg)
++			return 0444;
++		return 0;
++	}
++	if (a == &dev_attr_name.attr)
++		return ops->get_name ? a->mode : 0;
++	if (a == &dev_attr_rate_available.attr)
++		return ops->rate_avail_range ? a->mode : 0;
++	if (a == &dev_attr_rate.attr) { /* Write only makes little sense */
++		if (ops->rate_read && ops->rate_write)
++			return a->mode;
++		if (ops->rate_read)
++			return 0444;
++		return 0;
++	}
++
++	return 0;
++}
++
++static const struct attribute_group scrub_attr_group = {
++	.name		= "scrub",
++	.attrs		= scrub_attrs,
++	.is_visible	= scrub_attr_visible,
++};
++
++static const struct attribute_group *scrub_attr_groups[] = {
++	&scrub_attr_group,
++	NULL
++};
++
++static void scrub_dev_release(struct device *dev)
++{
++	struct scrub_device *scrub_dev = to_scrub_device(dev);
++
++	ida_free(&scrub_ida, scrub_dev->id);
++	kfree(scrub_dev);
++}
++
++static struct class scrub_class = {
++	.name = "ras",
++	.dev_groups = scrub_attr_groups,
++	.dev_release = scrub_dev_release,
++};
++
++static struct device *
++scrub_device_register(struct device *parent, void *drvdata,
++		      const struct scrub_ops *ops)
++{
++	struct scrub_device *scrub_dev;
++	struct device *hdev;
++	int err;
++
++	scrub_dev = kzalloc(sizeof(*scrub_dev), GFP_KERNEL);
++	if (!scrub_dev)
++		return ERR_PTR(-ENOMEM);
++	hdev = &scrub_dev->dev;
++
++	scrub_dev->id = ida_alloc(&scrub_ida, GFP_KERNEL);
++	if (scrub_dev->id < 0) {
++		kfree(scrub_dev);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	scrub_dev->ops = ops;
++	hdev->class = &scrub_class;
++	hdev->parent = parent;
++	dev_set_drvdata(hdev, drvdata);
++	dev_set_name(hdev, SCRUB_ID_FORMAT, scrub_dev->id);
++	err = device_register(hdev);
++	if (err) {
++		put_device(hdev);
++		return ERR_PTR(err);
++	}
++
++	return hdev;
++}
++
++static void devm_scrub_release(void *dev)
++{
++	device_unregister(dev);
++}
++
++/**
++ * devm_scrub_device_register - register scrubber device
++ * @dev: the parent device
++ * @drvdata: driver data to attach to the scrub device
++ * @ops: pointer to scrub_ops structure (optional)
++ *
++ * Returns the pointer to the new device on success, ERR_PTR() otherwise.
++ * The new device would be automatically unregistered with the parent device.
++ */
++struct device *
++devm_scrub_device_register(struct device *dev, void *drvdata,
++			   const struct scrub_ops *ops)
++{
++	struct device *hdev;
++	int ret;
++
++	if (!dev)
++		return ERR_PTR(-EINVAL);
++
++	hdev = scrub_device_register(dev, drvdata, ops);
++	if (IS_ERR(hdev))
++		return hdev;
++
++	ret = devm_add_action_or_reset(dev, devm_scrub_release, hdev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	return hdev;
++}
++EXPORT_SYMBOL_GPL(devm_scrub_device_register);
++
++static int __init memory_scrub_control_init(void)
++{
++	return class_register(&scrub_class);
++}
++subsys_initcall(memory_scrub_control_init);
++
++static void memory_scrub_control_exit(void)
++{
++	class_unregister(&scrub_class);
++}
++module_exit(memory_scrub_control_exit);
+diff --git a/include/linux/memory_scrub.h b/include/linux/memory_scrub.h
+new file mode 100755
+index 000000000000..f0e1657a5072
+--- /dev/null
++++ b/include/linux/memory_scrub.h
+@@ -0,0 +1,37 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Memory scrub subsystem driver supports controlling
++ * the memory scrubbers in the system.
++ *
++ * Copyright (c) 2024 HiSilicon Limited.
++ */
++
++#ifndef __MEMORY_SCRUB_H
++#define __MEMORY_SCRUB_H
++
++#include <linux/types.h>
++
++struct device;
++
++/**
++ * struct scrub_ops - scrub device operations (all elements optional)
++ * @get_enabled_bg: check if currently performing background scrub.
++ * @set_enabled_bg: start or stop a bg-scrub.
++ * @get_name: get the memory scrubber name.
++ * @rate_avail_range: retrieve limits on supported rates.
++ * @rate_read: read the scrub rate
++ * @rate_write: set the scrub rate
++ */
++struct scrub_ops {
++	int (*get_enabled_bg)(struct device *dev, bool *enable);
++	int (*set_enabled_bg)(struct device *dev, bool enable);
++	int (*get_name)(struct device *dev, char *buf);
++	int (*rate_avail_range)(struct device *dev, u64 *min, u64 *max);
++	int (*rate_read)(struct device *dev, u64 *rate);
++	int (*rate_write)(struct device *dev, u64 rate);
++};
++
++struct device *
++devm_scrub_device_register(struct device *dev, void *drvdata,
++			   const struct scrub_ops *ops);
++#endif /* __MEMORY_SCRUB_H */
+-- 
+2.34.1
 
