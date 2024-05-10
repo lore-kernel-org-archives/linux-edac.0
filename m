@@ -1,145 +1,101 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5782116EC0C;
-	Fri, 10 May 2024 11:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83794770E7;
+	Fri, 10 May 2024 11:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715340220; cv=none; b=sAP2i8NS4MwfD+GSwuxEQgC/XLzfMoKjHy5RcRSIzsoJBjputbpZaRVKb3NFvdkVFiqR8yg19EDRCyA5gdpGmtcDAgFD6k52u8vjXZjXW1JEu/ABCKimZVH3yupENyGW4vPKw9h+gQlED8xji8RtMu03Y36djILb49bUtFArkY4=
+	t=1715340515; cv=none; b=eXdzCIAnXyRgvw/zr7KSBnixG3DApFbKvH7zdiHtSHfju8SfgtwpplzM8r5bJSGGX6bZFbohaTovb+RHB4E9NhCO8/GhhboVBC3MwwvsAuLy1oaQ35v434m7PKc1NXiuu37jlziNSLugDVebqtSHRKPAumkRM74O5JLv3Fu6wNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715340220; c=relaxed/simple;
-	bh=Lno1tWiY1+h5kAeqlxDHiicLEPlL2vfS2TjNN2jg2h4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BtFWesmlfsBhvU7DA750OWaCyfx3mC5FZcqL5bo1atlSqV4pKbJq+jKxhjT9xg8IwMsZiUcRBsi4s7zdNy5nevnfD8nGEd9cv6ByHHzA2Rzs/4jzxb0yI1rH3ofnzuP2PSClDqRcxkZQVaow6lfpsoJSDFL57glMNnWIrzf/dAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VbRM36936z6K9R3;
-	Fri, 10 May 2024 19:22:55 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id EF1A1140A77;
-	Fri, 10 May 2024 19:23:27 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 10 May
- 2024 12:23:27 +0100
-Date: Fri, 10 May 2024 12:23:25 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Dan Williams <dan.j.williams@intel.com>
-CC: <shiju.jose@huawei.com>, <linux-cxl@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-mm@kvack.org>, <dave@stgolabs.net>,
-	<dave.jiang@intel.com>, <alison.schofield@intel.com>,
-	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
-	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<david@redhat.com>, <Vilas.Sridharan@amd.com>, <leo.duran@amd.com>,
-	<Yazen.Ghannam@amd.com>, <rientjes@google.com>, <jiaqiyan@google.com>,
-	<tony.luck@intel.com>, <Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
-	<rafael@kernel.org>, <lenb@kernel.org>, <naoya.horiguchi@nec.com>,
-	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
-	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
-	<mike.malvestuto@intel.com>, <gthelen@google.com>,
-	<wschwartz@amperecomputing.com>, <dferguson@amperecomputing.com>,
-	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
-	<prime.zeng@hisilicon.com>, <kangkang.shen@futurewei.com>,
-	<wanghuiqiang@huawei.com>, <linuxarm@huawei.com>
-Subject: Re: [RFC PATCH v8 05/10] cxl/memscrub: Add CXL device patrol scrub
- control feature
-Message-ID: <20240510122325.00005e83@Huawei.com>
-In-Reply-To: <663d69c61db8c_3d7b4294e0@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <20240419164720.1765-1-shiju.jose@huawei.com>
-	<20240419164720.1765-6-shiju.jose@huawei.com>
-	<663d69c61db8c_3d7b4294e0@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1715340515; c=relaxed/simple;
+	bh=ZLmyf/SB9k8bTUf14Biaey4u/W6IvmiD6BOPwOaZAe8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=YZJ5/uuwZe1/b0mXflvkg6NoIjbSotkuhqY4Jpcpe/88h4awvLVqbS5vdXqyszbUNPpazo0rRaD2Gv1fwyBag9FavonX6cOqqv98FWl1MutYvoCY9UUBEpfo3GX4U+VkQUHRpctsFOnyXhmz7DChRNm9a1+Msk8A+hN0ku35mdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MonlHVN8; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MonlHVN8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715340513; x=1746876513;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZLmyf/SB9k8bTUf14Biaey4u/W6IvmiD6BOPwOaZAe8=;
+  b=MonlHVN8XvPnuT+AAfZvuNe11lkw3bNh/RbYRZA114Ql+kk40prv8OPK
+   VrdYt1Lf1F+0jPzFjnULvTEh7C03MX1c/wIVhAQVqphtSL8JNcSsXTGkT
+   RvtUl6dTCWbiJqnUYnuIoB9M1weJPpt5aUerDIt+UJJ1ZtmJfwh7RB6bv
+   28hkuGZOJl/OqaBuso7TPinP8UG3zc6JOFXjr+zexhpo7gpUpcEj4OlW0
+   d1pgNvlMjSCLEUKzoEBXqCXUt6RHy73Y9lIGbHW+nQZGI+RtSs/v1ptiu
+   /hi8cdfKWYYIu4Kjm1g3adxF+ZU0BW2uHrHGLRg88QZ7A9pA0b5mRkFV/
+   A==;
+X-CSE-ConnectionGUID: sU266BowRiSf+LFA7e6+aA==
+X-CSE-MsgGUID: EJjBhLcJTqafrsE34MNt6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="21913191"
+X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
+   d="scan'208";a="21913191"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 04:28:31 -0700
+X-CSE-ConnectionGUID: wN6vl6IcTgSEOcr+1toScA==
+X-CSE-MsgGUID: 5lvBBX4ORUi2dE00CEmXoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
+   d="scan'208";a="30138439"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.intel.com) ([10.245.246.191])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 04:28:28 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	Dan Williams <dan.j.williams@intel.com>,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Subject: [RFC PATCH v2 0/3] Make ELOG log and trace consistently with GHES 
+Date: Fri, 10 May 2024 13:21:44 +0200
+Message-ID: <20240510112740.667445-1-fabio.m.de.francesco@linux.intel.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Transfer-Encoding: 8bit
 
-On Thu, 9 May 2024 17:26:46 -0700
-Dan Williams <dan.j.williams@intel.com> wrote:
+When Firmware First is enabled, BIOS handles errors first and then it
+makes them available to the kernel via the Common Platform Error Record
+(CPER) sections (UEFI 2.10 Appendix N). Linux parses the CPER sections
+via two similar paths, ELOG and GHES.
 
-> shiju.jose@ wrote:
-> > From: Shiju Jose <shiju.jose@huawei.com>
-> > 
-> > CXL spec 3.1 section 8.2.9.9.11.1 describes the device patrol scrub control
-> > feature. The device patrol scrub proactively locates and makes corrections
-> > to errors in regular cycle.
-> > 
-> > Allow specifying the number of hours within which the patrol scrub must be
-> > completed, subject to minimum and maximum limits reported by the device.
-> > Also allow disabling scrub allowing trade-off error rates against
-> > performance.
-> > 
-> > Register with scrub subsystem to provide scrub control attributes to the
-> > user.
-> > 
-> > Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Signed-off-by: Shiju Jose <shiju.jose@huawei.com>  
-> [..]
-> > diff --git a/drivers/cxl/mem.c b/drivers/cxl/mem.c
-> > index 0c79d9ce877c..399e43463626 100644
-> > --- a/drivers/cxl/mem.c
-> > +++ b/drivers/cxl/mem.c
-> > @@ -117,6 +117,12 @@ static int cxl_mem_probe(struct device *dev)
-> >  	if (!cxlds->media_ready)
-> >  		return -EBUSY;
-> >  
-> > +	rc = cxl_mem_patrol_scrub_init(cxlmd);
-> > +	if (rc) {
-> > +		dev_dbg(&cxlmd->dev, "CXL patrol scrub init failed\n");
-> > +		return rc;
-> > +	}  
-> 
-> 2 concerns:
-> 
-> * Why should cxl_mem_probe() fail just because this optional
->   scrub interface did not register?
-> 
+Currently, ELOG and GHES show some inconsistencies in how they print to
+the kernel log as well as in how they report to userspace via trace
+events.
 
-Flip the dev_dbg to dev_warn() and indeed carry on.
+This short series wants to make these two paths act similarly for what
+relates to logging and tracing.
 
-> * Why is this not located in cxl_region_probe()? If the ras2 scrub is an
->   HPA-based scrub I think CXL should do the work to interface with the scrub
->   interface at the same level. This also provides another in-kernel user
->   for all the DPA-to-HPA translation infrastructure that the CXL driver
->   contains. Pretty much the only reason the CXL driver needs to exist at
->   all is address translation, so at a minimum it seems a waste to inflict
->   more need to understand DPAs on userspace.
+--- Changes in v2 ---
+	
+	- 0/3: rework the subject line and the letter.
+        - 1/3: no changes.
+        - 2/3: trace CPER PCIe Section only if CONFIG_ACPI_APEI_PCIEAER
+          is defined; the kernel test robot reported the use of two
+          undefined symbols because the test for the config option was
+          missing; rewrite the subject line and part of commit message.
+        - 3/3: no changes.
 
-As you might expect this will get messy - I'm not saying it's a bad thing
-to do, but complexities that come to mind include:
+Fabio M. De Francesco (3):
+  ACPI: extlog: Trace CPER Non-standard Section Body
+  ACPI: extlog: Trace CPER PCI Express Error Section
+  ACPI: extlog: Make print_extlog_rcd() log unconditionally
 
-* Scrub is device wide (unlike RAS2 which in theory supports HPA range control)
-  So if you map a given DPA range into multiple regions then the controls
-  will interfere.  Maybe scrub at max rate requested for any region is fine.
-* Interleave - so we'd be controlling multiple hardware scrubbers.
-* Comes and goes with regions.  Do we stop scrubbing if no region?  Not sure.
+ drivers/acpi/acpi_extlog.c | 47 ++++++++++++++++++++++++++++++++++----
+ drivers/ras/debugfs.c      |  6 -----
+ include/linux/ras.h        |  2 --
+ 3 files changed, 42 insertions(+), 13 deletions(-)
 
-My guess is break down is:
-1) Component registered for each CXL mem device to handle the control + combining
-   of all regions specific requests.
-2) Region specific component that exposes the controls on HPA basis, and
-   requests from all it's CXL mem device drivers a minimum service level.
-3) Device specific scrub instance (perhaps) reflecting that some scrub may
-   make sense when not yet in a region (identify bad mem etc).
-
-So I think we will end up with a lot more layering in here, but end result
-will indeed be better.
-
-This has been going on a while, so not sure the DPA to HPA stuff was all in place
-and at the time I think was still an open question of whether that should be
-a userspace problem or not.  Anyhow time to adapt :)
-
-Jonathan
-
-
+-- 
+2.45.0
 
