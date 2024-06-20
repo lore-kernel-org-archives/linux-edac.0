@@ -1,339 +1,94 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00CA1AF6A1;
-	Thu, 20 Jun 2024 17:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622531B4C3D;
+	Thu, 20 Jun 2024 18:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718902965; cv=none; b=GbC7dhTUNRfRM9QCPoHOQWH24HLSknnerjobcn9mPEiI3l/yY6ebh4a7UniyiGFOYfogHC1e6tt/JjnXAnx+4d6fv+3vLgmcmO1HdCcHge+kQtkE8qVMenKf3KwS7/q6zIWAMDsVblsG1VwzPSSUR+LX91wqtC36XVQPN82CBRg=
+	t=1718906515; cv=none; b=cYWn8WUx0rxN3WFPRGAW3W/3Hfp4ATwjU2pazrHTWM6HDc+9JuB7nL0hHGeADJDltlLAE6dQlhrWmGFhldH78E9uGwV2nMVQc2KRlQ5PH9QkXsqsrP070X/ZYaggnpPpElQyl2a9mpky17og9cmCcakFnfRgUwtx11+CKo8v6JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718902965; c=relaxed/simple;
-	bh=dQyLtb+cJ05rxBQwATIO1FU+2n2lVj3m7CTnnFZdUcA=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cW5glJE1IgTqFgxJvPKOtpkoyYRCEqTdZXVqS6LSVtKx5yIVCSjrCa/UCrqGXmIJqA8+5wJoO6CyEWWGkd4VdytQFR6a5HA3VX+uXM/7odAf7jrzKF/mfuDi76jPAeYT8Fwult49JjhyRaC5TfRnGY9vysU7clJahu0FmZ9eqtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4W4my54BCjz6JB7w;
-	Fri, 21 Jun 2024 01:02:37 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 66567140D27;
-	Fri, 21 Jun 2024 01:02:40 +0800 (CST)
-Received: from localhost (10.203.174.77) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 20 Jun
- 2024 18:02:39 +0100
-Date: Thu, 20 Jun 2024 18:02:39 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Shiyang Ruan <ruansy.fnst@fujitsu.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
-	<dan.j.williams@intel.com>, <dave@stgolabs.net>, <ira.weiny@intel.com>,
-	<alison.schofield@intel.com>, <dave.jiang@intel.com>,
-	<vishal.l.verma@intel.com>, Borislav Petkov <bp@alien8.de>, Tony Luck
-	<tony.luck@intel.com>, "James Morse" <james.morse@arm.com>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Robert Richter <rric@kernel.org>,
-	<linux-edac@vger.kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, Naoya
- Horiguchi <nao.horiguchi@gmail.com>, <linux-mm@kvack.org>
-Subject: Re: [RFC PATCH] cxl: avoid duplicating report from MCE & device
-Message-ID: <20240620180239.00004d41@Huawei.com>
-In-Reply-To: <20240618165310.877974-1-ruansy.fnst@fujitsu.com>
-References: <20240618165310.877974-1-ruansy.fnst@fujitsu.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1718906515; c=relaxed/simple;
+	bh=RMYZrT95nApMxsG7y6LLT3Z2HeuOH/cK6XfnlqABCbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OeIVfhRdY6lkFtgG9jOjUYDclyOBXjAldgbcvziWJgJOybRyZHZgQoYZ2dl0xU5XSgZyeC1R8SUXzZ3PkhUkJ7Xck7WF1PyriighWETQAf6uNEIwk5wpBqfEw4TB2kcklRHY7LhCMoiE9DiIJEEWWgflby7lajfulujh09Ys2Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACl5tPnt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACl5tPnt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD06C4AF07;
+	Thu, 20 Jun 2024 18:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718906515;
+	bh=RMYZrT95nApMxsG7y6LLT3Z2HeuOH/cK6XfnlqABCbY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ACl5tPntUOAMvhb3Wa2wWXsBJIL7DH7NNRcjUO9dEq0twiuwyL0ZrRdp95iWA6MR2
+	 LSlQ0XMFAfETA5bqERl1jwx1QSlLIGfQm2UBIs1sk1yQ3ttFbH1bdDiY9xmvzaMeTz
+	 kkC06dSLZokTiJcHgObwWjgTC/8hXq3QOlFsdpLJyxDuNWBM8tBQoVd6jJ9ZosxxTj
+	 NmLsXB/a/yZioAkcFiBoUk6kQWKuc3RbZwt+ptsecut+u5lu0PKzAoKP6Fdo5rvJce
+	 n9SxwdqjalM3MuI5gVOSoKlB3Vg0W6LP5Aygifd82eQYin1ugjHF4OSpuoyU/l95wH
+	 OMI5QhiNeiiPQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.97.1)
+	(envelope-from <mchehab@kernel.org>)
+	id 1sKM6a-00000006MRi-0wMY;
+	Thu, 20 Jun 2024 20:01:52 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Borislav Petkov" <bp@alien8.de>,
+	"James Morse" <james.morse@arm.com>,
+	"Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+	"Shiju Jose" <shiju.jose@huawei.com>,
+	"Tony Luck" <tony.luck@intel.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	linux-edac@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/3] efi/cper: Adjust infopfx size to accept an extra space
+Date: Thu, 20 Jun 2024 20:01:44 +0200
+Message-ID: <a8cfcd9e9827770de748db7be44362a98c957642.1718906288.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <cover.1718906288.git.mchehab+huawei@kernel.org>
+References: <cover.1718906288.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Wed, 19 Jun 2024 00:53:10 +0800
-Shiyang Ruan <ruansy.fnst@fujitsu.com> wrote:
+Compiling with W=1 with werror enabled produces an error:
 
-> Background:
-> Since CXL device is a memory device, while CPU consumes a poison page of 
-> CXL device, it always triggers a MCE by interrupt (INT18), no matter 
-> which-First path is configured.  This is the first report.  Then 
-> currently, in FW-First path, the poison event is transferred according 
-> to the following process: CXL device -> firmware -> OS:ACPI->APEI->GHES 
->  -> CPER -> trace report.  This is the second one.  These two reports  
-> are indicating the same poisoning page, which is the so-called "duplicate
-> report"[1].  And the memory_failure() handling I'm trying to add in
-> OS-First path could also be another duplicate report.
-> 
-> Hope the flow below could make it easier to understand:
-> CPU accesses bad memory on CXL device, then
->  -> MCE (INT18), *always* report (1)
->  -> * FW-First (implemented now)
->       -> CXL device -> FW
-> 	      -> OS:ACPI->APEI->GHES->CPER -> trace report (2.a)  
->     * OS-First (not implemented yet, I'm working on it)
->       -> CXL device -> MSI
-> 	      -> OS:CXL driver -> memory_failure() (2.b)  
-> so, the (1) and (2.a/b) are duplicated.
-> 
-> (I didn't get response in my reply for [1] while I have to make patch to
-> solve this problem, so please correct me if my understanding is wrong.)
-> 
-> This patch adds a new notifier_block and MCE_PRIO_CXL, for CXL memdev
-> to check whether the current poison page has been reported (if yes,
-> stop the notifier chain, won't call the following memory_failure()
-> to report), into `x86_mce_decoder_chain`.  In this way, if the poison
-> page already handled(recorded and reported) in (1) or (2), the other one
-> won't duplicate the report.  The record could be clear when
-> cxl_clear_poison() is called.
-> 
-> [1] https://lore.kernel.org/linux-cxl/664d948fb86f0_e8be294f8@dwillia2-mobl3.amr.corp.intel.com.notmuch/
-> 
-> Signed-off-by: Shiyang Ruan <ruansy.fnst@fujitsu.com>
+drivers/firmware/efi/cper-arm.c: In function ‘cper_print_proc_arm’:
+drivers/firmware/efi/cper-arm.c:298:64: error: ‘snprintf’ output may be truncated before the last format character [-Werror=format-truncation=]
+  298 |                         snprintf(infopfx, sizeof(infopfx), "%s ", newpfx);
+      |                                                                ^
+drivers/firmware/efi/cper-arm.c:298:25: note: ‘snprintf’ output between 2 and 65 bytes into a destination of size 64
+  298 |                         snprintf(infopfx, sizeof(infopfx), "%s ", newpfx);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So poison can be cleared in a number of ways and a CXL poison clear command
-is unfortunately only one of them.  Some architectures have instructions
-that guarantee to write a whole cacheline and can clear things as well.
-I believe x86 does for starters.
+As the logic there adds an space at the end of infopx buffer.
+Add an extra space to avoid such warning.
 
-+CC linux-edac and related maintainers / reviewers.
-    linux-mm and hwpoison maintainer.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/firmware/efi/cper-arm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So I think this needs a more general solution that encompasses 
-more general cleanup of poison.
-
-Trivial comments inline.
-
-Jonathan
-
-
-> ---
->  arch/x86/include/asm/mce.h |   1 +
->  drivers/cxl/core/mbox.c    | 130 +++++++++++++++++++++++++++++++++++++
->  drivers/cxl/core/memdev.c  |   6 +-
->  drivers/cxl/cxlmem.h       |   3 +
->  4 files changed, 139 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
-> index dfd2e9699bd7..d8109c48e7d9 100644
-> --- a/arch/x86/include/asm/mce.h
-> +++ b/arch/x86/include/asm/mce.h
-> @@ -182,6 +182,7 @@ enum mce_notifier_prios {
->  	MCE_PRIO_NFIT,
->  	MCE_PRIO_EXTLOG,
->  	MCE_PRIO_UC,
-> +	MCE_PRIO_CXL,
->  	MCE_PRIO_EARLY,
->  	MCE_PRIO_CEC,
->  	MCE_PRIO_HIGHEST = MCE_PRIO_CEC
-> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> index 2626f3fff201..0eb3c5401e81 100644
-> --- a/drivers/cxl/core/mbox.c
-> +++ b/drivers/cxl/core/mbox.c
-> @@ -4,6 +4,8 @@
->  #include <linux/debugfs.h>
->  #include <linux/ktime.h>
->  #include <linux/mutex.h>
-> +#include <linux/notifier.h>
-> +#include <asm/mce.h>
->  #include <asm/unaligned.h>
->  #include <cxlpci.h>
->  #include <cxlmem.h>
-> @@ -880,6 +882,9 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
->  		if (cxlr)
->  			hpa = cxl_trace_hpa(cxlr, cxlmd, dpa);
->  
-> +		if (hpa != ULLONG_MAX && cxl_mce_recorded(hpa))
-> +			return;
-> +
->  		if (event_type == CXL_CPER_EVENT_GEN_MEDIA)
->  			trace_cxl_general_media(cxlmd, type, cxlr, hpa,
->  						&evt->gen_media);
-> @@ -1408,6 +1413,127 @@ int cxl_poison_state_init(struct cxl_memdev_state *mds)
->  }
->  EXPORT_SYMBOL_NS_GPL(cxl_poison_state_init, CXL);
->  
-> +struct cxl_mce_record {
-> +	struct list_head node;
-> +	u64 hpa;
-> +};
-> +LIST_HEAD(cxl_mce_records);
-> +DEFINE_MUTEX(cxl_mce_mutex);
-> +
-> +bool cxl_mce_recorded(u64 hpa)
-> +{
-> +	struct cxl_mce_record *cur, *next, *rec;
-> +	int rc;
-> +
-> +	rc = mutex_lock_interruptible(&cxl_mce_mutex);
-
-guard(mutex)(&cxl_mce_muted);
-
-> +	if (rc)
-> +		return false;
-> +
-> +	list_for_each_entry_safe(cur, next, &cxl_mce_records, node) {
-> +		if (cur->hpa == hpa) {
-> +			mutex_unlock(&cxl_mce_mutex);
-> +			return true;
-> +		}
-> +	}
-> +
-> +	rec = kmalloc(sizeof(struct cxl_mce_record), GFP_KERNEL);
-> +	rec->hpa = hpa;
-> +	list_add(&cxl_mce_records, &rec->node);
-> +
-> +	mutex_unlock(&cxl_mce_mutex);
-> +
-> +	return false;
-> +}
-> +
-> +void cxl_mce_clear(u64 hpa)
-> +{
-> +	struct cxl_mce_record *cur, *next;
-> +	int rc;
-> +
-> +	rc = mutex_lock_interruptible(&cxl_mce_mutex);
-
-Maybe cond_guard().
-
-> +	if (rc)
-> +		return;
-> +
-> +	list_for_each_entry_safe(cur, next, &cxl_mce_records, node) {
-> +		if (cur->hpa == hpa) {
-> +			list_del(&cur->node);
-> +			break;
-> +		}
-> +	}
-> +
-> +	mutex_unlock(&cxl_mce_mutex);
-> +}
-> +
-> +struct cxl_contains_hpa_context {
-> +	bool contains;
-> +	u64 hpa;
-> +};
-> +
-> +static int __cxl_contains_hpa(struct device *dev, void *arg)
-> +{
-> +	struct cxl_contains_hpa_context *ctx = arg;
-> +	struct cxl_endpoint_decoder *cxled;
-> +	struct range *range;
-> +	u64 hpa = ctx->hpa;
-> +
-> +	if (!is_endpoint_decoder(dev))
-> +		return 0;
-> +
-> +	cxled = to_cxl_endpoint_decoder(dev);
-> +	range = &cxled->cxld.hpa_range;
-> +
-> +	if (range->start <= hpa && hpa <= range->end) {
-> +		ctx->contains = true;
-> +		return 1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static bool cxl_contains_hpa(const struct cxl_memdev *cxlmd, u64 hpa)
-> +{
-> +	struct cxl_contains_hpa_context ctx = {
-> +		.contains = false,
-> +		.hpa = hpa,
-> +	};
-> +	struct cxl_port *port;
-> +
-> +	port = cxlmd->endpoint;
-> +	if (port && is_cxl_endpoint(port) && cxl_num_decoders_committed(port))
-> +		device_for_each_child(&port->dev, &ctx, __cxl_contains_hpa);
-> +
-> +	return ctx.contains;
-> +}
-> +
-> +static int cxl_handle_mce(struct notifier_block *nb, unsigned long val,
-> +			  void *data)
-> +{
-> +	struct mce *mce = (struct mce *)data;
-> +	struct cxl_memdev_state *mds = container_of(nb, struct cxl_memdev_state,
-> +						    mce_notifier);
-> +	u64 hpa;
-> +
-> +	if (!mce || !mce_usable_address(mce))
-> +		return NOTIFY_DONE;
-> +
-> +	hpa = mce->addr & MCI_ADDR_PHYSADDR;
-> +
-> +	/* Check if the PFN is located on this CXL device */
-> +	if (!pfn_valid(hpa >> PAGE_SHIFT) &&
-> +	    !cxl_contains_hpa(mds->cxlds.cxlmd, hpa))
-> +		return NOTIFY_DONE;
-> +
-> +	/*
-> +	 * Search PFN in the cxl_mce_records, if already exists, don't continue
-> +	 * to do memory_failure() to avoid a poison address being reported
-> +	 * more than once.
-> +	 */
-> +	if (cxl_mce_recorded(hpa))
-> +		return NOTIFY_STOP;
-> +	else
-> +		return NOTIFY_OK;
-> +}
-> +
->  struct cxl_memdev_state *cxl_memdev_state_create(struct device *dev)
->  {
->  	struct cxl_memdev_state *mds;
-> @@ -1427,6 +1553,10 @@ struct cxl_memdev_state *cxl_memdev_state_create(struct device *dev)
->  	mds->ram_perf.qos_class = CXL_QOS_CLASS_INVALID;
->  	mds->pmem_perf.qos_class = CXL_QOS_CLASS_INVALID;
->  
-> +	mds->mce_notifier.notifier_call = cxl_handle_mce;
-> +	mds->mce_notifier.priority = MCE_PRIO_CXL;
-> +	mce_register_decode_chain(&mds->mce_notifier);
-> +
->  	return mds;
->  }
->  EXPORT_SYMBOL_NS_GPL(cxl_memdev_state_create, CXL);
-> diff --git a/drivers/cxl/core/memdev.c b/drivers/cxl/core/memdev.c
-> index 0277726afd04..aa3ac89d17be 100644
-> --- a/drivers/cxl/core/memdev.c
-> +++ b/drivers/cxl/core/memdev.c
-> @@ -376,10 +376,14 @@ int cxl_clear_poison(struct cxl_memdev *cxlmd, u64 dpa)
->  		goto out;
->  
->  	cxlr = cxl_dpa_to_region(cxlmd, dpa);
-> -	if (cxlr)
-> +	if (cxlr) {
-> +		u64 hpa = cxl_trace_hpa(cxlr, cxlmd, dpa);
-> +
-> +		cxl_mce_clear(hpa);
->  		dev_warn_once(mds->cxlds.dev,
->  			      "poison clear dpa:%#llx region: %s\n", dpa,
->  			      dev_name(&cxlr->dev));
-> +	}
->  
->  	record = (struct cxl_poison_record) {
->  		.address = cpu_to_le64(dpa),
-> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
-> index 19aba81cdf13..fbf8d9f46984 100644
-> --- a/drivers/cxl/cxlmem.h
-> +++ b/drivers/cxl/cxlmem.h
-> @@ -501,6 +501,7 @@ struct cxl_memdev_state {
->  	struct cxl_fw_state fw;
->  
->  	struct rcuwait mbox_wait;
-> +	struct notifier_block mce_notifier;
->  	int (*mbox_send)(struct cxl_memdev_state *mds,
->  			 struct cxl_mbox_cmd *cmd);
->  };
-> @@ -836,6 +837,8 @@ int cxl_mem_get_poison(struct cxl_memdev *cxlmd, u64 offset, u64 len,
->  int cxl_trigger_poison_list(struct cxl_memdev *cxlmd);
->  int cxl_inject_poison(struct cxl_memdev *cxlmd, u64 dpa);
->  int cxl_clear_poison(struct cxl_memdev *cxlmd, u64 dpa);
-> +bool cxl_mce_recorded(u64 pfn);
-> +void cxl_mce_clear(u64 pfn);
->  
->  #ifdef CONFIG_CXL_SUSPEND
->  void cxl_mem_active_inc(void);
+diff --git a/drivers/firmware/efi/cper-arm.c b/drivers/firmware/efi/cper-arm.c
+index fa9c1c3bf168..d9bbcea0adf4 100644
+--- a/drivers/firmware/efi/cper-arm.c
++++ b/drivers/firmware/efi/cper-arm.c
+@@ -240,7 +240,7 @@ void cper_print_proc_arm(const char *pfx,
+ 	int i, len, max_ctx_type;
+ 	struct cper_arm_err_info *err_info;
+ 	struct cper_arm_ctx_info *ctx_info;
+-	char newpfx[64], infopfx[64];
++	char newpfx[64], infopfx[65];
+ 
+ 	printk("%sMIDR: 0x%016llx\n", pfx, proc->midr);
+ 
+-- 
+2.45.2
 
