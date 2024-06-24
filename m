@@ -1,130 +1,139 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3001C168B1
-	for <linux-edac@vger.kernel.org>; Mon, 24 Jun 2024 04:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC9412FF8C;
+	Mon, 24 Jun 2024 09:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719204555; cv=none; b=rrVRhabh3381CfXK//3WXyA5xRizffcMTades0DEZZnjlA9Lb5DbB4UYtPyhR310Ij/t7s8iyea1yJyUYMQxDegyXI/60tpuRS+6zTCMLBvCgC/zJpT9RLkbrN36HO65tppSUmmIsBRpBo36QJJ8bciMslnxLVqQmW21NKKWtJ4=
+	t=1719220790; cv=none; b=kRJ4qnp4/4FOzYfMu1ufGjbpMIHJuNODkKwpoTXttPKkes4J4TnR1PfacDEiE9gcJEp5HTGzAKxHrLjd8PDAtkffcD3RocgyW4pdVQvTxyIwu4B8b4lYdFgoN5YQhx5+8HMiSOgnKO9YUHWCUSapGuH29ln90H+CmnK+FPxLn3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719204555; c=relaxed/simple;
-	bh=mni7Xjh+W9N8YsIN4sLCAw2EtVVl7YuRtFktOF8G9k0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gQC96+LUHTR+24iNC+CUm0iyWfR7EhK35vdp1scO8fmMCU9wbZjTwg7RBvywoElefMXz7oKWyAy/10pOLBwrfQOBuZFRR4v4uFByoYzfJ0MHKJZp6Y1uDGjQ4mARr4hsajl83ebAhPwCIBnUjeiZxSzmGdgZf/3ZLj+jcG25gE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=e/KSLxsT; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1719220790; c=relaxed/simple;
+	bh=MiJu506E02sUqMejKu5a4CpTEW7a3bv6SgfhjAqtNZM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pnS/Xj03BY+9+n3wFp2MGxfpWdNnqBSzFz/hUEj1FqMjRTZbU7inGD5fQZ2EipGCxFJ7Q43bKhJN8IN0fwuHeY0FLCGqVUeAP6fLYFMdP24XTEeKWwVcwpVtVi2UWQVs8jvaN/MrmAYNVp9b5M979nLZKXe+Y8TsTwu/geqpMFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tGYP9MFX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="e/KSLxsT"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7066f68e22cso785640b3a.2
-        for <linux-edac@vger.kernel.org>; Sun, 23 Jun 2024 21:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1719204553; x=1719809353; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5yCT5VxgAao2DKcwL/n1MwIFuYF06UPFj6XxxbzHuqM=;
-        b=e/KSLxsTcJSOMYUBonD4vtVQahTG/gVPLWTp5R8CfCGHQ3vDNRY01A1T+EZY63m8as
-         XgGUHGQAXPJqyFNoKOgpnrQ7QI2bSXWQIy0sS0e9LYPAPtF15J0sFUidx61egU2cGO+3
-         DmLFc7oLEOiZ+y8yQbBryQTIFYh2I3rWzCvoZwdMYDfpRJAADjzu5RU5QSBXWOMIEV3q
-         A3PQo+FFmDnBYF4K4QRKpoVjdbDIpmBI1wB2Fc+vRfsXWCPaAO6K80E1JZE6M6+fgqJp
-         TdOkBym0TmcoLRsfKBl4L5Tc3Ia0Inv1+equh4XdoIwjzX5u+CA0C7D3Uk4dT/Io0D4e
-         /U8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719204553; x=1719809353;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5yCT5VxgAao2DKcwL/n1MwIFuYF06UPFj6XxxbzHuqM=;
-        b=b173ctHB6ebiv0yT6qZMS9CeCArXqeMcpIsy9JrzbVBU/OcU6uwK9Cc0bZSe2xfpwC
-         78JyISbqkAAOzlmObbGnLfe4mqf5uIKNzrik+ee/BdxCUkLzL9bSYz6TgmlAgbSJ/xkZ
-         uHddbcBRTnI4qF+/qfaJy+mifOPUoJNfzM/bBIxqNoHygkf21kQLWNrh9rxhpq1YmCEw
-         xQZCtA72U9i4dnUmj/+La4fUK88/ACyvz9AyAYx3V5E2sddv5Xj0GWTZY5iVXuOcJyXZ
-         E2sK5weBqeGHVrm3FZkUuD1P1V6JiLt+UUVyI6MprSD+iMXSFThv7LmPLiNpIIQCn7k9
-         i9mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9T4sjsnIVnue5lX4fdZNZWb9aRwbUgYw/94CPWLiRs9yA3oS3+yOTUhgk3CYI2o+tMwWvEGwzlQSLlkegeA6FqWf+X1EIe26KGQ==
-X-Gm-Message-State: AOJu0YxJaqer6FoyEqRrqAH5lzRYGUAvz2mIimxYUh4nqOgjSDMydP/j
-	CKYcRfyZujpCWSllD539JAl3MzRO0ctT6lr/qkA+PnyE8Vv9F50lWSBSmOJlhdE=
-X-Google-Smtp-Source: AGHT+IFMV0C+R+NwkxEg9McBmus0ucAUY3nQfRaA6AfKEyZMnE1mK8ZXtSOnx+hXLXQWZw+NmSap4w==
-X-Received: by 2002:a05:6a00:69b7:b0:702:38ff:4a59 with SMTP id d2e1a72fcca58-70670e79d03mr4295625b3a.6.1719204553330;
-        Sun, 23 Jun 2024 21:49:13 -0700 (PDT)
-Received: from L4CR4519N7.bytedance.net ([2001:c10:ff04:0:1000:0:1:6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70651194776sm5254865b3a.67.2024.06.23.21.49.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 23 Jun 2024 21:49:12 -0700 (PDT)
-From: Rui Qi <qirui.001@bytedance.com>
-X-Google-Original-From: Rui Qi
-To: tony.luck@intel.com
-Cc: bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tGYP9MFX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0936CC32782;
+	Mon, 24 Jun 2024 09:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719220790;
+	bh=MiJu506E02sUqMejKu5a4CpTEW7a3bv6SgfhjAqtNZM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tGYP9MFXOpjlu+0DM1dR1AdDd1EIvzeJ4btWbao7hqc2LxltXn0sLcJYhNUEr6Mwq
+	 548Ptdnx09TP1zDcwf8ot2vLOXmzc+XsfW87qDZJ9XyTfh2Y+CqgWAReyjT7jtnD+j
+	 HTUEwLg8PQKYOGXUyn3xcDmJc/VSJ4wxSuhjCf35pRr4TP/yGMaphDlcvhlV9FHxl6
+	 Z7H+J5xaMFEcDtN9+hk+Z7TEU7KdBdGcIASdwOIoYX6vfg7D9s98IIYgDG0FmlX1WV
+	 EAdlaemWJCagRjpA3E0UTHCzHWTqWVuk2PozvT1zROqQHnZmdwdrQfKCgD+1NOvOzd
+	 CFz0N1MZ5YWUw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.97.1)
+	(envelope-from <mchehab@kernel.org>)
+	id 1sLfrX-000000085bi-1s15;
+	Mon, 24 Jun 2024 11:19:47 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Borislav Petkov" <bp@alien8.de>,
+	"James Morse" <james.morse@arm.com>,
+	"Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+	"Shiju Jose" <shiju.jose@huawei.com>,
+	"Tony Luck" <tony.luck@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
 	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mingo@redhat.com,
-	qirui.001@bytedance.com,
-	tglx@linutronix.de,
-	x86@kernel.org
-Subject: Re: [External] [PATCH] x86/mce: count the number of occurrences of each MCE severity
-Date: Mon, 24 Jun 2024 12:48:39 +0800
-Message-Id: <20240624044839.87035-1-qirui.001@bytedance.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-145)
-In-Reply-To: <SJ1PR11MB6083E1173846A5C8B4529D25FCC82@SJ1PR11MB6083.namprd11.prod.outlook.com>
-References: <SJ1PR11MB6083E1173846A5C8B4529D25FCC82@SJ1PR11MB6083.namprd11.prod.outlook.com>
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 2/4] efi/cper: Add a new helper function to print bitmasks
+Date: Mon, 24 Jun 2024 11:19:19 +0200
+Message-ID: <b5a425bd61f211a17a2b296a3c9ac251b3c3a20b.1719219886.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <cover.1719219886.git.mchehab+huawei@kernel.org>
+References: <cover.1719219886.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-From: Rui Qi <qirui.001@bytedance.com>
+Sometimes it is desired to produce a single log line for errors.
+Add a new helper function for such purpose.
 
-Hi Tony,
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/firmware/efi/cper.c | 41 +++++++++++++++++++++++++++++++++++++
+ include/linux/cper.h        |  2 ++
+ 2 files changed, 43 insertions(+)
 
-> You seem to have problems with the e-mail infrastructure. I got a few extra copies
-> of this in HTML format. This one is in plain text, but the From: header says "$(name)"
-> 
-
-Sorry， some problem with my thunderbird mail agent. I will use git send-mail instead from now on.
-> 
->>> So you either covered a case in the severities table, or you didn't. Does it
->>> help to know that you covered a case multiple times?
->>>
->>
->> In the fault injection test in the laboratory, we inject errors multiple
->> times and need a counter to tell us how many times each case has
->> occurred and compare it with the expected number to determine the test
->> results
-> 
-> In my testing on Intel/x86 I don't always see a 1:1 mapping between my
-> test, and the severities rule. This is because of a h/w race between the
-> memory controller reporting the error when it sees an uncorrectable ECC
-> issue, and the core trying to consume the poisoned data. If the memory
-> controller signal wins the race, Linux takes the page offline and there isn't
-> a poison consumption error, just a page fault.
-> 
->> In the production environment, the counter can reflect the actual number
->> of times each MCE error type occurs, which can help us detect the MCE
->> error distribution of large-scale Data center infrastructure
-> 
-> That could be useful.
->
-Thank you for your expertise!
-
->>>> Due to the limitation of char type, the maximum supported statistics are
->>>> currently 255 times
->>>>
->>
->> How about changing char to u64, which is enough for real-world
->> situations and won't waste a lot of memory?
-> 
-> u64 seems like serious overkill. A change from "unsigned char" to "unsigned int"
-> would keep track of 4 billion errors. That seems like plenty :-)
->> -Tony
-Yes, unsinged int is far enough.
-
-BTW, if you dont mind, I will send a V2 patch based on our discussion.
-
+diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
+index 7d2cdd9e2227..4cf56657afde 100644
+--- a/drivers/firmware/efi/cper.c
++++ b/drivers/firmware/efi/cper.c
+@@ -106,6 +106,47 @@ void cper_print_bits(const char *pfx, unsigned int bits,
+ 		printk("%s\n", buf);
+ }
+ 
++/*
++ * cper_bits_to_str - return a string for set bits
++ * @buf: buffer to store the output string
++ * @buf_size: size of the output string buffer
++ * @bits: bit mask
++ * @strs: string array, indexed by bit position
++ * @strs_size: size of the string array: @strs
++ * @mask: a continuous bitmask used to detect the first valid bit of the
++ *        bitmap.
++ *
++ * Add to @buf the bitmask in hexadecimal. Then, for each set bit in @bits
++ * mask, add the corresponding string describing the bit in @strs to @buf.
++ */
++char *cper_bits_to_str(char *buf, int buf_size, unsigned long bits,
++		       const char * const strs[], unsigned int strs_size)
++{
++	int len = buf_size;
++	char *str = buf;
++	int i, size;
++
++	for_each_set_bit(i, &bits, strs_size) {
++		if (!(bits & (1U << (i))))
++			continue;
++
++		if (*buf && len > 0) {
++			*str = '|';
++			len--;
++			str++;
++		}
++
++		size = strscpy(str, strs[i], len);
++		if (size < 0)
++			break;
++
++		len -= size;
++		str += size;
++	}
++	return buf;
++}
++EXPORT_SYMBOL_GPL(cper_bits_to_str);
++
+ static const char * const proc_type_strs[] = {
+ 	"IA32/X64",
+ 	"IA64",
+diff --git a/include/linux/cper.h b/include/linux/cper.h
+index 265b0f8fc0b3..c2f14b916bfb 100644
+--- a/include/linux/cper.h
++++ b/include/linux/cper.h
+@@ -584,6 +584,8 @@ const char *cper_mem_err_type_str(unsigned int);
+ const char *cper_mem_err_status_str(u64 status);
+ void cper_print_bits(const char *prefix, unsigned int bits,
+ 		     const char * const strs[], unsigned int strs_size);
++char *cper_bits_to_str(char *buf, int buf_size, unsigned long bits,
++		       const char * const strs[], unsigned int strs_size);
+ void cper_mem_err_pack(const struct cper_sec_mem_err *,
+ 		       struct cper_mem_err_compact *);
+ const char *cper_mem_err_unpack(struct trace_seq *,
+-- 
+2.45.2
 
