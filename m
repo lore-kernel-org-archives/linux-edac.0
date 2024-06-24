@@ -1,93 +1,213 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CD319CD02
-	for <linux-edac@vger.kernel.org>; Mon, 24 Jun 2024 15:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719243733; cv=none; b=he/x51RSBRv4IGcXofPdo04sX4ZPWutaVS0lWot8ul95SW3+9qPKvmEmljDli41Iv7569G5InvO5H8hSKUGsf6Q/1NAkf6EGKTjWVxlhHV49ETB7qsiq2dyH0lly0ELg0g9xO0qr4rlhV1pLODIbUUZNCXc33IrspoXNhBGt93E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719243733; c=relaxed/simple;
-	bh=dTpPJuJdKd3oUCFZ0p+ZSqtYmfTe6LBFMemmMY88Fdw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LuLjGF3vy4uEjKsV5eAi1Ob0R0zo9mFsomtgaGfXLUssWM1SZgYm8ykyM/GNo50BUdIVPPJ9Gto88aGwMrBNYUlXgAbXqoHvSpo2oFsDWJ6WQbVs9w29/YBi2z1pBb4k683Z5lvCDiLnaZDdRzh2ATLSEsJWCtB2J+jCZb02HKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pphmszRk; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26C613D633;
+	Mon, 24 Jun 2024 21:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719264024; cv=fail; b=Jk7hnBBg6SOsqB0hn9CuE1k0cB3nNBs6/Fc7nHKrdKaT2cn0O0mQZb2bmwWkJzB8eRf6IKYPdE7ArYBGql4bUCc5ezzyX9ScT1slDGnliB1M+jVmxzuhWSj2eJ3X1SVfkAnTiuXK0hzmLHEUF5WIGmm9EEpwrPBzlUGKog/F+6I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719264024; c=relaxed/simple;
+	bh=0XTbSVkFEAIABW46FSh8OySg1Ok+mgUoX2/bKwg6cnA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QdtuPesPwK+T7+M+I85s3f5o0aqUbFoZujUHa8KMXYAFe/agUOhTSHtPOcf9x80wfI2YU0e4TlLt4C6eBPtoDLgs23+I2JrV5w88tchJpwAU+B7ANvkZfPE8eueqlZseivw7C8xqu4G+2pnnvOMb+wpC1GhE1Rqhp6U0l9UkxOU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YNWRLlO7; arc=fail smtp.client-ip=40.107.237.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pphmszRk"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-57d07f07a27so4910100a12.3
-        for <linux-edac@vger.kernel.org>; Mon, 24 Jun 2024 08:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719243730; x=1719848530; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=E6ISa8+Qw+F0SnhHbSOOPpnlg7ypL2Jw8gPcbTV6Sto=;
-        b=pphmszRkgXPNn8RucBFrA0clxgNPPWGHcc2prF6uhqdIcN9YWtgm0lDZ+QZVx8IOGE
-         jV0CP122SyPjX3pPT4MBZySApWLtD8NtSeX5HpSbCJv5UjxL8GuyQTKJ2tVZfMTkZoZB
-         nkjtzRt1EXA+L/GsRMWCH2lmkm5IKmoFc8RJqhXFrfFUR2CDiH+tJivaYWw0gEj5i8t9
-         fcConTYxQQRRI1GUia/ZYdGNBCZNvuvEMxxKlNdkwrnbo/I/vej/bmP2d7yrgFK84yRP
-         8WGCbLouSb0jcAHku4nsWPb7X9B4XFuel5c38Rp0L9t+w0bMFAQ9D7QlWp6Pn9wV5Cd7
-         k+3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719243730; x=1719848530;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E6ISa8+Qw+F0SnhHbSOOPpnlg7ypL2Jw8gPcbTV6Sto=;
-        b=D7nVtZpyvSUFNulUIxL3qT+1ZQ6xwBJH/uF8pHj93E3I97JEMEOriWk19m9FrX6e0f
-         XWIKocbo0wcnePBe3VP38VAFF9B78vUc7SFmVs/cS4sKi6jsI5MGC6wyITWq0BNXThzv
-         kciMOlglUu3PpZrZJocDkFd8e+wOXjuVE3YAjuTFc0ZPf/7jjNqG85GUue16fJs0Z1tH
-         LOF5NdvRCUdTiPvywVzm6rGP/NsxPdmpPoAJZazSl7alWOXetiIoyGOSyMf7x1eaCDiz
-         ExuKRl8f2sYyZ+epCKLHkxmXbhboyQ87lvEyXcOc2TnvbI3ilq0vSg9OpqCWVCN6HEx+
-         vtTg==
-X-Forwarded-Encrypted: i=1; AJvYcCXASntAB3KyjG6eSPVtmiyexVEzN5CfGLK5yMbVUK8rMkkuVoRXM7+A6Ce6TPg8nJaXkq1o+h1EqoGHi+kFbEW1VleltRa2/QKwWQ==
-X-Gm-Message-State: AOJu0Yy9bukqhcWm+V4EKYQMYggErUBT0rLKccZB4TdH6vRiDuM1uHSW
-	sP9BdoAmxpc8SUMtLaD+KnsfPa6BCZhAoNXNMR7xOTzcY/GBKZudqt6Gy9tB0ppqXCtQDXAXI4F
-	q7C2OOLCYAJG4DJYiRVJ2cxn+ACBjy8CeIKCKlg==
-X-Google-Smtp-Source: AGHT+IGA+3gMHcvf89knvnrlKHjJS/xJ4+QDVKj+pOyx22HllTyQgeI+TldxkYYhG1jeT/9V8Oy7VxaWoEJDAP0mX8Q=
-X-Received: by 2002:a50:ab14:0:b0:57d:2659:9141 with SMTP id
- 4fb4d7f45d1cf-57d4bd83465mr2719496a12.24.1719243729977; Mon, 24 Jun 2024
- 08:42:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YNWRLlO7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YeSK74B7Y5CmEo9edX1In6C9amu8HOoa9Vqwgu1X8sj5GkKeMZcIQZtzIPYW3qQUTIF33zjAMBAiCys6Vw8lcP765crByNf4gljzUEjdWz78TZXOuC83N2T6dYcsyDn+WMy7KtyYmVtVOE1qFIprBM/WsZE2H1yDQQqtHkWe6q+PbHhFMOOeSySyaJwo1sK5mj+7AuZKg0TiKxMD1zRg4W49BZmGlvhYsIDgIUIvrTHDMxyYqkvKmphrmE8+/7gtrLCAdthrzMU6XIZ5thXiU5uCKHVyfy419fy+z6lgWp56hfoqbyEOYmtXdFn1PyWD0GqHc6GrParK8j2ABAGv1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MsncQGJcHNTcf2+kpdfn6icrJfdLxhXNfNThFzapN2A=;
+ b=T2fJJMxDwcOcEV0ie+4sHdylk+5b3KZ5dqbAIPNljJ5YtYC17WetpJ/9amE9MfMR9EAXXoAKkBPo6iGZi/1sgUSIpush7c0ZTA7TFA0bLGkJjzjTtiU1FQXwBit7/zNkVLP/oomgp0LhAw/r8EvDC7TTnsPK77q29MnwYVOsu83oYhNUt+BOCEezqn5RtPTpLcwj5LPdQs2K9tSOiW9aIYA5c/GaQX+ZuX6BsY6AG8ohlRwxLCsHQCvWsKTRrA3b9aFfLvtDVUvTMFY+TUL9rgh9zL0+Die5lCmPLQ3XaY0rh0XgsN9hnRG5aw1d7iJ66gToN1My2GeDt3thomkOJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MsncQGJcHNTcf2+kpdfn6icrJfdLxhXNfNThFzapN2A=;
+ b=YNWRLlO7j8J5bVeq1yQ4pZ2J4HTVccNGsoaaZGiVOZwLPDd+1RnvF7gbYNJl8jAPGT4lKIqBWneQqHpnA6g9SYMgnGbjefLMhG2zIZZl9p1MJL5B1XhBvN9233pz05P+hmg97J6L5XT045IbhIDfDr4EaBxuGtIeezbAgslpZ5c=
+Received: from SA0PR11CA0081.namprd11.prod.outlook.com (2603:10b6:806:d2::26)
+ by PH7PR12MB5807.namprd12.prod.outlook.com (2603:10b6:510:1d3::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.24; Mon, 24 Jun
+ 2024 21:20:20 +0000
+Received: from SA2PEPF00003F66.namprd04.prod.outlook.com (2603:10b6:806:d2::4)
+ by SA0PR11CA0081.outlook.office365.com (2603:10b6:806:d2::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.38 via Frontend Transport; Mon, 24 Jun 2024 21:20:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SA2PEPF00003F66.mail.protection.outlook.com (10.167.248.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7677.15 via Frontend Transport; Mon, 24 Jun 2024 21:20:19 +0000
+Received: from quartz-7b1chost.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 24 Jun
+ 2024 16:20:18 -0500
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: <linux-edac@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <tony.luck@intel.com>, <x86@kernel.org>,
+	<avadhut.naik@amd.com>, <john.allen@amd.com>, Yazen Ghannam
+	<yazen.ghannam@amd.com>
+Subject: [PATCH v2 1/5] x86/topology: Export helper to get CPU number from APIC ID
+Date: Mon, 24 Jun 2024 16:20:04 -0500
+Message-ID: <20240624212008.663832-2-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240624212008.663832-1-yazen.ghannam@amd.com>
+References: <20240624212008.663832-1-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624153950.350-1-shiju.jose@huawei.com>
-In-Reply-To: <20240624153950.350-1-shiju.jose@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Jun 2024 16:41:59 +0100
-Message-ID: <CAFEAcA-UR7a9Se0f4W+naLrXrvMCeFNBCVYq=--wROM2igS6eg@mail.gmail.com>
-Subject: Re: [QEMU PATCH v2 1/1] hw/arm: FW first ARM processor error injection
-To: shiju.jose@huawei.com
-Cc: qemu-devel@nongnu.org, linux-edac@vger.kernel.org, 
-	jonathan.cameron@huawei.com, mchehab+huawei@kernel.org, tanxiaofei@huawei.com, 
-	prime.zeng@hisilicon.com, linuxarm@huawei.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F66:EE_|PH7PR12MB5807:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec9cd00e-084d-46d0-ded6-08dc9493738d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230037|376011|36860700010|82310400023|1800799021;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?apI6SQeo9GIKEvrMoWhF2nhl6/M5RpBdfHr8YJTVFDuEl/81gosJCIFqD4Bh?=
+ =?us-ascii?Q?ZfRuddrRpwU7fnrYdwY1cMtfU3rhdB6Tyit25DbaT7UCPspSaecNqBZtaI/O?=
+ =?us-ascii?Q?CHDtZb7EPrdJG8srsGlRRZDCvMalzh65oezVbcm9P+GiDb4R/57DIngpPwUg?=
+ =?us-ascii?Q?rHk1Bhf78CuaoXNikMfPmOfB/X1MIwCA4B6pYIpTz5mMRRc9ql9N5HH42bVo?=
+ =?us-ascii?Q?rb8+zm5F2VTo2/XqMcRaaEFpnO2RG5nByXSZgaeVi3wzvQSMlF6KlJuXlp4d?=
+ =?us-ascii?Q?gcPPzTUZEBN08UslGzigjkf7CUbzAvLmKdc+haGdvubCKnQ+YxCogQ2LfIpO?=
+ =?us-ascii?Q?aKyf2anHU9qJnJELXulRELrrarL/d6omhsQ8VTZe5NH31XalebGb/eUETP9n?=
+ =?us-ascii?Q?gIb8vaSogT4K2oxUdoKTO/23uoGf0k8AAQPtiUnxw2dWKzVXTfZvd4jHBy4B?=
+ =?us-ascii?Q?+hbpPuSWVcRw2062EKaiRZnfkLhFvjnpzyPA/M4kn+6rzgrLcvSTqC4J7ENr?=
+ =?us-ascii?Q?7RE785U1kNxkiRKqWd5Wkd1Tq2x3UptivCje3GY1tqUJrXCA3cQnVkHWVQbJ?=
+ =?us-ascii?Q?X1bfqsE8IrhS05S+LUQpmxN1m1WJJQ7OUaozelvqUHsH5CyceQpY9iQ8nWLy?=
+ =?us-ascii?Q?ZpCdmSaEKgzsvH0cUFISOhj7ojdQl8GgcSnxdMnHLXZuwL1dtH4JM+cO2uiL?=
+ =?us-ascii?Q?6+L8ewppwRIXFzLaCDBSJiXX0lCJwz76v1GjLfdkH46aEL+uDfj5FIV/VAVt?=
+ =?us-ascii?Q?qTSd0ZlVNJjApbSZHY2OfFoge/EF2hTxyx9HMbjoZKIxh+xcEjm+jaKC9T3V?=
+ =?us-ascii?Q?bumsYfzh5Moqt+Uf3MQ3OGcGP2ZvL3hCCCWlKvn45Y4rG/R3pN2R40XGwGgV?=
+ =?us-ascii?Q?Q70yvON8T/pbN64LjHYsYXu5VBlBvj55iIqryHkRfJak2BNJUYzyVmTDvv37?=
+ =?us-ascii?Q?ieK74egnhc/QXeb+KsBOHOcyQxgH6W729Uf3Ua7Z1Ae5cd04vt2TGMhfSNw7?=
+ =?us-ascii?Q?ZrMgAPCydWxGOuZ/MloGSSYcBQtpi1i00A4aupuTpkjUBBEMG9Nk16pLlu98?=
+ =?us-ascii?Q?kAWmGv9LAQkfOgiRCE3oz8nlAVpZd/NKNcDv93r5EhrIx1yl1Tsye/R0FI1I?=
+ =?us-ascii?Q?15UjimU9L864Ga6jgXB16sKIjisJ6Y8U99IA5MD2/8KkFBvzUNGqGk1muJZP?=
+ =?us-ascii?Q?DFgvQTrj9K37WTIJ/0OoJZreGOYNNJYlZrNRX4HfSt8QeI2l0g62IHA7z9J+?=
+ =?us-ascii?Q?zb8iSAnJN2h3fFxX+c6gSd+lNPlW4lv3r41To7FAfClx+lV+ERsY33dGuwsM?=
+ =?us-ascii?Q?NEH9skaKAJgZ2sbe1gPbOnA0ayvC1xJ3QAYB3kP5qXGOCryMgOtVrcvNK8is?=
+ =?us-ascii?Q?dVFbNa0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230037)(376011)(36860700010)(82310400023)(1800799021);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2024 21:20:19.8611
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec9cd00e-084d-46d0-ded6-08dc9493738d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F66.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5807
 
-On Mon, 24 Jun 2024 at 16:40, <shiju.jose@huawei.com> wrote:
->
-> From: Shiju Jose <shiju.jose@huawei.com>
->
-> Add support for QEMU based FW first ARM processor error injection.
+The need to look up a CPU number from an APIC ID is done in at least one
+other place outside of APIC/topology code: apei_smca_report_x86_error().
 
+With the recent topology rework, there is now a helper function to do
+just this task.
 
-> +++ b/hw/arm/arm_error_inject_stubs.c
-> @@ -0,0 +1,22 @@
-> +/*
-> + * ARM  Processor errors QMP stubs
-> + *
-> + * Copyright(C) 2024 Huawei LTD.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> + * COPYING file in the top-level directory.
-> + *
-> + * SPDX-License-Identifier: GPL-v2-only
+Export the helper so other code can use it. Also, update the name to
+match other exported topology_* helpers.
 
-You missed an instance of gpl-v2-only (but you don't need to
-respin immediately just for this).
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
+Link:
+https://lkml.kernel.org/r/20240618172447.GA1387@yaz-khff2.amd.com
 
-thanks
--- PMM
+v1->v2:
+* New in v2.
+
+ arch/x86/include/asm/topology.h |  6 ++++++
+ arch/x86/kernel/cpu/topology.c  | 15 ++++++++++++---
+ 2 files changed, 18 insertions(+), 3 deletions(-)
+
+diff --git a/arch/x86/include/asm/topology.h b/arch/x86/include/asm/topology.h
+index abe3a8f22cbd..d8c3c3c818bc 100644
+--- a/arch/x86/include/asm/topology.h
++++ b/arch/x86/include/asm/topology.h
+@@ -171,11 +171,17 @@ static inline unsigned int topology_num_threads_per_package(void)
+ 
+ #ifdef CONFIG_X86_LOCAL_APIC
+ int topology_get_logical_id(u32 apicid, enum x86_topology_domains at_level);
++int topology_get_cpunr(u32 apic_id);
+ #else
+ static inline int topology_get_logical_id(u32 apicid, enum x86_topology_domains at_level)
+ {
+ 	return 0;
+ }
++
++static inline int topology_get_cpunr(u32 apic_id)
++{
++	return -ENODEV;
++}
+ #endif
+ 
+ #ifdef CONFIG_SMP
+diff --git a/arch/x86/kernel/cpu/topology.c b/arch/x86/kernel/cpu/topology.c
+index 621a151ccf7d..fc74578ee3bd 100644
+--- a/arch/x86/kernel/cpu/topology.c
++++ b/arch/x86/kernel/cpu/topology.c
+@@ -95,7 +95,15 @@ static inline u32 topo_apicid(u32 apicid, enum x86_topology_domains dom)
+ 	return apicid & (UINT_MAX << x86_topo_system.dom_shifts[dom - 1]);
+ }
+ 
+-static int topo_lookup_cpuid(u32 apic_id)
++/**
++ * topology_get_cpunr - Retrieve the CPU number for the given APIC ID
++ * @apic_id:		The APIC ID for which to lookup the CPU number
++ *
++ * Returns:
++ *  - >= 0:	The CPU number for the given APIC ID
++ *  - -ENODEV:	@apic_id does not match any known CPU
++ */
++int topology_get_cpunr(u32 apic_id)
+ {
+ 	int i;
+ 
+@@ -106,10 +114,11 @@ static int topo_lookup_cpuid(u32 apic_id)
+ 	}
+ 	return -ENODEV;
+ }
++EXPORT_SYMBOL_GPL(topology_get_cpunr);
+ 
+ static __init int topo_get_cpunr(u32 apic_id)
+ {
+-	int cpu = topo_lookup_cpuid(apic_id);
++	int cpu = topology_get_cpunr(apic_id);
+ 
+ 	if (cpu >= 0)
+ 		return cpu;
+@@ -388,7 +397,7 @@ int topology_hotplug_apic(u32 apic_id, u32 acpi_id)
+ 	if (!test_bit(apic_id, apic_maps[TOPO_SMT_DOMAIN].map))
+ 		return -ENODEV;
+ 
+-	cpu = topo_lookup_cpuid(apic_id);
++	cpu = topology_get_cpunr(apic_id);
+ 	if (cpu < 0)
+ 		return -ENOSPC;
+ 
+-- 
+2.34.1
+
