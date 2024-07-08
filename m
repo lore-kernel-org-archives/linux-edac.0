@@ -1,37 +1,57 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AFD803;
-	Mon,  8 Jul 2024 03:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D24D39FD7;
+	Mon,  8 Jul 2024 11:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720408221; cv=none; b=p56Nd/JlCdI1JjUXLxC0KthCBaxO4a90Z5b8plHJPtQMx7YyQaSGAtUcQDD7Xx4OOx9/EA9mEWX9/vT7rq+Whx90Zu12WQdjGKW9+kzLdKwui/L6/kED/l4Xy4LOW9D0UNO5spxlXm9aK91aXKhN5M7AKIT8v/104eIp132Wfkk=
+	t=1720437554; cv=none; b=pRWq2imM3r/Ms0ynZJSAoctMt84TlOGt5jz8pTvQP8wowAtfH1ZlXOKnTRAaHKAMn7hRqgS8Gf7ZO7aPvnNkfTthfIldn0/+YnA+LIBVipHsV377qoICHHIBoyvi2Wu7PnBNAbK7mSkcZAl7G4I1k0Qt2rQvmfxfii6iq4NQ428=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720408221; c=relaxed/simple;
-	bh=6QRBZZnKzv5EfLA6Znk0did6tqxKKmiAfCm/PptubKQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uKpkr8m/U8nkDgJDo8poWw9fWM2gsBf0o2UE9M3rvwg1D0nsEavCUWhT7zEFmW9g+qtc5kGvwLBq7HfnQvg+K6/OuC0NMGS3x8y1vJbMBj6sOcILZxjDURRyvyHumTciQ9i834VfRgfCXdPr5/eq7RvNoPT7jjbhRI+IltjwSnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.194])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WHTWz4ZyXzwWJg;
-	Mon,  8 Jul 2024 11:05:35 +0800 (CST)
-Received: from kwepemd200019.china.huawei.com (unknown [7.221.188.193])
-	by mail.maildlp.com (Postfix) with ESMTPS id 47D81140F65;
-	Mon,  8 Jul 2024 11:10:15 +0800 (CST)
-Received: from huawei.com (10.173.127.72) by kwepemd200019.china.huawei.com
- (7.221.188.193) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 8 Jul
- 2024 11:10:14 +0800
-From: Miaohe Lin <linmiaohe@huawei.com>
-To: <akpm@linux-foundation.org>
-CC: <tony.luck@intel.com>, <bp@alien8.de>, <nao.horiguchi@gmail.com>,
-	<linmiaohe@huawei.com>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-edac@vger.kernel.org>
-Subject: [PATCH] mm/memory-failure: remove obsolete MF_MSG_DIFFERENT_COMPOUND
-Date: Mon, 8 Jul 2024 11:05:44 +0800
-Message-ID: <20240708030544.196919-1-linmiaohe@huawei.com>
-X-Mailer: git-send-email 2.33.0
+	s=arc-20240116; t=1720437554; c=relaxed/simple;
+	bh=jPOSGw8h3LTxme7xAjF29NTRuS0fIgaE9Bx1xOw0o50=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fL6U7JJLX+FiSbuJKZJKhw74+F3gTHndVN0RZmJt67Hs84JoGT+QijNWpXo+D6DUTo9SUwpbJFuMAPju0H/Ia68ne8wPZztDgwo1UBZx78ouPsY1oP7ymOpGB0VgMqbsYPnrFeO/8G2NhGjgFntrguXc1g42esinAzw+/AD8eFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=maSieSA3; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="maSieSA3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0198FC4AF0A;
+	Mon,  8 Jul 2024 11:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720437554;
+	bh=jPOSGw8h3LTxme7xAjF29NTRuS0fIgaE9Bx1xOw0o50=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=maSieSA3JmSQKEQVd7NmXYm1z4re/L6AIb6EHSiN4eX+qAitt8hy9+nXm8Bcf7j14
+	 CakCb7I8I6AAFmIYk/Ycj26X/VRL3fV+qiiTf8ubDflqrnqCeH6U3ZZ1UodHie5msR
+	 IexZlvcwsr8bOdGQPDNqNiQP2YQaSxLMYNqKWeVH8lBnn+kHkZFEQ/nPu2r+1QZvMC
+	 merwvShAHvMZhGqjnBREw2V+sTg6A0XClU47gJpfb4VCtMcfLu3UlAGWABQuOkT1Xe
+	 4/C/lIgHPmLPz4FXF257dTTHueBafdXcBAqSrXaM9L4Ju6tcrKqnjqpC2rtqj/zUdM
+	 AiidmZoznoy7g==
+Received: from mchehab by mail.kernel.org with local (Exim 4.97.1)
+	(envelope-from <mchehab@kernel.org>)
+	id 1sQmOl-00000001SQl-2bki;
+	Mon, 08 Jul 2024 13:19:11 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Ard Biesheuvel" <ardb@kernel.org>,
+	"James Morse" <james.morse@arm.com>,
+	"Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
+	"Len Brown" <lenb@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"Shiju Jose" <shiju.jose@huawei.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	linux-acpi@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 4/6] efi/cper: Add a new helper function to print bitmasks
+Date: Mon,  8 Jul 2024 13:18:13 +0200
+Message-ID: <b6bb6f96420975e91a5660ede6dc20e351c33286.1720436039.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <cover.1720436039.git.mchehab+huawei@kernel.org>
+References: <cover.1720436039.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -39,71 +59,84 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemd200019.china.huawei.com (7.221.188.193)
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The page cannot become compound pages again just after folio is splited
-as extra refcnt is held. So MF_MSG_DIFFERENT_COMPOUND case is obsolete and
-could be removed to get rid of this false assumption and code burden. But
-add one WARN_ON() here to keep the scene clear.
+Sometimes it is desired to produce a single log line for errors.
+Add a new helper function for such purpose.
 
-Signed-off-by: Miaohe Lin <linmiaohe@huawei.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/ras/ras_event.h |  1 -
- mm/memory-failure.c     | 19 +++----------------
- 2 files changed, 3 insertions(+), 17 deletions(-)
+ drivers/firmware/efi/cper.c | 43 +++++++++++++++++++++++++++++++++++++
+ include/linux/cper.h        |  2 ++
+ 2 files changed, 45 insertions(+)
 
-diff --git a/include/ras/ras_event.h b/include/ras/ras_event.h
-index 9bc707fe8819..e5f7ee0864e7 100644
---- a/include/ras/ras_event.h
-+++ b/include/ras/ras_event.h
-@@ -356,7 +356,6 @@ TRACE_EVENT(aer_event,
- #define MF_PAGE_TYPE		\
- 	EM ( MF_MSG_KERNEL, "reserved kernel page" )			\
- 	EM ( MF_MSG_KERNEL_HIGH_ORDER, "high-order kernel page" )	\
--	EM ( MF_MSG_DIFFERENT_COMPOUND, "different compound page after locking" ) \
- 	EM ( MF_MSG_HUGE, "huge page" )					\
- 	EM ( MF_MSG_FREE_HUGE, "free huge page" )			\
- 	EM ( MF_MSG_GET_HWPOISON, "get hwpoison page" )			\
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 16f8651436d5..581d3e5c9117 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -919,7 +919,6 @@ static const char *action_name[] = {
- static const char * const action_page_types[] = {
- 	[MF_MSG_KERNEL]			= "reserved kernel page",
- 	[MF_MSG_KERNEL_HIGH_ORDER]	= "high-order kernel page",
--	[MF_MSG_DIFFERENT_COMPOUND]	= "different compound page after locking",
- 	[MF_MSG_HUGE]			= "huge page",
- 	[MF_MSG_FREE_HUGE]		= "free huge page",
- 	[MF_MSG_GET_HWPOISON]		= "get hwpoison page",
-@@ -2349,22 +2348,10 @@ int memory_failure(unsigned long pfn, int flags)
+diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
+index 7d2cdd9e2227..f8c8a15cd527 100644
+--- a/drivers/firmware/efi/cper.c
++++ b/drivers/firmware/efi/cper.c
+@@ -106,6 +106,49 @@ void cper_print_bits(const char *pfx, unsigned int bits,
+ 		printk("%s\n", buf);
+ }
  
- 	/*
- 	 * We're only intended to deal with the non-Compound page here.
--	 * However, the page could have changed compound pages due to
--	 * race window. If this happens, we could try again to hopefully
--	 * handle the page next round.
-+	 * The page cannot become compound pages again as folio has been
-+	 * splited and extra refcnt is held.
- 	 */
--	if (folio_test_large(folio)) {
--		if (retry) {
--			ClearPageHWPoison(p);
--			folio_unlock(folio);
--			folio_put(folio);
--			flags &= ~MF_COUNT_INCREASED;
--			retry = false;
--			goto try_again;
--		}
--		res = action_result(pfn, MF_MSG_DIFFERENT_COMPOUND, MF_IGNORED);
--		goto unlock_page;
--	}
-+	WARN_ON(folio_test_large(folio));
- 
- 	/*
- 	 * We use page flags to determine what action should be taken, but
++/*
++ * cper_bits_to_str - return a string for set bits
++ * @buf: buffer to store the output string
++ * @buf_size: size of the output string buffer
++ * @bits: bit mask
++ * @strs: string array, indexed by bit position
++ * @strs_size: size of the string array: @strs
++ * @mask: a continuous bitmask used to detect the first valid bit of the
++ *        bitmap.
++ *
++ * Add to @buf the bitmask in hexadecimal. Then, for each set bit in @bits
++ * mask, add the corresponding string describing the bit in @strs to @buf.
++ */
++char *cper_bits_to_str(char *buf, int buf_size, unsigned long bits,
++		       const char * const strs[], unsigned int strs_size)
++{
++	int len = buf_size;
++	char *str = buf;
++	int i, size;
++
++	*buf = '\0';
++
++	for_each_set_bit(i, &bits, strs_size) {
++		if (!(bits & (1U << (i))))
++			continue;
++
++		if (*buf && len > 0) {
++			*str = '|';
++			len--;
++			str++;
++		}
++
++		size = strscpy(str, strs[i], len);
++		if (size < 0)
++			break;
++
++		len -= size;
++		str += size;
++	}
++	return buf;
++}
++EXPORT_SYMBOL_GPL(cper_bits_to_str);
++
+ static const char * const proc_type_strs[] = {
+ 	"IA32/X64",
+ 	"IA64",
+diff --git a/include/linux/cper.h b/include/linux/cper.h
+index 265b0f8fc0b3..c2f14b916bfb 100644
+--- a/include/linux/cper.h
++++ b/include/linux/cper.h
+@@ -584,6 +584,8 @@ const char *cper_mem_err_type_str(unsigned int);
+ const char *cper_mem_err_status_str(u64 status);
+ void cper_print_bits(const char *prefix, unsigned int bits,
+ 		     const char * const strs[], unsigned int strs_size);
++char *cper_bits_to_str(char *buf, int buf_size, unsigned long bits,
++		       const char * const strs[], unsigned int strs_size);
+ void cper_mem_err_pack(const struct cper_sec_mem_err *,
+ 		       struct cper_mem_err_compact *);
+ const char *cper_mem_err_unpack(struct trace_seq *,
 -- 
-2.33.0
+2.45.2
 
