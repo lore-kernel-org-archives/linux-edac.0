@@ -1,125 +1,157 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A2F17FD;
-	Wed, 10 Jul 2024 09:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2E51922CC
+	for <linux-edac@vger.kernel.org>; Wed, 10 Jul 2024 12:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720604337; cv=none; b=Gm7aa93Q8Mc4hVFIKIP1IehzyBziEUu/NBPcnMoCy0gFE/8BWd3/nmCZSEpvKWPpMNQbtiQl71CZg9c2da+x583i+1RasKqD5db4SLwA55VykYiU0z8Z8xzC521l07lM7vYu7/zzOGCOI7EkFbraumvHLc5wuOctXW60QnjOyL4=
+	t=1720616095; cv=none; b=n+8p8P3zgNdLQOEUhFSc5lg9m1mBjvJGStzAix+W0jJ8+w7KGqTKtLCpAIO5DT/G+0jzZ+xC2i7YbbYaQXRQ6LV0lSfV+Wr5uO7yxdeyMxKRqjB9FbKhqt/XPkNfADj897aY5BVfvsA+O1pUyBtYrhe0iSv2wH+sM0g0fp6WXCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720604337; c=relaxed/simple;
-	bh=BytwbyifiKESLkwzNohBtpgLDUZDoGmKbGcw/9M/2/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BKci7hso2bjcQAAAEDwY4M/tPzOhCHnjl5Yze2gFgUmmoNDoo7mt2YGZ96fUG4EQWO3iis/tV5Nj+5mQhtdJNE8SV2eFni/n79luHxvdydnlKbHe1fUwIqqnS/bdZEuq0xxFkXL6g31qF06xjE+YuySLmJBgLxVt8mTYeZsw0pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Pj4UUZzD; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1720616095; c=relaxed/simple;
+	bh=ldvJXcDEveNrv7pYd++eyjYMCnJZJLncc1CzEei4jnE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KDdf7nXvVPUHwVYdH9N4ekiQChvTaHzleJxVMpJCBfDUFNpkygqxZN4/TAEKGwTjWZ/Oc4ABNHR536HXfBGVrv+hkmPNtOj62qewcQh4ikdtSRUvNUT1u6qKM1FhmqO6ZeOTA75Prdc1jHjA7yjqF4CrsMjX2zj79CcHCiPhsjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZRyYz6E6; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Pj4UUZzD"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D881940E019C;
-	Wed, 10 Jul 2024 09:38:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ZUC_3agCiurD; Wed, 10 Jul 2024 09:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1720604327; bh=4tD55kRk58dzBkcPyPWKImU3k357bp6g9dUEFXRiH5s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pj4UUZzD3z8BN3ScRN0bDvLplYjALfVoYh3H4FoAWcjoklLMm/Ibbl0ZdPlS5IFFw
-	 ouLNVb7H/H8KYCPtM63E4bN4qpeW4GYUqZNvoHE8AAkf0lSKN3UZMtIrq+f52ANGti
-	 Set4pCeQu/dAf8OsKNbXUHRFC5t2uzkp6uxkRf7kq9wtgiKzVvTi4SzXsZGFHX61DF
-	 XsOieiXltD7d8US6ccBWrW6JZptU3A/NkBpcRvt5EDAaSL5+YcspcPi2PnGZvrtwYx
-	 rtrPsyW8TzJt1OVuiCyEgpoweOkTrF1pBohA+idpm1GZzuTb8KJGcbzCsjGEynvy0x
-	 PY0wS3MjeESBrQCjAYhExEAQmYge/xqabxnaPgN1Qb1ehMBQRjc57hcLYNC03GFoBE
-	 UCgXv13WkJYt96YwuTARB3bDoklfU8tNocMlPdeGw4qklW0EWaYnhlxTrojbu2KTGL
-	 XxlZ8Sc7cbo1b7QdX9W5Haj+/SBXQnhZl2xgn1ld9x2NZUzVKVtOLJytZ3djQ2lUzr
-	 c1aY0ZLuxAlok9Tr88YqCnNkbKAe1w+91nM2BDvEDWX0IV7mT6cuawx+qQ11mmPNZW
-	 YB9LGO9XkK+33kWbuYR82elmqT6ruXSg1JkDFjIhFIyXRn7aXdNIrGWFJvxtuQKb4i
-	 7u+qClYOlf/gq9G3Fb8iGQRg=
-Received: from zn.tnic (p5de8ee85.dip0.t-ipconnect.de [93.232.238.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 52FB640E019D;
-	Wed, 10 Jul 2024 09:38:29 +0000 (UTC)
-Date: Wed, 10 Jul 2024 11:38:28 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Naik, Avadhut" <avadnaik@amd.com>
-Cc: x86@kernel.org, linux-edac@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tony.luck@intel.com,
-	rafael@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	rostedt@goodmis.org, lenb@kernel.org, mchehab@kernel.org,
-	james.morse@arm.com, airlied@gmail.com, yazen.ghannam@amd.com,
-	john.allen@amd.com, Avadhut Naik <avadhut.naik@amd.com>
-Subject: Re: [PATCH v2 2/4] x86/mce, EDAC/mce_amd: Add support for new
- MCA_SYND{1,2} registers
-Message-ID: <20240710093828.GDZo5WlPrXLg-SbBHd@fat_crate.local>
-References: <20240625195624.2565741-1-avadhut.naik@amd.com>
- <20240625195624.2565741-3-avadhut.naik@amd.com>
- <20240626111036.GOZnv3LFCPnYfrRYSE@fat_crate.local>
- <6c318161-9ae4-4965-b8f3-e38bf1393628@amd.com>
- <20240626181805.GDZnxbXRJlCecNeDGW@fat_crate.local>
- <17bba31a-9bb0-40e5-be7e-96ac6d421066@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZRyYz6E6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720616093; x=1752152093;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ldvJXcDEveNrv7pYd++eyjYMCnJZJLncc1CzEei4jnE=;
+  b=ZRyYz6E6QBFmYZD0x/w+Fjjc1Wy3XrTY/AVcKZuVeVpEf/g76s1p8rsF
+   9p/i0CyhYKjMhjGfze2wJrvDp+pbpulPPtav/NCQz5fZOwZk+i+qgRR9S
+   iQC4IGCtbjrAhbTO4FEZLcb0jfg8NYL3pIjCD9hY3Ex0/aG9JeMYzVVgn
+   3P7KbLfyvHCgcJEGBVaCvr07XSd/Sj5WOSYmwt4EuJ+y+CwHxnV5Vg16W
+   FAONzEkNH17Ch1DEMY7jsf2EGrPrp0nldX1kqB+mj/IUmCVznSXrY2Dus
+   +2VVgwyReF978TRDOkpCt0T1d0EbuIPfPAqMxGB6/SEGdidQP9BU0fjvd
+   Q==;
+X-CSE-ConnectionGUID: vJtMcjjLRiWYT3T30RvLeQ==
+X-CSE-MsgGUID: bJDlYJ1qSFKh9Rydu/d3gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="28524546"
+X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
+   d="scan'208";a="28524546"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 05:54:53 -0700
+X-CSE-ConnectionGUID: bKN9OE+qQ3SkW/gouq2s7A==
+X-CSE-MsgGUID: jCbw6dRQSN6VUnr6BXQ/7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
+   d="scan'208";a="48933753"
+Received: from linuxbkc-devel.jf.intel.com ([10.54.39.76])
+  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2024 05:54:53 -0700
+From: Andrew Zaborowski <andrew.zaborowski@intel.com>
+To: linux-edac@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: Kees Cook <keescook@chromium.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Borislav Petkov <bp@alien8.de>
+Subject: [PATCH 2/3] execve: Ensure SIGBUS delivered on memory failure
+Date: Wed, 10 Jul 2024 05:54:44 -0700
+Message-ID: <20240710125445.564245-2-andrew.zaborowski@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240710125445.564245-1-andrew.zaborowski@intel.com>
+References: <20240710125445.564245-1-andrew.zaborowski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <17bba31a-9bb0-40e5-be7e-96ac6d421066@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 09, 2024 at 01:27:25AM -0500, Naik, Avadhut wrote:
-> IIUC, its an abbreviation of a Latin word and is used as a synonym for "namely"
-> or "that is to say".
-> Might not be the best choice in this case. Will change it.
+Uncorrected memory errors for user pages are signaled to processes
+using SIGBUS or, if the error happens in a syscall, an error retval
+from the syscall.  The SIGBUS is documented in
+Documentation/mm/hwpoison.rst#failure-recovery-modes
 
-I learn new stuff every day:
+In execve() there is a point of no return
+(bprm->point_of_no_return) after which the syscall... cannot return.
+The binary loading happens after this point so if the loader triggers
+a memory error reading user pages, and after control returns to
+bprm_execve(), that function reacts by sending a SIGSEGV.
 
-https://en.wikipedia.org/wiki/Viz.
+Set the new current->kill_on_efault flag and run pending task work to
+ensure that a SIGBUS is queued in memory_failure()
 
-> Userspace error decoding tools like the rasdaemon gather related hardware error
-> information through the tracepoints. As such, its important to have these two
-> registers in the tracepoint so that the tools like rasdaemon can parse them
-> and output the supplemental error information like FRU Text contained in them.
+Signed-off-by: Andrew Zaborowski <andrew.zaborowski@intel.com>
+---
+ fs/exec.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-Put *that* in the commit message - do not explain what the patch does.
-
-> Got it. The first SoB entry is of the primary author. The successive SoB's are
-> from the people handling and transporting the patch.
-
-Exactly!
-
-> IOW, the route taken by a patch, as its propagated, to maintainers and eventually
-> to Linus, should be evident from the SoB chain.
-
-You got it.
-
-> With this set, the first two elements of the vendor data dynamic array are SYND 1/2
-> registers while the third element is MCA_CONFIG (added through patch 4 of the set).
-> Now, in rasdaemon, SYND1/2 register contents (i.e. first two fields) are interpreted
-> as FRU Text only if BIT(9) of MCA_CONFIG (third field) is set.
-> 
-> Thus, we depend on array's layout for accurate FRU Text decoding in the rasdaemon.
-
-So it sounds to me like we want to document and thus freeze the
-vendor-specific blob layout because tools are going to be using and parsing
-it. And this will spare us the kernel version checks.
-
-And new additions to that AMD-specific blob will come at the end and will
-have to be documented too.
-
-That sounds like an ok compromise to me...
-
-Thx.
-
+diff --git a/fs/exec.c b/fs/exec.c
+index 400731422..26c4efe1a 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -68,6 +68,7 @@
+ #include <linux/user_events.h>
+ #include <linux/rseq.h>
+ #include <linux/ksm.h>
++#include <linux/task_work.h>
+ 
+ #include <linux/uaccess.h>
+ #include <asm/mmu_context.h>
+@@ -1290,6 +1291,7 @@ int begin_new_exec(struct linux_binprm * bprm)
+ 	 * Ensure all future errors are fatal.
+ 	 */
+ 	bprm->point_of_no_return = true;
++	me->kill_on_efault = true;
+ 
+ 	/*
+ 	 * Make this the only thread in the thread group.
+@@ -1896,6 +1898,7 @@ static int bprm_execve(struct linux_binprm *bprm)
+ 	/* execve succeeded */
+ 	current->fs->in_exec = 0;
+ 	current->in_execve = 0;
++	current->kill_on_efault = false;
+ 	rseq_execve(current);
+ 	user_events_execve(current);
+ 	acct_update_integrals(current);
+@@ -1907,14 +1910,20 @@ static int bprm_execve(struct linux_binprm *bprm)
+ 	 * If past the point of no return ensure the code never
+ 	 * returns to the userspace process.  Use an existing fatal
+ 	 * signal if present otherwise terminate the process with
+-	 * SIGSEGV.
++	 * SIGSEGV.  Run pending work before that in case it is
++	 * terminating the process with a different signal.
+ 	 */
+-	if (bprm->point_of_no_return && !fatal_signal_pending(current))
+-		force_fatal_sig(SIGSEGV);
++	if (bprm->point_of_no_return) {
++		task_work_run();
++
++		if (!fatal_signal_pending(current))
++			force_fatal_sig(SIGSEGV);
++	}
+ 
+ 	sched_mm_cid_after_execve(current);
+ 	current->fs->in_exec = 0;
+ 	current->in_execve = 0;
++	current->kill_on_efault = false;
+ 
+ 	return retval;
+ }
 -- 
-Regards/Gruss,
-    Boris.
+2.43.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
+-----------------------------------------------------------
+ Intel Corporation Iberia S.A, Martinez Villergas, 49, Bloque V, Planta 1, Oficina 134, Martinez Villergas Business Park, 28027, Madrid, Spain
+
+Este mensaje se dirige exclusivamente a su destinatario y puede 
+contener informacion privilegiada o confidencial. Si no es vd. 
+el destinatario indicado, queda notificado de que la lectura, 
+utilizacion, divulgacion y,o copia sin autorizacion esta prohibida 
+en virtud de la legislacion vigente. Si ha recibido este mensaje por 
+error, le rogamos que nos lo communique inmediatamente por 
+esta misma via y proceda a su destruccion.
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
