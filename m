@@ -1,372 +1,235 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4A212C54A;
-	Thu, 11 Jul 2024 06:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720679469; cv=none; b=eAB45Zi0qtoLMYczEBQCQ43eXBQGOTxFAlGdivn0HxnlKpxlqrXXVoZ2kQntEnhwWGlOOfdnlFHaKc+mbZ9VF9uBaosl/gl7QdyS44uuOmfLJ/wO2yDMjLpExOMIPDmEBBbHadxJm/LaoEQ5MZn1SzpBKvnOYikcrXAwjQHvg+w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720679469; c=relaxed/simple;
-	bh=QZo4oL6GUN43R5UPIvL59I9WV7zA3uhzdtl4tWVbi48=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CRpRhGSodkRTDmzD0GCDILDN9B4KA5Zjh8E0PC9eAbmQdmnli/wSjyNyQkT+Ex3AsN07z0k2HWOjB7ygZhiBZVXxLtB8LOrgEEyrws+z3OSinlASzluDLCieTgWC0dUuNevfP15wWE4XC8Ew2ac5lbB0ZkGeNkmGC2+Fk3LD//Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXKkMFCA; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0B55CDE9
+	for <linux-edac@vger.kernel.org>; Thu, 11 Jul 2024 10:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720692438; cv=fail; b=PdsXOo+dVmNUwdPDgZFIXEvyOBWRMiau/MvZ8jrpYkN3xPy9BSnFOk9Duk2DNWGRYyaG5UCnwBS3tmu9X1x40InROigvjneWPWrIFdDzyZLWcSxZNjjDA5rRDu9ymLwcLIY+wbOXpXP7ES0LeZUhmq3Iq2NmuxgpsEXAGSs5bjE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720692438; c=relaxed/simple;
+	bh=NK/FtU1uBosVeBJ/O1jKumhhVtgzA63AYL7jMWZhGEw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JJTkIt4FVR3RiYNgbzHHGSBdtFSS3omJhA6hcIhFGMz5VzXrUVQs48htyCYZC8YaLt3qNtWFKeWKS0JtSoRsqTsP/W4SojYmJBrNkNm0yAu6byFbVyQIySvePzrlZF+5bl0rty0NcJTxN91iwsde64+WBkzE9Z7jKTezVmFn32I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ARGj6EOl; arc=fail smtp.client-ip=40.107.92.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXKkMFCA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33418C4AF07;
-	Thu, 11 Jul 2024 06:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720679469;
-	bh=QZo4oL6GUN43R5UPIvL59I9WV7zA3uhzdtl4tWVbi48=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hXKkMFCAnFI+f0/em8hecx6yySjLE6vhA7+Ki9mkMU460ADGt+wWpQeDKHWvUbmQh
-	 /j7Bg/hj3WUaXsTCu29vk4sqXdyX018xcVbn52HscboOGvdqmHqOjqe812q/jr1cVA
-	 vNeiMe80TQohrunQDRUB5mKFw9bVa1WbVA3fBO6oDf5a4CSPgSKE2xq/7nibIyx1QV
-	 on2tKCLkSjOixXGW0LUSvqeALhEKUGue+nQWxlVdsHS17IUFOnPrLHsvqwT+vFOlkS
-	 0SXR8gEbgo68sy41pxbejDxBR7XHrOutNw3LMbB+XPROWDx+ymSeTGxqJ9Vous9vzm
-	 sYkLRml06TBOQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.97.1)
-	(envelope-from <mchehab@kernel.org>)
-	id 1sRnKc-00000002b5R-17xp;
-	Thu, 11 Jul 2024 08:31:06 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
-Cc: Daniel Ferguson <danielf@os.amperecomputing.com>,
-	"Ard Biesheuvel" <ardb@kernel.org>,
-	"James Morse" <james.morse@arm.com>,
-	"Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
-	"Len Brown" <lenb@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Shiju Jose" <shiju.jose@huawei.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tyler Baicar <tbaicar@codeaurora.org>,
-	Will Deacon <will@kernel.org>,
-	Xie XiuQi <xiexiuqi@huawei.com>,
-	linux-acpi@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shengwei Luo <luoshengwei@huawei.com>,
-	Jason Tian <jason@os.amperecomputing.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH v2 1/5] RAS: Report all ARM processor CPER information to userspace
-Date: Thu, 11 Jul 2024 08:28:52 +0200
-Message-ID: <3853853f820a666253ca8ed6c7c724dc3d50044a.1720679234.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <cover.1720679234.git.mchehab+huawei@kernel.org>
-References: <cover.1720679234.git.mchehab+huawei@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ARGj6EOl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AgEfYGtNr+0nf0cvyngUjxhhZy0o4ZcJevkPBbKHzYNCl0bLCAR7A0Sc/ZYEdxPsofO2alDq2ifs0S1IgM+4TTuueLx0skZs/GgTltUFKIKDIWfGbgaj5Oy9tSWY+P4iVl7uTXF6pXoOosH90hI1lYQuUYtCae99AqGwS+XTvhIhajEVWtzf7ez4Ilo8xgBSu/BHubNnmq34zd04UweI+srSHpD8PkZPZkQhS6TfKdfKJ73ocwPslYFXp7VPaVzjrH6lj2SKqXq7HxxdPYIkrOE/WSDnzJHnmUTly4IzUzkcdHb3Vy8v9CdgArQNs0gnJF/vRJ79pbOoXcaW6Q0PBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P+JhoAn7Z1olQQVkuwgJv8KmKjotKt6KMbT9mVKvz+s=;
+ b=UorL4/Y91WXxrHK7as0BOfPy32qPvwjUwJSW3Bdk47ppTuGY57J3BY0KMEyKJHdrnjMU1EF46uClDcrC/X/QUdIHE5z4kH2CiMnUaBircADRMCaKrd6PGaeY6ZzYXoJcay9gEhJcQJEho1HLCh0NdAtcxwuJ7nU18P8ecJGRTH6AKo4VF+xGbgffo620Xc37Zkf0PoQFZ06ls13LAkg6ZCFF8t4P0wGF6USr9brQEkvmOiROGOX5DeTJZ52nnwXDUeVsMw7l5pim+D6sCqRlxktvymq0OPrNr5N44YyvKtxuqdUBzDJkG/W79GwBwg7jwP7yG1M2JOyPnq5IQUNMNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P+JhoAn7Z1olQQVkuwgJv8KmKjotKt6KMbT9mVKvz+s=;
+ b=ARGj6EOlei/cgerAWOIlO7tFrxE8gPoWCAMRwUQsZ15tw/RtVBf42VBJhfRcMzqnlRMOszMQ5kNUK5ptJznZgC2alRRdVPb97b/dXhvweCJyuNatu2vpT+UBZNMMjFLfDQu4ZOxwPVlW+/Szc4CxtU5AjSGeLbW9m3qOFr/Szuc=
+Received: from SN7PR04CA0154.namprd04.prod.outlook.com (2603:10b6:806:125::9)
+ by SJ0PR12MB6760.namprd12.prod.outlook.com (2603:10b6:a03:44c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.25; Thu, 11 Jul
+ 2024 10:07:12 +0000
+Received: from SA2PEPF00001507.namprd04.prod.outlook.com
+ (2603:10b6:806:125:cafe::d3) by SN7PR04CA0154.outlook.office365.com
+ (2603:10b6:806:125::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.20 via Frontend
+ Transport; Thu, 11 Jul 2024 10:07:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SA2PEPF00001507.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7762.17 via Frontend Transport; Thu, 11 Jul 2024 10:07:12 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 11 Jul
+ 2024 05:07:11 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 11 Jul
+ 2024 05:07:10 -0500
+Received: from xhdshubhraj40.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 11 Jul 2024 05:07:08 -0500
+From: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+To: <linux-edac@vger.kernel.org>
+CC: <git@amd.com>, <bp@alien8.de>, <tony.luck@intel.com>,
+	<james.morse@arm.com>, <mchehab@kernel.org>, <rric@kernel.org>
+Subject: [PATCH v3] EDAC/synopsys: Fix the injection of the errors
+Date: Thu, 11 Jul 2024 15:36:56 +0530
+Message-ID: <20240711100656.31376-1-shubhrajyoti.datta@amd.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001507:EE_|SJ0PR12MB6760:EE_
+X-MS-Office365-Filtering-Correlation-Id: c261e2a2-e073-433c-2bbc-08dca1913bc1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?AdvtqEOxIlQHtCxGUrfT0UzTFg5hblkMU9NkvQ8kPzz4djmD+WXyKAk+2Rzp?=
+ =?us-ascii?Q?4YbnY2esmFvM876VX4fQPel5k7cX9Iw15Ru4T/TcHglkfyHShD57mYn3gkxX?=
+ =?us-ascii?Q?ZmRpT7f/sMyMkE1iH+VK+mXcbZAy+i0BMeVo9Uvc3F6uQzg18CPIGC44rfU6?=
+ =?us-ascii?Q?GtTf3rToGoRnwlBWLEUxmGbPghagSLUbQS+eaX/mbNmOCKOmsKpRApqE/pTb?=
+ =?us-ascii?Q?v69gqa02DgheeRsAjEqRzKgArKmarQUMmBBdimPUCmhiE4KPwFSHFuC0+Pwc?=
+ =?us-ascii?Q?mIipLdiSomOMpNhFvNcoMJ2ckQvI4Di+WZKamX/1D4aLd36ow3HIC6IjuCC8?=
+ =?us-ascii?Q?3Jz6AmJYoCitZsJUEPganj9cXed4hMV65pYz7Y31GcFyrcHzjhdGCp7uzJ/w?=
+ =?us-ascii?Q?1l8xTbhMo+/T3mbktbasy38Asu01SpBeCejwvK811Ix5dJGccvfN8/ZmmMGn?=
+ =?us-ascii?Q?kKLK25j6pszU5yT/P+laAC0c+rm2yQh3yJGMBC0CkapmMEesxqN8YTWjc/DZ?=
+ =?us-ascii?Q?RfTqANe2d2NUmuJLonJy0zOuCv45Ix9E7dPqvIht9t5M4mbHLPAsnZjh3Jyq?=
+ =?us-ascii?Q?gqJWon8dB3kWAJeyn9v5SqNM89CoWdFw4NMwpVmwjp5e8IO+7GX3VEvByVpQ?=
+ =?us-ascii?Q?WHBmP7Whi+/dfSB52QI9UV0QTwjdTK16KXqO/tDbZ+YYzbD4Tx06338P7VxJ?=
+ =?us-ascii?Q?8pPjnVd5llKAgpBPAv9QV9Hz/WUCJku7Gh2vXwGTdTfnXKf0fhPper5QBFCw?=
+ =?us-ascii?Q?kInwNxc2fGiFqzu0tbHZhync80g5wmB301IXTQXayAsvE8gE5I21shlEWI10?=
+ =?us-ascii?Q?FO+SY8d/ysXAoQtOn7rWRBvArkWLEZ8sIoGZl1NN2N2hbcQkiFgSqY1ocqtf?=
+ =?us-ascii?Q?VxgrYwRLfLDNHZxSKpec8eatuopvfYV5WHf29B5dvgTQZ0nHQkViVnNgOgH3?=
+ =?us-ascii?Q?nv0bjpeN/bXOlSpAX2xxHUkiefcdbfUDyKRp3CdCK0sayQvT0zYiNNKhCGSH?=
+ =?us-ascii?Q?Qb8IxLRkCmAMndBwBeA5t+3OMoZ7nnigBToX55GMZrlrIehsZF0BCGYWb2ht?=
+ =?us-ascii?Q?GD97H+wnBakqI3wjA74FEtkzIYhWfwsz8RqB5JPHj/xM8J4rlIrvAldseWSc?=
+ =?us-ascii?Q?WvzTUXEDHLNnf5rN19H2Wd6pfZbtlwbwsiYK7Abj+TPwCe7suQABa7pljMeo?=
+ =?us-ascii?Q?2SemCVoR+5JOko3ezkIUQ45C3rrE1LmBpMTCYDkbwEf8XdfT8fZdUHBhYejw?=
+ =?us-ascii?Q?ccNbcdaE8n4biXzz53Y8WTSagn8SdSnwqWg1qRKT8UuR1Hp7OhUresGHYUPu?=
+ =?us-ascii?Q?0GOsxB9b4PwKpkIWG6CqlNaL+38KBAQ1wnZmYqiwOYfI+yuQ/+nKd/ooZQA+?=
+ =?us-ascii?Q?j/M3Vrmnn91YXRdEfMFZ7vPlsfEvQutzk4YOEGlL5iBMODcV1/05y5p7rWL/?=
+ =?us-ascii?Q?5UGzdqkd3zh65F9etAOOa+tjP9O6bnfp?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 10:07:12.2425
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c261e2a2-e073-433c-2bbc-08dca1913bc1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00001507.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6760
 
-From: Daniel Ferguson <danielf@os.amperecomputing.com>
+The Zynq UltraScale+ MPSoC DDR has a disjoint memory from 2GB to 32GB.
+The DDR host interface has a contiguous memory so while injecting the
+errors the driver should remove the hole else the injection fails as
+the address translation is incorrect.
 
-The ARM processor CPER record was added at UEFI 2.6, and hasn't
-any changes up to UEFI 2.10 on its struct.
+Introduce get_mem_info function pointer and set it for Zynq UltraScale+
+platform to return host address.
 
-Yet, the original arm_event trace code added on changeset
-e9279e83ad1f ("trace, ras: add ARM processor error trace event") is
-incomplete, as it only traces some fields of UAPI 2.6 table N.16,
-not exporting at all any information from tables N.17 to N.29 of
-the record.
-
-This is not enough for user to take appropriate action or to log
-what exactly happened.
-
-According to UEFI_2_9 specification chapter N2.4.4, the ARM processor
-error section includes:
-
-- several (ERR_INFO_NUM) ARM processor error information structures
-  (Tables N.17 to N.20);
-- several (CONTEXT_INFO_NUM) ARM processor context information
-  structures (Tables N.21 to N.29);
-- several vendor specific error information structures. The
-  size is given by Section Length minus the size of the other
-  fields.
-
-In addition to those data, it also exports two fields that are
-parsed by the GHES driver when firmware reports it, e. g.:
-
-- error severity
-- cpu logical index
-
-Report all of these information to userspace via trace uAPI, So that
-userspace can properly record the error and take decisions related
-to cpu core isolation according to error severity and other info.
-
-After this patch, all the data from ARM Processor record from table
-N.16 are directly or indirectly visible on userspace:
-
-======================================	=============================
-UEFI field on table N.16		ARM Processor trace fields
-======================================	=============================
-Validation				handled when filling data for
-					affinity MPIDR and running
-					state.
-ERR_INFO_NUM				pei_len
-CONTEXT_INFO_NUM			ctx_len
-Section Length				indirectly reported by
-					pei_len, ctx_len and oem_len
-Error affinity level			affinity
-MPIDR_EL1				mpidr
-MIDR_EL1				midr
-Running State				running_state
-PSCI State				psci_state
-Processor Error Information Structure	pei_err - count at pei_len
-Processor Context			ctx_err- count at ctx_len
-Vendor Specific Error Info		oem - count at oem_len
-======================================	=============================
-
-It should be noticed that decoding of tables N.17 to N.29, if needed,
-will be handled on userspace. That gives more flexibility, as there
-won't be any need to flood the Kernel with micro-architecture specific
-error decoding).
-Also, decoding the other fields require a complex logic, and should
-be done for each of the several values inside the record field.
-So, let userspace daemons like rasdaemon decode them, parsing such
-tables and having vendor-specific micro-architecture-specific decoders.
-
-[mchehab: modified patch description, solve merge conflicts and fix coding style]
-Fixes: e9279e83ad1f ("trace, ras: add ARM processor error trace event")
-Signed-off-by: Shengwei Luo <luoshengwei@huawei.com>
-Signed-off-by: Jason Tian <jason@os.amperecomputing.com>
-Signed-off-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-Tested-by: Shiju Jose <shiju.jose@huawei.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Link: https://uefi.org/specs/UEFI/2.10/Apx_N_Common_Platform_Error_Record.html#arm-processor-error-section
+Fixes: 1a81361f75d8 ("EDAC, synopsys: Add Error Injection support for ZynqMP DDR controller")
+Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
 ---
- drivers/acpi/apei/ghes.c | 11 ++++-----
- drivers/ras/ras.c        | 45 +++++++++++++++++++++++++++++++++++--
- include/linux/ras.h      | 16 +++++++++++---
- include/ras/ras_event.h  | 48 +++++++++++++++++++++++++++++++++++-----
- 4 files changed, 103 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-index 623cc0cb4a65..06d9351a9abc 100644
---- a/drivers/acpi/apei/ghes.c
-+++ b/drivers/acpi/apei/ghes.c
-@@ -529,7 +529,7 @@ static bool ghes_handle_memory_failure(struct acpi_hest_generic_data *gdata,
- }
+Changes in v3:
+- make the address u64
+- declare the variables in same line
+
+Changes in v2:
+- get_mem_info under debug flag
+
+ drivers/edac/synopsys_edac.c | 35 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
+index ea7a9a342dd3..d7416166fd8a 100644
+--- a/drivers/edac/synopsys_edac.c
++++ b/drivers/edac/synopsys_edac.c
+@@ -10,6 +10,7 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/spinlock.h>
++#include <linux/sizes.h>
+ #include <linux/interrupt.h>
+ #include <linux/of.h>
  
- static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
--				       int sev, bool sync)
-+				     int sev, bool sync)
- {
- 	struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
- 	int flags = sync ? MF_ACTION_REQUIRED : 0;
-@@ -537,9 +537,8 @@ static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
- 	int sec_sev, i;
- 	char *p;
- 
--	log_arm_hw_error(err);
--
- 	sec_sev = ghes_severity(gdata->error_severity);
-+	log_arm_hw_error(err, sec_sev);
- 	if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
- 		return false;
- 
-@@ -773,11 +772,9 @@ static bool ghes_do_proc(struct ghes *ghes,
- 
- 			arch_apei_report_mem_error(sev, mem_err);
- 			queued = ghes_handle_memory_failure(gdata, sev, sync);
--		}
--		else if (guid_equal(sec_type, &CPER_SEC_PCIE)) {
-+		} else if (guid_equal(sec_type, &CPER_SEC_PCIE)) {
- 			ghes_handle_aer(gdata);
--		}
--		else if (guid_equal(sec_type, &CPER_SEC_PROC_ARM)) {
-+		} else if (guid_equal(sec_type, &CPER_SEC_PROC_ARM)) {
- 			queued = ghes_handle_arm_hw_error(gdata, sev, sync);
- 		} else if (guid_equal(sec_type, &CPER_SEC_CXL_GEN_MEDIA_GUID)) {
- 			struct cxl_cper_event_rec *rec = acpi_hest_get_payload(gdata);
-diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
-index a6e4792a1b2e..359bb163aee0 100644
---- a/drivers/ras/ras.c
-+++ b/drivers/ras/ras.c
-@@ -52,9 +52,50 @@ void log_non_standard_event(const guid_t *sec_type, const guid_t *fru_id,
- 	trace_non_standard_event(sec_type, fru_id, fru_text, sev, err, len);
- }
- 
--void log_arm_hw_error(struct cper_sec_proc_arm *err)
-+void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
- {
--	trace_arm_event(err);
-+	struct cper_arm_err_info *err_info;
-+	struct cper_arm_ctx_info *ctx_info;
-+	u8 *ven_err_data;
-+	u32 ctx_len = 0;
-+	int n, sz, cpu;
-+	s32 vsei_len;
-+	u32 pei_len;
-+	u8 *pei_err;
-+	u8 *ctx_err;
-+
-+	pei_len = sizeof(struct cper_arm_err_info) * err->err_info_num;
-+	pei_err = (u8 *)err + sizeof(struct cper_sec_proc_arm);
-+
-+	err_info = (struct cper_arm_err_info *)(err + 1);
-+	ctx_info = (struct cper_arm_ctx_info *)(err_info + err->err_info_num);
-+	ctx_err = (u8 *)ctx_info;
-+	for (n = 0; n < err->context_info_num; n++) {
-+		sz = sizeof(struct cper_arm_ctx_info) + ctx_info->size;
-+		ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
-+		ctx_len += sz;
-+	}
-+
-+	vsei_len = err->section_length - (sizeof(struct cper_sec_proc_arm) +
-+					  pei_len + ctx_len);
-+	if (vsei_len < 0) {
-+		pr_warn(FW_BUG
-+			"section length: %d\n", err->section_length);
-+		pr_warn(FW_BUG
-+			"section length is too small\n");
-+		pr_warn(FW_BUG
-+			"firmware-generated error record is incorrect\n");
-+		vsei_len = 0;
-+	}
-+	ven_err_data = (u8 *)ctx_info;
-+
-+	cpu = GET_LOGICAL_INDEX(err->mpidr);
-+	/* when return value is invalid, set cpu index to -1 */
-+	if (cpu < 0)
-+		cpu = -1;
-+
-+	trace_arm_event(err, pei_err, pei_len, ctx_err, ctx_len,
-+			ven_err_data, (u32)vsei_len, sev, cpu);
- }
- 
- static int __init ras_init(void)
-diff --git a/include/linux/ras.h b/include/linux/ras.h
-index a64182bc72ad..df444492b434 100644
---- a/include/linux/ras.h
-+++ b/include/linux/ras.h
-@@ -24,8 +24,7 @@ int __init parse_cec_param(char *str);
- void log_non_standard_event(const guid_t *sec_type,
- 			    const guid_t *fru_id, const char *fru_text,
- 			    const u8 sev, const u8 *err, const u32 len);
--void log_arm_hw_error(struct cper_sec_proc_arm *err);
--
-+void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev);
- #else
- static inline void
- log_non_standard_event(const guid_t *sec_type,
-@@ -33,7 +32,7 @@ log_non_standard_event(const guid_t *sec_type,
- 		       const u8 sev, const u8 *err, const u32 len)
- { return; }
- static inline void
--log_arm_hw_error(struct cper_sec_proc_arm *err) { return; }
-+log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev) { return; }
- #endif
- 
- struct atl_err {
-@@ -53,4 +52,15 @@ static inline unsigned long
- amd_convert_umc_mca_addr_to_sys_addr(struct atl_err *err) { return -EINVAL; }
- #endif /* CONFIG_AMD_ATL */
- 
-+#if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
-+#include <asm/smp_plat.h>
-+/*
-+ * Include ARM specific SMP header which provides a function mapping mpidr to
-+ * cpu logical index.
-+ */
-+#define GET_LOGICAL_INDEX(mpidr) get_logical_index(mpidr & MPIDR_HWID_BITMASK)
-+#else
-+#define GET_LOGICAL_INDEX(mpidr) -EINVAL
-+#endif /* CONFIG_ARM || CONFIG_ARM64 */
-+
- #endif /* __RAS_H__ */
-diff --git a/include/ras/ras_event.h b/include/ras/ras_event.h
-index 7c47151d5c72..7d818763934f 100644
---- a/include/ras/ras_event.h
-+++ b/include/ras/ras_event.h
-@@ -168,11 +168,24 @@ TRACE_EVENT(mc_event,
-  * This event is generated when hardware detects an ARM processor error
-  * has occurred. UEFI 2.6 spec section N.2.4.4.
+@@ -337,6 +338,7 @@ struct synps_edac_priv {
+  * @get_mtype:		Get mtype.
+  * @get_dtype:		Get dtype.
+  * @get_ecc_state:	Get ECC state.
++ * @get_mem_info:	Get EDAC memory info
+  * @quirks:		To differentiate IPs.
   */
-+#define APEIL "ARM Processor Err Info data len"
-+#define APEID "ARM Processor Err Info raw data"
-+#define APECIL "ARM Processor Err Context Info data len"
-+#define APECID "ARM Processor Err Context Info raw data"
-+#define VSEIL "Vendor Specific Err Info data len"
-+#define VSEID "Vendor Specific Err Info raw data"
- TRACE_EVENT(arm_event,
+ struct synps_platform_data {
+@@ -344,6 +346,9 @@ struct synps_platform_data {
+ 	enum mem_type (*get_mtype)(const void __iomem *base);
+ 	enum dev_type (*get_dtype)(const void __iomem *base);
+ 	bool (*get_ecc_state)(void __iomem *base);
++#ifdef CONFIG_EDAC_DEBUG
++	u64 (*get_mem_info)(struct synps_edac_priv *priv);
++#endif
+ 	int quirks;
+ };
  
--	TP_PROTO(const struct cper_sec_proc_arm *proc),
-+	TP_PROTO(const struct cper_sec_proc_arm *proc, const u8 *pei_err,
-+			const u32 pei_len,
-+			const u8 *ctx_err,
-+			const u32 ctx_len,
-+			const u8 *oem,
-+			const u32 oem_len,
-+			u8 sev,
-+			int cpu),
+@@ -402,6 +407,25 @@ static int zynq_get_error_info(struct synps_edac_priv *priv)
+ 	return 0;
+ }
  
--	TP_ARGS(proc),
-+	TP_ARGS(proc, pei_err, pei_len, ctx_err, ctx_len, oem, oem_len, sev, cpu),
++#ifdef CONFIG_EDAC_DEBUG
++/**
++ * zynqmp_get_mem_info - Get the current memory info.
++ * @priv:	DDR memory controller private instance data.
++ *
++ * Return: host interface address.
++ */
++static u64 zynqmp_get_mem_info(struct synps_edac_priv *priv)
++{
++	u64 hif_addr = 0, linear_addr;
++
++	linear_addr = priv->poison_addr;
++	if (linear_addr >= SZ_32G)
++		linear_addr = linear_addr - SZ_32G + SZ_2G;
++	hif_addr = linear_addr >> 3;
++	return hif_addr;
++}
++#endif
++
+ /**
+  * zynqmp_get_error_info - Get the current ECC error info.
+  * @priv:	DDR memory controller private instance data.
+@@ -922,6 +946,9 @@ static const struct synps_platform_data zynqmp_edac_def = {
+ 	.get_mtype	= zynqmp_get_mtype,
+ 	.get_dtype	= zynqmp_get_dtype,
+ 	.get_ecc_state	= zynqmp_get_ecc_state,
++#ifdef CONFIG_EDAC_DEBUG
++	.get_mem_info	= zynqmp_get_mem_info,
++#endif
+ 	.quirks         = (DDR_ECC_INTR_SUPPORT
+ #ifdef CONFIG_EDAC_DEBUG
+ 			  | DDR_ECC_DATA_POISON_SUPPORT
+@@ -975,10 +1002,16 @@ MODULE_DEVICE_TABLE(of, synps_edac_match);
+ static void ddr_poison_setup(struct synps_edac_priv *priv)
+ {
+ 	int col = 0, row = 0, bank = 0, bankgrp = 0, rank = 0, regval;
++	const struct synps_platform_data *p_data;
+ 	int index;
+ 	ulong hif_addr = 0;
  
- 	TP_STRUCT__entry(
- 		__field(u64, mpidr)
-@@ -180,6 +193,14 @@ TRACE_EVENT(arm_event,
- 		__field(u32, running_state)
- 		__field(u32, psci_state)
- 		__field(u8, affinity)
-+		__field(u32, pei_len)
-+		__dynamic_array(u8, pei_buf, pei_len)
-+		__field(u32, ctx_len)
-+		__dynamic_array(u8, ctx_buf, ctx_len)
-+		__field(u32, oem_len)
-+		__dynamic_array(u8, oem_buf, oem_len)
-+		__field(u8, sev)
-+		__field(int, cpu)
- 	),
+-	hif_addr = priv->poison_addr >> 3;
++	p_data = priv->p_data;
++
++	if (p_data->get_mem_info)
++		hif_addr = p_data->get_mem_info(priv);
++	else
++		hif_addr = priv->poison_addr >> 3;
  
- 	TP_fast_assign(
-@@ -199,12 +220,29 @@ TRACE_EVENT(arm_event,
- 			__entry->running_state = ~0;
- 			__entry->psci_state = ~0;
- 		}
-+		__entry->pei_len = pei_len;
-+		memcpy(__get_dynamic_array(pei_buf), pei_err, pei_len);
-+		__entry->ctx_len = ctx_len;
-+		memcpy(__get_dynamic_array(ctx_buf), ctx_err, ctx_len);
-+		__entry->oem_len = oem_len;
-+		memcpy(__get_dynamic_array(oem_buf), oem, oem_len);
-+		__entry->sev = sev;
-+		__entry->cpu = cpu;
- 	),
- 
--	TP_printk("affinity level: %d; MPIDR: %016llx; MIDR: %016llx; "
--		  "running state: %d; PSCI state: %d",
-+	TP_printk("cpu: %d; error: %d; affinity level: %d; MPIDR: %016llx; MIDR: %016llx; "
-+		  "running state: %d; PSCI state: %d; "
-+		  "%s: %d; %s: %s; %s: %d; %s: %s; %s: %d; %s: %s",
-+		  __entry->cpu,
-+		  __entry->sev,
- 		  __entry->affinity, __entry->mpidr, __entry->midr,
--		  __entry->running_state, __entry->psci_state)
-+		  __entry->running_state, __entry->psci_state,
-+		  APEIL, __entry->pei_len, APEID,
-+		  __print_hex(__get_dynamic_array(pei_buf), __entry->pei_len),
-+		  APECIL, __entry->ctx_len, APECID,
-+		  __print_hex(__get_dynamic_array(ctx_buf), __entry->ctx_len),
-+		  VSEIL, __entry->oem_len, VSEID,
-+		  __print_hex(__get_dynamic_array(oem_buf), __entry->oem_len))
- );
- 
- /*
+ 	for (index = 0; index < DDR_MAX_ROW_SHIFT; index++) {
+ 		if (priv->row_shift[index])
 -- 
-2.45.2
+2.17.1
 
