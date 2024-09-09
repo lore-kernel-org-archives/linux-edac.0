@@ -1,153 +1,198 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEDC13635E;
-	Mon,  9 Sep 2024 09:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27911B533E
+	for <linux-edac@vger.kernel.org>; Mon,  9 Sep 2024 11:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.110.167.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725872600; cv=none; b=edAvI2v5NhNJv9H/+gFf4ABx0lz+gvcET4zs0BV0D0X7eiaq4u6mtVuA+auDN6igyH5zN4KvnMomAykiWEAnK1iavgZfO7H3PkczIIBaQvF0Nq8+h0n/xPsCCzvChOeQJ+S5QuHjrBNNtLZ2UdD6iYGrVckcRA51mM4FJr+96hI=
+	t=1725879778; cv=none; b=F3A9vizivEAnooY3A9mtFaROvczFM9ZV90AnCCZt5QQRtKxDKKNzSbI6GNKtP+kYUD/Bcabp0Z/Wyzmvm1Jg8CH9srm/GwHenHMFB8/vk45nrPsSlQ3884HVjOvSosw1IQc0tBXZc5SAkFsWo4FDNbEbi7f6DhQ0krWCn2qKM6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725872600; c=relaxed/simple;
-	bh=8WYAzJl0zYRh1E8R9UP4JEzv76LjRdU1nrYAQz8NicI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N9tOX2HnVnO+Wb6ZEbUX5ttZCvT/9LBQcklUU4xGTXZdUHAmxN47fTzmnQ6d0J0eVdJbQKfL/XXiLO3FwUIosUMXpD7Hak4RhILjdX26M/h5CE282YEjWObCieqrDRNFviK9ebJttQXGHWiDApNt26gnhxQQlWfaz5PIAXp30iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=jnClp46A; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="jnClp46A"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E86F640E0185;
-	Mon,  9 Sep 2024 09:03:16 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 7bh40M_SYptb; Mon,  9 Sep 2024 09:03:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1725872592; bh=eDk+ruS6hx45oNskKYQXXNbRrKJegFNg5kxe7NFyCmo=;
-	h=Date:From:To:Cc:Subject:From;
-	b=jnClp46A02FcRBBeAjcUm3XiUnmWSSMkxZiuhm1AWKoYiwnsmyCx2qBPjy7MxvfVL
-	 rrF9dK6AHJQsekaO17YXDGDAY1LypLKnm+W5Uhcvjh0Xq001YJytM0A4y5U0IvGHvP
-	 uT4Xx03z+mAPFKkmpkmMnHtsojFaCqbU5YK2qNdUYO4prAsVny/MaycyFUfNP6mvQE
-	 16kKx4n+8xt46QmhrvYh24ozfITaRkuljmlzFVVBf8kV/izFBiYYiIPOStaLiGhOlR
-	 VJ6iLmaT0LLpv2/rFJ2XkhGnUu5IFwdLsTeQc/OzgN0NMrgIhCMSH8QYgjY9PJYGVw
-	 1NXvRAZ+L/uhz69RQESM5EZP/RX7900Dal+bJwoTKd/t6RE6piHWkWiQK/jKmqhAn0
-	 Gi7dNmHIh7vUYOYRtoKWyp4BCXMYHqfHFnBVBbpb97zdYnot8WTX+2nPOcTsCctSGU
-	 ZbAOkfwcmdejRbx440UUsRGBj5HjUHpEp0hsqoze9uOgHzs8Bys/Dg+L6DSvnG8XLC
-	 j+ODxZ0thsL2IIFKbtsmGoAJP1HsoKV/i4DeyZ2mjdYzBZCSMmV8ubU07sFP5HrTba
-	 4HxRQFi/VcQne2rbnMjSEU4jO1yrkQcbJpWsXzuorKaD1qnnbd5bS0zc4k6w5Ogb8N
-	 RCcropa2BGZlXwz+z/A5yoqk=
-Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3D72540E0263;
-	Mon,  9 Sep 2024 09:03:09 +0000 (UTC)
-Date: Mon, 9 Sep 2024 11:03:02 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-edac <linux-edac@vger.kernel.org>,
-	lkml <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] EDAC updates for v6.12
-Message-ID: <20240909090302.GAZt65xhBpCvrrefhl@fat_crate.local>
+	s=arc-20240116; t=1725879778; c=relaxed/simple;
+	bh=s9A502O3iKkERZoBN8m5F2WimPPfkpUnmF3aUeXrBek=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XKQNvy9D+/m4w8PNXWk0NHJBp3/9sgqeaMHpuJfK3i0t3nDXDpcuHj5L0lvducH3SPTzkpmZi/CCRPqTtY7iManexkGxTijyB3mm8dNoUX7QMoqnIGwlYSTaJCF52Fqul8H9mNG69uToV5H6Xyb8cM2j5xNARnAsrQAFEPrMFQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com; spf=pass smtp.mailfrom=zhaoxin.com; arc=none smtp.client-ip=203.110.167.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
+X-ASG-Debug-ID: 1725879772-1eb14e31a6f3b00001-QCVQLf
+Received: from ZXSHMBX1.zhaoxin.com (ZXSHMBX1.zhaoxin.com [10.28.252.163]) by mx2.zhaoxin.com with ESMTP id n9pBb5GZiHjEdqyT (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 09 Sep 2024 19:02:52 +0800 (CST)
+X-Barracuda-Envelope-From: TonyWWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
+Received: from ZXSHMBX2.zhaoxin.com (10.28.252.164) by ZXSHMBX1.zhaoxin.com
+ (10.28.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 9 Sep
+ 2024 19:02:51 +0800
+Received: from ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d]) by
+ ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d%4]) with mapi id
+ 15.01.2507.039; Mon, 9 Sep 2024 19:02:51 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.163
+Received: from tony.zhaoxin.com (10.32.65.165) by ZXBJMBX03.zhaoxin.com
+ (10.29.252.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 9 Sep
+ 2024 18:43:54 +0800
+From: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
+To: <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<tony.luck@intel.com>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>
+CC: <CobeChen@zhaoxin.com>, <TimGuo@zhaoxin.com>, <LeoLiu-oc@zhaoxin.com>,
+	Lyle Li <LyleLi@zhaoxin.com>
+Subject: [PATCH v1 3/3] x86/mce: Add CMCI storm switching support for Zhaoxin
+Date: Mon, 9 Sep 2024 18:43:49 +0800
+X-ASG-Orig-Subj: [PATCH v1 3/3] x86/mce: Add CMCI storm switching support for Zhaoxin
+Message-ID: <20240909104349.3349-4-TonyWWang-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240909104349.3349-1-TonyWWang-oc@zhaoxin.com>
+References: <20240909104349.3349-1-TonyWWang-oc@zhaoxin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
+ ZXBJMBX03.zhaoxin.com (10.29.252.7)
+X-Moderation-Data: 9/9/2024 7:02:50 PM
+X-Barracuda-Connect: ZXSHMBX1.zhaoxin.com[10.28.252.163]
+X-Barracuda-Start-Time: 1725879772
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 4285
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: -2.02
+X-Barracuda-Spam-Status: No, SCORE=-2.02 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.130206
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------------------------
 
-Hi Linus,
+From: Lyle Li <LyleLi@zhaoxin.com>
 
-please pull EDAC updates for v6.12.
+Zhaoxin CPUs support CMCI compatible with Intel, because
+Zhaoxin's UCR error is not reported through CMCI, and in
+order to be compatible with intel's CMCI code, so add Zhaoxin
+CMCI storm toggle to support the new CMCI storm switching
+in mce/intel.c, mce/zhaoxin.c, mce/threshold.c, and mce/internal.h.
 
-Like you said "All the actual work should be done before the
-merge window" and before we bring you the pull requests live, written with
-a pen and paper, lemme send you some now so that there's less stress next
-week.
-
-Thx.
-
+Signed-off-by: Lyle Li <LyleLi@zhaoxin.com>
+Reviewed-by: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
 ---
+ arch/x86/kernel/cpu/mce/intel.c     |  5 ++---
+ arch/x86/kernel/cpu/mce/internal.h  |  7 ++++++-
+ arch/x86/kernel/cpu/mce/threshold.c |  4 ++++
+ arch/x86/kernel/cpu/mce/zhaoxin.c   | 18 ++++++++++++++++++
+ 4 files changed, 30 insertions(+), 4 deletions(-)
 
-The following changes since commit 8400291e289ee6b2bf9779ff1c83a291501f017b:
+diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/inte=
+l.c
+index b7e67f4f7..aa75e2848 100644
+--- a/arch/x86/kernel/cpu/mce/intel.c
++++ b/arch/x86/kernel/cpu/mce/intel.c
+@@ -45,7 +45,7 @@ static DEFINE_PER_CPU(mce_banks_t, mce_banks_owned);
+  * cmci_discover_lock protects against parallel discovery attempts
+  * which could race against each other.
+  */
+-static DEFINE_RAW_SPINLOCK(cmci_discover_lock);
++DEFINE_RAW_SPINLOCK(cmci_discover_lock);
+=20
+ /*
+  * On systems that do support CMCI but it's disabled, polling for MCEs can
+@@ -61,7 +61,7 @@ static DEFINE_SPINLOCK(cmci_poll_lock);
+  * MCi_CTL2 threshold for each bank when there is no storm.
+  * Default value for each bank may have been set by BIOS.
+  */
+-static u16 cmci_threshold[MAX_NR_BANKS];
++u16 cmci_threshold[MAX_NR_BANKS];
+=20
+ /*
+  * High threshold to limit CMCI rate during storms. Max supported is
+@@ -73,7 +73,6 @@ static u16 cmci_threshold[MAX_NR_BANKS];
+  * to corrected errors, so keeping CMCI enabled means that uncorrected
+  * errors will still be processed in a timely fashion.
+  */
+-#define CMCI_STORM_THRESHOLD	32749
+=20
+ static int cmci_supported(int *banks)
+ {
+diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/i=
+nternal.h
+index e9b06b825..8fa1f590f 100644
+--- a/arch/x86/kernel/cpu/mce/internal.h
++++ b/arch/x86/kernel/cpu/mce/internal.h
+@@ -7,7 +7,7 @@
+=20
+ #include <linux/device.h>
+ #include <asm/mce.h>
+-
++#include <linux/spinlock.h>
+ enum severity_level {
+ 	MCE_NO_SEVERITY,
+ 	MCE_DEFERRED_SEVERITY,
+@@ -334,11 +334,16 @@ static __always_inline u32 mca_msr_reg(int bank, enum=
+ mca_msr reg)
+ }
+=20
+ extern void (*mc_poll_banks)(void);
++#define CMCI_STORM_THRESHOLD    32749
++extern raw_spinlock_t cmci_discover_lock;
++extern u16 cmci_threshold[MAX_NR_BANKS];
+ #ifdef CONFIG_X86_MCE_ZHAOXIN
+ void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c);
+ void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c);
++void mce_zhaoxin_handle_storm(int bank, bool on);
+ #else
+ void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c) {}
+ void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c) {}
++void mce_zhaoxin_handle_storm(int bank, bool on) {}
+ #endif
+ #endif /* __X86_MCE_INTERNAL_H__ */
+diff --git a/arch/x86/kernel/cpu/mce/threshold.c b/arch/x86/kernel/cpu/mce/=
+threshold.c
+index 89e31e1e5..200280387 100644
+--- a/arch/x86/kernel/cpu/mce/threshold.c
++++ b/arch/x86/kernel/cpu/mce/threshold.c
+@@ -63,6 +63,10 @@ static void mce_handle_storm(unsigned int bank, bool on)
+ 	case X86_VENDOR_INTEL:
+ 		mce_intel_handle_storm(bank, on);
+ 		break;
++	case X86_VENDOR_ZHAOXIN:
++	case X86_VENDOR_CENTAUR:
++		mce_zhaoxin_handle_storm(bank, on);
++		break;
+ 	}
+ }
+=20
+diff --git a/arch/x86/kernel/cpu/mce/zhaoxin.c b/arch/x86/kernel/cpu/mce/zh=
+aoxin.c
+index 97d12ce0c..38beca449 100644
+--- a/arch/x86/kernel/cpu/mce/zhaoxin.c
++++ b/arch/x86/kernel/cpu/mce/zhaoxin.c
+@@ -33,3 +33,21 @@ void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c)
+ {
+ 	intel_clear_lmce();
+ }
++
++void mce_zhaoxin_handle_storm(int bank, bool on)
++{
++	unsigned long flags;
++	u64 val;
++
++	raw_spin_lock_irqsave(&cmci_discover_lock, flags);
++	rdmsrl(MSR_IA32_MCx_CTL2(bank), val);
++	if (on) {
++		val &=3D ~(MCI_CTL2_CMCI_EN | MCI_CTL2_CMCI_THRESHOLD_MASK);
++		val |=3D CMCI_STORM_THRESHOLD;
++	} else {
++		val &=3D ~MCI_CTL2_CMCI_THRESHOLD_MASK;
++		val |=3D (MCI_CTL2_CMCI_EN | cmci_threshold[bank]);
++	}
++	wrmsrl(MSR_IA32_MCx_CTL2(bank), val);
++	raw_spin_unlock_irqrestore(&cmci_discover_lock, flags);
++}
+--=20
+2.34.1
 
-  Linux 6.11-rc1 (2024-07-28 14:19:55 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v6.12
-
-for you to fetch changes up to 92f8358bce13da0b2c37122573a2b2d7de0071df:
-
-  Merge remote-tracking branches 'ras/edac-amd-atl', 'ras/edac-misc' and 'ras/edac-drivers' into edac-updates (2024-09-09 10:51:30 +0200)
-
-----------------------------------------------------------------
-- Drop a now obsolete ppc4xx_edac driver
-
-- Fix conversion to physical memory addresses on Intel's Elkhart Lake and Ice
-  Lake hardware when the system address is above the (Top-Of-Memory) TOM
-  address
-
-- Pay attention to the memory hole on Zynq UltraScale+ MPSoC DDR controllers
-  when injecting errors for testing purposes
-
-- Add support for translating normalized error addresses reported by an AMD
-  memory controller into system physical addresses using an UEFI mechanism
-  called platform runtime mechanism (PRM).
-
-- The usual cleanups and fixes
-
-----------------------------------------------------------------
-Borislav Petkov (AMD) (1):
-      Merge remote-tracking branches 'ras/edac-amd-atl', 'ras/edac-misc' and 'ras/edac-drivers' into edac-updates
-
-John Allen (2):
-      ACPI: PRM: Add PRM handler direct call support
-      RAS/AMD/ATL: Translate normalized to system physical addresses using PRM
-
-Qiuxu Zhuo (4):
-      EDAC/igen6: Fix conversion of system address to physical memory address
-      EDAC/{skx_common,skx,i10nm}: Move the common debug code to skx_common
-      EDAC/{skx_common,i10nm}: Remove the AMAP register for determing DDR5
-      EDAC/sb_edac: Fix the compile warning of large frame size
-
-Rob Herring (Arm) (1):
-      EDAC: Drop obsolete PPC4xx driver
-
-Shubhrajyoti Datta (1):
-      EDAC/synopsys: Fix error injection on Zynq UltraScale+
-
- drivers/acpi/prmt.c            |   24 +
- drivers/edac/Kconfig           |    9 -
- drivers/edac/Makefile          |    1 -
- drivers/edac/i10nm_base.c      |   61 +-
- drivers/edac/igen6_edac.c      |    2 +-
- drivers/edac/ppc4xx_edac.c     | 1425 ----------------------------------------
- drivers/edac/ppc4xx_edac.h     |  167 -----
- drivers/edac/sb_edac.c         |   35 +-
- drivers/edac/skx_base.c        |   52 +-
- drivers/edac/skx_common.c      |   49 +-
- drivers/edac/skx_common.h      |    8 +
- drivers/edac/synopsys_edac.c   |   35 +-
- drivers/ras/amd/atl/Kconfig    |    4 +
- drivers/ras/amd/atl/Makefile   |    2 +
- drivers/ras/amd/atl/internal.h |   10 +
- drivers/ras/amd/atl/prm.c      |   57 ++
- drivers/ras/amd/atl/umc.c      |    5 +
- include/linux/prmt.h           |    5 +
- 18 files changed, 222 insertions(+), 1729 deletions(-)
- delete mode 100644 drivers/edac/ppc4xx_edac.c
- delete mode 100644 drivers/edac/ppc4xx_edac.h
- create mode 100644 drivers/ras/amd/atl/prm.c
-
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
