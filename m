@@ -1,273 +1,219 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28C21B5832;
-	Mon,  9 Sep 2024 11:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8660E1B5EB7
+	for <linux-edac@vger.kernel.org>; Mon,  9 Sep 2024 11:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.0.225.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725880680; cv=none; b=N9XARQ4JMgdXYVs/EM1EjkJeUYmlazxzVY6aCjuTtZ6GC6dKDmlH81mlOKz42B5PkBIBPjLNOPYq0uhceH4zdyE4tJEjoW/b/c8Dm1MqoDpp8+3hfkrzDqZmyN9Do4elT4c0wNFreQh5a97AnCwZdHgwrTEM2RMwP9iAbzdIpm4=
+	t=1725880842; cv=none; b=iz1Uwam5jSvPTYRjd9t8HP1JkWWtm0BalqpuOqFpA272ImYBsh+HrZF5bb6z5NNmxvONWWiowb6cGC3OJtkUVwqwa8grOFAlB69LH/U/2Xy1DEi+odu5CNR9XeJsHbxC0NEl4Yr3caBBdY+kJe+m3BrQNtQ9EKhFVisv2m+e5z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725880680; c=relaxed/simple;
-	bh=fi6HpSk5L2N5f9mEV/ZlqlRAPeaAyXhEDSK9MLqROzU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=q2dGRGjQtpw0kPlviJxcYtW45oJDycsKWoqPc7s2VTa2chBNVgqtVIGK0D2iH5B9ANj6wZroVt0yZJqVJQDsFn6ff4Rs380NAWGM7cU2noGVYdMBez4A8QAO0hsiuJzkoqGv198DAvrKJm0QZVtK7PQ3OayWH/NjZjMXbWITi2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4X2PMR2Hqmz6K6S0;
-	Mon,  9 Sep 2024 19:13:07 +0800 (CST)
-Received: from frapeml500006.china.huawei.com (unknown [7.182.85.219])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1F0D714A14D;
-	Mon,  9 Sep 2024 19:17:48 +0800 (CST)
-Received: from lhrpeml500006.china.huawei.com (7.191.161.198) by
- frapeml500006.china.huawei.com (7.182.85.219) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 9 Sep 2024 13:17:47 +0200
-Received: from lhrpeml500006.china.huawei.com ([7.191.161.198]) by
- lhrpeml500006.china.huawei.com ([7.191.161.198]) with mapi id 15.01.2507.039;
- Mon, 9 Sep 2024 12:17:47 +0100
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"rafael@kernel.org" <rafael@kernel.org>, "lenb@kernel.org" <lenb@kernel.org>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "dan.j.williams@intel.com"
-	<dan.j.williams@intel.com>, "dave@stgolabs.net" <dave@stgolabs.net>,
-	"Jonathan Cameron" <jonathan.cameron@huawei.com>, "dave.jiang@intel.com"
-	<dave.jiang@intel.com>, "alison.schofield@intel.com"
-	<alison.schofield@intel.com>, "vishal.l.verma@intel.com"
-	<vishal.l.verma@intel.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>,
-	"david@redhat.com" <david@redhat.com>, "Vilas.Sridharan@amd.com"
-	<Vilas.Sridharan@amd.com>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "rientjes@google.com"
-	<rientjes@google.com>, "jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "mike.malvestuto@intel.com"
-	<mike.malvestuto@intel.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, "jgroves@micron.com"
-	<jgroves@micron.com>, "vsalve@micron.com" <vsalve@micron.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>
-Subject: RE: [PATCH v11 01/14] EDAC: Add support for EDAC device feature's
- control
-Thread-Topic: [PATCH v11 01/14] EDAC: Add support for EDAC device feature's
- control
-Thread-Index: AQHa7/tqm9XJar2NaUuYivGEV4aaM7JGTcyAgAkOiXA=
-Date: Mon, 9 Sep 2024 11:17:47 +0000
-Message-ID: <dc4cc7313d444035a90e1d4e0c37f858@huawei.com>
-References: <20240816164238.1902-1-shiju.jose@huawei.com>
- <20240816164238.1902-2-shiju.jose@huawei.com>
- <20240903163519.GAZtc6x7o9Cy1MQAsb@fat_crate.local>
-In-Reply-To: <20240903163519.GAZtc6x7o9Cy1MQAsb@fat_crate.local>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1725880842; c=relaxed/simple;
+	bh=Y4GHECrA4sX/5ytDMOJCJyu0pijH8ibJXwTLjO/w8ok=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TIwDgpj412GdWvUBLB0Uosth0GZB4oJAckU8Cs0CCb2I3+IOImnFtzuTEiChiEKYBMxUw4lJQaITgKFASE/ren8gTkcx8oE6AyivTiMT4+JVxHa75VgHGoub97KlU7raVjWh9nq9K1gFBrnDHYrT2y0AXfmZsysqpwv7RfK2BCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com; spf=pass smtp.mailfrom=zhaoxin.com; arc=none smtp.client-ip=210.0.225.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
+X-ASG-Debug-ID: 1725879764-086e23761311ef60001-QCVQLf
+Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx1.zhaoxin.com with ESMTP id SAdoT31GxFeKHGxr (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 09 Sep 2024 19:02:44 +0800 (CST)
+X-Barracuda-Envelope-From: TonyWWang-oc@zhaoxin.com
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+Received: from ZXSHMBX2.zhaoxin.com (10.28.252.164) by ZXSHMBX2.zhaoxin.com
+ (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 9 Sep
+ 2024 19:02:43 +0800
+Received: from ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d]) by
+ ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d%4]) with mapi id
+ 15.01.2507.039; Mon, 9 Sep 2024 19:02:43 +0800
+X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
+Received: from tony.zhaoxin.com (10.32.65.165) by ZXBJMBX03.zhaoxin.com
+ (10.29.252.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 9 Sep
+ 2024 18:43:51 +0800
+From: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
+To: <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<tony.luck@intel.com>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>
+CC: <CobeChen@zhaoxin.com>, <TimGuo@zhaoxin.com>, <LeoLiu-oc@zhaoxin.com>,
+	Lyle Li <LyleLi@zhaoxin.com>
+Subject: [PATCH v1 1/3] x86/mce: Add centaur vendor to support Zhaoxin MCA
+Date: Mon, 9 Sep 2024 18:43:47 +0800
+X-ASG-Orig-Subj: [PATCH v1 1/3] x86/mce: Add centaur vendor to support Zhaoxin MCA
+Message-ID: <20240909104349.3349-2-TonyWWang-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240909104349.3349-1-TonyWWang-oc@zhaoxin.com>
+References: <20240909104349.3349-1-TonyWWang-oc@zhaoxin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
+ ZXBJMBX03.zhaoxin.com (10.29.252.7)
+X-Moderation-Data: 9/9/2024 7:02:42 PM
+X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
+X-Barracuda-Start-Time: 1725879764
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at zhaoxin.com
+X-Barracuda-Scan-Msg-Size: 4507
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: -2.02
+X-Barracuda-Spam-Status: No, SCORE=-2.02 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.130207
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------------------------
 
-VGhhbmsgeW91IGZvciB0aGUgZmVlZGJhY2tzLg0KQXBvbG9naWVzIGZvciB0aGUgZGVsYXkgaW4g
-cmVwbHlpbmcuDQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IEJvcmlzbGF2
-IFBldGtvdiA8YnBAYWxpZW44LmRlPg0KPlNlbnQ6IDAzIFNlcHRlbWJlciAyMDI0IDE3OjM1DQo+
-VG86IFNoaWp1IEpvc2UgPHNoaWp1Lmpvc2VAaHVhd2VpLmNvbT4NCj5DYzogbGludXgtZWRhY0B2
-Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWN4bEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0KPmFjcGlA
-dmdlci5rZXJuZWwub3JnOyBsaW51eC1tbUBrdmFjay5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmc7DQo+dG9ueS5sdWNrQGludGVsLmNvbTsgcmFmYWVsQGtlcm5lbC5vcmc7IGxlbmJA
-a2VybmVsLm9yZzsNCj5tY2hlaGFiQGtlcm5lbC5vcmc7IGRhbi5qLndpbGxpYW1zQGludGVsLmNv
-bTsgZGF2ZUBzdGdvbGFicy5uZXQ7IEpvbmF0aGFuDQo+Q2FtZXJvbiA8am9uYXRoYW4uY2FtZXJv
-bkBodWF3ZWkuY29tPjsgZGF2ZS5qaWFuZ0BpbnRlbC5jb207DQo+YWxpc29uLnNjaG9maWVsZEBp
-bnRlbC5jb207IHZpc2hhbC5sLnZlcm1hQGludGVsLmNvbTsgaXJhLndlaW55QGludGVsLmNvbTsN
-Cj5kYXZpZEByZWRoYXQuY29tOyBWaWxhcy5TcmlkaGFyYW5AYW1kLmNvbTsgbGVvLmR1cmFuQGFt
-ZC5jb207DQo+WWF6ZW4uR2hhbm5hbUBhbWQuY29tOyByaWVudGplc0Bnb29nbGUuY29tOyBqaWFx
-aXlhbkBnb29nbGUuY29tOw0KPkpvbi5HcmltbUBhbWQuY29tOyBkYXZlLmhhbnNlbkBsaW51eC5p
-bnRlbC5jb207DQo+bmFveWEuaG9yaWd1Y2hpQG5lYy5jb207IGphbWVzLm1vcnNlQGFybS5jb207
-IGp0aG91Z2h0b25AZ29vZ2xlLmNvbTsNCj5zb21hc3VuZGFyYW0uYUBocGUuY29tOyBlcmRlbWFr
-dGFzQGdvb2dsZS5jb207IHBnb25kYUBnb29nbGUuY29tOw0KPmR1ZW53ZW5AZ29vZ2xlLmNvbTsg
-bWlrZS5tYWx2ZXN0dXRvQGludGVsLmNvbTsgZ3RoZWxlbkBnb29nbGUuY29tOw0KPndzY2h3YXJ0
-ekBhbXBlcmVjb21wdXRpbmcuY29tOyBkZmVyZ3Vzb25AYW1wZXJlY29tcHV0aW5nLmNvbTsNCj53
-YnNAb3MuYW1wZXJlY29tcHV0aW5nLmNvbTsgbmlmYW4uY3hsQGdtYWlsLmNvbTsgamdyb3Zlc0Bt
-aWNyb24uY29tOw0KPnZzYWx2ZUBtaWNyb24uY29tOyB0YW54aWFvZmVpIDx0YW54aWFvZmVpQGh1
-YXdlaS5jb20+OyBaZW5ndGFvIChCKQ0KPjxwcmltZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBSb2Jl
-cnRvIFNhc3N1IDxyb2JlcnRvLnNhc3N1QGh1YXdlaS5jb20+Ow0KPmthbmdrYW5nLnNoZW5AZnV0
-dXJld2VpLmNvbTsgd2FuZ2h1aXFpYW5nIDx3YW5naHVpcWlhbmdAaHVhd2VpLmNvbT47DQo+TGlu
-dXhhcm0gPGxpbnV4YXJtQGh1YXdlaS5jb20+DQo+U3ViamVjdDogUmU6IFtQQVRDSCB2MTEgMDEv
-MTRdIEVEQUM6IEFkZCBzdXBwb3J0IGZvciBFREFDIGRldmljZSBmZWF0dXJlJ3MNCj5jb250cm9s
-DQo+DQo+T24gRnJpLCBBdWcgMTYsIDIwMjQgYXQgMDU6NDI6MjRQTSArMDEwMCwgc2hpanUuam9z
-ZUBodWF3ZWkuY29tIHdyb3RlOg0KPj4gRnJvbTogU2hpanUgSm9zZSA8c2hpanUuam9zZUBodWF3
-ZWkuY29tPg0KPj4NCj4+IEFkZCBnZW5lcmljIEVEQUMgZGV2aWNlIGZlYXR1cmUncyBjb250cm9s
-IHN1cHBvcnRzIHJlZ2lzdGVyaW5nDQo+DQo+ImZlYXR1cmVzIg0KPg0KPkNoZWNrIHlvdXIgd2hv
-bGUgc2V0Lg0KU3VyZS4gTW9kaWZpZWQuDQo+DQo+PiBSQVMgZmVhdHVyZXMgc3VwcG9ydGVkIGlu
-IHRoZSBzeXN0ZW0uIERyaXZlciBleHBvc2VzIGZlYXR1cmUncyBjb250cm9sDQo+PiBhdHRyaWJ1
-dGVzIHRvIHRoZSB1c2Vyc3BhY2UgaW4NCj4NCj5zL3RoZSAvLw0KQ2hhbmdlZC4NCj4NCj4+IC9z
-eXMvYnVzL2VkYWMvZGV2aWNlcy88ZGV2LW5hbWU+LzxyYXMtZmVhdHVyZT4vDQo+Pg0KPj4gQ28t
-ZGV2ZWxvcGVkLWJ5OiBKb25hdGhhbiBDYW1lcm9uIDxKb25hdGhhbi5DYW1lcm9uQGh1YXdlaS5j
-b20+DQo+PiBTaWduZWQtb2ZmLWJ5OiBKb25hdGhhbiBDYW1lcm9uIDxKb25hdGhhbi5DYW1lcm9u
-QGh1YXdlaS5jb20+DQo+PiBTaWduZWQtb2ZmLWJ5OiBTaGlqdSBKb3NlIDxzaGlqdS5qb3NlQGh1
-YXdlaS5jb20+DQo+PiAtLS0NCj4+ICBkcml2ZXJzL2VkYWMvZWRhY19kZXZpY2UuYyB8IDE3OA0K
-PisrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4+ICBpbmNsdWRlL2xpbnV4
-L2VkYWMuaCAgICAgICB8ICA2MCArKysrKysrKysrKysrDQo+PiAgMiBmaWxlcyBjaGFuZ2VkLCAy
-MzggaW5zZXJ0aW9ucygrKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2VkYWMvZWRhY19k
-ZXZpY2UuYyBiL2RyaXZlcnMvZWRhYy9lZGFjX2RldmljZS5jDQo+PiBpbmRleCA2MjFkYzJhNWQw
-MzQuLjYzNWE0MWRiOGI1YSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZWRhYy9lZGFjX2Rldmlj
-ZS5jDQo+PiArKysgYi9kcml2ZXJzL2VkYWMvZWRhY19kZXZpY2UuYw0KPj4gQEAgLTU3MCwzICs1
-NzAsMTgxIEBAIHZvaWQgZWRhY19kZXZpY2VfaGFuZGxlX3VlX2NvdW50KHN0cnVjdA0KPmVkYWNf
-ZGV2aWNlX2N0bF9pbmZvICplZGFjX2RldiwNCj4+ICAJCSAgICAgIGJsb2NrID8gYmxvY2stPm5h
-bWUgOiAiTi9BIiwgY291bnQsIG1zZyk7ICB9DQo+PiBFWFBPUlRfU1lNQk9MX0dQTChlZGFjX2Rl
-dmljZV9oYW5kbGVfdWVfY291bnQpOw0KPj4gKw0KPj4gKy8qIEVEQUMgZGV2aWNlIGZlYXR1cmUg
-Ki8NCj4+ICtzdGF0aWMgdm9pZCBlZGFjX2Rldl9yZWxlYXNlKHN0cnVjdCBkZXZpY2UgKmRldikg
-ew0KPj4gKwlzdHJ1Y3QgZWRhY19kZXZfZmVhdF9jdHggKmN0eCA9DQo+PiArCQljb250YWluZXJf
-b2YoZGV2LCBzdHJ1Y3QgZWRhY19kZXZfZmVhdF9jdHgsIGRldik7DQo+DQo+RXcsIG5vLCBkb24n
-dCBkbyBzdWNoIHNpbGx5IGxpbmVicmVha3MgcGxzLg0KQ2hhbmdlZC4NCj4NCj4+ICsJa2ZyZWUo
-Y3R4LT5kZXYuZ3JvdXBzKTsNCj4+ICsJa2ZyZWUoY3R4KTsNCj4+ICt9DQo+PiArDQo+PiArY29u
-c3Qgc3RydWN0IGRldmljZV90eXBlIGVkYWNfZGV2X3R5cGUgPSB7DQo+PiArCS5uYW1lID0gImVk
-YWNfZGV2IiwNCj4+ICsJLnJlbGVhc2UgPSBlZGFjX2Rldl9yZWxlYXNlLA0KPj4gK307DQo+PiAr
-DQo+PiArc3RhdGljIHZvaWQgZWRhY19kZXZfdW5yZWcodm9pZCAqZGF0YSkgew0KPj4gKwlkZXZp
-Y2VfdW5yZWdpc3RlcihkYXRhKTsNCj4+ICt9DQo+PiArDQo+PiArLyoqDQo+PiArICogZWRhY19k
-ZXZfZmVhdHVyZV9pbml0IC0gSW5pdCBhIHJhcyBmZWF0dXJlDQo+DQo+cy9yYXMvUkFTL2cNCj4N
-Cj5DaGVjayB5b3VyIHdob2xlIHNldC4NClN1cmUuIE1vZGlmaWVkLg0KPg0KPj4gKyAqIEBwYXJl
-bnQ6IGNsaWVudCBkZXZpY2UuDQo+PiArICogQGRldl9kYXRhOiBwb2ludGVyIHRvIHN0cnVjdCBl
-ZGFjX2Rldl9kYXRhLg0KPg0KPkkgY2FuIHNlZSBpdCBpcyBhIHBvaW50ZXIuIFdoYXQgaXQgaXMg
-dXNlZCBmb3I/DQpVcGRhdGVkLg0KPg0KPj4gKyAqIEBmZWF0OiBwb2ludGVyIHRvIHN0cnVjdCBl
-ZGFjX2Rldl9mZWF0dXJlLg0KPj4gKyAqIEBhdHRyX2dyb3VwczogcG9pbnRlciB0byBhdHRyaWJ1
-dGUgZ3JvdXAncyBjb250YWluZXIuDQo+PiArICoNCj4+ICsgKiBSZXR1cm5zIG51bWJlciBvZiBz
-Y3J1YiBmZWF0dXJlJ3MgYXR0cmlidXRlIGdyb3VwcyBvbiBzdWNjZXNzLA0KPj4gKyAqIGVycm9y
-IG90aGVyd2lzZS4NCj4+ICsgKi8NCj4+ICtzdGF0aWMgaW50IGVkYWNfZGV2X2ZlYXRfaW5pdChz
-dHJ1Y3QgZGV2aWNlICpwYXJlbnQsDQo+PiArCQkJICAgICAgc3RydWN0IGVkYWNfZGV2X2RhdGEg
-KmRldl9kYXRhLA0KPj4gKwkJCSAgICAgIGNvbnN0IHN0cnVjdCBlZGFjX2Rldl9mZWF0dXJlICpy
-YXNfZmVhdCwNCj4+ICsJCQkgICAgICBjb25zdCBzdHJ1Y3QgYXR0cmlidXRlX2dyb3VwICoqYXR0
-cl9ncm91cHMpIHsNCj4+ICsJaW50IG51bTsNCj4+ICsNCj4+ICsJc3dpdGNoIChyYXNfZmVhdC0+
-ZmVhdCkgew0KPj4gKwljYXNlIFJBU19GRUFUX1NDUlVCOg0KPj4gKwkJZGV2X2RhdGEtPnNjcnVi
-X29wcyA9IHJhc19mZWF0LT5zY3J1Yl9vcHM7DQo+PiArCQlkZXZfZGF0YS0+cHJpdmF0ZSA9IHJh
-c19mZWF0LT5zY3J1Yl9jdHg7DQo+PiArCQlyZXR1cm4gMTsNCj4+ICsJY2FzZSBSQVNfRkVBVF9F
-Q1M6DQo+PiArCQludW0gPSByYXNfZmVhdC0+ZWNzX2luZm8ubnVtX21lZGlhX2ZydXM7DQo+PiAr
-CQlkZXZfZGF0YS0+ZWNzX29wcyA9IHJhc19mZWF0LT5lY3Nfb3BzOw0KPj4gKwkJZGV2X2RhdGEt
-PnByaXZhdGUgPSByYXNfZmVhdC0+ZWNzX2N0eDsNCj4+ICsJCXJldHVybiBudW07DQo+PiArCWNh
-c2UgUkFTX0ZFQVRfUFBSOg0KPj4gKwkJZGV2X2RhdGEtPnBwcl9vcHMgPSByYXNfZmVhdC0+cHBy
-X29wczsNCj4+ICsJCWRldl9kYXRhLT5wcml2YXRlID0gcmFzX2ZlYXQtPnBwcl9jdHg7DQo+PiAr
-CQlyZXR1cm4gMTsNCj4+ICsJZGVmYXVsdDoNCj4+ICsJCXJldHVybiAtRUlOVkFMOw0KPj4gKwl9
-DQo+PiArfQ0KPj4gKw0KPj4gKy8qKg0KPj4gKyAqIGVkYWNfZGV2X3JlZ2lzdGVyIC0gcmVnaXN0
-ZXIgZGV2aWNlIGZvciByYXMgZmVhdHVyZXMgd2l0aCBlZGFjDQo+DQo+cy9lZGFjL0VEQUMvZw0K
-Pg0KPkNoZWNrIHlvdXIgd2hvbGUgc2V0Lg0KTW9kaWZpZWQuDQo+DQo+PiArICogQHBhcmVudDog
-Y2xpZW50IGRldmljZS4NCj4+ICsgKiBAbmFtZTogY2xpZW50IGRldmljZSdzIG5hbWUuDQo+PiAr
-ICogQHByaXZhdGU6IHBhcmVudCBkcml2ZXIncyBkYXRhIHRvIHN0b3JlIGluIHRoZSBjb250ZXh0
-IGlmIGFueS4NCj4+ICsgKiBAbnVtX2ZlYXR1cmVzOiBudW1iZXIgb2YgcmFzIGZlYXR1cmVzIHRv
-IHJlZ2lzdGVyLg0KPj4gKyAqIEByYXNfZmVhdHVyZXM6IGxpc3Qgb2YgcmFzIGZlYXR1cmVzIHRv
-IHJlZ2lzdGVyLg0KPj4gKyAqDQo+PiArICogUmV0dXJucyAwIG9uIHN1Y2Nlc3MsIGVycm9yIG90
-aGVyd2lzZS4NCj4+ICsgKiBUaGUgbmV3IGVkYWNfZGV2X2ZlYXRfY3R4IHdvdWxkIGJlIGZyZWVk
-IGF1dG9tYXRpY2FsbHkuDQo+PiArICovDQo+PiAraW50IGVkYWNfZGV2X3JlZ2lzdGVyKHN0cnVj
-dCBkZXZpY2UgKnBhcmVudCwgY2hhciAqbmFtZSwNCj4+ICsJCSAgICAgIHZvaWQgKnByaXZhdGUs
-IGludCBudW1fZmVhdHVyZXMsDQo+PiArCQkgICAgICBjb25zdCBzdHJ1Y3QgZWRhY19kZXZfZmVh
-dHVyZSAqcmFzX2ZlYXR1cmVzKSB7DQo+PiArCWNvbnN0IHN0cnVjdCBhdHRyaWJ1dGVfZ3JvdXAg
-KipyYXNfYXR0cl9ncm91cHM7DQo+PiArCXN0cnVjdCBlZGFjX2Rldl9kYXRhICpkZXZfZGF0YTsN
-Cj4+ICsJc3RydWN0IGVkYWNfZGV2X2ZlYXRfY3R4ICpjdHg7DQo+PiArCWludCBwcHJfY250ID0g
-MCwgcHByX2luc3QgPSAwOw0KPj4gKwlpbnQgYXR0cl9nY250ID0gMDsNCj4+ICsJaW50IHJldCwg
-ZmVhdDsNCj4+ICsNCj4+ICsJaWYgKCFwYXJlbnQgfHwgIW5hbWUgfHwgIW51bV9mZWF0dXJlcyB8
-fCAhcmFzX2ZlYXR1cmVzKQ0KPj4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+PiArDQo+PiArCS8qIERv
-dWJsZSBwYXJzZSBzbyB3ZSBjYW4gbWFrZSBzcGFjZSBmb3IgYXR0cmlidXRlcyAqLw0KPg0KPldo
-bydzICJ3ZSI/DQo+DQo+UGxlYXNlIHVzZSBwYXNzaXZlIHZvaWNlIGluIHlvdXIgY29tbWVudHM6
-IG5vICJ3ZSIgb3IgIkkiLCBldGMuDQpGaXhlZC4NCj4NCj5QZXJzb25hbCBwcm9ub3VucyBhcmUg
-YW1iaWd1b3VzIGluIHRleHQsIGVzcGVjaWFsbHkgd2l0aCBzbyBtYW55DQo+cGFydGllcy9jb21w
-YW5pZXMvZXRjIGRldmVsb3BpbmcgdGhlIGtlcm5lbCBzbyBsZXQncyBhdm9pZCB0aGVtIHBsZWFz
-ZS4NCj4NCj4+ICsJZm9yIChmZWF0ID0gMDsgZmVhdCA8IG51bV9mZWF0dXJlczsgZmVhdCsrKSB7
-DQo+PiArCQlzd2l0Y2ggKHJhc19mZWF0dXJlc1tmZWF0XS5mZWF0KSB7DQo+PiArCQljYXNlIFJB
-U19GRUFUX1NDUlVCOg0KPg0KPkRvZXMgdGhpcyBuZWVkICJmYWxsdGhyb3VnaDsiIG9yIHNvbWVz
-dWNoPw0KSXQgaXMgYSBidWcsIGZpeGVkLiANCj4NCj4+ICsJCWNhc2UgUkFTX0ZFQVRfUFBSOg0K
-Pj4gKwkJCWF0dHJfZ2NudCsrOw0KPj4gKwkJCXBwcl9jbnQrKzsNCj4+ICsJCQlicmVhazsNCj4+
-ICsJCWNhc2UgUkFTX0ZFQVRfRUNTOg0KPj4gKwkJCWF0dHJfZ2NudCArPQ0KPnJhc19mZWF0dXJl
-c1tmZWF0XS5lY3NfaW5mby5udW1fbWVkaWFfZnJ1czsNCj4+ICsJCQlicmVhazsNCj4+ICsJCWRl
-ZmF1bHQ6DQo+PiArCQkJcmV0dXJuIC1FSU5WQUw7DQo+PiArCQl9DQo+PiArCX0NCj4+ICsNCj4+
-ICsJY3R4ID0ga3phbGxvYyhzaXplb2YoKmN0eCksIEdGUF9LRVJORUwpOw0KPj4gKwlpZiAoIWN0
-eCkNCj4+ICsJCXJldHVybiAtRU5PTUVNOw0KPj4gKw0KPj4gKwljdHgtPmRldi5wYXJlbnQgPSBw
-YXJlbnQ7DQo+PiArCWN0eC0+cHJpdmF0ZSA9IHByaXZhdGU7DQo+PiArDQo+PiArCXJhc19hdHRy
-X2dyb3VwcyA9IGtjYWxsb2MoYXR0cl9nY250ICsgMSwgc2l6ZW9mKCpyYXNfYXR0cl9ncm91cHMp
-LA0KPkdGUF9LRVJORUwpOw0KPj4gKwlpZiAoIXJhc19hdHRyX2dyb3Vwcykgew0KPj4gKwkJcmV0
-ID0gLUVOT01FTTsNCj4+ICsJCWdvdG8gY3R4X2ZyZWU7DQo+PiArCX0NCj4+ICsNCj4+ICsJaWYg
-KHBwcl9jbnQpIHsNCj4+ICsJCWN0eC0+cHByID0ga2NhbGxvYyhwcHJfY250LCBzaXplb2YoKihj
-dHgtPnBwcikpLCBHRlBfS0VSTkVMKTsNCj4+ICsJCWlmICghY3R4LT5wcHIpIHsNCj4+ICsJCQly
-ZXQgPSAtRU5PTUVNOw0KPj4gKwkJCWdvdG8gZ3JvdXBzX2ZyZWU7DQo+PiArCQl9DQo+PiArCX0N
-Cj4+ICsNCj4+ICsJYXR0cl9nY250ID0gMDsNCj4+ICsJZm9yIChmZWF0ID0gMDsgZmVhdCA8IG51
-bV9mZWF0dXJlczsgZmVhdCsrLCByYXNfZmVhdHVyZXMrKykgew0KPj4gKwkJc3dpdGNoIChyYXNf
-ZmVhdHVyZXMtPmZlYXQpIHsNCj4+ICsJCWNhc2UgUkFTX0ZFQVRfU0NSVUI6DQo+PiArCQkJaWYg
-KCFyYXNfZmVhdHVyZXMtPnNjcnViX29wcykNCj4+ICsJCQkJY29udGludWU7DQo+PiArCQkJZGV2
-X2RhdGEgPSAmY3R4LT5zY3J1YjsNCj4+ICsJCQlicmVhazsNCj4+ICsJCWNhc2UgUkFTX0ZFQVRf
-RUNTOg0KPj4gKwkJCWlmICghcmFzX2ZlYXR1cmVzLT5lY3Nfb3BzKQ0KPj4gKwkJCQljb250aW51
-ZTsNCj4+ICsJCQlkZXZfZGF0YSA9ICZjdHgtPmVjczsNCj4+ICsJCQlicmVhazsNCj4+ICsJCWNh
-c2UgUkFTX0ZFQVRfUFBSOg0KPj4gKwkJCWlmICghcmFzX2ZlYXR1cmVzLT5wcHJfb3BzKQ0KPj4g
-KwkJCQljb250aW51ZTsNCj4+ICsJCQlkZXZfZGF0YSA9ICZjdHgtPnBwcltwcHJfaW5zdF07DQo+
-PiArCQkJZGV2X2RhdGEtPmluc3RhbmNlID0gcHByX2luc3Q7DQo+PiArCQkJcHByX2luc3QrKzsN
-Cj4+ICsJCQlicmVhazsNCj4+ICsJCWRlZmF1bHQ6DQo+PiArCQkJcmV0ID0gLUVJTlZBTDsNCj4+
-ICsJCQlnb3RvIGRhdGFfbWVtX2ZyZWU7DQo+PiArCQl9DQo+PiArCQlyZXQgPSBlZGFjX2Rldl9m
-ZWF0X2luaXQocGFyZW50LCBkZXZfZGF0YSwgcmFzX2ZlYXR1cmVzLA0KPj4gKwkJCQkJICZyYXNf
-YXR0cl9ncm91cHNbYXR0cl9nY250XSk7DQo+PiArCQlpZiAocmV0IDwgMCkNCj4+ICsJCQlnb3Rv
-IGRhdGFfbWVtX2ZyZWU7DQo+PiArDQo+PiArCQlhdHRyX2djbnQgKz0gcmV0Ow0KPj4gKwl9DQo+
-DQo+TmV3bGluZS4NCkFkZGVkIG5ld2xpbmUuDQo+DQo+PiArCXJhc19hdHRyX2dyb3Vwc1thdHRy
-X2djbnRdID0gTlVMTDsNCj4+ICsJY3R4LT5kZXYuYnVzID0gZWRhY19nZXRfc3lzZnNfc3Vic3lz
-KCk7DQo+PiArCWN0eC0+ZGV2LnR5cGUgPSAmZWRhY19kZXZfdHlwZTsNCj4+ICsJY3R4LT5kZXYu
-Z3JvdXBzID0gcmFzX2F0dHJfZ3JvdXBzOw0KPj4gKwlkZXZfc2V0X2RydmRhdGEoJmN0eC0+ZGV2
-LCBjdHgpOw0KPg0KPkRpdHRvLg0KQWRkZWQgbmV3bGluZS4NCj4NCj4+ICsJcmV0ID0gZGV2X3Nl
-dF9uYW1lKCZjdHgtPmRldiwgbmFtZSk7DQo+PiArCWlmIChyZXQpDQo+PiArCQlnb3RvIGRhdGFf
-bWVtX2ZyZWU7DQo+PiArDQo+PiArCXJldCA9IGRldmljZV9yZWdpc3RlcigmY3R4LT5kZXYpOw0K
-Pj4gKwlpZiAocmV0KSB7DQo+PiArCQlwdXRfZGV2aWNlKCZjdHgtPmRldik7DQo+PiArCQlnb3Rv
-IGRhdGFfbWVtX2ZyZWU7DQo+PiArCQlyZXR1cm4gcmV0Ow0KPj4gKwl9DQo+PiArDQo+PiArCXJl
-dHVybiBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQocGFyZW50LCBlZGFjX2Rldl91bnJlZywgJmN0
-eC0+ZGV2KTsNCj4+ICsNCj4+ICtkYXRhX21lbV9mcmVlOg0KPj4gKwlpZiAocHByX2NudCkNCj4+
-ICsJCWtmcmVlKGN0eC0+cHByKTsNCj4+ICtncm91cHNfZnJlZToNCj4+ICsJa2ZyZWUocmFzX2F0
-dHJfZ3JvdXBzKTsNCj4+ICtjdHhfZnJlZToNCj4+ICsJa2ZyZWUoY3R4KTsNCj4+ICsJcmV0dXJu
-IHJldDsNCj4+ICt9DQo+PiArRVhQT1JUX1NZTUJPTF9HUEwoZWRhY19kZXZfcmVnaXN0ZXIpOw0K
-Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZWRhYy5oIGIvaW5jbHVkZS9saW51eC9lZGFj
-LmggaW5kZXgNCj4+IGI0ZWU4OTYxZTYyMy4uY2M5NmY1NWFjNzE0IDEwMDY0NA0KPj4gLS0tIGEv
-aW5jbHVkZS9saW51eC9lZGFjLmgNCj4+ICsrKyBiL2luY2x1ZGUvbGludXgvZWRhYy5oDQo+PiBA
-QCAtNjYxLDQgKzY2MSw2NCBAQCBzdGF0aWMgaW5saW5lIHN0cnVjdCBkaW1tX2luZm8NCj4+ICpl
-ZGFjX2dldF9kaW1tKHN0cnVjdCBtZW1fY3RsX2luZm8gKm1jaSwNCj4+DQo+PiAgCXJldHVybiBt
-Y2ktPmRpbW1zW2luZGV4XTsNCj4+ICB9DQo+PiArDQo+PiArLyogRURBQyBkZXZpY2UgZmVhdHVy
-ZXMgKi8NCj4+ICsNCj4+ICsjZGVmaW5lIEVEQUNfRkVBVF9OQU1FX0xFTgkxMjgNCj4+ICsNCj4+
-ICtlbnVtIGVkYWNfZGV2X2ZlYXQgew0KPj4gKwlSQVNfRkVBVF9TQ1JVQiwNCj4+ICsJUkFTX0ZF
-QVRfRUNTLA0KPj4gKwlSQVNfRkVBVF9QUFIsDQo+DQo+V2hhdCBhcmUgdGhvc2U/IENvbW1lbnRz
-IG9udG9wIGV4cGxhaW5pbmcgcGxzLg0KQWRkZWQgY29tbWVudHMuDQo+DQo+PiArCVJBU19GRUFU
-X01BWA0KPj4gK307DQo+PiArDQo+PiArc3RydWN0IGVkYWNfZWNzX2V4X2luZm8gew0KPj4gKwl1
-MTYgbnVtX21lZGlhX2ZydXM7DQo+PiArfTsNCj4+ICsNCj4+ICsvKg0KPj4gKyAqIEVEQUMgZGV2
-aWNlIGZlYXR1cmUgaW5mb3JtYXRpb24gc3RydWN0dXJlICAqLyBzdHJ1Y3QgZWRhY19kZXZfZGF0
-YQ0KPj4gK3sNCj4+ICsJdW5pb24gew0KPj4gKwkJY29uc3Qgc3RydWN0IGVkYWNfc2NydWJfb3Bz
-ICpzY3J1Yl9vcHM7DQo+PiArCQljb25zdCBzdHJ1Y3QgZWRhY19lY3Nfb3BzICplY3Nfb3BzOw0K
-Pj4gKwkJY29uc3Qgc3RydWN0IGVkYWNfcHByX29wcyAqcHByX29wczsNCj4+ICsJfTsNCj4+ICsJ
-dTggaW5zdGFuY2U7DQo+PiArCXZvaWQgKnByaXZhdGU7DQo+PiArfTsNCj4+ICsNCj4+ICtzdHJ1
-Y3QgZGV2aWNlOw0KPj4gKw0KPj4gK3N0cnVjdCBlZGFjX2Rldl9mZWF0X2N0eCB7DQo+PiArCXN0
-cnVjdCBkZXZpY2UgZGV2Ow0KPj4gKwl2b2lkICpwcml2YXRlOw0KPj4gKwlzdHJ1Y3QgZWRhY19k
-ZXZfZGF0YSBzY3J1YjsNCj4+ICsJc3RydWN0IGVkYWNfZGV2X2RhdGEgZWNzOw0KPj4gKwlzdHJ1
-Y3QgZWRhY19kZXZfZGF0YSAqcHByOw0KPj4gK307DQo+PiArDQo+PiArc3RydWN0IGVkYWNfZGV2
-X2ZlYXR1cmUgew0KPj4gKwllbnVtIGVkYWNfZGV2X2ZlYXQgZmVhdDsNCj4NCj4JCQlmdF90eXBl
-Ow0KU3VyZS4gQ2hhbmdlZC4NCj4NCj4+ICsJdTggaW5zdGFuY2U7DQo+PiArCXVuaW9uIHsNCj4+
-ICsJCWNvbnN0IHN0cnVjdCBlZGFjX3NjcnViX29wcyAqc2NydWJfb3BzOw0KPj4gKwkJY29uc3Qg
-c3RydWN0IGVkYWNfZWNzX29wcyAqZWNzX29wczsNCj4+ICsJCWNvbnN0IHN0cnVjdCBlZGFjX3Bw
-cl9vcHMgKnBwcl9vcHM7DQo+PiArCX07DQo+PiArCXVuaW9uIHsNCj4+ICsJCXZvaWQgKnNjcnVi
-X2N0eDsNCj4+ICsJCXZvaWQgKmVjc19jdHg7DQo+PiArCQl2b2lkICpwcHJfY3R4Ow0KPj4gKwl9
-Ow0KPg0KPk9yIGRyb3AgdGhlIHNpbGx5IHVuaW9uIGFuZCBzaW1wbHkgZG8NCj4NCj4Jdm9pZCAq
-Y3R4Ow0KTW9kaWZpZWQuDQo+DQo+PiArCXVuaW9uIHsNCj4+ICsJCXN0cnVjdCBlZGFjX2Vjc19l
-eF9pbmZvIGVjc19pbmZvOw0KPj4gKwl9Ow0KPg0KPlVuaW9uIHdpdGggYSBzaW5nbGUgbWVtYmVy
-PyENClJlbW92ZWQgVW5pb24uDQo+DQo+PiArfTsNCj4+ICsNCj4+ICtpbnQgZWRhY19kZXZfcmVn
-aXN0ZXIoc3RydWN0IGRldmljZSAqcGFyZW50LCBjaGFyICpkZXZfbmFtZSwNCj4+ICsJCSAgICAg
-IHZvaWQgKnBhcmVudF9wdnRfZGF0YSwgaW50IG51bV9mZWF0dXJlcywNCj4+ICsJCSAgICAgIGNv
-bnN0IHN0cnVjdCBlZGFjX2Rldl9mZWF0dXJlICpyYXNfZmVhdHVyZXMpOw0KPj4gICNlbmRpZiAv
-KiBfTElOVVhfRURBQ19IXyAqLw0KPj4gLS0NCj4+IDIuMzQuMQ0KPj4NCj4NCj4tLQ0KPlJlZ2Fy
-ZHMvR3J1c3MsDQo+ICAgIEJvcmlzLg0KPg0KPmh0dHBzOi8vcGVvcGxlLmtlcm5lbC5vcmcvdGds
-eC9ub3Rlcy1hYm91dC1uZXRpcXVldHRlDQoNClRoYW5rcywNClNoaWp1DQoNCg==
+From: Lyle Li <LyleLi@zhaoxin.com>
+
+Zhaoxin consists of two vendors, X86_VENDOR_ZHAOXIN and
+X86_VENDOR_CENTAUR, so add the centaur vendor to support
+Zhaoxin MCA in mce/core.c and mce/intel.c.
+
+Signed-off-by: Lyle Li <LyleLi@zhaoxin.com>
+Reviewed-by: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
+---
+ arch/x86/kernel/cpu/mce/core.c  | 42 ++++++++++++++++-----------------
+ arch/x86/kernel/cpu/mce/intel.c |  3 ++-
+ 2 files changed, 23 insertions(+), 22 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.=
+c
+index ad0623b65..b7b98c33a 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -496,6 +496,7 @@ bool mce_usable_address(struct mce *m)
+=20
+ 	case X86_VENDOR_INTEL:
+ 	case X86_VENDOR_ZHAOXIN:
++	case X86_VENDOR_CENTAUR:
+ 		return intel_mce_usable_address(m);
+=20
+ 	default:
+@@ -513,6 +514,7 @@ bool mce_is_memory_error(struct mce *m)
+=20
+ 	case X86_VENDOR_INTEL:
+ 	case X86_VENDOR_ZHAOXIN:
++	case X86_VENDOR_CENTAUR:
+ 		/*
+ 		 * Intel SDM Volume 3B - 15.9.2 Compound Error Codes
+ 		 *
+@@ -1247,7 +1249,8 @@ static noinstr bool mce_check_crashing_cpu(void)
+=20
+ 		mcgstatus =3D __rdmsr(MSR_IA32_MCG_STATUS);
+=20
+-		if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_ZHAOXIN) {
++		if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_ZHAOXIN ||
++		    boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_CENTAUR) {
+ 			if (mcgstatus & MCG_STATUS_LMCES)
+ 				return false;
+ 		}
+@@ -1521,7 +1524,8 @@ noinstr void do_machine_check(struct pt_regs *regs)
+ 	 * on Intel, Zhaoxin only.
+ 	 */
+ 	if (m.cpuvendor =3D=3D X86_VENDOR_INTEL ||
+-	    m.cpuvendor =3D=3D X86_VENDOR_ZHAOXIN)
++	    m.cpuvendor =3D=3D X86_VENDOR_ZHAOXIN ||
++	    m.cpuvendor =3D=3D X86_VENDOR_CENTAUR)
+ 		lmce =3D m.mcgstatus & MCG_STATUS_LMCES;
+=20
+ 	/*
+@@ -1970,6 +1974,18 @@ static int __mcheck_cpu_apply_quirks(struct cpuinfo_=
+x86 *c)
+ 		}
+ 	}
+=20
++	if (c->x86_vendor =3D=3D X86_VENDOR_CENTAUR) {
++		/*
++		 * All newer Centaur CPUs support MCE broadcasting. Enable
++		 * synchronization with a one second timeout.
++		 */
++		if ((c->x86 =3D=3D 6 && c->x86_model =3D=3D 0xf && c->x86_stepping >=3D =
+0xe) ||
++		     c->x86 > 6) {
++			if (cfg->monarch_timeout < 0)
++				cfg->monarch_timeout =3D USEC_PER_SEC;
++		}
++	}
++
+ 	if (cfg->monarch_timeout < 0)
+ 		cfg->monarch_timeout =3D 0;
+ 	if (cfg->bootlog !=3D 0)
+@@ -2012,21 +2028,6 @@ static void __mcheck_cpu_init_early(struct cpuinfo_x=
+86 *c)
+ 	}
+ }
+=20
+-static void mce_centaur_feature_init(struct cpuinfo_x86 *c)
+-{
+-	struct mca_config *cfg =3D &mca_cfg;
+-
+-	 /*
+-	  * All newer Centaur CPUs support MCE broadcasting. Enable
+-	  * synchronization with a one second timeout.
+-	  */
+-	if ((c->x86 =3D=3D 6 && c->x86_model =3D=3D 0xf && c->x86_stepping >=3D 0=
+xe) ||
+-	     c->x86 > 6) {
+-		if (cfg->monarch_timeout < 0)
+-			cfg->monarch_timeout =3D USEC_PER_SEC;
+-	}
+-}
+-
+ static void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c)
+ {
+ 	struct mce_bank *mce_banks =3D this_cpu_ptr(mce_banks_array);
+@@ -2072,9 +2073,6 @@ static void __mcheck_cpu_init_vendor(struct cpuinfo_x=
+86 *c)
+ 		break;
+=20
+ 	case X86_VENDOR_CENTAUR:
+-		mce_centaur_feature_init(c);
+-		break;
+-
+ 	case X86_VENDOR_ZHAOXIN:
+ 		mce_zhaoxin_feature_init(c);
+ 		break;
+@@ -2092,6 +2090,7 @@ static void __mcheck_cpu_clear_vendor(struct cpuinfo_=
+x86 *c)
+ 		break;
+=20
+ 	case X86_VENDOR_ZHAOXIN:
++	case X86_VENDOR_CENTAUR:
+ 		mce_zhaoxin_feature_clear(c);
+ 		break;
+=20
+@@ -2401,7 +2400,8 @@ static void vendor_disable_error_reporting(void)
+ 	if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_INTEL ||
+ 	    boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_HYGON ||
+ 	    boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_AMD ||
+-	    boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_ZHAOXIN)
++	    boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_ZHAOXIN ||
++	    boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_CENTAUR)
+ 		return;
+=20
+ 	mce_disable_error_reporting();
+diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/inte=
+l.c
+index f6103e6bf..b7e67f4f7 100644
+--- a/arch/x86/kernel/cpu/mce/intel.c
++++ b/arch/x86/kernel/cpu/mce/intel.c
+@@ -88,7 +88,8 @@ static int cmci_supported(int *banks)
+ 	 * makes sure none of the backdoors are entered otherwise.
+ 	 */
+ 	if (boot_cpu_data.x86_vendor !=3D X86_VENDOR_INTEL &&
+-	    boot_cpu_data.x86_vendor !=3D X86_VENDOR_ZHAOXIN)
++	    boot_cpu_data.x86_vendor !=3D X86_VENDOR_ZHAOXIN &&
++	    boot_cpu_data.x86_vendor !=3D X86_VENDOR_CENTAUR)
+ 		return 0;
+=20
+ 	if (!boot_cpu_has(X86_FEATURE_APIC) || lapic_get_maxlvt() < 6)
+--=20
+2.34.1
+
