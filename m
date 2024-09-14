@@ -1,110 +1,78 @@
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8541CDFC9
-	for <linux-edac@vger.kernel.org>; Sat, 14 Sep 2024 10:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.110.167.99
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726308724; cv=none; b=l1Ut6GlD8MmDd7nwm39LmFPD6EqWx63Pd9fD3HnhsMgrV3/UsybLNlwBN8eOJvlnJauU+4Ruoeg1W1SAI+7z4R+qwktHUVaiSESloZGY+YU2+iZOlvyQdWa9NWV1UOPjOoASVRYTtXeS//AQ5FnCUJ8GQeCzByXpoA/HXc126ts=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726308724; c=relaxed/simple;
-	bh=HrjmDJJA9yGRkcP4eE+PN28L3YSOHcVEY+CZfDstrKI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rZ14DU1E1YfsbKWe9+5tHNFjKQQeDOw1vnWHS23wjtVSfeY4FWZUGo4nscJt2MaqmLojtAKbHkJX0DP7NVCIWp0wKM0UzhSq7UEWBxW0e9wX/+0cndoZO7Ze0KsNyh0p0nD4irx5w19nK59GUqh8y4SaDdfF8bM+X91ljNuDrDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com; spf=pass smtp.mailfrom=zhaoxin.com; arc=none smtp.client-ip=203.110.167.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
-X-ASG-Debug-ID: 1726308718-1eb14e31a8106680001-QCVQLf
-Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx2.zhaoxin.com with ESMTP id aJ9svyBqYTnFS9Gn (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Sat, 14 Sep 2024 18:11:58 +0800 (CST)
-X-Barracuda-Envelope-From: TonyWWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from ZXSHMBX2.zhaoxin.com (10.28.252.164) by ZXSHMBX2.zhaoxin.com
- (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Sat, 14 Sep
- 2024 18:11:58 +0800
-Received: from ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d]) by
- ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d%4]) with mapi id
- 15.01.2507.039; Sat, 14 Sep 2024 18:11:58 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from [10.32.65.165] (10.32.65.165) by ZXBJMBX03.zhaoxin.com
- (10.29.252.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Sat, 14 Sep
- 2024 17:36:19 +0800
-Message-ID: <aaef59e8-4ef7-4515-b4c0-a321f05a9c18@zhaoxin.com>
-Date: Sat, 14 Sep 2024 17:36:12 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058471CDA0A
+	for <linux-edac@vger.kernel.org>; Sat, 14 Sep 2024 12:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726315767; cv=pass; b=biKtrR6p7W2VEC75XbU3ESW8oXtzNWyBtV8Pnaf7jTivbb8GyQAReAD643jTVfnxyHYH1FQSKuq7YTT61kD2xySEWlhXr6HIvRZhmPkUSSTZ7niJRZufZrauAm1UAAcKq/NjTpIClgXRWV29e0uRg7loRt5W5sWAj+zqfqI6xso=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726315767; c=relaxed/simple;
+	bh=42EXMLcisJ8Z+L8mNlyM2A24o4B489hvVDGi9Y0YGX8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=foe29S03i557JtFbpI+fIPVdKWyI0h02zO7AqbPS8ZZk3//45qBSz3+itWcFw6eLdspOdmXIsh2mkgnVvyp2JRMkn0E35fg9coNwWbQT8gLG3xEz810PAYB005AGGLVNFaYZUpCfddl1vTgMydmidEMI+dosLxUU2oY4/nkX9IA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b=DXr0NoB7; arc=pass smtp.client-ip=136.143.188.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="DXr0NoB7"
+ARC-Seal: i=1; a=rsa-sha256; t=1726315762; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nUKw5VkvrK0U5dmOpuMEK3SNeEmS1xnLcAE8eXx2A4Ffdgpv8ZCFQbCie9QUNdb5xncS9SgITIVcyh2g6/sdLZgsQ/b4P05UWJIpPDsYkdEby0++A4WAeqKAiUAemtBCXWKh6Mt2yD7ELWnhQ7JWjjwAf6//j3eaBVOrKZyNtJI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1726315762; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GNWchvDqRQkV67alPN4g3jw03Ts8SJ5WUAOm57KUp/o=; 
+	b=i5tULCic6MovO5+DRdQbrur8eg8dVpOyPjrJzh3PHsSLm6xagKz8Lp68wj+9bwkMwQrJMq/THnk4CdG35yo/OTqUCNHdDSs9laPQkQox8VrA/wnvrlRXzkSXwJ5gN7Gh+ThNaCS5eacBBschLPqqE6rm3O/2OLgiyzBUDVZHpjQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+	dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1726315762;
+	s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=GNWchvDqRQkV67alPN4g3jw03Ts8SJ5WUAOm57KUp/o=;
+	b=DXr0NoB7EcB3F07UzhDh8gnvKYr0jX/IPv2T5oFgJYhA7SUqpMYmNNgktM9UM4jn
+	fd+7X1Tees9ZNpvaicECQgqyif+HY197NJY2Tvv5kH6lykMrUvjnj/WS+c48ZqybZa3
+	CQyS3kRYZQO3u16fuXlmjGAISCChB3niZ7j8jHMA=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1726315761187732.0486470175704; Sat, 14 Sep 2024 05:09:21 -0700 (PDT)
+Received: from  [212.73.77.104] by mail.zoho.com
+	with HTTP;Sat, 14 Sep 2024 05:09:21 -0700 (PDT)
+Date: Sat, 14 Sep 2024 16:09:21 +0400
+From: Askar Safin <safinaskar@zohomail.com>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "linux-edac" <linux-edac@vger.kernel.org>
+Message-ID: <191f0700e16.e4ac896383888.3692757560429165043@zohomail.com>
+In-Reply-To: <SJ1PR11MB60836E226A36DD482E284796FC652@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <191ec4abfe4.ee5cf21f77536.5289498031536692169@zohomail.com> <SJ1PR11MB60836E226A36DD482E284796FC652@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Subject: RE: Is it true that uncorrectable ECC errors always crash the
+ system? (I want this) It seems my system is unsupported in edac
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] x86/mce: Add centaur vendor to support Zhaoxin MCA
-To: Borislav Petkov <bp@alien8.de>
-X-ASG-Orig-Subj: Re: [PATCH v1 1/3] x86/mce: Add centaur vendor to support Zhaoxin MCA
-CC: <tglx@linutronix.de>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <tony.luck@intel.com>,
-	<linux-kernel@vger.kernel.org>, <linux-edac@vger.kernel.org>,
-	<CobeChen@zhaoxin.com>, <TimGuo@zhaoxin.com>, <LeoLiu-oc@zhaoxin.com>, "Lyle
- Li" <LyleLi@zhaoxin.com>
-References: <20240909104349.3349-1-TonyWWang-oc@zhaoxin.com>
- <20240909104349.3349-2-TonyWWang-oc@zhaoxin.com>
- <20240913142703.GIZuRLt1-nDZrOsIlE@fat_crate.local>
-Content-Language: en-US
-From: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
-In-Reply-To: <20240913142703.GIZuRLt1-nDZrOsIlE@fat_crate.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- ZXBJMBX03.zhaoxin.com (10.29.252.7)
-X-Moderation-Data: 9/14/2024 6:11:57 PM
-X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
-X-Barracuda-Start-Time: 1726308718
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 1015
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: -2.02
-X-Barracuda-Spam-Status: No, SCORE=-2.02 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.130434
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------------------------
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr08011227245ef99a967210550c76aede0000f861756c9f24e170399611bcaf1c89ee9d9b537349034ed7f8:zu08011227a9bc071f2b7d245eae6c405b0000edf2bd8d482592d5982a92b873d6e8bce613bc25ae9050b90d:rf0801122c9ffce0e957fb682f904af07c0000a58041df19f82795a3b7ff11382505499313a73ad66a6726015c6157d5b8:ZohoMail
+
+Thanks for answer!
+
+ ---- On Fri, 13 Sep 2024 21:05:15 +0400  Luck, Tony  wrote --- 
+ > I'm not sure which model processor is in your 7780 system.
+
+I have "13th Gen Intel(R) Core(TM) i9-13950HX" (from /proc/cpuinfo)
+
+ > "Xeon" CPUs often support recovery from uncorrected memory errors.
+
+?!?! How this is possible?
+
+--
+Askar Safin
+https://types.pl/@safinaskar
 
 
-
-On 2024/9/13 22:27, Borislav Petkov wrote:
->=20
->=20
-> [=E8=BF=99=E5=B0=81=E9=82=AE=E4=BB=B6=E6=9D=A5=E8=87=AA=E5=A4=96=E9=83=A8=
-=E5=8F=91=E4=BB=B6=E4=BA=BA =E8=B0=A8=E9=98=B2=E9=A3=8E=E9=99=A9]
->=20
-> On Mon, Sep 09, 2024 at 06:43:47PM +0800, Tony W Wang-oc wrote:
->> @@ -1970,6 +1974,18 @@ static int __mcheck_cpu_apply_quirks(struct cpuin=
-fo_x86 *c)
->>                }
->>        }
->>
->> +     if (c->x86_vendor =3D=3D X86_VENDOR_CENTAUR) {
->> +             /*
->> +              * All newer Centaur CPUs support MCE broadcasting. Enable
->> +              * synchronization with a one second timeout.
->> +              */
->> +             if ((c->x86 =3D=3D 6 && c->x86_model =3D=3D 0xf && c->x86_=
-stepping >=3D 0xe) ||
->> +                  c->x86 > 6) {
->> +                     if (cfg->monarch_timeout < 0)
->> +                             cfg->monarch_timeout =3D USEC_PER_SEC;
->> +             }
->> +     }
->=20
-> So if centaur =3D=3D zhaoxin, why aren't you moving this hunk to
-> mce_zhaoxin_feature_init() instead?
->=20
->
-Ok, will adjust the patch in the next version.
-
-Sincerely!
-TonyWWang-oc
