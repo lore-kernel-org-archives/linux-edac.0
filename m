@@ -1,35 +1,35 @@
 Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22BA3C485
-	for <linux-edac@vger.kernel.org>; Mon, 23 Sep 2024 07:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD4761674
+	for <linux-edac@vger.kernel.org>; Mon, 23 Sep 2024 07:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.110.167.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727077051; cv=none; b=qdAuVhVMKhKufuVhqcwfYUctBv8jWT6djVc9KTLSHfXcxqMN5aQauAmhZbbZ2INKY253F02DzLjZSMnxtIeygroASRZnAV2P5oAwIl9xjAf0jDZK0hOlx0BXTEAnDnM+9RsjUrdR+EUK92kl+PKg3c4IdtBZlWgNaEygumwoMcU=
+	t=1727077057; cv=none; b=lodbpk6rw2oQvuMWGiAlY5HU9qaGAyZX19NOAzDhND/gT/Xq/PwzJOAJPoHcv/nrEIT2XhG9LYXf9WtK0Bwp6xouXvINAnjMXqbPwNy5X+von11uG5bly9D9eDKDi+CPSSRFqSWQ+QZU20U/eXWV2hNu5565QdICrqmV08EGGHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727077051; c=relaxed/simple;
-	bh=2oeV+afBSOOqynCQM1WBP3//mRNM7gvN+utn4b6xGMQ=;
+	s=arc-20240116; t=1727077057; c=relaxed/simple;
+	bh=B+tOrXIIZpHSYlzbdMvnT9dwYLTtph5q8LQ8mMDMlJ4=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gN21Xh5MVcx5FOIH2wKij3PWPlOIazTcugp1f/noHXPMvAC4Yy6Pp2P9WaPyE6WnfKhGP+l9EZ3f1W0y364Jgi1PEts9YUPTSM9+iXUl1v7DuI6D8it8Nsg8jDhxDFmG2QTyUiYZ4COTYibc1tKfpRPh8P/40BfBM2bcvsI9OJ4=
+	 MIME-Version:Content-Type; b=gMWFsfPvPf3HtphqafFNa87k51jUm10YApQDy24c7kN5BiVXegYm1lzeFYuc3nUmv/eN8CG7oGa4fdwC7A0kD1bnGw/h0c7780k7VFzFEvTvhPlxpUVc8tDYvqbnkCE0VR8PEq93lxMsa5IS1iuY3TVOJlRFYJy5GD5E910tuKQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com; spf=pass smtp.mailfrom=zhaoxin.com; arc=none smtp.client-ip=203.110.167.99
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
-X-ASG-Debug-ID: 1727077035-1eb14e31a71164e0001-QCVQLf
-Received: from ZXSHMBX3.zhaoxin.com (ZXSHMBX3.zhaoxin.com [10.28.252.165]) by mx2.zhaoxin.com with ESMTP id FYaIoiMM5E9mZSYS (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 23 Sep 2024 15:37:15 +0800 (CST)
+X-ASG-Debug-ID: 1727077052-1eb14e31a6116750001-QCVQLf
+Received: from ZXSHMBX3.zhaoxin.com (ZXSHMBX3.zhaoxin.com [10.28.252.165]) by mx2.zhaoxin.com with ESMTP id vM5oTHHvsPs4Tluo (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 23 Sep 2024 15:37:32 +0800 (CST)
 X-Barracuda-Envelope-From: TonyWWang-oc@zhaoxin.com
 X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
 Received: from ZXSHMBX2.zhaoxin.com (10.28.252.164) by ZXSHMBX3.zhaoxin.com
  (10.28.252.165) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 23 Sep
- 2024 15:37:14 +0800
+ 2024 15:37:32 +0800
 Received: from ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d]) by
  ZXSHMBX2.zhaoxin.com ([fe80::d4e0:880a:d21:684d%4]) with mapi id
- 15.01.2507.039; Mon, 23 Sep 2024 15:37:14 +0800
+ 15.01.2507.039; Mon, 23 Sep 2024 15:37:32 +0800
 X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.165
 Received: from localhost.localdomain (10.32.65.165) by ZXBJMBX03.zhaoxin.com
  (10.29.252.7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 23 Sep
- 2024 15:33:09 +0800
+ 2024 15:33:13 +0800
 From: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
 To: <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
 	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
@@ -37,10 +37,10 @@ To: <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
 	<linux-edac@vger.kernel.org>
 CC: <CobeChen@zhaoxin.com>, <TimGuo@zhaoxin.com>, <LeoLiu-oc@zhaoxin.com>,
 	Lyle Li <LyleLi@zhaoxin.com>
-Subject: [PATCH v4 1/4] x86/mce: Add centaur vendor to support Zhaoxin MCA
-Date: Mon, 23 Sep 2024 15:33:08 +0800
-X-ASG-Orig-Subj: [PATCH v4 1/4] x86/mce: Add centaur vendor to support Zhaoxin MCA
-Message-ID: <20240923073311.4290-2-TonyWWang-oc@zhaoxin.com>
+Subject: [PATCH v4 3/4] x86/mce: Add zhaoxin.c to support Zhaoxin MCA
+Date: Mon, 23 Sep 2024 15:33:10 +0800
+X-ASG-Orig-Subj: [PATCH v4 3/4] x86/mce: Add zhaoxin.c to support Zhaoxin MCA
+Message-ID: <20240923073311.4290-4-TonyWWang-oc@zhaoxin.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240923073311.4290-1-TonyWWang-oc@zhaoxin.com>
 References: <20240918055436.15551-1-TonyWWang-oc@zhaoxin.com>
@@ -55,13 +55,13 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
  ZXBJMBX03.zhaoxin.com (10.29.252.7)
-X-Moderation-Data: 9/23/2024 3:37:13 PM
+X-Moderation-Data: 9/23/2024 3:37:30 PM
 X-Barracuda-Connect: ZXSHMBX3.zhaoxin.com[10.28.252.165]
-X-Barracuda-Start-Time: 1727077035
+X-Barracuda-Start-Time: 1727077052
 X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
 X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
 X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 2594
+X-Barracuda-Scan-Msg-Size: 6821
 X-Barracuda-BRTS-Status: 1
 X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
 X-Barracuda-Spam-Score: -2.02
@@ -73,82 +73,231 @@ X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.130842
 
 From: Lyle Li <LyleLi@zhaoxin.com>
 
-Zhaoxin consists of two vendors, X86_VENDOR_ZHAOXIN and
-X86_VENDOR_CENTAUR, so add the centaur vendor to support
-Zhaoxin MCA in mce/core.c and mce/intel.c.
+For the sake of code standardization, add zhaoxin.c to
+override the Zhaoxin MCA code.
 
 Signed-off-by: Lyle Li <LyleLi@zhaoxin.com>
 Signed-off-by: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
 ---
- arch/x86/kernel/cpu/mce/core.c  | 9 +++++++--
- arch/x86/kernel/cpu/mce/intel.c | 3 ++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ arch/x86/Kconfig                   |  8 ++++
+ arch/x86/kernel/cpu/mce/Makefile   |  2 +-
+ arch/x86/kernel/cpu/mce/core.c     | 57 --------------------------
+ arch/x86/kernel/cpu/mce/internal.h |  7 ++++
+ arch/x86/kernel/cpu/mce/zhaoxin.c  | 65 ++++++++++++++++++++++++++++++
+ 5 files changed, 81 insertions(+), 58 deletions(-)
+ create mode 100644 arch/x86/kernel/cpu/mce/zhaoxin.c
 
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 1d7122a18..b908cdfb9 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1171,6 +1171,14 @@ config X86_MCE_INTEL
+ 	  Additional support for intel specific MCE features such as
+ 	  the thermal monitor.
+=20
++config X86_MCE_ZHAOXIN
++	def_bool y
++	prompt "Zhaoxin MCE features"
++	depends on X86_MCE_INTEL
++	help
++	  Additional support for zhaoxin specific MCE features such as
++	  the corrected machine check interrupt.
++
+ config X86_MCE_AMD
+ 	def_bool y
+ 	prompt "AMD MCE features"
+diff --git a/arch/x86/kernel/cpu/mce/Makefile b/arch/x86/kernel/cpu/mce/Mak=
+efile
+index 015856abd..2e863e78d 100644
+--- a/arch/x86/kernel/cpu/mce/Makefile
++++ b/arch/x86/kernel/cpu/mce/Makefile
+@@ -5,7 +5,7 @@ obj-$(CONFIG_X86_ANCIENT_MCE)	+=3D winchip.o p5.o
+ obj-$(CONFIG_X86_MCE_INTEL)	+=3D intel.o
+ obj-$(CONFIG_X86_MCE_AMD)	+=3D amd.o
+ obj-$(CONFIG_X86_MCE_THRESHOLD) +=3D threshold.o
+-
++obj-$(CONFIG_X86_MCE_ZHAOXIN)   +=3D zhaoxin.o
+ mce-inject-y			:=3D inject.o
+ obj-$(CONFIG_X86_MCE_INJECT)	+=3D mce-inject.o
+=20
 diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.=
 c
-index ad0623b65..4ad6b5083 100644
+index 1654133da..37d4b6cd4 100644
 --- a/arch/x86/kernel/cpu/mce/core.c
 +++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -496,6 +496,7 @@ bool mce_usable_address(struct mce *m)
-=20
- 	case X86_VENDOR_INTEL:
- 	case X86_VENDOR_ZHAOXIN:
-+	case X86_VENDOR_CENTAUR:
- 		return intel_mce_usable_address(m);
-=20
- 	default:
-@@ -513,6 +514,7 @@ bool mce_is_memory_error(struct mce *m)
-=20
- 	case X86_VENDOR_INTEL:
- 	case X86_VENDOR_ZHAOXIN:
-+	case X86_VENDOR_CENTAUR:
- 		/*
- 		 * Intel SDM Volume 3B - 15.9.2 Compound Error Codes
- 		 *
-@@ -1247,7 +1249,8 @@ static noinstr bool mce_check_crashing_cpu(void)
-=20
- 		mcgstatus =3D __rdmsr(MSR_IA32_MCG_STATUS);
-=20
--		if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_ZHAOXIN) {
-+		if (boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_ZHAOXIN ||
-+		    boot_cpu_data.x86_vendor =3D=3D X86_VENDOR_CENTAUR) {
- 			if (mcgstatus & MCG_STATUS_LMCES)
- 				return false;
- 		}
-@@ -1521,7 +1524,8 @@ noinstr void do_machine_check(struct pt_regs *regs)
- 	 * on Intel, Zhaoxin only.
- 	 */
- 	if (m.cpuvendor =3D=3D X86_VENDOR_INTEL ||
--	    m.cpuvendor =3D=3D X86_VENDOR_ZHAOXIN)
-+	    m.cpuvendor =3D=3D X86_VENDOR_ZHAOXIN ||
-+	    m.cpuvendor =3D=3D X86_VENDOR_CENTAUR)
- 		lmce =3D m.mcgstatus & MCG_STATUS_LMCES;
-=20
- 	/*
-@@ -2092,6 +2096,7 @@ static void __mcheck_cpu_clear_vendor(struct cpuinfo_=
+@@ -1963,17 +1963,6 @@ static int __mcheck_cpu_apply_quirks(struct cpuinfo_=
 x86 *c)
+ 			mce_flags.skx_repmov_quirk =3D 1;
+ 	}
+=20
+-	if (c->x86_vendor =3D=3D X86_VENDOR_ZHAOXIN) {
+-		/*
+-		 * All newer Zhaoxin CPUs support MCE broadcasting. Enable
+-		 * synchronization with a one second timeout.
+-		 */
+-		if (c->x86 > 6 || (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)=
+) {
+-			if (cfg->monarch_timeout < 0)
+-				cfg->monarch_timeout =3D USEC_PER_SEC;
+-		}
+-	}
+-
+ 	if (cfg->monarch_timeout < 0)
+ 		cfg->monarch_timeout =3D 0;
+ 	if (cfg->bootlog !=3D 0)
+@@ -2016,49 +2005,6 @@ static void __mcheck_cpu_init_early(struct cpuinfo_x=
+86 *c)
+ 	}
+ }
+=20
+-static void mce_centaur_feature_init(struct cpuinfo_x86 *c)
+-{
+-	struct mca_config *cfg =3D &mca_cfg;
+-
+-	 /*
+-	  * All newer Centaur CPUs support MCE broadcasting. Enable
+-	  * synchronization with a one second timeout.
+-	  */
+-	if ((c->x86 =3D=3D 6 && c->x86_model =3D=3D 0xf && c->x86_stepping >=3D 0=
+xe) ||
+-	     c->x86 > 6) {
+-		if (cfg->monarch_timeout < 0)
+-			cfg->monarch_timeout =3D USEC_PER_SEC;
+-	}
+-}
+-
+-static void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c)
+-{
+-	struct mce_bank *mce_banks =3D this_cpu_ptr(mce_banks_array);
+-
+-	/*
+-	 * These CPUs have MCA bank 8 which reports only one error type called
+-	 * SVAD (System View Address Decoder). The reporting of that error is
+-	 * controlled by IA32_MC8.CTL.0.
+-	 *
+-	 * If enabled, prefetching on these CPUs will cause SVAD MCE when
+-	 * virtual machines start and result in a system  panic. Always disable
+-	 * bank 8 SVAD error by default.
+-	 */
+-	if ((c->x86 =3D=3D 7 && c->x86_model =3D=3D 0x1b) ||
+-	    (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)) {
+-		if (this_cpu_read(mce_num_banks) > 8)
+-			mce_banks[8].ctl =3D 0;
+-	}
+-
+-	intel_init_cmci();
+-	intel_init_lmce();
+-}
+-
+-static void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c)
+-{
+-	intel_clear_lmce();
+-}
+-
+ static void __mcheck_cpu_init_vendor(struct cpuinfo_x86 *c)
+ {
+ 	switch (c->x86_vendor) {
+@@ -2076,9 +2022,6 @@ static void __mcheck_cpu_init_vendor(struct cpuinfo_x=
+86 *c)
  		break;
 =20
+ 	case X86_VENDOR_CENTAUR:
+-		mce_centaur_feature_init(c);
+-		break;
+-
  	case X86_VENDOR_ZHAOXIN:
-+	case X86_VENDOR_CENTAUR:
- 		mce_zhaoxin_feature_clear(c);
+ 		mce_zhaoxin_feature_init(c);
  		break;
+diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/i=
+nternal.h
+index 01f8f0396..836e56027 100644
+--- a/arch/x86/kernel/cpu/mce/internal.h
++++ b/arch/x86/kernel/cpu/mce/internal.h
+@@ -334,4 +334,11 @@ static __always_inline u32 mca_msr_reg(int bank, enum =
+mca_msr reg)
+ }
 =20
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/inte=
-l.c
-index f6103e6bf..b7e67f4f7 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -88,7 +88,8 @@ static int cmci_supported(int *banks)
- 	 * makes sure none of the backdoors are entered otherwise.
- 	 */
- 	if (boot_cpu_data.x86_vendor !=3D X86_VENDOR_INTEL &&
--	    boot_cpu_data.x86_vendor !=3D X86_VENDOR_ZHAOXIN)
-+	    boot_cpu_data.x86_vendor !=3D X86_VENDOR_ZHAOXIN &&
-+	    boot_cpu_data.x86_vendor !=3D X86_VENDOR_CENTAUR)
- 		return 0;
-=20
- 	if (!boot_cpu_has(X86_FEATURE_APIC) || lapic_get_maxlvt() < 6)
+ extern void (*mc_poll_banks)(void);
++#ifdef CONFIG_X86_MCE_ZHAOXIN
++void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c);
++void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c);
++#else
++static inline void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c) { }
++static inline void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c) { }
++#endif
+ #endif /* __X86_MCE_INTERNAL_H__ */
+diff --git a/arch/x86/kernel/cpu/mce/zhaoxin.c b/arch/x86/kernel/cpu/mce/zh=
+aoxin.c
+new file mode 100644
+index 000000000..de69c560f
+--- /dev/null
++++ b/arch/x86/kernel/cpu/mce/zhaoxin.c
+@@ -0,0 +1,65 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Zhaoxin specific MCE features
++ * Author: Lyle Li
++ */
++#include <asm/msr.h>
++#include "internal.h"
++
++static void mce_zhaoxin_apply_mce_broadcast(struct cpuinfo_x86 *c)
++{
++	struct mca_config *cfg =3D &mca_cfg;
++
++	/* Older CPUs do not do MCE broadcast */
++	if (c->x86 < 6)
++		return;
++	/*
++	 * All newer Zhaoxin and Centaur CPUs support MCE broadcasting. Enable
++	 * synchronization with a one second timeout.
++	 */
++	if (c->x86 > 6)
++		goto mce_broadcast;
++
++	if (c->x86_vendor =3D=3D X86_VENDOR_CENTAUR) {
++		if (c->x86_model =3D=3D 0xf && c->x86_stepping >=3D 0xe)
++			goto mce_broadcast;
++	} else if (c->x86_vendor =3D=3D X86_VENDOR_ZHAOXIN) {
++		if (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)
++			goto mce_broadcast;
++	}
++
++	return;
++
++mce_broadcast:
++	if (cfg->monarch_timeout <=3D 0)
++		cfg->monarch_timeout =3D USEC_PER_SEC;
++}
++
++void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c)
++{
++	struct mce_bank *mce_banks =3D this_cpu_ptr(mce_banks_array);
++
++	/*
++	 * These CPUs have MCA bank 8 which reports only one error type called
++	 * SVAD (System View Address Decoder). The reporting of that error is
++	 * controlled by IA32_MC8.CTL.0.
++	 *
++	 * If enabled, prefetching on these CPUs will cause SVAD MCE when
++	 * virtual machines start and result in a system  panic. Always disable
++	 * bank 8 SVAD error by default.
++	 */
++	if ((c->x86 =3D=3D 7 && c->x86_model =3D=3D 0x1b) ||
++	    (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)) {
++		if (this_cpu_read(mce_num_banks) > 8)
++			mce_banks[8].ctl =3D 0;
++	}
++
++	mce_zhaoxin_apply_mce_broadcast(c);
++	intel_init_cmci();
++	intel_init_lmce();
++}
++
++void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c)
++{
++	intel_clear_lmce();
++}
 --=20
 2.34.1
 
