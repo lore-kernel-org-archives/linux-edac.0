@@ -1,156 +1,114 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7131CC140;
-	Thu, 10 Oct 2024 15:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCA31917FB;
+	Thu, 10 Oct 2024 15:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728574435; cv=none; b=uq5y6jgeEmt6xDTxLpNJ4YERL3Bt3daRyp18WwQkP5ZZz+ySIwaYAeH4Ai39xGW4UuIVPlt0Qyx70MKxAauE3HNUsHgPVpdrrckZ3hPHr9Df5BLQIQnYN7Q4z3En0xmqbVWMzm1k49fWmifCRLeWOYDSQAJo31LWUWAs/84nwdM=
+	t=1728575618; cv=none; b=kmGoiEEXy3lVUbOPc781gQmjuSyFf5t3ZLSuvgp8XUH9gJ4ZwVgjk6y4noGp3C8hJUkgZEbESOHROsW8JU7IFM+nQYeleU9QnBiIrTTYShg0aY43jv7lsS81PadMQqqWInCRYj4HwzrwMxw9qH43cDqynX2PqR/CUtNJAig922s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728574435; c=relaxed/simple;
-	bh=dlxa8WkgVla/y46rnMys2EnNObaeLNp/NdzuivF7Pd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UjVH4jiHL+KfdxGGTJ/b/uoLlQtneO1KwET7QUzOjEn+tcS3Y1Hx7O1KO5OMmIC3bcKOF1irH0bIdBaZz783zlLP3IiMeWzB9W9r4eqcvWiABla0mEo+ZcjcK3Maat9Rk9xZNL7w4kcraJ1keqQQQhkAeg/ULQJbWJq4tzpnRF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=IE0oEvRc; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1728575618; c=relaxed/simple;
+	bh=b68TMNixbJy7Wtf4/eoCaCNV0RHGXTaO6jAyhchzRFk=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=Q0VT+mbwm6QMOjdxajeGZw0S8myUK/+q4QsGFobStKiEfmI6pWYzlOU1zQiTsWKUQuRa63oyEGjnoQQow7WFtwTc43xNJZYf1VYd5h0loYNy8TfVXkj8+GILeBbQVMii44cS8cBEP9FRQvWTKtQeC8lEDeGc143XWn3aZ3RDqbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZJ+W72Q; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="IE0oEvRc"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 32F3B40E021E;
-	Thu, 10 Oct 2024 15:33:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id g5_EAXIcqA5L; Thu, 10 Oct 2024 15:33:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1728574425; bh=39uKMYCT3KgVkd7t9Lsq2trDmnvk6X8UkIGf6ni2s3I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IE0oEvRcw/fymvusQ6smbGe9aC7VD/KGoZOlSrkR801eqGnvTbvr2DsGU6LwNvF9N
-	 icMEnhv9+gOqKejIQf3Qy62RZreAFqfygkHuXJDHCHMzlaiP5LYhJohYKRS8Mg29Qo
-	 bzpxiLs+3/u2WA4fiAuvaHZk2lt399iMQEdOwRlXgBG5Vm/8unHGfllvXV8SnN6r5N
-	 Pj/85Gy0c5MllbXDLZkLb6OKdebErRjtFoahP5d/riBEWVoSRLgobRWNnv7SrPWXG3
-	 po3Zqn4v/EI5XO++JdFqpYAbV5XASZ62iPyQu2vL88YFwl5tH7iACKkffsiNergudP
-	 79FOsNy8Qo5Knzu0Q2oa2CIexOBcogmParbbbBp5twTotq/U1eTghtYkTsvB0/67fn
-	 dt5sZcfqHAciIIPNFDnRwXZ7SuuLXr3qwApishqOt47xpjnZO8QeIjY80/BTRIzfeH
-	 rzW2sp+jBas495rT2eyjnZRip3Jpt9TUEpzuKsfqYGf2sj5K0cGkc5cXXT5BnQ4wQL
-	 29jHnxntodS0b4poIVB5FvOrQCVcLJ1FkY9DQUZqDmYbW5fY774TAm3mCvgLJtsJLy
-	 WxpzoqDGdwmJFla0DsRpAYwxnzT2R0/vH6su9Q3p5NUtUI2rWvFUZGTmxX4/R242eE
-	 Kaib41+hzx+f0kHe/k2gdCts=
-Received: from zn.tnic (p5de8e8eb.dip0.t-ipconnect.de [93.232.232.235])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 18BD740E0163;
-	Thu, 10 Oct 2024 15:33:26 +0000 (UTC)
-Date: Thu, 10 Oct 2024 17:33:20 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: York Sun <york.sun@nxp.com>, Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Richter <rric@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/6] EDAC: fsl_ddr: Pass down fsl_mc_pdata in ddr_in32()
- and ddr_out32()
-Message-ID: <20241010153320.GPZwfzwGeFF1cz4arw@fat_crate.local>
-References: <20240709-imx95_edac-v1-0-3e9c146c1b01@nxp.com>
- <20240709-imx95_edac-v1-1-3e9c146c1b01@nxp.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZJ+W72Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728575617; x=1760111617;
+  h=from:to:cc:subject:date:message-id;
+  bh=b68TMNixbJy7Wtf4/eoCaCNV0RHGXTaO6jAyhchzRFk=;
+  b=eZJ+W72QPzG1N2tuaViiXW5xR3nGxdqWOTOCeuCFaAxEwXl5AIwK6djZ
+   8gxhNdDH0Ehsi/8aJKe3dtK4Sf2MWB1EYAPxb7ApAtbP/Ltogpf+GG2yq
+   3faapVUDMA9/xFfecRUl06bnSGlxsfUH+bPA7qqvGmZERBGVKrvAkKIV3
+   O+maqJsZcXGDek8xSTAnSZmRsxjECHLjDvJF1+LXb5GfZwGD3qwEEAOFA
+   62535AkymeWe3R4fwPPWc8RmVLBOA3u/psplUri6wTeQgx0j9guYEiHym
+   XxHRflLaQSUiJLyutgi5cVcwbOZx1Xq9OV94ZSHKhz90vNV0wnvMytCaI
+   Q==;
+X-CSE-ConnectionGUID: otw229xdQ+i91D7dygG0lg==
+X-CSE-MsgGUID: 2yi5AJ/hQO+qfEJN+5mY1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31643414"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="31643414"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 08:53:37 -0700
+X-CSE-ConnectionGUID: Mt0Zb7ozRhGLwMLoG+5vuw==
+X-CSE-MsgGUID: Bai38vZrSU6/zkNvc+ntDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="81221635"
+Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 08:53:33 -0700
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+To: tony.luck@intel.com,
+	bp@alien8.de
+Cc: tglx@linutronix.de,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	hpa@zytor.com,
+	x86@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	qiuxu.zhuo@intel.com
+Subject: [PATCH 00/10] Clean up some x86/mce code
+Date: Thu, 10 Oct 2024 23:31:52 +0800
+Message-Id: <20241010153202.30876-1-qiuxu.zhuo@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240709-imx95_edac-v1-1-3e9c146c1b01@nxp.com>
 
-On Tue, Jul 09, 2024 at 04:23:02PM -0400, Frank Li wrote:
-Subject: Re: [PATCH 1/6] EDAC: fsl_ddr: Pass down fsl_mc_pdata in ddr_in32() and ddr_out32()
+1. Clean up some x86/mce code as below. No functional changes intended.
 
-The subject prefixes in the EDAC subsystem have the following format:
+    - Simplify some code.
 
-"EDAC/driver: <Sentence starting with a capital letter"
+    - Remove some unnecessary code.
 
-> Pass down fsl_mc_data in help function ddr_in32() and ddr_out32() to
-> prepare add iMX9 support. iMX9 have a little difference register layout.
+    - Improve readability for some code.
 
-Since everyone is using AI nowadays, you could have it verify your commit
-messages. I did this:
+    - Fix some typos.
 
-| ChatGPT, Please verify and correct the grammar in this english text: "Pass
-| down fsl_mc_data in help function ddr_in32() and ddr_out32() to prepare add
-| iMX9 support. iMX9 have a little difference register layout."
+    [ Reduce the text segment size by ~116 bytes. ]
 
-It replied with:
+2. Pass the following basic tests:
 
-| "Pass down fsl_mc_data in the helper functions ddr_in32() and ddr_out32() to
-| prepare for adding iMX9 support. The iMX9 has a slightly different register
-| layout."
-| 
-| Changes made:
-| 1. "help function" changed to "helper functions" for clarity.
-| 
-| 2. "prepare add iMX9 support" changed to "prepare for adding iMX9 support" for
-|    grammatical correctness.
-| 
-| 3. "iMX9 have a little difference register layout" changed to "The iMX9 has
-|    a slightly different register layout" for subject-verb agreement and
-|    smoother phrasing.
+   - Compile test.
 
-And this all looks good to me.
+   - Correctable/uncorrectable memory errors can be notified via CMCI/MCE interrupts.
 
-With all the cringe we all get from AI, I think it is very useful for
-verifying commit messages.
+   - Correctable/uncorrectable memory errors can be dispatched to the mcelog daemon and the EDAC driver.
 
-Do that for all your commit messages pls.
+   [ Tested on an Intel Sapphire Rapids server. ]
 
-Thx.
+3. This patch series is based on v6.12-rc2.
 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  drivers/edac/fsl_ddr_edac.c | 62 ++++++++++++++++++++++++---------------------
->  1 file changed, 33 insertions(+), 29 deletions(-)
+Qiuxu Zhuo (10):
+  x86/mce/dev-mcelog: Use xchg() to get and clear the flags
+  x86/mce/intel: Use MCG_BANKCNT_MASK instead of 0xff
+  x86/mce: Make several functions return bool
+  x86/mce/threshold: Remove the redundant this_cpu_dec_return()
+  x86/mce/genpool: Make mce_gen_pool_create() return explicit error codes
+  x86/mce: Convert multiple if () statements into a switch() statement
+  x86/mce: Remove the unnecessary {}
+  x86/mce: Remove the redundant zeroing assignments
+  x86/mce/amd: Remove unnecessary NULL pointer initializations
+  x86/mce: Fix typos in comments
 
-How did you test these patches of yours?
+ arch/x86/include/asm/mce.h           |  4 +--
+ arch/x86/kernel/cpu/mce/amd.c        | 18 +++++------
+ arch/x86/kernel/cpu/mce/core.c       | 47 ++++++++++++++--------------
+ arch/x86/kernel/cpu/mce/dev-mcelog.c | 11 ++-----
+ arch/x86/kernel/cpu/mce/genpool.c    |  8 ++---
+ arch/x86/kernel/cpu/mce/intel.c      | 11 ++++---
+ arch/x86/kernel/cpu/mce/threshold.c  |  2 +-
+ 7 files changed, 46 insertions(+), 55 deletions(-)
 
-They don't even build!
 
-drivers/edac/fsl_ddr_edac.c: In function 'fsl_mc_err_probe':
-drivers/edac/fsl_ddr_edac.c:538:21: error: too few arguments to function 'ddr_in32'
-  538 |         sdram_ctl = ddr_in32(pdata->mc_vbase + FSL_MC_DDR_SDRAM_CFG);
-      |                     ^~~~~~~~
-drivers/edac/fsl_ddr_edac.c:38:19: note: declared here
-   38 | static inline u32 ddr_in32(struct fsl_mc_pdata *pdata, unsigned int off)
-      |                   ^~~~~~~~
-make[4]: *** [scripts/Makefile.build:229: drivers/edac/fsl_ddr_edac.o] Error 1
-make[3]: *** [scripts/Makefile.build:478: drivers/edac] Error 2
-make[3]: *** Waiting for unfinished jobs....
-make[2]: *** [scripts/Makefile.build:478: drivers] Error 2
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/mnt/kernel/kernel/2nd/linux/Makefile:1936: .] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
-
-Before you submit next time, build-test *every* *single* patch of yours and
-test the driver with all of them.
-
-This should not ever happen in submission.
-
-Stopping review here.
-
+base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
 -- 
-Regards/Gruss,
-    Boris.
+2.17.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
