@@ -1,101 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 916751C6F6C;
-	Mon, 14 Oct 2024 11:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1F9E158853;
+	Mon, 14 Oct 2024 12:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.175.24.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728903666; cv=none; b=Pucp2iUIXPApyEI3sZhOry2mACjJ2tcDMS43ZGkDKbYpe4zrvCS+Qad3fh16z3v+okbIzc5MUrZJHATZr6A1vnzgrthVTXq5c3HpnD4sgrb6mo8eF9g6rm9ieltGjrcPn/vGdpvhDV2fgQnvrxDm4Dm64YQ761eP4ovquDONiiA=
+	t=1728907481; cv=none; b=DTbGw4tIwCooXNU7YLykb3986JPPeE9QqnDhaqFlIU6nT9hPagnVfRsZScVNk5BXRhzjPYcCD6Afg+c1ZCAPnBARVjm12Thq5KHRseiq1FcOhJyT2DWsjZEnuFrK0yM/95TzY34/iLJLgiOVvEa1uykejRooEr7xsSCnWup7Wg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728903666; c=relaxed/simple;
-	bh=hSw1XL/fT8ACPqBnztWj/m8yyV3VB6n7kgpa0BxrExU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l0EXMyPgKL5K2qw10St4e+34wXhMJKMpOhn2vWijfz6uvVHZOUBaDtpvNVot1ZoaPTIElktEixe7yibTGPVTu6PnoY7GssTolFzBh9XGfJGi+PgtadDegCSUVFss22tq2B8WXYPNGaSAzdkAlMhcPYuDCGpRfFXO5wdQc8pfGbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D88E716F8;
-	Mon, 14 Oct 2024 04:01:34 -0700 (PDT)
-Received: from e125769.cambridge.arm.com (e125769.cambridge.arm.com [10.1.196.27])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B95D73F51B;
-	Mon, 14 Oct 2024 04:01:02 -0700 (PDT)
-From: Ryan Roberts <ryan.roberts@arm.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Greg Marsden <greg.marsden@oracle.com>,
-	Ivan Ivanov <ivan.ivanov@suse.com>,
-	Kalesh Singh <kaleshsingh@google.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matthias Brugger <mbrugger@suse.com>,
-	Miroslav Benes <mbenes@suse.cz>,
-	Will Deacon <will@kernel.org>
-Cc: Ryan Roberts <ryan.roberts@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v1 31/57] edac: Remove PAGE_SIZE compile-time constant assumption
-Date: Mon, 14 Oct 2024 11:58:38 +0100
-Message-ID: <20241014105912.3207374-31-ryan.roberts@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241014105912.3207374-1-ryan.roberts@arm.com>
-References: <20241014105514.3206191-1-ryan.roberts@arm.com>
- <20241014105912.3207374-1-ryan.roberts@arm.com>
+	s=arc-20240116; t=1728907481; c=relaxed/simple;
+	bh=fg3fTJ5VYz/p+QTt7x8s+mXKsYLH63g3EFVGYZqcGlE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E3q10rUXETgqY5GREnulYqZwsMLdURqZ6yIgoSyo5SiOEl8De0bRS22KKqIR0ilXsuMIteNckX/RPUyjZVz8y42EF08oOIrzSb7SrIUfaC8M/78pAtCE71ri4iQt5j+Tlk5GWug6qBNO6SkyAAMgiC+PMEE1ajmX1fKlG2FZ7/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de; spf=pass smtp.mailfrom=alpha.franken.de; arc=none smtp.client-ip=193.175.24.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpha.franken.de
+Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
+	id 1t0GMH-0005eb-00; Mon, 14 Oct 2024 10:23:17 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id 4F922C0161; Mon, 14 Oct 2024 10:23:09 +0200 (CEST)
+Date: Mon, 14 Oct 2024 10:23:09 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	linux-edac@vger.kernel.org, linux-hams@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] MAINTAINERS: Retire Ralf Baechle
+Message-ID: <ZwzU7c9qlxxKckGI@alpha.franken.de>
+References: <alpine.DEB.2.21.2410131952550.40463@angie.orcam.me.uk>
+ <alpine.DEB.2.21.2410132006220.40463@angie.orcam.me.uk>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.2410132006220.40463@angie.orcam.me.uk>
 
-To prepare for supporting boot-time page size selection, refactor code
-to remove assumptions about PAGE_SIZE being compile-time constant. Code
-intended to be equivalent when compile-time page size is active.
+On Sun, Oct 13, 2024 at 08:34:44PM +0100, Maciej W. Rozycki wrote:
+> Ralf Baechle has been inactive for years now and the linux-mips.org site 
+> has gone down.  No replacement contact information is available.  Thomas 
+> has been kind enough to step up as a maintainer for EDAC-CAVIUM OCTEON 
+> and IOC3 ETHERNET DRIVER.
+> 
+> Update MAINTAINERS, CREDITS, and .get_maintainer.ignore accordingly.
+> 
+> Signed-off-by: Maciej W. Rozycki <macro@orcam.me.uk>
+> ---
+>  .get_maintainer.ignore |    1 +
+>  CREDITS                |    5 +++++
+>  MAINTAINERS            |   13 +++++--------
+>  3 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> linux-maintainers-ralf.diff
+> Index: linux-macro/.get_maintainer.ignore
+> ===================================================================
+> --- linux-macro.orig/.get_maintainer.ignore
+> +++ linux-macro/.get_maintainer.ignore
+> @@ -3,3 +3,4 @@ Alan Cox <root@hraefn.swansea.linux.org.
+>  Christoph Hellwig <hch@lst.de>
+>  Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+>  Marc Gonzalez <marc.w.gonzalez@free.fr>
+> +Ralf Baechle <ralf@linux-mips.org>
+> Index: linux-macro/CREDITS
+> ===================================================================
+> --- linux-macro.orig/CREDITS
+> +++ linux-macro/CREDITS
+> @@ -185,6 +185,11 @@ P: 1024/AF7B30C1 CF 97 C2 CC 6D AE A7 FE
+>  D: Linux/MIPS port
+>  D: Linux/68k hacker
+>  D: AX25 maintainer
+> +D: EDAC-CAVIUM OCTEON maintainer
+> +D: IOC3 ETHERNET DRIVER maintainer
+> +D: NETROM NETWORK LAYER maintainer
+> +D: ROSE NETWORK LAYER maintainer
+> +D: TURBOCHANNEL SUBSYSTEM maintainer
+>  S: Hauptstrasse 19
+>  S: 79837 St. Blasien
+>  S: Germany
+> Index: linux-macro/MAINTAINERS
+> ===================================================================
+> --- linux-macro.orig/MAINTAINERS
+> +++ linux-macro/MAINTAINERS
+> @@ -8081,10 +8081,10 @@ S:	Maintained
+>  F:	drivers/edac/highbank*
+>  
+>  EDAC-CAVIUM OCTEON
+> -M:	Ralf Baechle <ralf@linux-mips.org>
+> +M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+>  L:	linux-edac@vger.kernel.org
+>  L:	linux-mips@vger.kernel.org
+> -S:	Supported
+> +S:	Maintained
+>  F:	drivers/edac/octeon_edac*
+>  
+>  EDAC-CAVIUM THUNDERX
+> @@ -11902,7 +11902,7 @@ F:	Documentation/devicetree/bindings/iio
+>  F:	drivers/iio/gyro/mpu3050*
+>  
+>  IOC3 ETHERNET DRIVER
+> -M:	Ralf Baechle <ralf@linux-mips.org>
+> +M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+>  L:	linux-mips@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/net/ethernet/sgi/ioc3-eth.c
+> @@ -16043,9 +16043,8 @@ F:	net/netfilter/
+>  F:	tools/testing/selftests/net/netfilter/
 
-Convert PAGES_TO_MiB() and MiB_TO_PAGES() to use the ternary operator so
-that they continue to work with boot-time page size; Boot-time page size
-can't be used with CPP because it's value is not known at compile time.
-For compile-time page size builds, the compiler will dead code strip for
-the same result.
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
----
-
-***NOTE***
-Any confused maintainers may want to read the cover note here for context:
-https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.com/
-
- drivers/edac/edac_mc.h | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/edac/edac_mc.h b/drivers/edac/edac_mc.h
-index 881b00eadf7a5..22132ee86e953 100644
---- a/drivers/edac/edac_mc.h
-+++ b/drivers/edac/edac_mc.h
-@@ -37,13 +37,12 @@
- #include <linux/workqueue.h>
- #include <linux/edac.h>
- 
--#if PAGE_SHIFT < 20
--#define PAGES_TO_MiB(pages)	((pages) >> (20 - PAGE_SHIFT))
--#define MiB_TO_PAGES(mb)	((mb) << (20 - PAGE_SHIFT))
--#else				/* PAGE_SHIFT > 20 */
--#define PAGES_TO_MiB(pages)	((pages) << (PAGE_SHIFT - 20))
--#define MiB_TO_PAGES(mb)	((mb) >> (PAGE_SHIFT - 20))
--#endif
-+#define PAGES_TO_MiB(pages)	(PAGE_SHIFT < 20 ?			\
-+					((pages) >> (20 - PAGE_SHIFT)) :\
-+					((pages) << (PAGE_SHIFT - 20)))
-+#define MiB_TO_PAGES(mb)	(PAGE_SHIFT < 20 ?			\
-+					((mb) << (20 - PAGE_SHIFT)) :	\
-+					((mb) >> (PAGE_SHIFT - 20)))
- 
- #define edac_printk(level, prefix, fmt, arg...) \
- 	printk(level "EDAC " prefix ": " fmt, ##arg)
 -- 
-2.43.0
-
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
