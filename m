@@ -1,302 +1,294 @@
-Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4957A14A614
-	for <linux-edac@vger.kernel.org>; Mon, 14 Oct 2024 08:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.0.225.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB481531C2;
+	Mon, 14 Oct 2024 08:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728893398; cv=none; b=V9jb+N1bxOQr1QL7YLckmLDarq8hD2jgh0Bcx2rmdMlbGU2+bqLiz6yzRjvAkdXLgGnt9Ymq8ZKB19IctIIrXfEJxY1ZufXjxbSYv4gTeebVF/bMI55iidMMh9YEXjhUXx0PG5BDnbtbjh8IqL34WITNsXaKL56kAWhYF5Frgqs=
+	t=1728895383; cv=none; b=ctFcGuOPSO8eB0oTWo/dtj07xeRMmyV+IiW6i1Dn3GQMYu4N47nG72bGsNexHdvVzcGf5Fdvz/v5Y+YQPr42n3r1GG79R4Os/FenavtYCp8EGZwQOW+SVjLc8zsMc3WtJa5XOgd6XnaLpP9cq31Wuq5ai4gSXnHvEnTRq4QGnz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728893398; c=relaxed/simple;
-	bh=bPnlxjlI7MuDJEDssLTW/eBbHJXmLHJB/mQuRhWiLU0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D7twpiQgRhaI5nJy7pXWwCK8JJ6Sfq9aBKm4OTLjoNaNiTh581LvJRIk7tEa3AUT1IgYH0gpv1zhOMVQr49fO0D7q6iwpouvl5wkUy05VXroZgHs3TrV617UzThzuS7UBubgJSNC8+hwsLh4ma2s8DQXe3MbNd3qy0K25G1qyuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com; spf=pass smtp.mailfrom=zhaoxin.com; arc=none smtp.client-ip=210.0.225.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
-X-ASG-Debug-ID: 1728893379-086e23455c01f40002-QCVQLf
-Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx1.zhaoxin.com with ESMTP id SOeYZRn4UNjSBSXI (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Mon, 14 Oct 2024 16:09:48 +0800 (CST)
-X-Barracuda-Envelope-From: TonyWWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from ZXSHMBX1.zhaoxin.com (10.28.252.163) by ZXSHMBX2.zhaoxin.com
- (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 14 Oct
- 2024 16:09:41 +0800
-Received: from ZXSHMBX1.zhaoxin.com ([fe80::3066:e339:e3d6:5264]) by
- ZXSHMBX1.zhaoxin.com ([fe80::3066:e339:e3d6:5264%7]) with mapi id
- 15.01.2507.039; Mon, 14 Oct 2024 16:09:41 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from localhost.localdomain (10.32.65.165) by ZXBJMBX03.zhaoxin.com
- (10.29.252.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 14 Oct
- 2024 15:53:10 +0800
-From: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
-To: <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<tony.luck@intel.com>, <linux-kernel@vger.kernel.org>,
-	<linux-edac@vger.kernel.org>, <qiuxu.zhuo@intel.com>
-CC: <CobeChen@zhaoxin.com>, <TimGuo@zhaoxin.com>, <LeoLiu-oc@zhaoxin.com>,
-	Lyle Li <LyleLi@zhaoxin.com>
-Subject: [PATCH v5 3/4] x86/mce: Add zhaoxin.c to support Zhaoxin MCA
-Date: Mon, 14 Oct 2024 15:53:17 +0800
-X-ASG-Orig-Subj: [PATCH v5 3/4] x86/mce: Add zhaoxin.c to support Zhaoxin MCA
-Message-ID: <20241014075318.1936-4-TonyWWang-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241014075318.1936-1-TonyWWang-oc@zhaoxin.com>
-References: <20240923073311.4290-1-TonyWWang-oc@zhaoxin.com>
- <20241014075318.1936-1-TonyWWang-oc@zhaoxin.com>
+	s=arc-20240116; t=1728895383; c=relaxed/simple;
+	bh=WeSAkX1MvMDMWy4naKwnTCQr6X1J5oxQy0hl5dwz1A4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jM4dgE8T2IP1UgEkBdegHDWZi6RCqva1yG0lPGRbKOu0+x8u5u5B8/L5f+yBuCQMwqHLNuFKOofcoLIyoI4vVxzOOytvHFQ+oKcClQ40l3xndxRhCsO9ZWgaafHbOngEibQY/4dsDb86QVGlfnkpm9ER8AFPPlP+kOlF72lcLxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=buf5mhGD; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="buf5mhGD"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1728895377; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=gtVhAaEFtvj2lIX1mN+ixUOT+9B3L8M2ciNN0miyZ2k=;
+	b=buf5mhGD8TTdQyYsZRebYpiRYrQQYim84Ke5jpeM+755WYX2EdTlahUnWREBbFMJAhTeeoDYdkoaAmOSA+O8aLSTMwmY0i3v3JUkM/U4S+1gPX2Tnq9KF4wf6PvqAd3yB6TmVKGAIScNWf0NBHRHRj/1Pa1layK1fFfvjRVM+VE=
+Received: from localhost.localdomain(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WH3mwJg_1728895360 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 14 Oct 2024 16:42:55 +0800
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+To: mark.rutland@arm.com,
+	catalin.marinas@arm.com,
+	mingo@redhat.com,
+	robin.murphy@arm.com,
+	Jonathan.Cameron@Huawei.com,
+	bp@alien8.de,
+	rafael@kernel.org,
+	wangkefeng.wang@huawei.com,
+	tanxiaofei@huawei.com,
+	mawupeng1@huawei.com,
+	tony.luck@intel.com,
+	linmiaohe@huawei.com,
+	naoya.horiguchi@nec.com,
+	james.morse@arm.com,
+	tongtiangen@huawei.com,
+	gregkh@linuxfoundation.org,
+	will@kernel.org,
+	jarkko@kernel.org
+Cc: linux-acpi@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	linux-edac@vger.kernel.org,
+	x86@kernel.org,
+	xueshuai@linux.alibaba.com,
+	justin.he@arm.com,
+	ardb@kernel.org,
+	ying.huang@intel.com,
+	ashish.kalra@amd.com,
+	baolin.wang@linux.alibaba.com,
+	tglx@linutronix.de,
+	dave.hansen@linux.intel.com,
+	lenb@kernel.org,
+	hpa@zytor.com,
+	robert.moore@intel.com,
+	lvying6@huawei.com,
+	xiexiuqi@huawei.com,
+	zhuo.song@linux.alibaba.com
+Subject: [PATCH v14 0/3] ACPI: APEI: handle synchronous errors in task work
+Date: Mon, 14 Oct 2024 16:42:37 +0800
+Message-ID: <20241014084240.18614-1-xueshuai@linux.alibaba.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20221027042445.60108-1-xueshuai@linux.alibaba.com>
+References: <20221027042445.60108-1-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
- ZXBJMBX03.zhaoxin.com (10.29.252.7)
-X-Moderation-Data: 10/14/2024 4:09:40 PM
-X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
-X-Barracuda-Start-Time: 1728893379
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 6814
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: -2.02
-X-Barracuda-Spam-Status: No, SCORE=-2.02 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.131784
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------------------------
+Content-Transfer-Encoding: 8bit
 
-From: Lyle Li <LyleLi@zhaoxin.com>
+## Changes Log
 
-For the sake of code standardization, add zhaoxin.c to
-override the Zhaoxin MCA code.
+changes since v12:
+- add reviewed-by tag from Jarkko
+- rename task_work to ghes_task_work (per Jarkko)
 
-Signed-off-by: Lyle Li <LyleLi@zhaoxin.com>
-Signed-off-by: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>
-Reviewed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
----
- arch/x86/Kconfig                   |  8 ++++
- arch/x86/kernel/cpu/mce/Makefile   |  1 +
- arch/x86/kernel/cpu/mce/core.c     | 57 --------------------------
- arch/x86/kernel/cpu/mce/internal.h |  7 ++++
- arch/x86/kernel/cpu/mce/zhaoxin.c  | 64 ++++++++++++++++++++++++++++++
- 5 files changed, 80 insertions(+), 57 deletions(-)
- create mode 100644 arch/x86/kernel/cpu/mce/zhaoxin.c
+changes since v12:
+- tweak error message for force kill (per Jarkko)
+- fix comments style (per Jarkko)
+- fix commit log typo (per Jarko)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 1ea18662942c..a7993835f460 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1183,6 +1183,14 @@ config X86_MCE_INTEL
- 	  Additional support for intel specific MCE features such as
- 	  the thermal monitor.
-=20
-+config X86_MCE_ZHAOXIN
-+	def_bool y
-+	prompt "Zhaoxin MCE features"
-+	depends on X86_MCE_INTEL
-+	help
-+	  Additional support for Zhaoxin specific MCE features such as
-+	  the corrected machine check interrupt.
-+
- config X86_MCE_AMD
- 	def_bool y
- 	prompt "AMD MCE features"
-diff --git a/arch/x86/kernel/cpu/mce/Makefile b/arch/x86/kernel/cpu/mce/Mak=
-efile
-index 015856abdbb1..7b52c8f2f08e 100644
---- a/arch/x86/kernel/cpu/mce/Makefile
-+++ b/arch/x86/kernel/cpu/mce/Makefile
-@@ -4,6 +4,7 @@ obj-y				=3D  core.o severity.o genpool.o
- obj-$(CONFIG_X86_ANCIENT_MCE)	+=3D winchip.o p5.o
- obj-$(CONFIG_X86_MCE_INTEL)	+=3D intel.o
- obj-$(CONFIG_X86_MCE_AMD)	+=3D amd.o
-+obj-$(CONFIG_X86_MCE_ZHAOXIN)   +=3D zhaoxin.o
- obj-$(CONFIG_X86_MCE_THRESHOLD) +=3D threshold.o
-=20
- mce-inject-y			:=3D inject.o
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.=
-c
-index f71b33b96b5b..a1684b73b349 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1970,17 +1970,6 @@ static int __mcheck_cpu_apply_quirks(struct cpuinfo_=
-x86 *c)
- 			mce_flags.skx_repmov_quirk =3D 1;
- 	}
-=20
--	if (c->x86_vendor =3D=3D X86_VENDOR_ZHAOXIN) {
--		/*
--		 * All newer Zhaoxin CPUs support MCE broadcasting. Enable
--		 * synchronization with a one second timeout.
--		 */
--		if (c->x86 > 6 || (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)=
-) {
--			if (cfg->monarch_timeout < 0)
--				cfg->monarch_timeout =3D USEC_PER_SEC;
--		}
--	}
--
- 	if (cfg->monarch_timeout < 0)
- 		cfg->monarch_timeout =3D 0;
- 	if (cfg->bootlog !=3D 0)
-@@ -2023,49 +2012,6 @@ static void __mcheck_cpu_init_early(struct cpuinfo_x=
-86 *c)
- 	}
- }
-=20
--static void mce_centaur_feature_init(struct cpuinfo_x86 *c)
--{
--	struct mca_config *cfg =3D &mca_cfg;
--
--	 /*
--	  * All newer Centaur CPUs support MCE broadcasting. Enable
--	  * synchronization with a one second timeout.
--	  */
--	if ((c->x86 =3D=3D 6 && c->x86_model =3D=3D 0xf && c->x86_stepping >=3D 0=
-xe) ||
--	     c->x86 > 6) {
--		if (cfg->monarch_timeout < 0)
--			cfg->monarch_timeout =3D USEC_PER_SEC;
--	}
--}
--
--static void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c)
--{
--	struct mce_bank *mce_banks =3D this_cpu_ptr(mce_banks_array);
--
--	/*
--	 * These CPUs have MCA bank 8 which reports only one error type called
--	 * SVAD (System View Address Decoder). The reporting of that error is
--	 * controlled by IA32_MC8.CTL.0.
--	 *
--	 * If enabled, prefetching on these CPUs will cause SVAD MCE when
--	 * virtual machines start and result in a system  panic. Always disable
--	 * bank 8 SVAD error by default.
--	 */
--	if ((c->x86 =3D=3D 7 && c->x86_model =3D=3D 0x1b) ||
--	    (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)) {
--		if (this_cpu_read(mce_num_banks) > 8)
--			mce_banks[8].ctl =3D 0;
--	}
--
--	intel_init_cmci();
--	intel_init_lmce();
--}
--
--static void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c)
--{
--	intel_clear_lmce();
--}
--
- static void __mcheck_cpu_init_vendor(struct cpuinfo_x86 *c)
- {
- 	switch (c->x86_vendor) {
-@@ -2083,9 +2029,6 @@ static void __mcheck_cpu_init_vendor(struct cpuinfo_x=
-86 *c)
- 		break;
-=20
- 	case X86_VENDOR_CENTAUR:
--		mce_centaur_feature_init(c);
--		break;
--
- 	case X86_VENDOR_ZHAOXIN:
- 		mce_zhaoxin_feature_init(c);
- 		break;
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/i=
-nternal.h
-index 43c7f3b71df5..fb9d8b5b3b75 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -336,4 +336,11 @@ static __always_inline u32 mca_msr_reg(int bank, enum =
-mca_msr reg)
- }
-=20
- extern void (*mc_poll_banks)(void);
-+#ifdef CONFIG_X86_MCE_ZHAOXIN
-+void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c);
-+void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c);
-+#else
-+static inline void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c) { }
-+static inline void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c) { }
-+#endif
- #endif /* __X86_MCE_INTERNAL_H__ */
-diff --git a/arch/x86/kernel/cpu/mce/zhaoxin.c b/arch/x86/kernel/cpu/mce/zh=
-aoxin.c
-new file mode 100644
-index 000000000000..6fdef2d24f31
---- /dev/null
-+++ b/arch/x86/kernel/cpu/mce/zhaoxin.c
-@@ -0,0 +1,64 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Zhaoxin specific MCE features
-+ * Author: Lyle Li
-+ */
-+#include <asm/msr.h>
-+#include "internal.h"
-+
-+static void mce_zhaoxin_apply_mce_broadcast(struct cpuinfo_x86 *c)
-+{
-+	struct mca_config *cfg =3D &mca_cfg;
-+
-+	/* Older CPUs do not do MCE broadcast: */
-+	if (c->x86 < 6)
-+		return;
-+
-+	/* All newer ones do: */
-+	if (c->x86 > 6)
-+		goto mce_broadcast;
-+
-+	/* Family 6 is mixed: */
-+	if (c->x86_vendor =3D=3D X86_VENDOR_CENTAUR) {
-+		if (c->x86_model =3D=3D 0xf && c->x86_stepping >=3D 0xe)
-+			goto mce_broadcast;
-+	} else if (c->x86_vendor =3D=3D X86_VENDOR_ZHAOXIN) {
-+		if (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)
-+			goto mce_broadcast;
-+	}
-+
-+	return;
-+
-+mce_broadcast:
-+	if (cfg->monarch_timeout <=3D 0)
-+		cfg->monarch_timeout =3D USEC_PER_SEC;
-+}
-+
-+void mce_zhaoxin_feature_init(struct cpuinfo_x86 *c)
-+{
-+	struct mce_bank *mce_banks =3D this_cpu_ptr(mce_banks_array);
-+
-+	/*
-+	 * These CPUs have MCA bank 8 which reports only one error type called
-+	 * SVAD (System View Address Decoder). The reporting of that error is
-+	 * controlled by IA32_MC8.CTL.0.
-+	 *
-+	 * If enabled, prefetching on these CPUs will cause SVAD MCE when
-+	 * virtual machines start and result in a system  panic. Always disable
-+	 * bank 8 SVAD error by default.
-+	 */
-+	if ((c->x86 =3D=3D 7 && c->x86_model =3D=3D 0x1b) ||
-+	    (c->x86_model =3D=3D 0x19 || c->x86_model =3D=3D 0x1f)) {
-+		if (this_cpu_read(mce_num_banks) > 8)
-+			mce_banks[8].ctl =3D 0;
-+	}
-+
-+	mce_zhaoxin_apply_mce_broadcast(c);
-+	intel_init_cmci();
-+	intel_init_lmce();
-+}
-+
-+void mce_zhaoxin_feature_clear(struct cpuinfo_x86 *c)
-+{
-+	intel_clear_lmce();
-+}
---=20
-2.34.1
+changes since v11:
+- rebase to Linux 6.11-rc6
+- fix grammer and typo in commit log (per Borislav)
+- remove `sync_` perfix of `sync_task_work`  (per Borislav)
+- comments flags and description of `task_work`  (per Borislav)
+
+changes since v10:
+- rebase to v6.8-rc2
+
+changes since v9:
+- split patch 2 to address exactly one issue in one patch (per Borislav)
+- rewrite commit log according to template (per Borislav)
+- pickup reviewed-by tag of patch 1 from James Morse
+- alloc and free twcb through gen_pool_{alloc, free) (Per James)
+- rewrite cover letter
+
+changes since v8:
+- remove the bug fix tag of patch 2 (per Jarkko Sakkinen)
+- remove the declaration of memory_failure_queue_kick (per Naoya Horiguchi)
+- rewrite the return value comments of memory_failure (per Naoya Horiguchi)
+
+changes since v7:
+- rebase to Linux v6.6-rc2 (no code changed)
+- rewritten the cover letter to explain the motivation of this patchset
+
+changes since v6:
+- add more explicty error message suggested by Xiaofei
+- pick up reviewed-by tag from Xiaofei
+- pick up internal reviewed-by tag from Baolin
+
+changes since v5 by addressing comments from Kefeng:
+- document return value of memory_failure()
+- drop redundant comments in call site of memory_failure() 
+- make ghes_do_proc void and handle abnormal case within it
+- pick up reviewed-by tag from Kefeng Wang 
+
+changes since v4 by addressing comments from Xiaofei:
+- do a force kill only for abnormal sync errors
+
+changes since v3 by addressing comments from Xiaofei:
+- do a force kill for abnormal memory failure error such as invalid PA,
+unexpected severity, OOM, etc
+- pcik up tested-by tag from Ma Wupeng
+
+changes since v2 by addressing comments from Naoya:
+- rename mce_task_work to sync_task_work
+- drop ACPI_HEST_NOTIFY_MCE case in is_hest_sync_notify()
+- add steps to reproduce this problem in cover letter
+
+changes since v1:
+- synchronous events by notify type
+- Link: https://lore.kernel.org/lkml/20221206153354.92394-3-xueshuai@linux.alibaba.com/
+
+## Cover Letter
+
+There are two major types of uncorrected recoverable (UCR) errors :
+
+- Synchronous error: The error is detected and raised at the point of the
+  consumption in the execution flow, e.g. when a CPU tries to access
+  a poisoned cache line. The CPU will take a synchronous error exception
+  such as Synchronous External Abort (SEA) on Arm64 and Machine Check
+  Exception (MCE) on X86. OS requires to take action (for example, offline
+  failure page/kill failure thread) to recover this uncorrectable error.
+
+- Asynchronous error: The error is detected out of processor execution
+  context, e.g. when an error is detected by a background scrubber. Some data
+  in the memory are corrupted. But the data have not been consumed. OS is
+  optional to take action to recover this uncorrectable error.
+
+Currently, both synchronous and asynchronous error use
+memory_failure_queue() to schedule memory_failure() exectute in kworker
+context. As a result, when a user-space process is accessing a poisoned
+data, a data abort is taken and the memory_failure() is executed in the
+kworker context:
+
+  - will send wrong si_code by SIGBUS signal in early_kill mode, and
+  - can not kill the user-space in some cases resulting a synchronous
+    error infinite loop
+
+Issue 1: send wrong si_code in early_kill mode
+
+Since commit a70297d22132 ("ACPI: APEI: set memory failure flags as
+MF_ACTION_REQUIRED on synchronous events")', the flag MF_ACTION_REQUIRED
+could be used to determine whether a synchronous exception occurs on
+ARM64 platform.  When a synchronous exception is detected, the kernel is
+expected to terminate the current process which has accessed poisoned
+page. This is done by sending a SIGBUS signal with an error code
+BUS_MCEERR_AR, indicating an action-required machine check error on
+read.
+
+However, when kill_proc() is called to terminate the processes who have
+the poisoned page mapped, it sends the incorrect SIGBUS error code
+BUS_MCEERR_AO because the context in which it operates is not the one
+where the error was triggered.
+
+To reproduce this problem:
+
+  # STEP1: enable early kill mode
+  #sysctl -w vm.memory_failure_early_kill=1
+  vm.memory_failure_early_kill = 1
+
+  # STEP2: inject an UCE error and consume it to trigger a synchronous error
+  #einj_mem_uc single
+  0: single   vaddr = 0xffffb0d75400 paddr = 4092d55b400
+  injecting ...
+  triggering ...
+  signal 7 code 5 addr 0xffffb0d75000
+  page not present
+  Test passed
+
+The si_code (code 5) from einj_mem_uc indicates that it is BUS_MCEERR_AO
+error and it is not fact.
+
+To fix it, queue memory_failure() as a task_work so that it runs in
+the context of the process that is actually consuming the poisoned data.
+
+After this patch set:
+
+  # STEP1: enable early kill mode
+  #sysctl -w vm.memory_failure_early_kill=1
+  vm.memory_failure_early_kill = 1
+
+  # STEP2: inject an UCE error and consume it to trigger a synchronous error
+  #einj_mem_uc single
+  0: single   vaddr = 0xffffb0d75400 paddr = 4092d55b400
+  injecting ...
+  triggering ...
+  signal 7 code 4 addr 0xffffb0d75000
+  page not present
+  Test passed
+
+The si_code (code 4) from einj_mem_uc indicates that it is BUS_MCEERR_AR
+error as we expected.
+
+Issue 2: a synchronous error infinite loop due to memory_failure() failed
+
+If a user-space process, e.g. devmem, a poisoned page which has been set
+HWPosion flag, kill_accessing_process() is called to send SIGBUS to the
+current processs with error info. Because the memory_failure() is
+executed in the kworker contex, it will just do nothing but return
+EFAULT. So, devmem will access the posioned page and trigger an
+excepction again, resulting in a synchronous error infinite loop. Such
+loop may cause platform firmware to exceed some threshold and reboot
+when Linux could have recovered from this error.
+
+To reproduce this problem:
+
+  # STEP 1: inject an UCE error, and kernel will set HWPosion flag for related page
+  #einj_mem_uc single
+  0: single   vaddr = 0xffffb0d75400 paddr = 4092d55b400
+  injecting ...
+  triggering ...
+  signal 7 code 4 addr 0xffffb0d75000
+  page not present
+  Test passed
+
+  # STEP 2: access the same page and it will trigger a synchronous error infinite loop
+  devmem 0x4092d55b400
+
+To fix it, if memory_failure() failed, perform a force kill to current process.
+
+Issue 3: a synchronous error infinite loop due to no memory_failure() queued
+
+No memory_failure() work is queued unless all bellow preconditions check passed:
+
+- `if (!(mem_err->validation_bits & CPER_MEM_VALID_PA))` in ghes_handle_memory_failure()
+- `if (flags == -1)` in ghes_handle_memory_failure()
+- `if (!IS_ENABLED(CONFIG_ACPI_APEI_MEMORY_FAILURE))` in ghes_do_memory_failure()
+- `if (!pfn_valid(pfn) && !arch_is_platform_page(physical_addr)) ` in ghes_do_memory_failure()
+
+If the preconditions are not passed, the user-space process will trigger SEA again.
+This loop can potentially exceed the platform firmware threshold or even
+trigger a kernel hard lockup, leading to a system reboot.
+
+To fix it, if no memory_failure() queued, perform a force kill to current process.
+
+And the the memory errors triggered in kernel-mode[5], also relies on this
+patchset to kill the failure thread.
+
+Lv Ying and XiuQi from Huawei also proposed to address similar problem[2][4].
+Acknowledge to discussion with them.
+
+[1] Add ARMv8 RAS virtualization support in QEMU https://patchew.org/QEMU/20200512030609.19593-1-gengdongjiu@huawei.com/
+[2] https://lore.kernel.org/lkml/20221205115111.131568-3-lvying6@huawei.com/
+[3] https://lkml.kernel.org/r/20220914064935.7851-1-xueshuai@linux.alibaba.com
+[4] https://lore.kernel.org/lkml/20221209095407.383211-1-lvying6@huawei.com/
+[5] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20240528085915.1955987-1-tongtiangen@huawei.com/
+Shuai Xue (3):
+  ACPI: APEI: send SIGBUS to current task if synchronous memory error
+    not recovered
+  mm: memory-failure: move return value documentation to function
+    declaration
+  ACPI: APEI: handle synchronous exceptions in task work
+
+ arch/x86/kernel/cpu/mce/core.c |  7 ---
+ drivers/acpi/apei/ghes.c       | 86 +++++++++++++++++++++-------------
+ include/acpi/ghes.h            |  3 --
+ include/linux/mm.h             |  1 -
+ mm/memory-failure.c            | 22 +++------
+ 5 files changed, 60 insertions(+), 59 deletions(-)
+
+-- 
+2.39.3
 
