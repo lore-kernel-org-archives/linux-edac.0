@@ -1,166 +1,133 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1625F1173F
-	for <linux-edac@vger.kernel.org>; Fri, 25 Oct 2024 01:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F15175D56;
+	Fri, 25 Oct 2024 03:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729820096; cv=none; b=k8SdXgTtKn7/ACTjoGTgwV6U1gqP/ch73dcQA6qCtJw9IBxJ4xivRXuBt73Kp37RqAGj952g5CHRD3tNkDz7Dk5vnKTOFTgE8SHfS/eUR1iGyqXpqouO+ifQsC0sTrZ4apIvPOfqAHSnwfN0PeK1Z4tlDATmyKVYnfW3xEvy1IY=
+	t=1729825272; cv=none; b=ct32Bu03ozxO2Odx+8e5XUGTCl3raBuj/eCanWS/2joIMYITIMu9LJ/9mP/oKKwkvLKIpu5NWI0SJ3gQ4ggWuM+teKU4il01xVLF5gLjZFnkFu7iVPchz1IMERD1ERGgCMSfFM9qPoyGc2Vu+DAEkxc4iFBg0e4zwTvZ6J0nNCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729820096; c=relaxed/simple;
-	bh=TTzDSsWEppcu/nZkSt3d2iocms+cZC1EGEDS8DYsZT0=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=iQX3YDa/fu+i580vVKT82ZY9pelze2O8fk87d4u2FqtpIlZ+wsz/8IQWBjDTfW7i8o2rzUQkZA9LcdYQlWrjWUO59BZzjCAciQn/dOaWy0jSJ38KvqecJpyxASSx0hPRCa+rgZf1QgyCyTikKI8xjehvxQCG8ocJcT41OFRsYFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4XZQJ31HXjzdkJY;
-	Fri, 25 Oct 2024 09:32:19 +0800 (CST)
-Received: from dggpemf100006.china.huawei.com (unknown [7.185.36.228])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4944018010F;
-	Fri, 25 Oct 2024 09:34:50 +0800 (CST)
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemf100006.china.huawei.com (7.185.36.228) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 25 Oct 2024 09:34:49 +0800
-Subject: Re: [PATCH 1/1] RAS/AMD/FMPM: Fix return value check in
- setup_debugfs()
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-CC: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
-	<linux-edac@vger.kernel.org>
-References: <20241023070508.275-1-thunder.leizhen@huawei.com>
- <20241024155503.GA965@yaz-khff2.amd.com>
-From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <a9097bce-72f2-07a9-0343-f39ae779f25d@huawei.com>
-Date: Fri, 25 Oct 2024 09:34:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+	s=arc-20240116; t=1729825272; c=relaxed/simple;
+	bh=6MTJVFMqnnCJNbM2dONSU/ki5kij5KTFX4y1XsBSR7o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EEXtMH/7LHLY/4ml85GKi6EQY1OjLTXnSebhoo1LVBYT9vEGsxEbmpuF7hxtZKx7IiR/cCGOVQTLakazUIt3bTBSJk7RTuW4juNQtcsFH2AMVoGPmGkGswBauXR8Pqu3KpOJUoneW2eGla4bl9qH4O6oceCL5WmJqI7aah/YLos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLqQCNOz; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLqQCNOz"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c9c28c1e63so1841873a12.0;
+        Thu, 24 Oct 2024 20:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729825269; x=1730430069; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6MTJVFMqnnCJNbM2dONSU/ki5kij5KTFX4y1XsBSR7o=;
+        b=FLqQCNOz+aLWAmnlIrQLVA5+tnfEUR8GbNAKiDnhdf6xqLZdvJnkQBxPUyt6WShLCr
+         36AWJQlZz00vcnEyhruScAQfWZAJt7S57R7go5IgsOmcxFY1Xc0j6/1w9YKeDrBqgx7d
+         dxTXzA+skRlOac6CZbc1JtO0bqtGmhhSrruUrb9VehPbx8BYSgnHWUQ1/jVsEAzaQMzq
+         4GEaIy/mEQK9VP8HNjaZTTqViibCcRZOMn2LaskNcVRBdU1u+zfpuuEJx7+gs5EqJgVO
+         hGrKIv522g/dicK18lph39oIgGsSk//D4+yQSv41PWO4/ofieiXQwN6UT1eujmmWH6ut
+         oJvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729825269; x=1730430069;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6MTJVFMqnnCJNbM2dONSU/ki5kij5KTFX4y1XsBSR7o=;
+        b=f0GkccfI2Aw0zN/bufZ8NhsS/ppUh6T8p7MoNXjlftVS3GAHIYe4Fz6oXYAIkL2i/H
+         LaQ68AcJKsshWVTlla+KAAfg0mP8dhOnFwzAHfDcPTNOVVvfQ6GPCSj4wYCBkIJaG+Xi
+         FWpyMiC02d8lTL0DVzYqjV/AEQ/jKPhJRI34YZman5cyS9GyY80264B2QUPlkp6I/lxY
+         CjAxIB4sgOJLLrZKhkuaVTC8UljwFVYeMf1vUiLQwfe5XvsjDht0r4mSuYVmETDqLwRf
+         22zwU68HH4hgJmpm6ZepdPFS4coJEaStIaqceA5EZyvuXSPIizKks+MIp8MdHQzp5KHj
+         SvDA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0jOCH3SlLcPZAjRQZt+TCOS/8hR3+RKSoA/cQLhEX58zMDHPDoL5FVfwOuUkAE7TVJEA70ZsFq945WIxA@vger.kernel.org, AJvYcCUAKSwyScRmcn9xhiPolxb+y3uSHKIa8cptD+eH3ydLZh0jmBKjx+jBlf/2whYfNQQ23Lp8ZqvHuIQE@vger.kernel.org, AJvYcCUJTXrjxqf1bb89eyVvM5fu67mwI3EYCF10fMkJYFJFi0bkVRCfibemlrAsEeAh6h2rihOhQk0RKt0=@vger.kernel.org, AJvYcCVSp7o67nV4UOdrAcWv5v3DOoX3e4vKfPwjqQT8qvn8Yr8uvgVdSqbhDIqFHlFTLorNV+26bvVDkfRsDmOl@vger.kernel.org, AJvYcCVYtuwumXyfAPBHzVFolQk/n1G8QyKzJCB3sy0Zt2KBVkFKI2HO4O98gOTYj2RucGVp8dAYXK00Baehc0M=@vger.kernel.org, AJvYcCWD0LeA1cNQt1b5F+EOiJbULTRIl3N/D+EzZJxrVAIi6XZk6mfYWwEKCvpxjCJRUbAZ76YG2zPDQ2Dv7A==@vger.kernel.org, AJvYcCWfijIDJjwXNa/2Dd2dekN5PVUz18TgF5o/xlG2CZUF6rtvHprkXEax0yP8ON/iYNpHxqFYtAEY@vger.kernel.org, AJvYcCWtBZcxkbMg8TfMEpFhEug7Vx0G5esnQgDHFcXf82z0NypItNF2oF4m5xJtBh7jMyKP7H95gZVI+yp99g==@vger.kernel.org, AJvYcCX33YEBa7R2BMs7QaocMaG67r8/assMY3M8lNa4gS/MoSYPMSj4j5AJPYWmQadrSobKurLPbo8iDZdf@vger.kernel.org, AJvYcCX656ZNZpEgwuyr8CJDuPwxP8SYyXM2i2J/mePhG+i6x24tOaWlCnW5U8+k3gi3Ovy52RGhYjDmQD+BSHZ1rFCXvI8=@vger.kernel.org, AJvYcCXFbxyndUwDrPTQk9svhLUFolnPnl1TOmjSUPnjFdA/rXQe6Q/UZbOd+VRU34TxplZvt5jk5VHttIJa@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXfZqHDaF0hwMs2T93sqG3XIzhK4XqiGix+h9WyV4G2YWmDDKV
+	mFoJrzTJmy7QspGgD/6pjasQVo+qSRaD0fRTYnaQ3cn1O4W4VPvJ
+X-Google-Smtp-Source: AGHT+IG9lTruoJuiWvD3/I0nGa0uNZQNR6Vtf4xab40cqpRDyyMRJml+6D/43J5oPu7AIVVa2dAxUA==
+X-Received: by 2002:a05:6402:84a:b0:5cb:674f:b0a2 with SMTP id 4fb4d7f45d1cf-5cb8b1b1f0amr5688194a12.36.1729825268315;
+        Thu, 24 Oct 2024 20:01:08 -0700 (PDT)
+Received: from localhost.localdomain ([92.60.187.5])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb631b0bcsm121582a12.60.2024.10.24.20.01.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 20:01:06 -0700 (PDT)
+From: Oleksiy Protas <elfy.ua@gmail.com>
+To: d.milivojevic@gmail.com
+Cc: ajhalaney@gmail.com,
+	allenbh@gmail.com,
+	andrew@lunn.ch,
+	andriy.shevchenko@linux.intel.com,
+	andy@kernel.org,
+	arnd@arndb.de,
+	bhelgaas@google.com,
+	bp@alien8.de,
+	broonie@kernel.org,
+	cai.huoqing@linux.dev,
+	dave.jiang@intel.com,
+	davem@davemloft.net,
+	dlemoal@kernel.org,
+	dmaengine@vger.kernel.org,
+	dushistov@mail.ru,
+	elfy.ua@gmail.com,
+	fancer.lancer@gmail.com,
+	geert@linux-m68k.org,
+	gregkh@linuxfoundation.org,
+	ink@jurassic.park.msu.ru,
+	jdmason@kudzu.us,
+	jiaxun.yang@flygoat.com,
+	keguang.zhang@gmail.com,
+	kory.maincent@bootlin.com,
+	krzk@kernel.org,
+	kuba@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux@armlinux.org.uk,
+	linux@roeck-us.net,
+	manivannan.sadhasivam@linaro.org,
+	netdev@vger.kernel.org,
+	nikita.shubin@maquefel.me,
+	nikita@trvn.ru,
+	ntb@lists.linux.dev,
+	olteanv@gmail.com,
+	pabeni@redhat.com,
+	paulburton@kernel.org,
+	robh@kernel.org,
+	s.shtylyov@omp.ru,
+	sergio.paracuellos@gmail.com,
+	shc_work@mail.ru,
+	siyanteng@loongson.cn,
+	tsbogend@alpha.franken.de,
+	xeb@mail.ru,
+	yoshihiro.shimoda.uh@renesas.com
+Subject: Re: linux: Goodbye from a Linux community volunteer
+Date: Fri, 25 Oct 2024 06:01:02 +0300
+Message-ID: <20241025030102.319485-1-elfy.ua@gmail.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <CALtW_ahkg9W0wm09cxkJxiSQCH=42smeK=fqh5cQ9sRSNsjeXA@mail.gmail.com>
+References: <CALtW_ahkg9W0wm09cxkJxiSQCH=42smeK=fqh5cQ9sRSNsjeXA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20241024155503.GA965@yaz-khff2.amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemf100006.china.huawei.com (7.185.36.228)
+Content-Transfer-Encoding: 8bit
 
+Brate Dragane,
 
+I was not aware of the fact that either Raytheon or Boeing are directly supplying the Russian invasion. That would be a concerning development indeed.
 
-On 2024/10/24 23:55, Yazen Ghannam wrote:
-> Hi Zhen Lei,
-> 
-> Thanks for the patch.
-> 
-> The subject line does not need to include 1/1 for a single patch.
+If you possess any information of that being the case, I urge you to contact GUR anonymously at their official whistleblowing email: gur_official@proton.me
 
-OK
+Thank you for your diligence, only together we can stop the war.
 
-> 
-> On Wed, Oct 23, 2024 at 03:05:08PM +0800, Zhen Lei wrote:
->> Fix the incorrect return value check for debugfs_create_dir() and
->> debugfs_create_file(), which returns ERR_PTR(-ERROR) instead of NULL
-> 
-> Yes, the return value check is incorrect. But I think the solution is
-> simpler. Please see the patch at the end.
-
-According to the description of debugfs_create_dir(), the modification
-scheme you provide is more appropriate. By the way, fmpm_dfs_entries is
-unused now, should be removed.
-
-> 
->> when it fails. In addition, fmpm_dfs_dir should be set to NULL after
->> being reclaimed.
->>
-> 
-> Why is this needed?
-
-Habitual, sorry, I did not analyze the code carefully before, this
-operation is not needed here.
-
-> 
->> Fixes: 7d19eea51757 ("RAS/AMD/FMPM: Add debugfs interface to print record entries")
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  drivers/ras/amd/fmpm.c | 6 ++++--
->>  1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/ras/amd/fmpm.c b/drivers/ras/amd/fmpm.c
->> index 90de737fbc90978..b1cffbde6d319ed 100644
->> --- a/drivers/ras/amd/fmpm.c
->> +++ b/drivers/ras/amd/fmpm.c
->> @@ -956,12 +956,14 @@ static void setup_debugfs(void)
->>  		return;
->>  
->>  	fmpm_dfs_dir = debugfs_create_dir("fmpm", dfs);
->> -	if (!fmpm_dfs_dir)
->> +	if (IS_ERR(fmpm_dfs_dir))
->>  		return;
->>  
->>  	fmpm_dfs_entries = debugfs_create_file("entries", 0400, fmpm_dfs_dir, NULL, &fmpm_fops);
->> -	if (!fmpm_dfs_entries)
->> +	if (IS_ERR(fmpm_dfs_entries)) {
->>  		debugfs_remove(fmpm_dfs_dir);
->> +		fmpm_dfs_dir = NULL;
->> +	}
->>  }
->>
-> 
-> I think the intention here is correct. But the solution is to just
-> remove the error checks entirely.
-> 
-> Thanks,
-> Yazen
-> 
-> 
->>From 75869583bec8eb95d062cecedc4278bead8a293a Mon Sep 17 00:00:00 2001
-> From: Yazen Ghannam <yazen.ghannam@amd.com>
-> Date: Thu, 24 Oct 2024 10:06:54 -0400
-> Subject: [PATCH] RAS/AMD/ATL: Simplify debugfs init
-> 
-> Drop return value checks as debugfs API says most drivers should ignore
-> errors. Issues between creation steps are automatically handled by the
-> debugfs code.
-> 
-> Also, add a code comment highlighting why a valid ras debugfs dentry is
-> needed.
-> 
-> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> ---
->  drivers/ras/amd/fmpm.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/ras/amd/fmpm.c b/drivers/ras/amd/fmpm.c
-> index 90de737fbc90..3965963d9164 100644
-> --- a/drivers/ras/amd/fmpm.c
-> +++ b/drivers/ras/amd/fmpm.c
-> @@ -952,16 +952,15 @@ static void setup_debugfs(void)
->  {
->  	struct dentry *dfs = ras_get_debugfs_root();
->  
-> +	/*
-> +	 * Ensure there's a ras debugfs directory so the fmpm files aren't populated in
-> +	 * the root debugfs directory.
-> +	 */
->  	if (!dfs)
->  		return;
->  
->  	fmpm_dfs_dir = debugfs_create_dir("fmpm", dfs);
-> -	if (!fmpm_dfs_dir)
-> -		return;
-> -
->  	fmpm_dfs_entries = debugfs_create_file("entries", 0400, fmpm_dfs_dir, NULL, &fmpm_fops);
-> -	if (!fmpm_dfs_entries)
-> -		debugfs_remove(fmpm_dfs_dir);
->  }
->  
->  static const struct x86_cpu_id fmpm_cpuids[] = {
-> 
-
--- 
-Regards,
-  Zhen Lei
+Kind regards,
+Olekiy
