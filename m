@@ -1,97 +1,230 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7791E347C7;
-	Thu, 31 Oct 2024 19:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25253154C17;
+	Fri,  1 Nov 2024 09:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730402154; cv=none; b=U4CbbPH3KHqOX1f3SeutZfuTk0KfHLbyw935gJG+RADZ+MTslZmzQEXEdI3phFYEcRzFH3OpLyNGySahL5PDiO+0F5wfBlgNAEQvkPQsXwVKEbXr0ZzWaDoGMssIqfFbdJszWe9Kynx5c0H1r3yxIiq8dPeIZ7UygqLUqxdPL5M=
+	t=1730452677; cv=none; b=rtLUnNtQw0Q6KaSGXbv6A8t7W+ho2/S/9cLPWhoIlo1My5ckAyJ7aedcJb5CHUGA4vzLbLc/HiVYL8i8NUzv2KFMXkGsaKgMiUoh86XfWgZUe5CQa98j0MNA/sf1gpoyKo4j+Woddr/LqCl6sSnVtJieE2Oj76VxTR3jEEBxgco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730402154; c=relaxed/simple;
-	bh=iz/mcCGKzKAF+54183Qep4jiiK7skiftWfkF3ZQ9fck=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=D+BEr9nHiDAecP0GwEd3JjuWA6q0kTApWXSMY9vngc25MwiDPfsvyM5CKcVibLp8URtchZc2G7yBjw0Bsux1HjWbrTIznmay7GL3wPyFgTRMsRLXOpeGp2TMa9Q8stkdLWzkt9K9MRpPRTGDB5wnIPAk9E+196DfDIz9NFy+Cs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=HAO/lXId; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="HAO/lXId"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8E54E40E021C;
-	Thu, 31 Oct 2024 19:15:48 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ODtb6AuBZVDC; Thu, 31 Oct 2024 19:15:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1730402142; bh=TjBac+vUXA/VaGYTwTi6FQkjFjIMoAJ+klVbchu+St0=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=HAO/lXIdBMw3mLgc3LD9+uFBFW9EQDK2KX2jeJPdfe92n1O18NX440RAsMqu2qUmY
-	 J7DvHEU0App/3VYoCssSdJ/NrxFFZEdVW8sIhgfmoy6CwM0Iuqfj+ZCG6ivc8J72cV
-	 10ihGjL/FAFv1GH2Wi5EIz5P/oBuEHPnsO358Dc3Dm6DYXy06zBqGL5VSmmDIDvYNC
-	 l2GXMMAN56VMz3X/kYfU8FNLrLHKgyAkqnNJwnmztwRAlPTBNRfko79Aty0+JR9Xwt
-	 YBkwfJL92K+pRbcmvP9d6INbvsUb+pUVE2+ywlrhfWYP2KYRn9zcR/1BaiLpfvWY/x
-	 P0YXcmi45qC5jjwhDKvn1uzUTvUdPZfpaUhcZSu5VOtDZ6ylssbBuU1fovpvZe+x5K
-	 4Bsh/fWrnItoPSymNIaTMQm0noPkM5fW78zxq71os9XkbycSh0HzVpEtnSImIjjf8S
-	 /vZTn66Kzkyo04GAzIRZfiBUvWjRsDCxwKJcQKLG3gH/tX6XUL9VevKnSwrlncQMeR
-	 W96nGkXqaHuxtoRisIo5EHzIOCPcNJ3T5EPsh2401NKSrsp+irERAFk1+cOhrQ8+Yt
-	 9YM57SRGpAUxb6fO4wEzdgm19sVqS1uT0P2T6M0nPFrsLp1xym/Qhi5yRaI1iSwztx
-	 Cu8EgO60eyhxE5dQT77PGhGs=
-Received: from [IPv6:::1] (unknown [IPv6:2a02:3033:209:eccc:5132:adc4:8c65:1ae1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4B42940E0219;
-	Thu, 31 Oct 2024 19:15:18 +0000 (UTC)
-Date: Thu, 31 Oct 2024 20:15:11 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-CC: Yazen Ghannam <yazen.ghannam@amd.com>, "Luck, Tony" <tony.luck@intel.com>,
- Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
- "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>,
- "avadhut.naik@amd.com" <avadhut.naik@amd.com>,
- "john.allen@amd.com" <john.allen@amd.com>,
- "mario.limonciello@amd.com" <mario.limonciello@amd.com>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "Shyam-sundar.S-k@amd.com" <Shyam-sundar.S-k@amd.com>,
- "richard.gong@amd.com" <richard.gong@amd.com>,
- "jdelvare@suse.com" <jdelvare@suse.com>,
- "linux@roeck-us.net" <linux@roeck-us.net>,
- "clemens@ladisch.de" <clemens@ladisch.de>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "naveenkrishna.chatradhi@amd.com" <naveenkrishna.chatradhi@amd.com>,
- "carlos.bilbao.osdev@gmail.com" <carlos.bilbao.osdev@gmail.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_x86/cpufeature=3A_Document_cpu?=
- =?US-ASCII?Q?=5Ffeature=5Fenabled=28=29_as_the_default_to_use?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <f9cd603d-8a3f-43fc-a670-75b4d9a6c729@intel.com>
-References: <20241023172150.659002-1-yazen.ghannam@amd.com> <20241023172150.659002-4-yazen.ghannam@amd.com> <20241025155830.GQZxvAJkJnfLfNpSRx@fat_crate.local> <20241029143928.GA1011322@yaz-khff2.amd.com> <20241029150847.GLZyD6f-Hk6pRTEt2c@fat_crate.local> <SJ1PR11MB6083AA7B2E28F2DA24E4B456FC4B2@SJ1PR11MB6083.namprd11.prod.outlook.com> <20241030142138.GA1304646@yaz-khff2.amd.com> <c2894e47-f902-4603-84e7-a9aca545b18c@intel.com> <20241031103401.GBZyNdGQ-ZyXKyzC_z@fat_crate.local> <f9cd603d-8a3f-43fc-a670-75b4d9a6c729@intel.com>
-Message-ID: <74D1358D-952F-4D33-8A5A-1D6F87B49443@alien8.de>
+	s=arc-20240116; t=1730452677; c=relaxed/simple;
+	bh=hrpJyw9+3n15pBc1Ept7Dz8NqBT1q0ckDGJO4LtdMRs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TDFxENOzeoT48BtMDJHSrIPU2s6zZPCh5WyCps2H0fhGzykc5NiU84wxG9yvqBQYZHo9ctRQn15b9eMBRth83WPHQfplOO8gzZbBhEX2JgVbXcTgN6w7K0ytB9j0mF6mADWfYm11G1TkSgZP2JkmGIdeXfjp8OuT5f9s/h4nsT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XfwF441ynz6K6Kb;
+	Fri,  1 Nov 2024 17:15:20 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id 80B1C1404FC;
+	Fri,  1 Nov 2024 17:17:51 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.126.171.129) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 1 Nov 2024 10:17:49 +0100
+From: <shiju.jose@huawei.com>
+To: <linux-edac@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <bp@alien8.de>, <tony.luck@intel.com>, <rafael@kernel.org>,
+	<lenb@kernel.org>, <mchehab@kernel.org>, <dan.j.williams@intel.com>,
+	<dave@stgolabs.net>, <jonathan.cameron@huawei.com>,
+	<gregkh@linuxfoundation.org>, <sudeep.holla@arm.com>,
+	<jassisinghbrar@gmail.com>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>, <david@redhat.com>, <Vilas.Sridharan@amd.com>,
+	<leo.duran@amd.com>, <Yazen.Ghannam@amd.com>, <rientjes@google.com>,
+	<jiaqiyan@google.com>, <Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
+	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
+	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<dferguson@amperecomputing.com>, <wbs@os.amperecomputing.com>,
+	<nifan.cxl@gmail.com>, <yazen.ghannam@amd.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<linuxarm@huawei.com>, <shiju.jose@huawei.com>
+Subject: [PATCH v15 01/15] EDAC: Add support for EDAC device features control
+Date: Fri, 1 Nov 2024 09:17:19 +0000
+Message-ID: <20241101091735.1465-2-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+In-Reply-To: <20241101091735.1465-1-shiju.jose@huawei.com>
+References: <20241101091735.1465-1-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
-On October 31, 2024 7:26:27 PM GMT+01:00, Sohil Mehta <sohil=2Emehta@intel=
-=2Ecom> wrote:
->Does "default CPU feature testing macro" roll better than "default CPU
->features testing macro"?
+From: Shiju Jose <shiju.jose@huawei.com>
 
-Waaay too finicky to me=2E No one cares, I'd say=2E =F0=9F=A4=97=F0=9F=98=
-=82
+Add generic EDAC device feature controls supporting the registration
+of RAS features available in the system. The driver exposes control
+attributes for these features to userspace in
+/sys/bus/edac/devices/<dev-name>/<ras-feature>/
 
---=20
-Sent from a small device: formatting sucks and brevity is inevitable=2E 
+Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ drivers/edac/edac_device.c | 101 +++++++++++++++++++++++++++++++++++++
+ include/linux/edac.h       |  30 +++++++++++
+ 2 files changed, 131 insertions(+)
+
+diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+index 621dc2a5d034..e9229b5f8afe 100644
+--- a/drivers/edac/edac_device.c
++++ b/drivers/edac/edac_device.c
+@@ -570,3 +570,104 @@ void edac_device_handle_ue_count(struct edac_device_ctl_info *edac_dev,
+ 		      block ? block->name : "N/A", count, msg);
+ }
+ EXPORT_SYMBOL_GPL(edac_device_handle_ue_count);
++
++/* EDAC device feature */
++static void edac_dev_release(struct device *dev)
++{
++	struct edac_dev_feat_ctx *ctx = container_of(dev, struct edac_dev_feat_ctx, dev);
++
++	kfree(ctx->dev.groups);
++	kfree(ctx);
++}
++
++const struct device_type edac_dev_type = {
++	.name = "edac_dev",
++	.release = edac_dev_release,
++};
++
++static void edac_dev_unreg(void *data)
++{
++	device_unregister(data);
++}
++
++/**
++ * edac_dev_register - register device for RAS features with EDAC
++ * @parent: parent device.
++ * @name: parent device's name.
++ * @private: parent driver's data to store in the context if any.
++ * @num_features: number of RAS features to register.
++ * @ras_features: list of RAS features to register.
++ *
++ * Return:
++ *  * %0       - Success.
++ *  * %-EINVAL - Invalid parameters passed.
++ *  * %-ENOMEM - Dynamic memory allocation failed.
++ *
++ */
++int edac_dev_register(struct device *parent, char *name,
++		      void *private, int num_features,
++		      const struct edac_dev_feature *ras_features)
++{
++	const struct attribute_group **ras_attr_groups;
++	struct edac_dev_feat_ctx *ctx;
++	int attr_gcnt = 0;
++	int ret, feat;
++
++	if (!parent || !name || !num_features || !ras_features)
++		return -EINVAL;
++
++	/* Double parse to make space for attributes */
++	for (feat = 0; feat < num_features; feat++) {
++		switch (ras_features[feat].ft_type) {
++		/* Add feature specific code */
++		default:
++			return -EINVAL;
++		}
++	}
++
++	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ras_attr_groups = kcalloc(attr_gcnt + 1, sizeof(*ras_attr_groups), GFP_KERNEL);
++	if (!ras_attr_groups) {
++		ret = -ENOMEM;
++		goto ctx_free;
++	}
++
++	attr_gcnt = 0;
++	for (feat = 0; feat < num_features; feat++, ras_features++) {
++		switch (ras_features->ft_type) {
++		/* Add feature specific code */
++		default:
++			ret = -EINVAL;
++			goto groups_free;
++		}
++	}
++
++	ctx->dev.parent = parent;
++	ctx->dev.bus = edac_get_sysfs_subsys();
++	ctx->dev.type = &edac_dev_type;
++	ctx->dev.groups = ras_attr_groups;
++	ctx->private = private;
++	dev_set_drvdata(&ctx->dev, ctx);
++
++	ret = dev_set_name(&ctx->dev, name);
++	if (ret)
++		goto groups_free;
++
++	ret = device_register(&ctx->dev);
++	if (ret) {
++		put_device(&ctx->dev);
++		return ret;
++	}
++
++	return devm_add_action_or_reset(parent, edac_dev_unreg, &ctx->dev);
++
++groups_free:
++	kfree(ras_attr_groups);
++ctx_free:
++	kfree(ctx);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(edac_dev_register);
+diff --git a/include/linux/edac.h b/include/linux/edac.h
+index b4ee8961e623..e19706311ec0 100644
+--- a/include/linux/edac.h
++++ b/include/linux/edac.h
+@@ -661,4 +661,34 @@ static inline struct dimm_info *edac_get_dimm(struct mem_ctl_info *mci,
+ 
+ 	return mci->dimms[index];
+ }
++
++/* EDAC device features */
++
++#define EDAC_FEAT_NAME_LEN	128
++
++/* RAS feature type */
++enum edac_dev_feat {
++	RAS_FEAT_MAX
++};
++
++/* EDAC device feature information structure */
++struct edac_dev_data {
++	u8 instance;
++	void *private;
++};
++
++struct edac_dev_feat_ctx {
++	struct device dev;
++	void *private;
++};
++
++struct edac_dev_feature {
++	enum edac_dev_feat ft_type;
++	u8 instance;
++	void *ctx;
++};
++
++int edac_dev_register(struct device *parent, char *dev_name,
++		      void *parent_pvt_data, int num_features,
++		      const struct edac_dev_feature *ras_features);
+ #endif /* _LINUX_EDAC_H_ */
+-- 
+2.34.1
+
