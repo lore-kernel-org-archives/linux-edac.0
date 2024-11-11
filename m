@@ -1,317 +1,136 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5594614AD2B;
-	Mon, 11 Nov 2024 06:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8248468;
+	Mon, 11 Nov 2024 06:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731305427; cv=none; b=iKJT9FWhqXZn8hGuGiK04EyH/c0zLHPtEmo5410MBlNNaybO+pAM9v7xLlVqXvD/BCnIMiopWg+D6fKcEMYsk8RHz5U3mttbuAuLs4PsbmZnSviGQd+H6HsN+FUK784/0jnZHNoeUos84wc9pF0NyrQ9SVHK8cvkqMKT/wl7Nj4=
+	t=1731306637; cv=none; b=Ciwelt9/SyN6QY42NsGrNmIL3VwxuI/LwOro1V+YqCtgCL8MAV1dNpFilclnU46tGssA2/3wxejDJirXQcIFwVycnxsRi1mLU07WCiC4169hVBtmQv9DZfrroSXePBj5HDEwjKxhbJCluCZlMrFaMh/LIcSDGNfOJ2xOJ+Vmj8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731305427; c=relaxed/simple;
-	bh=f2NbwPXqxW63uyCT1gVOEA09X0GWSykxyW3//sCUmBs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=J/rBnc1Ep4vtEqNgRaGiHm4RsKIgdkLgiePQdo1fZY10pmn3uCZEcrO7K45f4aJ6D08t4p0ybb7fo4mcbA8VX45LA8SVO52NADiwaYqNHXPgpAFVpEGFiwC0xsdAKcfyPa1B+fbI25xX3daAgU0wkLd2lZICbWiXDyCQBOvF+8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.40.54.90])
-	by gateway (Coremail) with SMTP id _____8BxeeDHnzFnrjw7AA--.50736S3;
-	Mon, 11 Nov 2024 14:10:15 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.40.54.90])
-	by front1 (Coremail) with SMTP id qMiowMBxnkfDnzFn0ABRAA--.10185S4;
-	Mon, 11 Nov 2024 14:10:14 +0800 (CST)
-From: Zhao Qunqin <zhaoqunqin@loongson.cn>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	chenhuacai@kernel.org,
-	bp@alien8.de
-Cc: linux-edac@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1731306637; c=relaxed/simple;
+	bh=fAHzf4MAwzhuJ5NME26Zoc7Us7w5hZ/IHuoF46kUzRk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=QqbafFohqtddBPmy1CkfK2vg1b/cs22ONV8/KJ5dILy9F0BFWQhWvstKXqekua02a0zQKTq4TwbGDCMr9tQL8CDJHYGRfMghOiiptTpvQ0JDV9D7l7Jwb9mkm9kr8oDj/LpKLJkhz33NN/CiXqUw3gqjDZydrNZmI7Ld0TAa5v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M4425PQd; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4425PQd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731306636; x=1762842636;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=fAHzf4MAwzhuJ5NME26Zoc7Us7w5hZ/IHuoF46kUzRk=;
+  b=M4425PQdA2KcLd0Vuh/iB2A80ofe1QC9JQjmO1dkd0iNrxnRyWX70aI1
+   hAGp5lQ9OmrPgLqFXbWczq6NNO+sF17OvcWxuloSQl5tDjTWggI6LZzFt
+   EsqnmFhOgHChKOUkStnqHldgAREeqGXMjAbVRiwHlcJ3LzOkdFqTjUFpv
+   w9vD8LcoeO0k8vTEcx9bDth+QA8zgKNakb6f/ySil1FiMkyRtgL06MDiK
+   /89TZ6iAsFB7nWQ1DW7lMw8olfGQpZLZbwWOVi5qQqsFmiPkaidNRk7sG
+   u3g9YWfuuoenx1JGHMKB/AcPipju7gRRCoCa2jKpjIBKJjfgjOXe/ptFt
+   g==;
+X-CSE-ConnectionGUID: esM8cwm5SvG8seu8l3hZmg==
+X-CSE-MsgGUID: 8a0wZj0OR/K46TFzhOatmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="41715395"
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="41715395"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 22:30:36 -0800
+X-CSE-ConnectionGUID: HXHkKrjNQAeNRqEql50tmw==
+X-CSE-MsgGUID: ocO0D1QtTlO0OAuVOHNRWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="117683396"
+Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 22:30:33 -0800
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+To: bp@alien8.de,
+	tony.luck@intel.com
+Cc: tglx@linutronix.de,
+	dave.hansen@linux.intel.com,
+	mingo@redhat.com,
+	hpa@zytor.com,
+	yazen.ghannam@amd.com,
+	sohil.mehta@intel.com,
+	nik.borisov@suse.com,
+	x86@kernel.org,
+	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	kernel@xen0n.name,
-	tony.luck@intel.com,
-	james.morse@arm.com,
-	mchehab@kernel.org,
-	rric@kernel.org,
-	loongarch@lists.linux.dev,
-	Zhao Qunqin <zhaoqunqin@loongson.cn>
-Subject: [PATCH v7 2/2] EDAC: Add EDAC driver for loongson memory controller
-Date: Mon, 11 Nov 2024 14:09:39 +0800
-Message-Id: <20241111060939.5349-3-zhaoqunqin@loongson.cn>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20241111060939.5349-1-zhaoqunqin@loongson.cn>
-References: <20241111060939.5349-1-zhaoqunqin@loongson.cn>
+	qiuxu.zhuo@intel.com
+Subject: [PATCH v4 0/8] x86/mce: Clean up some x86/mce code
+Date: Mon, 11 Nov 2024 14:04:20 +0800
+Message-Id: <20241111060428.44258-1-qiuxu.zhuo@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20241025024602.24318-1-qiuxu.zhuo@intel.com>
+References: <20241025024602.24318-1-qiuxu.zhuo@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMBxnkfDnzFn0ABRAA--.10185S4
-X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3ArW8AF4xWF4xXFyrtr1rKrX_yoWxZw1kpF
-	n8Aw1fGr48tr43CwsayrWUuF15Cwn2ga42yay7A3ya93srAryDZr95tFW2yF1DCrykJrW3
-	Xa4rKwsrCF4DCwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4YLvDUUUU
 
-Reports single bit errors (CE) only.
+Clean up some x86/mce code as below. No functional changes intended.
+  - Simplify some code.
+  - Remove some unnecessary code.
+  - Improve readability for some code.
+  - Convert some family/model mixed checks to VFM-based checks.
+  - Fix some typos.
 
-Signed-off-by: Zhao Qunqin <zhaoqunqin@loongson.cn>
----
-Changes in v7:
-	- Fix sparse's "incorrect type in assignment"
-	- Clean up coding style
-
-Changes in v6:
-	- Change the Kconfig name to CONFIG_EDAC_LOONGSON
-
-Changes in v5:
-	- Drop the loongson_ prefix from all static functions.
-	- Align function arguments on the opening brace.
-	- Drop useless comments and useless wrapper. Drop side comments.
-	- Reorder variable declarations.
+Pass the following basic tests:
+  - Tested on an Intel Sapphire Rapids server.
+  - Compile test.
+  - System boot test.
+  - Correctable/uncorrectable memory errors can be notified via CMCI/MCE interrupts.
+  - Correctable/uncorrectable memory errors can be dispatched to the mcelog daemon and the EDAC driver.
 
 Changes in v4:
-	- None
+  - Drop the first two patches as they've landed in the TIP ras/core branch.
+  - Drop "Make mce_gen_pool_create() return explicit error codes" patch.
+  - 0001: Don't rename mce_notify_irq().
+  - 0003: New patch. Make four functions return bool.
+  - 0004: Add necessary blank lines and directly use 'mca_cfg'.
 
 Changes in v3:
-	- Addressed review comments raised by Krzysztof and Huacai
+  - Collect "Reviewed-by:" from Nikolay & Sohil.
+  - Drop the "x86/mce: Remove the redundant zeroing assignments" patch.
+  - 0003: Rename mce_notify_irq() to mce_notify_user().
+  - 0005: Move the 'int ret' variable along with the other int variables.
+  - 0006: New patch. Break up __mcheck_cpu_apply_quirks().
+  - 0007: New patch. Convert family/model mixed checks to VFM-based checks.
+  - 0009: Remove the variables' names from the commit message.
+  - 0010: Remove the detail typos from the commit message.
 
 Changes in v2:
-	- Addressed review comments raised by Krzysztof
+  - Collect "Reviewed-by:" from Tony.
+  - Update the commit message of patch 9 to include the names of all
+    variables that don't need NULL pointer initializations.
 
- MAINTAINERS                  |   1 +
- arch/loongarch/Kconfig       |   1 +
- drivers/edac/Kconfig         |   8 ++
- drivers/edac/Makefile        |   1 +
- drivers/edac/loongson_edac.c | 156 +++++++++++++++++++++++++++++++++++
- 5 files changed, 167 insertions(+)
- create mode 100644 drivers/edac/loongson_edac.c
+This series is based on the TIP branch ras/core with top commit 612c2addff36.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8c7d565b3..cd47c63e0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13402,6 +13402,7 @@ M:	Zhao Qunqin <zhaoqunqin@loongson.cn>
- L:	linux-edac@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/edac/loongson,ls3a5000-mc-edac.yaml
-+F:	drivers/edac/loongson_edac.c
- 
- LSILOGIC MPT FUSION DRIVERS (FC/SAS/SPI)
- M:	Sathya Prakash <sathya.prakash@broadcom.com>
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index bb35c34f8..10b9ba587 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -185,6 +185,7 @@ config LOONGARCH
- 	select PCI_MSI_ARCH_FALLBACKS
- 	select PCI_QUIRKS
- 	select PERF_USE_VMALLOC
-+	select EDAC_SUPPORT
- 	select RTC_LIB
- 	select SPARSE_IRQ
- 	select SYSCTL_ARCH_UNALIGN_ALLOW
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 81af6c344..1cf432102 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -564,5 +564,13 @@ config EDAC_VERSAL
- 	  Support injecting both correctable and uncorrectable errors
- 	  for debugging purposes.
- 
-+config EDAC_LOONGSON
-+	tristate "Loongson Memory Controller"
-+	depends on LOONGARCH || COMPILE_TEST
-+	help
-+	  Support for error detection and correction on the Loongson
-+	  family memory controller. This driver reports single bit
-+	  errors (CE) only. Loongson-3A5000/3C5000/3D5000/3C5000L/3A6000/3C6000
-+	  are compatible.
- 
- endif # EDAC
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index faf310eec..f8bdbc895 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -88,3 +88,4 @@ obj-$(CONFIG_EDAC_DMC520)		+= dmc520_edac.o
- obj-$(CONFIG_EDAC_NPCM)			+= npcm_edac.o
- obj-$(CONFIG_EDAC_ZYNQMP)		+= zynqmp_edac.o
- obj-$(CONFIG_EDAC_VERSAL)		+= versal_edac.o
-+obj-$(CONFIG_EDAC_LOONGSON)		+= loongson_edac.o
-diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-new file mode 100644
-index 000000000..0a062a008
---- /dev/null
-+++ b/drivers/edac/loongson_edac.c
-@@ -0,0 +1,154 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2024 Loongson Technology Corporation Limited.
-+ */
-+
-+#include <linux/edac.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/platform_device.h>
-+#include "edac_module.h"
-+
-+#define ECC_CS_COUNT_REG	0x18
-+
-+struct loongson_edac_pvt {
-+	void __iomem *ecc_base;
-+	int last_ce_count;
-+};
-+
-+static int read_ecc(struct mem_ctl_info *mci)
-+{
-+	struct loongson_edac_pvt *pvt = mci->pvt_info;
-+	u64 ecc;
-+	int cs;
-+
-+	if (!pvt->ecc_base)
-+		return pvt->last_ce_count;
-+
-+	ecc = readq(pvt->ecc_base + ECC_CS_COUNT_REG);
-+	/* cs0 -- cs3 */
-+	cs = ecc & 0xff;
-+	cs += (ecc >> 8) & 0xff;
-+	cs += (ecc >> 16) & 0xff;
-+	cs += (ecc >> 24) & 0xff;
-+
-+	return cs;
-+}
-+
-+static void edac_check(struct mem_ctl_info *mci)
-+{
-+	struct loongson_edac_pvt *pvt = mci->pvt_info;
-+	int new, add;
-+
-+	new = read_ecc(mci);
-+	add = new - pvt->last_ce_count;
-+	pvt->last_ce_count = new;
-+	if (add <= 0)
-+		return;
-+
-+	edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, add,
-+			     0, 0, 0, 0, 0, -1, "error", "");
-+	edac_mc_printk(mci, KERN_INFO, "add: %d", add);
-+}
-+
-+static void dimm_config_init(struct mem_ctl_info *mci)
-+{
-+	struct dimm_info *dimm;
-+	u32 size, npages;
-+
-+	/* size not used */
-+	size = -1;
-+	npages = MiB_TO_PAGES(size);
-+
-+	dimm = edac_get_dimm(mci, 0, 0, 0);
-+	dimm->nr_pages = npages;
-+	snprintf(dimm->label, sizeof(dimm->label),
-+		 "MC#%uChannel#%u_DIMM#%u", mci->mc_idx, 0, 0);
-+	dimm->grain = 8;
-+}
-+
-+static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase)
-+{
-+	struct loongson_edac_pvt *pvt = mci->pvt_info;
-+
-+	pvt->ecc_base = vbase;
-+	pvt->last_ce_count = read_ecc(mci);
-+}
-+
-+static int edac_probe(struct platform_device *pdev)
-+{
-+	struct edac_mc_layer layers[2];
-+	struct mem_ctl_info *mci;
-+	void __iomem *vbase;
-+	int ret;
-+
-+	vbase = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(vbase))
-+		return PTR_ERR(vbase);
-+
-+	/* allocate a new MC control structure */
-+	layers[0].type = EDAC_MC_LAYER_CHANNEL;
-+	layers[0].size = 1;
-+	layers[0].is_virt_csrow = false;
-+	layers[1].type = EDAC_MC_LAYER_SLOT;
-+	layers[1].size = 1;
-+	layers[1].is_virt_csrow = true;
-+	mci = edac_mc_alloc(0, ARRAY_SIZE(layers), layers,
-+			    sizeof(struct loongson_edac_pvt));
-+	if (mci == NULL)
-+		return -ENOMEM;
-+
-+	mci->mc_idx = edac_device_alloc_index();
-+	mci->mtype_cap = MEM_FLAG_RDDR4;
-+	mci->edac_ctl_cap = EDAC_FLAG_NONE;
-+	mci->edac_cap = EDAC_FLAG_NONE;
-+	mci->mod_name = "loongson_edac.c";
-+	mci->ctl_name = "loongson_edac_ctl";
-+	mci->dev_name = "loongson_edac_dev";
-+	mci->ctl_page_to_phys = NULL;
-+	mci->pdev = &pdev->dev;
-+	mci->error_desc.grain = 8;
-+	/* Set the function pointer to an actual operation function */
-+	mci->edac_check = edac_check;
-+
-+	pvt_init(mci, vbase);
-+	dimm_config_init(mci);
-+
-+	ret = edac_mc_add_mc(mci);
-+	if (ret) {
-+		edac_dbg(0, "MC: failed edac_mc_add_mc()\n");
-+		edac_mc_free(mci);
-+		return ret;
-+	}
-+	edac_op_state = EDAC_OPSTATE_POLL;
-+
-+	return 0;
-+}
-+
-+static void edac_remove(struct platform_device *pdev)
-+{
-+	struct mem_ctl_info *mci = edac_mc_del_mc(&pdev->dev);
-+
-+	if (mci)
-+		edac_mc_free(mci);
-+}
-+
-+static const struct of_device_id loongson_edac_of_match[] = {
-+	{ .compatible = "loongson,ls3a5000-mc-edac", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, loongson_edac_of_match);
-+
-+static struct platform_driver loongson_edac_driver = {
-+	.probe		= edac_probe,
-+	.remove		= edac_remove,
-+	.driver		= {
-+		.name	= "loongson-mc-edac",
-+		.of_match_table = loongson_edac_of_match,
-+	},
-+};
-+module_platform_driver(loongson_edac_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Zhao Qunqin <zhaoqunqin@loongson.cn>");
-+MODULE_DESCRIPTION("EDAC driver for loongson memory controller");
+Thanks Thomas, Boris, Tony, Dave, Sohil and Nikolay for your review and discussion on this series.
+
+Qiuxu Zhuo (7):
+  x86/mce: Make several functions return bool
+  x86/mce/threshold: Remove the redundant this_cpu_dec_return()
+  x86/mce: Make four functions return bool
+  x86/mce: Convert family/model mixed checks to VFM-based checks
+  x86/mce: Remove the unnecessary {}
+  x86/mce/amd: Remove unnecessary NULL pointer initializations
+  x86/mce: Fix typos
+
+Tony Luck (1):
+  x86/mce: Break up __mcheck_cpu_apply_quirks()
+
+ arch/x86/include/asm/mce.h          |   4 +-
+ arch/x86/kernel/cpu/mce/amd.c       |  18 +--
+ arch/x86/kernel/cpu/mce/core.c      | 234 +++++++++++++++-------------
+ arch/x86/kernel/cpu/mce/genpool.c   |  29 ++--
+ arch/x86/kernel/cpu/mce/intel.c     |   9 +-
+ arch/x86/kernel/cpu/mce/internal.h  |   4 +-
+ arch/x86/kernel/cpu/mce/threshold.c |   2 +-
+ 7 files changed, 158 insertions(+), 142 deletions(-)
+
+
+base-commit: 612c2addff367ee461dc99ffca2bc786f105d2ec
 -- 
-2.43.0
+2.17.1
 
