@@ -1,148 +1,88 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D20C8F5A;
-	Mon, 11 Nov 2024 01:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 300882914;
+	Mon, 11 Nov 2024 06:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731289364; cv=none; b=Gru9jBFchnLzznvEdFjRaVUSetCiKS9jsdAaJtIsraYDbbu1pHNXo3ZioIybMJ7pImjDWHHUF/9BDN3uungkU4T9bQ3KdGlL9XvCrR5eRaQ+yBbT9FTlKCxO19UNRK4LkoHSBC+Ftl60Ob+L49CS0OsYWq1ML68iCjD6pSU0+ew=
+	t=1731305424; cv=none; b=VI5Wa1/rgemmTRPgPJgVxp4NhiTCIK1kaoaJ5j0ft2zwqE/+h5X4a5EN3zv6xhOJPAqqfZfswC6TmQ+6d61UOU773Fs6DjHWnUsYzfL53zCHp79OLTr4k6I1NbgSW70e8uF+2kLI2YEiubATT3rc6HBLnIIyWCLScskEBr/Rzu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731289364; c=relaxed/simple;
-	bh=XFM0+DgNVWnshPxqXAOIqtQd01+vILyrVKMg3RIyUr4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Up6BT+zP/nx3qljRRfYSzXP9dFZ7XoA0gMTKPfjCFcVsBYOIjNetMY+TajYtdRaOIwjNlNQYiSQHov1AwzDKHTDllf96TbDHMg5X8qZ5PsydoUsu4MtoxZikNnQYvBqqhn4KSmCOPG2JQzqxP4msVutsx7Lz1PoQ3maD/TYh1Pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=kvZOEWsk; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="kvZOEWsk"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1731289353; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=8VViukfjMbx2qqtiXdalQW0F8s5DDq8F+DsNpt/pbvw=;
-	b=kvZOEWsk+eWooQl7qjdKFr4SmH7avUVpiLipNw8G+LG2WytwB/1VZQ816SfBGvc0QkGM98V3lOpV1fP5cmE9rLObFxaanQ751DT/IVYHwhVo4Ieb6kxGT1Y/14hxI5kj+P67lgd5lsejQ0TORLJjTXELSrvpGdVyt/SNTH4Qmcg=
-Received: from 30.246.162.170(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WJ3wEC0_1731289351 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 11 Nov 2024 09:42:32 +0800
-Message-ID: <cf830c9d-2652-4fd1-aadc-03ed31fa0d5b@linux.alibaba.com>
-Date: Mon, 11 Nov 2024 09:42:30 +0800
+	s=arc-20240116; t=1731305424; c=relaxed/simple;
+	bh=DbnonwvT9+TeoK0pRjgBRHojNOqJMpZZb5XkAwimCk4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MnKfVnJeXfSsACn1pYSCNoN0hv5aZEQucnj0k37NGAWI7b4na+XzqTlf2aFpPkGZoNUEwiyw0+X+Jr2OeRRDvlcwQ93cUipED+KI7lJNehl/l0KdG1D6tO9S3EVYJwbNeWfoGlgmVO4pGlnC6w1kKJSMoE+IyeklGAGT+5FOpvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.40.54.90])
+	by gateway (Coremail) with SMTP id _____8Ax6+HDnzFnnzw7AA--.50714S3;
+	Mon, 11 Nov 2024 14:10:11 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.54.90])
+	by front1 (Coremail) with SMTP id qMiowMBxnkfDnzFn0ABRAA--.10185S2;
+	Mon, 11 Nov 2024 14:10:11 +0800 (CST)
+From: Zhao Qunqin <zhaoqunqin@loongson.cn>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	chenhuacai@kernel.org,
+	bp@alien8.de
+Cc: linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel@xen0n.name,
+	tony.luck@intel.com,
+	james.morse@arm.com,
+	mchehab@kernel.org,
+	rric@kernel.org,
+	loongarch@lists.linux.dev,
+	Zhao Qunqin <zhaoqunqin@loongson.cn>
+Subject: [PATCH v7 0/2] Add EDAC driver for loongson memory controller
+Date: Mon, 11 Nov 2024 14:09:37 +0800
+Message-Id: <20241111060939.5349-1-zhaoqunqin@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] PCI: pciehp: Generate a RAS tracepoint for hotplug
- event
-To: Lukas Wunner <lukas@wunner.de>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-edac@vger.kernel.org, bhelgaas@google.com, tony.luck@intel.com,
- bp@alien8.de
-References: <20241108030939.75354-1-xueshuai@linux.alibaba.com>
- <Zy-hbwLohwf-_hCN@wunner.de>
- <faccb715-8d9f-4761-855a-0fb8be2ebad4@linux.alibaba.com>
- <ZzDjBQaO2YjUlsjz@wunner.de>
-From: Shuai Xue <xueshuai@linux.alibaba.com>
-In-Reply-To: <ZzDjBQaO2YjUlsjz@wunner.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMBxnkfDnzFn0ABRAA--.10185S2
+X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7JFyDtrWDJw1rur4xuF4kGrX_yoWxtFg_C3
+	WxAFW8Jr4kta4DJay2vr18ZrWayF4UtFn5CFn0gw15XF1avr13Wr97ZF13AFy7tr1DWFy3
+	ZrWkKFyxA3WxtosvyTuYvTs0mTUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr1j6F4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_
+	Jw1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+	xGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j5fHUUUUUU=
+
+Add a simple EDAC driver which report single bit errors (CE) only on
+loongson platform.
+
+Zhao Qunqin (2):
+  dt-bindings: EDAC for ls3a5000 memory controller
+  EDAC: Add EDAC driver for loongson memory controller
+
+ .../edac/loongson,ls3a5000-mc-edac.yaml       |  44 +++++
+ MAINTAINERS                                   |   7 +
+ arch/loongarch/Kconfig                        |   1 +
+ drivers/edac/Kconfig                          |   8 +
+ drivers/edac/Makefile                         |   1 +
+ drivers/edac/loongson_edac.c                  | 156 ++++++++++++++++++
+ 6 files changed, 217 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/edac/loongson,ls3a5000-mc-edac.yaml
+ create mode 100644 drivers/edac/loongson_edac.c
 
 
-
-在 2024/11/11 00:44, Lukas Wunner 写道:
-> On Sun, Nov 10, 2024 at 06:12:09PM +0800, Shuai Xue wrote:
->> 2024/11/10 01:52, Lukas Wunner:
->>> On Fri, Nov 08, 2024 at 11:09:39AM +0800, Shuai Xue wrote:
->>>> --- a/drivers/pci/hotplug/pciehp_ctrl.c
->>>> +++ b/drivers/pci/hotplug/pciehp_ctrl.c
->>>> @@ -19,6 +19,7 @@
->>>>    #include <linux/types.h>
->>>>    #include <linux/pm_runtime.h>
->>>>    #include <linux/pci.h>
->>>> +#include <ras/ras_event.h>
->>>>    #include "pciehp.h"
->>>
->>> Hm, why does the TRACE_EVENT() definition have to live in ras_event.h?
->>> Why not, say, in pciehp.h?
->>
->> IMHO, it is a type of RAS related event, so I add it in ras_event.h,
->> similar to other events like aer_event and memory_failure_event.
->>
->> I could move it to pciehp.h, if the maintainers prefer that location.
-> 
-> IMO pciehp.h makes more sense than ras/ras_event.h.
-> 
-> The addition of AER to ras/ras_event.h was over a decade ago with
-> commit 0a2409aad38e ("trace, AER: Move trace into unified interface").
-> That commit wasn't acked by Bjorn.  It wasn't even cc'ed to linux-pci:
-> 
-> https://lore.kernel.org/all/1402475691-30045-3-git-send-email-gong.chen@linux.intel.com/
-> 
-> I can see a connection between AER and RAS, but PCI hotplug tracepoints
-> are not exclusively RAS, they might be useful for other purposes as well.
-> Note that pciehp is not just used on servers but also e.g. for Thunderbolt
-> on mobile devices and the tracepoints might come in handy to debug that.
-
-Got it, will move it to pciehp.h
-
-> 
->>> Wouldn't it be more readable to just log the event that occured
->>> as a string, e.g. "Surprise Removal" (and "Insertion" or "Hot Add"
->>> for the other trace event you're introducing) instead of the state?
->>>
->>> Otherwise you see "ON_STATE" in the log but that's actually the
->>> *old* value so you have to mentally convert this to "previously ON,
->>> so now must be transitioning to OFF".
->>
->> I see your point. "Surprise Removal" or "Insertion" is indeed the exact
->> state transition. However, I am concerned that using a string might make
->> it difficult for user space tools like rasdaemon to parse.
-> 
-> If this is parsed by a user space daemon, put the enum in a uapi header,
-> e.g. include/uapi/linux/pci.h.
-
-Will do it.
-
-> 
-> 
->> How about adding a new enum for state transition? For example:
->>
->> 	enum pciehp_trans_type {
->> 		PCIEHP_SAFE_REMOVAL,
->> 		PCIEHP_SURPRISE_REMOVAL,
->> 		PCIEHP_Hot_Add,
->> 	...
->> 	}
-> 
-> In that case, I'd suggest adding an entry to the enum for all the
-> ctrl_info() messages, i.e.
-> 
-> Link Up
-> Link Down
-> Card present
-> Card not present
-> 
-> Amend pciehp_handle_presence_or_link_change() with curly braces
-> around all the affected if-blocks and put a trace event next to the
-> ctrl_info() message.
-
-Will do it.
-
-> 
-> Also, since these events are not pciehp-specific, I'd call the enum
-> something like pci_hotplug_event and the entries PCI_HOTPLUG_...
-> (or PCI_HP_... if you prefer short names).  These trace events could
-> in principle be raised by any of the other hotplug drivers in
-> drivers/pci/hotplug/, not just pciehp.
-
-I see. Will rename with PCI_HP_ prefix.
-> 
-> Thanks,
-> 
-> Lukas
-
-Thank you for valuable comments.
-Best Regards,
-Shuai
+base-commit: e14232afa94445e03fc3a0291b07a68f3408c120
+-- 
+2.43.0
 
