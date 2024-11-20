@@ -1,63 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91850148FE8;
-	Tue, 19 Nov 2024 20:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16F819CC05;
+	Wed, 20 Nov 2024 10:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732048520; cv=none; b=SNBVN52hIiNQzCYSEcFVOQwFl3R638fvQuGqf7PnQE/1WHk5XS/FjhjCyUXA/MbjQ7/wfE2MLBtSDMh4YL20OoBU3wrf4w+spf550Vc5en++cxgK2uYZexcwzxllPHWey1LvWUWGOraF62BZ55ZZCYBLswE1nMZBonsGDBeEgp0=
+	t=1732096823; cv=none; b=Kt5RUQaBRg9ZkcgMRlRkK+P5J0XLKQpipg0/VKwlXvRvk/vapO2GtJaTKUpGtFcbRqcC9St43NYXZOq6Jpcftvl8KD6p72oj7ldquAIpvgQZkqF0qnCsNCxwcbG+GZGyoKvgJumlzeFsyOxXoLAx2ZGtIaRNsO+Ex/XJ2x+z7PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732048520; c=relaxed/simple;
-	bh=SNpXsaFeZE6YYA77ltDYXQ9lY6uqCUzcNugqmI0UTCs=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=dJXzYl/dBwhr6//NhSU4vbbh7XXAPOu01yytYw++xaovJUBBiiGPZ+ffYcRcEmAeu0Irpoet0DIDeRcVGwXt1Pj+blYOyos3cysgF0L4KJj2w95xvVZ2/ozlc8yhKs31iqQMS8y26DGnMh1ISRPzP5xg4XrEOQugQsKfG7CwKXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rSsmMggD; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rSsmMggD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704CBC4CECF;
-	Tue, 19 Nov 2024 20:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732048520;
-	bh=SNpXsaFeZE6YYA77ltDYXQ9lY6uqCUzcNugqmI0UTCs=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=rSsmMggDlt9P858FfJFJrgSVC0qubXNvpPpQaKcl60cIu3ylfkP4zHTmoNxR7Heu2
-	 6LQLMQ2X6UPmYfm7tQtedRGeRzBX6nZHuKyPRm6EIAtdi4Jven25PMhtQGhwzPgoGb
-	 a+lpXLth48lz1gYLclGz0GbTHvbwVhm4G6/EhtgbQQcSF9DYkvoEhiijKiXfPOQfe8
-	 fzCaIYrp6/WJghidyYvbQars5+qmXOjM0jPwWSojtn3u2U6G6yudJe1j+yTMNU5KBZ
-	 bqiR2PGlQLfilxrbpSoBkNo0XsoqsLz7aGCh09Dqlk4+ur9y8J4lZQSNRNaq7dB/Ox
-	 xhFh6DSNBFiRA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 348E43809A80;
-	Tue, 19 Nov 2024 20:35:33 +0000 (UTC)
-Subject: Re: [GIT PULL] EDAC updates for v6.13
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20241118114343.GAZzsob_d_C5sYNHUn@fat_crate.local>
-References: <20241118114343.GAZzsob_d_C5sYNHUn@fat_crate.local>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20241118114343.GAZzsob_d_C5sYNHUn@fat_crate.local>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v6.13
-X-PR-Tracked-Commit-Id: 1b38da0115598e30cc7cdd84761fc427c18b281f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 77286b868f93a590313b449b25a49ef2ad0c0308
-Message-Id: <173204853180.680579.15234578676758821318.pr-tracker-bot@kernel.org>
-Date: Tue, 19 Nov 2024 20:35:31 +0000
-To: Borislav Petkov <bp@alien8.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-edac <linux-edac@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1732096823; c=relaxed/simple;
+	bh=HvMPg9eNH0Cq39DgYlaE54bKxU4kLupfTmtt+JKz4eA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ucAhJCRxJSRRr9XTJS1VjeET0B4yGtr5hz7UtxqkmJ9qjKO209iE1DH6VM02l0d41HXGZLojhvsRBUGGFHh1zY6SQSbKqB4eAj4lnirsp0TcAqx0M5zELzpCDrw/SVqZbR7bOwtdYibt+/RwxQRFFr/IqbpDTnCusLWSLF3idcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4XtcKn1Z0xz6L764;
+	Wed, 20 Nov 2024 17:59:57 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6B66B140119;
+	Wed, 20 Nov 2024 18:00:19 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.195.247.212) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 20 Nov 2024 11:00:18 +0100
+From: <shiju.jose@huawei.com>
+To: <linux-edac@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
+	<mchehab@kernel.org>, <dave.jiang@intel.com>, <dan.j.williams@intel.com>,
+	<jonathan.cameron@huawei.com>, <alison.schofield@intel.com>,
+	<nifan.cxl@gmail.com>, <vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
+	<dave@stgolabs.net>
+CC: <linux-kernel@vger.kernel.org>, <linuxarm@huawei.com>,
+	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>, <shiju.jose@huawei.com>
+Subject: [PATCH 01/13] rasdaemon: cxl: Fix logging of memory event type of DRAM trace event
+Date: Wed, 20 Nov 2024 09:59:11 +0000
+Message-ID: <20241120095923.1891-2-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+In-Reply-To: <20241120095923.1891-1-shiju.jose@huawei.com>
+References: <20241120095923.1891-1-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
-The pull request you sent on Mon, 18 Nov 2024 12:43:43 +0100:
+From: Shiju Jose <shiju.jose@huawei.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v6.13
+CXL spec rev 3.0 section 8.2.9.2.1.2 defines the DRAM Event Record.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/77286b868f93a590313b449b25a49ef2ad0c0308
+Fix logging of memory event type field of DRAM trace event.
+For e.g. if value is 0x1 it will be reported as an Invalid Address
+(General Media Event Record - Memory Event Type) instead of Scrub Media
+ECC Error (DRAM Event Record - Memory Event Type) and so on.
 
-Thank you!
+Fixes: 9a2f6186db26 ("rasdaemon: Add support for the CXL dram events")
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ ras-cxl-handler.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
+diff --git a/ras-cxl-handler.c b/ras-cxl-handler.c
+index 67ce32e..8733b2b 100644
+--- a/ras-cxl-handler.c
++++ b/ras-cxl-handler.c
+@@ -898,6 +898,13 @@ int ras_cxl_general_media_event_handler(struct trace_seq *s,
+ #define CXL_DER_VALID_COLUMN			BIT(6)
+ #define CXL_DER_VALID_CORRECTION_MASK		BIT(7)
+ 
++static const char * const cxl_der_mem_event_type[] = {
++	"Media ECC Error",
++	"Scrub Media ECC Error",
++	"Invalid Address",
++	"Data Path Error",
++};
++
+ int ras_cxl_dram_event_handler(struct trace_seq *s,
+ 			       struct tep_record *record,
+ 			       struct tep_event *event, void *context)
+@@ -938,9 +945,9 @@ int ras_cxl_dram_event_handler(struct trace_seq *s,
+ 	if (tep_get_field_val(s,  event, "type", record, &val, 1) < 0)
+ 		return -1;
+ 	ev.type = val;
+-	if (trace_seq_printf(s, "type:%s ",
+-			     get_cxl_type_str(cxl_gmer_mem_event_type,
+-					      ARRAY_SIZE(cxl_gmer_mem_event_type),
++	if (trace_seq_printf(s, "memory_event_type:%s ",
++			     get_cxl_type_str(cxl_der_mem_event_type,
++					      ARRAY_SIZE(cxl_der_mem_event_type),
+ 					      ev.type)) <= 0)
+ 		return -1;
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.43.0
+
