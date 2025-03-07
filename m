@@ -1,90 +1,115 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0B54A21;
-	Fri,  7 Mar 2025 05:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6556E28E3F;
+	Fri,  7 Mar 2025 05:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741326472; cv=none; b=JAxPbmxo8L/4OHYBNb5uQDxPWjbf3kq/XGx8i7O1dACJRehSBSMs4EAy2+oAUMdsG56KaPA+GsaiRFPeiNr8Z1zElMlh0xmJI79BUlawpqkDEytzT8C7pBI04kMhe+1KCOUE9UIf4L0FREhelLaqYvZzPD5Cv0zirVuL/+k3Od0=
+	t=1741326572; cv=none; b=QuWkTpMohX1SEpEqVToSXervRPt9qFT6A/kR1Ob/Pk5N847+Y5v24yMIrNxkEy4CLapgTg2zRxLgEIu4nGlsxNwiAklzUOjoSS28zXCf/pbSIr+6/zr6eLxKKv/RRVtoENnyWPuJ6ArHNv9IHpx/0WQmj+3K4URyUQ1V9z/4fCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741326472; c=relaxed/simple;
-	bh=cSgU8cHvWbc37Lebk+pboqkr3rsJ4iGhMVkicICKTH8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bIK0iipSVxgxCapfybU7NbkJTRykqHnnyvY2Ejq7qiDKZxIF28YNztVD97gNzs0yEiXFIw0hFaKrdjeBJVqeSn7JMBTVFZOpb2TclU/VZN3QMCEuHx+x+UAtrD5ls+g568wm1pcKF6voHBvnAMNsFbfwsBjv1SX7y+FtCun8tWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=fV3dDslj; arc=none smtp.client-ip=115.124.30.132
+	s=arc-20240116; t=1741326572; c=relaxed/simple;
+	bh=P6QAQ54eZulQcij2xqoV0oSuiL2BZq3nrX3IUmugRTc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hnYI7E+vcitG45M8HYDtw4hPSZjCZqIl5EeH6TzFsSWLJ/WQ3nW1vM+pvFLBOoMslirovXbjS3XJdi019jjAp774+aWUTy4dSM47lHofh1ulSKBgCPecRi75YNQUhYJIU0MuTYqONWw4Zhj1+HoZcDFfwGQnNtcGolmbItfEda0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=D/v5RpLb; arc=none smtp.client-ip=115.124.30.97
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="fV3dDslj"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="D/v5RpLb"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1741326462; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=i8hBVXXenNjxx3BHyz1WHioxLNd57++2diGf/KDJPqY=;
-	b=fV3dDsljtwze2lM5gpPGfuuXq2fZEPi81Zwg8VOSwFAGBkz6H7jo2X3fawTTfP/kG0sNKhIxwYIqnmmRkFUgBzLGrpfNiK8hLI66Rcj1J8fNdhRa3KOnKLUL6YDMQkg1IhoyP+8aFx8oCgpriyUkJeFEqAXWS8BkGAtGeho6d+E=
-Received: from 30.246.161.128(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WQqyKli_1741326459 cluster:ay36)
+	t=1741326567; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=PW2KZ+lavZ5umj4nb4wShks/jgrzv4LZ8z+hqADlg6Y=;
+	b=D/v5RpLb76WqB8indMjFaMfUkLmVJEvuHBLQrzMLk7HCaODKfL9xVPXjvBldGEfwVfLQhkaPo6vdsAZfLCct4XW2xPYaxQ+OtML+ZLm94ln3BDTlZXDUovSNL4QoOu5jc9h56lZQyK8N4AQMlSlWwkyKMmqwD3XNweYCJrFa+a0=
+Received: from localhost.localdomain(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WQr2xAj_1741326247 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Fri, 07 Mar 2025 13:47:40 +0800
-Message-ID: <e29fa433-99c0-4dce-bade-cbe7b5638bc7@linux.alibaba.com>
-Date: Fri, 7 Mar 2025 13:47:38 +0800
+          Fri, 07 Mar 2025 13:44:07 +0800
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+To: tony.luck@intel.com,
+	bp@alien8.de,
+	peterz@infradead.org,
+	catalin.marinas@arm.com,
+	yazen.ghannam@amd.com,
+	akpm@linux-foundation.org,
+	linmiaohe@huawei.com,
+	nao.horiguchi@gmail.com
+Cc: tglx@linutronix.de,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	jpoimboe@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	baolin.wang@linux.alibaba.com,
+	tianruidong@linux.alibaba.com,
+	xueshuai@linux.alibaba.com
+Subject: [PATCH v4 1/3] x86/mce: Use is_copy_from_user() to determine copy-from-user context
+Date: Fri,  7 Mar 2025 13:44:02 +0800
+Message-ID: <20250307054404.73877-2-xueshuai@linux.alibaba.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20250307054404.73877-1-xueshuai@linux.alibaba.com>
+References: <20250307054404.73877-1-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] x86/mce: Use is_copy_from_user() to determine
- copy-from-user context
-To: "Luck, Tony" <tony.luck@intel.com>, "bp@alien8.de" <bp@alien8.de>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
- "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>
-Cc: "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
- "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
- "tianruidong@linux.alibaba.com" <tianruidong@linux.alibaba.com>
-References: <20250306021031.5538-1-xueshuai@linux.alibaba.com>
- <20250306021031.5538-2-xueshuai@linux.alibaba.com>
- <SJ1PR11MB60837DE67D37F45B0D106C9CFCCA2@SJ1PR11MB6083.namprd11.prod.outlook.com>
-From: Shuai Xue <xueshuai@linux.alibaba.com>
-In-Reply-To: <SJ1PR11MB60837DE67D37F45B0D106C9CFCCA2@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Commit 4c132d1d844a ("x86/futex: Remove .fixup usage") introduced a new
+extable fixup type, EX_TYPE_EFAULT_REG, and commit 4c132d1d844a
+("x86/futex: Remove .fixup usage") updated the extable fixup type for
+copy-from-user operations, changing it from EX_TYPE_UACCESS to
+EX_TYPE_EFAULT_REG. The error context for copy-from-user operations no
+longer functions as an in-kernel recovery context. Consequently, the error
+context for copy-from-user operations no longer functions as an in-kernel
+recovery context, resulting in kernel panics with the message: "Machine
+check: Data load in unrecoverable area of kernel."
 
+The critical aspect is identifying whether the error context involves a
+read from user memory. We do not care about the ex-type if we know its a
+MOV reading from userspace. is_copy_from_user() return true when both of
+the following conditions are met:
 
-在 2025/3/7 02:15, Luck, Tony 写道:
->> diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
->> index dac4d64dfb2a..cb021058165f 100644
->> --- a/arch/x86/kernel/cpu/mce/severity.c
->> +++ b/arch/x86/kernel/cpu/mce/severity.c
->> @@ -300,13 +300,12 @@ static noinstr int error_context(struct mce *m, struct pt_regs *regs)
->>        copy_user  = is_copy_from_user(regs);
->>        instrumentation_end();
->>
->> -     switch (fixup_type) {
->> -     case EX_TYPE_UACCESS:
->> -             if (!copy_user)
->> -                     return IN_KERNEL;
->> -             m->kflags |= MCE_IN_KERNEL_COPYIN;
->> -             fallthrough;
->> +     if (copy_user) {
->> +             m->kflags |= MCE_IN_KERNEL_COPYIN | MCE_IN_KERNEL_COPYIN;
-> 
-> You have " MCE_IN_KERNEL_COPYIN" twice here.
+    - the current instruction is copy
+    - source address is user memory
 
-Sorry for this noise, please ignore this version,
-I resend a new ready version, please see:
-https://lore.kernel.org/linux-mm/20250307054404.73877-1-xueshuai@linux.alibaba.com/
+So, use is_copy_from_user() to determin if a context is copy user directly.
 
-Thanks
-Shuai
+Fixes: 4c132d1d844a ("x86/futex: Remove .fixup usage")
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Cc: stable@vger.kernel.org
+Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
+---
+ arch/x86/kernel/cpu/mce/severity.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
+index dac4d64dfb2a..2235a7477436 100644
+--- a/arch/x86/kernel/cpu/mce/severity.c
++++ b/arch/x86/kernel/cpu/mce/severity.c
+@@ -300,13 +300,12 @@ static noinstr int error_context(struct mce *m, struct pt_regs *regs)
+ 	copy_user  = is_copy_from_user(regs);
+ 	instrumentation_end();
+ 
+-	switch (fixup_type) {
+-	case EX_TYPE_UACCESS:
+-		if (!copy_user)
+-			return IN_KERNEL;
+-		m->kflags |= MCE_IN_KERNEL_COPYIN;
+-		fallthrough;
++	if (copy_user) {
++		m->kflags |= MCE_IN_KERNEL_COPYIN | MCE_IN_KERNEL_RECOV;
++		return IN_KERNEL_RECOV;
++	}
+ 
++	switch (fixup_type) {
+ 	case EX_TYPE_FAULT_MCE_SAFE:
+ 	case EX_TYPE_DEFAULT_MCE_SAFE:
+ 		m->kflags |= MCE_IN_KERNEL_RECOV;
+-- 
+2.39.3
+
