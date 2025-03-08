@@ -1,102 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0133DAD4B;
-	Sat,  8 Mar 2025 02:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB961624F7;
+	Sat,  8 Mar 2025 11:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741401351; cv=none; b=OHr77vsFbxXLfuwUOUMCfVMCocTR6/rhXtSQwTi/vY2ZOWpSxy5RKgzM2emHWajvDthIyOQElKsjwdbeJoLT9ktGfvambWw2ePlA4/7PFpRpDDZ1rlLBeVbmUNBpc3Xi4iW8le/D30u13bkbP8OUYNrNDDydmracqFCf03S7niY=
+	t=1741433261; cv=none; b=JPytntWe3+nRwRKPZCSO5P93oYav8m93awXzjiXbgEsPQI+RzzKM3dy+AZlS/YTw+nP9oVFvKi1mAsQTW2idqBBXk0+VrqpZdH7RsgPlQ9Se2B4ZGnJzFNIXa08cAuCekYY8MTUjlA/tRFpMfvRU97wzAUaQ1QCV7ogTQm6H9a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741401351; c=relaxed/simple;
-	bh=MhauIabnB7If6c1T4+kj4R3KybC9TZDd7Mdqu6pz4jE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WzF8gpB4zlwZwBUlBVEtLoVD6CGjj1B5h/cO/Ll4cIyQoxYJs9gjiB6iktFDtqD+whpTsoiqv2Z7YDjWn/6RkLeXBW9iL5bomd/tIC6DZDAGnvY15LYf2J4q2bF7lR1ALEtfhoQJR0eK3ssDR/oGKsTUE4+Au3r8r039TlrMyCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bsjybrFN; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741433261; c=relaxed/simple;
+	bh=77pa/0u+spJdnTck61KtUEn2q1EuxIPaLyUfXm1OYLc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cjHL1nEHbSbo7dmlAdizrPZ/K4zdN8Bvbgfc5M5W4suMzpylfJ4nAEHnj6ulx5Rk5OPg4W+wmyFiwCmo+Tvcrl+PaZ02ACfY1xkjLCzY+FassR1uORcm9+kP9z+lZ94da/wRgJqXLEhD3w3UeNXExGF/qQ6zeHgGh0UUphD64b0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=uUfZryQk; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bsjybrFN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741401348; x=1772937348;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MhauIabnB7If6c1T4+kj4R3KybC9TZDd7Mdqu6pz4jE=;
-  b=bsjybrFNvyTvF+iNphYa0pzO/0t73hT6iL1spZRX9lQHub8vQm0J6Ter
-   Zdd4qXz6s5eeo3GGbFIZFQAJvDt608GnpQx7delAg/VAame9MYQ0iFDC0
-   IHLICdjWyeZIlFN7k3Nv8SkPfSgxqQMYGFQlxZcLsWTKKBOz90+NZjm3Z
-   N6RzFMdbfawloV9Je3nOcCCyzKwXVI3rpe98//Ugb/an+cfmv3nNzQDpW
-   fG9CQIEx/3opue6/s+lx3Sc2RvrVYfH19Dxh4v6nI79easbnuqAXpsgO4
-   5Swi/762SGCJNg3iCTP+dxS/Aazl6obd2fwcI421Dwux3TPzgpC2lN8ca
-   w==;
-X-CSE-ConnectionGUID: iGo4hDNEQtSBjkzgdSGyeg==
-X-CSE-MsgGUID: fMtDLd69RM+HL9vXSTcHcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="42377810"
-X-IronPort-AV: E=Sophos;i="6.14,231,1736841600"; 
-   d="scan'208";a="42377810"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 18:35:47 -0800
-X-CSE-ConnectionGUID: mUfabHK+Ti+imaNYgWhdlA==
-X-CSE-MsgGUID: W3A3JNBlRQOWWIHN5QUNzg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,231,1736841600"; 
-   d="scan'208";a="119475451"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2.lan) ([10.125.110.159])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 18:35:45 -0800
-Date: Fri, 7 Mar 2025 18:35:43 -0800
-From: Alison Schofield <alison.schofield@intel.com>
-To: shiju.jose@huawei.com
-Cc: linux-cxl@vger.kernel.org, dan.j.williams@intel.com, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com, david@redhat.com,
-	Vilas.Sridharan@amd.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, bp@alien8.de, tony.luck@intel.com,
-	rafael@kernel.org, lenb@kernel.org, mchehab@kernel.org,
-	leo.duran@amd.com, Yazen.Ghannam@amd.com, rientjes@google.com,
-	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-	duenwen@google.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, dferguson@amperecomputing.com,
-	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
-	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
-	wanghuiqiang@huawei.com, linuxarm@huawei.com
-Subject: Re: [PATCH 8/8] cxl/memfeature: Add CXL memory device memory sparing
- control feature
-Message-ID: <Z8us_6E2bnDie0pk@aschofie-mobl2.lan>
-References: <20250227223816.2036-1-shiju.jose@huawei.com>
- <20250227223816.2036-9-shiju.jose@huawei.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="uUfZryQk"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1741433250; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=r6hK8RRJINhih5PCH8DXk4WruEB7j98b+Guc6p08Ch8=;
+	b=uUfZryQkJLp9monZ8RMRcgu4Yj7WXc9Wn7VOZ8Dwa4D6NCWVZmKI1Lnc9Tw6xNdX2Qr4oVfKTdpYV0HpD9ygr6gpeAIwBAcjSAGOZCdYth4NpG7Si8HIjgn/5hdUJDSS+a33xRm4oMGscArzC0Vw4M9D+OQlUozkE3SGFn2hvtM=
+Received: from 30.246.161.128(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WQuhv-O_1741433247 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sat, 08 Mar 2025 19:27:28 +0800
+Message-ID: <0f4dfbde-74a5-451d-8764-cc7767596654@linux.alibaba.com>
+Date: Sat, 8 Mar 2025 19:27:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227223816.2036-9-shiju.jose@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] x86/mce: Use is_copy_from_user() to determine
+ copy-from-user context
+To: Borislav Petkov <bp@alien8.de>, "Luck, Tony" <tony.luck@intel.com>
+Cc: "peterz@infradead.org" <peterz@infradead.org>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
+ "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "jpoimboe@kernel.org" <jpoimboe@kernel.org>,
+ "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+ "tianruidong@linux.alibaba.com" <tianruidong@linux.alibaba.com>
+References: <20250307054404.73877-1-xueshuai@linux.alibaba.com>
+ <20250307054404.73877-2-xueshuai@linux.alibaba.com>
+ <20250307204018.GAZ8tZstt11Y4KFprC@fat_crate.local>
+ <SJ1PR11MB6083654405F2721E5AA0C1F2FCD52@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20250307224645.GKZ8t3VX5a5FhqNyZG@fat_crate.local>
+ <SJ1PR11MB6083223A3175F7A84EC4DDDFFCD52@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20250307232230.GMZ8t_tja324AQqYME@fat_crate.local>
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <20250307232230.GMZ8t_tja324AQqYME@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 27, 2025 at 10:38:15PM +0000, shiju.jose@huawei.com wrote:
-> From: Shiju Jose <shiju.jose@huawei.com>
 
-snip
+
+在 2025/3/8 07:22, Borislav Petkov 写道:
+> On Fri, Mar 07, 2025 at 11:11:26PM +0000, Luck, Tony wrote:
+>> As for "explicit markup" I don't think it would be better to decorate
+>> every get_user() and copy_from_user() with some "this one can
+>> recover from #MC"
 > 
-> diff --git a/drivers/cxl/core/memfeatures.c b/drivers/cxl/core/memfeatures.c
-> index 8d5a57a0c154..14d3960504a2 100644
-> --- a/drivers/cxl/core/memfeatures.c
-> +++ b/drivers/cxl/core/memfeatures.c
-
-Hi Shiju,
-
-This new file memfeatures.c would benefit from clang-format-ing,
-starting in the earlier patch that introduced it, and repeating
-through this last patch. (I got a lot of diffs when I ran
-clang-format.)
-
--- Alison
-
-snip
-
+> I don't mean every function - I mean what we had there with EX_TYPE_UACCESS.
+> That is explicit and unambiguous. Proving that is_copy_from_user() is always
+> correct is a lot harder.
 > 
+>> Note also that "what we had recently" was fragile, broke, and resulted
+>> in this regression.
+> 
+> Because those exception types got renamed? Oh well, that should've been
+> reverted actually but no one involved realized that MCE is using those.
+> 
+> And I'm not saying this is the only way to solve this. We could do something
+> like collecting all addresses on which an MCE can be recoverable, for example.
+> We haven't considered it that important... yet.
+> 
+> Looks like we're going to try this new is_copy_from_user() thing now and then
+> see where it gets us.
+> 
+> So, after the commit message has been fixed:
+> 
+> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+> 
+> I'm presuming, this is going through akpm...
+> 
+
+Thanks.
+Shuai
