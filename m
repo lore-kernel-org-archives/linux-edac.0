@@ -1,163 +1,222 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BFA726ACB;
-	Fri, 21 Mar 2025 07:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179DB41C72;
+	Fri, 21 Mar 2025 10:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742543407; cv=none; b=uPtQJxg/sw6WTilRssFVW3iHVsE1WkJxYmLPHrNRZUt7fD70fZ11ey7DUR9fdK/RudHo6NXQGNbMYMOEVY/G5JeMS43p/Ui1i0BEPIeWbM4LjeDVxIEJsN52CJUOyOSAFtXsHs77/610h1HUA6t2vDLQeicZi4exrofWeUU9c2M=
+	t=1742551395; cv=none; b=WTWgMYH+gcpIlxUoduSEPC0CcpDWXfIOPEI9Jj6des2bpSeh2EQPPQUl/xRHdScSj925C08Pl6pKT9jyoVQ1xZpjo+WQyV/t5dfySrxqpM2br9r101sKAvsgKDxECxtbIALy+psKxMD+lJVLgii9X6S/UIRBw1EOl6Jcfp9wwDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742543407; c=relaxed/simple;
-	bh=6hI6HTb0SjrdNqP1YFqTh6hXn9ZSUNy1APKZfKSSCjY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DBoC8pIpZswCPs8stqF06r3JQHt9gNBxu8fQwARvxEqIt5EGQ90G8XiG8/zUzl2uubNRmb/kmrgw0eMUQtii6QJ7SjfSb16dZpZTJm8TsiO3fwnF/lY4O3BBFnPrVUX+ze1ciM1dGFHkvtDFdq7A1ZR5aVF7MX7s1ngVaB3ZYbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4ZJvVF4Pn7z9sRy;
-	Fri, 21 Mar 2025 08:39:49 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id F-EBTBk1L9WD; Fri, 21 Mar 2025 08:39:49 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4ZJvVF2zQJz9sRs;
-	Fri, 21 Mar 2025 08:39:49 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 427FB8B79C;
-	Fri, 21 Mar 2025 08:39:49 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id 6L_KAMM1K10W; Fri, 21 Mar 2025 08:39:49 +0100 (CET)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 491FB8B763;
-	Fri, 21 Mar 2025 08:39:47 +0100 (CET)
-Message-ID: <eff21b9b-0b03-4dbc-aa0a-7d3771df9082@csgroup.eu>
-Date: Fri, 21 Mar 2025 08:39:46 +0100
+	s=arc-20240116; t=1742551395; c=relaxed/simple;
+	bh=mr6l2LLuKAGbHkCuYwjPvSvm/d7AOLglFWNvz7o9a+c=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mtnDZAeD3gsSZ0qW/kCt/vwgTZpr4iOiBmcLKQeXKzzH8EmokKukHjyd75rHlaOUUkkkoffWXTn9I3wGInObXGfzlRa65mrcEu1Twna/0VDShjoVhmUlt4+MEOlg7xgweuKYSddgOZ2lVTw7Qy9Q1Mw7fGY9mh5KkkguAuDwJNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZJyc82vtFz6K9V7;
+	Fri, 21 Mar 2025 18:00:08 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id CC66A140146;
+	Fri, 21 Mar 2025 18:03:08 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 21 Mar
+ 2025 11:03:07 +0100
+Date: Fri, 21 Mar 2025 10:03:05 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: <shiju.jose@huawei.com>
+CC: <linux-cxl@vger.kernel.org>, <dan.j.williams@intel.com>,
+	<dave@stgolabs.net>, <dave.jiang@intel.com>, <alison.schofield@intel.com>,
+	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>, <david@redhat.com>,
+	<Vilas.Sridharan@amd.com>, <linux-edac@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <bp@alien8.de>, <tony.luck@intel.com>,
+	<rafael@kernel.org>, <lenb@kernel.org>, <mchehab@kernel.org>,
+	<leo.duran@amd.com>, <Yazen.Ghannam@amd.com>, <rientjes@google.com>,
+	<jiaqiyan@google.com>, <Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
+	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
+	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<dferguson@amperecomputing.com>, <wbs@os.amperecomputing.com>,
+	<nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
+	<wanghuiqiang@huawei.com>, <linuxarm@huawei.com>
+Subject: Re: [PATCH v2 2/8] EDAC: Update documentation for the CXL memory
+ patrol scrub control feature
+Message-ID: <20250321100305.000018d2@huawei.com>
+In-Reply-To: <20250320180450.539-3-shiju.jose@huawei.com>
+References: <20250320180450.539-1-shiju.jose@huawei.com>
+	<20250320180450.539-3-shiju.jose@huawei.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] cxl: support CXL memory RAS features
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
- dan.j.williams@intel.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
- dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com,
- ira.weiny@intel.com, david@redhat.com, Vilas.Sridharan@amd.com
-Cc: linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, bp@alien8.de,
- tony.luck@intel.com, rafael@kernel.org, lenb@kernel.org, mchehab@kernel.org,
- leo.duran@amd.com, Yazen.Ghannam@amd.com, rientjes@google.com,
- jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
- naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
- somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
- duenwen@google.com, gthelen@google.com, wschwartz@amperecomputing.com,
- dferguson@amperecomputing.com, wbs@os.amperecomputing.com,
- nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
- roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
- wanghuiqiang@huawei.com, linuxarm@huawei.com
-References: <20250320180450.539-1-shiju.jose@huawei.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <20250320180450.539-1-shiju.jose@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
+On Thu, 20 Mar 2025 18:04:39 +0000
+<shiju.jose@huawei.com> wrote:
 
-
-Le 20/03/2025 à 19:04, shiju.jose@huawei.com a écrit :
 > From: Shiju Jose <shiju.jose@huawei.com>
-> 
-> Support for CXL memory RAS features: patrol scrub, ECS, soft-PPR and
-> memory sparing.
-> 
-> This CXL series was part of the EDAC series [1].
-> 
-> The code is based on cxl.git next branch [2] merged with ras.git edac-cxl
-> branch [3].
-> 
-> 1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
-> 2. https://web.git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git/log/?h=next
-> 3. https://web.git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git/log/?h=edac-cxl
-> 
-> Userspace code for CXL memory repair features [4] and
-> sample boot-script for CXL memory repair [5].
-> 
-> [4]: https://lore.kernel.org/lkml/20250207143028.1865-1-shiju.jose@huawei.com/
-> [5]: https://lore.kernel.org/lkml/20250207143028.1865-5-shiju.jose@huawei.com/
+>=20
+> Update the Documentation/edac/scrub.rst to include descriptions and
+> policies for CXL memory device-based and CXL region-based patrol scrub
+> control.
+>=20
+> Note: This may require inputs from CXL memory experts regarding
+> region-based scrubbing policies.
 
-The title for the series is quite confusing, CXL seems to be something 
-else. There is a series here [1] that removes CXL driver, but after 
-looking it seems to be something completely different.
+So I suggested the region interfaces in the first place.  It's all about
+usecases and 'why' we might increase the scrub rate.
+Ultimately the hardware is controlled in a device wide way, so we could
+have made it complex userspace problem to deal with it on a perf device.
+The region interfaces are there as a simplification not because they
+are strictly necessary.
 
-[1] https://lore.kernel.org/all/20250219070007.177725-1-ajd@linux.ibm.com/
+Anyhow, the use cases:
 
-Christophe
+1) Scrubbing because a device is showing unexpectedly high errors.  That
+   control needs to be at device granularity.  If one device in an interlea=
+ve
+   set (backing a region) is dodgy, why make them all do more work?
+
+2) Scrubbing may apply to memory that isn't online at all yet.  Nice to know
+   if we have a problem before we start using it!  Likely this is setting
+   system wide defaults on boot.
+
+3) Scrubbing at higher rate because software has decided that we want
+   more reliability for particular data.  I've been calling this
+   Differentiated Reliability.  That data sits in a region which
+   may cover part of multiple devices. The region interfaces are about
+   supporting this use case.
+
+So now the question is what do we do if both interfaces are poked
+because someone cares simultaneously about 1 and 3?
+
+I'd suggest just laying out a set for rules on how to set the scrub rates
+for any mixture of requirements, rather than making the driver work out
+the optimum combination.
+=20
+>=20
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+> ---
+>  Documentation/edac/scrub.rst | 47 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>=20
+> diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
+> index daab929cdba1..d1c02bd90090 100644
+> --- a/Documentation/edac/scrub.rst
+> +++ b/Documentation/edac/scrub.rst
+> @@ -264,3 +264,51 @@ Sysfs files are documented in
+>  `Documentation/ABI/testing/sysfs-edac-scrub`
+> =20
+>  `Documentation/ABI/testing/sysfs-edac-ecs`
+> +
+> +Examples
+> +--------
+> +
+> +The usage takes the form shown in these examples:
+> +
+> +1. CXL memory device patrol scrubber
+> +
+> +1.1 Device based scrubbing
+> +
+> +CXL memory is exposed to memory management subsystem and ultimately user=
+space
+> +via CXL devices.
+> +
+> +For cases where hardware interleave controls do not directly map to regi=
+ons of
+> +Physical Address space, perhaps due to interleave the approach described=
+ in=A0
+> +1.2 Region based scrubbing section, which is specific to CXL regions sho=
+uld be
+> +followed.
+
+These sentences end up a bit unwieldy. Perhaps simply a forwards reference.
+
+When combining control via the device interfaces and region interfaces see
+1.2 Region bases scrubbing.
 
 
-> 
-> Changes
-> =======
-> v1 -> v2:
-> 1. Feedbacks from Dan Williams on v1,
->     https://lore.kernel.org/linux-mm/20250307091137.00006a0a@huawei.com/T/
->    - Fixed lock issues in region scrubbing, added local cxl_acquire()
->      and cxl_unlock.
->    - Replaced CXL examples using cat and echo from EDAC .rst docs
->      with short description and ref to ABI docs. Also corrections
->      in existing descriptions as suggested by Dan.
->    - Add policy description for the scrub control feature.
->      However this may require inputs from CXL experts.
->    - Replaced CONFIG_CXL_RAS_FEATURES with CONFIG_CXL_EDAC_MEM_FEATURES.
->    - Few changes to depends part of CONFIG_CXL_EDAC_MEM_FEATURES.
->    - Rename drivers/cxl/core/memfeatures.c as drivers/cxl/core/edac.c
->    - snprintf() -> kasprintf() in few places.
->    
-> 2. Feedbacks from Alison on v1,
->    - In cxl_get_feature_entry()(patch 1), return NULL on failures and
->      reintroduced checks in cxl_get_feature_entry().
->    - Changed logic in for loop in region based scrubbing code.
->    - Replace cxl_are_decoders_committed() to cxl_is_memdev_memory_online()
->      and add as a local function to drivers/cxl/core/edac.c
->    - Changed few multiline comments to single line comments.
->    - Removed unnecessary comments from the code.
->    - Reduced line length of few macros in ECS and memory repair code.
->    - In new files, changed "GPL-2.0-or-later" -> "GPL-2.0-only".
->    - Ran clang-format for new files and updated.
-> 3. Changes for feedbacks from Jonathan on v1.
->    - Changed few multiline comments to single line comments.
-> 
-> Shiju Jose (8):
->    cxl: Add helper function to retrieve a feature entry
->    EDAC: Update documentation for the CXL memory patrol scrub control
->      feature
->    cxl/edac: Add CXL memory device patrol scrub control feature
->    cxl/edac: Add CXL memory device ECS control feature
->    cxl/mbox: Add support for PERFORM_MAINTENANCE mailbox command
->    cxl: Support for finding memory operation attributes from the current
->      boot
->    cxl/memfeature: Add CXL memory device soft PPR control feature
->    cxl/memfeature: Add CXL memory device memory sparing control feature
-> 
->   Documentation/edac/memory_repair.rst |   31 +
->   Documentation/edac/scrub.rst         |   47 +
->   drivers/cxl/Kconfig                  |   27 +
->   drivers/cxl/core/Makefile            |    1 +
->   drivers/cxl/core/core.h              |    2 +
->   drivers/cxl/core/edac.c              | 1730 ++++++++++++++++++++++++++
->   drivers/cxl/core/features.c          |   23 +
->   drivers/cxl/core/mbox.c              |   45 +-
->   drivers/cxl/core/memdev.c            |    9 +
->   drivers/cxl/core/ras.c               |  145 +++
->   drivers/cxl/core/region.c            |    5 +
->   drivers/cxl/cxlmem.h                 |   73 ++
->   drivers/cxl/mem.c                    |    4 +
->   drivers/cxl/pci.c                    |    3 +
->   drivers/edac/mem_repair.c            |    9 +
->   include/linux/edac.h                 |    7 +
->   16 files changed, 2159 insertions(+), 2 deletions(-)
->   create mode 100644 drivers/cxl/core/edac.c
-> 
+=20
+> In those cases settings on the presented interface may interact with
+> +direct control via a device instance specific interface and care must be=
+ taken.
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-scrub`
+> +
+> +1.2. Region based scrubbing
+> +
+> +CXL memory is exposed to memory management subsystem and ultimately user=
+space
+> +via CXL regions. CXL Regions represent mapped memory capacity in system
+> +physical address space. These can incorporate one or more parts of multi=
+ple CXL
+> +memory devices with traffic interleaved across them. The user may want t=
+o control
+> +the scrub rate via this more abstract region instead of having to figure=
+ out the
+> +constituent devices and program them separately. The scrub rate for each=
+ device
+> +covers the whole device. Thus if multiple regions use parts of that devi=
+ce then
+> +requests for scrubbing of other regions may result in a higher scrub rat=
+e than
+> +requested for this specific region.
+> +
+> +1. When user sets scrub rate for a memory region, the scrub rate for all=
+ the CXL
+> +   memory devices interleaved under that region is updated with the same=
+ scrub
+> +   rate.=20
+
+Note that this may affect multiple regions.
+
+> +
+> +2. When user sets scrub rate for a memory device, only the scrub rate fo=
+r that
+> +   memory devices is updated though device may be part of a memory regio=
+n and
+> +   does not change scrub rate of other memory devices of that memory reg=
+ion.
+> +
+> +3. Scrub rate of a CXL memory device may be set via EDAC device or regio=
+n scrub
+> +   interface simultaneously. Care must be taken to prevent a race condit=
+ion, or
+> +   only region-based setting may be allowed.
+
+So is this saying if you want to mix and match, set region first then device
+next?  Can we just lay out the rules to set up a weird mixture.  We could
+add more smarts to the driver but do we care as mixing 1 and 3 above is pro=
+bably
+unusual?
+
+1. Taking each region in turn from lowest desired scrub rate to highest and=
+ set
+   their scrub rates.  Later regions may override the scrub rate on individ=
+ual
+   devices (and hence potentially whole regions).
+
+2. Take each device for which enhanced scrubbing is required (higher rate) =
+and
+   set those scrub rates.  This will override the scrub rates of individual=
+ devices
+   leaving any that are not specifically set to scrub at the maximum rate r=
+equired
+   for any of the regions they are involved in backing.
+  =20
+
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-scrub`
 
