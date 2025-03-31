@@ -1,92 +1,137 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7D48821
-	for <linux-edac@vger.kernel.org>; Sun, 30 Mar 2025 11:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298B215624D;
+	Mon, 31 Mar 2025 08:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743332424; cv=none; b=H+UtkQ7VukbxNYEdxDqN9gRx9rWtHf43IjnC2Jz6/X3Mwiu7uFql1tNme+SlstSzrhTLND7IM8O+S9BT7S81sEUl5qOW23cPdGUCUHl8wCjKDjeGEnsIIOEMsfGr7mr5hj3mWuiCtQbBkwwiBtpI1xZvgIXm9Xci3o2KXIC76yE=
+	t=1743409454; cv=none; b=NvxnjxFZkujXxJj4T043/f+JkekR4VRwz9E0GkdljnxIwA/FjUeBXcLxK+q/hKd4xNPy8Ri7EazyV2VlT0iWmfkoBXMQh06S7Faq+uowv+OA1yEANneonkU7dWT2ZhCkjaM25MnuWYh+KLpA7hL/7TCrMEtAvt7dN8KwZC56hGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743332424; c=relaxed/simple;
-	bh=9243ZElNqjKOsetJS4KqM5BXc9GNQOl9qyW++ooIIwo=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gmhW3S8QqeT1sOLQ0F6aypUL6a7wfEDOyOTvkHHSN/FHdDwZwcS/C6Ml4j5Qx41x7Ke7mpNp7f08IgFg3EpS1cd5z9xS8y6eRlVAtkfMZ5V/NMmfuxx0GMtbAFcWPjJjq6KbxFBpzJv5cl5dkhb8tU2ygN+LXSvORLzuZysgncE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=natrix.lt; spf=pass smtp.mailfrom=natrix.lt; dkim=pass (1024-bit key) header.d=natrix.lt header.i=@natrix.lt header.b=LTCT+3uV; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=natrix.lt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=natrix.lt
+	s=arc-20240116; t=1743409454; c=relaxed/simple;
+	bh=MlzZP2PcWDZrFa9hDnXv30fqYMM04NkLvN5K6Ig/4KA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=exGMydajc7kaCtwk5Oy+QFAR2wOShgW/Q1+m3uC+iWvj39z0eW1zMljZ9XrOVDf3cnDfY1034rtzFKEThammFXytTUs+jv5UVbUaNe4NL5wlOd9IOp8HJixs5tk/vvtOWUufC1pYoQ3tEQtgaJIuzUwhcbxOmdpOzMw0nqzvfsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=m3OGyhoJ; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=natrix.lt header.i=@natrix.lt header.b="LTCT+3uV"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5edc07c777eso3121658a12.3
-        for <linux-edac@vger.kernel.org>; Sun, 30 Mar 2025 04:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=natrix.lt; s=natrix.lt; t=1743332417; x=1743937217; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FYd29UpWvSIOQIWU0Zk8usl9SwxfWglW+4uMhZDQjdE=;
-        b=LTCT+3uVcSA5/nFp01adC6j8W7Mj3yRSkPJGkUcNLIaqfti02KgspzYOeOgd2yOwwV
-         7gZgDKU3PKFn1BUQOcSij7V7uE9HX6T9eChmR/akDo0jSMGCVZ/3AhvnuHsZGUKBCU2W
-         v0AX8EcoUzzXcRgWdf1jtg6UpOWDvTgp/873M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743332417; x=1743937217;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FYd29UpWvSIOQIWU0Zk8usl9SwxfWglW+4uMhZDQjdE=;
-        b=Cz8XW2v9tUbhdlpxVqXy6rL1k6q3QQwsfUfpvzn/ACtTAdyimNnZ5qQLzNaEuOu/vE
-         oL3Vg/twIzZez0X5llcTuTZ0jMFohtj961s8aiGOMh7vWlZc7wZz9fYRgXjof6h5lZ2x
-         T2SYXAphj7AeYLcplKNV71xQYIRhZ2VxML/Rr9a6xd1RNg29qIkTjK8ZSqye/bvHw7Zw
-         t1b+tLv0NKQyAvrHli/yGGXsryMWw8ncuwcsN53nXUagEWe6BINQ95mr7zrIr3xSUchh
-         U74zlODsFp8pMpAhG8K8VOkrJQgmWoFntns6KP0UuedEU7ZtWOGQovjSJ+aDAK5RocrS
-         7PNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWqVliS0KK8VHXKjUukNi5+B8GlDcZlf0OYrs7ceedkegYhi2Aya3zmSXE299S4605cPGVAJlqQlZWm@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7R/0Jru0GOaw/Rv+ZtEGG1m7/Q7dO9fGqKT/MJLdbPTVxhBqk
-	fqx2EGcF3UGhGPsJlE8jLyWqQSggx7TgIl+UUplTq1JuHmBJcGj4unjmOQv23rE=
-X-Gm-Gg: ASbGnctOHABZ6rEhCQwHrwxJZJYHs/ADH4eKOBajgsYS+6VzAdn563bC3bfaLfG8J3p
-	VWsoQIOukjOGCFo+bKkuyWqAAoXSwMugwlpzYF0JAkz7NokgNKXIfIe4tFehE/9Pwwgi0nIUsPT
-	RuthFOMhgEtB2RADkDmXA6btTEfQfuOYT1xAH4QhGY09F1phAqXI/CipRzHj+fbo8w0rf1P4J6w
-	FcvWaU0MNHTepkNtieDewyfprIkXtR0uq63z1LMByY3OZeEF6pmdDBT7O58TCSpD2QMR4pI7VUm
-	cIgprhChCGFTlyrqQHalIAJnV+3tyZzmpN1Mb7y4V7/oKA2n
-X-Google-Smtp-Source: AGHT+IEU4Km79gQKjBQieOCtbBxrZbgSdiZM/6dPAGM1WvO5o+rUho4UY4YpIZKNGUyMgx+yc0Judw==
-X-Received: by 2002:a05:6402:5193:b0:5e7:9359:58cb with SMTP id 4fb4d7f45d1cf-5edfce76ad5mr5262780a12.11.1743332417153;
-        Sun, 30 Mar 2025 04:00:17 -0700 (PDT)
-Received: from [10.1.21.7] (beta.natrix.lt. [212.52.62.69])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5edc16edc69sm4132477a12.35.2025.03.30.04.00.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Mar 2025 04:00:15 -0700 (PDT)
-From: "=?UTF-8?Q?=C5=BDilvinas_=C5=BDaltiena?=" <zilvinas@natrix.lt>
-X-Google-Original-From: =?UTF-8?Q?=C5=BDilvinas_=C5=BDaltiena?= <zaltys@natrix.lt>
-Message-ID: <af86f5e1-0d86-4b6f-8c51-01aa0511f919@natrix.lt>
-Date: Sun, 30 Mar 2025 14:00:14 +0300
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="m3OGyhoJ"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp093171319
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 31 Mar 2025 01:23:16 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp093171319
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025032001; t=1743409398;
+	bh=XaAm3SgdeuQpqxiLf3TgiBnvvEMb/sqRjazcaLW8DyU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m3OGyhoJNr0Zsep5p1ViUs89IdqwpoEtbWuo2OsC8y9JAzzZbZXvjUjaRqzx5AUYK
+	 lJcmsGoVuGakNOlQ489XYhpn7UoCG2qfRQMcP3vMYw+NnWAKYOXHRdzMSDVDxQLIJJ
+	 kKOmdnvGQYVe7ioNqEmxq2m51haFE/snyyuHDZ7lhQTKPP3O+McTy73wS5FrEXpbEA
+	 GSpcgMRq/tDS9ikpfmvoHA9qWJyh5e7k4bNtkTdyO72QoWkxhdrF5ZM+BjwqxGvb8o
+	 Fxagag3lgbW6Apcxom4HGKuHb9Jh6FSWSc4zA4lH3CcX3khjRVDzEBBBmSENC1+wB9
+	 70W8KGHT8R63g==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-edac@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-ide@vger.kernel.org,
+        linux-pm@vger.kernel.org, bpf@vger.kernel.org, llvm@lists.linux.dev
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
+        acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
+        wei.liu@kernel.org, ajay.kaher@broadcom.com,
+        alexey.amakhalov@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+        tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com,
+        seanjc@google.com, luto@kernel.org, boris.ostrovsky@oracle.com,
+        kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com
+Subject: [RFC PATCH v1 09/15] x86/opcode: Add immediate form MSR instructions to x86-opcode-map
+Date: Mon, 31 Mar 2025 01:22:45 -0700
+Message-ID: <20250331082251.3171276-10-xin@zytor.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250331082251.3171276-1-xin@zytor.com>
+References: <20250331082251.3171276-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Memory controller not showing half of the memory?
-To: Borislav Petkov <bp@alien8.de>
-Cc: mailinglist@reox.at, yazen.ghannam@amd.com, linux-edac@vger.kernel.org,
- Avadhut Naik <avadhut.naik@amd.com>
-References: <20250317120702.GA7066@yaz-khff2.amd.com>
- <dbec22b6-00f2-498b-b70d-ab6f8a5ec87e@natrix.lt>
- <20250328152415.GCZ-a_HzI0zpcaLNWD@fat_crate.local>
- <e1b214f4-1093-4713-9ba6-3a9774ed4d63@natrix.lt>
- <20250330103906.GAZ-kfSjT1IqkH7nUs@fat_crate.local>
-Content-Language: en-US
-In-Reply-To: <20250330103906.GAZ-kfSjT1IqkH7nUs@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Add the instruction opcodes used by the immediate form WRMSRNS/RDMSR
+to x86-opcode-map.
 
-On 2025-03-30 13:39, Borislav Petkov wrote:
-> Want me to add your tags to the patch:
-> 
-> Reported-by: Žilvinas Žaltiena <zilvinas@natrix.lt>
-> Tested-by: Žilvinas Žaltiena <zilvinas@natrix.lt>
-> 
-> ?
-> 
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+---
+ arch/x86/lib/x86-opcode-map.txt       | 5 +++--
+ tools/arch/x86/lib/x86-opcode-map.txt | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-OK.
+diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+index caedb3ef6688..e64f52321d6d 100644
+--- a/arch/x86/lib/x86-opcode-map.txt
++++ b/arch/x86/lib/x86-opcode-map.txt
+@@ -839,7 +839,7 @@ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+ f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSSD/Q My,Gy (66)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy | RDMSR Rq,Gq (F2),(11B) | WRMSRNS Gq,Rq (F3),(11B)
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ f8: MOVDIR64B Gv,Mdqq (66) | ENQCMD Gv,Mdqq (F2) | ENQCMDS Gv,Mdqq (F3) | URDMSR Rq,Gq (F2),(11B) | UWRMSR Gq,Rq (F3),(11B)
+ f9: MOVDIRI My,Gy
+@@ -1014,7 +1014,7 @@ f1: CRC32 Gy,Ey (es) | CRC32 Gy,Ey (66),(es) | INVVPID Gy,Mdq (F3),(ev)
+ f2: INVPCID Gy,Mdq (F3),(ev)
+ f4: TZCNT Gv,Ev (es) | TZCNT Gv,Ev (66),(es)
+ f5: LZCNT Gv,Ev (es) | LZCNT Gv,Ev (66),(es)
+-f6: Grp3_1 Eb (1A),(ev)
++f6: Grp3_1 Eb (1A),(ev) | RDMSR Rq,Gq (F2),(11B),(ev) | WRMSRNS Gq,Rq (F3),(11B),(ev)
+ f7: Grp3_2 Ev (1A),(es)
+ f8: MOVDIR64B Gv,Mdqq (66),(ev) | ENQCMD Gv,Mdqq (F2),(ev) | ENQCMDS Gv,Mdqq (F3),(ev) | URDMSR Rq,Gq (F2),(11B),(ev) | UWRMSR Gq,Rq (F3),(11B),(ev)
+ f9: MOVDIRI My,Gy (ev)
+@@ -1103,6 +1103,7 @@ EndTable
+ Table: VEX map 7
+ Referrer:
+ AVXcode: 7
++f6: RDMSR Rq,Id (F2),(v1),(11B) | WRMSRNS Id,Rq (F3),(v1),(11B)
+ f8: URDMSR Rq,Id (F2),(v1),(11B) | UWRMSR Id,Rq (F3),(v1),(11B)
+ EndTable
+ 
+diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
+index caedb3ef6688..e64f52321d6d 100644
+--- a/tools/arch/x86/lib/x86-opcode-map.txt
++++ b/tools/arch/x86/lib/x86-opcode-map.txt
+@@ -839,7 +839,7 @@ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+ f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSSD/Q My,Gy (66)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy | RDMSR Rq,Gq (F2),(11B) | WRMSRNS Gq,Rq (F3),(11B)
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ f8: MOVDIR64B Gv,Mdqq (66) | ENQCMD Gv,Mdqq (F2) | ENQCMDS Gv,Mdqq (F3) | URDMSR Rq,Gq (F2),(11B) | UWRMSR Gq,Rq (F3),(11B)
+ f9: MOVDIRI My,Gy
+@@ -1014,7 +1014,7 @@ f1: CRC32 Gy,Ey (es) | CRC32 Gy,Ey (66),(es) | INVVPID Gy,Mdq (F3),(ev)
+ f2: INVPCID Gy,Mdq (F3),(ev)
+ f4: TZCNT Gv,Ev (es) | TZCNT Gv,Ev (66),(es)
+ f5: LZCNT Gv,Ev (es) | LZCNT Gv,Ev (66),(es)
+-f6: Grp3_1 Eb (1A),(ev)
++f6: Grp3_1 Eb (1A),(ev) | RDMSR Rq,Gq (F2),(11B),(ev) | WRMSRNS Gq,Rq (F3),(11B),(ev)
+ f7: Grp3_2 Ev (1A),(es)
+ f8: MOVDIR64B Gv,Mdqq (66),(ev) | ENQCMD Gv,Mdqq (F2),(ev) | ENQCMDS Gv,Mdqq (F3),(ev) | URDMSR Rq,Gq (F2),(11B),(ev) | UWRMSR Gq,Rq (F3),(11B),(ev)
+ f9: MOVDIRI My,Gy (ev)
+@@ -1103,6 +1103,7 @@ EndTable
+ Table: VEX map 7
+ Referrer:
+ AVXcode: 7
++f6: RDMSR Rq,Id (F2),(v1),(11B) | WRMSRNS Id,Rq (F3),(v1),(11B)
+ f8: URDMSR Rq,Id (F2),(v1),(11B) | UWRMSR Id,Rq (F3),(v1),(11B)
+ EndTable
+ 
+-- 
+2.49.0
+
