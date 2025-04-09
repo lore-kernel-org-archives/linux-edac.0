@@ -1,95 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DAB1D5175;
-	Wed,  9 Apr 2025 20:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ABC921C18A;
+	Wed,  9 Apr 2025 23:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744229484; cv=none; b=XKYHXbjmW0wTpoIne58sUZ7hZIsHXXpV1TaL2jNlaELv85V1rUdB/CIuJb8KIRA3PaIrQjW1a6i1yOeJ8/MImn7U4K1tM6SDzGdzgqzrbqU0XX3/vWHelEivhEBKuKiTSCSMRxmZTGLxv2tnqNkc8W7Ja4nqzzy6bPjRSMZWcq0=
+	t=1744241787; cv=none; b=NkcVI9zsqorgCje/8xzGKytvYztngynJmx5UEgCIanNXa6t+oSEijfR17eCW6tv40NoZwnxTfPUjTZI5p2sF2HnFRr8yla068z+QkcxDml+vZvgEigBAGVzdGzhZYtf9E5o4TNg5OBDkZ5hKTOi8uqthv22HJ//0H4ypyQ/ajU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744229484; c=relaxed/simple;
-	bh=FJm/izdFNTfA1jwBlsdk1jJoTUGHKfakmjnarpokATA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PkqwHzSitwgHzAg3RdmX5I0ZpoWLnFGpQdMWs3whkZFM2BjVFHUqKqB6NW6ohlmjucpxOVACfn2iodx5X6y9onAYOQU+3MGcXFquEFjotmfgGT9grYa458Js4Y7xYNahsW0gGaD9ZyD2lVR/YFzeWKreGPJ4OfM73QBNOt5l2lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D24yujy4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744241787; c=relaxed/simple;
+	bh=B9M0Kkn8BdoLz8MLU9R4GOCMyNBAs8tSClMg/badPUg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ajgAieSiI3z25s1MkVg3w10SwbPjQR3XWuanbp3Ngwtx0d5yx/syajub9Gn9eY0d/22F9wJ7tX/xG7kvBBRTM5kDBC3aiYJO7TsHedkkBr4Mlhmr1Q4enj6LqTfgkNBUh14I8ryzTkplhmvK1RsbAQayasTHt+anb9Bei2IVbR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qbWXL3kM; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D24yujy4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71925C4CEE2;
-	Wed,  9 Apr 2025 20:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744229483;
-	bh=FJm/izdFNTfA1jwBlsdk1jJoTUGHKfakmjnarpokATA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D24yujy42QUc8MzaoYIOhqsAt7S0/2X6yekc52w0gwdRwZBMwmU2nUGsZoW5Ns7GD
-	 j85elSFL53Wuzj6UvF8uMMGWEYy3lD+JT9cZ0aqP7gtAES0C3utL694NSMXdxOrKJc
-	 9kIP4IKosSndbxn+SFfqxSrLVm9pBipvXXrP6J8VxMshOu3nGVg5Xag10MUwIq3jdK
-	 Ebzxt4FaeSUl2kGyVYg1LltfzCxBxoV7FKWUvjuBBSV/RcEjM/nammCpLTt/GmU9n5
-	 qWMtWEi+RRMn/FMGZcmAdYRRPyz1BTp+SNboYM41JDtFNJnwUWqDkFxGYl1tX5Mz6M
-	 qlUYtZ4y1dU2Q==
-Date: Wed, 9 Apr 2025 22:11:11 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, Xin Li <xin@zytor.com>,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-edac@vger.kernel.org, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-ide@vger.kernel.org,
-	linux-pm@vger.kernel.org, bpf@vger.kernel.org, llvm@lists.linux.dev,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, jgross@suse.com,
-	andrew.cooper3@citrix.com, peterz@infradead.org, acme@kernel.org,
-	namhyung@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	irogers@google.com, adrian.hunter@intel.com,
-	kan.liang@linux.intel.com, wei.liu@kernel.org,
-	ajay.kaher@broadcom.com, alexey.amakhalov@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com, tony.luck@intel.com,
-	pbonzini@redhat.com, vkuznets@redhat.com, seanjc@google.com,
-	luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
-	haiyangz@microsoft.com, decui@microsoft.com
-Subject: Re: [RFC PATCH v1 01/15] x86/msr: Replace __wrmsr() with
- native_wrmsrl()
-Message-ID: <Z_bUX06aq6thJ4Uu@gmail.com>
-References: <20250331082251.3171276-1-xin@zytor.com>
- <20250331082251.3171276-2-xin@zytor.com>
- <Z-pruogreCuU66wm@gmail.com>
- <9D15DE81-2E68-4FCD-A133-4963602E18C9@zytor.com>
- <a0254e73-bf7c-4876-b64e-b08e96044666@zytor.com>
- <e5770add-9d18-40e1-929d-df7c40f3c7d1@intel.com>
- <ADCFB190-A89A-460D-81A6-80E20AEFBFBC@zytor.com>
- <Z_bQV2oOnJlwbxnk@gmail.com>
- <29ad84a6-b40c-456a-9eed-9887c87dfb38@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qbWXL3kM"
+Received: by linux.microsoft.com (Postfix, from userid 1053)
+	id 1D1472052509; Wed,  9 Apr 2025 16:36:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1D1472052509
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1744241786;
+	bh=xwELah0qp569GnM+NBppCLXTQ2siGBhErPh6sbtP7Jg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qbWXL3kMsutIK7bMwt7ACCvgToGXAUzUAE+lAhuDON7uCLISEEEfyR1S3AoSQyNar
+	 Ev1OhVAmmeqcnSd4rpFh1H4cFFntsM6J9fH7ZknPIWn/TU253sy6cqfIwFHjXFxeIQ
+	 fbqQZ5fQBC8eSfhphzMuBkJrvYIfRCQRohB81cd4=
+From: Vijay Balakrishna <vijayb@linux.microsoft.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tyler Hicks <code@tyhicks.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>
+Subject: [PATCH 2/2] dt-bindings: arm: cpus: Add edac-enabled property
+Date: Wed,  9 Apr 2025 16:36:25 -0700
+Message-Id: <1744241785-20256-3-git-send-email-vijayb@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1744241785-20256-1-git-send-email-vijayb@linux.microsoft.com>
+References: <1744241785-20256-1-git-send-email-vijayb@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <29ad84a6-b40c-456a-9eed-9887c87dfb38@intel.com>
 
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-* Dave Hansen <dave.hansen@intel.com> wrote:
+Some ARM Cortex CPUs like the A53, A57 and A72 have Error Detection And
+Correction (EDAC) support on their L1 and L2 caches. This is implemented
+in implementation defined registers, so usage of this functionality is
+not safe in virtualized environments or when EL3 already uses these
+registers. This patch adds a edac-enabled flag which can be explicitly
+set when EDAC can be used.
 
-> On 4/9/25 12:53, Ingo Molnar wrote:
-> >>> What would folks think about "wrmsr64()"? It's writing a 64-bit 
-> >>> value to an MSR and there are a lot of functions in the kernel that 
-> >>> are named with the argument width in bits.
-> >> Personally, I hate the extra verbosity, mostly visual, since numerals 
-> >> are nearly as prominent as capital letters they tend to attract the 
-> >> eye. There is a reason why they aren't used this way in assembly 
-> >> languages.
-> > So what's the consensus here? Both work for me, but I have to pick one. 🙂
-> 
-> I don't feel strongly about it. You're not going to hurt my feelings if
-> you pick the "q" one, so go for "q" unless you have a real preference.
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+[vijayb: Added A72 to the commit message]
+Signed-off-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
+---
+ Documentation/devicetree/bindings/arm/cpus.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Ok, since hpa seems to hate the wrmsr64()/rdmsr64() names due to the 
-numeric verbosity, I'll go with wrmsrq()/rdmsrq().
-
-Thanks,
-
-	Ingo
+diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+index 2e666b2a4dcd..18d649a18552 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.yaml
++++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -331,6 +331,12 @@ properties:
+       corresponding to the index of an SCMI performance domain provider, must be
+       "perf".
+ 
++  edac-enabled:
++    $ref: '/schemas/types.yaml#/definitions/flag'
++    description:
++      Some CPUs support Error Detection And Correction (EDAC) on their L1 and
++      L2 caches. This flag marks this function as usable.
++
+   qcom,saw:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description: |
+-- 
+2.49.0
 
