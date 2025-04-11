@@ -1,75 +1,90 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F23E28FFE2;
-	Fri, 11 Apr 2025 21:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DA2C293B55;
+	Fri, 11 Apr 2025 22:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744406615; cv=none; b=QETy0fJz4Ip6QcdDj/NFX395RDcMC1VblcTyQAs9b0lhQkKW4Z3eU1SHH4UtmlJxBlORSEEWh6Fanxc8R5EXDdbOydFAnoEFriNzW7hdluwJs5oGqOoeepR1DjBl9CZKz+uVFL2QhSr0TTxh2QZek4O2nL25vRI/DqITvNUAGzI=
+	t=1744409321; cv=none; b=fBH3b29yAcwjsOMiYKAPxa7DLCdxriuwN5BW89mHMQXGtXiIUWWN2IQWJZ2KYmcHtzajC132+KVNDSSmOM4CpxuvwIfwCN/zdB2piphPjVFMQHd0+oYs4sbElFkWs9F93W0J3rVeqmhdaghKXk2V4E1Wd0WyAQzwIatq3zYPjMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744406615; c=relaxed/simple;
-	bh=d7CTNouMikVpNCKELbV8Zv1iC1VlzMsNvbBkIf56lMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Of5E6LsuX1Vyr3nMQqWZ4myJaIHMFi9uCNWEyujYqZw0HwgqWLWhoqj0U00aYp7R5ZZGJOhOU1fwgEMXJ+XGoLRXoae75AylSKdaBTbF5EvMTd4uW8eSmDRjRRyqZXFa4fdZyMr+5824z3zl1R3BcUu4tFiKvKUo0D1ZZWV2Usg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=JRqqtN4Q; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1744409321; c=relaxed/simple;
+	bh=WZrpMsoJEf8McqfhVmNx1nWCMR+cyym2/nGipLZ6fy0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ugSVdv1v6XcaemEyflJvWMp3+14GqsRKySQyXh51X0zqnGzUtYtTrMO3gu1JAxvdEjVX+ffWR5L+vCvp920hLoaKSzC7cvnFXYzA0pyr5mHGgLFNy4FxdvQLrv2Fj5+8oVmnBE5Umg4geEgbXpgne2nwEVPUKIAQundMiOvZkug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EnIErEt1; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="JRqqtN4Q"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CB42C40E0242;
-	Fri, 11 Apr 2025 21:23:31 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id NDs9GDfPuPMf; Fri, 11 Apr 2025 21:23:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1744406607; bh=d7CTNouMikVpNCKELbV8Zv1iC1VlzMsNvbBkIf56lMA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JRqqtN4Q+QSnnGJl5Xoyy3Nuj45Y8lr/EznkeLeDqIXdVQlK9uMkIXikqhcBKxGkI
-	 PpeseSKiVxSYZEDqxlegRRmn5eWeeFaHTYl1pTHUhE+IdjI2ghnRP6DcvGGfeL2mv3
-	 Y6twcCEAGbr4Cb70sAMt73nJOrb8KQhBf43VDtBQroSdVCGGTmB4AN2I1cCefN1zMw
-	 57HfY2+P3Yq/mgJvSMMm6eeb28ROCU7kjcMUmAlaAg2d2iGOhy6Cy8gEiyNsAlM+bh
-	 LviMDsX1L5ynSEgt1hRGV0SUSMwcXlJcrd3W+HoEsp5pQqD9BsUgORT7bwMIbACeao
-	 Wx0KU0K+XWv9pnbrVwCG5ZNeki5UZj6wdfcJIRS5Cr7YJEnOYp+Uf/focDQQYcJcdB
-	 +rlwKqIhkDI9r+92vZFiIT1gn9x7Q9TyAIU+xip1mbY5HylGFVOQzJdT5N+E8ScbPn
-	 FbSSZkOw/lTKeRcSa/3rREp4wwNJsc1xFcMtJ4uuX06UP1yiSjh+f5aXzmcUu6r3aV
-	 EsCY6IxcXHPmcRfsLv9ekw4a/Mt8z8wDqWKigrTi5hz+EJ3dz3Iq9JvHSO+8JY/SlB
-	 ilzn0Cni0C8uxbgrHf/AUt1eEdTExwaWOTbs9hZDy/lkRtZZkwLkeaAlF/lkA7+wEt
-	 cyDu5VZJcpSgkJb3f8/GBF54=
-Received: from rn.tnic (ip-185-104-138-50.ptr.icomera.net [185.104.138.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 06EAC40E01FF;
-	Fri, 11 Apr 2025 21:23:17 +0000 (UTC)
-Date: Fri, 11 Apr 2025 23:24:11 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Sargun Dhillon <sargun@sargun.me>
-Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH] trace, RAS: Use __print_symbolic helper for entry
- severity for aer_events
-Message-ID: <20250411212411.GAZ_mIexRpOrf-QKGB@renoirsky.local>
-References: <20250317205516.599440-1-sargun@sargun.me>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EnIErEt1"
+Received: by linux.microsoft.com (Postfix, from userid 1053)
+	id A4B4221165AD; Fri, 11 Apr 2025 15:08:39 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A4B4221165AD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1744409319;
+	bh=Pes897Jv0hoGSjWuzaZIkP/52WpUpaObjwqPMl/Gn1s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EnIErEt1pDfI/+HsXzjVSaE/SIB4/opE5rI0TkdaaH0PrkZyd+IHFLanNP90Lp7Mu
+	 pJItHVB/NUGDXpsAZBVps8kq94718ThDZDWsCFu+ei5ZnYHmdJsqZW5J4QgLuKCM7D
+	 q78CFGZQEh3Z7YsvCBuMuMPlNSYS4m3lz+buDe28=
+From: Vijay Balakrishna <vijayb@linux.microsoft.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tyler Hicks <code@tyhicks.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	devicetree@vger.kernel.org,
+	Vijay Balakrishna <vijayb@linux.microsoft.com>
+Subject: [PATCH 2/2] dt-bindings: arm: cpus: Add edac-enabled property
+Date: Fri, 11 Apr 2025 15:08:39 -0700
+Message-Id: <1744409319-24912-3-git-send-email-vijayb@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1744409319-24912-1-git-send-email-vijayb@linux.microsoft.com>
+References: <1744409319-24912-1-git-send-email-vijayb@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250317205516.599440-1-sargun@sargun.me>
 
-On Mon, Mar 17, 2025 at 01:55:15PM -0700, Sargun Dhillon wrote:
-> The chained ternary conditional operator in the perf event format for
-> ras:aer_event was causing a misrepresentation of the severity of the event
-> when used with "perf script".
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-It would be good to know why?
+Some ARM Cortex CPUs like the A53, A57 and A72 have Error Detection And
+Correction (EDAC) support on their L1 and L2 caches. This is implemented
+in implementation defined registers, so usage of this functionality is
+not safe in virtualized environments or when EL3 already uses these
+registers. This patch adds a edac-enabled flag which can be explicitly
+set when EDAC can be used.
 
-Thx.
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+[vijayb: Added A72 to the commit message]
+Signed-off-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
+---
+ Documentation/devicetree/bindings/arm/cpus.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+index 2e666b2a4dcd..d1dc0a843d07 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.yaml
++++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -331,6 +331,12 @@ properties:
+       corresponding to the index of an SCMI performance domain provider, must be
+       "perf".
+ 
++  edac-enabled:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      Some CPUs support Error Detection And Correction (EDAC) on their L1 and
++      L2 caches. This flag marks this function as usable.
++
+   qcom,saw:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description: |
+-- 
+2.49.0
+
