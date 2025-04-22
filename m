@@ -1,183 +1,236 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2048.outbound.protection.outlook.com [40.107.92.48])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9816B1E102D;
-	Mon, 21 Apr 2025 16:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745252099; cv=fail; b=e2okkeUTLDP53KBbq/6tV5TT03R0Y00tD7zWqvMQ5WEWHXeD2eluxo6ZzCpZc1j1y2SVsv+rXukrnQalGsMJjyUNuhwZxbuGQcXA7LqrRNq48u5+zn2jndtv1t3Hi0SxJdsMqdNurSHuZWfkQ+NHAq2NqBKscmcX25v5z4NCzDc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745252099; c=relaxed/simple;
-	bh=lZUZjYlljIC6dFhmgAyPf/tRguvpm3wS/yMu0xoC5b4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=drlBQIz66hD4/xEr2zjIWXFS65ZhVWrcHied6pXm2z5wdCjg37EUPwEqsIvw47le0gP2yrcwn1RvlPA1hwAvU7VB0SrWziqF/mgtZ+rf1sy7a5RIPBiCVJkCdvTodg4zNJgPox3kJo56bYNUbxWGWPCkw7aYVvUBM2IypWWwk48=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=lJlus1CH; arc=fail smtp.client-ip=40.107.92.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714231F0E34;
+	Tue, 22 Apr 2025 08:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745310229; cv=none; b=jjSiJLt6RKWUX9CgGl9r22Bjt6IKz8hcZQlbtbj4N/hPzm5T9PRzClkFFDnoq46OxwyIhCH00HyyBgA+2EoXuflUKLw90epnLmW1PfDA2lke/9dezhQhSx6qNk1CBwIHBLvNLN7IsdE94HExb87AiISFxYFwZK6G4tJLbojmWiM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745310229; c=relaxed/simple;
+	bh=5mnJXQbl6SEJYO4dMb/C/ZhC/prPzA9KgQK92fsGtwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hkUdQ0Y9B+b7/gOSi9OvkpJ40/x+l4npl3M/BMfIo7+t7AmSHo/R7A9pgJ6snEiT7WeI4fuau75S+CNXTakUuWvqWJwPlhqi2aFNqQVdKjFOmQMQ3qrIXK9M4jgUr0QzFJKDl54/XzqBp2USvuo161DQqRRJz/yT+ipWWWOD3a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hcEX0Oma; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="lJlus1CH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NROrI+IoK9xU+ngvyD7nfc3AvzzHnnUoiaKWbbhX2EbcqLSXD4dSLuR3EIgxDMrtBIIov0IMGV18qtNIarXwdVQhxl8L0avNJz2CSjpzb0jIy2vx+ovNlifshicg7KfDHReG7cjHwqz/f4NIFLnL9XLtbQOpsqkQTHCiOYKc3Ds2aaSBz0V+gb+jZtvqAbtu85U6b4IKOQaG+HvPr5nylpFtFGZ+5VAR8kIDxJeGc3Ejrxi8qaFw3Wfypqmi1Lc/F6wxlmKkub6EB7qO3UMspQF6S38dhPDZJk5NkRaHhj04QbZwF7TW5pJ+8Qx2+jdl07P5vGlF4eN1wWbpKElrlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Blf9vsT9ycYpAgkw9mQuq2iZ4M/byJ9KcnRdCF89EVY=;
- b=pQH+CAKPTHbFJ3r0mb32fExLtjTbtYi5NiW7lDLaixTwixeN2rvkJfYPsQxJgrm9NH3O8icgkv3yyJjRlJ+7U8/8lwN5kZ+m/hzAD2o6Zz0fpa3pmi+PyFO0bQm3wIjrdHUyivI+VHRTCF+i0QkUMAVhzdG4Np+481Y0bglHHAkrTDhLaFFKm33JqERJsMMyqsLdfkucJ9RibVljpkc9Ei5a0pvYyr0GFHSntTAC2990ABjngEDjpzETwszcTHyD03oIEp+8c95He1xOC5LqHC/gKqepR8ux4lt9tCZ9R7BufO9a3/d8U+V6TiZ/eSmSSiiIvluMKRBJJXvf8P6/oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Blf9vsT9ycYpAgkw9mQuq2iZ4M/byJ9KcnRdCF89EVY=;
- b=lJlus1CHg/WcV6hnKMEZJk8wUA/ds7sa+342W6EUfc+vWNtHOlqVGYvg/b9PRFoHVLablxl6JYErBOhoURx+EOI6b4YHVN1T1e7e062FJf3yAqWbPERfhH38BApwP2rxtsosiM+qyKg/XnVToNROQvmIQwNh4fIa41MpesY2jC33TVeVCqTGY0ASBGPCwDkN7yk2DJ3aagOj3t4zwe4752BQHkTyv3hHmY3ac3iQc1NBREuFvSQ/y6vb7oeEala30q/HYzV+GD76hm7tNJI7qqHpp1zLagjfwHwF6g93x/qj+hVaGmu4p63amLlHOaIwVBiWALIFn9F5j1pyyZU+sQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-Received: from BYAPR03MB3461.namprd03.prod.outlook.com (2603:10b6:a02:b4::23)
- by PH0PR03MB5800.namprd03.prod.outlook.com (2603:10b6:510:31::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Mon, 21 Apr
- 2025 16:14:52 +0000
-Received: from BYAPR03MB3461.namprd03.prod.outlook.com
- ([fe80::706b:dd15:bc81:313c]) by BYAPR03MB3461.namprd03.prod.outlook.com
- ([fe80::706b:dd15:bc81:313c%2]) with mapi id 15.20.8655.033; Mon, 21 Apr 2025
- 16:14:52 +0000
-From: Matthew Gerlach <matthew.gerlach@altera.com>
-To: dinguyen@kernel.org,
-	bp@alien8.de,
-	tony.luck@intel.com,
-	james.morse@arm.com,
-	mchehab@kernel.org,
-	rric@kernel.org,
-	tthayer@opensource.altera.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Niravkumar L Rabara <niravkumar.l.rabara@altera.com>,
-	stable@kernel.org,
-	Matthew Gerlach <matthew.gerlach@altera.com>
-Subject: [PATCH v2 1/2] EDAC/altera: fix cut and paste error
-Date: Mon, 21 Apr 2025 09:14:46 -0700
-Message-Id: <20250421161447.41886-2-matthew.gerlach@altera.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20250421161447.41886-1-matthew.gerlach@altera.com>
-References: <20250421161447.41886-1-matthew.gerlach@altera.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0134.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::19) To BYAPR03MB3461.namprd03.prod.outlook.com
- (2603:10b6:a02:b4::23)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hcEX0Oma"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53M8MG9K1954391
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Tue, 22 Apr 2025 01:22:33 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53M8MG9K1954391
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025042001; t=1745310154;
+	bh=hH40dRMC8icMs0Kq/gRLpfnhusccGZZqYtPjziXUIq0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hcEX0Oma3CVnkwxqS8bKBIm18tqvV7335h9MWMF4E8wAMoT4z1itaFgVa2bu1H7Lv
+	 Ga+u823XXqz9EiWUYA9XlCQeHFfgScC5iggnF6WJwS4CQfGeYOy+x+oIvnckcTBzB6
+	 8V7NP2nGUmfkFx31xOhz6KwJe5WcJid/C9tfwl98yFuEFykSa3egLEr8WStBfP/6oh
+	 K8ADOv9Wdb6X6GRIlWoxPenpyB34mw1V1qvbQ8zIfGnVmMda21cc2+p+ghtOaC0a2V
+	 V8nAVloDomWCJYiVBeBOXpRIQBAsncCQrgBQ+uMQZJ1te/DZTdjVSMkiakmJECg5VO
+	 psDTTjszTfsAw==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux.dev, linux-pm@vger.kernel.org,
+        linux-edac@vger.kernel.org, xen-devel@lists.xenproject.org,
+        linux-acpi@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        netdev@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        acme@kernel.org, jgross@suse.com, andrew.cooper3@citrix.com,
+        peterz@infradead.org, namhyung@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
+        wei.liu@kernel.org, ajay.kaher@broadcom.com,
+        bcm-kernel-feedback-list@broadcom.com, tony.luck@intel.com,
+        pbonzini@redhat.com, vkuznets@redhat.com, seanjc@google.com,
+        luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
+        haiyangz@microsoft.com, decui@microsoft.com
+Subject: [RFC PATCH v2 06/34] x86/msr: Use the alternatives mechanism to read PMC
+Date: Tue, 22 Apr 2025 01:21:47 -0700
+Message-ID: <20250422082216.1954310-7-xin@zytor.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250422082216.1954310-1-xin@zytor.com>
+References: <20250422082216.1954310-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR03MB3461:EE_|PH0PR03MB5800:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb95f2b2-285c-4e12-a4a8-08dd80efa56a
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?qCONDOR5rFRZ2YMivsac+xH8MENByToZf2/P9n2PjaPXlv+Mcud2XNT18wQF?=
- =?us-ascii?Q?jrrX44uleeukHSEEhlzyBodp+BDz8TDJEtD7Lx7HKWEy0niC9p+AL15GrbKL?=
- =?us-ascii?Q?keKpomwGj7Ox8hq2aJExXDzqayXCixjDlnynwgTmVF8GwRn9s17iICicMTef?=
- =?us-ascii?Q?W4ZWlLt73he9c1NKDEcBXQ8WFAx6/hQYkFIUZcL+EcwKVxmthLxkplMclGex?=
- =?us-ascii?Q?6S/7FPfEp1cG8T8y/5TTJoePtTVIfV2WxM0Zxbds5asWppUYWkc7mvArDP/5?=
- =?us-ascii?Q?ZSukCfPlJssjb+1pgr2VbGEaWGKDcGepACzIkguIxuHZPbY+K3iPO9sVasIz?=
- =?us-ascii?Q?A4NEJe+beOjqQHxpi2TBdezYF0s58o7YzBqRzL9btURYxbmD6SZ7GwMsRSCt?=
- =?us-ascii?Q?o35Rjf4k8xKma/61JcuSd92Ni5zlgfTuysjlb9LG9mwkS50jzXVRi0W3770S?=
- =?us-ascii?Q?ibGHkBiO/iBR+4oWxUBescDug6C3+eaghWaeU5QdOhCMjESHfKXS4XXvAThw?=
- =?us-ascii?Q?zvRfF6gbyL2N/UGHlPYEVikptOZbnVMGdc2xfOpcTJJVInu3lp4yyjFSfqqU?=
- =?us-ascii?Q?CP8d851apjL5YzfR4a938eJ4RG36WZtRbMv9k7JebMvRq/3Ydggp9a/Nvyep?=
- =?us-ascii?Q?DF4FjTDyDkwf9Dbe+73MHvkn4VKDPENHutX6TwfFhtC18lUWxLTjG+lPTWnO?=
- =?us-ascii?Q?DVx0zleIGfpE6kptabVLJf5EjwmQmvVJGvH0AAldx6suGvDZQv92ao5SGySt?=
- =?us-ascii?Q?g+yqYy23gheFwUrHTG6/w+stL8ipew92CjH5B5XctrWskGUGjyIHz6gbXKY0?=
- =?us-ascii?Q?QRzTeTh+xr/q0pdN3kYCLsiu6OqtqEMZ6W7Xzy83Wr6wL3kS8MVw6u4D5rN+?=
- =?us-ascii?Q?V2MRYggHNiFBcnK/Di+WEZPCEbtlcpc1qhCRC2P6PipyOHGW6OG+TDMuZZCX?=
- =?us-ascii?Q?dpqqDlX9kao/R6FfCnvYZu0I7dHHtBez4VS9/IbmWdq3VQBgMMek89axcuIi?=
- =?us-ascii?Q?4fgmagv5swY8KFHq4mw6cS6DQ0ocd1+oOPx4eUsSxIOZKuBDLALIcInsHlv4?=
- =?us-ascii?Q?7zBnvQwUz4LXUyT9L+40WaO4EItxtUjbUCD0BDLNy2IV56J+Jyh9AcxwXgfx?=
- =?us-ascii?Q?mPqVH8GcCx8i9igvMVTLj9aqHhMDtIi3VTvwyIAXNnKayg7R6v9WwpaP0+UX?=
- =?us-ascii?Q?D0EmUMpWjGA6GoIH5p050UbFYatzxgzQSbt2ao1rMw+eFm8dCb6clZbpT3el?=
- =?us-ascii?Q?hwCY1ToFKll3P2QKvKL8NEJ3VFlkdpiCGcttCtRDKQWHFJg3CfXa8nnqvlUb?=
- =?us-ascii?Q?3i2+dEkSBcMTVz2TQpo9xzpLASV60osia8AMn/m0U1tVJn5scUfXcljhTxlL?=
- =?us-ascii?Q?IGOp41iE1RgUswJBm1M53JXXLOCgTIkJHPALqSMxfPWRKpseGhFuTcNqIFHc?=
- =?us-ascii?Q?KdxgQRMZEUM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR03MB3461.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?yu1vjFddle091wUx7clWfuQzMVbm2/hFhJIOHhd7ChyJ7hGT/NMTfBBv1VpA?=
- =?us-ascii?Q?2c8hEDk2WYf/Kkn3zU/rseH/aP9GM7nAIC+ERzHAqwbLerZ6EDMThog5z4HX?=
- =?us-ascii?Q?cHwP8pkzql+TLNSugxUX60ufea4+Ze+mB/bmphCqiu4R5LRM6CJewdQ4gSyV?=
- =?us-ascii?Q?MAvFKmxJujSX6Dbk6FxegjxH5IsJU7xd484XRzJAV9HYdzgLY+Mfuvb9wLK5?=
- =?us-ascii?Q?zdaMm8o6h1S2pYej8tOXkfsYv7sAVc+KWK6tW2h/Pr8gjv2F0VNsfaQH81bA?=
- =?us-ascii?Q?3zuFS6f6c27am4Ww4ZxS6jN2dnWdAOrOqMe0S8W1b/kj5WXsbmqJ5gv6+Xxs?=
- =?us-ascii?Q?mM7KGJdeMtmXEFs9nLoK/A7bS2JdmJJHRoX7CBpJBoubTOFuKXEElOvCRi6t?=
- =?us-ascii?Q?6Yl2dLL0arTbqYsXc78oNqF1KPeB7tihfVQDn2i9vblHn+RL4UOPX/TdXAQC?=
- =?us-ascii?Q?jswpDesuZYqDbIqjjrhjNSbAXdgxcBkjQvsFk/C9c0ZcNwJHJ1ltBuby0oy/?=
- =?us-ascii?Q?reJVWhOekjqcdkQch08YsHBXVC62WWE06bbIFkC8RzFPMAULh4rJZ9jNg29u?=
- =?us-ascii?Q?jDiyQG6E6qivoVb/GAUDzT9J69D9zg8CvgYryCO7gH11dc5tlcM6xxE2b9sM?=
- =?us-ascii?Q?CJjsa0lkfOKVoe9Cl8Map/C9GvAufga7QHW81Cc5dv9Mrpv1n/GONsK4+bB3?=
- =?us-ascii?Q?c+4xz9KXeoFwg6agfCCBUOWb7bfgQAKvvPoOyR/7yIERMR2V8vRJye85XH+Y?=
- =?us-ascii?Q?N30W7znY+5z3xqcFu+8owWBLthhfoQFLH0XFsKnffRZv9D8sPfJPlpl37+8j?=
- =?us-ascii?Q?iLDQOaeG61oBmumGR60DdiK7WIL3t/avnW8b/CRA5n9HrAfQ883hyZNXJY55?=
- =?us-ascii?Q?SA341mXIsH2wmIzz6iXxJdvohtqzEmNDAJN8iv+x0EUavtbkLGNCwRr3iIdl?=
- =?us-ascii?Q?Tjfov4jmVVVsWpqiubRkYbjoCV0d/DtbA3DgeKM2dXypcUYeMZXYeXgP/Ash?=
- =?us-ascii?Q?kUo66e1Jg4apWO92kR7JOzaX82V382ekbuADKqZMmYzN+9oqKGnXtWh/7E1N?=
- =?us-ascii?Q?bTIREi9/dQxWb97Z4GjYPjo1uSkNhZ6CdxPTj4o+zENwqA3rH98MKOXuJNQV?=
- =?us-ascii?Q?SqeVweqHCM7WxM7f5MDAijZIeh5+FWZSpX7tbFbfjZ+STJsqs1qm7SiFLtVa?=
- =?us-ascii?Q?V0gtH/aecTGh9lhIDmw7TSYN7NbcTrkAgWo6lyIuW9rugsXdZzdki3rEAV5o?=
- =?us-ascii?Q?/m/Un6YgOIivqYZ8f7rrDpXBy3+jZpsHISvWCevJsscq17Brnit/4VpfdlZi?=
- =?us-ascii?Q?1SdVvtW8dZ1Ba2E+PDcgEZTaGGEkG/FQQOm5XsDxTKqH0fbvuSbApxIsnZRY?=
- =?us-ascii?Q?Ob6+NWCHlw+D4n97i5Tg1nMceH9TcOSTBBG5lMDDk1BrzRC46bvlhVg8vjWe?=
- =?us-ascii?Q?n7mhD3ayJ2LZAisb9NVNSkdDvl/t6JFJhc1lKN9rCcZgIIst9G2uBR9elL8K?=
- =?us-ascii?Q?YjtPlLGInFZZS8/qR1GSAzZDuYSSMv6w5ntphWw2xkolz4uc9n1491bAnm51?=
- =?us-ascii?Q?cAB6xutVs41+ph6SAPEoBEB92CmEfnEDhlxQCig9Fnifjzu9JD/SpNsoSWdU?=
- =?us-ascii?Q?Eg=3D=3D?=
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb95f2b2-285c-4e12-a4a8-08dd80efa56a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR03MB3461.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2025 16:14:51.8669
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5WlQUEYKJhMWYCvQN4UXoQZR4OicKtz3fiL8yWuoQyHMVhtHBIV6mKC6K2Wx+dX//jyqNSRbxgOH3igeNhgmQafhqmn8+KPK9XlCUizjBZg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR03MB5800
+Content-Transfer-Encoding: 8bit
 
-From: Niravkumar L Rabara <niravkumar.l.rabara@altera.com>
+To eliminate the indirect call overhead introduced by the pv_ops API,
+use the alternatives mechanism to read PMC:
 
-Test correct structure member, ecc_cecnt_offset, before using it.
+    1) When built with !CONFIG_XEN_PV, X86_FEATURE_XENPV becomes a
+       disabled feature, preventing the Xen PMC read code from being
+       built and ensuring the native code is executed unconditionally.
 
-Fixes: 73bcc942f4271 ("EDAC, altera: Add Arria10 EDAC support")
-Cc: stable@kernel.org
-Signed-off-by: Niravkumar L Rabara <niravkumar.l.rabara@altera.com>
-Signed-off-by: Matthew Gerlach <matthew.gerlach@altera.com>
+    2) When built with CONFIG_XEN_PV:
+
+       2.1) If not running on the Xen hypervisor (!X86_FEATURE_XENPV),
+            the kernel runtime binary is patched to unconditionally
+            jump to the native PMC read code.
+
+       2.2) If running on the Xen hypervisor (X86_FEATURE_XENPV), the
+            kernel runtime binary is patched to unconditionally jump
+            to the Xen PMC read code.
+
+Consequently, remove the pv_ops PMC read API.
+
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 ---
-v2:
- - Improve commit message.
- - Add Fixes: and Cc: tags.
----
- drivers/edac/altera_edac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/include/asm/msr.h            | 31 ++++++++++++++++++++-------
+ arch/x86/include/asm/paravirt.h       |  5 -----
+ arch/x86/include/asm/paravirt_types.h |  2 --
+ arch/x86/kernel/paravirt.c            |  1 -
+ arch/x86/xen/enlighten_pv.c           |  2 --
+ drivers/net/vmxnet3/vmxnet3_drv.c     |  2 +-
+ 6 files changed, 24 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 3e971f902363..88d9d2f458ee 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -99,7 +99,7 @@ static irqreturn_t altr_sdram_mc_err_handler(int irq, void *dev_id)
- 	if (status & priv->ecc_stat_ce_mask) {
- 		regmap_read(drvdata->mc_vbase, priv->ecc_saddr_offset,
- 			    &err_addr);
--		if (priv->ecc_uecnt_offset)
-+		if (priv->ecc_cecnt_offset)
- 			regmap_read(drvdata->mc_vbase,  priv->ecc_cecnt_offset,
- 				    &err_count);
- 		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, err_count,
+diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
+index 01dc8e61ef97..33cf506e2fd6 100644
+--- a/arch/x86/include/asm/msr.h
++++ b/arch/x86/include/asm/msr.h
+@@ -8,6 +8,7 @@
+ 
+ #include <asm/asm.h>
+ #include <asm/errno.h>
++#include <asm/cpufeature.h>
+ #include <asm/cpumask.h>
+ #include <uapi/asm/msr.h>
+ #include <asm/shared/msr.h>
+@@ -73,6 +74,10 @@ static inline void do_trace_read_msr(u32 msr, u64 val, int failed) {}
+ static inline void do_trace_rdpmc(u32 msr, u64 val, int failed) {}
+ #endif
+ 
++#ifdef CONFIG_XEN_PV
++extern u64 xen_read_pmc(int counter);
++#endif
++
+ /*
+  * __rdmsr() and __wrmsr() are the two primitives which are the bare minimum MSR
+  * accessors and should not have any tracing or other functionality piggybacking
+@@ -170,16 +175,32 @@ native_write_msr_safe(u32 msr, u32 low, u32 high)
+ extern int rdmsr_safe_regs(u32 regs[8]);
+ extern int wrmsr_safe_regs(u32 regs[8]);
+ 
+-static inline u64 native_read_pmc(int counter)
++static __always_inline u64 native_rdpmcq(int counter)
+ {
+ 	DECLARE_ARGS(val, low, high);
+ 
+-	asm volatile("rdpmc" : EAX_EDX_RET(val, low, high) : "c" (counter));
++	asm_inline volatile("rdpmc" : EAX_EDX_RET(val, low, high) : "c" (counter));
++
+ 	if (tracepoint_enabled(rdpmc))
+ 		do_trace_rdpmc(counter, EAX_EDX_VAL(val, low, high), 0);
++
+ 	return EAX_EDX_VAL(val, low, high);
+ }
+ 
++static __always_inline u64 rdpmcq(int counter)
++{
++#ifdef CONFIG_XEN_PV
++	if (cpu_feature_enabled(X86_FEATURE_XENPV))
++		return xen_read_pmc(counter);
++#endif
++
++	/*
++	 * 1) When built with !CONFIG_XEN_PV.
++	 * 2) When built with CONFIG_XEN_PV but not running on Xen hypervisor.
++	 */
++	return native_rdpmcq(counter);
++}
++
+ #ifdef CONFIG_PARAVIRT_XXL
+ #include <asm/paravirt.h>
+ #else
+@@ -233,12 +254,6 @@ static inline int rdmsrq_safe(u32 msr, u64 *p)
+ 	*p = native_read_msr_safe(msr, &err);
+ 	return err;
+ }
+-
+-static __always_inline u64 rdpmcq(int counter)
+-{
+-	return native_read_pmc(counter);
+-}
+-
+ #endif	/* !CONFIG_PARAVIRT_XXL */
+ 
+ /* Instruction opcode for WRMSRNS supported in binutils >= 2.40 */
+diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
+index 590824916394..c7689f5f70d6 100644
+--- a/arch/x86/include/asm/paravirt.h
++++ b/arch/x86/include/asm/paravirt.h
+@@ -239,11 +239,6 @@ static inline int rdmsrq_safe(unsigned msr, u64 *p)
+ 	return err;
+ }
+ 
+-static __always_inline u64 rdpmcq(int counter)
+-{
+-	return PVOP_CALL1(u64, cpu.read_pmc, counter);
+-}
+-
+ static inline void paravirt_alloc_ldt(struct desc_struct *ldt, unsigned entries)
+ {
+ 	PVOP_VCALL2(cpu.alloc_ldt, ldt, entries);
+diff --git a/arch/x86/include/asm/paravirt_types.h b/arch/x86/include/asm/paravirt_types.h
+index 631c306ce1ff..475f508531d6 100644
+--- a/arch/x86/include/asm/paravirt_types.h
++++ b/arch/x86/include/asm/paravirt_types.h
+@@ -101,8 +101,6 @@ struct pv_cpu_ops {
+ 	u64 (*read_msr_safe)(unsigned int msr, int *err);
+ 	int (*write_msr_safe)(unsigned int msr, unsigned low, unsigned high);
+ 
+-	u64 (*read_pmc)(int counter);
+-
+ 	void (*start_context_switch)(struct task_struct *prev);
+ 	void (*end_context_switch)(struct task_struct *next);
+ #endif
+diff --git a/arch/x86/kernel/paravirt.c b/arch/x86/kernel/paravirt.c
+index 1ccd05d8999f..28d195ad7514 100644
+--- a/arch/x86/kernel/paravirt.c
++++ b/arch/x86/kernel/paravirt.c
+@@ -132,7 +132,6 @@ struct paravirt_patch_template pv_ops = {
+ 	.cpu.write_msr		= native_write_msr,
+ 	.cpu.read_msr_safe	= native_read_msr_safe,
+ 	.cpu.write_msr_safe	= native_write_msr_safe,
+-	.cpu.read_pmc		= native_read_pmc,
+ 	.cpu.load_tr_desc	= native_load_tr_desc,
+ 	.cpu.set_ldt		= native_set_ldt,
+ 	.cpu.load_gdt		= native_load_gdt,
+diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
+index 846b5737d320..9fbe187aff00 100644
+--- a/arch/x86/xen/enlighten_pv.c
++++ b/arch/x86/xen/enlighten_pv.c
+@@ -1236,8 +1236,6 @@ static const typeof(pv_ops) xen_cpu_ops __initconst = {
+ 		.read_msr_safe = xen_read_msr_safe,
+ 		.write_msr_safe = xen_write_msr_safe,
+ 
+-		.read_pmc = xen_read_pmc,
+-
+ 		.load_tr_desc = paravirt_nop,
+ 		.set_ldt = xen_set_ldt,
+ 		.load_gdt = xen_load_gdt,
+diff --git a/drivers/net/vmxnet3/vmxnet3_drv.c b/drivers/net/vmxnet3/vmxnet3_drv.c
+index 7edd0b5e0e77..8af3b4d7ef4d 100644
+--- a/drivers/net/vmxnet3/vmxnet3_drv.c
++++ b/drivers/net/vmxnet3/vmxnet3_drv.c
+@@ -151,7 +151,7 @@ static u64
+ vmxnet3_get_cycles(int pmc)
+ {
+ #ifdef CONFIG_X86
+-	return native_read_pmc(pmc);
++	return native_rdpmcq(pmc);
+ #else
+ 	return 0;
+ #endif
 -- 
-2.35.3
+2.49.0
 
