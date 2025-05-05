@@ -1,344 +1,119 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22BA11CFBC;
-	Mon,  5 May 2025 00:27:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5401EDA33;
+	Mon,  5 May 2025 09:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746404868; cv=none; b=gu53U52nC0UumpxA5Fxp8o06B3dcXPDh2WQlxUfgwaO0IuYBqdllAOY7Iyw+MRTkIWwoJ9aoNx6aDpKDpC1KInpbpl+eCxJyy6XcqIWMjJiFo1WnHQLrYnAIDhVygq22Im7G/ek7qA88Xw11aFyc8KTBZqXQsbC6ZRROJqBwTFw=
+	t=1746436275; cv=none; b=cSrgKizDeGolGQ3GzFvc52dejXwX8iXAjBGjNSbj4wMR0fsOGZ9llAeanbO6KCHv4JBw1MIHxSQ9MJmJ6vZ5YbFLUiTyLS2iZsjDEBw7NCTyftV/IOs9QH9hGKW1399AjY5PQPAl9smXUeuJhvoa7SQH7DLm8wZsC5P3VnZZbG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746404868; c=relaxed/simple;
-	bh=XVjPEkPR2pxA3EyM7tONUuJUxxkRNiLBUS53APT9ma0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=DckSxFehvFBbojhXeXbfRfbmpZaCVHy2hMpv/YM6cBs20xn8R8zMhGVn3F/HKOlYcAdkk8QvWI1mQFLYVv3TpRJO2wVV9ZJ/BpJI0pQf6z0Q/cgJs8Jtuf6bFn+7ixXDNxLTRYhOjWyMShYQ3eKyivLSKMQ51popEYHW3+RPHUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=so0rEEOO; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1746436275; c=relaxed/simple;
+	bh=Xo8XUrMn6xj4TqfQ3LqdOlexbgmagSfWnmLtxS//AnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFtpVYR3iYugPutbNommLP42kyGEl2BPDSkeSRd40Kaij3zC7JIU6QeXXAX8mUf9jw78sFM1wAMCKa6oFlFkHsxO926XHmnKswulQ+RR319ULDnpXo3OKn5fCeuPTJ55iD6zo9CGMlp3J5EtRyxsYmNMtBnTUc8LNxHKY7OOEDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=HiLtfZpO; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="so0rEEOO"
-Received: by linux.microsoft.com (Postfix, from userid 1053)
-	id 86FC82115DB1; Sun,  4 May 2025 17:27:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 86FC82115DB1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1746404860;
-	bh=uj9TV+Fit2MjFYnfyHuy93AVqKnF2ZIzsgpt7WCRbrU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=so0rEEOOW7NfR7ObH5UONkayJYuYvfgKfeCxrVcjCEsXQxvFBf+aqdGbIqvrTiLlB
-	 l7BEPP3ESZ2h6FowE+MBbNmdn9ys1NLMS5FMcFvimJtQ86OGg9YwMVhG8Pnjiige91
-	 hhQqx2h9XoEhqO9iCNsejySny4r+hTndU3TqFDVk=
-From: Vijay Balakrishna <vijayb@linux.microsoft.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Rob Herring <robh@kernel.org>,
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="HiLtfZpO"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5DE4940E0173;
+	Mon,  5 May 2025 09:11:09 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id n9tiTQf8rjA8; Mon,  5 May 2025 09:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1746436265; bh=01O7tqAno4eu+silbNQlnIVAZ0Q0+jh1x3ytSuxjZN8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HiLtfZpOdmjGqBsoYvwtK8QdYrhqZ/93rWN90SaS4C9YiyVRmH24RpiE07fWLKJDn
+	 9gUfJtr4Z3Jn45HZd/tzqtCRalNMh4JmQavNEsBaL35JlHeiyvO+O9xUTNwUbWhlbf
+	 UCcoz93TMl9DHH2IbGWWhWBOgfY2+mqQVQxTqBKjqfdLH7/kQj6RH//bAiYRN7Vbin
+	 qvNTKbtOTrwc89emZwS7+UcCQV5+RiuXeA/+8g6JGM14ksohSj8AsWOoogQ3EgJwQf
+	 dgUT3dX6RDNO21AvbCjb3+JSAd0Mf6SxFoi1hl4ETI4blOMI8EvfgYGIK8jHQlczKK
+	 ySJKKzbhcGLZufRXug6/lhzW2gfiO1XyvTU/isQET5MsWac4MuPz2If8NEBQgPbPDD
+	 qo72SpmSW3OALcKLL2bZ0U8wQfUZRypPnk3A9ugHj/Bha2gOzbnEbkMZNYuv+8t8QQ
+	 PIW7zO7Ul1Jp6atS6yG0X/vWwd5gkXXWR3O1fOHpW/6VUpBLsL11BWNPDd049emPVz
+	 hVXnUwQnBn/1OllDXj10875hQV1KIna3pYpAk+HXAM0aSnYQ15VuzVlstc6S+RbGIT
+	 0Z8LQIrU3iM9HxF02dnXNjK4JsA8qz8t8cRcm9JD0T5JzTgGzbdLTDaxRAp0EegrWf
+	 oQS/+dPvrWbr4dgMBn+rZ6M8=
+Received: from zn.tnic (p579690ee.dip0.t-ipconnect.de [87.150.144.238])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4E11E40E0222;
+	Mon,  5 May 2025 09:10:50 +0000 (UTC)
+Date: Mon, 5 May 2025 11:10:44 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Vijay Balakrishna <vijayb@linux.microsoft.com>
+Cc: Tony Luck <tony.luck@intel.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: James Morse <james.morse@arm.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	James Morse <james.morse@arm.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Richter <rric@kernel.org>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tyler Hicks <code@tyhicks.com>,
+	Robert Richter <rric@kernel.org>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Tyler Hicks <code@tyhicks.com>,
 	Marc Zyngier <maz@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	devicetree@vger.kernel.org,
-	Vijay Balakrishna <vijayb@linux.microsoft.com>
-Subject: [PATCH 1/2] drivers/edac: Add L1 and L2 error detection for A53, A57 and A72
-Date: Sun,  4 May 2025 17:27:39 -0700
-Message-Id: <1746404860-27069-2-git-send-email-vijayb@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1746404860-27069-1-git-send-email-vijayb@linux.microsoft.com>
+	devicetree@vger.kernel.org
+Subject: Re: [v8 PATCH 0/2] Add L1 and L2 error detection for A53, A57 and A72
+Message-ID: <20250505091044.GCaBiAlCFqVgV7-3TJ@fat_crate.local>
 References: <1746404860-27069-1-git-send-email-vijayb@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1746404860-27069-1-git-send-email-vijayb@linux.microsoft.com>
 
-From: Sascha Hauer <s.hauer@pengutronix.de>
+On Sun, May 04, 2025 at 05:27:38PM -0700, Vijay Balakrishna wrote:
+> Hello,
+> 
+> This is an attempt to revive [v5] series. I have attempted to address comments
+> and suggestions from Marc Zyngier since [v5]. Additionally, I have extended
 
-The Cortex A53, A57 and A72 cores have error detection capabilities for
-the L1/L2 Caches, this patch adds a driver for them. The selected errors
-to detect/report have compatible bit assignments concerning CPU/L2 memory
-error syndrome registers.
+I'd like to hear from ARM folks here, whether this makes sense to have still.
 
-Unfortunately there is no robust way to inject errors into the caches,
-so this driver doesn't contain any code to actually test it. It has
-been tested though with code taken from an older version [1] of this
-driver.  For reasons stated in thread [1], the error injection code is
-not suitable for mainline, so it is removed from the driver.
+> support for A72 processors. Testing the driver on a problematic A72 SoC
+> has led to the detection of Correctable Errors (CEs). Below are logs captured
+> from the problematic SoC during various boot instances.
+> 
+> [  876.896022] EDAC DEVICE0: CE: cortex-arm64-edac instance: cpu2 block: L1 count: 1 'L1-D Data RAM correctable error(s) on CPU 2'
+> 
+> [ 3700.978086] EDAC DEVICE0: CE: cortex-arm64-edac instance: cpu2 block: L1 count: 1 'L1-D Data RAM correctable error(s) on CPU 2'
+> 
+> [  976.956158] EDAC DEVICE0: CE: cortex-arm64-edac instance: cpu2 block: L1 count: 1 'L1-D Data RAM correctable error(s) on CPU 2'
+> 
+> [ 1427.933606] EDAC DEVICE0: CE: cortex-arm64-edac instance: cpu2 block: L1 count: 1 'L1-D Data RAM correctable error(s) on CPU 2'
+> 
+> [  192.959911] EDAC DEVICE0: CE: cortex-arm64-edac instance: cpu2 block: L1 count: 1 'L1-D Data RAM correctable error(s) on CPU 2'
+> 
+> Our primary focus is on A72. We have a significant number of A72-based systems
 
-[1] https://lore.kernel.org/all/1521073067-24348-1-git-send-email-york.sun@nxp.com/#t
+Then zap the support for the other CPUs as supporting those is futile.
 
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-Co-developed-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
-Signed-off-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
----
- drivers/edac/Kconfig              |   9 ++
- drivers/edac/Makefile             |   1 +
- drivers/edac/cortex_arm64_l1_l2.c | 229 ++++++++++++++++++++++++++++++
- 3 files changed, 239 insertions(+)
- create mode 100644 drivers/edac/cortex_arm64_l1_l2.c
+cortex_arm64_l1_l2.c - I don't want an EDAC driver per RAS functional unit.
+Call this edac_a72 or whatever, which will contain all A72 RAS functionality
+support. ARM folks will give you a good idea here if you don't have.
 
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 19ad3c3b675d..20c15a18437f 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -576,4 +576,13 @@ config EDAC_LOONGSON
- 	  errors (CE) only. Loongson-3A5000/3C5000/3D5000/3A6000/3C6000
- 	  are compatible.
- 
-+config EDAC_CORTEX_ARM64_L1_L2
-+	tristate "ARM Cortex A72/A57/A53"
-+	depends on ARM64
-+	help
-+	  Support for L1/L2 cache error detection is provided for ARM Cortex
-+	  A72, A57, and A53 processors. The selected subset of errors is common
-+	  across these three MPCore processors, featuring compatible bit
-+	  assignments in their CPU/L2 memory error syndrome registers.
-+
- endif # EDAC
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index a8f2d8f6c894..157062410e61 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -88,3 +88,4 @@ obj-$(CONFIG_EDAC_NPCM)			+= npcm_edac.o
- obj-$(CONFIG_EDAC_ZYNQMP)		+= zynqmp_edac.o
- obj-$(CONFIG_EDAC_VERSAL)		+= versal_edac.o
- obj-$(CONFIG_EDAC_LOONGSON)		+= loongson_edac.o
-+obj-$(CONFIG_EDAC_CORTEX_ARM64_L1_L2)	+= cortex_arm64_l1_l2.o
-diff --git a/drivers/edac/cortex_arm64_l1_l2.c b/drivers/edac/cortex_arm64_l1_l2.c
-new file mode 100644
-index 000000000000..ad411259debd
---- /dev/null
-+++ b/drivers/edac/cortex_arm64_l1_l2.c
-@@ -0,0 +1,229 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Cortex A72, A57 and A53 EDAC L1 and L2 cache error detection
-+ *
-+ * Copyright (c) 2020 Pengutronix, Sascha Hauer <s.hauer@pengutronix.de>
-+ *
-+ * Based on Code from:
-+ * Copyright (c) 2018, NXP Semiconductor
-+ * Author: York Sun <york.sun@nxp.com>
-+ *
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/bitfield.h>
-+#include <asm/smp_plat.h>
-+
-+#include "edac_module.h"
-+
-+#define DRVNAME				"cortex-arm64-edac"
-+
-+#define CPUMERRSR_EL1_RAMID		GENMASK(30, 24)
-+
-+#define CPUMERRSR_EL1_VALID		BIT(31)
-+#define CPUMERRSR_EL1_FATAL		BIT(63)
-+
-+#define L1_I_TAG_RAM			0x00
-+#define L1_I_DATA_RAM			0x01
-+#define L1_D_TAG_RAM			0x08
-+#define L1_D_DATA_RAM			0x09
-+#define TLB_RAM				0x18
-+
-+#define L2MERRSR_EL1_CPUID_WAY	GENMASK(21, 18)
-+
-+#define L2MERRSR_EL1_VALID		BIT(31)
-+#define L2MERRSR_EL1_FATAL		BIT(63)
-+
-+struct merrsr {
-+	u64 cpumerr;
-+	u64 l2merr;
-+};
-+
-+#define MESSAGE_SIZE 64
-+
-+#define SYS_CPUMERRSR_EL1			sys_reg(3, 1, 15, 2, 2)
-+#define SYS_L2MERRSR_EL1			sys_reg(3, 1, 15, 2, 3)
-+
-+static struct cpumask compat_mask;
-+
-+static void report_errors(struct edac_device_ctl_info *edac_ctl, int cpu,
-+			  struct merrsr *merrsr)
-+{
-+	char msg[MESSAGE_SIZE];
-+	u64 cpumerr = merrsr->cpumerr;
-+	u64 l2merr = merrsr->l2merr;
-+
-+	if (cpumerr & CPUMERRSR_EL1_VALID) {
-+		const char *str;
-+		bool fatal = cpumerr & CPUMERRSR_EL1_FATAL;
-+
-+		switch (FIELD_GET(CPUMERRSR_EL1_RAMID, cpumerr)) {
-+		case L1_I_TAG_RAM:
-+			str = "L1-I Tag RAM";
-+			break;
-+		case L1_I_DATA_RAM:
-+			str = "L1-I Data RAM";
-+			break;
-+		case L1_D_TAG_RAM:
-+			str = "L1-D Tag RAM";
-+			break;
-+		case L1_D_DATA_RAM:
-+			str = "L1-D Data RAM";
-+			break;
-+		case TLB_RAM:
-+			str = "TLB RAM";
-+			break;
-+		default:
-+			str = "Unspecified";
-+			break;
-+		}
-+
-+		snprintf(msg, MESSAGE_SIZE, "%s %s error(s) on CPU %d",
-+			 str, fatal ? "fatal" : "correctable", cpu);
-+
-+		if (fatal)
-+			edac_device_handle_ue(edac_ctl, cpu, 0, msg);
-+		else
-+			edac_device_handle_ce(edac_ctl, cpu, 0, msg);
-+	}
-+
-+	if (l2merr & L2MERRSR_EL1_VALID) {
-+		bool fatal = l2merr & L2MERRSR_EL1_FATAL;
-+
-+		snprintf(msg, MESSAGE_SIZE, "L2 %s error(s) on CPU %d CPUID/WAY 0x%lx",
-+			 fatal ? "fatal" : "correctable", cpu,
-+			 FIELD_GET(L2MERRSR_EL1_CPUID_WAY, l2merr));
-+		if (fatal)
-+			edac_device_handle_ue(edac_ctl, cpu, 1, msg);
-+		else
-+			edac_device_handle_ce(edac_ctl, cpu, 1, msg);
-+	}
-+}
-+
-+static void read_errors(void *data)
-+{
-+	struct merrsr *merrsr = data;
-+
-+	merrsr->cpumerr = read_sysreg_s(SYS_CPUMERRSR_EL1);
-+	if (merrsr->cpumerr & CPUMERRSR_EL1_VALID) {
-+		write_sysreg_s(0, SYS_CPUMERRSR_EL1);
-+		isb();
-+	}
-+	merrsr->l2merr = read_sysreg_s(SYS_L2MERRSR_EL1);
-+	if (merrsr->l2merr & L2MERRSR_EL1_VALID) {
-+		write_sysreg_s(0, SYS_L2MERRSR_EL1);
-+		isb();
-+	}
-+}
-+
-+static void cortex_arm64_edac_check(struct edac_device_ctl_info *edac_ctl)
-+{
-+	struct merrsr merrsr;
-+	int cpu;
-+
-+	for_each_cpu_and(cpu, cpu_online_mask, &compat_mask) {
-+		smp_call_function_single(cpu, read_errors, &merrsr, true);
-+		report_errors(edac_ctl, cpu, &merrsr);
-+	}
-+}
-+
-+static int cortex_arm64_edac_probe(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_ctl;
-+	struct device *dev = &pdev->dev;
-+	int rc;
-+
-+	edac_ctl = edac_device_alloc_ctl_info(0, "cpu",
-+					      num_possible_cpus(), "L", 2, 1,
-+					      edac_device_alloc_index());
-+	if (!edac_ctl)
-+		return -ENOMEM;
-+
-+	edac_ctl->edac_check = cortex_arm64_edac_check;
-+	edac_ctl->dev = dev;
-+	edac_ctl->mod_name = dev_name(dev);
-+	edac_ctl->dev_name = dev_name(dev);
-+	edac_ctl->ctl_name = DRVNAME;
-+	dev_set_drvdata(dev, edac_ctl);
-+
-+	rc = edac_device_add_device(edac_ctl);
-+	if (rc)
-+		goto out_dev;
-+
-+	return 0;
-+
-+out_dev:
-+	edac_device_free_ctl_info(edac_ctl);
-+
-+	return rc;
-+}
-+
-+static void cortex_arm64_edac_remove(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_ctl = dev_get_drvdata(&pdev->dev);
-+
-+	edac_device_del_device(edac_ctl->dev);
-+	edac_device_free_ctl_info(edac_ctl);
-+}
-+
-+static const struct of_device_id cortex_arm64_edac_of_match[] = {
-+	{ .compatible = "arm,cortex-a53" },
-+	{ .compatible = "arm,cortex-a57" },
-+	{ .compatible = "arm,cortex-a72" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cortex_arm64_edac_of_match);
-+
-+static struct platform_driver cortex_arm64_edac_driver = {
-+	.probe = cortex_arm64_edac_probe,
-+	.remove = cortex_arm64_edac_remove,
-+	.driver = {
-+		.name = DRVNAME,
-+	},
-+};
-+
-+static int __init cortex_arm64_edac_driver_init(void)
-+{
-+	struct device_node *np;
-+	int cpu;
-+	struct platform_device *pdev;
-+	int err;
-+
-+	for_each_possible_cpu(cpu) {
-+		np = of_get_cpu_node(cpu, NULL);
-+
-+		if (!np) {
-+			pr_warn("failed to find device node for cpu %d\n", cpu);
-+			continue;
-+		}
-+		if (!of_match_node(cortex_arm64_edac_of_match, np))
-+			continue;
-+		if (!of_property_read_bool(np, "edac-enabled"))
-+			continue;
-+		cpumask_set_cpu(cpu, &compat_mask);
-+		of_node_put(np);
-+	}
-+
-+	if (cpumask_empty(&compat_mask))
-+		return 0;
-+
-+	err = platform_driver_register(&cortex_arm64_edac_driver);
-+	if (err)
-+		return err;
-+
-+	pdev = platform_device_register_simple(DRVNAME, -1, NULL, 0);
-+	if (IS_ERR(pdev)) {
-+		pr_err("failed to register cortex arm64 edac device\n");
-+		platform_driver_unregister(&cortex_arm64_edac_driver);
-+		return PTR_ERR(pdev);
-+	}
-+
-+	return 0;
-+}
-+
-+device_initcall(cortex_arm64_edac_driver_init);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Sascha Hauer <s.hauer@pengutronix.de>");
-+MODULE_DESCRIPTION("Cortex A72, A57 and A53 L1 and L2 cache EDAC driver");
+Also, I'd need at least a reviewer entry to MAINTAINERS for patches to this
+driver because you'll be the only ones testing this as you have vested
+interest in this working.
+
+The dt patch needs a reviewed-by too.
+
+Once that is addressed, I'll take a look.
+
+Thx.
+
 -- 
-2.49.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
