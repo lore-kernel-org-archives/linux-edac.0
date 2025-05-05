@@ -1,63 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8392E1D79A5;
-	Sun,  4 May 2025 15:22:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B4723BE;
+	Mon,  5 May 2025 00:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746372142; cv=none; b=mgUxo/12qzD98h3guuyjEGQci66pOfV/DI3EW0WslwUozm9UVQbM3fj/1C+fHaqCEMBEHhni32cp5Nlx6ixvkHsQF7oi/inRVf66AufMG2MHPI0ppfyjzfP+96xZA8eQnub9bPCp+ihoEyeit/SLe2Tu9Cb9nuwPd7ZGYLpdbwI=
+	t=1746404868; cv=none; b=ViKfnlLXHkua15qEJu+LG4PGwNbkpMRUe3I3uQa3lpIAO2Qoa9wflMjOMjGn2t4DQBC1zsm4TPmXFkzHVXB890tnNGyj8lYkE/vi2yKPaKucuKgVL0q99loArnbe9UeusdB37Pp95UY1u6gmhLAaG1VYyTxAcM9R2GaItDXBVME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746372142; c=relaxed/simple;
-	bh=fpvqb7kTlOOuUN70MgJgEf3UkSdSGeqD6Y1imEuSwAk=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ogp5FzFvOAC1HM1PzjoCwVGdDv1RJh0pD45GIkFnrlzQsVd/JZ29blskf7Dk6qurQV1VRnsSLejgh0LkEznlRAQNjlOehGO0A5k9Ns6XFZc1gUBlkRmn7tTK1eEVqD+gxhYFG7GWhvTx+RP50+jNcjkebmadYqJVqaV2J8UxWd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l00nyxN3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746404868; c=relaxed/simple;
+	bh=WZrpMsoJEf8McqfhVmNx1nWCMR+cyym2/nGipLZ6fy0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=rIu6o1vPgfIyAWI41QxXLM/9cDgqvywdrAhFcTkPyI3i94LoHBGdwV8iX2I7hZdD/qrYNWb1FeTwcmBhmtTHbfkQQFfQKdafcOOpB+sserpRgGr1ooQYFulggR56U9s6gQsUPpIdCY3fxvljBu262M7gjm5pvh9V04deKU9YpCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RDF3xvAE; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l00nyxN3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8977C4CEE7;
-	Sun,  4 May 2025 15:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746372141;
-	bh=fpvqb7kTlOOuUN70MgJgEf3UkSdSGeqD6Y1imEuSwAk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=l00nyxN3I68g47m4MMDzIBk7ZukQ7rlBiUqTzd98Ti/iT4P9ekm9CISazTH8z4LJy
-	 4BDScnvvPt/HkwXSbzTLKOh4jI8ayWWLWsUugfmmVkJEHgdxEDqFEZlEsNXz8aiZ2V
-	 P07KzTZ41XUbUfDt6JRK7pRwvTplhyZbwp2wcPmLEgX2Q2kGcB03Nea5KGPIRps8RS
-	 sBhGS8bo81wLI9DX5HJvtmqe8NRS+YkIXLHOYCERBOs6lDjC+GoI9i4YJsMKotRJQs
-	 WEcIxYgKgKBMqY5sB3PVo0klDyjXUs1bUbBnd+4U85NAeARUtfdzYxTJgmBn99I0XQ
-	 MSoyg/Z8aRkPQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 716EC3806659;
-	Sun,  4 May 2025 15:23:02 +0000 (UTC)
-Subject: Re: [GIT PULL] EDAC/urgent for v6.15-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20250504102133.GAaBc_rTClPZmy75Rm@fat_crate.local>
-References: <20250504102133.GAaBc_rTClPZmy75Rm@fat_crate.local>
-X-PR-Tracked-List-Id: <linux-edac.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20250504102133.GAaBc_rTClPZmy75Rm@fat_crate.local>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v6.15_rc5
-X-PR-Tracked-Commit-Id: 6dbe3c5418c4368e824bff6ae4889257dd544892
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 081bc61f93123c3b3e446539377b3c7d8deb046f
-Message-Id: <174637218085.4049463.3882500317466037978.pr-tracker-bot@kernel.org>
-Date: Sun, 04 May 2025 15:23:00 +0000
-To: Borislav Petkov <bp@alien8.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-edac <linux-edac@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RDF3xvAE"
+Received: by linux.microsoft.com (Postfix, from userid 1053)
+	id 941FA2115DB2; Sun,  4 May 2025 17:27:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 941FA2115DB2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1746404860;
+	bh=Pes897Jv0hoGSjWuzaZIkP/52WpUpaObjwqPMl/Gn1s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RDF3xvAE/FM1IHzvt5Q0YgI0NQ1QMh2RC57cakiiauxkeMAdWf63LD+7Zbbrn0gEd
+	 WcgMT4+xRAkfUmZKBDENbf6lfpVBvHJSC/1XPBxowFtwxMQDwLhMDCbAW1Yaq577A8
+	 mzN1WtqEV9OLq40T2vrsTOr3Lgbir7IIcT3S+sDI=
+From: Vijay Balakrishna <vijayb@linux.microsoft.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tyler Hicks <code@tyhicks.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	devicetree@vger.kernel.org,
+	Vijay Balakrishna <vijayb@linux.microsoft.com>
+Subject: [PATCH 2/2] dt-bindings: arm: cpus: Add edac-enabled property
+Date: Sun,  4 May 2025 17:27:40 -0700
+Message-Id: <1746404860-27069-3-git-send-email-vijayb@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1746404860-27069-1-git-send-email-vijayb@linux.microsoft.com>
+References: <1746404860-27069-1-git-send-email-vijayb@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Sun, 4 May 2025 12:21:33 +0200:
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v6.15_rc5
+Some ARM Cortex CPUs like the A53, A57 and A72 have Error Detection And
+Correction (EDAC) support on their L1 and L2 caches. This is implemented
+in implementation defined registers, so usage of this functionality is
+not safe in virtualized environments or when EL3 already uses these
+registers. This patch adds a edac-enabled flag which can be explicitly
+set when EDAC can be used.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/081bc61f93123c3b3e446539377b3c7d8deb046f
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+[vijayb: Added A72 to the commit message]
+Signed-off-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
+---
+ Documentation/devicetree/bindings/arm/cpus.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Thank you!
-
+diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+index 2e666b2a4dcd..d1dc0a843d07 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.yaml
++++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -331,6 +331,12 @@ properties:
+       corresponding to the index of an SCMI performance domain provider, must be
+       "perf".
+ 
++  edac-enabled:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      Some CPUs support Error Detection And Correction (EDAC) on their L1 and
++      L2 caches. This flag marks this function as usable.
++
+   qcom,saw:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description: |
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.49.0
+
