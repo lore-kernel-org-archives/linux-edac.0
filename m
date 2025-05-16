@@ -1,90 +1,83 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E107B1DDD1;
-	Thu, 15 May 2025 17:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30C7C635;
+	Fri, 16 May 2025 00:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747329822; cv=none; b=iwKg/12tG+jucp3qrWJavN1ctVD145udbieUBlZBdvC5dX+YM9IKIkSYqKccfj9teKrZTsAjOgkRv1Gkbe4+MbD+WAZ6lZxNLlr2KTka2oxc3os+bDGy0Xapgwj5xLv7Gb8hHD1YSNbpjcvkSWfOslDLSjtl4LJ6HsWKNRtYRWE=
+	t=1747353980; cv=none; b=SL/Xac6AxrNz+LxSXWyy9ZA07TjIJ8tq59yamZHoG/87u9oOBn9xH/zX+SWMMtmqkdcJRVg2aWaeH5mnu74XPgaFdQBip7DHRFgwKlky8yX2hAaGR8eqE6phC7lmfEuBHEf0AGb/hOf4LCYyz4qFHY4DBdOxpLwj3XrWpjBHnow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747329822; c=relaxed/simple;
-	bh=cN0o+cjEAmcsbf3emVfh0/+2GXrsKo2GngcXznfkrF0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CqvzMvNKC9PrsP3g1/3gQgrZ2yvaovoI9NnVU1ZemNHoz12p5HmOBt4o1Lcz2/SfMS0aA2/YF23yXWfS+/sj4lyRlpAv4UslM8UEqskZPGjVEeZp8Gp02Y/z1NUbLkgC9AflhRe2NgKaxk3fbmQz61Z5ez8xgFb61lzs7Ukw4BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NJf6lDcc; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1747353980; c=relaxed/simple;
+	bh=PXd6ZKf1wKxdAxE/hamYLFxW+kzwB06LPtm3dawlgpg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=EVaXz5XUZ6FBpBvtu5jYI3of0FRxHgY3DqnE1EA1f4/PZym/ceqfql9YgPSZ1LySK86yWhUxCZv2RU5cW/sTcj8SnpRA3JkL1ougCnJm1CqMYSJGkGWe+Yx/ZMdkdsrsvtz7u0tazTfJrQfcseyYNGUwufVhnI41W++aMZxATi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=P8KIdPx+; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NJf6lDcc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=GTCT7BSmAZqTWnu91btoJaKscnIU2IMk9i6RJnUQ9pA=; b=NJf6lDccfxPbXwIG7n6eC04DiW
-	RyLMA0kreSdpdLkcH1h85edPITzAkQFciyzItPFtP9VUj06nYCn/p9f+d/NMib8uhUZEI3pGF7LSh
-	DFNt4PdMWTNruOqjvbCvDkBiGlovAWXyoKG3ctism7pETo82x0ZQ9g1s5b5x9q3R0CPg6z/+OUY1N
-	SQpttZFyildt5AvqjgV9ecypb9qULP7kFPMHawM92uYZqbSqTSdeEpVW+X6qQFA5M+1j5cgEBzB9M
-	sf93EsvXMTRCrX2/aX3HbJMf+vkdXwzTXGSZJF96oHfzF/dCcSP47//5no0edPvKccFQFahL34/8R
-	NOWHxT9w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uFcIy-0000000HVi1-2R7x;
-	Thu, 15 May 2025 17:23:36 +0000
-Message-ID: <86282fa2-3248-44bc-835e-4121214d6992@infradead.org>
-Date: Thu, 15 May 2025 10:23:31 -0700
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="P8KIdPx+"
+Received: by linux.microsoft.com (Postfix, from userid 1053)
+	id 6376C2118E4E; Thu, 15 May 2025 17:06:13 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6376C2118E4E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1747353973;
+	bh=UiIxusU4/FRQ34gn/l0ohVCyAmep6rrYVr8lFiSWouY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=P8KIdPx+af9l0mR8ZtfpQP2AwvOi818hk0Z/VrvZ1iV1bzS7acehUDZnxKfdZudaG
+	 24Kbjmcna/r92OwCERGP3+MvLLePLu7om0/cep6Aae4NeMK/UPPJVqqjb+t9ieAFvy
+	 GnSG4XEhWAoS3lsGkc/aZF4Y1WJ9fEE6836Hhpzo=
+From: Vijay Balakrishna <vijayb@linux.microsoft.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tyler Hicks <code@tyhicks.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	devicetree@vger.kernel.org,
+	Vijay Balakrishna <vijayb@linux.microsoft.com>
+Subject: [PATCH 3/3] EDAC: Add EDAC driver for Cortex A72
+Date: Thu, 15 May 2025 17:06:13 -0700
+Message-Id: <1747353973-4749-4-git-send-email-vijayb@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1747353973-4749-1-git-send-email-vijayb@linux.microsoft.com>
+References: <1747353973-4749-1-git-send-email-vijayb@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 8/8] cxl/edac: Add CXL memory device soft PPR control
- feature
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
- dan.j.williams@intel.com, jonathan.cameron@huawei.com, dave.jiang@intel.com,
- dave@stgolabs.net, alison.schofield@intel.com, vishal.l.verma@intel.com,
- ira.weiny@intel.com
-Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de,
- tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com,
- mchehab@kernel.org, nifan.cxl@gmail.com, linuxarm@huawei.com,
- tanxiaofei@huawei.com, prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
- kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
-References: <20250515115927.772-1-shiju.jose@huawei.com>
- <20250515115927.772-9-shiju.jose@huawei.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250515115927.772-9-shiju.jose@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+The driver is designed to support error detection and reporting for Cortex A72
+cores, specifically within their L1 and L2 cache systems.
 
+Signed-off-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
+---
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-On 5/15/25 4:59 AM, shiju.jose@huawei.com wrote:
-> diff --git a/Documentation/edac/memory_repair.rst b/Documentation/edac/memory_repair.rst
-> index 5b1cd8297442..3a3fc11b8fea 100644
-> --- a/Documentation/edac/memory_repair.rst
-> +++ b/Documentation/edac/memory_repair.rst
-> @@ -138,5 +138,15 @@ CXL device to perform a repair operation on its media. For example, a CXL
->  device with DRAM components that support memory sparing features may
->  implement sparing maintenance operations.
->  
-> +2. CXL memory Soft Post Package Repair (sPPR)
-> +
-> +Post Package Repair (PPR) maintenance operations may be supported by CXL
-> +devices that implement CXL.mem protocol. A PPR maintenance operation
-> +requests the CXL device to perform a repair operation on its media.
-> +For example, a CXL device with DRAM components that support PPR features
-> +may implement PPR Maintenance operations. Soft PPR (sPPR), is a temporary
-
-  no comma:                                                 ^
-
-> +row repair. Soft PPR may be faster, but the repair is lost with a power
-> +cycle.
-> +
->  Sysfs files for memory repair are documented in
->  `Documentation/ABI/testing/sysfs-edac-memory-repair
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3563492e4eba..1fa51e39e266 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8430,6 +8430,13 @@ F:	Documentation/driver-api/edac.rst
+ F:	drivers/edac/
+ F:	include/linux/edac.h
+ 
++EDAC-A72
++M:	Vijay Balakrishna <vijayb@linux.microsoft.com>
++M:	Tyler Hicks <code@tyhicks.com>
++L:	linux-edac@vger.kernel.org
++S:	Supported
++F:	drivers/edac/edac_a72.c
++
+ EDAC-DMC520
+ M:	Lei Wang <lewan@microsoft.com>
+ L:	linux-edac@vger.kernel.org
 -- 
-~Randy
+2.49.0
 
