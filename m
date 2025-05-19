@@ -1,660 +1,302 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9941928540E;
-	Mon, 19 May 2025 15:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEE01E9B21;
+	Mon, 19 May 2025 17:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747667537; cv=none; b=qChruV5u1goVt9BQJ206+qAqP7WJq7dMlaZ+C1zpVqVJcOkzmfifWf7842hHwVTM4KE4kdQiHnsWMCUXc/4M+m70dq31tAF/1OY0OEyjyIkgi5f7FhBZlxry+JC2Z8sgHIUv3TafvK0e0rjDUfPlCwhhUR+bQ0lLjhwqXJXLTJQ=
+	t=1747674648; cv=none; b=LGZcg9Yjl8YJo/t6dQdhP/m/XztuQtvB1Q0D2u/J1iLUKkZMoVEX4DVX9Etf5KT5ohLG6PnCzBRLm/9yrsTGbacrpzpe6W0B1ccYJlZqmyD03M05Mlzxgr7SJV0+rxLXy82+DCNEpl95NQfNhlnAIctk5jbLEz8JAwCTDqklSNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747667537; c=relaxed/simple;
-	bh=60ZdzaU6h+Khocb9P0ccLjouQH6WdOngoq0jCMWEsCE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h3gzLor+8JNjix1iU96h0PBQNaOUX3EIlcnCci8bq3ykzkI6y0IttTf5GOwt10tOxgf/RCPMg+wdKKi6VV5Ac1FJCqksxEc6jFmjLymKAVAMNtrfvNgg1qL8fPPrTIb7zQ/SpPCw5cQTHf9vrcScRUF9LTNK9Aax7UWaM83ewAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b1Lcv3kdPz6M57b;
-	Mon, 19 May 2025 23:06:55 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1FD16140276;
-	Mon, 19 May 2025 23:11:44 +0800 (CST)
-Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.148.165) by
- frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 19 May 2025 17:11:42 +0200
-From: <shiju.jose@huawei.com>
-To: <linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-CC: <bp@alien8.de>, <rafael@kernel.org>, <tony.luck@intel.com>,
-	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
-	<mchehab@kernel.org>, <jonathan.cameron@huawei.com>, <linux-mm@kvack.org>,
-	<linuxarm@huawei.com>, <rientjes@google.com>, <jiaqiyan@google.com>,
-	<Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
-	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
-	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
-	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
-	<dferguson@amperecomputing.com>, <wbs@os.amperecomputing.com>,
-	<nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
-	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
-	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
-Subject: [PATCH v7 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Date: Mon, 19 May 2025 16:11:14 +0100
-Message-ID: <20250519151116.803-2-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20250519151116.803-1-shiju.jose@huawei.com>
-References: <20250519151116.803-1-shiju.jose@huawei.com>
+	s=arc-20240116; t=1747674648; c=relaxed/simple;
+	bh=jBJnRwW6I+AEyq4e/HnFfARoLiRBaG6k41aGuf3ZfsA=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=kKiyEvtFtLbUadlesLWmTLVhC30+loAkRR1y3+wldTN/SA4T1T0GRFYlH0ELo9CvGRsIT/iTKuPxoaIZdI9wKQIFp2arvqlJZk8/0e/sGUDK/tkMPtWP0xNwFI2zEIuvRAate7rUIO6lcSBm4nk+qoQLSKwrP3C0tJkoEwm8FBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grTTUBit; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grTTUBit"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747674647; x=1779210647;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=jBJnRwW6I+AEyq4e/HnFfARoLiRBaG6k41aGuf3ZfsA=;
+  b=grTTUBitXHsklyZTIzA3wSU4HpYhwQMA4pjFTdZFzC9wMd+7d6NlZ2NV
+   eBsvkKbSLzUwPMCRiC9RMMaaE/wiigHuBfd9qH0gaQ+owRVeQ41c88yrl
+   ZgzsXNtAZG2COlgx3oPPo0Ku6LM85MjcQvMdDLJOw2hAxf0A7mLbf7Jjm
+   U9OdFhjs0qjMt9ERVYqpVCHgn1x1Sy+TL8s5sZ3R15tskod0ckCeYm/nr
+   ldxRKcOVkTMj7wkX6tc+gdQj/hpRA7PhIqCEZFJ3V9t/msMGxvIN5ShZV
+   C9iK4XHaJPnmBu+mfClIbmlY4wRoVqO/mcQjS1c7vuSjw/uuh6jFHPa0H
+   w==;
+X-CSE-ConnectionGUID: EbUjfgEFQvaQdKhLMWY1ww==
+X-CSE-MsgGUID: fN675RE8RBq6XqCAD3C6UA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="66997930"
+X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
+   d="scan'208";a="66997930"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 10:10:46 -0700
+X-CSE-ConnectionGUID: dSAdntPZT7O3jx7uAhBjhA==
+X-CSE-MsgGUID: Qy6G2AgZRPKFB0xBse1OrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
+   d="scan'208";a="139315745"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.35])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 10:10:40 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 19 May 2025 20:10:37 +0300 (EEST)
+To: Shuai Xue <xueshuai@linux.alibaba.com>
+cc: rostedt@goodmis.org, Lukas Wunner <lukas@wunner.de>, 
+    linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    linux-edac@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+    helgaas@kernel.org, bhelgaas@google.com, tony.luck@intel.com, bp@alien8.de, 
+    mhiramat@kernel.org, mathieu.desnoyers@efficios.com, oleg@redhat.com, 
+    naveen@kernel.org, davem@davemloft.net, anil.s.keshavamurthy@intel.com, 
+    mark.rutland@arm.com, peterz@infradead.org, tianruidong@linux.alibaba.com
+Subject: Re: [PATCH v8] PCI: hotplug: Add a generic RAS tracepoint for hotplug
+ event
+In-Reply-To: <20250512013839.45960-1-xueshuai@linux.alibaba.com>
+Message-ID: <87b1f8c6-bd72-b1a8-40a6-bbf552552806@linux.intel.com>
+References: <20250512013839.45960-1-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- frapeml500007.china.huawei.com (7.182.85.172)
+Content-Type: text/plain; charset=US-ASCII
 
-From: Shiju Jose <shiju.jose@huawei.com>
+On Mon, 12 May 2025, Shuai Xue wrote:
 
-Add support for ACPI RAS2 feature table (RAS2) defined in the
-ACPI 6.5 Specification, section 5.2.21.
-Driver defines RAS2 Init, which extracts the RAS2 table and driver
-adds auxiliary device for each memory feature which binds to the
-RAS2 memory driver.
+> Hotplug events are critical indicators for analyzing hardware health,
+> particularly in AI supercomputers where surprise link downs can
+> significantly impact system performance and reliability.
+> 
+> To this end, define a new TRACING_SYSTEM named pci, add a generic RAS
+> tracepoint for hotplug event to help healthy check, and generate
+> tracepoints for pcie hotplug event. Add enum pci_hotplug_event in
+> include/uapi/linux/pci.h so applications like rasdaemon can register
+> tracepoint event handlers for it.
+> 
+> The output like below:
+> 
+> $ echo 1 > /sys/kernel/debug/tracing/events/pci/pci_hp_event/enable
+> $ cat /sys/kernel/debug/tracing/trace_pipe
+>     <...>-206     [001] .....    40.373870: pci_hp_event: 0000:00:02.0 slot:10, event:Link Down
+> 
+>     <...>-206     [001] .....    40.374871: pci_hp_event: 0000:00:02.0 slot:10, event:Card not present
+> 
+> Suggested-by: Lukas Wunner <lukas@wunner.de>
+> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+> Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
+> Reviewed-by: Lukas Wunner <lukas@wunner.de>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+> changes since v7:
+> - replace the TRACE_INCLUDE_PATH to avoid macro conflict per Steven
+> - pick up Reviewed-by from Lukas Wunner
+> ---
+>  drivers/pci/hotplug/Makefile      |  3 ++
+>  drivers/pci/hotplug/pciehp_ctrl.c | 33 ++++++++++++---
+>  drivers/pci/hotplug/trace.h       | 68 +++++++++++++++++++++++++++++++
+>  include/uapi/linux/pci.h          |  7 ++++
+>  4 files changed, 105 insertions(+), 6 deletions(-)
+>  create mode 100644 drivers/pci/hotplug/trace.h
+> 
+> diff --git a/drivers/pci/hotplug/Makefile b/drivers/pci/hotplug/Makefile
+> index 40aaf31fe338..a1a9d1e98962 100644
+> --- a/drivers/pci/hotplug/Makefile
+> +++ b/drivers/pci/hotplug/Makefile
+> @@ -3,6 +3,9 @@
+>  # Makefile for the Linux kernel pci hotplug controller drivers.
+>  #
+>  
+> +# define_trace.h needs to know how to find our header
+> +CFLAGS_pciehp_ctrl.o				:= -I$(src)
+> +
+>  obj-$(CONFIG_HOTPLUG_PCI)		+= pci_hotplug.o
+>  obj-$(CONFIG_HOTPLUG_PCI_COMPAQ)	+= cpqphp.o
+>  obj-$(CONFIG_HOTPLUG_PCI_IBM)		+= ibmphp.o
+> diff --git a/drivers/pci/hotplug/pciehp_ctrl.c b/drivers/pci/hotplug/pciehp_ctrl.c
+> index d603a7aa7483..f9beb4d3a9b8 100644
+> --- a/drivers/pci/hotplug/pciehp_ctrl.c
+> +++ b/drivers/pci/hotplug/pciehp_ctrl.c
+> @@ -23,6 +23,9 @@
+>  #include "../pci.h"
+>  #include "pciehp.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include "trace.h"
+> +
+>  /* The following routines constitute the bulk of the
+>     hotplug controller logic
+>   */
+> @@ -244,12 +247,20 @@ void pciehp_handle_presence_or_link_change(struct controller *ctrl, u32 events)
+>  	case ON_STATE:
+>  		ctrl->state = POWEROFF_STATE;
+>  		mutex_unlock(&ctrl->state_lock);
+> -		if (events & PCI_EXP_SLTSTA_DLLSC)
+> +		if (events & PCI_EXP_SLTSTA_DLLSC) {
+>  			ctrl_info(ctrl, "Slot(%s): Link Down\n",
+>  				  slot_name(ctrl));
+> -		if (events & PCI_EXP_SLTSTA_PDC)
+> +			trace_pci_hp_event(pci_name(ctrl->pcie->port),
+> +					   slot_name(ctrl),
+> +					   PCI_HOTPLUG_LINK_DOWN);
+> +		}
+> +		if (events & PCI_EXP_SLTSTA_PDC) {
+>  			ctrl_info(ctrl, "Slot(%s): Card not present\n",
+>  				  slot_name(ctrl));
+> +			trace_pci_hp_event(pci_name(ctrl->pcie->port),
+> +					   slot_name(ctrl),
+> +					   PCI_HOTPLUG_CARD_NOT_PRESENT);
+> +		}
+>  		pciehp_disable_slot(ctrl, SURPRISE_REMOVAL);
+>  		break;
+>  	default:
+> @@ -269,6 +280,9 @@ void pciehp_handle_presence_or_link_change(struct controller *ctrl, u32 events)
+>  					      INDICATOR_NOOP);
+>  			ctrl_info(ctrl, "Slot(%s): Card not present\n",
+>  				  slot_name(ctrl));
+> +			trace_pci_hp_event(pci_name(ctrl->pcie->port),
+> +					   slot_name(ctrl),
+> +					   PCI_HOTPLUG_CARD_NOT_PRESENT);
+>  		}
+>  		mutex_unlock(&ctrl->state_lock);
+>  		return;
+> @@ -281,12 +295,19 @@ void pciehp_handle_presence_or_link_change(struct controller *ctrl, u32 events)
+>  	case OFF_STATE:
+>  		ctrl->state = POWERON_STATE;
+>  		mutex_unlock(&ctrl->state_lock);
+> -		if (present)
+> +		if (present) {
+>  			ctrl_info(ctrl, "Slot(%s): Card present\n",
+>  				  slot_name(ctrl));
+> -		if (link_active)
+> -			ctrl_info(ctrl, "Slot(%s): Link Up\n",
+> -				  slot_name(ctrl));
+> +			trace_pci_hp_event(pci_name(ctrl->pcie->port),
+> +					   slot_name(ctrl),
+> +					   PCI_HOTPLUG_CARD_PRESENT);
+> +		}
+> +		if (link_active) {
+> +			ctrl_info(ctrl, "Slot(%s): Link Up\n", slot_name(ctrl));
+> +			trace_pci_hp_event(pci_name(ctrl->pcie->port),
+> +					   slot_name(ctrl),
+> +					   PCI_HOTPLUG_LINK_UP);
+> +		}
+>  		ctrl->request_result = pciehp_enable_slot(ctrl);
+>  		break;
+>  	default:
+> diff --git a/drivers/pci/hotplug/trace.h b/drivers/pci/hotplug/trace.h
+> new file mode 100644
+> index 000000000000..21329c198019
+> --- /dev/null
+> +++ b/drivers/pci/hotplug/trace.h
+> @@ -0,0 +1,68 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#if !defined(_TRACE_HW_EVENT_PCI_HP_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_HW_EVENT_PCI_HP_H
+> +
+> +#include <linux/tracepoint.h>
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM pci
+> +
+> +#define PCI_HOTPLUG_EVENT					\
+> +	EM(PCI_HOTPLUG_LINK_UP,			"Link Up")	\
+> +	EM(PCI_HOTPLUG_LINK_DOWN,		"Link Down")	\
+> +	EM(PCI_HOTPLUG_CARD_PRESENT,		"Card present")	\
+> +	EMe(PCI_HOTPLUG_CARD_NOT_PRESENT,	"Card not present")
 
-Driver uses PCC mailbox to communicate with the ACPI HW and the
-driver adds OSPM interfaces to send RAS2 commands.
+Hi,
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
-Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
-Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- drivers/acpi/Kconfig  |  11 ++
- drivers/acpi/Makefile |   1 +
- drivers/acpi/bus.c    |   3 +
- drivers/acpi/ras2.c   | 450 ++++++++++++++++++++++++++++++++++++++++++
- include/acpi/ras2.h   |  54 +++++
- 5 files changed, 519 insertions(+)
- create mode 100644 drivers/acpi/ras2.c
- create mode 100644 include/acpi/ras2.h
+While I was thinking of adding tracing into PCIe BW controller (bwctrl), 
+I ended up thinking that perhaps it would make more sense to have PCIe 
+Link related tracepoints which would cover both hotplug and bwctrl so that 
+also Link Speed changes would be reported through the same trace event.
 
-diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-index 7f10aa38269d..7b470cf2fd71 100644
---- a/drivers/acpi/Kconfig
-+++ b/drivers/acpi/Kconfig
-@@ -293,6 +293,17 @@ config ACPI_CPPC_LIB
- 	  If your platform does not support CPPC in firmware,
- 	  leave this option disabled.
- 
-+config ACPI_RAS2
-+	bool "ACPI RAS2 driver"
-+	select AUXILIARY_BUS
-+	select MAILBOX
-+	select PCC
-+	help
-+	  The driver adds support for ACPI RAS2 feature table(extracts RAS2
-+	  table from OS system table) and OSPM interfaces to send RAS2
-+	  commands via PCC mailbox subspace. Driver adds platform device for
-+	  the RAS2 memory features which binds to the RAS2 memory driver.
-+
- config ACPI_PROCESSOR
- 	tristate "Processor"
- 	depends on X86 || ARM64 || LOONGARCH || RISCV
-diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
-index 797070fc9a3f..da2cc89c7f9a 100644
---- a/drivers/acpi/Makefile
-+++ b/drivers/acpi/Makefile
-@@ -104,6 +104,7 @@ obj-$(CONFIG_ACPI_EC_DEBUGFS)	+= ec_sys.o
- obj-$(CONFIG_ACPI_BGRT)		+= bgrt.o
- obj-$(CONFIG_ACPI_CPPC_LIB)	+= cppc_acpi.o
- obj-$(CONFIG_ACPI_SPCR_TABLE)	+= spcr.o
-+obj-$(CONFIG_ACPI_RAS2)		+= ras2.o
- obj-$(CONFIG_ACPI_DEBUGGER_USER) += acpi_dbg.o
- obj-$(CONFIG_ACPI_PPTT) 	+= pptt.o
- obj-$(CONFIG_ACPI_PFRUT)	+= pfr_update.o pfr_telemetry.o
-diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-index 058910af82bc..d45a2bb066dd 100644
---- a/drivers/acpi/bus.c
-+++ b/drivers/acpi/bus.c
-@@ -31,6 +31,7 @@
- #include <acpi/apei.h>
- #include <linux/suspend.h>
- #include <linux/prmt.h>
-+#include <acpi/ras2.h>
- 
- #include "internal.h"
- 
-@@ -1472,6 +1473,8 @@ static int __init acpi_init(void)
- 	acpi_debugger_init();
- 	acpi_setup_sb_notify_handler();
- 	acpi_viot_init();
-+	acpi_ras2_init();
-+
- 	return 0;
- }
- 
-diff --git a/drivers/acpi/ras2.c b/drivers/acpi/ras2.c
-new file mode 100644
-index 000000000000..97ca3feac2fe
---- /dev/null
-+++ b/drivers/acpi/ras2.c
-@@ -0,0 +1,450 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Implementation of ACPI RAS2 driver.
-+ *
-+ * Copyright (c) 2024-2025 HiSilicon Limited.
-+ *
-+ * Support for RAS2 - ACPI 6.5 Specification, section 5.2.21
-+ *
-+ * Driver contains ACPI RAS2 init, which extracts the ACPI RAS2 table and
-+ * get the PCC channel subspace for communicating with the ACPI compliant
-+ * HW platform which supports ACPI RAS2. Driver adds auxiliary devices
-+ * for each RAS2 memory feature which binds to the memory ACPI RAS2 driver.
-+ */
-+
-+#define pr_fmt(fmt) "ACPI RAS2: " fmt
-+
-+#include <linux/delay.h>
-+#include <linux/export.h>
-+#include <linux/iopoll.h>
-+#include <linux/ktime.h>
-+#include <acpi/pcc.h>
-+#include <acpi/ras2.h>
-+
-+static struct acpi_table_ras2 *__read_mostly ras2_tab;
-+
-+/**
-+ * struct ras2_pcc_subspace - Data structure for PCC communication
-+ * @mbox_client:	struct mbox_client object
-+ * @pcc_chan:		Pointer to struct pcc_mbox_chan
-+ * @comm_addr:		Pointer to RAS2 PCC shared memory region
-+ * @elem:		List for registered RAS2 PCC channel subspaces
-+ * @pcc_lock:		PCC lock to provide mutually exclusive access
-+ *			to PCC channel subspace
-+ * @deadline_us:	Poll PCC status register timeout in micro secs
-+ *			for PCC command complete
-+ * @pcc_mpar:		Maximum Periodic Access Rate(MPAR) for PCC channel
-+ * @pcc_mrtt:		Minimum Request Turnaround Time(MRTT) in micro secs
-+ *			OS must wait after completion of a PCC command before
-+ *			issue next command
-+ * @last_cmd_cmpl_time:	completion time of last PCC command
-+ * @last_mpar_reset:	Time of last MPAR count reset.
-+ * @mpar_count:		MPAR count
-+ * @pcc_id:		Identifier of the RAS2 platform communication channel
-+ * @pcc_chnl_acq:	Status of PCC channel acquired.
-+ * @kref:		kref object
-+ */
-+struct ras2_pcc_subspace {
-+	struct mbox_client		mbox_client;
-+	struct pcc_mbox_chan		*pcc_chan;
-+	struct acpi_ras2_shmem __iomem	*comm_addr;
-+	struct list_head		elem;
-+	struct mutex			pcc_lock;
-+	unsigned int			deadline_us;
-+	unsigned int			pcc_mpar;
-+	unsigned int			pcc_mrtt;
-+	ktime_t				last_cmd_cmpl_time;
-+	ktime_t				last_mpar_reset;
-+	int				mpar_count;
-+	int				pcc_id;
-+	bool				pcc_chnl_acq;
-+	struct kref			kref;
-+};
-+
-+/*
-+ * Arbitrary retries for PCC commands because the remote processor
-+ * could be much slower to reply. Keeping it high enough to cover
-+ * emulators where the processors run painfully slow.
-+ */
-+#define RAS2_NUM_RETRIES 600ULL
-+
-+#define RAS2_FEAT_TYPE_MEMORY 0x00
-+
-+/* Static variables for the RAS2 PCC subspaces */
-+static DEFINE_MUTEX(ras2_pcc_list_lock);
-+static LIST_HEAD(ras2_pcc_subspaces);
-+
-+static int ras2_report_cap_error(u32 cap_status)
-+{
-+	switch (cap_status) {
-+	case ACPI_RAS2_NOT_VALID:
-+	case ACPI_RAS2_NOT_SUPPORTED:
-+		return -EPERM;
-+	case ACPI_RAS2_BUSY:
-+		return -EBUSY;
-+	case ACPI_RAS2_FAILED:
-+	case ACPI_RAS2_ABORTED:
-+	case ACPI_RAS2_INVALID_DATA:
-+		return -EINVAL;
-+	default: /* 0 or other, Success */
-+		return 0;
-+	}
-+}
-+
-+static int ras2_check_pcc_chan(struct ras2_pcc_subspace *pcc_subspace)
-+{
-+	struct acpi_ras2_shmem __iomem *gen_comm_base = pcc_subspace->comm_addr;
-+	u32 cap_status;
-+	u16 status;
-+	u32 rc;
-+
-+	/*
-+	 * As per ACPI spec, the PCC space will be initialized by
-+	 * platform and should have set the command completion bit when
-+	 * PCC can be used by OSPM.
-+	 *
-+	 * Poll PCC status register every 3us(delay_us) for maximum of
-+	 * deadline_us(timeout_us) until PCC command complete bit is set(cond).
-+	 */
-+	rc = readw_relaxed_poll_timeout(&gen_comm_base->status, status,
-+					status & PCC_STATUS_CMD_COMPLETE, 3,
-+					pcc_subspace->deadline_us);
-+	if (rc) {
-+		pr_warn("PCC check channel failed for : %d rc=%d\n",
-+			pcc_subspace->pcc_id, rc);
-+		return rc;
-+	}
-+
-+	if (status & PCC_STATUS_ERROR) {
-+		status &= ~PCC_STATUS_ERROR;
-+		writew_relaxed(status, &gen_comm_base->status);
-+		return -EIO;
-+	}
-+
-+	if (!(status & PCC_STATUS_CMD_COMPLETE))
-+		return -EIO;
-+
-+	cap_status = readw_relaxed(&gen_comm_base->set_caps_status);
-+	writew_relaxed(0x0, &gen_comm_base->set_caps_status);
-+	return ras2_report_cap_error(cap_status);
-+}
-+
-+/**
-+ * ras2_send_pcc_cmd() - Send RAS2 command via PCC channel
-+ * @ras2_ctx:	pointer to the RAS2 context structure
-+ * @cmd:	command to send
-+ *
-+ * Returns: 0 on success, an error otherwise
-+ */
-+int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd)
-+{
-+	struct ras2_pcc_subspace *pcc_subspace = ras2_ctx->pcc_subspace;
-+	struct acpi_ras2_shmem __iomem *gen_comm_base = pcc_subspace->comm_addr;
-+	struct mbox_chan *pcc_channel;
-+	unsigned int time_delta;
-+	int rc;
-+
-+	rc = ras2_check_pcc_chan(pcc_subspace);
-+	if (rc < 0)
-+		return rc;
-+
-+	pcc_channel = pcc_subspace->pcc_chan->mchan;
-+
-+	/*
-+	 * Handle the Minimum Request Turnaround Time(MRTT).
-+	 * "The minimum amount of time that OSPM must wait after the completion
-+	 * of a command before issuing the next command, in microseconds."
-+	 */
-+	if (pcc_subspace->pcc_mrtt) {
-+		time_delta = ktime_us_delta(ktime_get(),
-+					    pcc_subspace->last_cmd_cmpl_time);
-+		if (pcc_subspace->pcc_mrtt > time_delta)
-+			udelay(pcc_subspace->pcc_mrtt - time_delta);
-+	}
-+
-+	/*
-+	 * Handle the non-zero Maximum Periodic Access Rate(MPAR).
-+	 * "The maximum number of periodic requests that the subspace channel can
-+	 * support, reported in commands per minute. 0 indicates no limitation."
-+	 *
-+	 * This parameter should be ideally zero or large enough so that it can
-+	 * handle maximum number of requests that all the cores in the system can
-+	 * collectively generate. If it is not, we will follow the spec and just
-+	 * not send the request to the platform after hitting the MPAR limit in
-+	 * any 60s window.
-+	 */
-+	if (pcc_subspace->pcc_mpar) {
-+		if (pcc_subspace->mpar_count == 0) {
-+			time_delta = ktime_ms_delta(ktime_get(),
-+						    pcc_subspace->last_mpar_reset);
-+			if (time_delta < 60 * MSEC_PER_SEC) {
-+				dev_dbg(ras2_ctx->dev,
-+					"PCC cmd not sent due to MPAR limit");
-+				return -EIO;
-+			}
-+			pcc_subspace->last_mpar_reset = ktime_get();
-+			pcc_subspace->mpar_count = pcc_subspace->pcc_mpar;
-+		}
-+		pcc_subspace->mpar_count--;
-+	}
-+
-+	/* Write to the shared comm region */
-+	writew_relaxed(cmd, &gen_comm_base->command);
-+
-+	/* Flip CMD COMPLETE bit */
-+	writew_relaxed(0, &gen_comm_base->status);
-+
-+	/* Ring doorbell */
-+	rc = mbox_send_message(pcc_channel, &cmd);
-+	if (rc < 0) {
-+		dev_warn(ras2_ctx->dev,
-+			 "Err sending PCC mbox message. cmd:%d, rc:%d\n", cmd, rc);
-+		return rc;
-+	}
-+
-+	/*
-+	 * If Minimum Request Turnaround Time is non-zero, we need
-+	 * to record the completion time of both READ and WRITE
-+	 * command for proper handling of MRTT, so we need to check
-+	 * for pcc_mrtt in addition to CMD_READ.
-+	 */
-+	if (cmd == PCC_CMD_EXEC_RAS2 || pcc_subspace->pcc_mrtt) {
-+		rc = ras2_check_pcc_chan(pcc_subspace);
-+		if (pcc_subspace->pcc_mrtt)
-+			pcc_subspace->last_cmd_cmpl_time = ktime_get();
-+	}
-+
-+	if (pcc_channel->mbox->txdone_irq)
-+		mbox_chan_txdone(pcc_channel, rc);
-+	else
-+		mbox_client_txdone(pcc_channel, rc);
-+
-+	return rc >= 0 ? 0 : rc;
-+}
-+EXPORT_SYMBOL_GPL(ras2_send_pcc_cmd);
-+
-+static void ras2_list_pcc_release(struct kref *kref)
-+{
-+	struct ras2_pcc_subspace *pcc_subspace =
-+		container_of(kref, struct ras2_pcc_subspace, kref);
-+
-+	guard(mutex)(&ras2_pcc_list_lock);
-+	list_del(&pcc_subspace->elem);
-+	pcc_mbox_free_channel(pcc_subspace->pcc_chan);
-+	kfree(pcc_subspace);
-+}
-+
-+static void ras2_pcc_get(struct ras2_pcc_subspace *pcc_subspace)
-+{
-+	kref_get(&pcc_subspace->kref);
-+}
-+
-+static void ras2_pcc_put(struct ras2_pcc_subspace *pcc_subspace)
-+{
-+	kref_put(&pcc_subspace->kref,  &ras2_list_pcc_release);
-+}
-+
-+static struct ras2_pcc_subspace *ras2_get_pcc_subspace(int pcc_id)
-+{
-+	struct ras2_pcc_subspace *pcc_subspace;
-+
-+	mutex_lock(&ras2_pcc_list_lock);
-+	list_for_each_entry(pcc_subspace, &ras2_pcc_subspaces, elem) {
-+		if (pcc_subspace->pcc_id != pcc_id)
-+			continue;
-+		ras2_pcc_get(pcc_subspace);
-+		mutex_unlock(&ras2_pcc_list_lock);
-+		return pcc_subspace;
-+	}
-+	mutex_unlock(&ras2_pcc_list_lock);
-+
-+	return NULL;
-+}
-+
-+static int ras2_register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
-+{
-+	struct ras2_pcc_subspace *pcc_subspace;
-+	struct pcc_mbox_chan *pcc_chan;
-+	struct mbox_client *mbox_cl;
-+
-+	if (pcc_id < 0)
-+		return -EINVAL;
-+
-+	pcc_subspace = ras2_get_pcc_subspace(pcc_id);
-+	if (pcc_subspace) {
-+		ras2_ctx->pcc_subspace	= pcc_subspace;
-+		ras2_ctx->comm_addr	= pcc_subspace->comm_addr;
-+		ras2_ctx->dev		= pcc_subspace->pcc_chan->mchan->mbox->dev;
-+		ras2_ctx->pcc_lock	= &pcc_subspace->pcc_lock;
-+		return 0;
-+	}
-+
-+	pcc_subspace = kzalloc(sizeof(*pcc_subspace), GFP_KERNEL);
-+	if (!pcc_subspace)
-+		return -ENOMEM;
-+
-+	mbox_cl			= &pcc_subspace->mbox_client;
-+	mbox_cl->knows_txdone	= true;
-+
-+	pcc_chan = pcc_mbox_request_channel(mbox_cl, pcc_id);
-+	if (IS_ERR(pcc_chan)) {
-+		kfree(pcc_subspace);
-+		return PTR_ERR(pcc_chan);
-+	}
-+
-+	pcc_subspace->pcc_id		= pcc_id;
-+	pcc_subspace->pcc_chan		= pcc_chan;
-+	pcc_subspace->comm_addr		= acpi_os_ioremap(pcc_chan->shmem_base_addr,
-+							  pcc_chan->shmem_size);
-+	pcc_subspace->deadline_us	= RAS2_NUM_RETRIES * pcc_chan->latency;
-+	pcc_subspace->pcc_mrtt		= pcc_chan->min_turnaround_time;
-+	pcc_subspace->pcc_mpar		= pcc_chan->max_access_rate;
-+	pcc_subspace->mbox_client.knows_txdone	= true;
-+	pcc_subspace->pcc_chnl_acq	= true;
-+
-+	kref_init(&pcc_subspace->kref);
-+
-+	mutex_lock(&ras2_pcc_list_lock);
-+	list_add(&pcc_subspace->elem, &ras2_pcc_subspaces);
-+	ras2_pcc_get(pcc_subspace);
-+	mutex_unlock(&ras2_pcc_list_lock);
-+
-+	ras2_ctx->pcc_subspace	= pcc_subspace;
-+	ras2_ctx->comm_addr	= pcc_subspace->comm_addr;
-+	ras2_ctx->dev		= pcc_chan->mchan->mbox->dev;
-+
-+	mutex_init(&pcc_subspace->pcc_lock);
-+	ras2_ctx->pcc_lock	= &pcc_subspace->pcc_lock;
-+
-+	return 0;
-+}
-+
-+static DEFINE_IDA(ras2_ida);
-+static void ras2_release(struct device *device)
-+{
-+	struct auxiliary_device *auxdev = container_of(device, struct auxiliary_device, dev);
-+	struct ras2_mem_ctx *ras2_ctx = container_of(auxdev, struct ras2_mem_ctx, adev);
-+
-+	ida_free(&ras2_ida, auxdev->id);
-+	ras2_pcc_put(ras2_ctx->pcc_subspace);
-+	kfree(ras2_ctx);
-+}
-+
-+static int ras2_add_aux_device(char *name, int channel)
-+{
-+	struct ras2_mem_ctx *ras2_ctx;
-+	int id, rc;
-+
-+	ras2_ctx = kzalloc(sizeof(*ras2_ctx), GFP_KERNEL);
-+	if (!ras2_ctx)
-+		return -ENOMEM;
-+
-+	rc = ras2_register_pcc_channel(ras2_ctx, channel);
-+	if (rc < 0) {
-+		pr_debug("failed to register pcc channel rc=%d\n", rc);
-+		goto ctx_free;
-+	}
-+
-+	id = ida_alloc(&ras2_ida, GFP_KERNEL);
-+	if (id < 0) {
-+		rc = id;
-+		goto pcc_free;
-+	}
-+
-+	ras2_ctx->id			= id;
-+	ras2_ctx->adev.id		= id;
-+	ras2_ctx->adev.name		= RAS2_MEM_DEV_ID_NAME;
-+	ras2_ctx->adev.dev.release	= ras2_release;
-+	ras2_ctx->adev.dev.parent	= ras2_ctx->dev;
-+
-+	rc = auxiliary_device_init(&ras2_ctx->adev);
-+	if (rc)
-+		goto ida_free;
-+
-+	rc = auxiliary_device_add(&ras2_ctx->adev);
-+	if (rc) {
-+		auxiliary_device_uninit(&ras2_ctx->adev);
-+		return rc;
-+	}
-+
-+	return 0;
-+
-+ida_free:
-+	ida_free(&ras2_ida, id);
-+pcc_free:
-+	ras2_pcc_put(ras2_ctx->pcc_subspace);
-+ctx_free:
-+	kfree(ras2_ctx);
-+
-+	return rc;
-+}
-+
-+static int acpi_ras2_parse(void)
-+{
-+	struct acpi_ras2_pcc_desc *pcc_desc_list;
-+	u16 i, count;
-+	int pcc_id;
-+	int rc;
-+
-+	if (ras2_tab->header.length < sizeof(*ras2_tab)) {
-+		pr_warn(FW_WARN "ACPI RAS2 table present but broken (too short #1)\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!ras2_tab->num_pcc_descs) {
-+		pr_warn(FW_WARN "No PCC descs in ACPI RAS2 table\n");
-+		return -EINVAL;
-+	}
-+
-+	pcc_desc_list = (struct acpi_ras2_pcc_desc *)(ras2_tab + 1);
-+	/* Double scan for the case of only one actual controller */
-+	pcc_id = -1;
-+	for (i = 0, count = 0; i < ras2_tab->num_pcc_descs; i++, pcc_desc_list++) {
-+		if (pcc_desc_list->feature_type != RAS2_FEAT_TYPE_MEMORY)
-+			continue;
-+		if (pcc_id == -1) {
-+			pcc_id = pcc_desc_list->channel_id;
-+			count++;
-+		}
-+		if (pcc_desc_list->channel_id != pcc_id)
-+			count++;
-+	}
-+
-+	/*
-+	 * Workaround for the client platform with multiple scrub devices
-+	 * but uses single PCC subspace for communication.
-+	 */
-+	if (count == 1) {
-+		/* Add auxiliary device and bind ACPI RAS2 memory driver */
-+		return ras2_add_aux_device(RAS2_MEM_DEV_ID_NAME, pcc_id);
-+	}
-+
-+	pcc_desc_list = (struct acpi_ras2_pcc_desc *)(ras2_tab + 1);
-+	for (i = 0; i < ras2_tab->num_pcc_descs; i++, pcc_desc_list++) {
-+		if (pcc_desc_list->feature_type != RAS2_FEAT_TYPE_MEMORY)
-+			continue;
-+
-+		rc = ras2_add_aux_device(RAS2_MEM_DEV_ID_NAME, pcc_desc_list->channel_id);
-+		if (rc)
-+			pr_warn("Failed to add RAS2 auxiliary device rc=%d\n", rc);
-+	}
-+
-+	return 0;
-+}
-+
-+void __init acpi_ras2_init(void)
-+{
-+	acpi_status status;
-+
-+	status = acpi_get_table(ACPI_SIG_RAS2, 0,
-+				(struct acpi_table_header **)&ras2_tab);
-+	if (ACPI_FAILURE(status)) {
-+		pr_err("Failed to get table, %s\n", acpi_format_exception(status));
-+		return;
-+	}
-+
-+	if (acpi_ras2_parse())
-+		pr_err("Failed to parse RAS2 table\n");
-+
-+	acpi_put_table((struct acpi_table_header *)ras2_tab);
-+}
-diff --git a/include/acpi/ras2.h b/include/acpi/ras2.h
-new file mode 100644
-index 000000000000..f8937069cd4a
---- /dev/null
-+++ b/include/acpi/ras2.h
-@@ -0,0 +1,54 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * ACPI RAS2 driver header file
-+ *
-+ * Copyright (c) 2024-2025 HiSilicon Limited
-+ */
-+
-+#ifndef _ACPI_RAS2_H
-+#define _ACPI_RAS2_H
-+
-+#include <linux/acpi.h>
-+#include <linux/auxiliary_bus.h>
-+#include <linux/mailbox_client.h>
-+#include <linux/mutex.h>
-+#include <linux/types.h>
-+
-+struct device;
-+
-+/*
-+ * ACPI spec 6.5 Table 5.82: PCC command codes used by
-+ * RAS2 platform communication channel.
-+ */
-+#define PCC_CMD_EXEC_RAS2 0x01
-+
-+#define RAS2_AUX_DEV_NAME "ras2"
-+#define RAS2_MEM_DEV_ID_NAME "acpi_ras2_mem"
-+
-+/**
-+ * struct ras2_mem_ctx - Context for RAS2 memory features
-+ * @id:			Unique identifier for the RAS2 feature
-+ * @adev:		Auxiliary device object
-+ * @comm_addr:		Pointer to RAS2 PCC shared memory region
-+ * @dev:		Pointer to device backing struct mbox_controller for PCC
-+ * @pcc_subspace:	Pointer to local data structure for PCC communication
-+ * @pcc_lock:		Pointer to PCC lock to provide mutually exclusive access
-+ *			to PCC channel subspace
-+ */
-+struct ras2_mem_ctx {
-+	int				id;
-+	struct auxiliary_device		adev;
-+	struct acpi_ras2_shmem __iomem	*comm_addr;
-+	struct device			*dev;
-+	void				*pcc_subspace;
-+	struct mutex			*pcc_lock;
-+};
-+
-+#ifdef CONFIG_ACPI_RAS2
-+void __init acpi_ras2_init(void);
-+int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd);
-+#else
-+static inline void acpi_ras2_init(void) { }
-+#endif
-+
-+#endif /* _ACPI_RAS2_H */
+Downgraded speed may indicate there's something wrong with the card and 
+the Link Speed does have performance impact too for those who are pushing 
+BW boundaries such as AI systems.
+
+So my suggestion is:
+
+- Add "Link Speed changed" to the event types.
+- Add Link Speed and Width into the event format (and probably also Flit 
+  mode as PCIe gen6 is coming).
+
+> +/* Enums require being exported to userspace, for user tool parsing */
+> +#undef EM
+> +#undef EMe
+> +#define EM(a, b)	TRACE_DEFINE_ENUM(a);
+> +#define EMe(a, b)	TRACE_DEFINE_ENUM(a);
+> +
+> +PCI_HOTPLUG_EVENT
+> +
+> +/*
+> + * Now redefine the EM() and EMe() macros to map the enums to the strings
+> + * that will be printed in the output.
+> + */
+> +#undef EM
+> +#undef EMe
+> +#define EM(a, b)	{a, b},
+> +#define EMe(a, b)	{a, b}
+> +
+> +TRACE_EVENT(pci_hp_event,
+> +
+> +	TP_PROTO(const char *port_name,
+> +		 const char *slot,
+> +		 const int event),
+> +
+> +	TP_ARGS(port_name, slot, event),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(	port_name,	port_name	)
+> +		__string(	slot,		slot		)
+> +		__field(	int,		event	)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(port_name);
+> +		__assign_str(slot);
+> +		__entry->event = event;
+> +	),
+> +
+> +	TP_printk("%s slot:%s, event:%s\n",
+> +		__get_str(port_name),
+> +		__get_str(slot),
+> +		__print_symbolic(__entry->event, PCI_HOTPLUG_EVENT)
+> +	)
+> +);
+> +
+> +#endif /* _TRACE_HW_EVENT_PCI_HP_H */
+> +
+> +#undef TRACE_INCLUDE_PATH
+> +#define TRACE_INCLUDE_PATH .
+> +#undef TRACE_INCLUDE_FILE
+> +#define TRACE_INCLUDE_FILE trace
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+> diff --git a/include/uapi/linux/pci.h b/include/uapi/linux/pci.h
+> index a769eefc5139..4f150028965d 100644
+> --- a/include/uapi/linux/pci.h
+> +++ b/include/uapi/linux/pci.h
+> @@ -39,4 +39,11 @@
+>  #define PCIIOC_MMAP_IS_MEM	(PCIIOC_BASE | 0x02)	/* Set mmap state to MEM space. */
+>  #define PCIIOC_WRITE_COMBINE	(PCIIOC_BASE | 0x03)	/* Enable/disable write-combining. */
+>  
+> +enum pci_hotplug_event {
+> +	PCI_HOTPLUG_LINK_UP,
+> +	PCI_HOTPLUG_LINK_DOWN,
+> +	PCI_HOTPLUG_CARD_PRESENT,
+> +	PCI_HOTPLUG_CARD_NOT_PRESENT,
+> +};
+> +
+>  #endif /* _UAPILINUX_PCI_H */
+> 
+
 -- 
-2.43.0
+ i.
 
