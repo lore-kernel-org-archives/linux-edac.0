@@ -1,72 +1,142 @@
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C6322127B
-	for <linux-edac@vger.kernel.org>; Wed, 28 May 2025 22:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.51.139
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1332F2629C;
+	Thu, 29 May 2025 03:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748470970; cv=none; b=JLxO5LDfb4CfNBFMqlwgjAYS0es0N8XWuxQt03GoK9Km4obm9x3HQYLUgPOhuJD7T8i7xZGB7t7Lu1viYPKcjZf8dHQ11CCmizsWNC2Qo1YcuatY511OAUsVvPB0wIHIioYWTwZmB0yTmd0r+pcPKmUZNUn/dW5hMVRdcVDeY78=
+	t=1748487630; cv=none; b=pHBaqp9OP9bqPbOdix/gmHNddiitwvXexiuCA6arkAwkHGecz7lFcmzyrjppsadhZIO4L4e+vFxGOkXQcOC6MPGlakcu/p/gIv6s1TYGS2OVAHVI17hhi419kZoub062WTYTZJuiP/zRoWNqx8HfisKg2xq9HYF2OcJ4cUiRm5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748470970; c=relaxed/simple;
-	bh=dAYHfQ5ru5UuATgqK7RweIbaHUr9eLZmWvT94xTxoKM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bQ3UaluNFHO2RJHQpIsmN1FORHKM0QlcBLwMe93VIJxgHPK22h+3mDOf3Wd1a84+efnHYW0DN3PB7UKUOwTSwc74Ma/SWGzHoIA5yciqsiHaworfX/vxcPaIPgO37QQ2o6oawDtEROaUQ6HZm6jqGxSe3wRV6U44aXH1tf242OY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.ch; spf=pass smtp.mailfrom=protonmail.ch; dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b=fAExKK0q; arc=none smtp.client-ip=188.165.51.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.ch
+	s=arc-20240116; t=1748487630; c=relaxed/simple;
+	bh=5/PIRpFt+YrjS9KFotq9SMGHXTN611svNE76InG69h4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=q9jbCo6HyvT18KUJgFH45rkKN2Zh3q0DPCVPC2nEWTWWle3YdxGcFSBCd35PBfOr55h5rD+rh5bbLLcnZk1oIq0aw/yK4nXJ73cIDdEDiNrBu/ogSAtIb39dRxy/40nUCMh717mhOJ8dAfQxDaBDsIxHz7H94av4ZziISUpTObI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Hg8A0ODh; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.ch header.i=@protonmail.ch header.b="fAExKK0q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
-	s=protonmail3; t=1748470958; x=1748730158;
-	bh=I7UuwqVfWduJJ9gdI9SObqErEA8S/4oK/jrO6xyK0XY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=fAExKK0qTXjHTWrCjyeZgUT0m5QN9RSWgfsQJG1ZEeWJu+i4LGoSY1GKOicj5FPaE
-	 y28XQVYftCUblbq/97AZgx7cfsC1A5G5gH2lon/JgYf6nQvn4n1GvzJZPKO/RItay4
-	 A14jp02mAvyhQnh0Ht4d9nvpCzekb/1JjJoUCkMNV5dPrvU3ogvUESM3KTSTN1Y+yk
-	 cBacww+BXuVn9XKs9Eh9P/boqPAf7J3FMwBQ32CS0O67DN8amEQhkMozpSUbXQaKdP
-	 t//oplL0mT0yGKhnJMvRXSBJG2fKvqTWVM5V0PFIy+9ryvZ1L7EBnri6bo3TIcUWVI
-	 HxY9o2H645wFw==
-Date: Wed, 28 May 2025 22:22:33 +0000
-To: Avadhut Naik <avadhut.naik@amd.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>, "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>, "Naik, Avadhut" <avadnaik@amd.com>, Borislav Petkov <bp@alien8.de>, "tony.luck@intel.com" <tony.luck@intel.com>
-From: James Blake <jamesedblake@protonmail.ch>
-Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Subject: Re: amd64_edac fails to detect DIMM with only one ECC UDIMM installed (works with two)
-Message-ID: <ICqp-rWBvFH6C8JZr5ejYGojRAJBq4aDTIQxeZ4CpJJClm0ORSvW9QjbrefiVG3Sryws_xpBujUiznDwE0UQ5ETrued4QW9i09uxszKcp-I=@protonmail.ch>
-In-Reply-To: <Y2t3NVJDekt0_ZKiu49pm_CcUtPa_2P5J7nfX2pDyU6d86s654OzT0-HkAe70ADRKjkQWPTVEeRxe_D1LKBfGWi2bm4rRkN6r4oxN62GMn8=@protonmail.ch>
-References: <WWtcG6KurPUuwF9vO6BrD2SXUmU20OYqRPPpbGD9Oxp9ZmB8KvHdFELQ9zURHvcXiF5WE2UdhZwbGlvxVQV82Srwl7B9bMKvxFhBQyPTET0=@protonmail.ch> <20250528164459.GDaDc9i5ngUZlWECaU@fat_crate.local> <c1a5dbb5-3498-4ac3-a278-dfde3f005e6e@amd.com> <20250528175819.GGaDdOuwb-nzE6FfYs@fat_crate.local> <Y2t3NVJDekt0_ZKiu49pm_CcUtPa_2P5J7nfX2pDyU6d86s654OzT0-HkAe70ADRKjkQWPTVEeRxe_D1LKBfGWi2bm4rRkN6r4oxN62GMn8=@protonmail.ch>
-Feedback-ID: 7806751:user:proton
-X-Pm-Message-ID: e57e0f9ca7af27c0542851232f252b224a7e1f28
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Hg8A0ODh"
+Received: by linux.microsoft.com (Postfix, from userid 1053)
+	id AD3EF210C335; Wed, 28 May 2025 20:00:28 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AD3EF210C335
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1748487628;
+	bh=fLBdU9btGRF299ua5retncJ9AqSOE2dlAJemQ2IUuF4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Hg8A0ODhSEaP5YHb1/DbzYnLq591+k+h8D4i8R9oXd1Rp/Kz3VdZI6Zespvst5rjR
+	 DqTVEUDFpDG8LLBU6m2JYS8pgRWXSlKQuck8xffXdY2imyb3gUTow7WRJcfZY4qgcB
+	 yl7YTfXQKHh4m3EQNGBNYbCWxma2dKe9tLyBmlaU=
+From: Vijay Balakrishna <vijayb@linux.microsoft.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tyler Hicks <code@tyhicks.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	devicetree@vger.kernel.org,
+	Vijay Balakrishna <vijayb@linux.microsoft.com>
+Subject: [v11 PATCH 2/2] dt-bindings: arm: cpus: Add edac-enabled property
+Date: Wed, 28 May 2025 20:00:28 -0700
+Message-Id: <1748487628-30123-3-git-send-email-vijayb@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1748487628-30123-1-git-send-email-vijayb@linux.microsoft.com>
+References: <1748487628-30123-1-git-send-email-vijayb@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Just wanted to add something I just noticed.
+From: Sascha Hauer <s.hauer@pengutronix.de>
 
-The `dmesg` output from when both DIMMs were installed showed this:
+Some ARM Cortex CPUs including A72 have Error Detection And
+Correction (EDAC) support on their L1 and L2 caches. This is implemented
+in implementation defined registers, so usage of this functionality is
+not safe in virtualized environments or when EL3 already uses these
+registers. This patch adds a edac-enabled flag which can be explicitly
+set when EDAC can be used.
 
-    EDAC MC: UMC0 chip selects:
-    EDAC amd64: MC: 0:     0MB 1:     0MB
-    EDAC amd64: MC: 2:  8192MB 3:  8192MB
-    EDAC MC: UMC1 chip selects:
-    EDAC amd64: MC: 0:     0MB 1:     0MB
-    EDAC amd64: MC: 2:  8192MB 3:  8192MB
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+[vijayb: Added A72 to the commit message]
+Signed-off-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/arm/cpus.yaml         | 50 +++++++++++++------
+ 1 file changed, 34 insertions(+), 16 deletions(-)
 
-but both installed DIMMs are 32GiB dual-rank, so I expected 16GB per
-rank, not 8GB. EDAC is only showing 8GB per rank, totaling 16GB per
-DIMM.
+diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+index 2e666b2a4dcd..af884d51362d 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.yaml
++++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -331,6 +331,12 @@ properties:
+       corresponding to the index of an SCMI performance domain provider, must be
+       "perf".
+ 
++  edac-enabled:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      A72 CPUs support Error Detection And Correction (EDAC) on their L1 and
++      L2 caches. This flag marks this function as usable.
++
+   qcom,saw:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description: |
+@@ -378,22 +384,34 @@ properties:
+       formed by encoding the target CPU id into the low bits of the
+       physical start address it should jump to.
+ 
+-if:
+-  # If the enable-method property contains one of those values
+-  properties:
+-    enable-method:
+-      contains:
+-        enum:
+-          - brcm,bcm11351-cpu-method
+-          - brcm,bcm23550
+-          - brcm,bcm-nsp-smp
+-  # and if enable-method is present
+-  required:
+-    - enable-method
+-
+-then:
+-  required:
+-    - secondary-boot-reg
++allOf:
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              const: arm,cortex-a72
++    then:
++      # Allow edac-enabled only for Cortex A72
++      properties:
++        edac-enabled: false
++
++  - if:
++      # If the enable-method property contains one of those values
++      properties:
++        enable-method:
++          contains:
++            enum:
++              - brcm,bcm11351-cpu-method
++              - brcm,bcm23550
++              - brcm,bcm-nsp-smp
++      # and if enable-method is present
++      required:
++        - enable-method
++
++    then:
++      required:
++        - secondary-boot-reg
+ 
+ required:
+   - device_type
+-- 
+2.49.0
 
-So even with both DIMMs present, the driver seems to undercount
-capacity. Could this be related to the issue with single-DIMM setup
-not being detected at all?
-
-Let me know if I can test anything else or collect more data.
-
-Thanks,
-James
