@@ -1,364 +1,87 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1337578F3E;
-	Thu, 29 May 2025 03:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D9A21CC5D
+	for <linux-edac@vger.kernel.org>; Thu, 29 May 2025 03:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748487631; cv=none; b=H9JX/+Cs0eOd6c0eR9lMm9jmb9o2BPDcvDIbcQqX+lMNAXFp0hzwwdaPc7IWUI5ou5nfCa26TadyWUewGhhRfvDxXRRBdKRLbQ2Dm7GUR/JQuQIs5R5jPvQF2CatTVmJ2fbM8Byb8HFfjMS/f7/f/7V5iyeCVmmBnaUQRT3E2oU=
+	t=1748487650; cv=none; b=YoIyF4wI5zX/Tt0IiCW1JgLSl+9wo9ZqfYT3T3NAiToEUynbphSSv64rYGe7tIMroZ7JUx9C/dxjYyvJpSeamajzDX8aA6WCMAStcSXte4QKhP5Gn1FfAtFMTb8RZtPygk4DqcpG1CQTXcRpzPn1HXmkB02cOLA3sD3sbA7vaNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748487631; c=relaxed/simple;
-	bh=gTkRfnzhcdWtIzT3G6QAopV5LUlB3RPiHgS7Og1A8jU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=kYGB5OQTL5u3daQAAZ5pUF76m+vYKMYkfrw9iv6bPFD/EnH+V7wnkK3N1owYdzq0n6FddbWROIVTkFNREoLn4i7yBKvwR7CLvYT0+0pNkjQ+VoiJKxZ1QGe/wzGGlxuoU8ev/k63mTsY735pqUzQ8wyhAOH3PQD73XPAOtUkHg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EnLOQr6m; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EnLOQr6m"
-Received: by linux.microsoft.com (Postfix, from userid 1053)
-	id A00BB210B14E; Wed, 28 May 2025 20:00:28 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A00BB210B14E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1748487628;
-	bh=P9rsRLFHgIynPWVNoRZBkfwY0Lc1lIuwQ0ZPOssYhOo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EnLOQr6m1SXe9Dj2qq00bkNLf6WI0ykTsaRSpwsrOneNR8L1gCzc4uT6aDiEgy9Dl
-	 OmCuoEZkRiNaLsBN046ZEQjDWk19kWtnSeYTFUesIJCIStzqMnmYbXrheywqmbTgdn
-	 c8EYGBBslsLYAndhzZKDp2Kkys5wfeTDDcQ8vCWI=
-From: Vijay Balakrishna <vijayb@linux.microsoft.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: James Morse <james.morse@arm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Richter <rric@kernel.org>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tyler Hicks <code@tyhicks.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	devicetree@vger.kernel.org,
-	Vijay Balakrishna <vijayb@linux.microsoft.com>
-Subject: [v11 PATCH 1/2] EDAC: Add EDAC driver for ARM Cortex A72 cores
-Date: Wed, 28 May 2025 20:00:27 -0700
-Message-Id: <1748487628-30123-2-git-send-email-vijayb@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1748487628-30123-1-git-send-email-vijayb@linux.microsoft.com>
-References: <1748487628-30123-1-git-send-email-vijayb@linux.microsoft.com>
+	s=arc-20240116; t=1748487650; c=relaxed/simple;
+	bh=rclhPDUn7MDNLqW8a23+tVHQVVXPu4/tWnIqdKIKffs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jbT+LmNypNSXB72rV+PM5764IJqlfniUnMwxkbICej60vsW1gxv7ed5fLbj8Pv2VPzmDjCgXqIugvbtTNWIPT4ITAr0ZTZYkV1hvhsMpQUtGxuKh7cRQhelIZIkXEGATPaHdBCNVZ+pYYvSOnr+nw800FtgrSpft0goEyN6HhlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4b7B0F16MCzvPsb;
+	Thu, 29 May 2025 10:58:53 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 70D2E180B6C;
+	Thu, 29 May 2025 11:00:38 +0800 (CST)
+Received: from kwepemq500009.china.huawei.com (7.202.195.53) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 29 May 2025 11:00:38 +0800
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ kwepemq500009.china.huawei.com (7.202.195.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 29 May 2025 11:00:37 +0800
+From: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+To: <tony.luck@intel.com>, <bp@alien8.de>
+CC: <x86@kernel.org>, <linux-edac@vger.kernel.org>, <wanghai38@huawei.com>,
+	<bobo.shaobowang@huawei.com>, <wangxiongfeng2@huawei.com>
+Subject: [RFC PATCH] x86/mce/inject: Add sanity check in inject_mce()
+Date: Thu, 29 May 2025 11:32:56 +0800
+Message-ID: <20250529033256.31554-1-wangxiongfeng2@huawei.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq500009.china.huawei.com (7.202.195.53)
 
-From: Sascha Hauer <s.hauer@pengutronix.de>
+syzbot reported the following kernel panic:
 
-The driver is designed to support error detection and reporting for
-Cortex A72 cores, specifically within their L1 and L2 cache systems.
-The errors are detected by reading CPU/L2 memory error syndrome
-registers.
+[  306.335489][ T3298] mce: CPUs not responding to MCE broadcast (may include false positives): 1-3
+[  306.336332][ T3298] Kernel panic - not syncing: Timeout: Not all CPUs entered broadcast exception handler
+[  306.337786][ T3298] Kernel Offset: 0x17400000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
 
-Unfortunately there is no robust way to inject errors into the caches,
-so this driver doesn't contain any code to actually test it. It has
-been tested though with code taken from an older version [1] of this
-driver. For reasons stated in thread [1], the error injection code is
-not suitable for mainline, so it is removed from the driver.
+The syzkaller test didn't set 'MCJ_IRQ_BROADCAST | MCJ_NMI_BROADCAST' in
+'inject_flags', so the MCE will only be injected to the local CPU. But
+'MCG_STATUS_LMCES' is not set in 'mcgstatus', so the local CPU will wait
+others CPUs to enter MCE in mce_start(). But other CPUs were not
+injected, so the above panic happened. We add sanity check in
+inject_mce() to fix this issue.
 
-[1] https://lore.kernel.org/all/1521073067-24348-1-git-send-email-york.sun@nxp.com/#t
-
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-Co-developed-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
-Signed-off-by: Vijay Balakrishna <vijayb@linux.microsoft.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
 ---
- MAINTAINERS             |   7 ++
- drivers/edac/Kconfig    |   8 ++
- drivers/edac/Makefile   |   1 +
- drivers/edac/edac_a72.c | 230 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 246 insertions(+)
- create mode 100644 drivers/edac/edac_a72.c
+ arch/x86/kernel/cpu/mce/inject.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3cbf9ac0d83f..dac4692c10c8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8429,6 +8429,13 @@ F:	Documentation/driver-api/edac.rst
- F:	drivers/edac/
- F:	include/linux/edac.h
+diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
+index 06e3cf7229ce..4af98f0e191e 100644
+--- a/arch/x86/kernel/cpu/mce/inject.c
++++ b/arch/x86/kernel/cpu/mce/inject.c
+@@ -127,6 +127,13 @@ static void inject_mce(struct mce *m)
+ {
+ 	struct mce *i = &per_cpu(injectm, m->extcpu);
  
-+EDAC-A72
-+M:	Vijay Balakrishna <vijayb@linux.microsoft.com>
-+M:	Tyler Hicks <code@tyhicks.com>
-+L:	linux-edac@vger.kernel.org
-+S:	Supported
-+F:	drivers/edac/edac_a72.c
-+
- EDAC-DMC520
- M:	Lei Wang <lewan@microsoft.com>
- L:	linux-edac@vger.kernel.org
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 19ad3c3b675d..b824472208c4 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -576,4 +576,12 @@ config EDAC_LOONGSON
- 	  errors (CE) only. Loongson-3A5000/3C5000/3D5000/3A6000/3C6000
- 	  are compatible.
- 
-+config EDAC_CORTEX_A72
-+	tristate "ARM Cortex A72"
-+	depends on ARM64
-+	help
-+	  Support for L1/L2 cache error detection for ARM Cortex A72 processor.
-+	  The detected and reported errors are from reading CPU/L2 memory error
-+	  syndrome registers.
-+
- endif # EDAC
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index a8f2d8f6c894..136416f43b44 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -88,3 +88,4 @@ obj-$(CONFIG_EDAC_NPCM)			+= npcm_edac.o
- obj-$(CONFIG_EDAC_ZYNQMP)		+= zynqmp_edac.o
- obj-$(CONFIG_EDAC_VERSAL)		+= versal_edac.o
- obj-$(CONFIG_EDAC_LOONGSON)		+= loongson_edac.o
-+obj-$(CONFIG_EDAC_CORTEX_A72)		+= edac_a72.o
-diff --git a/drivers/edac/edac_a72.c b/drivers/edac/edac_a72.c
-new file mode 100644
-index 000000000000..4f40616d40a0
---- /dev/null
-+++ b/drivers/edac/edac_a72.c
-@@ -0,0 +1,230 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Cortex A72 EDAC L1 and L2 cache error detection
-+ *
-+ * Copyright (c) 2020 Pengutronix, Sascha Hauer <s.hauer@pengutronix.de>
-+ * Copyright (c) 2025 Microsoft Corporation, <vijayb@linux.microsoft.com>
-+ *
-+ * Based on Code from:
-+ * Copyright (c) 2018, NXP Semiconductor
-+ * Author: York Sun <york.sun@nxp.com>
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/bitfield.h>
-+#include <asm/smp_plat.h>
-+
-+#include "edac_module.h"
-+
-+#define DRVNAME		"edac-a72"
-+
-+#define SYS_CPUMERRSR_EL1	sys_reg(3, 1, 15, 2, 2)
-+#define SYS_L2MERRSR_EL1	sys_reg(3, 1, 15, 2, 3)
-+
-+#define CPUMERRSR_EL1_RAMID		GENMASK(30, 24)
-+#define L2MERRSR_EL1_CPUID_WAY	GENMASK(21, 18)
-+
-+#define CPUMERRSR_EL1_VALID		BIT(31)
-+#define CPUMERRSR_EL1_FATAL		BIT(63)
-+#define L2MERRSR_EL1_VALID		BIT(31)
-+#define L2MERRSR_EL1_FATAL		BIT(63)
-+
-+#define L1_I_TAG_RAM	0x00
-+#define L1_I_DATA_RAM	0x01
-+#define L1_D_TAG_RAM	0x08
-+#define L1_D_DATA_RAM	0x09
-+#define TLB_RAM			0x18
-+
-+#define MESSAGE_SIZE	64
-+
-+struct mem_err_synd_reg {
-+	u64 cpu_mesr;
-+	u64 l2_mesr;
-+};
-+
-+static struct cpumask compat_mask;
-+
-+static void report_errors(struct edac_device_ctl_info *edac_ctl, int cpu,
-+			  struct mem_err_synd_reg *mesr)
-+{
-+	u64 cpu_mesr = mesr->cpu_mesr;
-+	u64 l2_mesr = mesr->l2_mesr;
-+	char msg[MESSAGE_SIZE];
-+
-+	if (cpu_mesr & CPUMERRSR_EL1_VALID) {
-+		const char *str;
-+		bool fatal = cpu_mesr & CPUMERRSR_EL1_FATAL;
-+
-+		switch (FIELD_GET(CPUMERRSR_EL1_RAMID, cpu_mesr)) {
-+		case L1_I_TAG_RAM:
-+			str = "L1-I Tag RAM";
-+			break;
-+		case L1_I_DATA_RAM:
-+			str = "L1-I Data RAM";
-+			break;
-+		case L1_D_TAG_RAM:
-+			str = "L1-D Tag RAM";
-+			break;
-+		case L1_D_DATA_RAM:
-+			str = "L1-D Data RAM";
-+			break;
-+		case TLB_RAM:
-+			str = "TLB RAM";
-+			break;
-+		default:
-+			str = "Unspecified";
-+			break;
-+		}
-+
-+		snprintf(msg, MESSAGE_SIZE, "%s %s error(s) on CPU %d",
-+			 str, fatal ? "fatal" : "correctable", cpu);
-+
-+		if (fatal)
-+			edac_device_handle_ue(edac_ctl, cpu, 0, msg);
-+		else
-+			edac_device_handle_ce(edac_ctl, cpu, 0, msg);
++	/* do some sanity checks */
++	if (!(m->inject_flags & (MCJ_IRQ_BROADCAST | MCJ_NMI_BROADCAST))) {
++		if (m->cpuvendor == X86_VENDOR_INTEL ||
++		    m->cpuvendor == X86_VENDOR_ZHAOXIN)
++			m->mcgstatus |= MCG_STATUS_LMCES;
 +	}
 +
-+	if (l2_mesr & L2MERRSR_EL1_VALID) {
-+		bool fatal = l2_mesr & L2MERRSR_EL1_FATAL;
-+
-+		snprintf(msg, MESSAGE_SIZE, "L2 %s error(s) on CPU %d CPUID/WAY 0x%lx",
-+			 fatal ? "fatal" : "correctable", cpu,
-+			 FIELD_GET(L2MERRSR_EL1_CPUID_WAY, l2_mesr));
-+		if (fatal)
-+			edac_device_handle_ue(edac_ctl, cpu, 1, msg);
-+		else
-+			edac_device_handle_ce(edac_ctl, cpu, 1, msg);
-+	}
-+}
-+
-+static void read_errors(void *data)
-+{
-+	struct mem_err_synd_reg *mesr = data;
-+
-+	mesr->cpu_mesr = read_sysreg_s(SYS_CPUMERRSR_EL1);
-+	if (mesr->cpu_mesr & CPUMERRSR_EL1_VALID) {
-+		write_sysreg_s(0, SYS_CPUMERRSR_EL1);
-+		isb();
-+	}
-+	mesr->l2_mesr = read_sysreg_s(SYS_L2MERRSR_EL1);
-+	if (mesr->l2_mesr & L2MERRSR_EL1_VALID) {
-+		write_sysreg_s(0, SYS_L2MERRSR_EL1);
-+		isb();
-+	}
-+}
-+
-+static void a72_edac_check(struct edac_device_ctl_info *edac_ctl)
-+{
-+	struct mem_err_synd_reg mesr;
-+	int cpu;
-+
-+	cpus_read_lock();
-+	for_each_cpu_and(cpu, cpu_online_mask, &compat_mask) {
-+		smp_call_function_single(cpu, read_errors, &mesr, true);
-+		report_errors(edac_ctl, cpu, &mesr);
-+	}
-+	cpus_read_unlock();
-+}
-+
-+static int a72_edac_probe(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_ctl;
-+	struct device *dev = &pdev->dev;
-+	int rc;
-+
-+	edac_ctl = edac_device_alloc_ctl_info(0, "cpu",
-+					      num_possible_cpus(), "L", 2, 1,
-+					      edac_device_alloc_index());
-+	if (!edac_ctl)
-+		return -ENOMEM;
-+
-+	edac_ctl->edac_check = a72_edac_check;
-+	edac_ctl->dev = dev;
-+	edac_ctl->mod_name = dev_name(dev);
-+	edac_ctl->dev_name = dev_name(dev);
-+	edac_ctl->ctl_name = DRVNAME;
-+	dev_set_drvdata(dev, edac_ctl);
-+
-+	rc = edac_device_add_device(edac_ctl);
-+	if (rc)
-+		goto out_dev;
-+
-+	return 0;
-+
-+out_dev:
-+	edac_device_free_ctl_info(edac_ctl);
-+
-+	return rc;
-+}
-+
-+static void a72_edac_remove(struct platform_device *pdev)
-+{
-+	struct edac_device_ctl_info *edac_ctl = dev_get_drvdata(&pdev->dev);
-+
-+	edac_device_del_device(edac_ctl->dev);
-+	edac_device_free_ctl_info(edac_ctl);
-+}
-+
-+static const struct of_device_id cortex_arm64_edac_of_match[] = {
-+	{ .compatible = "arm,cortex-a72" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, cortex_arm64_edac_of_match);
-+
-+static struct platform_driver a72_edac_driver = {
-+	.probe = a72_edac_probe,
-+	.remove = a72_edac_remove,
-+	.driver = {
-+		.name = DRVNAME,
-+	},
-+};
-+
-+static int __init a72_edac_driver_init(void)
-+{
-+	struct platform_device *pdev;
-+	int cpu, err;
-+
-+	for_each_possible_cpu(cpu) {
-+		struct device_node *np __free(device_node) =
-+				of_cpu_device_node_get(cpu);
-+
-+		if (np) {
-+			if (of_match_node(cortex_arm64_edac_of_match, np) &&
-+			    of_property_read_bool(np, "edac-enabled")) {
-+				cpumask_set_cpu(cpu, &compat_mask);
-+			}
-+		} else {
-+			pr_warn("failed to find device node for CPU %d\n", cpu);
-+		}
-+	}
-+
-+	if (cpumask_empty(&compat_mask))
-+		return 0;
-+
-+	err = platform_driver_register(&a72_edac_driver);
-+	if (err)
-+		return err;
-+
-+	pdev = platform_device_register_simple(DRVNAME, -1, NULL, 0);
-+	if (IS_ERR(pdev)) {
-+		pr_err("failed to register a72 edac device\n");
-+		platform_driver_unregister(&a72_edac_driver);
-+		return PTR_ERR(pdev);
-+	}
-+
-+	return 0;
-+}
-+
-+static void __exit a72_edac_driver_exit(void)
-+{
-+	platform_driver_unregister(&a72_edac_driver);
-+}
-+
-+module_init(a72_edac_driver_init);
-+module_exit(a72_edac_driver_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Sascha Hauer <s.hauer@pengutronix.de>");
-+MODULE_DESCRIPTION("Cortex A72 L1 and L2 cache EDAC driver");
+ 	/* Make sure no one reads partially written injectm */
+ 	i->finished = 0;
+ 	mb();
 -- 
-2.49.0
+2.20.1
 
