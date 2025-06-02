@@ -1,165 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71C530100;
-	Mon,  2 Jun 2025 06:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E166EAF9;
+	Mon,  2 Jun 2025 18:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748845813; cv=none; b=pMaHqrDsuryZbVlZonYqqJ1wgrIh1GeWB0T8ccr5XPTVwJ+Uco3M7ENOIcoB506Z3/4vjWcuCGPgq3URQ3339+oWrlmaLSeCkFgK7EHCY0aUxefWRYyQxXAp6WiRKl7duC/B2mQelxrjvGdUd0UdprbZvf8zlVXdHduviFdAQ4Q=
+	t=1748887872; cv=none; b=Iw1PfzlIpbWW2nq5xiVxGssu64okMRlooilb/nE7/vGv8CS1a13VMVVdwP2cKQyB27G4Y5/08p/DxJ6gjnVvu6wW9dySlaLjemU5rkZKCVJctHYelYv6Lz7hZn+lWqPSF1F2tN+yzUgchAVXDIqnx+E1oNy/eHMIqD41bmOcpqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748845813; c=relaxed/simple;
-	bh=iZsdRW2eWSM0CYYMYUe4/FaSLJwa7Tu9tmz6E/97JQk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Ziz/BAXwufPlm3bdl5QqbAbtVfRo+6rLjR83doobZHaAB+2vF2erJEMqo5EPQ/TesnsKgRw4qcdZegB7gSUEGjkg0IwJPnMUgtB6wM4OINnuePU2cUGRsPfsRgzDbxC2N+AaQZbLUJ85L1xPh6FivwZ7TC8EQpzTGW2Tpey5L2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghNO+zd7; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1748887872; c=relaxed/simple;
+	bh=30U5FrzZe477PkMourbldSSCDpz4fRDaC700uOnf3C0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FV1qs+I8v7408En5xYve6KejJtMYw+9+POj8dNFMRQW4y6WF9pyoo1N5DCYVvjOMcA0ny2OjXaJNUPhWubN/QcCiDXj3ECj34ZrtUSKChyUfRZkkABwPd/I2xJ7WE12BT22832FNpYWPY0Xv4XA+dx60MEmMf/6GvCUYdvI1o0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmSQW/5Z; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghNO+zd7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmSQW/5Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748845811; x=1780381811;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=iZsdRW2eWSM0CYYMYUe4/FaSLJwa7Tu9tmz6E/97JQk=;
-  b=ghNO+zd7jVDDqu1yBMm0dbh4cbzt4zB99WgaK4ui2xFo0xYEnMauQVXW
-   v7W3nwKQwFKmABajit/IGmMdR4sz3XNUG1o6zvVl0VO1LDA8CoSupYu1g
-   POISsCHry0FrPFGNxcT3oMRC75cSjIetm+sMFM0V66qhVsonyrLY5B8wl
-   ofYvecHSXzofhSQtcmEAi3j557m7WJT/31A9ogpff1iJ3M63OynyJMUCc
-   umsh43HEzG8+/2WfhtNg0aWI6CX7M0LKwxIg0fYsV+4pP9ZikgjaMrc+D
-   tbbiwfmWscs5hsK7slaYjSWLYkPHgy+Qc5oh78QKzz4glIlQiMB1spwyD
+  t=1748887871; x=1780423871;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=30U5FrzZe477PkMourbldSSCDpz4fRDaC700uOnf3C0=;
+  b=fmSQW/5ZVmnMp5slep4QinOaqcZjzpm4c4TKX1SinJezIVG/Z/aOJJZW
+   C3k0xzSKuvArrDK70JCWs4AXwUdRd7GGqCULxHnjs0xzX5+a+DvbegBuC
+   JpK1tTojevQjKbi070x6IXBqxLcD7ZMmWqWQ+53Nn/BVjj/+CrRo4KRp9
+   lZGHi0Bbn5z8viq+1BsxZQhNXck99FQ8heEvzyL6CAV9itYegZ74l1JR3
+   zDZfHc7rqhBdmu2DUEXd7jxZQ7W0cG75UWk/baTbLBHhNegXoIeW757mx
+   O/MH/BCtyYsSnAO7m+XOanmOt2M9XkWSxvqe9HDWLjgnZKUzHNji3zH8j
    g==;
-X-CSE-ConnectionGUID: 5d/Hi8DpS8W4SUteUzNyzA==
-X-CSE-MsgGUID: dRWGdx/2SICtO+xm4sXiLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="49973213"
-X-IronPort-AV: E=Sophos;i="6.16,202,1744095600"; 
-   d="scan'208";a="49973213"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 23:30:10 -0700
-X-CSE-ConnectionGUID: Ta+mIcmBS6Ss9Ett8EMblg==
-X-CSE-MsgGUID: E9sDq5bRTMuFqCtiVhAY/Q==
+X-CSE-ConnectionGUID: DFLFctPOQiSFkgCBQxHYnA==
+X-CSE-MsgGUID: X6wdajwUS/yz3qxThmtmtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="50770704"
+X-IronPort-AV: E=Sophos;i="6.16,204,1744095600"; 
+   d="scan'208";a="50770704"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2025 11:11:10 -0700
+X-CSE-ConnectionGUID: rmcKHSDgT8WBm+xG+YxC8w==
+X-CSE-MsgGUID: OZrs+IS/S4yOMpwDesH9+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,202,1744095600"; 
-   d="scan'208";a="144422014"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.134])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 23:30:05 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 2 Jun 2025 09:30:02 +0300 (EEST)
-To: Shuai Xue <xueshuai@linux.alibaba.com>, Lukas Wunner <lukas@wunner.de>
-cc: rostedt@goodmis.org, linux-pci@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org, 
-    linux-trace-kernel@vger.kernel.org, helgaas@kernel.org, 
-    bhelgaas@google.com, tony.luck@intel.com, bp@alien8.de, 
-    mhiramat@kernel.org, mathieu.desnoyers@efficios.com, oleg@redhat.com, 
-    naveen@kernel.org, davem@davemloft.net, anil.s.keshavamurthy@intel.com, 
-    mark.rutland@arm.com, peterz@infradead.org, tianruidong@linux.alibaba.com
-Subject: Re: [PATCH v8] PCI: hotplug: Add a generic RAS tracepoint for hotplug
- event
-In-Reply-To: <20250512013839.45960-1-xueshuai@linux.alibaba.com>
-Message-ID: <6b4d1351-805e-c8fc-3484-11c0ec466cf0@linux.intel.com>
-References: <20250512013839.45960-1-xueshuai@linux.alibaba.com>
+X-IronPort-AV: E=Sophos;i="6.16,204,1744095600"; 
+   d="scan'208";a="148467703"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.245.246.244])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2025 11:11:04 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+ Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-pci@vger.kernel.org, linux-edac@vger.kernel.org
+Subject: Re: [PATCH 4/4 v2] ACPI: extlog: Trace CPER CXL Protocol Errors
+Date: Mon, 02 Jun 2025 20:06:28 +0200
+Message-ID: <2947754.vYhyI6sBWr@fdefranc-mobl3>
+In-Reply-To: <20250429182055.GB76257@yaz-khff2.amd.com>
+References:
+ <20250429172109.3199192-1-fabio.m.de.francesco@linux.intel.com>
+ <20250429172109.3199192-5-fabio.m.de.francesco@linux.intel.com>
+ <20250429182055.GB76257@yaz-khff2.amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, 12 May 2025, Shuai Xue wrote:
+On Tuesday, April 29, 2025 8:20:55=E2=80=AFPM Central European Summer Time =
+Yazen Ghannam wrote:
+> On Tue, Apr 29, 2025 at 07:21:09PM +0200, Fabio M. De Francesco wrote:
+> > When Firmware First is enabled, BIOS handles errors first and then it
+> > makes them available to the kernel via the Common Platform Error Record
+> > (CPER) sections (UEFI 2.10 Appendix N). Linux parses the CPER sections
+> > via one of two similar paths, either ELOG or GHES.
+> >=20
+> > Currently, ELOG and GHES show some inconsistencies in how they report to
+> > userspace via trace events.
+> >=20
+> > Therfore make the two mentioned paths act similarly by tracing the CPER
+> > CXL Protocol Error Section (UEFI v2.10, Appendix N.2.13) signaled by the
+> > I/O Machine Check Architecture and reported by BIOS in FW-First.
+> >=20
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.=
+com>
+> > ---
+> >  drivers/acpi/acpi_extlog.c | 60 ++++++++++++++++++++++++++++++++++++++
+> >  drivers/cxl/core/ras.c     |  6 ++++
+> >  include/cxl/event.h        |  2 ++
+> >  3 files changed, 68 insertions(+)
+> >=20
+> > diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
+> > index 7d7a813169f1..8f2ff3505d47 100644
+> > --- a/drivers/acpi/acpi_extlog.c
+> > +++ b/drivers/acpi/acpi_extlog.c
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/ratelimit.h>
+> >  #include <linux/edac.h>
+> >  #include <linux/ras.h>
+> > +#include <cxl/event.h>
+> >  #include <acpi/ghes.h>
+> >  #include <asm/cpu.h>
+> >  #include <asm/mce.h>
+> > @@ -157,6 +158,60 @@ static void extlog_print_pcie(struct cper_sec_pcie=
+ *pcie_err,
+> >  	}
+> >  }
+> > =20
+> > +static void
+> > +extlog_cxl_cper_handle_prot_err(struct cxl_cper_sec_prot_err *prot_err,
+> > +				int severity)
+> > +{
+> > +#ifdef CONFIG_ACPI_APEI_PCIEAER
+>=20
+> Why not apply this check on the function prototype?
+>=20
+This function is static.
+>
+> Reference: Documentation/process/coding-style.rst
+> 	   Section 21) Conditional Compilation
+>=20
+> > +	struct cxl_cper_prot_err_work_data wd;
+> > +	u8 *dvsec_start, *cap_start;
+> > +
+> > +	if (!(prot_err->valid_bits & PROT_ERR_VALID_AGENT_ADDRESS)) {
+> > +		pr_err_ratelimited("CXL CPER invalid agent type\n");
+> > +		return;
+> > +	}
+> > +
+> > +	if (!(prot_err->valid_bits & PROT_ERR_VALID_ERROR_LOG)) {
+> > +		pr_err_ratelimited("CXL CPER invalid protocol error log\n");
+> > +		return;
+> > +	}
+> > +
+> > +	if (prot_err->err_len !=3D sizeof(struct cxl_ras_capability_regs)) {
+> > +		pr_err_ratelimited("CXL CPER invalid RAS Cap size (%u)\n",
+> > +				   prot_err->err_len);
+> > +		return;
+> > +	}
+> > +
+> > +	if (!(prot_err->valid_bits & PROT_ERR_VALID_SERIAL_NUMBER))
+> > +		pr_warn(FW_WARN "CXL CPER no device serial number\n");
+>=20
+> Is this a requirement (in the spec) that we should warn users about?
+>=20
+> The UEFI spec says that serial number is only used if "CXL agent" is a
+> "CXL device".
+>=20
+> "CXL ports" won't have serial numbers. So this will be a false warning
+> for port errors.
+>=20
+I'll add a test and print that warning only if agent is a device (RCD,
+DEVICE, LD, FMLD).
+>
+> > +
+> > +	switch (prot_err->agent_type) {
+> > +	case RCD:
+> > +	case DEVICE:
+> > +	case LD:
+> > +	case FMLD:
+> > +	case RP:
+> > +	case DSP:
+> > +	case USP:
+> > +		memcpy(&wd.prot_err, prot_err, sizeof(wd.prot_err));
+> > +
+> > +		dvsec_start =3D (u8 *)(prot_err + 1);
+> > +		cap_start =3D dvsec_start + prot_err->dvsec_len;
+> > +
+> > +		memcpy(&wd.ras_cap, cap_start, sizeof(wd.ras_cap));
+> > +		wd.severity =3D cper_severity_to_aer(severity);
+> > +		break;
+> > +	default:
+> > +		pr_err_ratelimited("CXL CPER invalid agent type: %d\n",
+>=20
+> "invalid" is too harsh given that the specs may be updated. Maybe say
+> "reserved" or "unknown" or "unrecognized" instead.
+>=20
+> Hopefully things will settle down to where a user will be able to have a
+> system with newer CXL "agents" without *requiring* a kernel update. :)
+>
+I'll replace "invalid" with "unknown".
+>=20
+> Thanks,
+> Yazen
+>=20
+Thanks,
 
-> Hotplug events are critical indicators for analyzing hardware health,
-> particularly in AI supercomputers where surprise link downs can
-> significantly impact system performance and reliability.
-> 
-> To this end, define a new TRACING_SYSTEM named pci, add a generic RAS
-> tracepoint for hotplug event to help healthy check, and generate
-> tracepoints for pcie hotplug event. Add enum pci_hotplug_event in
-> include/uapi/linux/pci.h so applications like rasdaemon can register
-> tracepoint event handlers for it.
-> 
-> The output like below:
-> 
-> $ echo 1 > /sys/kernel/debug/tracing/events/pci/pci_hp_event/enable
-> $ cat /sys/kernel/debug/tracing/trace_pipe
->     <...>-206     [001] .....    40.373870: pci_hp_event: 0000:00:02.0 slot:10, event:Link Down
-> 
->     <...>-206     [001] .....    40.374871: pci_hp_event: 0000:00:02.0 slot:10, event:Card not present
-> 
-> Suggested-by: Lukas Wunner <lukas@wunner.de>
-> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-> Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
-> Reviewed-by: Lukas Wunner <lukas@wunner.de>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
-> changes since v7:
-> - replace the TRACE_INCLUDE_PATH to avoid macro conflict per Steven
-> - pick up Reviewed-by from Lukas Wunner
-> ---
->  drivers/pci/hotplug/Makefile      |  3 ++
->  drivers/pci/hotplug/pciehp_ctrl.c | 33 ++++++++++++---
->  drivers/pci/hotplug/trace.h       | 68 +++++++++++++++++++++++++++++++
->  include/uapi/linux/pci.h          |  7 ++++
->  4 files changed, 105 insertions(+), 6 deletions(-)
->  create mode 100644 drivers/pci/hotplug/trace.h
-> 
-> diff --git a/drivers/pci/hotplug/Makefile b/drivers/pci/hotplug/Makefile
-> index 40aaf31fe338..a1a9d1e98962 100644
-> --- a/drivers/pci/hotplug/Makefile
-> +++ b/drivers/pci/hotplug/Makefile
-> @@ -3,6 +3,9 @@
->  # Makefile for the Linux kernel pci hotplug controller drivers.
->  #
->  
-> +# define_trace.h needs to know how to find our header
-> +CFLAGS_pciehp_ctrl.o				:= -I$(src)
-> +
->  obj-$(CONFIG_HOTPLUG_PCI)		+= pci_hotplug.o
->  obj-$(CONFIG_HOTPLUG_PCI_COMPAQ)	+= cpqphp.o
->  obj-$(CONFIG_HOTPLUG_PCI_IBM)		+= ibmphp.o
-> diff --git a/drivers/pci/hotplug/pciehp_ctrl.c b/drivers/pci/hotplug/pciehp_ctrl.c
-> index d603a7aa7483..f9beb4d3a9b8 100644
-> --- a/drivers/pci/hotplug/pciehp_ctrl.c
-> +++ b/drivers/pci/hotplug/pciehp_ctrl.c
-> @@ -23,6 +23,9 @@
->  #include "../pci.h"
->  #include "pciehp.h"
->  
-> +#define CREATE_TRACE_POINTS
-> +#include "trace.h"
+=46abio
 
-Hi,
 
-Instead of spreading tracepoint creating into subdriver code like this, 
-should we place it into one place, e.g., drivers/pci/pci-trace.c (which is 
-what I seem to have used in my yet to be submitted patch that adds 
-tracepoints into bwctrl link speed events)?
-
-> diff --git a/drivers/pci/hotplug/trace.h b/drivers/pci/hotplug/trace.h
-> new file mode 100644
-> index 000000000000..21329c198019
-> --- /dev/null
-> +++ b/drivers/pci/hotplug/trace.h
-
-Perhaps in include/trace/events/pci.h (or 
-include/trace/events/pci-hotplug.h)?
-
-I don't know what is the general rule having them inside drivers/ vs 
-include/trace/events, Documentation/trace/tracepoints.rst only mentions 
-the latter, but there seems to be plenty under drivers/ too.
-
-> @@ -0,0 +1,68 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#if !defined(_TRACE_HW_EVENT_PCI_HP_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_HW_EVENT_PCI_HP_H
-> +
-> +#include <linux/tracepoint.h>
-> +
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM pci
-> +
-> +#define PCI_HOTPLUG_EVENT					\
-
--- 
- i.
 
