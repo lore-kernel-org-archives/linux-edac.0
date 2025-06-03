@@ -1,123 +1,131 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29B727FB29;
-	Tue,  3 Jun 2025 09:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C8B23BCFA;
+	Tue,  3 Jun 2025 15:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748941559; cv=none; b=YLfnqs5M5cS5fNwltT2c/iRO8IYJp1VcWC3y1eSHjRMRAs161zBjDRlTKKCrRK9peIiK86Jm6Ny/tbGteftrCO07rv7OL3ORT3aPBMliCuOZX8qd841RCrvNO7mXlgmaNnbLFLJ5Oc4LDqzqGMXvrp/QCGSqg8BID1Ix3CXjhGg=
+	t=1748966157; cv=none; b=LfbXzhYoBvnaO+TsfG9S4nsJWZLxyLESKknJMKX/Sif14ADPA5UhERx/e/4k1Lgt8jnaF9bDT5rGWvDoMUv1VTs4ly9JYh4zlIVWe/t5oLOVjZ+sIO0wib41dS8Ngx2BAtVshnGLe7paNxVliZi2lITpWwLFFaiMP0zx82dLVaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748941559; c=relaxed/simple;
-	bh=DR7AQjMWleAsYDwxcMyXNFCZmaObbc7AOpQv2aK2wPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BFArH28vbxSGdsjtSuk9GzesekonbOp6+wQ64DhC+/tea0JlM9M7Sb/ihTlqICuCNfclmt1s/s+TLb4+Me69YkoRepTW04fEj5jUZFb53+zp2ztz98z5iLZhEXrcaX+pAmWc+DQO8VPjmKRddTayJ24nCyUtTFb+f1YtafbeJ5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=OtHV+BUx; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1748966157; c=relaxed/simple;
+	bh=NYKZkS68/255/Qa6jdHtwiii8rQH5UhEATWNB/Ewplk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=E8WqHRbSJfwLDs+OXI9dieWtbm8/BtNRrSNZW0JOp9jIMbgD3JbV9MPv9AbTEVc7LP/ydirzxbYJyNHSBD6pX4St9YDelyqoXgKj6rTQLCMrRQe7YY/J3IrUewranY3mUa+LpkrUFLa/bgycFKkadQSuZXe5GAIfSS8rffKO9Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NseYRNT2; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="OtHV+BUx"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1F3C940E01B3;
-	Tue,  3 Jun 2025 09:05:53 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id K0iu0KJE_bea; Tue,  3 Jun 2025 09:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1748941548; bh=+QaxPVYGiWt7mB9m4DsoMvxZpkgJLcaRJ1KKz+wbYdg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OtHV+BUx7HNlS6dpAM95SE7mQGT3JdPGXqWH9wtCmvdAG5a1RhJms6YNo31fyxMUu
-	 rP3bLzG2FjNXsiATg3WpZBEnYdAl9FpTY+nPbbCB8FphKglfKV19oW6zn5ja8AhWYV
-	 5l6ODc2SeqvOXVtQ9qnzpdwvNnZvoIHdR2KrrSz5rnsrlZKni7kLND2Jn+x+NXIFxs
-	 8ZYTPfuPZFPdsdYQoh1a71DpZG8v/4T0WhiOEX3MiurVswt8syEoBYfUaF5/j0Ko9Y
-	 4NCGy3NxeuUXg5HpcLNljXAbRR0axrsOsqhidwrF+FaMEMIfbU2sugPTSbKrwVxwZ2
-	 I1ktLXpthcIkkAQWcrrq8LnHYtDdILR/4UJWExCzphWQFrd4kceO2ZEygQbOq0dn0G
-	 vJu7Iuvn6vyP9PEzfU8cQhMVVL36Wc8AvX0WukfhOKj3TZsveK0GRbxCbQFI9YoNbz
-	 XjrbxWsz+WNPrrO7E5jPgZc9N2wP5reYeAurbNbkTKVtSUY1dr6+ET3e3oscFOiiwT
-	 QOXkN4StUOJFviC0ADcjz7qncNkKBHKPbTDtyYHSO9CilwRiYQHUVxDvqFXaOFcWIk
-	 EJHDDXyoEWiQlIXAmv8Soks8UqyLfu9J4VbkcKn6i+brb/plhjQufJ7XjXezAaikpB
-	 0+OIy00SRzXfKUgUmlg21waw=
-Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D9A1640E0163;
-	Tue,  3 Jun 2025 09:05:37 +0000 (UTC)
-Date: Tue, 3 Jun 2025 11:05:36 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, git@amd.com,
-	Michal Simek <michal.simek@amd.com>,
-	Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Richter <rric@kernel.org>
-Subject: Re: [PATCH] EDAC/synopsys: Clear the ecc counters at init
-Message-ID: <20250603090536.GCaD664IbJB5IoR06g@fat_crate.local>
-References: <20250528065650.27646-1-shubhrajyoti.datta@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NseYRNT2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748966156; x=1780502156;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=NYKZkS68/255/Qa6jdHtwiii8rQH5UhEATWNB/Ewplk=;
+  b=NseYRNT2KUJo1lHgnXxrMt1KCSCFMKkM6G5Yg87kj96H+nv4Wn+fUhJj
+   ak2YxiS1rGD0YcGH5LVTjvNL3GNlHB9xoFSdYGczazjLKRF6dBokA59rl
+   s0dgunsjlQsHivSlmhgHqYVl9stpA2N76AOjHyIlwXpnJUT/6RCCNOGy2
+   4K7ZKmu3FkPmzlmxQ/rLNjC+mXVTtDIGMBVdAQp82z0A8GJ2o6GFCyfFY
+   5arOtNaLect3aA9penmM46+mdoJd2CmvTomIU6d4DK3Vq07vOCyWm9p1o
+   Bn13i7h+hfb11UKhWqPtQ8cKpXWmE8kh4Hq5/W4TW2Y9DI+N5PcQ++KZe
+   w==;
+X-CSE-ConnectionGUID: LBZxZXFNSwaaP5ffbwUp4g==
+X-CSE-MsgGUID: tsbpfGXiTMeEt3I5f77mDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="62066974"
+X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
+   d="scan'208";a="62066974"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 08:55:55 -0700
+X-CSE-ConnectionGUID: V5GGI+JjTjWmKM6FV+wLKw==
+X-CSE-MsgGUID: veCWw0FuT7Kiy1bRI8pvow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
+   d="scan'208";a="175766102"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.intel.com) ([10.245.246.29])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 08:55:48 -0700
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-pci@vger.kernel.org,
+	linux-edac@vger.kernel.org
+Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH 1/4 v3] ACPI: extlog: Trace CPER Non-standard Section Body
+Date: Tue,  3 Jun 2025 17:54:36 +0200
+Message-ID: <20250603155536.577493-2-fabio.m.de.francesco@linux.intel.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250603155536.577493-1-fabio.m.de.francesco@linux.intel.com>
+References: <20250603155536.577493-1-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250528065650.27646-1-shubhrajyoti.datta@amd.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 28, 2025 at 12:26:50PM +0530, Shubhrajyoti Datta wrote:
-> Subject: Re: [PATCH] EDAC/synopsys: Clear the ecc counters at init
+ghes_do_proc() has a catch-all for unknown or unhandled CPER formats
+(UEFI v2.10 Appendix N 2.3), extlog_print() does not. This gap was
+noticed by a RAS test that injected CXL protocol errors which were
+notified to extlog_print() via the IOMCA (I/O Machine Check
+Architecture) mechanism. Bring parity to the extlog_print() path by
+including a similar log_non_standard_event().
 
-s/ecc/ECC/g
+Cc: Dan Williams <dan.j.williams@intel.com>
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.com>
+---
+ drivers/acpi/acpi_extlog.c | 6 ++++++
+ drivers/ras/ras.c          | 1 +
+ 2 files changed, 7 insertions(+)
 
-> Clear ECC error and counter registers at init to ensure a clean state
-> by clearing all ECC error and counter registers before registering
-> the controller with the EDAC framework.
-> 
-> This avoids reporting stale errors that may have occurred during
-> boot or prior configuration.
-
-Run this commit message through AI and ask it to shorten it and write it in
-imperative tone.
-
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-> ---
-> 
->  drivers/edac/synopsys_edac.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-> index 5ed32a3299c4..ebd2d6e771a1 100644
-> --- a/drivers/edac/synopsys_edac.c
-> +++ b/drivers/edac/synopsys_edac.c
-> @@ -755,7 +755,7 @@ static bool zynq_get_ecc_state(void __iomem *base)
->  static bool zynqmp_get_ecc_state(void __iomem *base)
->  {
->  	enum dev_type dt;
-> -	u32 ecctype;
-> +	u32 ecctype, clearval;
->  
->  	dt = zynqmp_get_dtype(base);
->  	if (dt == DEV_UNKNOWN)
-> @@ -763,8 +763,13 @@ static bool zynqmp_get_ecc_state(void __iomem *base)
->  
->  	ecctype = readl(base + ECC_CFG0_OFST) & SCRUB_MODE_MASK;
->  	if ((ecctype == SCRUB_MODE_SECDED) &&
-> -	    ((dt == DEV_X2) || (dt == DEV_X4) || (dt == DEV_X8)))
-> +	    ((dt == DEV_X2) || (dt == DEV_X4) || (dt == DEV_X8))) {
-> +		clearval = readl(base + ECC_CLR_OFST) |
-> +				ECC_CTRL_CLR_CE_ERR | ECC_CTRL_CLR_CE_ERRCNT |
-> +				ECC_CTRL_CLR_UE_ERR | ECC_CTRL_CLR_UE_ERRCNT;
-> +		writel(clearval, base + ECC_CLR_OFST);
-
-A getter function clears registers and commit message talks about "at init"?!?!
-
-This looks like a hack.
-
+diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
+index f6b9562779de0..47d11cb5c9120 100644
+--- a/drivers/acpi/acpi_extlog.c
++++ b/drivers/acpi/acpi_extlog.c
+@@ -183,6 +183,12 @@ static int extlog_print(struct notifier_block *nb, unsigned long val,
+ 			if (gdata->error_data_length >= sizeof(*mem))
+ 				trace_extlog_mem_event(mem, err_seq, fru_id, fru_text,
+ 						       (u8)gdata->error_severity);
++		} else {
++			void *err = acpi_hest_get_payload(gdata);
++
++			log_non_standard_event(sec_type, fru_id, fru_text,
++					       gdata->error_severity, err,
++					       gdata->error_data_length);
+ 		}
+ 	}
+ 
+diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
+index a6e4792a1b2e9..ac0e132ccc3eb 100644
+--- a/drivers/ras/ras.c
++++ b/drivers/ras/ras.c
+@@ -51,6 +51,7 @@ void log_non_standard_event(const guid_t *sec_type, const guid_t *fru_id,
+ {
+ 	trace_non_standard_event(sec_type, fru_id, fru_text, sev, err, len);
+ }
++EXPORT_SYMBOL_GPL(log_non_standard_event);
+ 
+ void log_arm_hw_error(struct cper_sec_proc_arm *err)
+ {
 -- 
-Regards/Gruss,
-    Boris.
+2.49.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
