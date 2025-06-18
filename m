@@ -1,122 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90092DBF45;
-	Wed, 18 Jun 2025 12:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926281DA5F;
+	Wed, 18 Jun 2025 12:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750248587; cv=none; b=F8NkscKF1e1glcsoO+SDuEjbWunJgxhL4x6rRgh1FgbTF4COuU7hgQTJs5srjIrS4+3XIYAx03nfvpl8hBZOGDsQvAUkbOJHtM6W1Xs3pLPHK+2FHLOdNHzL5ER/yADSTBqLtgVpFxISAqgYwJrNAvd+fRMerTVRL89Ut4tjvQM=
+	t=1750250201; cv=none; b=qg7zm2GdKccdzUKBA1lmiQGocf0FGsWkAPStAD/Fn8XYL89j9vb67v1OeJk0jZPUcu/uSzyCyggI3wqA+Q35jexcLdq6oMa2+A2oM4R+Y5CF1pgB7JB/aig/jpG5roG3ywyVSZZYr9kgLeCdNBmobMsP8wZoaywBZOwBe0l1DPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750248587; c=relaxed/simple;
-	bh=xOXdFzt/cGAT7EXDjHSOYuUckW3uOERT1XUKP0JE6is=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iyWXeT2t5NTYrlTSoigdGQcPG7P2jpNJHCcrE0RnD4rW4SGiI3oiOak1SioCDf6GxM3lQ3UwYB9WShdZy4dWF2SlkzY3nC5n8jhOLOjOdaPbom393US4/S5iMApN7l7dmAucwv93EOaNP8+HGTPpKXjQgwTITeelfDim10sA800=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=beVw8WfY; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1750250201; c=relaxed/simple;
+	bh=LnZj30mu7Xgaz2Ry38U7J1WAcWO6GtqUiXkiHEyn7o8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oClZvGghmuTIqNwYb24+KD+hDZ55SddXFDGCfiZogNjKpygVtABzQYsZkbQ9XI1B3JtGOCo0XO6aasFWbp+I/Cr4kR8Y92Zrmzkz5Z9cPPNdhsUkHn58OIxG45rAKMjA4rmlGFshgkdGYwHJhtwQBU6+pvT3suJYXskhSdQMGrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W9Owv5Dt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="beVw8WfY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W9Owv5Dt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750248586; x=1781784586;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=xOXdFzt/cGAT7EXDjHSOYuUckW3uOERT1XUKP0JE6is=;
-  b=beVw8WfYa8QJ/8jTkiz40MEdLDBXhZEKmQ5YMxYXN+oN64zYFoybP8r1
-   Xb8m5nZXT7PSzdFGq68P0bWu3VZptkjHHXMlWsr6oMmJak27S9YliUZwW
-   w8chi3AWKHRXsEejf5/sESyCwzaNaziHh45FMwrJgRMkmasXVtL6gJQ4o
-   aRCS3cDOgTgNQzupbslx/EBc//WlbnNryaojGDl9CoOIpgkC4fT2oo9ZX
-   AwMHUUqBY2ZR6OE7HaFTsntWK80UeV41OyEcn9Q09Vvp11FQkxIF9gjqe
-   +CqjrMkEfmIysQxcFsn2VPwUVMFb0Q/601+ZVeM8fCch/HveLL0OjJzlU
-   A==;
-X-CSE-ConnectionGUID: 5xodWU7WQfi7/b1xLA7Pxg==
-X-CSE-MsgGUID: Hiqle2aLSpazXXjpZg/lkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="77869036"
+  t=1750250200; x=1781786200;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=LnZj30mu7Xgaz2Ry38U7J1WAcWO6GtqUiXkiHEyn7o8=;
+  b=W9Owv5Dtfng/NeVU6dPe4KVvbbWmxQbZc1TzhK9hFQIWGxGgwnO+oXtq
+   YFqkTLpdlJIKGjIaGTKPhuQUQ66cLF9jekcWoW/8PKH8Qd7wEjVwaGJQI
+   lhRc/QflpaMT21uH1WKIX0jvTtE5Tjv2MnjDyVDKmeIwjVK8ITF/FqtP5
+   GyFKTu3cKSsq5bU3FLD3l9cuobn7y/Wq2MmNV1NQ71pMD3BBYlJuoQmsh
+   F97ykiOkexijV+m06weuKqhqYgpRZRZExbNMWtzyUUPiJujlFBLBjzfLp
+   63o4hamM6JDXa/6ViCVmVWBzojr/V7n3a7giPZzwdnqeCgCgnUIs2Rw1l
+   g==;
+X-CSE-ConnectionGUID: 0hYbw/3jT7K2N+l7wi1Ptg==
+X-CSE-MsgGUID: jl2T1STfSU2RD95RQZe9ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63815600"
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="77869036"
+   d="scan'208";a="63815600"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 05:08:40 -0700
-X-CSE-ConnectionGUID: fxVCo2r8T4yCHA//tSlYFQ==
-X-CSE-MsgGUID: /+InbJlTT3G0GDvnBDVyrQ==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 05:36:38 -0700
+X-CSE-ConnectionGUID: 49nLlOKuRk+B2IRrlwDIhA==
+X-CSE-MsgGUID: XVu3bsCLSeaIL5x+hhY5JQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="154213127"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO localhost.localdomain) ([10.245.245.234])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 05:08:33 -0700
-From: Adrian Hunter <adrian.hunter@intel.com>
-To: Tony Luck <tony.luck@intel.com>,
-	pbonzini@redhat.com,
-	seanjc@google.com
-Cc: vannapurve@google.com,
-	Borislav Petkov <bp@alien8.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	H Peter Anvin <hpa@zytor.com>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	rick.p.edgecombe@intel.com,
-	kirill.shutemov@linux.intel.com,
-	kai.huang@intel.com,
-	reinette.chatre@intel.com,
-	xiaoyao.li@intel.com,
-	tony.lindgren@linux.intel.com,
-	binbin.wu@linux.intel.com,
-	isaku.yamahata@intel.com,
-	yan.y.zhao@intel.com,
-	chao.gao@intel.com
-Subject: [PATCH 1/2] x86/mce: Fix missing address mask in recovery for errors in TDX/SEAM non-root mode
-Date: Wed, 18 Jun 2025 15:08:05 +0300
-Message-ID: <20250618120806.113884-2-adrian.hunter@intel.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250618120806.113884-1-adrian.hunter@intel.com>
-References: <20250618120806.113884-1-adrian.hunter@intel.com>
+   d="scan'208";a="154235571"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.124.247.1]) ([10.124.247.1])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 05:36:30 -0700
+Message-ID: <eaf6343a-dbb1-453a-a258-f3bab35740a1@intel.com>
+Date: Wed, 18 Jun 2025 20:36:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] x86/mce: Fix missing address mask in recovery for
+ errors in TDX/SEAM non-root mode
+To: Adrian Hunter <adrian.hunter@intel.com>, Tony Luck <tony.luck@intel.com>,
+ pbonzini@redhat.com, seanjc@google.com
+Cc: vannapurve@google.com, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ H Peter Anvin <hpa@zytor.com>, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ kai.huang@intel.com, reinette.chatre@intel.com,
+ tony.lindgren@linux.intel.com, binbin.wu@linux.intel.com,
+ isaku.yamahata@intel.com, yan.y.zhao@intel.com, chao.gao@intel.com
+References: <20250618120806.113884-1-adrian.hunter@intel.com>
+ <20250618120806.113884-2-adrian.hunter@intel.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20250618120806.113884-2-adrian.hunter@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Commit 8a01ec97dc066 ("x86/mce: Mask out non-address bits from machine
-check bank") introduced a new #define MCI_ADDR_PHYSADDR for the mask of
-valid physical address bits within the machine check bank address register.
+On 6/18/2025 8:08 PM, Adrian Hunter wrote:
+> Commit 8a01ec97dc066 ("x86/mce: Mask out non-address bits from machine
+> check bank") introduced a new #define MCI_ADDR_PHYSADDR for the mask of
+> valid physical address bits within the machine check bank address register.
+> 
+> This is particularly needed in the case of errors in TDX/SEAM non-root mode
+> because the reported address contains the TDX KeyID.  Refer to TDX and
+> TME-MK documentation for more information about KeyIDs.
+> 
+> Commit 7911f145de5fe ("x86/mce: Implement recovery for errors in TDX/SEAM
+> non-root mode") uses the address to mark the affected page as poisoned, but
+> omits to use the aforementioned mask.
+> 
+> Mask the address with MCI_ADDR_PHYSADDR so that the page can be found.
+> 
+> Fixes: 7911f145de5fe ("x86/mce: Implement recovery for errors in TDX/SEAM non-root mode")
+> Cc: stable@vger.kernel.org
 
-This is particularly needed in the case of errors in TDX/SEAM non-root mode
-because the reported address contains the TDX KeyID.  Refer to TDX and
-TME-MK documentation for more information about KeyIDs.
+Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
 
-Commit 7911f145de5fe ("x86/mce: Implement recovery for errors in TDX/SEAM
-non-root mode") uses the address to mark the affected page as poisoned, but
-omits to use the aforementioned mask.
-
-Mask the address with MCI_ADDR_PHYSADDR so that the page can be found.
-
-Fixes: 7911f145de5fe ("x86/mce: Implement recovery for errors in TDX/SEAM non-root mode")
-Cc: stable@vger.kernel.org
-Signed-off-by: Adrian Hunter <adrian.hunter@intel.com>
----
- arch/x86/kernel/cpu/mce/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index e9b3c5d4a52e..76c4634c6a5f 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1665,7 +1665,8 @@ noinstr void do_machine_check(struct pt_regs *regs)
- 		 * be added to free list when the guest is terminated.
- 		 */
- 		if (mce_usable_address(m)) {
--			struct page *p = pfn_to_online_page(m->addr >> PAGE_SHIFT);
-+			unsigned long pfn = (m->addr & MCI_ADDR_PHYSADDR) >> PAGE_SHIFT;
-+			struct page *p = pfn_to_online_page(pfn);
- 
- 			if (p)
- 				SetPageHWPoison(p);
--- 
-2.48.1
+> Signed-off-by: Adrian Hunter <adrian.hunter@intel.com>
+> ---
+>   arch/x86/kernel/cpu/mce/core.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+> index e9b3c5d4a52e..76c4634c6a5f 100644
+> --- a/arch/x86/kernel/cpu/mce/core.c
+> +++ b/arch/x86/kernel/cpu/mce/core.c
+> @@ -1665,7 +1665,8 @@ noinstr void do_machine_check(struct pt_regs *regs)
+>   		 * be added to free list when the guest is terminated.
+>   		 */
+>   		if (mce_usable_address(m)) {
+> -			struct page *p = pfn_to_online_page(m->addr >> PAGE_SHIFT);
+> +			unsigned long pfn = (m->addr & MCI_ADDR_PHYSADDR) >> PAGE_SHIFT;
+> +			struct page *p = pfn_to_online_page(pfn);
+>   
+>   			if (p)
+>   				SetPageHWPoison(p);
 
