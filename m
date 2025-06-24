@@ -1,119 +1,200 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317F72DCC03;
-	Mon, 23 Jun 2025 16:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750695049; cv=none; b=ZxZrmRGBTNKRlMrcD3yooNoVP7v3KY9d2WXx04jRH+nKQjxlN2CrkOFCuUKzwBsA7wKpeefIrmvjDlLvuZOPB+DtJ2oTFKbVDCXz62DfB0CQ4sI61+UVRKJ9BUnReT3LHjwWGvMblJ+vYAe8gbb2VD95C7+J7T8L+Q93R9/NSNg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750695049; c=relaxed/simple;
-	bh=dS7QgYeAznkgEhzk7h32qFFNi0yjzq3+ztoyxkZ//XI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=KkmOfsxEnX+zFY7ozqQrENFPOunPNJqiRc8LWmzk/ciN22YZcPLKSoqwKX1L6c8aROL8bnf8lcSC6FO/OKgWtTnIyqdqEyRpk/k6pLcFukzIMdywTm4sTIE55X0nqlxUFlGmWXIv5nF2Xra5rIig7KV0xBQgkUGZX868LZDEMe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=SZ1GzJXM; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBFB2D321D;
+	Tue, 24 Jun 2025 14:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750774590; cv=fail; b=YrBA5mG26FQQrx4AgzTvGrYKf7NBgVId9hptRptq2VpI/tLe5Zr+u4W42u7R6Zvo4IEcRu6k11ilsr9AAT6OFIj3IIHEwaQfNTdRV4BG/46KJGTawL8fTssyYJ8V9oO+vy1Cr0eDdEabnB0YdC6VWgBZAn0EBNi15FWKmYctLEY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750774590; c=relaxed/simple;
+	bh=avb12mJUpmk+z2+fCJyY1MC9aPsyIXO2RAD+x3SfHI0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=me9tmOi5GFChk3k4qWQ3t4fFQ31NhfjhLzS9bzVibU4H+jIKnNNV8RFX3+2Vu7EwKWE1H+YPm9MgHwmL7RZw7gcicW4/fMPZ7IZDezO2dozOT9Mu/N1dlmJ6V4LF3ObK0L3nQdKg4gPnWcCBJZZCFtyLpLDi3h1T2RDhjqtczus=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ERq4wfXB; arc=fail smtp.client-ip=40.107.93.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="SZ1GzJXM"
-Received: from [127.0.0.1] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 55NGA7TK995696
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Mon, 23 Jun 2025 09:10:08 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 55NGA7TK995696
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025062101; t=1750695009;
-	bh=5OyKvEljcKH+TeDJlGA4fkMB6CCrF6QEZCXe4uNmwAs=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=SZ1GzJXMbd0V6nYkSdQZSdPQcNAKb5MOvCof6U/mOuVB+0QaDBj59VWf5L9cRdgqT
-	 itNQlfH2W269PbEwmkNbvulkUpxD/UUYAf21tFgjmxP08jvyuS59WLfrXO0m+c+x4l
-	 WGgqQOEmbV8yWjnJbwQmrkLJWBOUzH7/BPGJMQ4Y68rNvdHRoftSH09vAnFWX9ThT1
-	 b2fq5G5sXTvRlAM00Jmft2M0hQci085Nr0JAd9nUZ6EHm2uxF9g9YYRyZy+Y40PHfc
-	 dnNB/soxXQbG5F09Aq5J3cTLdmikLWRCSI3dwlJg8OoNQMHVTDWjdoHBDNBYN8PW30
-	 mT6yD9MhrJm5w==
-Date: Mon, 23 Jun 2025 09:10:07 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Sean Christopherson <seanjc@google.com>
-CC: Sohil Mehta <sohil.mehta@intel.com>, Xin Li <xin@zytor.com>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Kan Liang <kan.liang@linux.intel.com>, Tony Luck <tony.luck@intel.com>,
-        Zhang Rui <rui.zhang@intel.com>, Steven Rostedt <rostedt@goodmis.org>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Jacob Pan <jacob.pan@linux.microsoft.com>,
-        Andi Kleen <ak@linux.intel.com>, Kai Huang <kai.huang@intel.com>,
-        Sandipan Das <sandipan.das@amd.com>, linux-perf-users@vger.kernel.org,
-        linux-edac@vger.kernel.org, kvm@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v7_02/10=5D_x86/fred=3A_Pass_eve?=
- =?US-ASCII?Q?nt_data_to_the_NMI_entry_point_from_KVM?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <aFl1PcnVuYuELvRQ@google.com>
-References: <20250612214849.3950094-1-sohil.mehta@intel.com> <20250612214849.3950094-3-sohil.mehta@intel.com> <7525af7f-a817-47d5-91f7-d7702380c85f@zytor.com> <3281866f-2593-464d-a77e-5893b5e7014f@intel.com> <36374100-0587-47f1-9319-6333f6dfe4db@zytor.com> <39987c98-1f63-4a47-b15e-8c78f632da4e@intel.com> <7acedeba-9c90-403c-8985-0247981bf2b5@zytor.com> <aFXsPVIKi6wFUB6x@google.com> <1713a225-44e0-4018-bf5f-64ffd7746167@zytor.com> <aFl1PcnVuYuELvRQ@google.com>
-Message-ID: <D00BE3D4-C710-4304-85D3-B2A091E08035@zytor.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ERq4wfXB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K4g5xnoAtJpPDeaZPOibHXOjGHMXI4ctb8PNCAn5OKjNtsJuyh6h9Ub8JH0mMqrR2zUNkdtgNyLI+fMMCeiTO6hzfDO4cbzAK5eDckneRBWNRmEARSC/Vf3Mi2rvAaJN6cCmoUyBd2PQlsovI6n8EG3vflec0UypWtOnEzUfSKav/rdmVjchkAp2BdT2qyn8qZXBgvuFKsFkxadfLJKFZcT9qYm91NfX/Jq7t17bINCuPkLQkR2AzC20vu5zwPMAQRaNH2lixd+oYws7CniYKezJSmcyFeqGFQhPLzogDVjXdKDkJM80QpVyo7L/1TmjfzHKJUJXvmmx34Nnf3XDCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NnLDuHh182yB8YN5atCJRAE1GZ6CuwAvZlepIQD8X5A=;
+ b=ADF+wLy0LJfPK+5Puj09v/kM3bFDPzP0uoDvkTIcPMnODabfN3CFpi354XMXQS5WDZVqldesESh71vTBgCEsr10vFpGB8ZPAJgN0VQWwORzNbEDNeEON2n6KcsoZ8d0h3PMxj96LnZVJ3aiMWfOu+txpPPZ92mXe2H4b2HCL6DPUdvFVKyqxOciRxNuCj+WDWeeZbSeXvkl4Jq3dvDcpN2rgdGfk9RfrMthyjXCTza9V1BIMg/qy2W4jiZ1ztPCEjhXtRvWnvTtsoIpUUKnRvnx7t+vWvz+9G3Mg+o8kt5lRjoO7+lS+KjOd1J7AtLgkC646/cGc8SD0dnVCWrJO2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NnLDuHh182yB8YN5atCJRAE1GZ6CuwAvZlepIQD8X5A=;
+ b=ERq4wfXBk9jvycW9x40ZEgHvOdC4NSbtb3uw9V2RyD8yRPgzg29iHw3P+LcTEp2SJE12LT7gwbzMza5jPjLGgKSzfkp/+JnDa8wt5asP4sGXaWkbxObiooSERjtrvMoyMzH7ZzEaah7bjCJFtBftV81gHsXhpIXOq+L2oZ03xus=
+Received: from MW4PR03CA0237.namprd03.prod.outlook.com (2603:10b6:303:b9::32)
+ by CH2PR12MB4167.namprd12.prod.outlook.com (2603:10b6:610:7a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Tue, 24 Jun
+ 2025 14:16:26 +0000
+Received: from SJ1PEPF00001CEA.namprd03.prod.outlook.com
+ (2603:10b6:303:b9:cafe::b5) by MW4PR03CA0237.outlook.office365.com
+ (2603:10b6:303:b9::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8857.29 via Frontend Transport; Tue,
+ 24 Jun 2025 14:16:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00001CEA.mail.protection.outlook.com (10.167.242.26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8880.14 via Frontend Transport; Tue, 24 Jun 2025 14:16:26 +0000
+Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 24 Jun
+ 2025 09:16:24 -0500
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Date: Tue, 24 Jun 2025 14:15:56 +0000
+Subject: [PATCH v4 01/22] x86/mce: Don't remove sysfs if thresholding sysfs
+ init fails
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250624-wip-mca-updates-v4-1-236dd74f645f@amd.com>
+References: <20250624-wip-mca-updates-v4-0-236dd74f645f@amd.com>
+In-Reply-To: <20250624-wip-mca-updates-v4-0-236dd74f645f@amd.com>
+To: <x86@kernel.org>, Tony Luck <tony.luck@intel.com>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Len Brown <lenb@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-edac@vger.kernel.org>,
+	<Smita.KoralahalliChannabasappa@amd.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	<linux-acpi@vger.kernel.org>, Yazen Ghannam <yazen.ghannam@amd.com>
+X-Mailer: b4 0.15-dev-9b767
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEA:EE_|CH2PR12MB4167:EE_
+X-MS-Office365-Filtering-Correlation-Id: c5b0b6cb-296f-4efa-97ae-08ddb329b4a0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TUlPU3hhSTFaUzdQYjhqZk4yM01tVGgxdUsrSzVHcWl0dGVKK1hzeVBOS3dJ?=
+ =?utf-8?B?b1llTUVBL3d4RVFHdE5pYWZmb1dKVk15UCtsb2c1YmNlVzVnMXVuYk9lZ0VY?=
+ =?utf-8?B?WEZTbzVnbDhobFZpRXlJc24vZmZld25NeERGSW5yOERlQlhKZ1gzUHowWDAy?=
+ =?utf-8?B?ODNIVVBKMTRKVzlLYVZ4Y3JudmdDaXZWeXN3YmhTVkt1aTBvaytXRGozclF1?=
+ =?utf-8?B?V1NEK0hMTGlYR0l1Z04xZVhEQnIwMVVCb09nYXRNbmtWNDVjY3g1ZmpxZFp1?=
+ =?utf-8?B?NFRzaXFZdFZRUUg1RmVxMEY4VTBtQXVyYWpaa29kaGNncTM1MVRrdDBQTTJD?=
+ =?utf-8?B?bzcyOHBzV0t2NjV2NU1mTWhBTnZSU3hCRzBPRXhiWVJlYytoNEhLNDQrZjZy?=
+ =?utf-8?B?UlhiRkx0aktqT1lERXBMcFpROG8wakhWY3RTaW9SM1VIU1E4dXJkZlZsZ3R6?=
+ =?utf-8?B?QjBCaTF5ZnJnUTNBWkFMZ1VrQi9Ga3hYQkc2cEx4R3QxMHY1dHFhemV0OG1v?=
+ =?utf-8?B?MVJESnlaV0NHdmdHUmhPU2JvVVZhditVQ01vSThmNWd2MURPUm1XV0gzUGpr?=
+ =?utf-8?B?WjVGMnJFcnBlTVpsUFJVdVB6a3BqdndnV2hyQWJoTExBMGNMYVRRWk1yc2NI?=
+ =?utf-8?B?dDJDUGtMZlMxT1g5Z1JUMGRYbmFmVDlja2ZTNENrUHJpYUFPTk1EcG41NVdW?=
+ =?utf-8?B?VlJnOHYweFdhRDU3M1pJZVhlTlkya05nSUMxd1oxc2NRbmw1VGN1SkJja250?=
+ =?utf-8?B?c0dMc2djaVJDb3FyK21qVitxend0SFIrMklhb2h0aTBpK3ZMb1R4R3FsaG1s?=
+ =?utf-8?B?Q3hvVEh1TFZGbWRLcTlHc3I0STJvakc0b2ZJSkFZSFhJcU80TnFyUVIxcXhN?=
+ =?utf-8?B?SGI3SmtySUY1NmVObmJpYkdXQWpzb0c2ZDRWRWVWVEJUSml1WjJXaGF3bGRS?=
+ =?utf-8?B?VWZiOWdyQmpVYm1NZ3IveVdXTnlLUjNiMk5BWk96RVNHQS81Qk5maVVGZXBy?=
+ =?utf-8?B?dEQ3RXlrOGE0ZHdleGR3MW5iNlFKVG05b1FtclMxTlpOZ3ZiMkpzMDROWkdm?=
+ =?utf-8?B?VkV0ZUprRUtzS0c3dEliYXlReDZVTzNVNGxKT0U2cHNpOHdUMXR2aGcvcHZr?=
+ =?utf-8?B?ZStKL0I0NnRtdEZ6aktNVFRLdXZCNVBMNGhmUWNJM2RoZHpTd0FWVUN2U0t2?=
+ =?utf-8?B?MUFuQ2NvK2xOM2VhekhFSTAxcjVnTDJ6WGNteEJGQzhXNCtmZFpaKzZCaXVp?=
+ =?utf-8?B?OGgxU3ExcHM5TitGMDZGMGVxMEJyWkhCTDQyV0hnVmh0eFFocW5iNHcybXRp?=
+ =?utf-8?B?QVJpSFR5ZHpGZDM5OVVmTHluRWNCaU00dThXejFzekdnczVjb1hZWW56MVZM?=
+ =?utf-8?B?RlRpQTRST1lPVUUzM3pmUHJHdXJWdEd0QUZ3TUlyUlZ1TzJ4N1QzZ1VFN0JD?=
+ =?utf-8?B?MjRUOTlGZzBSR2xxU3l3RG43K3BRT2pGZWZZU1BWL2R4cG9Jck9QV29QbVdB?=
+ =?utf-8?B?L2xCeXN2YkhkeTY4R2NtL05ZNFIrRE9YcVlpUlBqaHRoQlJndjMyMW5FUHEv?=
+ =?utf-8?B?R2M3MHNxRmtqcFZtRWNSLzNOdlpIWmFOLzgyOVBBY3U0dExSMjdWMWg0VWFB?=
+ =?utf-8?B?NnFQRi9wLzVxK1plKzdIYk5nMUFTSlZBa0J5cUcva1hQOGZvblFmRlIvdU1T?=
+ =?utf-8?B?cWdPeTFSd0R2c0dqaEpnbzZmUTUzMnNHQXBFUVd2Qk5vWUpiTmZFTFduMUFj?=
+ =?utf-8?B?UEdoRUlvVG0zL0NsOFYxZ1JQNkVsdTJYMEJEWkZSWnZrY2kzd3NNL0NtVHJE?=
+ =?utf-8?B?MG1Na1pqNkRKU0VlQitibTg3elRmQ25zckV4NXJBNlExdmVqN1hGdDBvK3Bk?=
+ =?utf-8?B?alFOWEpjWDRwVjRCTlV2SVVFa2Z4QU9BR0JPZVdUYng1RWFBY2I5K2UzV3RF?=
+ =?utf-8?B?U0tSQlkvaVpFR2RyazJqUjgvOGxtRzFkRjg3SGtzcERIbk55V3pnZ0NBV2JG?=
+ =?utf-8?B?Z01nTzhXUlhqVkZ1RnBqWHk4WGQ4bDhjZkpqaG54Wkx3T3l1aTJRRG1qZE9s?=
+ =?utf-8?Q?HMcSbH?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2025 14:16:26.0583
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5b0b6cb-296f-4efa-97ae-08ddb329b4a0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CEA.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4167
 
-On June 23, 2025 8:39:41 AM PDT, Sean Christopherson <seanjc@google=2Ecom> =
-wrote:
->On Fri, Jun 20, 2025, H=2E Peter Anvin wrote:
->> On 2025-06-20 16:18, Sean Christopherson wrote:
->> > >=20
->> > > So I was thinking about this, and wonder: how expensive is it to ge=
-t the
->> > > event data exit information out of VMX? If it is not very expensive=
-, it
->> > > would arguably be a good thing to future-proof by fetching that inf=
-ormation,
->> > > even if it is currently always zero=2E
->> >=20
->> > It's trivially easy to do in KVM, and the cost of the VMREAD should b=
-e less than
->> > 20 cycles=2E  So quite cheap in the grand scheme=2E  If VMREAD is mor=
-e costly than
->> > that, then we have bigger problems :-)
->> >=20
->>=20
->> LOL=2E Since it is up to you, Paulo, etc=2E to decide how to do the tra=
-deoffs
->> formaintainability, debuggability and performance in KVM I am guessing =
-this
->> is a vote in favor? (You can always take it out if it is a performance
->> problem, until such time that the kernel itself starts consuming this
->> information for reasons currently unknown=2E)
->
->Unless you can pinky swear that vmcs=2EEXIT_QUALIFICATION will provide ev=
-ent data
->for IRQ exits, then I'd prefer to pass '0' unconditionally=2E  '0' will a=
-lways be
->safe, if potentially suboptimal=2E  But passing what could in theory be s=
-omething
->other than FRED-formatted event data could lead to buggy behavior=2E  Per=
- the FRED
->spec, Revision 7=2E0, exit-qualification doesn't hold event data for IRQ =
-exits=2E
->
->  For some events for which event data is defined (see Section 5=2E2=2E1)=
-, the event
->  data is saved in the exit-qualification field=2E (This is done for #DB,=
- #PF, and NMI=2E)
+Currently, the MCE subsystem sysfs interface will be removed if the
+thresholding sysfs interface fails to be created. A common failure is
+due to new MCA bank types that are not recognized and don't have a short
+name set.
 
-I agree, let's stick to that for now, since this is a kernel internal inte=
-rface and nothing consumes it=2E After all, it will save a handful of cycle=
-s=2E
+The MCA thresholding feature is optional and should not break the common
+MCE sysfs interface. Also, new MCA bank types are occasionally
+introduced, and updates will be needed to recognize them. But likewise,
+this should not break the common sysfs interface.
 
-I will still check into the "pinky swear", though=2E
+Keep the MCE sysfs interface regardless of the status of the
+thresholding sysfs interface.
+
+Reviewed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Tested-by: Tony Luck <tony.luck@intel.com>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: stable@vger.kernel.org
+---
+
+Notes:
+    Link:
+    https://lore.kernel.org/r/20250415-wip-mca-updates-v3-1-8ffd9eb4aa56@amd.com
+    
+    v3->v4:
+    * No change.
+    
+    v2->v3:
+    * Added tags from Qiuxu and Tony.
+    
+    v1->v2:
+    * New in v2.
+    * Included stable tag but there's no specific commit for Fixes.
+
+ arch/x86/kernel/cpu/mce/core.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index e9b3c5d4a52e..07d61937427f 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -2801,15 +2801,9 @@ static int mce_cpu_dead(unsigned int cpu)
+ static int mce_cpu_online(unsigned int cpu)
+ {
+ 	struct timer_list *t = this_cpu_ptr(&mce_timer);
+-	int ret;
+ 
+ 	mce_device_create(cpu);
+-
+-	ret = mce_threshold_create_device(cpu);
+-	if (ret) {
+-		mce_device_remove(cpu);
+-		return ret;
+-	}
++	mce_threshold_create_device(cpu);
+ 	mce_reenable_cpu();
+ 	mce_start_timer(t);
+ 	return 0;
+
+-- 
+2.49.0
+
