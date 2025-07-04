@@ -1,41 +1,63 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73742571AD
-	for <linux-edac@vger.kernel.org>; Fri,  4 Jul 2025 06:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB5428B3ED;
+	Fri,  4 Jul 2025 07:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751610564; cv=none; b=ujx/XmGP0fyWLo6/h6yfnKRzsc0V0VXS4vvGkxHIUCCGZ8x/Vr6i+PKGJXkGz8epp3+fBYnn01wGKsf+j2dKDo8/I3TLiJQe2mBYdx0YIB5wiSSJFC+45QuqpwXsRlkjH1Wc/WMaSaqnViQiWXwiNo3L3huI3V/opaaTOoMkiK4=
+	t=1751615658; cv=none; b=akhix1i4p+RKOfOGKz9TGTM0Qa3Rk6FaujA1Ck2zXVge4u37WO247J4qZr/KlwkN1fmQPxtBe9E+PUDxsAQA/YTPOF9A7MsJ7GFyT7g8YoKywulZvhUAKgciKD5KZtu13OSQIG1kTW5d8pPgcURVBEUDzvIdzosix87LMWJL+p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751610564; c=relaxed/simple;
-	bh=59oObfdlOduQIc7dSYfzwiSPfyvM+om2M2owqMGFHaE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YUDADkwGfEe8/Y9UqE4D+fFWyv6M0hpGCSI82UqcfI4O6FMfSQAbFPf2THAL89n69vgCyprD9D13v+p+XmD1j1obC3QUWsDIfcaVnnKJN725NfDJC702TuN4he2xe1tN1B6kJJ8hfrMJObrY9defMToQFyi3uksfgX8E76PljdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bYNv21xp4z6L51K;
-	Fri,  4 Jul 2025 14:26:22 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6C3311401DC;
-	Fri,  4 Jul 2025 14:29:20 +0800 (CST)
-Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.152.2) by
- frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 4 Jul 2025 08:29:19 +0200
-From: <shiju.jose@huawei.com>
-To: <linux-edac@vger.kernel.org>, <bp@alien8.de>, <tony.luck@intel.com>,
-	<arnd@kernel.org>, <mchehab@kernel.org>, <rric@kernel.org>,
-	<dave.jiang@intel.com>, <jonathan.cameron@huawei.com>
-CC: <linuxarm@huawei.com>, <tanxiaofei@huawei.com>,
-	<prime.zeng@hisilicon.com>, <shiju.jose@huawei.com>
-Subject: [RESEND PATCH v2 2/2] EDAC/ecs: Reduce stack usage in ecs_create_desc()
-Date: Fri, 4 Jul 2025 07:29:11 +0100
-Message-ID: <20250704062911.1882-3-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20250704062911.1882-1-shiju.jose@huawei.com>
-References: <20250704062911.1882-1-shiju.jose@huawei.com>
+	s=arc-20240116; t=1751615658; c=relaxed/simple;
+	bh=ppfSYqAbvKz06hUuUu+InAtyPJ44rr6/wnF/AFQd36w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JJ5Oae8QCuDImnOPrJ7MHhteK6GTgZOsEJTRyZxIuqCjKUqA/NgT7h2vM+PDf9Dv5bWOKvakLctuTctFQG0wALVgMc7v5acrt/8uIQOYYNtvlgOKe081dzM4tG3AosGV+7pTaD1j6lYNfq0JrJIaRDv86/RkJWINVfdE3zFqZSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nx68XBF6; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nx68XBF6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751615656; x=1783151656;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ppfSYqAbvKz06hUuUu+InAtyPJ44rr6/wnF/AFQd36w=;
+  b=Nx68XBF6P4+pTN8p7DUKXeCq88k7TVmI1u534dnbpDKYjw6A11iLjcWk
+   Vzt/kqO1FHWRiGQTQHODoLqLYbuyxDzw399CcN59oD5RR75drUpi6VQk9
+   frKSFIBY42dJfA35eaqUIpJYAacJCcStUDU8XtJTz8c1nE41BrihWCLN3
+   UDAUNlSNic1PgMJBJP6Xx5oC6ZDAxhpBlXNyZ9F/tjV2aWutJKSK8lw5W
+   Hs9drmU9VC0wdhObwI67RJ8SG7BmRXiDQukP+VSSI9ft90/m5I0P6lN3+
+   7zmbKZlmU577BgALNMmy/YLhCrmpwGFch91wpf21shQDOXrOc6gKX/3Wf
+   A==;
+X-CSE-ConnectionGUID: 1ZG7v0hOSTKlAQw7PPDYLw==
+X-CSE-MsgGUID: YW0gd2+TTTqHKuk4sOWRIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="57621101"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="57621101"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:16 -0700
+X-CSE-ConnectionGUID: yOk/N1OrQ0qJ05Z7dUKvsg==
+X-CSE-MsgGUID: 3sc9ARBbS5GpD3N+4N5bBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="154663843"
+Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:13 -0700
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Richter <rric@kernel.org>,
+	Lili Li <lili.li@intel.com>,
+	Laurens SEGHERS <laurens@rale.com>,
+	VikasX Chougule <vikasx.chougule@intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] EDAC: Add three Intel CPUs for EDAC support
+Date: Fri,  4 Jul 2025 23:16:06 +0800
+Message-ID: <20250704151609.7833-1-qiuxu.zhuo@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -43,83 +65,29 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- frapeml500007.china.huawei.com (7.182.85.172)
 
-From: Shiju Jose <shiju.jose@huawei.com>
+Add EDAC support for three Intel CPUs: 
 
-Reduce per-function stack usage by changing to an actual attribute array
-allocated statically. Then, add the FRU ID number to the per-FRU copy.
+  - Patch 1: Wildcat Lake SoCs with In-Band ECC.
+  - Patch 2: Granite Rapids-D for micro-server and edge computing applications.
+  - Patch 3: Raptor Lake HX series SoCs with Out-of-Band ECC.
 
-In addition, rename the field 'dev_attr' in struct edac_ecs_fru_context to
-'ecs_dev_attr' for better readability.
+This patch series is on top of RAS edac-drivers branch.
 
-Fixes: bcbd069b11b0 ("EDAC: Add a Error Check Scrub control feature")
-Suggested-by: Borislav Petkov (AMD) <bp@alien8.de>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- drivers/edac/ecs.c | 31 ++++++++++++-------------------
- 1 file changed, 12 insertions(+), 19 deletions(-)
+Lili Li (1):
+  EDAC/igen6: Add Intel Wildcat Lake SoCs support
 
-diff --git a/drivers/edac/ecs.c b/drivers/edac/ecs.c
-index 51c451c7f0f0..05aa673a046b 100755
---- a/drivers/edac/ecs.c
-+++ b/drivers/edac/ecs.c
-@@ -26,7 +26,7 @@ struct edac_ecs_dev_attr {
- 
- struct edac_ecs_fru_context {
- 	char name[EDAC_FEAT_NAME_LEN];
--	struct edac_ecs_dev_attr dev_attr[ECS_MAX_ATTRS];
-+	struct edac_ecs_dev_attr ecs_dev_attr[ECS_MAX_ATTRS];
- 	struct attribute *ecs_attrs[ECS_MAX_ATTRS + 1];
- 	struct attribute_group group;
- };
-@@ -131,17 +131,12 @@ static umode_t ecs_attr_visible(struct kobject *kobj, struct attribute *a, int a
- 	return 0;
- }
- 
--#define EDAC_ECS_ATTR_RO(_name, _fru_id)       \
--	((struct edac_ecs_dev_attr) { .dev_attr = __ATTR_RO(_name), \
--				     .fru_id = _fru_id })
--
--#define EDAC_ECS_ATTR_WO(_name, _fru_id)       \
--	((struct edac_ecs_dev_attr) { .dev_attr = __ATTR_WO(_name), \
--				     .fru_id = _fru_id })
--
--#define EDAC_ECS_ATTR_RW(_name, _fru_id)       \
--	((struct edac_ecs_dev_attr) { .dev_attr = __ATTR_RW(_name), \
--				     .fru_id = _fru_id })
-+static const struct device_attribute ecs_dev_attr[] = {
-+	[ECS_LOG_ENTRY_TYPE]	= __ATTR_RW(log_entry_type),
-+	[ECS_MODE]		= __ATTR_RW(mode),
-+	[ECS_RESET]		= __ATTR_WO(reset),
-+	[ECS_THRESHOLD]		= __ATTR_RW(threshold)
-+};
- 
- static int ecs_create_desc(struct device *ecs_dev, const struct attribute_group **attr_groups,
- 			   u16 num_media_frus)
-@@ -165,14 +160,12 @@ static int ecs_create_desc(struct device *ecs_dev, const struct attribute_group
- 		struct attribute_group *group = &fru_ctx->group;
- 		int i;
- 
--		fru_ctx->dev_attr[ECS_LOG_ENTRY_TYPE]	= EDAC_ECS_ATTR_RW(log_entry_type, fru);
--		fru_ctx->dev_attr[ECS_MODE]		= EDAC_ECS_ATTR_RW(mode, fru);
--		fru_ctx->dev_attr[ECS_RESET]		= EDAC_ECS_ATTR_WO(reset, fru);
--		fru_ctx->dev_attr[ECS_THRESHOLD]	= EDAC_ECS_ATTR_RW(threshold, fru);
--
- 		for (i = 0; i < ECS_MAX_ATTRS; i++) {
--			sysfs_attr_init(&fru_ctx->dev_attr[i].dev_attr.attr);
--			fru_ctx->ecs_attrs[i] = &fru_ctx->dev_attr[i].dev_attr.attr;
-+			fru_ctx->ecs_dev_attr[i].dev_attr = ecs_dev_attr[i];
-+			fru_ctx->ecs_dev_attr[i].fru_id = fru;
-+
-+			sysfs_attr_init(&fru_ctx->ecs_dev_attr[i].dev_attr.attr);
-+			fru_ctx->ecs_attrs[i] = &fru_ctx->ecs_dev_attr[i].dev_attr.attr;
- 		}
- 
- 		sprintf(fru_ctx->name, "%s%d", EDAC_ECS_FRU_NAME, fru);
+Qiuxu Zhuo (2):
+  EDAC/i10nm: Add Intel Granite Rapids-D support
+  EDAC/ie31200: Add Intel Raptor Lake-HX SoCs support
+
+ drivers/edac/i10nm_base.c   | 12 +++++++++++-
+ drivers/edac/ie31200_edac.c |  4 ++++
+ drivers/edac/igen6_edac.c   | 15 +++++++++++++++
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+
+
+base-commit: 815703e2ecdf091a724c16671aadd8c55de24878
 -- 
 2.43.0
 
