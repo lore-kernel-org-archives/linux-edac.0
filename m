@@ -1,176 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44C9307489;
-	Fri,  4 Jul 2025 13:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930601865EE;
+	Sun,  6 Jul 2025 08:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751636636; cv=none; b=aJG7rfO3IBXMu7upV0MHIRlVYZIaIn8ncRkUjmg9QdmEMW6fNcYYhqq7zsMco9vK1DSNwufI0U2BTuJ6soQPEbkAu2meB7uZaqZaC7LN+9jhcmlg5LveThtzWtlFy+TFswSB6coWAdnU5EHbBLur4iH/wBTuEvi5BWleDEVHW80=
+	t=1751789087; cv=none; b=bZyh1jZ8l4s2mtsG7zDKR2N//XsSK5TUm13UZIj3v6JrrV0HmFPIzcVB65reRi0Vax+rutn9LlbpyT1ogvSTMwbJhk5wMTkXe3lWQ2kG3QXW6tLggZ6sP2RolMH5bcd1Z24Ixld5pynDnwoCrI4chrtSbhDDApiMZAoMHSEd31g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751636636; c=relaxed/simple;
-	bh=KmpX5zxlGsQARhawRN1W4dV47zBrJ2MU4Gpq1Itt2mE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MpGS2wI7ZFfOBwoc+5PY4qp3RBOoZw9lY2NUrN9bpUPx7YKZvbcbJxs4UCMg8Dj1lFw3x8sKFIh8+T1Xl0LK8BQNEjpD4w2KZATT6QvGwPZc5aMni+VjtAyhySVviKAr6Mfhl8QlVQMHOalCb3WeXF85j+hFTEwk2conUmJn7Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9yeLqe6; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1751789087; c=relaxed/simple;
+	bh=rWitimji/TArZoN7xNQcJhAHxmy74el6SQ28neA1wDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W10kMj7M5K5y8YysRR/CRfru2URb1hadoi7M/7pDgNd3aUOpIlx4e/MaXZ1ePm9yDbbx+yjUPH0BBBpdQm3bIf3it6uJCMFdg8K1pzeUQrajzZlhNnzOLnhIhnttgemI7jnuoRr5rvkpOFYTowK2WYKrmrvDi+2uR6M6/U6Akok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=e/Xezt7N; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9yeLqe6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751636635; x=1783172635;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=KmpX5zxlGsQARhawRN1W4dV47zBrJ2MU4Gpq1Itt2mE=;
-  b=Y9yeLqe6MVlKuwK9w2KkuyWgmqljXZIO8JIQCjtHar6A93uGzi4q1xwd
-   jYIdtzbG5yWxL6fX5GZqdhr4NTk1WbdCEv8cYBYma1XU0DOU8sMX7cTjk
-   NIE4nGumlBGlYmVoA3YBrXZ6/864Hl2UPleC0hS2kxuOgiTI6pJ13/+wr
-   RVP3yeVECMqnOhKw2urlNwJEcCpl4k/tExJukkSHSQDpAH05K4RLLr1Rj
-   BjOYgBmQRcy4DAhioehuyrZBSrUUoK4GUIfyDJNJyNvB8lRr1yK9HP3VY
-   rBsSrZPRzHBADq7bwcL1SDhwDnk9+xC2agr1EWdpdQDi6W+wM5F+9bRsX
-   g==;
-X-CSE-ConnectionGUID: j/z16jrERcqXnCm9ncKNdg==
-X-CSE-MsgGUID: qn7oUZ5MQQ+uZV1HRfZTnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="57745979"
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="57745979"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 06:43:53 -0700
-X-CSE-ConnectionGUID: Xlct5SpASzGOsWnvRo5+Cg==
-X-CSE-MsgGUID: al4pzX24RQSY0KYIv3BFLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="155408398"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.245.246.112])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 06:43:46 -0700
-From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: linux-cxl@vger.kernel.org, "Rafael J . Wysocki" <rafael@kernel.org>,
- Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
- Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
- linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org,
- linux-edac@vger.kernel.org,
- Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject:
- Re: [PATCH 3/3 v4] ACPI: extlog: Trace CPER CXL Protocol Error Section
-Date: Fri, 04 Jul 2025 15:43:43 +0200
-Message-ID: <2114182.IDvDuAF1LB@fdefranc-mobl3>
-In-Reply-To: <20250701140503.00006a48@huawei.com>
-References:
- <20250623145453.1046660-1-fabio.m.de.francesco@linux.intel.com>
- <20250623145453.1046660-4-fabio.m.de.francesco@linux.intel.com>
- <20250701140503.00006a48@huawei.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="e/Xezt7N"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 173DF40E0198;
+	Sun,  6 Jul 2025 08:04:26 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id tByoW6Y3RtQZ; Sun,  6 Jul 2025 08:04:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1751789062; bh=++minv9RSmkgrrFu2G5MHkvmAC7Xah7qbPgFSQE+CnE=;
+	h=Date:From:To:Cc:Subject:From;
+	b=e/Xezt7Nel+SvkugAot3jDMs6kzqiw05EGYSjeNgZRfXJ6S48E/dKOXPaGGw5Oqly
+	 q4Is0DZwKmx/ZwM7WQ2hTJFdae1Ew99dZtwXl6vvXuxItbIsVnldMARV0N/3eB+2SN
+	 Q3OwIMY5nppFJ6x74w1gJRgU+9eSGcB/c+ihi7uPJdKrtx/YPgJbSjw5tKDsMR7Y0z
+	 doQ1504YwHdfuV+oW668ImK8g9zUGjEwRgXNas/RUW5sD55DFLpUF2cigv8xRxUNpd
+	 ZuIsLRB0kYQaAi9DVa8M7ezbseKG9i1qMUe/BmsNa4gVl3Ef6rsBzUeGJ4H3g3TWGP
+	 7g6Q2T+pSE7NAS2YYKquhgX2fCjWw4Zu9RWB7hiohuhKmptdNLAz56mXvVn+n/ox7+
+	 JFOhtyUtAkTcI1/d6MXZzWKNQxi925iPiHcRh+AeSBIVhSnFG2weHUOhHowINdmiEf
+	 y9q/mPHseytTO2Dpn7+l1JzF5RzgSQK/TUqH9g++4jbGBGLU5HTeL9f3+HyG9bxXK2
+	 /FbV1nO4ay6U2y6D7gdHZmzcN/Bqu86X2pOvCA1gAhzjBhtd/Zycg6Q9V+AoBx0IUr
+	 gWspnNGJsKxz/Ar6+5c71Y5vM9+RM6aiOdvkC8Y0yv+qBj8LGx4q1BZwh0lexqCBFr
+	 oU3Gb2Jxuu3luEboSEtL3tto=
+Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5552140E0184;
+	Sun,  6 Jul 2025 08:04:19 +0000 (UTC)
+Date: Sun, 6 Jul 2025 10:04:10 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-edac <linux-edac@vger.kernel.org>,
+	lkml <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] EDAC urgent for v6.16-rc5
+Message-ID: <20250706080410.GAaGot-nOKs75u4yKR@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Tuesday, July 1, 2025 3:05:03=E2=80=AFPM Central European Summer Time Jo=
-nathan Cameron wrote:
-> On Mon, 23 Jun 2025 16:54:20 +0200
-> "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com> wrote:
->=20
-> > When Firmware First is enabled, BIOS handles errors first and then it m=
-akes
-> > them available to the kernel via the Common Platform Error Record (CPER)
-> > sections (UEFI 2.10 Appendix N). Linux parses the CPER sections via one=
- of
-> > two similar paths, either ELOG or GHES. The errors managed by ELOG are
-> > signaled to the BIOS by the I/O Machine Check Architecture (I/O MCA).
-> >=20
-> > Currently, ELOG and GHES show some inconsistencies in how they report to
-> > userspace via trace events.
-> >=20
-> > Therefore, make the two mentioned paths act similarly by tracing the CP=
-ER
-> > CXL Protocol Error Section (UEFI v2.10, Appendix N.2.13).
-> >=20
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Reviewed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@lin=
-ux.intel.com>
-> > Signed-off-by: Fabio M. De Francesco <fabio.m.de.francesco@linux.intel.=
-com>
-> > ---
-> >  drivers/acpi/acpi_extlog.c | 62 ++++++++++++++++++++++++++++++++++++++
-> >  drivers/cxl/core/ras.c     |  6 ++++
-> >  include/cxl/event.h        |  2 ++
-> >  3 files changed, 70 insertions(+)
-> >=20
-> > diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
-> > index cefe8d2d8affc..9a37b08aacfea 100644
-> > --- a/drivers/acpi/acpi_extlog.c
-> > +++ b/drivers/acpi/acpi_extlog.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/ratelimit.h>
-> >  #include <linux/edac.h>
-> >  #include <linux/ras.h>
-> > +#include <cxl/event.h>
-> >  #include <acpi/ghes.h>
-> >  #include <asm/cpu.h>
-> >  #include <asm/mce.h>
-> > @@ -160,6 +161,60 @@ static void extlog_print_pcie(struct cper_sec_pcie=
- *pcie_err,
-> >  	pci_dev_put(pdev);
-> >  }
-> > =20
-> > +static void
-> > +extlog_cxl_cper_handle_prot_err(struct cxl_cper_sec_prot_err *prot_err,
-> > +				int severity)
-> > +{
-> > +	struct cxl_cper_prot_err_work_data wd;
-> > +	u8 *dvsec_start, *cap_start;
->=20
->=20
-> A bunch of this is identical to cxl_cper_post_prot_err()
-> Can we factor that stuff out for common use?
->=20
-> > +
-> > +	if (!(prot_err->valid_bits & PROT_ERR_VALID_AGENT_ADDRESS)) {
-> > +		pr_warn_ratelimited("CXL CPER invalid agent type\n");
-> > +		return;
-> > +	}
-> > +
-> > +	if (!(prot_err->valid_bits & PROT_ERR_VALID_ERROR_LOG)) {
-> > +		pr_warn_ratelimited("CXL CPER invalid protocol error log\n");
-> > +		return;
-> > +	}
-> > +
-> > +	if (prot_err->err_len !=3D sizeof(struct cxl_ras_capability_regs)) {
-> > +		pr_warn_ratelimited("CXL CPER invalid RAS Cap size (%u)\n",
-> > +				    prot_err->err_len);
-> > +		return;
-> > +	}
-> > +
-> > +	if ((prot_err->agent_type =3D=3D RCD || prot_err->agent_type =3D=3D D=
-EVICE ||
-> > +	     prot_err->agent_type =3D=3D LD || prot_err->agent_type =3D=3D FM=
-LD) &&
-> > +	    !(prot_err->valid_bits & PROT_ERR_VALID_SERIAL_NUMBER))
-> > +		pr_warn_ratelimited(FW_WARN
-> > +				    "CXL CPER no device serial number\n");
->=20
-> Whilst some of this check isn't present in cxl_cper_post_prot_err(), it s=
-hould
-> be harmless.
->
-Maybe all these checks should go to a static helper in cxl/core/ras.c which
-cxl_cper_handle_prot_err can call? But I'm not entirely sure yet it would=20
-really be worth. Anyway, I'll look into it.
+Hi Linus,
 
-Thanks,
+please pull an urgent EDAC fix for v6.16-rc5.
 
-=46abio
+Thx.
+
+---
+
+The following changes since commit a3f3040657417aeadb9622c629d4a0c2693a0f93:
+
+  EDAC/amd64: Fix size calculation for Non-Power-of-Two DIMMs (2025-06-25 16:40:03 +0200)
+
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v6.16_rc5
+
+for you to fetch changes up to 1e14ea901dc8d976d355ddc3e0de84ee86ef0596:
+
+  EDAC: Initialize EDAC features sysfs attributes (2025-06-30 10:57:24 +0200)
+
+----------------------------------------------------------------
+- Initialize sysfs attributes properly to avoid lockdep complaining about
+  an uninitialized lock class
+
+----------------------------------------------------------------
+Shiju Jose (1):
+      EDAC: Initialize EDAC features sysfs attributes
+
+ drivers/edac/ecs.c        | 4 +++-
+ drivers/edac/mem_repair.c | 1 +
+ drivers/edac/scrub.c      | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
 
+-- 
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
