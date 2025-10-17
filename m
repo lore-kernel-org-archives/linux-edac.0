@@ -1,417 +1,195 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEB332ABF0;
-	Fri, 17 Oct 2025 12:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA2233032B;
+	Fri, 17 Oct 2025 12:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760705057; cv=none; b=de89S8fW1j8CJLEPErbvbM+4Efbc7EN/xicmfQb7WntuQMhIZNbVx6RLAY3SR5udfW44BLdzUHuCyBzqFOgdQvSFP5aKkx4A4F907980KVjndsVb+vF0V/qphdx55dvJDau+u7y+djb6MVPpiHc9OB0cGBK1QeuhrUIUrIxfdKY=
+	t=1760705689; cv=none; b=PxNgw6dLdRs+xgu0r5/C0VhjdG1bxkOo3wZ9AlU/r91ltzdkEdmqlIkunujKtyu9ti9TJDMXm3prmfcb6Dg1O5XSUzVZ2Wzt1t/Xz73+9x48JR0zphDbSLRhZ4/40jE48zkc/U45MQYFbfkvSVAVwGYmnTrRPsN3/Rpe0towM7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760705057; c=relaxed/simple;
-	bh=BP2tLcRODLLTGYUQN3ZH9uxeI36susbN9rWaT61n7mw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q72ZQPS6G0MiEZDdvjZ0GgNKxORkjA/hPwW28D1ANEIOxiUGNSWGuwrEMmoN9O0wWYM8JMULUmIRJN0gtTIGTBSvzza4Y9ApBjtXBV3WJcGYYAjs5Saa69u4dd+XKGYhnTP1xI8rDxmXLSBCfCY8B+JeSVjS3+vB9UTAy1EDshM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=1OrQ3YIQ; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="1OrQ3YIQ"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 893244E41141;
-	Fri, 17 Oct 2025 12:44:10 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5A865606DB;
-	Fri, 17 Oct 2025 12:44:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9F85E102F2354;
-	Fri, 17 Oct 2025 14:43:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760705048; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=/PLeJE9KR8p3lxXJm49K9+lE+MUQWAG1Y2Q1wp2iOt0=;
-	b=1OrQ3YIQQiPnuSNXZtkh4wYwdSdAx5UueEbM2yNm13HKZwXyw1ihYGUrNQYUdxkCpAGMVy
-	YkkbIcpe0CR3qCP0wbMwh0zB1hOC7TqWWodn2WW8KY4xNUI/O+AOQw8TbYSSBrfGghbWHY
-	8Gc/3LSoCg3bXhOMFn0hCZL3djPCGi05rhcyYi2XzvAHIj8BH3d3SHGs+YBu9weyvWUJj1
-	4x9y5ZrJ27Kz0QSzL86mHytkuRU1hWZsMm0cuM7FT149jkBeSq2OjLIdD2HeCYXV3oJQhQ
-	bghkZIB7Jr0R4y2M9IPMwRAhI867zJp19eaGdl5+XtIq6kavcMynCp7fukKm4Q==
-Message-ID: <c3549740-f01c-4a98-8a3e-5af70326f0eb@bootlin.com>
-Date: Fri, 17 Oct 2025 14:43:17 +0200
+	s=arc-20240116; t=1760705689; c=relaxed/simple;
+	bh=U+hS3i9CLjz1yKZlHXDos9dbra49iebTwFEFZpdtAW0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UE2U1iprB/mRon0G49Z8zvywNmU4oi6Mk89JODP63+6Ys+uiApcV6dbvyLQk+CPiztz1zNAdswqqBIaqv7YSrwTvs3xJNC/3Jix3WutmuxB0eDBDcqn1Mot4qY6r1pW7EN/3jnSBLD0/+u9BkKkzXcHiv+ggh6sXyxKXToYFGNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cp4T64dVfz6L58j;
+	Fri, 17 Oct 2025 20:51:38 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id E316314033C;
+	Fri, 17 Oct 2025 20:54:36 +0800 (CST)
+Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
+ dubpeml500005.china.huawei.com (7.214.145.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 17 Oct 2025 13:54:36 +0100
+Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
+ dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.011;
+ Fri, 17 Oct 2025 13:54:36 +0100
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Borislav Petkov <bp@alien8.de>, Daniel Ferguson
+	<danielf@os.amperecomputing.com>
+CC: Jonathan Cameron <jonathan.cameron@huawei.com>, "rafael@kernel.org"
+	<rafael@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"rppt@kernel.org" <rppt@kernel.org>, "dferguson@amperecomputing.com"
+	<dferguson@amperecomputing.com>, "linux-edac@vger.kernel.org"
+	<linux-edac@vger.kernel.org>, "linux-acpi@vger.kernel.org"
+	<linux-acpi@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
+	<lenb@kernel.org>, "Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>, Linuxarm <linuxarm@huawei.com>,
+	"rientjes@google.com" <rientjes@google.com>, "jiaqiyan@google.com"
+	<jiaqiyan@google.com>, "Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>, "james.morse@arm.com"
+	<james.morse@arm.com>, "jthoughton@google.com" <jthoughton@google.com>,
+	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>, "erdemaktas@google.com"
+	<erdemaktas@google.com>, "pgonda@google.com" <pgonda@google.com>,
+	"duenwen@google.com" <duenwen@google.com>, "gthelen@google.com"
+	<gthelen@google.com>, "wschwartz@amperecomputing.com"
+	<wschwartz@amperecomputing.com>, "wbs@os.amperecomputing.com"
+	<wbs@os.amperecomputing.com>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
+	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Thread-Topic: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Thread-Index: AQHcHC9WuMPoKRXbY02Oy+WxUZ/jerSMt+SAgAK0t2CAABfigIAEdNLAgAOLbYCAABR4AIACsFkAgBrSt9CAD6pngIAAFX0Q
+Date: Fri, 17 Oct 2025 12:54:36 +0000
+Message-ID: <75e9bae2d30748d5b66c288135915cc3@huawei.com>
+References: <20250902173043.1796-1-shiju.jose@huawei.com>
+ <20250902173043.1796-2-shiju.jose@huawei.com>
+ <20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local>
+ <9dd5e9d8e9b04a93bd4d882ef5d8b63e@huawei.com>
+ <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
+ <9433067c142b45d583eb96587b929878@huawei.com>
+ <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
+ <20250917183608.000038c4@huawei.com>
+ <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
+ <6ac4ad35975142df986bfcb27d1e9b2c@huawei.com>
+ <20251015223242.GBaPAhCuS7YWqu-aH0@fat_crate.local>
+In-Reply-To: <20251015223242.GBaPAhCuS7YWqu-aH0@fat_crate.local>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}()
- helpers
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Miller
- <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>,
- Alex Elder <elder@ieee.org>, David Laight <david.laight.linux@gmail.com>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Jason Baron
- <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
- Tony Luck <tony.luck@intel.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Kim Seer Paller <kimseer.paller@analog.com>,
- David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Cosmin Tanislav <demonsingur@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Jianping Shen <Jianping.Shen@de.bosch.com>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-edac@vger.kernel.org, qat-linux@intel.com, linux-gpio@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <cover.1760696560.git.geert+renesas@glider.be>
- <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
- <f2b879d3e8120c7aeb0e6c9a5fd45b15a2b8e5a0.camel@gmail.com>
-From: Richard GENOUD <richard.genoud@bootlin.com>
-Content-Language: en-US, fr
-Organization: Bootlin
-In-Reply-To: <f2b879d3e8120c7aeb0e6c9a5fd45b15a2b8e5a0.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Le 17/10/2025 à 14:33, Nuno Sá a écrit :
-> On Fri, 2025-10-17 at 12:54 +0200, Geert Uytterhoeven wrote:
->> The existing FIELD_{GET,PREP}() macros are limited to compile-time
->> constants.  However, it is very common to prepare or extract bitfield
->> elements where the bitfield mask is not a compile-time constant.
->>
->> To avoid this limitation, the AT91 clock driver and several other
->> drivers already have their own non-const field_{prep,get}() macros.
->> Make them available for general use by consolidating them in
->> <linux/bitfield.h>, and improve them slightly:
->>    1. Avoid evaluating macro parameters more than once,
->>    2. Replace "ffs() - 1" by "__ffs()",
->>    3. Support 64-bit use on 32-bit architectures.
->>
->> This is deliberately not merged into the existing FIELD_{GET,PREP}()
->> macros, as people expressed the desire to keep stricter variants for
->> increased safety, or for performance critical paths.
->>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
->> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> Acked-by: Crt Mori <cmo@melexis.com>
->> ---
-> 
-> Hopefully this gets merged soon. About time to have these variants (I do have a
-> driver submitted - in review - which is adding yet another variant of this)
->   
-> Acked-by: Nuno Sá <nuno.sa@analog.com>
-
-Same here, I would happily drop field_{get,set} from my series under 
-review to include bitfield.h
-Thanks Geert!
-
-Acked-by: Richard Genoud <richard.genoud@bootlin.com>
-
-> 
->> v4:
->>    - Add Acked-by,
->>    - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
->>      power management debugfs helper APIs") in v6.17-rc1,
->>    - Convert more recently introduced upstream copies:
->>        - drivers/edac/ie31200_edac.c
->>        - drivers/iio/dac/ad3530r.c
->>
->> v3:
->>    - Add Acked-by,
->>    - Drop underscores from macro parameters,
->>    - Use __auto_type where possible,
->>    - Correctly cast reg to the mask type,
->>    - Introduces __val and __reg intermediates to simplify the actual
->>      operation,
->>    - Drop unneeded parentheses,
->>    - Clarify having both FIELD_{GET,PREP}() and field_{get,prep}(),
->>
->> v2:
->>    - Cast val resp. reg to the mask type,
->>    - Fix 64-bit use on 32-bit architectures,
->>    - Convert new upstream users:
->>        - drivers/crypto/intel/qat/qat_common/adf_gen4_pm_debugfs.c
->>        - drivers/gpio/gpio-aspeed.c
->>        - drivers/iio/temperature/mlx90614.c
->>        - drivers/pinctrl/nuvoton/pinctrl-ma35.c
->>        - sound/usb/mixer_quirks.c
->>    - Convert new user queued in renesas-devel for v6.15:
->>        - drivers/soc/renesas/rz-sysc.c
->> ---
->>   drivers/clk/at91/clk-peripheral.c             |  1 +
->>   drivers/clk/at91/pmc.h                        |  3 --
->>   .../intel/qat/qat_common/adf_pm_dbgfs_utils.c |  8 +----
->>   drivers/edac/ie31200_edac.c                   |  4 +--
->>   drivers/gpio/gpio-aspeed.c                    |  5 +--
->>   drivers/iio/dac/ad3530r.c                     |  3 --
->>   drivers/iio/temperature/mlx90614.c            |  5 +--
->>   drivers/pinctrl/nuvoton/pinctrl-ma35.c        |  4 ---
->>   drivers/soc/renesas/rz-sysc.c                 |  3 +-
->>   include/linux/bitfield.h                      | 36 +++++++++++++++++++
->>   sound/usb/mixer_quirks.c                      |  4 ---
->>   11 files changed, 42 insertions(+), 34 deletions(-)
->>
->> diff --git a/drivers/clk/at91/clk-peripheral.c b/drivers/clk/at91/clk-
->> peripheral.c
->> index e700f40fd87f9327..e7208c47268b6397 100644
->> --- a/drivers/clk/at91/clk-peripheral.c
->> +++ b/drivers/clk/at91/clk-peripheral.c
->> @@ -3,6 +3,7 @@
->>    *  Copyright (C) 2013 Boris BREZILLON <b.brezillon@overkiz.com>
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/bitops.h>
->>   #include <linux/clk-provider.h>
->>   #include <linux/clkdev.h>
->> diff --git a/drivers/clk/at91/pmc.h b/drivers/clk/at91/pmc.h
->> index 5daa32c4cf2540d7..543d7aee8d248cdb 100644
->> --- a/drivers/clk/at91/pmc.h
->> +++ b/drivers/clk/at91/pmc.h
->> @@ -117,9 +117,6 @@ struct at91_clk_pms {
->>   	unsigned int parent;
->>   };
->>   
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
->> -
->>   #define ndck(a, s) (a[s - 1].id + 1)
->>   #define nck(a) (a[ARRAY_SIZE(a) - 1].id + 1)
->>   
->> diff --git a/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> b/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> index 69295a9ddf0ac92f..4ccc94ed9493a64c 100644
->> --- a/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> +++ b/drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c
->> @@ -1,18 +1,12 @@
->>   // SPDX-License-Identifier: GPL-2.0-only
->>   /* Copyright(c) 2025 Intel Corporation */
->> +#include <linux/bitfield.h>
->>   #include <linux/bitops.h>
->>   #include <linux/sprintf.h>
->>   #include <linux/string_helpers.h>
->>   
->>   #include "adf_pm_dbgfs_utils.h"
->>   
->> -/*
->> - * This is needed because a variable is used to index the mask at
->> - * pm_scnprint_table(), making it not compile time constant, so the compile
->> - * asserts from FIELD_GET() or u32_get_bits() won't be fulfilled.
->> - */
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -
->>   #define PM_INFO_MAX_KEY_LEN	21
->>   
->>   static int pm_scnprint_table(char *buff, const struct pm_status_row *table,
->> diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
->> index 5a080ab65476dacf..dfc9a9cecd74207d 100644
->> --- a/drivers/edac/ie31200_edac.c
->> +++ b/drivers/edac/ie31200_edac.c
->> @@ -44,6 +44,7 @@
->>    * but lo_hi_readq() ensures that we are safe across all e3-1200 processors.
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/module.h>
->>   #include <linux/init.h>
->>   #include <linux/pci.h>
->> @@ -139,9 +140,6 @@
->>   #define IE31200_CAPID0_DDPCD		BIT(6)
->>   #define IE31200_CAPID0_ECC		BIT(1)
->>   
->> -/* Non-constant mask variant of FIELD_GET() */
->> -#define field_get(_mask, _reg)  (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -
->>   static int nr_channels;
->>   static struct pci_dev *mci_pdev;
->>   static int ie31200_registered = 1;
->> diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
->> index 7953a9c4e36d7550..3da999334971d501 100644
->> --- a/drivers/gpio/gpio-aspeed.c
->> +++ b/drivers/gpio/gpio-aspeed.c
->> @@ -5,6 +5,7 @@
->>    * Joel Stanley <joel@jms.id.au>
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/cleanup.h>
->>   #include <linux/clk.h>
->>   #include <linux/gpio/aspeed.h>
->> @@ -31,10 +32,6 @@
->>   #include <linux/gpio/consumer.h>
->>   #include "gpiolib.h"
->>   
->> -/* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
->> -#define field_get(_mask, _reg)	(((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   #define GPIO_G7_IRQ_STS_BASE 0x100
->>   #define GPIO_G7_IRQ_STS_OFFSET(x) (GPIO_G7_IRQ_STS_BASE + (x) * 0x4)
->>   #define GPIO_G7_CTRL_REG_BASE 0x180
->> diff --git a/drivers/iio/dac/ad3530r.c b/drivers/iio/dac/ad3530r.c
->> index 6134613777b8e1d4..b97b46090d808ee7 100644
->> --- a/drivers/iio/dac/ad3530r.c
->> +++ b/drivers/iio/dac/ad3530r.c
->> @@ -53,9 +53,6 @@
->>   #define AD3530R_MAX_CHANNELS			8
->>   #define AD3531R_MAX_CHANNELS			4
->>   
->> -/* Non-constant mask variant of FIELD_PREP() */
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   enum ad3530r_mode {
->>   	AD3530R_NORMAL_OP,
->>   	AD3530R_POWERDOWN_1K,
->> diff --git a/drivers/iio/temperature/mlx90614.c
->> b/drivers/iio/temperature/mlx90614.c
->> index 8a44a00bfd5ece38..1ad21b73e1b44cb0 100644
->> --- a/drivers/iio/temperature/mlx90614.c
->> +++ b/drivers/iio/temperature/mlx90614.c
->> @@ -22,6 +22,7 @@
->>    * the "wakeup" GPIO is not given, power management will be disabled.
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/delay.h>
->>   #include <linux/err.h>
->>   #include <linux/gpio/consumer.h>
->> @@ -68,10 +69,6 @@
->>   #define MLX90614_CONST_SCALE 20 /* Scale in milliKelvin (0.02 * 1000) */
->>   #define MLX90614_CONST_FIR 0x7 /* Fixed value for FIR part of low pass filter
->> */
->>   
->> -/* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
->> -#define field_get(_mask, _reg)	(((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   struct mlx_chip_info {
->>   	/* EEPROM offsets with 16-bit data, MSB first */
->>   	/* emissivity correction coefficient */
->> diff --git a/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> b/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> index cdad01d68a37e365..8d71dc53cc1de1f8 100644
->> --- a/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> +++ b/drivers/pinctrl/nuvoton/pinctrl-ma35.c
->> @@ -81,10 +81,6 @@
->>   #define MVOLT_1800			0
->>   #define MVOLT_3300			1
->>   
->> -/* Non-constant mask variant of FIELD_GET() and FIELD_PREP() */
->> -#define field_get(_mask, _reg)	(((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val)	(((_val) << (ffs(_mask) - 1)) &
->> (_mask))
->> -
->>   static const char * const gpio_group_name[] = {
->>   	"gpioa", "gpiob", "gpioc", "gpiod", "gpioe", "gpiof", "gpiog",
->>   	"gpioh", "gpioi", "gpioj", "gpiok", "gpiol", "gpiom", "gpion",
->> diff --git a/drivers/soc/renesas/rz-sysc.c b/drivers/soc/renesas/rz-sysc.c
->> index 9f79e299e6f41641..73eaf8b9d69f7208 100644
->> --- a/drivers/soc/renesas/rz-sysc.c
->> +++ b/drivers/soc/renesas/rz-sysc.c
->> @@ -5,6 +5,7 @@
->>    * Copyright (C) 2024 Renesas Electronics Corp.
->>    */
->>   
->> +#include <linux/bitfield.h>
->>   #include <linux/cleanup.h>
->>   #include <linux/io.h>
->>   #include <linux/mfd/syscon.h>
->> @@ -16,8 +17,6 @@
->>   
->>   #include "rz-sysc.h"
->>   
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -
->>   /**
->>    * struct rz_sysc - RZ SYSC private data structure
->>    * @base: SYSC base address
->> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
->> index 7ff817bdae19b468..c999fe70076f6684 100644
->> --- a/include/linux/bitfield.h
->> +++ b/include/linux/bitfield.h
->> @@ -220,4 +220,40 @@ __MAKE_OP(64)
->>   #undef __MAKE_OP
->>   #undef ____MAKE_OP
->>   
->> +/**
->> + * field_prep() - prepare a bitfield element
->> + * @mask: shifted mask defining the field's length and position
->> + * @val:  value to put in the field
->> + *
->> + * field_prep() masks and shifts up the value.  The result should be
->> + * combined with other fields of the bitfield using logical OR.
->> + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
->> + */
->> +#define field_prep(mask, val)						\
->> +	({								\
->> +		__auto_type __mask = (mask);				\
->> +		typeof(mask) __val = (val);				\
->> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
->> +				       __ffs(__mask) :
->> __ffs64(__mask);	\
->> +		(__val << __shift) & __mask;	\
->> +	})
->> +
->> +/**
->> + * field_get() - extract a bitfield element
->> + * @mask: shifted mask defining the field's length and position
->> + * @reg:  value of entire bitfield
->> + *
->> + * field_get() extracts the field specified by @mask from the
->> + * bitfield passed in as @reg by masking and shifting it down.
->> + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
->> + */
->> +#define field_get(mask, reg)						\
->> +	({								\
->> +		__auto_type __mask = (mask);				\
->> +		typeof(mask) __reg =  (reg);				\
->> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
->> +				       __ffs(__mask) :
->> __ffs64(__mask);	\
->> +		(__reg & __mask) >> __shift;	\
->> +	})
->> +
->>   #endif
->> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
->> index 828af3095b86ee0a..6eee89cbc0867f2b 100644
->> --- a/sound/usb/mixer_quirks.c
->> +++ b/sound/usb/mixer_quirks.c
->> @@ -3311,10 +3311,6 @@ static int snd_bbfpro_controls_create(struct
->> usb_mixer_interface *mixer)
->>   #define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
->>   #define RME_DIGIFACE_INVERT BIT(31)
->>   
->> -/* Nonconst helpers */
->> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
->> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
->> -
->>   static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int
->> item, u16 mask, u16 val)
->>   {
->>   	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-
-
--- 
-Richard Genoud, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
+bGllbjguZGU+DQo+U2VudDogMTYgT2N0b2JlciAyMDI1IDExOjMxDQo+VG86IFNoaWp1IEpvc2Ug
+PHNoaWp1Lmpvc2VAaHVhd2VpLmNvbT4NCj5DYzogSm9uYXRoYW4gQ2FtZXJvbiA8am9uYXRoYW4u
+Y2FtZXJvbkBodWF3ZWkuY29tPjsgcmFmYWVsQGtlcm5lbC5vcmc7DQo+YWtwbUBsaW51eC1mb3Vu
+ZGF0aW9uLm9yZzsgcnBwdEBrZXJuZWwub3JnOw0KPmRmZXJndXNvbkBhbXBlcmVjb21wdXRpbmcu
+Y29tOyBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+YWNwaUB2Z2VyLmtlcm5l
+bC5vcmc7IGxpbnV4LW1tQGt2YWNrLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVsLm9yZzsNCj50
+b255Lmx1Y2tAaW50ZWwuY29tOyBsZW5iQGtlcm5lbC5vcmc7IFlhemVuLkdoYW5uYW1AYW1kLmNv
+bTsNCj5tY2hlaGFiQGtlcm5lbC5vcmc7IExpbnV4YXJtIDxsaW51eGFybUBodWF3ZWkuY29tPjsN
+Cj5yaWVudGplc0Bnb29nbGUuY29tOyBqaWFxaXlhbkBnb29nbGUuY29tOyBKb24uR3JpbW1AYW1k
+LmNvbTsNCj5kYXZlLmhhbnNlbkBsaW51eC5pbnRlbC5jb207IG5hb3lhLmhvcmlndWNoaUBuZWMu
+Y29tOw0KPmphbWVzLm1vcnNlQGFybS5jb207IGp0aG91Z2h0b25AZ29vZ2xlLmNvbTsgc29tYXN1
+bmRhcmFtLmFAaHBlLmNvbTsNCj5lcmRlbWFrdGFzQGdvb2dsZS5jb207IHBnb25kYUBnb29nbGUu
+Y29tOyBkdWVud2VuQGdvb2dsZS5jb207DQo+Z3RoZWxlbkBnb29nbGUuY29tOyB3c2Nod2FydHpA
+YW1wZXJlY29tcHV0aW5nLmNvbTsNCj53YnNAb3MuYW1wZXJlY29tcHV0aW5nLmNvbTsgbmlmYW4u
+Y3hsQGdtYWlsLmNvbTsgdGFueGlhb2ZlaQ0KPjx0YW54aWFvZmVpQGh1YXdlaS5jb20+OyBaZW5n
+dGFvIChCKSA8cHJpbWUuemVuZ0BoaXNpbGljb24uY29tPjsgUm9iZXJ0bw0KPlNhc3N1IDxyb2Jl
+cnRvLnNhc3N1QGh1YXdlaS5jb20+OyBrYW5na2FuZy5zaGVuQGZ1dHVyZXdlaS5jb207DQo+d2Fu
+Z2h1aXFpYW5nIDx3YW5naHVpcWlhbmdAaHVhd2VpLmNvbT4NCj5TdWJqZWN0OiBSZTogW1BBVENI
+IHYxMiAxLzJdIEFDUEk6UkFTMjogQWRkIEFDUEkgUkFTMiBkcml2ZXINCj4NCj5PbiBNb24sIE9j
+dCAwNiwgMjAyNSBhdCAxMDozNzozOUFNICswMDAwLCBTaGlqdSBKb3NlIHdyb3RlOg0KPj4gMS5T
+Y3J1YiByYXRlDQo+PiAxLjEuIFNjcnViIHJhdGUgaXMgY29tbW9uIGFjcm9zcyB0aGUgTlVNQSBu
+b2RlIGRvbWFpbnMuDQo+PiAxLjIuIENvbW1vbiBtaW4gc2NydWIgcmF0ZSBpcyBtYXggb2YgbWlu
+IHNjcnViIHJhdGVzIGFjcm9zcyBub2Rlcy4NCj4+IDEuMy4gQ29tbW9uIG1heCBzY3J1YiByYXRl
+IGlzIG1pbiBvZiBtYXggc2NydWIgcmF0ZXMgYWNyb3NzIG5vZGVzLg0KPg0KPkFuZCB5b3UgbmVl
+ZCBzY3J1YiByYXRlIHRvIGJlIHBlciBub2RlIGJlY2F1c2UuLi4/DQo+DQo+V2h5IGNhbid0IGl0
+IGJlIGEgc3lzdGVtLXdpZGUgc2NydWIgcmF0ZT8NCg0KQUNQSSBzcGVjIGRlZmluZWQgUkFTMiBp
+bnRlcmZhY2UgZm9yIHNjcnViIGFuZCBzY3J1YiBwYXJhbWV0ZXJzIHBlciBub2RlIC4NClRodXMg
+dG8gbWFrZSBjb21wYXRpYmxlIHRvIHRoZSBzcGVjLCAga2VybmVsIGFuZCBmaXJtd2FyZSBpbXBs
+ZW1lbnRhdGlvbnMgZm9yDQpSQVMyIHNjcnViYmluZyBhcmUgcGVyIG5vZGUuIA0KRm9yIHRoZSBk
+ZXNpZ24gYW5kIHByb3RvdHlwaW5nIHlvdXIgcmVxdWVzdCBmb3IgInN0YXJ0IGEgc2NydWIgb24g
+dGhlIHdob2xlIHN5c3RlbSIsIA0Kd2UgYXJlIHRyeWluZyBtYWtlIHN5c2ZzIHNjcnViIGNvbnRy
+b2wgc3lzdGVtLXdpZGUgd2hpbGUga2VlcGluZyB1bmRlcmx5aW5nIFJBUzINCnNjcnViYmluZyBw
+ZXIgbm9kZS4gVGhlbiB0aGVzZSBvcGVuIHF1ZXN0aW9ucyBhcmlzZSwgc3VjaCBhcyBuZWVkIGZv
+ciB0aGUgDQpzeXN0ZW0td2lkZSBjb21tb24gc2NydWIgcmF0ZSBhY3Jvc3MgYWxsIG5vZGVzLCAg
+Zm9yIHRoZSBkZW1hbmQgc2NydWJiaW5nIHNob3VsZA0KdGhlIGtlcm5lbCBzZW5kIHNjcnViIHJl
+cXVlc3QgdG8gb25seSBvbiB0aGUgY29ycmVzcG9uZGluZyBub2RlIG9yIHRvIGFsbCB0aGUgbm9k
+ZXMgZXRjLg0KPg0KPklmIHRoZSB1c2UgY2FzZSBhcHBlYXJzIHdoaWNoIG5lZWRzIHBlci1ub2Rl
+IHNjcnViIHJhdGUsIHRoZW4geW91IGRlc2lnbiBpdCB0aGlzDQo+d2F5Lg0KDQpGcm9tIHRoZSBB
+Q1BJIHNwZWMgUkFTMiBzY3J1YiBpbnRlcmZhY2UgcGVyc3BlY3RpdmUsICBuZWVkcyBwZXItbm9k
+ZSBzY3J1YiByYXRlIGFuZCBvdGhlcg0Kc2NydWIgcGFyYW1ldGVycy4gT25lIG9mIHRoZSB1c2Ug
+Y2FzZSBmb3IgZGVtYW5kL2JhY2tncm91bmQgc2NydWJiaW5nIGluIGEgc3BlY2lmaWMgbm9kZQ0K
+aW4gd2hpY2ggZnJlcXVlbnQgY29ycmVjdGVkIG1lbW9yeSBlcnJvcnMgcmVwb3J0ZWQgdG8gdGhl
+IHVzZXIgc3BhY2UgYW5kIENFIGNvdW50IGV4Y2VlZHMgdGhlDQp0aHJlc2hvbGQuDQoNCk1heSBi
+ZSBEYW5pZWwgY2FuIHByb3ZpZGUgbW9yZSBpbnB1dHMgZm9yIHRoaXMgcXVlc3Rpb24gYWJvdXQg
+dXNlIGNhc2VzPw0KIA0KSWYgeW91IGFncmVlIHRvIGtlZXAgcGVyLW5vZGUgc2NydWIgcmF0ZSBh
+bmQgdGh1cyBwZXItbm9kZSBzY3J1YiBjb250cm9sIGluIHRoZSBzeXNmcywNCnRoZW4gSSB3aWxs
+IGNvbnRpbnVlIHRvIHVzZSB0aGUgb3JpZ2luYWwgZGVzaWduIGluIHYxMj8gT3RoZXJ3aXNlIHdp
+bGwgdHJ5IHRvIHVzZSB0aGUgbmV3IGRlc2lnbg0Kd2l0aCBjb21tb24gc3lzdGVtLXdpZGUgc2Ny
+dWIgY29udHJvbCBpbiB0aGUgc3lzZnMgYW5kIHVuZGVybHlpbmcgUkFTMiBzY3J1YmJpbmcgDQpp
+bXBsZW1lbnRhdGlvbiBwZXIgbm9kZS4NCg0KPg0KPk9yIHlvdSBhbHJlYWR5IGhhdmUgYSB2YWxp
+ZCB1c2UgY2FzZSBmb3IgaXQgd2hpY2ggZGljdGF0ZXMgdGhpcyBkZXNpZ24/DQo+DQo+PiAxLjQu
+IFNjcnViIHJhdGUgYWxsb3dlZCB0byBjaGFuZ2Ugb25seSBpZiBOTyBkZW1hbmQgYW5kIHBhdHJv
+bA0KPj4gICAgc2NydWJiaW5nIGlzIGluIHByb2dyZXNzDQo+DQo+UmlnaHQuDQo+DQo+PiAyLiBE
+ZW1hbmQgc2NydWJiaW5nIGFuZCBCYWNrZ3JvdW5kIChwYXRyb2wpIHNjcnViYmluZyAyLjEuIEJh
+Y2tncm91bmQNCj4+IHNjcnViYmluZyByZXF1ZXN0IGVuYWJsZXMgQkcgc2NydWJiaW5nDQo+PiAg
+ICAgIG9uIGFsbCBOVU1BIG5vZGVzLg0KPg0KPlJpZ2h0Lg0KPg0KPj4gMi4yLiBGb3IsIGRlbWFu
+ZCBzY3J1YmJpbmcgcmVxdWVzdCAyIG9wdGlvbnMgYXJlIGlkZW50aWZpZWQsDQo+PiAgICAgIHdp
+dGggKGIpIHRyaWVkLiBQbGVhc2Ugc3VnZ2VzdCB0aGUgcmlnaHQgYXBwcm9hY2g/DQo+PiBhKSBF
+bmFibGUgZGVtYW5kIHNjcnViYmluZyBvbiBhbGwgTlVNQSBub2RlcywgaG9wZSBmb3INCj4+ICAg
+ICAgdGhlICdSZXF1ZXN0ZWQgQWRkcmVzcyBSYW5nZShJTlBVVCknIGZpZWxkLCBjYW4gdXNlDQo+
+PiAgICAgIGFkZHJlc3Mgc2V0IHRvIHNjcnViIGFuZCBQQUdFX1NJWkUob3Igc2ltaWxhcikgZm9y
+IGFsbCB0aGUNCj4+ICAgICAgbm9kZXMuDQo+DQo+V2h5IGRvIHlvdSBuZWVkIGFuIGFkZHJlc3Mg
+cmFuZ2U/IFdoeSBub3Qgc3RhcnQgc2NydWJiaW5nIGFuZCBoYXZlIGl0IGJlIGZpcmUtDQo+YW5k
+LWZvcmdldD8NClRoaXMgaXMgZm9yIGRlbWFuZCBzY3J1YmJpbmcgZmVhdHVyZS91c2UgY2FzZSB3
+aGVyZSBhIHNwZWNpZmljIGFkZHJlc3MgcmFuZ2UgdG8gc2NydWIgYW5kDQpPUyBtdXN0IHNldCB0
+aGUgbWFuZGF0b3J5ICBzcGVjIGRlZmluZWQgIFJBUzIgdGFibGUgZmllbGQgJ1JlcXVlc3RlZCBB
+ZGRyZXNzIFJhbmdlKElOUFVUKScgDQp3aGlsZSByZXF1ZXN0aW5nIHRoZSBkZW1hbmQgc2NydWJi
+aW5nIGluIGEgbm9kZS4gSG9wZSB0aGUgZmlybXdhcmUgY2FuIGlnbm9yZSB0aGUgcmVxdWVzdA0K
+aWYgdGhlIHJlcXVlc3RlZCBhZGRyZXNzIHJhbmdlIHRvIHNjcnViIGlzIGlycmVsZXZhbnQgZm9y
+IGEgbm9kZSwgYmVjYXVzZSBpbiB0aGlzIGFwcHJvYWNoIHdlIGhhdmUNCmNvbW1vbiBzeXNmcyBz
+Y3J1YiBjb250cm9sIGFuZCBrZXJuZWwgaXMgcmVxdWVzdGluZyBkZW1hbmQgc2NydWJiaW5nIHN5
+c3RlbS13aWRlIGFjcm9zcw0KYWxsIG5vZGVzLg0KDQpJZiB0aGlzIGFwcHJvYWNoIGlzIG5vdCBj
+b3JyZWN0LCBjYW4gd2UgdXNlIChiKSBhcyBiZWxvdz8gcHJvdmlkaW5nIHdlIG5lZWQgdG8gZ2V0
+IFBBIHJhbmdlDQpmb3IgdGhlIG5vZGVzIGluIHRoZSBSQVMyIGRyaXZlciAgdXNpbmcgdGhlIGZ1
+bmN0aW9ucyAoc3RhcnRfcGZuID0gbm9kZV9zdGFydF9wZm4obmlkKSBhbmQgDQpzaXplX3BmbiA9
+IG5vZGVfc3Bhbm5lZF9wYWdlcyhuaWQpOykgIGFzIGltcGxlbWVudGVkIGluIHYxMiBhbmQgZGlz
+Y3Vzc2VkIGVhcmxpZXIgaW4gdGhpcyB0aHJlYWQuDQoNCj4NCj4+IGIpIEVuYWJsZSBkZW1hbmQg
+c2NydWJiaW5nIG9uIGEgTlVNQSBub2RlIGZvciB3aGljaA0KPj4gICAgICB0aGUgcmVxdWVzdGVk
+IGFkZHJlc3MgdG8gc2NydWIgaXMgd2l0aGluIHRoZSBQQSByYW5nZSBvZg0KPj4gICAgICB0aGF0
+IG5vZGUuDQo+Pg0KPj4gMi4zLiBEZW1hbmQgc2NydWJiaW5nIGlzIG5vdCBhbGxvd2VkIHdoZW4g
+YmFja2dyb3VuZCBzY3J1YmJpbmcNCj4+ICAgICAgaXMgaW4gcHJvZ3Jlc3MuDQo+Pg0KPj4gMi40
+LiBJZiAyLjIuIChiKSBpcyBjaG9zZW4sIHNob3VsZCBrZXJuZWwgYWxsb3cgQkcNCj4+ICAgICAg
+IHNjcnViYmluZyBvbiByZXN0IG9mIHRoZSBub2Rlcywgd2hlbiBkZW1hbmQgc2NydWJiaW5nIG9u
+DQo+PiAgICAgICBzb21lIG5vZGUvcyBpcyBpbiBwcm9ncmVzcz8NCj4NCj5JdCBzZWVtcyBsaWtl
+IGFsbCBzY3J1YmJpbmcgc2hvdWxkIGJlIG11dHVhbGx5LWV4Y2x1c2l2ZS4uLiBvciBpcyB0aGVy
+ZSBhIHBvaW50IGluDQo+c2NydWJiaW5nIGluIHBhcmFsbGVsLi4uPw0KDQpTdXJlLiBUaGVuIGJh
+Y2tncm91bmQgc2NydWJiaW5nIHdpbGwgbm90IGJlIGFsbG93ZWQgaWYgZGVtYW5kIHNjcnViYmlu
+ZyBpcyBpbiBwcm9ncmVzcw0KaW4gYSBub2RlLCBpZiB0aGUgc3lzdGVtLXdpZGUgc2NydWIgY29u
+dHJvbCBpbiBzeXNmcyBpcyBjaG9zZW4uIA0KPg0KPj4gMi41IFRoZSBzdGF0dXMgb2YgdGhlIEJH
+IHNjcnViYmluZyBleHBvc2VkIHRvIHRoZSB1c2VyIHNwYWNlDQo+PiAgICAgaW4gJ2VuYWJsZV9i
+YWNrZ3JvdW5kJyBzeXNmcyBhdHRyaWJ1dGUuDQo+Pg0KPj4gMi42IFRoZSBzdGF0dXMgb2YgdGhl
+IGRlbWFuZCBzY3J1YmJpbmcgZXhwb3NlZCB0byB0aGUNCj4+ICAgICAgICB1c2VyIHNwYWNlIGlu
+ICdhZGRyJyBzeXNmcyBhdHRyaWJ1dGUuIEhvd2V2ZXIgd2hlbiB0aGUNCj4+ICAgICAgICBkZW1h
+bmQgc2NydWJiaW5nIGlzIG9uIG11bHRpcGxlL2FsbCBub2RlcyBhcmUgaW4gcHJvZ3Jlc3MsDQo+
+PiAgICAgICAgd2hpY2ggZGVtYW5kIHNjcnViYmluZyBzdGF0dXMgYW5kIGFkZHJlc3MgaW4gJ2Fk
+ZHInIHN5c2ZzIGF0dHJpYnV0ZQ0KPj4gICAgICAgIGFzIHN0YXR1cyBzaG91bGQgYmUgZXhwb3Nl
+ZCB0byB0aGUgdXNlciBzcGFjZT8NCj4+IGEpIE1heSBiZSB0aGUgc3RhdHVzIG9mIHRoZSBmaXJz
+dCBkZXRlY3RlZCBub2RlIHdpdGggZGVtYW5kIHNjcnViYmluZw0KPj4gICAgICBpcyBpbiBwcm9n
+cmVzcz8NCj4+IGIpIERvZXMgbm90IHNob3cgdGhlIHN0YXR1cyBhdCBhbGwsIGp1c3QgZmFpbCB0
+aGUgcmVxdWVzdCBpZiB0aGUNCj4+ICAgICBkZW1hbmQgc2NydWJiaW5nIGlzIGFscmVhZHkgaW4g
+cHJvZ3Jlc3Mgb24gYSBub2RlL2FsbCBub2Rlcz8NCj4+IGMpICBBbnkgb3RoZXIgc3VnZ2VzdGlv
+bj8NCj4NCj5GaXJzdCB3ZSBuZWVkIGEgcHJvcGVyIGdyYW51bGFyaXR5IGRlZmluZWQgYW5kIHRo
+ZW4gZXZlcnl0aGluZyB3aWxsIHJldm9sdmUNCj5hcm91bmQgaXQ6IHNob3VsZCBpdCBiZSBzeXN0
+ZW0td2lkZSwgcGVyLW5vZGUsIGRvZXMgaXQgbmVlZCB0byBoYXZlIGFuIGFkZHJlc3MNCj5yYW5n
+ZSBvciBjYW4gaXQgYmUgc3RhcnRlZCBhbmQgbm8gbmVlZCBmb3IgYW55IGZ1cnRoZXIgdXNlciBp
+bnRlcmFjdGlvbiBhbmQgc28gb24NCj5hbmQgc28gb24uLi4NClN1cmUuDQo+DQoNClRoYW5rcywN
+ClNoaWp1DQoNCj4tLQ0KPlJlZ2FyZHMvR3J1c3MsDQo+ICAgIEJvcmlzLg0KPg0KPmh0dHBzOi8v
+cGVvcGxlLmtlcm5lbC5vcmcvdGdseC9ub3Rlcy1hYm91dC1uZXRpcXVldHRlDQoNCg==
