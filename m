@@ -1,292 +1,370 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12221D516C;
-	Sat, 25 Oct 2025 11:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE5E3019DA;
+	Sat, 25 Oct 2025 15:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761392544; cv=none; b=e0JDq5i9qE5HUpLAYqsBk2TktptsQ+8ic8pJSAp3RfzIuQ4ISkMNFTYOYxfW2P+LCr3yqf73K7x1yP/Ul1tFSm/AIRQwmrIyQPNfGh77l1nwGlgE1XpJ8yhxCbT+oIATw/DWvbT+oRqZAES7twQHP5rkuJWmgZHKJ0RhVA3ceI4=
+	t=1761404612; cv=none; b=JszAJm/W2aAuZv6oKAeQ+6DbCpqJ8GiHAaKjXQxOUW9cnqmls+wsn+sSagrZ9hqnBckO/ap2gZyZm9uRowp1m7c5fEN7Prx3lWEHiucxeWHKz9xoXXt14VxMuoKNSyuooYpKV2C4qNYTVRIi5/oDorxpzM4uOW0D3fM8tit4Tl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761392544; c=relaxed/simple;
-	bh=4GpavlZCK7jfW+tbgBCh97zrQasfjN1Irb4roaVDKN4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O23h6/pIeGzqdinrqqZCpwGrJUtpmJALh4KXvloXolBDUekhLPN7mtaF5yDFSvKkVjbCeP8J1zHLy4wqLsahx/zyJ0fs5ivgIJ3zfnSstQ9QG1IoJv1rwChQZD25IWvG9u8ZtoKLoN6/Qrn1Lj422sOoDRcnIa1v27n2HmVmnkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Au+GUjnI; arc=none smtp.client-ip=115.124.30.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1761404612; c=relaxed/simple;
+	bh=BkmuO16h4mmUA1yuwJLb1GsQSmrpODIBX6fKyc5zkCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fMM2OIKsXMG5TcDeZNvj/gC/FXZj/rq93BB88LhaiICZ3ttM6k+ov0IvFkc0Sy9vlPNqxPF4wPUBI3Amk+gVysNN9f8NFa2omvWGyHU8HE8/HHA5k1o+XppeUKhYWPZdio0VqxteCH9BSsk2zhgP7rimhewb/1HMuyPZuzHsN7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ii82CEJR; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Au+GUjnI"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1761392528; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=daBDsIEoo7d0DXzD96pe4JGjDFJicmWft6qR8RVDeNU=;
-	b=Au+GUjnIhRk4Nbrko7T2QCps8MCyvFwrtpNeyQYnmUNbq5q8muwGRDzgKEdnJBnj1y9piOUkA38B3Z1V5t5Cl3KeWN80m5Y6oIFZFsxMePQU2i2nNdrrBbIFzCY7VU2q6KrsbcTdruNq7if9jxibHAm2pVz+YUEuV3Yp0VvDWG0=
-Received: from localhost.localdomain(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WqwoUgY_1761392525 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sat, 25 Oct 2025 19:42:06 +0800
-From: Shuai Xue <xueshuai@linux.alibaba.com>
-To: rostedt@goodmis.org,
-	lukas@wunner.de,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	helgaas@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	mattc@purestorage.com,
-	Jonathan.Cameron@huawei.com
-Cc: bhelgaas@google.com,
-	tony.luck@intel.com,
-	bp@alien8.de,
-	xueshuai@linux.alibaba.com,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	oleg@redhat.com,
-	naveen@kernel.org,
-	davem@davemloft.net,
-	anil.s.keshavamurthy@intel.com,
-	mark.rutland@arm.com,
-	peterz@infradead.org,
-	tianruidong@linux.alibaba.com
-Subject: [PATCH v13 1/3] PCI: trace: Add a generic RAS tracepoint for hotplug event
-Date: Sat, 25 Oct 2025 19:41:56 +0800
-Message-Id: <20251025114158.71714-2-xueshuai@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20251025114158.71714-1-xueshuai@linux.alibaba.com>
-References: <20251025114158.71714-1-xueshuai@linux.alibaba.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ii82CEJR"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2FB8640E019F;
+	Sat, 25 Oct 2025 15:03:27 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id LAmeftlVqX9D; Sat, 25 Oct 2025 15:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1761404602; bh=nCSgOU7dM4yjzLP0h/Updbog8vAhppuSiCCOin6HIpg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ii82CEJRRaYuL74C99DQdELj96yqtGFin5opC/b6OtA90rbMWGTQRfauocDES1lHW
+	 WsVZKrt4GHgyWpJ/z4FwUnQB60zVlTdmgAadc0fZZf66WS4uqLayXJgFerm5FMK+wI
+	 D0ermsAq1V8RLBMTC3CR8JXVmjvpuYBRvRC5DBH6EgkyRQ5FDn3tD601xq3QIhwFev
+	 Hg4rPpMWBJ3SCYJs8IOR4rlJVUEc1PNmMkoRMIz6xVxSWYz67iR6XJXjqKUNwXUQiG
+	 /t6ooNMNdw2hBmH1Rlytf7ffQHIScwvxhHpG2/s3Qn4j7Q1sq/qTCPeDeuwyuGyRVh
+	 zGZQfl8qRekJDZE5g5RNE9YLEjZYIQJL/tXNsufayrxPEbYQL/WrQ7LC4wcs57HP/X
+	 5Za/TBrXkjeCHBRKXRm1J1j4RP2QE9DF/U3asuhQ1bPg3x/4TfDiAhzVlvS7kIqtxq
+	 sbfCnVPjp/k7TldLrmyLyD1Mf4kFZwjcfmS7wvOx+8vcG3xVl+580Oh6WcQmdJAIsC
+	 LbHbMsnSekq27Fj9bziByqicjHyKzTbsGq9X+pI3+zcKKa0zNVeNwf/2lJ1+bG4BhP
+	 j7o0bCYUi6e1te7/DowQjsbPnnCaWyThxMayt/BDWi6l7RDpwltCwU/MO4+F5ZP8ow
+	 0+lZ+1CNhkkW7oy23KZcbLhc=
+Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 565A840E019B;
+	Sat, 25 Oct 2025 15:03:10 +0000 (UTC)
+Date: Sat, 25 Oct 2025 17:03:04 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: x86@kernel.org, Tony Luck <tony.luck@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org, Smita.KoralahalliChannabasappa@amd.com,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Bert Karwatzki <spasswolf@web.de>, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v7 2/8] x86/mce: Unify AMD DFR handler with MCA Polling
+Message-ID: <20251025150304.GXaPzmqFawI0NrCC-0@fat_crate.local>
+References: <20251016-wip-mca-updates-v7-0-5c139a4062cb@amd.com>
+ <20251016-wip-mca-updates-v7-2-5c139a4062cb@amd.com>
+ <20251024150333.GSaPuVRQYxH92zyrmO@fat_crate.local>
+ <20251024203012.GA251815@yaz-khff2.amd.com>
+ <20251024212723.GGaPvvO3l2OlUEG7Xn@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251024212723.GGaPvvO3l2OlUEG7Xn@fat_crate.local>
 
-Hotplug events are critical indicators for analyzing hardware health,
-and surprise link downs can significantly impact system performance and
-reliability.
+On Fri, Oct 24, 2025 at 11:27:23PM +0200, Borislav Petkov wrote:
+> On Fri, Oct 24, 2025 at 04:30:12PM -0400, Yazen Ghannam wrote:
+> > Should I send another revision?
+> 
+> Nah, I'm not done simplifying this yet. :-P
 
-Define a new TRACING_SYSTEM named "pci", add a generic RAS tracepoint
-for hotplug event to help health checks. Add enum pci_hotplug_event in
-include/uapi/linux/pci.h so applications like rasdaemon can register
-tracepoint event handlers for it.
+Yeah, no, looks ok now:
 
-The following output is generated when a device is hotplugged:
-
-$ echo 1 > /sys/kernel/debug/tracing/events/pci/pci_hp_event/enable
-$ cat /sys/kernel/debug/tracing/trace_pipe
-   irq/51-pciehp-88      [001] .....  1311.177459: pci_hp_event: 0000:00:02.0 slot:10, event:CARD_PRESENT
-
-   irq/51-pciehp-88      [001] .....  1311.177566: pci_hp_event: 0000:00:02.0 slot:10, event:LINK_UP
-
-Suggested-by: Lukas Wunner <lukas@wunner.de>
-Reviewed-by: Lukas Wunner <lukas@wunner.de>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Reviewed-by: "Steven Rostedt (Google)" <rostedt@goodmis.org> # for trace event
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
 ---
- drivers/pci/Makefile              |  3 ++
- drivers/pci/hotplug/pciehp_ctrl.c | 31 ++++++++++---
- drivers/pci/trace.c               | 11 +++++
- include/trace/events/pci.h        | 72 +++++++++++++++++++++++++++++++
- include/uapi/linux/pci.h          |  7 +++
- 5 files changed, 118 insertions(+), 6 deletions(-)
- create mode 100644 drivers/pci/trace.c
- create mode 100644 include/trace/events/pci.h
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+Date: Thu, 16 Oct 2025 16:37:47 +0000
+Subject: [PATCH] x86/mce: Unify AMD DFR handler with MCA Polling
 
-diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
-index 67647f1880fb..58a4e4ea76b0 100644
---- a/drivers/pci/Makefile
-+++ b/drivers/pci/Makefile
-@@ -45,3 +45,6 @@ obj-y				+= controller/
- obj-y				+= switch/
+AMD systems optionally support a deferred error interrupt. The interrupt
+should be used as another signal to trigger MCA polling. This is similar to
+how other MCA interrupts are handled.
+
+Deferred errors do not require any special handling related to the interrupt,
+e.g. resetting or rearming the interrupt, etc.
+
+However, Scalable MCA systems include a pair of registers, MCA_DESTAT and
+MCA_DEADDR, that should be checked for valid errors. This check should be done
+whenever MCA registers are polled. Currently, the deferred error interrupt
+does this check, but the MCA polling function does not.
+
+Call the MCA polling function when handling the deferred error interrupt. This
+keeps all "polling" cases in a common function.
+
+Add an SMCA status check helper. This will do the same status check and
+register clearing that the interrupt handler has done. And it extends the
+common polling flow to find AMD deferred errors.
+
+Clear the MCA_DESTAT register at the end of the handler rather than the
+beginning. This maintains the procedure that the 'status' register must be
+cleared as the final step.
+
+  [ bp: Zap commit message pieces explaining what the patch does;
+        zap unnecessary special-casing of deferred errors. ]
+
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/all/20251016-wip-mca-updates-v7-0-5c139a4062cb@amd.com
+---
+ arch/x86/include/asm/mce.h     |   6 ++
+ arch/x86/kernel/cpu/mce/amd.c  | 111 ++++-----------------------------
+ arch/x86/kernel/cpu/mce/core.c |  44 ++++++++++++-
+ 3 files changed, 62 insertions(+), 99 deletions(-)
+
+diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
+index 31e3cb550fb3..7d6588195d56 100644
+--- a/arch/x86/include/asm/mce.h
++++ b/arch/x86/include/asm/mce.h
+@@ -165,6 +165,12 @@
+  */
+ #define MCE_IN_KERNEL_COPYIN	BIT_ULL(7)
  
- subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
-+
-+CFLAGS_trace.o := -I$(src)
-+obj-$(CONFIG_TRACING)		+= trace.o
-diff --git a/drivers/pci/hotplug/pciehp_ctrl.c b/drivers/pci/hotplug/pciehp_ctrl.c
-index bcc938d4420f..7805f697a02c 100644
---- a/drivers/pci/hotplug/pciehp_ctrl.c
-+++ b/drivers/pci/hotplug/pciehp_ctrl.c
-@@ -19,6 +19,7 @@
- #include <linux/types.h>
- #include <linux/pm_runtime.h>
- #include <linux/pci.h>
-+#include <trace/events/pci.h>
- 
- #include "../pci.h"
- #include "pciehp.h"
-@@ -244,12 +245,20 @@ void pciehp_handle_presence_or_link_change(struct controller *ctrl, u32 events)
- 	case ON_STATE:
- 		ctrl->state = POWEROFF_STATE;
- 		mutex_unlock(&ctrl->state_lock);
--		if (events & PCI_EXP_SLTSTA_DLLSC)
-+		if (events & PCI_EXP_SLTSTA_DLLSC) {
- 			ctrl_info(ctrl, "Slot(%s): Link Down\n",
- 				  slot_name(ctrl));
--		if (events & PCI_EXP_SLTSTA_PDC)
-+			trace_pci_hp_event(pci_name(ctrl->pcie->port),
-+					   slot_name(ctrl),
-+					   PCI_HOTPLUG_LINK_DOWN);
-+		}
-+		if (events & PCI_EXP_SLTSTA_PDC) {
- 			ctrl_info(ctrl, "Slot(%s): Card not present\n",
- 				  slot_name(ctrl));
-+			trace_pci_hp_event(pci_name(ctrl->pcie->port),
-+					   slot_name(ctrl),
-+					   PCI_HOTPLUG_CARD_NOT_PRESENT);
-+		}
- 		pciehp_disable_slot(ctrl, SURPRISE_REMOVAL);
- 		break;
- 	default:
-@@ -269,6 +278,9 @@ void pciehp_handle_presence_or_link_change(struct controller *ctrl, u32 events)
- 					      INDICATOR_NOOP);
- 			ctrl_info(ctrl, "Slot(%s): Card not present\n",
- 				  slot_name(ctrl));
-+			trace_pci_hp_event(pci_name(ctrl->pcie->port),
-+					   slot_name(ctrl),
-+					   PCI_HOTPLUG_CARD_NOT_PRESENT);
- 		}
- 		mutex_unlock(&ctrl->state_lock);
- 		return;
-@@ -281,12 +293,19 @@ void pciehp_handle_presence_or_link_change(struct controller *ctrl, u32 events)
- 	case OFF_STATE:
- 		ctrl->state = POWERON_STATE;
- 		mutex_unlock(&ctrl->state_lock);
--		if (present)
-+		if (present) {
- 			ctrl_info(ctrl, "Slot(%s): Card present\n",
- 				  slot_name(ctrl));
--		if (link_active)
--			ctrl_info(ctrl, "Slot(%s): Link Up\n",
--				  slot_name(ctrl));
-+			trace_pci_hp_event(pci_name(ctrl->pcie->port),
-+					   slot_name(ctrl),
-+					   PCI_HOTPLUG_CARD_PRESENT);
-+		}
-+		if (link_active) {
-+			ctrl_info(ctrl, "Slot(%s): Link Up\n", slot_name(ctrl));
-+			trace_pci_hp_event(pci_name(ctrl->pcie->port),
-+					   slot_name(ctrl),
-+					   PCI_HOTPLUG_LINK_UP);
-+		}
- 		ctrl->request_result = pciehp_enable_slot(ctrl);
- 		break;
- 	default:
-diff --git a/drivers/pci/trace.c b/drivers/pci/trace.c
-new file mode 100644
-index 000000000000..cf11abca8602
---- /dev/null
-+++ b/drivers/pci/trace.c
-@@ -0,0 +1,11 @@
-+// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Tracepoints for PCI system
++ * Indicates that handler should check and clear Deferred error registers
++ * rather than common ones.
++ */
++#define MCE_CHECK_DFR_REGS	BIT_ULL(8)
++
+ /*
+  * This structure contains all data related to the MCE log.  Also
+  * carries a signature to make it easier to find from external
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index ac6a98aa7bc2..d9f9ee7db5c8 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -56,6 +56,7 @@ static bool thresholding_irq_en;
+ 
+ struct mce_amd_cpu_data {
+ 	mce_banks_t     thr_intr_banks;
++	mce_banks_t     dfr_intr_banks;
+ };
+ 
+ static DEFINE_PER_CPU_READ_MOSTLY(struct mce_amd_cpu_data, mce_amd_data);
+@@ -300,8 +301,10 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 		 * APIC based interrupt. First, check that no interrupt has been
+ 		 * set.
+ 		 */
+-		if ((low & BIT(5)) && !((high >> 5) & 0x3))
++		if ((low & BIT(5)) && !((high >> 5) & 0x3)) {
++			__set_bit(bank, this_cpu_ptr(&mce_amd_data)->dfr_intr_banks);
+ 			high |= BIT(5);
++		}
+ 
+ 		this_cpu_ptr(mce_banks_array)[bank].lsb_in_status = !!(low & BIT(8));
+ 
+@@ -792,37 +795,6 @@ bool amd_mce_usable_address(struct mce *m)
+ 	return false;
+ }
+ 
+-static void __log_error(unsigned int bank, u64 status, u64 addr, u64 misc)
+-{
+-	struct mce_hw_err err;
+-	struct mce *m = &err.m;
+-
+-	mce_prep_record(&err);
+-
+-	m->status = status;
+-	m->misc   = misc;
+-	m->bank   = bank;
+-	m->tsc	 = rdtsc();
+-
+-	if (m->status & MCI_STATUS_ADDRV) {
+-		m->addr = addr;
+-
+-		smca_extract_err_addr(m);
+-	}
+-
+-	if (mce_flags.smca) {
+-		rdmsrq(MSR_AMD64_SMCA_MCx_IPID(bank), m->ipid);
+-
+-		if (m->status & MCI_STATUS_SYNDV) {
+-			rdmsrq(MSR_AMD64_SMCA_MCx_SYND(bank), m->synd);
+-			rdmsrq(MSR_AMD64_SMCA_MCx_SYND1(bank), err.vendor.amd.synd1);
+-			rdmsrq(MSR_AMD64_SMCA_MCx_SYND2(bank), err.vendor.amd.synd2);
+-		}
+-	}
+-
+-	mce_log(&err);
+-}
+-
+ DEFINE_IDTENTRY_SYSVEC(sysvec_deferred_error)
+ {
+ 	trace_deferred_error_apic_entry(DEFERRED_ERROR_VECTOR);
+@@ -832,75 +804,10 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_deferred_error)
+ 	apic_eoi();
+ }
+ 
+-/*
+- * Returns true if the logged error is deferred. False, otherwise.
+- */
+-static inline bool
+-_log_error_bank(unsigned int bank, u32 msr_stat, u32 msr_addr, u64 misc)
+-{
+-	u64 status, addr = 0;
+-
+-	rdmsrq(msr_stat, status);
+-	if (!(status & MCI_STATUS_VAL))
+-		return false;
+-
+-	if (status & MCI_STATUS_ADDRV)
+-		rdmsrq(msr_addr, addr);
+-
+-	__log_error(bank, status, addr, misc);
+-
+-	wrmsrq(msr_stat, 0);
+-
+-	return status & MCI_STATUS_DEFERRED;
+-}
+-
+-static bool _log_error_deferred(unsigned int bank, u32 misc)
+-{
+-	if (!_log_error_bank(bank, mca_msr_reg(bank, MCA_STATUS),
+-			     mca_msr_reg(bank, MCA_ADDR), misc))
+-		return false;
+-
+-	/*
+-	 * Non-SMCA systems don't have MCA_DESTAT/MCA_DEADDR registers.
+-	 * Return true here to avoid accessing these registers.
+-	 */
+-	if (!mce_flags.smca)
+-		return true;
+-
+-	/* Clear MCA_DESTAT if the deferred error was logged from MCA_STATUS. */
+-	wrmsrq(MSR_AMD64_SMCA_MCx_DESTAT(bank), 0);
+-	return true;
+-}
+-
+-/*
+- * We have three scenarios for checking for Deferred errors:
+- *
+- * 1) Non-SMCA systems check MCA_STATUS and log error if found.
+- * 2) SMCA systems check MCA_STATUS. If error is found then log it and also
+- *    clear MCA_DESTAT.
+- * 3) SMCA systems check MCA_DESTAT, if error was not found in MCA_STATUS, and
+- *    log it.
+- */
+-static void log_error_deferred(unsigned int bank)
+-{
+-	if (_log_error_deferred(bank, 0))
+-		return;
+-
+-	/*
+-	 * Only deferred errors are logged in MCA_DE{STAT,ADDR} so just check
+-	 * for a valid error.
+-	 */
+-	_log_error_bank(bank, MSR_AMD64_SMCA_MCx_DESTAT(bank),
+-			      MSR_AMD64_SMCA_MCx_DEADDR(bank), 0);
+-}
+-
+ /* APIC interrupt handler for deferred errors */
+ static void amd_deferred_error_interrupt(void)
+ {
+-	unsigned int bank;
+-
+-	for (bank = 0; bank < this_cpu_read(mce_num_banks); ++bank)
+-		log_error_deferred(bank);
++	machine_check_poll(MCP_TIMESTAMP, &this_cpu_ptr(&mce_amd_data)->dfr_intr_banks);
+ }
+ 
+ static void reset_block(struct threshold_block *block)
+@@ -952,6 +859,14 @@ void amd_clear_bank(struct mce *m)
+ {
+ 	amd_reset_thr_limit(m->bank);
+ 
++	/* Clear MCA_DESTAT for all deferred errors even those logged in MCA_STATUS. */
++	if (m->status & MCI_STATUS_DEFERRED)
++		mce_wrmsrq(MSR_AMD64_SMCA_MCx_DESTAT(m->bank), 0);
++
++	/* Don't clear MCA_STATUS if MCA_DESTAT was used exclusively. */
++	if (m->kflags & MCE_CHECK_DFR_REGS)
++		return;
++
+ 	mce_wrmsrq(mca_msr_reg(m->bank, MCA_STATUS), 0);
+ }
+ 
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 460e90a1a0b1..7be062429ce3 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -687,7 +687,10 @@ static noinstr void mce_read_aux(struct mce_hw_err *err, int i)
+ 		m->misc = mce_rdmsrq(mca_msr_reg(i, MCA_MISC));
+ 
+ 	if (m->status & MCI_STATUS_ADDRV) {
+-		m->addr = mce_rdmsrq(mca_msr_reg(i, MCA_ADDR));
++		if (m->kflags & MCE_CHECK_DFR_REGS)
++			m->addr = mce_rdmsrq(MSR_AMD64_SMCA_MCx_DEADDR(i));
++		else
++			m->addr = mce_rdmsrq(mca_msr_reg(i, MCA_ADDR));
+ 
+ 		/*
+ 		 * Mask the reported address by the reported granularity.
+@@ -714,6 +717,42 @@ static noinstr void mce_read_aux(struct mce_hw_err *err, int i)
+ 
+ DEFINE_PER_CPU(unsigned, mce_poll_count);
+ 
++/*
++ * We have three scenarios for checking for Deferred errors:
 + *
-+ * Copyright (C) 2025 Alibaba Corporation
++ * 1) Non-SMCA systems check MCA_STATUS and log error if found.
++ * 2) SMCA systems check MCA_STATUS. If error is found then log it and also
++ *    clear MCA_DESTAT.
++ * 3) SMCA systems check MCA_DESTAT, if error was not found in MCA_STATUS, and
++ *    log it.
 + */
++static bool smca_should_log_poll_error(enum mcp_flags flags, struct mce_hw_err *err)
++{
++	struct mce *m = &err->m;
 +
-+#include <linux/pci.h>
++	/*
++	 * If the MCA_STATUS register has a deferred error, then continue using it as
++	 * the status register.
++	 *
++	 * MCA_DESTAT will be cleared at the end of the handler.
++	 */
++	if ((m->status & MCI_STATUS_VAL) && (m->status & MCI_STATUS_DEFERRED))
++		return true;
 +
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/pci.h>
-diff --git a/include/trace/events/pci.h b/include/trace/events/pci.h
-new file mode 100644
-index 000000000000..39e512a167ee
---- /dev/null
-+++ b/include/trace/events/pci.h
-@@ -0,0 +1,72 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM pci
++	/*
++	 * If the MCA_DESTAT register has a deferred error, then use it instead.
++	 *
++	 * MCA_STATUS will not be cleared at the end of the handler.
++	 */
++	m->status = mce_rdmsrq(MSR_AMD64_SMCA_MCx_DESTAT(m->bank));
++	if ((m->status & MCI_STATUS_VAL) && (m->status & MCI_STATUS_DEFERRED)) {
++		m->kflags |= MCE_CHECK_DFR_REGS;
++		return true;
++	}
 +
-+#if !defined(_TRACE_HW_EVENT_PCI_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_HW_EVENT_PCI_H
++	return false;
++}
 +
-+#include <linux/tracepoint.h>
-+
-+#define PCI_HOTPLUG_EVENT						\
-+	EM(PCI_HOTPLUG_LINK_UP,			"LINK_UP")		\
-+	EM(PCI_HOTPLUG_LINK_DOWN,		"LINK_DOWN")		\
-+	EM(PCI_HOTPLUG_CARD_PRESENT,		"CARD_PRESENT")		\
-+	EMe(PCI_HOTPLUG_CARD_NOT_PRESENT,	"CARD_NOT_PRESENT")
-+
-+/* Enums require being exported to userspace, for user tool parsing */
-+#undef EM
-+#undef EMe
-+#define EM(a, b)	TRACE_DEFINE_ENUM(a);
-+#define EMe(a, b)	TRACE_DEFINE_ENUM(a);
-+
-+PCI_HOTPLUG_EVENT
-+
-+/*
-+ * Now redefine the EM() and EMe() macros to map the enums to the strings
-+ * that will be printed in the output.
-+ */
-+#undef EM
-+#undef EMe
-+#define EM(a, b)	{a, b},
-+#define EMe(a, b)	{a, b}
-+
-+/*
-+ * Note: For generic PCI hotplug events, we pass already-resolved strings
-+ * (port_name, slot) instead of driver-specific structures like 'struct
-+ * controller'.  This is because different PCI hotplug drivers (pciehp, cpqphp,
-+ * ibmphp, shpchp) define their own versions of 'struct controller' with
-+ * different fields and helper functions. Using driver-specific structures would
-+ * make the tracepoint interface non-generic and cause compatibility issues
-+ * across different drivers.
-+ */
-+TRACE_EVENT(pci_hp_event,
-+
-+	TP_PROTO(const char *port_name,
-+		 const char *slot,
-+		 const int event),
-+
-+	TP_ARGS(port_name, slot, event),
-+
-+	TP_STRUCT__entry(
-+		__string(	port_name,	port_name	)
-+		__string(	slot,		slot		)
-+		__field(	int,		event	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(port_name);
-+		__assign_str(slot);
-+		__entry->event = event;
-+	),
-+
-+	TP_printk("%s slot:%s, event:%s\n",
-+		__get_str(port_name),
-+		__get_str(slot),
-+		__print_symbolic(__entry->event, PCI_HOTPLUG_EVENT)
-+	)
-+);
-+
-+#endif /* _TRACE_HW_EVENT_PCI_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/include/uapi/linux/pci.h b/include/uapi/linux/pci.h
-index a769eefc5139..4f150028965d 100644
---- a/include/uapi/linux/pci.h
-+++ b/include/uapi/linux/pci.h
-@@ -39,4 +39,11 @@
- #define PCIIOC_MMAP_IS_MEM	(PCIIOC_BASE | 0x02)	/* Set mmap state to MEM space. */
- #define PCIIOC_WRITE_COMBINE	(PCIIOC_BASE | 0x03)	/* Enable/disable write-combining. */
+ /*
+  * Newer Intel systems that support software error
+  * recovery need to make additional checks. Other
+@@ -740,6 +779,9 @@ static bool should_log_poll_error(enum mcp_flags flags, struct mce_hw_err *err)
+ {
+ 	struct mce *m = &err->m;
  
-+enum pci_hotplug_event {
-+	PCI_HOTPLUG_LINK_UP,
-+	PCI_HOTPLUG_LINK_DOWN,
-+	PCI_HOTPLUG_CARD_PRESENT,
-+	PCI_HOTPLUG_CARD_NOT_PRESENT,
-+};
++	if (mce_flags.smca)
++		return smca_should_log_poll_error(flags, err);
 +
- #endif /* _UAPILINUX_PCI_H */
+ 	/* If this entry is not valid, ignore it. */
+ 	if (!(m->status & MCI_STATUS_VAL))
+ 		return false;
 -- 
-2.39.3
+2.51.0
 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
