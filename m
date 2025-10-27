@@ -1,460 +1,452 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011044.outbound.protection.outlook.com [52.101.62.44])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010002.outbound.protection.outlook.com [52.101.201.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A332E8DFC;
-	Sun, 26 Oct 2025 14:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21666304BDD;
+	Mon, 27 Oct 2025 13:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761488388; cv=fail; b=gHf3B8eVPcAVF4beNrlUSKMbPG5K0s8ppEMZuoW7103ZpuS5pn44bTGI0WJgEfd2QCHy69dBiqPx2vP0XA+nyJq+d1m0SzosnjOsb9Ks+cQfbaQUH2jShA+TOzrICVUDRSzL2Lt1vyW9Kzg1p0LW2IALWWqs7aML7m2vbzmDyVI=
+	t=1761572152; cv=fail; b=o251f2Z1MA+ONY4P8DlGf0/RcVmPBb/RqKCYU2U15rUPWB3UKQmq9Jyy39IB5NKwarQDMwX3gYMAPPTInjtjrDz6unYQ/56L0M7QLR50tv9ClUogI41mhIVysTTqSunj+AcioWE1P7Dl5blWUtDw9TZs9VmsTerSFT8GoZkVjts=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761488388; c=relaxed/simple;
-	bh=pgRuqUTE/S+upHFDgW7F6L9B4cb7D7djZnVtwwD+GIA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P4X+UELDEkK8yu+USqJeXU8ctpagLjFHb7UE9zVhOxcylWb1IjuRYKQYFTSgTFWvOlHcIvx4mAg7Fm/zAFBR9gc0VTaCAgczBHjU5fSez0covrqmSXSlNghAX55FMDcSwG8I8TG4I3a9BB5s8cWjdBFg0rhIVP7zepJHZOLrM3M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=USFCZGYo; arc=fail smtp.client-ip=52.101.62.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1761572152; c=relaxed/simple;
+	bh=h9U4CSOr65l0QkLZbgPBoE9Bq8rAnwBpk+a9Kzj2Kkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=aH7QiJ/zcS7Bg8BeiSyrFrh0vWOBbqDdOIuwf6aYrZUnvuhbxTRU6aquLN4DXzdG+6B4m46xIRktUC1Fc59CpQrnEm4Pkolr/lPWMY5HJrOsgPZXOG/lzfQtNszOtvdP20i6czheRf2FZGedkisQ+WPxN4fyXSfDF1FRPTCVf48=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pn/gSnBj; arc=fail smtp.client-ip=52.101.201.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="USFCZGYo"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pn/gSnBj"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=McrXE32aGOryWOzf4JZ6mWYaa+Nsr/IIDUH9wXOHngvBxK2RD8bmWBudZ2xwgGX5orvd/hzVtFtsjJtoI+HAfIQCNxnc4F8wlpwmQyS/dNepfRN3B8VQ4kV3WncNneJ1IxaWaLXwYPWEZiPABVjejKVccPq/MqrH9VjibMOcOhMV0oJzm31+ObszMPZEfNMtD/2xOn4ZQeK0R192v9a9RWUE/6ivmWYtSyDB82lRUFzITMphdJ4Y9ZUrRZD9iuAhlCesMl/sEH4a7oT7W84P6L9qbmcZj72qsMH1u7JBB5NlYtqRs5IYD7JCcXO8rCCmZTxoW2sxzk0Q9/svTTgY1Q==
+ b=DgtrIVFiv/n0V/rum4eB9ETwp8I1Ei7kD3IOySLfAGPkgcsr9Jeuk94gMdeKcPiPvKJYbihyu7SELiXuazJpYLu/Cn7KXk/oB+PNeMD/GjGuzArCsnjLhjl/MlbW2n85U8NJiq3vYvfJBcr6uYfM9wUwlz/9i4HL2ZAPpoVx7Ml3UJIKJCKMQ/2JlYyTg7ZHymnZANu6yFnn0aRmyBWPVMXQAquGw+aMg45t2C/7k00ZJQ/PSjiMVUr/SJkHrvp8RV0+vRZo+o+1JUvMDUVTar0BJlif0xSAQi6rJgGAUDUM+vIfLI4yd1yauZ3wXhl69ap2NZSCz9DPMWSb4Im7rw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=irkkKUrrAhTnqh3H1unWXce0l/IyqR+qtme5TMLE3ws=;
- b=YyezqrI1jfYEY2DB+XKv4Eo4mfrUpDWIw9QbxstUGhCddywWMyhaDVWDB1baPYLvrW8HGtDCLFZKtpUupx+O10JfssGSg96EuAtiQ2hhX9JvRtdSUQchdn6XJXB2nArmHKySj78uQpnrgpyfE/GNXLnGGL4bMiIikRB0aDwYVjZbGWpnXrhs3JwP5Kyea25SEckiCMuc//nHsfAWELGYxMqkR4iPYkn/e9ZGISUAVIvlHAOc/92dPldLKfN4ZNsGdy8FZF7sSn+3GVouYxDqwQPor/nNUfStwdRiNUsJ/3fI89Lk21MApFbt2HdApd7XZTs81769fDiO3UZGOBbXbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=Sy4dUH2ayrOouBOlHa9UynWRmUtN7FvcZCY5j2q+ZKA=;
+ b=NALwGJZXFQgA10muYnNnyl+5XSe55wbX2UaTNLz9z7zM/qEb9+NwpbsCmIFdtfjbNypxktkrlsqeNak70vdgZ0wSU2YQ60yiqMOLsl1CesDSjMjDScs/dp5JVaMHFHhUVQmMb2G7oO9RO+R0k2iKQ4PMU8QJWQD1Fjxi0gOVCGZID8Vkd4gYs29EJRsfl64WS4N/5ELyAMrECu+UaEeAqo9/Y9IdyzWbt5gp2K/ljn2KHztRQu/6BcEdQHo5Dfq/1IP4khQ/J7HnaiWzSRmToBTiSzJrYsO+y4E+Lood54Z5OB9WCibaWrDs8VuXBYDt5Jkl4Q1kLJBQgwbanMfn/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=irkkKUrrAhTnqh3H1unWXce0l/IyqR+qtme5TMLE3ws=;
- b=USFCZGYoMvOMvfETjmFAqX8fuoPztxd3iy4CJsGEK+ILAO9Aq4dLA+Ps/YPTmnVVav2bUm53kueTJQ6NxIJnprHrnztlsHbMC6efJlrxXfK03IFvUIOilr0u92w5Vaq1e41mkWl6pLxU2wvFWbK7bUjJ243WFQGhXdJufsdP/cnFe0fqC1pIOF92SMqncpNS4TvAOHskufFWYQHSD6MHvrJa7Rxl+/eWxRUQJ0vprpWKh+M1eLtF9iHIR2ZUzUtj5im3s/zfsatjRFVVXEIrWt3ZSV9V/lGdwDEFSHOmmTvGMxAEWGJgd5yxAnmWcBHyH5h0N8q+hLlX7EmQXje93A==
-Received: from MW4PR03CA0358.namprd03.prod.outlook.com (2603:10b6:303:dc::33)
- by PH7PR12MB6811.namprd12.prod.outlook.com (2603:10b6:510:1b5::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.16; Sun, 26 Oct
- 2025 14:19:40 +0000
-Received: from SJ1PEPF00002326.namprd03.prod.outlook.com
- (2603:10b6:303:dc:cafe::98) by MW4PR03CA0358.outlook.office365.com
- (2603:10b6:303:dc::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.15 via Frontend Transport; Sun,
- 26 Oct 2025 14:19:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ1PEPF00002326.mail.protection.outlook.com (10.167.242.89) with Microsoft
+ bh=Sy4dUH2ayrOouBOlHa9UynWRmUtN7FvcZCY5j2q+ZKA=;
+ b=pn/gSnBjyWTjcCe0GCsBg+a5+SSSlEkaCFXjenXZfkmaacnn0vDwc1UWL8Uj25gmKPu4lNVjIVsxMukihHup84pAIyzyPsZtLrxbHQGlP/imzXysybIT69UEnQnyANSlilgr75qPfMPXKZEuHW7jvTAb9PqXTt3275hmDKM2WwE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6373.namprd12.prod.outlook.com (2603:10b6:8:a4::7) by
+ CYXPR12MB9279.namprd12.prod.outlook.com (2603:10b6:930:d5::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Sun, 26 Oct 2025 14:19:40 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Sun, 26 Oct
- 2025 07:19:26 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 26 Oct
- 2025 07:19:25 -0700
-Received: from localhost.nvidia.com (10.127.8.12) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Sun, 26 Oct 2025 07:19:25 -0700
-From: <ankita@nvidia.com>
-To: <ankita@nvidia.com>, <aniketa@nvidia.com>, <vsethi@nvidia.com>,
-	<jgg@nvidia.com>, <mochs@nvidia.com>, <skolothumtho@nvidia.com>,
-	<linmiaohe@huawei.com>, <nao.horiguchi@gmail.com>,
-	<akpm@linux-foundation.org>, <david@redhat.com>,
-	<lorenzo.stoakes@oracle.com>, <Liam.Howlett@oracle.com>, <vbabka@suse.cz>,
-	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>,
-	<tony.luck@intel.com>, <bp@alien8.de>, <rafael@kernel.org>,
-	<guohanjun@huawei.com>, <mchehab@kernel.org>, <lenb@kernel.org>,
-	<kevin.tian@intel.com>, <alex@shazbot.org>
-CC: <cjia@nvidia.com>, <kwankhede@nvidia.com>, <targupta@nvidia.com>,
-	<zhiw@nvidia.com>, <dnigam@nvidia.com>, <kjaju@nvidia.com>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-edac@vger.kernel.org>, <Jonathan.Cameron@huawei.com>,
-	<ira.weiny@intel.com>, <Smita.KoralahalliChannabasappa@amd.com>,
-	<u.kleine-koenig@baylibre.com>, <peterz@infradead.org>,
-	<linux-acpi@vger.kernel.org>, <kvm@vger.kernel.org>
-Subject: [PATCH v4 2/3] mm: handle poisoning of pfn without struct pages
-Date: Sun, 26 Oct 2025 14:19:18 +0000
-Message-ID: <20251026141919.2261-3-ankita@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251026141919.2261-1-ankita@nvidia.com>
-References: <20251026141919.2261-1-ankita@nvidia.com>
+ 15.20.9253.18; Mon, 27 Oct 2025 13:35:47 +0000
+Received: from DM4PR12MB6373.namprd12.prod.outlook.com
+ ([fe80::12f7:eff:380b:589f]) by DM4PR12MB6373.namprd12.prod.outlook.com
+ ([fe80::12f7:eff:380b:589f%6]) with mapi id 15.20.9253.018; Mon, 27 Oct 2025
+ 13:35:47 +0000
+Date: Mon, 27 Oct 2025 09:35:42 -0400
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: x86@kernel.org, Tony Luck <tony.luck@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org, Smita.KoralahalliChannabasappa@amd.com,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Bert Karwatzki <spasswolf@web.de>, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v7 2/8] x86/mce: Unify AMD DFR handler with MCA Polling
+Message-ID: <20251027133542.GA8279@yaz-khff2.amd.com>
+References: <20251016-wip-mca-updates-v7-0-5c139a4062cb@amd.com>
+ <20251016-wip-mca-updates-v7-2-5c139a4062cb@amd.com>
+ <20251024150333.GSaPuVRQYxH92zyrmO@fat_crate.local>
+ <20251024203012.GA251815@yaz-khff2.amd.com>
+ <20251024212723.GGaPvvO3l2OlUEG7Xn@fat_crate.local>
+ <20251025150304.GXaPzmqFawI0NrCC-0@fat_crate.local>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251025150304.GXaPzmqFawI0NrCC-0@fat_crate.local>
+X-ClientProxiedBy: MN2PR03CA0014.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::19) To DM4PR12MB6373.namprd12.prod.outlook.com
+ (2603:10b6:8:a4::7)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002326:EE_|PH7PR12MB6811:EE_
-X-MS-Office365-Filtering-Correlation-Id: 135a3a78-a703-41c1-ef19-08de149ab370
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6373:EE_|CYXPR12MB9279:EE_
+X-MS-Office365-Filtering-Correlation-Id: db40c8a6-e46f-4757-6f84-08de155dbc48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|7416014|376014|13003099007|921020;
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?fK6qRfhdgdzzaApTntf74b0WqaLgviG6OmgFljiCCD/yxYRAyt4VXrAe41FY?=
- =?us-ascii?Q?5/EjEIWZUE/5KW21ON0Q3ZQiIU5ynv+HKLWuBna1s5a8A5hgjr6dhpAH9u6+?=
- =?us-ascii?Q?uAe83bRT2SbC9VNCmRWGQbhNF68xFapXs2PPLQkiblx9CZgS3MuH6W0B+c3/?=
- =?us-ascii?Q?ibkTFwi0dFW+QfP34ybiaADvwjZhi6yFlFsbDQaFsf49ejPmMp1t37Ap+8AR?=
- =?us-ascii?Q?JGp474hKEA1eLepgu3YdAhIQ30ccujZ2j9437L+36h8/PwniONa2c2o/ARyR?=
- =?us-ascii?Q?+r4z/ovbAqVhg+8rY4MMmISnkSqM4DTcxuTW/H6+HaoBPV2PpazJK6EQrI/b?=
- =?us-ascii?Q?W0dCsm0V51j49+fg6QmuGrxg5kak7KmfMljIq6SpbxIZzkSfOG1XpS/LDqpB?=
- =?us-ascii?Q?tuFly080Iwy86oyny+q6+JKHvlW1cR3cfMbkTWMQacckYc9n9yCR4Wp9M+fa?=
- =?us-ascii?Q?n69O+DVns4UavscQRE/msfjghOLvpv4o2r/XU7XzbTGudOZwFx4gQDRSWYlZ?=
- =?us-ascii?Q?+6najaXEzz+c1OTIcYE5KRxHvPgk2z3ULKoUHicoUex1cNtf3xHHzOUNcIYW?=
- =?us-ascii?Q?pbWMNYALtQGx33FliyVo/86zLHKBTAuP+myAzjXIcKb0/+YTMYs5OyWncW0x?=
- =?us-ascii?Q?+cVjqn5/CZXHcEcuTwxoo3KBQYumnDIvCs63Cfhb44xf4qV1rJV2aeSEJ8Bn?=
- =?us-ascii?Q?NPgoNX10z8hPcUjDi9Sa9dVNJtbYT5CCg6wR6ctzaozJqeffPUCdoOylEzLA?=
- =?us-ascii?Q?DSJu2565lXYqNSvT/gwVkIrWjc35C0ybi7z4n99BeBk/4y4XudBTQVu/9ZBC?=
- =?us-ascii?Q?/6Bb3kC5es41lrPr7pPkahMpzrTk7/TIMhsDplimFhZ6rFcXZSLVsLnZ3Xic?=
- =?us-ascii?Q?jbfW4usWGWkWKlIN83PU5HOxZNl+PFYEf/TQ7+512mUDw3Eba5jteYkjtlbl?=
- =?us-ascii?Q?3fdezJN/MqKW4PaEdr/rZzvaV55wh9oQcxqKUPENR9oJhJeSGZRHMvo5L5qT?=
- =?us-ascii?Q?auCXdO1xL0PnxQ57TmOfOiPYRXMceNQd0zdSbiZpXaJJROxdHZ9OfAEk9vXz?=
- =?us-ascii?Q?ct+44QiA/21Xx0R2jc0ntC4pa99Zwv5FvcSwfqHo9Kxwf/ZVXG1K8m7kk/1m?=
- =?us-ascii?Q?dOe38sBP2RdiCsLRofxT61MB7B3z2VdJ5aqXpxn3jR6t5th24v17LF1A+lrB?=
- =?us-ascii?Q?+hNe0a+0Z/Yegm+r7qCsC6H3hgNAVMaYHNYVItu/dzTMs98ADs8GKqr0vGmf?=
- =?us-ascii?Q?o9GebvInMrAEECb3EYvwB/wISSUzUo501IzuHugmstDVbzs+2e9pRhscxx5u?=
- =?us-ascii?Q?OzNDNA7HVxZhxkW8f9a2i4E9djyLQIlh/+pmP58RJpdZl64raDOQcH5eNhD5?=
- =?us-ascii?Q?8RDJuzgHG6/TZtEBirleHfWXVRBRSKKLNvtutwTWWI8xZ94sxW+YjpLWfy5a?=
- =?us-ascii?Q?V9vabc/oxMkgaACSC2/96zwDHTwxI1gWgEKN5ApmdXCbyjuHOGgRNCIovghF?=
- =?us-ascii?Q?1Q55lFlQNg81czoJmYs7CZXT7rkQZL3eONKpHDKzVKaniWGwK8tG4TU1t/D6?=
- =?us-ascii?Q?tAe2aPJLrjQ4eLqyEWnXI/foevtcI+2+fyJLIaR9?=
+	=?us-ascii?Q?IZ+c2A7D3TMte8ZaSEY+u+Ot18W4hR/U2B9C+5JKp0Y0Av2fckwOKSVbF2lK?=
+ =?us-ascii?Q?EAcYofReLqpVeuiTr/rWx4Tg6fuNNA+1aYGLz6EIAoJ8YQnpSF225ESD41eg?=
+ =?us-ascii?Q?cm45FMBA3z2KT57iq6LIfNgFQvHJ4mAQ8DmBNF2yIM+WtEDaS/B5aELto775?=
+ =?us-ascii?Q?yfAztEdemtWvvSZ9PO9IxrfG+wc5/Nfgbvpa6YapptIrZi90CKSJNT2LgEWo?=
+ =?us-ascii?Q?4/fe+q7OGTVbrX4TcV4GMNOd31pMeS1EtHJ+iOch+eAB2GuvjKMtIzfvMjku?=
+ =?us-ascii?Q?0yySjUVMj9MkSrE3vSEpCkban9i/o2BykjHKW9j8Y3Itdbgd64lXsHNMgM51?=
+ =?us-ascii?Q?oroHAWk1Cu6H6mTNFRUc56vkJl7dvqutpXIMcLLgA6UM5F6PDxmf7+yL83xi?=
+ =?us-ascii?Q?dYDlB+MYUb1Cw4SGEt6BWLzk9ow366izeewYaAPMhskLEsja1Dfe6P/2zf5f?=
+ =?us-ascii?Q?XpubderIBbUa8oCJJ/PyX6QASKInrVd56xaFh2NttXIrf0GRmq+RS7gbO8MU?=
+ =?us-ascii?Q?MQPrSqnvXe3D0TT677sgNkn9XfeyS7pKQ2/YEYZytfJVWPueTvyWmWuzDtQu?=
+ =?us-ascii?Q?a3YRfl4VN/g9SyVxemVFMXNboi5CDwJIQzqgO++opVYk/QvuuWNrYMWPv9qZ?=
+ =?us-ascii?Q?XzIBwe1HTW/lXoTSRm9jO9aNrjD8ybXrNXtNxWBjjASaazNMW3a5rjjCqd9j?=
+ =?us-ascii?Q?NOFW+J/6PddJGBC3oaOrfiQ4F+v3gYluzHTm/F9Qa/ldg0QGM7JD0NVyjCLJ?=
+ =?us-ascii?Q?T+nEZ7/fsj0I2b0iWmY18i0ihBk3ZYKIrQ5mK625uJgjeMSZk6U/y2pYBHQq?=
+ =?us-ascii?Q?ZGf4EVtlukkQUs53ZpALsg00E4fzC4AjCFvnvtFbjOk0sTnmJSGquWSDoax/?=
+ =?us-ascii?Q?4vLNnt5VCBGFZuXpoTNr6W3slznZ7RNgDB84KDnpJ6J+9Fs0W+NQsMH0atdn?=
+ =?us-ascii?Q?HkAUUkj8WoY+7PUbpCQz+VZG6Umk7YiQAd9f0OV5yryMdSUGQjhXLnmO3Ocn?=
+ =?us-ascii?Q?V02Isk0vI2wqQZtj58U0wK7MdHRjncQLChpPzHIALs+tSCBMCaUOAhf1Bu8k?=
+ =?us-ascii?Q?pIzyIbdnbnPMIIY+yptkqtl/VRXjmOc1JLhWftSrvsPQUWqsCiKDJEte/M0v?=
+ =?us-ascii?Q?WydDKQuGgxuwT+CG+1SlSf0ia1pV6OxsO3YiLtPi7D4OhUGoKxj3M4Tx8gjs?=
+ =?us-ascii?Q?cSt2iLUXYFksk9tdybfPiQ7GcbywN082+3dIQ7zhHuf1EqvF+t3cUFv72dcu?=
+ =?us-ascii?Q?KNuMueJGvZLXn7FBiDJQ3d2DDey2rFvBwiSZDNdBIkiKD3deWhO/TDZdUeEO?=
+ =?us-ascii?Q?gJXTT49F9zqHbtUrRVVw1J62+rFUNLHnocJzIlxCvdwlE5JgvtzvXC8qJc7A?=
+ =?us-ascii?Q?Cr/K8ZhyyAZ/o42ICb1iuL0hltyVHYlnvA2/Kzk0zvvb59Z39A=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014)(13003099007)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2025 14:19:40.0683
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6373.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?K7kXfJoCBjWhFY94RticgVsI6/tz1CoKki441TLT+cfvOGnMt5OTQIpvv7NP?=
+ =?us-ascii?Q?DvFXy6sLP1cADIkhjjXcUs6oztLzQSCOnVjUvaWsZvHH922B2Ab6QNJVUlYK?=
+ =?us-ascii?Q?I7XPWn4KLWQjE+gRDLK7I4VVrngf4baPKiw57bgtvRO0s+whODLzXWJot1OT?=
+ =?us-ascii?Q?0MzVotLjCNWT4OKrsfQXGtorLnZjto8zflR4UGM5gc/p/fiC/xfeRNkPRV8u?=
+ =?us-ascii?Q?zCGfiOHDHpp7DHKFitjnUzBRkQ8l0lb1zSrq6ivKYsmJexQUopxUnI66bBLf?=
+ =?us-ascii?Q?6AtcUrBBeXfLsz3HtRnVnmxhf7qlF1Dfe5M4uH6/ZLpI6245oXjl/621Wr5u?=
+ =?us-ascii?Q?mfmjZF//8tC2MKuPDPurOPfyBlyY5VbNkxXVTD+sVAsblR/TfigU84RAAWlf?=
+ =?us-ascii?Q?Ni2zm/9h02uEG7goiPdZC1x+ax/9ieM7wtlTzQ7g1TRDNCpZ9d5TmL9/tTTJ?=
+ =?us-ascii?Q?dQXqoBEyV+3D96PXOIAnO7vSYq2yMlzriKXv2kHQ3DpDOjlHlUxoD4kUwNPG?=
+ =?us-ascii?Q?NKBZkS4CrWS8BmCDWKZwKoiZ6HCZDY8OvMmqZof1pUYz1z8ZG7CBoTVHseFT?=
+ =?us-ascii?Q?ouqD4uVwTMpfYGGIwb5GHtjH7hNgCKCV+6yeSTQdU5x1SH2syJ8Pb2ueGwtF?=
+ =?us-ascii?Q?499X6thrtHeUDXSm5wkXtu9QwAXh4DPyVqZQvR2GWQt97cgkgZb4JPbX5wMh?=
+ =?us-ascii?Q?kckwy+NpVsOXbzsof01ZG/4B+pw+1ZeKu1uhY1B3WLuhQqoi+SUz1SFYz/9f?=
+ =?us-ascii?Q?44fK8+JEUyJ0NQFOW3Lfj7CkeUWFaB/SnnAMDPmEF/J3JPKsrA21gxCeTGeV?=
+ =?us-ascii?Q?FOF50aNa18rKOBWuD779Wm5QgwFDzE5qAE0zR9mguz9SgjwnZyQepYbOI0nF?=
+ =?us-ascii?Q?rMPRrq3DeXs9uJHfJSIyIHV9sk1pxBX2KtCh6KeC3iuy2bhzOHR/drhZpIF4?=
+ =?us-ascii?Q?WCV6coDIK6p/eY/4uh5qIbtJOkhEimEWUfdo2JhHfHdBNafUQKFI9Akod33o?=
+ =?us-ascii?Q?kXVvZVuIGXwV03P08AXaSnIBt1O+70o9vwwuciccXGVeZnxZ1bxleJN3JOVS?=
+ =?us-ascii?Q?l6PgpZILMu8K8+xYrE+ANwFrE1MU03qL2MTWLj7rW0/yr0Qdi7MpvgdRFPnE?=
+ =?us-ascii?Q?k3nc45qdpr6rCabjoPEOojkVsIWEwLHR5YPnnRvTXJ+HExGNPIQcvMvqUGCI?=
+ =?us-ascii?Q?5SVzGM5j8UsQjMXo//iuIdLai3QFlsQWyJiPudBwdh05GjXmHpiCQ/cILBb3?=
+ =?us-ascii?Q?upo4X5DCQv60Di4l23tP3D7Bo5KKH7CFFs9hDZ8L6uSAXLnb0fxjQyLrfEGm?=
+ =?us-ascii?Q?RGWfdicoGI9gfUm+AtUMaehOKsZxTWegvpQXprRJ1Ye8/AG89HHHlLx9itU5?=
+ =?us-ascii?Q?8jlhY5nJI29bs92zMroxHbOAkhXXopHkJ8DfvroGu8FuVAunCy3z8y/8vgWF?=
+ =?us-ascii?Q?U+QSpaRBkPcFzsa8rKFKIX1rb+AAnuI1CK0adAyCvPVHkwcUIWFuALP7PQk0?=
+ =?us-ascii?Q?mK8IAq4RxkUkZCyAN+HC+adSsifgK2OoUJ1Xw925HKK/BwgUD0//X02Or3Ry?=
+ =?us-ascii?Q?N54bilXI6lBM5+R9tAwvw6zyIC03o6D9CCSUb1JR?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db40c8a6-e46f-4757-6f84-08de155dbc48
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6373.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 13:35:47.1445
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 135a3a78-a703-41c1-ef19-08de149ab370
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002326.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6811
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CenoMm9C2U1BRWzrjgpVwgdwzQhCnCaF/jQGLGxB+MAjHyOSnYI6ifSV+2sEUKogUkBRF4YMGW3bWd5t7TDFjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9279
 
-From: Ankit Agrawal <ankita@nvidia.com>
+On Sat, Oct 25, 2025 at 05:03:04PM +0200, Borislav Petkov wrote:
+> On Fri, Oct 24, 2025 at 11:27:23PM +0200, Borislav Petkov wrote:
+> > On Fri, Oct 24, 2025 at 04:30:12PM -0400, Yazen Ghannam wrote:
+> > > Should I send another revision?
+> > 
+> > Nah, I'm not done simplifying this yet. :-P
+> 
+> Yeah, no, looks ok now:
+> 
+> ---
+> From: Yazen Ghannam <yazen.ghannam@amd.com>
+> Date: Thu, 16 Oct 2025 16:37:47 +0000
+> Subject: [PATCH] x86/mce: Unify AMD DFR handler with MCA Polling
+> 
+> AMD systems optionally support a deferred error interrupt. The interrupt
+> should be used as another signal to trigger MCA polling. This is similar to
+> how other MCA interrupts are handled.
+> 
+> Deferred errors do not require any special handling related to the interrupt,
+> e.g. resetting or rearming the interrupt, etc.
+> 
+> However, Scalable MCA systems include a pair of registers, MCA_DESTAT and
+> MCA_DEADDR, that should be checked for valid errors. This check should be done
+> whenever MCA registers are polled. Currently, the deferred error interrupt
+> does this check, but the MCA polling function does not.
+> 
+> Call the MCA polling function when handling the deferred error interrupt. This
+> keeps all "polling" cases in a common function.
+> 
+> Add an SMCA status check helper. This will do the same status check and
+> register clearing that the interrupt handler has done. And it extends the
+> common polling flow to find AMD deferred errors.
+> 
+> Clear the MCA_DESTAT register at the end of the handler rather than the
+> beginning. This maintains the procedure that the 'status' register must be
+> cleared as the final step.
+> 
+>   [ bp: Zap commit message pieces explaining what the patch does;
+>         zap unnecessary special-casing of deferred errors. ]
+> 
+> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Link: https://lore.kernel.org/all/20251016-wip-mca-updates-v7-0-5c139a4062cb@amd.com
+> ---
+>  arch/x86/include/asm/mce.h     |   6 ++
+>  arch/x86/kernel/cpu/mce/amd.c  | 111 ++++-----------------------------
+>  arch/x86/kernel/cpu/mce/core.c |  44 ++++++++++++-
+>  3 files changed, 62 insertions(+), 99 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
+> index 31e3cb550fb3..7d6588195d56 100644
+> --- a/arch/x86/include/asm/mce.h
+> +++ b/arch/x86/include/asm/mce.h
+> @@ -165,6 +165,12 @@
+>   */
+>  #define MCE_IN_KERNEL_COPYIN	BIT_ULL(7)
+>  
+> +/*
+> + * Indicates that handler should check and clear Deferred error registers
+> + * rather than common ones.
+> + */
+> +#define MCE_CHECK_DFR_REGS	BIT_ULL(8)
+> +
+>  /*
+>   * This structure contains all data related to the MCE log.  Also
+>   * carries a signature to make it easier to find from external
+> diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+> index ac6a98aa7bc2..d9f9ee7db5c8 100644
+> --- a/arch/x86/kernel/cpu/mce/amd.c
+> +++ b/arch/x86/kernel/cpu/mce/amd.c
+> @@ -56,6 +56,7 @@ static bool thresholding_irq_en;
+>  
+>  struct mce_amd_cpu_data {
+>  	mce_banks_t     thr_intr_banks;
+> +	mce_banks_t     dfr_intr_banks;
+>  };
+>  
+>  static DEFINE_PER_CPU_READ_MOSTLY(struct mce_amd_cpu_data, mce_amd_data);
+> @@ -300,8 +301,10 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+>  		 * APIC based interrupt. First, check that no interrupt has been
+>  		 * set.
+>  		 */
+> -		if ((low & BIT(5)) && !((high >> 5) & 0x3))
+> +		if ((low & BIT(5)) && !((high >> 5) & 0x3)) {
+> +			__set_bit(bank, this_cpu_ptr(&mce_amd_data)->dfr_intr_banks);
+>  			high |= BIT(5);
+> +		}
+>  
+>  		this_cpu_ptr(mce_banks_array)[bank].lsb_in_status = !!(low & BIT(8));
+>  
+> @@ -792,37 +795,6 @@ bool amd_mce_usable_address(struct mce *m)
+>  	return false;
+>  }
+>  
+> -static void __log_error(unsigned int bank, u64 status, u64 addr, u64 misc)
+> -{
+> -	struct mce_hw_err err;
+> -	struct mce *m = &err.m;
+> -
+> -	mce_prep_record(&err);
+> -
+> -	m->status = status;
+> -	m->misc   = misc;
+> -	m->bank   = bank;
+> -	m->tsc	 = rdtsc();
+> -
+> -	if (m->status & MCI_STATUS_ADDRV) {
+> -		m->addr = addr;
+> -
+> -		smca_extract_err_addr(m);
+> -	}
+> -
+> -	if (mce_flags.smca) {
+> -		rdmsrq(MSR_AMD64_SMCA_MCx_IPID(bank), m->ipid);
+> -
+> -		if (m->status & MCI_STATUS_SYNDV) {
+> -			rdmsrq(MSR_AMD64_SMCA_MCx_SYND(bank), m->synd);
+> -			rdmsrq(MSR_AMD64_SMCA_MCx_SYND1(bank), err.vendor.amd.synd1);
+> -			rdmsrq(MSR_AMD64_SMCA_MCx_SYND2(bank), err.vendor.amd.synd2);
+> -		}
+> -	}
+> -
+> -	mce_log(&err);
+> -}
+> -
+>  DEFINE_IDTENTRY_SYSVEC(sysvec_deferred_error)
+>  {
+>  	trace_deferred_error_apic_entry(DEFERRED_ERROR_VECTOR);
+> @@ -832,75 +804,10 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_deferred_error)
+>  	apic_eoi();
+>  }
+>  
+> -/*
+> - * Returns true if the logged error is deferred. False, otherwise.
+> - */
+> -static inline bool
+> -_log_error_bank(unsigned int bank, u32 msr_stat, u32 msr_addr, u64 misc)
+> -{
+> -	u64 status, addr = 0;
+> -
+> -	rdmsrq(msr_stat, status);
+> -	if (!(status & MCI_STATUS_VAL))
+> -		return false;
+> -
+> -	if (status & MCI_STATUS_ADDRV)
+> -		rdmsrq(msr_addr, addr);
+> -
+> -	__log_error(bank, status, addr, misc);
+> -
+> -	wrmsrq(msr_stat, 0);
+> -
+> -	return status & MCI_STATUS_DEFERRED;
+> -}
+> -
+> -static bool _log_error_deferred(unsigned int bank, u32 misc)
+> -{
+> -	if (!_log_error_bank(bank, mca_msr_reg(bank, MCA_STATUS),
+> -			     mca_msr_reg(bank, MCA_ADDR), misc))
+> -		return false;
+> -
+> -	/*
+> -	 * Non-SMCA systems don't have MCA_DESTAT/MCA_DEADDR registers.
+> -	 * Return true here to avoid accessing these registers.
+> -	 */
+> -	if (!mce_flags.smca)
+> -		return true;
+> -
+> -	/* Clear MCA_DESTAT if the deferred error was logged from MCA_STATUS. */
+> -	wrmsrq(MSR_AMD64_SMCA_MCx_DESTAT(bank), 0);
+> -	return true;
+> -}
+> -
+> -/*
+> - * We have three scenarios for checking for Deferred errors:
+> - *
+> - * 1) Non-SMCA systems check MCA_STATUS and log error if found.
+> - * 2) SMCA systems check MCA_STATUS. If error is found then log it and also
+> - *    clear MCA_DESTAT.
+> - * 3) SMCA systems check MCA_DESTAT, if error was not found in MCA_STATUS, and
+> - *    log it.
+> - */
+> -static void log_error_deferred(unsigned int bank)
+> -{
+> -	if (_log_error_deferred(bank, 0))
+> -		return;
+> -
+> -	/*
+> -	 * Only deferred errors are logged in MCA_DE{STAT,ADDR} so just check
+> -	 * for a valid error.
+> -	 */
+> -	_log_error_bank(bank, MSR_AMD64_SMCA_MCx_DESTAT(bank),
+> -			      MSR_AMD64_SMCA_MCx_DEADDR(bank), 0);
+> -}
+> -
+>  /* APIC interrupt handler for deferred errors */
+>  static void amd_deferred_error_interrupt(void)
+>  {
+> -	unsigned int bank;
+> -
+> -	for (bank = 0; bank < this_cpu_read(mce_num_banks); ++bank)
+> -		log_error_deferred(bank);
+> +	machine_check_poll(MCP_TIMESTAMP, &this_cpu_ptr(&mce_amd_data)->dfr_intr_banks);
+>  }
+>  
+>  static void reset_block(struct threshold_block *block)
+> @@ -952,6 +859,14 @@ void amd_clear_bank(struct mce *m)
+>  {
+>  	amd_reset_thr_limit(m->bank);
+>  
+> +	/* Clear MCA_DESTAT for all deferred errors even those logged in MCA_STATUS. */
+> +	if (m->status & MCI_STATUS_DEFERRED)
+> +		mce_wrmsrq(MSR_AMD64_SMCA_MCx_DESTAT(m->bank), 0);
+> +
+> +	/* Don't clear MCA_STATUS if MCA_DESTAT was used exclusively. */
+> +	if (m->kflags & MCE_CHECK_DFR_REGS)
+> +		return;
+> +
+>  	mce_wrmsrq(mca_msr_reg(m->bank, MCA_STATUS), 0);
+>  }
+>  
+> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+> index 460e90a1a0b1..7be062429ce3 100644
+> --- a/arch/x86/kernel/cpu/mce/core.c
+> +++ b/arch/x86/kernel/cpu/mce/core.c
+> @@ -687,7 +687,10 @@ static noinstr void mce_read_aux(struct mce_hw_err *err, int i)
+>  		m->misc = mce_rdmsrq(mca_msr_reg(i, MCA_MISC));
+>  
+>  	if (m->status & MCI_STATUS_ADDRV) {
+> -		m->addr = mce_rdmsrq(mca_msr_reg(i, MCA_ADDR));
+> +		if (m->kflags & MCE_CHECK_DFR_REGS)
+> +			m->addr = mce_rdmsrq(MSR_AMD64_SMCA_MCx_DEADDR(i));
+> +		else
+> +			m->addr = mce_rdmsrq(mca_msr_reg(i, MCA_ADDR));
+>  
+>  		/*
+>  		 * Mask the reported address by the reported granularity.
+> @@ -714,6 +717,42 @@ static noinstr void mce_read_aux(struct mce_hw_err *err, int i)
+>  
+>  DEFINE_PER_CPU(unsigned, mce_poll_count);
+>  
+> +/*
+> + * We have three scenarios for checking for Deferred errors:
+> + *
+> + * 1) Non-SMCA systems check MCA_STATUS and log error if found.
+> + * 2) SMCA systems check MCA_STATUS. If error is found then log it and also
+> + *    clear MCA_DESTAT.
+> + * 3) SMCA systems check MCA_DESTAT, if error was not found in MCA_STATUS, and
+> + *    log it.
+> + */
+> +static bool smca_should_log_poll_error(enum mcp_flags flags, struct mce_hw_err *err)
+> +{
+> +	struct mce *m = &err->m;
+> +
+> +	/*
+> +	 * If the MCA_STATUS register has a deferred error, then continue using it as
+> +	 * the status register.
+> +	 *
+> +	 * MCA_DESTAT will be cleared at the end of the handler.
+> +	 */
+> +	if ((m->status & MCI_STATUS_VAL) && (m->status & MCI_STATUS_DEFERRED))
+> +		return true;
+> +
+> +	/*
+> +	 * If the MCA_DESTAT register has a deferred error, then use it instead.
+> +	 *
+> +	 * MCA_STATUS will not be cleared at the end of the handler.
+> +	 */
+> +	m->status = mce_rdmsrq(MSR_AMD64_SMCA_MCx_DESTAT(m->bank));
+> +	if ((m->status & MCI_STATUS_VAL) && (m->status & MCI_STATUS_DEFERRED)) {
+> +		m->kflags |= MCE_CHECK_DFR_REGS;
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
 
-Poison (or ECC) errors can be very common on a large size cluster.
-The kernel MM currently does not handle ECC errors / poison on a memory
-region that is not backed by struct pages. If a memory region mapped
-using remap_pfn_range() for example, but not added to the kernel, MM
-will not have associated struct pages. Add a new mechanism to handle
-memory failure on such memory.
+No, this still isn't right. Sorry, I had a brain freeze before.
 
-Make kernel MM expose a function to allow modules managing the device
-memory to register the device memory SPA and the address space associated
-it. MM maintains this information as an interval tree. On poison, MM can
-search for the range that the poisoned PFN belong and use the address_space
-to determine the mapping VMA.
+This function only returns true for valid deferred errors. Other errors
+return false.
 
-In this implementation, kernel MM follows the following sequence that is
-largely similar to the memory_failure() handler for struct page backed
-memory:
-1. memory_failure() is triggered on reception of a poison error. An
-absence of struct page is detected and consequently memory_failure_pfn()
-is executed.
-2. memory_failure_pfn() collects the processes mapped to the PFN.
-3. memory_failure_pfn() sends SIGBUS to all the processes mapping the
-faulty PFN using kill_procs().
+>  /*
+>   * Newer Intel systems that support software error
+>   * recovery need to make additional checks. Other
+> @@ -740,6 +779,9 @@ static bool should_log_poll_error(enum mcp_flags flags, struct mce_hw_err *err)
+>  {
+>  	struct mce *m = &err->m;
+>  
+> +	if (mce_flags.smca)
+> +		return smca_should_log_poll_error(flags, err);
+> +
 
-Note that there is one primary difference versus the handling of the
-poison on struct pages, which is to skip unmapping to the faulty PFN.
-This is done to handle the huge PFNMAP support added recently [1] that
-enables VM_PFNMAP vmas to map at PMD or PUD level. A poison to a PFN
-mapped in such as way would need breaking the PMD/PUD mapping into PTEs
-that will get mirrored into the S2. This can greatly increase the cost
-of table walks and have a major performance impact.
+This will never find corrected errors or uncorrected (non-deferred)
+errors. That's one of the reasons to add the MCP_DFR flag.
 
-Link: https://lore.kernel.org/all/20240826204353.2228736-1-peterx@redhat.com/ [1]
+Otherwise, we'd need to include some of the same checks from below.
 
-Signed-off-by: Ankit Agrawal <ankita@nvidia.com>
----
- MAINTAINERS                    |   1 +
- include/linux/memory-failure.h |  17 ++++
- include/linux/mm.h             |   1 +
- include/ras/ras_event.h        |   1 +
- mm/Kconfig                     |   1 +
- mm/memory-failure.c            | 146 ++++++++++++++++++++++++++++++++-
- 6 files changed, 166 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/memory-failure.h
+>  	/* If this entry is not valid, ignore it. */
+>  	if (!(m->status & MCI_STATUS_VAL))
+>  		return false;
+> -- 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 520fb4e379a3..463d062d0386 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11359,6 +11359,7 @@ M:	Miaohe Lin <linmiaohe@huawei.com>
- R:	Naoya Horiguchi <nao.horiguchi@gmail.com>
- L:	linux-mm@kvack.org
- S:	Maintained
-+F:	include/linux/memory-failure.h
- F:	mm/hwpoison-inject.c
- F:	mm/memory-failure.c
- 
-diff --git a/include/linux/memory-failure.h b/include/linux/memory-failure.h
-new file mode 100644
-index 000000000000..bc326503d2d2
---- /dev/null
-+++ b/include/linux/memory-failure.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_MEMORY_FAILURE_H
-+#define _LINUX_MEMORY_FAILURE_H
-+
-+#include <linux/interval_tree.h>
-+
-+struct pfn_address_space;
-+
-+struct pfn_address_space {
-+	struct interval_tree_node node;
-+	struct address_space *mapping;
-+};
-+
-+int register_pfn_address_space(struct pfn_address_space *pfn_space);
-+void unregister_pfn_address_space(struct pfn_address_space *pfn_space);
-+
-+#endif /* _LINUX_MEMORY_FAILURE_H */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 1ae97a0b8ec7..0ab4ea82ce9e 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -4006,6 +4006,7 @@ enum mf_action_page_type {
- 	MF_MSG_DAX,
- 	MF_MSG_UNSPLIT_THP,
- 	MF_MSG_ALREADY_POISONED,
-+	MF_MSG_PFN_MAP,
- 	MF_MSG_UNKNOWN,
- };
- 
-diff --git a/include/ras/ras_event.h b/include/ras/ras_event.h
-index c8cd0f00c845..fecfeb7c8be7 100644
---- a/include/ras/ras_event.h
-+++ b/include/ras/ras_event.h
-@@ -375,6 +375,7 @@ TRACE_EVENT(aer_event,
- 	EM ( MF_MSG_DAX, "dax page" )					\
- 	EM ( MF_MSG_UNSPLIT_THP, "unsplit thp" )			\
- 	EM ( MF_MSG_ALREADY_POISONED, "already poisoned" )		\
-+	EM ( MF_MSG_PFN_MAP, "non struct page pfn" )                    \
- 	EMe ( MF_MSG_UNKNOWN, "unknown page" )
- 
- /*
-diff --git a/mm/Kconfig b/mm/Kconfig
-index e443fe8cd6cf..0b07219390b9 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -777,6 +777,7 @@ config MEMORY_FAILURE
- 	depends on ARCH_SUPPORTS_MEMORY_FAILURE
- 	bool "Enable recovery from hardware memory errors"
- 	select MEMORY_ISOLATION
-+	select INTERVAL_TREE
- 	select RAS
- 	help
- 	  Enables code to recover from some memory failures on systems
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index df6ee59527dd..afac4ed2694e 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -38,6 +38,7 @@
- 
- #include <linux/kernel.h>
- #include <linux/mm.h>
-+#include <linux/memory-failure.h>
- #include <linux/page-flags.h>
- #include <linux/sched/signal.h>
- #include <linux/sched/task.h>
-@@ -154,6 +155,10 @@ static const struct ctl_table memory_failure_table[] = {
- 	}
- };
- 
-+static struct rb_root_cached pfn_space_itree = RB_ROOT_CACHED;
-+
-+static DEFINE_MUTEX(pfn_space_lock);
-+
- /*
-  * Return values:
-  *   1:   the page is dissolved (if needed) and taken off from buddy,
-@@ -957,6 +962,7 @@ static const char * const action_page_types[] = {
- 	[MF_MSG_DAX]			= "dax page",
- 	[MF_MSG_UNSPLIT_THP]		= "unsplit thp",
- 	[MF_MSG_ALREADY_POISONED]	= "already poisoned page",
-+	[MF_MSG_PFN_MAP]                = "non struct page pfn",
- 	[MF_MSG_UNKNOWN]		= "unknown page",
- };
- 
-@@ -1349,7 +1355,7 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
- {
- 	trace_memory_failure_event(pfn, type, result);
- 
--	if (type != MF_MSG_ALREADY_POISONED) {
-+	if (type != MF_MSG_ALREADY_POISONED && type != MF_MSG_PFN_MAP) {
- 		num_poisoned_pages_inc(pfn);
- 		update_per_node_mf_stats(pfn, result);
- 	}
-@@ -2216,6 +2222,136 @@ static void kill_procs_now(struct page *p, unsigned long pfn, int flags,
- 	kill_procs(&tokill, true, pfn, flags);
- }
- 
-+int register_pfn_address_space(struct pfn_address_space *pfn_space)
-+{
-+	if (!pfn_space)
-+		return -EINVAL;
-+
-+	scoped_guard(mutex, &pfn_space_lock) {
-+		if (interval_tree_iter_first(&pfn_space_itree,
-+					     pfn_space->node.start,
-+					     pfn_space->node.last))
-+			return -EBUSY;
-+
-+		interval_tree_insert(&pfn_space->node, &pfn_space_itree);
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(register_pfn_address_space);
-+
-+void unregister_pfn_address_space(struct pfn_address_space *pfn_space)
-+{
-+	guard(mutex)(&pfn_space_lock);
-+
-+	if (pfn_space &&
-+	    interval_tree_iter_first(&pfn_space_itree,
-+				     pfn_space->node.start,
-+				     pfn_space->node.last))
-+		interval_tree_remove(&pfn_space->node, &pfn_space_itree);
-+}
-+EXPORT_SYMBOL_GPL(unregister_pfn_address_space);
-+
-+static void add_to_kill_pfn(struct task_struct *tsk,
-+			    struct vm_area_struct *vma,
-+			    struct list_head *to_kill,
-+			    unsigned long pfn)
-+{
-+	struct to_kill *tk;
-+
-+	tk = kmalloc(sizeof(*tk), GFP_ATOMIC);
-+	if (!tk)
-+		return;
-+
-+	/* Check for pgoff not backed by struct page */
-+	tk->addr = vma_address(vma, pfn, 1);
-+	tk->size_shift = PAGE_SHIFT;
-+
-+	if (tk->addr == -EFAULT)
-+		pr_info("Unable to find address %lx in %s\n",
-+			pfn, tsk->comm);
-+
-+	get_task_struct(tsk);
-+	tk->tsk = tsk;
-+	list_add_tail(&tk->nd, to_kill);
-+}
-+
-+/*
-+ * Collect processes when the error hit a PFN not backed by struct page.
-+ */
-+static void collect_procs_pfn(struct address_space *mapping,
-+			      unsigned long pfn, struct list_head *to_kill)
-+{
-+	struct vm_area_struct *vma;
-+	struct task_struct *tsk;
-+
-+	i_mmap_lock_read(mapping);
-+	rcu_read_lock();
-+	for_each_process(tsk) {
-+		struct task_struct *t = tsk;
-+
-+		t = task_early_kill(tsk, true);
-+		if (!t)
-+			continue;
-+		vma_interval_tree_foreach(vma, &mapping->i_mmap, pfn, pfn) {
-+			if (vma->vm_mm == t->mm)
-+				add_to_kill_pfn(t, vma, to_kill, pfn);
-+		}
-+	}
-+	rcu_read_unlock();
-+	i_mmap_unlock_read(mapping);
-+}
-+
-+/**
-+ * memory_failure_pfn - Handle memory failure on a page not backed by
-+ *                      struct page.
-+ * @pfn: Page Number of the corrupted page
-+ * @flags: fine tune action taken
-+ *
-+ * Return:
-+ *   0             - success,
-+ *   -EBUSY        - Page PFN does not belong to any address space mapping.
-+ */
-+static int memory_failure_pfn(unsigned long pfn, int flags)
-+{
-+	struct interval_tree_node *node;
-+	LIST_HEAD(tokill);
-+
-+	scoped_guard(mutex, &pfn_space_lock) {
-+		bool mf_handled = false;
-+
-+		/*
-+		 * Modules registers with MM the address space mapping to the device memory they
-+		 * manage. Iterate to identify exactly which address space has mapped to this
-+		 * failing PFN.
-+		 */
-+		for (node = interval_tree_iter_first(&pfn_space_itree, pfn, pfn); node;
-+		     node = interval_tree_iter_next(node, pfn, pfn)) {
-+			struct pfn_address_space *pfn_space =
-+				container_of(node, struct pfn_address_space, node);
-+
-+			collect_procs_pfn(pfn_space->mapping, pfn, &tokill);
-+
-+			mf_handled = true;
-+		}
-+
-+		if (!mf_handled)
-+			return action_result(pfn, MF_MSG_PFN_MAP, MF_IGNORED);
-+	}
-+
-+	/*
-+	 * Unlike System-RAM there is no possibility to swap in a different
-+	 * physical page at a given virtual address, so all userspace
-+	 * consumption of direct PFN memory necessitates SIGBUS (i.e.
-+	 * MF_MUST_KILL)
-+	 */
-+	flags |= MF_ACTION_REQUIRED | MF_MUST_KILL;
-+
-+	kill_procs(&tokill, true, pfn, flags);
-+
-+	return action_result(pfn, MF_MSG_PFN_MAP, MF_RECOVERED);
-+}
-+
- /**
-  * memory_failure - Handle memory failure of a page.
-  * @pfn: Page Number of the corrupted page
-@@ -2265,6 +2401,14 @@ int memory_failure(unsigned long pfn, int flags)
- 		if (res == 0)
- 			goto unlock_mutex;
- 
-+		if (!pfn_valid(pfn) && !arch_is_platform_page(PFN_PHYS(pfn))) {
-+			/*
-+			 * The PFN is not backed by struct page.
-+			 */
-+			res = memory_failure_pfn(pfn, flags);
-+			goto unlock_mutex;
-+		}
-+
- 		if (pfn_valid(pfn)) {
- 			pgmap = get_dev_pagemap(pfn, NULL);
- 			put_ref_page(pfn, flags);
--- 
-2.34.1
-
+Thanks,
+Yazen
