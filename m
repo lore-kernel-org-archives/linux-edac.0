@@ -1,117 +1,117 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD85327213;
-	Wed, 29 Oct 2025 13:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E6F2638BF
+	for <linux-edac@vger.kernel.org>; Wed, 29 Oct 2025 14:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761743335; cv=none; b=dRj3urfTAQ4OR22wU8vGfb4VttdjWlgtZcBVxp7TcBD0QSeHZC1V72iG09jRtEzVVocnfkUuxjvfzrLOa/iHZ9O2GIsbUguHY1b7AmLNr4RdY7rKwybZXQizCWo5qUE5VHGixWwGN4Hh19DSvQ8zUiC1THPkG+yTmIVB2OScXF0=
+	t=1761747601; cv=none; b=HIduxNsaVWjyGSnT9gZ6T4+/vGZDg8KrcnaW97/g6vldrV/wJcWLz0GSc9A4ZaZOrmERYPFqNNvSGVoBYVrJVe3ZyQARwO18ziMW8lwjakrcn6zPDACuJDXhdMKL79LWE6QKa0lg5x7Amlajbdzd9tZvJyHTetxs3HMQpefr9F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761743335; c=relaxed/simple;
-	bh=UngHmgDP1nr6K0S8aa8Y0NIoHUi35dCsUpErrVr5J9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uhH0pwVh2qR1t1Lqa6/LiRiB9cBFp18fV7Dxlvci7n3kvEVYanV2JA2VykUQP+2qkwXBkhREHFTeHL/kerE8+dNpYnRIaqPn5y2r6ovBJIqmFsCtPvtszcKHuvU/i1BNAxrvWQbrtWzcDf6iK+aCu+mD3ySvcpt1UEy4Ph6c+Rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=AyOmu0Bq; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1761747601; c=relaxed/simple;
+	bh=1CX+8+kOSf10qsVFbiIqXKLPwxKNZKPK3M5tdY2U3zQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WzEVhWx9ocJyvok37aOqojmrF+dFzlelBdHQStltXNPCD2xw0Ztc/YhpVyOplcehcnioW9xVitImG7uMcx1Ktt/rhUDLTkghCDm/RGd+PxWgrRQdbtkPbK5R+4zJMiAsY7xiFLNr+jVV3djqWudtDsa1L7metkUg5x2CEUTYVpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=STdMHBQT; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="AyOmu0Bq"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6C27440E0231;
-	Wed, 29 Oct 2025 13:08:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id JXSUdgHo4cTz; Wed, 29 Oct 2025 13:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1761743326; bh=2JgUCL+m1awbrs708pVpItdTrCu+IIhOCpTs2+LmYl4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AyOmu0BqXehF6sQ85sEKJCavJx84OVp5WuTATkBcSaZFbqGETlhvoGpA6rwYTzH3a
-	 K6xxMEJfE662xlv9YEimnuMr8IjagDg0YPXXcwVV/ArFKXCJb55/u5AMMLmklcOSd3
-	 TXTWYo/+8EFdv0R4vXp/DegMeZ6vRUjcMLdwyyUhZracw3Hxddv7OdAA+RQYBCDILz
-	 ssZuPfbfnhpY8QG6gHFoT2l0pe23RMakSrXKH1ZA1S0/NRdkkvLaePKzi19pWVlmQ3
-	 23apIAlriFXb+5h9w2Y9tnrt+qhL3A5WJAnn/Wd/zLN1lSb33TidWEi6FQbNvXLyi1
-	 fX+coo0KGh6enkl7kALTxxCL85ikVerz7w8aqtlj8ZmvxCsC3k7rsgSF/6RgOgssU9
-	 B1M/0Er0VTxszVup0PtOBCti/A6jqFDI4lHYJATD4s+Juv5OwNkmQU9n7+wi+C1rpB
-	 Hh5Bn/IQ4mI3OHw/N5vJNhkNKc1hkMVOK/6AC7bJHvnMX9ulERGpIJwq1K283Aq8OI
-	 5rjcZD5fbJuCjX88v3TNcJrmOHtZ2cN85XTM0QSvDp0BjUZYgMa8oQC3NAzvqYaiVp
-	 RQTKS2Ka87FKlBQyzwi1EjEKHpuxMqQYGwAXS+tZzGhc4whnWXE0EMs13Be7obwT79
-	 M+hH/Uz+OtzHSx76l08aTdpM=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 16F1240E0225;
-	Wed, 29 Oct 2025 13:08:37 +0000 (UTC)
-Date: Wed, 29 Oct 2025 14:08:32 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, git@amd.com,
-	shubhrajyoti.datta@gmail.com, Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Richter <rric@kernel.org>
-Subject: Re: [PATCH] EDAC/versalnet: Handle split messages for non-standard
- errors
-Message-ID: <20251029130832.GBaQIR0CF8kSl6exi7@fat_crate.local>
-References: <20251023113108.3467132-1-shubhrajyoti.datta@amd.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="STdMHBQT"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-36527ac0750so64377911fa.3
+        for <linux-edac@vger.kernel.org>; Wed, 29 Oct 2025 07:19:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761747598; x=1762352398; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oOeCj7atBm+jp74qXquxytnJSCplsW/eyoN4u7SHchg=;
+        b=STdMHBQT12yVVhenBH9kjtzktzfxhBOPKOo9apSlTLueZcsupwgg31te2NoZ1MYB8V
+         MSCDsKHm3FOvPOU5eIBCDfHMdlRjXQ/WaIfGw7guwrNmTT3BzH6WS72IQ0rngTeIuIKG
+         geIpbGtk9/KkbvqJ4ys0/EumZ1gCsCKUv+qxxEKzmywlju+PTnHhCdTYr2IGsTbcyPmT
+         1dv7mnHne5W/9nCZuPRS5MOiokEytiREtrQcf4/hBmfAUMtMcLusUKfTMKcUvAn01g/8
+         YYl2+QIB5DhWKuvrDaYdcUxOB+ZWEQK/1a4i5MEDu6ruYYw7g+OmbE5blhnTFS7GFVRk
+         77Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761747598; x=1762352398;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oOeCj7atBm+jp74qXquxytnJSCplsW/eyoN4u7SHchg=;
+        b=iZgY72UGStWZx13WGs6zimosQXKerZ0vFKgdFMERlDqdptLftjYBV/NK2kToKhKdgL
+         xzTBtcs1SFtsg3lG5Immbj5/ujMmZOtDTdH0eS8pCxQ6cl65Ruo2h/2npI9tjJKtH2v3
+         WHSBZhbCxvoO4hbo6wfUSDNnMhsGTaGLUTy/tWNlGcf889ozcTid2EzQKaWF6hnSPoau
+         PscJkHOD8Tiqq/3FDLzJcAUGBn+VBLHZfFOCDH7wehjP1wYnL/dVGEU5CtL5daHclkfy
+         xgH/o5AmUq8NDnaM+35fIi7VRSpwTz6izv/iny/+YWGuva945nb67H7N5SXsahaccmNa
+         bemw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6pfby3RiDgpJLv+hrbUEEH9wSM0SqlvAdMwbIYX7W9/emTLNrSp7cYSAM1pSqGuBTooh1SjSrKDUx@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiAyvh9KLx38V1/jfGQTGbfnLP+UxVv+m0lMdXhFvCHibaerUy
+	lYsbAC/SHeFOe83wEbBqQZLLEW5bsGQl3R/SEmN+kln+62wIsZqy8MgtJ4uXoHiPlgJyBUDGZzD
+	3FE0+RzhE4JYa8W85mTrh+bmk/IMWl+C97PjBeMpZAg==
+X-Gm-Gg: ASbGncsk+gmRnrPNHfR0o9cZbqW30BcNicUtJ1/bmmHkKELXC5Xi7QdyjPxqZYSmVdp
+	fOS+S3qKTNVWqs3FkBy/O7D14c0GmF0pSS1eBa76cyI2yL4/f4TzqF5KY5Vg3VuUWMqe0lZ0+Jk
+	SUxx0Zpv4sGbbGqVkxAgNIEE0OG5iQRM4wU9qIxZy7yoMZTmKmiBqaIRosBSdaoQYMQH6ugqeGN
+	41H/qZwx+5q9ZdcbGDVbF39SH5Nxi4zosisZHdtKWMll4gc5EJA1W+x6siGbc4CJK7j5vB51pa3
+	3xH88w==
+X-Google-Smtp-Source: AGHT+IG59+bQUerf6uihfCFWCYSjQICr8Xo4ZbiwSS1E65/x2rl3ls+2t5ioYCJKzMBcQXa5Sk43LYjN69G8TJb8SWg=
+X-Received: by 2002:a05:6512:3055:b0:592:fc68:5b9d with SMTP id
+ 2adb3069b0e04-594128623cfmr1174582e87.10.1761747597543; Wed, 29 Oct 2025
+ 07:19:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251023113108.3467132-1-shubhrajyoti.datta@amd.com>
+References: <cover.1761588465.git.geert+renesas@glider.be> <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+In-Reply-To: <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 29 Oct 2025 15:19:45 +0100
+X-Gm-Features: AWmQ_bk2MMp0FQz04qrj-8hmhOAMRkHeQZjiqCVvFpO75M_-67m5zTnOfqmkGUQ
+Message-ID: <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com>
+Subject: Re: [PATCH v5 07/23] pinctrl: ma35: #undef field_{get,prep}() before
+ local definition
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	David Miller <davem@davemloft.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Shan-Chun Hung <schung@nuvoton.com>, Yury Norov <yury.norov@gmail.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>, 
+	David Laight <david.laight.linux@gmail.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Kim Seer Paller <kimseer.paller@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
+	Cosmin Tanislav <demonsingur@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Jianping Shen <Jianping.Shen@de.bosch.com>, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, 
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 23, 2025 at 05:01:08PM +0530, Shubhrajyoti Datta wrote:
-> The current code assumes that only DDR errors have split messages.
-> Ensures proper logging of non-standard event errors
-> that may be split across multiple messages.
-> 
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-> ---
-> 
->  drivers/edac/versalnet_edac.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-> index fc7e4c43b387..a055f54a389b 100644
-> --- a/drivers/edac/versalnet_edac.c
-> +++ b/drivers/edac/versalnet_edac.c
-> @@ -605,6 +605,12 @@ static int rpmsg_cb(struct rpmsg_device *rpdev, void *data,
->  	length = result[MSG_ERR_LENGTH];
->  	offset = result[MSG_ERR_OFFSET];
->  
-> +	for (i = 0 ; i < length; i++) {
-> +		k = offset + i;
-> +		j = ERROR_DATA + i;
-> +		mc_priv->regs[k] = result[j];
-> +	}
-> +
->  	if (result[TOTAL_ERR_LENGTH] > length) {
->  		if (!mc_priv->part_len)
->  			mc_priv->part_len = length;
-> @@ -615,11 +621,6 @@ static int rpmsg_cb(struct rpmsg_device *rpdev, void *data,
->  		 * messages the offset indicates the offset from which the data is to
->  		 * be taken
->  		 */
+Hi Geert,
 
-I'm guessing you want to move that comment too?
+thanks for your patch!
 
-If so, I can move it - you don't have to resend.
+On Mon, Oct 27, 2025 at 7:43=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-> -		for (i = 0 ; i < length; i++) {
-> -			k = offset + i;
-> -			j = ERROR_DATA + i;
-> -			mc_priv->regs[k] = result[j];
-> -		}a
+> Prepare for the advent of globally available common field_get() and
+> field_prep() macros by undefining the symbols before defining local
+> variants.  This prevents redefinition warnings from the C preprocessor
+> when introducing the common macros later.
+>
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
--- 
-Regards/Gruss,
-    Boris.
+Do you want me to just merge this patch to the pinctrl tree or do
+you have other plans?
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Yours,
+Linus Walleij
