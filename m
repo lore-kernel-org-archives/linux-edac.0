@@ -1,121 +1,113 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83352335541
-	for <linux-edac@vger.kernel.org>; Wed,  5 Nov 2025 16:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945D831B113;
+	Wed,  5 Nov 2025 16:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762358912; cv=none; b=ts0eaHC0KWAN33VDFx2DBfZdWYgFtsWMu8lcj0Ryd0cOwx9Ep8KpfGpfiqHJcrjex7r2cHb4L94viLBMVQPcZsgrX8FTAIDaDaAX3kUrNjsBPr5FAFwb8uaBR3lzEYAsyIvMgGx/WkLjmt3ZW/2hVYqbIgFYgCqZRnpOqT86j0U=
+	t=1762360202; cv=none; b=eSfFHVYR+dxjFluka9rwGSg9Um8GwOnov3dGlKOKjdBnsKMwha4Dg0jYscfSlGbmA9dtq7WhtqSRVULPa6yuNrJtI0At3WoSz3kFjskLdQsoVU3Uy+85nXbW89CtvZdd03dkVfmLJgiqvowxzMrULpRzdTRoEBV722ubJ2AVzGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762358912; c=relaxed/simple;
-	bh=qhthCQOxbmIIKyNheM8Rnhvvbyw9VuqTjkGB1Gw9Shs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WvqMsOWMcxJQl9BpdQlQleHY8w8wdikFjczfShSadWzQhBJzpmVUJo1+mfmGW8z/l4CJ75wN2VUtWR0UGsycRhcJKFQuMXloBJNW6CYsfCQ6vSdzlX5DFy9M/3q/SEazvZ2qExEg1Vv8bc+yFgZhYWG9zg0w4o4gPBLfRKQOQwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fEwgo+LU; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1762360202; c=relaxed/simple;
+	bh=xmMPnx3YKPcWp71Ul44Dt6CmZiCIfCfg+fQ7k9riRuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T1vo1KUWw4J52Oinx7kN/mmY5dsM/FZ6TbDEK4tT+9oFZcnbDHFpUoL7JjH9NrLi3yX+lTtG/GRsxZTTGF6mToNQQRiovGMo19h0rMm6DSuF8gmKZjrg0077ZFDee+z/lfH5y6cameE8P/3ysUF2NL3ZWQYg0Sqzk4EEBG/m8VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=iQKcGWnv; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fEwgo+LU"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47754e9cc7fso15422285e9.2
-        for <linux-edac@vger.kernel.org>; Wed, 05 Nov 2025 08:08:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762358909; x=1762963709; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1yBP/HblraJDKUqDJbJpnQ6bTQTPKGimKm7/HBY3uI=;
-        b=fEwgo+LUn1JIcmd4fOYUTwR/jPimwMGMx0wEX7Hc/CiCGID2bxFmLcRF2vAQ4ixGRD
-         v3W1vhr9T+VMgKDSjrCOBPRBdMs6oEnvAu2TCnPt2wHuReJC6P2H5f4kQ1cCQFTFmuxR
-         55Ri/CMrj548FjVwNuP7XLbojQoAVmpE8o4j8++vWLBbPz6yMpvQHX0pYQTYL4c+7n5H
-         3c4HFURCYdWYEvexECi5lh4/xTFl0ZWasKshkkVFH0PjKBQ8MWwTBqJvMZzFcQe56fJw
-         m2y4P9oKPtz4n+dT2IsktVgBKz6X/9zn/cq+edt0c7U8+0o68UmmgHaRJ04J4tewnpwp
-         NHGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762358909; x=1762963709;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f1yBP/HblraJDKUqDJbJpnQ6bTQTPKGimKm7/HBY3uI=;
-        b=gNCiLmBPB3XB0Q4Ek/PJ2Dg1T0xBCdNzCFywccQFQ70lofkXm39+fBKTurg01KOeGt
-         tfnDkO1JkFa7MyV3PhhsOKhZ8fsa73fKnv9mTykdMA2Y0fgzzg5vBBWREfLkr9qvX33z
-         6aIe81UvZMNqVc/Tu6cET7Sq6G3DQID74C++3cMWhZR1PirHV7e/8YPH78YvZ++1/9bf
-         714YC2k8BJSSsKLIkVh2ncXEigWBYyF6AjBV7yhjp2WrPqEsryyMEvEoSoMyAPAhwmLT
-         93FZjpCB8H5BvsfoVueihHblBcuFaKY3gND+pd4HpSTrNPNI9hgpaC4OeeoLmsOUqLZs
-         sD+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXdhDdEkZ1+2WfVaiOB2TRsexhj/dp0CS0kObn9avQV/xRHXb0y6TjtgB0b5ZP8gVAXDN/88oYU07T5@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn+RLA8E48yEvKKK5m3lnH4FwMPK/orA8ZT/mkA9VKft3Knfeo
-	y+9alb/ag3HERfNib/17n4wWDGovgLrw8BAS6HEBJrr+k2TSzjF6TvZ2xSzxNwxwPsI=
-X-Gm-Gg: ASbGncv6BIlO4fXIk4A2I96dxrsgAxUZx1W+XGIrKDbns+i6FAjGEniQtpPztSO+FVO
-	2hLsb1AnBQR3PttYhoZ+455RnHzko6umVeJ/Fhl0SfItIzC4079GAn+SFFfuK2DV8KMTA6r/eWS
-	tUIqfkrzWVE4rZAl5AHAOVuRLujQFSgk5sh0FFsLZe98ZpzDVxugPT1+9jMe7w/5FhdH7I33pyW
-	jul0HGeZoZa2vTw//qg89WxUM3o7oHROKjLVf4qtZiDOotrFgHxQZe4V80JIDiNy2HNMJB0Kxp7
-	ID0EIuGjLBc/nz6lEubMpanoob7D7KkQu0VwuwQWtW1B8tHJ3mZ+GSBb+81/BoSxuRvkIF3ai/6
-	ID/2Yx20dATlzJ/e2Zw+6l/9wjucaKxqlYNSUWAfM7p73qrvO5Gur7Zag6p5VZEVEE7X5bkH/Nj
-	RWotrEjEJoqTVRziMsCDoOG5c=
-X-Google-Smtp-Source: AGHT+IEXc55RGqBKbQMEgoEC9e3feBi0MKsyQiqEKNba7Kuda4jmUF2LBb9/lCW7e1CfbTQzDss9Iw==
-X-Received: by 2002:a05:600c:621b:b0:477:fad:acd9 with SMTP id 5b1f17b1804b1-4775ce7dfcfmr49120665e9.34.1762358908612;
-        Wed, 05 Nov 2025 08:08:28 -0800 (PST)
-Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775cdcc552sm58255715e9.6.2025.11.05.08.08.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 08:08:28 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org,
-	linux-edac@vger.kernel.org
-Cc: Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="iQKcGWnv"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 09CAF40E015B;
+	Wed,  5 Nov 2025 16:29:52 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id Jpqhu7UYiidN; Wed,  5 Nov 2025 16:29:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1762360188; bh=N9KnH9xbtC4+g6m0PqksYjhsKL3Pdx7HzuaxpMw7t28=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iQKcGWnv1O4CfnJFptzv9rMOWKEGH8XPbyKXEqcYYcX7OP7vkp0fGnCA10ydw2Q7o
+	 0PzLZr/DUyAqsZ/z8S1q17DvfkcFPKTWQSUq/04jOx/loylNZcU6hreeIjqMthbmA9
+	 qHpMODyr/M1JsGKrQby1k9lwiq3LWP5mlNZH7rTnmDKTs299HNyDo0vA6t6kRaXmrg
+	 KP9hr/uOPoVoSzQ3kQIeMWMrti4YDrmkrYA4EJ6K5plGmFSQnkGdou3Rypviarzisc
+	 0IgIYssckEG1KpCyOREC85l+RjG9ROLfIUFGzCUxfq3dI3K9paZP1ZDXWohycy+7zr
+	 DmxfQm3hE+6pB7f8pUmop8Xc7H2o5udpGO49BZicWOjHFuAHwWHo2inMk/awYPj3Sw
+	 4CznaPIIFRtQQ70lVbdNI4cgjocEousTeiNjg64HKUU8rP6Ld4dTMhODCEdHXECUPQ
+	 WWPTcyTu04dXryXsXZEOddBu3xXtsUJUSsoeUAUNZlsOGUmBjkx9Lkk3LtY7xBjiN1
+	 qL9Nyy6nUvHsUy/my4jEmRXtquhPJFuoUzgJWiH2e9UVsjsdx3AcdrlJp5Gs6Jz84P
+	 +HaLkogYbLtVx/89pqw1lz6OzY05j0cbn0kJcQSRFXPKNyv7YN8VkTN8R/s0UExMgR
+	 c+XFqeyqSwUp5JVwK3J38doQ=
+Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 696B940E00DA;
+	Wed,  5 Nov 2025 16:29:39 +0000 (UTC)
+Date: Wed, 5 Nov 2025 17:29:32 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
 	Frederic Weisbecker <frederic@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>
-Subject: [PATCH] RAS/CEC: replace use of system_wq with system_percpu_wq
-Date: Wed,  5 Nov 2025 17:08:19 +0100
-Message-ID: <20251105160819.302988-1-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.51.1
+	Michal Hocko <mhocko@suse.com>, Tony Luck <tony.luck@intel.com>
+Subject: Re: [PATCH] RAS/CEC: replace use of system_wq with system_percpu_wq
+Message-ID: <20251105162932.GAaQt7bON4FtSmxQ3Z@fat_crate.local>
+References: <20251105160819.302988-1-marco.crivellari@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251105160819.302988-1-marco.crivellari@suse.com>
 
-Currently if a user enqueues a work item using schedule_delayed_work() the
-used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-schedule_work() that is using system_wq and queue_work(), that makes use
-again of WORK_CPU_UNBOUND.
+On Wed, Nov 05, 2025 at 05:08:19PM +0100, Marco Crivellari wrote:
+> Currently if a user enqueues a work item using schedule_delayed_work() the
+> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
 
-This lack of consistency cannot be addressed without refactoring the API.
+Please write out "wq" - the commit message should be for humans and not
+contain variables or entities from the code.
 
-This patch continues the effort to refactor worqueue APIs, which has begun
-with the change introducing new workqueues and a new alloc_workqueue flag:
+> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
 
-commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+s/cpu/CPU/
 
-Replace system_wq with system_percpu_wq, keeping the old behavior.
-The old wq (system_wq) will be kept for a few release cycles.
+> schedule_work() that is using system_wq and queue_work(), that makes use
+> again of WORK_CPU_UNBOUND.
+> 
+> This lack of consistency cannot be addressed without refactoring the API.
+> 
+> This patch continues the effort to refactor worqueue APIs, which has begun
 
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/ras/cec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Avoid having "This patch" or "This commit" in the commit message. It is
+tautologically useless.
 
-diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
-index e440b15fbabc..15f7f043c8ef 100644
---- a/drivers/ras/cec.c
-+++ b/drivers/ras/cec.c
-@@ -166,7 +166,7 @@ static void cec_mod_work(unsigned long interval)
- 	unsigned long iv;
- 
- 	iv = interval * HZ;
--	mod_delayed_work(system_wq, &cec_work, round_jiffies(iv));
-+	mod_delayed_work(system_percpu_wq, &cec_work, round_jiffies(iv));
- }
- 
- static void cec_work_fn(struct work_struct *work)
+Also, do
+
+$ git grep 'This patch' Documentation/process
+
+for more details.
+
+> with the change introducing new workqueues and a new alloc_workqueue flag:
+> 
+> commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+> commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+> 
+> Replace system_wq with system_percpu_wq, keeping the old behavior.
+
+What is the new behavior?
+
+Should this driver be converted to it?
+
+Thx.
+
 -- 
-2.51.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
