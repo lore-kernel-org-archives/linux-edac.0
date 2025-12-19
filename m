@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175B123314B;
-	Fri, 19 Dec 2025 10:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3E52FFF8C;
+	Fri, 19 Dec 2025 10:50:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766140866; cv=none; b=fDQhOcUmC6Mbw+BA6KNxa+2yzcAwCRHaje8+X6E+hK4jSQ7+nC1nxpQqEoNcQz5Ci20RUg1RtHP6dGIsNeiMzliY2wta8kgelplZkmv8CbURJKpzsmCPU90Q/9r8bXMHfHwxhnUUncAIscOmqEjaAO8Xpa8y5eZUi4aTap91HRo=
+	t=1766141406; cv=none; b=kkSY2hdhcpBKnJTtQnLe6AgozYG3oR2azoR/xXjc9fs8MSMmmXWmg/PUhxMpbM2ujSqACxRX8t5/q084LGGB4qUCKVBh8abq3pMCzqiZQBfqSWMhNtEkqgLdbASE9XT1vh30/5sXX4+hZAhfJbWEcF/sGC2Ntaw8uogla6GDDAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766140866; c=relaxed/simple;
+	s=arc-20240116; t=1766141406; c=relaxed/simple;
 	bh=v46pcnHDRBpxHY5Ds3ULk0J6LHLabnL9oEV2KY94S9A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g2+FPCF6OiRFpX06VNL2t3X++ZHaFKxdd3yU6D1DPbJ0rOx3/7VGf3b6D5LA5sapM+62ywmldVVuCqxFBChJ2TLTCk24iy39oIl5Iu7eWiCNS2pwWdsTc+xrBmXfDduoUr4NQ4uAXtLtqV5Wz24Yoz+w4nzJhe/NTuvcyN36jSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1GSHabA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=pEW8ZSSj5HFLu9SklUOV8Fab6xdJvUJFK0PlcGAO4EoWMtw4GQFSrxd+AmFetFtEM1+mIrum12kAB8qtqr8knzNh3Fr/kLj9SzCVSg2CaUwZ+U9X6g6w9er14C/CaJxG9Qdlj+ZLDsxmO+0/fv7lum/KVXVY7cl+S5VkNdXQZ2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2llJw5I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1GSHabA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7332C4CEF1;
-	Fri, 19 Dec 2025 10:41:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2llJw5I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51BCDC116C6;
+	Fri, 19 Dec 2025 10:50:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766140865;
+	s=k20201202; t=1766141406;
 	bh=v46pcnHDRBpxHY5Ds3ULk0J6LHLabnL9oEV2KY94S9A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Z1GSHabAeoKmV7ma9FklYGIYhdkrxjd0d+q6wjREiDkHmuVFm2DmrslBjbTq1G2Hu
-	 rNFJ484wWOa/FXXRwwPDAhPQ0KtU+WZ0DvCU028IkQtvlHvz0SC7o6AvJgACiY/jPa
-	 kIlmlBgpZJMxNi/kBMK99Q8WJGLAm0lqL99r3SdjdNisFvjHwWuiAtMYh4hZwMO5br
-	 HemoyWGDPyztjtAOavl/+pLh2egC1PbU22tDEdz1j8fXgOBrfnTTjTVirm1l4HEU3N
-	 7XxI2gbRujPZKoxNsBTWe7QvCa1h8NMD369QP6CDGFU2rYvJTrL8IpXlWJpKPy8V/M
-	 yD9+rjnECY3GQ==
+	b=T2llJw5Ij1+TSudjdeiTnuh6ppwebKoRLTuJ692VUqR5CMEcTdIFJFLGfBcc9Jgsr
+	 QImFJbbkVQyhkvoVPjZYfJRyMn8DtjED7QM6WWFuMcPENmx+nJGPPhVLSzqB8tKCVP
+	 emRf+29tDErZ2LpRfyYQ6bAwBmC0hPwu6lIVCLmMKR1QHVtXwVeL0xgho1YfcTp8SI
+	 y+UhaHU2MMpn5swfBT7AYDQlRsFSub340ZUofqXqnCQ1J5bPvhtCtHmLSd9+NpJBbT
+	 yagNJV2NEYr4gZVdnPAnthhEU/CR0zK3GTp+9ChXq7R8Ec6ETOwJq1dblHQCrdYERk
+	 0/PTXg3IDxSVw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vWXux-00000005ktq-3yNu;
-	Fri, 19 Dec 2025 11:41:03 +0100
+	id 1vWY3g-00000005oL6-2Ujh;
+	Fri, 19 Dec 2025 11:50:04 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
@@ -45,11 +45,12 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Shuai Xue" <xueshuai@linux.alibaba.com>,
 	"Smita Koralahalli" <Smita.KoralahalliChannabasappa@amd.com>,
 	"Tony Luck" <tony.luck@intel.com>,
+	linux-efi@vger.kernel.org,
 	linux-acpi@vger.kernel.org,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: [PATCH v3 1/2] apei/ghes: ARM processor Error: don't go past allocated memory
-Date: Fri, 19 Dec 2025 11:40:43 +0100
+Date: Fri, 19 Dec 2025 11:49:59 +0100
 Message-ID: <e80bc4eba43d0211713fe66958ec0c582d9bfda7.1766140788.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1766140788.git.mchehab+huawei@kernel.org>
@@ -62,6 +63,7 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Message-ID: <20251219104959.72B7oqJX-fk2n23gFqGs0GQlGBhXL7gY2qE97-dI6tU@z>
 
 If the BIOS generates a very small ARM Processor Error, or
 an incomplete one, the current logic will fail to deferrence
