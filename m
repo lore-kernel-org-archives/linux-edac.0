@@ -1,113 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D2230F802;
-	Tue,  6 Jan 2026 10:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AEB1F92E;
+	Tue,  6 Jan 2026 15:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767693712; cv=none; b=Hs/5wRMgwDD/pTpWu7k/Y+6uHEE6h+PwdMCYRsKsu38TI0eYQ99nD6u4w9dpWCXkKKwVJdM4jb0Q9hv0z6PP9rciJfEPCl/9LsYDCgox6DErfR3KMa9ncQYwUg1IvlMxTfDWhVlYMlA9k5mQ/r5nylvuqhRd1l57vC/G7j1/xAM=
+	t=1767715046; cv=none; b=kPskyllThPz5SV/77VU0MOKm7KyvWsRssN8BNQKN1gNmyAaFkAzRNFhCpR8Rrc2AZV81b3sFxVv56HYdOrn+m58EAsTY68AGM7zm4mtnZDSLlRhB/6+1HI0OMTs0Ss7YoFFQi0uxRzfYK+0/VUl+jfIxfBYPNLa7coz9LQsSl7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767693712; c=relaxed/simple;
-	bh=N13GlUqWB+FxkmAZcovRjJqMegXZ8A3lxIKH7KbwRvs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Oglgb9o0wxoa9nei7HieCKrNJvc+GAkcuMBopDVOgb1WNUKK1ySCdh3M9fb49Ov45I0pf6pfzEDDaP8RTW22lwcq5rU4iNfjrDwup0dkWyR2nJaFncdh2TgAzUwr/oDfNWLSJFM/1NEJ+iSGruGEcrytdWyifPEzaIhe1bl98IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TvOorBs3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TvOorBs3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCDB8C19424;
-	Tue,  6 Jan 2026 10:01:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767693710;
-	bh=N13GlUqWB+FxkmAZcovRjJqMegXZ8A3lxIKH7KbwRvs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=TvOorBs3oF0WJmvBxhgmcfMSnYSUEMVQF2eWDtidXC8CNLdfGu/UEa1QUsGW2ivKB
-	 cZETNKB4D660Hk5QttLtFIJYq8aMhZztAMnk3oIEaodbQxciB4qZifzI4nn0xf49VY
-	 uReBUd1Q6ehETMmKCpMdnL94o+je8q20/RlX2YnmFgFFTNzSHdgHKPGbmm2Msu36XF
-	 Ze/5kOEmLtIzf1CR3clSEEP3z86lO6BbMqYvmvOOnC7dVkHP4pxIv9P7GGrzKsmooY
-	 MQ0GTXCqJ0FAEBKlFc9PZISY+BLoyC1xvs2P9eJPq2jf3Vn1RLHexVmwIfOIQkOjs3
-	 bXo6u5H7B++Qw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vd3sp-000000008ZF-3xPz;
-	Tue, 06 Jan 2026 11:01:47 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Robert Moore <robert.moore@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Breno Leitao <leitao@debian.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Gregory Price <gourry@gourry.net>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Jason Tian <jason@os.amperecomputing.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Len Brown <lenb@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-	Tony Luck <tony.luck@intel.com>,
-	acpica-devel@lists.linux.dev,
-	linux-acpi@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	pengdonglin <pengdonglin@xiaomi.com>
-Subject: [PATCH v4 0/4] apei/ghes: don't OOPS with bad ARM error CPER records
-Date: Tue,  6 Jan 2026 11:01:34 +0100
-Message-ID: <cover.1767693532.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1767715046; c=relaxed/simple;
+	bh=sczc55+fbSx80qG3XvqhfTOzzhPRkPUZqp0rkYALOws=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QTxr6ROfhjFr3gYv+ER013mAFuolp5alvhaEi164wTQX2mgmSZepqtVbmECQw364nwkUW5TKFAi0chbRZpFAmx3MkJU7Py4BL13glINIb+j/6EePu3Jx/AqHibtvTgQ3b+Aa9C5T7xSie7K+7ZWpfq6U+xgpHQz9yc+g++Uresk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dlwlz41BlzJ46wT;
+	Tue,  6 Jan 2026 23:57:19 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5766A4056F;
+	Tue,  6 Jan 2026 23:57:21 +0800 (CST)
+Received: from localhost (10.195.245.156) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Tue, 6 Jan
+ 2026 15:57:20 +0000
+Date: Tue, 6 Jan 2026 15:57:16 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>, Ankit Agrawal
+	<ankita@nvidia.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao
+	<leitao@debian.org>, Hanjun Guo <guohanjun@huawei.com>, Jason Tian
+	<jason@os.amperecomputing.com>, Len Brown <lenb@kernel.org>, "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>, "Smita
+ Koralahalli" <Smita.KoralahalliChannabasappa@amd.com>, Tony Luck
+	<tony.luck@intel.com>, <linux-acpi@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>, pengdonglin
+	<pengdonglin@xiaomi.com>
+Subject: Re: [PATCH v4 1/4] apei/ghes: ARM processor Error: don't go past
+ allocated memory
+Message-ID: <20260106155716.00002a41@huawei.com>
+In-Reply-To: <d93b8fb237ac1bb1d8cef4f4f48660dc1b32b673.1767693532.git.mchehab+huawei@kernel.org>
+References: <cover.1767693532.git.mchehab+huawei@kernel.org>
+	<d93b8fb237ac1bb1d8cef4f4f48660dc1b32b673.1767693532.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-Rafael,
+On Tue,  6 Jan 2026 11:01:35 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Current parsing logic at apei/ghes for ARM Processor Error
-assumes that the record sizes are correct. Yet, a bad BIOS
-might produce malformed GHES reports.
+> If the BIOS generates a very small ARM Processor Error, or
+> an incomplete one, the current logic will fail to deferrence
+> 
+> 	err->section_length
+> and
+> 	ctx_info->size
+> 
+> Add checks to avoid that. With such changes, such GHESv2
+> records won't cause OOPSes like this:
+> 
+> [    1.492129] Internal error: Oops: 0000000096000005 [#1]  SMP
+> [    1.495449] Modules linked in:
+> [    1.495820] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted 6.18.0-rc1-00017-gabadcc3553dd-dirty #18 PREEMPT
+> [    1.496125] Hardware name: QEMU QEMU Virtual Machine, BIOS unknown 02/02/2022
+> [    1.496433] Workqueue: kacpi_notify acpi_os_execute_deferred
+> [    1.496967] pstate: 814000c5 (Nzcv daIF +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
+> [    1.497199] pc : log_arm_hw_error+0x5c/0x200
+> [    1.497380] lr : ghes_handle_arm_hw_error+0x94/0x220
+> 
+> 0xffff8000811c5324 is in log_arm_hw_error (../drivers/ras/ras.c:75).
+> 70		err_info = (struct cper_arm_err_info *)(err + 1);
+> 71		ctx_info = (struct cper_arm_ctx_info *)(err_info + err->err_info_num);
+> 72		ctx_err = (u8 *)ctx_info;
+> 73
+> 74		for (n = 0; n < err->context_info_num; n++) {
+> 75			sz = sizeof(struct cper_arm_ctx_info) + ctx_info->size;
+> 76			ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
+> 77			ctx_len += sz;
+> 78		}
+> 79
+> 
+> and similar ones while trying to access section_length on an
+> error dump with too small size.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Hi Mauro,
 
-Worse than that, it may end exposing data from other memory
-addresses, as the logic may end dumping large portions of
-the memory.
+Resolved the stuff I pointed out in previous, so LGTM.
 
-Avoid that by checking the buffer sizes where needed.
-
----
-
-v4:
- - addressed Jonathan comments;
- - added two extra patches to prevent other OOM issues.
-
-v3:
-  - addressed Shuai feedback;
-  - moved all ghes code to one patch;
-  - fixed a typo and a bad indent;
-  - cleanup the size check logic at ghes.c.
-
-
-Mauro Carvalho Chehab (4):
-  apei/ghes: ARM processor Error: don't go past allocated memory
-  efi/cper: don't go past the ARM processor CPER record buffer
-  apei/ghes: ensure that won't go past CPER allocated record
-  efi/cper: don't dump the entire memory region
-
- drivers/acpi/apei/ghes.c        | 38 ++++++++++++++++++++++++++++-----
- drivers/firmware/efi/cper-arm.c | 12 +++++++----
- drivers/firmware/efi/cper.c     |  8 ++++++-
- drivers/ras/ras.c               |  6 +++++-
- include/acpi/ghes.h             |  1 +
- include/linux/cper.h            |  3 ++-
- 6 files changed, 56 insertions(+), 12 deletions(-)
-
--- 
-2.52.0
-
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
