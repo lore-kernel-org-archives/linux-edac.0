@@ -1,69 +1,97 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FD0389DEE;
-	Wed,  7 Jan 2026 17:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F779495529;
+	Thu,  8 Jan 2026 11:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767808403; cv=none; b=r9CWY2wuheX+Hdg8s5YX77Imj+UOrDZnAvtU9lhNULt9VIKtLwANEyQjGcRxsSZG6M9wqshP/rEJexrS+JaKMuoteFkCZGy97Iia20SPF52JQMsuZ9Qz+jxzvDzn0AZlHznAKbebNdg5UL3JVNA/VhcXlD3+WVx2oiFgOPnSSdo=
+	t=1767872137; cv=none; b=g/lvxJQZ0BGXnuhSjO2XdbclyETcXL4Y3LLXAVatBhL6yBF3OgqxT9PutoymRQVrn95uwIM8ou9Bj5F/SGfxV8VoiWN4NDJ20s4Zm9wKFg+0hLcjJUZ8LhyQGqjVEpU40KjC9sxe514WnNzSEPQa6X2s6iLH5vtist9HV1Vk3vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767808403; c=relaxed/simple;
-	bh=Y2G1yfild1lPoae/gx3z2twuVbSyj4sr+CGM83xRXRY=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cVjoEqydscmbRGz0W7+lolKmpfMQHa0tZjcSnTeobzstKKdKyfXBxKkzg9WwBkDjw2N/qxb1W/vMLV1FdvnSraV6b1DzLkdoDdfPrcBFAf9mdj38FXtmqXuI6Yvr+mdjED22jpSiLP0adqG1krtUaST3n/syAESE8UJlh80xtWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dmbH54prDzJ4681;
-	Thu,  8 Jan 2026 01:53:05 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3B2A940539;
-	Thu,  8 Jan 2026 01:53:09 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Wed, 7 Jan
- 2026 17:53:08 +0000
-Date: Wed, 7 Jan 2026 17:53:06 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	<acpica-devel@lists.linux.dev>, <linux-acpi@vger.kernel.org>,
-	<linux-edac@vger.kernel.org>, <linux-efi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 4/4] efi/cper: don't dump the entire memory region
-Message-ID: <20260107175306.00005d5c@huawei.com>
-In-Reply-To: <f47447094cfa388042ed3563acaeb06c98ee5248.1767804050.git.mchehab+huawei@kernel.org>
-References: <cover.1767804050.git.mchehab+huawei@kernel.org>
-	<f47447094cfa388042ed3563acaeb06c98ee5248.1767804050.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767872137; c=relaxed/simple;
+	bh=7ClOr2/SXZvL7/2ZcJPhfqf9+Zeyoc7xjpGBwuIaGtc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e5Xd3CSEq63EAVZHujxCtJ6kbZx4QdBpyLao4gFatn2i+AccSyXGrrRvmg6crJDxmqweo43saE3GPvF96xoG4P+vgPu/NVZ8hluyF/QL/fwxs8Mglr/uici61zu9nnumduCPYgAkG0C7OaTfCOYdQ+53U2jd1VKnuq9/erhBrQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3xSQKI6; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3xSQKI6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E93DC19421;
+	Thu,  8 Jan 2026 11:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767872136;
+	bh=7ClOr2/SXZvL7/2ZcJPhfqf9+Zeyoc7xjpGBwuIaGtc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=R3xSQKI6e8ONZTUffaDWdBa9taK+4xZA1ufJmKzvcNUEqrzOQaXb5uEM5t6Tvp21j
+	 Aq7c38CL2HsuJOTaCF0ZwnsxHm9yO8nJn7SoZWy5l6HwDVL9rK42gbhmqpoA2fcCnj
+	 o8y3O0SX9RVpLIdEn51RkhxbJvcF+v1QvmqFd8lgUyz36aL2C2f6nAr2sEJ5fQqwfQ
+	 6k3CqTc6o+1Lr2LvkMjgy6SchZqhoiR4tAedDRJhZNLS09baRdKLyO6/UsmoOGez7W
+	 jlYZ2cBWqLsvMgk2d45ShitMo5kVU+toIQVJrzzuxyRo+VC1+3EAceWpg4Ius6rBfd
+	 Blq6nMhfLMq1A==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vdoIg-000000033yK-0JFk;
+	Thu, 08 Jan 2026 12:35:34 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	acpica-devel@lists.linux.dev,
+	linux-acpi@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: [PATCH v6 4/4] efi/cper: don't dump the entire memory region
+Date: Thu,  8 Jan 2026 12:35:06 +0100
+Message-ID: <1752b5ba63a3e2f148ddee813b36c996cc617e86.1767871950.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1767871950.git.mchehab+huawei@kernel.org>
+References: <cover.1767871950.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Wed,  7 Jan 2026 17:41:52 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+The current logic at cper_print_fw_err() doesn't check if the
+error record length is big enough to handle offset. On a bad firmware,
+if the ofset is above the actual record, length -= offset will
+underflow, making it dump the entire memory.
 
-> The current logic at cper_print_fw_err() doesn't check if the
-> error record length is big enough to handle offset. On a bad firmware,
-> if the ofset is above the actual record, length -= offset will
-> underflow, making it dump the entire memory.
-> 
-> The end result can be:
-> 
-> - the logic taking a lot of time dumping large regions of memory;
-> - data disclosure due to the memory dumps;
-> - an OOPS, if it tries to dump an unmapped memory region.
-> 
-> Fix it by checking if the section length is too small before doing
-> a hex dump.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+The end result can be:
+
+- the logic taking a lot of time dumping large regions of memory;
+- data disclosure due to the memory dumps;
+- an OOPS, if it tries to dump an unmapped memory region.
+
+Fix it by checking if the section length is too small before doing
+a hex dump.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+---
+ drivers/firmware/efi/cper.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/firmware/efi/cper.c b/drivers/firmware/efi/cper.c
+index 88fc0293f876..0e938fc5ccb1 100644
+--- a/drivers/firmware/efi/cper.c
++++ b/drivers/firmware/efi/cper.c
+@@ -560,6 +560,11 @@ static void cper_print_fw_err(const char *pfx,
+ 	} else {
+ 		offset = sizeof(*fw_err);
+ 	}
++	if (offset > length) {
++		printk("%s""error section length is too small: offset=%d, length=%d\n",
++		       pfx, offset, length);
++		return;
++	}
+ 
+ 	buf += offset;
+ 	length -= offset;
+-- 
+2.52.0
+
