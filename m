@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDB94AA356;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FEA64AA358;
 	Thu,  8 Jan 2026 11:35:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767872137; cv=none; b=H+ovyWEt+VPmpj35b1cEyjBmwt4XDmTS/5yjCBKl3xKjsQntpxpPOexICEojpNnRRps7fl7U1+FspBz2bmlvBNxZz/FCxJFlJDRwq8wL7kbBoDVaAqIoF+ZP5d76A/9v/RWrg1NL7eAPTx3SfBSBePYeSC9Jv8bawEJuV2j2HQ0=
+	t=1767872137; cv=none; b=ueuUumwi0Toi2EvHlinNXeC38I5/oTmHGo/jKBD0Awgax7q8qvhVNNtAS9WzRiKg618T84vyeF2mpX/PuaCgXrUIsmLY2FoacUsU6//mdkL4ySoER7CpUGazjmvGq9HTNg5TNNyACiF8S8dnPN5VFYszjawZJVhSJh2t7frW8As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1767872137; c=relaxed/simple;
-	bh=UsLabrNWxxt0g8jgL/ao4xZ1pvqAdssx0fpURxqyV/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZkdaShYxXwiI4Kml1duvQ8BJ2kur0bbJfRtfF6l1uO08VNIjNa/jcvJSkqp5fhnhcLxOQDf4mLrvKvdF1uE8OXtV00A19xwOORarnxNkxasyugM8WFt46pjHnui7b2/pt+pa1+C+nbBPSdbxk8UNUtaf6/TuUbLE6nGvZc+tdd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ds7h8aNG; arc=none smtp.client-ip=10.30.226.201
+	bh=scgRQtvxWe1bibGyPBtCn2uk3uO+2XmBApMOmNEAjqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KJv6v2vY1KtDVmBVAyc4hZJqToHUtobN42ySZdWsG7JVxgWbZsxEMsI9EGYPq5saMBKDFKCN3tYs0FwPi+ePinF4Rmf/yKPPYNr71aCmgV5qG8Crv/FRheWuIrn4K5UKwNbFK3DQjvxOAeA3RTvDb77Nk/6FKI8OHNo1KtT9R7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rzAtJkp8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ds7h8aNG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66AF2C116C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rzAtJkp8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A459C19422;
 	Thu,  8 Jan 2026 11:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1767872136;
-	bh=UsLabrNWxxt0g8jgL/ao4xZ1pvqAdssx0fpURxqyV/0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ds7h8aNGUtynDJd1T9e/SEpaWg3OB/3N4AT/40HuDCCMCkKXTkjBOftGUZaAEaQU8
-	 HDVJ8ByRvKf/KirtpMTvOVGhFIauUYVEPOoBL83ovLMsGvqICbl+htLZs5gk94jWd2
-	 RsozKaQdGSI1p+mex9ukCYROSQYeRTBVzLf7OWMJKxdxZCQB84Hin+hcok0vK1ksgn
-	 Js/VbE5BQrHkrtlSWU972pxxVTof7CKiO+Pcsp4b26b2BgnHcJepEB1fNNPDvJxlv/
-	 tGMU3U1DlVsM9dWzfuKU/v4kNvahQcdiiTh3by5tmWpgyX4J0UukLmW7JZBKo4V54r
-	 X9Y2ODk5CnM3Q==
+	bh=scgRQtvxWe1bibGyPBtCn2uk3uO+2XmBApMOmNEAjqM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rzAtJkp8XOdmkDPXGBJuYVQzhczJz27F7HpfSa3hKFr19exjpdmDNPF8LZIsSiZRQ
+	 glWm4xiIzDdlCBvTJmKUZSFz/LFw/zNjvBHwRwwY2Yf2ZYzHGbUUpbXLIzjWIEiSK3
+	 TtoeNU3kOVcqluVzPjiUyXQlvBweN4D/Auix/g0GZtqc687A+zDhAVR6+2gq630vpA
+	 HK+NkIEcKW9nClstA7TwXERnpk0xce3+FPV7KQZulRhMNbTWiCvgtCl6PA0Y8z5YAW
+	 uqOSg2lXTHM/+TL372QQzN6CEMnGDo8RKNMrNSgLZP8TWGs1VoWW6Alr+JlYGxj8kF
+	 06wfj0JsUut5Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vdoIg-000000033yG-0Bue;
-	Thu, 08 Jan 2026 12:35:34 +0100
+	id 1vdoIf-000000033y5-40SB;
+	Thu, 08 Jan 2026 12:35:33 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Robert Moore <robert.moore@intel.com>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	acpica-devel@lists.linux.dev,
 	linux-acpi@vger.kernel.org,
@@ -41,21 +42,22 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Ankit Agrawal <ankita@nvidia.com>,
 	Borislav Petkov <bp@alien8.de>,
 	Breno Leitao <leitao@debian.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
 	Hanjun Guo <guohanjun@huawei.com>,
+	Huang Yiwei <quic_hyiwei@quicinc.com>,
+	Ira Weiny <ira.weiny@intel.com>,
 	Jason Tian <jason@os.amperecomputing.com>,
 	Jonathan Cameron <jonathan.cameron@huawei.com>,
 	Len Brown <lenb@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Robert Moore <robert.moore@intel.com>,
 	Shuai Xue <xueshuai@linux.alibaba.com>,
 	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
 	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v6 3/4] apei/ghes: ensure that won't go past CPER allocated record
-Date: Thu,  8 Jan 2026 12:35:05 +0100
-Message-ID: <4e70310a816577fabf37d94ed36cde4ad62b1e0a.1767871950.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 0/4] apei/ghes: don't OOPS with bad ARM error CPER records
+Date: Thu,  8 Jan 2026 12:35:02 +0100
+Message-ID: <cover.1767871950.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1767871950.git.mchehab+huawei@kernel.org>
-References: <cover.1767871950.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -66,125 +68,51 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The logic at ghes_new() prevents allocating too large records, by
-checking if they're bigger than GHES_ESTATUS_MAX_SIZE (currently, 64KB).
-Yet, the allocation is done with the actual number of pages from the
-CPER bios table location, which can be smaller.
+Rafael,
 
-Yet, a bad firmware could send data with a different size, which might
-be bigger than the allocated memory, causing an OOPS:
+Current parsing logic at apei/ghes for ARM Processor Error
+assumes that the record sizes are correct. Yet, a bad BIOS
+might produce malformed GHES reports.
 
-    Unable to handle kernel paging request at virtual address fff00000f9b40000
-    Mem abort info:
-      ESR = 0x0000000096000007
-      EC = 0x25: DABT (current EL), IL = 32 bits
-      SET = 0, FnV = 0
-      EA = 0, S1PTW = 0
-      FSC = 0x07: level 3 translation fault
-    Data abort info:
-      ISV = 0, ISS = 0x00000007, ISS2 = 0x00000000
-      CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-      GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-    swapper pgtable: 4k pages, 52-bit VAs, pgdp=000000008ba16000
-    [fff00000f9b40000] pgd=180000013ffff403, p4d=180000013fffe403, pud=180000013f85b403, pmd=180000013f68d403, pte=0000000000000000
-    Internal error: Oops: 0000000096000007 [#1]  SMP
-    Modules linked in:
-    CPU: 0 UID: 0 PID: 303 Comm: kworker/0:1 Not tainted 6.19.0-rc1-00002-gda407d200220 #34 PREEMPT
-    Hardware name: QEMU QEMU Virtual Machine, BIOS unknown 02/02/2022
-    Workqueue: kacpi_notify acpi_os_execute_deferred
-    pstate: 214020c5 (nzCv daIF +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-    pc : hex_dump_to_buffer+0x30c/0x4a0
-    lr : hex_dump_to_buffer+0x328/0x4a0
-    sp : ffff800080e13880
-    x29: ffff800080e13880 x28: ffffac9aba86f6a8 x27: 0000000000000083
-    x26: fff00000f9b3fffc x25: 0000000000000004 x24: 0000000000000004
-    x23: ffff800080e13905 x22: 0000000000000010 x21: 0000000000000083
-    x20: 0000000000000001 x19: 0000000000000008 x18: 0000000000000010
-    x17: 0000000000000001 x16: 00000007c7f20fec x15: 0000000000000020
-    x14: 0000000000000008 x13: 0000000000081020 x12: 0000000000000008
-    x11: ffff800080e13905 x10: ffff800080e13988 x9 : 0000000000000000
-    x8 : 0000000000000000 x7 : 0000000000000001 x6 : 0000000000000020
-    x5 : 0000000000000030 x4 : 00000000fffffffe x3 : 0000000000000000
-    x2 : ffffac9aba78c1c8 x1 : ffffac9aba76d0a8 x0 : 0000000000000008
-    Call trace:
-     hex_dump_to_buffer+0x30c/0x4a0 (P)
-     print_hex_dump+0xac/0x170
-     cper_estatus_print_section+0x90c/0x968
-     cper_estatus_print+0xf0/0x158
-     __ghes_print_estatus+0xa0/0x148
-     ghes_proc+0x1bc/0x220
-     ghes_notify_hed+0x5c/0xb8
-     notifier_call_chain+0x78/0x148
-     blocking_notifier_call_chain+0x4c/0x80
-     acpi_hed_notify+0x28/0x40
-     acpi_ev_notify_dispatch+0x50/0x80
-     acpi_os_execute_deferred+0x24/0x48
-     process_one_work+0x15c/0x3b0
-     worker_thread+0x2d0/0x400
-     kthread+0x148/0x228
-     ret_from_fork+0x10/0x20
-    Code: 6b14033f 540001ad a94707e2 f100029f (b8747b44)
-    ---[ end trace 0000000000000000 ]---
+Worse than that, it may end exposing data from other memory
+addresses, as the logic may end dumping large portions of
+the memory.
 
-Prevent that by taking the actual allocated are into account when
-checking for CPER length.
+Avoid that by checking the buffer sizes where needed.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- drivers/acpi/apei/ghes.c | 6 +++++-
- include/acpi/ghes.h      | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-index fc3f8aed99d5..77ea7a5b761f 100644
---- a/drivers/acpi/apei/ghes.c
-+++ b/drivers/acpi/apei/ghes.c
-@@ -29,6 +29,7 @@
- #include <linux/cper.h>
- #include <linux/cleanup.h>
- #include <linux/platform_device.h>
-+#include <linux/minmax.h>
- #include <linux/mutex.h>
- #include <linux/ratelimit.h>
- #include <linux/vmalloc.h>
-@@ -294,6 +295,7 @@ static struct ghes *ghes_new(struct acpi_hest_generic *generic)
- 		error_block_length = GHES_ESTATUS_MAX_SIZE;
- 	}
- 	ghes->estatus = kmalloc(error_block_length, GFP_KERNEL);
-+	ghes->estatus_length = error_block_length;
- 	if (!ghes->estatus) {
- 		rc = -ENOMEM;
- 		goto err_unmap_status_addr;
-@@ -365,13 +367,15 @@ static int __ghes_check_estatus(struct ghes *ghes,
- 				struct acpi_hest_generic_status *estatus)
- {
- 	u32 len = cper_estatus_len(estatus);
-+	u32 max_len = min(ghes->generic->error_block_length,
-+			  ghes->estatus_length);
- 
- 	if (len < sizeof(*estatus)) {
- 		pr_warn_ratelimited(FW_WARN GHES_PFX "Truncated error status block!\n");
- 		return -EIO;
- 	}
- 
--	if (len > ghes->generic->error_block_length) {
-+	if (!len || len > max_len) {
- 		pr_warn_ratelimited(FW_WARN GHES_PFX "Invalid error status block length!\n");
- 		return -EIO;
- 	}
-diff --git a/include/acpi/ghes.h b/include/acpi/ghes.h
-index ebd21b05fe6e..93db60da5934 100644
---- a/include/acpi/ghes.h
-+++ b/include/acpi/ghes.h
-@@ -21,6 +21,7 @@ struct ghes {
- 		struct acpi_hest_generic_v2 *generic_v2;
- 	};
- 	struct acpi_hest_generic_status *estatus;
-+	unsigned int estatus_length;
- 	unsigned long flags;
- 	union {
- 		struct list_head list;
+v6:
+ - No code changes, just a cosmetic change at patch 3 description
+ - Added Jonathan's review on all patches
+
+v5:
+ - Changed the name of a var as requested by Jonathan
+
+v4:
+ - addressed Jonathan comments;
+ - added two extra patches to prevent other OOM issues.
+
+v3:
+  - addressed Shuai feedback;
+  - moved all ghes code to one patch;
+  - fixed a typo and a bad indent;
+  - cleanup the size check logic at ghes.c.
+
+Mauro Carvalho Chehab (4):
+  apei/ghes: ARM processor Error: don't go past allocated memory
+  efi/cper: don't go past the ARM processor CPER record buffer
+  apei/ghes: ensure that won't go past CPER allocated record
+  efi/cper: don't dump the entire memory region
+
+ drivers/acpi/apei/ghes.c        | 38 ++++++++++++++++++++++++++++-----
+ drivers/firmware/efi/cper-arm.c | 12 +++++++----
+ drivers/firmware/efi/cper.c     |  8 ++++++-
+ drivers/ras/ras.c               |  6 +++++-
+ include/acpi/ghes.h             |  1 +
+ include/linux/cper.h            |  3 ++-
+ 6 files changed, 56 insertions(+), 12 deletions(-)
+
 -- 
 2.52.0
 
