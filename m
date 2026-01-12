@@ -1,164 +1,88 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E04A345750
-	for <linux-edac@vger.kernel.org>; Mon, 12 Jan 2026 08:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5845F2765FF;
+	Mon, 12 Jan 2026 09:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768208213; cv=none; b=pSen2BiunxwDzefsek1nJAyEp0/QWOFyCcKLxOByBY1Uxe4lTpZ6y2vDTJ7NGdo7MLd4irUI+4Jj9Zi+0WdXqFgZE1Uoz3HOLxvbpN2DeEqW0YuyfWdn+IYghbYd1N/n6euwpSA/5KyBgpnnZ/ExSoIlvZLhpudoPgajFuK78Gg=
+	t=1768211508; cv=none; b=X5dbY3lMk8wj3/yvIzLjtc8q0G8vOGIRxwgCxjR20+RTq0B7JOvDmpuRoiv+2uzXZjQpS8GSr/T6gZWasn3g+xiKhnll06ZDa4ho4/S9Rm40ix478k1sL0vTN5l02AttHK629QoUcnISYENuWDmNLqrNzbI3ZeqDtLFb4n+cLZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768208213; c=relaxed/simple;
-	bh=X/5hoL4vsyw+/OxggE/JrchTzVJaler35/dzY9dSvYI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=IoZiKjFeFoJnTUs/E5hS6q5KXQokRAhQXSOXgAocYA/TevHDh9rrfngOURF8OpKcFfVtIcRV7tCEcjA8lVrBfImi/hE9N3YVEQ3G3isdg8NwA1CjPYH9PtmDE3lfMAHz67j4TtjFa4M3ONmTlQ5h8PWChm/10fM2VHWELdL7fe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=g7icm/rL; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1768211508; c=relaxed/simple;
+	bh=AQ9Ok/tHyHybrADXxbv5C+B3ER4QbX8LG0MmZ9vRExE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ApJsfFj2kwPrkViz0VMsfV/UYwv5Lhc6XWMd8VG40f664O6dd5uL77E0FJSfl+b0DefKUsoBE65q66cwN5PvtvxDbCN0Mx/e4SFt6hyK1fsiRQVErgDrbPLwpsVYVQmB0n40eYpk+gYyWNF7UlwX3BJmMtF+aXX95XE7dOhLh/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=C9tAlO9h; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="g7icm/rL"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4775e891b5eso27802925e9.2
-        for <linux-edac@vger.kernel.org>; Mon, 12 Jan 2026 00:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1768208210; x=1768813010; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xqnnGtIxNlVf6w1jM+yfYZ9zVPTNLypP9dGXnku780c=;
-        b=g7icm/rL1YmjBK+8y01DEZtLfEPs2uXEWNe4yOnEV6CKCwjQOwxmhNB3Bukei4Sn7J
-         G/3SdVwnulEojNSOPZZCuoX4+vS2no67IqOr3MSYh9UXQnUmY6jDUcAd5Mhs+Mswf4ke
-         LWmOR8YzKU2YjA4+c6sW+m5i4vOLk2uXgc0lSiWAK8BJwUmq5UiPYCLtX+tDYLkntwiW
-         JnG5L4t3w46SGjKZwAMh4qyEk+a5xnxlEVGji1G0JVs/yUcpCjKhuyDVrQ6fhMqhyaIv
-         JZWB1DOAaM0+xgDdC1eAPJcGtU8rcqgz6FyxpFm8ExN6zQdBJnirWdydk+UAmmH69ae4
-         LUng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768208210; x=1768813010;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xqnnGtIxNlVf6w1jM+yfYZ9zVPTNLypP9dGXnku780c=;
-        b=cXQ1mZl38GpmeiJPnxQ4cRFTcALdUVDQUEZZEZCmReoDcDZZ6qXqm0Mo885I6blLeB
-         PYbpEpYSgXcUKeM9c37in3E2Zkb1SRoc6K3fiK1qQ7dF1pY9tEvmN5YUAn+Q0b93o3pO
-         4MlLMURjTFZdNoAEZfEWi1e/Hb3WAhPPQeJjEAU9cUZ8rKKr5+swUc3VsjYj/5gnGXrf
-         cPQSPhwMPyM3IHIRFH9h02FxYUNnxMGwf+rPs00NxSKgyxMWOR69XOSFICPKK6w1/uM0
-         XOjTa1lnq/4DT3E66+f7z+AbqSXIO5qenGzO7BPuExbn5fhsQZQvn6nWkIcfuDwdYvDw
-         tYfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVaFEqg+p0JKVv7OS6atIYt6YtAcdq83l6CAWEtjDT2B8OR9aY/pctpaO1vEALONToU6QNtnGyQLtji@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYVY/Zy06AWi1NOcb4D+bC/Br+WG8dtBs/vBjaQJRQbiKsOYvJ
-	5rsDVrnU/Cb39OCzs3otHzQoz9BRoi68EZkh83oNpGqg0Y6rv2PHvfodTad7LDrWCY8=
-X-Gm-Gg: AY/fxX7hzrzpWCjrBIt9S2/PGUtqMM+zDbwGmUUQtD6/umwPKpLdLlHaipMwpmJxz0l
-	mjPmlRgUkq0i8zSaRi6oGoF18X5oqxeb1UscmQlPuC0rQmj8NqQL7Cl7ECGQVJiAE4umRgzDc8a
-	kGeF7oimibWeMrx2jEmGBHRiBWlF/RK/+5fasdI2ai57VFx51Q8JiHXQdtF5mrEGNwhiNSJcuvl
-	vE18ut0LtpahvRt+eWTeEog7bM0cAEsemNf2BAJ9SV90Lg4lZIXT7FvrVSF7IFMLPqy6/6Ap2Jo
-	ICAvSeHTN5uLtJSrxQOQc13RBXjRkhtMm/KK8xIUypPlLOkJBh4OeE9NReclKSW6Tf0kVKVHoon
-	afzykbu5SfcSsS/6WO/P/e9sq4HF5mt6nRbQnN6l1CrtAzsKUs7DRTn60YY0ZcMrY+uO36Qluoe
-	9UnZi3UU6nK8peEhd2VFI4hwqi0bS6gRWtttw8
-X-Google-Smtp-Source: AGHT+IFuCnspaCv8g+IBSAWuq2o5Dpv1jawmEhlUdS77n/0/v6F6FTauE4NJ/C7ohaLR8Hktf9Y25Q==
-X-Received: by 2002:a05:600c:3493:b0:477:333a:f71f with SMTP id 5b1f17b1804b1-47d84b3471fmr189644505e9.17.1768208209792;
-        Mon, 12 Jan 2026 00:56:49 -0800 (PST)
-Received: from [192.168.0.20] (nborisov.ddns.nbis.net. [85.187.217.240])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f68f69dsm340713765e9.1.2026.01.12.00.56.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 00:56:49 -0800 (PST)
-Message-ID: <36b42ced-f1e8-4eb0-b6f8-2a9434d5d26c@suse.com>
-Date: Mon, 12 Jan 2026 10:56:47 +0200
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="C9tAlO9h"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E994640E0200;
+	Mon, 12 Jan 2026 09:51:42 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id puexZwRd2bn3; Mon, 12 Jan 2026 09:51:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1768211498; bh=BdfztDcsHgj+zuAmiXA+KMtv1atAhmfZE2MKcpRRypk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C9tAlO9hjIEdzlRgG0GRkG7gSlZkYXLy/A0tbd3JFPPJZTnpSoCnPNkW67YfU6Kaj
+	 ZNmttkiUQdt6+SbOtmxUPf6yma/iOCqlbIMxml3243VHlkYnxnCrFv8AxwhmZHLncB
+	 +M17xs6mCxfHnwK9FRxf2RmGWQls8h4+3oKrbfk4a102HNOpKaNwf5PLtvLdDDQ70N
+	 y1rafitXbJh96XqwU+aKePFs8V4bIXmgzLsGMNA/pTRHDfWtQG7WxvYc/56IXfW1Q4
+	 HFit56aZ58Vr/aciJh2NBJLbb9d6B4GDj5y38ZvQqL7o2fLLvCIdc1atKAGrJPASQP
+	 q3q5kdb6X1oYM6zA4Wcgyf7osm3KSBvI2X1jATxffATcR7w11I+jGuse/7p5GvJMU5
+	 MmibJsFjx0bnN1s69Rhysnj+lGxU1tqDbo4jnmCAeDZIDWyC85AOU1ZOl4wkBjvYwB
+	 BzaJF9+72BgzTqpbgvlzL2oHhtePwvHrS4xmU03WfYf5gSfca0ZJ3tU/A3JHlJkv4W
+	 IhvpAVmKS7Tj38jxIlOGSeTBiS94j+vxEjBzzufgXGMc0LxoDXqGVPcXBL9IX4MLHh
+	 AaVynuMMOQqb++Bb+5H5vjORK+9DmgET4WA+ckTJiQSZs4ylBX8n4y+ne4/RSNchWZ
+	 zru2t2AEIkwP1DW0BjIULAWk=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id A1C3D40E0281;
+	Mon, 12 Jan 2026 09:51:25 +0000 (UTC)
+Date: Mon, 12 Jan 2026 10:51:18 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: "Li,Rongqing" <lirongqing@baidu.com>
+Cc: Nikolay Borisov <nik.borisov@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>, Tony Luck <tony.luck@intel.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: Re: =?utf-8?B?562U5aSNOiBb5aSW6YOo6YKu5Lu2?=
+ =?utf-8?B?XSBSZTogW1BBVENIXSB4ODYvbWNl?= =?utf-8?Q?=3A?= Fix timer interval
+ adjustment after logging a MCE event
+Message-ID: <20260112095118.GAaWTEFkUFHMlu0W-A@fat_crate.local>
+References: <20260112082747.2842-1-lirongqing@baidu.com>
+ <36b42ced-f1e8-4eb0-b6f8-2a9434d5d26c@suse.com>
+ <56d12335986e41da81581ef724742319@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] x86/mce: Fix timer interval adjustment after logging a
- MCE event
-To: lirongqing <lirongqing@baidu.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Tony Luck <tony.luck@intel.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
- Avadhut Naik <avadhut.naik@amd.com>, linux-kernel@vger.kernel.org,
- linux-edac@vger.kernel.org
-References: <20260112082747.2842-1-lirongqing@baidu.com>
-Content-Language: en-US
-From: Nikolay Borisov <nik.borisov@suse.com>
-Autocrypt: addr=nik.borisov@suse.com; keydata=
- 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
-In-Reply-To: <20260112082747.2842-1-lirongqing@baidu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <56d12335986e41da81581ef724742319@baidu.com>
 
+On Mon, Jan 12, 2026 at 09:36:21AM +0000, Li,Rongqing wrote:
+> Ok, I will add more explanation, and rename mce_notify_irq() as
+> mce_notify_user();
 
+No, first you should explain what you're fixing here and why.
 
-On 12.01.26 г. 10:27 ч., lirongqing wrote:
-> From: Li RongQing <lirongqing@baidu.com>
-> 
-> Since commit 011d82611172 ("RAS: Add a Corrected Errors Collector"),
-> mce_notify_irq() in should_enable_timer() always returns false even
+-- 
+Regards/Gruss,
+    Boris.
 
-should_enable_timer doesn't call mce_notify_irq
-
-> when an MCE event is logged, because bit 0 of mce_need_notify is not
-> set in mce_log. This prevents the timer interval from being properly
-> adjusted.
-> 
-> Fix this by modifying machine_check_poll() to return a boolean indicating
-> whether an MCE was logged, and update mc_poll_banks() to propagate this
-> return value. The timer interval logic in mce_timer_fn() now uses this
-> return value directly instead of relying on mce_notify_irq().
-
-This warrants a bit more explanation why it's correct. Because 
-mce_notify_irq is really a misnomer, it will ideally be named 
-mce_notify_user(). That function is called from 2 places:
-
-1. Early notifier block, but there it's guaranteed to do the right thing 
-as mce_need_notify is explicitly set.
-
-2. From the timer function, where as you have pointed out 
-mce_need_notify is never set by the polling code, hence the function is 
-a noop. But actually calling mce_log() processes all logged errors in 
-the gen pool and that is processed by calling the x86_mce_decoder_chain 
-which will DTRT w.r.t to mce_notify_irq since the early notifier will be 
-called from there.
-
-<snip>
+https://people.kernel.org/tglx/notes-about-netiquette
