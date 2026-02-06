@@ -1,68 +1,107 @@
-Received: from mail.venturex.pl (mail.venturex.pl [141.95.86.206])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA7C32AAB7
-	for <linux-edac@vger.kernel.org>; Fri,  6 Feb 2026 08:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.95.86.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D23303A1A;
+	Fri,  6 Feb 2026 22:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770366681; cv=none; b=AKyeG7cXu6k0uYo0sY6ml4X2mYMw4g69aDIDhPG51MPChfHYuNGWDmRL88NjKCG5NJ2AlfxkFXqNaj9NCylQqpNFhbeZuJPcufD2k4eGjHYgMiUMV8/MPPj2SRLYdKCSapSFNEUdNgTmtB3Zc/PzYwsjdUBnncXqTqaInOPav5Q=
+	t=1770415866; cv=none; b=TQiJzWjaXcxTXUpfnXO+xlvoS1kTDGzJcaC7eGYa20PomMjzUhEr6ZrJGk4MsSXvmPtrV59O39PI3Ky5mCRDyw8ABQqzM/wdTulKJLePVqb9dzCinuTzxVTs6/5bnmnLzT+lkeJkovRS2HdbO6XA37JmFc2TihYBzTk19ONeR34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770366681; c=relaxed/simple;
-	bh=86VIaF2unP4vg5OpX+J8tHPXWoQ8hu3kSDMcmnIkxvQ=;
-	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type; b=Gw7rlC2QR516euF90CjvNp0PLWnX+yVZyyNnlvgOqB17fnP0NafixLH7qKVP+r5N8UwpTKYpewqIO1WIXrd/hJjOgyU3Ql10bDyR7klfRUCkpSTRyL54yXXhBz7wpdZrssfXQrsawYajxP8aH2Inh5tDEOWCJDh1dIku5qs2HKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=venturex.pl; spf=pass smtp.mailfrom=venturex.pl; dkim=pass (2048-bit key) header.d=venturex.pl header.i=@venturex.pl header.b=e8DLHKGb; arc=none smtp.client-ip=141.95.86.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=venturex.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=venturex.pl
+	s=arc-20240116; t=1770415866; c=relaxed/simple;
+	bh=x37PprnNVBwCioe7QffXYQ4sngis1J0kaG3Fvwc8feI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pQm1Hxi27W/DY92okncwObUirlOWVuEukT6+UZpguubB09zeLHESneRnGyD8iVE71qo3MBoqkegMZQb6rfsISsP7InMqoXaVTjUcGxfHIhg1IzPNMEzVLVRo8EMfFUmXcIiI0JNd9ubNYo0DoTLLHaaOnU5idSgfN8/QcHY62Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=VWhXZbKo; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=venturex.pl header.i=@venturex.pl header.b="e8DLHKGb"
-Received: by mail.venturex.pl (Postfix, from userid 1002)
-	id E01BA21BA4; Fri,  6 Feb 2026 09:31:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturex.pl; s=mail;
-	t=1770366678; bh=86VIaF2unP4vg5OpX+J8tHPXWoQ8hu3kSDMcmnIkxvQ=;
-	h=Date:From:To:Subject:From;
-	b=e8DLHKGbt0va0SgIJkekFA+wxFsYOVutmgjE+ZEncBP/hEHsayE1pnpsuIdZROUSR
-	 0Q1pz3tZv9AvInaYIij4Ihs6US76BStrE5WI5NfvjVR/TXZ+gMOqpsIwFlg5VjShdn
-	 3DiSUtEi3kvn09BG8crBz6JE2o2iK+QuM9rXjCs26kZvM2qRVwnT7Mftfnj2NWB+Ij
-	 GNvJLbBSDJjyoZcFydC8JL1et9BKAimeKPNVbJXRLaZehaCM3uRGmpv3VbwY/uaf/0
-	 7JLzc2anj3YLvNBTrbyLKtY3jHEoU6UQ4HGlg4IV9n0V+WYoEu8ZmBVkfQDD+BJa14
-	 OlLDbMdB9wiwQ==
-Received: by mail.venturex.pl for <linux-edac@vger.kernel.org>; Fri,  6 Feb 2026 08:31:06 GMT
-Message-ID: <20260206085537-0.1.cj.2jvl1.0.c8cu60i6em@venturex.pl>
-Date: Fri,  6 Feb 2026 08:31:06 GMT
-From: =?UTF-8?Q?"Miko=C5=82aj_Rak"?= <mikolaj.rak@venturex.pl>
-To: <linux-edac@vger.kernel.org>
-Subject: Fundacja Rodzina a optymalizacja podatkowa 
-X-Mailer: mail.venturex.pl
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="VWhXZbKo"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5355040E0365;
+	Fri,  6 Feb 2026 22:04:15 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id wDh_YtPloIjt; Fri,  6 Feb 2026 22:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1770415450; bh=jtswCjRH12CHCOy1L1MLMBTIpNJ34LaCX+gCIxQ7NsE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VWhXZbKoAsYlC1rTnaB5YjnbxDQNcAxIRfyEIC6JfMTR8iiYrqrG/f6aq+QXh4vOD
+	 u4SftHhnowucS+GBim3i6QbjDzeLKd3YQZWWWZF03nWvqylunkQHbkV58yM98s+lVN
+	 C/bljzSYThAtao7arPI6VSOpVnSW8wVUO0ZR3zw68pg5VeZP8bfmXjFmJYBSqQbasT
+	 PJZ6fqz2wv8q07ZcZdesVvrqwAoDvIRa10H/jiValyaoWQloYZzg72OYm928WzZuNA
+	 Fgq56gmzCBj7yDvReGk3rAyVEZnWslM+jId5nrhmMgic9DzmSdn66u20C5RhCbhu8i
+	 fFVvMRl+eU+MxTEcchvyqyugJ8TcuToErhBCN60pLPghfUmh5a5rThFgLyCBC9fk67
+	 MU/cXHAUEHS0j/8h9s0YWTzW6X7nimoP1MEe81wCwAZk24NuBHFKyX1p8Hgh6sRaLe
+	 4N38pdvbpa3gwics2URzPx8YMreA0NlwsXot0hQP9R3VGJQTmuwkFNxvR9072Jm6eQ
+	 MNIyE+fQ/LtOF8fshzXdG9Lrzd8NUQ440urwGw/BYrv1bZKkKLNnQf1HGhPISAp0HM
+	 sbEn6sLIl1HmRPdtFvY0TJekhck8Ureuuo3IVT2B/62CZORVepbjPNJh4piMMKemF6
+	 1DYsKHL8JVHQYOdZ+7GrR43c=
+Received: from zn.tnic (pd95306e3.dip0.t-ipconnect.de [217.83.6.227])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 9E19540E019D;
+	Fri,  6 Feb 2026 22:03:57 +0000 (UTC)
+Date: Fri, 6 Feb 2026 23:03:50 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: "Li,Rongqing" <lirongqing@baidu.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	"Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: Re: =?utf-8?B?562U5aSNOiBb5aSW6YOo6YKu5Lu2?=
+ =?utf-8?B?XSBSZTogW1BBVENIXSB4ODYvbWNl?= =?utf-8?Q?=3A?= Fix timer interval
+ adjustment after logging a MCE event
+Message-ID: <20260206220350.GBaYZlRvmgESS6JgkR@fat_crate.local>
+References: <SJ1PR11MB6083F2650A8DB801F0EF26C8FC8EA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260113205654.GTaWaxllyfJLHsl0YX@fat_crate.local>
+ <SJ1PR11MB6083A836550962AECED68500FC8EA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260113213158.GUaWa5zunSfuAzra0n@fat_crate.local>
+ <20260113224152.GVaWbKMMzManQ5WwlT@fat_crate.local>
+ <aWbjkAPX9a9ZlJGN@agluck-desk3>
+ <20260114135034.GAaWefKm97-CkbEp4P@fat_crate.local>
+ <20260114144813.GCaWesrQ7zdEftdV87@fat_crate.local>
+ <20260202151828.GAaYDARDsP21UVEPTb@fat_crate.local>
+ <8c967791348a4f4d815c7612a15eee15@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <8c967791348a4f4d815c7612a15eee15@baidu.com>
 
-Szanowni Pa=C5=84stwo,
+On Mon, Feb 02, 2026 at 11:49:40PM +0000, Li,Rongqing wrote:
+> Is it possible where CPU0 sets mce_need_notify, but CPU1 concurrently calls
+> mce_notify_irq in mce_timer_fn, and then CPU1 sets its own timer to 1/2
+> instead of CPU0's
 
-czy byliby Pa=C5=84stwo zainteresowani rozmow=C4=85 o mo=C5=BCliwych rozw=
-i=C4=85zaniach dla swojej firmy i rodziny?
+I don't see why not.
 
-Nowelizacja ustawy o Fundacjach Rodzinnych otwiera przed przedsi=C4=99bio=
-rcami zupe=C5=82nie nowe mo=C5=BCliwo=C5=9Bci ochrony maj=C4=85tku i plan=
-owania sukcesji. Fundacja Rodzinna pozwala oddzieli=C4=87 aktywa od ryzyk=
- biznesowych, prawnych i podatkowych, a jednocze=C5=9Bnie zachowa=C4=87 k=
-ontrol=C4=99 nad swoim maj=C4=85tkiem i zadba=C4=87 o jego trwa=C5=82o=C5=
-=9B=C4=87 dla kolejnych pokole=C5=84.
+But this is no different than what it was before AFAICT.
 
-Co istotne, po up=C5=82ywie 10 lat od wniesienia aktyw=C3=B3w do fundacji=
-, roszczenia o zachowek przestaj=C4=85 obowi=C4=85zywa=C4=87. Ustawodawca=
- przewidzia=C5=82 r=C3=B3wnie=C5=BC liczne zwolnienia podatkowe obejmuj=C4=
-=85ce m.in. dochody z dzia=C5=82alno=C5=9Bci gospodarczej czy wynajem nie=
-ruchomo=C5=9Bci.
+And if the timer expiry interval on the wrong CPU gets halved, then it'll see
+faster that there's no error for it to log and it'll enlarge the interval
+again.
 
-B=C4=99d=C4=99 wdzi=C4=99czny za informacj=C4=99, czy chcieliby Pa=C5=84s=
-two pozna=C4=87 mo=C5=BCliwo=C5=9B=C4=87 stworzenia Fundacji Rodzinnej?
+So I don't see a problem with that particular scenario.
 
+Or?
 
-Pozdrawiam
-Miko=C5=82aj Rak
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
