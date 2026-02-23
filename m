@@ -1,100 +1,188 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010004.outbound.protection.outlook.com [52.101.61.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7C33793B0;
-	Mon, 23 Feb 2026 21:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771881432; cv=none; b=NeItcPhsqVAyFYJwg+AZHLe/y69+/4zooh7dXL7UoZCtrKWPMNwL0D709esW7B02oHPShfxouhF/nHdZD0jR9/H1i4zUci/eJ8E57o0utvUhzRZDGV7tgbHngGw6xVykVmA33Jbc5E0ZRcL4B9PeSCOYI51SDO5Fq9AthabiAq4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771881432; c=relaxed/simple;
-	bh=wX5oiGqLv37w2xOfmI9Zm5xOoRjsTLXZ19/2Ce2Okjo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dvHwfsA41LTcvqD0XgMkYJpqvt/5wPwjj42r5WZucQeONtAxIs+U4BLBQfJqJzEnAauaGHGN2KGTmovZEywZusk8iDRsFIOMNJs1GvvWbKjXLsuKyMN3CpJYFmENLKwEtMKqznbnCDpQIDzzCiLWn5uOhprB4KSLiepaNR63xgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=eNACA1w5; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530C03783C5;
+	Mon, 23 Feb 2026 21:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771883606; cv=fail; b=hnZ2TAa9KINr3vDp1cuULRlcpJjjF9MAo0PvYzLLci1fJNthqa9jMl3flEA7FQSn0WTwvdcEwB9YF+SNHM1q2UEYGD5JPBG057d5ou7LaWx1G0/7s6OCyqVfcTtIrxwCMISlK+p8rhtOVrOdsqLn2LSllCzyGTBRDz//ccegs9E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771883606; c=relaxed/simple;
+	bh=AR9CxJawcq1A/GcW8/GF05S5jsBYFHulnHe4WfA7UI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=hfqxbomfDXpRxkuNtoSa8/ZhVEEna+51tvrEUzf1fWNA02G4EKmS3883HyNro84EerByjN9bz8WOH9F4wFdDHkPhxto0jfes5obK+2Ok5Fr8Tgb1dLDqtWENm/KaJznS056k/5whwsej0LhFAKplCwhHdr3oe3U0nd6EQbakVx8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=fail (1024-bit key) header.d=amd.com header.i=@amd.com header.b=TcCWQGth reason="signature verification failed"; arc=fail smtp.client-ip=52.101.61.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="eNACA1w5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1771881426;
-	bh=wX5oiGqLv37w2xOfmI9Zm5xOoRjsTLXZ19/2Ce2Okjo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eNACA1w5lCg0tqwlZhXGvg3dBEV9K/kGl1b3lWgleLutmKqj506FkP7JjRZQHWS8A
-	 HDTvoyQlXVvLPzU+XlIOX/NU0ScNN+BWoM/4egJjHRPLdIm5z+0WiVZ/dBsRFlaHUU
-	 qQVY2oV8ScnjwfpLbKB4A5ywVqCTnlQV2hZYES9U=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 23 Feb 2026 22:16:33 +0100
-Subject: [PATCH 6/7] EDAC/device: All addition of sysfs attributes
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amd.com header.i=@amd.com header.b="TcCWQGth"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XMHOeyooix7elBkgVSmqd+Cs+YYh3GH3lOZChBQEaqjXr3YvsEkwGz/SKpKd9gnp9VAakEQLDR6dwaeU10mShQlZ6LbGecZ85OzKZirkFzclew0olQzPWuMmmgLLgRTmY8FjfClgEHwuGA+VODU/41/ZoGs27Mi8Z+O0wAHt6Ic64TZiJOfFPwMqPyKAafFGDpwGgqtAK6aZDA0BdZWnt0s3cqjx1ea6oRwuw6gHCRP1tLlNH0xgMKJVimBIZfcsDp4Pvt/jRIP7S2zs64PIyc40n9N1q/4gJF7ejce+Mo46cDASTa7tPw6D2Osi5PcOlVeHsQtFkVDxCIqsJCOe5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oPXbWr96mlihsE5EYH+2GEFPA4PIRGrifHVx/WSGbVs=;
+ b=XGDQiswbuvuBZ4vX36pY5fHd8BRNFYso1mD5aczXVTAD2oBp89b+mo2KWE80HuK2wEAr06CWz02gkp1C/xBHjRnG+ZAOr+MBve8/joDJJ5BwdDtP5hLc7LP83Cu+maGKFZhNqom51jSNHelUeysggcPehS7+H8tFL8DyAeaoweHFPGXoJqOsDHavSqi5IbUqwK7HjHp8YXI5vbou6C9y+8MgfIeVMzFcZFVmuTljmYlpmWkdNo/tue4PaT/Xw3GlUqcXRpJITIPBsjsoIBv2V4vt1uiTPdP0J7TMK0Xy5bvnlGpog283gD1bSfsdHkZGlC6V+D0GmfOnFaR+DlH6QA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oPXbWr96mlihsE5EYH+2GEFPA4PIRGrifHVx/WSGbVs=;
+ b=TcCWQGthAXlQw5sNx2eouyzdaQioMCdxmea56hXF9hQMMWsI0Ho07Iuzj6Dlfe2aP08Jd9l2Qm6jTi0i2/U4HDeLy7FQoWPylIqYzIdFBH6mZ+niG8PMYdoPV1HQqiAb5y0nQBfcWQ+XCZ3Ey3csBtEDM6hrKW6Gb6LD1TfPWWo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6373.namprd12.prod.outlook.com (2603:10b6:8:a4::7) by
+ IA1PR12MB8264.namprd12.prod.outlook.com (2603:10b6:208:3f5::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
+ 2026 21:53:21 +0000
+Received: from DM4PR12MB6373.namprd12.prod.outlook.com
+ ([fe80::7da:cc3:cf2e:8ebf]) by DM4PR12MB6373.namprd12.prod.outlook.com
+ ([fe80::7da:cc3:cf2e:8ebf%4]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
+ 21:53:21 +0000
+Date: Mon, 23 Feb 2026 16:53:16 -0500
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Bert Karwatzki <spasswolf@web.de>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+	linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+	x86@kernel.org, rafael@kernel.org, qiuxu.zhuo@intel.com,
+	Smita.KoralahalliChannabasappa@amd.com
+Subject: Re: spurious (?) mce Hardware Error messages in v6.19
+Message-ID: <20260223214825.GA3130@yaz-khff2.amd.com>
+References: <5ba955fe-2b96-429e-b2e8-5e1bf19d8e8e@suse.com>
+ <20250918210005.GA2150610@yaz-khff2.amd.com>
+ <67c7de1011ea7b8863051889ee2a41512fb0e044.camel@web.de>
+ <20251009132055.GA472268@yaz-khff2.amd.com>
+ <21ba47fa8893b33b94370c2a42e5084cf0d2e975.camel@web.de>
+ <20260216202546.GA420258@yaz-khff2.amd.com>
+ <20260219143345.GA5486@yaz-khff2.amd.com>
+ <4e0c5a7ce9f1ab35eaec2c2908df3681ce6eda4d.camel@web.de>
+ <8530d765-6676-4ba4-98b5-07326c8dc924@amd.com>
+ <290ee50cbe68d246a9899b03d5c7ddebc549f0bf.camel@web.de>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <290ee50cbe68d246a9899b03d5c7ddebc549f0bf.camel@web.de>
+X-ClientProxiedBy: SA1P222CA0161.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c3::9) To DM4PR12MB6373.namprd12.prod.outlook.com
+ (2603:10b6:8:a4::7)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260223-sysfs-const-edac-v1-6-3ff0b87249e7@weissschuh.net>
-References: <20260223-sysfs-const-edac-v1-0-3ff0b87249e7@weissschuh.net>
-In-Reply-To: <20260223-sysfs-const-edac-v1-0-3ff0b87249e7@weissschuh.net>
-To: Dinh Nguyen <dinguyen@kernel.org>, Borislav Petkov <bp@alien8.de>, 
- Tony Luck <tony.luck@intel.com>, Johannes Thumshirn <morbidrsa@gmail.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771881425; l=1863;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=wX5oiGqLv37w2xOfmI9Zm5xOoRjsTLXZ19/2Ce2Okjo=;
- b=zhpkBYjByzu1sjWxKgQw1kjmdrkh1O1Gl86tlyBh0RcEl/xfue4oVGxuV9vF277P/odgpuRZb
- XlB8e+tIcxiBZVKYSQYMxJuG9aveLFKTm9qBSAzVMO3/2Gn1XqNb762
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6373:EE_|IA1PR12MB8264:EE_
+X-MS-Office365-Filtering-Correlation-Id: e9b9f0f6-0f5c-467d-114a-08de7325f619
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-1?Q?5db1iY+WP2WtuFHVbuZMY3seJLERheebdO1NMtUT6xEEYYSZOVKqXo67a4?=
+ =?iso-8859-1?Q?n4+afxBmJmscoOgay9Mw1Ku+CjTzoRI8KbIAhMz8cmdTiY5QFnAWxMcFMA?=
+ =?iso-8859-1?Q?DjBaZRmnO6p4OK2kYNcOIgx3WJcsC4pfRgWRBXRkub334BRXLgnI5Bs46n?=
+ =?iso-8859-1?Q?sxLTHPJ01y+hk/QPvJY8AHPv0T1cqUSikDGjcq2zXLhpwqNEZsHErMkti2?=
+ =?iso-8859-1?Q?ShY/j7afWCetEgUBdMaAdocv7vw7ndgk4qXzYPT/V/utRPS/jYjYzwUqOU?=
+ =?iso-8859-1?Q?sZEmmUQ31dHUg/zk+f9vtUxJfoXqK3VxTwOD63WV5eYE7ZgiyQkwMUpDVO?=
+ =?iso-8859-1?Q?jDGnFjIC9zeS8r/kH1/e+EewLDeExZI7+eFfV1ig9bqeka4PkUGa7t6BTH?=
+ =?iso-8859-1?Q?uD3uovDqBa463LDvu6dfKYpkDR6lnbtjyoLZp9AV6N97G/EZ6tngHHuILe?=
+ =?iso-8859-1?Q?VGp8r6ZtTShfNgvFIFek5v0dHQFDw73OD7CaUXSsm0jdZS8bCH5xnnZQtI?=
+ =?iso-8859-1?Q?PsVS9VPghIXUHc99Il8mSJgX9lX9wrtDPAVRNK7Cwzpu5pIuSiMiN0KXVE?=
+ =?iso-8859-1?Q?fVYMKQ2mDmO+Xh9ZI8ZdtVCdBJmty9T8KlrpKhQMV2dQhYo1qoQtPaMQ4O?=
+ =?iso-8859-1?Q?lId/ult6SPDGhdAjN2FLixrTSLW6RnNfN1/VBaYVYa7DaYMENNQIDHnuBe?=
+ =?iso-8859-1?Q?OqnoqKn3LCEYMMk80zYEPs+cjAaQl4NTThTvD7Cv1LT30rt6ux1DRqmlN3?=
+ =?iso-8859-1?Q?MpWGsBC3PWVTjriLzrCkx0rxRRJnmR7d8fCcT/522nHeEDqhWbH+CrOQWo?=
+ =?iso-8859-1?Q?cYqRTrWIbezZLu3n/ucGxmEx+kgkF7BLXZo7izIjYFrmjQg4tOoBEnwgB5?=
+ =?iso-8859-1?Q?hBvHxGYl11Mx5HnXRByJBS4VmtvR2w8OxjFL2YWT4anCPIGcWzry22sMkR?=
+ =?iso-8859-1?Q?D5kC5qY3dCVyFPai/NzWbgcGMRsWoSYLKSYeYvIIA6A8esb88ygeVsoP2M?=
+ =?iso-8859-1?Q?VQ+G08d9k7rBxQ8steUEepxQBfYMFNwhEKX+VZH2PaQSOqvzsrZ7RzC/it?=
+ =?iso-8859-1?Q?8j4L4Q8y3pPBCUmbHG9vFxRpA9A7PM3TcxtWZQo5UwgMXlfp5gxS7s1HU0?=
+ =?iso-8859-1?Q?FV6ZI/VaFozD7S+SQHkHI/oYVQ1+vVCuAiq6sWUL+T+Wb/aId4s6sbyRDS?=
+ =?iso-8859-1?Q?5wHiE9KDKi3lU1rNP73BaYjY7R34kmRQA67+J7eqWh4YqLnANwGY7w3bd9?=
+ =?iso-8859-1?Q?V2XMYGmGqzxZBSKlhU1nfqbL4yBcDz8pdqq8kWT0eaHbbgef475V1fiiOQ?=
+ =?iso-8859-1?Q?CAB3wCPb0+qfEtAvIw4W9KKn6CUqCzwgZkAZ130zNZRyAPe3hrhH9YCrZl?=
+ =?iso-8859-1?Q?19njflynRzVa+z5QyjxAXbaA/wW7OYWP+6y3LiVbkRuAeuAOMFMeaP7JmD?=
+ =?iso-8859-1?Q?t+kw7vWCJi54VBihjnRqEuj48K/fdOlgJ2q/3bVfgLAx+Wmp5g4MM8udUr?=
+ =?iso-8859-1?Q?EeWKLzt/5PrGhnlOF1NwyXG7+D9ehAy2dx6FjJZHmw10UneXrq4JsqmBLE?=
+ =?iso-8859-1?Q?5EhzSovAX+SyfiHYZcpJ5j0qUhIa?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6373.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?u1u6oK0pCIcpJy6SpLKsR1y1kTwM8gsAKsxlmSz+c0loI4hwjpt6x1Mi55?=
+ =?iso-8859-1?Q?cbv7uSWWGHD5Xpod7oYWqn7sJrSCdxROUsT6G+TE3kTJcH7wTYlc4l+eJ1?=
+ =?iso-8859-1?Q?qPw2csDnqnXA3gAL/eCO/BkYc8OXEeNWT/ckGuZbegc35Gdc/sBNF7RG/K?=
+ =?iso-8859-1?Q?/lnKhr8XlH4tOg34od7xrghxmev3V+bSgYbCzZtUAA0GNxrQfsKq/+nU+2?=
+ =?iso-8859-1?Q?TJ4W01XBQ57TUv5GabFq0DULiHj3lxBzlNaHbMJDYDWObJleyRKh/+KgHR?=
+ =?iso-8859-1?Q?Zbur4mmidAWQztG/fmwQRMhNCj1LfXEkHK1vNxsNORmacsdl4LtGvOSvxF?=
+ =?iso-8859-1?Q?nWNasL8uls/hNQ3k4ayePwBzvXs6/EjZahTZe6DKlNIMSQp6y9cjTZY5Kt?=
+ =?iso-8859-1?Q?y9rckHiySh6pptf2yEuHfuZ9lmNjAACYeDojWZ0bRanX2DXLkWiSjI8z90?=
+ =?iso-8859-1?Q?tL0aw4VrgLB7HbLtPeBo9+a88MV2jdQybsWi9J/66xBrr04xcJ74W5U8nW?=
+ =?iso-8859-1?Q?E1UpCT4JY+yiYXxT3ldNt8vMuJo7Ahh9dqSu10PLLteRatX/hlVepgdEN9?=
+ =?iso-8859-1?Q?qpMjhK/u4hRWeGOvaatqDw4lv5h19cxTEEZgVfqCciWIMF3VEVmPIwPGZF?=
+ =?iso-8859-1?Q?b4F4CBHZUADboi+q5B4DrWU4fY5vv8UVWa9mPbFBlRCeTrFJj6lDCdcJ1u?=
+ =?iso-8859-1?Q?8QYNYOGTxMglzw+YhgZWB/iB2U4a4acGUWhugnoEQyq6Td91jyxKG1C3Bh?=
+ =?iso-8859-1?Q?ipfo0yUCTMn/uLAUpzwLSuBaCAK1qPcEq0S4gAKgXgWftETBSuYjphed17?=
+ =?iso-8859-1?Q?rcsdkOoLwvPU9I5q9JT2WYVzKGqhZVDbhBZx5HxY5YGGBgWhFec9sJ0OXZ?=
+ =?iso-8859-1?Q?bSt+NxC4GjAQ2LBHETSZW85q3AWqvATSbB4gd4oIbJHcUEqbqCu1d2p4Io?=
+ =?iso-8859-1?Q?ClDDab/D4JlCEUV975Zwfkk4E6SseQpsDMwUD99+0YYg2CHR9LDAkTWG/B?=
+ =?iso-8859-1?Q?F0G3VcoAeJLUUFgyNDYZb9iqcB1y/1ep+e3p3Co6XlNXcwQ10f6cZp6pCP?=
+ =?iso-8859-1?Q?xDX35NVEEEtgdsMRiwsG7MDueKzuR001Bw2tylJ4dlSfnhTZ2cAJtPfITK?=
+ =?iso-8859-1?Q?z5J2FoalmGu/m4L6bUgrsuyztgnIZRRqwDAHDQjAO5fM/t1rStmgtLF204?=
+ =?iso-8859-1?Q?y+uYpv3G9EunslnwYn+CgJGy3BcsQs3VyC7x2sS+hss9GeRbU2b/FIYBxS?=
+ =?iso-8859-1?Q?3bqi3+5O74j/7V0duRMMPzli5iKjh8drOMrNuUg6znjjHnChyn8imTLv05?=
+ =?iso-8859-1?Q?IPKw04E0wmNzQ58oJOwun4n2A+3hscv8AWO7B7TIc8yg/bwoF6wDGXpM1h?=
+ =?iso-8859-1?Q?s2Hc1hGRCdnFzyJKWRsNG1MmXMjnrGXDzaC4u/D7D0d0mRIIkaVOXiXN0j?=
+ =?iso-8859-1?Q?YEJ4FN6aGryo9z8gvWbS5GpCOAkCAehPAyjC5Qlf9ltjPG5QpOVv6N05xL?=
+ =?iso-8859-1?Q?WFnmvUneGra+3iDGk8IDboLPHsMxIdw8Xju9FgHmgWuxqFSheLH4K2uTn8?=
+ =?iso-8859-1?Q?e0evEdTTttikCOJpQqG0VG7CYfp6Pw32UUwDbht6fTG5M96bN3FHjSHC/p?=
+ =?iso-8859-1?Q?2agG6wvbKHK5nODFaUWSgmCGKccqlglnfvdA9drKOd71872hUfNHk5h5ko?=
+ =?iso-8859-1?Q?tHWYodJcUIsoVGN16NhLg2Z67HKcWg8Dex9oslmstYMVNtJ/nU40DBLtBv?=
+ =?iso-8859-1?Q?lrXrMPKlz/NDXamSS3i8Q7/+byDFR0mH6XYawk+gCjcoUf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9b9f0f6-0f5c-467d-114a-08de7325f619
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6373.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 21:53:21.5852
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YklqtSEIfliOXhvBm5KJCeLDoFG6yAy7zd9a9HTNPwnjra0sOn8dOaj5rT5sngi4Ag36bjOXbVkfKIyJNOAhsQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8264
 
-The generic EDAC sysfs code does not need to modify these structs.
-Allow the drivers to add read-only ones.
+On Fri, Feb 20, 2026 at 07:24:32PM +0100, Bert Karwatzki wrote:
 
-Signed-off-by: Thomas Wei√üschuh <linux@weissschuh.net>
----
- drivers/edac/edac_device.h       | 2 +-
- drivers/edac/edac_device_sysfs.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+[...]
 
-diff --git a/drivers/edac/edac_device.h b/drivers/edac/edac_device.h
-index 034711d71ebf..24c1921aa490 100644
---- a/drivers/edac/edac_device.h
-+++ b/drivers/edac/edac_device.h
-@@ -163,7 +163,7 @@ struct edac_device_ctl_info {
- 	 * If attributes are desired, then set to array of attributes
- 	 * If no attributes are desired, leave NULL
- 	 */
--	struct edac_dev_sysfs_attribute *sysfs_attributes;
-+	const struct edac_dev_sysfs_attribute *sysfs_attributes;
- 
- 	/* pointer to main 'edac' subsys in sysfs */
- 	const struct bus_type *edac_subsys;
-diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-index 754d44827942..b1c2717cd023 100644
---- a/drivers/edac/edac_device_sysfs.c
-+++ b/drivers/edac/edac_device_sysfs.c
-@@ -723,7 +723,7 @@ static void edac_device_delete_instances(struct edac_device_ctl_info *edac_dev)
- static int edac_device_add_main_sysfs_attributes(
- 			struct edac_device_ctl_info *edac_dev)
- {
--	struct edac_dev_sysfs_attribute *sysfs_attrib;
-+	const struct edac_dev_sysfs_attribute *sysfs_attrib;
- 	int err = 0;
- 
- 	sysfs_attrib = edac_dev->sysfs_attributes;
-@@ -752,7 +752,7 @@ static int edac_device_add_main_sysfs_attributes(
- static void edac_device_remove_main_sysfs_attributes(
- 			struct edac_device_ctl_info *edac_dev)
- {
--	struct edac_dev_sysfs_attribute *sysfs_attrib;
-+	const struct edac_dev_sysfs_attribute *sysfs_attrib;
- 
- 	/* if there are main attributes, defined, remove them. First,
- 	 * point to the start of the array and iterate over it
+> > > 
+> > > As far as I know is a production Laptop, a MSI Alpha 15 B5EEK/MS-158L model with
+> > > bios version "BIOS E158LAMS.10F 11/11/2024" (the newest version available at
+> > > https://de.msi.com/Laptop/Alpha-15-B5EX/support?sku_id=89840)†and without
+> > > preinstalled Windows†which†I bought in†December 2021 at www.alternate.de (a shop
+> > > which MSI lists as a "trusted partner":†https://de.msi.com/service/bzq)
+> > > 
+> > > Bert Karwatzki
+> > 
+> > Do you know if it was purchased "right around" when it launched?  I'm 
+> > wondering if it's possible they used pre-production parts for some 
+> > reason with their initial systems.
+> > 
+> > The reason for this line of inquiry is if this is what we would have 
+> > considered pre-production silicon, it might be more appropriate to flag 
+> > the CPU accordingly and ignore these MCEs.
+> 
+> Yes, I bought right when it became available.
+> 
 
--- 
-2.53.0
+Thanks Bert for confirming.
 
+I'll send a patch to filter this signature.
+
+Thanks,
+Yazen
