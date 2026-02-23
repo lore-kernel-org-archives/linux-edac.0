@@ -1,31 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D8A377576;
-	Mon, 23 Feb 2026 21:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF72E3793AA;
+	Mon, 23 Feb 2026 21:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771881429; cv=none; b=FsRvg5o8fFm4J1EpUGu6XRWbeFXdGTCax+C7bavdV/VhfnYTXd9ZTlIzd+Ys5g9N4SjKWiMB1NvkzB0JoOs0fjg1km3dl7w0uyauoEfMXeOI8hBG0McNHnOr4sIAxpKxowmyUfm6g19cL4Fffn5P7TrCtUaqFKsBFSQqrCQzzYE=
+	t=1771881432; cv=none; b=SZbbyDIwSC31enBXOcD0R+Acmvz1phCwibDVvwWM7vp0hy/gCw7W81p1OllBv91fagLZ9SSYLHTxYGt3KQe2fkJtOc/hnPEs5HWUqUzK4Mt8vn73nyo5fugZ/Aq0CmhUmU8Cj1M7OyZUuAlboGxI6Cv8GOSas4AdUQoGYAprk7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771881429; c=relaxed/simple;
-	bh=yr4qx6td7d1BPQGTgBRZZYWFHwmZENKtcBXJTDjjkMk=;
+	s=arc-20240116; t=1771881432; c=relaxed/simple;
+	bh=lGzYjD0ui7QuV8qqwy9PRnEooyHvUrDsTD6oAyW6U90=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gFrlapedk7h3X3Zdihx0M9u2bqosvykFmKQFISm8l+UPHuXQqRP1usOoPI5ZLgsqdDAXk8uNkLk/LavubF8y+H8E5XOWtUtxReVNw2txsGhVGaidYlmZmbZaTcF0s+U3IUNe2mNywHvyfSi98urOqXERDhrfpxYWJszOi99j+7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DRCQ1x3T; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=AlN1YORvBLWCMsjYUo/oOepHvDUwaYAiWohZgosyNh4zIDkK/y9KSq34J7YtXpKq5bln/sv4nHO67rh+MZMHBosfCAEmK+U4O0MPgJEqW+Zlzcf5lkC+1Ukm86xCw5ghUS+i26FIFLG1IIXU4NCXeRHp7FVH5OIrrRH9VbNkP3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=azpk/Na7; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DRCQ1x3T"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="azpk/Na7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1771881426;
-	bh=yr4qx6td7d1BPQGTgBRZZYWFHwmZENKtcBXJTDjjkMk=;
+	bh=lGzYjD0ui7QuV8qqwy9PRnEooyHvUrDsTD6oAyW6U90=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=DRCQ1x3TflgLNTT4Xmgc+EtJGcROSGzMfsbzmgbOqA2DRZsNLE1unyuX78+Uoc5SE
-	 JsP3GpxuNrXc3tj0HqVzrs/MLfkUJ0smi5gyKfB6BNOfoR5ZHf1hLp15y3MrCLqds5
-	 WzqkzSR6KcgNk/qRv0BiAtV5y7/7RbUxtt0IicVo=
+	b=azpk/Na7uKDLpuAcaT/7w2dwiX2r4Oaof58Rr9lUo7f2aiiZvBe2bWv1hEPs19uLr
+	 r8aHf1eyK3jtRm2SvLqAk46RYR4TnjEcnWzlCMoHusHYhMgB+cYjL+kKLhe5wIO97S
+	 HbSIuHNtR1d+mQ0fJ4qPaPgqlZeCiRKKvSg1uukE=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 23 Feb 2026 22:16:32 +0100
-Subject: [PATCH 5/7] EDAC/pci_sysfs: Constify instance sysfs attributes
+Date: Mon, 23 Feb 2026 22:16:34 +0100
+Subject: [PATCH 7/7] EDAC/mpc85xx: Constify device sysfs attributes
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260223-sysfs-const-edac-v1-5-3ff0b87249e7@weissschuh.net>
+Message-Id: <20260223-sysfs-const-edac-v1-7-3ff0b87249e7@weissschuh.net>
 References: <20260223-sysfs-const-edac-v1-0-3ff0b87249e7@weissschuh.net>
 In-Reply-To: <20260223-sysfs-const-edac-v1-0-3ff0b87249e7@weissschuh.net>
 To: Dinh Nguyen <dinguyen@kernel.org>, Borislav Petkov <bp@alien8.de>, 
@@ -42,70 +42,35 @@ To: Dinh Nguyen <dinguyen@kernel.org>, Borislav Petkov <bp@alien8.de>,
 Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771881425; l=2447;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771881425; l=783;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=yr4qx6td7d1BPQGTgBRZZYWFHwmZENKtcBXJTDjjkMk=;
- b=KBpyO/8Iz8Q1+FIKuKHdJ7IeJjsT6bL/zu7H1XazunZN1vOx6B9tczC1p3+yMdXIZSSmfRVl/
- o+z/BeiYaaoDs8NQy4asJEEQbkCUgiNwDaic6GiEiR4akNwhhGgKcwo
+ bh=lGzYjD0ui7QuV8qqwy9PRnEooyHvUrDsTD6oAyW6U90=;
+ b=s2T0Lnmrc13QHpczKa05M45URkx7jHf6laLpgSDL8BWyf7FHu+s7PZK7mhvb9LNnPjoJFHXyZ
+ d8EEC7SbUOQDSZyHfn/n+IJW47mRIytr71wJg1Ah/64Oj4HFs4XVhqd
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-These structures are never modified, mark them read-only.
+Now that the EDAC core allows the registration of read-only attributes,
+make use of that in the mpc85xx driver.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/edac/edac_pci_sysfs.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/edac/mpc85xx_edac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/edac/edac_pci_sysfs.c b/drivers/edac/edac_pci_sysfs.c
-index 446fef0a9399..9f437f648e4e 100644
---- a/drivers/edac/edac_pci_sysfs.c
-+++ b/drivers/edac/edac_pci_sysfs.c
-@@ -68,7 +68,7 @@ static ssize_t instance_npe_count_show(struct edac_pci_ctl_info *pci,
+diff --git a/drivers/edac/mpc85xx_edac.c b/drivers/edac/mpc85xx_edac.c
+index a45dc6b35ede..277f1c6bd522 100644
+--- a/drivers/edac/mpc85xx_edac.c
++++ b/drivers/edac/mpc85xx_edac.c
+@@ -399,7 +399,7 @@ static ssize_t mpc85xx_l2_inject_ctrl_store(struct edac_device_ctl_info
+ 	return 0;
  }
  
- #define to_instance(k) container_of(k, struct edac_pci_ctl_info, kobj)
--#define to_instance_attr(a) container_of(a, struct instance_attribute, attr)
-+#define to_instance_attr(a) container_of_const(a, struct instance_attribute, attr)
- 
- /* DEVICE instance kobject release() function */
- static void edac_pci_instance_release(struct kobject *kobj)
-@@ -98,7 +98,7 @@ static ssize_t edac_pci_instance_show(struct kobject *kobj,
- 				struct attribute *attr, char *buffer)
- {
- 	struct edac_pci_ctl_info *pci = to_instance(kobj);
--	struct instance_attribute *instance_attr = to_instance_attr(attr);
-+	const struct instance_attribute *instance_attr = to_instance_attr(attr);
- 
- 	if (instance_attr->show)
- 		return instance_attr->show(pci, buffer);
-@@ -111,7 +111,7 @@ static ssize_t edac_pci_instance_store(struct kobject *kobj,
- 				const char *buffer, size_t count)
- {
- 	struct edac_pci_ctl_info *pci = to_instance(kobj);
--	struct instance_attribute *instance_attr = to_instance_attr(attr);
-+	const struct instance_attribute *instance_attr = to_instance_attr(attr);
- 
- 	if (instance_attr->store)
- 		return instance_attr->store(pci, buffer, count);
-@@ -125,7 +125,7 @@ static const struct sysfs_ops pci_instance_ops = {
- };
- 
- #define INSTANCE_ATTR(_name, _mode, _show, _store)	\
--static struct instance_attribute attr_instance_##_name = {	\
-+static const struct instance_attribute attr_instance_##_name = {	\
- 	.attr	= {.name = __stringify(_name), .mode = _mode },	\
- 	.show	= _show,					\
- 	.store	= _store,					\
-@@ -135,7 +135,7 @@ INSTANCE_ATTR(pe_count, S_IRUGO, instance_pe_count_show, NULL);
- INSTANCE_ATTR(npe_count, S_IRUGO, instance_npe_count_show, NULL);
- 
- /* pci instance attributes */
--static struct attribute *pci_instance_attrs[] = {
-+static const struct attribute *const pci_instance_attrs[] = {
- 	&attr_instance_pe_count.attr,
- 	&attr_instance_npe_count.attr,
- 	NULL
+-static struct edac_dev_sysfs_attribute mpc85xx_l2_sysfs_attributes[] = {
++static const struct edac_dev_sysfs_attribute mpc85xx_l2_sysfs_attributes[] = {
+ 	{
+ 	 .attr = {
+ 		  .name = "inject_data_hi",
 
 -- 
 2.53.0
