@@ -1,31 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DE036AB68;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00BA37419D;
 	Mon, 23 Feb 2026 21:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771881429; cv=none; b=GC5i9uPeOu/TOZFcA7c2+SEFu0Af/sBYJ5EGKr84fpGJfJvdSxyW65KYx+B7lFoIFUYvxr+G1w0bpHdvdkLpoFxvt86zG3QRxOFCmyXRLr3AXtzXRqJdtKNejku8/8+22F4AL/z+gixSt2OijA/wNcNxPJvFg2aXf9tGXlMIQmY=
+	t=1771881429; cv=none; b=bs12NsrtoYXSxVl0PKWkaw/ASpN+5m1coc4PisF0zf0kQnQEcRrfvXq2sHYwe2yt4QBxrEYaz0+NNPMp7rhADVFHmUWvT5GTzf03DSyW9jnt51uRZ/wyD4jNDUL5ZvzKwmWHXWU+gwvhph2akAxTTrkKIwwQvk2J7AyppmENQBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771881429; c=relaxed/simple;
-	bh=pRBtaGgw/VpTBaNHWxqH3NSuhhB275SjP9lAoqySfrI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ly6HYTpAAhbzczMEkCvpVZ7EFiPCJosJ5DfIjTqpfjt2y7XawqtObucLxlmRj/CdNN8ZxXaUzSFuMl/xbf6cgfKs0QcIC/9gupD5VcIGNAMlcbEy8fBVEKk5p3ZDjgewJCTh7+p17VzE31LRYqE8o2ho3ypAL/MNMLKcrlVhq/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Tr8rc3+v; arc=none smtp.client-ip=159.69.126.157
+	bh=6Z4Ymyzpd1Csbn4UtXS2PHnqH5lIkviU9wgVJQedY/U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=J6YLDWKKUoYpSZzf68xyfcgfEfbLJGCmRBZ8iIx/6XMq5Gh03o5STYYQJDDov+9uLgpFewatAul2eLZUxFw+XSq5d4xiHyYnt+X4Iej/EKE89CBtyvXmfjswzTDX+B5twv6r/Ls924wh5LH1sKc6+mDCpj98cTWOVKDlp45iMmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=t4hqbQNK; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Tr8rc3+v"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="t4hqbQNK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1771881425;
-	bh=pRBtaGgw/VpTBaNHWxqH3NSuhhB275SjP9lAoqySfrI=;
-	h=From:Subject:Date:To:Cc:From;
-	b=Tr8rc3+vtBbf7yvzh/sxtUs8S+9NobbQ/c2r/xpNIz0BJoGdz0TVNQwRg3LmjIHn3
-	 I7qwNTsV3BVOY6wIYUpqb6Kxv6Zozmf8+CsPW2sdF50VS03WSuMLBZHUbJvvC65zo4
-	 zF5M964192P6I2YwRedrFLifcukSRHb9bn3NPqdk=
+	bh=6Z4Ymyzpd1Csbn4UtXS2PHnqH5lIkviU9wgVJQedY/U=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=t4hqbQNKwrnOO44BV9XNiTr6fEKgChtf8xt9T0mzdkCw4TDyHIU5aFpWOGtRvRRFw
+	 oIMeVjEDUwEYhJW9mleMYz9cFBryH/tsaaE7N3qf4u9uFNx8Tq0UcstSxF4Tzc+T3J
+	 ZISG1/OGuHrBK3YuqZgt3oujr2upLl/oAo4ovKOc=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Subject: [PATCH 0/7] EDAC: Sysfs attribute constification and some cleanups
-Date: Mon, 23 Feb 2026 22:16:27 +0100
-Message-Id: <20260223-sysfs-const-edac-v1-0-3ff0b87249e7@weissschuh.net>
+Date: Mon, 23 Feb 2026 22:16:30 +0100
+Subject: [PATCH 3/7] EDAC/device: Drop unnecessary and dangerous tasks of
+ attributes
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -34,48 +35,67 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqAIBBA0avErBswI6muEi3UppqNhhNRSHdPW
- r7F/xmEEpPAWGVIdLFwDAVNXYHfbdgIeSkGrbRRWrcoj6yCPgY5kRbrsWuNcoOxvTMOSnYkWvn
- +l9P8vh8PQNJkYgAAAA==
-X-Change-ID: 20260223-sysfs-const-edac-5360b96a8b6b
+Message-Id: <20260223-sysfs-const-edac-v1-3-3ff0b87249e7@weissschuh.net>
+References: <20260223-sysfs-const-edac-v1-0-3ff0b87249e7@weissschuh.net>
+In-Reply-To: <20260223-sysfs-const-edac-v1-0-3ff0b87249e7@weissschuh.net>
 To: Dinh Nguyen <dinguyen@kernel.org>, Borislav Petkov <bp@alien8.de>, 
  Tony Luck <tony.luck@intel.com>, Johannes Thumshirn <morbidrsa@gmail.com>
 Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771881425; l=1043;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771881425; l=1667;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=pRBtaGgw/VpTBaNHWxqH3NSuhhB275SjP9lAoqySfrI=;
- b=aAJcevfSHbggY9Po6gYmtLAHJ6NtacDnFoaacoNfdExCc4Nbl+96FyWprJ9l+UDJQdpLAPptr
- t8v/7jMBQRmBjR6F1QdjTFzeIFpxShyhxV54N+fdKPxwa28tH2TESiv
+ bh=6Z4Ymyzpd1Csbn4UtXS2PHnqH5lIkviU9wgVJQedY/U=;
+ b=zAJqRG0cfET4+zsIrGgD/pqQe/inhse26caVaBbzV0UH3NNB0F55DEiFFRnTmN4f1JDeFNArB
+ 0bserL2LDF4Bs8YCOqK9H+JMiU1NhMAZlzBO1o/eIMMPoxb+yG8xozz
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Move the sysfs attribute to read-only memory and perform some trivial
-cleanups.
+These casts assume that the 'struct attribute' is at the beginning of
+'struct edac_dev_sysfs_block_attribute'. This is can silently break
+if the field is moved, either manually or through struct randomization.
+
+Use proper member syntax to get the field address and drop the casts.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-Thomas Weißschuh (7):
-      EDAC/altera: Drop unused field eccmgr_sysfs_attr
-      EDAC/device: Drop unused macro to_edacdev_attr()
-      EDAC/device: Drop unnecessary and dangerous tasks of attributes
-      EDAC/device: Constify info sysfs attributes
-      EDAC/pci_sysfs: Constify instance sysfs attributes
-      EDAC/device: All addition of sysfs attributes
-      EDAC/mpc85xx: Constify device sysfs attributes
+ drivers/edac/edac_device_sysfs.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
- drivers/edac/altera_edac.h       |  1 -
- drivers/edac/edac_device.h       |  2 +-
- drivers/edac/edac_device_sysfs.c | 24 ++++++++++--------------
- drivers/edac/edac_pci_sysfs.c    | 10 +++++-----
- drivers/edac/mpc85xx_edac.c      |  2 +-
- 5 files changed, 17 insertions(+), 22 deletions(-)
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260223-sysfs-const-edac-5360b96a8b6b
+diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
+index 9cc466b78982..1e79f36a91fa 100644
+--- a/drivers/edac/edac_device_sysfs.c
++++ b/drivers/edac/edac_device_sysfs.c
+@@ -573,8 +573,7 @@ static void edac_device_delete_block(struct edac_device_ctl_info *edac_dev,
+ 		for (i = 0; i < block->nr_attribs; i++, sysfs_attrib++) {
+ 
+ 			/* remove each block_attrib file */
+-			sysfs_remove_file(&block->kobj,
+-				(struct attribute *) sysfs_attrib);
++			sysfs_remove_file(&block->kobj, &sysfs_attrib->attr);
+ 		}
+ 	}
+ 
+@@ -734,7 +733,7 @@ static int edac_device_add_main_sysfs_attributes(
+ 		 */
+ 		while (sysfs_attrib->attr.name != NULL) {
+ 			err = sysfs_create_file(&edac_dev->kobj,
+-				(struct attribute*) sysfs_attrib);
++				&sysfs_attrib->attr);
+ 			if (err)
+ 				goto err_out;
+ 
+@@ -762,8 +761,7 @@ static void edac_device_remove_main_sysfs_attributes(
+ 	sysfs_attrib = edac_dev->sysfs_attributes;
+ 	if (sysfs_attrib) {
+ 		while (sysfs_attrib->attr.name != NULL) {
+-			sysfs_remove_file(&edac_dev->kobj,
+-					(struct attribute *) sysfs_attrib);
++			sysfs_remove_file(&edac_dev->kobj, &sysfs_attrib->attr);
+ 			sysfs_attrib++;
+ 		}
+ 	}
 
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
+2.53.0
 
