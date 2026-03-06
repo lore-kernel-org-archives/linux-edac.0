@@ -1,86 +1,86 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from outbound.baidu.com (mx22.baidu.com [220.181.50.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECED3254A2;
-	Fri,  6 Mar 2026 14:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240152848B2;
+	Fri,  6 Mar 2026 14:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.181.50.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772805663; cv=none; b=GSdcKXrgpL06M2eXvDkSwyFY64Yi+MnftyO8ds+En4obl8iFfHmoj9Pcw0Re6zYRBH7DKguLyP3UW/RNOvEVaYk12Pht5rD9bWNpWTpeDuNZmAINuNbXjQYi06ZuDwrrW8f2FarTwtEI0G4BOenV3pKDUyoo1vm5cehbTgNlVcY=
+	t=1772808003; cv=none; b=EtyoIJoWnmIVOK52Kh3IYwb/cGpX7qTniwslzbueF0bRsFbgzvdFC4Leg3QGJbJotfEVTjgD5PZmsJLfG9T0gpgPYE9OI1rSVp9UE4j7HDQupZmsOecIQzPQPgqPgqGBehTq1RMkWKrHZn5Q8Pp3uP/4sQZYs6XosMx7Xo6hd1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772805663; c=relaxed/simple;
-	bh=6yPhRwWynLwBkGaSYlz0OV1u7wVCm8R2eA0o4TQzdWE=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=rdN2T/5RJEtOBJut+2Tm7UIrqPifZRwdmSh3CNT5gXcW/NrZYrZRn8u4TVvsMRPf9Dzs/oPrhzxvSAr7AUw/HRWeAf7h71z7C6l7UXcITkaHikZsTgditQECHVZJOxrXM2+ktByHn7NyLqPv3oLbwmW4NwTcrO6KdA9tDtjF2Rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=iaz2sB7E; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="iaz2sB7E"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DE16140E0169;
-	Fri,  6 Mar 2026 14:00:51 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id hhNWZ4LEtYVV; Fri,  6 Mar 2026 14:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1772805647; bh=6yPhRwWynLwBkGaSYlz0OV1u7wVCm8R2eA0o4TQzdWE=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=iaz2sB7EQaQjEjje4idBUYiViTLRMV4dfCH5z+jkrHMlsWawaVAbzbXuzGygszHu5
-	 1r4jVRYtqbGQQqZRAiclvXAgNLyG8R4oixhnIh0i06/FMVYdCEl5R4aPqyvwMxNXDj
-	 sDEzmOOVOJF/Uc9jWwIro5EtP0UoKbIrb70CPpTwh/oiO02QECT6sIV3qxKMvwYKih
-	 cK0I4Ckqu/sTbWhOFheg50hhQ+Iex41BzUKg03ZCjKx/KBG0SkVQiRF4HZVopOw90k
-	 uAekbSbO2rxR4mw7eJkNDe3XKGMIP5watiU+aBKTKL1NLid68qG+EHIG2Rf6/6PEgN
-	 tTlfidVliZ0eCsOsaoMEZxVGfzxGsSZIDXqxFDPjGY9balag76jFfvdqUdjFq/qb39
-	 fwTmGtRjGemvEbYWT7aJvSahHuNbntct/PErzE4jUbOeWyrItfazATMquYQzSZl5A6
-	 iQm5RYEOa2XJLH3pQjYTd0FkkG7DqE9A7HOfa3Cq93TIsR2ChfQEJrjqtaeu65fveE
-	 luSXiRKQwBXhDzMKNOIxX7cJUzMUmaACynHZkfHSDikUjADANkf6AvrAb0bgATPfCj
-	 xmoHXT/Iar8S/qyFeQA2wZG0nqQYO68KOK0wD8+RVy3Z5wqvpRJVNUEvmydEtXsAse
-	 KV0lPCpW60E7IdM6qarQo3QY=
-Received: from ehlo.thunderbird.net (unknown [IPv6:2a02:3038:283:78da:391c:dd47:60a2:4090])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B36D340E00DA;
-	Fri,  6 Mar 2026 14:00:33 +0000 (UTC)
-Date: Fri, 06 Mar 2026 14:00:29 +0000
-From: Borislav Petkov <bp@alien8.de>
-To: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>,
- "Luck, Tony" <tony.luck@intel.com>
+	s=arc-20240116; t=1772808003; c=relaxed/simple;
+	bh=pSK+uKl5ymQ/pp5ZOPffVWLqA4eeBtXZkMZelh9FKnw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hUpOTEULTW8fkfXYlQwveY+kl6pBcGDsVUYHYBnF0q3jopTOZI6lntcFAKBDz9CmdvDuaVcz6D7was4LQMV6BCIDfYGWccT6+u0k87w1DTRhPzCweq/1EvjEf+Is52deaPy6jwRocBxcKMCLFcbMHcRqMchMQ6cjdVXoo5M07GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=220.181.50.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+From: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>
+To: Borislav Petkov <bp@alien8.de>, "Luck, Tony" <tony.luck@intel.com>
 CC: Nikolay Borisov <nik.borisov@suse.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
- Avadhut Naik <avadhut.naik@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Subject: =?UTF-8?Q?Re=3A_=E7=AD=94=E5=A4=8D=3A_=5B=E5=A4=96=E9=83=A8?=
- =?UTF-8?Q?=E9=82=AE=E4=BB=B6=5D_Re=3A_=5BPA?=
- =?UTF-8?Q?TCH=5D_x86/mce=3A_Fix_timer?=
- =?UTF-8?Q?_interval_adjustment_after_logging_a_MCE_event?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <3748e8c7057a4182bc2a361b44dda51b@baidu.com>
-References: <20260113124837.GHaWY_JVdFi53mh6oO@fat_crate.local> <SJ1PR11MB6083F2650A8DB801F0EF26C8FC8EA@SJ1PR11MB6083.namprd11.prod.outlook.com> <20260113205654.GTaWaxllyfJLHsl0YX@fat_crate.local> <SJ1PR11MB6083A836550962AECED68500FC8EA@SJ1PR11MB6083.namprd11.prod.outlook.com> <20260113213158.GUaWa5zunSfuAzra0n@fat_crate.local> <20260113224152.GVaWbKMMzManQ5WwlT@fat_crate.local> <aWbjkAPX9a9ZlJGN@agluck-desk3> <20260114135034.GAaWefKm97-CkbEp4P@fat_crate.local> <20260207115142.GBaYcnTp7maUDVv3Nc@fat_crate.local> <aYobX83_0kElO3NZ@agluck-desk3> <20260210150117.GBaYtIPfsP0Txw7iIc@fat_crate.local> <3748e8c7057a4182bc2a361b44dda51b@baidu.com>
-Message-ID: <E4BFF14D-85CC-44FA-A217-603C102B1D66@alien8.de>
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>, "Yazen
+ Ghannam" <yazen.ghannam@amd.com>, "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
+	Avadhut Naik <avadhut.naik@amd.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-edac@vger.kernel.org"
+	<linux-edac@vger.kernel.org>
+Subject: =?utf-8?B?562U5aSNOiDnrZTlpI06IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdIHg4?=
+ =?utf-8?B?Ni9tY2U6IEZpeCB0aW1lciBpbnRlcnZhbCBhZGp1c3RtZW50IGFmdGVyIGxv?=
+ =?utf-8?Q?gging_a_MCE_event?=
+Thread-Topic: =?utf-8?B?562U5aSNOiBb5aSW6YOo6YKu5Lu2XSBSZTogW1BBVENIXSB4ODYvbWNlOiBG?=
+ =?utf-8?B?aXggdGltZXIgaW50ZXJ2YWwgYWRqdXN0bWVudCBhZnRlciBsb2dnaW5nIGEg?=
+ =?utf-8?Q?MCE_event?=
+Thread-Index: AQHcmp5Dzqz6YDwr30OsiY5+cifXvLWhQmRw///lcYCAAJB84A==
+Date: Fri, 6 Mar 2026 14:38:29 +0000
+Message-ID: <3431b52760444d209f8460059264cc13@baidu.com>
+References: <20260113124837.GHaWY_JVdFi53mh6oO@fat_crate.local>
+ <SJ1PR11MB6083F2650A8DB801F0EF26C8FC8EA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260113205654.GTaWaxllyfJLHsl0YX@fat_crate.local>
+ <SJ1PR11MB6083A836550962AECED68500FC8EA@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260113213158.GUaWa5zunSfuAzra0n@fat_crate.local>
+ <20260113224152.GVaWbKMMzManQ5WwlT@fat_crate.local>
+ <aWbjkAPX9a9ZlJGN@agluck-desk3>
+ <20260114135034.GAaWefKm97-CkbEp4P@fat_crate.local>
+ <20260207115142.GBaYcnTp7maUDVv3Nc@fat_crate.local>
+ <aYobX83_0kElO3NZ@agluck-desk3>
+ <20260210150117.GBaYtIPfsP0Txw7iIc@fat_crate.local>
+ <3748e8c7057a4182bc2a361b44dda51b@baidu.com>
+ <E4BFF14D-85CC-44FA-A217-603C102B1D66@alien8.de>
+In-Reply-To: <E4BFF14D-85CC-44FA-A217-603C102B1D66@alien8.de>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-FEAS-Client-IP: 172.31.3.14
+X-FE-Policy-ID: 52:10:53:SYSTEM
 
-On March 6, 2026 7:37:01 AM UTC, "Li,Rongqing(ACG CCN)" <lirongqing@baidu=
-=2Ecom> wrote:
->Is there any progress on this?
-
-Not yet=2E
-
-May I ask what is your usecase for this?=20
-
---=20
-Small device=2E Typos and formatting crap
+DQoNCj4gLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0KPiDlj5Hku7bkuro6IEJvcmlzbGF2IFBldGtv
+diA8YnBAYWxpZW44LmRlPg0KPiDlj5HpgIHml7bpl7Q6IDIwMjblubQz5pyINuaXpSAyMjowMA0K
+PiDmlLbku7bkuro6IExpLFJvbmdxaW5nKEFDRyBDQ04pIDxsaXJvbmdxaW5nQGJhaWR1LmNvbT47
+IEx1Y2ssIFRvbnkNCj4gPHRvbnkubHVja0BpbnRlbC5jb20+DQo+IOaKhOmAgTogTmlrb2xheSBC
+b3Jpc292IDxuaWsuYm9yaXNvdkBzdXNlLmNvbT47IFRob21hcyBHbGVpeG5lcg0KPiA8dGdseEBr
+ZXJuZWwub3JnPjsgSW5nbyBNb2xuYXIgPG1pbmdvQHJlZGhhdC5jb20+OyBEYXZlIEhhbnNlbg0K
+PiA8ZGF2ZS5oYW5zZW5AbGludXguaW50ZWwuY29tPjsgeDg2QGtlcm5lbC5vcmc7IEggLiBQZXRl
+ciBBbnZpbg0KPiA8aHBhQHp5dG9yLmNvbT47IFlhemVuIEdoYW5uYW0gPHlhemVuLmdoYW5uYW1A
+YW1kLmNvbT47IFpodW8sIFFpdXh1DQo+IDxxaXV4dS56aHVvQGludGVsLmNvbT47IEF2YWRodXQg
+TmFpayA8YXZhZGh1dC5uYWlrQGFtZC5jb20+Ow0KPiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwu
+b3JnOyBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZw0KPiDkuLvpopg6IFJlOiDnrZTlpI06IFvl
+pJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdIHg4Ni9tY2U6IEZpeCB0aW1lciBpbnRlcnZhbA0KPiBh
+ZGp1c3RtZW50IGFmdGVyIGxvZ2dpbmcgYSBNQ0UgZXZlbnQNCj4gDQo+IE9uIE1hcmNoIDYsIDIw
+MjYgNzozNzowMSBBTSBVVEMsICJMaSxSb25ncWluZyhBQ0cgQ0NOKSINCj4gPGxpcm9uZ3FpbmdA
+YmFpZHUuY29tPiB3cm90ZToNCj4gPklzIHRoZXJlIGFueSBwcm9ncmVzcyBvbiB0aGlzPw0KPiAN
+Cj4gTm90IHlldC4NCj4gDQo+IE1heSBJIGFzayB3aGF0IGlzIHlvdXIgdXNlY2FzZSBmb3IgdGhp
+cz8gDQoNCg0KV2UgYW50aWNpcGF0ZSBwb3RlbnRpYWwgVUUgaXNzdWVzIGJ5IGFuYWx5emluZyB0
+aGUgdm9sdW1lIGFuZCBmcmVxdWVuY3kgb2YgY29sbGVjdGVkIENFIHJlcG9ydHMsIGVuYWJsaW5n
+IHVzIHRvIHBlcmZvcm0gcHJvYWN0aXZlIHRhc2sgb2ZmbG9hZGluZyBhbmQgbWFjaGluZSBtYWlu
+dGVuYW5jZS4gSG93ZXZlciwgaW5hY2N1cmFjaWVzIGluIHRoZSBjb2xsZWN0ZWQgZGF0YSBhcmUg
+Y3VycmVudGx5IHVuZGVybWluaW5nIHRoaXMgYXBwcm9hY2gsIG1ha2luZyBpdCBkaWZmaWN1bHQg
+dG8gcmVsaWFibHkgcHJlZGljdCBVRSBpbmNpZGVudHMuDQoNCltMaSxSb25ncWluZ10gDQo+IA0K
+PiAtLQ0KPiBTbWFsbCBkZXZpY2UuIFR5cG9zIGFuZCBmb3JtYXR0aW5nIGNyYXANCg==
