@@ -1,45 +1,46 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010065.outbound.protection.outlook.com [52.101.56.65])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013005.outbound.protection.outlook.com [40.93.201.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F6819AD8B;
-	Sat,  7 Mar 2026 16:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF38371D03;
+	Sat,  7 Mar 2026 16:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.5
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772901220; cv=fail; b=Kkh1E3K20lY+HLVh2ZuSmkqL5oftJMrM/0NgadHGoHaZJpHvTeA8X69Y7uUyzcMV2QzjjVpqt/DWSoWpB+0xfumOITe+HEHyS9Iz+s3xsj7CuXnPhRFPZKp5WagdoY5jivloknPdvbixM6E3Rf3686dGO92bYIIQFtoD+XcGK9o=
+	t=1772901221; cv=fail; b=DJ2btlWvS11Hd81qZiQQUABKUxfJ4soYRI1pMRCvqmWIjPLteg4BwzQwzHhxNAw6M3WT0eGIgHDl43gOyEjNc5ERQbNLcE6DP9NgLQ3vcdb13XRicjTRLfPlH+Ee36IFsb3Bi5UQiA11va0La4DZLx9cURzumSTnllI424Q/TmE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772901220; c=relaxed/simple;
-	bh=bnmzkWpT88iJo5bJLCjNvrPwZQKz1v3CjTS67tKm1Ao=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KmK2OW3tOeJcZj1g+/sm+3mKqjeBfMRVBc5JABF0uETZhbolAk5aa8I1QFmGs1IB5m7ptPBPbhV14tULPaxTxWjooKBgCTQ5mlV/Xwoj5s3j9iWavzQV/4yY2fpnV8AZLMWPw4GbxeOlX0jJ2bN0iqsmOsX3MPKZOMz4sHGLxOQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LTxS9aOG; arc=fail smtp.client-ip=52.101.56.65
+	s=arc-20240116; t=1772901221; c=relaxed/simple;
+	bh=e87hwHE1PaDlvak4MCZ4emXmoKtFFfIWGRQnwJFQuv4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O3rQh5/Kwic+2agjyB911W+0aN5pohYCZGzC2OloKInwFSPTK72nvj/kvkUoS7jIY53eiv/I4ym+irgZ8bmCc63PVQbq9cG5AJHuQVT1gyk4NerOD2n1/rL4cE3TLxyoh/TFYZZWdwKGGvt1w+KMtJn9HO9tkRoM9FQpGhpClt0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=v3AYI6Vl; arc=fail smtp.client-ip=40.93.201.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LTxS9aOG"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="v3AYI6Vl"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DYJCTM/4cS8uaCC857anOj7NRdJwyaP9j1m6aDzJthAT7q2A6ibkvy1uoJzQEDudA8M2cFbmbg1XR9K5QEQbw/oVAsV74q+nKuFKVn0tmXmKW1dkHlmv/KzMNW33ebOP2wNVbMDHr28OJC85gB2M4wzKSXIUfOFaeIPwUUsvLtcZKnM2uJGkIdn8OsMDKfZ4Hh1jE8007j1lzrLx5lTTKlQlc9TYMLcoXPcBUO4wM5Hx1evDVhtFD6CPmSA+01zAjHYIefn0/+gMhuKeYZhM8DVCnbbD+RG7u4o4gENCiCyzs1eXr9PA9/Hp8Mbf+1yGbRYeUTeUpfCAdxks/zegpg==
+ b=cilLsPhgCtwdfR926n1uh142ET+OkVCY5uHe8/dsUuGR8eRt9c9PBnYR/8dBkDRxUJn2ux7VPHPPz5kuEddsT2iWBZxozPBn2iRGkYIQsjHyzUe8bjXVRp9cpaeqjpDoj4odN1y0zYTAEUtjnSJIC7HBKLTgSGyd0hP/M1FC+UBKmTVYVt0EPpuDN2ZMiszKiBEdExA9ZdX0FuA3frKfVCb5hWYQN2SWgYM+MwfXWksfDCfG2VQoBarThWPPk0w+5iE93039a+r17SUNH1DShYSEdTNMXPascGT0MmfCY0KXUJo2lG5W3U/RAKZTr2GehEbS4Y3jcxwEnlyoVAM3ng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4pIi+skCV7l8szM7tiaQ/HiU4IbG4IMMbs0hdUxPhrk=;
- b=PMFibvRJBy/w81jf/qnpt1G6HCCv7ovSDJ3ZQVCtfuppEKI+QSh41zliRtGEUrHpB7LwszuiQBH90hoXuZ3uIqwA8vGNx2Y8oTuilFVo4MptehVEM+44DMksFiX8Yr8nw5rTKc/mlp+onsnCvsp1T5lMOLeOv8GRuTYxDWbZ8VNtmsXMXOo04fHiKCNKfrLTCUT2FPaBxaNq31VD+rVc7S0K+HYv9B9OsozIV+iB+Pg41uG7EL4s1kCSYksDaYrd5S5jW4+0lzHWaRCdf6GyKK93pJjYxkROEY8AcKr8JRcK5je4avxQINtGAGdh8KRPKbCkEKQmtV1aGQQJINXgPw==
+ bh=eiAyG3wK7FJ+dBISAERu7PCZ6NydOzZFBe+YR81zXMQ=;
+ b=BT1caeLfUA6GKy1l9Wd+BC1g6yuIhcHdRoKv6iI6OO75SmsvlnJbvHWvQ/jS4qag61EUm6XRAtF37Pm/L/2AWldM3P3kp4GGZeVqBs2X6/V0hLMFdGOadGyTxwOyLgccoP2L52+c1go8HW6MyFxuqDMHk6y/Wpeve7w7Cu5+QlbQZnye256iCGLnrmwIn8yCx0FawsrqUPp/ukkYbjJXc+frty4HeLtmBcmF2MBIxpbFL6DPx1MSZK2emQ/5IAqWGohUhiAgx0WLmfk9a5OtBHe1XeSeYH/XYepOrn539PvFf4S4vd4PPHKh8Aqdk2pRZZRomeehGAIDM8Tl28yqVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4pIi+skCV7l8szM7tiaQ/HiU4IbG4IMMbs0hdUxPhrk=;
- b=LTxS9aOGqrgAgfHXdYKLopah0KsW/RWgB9WepTcMLRXol5ZnxxZqKAeSYFKYvIZWYjt2ghqi0ftgXdfP1wlCWaC85pYWOPDqSvphxJwT3oXmDsr3+7u7xRlFzDkENrhN1vdHQvSK43LHf//hQTW2zSm623AOvya7EnHwaDHE7BM=
-Received: from SJ0PR03CA0155.namprd03.prod.outlook.com (2603:10b6:a03:338::10)
- by DM4PR12MB5819.namprd12.prod.outlook.com (2603:10b6:8:63::22) with
+ bh=eiAyG3wK7FJ+dBISAERu7PCZ6NydOzZFBe+YR81zXMQ=;
+ b=v3AYI6Vl4G+X52kIYBtM5AwXbVJPZAvAvhYGEDkLtcQ54Xm99SRK5KDD9cRUDzpzsrNfnsHiMxO3q5BkOiVyHoEmSHZyXAJG19U7IBxhbEyIHpORZ17g5kBXoAyhGfXeJNYFSiqxLjEKLxDsZe4xaAQ3IEZJzEawIJWJ3yZlR2A=
+Received: from SJ0PR03CA0180.namprd03.prod.outlook.com (2603:10b6:a03:338::35)
+ by CH2PR12MB9520.namprd12.prod.outlook.com (2603:10b6:610:280::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Sat, 7 Mar
- 2026 16:33:34 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.5; Sat, 7 Mar
+ 2026 16:33:37 +0000
 Received: from SJ1PEPF00002327.namprd03.prod.outlook.com
- (2603:10b6:a03:338:cafe::a5) by SJ0PR03CA0155.outlook.office365.com
- (2603:10b6:a03:338::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.19 via Frontend Transport; Sat,
- 7 Mar 2026 16:33:33 +0000
+ (2603:10b6:a03:338:cafe::70) by SJ0PR03CA0180.outlook.office365.com
+ (2603:10b6:a03:338::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.18 via Frontend Transport; Sat,
+ 7 Mar 2026 16:33:35 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -49,19 +50,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  SJ1PEPF00002327.mail.protection.outlook.com (10.167.242.90) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9678.18 via Frontend Transport; Sat, 7 Mar 2026 16:33:34 +0000
+ 15.20.9678.18 via Frontend Transport; Sat, 7 Mar 2026 16:33:37 +0000
 Received: from yaz-khff2.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Sat, 7 Mar
- 2026 10:33:32 -0600
+ 2026 10:33:34 -0600
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 To: <linux-edac@vger.kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <tony.luck@intel.com>, <x86@kernel.org>,
 	Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH v2 0/3]  New SMCA bank types
-Date: Sat, 7 Mar 2026 11:33:13 -0500
-Message-ID: <20260307163316.345923-1-yazen.ghannam@amd.com>
+Subject: [PATCH v2 2/3] x86/mce, EDAC/mce_amd: Update CS bank type naming
+Date: Sat, 7 Mar 2026 11:33:15 -0500
+Message-ID: <20260307163316.345923-3-yazen.ghannam@amd.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260307163316.345923-1-yazen.ghannam@amd.com>
+References: <20260307163316.345923-1-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -74,56 +77,82 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002327:EE_|DM4PR12MB5819:EE_
-X-MS-Office365-Filtering-Correlation-Id: e07a8097-0592-49b6-3589-08de7c6746b3
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002327:EE_|CH2PR12MB9520:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5c48d4e1-51c1-46d3-91cd-08de7c674876
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700016;
+	BCL:0;ARA:13230040|376014|36860700016|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	psN+Za15fxQxcXiVErAjf2R0eEa7dMgnt9D7L0bxiyIc3xxjaxuHofSfUv9ZaVP0KSdoPr1qA0b5pCI432TMCH8ce/KdSarbfXRfAVCCRzDvWl9fl9NvKE++UHQsiiDI/dSVRi33AXVDX1AJL9RK3tYtj7eW/aVSvZORlwQ/Fd7y+oTBgPMEwZlHO7boK81jJEvW/0f04/dnNSnU4aqifRSw+PxvLjKfN9CwibnvA979ZLWBCbhCQlujQHUmt7knNa/68nLhHkAYJCc/niWbe+3vn8FSdltZ6UmCit8JxtXsJ/yM+zu9jdmLqxvOSROiVxE4324N7K4Rw07n46kdvJyUFmkS4CUiLJy0y6XSqUoYYAHgSJSQTQtE4HQ114iyIzrVdBE0ju8zrY4h+9rcVisUUTaWKIOHUCIJ+Q1M9B1kaXIf2d3pvJF3zilK6VjL0IqrhlXOBQeubwEN5KJucuUeCelaKpynVUFYGNaPWYA9abKjtSWr90b1GEDj2CwJki34ej1hmB3py35a5AyMSa1ib8OTx1Nin417A9RizW6vf4G0PpK5tmS5Hif1UDmVKsn6ueTJ1UjUSh3YaEDaV5bn+E5SBIV1GordGCDvF0buMRPMDiMf2FanGWaxPNmVequ6MXUBAk8uTxLCPHUk55yGkZ2HOaXPnShDS2kHaPFpSt/s4/VbHrEvJFu9SiPyQ9pqFIHwJYFH2ecC3rQ32syUt7WE5RRGeYqgUKpZ66w=
+	IIiFKvC5gckT8tP706AS11f7gkg9mW5B8RMpwYLM5c3Ka5rqLUdZKmfQHRtg9okBlnlpcXU9z8GRdkpmyrPRPTkvCbTOKh2gvjjkodQpu3c9z/rXlnV46BXhi97EV3pFoOGaXQUnzkt5IDws8X+SJpvoSPWLkLjvH17u+UcJ4t2jC6hWUF9t2Gybx9dG/GNBVQqI9+bpc82jI4L2Yn7/7yPR3rlRXsiR4yATM86IDh75PYa5OdOZc7R2PKiN9dbCZwwgmnqWv51ZavojhAnXwMrd3Xaj+Ocs+7mI8ikzR5/WzhJHB08Ya7UNkd8HxnKNOhErvQTsdHcTf+T//jlolJ+8PglZq7HCYneb8TFuWGjHjlsIeeQ4Zoxt/WYTKO5ykXFYx47ECttbN0vkarYFTlo8ZV0JW141RPhBgkwz48TYEI+xQKDgWhRiWgBICPh4OxnyGXSPpVxsBRL2PVtf9W06/PRIKH5OgVQtOCbJUGOrcKwC7c2LTN+wdvKVY8BYoysmUOt5j21Z1pp9Sxv/7cCc11ilo4gbpN5dkUTFZ/NAiU2no7NpJIVVd14JepwGFcdJf/LZoAeA0LydbaYXPzjaZnZhFAPIg8noLfKaLdH/Zjk/1VGwr65lQ9ohtJsDGYTJ9y4gCcEe8qtWQ53r/6yVoj4xvPZAcZcttoW50pDgPRVMDI9dUjG9QeB3KK+VpmPCIwSeQAo1utW72HXr95acHEYbqM+5NfsElQE1pyYGFXa9fYZHHink/a23mj2d7Lzy90j5Kh/TM4GvyeJV6g==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700016);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(82310400026);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	qZxktI0jA7k/kGoOK86i0S4TFgC4GfJJShZXD1VWCnhp/Iquue+BbtXEHJV+DcrY55Kbgzyh0qDHp72Wq+V5y/rjIUHUyl71nkeZHvyxsEAax4Ur65NrB929v1vU9+EpZiTqqmyTwwYHKTj4N9AH61UjjJOVbqRwnF6Pw062WjLN1Aw3pxzggmLKKTQIX4ftNw6cNA/A+NGCBebDsJt2nSKpTk7NrN+JYs1V5zeIMDqdLOq2GDED3UEgGofwi59M1GeJoDXBpSe6jAPV1e164I4SxSkOkN5cggMb2WirpbFWyBGfktHoSMaAkbFM2vzWa2M3lO2cad6mIRZIq5t2GPBHIqkGcO0H1HULuZWaAQOmsU0+rXhElQizXqCeWHQZ+m9TRUkQjVVffbZfgbpfMpjaDwcv9iU0uwoT6OoB93yxvcm/ha1SzJ0hmsF00SCU
+	SatMQiY2HIxLy1XGqyFa67zlYkamvOzBaasIHOVh8+ZtTQvwKFJ5EwIbT03EqBLqOzVDM/TT2qJwmaAB/w04C96TgXgKDrPuyOEATNHwNpk4rK/IfnuDO2PcaBN+yAVpP3m0dPGCbC1cc7B50zBiHXHaJladzOUyUsAS3iT0jqP3Che3w/oEXK12TdPU45cyeFWqar6iZM9+9JtFnKGiPCTc7rM1Do/Ev6JE/62hwRLQ2uO0aFY+AyFHYpX6e6oINSPpMNUwCZ8UqOcVT0FppBGEee+2UQi5uHtvRDJcK3OsgEbRM6noGUY6/7DI9iNUHWdPMHYdjH8gue4uMWxfrO+WUTDoFm1UBYLqRikvC0FKxdzQ+LKHceJ4MBJCbJAaOFBzsMoXxUsSXWwl/l/cwM4r6sTv8wZHFIudiBv7dsr7KysdQKvFnHmYFv1ww8Ym
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2026 16:33:34.1481
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2026 16:33:37.1057
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e07a8097-0592-49b6-3589-08de7c6746b3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c48d4e1-51c1-46d3-91cd-08de7c674876
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	SJ1PEPF00002327.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5819
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9520
 
-Hi all,
+Recent documentation updated the "CS" bank type name from "Coherent
+Slave" to "Coherent Station".
 
-This set does some minor refactoring before adding new SMCA bank types.
+Apply this change in the kernel also.
 
-Thanks,
-Yazen
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
+ arch/x86/include/asm/mce.h    | 2 +-
+ arch/x86/kernel/cpu/mce/amd.c | 2 +-
+ drivers/edac/mce_amd.c        | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Link:
-https://lore.kernel.org/20260202172158.2455749-1-yazen.ghannam@amd.com
-
-v1->v2:
-* Rebase on v7.0-rc2.
-* Add pre-patch to reorder the bank type enums.
-* Add pre-patch to update "CS" bank type name.
-
-Yazen Ghannam (3):
-  x86/mce, EDAC/mce_amd: Reorder SMCA bank type enums
-  x86/mce, EDAC/mce_amd: Update CS bank type naming
-  x86/mce, EDAC/mce_amd: Add new SMCA bank types
-
- arch/x86/include/asm/mce.h    |  59 +++++++++------
- arch/x86/kernel/cpu/mce/amd.c | 134 ++++++++++++++++++++--------------
- drivers/edac/mce_amd.c        |  48 +++++++-----
- 3 files changed, 147 insertions(+), 94 deletions(-)
-
+diff --git a/arch/x86/include/asm/mce.h b/arch/x86/include/asm/mce.h
+index 83899711da4e..576a4b6e83ea 100644
+--- a/arch/x86/include/asm/mce.h
++++ b/arch/x86/include/asm/mce.h
+@@ -349,7 +349,7 @@ enum smca_bank_types {
+ 	 * Keep in alphanumeric order, numerals before letters.
+ 	 * Exception: Keep "V2, etc." with their originals.
+ 	 */
+-	SMCA_CS,	/* Coherent Slave */
++	SMCA_CS,	/* Coherent Station */
+ 	SMCA_CS_V2,
+ 	SMCA_DE,	/* Decoder Unit */
+ 	SMCA_EX,	/* Execution Unit */
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 44e490119b89..86f51415283c 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -95,7 +95,7 @@ static DEFINE_PER_CPU_READ_MOSTLY(struct smca_bank[MAX_NR_BANKS], smca_banks);
+ static DEFINE_PER_CPU_READ_MOSTLY(u8[N_SMCA_BANK_TYPES], smca_bank_counts);
+ 
+ static const char * const smca_names[] = {
+-	[SMCA_CS ... SMCA_CS_V2]	= "coherent_slave",
++	[SMCA_CS ... SMCA_CS_V2]	= "coherent_station",
+ 	[SMCA_DE]			= "decode_unit",
+ 	[SMCA_EX]			= "execution_unit",
+ 	[SMCA_FP]			= "floating_point",
+diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
+index 7fba230cb9e1..54ad56f2a9e0 100644
+--- a/drivers/edac/mce_amd.c
++++ b/drivers/edac/mce_amd.c
+@@ -689,7 +689,7 @@ static void decode_mc6_mce(struct mce *m)
+ }
+ 
+ static const char * const smca_long_names[] = {
+-	[SMCA_CS ... SMCA_CS_V2]	= "Coherent Slave",
++	[SMCA_CS ... SMCA_CS_V2]	= "Coherent Station",
+ 	[SMCA_DE]			= "Decode Unit",
+ 	[SMCA_EX]			= "Execution Unit",
+ 	[SMCA_FP]			= "Floating Point Unit",
 -- 
 2.53.0
 
