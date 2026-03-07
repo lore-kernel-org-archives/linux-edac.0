@@ -1,84 +1,99 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from outbound.baidu.com (mx24.baidu.com [111.206.215.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767653115AF
-	for <linux-edac@vger.kernel.org>; Fri,  6 Mar 2026 15:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948E21CAA6C;
+	Sat,  7 Mar 2026 01:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.206.215.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772812205; cv=none; b=YCuRCT4Oq1fIZbhP4MutpztqfXJH4kF+6sjgN3m8OgVcO7fUIoQl4/7qREOcOHdQmteSKydy8m7Ed7sQK5AAgoySte2EIpmtbYrwsXEy7a0tLISWFPZXhDGax+iDicpN5GEdTf1alNTnci5s0mKzu+FawPI08CHfjoHJDvkUeJA=
+	t=1772846393; cv=none; b=ZiC44pcheDlmdyCchSRxmncYXKKG+KLLFVJJSBvu5OK3LlZvfueUlWCZZW75QOODuBJRAX6q8LIeHMaB03NUgqUmbsdfPDzdWNj9OsnnWLO7iMRfD1/zO9UqYlWC3qAR83WlqWJ0TpUbZYa2PfRUKQLu5fks9XF4mPJNSgYlsq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772812205; c=relaxed/simple;
-	bh=n0xZcsfIekDj0JbXaulr4vpj7qvseqHwvKvLVwbtAO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YpFoz0/OdahJmZvkrBJ05jDYbIp9FVsuPYCRh0TElSVrVnD+L8fBe9JYzn5+oZl4ncH8ArxVJjZDOQdExB8R+DzT1oGQi5Jx277+AsY4oSO14hLWRK49xPUQnMLpP2U00fYK1laX8g+rGtR//Tjt7lmIPif73fik7SPbRoKlIzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=e9METsTW; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="e9METsTW"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 99C7B40E00DA;
-	Fri,  6 Mar 2026 15:50:01 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id WMzTSBzjmQDV; Fri,  6 Mar 2026 15:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1772812198; bh=QPZqgnIt3NwuBhZgtxCgZ9kt9tQTGeB28SpVpSVlIcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e9METsTWMW0ISkWU4bQLzTdHN1/X0EmRUdKgJRiU9p3THmb/StaIoi6DlLyN81zmO
-	 5OLdiNl14JSmK8A4hsOpwS/qpU/jEqNwT5MaCw8FEoVlO3NGzV7e2AztbKq2KSaVHu
-	 c1RM0drBUDp5vJTvKvwNJxJLucbMytrct++KqYpy5BFCDDCVLlum/7/vZcWnQQBbRh
-	 XOdLUzd9uQ7Tb9/JqCxSsufHx1Ns76/yJfDkSumlFjIA2WUZG04CWNRXo+BAcpaC8g
-	 O5mlaQP7XPFAMMgp920CSmbF1TjAquqnrmRyapY+OjCHQr7AWIiwpOcQDDoWzsGarH
-	 7++DAchPz8mPRevr2B0qJmvsnV+FkK58GG+vXNCu/73wV/sd1GundNTd1tx0DbcN5N
-	 l+Vs9MO8RK3RgDdQ6KWG1r9OeLHSpsh9iPqnxEflJ7Bp0MNLV6/vskHLugn8X2yxIl
-	 KxyYImqRSLBLG7zUur7Vw2+q1as2Bqr/FgQb2OAJxQ8Frg9xKsvlqdyWKClR2gW5hl
-	 MVpWtwPHww++ijgvtN2X6sSfQv3JljUVH19pcOYgbyV6jSvCXeNjfxmKsl1YoSRgXg
-	 P9b7SGeLdjqFNE0X+To7gsSnnui4j8Ba92uovRd45amBnUq4HBw/lZeCPdYy9PLfWg
-	 J7gx2JYWqHPEumQgo1/3OjSg=
-Received: from zn.tnic (pd9530d5e.dip0.t-ipconnect.de [217.83.13.94])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 34E7A40E0163;
-	Fri,  6 Mar 2026 15:49:53 +0000 (UTC)
-Date: Fri, 6 Mar 2026 16:49:47 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Mario Limonciello <mario.limonciello@amd.com>, Yazen.Ghannam@amd.com
-Cc: Tony Luck <tony.luck@intel.com>, superm1@kernel.org,
-	linux-edac@vger.kernel.org
-Subject: Re: [PATCH] RAS/AMD/ATL: Decrease message about unknown DF revision
- to debug
-Message-ID: <20260306154947.GGaar3mxJ1JkcC0OgV@fat_crate.local>
-References: <20260305154528.1171999-1-mario.limonciello@amd.com>
- <20260306145003.GDaarpm6p8A-pFBCCf@fat_crate.local>
- <a9a4aeb8-a044-476d-845d-0368f90624f2@amd.com>
- <20260306153223.GFaarzhwApsh3Jdqdy@fat_crate.local>
- <47075497-6bb8-4da3-b8b3-63901d9f3b05@amd.com>
+	s=arc-20240116; t=1772846393; c=relaxed/simple;
+	bh=H93Mks/eCNSVk3gYjm3aqT8y81Nt7Rb9Fn7J8+v0VzE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qUJYOulDh25RWjwxyfI0OcpTak/JPVzdMa+HPnjq8RIxtnzMHZRbGJXvrwptkPwfDkok2k729veObzOm+9Rnby62Mt5eAWey19ISQZP7zdUKTHrFatb/slFhSsgpov+nF20VcgIM0DXgnYU67+MV7jj1GgFSbCSVUhtsVi1Tk4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=111.206.215.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+From: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>
+To: Borislav Petkov <bp@alien8.de>
+CC: "Luck, Tony" <tony.luck@intel.com>, Nikolay Borisov
+	<nik.borisov@suse.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+	<mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>, "Yazen
+ Ghannam" <yazen.ghannam@amd.com>, "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
+	Avadhut Naik <avadhut.naik@amd.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-edac@vger.kernel.org"
+	<linux-edac@vger.kernel.org>
+Subject: =?utf-8?B?562U5aSNOiDnrZTlpI06IOetlOWkjTogW+WklumDqOmCruS7tl0gUmU6IFtQ?=
+ =?utf-8?B?QVRDSF0geDg2L21jZTogRml4IHRpbWVyIGludGVydmFsIGFkanVzdG1lbnQg?=
+ =?utf-8?Q?after_logging_a_MCE_event?=
+Thread-Topic: =?utf-8?B?562U5aSNOiDnrZTlpI06IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdIHg4?=
+ =?utf-8?B?Ni9tY2U6IEZpeCB0aW1lciBpbnRlcnZhbCBhZGp1c3RtZW50IGFmdGVyIGxv?=
+ =?utf-8?Q?gging_a_MCE_event?=
+Thread-Index: AQHcmp5Dzqz6YDwr30OsiY5+cifXvLWhQmRw///lcYCAAJB84P//iEKAgAEqi7A=
+Date: Sat, 7 Mar 2026 01:18:50 +0000
+Message-ID: <ee87e4cb35624a5cb85741725bfbcbd0@baidu.com>
+References: <20260113213158.GUaWa5zunSfuAzra0n@fat_crate.local>
+ <20260113224152.GVaWbKMMzManQ5WwlT@fat_crate.local>
+ <aWbjkAPX9a9ZlJGN@agluck-desk3>
+ <20260114135034.GAaWefKm97-CkbEp4P@fat_crate.local>
+ <20260207115142.GBaYcnTp7maUDVv3Nc@fat_crate.local>
+ <aYobX83_0kElO3NZ@agluck-desk3>
+ <20260210150117.GBaYtIPfsP0Txw7iIc@fat_crate.local>
+ <3748e8c7057a4182bc2a361b44dda51b@baidu.com>
+ <E4BFF14D-85CC-44FA-A217-603C102B1D66@alien8.de>
+ <3431b52760444d209f8460059264cc13@baidu.com>
+ <20260306152903.GEaaryvxD9BTT7Fd10@fat_crate.local>
+In-Reply-To: <20260306152903.GEaaryvxD9BTT7Fd10@fat_crate.local>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <47075497-6bb8-4da3-b8b3-63901d9f3b05@amd.com>
+X-FEAS-Client-IP: 172.31.50.47
+X-FE-Policy-ID: 52:10:53:SYSTEM
 
-On Fri, Mar 06, 2026 at 09:40:06AM -0600, Mario Limonciello wrote:
-> But don't you need to use UMC to discover that?  Chicken and egg type of
-> issue.
-
-Probably...
-
-And we already do that in amd64_edac. So perhaps we could export an API or so.
-Yazen might have an idea...
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+DQoNCj4gLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0KPiDlj5Hku7bkuro6IEJvcmlzbGF2IFBldGtv
+diA8YnBAYWxpZW44LmRlPg0KPiDlj5HpgIHml7bpl7Q6IDIwMjblubQz5pyINuaXpSAyMzoyOQ0K
+PiDmlLbku7bkuro6IExpLFJvbmdxaW5nKEFDRyBDQ04pIDxsaXJvbmdxaW5nQGJhaWR1LmNvbT4N
+Cj4g5oqE6YCBOiBMdWNrLCBUb255IDx0b255Lmx1Y2tAaW50ZWwuY29tPjsgTmlrb2xheSBCb3Jp
+c292DQo+IDxuaWsuYm9yaXNvdkBzdXNlLmNvbT47IFRob21hcyBHbGVpeG5lciA8dGdseEBrZXJu
+ZWwub3JnPjsgSW5nbyBNb2xuYXINCj4gPG1pbmdvQHJlZGhhdC5jb20+OyBEYXZlIEhhbnNlbiA8
+ZGF2ZS5oYW5zZW5AbGludXguaW50ZWwuY29tPjsNCj4geDg2QGtlcm5lbC5vcmc7IEggLiBQZXRl
+ciBBbnZpbiA8aHBhQHp5dG9yLmNvbT47IFlhemVuIEdoYW5uYW0NCj4gPHlhemVuLmdoYW5uYW1A
+YW1kLmNvbT47IFpodW8sIFFpdXh1IDxxaXV4dS56aHVvQGludGVsLmNvbT47IEF2YWRodXQNCj4g
+TmFpayA8YXZhZGh1dC5uYWlrQGFtZC5jb20+OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3Jn
+Ow0KPiBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZw0KPiDkuLvpopg6IFJlOiDnrZTlpI06IOet
+lOWkjTogW+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF0geDg2L21jZTogRml4IHRpbWVyIGludGVy
+dmFsDQo+IGFkanVzdG1lbnQgYWZ0ZXIgbG9nZ2luZyBhIE1DRSBldmVudA0KPiANCj4gT24gRnJp
+LCBNYXIgMDYsIDIwMjYgYXQgMDI6Mzg6MjlQTSArMDAwMCwgTGksUm9uZ3FpbmcoQUNHIENDTikg
+d3JvdGU6DQo+ID4gV2UgYW50aWNpcGF0ZSBwb3RlbnRpYWwgVUUgaXNzdWVzIGJ5IGFuYWx5emlu
+ZyB0aGUgdm9sdW1lIGFuZA0KPiA+IGZyZXF1ZW5jeSBvZiBjb2xsZWN0ZWQgQ0UgcmVwb3J0cywg
+ZW5hYmxpbmcgdXMgdG8gcGVyZm9ybSBwcm9hY3RpdmUNCj4gPiB0YXNrIG9mZmxvYWRpbmcgYW5k
+IG1hY2hpbmUgbWFpbnRlbmFuY2UuIEhvd2V2ZXIsIGluYWNjdXJhY2llcyBpbiB0aGUNCj4gPiBj
+b2xsZWN0ZWQgZGF0YSBhcmUgY3VycmVudGx5IHVuZGVybWluaW5nIHRoaXMgYXBwcm9hY2gsIG1h
+a2luZyBpdA0KPiA+IGRpZmZpY3VsdCB0byByZWxpYWJseSBwcmVkaWN0IFVFIGluY2lkZW50cy4N
+Cj4gDQo+IFRoaXMgbG9va3MgbGlrZSBhIGNhbm5lZCBBSSByZXBseSB0byBtZS4NCj4gDQo+IEkg
+dGhpbmsgeW91IHdhbm5hIHNheSwgeW91IHdhbnQgdG8gZ2V0ICpldmVyeSogc2luZ2xlIGVycm9y
+IGxvZ2dlZC4gWWVzPw0KPiANCj4gU28geW91IHdhbnQgdG8gYmUgYWJsZSB0byBkZWNyZWFzZSB0
+aGUgcG9sbGluZyBpbnRlcnZhbCBpZiBuZWNlc3Nhcnk/DQo+IA0KPiBEbyB5b3UgYWxzbyBkaXNh
+YmxlIHRoZSBSQVMgQ0VDPw0KPiANCg0KQ0VDIG1heSBub3Qgd29yayBpbiBzb21lIGNhc2VzLiBG
+b3IgZXhhbXBsZSwgd2hlbiBRRU1VIHVzZXMgdkRQQSBkZXZpY2VzLCBhbGwgb2YgUUVNVSdzIG1l
+bW9yeSBpcyBwaW5uZWQgYW5kIGNhbm5vdCBiZSBvZmZsaW5lZC4gaHVnZXRsYmZzIGhhcyBvbmx5
+IHJlY2VudGx5IGdhaW5lZCBzdXBwb3J0IGZvciBvZmZsaW5lIG9wZXJhdGlvbnM7IG9mZmxpbmlu
+ZyBodWdldGxiZnMgY2FuIGNhdXNlIGlzc3Vlcy4gVGhlIGtlcm5lbCBwcm92aWRlcyBhbiBpbnRl
+cmZhY2UgdG8gZGlzYWJsZSBvZmZsaW5lLCBhcyByZWZlcmVuY2VkIGluIHRoZSBwYXRjaCAibW0v
+bWVtb3J5LWZhaWx1cmU6IHVzZXJzcGFjZSBjb250cm9scyBzb2Z0LW9mZmxpbmluZyBwYWdlcy4i
+IA0KQW5kIGV2YWx1YXRpbmcgQ29ycmVjdGFibGUgRXJyb3JzIChDRSkgaW4gdXNlcnNwYWNlLCBt
+b3JlIHBhcmFtZXRlcnMgY2FuIGJlIGNvbnNpZGVyZWQsIHN1Y2ggYXMgbWVtb3J5IG1hbnVmYWN0
+dXJlciwgYmF0Y2gsIGFuZCBmcmVxdWVuY3ksIHRvIGltcHJvdmUgcHJlZGljdGlvbiBhY2N1cmFj
+eSANCg0KDQpbTGksUm9uZ3FpbmddIA0KDQoNCj4gVGh4Lg0KPiANCj4gLS0NCj4gUmVnYXJkcy9H
+cnVzcywNCj4gICAgIEJvcmlzLg0KPiANCj4gaHR0cHM6Ly9wZW9wbGUua2VybmVsLm9yZy90Z2x4
+L25vdGVzLWFib3V0LW5ldGlxdWV0dGUNCg==
