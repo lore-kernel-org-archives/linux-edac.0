@@ -1,72 +1,72 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A33838D6A5
-	for <linux-edac@vger.kernel.org>; Wed, 11 Mar 2026 23:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696FB391832
+	for <linux-edac@vger.kernel.org>; Wed, 11 Mar 2026 23:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773271567; cv=none; b=hILj0k4AKIOdK/Ny3wWzYke8thqQslY9uUFXkCPiDpF8bg0z4lAxgGV95CiY2D3PzrCL5idpdALMUTIVh9rl8rRsKLBCCGp1jl1E/ooddBzVqj4Zsq65lCZq41NPLzc4KvkX2K0ktckkTAmhjJmPYnkqZVDKlLv97tL/U5sWnoU=
+	t=1773271618; cv=none; b=P/gqNyQVPRA+X7DQex3Yde129IquBxoUBJiQxc/W9v+az4cwD/7H4nZEtX+/ip5iPGqFVcNKdsZGBBgtkgOi64Wz+mVJWC0MfkfgtXOuxo579QJ3NeBlve3K6nXcUud3B8RYnSn3rya3/oU54ej+8C65h1XNwT+m0QsCJdcNOKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773271567; c=relaxed/simple;
-	bh=3oeka6xSuQGsIoemOkiYuLcr42dJkXo6FacYTZeSSHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FI/joMthXqsd1uQ8xO4KCzrpmnF6cyJDi5utXS7bRplQ4cZ+nq5cplv8xnKSOczXBq1VTJvn3NRzM9H34q5P2Uhl2YLnxBzvKBG9mqQcLr2ndS4SMsjWjgZ3K2g/uilwCQ+gA8AeInnnBPDZUkOS13vbgxUc4cRnIypRdPyHNPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLWu/qGg; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1773271618; c=relaxed/simple;
+	bh=Aeamlkyrp/Tri78LJI5YT+eY+rTSWMhlN4ljcbL+1vs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AKvhd+puiZYZ5bpmhV1k4W0uE20Bba7GltjwhfpZDz4RnmgT3gy0dvgt7NDV2iWAlDflzh+ZXrnGWwPowo3CXSD7cgV06BHPV6KKykctxLRRQF8Ru3H3zlNsTynpKq5q3uk7qgP8fVPhwB2oIdDZIDjhyKvUriW4pu91uAkfhII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=noKHxHOQ; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLWu/qGg"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8296dabef74so394976b3a.1
-        for <linux-edac@vger.kernel.org>; Wed, 11 Mar 2026 16:26:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="noKHxHOQ"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-64ca09f2056so351487d50.2
+        for <linux-edac@vger.kernel.org>; Wed, 11 Mar 2026 16:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773271565; x=1773876365; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773271616; x=1773876416; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o4ZhuYWhXFbDLDSntJ2zZXQchcPysyGDuSdk2vVJCmg=;
-        b=VLWu/qGgLCgEQZPzfuj8j0w1GH+tG3/FbugHnUWUoQOexVGp/gAHuGlMBI65llQ2PD
-         96UWhhtCuP6PcfOUb9u8EW/dGzS2M2CzdXvRl6a0qs8jr3fa4i2NtbyKaLKkW38vhpis
-         KnJmpdjZLB3WSodNwsIK2BGKhao3NqBR+q68gYiBRvYaZU9ODMlXO5IFjGhcjTmOuLO+
-         nbBAoGW7/t0GZNUzeltFFa/6Xdbl/lFc4IX7uuDQlFxgJIQiODXABIqRxl67o5RM8xaY
-         q4huzmcmEtqcBbOye95mzyF4aAnfbMa696jLjMRFcMBLynGzxkLCsVCxkyzJ99wwBFW6
-         w0Ug==
+        bh=xE9cexzHArZthFPt7zjFOtjoKCh1E9B4tVZ/2MEZ4pY=;
+        b=noKHxHOQfHsxFAO0lu9heJVZjvhB4c2TKJpddDzPT+wEFT+GlTuKYyy1EhuE3ZyVOc
+         9D9b02eODeT/X+vdwprTFzTGisSyX13suaro5t4EKsuviokaG0JnX3OsK7b692LYBKfG
+         qezrrAijd6iPTtxPquqiRyiuPCxkeruK6TTzws1ZrSx/PhAdtBI5YyjPWKnqNJOlVsw/
+         dnCEdXFxXZo5ePYMLh8ad2xSzduwmam4Vv3mbT2TGeb+ZxWm1IL7JDQlstpeoWfrlU9j
+         0Six0iIeIfgH+xhFN0lIUh6JHYn4Ua3xkSNGTl5iDU6SpbMjeWYmRkZ5c4wEzDycbgrV
+         Gu5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773271565; x=1773876365;
+        d=1e100.net; s=20230601; t=1773271616; x=1773876416;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o4ZhuYWhXFbDLDSntJ2zZXQchcPysyGDuSdk2vVJCmg=;
-        b=Lb/8Sv/KjTF3IPwGov49M8+OYEQV21AfLsCzCAaomifBZan1lpODgZibxe2YYnWneC
-         SGJe66Sbj3sUPKhKEDisnnEsdrDezXqry88xMFfnE+/l5D9bhAmZE0ccAjVA4BJXpEoY
-         lrTsgVylpuukvtEOj5Q6Npe9BuVU43pKt/8xb8iNXqVnWWCA2/5Tr4fEQioYLEzSDrYb
-         0xbuczBP6iat9p5IdwTPseJWVeBHuhE9ifzMDEVKi0oSaBg7fbWyPTvMdRd14+XBOO29
-         LFhudeMUVJdRB8DjnFChz/9yPqgZ7PU+EwPwdRSV4i2CzJXBWrSU+e971fNnbIKtzm/2
-         Qe0w==
-X-Gm-Message-State: AOJu0Yzlm7Bo6dmRqm4q6MwrSaVmOF2exJbla2lF8RHy5Q9qWsyWErWs
-	nvq7Y+yq1sUwYyPTcQNNmS/nwZ+uVMk0t7Ri8DfAEeVC4JSRaeXlxcK+BOvWohDE
-X-Gm-Gg: ATEYQzyUnxhNcdglivvUWi+r3ityYvLJ1lWfHn6vM7cBnoPjp9JczccV5Dpa46pPxPg
-	idDRnLTY7dw+gs2MR7V9E2IdEXrMOBbG1roi5Ab/uKgpuqeIvTmwFTi7OLAWdtbRwrnotFHZkSe
-	pwFJHgrjMl7shm0aJ2jHHxd73KqVFkFU5gkyvLub08MXRSjATwixeD0xJR/cHhpWtjLE9FlnYrm
-	nG43tEnkSTkcbBfRO6sicVUnsNuk6dHHQKgHwEgTYxaURTWOqT9JHVsEsHNET1Mxxa6G771mBD4
-	5v2Q4KEYh+YPBaBikB11mavvNdNtG1hL7wa1Wy6wTJLHBtIk3ZhweBQkp6v/chbYd2JSEXPX9BR
-	yVM/Q2vVw3b+LCZgEVaZe2QJ9/tAtFm1Yu7Bvi7AcOmNJokKvImUAzuJWIaSEQlgPHE9/ZHRCcB
-	+f6NNemS8veIkapv67FFCs7DsdOU05oAu4NyvVYz4odYgOhAzqlEbbPg==
-X-Received: by 2002:a05:6a00:94a6:b0:82a:8aa:cbb0 with SMTP id d2e1a72fcca58-82a08aad83dmr482996b3a.29.1773271565071;
-        Wed, 11 Mar 2026 16:26:05 -0700 (PDT)
+        bh=xE9cexzHArZthFPt7zjFOtjoKCh1E9B4tVZ/2MEZ4pY=;
+        b=ay/InCBW6n5PUwWcj2ryyqcLECUic6ry6YhiqAaJMQvB5RNuP7a/LkztgIQnX2j41D
+         HvjZkfVR2Bxc3PpojQwAI0XbsDoXOcdRgpZN1MqO63BER1VbTc+M604W+ufBrxGfdla5
+         2qOFvJgICAlvF60f9S6gvj0GXXA5gxZTNeEoc2qQg+atJ6oE6kSB5gsx/myuGZxtUt+/
+         hDmOtgJ8TGVtwqVZQm2PQIjU5Gonsb8esUCYryPovJs+eqjeOafyEeSt9fef4CiT3dWb
+         qH6OhNjwT78E15MhXKZ+7cwU0oer/AUrj6ElByopAcdXRFChgS8/78rm+JcBL14ztJ9f
+         bC8g==
+X-Gm-Message-State: AOJu0YzIJMVbZA0bjAMNbvkqaPzkAD2wC7BrD0JXXksZNCtzl4AnKaoh
+	+tiMi7caPud7OsyCvxfXrtw7XOwFyrmLp2vJLgegwxHhZ9HTv9/Kym+djXqkjP6a
+X-Gm-Gg: ATEYQzzv24SEUn/+MtfL/2BYeim1N1FTA+WYBHpcYXQjGlbonWo2KyJN2T3quoo8D1q
+	ftFWrdzk7HtUiqe2r91qhDShs4cY5B58Nmsb8qEXm+geL1trkfqziA8eFBpr4U+d5cj9z/NU+LL
+	kKbXjPtUsnZmgQCRcWPdtGHRt4AYsSBzzMBfUjv1SYppiITvSriyTg+/X/daBUQ2VyNvQma6vbz
+	hCkDRPZDs/VXVNihjSUKJzl00hsIkoc5D+8Kb9f5kDVc5ypMxPuDYGLLXVc9lbmn21znZWg/5Vy
+	IFmRFYSiomHwsiuO3Y/fPg1c4bbSzegAmT4fWsoc8z93PpGtEna1S+Zf3neVfXUUin1xpICGxyV
+	2NZUHrRX27f4EuIQ9WR2eglQf4AmAHefUen1Z0RuSUFZGjHwpLBozcq/ZUklEZzYVNmQoFfpBYT
+	Y6suUYIm0FhamXRlgf8wkr4Wl01+DhwgulxeIkl5dYjL7+Or1rwD0r+w==
+X-Received: by 2002:a05:690c:6:b0:798:2723:ab40 with SMTP id 00721157ae682-79917ecc38fmr42758297b3.22.1773271616175;
+        Wed, 11 Mar 2026 16:26:56 -0700 (PDT)
 Received: from ryzen ([2601:644:8000:56f5::8bd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07341ed1sm740846b3a.33.2026.03.11.16.26.01
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79917e2019fsm22517987b3.19.2026.03.11.16.26.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 16:26:03 -0700 (PDT)
+        Wed, 11 Mar 2026 16:26:55 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: linux-edac@vger.kernel.org
-Cc: Tony Luck <tony.luck@intel.com>,
-	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
 	Kees Cook <kees@kernel.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	linux-kernel@vger.kernel.org (open list),
 	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
-Subject: [PATCH] EDAC: sb_edac: use kzalloc_flex
-Date: Wed, 11 Mar 2026 16:25:45 -0700
-Message-ID: <20260311232545.18492-1-rosenp@gmail.com>
+Subject: [PATCH] EDAC, i7core: use kzalloc_flex
+Date: Wed, 11 Mar 2026 16:26:38 -0700
+Message-ID: <20260311232638.18585-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -82,56 +82,52 @@ Add __counted_by to get extra runtime analysis.
 
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- drivers/edac/sb_edac.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/edac/i7core_edac.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
-index 09d4e816404b..7b282dfd093f 100644
---- a/drivers/edac/sb_edac.c
-+++ b/drivers/edac/sb_edac.c
-@@ -364,11 +364,11 @@ struct sbridge_dev {
- 	int			seg;
- 	u8			bus, mc;
- 	u8			node_id, source_id;
+diff --git a/drivers/edac/i7core_edac.c b/drivers/edac/i7core_edac.c
+index 0f783173d0ec..b87c4c6471ea 100644
+--- a/drivers/edac/i7core_edac.c
++++ b/drivers/edac/i7core_edac.c
+@@ -240,9 +240,9 @@ struct pci_id_table {
+ struct i7core_dev {
+ 	struct list_head	list;
+ 	u8			socket;
 -	struct pci_dev		**pdev;
- 	enum domain		dom;
- 	int			n_devs;
- 	int			i_devs;
+-	int			n_devs;
  	struct mem_ctl_info	*mci;
++	int			n_devs;
 +	struct pci_dev		*pdev[] __counted_by(n_devs);
  };
  
- struct knl_pvt {
-@@ -771,21 +771,14 @@ static struct sbridge_dev *alloc_sbridge_dev(int seg, u8 bus, enum domain dom,
+ struct i7core_pvt {
+@@ -455,18 +455,12 @@ static struct i7core_dev *alloc_i7core_dev(u8 socket,
  {
- 	struct sbridge_dev *sbridge_dev;
+ 	struct i7core_dev *i7core_dev;
  
--	sbridge_dev = kzalloc_obj(*sbridge_dev);
-+	sbridge_dev = kzalloc_flex(*sbridge_dev, pdev, table->n_devs_per_imc);
- 	if (!sbridge_dev)
+-	i7core_dev = kzalloc_obj(*i7core_dev);
++	i7core_dev = kzalloc_flex(*i7core_dev, pdev, table->n_devs);
+ 	if (!i7core_dev)
  		return NULL;
  
--	sbridge_dev->pdev = kzalloc_objs(*sbridge_dev->pdev,
--					 table->n_devs_per_imc);
--	if (!sbridge_dev->pdev) {
--		kfree(sbridge_dev);
+-	i7core_dev->pdev = kzalloc_objs(*i7core_dev->pdev, table->n_devs);
+-	if (!i7core_dev->pdev) {
+-		kfree(i7core_dev);
 -		return NULL;
 -	}
 -
-+	sbridge_dev->n_devs = table->n_devs_per_imc;
- 	sbridge_dev->seg = seg;
- 	sbridge_dev->bus = bus;
- 	sbridge_dev->dom = dom;
--	sbridge_dev->n_devs = table->n_devs_per_imc;
- 	list_add_tail(&sbridge_dev->list, &sbridge_edac_list);
+-	i7core_dev->socket = socket;
+ 	i7core_dev->n_devs = table->n_devs;
++	i7core_dev->socket = socket;
+ 	list_add_tail(&i7core_dev->list, &i7core_edac_list);
  
- 	return sbridge_dev;
-@@ -794,7 +787,6 @@ static struct sbridge_dev *alloc_sbridge_dev(int seg, u8 bus, enum domain dom,
- static void free_sbridge_dev(struct sbridge_dev *sbridge_dev)
+ 	return i7core_dev;
+@@ -475,7 +469,6 @@ static struct i7core_dev *alloc_i7core_dev(u8 socket,
+ static void free_i7core_dev(struct i7core_dev *i7core_dev)
  {
- 	list_del(&sbridge_dev->list);
--	kfree(sbridge_dev->pdev);
- 	kfree(sbridge_dev);
+ 	list_del(&i7core_dev->list);
+-	kfree(i7core_dev->pdev);
+ 	kfree(i7core_dev);
  }
  
 -- 
