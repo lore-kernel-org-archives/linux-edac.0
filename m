@@ -1,226 +1,347 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010064.outbound.protection.outlook.com [40.93.198.64])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09AD39DBF7
-	for <linux-edac@vger.kernel.org>; Tue, 10 Mar 2026 17:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773164872; cv=fail; b=rhiiRyZxFHyiFKb0bBj/V4+GWMjyA80v+A3yu/CE/1I13wwt0OOQ0JTPj7S4keTs57zRh8OW5lc+E3TRjTLkzxfnebQuERNDLVB4rf4+Os05zFcJ2mOpfOk4dwjzl8Bd/aiKcsyXDt0VudyW1b4Y6sdQwqUmpJU9KrqX8CgJEks=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773164872; c=relaxed/simple;
-	bh=to3c59kNw1H1BPmw7amZJCC3zc8Yy9u+fxCYJ8uuw0w=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=GrfgfaxJy2UUn/F5dZquwZ6OFhAWNWYVb1jcmW6C1fuqhFqxxZ8uaXFc8lCNd+ms45am8VS9N9m2kJ3BR7IQ8B8pBQ/nGIDrvIl59O2lOV8iLXgi0estszcFLegA4m02vIpKB6XEPNPsLlyFIVRh/WIeB6wyfPp4El9geSCqBXs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=21NI66Xx; arc=fail smtp.client-ip=40.93.198.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403DB310762;
+	Wed, 11 Mar 2026 03:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773199512; cv=none; b=ek7DBpc/sWKPdDPpTHnlROIFfQ3IWkJvW5Y+mm811a2WrGsAS13fA8duLetGK5teqCrTTqwlNOF4yXOUBQxPRogvb0rz4XkLnUPMJotwd5iRs/cxFj9b+zkmRhjRB16buDWh5PdI2DFn49IghBFWv14zTpqgcojyswQnrjBk3nQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773199512; c=relaxed/simple;
+	bh=l92UFFL3132/U4z+IRGClEeMEBFXatn7a5IGJyNJHT0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xijf1P3/Q7lUp4BJSrTmY1uKgVb0rXVzxR04P+n4wzdN2KPIyq9S2Zcgh443zv2ET36HZzwz5C/9rBtNfT4RYTDLPpfMaotpqqc21yI4Ux2824nfaG1EkuYD+q55jwI0HJ6e8cgRQTqVQ2Fi8y81akhfhiUZOsJwVlrRAmXnfvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=kA69dqMW; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="21NI66Xx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vug5uLzNQeQHw+0rtEFnFyvXBrnWRExDdinHcOMMAeaypndleZPkC0Maovf0mD/jjcDSyVWiP9g/OOmYPVJ0AQv2nBcDUfKj9xKLcz6svi5wub/jCMH3Wt7r3Q9943v+3OiJQA7MPG91uHOEf4CydznVJflYY17ahcA1TZItEIQB/O0ogZhX5suyCx/AYNDIgkzF6izJjHCarX8N83mY9Zj6H/F0k+amBoufCS6/Xv76/kZmxY1hsYWgbTLQPYXwUAOpvlH1H2UkzWdgotcEZiJw9YXyYR8viCFS/sYTel533rQeia3+1/PG7nK1JGVu1y9q6ARwN/F7S5oBDVNHCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gXYWR61/uudg5pyq8FClxPsi+KeBaoiFufqKEYJW+kw=;
- b=NKmGcErrrlzUqntDaNcQegEg57M5ms4o5M7eTL+Qhro/9fsIJOBoKdh3/Vmne/UWNqO0YMUc3bHwUzIgix0BuZKFN8xtveECOAnbUpv6XMGRjOWSGiB8tZYVj+ky/hg5m6DyhY+WpG0PDq+5LkpC4EfLY0iyeO/OzlANDAWvHUTwsepIifQ0z/4lDN+yTt0r40UaaSaEnsMf6qcAGxjbJJkIZH+6C6vfXFJGpk7krnaJuPwYIv42GJbRLo9flpgtICRvoX8HsVnSOdhdmuyCcm8TwrYrbayNl6NS15K8F3e+dq4YIiKrRj5dgj0xtNM4nc4gQnhLex8zbL2xB9W8AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gXYWR61/uudg5pyq8FClxPsi+KeBaoiFufqKEYJW+kw=;
- b=21NI66Xx6HkNe08X5J4zgaTqcUr6qQKHbxlVgMGH7MFWUaNOS8wpybWzbMaWfkFF2pZyCSrRhezJVgk+aUKxpA838NPsY8X5h0cwcxwU0QhBZJ5H8a/ACf3efVD8A2f4r0BfRJRe1dhCRwXpbSpx8jFaM5roZ9p7bEYANPrPsVc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
- by IA1PR12MB7496.namprd12.prod.outlook.com (2603:10b6:208:418::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
- 2026 17:47:44 +0000
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::885a:79b3:8288:287]) by SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::885a:79b3:8288:287%5]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
- 17:47:44 +0000
-Message-ID: <943824a1-d5e7-4801-a0a9-c4e875ad286c@amd.com>
-Date: Tue, 10 Mar 2026 12:47:39 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] RAS/AMD/ATL: Decrease message about unknown DF revision
- to debug
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
- superm1@kernel.org, linux-edac@vger.kernel.org
-References: <20260305154528.1171999-1-mario.limonciello@amd.com>
- <20260306145003.GDaarpm6p8A-pFBCCf@fat_crate.local>
- <a9a4aeb8-a044-476d-845d-0368f90624f2@amd.com>
- <20260306153223.GFaarzhwApsh3Jdqdy@fat_crate.local>
- <47075497-6bb8-4da3-b8b3-63901d9f3b05@amd.com>
- <20260306154947.GGaar3mxJ1JkcC0OgV@fat_crate.local>
- <20260307144910.GA113343@yaz-khff2.amd.com>
- <20260307151231.GAaaxAX3gT1AKv04I4@fat_crate.local>
- <20260310125422.GB890303@yaz-khff2.amd.com>
- <e6fa4686-5bff-43f2-acdf-b4442452d4dd@amd.com>
- <20260310165225.GA1166706@yaz-khff2.amd.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20260310165225.GA1166706@yaz-khff2.amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR08CA0004.namprd08.prod.outlook.com
- (2603:10b6:610:5a::14) To SA0PR12MB4557.namprd12.prod.outlook.com
- (2603:10b6:806:9d::10)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="kA69dqMW"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1773199504; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=cUS2q8BCeNjoSUbHg8j9ryi3lHTPQy+l2aV9CzSGmq4=;
+	b=kA69dqMWbFc1yiEzy/c8PH1q+di7MKKdNaQdFCYtxWekXaGyvwc4x2tFkTRHTF6CtfYRmRuQ/wpakeTT9oEI8C6c0NAbt2tSVa4liUM9Ieb/TTGI5AVUCs4ssyAyq9W9zWxnS5AbG9WbRmAM2TpiGCzgwPFU1icy9tJdZwfNCXc=
+Received: from 30.74.145.199(mailfrom:tianruidong@linux.alibaba.com fp:SMTPD_---0X-iHa6Q_1773199501 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 11 Mar 2026 11:25:02 +0800
+Message-ID: <d4e4e2b1-c182-42f9-9d60-b12f0fd7f977@linux.alibaba.com>
+Date: Wed, 11 Mar 2026 11:25:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|IA1PR12MB7496:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5abcf87-ffaa-4d69-d747-08de7ecd2244
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	WpRnEme7JPmuBQeLYbsSKTbBmGgucslZ8DLBQpKFkhJ40FTjSTgYyAwqiIXz0fK7FFRuVfpqoQJ5+qwyavWDCAyI1Hn/M6iH6Ew0pj19ldWAzaOdDzV6MKJy9owE73O7ujWw8Bq5ySlNTWI/SLyJu4N619evVBT5qoWYjcxwcUK1dEpzb5YyUG/ydFXkmYJyC5SdZ39CwlNxMKExdlczbGNgKovWilCaiM3naI9UqjViWuTlkwp645EWVvYvyOmqipT54CZq0BpWgpskDYcBklwYU3J7P63wlm4nqRlg7GZbgHyWSOnNYjnl1h9BWhii7dIKPgebaWHGdri1FYVd+pqi7yt2735Ig8gmEl6fLl+Utuj8UnfZWL+yV7lxHp2lEAscAHzL1w4rcY2wMeg7g6Ze1GiITFLD3EmqpWbpSuZXqZw6Qgut5AoiHT5lfOzRQI0S6vSQ9f8rA7NcRV/+TSnv44gLjtdexjlarK1SRIa3mEwp1WchFpFR6PBQ/qLWkitdELfRO247HJMcmMBG9j949xQcr7xHfb+mHA2gBLsPPTWjAc7kU6Bi6rCLDtnLUAIP3GmOURSl+uQohreLOmtrZaVENnYL/fa5vXHmPmVzRtUTlmeAwPbStDsU8PIIzcGoq5A30C9Nr1JLmBRxzO84dmHklYwtnEUPgVG3NXZwv/kcAbgcSZ8PxxuPNmZgYEzRZXfKVlC261+VHaO6IuYq08M+hpSSZLmOY2CTRHc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?amF5Y0dVeHBNZ3BUNDc0Y1BlQU40dTNWY3lPaEZkOW41R2JHOFplL0MvMEhS?=
- =?utf-8?B?dGV3VXBJSldrRUV0Nm10ejZwNWV3YmkwbE16ZnBPL3pEUDJqRDc4a004Tjd2?=
- =?utf-8?B?ZnRpZktxcDhpU3NOTVZKVGpQQVdRTmZnanBsWVZ5RkhaS3Via2lCUTF0UzUz?=
- =?utf-8?B?NGg3Q2N1YldQTnNaRVQ0VXQ4RC8rdGJ4SXlDSWhmeHQrQ016dy9yT2JSc2Zo?=
- =?utf-8?B?UjR3SUFLN3RxbFY1dHFHZEpnN3ZEaTgzN2k3VDdpeHlyc0hIbk5BNHdOcUJG?=
- =?utf-8?B?M3lWd2VPcUVqWFpuV2N3SkZPbHdDbnE5VXRZbWcvWnVPRngvZjFEWEZVdngx?=
- =?utf-8?B?WVoySmo4aVB6MEVpY093ZDhhbnl5eDcvL2dKb2R5U0VlSUFiOUUyclV1S2FB?=
- =?utf-8?B?UVlzTWl0ZGJHU3huS1NwWit5dHVYN3hReVV4dEh2VjFGZXh4TUZRY1BJN2s5?=
- =?utf-8?B?ZGd5YWIwWWFrdFUzdURkdVBKanMxa1lZU1FXTlZ1bGdScVJKRHZXcDEwak9M?=
- =?utf-8?B?d3UvN0R4Y3FGTFlabTN6RTZnV0E1NmRiMVR3WFNJSDdPL0ZVajRFMTNFUjZT?=
- =?utf-8?B?aVJ0Z0wwZWZhcVdoa000MjZRQWMrNk5uRVFPS2FLbUREWDVTVXc4TGRta1Vs?=
- =?utf-8?B?S2gyRHFZU3JHdTJwZDNtNkMzUWV6WE9yakV0WTIxMVdHcFZPVGY1cEhJMEs5?=
- =?utf-8?B?WG4rWWxiMzhDMEJTYlU1VmhFQy9HRVAzNDFaU1hTSmxVQTlBa1JLaG8zbmF1?=
- =?utf-8?B?MSs5SmdnZXhHT1h6NmpjNnJTbzlaT3N1ZmNsYWhwREdTdXl0OVdBZkplN1FL?=
- =?utf-8?B?bmZiRE5PcS94U0toQUxJWm0xbnhTQlF3cTNoMkJvc3N2NWNYYU1jK2xyTzBt?=
- =?utf-8?B?VkZjTHdpZytna2NyZzZEc3pLL0ZIZDhEUTBxaUg4Y1lFS0dXMEJmUVhZSTkw?=
- =?utf-8?B?ZjU4YzNETFBRendTbkljN29yeUtTcE5MRjBCR3pDMVBIeFQwL2R1eEIyK2ph?=
- =?utf-8?B?VkkzSnIwenpjOTYwaTlsVTlReW5mSjJ0L1FSRDROYUpsU3NsUUdENWRkL1lS?=
- =?utf-8?B?ajRLTVZhTVprUFkvbmNpL3dkSFlzaW1FVk9Za1VEM3phZ1ZqTmxIcmswS29K?=
- =?utf-8?B?dTJwV2FwTWJZRWlsbWR0UnVuSzhmNDBrbm5zYjJSYUY5bHZ5UGFsRXBnTyt0?=
- =?utf-8?B?WjdXb00zOW1ua1ZMQktaMk42dzdvV3Zqa0x5c0RTUmZiQ1NSSTdWZjVZOFdt?=
- =?utf-8?B?ZGEzd1RUV3I3WTY4azJsQkVneThuUlVSTDFmMldZZjBLMmkydjA2R3c2OWxD?=
- =?utf-8?B?ekNHNWp6bXprVDBTSHdiQzBid2l4aDZqQU8zTmFBUlNJVkg0MlFHL3JpUG5u?=
- =?utf-8?B?ajBtRk1PbVdyQnhSeFdySHZpamJSMFJKV0J1ZzQyaEdSa1RKN2ZwZTRnREdv?=
- =?utf-8?B?T3BNVEoxTi9BMnVLQWFHSlNTa3Fwa0JZSDl1VGdtd1IwaEtnRDhTbDhkM2xt?=
- =?utf-8?B?VVl4bmNyc0I3K1l5bGN0eWVvSVFJeHNydnFJb3BKcm91aWtjdmZhek1BVERx?=
- =?utf-8?B?RmU5bXk0VkxyanNQZ29ua2pLYzBocmpKdno0T0x4emk5dkRDSThkU2c3LzdO?=
- =?utf-8?B?TVU2NnRiczlSWmsrSWZOYWYwVENWcnZoN29PT21QSW82aGlickFKTDdWM1Bi?=
- =?utf-8?B?cE5YY09XWmJRZC9PNHF6Qk5BdGhET1NYR1VJMFdlandvanBjQ3U0T3NkbXBF?=
- =?utf-8?B?ZUNtWnFtMjN3YUVTZkhqaUI2Mk9zZ1hWK1RnTTJPQitMd2lheHByOGNOTzcv?=
- =?utf-8?B?Ymh4MHhxVEpSM3Y2bXhFVlVMZ1pXQ0pwdWpuU3lieE5md1d3QUdCZGFyTHZ0?=
- =?utf-8?B?V3hDN0Nvc01BdE91VmRuRE9xUXBWeEc3elFETDVTU3AyUGJwV3pwZDhqcVd0?=
- =?utf-8?B?TDRCM0tYazh6RG1WNkdwZUQveWxNaTZVS1k1R3BBUVhUTjdoc1dsWlg0akZZ?=
- =?utf-8?B?Q1V3WnZkbGlNL3hOblFLYzlTU1RlMUs3R2J1NVp6NmUxNW1ib3loSGZ0WXR6?=
- =?utf-8?B?M1E4dUt5MGgrTm1ZV0MrZFk1L2JTd21kdlFvTFdEUDJiNkhld0ozRGFxaVdM?=
- =?utf-8?B?ME52MFNHcngzUDlCVE11dDBkZWUzcFNBR1Jqb3JjNDJ4UEdlT2xrTGtUYitj?=
- =?utf-8?B?clB2K3UxVTdGdTlPR3NXWitOVFkvMjZWQU0zL2FVUGdkWnIxNU1TVm5iVW9s?=
- =?utf-8?B?YjJzZ1ZrR1hFQThSYVJlUXJ3aWtyS3ZxcXAvUXJEMkVlQnBGVWdWOHdWakhW?=
- =?utf-8?B?cmwzS1JPKzdFcWxQaTFNcWhDUnpzNDZrUFFFZDhLWGxxU3I2MEQwZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5abcf87-ffaa-4d69-d747-08de7ecd2244
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 17:47:44.3221
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A9XK7vW1cHGZRF4yr75SBLjLchAS8O71j9VPiDvPK9ULw9DpB2kCu6KHHkJrkH742G2X3jpMEs/fL/7wzNKu9A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7496
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/16] Support Armv8 RAS Extensions for Kernel-first
+ error handling
+To: Umang Chheda <umang.chheda@oss.qualcomm.com>, catalin.marinas@arm.com,
+ will@kernel.org, lpieralisi@kernel.org, guohanjun@huawei.com,
+ sudeep.holla@arm.com, rafael@kernel.org, robin.murphy@arm.com,
+ mark.rutland@arm.com, tony.luck@intel.com, bp@alien8.de, tglx@linutronix.de,
+ peterz@infradead.org
+Cc: lenb@kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
+ mchehab@kernel.org, xueshuai@linux.alibaba.com, zhuo.song@linux.alibaba.com,
+ oliver.yang@linux.alibaba.com
+References: <20260122094656.73399-1-tianruidong@linux.alibaba.com>
+ <edf7e7eb-8f02-4672-bc31-16e0a8fb9715@oss.qualcomm.com>
+From: Ruidong Tian <tianruidong@linux.alibaba.com>
+In-Reply-To: <edf7e7eb-8f02-4672-bc31-16e0a8fb9715@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 3/10/26 11:52 AM, Yazen Ghannam wrote:
-> On Tue, Mar 10, 2026 at 09:58:18AM -0500, Mario Limonciello wrote:
->> On 3/10/26 7:54 AM, Yazen Ghannam wrote:
->>> On Sat, Mar 07, 2026 at 04:12:31PM +0100, Borislav Petkov wrote:
->>>> On Sat, Mar 07, 2026 at 09:49:10AM -0500, Yazen Ghannam wrote:
->>>>> On Fri, Mar 06, 2026 at 04:49:47PM +0100, Borislav Petkov wrote:
->>>>>> On Fri, Mar 06, 2026 at 09:40:06AM -0600, Mario Limonciello wrote:
->>>>>>> But don't you need to use UMC to discover that?  Chicken and egg type of
->>>>>>> issue.
->>>>>>
->>>>>> Probably...
->>>>>>
->>>>>> And we already do that in amd64_edac. So perhaps we could export an API or so.
->>>>>> Yazen might have an idea...
->>>>>>
->>>>>
->>>>> How about having EDAC load ATL when ready?
->>>>
->>>> The thing is, AMD_ATL can also be built-in so then request_module doesn't make
->>>> sense.
->>>>
->>>> Which means, if we have to "tie" it to amd64_edac detection, we'd have to make
->>>> it synchronize its Kconfig setting to the CONFIG_EDAC_AMD64 setting.
->>>>
->>>> Or we could simply say that AMD_ATL is a module only because if anything needs
->>>> it, then anything should request it. And that makes sense because the address
->>>> translation should be present only when something else loads which is at all
->>>> capable of presenting addresses which can be translated.
->>>>
->>>> IOW, AMD_ATL should not be builtin at all because, well, it doesn't make any
->>>> sense for it to be. IOW, its existence alone on the system makes a little
->>>> sense if there's no address producer like amd64_edac or whatever else calls
->>>> amd_convert_umc_mca_addr_to_sys_addr()...
->>>>
->>>> Hmmm.
->>>>
->>>> It sure sounds weird...
->>>>
->>>
->>> So AMD_ATL *can* be built-in, but it is default 'N'. CONFIG_EDAC_AMD64
->>> has 'imply AMD_ATL', so CONFIG_AMD_ATL=CONFIG_EDAC_AMD64.
->>>
->>> If CONFIG_EDAC_AMD64=m, then CONFIG_AMD_ATL=m. I think this would be the
->>> default for most users. EDAC will fail to load on systems without DRAM
->>> ECC, so AMD_ATL won't load either.
->>>
->>> If CONFIG_EDAC_AMD64=y, then CONFIG_AMD_ATL=y. I expect that a user that
->>> wants EDAC built-in knows their system will use it.
->>>
->>> Thanks,
->>> Yazen
+
+
+在 2026/3/9 21:28, Umang Chheda 写道:
+> Hello Ruidong Tain,
+> 
+> On 1/22/2026 3:16 PM, Ruidong Tian wrote:
+>> Motivation: Reliability in Modern Data Centers
+>> =================================================
+>> In modern data centers, proactive maintenance is essential for achieving high
+>> service availability. The practice of using Corrected Errors (CE) to predict
+>> impending Uncorrected Errors (UE) is already widely deployed at scale across
+>> the industry, like Alibaba[2], Tencent[4], Intel[1], AMD[2]. By analyzing CE
+>> telemetry, operators can identify failing hardware and perform migrations
+>> before catastrophic failures occur.
 >>
->> Are there "going" to be other consumers of AMD_ATL planned?  I wonder if it
->> should just be structured as part of amd64_edac and only registered once we
->> know there is ECC support.
+>> Problem: Inefficient CE Collection on ARM
+>> ==========================================
+>> Currently, ARM-based systems primarily rely on "Firmware-First" error
+>> handling (e.g., via GHES). This path is inherently heavy-weight. To avoid
+>> significant performance overhead, firmware is often configured with high
+>> thresholds—reporting to the OS only after thousands of CEs have occurred.
+>> If the threshold is set lower, the high frequency of errors leads to
+>> excessive and costly context switching between the OS and firmware.
+>> Consequently, ARM platforms currently lack an efficient mechanism to collect
+>> the granular CE data required for high-fidelity error prediction.
 >>
+>> Solution: Kernel-First Handling via AEST
+>> ===========================================
+>> Other architectures have long utilized "Kernel-First" approaches for
+>> efficient CE collection: Intel provides CMCI (Corrected Machine Check
+>> Interrupt), and AMD has recently introduced similar CE interrupt support[5].
+>>
+>> On the ARM architecture, hardware already provides the necessary RAS
+>> Extensions[6], and the ACPI AEST specification[0] defines a standardized way for
+>> the OS to discover these error source registers. This series implements
+>> AEST support, enabling the kernel to:
+>>
+>>   - Discover error sources directly via ACPI tables.
+>>   - Handle CE notifications via direct interrupts.
+>>   - Bypass firmware overhead to collect every CE or use low-latency thresholds.
+>>
+>> This implementation provides the missing link for efficient RAS telemetry
+>> on ARM, bringing it to parity with other enterprise architectures.
 > 
-> Yes, actually address translation was once part of amd64_edac. But there
-> is so much code that it was nice to move it to a separate library.
-> Another example of this decoupling is with ACPI_ADXL that Intel uses.
+> Thanks for posting this series enabling kernel-first handling for the Armv8 RAS extensions.
 > 
-> There is another user of AMD_ATL: RAS_FMPM.
+> We noticed the current implementation targets ACPI-based server platforms. For embedded/SoC systems, Device Tree is often the primary firmware description.
+> Do you have any plans to add DT-based support for the same flow? If not, do you see any blockers to extending this series to support DT
+> (e.g., DT bindings + discovery/registration path analogous to the ACPI plumbing) ?
+> If DT support is in-scope, We would be happy to align on the expected approach and help with review/development/testing for DT-based platforms.
+
+Hi Umang,
+
+Thanks for the reply.
+
+Adding Device Tree support should be easy. We just need a patch similar 
+to "ACPI/AEST: Parse the AEST table" to fill the DT table into struct 
+acpi_aest_node (might need renaming) and struct aest_hnode. The driver 
+part requires minimal changes.
+
+However, I'm not very familiar with DT and lack DT engineering support, 
+so I would need some guidance on these DT-related questions:
+
+- Is there a specification that outlines the reporting 	requirements for 
+RAS extension information that is similar to AEST?
+- How should the DT be designed?
+- How can I develop QEMU and modify DT files for debugging, etc.?
+
+I would be happy to adjust the patchset to meet the needs of both 
+parties if you are prepared to invest the necessary effort（DT-related）. 
+In reality, I believe that just a little modification is required.
+
 > 
-> Also, I do have it in mind that AMD_ATL can be used by other places or
-> independently. I have some old WIP where we use it with MCE to do
-> preemptive page offlining.
+>> Background and Maintenance
+>> =============================
+>> This series is based on Tyler Baicar's preliminary patches [7]. I attempted
+>> to follow up with Tyler in 2022 [8] but received no reply. As he no longer
+>> appears active on the mailing list, I have picked up this work, updated it
+>> to align with the latest AEST v2.0 specification, and addressed pending
+>> feedback to ensure this critical feature is integrated into the mainline.
+>>
+>> AEST Driver Architecture
+>> ========================
+>>
+>> The AEST driver is structured into three primary components:
+>>    - AEST device: Responsible for handling interrupts, managing the lifecycle
+>>                   of AEST nodes, and processing error records.
+>>    - AEST node: Corresponds directly to a RAS node in the hardware
+>>    - AEST record: Represents a set of RAS registers associated with a specific
+>>                   error source.
+>>
+>> Comparison with x86 MCA:
+>>
+>> RAS record ≈ MCA bank.
+>> RAS node ≈ A set of MCA banks + CMCI on a core.
+>>
+>> The key difference lies in uncore handling: x86 typically maps uncore errors
+>> (like those from a memory controller) into core-based MCA banks. In contrast,
+>> ARM requires uncore components to provide their own standalone RAS nodes. When
+>> a component requires multiple such nodes, they are grouped and managed as a
+>> "RAS device" in AEST driver.
+>>
+>> These components are organized hierarchically as follows:
+>>
+>>   ┌──────────────────────────────────────────────────┐
+>>   │             AEST Driver Device Management        │
+>>   │┌─────────────┐    ┌──────────┐     ┌───────────┐ │
+>>   ││ AEST Device ├─┬─►│AEST Node ├──┬─►│AEST Record│ │
+>>   │└─────────────┘ │  └──────────┘  │  └───────────┘ │
+>>   │                │       .        │  ┌───────────┐ │
+>>   │                │       .        ├─►│AEST Record│ │
+>>   │                │       .        │  └───────────┘ │
+>>   │                │  ┌──────────┐  │        .       │
+>>   │                ├─►│AEST Node │  │        .       │
+>>   │                │  └──────────┘  │        .       │
+>>   │                │                │  ┌───────────┐ │
+>>   │                │  ┌──────────┐  └─►│AEST Record│ │
+>>   │                └─►│AEST Node │     └───────────┘ │
+>>   │                   └──────────┘                   │
+>>   └──────────────────────────────────────────────────┘
+>>
+>> AEST Interrupt Handle
+>> =====================
+>>
+>> Upon an AEST interrupt, the driver performs the following sequence:
+>> 1. The AEST device iterates through all registered AEST nodes to identify the
+>>     specific node(s) and record(s) that reported an error.
+>> 2. Each node typically contains two types of records:
+>>        - report record: Errors can be located efficiently through a bitmap
+>>                         in the `ERRGSR` register.
+>>        - poll record: The node must individually poll all records to determine
+>>                       if an error has occurred.
+>> 3. process record:
+>>        - if error is corrected, The CE threshold is reset, and the error event
+>>          is logged.
+>>        - if error is defered, Relevant registers are dumped, and
+>>          `memory_failure()` is invoked.
+>>        - if error is uncorrected, panic, While UEs typically trigger an
+>>          exception rather than an interrupt, if detected, the system will panic.
+>> 4. decode record: The AEST driver notifies other relevant drivers, such as
+>>     EDAC, to further decode the reported RAS register information.
+>>
+>> Testing
+>> ===================
+>> I have tested this series on THead Yitian710 SOC with customized BIOS. Someone
+>> can also use QEMU[9] for preliminary driver testing.
+>>
+>> 1. Boot Qemu
+>>
+>> qemu-system-aarch64 -smp 4 -m 32G \
+>>    -cpu host --enable-kvm -machine virt,gic-version=3 \
+>>    -kernel Image -initrd initrd.cpio.gz \
+>>    -device virtio-net-pci,netdev=t0 -netdev user,id=t0 \
+>>    -bios /usr/share/edk2/aarch64/QEMU_EFI.fd  \
+>>    -append "rdinit=/sbin/init earlycon verbose debug console=ttyAMA0 aest.dyndbg='+pt'" \
+>>    -nographic -d guest_errors -D qemu.log
+>>
+>> 2. inject error
+>> devmem 0x90d0808 l 0xc4800390
+>>
+>> 2.1 Memory error
+>> [   64.959849] AEST: {1}[Hardware Error]: Hardware error from AEST memory.90d0000
+>> [   64.959852] AEST: {1}[Hardware Error]:  Error from memory at SRAT proximity domain 0x0
+>> [   64.959855] AEST: {1}[Hardware Error]:   ERR0FR: 0x40000080044081
+>> [   64.959858] AEST: {1}[Hardware Error]:   ERR0CTRL: 0x108
+>> [   64.959859] AEST: {1}[Hardware Error]:   ERR0STATUS: 0xc4800390
+>> [   64.959860] AEST: {1}[Hardware Error]:   ERR0ADDR: 0x8400000043344521
+>> [   64.959861] AEST: {1}[Hardware Error]:   ERR0MISC0: 0x7fff00000000
+>> [   64.959861] AEST: {1}[Hardware Error]:   ERR0MISC1: 0x0
+>> [   64.959862] AEST: {1}[Hardware Error]:   ERR0MISC2: 0x0
+>> [   64.959863] AEST: {1}[Hardware Error]:   ERR0MISC3: 0x0
+>> [   64.959873] Memory failure: 0x43344: recovery action for free buddy page: Recovered
+>>
+>> 2.2 CMN error
+>> [  132.044283] AEST: {2}[Hardware Error]: Hardware error from AEST XP
+>> [  132.044286] AEST: {2}[Hardware Error]:  Error from vendor hid ARMHC700 uid 0x0
+>> [  132.044288] AEST: {2}[Hardware Error]:   ERR0FR: 0x48a5
+>> [  132.044290] AEST: {2}[Hardware Error]:   ERR0CTRL: 0x108
+>> [  132.044292] AEST: {2}[Hardware Error]:   ERR0STATUS: 0xc4800390
+>> [  132.044293] AEST: {2}[Hardware Error]:   ERR0ADDR: 0x8400000043344521
+>> [  132.044295] AEST: {2}[Hardware Error]:   ERR0MISC0: 0x0
+>> [  132.044296] AEST: {2}[Hardware Error]:   ERR0MISC1: 0x0
+>> [  132.044298] AEST: {2}[Hardware Error]:   ERR0MISC2: 0x0
+>> [  132.044299] AEST: {2}[Hardware Error]:   ERR0MISC3: 0x0
+>> [  132.044302] Memory failure: 0x43344: recovery action for already poisoned page: Failed
+>>
+>> [0]: https://developer.arm.com/documentation/den0085/0200/
+>> [1]: Intel: Predicting Uncorrectable Memory Errors from the Correctable Error History
+>> [2]: Alibaba. Predicting DRAM-Caused Risky VMs in Large-Scale Clouds. Published in HPCA2025
+>> [3]: AMD: Physics-informed machinelearning for dram error modeling
+>> [4]: Tencent: Predicting uncorrectablememory errors for proactive replacement: An empirical study on large-scale field data
+>> [5]: https://lore.kernel.org/all/20251104-wip-mca-updates-v8-4-66c8eacf67b9@amd.com/
+>> [6]: https://developer.arm.com/documentation/ihi0100/
+>> [7]: https://lore.kernel.org/all/20211124170708.3874-1-baicar@os.amperecomputing.com/
+>> [8]: https://lore.kernel.org/all/b365db02-b28c-1b22-2e87-c011cef848e2@linux.alibaba.com/
+>> [9]: https://github.com/winterddd/qemu/tree/error_record
+>>
+>> Change from V5:
+>> https://lore.kernel.org/all/20251230090945.43969-1-tianruidong@linux.alibaba.com/
+>> 1. Based on the feedback from Borislav Petkov, I've dropped the idea of a
+>>     unified address translation interface across ARM and AMD.
+>>
+>> Change from V4:
+>> https://lore.kernel.org/all/20251222094351.38792-1-tianruidong@linux.alibaba.com/
+>> 1. Fix build warning in 0010 and 0014 report by kernel test robot:
+>>      https://lore.kernel.org/all/202512230122.CfXZcF76-lkp@intel.com/
+>>      https://lore.kernel.org/all/202512230007.Vs6IvFVD-lkp@intel.com/
+>> 2. Dropped the extra patch(0014) that was mistakenly included in v4.
+>>
+>> Change from V3:
+>> https://lore.kernel.org/all/20250115084228.107573-1-tianruidong@linux.alibaba.com/
+>> 1. Add vendor AEST node framework and support CMN700
+>> 2. Borislav Petkov
+>>      - Split into multiple smaller patches for easier review.
+>>      - refined the English in the cover letter for better flow.
+>> 3. Accept Tomohiro Misono's comment
+>>
+>> Change from V2:
+>> https://lore.kernel.org/all/20240321025317.114621-1-tianruidong@linux.alibaba.com/
+>> 1. Tomohiro Misono
+>>      - dump register before panic
+>> 2. Baolin Wang & Shuai Xue: accept all comment.
+>> 3. Support AEST V2.
+>>
+>> Change from V1:
+>> https://lore.kernel.org/all/20240304111517.33001-1-tianruidong@linux.alibaba.com/
+>> 1. Marc Zyngier
+>>    - Use readq/writeq_relaxed instead of readq/writeq for MMIO address.
+>>    - Add sync for system register operation.
+>>    - Use irq_is_percpu_devid() helper to identify a per-CPU interrupt.
+>>    - Other fix.
+>> 2. Set RAS CE threshold in AEST driver.
+>> 3. Enable RAS interrupt explicitly in driver.
+>> 4. UER and UEO trigger memory_failure other than panic.
+>>
+>> Ruidong Tian (16):
+>>    ACPI/AEST: Parse the AEST table
+>>    ras: AEST: Add probe/remove for AEST driver
+>>    ras: AEST: support different group format
+>>    ras: AEST: Unify the read/write interface for system and MMIO register
+>>    ras: AEST: Probe RAS system architecture version
+>>    ras: AEST: Support RAS Common Fault Injection Model Extension
+>>    ras: AEST: Support CE threshold of error record
+>>    ras: AEST: Enable and register IRQs
+>>    ras: AEST: Add cpuhp callback
+>>    ras: AEST: Introduce AEST driver sysfs interface
+>>    ras: AEST: Add error count tracking and debugfs interface
+>>    ras: AEST: Allow configuring CE threshold via debugfs
+>>    ras: AEST: Introduce AEST inject interface to test AEST driver
+>>    ras: AEST: Add framework to process AEST vendor node
+>>    ras: AEST: support vendor node CMN700
+>>    trace, ras: add ARM RAS extension trace event
+>>
+>>   Documentation/ABI/testing/debugfs-aest |   99 +++
+>>   MAINTAINERS                            |   11 +
+>>   arch/arm64/include/asm/arm-cmn.h       |   47 ++
+>>   arch/arm64/include/asm/ras.h           |   95 +++
+>>   drivers/acpi/arm64/Kconfig             |   11 +
+>>   drivers/acpi/arm64/Makefile            |    1 +
+>>   drivers/acpi/arm64/aest.c              |  311 +++++++
+>>   drivers/perf/arm-cmn.c                 |   37 +-
+>>   drivers/ras/Kconfig                    |    1 +
+>>   drivers/ras/Makefile                   |    1 +
+>>   drivers/ras/aest/Kconfig               |   17 +
+>>   drivers/ras/aest/Makefile              |    8 +
+>>   drivers/ras/aest/aest-cmn.c            |  330 ++++++++
+>>   drivers/ras/aest/aest-core.c           | 1054 ++++++++++++++++++++++++
+>>   drivers/ras/aest/aest-inject.c         |  131 +++
+>>   drivers/ras/aest/aest-sysfs.c          |  228 +++++
+>>   drivers/ras/aest/aest.h                |  410 +++++++++
+>>   drivers/ras/ras.c                      |    3 +
+>>   include/linux/acpi_aest.h              |   75 ++
+>>   include/linux/cpuhotplug.h             |    1 +
+>>   include/linux/ras.h                    |    8 +
+>>   include/ras/ras_event.h                |   71 ++
+>>   22 files changed, 2914 insertions(+), 36 deletions(-)
+>>   create mode 100644 Documentation/ABI/testing/debugfs-aest
+>>   create mode 100644 arch/arm64/include/asm/arm-cmn.h
+>>   create mode 100644 arch/arm64/include/asm/ras.h
+>>   create mode 100644 drivers/acpi/arm64/aest.c
+>>   create mode 100644 drivers/ras/aest/Kconfig
+>>   create mode 100644 drivers/ras/aest/Makefile
+>>   create mode 100644 drivers/ras/aest/aest-cmn.c
+>>   create mode 100644 drivers/ras/aest/aest-core.c
+>>   create mode 100644 drivers/ras/aest/aest-inject.c
+>>   create mode 100644 drivers/ras/aest/aest-sysfs.c
+>>   create mode 100644 drivers/ras/aest/aest.h
+>>   create mode 100644 include/linux/acpi_aest.h
 > 
-> EDAC for x86 is mostly counting and decoding. You could leverage address
-> translation without wanting to use EDAC. And you can use EDAC without
-> address translation.
 > 
 > Thanks,
-> Yazen
-
-OK.
-
-I don't think the assertion that amd-atl won't load by default on most 
-systems without ECC is correct.  It has a modalias that looks for 
-features (X86_FEATURE_ZEN specifically).
-
-alias:          cpu:type:x86,ven*fam*mod*:feature:*00FC*
-alias:          cpu:type:x86,ven*fam*mod*:feature:*0223*
-
-If you look at this all in a vacuum - is turning down the messaging to 
-debug for amd-atl so bad?
+> Umang
 
