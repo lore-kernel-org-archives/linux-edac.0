@@ -1,156 +1,139 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011029.outbound.protection.outlook.com [40.93.194.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8C83E51E3;
-	Wed, 11 Mar 2026 18:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773255437; cv=fail; b=fnD+A49qxBvONyKKqnI6K86Arlvlxg8ng4TUHb2shVAmdJYVtcd3DbOYwfC9dq+fFOcoJdR7aJbNHWo/Boghjh8bbVnXgpZtm+nXWIZT0A+BOCr/do8QQIclKLR/OtwHZtvZhzujxH2Giq58N8c9t6nSPiHOq9Ilo21c/l1BqwU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773255437; c=relaxed/simple;
-	bh=FNpyGqvZAq4ugcxlTquLNmrkttRoU1DNm5QBE4icBZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ManULTCG/8k/NHoE/xkwxMe8/vGFjsAqyK5JT0WdyiW+oJ/H+qRIGTlrkRBKMY3OMvmoNWxAwTIV1LCnvSJ6ngqZGjzHwadu8ZHoTMugwLZMgU+EHtmzepzikCCAnIg3n1gYXfEoGRoyeT5MZRyCNI/hIFuAmrVSl+xpTQYDBkA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FFhB1jl5; arc=fail smtp.client-ip=40.93.194.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A33838D6A5
+	for <linux-edac@vger.kernel.org>; Wed, 11 Mar 2026 23:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773271567; cv=none; b=hILj0k4AKIOdK/Ny3wWzYke8thqQslY9uUFXkCPiDpF8bg0z4lAxgGV95CiY2D3PzrCL5idpdALMUTIVh9rl8rRsKLBCCGp1jl1E/ooddBzVqj4Zsq65lCZq41NPLzc4KvkX2K0ktckkTAmhjJmPYnkqZVDKlLv97tL/U5sWnoU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773271567; c=relaxed/simple;
+	bh=3oeka6xSuQGsIoemOkiYuLcr42dJkXo6FacYTZeSSHg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FI/joMthXqsd1uQ8xO4KCzrpmnF6cyJDi5utXS7bRplQ4cZ+nq5cplv8xnKSOczXBq1VTJvn3NRzM9H34q5P2Uhl2YLnxBzvKBG9mqQcLr2ndS4SMsjWjgZ3K2g/uilwCQ+gA8AeInnnBPDZUkOS13vbgxUc4cRnIypRdPyHNPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLWu/qGg; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FFhB1jl5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hdfB6eylq3Ln6hDLZ6AwzPyyQe900oT3eMd6MDYvMschCvjruSQQpxwDxprgPuDdm0c8Zn1NReMl1SoQA8c7QJkfC1vzNIANAiirgbXxPP21/QigO3W40OkRTpIN67pqP4f6j3H9lSvEPVxV0KvmYAFIzmO0c4481tE5zH72kQeHAn/0nygQ76sVRvTuTyqAsndvIPtKoJ7t1L+lw0Iwrra0O9Y09ppBcdWfU7BrvZp2rBhWW2yjDF57znHydbUiew7Pf+MXRlyVxqucMsTuSvSHdyjGU8PTlfOawuY/oSgOlEtHqhWwKbEczbDpwf/6twy1Tma0nMdWyU554hPk9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h92V2tdpkGaPEXNEanI22rApLgESGIrjsW46Utcko5U=;
- b=Y0wBNn+qtCbKFPr2AAZIAiPgaPeQkFZ/0UJYAGkqW/8+WzeSvQJNbFFhz7PoiURAEjtL7Z0sIGp2vJ1dzjgUBebdlc3wJpjDNRbRuHr3m/1KanV2rpdxU8nKm6zSF0LdFg428o09dfl9nXTSKCloLIXwKQi8KF6jx1Vb0j3Al1vQI/vLVPdGkR/tfqjmVjEsn2hopde81QhaOfX4wr2p/oAVVRM9OqYfgJV1N8yNa614alajSIc9/UczltapkDNEI0DmLmnVJ11qKuN7sX2CrS7g8EB0WBJgnmEkk4vnkTEOzAdJva+uh6XvRkMytL9opNQa0WKc4dkG3cMwQMrFUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h92V2tdpkGaPEXNEanI22rApLgESGIrjsW46Utcko5U=;
- b=FFhB1jl5OJrkAshNweFwL4N+RRr50RBuSe+j7tH2ZAXe4dSR1AOG23mLeuIapZ1l7fb973ismeHkfA3mP068AtdL+YG5/Pwj1exik05utScCYxBh3CndTmXpUtRXzstiXvbCzUY0BH/Nhw67kkDshNBgJUa9S7eEGlsQ+cWnMLg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6373.namprd12.prod.outlook.com (2603:10b6:8:a4::7) by
- DM4PR12MB5817.namprd12.prod.outlook.com (2603:10b6:8:60::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.4; Wed, 11 Mar 2026 18:57:12 +0000
-Received: from DM4PR12MB6373.namprd12.prod.outlook.com
- ([fe80::7da:cc3:cf2e:8ebf]) by DM4PR12MB6373.namprd12.prod.outlook.com
- ([fe80::7da:cc3:cf2e:8ebf%4]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
- 18:57:11 +0000
-Date: Wed, 11 Mar 2026 14:57:01 -0400
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tony.luck@intel.com, x86@kernel.org
-Subject: Re: [PATCH v2 0/3]  New SMCA bank types
-Message-ID: <20260311185701.GA1836340@yaz-khff2.amd.com>
-References: <20260307163316.345923-1-yazen.ghannam@amd.com>
- <20260311131938.GRabFr6kIjckASLap4@fat_crate.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260311131938.GRabFr6kIjckASLap4@fat_crate.local>
-X-ClientProxiedBy: CH0PR03CA0076.namprd03.prod.outlook.com
- (2603:10b6:610:cc::21) To DM4PR12MB6373.namprd12.prod.outlook.com
- (2603:10b6:8:a4::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLWu/qGg"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8296dabef74so394976b3a.1
+        for <linux-edac@vger.kernel.org>; Wed, 11 Mar 2026 16:26:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773271565; x=1773876365; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o4ZhuYWhXFbDLDSntJ2zZXQchcPysyGDuSdk2vVJCmg=;
+        b=VLWu/qGgLCgEQZPzfuj8j0w1GH+tG3/FbugHnUWUoQOexVGp/gAHuGlMBI65llQ2PD
+         96UWhhtCuP6PcfOUb9u8EW/dGzS2M2CzdXvRl6a0qs8jr3fa4i2NtbyKaLKkW38vhpis
+         KnJmpdjZLB3WSodNwsIK2BGKhao3NqBR+q68gYiBRvYaZU9ODMlXO5IFjGhcjTmOuLO+
+         nbBAoGW7/t0GZNUzeltFFa/6Xdbl/lFc4IX7uuDQlFxgJIQiODXABIqRxl67o5RM8xaY
+         q4huzmcmEtqcBbOye95mzyF4aAnfbMa696jLjMRFcMBLynGzxkLCsVCxkyzJ99wwBFW6
+         w0Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773271565; x=1773876365;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o4ZhuYWhXFbDLDSntJ2zZXQchcPysyGDuSdk2vVJCmg=;
+        b=Lb/8Sv/KjTF3IPwGov49M8+OYEQV21AfLsCzCAaomifBZan1lpODgZibxe2YYnWneC
+         SGJe66Sbj3sUPKhKEDisnnEsdrDezXqry88xMFfnE+/l5D9bhAmZE0ccAjVA4BJXpEoY
+         lrTsgVylpuukvtEOj5Q6Npe9BuVU43pKt/8xb8iNXqVnWWCA2/5Tr4fEQioYLEzSDrYb
+         0xbuczBP6iat9p5IdwTPseJWVeBHuhE9ifzMDEVKi0oSaBg7fbWyPTvMdRd14+XBOO29
+         LFhudeMUVJdRB8DjnFChz/9yPqgZ7PU+EwPwdRSV4i2CzJXBWrSU+e971fNnbIKtzm/2
+         Qe0w==
+X-Gm-Message-State: AOJu0Yzlm7Bo6dmRqm4q6MwrSaVmOF2exJbla2lF8RHy5Q9qWsyWErWs
+	nvq7Y+yq1sUwYyPTcQNNmS/nwZ+uVMk0t7Ri8DfAEeVC4JSRaeXlxcK+BOvWohDE
+X-Gm-Gg: ATEYQzyUnxhNcdglivvUWi+r3ityYvLJ1lWfHn6vM7cBnoPjp9JczccV5Dpa46pPxPg
+	idDRnLTY7dw+gs2MR7V9E2IdEXrMOBbG1roi5Ab/uKgpuqeIvTmwFTi7OLAWdtbRwrnotFHZkSe
+	pwFJHgrjMl7shm0aJ2jHHxd73KqVFkFU5gkyvLub08MXRSjATwixeD0xJR/cHhpWtjLE9FlnYrm
+	nG43tEnkSTkcbBfRO6sicVUnsNuk6dHHQKgHwEgTYxaURTWOqT9JHVsEsHNET1Mxxa6G771mBD4
+	5v2Q4KEYh+YPBaBikB11mavvNdNtG1hL7wa1Wy6wTJLHBtIk3ZhweBQkp6v/chbYd2JSEXPX9BR
+	yVM/Q2vVw3b+LCZgEVaZe2QJ9/tAtFm1Yu7Bvi7AcOmNJokKvImUAzuJWIaSEQlgPHE9/ZHRCcB
+	+f6NNemS8veIkapv67FFCs7DsdOU05oAu4NyvVYz4odYgOhAzqlEbbPg==
+X-Received: by 2002:a05:6a00:94a6:b0:82a:8aa:cbb0 with SMTP id d2e1a72fcca58-82a08aad83dmr482996b3a.29.1773271565071;
+        Wed, 11 Mar 2026 16:26:05 -0700 (PDT)
+Received: from ryzen ([2601:644:8000:56f5::8bd])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07341ed1sm740846b3a.33.2026.03.11.16.26.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 16:26:03 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-edac@vger.kernel.org
+Cc: Tony Luck <tony.luck@intel.com>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kernel@vger.kernel.org (open list),
+	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
+Subject: [PATCH] EDAC: sb_edac: use kzalloc_flex
+Date: Wed, 11 Mar 2026 16:25:45 -0700
+Message-ID: <20260311232545.18492-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6373:EE_|DM4PR12MB5817:EE_
-X-MS-Office365-Filtering-Correlation-Id: 745e0d79-b666-4908-e5cc-08de7f9ffffa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	+QYYHU0INoEhIeQCglgJxuvXpLi+WKq+BEqGXh2qZwFpuYEQs3LkpqW8R2wsdwxphgwH0ZSwavr2Xej8xsf0pja9zC9dDBsh8/Yct0F4T4GlBjj7BdAsY+/ETxqkn7pXUmbk5lXNuNsCYredcVskQp3foh8gyNI7wDlr613sqw3Km5ZwUmenzRaY/4ajr70kVhD2rg89ZTZDY46G7+hQNNILumt48LA4WlrPCWm1OyxkYTXPVPXK5WyxyphDTdo5Nlg1OErpA5jCjt56EeFtVkjslnhC53ZzOwnnp+qilJ5Ab354rHvZBCyDW84CcNCDiwiTFofYgDaz10dBLWy2zCMOjJDy9X453Fv1fsnNa016WaJP3rK7IwG1z256DOWrIyiwcpR6gYrkIRly8cG5CpT7+9mezKMlhakCDn97XVjBbrF7UmKjdCUOG+4528qbNtkPaCjJFlEldw2HuEUY9OWvi+/d6j2z6xJ8WzNt1C1vKILoEyIlVy9HBTHOF1FyYDmLKgMg5zruwqyIbZbRZxfXgG+yrNMeyqvRgH4n8LhnbBxyFjIIyaql8iLuKSid507qS5l9se/yrcz81r3K0jaVzSZVswHrTod/f2sWVkG+R2rHDOFyBupuzk3cyzx4jX43vvwBZIyafmBs9AoTHB7azVRyrSEiOZDR+fArv8kjfhf8Ocx/j7VK5kGXO7nbw/QBFtInHmTDaz03VjFajw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6373.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?FZFENBuB9dvP4u0Q0amVtRfUjUlB+FtSU81PyufsY8OsnCnWUAJGpSanxc6o?=
- =?us-ascii?Q?RcVfwADEwGWpVCzZv5CHybpAn28+YyoYlQz6PQgcaOoXY6hRSfn1YWKXzEuf?=
- =?us-ascii?Q?r6KQ5PBpY69cXkTDdU3fPmsvx717HZVrXrf0mTFUIZ0TsbQO128mpOPDLFiW?=
- =?us-ascii?Q?VcifKPy6iLV4ioE4rwi7xsgErUc2HMSopD0qnDA2+3/9t5eKIhAhveQCEEMN?=
- =?us-ascii?Q?YtPVW5IIY9s0sVHiRJf0s8TQ/WtSHze0SMKtxGTGrz/2CrEd3LC3wNLD3Cf7?=
- =?us-ascii?Q?pLCaCnRA8rW0bwFfBQ/uMmivGiGQX3hAQGu02ydHiPxnic397OVOp5g5g0K6?=
- =?us-ascii?Q?MNGE6Zq+TseqtgxeBUOJstxXCuVnFhgnsxMtecVBQBwgCi2nz8BEfP7qnqOF?=
- =?us-ascii?Q?NnVWuCH1gQKUQ7VRJlTqSikpjc6K/fuTJwupIF9qfFFXmEhSyDX8qYao0hlK?=
- =?us-ascii?Q?WV8j4j/xGKV0gRkIYwOpayN1yYLz94Y8U0TnJzOunkL40fJF9RGOwISiW86o?=
- =?us-ascii?Q?jebrp30QzVomiwXPRuRyovM29+INe6frCHZhwfo2F0eDgMPIbrPklvsSMKOF?=
- =?us-ascii?Q?EVsJ21UEJ9JSUoy0HUV27K0f41qDHoUoC/TllEeJ6dc63G4S0i906olAaPhI?=
- =?us-ascii?Q?MND1zApOMy1flRYWtf9Fvy5b47TDTwhcYfmS9D1tIBlc0uL7vbfLDlE0Wbj+?=
- =?us-ascii?Q?+pnPnA73n0izCDNwwO0WJIxhoss/Q+suyDXCK4+bCmsHs8gD3Eva0oDpsH6y?=
- =?us-ascii?Q?u0lC56tX2h2bZ88l4aMLnODMhQtda8dfQlAt/KbWnwPTHzWIq+5IY1NCEb09?=
- =?us-ascii?Q?E6zrvMx5Womo1PIbIaPH7/tOaXnwaYC8g5QttQImxwDx+bSG0PpNFCKhImEe?=
- =?us-ascii?Q?9CL4T1mDvZ/Wyj/3LhvK3Kt1d3/DXFoeJD3lGnd0//D9w0Be4hq6Xv48H+uB?=
- =?us-ascii?Q?QpkXnBb67Lgrgi0TPB/tA3YT/sVrs9Mgu7szdKemuXptMAEqFbZpe88I5GGu?=
- =?us-ascii?Q?99aL7yvcarDAzaTFjaxzZsCtkg+pHnfozF4RFWgOxLIuZj93ZxzQa0gBeskG?=
- =?us-ascii?Q?XGuELE48YwiidDIZ0V1phQnQEF9T36pI7+9Eo7NAX1xWMXHnYhmyxZ7A6oui?=
- =?us-ascii?Q?gP76vUR5qphtjpySr4bsXKuDNbIeIDhdOFW6NOZafaJUWojd2JfEIWPfRHtz?=
- =?us-ascii?Q?/eWv2GboOIFRRvJemYIl0iPKyg8hsIZoQ24sr7X+WMdyyrGJA/B40G9JWj3S?=
- =?us-ascii?Q?ZtfMlfL7bv8pWo+J+W2WNIgk1SZsV6Bz8VUOJGD6fpvf+EKpy4cgjse6Cuvw?=
- =?us-ascii?Q?0IrnCa9pZkhJe1pkZXcEmznB7QYxkT9CyDs1PQvR9h/VP41bi5A8MAiQif7e?=
- =?us-ascii?Q?iJOzuAShyIBghWai8yf2mf2zy9pjhqMEtnif68SSRz9abSDs1LPJf8HAcNMN?=
- =?us-ascii?Q?nvcCOH6FKBxDAxahCgy1Fp8zEx1drNsqUpbHSDNt7SZSrk4NKgBhdKokhs1X?=
- =?us-ascii?Q?EdB/nAYwOj8/wiTwrK4Gfa6XOS6t18IHBY6IwSS0aOK9ebhWWD2wSGUplxKK?=
- =?us-ascii?Q?9PEzY27itovOcTe2iqmk+gqdDClYc2GRy2KFoOkWrlmKBExplnBJRpgkW1Fp?=
- =?us-ascii?Q?lrOMM9/lOJLoMZ3htl1am2uyuozD72UEErTMfy/fgvoetSO9NVk8i13hbr/Y?=
- =?us-ascii?Q?Wee70PcQpkbbXHbF1ZM4q0LhUXsSpe0RdyS+LXNyFcSH8koCPzaG5HZPMyxd?=
- =?us-ascii?Q?X3Xo8kB+BA=3D=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 745e0d79-b666-4908-e5cc-08de7f9ffffa
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6373.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 18:57:10.8721
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TPNhzWlWzXVZBdUMZ5xqBYaPXs9JLt/t8O7n3JaJI2ItPJLcZE0qFgK9/Ct8mpct73eRFscAUc1GKBdDNCn73Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5817
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 11, 2026 at 02:19:38PM +0100, Borislav Petkov wrote:
-> On Sat, Mar 07, 2026 at 11:33:13AM -0500, Yazen Ghannam wrote:
-> > Hi all,
-> > 
-> > This set does some minor refactoring before adding new SMCA bank types.
-> > 
-> > Thanks,
-> > Yazen
-> > 
-> > Link:
-> > https://lore.kernel.org/20260202172158.2455749-1-yazen.ghannam@amd.com
-> > 
-> > v1->v2:
-> > * Rebase on v7.0-rc2.
-> > * Add pre-patch to reorder the bank type enums.
-> > * Add pre-patch to update "CS" bank type name.
-> > 
-> > Yazen Ghannam (3):
-> >   x86/mce, EDAC/mce_amd: Reorder SMCA bank type enums
-> >   x86/mce, EDAC/mce_amd: Update CS bank type naming
-> >   x86/mce, EDAC/mce_amd: Add new SMCA bank types
-> > 
-> >  arch/x86/include/asm/mce.h    |  59 +++++++++------
-> >  arch/x86/kernel/cpu/mce/amd.c | 134 ++++++++++++++++++++--------------
-> >  drivers/edac/mce_amd.c        |  48 +++++++-----
-> >  3 files changed, 147 insertions(+), 94 deletions(-)
-> 
-> Ok,
-> 
-> check here pls whether I've botched anything:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git/log/?h=tip-ras-core
-> 
+Simplifies allocations by using a flexible array member in this struct.
 
-Looks good to me.
+Add __counted_by to get extra runtime analysis.
 
-Thanks,
-Yazen
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ drivers/edac/sb_edac.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+index 09d4e816404b..7b282dfd093f 100644
+--- a/drivers/edac/sb_edac.c
++++ b/drivers/edac/sb_edac.c
+@@ -364,11 +364,11 @@ struct sbridge_dev {
+ 	int			seg;
+ 	u8			bus, mc;
+ 	u8			node_id, source_id;
+-	struct pci_dev		**pdev;
+ 	enum domain		dom;
+ 	int			n_devs;
+ 	int			i_devs;
+ 	struct mem_ctl_info	*mci;
++	struct pci_dev		*pdev[] __counted_by(n_devs);
+ };
+ 
+ struct knl_pvt {
+@@ -771,21 +771,14 @@ static struct sbridge_dev *alloc_sbridge_dev(int seg, u8 bus, enum domain dom,
+ {
+ 	struct sbridge_dev *sbridge_dev;
+ 
+-	sbridge_dev = kzalloc_obj(*sbridge_dev);
++	sbridge_dev = kzalloc_flex(*sbridge_dev, pdev, table->n_devs_per_imc);
+ 	if (!sbridge_dev)
+ 		return NULL;
+ 
+-	sbridge_dev->pdev = kzalloc_objs(*sbridge_dev->pdev,
+-					 table->n_devs_per_imc);
+-	if (!sbridge_dev->pdev) {
+-		kfree(sbridge_dev);
+-		return NULL;
+-	}
+-
++	sbridge_dev->n_devs = table->n_devs_per_imc;
+ 	sbridge_dev->seg = seg;
+ 	sbridge_dev->bus = bus;
+ 	sbridge_dev->dom = dom;
+-	sbridge_dev->n_devs = table->n_devs_per_imc;
+ 	list_add_tail(&sbridge_dev->list, &sbridge_edac_list);
+ 
+ 	return sbridge_dev;
+@@ -794,7 +787,6 @@ static struct sbridge_dev *alloc_sbridge_dev(int seg, u8 bus, enum domain dom,
+ static void free_sbridge_dev(struct sbridge_dev *sbridge_dev)
+ {
+ 	list_del(&sbridge_dev->list);
+-	kfree(sbridge_dev->pdev);
+ 	kfree(sbridge_dev);
+ }
+ 
+-- 
+2.53.0
+
