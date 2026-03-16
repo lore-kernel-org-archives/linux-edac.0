@@ -1,46 +1,46 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011032.outbound.protection.outlook.com [40.93.194.32])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011071.outbound.protection.outlook.com [40.107.208.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE372396B69;
-	Mon, 16 Mar 2026 12:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62954396B8B;
+	Mon, 16 Mar 2026 12:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773665635; cv=fail; b=WTUOMBSnq95T4yIFwi3PlsY3HmiLVB3MR2ELDh244Uc03IMukNmrD14e22+2mGBsxFK5lHe2CuqPBJXd5gXBEQDOl+8VxDkvdITgECTQAl2Ywz9ak1gCF+eQy0yU5yYdm/0gRDmlEPJAM9havCH1S5SpkQjIYIbAXcwDCgb2WYM=
+	t=1773665636; cv=fail; b=QW2XKIXfjAEndGGf1tSB9byCmMgclcvnNn2YrLkrPuZ/mMHwkmtJGjspt1WwxjZq/oiCmObhZbofslErRKjhH8BLY3alUy7HspQwAQpTSHhPszHmZQ8U+i77iEtnUbfYb1r1YMNK7umAh9MGoMQQlHGprCYjPGwer97t6mt4igE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773665635; c=relaxed/simple;
-	bh=ATo+ZH67Pi5pCw9i3RSgpSvKRlJJssYTG3r8vdMWMJ0=;
+	s=arc-20240116; t=1773665636; c=relaxed/simple;
+	bh=FIk19Oa+C4Bxbh4fFh8uiv1HUbilW13/93ygOXUY7mo=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iP925Tye2EcneoRVo6ymPI7oXyMIfvD4FgV7ACisEL5uyanKVG2fzhIDl6URlRdG0hV01OIqBSOGU1ZWFGiwSEUS00al1RXjCXeWBdMSfwbISIhd1QPByktNe/L2olOQhCGZx70Bu43vvuoR9CXhuD1y7F8oAUHTQPGB6VUwXbM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ppfMRS6C; arc=fail smtp.client-ip=40.93.194.32
+	 MIME-Version:Content-Type; b=cnWzXp52279B/zNK4n1+GNW7n8xzQaHgW0quXI11nIxBoE43yiEZhQSPLUq7ZehAGUxc7dpIhY4BN8iPzOKg2nqAfbgUzrO72lCMg97hDWscORKMkvU3e9E2B7wi758BGGxI/bdX3hZvH0SchHZKni6XyHkSOpaT3XOEsp8Tmto=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rmZjlGoF; arc=fail smtp.client-ip=40.107.208.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ppfMRS6C"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rmZjlGoF"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kwzNKj+v0G2mNaNvVsIfposOk9nFYstzobrNGjNmsLKYA7g4HJLW/AyNEg9NbZJfTc+0vlHUFaJUuX5oS8XOrILXnIytcq8xlerQY241PDE4N+9mHo85x78TmFdkvMK1YMdqjCN3n8GpS5Petz1Nm0MrA1w0nyrVQ17T8RoyDK6WiiThAQGf2f9Q1Tfy0dyXk0YjWzMtHNNvwz39TIJxNDT9qhqp3nLoJibdBGfNvbCPxfsS6fjZRCIlnEe35wKuaJ2DXKME5TAGFIS756/rjuXjYFEKWSk+lG1ekOwZepmnp1aVlhPS2XL10en8wpvRn45AzWt47SaMC7y2I0vNoQ==
+ b=Jv4DYFqBZzhazARgi7gCC0xtfMdUYev8CMOuU+/mua8KBVVGZDwmAKGBi96nLOsO3e7n3lQmq8m2FNWuvFKsQCvdhNMBeWivEJ/UV+NnTGAEufL/J3so4RIJRXmy7hEZhNSEpKWkuyxTfKYs7M23RyIqZbhVearuKwmcqv4IXojaiok9J3c+3Odt6NF0vHQYiTB/94RVwH7AX/St2Pybi4tjuU9CDYAmn0kTFaeZ8Ax0y7fioyaojbVYiJunsUwFRTDxJtl9VJiH8KrjKmQb1oe3yAURV7/Gf0IMaxm91Ccv8gzjqOpTsZlKSrdnzEmfymYhMqcojkGw5YlRxF8t9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TbuUnDQYQVTBrie3At0KHFBKwa3iAf0bKVbzTrfs3cI=;
- b=AeFFRac3ax/rjDm2J0aV/Fp1Q5S6ZXsIqOlWhIP8zuKK58p3cky893AyVoHijSPK4vl0i+xsPjPUGrm0O7NhuKymeyMxhkf7c8QzZ1BrzrMfGFVq9K1TRRC0KV1+DrYhIYvHe+PIhiZKA94FKLuSYUQqKDixu1fzhp2B3e4pBkJKXaLW0+gBlpKNXc6cXuhPZUyoBpQkdsLSvnBjF/7aFf+7qUDiLfu9CKPp7ixrjrTGeFgW5LskIrNL6xE+OEoF9kzrHvfZ/3XZo1PzBfvbwL3u7MV0F9XRiJMKn5GKexzQyE2Py34j/AUjqRzB8ZJ9Kuj9GdoHl7pqcC6slpgKEA==
+ bh=ah02JUzxXPuwARt3sRgwnumcTr7klWYLs1P3673NQw8=;
+ b=tweEeUQHHF1RMTjOnBM+TK8P0E09jXCfFkXg9uTAQYPOjJjUkF76YXkQb4FYdeYUXdVYOtDD1LWuLdY7q1c7XOS55VU2AG/yb9Ixc0IZg0gVjoWcKOeJYdJG2zqXnho1y9jIlyzbS1q8xA7vIAfhDL16aVmv1LIflkl1xM5ShvWVNZrfWv2mEzffx+8fCH9+pjy8ykSAI/7CRVpo4P/04yRT+33lYvveyI+1APi2Rh7/2ijyxyzEVO0TyipgNVWo0diXuvmSQZJwTIgPPitt8WmJj96Xmno6Fp5InYCTbeMXTVB1eWbAEKg8RxnfZzieTpjiMm9efwj9p2Ef7wFB/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TbuUnDQYQVTBrie3At0KHFBKwa3iAf0bKVbzTrfs3cI=;
- b=ppfMRS6C3K+0tsOMy2xjI6EvGABmt2YiWGicDzeaxKfKqN8OBfaER21nqV2phJAaAkY9O2ocJum0LVf6rsTgaYAUfdBvN2xULwsxzJubmlD063R7TTc9d4HlZzGThH4ySc71BjDWJr/nJ7L+nRFyVJPsUdCzXQbyZy8WsQSHXFA=
-Received: from MN2PR18CA0002.namprd18.prod.outlook.com (2603:10b6:208:23c::7)
- by BN7PPF0D942FA9A.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6c7) with
+ bh=ah02JUzxXPuwARt3sRgwnumcTr7klWYLs1P3673NQw8=;
+ b=rmZjlGoFLksn02FDZrYg92dl8kvdK0eXqHp1WuUdVsEQO6AVaFEqTcDcs+WSfd0q2zMyPAtiuFyVpKP0wJQRljYopgHqXnRQ1s7N8AVUzSaW6P4UNiRLwNMXBmQeTnjtnYtIPtJeHE4xtKg17vOzqxjZcmb6OjwKQL5jFxgPWjA=
+Received: from MN2PR18CA0006.namprd18.prod.outlook.com (2603:10b6:208:23c::11)
+ by MW5PR12MB5599.namprd12.prod.outlook.com (2603:10b6:303:194::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.8; Mon, 16 Mar
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.16; Mon, 16 Mar
  2026 12:53:48 +0000
 Received: from BN2PEPF000055DB.namprd21.prod.outlook.com
- (2603:10b6:208:23c:cafe::a2) by MN2PR18CA0002.outlook.office365.com
- (2603:10b6:208:23c::7) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:208:23c:cafe::6d) by MN2PR18CA0006.outlook.office365.com
+ (2603:10b6:208:23c::11) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.25 via Frontend Transport; Mon,
- 16 Mar 2026 12:53:47 +0000
+ 16 Mar 2026 12:53:34 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,18 +50,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  BN2PEPF000055DB.mail.protection.outlook.com (10.167.245.5) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.0 via Frontend Transport; Mon, 16 Mar 2026 12:53:48 +0000
+ 15.20.9745.0 via Frontend Transport; Mon, 16 Mar 2026 12:53:46 +0000
 Received: from yaz-khff2.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 16 Mar
- 2026 07:53:45 -0500
+ 2026 07:53:44 -0500
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 To: <bp@alien8.de>, <linux-edac@vger.kernel.org>
 CC: <linux-kernel@vger.kernel.org>, Avadhut Naik <avanaik92@gmail.com>, "Yazen
  Ghannam" <yazen.ghannam@amd.com>
-Subject: [PATCH v4 2/2] EDAC/amd64: Include DRAM address in output
-Date: Mon, 16 Mar 2026 08:53:24 -0400
-Message-ID: <20260316125324.396889-3-yazen.ghannam@amd.com>
+Subject: [PATCH v4 1/2] RAS/AMD/ATL: Translate UMC normalized address to DRAM address using PRM
+Date: Mon, 16 Mar 2026 08:53:23 -0400
+Message-ID: <20260316125324.396889-2-yazen.ghannam@amd.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260316125324.396889-1-yazen.ghannam@amd.com>
 References: <20260316125324.396889-1-yazen.ghannam@amd.com>
@@ -77,147 +77,285 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DB:EE_|BN7PPF0D942FA9A:EE_
-X-MS-Office365-Filtering-Correlation-Id: efc42144-f5e0-48ba-9252-08de835b1120
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055DB:EE_|MW5PR12MB5599:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58ea2ca0-774b-449c-fed4-08de835b0feb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|30052699003|376014|82310400026|1800799024|22082099003|56012099003|18002099003;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700016|13003099007|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	Eu/DsW8Yhi6LOD7fpkJK0UP9zB39gVC7Zml864XlL6/ja9nHEjDWUNZvkQFg2u7twSoWCt+cEZnoUYZ3vHim+9YpEDrhOuUJk8Fa18c2+tPCJO6gbkEq3Z2Op8Mhz6RDnwAH4jpD7KqKlFWsYaJC/6Pg3KagkSrFf7h5XVY9YP6cpcYHwyMVYKVdDKWBz77JC7p5MSsozAKRirsDOFih6pBSSTsItxIYYBbGpI71W1WTp6u1yx1OYmp0w7Poj+m5ImjuGqi4Sx70XzW+AD/lE5Z1euf7+OgBHr2Rrx19siVJIbk5QCAKJSGcQYORuuBq3+D3yPSJQwzRefesZgEF55m/xX4RgMfGzWlCct4I0Vf1tqjdDf3sNw8jlmHFy99C6V+6WYMSJRcXnOfSeXYbz7ybWCjo1TIlQcRNxXUF0luTWHQJWZb5AUcxFw3YelJwV7xmwF9UcpjSaJsQFT9jo9Y0LNDSwJJQQB/dSIRMxgc8X+dO9AzR1NPP6pfLYrtYcxpakmhyhqX26e3TxSIE7IUfruFDynY16CjMT8k/aVi5Aa7lxC4XYlMtUb0g1UuwVv0MKIC3Xv71d9nAZPGhwqFnaegujpVAZ6SZ8C+XQGBymwAvRfPoKEFuJaVsryLBFc7+1UYCzkyh36tojbTblats7sINRSxnqTBDRCF6e7EHBvgJx3kF2HXjyZXZVUwf01d6BT1TSzTIKxaN14kwnpXj3AGk9AsSaPIMZvRtOjGtOSpKkbx8t/48DPOg/B/ZTBNw70sJ3ghcg2C4ix+xwg==
+	hiZ1Mc+d1eOAtqlrgZyWykwhAhGrViZ/BntEsQmR5qJNVpjZEBmpte6D8Nw2Sbg3Qw5kjkzbiIqF4tWKhE7gmBXOsAoQpOZOYgbI5bOKdJziKJgWsRk2/s/8MBZ3Rnre1z0qmTg9VpZpTwImLYzueevxnp4FCy/tLmYL6w0GJEZVkYDkOQZl3Rm3TTovMW2VCFIv3a/zobwru5x+ScjJtYP3BHNTMzzvw4cJWXP/inaPMlSEjxXgmpSbdqU/I2JZsh8yG2gm4W5uWgr25eD4tR0n0BHINMIpKctaNqqEU8RnljsgiaV0O0A1MCwcCtF5CrZZuKoqYX0VOLNifhy91FPi3lFygDeNcyyH6s52GulRGZjJ5/D8ZNLVVyKIbHbJGCAPIKqQqKKnCJToIF3JKBZsEmkeGcH45DX5csWm85V1MiAhCBUzPXpTVbQcaLUa+AR69SCQtqXci5rZKvV7stkWcEhqJzH5qYCx7YLNpUxreAmw3SkU70vy6AxixM6y8gAAdAN54FcM8dPsQDJ+5Mas1nguDtfnmPmUgo8mx/j42UU1nsHIB8e15EJKgQ9qrcjA64lEkuIR60gkG0CGX7eThx4cO2NvhqXfxCJKHTC/q/eRc6B67IztVFYHnrqyl0wu30f384VCp2uPXRY7LyU8gennz/tEjN3bieyXHwB1HqdFuADt0Kon1+9V475p0p8wI2ABHZ4U2wkLBSwkpymeQKW9/oNTYfrzadv1zoXEkkY7ppomou9aWqzniB0vjYGmCP9xYtEkJHF9UgAkfw==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(30052699003)(376014)(82310400026)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700016)(13003099007)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	mDTS2V1fGuTMYrBalM6vf+EGVEIPYf3nIznMOPryG7EdJOvmq+yXB+hJ6DyMd0oJSku/CD9W6C7Yk0nU3JFuqQ6wt/rCwjHvgsHZmmm66/Ls6WjUDynP3k1wY5nsOF6I3d9T5Bo3HqYF6aHP8T6YodpmNijl2HzqHJ447KuuqRV+xHRAYkrbvSn1CdbnUx63aZFGfHF7eYENUJdDvkKOxYa41xU1WhJtVScSAJUVk5FP/NU9qC1fe21BY0KtC/9Hd4deZZ98+j7YTOlJDyZ/H0ap14E4IioARH+NGyWfmyb3BU4gubDjXOaYiQQsEa0f9Q2DkulAte2a8t19QCe53loN6nYbssrSqIlboqmjrtviTl1WqqeIjAXrjXt6ojfMX4LvmFpOQvnWiG7Vln9NgGZWdZ+JoeRooarJfhwPdeM2yxQLSSOARgOFaiYN5hNa
+	Ia61CFLuYxRYhPWTFTTHdfQsMNif0yS9jKftZC3wZglUOJXqtBunY+0E2vb/FERaCgmzAI0QABzMiC4smsDpMV6dQfiMht+dBVrj4PLop8QiaqaYSKPnYd1xCO7HNQP59kkwod/mGlx8H+7kKCYU9eXivpDqksau3zH8fr42wi+AqJ6jKLTG+ZtP1JSYLO0jiu8LWJwxfM3gBvORIfvOGsu3SobQ6RNMXMzrVqOemYuquy8wSRG/wd0Vo9jnZdMHbUrIw/701NIp4jg9wTVs7CesGAM+0MyhOe1qaTAQf5LbONmnmojyKAJ40Tm9bA9V1gNkuozzhvFepIoryJUp2xN+9PbvMf6ZdG+AcwV3+65fJXx6GVIMf0XjE/iWWnA0OPC+Okqz6/O9DzXKarcjFOhFsAev2rglKn9EPWf9NREW3C4Ei/8LkkcZAyNW7ZCD
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 12:53:48.5367
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 12:53:46.5148
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: efc42144-f5e0-48ba-9252-08de835b1120
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58ea2ca0-774b-449c-fed4-08de835b0feb
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	BN2PEPF000055DB.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF0D942FA9A
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5599
 
 From: Avadhut Naik <avadhut.naik@amd.com>
 
-The DRAM address of an error is used by tooling to find failure
-patterns. This information can be used for general analysis off system.
-And it can be used on system to take action like offline a page affected
-by a bad row.
+Modern AMD SOCs provide UEFI PRM module that implements various address
+translation PRM handlers.[1] These handlers can be invoked by the OS or
+hypervisor at runtime to perform address translations.
 
-Other EDAC modules (GHES and SKX) provide this information in their
-output. The AMD64 EDAC module was not able to provide this information,
-because system-specific translation is needed.
+On AMD's Zen-based SOCs, Unified Memory Controller (UMC) relative
+"normalized" address is reported through MCA_ADDR of UMC SMCA bank type
+on occurrence of a DRAM ECC error. This address must be converted into
+system physical address and DRAM address to export additional information
+about the error.
 
-Recent AMD systems provide a PRM handler for DRAM address translation.
+Add support to convert normalized address into DRAM address through the
+appropriate PRM handler. Instead of logging the translated DRAM address
+locally, register the translating function when the Address Translation
+library is initialized. Modules like amd64_edac can then invoke the PRM
+handler to add the DRAM address to their error records. Additionally, it
+can also be exported through the RAS tracepont.
 
-Use this PRM handler to get the DRAM address of an error. Include this
-in the EDAC "other_detail" field.
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=220577
 
-[Yazen: Reword commit message and reformat other_detail string]
+[Yazen: Remove 'handler available' check]
 
 Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
-Co-developed-by: Yazen Ghannam <yazen.ghannam@amd.com>
 Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
 ---
- drivers/edac/amd64_edac.c | 27 ++++++++++++++++++++++++++-
- drivers/edac/amd64_edac.h |  1 +
- 2 files changed, 27 insertions(+), 1 deletion(-)
+ drivers/ras/amd/atl/core.c     |  3 ++-
+ drivers/ras/amd/atl/internal.h | 11 ++++++++++-
+ drivers/ras/amd/atl/prm.c      | 32 ++++++++++++++++++++++++++++----
+ drivers/ras/amd/atl/system.c   |  3 +++
+ drivers/ras/amd/atl/umc.c      |  9 +++++++++
+ drivers/ras/ras.c              | 18 ++++++++++++++++--
+ include/linux/ras.h            | 19 ++++++++++++++++++-
+ 7 files changed, 86 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 8908ab881c85..42acda4cfd59 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -2704,11 +2704,16 @@ static int get_channel_from_ecc_syndrome(struct mem_ctl_info *mci, u16 syndrome)
- 	return map_err_sym_to_channel(err_sym, pvt->ecc_sym_sz);
- }
+diff --git a/drivers/ras/amd/atl/core.c b/drivers/ras/amd/atl/core.c
+index 0f7cd6dab0b0..3d622e6a6cc5 100644
+--- a/drivers/ras/amd/atl/core.c
++++ b/drivers/ras/amd/atl/core.c
+@@ -210,7 +210,8 @@ static int __init amd_atl_init(void)
  
-+#define MSG_SIZE 512
-+
- static void __log_ecc_error(struct mem_ctl_info *mci, struct err_info *err,
- 			    u8 ecc_type)
+ 	/* Increment this module's recount so that it can't be easily unloaded. */
+ 	__module_get(THIS_MODULE);
+-	amd_atl_register_decoder(convert_umc_mca_addr_to_sys_addr);
++	amd_atl_register_decoder(convert_umc_mca_addr_to_sys_addr,
++				 convert_umc_mca_addr_to_dram_addr);
+ 
+ 	pr_info("AMD Address Translation Library initialized\n");
+ 	return 0;
+diff --git a/drivers/ras/amd/atl/internal.h b/drivers/ras/amd/atl/internal.h
+index 82a56d9c2be1..b6ca5fef6ec7 100644
+--- a/drivers/ras/amd/atl/internal.h
++++ b/drivers/ras/amd/atl/internal.h
+@@ -280,23 +280,32 @@ int dehash_address(struct addr_ctx *ctx);
+ 
+ unsigned long norm_to_sys_addr(u8 socket_id, u8 die_id, u8 coh_st_inst_id, unsigned long addr);
+ unsigned long convert_umc_mca_addr_to_sys_addr(struct atl_err *err);
++int convert_umc_mca_addr_to_dram_addr(struct atl_err *err, struct atl_dram_addr *dram_addr);
+ 
+ u64 add_base_and_hole(struct addr_ctx *ctx, u64 addr);
+ u64 remove_base_and_hole(struct addr_ctx *ctx, u64 addr);
+ 
+ /* GUIDs for PRM handlers */
+ extern const guid_t norm_to_sys_guid;
++extern const guid_t norm_to_dram_guid;
+ 
+ #ifdef CONFIG_AMD_ATL_PRM
+ unsigned long prm_umc_norm_to_sys_addr(u8 socket_id, u64 umc_bank_inst_id, unsigned long addr);
++int prm_umc_norm_to_dram_addr(u8 socket_id, u64 bank_id,
++			      unsigned long addr, struct atl_dram_addr *dram_addr);
+ #else
+ static inline unsigned long prm_umc_norm_to_sys_addr(u8 socket_id, u64 umc_bank_inst_id,
+ 						     unsigned long addr)
  {
- 	enum hw_event_mc_err_type err_type;
- 	const char *string;
-+	char s[MSG_SIZE];
-+
-+	memset(s, 0, sizeof(s));
- 
- 	if (ecc_type == 2)
- 		err_type = HW_EVENT_ERR_CORRECTED;
-@@ -2723,6 +2728,21 @@ static void __log_ecc_error(struct mem_ctl_info *mci, struct err_info *err,
- 
- 	switch (err->err_code) {
- 	case DECODE_OK:
-+		if (err->dram_addr) {
-+			struct atl_dram_addr *da = err->dram_addr;
-+			char *p = s, *end = p + sizeof(s);
-+
-+			/* Include a version prefix in case the format needs to change later. */
-+			p += scnprintf(p, end - p, " [AMDv1]");
-+			p += scnprintf(p, end - p, " %s:0x%x", "ChipSelect",	da->chip_select);
-+			p += scnprintf(p, end - p, " %s:0x%x", "Row",		da->row_addr);
-+			p += scnprintf(p, end - p, " %s:0x%x", "Column",	da->col_addr);
-+			p += scnprintf(p, end - p, " %s:0x%x", "Bank",		da->bank_addr);
-+			p += scnprintf(p, end - p, " %s:0x%x", "BankGroup",	da->bank_group);
-+			p += scnprintf(p, end - p, " %s:0x%x", "RankMul",	da->rank_mul);
-+			p += scnprintf(p, end - p, " %s:0x%x", "SubChannel",	da->sub_ch);
-+		}
-+
- 		string = "";
- 		break;
- 	case ERR_NODE:
-@@ -2748,7 +2768,7 @@ static void __log_ecc_error(struct mem_ctl_info *mci, struct err_info *err,
- 	edac_mc_handle_error(err_type, mci, 1,
- 			     err->page, err->offset, err->syndrome,
- 			     err->csrow, err->channel, -1,
--			     string, "");
-+			     string, s);
+        return -ENODEV;
  }
+-#endif
  
- static inline void decode_bus_error(int node_id, struct mce *m)
-@@ -2808,6 +2828,7 @@ static void umc_get_err_info(struct mce *m, struct err_info *err)
- static void decode_umc_error(int node_id, struct mce *m)
++static inline int prm_umc_norm_to_dram_addr(u8 socket_id, u64 bank_id,
++					    unsigned long addr, struct atl_dram_addr *dram_addr)
++{
++	return -ENODEV;
++}
++#endif
+ /*
+  * Make a gap in @data that is @num_bits long starting at @bit_num.
+  * e.g. data		= 11111111'b
+diff --git a/drivers/ras/amd/atl/prm.c b/drivers/ras/amd/atl/prm.c
+index 0f9bfa96e16a..c69158f66639 100644
+--- a/drivers/ras/amd/atl/prm.c
++++ b/drivers/ras/amd/atl/prm.c
+@@ -19,10 +19,11 @@
+ #include <linux/prmt.h>
+ 
+ /*
+- * PRM parameter buffer - normalized to system physical address, as described
+- * in the "PRM Parameter Buffer" section of the AMD ACPI Porting Guide.
++ * PRM parameter buffer - normalized to system physical address and normalized
++ * to DRAM address, as described in the "PRM Parameter Buffer" section of the
++ * AMD ACPI Porting Guide.
+  */
+-struct norm_to_sys_param_buf {
++struct prm_parameter_buffer {
+ 	u64 norm_addr;
+ 	u8 socket;
+ 	u64 bank_id;
+@@ -31,7 +32,7 @@ struct norm_to_sys_param_buf {
+ 
+ unsigned long prm_umc_norm_to_sys_addr(u8 socket_id, u64 bank_id, unsigned long addr)
  {
- 	u8 ecc_type = (m->status >> 45) & 0x3;
-+	struct atl_dram_addr dram_addr;
- 	struct mem_ctl_info *mci;
- 	unsigned long sys_addr;
- 	struct amd64_pvt *pvt;
-@@ -2822,6 +2843,7 @@ static void decode_umc_error(int node_id, struct mce *m)
+-	struct norm_to_sys_param_buf p_buf;
++	struct prm_parameter_buffer p_buf;
+ 	unsigned long ret_addr;
+ 	int ret;
  
- 	pvt = mci->pvt_info;
+@@ -51,3 +52,26 @@ unsigned long prm_umc_norm_to_sys_addr(u8 socket_id, u64 bank_id, unsigned long
  
-+	memset(&dram_addr, 0, sizeof(dram_addr));
- 	memset(&err, 0, sizeof(err));
- 
- 	if (m->status & MCI_STATUS_DEFERRED)
-@@ -2853,6 +2875,9 @@ static void decode_umc_error(int node_id, struct mce *m)
- 		goto log_error;
- 	}
- 
-+	if (!amd_convert_umc_mca_addr_to_dram_addr(&a_err, &dram_addr))
-+		err.dram_addr = &dram_addr;
+ 	return ret;
+ }
 +
- 	error_address_to_page_and_offset(sys_addr, &err);
++int prm_umc_norm_to_dram_addr(u8 socket_id, u64 bank_id,
++			      unsigned long addr, struct atl_dram_addr *dram_addr)
++{
++	struct prm_parameter_buffer p_buf;
++	int ret;
++
++	p_buf.norm_addr	= addr;
++	p_buf.socket	= socket_id;
++	p_buf.bank_id	= bank_id;
++	p_buf.out_buf	= dram_addr;
++
++	ret = acpi_call_prm_handler(norm_to_dram_guid, &p_buf);
++	if (!ret)
++		return ret;
++
++	if (ret == -ENODEV)
++		pr_debug("PRM module/handler not available.\n");
++	else
++		pr_notice_once("PRM DRAM Address Translation failed.\n");
++
++	return ret;
++}
+diff --git a/drivers/ras/amd/atl/system.c b/drivers/ras/amd/atl/system.c
+index 812a30e21d3a..33a04f3e7da8 100644
+--- a/drivers/ras/amd/atl/system.c
++++ b/drivers/ras/amd/atl/system.c
+@@ -17,6 +17,9 @@
+ const guid_t norm_to_sys_guid = GUID_INIT(0xE7180659, 0xA65D, 0x451D,
+ 					  0x92, 0xCD, 0x2B, 0x56, 0xF1,
+ 					  0x2B, 0xEB, 0xA6);
++const guid_t norm_to_dram_guid = GUID_INIT(0x7626C6AE, 0xF973, 0x429C,
++					  0xA9, 0x1C, 0x10, 0x7D, 0x7B,
++					  0xE2, 0x98, 0xB0);
  
- log_error:
-diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-index 1757c1b99fc8..e0ad1c0fc1c3 100644
---- a/drivers/edac/amd64_edac.h
-+++ b/drivers/edac/amd64_edac.h
-@@ -400,6 +400,7 @@ struct err_info {
- 	u16 syndrome;
- 	u32 page;
- 	u32 offset;
-+	struct atl_dram_addr *dram_addr;
+ int determine_node_id(struct addr_ctx *ctx, u8 socket_id, u8 die_id)
+ {
+diff --git a/drivers/ras/amd/atl/umc.c b/drivers/ras/amd/atl/umc.c
+index befc616d5e8a..b48c0fe97bf2 100644
+--- a/drivers/ras/amd/atl/umc.c
++++ b/drivers/ras/amd/atl/umc.c
+@@ -416,3 +416,12 @@ unsigned long convert_umc_mca_addr_to_sys_addr(struct atl_err *err)
+ 
+ 	return norm_to_sys_addr(socket_id, die_id, coh_st_inst_id, addr);
+ }
++
++int convert_umc_mca_addr_to_dram_addr(struct atl_err *err, struct atl_dram_addr *dram_addr)
++{
++	u8 socket_id = topology_physical_package_id(err->cpu);
++	unsigned long addr = get_addr(err->addr);
++	u64 bank_id = err->ipid;
++
++	return prm_umc_norm_to_dram_addr(socket_id, bank_id, addr, dram_addr);
++}
+diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
+index 03df3db62334..582aa2b93e81 100644
+--- a/drivers/ras/ras.c
++++ b/drivers/ras/ras.c
+@@ -19,15 +19,20 @@
+  */
+ static unsigned long (*amd_atl_umc_na_to_spa)(struct atl_err *err);
+ 
+-void amd_atl_register_decoder(unsigned long (*f)(struct atl_err *))
++static int (*amd_atl_umc_na_to_dram_addr)(struct atl_err *err, struct atl_dram_addr *dram_addr);
++
++void amd_atl_register_decoder(unsigned long (*f1)(struct atl_err *),
++			      int (*f2)(struct atl_err *, struct atl_dram_addr *))
+ {
+-	amd_atl_umc_na_to_spa = f;
++	amd_atl_umc_na_to_spa = f1;
++	amd_atl_umc_na_to_dram_addr = f2;
+ }
+ EXPORT_SYMBOL_GPL(amd_atl_register_decoder);
+ 
+ void amd_atl_unregister_decoder(void)
+ {
+ 	amd_atl_umc_na_to_spa = NULL;
++	amd_atl_umc_na_to_dram_addr = NULL;
+ }
+ EXPORT_SYMBOL_GPL(amd_atl_unregister_decoder);
+ 
+@@ -39,6 +44,15 @@ unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct atl_err *err)
+ 	return amd_atl_umc_na_to_spa(err);
+ }
+ EXPORT_SYMBOL_GPL(amd_convert_umc_mca_addr_to_sys_addr);
++
++int amd_convert_umc_mca_addr_to_dram_addr(struct atl_err *err, struct atl_dram_addr *dram_addr)
++{
++	if (!amd_atl_umc_na_to_dram_addr)
++		return -EINVAL;
++
++	return amd_atl_umc_na_to_dram_addr(err, dram_addr);
++}
++EXPORT_SYMBOL_GPL(amd_convert_umc_mca_addr_to_dram_addr);
+ #endif /* CONFIG_AMD_ATL */
+ 
+ #define CREATE_TRACE_POINTS
+diff --git a/include/linux/ras.h b/include/linux/ras.h
+index 468941bfe855..1e82a94b0db0 100644
+--- a/include/linux/ras.h
++++ b/include/linux/ras.h
+@@ -41,15 +41,32 @@ struct atl_err {
+ 	u32 cpu;
  };
  
- static inline u32 get_umc_base(u8 channel)
++struct atl_dram_addr {
++	u8 chip_select;
++	u8 bank_group;
++	u8 bank_addr;
++	u32 row_addr;
++	u16 col_addr;
++	u8 rank_mul;
++	u8 sub_ch;
++} __packed;
++
+ #if IS_ENABLED(CONFIG_AMD_ATL)
+-void amd_atl_register_decoder(unsigned long (*f)(struct atl_err *));
++void amd_atl_register_decoder(unsigned long (*f1)(struct atl_err *),
++			      int (*f2)(struct atl_err *, struct atl_dram_addr *));
+ void amd_atl_unregister_decoder(void);
+ void amd_retire_dram_row(struct atl_err *err);
+ unsigned long amd_convert_umc_mca_addr_to_sys_addr(struct atl_err *err);
++int amd_convert_umc_mca_addr_to_dram_addr(struct atl_err *err, struct atl_dram_addr *dram_addr);
+ #else
+ static inline void amd_retire_dram_row(struct atl_err *err) { }
+ static inline unsigned long
+ amd_convert_umc_mca_addr_to_sys_addr(struct atl_err *err) { return -EINVAL; }
++static inline int amd_convert_umc_mca_addr_to_dram_addr(struct atl_err *err,
++							struct atl_dram_addr *dram_addr)
++{
++	return -EINVAL;
++}
+ #endif /* CONFIG_AMD_ATL */
+ 
+ #if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
 -- 
 2.53.0
 
