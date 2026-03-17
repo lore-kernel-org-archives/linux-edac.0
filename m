@@ -1,231 +1,151 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E54831815D
-	for <linux-edac@vger.kernel.org>; Tue, 17 Mar 2026 17:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8BA37C0F8;
+	Tue, 17 Mar 2026 18:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767669; cv=none; b=IlPgGpXjymKLy13YavsKrYW3T64H9Up8DSmktpVz5neLxgMP4pqdGDvmo+FZaBdH02ecj+1oGbO8ajk7VhghWq38DBB420s1LQRRv7W+og+5AyHT5Uj5bPnIkcQeh/r6AiU2UVlJSQ7eEDhwXv8+WgAa0jejEEVLRb+bN7sXxCA=
+	t=1773771483; cv=none; b=KizHSvWnAQqI24/E73Gd4uxqqy2yb+ldJuhLp9z7xHo29NUoOXqw87b1LmVDhu4liBbD2smcg3vpxc88JNWRGlceYOjNgcGaP/uH9cVslimbPEz/2Pltq037Ez8i4aJoVkTxsgRD881tkU/84wFzEkMoahCyquoOEXVESJmxJF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767669; c=relaxed/simple;
-	bh=SgMZNTr7eiDdRK0c6nHHbt9yANr1xsIuSarJONAu7V4=;
+	s=arc-20240116; t=1773771483; c=relaxed/simple;
+	bh=8sQOhab+lLJnNeLoApSw9cxA5r6UMvr4xD5yzJ5e0Jo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RoYd9Jxjp/svSU9wXSFn36rJ1EKGwusN8QL2cmV0RpqsebjHB2OTM+9W7OECSDjt1Qv6CQ/oIC9oAp1FF/lOboMkZxxmpfPi1qxSs8ERGBd3GVEfNiPOiKqJt2RgeKdN5J5Ju/tQx161xBAYy/69ffMZyhmF50HR1pYVYDCdA9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/SrFkhE; arc=none smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=rsrmgTeq5L5FPTNhxey+WLL7A4Pkmr0JFDug7broAgqVjq2wKJ9232HYjzig7Rkirsexz0wXcoHC5gozqxBcEzSNyg+YtKXHpPzOMTKPP3PYvSsoavz4RJO4phTbtk2gPNKmOL/P8a1qp4Vvz+CZ91ExPqIU9tG21LiMXctUh34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ikbw7vnf reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/SrFkhE"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-128e4d0cc48so6941600c88.1
-        for <linux-edac@vger.kernel.org>; Tue, 17 Mar 2026 10:14:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773767668; x=1774372468; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7fZGlThRHKOZEcqCV8UkZyE5CKR9QF/JZoCrQJeiv38=;
-        b=M/SrFkhEeT1NzcF7fejqGxblFhqej5lE6d8Xdfznod1EhIGGJ62Ew08nEgfML7UzMo
-         Cpapg4nYb9izUsYdIaDVj7TSGJLsFy+yKrPL40sCtsfiV9F6rRfLFNExbBeKmgEEtYas
-         rWgccsSQMC9eRi2q4rdSojLexsPA2IsC7utAovu5IM2FOU//BgUHNI/glRT+wI0vi3pk
-         WJpt4/x+Gv7PKI2BWM7R1H6gyCMFj6OlUDtsD4wqMcFFiMc1Nk7vGV1GHBhh7eiroyce
-         EHhGNqOov4MeX82lpuyMcfSxCY9ufPOZIgiGoYjqCi53OhMgew6dNMTm8WgdLiBSg2Fx
-         KPkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773767668; x=1774372468;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7fZGlThRHKOZEcqCV8UkZyE5CKR9QF/JZoCrQJeiv38=;
-        b=GBEDPBJWzcoG3+6qvE8nNgQZupk3saKMNyufUhOaxg0kaPaG9dSbMsrjy1125jsdje
-         dZf47J+QmdIzbF/k+SfLFqbc+ITJEBVvoKDLVjZ9CmytMdPeSmvPTMVXqXhHFuRRjmxl
-         /Ksem0dbaGmk14GJxnUuhStPpuHs48Gf/afs5PQgLfJUaDpRAcAulka1CnRsBbBlT44d
-         wytsu/saPV5xHWu+6C2WiBBqo1SSK0gYuRGG/LSpMY62Jw90RvBOGo83orqkGUdEWXZ3
-         UXly+v0iHN0lSzJ90Wtx2lBqOTRq+1okvDxEE35bNmVCK/Jji4jMBmbeXiCE7N9ztity
-         uHXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXrWVrnXD3loeaqQDFqmBX386Dhp61z3+icybvJHwqJ4t8bQjTeLOaR1Vjq/MorzB8UXKOm3CslYkz9@vger.kernel.org
-X-Gm-Message-State: AOJu0YymYG0xHi89T+a3oBEmtXKnK38ofz80Grw7ngRo1ArEIV0yi+hS
-	Tv8eandCMAwEBgDyjMOBFPTeKSPdVlMWc9cznIAMycFP0RSlRMLQ0Yq1
-X-Gm-Gg: ATEYQzzmm/RCMrJc8SkEs1LVFB24OBalTrjhoQKL7oLfLtGfXJBm1SLOqbFlakm/zQQ
-	oWN1sITVJ6jUXjY/DLAHIHm4f5WPbQhRBJo+zk8NQpxSY7/+76eHsxbz8bb0S0dzIt1+q+vG/9d
-	3K6xL5+lk6IUFMBRs2lwH56p8JvvMyR0jsc6PJPi4qoOwGuc+9dzEiTPykoS0/ZPtMlkRAOP8Ra
-	c0Mb1q2Jw5eflP3Y0mePUck93L7cQeIVILcPlaZXPvN2D13xxH6rd7tavTreK3mQYoAoUkFhgnN
-	AAaOgzZFnsDeSQ3GlAM697BfE8cyCKElViiwOa5Bm1SOxkwc4UNNt8rZa2sQZwsvOs0xLHMdiIO
-	k8POdBRIObyhOE32+N6qEW9M2c7/REeiXA+yOjHMKfdDi+V5O3cl0XNaiBhxY5X16zA+C6gwDKD
-	lMk0B4CzBEJ+JkizsXFTK1ky7k/6rSFvDqIk2F
-X-Received: by 2002:a05:7022:60a2:b0:128:d20a:2f40 with SMTP id a92af1059eb24-1299baa02e9mr144968c88.8.1773767667391;
-        Tue, 17 Mar 2026 10:14:27 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-129b41289e7sm174147c88.10.2026.03.17.10.14.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 10:14:26 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 17 Mar 2026 10:14:25 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, acpica-devel@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ankit Agrawal <ankita@nvidia.com>, Borislav Petkov <bp@alien8.de>,
-	Breno Leitao <leitao@debian.org>, Hanjun Guo <guohanjun@huawei.com>,
-	Huang Yiwei <quic_hyiwei@quicinc.com>,
-	Jason Tian <jason@os.amperecomputing.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Len Brown <lenb@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Smita Koralahalli <Smita.KoralahalliChannabasappa@amd.com>,
-	Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH v6 1/4] apei/ghes: ARM processor Error: don't go past
- allocated memory
-Message-ID: <1f87994f-22cb-44b8-9878-7ff375325a43@roeck-us.net>
-References: <cover.1767871950.git.mchehab+huawei@kernel.org>
- <7fd9f38413be05ee2d7cfdb0dc31ea2274cf1a54.1767871950.git.mchehab+huawei@kernel.org>
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ikbw7vnf"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 630E240E0163;
+	Tue, 17 Mar 2026 18:17:58 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id My6jmH7xuHWt; Tue, 17 Mar 2026 18:17:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1773771471; bh=KYzFzFRcjCgN9GdGMwyidFk4yMbzsJJWvq01cki7Jtw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ikbw7vnfg7BBVbAlEjEbXxw/U5WCUY9HEXGKgbpeBUyA/AShkkmUjaKEpjDewJMtb
+	 foGDTuRNyBu6nOBO7FsRnY8kN5uKLTIZhckD7YafNHbISJ+OPaU7c89nBQJjzB/8ej
+	 5f1+CSiN2e4SRTUeYtChB0ifkRA3Ve0iyn4sFlcFTxL4ur0LECeO6GZea7Wzq5tyPm
+	 k+WcFDU6ejnOFw1dEOFbmwSFg+4U9D2hd/Uw6OJ7Zy19ioOlFc2nQVRrQLBl0DVsmc
+	 F9D2pkvc1isYmZxKJPMZJIMfibmvmXkefake/cnkQtdsczqzTxfvklPppAAnRNuW2L
+	 +JTrCZxlIphIoqaYuquBcq23TX46kjSEWa4RxcroFwpcacxoh9hVOPPIJdRU1A74Qa
+	 9s1HZAJRIubeJXS0i/d8VRGuyQoUxMcQ3WnCQrwoKcLYYFsPlzFdy4Cp1gqpPrYANC
+	 S6GavBMBU3fbV9BsyZDPgz3imROF1Zl4XMwdYsEmbkKR2u7osTwHjl85LnelnJCqZ0
+	 ZkPwRnZ9LuTxvEZgOBeWmkWVST1d6lMNpkv9UBrs8zSNLZ/pVO/hnFTXk95mtczXQp
+	 qojW16fjT/QQcrodo1XnXIvbWCf7N2Zs5YRV+IJJwWjmAqN/fZEwjqASpbQA77zvys
+	 y3WGdeGkGfBK+Mhs5Pol18V4=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 6A2B340E0223;
+	Tue, 17 Mar 2026 18:17:39 +0000 (UTC)
+Date: Tue, 17 Mar 2026 19:17:31 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: William Roche <william.roche@oracle.com>
+Cc: yazen.ghannam@amd.com, tony.luck@intel.com, tglx@kernel.org,
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, John.Allen@amd.com,
+	jane.chu@oracle.com
+Subject: Re: [PATCH v3 1/1] x86/mce/amd: Guard SMCA DESTAT access on non-SMCA
+ machines
+Message-ID: <20260317181731.GDabmau8-FycDqbzZ4@fat_crate.local>
+References: <20260317103810.2492661-1-william.roche@oracle.com>
+ <20260317103810.2492661-2-william.roche@oracle.com>
+ <20260317133247.GAablX_1ECCF-CKgjJ@fat_crate.local>
+ <1c7f33c5-b1f2-4af3-ae82-37723a89cc96@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7fd9f38413be05ee2d7cfdb0dc31ea2274cf1a54.1767871950.git.mchehab+huawei@kernel.org>
+In-Reply-To: <1c7f33c5-b1f2-4af3-ae82-37723a89cc96@oracle.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, Mar 17, 2026 at 02:38:58PM +0100, William Roche wrote:
+> On 3/17/26 14:32, Borislav Petkov wrote:
+> > On Tue, Mar 17, 2026 at 10:38:10AM +0000, =E2=80=9CWilliam Roche wrot=
+e:
+> > > From: William Roche <william.roche@oracle.com>
+> > >=20
+> > > Access to SMCA specific registers like MCA_DESTAT should only be do=
+ne
+> > > after having checked the smca bit. Avoiding a non-SMCA machine (lik=
+e
+> > > AMD QEMU/KVM VMs) crash during deferred error handling.
+> >=20
+> > Not good enough. I rewrote it to:
+> >=20
+> > Author: William Roche <william.roche@oracle.com>
+> > Date:   Tue Mar 17 10:38:10 2026 +0000
+> >      x86/mce/amd: Check SMCA feature bit before accessing SMCA MSRs
+> >      People do effort to inject MCEs into guests in order to simulate=
+/test handling
+> >      of real hardware errors. These efforts are of a questionable nat=
+ure because,
+> >      for one, a guest cannot really make any assumptions about the un=
+derlying
+> >      machine and especially which MSR accesses the hypervisor filters=
+ and
+> >      which it doesn't. See Link tag for the whole background.
+> >      However, regardless of virtualization or not, access to SMCA-spe=
+cific
+> >      registers like MCA_DESTAT should only be done after having check=
+ed the smca
+> >      feature bit. And there are AMD machines like Bulldozer (the one =
+before Zen1)
+> >      which do support deferred errors but are not SMCA machines.
+> >      Therefore, properly check the feature bit before accessing relat=
+ed MSRs.
+> >        [ bp: Rewrite commit message. ]
+> >      Fixes: 7cb735d7c0cb ("x86/mce: Unify AMD DFR handler with MCA Po=
+lling")
+> >      Signed-off-by: William Roche <william.roche@oracle.com>
+> >      Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> >      Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> >      Cc: stable@vger.kernel.org
+> >      Link: https://lore.kernel.org/r/20260218163025.1316501-1-william=
+.roche@oracle.com
+>=20
+> Thank you.
 
-On Thu, Jan 08, 2026 at 12:35:03PM +0100, Mauro Carvalho Chehab wrote:
-> If the BIOS generates a very small ARM Processor Error, or
-> an incomplete one, the current logic will fail to deferrence
-> 
-> 	err->section_length
-> and
-> 	ctx_info->size
-> 
-> Add checks to avoid that. With such changes, such GHESv2
-> records won't cause OOPSes like this:
-> 
-> [    1.492129] Internal error: Oops: 0000000096000005 [#1]  SMP
-> [    1.495449] Modules linked in:
-> [    1.495820] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted 6.18.0-rc1-00017-gabadcc3553dd-dirty #18 PREEMPT
-> [    1.496125] Hardware name: QEMU QEMU Virtual Machine, BIOS unknown 02/02/2022
-> [    1.496433] Workqueue: kacpi_notify acpi_os_execute_deferred
-> [    1.496967] pstate: 814000c5 (Nzcv daIF +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-> [    1.497199] pc : log_arm_hw_error+0x5c/0x200
-> [    1.497380] lr : ghes_handle_arm_hw_error+0x94/0x220
-> 
-> 0xffff8000811c5324 is in log_arm_hw_error (../drivers/ras/ras.c:75).
-> 70		err_info = (struct cper_arm_err_info *)(err + 1);
-> 71		ctx_info = (struct cper_arm_ctx_info *)(err_info + err->err_info_num);
-> 72		ctx_err = (u8 *)ctx_info;
-> 73
-> 74		for (n = 0; n < err->context_info_num; n++) {
-> 75			sz = sizeof(struct cper_arm_ctx_info) + ctx_info->size;
-> 76			ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
-> 77			ctx_len += sz;
-> 78		}
-> 79
-> 
-> and similar ones while trying to access section_length on an
-> error dump with too small size.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Rewrote it again after talking to Yazen. A patch needs to have the proper
+justification why it exists!
 
-AI code review feedback inline. I don't claim to understand the code or
-its purpose, but it does seem to have a point. Please have a look.
+x86/mce/amd: Check SMCA feature bit before accessing SMCA MSRs
 
-Thanks,
-Guenter
+People do effort to inject MCEs into guests in order to simulate/test
+handling of hardware errors. The real use case behind it is testing the
+handling of SIGBUS which the memory failure code sends to the process.
+=20
+If that process is QEMU, instead of killing the whole guest, the MCE can
+be injected into the guest kernel so that latter can attempt proper
+handling and kill the user *process*  in the guest, instead, which=20
+caused the MCE. The assumption being here that the whole injection flow
+can supply enough information that the guest kernel can poinpoint the
+right process. But that's a different topic...
+=20
+Regardless of virtualization or not, access to SMCA-specific registers
+like MCA_DESTAT should only be done after having checked the smca
+feature bit. And there are AMD machines like Bulldozer (the one before
+Zen1) which do support deferred errors but are not SMCA machines.
+=20
+Therefore, properly check the feature bit before accessing related MSRs.
+=20
+  [ bp: Rewrite commit message. ]
 
-> ---
->  drivers/acpi/apei/ghes.c | 32 ++++++++++++++++++++++++++++----
->  drivers/ras/ras.c        |  6 +++++-
->  2 files changed, 33 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-> index 0dc767392a6c..fc3f8aed99d5 100644
-> --- a/drivers/acpi/apei/ghes.c
-> +++ b/drivers/acpi/apei/ghes.c
-> @@ -552,21 +552,45 @@ static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
->  {
->  	struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
->  	int flags = sync ? MF_ACTION_REQUIRED : 0;
-> +	int length = gdata->error_data_length;
->  	char error_type[120];
->  	bool queued = false;
->  	int sec_sev, i;
->  	char *p;
->  
->  	sec_sev = ghes_severity(gdata->error_severity);
-> -	log_arm_hw_error(err, sec_sev);
-> +	if (length >= sizeof(*err)) {
-> +		log_arm_hw_error(err, sec_sev);
-> +	} else {
-> +		pr_warn(FW_BUG "arm error length: %d\n", length);
-> +		pr_warn(FW_BUG "length is too small\n");
-> +		pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
-> +		return false;
-> +	}
-> +
->  	if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
->  		return false;
->  
->  	p = (char *)(err + 1);
-> +	length -= sizeof(err);
-> +
 
-Does this code subtract the size of the pointer instead of the size of the
-structure? It looks like length will be larger than the remaining buffer,
-which could allow out-of-bounds accesses in the loop below.
+--=20
+Regards/Gruss,
+    Boris.
 
->  	for (i = 0; i < err->err_info_num; i++) {
-> -		struct cper_arm_err_info *err_info = (struct cper_arm_err_info *)p;
-> -		bool is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
-> -		bool has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
-> +		struct cper_arm_err_info *err_info;
-> +		bool is_cache, has_pa;
-> +
-> +		/* Ensure we have enough data for the error info header */
-> +		if (length < sizeof(*err_info))
-> +			break;
-> +
-> +		err_info = (struct cper_arm_err_info *)p;
-> +
-> +		/* Validate the claimed length before using it */
-> +		length -= err_info->length;
-> +		if (length < 0)
-> +			break;
-> +
-> +		is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
-> +		has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
->  
->  		/*
->  		 * The field (err_info->error_info & BIT(26)) is fixed to set to
-> diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
-> index 2a5b5a9fdcb3..03df3db62334 100644
-> --- a/drivers/ras/ras.c
-> +++ b/drivers/ras/ras.c
-> @@ -72,7 +72,11 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
->  	ctx_err = (u8 *)ctx_info;
->  
->  	for (n = 0; n < err->context_info_num; n++) {
-> -		sz = sizeof(struct cper_arm_ctx_info) + ctx_info->size;
-> +		sz = sizeof(struct cper_arm_ctx_info);
-> +
-> +		if (sz + (long)ctx_info - (long)err >= err->section_length)
-> +			sz += ctx_info->size;
-> +
-
-Is this condition inverted? It looks like we add ctx_info->size to sz only if
-the context info header is already out of bounds. This might cause us to read
-ctx_info->size from unallocated memory.
-
-Also, if the header is completely within bounds, sz does not include
-ctx_info->size. Could this cause the loop to parse the register context array
-as the next cper_arm_ctx_info header?
-
->  		ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
->  		ctx_len += sz;
->  	}
-> -- 
-> 2.52.0
-> 
+https://people.kernel.org/tglx/notes-about-netiquette
