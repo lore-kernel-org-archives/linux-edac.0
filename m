@@ -1,119 +1,232 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB9C282F3E
-	for <linux-edac@vger.kernel.org>; Tue, 17 Mar 2026 03:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13096946C
+	for <linux-edac@vger.kernel.org>; Tue, 17 Mar 2026 07:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773717430; cv=none; b=DqAhC5XGyIWv4+oGL9Wxs2QprcKqKLx5t6b9lEUbx40f0mx04oOT7ueFkYJlXsAcHZ38w/F/D2OhMt+jSd33mQxQy7VmBNAzpUsGeMUmtPI8mkCdXnK46LPcYsvIs90iHl0qwEQH1j4R2DMUt2OaCN3HaHoZV9PcnnAEJwMjeQ4=
+	t=1773732113; cv=none; b=t+tX2Sjfu7ALXjKhWQUNNFJtfh52nbm43dUflcfP5LDbdgyxeZentYFusS5hIBsdoUDxM4aToXqwA8gVTQuNtGJTGZV39d1y+dQtHOtiafzPBvQJU29SN1i+6dh3nMp3ESjzBdPoS9gHbnfDmpBJpzYsBVg3o7zpIEa1HDglmrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773717430; c=relaxed/simple;
-	bh=k6Ew+lvXzfY+FBqQY/XE6H20WHXueQjInyqHxkeuCow=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uv7VOAZeDCe3sr61OZFuLckSHkJcxEX700LKD8K/AJOOzM2ow/tvhhZNg1oy+K09X8kynbZW0MHQ2X/tDnT+5ThYLZbA6i+cjnCQ+GX1DfoFa/E9JmQldO0NZG44uDSCLnOEfaOr4meUZ0NGD2Oy7ie+0K135ibYyTveQ3Y31TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=depkSuI8; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773732113; c=relaxed/simple;
+	bh=IxtOz2CsJytYBKr87iuTorThohE/w7ZLhrUsPVVvNZ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cqe5ZYEEFcKvXAyg6t4UCRC9OKi+2ZRZuFCVA4YTqZt3iVex4wL3LG+t192UoDpJs3CJBqxbXKqjsjprStLlycRZH8tq6tFuex38U08eUrM4YfWYdOPuZk2qsivxHRH6Lh4NTH4khPJswAoDZ/qYixh9iclpMSwSjPH8PGX7Y4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gHzRIkXh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DOZtZFde; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="depkSuI8"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a871daa98fso39558385ad.1
-        for <linux-edac@vger.kernel.org>; Mon, 16 Mar 2026 20:17:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gHzRIkXh";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DOZtZFde"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62H48f6Y1428845
+	for <linux-edac@vger.kernel.org>; Tue, 17 Mar 2026 07:21:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	IxtOz2CsJytYBKr87iuTorThohE/w7ZLhrUsPVVvNZ0=; b=gHzRIkXhEUr9fMLr
+	SyB/M5Ot98weHpB+ZuPy0nqVDwKYjAURuTPKx16t9bTyeDrcga3OXOXOPmenXgFk
+	59XKyp2WJLpJlD65WFqVa7SCJK11GqzSqN0S4AQqtgE14rnxmuZtLCOQ3reYw9ar
+	bHxQqQEJRdHSFUD4t6tDYRzWUR//NXxK2i+q1AQdzIbP8wcqpc9b4QIKqhMKAum8
+	eXFIa52+qXQuPtphf6R/iG4NWoSBDMTiFknrpA4vrTOIKUXK79TmkZAlnoljtY++
+	+WuQreqk70cIfr0i2r/7jXuywIeYwt5lPshtaJZG9fPoiYNzXP/VUFq4X6/Sqle5
+	EyLjMg==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxh99bnd6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Tue, 17 Mar 2026 07:21:51 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3547c799b27so4594101a91.2
+        for <linux-edac@vger.kernel.org>; Tue, 17 Mar 2026 00:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773717428; x=1774322228; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cS+uHVcQ6W17khP+tSxWlPevxoYz4a9bCO/ehxDx5zg=;
-        b=depkSuI8pjTzuawErKNfbHULZkrrr6oEezBq0fsyv20AEtfeQo1QWsmlSXF2mM4CnL
-         ufCgeJDO7vQUPwuXxNih0BshyzmNFX5SQRqz6dflhsre3a12/8YfBuTihT3SBEKq2gPf
-         cYGjwdR+EbagoStLmh7FxmFbmGBVlZlJ8icmJevhHGXLjf2Bia3LqoM2H4WZwpOVnuVJ
-         6D1EHr52bIvcX47PuIytp82HNIojaj20oTRrcL81EczbjdVzt4Q91O1YtrwEBPnwD1ax
-         ukQuk7RO3caTr/6xM4su+cB67NhArp2eeR3tndVcIRCjNIZMlRUQOsxqPMzjkoyI7ccX
-         bCOQ==
+        d=oss.qualcomm.com; s=google; t=1773732111; x=1774336911; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IxtOz2CsJytYBKr87iuTorThohE/w7ZLhrUsPVVvNZ0=;
+        b=DOZtZFdehJgJtWa16PDv1LsMHOFcR+QIY65Zi7yJmTok3NpBbahF1sKAsSfnEBUwf4
+         23LgBZJNoSLA4VhRCcLDobVuNh4aDnTiBjLvBTcXhfwxEKpp1pvR7aS8zq0V6RFQs+DG
+         8B0jkVKLw9pBTZkN3RpQSIZ1fjWUrSdou79GQNGAwzeGHb95B2UUDwI88WQPP85OwvBL
+         tYwnhPJsu++UlfQdVqFIAlti46iOF2x2YYR9qU+GkX99dolT7E0sqaPKbZr0FEh7KR28
+         J/92LCDs2oAq6PfrYr0IIGVRXNiYgkul3GgKsw6SUtGxbARnS1EjgeG+jsyvSoI8Avek
+         9nCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773717428; x=1774322228;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cS+uHVcQ6W17khP+tSxWlPevxoYz4a9bCO/ehxDx5zg=;
-        b=TxncvUgKTkSAU0wJoizfe0+jYxtpfFyfPm9tIpiipy0Na6zWPjNkOOYtQ6H1hNjb5r
-         QIPCs7oGApL3AY3BXRm1mIivJn2ZOXygkMJrKu1z3t/O7h7ctZdiZlycAedr1wcN3grk
-         QaROfnmUYbbg1qOl0fHvZuMNDeundmYv6skEnYNunxjmiJIn00ZFS0IrteziGl135jNo
-         EGOgJ3EXnvanyUQp9CoGTSwD0vCatbyXPM1AjvRcPily6a0g1WXeKpBJ2ICyC/ryPRdj
-         pdDR4Kz32dPZYUKrXHsWZuUJYQe2p7ct74FfQ/BIPr7Bhzeb5cbVDeiUoau5jCh0vsIY
-         I5lg==
-X-Gm-Message-State: AOJu0YzB/cmgsvL3tb7wqTyOcN5Hw3E0z9kwIdjzwQy0I0g2jgm3BU4t
-	IXmlMvd0nzdbVR9RQTvRSDmvFLpvvGEeqGAkLrQTOvW0DnOEa3YDL1yWalXS1oCZ
-X-Gm-Gg: ATEYQzwEThIhwfDhfF/jgXKuW7wV+KkGmJfAnO0I1tOh+IJbR2DGfZxtOrSHXi42Dcq
-	VuB4cmVyY/TD+9wFf58H+RdOw67vwg7PSHsKER7SBpn/coqe7sF9X6BPDEclMGSW/yiwHXxJqjm
-	RXDZRaiVVOl1SuuT3JEbS69GVvaudY+8fxBluCHVx5lMhb8AOhIpkDWh6ty29DHOBB53t90SSVD
-	k68Yqz5lmTqJ+Zz2M8ySulhajfpsR2MS4zS3Sv6asQZmXib5HfGi90k9mugOQKa5xWBj1F+EJ+i
-	rN1IdsI95ljzxNp1E+DAO7syU8pcHjXHX0HV08GeK8pq4DpDI+IzQFOZ+GrzHfxfaHAkYY+3pq+
-	WBe/ftec1+AHg91SxEAh3TUm+ErDtetVp61csRzOd/wPbHmLpKaIE0ZBXu3PjNsU2YKZFQSkoQC
-	Qu5Aa8xFlCZ3XZJyMbHdpvHBuXx6zJ0IjqmsdwNZDn7WtDRKzwhuyC3nk=
-X-Received: by 2002:a17:903:2b06:b0:2b0:68d1:2557 with SMTP id d9443c01a7336-2b068d12649mr23135ad.45.1773717428472;
-        Mon, 16 Mar 2026 20:17:08 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:56f5::8bd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece56c2b9sm149564365ad.18.2026.03.16.20.17.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 20:17:07 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-edac@vger.kernel.org
-Cc: Yazen Ghannam <Yazen.Ghannam@amd.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] RAS/AMD/FMPM: use struct_size_t
-Date: Mon, 16 Mar 2026 20:16:50 -0700
-Message-ID: <20260317031650.93712-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1773732111; x=1774336911;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IxtOz2CsJytYBKr87iuTorThohE/w7ZLhrUsPVVvNZ0=;
+        b=ic6+6TshYo9SIeEDb4ueDGYJdDsr6W7//VzuPHwN9137LIQNwgqpRXEIFzhz8QmSnx
+         YFps/cZPTcw/6Ywkkd/O/7Ez6682uxFci/rtJmzHe466X7sj7pQ6yNmh2pwFs6lt9Wif
+         fQGEOlg9qE6386JrAHOX55DDebbnV8TTlmuPBzkvwfqwif8XwqFEsJ7lUYRpuD6wKCrN
+         GsXUCheyLj83qmvBIHH+aT0tdtHnQjR/o7uPOvfTZqXRekumeaL4xAfCu6wWxeObFNbl
+         R1cnfq3X5Jpby17uCn1w6Cr3L3rE6IF6S4rl2qVAJPqKAg+o59WQT18fHywXfxvwlsgr
+         SihQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVyqOAy8i3AtOU420Brvgb+m6CTlh1n1FChqsc8igAQtACvPwae4JN67VWBBvlUtZRmatK2nuvbNFsZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbP4r6QlR68M8ff4FHN7+vGsH15SW0PJXQtx3dWSMQZZSIf65l
+	9frXK1PHPrzkcuMAjabSCHpcn6nc+Xbnejo+TY7pugO1kubxcybBqW6XuGYKbHEQhY+2aHGpNkR
+	/DIdDPUua70DPTfZ6oqeh+Ay/YAqLFfAM/5/N1WWFwrNFDgeFxKyasWb/lrDdMudt
+X-Gm-Gg: ATEYQzzuapdNhxcx0vGdt657RCRDA+eoz5NQqeahMx5QLoAvkyWJEJ3sonrOo7uQoU8
+	mqCvVEdCWCeF5UktOAQRq9udkvzYtAt/guJkvkbj1I5KSLfaLJBLoHcpPl3VwhXPwLTHKvzOlQG
+	i65BOCFC4dyl6Ba5KbEqERs6X5eTlx1Nl7V5WkZy5GXyU3WAuEFqEwzdXQaPcd3bwLfEAYu/JUL
+	/hYFc3qtUnxKX2LGbC0ZE7+EZ3VBTpYXWHN4o46RATKkv8lJUoY65U7NOV5EhGfVB1TZkBgSb+M
+	5ZEIqDSZQ68pECCZ6/WXBfDvRFMpIm/Vny1jyRWviae+Z8Gra1pmiALSlyVSCo5YsNzydK/xWw7
+	J49g3co7+IjOdFb7M3qpNt1DeVc0Gjfe9AkiDlWCK6SN231UBig==
+X-Received: by 2002:a17:90b:3d4b:b0:359:c479:fc68 with SMTP id 98e67ed59e1d1-35a220aaff9mr9161918a91.5.1773732110571;
+        Tue, 17 Mar 2026 00:21:50 -0700 (PDT)
+X-Received: by 2002:a17:90b:3d4b:b0:359:c479:fc68 with SMTP id 98e67ed59e1d1-35a220aaff9mr9161903a91.5.1773732110083;
+        Tue, 17 Mar 2026 00:21:50 -0700 (PDT)
+Received: from [10.218.41.33] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35badbcb8b9sm2417780a91.13.2026.03.17.00.21.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Mar 2026 00:21:49 -0700 (PDT)
+Message-ID: <95d2de63-5571-4fce-aa32-6e8969bb9149@oss.qualcomm.com>
+Date: Tue, 17 Mar 2026 12:51:40 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/16] Support Armv8 RAS Extensions for Kernel-first
+ error handling
+To: Ruidong Tian <tianruidong@linux.alibaba.com>, catalin.marinas@arm.com,
+        will@kernel.org, lpieralisi@kernel.org, guohanjun@huawei.com,
+        sudeep.holla@arm.com, rafael@kernel.org, robin.murphy@arm.com,
+        mark.rutland@arm.com, tony.luck@intel.com, bp@alien8.de,
+        tglx@linutronix.de, peterz@infradead.org
+Cc: lenb@kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
+        mchehab@kernel.org, xueshuai@linux.alibaba.com,
+        zhuo.song@linux.alibaba.com, oliver.yang@linux.alibaba.com
+References: <20260122094656.73399-1-tianruidong@linux.alibaba.com>
+ <edf7e7eb-8f02-4672-bc31-16e0a8fb9715@oss.qualcomm.com>
+ <d4e4e2b1-c182-42f9-9d60-b12f0fd7f977@linux.alibaba.com>
+Content-Language: en-US
+From: Umang Chheda <umang.chheda@oss.qualcomm.com>
+In-Reply-To: <d4e4e2b1-c182-42f9-9d60-b12f0fd7f977@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=RJ++3oi+ c=1 sm=1 tr=0 ts=69b9010f cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=IrbkRpuHRcUsFRyD9lEA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDA2MyBTYWx0ZWRfX3c4Ybt0bcezi
+ vfxCJeqbfuN9pQ0RnzYVqlUUFjdvN5I1z01aQMcNh8LFoQB2Z/Vy7qp9E+MQCzfpY3rAC0r85zT
+ 4qc4we3U83a8LLLUVVrUhpTYUJpeRCr7ibNMjBAt1A+r9aaRyaaEB4mywfHDNSGOUrmTwSFb5K9
+ PrYW41juwOm5hz8ytperOhxo6F3D0Kc8l+q7oXrnmtUNHRz7pUHTGEg2VJj0UzTc3gOGtF53xaB
+ M+DcKTqSjQ5/JUmnER9LhuLh6OA67w1QBFUC7QLxNS/HLstDpXwjlB0s1Tfv2hr25Ka74jAETgy
+ mNF/K/2HJpHl1Mmjou2Tca1kmeEYOn5kyr4l4DhPF0mpJayj9xupwCYrhfzG1M1x1pleEEWVFS6
+ q2GQeLasEASIvOA9Puf+MeYrbP51HIpd5DzT9DJBnHTCm/dIfPfn1C+LLFFS7aq4wnCZ9Li7SGJ
+ BW9u747iT/Ig/muDAeA==
+X-Proofpoint-ORIG-GUID: omrRw6rNzQEPHpxyDRizXx6vD6ZjsBBp
+X-Proofpoint-GUID: omrRw6rNzQEPHpxyDRizXx6vD6ZjsBBp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-17_01,2026-03-16_06,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603170063
 
-Avoids manual size calculation with the proper helper.
 
-Also use kzalloc_flex for the same reason.
+On 3/11/2026 8:55 AM, Ruidong Tian wrote:
+>
+>
+> 在 2026/3/9 21:28, Umang Chheda 写道:
+>> Hello Ruidong Tain,
+>>
+>> On 1/22/2026 3:16 PM, Ruidong Tian wrote:
+>>> Motivation: Reliability in Modern Data Centers
+>>> =================================================
+>>> In modern data centers, proactive maintenance is essential for achieving high
+>>> service availability. The practice of using Corrected Errors (CE) to predict
+>>> impending Uncorrected Errors (UE) is already widely deployed at scale across
+>>> the industry, like Alibaba[2], Tencent[4], Intel[1], AMD[2]. By analyzing CE
+>>> telemetry, operators can identify failing hardware and perform migrations
+>>> before catastrophic failures occur.
+>>>
+>>> Problem: Inefficient CE Collection on ARM
+>>> ==========================================
+>>> Currently, ARM-based systems primarily rely on "Firmware-First" error
+>>> handling (e.g., via GHES). This path is inherently heavy-weight. To avoid
+>>> significant performance overhead, firmware is often configured with high
+>>> thresholds—reporting to the OS only after thousands of CEs have occurred.
+>>> If the threshold is set lower, the high frequency of errors leads to
+>>> excessive and costly context switching between the OS and firmware.
+>>> Consequently, ARM platforms currently lack an efficient mechanism to collect
+>>> the granular CE data required for high-fidelity error prediction.
+>>>
+>>> Solution: Kernel-First Handling via AEST
+>>> ===========================================
+>>> Other architectures have long utilized "Kernel-First" approaches for
+>>> efficient CE collection: Intel provides CMCI (Corrected Machine Check
+>>> Interrupt), and AMD has recently introduced similar CE interrupt support[5].
+>>>
+>>> On the ARM architecture, hardware already provides the necessary RAS
+>>> Extensions[6], and the ACPI AEST specification[0] defines a standardized way for
+>>> the OS to discover these error source registers. This series implements
+>>> AEST support, enabling the kernel to:
+>>>
+>>>   - Discover error sources directly via ACPI tables.
+>>>   - Handle CE notifications via direct interrupts.
+>>>   - Bypass firmware overhead to collect every CE or use low-latency thresholds.
+>>>
+>>> This implementation provides the missing link for efficient RAS telemetry
+>>> on ARM, bringing it to parity with other enterprise architectures.
+>>
+>> Thanks for posting this series enabling kernel-first handling for the Armv8 RAS extensions.
+>>
+>> We noticed the current implementation targets ACPI-based server platforms. For embedded/SoC systems, Device Tree is often the primary firmware description.
+>> Do you have any plans to add DT-based support for the same flow? If not, do you see any blockers to extending this series to support DT
+>> (e.g., DT bindings + discovery/registration path analogous to the ACPI plumbing) ?
+>> If DT support is in-scope, We would be happy to align on the expected approach and help with review/development/testing for DT-based platforms.
+>
+> Hi Umang,
+>
+> Thanks for the reply.
+>
+> Adding Device Tree support should be easy. We just need a patch similar to "ACPI/AEST: Parse the AEST table" to fill the DT table into struct acpi_aest_node (might need renaming) and struct aest_hnode. The driver part requires minimal changes. 
+>
+> However, I'm not very familiar with DT and lack DT engineering support, so I would need some guidance on these DT-related questions:
+>
+> - Is there a specification that outlines the reporting     requirements for RAS extension information that is similar to AEST? 
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/ras/amd/fmpm.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Currently there is no spec/bindings defined for DT based systems. Based on discussions on earlier posted patch [1]  - expectation from maintainers
+was to have DT bindings aligned to and equivalent to the AEST spec. Based on this expectation - we plan to propose DT bindings - which are  aligned
+to AEST spec.
 
-diff --git a/drivers/ras/amd/fmpm.c b/drivers/ras/amd/fmpm.c
-index 34ef75af31cb..af862fbb04a8 100644
---- a/drivers/ras/amd/fmpm.c
-+++ b/drivers/ras/amd/fmpm.c
-@@ -150,7 +150,7 @@ static unsigned int max_nr_fru;
- /* Total length of record including headers and list of descriptor entries. */
- static size_t max_rec_len;
- 
--#define FMPM_MAX_REC_LEN (sizeof(struct fru_rec) + (sizeof(struct cper_fru_poison_desc) * 255))
-+#define FMPM_MAX_REC_LEN struct_size_t(struct fru_rec, entries, 255)
- 
- /* Total number of SPA entries across all FRUs. */
- static unsigned int spa_nr_entries;
-@@ -794,8 +794,7 @@ static int get_system_info(void)
- 
- 	spa_nr_entries = max_nr_fru * max_nr_entries;
- 
--	max_rec_len  = sizeof(struct fru_rec);
--	max_rec_len += sizeof(struct cper_fru_poison_desc) * max_nr_entries;
-+	max_rec_len = struct_size_t(struct fru_rec, entries, max_nr_entries);
- 
- 	pr_info("max FRUs: %u, max entries: %u, max record length: %lu\n",
- 		 max_nr_fru, max_nr_entries, max_rec_len);
-@@ -826,7 +825,7 @@ static int allocate_records(void)
- 	}
- 
- 	for (i = 0; i < max_nr_fru; i++) {
--		fru_records[i] = kzalloc(max_rec_len, GFP_KERNEL);
-+		fru_records[i] = kzalloc_flex(*fru_records[i], entries, max_nr_entries);
- 		if (!fru_records[i]) {
- 			ret = -ENOMEM;
- 			goto out_free;
--- 
-2.53.0
+[1] Re: [PATCH 1/2] dt-bindings: edac: Add DT bindings for Kryo EDAC - James Morse <https://lore.kernel.org/linux-edac/312fc8b8-7019-0c74-6a92-c6740cab5dad@arm.com/>
 
+> - How should the DT be designed?
+>
+Same as above - plan to align DT bindings equivalent to AEST spec.
+
+> - How can I develop QEMU and modify DT files for debugging, etc.? 
+
+We can share the steps for this for DT based system in this thread.
+
+
+>
+> I would be happy to adjust the patchset to meet the needs of both parties if you are prepared to invest the necessary effort（DT-related）. In reality, I believe that just a little modification is required. 
+
+Thanks, Yes - we are open to contribute in extending this patch series to support DT based systems as well.
+
+[...]
+
+
+Thanks,
+Umang
+
+>
+>>
+>>>
+>>
+>>
+>>
+>
