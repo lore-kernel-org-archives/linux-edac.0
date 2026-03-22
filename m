@@ -1,60 +1,59 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D589F1E49F;
-	Sun, 22 Mar 2026 16:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581F51DA628;
+	Sun, 22 Mar 2026 16:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774196122; cv=none; b=WiZKHmJueL3VAldM1GEvYkvphPiMGhieYTeW7sCAD/NSkyCEZdJ/0YxBXmsoBAgaHp4YYLN8WQmOG+H1SDkDaTcnUAoKI8gvRgsrpbLo6DpVJoszuGk3fRFazWEmVjYcHEW1STHn94P/WGThDsvC9VvvcDlbxgwaTH19UvUuEvY=
+	t=1774197058; cv=none; b=ftdOpyJCc+OxxU61BnvhMeGYP+rXKzUpsz4RvpYVkj2ttvRqz762a2AuVkhnWiQX4PsgLrV5OFqzdfJUQBAV1PwXDAPdc3bt5YUF+kxa0oXteuG0RjpNEdXcpJQSq0g5M4W1TlWIt5lSOYy9QHz87hE4U6V305gCzCjhcpPl6m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774196122; c=relaxed/simple;
-	bh=V/vWTaJCpXakGe39KWaGEGCkk+F95Fqxb5spvgx3Tdg=;
+	s=arc-20240116; t=1774197058; c=relaxed/simple;
+	bh=cABGpcmguk7TSNjHaxnvK99vdqWj5fY+V2a66mN2l3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fdGXOnDiR38d63jeM36I5CCbo5IQTT66lnLTs3K1TBZKzXnfH30ems1PZvi6+bkoOM06i5My0jJk1z2A3AsJqh1Kg5i4x1su5oyxw1XXAktfscLZt58WORdH3QJavcoFqqOHz9gJkcr9iTiZWYVAALDW26+hqmO+BznTd3LsvDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RR7w2fnT; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=Unvh5w4UdhFGxqlmE2e9/hkoZnZrjrlBVci74FcNbLPLBr04MK+gkEqI4w0ZHQxmqbBoyB1qht5KWPgTGsV3r7/2J4uEu48DjINibgk1lNdpDkLzAbvi2B1hEQdgC8e4o/MLg9tI6GfVgWg9dUYEUdqTM1kyi6IdEEr7cyeQqSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=KdNoLJMk; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RR7w2fnT"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="KdNoLJMk"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D934940E0163;
-	Sun, 22 Mar 2026 16:15:16 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6971340E0163;
+	Sun, 22 Mar 2026 16:30:55 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id f8o9yzRBOPU1; Sun, 22 Mar 2026 16:15:13 +0000 (UTC)
+	with ESMTP id 1v8WFtHxqre7; Sun, 22 Mar 2026 16:30:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1774196113; bh=E0xC9iuncRCEDg2/ntU6JAxl0SLVJB0pCmZt/v2cnQQ=;
+	t=1774197052; bh=zPmNN6qQrOOjaVBq44+QWwWlQVoiwztqhMf7QcOCA8Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RR7w2fnTS55PPTT0ZuU1qXxVzJd+bEeAqKXmSi+tYxlrj5Pd4elnhaExXzWrAgzSc
-	 8LXYJ1DZ3WkuCAZNhdtDIN7nqErZheMqpPwkS/L8suiEQYDWwMUt/6rHTQyCJ9oYFx
-	 YTjQ84otw+Gqy8RQDS+RVUzYYtFsz4Ubc46DOvBM4RgI6wZJDteGn46s7EhGPsL1Xr
-	 P+fA4/ft3/AEiCZLRl0gPhFshCK+2Fkh/F/4n3wBK2Bo3rbPZynQFB6GJOJaLYQcG5
-	 gVlWhsMeuqWSxhgO8wrCNC2IOB4gpBz1Zdjn4+8OKOZjLzZ34Pdo8CFnUawJT9V69q
-	 7ouaRu3QAc5rruB4rN5Jnx2lbl6MfcuGMH03OZf/+jI4PGasUpkX8dfospTHysrmPQ
-	 2fjaBpqkn87oXX8+VeQLLeFGT9NPSArVCmcD6amVGo4ZfNh5cOnzAkZ+2u44p5CdJg
-	 bPdCHa2zz20sKADbS6HNQLwQAp6YXg3nkf7kG4d3KHEVMWsVqQ0BAVA1hzThOtsa0X
-	 6U0Ggkps0R0fyrvoHMEW5jYgKEZwS/bzT0LIOjRPRwGs+Hw4lih8dIMYUYD5b7wgte
-	 2ObbwKJjadn2OBpvyHiOY7+HQKo2aRKKp0Dc2C1rNkKXkMmuhfKXgf+aLLJ5X68w9F
-	 HJGpPP6ndiiyRFccjlxL4oXc=
+	b=KdNoLJMk9jxwXqXcA5GnSqZ23NSMcQ/B9VWyYQ71AXyU/yMWydFOUnIijoJeqXnRC
+	 zJWsXvu4/kCvQG50oWluWBKD4oFwdY8WqqC27m4AGYTiADAnWMDf7tEjnNuZTDwnTe
+	 MarLcbjfKt/95d+T/KR0pVw8j60opHJcbGqb8pDd1xlX7v/K+huv4ggM+ongz1fftz
+	 KWP7ZoA7MQD1N1Gky2AFQi1Sqy/1ZAabs451/iIs8I0bX0COPV9ZCq9DBX+k+52dyx
+	 aWlQ6ueLbf6QnUbb7H2CdJAS0xVn352jwqi8+jbC+opn/zhrSyl4VmqWWWTaZ9XjZ2
+	 WNVy13l8dWbAoV9jaZGk54Ry9ERPIjHIw7H5U3+niREV2uld/EaEYEudTeGZvfJ5tM
+	 Ii4/0IVecyuYx32CBQoLgTrP5Vo8QIs+MhXxQngkEUF5PqL46B9FaIEdOYwAYAldSN
+	 10E3PH5AFv3zQNKEAwtfNyGIUS8Vrm2Vm5Ld6qgB/dveq/KcedpQRlMtGzi9v1Zfjt
+	 TB6f/9nSPkoocXpuHcuftnX8XMxacbcg9BZs8kJTLrMuFNSIhg02ioEF5gr8QL3VMl
+	 tQ/M2wEhiFixwSFXAPeF95mwfSe9i/EdJifrQVOQpV/iJf9QqlFRavDttHaUidoY4D
+	 R+caQs5PRSlk3dCOj0ngoYvY=
 Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 0F08A40E0031;
-	Sun, 22 Mar 2026 16:15:07 +0000 (UTC)
-Date: Sun, 22 Mar 2026 17:15:06 +0100
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 3272A40E0031;
+	Sun, 22 Mar 2026 16:30:47 +0000 (UTC)
+Date: Sun, 22 Mar 2026 17:30:40 +0100
 From: Borislav Petkov <bp@alien8.de>
-To: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-Cc: shubhrajyoti.datta@amd.com, tony.luck@intel.com,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 5/5] EDAC/versalnet: Fix device name memory leak
-Message-ID: <20260322161506.GBacAViv5G6Ul-0WUX@fat_crate.local>
-References: <20260322131107.1684647-1-ptsm@linux.microsoft.com>
- <20260322131149.1684771-1-ptsm@linux.microsoft.com>
+To: Felix Gu <ustc.gu@gmail.com>
+Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] edac: versalnet: Fix device_node leak in mc_probe()
+Message-ID: <20260322163040.GCacAZMAcIw81kqrNQ@fat_crate.local>
+References: <20260323-versalnet-v1-1-4ab3012635ef@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -63,20 +62,48 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260322131149.1684771-1-ptsm@linux.microsoft.com>
+In-Reply-To: <20260323-versalnet-v1-1-4ab3012635ef@gmail.com>
 
-On Sun, Mar 22, 2026 at 06:11:49AM -0700, Prasanna Kumar T S M wrote:
-> The device name allocated via kzalloc() in init_one_mc() is assigned to
-> dev->init_name but never freed on the normal removal path.
-> device_register() copies init_name and then sets dev->init_name to NULL,
-> so the name pointer becomes unreachable from the device. Thus leaking
-> memory.
+On Mon, Mar 23, 2026 at 12:04:08AM +0800, Felix Gu wrote:
+> of_parse_phandle() returns a device_node reference that must be released
+> with of_node_put(). The original code never freed r5_core_node on any
+> exit path, causing a memory leak.
 > 
-> Track the name pointer in mc_priv and free it in remove_one_mc().
+> Fix this by using the automatic cleanup attribute __free(device_node)
+> which ensures of_node_put() is called when the variable goes out of
+> scope.
+> 
+> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
+> Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+> ---
+>  drivers/edac/versalnet_edac.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+> index 0b47ed7fed63..915bcd6166f7 100644
+> --- a/drivers/edac/versalnet_edac.c
+> +++ b/drivers/edac/versalnet_edac.c
+> @@ -888,12 +888,12 @@ static void remove_versalnet(struct mc_priv *priv)
+>  
+>  static int mc_probe(struct platform_device *pdev)
+>  {
+> -	struct device_node *r5_core_node;
+>  	struct mc_priv *priv;
+>  	struct rproc *rp;
+>  	int rc;
+>  
+> -	r5_core_node = of_parse_phandle(pdev->dev.of_node, "amd,rproc", 0);
+> +	struct device_node *r5_core_node __free(device_node) =
+> +		of_parse_phandle(pdev->dev.of_node, "amd,rproc", 0);
+>  	if (!r5_core_node) {
+>  		dev_err(&pdev->dev, "amd,rproc: invalid phandle\n");
+>  		return -EINVAL;
+> 
+> ---
 
-No, get rid of the name allocation and allocate a char name[MC_NAME_LEN] on the
-stack in init_one_mc() which you pass into device_register(), it copies it and
-we forget about it.
+Looks correct to me.
+
+@Shubhrajyoti, can you pls test it?
 
 Thx.
 
