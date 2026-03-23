@@ -1,32 +1,32 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2B7740DFB7;
-	Mon, 23 Mar 2026 06:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AAE929D26E;
+	Mon, 23 Mar 2026 07:09:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774249200; cv=none; b=VRf71BjkFYxt4dIXP4n1BmTfnGIeQmOnvTc5BIhBzH0m3tCmdA5zfMzaqFwF5tnsALXx8LzCffx91V6w8aa19cLVBOdivseEQb4h+IlGDaxa3Y6YssKX63iewMi8DV6kIZwO7l0O8P2h6agHPQK/OGXKYCkxny5pVqDjSYqeUc4=
+	t=1774249742; cv=none; b=Jh/9/fvOjJwqhLy66woq3sa1x5bh8xnX3Vk30RLeXQZs0JGAMclGFbCpLizCxGC6MO449btfHzU5q8ufb+lChTW9gZIYigl5eqnA7eTMc/qsW7gmrdMoKG73duYPVwyE8D1VBdkyVDOU5pEvLsD2LvdNDA/C6ewcdNDxG51qEo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774249200; c=relaxed/simple;
-	bh=Lcj/Gee0UpM9Xk/jVZA5FS4QcAKvheLDzjGabhxrzXs=;
+	s=arc-20240116; t=1774249742; c=relaxed/simple;
+	bh=2aeKNb9i2smVSQafruo5WGY9jKtH8Q0f3eHsj532Bak=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E8aN+MPKiR/C5NFzLYgDbahY3VzHx04/JgjIVO2JuCHGVSb6eW9mqMxQE22PNUJUzCQpgMpZyssYaiBDgAZ1IetgPM8PjrMF99msvf/MMOsrVVVm3IM74EmmGgzEfgSZ2GCbPbJjrQp61Q3YEaZwwj7Wrgkyy5ObNKB+iOfS6tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=h5ptl03S; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:Content-Type; b=QSo5B9WFhUKShI7sMaYgKDOzTz/hoP+6GyPDcyGuESuwMO3zbcpRyNogP1x2wYpAeyycSdY2xbZL3JG5yFh3Cud33sliAJh8XY+zI13oHdnRzl/dmn2Zzfk7Js4nlgCpDEPprPBVgceL4VdxCGvvriiheZjSE9AsDhtSsl1F+0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=jgmIkJ4N; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="h5ptl03S"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="jgmIkJ4N"
 Received: from [10.94.160.76] (unknown [4.194.122.144])
-	by linux.microsoft.com (Postfix) with ESMTPSA id BF36820B710C;
-	Sun, 22 Mar 2026 23:59:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BF36820B710C
+	by linux.microsoft.com (Postfix) with ESMTPSA id 11D1E20B710C;
+	Mon, 23 Mar 2026 00:08:58 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 11D1E20B710C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1774249199;
-	bh=DgKL1yb46UK0y3VEQ8WvvfyLRsyFgHC2JnO+Y9Nmqbk=;
+	s=default; t=1774249740;
+	bh=VMWWABEFkMqr/ICkGOsyeM+f98qd7VD2QsTW3mQ2tkw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h5ptl03S5oBYYxMddh95ko2tIiGbYYe+byOoKy9xY4lUzmSFmy0aoq/9C44ywpwp6
-	 qxryqwwLaAsRszxEhpp79/0MtYc+M3Pfxs8PbPqmf3hPZmyBgzxFkNknJpoepOYTZD
-	 qm8xNNhJMvO6yDE90RfcAmNXt7E7SXMxZFcBZqck=
-Message-ID: <bedba89b-f2a0-4f5a-afbf-486b30ed9e25@linux.microsoft.com>
-Date: Mon, 23 Mar 2026 12:29:55 +0530
+	b=jgmIkJ4NST51MozLUu9n5J2CUDHUcJ+7j2E5UErL9ABMLBlG4IxPe1ZA7M2bhaWmT
+	 kmFviR6a7PdWLg3Rzmgo6ZTV3rYtpYpaiB3XyAH5/quj++4iFiEJutC7DzGyL2dFmv
+	 Qjx0g7vN15p5kCLhDdkrYqFGlDR26T7nB1k0eqlU=
+Message-ID: <84ae7198-b755-4dde-b97c-978958d27b4b@linux.microsoft.com>
+Date: Mon, 23 Mar 2026 12:38:57 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -34,38 +34,116 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] EDAC/versalnet: Fix device name memory leak
+Subject: Re: [PATCH 4/5] EDAC/versalnet: Fix device_register() error handling
+ in init_one_mc()
 To: Borislav Petkov <bp@alien8.de>
 Cc: shubhrajyoti.datta@amd.com, tony.luck@intel.com,
  linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org
 References: <20260322131107.1684647-1-ptsm@linux.microsoft.com>
- <20260322131149.1684771-1-ptsm@linux.microsoft.com>
- <20260322161506.GBacAViv5G6Ul-0WUX@fat_crate.local>
+ <20260322131145.1684744-1-ptsm@linux.microsoft.com>
+ <20260322161052.GAacAUjFGWFwPle6c9@fat_crate.local>
 Content-Language: en-US
 From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-In-Reply-To: <20260322161506.GBacAViv5G6Ul-0WUX@fat_crate.local>
+In-Reply-To: <20260322161052.GAacAUjFGWFwPle6c9@fat_crate.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 22-03-2026 21:45, Borislav Petkov wrote:
-> On Sun, Mar 22, 2026 at 06:11:49AM -0700, Prasanna Kumar T S M wrote:
->> The device name allocated via kzalloc() in init_one_mc() is assigned to
->> dev->init_name but never freed on the normal removal path.
->> device_register() copies init_name and then sets dev->init_name to NULL,
->> so the name pointer becomes unreachable from the device. Thus leaking
->> memory.
+On 22-03-2026 21:40, Borislav Petkov wrote:
+> On Sun, Mar 22, 2026 at 06:11:45AM -0700, Prasanna Kumar T S M wrote:
+>> When device_register() fails, it must be followed by put_device()
+>> rather than kfree(), because device_register() calls
+>> device_initialize() which sets up the device refcount. The matching
+>> release function versal_edac_release() handles the actual kfree().
 >>
->> Track the name pointer in mc_priv and free it in remove_one_mc().
+>> Also reorder the dev allocation to after edac_mc_alloc() so the error
+>> path no longer needs a separate err_dev_free label.
 > 
-> No, get rid of the name allocation and allocate a char name[MC_NAME_LEN] on the
-> stack in init_one_mc() which you pass into device_register(), it copies it and
-> we forget about it.
+> Nope.
+> 
+> edac_mc_alloc() is a lot more heavy-weight than a simple k*alloc(). Pls keep
+> the ordering as it is.
 
-Sure, I will do this in v2.
+Re-ordering this simplifies the error handling path. See below for details.
 
-> Thx.
+> 
+>> Fixes: d5fe2fec6c40d ("EDAC: Add a driver for the AMD Versal NET DDR controller")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+>> ---
+>>   drivers/edac/versalnet_edac.c | 16 ++++++++--------
+>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+>> index acd51b492772..6463e88ed3d3 100644
+>> --- a/drivers/edac/versalnet_edac.c
+>> +++ b/drivers/edac/versalnet_edac.c
+>> @@ -817,24 +817,26 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>>   	if (!name)
+>>   		return rc;
+>>   
+>> -	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+>> -	if (!dev)
+>> -		goto err_name_free;
+>> -
+>>   	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
+>>   	if (!mci) {
+>>   		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
+>> -		goto err_dev_free;
+>> +		goto err_name_free;
+>>   	}
+>>   
+>> +	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+>> +	if (!dev)
+>> +		goto err_mc_free;
+>> +
+>>   	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
+>>   
+>>   	dev->init_name = name;
+>>   	dev->release = versal_edac_release;
+>>   
+>>   	rc = device_register(dev);
+>> -	if (rc)
+>> +	if (rc) {
+>> +		put_device(dev);
+> 
+> Why here and not at the error label below?
+
+After calling device_register(), put_device() has to be used 
+irrespective of the return value. In this case, kfree(dev) will happen 
+as a part of put_device().
+
+If device_register() was not called, kfree(dev) has to be called to free 
+the memory.
+
+If kzalloc(dev) is done after edac_mc_alloc(), there is no need to 
+decide between kfree(dev) or put_device(dev). This simplifies the error 
+handling path. This is the reason behind re-ordering and keeping 
+put_device(dev) under 'if (rc) { ... }'.
+
+> 
+>>   		goto err_mc_free;
+>> +	}
+>>   
+>>   	mci->pdev = dev;
+>>   	mc_init(mci, dev);
+>> @@ -856,8 +858,6 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>>   	device_unregister(mci->pdev);
+>>   err_mc_free:
+>>   	edac_mc_free(mci);
+>> -err_dev_free:
+>> -	kfree(dev);
+>>   err_name_free:
+>>   	kfree(name);
+>>   
+>> -- 
+>> 2.49.0
+>>
 > 
 
+Do you think it is best to do edac_mc_alloc() before kzalloc(dev)?
+
+Thanks,
+Prasanna Kumar
