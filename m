@@ -1,51 +1,51 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66EC3630A4;
-	Tue, 24 Mar 2026 11:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A2A1E515;
+	Tue, 24 Mar 2026 12:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774351868; cv=none; b=F/nV2ijRhqOWlvVacGEfJMApIQYCEGf9/RnzaQFBQoAWwS80EDY4TxvwnG+zTXtxR1Rjcs0S7sHox0Np5eit629oW38cYnPGjCUPW3dKdHySpUCdLNa1ghx0XeUiWW875VNNJkxyfwr3kLfFLuLLh3yXV+00lIwom8u4+NKtq1M=
+	t=1774354636; cv=none; b=ko74GN7OUIOPtAqD8vRXqioehOtCM9ultHKmHW31j1FSs/A+JX/hf3MsC06qDOE4WZzGrFnT3Z6l+/PF9MZPraQPFuaAbVN7NxV+8SX06hTWu7XDzW5khBsLUHZhh7F7RJrKXFrXxpZWxDKkik8kuBXen6cWwFvWiArDLT5/Wps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774351868; c=relaxed/simple;
-	bh=rblMCGvd2iPAz2pvlqhOFvMSb8AD5H70RhuU57IZUhs=;
+	s=arc-20240116; t=1774354636; c=relaxed/simple;
+	bh=4M3oxfdAtS7h61TDbbWg2JNnqbSWA0PCWoJ0L7gkFZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hu11Bihp4qokd2ZPWZGeyMRgILDlaKt6oiztdwbAN5fjngLpRpn6jeTV18zm0HmJbHIYNCXcaIo08jQjjA3/mgyYTHHh3WCM7AzGp8ChA4cHud5hJcVZ+sh6syb5TxbWNT34CRob+9LcpUo0fHJSUD0jFEOaH88X7xn1ZLBm0Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=DTa2OxNK; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=ev7PxGiUND7tq0Zm7j0sdfW+W01kSmZxdT5WJw5zPUUXL3vKCVDGgyYZPGT3t0yBq5nEyX3vG5dCZ9AeVAQBDLVcclZmRQOuKUgTZpfgrkfZYzwjhNeaVSuV5MrtRuLSYOpEW0LTBforp5Y6AHlO+W/oqWtsUs5keQ+KAgj3BJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=cF8pe+nS; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="DTa2OxNK"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="cF8pe+nS"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 77DBC40E01B5;
-	Tue, 24 Mar 2026 11:23:28 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4C91A40E01B5;
+	Tue, 24 Mar 2026 12:17:12 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 8U81itRaMNaU; Tue, 24 Mar 2026 11:23:25 +0000 (UTC)
+	with ESMTP id dnFVETy27CCn; Tue, 24 Mar 2026 12:17:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1774351405; bh=FFYpmmv34rxKLc4i7HhqfOYLG9MsqetPZcO17O0bV2w=;
+	t=1774354629; bh=KYK9YHZVuVlAzOOhH+MTz621Hkr2RYOMLkdngylRUAs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DTa2OxNKVeHVoLONO52eUQALwiIXFc9zL7pEAZYXj1cypuVSotomy1k02jCAa1tnl
-	 GIKmSHE+k64zVhx+ZHqRAiBYg/60FGLdBcB3bGrRnHa0F+X7Kxwvqnfub2hjI2xIa8
-	 YOycbzZxIoKx+yGRtzzAi+bLsb1WnALT6hs9y2Bz6zr35sU7GRtgGFu1WivsXm6Xnk
-	 H4sdf7dpPPql7lp0hwGQBd0r6ZJT2N6lFXiCf56rHY77fHTg0rXENsFL2l8nUHztNM
-	 d5YhVV86MuB2eKz4PTex6SgnNFYC9KsLYYdBuXohc4l4J0CBFLqXFLz610Gj1YVEIk
-	 7wQ3zVxO33BPJd1IYm3wrJeZorJiIGyWAt/74KkyEuC2ZIeTgDku9gZFvOoawWs6oR
-	 3IGOGt+uUIXDUonDpGM+GZcCce81wyYwdiFbe1ne6vlI3K2im6HRKI9qOaobpXVcjj
-	 8SLiMe/d275nOmTidZAYDoUhVUMn1DNCcqepbg8Qu2Jp2/8uo/xhdn89H3ghjpNKTO
-	 eIa0AgKJWQxQIF1NtoCc2i98aArr62P0CalSoGd1I0p7Up7qtrfFC3jvB6f1GofxpX
-	 dQwbMH60qDFRVPHC7k/VO95HQObDQAXmVjMZrb6lwRqbtsl/0C2VH0pCc1e/+yLSGM
-	 ArQlu2WO8e/ztmxB3/7UdcVg=
+	b=cF8pe+nSTbYOwxaFJul2bqxHO3uvgIgItLoiUX8wIYsEqhN6tdF3fFY8JyD9QlFPi
+	 cPkLYZSC6hmwgA5cTbDn56AVHXKZj3qYJiHzY6c3YWo+d9mDuGv8+CaSymsQP5YI6d
+	 lxkovFIQr85rZER8zPYQ73rWloZiN8CP35Tl6L9QKY8fpfe+mtIljuIu1GGr0kY4ru
+	 vahO3urod84G6ztAkBOUsNDV4wQ9C7cfvFvFPmIimmEbGCjhgBbAUdt9rSHtAoo9NJ
+	 M+X+g7dPq8SUJKK7XHzsXMEkJF5HRxQ426ejsCvI7tHaVGRVy6SPBgxbfzVzvgi2su
+	 CIYAY1ipCpXshcNevFwq7Suvy6gjA5EFdFPcpWy5dm0ACr4BI6G/EZAV3hbDxY6NoW
+	 1U0fAxdFq34wRGJjfdbuKTj0yJW3qEtNRQiBwnI1QIMPQLfdY3Ti+os4d3YUr78c+7
+	 wg9RjDFYmdBgtdZvoE6+R+Ert+RNV3N8BKYvxWkCPGDTNddin9THhsVI6g6OMcDoHt
+	 n/ycVMoB1XmUv65hHWfX0zxX0ADEIsECXjauTxCfuRL8q9FhkhL4WWIBfdzEY68LIw
+	 RoHkRAtXlve5hnjTEr9qbJQgMROPF/oGqz4bL7Ihlj9W0E39DXoUV8BZD8tcuyEu7V
+	 C5rk4M1CaVQmiMlXTUY0ZVt0=
 Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 304CA40E019D;
-	Tue, 24 Mar 2026 11:23:19 +0000 (UTC)
-Date: Tue, 24 Mar 2026 12:23:12 +0100
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id CBFEF40E0194;
+	Tue, 24 Mar 2026 12:17:02 +0000 (UTC)
+Date: Tue, 24 Mar 2026 13:16:56 +0100
 From: Borislav Petkov <bp@alien8.de>
 To: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
 Cc: shubhrajyoti.datta@amd.com, tony.luck@intel.com,
@@ -53,11 +53,12 @@ Cc: shubhrajyoti.datta@amd.com, tony.luck@intel.com,
 	stable@vger.kernel.org
 Subject: Re: [PATCH 4/5] EDAC/versalnet: Fix device_register() error handling
  in init_one_mc()
-Message-ID: <20260324112312.GKacJ0IEL2iD7JZnSk@fat_crate.local>
+Message-ID: <20260324121656.GAacKAuPpPt9bjj15q@fat_crate.local>
 References: <20260322131107.1684647-1-ptsm@linux.microsoft.com>
  <20260322131145.1684744-1-ptsm@linux.microsoft.com>
  <20260322161052.GAacAUjFGWFwPle6c9@fat_crate.local>
  <84ae7198-b755-4dde-b97c-978958d27b4b@linux.microsoft.com>
+ <20260324112312.GKacJ0IEL2iD7JZnSk@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -66,27 +67,16 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <84ae7198-b755-4dde-b97c-978958d27b4b@linux.microsoft.com>
+In-Reply-To: <20260324112312.GKacJ0IEL2iD7JZnSk@fat_crate.local>
 
-On Mon, Mar 23, 2026 at 12:38:57PM +0530, Prasanna Kumar T S M wrote:
-> If kzalloc(dev) is done after edac_mc_alloc(), there is no need to decide
-> between kfree(dev) or put_device(dev). This simplifies the error handling
-> path. This is the reason behind re-ordering and keeping put_device(dev)
-> under 'if (rc) { ... }'.
+On Tue, Mar 24, 2026 at 12:23:12PM +0100, Borislav Petkov wrote:
+> So let's do it another way (totally untested ofc):
 
-I don't think you're listening to me so lemme repeat:
-
-edac_mc_alloc() is a lot more heavy-weight than a simple k*alloc(). Pls keep
-the ordering as it is.
-
-I don't care how much it simplifies the error handling path if you have to do
-all the allocations and setup edac_mc_alloc() does for *nothing*!
-
-So let's do it another way (totally untested ofc):
+AI found a couple of issues, here's v2:
 
 ---
 diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-index b87fe57aa842..bf17b3ff59d5 100644
+index b87fe57aa842..953f96c8fd6f 100644
 --- a/drivers/edac/versalnet_edac.c
 +++ b/drivers/edac/versalnet_edac.c
 @@ -772,12 +772,11 @@ static void remove_one_mc(struct mc_priv *priv, int i)
@@ -103,6 +93,15 @@ index b87fe57aa842..bf17b3ff59d5 100644
  	enum dev_type dt;
  	char *name;
  	int rc;
+@@ -802,7 +801,7 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+ 	}
+ 
+ 	if (dt == DEV_UNKNOWN)
+-		return 0;
++		return -EINVAL;
+ 
+ 	/* Find the first enabled device and register that one. */
+ 	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
 @@ -817,14 +816,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
  	if (!name)
  		return rc;
@@ -128,8 +127,12 @@ index b87fe57aa842..bf17b3ff59d5 100644
  err_name_free:
  	kfree(name);
  
-@@ -869,15 +862,21 @@ static int init_versalnet(struct mc_priv *priv, struct platform_device *pdev)
- 	int rc, i;
+@@ -866,18 +859,26 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+ 
+ static int init_versalnet(struct mc_priv *priv, struct platform_device *pdev)
+ {
+-	int rc, i;
++	int rc = -ENOMEM, i;
  
  	for (i = 0; i < NUM_CONTROLLERS; i++) {
 -		rc = init_one_mc(priv, pdev, i);
@@ -141,10 +144,11 @@ index b87fe57aa842..bf17b3ff59d5 100644
 +			goto free;
  
 -			return rc;
--		}
 +		rc = init_one_mc(priv, pdev, dev, i);
-+		if (rc)
++		if (rc) {
++			kfree(dev);
 +			goto free;
+ 		}
  	}
  	return 0;
 +
@@ -156,6 +160,7 @@ index b87fe57aa842..bf17b3ff59d5 100644
  }
  
  static void remove_versalnet(struct mc_priv *priv)
+
 
 -- 
 Regards/Gruss,
