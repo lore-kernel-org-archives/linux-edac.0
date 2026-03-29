@@ -1,113 +1,176 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012048.outbound.protection.outlook.com [52.101.48.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521B634DB46;
-	Fri, 27 Mar 2026 21:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774646519; cv=none; b=bdFWujITH5j5q5ghRASsEjWqcYvEZ/Ct0ZA6iUFP3L5Ehd1Q4R62XsI5ZUO0LonAKJoUtcTdC0/TKiAWi7381A8WD1jR2VL39Quylh932Ks+d5WUUOt7ypJsiLybSYOzdWtjs0qOX2iNnNbPpmWfBK7+UMzOROXu1SfeJfspWSU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774646519; c=relaxed/simple;
-	bh=WtcUyDKyGZfz2gY+54no4aqP70qxya/957pAW5/BjXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VX338FROglf2VDbl6Yt+WiHm7Adf2RHYAvZm6BXMCF2RT7mXpaX94LyaLf8e0RSpj5o3lx6H7CGeDZt2rKBSnxQauKbH5m8tXj63fpHYqqYmbWQtg29uB9M1Vi8BfnUyegc4qpqJs5yNLQYZAD0n2R92teejkfCjMPhE+wGa+eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RQa+Vd6H; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7887136CE12;
+	Sun, 29 Mar 2026 12:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774788252; cv=fail; b=TCfB8rkFbH6X6WFikZLL7L91w57DijHIpClv8HcvCPTbUr82Ry8/sZe1pSklQlkLHcV5cgIXM1D9DFag5dY6bxowLmwDC46oId9jsWIaRAe++1jE8uH44M5TVfDHmAc6NkJCzXlPQop14vioeBsEqHeokzWr/5MqLbA48hGP3TQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774788252; c=relaxed/simple;
+	bh=ukO4zYiSDBXwuc46GAlhV7+0VHU3yFk1yFOFxlGNBls=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MHppzHFfExUZzaaXw11q1+dFkGNXro3CKmxefq5Zqx571ELlSyN53aImuiW9XDoobjAm9Yr7LNWCI8iWWGn3wqRdivLwXgn1NNxFn/a/VzFfEDv/+QDCroaFeudxJoHxoPWl3dvRwuXsVrS43TWXvPc6Lb3aJMDHS+QGgAJOQz4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RODeYr/w; arc=fail smtp.client-ip=52.101.48.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RQa+Vd6H"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2848C40E0163;
-	Fri, 27 Mar 2026 21:21:55 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 39-WFBRXaPAz; Fri, 27 Mar 2026 21:21:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1774646510; bh=S1sOJbYJJsj0EUbJLIb7ytfuEq+oKhzovnbeX7rC0R0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RQa+Vd6HQl5vVmGFnHHRORyQQ2YXPL1uwiXP4eos/YP/KmuQsiJBK73134MDGRXnq
-	 XTJY5Xe1mhdqrEyJ6g+wE9X35n/+A05v2BP6wf+NEaCeun/4FU1FlDTXGP4XBUbTzl
-	 fvb7utUipuPSaR6mv+WLb1uMTn/cOHPHM5x/lrp94DJe9F8+OTn2Qh+IeYXwrBH3Of
-	 CW1u0w7J1cYWrvJlXt9RJ9X7MQqM9t2AztaAsGuWggeyF/CRgzQkodoxWXJW7i7cTw
-	 7/LIKCuE4xFbN7OR/1lDrDvryC+/tEWgo0aZUuFULp3T8D6PJoLhiN6+KMZsFzs/LM
-	 4j3KmOa0XNdW6MIrMpewEwUfTouH7xMif5voUg6cWUz0+ccidnPBBbtl77X5sWZlUj
-	 EnefpZl1abAAX5MhCS95Ac9ZWjl6GUJ60l31l0IDwzXCWsK+GFbrA4zQv73cY/HzX3
-	 SxahksoA0Z7g7gTZTKa96QTji8DOq2xFH7L7mkfs3soJrnXvMw9SF9sJC0yNAAcbaa
-	 4QzQ7pLWfD//cVu/qSTEgcdDETDSJ6N2hMsXC2HNb36nPnHrCtW6mT8CgmEHYKNW5y
-	 7e8VtYbDTpvNbAE7oi9zmJltHrtOb6yNNZei4O0lSvibGX3f/rw/fmUYTlqe0p/4K6
-	 +3qa6B1snGyP9VV7cDLrDRQc=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id B87C040E015C;
-	Fri, 27 Mar 2026 21:21:41 +0000 (UTC)
-Date: Fri, 27 Mar 2026 22:21:29 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Marilene Andrade Garcia <marilene.agarcia@gmail.com>
-Cc: Jason Baron <jbaron@akamai.com>, Tony Luck <tony.luck@intel.com>,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	daniel.baluta@nxp.com, simona.toaca@nxp.com, d-gole@ti.com,
-	m-chawdhry@ti.com
-Subject: Re: [PATCH] EDAC/ie31200: Make rpl_s_cfg static
-Message-ID: <20260327212129.GCacb02RSM9xkOzOzD@fat_crate.local>
-References: <f353c3aff47abd88bafc46a1c0c5eb9917e11b28.1774619301.git.marilene.agarcia@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RODeYr/w"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dZPzWa7xs+UEbtqMEhpgozN1BLVAGOXOiGeHAPRdTA+MqBWO8Oqo2ta3o2JMzRqTluFZU7eurulV9YkgtPF/lFl7pHmggiOLcwXPb4+48miPG++wmpNnivszJVaXN7bzRywXKcT+8vuta65LBN8CLgg+JJjF4LQO7oVjVL96oKZIJ0WU+Aa1D7z/CC4R7WDAw5VDj7pIVsw9Cv6rT2tlh50i4AvIhI/L1GasWfLjBl/ktVGrLnukvC1HPD4P8PjsSegeUzg2oqMvf7EFpeZKJaD3sPwXrkhG4G4THWBiZIGunlvZtiu8dUbR7TZ7iI0t3noHLUkliIz4w/7cYyWLoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ijr4hXIybc1iI4yTwf9mObiHYUUMtC7EMdK+/oNxevg=;
+ b=RZk90h33bRYRsbEik7cmT1VLwDhEejjvuGz9eQOtNNnCFitHbIgOzNtlUHEGUbfEPEsbkwHRE+MnIqrcAOcALJyo7dkGdNIfD2/2alOUiFa9uFMNBpx70TmRYIz7Mbz9dpJq6yglLWWE/JlhSFq9myYfV6UXFFV5f87o/orXYtwXUD5QX1HM17M86dbHt/yeBQq/KQFESdyeEezAcfcVerYf5/YGMuqh1ne4EVwmQT1x2bf2cR57l8eysIuPvBGA5rzN05dWw3RHut3P/6JOfA1VPZ4G8s/vAm+wEtJWmhx7SKDGfBvOb0DYJbCQey9bbQ6wOEIuRH9dcn9rgCZo5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ijr4hXIybc1iI4yTwf9mObiHYUUMtC7EMdK+/oNxevg=;
+ b=RODeYr/weRL16m13c+bzo+BwXAjhXcpHKwV567J6Aaxc/z/+uBixC3kusv9D4K3WNK8R7sAPX2KwuwtVOkeCFmGz903npIz/LI8WsOeJ7OESVEEogsUQ0IxBcbZ4aE8j6bCpN7noBETxpTKg90pCgze03KVatrSTOVoIgGBEEfM=
+Received: from BN0PR10CA0026.namprd10.prod.outlook.com (2603:10b6:408:143::21)
+ by IA0PR12MB8301.namprd12.prod.outlook.com (2603:10b6:208:40b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Sun, 29 Mar
+ 2026 12:44:05 +0000
+Received: from BN3PEPF0000B069.namprd21.prod.outlook.com
+ (2603:10b6:408:143:cafe::79) by BN0PR10CA0026.outlook.office365.com
+ (2603:10b6:408:143::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.28 via Frontend Transport; Sun,
+ 29 Mar 2026 12:43:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN3PEPF0000B069.mail.protection.outlook.com (10.167.243.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9791.0 via Frontend Transport; Sun, 29 Mar 2026 12:44:04 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Sun, 29 Mar
+ 2026 07:44:04 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 29 Mar
+ 2026 07:44:03 -0500
+Received: from xhdshubhraj40.xilinx.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Sun, 29 Mar 2026 07:44:01 -0500
+From: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+To: <linux-edac@vger.kernel.org>
+CC: <git@amd.com>, <shubhrajyoti.datta@gmail.com>, Michal Simek
+	<michal.simek@amd.com>, Borislav Petkov <bp@alien8.de>, Tony Luck
+	<tony.luck@intel.com>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] EDAC/versalnet: Report PFN and page offset for DDR errors
+Date: Sun, 29 Mar 2026 18:14:00 +0530
+Message-ID: <20260329124400.4064739-1-shubhrajyoti.datta@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f353c3aff47abd88bafc46a1c0c5eb9917e11b28.1774619301.git.marilene.agarcia@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB04.amd.com: shubhrajyoti.datta@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B069:EE_|IA0PR12MB8301:EE_
+X-MS-Office365-Filtering-Correlation-Id: df9367aa-b760-4390-98f2-08de8d90dca2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700016|1800799024|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	MnOopbjzCXKR/Xhh3fwphqfP80KIGtbMfkvTTiy8BqX9WR5brwY4kbkGmgdHxgDlMNcEThTNY7L5+hEAKnM4BjfMItwYUVO8rsUPXBXTV3QBBxIb5+g2LmNetKaz7EEKk6DFp+SoogSImq4noVhBvY3Qvv48LNmkkDlEIWV4xRlL8n+nssCnEprvSCPMM6qTw+4HZCz7SkcZOLDbI3SO2ZUHLM6kUy1dgAjNY8/UK2/QhPyWdvyt429qcaJpMAPr8sN78rdUiFrVNGA9x9LNQfaGyPbSV/tbTAjuzY0ExDyw66EtuTbWmz3WIYMQXCuQDqjsycvPvMQ7LqZaui2BdRjAocNKE9Z6Tj5ZaSVQKQ+0vR2XlsxxEtvgQrRoCh51JjiGzkxwZJfcgBkjz9dDZ0JRS6lLqVkaMas2BgK+ZRsMw5o97Os0WwhSanbpjary8Nohmu17nfMtJEVBmHHOCpWNxm66pR/G8bz49Xtxqr98AO4lFJ14eCYwaArd7s6USOH3L95Qfwt0F9txZQT0yX5AsAPoBt1r7gIaF9MIw7Lz1n3eZzKEqnK/fPkRSLkXyDXSmm9mE55+OofTcqJ2C6MglDfuMc0MHUfzoeBRbShFDQ6wKjD0rm6zGX/ykDf6+cTRIeJ2yeH2Qg42rtvx3awNCYBOH+fLXtb13ByJGWW9Di/ASbH8+cccC7UggFVkNiqzLyS2KjBo51CdCUS53jG1AMEf2ew4ub1sk935t5WX5vQO824SB7+FWYRaBhIxNVSx4pcyz9d1jq4upa+8Iw==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(1800799024)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	Yo2d1XJ9czW+En4WnINYBOxFx5x21c+LeoGOBj4XUJCBZqSuEIhjGD7ukbU0E8YOyUJt8ddUX+2i8V38xYgy3KRwEPlrjzICnxUej2SIKxywkmmr/8Vy7BcBDkT7Uu4OFDW8F+ht7mXIT+Se0JU2pxz1qlyuUFZmaDajWPBMn7P7c2c/eY3X8cdED9hPpyi1AaKec+HbtqlCwyc6K/zV6N0lPQPNp6JxpLG+r4ek6avzh4cAiO249E1EDQ5p+6+NdMJfyFtJT8XWbPYhBhqyZ/9IJh4b/z6q/kV5s0MYhzjDQ2pZeE3Q0LN/ptp5kUGhe9SFttRPu+9TBNyCxt2gWTabhLJjswUp9KFLiHW5QTQwuLmB3JZknnjCKeuthAOkdC6b7OdsLrDXfiGzp5R8IpP7JD4yxSHsb24vYL7Wqe4WLfX3UybHWnGzSPEHat03
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2026 12:44:04.9243
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: df9367aa-b760-4390-98f2-08de8d90dca2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B069.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8301
 
-On Fri, Mar 27, 2026 at 11:55:57AM -0300, Marilene Andrade Garcia wrote:
-> Sparse reports:
-> drivers/edac/ie31200_edac.c:709:19: warning: symbol 'rpl_s_cfg' was not
-> declared. Should it be static?
-> 
-> rpl_s_cfg is only used within this file, so mark it static to fix the
-> warning
-> 
-> Signed-off-by: Marilene Andrade Garcia <marilene.agarcia@gmail.com>
-> ---
-> 
-> Hello maintainers,
-> 
-> After running Sparse in the linux-next branch, I noticed the above warning.
-> I would was wondering if you agree with this proposed fix.
-> 
-> Thank you for your time.
-> 
-> Best regards,
-> Marilene Andrade Garcia
-> 
->  drivers/edac/ie31200_edac.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-> index eaab6af143e1..a5dc4b88097f 100644
-> --- a/drivers/edac/ie31200_edac.c
-> +++ b/drivers/edac/ie31200_edac.c
-> @@ -706,7 +706,7 @@ static struct res_config skl_cfg = {
->  	.reg_mad_dimm_width_mask[1]	= GENMASK(25, 24),
->  };
->  
-> -struct res_config rpl_s_cfg = {
-> +static struct res_config rpl_s_cfg = {
->  	.mtype				= MEM_DDR5,
->  	.cmci				= true,
->  	.imc_num			= 2,
-> 
-> base-commit: e77a5a5cfe43b4c25bd44a3818e487033287517f
-> -- 
+Currently, DDRMC correctable and uncorrectable error events are reported
+to EDAC with page frame number (pfn) and offset set to zero.
+This information is not useful to locate the address for memory errors.
 
-Applied, thanks.
+Compute the physical address from the error information and extract
+the page frame number and offset before calling edac_mc_handle_error().
+This provides the actual memory location information to the userspace.
 
+Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+---
+
+ drivers/edac/versalnet_edac.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+index 915bcd6166f7..66df090245be 100644
+--- a/drivers/edac/versalnet_edac.c
++++ b/drivers/edac/versalnet_edac.c
+@@ -431,8 +431,7 @@ static void handle_error(struct mc_priv  *priv, struct ecc_status *stat,
+ {
+ 	union ecc_error_info pinf;
+ 	struct mem_ctl_info *mci;
+-	unsigned long pa;
+-	phys_addr_t pfn;
++	unsigned long pa, pfn;
+ 	int err;
+ 
+ 	if (WARN_ON_ONCE(ctl_num >= NUM_CONTROLLERS))
+@@ -442,27 +441,28 @@ static void handle_error(struct mc_priv  *priv, struct ecc_status *stat,
+ 
+ 	if (stat->error_type == MC5_ERR_TYPE_CE) {
+ 		pinf = stat->ceinfo[stat->channel];
++		pa = convert_to_physical(priv, pinf, ctl_num, error_data);
++		pfn = PHYS_PFN(pa);
+ 		snprintf(priv->message, sizeof(priv->message),
+ 			 "Error type:%s Controller %d Addr at %lx\n",
+-			 "CE", ctl_num, convert_to_physical(priv, pinf, ctl_num, error_data));
++			 "CE", ctl_num, pa);
+ 
+ 		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
+-				     1, 0, 0, 0, 0, 0, -1,
++				     1, pfn, offset_in_page(pa), 0, 0, 0, -1,
+ 				     priv->message, "");
+ 	}
+ 
+ 	if (stat->error_type == MC5_ERR_TYPE_UE) {
+ 		pinf = stat->ueinfo[stat->channel];
++		pa = convert_to_physical(priv, pinf, ctl_num, error_data);
++		pfn = PHYS_PFN(pa);
+ 		snprintf(priv->message, sizeof(priv->message),
+ 			 "Error type:%s controller %d Addr at %lx\n",
+-			 "UE", ctl_num, convert_to_physical(priv, pinf, ctl_num, error_data));
++			 "UE", ctl_num, pa);
+ 
+ 		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
+-				     1, 0, 0, 0, 0, 0, -1,
++				     1, pfn, offset_in_page(pa), 0, 0, 0, -1,
+ 				     priv->message, "");
+-		pa = convert_to_physical(priv, pinf, ctl_num, error_data);
+-		pfn = PHYS_PFN(pa);
+-
+ 		if (IS_ENABLED(CONFIG_MEMORY_FAILURE)) {
+ 			err = memory_failure(pfn, MF_ACTION_REQUIRED);
+ 			if (err)
 -- 
-Regards/Gruss,
-    Boris.
+2.34.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
