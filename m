@@ -1,120 +1,106 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C495F395272
-	for <linux-edac@vger.kernel.org>; Mon, 30 Mar 2026 21:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774905985; cv=pass; b=eKpTnD2Z3auHD+vExxNNBQKBDRnA0GUJupeolp/TdVuS13IkJepF9MEcLaWjUmkUoig624utBPLezoLyVwaAWS6xqup5KfUq+1PCaMy6G9fo3EYhdaRfPMOUD33Pp5qZrCNo8QwieQCq/tsf1kFsbtc/cDVOZV4D7M5Wp1nafW0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774905985; c=relaxed/simple;
-	bh=ALadY8NiPeRg67/Y2RfeQ+XYm9LcWvRmYMe+mGpRcx4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DOJUZym+yHKZHL5rtd5jYSCEei4on0i92aFfbUITYbRgpYYwGy9+6hHZovUgjWesdYw+RYHmEbezxb40z5T8c1j/FjsZgtNN6lHF1qIMxXsF25aBlNlMnQbT9CTeoBh61H8wgLkwDX4nvHOO0LSzFQAsbdAVvz0/XyqQtt3XUOw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sfzRETAx; arc=pass smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBC03E121C;
+	Mon, 30 Mar 2026 22:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774909971; cv=none; b=D8HAngCWQjxTORAlscPhWghBgS4bwBoJNfQUsDvUgil2LUNq7/WjSshSdup6R9q0incHkgEO9OYiK5ubgWNFDW6It1o3V2r+sksptDZ5tzW8GZJ2l/SDmXf+KZa+5iG+JvYAC8feP4KzWYATwA9pd6cQQD5xVdqbTMg2oSWLNr0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774909971; c=relaxed/simple;
+	bh=jdjkreioV8YbkCiGcWDAD1WfG8Wax7piA4f875vZDT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KOSuarOKwlEchHuCdREeCLnh879YmzexaV9Q1rzN9ZX0m3MzeRkKM/5Z1+bBz2BkU/WulKzs4zWcPLBVHbe0NGMROGAs21nRUBrTYuGTVF4ZNFfDVLQdoyWsow/08ZvxjBxqTPwhIOxR1TpLuJ7YvZRraMqVsVKQ7xhFaoRes7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PyjSUQze; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sfzRETAx"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a12cd0bcd8so3613532e87.3
-        for <linux-edac@vger.kernel.org>; Mon, 30 Mar 2026 14:26:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774905982; cv=none;
-        d=google.com; s=arc-20240605;
-        b=c62ffr1FIGkvlF3UWMgdVHBcQFRa8yD9ly898lO0/aCygqb/MXf40CL8+aeMcqubHt
-         Gig+UWHKteE0QCx3w4A95YmATn7LTSRGUmBBTgNgN86MJv4L5y735NQHzmKYmvOQHTlF
-         xYePkGvtabb4uglzIgnFPIWjasxm8VzZDnoq75OoA2kzjyXSavMYGr+LZJ/XK803+749
-         +V/ZoxtY3e1VVND569O+/N7liGYqAgY5lhVanoh6ee5YV1zdV/629MyW2x1uqUE23tBN
-         l0XBgGa75jINv6sFqKkA3nQUpqOwfWzmEPTDhKdl4AGCRhUUHeZKMu2l3NUTcOCs72RY
-         2hPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jPAzBhOfN4niGeqVshjASv9GN/8OjdJexvuZ25AJ9og=;
-        fh=OZJYlWP332XLIN1hW/C0I8u4/33uE2yuhONOv0Hr+gY=;
-        b=evJ5I+e+BFieozG40FcrnXN6jxYZ6l27SPWC6OMHS6FFaseqbDmylRx/pxYcFiSMVq
-         mTxoY0eSCMTkjOdjHDpy8czA2tvXRgL2YRRkp7EWxsNDJvMrmtuHXNDAJwxBoSDZwzWY
-         R04UeHUcUxtyksC+p1SZdvEj+n0E1eorSpzw4BNynZoM3Red+/af2lbDr7DFTMUDdgkG
-         Ymt7mkVqm6eTQ0WK5IA7SJT4hJcIV+kJEKXh0nT8vwdQepLdql5xZCUEuJI6/3toK4rW
-         GqJsujZs0V7El0GT4w/5t8Ri5YvNHv38vgm5FJDIaI8xRInxCGaAfbL9RqbLNir+P619
-         7zvQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774905982; x=1775510782; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jPAzBhOfN4niGeqVshjASv9GN/8OjdJexvuZ25AJ9og=;
-        b=sfzRETAxmRNB6RIrWtR3AaCudc41FD4SjiudPZBXc5r9tt+Cyof56KeqZR5+fs1AwR
-         bNoNFcdJQCARo6r3Ao835ntg7kUkHt8CnseC/POBJmoeG5ZJVI98fjqx6Rukai93eLB7
-         wSDvaHchivcx0HDwus/a5RYqcWVAfRfyrTedD85HHiWuL0b9e16OVPYulGtGjQhE4K/N
-         2b3nbOxYoLpPt9bRgbxYJvN1E//D4MSnf+LWasYoaIjxzQ31Z0IGPaeTILNZyL7kiHlO
-         vKh9DAfEf21LJCdBFDOhzBpn1i+qZG7ZIgf78voHt13DZRj3NTi9R8VibaCO0QMIqGus
-         EywQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774905982; x=1775510782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jPAzBhOfN4niGeqVshjASv9GN/8OjdJexvuZ25AJ9og=;
-        b=puJvuMogZ0cIEypiWvzuELy2r7/grByn1GZilPcC5ahSlOC5tizc2c9lPWEWrGebKV
-         RiTybSmLxM2CoFL+RJd4TjGNXaP+Mu44DDpzaRWcGjCEKA8xZUCNmEtqORm9UyuFI3j9
-         kl5sxbvUuQUzu7JzSWsaUhlC0VwMGsUjhzUp7K+TxsUfU0uq6WxPdrxqHbAR5DTtyyhT
-         Og/pNrWbqwAowo1yXvZqjF7OVXELhYbpoE+D5Hl7Lg1ZzsFPTphP7YVqajbjUNsNN/fX
-         yKnWNhqWjYCkROjVzJfd4Vt6D6nvzlytS9zx1sSnWZpwJL/nATHnGCDipQIgiRreM2yf
-         WxWw==
-X-Gm-Message-State: AOJu0Yw1+cD6cwKSS5keaF3XolB6drNORJtcgiPNgQXtKj61slxBpCVW
-	Sm2UGwmLrwdy8mYuWlh3nzGCSVb26tfRB0MwTsHa6WnLhUk+iZ+6byqtKhy3aMqP8TeLl2yHTXZ
-	FgXAT5cfaKBZA9ah/To/ixMHK46SzEHE=
-X-Gm-Gg: ATEYQzxfgJSShFqOXtK+clBkKls8tsu2lt6nu+I/Ontx3NBze84u76RSXHLaFPbVe3A
-	Ch06aT5zYsGT+wTVkaw8w07TDEDrzADQ9BVp2Y4i2tGZgzSxFOQvm/PbLSKsodtg562/irAAytR
-	SbhsMf/A/fMbN8dW/Lm1ag0AJaKnOtjIZo099IG2yg1xO/QN+kYTySAb5738dBvNx4wr0m6zUc3
-	L0ZLyP6GRIki6w34n5Dvz519ahVS5gT8KU2Ts0vh8upNWffRaqn5cAOgANZMFGvjQ8zvOUQZJnu
-	9iI11Add8qustfuIEpaE/sOD8BDQnjvJSqFZ6ESWXrOjJYXmCYGaAoWG1td422mqY+LpdHcOriG
-	1XgKupw==
-X-Received: by 2002:a05:6512:a88:b0:5a2:a1d7:9ceb with SMTP id
- 2adb3069b0e04-5a2ab933c87mr4481664e87.39.1774905981726; Mon, 30 Mar 2026
- 14:26:21 -0700 (PDT)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PyjSUQze"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DFB5640E0299;
+	Mon, 30 Mar 2026 22:32:39 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id uIGQGxEosGS4; Mon, 30 Mar 2026 22:32:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1774909955; bh=1fUMdOcX13pUHoQ96h+XxkyebCJ4N0W0QF7Vz2ARt88=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PyjSUQzekUBC5mO16TYwfsDP81hd1Q6qf1fDFTEYsEZzrgH59sg01GNHxwrBsLxAV
+	 f5UIalZWuEptBez8XCmzKKhTxmLPXtQrbtByX9v5+COZr6A9E8ufLOuoWSlgTONpQp
+	 Z98dAMHR/Z2nFSLFuG2qPC8ISCODGQv7qyI7G4jf5Lsks59dV361XPmsnHJlKzQ/Wd
+	 /Y5iFuRyKPM2Eo8yGIb5vHq35pe9vYU3qpzQrkdzUnIqH4DoneNJZG0mhCfOJqx5Dm
+	 WPW4ShVD1HzM5+LuaC6SUV4SaNeVgAO7wyc5ynQ+4ELLppHLpiMJkhUmyodii6kezK
+	 +QqsD2GPNigu4P7hB73LZYGfaftt+YbUCbJZhSZY1TAaqljgjyhqTP/CRvgz2O6+np
+	 tnJVOkMY7h3WmYi+dmH2oA2JvxHh1F0ql8mKqMlf1YkTZvFbxcDUN5C8W0DZtDUCSU
+	 PTEaPzUsL9vC3+XqTmjoHwEMC1aNy6cYaGSUY8VfQYajirodZiRVvODOz+5jw95qh+
+	 vUmEVBGiZOaHCasYYMSX0OB5ouCp/vRpkJYPv80s6LziAnVJ7RDiEaKGyo7caASOEs
+	 63GNaL8eTxEea8oJZhGQF5iF4+4DJ7/giIp5TZqFJfPjnI6V+0WYRxMVuRBm+hHob7
+	 +vuimZKfdIdlTkCYdXG5hapo=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 9B6F140E0298;
+	Mon, 30 Mar 2026 22:32:28 +0000 (UTC)
+Date: Tue, 31 Mar 2026 00:32:22 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCHv3] EDAC/mc: Use kzalloc_flex()
+Message-ID: <20260330223222.GJacr59uiTZzPRYbWX@fat_crate.local>
+References: <20260327024828.7377-1-rosenp@gmail.com>
+ <20260330151536.GDacqTmBlWRznyeoMG@fat_crate.local>
+ <CAKxU2N8HqFRT+qb5ctCVckC6c=viR7u+xyUaHgm-87C5=yo1ig@mail.gmail.com>
+ <20260330211123.GHacrm-03xUU_3yX66@fat_crate.local>
+ <CAKxU2N__gE-bWBU6EkJmEK2gR7VE=Va+oN6EB2hpJoHbUiYVxg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327024828.7377-1-rosenp@gmail.com> <20260330151536.GDacqTmBlWRznyeoMG@fat_crate.local>
- <CAKxU2N8HqFRT+qb5ctCVckC6c=viR7u+xyUaHgm-87C5=yo1ig@mail.gmail.com> <20260330211123.GHacrm-03xUU_3yX66@fat_crate.local>
-In-Reply-To: <20260330211123.GHacrm-03xUU_3yX66@fat_crate.local>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Mon, 30 Mar 2026 14:26:10 -0700
-X-Gm-Features: AQROBzACCiKm4LcM8ph4sJDY8VwHMc_K0lfkvl9eMNSaPH5UkBduvBF9-tz9z-M
-Message-ID: <CAKxU2N__gE-bWBU6EkJmEK2gR7VE=Va+oN6EB2hpJoHbUiYVxg@mail.gmail.com>
-Subject: Re: [PATCHv3] EDAC/mc: Use kzalloc_flex()
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKxU2N__gE-bWBU6EkJmEK2gR7VE=Va+oN6EB2hpJoHbUiYVxg@mail.gmail.com>
 
-On Mon, Mar 30, 2026 at 2:11=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
-e:
->
-> On Mon, Mar 30, 2026 at 01:49:36PM -0700, Rosen Penev wrote:
-> > call if such a thing were to eventually be introduced.
->
-> Oh, hypothetical what-if. Yeah, pls drop all that gunk from commit messag=
-es
-> pls and simply concentrate on why the patch exists.
-Not sure what you mean.
->
-> But you don't have to for this one - I'll massage it.
-Feel free.
->
-> Thx.
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+On Mon, Mar 30, 2026 at 02:26:10PM -0700, Rosen Penev wrote:
+> > Oh, hypothetical what-if. Yeah, pls drop all that gunk from commit messages
+> > pls and simply concentrate on why the patch exists.
+> Not sure what you mean.
+
+I mean this: a commit message should simply state why a patch exists. Here's
+what I did with yours:
+
+    Convert struct mem_ctl_info to use flex array and use the new flex array
+    helpers to enable runtime bounds checking, including annotating the array
+    length member with __counted_by() for extra runtime analysis when requested.
+    
+    Move counter assignment immediately after allocation as required by
+    __counted_by().
+    
+    Move memcpy() after the counter assignment so that it is initialized before
+    the first reference to the flex array, as the new attribute requires.
+
+The idea is that when one reads the commit message months, or even years from
+now - something we all have to do on a daily basis - it should have all the
+necessary information why the change was done.
+
+And nothing else. The emphasis being on the latter part. In this case, what
+this should have been and what some tools can do when lines are magically
+ordered doesn't really matter. The change must be worth to exist for itself.
+In this case, runtime bounds checking, which is something we all want.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
