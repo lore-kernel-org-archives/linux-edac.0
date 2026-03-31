@@ -1,117 +1,141 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04F4401A0A;
-	Tue, 31 Mar 2026 15:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC90402BBE
+	for <linux-edac@vger.kernel.org>; Tue, 31 Mar 2026 15:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774970301; cv=none; b=rWTVVY5GWsFoAP9bJFPzrE6VjxuVyt4LqKguuNuQFr0D5vlEe9V5UtcmNJLw72JMiVEUBdgDqDoblVbtF/Rgr4mL0cYCDW+BVpYo3TFjRErXX+yTMtS8pdQsefUgDWJaZM68ZSmAX9jScpge6rpucnLqfjgwwV3us4i/dUsvNqc=
+	t=1774971002; cv=none; b=Q5fwzRfjO3qpar0y5B98qE14vbRd/U1caoB505pf8MlDo6j9eylbOEyJTdE5OuMblnYm350Ve/0uYQPEufksurdcLjEXOleTO9mxabRLc54vouDkM0A2zDtqak3DLEqCdjcZgBOxL7PZrwFnZQBNDavpkGpLtpvA55XC5AnNzLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774970301; c=relaxed/simple;
-	bh=VyTzyrxLj+KGvjgF3ugGOG6AOqnjvxWpFw7cTEiMl3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3NJTAXu+U8r5Oj2s8g//prlHWyC6/saKcidsmX8DlBntXTjxmjYMNUEpfI6wPUeIvjAWmp/eJ9c4H03grWF3DCZw8SLsQ6646275GKA03HoTLlLbajFljq2QpsCOHQbF+FXXvZzS+/zjPwlFGxJ+B22+AK/R51wgjPSzZ/1XDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Z17IberB; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1774971002; c=relaxed/simple;
+	bh=4zvTdkJ+ue0OPEN1WPGkL40/gZzvh05e8A3J8AoRR2g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lzS8vL+jHfh7adwfWjcPrvxDh1cDRBSSoJTnKmjUS4J+yvrOKE021VSMOctofxiR3nPAlWd45jFw0fdz6cu67llJK6C76gEby9V2IQKiVtvLaEvotsakruayBxlumQyacAlGytRQaTqE2PhbmM6nWsldGKz00PPLFeLk2I9ccDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=wzAO04eb; arc=none smtp.client-ip=44.202.169.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Z17IberB"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id AF79F40E0140;
-	Tue, 31 Mar 2026 15:18:14 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id HEXG6Jv-8W3v; Tue, 31 Mar 2026 15:18:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1774970291; bh=HIf8gyFX80uSQKCoWkQ5ZPo573gaG6x/O65jKZB5gh4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z17IberBscI1nNIel2qnP2dKieE8Angtikowhd8wgkm/JnlHdoCe/RUlPPxw7dyJx
-	 nePrSWXtzHAKzAfvLyykWFfOEc4+/vPcMwM83zNC9iYPdYwn4J/G1gLIuV/RRyLo8O
-	 cXokxt/7rMbYC92jB+sn6IaCUTAlguzdNqi+suGBYj2LTjIp8LOIUEsS6VkHTlOttn
-	 +Kfl7I0KBTYO3CNKi3E+67jkSbrLY9DzBReN2pt5hfiaiyBZYJxvjw4VDgD6JuDiuu
-	 VX75wBEayTVozfxkP7Nz3nRP1pX2PzQGfdEoInEH4fKr77BsPqzflHTnYzZIAODdlr
-	 qVNW01sIg3kDzj4b31WUQHkNONc5uCS5QF/cCOR9E1xGCBQ5pBM5oyvujNB9IgQFDn
-	 wmBGHWcGc/hlxZcaU7CLUn/FMGLSPEvTifJrIBmTt7akASYYQqwSg5s07mxHhs/zLK
-	 Rmq2uPj6IJn3SpucLkPXnqOI76PIlYGzikph8+AyYo5mDGoA2gYBZ/PpdtT47R8AW8
-	 sWBNyZqnDW6r9nbzK/gx+wObyNPWhvBDnGmERN3AvphrNgw42Ydg5SnnXNxAEjMZ8T
-	 LZ2X+A5zyhTvQfE6EvlE6gWGyoNKcj1HPsOUcu3s+EiKCpirb5e2x8HPrCPioSkR/d
-	 pUSmm0Z9qeLeuqB79ERFpTCg=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 9FCEF40E0032;
-	Tue, 31 Mar 2026 15:17:35 +0000 (UTC)
-Date: Tue, 31 Mar 2026 17:17:29 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Shiju Jose <shiju.jose@huawei.com>
-Cc: "rafael@kernel.org" <rafael@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"rppt@kernel.org" <rppt@kernel.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
-	"erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>,
-	"gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>,
-	"Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
-	wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: Re: [PATCH v17 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <20260331151714.GFacvleugPydw71hxQ@fat_crate.local>
-References: <20260311155518.1000-1-shiju.jose@huawei.com>
- <20260311155518.1000-2-shiju.jose@huawei.com>
- <20260312165247.GSabLvX5DjzhDtmyuh@fat_crate.local>
- <33a8a02f07184508bdff31e1053606a2@huawei.com>
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="wzAO04eb"
+Received: from eig-obgw-5002b.ext.cloudfilter.net ([10.0.29.226])
+	by cmsmtp with ESMTPS
+	id 7XvRwbten4Rkp7b2TwNCou; Tue, 31 Mar 2026 15:29:57 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id 7b2SwADAWQLXz7b2SwJ5DN; Tue, 31 Mar 2026 15:29:56 +0000
+X-Authority-Analysis: v=2.4 cv=DodW+H/+ c=1 sm=1 tr=0 ts=69cbe875
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=k5Y5iPg+dmTXVWgYE/XtfQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
+ a=_Wotqz80AAAA:8 a=_XBNVHeI-bNlzRn20y4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=buJP51TR1BpY-zbLSsyS:22 a=2aFnImwKRvkU0tJ3nQRT:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=7Uzf0RmuT8FttVaXBcqx6BFPjQHDDGzkISS5bDvZtWU=; b=wzAO04ebB2kO0Hi92SxtvM7VaX
+	WGANDeMO4cORK0MFWol77Yqot/FvqG1SRb+8etqP7Et5vqLKKSc03w2jIOHxAU06VocMBu8NC247D
+	LutqlnUrlC7LwZTcEws50yI4sFZLaqrjYZ8+6OFBNEc19mPIZ5Wq6UFksDZN/yUMmqKLBt8GMr/gv
+	HBqZywe2tP4oasSjJVRkrQf3Pwlj9WQuhFeGgOct/0+PbE38fB5p6CgyMrwgNbl76ndj9u9uR8s/V
+	cD2dVAuWNnGS1loWz7+8OEGuoyiiZnN9woTntN++NN6AVY3ZwMYEpM7QSZ/GTWsWX2OGkc4u8qEYb
+	RxR/UtsQ==;
+Received: from [177.238.16.13] (port=60440 helo=[192.168.0.104])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.99.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1w7b2R-00000002Dpq-1fB9;
+	Tue, 31 Mar 2026 10:29:56 -0500
+Message-ID: <4ce84891-3449-478e-990a-eb77f53a956d@embeddedor.com>
+Date: Tue, 31 Mar 2026 09:28:47 -0600
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <33a8a02f07184508bdff31e1053606a2@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3] EDAC/mc: Use kzalloc_flex()
+To: Borislav Petkov <bp@alien8.de>, Rosen Penev <rosenp@gmail.com>
+Cc: linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ open "list:KERNEL" HARDENING "(not" covered by other
+ "areas):Keyword:b__counted_by(_le|_be)?b" <linux-hardening@vger.kernel.org>
+References: <20260327024828.7377-1-rosenp@gmail.com>
+ <20260330151536.GDacqTmBlWRznyeoMG@fat_crate.local>
+ <CAKxU2N8HqFRT+qb5ctCVckC6c=viR7u+xyUaHgm-87C5=yo1ig@mail.gmail.com>
+ <20260330211123.GHacrm-03xUU_3yX66@fat_crate.local>
+ <CAKxU2N__gE-bWBU6EkJmEK2gR7VE=Va+oN6EB2hpJoHbUiYVxg@mail.gmail.com>
+ <20260330223222.GJacr59uiTZzPRYbWX@fat_crate.local>
+ <CAKxU2N_H4mvrJh+zgoikY8J9-u3nnWK-1dQwZanDNksoE75hvg@mail.gmail.com>
+ <20260331121840.GBacu7oF3AjjkLtcBZ@fat_crate.local>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20260331121840.GBacu7oF3AjjkLtcBZ@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 177.238.16.13
+X-Source-L: No
+X-Exim-ID: 1w7b2R-00000002Dpq-1fB9
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.104]) [177.238.16.13]:60440
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 28
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfFcHgV7bFqNxgo4f69hMlhXeTQNBCP4DVwGllKQu2mhhLuB3E53zk2zIbGvO89lsVa4rfzNzVxIqAyCO3gFQ5HYtS2OmSiNOAttWynE+IlubIWudjNvG
+ Hmw/oQulGhV+88OC3XbK7cfTs6Lkdxc7WGNOdMRw+fhyYGIqSB5Iczp+tYYXH2mVefe67WwobmOCFKyUD/vL5JQ+UOtJ4CBiehRG9RK4q0jv4my7Y4Qd4nNU
 
-On Mon, Mar 16, 2026 at 02:27:40PM +0000, Shiju Jose wrote:
-> In v13, support for address range has removed for the code simplification
-> requested with the expectation that a firmware will do the full node demand
-> scrubbing and may enable these attributes in the follow-up patches.  I do
-> not mind adding support for address range now or else later after first
-> version of RAS2 code will be merged.
 
-Right, that makese sense.
 
-Thx.
+On 3/31/26 06:18, Borislav Petkov wrote:
+> On Mon, Mar 30, 2026 at 04:25:26PM -0700, Rosen Penev wrote:
+>> On Mon, Mar 30, 2026 at 3:32 PM Borislav Petkov <bp@alien8.de> wrote:
+>>>
+>>> On Mon, Mar 30, 2026 at 02:26:10PM -0700, Rosen Penev wrote:
+>>>>> Oh, hypothetical what-if. Yeah, pls drop all that gunk from commit messages
+>>>>> pls and simply concentrate on why the patch exists.
+>>>> Not sure what you mean.
+>>>
+>>> I mean this: a commit message should simply state why a patch exists. Here's
+>>> what I did with yours:
+>>>
+>>>      Convert struct mem_ctl_info to use flex array and use the new flex array
+>>>      helpers to enable runtime bounds checking, including annotating the array
+>>>      length member with __counted_by() for extra runtime analysis when requested.
+>>>
+>>>      Move counter assignment immediately after allocation as required by
+>>>      __counted_by().
 
--- 
-Regards/Gruss,
-    Boris.
+This is misinformation and should be phrased differently[1]
 
-https://people.kernel.org/tglx/notes-about-netiquette
+-Gustavo
+
+[1] https://lore.kernel.org/linux-hardening/37378f49-437f-438b-ad6c-d60480feb306@embeddedor.com/
+
+>>>
+>>>      Move memcpy() after the counter assignment so that it is initialized before
+>>>      the first reference to the flex array, as the new attribute requires.
+>> Looks great.
+>>>
+>>> The idea is that when one reads the commit message months, or even years from
+>>> now - something we all have to do on a daily basis - it should have all the
+>>> necessary information why the change was done.
+>>>
+>>> And nothing else. The emphasis being on the latter part. In this case, what
+>>> this should have been and what some tools can do when lines are magically
+>>> ordered doesn't really matter. The change must be worth to exist for itself.
+>>> In this case, runtime bounds checking, which is something we all want.
+> 
+> Applied, thanks.
+> 
+
