@@ -1,128 +1,157 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFF983630A8;
-	Wed,  1 Apr 2026 11:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12894035AA;
+	Wed,  1 Apr 2026 12:42:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775042344; cv=none; b=kkFYnyjng4kC8tS72Ri+CLsKB1rDF5T1PYGofzFjrEubaiqoGz9AsMNZLz/avA2fNGKGJ57vhOOiAoG3e87eofZZFyoKC7HmqseLqBU5+7vqXl741Qe0CWr1/sXU6wsD81Jyt3NPSUe0O/8D9x63VCWq/PyZewZhrtWXuCmGN/E=
+	t=1775047327; cv=none; b=Zs7sQ7SZPYtiYdRv+M3/gCvvjobmr0NeoEYXYDO2Gz1g1IbQ9KRs9A4EVRwamNpo+ZS859fHbDL1n94BqZLJIw5uUixq6hKgk+UPjzJehRymWdpXnsdViNbk6eY07cTv0aqr62qia+dfc6hoefQz5uKx4/6AUW0bavH76sEsHus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775042344; c=relaxed/simple;
-	bh=iwXymy/mKQL7af9GLLBWsG8RPI1jL7ZOYDxou8GkCHQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A4r3zeROIugPiZeWtYc5927AYAuNQP/86zbvtAMc3fHbhH61AOssjSlus7kzj1+TrUtLWpAQBGhjxpTkybYYbp7I2Yer0lkyiqdNV2ir2cmgn1yFdV6LgeVe16ikl77dH+b/e9Lz0ACbBuKENZhSygURffsrB4m4ZASCfmUvlE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mO4vajuL; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1775047327; c=relaxed/simple;
+	bh=IUtHHW1twySLQ0R/EgJ0RDxUtOK2a05tO/UtVAaPPWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NlA9cMeAAsqX5xDWFG+UZ71+OH6TKhD7sO8YegscdNb4JToQkSMOy45Bceds50sUb6W6VZUGS3Rv5fSHm/dAp+zCiLx6A7iZzrt/ptwtqTrv002fzZNq2HE68i6l5twAe9IKkucgBYur2heb6L7cs29KelTElcEbGHYQzWdPk50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hT8bSuDr; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mO4vajuL"
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 89E6520B6F0C;
-	Wed,  1 Apr 2026 04:19:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 89E6520B6F0C
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hT8bSuDr"
+Received: from [192.168.1.37] (unknown [4.194.122.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E44ED20B6F01;
+	Wed,  1 Apr 2026 05:42:01 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E44ED20B6F01
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775042343;
-	bh=jtu6wKa9++/vvQBc5gyNpXIK+dkDxPsMDLN58/RKYDU=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=mO4vajuLL4oBH72HH0JDKgrlKRLMH/fymKOcvykvRPnNeBUaxm/uPskVBRMgDmktT
-	 nmHCgW8G+KYvuA40vK8Qtsssiqy5zeIp64xkkKfTH/Q7UOfFBJrAlwBaxaPXInMNLz
-	 Udb/k/KKhGmMrHd8yqshsV0HK6M+oAwcwaRM8+HY=
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-To: ptsm@linux.microsoft.com,
-	ssengar@linux.microsoft.com,
-	shubhrajyoti.datta@amd.com,
-	bp@alien8.de,
-	tony.luck@intel.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] EDAC/versalnet: Fix device_register() error handling in init_one_mc()
-Date: Wed,  1 Apr 2026 04:19:03 -0700
-Message-ID: <20260401111903.2343006-1-ptsm@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
-References: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
+	s=default; t=1775047323;
+	bh=4JfxsnbFOsoxlp/wX8KJqhEcE820wEAC7GiZUCG9Irw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hT8bSuDr1de26Qxm9ab+vPyUBSFKa1OLnTtT+wciyPScjYdoAYT+YFjWbe1Whvr8K
+	 +qFPEEashYTTs0r/+9XDl/DWvfTj6wWiCRZj5B0ZrMgNyC+duhrKrWgq+7+ltdTDaI
+	 yjY/ag6R2VfqlwgmPVKOlaJJeUkKzHgQd0ql4CFM=
+Message-ID: <c2988216-cb2a-451f-b2a4-6eb5c8631a9f@linux.microsoft.com>
+Date: Wed, 1 Apr 2026 18:11:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] EDAC/versalnet: Fix device_register() error handling
+ in init_one_mc()
+To: Borislav Petkov <bp@alien8.de>
+Cc: shubhrajyoti.datta@amd.com, tony.luck@intel.com,
+ linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260322131107.1684647-1-ptsm@linux.microsoft.com>
+ <20260322131145.1684744-1-ptsm@linux.microsoft.com>
+ <20260322161052.GAacAUjFGWFwPle6c9@fat_crate.local>
+ <84ae7198-b755-4dde-b97c-978958d27b4b@linux.microsoft.com>
+ <20260324112312.GKacJ0IEL2iD7JZnSk@fat_crate.local>
+ <20260324121656.GAacKAuPpPt9bjj15q@fat_crate.local>
+Content-Language: en-US
+From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+In-Reply-To: <20260324121656.GAacKAuPpPt9bjj15q@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When device_register() fails, it must be followed by put_device()
-rather than kfree(), because device_register() calls
-device_initialize() which sets up the device refcount. The matching
-release function versal_edac_release() handles the actual kfree().
+Hi Boris,
 
-To simplify error handling and avoid complex unwinding, split
-device_register() into device_initialize() and device_add().
-Initialize the device early so put_device() can be used in all
-error paths.
+On 24-03-2026 17:46, Borislav Petkov wrote:
+> On Tue, Mar 24, 2026 at 12:23:12PM +0100, Borislav Petkov wrote:
+>> So let's do it another way (totally untested ofc):
+> 
+> AI found a couple of issues, here's v2:
+> 
+> ---
+> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+> index b87fe57aa842..953f96c8fd6f 100644
+> --- a/drivers/edac/versalnet_edac.c
+> +++ b/drivers/edac/versalnet_edac.c
+> @@ -772,12 +772,11 @@ static void remove_one_mc(struct mc_priv *priv, int i)
+>   	edac_mc_free(mci);
+>   }
+>   
+> -static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i)
+> +static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, struct device *dev, int i)
+>   {
+>   	u32 num_chans, rank, dwidth, config;
+>   	struct edac_mc_layer layers[2];
+>   	struct mem_ctl_info *mci;
+> -	struct device *dev;
+>   	enum dev_type dt;
+>   	char *name;
+>   	int rc;
+> @@ -802,7 +801,7 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>   	}
+>   
+>   	if (dt == DEV_UNKNOWN)
+> -		return 0;
+> +		return -EINVAL;
+>   
+>   	/* Find the first enabled device and register that one. */
+>   	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+> @@ -817,14 +816,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>   	if (!name)
+>   		return rc;
+>   
+> -	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+> -	if (!dev)
+> -		goto err_name_free;
+> -
+>   	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
+>   	if (!mci) {
+>   		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
+> -		goto err_dev_free;
+> +		goto err_name_free;
+>   	}
+>   
+>   	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
+> @@ -856,8 +851,6 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>   	device_unregister(mci->pdev);
+>   err_mc_free:
+>   	edac_mc_free(mci);
+> -err_dev_free:
+> -	kfree(dev);
+>   err_name_free:
+>   	kfree(name);
+>   
+> @@ -866,18 +859,26 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>   
+>   static int init_versalnet(struct mc_priv *priv, struct platform_device *pdev)
+>   {
+> -	int rc, i;
+> +	int rc = -ENOMEM, i;
+>   
+>   	for (i = 0; i < NUM_CONTROLLERS; i++) {
+> -		rc = init_one_mc(priv, pdev, i);
+> -		if (rc) {
+> -			while (i--)
+> -				remove_one_mc(priv, i);
+> +		struct device *dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+> +		if (!dev)
+> +			goto free;
+>   
+> -			return rc;
+> +		rc = init_one_mc(priv, pdev, dev, i);
+> +		if (rc) {
+> +			kfree(dev);
+> +			goto free;
+>   		}
+>   	}
+>   	return 0;
+> +
+> +free:
+> +	while (i--)
+> +		remove_one_mc(priv, i);
+> +
+> +	return rc;
+>   }
+>   
+>   static void remove_versalnet(struct mc_priv *priv)
+> 
+> 
 
-Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
-Cc: stable@vger.kernel.org
-Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
----
- drivers/edac/versalnet_edac.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Thanks for sharing this.
 
-diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-index 012c4f40994d..94580d3c3170 100644
---- a/drivers/edac/versalnet_edac.c
-+++ b/drivers/edac/versalnet_edac.c
-@@ -780,7 +780,7 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
- 	struct device *dev;
- 	enum dev_type dt;
- 	char name[MC_NAME_LEN];
--	int rc;
-+	int rc = -ENOMEM;
- 
- 	config = priv->adec[CONF + i * ADEC_NUM];
- 	num_chans = FIELD_GET(MC5_NUM_CHANS_MASK, config);
-@@ -812,23 +812,23 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
- 	layers[1].size = num_chans;
- 	layers[1].is_virt_csrow = false;
- 
--	rc = -ENOMEM;
- 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
- 		return rc;
- 
-+	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
-+
-+	dev->init_name = name;
-+	dev->release = versal_edac_release;
-+	device_initialize(dev);
-+
- 	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
- 	if (!mci) {
- 		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
- 		goto err_dev_free;
- 	}
- 
--	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
--
--	dev->init_name = name;
--	dev->release = versal_edac_release;
--
--	rc = device_register(dev);
-+	rc = device_add(dev);
- 	if (rc)
- 		goto err_mc_free;
- 
-@@ -849,11 +849,11 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
- 	return 0;
- 
- err_unreg:
--	device_unregister(mci->pdev);
-+	device_del(dev);
- err_mc_free:
- 	edac_mc_free(mci);
- err_dev_free:
--	kfree(dev);
-+	put_device(dev);
- 
- 	return rc;
- }
--- 
-2.49.0
+Without rearranging the code I have simplified the error path and sent v2.
 
+Thanks,
+Prasanna Kumar
