@@ -1,122 +1,85 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303EE329C48;
-	Wed,  1 Apr 2026 05:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1A23EAC87;
+	Wed,  1 Apr 2026 11:18:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775023096; cv=none; b=MU9eAz4PUm83lppV+chOtJV/rHq/hAumvrG5GS0e7c5MkjECN7l2tjm+idKZjqKwaQjzUGl8KVGjR0nillJaKAvsxgAC4ubxQGeGLZ/2QsnX0f02PHPukaysTbbsxgPjhT9MAbwqFIaO7yEn9P0gENg8VFlSYuibSwlHlXkYe0M=
+	t=1775042318; cv=none; b=VKRIQ5ea+ZfTwZM3Lvw+g8+zDdJtj4VxXK/YkC6WrdDNwJgkp4IzGnhSDo+98piIftv/XTHeINchYHTYbYmZl6My56oaqtwR1GNY0SJSgxC2F6nWwPL/Aa8qKaBeeSxJFVih8QU96P008FyOBmV1xDiKCWeF+nfFgpANlDIhXQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775023096; c=relaxed/simple;
-	bh=Rm5QjpkTgZaqKznG6/JGEWu0aN6Fi+7g9PcMZtA0cw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ScD93tFAilkSm+JNgQDgc5kTcQ/F/XfBscWqB3RzTstHzs4OoKpErUiVKcbUoLgiz3o+j9qNYRDrOLgNVpPfl0i6RBMstWqOmcaom9hHs9oVo8kktDr0lNdBro/xO+siPFSDiZNiX+AkJCiHNwpyKxTraBFI521f5Fr1z6/Hrcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=a21U04lB; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1775042318; c=relaxed/simple;
+	bh=wqeS5R7B3x2sElhIpQvFTBnIcoNjLN8L7Kyo+tXBn1M=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=iew6tjqEcYOiH7lTCWQdmlRAdCMNkZYdxPIP9eRSOBoKoHFwMj4O+LwJWyA522WbWVFY3UateQEB2rfhvfcvbHFykyzI5y7PeauAXssN5M2licCbs5VNa+L45HMKn3+QiJTIBuVrG5ZQ6SPH2WbljyJ9Jv5WSSAp0gQFkABDZRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qh2efeDf; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="a21U04lB"
-Received: from [192.168.1.37] (unknown [4.194.122.144])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C9F4920B6F01;
-	Tue, 31 Mar 2026 22:58:12 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C9F4920B6F01
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qh2efeDf"
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B9ED620B6F01;
+	Wed,  1 Apr 2026 04:18:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B9ED620B6F01
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775023095;
-	bh=rrfUNyslPGGkwu2ZUemnPlo1X+gugxP3awesS3kK8Ms=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a21U04lBJVnPC6xHinySkoVab2c05EENvNFAVb2JilKjP8gN9e72GNTq9Emm/2Dfd
-	 eloZHHnrjTT7s3uTn5DG35TYWHxz/YxnocUc4XXT/pbjjCpqIrxn2UOT7rcNClioKw
-	 ot0G3vAKV8VHFWXpd8JVCpt4Vv60ypZD5ZDRUdRU=
-Message-ID: <c4a7a3ec-cb87-4edc-ad6a-32dbed15197a@linux.microsoft.com>
-Date: Wed, 1 Apr 2026 11:28:10 +0530
+	s=default; t=1775042316;
+	bh=Rft7MfpehEAn6eVwVlgmLqG2cqg4LUdTEiqyTveHYjA=;
+	h=From:To:Subject:Date:From;
+	b=qh2efeDf4FYsA95ggrBW3bcBzwzsdjmGNpbdt6dePW6QXYh4LSeRvSdTy/NKtU5Rq
+	 qbzbv3IS94aLKsuRufUN3HoW3osXsML9rEPzkhqlDu+gfpR2CmhjibzcRus20yoxFa
+	 blJCuHKuKMNdj3w9GIkwD0VX3954uTYKtWKNVT14=
+From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+To: ptsm@linux.microsoft.com,
+	ssengar@linux.microsoft.com,
+	shubhrajyoti.datta@amd.com,
+	bp@alien8.de,
+	tony.luck@intel.com,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/3] EDAC/versalnet: Fix teardown ordering in mc_remove()
+Date: Wed,  1 Apr 2026 04:18:36 -0700
+Message-ID: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] EDAC/versalnet: Report PFN and page offset for DDR errors
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
- linux-edac@vger.kernel.org
-Cc: git@amd.com, shubhrajyoti.datta@gmail.com,
- Michal Simek <michal.simek@amd.com>, Borislav Petkov <bp@alien8.de>,
- Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
-References: <20260329124400.4064739-1-shubhrajyoti.datta@amd.com>
-Content-Language: en-US
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-In-Reply-To: <20260329124400.4064739-1-shubhrajyoti.datta@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+The teardown sequence in mc_remove() does not mirror the reverse of the
+initialization order in mc_probe(). In particular,
+unregister_rpmsg_driver() is called before remove_versalnet(), and
+cdx_mcdi_finish() is called after rproc_shutdown().
 
+Reorder mc_remove() to reverse the probe initialization sequence,
+consistent with the probe error-unwind paths.
 
-On 29-03-2026 18:14, Shubhrajyoti Datta wrote:
-> Currently, DDRMC correctable and uncorrectable error events are reported
-> to EDAC with page frame number (pfn) and offset set to zero.
-> This information is not useful to locate the address for memory errors.
-> 
-> Compute the physical address from the error information and extract
-> the page frame number and offset before calling edac_mc_handle_error().
-> This provides the actual memory location information to the userspace.
-> 
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-> ---
-> 
->   drivers/edac/versalnet_edac.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-> index 915bcd6166f7..66df090245be 100644
-> --- a/drivers/edac/versalnet_edac.c
-> +++ b/drivers/edac/versalnet_edac.c
-> @@ -431,8 +431,7 @@ static void handle_error(struct mc_priv  *priv, struct ecc_status *stat,
->   {
->   	union ecc_error_info pinf;
->   	struct mem_ctl_info *mci;
-> -	unsigned long pa;
-> -	phys_addr_t pfn;
-> +	unsigned long pa, pfn;
->   	int err;
->   
->   	if (WARN_ON_ONCE(ctl_num >= NUM_CONTROLLERS))
-> @@ -442,27 +441,28 @@ static void handle_error(struct mc_priv  *priv, struct ecc_status *stat,
->   
->   	if (stat->error_type == MC5_ERR_TYPE_CE) {
->   		pinf = stat->ceinfo[stat->channel];
-> +		pa = convert_to_physical(priv, pinf, ctl_num, error_data);
-> +		pfn = PHYS_PFN(pa);
->   		snprintf(priv->message, sizeof(priv->message),
->   			 "Error type:%s Controller %d Addr at %lx\n",
-> -			 "CE", ctl_num, convert_to_physical(priv, pinf, ctl_num, error_data));
-> +			 "CE", ctl_num, pa);
->   
->   		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
-> -				     1, 0, 0, 0, 0, 0, -1,
-> +				     1, pfn, offset_in_page(pa), 0, 0, 0, -1,
->   				     priv->message, "");
->   	}
->   
->   	if (stat->error_type == MC5_ERR_TYPE_UE) {
->   		pinf = stat->ueinfo[stat->channel];
-> +		pa = convert_to_physical(priv, pinf, ctl_num, error_data);
-> +		pfn = PHYS_PFN(pa);
->   		snprintf(priv->message, sizeof(priv->message),
->   			 "Error type:%s controller %d Addr at %lx\n",
-> -			 "UE", ctl_num, convert_to_physical(priv, pinf, ctl_num, error_data));
-> +			 "UE", ctl_num, pa);
->   
->   		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
-> -				     1, 0, 0, 0, 0, 0, -1,
-> +				     1, pfn, offset_in_page(pa), 0, 0, 0, -1,
->   				     priv->message, "");
-> -		pa = convert_to_physical(priv, pinf, ctl_num, error_data);
-> -		pfn = PHYS_PFN(pa);
-> -
->   		if (IS_ENABLED(CONFIG_MEMORY_FAILURE)) {
->   			err = memory_failure(pfn, MF_ACTION_REQUIRED);
->   			if (err)
+The rproc reference acquired via rproc_get_by_phandle() during probe
+is not released in mc_remove(), causing a reference count leak. Add
+the missing rproc_put() call.
 
-Nit: pa and pfn calculation can be moved out of the if() condition.
+Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
+Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+---
+ drivers/edac/versalnet_edac.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Irrespective of the nit, the patch looks good.
+diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+index b87fe57aa842..acd51b492772 100644
+--- a/drivers/edac/versalnet_edac.c
++++ b/drivers/edac/versalnet_edac.c
+@@ -955,10 +955,11 @@ static void mc_remove(struct platform_device *pdev)
+ {
+ 	struct mc_priv *priv = platform_get_drvdata(pdev);
+ 
+-	unregister_rpmsg_driver(&amd_rpmsg_driver);
+ 	remove_versalnet(priv);
+-	rproc_shutdown(priv->mcdi->r5_rproc);
+ 	cdx_mcdi_finish(priv->mcdi);
++	unregister_rpmsg_driver(&amd_rpmsg_driver);
++	rproc_shutdown(priv->mcdi->r5_rproc);
++	rproc_put(priv->mcdi->r5_rproc);
+ 	kfree(priv->mcdi);
+ }
+ 
+-- 
+2.49.0
 
-Reviewed-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
