@@ -1,32 +1,32 @@
-Received: from out28-130.mail.aliyun.com (out28-130.mail.aliyun.com [115.124.28.130])
+Received: from out28-106.mail.aliyun.com (out28-106.mail.aliyun.com [115.124.28.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEC23AC0F3;
-	Fri,  3 Apr 2026 10:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8AF3A963B;
+	Fri,  3 Apr 2026 11:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775213966; cv=none; b=bsO482f4VyHMt3UcSxqUxwSXCN+lwCmGylUvyJ1zk4mOfVUw49HYGSX5ZA6eZAiTccgRI2ivZ3VCUAm1QV14NPuU6w7aL1oB4DfjQTIE1xER7YFVnOKbPoVFlaQVBbEse5uxV6IX5CJPPjagu9Jl19P0RwPyYCoHx8FbeSAS5aw=
+	t=1775214223; cv=none; b=tXN9O54SqULxzmZOSgIUH7gYcxChOFSuNs7wUQ06CMX6dn8cTSkClSCfo8hx3CEXnE6IXg6yOTtmNrP3RtaImlFn4GzGsClSBx64dTZ9lsmOqCUu2TMxIEjsmYEgpaSAn4VA2i2qPkWq095l83E22ZdouNMajaQeQVB42VNo748=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775213966; c=relaxed/simple;
-	bh=jEH4NupTqcoh5OSDDBOiPw08baMwrRUn25spgOJSjmk=;
+	s=arc-20240116; t=1775214223; c=relaxed/simple;
+	bh=wU6MqaJwmh508BLS+CsAdfsXSKdEuFevdmHj327TAZk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TraAePCa48f7ndsSGf3bz4d9GLhZNuu5sHv594aMJpgvsoL5C8n/LtzrB1hTB0wL6t2wxk1AOs/h9cxu2Xo95RUrVoIEv9xMb5o9VUuFthKNjh3RuvtRqyplokrWLbXgJDALAQJkrxDDjb/Ki+H5v1obBpSsFO40LcImOSA7mVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.130
+	 MIME-Version; b=ZWaIiw/8F7rZJBomvYIQEeS6eIID0NWOZsRpY9i/jzIzTlA4C9mnc+BMPsDFt7E8WIauJ95gy3rI0G1iOHRXll3+F93rzUvmmSyaVmCEi2zQxUpzmJiibwjSsV/kDBEgiw6XqAnanYQsJF/oWc4QZ23kchK6p1axmS43pHbZUaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=blue;DM=|OVERLOAD|false|;DS=CONTINUE|ham_alarm|0.0137167-0.000863066-0.98542;FP=1959462715561411799|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037017159;MF=shiaichun@open-hieco.net;NM=1;PH=DS;RN=5;RT=5;SR=0;TI=SMTPD_---.h4TkMGF_1775213950;
-Received: from localhost.localdomain(mailfrom:shiaichun@open-hieco.net fp:SMTPD_---.h4TkMGF_1775213950 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436269|-1;CH=blue;DM=|OVERLOAD|false|;DS=CONTINUE|ham_alarm|0.00181366-0.00227821-0.995908;FP=10767401068509611067|2|1|2|0|-1|-1|-1;HT=maildocker-contentspam033037071049;MF=shiaichun@open-hieco.net;NM=1;PH=DS;RN=5;RT=5;SR=0;TI=SMTPD_---.h4TkLIY_1775213879;
+Received: from localhost.localdomain(mailfrom:shiaichun@open-hieco.net fp:SMTPD_---.h4TkLIY_1775213879 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Fri, 03 Apr 2026 18:59:15 +0800
+          Fri, 03 Apr 2026 18:58:10 +0800
 From: Aichun Shi <shiaichun@open-hieco.net>
 To: yazen.ghannam@amd.com
 Cc: tglx@linutronix.de,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	shiaichun@open-hieco.net
-Subject: [RFC PATCH 10/10] EDAC/amd64: Add Hygon Family 0x18 models 0x4-0x8 support
-Date: Fri,  3 Apr 2026 18:57:34 +0800
-Message-ID: <f42a411d0f126662187fe7f764a907c4e4dcb20a.1775213147.git.shiaichun@open-hieco.net>
+Subject: [RFC PATCH 01/10] ras/amd/atl: Add Hygon DF1 Data Fabric system information helper
+Date: Fri,  3 Apr 2026 18:57:25 +0800
+Message-ID: <7b3526bf4782aaa9ee691bddc6cb131836f15369.1775213147.git.shiaichun@open-hieco.net>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1775213147.git.shiaichun@open-hieco.net>
 References: <cover.1775213147.git.shiaichun@open-hieco.net>
@@ -38,181 +38,245 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add UMC base support for Hygon Family 0x18 models 0x4-0x8.
-Add error channel fields from MCA IPID for Hygon.
-Add distinct memory-controller counts for Hygon models 0x4/0x5.
-Add Hygon node number support in amd64_edac_init() and amd64_edac_exit().
+Add Hygon Family 0x18 model 0x4/0x5 (Hygon DF1) support as the start.
+Add Hygon DF1 Data Fabric system information that Hygon address
+translation function depends on later.
+Prepare hygon_get_df_system_info() to be called by amd_atl_init() later.
+
+- Add hygon/reg_fields.h for Hygon-specific register field definitions
+  with Hygon DF1 System Fabric ID Mask defined first.
+- Add hygon/system.c for Hygon-specific implementation similar to
+  system.c for AMD.
+- Add HYGON_DF1 to enum df_revisions in internal.h.
+- Add hygon_determine_df_rev() to detect models 0x4/0x5 as Hygon DF1 and
+  get system information.
+- Use get_dram_hole_base() and dump_df_cfg() shared from system.c and
+  exported in internal.h to avoid duplicate code.
+- Build hygon/system.c from the Makefile as an amd_atl object.
 
 Signed-off-by: Aichun Shi <shiaichun@open-hieco.net>
 ---
- drivers/edac/amd64_edac.c | 68 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 56 insertions(+), 12 deletions(-)
+ drivers/ras/amd/atl/Makefile           |  2 +
+ drivers/ras/amd/atl/hygon/reg_fields.h | 60 +++++++++++++++++++++
+ drivers/ras/amd/atl/hygon/system.c     | 73 ++++++++++++++++++++++++++
+ drivers/ras/amd/atl/internal.h         |  7 +++
+ drivers/ras/amd/atl/system.c           |  4 +-
+ 5 files changed, 144 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/ras/amd/atl/hygon/reg_fields.h
+ create mode 100644 drivers/ras/amd/atl/hygon/system.c
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 8908ab881c85..4a24cf28e543 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -4,6 +4,7 @@
- #include "amd64_edac.h"
- #include <asm/amd/nb.h>
- #include <asm/amd/node.h>
-+#include <asm/hygon/node.h>
+diff --git a/drivers/ras/amd/atl/Makefile b/drivers/ras/amd/atl/Makefile
+index b56892c0c0d9..3716fe068eb6 100644
+--- a/drivers/ras/amd/atl/Makefile
++++ b/drivers/ras/amd/atl/Makefile
+@@ -15,6 +15,8 @@ amd_atl-y		+= map.o
+ amd_atl-y		+= system.o
+ amd_atl-y		+= umc.o
  
- static struct edac_pci_ctl_info *pci_ctl;
++amd_atl-y		+= hygon/system.o
++
+ amd_atl-$(CONFIG_AMD_ATL_PRM) += prm.o
  
-@@ -98,6 +99,29 @@ int __amd64_write_pci_cfg_dword(struct pci_dev *pdev, int offset,
- 	return pcibios_err_to_errno(err);
- }
- 
-+static u32 get_umc_base_addr(struct amd64_pvt *pvt, u8 channel)
+ obj-$(CONFIG_AMD_ATL)	+= amd_atl.o
+diff --git a/drivers/ras/amd/atl/hygon/reg_fields.h b/drivers/ras/amd/atl/hygon/reg_fields.h
+new file mode 100644
+index 000000000000..2c1193639c6c
+--- /dev/null
++++ b/drivers/ras/amd/atl/hygon/reg_fields.h
+@@ -0,0 +1,60 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * AMD Address Translation Library
++ *
++ * reg_fields.h : Register field definitions for Hygon
++ *
++ * Author: AichunShi <shiaichun@open-hieco.net>
++ */
++
++/*
++ * Die ID Mask
++ *
++ * Access type: Broadcast
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F1x208 [System Fabric ID Mask]
++ *	HYGON_DF1 DieIdMask [9:0]
++ */
++#define HYGON_DF1_DIE_ID_MASK	GENMASK(9, 0)
++
++/*
++ * Die ID Shift
++ *
++ * Access type: Broadcast
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F1x208 [System Fabric ID Mask]
++ *	HYGON_DF1 DieIdShift [15:12]
++ */
++#define HYGON_DF1_DIE_ID_SHIFT	GENMASK(15, 12)
++
++/*
++ * Socket ID Mask
++ *
++ * Access type: Broadcast
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ * D18F1x208 [System Fabric ID Mask]
++ *	HYGON_DF1 SocketIdMask	[25:16]
++ */
++#define HYGON_DF1_SOCKET_ID_MASK	GENMASK(25, 16)
++
++/*
++ * Socket ID Shift
++ *
++ * Access type: Broadcast
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ * D18F1x208 [System Fabric ID Mask]
++ *	HYGON_DF1 SocketIdShift	[31:28]
++ */
++#define HYGON_DF1_SOCKET_ID_SHIFT	GENMASK(31, 28)
+diff --git a/drivers/ras/amd/atl/hygon/system.c b/drivers/ras/amd/atl/hygon/system.c
+new file mode 100644
+index 000000000000..2a149cfc34c1
+--- /dev/null
++++ b/drivers/ras/amd/atl/hygon/system.c
+@@ -0,0 +1,73 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * AMD Address Translation Library
++ *
++ * system.c : Functions to read and save system-wide data for Hygon
++ *
++ * Author: AichunShi <shiaichun@open-hieco.net>
++ */
++
++#include "../internal.h"
++
++static void hygon_df_get_masks_shifts(u32 mask0)
 +{
-+	if (hygon_f18h_m4h()) {
-+		struct pci_dev *dev = node_to_amd_nb(pvt->mc_node_id)->misc;
-+		u8 df_id;
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		df_cfg.socket_id_shift = FIELD_GET(HYGON_DF1_SOCKET_ID_SHIFT, mask0);
++		df_cfg.socket_id_mask = FIELD_GET(HYGON_DF1_SOCKET_ID_MASK, mask0);
++		df_cfg.die_id_shift = FIELD_GET(HYGON_DF1_DIE_ID_SHIFT, mask0);
++		df_cfg.die_id_mask = FIELD_GET(HYGON_DF1_DIE_ID_MASK, mask0);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		return;
++	}
++}
 +
-+		hygon_get_dfid(dev, &df_id);
++static int hygon_determine_df_rev(void)
++{
++	u32 fabric_id_mask0;
 +
-+		return get_umc_base(channel) + (0x80000000 + (0x10000000 * (df_id - 4)));
++	if (boot_cpu_data.x86_model == 0x4 || boot_cpu_data.x86_model == 0x5)
++		df_cfg.rev = HYGON_DF1;
++
++	/* Read D18F1x208 (SystemFabricIdMask). */
++	if (df_indirect_read_broadcast(0, 1, 0x208, &fabric_id_mask0))
++		return -EINVAL;
++
++	hygon_df_get_masks_shifts(fabric_id_mask0);
++
++	return 0;
++}
++
++static void hygon_get_num_maps(void)
++{
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		df_cfg.num_coh_st_maps	= 2;
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++	}
++}
++
++int hygon_get_df_system_info(void)
++{
++	int ret;
++
++	ret = hygon_determine_df_rev();
++	if (ret) {
++		pr_warn("Failed to determine DF Revision");
++		df_cfg.rev = UNKNOWN;
++		return ret;
 +	}
 +
-+	return get_umc_base(channel);
++	hygon_get_num_maps();
++
++	if (get_dram_hole_base())
++		pr_warn("Failed to read DRAM hole base");
++
++	dump_df_cfg();
++
++	return 0;
 +}
-+
-+static u16 get_num_nodes(void)
-+{
-+	if (boot_cpu_data.x86_vendor == X86_VENDOR_HYGON &&
-+	    boot_cpu_data.x86 == 0x18)
-+		return amd_num_nodes();
-+
-+	return amd_nb_num();
-+}
-+
- /*
-  * Select DCT to which PCI cfg accesses are routed
-  */
-@@ -1452,12 +1476,15 @@ static void umc_read_base_mask(struct amd64_pvt *pvt)
- 	u32 mask_reg, mask_reg_sec;
- 	u32 *base, *base_sec;
- 	u32 *mask, *mask_sec;
-+	u32 umc_base;
- 	int cs, umc;
- 	u32 tmp;
+diff --git a/drivers/ras/amd/atl/internal.h b/drivers/ras/amd/atl/internal.h
+index 82a56d9c2be1..19651cf9e978 100644
+--- a/drivers/ras/amd/atl/internal.h
++++ b/drivers/ras/amd/atl/internal.h
+@@ -21,6 +21,7 @@
+ #include <asm/amd/node.h>
  
- 	for_each_umc(umc) {
--		umc_base_reg = get_umc_base(umc) + UMCCH_BASE_ADDR;
--		umc_base_reg_sec = get_umc_base(umc) + UMCCH_BASE_ADDR_SEC;
-+		umc_base = get_umc_base_addr(pvt, umc);
+ #include "reg_fields.h"
++#include "hygon/reg_fields.h"
+ 
+ #undef pr_fmt
+ #define pr_fmt(fmt) "amd_atl: " fmt
+@@ -42,6 +43,7 @@
+ 
+ enum df_revisions {
+ 	UNKNOWN,
++	HYGON_DF1,
+ 	DF2,
+ 	DF3,
+ 	DF3p5,
+@@ -284,6 +286,11 @@ unsigned long convert_umc_mca_addr_to_sys_addr(struct atl_err *err);
+ u64 add_base_and_hole(struct addr_ctx *ctx, u64 addr);
+ u64 remove_base_and_hole(struct addr_ctx *ctx, u64 addr);
+ 
++int get_dram_hole_base(void);
++void dump_df_cfg(void);
 +
-+		umc_base_reg = umc_base + UMCCH_BASE_ADDR;
-+		umc_base_reg_sec = umc_base + UMCCH_BASE_ADDR_SEC;
++int hygon_get_df_system_info(void);
++
+ /* GUIDs for PRM handlers */
+ extern const guid_t norm_to_sys_guid;
  
- 		for_each_chip_select(cs, umc, pvt) {
- 			base = &pvt->csels[umc].csbases[cs];
-@@ -1479,8 +1506,8 @@ static void umc_read_base_mask(struct amd64_pvt *pvt)
- 			}
- 		}
- 
--		umc_mask_reg = get_umc_base(umc) + UMCCH_ADDR_MASK;
--		umc_mask_reg_sec = get_umc_base(umc) + get_umc_reg(pvt, UMCCH_ADDR_MASK_SEC);
-+		umc_mask_reg = umc_base + UMCCH_ADDR_MASK;
-+		umc_mask_reg_sec = umc_base + get_umc_reg(pvt, UMCCH_ADDR_MASK_SEC);
- 
- 		for_each_chip_select_mask(cs, umc, pvt) {
- 			mask = &pvt->csels[umc].csmasks[cs];
-@@ -1567,7 +1594,8 @@ static void umc_determine_memory_type(struct amd64_pvt *pvt)
- 		 * Check if the system supports the "DDR Type" field in UMC Config
- 		 * and has DDR5 DIMMs in use.
- 		 */
--		if (pvt->flags.zn_regs_v2 && ((umc->umc_cfg & GENMASK(2, 0)) == 0x1)) {
-+		if ((pvt->flags.zn_regs_v2 || hygon_f18h_m4h()) &&
-+		    ((umc->umc_cfg & GENMASK(2, 0)) == 0x1)) {
- 			if (umc->dimm_cfg & BIT(5))
- 				umc->dram_type = MEM_LRDDR5;
- 			else if (umc->dimm_cfg & BIT(4))
-@@ -2801,7 +2829,11 @@ static inline void decode_bus_error(int node_id, struct mce *m)
-  */
- static void umc_get_err_info(struct mce *m, struct err_info *err)
- {
--	err->channel = (m->ipid & GENMASK(31, 0)) >> 20;
-+	if (boot_cpu_data.x86_vendor == X86_VENDOR_HYGON &&
-+	    boot_cpu_data.x86 == 0x18)
-+		err->channel = FIELD_GET(GENMASK(23, 20), m->ipid);
-+	else
-+		err->channel = FIELD_GET(GENMASK(31, 20), m->ipid);
- 	err->csrow = m->synd & 0x7;
+diff --git a/drivers/ras/amd/atl/system.c b/drivers/ras/amd/atl/system.c
+index 812a30e21d3a..eb420978febb 100644
+--- a/drivers/ras/amd/atl/system.c
++++ b/drivers/ras/amd/atl/system.c
+@@ -231,7 +231,7 @@ static int determine_df_rev(void)
+ 	return 0;
  }
  
-@@ -2922,8 +2954,7 @@ static void umc_read_mc_regs(struct amd64_pvt *pvt)
- 
- 	/* Read registers from each UMC */
- 	for_each_umc(i) {
--
--		umc_base = get_umc_base(i);
-+		umc_base = get_umc_base_addr(pvt, i);
- 		umc = &pvt->umc[i];
- 
- 		if (!amd_smn_read(nid, umc_base + get_umc_reg(pvt, UMCCH_DIMM_CFG), &tmp))
-@@ -3841,6 +3872,16 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		break;
- 
- 	case 0x18:
-+		switch (pvt->model) {
-+		case 0x4:
-+			pvt->max_mcs			= 3;
-+			break;
-+		case 0x5:
-+			pvt->max_mcs			= 1;
-+			break;
-+		default:
-+			break;
-+		}
- 		break;
- 
- 	case 0x19:
-@@ -4128,6 +4169,7 @@ static int __init amd64_edac_init(void)
+-static int get_dram_hole_base(void)
++int get_dram_hole_base(void)
  {
- 	const char *owner;
- 	int err = -ENODEV;
-+	u16 node_num;
- 	int i;
+ 	u8 func = 0;
  
- 	if (ghes_get_devices())
-@@ -4140,13 +4182,15 @@ static int __init amd64_edac_init(void)
- 	if (!x86_match_cpu(amd64_cpuids))
- 		return -ENODEV;
+@@ -274,7 +274,7 @@ static void apply_node_id_shift(void)
+ 	df_cfg.socket_id_shift		+= df_cfg.node_id_shift;
+ }
  
--	if (!amd_nb_num())
-+	node_num = get_num_nodes();
-+
-+	if (!node_num)
- 		return -ENODEV;
+-static void dump_df_cfg(void)
++void dump_df_cfg(void)
+ {
+ 	pr_debug("rev=0x%x",				df_cfg.rev);
  
- 	opstate_init();
- 
- 	err = -ENOMEM;
--	ecc_stngs = kzalloc_objs(ecc_stngs[0], amd_nb_num());
-+	ecc_stngs = kzalloc_objs(ecc_stngs[0], node_num);
- 	if (!ecc_stngs)
- 		goto err_free;
- 
-@@ -4154,7 +4198,7 @@ static int __init amd64_edac_init(void)
- 	if (!msrs)
- 		goto err_free;
- 
--	for (i = 0; i < amd_nb_num(); i++) {
-+	for (i = 0; i < node_num; i++) {
- 		err = probe_one_instance(i);
- 		if (err) {
- 			/* unwind properly */
-@@ -4210,7 +4254,7 @@ static void __exit amd64_edac_exit(void)
- 	else
- 		amd_unregister_ecc_decoder(decode_bus_error);
- 
--	for (i = 0; i < amd_nb_num(); i++)
-+	for (i = 0; i < get_num_nodes(); i++)
- 		remove_one_instance(i);
- 
- 	kfree(ecc_stngs);
 -- 
 2.47.3
 
