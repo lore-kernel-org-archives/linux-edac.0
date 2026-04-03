@@ -1,157 +1,83 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F12894035AA;
-	Wed,  1 Apr 2026 12:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319F9340280;
+	Fri,  3 Apr 2026 05:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775047327; cv=none; b=Zs7sQ7SZPYtiYdRv+M3/gCvvjobmr0NeoEYXYDO2Gz1g1IbQ9KRs9A4EVRwamNpo+ZS859fHbDL1n94BqZLJIw5uUixq6hKgk+UPjzJehRymWdpXnsdViNbk6eY07cTv0aqr62qia+dfc6hoefQz5uKx4/6AUW0bavH76sEsHus=
+	t=1775194854; cv=none; b=C8g5aEosXxSSXwiqjLiyY8xdIyFhLCvB7edzs+vCKJBVd6ijTxpNSjKEkeA0Zad6oykxZvUkUIi8GnRFQQI7GkVjEDvBcsBNuoYGYtc+QRLwHDL5pvAJGygsseUJEzLs1Ln1mJGxHwqPB/zPg6Gt0RaEYsciu+kNI7rsWQl1mK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775047327; c=relaxed/simple;
-	bh=IUtHHW1twySLQ0R/EgJ0RDxUtOK2a05tO/UtVAaPPWI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NlA9cMeAAsqX5xDWFG+UZ71+OH6TKhD7sO8YegscdNb4JToQkSMOy45Bceds50sUb6W6VZUGS3Rv5fSHm/dAp+zCiLx6A7iZzrt/ptwtqTrv002fzZNq2HE68i6l5twAe9IKkucgBYur2heb6L7cs29KelTElcEbGHYQzWdPk50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hT8bSuDr; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1775194854; c=relaxed/simple;
+	bh=e00h15MHtkNNaUp4CcL2MgRRx8UdJJivLnJ/bZf0Oiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TAr9MXzPdSo7hZlcRFQ192B+SpehSWbtIP1S2pb+esMTnfjFp24g5bk54dIy/cthzI6SmkttGWKjyFQshDHJLMrReR/+BqrnRxr6v8upRXbCOOcqMLstRVm/CeeqbousktmOuntGS27t4g2mfrOY2LMzr7CNQOEMQrhWhJjMhoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YX8dol3a; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hT8bSuDr"
-Received: from [192.168.1.37] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E44ED20B6F01;
-	Wed,  1 Apr 2026 05:42:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E44ED20B6F01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775047323;
-	bh=4JfxsnbFOsoxlp/wX8KJqhEcE820wEAC7GiZUCG9Irw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hT8bSuDr1de26Qxm9ab+vPyUBSFKa1OLnTtT+wciyPScjYdoAYT+YFjWbe1Whvr8K
-	 +qFPEEashYTTs0r/+9XDl/DWvfTj6wWiCRZj5B0ZrMgNyC+duhrKrWgq+7+ltdTDaI
-	 yjY/ag6R2VfqlwgmPVKOlaJJeUkKzHgQd0ql4CFM=
-Message-ID: <c2988216-cb2a-451f-b2a4-6eb5c8631a9f@linux.microsoft.com>
-Date: Wed, 1 Apr 2026 18:11:59 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YX8dol3a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775194853; x=1806730853;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=e00h15MHtkNNaUp4CcL2MgRRx8UdJJivLnJ/bZf0Oiw=;
+  b=YX8dol3a6KH/izq4JelYAYQ6rm/xlkn8vDthH6jBFH57AlMqe/dGT22q
+   vny9jB4uRjNz302IeXrByKUSPMjSId5IWtilOdO2Cbo3cbI2BCWAt7+UM
+   /DCTJZu1dSZ/XQGr1uvNNqlhJdMTxYA0SivHLsUgX8RrRZbqMhkMN8pCa
+   Pkk1RUDJYgiyvg0clvzut0TE9AcQ5e/tsa02PuU1Ilh+1ASlDvYDGatr9
+   ID575x99pFQS7erkImJPALt1TRoBM6TuSLc3IqRyfH5nbv6VX58zZGwdQ
+   6SEt8U4j46UysexEkgZ1lwPAoAVo88oeeYdpmsMLLoggNbh7sP8+/iCle
+   Q==;
+X-CSE-ConnectionGUID: A0G2eWx6TWmHO+VkCxAKGQ==
+X-CSE-MsgGUID: 9De8V4/YTm26+Y/PlawqlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="93843310"
+X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
+   d="scan'208";a="93843310"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 22:40:53 -0700
+X-CSE-ConnectionGUID: sxdf7o/SRe6u04YAN7hFog==
+X-CSE-MsgGUID: dB1fe4FxT0Kl16KkuH+bWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
+   d="scan'208";a="232107052"
+Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 22:40:51 -0700
+From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>
+Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	Yi Lai <yi1.lai@intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] EDAC/igen6: Fix call trace, memory topology parsing, and add one Panther Lake-H support
+Date: Fri,  3 Apr 2026 13:40:26 +0800
+Message-ID: <20260403054029.3950383-1-qiuxu.zhuo@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] EDAC/versalnet: Fix device_register() error handling
- in init_one_mc()
-To: Borislav Petkov <bp@alien8.de>
-Cc: shubhrajyoti.datta@amd.com, tony.luck@intel.com,
- linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260322131107.1684647-1-ptsm@linux.microsoft.com>
- <20260322131145.1684744-1-ptsm@linux.microsoft.com>
- <20260322161052.GAacAUjFGWFwPle6c9@fat_crate.local>
- <84ae7198-b755-4dde-b97c-978958d27b4b@linux.microsoft.com>
- <20260324112312.GKacJ0IEL2iD7JZnSk@fat_crate.local>
- <20260324121656.GAacKAuPpPt9bjj15q@fat_crate.local>
-Content-Language: en-US
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-In-Reply-To: <20260324121656.GAacKAuPpPt9bjj15q@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Boris,
+Patch 0001 - Fix a call trace.
 
-On 24-03-2026 17:46, Borislav Petkov wrote:
-> On Tue, Mar 24, 2026 at 12:23:12PM +0100, Borislav Petkov wrote:
->> So let's do it another way (totally untested ofc):
-> 
-> AI found a couple of issues, here's v2:
-> 
-> ---
-> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-> index b87fe57aa842..953f96c8fd6f 100644
-> --- a/drivers/edac/versalnet_edac.c
-> +++ b/drivers/edac/versalnet_edac.c
-> @@ -772,12 +772,11 @@ static void remove_one_mc(struct mc_priv *priv, int i)
->   	edac_mc_free(mci);
->   }
->   
-> -static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i)
-> +static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, struct device *dev, int i)
->   {
->   	u32 num_chans, rank, dwidth, config;
->   	struct edac_mc_layer layers[2];
->   	struct mem_ctl_info *mci;
-> -	struct device *dev;
->   	enum dev_type dt;
->   	char *name;
->   	int rc;
-> @@ -802,7 +801,7 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	}
->   
->   	if (dt == DEV_UNKNOWN)
-> -		return 0;
-> +		return -EINVAL;
->   
->   	/* Find the first enabled device and register that one. */
->   	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
-> @@ -817,14 +816,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	if (!name)
->   		return rc;
->   
-> -	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> -	if (!dev)
-> -		goto err_name_free;
-> -
->   	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
->   	if (!mci) {
->   		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
-> -		goto err_dev_free;
-> +		goto err_name_free;
->   	}
->   
->   	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
-> @@ -856,8 +851,6 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	device_unregister(mci->pdev);
->   err_mc_free:
->   	edac_mc_free(mci);
-> -err_dev_free:
-> -	kfree(dev);
->   err_name_free:
->   	kfree(name);
->   
-> @@ -866,18 +859,26 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   
->   static int init_versalnet(struct mc_priv *priv, struct platform_device *pdev)
->   {
-> -	int rc, i;
-> +	int rc = -ENOMEM, i;
->   
->   	for (i = 0; i < NUM_CONTROLLERS; i++) {
-> -		rc = init_one_mc(priv, pdev, i);
-> -		if (rc) {
-> -			while (i--)
-> -				remove_one_mc(priv, i);
-> +		struct device *dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> +		if (!dev)
-> +			goto free;
->   
-> -			return rc;
-> +		rc = init_one_mc(priv, pdev, dev, i);
-> +		if (rc) {
-> +			kfree(dev);
-> +			goto free;
->   		}
->   	}
->   	return 0;
-> +
-> +free:
-> +	while (i--)
-> +		remove_one_mc(priv, i);
-> +
-> +	return rc;
->   }
->   
->   static void remove_versalnet(struct mc_priv *priv)
-> 
-> 
+Patch 0002 - Correct the memory topology parsing logic for Panther Lake-H systems.
 
-Thanks for sharing this.
+Patch 0003 - Add a new Panther Lake-H compute die ID for EDAC support.
 
-Without rearranging the code I have simplified the error path and sent v2.
+Qiuxu Zhuo (3):
+  EDAC/igen6: Fix call trace due to missing release()
+  EDAC/igen6: Fix memory topology parsing for Panther Lake-H SoCs
+  EDAC/igen6: Add one Intel Panther Lake-H SoC support
 
-Thanks,
-Prasanna Kumar
+ drivers/edac/igen6_edac.c | 383 +++++++++++++++++++++++++++++++-------
+ include/linux/edac.h      |   3 +
+ 2 files changed, 316 insertions(+), 70 deletions(-)
+
+
+base-commit: 7aaa8047eafd0bd628065b15757d9b48c5f9c07d
+-- 
+2.43.0
+
