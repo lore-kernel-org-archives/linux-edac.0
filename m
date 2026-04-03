@@ -1,60 +1,72 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FBD31E84D;
-	Fri,  3 Apr 2026 14:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8726E3ACA77;
+	Fri,  3 Apr 2026 14:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775225034; cv=none; b=pMlSFIljm9mqZI0zcujB+P4UJRvHmyNaSjgkuOYt7iJ8+WjFVt3MjBIpzqR5eera8+wCG6ZzmGzbTeV3gNdieooFCuMVx5jjVdeoFwbO5215Km3RGBCjK+ro/a2Xenig3IZHaMCh2F+UY/IYZTNaiDPG5dkS1SPeXBXU9bigA/w=
+	t=1775225123; cv=none; b=GW2Z3tmBZZagj/hmq2hrJnGpL+U6ud1389IBEPjbqPkqF608XoFpwz8AcOICrGZdYdmQgmmcWeJ6kAGHxsmKFQG3Dc8DMe5GXkwZKYe0LiGyu8hoaH3zaD/8syqutER6lvsrTQ0TnKxZepMJQv0pqmSabYWiellHbipmFsrl980=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775225034; c=relaxed/simple;
-	bh=zqEZYovmKLOq4tS4/cUv85YFtHohFYrzXffXsg+JoNo=;
+	s=arc-20240116; t=1775225123; c=relaxed/simple;
+	bh=ACyD9VPlxH4DuZr6Xy0SSxZORID6JjdVrt9U7rl1ID4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JUs41yfn9JL4dxFd4cE4e3rceq3p+6ZEG3hzIZeYCHeV8u9mwRtO9CyNZja3Lur3oTZtocBOshB7JZUJQ84PEKdbsT3KL7MXeQa9SS6oOKCFyhnd/1LTrDzFbIBw7wY0qITrmuR3H7B4yHri4eeRnovSGbx25sh1WJpEe9/1UK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=GgoEQ6cQ reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=dRlvA2mtZWctC1iBzFt2/osuhgJBIvA+coDngE+p+ekd+n+NHe1ztmsMTi6shsf8yd4MVqquCqEn27aw69ftkpseDJSaLsTrTAIY4FpmSX4VvXHeG295Fg2EP8BtSkE5vECGJYr7b4OvipOIpPlmc79+24HhC8KixzFKiqYIjeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=T8P+nj2z reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="GgoEQ6cQ"
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="T8P+nj2z"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7666540E016E;
-	Fri,  3 Apr 2026 14:03:48 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B94C440E0031;
+	Fri,  3 Apr 2026 14:05:19 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
 	reason="fail (body has been altered)" header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id s0hpxQym-R65; Fri,  3 Apr 2026 14:03:44 +0000 (UTC)
+	with ESMTP id AkY9n7tBmiH2; Fri,  3 Apr 2026 14:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1775225023; bh=wnzC4zYM9e2gMAKoUM/OsFwz+amcXJ1pNO/E/rc0maI=;
+	t=1775225115; bh=3LzBlPp578dQdg5dxIS/Ahl9D0iuA9KuJ3bxld0SUkQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GgoEQ6cQmB2A3Fh5sANJ7e13PmAxI/34ntYGU99P1cbk6tV4BvOth56FDoypMyqsK
-	 q3mG0/ojVdPpOj3ul1ZgHJ4fGWlL7TlYPmQRE3hIgUUoCkfc7lWzsbhbhYqj/DKe/T
-	 /JBxT5R5oboJH0GSNxVCpEJ2CLatV4CcuJL41495gUmyIHyLI860mVNHsg10b01skf
-	 caWfZ48w4ejmiBHLiMuatr8P/AWl+vsvokxUETV/F7LNqN5Wcy6UYpZL5IJk+GFzD7
-	 aoo6pR/TvFlypOfBqGNZO+US7jw1T1Hcd1MvwhxQeBmPmqOIImm2uGe3Dn9MgFJOsz
-	 BTtJNieEQkTYe9O+5g1ZMX06B5kQmzVzQve90Y1tIrjB2NMEBwU6mq08ofA4uxh8Ss
-	 chVPEvPZzKNqqVMvdWWqA29/FoVdtyNz92ytbOR3NYEbbbF3n/WKmw3I82rzHae77D
-	 9z6brIWb+gBczpb/RQaIWmKlMpcemSWLF/f+MAA/FYrFBPSbrpk9RT3RJ6JcIbi5xn
-	 VIEog11tj1MKSrYDuAnj/iGKRZ308qR4VcyULaFBLlfqBdqM8sKJRRFQjHF13LQ7UC
-	 LEcWwvS1CTEW/Fja+7bfXPPMJcY3Rg2+Gglkr75BFGukUS89suYDLTADwSHYJ3qKTR
-	 Z6SE2rh5tcZAxZcHcWeWEBrw=
+	b=T8P+nj2zV5MZpoafA7H3AEuEZRNVxK590h0oDNGndJaqm3tvoQtWDqYk2aZxw5L2z
+	 t8+4GqKWqguN5EyIiJPGX9u4Y+A6LtkPxtPVnnr24KfW/ViBQaF/xC0dsqnQccH02g
+	 bUmzmvB5viRmm5ztIPLrtM2RnN74jr/ikCuVqVXlfZLDgMIso1LUMXX0K7d6SY+iBU
+	 b4VIiP3caU0mStR/7W8d8UPieGID+1mnkyWny3wLykRjvLDYQmvDTLYJkVddoMb4fo
+	 Rp/SexBGUKbGP3YqxpBXvIwWhD353BmfaGA7G8OEmdDkFZrYEY7nKKbFwyn5Mb+GWr
+	 rPm19DMNFw9Qy9yTGB5uQn0yFBs8Hc15fASHtKASpw1+56Qd0h3hIlvhRr4txJOnwj
+	 LDGZlsgmJYrv8h+RXlAIDolTqMD54ppsDMNRUQjR+T01KQ3/coY/E+R+/xcv4q8YRG
+	 pxj351To4xQBy8n2NEm3JL8KpY1daSyulnYVGFppn7GsEmpZaUVenTVA8OxNdv4ON4
+	 XCdotH9Ah88PFnzi/EPEvyj4mb/6iL8Bv3nFPA5Pn8BlpGDKtfCh7WQTe+WxjiQn58
+	 00vDg4r1VCFwPGukyP8mjNS3HtihI7aiWnmtNSQqQk7ssAXHjqv9RahCebYo8AmfAw
+	 EtNZqPtD50MEsw5H8lDruDxc=
 Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id CF7B740E0031;
-	Fri,  3 Apr 2026 14:03:38 +0000 (UTC)
-Date: Fri, 3 Apr 2026 16:03:31 +0200
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 62C9440E00DE;
+	Fri,  3 Apr 2026 14:05:02 +0000 (UTC)
+Date: Fri, 3 Apr 2026 16:05:01 +0200
 From: Borislav Petkov <bp@alien8.de>
-To: Kristian Mide <kristian@mide.dk>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>, linux-edac@vger.kernel.org,
-	lkml <linux-kernel@vger.kernel.org>
-Subject: Re: AMD SMCA: L3 cache scrubber deferred errors flood logs on Zen 3
- after 6.19 polling changes
-Message-ID: <20260403140312.GBac_IoFTDxkdD6fSn@fat_crate.local>
-References: <CAKFB093B2k3sKsGJ_QNX1jVQsaXVFyy=wNwpzCGLOXa_vSDwXw@mail.gmail.com>
- <20260330231221.GMacsDVVrBmOXSH0t5@fat_crate.local>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: Bert Karwatzki <spasswolf@web.de>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
+	linux-next@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, x86@kernel.org, rafael@kernel.org,
+	qiuxu.zhuo@intel.com, Smita.KoralahalliChannabasappa@amd.com
+Subject: Re: spurious (?) mce Hardware Error messages in v6.19
+Message-ID: <20260403140501.GCac_JDVCaX0eCIDUj@fat_crate.local>
+References: <20250918210005.GA2150610@yaz-khff2.amd.com>
+ <67c7de1011ea7b8863051889ee2a41512fb0e044.camel@web.de>
+ <20251009132055.GA472268@yaz-khff2.amd.com>
+ <21ba47fa8893b33b94370c2a42e5084cf0d2e975.camel@web.de>
+ <20260216202546.GA420258@yaz-khff2.amd.com>
+ <20260219143345.GA5486@yaz-khff2.amd.com>
+ <4e0c5a7ce9f1ab35eaec2c2908df3681ce6eda4d.camel@web.de>
+ <8530d765-6676-4ba4-98b5-07326c8dc924@amd.com>
+ <290ee50cbe68d246a9899b03d5c7ddebc549f0bf.camel@web.de>
+ <20260223214825.GA3130@yaz-khff2.amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -63,19 +75,15 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260330231221.GMacsDVVrBmOXSH0t5@fat_crate.local>
+In-Reply-To: <20260223214825.GA3130@yaz-khff2.amd.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 31, 2026 at 01:12:21AM +0200, Borislav Petkov wrote:
-> Just to let you know that we're looking into it - it simply takes a whi=
-le
-> until we figure out what we wanna do here exactly.
+On Mon, Feb 23, 2026 at 04:53:16PM -0500, Yazen Ghannam wrote:
+> Thanks Bert for confirming.
 >=20
-> So thanks for the patience.
+> I'll send a patch to filter this signature.
 
-This should fix it:
-
----
+Bert, pls try this:
 
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 Date: Sat, 28 Feb 2026 09:08:14 -0500
@@ -152,6 +160,7 @@ k);
  	    c->x86_model >=3D 0x10 && c->x86_model <=3D 0x2F &&
 --=20
 2.51.0
+
 
 --=20
 Regards/Gruss,
