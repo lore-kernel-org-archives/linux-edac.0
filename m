@@ -1,319 +1,593 @@
-Received: from out28-108.mail.aliyun.com (out28-108.mail.aliyun.com [115.124.28.108])
+Received: from out28-133.mail.aliyun.com (out28-133.mail.aliyun.com [115.124.28.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DDD312807;
-	Fri,  3 Apr 2026 10:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA373932D0;
+	Fri,  3 Apr 2026 10:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775213892; cv=none; b=ZZ5hbxtZr5zQsjtqT1Zxm+RG/Umbe08aCMLrJwqQCUGoPJTgccF/05TATGenH/JN4rgJp0TEk+vbIJaZ/w0k/6pfOzwtK04bg8iErf6cO5YioI7FZHpmL07Jvh3N1HRk5+4zhE4I8ICBfd9puK9cB8TT+uX+rBNlDtabyz2rKgs=
+	t=1775213915; cv=none; b=uvZxYi4ZhX0DDYyjwA7EWrtUdrGpJUavFUWCyPVycIfSfxl6ZJOoA5XdPgrmq6oTbKgXLhF0JFLJJ2jVkM/2/mTWyBymEChn4n8Q5PEK6DdrLqchA/cmGU323j24SdFsY+Nwx5W+aZgVe6Wrp9yeB/DoM91aMtRX56APoZiAtwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775213892; c=relaxed/simple;
-	bh=Cwf1h3Bl+/Lq0DadpCLktthUPEUNuO9ZmO3SMcHuTvY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D+TraiNagraN+ZVQ7r/MXRfON3vieYD10Tx4sWPaT3zqHZN24t8Ovtntm/XsU5yGUzhLq/jM38YUfG1ZQ6Zt0k+TYL5rxCi0etSQ1OK6GHruE7cQ/d3NDzQGEkc5aa/gTsCHg0LZNvVFchKf4aQeQZMuZs0wWSlPtrlIq+riUtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.108
+	s=arc-20240116; t=1775213915; c=relaxed/simple;
+	bh=vKEtvJWeZd+iTcHyIOw/LB6//erbk/gUhfCeJ5WvTQk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=E1E7FlpEfdu8/Y4O8weJBt6BLoZwALPByEu5NbsOP2PWjYrQEXW9juYPeEnRMpjXwq845M/psYufpt6lbll8/NwpvGVxKuqSFluuRvhi4a705fMW+O8hcnsbxcs+Z9wJYIkF7WjvoS5RMk9WI+hrdVeBA5ebOfw/QJGpfNtS5Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436284|-1;CH=blue;DM=|OVERLOAD|false|;DS=CONTINUE|ham_system_inform|0.0260635-0.00730505-0.966631;FP=7652018153914418183|1|1|1|0|-1|-1|-1;HT=maildocker-contentspam033040074035;MF=shiaichun@open-hieco.net;NM=1;PH=DS;RN=5;RT=5;SR=0;TI=SMTPD_---.h4TkL9H_1775213868;
-Received: from localhost.localdomain(mailfrom:shiaichun@open-hieco.net fp:SMTPD_---.h4TkL9H_1775213868 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=blue;DM=|OVERLOAD|false|;DS=CONTINUE|ham_system_inform|0.00256868-0.000312611-0.997119;FP=1039342476406293715|2|1|2|0|-1|-1|-1;HT=maildocker-contentspam033037025160;MF=shiaichun@open-hieco.net;NM=1;PH=DS;RN=5;RT=5;SR=0;TI=SMTPD_---.h4TkLSq_1775213890;
+Received: from localhost.localdomain(mailfrom:shiaichun@open-hieco.net fp:SMTPD_---.h4TkLSq_1775213890 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Fri, 03 Apr 2026 18:57:58 +0800
+          Fri, 03 Apr 2026 18:58:19 +0800
 From: Aichun Shi <shiaichun@open-hieco.net>
 To: yazen.ghannam@amd.com
 Cc: tglx@linutronix.de,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	shiaichun@open-hieco.net
-Subject: [RFC PATCH 00/10] EDAC/RAS: Hygon Family 0x18 UMC ECC address translation
-Date: Fri,  3 Apr 2026 18:57:24 +0800
-Message-ID: <cover.1775213147.git.shiaichun@open-hieco.net>
+Subject: [RFC PATCH 02/10] ras/amd/atl: Add Hygon DF1 DRAM address map decoding helper
+Date: Fri,  3 Apr 2026 18:57:26 +0800
+Message-ID: <92b2f7493f7cbd6273050af4814de6c0923678d3.1775213147.git.shiaichun@open-hieco.net>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1775213147.git.shiaichun@open-hieco.net>
+References: <cover.1775213147.git.shiaichun@open-hieco.net>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Add Hygon DF1 DRAM address map decoding function that Hygon address
+translation pipeline depends on later.
+Prepare hygon_get_address_map() to be called by hygon/core.c later.
 
-This is an RFC (Request For Comments) for the patch series that proposes
-Hygon Family 0x18 (models 0x4-0x8) support for UMC ECC error address
-translation, aligned with the existing AMD EDAC + AMD ATL layering in
-mainline.
-
-RFC intent
-----------
-The code is posted for architectural feedback before formal submission:
-Hygon Family 0x18 Data Fabric behavior differs from AMD in several places,
-and the boundary between shared AMD helpers and Hygon-only code is easier
-to adjust now than after a formal series. Posting as RFC is intended to
-confirm if the overall approach---Hygon backends under 
-drivers/ras/amd/atl/hygon/, registration through the existing amd_atl
-hook, and matching amd64_edac changes---is acceptable or is there a better
-approach.
-
-------------------------------------------------------------------------
-1. Background
-------------------------------------------------------------------------
-
-Linux RAS and EDAC report DRAM and memory-controller (UMC) correctable and
-uncorrectable errors for operators and user space.  On AMD x86 server
-platforms, drivers/edac/amd64_edac.c owns UMC topology discovery, related
-register access, and integration with the MCE/MCA UMC decode path for
-Family 0x17 and later CPUs.
-
-Converting a UMC MCA normalized address from hardware into a system
-physical address (SPA) requires Data Fabric (DF) knowledge: DRAM regions,
-interleave, hashing and dehash, die/socket routing, and offsets.  That
-logic is substantial, changes by generation, and is not EDAC-specific---any
-subsystem needing MCA-to-SPA translation needs the same math.
-
-Mainline therefore places that translation in the AMD Address Translation
-Library (amd_atl, drivers/ras/amd/atl) and exposes a single RAS-facing
-entry point that amd64_edac calls:
-
-    amd_convert_umc_mca_addr_to_sys_addr()
-
-For AMD CPUs the implementation lives in amd_atl.  EDAC stays responsible
-for MC/UMC enumeration and error reporting; DF address translation stays in
-amd_atl.  That separation avoids duplicating DF algorithms inside EDAC and
-keeps a single place to fix or extend translation---this is the decoupling
-between AMD EDAC and AMD ATL.
-
-Hygon parts use the same broad MCA/UMC model on Family 0x18 but differ in DF
-revision, register layouts, and IPID/channel rules by CPU model.  This
-series adds Hygon backends under hygon/ and wires them through the same
-hook, plus amd64_edac updates for the covered models, so UMC ECC reports can
-resolve to a consistent SPA.
-
-------------------------------------------------------------------------
-2. Problem
-------------------------------------------------------------------------
-
-(1) Requirement: UMC ECC address translation on Hygon Family 0x18
-
-    Operating systems need a correct MCA-to-SPA path for UMC ECC errors on
-    Hygon Family 0x18 so logs, sysfs, and tooling reference a physical
-    address that matches the platform memory map.
-
-(2) Gaps in upstream Linux today (without this RFC)
-
-    - amd_atl/amd64_edac implements the AMD translation path but not the
-      Hygon-specific handling required for the Family 0x18 models in this
-      series.
-
-    - Without that path, end-to-end reporting for these Hygon systems is
-      incomplete even if UMCs are probed.
-
-    - Folding address translation back into amd64_edac would duplicate amd_atl,
-      break the single registration model, and complicate maintenance and
-      testing.
-
-------------------------------------------------------------------------
-3. Solution
-------------------------------------------------------------------------
-
-3.1 Solution summary
-
-    - Extend the existing AMD EDAC + AMD ATL design: add Hygon code under
-      drivers/ras/amd/atl/hygon/, register the Hygon decoder during ATL
-      init, and extend amd64_edac for Hygon Family 0x18 models 0x4-0x8.
-      Other existing Hygon models and future models will be extended later.
-
-    - Keep changes to existing AMD EDAC/ATL code minimal: shared helpers
-      remain shared; Hygon-specific logic is isolated under hygon/*.c with
-      narrow integration points (topology difference, decoder selection,
-      node bounds).
-
-3.2 Details: flow, diagram, code paths, Hygon vs AMD
-
-    End-to-end flow (conceptual):
-
-        MCE / UMC MCA record
-          -> amd64_edac UMC decode
-          -> amd_convert_umc_mca_addr_to_sys_addr()   [registered by amd_atl]
-          -> Hygon: hygon_convert_umc_mca_addr_to_sys_addr()
-                  -> hygon_norm_to_sys_addr()
-                  -> Hygon DF1/DF2/3: system, map, denormalize, dehash
-
-    Sequence:
-
-        +-------------+       +-------------+       +------------------------+
-        | amd64_edac  |       | amd_atl     |       | hygon/ (this RFC)        |
-        | decode path | ----> | hook / reg  | ----> | DF rev, map, denorm,     |
-        |             |       |             |       | dehash, UMC entry        |
-        +-------------+       +-------------+       +------------------------+
-
-    Touched paths (summary):
-
-    - Hygon DF1 (models 0x4/0x5): hygon/system.c (DF1 info), hygon/map.c,
-      hygon/denormalize.c, hygon/dehash.c, hygon/core.c (normalized-to-SPA
-      pipeline), hygon/umc.c.
-
-    - Hygon DF2 (models 0x6/0x8): Hygon-specific four-channel hash
-      (HYGON_DF2_4CHAN_HASH), hygon_df2_get_dram_addr_map() with shared AMD
-      DF2 DRAM base/limit where applicable; denormalize/dehash and UMC IPID
-      channel/sub-channel handling for Hygon DF2.
-
-    - Hygon DF3 (model 0x7): DF3 detection and fields; DRAM map and
-      denormalize; reuse of DF2 DRAM map plumbing with Hygon DF3 interleave
-      behavior.
-
-    - Initialization: amd_atl init/exit and __df_indirect_read() extended
-      for Hygon node number; hygon_get_df_system_info(); register
-      hygon_convert_umc_mca_addr_to_sys_addr().
-
-    - EDAC: UMC bases, MCA IPID fields for Hygon, distinct MC counts for
-      models 0x4/0x5 where needed, amd64_edac_init()/amd64_edac_exit() node
-      handling for Hygon.
-
-    Hygon-specific deviations from AMD (high level):
-
-    - Explicit Hygon DF revisions (HYGON_DF1/DF2/DF3) and model-based
-      detection.
-
-    - Additional interleave modes (e.g. DF1 three-channel, DF2-class
-      four-channel hash) and coherent-station / fabric ID handling as
-      described in per-patch changelogs.
-
-    - DF2: coherent-station instance ID derived from MCA IPID channel and
-      sub-channel fields per Hygon rules.
-
-3.3 Patches description
-
-    Patches 01-05 — Hygon DF1 backend stack:
-    These patches build the Hygon DF1 address-translation core in order:
-    DF system information and model detection, DRAM map decoding,
-    denormalization, dehash, and hygon/core.c tying the pipeline into a
-    single normalized-to-system path for models 0x4/0x5.  They are
-    prerequisite to any UMC hook or init wiring.
-
-    Patches 06-07 — Hygon UMC MCA entry and ATL integration:
-    Add hygon/umc.c and hygon_convert_umc_mca_addr_to_sys_addr() as the
-    Hygon-specific entry that invokes the DF1 pipeline from MCA context.
-    Connects Hygon to amd_atl at init/exit: node number bounds, DF
-    discovery via hygon_get_df_system_info(), and registration of the Hygon
-    decoder with the existing amd_convert_umc_mca_addr_to_sys_addr() hook
-    without changing the AMD path.
-
-    Patches 08-09 — Hygon DF2 and DF3 extensions:
-    Layer additional Data Fabric revisions on top of the shared helpers:
-    DF2 for models 0x6/0x8 (four-channel hash, denormalize/dehash, UMC IPID
-    rules) and DF3 for model 0x7 (DF3 fields, DRAM map, denormalize).
-
-    Patch 10 — amd64_edac enablement:
-    Completes the end-to-end story in the EDAC driver: UMC bases, MCA IPID
-    channel handling, memory-controller counts, and node lifecycle for
-    Hygon Family 0x18 models 0x4-0x8 so probe/decode matches the ATL
-    backends above.
-
-    [01/10] ras/amd/atl: Add Hygon DF1 Data Fabric system information helper
-            hygon/reg_fields.h, hygon/system.c, HYGON_DF1,
-            hygon_determine_df_rev() for models 0x4/0x5.
-
-    [02/10] ras/amd/atl: Add Hygon DF1 DRAM address map decoding helper
-            hygon/map.c, hygon_chan_intlv, HYGON_DF1_3CHAN, shared map helpers.
-
-    [03/10] ras/amd/atl: Add Hygon DF1 normalized address denormalization helper
-            hygon/denormalize.c.
-
-    [04/10] ras/amd/atl: Add Hygon DF1 address dehash helper
-            hygon/dehash.c (hashed modes, DDR5-related cases).
-
-    [05/10] ras/amd/atl: Add Hygon DF1 normalized-to-system address translation
-            hygon/core.c (full pipeline).
-
-    [06/10] ras/amd/atl: Add Hygon UMC MCA to system address conversion support
-            hygon/umc.c, hygon_convert_umc_mca_addr_to_sys_addr().
-
-    [07/10] ras/amd/atl: Add Hygon DF discovery and MCA decode at initialization
-            amd_atl init/exit, node bounds, decoder registration.
-
-    [08/10] ras/amd/atl: Add Hygon DF2 address translation support
-            models 0x6/0x8, HYGON_DF2_4CHAN_HASH, denormalize/dehash/UMC.
-
-    [09/10] ras/amd/atl: Add Hygon DF3 address translation support
-            model 0x7 (Hygon DF3).
-
-    [10/10] EDAC/amd64: Add Hygon Family 0x18 models 0x4-0x8 support
-            amd64_edac integration for covered models.
-
-3.4 Dependencies
-    This RFC patch series depends on the APIs exported by the "Hygon Node" RFC patch series [1].
-      hygon_f18h_m4h()
-      hygon_get_dfid()
-
-    [1] https://lore.kernel.org/lkml/20260402111515.1155505-1-wanglin@open-hieco.net/
-
-3.5 Test
-    Each patch was build tested individually. The entire set was functionally
-    tested with the following systems.
-
-    Hygon Family 0x18 model 0x4
-    Hygon Family 0x18 model 0x6
-
-3.6 Feedback
-    Maintainer and reviewer input on the points below would help refine a
-    subsequent formal revision:
-
-    - Layout and wiring: placement of Hygon code under hygon/, decoder
-      registration at amd_atl init, and interaction with amd64_edac.
-
-    - Shared helpers: reuse of selected AMD helpers with exports in
-      internal.h---whether this share is appropriate or should implement
-      the same helpers in hygon/ to separate Hygon and AMD code better?
-
-    - DF typing: names and mapping for HYGON_DF1/DF2/DF3 versus existing AMD
-      DF revision handling.
-
-3.7 Future work
-    Broader hardware coverage, more tests, and possible helper unification
-      with AMD code after maintainer feedback.
-
-Thanks for comments and review.
-
-Aichun Shi
+- Add struct hygon_chan_intlv in addr_ctx and HYGON_DF1_3CHAN in enum
+  intlv_modes to internal.h for Hygon DF1 three-channel interleave mode.
+- Add hygon/map.c for Hygon-specific implementation similar to map.c for
+  AMD.
+- Get the coherent-station fabric ID, handle normalized offsets, read
+  Hygon DF1 specific channel interleave state, and derive global
+  interleave metadata (modes, bit positions, die/socket/channel counts).
+- Use df2_get_dram_addr_map(), valid_map(), and dump_address_map()
+  shared from map.c and exported in internal.h to avoid duplicate code.
+- Build hygon/map.c from the Makefile as an amd_atl object.
 
 Signed-off-by: Aichun Shi <shiaichun@open-hieco.net>
-
-Aichun Shi (10):
-  ras/amd/atl: Add Hygon DF1 Data Fabric system information helper
-  ras/amd/atl: Add Hygon DF1 DRAM address map decoding helper
-  ras/amd/atl: Add Hygon DF1 normalized address denormalization helper
-  ras/amd/atl: Add Hygon DF1 address dehash helper
-  ras/amd/atl: Add Hygon DF1 normalized-to-system address translation
-  ras/amd/atl: Add Hygon UMC MCA to system address conversion support
-  ras/amd/atl: Add Hygon DF discovery and MCA decode at initialization
-  ras/amd/atl: Add Hygon DF2 address translation support
-  ras/amd/atl: Add Hygon DF3 address translation support
-  EDAC/amd64: Add Hygon Family 0x18 models 0x4-0x8 support
-
- drivers/edac/amd64_edac.c               |  68 ++++-
- drivers/ras/amd/atl/Makefile            |   7 +
- drivers/ras/amd/atl/access.c            |   9 +-
- drivers/ras/amd/atl/core.c              |  25 +-
- drivers/ras/amd/atl/denormalize.c       |   4 +-
- drivers/ras/amd/atl/hygon/core.c        |  52 ++++
- drivers/ras/amd/atl/hygon/dehash.c      | 100 +++++++
- drivers/ras/amd/atl/hygon/denormalize.c | 181 +++++++++++
- drivers/ras/amd/atl/hygon/map.c         | 383 ++++++++++++++++++++++++
- drivers/ras/amd/atl/hygon/reg_fields.h  | 191 ++++++++++++
- drivers/ras/amd/atl/hygon/system.c      |  91 ++++++
- drivers/ras/amd/atl/hygon/umc.c         |  52 ++++
- drivers/ras/amd/atl/internal.h          |  38 +++
- drivers/ras/amd/atl/map.c               |   6 +-
- drivers/ras/amd/atl/system.c            |   4 +-
- 15 files changed, 1186 insertions(+), 25 deletions(-)
- create mode 100644 drivers/ras/amd/atl/hygon/core.c
- create mode 100644 drivers/ras/amd/atl/hygon/dehash.c
- create mode 100644 drivers/ras/amd/atl/hygon/denormalize.c
+---
+ drivers/ras/amd/atl/Makefile           |   1 +
+ drivers/ras/amd/atl/hygon/map.c        | 337 +++++++++++++++++++++++++
+ drivers/ras/amd/atl/hygon/reg_fields.h |  78 ++++++
+ drivers/ras/amd/atl/internal.h         |  17 ++
+ drivers/ras/amd/atl/map.c              |   6 +-
+ 5 files changed, 436 insertions(+), 3 deletions(-)
  create mode 100644 drivers/ras/amd/atl/hygon/map.c
- create mode 100644 drivers/ras/amd/atl/hygon/reg_fields.h
- create mode 100644 drivers/ras/amd/atl/hygon/system.c
- create mode 100644 drivers/ras/amd/atl/hygon/umc.c
 
+diff --git a/drivers/ras/amd/atl/Makefile b/drivers/ras/amd/atl/Makefile
+index 3716fe068eb6..105c11015f4c 100644
+--- a/drivers/ras/amd/atl/Makefile
++++ b/drivers/ras/amd/atl/Makefile
+@@ -15,6 +15,7 @@ amd_atl-y		+= map.o
+ amd_atl-y		+= system.o
+ amd_atl-y		+= umc.o
+ 
++amd_atl-y		+= hygon/map.o
+ amd_atl-y		+= hygon/system.o
+ 
+ amd_atl-$(CONFIG_AMD_ATL_PRM) += prm.o
+diff --git a/drivers/ras/amd/atl/hygon/map.c b/drivers/ras/amd/atl/hygon/map.c
+new file mode 100644
+index 000000000000..2194c10ff587
+--- /dev/null
++++ b/drivers/ras/amd/atl/hygon/map.c
+@@ -0,0 +1,337 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * AMD Address Translation Library
++ *
++ * map.c : Functions to read and decode DRAM address maps for Hygon
++ *
++ * Author: AichunShi <shiaichun@open-hieco.net>
++ */
++
++#include "../internal.h"
++
++static int hygon_df_get_intlv_mode(struct addr_ctx *ctx)
++{
++	ctx->map.intlv_mode = FIELD_GET(HYGON_DF1_INTLV_NUM_CHAN, ctx->map.base);
++
++	if (df_cfg.rev == HYGON_DF1 && ctx->map.intlv_mode == 2)
++		ctx->map.intlv_mode = HYGON_DF1_3CHAN;
++
++	if (ctx->map.intlv_mode == 8)
++		ctx->map.intlv_mode = DF2_2CHAN_HASH;
++
++	if (ctx->map.intlv_mode != NONE &&
++	    ctx->map.intlv_mode != NOHASH_2CHAN &&
++		ctx->map.intlv_mode != HYGON_DF1_3CHAN &&
++	    ctx->map.intlv_mode != NOHASH_4CHAN &&
++	    ctx->map.intlv_mode != NOHASH_8CHAN &&
++	    ctx->map.intlv_mode != NOHASH_16CHAN &&
++	    ctx->map.intlv_mode != DF2_2CHAN_HASH)
++		return -EINVAL;
++
++	return 0;
++}
++
++static u64 hygon_get_hi_addr_offset(u32 reg_dram_offset)
++{
++	u8 shift = DF_DRAM_BASE_LIMIT_LSB;
++	u64 hi_addr_offset;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		hi_addr_offset = FIELD_GET(HYGON_DF1_HI_ADDR_OFFSET, reg_dram_offset);
++		break;
++	default:
++		hi_addr_offset = 0;
++		atl_debug_on_bad_df_rev();
++	}
++
++	return hi_addr_offset << shift;
++}
++
++/*
++ * Returns:	0 if offset is disabled.
++ *		1 if offset is enabled.
++ *		-EINVAL on error.
++ */
++static int hygon_get_dram_offset(struct addr_ctx *ctx, u64 *norm_offset)
++{
++	u32 reg_dram_offset;
++	u8 map_num;
++
++	/* Should not be called for map 0. */
++	if (!ctx->map.num) {
++		atl_debug(ctx, "Trying to find DRAM offset for map 0");
++		return -EINVAL;
++	}
++
++	/*
++	 * DramOffset registers don't exist for map 0, so the base register
++	 * actually refers to map 1.
++	 * Adjust the map_num for the register offsets.
++	 */
++	map_num = ctx->map.num - 1;
++
++	if (df_cfg.rev >= HYGON_DF1) {
++		/* Read D18F0x214 (DramOffset) */
++		if (df_indirect_read_instance(ctx->node_id, 0, 0x214 + (4 * map_num),
++					      ctx->inst_id, &reg_dram_offset))
++			return -EINVAL;
++	} else {
++		return -EINVAL;
++	}
++
++	if (!FIELD_GET(DF_HI_ADDR_OFFSET_EN, reg_dram_offset))
++		return 0;
++
++	*norm_offset = hygon_get_hi_addr_offset(reg_dram_offset);
++
++	return 1;
++}
++
++#define HYGON_DF1_CHAN_ADDR_SEL	BIT(24)
++#define HYGON_DF1_CHAN_HASH_ENABLE	BIT(23)
++#define HYGON_DF1_DDR5_ENABLE	BIT(19)
++static int hygon_df1_get_dram_addr_map(struct addr_ctx *ctx)
++{
++	if (df2_get_dram_addr_map(ctx))
++		return -EINVAL;
++
++	/* Read D18F2x48 */
++	if (df_indirect_read_instance(ctx->node_id, 2, 0x48,
++				      ctx->inst_id, &ctx->map.intlv))
++		return -EINVAL;
++
++	ctx->chan_intlv_hygon.chan_addr_sel =
++		FIELD_GET(HYGON_DF1_CHAN_ADDR_SEL, ctx->map.intlv);
++	ctx->chan_intlv_hygon.chan_hash_enable =
++		FIELD_GET(HYGON_DF1_CHAN_HASH_ENABLE, ctx->map.intlv);
++	ctx->chan_intlv_hygon.ddr5_enable =
++		FIELD_GET(HYGON_DF1_DDR5_ENABLE, ctx->map.intlv);
++
++	if (ctx->chan_intlv_hygon.ddr5_enable) {
++		u64 low_addr, high_addr;
++
++		ctx->chan_intlv_hygon.start_bit = ctx->chan_intlv_hygon.chan_addr_sel ? 8 : 7;
++		low_addr = ctx->ret_addr & GENMASK_ULL(ctx->chan_intlv_hygon.start_bit - 1, 0);
++		high_addr = (ctx->ret_addr & GENMASK_ULL(63, ctx->chan_intlv_hygon.start_bit)) << 1;
++		ctx->ret_addr = high_addr | low_addr;
++	}
++
++	return 0;
++}
++
++static int hygon_get_dram_addr_map(struct addr_ctx *ctx)
++{
++	switch (df_cfg.rev) {
++	case HYGON_DF1:	return hygon_df1_get_dram_addr_map(ctx);
++	default:
++			atl_debug_on_bad_df_rev();
++			return -EINVAL;
++	}
++}
++
++static int hygon_get_coh_st_fabric_id(struct addr_ctx *ctx)
++{
++	u32 reg;
++
++	/* Read D18F0x50 (FabricBlockInstanceInformation3). */
++	if (df_indirect_read_instance(ctx->node_id, 0, 0x50, ctx->inst_id, &reg))
++		return -EINVAL;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		ctx->coh_st_fabric_id = FIELD_GET(HYGON_DF1_COH_ST_FABRIC_ID, reg);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int hygon_find_normalized_offset(struct addr_ctx *ctx, u64 *norm_offset)
++{
++	u64 last_offset = 0;
++	int ret;
++
++	for (ctx->map.num = 1; ctx->map.num < df_cfg.num_coh_st_maps; ctx->map.num++) {
++		ret = hygon_get_dram_offset(ctx, norm_offset);
++		if (ret < 0)
++			return ret;
++
++		/* Continue search if this map's offset is not enabled. */
++		if (!ret)
++			continue;
++
++		/* Enabled offsets should never be 0. */
++		if (*norm_offset == 0) {
++			atl_debug(ctx, "Enabled map %u offset is 0", ctx->map.num);
++			return -EINVAL;
++		}
++
++		/* Offsets should always increase from one map to the next. */
++		if (*norm_offset <= last_offset) {
++			atl_debug(ctx, "Map %u offset (0x%016llx) <= previous (0x%016llx)",
++				  ctx->map.num, *norm_offset, last_offset);
++			return -EINVAL;
++		}
++
++		/* Match if this map's offset is less than the current calculated address. */
++		if (ctx->ret_addr >= *norm_offset)
++			break;
++
++		last_offset = *norm_offset;
++	}
++
++	/*
++	 * Finished search without finding a match.
++	 * Reset to map 0 and no offset.
++	 */
++	if (ctx->map.num >= df_cfg.num_coh_st_maps) {
++		ctx->map.num = 0;
++		*norm_offset = 0;
++	}
++
++	return 0;
++}
++
++static int hygon_get_address_map_common(struct addr_ctx *ctx)
++{
++	u64 norm_offset = 0;
++
++	if (hygon_get_coh_st_fabric_id(ctx))
++		return -EINVAL;
++
++	if (hygon_find_normalized_offset(ctx, &norm_offset))
++		return -EINVAL;
++
++	ctx->ret_addr -= norm_offset;
++
++	if (hygon_get_dram_addr_map(ctx))
++		return -EINVAL;
++
++	if (!valid_map(ctx))
++		return -EINVAL;
++
++	return 0;
++}
++
++static u8 hygon_get_num_intlv_chan(struct addr_ctx *ctx)
++{
++	switch (ctx->map.intlv_mode) {
++	case NONE:
++		return 1;
++	case NOHASH_2CHAN:
++		return 2;
++	case HYGON_DF1_3CHAN:
++		return 3;
++	case NOHASH_4CHAN:
++		return 4;
++	case NOHASH_8CHAN:
++		return 8;
++	case NOHASH_16CHAN:
++		return 16;
++	case NOHASH_32CHAN:
++		return 32;
++	default:
++		atl_debug_on_bad_intlv_mode(ctx);
++		return 0;
++	}
++}
++
++static void hygon_calculate_intlv_bits(struct addr_ctx *ctx)
++{
++	ctx->map.num_intlv_chan = hygon_get_num_intlv_chan(ctx);
++
++	ctx->map.total_intlv_chan = ctx->map.num_intlv_chan;
++	ctx->map.total_intlv_chan *= ctx->map.num_intlv_dies;
++	ctx->map.total_intlv_chan *= ctx->map.num_intlv_sockets;
++
++	/*
++	 * Get the number of bits needed to cover this many channels.
++	 * order_base_2() rounds up automatically.
++	 */
++	ctx->map.total_intlv_bits = order_base_2(ctx->map.total_intlv_chan);
++}
++
++static u8 hygon_get_intlv_bit_pos(struct addr_ctx *ctx)
++{
++	u8 addr_sel = 0;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		addr_sel = FIELD_GET(HYGON_DF1_INTLV_ADDR_SEL, ctx->map.base);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		break;
++	}
++
++	/* Add '8' to get the 'interleave bit position'. */
++	return addr_sel + 8;
++}
++
++static u8 hygon_get_num_intlv_dies(struct addr_ctx *ctx)
++{
++	u8 dies = 0;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		dies = FIELD_GET(HYGON_DF1_INTLV_NUM_DIES, ctx->map.limit);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		break;
++	}
++
++	/* Register value is log2, e.g. 0 -> 1 die, 1 -> 2 dies, etc. */
++	return 1 << dies;
++}
++
++static u8 hygon_get_num_intlv_sockets(struct addr_ctx *ctx)
++{
++	u8 sockets = 0;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		sockets = FIELD_GET(HYGON_DF1_INTLV_NUM_SOCKETS, ctx->map.base);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		break;
++	}
++
++	/* Register value is log2, e.g. 0 -> 1 sockets, 1 -> 2 sockets, etc. */
++	return 1 << sockets;
++}
++
++static int hygon_get_global_map_data(struct addr_ctx *ctx)
++{
++	if (hygon_df_get_intlv_mode(ctx))
++		return -EINVAL;
++
++	ctx->map.intlv_bit_pos		= hygon_get_intlv_bit_pos(ctx);
++	ctx->map.num_intlv_dies		= hygon_get_num_intlv_dies(ctx);
++	ctx->map.num_intlv_sockets	= hygon_get_num_intlv_sockets(ctx);
++	hygon_calculate_intlv_bits(ctx);
++
++	return 0;
++}
++
++int hygon_get_address_map(struct addr_ctx *ctx)
++{
++	int ret;
++
++	ret = hygon_get_address_map_common(ctx);
++	if (ret)
++		return ret;
++
++	ret = hygon_get_global_map_data(ctx);
++	if (ret)
++		return ret;
++
++	dump_address_map(&ctx->map);
++
++	return ret;
++}
+diff --git a/drivers/ras/amd/atl/hygon/reg_fields.h b/drivers/ras/amd/atl/hygon/reg_fields.h
+index 2c1193639c6c..44b24593175d 100644
+--- a/drivers/ras/amd/atl/hygon/reg_fields.h
++++ b/drivers/ras/amd/atl/hygon/reg_fields.h
+@@ -7,6 +7,84 @@
+  * Author: AichunShi <shiaichun@open-hieco.net>
+  */
+ 
++/*
++ * Coherent Station Fabric ID
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x50 [Fabric Block Instance Information 3]
++ *	HYGON_DF1   BlockFabricId	[17:8]
++ */
++#define HYGON_DF1_COH_ST_FABRIC_ID	GENMASK(17, 8)
++
++/*
++ * Interleave Number of Sockets
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x110 [DRAM Base Address]
++ *	HYGON_DF1 IntLvNumSockets [3:2]
++ */
++#define HYGON_DF1_INTLV_NUM_SOCKETS	GENMASK(3, 2)
++
++/*
++ * Interleave Number of Channels
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x110 [DRAM Base Address]
++ *	HYGON_DF1	IntLvNumChan	[7:4]
++ */
++#define HYGON_DF1_INTLV_NUM_CHAN	GENMASK(7, 4)
++
++/*
++ * Interleave Address Select
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x110 [DRAM Base Address]
++ *	HYGON_DF1	IntLvAddrSel	[10:8]
++ */
++#define HYGON_DF1_INTLV_ADDR_SEL	GENMASK(10, 8)
++
++/*
++ * Interleave Number of Dies
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x114 [DRAM Limit Address]
++ *	HYGON_DF1	IntLvNumDies	[11:10]
++ */
++#define HYGON_DF1_INTLV_NUM_DIES	GENMASK(11, 10)
++
++/*
++ * High Address Offset
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x214 [DRAM Offset]
++ *	HYGON_DF1	HiAddrOffset	[31:19]
++ */
++#define HYGON_DF1_HI_ADDR_OFFSET	GENMASK(31, 19)
++
+ /*
+  * Die ID Mask
+  *
+diff --git a/drivers/ras/amd/atl/internal.h b/drivers/ras/amd/atl/internal.h
+index 19651cf9e978..d149ec6e7da9 100644
+--- a/drivers/ras/amd/atl/internal.h
++++ b/drivers/ras/amd/atl/internal.h
+@@ -55,6 +55,7 @@ enum df_revisions {
+ enum intlv_modes {
+ 	NONE				= 0x00,
+ 	NOHASH_2CHAN			= 0x01,
++	HYGON_DF1_3CHAN			= 0x02,
+ 	NOHASH_4CHAN			= 0x03,
+ 	NOHASH_8CHAN			= 0x05,
+ 	DF3_6CHAN			= 0x06,
+@@ -246,6 +247,14 @@ struct addr_ctx_inputs {
+ 	u8 coh_st_inst_id;
+ };
+ 
++struct hygon_chan_intlv {
++	u8 sub_channel;
++	u8 chan_addr_sel;
++	u8 chan_hash_enable;
++	u8 ddr5_enable;
++	u8 start_bit;
++};
++
+ struct addr_ctx {
+ 	u64 ret_addr;
+ 
+@@ -266,6 +275,9 @@ struct addr_ctx {
+ 	 * System-wide ID that includes 'node' bits.
+ 	 */
+ 	u16 coh_st_fabric_id;
++
++	/* Hygon Channel Interleave */
++	struct hygon_chan_intlv chan_intlv_hygon;
+ };
+ 
+ int df_indirect_read_instance(u16 node, u8 func, u16 reg, u8 instance_id, u32 *lo);
+@@ -289,7 +301,12 @@ u64 remove_base_and_hole(struct addr_ctx *ctx, u64 addr);
+ int get_dram_hole_base(void);
+ void dump_df_cfg(void);
+ 
++int df2_get_dram_addr_map(struct addr_ctx *ctx);
++bool valid_map(struct addr_ctx *ctx);
++void dump_address_map(struct dram_addr_map *map);
++
+ int hygon_get_df_system_info(void);
++int hygon_get_address_map(struct addr_ctx *ctx);
+ 
+ /* GUIDs for PRM handlers */
+ extern const guid_t norm_to_sys_guid;
+diff --git a/drivers/ras/amd/atl/map.c b/drivers/ras/amd/atl/map.c
+index 24a05af747d5..acfd0a636160 100644
+--- a/drivers/ras/amd/atl/map.c
++++ b/drivers/ras/amd/atl/map.c
+@@ -209,7 +209,7 @@ static int df3_6ch_get_dram_addr_map(struct addr_ctx *ctx)
+ 	return 0;
+ }
+ 
+-static int df2_get_dram_addr_map(struct addr_ctx *ctx)
++int df2_get_dram_addr_map(struct addr_ctx *ctx)
+ {
+ 	/* Read D18F0x110 (DramBaseAddress). */
+ 	if (df_indirect_read_instance(ctx->node_id, 0, 0x110 + (8 * ctx->map.num),
+@@ -441,7 +441,7 @@ static int find_normalized_offset(struct addr_ctx *ctx, u64 *norm_offset)
+ 	return 0;
+ }
+ 
+-static bool valid_map(struct addr_ctx *ctx)
++bool valid_map(struct addr_ctx *ctx)
+ {
+ 	if (df_cfg.rev >= DF4)
+ 		return FIELD_GET(DF_ADDR_RANGE_VAL, ctx->map.ctl);
+@@ -735,7 +735,7 @@ static int validate_address_map(struct addr_ctx *ctx)
+ 	return -EINVAL;
+ }
+ 
+-static void dump_address_map(struct dram_addr_map *map)
++void dump_address_map(struct dram_addr_map *map)
+ {
+ 	u8 i;
+ 
 -- 
 2.47.3
 
