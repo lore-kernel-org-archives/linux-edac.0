@@ -1,95 +1,319 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from out28-108.mail.aliyun.com (out28-108.mail.aliyun.com [115.124.28.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7845F387578;
-	Fri,  3 Apr 2026 10:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DDD312807;
+	Fri,  3 Apr 2026 10:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775212523; cv=none; b=d2XxYvyFNdsf4CeN6nx+AtFhXexdr1aps7tpBRdLv9FthYqQGLdRV3QHavKP3DkGjDjO2ckPtT9j+2lJxWBBCvQUA9Z8pLCUA4rIe85ZLR9Qy4SpQkaxqXw5r0dgGj2gC8AgQi7goWN/X4s0EzzaAUGyVvv675nd3qutQBHoinM=
+	t=1775213892; cv=none; b=ZZ5hbxtZr5zQsjtqT1Zxm+RG/Umbe08aCMLrJwqQCUGoPJTgccF/05TATGenH/JN4rgJp0TEk+vbIJaZ/w0k/6pfOzwtK04bg8iErf6cO5YioI7FZHpmL07Jvh3N1HRk5+4zhE4I8ICBfd9puK9cB8TT+uX+rBNlDtabyz2rKgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775212523; c=relaxed/simple;
-	bh=1IcB4MvQPR6xA6uSK2MoKcotkbWetAHxyiAlBas3+KU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VfoA5rcYnx2Ux1UJgPMaCJVs4et3XdWRfTzLlTgA24DOrO4zzgaxwRZLlFmxLT4lxe4xFWF1QzXrYKxjqJVK80SUZsd1QwseOI6sFWtERGaM60VMLatWS+J5M/ZcWFNCjfufgU2HCm+AZmu+jLYVqS4hMvPA23K+LQexcsuIxPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FY5sWkJH; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FY5sWkJH"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 438DA40E00DE;
-	Fri,  3 Apr 2026 10:35:18 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id JNp1n2GQULQh; Fri,  3 Apr 2026 10:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1775212511; bh=M+Z3OnohcO0PYD47eMj2NSzLQODFYmtv17a14yjALbg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FY5sWkJH1KCoEOmbp1YqIQoYaANUjL1ut9frCTkQMfKUsWOmw4LjVhYWm77W+cQMQ
-	 aHduq+bhGLZGOIPCRBhhU4xzWirds/Sgj8KC7shF1nD28pvsRUmwS/1M2yf4RkrbLX
-	 2e1Wn8eHV9WdDwaY9sZYiwcMrE1axjL+hcUFTw5QkHzY92gkA2IZOtjiQfOfgEZzkE
-	 7P7rWxe705Ov5vOqz+8BVzheAr7sgndGlA70FsM8bLNiTGeX24M0NApLOiu+UYFUZZ
-	 6aChpcWq7kKUVbmV0E1aruap54X5yr+/CfrgUVqOnmgH2KvpW2TbDpRQEUId8xuj1S
-	 Zt0Ta5j3PNONky82N+RRsRTWR/e2HBtIOpKVTriLPDcM6LzktLFTYqF4W/L81zGt+h
-	 K3oEoYtEXNzrZfDdSXPy+Q3mHPsXoAvDBKkro04blmKp2l0N1W8vx7Bv0+dUPOhFSD
-	 HHwCgalh/DXuApQsI99R/7lotitqePDF5qg37ccBwZNz8t8CCB3raxwAgoH0pYQ8hw
-	 GW+3eDznqkV3p38ls6ohZJFXTOcUDEfzXPpeW08cYfHwfr9LFJDTuYvOSqKDCY/AfG
-	 4rAFM4bZVO1eJWhO4L8e2M2LmSozbhCn+Q6mXw4QP0UPsmV7QU+pTjSVHrfb5cLVh7
-	 aLD+8XzTN1ycGTxS1BUzgZGE=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 50C2D40E0163;
-	Fri,  3 Apr 2026 10:35:05 +0000 (UTC)
-Date: Fri, 3 Apr 2026 12:34:57 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-Cc: ssengar@linux.microsoft.com, shubhrajyoti.datta@amd.com,
-	tony.luck@intel.com, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] EDAC/versalnet: Fix teardown ordering in
- mc_remove()
-Message-ID: <20260403103457.GAac-X0SzsO9MtwAVE@fat_crate.local>
-References: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
+	s=arc-20240116; t=1775213892; c=relaxed/simple;
+	bh=Cwf1h3Bl+/Lq0DadpCLktthUPEUNuO9ZmO3SMcHuTvY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D+TraiNagraN+ZVQ7r/MXRfON3vieYD10Tx4sWPaT3zqHZN24t8Ovtntm/XsU5yGUzhLq/jM38YUfG1ZQ6Zt0k+TYL5rxCi0etSQ1OK6GHruE7cQ/d3NDzQGEkc5aa/gTsCHg0LZNvVFchKf4aQeQZMuZs0wWSlPtrlIq+riUtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436284|-1;CH=blue;DM=|OVERLOAD|false|;DS=CONTINUE|ham_system_inform|0.0260635-0.00730505-0.966631;FP=7652018153914418183|1|1|1|0|-1|-1|-1;HT=maildocker-contentspam033040074035;MF=shiaichun@open-hieco.net;NM=1;PH=DS;RN=5;RT=5;SR=0;TI=SMTPD_---.h4TkL9H_1775213868;
+Received: from localhost.localdomain(mailfrom:shiaichun@open-hieco.net fp:SMTPD_---.h4TkL9H_1775213868 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 03 Apr 2026 18:57:58 +0800
+From: Aichun Shi <shiaichun@open-hieco.net>
+To: yazen.ghannam@amd.com
+Cc: tglx@linutronix.de,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shiaichun@open-hieco.net
+Subject: [RFC PATCH 00/10] EDAC/RAS: Hygon Family 0x18 UMC ECC address translation
+Date: Fri,  3 Apr 2026 18:57:24 +0800
+Message-ID: <cover.1775213147.git.shiaichun@open-hieco.net>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 01, 2026 at 04:18:36AM -0700, Prasanna Kumar T S M wrote:
-> The teardown sequence in mc_remove() does not mirror the reverse of the
-> initialization order in mc_probe(). In particular,
-> unregister_rpmsg_driver() is called before remove_versalnet(), and
-> cdx_mcdi_finish() is called after rproc_shutdown().
-> 
-> Reorder mc_remove() to reverse the probe initialization sequence,
-> consistent with the probe error-unwind paths.
-> 
-> The rproc reference acquired via rproc_get_by_phandle() during probe
-> is not released in mc_remove(), causing a reference count leak. Add
-> the missing rproc_put() call.
-> 
-> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
-> Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-> ---
->  drivers/edac/versalnet_edac.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+Hi all,
 
-Sashiko has found things, pls addres them:
+This is an RFC (Request For Comments) for the patch series that proposes
+Hygon Family 0x18 (models 0x4-0x8) support for UMC ECC error address
+translation, aligned with the existing AMD EDAC + AMD ATL layering in
+mainline.
 
-https://sashiko.dev/#/patchset/20260401111836.2342918-1-ptsm%40linux.microsoft.com
+RFC intent
+----------
+The code is posted for architectural feedback before formal submission:
+Hygon Family 0x18 Data Fabric behavior differs from AMD in several places,
+and the boundary between shared AMD helpers and Hygon-only code is easier
+to adjust now than after a formal series. Posting as RFC is intended to
+confirm if the overall approach---Hygon backends under 
+drivers/ras/amd/atl/hygon/, registration through the existing amd_atl
+hook, and matching amd64_edac changes---is acceptable or is there a better
+approach.
+
+------------------------------------------------------------------------
+1. Background
+------------------------------------------------------------------------
+
+Linux RAS and EDAC report DRAM and memory-controller (UMC) correctable and
+uncorrectable errors for operators and user space.  On AMD x86 server
+platforms, drivers/edac/amd64_edac.c owns UMC topology discovery, related
+register access, and integration with the MCE/MCA UMC decode path for
+Family 0x17 and later CPUs.
+
+Converting a UMC MCA normalized address from hardware into a system
+physical address (SPA) requires Data Fabric (DF) knowledge: DRAM regions,
+interleave, hashing and dehash, die/socket routing, and offsets.  That
+logic is substantial, changes by generation, and is not EDAC-specific---any
+subsystem needing MCA-to-SPA translation needs the same math.
+
+Mainline therefore places that translation in the AMD Address Translation
+Library (amd_atl, drivers/ras/amd/atl) and exposes a single RAS-facing
+entry point that amd64_edac calls:
+
+    amd_convert_umc_mca_addr_to_sys_addr()
+
+For AMD CPUs the implementation lives in amd_atl.  EDAC stays responsible
+for MC/UMC enumeration and error reporting; DF address translation stays in
+amd_atl.  That separation avoids duplicating DF algorithms inside EDAC and
+keeps a single place to fix or extend translation---this is the decoupling
+between AMD EDAC and AMD ATL.
+
+Hygon parts use the same broad MCA/UMC model on Family 0x18 but differ in DF
+revision, register layouts, and IPID/channel rules by CPU model.  This
+series adds Hygon backends under hygon/ and wires them through the same
+hook, plus amd64_edac updates for the covered models, so UMC ECC reports can
+resolve to a consistent SPA.
+
+------------------------------------------------------------------------
+2. Problem
+------------------------------------------------------------------------
+
+(1) Requirement: UMC ECC address translation on Hygon Family 0x18
+
+    Operating systems need a correct MCA-to-SPA path for UMC ECC errors on
+    Hygon Family 0x18 so logs, sysfs, and tooling reference a physical
+    address that matches the platform memory map.
+
+(2) Gaps in upstream Linux today (without this RFC)
+
+    - amd_atl/amd64_edac implements the AMD translation path but not the
+      Hygon-specific handling required for the Family 0x18 models in this
+      series.
+
+    - Without that path, end-to-end reporting for these Hygon systems is
+      incomplete even if UMCs are probed.
+
+    - Folding address translation back into amd64_edac would duplicate amd_atl,
+      break the single registration model, and complicate maintenance and
+      testing.
+
+------------------------------------------------------------------------
+3. Solution
+------------------------------------------------------------------------
+
+3.1 Solution summary
+
+    - Extend the existing AMD EDAC + AMD ATL design: add Hygon code under
+      drivers/ras/amd/atl/hygon/, register the Hygon decoder during ATL
+      init, and extend amd64_edac for Hygon Family 0x18 models 0x4-0x8.
+      Other existing Hygon models and future models will be extended later.
+
+    - Keep changes to existing AMD EDAC/ATL code minimal: shared helpers
+      remain shared; Hygon-specific logic is isolated under hygon/*.c with
+      narrow integration points (topology difference, decoder selection,
+      node bounds).
+
+3.2 Details: flow, diagram, code paths, Hygon vs AMD
+
+    End-to-end flow (conceptual):
+
+        MCE / UMC MCA record
+          -> amd64_edac UMC decode
+          -> amd_convert_umc_mca_addr_to_sys_addr()   [registered by amd_atl]
+          -> Hygon: hygon_convert_umc_mca_addr_to_sys_addr()
+                  -> hygon_norm_to_sys_addr()
+                  -> Hygon DF1/DF2/3: system, map, denormalize, dehash
+
+    Sequence:
+
+        +-------------+       +-------------+       +------------------------+
+        | amd64_edac  |       | amd_atl     |       | hygon/ (this RFC)        |
+        | decode path | ----> | hook / reg  | ----> | DF rev, map, denorm,     |
+        |             |       |             |       | dehash, UMC entry        |
+        +-------------+       +-------------+       +------------------------+
+
+    Touched paths (summary):
+
+    - Hygon DF1 (models 0x4/0x5): hygon/system.c (DF1 info), hygon/map.c,
+      hygon/denormalize.c, hygon/dehash.c, hygon/core.c (normalized-to-SPA
+      pipeline), hygon/umc.c.
+
+    - Hygon DF2 (models 0x6/0x8): Hygon-specific four-channel hash
+      (HYGON_DF2_4CHAN_HASH), hygon_df2_get_dram_addr_map() with shared AMD
+      DF2 DRAM base/limit where applicable; denormalize/dehash and UMC IPID
+      channel/sub-channel handling for Hygon DF2.
+
+    - Hygon DF3 (model 0x7): DF3 detection and fields; DRAM map and
+      denormalize; reuse of DF2 DRAM map plumbing with Hygon DF3 interleave
+      behavior.
+
+    - Initialization: amd_atl init/exit and __df_indirect_read() extended
+      for Hygon node number; hygon_get_df_system_info(); register
+      hygon_convert_umc_mca_addr_to_sys_addr().
+
+    - EDAC: UMC bases, MCA IPID fields for Hygon, distinct MC counts for
+      models 0x4/0x5 where needed, amd64_edac_init()/amd64_edac_exit() node
+      handling for Hygon.
+
+    Hygon-specific deviations from AMD (high level):
+
+    - Explicit Hygon DF revisions (HYGON_DF1/DF2/DF3) and model-based
+      detection.
+
+    - Additional interleave modes (e.g. DF1 three-channel, DF2-class
+      four-channel hash) and coherent-station / fabric ID handling as
+      described in per-patch changelogs.
+
+    - DF2: coherent-station instance ID derived from MCA IPID channel and
+      sub-channel fields per Hygon rules.
+
+3.3 Patches description
+
+    Patches 01-05 — Hygon DF1 backend stack:
+    These patches build the Hygon DF1 address-translation core in order:
+    DF system information and model detection, DRAM map decoding,
+    denormalization, dehash, and hygon/core.c tying the pipeline into a
+    single normalized-to-system path for models 0x4/0x5.  They are
+    prerequisite to any UMC hook or init wiring.
+
+    Patches 06-07 — Hygon UMC MCA entry and ATL integration:
+    Add hygon/umc.c and hygon_convert_umc_mca_addr_to_sys_addr() as the
+    Hygon-specific entry that invokes the DF1 pipeline from MCA context.
+    Connects Hygon to amd_atl at init/exit: node number bounds, DF
+    discovery via hygon_get_df_system_info(), and registration of the Hygon
+    decoder with the existing amd_convert_umc_mca_addr_to_sys_addr() hook
+    without changing the AMD path.
+
+    Patches 08-09 — Hygon DF2 and DF3 extensions:
+    Layer additional Data Fabric revisions on top of the shared helpers:
+    DF2 for models 0x6/0x8 (four-channel hash, denormalize/dehash, UMC IPID
+    rules) and DF3 for model 0x7 (DF3 fields, DRAM map, denormalize).
+
+    Patch 10 — amd64_edac enablement:
+    Completes the end-to-end story in the EDAC driver: UMC bases, MCA IPID
+    channel handling, memory-controller counts, and node lifecycle for
+    Hygon Family 0x18 models 0x4-0x8 so probe/decode matches the ATL
+    backends above.
+
+    [01/10] ras/amd/atl: Add Hygon DF1 Data Fabric system information helper
+            hygon/reg_fields.h, hygon/system.c, HYGON_DF1,
+            hygon_determine_df_rev() for models 0x4/0x5.
+
+    [02/10] ras/amd/atl: Add Hygon DF1 DRAM address map decoding helper
+            hygon/map.c, hygon_chan_intlv, HYGON_DF1_3CHAN, shared map helpers.
+
+    [03/10] ras/amd/atl: Add Hygon DF1 normalized address denormalization helper
+            hygon/denormalize.c.
+
+    [04/10] ras/amd/atl: Add Hygon DF1 address dehash helper
+            hygon/dehash.c (hashed modes, DDR5-related cases).
+
+    [05/10] ras/amd/atl: Add Hygon DF1 normalized-to-system address translation
+            hygon/core.c (full pipeline).
+
+    [06/10] ras/amd/atl: Add Hygon UMC MCA to system address conversion support
+            hygon/umc.c, hygon_convert_umc_mca_addr_to_sys_addr().
+
+    [07/10] ras/amd/atl: Add Hygon DF discovery and MCA decode at initialization
+            amd_atl init/exit, node bounds, decoder registration.
+
+    [08/10] ras/amd/atl: Add Hygon DF2 address translation support
+            models 0x6/0x8, HYGON_DF2_4CHAN_HASH, denormalize/dehash/UMC.
+
+    [09/10] ras/amd/atl: Add Hygon DF3 address translation support
+            model 0x7 (Hygon DF3).
+
+    [10/10] EDAC/amd64: Add Hygon Family 0x18 models 0x4-0x8 support
+            amd64_edac integration for covered models.
+
+3.4 Dependencies
+    This RFC patch series depends on the APIs exported by the "Hygon Node" RFC patch series [1].
+      hygon_f18h_m4h()
+      hygon_get_dfid()
+
+    [1] https://lore.kernel.org/lkml/20260402111515.1155505-1-wanglin@open-hieco.net/
+
+3.5 Test
+    Each patch was build tested individually. The entire set was functionally
+    tested with the following systems.
+
+    Hygon Family 0x18 model 0x4
+    Hygon Family 0x18 model 0x6
+
+3.6 Feedback
+    Maintainer and reviewer input on the points below would help refine a
+    subsequent formal revision:
+
+    - Layout and wiring: placement of Hygon code under hygon/, decoder
+      registration at amd_atl init, and interaction with amd64_edac.
+
+    - Shared helpers: reuse of selected AMD helpers with exports in
+      internal.h---whether this share is appropriate or should implement
+      the same helpers in hygon/ to separate Hygon and AMD code better?
+
+    - DF typing: names and mapping for HYGON_DF1/DF2/DF3 versus existing AMD
+      DF revision handling.
+
+3.7 Future work
+    Broader hardware coverage, more tests, and possible helper unification
+      with AMD code after maintainer feedback.
+
+Thanks for comments and review.
+
+Aichun Shi
+
+Signed-off-by: Aichun Shi <shiaichun@open-hieco.net>
+
+Aichun Shi (10):
+  ras/amd/atl: Add Hygon DF1 Data Fabric system information helper
+  ras/amd/atl: Add Hygon DF1 DRAM address map decoding helper
+  ras/amd/atl: Add Hygon DF1 normalized address denormalization helper
+  ras/amd/atl: Add Hygon DF1 address dehash helper
+  ras/amd/atl: Add Hygon DF1 normalized-to-system address translation
+  ras/amd/atl: Add Hygon UMC MCA to system address conversion support
+  ras/amd/atl: Add Hygon DF discovery and MCA decode at initialization
+  ras/amd/atl: Add Hygon DF2 address translation support
+  ras/amd/atl: Add Hygon DF3 address translation support
+  EDAC/amd64: Add Hygon Family 0x18 models 0x4-0x8 support
+
+ drivers/edac/amd64_edac.c               |  68 ++++-
+ drivers/ras/amd/atl/Makefile            |   7 +
+ drivers/ras/amd/atl/access.c            |   9 +-
+ drivers/ras/amd/atl/core.c              |  25 +-
+ drivers/ras/amd/atl/denormalize.c       |   4 +-
+ drivers/ras/amd/atl/hygon/core.c        |  52 ++++
+ drivers/ras/amd/atl/hygon/dehash.c      | 100 +++++++
+ drivers/ras/amd/atl/hygon/denormalize.c | 181 +++++++++++
+ drivers/ras/amd/atl/hygon/map.c         | 383 ++++++++++++++++++++++++
+ drivers/ras/amd/atl/hygon/reg_fields.h  | 191 ++++++++++++
+ drivers/ras/amd/atl/hygon/system.c      |  91 ++++++
+ drivers/ras/amd/atl/hygon/umc.c         |  52 ++++
+ drivers/ras/amd/atl/internal.h          |  38 +++
+ drivers/ras/amd/atl/map.c               |   6 +-
+ drivers/ras/amd/atl/system.c            |   4 +-
+ 15 files changed, 1186 insertions(+), 25 deletions(-)
+ create mode 100644 drivers/ras/amd/atl/hygon/core.c
+ create mode 100644 drivers/ras/amd/atl/hygon/dehash.c
+ create mode 100644 drivers/ras/amd/atl/hygon/denormalize.c
+ create mode 100644 drivers/ras/amd/atl/hygon/map.c
+ create mode 100644 drivers/ras/amd/atl/hygon/reg_fields.h
+ create mode 100644 drivers/ras/amd/atl/hygon/system.c
+ create mode 100644 drivers/ras/amd/atl/hygon/umc.c
 
 -- 
-Regards/Gruss,
-    Boris.
+2.47.3
 
-https://people.kernel.org/tglx/notes-about-netiquette
