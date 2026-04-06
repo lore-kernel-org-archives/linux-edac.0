@@ -1,168 +1,183 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010041.outbound.protection.outlook.com [52.101.56.41])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529F731D72E;
-	Mon,  6 Apr 2026 13:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775481768; cv=fail; b=YAFwAiB6PwVYmRWPJC1Fjm3NJkLTe0DLedw0FJadjN2Oc1l3jhFCzjY7pLRCFX00d1TAPAGkOTWYanpQTt5OfK745MozzEfbU+IBvTTqxYv2/2wb5FHUItzzqxX0yvWuot1yUHaPwol4V346cJBlmhfjcdnVkXtAt3Nz2cX8xuw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775481768; c=relaxed/simple;
-	bh=wsMIHbwDrRsHqZUYutQHjshPoDDddPpJJq9VGFSY94c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=oxJMDhjDLUuYg6vcp9LA6LeIN7ZiMcgTZGT5+8FEfZpJIYaWXt8dFoU/qUEsyv/Rgg2czkWqKdZRdnUxAmyQdyTqB2yKfCugenKxmEflxyK8jQtSWKa9DGAQRAA5QI2zzFBvbMc1VgZhXwqZlPkWk5s2U8qtnvYuzRCIT/iskU4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=CoQnK1yl; arc=fail smtp.client-ip=52.101.56.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9083932FF;
+	Mon,  6 Apr 2026 22:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775515783; cv=none; b=eaC+9FGVv7FyySgNct45+M3toy94m7iubXggfEHFv8MqpS9mpbJclEBxG5jrnt2OH32+iVlzRG+k2utCy2H8E85q4w4hNBqx1s3TsAjhQEcGxrCi8qEaVrWey9XBFlh9RMGH1qfLdWLpOdAuVz1poO1P9xofLmWUw1XknY4U4CQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775515783; c=relaxed/simple;
+	bh=XuMEsKc3iXtk2XE7thl4ropCAzWgO0S/tpgRcS2cZZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hLoRNdZsBm5GOmM+kXZxo1nAWSQfhhUTfWZcqDxt+IrE1F7mbHfjIYfEXNNsMcNCWFp7EO7sy6+0aghcueJUQCcOnm70rE+Yqy/s0QgPiiW9JFGKsCQ0F+ASeLBDQFpoS9vYgUXKmXaVxcvRHpTVqaxg4ta6JMaUaJzTKxLwiPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=caBvKlLV; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CoQnK1yl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n4uDfBR8IItphUof5LViCTt0sTbPuitPEQNC2OlluFI1oF3sROZsAt9IBGEjsp4SYK0F+UrEHqFSLQseg1XnxkOSQxNITUkVdSwaZyu1npFqNovoOwcGoLAOg8lGS0/lEhf3Q0sO7xIQUMRCdzolx6WFpVPu7qqU+vNnK5EE+73IjM1O1EKYEbLn/v0HuMunWO4fEVUBlvJQVxXJLbC1V5Xnm9Om3yyYO/aa9A9FaV10AXO+QqQKUeZqBs/3dfnC6oxJ9ZL8ax2e9XDwqMzmXyyoYOqD3/uJka74ZYbefMNq87t2gXgCEuJXGBrwI343Aerb+xZLkImoB5Ng0d0ZfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M+3Qup2HicWnDtUPbxBC1DlaOx3WUwL+gd5I61KgsuY=;
- b=xBV+S8ea15U9ASHyBfXsBZxab2FS93B48L8vvvNEr9mkTW2WzzWIpF7l9ybmBXILLqMg5BShzOwo8ALSfgQskGDMIzSI3+0tD0seupmG1WJh1rDw+tLv/wD2U9BIKVo5KjeXAhDT76dHfDOeYzDxAwjJyOTRpn3W0St2QYQEySj2sOYmkyqA3X1qUyxng5ecTGgzyld5VjupjY437CJqJGoBny3xdURk43cNGn3ywpnjh5wG4i8+lfZrzPdp9wLju0tWbwVNfe2Ks7iIYc5PFL4IjhG3WmnzU+LjmpmatJHCssRqGnC/qilyG9pM7jhCvxRXnHURRiKbPRwWuvRTdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M+3Qup2HicWnDtUPbxBC1DlaOx3WUwL+gd5I61KgsuY=;
- b=CoQnK1yli/bZQ95xuv7mseHwl2NuehsyskeYx+CZWTTY+rnDPmYzyeOZqUpjylfVZjsI7O2b5n0ZMYEr39kGn9ttRbswqofX2tvlR6X0HXZA0ZA+KOcs8/w9iwoa/IWN8VLhOCyUR9q7YSPSNXhx6XgWIGruK4cv+ud+TUoQn40=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6373.namprd12.prod.outlook.com (2603:10b6:8:a4::7) by
- DS0PR12MB8270.namprd12.prod.outlook.com (2603:10b6:8:fe::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.20; Mon, 6 Apr 2026 13:22:43 +0000
-Received: from DM4PR12MB6373.namprd12.prod.outlook.com
- ([fe80::7da:cc3:cf2e:8ebf]) by DM4PR12MB6373.namprd12.prod.outlook.com
- ([fe80::7da:cc3:cf2e:8ebf%4]) with mapi id 15.20.9769.018; Mon, 6 Apr 2026
- 13:22:43 +0000
-Date: Mon, 6 Apr 2026 09:22:34 -0400
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: Nick Bowler <nbowler@draconx.ca>
-Cc: Borislav Petkov <bp@alien8.de>, linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev, x86@kernel.org,
-	linux-edac@vger.kernel.org
-Subject: Re: PROBLEM: boot hang on ASUS P2B-F (regression)
-Message-ID: <20260406132234.GA327112@yaz-khff2.amd.com>
-References: <mfc7rijyfrtdxj4k6pxqcar7jtqnt6kz77ubrr6iyj52cguesz@qj5uf3to7ukq>
- <20260321204321.GFab8C6aq2jIhIen_p@fat_crate.local>
- <fdhaj5pddf6cp7obvgrpzzxmxn46za4acyvhkvjtjy3ukofmok@hocikxl5b42x>
- <20260321215224.GGab8TGH0c-kmPGUAB@fat_crate.local>
- <2fgbldvzh3fahs5vipak33alxbn552otazldu6ftamr6reii4t@6syhuc665vys>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fgbldvzh3fahs5vipak33alxbn552otazldu6ftamr6reii4t@6syhuc665vys>
-X-ClientProxiedBy: CH0PR03CA0196.namprd03.prod.outlook.com
- (2603:10b6:610:e4::21) To DM4PR12MB6373.namprd12.prod.outlook.com
- (2603:10b6:8:a4::7)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="caBvKlLV"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CE35E40E015B;
+	Mon,  6 Apr 2026 22:49:38 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id IAtttYKce_6E; Mon,  6 Apr 2026 22:49:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1775515774; bh=iATATMcDqkXJZ/0n2nmc3UCJ5A0/C3BDpfWx6O1Bu7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=caBvKlLV1HMjsjugFEQoMJlTheLGykQlFCIIyZOwl3Sc4dhcxJJHCbNgpVnyuaAPE
+	 GjyaNk35oIzDQNSFkn9CzKcaz5m2IlalEzHV5TSPz0SsCYVodoUAwT57bXrM4l+Z2h
+	 2o7+Nml7rUJ9y9MGnstfdimrP8PEYIvQ61wSfqpo6Nanonxq2u3D0+0sFq8PfiKjnC
+	 s7yIYBqLralq16jm0IKrOAwjfAcdTIgnDff9o/Fca7UC3vtRgcRgy+Xun7qvvBiUgt
+	 05NVtt+L29yNWrrspLoy/Jay4okzj/hObkgjxR0QErQpItF0+muPlxsc76/GsnPi+d
+	 5WI0YBjJL8OcQSTAPBZe+VAyMDWUJ30ROMIRSZacxy6pcyNmezH/l+6cYojNmUGSsZ
+	 83yZYNHlzYaDazbQHn080g6WCCxF61ZBjPqEjTtZ8jsb/ZJagi9coTaerc4eYAorft
+	 lfYrxRC5QX5EO4XwSImsQCnlRDO5+/ML4tZl1Qlw7qvy4oqwIBqkh+Lsq9JsSB5fKb
+	 driNsqTYUonlCXx/8Dcz7LIEeatJQk1R3ll2Yr+qLn3QtU0cSFBWAnYR8jf7mXgu/X
+	 OJfdZstzILqf+8Txr2Lt3BQRIZ4QDH5JAk6nr/J48PMm4va/4d8O/mXbp3ZKuQvl6T
+	 XkqPlgXCvsbBnqx/1p+R8J6U=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 9A56140E00DC;
+	Mon,  6 Apr 2026 22:49:21 +0000 (UTC)
+Date: Tue, 7 Apr 2026 00:49:15 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	"Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: [PATCH] x86/mce: Restore MCA polling interval halving
+Message-ID: <20260406224915.GAadQ4azQ7IRsTjnXD@fat_crate.local>
+References: <20260114135034.GAaWefKm97-CkbEp4P@fat_crate.local>
+ <20260207115142.GBaYcnTp7maUDVv3Nc@fat_crate.local>
+ <aYobX83_0kElO3NZ@agluck-desk3>
+ <20260210150117.GBaYtIPfsP0Txw7iIc@fat_crate.local>
+ <3748e8c7057a4182bc2a361b44dda51b@baidu.com>
+ <E4BFF14D-85CC-44FA-A217-603C102B1D66@alien8.de>
+ <3431b52760444d209f8460059264cc13@baidu.com>
+ <20260306152903.GEaaryvxD9BTT7Fd10@fat_crate.local>
+ <ee87e4cb35624a5cb85741725bfbcbd0@baidu.com>
+ <20260316134411.GBabgJK1RFUG3zrTrx@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6373:EE_|DS0PR12MB8270:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b0e8111-d421-47e3-a9aa-08de93df958d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	PrzmZdw97iHfXYJbTcx7l2fqsm4wlZqvc19k2SUjsCgteq9z5sOXkui0vV7XChHqv62N2G5mJ452F+APlnXLxmvbuUsA4bW5keMe8kfB1vdRYePDX+P5/UGJLw/9zM/0X4oRn4VcJqOggCIq1IW7juO7ZOPWg9hUZ0kx4cjCCHgBlycBrhQwX5n4E20iZx7b3VDsm9ARMxgq5qopcv4ZA3j3Kacu4w1eEA+CbEB5GzSaYDlSBKkdFS58HJHXeggIsOpJtMh2xKc+0NA1pxeV6YiwNmO8Cyi30Ujy90Oo9vezpx7Ag/ztXU7gQQQe5OySGNIgTDXn0Xk/unFcMmbG5jsr/Vdh8d2Czo23JbsiEYcVJXWcrwv3CwMa9yZWxH5ZYisRgwg2e89+H5XsrxCLCOXzr/6JRhYLgQANi7JjeXhNbjfMv+6RtkEIvmrzMabuWYy6Rwer5gW/v+07oZgxgB/eCmX4+fvDA5LrSqL927POTEQ69QsRmdpUhDl5Msedg0i1qxVuiaUv+FUEZXg8QSvy+fYf92ptAdjvNYLICvaY2TmhUF52ROnpyIkMLgYak7u828jsj8XyD3WsTtK/XixSi2RLG6aj+ldNwdWUhpuCPJ+0DZX4pxAJT2diJXHJ/5odK0xPYJAzdhbdRYoMeq0RW1NG/CCPgoKy8wXqR3paD7YzoYNLxTOdDM4cJVvie0izrFzf7GhifW0OafeghHjaNcDmZiwT7qjlGFhDfVE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6373.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OsZLb78KDLUEpXzZPJIt4pE+mZGaUgesw7VpPQ/LXs4svEFa5hszJ5I6v4L0?=
- =?us-ascii?Q?1PKLO3ZdaVjcyLUF+gv/lt562SkD2pdNTGS+UHwm7dKz4RvY4ITHmlCkGh0j?=
- =?us-ascii?Q?j9D988VXUHT9nKKTtFvKutA89EmX+oRHJ2BmxUnyk7O/s5A0p12pHnSy4yNQ?=
- =?us-ascii?Q?MVxtU+QS/18TKsv+RdHvhXdqebbiW9f1eVNRsqUcHmisMdZvPBd/gqt/e95z?=
- =?us-ascii?Q?k7/CJJEjUZu5G0lSs/483W5VlbHOJJT0HMCurULT1jHp80sXrR1meQC0VDS6?=
- =?us-ascii?Q?DQOKEjhS4dQlO3XyoVKXh8HfPV5U8FxyP5wgu7nchCMryLAwOHmJuH1+aO1C?=
- =?us-ascii?Q?TOfAy3LX2PFH2b7RxOACOmo7iJTaj1ki1uVJVyui/YhweaB4JuLd9wqzpHQ2?=
- =?us-ascii?Q?ahMwR0CRi2qjHu+RKymvDzDwSlgnPLMMlIHAdnP/1onfHRNJNVej8Yu9VKQ0?=
- =?us-ascii?Q?lSYvsO7+850BBdNt2Rqcjyat9oPS1ev4/DOhbFUycfZBWc+ptL70p+QL83b1?=
- =?us-ascii?Q?3CR6NZ2oPXO8F33iVWWE5eI2f/KI4bI970SQF4lv4QR0XExP6ifh9byU9vd4?=
- =?us-ascii?Q?dibLIsdR7BCKd+lsyN0QBSf8l0Wv8sFHy2SGIpSoW5IvUPWq5/z9Obo+hcMz?=
- =?us-ascii?Q?k1XEK5623LqrvXCjgECyfgvJRfg3eVsVNr2tM3uT1xtYPUg6bKCQdw6vnL6H?=
- =?us-ascii?Q?vBUkfSFjy57Zz5fFhD3TLixbodXFKgACe6BRN6XJUJsdqCuu2O6n5teyxYcv?=
- =?us-ascii?Q?DHncTWrf7hmrcGxa8kZD5RYHuDQ5sipf4XLlR/Ry+Hz+Qn2UbbaREFS7vbKw?=
- =?us-ascii?Q?+CjBO53kBUcTd/tCpHm2KGpR6iebdbH3SmTOA7OISZf+WOy6+yuNE5cNr4Qg?=
- =?us-ascii?Q?uE/PMfKBgcvUIP+yAikfksJueA+MyRA7Pibp1WWgnPjv418F0jL1Ab/i3hZ+?=
- =?us-ascii?Q?oG0uOQ8T2DRZp4TCbdsP9po9qc7KFOCdwsDP071txGSeYsSQi5Q67+8WhGXR?=
- =?us-ascii?Q?dRLJFfS+h+yQ/O4Sr9taah6ysEtRLIvwl/E+eQIG/OSDzqaRgorFUF/tgAOr?=
- =?us-ascii?Q?sYMSvDRAioBOijBT0UuWLsnVDvK1JCQgIUm3/2uaK+uQY8KqUrKuBuRKtrmN?=
- =?us-ascii?Q?WMaWbQsfWHPkJuJKHKpXH5lfeb1sQ2RoNxzfKE6dja0D7d+YP9YDqQJrisPc?=
- =?us-ascii?Q?Q40r27J6SygEOazoU9LT1CVgouMEnNbPjZ/8oPbHJHjLOskOGGU6Z4YXIVVx?=
- =?us-ascii?Q?g+lx8E5lIanDw7/CPY0gP2N73RhcTlklTUziXpBRRc3o72YwXlHEmXO+Qzqh?=
- =?us-ascii?Q?sWtH75yeIoopqQ4LQO1qTOiThF9K2ZP6HbAu/0YZPgdRjySUbeeW5fHgZRTS?=
- =?us-ascii?Q?M6Ois9ofacUi6onwViNh4Slqv/OAplJFmmrD4+0SsGUMtL7qTm3UaRR4A6aW?=
- =?us-ascii?Q?L8P1jn04EmwssMN+cCPWsP41DGVQaJmB0zMxPs9UZyxV332TiyowcXpJkdwH?=
- =?us-ascii?Q?Cm56YTqS/IOsq+6w7Kx9034X8mCk7VCR8B7jU6mOtBPjHWuliumEq4y5+Zj7?=
- =?us-ascii?Q?od3GVHzhfXJeNy+pVYHieSJMFfFbGxtXzSpxhvunrAxRrp1iIn4hDSrFnRzq?=
- =?us-ascii?Q?pvlV3ZHAfTlBGiGcG+O6fiXNxOLap/0ktWge1mhux0hlRVEa5vhkUCvhOljY?=
- =?us-ascii?Q?zOIlW44UwBavAbWmRxRkfSfshl+qZ4J1MuKGZMAJYwaFYm1z?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b0e8111-d421-47e3-a9aa-08de93df958d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6373.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 13:22:43.1947
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I8//bHTyrQQwO74/SDLRB/u2mq9/q40soPmSpYaUTi9oo+tTX8FSl9eTRuoEn6FM53Bpi5/hGlPyhP5zj84V7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8270
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260316134411.GBabgJK1RFUG3zrTrx@fat_crate.local>
 
-On Sun, Mar 22, 2026 at 11:10:45AM -0400, Nick Bowler wrote:
-> On Sat, Mar 21, 2026 at 10:52:24PM +0100, Borislav Petkov wrote:
-> > Anyway, since you're partially reverting, can you pls try reverting the
-> > Intel-relevant hunks and narrow it down, if possible.
-> >
-> > From the looks of it, I'm thinking:
-> > 
-> > * comment out the intel_apply_cpu_quirks() call
-> > 
-> > * comment out this hunk
-> > 
-> >         /*
-> >          * There are also broken BIOSes on some Pentium M and
-> >          * earlier systems:
-> >          */
-> >         if (c->x86_vfm < INTEL_CORE_YONAH && mca_cfg.bootlog < 0)
-> >                 mca_cfg.bootlog = 0;
-> 
-> Making these changes does not appear to have any effect.
-> 
-> I whittled down the revert to the following patch, and this is
-> sufficient to get the machine booting again:
-> 
-> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-> index 8dd424ac5de8..83eb037d4d46 100644
-> --- a/arch/x86/kernel/cpu/mce/core.c
-> +++ b/arch/x86/kernel/cpu/mce/core.c
-> @@ -2284,6 +2284,12 @@ void mcheck_cpu_init(struct cpuinfo_x86 *c)
->  
->  	__mcheck_cpu_cap_init();
->  
-> +	{
-> +	struct mce_bank *mce_banks = this_cpu_ptr(mce_banks_array);
-> +	if (c->x86_vfm < INTEL_NEHALEM_EP && this_cpu_read(mce_num_banks))
-> +		mce_banks[0].init = false;
-> +	}
-> +
+Ok,
 
-Hi Nick,
+finally. :-\
 
-Can you please test after enabling CONFIG_X86_MCE_INTEL?
+Pls run it to make sure it DTRT for you too.
 
-Without this, the Intel-specific code, including this quirk, will not be
-built.
+Thx.
 
-Thanks,
-Yazen
+---
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Mon, 16 Mar 2026 16:12:00 +0100
+Subject: [PATCH] x86/mce: Restore MCA polling interval halving
+
+RongQing reported that the MCA polling interval doesn't halve when an
+error gets logged. It was traced down to the commit in Fixes: because:
+
+mce_timer_fn()
+|-> mce_poll_banks()
+|-> machine_check_poll()
+|-> mce_log()
+
+which will queue the work and return.
+
+Now, back in mce_timer_fn():
+
+        /*
+         * Alert userspace if needed. If we logged an MCE, reduce the polling
+         * interval, otherwise increase the polling interval.
+         */
+        if (mce_notify_irq())
+
+<--- here we haven't ran the notifier chain yet so mce_need_notify is
+not set yet so this won't hit and we won't halve the interval iv.
+
+Now the notifier chain runs. mce_early_notifier() sets the bit, does
+mce_notify_irq(), that clears the bit and then the notifier chain
+a little later logs the error.
+
+So this is a silly timing issue.
+
+But, that's all unnecessary.
+
+All it needs to happen here is, the "should we notify of a logged MCE"
+mce_notify_irq() asks, should be simply a question to the mce gen pool:
+"Are you empty?"
+
+And that then turns into a simple yes or no answer and it all
+JustWorks(tm).
+
+So do that.
+
+Fixes: 011d82611172 ("RAS: Add a Corrected Errors Collector")
+Reported-by: Li RongQing <lirongqing@baidu.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/20260112082747.2842-1-lirongqing@baidu.com
+---
+ arch/x86/kernel/cpu/mce/core.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 8dd424ac5de8..d18db7d8d237 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -90,7 +90,6 @@ struct mca_config mca_cfg __read_mostly = {
+ };
+ 
+ static DEFINE_PER_CPU(struct mce_hw_err, hw_errs_seen);
+-static unsigned long mce_need_notify;
+ 
+ /*
+  * MCA banks polled by the period polling timer for corrected events.
+@@ -595,7 +594,7 @@ static bool mce_notify_irq(void)
+ 	/* Not more than two messages every minute */
+ 	static DEFINE_RATELIMIT_STATE(ratelimit, 60*HZ, 2);
+ 
+-	if (test_and_clear_bit(0, &mce_need_notify)) {
++	if (!mce_gen_pool_empty()) {
+ 		mce_work_trigger();
+ 
+ 		if (__ratelimit(&ratelimit))
+@@ -618,10 +617,6 @@ static int mce_early_notifier(struct notifier_block *nb, unsigned long val,
+ 	/* Emit the trace record: */
+ 	trace_mce_record(err);
+ 
+-	set_bit(0, &mce_need_notify);
+-
+-	mce_notify_irq();
+-
+ 	return NOTIFY_DONE;
+ }
+ 
+-- 
+2.51.0
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
