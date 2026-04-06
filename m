@@ -1,93 +1,147 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605A01DED40;
-	Sun,  5 Apr 2026 10:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B49417736;
+	Mon,  6 Apr 2026 05:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775386040; cv=none; b=UEs9TKPxzrU2THvBWDWD5fXe+QIsC4XlRrjXZtq3LxF2gIqMiqETO3K6XGyJc7lov6xDtw+BukMlSrpyPg+CPXRhoyw2WLhD2AmNkrPdEFQ0Yl0FKskCIOqDo/3VyngffN1mL0qf/clBsW57atokL1uLUL8IS3QO5/YXpadt32s=
+	t=1775453184; cv=none; b=OKGd14lvRIFa/s3Td5GYecEfuaLQ6pVqKMkefEC7R51uTr3oEKSGTWt6hcBCVZpxCqPqZihUS/WAoEWLNm1jhJKWPTnw8JfkfPvhV2i/++KXXmXOtTJVRzu4i/9aPpEh2Yci10eCPnfoh1BY/AUZCcsaEmvVTWzMc4HiilOmhOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775386040; c=relaxed/simple;
-	bh=3/xAUXdB7tMQHhUb5b6WaZNJWnfNgLRk1jU7Lz59N/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U8AzIhq0X+r977LidGz6zia2Bk8mPpWVGgy4s4vWO7NgC0p4HIzswXzZVkfHcrIwwMkXmUJnyQC6yKn2OUDdT2MGR3nu2BbATEnZCEJWB8rLPMoCTo3EJp2hk6AGDo+b48Gknylif2T7sIX14aE6UhBugfPgoWV9XPiHrg7NwKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=dYW27GzR; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1775453184; c=relaxed/simple;
+	bh=+NJjJhGKiMXJHl6OYEBaH3MgpS9yK8p8TMiHpwa7B0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LpCiarsBJkdLkbmsh93qdh3QNceuR/5xEs8Ig1C3OOAybCRJejSeywIOLvkhw6gZP8/bRQK9cHFrVLue+/d92TRRjQ3Jv+iReLLBGFrL6tN4Fci5Cjs1WAOZjm1DAt+atMGYQhmXo6bb4qwzisNPQiz7Z7h0oX0p/cqY1fIvhcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Grp/75Um; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="dYW27GzR"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 70F1E40E00DE;
-	Sun,  5 Apr 2026 10:47:13 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id HOn28BpDDegi; Sun,  5 Apr 2026 10:47:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1775386029; bh=l8mMNRLIlYu4GeiYC4B+NQAXWKS7BO09v3lq8JmNPOc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dYW27GzROsYwQAU+uZYz6SCuTmfN6PpMZ7LFVeoU7h3gxtR+7TZ234u9h/k5oeym3
-	 k+LyjzPNaT9DMMhIoYd4coT9aylnDsw5WyjJWfAM1XkUgESmFSw2r351wviAK11EVl
-	 CLLdtPgUI1CDUPqMXSFQbhqrar9NWFNR/+Xelg9pHvgsZ0cWPGkIwbRreHRUsb8r5m
-	 gqKBxMdfpm/11g/AzjxIfRsng8vHVqBlP7TDlLzsXtxTStM72jOibWbSGmxE8TstdR
-	 G/yTNf2W/humOFk2a0DEinbCcbWxc9ocS9IW0sU9/5Pxexh1st6ux7vR1DLnNQFnBm
-	 4ToNEfb+XCAr5RxnFG+27DHpcRukGMlV/aKvHJajo0FnhdcEK266jPcFHRRaHPyUSa
-	 iNjSccuGWygEFS3wAlX1cCYh5swflQW304IAp/BZfzCIsnIKVCL5o6T/qH2Rw283SG
-	 GPP8O1iimQxS9Y8tQFPzfiPdyNcNMsOB4Kk9yqsM8jPg03dtGuas6d5GM9po+hwzOw
-	 c5R9P2ME9xycQSQukVqSWyBU6Bij3ZrUBaN6auJ7JBOFEHmY0l+ylYy/eVkSY/MWxQ
-	 HT4jEMJojBXePBijj5+W02jBquKj895/xJSsP9rKUwjkJy6/r2wTyppFgJQnWGMGQy
-	 TP81uFKcQ5phDWDgR9y4+m8s=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id CD81A40E00DC;
-	Sun,  5 Apr 2026 10:46:55 +0000 (UTC)
-Date: Sun, 5 Apr 2026 12:46:47 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
-	linux-next@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, x86@kernel.org, rafael@kernel.org,
-	qiuxu.zhuo@intel.com, Smita.KoralahalliChannabasappa@amd.com
-Subject: Re: spurious (?) mce Hardware Error messages in v6.19
-Message-ID: <20260405104647.GAadI9l7s3ZxWymIP8@fat_crate.local>
-References: <20251009132055.GA472268@yaz-khff2.amd.com>
- <21ba47fa8893b33b94370c2a42e5084cf0d2e975.camel@web.de>
- <20260216202546.GA420258@yaz-khff2.amd.com>
- <20260219143345.GA5486@yaz-khff2.amd.com>
- <4e0c5a7ce9f1ab35eaec2c2908df3681ce6eda4d.camel@web.de>
- <8530d765-6676-4ba4-98b5-07326c8dc924@amd.com>
- <290ee50cbe68d246a9899b03d5c7ddebc549f0bf.camel@web.de>
- <20260223214825.GA3130@yaz-khff2.amd.com>
- <20260403140501.GCac_JDVCaX0eCIDUj@fat_crate.local>
- <f5f4251da81752ccae59b6ffa158fd8587458431.camel@web.de>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Grp/75Um"
+Received: from [192.168.0.9] (unknown [4.194.122.144])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0167020B6F01;
+	Sun,  5 Apr 2026 22:26:20 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0167020B6F01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1775453182;
+	bh=UkJTPcONd/1fg/dU0LRQSpefHc1/L0ZHMkT0gknWj5E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Grp/75UmT5895EPqGchSXJcgRvYzA9ifgYrIljPz47nA1DCRe3RzxFfrDfaaIKOsh
+	 6YKo5V/4UtdhTgxbCtGn5U+9/8FiHDWpvEkinydOsbA4Kkkp8wl0DdyTM5ab1pdIc2
+	 5d4pPAujbkp/7BPHRuOaCU0tiXG+B4FsSZqqzosc=
+Message-ID: <b6af31b0-0429-4092-8ec0-e0ab84a16f39@linux.microsoft.com>
+Date: Mon, 6 Apr 2026 10:56:17 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f5f4251da81752ccae59b6ffa158fd8587458431.camel@web.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] EDAC/versalnet: Fix teardown ordering in
+ mc_remove()
+To: Borislav Petkov <bp@alien8.de>
+Cc: ssengar@linux.microsoft.com, shubhrajyoti.datta@amd.com,
+ tony.luck@intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
+ <20260403103457.GAac-X0SzsO9MtwAVE@fat_crate.local>
+Content-Language: en-US
+From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+In-Reply-To: <20260403103457.GAac-X0SzsO9MtwAVE@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 05, 2026 at 10:47:02AM +0200, Bert Karwatzki wrote:
-> After ~12h of uptime I got the messages that a bogus error was filtered:
-> [42603.594231] [      C0] amd_filter_mce: filtering bogus hw error on Cezanne A0
-> So the patch seems to work fine:
+
+
+On 03-04-2026 16:04, Borislav Petkov wrote:
+> On Wed, Apr 01, 2026 at 04:18:36AM -0700, Prasanna Kumar T S M wrote:
+>> The teardown sequence in mc_remove() does not mirror the reverse of the
+>> initialization order in mc_probe(). In particular,
+>> unregister_rpmsg_driver() is called before remove_versalnet(), and
+>> cdx_mcdi_finish() is called after rproc_shutdown().
+>>
+>> Reorder mc_remove() to reverse the probe initialization sequence,
+>> consistent with the probe error-unwind paths.
+>>
+>> The rproc reference acquired via rproc_get_by_phandle() during probe
+>> is not released in mc_remove(), causing a reference count leak. Add
+>> the missing rproc_put() call.
+>>
+>> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
+>> Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+>> ---
+>>   drivers/edac/versalnet_edac.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> Tested-By: Bert Karwatzki <spasswolf@web.de>
+> Sashiko has found things, pls addres them:
+> 
+> https://sashiko.dev/#/patchset/20260401111836.2342918-1-ptsm%40linux.microsoft.com
+> 
 
-Thanks a lot!
+I asked AI to validate Sashiko's comment. This is its output
+------------------------------------------------------------
 
--- 
-Regards/Gruss,
-    Boris.
+   Analysis
 
-https://people.kernel.org/tglx/notes-about-netiquette
+   The review comment is not valid (false positive). Here's the detailed 
+reasoning:
+
+   Data structure hierarchy
+
+    mc_priv
+      └── mcdi: struct cdx_mcdi *            ← kfree'd at step 6 (LAST)
+            ├── mcdi: struct cdx_mcdi_data *  ← kfree'd by 
+cdx_mcdi_finish() at step 2
+            │     └── iface: struct cdx_mcdi_iface (mutex, cmd list, etc.)
+            ├── r5_rproc
+            └── ...
+
+   New mc_remove() order (after commit)
+
+    (1) remove_versalnet(priv);                  // tear down EDAC
+    (2) cdx_mcdi_finish(priv->mcdi);             // wait_for_cleanup → 
+kfree(cdx->mcdi) → cdx->mcdi = NULL
+    (3) unregister_rpmsg_driver(&amd_rpmsg_driver); // destroys rpmsg 
+endpoint
+    (4) rproc_shutdown(priv->mcdi->r5_rproc);
+    (5) rproc_put(priv->mcdi->r5_rproc);
+    (6) kfree(priv->mcdi);                       // frees outer struct
+
+   Why the concern doesn't hold
+
+   The reviewer's premise is wrong. The comment says "after priv->mcdi 
+is freed" — but priv->mcdi (the struct cdx_mcdi * pointer passed to 
+cdx_mcdi_process_cmd) is not freed
+   until step 6, well after unregister_rpmsg_driver() at step 3.
+
+   What IS freed at step 2 is the inner cdx->mcdi (struct cdx_mcdi_data 
+*). But cdx_mcdi_finish() also sets cdx->mcdi = NULL. If rpmsg_cb() 
+fires between steps 2 and 3:
+
+    1. mc_priv->mcdi → still points to valid struct cdx_mcdi (not freed 
+until step 6)
+    2. cdx_mcdi_process_cmd(mc_priv->mcdi, ...) is called with a valid 
+pointer
+    3. Inside, cdx_mcdi_if(cdx) checks cdx->mcdi → NULL → returns NULL
+    4. if (!mcdi) return; → exits early, safe
+
+   Additionally, cdx_mcdi_wait_for_cleanup() inside cdx_mcdi_finish() 
+ensures all pending MCDI commands have completed before freeing, so no 
+legitimate MCDI responses should
+   arrive afterward.
+
+   This ordering exactly matches the probe error unwind path (err_init: 
+does cdx_mcdi_finish → kfree → unregister_rpmsg_driver → rproc_shutdown 
+→ rproc_put), which the
+   commit explicitly states it's aligning with.
+
+   Verdict: False positive. The NULL guard in cdx_mcdi_if() / 
+cdx_mcdi_process_cmd() protects the window, and the outer struct 
+priv->mcdi remains valid throughout.
+
+------------------------------------------------------------
+
+So the comment looks like a false positive. It will be great if someone 
+from AMD verifies this.
+
+Can you please look at the other 2 patches in this series? They are 
+independent of this change.
+
+Thanks,
+Prasanna Kumar
