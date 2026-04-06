@@ -1,147 +1,99 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B49417736;
-	Mon,  6 Apr 2026 05:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AE828850D;
+	Mon,  6 Apr 2026 08:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775453184; cv=none; b=OKGd14lvRIFa/s3Td5GYecEfuaLQ6pVqKMkefEC7R51uTr3oEKSGTWt6hcBCVZpxCqPqZihUS/WAoEWLNm1jhJKWPTnw8JfkfPvhV2i/++KXXmXOtTJVRzu4i/9aPpEh2Yci10eCPnfoh1BY/AUZCcsaEmvVTWzMc4HiilOmhOs=
+	t=1775463865; cv=none; b=pX1JqHWlO7dt3ScZdY7HefbWZZRwNx2hekQVrZ3NUDl5W7kKB1mxJ9YBGU5TCE6E0LRj8Pzr2yTu+pHpuQGICni7UENu3Ycwg3hGf6TFEcWc3ovPjv+I3lXKPqz2OmLT0LEpw2KupKsrbCHpYJcduaqKyAlfj+a1hszKAxYndb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775453184; c=relaxed/simple;
-	bh=+NJjJhGKiMXJHl6OYEBaH3MgpS9yK8p8TMiHpwa7B0w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LpCiarsBJkdLkbmsh93qdh3QNceuR/5xEs8Ig1C3OOAybCRJejSeywIOLvkhw6gZP8/bRQK9cHFrVLue+/d92TRRjQ3Jv+iReLLBGFrL6tN4Fci5Cjs1WAOZjm1DAt+atMGYQhmXo6bb4qwzisNPQiz7Z7h0oX0p/cqY1fIvhcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Grp/75Um; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1775463865; c=relaxed/simple;
+	bh=lmLDhrULB/M+iLUn4iKascX8e4ZoaR7aKd6x67cvjZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZcWn4GpKbLiRxrfyaOQaNz7j2tbEVMWmB5o9q6+O2c25S6XTLuEU2iT+clhJAIE5LVSl/jhK9NQUAFYRobvh/fpQUJOabjCjRT+m0iU1GW9xGYshTQnFZJIGPdXT7rVwnODrnceyYn2/87xvwS+NLjgWuWj45h3p1gApjv2TlCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=hsyfN1zP; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Grp/75Um"
-Received: from [192.168.0.9] (unknown [4.194.122.144])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0167020B6F01;
-	Sun,  5 Apr 2026 22:26:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0167020B6F01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775453182;
-	bh=UkJTPcONd/1fg/dU0LRQSpefHc1/L0ZHMkT0gknWj5E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Grp/75UmT5895EPqGchSXJcgRvYzA9ifgYrIljPz47nA1DCRe3RzxFfrDfaaIKOsh
-	 6YKo5V/4UtdhTgxbCtGn5U+9/8FiHDWpvEkinydOsbA4Kkkp8wl0DdyTM5ab1pdIc2
-	 5d4pPAujbkp/7BPHRuOaCU0tiXG+B4FsSZqqzosc=
-Message-ID: <b6af31b0-0429-4092-8ec0-e0ab84a16f39@linux.microsoft.com>
-Date: Mon, 6 Apr 2026 10:56:17 +0530
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hsyfN1zP"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 65C7B40E0176;
+	Mon,  6 Apr 2026 08:24:12 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id UGHgPE85Of2R; Mon,  6 Apr 2026 08:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1775463846; bh=PUr7WQu4/NHuP6VknlN2bZS6lmKxdANpCVqQ9LK9Cis=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hsyfN1zPMZECmllXrHYqbGX4AuWZZuLsFFJUl5/H9e2mwht+GOrHGKeO2CW5aHbUN
+	 1fnd0S+46lQu1aj7WGxG3MHzajDN453ggaPZU29Lb0Ze8ppTazHuwLz3FQPJ16/6Si
+	 1hZYXDsLJAYStAUDQ6tg1W5RA5T4aWBOVRSt7MmgDuuvxoczUrf0deoPNeRbdnxvjz
+	 MdZbmaA/K5sY6sKUW4cm6//j/NCx3/UJRwc+WK3pFZlQBlkmgAZMwibfO9Sdu7/hGb
+	 wKlxJdwi4GYiDWa+H9J4TWUqBwoJTC8gDh898rQ0HysyIDNFfY/t7A8etimM5qU5wR
+	 Rr/3PxcGNpB3LRiktL5vZHiBdmPBQqkQt/sVJz9jx5Cy8i11DCc+sLWclNAHpNTfdu
+	 QmpEh1CPt2kLPFxfaBDsfAhzFTRXK+5CS2hlHfqs54jXCnkn5gMV1UCmwXOl6qaUPH
+	 /pmxVN4dpZ8r9nZkKGocdwLlvCpfQi6zE2PL4Q9OstejZlI1hlOBhf8I4ceLUgEXRi
+	 lJ1qeJ0Fbl0e58NJa5i06/ExEZ3fcUeNuWrMqgpdFSfKZgfgJ2+AgqAhmHkStm0Nc1
+	 MhsM1XW42GeAk5AipIDwMmkM5RHP58WkcUgTX3piqE2MbtwfYu0s3g3L7qZwG7EiJa
+	 57cvJQqEvNE9u/8EtcnrvaNs=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 6DB3440E00DC;
+	Mon,  6 Apr 2026 08:24:00 +0000 (UTC)
+Date: Mon, 6 Apr 2026 10:23:53 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+Cc: ssengar@linux.microsoft.com, shubhrajyoti.datta@amd.com,
+	tony.luck@intel.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] EDAC/versalnet: Fix teardown ordering in
+ mc_remove()
+Message-ID: <20260406082353.GAadNtmUQqtwhw4yZS@fat_crate.local>
+References: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
+ <20260403103457.GAac-X0SzsO9MtwAVE@fat_crate.local>
+ <b6af31b0-0429-4092-8ec0-e0ab84a16f39@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] EDAC/versalnet: Fix teardown ordering in
- mc_remove()
-To: Borislav Petkov <bp@alien8.de>
-Cc: ssengar@linux.microsoft.com, shubhrajyoti.datta@amd.com,
- tony.luck@intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
- <20260403103457.GAac-X0SzsO9MtwAVE@fat_crate.local>
-Content-Language: en-US
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-In-Reply-To: <20260403103457.GAac-X0SzsO9MtwAVE@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b6af31b0-0429-4092-8ec0-e0ab84a16f39@linux.microsoft.com>
 
-
-
-On 03-04-2026 16:04, Borislav Petkov wrote:
-> On Wed, Apr 01, 2026 at 04:18:36AM -0700, Prasanna Kumar T S M wrote:
->> The teardown sequence in mc_remove() does not mirror the reverse of the
->> initialization order in mc_probe(). In particular,
->> unregister_rpmsg_driver() is called before remove_versalnet(), and
->> cdx_mcdi_finish() is called after rproc_shutdown().
->>
->> Reorder mc_remove() to reverse the probe initialization sequence,
->> consistent with the probe error-unwind paths.
->>
->> The rproc reference acquired via rproc_get_by_phandle() during probe
->> is not released in mc_remove(), causing a reference count leak. Add
->> the missing rproc_put() call.
->>
->> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
->> Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
->> ---
->>   drivers/edac/versalnet_edac.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
+On Mon, Apr 06, 2026 at 10:56:17AM +0530, Prasanna Kumar T S M wrote:
+> > Sashiko has found things, pls addres them:
+> > 
+> > https://sashiko.dev/#/patchset/20260401111836.2342918-1-ptsm%40linux.microsoft.com
+> > 
 > 
-> Sashiko has found things, pls addres them:
-> 
-> https://sashiko.dev/#/patchset/20260401111836.2342918-1-ptsm%40linux.microsoft.com
-> 
+> I asked AI to validate Sashiko's comment.
 
-I asked AI to validate Sashiko's comment. This is its output
-------------------------------------------------------------
+So I asked *you* to address the Sashiko review. You go and ask another AI to
+validate the review.
 
-   Analysis
+Now, if I go and paste the whole conversation to a third AI, the f*ckup is
+complete.
 
-   The review comment is not valid (false positive). Here's the detailed 
-reasoning:
+Tell me: is that the goal of this exercise? Let AIs do the thinking
+for us and we can all go shopping?
 
-   Data structure hierarchy
+Or maybe *you* should go review Sashiko's review and say, I agree because
+<proper, comprehensible explanation> or I don't agree because <also proper,
+comprehensible explanation>.
 
-    mc_priv
-      └── mcdi: struct cdx_mcdi *            ← kfree'd at step 6 (LAST)
-            ├── mcdi: struct cdx_mcdi_data *  ← kfree'd by 
-cdx_mcdi_finish() at step 2
-            │     └── iface: struct cdx_mcdi_iface (mutex, cmd list, etc.)
-            ├── r5_rproc
-            └── ...
+Then *I* go and verify that.
 
-   New mc_remove() order (after commit)
+Hmm...
 
-    (1) remove_versalnet(priv);                  // tear down EDAC
-    (2) cdx_mcdi_finish(priv->mcdi);             // wait_for_cleanup → 
-kfree(cdx->mcdi) → cdx->mcdi = NULL
-    (3) unregister_rpmsg_driver(&amd_rpmsg_driver); // destroys rpmsg 
-endpoint
-    (4) rproc_shutdown(priv->mcdi->r5_rproc);
-    (5) rproc_put(priv->mcdi->r5_rproc);
-    (6) kfree(priv->mcdi);                       // frees outer struct
+-- 
+Regards/Gruss,
+    Boris.
 
-   Why the concern doesn't hold
-
-   The reviewer's premise is wrong. The comment says "after priv->mcdi 
-is freed" — but priv->mcdi (the struct cdx_mcdi * pointer passed to 
-cdx_mcdi_process_cmd) is not freed
-   until step 6, well after unregister_rpmsg_driver() at step 3.
-
-   What IS freed at step 2 is the inner cdx->mcdi (struct cdx_mcdi_data 
-*). But cdx_mcdi_finish() also sets cdx->mcdi = NULL. If rpmsg_cb() 
-fires between steps 2 and 3:
-
-    1. mc_priv->mcdi → still points to valid struct cdx_mcdi (not freed 
-until step 6)
-    2. cdx_mcdi_process_cmd(mc_priv->mcdi, ...) is called with a valid 
-pointer
-    3. Inside, cdx_mcdi_if(cdx) checks cdx->mcdi → NULL → returns NULL
-    4. if (!mcdi) return; → exits early, safe
-
-   Additionally, cdx_mcdi_wait_for_cleanup() inside cdx_mcdi_finish() 
-ensures all pending MCDI commands have completed before freeing, so no 
-legitimate MCDI responses should
-   arrive afterward.
-
-   This ordering exactly matches the probe error unwind path (err_init: 
-does cdx_mcdi_finish → kfree → unregister_rpmsg_driver → rproc_shutdown 
-→ rproc_put), which the
-   commit explicitly states it's aligning with.
-
-   Verdict: False positive. The NULL guard in cdx_mcdi_if() / 
-cdx_mcdi_process_cmd() protects the window, and the outer struct 
-priv->mcdi remains valid throughout.
-
-------------------------------------------------------------
-
-So the comment looks like a false positive. It will be great if someone 
-from AMD verifies this.
-
-Can you please look at the other 2 patches in this series? They are 
-independent of this change.
-
-Thanks,
-Prasanna Kumar
+https://people.kernel.org/tglx/notes-about-netiquette
