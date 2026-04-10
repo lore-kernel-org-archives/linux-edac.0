@@ -1,143 +1,148 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8722C40DFBD;
-	Thu,  9 Apr 2026 09:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6007F3C0635
+	for <linux-edac@vger.kernel.org>; Fri, 10 Apr 2026 12:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775727969; cv=none; b=Fhy9H6jhJJzyNV0sx74hiUFO1Ma2puGqXsDday9TQ0N1U5wxplP7r7x6ymi4N32wxdmeXia8OSskUZCOJdUz+U9kgLTtuMuTWrMWSK5wwFSEO2kgDXaRrd4V0vmJsvNAtAo3sS+/jyYLwNNHFcgyoU/20GLe/PdU1ekckULQI3s=
+	t=1775824084; cv=none; b=hpoTA7COOWPOIZpFpHAhIUHc+JkfpULd/kRWL3i1a0HrCwyJqpycIrZfHFLGGYuf5GYwCcpA5fFjyNnX9r0vsVj8BugasNXklVTItvYJe5YOI123342R2VmOTpjn2IOzLqylcs7EWOacpEb0zPMLv/q2es5HI2drRKrXOlB1gHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775727969; c=relaxed/simple;
-	bh=qVoFngDbhhvGjCIE66fqeS0GBIwI7mR9ilCyZ5eevXo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=sGujojnSUYtFcH+IytA+2L4tPK3/ylcoF20YlRZfA5f39ZhtMY5EhGjPvnwZmzpjTT4BLhycLXdU5ZkP6NWLQgiO9P9MzYWODhg3ZCK+g+78SdVi/pVic+OOA3jRwWS1t3sUcJgwcECVDr64kT4nz+5AeThGMog8dPZA43uzt2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=e7i8+uVi; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1775824084; c=relaxed/simple;
+	bh=L7ngaATnPUsLbHCWA1TSRQReaL4UBAQzZqkCr9xCbp4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=opzJoMzjSRwAZ8koF6Sg5GGAhgjfQUwMkab3pTxHj3ohsURoTFldmP6hze6nhMfXRKIANNJE0bEobCLr5WVJHAcoH/NDlhUFNzGax954HkDT88zgmPdEONTXlolsqjRx2gbkpxnZVyzyMyFtsUnQex9VnUyzvIaNm58ZQ1GOasM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E5yxfQun; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="e7i8+uVi"
-Received: from [10.94.177.52] (unknown [4.194.122.136])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 45D6920B710C;
-	Thu,  9 Apr 2026 02:46:06 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 45D6920B710C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1775727968;
-	bh=G2lle84WD8JmEul9OOJUE6UwN5ypB+rICggGOBHmmUM=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=e7i8+uVirdCW8cMYkwNt0fF0uK2pCQ2AOMNF5rTDN5HutBgAkmxeSXRjdj4DIiIdp
-	 o1N4MatdqzuZaIX7oinp5i2UDLVUGaAW5oJjYFXYagqZTLQu2hlJCarXX1hg/p4rMd
-	 MSxUjnmX00wmej2RyfPCcj3r4zLtA+NC2XXvp/iE=
-Message-ID: <425dd033-51dd-418f-8ae3-216a9c785c8b@linux.microsoft.com>
-Date: Thu, 9 Apr 2026 15:16:06 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E5yxfQun"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1775824082;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=JqWVbjGFjqEK+ntzjJzWg+L2/+VFH9nkKGGeQkx/IsE=;
+	b=E5yxfQun512fW7+E5JkLSoqkeMX3f8IAyC7HwE57EHN7Ddzh8d1sr9NIK2KoHPUPdScuzi
+	abiJ9s+VIkGi1jHhXCrB7NBec9t8hv0E9U6IqtKNa3iE4U286nxapGdSeHwEITMBJiE0BY
+	hSj/K8Xoy1ImiLFYtDlNgjC1c90yRis=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-465-w7PCRV5BOrWN3EM5tK6v0Q-1; Fri,
+ 10 Apr 2026 08:27:57 -0400
+X-MC-Unique: w7PCRV5BOrWN3EM5tK6v0Q-1
+X-Mimecast-MFC-AGG-ID: w7PCRV5BOrWN3EM5tK6v0Q_1775824075
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C3CE419560A7;
+	Fri, 10 Apr 2026 12:27:54 +0000 (UTC)
+Received: from thuth-p1g4.redhat.com (unknown [10.44.33.165])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 45CBE3000C1D;
+	Fri, 10 Apr 2026 12:27:50 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org
+Cc: Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] RAS: Move contents from arch/x86/ras/Kconfig into drivers/ras/Kconfig
+Date: Fri, 10 Apr 2026 14:27:48 +0200
+Message-ID: <20260410122748.29978-1-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] EDAC/versalnet: Fix device_register() error
- handling in init_one_mc()
-To: ssengar@linux.microsoft.com, shubhrajyoti.datta@amd.com, bp@alien8.de,
- tony.luck@intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
- <20260401111903.2343006-1-ptsm@linux.microsoft.com>
-Content-Language: en-US
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-In-Reply-To: <20260401111903.2343006-1-ptsm@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
+From: Thomas Huth <thuth@redhat.com>
 
+Commit bc8e80d56c1ec ("x86/mce: Merge mce_amd_inj into mce-inject")
+removed the last .c file from arch/x86/ras/, so that there is now
+only a lonely Kconfig file in this folder. Its config switches
+CONFIG_RAS_CEC and CONFIG_RAS_CEC_DEBUG are only used in code that
+resides in drivers/ras/, so those Kconfig switches should better
+reside in drivers/ras/, too. Thus move the contents of arch/x86/ras/
+into drivers/ras/Kconfig now.
 
-On 01-04-2026 16:49, Prasanna Kumar T S M wrote:
-> When device_register() fails, it must be followed by put_device()
-> rather than kfree(), because device_register() calls
-> device_initialize() which sets up the device refcount. The matching
-> release function versal_edac_release() handles the actual kfree().
-> 
-> To simplify error handling and avoid complex unwinding, split
-> device_register() into device_initialize() and device_add().
-> Initialize the device early so put_device() can be used in all
-> error paths.
-> 
-> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-> Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
-> ---
->   drivers/edac/versalnet_edac.c | 20 ++++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-> index 012c4f40994d..94580d3c3170 100644
-> --- a/drivers/edac/versalnet_edac.c
-> +++ b/drivers/edac/versalnet_edac.c
-> @@ -780,7 +780,7 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	struct device *dev;
->   	enum dev_type dt;
->   	char name[MC_NAME_LEN];
-> -	int rc;
-> +	int rc = -ENOMEM;
->   
->   	config = priv->adec[CONF + i * ADEC_NUM];
->   	num_chans = FIELD_GET(MC5_NUM_CHANS_MASK, config);
-> @@ -812,23 +812,23 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	layers[1].size = num_chans;
->   	layers[1].is_virt_csrow = false;
->   
-> -	rc = -ENOMEM;
->   	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
->   	if (!dev)
->   		return rc;
->   
-> +	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
-> +
-> +	dev->init_name = name;
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ arch/x86/ras/Kconfig | 23 -----------------------
+ drivers/ras/Kconfig  | 24 +++++++++++++++++++++++-
+ 2 files changed, 23 insertions(+), 24 deletions(-)
+ delete mode 100644 arch/x86/ras/Kconfig
 
-Sashiko's review is valid
--------------------------
-If edac_mc_alloc() fails below, we jump to err_dev_free, call 
-put_device(dev),
-and return from init_one_mc(). Since kobject cleanup can be deferred
-asynchronously (such as when CONFIG_DEBUG_KOBJECT_RELEASE is enabled), and
-name is a local stack array, could this result in a use-after-free if
-dev_name(dev) is accessed during cleanup?
-Would it be safer to use dev_set_name(dev, "versal-net-ddrmc5-edac-%d", i)
-instead of assigning dev->init_name directly?
--------------------------
-
-This is a valid issue, I will fix it in the next iteration.
-
-> +	dev->release = versal_edac_release;
-> +	device_initialize(dev);
-> +
->   	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
->   	if (!mci) {
->   		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
->   		goto err_dev_free;
->   	}
->   
-> -	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
-> -
-> -	dev->init_name = name;
-> -	dev->release = versal_edac_release;
-> -
-> -	rc = device_register(dev);
-> +	rc = device_add(dev);
->   	if (rc)
->   		goto err_mc_free;
->   
-> @@ -849,11 +849,11 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->   	return 0;
->   
->   err_unreg:
-> -	device_unregister(mci->pdev);
-> +	device_del(dev);
->   err_mc_free:
->   	edac_mc_free(mci);
->   err_dev_free:
-> -	kfree(dev);
-> +	put_device(dev);
->   
->   	return rc;
->   }
+diff --git a/arch/x86/ras/Kconfig b/arch/x86/ras/Kconfig
+deleted file mode 100644
+index 7488c715427e5..0000000000000
+--- a/arch/x86/ras/Kconfig
++++ /dev/null
+@@ -1,23 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-config RAS_CEC
+-	bool "Correctable Errors Collector"
+-	depends on X86_MCE && MEMORY_FAILURE && DEBUG_FS
+-	help
+-	  This is a small cache which collects correctable memory errors per 4K
+-	  page PFN and counts their repeated occurrence. Once the counter for a
+-	  PFN overflows, we try to soft-offline that page as we take it to mean
+-	  that it has reached a relatively high error count and would probably
+-	  be best if we don't use it anymore.
+-
+-	  Bear in mind that this is absolutely useless if your platform doesn't
+-	  have ECC DIMMs and doesn't have DRAM ECC checking enabled in the BIOS.
+-
+-config RAS_CEC_DEBUG
+-	bool "CEC debugging machinery"
+-	default n
+-	depends on RAS_CEC
+-	help
+-	  Add extra files to (debugfs)/ras/cec to test the correctable error
+-	  collector feature. "pfn" is a writable file that allows user to
+-	  simulate an error in a particular page frame. "array" is a read-only
+-	  file that dumps out the current state of all pages logged so far.
+diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
+index fc4f4bb94a4c6..070e17639faa3 100644
+--- a/drivers/ras/Kconfig
++++ b/drivers/ras/Kconfig
+@@ -31,7 +31,29 @@ menuconfig RAS
+ 
+ if RAS
+ 
+-source "arch/x86/ras/Kconfig"
++config RAS_CEC
++	bool "Correctable Errors Collector"
++	depends on X86_MCE && MEMORY_FAILURE && DEBUG_FS
++	help
++	  This is a small cache which collects correctable memory errors per 4K
++	  page PFN and counts their repeated occurrence. Once the counter for a
++	  PFN overflows, we try to soft-offline that page as we take it to mean
++	  that it has reached a relatively high error count and would probably
++	  be best if we don't use it anymore.
++
++	  Bear in mind that this is absolutely useless if your platform doesn't
++	  have ECC DIMMs and doesn't have DRAM ECC checking enabled in the BIOS.
++
++config RAS_CEC_DEBUG
++	bool "CEC debugging machinery"
++	default n
++	depends on RAS_CEC
++	help
++	  Add extra files to (debugfs)/ras/cec to test the correctable error
++	  collector feature. "pfn" is a writable file that allows user to
++	  simulate an error in a particular page frame. "array" is a read-only
++	  file that dumps out the current state of all pages logged so far.
++
+ source "drivers/ras/amd/atl/Kconfig"
+ 
+ config RAS_FMPM
+-- 
+2.53.0
 
