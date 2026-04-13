@@ -1,171 +1,134 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03943806B0;
-	Mon, 13 Apr 2026 10:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6146533261F
+	for <linux-edac@vger.kernel.org>; Mon, 13 Apr 2026 23:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776075547; cv=none; b=OaDUdcC+xAAY4ReLSuZI/Dm8OlQlKP6tAxd0xA11u21Zp89l1QAfrtR7jf5I4xZIKCNfiv2TQ1aZRyhEbz4T7urZ1cRx2ZT9z97MO45wuxI35yO4X/P8RLb7YMBK8Q17GM4Xw8jfn0BsRbNGL+qZKy4L/Ucas50cuMbetJ3jryc=
+	t=1776122069; cv=none; b=UTpa2dlBulF8HEumEsWdjy9Gru1VoiqbIBqy7z5r8pEcOw1EYxLAp7cnt98xcwCNQNzMfLbcTIgSTrPh/40wP16SSegwVq4dbKskP/hW+nqb0U6tJIvax/aii1VI70G/RTAUBpXQxs8uqKhv/PuLoOEAOTfyPQJ50U9Bi+9g7wY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776075547; c=relaxed/simple;
-	bh=pm969MwtUKOM46CRDfSyqLwWYzrqLEIiOTO28E1a0NM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o0TP6zoMnvYeFr7tYXo4xJfXA4isPMgYs4fbyUDZFdGPawAcri2EBVSYhLTgoW1vz+M/6PmKZ8yj/huxLyTx8/fOtrHgISWtwncqgkQb4ix6WYPR10k5kPa03LNl+3D/a3tA1bPKuRL9jSvRFZpZaqZJclxypqP+NMlVcnQTUFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=aWNxXK6T reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1776122069; c=relaxed/simple;
+	bh=ji2Va5v84kYBjDNGJ7vQaJdlyFW07sYBWEVS84BZO3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KPS9ZlNnquqCY561ul9RG0gSDJr1WV3w2ajtCU0fzPFb89sa49eSssDDriO4cDqECFKIG0QcxG388RHDij8prn+P4dgy3wNsjCDqyrbC1tDmDXKb66omLLFDm7lyqUhIebZRUBr6yctn/n9PNYHl8zc+w1UapKrxtqp6mtHs6Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eKUbkIwO; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="aWNxXK6T"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5763640E015C;
-	Mon, 13 Apr 2026 10:19:01 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id nkZtC9OVUx6S; Mon, 13 Apr 2026 10:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1776075537; bh=wKfITSF6AR9zy+yXLKfacrgVN/u+AcXQ00/j/EAgEpI=;
-	h=Date:From:To:Cc:Subject:From;
-	b=aWNxXK6TWVxBvmHVlrJD4KJNREdej/DgNc1Lkez868vb54Nm/ySerB1Dgph1FKoQF
-	 64ivsTq86qwajnMy1w+d4j9hBo1d8Vb66Iq5eVg0P/imTt90TCHnKc+wZxBNVrhAst
-	 DoRtq+GjVZL6YdNT7wVBCP1KKC1ynJoz23kPWSfm9GaLGc381WXx+Un0DidJqJGpvt
-	 4RYszMgjTUR++woSoYD6XmdvdBdepSrSeGE1KQSEsK+nIJA0yxUhtdbyYvWz5IaTqm
-	 /3qeBkfGlBXx9rrTwKD/uz9FMzR2tWn06kd4l8v81Ts+V0mkEHkftKeK2HsVSM5qgB
-	 xaluZXAWswkJmaiomIu9xI8UP9NNDjUUzvsPOyr9nQW61CsyE0yguBKljIviq7oUaS
-	 gnax6hfLpkVTNQ0d+b9JKfpv83wicvIlUlQNlnQT8Kf2Ly+C98SjFs3g/xdzVsN5YW
-	 ta4eJc9yBSB/1d0lmolvMTAHsFOjUPGxvDF4ZvFeJxYc4M3xfxLiJ6DC0bFjvmEHHv
-	 HYZWMwmSE6XwgIOl3ONwfBIbt1v7nGkTpy4h+EhbBJKg+8ffFF/ltTjGcO9pScRKoV
-	 ASd/n9YJ9Z9ALcmO9z4BS5P+TqvNoVikfU8aCrTTujVRRVUjndfL5PJr1SaMRMmWst
-	 KNrMpAFbcQFDwVkOA7GFKvaE=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id CB5FB40E014C;
-	Mon, 13 Apr 2026 10:18:54 +0000 (UTC)
-Date: Mon, 13 Apr 2026 12:18:46 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-edac <linux-edac@vger.kernel.org>,
-	lkml <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] EDAC updates for v7.1-rc1
-Message-ID: <20260413101846.GAadzDBgcGq09VOfpH@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eKUbkIwO"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2aaf43014d0so30111065ad.2
+        for <linux-edac@vger.kernel.org>; Mon, 13 Apr 2026 16:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776122068; x=1776726868; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8qifmdnzaAxfEy4w4Mah8qbIqZ2DwqSxS6VwV60LoDg=;
+        b=eKUbkIwOloLn1Z9HMaUNQA/qKxm6m0WbyEI1eghFBL4jjOlro/yePKzel77OMm060K
+         z45BTDeueVnGZTY8/XLpZ2PrfqpMQbslfHmKYN9L8xuAj+URgSulE0DW0Q9D9yJKIdEq
+         ERXItAi//jgNQG4wQK787OYRsohOlg0VpDraawNbIwXIfuUgkjjTC67H7z/kHti3wxoL
+         oCGrlOfhs7QNglUaTk3QyMeTgLiHH7fYRdMeCtRr8MP/lu7W6tmznK//4byv8Pxfd1cW
+         /24yry9m0YpRSe15T38UU+e83tLe1nGHvYLcRJ6C3D1JW25a7AMo9G1z2uvNDwBdXP09
+         bUyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776122068; x=1776726868;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8qifmdnzaAxfEy4w4Mah8qbIqZ2DwqSxS6VwV60LoDg=;
+        b=azXqfBhCvFLYMcf9pGYSENFdTjvsy1IIRofjcEHrKj/opNoQN/A6GsqqNpXHHs+EN3
+         +SZbLLI/g3xlLSKfIvPrI2VU61svqbfxWmKFJ9Svu5+dbWEexgzzJkM1E/ULMdFuch9r
+         fPu2OmJPbRKcb242V4KZomwztBE470rxE34cj8EyQBxIvbXREF13lA0N4Yw6LDQD8yIN
+         Ty108U2MOb1C+hiLjUcUVN3Gt0D77HD94BggwyL8821b0mAwxhWX/leYfF0ZkmMqaa+S
+         FRytoVao+C1yCEnpFTaazZrXYopbYnGxJpMVq4SHGfJKJeXoFTrVnsDw4v9f79NbzAwf
+         407Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/D9fhB3dTa73gQMD7JIKNsqy9NwfLOlOq5igD+JYB/cRRg4suekl7OL7ChDx8yLxN8ScELwm8kCJDJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqzPEXQMHYr3iXtivIRVwpRL9VOXV0sqoLGE4WYDKhjYpcqPBp
+	/k46AbFkFZaMmG0HiZv4s02HJQuQgo5/fnSdog3HyFLuf0j1/H11byz/
+X-Gm-Gg: AeBDieu0mqHqWP1zgzI0mq4SX+TyC6tHZhn0zddfEdHCmOzFqa3tJcKDgsF5aB9mvG+
+	iPA8JYLo4Z4bIlUz5Eo1L8aZgXnMt7dRsIfNI3NjJgUydHlXoHi4rjopfMpWbCWnGykXIAF7jEy
+	sS/5ZZxJI7b0OvXi4qfHKU658NQPQpJZhXRKJVmwt+Sv24/upd8DtM9pR6qafuwLm+HL22/ccw+
+	lLL/ghxCPkqJvyfhzx+YSJyONXfetT3Ty8ECzH1FaSWe9TmHqNi3TDiYLmqd0LIi13K9pmQAjsV
+	JBETuyuIaSa1eES+/cciiHGKOshqNoY+mlCkjtUSekCbKoS3fTnYcyzz70FLqOGe1O/iw9U057V
+	sPDtH/P+HLEipwEGvkD1kavlTJoVa7EBfoAY2J2dEOYi5+NivIcaeR0CuSDvk5lnkJsjOeGBSGb
+	qa9lf68jL6taJaXw/6IoetLtOCKRhvC96KdU4nPU9Q3jDC
+X-Received: by 2002:a17:902:8211:b0:2b2:d126:4e77 with SMTP id d9443c01a7336-2b2d5975bdfmr107459265ad.11.1776122067624;
+        Mon, 13 Apr 2026 16:14:27 -0700 (PDT)
+Received: from anarsoul-xps15.lan ([2001:569:7c09:b500:8461:f909:7a3b:1c4c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4f43994sm129635805ad.80.2026.04.13.16.14.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2026 16:14:27 -0700 (PDT)
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Vasily Khoruzhick <vasilykh@arista.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] EDAC/i10nm: don't fail probing if ADXL is missing
+Date: Mon, 13 Apr 2026 16:13:53 -0700
+Message-ID: <20260413231413.73987-1-anarsoul@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+From: Vasily Khoruzhick <vasilykh@arista.com>
 
-please pull the EDAC lineup for v7.1-rc1.
+ADXL is not present in Coreboot- or Slimbootloader-based BIOSes and as
+result, the driver fails to probe there.
 
-Thx.
+i10nm does not require ADXL for decoding errors since commit
+2738c69a8813 ("EDAC/i10nm: Add driver decoder for Ice Lake and Tremont CPUs"),
+so we can just switch to driver decoding when it's not present.
 
+Cc: stable@vger.kernel.org # v6.1+
+Signed-off-by: Vasily Khoruzhick <vasilykh@arista.com>
 ---
+ drivers/edac/i10nm_base.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f2=
-7f:
+diff --git a/drivers/edac/i10nm_base.c b/drivers/edac/i10nm_base.c
+index 89b3e8cc38b1..69a4a255e4c8 100644
+--- a/drivers/edac/i10nm_base.c
++++ b/drivers/edac/i10nm_base.c
+@@ -79,6 +79,7 @@ static struct res_config *res_cfg;
+ static int retry_rd_err_log;
+ static int decoding_via_mca;
+ static bool mem_cfg_2lm;
++static bool no_adxl;
+ 
+ static struct reg_rrl icx_reg_rrl_ddr = {
+ 	.set_num = 2,
+@@ -1208,8 +1209,14 @@ static int __init i10nm_init(void)
+ 	}
+ 
+ 	rc = skx_adxl_get();
+-	if (rc)
+-		goto fail;
++	if (rc) {
++		/* Decoding errors via MCA banks for 2LM isn't supported yet */
++		if (rc != -ENODEV || mem_cfg_2lm)
++			goto fail;
++		i10nm_printk(KERN_INFO, "ADXL not found, falling back to MCA-based decoding.\n");
++		no_adxl = true;
++		decoding_via_mca = true;
++	}
+ 
+ 	opstate_init();
+ 	mce_register_decode_chain(&i10nm_mce_dec);
+@@ -1243,7 +1250,8 @@ static void __exit i10nm_exit(void)
+ 
+ 	skx_teardown_debug();
+ 	mce_unregister_decode_chain(&i10nm_mce_dec);
+-	skx_adxl_put();
++	if (!no_adxl)
++		skx_adxl_put();
+ 	skx_remove();
+ }
+ 
+-- 
+2.53.0
 
-  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags=
-/edac_updates_for_v7.1_rc1
-
-for you to fetch changes up to 4db9a9841dc1060e8805a4c40bdd7e6058d45100:
-
-  Merge remote-tracking branches 'ras/edac-misc' and 'ras/edac-drivers' i=
-nto edac-updates (2026-04-13 11:43:52 +0200)
-
-----------------------------------------------------------------
-- amd64_edac: Add support for AMD Zen 3 (family 19h, models 40h=E2=80=934=
-fh)
-
-- i10nm: Add GNR error information decoder support as an alternative to t=
-he
-  firmware decoder
-
-=E2=80=94 versalnet: Restructure the init/teardown logic for correct and =
-more readable
-  error handling. Also, fix two memory leaks and a resource leak
-
-=E2=80=94 Convert several internal structs to use bounded flex arrays, en=
-abling the
-  kernel's runtime checker to catch out-of-bounds memory accesses
-
-- Mark various sysfs attribute tables read-only, preventing accidental
-  modification at runtime
-
-- The usual fixes and cleanups across the subsystem
-
-----------------------------------------------------------------
-Borislav Petkov (AMD) (1):
-      Merge remote-tracking branches 'ras/edac-misc' and 'ras/edac-driver=
-s' into edac-updates
-
-Colin Ian King (1):
-      EDAC/i10nm: Fix spelling mistake "readd" -> "read"
-
-Devang Vyas (1):
-      EDAC/amd64: Add support for family 19h, models 40h-4fh
-
-Felix Gu (1):
-      EDAC/versalnet: Fix device_node leak in mc_probe()
-
-Marilene Andrade Garcia (1):
-      EDAC/ie31200: Make rpl_s_cfg static
-
-Prasanna Kumar T S M (1):
-      EDAC/versalnet: Fix memory leak in remove and probe error paths
-
-Qiuxu Zhuo (1):
-      EDAC/i10nm: Add driver decoder for Granite Rapids server
-
-Rosen Penev (3):
-      EDAC/i7core: Use kzalloc_flex()
-      EDAC/sb: Use kzalloc_flex()
-      EDAC/mc: Use kzalloc_flex()
-
-Shubhrajyoti Datta (1):
-      EDAC/versalnet: Refactor memory controller initialization and clean=
-up
-
-Thomas Wei=C3=9Fschuh (7):
-      EDAC/altera: Drop unused field eccmgr_sysfs_attr
-      EDAC/device: Drop unused macro to_edacdev_attr()
-      EDAC/device: Drop unnecessary and dangerous casts of attributes
-      EDAC/device: Constify info sysfs attributes
-      EDAC/pci_sysfs: Constify instance sysfs attributes
-      EDAC/device: Allow addition of const sysfs attributes
-      EDAC/mpc85xx: Constify device sysfs attributes
-
- drivers/edac/altera_edac.h       |   1 -
- drivers/edac/amd64_edac.c        |   3 +
- drivers/edac/edac_device.h       |   2 +-
- drivers/edac/edac_device_sysfs.c |  24 +++---
- drivers/edac/edac_mc.c           |  10 +--
- drivers/edac/edac_pci_sysfs.c    |  10 +--
- drivers/edac/i10nm_base.c        |  16 +++-
- drivers/edac/i7core_edac.c       |  15 +---
- drivers/edac/ie31200_edac.c      |   2 +-
- drivers/edac/mpc85xx_edac.c      |   2 +-
- drivers/edac/sb_edac.c           |  14 +--
- drivers/edac/versalnet_edac.c    | 180 ++++++++++++++++++++++-----------=
-------
- include/linux/edac.h             |  23 ++---
- 13 files changed, 159 insertions(+), 143 deletions(-)
-
-
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
