@@ -1,175 +1,193 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03CA32AADE;
-	Fri, 17 Apr 2026 11:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D6820010A
+	for <linux-edac@vger.kernel.org>; Mon, 20 Apr 2026 09:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776426640; cv=none; b=oFoYxoWqvebDsssRk7YRCJJIinAHDU1KNJ/c2W862RO9JoEiIo/D+ItgitVsXcXNs5T8P8keImXjVNXvwDJbKfW9BI1abMrUs/MB0Xle5PQ7TOFxiHrzN0AaRGDAblOfttn/ilZfRhlf/W2yjlpAN5/q17NjHaQlDjw0ySunCz4=
+	t=1776676607; cv=none; b=VP/cLw+5tQKLbFWf4zHCIUIKW4urb9g540VU4hqb73E9xm8DY1f1OJ50oNq2s3o/YN3wl84NKsGp+0NlMW7VFu9lY4ezkxg83v/ci3I9pEuv+VJxWeIRStFH/4y0TGJoo3Sk2lG/9hthGWEvxY4gqCEupeY8PSfL+LLYbUnJgpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776426640; c=relaxed/simple;
-	bh=+tPmb0dtq8uKXzGCAool0c8BG8oXz996aXuO8gP1mlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eOxh5MiW4sl4+gB4pOAgG/HZd2blP91WuT47RiQszLMZ8EteaV5p7hsKfvwEVrx0O5FwcSf2BCmP+X1GC82cU+6c3JybCIKglXiENDaFq9LHJ2famABz3E93R9WoLKPzkJ9Ec2FrJ63vtybdFpS2OQBak5W48xeDjsPO8hmPVIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=YGnvDLJY; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1776676607; c=relaxed/simple;
+	bh=0u7s7OdRRqv5aE5o36d3vPC5dHuzyC07aujDS6QjbK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z7L8VMW9lX6+zGHfDieqqWPLRicejwAOlQ047fS2ZAkrQiJDPsLtohfvCPfmkJ7TQMTt8W3kWOrss9nehjNVJoif3SQPiq6jRyGad5FTu41J65rC5chTQKsrU82UBl3mM1ObmmUSzszLmLFh2aB6Y1Km9QAzkgrRM7gw4KKZbdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=dUpFezg5; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=dUpFezg5; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YGnvDLJY"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2A6AF40E00C2;
-	Fri, 17 Apr 2026 11:50:27 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id POULon0gcONB; Fri, 17 Apr 2026 11:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1776426621; bh=A6G7+VV9+9TEjKF6lPyXDZUbFqZpfiDqMxe26H1bFYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YGnvDLJYdgei1QHaEzM7MO5wlsNO3VKkOqaTyN8b9DN5b9TTuD1vLc+FFSgrsUlTV
-	 fyray+ZRODYdc3pk0qp+lodAZ61o3BUPzrD7+WqUwkbkjHHK9p6bz+rOHCbRDTAl8Z
-	 iez31pHa3H9muRZ7w6W/TNI+gIvOP1QwYAnPcfrR1sASeFJkh3r5EdPcCaT1lDreCR
-	 TQG0SAQr4KKPDGUdmmzsBFsXOHXLE7xe2gVAz/np5+r1CM+24l9TIV39p540lepSps
-	 1nXPF0CqDcPE02GVWwaCXzVnIFEAee9vEIu75we1FNd+K4yJqN2sChofCR2WZRxoxV
-	 EN0Xf9d34hgIRWUWGtOw+4cNoTxU8TGeEaAnLkriUStzUhUItdOcLg7qhExOlLolbd
-	 6l4N9ZzA8juHKHL2awMah9u2OMwFDzKoptYTlRucw99DBI2cee6N5SJzQTAfwqjvEV
-	 d5qYWDfxhU7w67MdPsEqUKOdpSxqlclf2yFxVDmn0H9RO6JN+w8BPyiVsX5tz4D92X
-	 3aaprbn5bjD+hv3x7fAu9/3Xpn7B6Tmn4ft4uU4I9NrTA+THlKYhOBRiG5VJ/My88G
-	 o+ATejbdFf4tYkP2+LnFPeWFz3vWjjUu6OcErLAc6KWxMhwLCiabqOcwUe9v1iUIcr
-	 DJePLyqPmlOswdayNwEy0u5w=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="dUpFezg5";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="dUpFezg5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 62A5240E00BF;
-	Fri, 17 Apr 2026 11:50:08 +0000 (UTC)
-Date: Fri, 17 Apr 2026 13:50:01 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Luck, Tony" <tony.luck@intel.com>,
-	"Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
-	Nikolay Borisov <nik.borisov@suse.com>
-Cc: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4D4625BD1B;
+	Mon, 20 Apr 2026 09:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1776676604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=CQVMt/nwmvdC4aLWh2feF4IWYAWPMMt31/pIymKulAc=;
+	b=dUpFezg5BYtaT/06Ap1bKCGQDZ9j+tzwjh0AkwNjvSIP/+KFwk4hJyj8L09wAKjtSPohzg
+	CKOyuYJE3iqxkF2x7rb7bQlQdpAimcydS249IG4Hsaqlab9g1WftdIfXvGPSw3F4zudy/S
+	dsk8cd7b76Mczp1CWHJa9jrscaLFK2w=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=dUpFezg5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1776676604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=CQVMt/nwmvdC4aLWh2feF4IWYAWPMMt31/pIymKulAc=;
+	b=dUpFezg5BYtaT/06Ap1bKCGQDZ9j+tzwjh0AkwNjvSIP/+KFwk4hJyj8L09wAKjtSPohzg
+	CKOyuYJE3iqxkF2x7rb7bQlQdpAimcydS249IG4Hsaqlab9g1WftdIfXvGPSw3F4zudy/S
+	dsk8cd7b76Mczp1CWHJa9jrscaLFK2w=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D5828593AE;
+	Mon, 20 Apr 2026 09:16:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lAcLM/vu5Wm3PQAAD6G6ig
+	(envelope-from <jgross@suse.com>); Mon, 20 Apr 2026 09:16:43 +0000
+From: Juergen Gross <jgross@suse.com>
+To: linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-edac@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Avadhut Naik <avadhut.naik@amd.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Subject: Re: [PATCH] x86/mce: Restore MCA polling interval halving
-Message-ID: <20260417115001.GCaeIeaU8eS_EMNq6G@fat_crate.local>
-References: <20260306152903.GEaaryvxD9BTT7Fd10@fat_crate.local>
- <ee87e4cb35624a5cb85741725bfbcbd0@baidu.com>
- <20260316134411.GBabgJK1RFUG3zrTrx@fat_crate.local>
- <20260406224915.GAadQ4azQ7IRsTjnXD@fat_crate.local>
- <CY8PR11MB7134050BCAA8B14BFFD8168D895AA@CY8PR11MB7134.namprd11.prod.outlook.com>
- <20260414211803.GFad6vC9LSYxGScTNH@fat_crate.local>
- <ad6-H5eihazhqsmC@agluck-desk3>
- <20260415192723.GAad_mm7YFTi7ypK5I@fat_crate.local>
- <SJ1PR11MB6083E24844911D87A89BCBA0FC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260415200203.GBad_uu1gC_V_LFH0u@fat_crate.local>
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Tony Luck <tony.luck@intel.com>
+Subject: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
+Date: Mon, 20 Apr 2026 11:16:28 +0200
+Message-ID: <20260420091634.128787-1-jgross@suse.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260415200203.GBad_uu1gC_V_LFH0u@fat_crate.local>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	URIBL_BLOCKED(0.00)[suse.com:dkim,suse.com:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim,suse.com:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 4D4625BD1B
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 
-On Wed, Apr 15, 2026 at 10:02:03PM +0200, Borislav Petkov wrote:
-> Lemme think about how to restructure this patch of mine...
+This is a RFC for renaming the main MSR access functions. The main
+motivations for doing that are:
 
-Ok, totally untested. This is only to show the idea. I've basically went and
-distributed the functionality where it fits best: the pr_info logging at
-mce_log time and the work trigger in the notifier. It ended up like below.
+- Prepare for wide spread use cases of WRMSRNS by making it easily
+  visible whether a MSR write is serializing or not. This has the
+  advantage that new use cases of MSR writes would need to decide
+  whether a serializing MSR write is needed or not. Using today's
+  MSR write interfaces would probably result in most new use cases
+  to use the serializing form, having a negative performance impact.
 
-I'll run it but I'd let you folks check it first, whether I've missed an angle
-conceptually.
+- Use functions instead of macros for accessing MSRs, which will drop
+  modifying variables passed as a parameter.
 
-Thx.
+- Eliminate multiple accessors doing exactly the same thing (e.g.
+  rdmsrl() and rdmsrq()).
 
----
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 8dd424ac5de8..f3a793e3a6c8 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -90,7 +90,6 @@ struct mca_config mca_cfg __read_mostly = {
- };
- 
- static DEFINE_PER_CPU(struct mce_hw_err, hw_errs_seen);
--static unsigned long mce_need_notify;
- 
- /*
-  * MCA banks polled by the period polling timer for corrected events.
-@@ -152,8 +151,10 @@ EXPORT_PER_CPU_SYMBOL_GPL(injectm);
- 
- void mce_log(struct mce_hw_err *err)
- {
--	if (mce_gen_pool_add(err))
-+	if (mce_gen_pool_add(err)) {
-+		pr_info(HW_ERR "Machine check events logged\n");
- 		irq_work_queue(&mce_irq_work);
-+	}
- }
- EXPORT_SYMBOL_GPL(mce_log);
- 
-@@ -585,28 +586,6 @@ bool mce_is_correctable(struct mce *m)
- }
- EXPORT_SYMBOL_GPL(mce_is_correctable);
- 
--/*
-- * Notify the user(s) about new machine check events.
-- * Can be called from interrupt context, but not from machine check/NMI
-- * context.
-- */
--static bool mce_notify_irq(void)
--{
--	/* Not more than two messages every minute */
--	static DEFINE_RATELIMIT_STATE(ratelimit, 60*HZ, 2);
--
--	if (test_and_clear_bit(0, &mce_need_notify)) {
--		mce_work_trigger();
--
--		if (__ratelimit(&ratelimit))
--			pr_info(HW_ERR "Machine check events logged\n");
--
--		return true;
--	}
--
--	return false;
--}
--
- static int mce_early_notifier(struct notifier_block *nb, unsigned long val,
- 			      void *data)
- {
-@@ -618,9 +597,7 @@ static int mce_early_notifier(struct notifier_block *nb, unsigned long val,
- 	/* Emit the trace record: */
- 	trace_mce_record(err);
- 
--	set_bit(0, &mce_need_notify);
--
--	mce_notify_irq();
-+	mce_work_trigger();
- 
- 	return NOTIFY_DONE;
- }
-@@ -1804,7 +1781,7 @@ static void mce_timer_fn(struct timer_list *t)
- 	 * Alert userspace if needed. If we logged an MCE, reduce the polling
- 	 * interval, otherwise increase the polling interval.
- 	 */
--	if (mce_notify_irq())
-+	if (!mce_gen_pool_empty())
- 		iv = max(iv / 2, (unsigned long) HZ/100);
- 	else
- 		iv = min(iv * 2, round_jiffies_relative(check_interval * HZ));
+- Instead of having function names based on the underlying instruction
+  mnemonics, have functions of a common name space (msr_*()).
+
+This series is containing only a needed prerequisite patch removing a
+name collision with the new access functions, 3 patches introducing
+the new access functions, and 2 example patches adapting users to use
+the new functions instead the old ones.
+
+I have selected the 2 example patches based on the needed code changes:
+
+Patch 5 is very simple, because all the changes are really trivial.
+While using a mixture of serializing and non-serializing MSR writes,
+the non-serializing form is used only in case another MSR write is
+following in the same function, resulting in each function doing MSR
+writes having still serializing semantics (it might be possible to
+change that later, but I wanted to be conservative just in case).
+
+Patch 6 is a little bit less simple, as there are a couple of cases
+where the new functions are no direct replacements of the old
+interfaces. The new functions only work on 64-bit values, so in cases
+where 2 32-bit values are needed, "struct msr" is used as a conversion
+layer. I thought about adding macros for the same purpose, but in the
+end this seemed to be a more simple and readable solution.
+
+In case the general idea is accepted, I'd do the conversion of the rest
+of the users (this will be probably a rather large, but mostly trivial
+series).
+
+As this series is RFC, I have done only basic compile testing.
+
+Juergen Gross (6):
+  x86/msr: Rename msr_read() and msr_write()
+  x86/msr: Create a new minimal set of local MSR access functions
+  x86/msr: Create a new minimal set of inter-CPU MSR access functions
+  x86/msr: Rename the *_safe_regs[_on_cpu]() MSR functions
+  x86/events: Switch core parts to use new MSR access functions
+  x86/cpu/mce: Switch code to use new MSR access functions
+
+ arch/x86/events/core.c            |  42 ++++++-------
+ arch/x86/events/msr.c             |   2 +-
+ arch/x86/events/perf_event.h      |  26 ++++----
+ arch/x86/events/probe.c           |   2 +-
+ arch/x86/events/rapl.c            |   8 +--
+ arch/x86/include/asm/msr.h        |  87 ++++++++++++++++++++++---
+ arch/x86/kernel/cpu/amd.c         |   4 +-
+ arch/x86/kernel/cpu/mce/amd.c     | 101 +++++++++++++++---------------
+ arch/x86/kernel/cpu/mce/core.c    |  18 +++---
+ arch/x86/kernel/cpu/mce/inject.c  |  40 ++++++------
+ arch/x86/kernel/cpu/mce/intel.c   |  32 +++++-----
+ arch/x86/kernel/cpu/mce/p5.c      |  16 ++---
+ arch/x86/kernel/cpu/mce/winchip.c |  10 +--
+ arch/x86/kernel/msr.c             |  16 ++---
+ arch/x86/lib/msr-reg-export.c     |   4 +-
+ arch/x86/lib/msr-reg.S            |  16 ++---
+ arch/x86/lib/msr-smp.c            |  20 +++---
+ arch/x86/lib/msr.c                |  12 ++--
+ 18 files changed, 263 insertions(+), 193 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.53.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
