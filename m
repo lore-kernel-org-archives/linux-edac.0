@@ -1,294 +1,364 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B973D4138
-	for <linux-edac@vger.kernel.org>; Mon, 20 Apr 2026 13:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175DF402BA3;
+	Mon, 20 Apr 2026 13:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776691420; cv=none; b=VO0ITuAt+cknr8dqdO58XF+fOxKnn7K3bBo0UuM/Q2o7aqzdtOUZHQPvEqQyEvglERMsyn5oGfyKRWnbRUOtg6xF7g1DAvznndwR6QqLcai5jQCW4V9pxWdYdem8fvCcZKIYc2rqmms2b8/Or1ACF8Sp6A9QT9x+zK86bjy8fks=
+	t=1776691626; cv=none; b=T2KiZhda+POh6wpaXJZfdb2bj/MGbVQse9by3uJsWY7DsdarriwEYAP8HHaD5jDHy1gCSv8eFO/JBY4FecZsQETvnwU0/e+KFmvYQgZA0CzPqGzSj++I6ZBBjLYQm8vr4mNTQx//GwEOv34r/cXOmaTjwXf4y8qfO7s3ZZRX8Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776691420; c=relaxed/simple;
-	bh=fK/zENPSnVF2cK+TRMMrx7mAfOOVTpL/t2ABi2qgYk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XW5vfURaBPmuqW5EWZn3m5ro+B+rWWXMW+jFyk961omGVZah/hdzOmU7KmYfEkFRscyZT0TezgPbhKbSLpH2Q0Dj72lEeEuqy3dXpSMRUz8m18n5l/9pSYMgW2gKCMr/TIrKZ3keH9U+vqeD6nr6RPd5+Y8zQue8Ksfw0Hov2qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Ug39R98O; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1776691626; c=relaxed/simple;
+	bh=xyq8tdZQxla3QOWMCrFM2dP1pwFBccph/GPCkj5ObDE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dEuyWd3jdDYtC5Syb2duqDhNVzBTl8AgA4fAUiM9fPhap8LxhOEDLTM7TsF/WSl3w06JG8TtqBi6RiwKIXCGF/z5v4AZ+CKMGKpVACMcSmJCqqh87pxP/z9kMrkQsvTdPO7lifSeWrIHCWCCEfok/0dc2Dba3UTJEEhq8ds3xIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EgVRsRlr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Ug39R98O"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ba699316b42so214543266b.3
-        for <linux-edac@vger.kernel.org>; Mon, 20 Apr 2026 06:23:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1776691417; x=1777296217; darn=vger.kernel.org;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fK/zENPSnVF2cK+TRMMrx7mAfOOVTpL/t2ABi2qgYk4=;
-        b=Ug39R98OwP8JTE8YBzUfKd/ma33E47bsjs3xR/wWgddinfaWGcGjk8cazYyjqjw4VK
-         BY2XhupzLUay9mH8cc1EO+gnLkEQKyA/B90wEFgRJX7qG49UkupCw+MNLjbvb9rVhBsy
-         t11pUUgLP2c5Db0Wl9DlNeA5zx13zx3gYOWXCJ1Gh4+LfolBHGLwNSd+B+q5nskiYYvR
-         YxdlGIGwzCNRep85u4bvGBgE5T27JlcK4MYzw2AZzxXFx5SVhlfF9Iydkz5fpMbh/pof
-         Tec9jiJQRyM2AItY/gxUbJRqzCViAlltPg54mFvrxHuQ95Dx4j3HarG0M2/JBHxkwG4/
-         f4XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776691417; x=1777296217;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fK/zENPSnVF2cK+TRMMrx7mAfOOVTpL/t2ABi2qgYk4=;
-        b=aRV7JTBiQDN6YJpvoofeJNW/k9RQNQWxLDG+3FfFl+K6WR2m55Ji0Vfx8eO3n0w9wC
-         ko4bBUtyU9pqMVETKronb9jLld63FSIm/VLtbThmO7ske/FBTpjVqmxP80+8UlWFRlEG
-         f5i6ighOqwvtbrCb5o/oYUCV4RJgttyfbJBG7S+KkTC+Dq87i+kLGN5Qi5KreM0Zmj44
-         x+jwtEPOqT19Z9+yd/0/q+3HCRjvEAXJ0kjyqTScYeLUcCFa7xAjj6e9LmKgs8oItJQu
-         wvnvWPMQQpmw52qnQ04iDfojlg4KN47jkKPD65BI2x+H6xpkTd7e8JKTZxaqk7ss3dIp
-         vSJw==
-X-Forwarded-Encrypted: i=1; AFNElJ8djhq4gQkc2HL4/M9+tavfBm3dD4fDLdgB0bArdj/slJXu/1bzQhVorUzJDetFhs1HJ/EOW8M3NBgU@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnEHsTPLyht/wnihG3A0iEcTguj/ctGvYHW/7Fft2cPNrm0Kc7
-	HWxIRZb0U56NB4JOmZnkCZ3tC9/moduMsFTwpY4T33BQ1n3qZr61jfKiJPe3mpwKs2c=
-X-Gm-Gg: AeBDietUxbyfdfQJy0R2a99IaEOB4TP00w5ZICPInQLFuVHQQ6p+E6eBdV07e/DNeu+
-	bLoOygBt2rMKGKXjVVdGKNx/k1TDtPIsB8P1J5SghkS2BFTMiqfQY1dQz4MPPdI8+YkW95coBND
-	tG8LUMiAfX0RHuElo3x32IbSwXOoH3wGXd+oZjuEwdxMalWomU2A2kJ7wEBjQp25feqIR0zf/Cb
-	gip2GkjEGAhBwgnfQqNTrK9xGT31SzwkEo53vhoyx3SWz6GHyMDvnE//kldRGqY1IAyUuXaEkkR
-	LQgT9CMV9XccaWEXLipkj73sAnb47XbzfKbKdEH5bSo4xOsLcQwvsmc0u1VvyfmHRHUStf3+4ls
-	6FCuz/k0U72ypa2s0C5mRGJppffvSjBxeWhfNAAW3Lmq6Dat574ANGFj0L0K/MwkntXi/fGYLex
-	E8WgzfmcFSqvOsouSeo1YwZCGf8ntR767VErH+RpWQzeRT3k9r0K11mscqaTeBryD2Wp7+EtIx9
-	Q1IWfr6aW81Qpv5QP+1dRszLBGsJKMmbhNzOLLeZYCZHvUc2M0QhhU08HXjUe00nwBieLMuRBg=
-X-Received: by 2002:a17:907:6d15:b0:b98:411a:116f with SMTP id a640c23a62f3a-ba419076c8emr691220466b.2.1776691417073;
-        Mon, 20 Apr 2026 06:23:37 -0700 (PDT)
-Received: from ?IPV6:2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112? (2a00-12d0-af5d-ad01-5d3f-14e6-9bcb-5112.ip.tng.de. [2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba455045652sm348965366b.51.2026.04.20.06.23.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Apr 2026 06:23:36 -0700 (PDT)
-Message-ID: <a49e3a07-1154-4c6a-8763-0bd565cd3179@suse.com>
-Date: Mon, 20 Apr 2026 15:23:36 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EgVRsRlr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8177C2BCB7;
+	Mon, 20 Apr 2026 13:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776691626;
+	bh=xyq8tdZQxla3QOWMCrFM2dP1pwFBccph/GPCkj5ObDE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EgVRsRlriIEH/iA5sLx/fpKhm19Hjb2vk4+H9pGLWJyi1GxoRrtjVsGS3Jd+YYJ31
+	 MzNEU+VUqy58ruKv+lMXdzHn6XmGE+kngmddAzU8n8L1mJ95stYvKzZXW8VNssv7Ej
+	 1+aLHedaCExr34KiwHXvmIgti6s3PRY7O5A07P3JoBkVyv50UKGYKCYwMymTDTPi8K
+	 3kujgvrx0Xk+MKNRCvckOse2OO0xnQRP2z+zJ0gXlpLx4HhDQnOy3upWMdaNAQjdCs
+	 BvAux0bCkaT4XeK/AiV0XAsRe2UKRwbWaym/SmReUkcU+nMLg5jwLpsZwFr7Ll4/4X
+	 Yu0z1f4x+DYcQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Devang Vyas <devangnayanbhai.vyas@amd.com>,
+	Ramesh Garidapuri <ramesh.garidapuri@amd.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-6.19] EDAC/amd64: Add support for family 19h, models 40h-4fh
+Date: Mon, 20 Apr 2026 09:18:53 -0400
+Message-ID: <20260420132314.1023554-139-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260420132314.1023554-1-sashal@kernel.org>
+References: <20260420132314.1023554-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, Tony Luck <tony.luck@intel.com>
-References: <20260420091634.128787-1-jgross@suse.com>
- <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
- <74aa6707-356f-40d4-8611-5f6d116855ac@suse.com>
- <20260420123352.GH3102624@noisy.programming.kicks-ass.net>
- <7078f664-719c-42bc-9eb9-d6bc9ff1f57e@suse.com>
- <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0VbizIsoaPic0Srt4Z20cgX7"
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0VbizIsoaPic0Srt4Z20cgX7
-Content-Type: multipart/mixed; boundary="------------MkMxazCF9eScsL1LcWp4rGxE";
- protected-headers="v1"
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, Tony Luck <tony.luck@intel.com>
-Message-ID: <a49e3a07-1154-4c6a-8763-0bd565cd3179@suse.com>
-Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
-References: <20260420091634.128787-1-jgross@suse.com>
- <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
- <74aa6707-356f-40d4-8611-5f6d116855ac@suse.com>
- <20260420123352.GH3102624@noisy.programming.kicks-ass.net>
- <7078f664-719c-42bc-9eb9-d6bc9ff1f57e@suse.com>
- <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
+From: Devang Vyas <devangnayanbhai.vyas@amd.com>
 
---------------MkMxazCF9eScsL1LcWp4rGxE
-Content-Type: multipart/mixed; boundary="------------xqV4SofOq8n9i0M2OANdlkJj"
+[ Upstream commit fbe230a9a79b62be3c6ac55b24d53ce5dd9202d5 ]
 
---------------xqV4SofOq8n9i0M2OANdlkJj
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Add support for Ryzen 6000 Zen3-based CPUs in the V3000 AMD Embedded SoC
+platform which uses ECC memory and would need RAS handling of hardware errors.
 
-T24gMjAuMDQuMjYgMTU6MTAsIFBldGVyIFppamxzdHJhIHdyb3RlOg0KPiBPbiBNb24sIEFw
-ciAyMCwgMjAyNiBhdCAwMzowMTozMVBNICswMjAwLCBKw7xyZ2VuIEdyb8OfIHdyb3RlOg0K
-Pj4gT24gMjAuMDQuMjYgMTQ6MzMsIFBldGVyIFppamxzdHJhIHdyb3RlOg0KPiANCj4+PiBU
-aGF0IGlzLCB3ZSBoYXZlIHRoZSBmb2xsb3dpbmcgaW5zdHJ1Y3Rpb25zOiBSRE1TUiwgV1JN
-U1IsIFdSTVNSTlMNCj4+PiBBbmQgd2Ugc2hvdWxkIGhhdmUgdGhlIGV4YWN0IHNhbWUgZnVu
-Y3Rpb25zOg0KPj4+DQo+Pj4gCXZhbCA9IHJkbXNyKG1zcik7DQo+Pj4gCXdybXNyKG1zciwg
-dmFsKTsNCj4+PiAJd3Jtc3Jucyhtc3IsIHZhbCk7DQo+Pg0KPj4gUGVvcGxlIHRlbmQgdG8g
-Y29weSBzaW1pbGFyIGNvZGUsIG1heWJlIHVzaW5nIG9sZGVyIGtlcm5lbHMgYXMgdGhlIHNv
-dXJjZS4NCj4+DQo+PiBTbyBldmVuIGlmIHdybXNybnMoKSB3b3VsZCBiZSBmaW5lIChhbmQs
-IHJlc3VsdGluZyBmcm9tIHRoYXQsIGJldHRlciksIHRoZXkNCj4+IHdpbGwgbW9yZSBsaWtl
-bHkgZW5kIHVwIHVzaW5nIHdybXNyKCkgaW5zdGVhZC4NCj4+DQo+PiBVc2luZyBuZXcgZnVu
-Y3Rpb24gbmFtZXMgaW1wbHlpbmcgdGhlIGV4YWN0IHNlbWFudGljcyAoc2VyaWFsaXppbmcg
-dnMuDQo+PiBub24tc2VyaWFsaXppbmcpIHdpbGwgbWFrZSBpdCBtb3JlIGxpa2VseSB0aGUg
-Y29ycmVjdCBvbmUgaXMgYmVpbmcgdXNlZC4NCj4gDQo+IFlvdSBjYW5ub3QgZml4IHN0dXBp
-ZC4gSWYgeW91IHdhbnQgZnJpY3Rpb24sIHRoZSBsYWJlbCB0aGluZyB3aWxsDQo+IGVuc3Vy
-ZSAnb2xkJyBjb2RlIGRvZXNuJ3QgY29tcGlsZSBhbmQgd2lsbCBuZWVkIGZpeGluZy4NCj4g
-DQo+IEFsc28sIGlmIHdybXNybnMoKSByZWFsbHkgaXMgZmFzdGVyLCB0aGUgcGVyZm9ybWFu
-Y2UgZm9sa3Mgd2lsbCBmaW5nZXINCj4gJ2luY29ycmVjdCcgd3Jtc3IoKSB1c2FnZSBzb29u
-ZXIgb3IgbGF0ZXIuDQoNCkZpbmUgd2l0aCBtZS4gOi0pDQoNCj4gDQo+Pj4gVGhlIG9ubHkg
-aW50ZXJlc3RpbmcgcXVlc3Rpb24gaXMgd2hhdCB0byBkbyB3aXRoIHRoZSAnc2FmZScgYXNw
-ZWN0LiBUaGUNCj4+PiBpbnN0cnVjdGlvbiB0YWtlcyBhIGZhdWx0LCB3ZSBkbyB0aGUgZXh0
-YWJsZSwgYnV0IHJkbXNyKCkgYWJvdmUgYWxyZWFkeQ0KPj4+IGhhcyBhIHJldHVybiB2YWx1
-ZSwgc28gdGhhdCBjYW4ndCBiZSB1c2VkLg0KPj4+DQo+Pj4gT25lIG9wdGlvbiBpcyB0bywg
-bGlrZSB1YWNjZXNzIGFuZCB0aGUgcHJvcG9zZWQgb3ZlcmZsb3csIGlzIHRvIHVzZQ0KPj4+
-IGxhYmVscyBsaWtlOg0KPj4+DQo+Pj4gCXZhbCA9IHJkbXNyKG1zciwgbGFiZWwpOw0KPj4+
-DQo+Pj4gQW5kIHRoZW4sIGV2ZW4gdGhvdWdoIHRoZSB3cm1zciooKSBmdW5jdGlvbnMgaGF2
-ZSB0aGUgcmV0dXJuIGF2YWlsYWJsZSwNCj4+PiBkbyB3ZSB3YW50IHRvIGJlIGNvbnNpc3Rl
-bnQgYW5kIGRvOg0KPj4+DQo+Pj4gCXdybXNyKG1zciwgdmFsLCBsYWJlbCk7DQo+Pj4gCXdy
-bXNybnMobXNyLCB2YWwsIGxhYmVsKTsNCj4+Pg0KPj4+IHJhdGhlciB0aGFuIGJlIGluY29u
-c2lzdGVudCBhbmQgaGF2ZSB0aGVtIGhhdmUgYSBib29sZWFuIHJldHVybiBmb3INCj4+PiBz
-dWNjZXNzLg0KPj4+DQo+Pj4gV2hhdCBhbSBJIG1pc3Npbmc/DQo+Pg0KPj4gSSBsaWtlIHRo
-ZSBpZGVhIHRvIHVzZSBhIGxhYmVsLCBidXQgdGhpcyB3b3VsZCByZXN1bHQgaW4gdGhlIG5l
-ZWQgdG8gdXNlDQo+PiBtYWNyb3MgaW5zdGVhZCBvZiBmdW5jdGlvbnMuIFNvIHRoaXMgaXMg
-dHJhZGluZyBvbmUgYXNwZWN0IGFnYWluc3QgYW5vdGhlci4NCj4+IEknbSBub3Qgc3VyZSB3
-aGljaCBpcyB0aGUgYmV0dGVyIG9uZSBoZXJlLg0KPj4NCj4+IEFuIGFsdGVybmF0aXZlIG1p
-Z2h0IGJlIHRvIHN3aXRjaCByZG1zcigpIHRvIHRoZSBpbnRlcmZhY2UgdXNlZCBieSByZG1z
-cl9zYWZlKCksDQo+PiBpLmUuIGxldCBhbGwgdGhlIGFjY2Vzc29ycyByZXR1cm4gYSBib29s
-IGZvciBzdWNjZXNzL2ZhaWx1cmUgYW5kIHVzZSBhIHBvaW50ZXINCj4+IGZvciB0aGUgTVNS
-IHZhbHVlIGluIHJkbXNyKCkuDQo+IA0KPiBZZXMsIGVpdGhlciB3YXkgYXJvdW5kIHdvcmtz
-LiBQZXJoYXBzIHRoYXQgaXMgJ2JldHRlcicgYmVjYXVzZSBtb3N0bHkgd2UNCj4gZG9uJ3Qg
-Y2FyZSBhYm91dCB0aGUgZmF1bHRzIHNpbmNlIHdlJ3ZlIGNoZWNrZWQgdGhlICdmZWF0dXJl
-JyBlYXJsaWVyLg0KPiANCj4gSXRzIGp1c3QgaW5jb252ZW5pZW50IHRvIGhhdmUgcmV0dXJu
-IGluIGFyZ3VtZW50IGNydWQsIGJ1dCB3aGF0ZXZlciA7LSkNCg0KT2theSwgc28gd291bGQg
-eW91IGJlIGZpbmUgd2l0aCB0aGUgZm9sbG93aW5nIHBsYW4/DQoNCi0gZHJvcCAqX3NhZmUo
-KSB2YXJpYW50cywgc3dpdGNoIHRoZSAibm9ybWFsIiBvbmVzIHRvICJzYWZlIiBzZW1hbnRp
-Y3MuDQotIG1ha2UgYWxsIGludGVyZmFjZXMgcmV0dXJuIGEgYm9vbCAodHJ1ZSA9PSBzdWNj
-ZXNzLCBmYWxzZSA9PSBmYWlsdXJlKQ0KLSBzd2l0Y2ggYWxsIGludGVyZmFjZXMgdG8gdXNl
-IDY0LWJpdCB2YWx1ZXMsIGRyb3AgdGhlIDMyLWJpdCBsb3cvaGlnaA0KICAgc3BsaXQgdmFy
-aWFudHMNCi0gdXNlIGFsd2F5c19pbmxpbmUgZnVuY3Rpb25zIGZvciBhbGwgbG9jYWwgTVNS
-IGFjY2Vzc29ycw0KDQpUaGlzIHdpbGwgcmVzdWx0IGluIHJkbXNyKCksIHdybXNyKCkgYW5k
-IHdybXNybnMoKSBhcyB0aGUgb25seSBhdmFpbGFibGUNCk1TUiBhY2Nlc3MgZnVuY3Rpb25z
-IChwbHVzIHRoZSByZWxhdGVkICpfb25fY3B1W3NdKCkgb25lcykuDQoNCg0KSnVlcmdlbg0K
+Co-developed-by: Ramesh Garidapuri <ramesh.garidapuri@amd.com>
+Signed-off-by: Ramesh Garidapuri <ramesh.garidapuri@amd.com>
+Signed-off-by: Devang Vyas <devangnayanbhai.vyas@amd.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+Link: https://patch.msgid.link/20260317183453.3556588-1-devangnayanbhai.vyas@amd.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
---------------xqV4SofOq8n9i0M2OANdlkJj
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+LLM Generated explanations, may be completely bogus:
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Now I have all the key information. Here's the complete analysis:
 
-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
-kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
-=3DeeAB
------END PGP PUBLIC KEY BLOCK-----
+---
 
---------------xqV4SofOq8n9i0M2OANdlkJj--
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
---------------MkMxazCF9eScsL1LcWp4rGxE--
+**Step 1.1: Subject Line**
+- Subsystem: `EDAC/amd64`
+- Action verb: "Add support for" - this is adding **new hardware
+  support**, not fixing a bug
+- Summary: Adds model 40h-4fh support for family 19h (Ryzen 6000 Zen3,
+  V3000 AMD Embedded SoC)
+- Record: [EDAC/amd64] [Add support] [New CPU model ID range for
+  existing driver]
 
---------------0VbizIsoaPic0Srt4Z20cgX7
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+**Step 1.2: Tags**
+- Co-developed-by: Ramesh Garidapuri (AMD employee)
+- Signed-off-by: Ramesh Garidapuri, Devang Vyas, Borislav Petkov (AMD,
+  EDAC maintainer)
+- Reviewed-by: Yazen Ghannam (AMD, regular EDAC contributor)
+- Link: patch.msgid.link URL
+- No Fixes: tag, no Reported-by:, no Cc: stable
+- Record: Reviewed by key EDAC/AMD developers, signed off by subsystem
+  maintainer (Borislav Petkov)
 
------BEGIN PGP SIGNATURE-----
+**Step 1.3: Commit Body**
+- Claims to add support for Ryzen 6000 Zen3-based CPUs in V3000 AMD
+  Embedded SoC platform
+- These CPUs use ECC memory and need RAS (Reliability, Availability,
+  Serviceability) handling
+- No bug description, no crash, no error report
+- Record: This is a hardware enablement commit, not a bug fix
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmnmKNgFAwAAAAAACgkQsN6d1ii/Ey9W
-nQf/a8KCCCnhL59crmzgb9E3zj7DudGcc4GmDui6Rx3AJ7o8Gy/7WyHGvFccmZJmyxsqGWaw843/
-AeploPO7UpLkhrn05bh7jmPhsvEJ5UgNJQ2olAyBQsQUwCuGjmLdpMN5ToEXWFquvT7olB2a14NF
-XN+cStYh/rYCxlhPipnrQFjvmVeMeoQ5IIrnnC0ekxa4zvs4iBYVhcEeykHGUhGJD2w8mIVn73Z8
-GOREY0UyH0taMIDwf7hk+Dqc+YTREqOxjE2Fa0vgeLmNbdgK2vwyfp22VQsS9dTQO9qxmeTMo+W5
-CJu0KpUG/duVoJIIF3GVfQ6/1JDODJaE4RXb7TU9sA==
-=1QUQ
------END PGP SIGNATURE-----
+**Step 1.4: Hidden Bug Fix Detection**
+- This is not a disguised bug fix. It's straightforwardly adding a new
+  CPU model range to an existing switch statement.
+- Record: Not a hidden bug fix.
 
---------------0VbizIsoaPic0Srt4Z20cgX7--
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: Inventory**
+- Files changed: 1 (`drivers/edac/amd64_edac.c`)
+- Lines added: 3 lines (`case 0x40 ... 0x4f:`, `pvt->max_mcs = 4;`,
+  `break;`)
+- Lines removed: 0
+- Function modified: `per_family_init()`
+- Record: Extremely small, single-file, 3-line addition inside existing
+  switch block
+
+**Step 2.2: Code Flow Change**
+- Before: Family 19h models 40h-4fh would fall through the inner switch
+  without matching, using defaults (`max_mcs = 2`, no special flags)
+- After: Family 19h models 40h-4fh set `max_mcs = 4`
+- The default `max_mcs = 2` is set at line 3771 before the switch;
+  without this case, the V3000 SoC would get a wrong max_mcs value
+
+**Step 2.3: Bug Mechanism**
+- Category: Hardware ID / model addition to existing driver
+- Without this patch, the EDAC driver will still load for these CPUs
+  (family 19h is already matched at the outer switch), but it will use
+  `max_mcs = 2` instead of the correct `max_mcs = 4`
+- This means 2 of the 4 memory controllers would not be monitored for
+  ECC errors
+- Record: This is a device model addition to an existing driver, setting
+  the correct number of memory controllers
+
+**Step 2.4: Fix Quality**
+- The fix is trivially correct - identical pattern to other model ranges
+  in the same switch
+- Extremely minimal - 3 lines, no risk of regression
+- The pattern mirrors `case 0x70 ... 0x7f` which also sets `max_mcs = 4`
+- Record: Obviously correct, zero regression risk
+
+## PHASE 3: GIT HISTORY
+
+**Step 3.1: Blame**
+- Family 19h case block added in commit `2eb61c91c3e273` (Yazen Ghannam,
+  2020-01-10) - present since ~v5.6
+- Various model ranges were added over time (models 10-1f, 30-3f, 60-7f,
+  90-9f, a0-af)
+- Record: Family 19h support has been in the tree since v5.6; model
+  additions are routine
+
+**Step 3.2: No Fixes: tag** - expected for hardware enablement
+
+**Step 3.3: File History**
+- Recent commits show routine EDAC changes (format cleanup, macro
+  removal, etc.)
+- Similar prior commits: "Add support for family 19h, models 50h-5fh"
+  (commit `0b8bf9cb142da`), "Add support for ECC on family 19h model
+  60h-7Fh" (commit `6c79e42169fe1`)
+- This is a standalone commit, not part of a series
+- Record: Standalone, follows established pattern of model additions
+
+**Step 3.4: Author**
+- Devang Vyas appears to be an AMD engineer. The commit was reviewed by
+  Yazen Ghannam (AMD EDAC regular) and signed off by Borislav Petkov
+  (EDAC maintainer).
+
+**Step 3.5: Dependencies**
+- No dependencies. The family 19h framework already exists. This just
+  adds a new case.
+
+## PHASE 4: MAILING LIST
+
+**Step 4.1-4.5:**
+- Lore is behind Anubis protection; could not fetch discussion
+- b4 dig could not find this specific commit (likely too new for cached
+  index)
+- No indication of stable nomination in the commit tags
+- Record: Could not verify mailing list discussion due to lore
+  protection
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1-5.4:**
+- `per_family_init()` is called from the module's probe path at line
+  4016
+- Called once per detected AMD CPU node during EDAC initialization
+- The function sets up per-family and per-model parameters for the EDAC
+  memory controller
+- Without correct `max_mcs`, the driver will only see 2 of 4 memory
+  controllers, meaning ECC errors on controllers 3 and 4 would not be
+  detected/reported
+
+## PHASE 6: STABLE TREE ANALYSIS
+
+**Step 6.1:**
+- Family 19h support exists since v5.6, so the outer `case 0x19:` exists
+  in all active stable trees (6.1.y, 6.6.y, etc.)
+- The patch would apply cleanly to any stable tree that has the family
+  19h switch block
+- Record: Code exists in all active stable trees
+
+**Step 6.2:**
+- The file has had some refactoring (e.g., `e9abd990aefd7` for
+  `ctl_name` generation), so minor conflicts are possible in older
+  stable trees, but the specific hunk (adding a case between 0x3f and
+  0x60) should apply cleanly.
+
+**Step 6.3:** No related fixes already in stable for this model range.
+
+## PHASE 7: SUBSYSTEM CONTEXT
+
+**Step 7.1:**
+- Subsystem: EDAC (Error Detection and Correction) - memory error
+  handling
+- Criticality: IMPORTANT - affects users of specific AMD embedded
+  hardware (V3000 platform with Ryzen 6000)
+- Record: [EDAC/AMD driver] [IMPORTANT for V3000 users]
+
+**Step 7.2:** Active subsystem with regular model additions.
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: Who is affected?**
+- Users of AMD V3000 embedded SoC platform (Ryzen 6000 Zen3, family 19h
+  models 40h-4fh)
+- This is an embedded platform - likely used in industrial/commercial
+  applications where ECC matters
+- Record: Platform-specific - V3000 embedded users only
+
+**Step 8.2: Trigger conditions**
+- The driver loads on any AMD system with family 19h. Without this
+  patch, models 40h-4fh get incorrect `max_mcs` (2 instead of 4), so
+  half the memory controllers go unmonitored.
+- Record: Triggered automatically on boot for affected hardware
+
+**Step 8.3: Failure severity**
+- Without this: EDAC doesn't properly monitor all memory controllers.
+  ECC errors on 2 of 4 controllers would go undetected/unreported.
+- This is NOT a crash - the system still works, but RAS monitoring is
+  incomplete.
+- Severity: MEDIUM - missing error reporting rather than
+  crash/corruption
+- Record: [Incomplete ECC monitoring] [MEDIUM severity]
+
+**Step 8.4: Risk-Benefit**
+- BENEFIT: Enables proper ECC monitoring on V3000 platform (important
+  for embedded/industrial users relying on stable kernels)
+- RISK: Extremely low - 3-line addition to existing pattern in a switch
+  statement, zero chance of regression for any other hardware
+- Record: [Medium benefit for niche audience] [Very low risk]
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: Evidence Compilation**
+
+FOR backporting:
+- Trivially small change (3 lines), obviously correct
+- Follows well-established pattern (identical to other model additions)
+- Falls into the "device ID / model addition to existing driver"
+  exception category
+- Enables hardware monitoring for real embedded platform users
+- Zero regression risk - only affects models 40h-4fh within family 19h
+- Reviewed by subsystem experts (Yazen Ghannam) and merged by maintainer
+  (Borislav Petkov)
+
+AGAINST backporting:
+- This is new hardware enablement, not a bug fix
+- No crash, no data corruption, no security issue
+- The system still functions without it - just incomplete ECC monitoring
+- Niche audience (AMD V3000 embedded platform)
+- No Fixes: tag (expected, but also reflects that there's no bug being
+  fixed)
+
+**Step 9.2: Stable Rules Checklist**
+1. Obviously correct and tested? YES - trivial 3-line pattern addition
+2. Fixes a real bug? BORDERLINE - it's hardware enablement; without it,
+   max_mcs defaults to 2 instead of 4, which means incomplete monitoring
+3. Important issue? NO - no crash, security, or corruption. Missing ECC
+   monitoring is concerning for embedded users but not critical
+4. Small and contained? YES - 3 lines, single file
+5. No new features or APIs? This IS arguably a new feature (new hardware
+   support)
+6. Can apply to stable? YES - should apply cleanly
+
+**Step 9.3: Exception Categories**
+- This falls under "New Device IDs" exception: adding a CPU model range
+  to an existing driver. The driver already exists; only the model-
+  specific configuration is new. This is analogous to adding a PCI/USB
+  device ID.
+
+## Verification
+
+- [Phase 1] Parsed tags: Signed-off-by Borislav Petkov (maintainer),
+  Reviewed-by Yazen Ghannam
+- [Phase 2] Diff analysis: 3 lines added, new `case 0x40 ... 0x4f` in
+  per_family_init() switch, sets max_mcs=4
+- [Phase 2] Verified default max_mcs=2 at line 3771, so without this
+  patch models 40h-4fh get wrong value
+- [Phase 3] git blame: family 19h support since commit 2eb61c91c3e273
+  (v5.6 era, 2020-01-10)
+- [Phase 3] git log: confirmed similar prior model additions (50h-5fh,
+  60h-7fh)
+- [Phase 4] b4 dig: could not find this specific commit; lore blocked by
+  Anubis
+- [Phase 5] per_family_init() called at line 4016 during driver probe
+- [Phase 6] Family 19h case exists in all active stable trees (v5.6+)
+- [Phase 8] Failure mode: incomplete ECC monitoring (2/4 controllers),
+  severity MEDIUM
+- UNVERIFIED: Mailing list discussion content (lore blocked)
+
+## Decision
+
+This commit adds a new CPU model range (40h-4fh) to an existing EDAC
+driver. While it's technically a "new hardware support" addition, it
+fits squarely into the **device ID / model addition exception** for
+stable trees. The change is:
+- 3 lines, trivially correct, zero regression risk
+- Follows an identical pattern to dozens of prior model additions in
+  this switch
+- Enables ECC error detection for a real embedded platform (V3000)
+- Users of stable kernels on this platform would have incomplete memory
+  error monitoring without it
+
+However, this is ultimately **new hardware enablement** rather than a
+bug fix. The system doesn't crash, corrupt data, or have a security
+issue without it. The V3000 platform is a relatively niche embedded SoC.
+While device ID additions are generally acceptable for stable, the
+stable kernel rules primarily target fixes for real bugs. This is
+enabling hardware that was never supported before - not fixing broken
+support for already-supported hardware.
+
+The balance tips toward YES given the device ID exception, the trivial
+size, and zero risk, but this is a borderline case. Given the extremely
+low risk and that it enables proper RAS functionality for embedded users
+who rely on stable kernels, this merits inclusion.
+
+**YES**
+
+ drivers/edac/amd64_edac.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
+index 8908ab881c855..c6aa69dbd9fb1 100644
+--- a/drivers/edac/amd64_edac.c
++++ b/drivers/edac/amd64_edac.c
+@@ -3863,6 +3863,9 @@ static int per_family_init(struct amd64_pvt *pvt)
+ 				pvt->max_mcs		= 8;
+ 			}
+ 			break;
++		case 0x40 ... 0x4f:
++			pvt->max_mcs			= 4;
++			break;
+ 		case 0x60 ... 0x6f:
+ 			pvt->flags.zn_regs_v2		= 1;
+ 			break;
+-- 
+2.53.0
+
