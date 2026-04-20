@@ -1,156 +1,294 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9AA375AD0;
-	Mon, 20 Apr 2026 13:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B973D4138
+	for <linux-edac@vger.kernel.org>; Mon, 20 Apr 2026 13:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776690632; cv=none; b=R4mDw6m30aqkQ7H++zPo0i+R8xBw3veEk1R+U+a4x6qbdRA1o+pRVLgzqpJxGNazeki3g5eGhuEuyVZ0pVln3RmWgqHhbY7D1+QH06oTTC4Kdz4S+KpTDoYwXoPVZ8rFBN2f/Gzpst9KwIwmQP497MBGsG+UZy7oGfG4r9x+pVk=
+	t=1776691420; cv=none; b=VO0ITuAt+cknr8dqdO58XF+fOxKnn7K3bBo0UuM/Q2o7aqzdtOUZHQPvEqQyEvglERMsyn5oGfyKRWnbRUOtg6xF7g1DAvznndwR6QqLcai5jQCW4V9pxWdYdem8fvCcZKIYc2rqmms2b8/Or1ACF8Sp6A9QT9x+zK86bjy8fks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776690632; c=relaxed/simple;
-	bh=RFKJ8XgVdNZY9ziaatyj4EMc9th2+ryvIQooMrtXNww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OgBXjB1yBCPkXzbwmzHXa753J9Fy9wU/Ok5IMdanOsuZ/o4ICGFsl2EXz5yaO9kRB0QVnOGNcWyP7sVd1wCn/UwygHbfM46WCqY77KOhzdFunOWPdP9uTa4XSJc8U/4lg3GjXHpNQgBMhw+z6eJZRvTsJSPBvl+Ldg6zWml862s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hgDTFYlt; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1776691420; c=relaxed/simple;
+	bh=fK/zENPSnVF2cK+TRMMrx7mAfOOVTpL/t2ABi2qgYk4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XW5vfURaBPmuqW5EWZn3m5ro+B+rWWXMW+jFyk961omGVZah/hdzOmU7KmYfEkFRscyZT0TezgPbhKbSLpH2Q0Dj72lEeEuqy3dXpSMRUz8m18n5l/9pSYMgW2gKCMr/TIrKZ3keH9U+vqeD6nr6RPd5+Y8zQue8Ksfw0Hov2qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Ug39R98O; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hgDTFYlt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=+3lo14J1/NyjIAmHgAiTUITYPL2uWAvAsCttc1UAAp4=; b=hgDTFYltg9WCRYtFOIdcHYbUTb
-	p0eKeno69Y4jUP9xqYM/2R0/r9YXVtom3OeDaov72/qJMODZkfGBIL+8Y74zhX5hIOAOcw9yC5IGU
-	AjsagYCva87Zzhrkpktun94y315xf/anTI7qR73yqLQA6ep27NcB1U+6gytmEJ7BV4EZHWz7GWrkj
-	VTtxuDdNQVaNWnMsjNFhA2tp/gUEIu1FehTu4LycbWkZGwh22cn3fJ5RK9MvzfG0sc7oGJEL17Xzd
-	SjCxV/i7j1pg84zHp+Fk/bP8pW3mBQ/xfy9DpOm+zDAbwhxqhbLTPU+ZbGV2tKYwnype5olI+F9cx
-	uSYz3eIA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wEoOL-00000007zna-2rMr;
-	Mon, 20 Apr 2026 13:10:21 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 1E090301BDE; Mon, 20 Apr 2026 15:10:20 +0200 (CEST)
-Date: Mon, 20 Apr 2026 15:10:20 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
-Message-ID: <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
-References: <20260420091634.128787-1-jgross@suse.com>
- <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
- <74aa6707-356f-40d4-8611-5f6d116855ac@suse.com>
- <20260420123352.GH3102624@noisy.programming.kicks-ass.net>
- <7078f664-719c-42bc-9eb9-d6bc9ff1f57e@suse.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Ug39R98O"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ba699316b42so214543266b.3
+        for <linux-edac@vger.kernel.org>; Mon, 20 Apr 2026 06:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1776691417; x=1777296217; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fK/zENPSnVF2cK+TRMMrx7mAfOOVTpL/t2ABi2qgYk4=;
+        b=Ug39R98OwP8JTE8YBzUfKd/ma33E47bsjs3xR/wWgddinfaWGcGjk8cazYyjqjw4VK
+         BY2XhupzLUay9mH8cc1EO+gnLkEQKyA/B90wEFgRJX7qG49UkupCw+MNLjbvb9rVhBsy
+         t11pUUgLP2c5Db0Wl9DlNeA5zx13zx3gYOWXCJ1Gh4+LfolBHGLwNSd+B+q5nskiYYvR
+         YxdlGIGwzCNRep85u4bvGBgE5T27JlcK4MYzw2AZzxXFx5SVhlfF9Iydkz5fpMbh/pof
+         Tec9jiJQRyM2AItY/gxUbJRqzCViAlltPg54mFvrxHuQ95Dx4j3HarG0M2/JBHxkwG4/
+         f4XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776691417; x=1777296217;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fK/zENPSnVF2cK+TRMMrx7mAfOOVTpL/t2ABi2qgYk4=;
+        b=aRV7JTBiQDN6YJpvoofeJNW/k9RQNQWxLDG+3FfFl+K6WR2m55Ji0Vfx8eO3n0w9wC
+         ko4bBUtyU9pqMVETKronb9jLld63FSIm/VLtbThmO7ske/FBTpjVqmxP80+8UlWFRlEG
+         f5i6ighOqwvtbrCb5o/oYUCV4RJgttyfbJBG7S+KkTC+Dq87i+kLGN5Qi5KreM0Zmj44
+         x+jwtEPOqT19Z9+yd/0/q+3HCRjvEAXJ0kjyqTScYeLUcCFa7xAjj6e9LmKgs8oItJQu
+         wvnvWPMQQpmw52qnQ04iDfojlg4KN47jkKPD65BI2x+H6xpkTd7e8JKTZxaqk7ss3dIp
+         vSJw==
+X-Forwarded-Encrypted: i=1; AFNElJ8djhq4gQkc2HL4/M9+tavfBm3dD4fDLdgB0bArdj/slJXu/1bzQhVorUzJDetFhs1HJ/EOW8M3NBgU@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnEHsTPLyht/wnihG3A0iEcTguj/ctGvYHW/7Fft2cPNrm0Kc7
+	HWxIRZb0U56NB4JOmZnkCZ3tC9/moduMsFTwpY4T33BQ1n3qZr61jfKiJPe3mpwKs2c=
+X-Gm-Gg: AeBDietUxbyfdfQJy0R2a99IaEOB4TP00w5ZICPInQLFuVHQQ6p+E6eBdV07e/DNeu+
+	bLoOygBt2rMKGKXjVVdGKNx/k1TDtPIsB8P1J5SghkS2BFTMiqfQY1dQz4MPPdI8+YkW95coBND
+	tG8LUMiAfX0RHuElo3x32IbSwXOoH3wGXd+oZjuEwdxMalWomU2A2kJ7wEBjQp25feqIR0zf/Cb
+	gip2GkjEGAhBwgnfQqNTrK9xGT31SzwkEo53vhoyx3SWz6GHyMDvnE//kldRGqY1IAyUuXaEkkR
+	LQgT9CMV9XccaWEXLipkj73sAnb47XbzfKbKdEH5bSo4xOsLcQwvsmc0u1VvyfmHRHUStf3+4ls
+	6FCuz/k0U72ypa2s0C5mRGJppffvSjBxeWhfNAAW3Lmq6Dat574ANGFj0L0K/MwkntXi/fGYLex
+	E8WgzfmcFSqvOsouSeo1YwZCGf8ntR767VErH+RpWQzeRT3k9r0K11mscqaTeBryD2Wp7+EtIx9
+	Q1IWfr6aW81Qpv5QP+1dRszLBGsJKMmbhNzOLLeZYCZHvUc2M0QhhU08HXjUe00nwBieLMuRBg=
+X-Received: by 2002:a17:907:6d15:b0:b98:411a:116f with SMTP id a640c23a62f3a-ba419076c8emr691220466b.2.1776691417073;
+        Mon, 20 Apr 2026 06:23:37 -0700 (PDT)
+Received: from ?IPV6:2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112? (2a00-12d0-af5d-ad01-5d3f-14e6-9bcb-5112.ip.tng.de. [2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba455045652sm348965366b.51.2026.04.20.06.23.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Apr 2026 06:23:36 -0700 (PDT)
+Message-ID: <a49e3a07-1154-4c6a-8763-0bd565cd3179@suse.com>
+Date: Mon, 20 Apr 2026 15:23:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mfmnlIORIkeUiOAD"
-Content-Disposition: inline
-In-Reply-To: <7078f664-719c-42bc-9eb9-d6bc9ff1f57e@suse.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, Tony Luck <tony.luck@intel.com>
+References: <20260420091634.128787-1-jgross@suse.com>
+ <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
+ <74aa6707-356f-40d4-8611-5f6d116855ac@suse.com>
+ <20260420123352.GH3102624@noisy.programming.kicks-ass.net>
+ <7078f664-719c-42bc-9eb9-d6bc9ff1f57e@suse.com>
+ <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
+Content-Language: en-US
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Autocrypt: addr=jgross@suse.com; keydata=
+ xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
+ ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
+ dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
+ NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
+ XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
+ AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
+ CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
+ mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
+ G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
+ kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
+ Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
+ RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
+ vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
+ sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
+ aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
+ w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
+ auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
+ 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
+ fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
+ HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
+ QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
+ ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
+In-Reply-To: <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0VbizIsoaPic0Srt4Z20cgX7"
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0VbizIsoaPic0Srt4Z20cgX7
+Content-Type: multipart/mixed; boundary="------------MkMxazCF9eScsL1LcWp4rGxE";
+ protected-headers="v1"
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, Tony Luck <tony.luck@intel.com>
+Message-ID: <a49e3a07-1154-4c6a-8763-0bd565cd3179@suse.com>
+Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
+References: <20260420091634.128787-1-jgross@suse.com>
+ <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
+ <74aa6707-356f-40d4-8611-5f6d116855ac@suse.com>
+ <20260420123352.GH3102624@noisy.programming.kicks-ass.net>
+ <7078f664-719c-42bc-9eb9-d6bc9ff1f57e@suse.com>
+ <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260420131020.GI3102624@noisy.programming.kicks-ass.net>
 
---mfmnlIORIkeUiOAD
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--------------MkMxazCF9eScsL1LcWp4rGxE
+Content-Type: multipart/mixed; boundary="------------xqV4SofOq8n9i0M2OANdlkJj"
+
+--------------xqV4SofOq8n9i0M2OANdlkJj
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+T24gMjAuMDQuMjYgMTU6MTAsIFBldGVyIFppamxzdHJhIHdyb3RlOg0KPiBPbiBNb24sIEFw
+ciAyMCwgMjAyNiBhdCAwMzowMTozMVBNICswMjAwLCBKw7xyZ2VuIEdyb8OfIHdyb3RlOg0K
+Pj4gT24gMjAuMDQuMjYgMTQ6MzMsIFBldGVyIFppamxzdHJhIHdyb3RlOg0KPiANCj4+PiBU
+aGF0IGlzLCB3ZSBoYXZlIHRoZSBmb2xsb3dpbmcgaW5zdHJ1Y3Rpb25zOiBSRE1TUiwgV1JN
+U1IsIFdSTVNSTlMNCj4+PiBBbmQgd2Ugc2hvdWxkIGhhdmUgdGhlIGV4YWN0IHNhbWUgZnVu
+Y3Rpb25zOg0KPj4+DQo+Pj4gCXZhbCA9IHJkbXNyKG1zcik7DQo+Pj4gCXdybXNyKG1zciwg
+dmFsKTsNCj4+PiAJd3Jtc3Jucyhtc3IsIHZhbCk7DQo+Pg0KPj4gUGVvcGxlIHRlbmQgdG8g
+Y29weSBzaW1pbGFyIGNvZGUsIG1heWJlIHVzaW5nIG9sZGVyIGtlcm5lbHMgYXMgdGhlIHNv
+dXJjZS4NCj4+DQo+PiBTbyBldmVuIGlmIHdybXNybnMoKSB3b3VsZCBiZSBmaW5lIChhbmQs
+IHJlc3VsdGluZyBmcm9tIHRoYXQsIGJldHRlciksIHRoZXkNCj4+IHdpbGwgbW9yZSBsaWtl
+bHkgZW5kIHVwIHVzaW5nIHdybXNyKCkgaW5zdGVhZC4NCj4+DQo+PiBVc2luZyBuZXcgZnVu
+Y3Rpb24gbmFtZXMgaW1wbHlpbmcgdGhlIGV4YWN0IHNlbWFudGljcyAoc2VyaWFsaXppbmcg
+dnMuDQo+PiBub24tc2VyaWFsaXppbmcpIHdpbGwgbWFrZSBpdCBtb3JlIGxpa2VseSB0aGUg
+Y29ycmVjdCBvbmUgaXMgYmVpbmcgdXNlZC4NCj4gDQo+IFlvdSBjYW5ub3QgZml4IHN0dXBp
+ZC4gSWYgeW91IHdhbnQgZnJpY3Rpb24sIHRoZSBsYWJlbCB0aGluZyB3aWxsDQo+IGVuc3Vy
+ZSAnb2xkJyBjb2RlIGRvZXNuJ3QgY29tcGlsZSBhbmQgd2lsbCBuZWVkIGZpeGluZy4NCj4g
+DQo+IEFsc28sIGlmIHdybXNybnMoKSByZWFsbHkgaXMgZmFzdGVyLCB0aGUgcGVyZm9ybWFu
+Y2UgZm9sa3Mgd2lsbCBmaW5nZXINCj4gJ2luY29ycmVjdCcgd3Jtc3IoKSB1c2FnZSBzb29u
+ZXIgb3IgbGF0ZXIuDQoNCkZpbmUgd2l0aCBtZS4gOi0pDQoNCj4gDQo+Pj4gVGhlIG9ubHkg
+aW50ZXJlc3RpbmcgcXVlc3Rpb24gaXMgd2hhdCB0byBkbyB3aXRoIHRoZSAnc2FmZScgYXNw
+ZWN0LiBUaGUNCj4+PiBpbnN0cnVjdGlvbiB0YWtlcyBhIGZhdWx0LCB3ZSBkbyB0aGUgZXh0
+YWJsZSwgYnV0IHJkbXNyKCkgYWJvdmUgYWxyZWFkeQ0KPj4+IGhhcyBhIHJldHVybiB2YWx1
+ZSwgc28gdGhhdCBjYW4ndCBiZSB1c2VkLg0KPj4+DQo+Pj4gT25lIG9wdGlvbiBpcyB0bywg
+bGlrZSB1YWNjZXNzIGFuZCB0aGUgcHJvcG9zZWQgb3ZlcmZsb3csIGlzIHRvIHVzZQ0KPj4+
+IGxhYmVscyBsaWtlOg0KPj4+DQo+Pj4gCXZhbCA9IHJkbXNyKG1zciwgbGFiZWwpOw0KPj4+
+DQo+Pj4gQW5kIHRoZW4sIGV2ZW4gdGhvdWdoIHRoZSB3cm1zciooKSBmdW5jdGlvbnMgaGF2
+ZSB0aGUgcmV0dXJuIGF2YWlsYWJsZSwNCj4+PiBkbyB3ZSB3YW50IHRvIGJlIGNvbnNpc3Rl
+bnQgYW5kIGRvOg0KPj4+DQo+Pj4gCXdybXNyKG1zciwgdmFsLCBsYWJlbCk7DQo+Pj4gCXdy
+bXNybnMobXNyLCB2YWwsIGxhYmVsKTsNCj4+Pg0KPj4+IHJhdGhlciB0aGFuIGJlIGluY29u
+c2lzdGVudCBhbmQgaGF2ZSB0aGVtIGhhdmUgYSBib29sZWFuIHJldHVybiBmb3INCj4+PiBz
+dWNjZXNzLg0KPj4+DQo+Pj4gV2hhdCBhbSBJIG1pc3Npbmc/DQo+Pg0KPj4gSSBsaWtlIHRo
+ZSBpZGVhIHRvIHVzZSBhIGxhYmVsLCBidXQgdGhpcyB3b3VsZCByZXN1bHQgaW4gdGhlIG5l
+ZWQgdG8gdXNlDQo+PiBtYWNyb3MgaW5zdGVhZCBvZiBmdW5jdGlvbnMuIFNvIHRoaXMgaXMg
+dHJhZGluZyBvbmUgYXNwZWN0IGFnYWluc3QgYW5vdGhlci4NCj4+IEknbSBub3Qgc3VyZSB3
+aGljaCBpcyB0aGUgYmV0dGVyIG9uZSBoZXJlLg0KPj4NCj4+IEFuIGFsdGVybmF0aXZlIG1p
+Z2h0IGJlIHRvIHN3aXRjaCByZG1zcigpIHRvIHRoZSBpbnRlcmZhY2UgdXNlZCBieSByZG1z
+cl9zYWZlKCksDQo+PiBpLmUuIGxldCBhbGwgdGhlIGFjY2Vzc29ycyByZXR1cm4gYSBib29s
+IGZvciBzdWNjZXNzL2ZhaWx1cmUgYW5kIHVzZSBhIHBvaW50ZXINCj4+IGZvciB0aGUgTVNS
+IHZhbHVlIGluIHJkbXNyKCkuDQo+IA0KPiBZZXMsIGVpdGhlciB3YXkgYXJvdW5kIHdvcmtz
+LiBQZXJoYXBzIHRoYXQgaXMgJ2JldHRlcicgYmVjYXVzZSBtb3N0bHkgd2UNCj4gZG9uJ3Qg
+Y2FyZSBhYm91dCB0aGUgZmF1bHRzIHNpbmNlIHdlJ3ZlIGNoZWNrZWQgdGhlICdmZWF0dXJl
+JyBlYXJsaWVyLg0KPiANCj4gSXRzIGp1c3QgaW5jb252ZW5pZW50IHRvIGhhdmUgcmV0dXJu
+IGluIGFyZ3VtZW50IGNydWQsIGJ1dCB3aGF0ZXZlciA7LSkNCg0KT2theSwgc28gd291bGQg
+eW91IGJlIGZpbmUgd2l0aCB0aGUgZm9sbG93aW5nIHBsYW4/DQoNCi0gZHJvcCAqX3NhZmUo
+KSB2YXJpYW50cywgc3dpdGNoIHRoZSAibm9ybWFsIiBvbmVzIHRvICJzYWZlIiBzZW1hbnRp
+Y3MuDQotIG1ha2UgYWxsIGludGVyZmFjZXMgcmV0dXJuIGEgYm9vbCAodHJ1ZSA9PSBzdWNj
+ZXNzLCBmYWxzZSA9PSBmYWlsdXJlKQ0KLSBzd2l0Y2ggYWxsIGludGVyZmFjZXMgdG8gdXNl
+IDY0LWJpdCB2YWx1ZXMsIGRyb3AgdGhlIDMyLWJpdCBsb3cvaGlnaA0KICAgc3BsaXQgdmFy
+aWFudHMNCi0gdXNlIGFsd2F5c19pbmxpbmUgZnVuY3Rpb25zIGZvciBhbGwgbG9jYWwgTVNS
+IGFjY2Vzc29ycw0KDQpUaGlzIHdpbGwgcmVzdWx0IGluIHJkbXNyKCksIHdybXNyKCkgYW5k
+IHdybXNybnMoKSBhcyB0aGUgb25seSBhdmFpbGFibGUNCk1TUiBhY2Nlc3MgZnVuY3Rpb25z
+IChwbHVzIHRoZSByZWxhdGVkICpfb25fY3B1W3NdKCkgb25lcykuDQoNCg0KSnVlcmdlbg0K
+
+--------------xqV4SofOq8n9i0M2OANdlkJj
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 20, 2026 at 03:01:31PM +0200, J=FCrgen Gro=DF wrote:
-> On 20.04.26 14:33, Peter Zijlstra wrote:
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-> > That is, we have the following instructions: RDMSR, WRMSR, WRMSRNS
-> > And we should have the exact same functions:
-> >=20
-> > 	val =3D rdmsr(msr);
-> > 	wrmsr(msr, val);
-> > 	wrmsrns(msr, val);
->=20
-> People tend to copy similar code, maybe using older kernels as the source.
->=20
-> So even if wrmsrns() would be fine (and, resulting from that, better), th=
-ey
-> will more likely end up using wrmsr() instead.
->=20
-> Using new function names implying the exact semantics (serializing vs.
-> non-serializing) will make it more likely the correct one is being used.
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjri
+oyspZKOBycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2
+kaV2KL9650I1SJvedYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i
+1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/B
+BLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xqG7/377qptDmrk42GlSK
+N4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR3Jvc3Mg
+PGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsE
+FgIDAQIeAQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4F
+UGNQH2lvWAUy+dnyThpwdtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3Tye
+vpB0CA3dbBQp0OW0fgCetToGIQrg0MbD1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u
++6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbvoPHZ8SlM4KWm8rG+lIkGurq
+qu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v5QL+qHI3EIP
+tyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVy
+Z2VuIEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJ
+CAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4
+RF7HoZhPVPogNVbC4YA6lW7DrWf0teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz7
+8X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC/nuAFVGy+67q2DH8As3KPu0344T
+BDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0LhITTd9jLzdDad1pQ
+SToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLmXBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkM
+nQfvUewRz80hSnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMB
+AgAjBQJTjHDXAhsDBwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/
+Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJnFOXgMLdBQgBlVPO3/D9R8LtF9DBAFPN
+hlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1jnDkfJZr6jrbjgyoZHi
+w/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0N51N5Jf
+VRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwP
+OoE+lotufe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK
+/1xMI3/+8jbO0tsn1tqSEUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1
+c2UuZGU+wsB5BBMBAgAjBQJTjHDrAhsDBwsJCAcDAgEGFQgCCQoLBBYCAwECHgEC
+F4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3g3OZUEBmDHVVbqMtzwlmNC4
+k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5dM7wRqzgJpJ
+wK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu
+5D+jLRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzB
+TNh30FVKK1EvmV2xAKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37Io
+N1EblHI//x/e2AaIHpzK5h88NEawQsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6
+AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpWnHIs98ndPUDpnoxWQugJ6MpMncr
+0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZRwgnBC5mVM6JjQ5x
+Dk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNVbVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mm
+we0icXKLkpEdIXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0I
+v3OOImwTEe4co3c1mwARAQABwsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMv
+Q/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEwTbe8YFsw2V/Buv6Z4Mysln3nQK5ZadD
+534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1vJzQ1fOU8lYFpZXTXIH
+b+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8VGiwXvT
+yJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqc
+suylWsviuGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5B
+jR/i1DG86lem3iBDXzXsZDn8R3/CwO0EGAEIACAWIQSFEmdy6PYElKXQl/ew3p3W
+KL8TLwUCWt3w0AIbAgCBCRCw3p3WKL8TL3YgBBkWCAAdFiEEUy2wekH2OPMeOLge
+gFxhu0/YY74FAlrd8NAACgkQgFxhu0/YY75NiwD/fQf/RXpyv9ZX4n8UJrKDq422
+bcwkujisT6jix2mOOwYBAKiip9+mAD6W5NPXdhk1XraECcIspcf2ff5kCAlG0DIN
+aTUH/RIwNWzXDG58yQoLdD/UPcFgi8GWtNUp0Fhc/GeBxGipXYnvuWxwS+Qs1Qay
+7/Nbal/v4/eZZaWs8wl2VtrHTS96/IF6q2o0qMey0dq2AxnZbQIULiEndgR625EF
+RFg+IbO4ldSkB3trsF2ypYLij4ZObm2casLIP7iB8NKmQ5PndL8Y07TtiQ+Sb/wn
+g4GgV+BJoKdDWLPCAlCMilwbZ88Ijb+HF/aipc9hsqvW/hnXC2GajJSAY3Qs9Mib
+4Hm91jzbAjmp7243pQ4bJMfYHemFFBRaoLC7ayqQjcsttN2ufINlqLFPZPR/i3IX
+kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
+=3DeeAB
+-----END PGP PUBLIC KEY BLOCK-----
 
-You cannot fix stupid. If you want friction, the label thing will
-ensure 'old' code doesn't compile and will need fixing.
+--------------xqV4SofOq8n9i0M2OANdlkJj--
 
-Also, if wrmsrns() really is faster, the performance folks will finger
-'incorrect' wrmsr() usage sooner or later.
+--------------MkMxazCF9eScsL1LcWp4rGxE--
 
-> > The only interesting question is what to do with the 'safe' aspect. The
-> > instruction takes a fault, we do the extable, but rdmsr() above already
-> > has a return value, so that can't be used.
-> >=20
-> > One option is to, like uaccess and the proposed overflow, is to use
-> > labels like:
-> >=20
-> > 	val =3D rdmsr(msr, label);
-> >=20
-> > And then, even though the wrmsr*() functions have the return available,
-> > do we want to be consistent and do:
-> >=20
-> > 	wrmsr(msr, val, label);
-> > 	wrmsrns(msr, val, label);
-> >=20
-> > rather than be inconsistent and have them have a boolean return for
-> > success.
-> >=20
-> > What am I missing?
->=20
-> I like the idea to use a label, but this would result in the need to use
-> macros instead of functions. So this is trading one aspect against anothe=
-r.
-> I'm not sure which is the better one here.
->=20
-> An alternative might be to switch rdmsr() to the interface used by rdmsr_=
-safe(),
-> i.e. let all the accessors return a bool for success/failure and use a po=
-inter
-> for the MSR value in rdmsr().
-
-Yes, either way around works. Perhaps that is 'better' because mostly we
-don't care about the faults since we've checked the 'feature' earlier.
-
-Its just inconvenient to have return in argument crud, but whatever ;-)
-
---mfmnlIORIkeUiOAD
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------0VbizIsoaPic0Srt4Z20cgX7
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEv3OU3/byMaA0LqWJdkfhpEvA5LoFAmnmJbsACgkQdkfhpEvA
-5LqrfRAAtUP8rVHx50dWDsVTiXDcWxSNtdlVFTwLXSs6fssk3GF8Pkvnful9Rrts
-PfWaBEF+4t++knrWfjpYkTtCVGqA62am09PVNkZCurGWR2RSqO9a6HpdIeOHiSw0
-+mzmMtRQgjrKnPKP93WL1Fx11M0yiiI0slrAsMjRHdLYmv7K1QbxizaGLOT/AabN
-rxmHpAFxhuw+jezG3cQiRdO7dAbcQCaJKbzz5avH32iAQxWAZgfF4U2QJSFdOxZ/
-4B0MrhTAnkR1UM8mbDCNNYywvw7OHfPI7SvBhPeeZzPHiJGp8Y1q4JEMvxkMsKeK
-29xj0mvSsGBDZt5Q4XnPcpebzqrcSztDnQ+XD2NQ170jX3HxiLqKgYx2BMQ6Fy8I
-pnO40s/eovZEWg1BIRyp9xbdwUYCEML6OisNDcbMPYSekpjuicdxB+tNLORn6ttB
-IVeiXTKsW4AcnT/55yluE9qBjS6f+AH6arZiGYR2jdlQRgZPyGNSK1MoDNxuLN/E
-4Ws9zsVu7CfWJZIXfQ2H1pVbKNRmtI5pWlRSk6ZydQDz1TpybkxQKu/Rp6dTIcL6
-4KH93U0fvXyADclbgrlQxlR3OhWmBMA2WdzGYwWoV+MhC8kZomqIM7O/Q/eSrpxE
-G14aovU4KMGw7xzLsPH8L3nxJqDk3MhzMz5k2dPNE3fqtO1KgaQ=
-=A1vx
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmnmKNgFAwAAAAAACgkQsN6d1ii/Ey9W
+nQf/a8KCCCnhL59crmzgb9E3zj7DudGcc4GmDui6Rx3AJ7o8Gy/7WyHGvFccmZJmyxsqGWaw843/
+AeploPO7UpLkhrn05bh7jmPhsvEJ5UgNJQ2olAyBQsQUwCuGjmLdpMN5ToEXWFquvT7olB2a14NF
+XN+cStYh/rYCxlhPipnrQFjvmVeMeoQ5IIrnnC0ekxa4zvs4iBYVhcEeykHGUhGJD2w8mIVn73Z8
+GOREY0UyH0taMIDwf7hk+Dqc+YTREqOxjE2Fa0vgeLmNbdgK2vwyfp22VQsS9dTQO9qxmeTMo+W5
+CJu0KpUG/duVoJIIF3GVfQ6/1JDODJaE4RXb7TU9sA==
+=1QUQ
 -----END PGP SIGNATURE-----
 
---mfmnlIORIkeUiOAD--
+--------------0VbizIsoaPic0Srt4Z20cgX7--
