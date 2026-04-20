@@ -1,257 +1,163 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C5B38423A
-	for <linux-edac@vger.kernel.org>; Mon, 20 Apr 2026 11:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B9D1C5D7D;
+	Mon, 20 Apr 2026 12:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776685873; cv=none; b=G7qYyKc3wuUIMMEbDmbmlbQE+MdWOcAirx6t9lxssWTHWLzAE6fG7jZcQoHV9vgVKqeu/lyI3rjt3qA4shMpnLeVbeWzoc8idSunvKVE2pYkuF2CQx7xUWWYqIwRWwIBo+Vex1ryS9hbwxvq+PhicLtVGY8SWQUKrBK7fW/tQQw=
+	t=1776688447; cv=none; b=UTWhnixjzIbhFLcY2icpcbgKsBABm2g0oNkEj3EiyytN0i4SSInXCf6AHIT4LW52BiF71T/jpGHKBnnZozPqMuYW15pzMpyvD9F9nW7ndd2PkbKWJyMihXA3AcwGf5vPQcdxpQd4hLq7fMIfVQuH/jOzx/99UkeClcsG78uVgXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776685873; c=relaxed/simple;
-	bh=ehlzk6l3AihvvZOpumwV1XdU4NF2KhDxOY7IqQUex10=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UTHjPX/B+UvQRrTqUIWkyNL05m9KjmVzdiSPYIotwagWtbg7v3MYtOZE7wr/hBUOKER2lyZYXCKmjr7bTrXW3s/hoagv90czdKfQFRpRF8tbwVu5rLnAn/3D3RWy2z3ZX9D++J32YoBOqGg08RS7uW1ofJWvFOt1ReHnkI9DDN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BdBbvLra; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1776688447; c=relaxed/simple;
+	bh=8DVNTdqtymxD+D6VomkDQpMXINeeL78z3PdZiAQgVeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l0jSDaqZlIC7eL3aatIkGHXH3E2Fubx4l8eLjV1jmYDvTBGboPEulX6/3Z+6KQr1Bl4upiyz+SmnI8pNs/GnvQk0v56De6Zpioq690GfEKBeeHNANYQaRlNwiQrsPRcnB9kcbqrIAH05WOvSEknQwcyKy9C9CKKjRgBVKbR7fDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ENOysmJK; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BdBbvLra"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so5162447a12.2
-        for <linux-edac@vger.kernel.org>; Mon, 20 Apr 2026 04:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1776685870; x=1777290670; darn=vger.kernel.org;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ehlzk6l3AihvvZOpumwV1XdU4NF2KhDxOY7IqQUex10=;
-        b=BdBbvLraqACH3iVXQPyO+m6lkGaTb/fFCYQQ7v6Zsl1vlXN9S2jLub2wHVsPc9VEzG
-         xDUsqIhJOmabZCH9IJkTYQREAVeHqXgeNOcvaYaL6GV4X0FOPsW0ivI8jQ3waA1h4yqu
-         KCDOXL75pYFdnp8T9NFayazHGOinT5H7NPV6mruuDO8+YDWJ+to0lTRuBWLilptu7/sv
-         vHv2ZD+uM4z6et1PsMqW0bIZLeo3FkUrxQZXaJj0dKBJ3CcrDBlfBfEjaMXBCwsTZPqi
-         W7E5ZyphM0rOUVqc8PepRwYB+OEzwP+mPMfLhJmkKwj9Y4xvsBxuO/WBviRcUUQ0RszE
-         Utpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776685870; x=1777290670;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ehlzk6l3AihvvZOpumwV1XdU4NF2KhDxOY7IqQUex10=;
-        b=ccsg6cpCqMcAUzKL/DTW3TxpKWPQvEUttSDe/TZbB4G+Va64TXh7yCCPbZ/3JNbo6f
-         yCJQc3PwBdPxnjdoBktGzXWSmIM7MNSn9lRbC/zlav2atQEmKwYWFrdoKcNrzFGe2/Gy
-         lT/5Fk5H4cGA52nsYbDb144EtCjoFRgtWXTA5t5wv1UxtwawTlueG0RVuZqvEmVf4SVi
-         9TSmTDKpQDLlErf9b4ZGgzRsmMMIEixlRm8ST/35NH7AV/vu2udlPAOPinqcMeKlkhfT
-         YrBVSPpU+iAv9G50mhmSX/JPfYiebqMHWxqHtoJfVw5p8idapCRdYhpB0JgbNxMEYUFc
-         BDUA==
-X-Forwarded-Encrypted: i=1; AFNElJ9nKxJIRauA+vkU2eupI0Gls7ScWT6kkznqinVEquCpNtyhl4UO2MEnVDEZiWErxqzeA2NukeX2eodj@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHb9sxh9JCSNZlwoz+0VHArsrhcM4oKXOTWYVyUmzm4LcroF2n
-	A1uQupq335vViqkqyqbXGLWZj2E47/gExJwD18rIycDuq/jDKHkRYhYsyvSObVnsvJs=
-X-Gm-Gg: AeBDiet7FWzwXfo9OHScLTNqCcXnBHQ0VQslEcD8cBnKiZTDJfntPZAYXt/fLmZP5HR
-	4Vc9enb83E0Sh7LRZm7NeB9gHXaL8hxXd7VsLN2vR35z1Bce5S5JmFRuW6xEhEEhNP30TV/Xjut
-	QsYSP/Ax8e6QY/VsUN1gD2/e6udrZ4++HidRRnQi3EHRsDEnIZHAUI00yGIfztNcz7c+4M3YNUN
-	AtJ4GaG+jesKjOX6gbe+LUIFOxR8SRbsbYdnEG681K6oKzjdV6kQZSCVYEvIuXOQHT2Gi5QFak5
-	cFH6AT8qiMw+qOdFictYZgWQxB/3Jx3DZA5JPd2ujG1fHczIcntI1sExuOKPe+GuoX5CWfglEck
-	7hNw6bKC3w4vnKJt6tjLQ0/pfXJJPdqzwH3eE3O/1WueUoviyUcelenfk4lWkR/esziF2naqM4x
-	Y5EATjO0iwHCOoAMGIwDEE4DsS+ytneCOWhzNMyRwL7vfbODSN0YeV4dJbY8WzRa/DKQR7vT2Dt
-	eMAFqPxg+WRH2Truxld5DNmN0+oRqNV7mnfTdPGnTa4y0l3I/ycCs04SOPcjSHZ
-X-Received: by 2002:a17:907:3e9e:b0:ba0:fb42:c254 with SMTP id a640c23a62f3a-ba41e4fc17fmr646840166b.33.1776685869997;
-        Mon, 20 Apr 2026 04:51:09 -0700 (PDT)
-Received: from ?IPV6:2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112? (2a00-12d0-af5d-ad01-5d3f-14e6-9bcb-5112.ip.tng.de. [2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba455539817sm333790866b.56.2026.04.20.04.51.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Apr 2026 04:51:09 -0700 (PDT)
-Message-ID: <d730553e-b7ca-4f90-a367-4c0ce0d8e7f4@suse.com>
-Date: Mon, 20 Apr 2026 13:51:09 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ENOysmJK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ru+w/oxZxTd7mJgX/R7M8U9xpsJRQsuaGfnFo/fCVFI=; b=ENOysmJKu5w9jFkEIg9WaAce4C
+	Yj+tzNn6nVX+Dw+TjnW1nmWnQz1XSKFYAKAKhTokCUg5c73ycSJeRhQRIPPsZmNSf40VW9/dy9z0l
+	0naLSjmWkpDEQM1jX2Qe8sUFrUKYjeH9nDL1+Aj4+0DFm96JSmqo3NzApMoSR20e0aJtIXhk9xJsZ
+	MPy6dPZrQ7o1gBH1XxEj5DnWFu+qfDlEXszugL8OdqTWz3IP09+xbZSAT9Pv7TV9etisQahkh2bQZ
+	evx3IfuLYxG7wpRkXV1QS093SDE5JoCNrYkRwqj2sPibueMVRmka675+NxmUBC7Der2BKXt35Jwit
+	IFfkYnkQ==;
+Received: from 2001-1c00-8d85-4b00-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:4b00:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wEnp3-00000007v7m-2ARA;
+	Mon, 20 Apr 2026 12:33:53 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 373883021A4; Mon, 20 Apr 2026 14:33:52 +0200 (CEST)
+Date: Mon, 20 Apr 2026 14:33:52 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Tony Luck <tony.luck@intel.com>
+Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
+Message-ID: <20260420123352.GH3102624@noisy.programming.kicks-ass.net>
+References: <20260420091634.128787-1-jgross@suse.com>
+ <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
+ <74aa6707-356f-40d4-8611-5f6d116855ac@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, Tony Luck <tony.luck@intel.com>
-References: <20260420091634.128787-1-jgross@suse.com>
- <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
- <20260420114117.GC3102924@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <20260420114117.GC3102924@noisy.programming.kicks-ass.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qg5e8IHkxxAEfOTmiiQswmgk"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="f7+yjHOX3pOmOVtM"
+Content-Disposition: inline
+In-Reply-To: <74aa6707-356f-40d4-8611-5f6d116855ac@suse.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qg5e8IHkxxAEfOTmiiQswmgk
-Content-Type: multipart/mixed; boundary="------------DSdFRA29CAp32E5LhvVnLAsa";
- protected-headers="v1"
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-perf-users@vger.kernel.org, linux-edac@vger.kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, Tony Luck <tony.luck@intel.com>
-Message-ID: <d730553e-b7ca-4f90-a367-4c0ce0d8e7f4@suse.com>
-Subject: Re: [PATCH RFC 0/6] x86/msr: Rename MSR access functions
-References: <20260420091634.128787-1-jgross@suse.com>
- <20260420113512.GG3102624@noisy.programming.kicks-ass.net>
- <20260420114117.GC3102924@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260420114117.GC3102924@noisy.programming.kicks-ass.net>
 
---------------DSdFRA29CAp32E5LhvVnLAsa
-Content-Type: multipart/mixed; boundary="------------bWEOyPVC0sLiJkcTi8ZrJsVA"
-
---------------bWEOyPVC0sLiJkcTi8ZrJsVA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-T24gMjAuMDQuMjYgMTM6NDEsIFBldGVyIFppamxzdHJhIHdyb3RlOg0KPiBPbiBNb24sIEFw
-ciAyMCwgMjAyNiBhdCAwMTozNToxMlBNICswMjAwLCBQZXRlciBaaWpsc3RyYSB3cm90ZToN
-Cj4+IE9uIE1vbiwgQXByIDIwLCAyMDI2IGF0IDExOjE2OjI4QU0gKzAyMDAsIEp1ZXJnZW4g
-R3Jvc3Mgd3JvdGU6DQo+Pg0KPj4+IC0gVXNlIGZ1bmN0aW9ucyBpbnN0ZWFkIG9mIG1hY3Jv
-cyBmb3IgYWNjZXNzaW5nIE1TUnMsIHdoaWNoIHdpbGwgZHJvcA0KPj4+ICAgIG1vZGlmeWlu
-ZyB2YXJpYWJsZXMgcGFzc2VkIGFzIGEgcGFyYW1ldGVyLg0KPj4+DQo+Pj4gLSBFbGltaW5h
-dGUgbXVsdGlwbGUgYWNjZXNzb3JzIGRvaW5nIGV4YWN0bHkgdGhlIHNhbWUgdGhpbmcgKGUu
-Zy4NCj4+PiAgICByZG1zcmwoKSBhbmQgcmRtc3JxKCkpLg0KPj4NCj4+IFNvIGZhciBzbyBz
-YW5lLg0KPj4NCj4+PiAtIEluc3RlYWQgb2YgaGF2aW5nIGZ1bmN0aW9uIG5hbWVzIGJhc2Vk
-IG9uIHRoZSB1bmRlcmx5aW5nIGluc3RydWN0aW9uDQo+Pj4gICAgbW5lbW9uaWNzLCBoYXZl
-IGZ1bmN0aW9ucyBvZiBhIGNvbW1vbiBuYW1lIHNwYWNlIChtc3JfKigpKS4NCj4+DQo+PiBO
-b3Qgc3VyZSBvbiB0aGlzIG9uZS4gVGhlIHdob2xlIG1zcl97cmVhZCx3cml0ZX1fe3NhZmUs
-bm9zZXJ9KCkgdGhpbmcgaXMNCj4+IGEgcm95YWwgcGFpbi4gQWxzbyAnbm9zZXInIHJlYWRz
-IHRvIG1lIGFzIHRoZSBub3VuIHRoYXQgZ29lcyB3aXRoICd0bw0KPj4gbm9zZScgW2hlIHRo
-YXQgbm9zZXMgKGFyb3VuZCksIGxpa2UgYmFrZXI6IGhlIHRoYXQgYmFrZXNdLg0KPj4NCj4+
-IEkgd291bGQgbXVjaCByYXRoZXIgd2UganVzdCBzdGljayB0byB0aGUgbW5lbW9uaWNzIGhl
-cmUuIEFsbCBvZiB0aGlzDQo+PiByZWFsbHkgaXMgYWJvdXQgd3JhcHBpbmcgc2luZ2xlIGlu
-c3RydWN0aW9ucywgbm8gbmVlZCB0byBtYWtlIGl0IGFuDQo+PiB1bnJlYWRhYmxlIG1lc3Mu
-DQo+IA0KPiBBbHNvLCB0aGUgX3NhZmUgc3VmZml4IHNob3VsZCBqdXN0IGdvIGF3YXkuIEFs
-bCBNU1IgYWNjZXNzb3JzIHNob3VsZCBiZQ0KPiAnc2FmZScuDQoNClRoYXQgd291bGQgYmUg
-ZmluZSBieSBtZSwgYnV0IEknZCBsaWtlIHRvIGhhdmUgc29tZSBjb25maXJtYXRpb24gdGhp
-cyBpcw0KcmVhbGx5IHRoZSByb3V0ZSB0byBnby4NCg0KDQpKdWVyZ2VuDQo=
---------------bWEOyPVC0sLiJkcTi8ZrJsVA
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
+--f7+yjHOX3pOmOVtM
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+On Mon, Apr 20, 2026 at 01:49:02PM +0200, J=FCrgen Gro=DF wrote:
+> On 20.04.26 13:35, Peter Zijlstra wrote:
+> > On Mon, Apr 20, 2026 at 11:16:28AM +0200, Juergen Gross wrote:
+> >=20
+> > > - Use functions instead of macros for accessing MSRs, which will drop
+> > >    modifying variables passed as a parameter.
+> > >=20
+> > > - Eliminate multiple accessors doing exactly the same thing (e.g.
+> > >    rdmsrl() and rdmsrq()).
+> >=20
+> > So far so sane.
+> >=20
+> > > - Instead of having function names based on the underlying instruction
+> > >    mnemonics, have functions of a common name space (msr_*()).
+> >=20
+> > Not sure on this one. The whole msr_{read,write}_{safe,noser}() thing is
+> > a royal pain. Also 'noser' reads to me as the noun that goes with 'to
+> > nose' [he that noses (around), like baker: he that bakes].
+>=20
+> Naming is hard. :-)
+>=20
+> What about s/ser/sync/ then?
+>=20
+> > I would much rather we just stick to the mnemonics here. All of this
+> > really is about wrapping single instructions, no need to make it an
+> > unreadable mess.
+>=20
+> I'm pretty sure most of the wrmsr*() use cases could switch to the non
+> serializing variants. The problem not making the serializing aspect visib=
+le
+> in the function name will probably result in most new instances still usi=
+ng
+> the serializing variant instead of the probably possible non serializing =
+one.
+>=20
+> Many of those use cases will even suffer more, as they won't use the
+> immediate form of WRMSRNS then, which would waste the additional benefits=
+ of
+> that instruction.
 
-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
-kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
-=3DeeAB
------END PGP PUBLIC KEY BLOCK-----
+I'm confused, if we have a wrmsrns() function, that could see if the msr
+argument was a constant and use the immediate form, no?
 
---------------bWEOyPVC0sLiJkcTi8ZrJsVA--
+That is, we have the following instructions: RDMSR, WRMSR, WRMSRNS
+And we should have the exact same functions:
 
---------------DSdFRA29CAp32E5LhvVnLAsa--
+	val =3D rdmsr(msr);
+	wrmsr(msr, val);
+	wrmsrns(msr, val);
 
---------------qg5e8IHkxxAEfOTmiiQswmgk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+The only interesting question is what to do with the 'safe' aspect. The
+instruction takes a fault, we do the extable, but rdmsr() above already
+has a return value, so that can't be used.
+
+One option is to, like uaccess and the proposed overflow, is to use
+labels like:
+
+	val =3D rdmsr(msr, label);
+
+And then, even though the wrmsr*() functions have the return available,
+do we want to be consistent and do:
+
+	wrmsr(msr, val, label);
+	wrmsrns(msr, val, label);
+
+rather than be inconsistent and have them have a boolean return for
+success.
+
+What am I missing?
+
+--f7+yjHOX3pOmOVtM
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmnmEy0FAwAAAAAACgkQsN6d1ii/Ey8u
-SAf/TXFMRQi5W8XxtBl3yg3++GnXlOu+0JK2F8bN5Qm6pf1yZoaDGUuDJHQOl/76XP3kL3mgExfU
-T2xX3FUGl4ZDDkDVn8plxa79D4Rpxq2rA8IdLq/QcWupLUq/Um/aPsuA9E2+r8EDPmp6IOtu6m8s
-hlzXbMWyRPw7BH0J/1k2svafHq3r0Wfc3ZsZM+WiSwQsoRF68ukTgGsjmqIBDO+9T0nmqvGmsRyl
-sQzjYi+kIoUB99G0irSsrtBpa9FhshaixTZG2UU1Zosz7ihtGwPDjQEJ57ZTF9jpiApl0yoCJCay
-hYmi8dZ3uDvsZvuz1ooZqx6QvdUVqUwuXz5uQrSxpQ==
-=0q+A
+iQIzBAABCgAdFiEEv3OU3/byMaA0LqWJdkfhpEvA5LoFAmnmHR0ACgkQdkfhpEvA
+5Lrx/RAAmQHG3r/BKE7IXGwEwRO+Ue3IdkpYg1QALizJTSBunX4cxL2HgUDfb2GG
+YkY/f9QYZ3PdIKTRsx6b8UpUqx5kzYolD1YlkU7mCBJopQGW1XmquBj0j+vVjDo8
+h7gMNWYRblf5pM4Pv1M816OJatl5TscFnITfbvSjvxVcJezPASlQHTbRb2m+KVRX
+Q/XqVhoT6wCilPpnei4rXRtPowTCQ2KzW6x+nhJeDonbUdPAFC5w2gWXrTlQK34B
+YMnrEkj/B7qkcplkpniBIMcWLR3ZO6eQhpsvgD/Bfs4PPIxf9Nt4bZZ0rdYz3cSW
+6CzqLFYSY0aCFfMIDR6FbHt0B3rxBklqEKFApshSQ1/wdAwSWcf6IPr6c6VMpyw6
+4pFDsBRs7uPZKPYFo2fHVC+HlYSY3F+1mpV/2roIyvzla5q/EULMbu04nDbRxuYr
+AV6Qxj4HiqBe5cVkqLDU8dOl4eokpllCLqIXpymHeEhhR31tOSAorlkTUHjW0vLy
+VrP6uDOpQzLg8sp4gKDQNaaSaxRT9bP3puBA6VAlK0deyU4L89967aO8W1Oo0/0Z
+gDUxuTv47e3QucdAg0ckm3meShY6Gf6ROCnxewdlBRYRzXcjcmqKwA4m+MbEYapL
++Wui6A4XMK7dGRWsFCeE9XYal8yRRa54+RPj4hqtlJduZUZxiGc=
+=t9s5
 -----END PGP SIGNATURE-----
 
---------------qg5e8IHkxxAEfOTmiiQswmgk--
+--f7+yjHOX3pOmOVtM--
