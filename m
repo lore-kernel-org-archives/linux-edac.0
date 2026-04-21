@@ -1,136 +1,153 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011052.outbound.protection.outlook.com [52.101.57.52])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4CB3B8BC3;
-	Tue, 21 Apr 2026 10:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776767536; cv=fail; b=C1tlP2SEvXAGakxKE1LGsk0WhdgPT3StroqcHyRx7Sm534BGgCFUQVLgFOlgcCsec64B0Iqwo1E6VwPfmyQdp9y8XZyhEPlLIhF56IcKMVckzPJpCuYOfFTwER5ucIiesZgo7FV/PU57Finw5rzgLoAtm8Ssqd+xf0JNvDAbKPA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776767536; c=relaxed/simple;
-	bh=ZreI5cWJ0Gmigo3lf4WNoYvWtD/UHzep4MGvsGVx6qQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TNM3KHLvN4MBpnfxDxdoR7CKlp5goRCSbQp7OU647B2NHKX/uIfE/EvhH9Ij6boAzuNL4pNmRLTI2ZB7qe/dTkFQRg8CZOJL1OWtLbk19mzV3u/kVKAb13A9Bi/gU2XJSBzALo50JnYAUN0vmhLRIf5zWGhrm4ZXkRO2XEgZwbo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EFGWMyWx; arc=fail smtp.client-ip=52.101.57.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34ACF279334;
+	Tue, 21 Apr 2026 12:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776773158; cv=none; b=VtsUu8TzDLPeYpmYIvjSTZFXSYI0BVwf8jvilJp8xwbmXT0cyFOT7qu6q6Gqj4/oAGTv69+7xLJb3Sluvr+EvzjOIRNoa5wDT55BKLo3Yty+5s8H3DG2IRFB8KXiBL+mq8VB/gqGKg3pX8buMYkfMRMlh9LpnRAbtNaONIHH99o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776773158; c=relaxed/simple;
+	bh=GpkZS1NVd9+P4UXIJFc+V0DDJYWKrAxBbg7B9WEyH54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NQj5tve6dO3pkaNoXcbbXRbp8qyd/sQDwl/MW6zNX0UveUL0mnqyRTKpCtBsMlEnF42vIXkMW2ON0/0UWoJdy52OQNdkHtaFXXuWz7FziTckHLkTJd6nXskMl+IQE6TERUZbGuJV8iw9w7UymN22HbuxkHorVh5ZeGyIhIk1WKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ColPS+OI reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EFGWMyWx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bHism4X0j1/17GLEWSsaWBI8YIi1m9DF87TXI+Zo9nff6TJPnB/wog7iZwHUrDJZQQIOIf2fudn8GNRZ+mEpsl4e6KSpA6GgA5PT0dJkHOMDPszWOV7nXGqYTeHgVf+HMGkcEsz//q4Uqn6CNunYbTbseZHYKMLR2q7J8b0mhLvEJCtqfmxLrmVQaW/VhBXggMpAz0VC0+yv7NsTbgo5/0gG7FZHKev41YAhDHexcIdQzr7IQzEy2WROSqkW9L9kh+KOXCeeDaBVAOOryaJ9QsqHTaoDzrxMvgyiphcunwWEJC91XRD9be8WJ6EhgQQpNDJFB2OH1/UUoqT39y0bJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A4GVh04RUMztXX49i9h28Ot6qkdIyqMuWLurZb/R4xc=;
- b=apGkozjsNwZwkrMmzpC/h6WrsFYti+nl8kY0dTZ9G9q9w8Q+IPeK6+wfocBq26X0jjkuKT37mHQchczTJn9m6X5yQUlblYEfO+uyn7DdQyrjaNshoQoxkNJE+kZs8KRTjO6zpum5LEFv4iz1b8i66x+u471P0WtvmcpwS1MVJYjMJ+5JwQdeq0XKJ9kDOHmqIVvIABpiPGEmMnLQ6eqdHqia3ebkl0+zMUpDCkWltvHlX62e9wyXhBtaEzH9bmPtTx0MwnixMO5cXJv8gYuiOJw7EYVSmHSgfevs0GH2/tR/FQsw/adK2e5D5pQ+krLs1tsdzT4q4tEzGMTciZO+Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A4GVh04RUMztXX49i9h28Ot6qkdIyqMuWLurZb/R4xc=;
- b=EFGWMyWx1zSFumkPWe7cYARGcqMIP97jf46ZRezKiahNbQNfd3m1tTtpqrBlU+ckbKDKSDj1froz7Tt8hvvBRHuzHD5RuDmzhZ8yLSFQuxEIf6WBjmaII7PMfeojM4Uos8HdcKVfYtH1dFuZP79d5gBczn6+PyUpztmFOBft40s=
-Received: from SJ0PR13CA0170.namprd13.prod.outlook.com (2603:10b6:a03:2c7::25)
- by SJ2PR12MB8062.namprd12.prod.outlook.com (2603:10b6:a03:4c8::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
- 2026 10:31:58 +0000
-Received: from SJ1PEPF00002319.namprd03.prod.outlook.com
- (2603:10b6:a03:2c7:cafe::c0) by SJ0PR13CA0170.outlook.office365.com
- (2603:10b6:a03:2c7::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.48 via Frontend Transport; Tue,
- 21 Apr 2026 10:31:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00002319.mail.protection.outlook.com (10.167.242.229) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9791.48 via Frontend Transport; Tue, 21 Apr 2026 10:31:57 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 21 Apr
- 2026 05:31:29 -0500
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 21 Apr
- 2026 05:31:23 -0500
-Received: from xhdshubhraj40.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 21 Apr 2026 05:31:21 -0500
-From: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-To: <linux-edac@vger.kernel.org>
-CC: <git@amd.com>, <shubhrajyoti.datta@gmail.com>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Frank Li <Frank.Li@nxp.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, <linux-i3c@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] i3c: dw: Add VersalNet compatible string
-Date: Tue, 21 Apr 2026 16:00:59 +0530
-Message-ID: <20260421103059.2484623-3-shubhrajyoti.datta@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260421103059.2484623-1-shubhrajyoti.datta@amd.com>
-References: <20260421103059.2484623-1-shubhrajyoti.datta@amd.com>
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ColPS+OI"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3A76C40E00C2;
+	Tue, 21 Apr 2026 12:05:45 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id GkboiVDN_WMO; Tue, 21 Apr 2026 12:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1776773135; bh=8y7Y88SHke5SVq3V1Aa9JkKle0BTlOwbAX8buOM5Xlk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ColPS+OIr7528i7EmFBsN2ZWrorZWG49Jm95t5nVIB2Pmh1lcKMfcrMSlG/EGTSB2
+	 r+ml2jEbiVPJG6NjDKGoGMO+AoTyNW6YG3cmOVCkK/1xmvBt+8jkgW4yb7VALsH1ba
+	 XhHyZ3g7+O+AJRUftxXn2pJ8TN4odLMr/8vYysqHrL/vSUDaR9CBTzpV7ruCmw3bs7
+	 lr4BQG5mJFyfpfuYxtCutSSv0gkxw3CfpTFt0zh+hlfWHt3PIc3CLiAXHr/lf0IXq/
+	 LmCBiZMrqsc4A/vhBri22Y0hKiI/EaIHD8HjeMELi2hxuQ6d07t2yiKjKSoZsJXyUZ
+	 7JROU8lUJk7GMjxCHy+yaEoIkKWAln0DiTXXqQXsoVn3axuyYuAOsAJbwxSvETm7w6
+	 6EqPwKUJlfSR/BbJF+WEsXZq8cRELQ1T/RdIZJh1XMUQevNogIl3gXBatxK5azD4WL
+	 rESOdb0Q/zUXF8EIp34Z/iVdnNG3o6Nq4iimObf313cSjuQyb+pdsbXI0xozGnGRM5
+	 GqyJtgVbe7tGWfZbrLG0krtVf3L04DOXFgeBDgdboUyStY604806/5jxeo+XlFrYwJ
+	 fDVjdRSGoK6e2qX0sSj8P51quMPiXjZH8pjS3S/+W/hRY5OwoXSbAdwtET5FDX/rwX
+	 HAkCqS8Gh5GRIXGEDMJWJnOY=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id EA89640E00DC;
+	Tue, 21 Apr 2026 12:05:21 +0000 (UTC)
+Date: Tue, 21 Apr 2026 14:05:16 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
+Cc: "Luck, Tony" <tony.luck@intel.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
+Subject: Re: [PATCH] x86/mce: Restore MCA polling interval halving
+Message-ID: <20260421120516.GDaedn_OTOE2Agrl59@fat_crate.local>
+References: <20260316134411.GBabgJK1RFUG3zrTrx@fat_crate.local>
+ <20260406224915.GAadQ4azQ7IRsTjnXD@fat_crate.local>
+ <CY8PR11MB7134050BCAA8B14BFFD8168D895AA@CY8PR11MB7134.namprd11.prod.outlook.com>
+ <20260414211803.GFad6vC9LSYxGScTNH@fat_crate.local>
+ <ad6-H5eihazhqsmC@agluck-desk3>
+ <20260415192723.GAad_mm7YFTi7ypK5I@fat_crate.local>
+ <SJ1PR11MB6083E24844911D87A89BCBA0FC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260415200203.GBad_uu1gC_V_LFH0u@fat_crate.local>
+ <20260417115001.GCaeIeaU8eS_EMNq6G@fat_crate.local>
+ <CY8PR11MB71343373617F535A8EC5A2C0892F2@CY8PR11MB7134.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002319:EE_|SJ2PR12MB8062:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e51a478-125a-466f-1f22-08de9f913744
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700016|82310400026|1800799024|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	0Bo1BpKjyAsMJb602D1SaCzCLh1icKBNU+lEAhSOrdsJrnfQHk0+uHeTznB7UNEpGqCzjqVbII51hxv3BT4Ij1p5SHY4TlKF5E+BWRDLwxArfZniLMk6T9ghCoWwlhbNhsrEsEZe2nM/ORgfexevTRosSW4bCj80WYnuLyJTWE0CI/d7Ijj36HsKVhV34QuXL16Mp3AfWrL7idPfCfntRruuO5VAODASDIZGvMoOPHg1CKe6yHbPBWArE2/Msy+MEsxT4U1SGwC2v7+H47jSKEApQMP53dVeiKgE2eDx7S/parjIcPSTHCKRYUE//rjbWQ0XJOrCpBylkPIlfD1BQm5H/N+OHhmfnUtheITp0ia9/+nzSDB7GlpcghONGAKYuttMWcntA7WeSWjAHV/nrUqJxeSYz29CYvOjBPhEKDXKvYZ4wBywX2eU5FgmdSGlQ100URpcptK5GEVZ7w9wOn24YbVZwr6RbYH7KSf1hSwBzS/NzzbgUacwuXUry36FlgWN22vU/Kui+l9Dg3OQFaUS/SPw9HX4xeO2zHfJg7/eW3Md9RqBqeCsauZHYhBtavSRm+iKVPP/Vwt/H+xG/E9PFbSu+zTsyoYsU9B7iROvCBIbg1+z4ErOMvvgQZ6gwvv1sV11IHqTLBsvwYdnhwMJY8+PC/ZcJTOQ7A5iqFLq6tmzT6CXY8ckOu2fFfN5YB6w8EYEtnk2cKKwKuyRNYpSoQ99pipvFB6ba1nnbQ2AiPv9fHvFrjpXEz1501jOvS+qmcwotP3WksYhOsxueA==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(82310400026)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Q03FCLC9ZwcvY2wYHAwAE/OWGlDHKei/rClmPWXQnCrsyaIXtD/fRojFPl5dUgfvyM7AYHU630IISvPZ5l66gBA9MpMEqyviDRhKeiucJpIU+PIYbrto2ueHtpaiRHoOB8ig9AJrHDBVSKRyvt48yRmm7y1pGaAe7EUQW9Sst5btYrf5sx1d7zX86eCwlhc3VWAEHBqMVAD9OnwnxQ3DRrA6zVo2tcjtHFW1di0I7bX3Iz5tCkVKZ54mT/2O1BuCsuj5zBgaN5f6HBPMsdjUsvEwsjGGnXiuJdaQNa5eMdHz34FGQBRK7stB/H3GGxJAvDrGBglUbjmzgcSl4PYGNpWvU1dhH1OnNDy8pexaQ8461VJqhJIAb7npSfs1cBjfo8y+L4qSBie2C7a2Q4OGir41ZTWmdItd6PCDCcauV4VGMyGqOl2+coI5QXeakEk+
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 10:31:57.8381
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e51a478-125a-466f-1f22-08de9f913744
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002319.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8062
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CY8PR11MB71343373617F535A8EC5A2C0892F2@CY8PR11MB7134.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 
-Add amd,versalnet-dw-i3c-master to the of_match table with
-snps,dw-i3c-master-1.00a as the generic fallback.
+Hi Qiuxu,
 
-Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
----
+On Mon, Apr 20, 2026 at 02:14:52PM +0000, Zhuo, Qiuxu wrote:
+> 1. Test precondition:
+>      - Added debug messages [1] on top of Boris' patch.
+>      - RAS_CEC was disabled.
+>      - A correctable error was injected every 10 seconds.
+>=20
+> 2. Tested with CMCI interrupts enabled:
+>    - The message "Machine check events logged" was printed each time a =
+correctable error was injected.
+>    - EDAC and mcelog in the decode chain were notified as expected.
+>=20
+>     So, this part tested OK.
+>=20
+> 3. Tested in polling mode (boot with "mce=3Dno_cmci"):
+>    - A CPU=E2=80=99s timer interval was halved after calling mce_log(),=
+ or when !mce_gen_pool_empty() was true during polling [2].
+>    - A CPU=E2=80=99s timer interval was doubled when mce_gen_pool_empty=
+() was true during polling [2].
+>=20
+>     This part tested OK, but please see comments below about mce_gen_po=
+ol_empty() check in mce_timer_fn().
 
- drivers/i3c/master/dw-i3c-master.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for testing.
 
-diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
-index d6bdb32397fb..69fef7fdda37 100644
---- a/drivers/i3c/master/dw-i3c-master.c
-+++ b/drivers/i3c/master/dw-i3c-master.c
-@@ -1845,6 +1845,7 @@ static const struct of_device_id dw_i3c_master_of_match[] = {
- 	{ .compatible = "altr,agilex5-dw-i3c-master",
- 	  .data = &altr_agilex5_drvdata,
- 	},
-+	{ .compatible = "amd,versalnet-dw-i3c-master", },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, dw_i3c_master_of_match);
--- 
-2.34.1
+> mce_timer_fn()
+>   machine_check_poll()
+>         mce_log()
+>           irq_work_queue(&mce_irq_work)
+>             ...
+>               mce_irq_work_cb()
+>                 mce_schedule_work()
+>                   schedule_work(&mce_work)
+>                     ...
+>                       mce_gen_pool_process() // [3] worker thread concu=
+rrently running on any CPU handles MCE logs.
+>=20
+>   mce_gen_pool_empty() // [4]
+>=20
+> It seems there is a race between [3] and [4].
+> Although my testing did not observe this race, it's possible=20
+> that mce_timer_fn() (in softirq) completes fast=20
+> enough that it always finishes before [1] (in worker thread) is schedul=
+ed to run.
 
+Does this and the next message in the thread explain the situation?
+
+https://lore.kernel.org/r/20260207115142.GBaYcnTp7maUDVv3Nc@fat_crate.loc=
+al
+
+Bottom line: I don't think this was ever meant to be anything but a rough=
+ and
+simple method to catch too many errors being logged and halve the polling
+interval.
+
+IOW, even if the above race happens, in the abundance of too many errors,=
+ it
+would pick up and start halving eventually.
+
+Right?
+
+Thx.
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
