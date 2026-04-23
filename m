@@ -1,231 +1,168 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD2F19E7F7;
-	Thu, 23 Apr 2026 12:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0CC3A8732
+	for <linux-edac@vger.kernel.org>; Thu, 23 Apr 2026 17:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776948620; cv=none; b=iVRR8Wka4hnluiCQegGxbRTGKh6jd5sjdcD6b1iKE4cTjVURU6WmGWO/VHifLoC4lFsFF3v4rfWxQ5HSxJOVkuidIQAjWQV2aNMeZhQMAirl8RcM13BP77iqiW8xUfysCUEvcm/9cK4GBp8zS/M8pwjMhEhqbS2ciFkQErPYxiY=
+	t=1776965765; cv=none; b=l/NE9KynuHTX7bfUSV8q3DznMZ1TF8acpIQKbkaQrsetGHEuv/YOmm/aahuW+hvONFpLTXTQCCELBykalOJbgAlxRWPTKmGnw/9NAmZBcFjzwYhqKkngykgT2gNCYO54SCziEBmHZDqNv8ufIMsyGjks3tJJtkTModTjbkXP1ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776948620; c=relaxed/simple;
-	bh=r9w83KNh3AQFB1bKdm7FxFcF2yqR++4b9FeeGSNIRkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HOcQRAM7D2HyxvpPcX2oLLHqWJffJkofvvAcRE/C+nZYRaQhi6zyuAgzrDn2WFETM7H8cpnWcALnX/n+u2UYAQVrBo5YQmqyHOF2HJhLLzpSu5juJVcTlSXiP1WiT4BupBsNeEvcg3rnzKWfcWgazbzC0PbEM4RxI7U3xaBKY14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=OAcAUJo5; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1776965765; c=relaxed/simple;
+	bh=4NmOrZJlniH6y9393EzNNOkxXyo0Qf2X701waVhZ+rI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cfFwFZv2mDlopHBjbytwqXR3eIyakfDVNwt7vM0Kvfg54bbDuX7u0BKn0Fch6jPj1XP5OmCkyeTS0FkSypEBmhF5Ss+nzZP13IrkOgceip+qCTE3WdOqP9DFFpX5VD3iiYskTr5TXf6QBo6n7zRI80CuBTLrNH+ZX84kfCnbb80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=E/HgLZKy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AF+sI8OW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="OAcAUJo5"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B894B40E00C4;
-	Thu, 23 Apr 2026 12:50:15 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id FX81PvxiceCE; Thu, 23 Apr 2026 12:50:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1776948604; bh=0YrNM0okvohDVdEuW6CeELIQ6dFysSAYzg1dIUZ0s/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OAcAUJo5PuZ3fJdYWvEIhFWCUGxcXoWsZmhZZ1bGlHVBAyKP+zpKU+xtkQNYtLhtf
-	 BRlSfnjVb0lsDxyXIsYhwpdH64OHcx+tkozILIR5EjJbCq5pEGiPNjAD/ub9hNxUr4
-	 Z6PpuXHP1n1NYteZsva+i95Z7iAGDOKzKFU93btmIcvIEO0mjuk0ZjM5uoqtV8y/Rg
-	 mjRSNI550F6hmM+ATSAmu2EFRdbZk4ubzqlJw0jDOcE64XK4C0kVuGyr260vTOgq9i
-	 SLOrUQbuMjPa/5IJ78v3BknEmn1fS3wIvqj2nlKbHAyTa86yD7t9dsK3E14aiE4T3k
-	 Qz/E+aMfyeP2JrGQhvnBBGt22bjjRriwXMFZ5osZE6uvtA9wWiyPqtL/C0LfzZVTFD
-	 SetX40+dqhacSiTY+gzLjZKysWScGfsfJQqPiy5ARjEm9cbneXor4rjQrm0ho/SWK0
-	 OWmVKUf/WtL1HOODwPeWHoQLU9tBLnULy4P4rVTxaxAmY7sFtS5fz4n+m9fEYlUFNB
-	 emythTUOA7SEaI07IjGhnN5rdgl05UMAQH1feZWturTDmdHL5Z+bizGDWIFKlkdp6j
-	 NUGattbTkLj2jGlTt3KQ57Pz+Z3DZnoecKDHxVmGcvJAgJJb+ujYpEYSSfosAWCOdh
-	 va6JKRWsVJfBmv3ZTnzQguf0=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 977E840E00BA;
-	Thu, 23 Apr 2026 12:49:51 +0000 (UTC)
-Date: Thu, 23 Apr 2026 14:49:45 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Avadhut Naik <avadhut.naik@amd.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
-Subject: Re: [PATCH] x86/mce: Restore MCA polling interval halving
-Message-ID: <20260423124945.GAaeoVacCrmWjZ6AcZ@fat_crate.local>
-References: <CY8PR11MB7134050BCAA8B14BFFD8168D895AA@CY8PR11MB7134.namprd11.prod.outlook.com>
- <20260414211803.GFad6vC9LSYxGScTNH@fat_crate.local>
- <ad6-H5eihazhqsmC@agluck-desk3>
- <20260415192723.GAad_mm7YFTi7ypK5I@fat_crate.local>
- <SJ1PR11MB6083E24844911D87A89BCBA0FC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260415200203.GBad_uu1gC_V_LFH0u@fat_crate.local>
- <20260417115001.GCaeIeaU8eS_EMNq6G@fat_crate.local>
- <CY8PR11MB71343373617F535A8EC5A2C0892F2@CY8PR11MB7134.namprd11.prod.outlook.com>
- <20260421120516.GDaedn_OTOE2Agrl59@fat_crate.local>
- <CY8PR11MB7134949131A571C48A6A5C3E892C2@CY8PR11MB7134.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="E/HgLZKy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AF+sI8OW"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63NCk9nw3803940
+	for <linux-edac@vger.kernel.org>; Thu, 23 Apr 2026 17:36:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=faD65WL6KmbnFRUZMWF8TSEEJ5NbnKbzrfW
+	yF2hxDVM=; b=E/HgLZKykhtyh581yEijy6cKy7jLiW84msU85JU74GiDNAto38z
+	2IIxIJ8t5FuxoYh6psrxsSNm7tHyLugQzbHiZrJbBu8TTluiScQupA3a3XuE68kZ
+	J0J/0+bS9ta3szwJu4dqnbIm+w2xH0+L+u/dg6agXWxs5goN8pfbuZsHqWNnIwU2
+	09WWY9+nsjcKxKkHoVe4d0J1x8WimItO7uWzBiAbPCsiE/qyYPTdFPK0brhBzExv
+	bFTpZkwqq3Lo/CQ0JGhpDGRTSJcJE2fQaULkZ5SbwFmfvcdXI/VWN0vMmEKmedPP
+	Cfja7IRoIXaR6jKNe8DoLK7W/FMVv/BasOQ==
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dqkqfs64y-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Thu, 23 Apr 2026 17:36:03 +0000 (GMT)
+Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-9484dbd65a7so2795953241.1
+        for <linux-edac@vger.kernel.org>; Thu, 23 Apr 2026 10:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1776965762; x=1777570562; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=faD65WL6KmbnFRUZMWF8TSEEJ5NbnKbzrfWyF2hxDVM=;
+        b=AF+sI8OW1G60r/8wnYeNUOJxZJjrTVdgK864M2ZjJgxtnM3rN3eRhaZMntCQ77Tkjt
+         HkWsKPbE7UbcoXbF08egSJlprsJ2+SRwUqDYLae/mkvwuXyR8d/uDcktjj12S/0p4eCt
+         MAbuy9nmHKvfaE0HCVyMrF5G6e9z7X39LJZyERb0+F2VXq8NYD756Nhx6J6CXTdqT8KV
+         Ld96KxAJiIoCD5hJ0nAZbNbfGyXnIiAtgEPNmDRmENHxWee6D+LgQ03/lfFo00HNlgcW
+         dE72JOl0DmN/x88KachzEn65oHFXaf9EQWnIwz828LmSCnIfzqGddWRzbWbOsqxqPKt6
+         d58g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776965762; x=1777570562;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=faD65WL6KmbnFRUZMWF8TSEEJ5NbnKbzrfWyF2hxDVM=;
+        b=Y2bTOTP/HQSe7JRCNwdwOfZEPyrawPiNz3fIQ2g16kP7i1qtM1IL0dNIobgxmgREj+
+         +bL/IRQ18b/w6113LOj1ZE3AsARjMDkWPvTSb1R8cdXYDM4xR0fNUrisL1cNyv7LHhJW
+         DJjeWsRVsSojww/9l5YuCycDnC6C58aP6Hca4tr51B2cO27Q0dCs2G0bTqhuW7fFhZz/
+         HdzL1XFlDJkXveEgYnzaGBakAp5TQcOl4UhgRdzYxhiHi3yK2FTGcaHQZ6uePHP9QQPF
+         cJQnMwCrc7RoaVLiN0Dey7G5BbU9Y1rrtP0ma7/LqdA1x7cJEf0wkYc/dIDNvH0HCIqs
+         j7bg==
+X-Forwarded-Encrypted: i=1; AFNElJ9wJvLAPprIJU9ry6NfMqfw742HvMOcewafiiE0JTs23WujDiITJGZdBnPALXvuKsnc2PcyUtIxSRpw@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywss7YUbFQI4ih2lqlro9sOblp9as3EARt17h13sGE3LjTtT4YX
+	t7iaOkVU3bl9njcOT5ogbmebzS8ay74gBohXyqg2u8pJNLmdPOPVUOe03ue0GoM962y3Qpx+Ymi
+	px/8Fti/r5vCJgjwFZ4/7KWJmnRy31kq879F/aGZ8wRXF/yhErD3QS5/A66tZy7QN
+X-Gm-Gg: AeBDiesNYurtABH/gRvhYtLaiMzlqYNw0aszcTGQlrAgDlDx3tCW5KEORe+buMT+9ce
+	RXoezDbGaQXndurnxfqBOU28sYcGSQUj7qzrcWZjP+vmZuZ6ZJaA4M62IMyuBAvWgwIUHKcJ/Bs
+	/N073K02GpLNcnCHp1lXG968AgY+KufBsu2h6Tz9fBmF6zE2S9x3RRt2N9qTodl0HjyPRMm8unV
+	/fy91DsTu+gN+QVxzvliJ5NSO6ldwL24edvLHBJwatOuAgGYx98afOJW9dD1PFXzfodw8SWXjOO
+	aL8OGMVPU7AfJdpPUjcCqLnY66eoxD7WK1vNbcp7QVDoBcVUj5lWYZqbDScy/H71xWLzlkdcMef
+	BkKA/BlyiPGVFfIPhwbX8KC0mLs4x0vX9GuejFtdeF5LlibE=
+X-Received: by 2002:a67:e718:0:b0:611:6fef:90d with SMTP id ada2fe7eead31-616f85974e6mr14088931137.31.1776965762342;
+        Thu, 23 Apr 2026 10:36:02 -0700 (PDT)
+X-Received: by 2002:a67:e718:0:b0:611:6fef:90d with SMTP id ada2fe7eead31-616f85974e6mr14088901137.31.1776965761868;
+        Thu, 23 Apr 2026 10:36:01 -0700 (PDT)
+Received: from quoll ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ffc558f2sm408295195e9.1.2026.04.23.10.36.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 10:36:00 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: =Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH] EDAC/qcom: Unify user-visible "Qualcomm" name
+Date: Thu, 23 Apr 2026 19:35:59 +0200
+Message-ID: <20260423173558.92416-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CY8PR11MB7134949131A571C48A6A5C3E892C2@CY8PR11MB7134.namprd11.prod.outlook.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=4NmOrZJlniH6y9393EzNNOkxXyo0Qf2X701waVhZ+rI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBp6lh+he+ujNf9L3SYcj7Oovl48LT6CXMKHF7Al
+ LR58sWtXjmJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaepYfgAKCRDBN2bmhouD
+ 17vLD/0TARnTq3lZuS8eRujG55C+dqyE/6M1xJWk0rxVhAJh9oAFp9KClT0KnMPbLyrmerh1F1R
+ 1s0smGeLWSLDPYPeWfrKX/tqRVnwLLSq03ckOOuLVrG34koPyLABfrt6jPGesgvHMR1MJ+1WwmI
+ N43ft+wU5QtgIUWOHdMQmYLFPNCXlZYLvtwGnASnobkEn4Qx9GnvLsSQyAAQr+zHJbffl1g6vHx
+ bPfLO/mRutkwVfUbFwD2x45RPrPTVW6Fvp04XvLj0ZQWUhqtd0AzJ5utm8SoyrVcuDKT47uSeXC
+ 4cylukCu7PB0j0JOOxkEuxlfUzUBmZkJe9LjuE8j/jS43HhDIv+geWpjeOE24beOEspBBTVJ7eG
+ QJEiBoSw5/vwZKNXJg7dgUH4/OoWrkB1KtuAgJntOAq9LsgU/o02g7zA3nim1RTaFy5pkZWiO5E
+ 1xpEnglCw7w36wRPbwfB90+ySiXEsK7OJwbmEZS+YTxelTZ87QJTo982RDJQUviRtVThgkwbHbj
+ iHcjHYtNoIXVQJLZ/5DAlRzZLgU49/pFnI1LwNQwfl47I3q1+6sU/dCBBg/Ovn8WtgG6zIWQEKK
+ XLWSNY+Eo4RqG+n4dYT5ACTdA7PpwQYvPpHqpj1LTRH4YFpnJumn0fJLifhqfKS2U84kcZklGaN 3vsaV3/i0BFxyCg==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: xgRE6dLwKf4uVeSHNnoI6g_9jyaNk8XQ
+X-Proofpoint-ORIG-GUID: xgRE6dLwKf4uVeSHNnoI6g_9jyaNk8XQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDE3MSBTYWx0ZWRfX1lV6m+boo7cT
+ 2FpYQ78sbl9dVSs1gk07Z5Qc8shhze964IP/3l8neXR1UFPdFBMxoeEmds0xhzr8OEVvZObb2Fk
+ J6Co7ebITrv43zrXMUXYK01GdKLxEMWfPdwds3FnUTVK3jRgxa8xEZDWFpjJFOKzJPNp7Zqfu/1
+ 1S169U3/vTiAERXJOqkSWFUVqf5mxob6OGZvmmbDdRWEp45KUIDjquEJFH4y6ObT0zMK/HEnJMg
+ c1rItuwXdVISs7q/vnZuoMpVNMvdxBq8ZVqrqLIsZ/9mvtnqQqsGG+Q1Irj23bFwbA8Imyy8mtA
+ 1YTeXxDPlp1Qy7KL0gyp1+HYcV3/L+KhFyqqj5Wd6mv2dbvfes3MKzEsd8d9oRTbYZ82hJ97Hqm
+ iNY+tm7H6OhyGCqFlOCskKnsw+HJhN1EuRXJBIcwJBJNsDWC5OafK+rtTBLmEuR8Bfhl1pTnDqr
+ lruFrmHV7BXH4B3ls9w==
+X-Authority-Analysis: v=2.4 cv=ablRWxot c=1 sm=1 tr=0 ts=69ea5883 cx=c_pps
+ a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=bx_bbYekIMeBqJIAM60A:9 a=1WsBpfsz9X-RYQiigVTh:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 priorityscore=1501 suspectscore=0 adultscore=0
+ impostorscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604230171
 
-On Tue, Apr 21, 2026 at 03:49:06PM +0000, Zhuo, Qiuxu wrote:
-> Yes, I think so. 
-> 
-> So, to me, the current rough and simple method for catching frequent error cases is a good
-> trade-off between accuracy and complexity.
-> 
->   Reviewed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com> 
->   Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com> 
+Various names for Qualcomm as a company are used in user-visible config
+options: QCOM, Qualcomm and Qualcomm Technologies.  Switch to unified
+"Qualcomm" so it will be easier for users to identify the options when
+for example running menuconfig.
 
-Thanks!
-
-I have this now - I will hammer on it some more before I queue it.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 ---
-Author: Borislav Petkov (AMD) <bp@alien8.de>
-Date:   Mon Mar 16 16:12:00 2026 +0100
 
-    x86/mce: Restore MCA polling interval halving
-    
-    RongQing reported that the MCA polling interval doesn't halve when an
-    error gets logged. It was traced down to the commit in Fixes:, because:
-    
-      mce_timer_fn()
-      |-> mce_poll_banks()
-      |-> machine_check_poll()
-      |-> mce_log()
-    
-    which will queue the work and return.
-    
-    Now, back in mce_timer_fn():
-    
-            /*
-             * Alert userspace if needed. If we logged an MCE, reduce the polling
-             * interval, otherwise increase the polling interval.
-             */
-            if (mce_notify_irq())
-    
-    <--- here we haven't ran the notifier chain yet so mce_need_notify is
-    not set yet so this won't hit and we won't halve the interval iv.
-    
-    Now the notifier chain runs. mce_early_notifier() sets the bit, does
-    mce_notify_irq(), that clears the bit and then the notifier chain
-    a little later logs the error.
-    
-    So this is a silly timing issue.
-    
-    But, that's all unnecessary.
-    
-    All it needs to happen here is, the "should we notify of a logged MCE"
-    mce_notify_irq() asks, should be simply a question to the mce gen pool:
-    "Are you empty?"
-    
-    And that then turns into a simple yes or no answer and it all
-    JustWorks(tm).
-    
-    So do that and also distribute the functionality where it belongs:
-     - Print that MCE events have been logged in mce_log()
-     - Trigger the mcelog tool specific work in the first notifier
-    
-    As a result, mce_notify_irq() can go now.
-    
-    Fixes: 011d82611172 ("RAS: Add a Corrected Errors Collector")
-    Reported-by: Li RongQing <lirongqing@baidu.com>
-    Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-    Reviewed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-    Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-    Link: https://lore.kernel.org/r/20260112082747.2842-1-lirongqing@baidu.com
+And "Qualcomm Technologies" has even variations over the tree:
+Qualcomm Technologies
+Qualcomm Technologies Inc.
+Qualcomm Technologies, Inc.
 
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 8dd424ac5de8..f3a793e3a6c8 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -90,7 +90,6 @@ struct mca_config mca_cfg __read_mostly = {
- };
- 
- static DEFINE_PER_CPU(struct mce_hw_err, hw_errs_seen);
--static unsigned long mce_need_notify;
- 
- /*
-  * MCA banks polled by the period polling timer for corrected events.
-@@ -152,8 +151,10 @@ EXPORT_PER_CPU_SYMBOL_GPL(injectm);
- 
- void mce_log(struct mce_hw_err *err)
- {
--	if (mce_gen_pool_add(err))
-+	if (mce_gen_pool_add(err)) {
-+		pr_info(HW_ERR "Machine check events logged\n");
- 		irq_work_queue(&mce_irq_work);
-+	}
- }
- EXPORT_SYMBOL_GPL(mce_log);
- 
-@@ -585,28 +586,6 @@ bool mce_is_correctable(struct mce *m)
- }
- EXPORT_SYMBOL_GPL(mce_is_correctable);
- 
--/*
-- * Notify the user(s) about new machine check events.
-- * Can be called from interrupt context, but not from machine check/NMI
-- * context.
-- */
--static bool mce_notify_irq(void)
--{
--	/* Not more than two messages every minute */
--	static DEFINE_RATELIMIT_STATE(ratelimit, 60*HZ, 2);
--
--	if (test_and_clear_bit(0, &mce_need_notify)) {
--		mce_work_trigger();
--
--		if (__ratelimit(&ratelimit))
--			pr_info(HW_ERR "Machine check events logged\n");
--
--		return true;
--	}
--
--	return false;
--}
--
- static int mce_early_notifier(struct notifier_block *nb, unsigned long val,
- 			      void *data)
- {
-@@ -618,9 +597,7 @@ static int mce_early_notifier(struct notifier_block *nb, unsigned long val,
- 	/* Emit the trace record: */
- 	trace_mce_record(err);
- 
--	set_bit(0, &mce_need_notify);
--
--	mce_notify_irq();
-+	mce_work_trigger();
- 
- 	return NOTIFY_DONE;
- }
-@@ -1804,7 +1781,7 @@ static void mce_timer_fn(struct timer_list *t)
- 	 * Alert userspace if needed. If we logged an MCE, reduce the polling
- 	 * interval, otherwise increase the polling interval.
- 	 */
--	if (mce_notify_irq())
-+	if (!mce_gen_pool_empty())
- 		iv = max(iv / 2, (unsigned long) HZ/100);
- 	else
- 		iv = min(iv * 2, round_jiffies_relative(check_interval * HZ));
+I am doing this tree wide:
+https://lore.kernel.org/all/?q=f%3Akrzysztof+s%3A%22Unify+user-visible%22+s%3AQualcomm
+---
+ drivers/edac/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
+diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+index a44b85c440ca..a229bd3499c4 100644
+--- a/drivers/edac/Kconfig
++++ b/drivers/edac/Kconfig
+@@ -490,7 +490,7 @@ config EDAC_TI
+ 	  Support for error detection and correction on the TI SoCs.
+ 
+ config EDAC_QCOM
+-	tristate "QCOM EDAC Controller"
++	tristate "Qualcomm EDAC Controller"
+ 	depends on ARCH_QCOM && QCOM_LLCC
+ 	help
+ 	  Support for error detection and correction on the
 -- 
-Regards/Gruss,
-    Boris.
+2.51.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
