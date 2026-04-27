@@ -1,242 +1,198 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012031.outbound.protection.outlook.com [40.107.209.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB8536C9D5;
-	Mon, 27 Apr 2026 06:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270F0227BB5
+	for <linux-edac@vger.kernel.org>; Mon, 27 Apr 2026 10:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777271263; cv=fail; b=B1qHKGJeziWtBYL1RUEvgKu6xskWY1aa6wy50IK/gGFePVTE6JG5K+6ndaJwyJLSHceA5x2bAcywNiOvSLElP+0AG1ltAyh30u1J9vWPaDBEeVsz7DudJODNOPsVjGdrEMLOauqQ4qlIPE9hf3WbcXV2xPhbwhh34ISabjTpN2U=
+	t=1777286873; cv=pass; b=mj6+x/69p4CrZpF+hvN8K3E/OqAXZDuymmR9VST9gSKZEnkxOgx8qgcml+5mT8ko9VszpqUAG8NqKYS6cZ3MW3sMmV2oHVp8v1QTfiE0GoOE6vvSPPeJ/u/d7tmbUBPomfYf+UnKTz15BPpI+XcT5/5pJjjo6pQ9vFYjhziR+Tw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777271263; c=relaxed/simple;
-	bh=zOASimRPrs/yi+NOWyeX23L0tpFXgPT+nRSwDmEZJBw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=SLbBmRiwusbmuXFBvlgwmHuVBjDU1A93pgHVFZOT/4rE/gADI0YGQ6ajC8gJstDNazT24Rq3HKe9+jEtNXraq3pm+Q0fNoQfAYzCuVU0oRkOrfVdn9ubMlvYaxvW2P92ckYDNz0Bu6MphWr6uxulKf+bqK9qHiHweAorBftBLU4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=M6Ea00sT; arc=fail smtp.client-ip=40.107.209.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1777286873; c=relaxed/simple;
+	bh=CERzPnJVQzgGtwyyEy9zOdHNpqInhIU/ITtHNHx8N7g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Eb0GDJeh7Y0n95FzKoi7q+Cad8m6dDs2CSOLvpL7VQnB8Y5H+TsEljVCxMUJrjp2Vk+Vp8EYjKC7A5X7qdlax4woA7vfZNWas+jaaYSXtd/uB8bysamFeJilV9OrIT7SmO0X9iMxdQ2Av6HjQ0+Q8z96ljmkzHnScsc/6hUbTIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SS2YwWJY; arc=pass smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="M6Ea00sT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bVNS+dkH74urltAP7QBzH5do4CDBIpV9tuZUGjiEzQjrSVH1xfQU1wPuPltQwrCHUDooyp1glKVi47yp7NtTn3xMh94QqYd6/pu/UQdK1xCd6ARD37oir6mSDF6pHRNlKooBaXydDh8c9gXVaQ412eUilxCim0by0aZ2QXnMRkqF2OC4Uul/KXj1h36agqML3B5JquAUTiGe96LEKsTfS0T2CLOs/Fx1Ul+N6TJ8E3vtBcQBFOLuLn1QVpNk1ZDLBl/XN21wTWUuGDIkZP/NAVZKfJ5s77/2J2tyUsWJjF6hGCrAc6/svpB7xpRSsl5fh1fjjcWUMUnMQ57KKQpIAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qz/L02ib7J9IlN2tiff2LQA+go9GN8g5DEz31nVWLis=;
- b=EtpJiACTorhD4QrnZOTDH5foYbJw/Qq0wwRGFozImmFv9aM7yEC1dUcg78Dv+C+HnWPyZed53l8iRICL32/04asFczwQIS1g3xlUqgfKcneoqFiBhdftL+UXQu3guHFuzZ4N+5NzGLRR8bK5+1pXvkZ2RyO1TNQQkO9u2dhIqkEmRBTtMrdIcJZIecSmueWOz0LYwtzSnPjy24PUITYIxVRImaYAeAiS4uNJO/hK5foeuDoDk5S2F8S+/6DsnvpF2ypz606j0TnLHvsHDsNZe3Lc+Ue8HmMMxpWwwP5n4dVZ/D5bChZAk8P1dfesSNxiNPh4ZkROPxjFa124EzKfCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qz/L02ib7J9IlN2tiff2LQA+go9GN8g5DEz31nVWLis=;
- b=M6Ea00sTeI8Um789wm7xelu3BcYRZeXzMljNumIl8hBVfDimIAmbx/guDr3fkqLRKi7NzUVFAjkL4hUhpyoqP0MzhSS9TBvEkQiba32OiD0yC0//NiXM7iO3oYRcHUBJpEkncdklsvMY/tP16S0bcV2+CVO99FwFrpwjLOgH9Xk=
-Received: from DS2PR12MB9821.namprd12.prod.outlook.com (2603:10b6:8:270::13)
- by CYYPR12MB8938.namprd12.prod.outlook.com (2603:10b6:930:c7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.15; Mon, 27 Apr
- 2026 06:27:37 +0000
-Received: from DS2PR12MB9821.namprd12.prod.outlook.com
- ([fe80::f91c:af1b:9bf9:7396]) by DS2PR12MB9821.namprd12.prod.outlook.com
- ([fe80::f91c:af1b:9bf9:7396%4]) with mapi id 15.20.9870.013; Mon, 27 Apr 2026
- 06:27:36 +0000
-From: "Datta, Shubhrajyoti" <shubhrajyoti.datta@amd.com>
-To: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "git (AMD-Xilinx)"
-	<git@amd.com>, "ptsm@linux.microsoft.com" <ptsm@linux.microsoft.com>,
-	"shubhrajyoti.datta@gmail.com" <shubhrajyoti.datta@gmail.com>, Borislav
- Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
-Subject: RE: [PATCH] EDAC/versal: Report PFN and page offset for DDR errors
-Thread-Topic: [PATCH] EDAC/versal: Report PFN and page offset for DDR errors
-Thread-Index: AQHczJ2QoP+Gu2sW0kq3LKNNihUhZLXqfN2AgAful2A=
-Date: Mon, 27 Apr 2026 06:27:36 +0000
-Message-ID:
- <DS2PR12MB9821117564B73D6C805727BB81362@DS2PR12MB9821.namprd12.prod.outlook.com>
-References: <20260415060239.733200-1-shubhrajyoti.datta@amd.com>
- <aehFVdYNiGMh1rry@csail.mit.edu>
-In-Reply-To: <aehFVdYNiGMh1rry@csail.mit.edu>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_2d0b1989-8fc8-4a69-bcac-d46889461ba5_Enabled=True;MSIP_Label_2d0b1989-8fc8-4a69-bcac-d46889461ba5_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;MSIP_Label_2d0b1989-8fc8-4a69-bcac-d46889461ba5_SetDate=2026-04-27T06:21:35.0000000Z;MSIP_Label_2d0b1989-8fc8-4a69-bcac-d46889461ba5_Name=AMD
- Public
- v26;MSIP_Label_2d0b1989-8fc8-4a69-bcac-d46889461ba5_ContentBits=3;MSIP_Label_2d0b1989-8fc8-4a69-bcac-d46889461ba5_Method=Privileged
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS2PR12MB9821:EE_|CYYPR12MB8938:EE_
-x-ms-office365-filtering-correlation-id: 23de8d44-df9e-4cc9-df72-08dea4261312
-x-ld-processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|56012099003|18002099003|22082099003|38070700021;
-x-microsoft-antispam-message-info:
- w9fEX7OKs5uu0PLRmjYfFrWI2UCJ4I+81rVVRYq0v2j08S2yMG6z4PyyaL9xEhaGl36fua6fbq9ZOYwi/pymGmUyo2qT13tyvZFLCYbRpABIMLZJe4+3S8dJS35gV1GAizeTN38eE+elXMptWjxW5Q7UhLFP6xdknW6Nu519LnLm51+GyzFuf0mm5slyUlgAAO802DmMW95cwNf5kiOfwEQdIUykJAkSYkpttdQVY5pPSxB9pyPWo5cbBUQF6s1oizdwMyUZTpnF0jZRX9gb6fkSwdm4/3ItfmR4wFWN1NbhoMUi+gMrM3AfIVnGOgL1zx4cSlc2lyGTLTSUif9T8JlzK754BI7/bxa7vFZuiY+5W4XYSMeDI/xReC22MKko2L9o7AGcqrSWSjnB1aw0aXFfCiT/Ze0t4T8zeFonk1aC98i0Zr2t1cr6WYPNq3mj0CrirkbUxLiLP9GMSN2uXk1VeN57WqhjQLyPNd+L7yV/ripm/511spy3pd720Wha8wJn7WgEl0/qEArfujPQOnGYUbiLEhXI5LG5+bRCX4MIiuZqKnlM/ilpLhFeOQCic+XmxZ0cLl1DgYPsMNwIu2ZnWDoy1Hj1l26cXMgJGnK7bKtRl7aYvDX2FGvta9fB3QsoTb5t57DjYxSGLIGOFh/jaWf7MAuNFuLDdViHANdrZ4+beamsUEYSx5jmsJ0xOGlJP7Vy09DJVBqBnJOLBZ0p4O8591KfvnxjiMYUj7rVmX0Io5GoqPu4JlGdkSyP7Mp+dTA77ud2MAHW+lgh2nXfHWVYC5LP38Pgv5gJBqo=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9821.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(56012099003)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?NnRB4diNXW5HPf4g7v0xyhJkiTH4TMjJOYhA7yhIsHw7rr1bj0P3VEMkANwq?=
- =?us-ascii?Q?cyip00ykQ1hvIUVAwxjkEAVJiRwhTba6wikJjlN6V26dZC85HcU838o8Gzcv?=
- =?us-ascii?Q?krtXoNoLF/iCBrOP9XqkojT+0xeJGRO9tu32imooHkKHOo8h9/8FpGAn98vy?=
- =?us-ascii?Q?W4DwYhYA/nn/mGBzsihZq6qljhzJ2F7Lv0FDfzKf5tQYHvXoM8a1j8vuG/v8?=
- =?us-ascii?Q?3vprW8MT7P5YrhcHVpMAHY22V8KhuNiR8TzplSL6dIcwBt7S5qGARR00kBSN?=
- =?us-ascii?Q?WhV5Kasl0IZ3xBvx9XK/b5av145z77ZvYO2/JqigtNLkmIetO+s+BBUU7UmQ?=
- =?us-ascii?Q?oZfd5xf9iBTj1PUD4CHQSvEtFzxRib5KxwHK72G6d3d1SNbFKVnh6S7JgUhN?=
- =?us-ascii?Q?W6nb5R3YLnVv9oW9f3RIsgGhWHnSpcgd6fY//TRLSvFb9Z50AvlwoxgXGlqz?=
- =?us-ascii?Q?Mf5zNLAySPpVdgOsXd/5yExyCx06cKnT8l8pJBYAg7L5153xZXD1wsDNaEop?=
- =?us-ascii?Q?1zquBoJIz2B/ts5GILB1+6BHIyy9sQ4tyC+O6Jx5w0mC5KXt/ahp2Xejjhyk?=
- =?us-ascii?Q?1qMwZpdNy3ZuiprQFT2AC69sLgyW+DqagQ5M3lQj18C9imSfY6QolddEikJ+?=
- =?us-ascii?Q?ybJ0RRMD+DHmPqdczT/w4+C7I1Dw6lTwOjEbikfNY/1QNHeb8lvv+MfmamlJ?=
- =?us-ascii?Q?WO6OMMe/RY/yqNDIZmMct/atthLzQP7DEFiEZhFGeAzxpc2OiqldUsklKVWj?=
- =?us-ascii?Q?Kmz1Qi5hikb6q48MY280sgGz3dspV4v0WQwbxqbQBYW56qpZDOOPRFCzjUJe?=
- =?us-ascii?Q?0nvIGhy1wyTbfhLwjjo1uSegQb1iRJLWaX09UpdspMogeuML1wZBc4w2pnvD?=
- =?us-ascii?Q?0bnLwFzRbLWHgVoHjRaBb/EOU5TiMr3E/V6dJ7hrh0YNOjCT+G7EuNTxwOuw?=
- =?us-ascii?Q?os4BTLaOD26NE3dmhUrg/73K66vEyNprhs/F3ZBLRRyCXNOM6cgUM9bYULv8?=
- =?us-ascii?Q?H2a6ejn3DUJDPvDBQyPGApfwBEoqZU2liAsBI/WQT1IVejFIQSCBsA1zglnX?=
- =?us-ascii?Q?+1b3DAPSsK0hMu4HmEsOeOywDK8L2lvWAa7tyJkBOxZ98Uiq+anFdb+WXtw+?=
- =?us-ascii?Q?J7xz7fO/8RHgVHUCadcRGxm7B342qVSVmKelxzeGmY5O5KP2Y8hrNKlE37p+?=
- =?us-ascii?Q?x87v0AGpJPcD2cRZz1jdt2Kz+LvOViqpvq/4Uj4EUPWs/Bki8emxVXFb0Slp?=
- =?us-ascii?Q?kTR+QfEuzmYOzPpZuxGi/zs8h5w4YScgf6WrNkH54FUQuaLJgXQlb4Edl2yC?=
- =?us-ascii?Q?5RGp5oviV+xcYXU3he9D/AnxNyJFqNfmkWEMBe05ioBQEJe86mAmIGbWAG/d?=
- =?us-ascii?Q?yHK9IC0NeQdiKF5yvkLGz4NHgLGJRRe8Ro+XF521wmvgskgXbbtlwsJZJ8ns?=
- =?us-ascii?Q?88aBaESQBYx8gXEAtPwDdLNm7AXa8hutLy7ezlZFIrnCfpNaV+Ah3tEEhqFh?=
- =?us-ascii?Q?xw4v8Is0xDQZBmaHTcYbzd7O7fll14RZp9dwj7k8HvnxznONo0w6VFLFFcel?=
- =?us-ascii?Q?wYrVPcesZdLO1WV+yo381Le8WhZysnggp55alzTcbNHh6CRb4qfR9Nr04J4L?=
- =?us-ascii?Q?FAgt9vSQJMhLFgt6rqH/UbDnqaQ8U7UrU4AIwLJhMh6sxr380ud9auNQOMAt?=
- =?us-ascii?Q?yo6WUBcL+Js7PV4Cs6/x2QA79vYp0rtF3JpU388yc0rJZKst?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SS2YwWJY"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64d5a7926cfso9838883d50.2
+        for <linux-edac@vger.kernel.org>; Mon, 27 Apr 2026 03:47:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777286871; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FC26uAqx+vc2kgpaXixNdNJWZ8fliw7Gbsf196F6f6SRnULpV1tcQJY1J+Gany4Xg/
+         4a9I9OtyCgjm/lCkf3Vk701kjcIs+NECvWtOZNN9R7z5ic1D8u5KPwaiW17euiSijjbl
+         /rY7HDa8BkFZSrGDRgEHkelE7gTDCo3JuqqXNfSksPPxxpoDoqE/uyPsEAm9get7selU
+         ltAM1j+6gY25qomM6mfMsBuO/rVCmGR9xWxKu86IvG1vAd5b5VvBaaKD4/3WQ+xsPEk1
+         YiPgsJQwceiv1L/mnDY/TipK7t18OsQUiNLv8zAaP9kjD2Ky18aR/Zj+f6qKaV/J7+B6
+         hrGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tnJ40hQugusFPopXi/ypmJs3DmHbjJZP+ZZdGtfQ8oQ=;
+        fh=aTOldl+mhjHj4C5XeTf/qDeQUrxkFFg2Gwl/TjiE+cw=;
+        b=bc6HwxcGVUnuyJ23XkXQVKtUAydcb7aHArE0/h6F6s41EzJO9BaiPur0Z7IwRud9wH
+         En9Jnm4V11g2L9zaPxEkT2DNN516lIN7W9i78gFW7Bhy4lUQV9GifXJgzBEnIdcR5fL2
+         v8HDiW7+EYS4K14Pm6X7M3IjPqtXizK7P18UmO5cPJOrVA2DUZbnWmfASIe3SUvXhlW6
+         td/CFFLc98MVKJ3GWAnzHTDLgJRCn4Kqnqb+wjpaE4skfoxUk8C6ixmh4Tm8UEu9HTOl
+         9XRER+VRkzzlymmqkF3Yf60JDIKMvpZ38OpzJnle6AU6AoWyV/kqaeYBHNL44V4oBmpm
+         fiqA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777286871; x=1777891671; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tnJ40hQugusFPopXi/ypmJs3DmHbjJZP+ZZdGtfQ8oQ=;
+        b=SS2YwWJYRNJR0B7dvht4d5NakXs77W3ZhLEWcmnOIxO3Puv9tVwke9vbYyy4AActzi
+         W+6MbxFxwrI39sF8CxCumtuCYqM74kjWitXzLGE4Pn3HJ25g0N+wpRE+qYe1pFzjaFgV
+         i2NV2a1Ko7AOce9zFktu4s0guBxrhE34d+DMCN/pK4K5fh1cMr8Nt5NxVMXcuop+0Kqp
+         7/vrkD676o6pDtWt1YP6mSHVqGJBOVDb0ZTTDnod6EgISef1oOQhw5aqSsS/H2SECTA0
+         3uWAoxBQNzfUYjQhBd9Hu3xZqgP0uqygsL6pgLndjqeXdg2wObHI2udLRJvAE9koAb98
+         aC/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777286871; x=1777891671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tnJ40hQugusFPopXi/ypmJs3DmHbjJZP+ZZdGtfQ8oQ=;
+        b=JsjheBpjYr8PEk5Nv0Nw/HvRnTpu5fyw9W+36woi1XVMDcBPsUbmcQDuSBBC7+wpCa
+         P1TyXDQQjGAR6U2GqNYGy6hrLKAs3p4Pk12syYyaG6y7jy3rBTbLWY4p5HNB49fkZMIv
+         vMIgH+8ThPSWPPsBb50lwyTEExvpO7BmGY/FAvtU+z/WQYonJPo6WzapmmGOrW9EbCQe
+         SaKZuGsao6lctGLblA36CKCQAcP/0tOMS+vbOFQtxKXmQI8uAfgMOhwOFf4W+SIlkjrh
+         TNDGr4R/e8GLtWv7XZuRJ/MQOcBOdQspMpP05XfFqG9nPa0b+BlqCyF5g9AcBAj192Lb
+         Rh4w==
+X-Forwarded-Encrypted: i=1; AFNElJ9ZYV6o+Hrtb73nD9bVlsAf0JtgAoEeZMwn576XnuqtDI+5WKMMu2C37zu0/zCmI05lxHYh7//bqbba@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEmtXIKiwwgUibh3HpGWhBlDVB+y5yAeZsFNl8LDZdLmweFUHs
+	X6y9hg5PZ1vcr8HVo9zfwGZXfRQwtkh3rGmdJ7/JMInZsjXgiQ6vBjZW9XQmsQaVUWO9kIs1mF+
+	TsjAI/H55h8iKQ21I9lO8B71WazbsSIU=
+X-Gm-Gg: AeBDiesWdbPnauGG4dDKvQuO8JROf4IduaeuhedkL+AiR5yzzdsh32TKAygCym07Ann
+	Mbl++DJjyTbKAvREz6trlj1yIBBgRSrgjMYJSt2joCv5+IYWj3UtKfqT5oDcgavRMWuC33ChL2l
+	M62RQ1FeJMYPBIBVH7+/tgLM4ppr7eoKRXZNh0dhE5+yxJQ7+J30p/AITGAdWh8e+KuI5Yk8t19
+	TsKFsfcrxbVYgY6eh4owfuL6vqcq9KesoTmMFbjB9utn7yAfUb5Di8xU2YVRoUrlNFhBbwwyArH
+	4JdkwAhd8ijPjbfdVXA=
+X-Received: by 2002:a05:690e:12c6:b0:650:314f:1105 with SMTP id
+ 956f58d0204a3-65410b79eddmr36102859d50.55.1777286871055; Mon, 27 Apr 2026
+ 03:47:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9821.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23de8d44-df9e-4cc9-df72-08dea4261312
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2026 06:27:36.8305
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iPZeGr/OVgVl4ECx65yPfEUqmZCIH68RzZI1vWaQ5C0r00Al28Y27Hc/iVtjSKvBVgIoTffa4SIr3ZtW7AOXkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8938
+References: <20260329124400.4064739-1-shubhrajyoti.datta@amd.com>
+ <c4a7a3ec-cb87-4edc-ad6a-32dbed15197a@linux.microsoft.com> <aehHkO9fhiyoxf-e@csail.mit.edu>
+In-Reply-To: <aehHkO9fhiyoxf-e@csail.mit.edu>
+From: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
+Date: Mon, 27 Apr 2026 16:17:39 +0530
+X-Gm-Features: AVHnY4LL5fZx7fYF9vH53Clb0PfHSdjRKbgnIpiv8EtolhQFGQIti7ZpE938uBY
+Message-ID: <CAKfKVtHX0boG4tHf8aVw0mwUWqunmMQ_PnpG4xXmDwmOY+uP5Q@mail.gmail.com>
+Subject: Re: [PATCH] EDAC/versalnet: Report PFN and page offset for DDR errors
+To: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+Cc: Prasanna Kumar T S M <ptsm@linux.microsoft.com>, 
+	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, linux-edac@vger.kernel.org, git@amd.com, 
+	Michal Simek <michal.simek@amd.com>, Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Public
-
-> -----Original Message-----
-> From: Srivatsa S. Bhat <srivatsa@csail.mit.edu>
-> Sent: Wednesday, April 22, 2026 9:20 AM
-> To: Datta, Shubhrajyoti <shubhrajyoti.datta@amd.com>
-> Cc: linux-kernel@vger.kernel.org; linux-edac@vger.kernel.org; git (AMD-Xi=
-linx)
-> <git@amd.com>; ptsm@linux.microsoft.com; shubhrajyoti.datta@gmail.com;
-> Borislav Petkov <bp@alien8.de>; Tony Luck <tony.luck@intel.com>
-> Subject: Re: [PATCH] EDAC/versal: Report PFN and page offset for DDR erro=
-rs
+On Wed, Apr 22, 2026 at 9:29=E2=80=AFAM Srivatsa S. Bhat <srivatsa@csail.mi=
+t.edu> wrote:
 >
-> Caution: This message originated from an External Source. Use proper caut=
-ion
-> when opening attachments, clicking links, or responding.
->
->
-> On Wed, Apr 15, 2026 at 11:32:39AM +0530, Shubhrajyoti Datta wrote:
-> > Currently, DDRMC correctable and uncorrectable error events are
-> > reported to EDAC with page frame number (pfn) and offset set to zero.
-> > This information is not useful to locate the address for memory errors.
+> On Wed, Apr 01, 2026 at 11:28:10AM +0530, Prasanna Kumar T S M wrote:
 > >
-> > Compute the physical address from the error information and extract
-> > the page frame number and offset before calling edac_mc_handle_error().
-> > This provides the actual memory location information to the userspace.
 > >
-> > Fixes: 6f15b178cd63 ("EDAC/versal: Add a Xilinx Versal memory
-> > controller driver")
-> > Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-> > ---
-> >
-> >  drivers/edac/versal_edac.c | 36 +++++++++++++++++-------------------
-> >  1 file changed, 17 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/drivers/edac/versal_edac.c b/drivers/edac/versal_edac.c
-> > index 5a43b5d43ca2..18045f96610e 100644
-> > --- a/drivers/edac/versal_edac.c
-> > +++ b/drivers/edac/versal_edac.c
-> > @@ -414,34 +414,32 @@ static unsigned long convert_to_physical(struct
-> > edac_priv *priv, union ecc_error  static void handle_error(struct
-> > mem_ctl_info *mci, struct ecc_status *stat)  {
+> > On 29-03-2026 18:14, Shubhrajyoti Datta wrote:
+> > > Currently, DDRMC correctable and uncorrectable error events are repor=
+ted
+> > > to EDAC with page frame number (pfn) and offset set to zero.
+> > > This information is not useful to locate the address for memory error=
+s.
+> > >
+> > > Compute the physical address from the error information and extract
+> > > the page frame number and offset before calling edac_mc_handle_error(=
+).
+> > > This provides the actual memory location information to the userspace=
+.
+> > >
+> > > Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> > > ---
+> > >
 >
 > [...]
 >
-> >       if (stat->error_type =3D=3D XDDR_ERR_TYPE_CE) {
->
-> [...]
->
-> > +     } else if (stat->error_type =3D=3D XDDR_ERR_TYPE_UE) {
->
-> [...]
-> > +     } else {
-> > +             return;
->
-> I like the cleanup contributed by this patch (in terms of reducing code
-> duplication) in addition to the actual fix. However, this patch also intr=
-oduces a
-> subtle behavior change - the existing code calls
-> memset() to clear out the ecc_status struct unconditionally, but this pat=
-ch
-> doesn't call memset if the error type is not CE or UE (i.e., in the early=
- return
-> path).
->
-> Was this change intentional? Wouldn't it potentially cause stale data to =
-be left
-> over in the ecc_status struct, affecting future reuse?
-
-Hi Srivatsa,
-Thanks for the review.
-
-The early return in handle_error is intentionally safe. get_error_info is a=
-lways called before handle_error:
-
-  if (get_error_info(priv))
-          return;
-  handle_error(mci, &priv->stat);
-
-  get_error_info already guards against non-CE/UE events:
-
-  if (!eccr0_ceval && !eccr1_ceval && !eccr0_ueval && !eccr1_ueval)
-          return 1;
-
-  So handle_error is only ever reached when at least one CE or UE error is =
-present, making the else { return; } branch unreachable in practice. The re=
-moved memset in that path was overprotective dead code.
-
-  For future events, get_error_info always reloads the data fresh before ha=
-ndle_error runs, so there is no risk of stale data.
-
-  I can add a comment above handle_error noting this precondition if that w=
-ould help future readers.
-
-  Regards,
-  Shubhrajyoti
-
-
->
-> [...]
->
-> > +
-> >       memset(stat, 0, sizeof(*stat));
-> >  }
+> > >     if (stat->error_type =3D=3D MC5_ERR_TYPE_UE) {
+> > >             pinf =3D stat->ueinfo[stat->channel];
+> > > +           pa =3D convert_to_physical(priv, pinf, ctl_num, error_dat=
+a);
+> > > +           pfn =3D PHYS_PFN(pa);
+> > >             snprintf(priv->message, sizeof(priv->message),
+> > >                      "Error type:%s controller %d Addr at %lx\n",
+> > > -                    "UE", ctl_num, convert_to_physical(priv, pinf, c=
+tl_num, error_data));
+> > > +                    "UE", ctl_num, pa);
+> > >             edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
+> > > -                                1, 0, 0, 0, 0, 0, -1,
+> > > +                                1, pfn, offset_in_page(pa), 0, 0, 0,=
+ -1,
+> > >                                  priv->message, "");
+> > > -           pa =3D convert_to_physical(priv, pinf, ctl_num, error_dat=
+a);
+> > > -           pfn =3D PHYS_PFN(pa);
+> > > -
+> > >             if (IS_ENABLED(CONFIG_MEMORY_FAILURE)) {
+> > >                     err =3D memory_failure(pfn, MF_ACTION_REQUIRED);
+> > >                     if (err)
+> >
+> > Nit: pa and pfn calculation can be moved out of the if() condition.
 > >
 >
-> If the expectation is to actually clear it out unconditionally, it would =
-be great to
-> document it in the comments (if not done already).
+> Hi Shubrajyoti,
+>
+> Could you revise this patch with a similar cleanup for the versalnet
+> driver as you did for the versal driver to avoid code duplication,
+> please?
+> https://lore.kernel.org/all/20260415060239.733200-1-shubhrajyoti.datta@am=
+d.com/#t
+
+Let me now if the below looks fine
+
+
+        if (stat->error_type =3D=3D MC5_ERR_TYPE_CE) {
+                pinf =3D stat->ceinfo[stat->channel];
+                type =3D HW_EVENT_ERR_CORRECTED;
+        }
+
+        if (stat->error_type =3D=3D MC5_ERR_TYPE_UE) {
+                pinf =3D stat->ueinfo[stat->channel];
+                type =3D HW_EVENT_ERR_UNCORRECTED;
+        }
+
+        pa =3D convert_to_physical(priv, pinf, ctl_num, error_data);
+        pfn =3D PHYS_PFN(pa);
+        snprintf(priv->message, sizeof(priv->message),
+                         "Error type:%s Controller %d Addr at %lx\n",
+                         type =3D=3D HW_EVENT_ERR_UNCORRECTED ? "UE" : "CE"=
+,
+                         ctl_num, pa);
+
+        edac_mc_handle_error(type, mci,
+                                     1, pfn, pa & ~PAGE_MASK, 0, 0, 0, -1,
+                                     priv->message, "");
+
+        if (stat->error_type =3D=3D MC5_ERR_TYPE_UE) {
+                if (IS_ENABLED(CONFIG_MEMORY_FAILURE)) {
+                        err =3D memory_failure(pfn, MF_ACTION_REQUIRED);
+                        if (err)
+                                edac_dbg(2, "memory_failure() error: %d", e=
+rr);
+                        else
+                                edac_dbg(2, "Poison page at PA 0x%lx\n", pa=
+);
+                }
+        }
+
 >
 > Thank you!
 >
