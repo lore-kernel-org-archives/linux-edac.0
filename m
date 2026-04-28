@@ -1,92 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8896B34EEEE;
-	Tue, 28 Apr 2026 14:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75962388E7E;
+	Tue, 28 Apr 2026 14:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777385208; cv=fail; b=Hnpld8/Lo5fJ2XP0qSNs7T7GuHHta+MGwD9t/9nsayxhSmqdpHS+ScZA7T+Pq7TB33IXtf4bnfIMCXq8SRHTR8o++RFoQfE8HEWcik+LBw54dZVs9pYoSF2J4kGklDPbXtth6qfxIadQ2Os1GYZTV5BLm23t2Rl/kWFP4TdsNe0=
+	t=1777386838; cv=fail; b=UhuaENkYverNcN8Z8vZoPS0lDdYP+nHstkfvdTYPFXPdPNcACJ+Gymly9Ln3Lms4PwoTKi7LMIztDgubRRgQTKEu8/Wrt7FxwTlsrugKijgfsMM3gY+RqJd84ljEbfc1TN0sD6nDHer2e07n56Q/gC+4bOKUHxRnsyUuMT/HqHU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777385208; c=relaxed/simple;
-	bh=/T0/ajRYUnxq7BihhhwXuGt1Npmjt4NkVXWxvcLUSHM=;
+	s=arc-20240116; t=1777386838; c=relaxed/simple;
+	bh=z+jZljv+2qONT70OnBoRxfC3hKGzIEA53IH/jwdwHRA=;
 	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=A9i1dyhRjJgoKf898XBXu93JEOWvkUnaKXsf7j9+ypgQPBf9XdQXW8cyVXtM5AV0BxQrqTe3i3AF9+L3bd3+NYEcirNPldb1aAAapDbhFZVxyijhpdOe+FGiLeNjA9jLSh/zRZbjN9FXXeVpPiaT/Ez8hmriYx/K8eSy+Kzy/iE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJnRIsmY; arc=fail smtp.client-ip=198.175.65.9
+	 Content-Type:MIME-Version; b=u5+ghT8dxpbkOiK/D0rzS2dE9cU9NnwAnHl/Pmkv+BvA23u3jHdZ4b9dapCAs1LpSNho6O/z1Mpo6bIF9P7f8HjGIEc19dvlOFFP9uP7Y2p1b4qEYwzUzQJfBUm0tQl1ZJsKQJr67+S46k0GgsjWeroerGqj7y30f8kTJC2pvbU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjPp6XDq; arc=fail smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJnRIsmY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjPp6XDq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777385207; x=1808921207;
+  t=1777386837; x=1808922837;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=/T0/ajRYUnxq7BihhhwXuGt1Npmjt4NkVXWxvcLUSHM=;
-  b=PJnRIsmYG5LpVcAoHWYMX4o/gcFgHhCPV6Pb3CpVNztxga1aFSM9XzQR
-   SFAHlxcoTXqctt1UNWNAfCuJlc1Ig51Plo+vrzPtXZjcpZS6kS69EcRdu
-   mXdu3OywQGvKOe1aI2lV/K9HaH2N2cwvzbcZsUeoPTW1AC6rCPLFReSJP
-   tmR/2jZlar7s7NRyaLX9wbmDXOxx9GcP4du4o5tqoatrqg4IAqAEFGsxc
-   h4dXekq0KnbYm1fSlz9rrVsCiXfbyzavAbf4zRPJbFurIE53fPack/vLP
-   KkjaC5ah2uIEdchWHXNnKF0AZ+Se2mJ/ew8QYU1ocvcdeMPA1n4zzLhGQ
-   Q==;
-X-CSE-ConnectionGUID: ZFKUd9KMTK67QuDwlBGFtA==
-X-CSE-MsgGUID: e5tjHMrgToaI7bbTqtKr3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="100951720"
+  bh=z+jZljv+2qONT70OnBoRxfC3hKGzIEA53IH/jwdwHRA=;
+  b=jjPp6XDqnCZ5A9M+1O1bVw0L91twBCHMVT0aEdu76LFS00nPhwCgd0x4
+   BXvzfEUqXW05k1dYlNEwAO0Fjy7YyDRBugx+sKi4BngJT7zLCcJB2BJxw
+   9cspn32+yuuptN8wqYFOTSBhNQg2gp5NfAFDGi7/FqwAahozCQUHPZ6D/
+   aezHfCcGU3WXY+5Fyhg3fLwsvDm1D5d5Wse+N9pKsvqMEih3kt6++F0Qv
+   KGwbo5ffQg9gVY1lz7PS5LgjBQZroIU39mN0/ALHpdyR0wTCqrUr94vo1
+   j3hXwCa4yn9qFA+t87BU3M6em/hdVxgzh2ZDOv6DXRoCk3To5dRXQmu2Y
+   w==;
+X-CSE-ConnectionGUID: Qc2EFtAbQbq6iOzcGJVdRQ==
+X-CSE-MsgGUID: 5XgUWWsyTBqYETPqCE0JMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="82149538"
 X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="100951720"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 07:05:35 -0700
-X-CSE-ConnectionGUID: P9cuJ4SRR8myhR/Y0UK5iQ==
-X-CSE-MsgGUID: Q+9aBTk8T1+Cfkk7Yfycaw==
+   d="scan'208";a="82149538"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 07:33:49 -0700
+X-CSE-ConnectionGUID: 60iYODfJRZmkE77k/86U/Q==
+X-CSE-MsgGUID: AQq8Q43iRbqjdM8iIm6hHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="229604347"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 07:05:34 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+   d="scan'208";a="230821449"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 07:33:48 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 07:05:33 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ 15.2.2562.37; Tue, 28 Apr 2026 07:33:48 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 28 Apr 2026 07:05:33 -0700
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.27) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ 15.2.2562.37 via Frontend Transport; Tue, 28 Apr 2026 07:33:48 -0700
+Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.64) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 07:05:31 -0700
+ 15.2.2562.37; Tue, 28 Apr 2026 07:33:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RTfBgXAQCFJ+oM4qzFpc+ECTpct4Ii8HRQ4j8peK+3S9pknXAXGtCmOP4wyaoi8qvjXg8q4VolH6P7myn7kLg8OSHOCbKNhKj+0cF93V/bV7J2CURBT2NBdckpnOsdbMw71y6g189Kfv1M3vYU0uhTbg2xsnplEVRQQL8sU9HJv5xprpNwiSL09f45C9mGd6rOafIyNKDmfm88x45LE5mU2TjI86/tIbpZtqLHrXRtyhdn1yAoinZFKyZTuMZjxOFouL9TAaYNBqXgIaf/QOKrpz/Pmc9UeEo0n6qFMFp0bg5r0c/ue227AaPMfi7ugqqqIoOmD1rbKUdM2Zgh308Q==
+ b=j+cZ/DzG8/meXR8PMl2U23um1EOr5vW8vbmrbS+njY/QGhtjh7aULeDMCqHy+V/YD2OWXGmECUetLWHj1n7T77pj44OayU1yjirikzvoQJZYlAFC0xatArgCg771ieEw0AreJiL/hedWDFrQAb/OPHCgDGYdsSt2zJ0LN2ZUTpBp5cXcefhKtaPT3xyyfBEswz7lXR1R1nkj4aVpQFgYXQ+M6dHVGqiXDRhHrIQT2nPNtHvbp4/6J817LUsTNNyYNFMcKslFI1BCdo+g0YhgGuf75Ucuw4SjasXx6vRDKH2cgmybeR/8XvvsA3wsTwupsySaR2oTzaix+rw0ZwvV1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ChIwGCXPKPIUeASTtYcPkQfgFxuwj0iY9yT2bqcSB2Q=;
- b=E8d5impxQo3v7yQP/4cLlAvbeBCRbOar0yTaJ+DDhJGtUfl5942+TfYImZbHYAnC7gK1rLW5YeZrWyPLklCjFtOF5KEIEMML0xezcv4Aw+i6QErx+U1JNvy7b/C94mOj6lmQsp6pwozc5U7WbAdNceI59dq3yxg/isaPtU76TlcgxKdkuoRafw5yGJbjcXzXnvR+Eaim/tuXyFPxlOduvXdt47CIxbFZ+UIo70UcRsow1Eh3L1maeEoSDcg+fV2WsTFxne4uU1b133ElMX011VAoCWoHj3EzhicQCArmMVjLhyl/Y0UY54TrzYtaHaUynZDFQLalVWEEAO9heL2GFA==
+ bh=e7yzYZrkmaDlRwTcZjtstnnSZFfORCGNlz8PXbsyFGU=;
+ b=f1n1zh5Of2/mCxYMZ7zVJmI5nudqnHejwq06CK17CFiGd2diL4acu29RbVZ4asQBdDRIVPjQbEVjOjdtNAi1+IkIwt+89kGpuiXuZfPBijoetN1mRt787/uelat49M1mO9vUpwT+UH/mxv89qygZOVan68LEhCMuIVHCnPALIeQc4c9Hrba0T72z1wm0dZv5wFzfI2LfsP4lSspoePjOwaqyfRmoNQVw4kkBPo4tIJI356XQEmbAGNUr2P7TL8eKZXLRxvyh5n7oUlV5HQnOrkY4wiQi0Hib17G3n/zYbpyj4eT4UtTqqb9RlIJItGEeuFCKXzLYV6rrB5Yt23q+OA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from CY8PR11MB7134.namprd11.prod.outlook.com (2603:10b6:930:62::17)
- by SA1PR11MB6710.namprd11.prod.outlook.com (2603:10b6:806:25a::21) with
+ by SA2PR11MB5049.namprd11.prod.outlook.com (2603:10b6:806:11b::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.17; Tue, 28 Apr
- 2026 14:05:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Tue, 28 Apr
+ 2026 14:33:42 +0000
 Received: from CY8PR11MB7134.namprd11.prod.outlook.com
  ([fe80::5670:5b2e:6ecb:dcaf]) by CY8PR11MB7134.namprd11.prod.outlook.com
  ([fe80::5670:5b2e:6ecb:dcaf%5]) with mapi id 15.20.9870.016; Tue, 28 Apr 2026
- 14:05:27 +0000
+ 14:33:42 +0000
 From: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
-To: Tushar Tibude <tushar.tibude1000@gmail.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "bp@alien8.de" <bp@alien8.de>, "Luck, Tony"
-	<tony.luck@intel.com>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] EDAC: i7300: disable error reporting if init fails
-Thread-Topic: [PATCH] EDAC: i7300: disable error reporting if init fails
-Thread-Index: AQHc1kFYidC707wW6EKLTD67qKo/LLX0fuVA
-Date: Tue, 28 Apr 2026 14:05:27 +0000
-Message-ID: <CY8PR11MB7134F6586570031E6A550B7989372@CY8PR11MB7134.namprd11.prod.outlook.com>
-References: <20260427122622.14981-1-tushar.tibude1000@gmail.com>
-In-Reply-To: <20260427122622.14981-1-tushar.tibude1000@gmail.com>
+To: Guangshuo Li <lgs201920130244@gmail.com>, Borislav Petkov <bp@alien8.de>,
+	"Luck, Tony" <tony.luck@intel.com>, Qiushi Wu <wu000273@umn.edu>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] EDAC/sysfs: Fix UAF in
+ edac_device_register_sysfs_main_kobj()
+Thread-Topic: [PATCH] EDAC/sysfs: Fix UAF in
+ edac_device_register_sysfs_main_kobj()
+Thread-Index: AQHc1xXIlrlPAUoBkk2dXxlCTdDDBLX0iH2A
+Date: Tue, 28 Apr 2026 14:33:42 +0000
+Message-ID: <CY8PR11MB71349EE6FB5C056ED1EAD0D589372@CY8PR11MB7134.namprd11.prod.outlook.com>
+References: <20260428130608.368025-1-lgs201920130244@gmail.com>
+In-Reply-To: <20260428130608.368025-1-lgs201920130244@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -94,43 +95,43 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB7134:EE_|SA1PR11MB6710:EE_
-x-ms-office365-filtering-correlation-id: 5cf47c5a-3ab5-4a2a-3792-08dea52f332d
+x-ms-traffictypediagnostic: CY8PR11MB7134:EE_|SA2PR11MB5049:EE_
+x-ms-office365-filtering-correlation-id: 88b0a41d-70ae-420b-b6e9-08dea53325b5
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info: 4QqIxQSxCijAqaTkcDSytcdb7Y4X+0i7Q2uNtW4RcunqlGBdvx2tXAJ+sLZYnX5Bs+iQ1pSMYb3csyrT4zhHWygakcZIzSVvSgbex+/jRciCpEJv9vFEa8lZYBM/2AEWIWtqQh0CRxfUVQvDhAQBSXzI3Ib0vUF+a2YW48X4t+25EuB8B5JsuyLeZjyyQliCfNLGjHrUivvI6DUn/aInqmFSV+4I/zIflFm0+wbSP3K/1ewivZomUXG49uaXk0M2DLXrwRpxrvVUaURrF+CD4KtWi7Bq8M+GEVWsjt7ZiJHdaKCuQcDvp0ICBRqFfXsw1vkKwXmOoiGKIUxMe/bV/eba6IInJSDIGX7+K2nT0bQ4Kp3oJI3ZbBCkC0fjaUDaVcXWuNEnuzvD0r7d0/DK8OkdkyekkF5vHNNXcWiaupZ6XyEFM/zCYrL7CDyKfTKNYq34f2EOY3V1N8YZinPbmiSjEOxNZW6Kwc/z8/U/9btrpdzkMLgrDIkthflu/fmyWwy0lZlE7j28A1CUTeVsHQR+xewfRQxZvglcC0kieXKqo7jFPLCu+Qv3bDxajyrqRC38LxIJhfr5Abxw1VitI5ZpzMOvG4t/SGNAjNvSvsZWL21HPrnCek9yCdxUPC8mZUffCyUBvaHHof4axR0sefiMaXWW6sSQOghiudH13x5Tl85jGwPNYaSGcsvm4YFyMOR8c1t+mM45ECWmHRUbCDWxCsnmzQOH0TxGUeFJ7niC6s81CBqXWJuQUjJet1+2luTruAQrTbR8FcM/LUYE3gKRgsqh2SCql7wkWjXJRSU=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7134.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|18002099003|56012099003|38070700021;
+x-microsoft-antispam-message-info: iRoVVE2NRmQQa5QAHNBgQsSWEiHDhrJsSa/6VC2/wvnBlVq/El8DHz3ShY2IwtLHye5lY6JasBmt/aLINUn+twQVWXLYj7hvkCGou4oegk647FUrP/0/oXX0uSWeesNudpPFR1JVCVQU0kwsGdo9KxMrQG2SoP/1qQCYNGpdjeJMF5L8VJ5fKgeAwRioR/3Lt/P7iFQY4mmiNzKFAAsbWrSAWhUdQiowM659zb4s5HbjjGQI05R5Xv7vJToJMvVquNo+rV24WQ1imJlCFTe21Wmb2Emjl/6SUkcvqTPUVVRgB6mIxRgwP1Oiii4MuzPeSqjCea4ADwT7A3MihmX7ui+jruBsrACMliofGXwEJNekFc5RrNmGIZgf+qIMHb4aeW9rMDhu9di6AiNWAfIaqlAvEy6vctPfZPtFC4T9B+7BEyxMt52zs0c201oGVKtVgJfRPp2IYvlrKdWV5VQprHRKaHgSjPBsMeyVTak4DNV09h1J7+edbwGfz4GDW7lhc8J5ws654z8yzSZdyQPyr3z3YAPCwW416nj2vvhQRX+LHPq+lzeBiz6agJa1AndRd3EndzHzZJ+tplnEPWRnOYtLAhdVRohumBAdLOxLRa8xrhKPZqmR1vEj1c5eo0QXCOMHTuu2biuJJjb9UUAzDS8GUN8OAcMY24Oj7hi77z4h1dgp/FFOTWybTKEh5OEOl/h+cSoxq300pc7cqDxV4cZJMSVsQJovBNqaVRyOjCiNE7Q1Q8V5GzgugdPCZJJlgV60TUpTuG6QbZXueVv0l6amh7BfEXYeCFhMqc5R/7U=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7134.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(18002099003)(56012099003)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Z3dZQH9yglfvQMgJThdxCAcWPk4eZWKLSuRwEutGL2ERZ5B/a5iILqrVKbvM?=
- =?us-ascii?Q?Fv9rAsfvBmB+OW/ln2bm/v2kphqkuVGAR0/Xg6o2Rtm4g5Mzgjdxx2yEVCkg?=
- =?us-ascii?Q?3KBYuFlHJ68E4cC6GNP9a8VZLF10p9uDrJzvxUjw9OxVcKayIioNR4OrKngZ?=
- =?us-ascii?Q?IvY+bleBaNHkyUzMjrzHNCf6GaaqUq3jKrRB+TrF0AsOUJ7Parw/wCj0/U/f?=
- =?us-ascii?Q?fngZpxSnREJa5gMz2H7kiYCLe+ArFelSHdOldXorlMcnBQZAUQOLZMLAD26g?=
- =?us-ascii?Q?qnSWIcgOniN8mketGLnO+y2lwPfAWv+6Tce8BlZ3viT6cz6DskL7juHAhn7t?=
- =?us-ascii?Q?EYPUJnAMyd3QWlPjcfXEG+PA2o4fVa0Jnhj7hH6n4sc9OzZPwBM3Nj0/nzgk?=
- =?us-ascii?Q?kdYaLUkV7t357XKeUKQqLHb27q7o1gQoRvpaPgTDyMO8MhsO7XIlnNL+4gy6?=
- =?us-ascii?Q?FNDfevfuNl1FbsEw9iAbqWfl9UylWfiNrjGG5cZQSWKaifJmyQ7WsfHtTSFJ?=
- =?us-ascii?Q?6xpP0B9twC55JQ4WKYlIsFXdILhjh5jnwlbGznpj4yk+MOE+ja2cSfjMrhhu?=
- =?us-ascii?Q?PD/qzCNgoqGB/8jbx73bBEBpO+e7n5uIP+93rDamY9aJYBlfEKLW2fWxcp/v?=
- =?us-ascii?Q?PXfY6F+Z0Vj3EWzum275uV4qysJQEzPQoSdhJACnhU7odvHiyO1Aaq1Ea5Ok?=
- =?us-ascii?Q?A1LHkQ2jLpxaBTmBNPoDbfnVwsvtZ5S1cVOiFng47MM+MVrVhJOkDHGV8X/N?=
- =?us-ascii?Q?ce+VfZ2LmQyoqjfcNSq8DfQQyo1L5fh1OKjuuq9I6nvRTnsZB+MzvRNx3Gb9?=
- =?us-ascii?Q?ImqdP996ovyHBQFSpxiUCEZTU5zbW77zFBrdZD9ZHHDGHU+/FMLkwftzyOw+?=
- =?us-ascii?Q?ZhKxzca0T8X2SPCrr1zOXUnd0Gb1kzEFi5aSCEC4cZ2s/L6BVM4ge4KK3TH0?=
- =?us-ascii?Q?brggGQOxLu1i9pwZXfYL8GoPD8WUX3zyp5Hsomb1NZIOZPBBxjQ+KYXGZ4OP?=
- =?us-ascii?Q?Uznofx6IAhbm26F/zkptmcm93ktmUPW4W+ck/MwzFy8kW7dYvZ0ef0ZNHPxX?=
- =?us-ascii?Q?r8mxow1+GYpDlY+wNO12M+EV8TUq2cnzMnuSExC0WpYKCam6Wg0SFK5gi7Q0?=
- =?us-ascii?Q?c3vPC3Ada+ztLV0iEjxHqETAy/9Rf3tThHFDswv8xeO5rEAdLRd+h/JzKujc?=
- =?us-ascii?Q?yjkzmy0B+kmww8iNofXyJ+Ccq20aMI6+Z5WFqouTyFSXapLV6llWS2T+rKAl?=
- =?us-ascii?Q?Bl2di1YD0MT2roZYJ2WZMpkckz5heYwwYsaMp0otVnksh9XiO2b6K1i7Ppdw?=
- =?us-ascii?Q?jzUL10BdMJqbEVlEmIXnjOlq9eotkPfCpzQz9jAyH51iWBBSG560rZmEiug2?=
- =?us-ascii?Q?lzWuwvne3AO0Edae+SqRoK1Z6NretV9HCxr0jQ9fb3BtzhGurd3cPBAv0PEG?=
- =?us-ascii?Q?nEspiWk0PV0AH9KfX+Kg3sQpkkuZMHJmPRJhpIASpYpHo6e7na7X3WB0A8mg?=
- =?us-ascii?Q?3st13+xHLhJQVDqlKSoGuNuO9fDAdOlpVMrr6FumRTw7OjTtKFZva8KytmqS?=
- =?us-ascii?Q?jvabd91oPwI1tFml9uUS+XkeFXJTuGa/v42P7izf9Aa23XQbjdvxPAYkozfv?=
- =?us-ascii?Q?CgW9W+JiwJcramQLDF1Q/BzYpj6tfdX/orwHHvniFhHjToViUKPAXSi2PYTE?=
- =?us-ascii?Q?xOSfVUIeikDhnJ7z7uJdOAJ0QgswSzMFjE148VMJkI9CcGjb?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xTdMme1jkDvmkgL+PtC+swX7U3kTs1GE2aWlxyvEfBN6UxThwcqkdXfiAjfS?=
+ =?us-ascii?Q?h5Xx+Eoq6z2dgAyd1Em4/zOK6y4nOgUNqsQMFYqd1JnBLvOwJa+IHsTZZ7sK?=
+ =?us-ascii?Q?Boh575cXvHYm2607mpfjICVf/VxDXL7Took0yUZa0Dg/z8T9/3m57t1hiBPn?=
+ =?us-ascii?Q?W0s/VYegr2QN8+ngk2n6GfMpr2nV+gj9SbRZiSQjGfk/gHWcPda8s4us3jw6?=
+ =?us-ascii?Q?1o/9lR7JVNI0qGbHkF4RlrcQMdKt5ZQ8hWQ8uJEzSZXh4tRYww9GP7Y5pBGX?=
+ =?us-ascii?Q?VcHhWwdenGuLH6F28FF8bgEn+mDTfF0Keoo1eAvdtyEBJFhG9EHMZWeszjkA?=
+ =?us-ascii?Q?eg1tUEY2+4aOon41Tk1vJ91rz/AzxuXm8DSAOHXWCN0HBzUwShwGKH5e9e03?=
+ =?us-ascii?Q?OS3mJ2B+7hvbOjJh0M8nB9pGy/VT4Wfmg8nBFZSlqaA9f1Hz51T7u/ARbfSM?=
+ =?us-ascii?Q?6+pqI+z6s6A/CrJw84y2YG3onZN1OsGrrZs3nzSiE8bhdRkJ7fGEVY+OuKDE?=
+ =?us-ascii?Q?8iVINjjF2z3ib7uMZKfrBh0iHotc5+L6D0x8HrG/2zo542ZUl/R2i0ufFWRK?=
+ =?us-ascii?Q?lbmRy+NMzVKkJmtiIEJXU5JYah5u8mSkUdUk7pq8p9t+PH64lutX+6fzXcH0?=
+ =?us-ascii?Q?ByP9WI1oal+mwk/S3QbvbaJ7ZNYrA7eaeaskHZ3FZjq25zNsK0KVT4gQibEx?=
+ =?us-ascii?Q?qksxONC/Y4M7oq5BEn8jhC4BihIJon2BJ/BMwmDQnnXM6mudOT2Xyl+kXy9Q?=
+ =?us-ascii?Q?GkkT9scC+SqbrdEeugYbAm+2Xd6umob1Ykk2CZxjj0l3UmmvBkHMjOfyJRJq?=
+ =?us-ascii?Q?pjM1QZTDOUt4KWtz+Agy92CLnRxFkuZZMFocjII2ci6vczoF8PgGeKbbqieZ?=
+ =?us-ascii?Q?OZKNoAYAT6aCVbUgOlZIvB4+edttNWkJ+z92SJzEO7cv9nju3OH2xxWY5K7p?=
+ =?us-ascii?Q?ePvCY7ML4GqGeoGZpLO4arQovpjDvAfVMMS6gbtXY3lvea9i3LAdY100iAz1?=
+ =?us-ascii?Q?Rd/RaXUXSdE7YkpHNIzppO9JbOS30w6wBlwLSa3p0vz8BfIaYAtKAUOfHXV0?=
+ =?us-ascii?Q?63hvu5qnFEW2pjjViDKpLRfKxgpaPzcHtX+4/9ZSxXMlUY6gZEkJBf+FM/NK?=
+ =?us-ascii?Q?xvdJdU/m4w+FrafrZZMex2rWgrkpABxJey8g5CILnR/5maLq7L/G0PkPbJmc?=
+ =?us-ascii?Q?G+R5B76U1U1Dzi64NlNJC86FgZDUzAH+IJUhXxT3aSd4wWP7b843vVqvmOBp?=
+ =?us-ascii?Q?2uOYuzRbRGFspA7zky2o8Xf9CEFm98HBEpP2SSvRjDa1Puu1AcJrDb3sv5pp?=
+ =?us-ascii?Q?JBZyqU1ghWr1M58rHbYO78glX3FiFNIOKHisABszahK+f6KZ7rOUsDLHLJKD?=
+ =?us-ascii?Q?/qLRsktb2ita+Fr85iwaY6nQWr5SHSx2KUiGmFGXvNA4P48DDT/tHwtB7lzW?=
+ =?us-ascii?Q?RM6xoDxl4djqtfjeMpbj8Rvm2CE1pC9tMqJjMw+u3bsklWsrxD9YT47MyZXq?=
+ =?us-ascii?Q?pZ3yAnwtneoQW0yy03kzt1KJmOQ6k7JYeoNQofO0HyN6TiwYLJHf7qYwBo3P?=
+ =?us-ascii?Q?na+bXruc3+4PfaGxjn4X1ER4ouAgQtZ95X36I2TJkbaubclgJcR7AY01dRO2?=
+ =?us-ascii?Q?Jji/hLgdRBcioXbxPGAMU6dc3K83TY/uK2vzOHuxieZPM+1slCBluvYGWdmp?=
+ =?us-ascii?Q?qXVtYKj8k76jiKmrNo5EEG/3eQgKxt06dR0AJNbymFJtgMG4?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -139,144 +140,70 @@ List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: tkzv5UON82izkuanJ+OhZyROEM5ejiLgufRRLOabocJI+vht61sH5RgIypRRPUj2s7+3rVjZ4FkX/Gjq6chQDLzp1WumN8AEJAt75c9ZrJTW0SErVpa/59Yl/WJ6hawF4OLo4aIk0dTIVAF4JfnRgsM8N5WBxGn0rf6SIzlby6uX58L7tsQTBa/4RBe+gninXGSIbgsCspKI3NLMwgq4JcK17j7SReHgTijkKeb7YwidgsLawQtA0TfNCxCFT/UK3EDcKQ/Um8qV6ktYk5mPvEWJ3BE7jRlLZqGOljoF8CVHdD3UOykHYoevphd/8GoO00ZsCbQgL+tPCDepVrDbiA==
+X-Exchange-RoutingPolicyChecked: FIk1wq/cT0Qi285FaKzz7WAiSGDo9tivauo2eukgIWpaqVNNmbii1fitcIgI/gjuXL1TE5RjZF340AfZfj8Euda7uQQBcQSmt8Q3byLrKrFG+RumLJFPTD20WulF5lfNPqzcKZATWnCa54EHslvEugy4fam1150Vi9uKTPb3Fn0/K1xGyx98QlY8hGyGEGVDxT/+vAQ/RrHluR662MEfgKfMsODHtdPvECdx7xE4GE/hWUxE+0NZavseCSQkfKK3eKbsY95SeN5eKJIhFn0rFyjlJzD9qpc/PFBWmBkIXdqzawZ2JdPS5DI9lEZ0QdEHk2wuSg9JGY+2rz7zuxUaAw==
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7134.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cf47c5a-3ab5-4a2a-3792-08dea52f332d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 14:05:27.3716
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88b0a41d-70ae-420b-b6e9-08dea53325b5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 14:33:42.7257
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3yQWKtWkxLjy2qPYFjSPeJuw/jfgpdhZbwvlkLLNR70jjL2wwPcsmdhmwppTiKJBuklMo9e9U5Hviy9qEH2ovw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6710
+X-MS-Exchange-CrossTenant-userprincipalname: 0v7Ptb0aHkX9l1F95erasnTMg5lsZBkNj7DS55V7DBe0HGYDgSgTtLJmOn9yZa3Au1NDOSpwHPZ+Tn3XZTOylg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5049
 X-OriginatorOrg: intel.com
 
-> From: Tushar Tibude <tushar.tibude1000@gmail.com>
-> Sent: Monday, April 27, 2026 8:26 PM
-> To: mchehab@kernel.org; bp@alien8.de; Luck, Tony <tony.luck@intel.com>;
-> linux-edac@vger.kernel.org; linux-kernel@vger.kernel.org
-> Cc: Tushar Tibude <tushar.tibude1000@gmail.com>
-> Subject: [PATCH] EDAC: i7300: disable error reporting if init fails
+> From: Guangshuo Li <lgs201920130244@gmail.com>
+> [...]
+> Subject: [PATCH] EDAC/sysfs: Fix UAF in
+> edac_device_register_sysfs_main_kobj()
 >=20
-> If error reporting is enabled during initialization but initialization fa=
-ils
-> immediately after, error reporting is left enabled in the mask register e=
-ven
-> after exit.
+> If kobject_init_and_add() fails, the error path drops the kobject referen=
+ce with
+> kobject_put(). This may call edac_device_ctrl_master_release(), which dro=
+ps
+> the module reference and frees the edac_device_ctl_info object.
 >=20
-> Create the i7300_disable_error_reporting() function to disable error repo=
-rting
-> bits in the mask register EMASK_FBD. Call it at initialization failure, b=
-efore call
-> to i7300_put_devices() for cleanup.
+> However, the same error path then calls module_put(edac_dev->owner),
+> which dereferences edac_dev after it may have been freed. This can cause =
+a
+> use-after-free and also drops the module reference twice.
 >=20
-> This ensures clean hardware handling by disabling any unused error report=
-ing
-> bits before exiting.
+> Track whether kobject_init_and_add() has been called. If it has, rely on =
+the
+> kobject release callback to drop the module reference. Otherwise, drop th=
+e
+> module reference directly.
 >=20
-> Signed-off-by: Tushar Tibude <tushar.tibude1000@gmail.com>
+> This issue was found by a static analysis tool I am developing.
+>=20
+> Fixes: 17ed808ad2431 ("EDAC: Fix reference count leaks")
+> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 > ---
->  drivers/edac/i7300_edac.c | 30 +++++++++++++++++++++++++++---
->  1 file changed, 27 insertions(+), 3 deletions(-)
+>  drivers/edac/edac_device_sysfs.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/edac/i7300_edac.c b/drivers/edac/i7300_edac.c index
-> 69068f8d0..989cf53e9 100644
-> --- a/drivers/edac/i7300_edac.c
-> +++ b/drivers/edac/i7300_edac.c
-> @@ -570,6 +570,27 @@ static void i7300_enable_error_reporting(struct
-> mem_ctl_info *mci)
->  			       EMASK_FBD, fbd_error_mask);
->  }
+> diff --git a/drivers/edac/edac_device_sysfs.c
+> b/drivers/edac/edac_device_sysfs.c
+> index fcebc4ffea26..32460c6dfb7c 100644
+> --- a/drivers/edac/edac_device_sysfs.c
+> +++ b/drivers/edac/edac_device_sysfs.c
+> @@ -231,6 +231,7 @@ int edac_device_register_sysfs_main_kobj(struct
+> edac_device_ctl_info *edac_dev)
+>  	struct device *dev_root;
+>  	const struct bus_type *edac_subsys;
+>  	int err =3D -ENODEV;
+> +	bool kobj_initialized =3D false;
 >=20
-> +/**
-> + * i7300_disable_error_reporting() - Disable the memory reporting logic =
-at
-> the
-> + *				     hardware
-> + * @mci: struct mem_ctl_info pointer
-> + */
-> +static void i7300_disable_error_reporting(struct mem_ctl_info *mci) {
-> +	struct i7300_pvt *pvt =3D mci->pvt_info;
-> +	u32 fbd_error_mask;
-> +
-> +	/* Read the FBD Error Mask Register */
-> +	pci_read_config_dword(pvt->pci_dev_16_1_fsb_addr_map,
-> +			      EMASK_FBD, &fbd_error_mask);
-> +
-> +	/* Disable by writing '1' */
-> +	fbd_error_mask |=3D EMASK_FBD_ERR_MASK;
-> +
-> +	pci_write_config_dword(pvt->pci_dev_16_1_fsb_addr_map,
-> +			       EMASK_FBD, fbd_error_mask);
-> +}
-> +
-
-i7300_enable_error_reporting() and i7300_disable_error_reporting() have ver=
-y
-similar implementations. Would it make sense to combine them into a single =
-helper,=20
-e.g. i7300_enable_error_reporting(mci, bool enable), to reduce code duplica=
-tion?
-
-'enable' is true to enable error reporting and false to disable error repor=
-ting.
-
->  /************************************************
->   * i7300 Functions related to memory enumberation
->   ************************************************/
-> @@ -1025,6 +1046,7 @@ static int i7300_init_one(struct pci_dev *pdev, con=
-st
-> struct pci_device_id *id)
->  	struct edac_mc_layer layers[3];
->  	struct i7300_pvt *pvt;
->  	int rc;
-> +	bool enabled_error_reporting;
+>  	edac_dbg(1, "\n");
 >=20
->  	/* wake up device */
->  	rc =3D pci_enable_device(pdev);
-> @@ -1084,20 +1106,22 @@ static int i7300_init_one(struct pci_dev *pdev,
-> const struct pci_device_id *id)
->=20
->  	/* initialize the MC control structure 'csrows' table
->  	 * with the mapping and control information */
-> +	enabled_error_reporting =3D false;
+> @@ -261,6 +262,7 @@ int edac_device_register_sysfs_main_kobj(struct
+> edac_device_ctl_info *edac_dev)
+>  	if (err) {
+>  		edac_dbg(1, "Failed to register '.../edac/%s'\n",
+>  			 edac_dev->name);
+> +		kobj_initialized =3D true;
 
-Move this flag setting to
+This looks incorrect  - the flag is marked true on failure ???
 
->  	if (i7300_get_mc_regs(mci)) {
->  		edac_dbg(0, "MC: Setting mci->edac_cap to
-> EDAC_FLAG_NONE because i7300_init_csrows() returned nonzero value\n");
->  		mci->edac_cap =3D EDAC_FLAG_NONE;	/* no csrows found */
-
-here.
-
->  	} else {
->  		edac_dbg(1, "MC: Enable error reporting now\n");
->  		i7300_enable_error_reporting(mci);
-> +		enabled_error_reporting =3D true;
->  	}
->=20
->  	/* add this new MC control structure to EDAC's list of MCs */
->  	if (edac_mc_add_mc(mci)) {
->  		edac_dbg(0, "MC: failed edac_mc_add_mc()\n");
-> -		/* FIXME: perhaps some code should go here that disables
-> error
-> -		 * reporting if we just enabled it
-> -		 */
-> +		/* Disable error reporting if we just enabled it */
-> +		if (enabled_error_reporting)
-> +			i7300_disable_error_reporting(mci);
->  		goto fail1;
->  	}
->=20
-> --
-> 2.43.0
->=20
-
-Need to disable error reporting in i7300_remove_one()?
-Enabling it during initialization and disabling it during teardown ensures =
-proper pairing.
-
-Thanks!
--Qiuxu
+[...]
