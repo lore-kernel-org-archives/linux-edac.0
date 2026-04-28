@@ -1,116 +1,138 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB3F4779BC
-	for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 15:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777391849; cv=pass; b=IdkK6z9dA7IAqa5lNhD8YDVFqgVC0IZCd94SCqkOiG2PTUTqnwT+NvK27ciLxzXHa/mN5vAr+UfEQJLjOFZnKWi3UeLCswV95CiGfeBxK5TM+3BG14iS5pG8KkUouWLt+C4shMq3Ruzm5oXGujDiTJaf2S8RXDVCERXcPk8oCCA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777391849; c=relaxed/simple;
-	bh=BSROUIDJHjmtrRDYjdhaAslhL1cbpFvE6gbq2EeCVqs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kck5KSaj+6N1QqIJK79xbOvq5pf2+/T1Uloi/OFrT9CE3Ax7u5ihijTPvjxgEZ8+R1SUATD4FJlE6nmMtpfqZue4Z4gzllu4xEw2zLDZL7BaMXJWeMrPMyeKVSQF11H/u5mcEfOWSdiVL/DVSbOhYwPfRqvs0zoXNMPxu8c/hFM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4f+/ASD; arc=pass smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D6F44DB85
+	for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 16:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777392523; cv=none; b=JWxEGTD9JUUpCkr7VSwEFKmryyzTTzNmydlzs9neIO59lY5rAejWTw0SSwyio1mT0JSlCOcXN1zjLuuWrnvXXHyXzBEMvLAvN2SRwvkSDrImGTxsABh5NNYOemaAnYq3P2NGNvxDaJsfATeoPYhTXnUSHt9gyp0s2W0UeDNjs3o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777392523; c=relaxed/simple;
+	bh=V1pGAOnjlC+TOwNhol7IbkGiJw+8SmDe9aTyVJEfC2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QhOVW4lG24czYgjjkzcAFUVlrENcE7Uj0bZMNu02BqeekkvgRBKgyTlGXMYs+DZ0OVqG1/IfrmqBMH30tDJ6tNrk5LSLoqzDhPaHSs/8znPLmA5CuNB0RiQwbCRg+i90v4BKkyrB9kAnq7mjl3kuEoEF4+cSbmNr315g321PDFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HYD+VUBM; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4f+/ASD"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-656d749109cso2439016d50.3
-        for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 08:57:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777391846; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iVfbKkVE08vdvKmMEL+5Bhh2iKwKhaFO68YNTyv6I8SKLH/dxXbjgr1TADg7MQri3C
-         OJfpyWeNn6oNIa7n+2YSEV+4ek9y/g/JX8/rTucIcmqamxaHZKJnCeAj4I5XZJXnvXDh
-         kcdPHTddFIao9X6mkJppZkz9lMG2KjTgEWYsRPl+4fdZTbbRc5oH+NEfFV3PjQWjbQdA
-         f/NU5BxH6yrnDcIHNz30hBlFBLFVCD0GAVpqWAIs2zPCHBw2mD0LhUSfjLKKHOjL0EXJ
-         kQG4E72U5lnT+5TahxBpLpnv1IqllAu04tpnWTHyzbdotUtXMIqOOyoFt9qgninHTWuM
-         hFhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=KuO/RzKLteIekr6KKJ/88g0TKvJuJAUgqJrnT5JU4eQ=;
-        fh=svY6XyZr7ovJXT/YuyGtGOek6QMUVD9RyjcuNx2ZHFM=;
-        b=IlpFU2LzGyX8EOznzmBb6BM5FymXG9+T8n2O9RuaF2EbZwuG21jlzf3nNCto0yJU+s
-         yfMbgINuUN+YIFU0WmvYfIcDb24eDX+LuVCM1mLQ+aB+57WU6ifZL4KrwAghUMMzxCAw
-         GK1FSYqbDs1/jhsBA0oq/PPHjNlJ0qSd/VYqKObsPizNPNOuEKEUq1YGuw7ioAy78mVk
-         GXxtRKHJCAf+7OZzNSjBHZXlmmI3pX314eSRhEDvcnkjCsteYyhDl4zFB0aoBf4c7Gc/
-         yh1u6lQeXVoK51303+j0oFMwO97AXQM7y+/XAD5i/pujbLoR4fpNHMuJ11CpUpjZBvLc
-         uc8A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HYD+VUBM"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c76c60c7502so4598741a12.0
+        for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 09:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777391846; x=1777996646; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KuO/RzKLteIekr6KKJ/88g0TKvJuJAUgqJrnT5JU4eQ=;
-        b=k4f+/ASDhANK5CvPNOVWoQwl2k5XRmlScprs2PnoBzi0LAAYp3MWqm78flfNzDb8sO
-         VRlyxTPCk7ZmmU4YGrGOm+4hj4K+NUn6DaMt2XkfOCChVbs730OFNg7PXIRCfrce+mzZ
-         y0cI0mpW7nWC6owbipIGX111tD5/0sJtKJaItD/A5a+E/Ywm6xaqPWSOkCwotGIqOMtj
-         Vvs7YkYoGYXTjEZcWBoQvW6dv94kHhODG0AhPWNbHtneVE7QWJ0dX1JfYH+e9n96BIao
-         og3FBXxj8DQ+LDsA01vMS5aIT5GjIIaRbfN1r21glRGWIkmkCdIb5eY4rRajilBAqexT
-         xmxA==
+        d=gmail.com; s=20251104; t=1777392522; x=1777997322; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/HW/8Jj6I5ZLjOIJ6JOHc8L+USqcEpOBHmjRUGy0yb8=;
+        b=HYD+VUBM2uTTIVnZkEi19P5j8ba676OWjY6R9VrKsIfio4MWjeUJBl8NEIO+JjQ03D
+         eNKj7Eh2FXQK0QGYHSuS4mZEcmg79v4+X60AqZP5it97pvQmcJMZnBJNJmQiGpj/SXEw
+         lxOWDwdcYw2lp/BE54KCmLR+LnBGojEu0xSNQnBHeUbbBavbuDGD+/qrNkDhBljY6BgY
+         54fAMSlFy9NPjE/LJg4ZcHRjG8vcS7FH7OFHh9rkPc26RxvjCUA7ad6S2tJ0jlsemiML
+         VzI+uWct6bxc+7wBTK9leLAh3HN2Q6EFejYl64Kmi0I5hVNPFmYIYoLiFt5nJ9UaWfvj
+         Za8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777391846; x=1777996646;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777392522; x=1777997322;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KuO/RzKLteIekr6KKJ/88g0TKvJuJAUgqJrnT5JU4eQ=;
-        b=nJezz9fBKO4mWOQdxDIcs0Ou+u14+LZu4TaB5LtRsmdUquKwqDmfzxW42aaDURUNX8
-         qT8me3MgjG3aC1rDVSy2pSw8zzbh3ZRO5P3zxKR9GvZgx/q0DlfsJf6KQ5U+VwkndY1q
-         MvWGUA7lf/O0RRMPoeNA7owGeg0mHQyWslfGOIiqtwjM4kAy52SGTOpbPsmwxi4ulM0U
-         vjYOs9oU12gLRdaob5Th1ebR0dhH/+YMwDeRYJNIgunKD2c3q11DGv+A0nsVWMHScOsz
-         qX1s63wxNg2757oV1UuQeZk3W5/ui8NaoXFxis3gt3HausKBJ5sw8troAfj18mfCdhCM
-         lcnQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8Cb3cumNsuWOu8gtwnP6IsJ8BPBULfei+VLxoQmiNi5/Dw2Zbe9cCmxt7bWkfa1VtISbUcoH9pBL2h@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKpDjPAE0feLKd4en2YH0FSaxZurMLocPrO6Du6L102B0KY2S8
-	5FFaDL47TxN0u4SSnXQNr1ylJgu3WatN0sUdxvsIlnZIFSvZQZ3DUOVPm3EYY1bHq5alqzAkpLQ
-	BvJCtM9pPehjjd7RShUji7SYlq2TdExf7IvoyUaxLTCuH
-X-Gm-Gg: AeBDietEdzqZuPE4aCTYCm2K1OK3afmW4qeULjdg656s1zMGRf8vivX583cUM2Yimuz
-	17QDJBHMiDvyn80LzfuxQYZZaqA7dxoHY22Lb2RXz9uNltoqVrP+Vu1gbWqixHnsy0qRuI6QFpD
-	uG3pV40Dds3EeB/h8ljeEE4/mFZjwt6RkIe2s7Q3ypk7WE8TxpMIAI12RXVvB9z2imGYkSD3pW7
-	UNiJGPS8ful6fcxBIo9NvGWpVuGakwT2qpbmHABEPGPas/Bm2PV6jMPdZjipQN/U09Uxw6pmXKb
-	8YyfuH1S1lsrSsYm4STj
-X-Received: by 2002:a05:690e:4007:b0:651:9544:fe1b with SMTP id
- 956f58d0204a3-65beee3e902mr3461346d50.35.1777391846418; Tue, 28 Apr 2026
- 08:57:26 -0700 (PDT)
+        bh=/HW/8Jj6I5ZLjOIJ6JOHc8L+USqcEpOBHmjRUGy0yb8=;
+        b=L0VLxSmrlGhX8b117MzCLha43PiSz/qnFnW02Sun7OA3fKobA8ffaGBtCJWuoEQZ0D
+         kk4jGTXf7LOxJY6foF8k0U4hO7yaaLPQxStukcsvlMOBDcj3/GQtxlwVA+Nwr3Lfz/L2
+         6wYJvz3edxkzvnAG8wtcIp0j69TY1aec3ME7JyIDrgqhch0ShxGIP0kNSi+mvPeD7dOJ
+         NHJEdiDIAJtQRhw3V3rkRP15qgnFNLuvwpkCvDFyXPMbiofeB6M+Zs1vYPDsWResRHxC
+         gMCDBSFKI0Z/DDwkdHIyI+0RlIbDiPUktLAkG5B6UIU9+F1HoFJKcJwPArV79jqeonpv
+         uFZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8jPVLKjtVGNJ+Fmnr4i7EJMREPhB0g7f9j2c+4FlhD1qEAyZiV5Uv1A051a5jBZPz6fFJtHPqgfcgH@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjrPS0L5szvYhZC7hIQ/ipFNfmVV8Uc3tWmS0tDh1RmBUTg126
+	Kn1P9rsv9Wli/Dw9Gx/KlxjGaVjGJbpuY7zwPG0+/IsVVEMtYjBSp2sY
+X-Gm-Gg: AeBDietQy4qEKLpfv2JgFPCokXO9Q7JLW8LuHrdb7eIU2H7rsHYr5805VnsJsvhtrgi
+	GwfXnAV9Cw27a7lLfOoQXUBkVz2axRzDVGUvhfEXhudZ05EyTxNdU6r2VKlJPbE7IcdHArTThcC
+	oLNeUqrKarcIvAyEyJrDDycZXv/I+S15OYCny1ao4DHUaeVT3FwEx9Uay+DtlcQPuon2LN+SQy9
+	8wVHYbTjBkFy3hdEEWXspHesW0cYeTFCJMnTa0b3Xh0O+DjLLNneiyZN+gLYn0vGIR/akznQp1e
+	xrylHk69K6biVkfOMR6PToEPnRr9DHFlm3evatLDDe10h+s1gbaY/uY4JfBtyHfzLTj2J9G+yn9
+	WPVaY6Vf1TKfwlS1HXjcPjnpq5DEebkXoEzJA722zar7iddeSc9dmWGUq1yRNc3wl7q9TCvGJWD
+	CE2FMPBKcsIhcMcOi/0PAq/ew=
+X-Received: by 2002:a05:6a20:734b:b0:3a3:1f78:2025 with SMTP id adf61e73a8af0-3a39c14962fmr3553432637.27.1777392521387;
+        Tue, 28 Apr 2026 09:08:41 -0700 (PDT)
+Received: from lgs.. ([101.36.106.46])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fc299f556sm3637526a12.6.2026.04.28.09.08.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 09:08:40 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Qiushi Wu <wu000273@umn.edu>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH v2] EDAC/sysfs: Fix UAF in edac_device_register_sysfs_main_kobj()
+Date: Wed, 29 Apr 2026 00:08:28 +0800
+Message-ID: <20260428160828.377129-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428130608.368025-1-lgs201920130244@gmail.com> <CY8PR11MB71349EE6FB5C056ED1EAD0D589372@CY8PR11MB7134.namprd11.prod.outlook.com>
-In-Reply-To: <CY8PR11MB71349EE6FB5C056ED1EAD0D589372@CY8PR11MB7134.namprd11.prod.outlook.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Tue, 28 Apr 2026 23:57:19 +0800
-X-Gm-Features: AVHnY4Li2_VaTSgFQkgiiFULLmXehAD0Shw99w_mpOC1aYbaQ8gqArgd2BaSV8Y
-Message-ID: <CANUHTR9MD2A3a2s6y2sp40xeHGUWzECNc=hma17ownfUqiXE+A@mail.gmail.com>
-Subject: Re: [PATCH] EDAC/sysfs: Fix UAF in edac_device_register_sysfs_main_kobj()
-To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>, "Luck, Tony" <tony.luck@intel.com>, Qiushi Wu <wu000273@umn.edu>, 
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Zhuo,
+If kobject_init_and_add() fails, the error path drops the kobject
+reference with kobject_put(). This may call
+edac_device_ctrl_master_release(), which drops the module reference and
+frees the edac_device_ctl_info object.
 
-Thanks for reviewing.
+However, the same error path then calls module_put(edac_dev->owner),
+which dereferences edac_dev after it may have been freed. This can cause
+a use-after-free and also drops the module reference twice.
 
-On Tue, 28 Apr 2026 at 22:33, Zhuo, Qiuxu <qiuxu.zhuo@intel.com> wrote:
->
->
-> This looks incorrect  - the flag is marked true on failure ???
->
-> [...]
+Track whether kobject_init_and_add() has been called. If it has, rely on
+the kobject release callback to drop the module reference. Otherwise,
+drop the module reference directly.
 
-Yes, you're right.
+This issue was found by a static analysis tool I am developing.
 
-The flag is intended to track whether kobject_init_and_add() has been
-called, not whether the function is about to take the error path.
+Fixes: 17ed808ad2431 ("EDAC: Fix reference count leaks")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+v2:
+  - Move kobj_initialized assignment to the kobject_init_and_add() call
+    site so it records whether the kobject has actually been initialized.
 
-I'll move the assignment to immediately after the kobject_init_and_add()
-call, inside the dev_root branch, so the error path only calls
-kobject_put() when the kobject has actually been initialized.
+ drivers/edac/edac_device_sysfs.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Thanks for catching this.
+diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
+index fcebc4ffea26..042a30ed55c6 100644
+--- a/drivers/edac/edac_device_sysfs.c
++++ b/drivers/edac/edac_device_sysfs.c
+@@ -231,6 +231,7 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
+ 	struct device *dev_root;
+ 	const struct bus_type *edac_subsys;
+ 	int err = -ENODEV;
++	bool kobj_initialized = false;
+ 
+ 	edac_dbg(1, "\n");
+ 
+@@ -256,6 +257,7 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
+ 	if (dev_root) {
+ 		err = kobject_init_and_add(&edac_dev->kobj, &ktype_device_ctrl,
+ 					   &dev_root->kobj, "%s", edac_dev->name);
++		kobj_initialized = true;
+ 		put_device(dev_root);
+ 	}
+ 	if (err) {
+@@ -275,8 +277,10 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
+ 
+ 	/* Error exit stack */
+ err_kobj_reg:
+-	kobject_put(&edac_dev->kobj);
+-	module_put(edac_dev->owner);
++	if (kobj_initialized)
++		kobject_put(&edac_dev->kobj);
++	else
++		module_put(edac_dev->owner);
+ 
+ err_out:
+ 	return err;
+-- 
+2.43.0
+
