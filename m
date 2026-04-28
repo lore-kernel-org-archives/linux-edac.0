@@ -1,71 +1,73 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D6F44DB85
-	for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 16:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F2730DED0
+	for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 21:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777392523; cv=none; b=JWxEGTD9JUUpCkr7VSwEFKmryyzTTzNmydlzs9neIO59lY5rAejWTw0SSwyio1mT0JSlCOcXN1zjLuuWrnvXXHyXzBEMvLAvN2SRwvkSDrImGTxsABh5NNYOemaAnYq3P2NGNvxDaJsfATeoPYhTXnUSHt9gyp0s2W0UeDNjs3o=
+	t=1777412519; cv=none; b=g+ky0c/LcXTtk9W77BAuawXdt9XHodh+ObPYAPEBVwwORcAN6BPECYMLrf/xi4Sb8BtuC/j62qbhorXJyf32p4H10Yg+GMym1CspKo71bCDPiUHbYZ9DdxzscT5mwpSuIkzsQqeZJ75gkmIP3Z3XrNbd+DOlM280xHu8RzNyrLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777392523; c=relaxed/simple;
-	bh=V1pGAOnjlC+TOwNhol7IbkGiJw+8SmDe9aTyVJEfC2c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QhOVW4lG24czYgjjkzcAFUVlrENcE7Uj0bZMNu02BqeekkvgRBKgyTlGXMYs+DZ0OVqG1/IfrmqBMH30tDJ6tNrk5LSLoqzDhPaHSs/8znPLmA5CuNB0RiQwbCRg+i90v4BKkyrB9kAnq7mjl3kuEoEF4+cSbmNr315g321PDFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HYD+VUBM; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1777412519; c=relaxed/simple;
+	bh=OUaExO99m67jwthWvfzdD3J9fDxAj3XMLv+OhaFhrsQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W6hek1oaV06AUo8SmarvEz3oekIX7knzr9H4QsxAFDeJRJ+yk7F5IjtTl9t2S3WEWGtKk3RGPrWThtutPh75EfxZnJYguCqa+xtLxQL2cTKR041xkrLXpHJh9VxIPIc4JWoJA7tav9U8EYudhMv+veN/QeU/aW0eH6IatDVJ9Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IEIwLWGp; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HYD+VUBM"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c76c60c7502so4598741a12.0
-        for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 09:08:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IEIwLWGp"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ab39b111b9so49349165ad.1
+        for <linux-edac@vger.kernel.org>; Tue, 28 Apr 2026 14:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777392522; x=1777997322; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777412517; x=1778017317; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/HW/8Jj6I5ZLjOIJ6JOHc8L+USqcEpOBHmjRUGy0yb8=;
-        b=HYD+VUBM2uTTIVnZkEi19P5j8ba676OWjY6R9VrKsIfio4MWjeUJBl8NEIO+JjQ03D
-         eNKj7Eh2FXQK0QGYHSuS4mZEcmg79v4+X60AqZP5it97pvQmcJMZnBJNJmQiGpj/SXEw
-         lxOWDwdcYw2lp/BE54KCmLR+LnBGojEu0xSNQnBHeUbbBavbuDGD+/qrNkDhBljY6BgY
-         54fAMSlFy9NPjE/LJg4ZcHRjG8vcS7FH7OFHh9rkPc26RxvjCUA7ad6S2tJ0jlsemiML
-         VzI+uWct6bxc+7wBTK9leLAh3HN2Q6EFejYl64Kmi0I5hVNPFmYIYoLiFt5nJ9UaWfvj
-         Za8A==
+        bh=0ivxoL7rxhcs0BB8mAqLqAJ5JywAgHHDv45sMwUwMt0=;
+        b=IEIwLWGp4gs/tA1gIhypzuDfYUFmA38ajhlIIypiGO4YHdAe1k1vvihmOtGcdHLYXv
+         S7inREGzQ8x88eHck7a7rwA4dSf5X+6yXcbwONhUX2IXqI2Ok03SxAzYuQ5wvAuiGH3h
+         iTVaaivssLiWIrQsmbMOuzI/SThybYGaMf+lbvghIiG27rikeU0dp8pXBtsNDzArwQvq
+         4ayZEcfNAgmyIKSIH1ZOhQu/kt2mnOmmEWkZ3zSAy/p++uaym1AJ7LFNb5tgh7esO/M+
+         fRlLEiedxNv7XS4/zB226J7tadyBlTS1Q5M0NpJSzfeg9l90KnL4NELDOQKEkv2xNBRg
+         kpEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777392522; x=1777997322;
+        d=1e100.net; s=20251104; t=1777412517; x=1778017317;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/HW/8Jj6I5ZLjOIJ6JOHc8L+USqcEpOBHmjRUGy0yb8=;
-        b=L0VLxSmrlGhX8b117MzCLha43PiSz/qnFnW02Sun7OA3fKobA8ffaGBtCJWuoEQZ0D
-         kk4jGTXf7LOxJY6foF8k0U4hO7yaaLPQxStukcsvlMOBDcj3/GQtxlwVA+Nwr3Lfz/L2
-         6wYJvz3edxkzvnAG8wtcIp0j69TY1aec3ME7JyIDrgqhch0ShxGIP0kNSi+mvPeD7dOJ
-         NHJEdiDIAJtQRhw3V3rkRP15qgnFNLuvwpkCvDFyXPMbiofeB6M+Zs1vYPDsWResRHxC
-         gMCDBSFKI0Z/DDwkdHIyI+0RlIbDiPUktLAkG5B6UIU9+F1HoFJKcJwPArV79jqeonpv
-         uFZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8jPVLKjtVGNJ+Fmnr4i7EJMREPhB0g7f9j2c+4FlhD1qEAyZiV5Uv1A051a5jBZPz6fFJtHPqgfcgH@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjrPS0L5szvYhZC7hIQ/ipFNfmVV8Uc3tWmS0tDh1RmBUTg126
-	Kn1P9rsv9Wli/Dw9Gx/KlxjGaVjGJbpuY7zwPG0+/IsVVEMtYjBSp2sY
-X-Gm-Gg: AeBDietQy4qEKLpfv2JgFPCokXO9Q7JLW8LuHrdb7eIU2H7rsHYr5805VnsJsvhtrgi
-	GwfXnAV9Cw27a7lLfOoQXUBkVz2axRzDVGUvhfEXhudZ05EyTxNdU6r2VKlJPbE7IcdHArTThcC
-	oLNeUqrKarcIvAyEyJrDDycZXv/I+S15OYCny1ao4DHUaeVT3FwEx9Uay+DtlcQPuon2LN+SQy9
-	8wVHYbTjBkFy3hdEEWXspHesW0cYeTFCJMnTa0b3Xh0O+DjLLNneiyZN+gLYn0vGIR/akznQp1e
-	xrylHk69K6biVkfOMR6PToEPnRr9DHFlm3evatLDDe10h+s1gbaY/uY4JfBtyHfzLTj2J9G+yn9
-	WPVaY6Vf1TKfwlS1HXjcPjnpq5DEebkXoEzJA722zar7iddeSc9dmWGUq1yRNc3wl7q9TCvGJWD
-	CE2FMPBKcsIhcMcOi/0PAq/ew=
-X-Received: by 2002:a05:6a20:734b:b0:3a3:1f78:2025 with SMTP id adf61e73a8af0-3a39c14962fmr3553432637.27.1777392521387;
-        Tue, 28 Apr 2026 09:08:41 -0700 (PDT)
-Received: from lgs.. ([101.36.106.46])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fc299f556sm3637526a12.6.2026.04.28.09.08.38
+        bh=0ivxoL7rxhcs0BB8mAqLqAJ5JywAgHHDv45sMwUwMt0=;
+        b=agNMASwLQfBiciBPWMz276vbXKjgFsNFPAa5p/mmk6KfbJsJJhggDDLFCxAUuRyj/F
+         qxTja7Ivwn8NanQ2QWubECFAMz0Akm6btsjmi7rdt/iENfoUkf4n5QoU/rh8Q+0rbqsB
+         yrSCSC9ObPCRaRlJUAfop33i7coBZCUhxhuqifBE2BVyf3sBeLTsJZNLieyo4vSGJ1Oo
+         /HkIcnWGXy71pGABl5/ZJ0KYQQNOybqierRCGy14daankOkvKO9D9AgGh9kwCFm334s2
+         i4CKhQ6z0Kk9knUacxbGXQ6AmNFhf50QKc7sY720+FdjhBPUHbxqU7pj+L4GAedxatQv
+         Xxug==
+X-Forwarded-Encrypted: i=1; AFNElJ88Cj/uGga/7KopqwCuxKwxtnOmRl8DFOfh5fPPNGfpDifLezKPY07MlucsVC55oMuvNwW8vzbNyOLA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy44smhOjxDVbNv4V5+00b42ewJkTc767o3pI07mAudwgel1dtK
+	bPU1NmkIUXiuDdVRUt4C3VFA871F44cOFSH0sBM44TOfaY13at0Bq6R7
+X-Gm-Gg: AeBDieuO0OTv3abK12jBWyVv2DuEyyusTTPpg7GKKMgzrAqE9kGm167MICdBeQ3SFgG
+	8gJ0qBWmN3DnlqXtcEIsbDp4UJgrWDf8L7M4PWWoKYsd0ruetblt9n2fp/fqDtHW9I1vDvqG5UY
+	yqm12wtkgpRJkYoc4Ytf35JAsErmfU/Rl5eSwASHnfKmWI0UBsW6X+TicPn8tQjfr3Jx2EE7QiT
+	hXWrUlPxQpI2CAnJEq7OXNOWreQDaTMyzlASDZR7dZe3cywlUax1d7oitLtFC9kUWvD0V1uQ4VD
+	bxyjqM2AmLV1a1WLl+t9U0uY82DmNw/eORhZlddNrzslORT4hMaeao+CzOAx1VrUn8UFWUAUMl6
+	TLap+nG9pdhcGm2jwoC/iO23BtOOqWH5sFg16L1d6+pBXlVs/wLqK4shvRlw0tjayxXoPtfIHJG
+	/iMF/0CnesIgvFyHY4Ey2Q8KuGRd6RYiuVm9T6OpV8fRJIMUpm3kHen3netGvD9aoRPVR63Nf7x
+	bc=
+X-Received: by 2002:a17:902:e746:b0:2b4:5fae:cbd8 with SMTP id d9443c01a7336-2b97c4e41a6mr54324675ad.37.1777412517332;
+        Tue, 28 Apr 2026 14:41:57 -0700 (PDT)
+Received: from pop-os.. ([2401:4900:647d:e40d:2ab9:6874:139a:41e5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b988772e9csm1877055ad.9.2026.04.28.14.41.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 09:08:40 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Qiushi Wu <wu000273@umn.edu>,
+        Tue, 28 Apr 2026 14:41:56 -0700 (PDT)
+From: Tushar Tibude <tushar.tibude1000@gmail.com>
+To: mchehab@kernel.org,
+	bp@alien8.de,
+	tony.luck@intel.com,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Guangshuo Li <lgs201920130244@gmail.com>
-Subject: [PATCH v2] EDAC/sysfs: Fix UAF in edac_device_register_sysfs_main_kobj()
-Date: Wed, 29 Apr 2026 00:08:28 +0800
-Message-ID: <20260428160828.377129-1-lgs201920130244@gmail.com>
+Cc: qiuxu.zhuo@intel.com,
+	Tushar Tibude <tushar.tibude1000@gmail.com>
+Subject: [PATCH v2] EDAC: i7300: disable error reporting if init fails and refactor helper
+Date: Wed, 29 Apr 2026 03:11:16 +0530
+Message-ID: <20260428214116.19230-1-tushar.tibude1000@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -75,64 +77,100 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If kobject_init_and_add() fails, the error path drops the kobject
-reference with kobject_put(). This may call
-edac_device_ctrl_master_release(), which drops the module reference and
-frees the edac_device_ctl_info object.
+If error reporting is enabled during initialization but initialization
+fails immediately after, or during normal driver exit, error reporting
+is left enabled in the mask register even after exit.
 
-However, the same error path then calls module_put(edac_dev->owner),
-which dereferences edac_dev after it may have been freed. This can cause
-a use-after-free and also drops the module reference twice.
+Replace i7300_enable_error_reporting() with i7300_set_error_reporting()
+to combine enabling/disabling. Disable reporting at initialization
+failure and driver exit, before call to i7300_put_devices() for cleanup.
 
-Track whether kobject_init_and_add() has been called. If it has, rely on
-the kobject release callback to drop the module reference. Otherwise,
-drop the module reference directly.
+This ensures clean hardware handling by disabling any unused error
+reporting bits before exiting.
 
-This issue was found by a static analysis tool I am developing.
-
-Fixes: 17ed808ad2431 ("EDAC: Fix reference count leaks")
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+Signed-off-by: Tushar Tibude <tushar.tibude1000@gmail.com>
 ---
 v2:
-  - Move kobj_initialized assignment to the kobject_init_and_add() call
-    site so it records whether the kobject has actually been initialized.
+ - Replace disable function with i7300_set_error_reporting
+ - Disable reporting at normal driver exit
+ - Move enabled_error_reporting flag initialization
+ drivers/edac/i7300_edac.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
 
- drivers/edac/edac_device_sysfs.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-index fcebc4ffea26..042a30ed55c6 100644
---- a/drivers/edac/edac_device_sysfs.c
-+++ b/drivers/edac/edac_device_sysfs.c
-@@ -231,6 +231,7 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
- 	struct device *dev_root;
- 	const struct bus_type *edac_subsys;
- 	int err = -ENODEV;
-+	bool kobj_initialized = false;
+diff --git a/drivers/edac/i7300_edac.c b/drivers/edac/i7300_edac.c
+index 69068f8d0..f729bf0e2 100644
+--- a/drivers/edac/i7300_edac.c
++++ b/drivers/edac/i7300_edac.c
+@@ -550,11 +550,12 @@ static void i7300_clear_error(struct mem_ctl_info *mci)
+ }
  
- 	edac_dbg(1, "\n");
+ /**
+- * i7300_enable_error_reporting() - Enable the memory reporting logic at the
++ * i7300_set_error_reporting() - Enable or disable the memory reporting logic at the
+  *				    hardware
+  * @mci: struct mem_ctl_info pointer
++ * @enable: enables if 'true', disables if 'false'
+  */
+-static void i7300_enable_error_reporting(struct mem_ctl_info *mci)
++static void i7300_set_error_reporting(struct mem_ctl_info *mci, bool enable)
+ {
+ 	struct i7300_pvt *pvt = mci->pvt_info;
+ 	u32 fbd_error_mask;
+@@ -563,8 +564,11 @@ static void i7300_enable_error_reporting(struct mem_ctl_info *mci)
+ 	pci_read_config_dword(pvt->pci_dev_16_1_fsb_addr_map,
+ 			      EMASK_FBD, &fbd_error_mask);
  
-@@ -256,6 +257,7 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
- 	if (dev_root) {
- 		err = kobject_init_and_add(&edac_dev->kobj, &ktype_device_ctrl,
- 					   &dev_root->kobj, "%s", edac_dev->name);
-+		kobj_initialized = true;
- 		put_device(dev_root);
- 	}
- 	if (err) {
-@@ -275,8 +277,10 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
- 
- 	/* Error exit stack */
- err_kobj_reg:
--	kobject_put(&edac_dev->kobj);
--	module_put(edac_dev->owner);
-+	if (kobj_initialized)
-+		kobject_put(&edac_dev->kobj);
+-	/* Enable with a '0' */
+-	fbd_error_mask &= ~(EMASK_FBD_ERR_MASK);
++	/* Enable with 0, disable with 1 */
++	if (enable)
++		fbd_error_mask &= ~(EMASK_FBD_ERR_MASK);
 +	else
-+		module_put(edac_dev->owner);
++		fbd_error_mask |= EMASK_FBD_ERR_MASK;
  
- err_out:
- 	return err;
+ 	pci_write_config_dword(pvt->pci_dev_16_1_fsb_addr_map,
+ 			       EMASK_FBD, fbd_error_mask);
+@@ -1025,6 +1029,7 @@ static int i7300_init_one(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	struct edac_mc_layer layers[3];
+ 	struct i7300_pvt *pvt;
+ 	int rc;
++	bool enabled_error_reporting;
+ 
+ 	/* wake up device */
+ 	rc = pci_enable_device(pdev);
+@@ -1087,17 +1092,19 @@ static int i7300_init_one(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (i7300_get_mc_regs(mci)) {
+ 		edac_dbg(0, "MC: Setting mci->edac_cap to EDAC_FLAG_NONE because i7300_init_csrows() returned nonzero value\n");
+ 		mci->edac_cap = EDAC_FLAG_NONE;	/* no csrows found */
++		enabled_error_reporting = false;
+ 	} else {
+ 		edac_dbg(1, "MC: Enable error reporting now\n");
+-		i7300_enable_error_reporting(mci);
++		i7300_set_error_reporting(mci, true);
++		enabled_error_reporting = true;
+ 	}
+ 
+ 	/* add this new MC control structure to EDAC's list of MCs */
+ 	if (edac_mc_add_mc(mci)) {
+ 		edac_dbg(0, "MC: failed edac_mc_add_mc()\n");
+-		/* FIXME: perhaps some code should go here that disables error
+-		 * reporting if we just enabled it
+-		 */
++		/* Disable error reporting if we just enabled it */
++		if (enabled_error_reporting)
++			i7300_set_error_reporting(mci, false);
+ 		goto fail1;
+ 	}
+ 
+@@ -1147,6 +1154,8 @@ static void i7300_remove_one(struct pci_dev *pdev)
+ 
+ 	tmp = ((struct i7300_pvt *)mci->pvt_info)->tmp_prt_buffer;
+ 
++	/* Disable error reporting before unregistering device */
++	i7300_set_error_reporting(mci, false);
+ 	/* retrieve references to resources, and free those resources */
+ 	i7300_put_devices(mci);
+ 
 -- 
 2.43.0
 
