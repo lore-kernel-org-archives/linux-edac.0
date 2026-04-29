@@ -1,199 +1,635 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663123F23C5;
-	Wed, 29 Apr 2026 12:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777466997; cv=fail; b=JNh8j8fNJjLlGjJRWUaoELkgLFX18i4LsnzB833CEeuss9yuYb0iUAe7uoi/g3ZakGMPbKEoJ6mrnplV5WT7CFJQtRFMcgVGWTu3FRgS8w85J9Ns3J34XE6KHDG87vgtQVF7HZBXNtqbKRD+IfZAxW4E2a1Oa0Ip3OopzLFz6xw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777466997; c=relaxed/simple;
-	bh=pJlmvZQoaiMI5OiT1ZtVcNnd2M32m3LsHh17OwUmjLo=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ua3fIBPluJEeNPG6+JllO+ohepPZBEfzOSi+asNXbMlI/xi1bqUSqiY1IznGFeu2MVD9cc3uoS6mwdn6OHVLy9YHzGGxj6/7cNh6QSe+Bjcxzpr+70sUg3Q5O5IBMt81WfjVowHXb8ITWyVDSPXrlDyjxVZnaF89hTCxmiuR97g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzlV3nOD; arc=fail smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF7937AA63
+	for <linux-edac@vger.kernel.org>; Wed, 29 Apr 2026 15:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777476330; cv=none; b=pRHirOPRYKl5fm+FZEil5q1/dfzoldUSmhKUWSv5/FtOIP+IwP/9EAVcepdj69pV2+wWIehaHZv2vtYQaa9eVYf5CL7sprSiRt/2r2ErznaMUCafBvDp8uKFd03TvS+NTqYPdT/OJOYiQyrZBFqtIsXvXmz24nma66+7So+c+DE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777476330; c=relaxed/simple;
+	bh=mUWx8EUlo88UgoPta+1SFiCcY5tHt9JYkXgqovqw0aU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sYlmatWMSkMftxXjVOdeF8iZLl580LZoW0diTpdpTauCqvFdNpFeX+8UTluAvDIC4Z2sAGjSIn86fnpDOzrh/5rJ0jZVZvJqMUQtnCSRrI3xK1KHDvtMZVjWjnEbStyUBTNaWg/wz1EMAEmjLDLl1As3Kg5VLWy5Np7yq9Mn29A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=qm2SPTtl; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzlV3nOD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777466996; x=1809002996;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=pJlmvZQoaiMI5OiT1ZtVcNnd2M32m3LsHh17OwUmjLo=;
-  b=XzlV3nODv6FTnw2Hno5jcA4h8eriZE//nr/hkvVoibyU5IOGoBdkyXmm
-   d8kTN8jL9yQf11MsUylATKR+qeKhl9NvzeTCVtgoIePvhbvI3GwmcC2hk
-   SrZ2gu8KyLMljv/YX9RSdgac2PVnUgvwQY9hp0DXPXKDc/fqlApJ/I8zf
-   tvmpHnnH0TyEv25Rjo4yY5Ev2CSgqoaaB3U7HV7ptlEqXDAN5j0lzve3V
-   0THXQUue7XpT0N7B4X9s4c1SVpDXiAcZG/wYFFEBEep8oaPi2xOT7zB+O
-   sSOAToQhlLe/0M6kbcUDSu1UymQBS50DV/y0/7FpyM+a2kZcBVVO2lWHd
-   Q==;
-X-CSE-ConnectionGUID: 51WW3cs9QOydDUWZMa2MIw==
-X-CSE-MsgGUID: uRjC4iDbRQ2msZpcOlDnzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="82000381"
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="82000381"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 05:49:55 -0700
-X-CSE-ConnectionGUID: iFud+Zj3T1ipbcOgfbApMg==
-X-CSE-MsgGUID: nR0GZhtHRf2Vwhg1h+jqVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
-   d="scan'208";a="227750673"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 05:49:54 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 29 Apr 2026 05:49:54 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Wed, 29 Apr 2026 05:49:54 -0700
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.55) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 29 Apr 2026 05:49:53 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oRkPOfBRL88cVvf4YyHVsHiNY14v0Kkhk5+ljrbqKzFIucpAQUGGICEhsy/vDXK7Y5+/MlXDJyVK3apw/cya5tJ7la/sQ5Ucg/quzAbSwYoS7iBu6gEa8712yj7DmvUxAoX2JPBfM9xJdu2LXSpFpHNcsiToGTw+2rkElaVIN+Srs9KlIiRnokJTrzK4hFIyI/GeFXqFMHdKPX8iLVZ96E7AVN2j3lsQ/YK+hME6+DGYocSLAvxQFOY9uDCwihrlEfzV6wPgmbAI1wpA/RX7tpu8FzH41fpNc3sx4c9paP+V36uEETSUzzbLzaar221fSt/ddD/fW49xltz93Wkz9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4iVwhOQY4AZFbGrt8I/oIq4LdlxQW9Th8UEKnIOxosQ=;
- b=SaW/kbx3R1o0zlUPyvu7otrTgjeF2hmloF7vAaZAg2Dax7N+hXGZ+bz9kySRl0yp9nGlBiA5zJw6tQiTgwGJHV2bBMRKRsAI0/9gulzvp3sR9K/HsYhwzRjGWIguz1DO0vUURyliaprmRHOtdONXNvrJvgwrE27nrgmNSnGke7+yrgeoZMZBj7G0tctqGNnqirXu/XF3wsDc0/ZRPVQ+qjWWva0wPg3PPd1t8ig/PgOlheuQ2MPXgIA4PtX43CZgC/2C/RQlILM0d0dRhIZgbMbRwR7WhEZfzbuIg3u9U592at0hjzz41FQkYnP+q8lTVux302Cp7YI4EI+r4qmADw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY8PR11MB7134.namprd11.prod.outlook.com (2603:10b6:930:62::17)
- by CY8PR11MB7897.namprd11.prod.outlook.com (2603:10b6:930:7d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Wed, 29 Apr
- 2026 12:49:51 +0000
-Received: from CY8PR11MB7134.namprd11.prod.outlook.com
- ([fe80::5670:5b2e:6ecb:dcaf]) by CY8PR11MB7134.namprd11.prod.outlook.com
- ([fe80::5670:5b2e:6ecb:dcaf%5]) with mapi id 15.20.9870.020; Wed, 29 Apr 2026
- 12:49:50 +0000
-From: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
-To: Tushar Tibude <tushar.tibude1000@gmail.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "bp@alien8.de" <bp@alien8.de>, "Luck, Tony"
-	<tony.luck@intel.com>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3] EDAC: i7300: disable error reporting if init fails and
- refactor helper
-Thread-Topic: [PATCH v3] EDAC: i7300: disable error reporting if init fails
- and refactor helper
-Thread-Index: AQHc172wo9fTvG1DXk6UYL400qmz87X1/YNQ
-Date: Wed, 29 Apr 2026 12:49:50 +0000
-Message-ID: <CY8PR11MB7134BAD0DF03D5890E82F94589342@CY8PR11MB7134.namprd11.prod.outlook.com>
-References: <20260429094806.25097-1-tushar.tibude1000@gmail.com>
-In-Reply-To: <20260429094806.25097-1-tushar.tibude1000@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB7134:EE_|CY8PR11MB7897:EE_
-x-ms-office365-filtering-correlation-id: e4f5e31a-0c82-4358-3a99-08dea5edcdab
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|56012099003|22082099003|18002099003;
-x-microsoft-antispam-message-info: OQSLmP7T0WfmuSOmMGkCvnosLoW2tuZ/FP8+T2KmcBnoo03IodufcE/4GMd3gbsFUC2oHdy56MgZ0YJklatsZRmTBqxE5PgIVaOYkQO9z80B24hjM2nT2iTFSw7YLBnVU18Cqr84/nWhbWcbIW5OOHdDo9Tvym0fncRIcHx2AF33KGwst7q+G6dFjyXsS0yVlijMnA4ahhtQpGzWddcGQIoxDirYWEInVCKA6wDAkwuRxfMqGKEjJSyS7TR1G5Van0uVBLEqcc1pXyg/K6btroGyhHCZkHujWQJCm6n3bSAptVV4CIi3A/pAb4ui4De5KxHUsMPsyqc9PNsJk/6itDA1JPIgTO4PWSCxEtiWcJN9IfmqJ4JbPoDVGSFp7SG5vwg9Ox0DFnJRiYy7HYcWsjWpscLjDHJXgDhPL3i1F+fOHB7vQL/xmhErUWitBJDPAA7bx5S2wv3ksQPIvcuDry2mgtAQMaC79hgpTy5tl00ZIIGuwcic1OGQkuLJEJBR4ft+w40HDI2KiSvZBVLqx202B0GtXEXVatE2p/S94qvKgcChvqbAWtLxhIeYBuEMmnnXgdJKa4eznbgR76kT63DyHiqQMGlau08Gee96FGVg3kvuP//DHTDwJ2/e6+gaNL9pveoFgsrqo0APygPE+2SyS0pjcNUWpJu5Z59ED9qBhtyFapPMrA/cq0un7Poa0RuJpSd/xyk9jpo3M+uUhBzCTJnU4GQOQ0iUB9m++vSxBR7xJSbHOwGkRmeIH/FQleluuwjf0BHvP9X7yv67rq9e/gG5GTSS4q9MC6+W97s=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7134.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?EdJgLUE9sZI9EZ4Kk3SJ4rmz4NyUg9Ive94p1Q+WiYninAmbBKGD69gxAACA?=
- =?us-ascii?Q?t6AXj0SL6XvQc6mHvsRh8OXhH3xVOxTGymR81j4oY2Me8rd+rwf5GkY8tvKw?=
- =?us-ascii?Q?v/tiqWCtM0GUfjSmdjvfZrau4+7tUGlMY+MoIQtchF+dJ40khDJSElGnVtHT?=
- =?us-ascii?Q?yN4yp53yGwMasjRHRNemNbNkc2SNr5aRmpve4ruQPYs+R6pGPBnDw3vLkQbD?=
- =?us-ascii?Q?i7ELqO+SjHtqohQokZWDamuOKbjck8EXiHy3oN49gUFJXu6NVZUk8AxArvou?=
- =?us-ascii?Q?xZiXSpVGmQ0Uue3hil6yE1qtxVq4IWYB7q3HggebhhCKvovITjdTizixaiIQ?=
- =?us-ascii?Q?i5o4HfRNnC9BXliDthsJB3MQXnpj6jdPTDZ+xLTaWP8FmsSil28+CVODBrn8?=
- =?us-ascii?Q?wJriN9TkiVRCSKNJLP/vLcwkyQdq30DuvlBW867BHhQ+ZCQjAdsSQOuP3Mm6?=
- =?us-ascii?Q?USeq52x02Hg/KjW5cBpqPPDBDWWC9GikhZ972xYywODpMNNQhlk7mZwxYnCt?=
- =?us-ascii?Q?62f1aMxKhCfCqt0ZOgIcoZ2wdoningkhoewKPC9GP6aX3L1ZbP46hZiti1c9?=
- =?us-ascii?Q?JNRCfyVUb6eZ9LYp2radHbbL8HzIx0EcS+7F4+4uJjYzs/dUyt5q+ZU1md8C?=
- =?us-ascii?Q?DbnFUEJZrrDNzFEk/CthNbBlW0DojoQshRgs2iYGp+jQiM51UBSApBr0Pdct?=
- =?us-ascii?Q?j8jTJ5xm7O5opZU6IRVMydCsddq+p5vfj+pyreF+2spBEV7cZAQKevwkESQQ?=
- =?us-ascii?Q?6VONbjMXpMVW2Y/9uyxwQ5oRLWW7E6ICAfYjQLkgOKFU/d6A4RTUq3zm0DUx?=
- =?us-ascii?Q?CQz6cjbxhD12pM+kv/If94z5xkpYrN7RIh45hgxPcB29iymv+7CbVfnJluyk?=
- =?us-ascii?Q?fAnppm4ZUP98+QLCM35MIOIqDFVNVc3sfCTHEI1CDW9Y/7vJ8QnUnnA2sX1M?=
- =?us-ascii?Q?50SD/9HzonF5Z7BbULv6Ty1H3uTiML7jyjkuk1l95o3ynTgl4rcU+/yEzqyQ?=
- =?us-ascii?Q?B3ArKwjzo91G3qBU7uTYPDMUILkXyxOV4KTtnbwZT9P5Eo0bRZ3DYKKVkVmg?=
- =?us-ascii?Q?3MzcejiJkq7y+OR6xgDi6vGHb5NrZve2P6koTTSWRF6X8RhrAtF7b8X4Prlk?=
- =?us-ascii?Q?9s3otxIPpOkQfkIGPJ/rPC5DuGv+8fZOVieH0gsnemEjCfeBfT5nZ8D0zvTu?=
- =?us-ascii?Q?LfHrQWF9euNEjZ64D0Wrq5PWj5b8BfGZ4JP/gr2JaaaQ0e7qKS5PYARgpAXE?=
- =?us-ascii?Q?Sn/53nK0uaJbZXioiw/8q3UnGORt/9p42xPD2hv5PEOL5Us1OBleHHDH83W2?=
- =?us-ascii?Q?sCnYaaUvr1tCku+luwmM5i+quKt/BqfYVszt8EhC3GG72kvah11CO6myNu+w?=
- =?us-ascii?Q?xQb/PcMHnPUwQLlSgfgazGqX3xwqXem1pW7uSH+fsbz8m9OudItKyaUDrZhs?=
- =?us-ascii?Q?xIzflGB0CY2KJd3e1NcrdgnNy2xsKiao0RmXWtNzP/OrXutx334PVMtDaf4y?=
- =?us-ascii?Q?L2g7BRo9JkiMTf+wlq/lJU1dnEvf18euhbBcg0kyoJP2TTaL4n1P6b0yO/TZ?=
- =?us-ascii?Q?4e1lBQJXMMuq75WBKIavNzQkW1WJfYSdoPoDI5JLP8cTp+dm+i8iwg713hcO?=
- =?us-ascii?Q?3xFoXq3no96AYrfSIxRvxRUl7VF9ffdUJAqwyEnZVHWmxYl3eFnIoiH3Mqu/?=
- =?us-ascii?Q?GDI/zefuHQYPNgGXTY6zlxBmUohzRZErkKMXOEe/z/MgYFiChRoKZ+sMy/Se?=
- =?us-ascii?Q?37+eojXhQA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="qm2SPTtl"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43cfd832155so9317225f8f.1
+        for <linux-edac@vger.kernel.org>; Wed, 29 Apr 2026 08:25:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1777476324; x=1778081124; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EqL77kj2/3RErlxNBb5OeXQUBUyxkGq3IFBKWgdskpQ=;
+        b=qm2SPTtltHjOnDwXCVIHbQriJJF9xI8BgM7q/66NmDH3YCAc+S/NQeahPmNWE+ybBR
+         ucdqgulsfzOrEUN2GsmmlJ5kWe9S2wL37ESa0v5oxi1QfwbtNkV9JKZVInU0eyIlVdKw
+         VeW8kBhVa3qSSldL+7XJzQp5lyj9N49QHHGydrYHy+wW6nmEYmxjXNIH+Dqy0928r6A/
+         XCulQzInQQsMPbs+fxitvjpdlHHCJWd+M81vHNWDa2vMhZLtxo54xli4GDED5Z7RUIk3
+         mpdQl9lFw8UGiLdcOXOleaxE4Jmpj8bnWVLRbLvlmqnGme67+3XDoKN/0Oo0ZEkge47v
+         ZciQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777476324; x=1778081124;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EqL77kj2/3RErlxNBb5OeXQUBUyxkGq3IFBKWgdskpQ=;
+        b=hFVoecWLhbW3OaYC/qrYO6G5IB1HCz06szq1J5X2VkeYZK8P7qiQLVGt4k+Mcp5A+u
+         Hi66wfV0HTdec2ZH2i/M0AG+GypbI2EUpFhwF2lDLCVT5lmgi/spPpGRLHlgeOY+BnTQ
+         XSjyh3WW51LPQs2fOGn3LoEscbSB5sJWxvqsHPSqeJsugDTMrQValT/PL8lkhRWTAIji
+         JUSWCdFMSEY+x90hsM/y1/ONQyKe/+FTudGC9FdJw7+x2Enz/50Ty7H+X7tY095swJPE
+         fJ8h9hCZXPGEWbiw5xvu43UIKbPiqJ/fDh+qSwkgQ8IGeMtdmgMyYAYWeNBmxSYZSyTx
+         Yu7A==
+X-Forwarded-Encrypted: i=1; AFNElJ9zl/wtZkCiW9gY26WtBIn89AsmpB62PuLwIFsEVwABIBSDx7hvTGKSTb+8NhYSp3yHnGqTVlLy+flr@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDdrs9bRCANFEySuFJDbPEmqszj/JLH5Sq4fnlG8nrITw0t1Vw
+	DnKkNUWxULj4LKLQKIvQP20xrpPMR2wWBAREIEGgyqjndzN7f/StdrlaecUfzlArkx4=
+X-Gm-Gg: AeBDietPD5A0RNmnxK9ZL2rNPOMnVSMkoS6Q55cExKN/ew/zNBmMZWfk2T9lTgQ+qU+
+	ydCq3G2YC+7tlkBxLdydcw2vMKedIcnYLL5qmQCDSGVsNcxQcOAQUBLI3LLIcO7l7bnCaZXXmc4
+	13QzsI6mLtoi9nbUQv2L3z69yJqBqMNJ+1V3rFGzodr+Crg/0pWS3lEQgu5p66/qoIOmJGR3bsp
+	Kbdnwh6cAv6+Pp5665i+RKaeoZv4Bdw/aZVgd0JFUC9BJ2SvnNtG9xM6kwOM7OFIvTFeQCT0eTy
+	O151Kh+jfLEvYWund9WA0xU3fPYgRlCiiO8GoeKDe4J0fa3CUX/t4Ncs6JpVxwkwFT+b3EavFGK
+	fS8jv5Bc7v+mkk7hV0VqYzzwgAjjtca7MVml/uPT1CE1gV62IwGgLJ9pXvpaDZZXr4S2RfxvsqA
+	L/0sUSi0Ul4hWY7IrWKdNfzwRAlWWSdMhtQMcGZ21o0HGBoBKrL2LvdB9ga3ITi/tmD6+oEJvz7
+	ycLGLdnAB3zMQhl6t7Ajw21dg==
+X-Received: by 2002:a05:6000:240e:b0:43b:4136:1e6f with SMTP id ffacd0b85a97d-44649c9973emr14552182f8f.38.1777476323493;
+        Wed, 29 Apr 2026 08:25:23 -0700 (PDT)
+Received: from localhost (p200300f65f114e0863aeabccc171bdd2.dip0.t-ipconnect.de. [2003:f6:5f11:4e08:63ae:abcc:c171:bdd2])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-447b4216604sm7529865f8f.10.2026.04.29.08.25.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 08:25:22 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: Mark Gross <markgross@kernel.org>,
+	"Arvind R." <arvino55@gmail.com>,
+	Jason Baron <jbaron@akamai.com>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: [PATCH] edac: Consistently define pci_device_ids using named initializers
+Date: Wed, 29 Apr 2026 17:25:13 +0200
+Message-ID: <20260429152513.3755034-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: DriMfjf/j2GnJhXDGLWORBTIrtVsM0vjQrDMhu1FtSv/lznG6KA7N0/jCv43W6mjD9k1Ryo0CNtviu91vWisyk1J/4sZdSC/PKwWZdnYb1kud8o5RWA3hechJeGcBFlRU8HY33Yh0lfq9xy9LELqf/tqtQu9DTI9APAw0dztZm4saMcBABtu2hNt+lVZYBRbNpUseWpyC20MCKAczKw/PxBLyDHTAcMCGUfBFTFIFVmGzS/dtA2Ihzyyn6cEk4eWDtoEvu8NJ38dUxjRmNoENI86a7epIeDSMxxhzzMpMcPuyrBDoReXGcpSdQPqOM6sBoGV8BhIrVibGsE9Rft9+g==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7134.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4f5e31a-0c82-4358-3a99-08dea5edcdab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2026 12:49:50.9102
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YST6GE7ULz0Wciauzu9AYvdeMdi58KKHKZWPla45XqDmgbcEYrVAGnvgy+m5C/+KN3hs8E1Q+aYqJL0dN0yycg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7897
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=28363; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=mUWx8EUlo88UgoPta+1SFiCcY5tHt9JYkXgqovqw0aU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBp8iLZJq0LLu4wh+WJZb9rXN984wDIcokxHTKMF nbao4c2Wm6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCafIi2QAKCRCPgPtYfRL+ TqrzB/45mr5fRF8ZEdfJT0QJDcj1YFJmKCaOyVB6af1BTFJ5RYyDcr5tvUY8iTHy6hPus0xXSMD pT02EKq/3JWAypnRLHiGOanoTmgiztgOz/5mu73LfJYO+ClmrKyUGudDap4WbfvodjgCvfA9IUT 1FzXs3KRWOW/FH322YYFfyvgPSlO9c37Kcu8rx89cUisPxa2AEAvkCfGn++p1l6fwMizCxj0+Ki iBZJKMBN+7So2QpHZiGuntgb4y+us8l29qw7C9xGs4qxa6jfzuPrVZLCey8IhO98vih6chsERtV //xEbg2MLNaxbPy8EpnuVvLlY3qGg3X5gktl5hO6RLuhXT41
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-> From: Tushar Tibude <tushar.tibude1000@gmail.com>
-> Sent: Wednesday, April 29, 2026 5:48 PM
-> To: mchehab@kernel.org; bp@alien8.de; Luck, Tony <tony.luck@intel.com>;
-> linux-edac@vger.kernel.org; linux-kernel@vger.kernel.org
-> Cc: Zhuo, Qiuxu <qiuxu.zhuo@intel.com>; Tushar Tibude
-> <tushar.tibude1000@gmail.com>
-> Subject: [PATCH v3] EDAC: i7300: disable error reporting if init fails an=
-d
-> refactor helper
->=20
-> If error reporting is enabled during initialization but initialization fa=
-ils
-> immediately after, or during normal driver exit, error reporting is left =
-enabled
-> in the mask register even after exit.
->=20
-> Replace i7300_enable_error_reporting() with i7300_set_error_reporting() t=
-o
-> combine enabling/disabling. Disable reporting at initialization failure a=
-nd
-> driver exit, before call to i7300_put_devices() for cleanup.
-> Add enabled reporting flag to i7300_pvt.
->=20
-> This ensures clean hardware handling by disabling any unused error report=
-ing
-> bits before exiting.
->=20
-> Signed-off-by: Tushar Tibude <tushar.tibude1000@gmail.com>
-> ---
-> v2:
->  - Replace disable function with i7300_set_error_reporting
->  - Disable reporting at normal driver exit
->  - Move enabled_error_reporting flag initialization
-> v3:
->  - Move enabled_error_reporting flag to i7300_pvt struct
->  - Conditionally disable error reporting at normal driver exit
-> drivers/edac/i7300_edac.c | 33 ++++++++++++++++++++++++---------
->  1 file changed, 24 insertions(+), 9 deletions(-)
+... and PCI device helpers.
 
-LGTM. Thanks.
+The various struct pci_device_id arrays were initialized mostly by one
+of the PCI_DEVICE macros and then list expressions. The latter isn't
+easily readable if you're not into PCI. Using named initializers is more
+explicit and thus easier to parse.
 
-  Reviewed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Also use PCI_DEVICE* helper macros to assign .vendor, .device,
+.subvendor and .subdevice where appropriate and skip explicit
+assignments of 0 (which the compiler takes care of).
+
+The secret plan is to make struct pci_device_id::driver_data an
+anonymous union (similar to
+https://lore.kernel.org/all/cover.1776579304.git.u.kleine-koenig@baylibre.com/)
+and that requires named initializers. But it's also a nice cleanup on
+its own.
+
+This change doesn't introduce changes to the compiled pci_device_id
+arrays. Tested on x86 and arm64.
+
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+---
+Hello,
+
+the mentioned follow-up quest allows to do
+
+	-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), .driver_data = (kernel_ulong_t)&snb_cfg },
+	+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), .driver_data_ptr = &snb_cfg },
+
+which gets rid of a bunch of casts and so brings a little bit more type
+safety. This patch is a preparation for that.
+
+I assume a single patch for all of drivers/edac is fine. If not I can
+split per driver.
+
+Best regards
+Uwe
+
+ drivers/edac/amd76x_edac.c  |  16 ++---
+ drivers/edac/e752x_edac.c   |  28 ++++----
+ drivers/edac/e7xxx_edac.c   |  28 ++++----
+ drivers/edac/edac_mc.h      |   4 +-
+ drivers/edac/i3000_edac.c   |  10 +--
+ drivers/edac/i3200_edac.c   |  10 +--
+ drivers/edac/i82860_edac.c  |  10 +--
+ drivers/edac/i82875p_edac.c |  12 ++--
+ drivers/edac/i82975x_edac.c |  11 ++-
+ drivers/edac/ie31200_edac.c |  86 ++++++++++++------------
+ drivers/edac/igen6_edac.c   | 130 ++++++++++++++++++------------------
+ drivers/edac/x38_edac.c     |  10 +--
+ 12 files changed, 177 insertions(+), 178 deletions(-)
+
+diff --git a/drivers/edac/amd76x_edac.c b/drivers/edac/amd76x_edac.c
+index 2a49f68a7cf9..7bb11ffdb0c9 100644
+--- a/drivers/edac/amd76x_edac.c
++++ b/drivers/edac/amd76x_edac.c
+@@ -332,14 +332,14 @@ static void amd76x_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id amd76x_pci_tbl[] = {
+ 	{
+-	 PCI_VEND_DEV(AMD, FE_GATE_700C), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 AMD762},
+-	{
+-	 PCI_VEND_DEV(AMD, FE_GATE_700E), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 AMD761},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(AMD, FE_GATE_700C),
++		.driver_data = AMD762
++	}, {
++		PCI_VEND_DEV(AMD, FE_GATE_700E),
++		.driver_data = AMD761,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, amd76x_pci_tbl);
+diff --git a/drivers/edac/e752x_edac.c b/drivers/edac/e752x_edac.c
+index 7221b4bb6df2..77c1fe75451e 100644
+--- a/drivers/edac/e752x_edac.c
++++ b/drivers/edac/e752x_edac.c
+@@ -1414,20 +1414,20 @@ static void e752x_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id e752x_pci_tbl[] = {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 7520_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7520},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7525_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7525},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7320_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7320},
+-	{
+-	 PCI_VEND_DEV(INTEL, 3100_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I3100},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 7520_0),
++		.driver_data = E7520,
++	}, {
++		PCI_VEND_DEV(INTEL, 7525_0),
++		.driver_data = E7525,
++	}, {
++		PCI_VEND_DEV(INTEL, 7320_0),
++		.driver_data = E7320,
++	}, {
++		PCI_VEND_DEV(INTEL, 3100_0),
++		.driver_data = I3100,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, e752x_pci_tbl);
+diff --git a/drivers/edac/e7xxx_edac.c b/drivers/edac/e7xxx_edac.c
+index 5852b95fa470..02071180b638 100644
+--- a/drivers/edac/e7xxx_edac.c
++++ b/drivers/edac/e7xxx_edac.c
+@@ -554,20 +554,20 @@ static void e7xxx_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id e7xxx_pci_tbl[] = {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 7205_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7205},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7500_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7500},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7501_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7501},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7505_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7505},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 7205_0),
++		.driver_data = E7205,
++	}, {
++		PCI_VEND_DEV(INTEL, 7500_0),
++		.driver_data = E7500,
++	}, {
++		PCI_VEND_DEV(INTEL, 7501_0),
++		.driver_data = E7501,
++	}, {
++		PCI_VEND_DEV(INTEL, 7505_0),
++		.driver_data = E7505
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, e7xxx_pci_tbl);
+diff --git a/drivers/edac/edac_mc.h b/drivers/edac/edac_mc.h
+index 881b00eadf7a..9505bbd41784 100644
+--- a/drivers/edac/edac_mc.h
++++ b/drivers/edac/edac_mc.h
+@@ -88,8 +88,8 @@ do {									\
+ 
+ #endif				/* !CONFIG_EDAC_DEBUG */
+ 
+-#define PCI_VEND_DEV(vend, dev) PCI_VENDOR_ID_ ## vend, \
+-	PCI_DEVICE_ID_ ## vend ## _ ## dev
++#define PCI_VEND_DEV(vend, dev) \
++	PCI_DEVICE(PCI_VENDOR_ID_ ## vend, PCI_DEVICE_ID_ ## vend ## _ ## dev)
+ 
+ #define edac_dev_name(dev) (dev)->dev_name
+ 
+diff --git a/drivers/edac/i3000_edac.c b/drivers/edac/i3000_edac.c
+index 9065bc4386ff..04a231660b88 100644
+--- a/drivers/edac/i3000_edac.c
++++ b/drivers/edac/i3000_edac.c
+@@ -485,11 +485,11 @@ static void i3000_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id i3000_pci_tbl[] = {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 3000_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I3000},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 3000_HB),
++		.driver_data = I3000,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, i3000_pci_tbl);
+diff --git a/drivers/edac/i3200_edac.c b/drivers/edac/i3200_edac.c
+index 6cade6d7ceff..d600b6c05217 100644
+--- a/drivers/edac/i3200_edac.c
++++ b/drivers/edac/i3200_edac.c
+@@ -466,11 +466,11 @@ static void i3200_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id i3200_pci_tbl[] = {
+ 	{
+-		PCI_VEND_DEV(INTEL, 3200_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		I3200},
+-	{
+-		0,
+-	}            /* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 3200_HB),
++		.driver_data = I3200,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, i3200_pci_tbl);
+diff --git a/drivers/edac/i82860_edac.c b/drivers/edac/i82860_edac.c
+index b8a497f0de28..e8c1ee80bba8 100644
+--- a/drivers/edac/i82860_edac.c
++++ b/drivers/edac/i82860_edac.c
+@@ -287,11 +287,11 @@ static void i82860_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id i82860_pci_tbl[] = {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 82860_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I82860},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 82860_0),
++		.driver_data = I82860,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, i82860_pci_tbl);
+diff --git a/drivers/edac/i82875p_edac.c b/drivers/edac/i82875p_edac.c
+index 553880b9fc12..869de8e372b3 100644
+--- a/drivers/edac/i82875p_edac.c
++++ b/drivers/edac/i82875p_edac.c
+@@ -276,7 +276,7 @@ static int i82875p_setup_overfl_dev(struct pci_dev *pdev,
+ 
+ 	*ovrfl_pdev = NULL;
+ 	*ovrfl_window = NULL;
+-	dev = pci_get_device(PCI_VEND_DEV(INTEL, 82875_6), NULL);
++	dev = pci_get_device(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82875_6, NULL);
+ 
+ 	if (dev == NULL) {
+ 		/* Intel tells BIOS developers to hide device 6 which
+@@ -518,11 +518,11 @@ static void i82875p_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id i82875p_pci_tbl[] = {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 82875_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I82875P},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 82875_0),
++		.driver_data = I82875P,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, i82875p_pci_tbl);
+diff --git a/drivers/edac/i82975x_edac.c b/drivers/edac/i82975x_edac.c
+index d99f005832cf..09a79eaaa486 100644
+--- a/drivers/edac/i82975x_edac.c
++++ b/drivers/edac/i82975x_edac.c
+@@ -624,12 +624,11 @@ static void i82975x_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id i82975x_pci_tbl[] = {
+ 	{
+-		PCI_VEND_DEV(INTEL, 82975_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		I82975X
+-	},
+-	{
+-		0,
+-	}	/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 82975_0),
++		.driver_data = I82975X
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, i82975x_pci_tbl);
+diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
+index a5dc4b88097f..e3bd6436669b 100644
+--- a/drivers/edac/ie31200_edac.c
++++ b/drivers/edac/ie31200_edac.c
+@@ -733,49 +733,49 @@ static struct res_config rpl_s_cfg = {
+ };
+ 
+ static const struct pci_device_id ie31200_pci_tbl[] = {
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), (kernel_ulong_t)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_2), (kernel_ulong_t)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_3), (kernel_ulong_t)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_4), (kernel_ulong_t)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_5), (kernel_ulong_t)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_6), (kernel_ulong_t)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_7), (kernel_ulong_t)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_8), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_9), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_10), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_11), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_12), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_1), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_2), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_3), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_4), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_5), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_6), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_7), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_8), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_9), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_10), (kernel_ulong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_1), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_2), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_3), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_4), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_5), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_6), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_HX_1), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_1), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_2), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_3), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_1), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_2), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_3), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_4), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_5), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_6), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_7), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_8), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_9), (kernel_ulong_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_10), (kernel_ulong_t)&rpl_s_cfg},
+-	{ 0, } /* 0 terminated list. */
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), .driver_data = (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_2), .driver_data = (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_3), .driver_data = (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_4), .driver_data = (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_5), .driver_data = (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_6), .driver_data = (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_7), .driver_data = (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_8), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_9), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_10), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_11), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_12), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_1), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_2), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_3), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_4), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_5), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_6), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_7), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_8), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_9), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_10), .driver_data = (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_1), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_2), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_3), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_4), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_5), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_6), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_HX_1), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_1), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_2), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_3), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_1), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_2), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_3), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_4), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_5), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_6), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_7), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_8), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_9), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_10), .driver_data = (kernel_ulong_t)&rpl_s_cfg },
++	{ } /* 0 terminated list. */
+ };
+ MODULE_DEVICE_TABLE(pci, ie31200_pci_tbl);
+ 
+diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
+index fcb8ab44cba5..3ae0a1ec2d54 100644
+--- a/drivers/edac/igen6_edac.c
++++ b/drivers/edac/igen6_edac.c
+@@ -638,71 +638,71 @@ static struct res_config wcl_cfg = {
+ };
+ 
+ static struct pci_device_id igen6_pci_tbl[] = {
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU7), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU8), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU9), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU10), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU11), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU12), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_TGL_SKU), (kernel_ulong_t)&tgl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU1), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU1), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU2), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU3), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU4), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU5), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU1), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU2), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU3), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU4), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU1), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU2), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU3), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU1), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU2), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU3), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU1), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU2), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU3), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU4), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU5), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU6), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU7), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU8), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU9), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU10), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU11), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), (kernel_ulong_t)&wcl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU7), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU8), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU9), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU10), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU11), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU12), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), .driver_data = (kernel_ulong_t)&ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), .driver_data = (kernel_ulong_t)&icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), .driver_data = (kernel_ulong_t)&icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), .driver_data = (kernel_ulong_t)&icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), .driver_data = (kernel_ulong_t)&icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_TGL_SKU), .driver_data = (kernel_ulong_t)&tgl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU1), .driver_data = (kernel_ulong_t)&adl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), .driver_data = (kernel_ulong_t)&adl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), .driver_data = (kernel_ulong_t)&adl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), .driver_data = (kernel_ulong_t)&adl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), .driver_data = (kernel_ulong_t)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU1), .driver_data = (kernel_ulong_t)&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU2), .driver_data = (kernel_ulong_t)&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU3), .driver_data = (kernel_ulong_t)&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU4), .driver_data = (kernel_ulong_t)&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU5), .driver_data = (kernel_ulong_t)&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU1), .driver_data = (kernel_ulong_t)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU2), .driver_data = (kernel_ulong_t)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU3), .driver_data = (kernel_ulong_t)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU4), .driver_data = (kernel_ulong_t)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU1), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU2), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU3), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU1), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU2), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU3), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU1), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU2), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU3), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU4), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU5), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU6), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU7), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU8), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU9), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU10), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU11), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), .driver_data = (kernel_ulong_t)&wcl_cfg },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(pci, igen6_pci_tbl);
+diff --git a/drivers/edac/x38_edac.c b/drivers/edac/x38_edac.c
+index 292dda754c23..2b55daca33b0 100644
+--- a/drivers/edac/x38_edac.c
++++ b/drivers/edac/x38_edac.c
+@@ -446,11 +446,11 @@ static void x38_remove_one(struct pci_dev *pdev)
+ 
+ static const struct pci_device_id x38_pci_tbl[] = {
+ 	{
+-	 PCI_VEND_DEV(INTEL, X38_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 X38},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, X38_HB),
++		.driver_data = X38,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+ 
+ MODULE_DEVICE_TABLE(pci, x38_pci_tbl);
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.47.3
+
