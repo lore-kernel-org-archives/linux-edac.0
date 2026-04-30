@@ -1,188 +1,157 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011055.outbound.protection.outlook.com [40.107.208.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8DF3FE668
-	for <linux-edac@vger.kernel.org>; Thu, 30 Apr 2026 08:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777538767; cv=none; b=uMSZ63A6+L/h1veKTt3+sEPiESDLWRdePgh+n2dfeNrkykXMEOz8X3Lwa2s3VEuNCVDGiNXpYW22BL6DBfKmw01DaQGhZIma+xkakjolPNC9JEIjDB+bBhEePGZkf0UkZ8SNkbISPLNuy/by68ypGlZCOurea5+9QtDG/YPZWes=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777538767; c=relaxed/simple;
-	bh=M09yHag7up4F6kPXAiAdNXxj3svLe/ZEuWUuZV0Sj+U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JmvkjU5CObQ+2wsUFZMe7VZs9oK4Cve9QbThGY+N68i9loKdydWEbNg1oQd7UT0HXhkLdoQE0E85rsqWG3cj8mbn5jaV0u+ilod2L2/cXNKv4gckL4vnRpOjxLBauxm4DoyW8UILm4Xxng5rtxUGCNUshvZOUt7QUJzx2vAW6Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nyWRZmkY; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C426A39B48F;
+	Thu, 30 Apr 2026 11:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777547807; cv=fail; b=dFxBFPCTVv++bi6uofxHgyK359GM0KKgNhSauZRxvQnuSGvXOCBO8jfJF2e48iJc0fhv2kvv+8uTf+rumpTJLoQrm4gVtTb6gtn2D+zTNHP7/1P5Tn37l/KDws7zBvyTEj/rRn+80Iyb+iolEhtLB3zZ+G2kUm76+o6A0uFcbzI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777547807; c=relaxed/simple;
+	bh=YEd/h46kAQ6pXfV5byjaN+wrCXqUIDwISYMb1a223jU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VYVy/5r4iKXCMJTH3qGFqf764CRMeLU8kOs2yCoybvcpOtVN3gWi0/6dAi83QTpa9Kq4JbGVz9RljLyO8HE5/p09N+nObpBMA3LbLfjxVN27iFUI7Y+mSs0v1uAIKNueqxLh5k+fSmSzscB97X+RtpuhA0N4pdVFnEcrK5JUESM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dZddDb+1; arc=fail smtp.client-ip=40.107.208.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nyWRZmkY"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c795f441ff7so364386a12.2
-        for <linux-edac@vger.kernel.org>; Thu, 30 Apr 2026 01:46:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777538765; x=1778143565; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CqWhyLhoWLxiaF5WQsCMkEz/2G7cVXnnU/08nqY6P74=;
-        b=nyWRZmkYUpUbqUCT52rzL/qe5+zinO2og9ZtPqMJ1z4XM943sj6Nx/0gSZ4nDc7c2s
-         kE1YQT5W8ySzcNvA+xyYt80Vdu+QHpbhPcLXYn6paFn3pse/ShO2zUGTVmvMIouyq9me
-         1orAmzRyNTTE+yeVBOqFL0A3Xj6/gwssHmary6nigjTRy0zKm3mTorVQeK7mBjRuD4/B
-         qgx16SdZ72ZXDoeJS8ktV3+RC9cIFADe3l5T/GltbvGZ1H4kNoq8+4wclBYaaX8CUe+X
-         aB6vVAhHipk4Dcur/zZto5eWU1S9UtK6sPwka5nn61yGGqGbrqn6aZAo6wTYzOi7DgqP
-         hBQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777538765; x=1778143565;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CqWhyLhoWLxiaF5WQsCMkEz/2G7cVXnnU/08nqY6P74=;
-        b=Ijo3nFFqOctSXVY7iFPAT4GCw+Sc/vIoQ9j5hcO/vQEWuYdNdaMyaZi3SY3gQeRpcy
-         PD4h08aPW12LSZ0xrDeaChWDg2PV+fWHM3G734JrXRqRnE7XEhWBxNtW54bnGToo9tQj
-         lXydItUcUHassU7pqUX3c26IeaUoRxPeum3hspuEv1b3YpHkLzw+iU7LhDcLijFHZizH
-         DhrexMC+Nw21ERzK956vZKGZkpsXNIuMS8BCTWPmyg9jjHgZdmQknCvmof5Z2OYdQz9K
-         QqFz8VWKrGs+xuqNYfrkw79DOKR77T0T+bIzWlPjyZj5NC0JEXNWaj7/d002t/sTmhFo
-         OpPQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9eE2JX0YFAsr9Pp5ZrC7nomBKt0rrNtSrLK3LEKm8t25LhI6Uuhbwlon582LleJ9Aa0BcE3FkfDeT3@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMy5hs1du+x/i7rsHzYnJpULJOcMZxpgr+09sBcfBszW8Jb5Tp
-	KUGisjxHAaCZh3BYp2xOSTVA5c2+9ZlARC4LAprO1HxKIBEt2cMW9RA/
-X-Gm-Gg: AeBDietINyE5LU2RjnLp/h0UKjg91fSyS4YLpYHRxeLC1Oiv4zmQmkfbx3i5lCvDwjz
-	ZKqF6tX9IPyArT12zi/0rwH0yuzySrvdMyAGid1UIzJJSdvx400R8uFji2ZCOmIHvEMJYVFIoAY
-	KXYJ9JJMJcIW1zNfkCQC2qvnrvSQkEArHjGzY7Be+0Wi+inoByifl42DkgC40nJ4AViVYFo5oip
-	cGtybyxRv4RHCDXXfltH5Xa42WwHyTZ3VotgrjPXxBsfN+UPhUX6MbfYhmbsc0xZCgIiWA4XcFv
-	f1eyHY9PsfCHA4iiGIziOoysQSqZh9uLvF1X5pijXuKo3sVaOkiKOdG6dBqT2K4jK2RPcKCzY7T
-	+t26GtkwaSs0lC184G/OiV2Hucg3FxgRmUPgWFbr5bfcEfOFo2KVGmlaTgfmGDbpkqhf/8i0+hm
-	Uu8waolEYgW1AP0V3NfeszjBRW8Mo9tCWEWgyJ0hudy3Em35zO02yelk8T0jviyAvrnlv6UXc=
-X-Received: by 2002:a05:6a20:9143:b0:398:77ae:8d8b with SMTP id adf61e73a8af0-3a3cf565b34mr2351455637.10.1777538765020;
-        Thu, 30 Apr 2026 01:46:05 -0700 (PDT)
-Received: from pop-os.. ([103.100.151.4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fd606a079sm4133130a12.12.2026.04.30.01.46.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 01:46:04 -0700 (PDT)
-From: Tushar Tibude <tushar.tibude1000@gmail.com>
-To: mchehab@kernel.org,
-	bp@alien8.de,
-	tony.luck@intel.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: qiuxu.zhuo@intel.com,
-	Tushar Tibude <tushar.tibude1000@gmail.com>
-Subject: [PATCH 3/3] EDAC: i5400: disable error reporting at teardown and refactor helper
-Date: Thu, 30 Apr 2026 14:12:23 +0530
-Message-ID: <20260430084223.9298-4-tushar.tibude1000@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260430084223.9298-1-tushar.tibude1000@gmail.com>
-References: <20260430084223.9298-1-tushar.tibude1000@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dZddDb+1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gu4kYC3htKA7F812POiNsVV5XnzmGTVeM9OE/PccngQABOugwZebMjbbHw5XYrAqu6pyFiDw8EU20oMRgr62VkM7BnFmGK/Y9rY4zpyqQc93VaEFZ+VOGFbtYo6RQmK6jCP8Ae+BV5poXF1fikZsyhDfryEtAULaEXbNaxJO5/zvt8adCX71RNYm4MiodN6Xwga/zBdiWhjt2e062e2qrXL++JQZ+JvCIf74J642X5YYZZ+YHgzxCjYWG8ID8yoFTz/u6tKWcG7WEDvvw5b47TVEHV4gqG14t/ynKhZ6UAGKiCCuB8Tk4t3ehMSUCeJnftXBa+jqN5Wn5kbzHfIbhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BRlgENUMw3PNonENB4KpS81bXVdOSr8xUOobK5ZNSPs=;
+ b=evASfex+QrXr7TEzww2Rv6boln6X2KTJ3R7XxpLD+4SyP+h4jfopo1iA/f3ugh/u0IrODTVR39IcBM0OoXOyXaGzLRc6Po++QAVr8R53MLX0BiRtn9jm4xS8dNIpo4uZZHsmza/eEgQ8UfSwuUWYd79gKE7Ghfk0mzqin5SAknFUAy6ncEZyPhyONNpOZ6L3k1yM+iQXVMaBndp7FaGYq3gAPKawoA605fkt4K7fc5Rp+G/0aApsRtkLoeI+GcWcj2JtQKRZ5fW3IZ1HLVotocUy5v0OrNpptQrJSTtHrIclv6PlNVu5znchHyP7SygpfYFzAdmjvgdir071uCRt5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BRlgENUMw3PNonENB4KpS81bXVdOSr8xUOobK5ZNSPs=;
+ b=dZddDb+11iLsobEi5PchJFlV1U6MpHDnw5poUIVssO9MI6EOwI0lIinrTAyaOzULU3wQBzirTVtV7gq5Vw7LoYv4o6uujbcTKKJFRwD4zvdZGD6ZyXaRaBtjR/UCxy2HylSkEfP3BFbx5XCcXaNx9JZNrHk4EZ3bz2iPk0pRqwM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV5PR12MB9828.namprd12.prod.outlook.com (2603:10b6:408:304::19)
+ by DM4PR12MB8572.namprd12.prod.outlook.com (2603:10b6:8:17d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Thu, 30 Apr
+ 2026 11:16:42 +0000
+Received: from LV5PR12MB9828.namprd12.prod.outlook.com
+ ([fe80::f132:7e75:fd38:8685]) by LV5PR12MB9828.namprd12.prod.outlook.com
+ ([fe80::f132:7e75:fd38:8685%5]) with mapi id 15.20.9870.020; Thu, 30 Apr 2026
+ 11:16:42 +0000
+Message-ID: <921878ff-8fa2-4633-bb93-e9e54f40e681@amd.com>
+Date: Thu, 30 Apr 2026 16:46:35 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] EDAC/xilinx: Fix stack off-by-one in debugfs UE injection
+ handlers
+To: Shengzhuo Wei <me@cherr.cc>,
+ Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+ Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>,
+ Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+ Michal Simek <michal.simek@amd.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20260425-edac-stack-off-by-one-v1-1-4b2dd2b9c7df@cherr.cc>
+Content-Language: en-US
+From: "Datta, Shubhrajyoti" <shubhraj@amd.com>
+In-Reply-To: <20260425-edac-stack-off-by-one-v1-1-4b2dd2b9c7df@cherr.cc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0248.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1ae::11) To LV5PR12MB9828.namprd12.prod.outlook.com
+ (2603:10b6:408:304::19)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV5PR12MB9828:EE_|DM4PR12MB8572:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7b44812a-9c45-459d-9dcc-08dea6a9f4d3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	VI3/Go+X/hmmbYe06tJV4FsbjneSF6EGxwbiWw3dP3VLraDqwLSrfuEow+wvPSq5T08eKO4FE/OFpVgFDJNqclWqGjFs0cbmSmO/7rKUrkUEMpfp2gUZTu5SF0P583Bnyxj2+9I3sf0UVRyVfdokjw5atEXVcc+0fuGnwLkcowrH43zwcdC8ZlWbhoY0fFZxZnjdKsc/hmmK3ogyOY/XTsFaST1NiXB2WYV6g1K+Fpc9egTpw8Z47+FJv0ZZ4+qj952mstatJFFv81UbowGAnRmLJJzYtIcp2yxqy3niOv3wIjmX7YDF8UEIkdPwaouRUf0/o0fePtAokiycmmFQ6pclIgKKal2fRifajldbTqPFXNrLPLgGv7+iyzVFfOEBd40mNGc2nagHNBhxOyxk1+Hjv4Tf3tdwdT9mSgcDX+DEY2uAggwqyltxwWmj2IDeOLp4NYEthZE5WeZmzJPVSV65TsV2NCh+cOZvGmzObwnpXf78iNKqNengBSVn6slqMYKVVoZrIQf841A+ykJWEs+G27472ees4617au0wox92LDy6l+FrOzY0tqsKbpA58K6efjeoSkAIRq/9HF4SypvPHVskoDHOpsUvFXwbxRKMxtvj6q1SiLShCdNVcfmST+dkwL27MTBNL+OUlEKgVSwa9r+fCcZVDf40XdbCpbb/SBfRY5DbFcwQvLJlS5HDjOGQS4jPIwpalQ2a9YtJ8Ni7aDw+qfidugQlePsXUrQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR12MB9828.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WFl3T2RVUkpuQ3ZCV3o3VFduMDBFaEJiTXUxQUs0UVROVXFvQ1h4ZHZMUlpB?=
+ =?utf-8?B?ZHRxRHBocGYvY0M4YUlyWHpLN3R5ZHp2VktOYmdxU1FxVWlxT216bEVwWDZF?=
+ =?utf-8?B?Qjdvb3g4dkVJc0prZzZzOTFBenVmaFNjVGhsazArdHJzbUV0cXVGK0IzR0VT?=
+ =?utf-8?B?cEQraUpqU3orZlI4NUE1MFhCUUFzQURWSWJpV2JQR1ZCSWRNNkdxMEswM1or?=
+ =?utf-8?B?eUNSem11TUFiVGl1Z3RFWWNVV1NzRFRKS25wVjEyMGpWTHUyZHljdE16R280?=
+ =?utf-8?B?R09GbTVFZDUrd1psUk0yRTVVdlZ5bVRiRXhCcE5WRVpoRHUrRVZaV1pDNVg3?=
+ =?utf-8?B?TUxqSVJrK25CUE1NUStlNkpjQzdPY2pwcDVpdzNoTmM2bk1jRnIrR1hVOFBl?=
+ =?utf-8?B?eDNqR0JGRVpoZjVSRXhBSVRPRFZjSlhwSER1cVlqLzJwTzQ1aEY1di8yM01W?=
+ =?utf-8?B?Y2svQnlZYlFCMFFFWEJjcjUvTE9OY3FuRUFMTDdXTWxwNHp1RG5Cd1p1SFYr?=
+ =?utf-8?B?Mnk1REprbFBqZHdxRmFYZlRlUVFRbGozNEdKMXF4RCttd1E3RFVTTXBrRGQ5?=
+ =?utf-8?B?N3ZQSkpPR0JWUDRzOEtFVDF3K2dzS0Q3anlFbHBvbFppdDUwalV2K3A5ckVX?=
+ =?utf-8?B?OCsyYTVlVUtYWG1nSWJiMnY2WDFjMThHYmlaNXdvSkRSN2tLaXpUMlU3b2Vz?=
+ =?utf-8?B?UkJHWFBHRFJyNTNEaWxoOWtVcEQ2b1FKYTZ1Z0g5S2laYW1FVFl1RStDbnZ2?=
+ =?utf-8?B?dUhXbUJlaVNTdmovck5RZHlHdXo5UFpRN2NrOExid3dHZzJoOHk3WXZBOWpI?=
+ =?utf-8?B?aktZSE9TWHdqTXBYYXFGVjI0ZWJmQlRYM0pZaldycEFrRWtqRGd6dnpwN0RL?=
+ =?utf-8?B?OHB4YzNveEVaRkNQUEYreGRkMWc5RUQ5aDV2cWFmTnZPNVdiVWNTQVVNeWhr?=
+ =?utf-8?B?KzJjYjZGRXJoZGxUWlNNTk1EVVd4RXI5YXhOWk1WVTZLZ3ZVdlFFYityT3Mw?=
+ =?utf-8?B?aWhvRitjRm1XTSsvOTc0TzdaK0xlWkdBbXVKb1VnWm10L1prenhLZDUrWElU?=
+ =?utf-8?B?OCtXTno5UG9meG54aGVaem1vbFM5TEtTWWQxVFMrT0tqWFV5UDcrYy9ZUHEv?=
+ =?utf-8?B?K1NaMVFjMTN6KzZBZGp3TVBqYmpHTHVaaWc5Q05YWkRzUFRXYWp3Rkk4WXJR?=
+ =?utf-8?B?cGQ0TkJPbEs4YU9nUGlleDlkVTdFUlJyQ0ExMC9JTFBtWTNSQ21oRHg1SVBz?=
+ =?utf-8?B?SE9nVkZmNE90WHNxdllHM1lzaGpHT2Q4cnc5SXJURElXc05RSnpaZkZFMlNY?=
+ =?utf-8?B?OTlDSjZWbWgxNUpPbVAvSXdNV2xwcEpNb2JodW02OE5PaFpDc09SU3djNHdP?=
+ =?utf-8?B?cnV3V2lqbFBSZ1ZCcDRJVHJDLzBXUVNTckZyRkQrcnFlS0h2RzA1NUdTNGM5?=
+ =?utf-8?B?Z2ZzMVQ2S3l5QWYvQ3FKZWRQWkJkc0tDcEEweWJsT0Zwc0hBcERiN3NEZjlu?=
+ =?utf-8?B?c1dnNHpWWXZPZWJlRzBpWnQrc1NWTm5wZ0NQdE9UWkNhWlovaDN1Vngxbjdr?=
+ =?utf-8?B?VHlOSDhTcGcvTjdhOThoRFFIMENJNkYvOGFUR2N5d0tkNkd1aUlZWG9iR01T?=
+ =?utf-8?B?enRaMnZDTU1Bdnl1VENYUnNWVGk2QnhSblg5M01UR3BvTkgycUJwWmdNcWRm?=
+ =?utf-8?B?K0tqaFJZdEpaZjNJaUR0L3lyV0JCekkzV1NwamI0WTZ1czFZVHRQZXZRcFhY?=
+ =?utf-8?B?U00rV2wraFVZN1B0cVpwaXlmVWkvK3Q0alVOS0pFQ3Z6K2FmejR1bVdTQUZm?=
+ =?utf-8?B?aGppNU5RcTA4SDJiOGlNRnRadEZtYllKMThYTDRkZTZyaU0zYkxwRGVXRW9V?=
+ =?utf-8?B?cTNqSno1Z0RDSlROZ25MbUZhTXVDQ0dDUkRrMUErYVVxVTF0b21RYnh3ZkMw?=
+ =?utf-8?B?SU9RL0lMd2UzMEprdEc5UjQyQkdQOHVWNTJhQURQRWdtRUFCWkZvYUJVem1q?=
+ =?utf-8?B?WlRQQ1RVQTg0OGpobVEyQlo1TUJCWEdNZHl2bWZ6RU5lUjhjaGx1QUkyUGow?=
+ =?utf-8?B?QlFiODQxQ29uSDF6N0NGeTRhMSt5TEpOZW1GaE9TRjVSS2RjRDJQYTl2K3gx?=
+ =?utf-8?B?Ui9XNFJjNk5JaW1ObC9xOXhRTEZVa2lGWDZ0Uy9uRmFPLzdObEJHcUNyYXZw?=
+ =?utf-8?B?emt0VlZLbEF0bzFZMG1PU28vekZ1VXVodHNNUG0xcmVOSE1SYlYxRTRrY1Zv?=
+ =?utf-8?B?MTM2Z1hJWDlkY25OUXRZcC9UVEtyQXlYOU1zK29aVVJlbUdOWlcvV3pDVDhD?=
+ =?utf-8?B?dDRrSEpWYjlNcERIVGdzSEc2aDRvSUxsSEtIYlZyTTRuOC9nZ1ZDdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b44812a-9c45-459d-9dcc-08dea6a9f4d3
+X-MS-Exchange-CrossTenant-AuthSource: LV5PR12MB9828.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:16:42.3272
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9kda0AU6pwfNhStcHoWj4n1ReRaOFCrjcBUZPZ9ojY7Sq8JS1/YT19xdVZNGi9mrqSMIZYU4l5iBDkAi/1vc+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8572
 
-If error reporting is enabled during initialization but initialization
-fails immediately after, or during normal driver teardown, error reporting
-is left enabled in the mask register even after exit.
 
-Replace i5400_enable_error_reporting() with i5400_set_error_reporting()
-to combine enabling/disabling. Disable reporting at initialization
-failure and driver exit, before call to i5400_put_devices() for cleanup.
+On 4/25/2026 12:19 AM, Shengzhuo Wei wrote:
+> [You don't often get email from me@cherr.cc. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>
+>
+> Two EDAC debugfs write handlers copy up to sizeof(buf) bytes into a
+> fixed-size stack buffer and then unconditionally NUL-terminate it via
+> buf[len] = '\0'.  When userspace writes >= sizeof(buf) bytes, len
+> becomes sizeof(buf) and the NUL write lands 1 byte past the end of the
+> stack buffer.
+>
+> Fix by clamping the copy length to sizeof(buf) - 1 so that the NUL
+> terminator is always in-bounds.
+>
+> Fixes: 3bd2706c910f ("EDAC/zynqmp: Add EDAC support for Xilinx ZynqMP OCM")
+> Fixes: 83bf24051a60 ("EDAC/versal: Make the bit position of injected errors configurable")
+> Signed-off-by: Shengzhuo Wei <me@cherr.cc>
+> ---
 
-This ensures clean hardware handling by disabling any unused error
-reporting bits before exiting.
-
-Signed-off-by: Tushar Tibude <tushar.tibude1000@gmail.com>
----
- drivers/edac/i5400_edac.c | 33 ++++++++++++++++++++++++---------
- 1 file changed, 24 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/edac/i5400_edac.c b/drivers/edac/i5400_edac.c
-index fb49a1d1d..ae4f92989 100644
---- a/drivers/edac/i5400_edac.c
-+++ b/drivers/edac/i5400_edac.c
-@@ -353,6 +353,9 @@ struct i5400_pvt {
- 	/* Actual values for this controller */
- 	int maxch;				/* Max channels */
- 	int maxdimmperch;			/* Max DIMMs per channel */
-+
-+	/* Hardware error reporting status */
-+	bool enabled_error_reporting;
- };
- 
- /* I5400 MCH error information retrieved from Hardware */
-@@ -1223,10 +1226,10 @@ static int i5400_init_dimms(struct mem_ctl_info *mci)
- }
- 
- /*
-- *	i5400_enable_error_reporting
-- *			Turn on the memory reporting features of the hardware
-+ *	i5400_set_error_reporting
-+ *			Turn on/off the memory reporting features of the hardware
-  */
--static void i5400_enable_error_reporting(struct mem_ctl_info *mci)
-+static void i5400_set_error_reporting(struct mem_ctl_info *mci, bool enable)
- {
- 	struct i5400_pvt *pvt;
- 	u32 fbd_error_mask;
-@@ -1237,8 +1240,11 @@ static void i5400_enable_error_reporting(struct mem_ctl_info *mci)
- 	pci_read_config_dword(pvt->branchmap_werrors, EMASK_FBD,
- 			&fbd_error_mask);
- 
--	/* Enable with a '0' */
--	fbd_error_mask &= ~(ENABLE_EMASK_ALL);
-+	/* Enable with 0, disable with 1 */
-+	if (enable)
-+		fbd_error_mask &= ~(ENABLE_EMASK_ALL);
-+	else
-+		fbd_error_mask |= ENABLE_EMASK_ALL;
- 
- 	pci_write_config_dword(pvt->branchmap_werrors, EMASK_FBD,
- 			fbd_error_mask);
-@@ -1319,17 +1325,19 @@ static int i5400_probe1(struct pci_dev *pdev, int dev_idx)
- 	if (i5400_init_dimms(mci)) {
- 		edac_dbg(0, "MC: Setting mci->edac_cap to EDAC_FLAG_NONE because i5400_init_dimms() returned nonzero value\n");
- 		mci->edac_cap = EDAC_FLAG_NONE;	/* no dimms found */
-+		pvt->enabled_error_reporting = false;
- 	} else {
- 		edac_dbg(1, "MC: Enable error reporting now\n");
--		i5400_enable_error_reporting(mci);
-+		i5400_set_error_reporting(mci, true);
-+		pvt->enabled_error_reporting = true;
- 	}
- 
- 	/* add this new MC control structure to EDAC's list of MCs */
- 	if (edac_mc_add_mc(mci)) {
- 		edac_dbg(0, "MC: failed edac_mc_add_mc()\n");
--		/* FIXME: perhaps some code should go here that disables error
--		 * reporting if we just enabled it
--		 */
-+		/* Disable error reporting if we just enabled it */
-+		if (pvt->enabled_error_reporting)
-+			i5400_set_error_reporting(mci, false);
- 		goto fail1;
- 	}
- 
-@@ -1387,6 +1395,7 @@ static int i5400_init_one(struct pci_dev *pdev, const struct pci_device_id *id)
- static void i5400_remove_one(struct pci_dev *pdev)
- {
- 	struct mem_ctl_info *mci;
-+	struct i5400_pvt *pvt;
- 
- 	edac_dbg(0, "\n");
- 
-@@ -1397,6 +1406,12 @@ static void i5400_remove_one(struct pci_dev *pdev)
- 	if (!mci)
- 		return;
- 
-+	pvt = mci->pvt_info;
-+
-+	/* Disable error reporting on teardown */
-+	if (pvt->enabled_error_reporting)
-+		i5400_set_error_reporting(mci, false);
-+
- 	/* retrieve references to resources, and free those resources */
- 	i5400_put_devices(mci);
- 
--- 
-2.43.0
+Reviewed-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
 
