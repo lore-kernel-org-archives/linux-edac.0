@@ -1,242 +1,183 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D317F346E5A
-	for <linux-edac@vger.kernel.org>; Thu, 30 Apr 2026 22:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777586472; cv=none; b=dXBL3XWgq/zZ6MizcQtUAOZN3THF2grcRV7WX+/X44vrfDS89Pt25rhsHurv+0tE35yZPmGjVMuiqJxrKey+PpVV7SZLPfapsoK4fH2dC1gC/tCHeUhtMns4da1UYjBIqMtpLJIOkVWqb1O+QYFuiO7967fE4lNiwNx6AoF5XVQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777586472; c=relaxed/simple;
-	bh=PliZUdjcdarMC+vMmbXRSruaLKQ7V3ErqYWXkuwC3KA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r9g0SCmo1VQU1IG9oFHLMinv5YZHR6nsxdwlWj8y1ERaKuVOsXxC1jUqh+f29pe92gXKfua8n6/Z5DzEYpmyOQAxfisdaoY2iaWPMDqGRUMQ1owp7iiNbfpTS/s5w1kpGa9OHcVtJ+wfm35+5sd9ccCckmKUscqzxaNeguBAEQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ApjxexXg; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A94439EF3F;
+	Thu, 30 Apr 2026 22:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777588819; cv=fail; b=BEoYB7oxvNGYZOgJDy7keirSxh6N8ThTUMK9aBpvGWOiyZKN5SPRmZiFZlmxoOPOBshpnep/JTLoAHYj5mbioX3m3pvoZyY7Y/Y5kbpZDp7kVVPzGM89Ibm+5S65cGbWa0KfnMjv7dnQoSfTji6auqH+6RpEPNfxRYE2Q59+UzY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777588819; c=relaxed/simple;
+	bh=uGnto4it8YGMd1uFaqrycfTI/WZkxAQVwbQAUzp2H3U=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iTPJyU8Mfbc2/1iIWkx8gYN2aZnhliPY+30YkA7u/LgMItQWygyH+W8s+C/qscNsBOllFClNMjcMLVhwM3ZoTZNa3Tb7ZDzcUt+g9Ij1qCNBLJTB+tZ40zJDI6cUwdYP6O4saU99vxD1sGpRMx5pnXfVsNFv5Fw+IPndWkcv2nc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+ezCH1C; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ApjxexXg"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82ce2e2880cso972967b3a.0
-        for <linux-edac@vger.kernel.org>; Thu, 30 Apr 2026 15:01:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777586470; x=1778191270; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pBIWSWZQjXNPa2sD5+J+8oDnHNnLvrf+nwX2j+wXk3s=;
-        b=ApjxexXgW8hOOYA6Mgyb/zfFuUEdHz+d0m7ZMf/7wtErThUekLSFTggw/kT1XdpfiD
-         Z0A3KN1M0AnRqIXkxGE30JbvQrqqJw8drf1m4BiL1M8NAxZUv5go9TAAjI5inAlbfDdO
-         YwPL0bDmTo7dnL7NrQG6obvX5FGMTJ/rIaHVXSYrbm09kZP+Tvhb0tL6J+yh/RK4L01E
-         wxJzJttke0jUdPuxciJDoKq/SXBQc9kLI1tAGW2LIjZqYhBATBHs11nMNuCRlrexu4Ut
-         o3TtPu7k9T7A8x0D5V+nDporXlG+XU0mkuvwQAliwQrmwubsvIOW+tTvhfegecPx1xui
-         /kKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777586470; x=1778191270;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pBIWSWZQjXNPa2sD5+J+8oDnHNnLvrf+nwX2j+wXk3s=;
-        b=HoMdMVTy9WBrB9mfoBCKIHiXg0IOJK3ITejnk0HkKE2UYwKRp1ZeRT9UDQkq6+BZU5
-         2FMc2iP/X7nHqAWL5dHuC0HYxlAgWYjjom2paS/dfl/TzFWz23blw463Y+qnDHU/A1mN
-         5NicyZ+QT7y7qDs79mA/5ymGmaR/0NRdpeINOZfyuOKjrH4bRCcnK9QX6NgZaFHYzcwF
-         ILoKAG5Ml8gBN7d18YygpTmKjUsbOs5hs72wgn21dtYrex+RgcOJlRM0IXyPzqKvlOJ1
-         yQJzlRUz/+BOpwaPFVKrDa+fD5bhSIpxcGRkZ2Lx7PWtSjCB+bFWGhCJem0F/fB2eavc
-         qTSw==
-X-Gm-Message-State: AOJu0YygTBHHcV9u+Ao89k3ikJ+LGoH+G8KnaYevCi4aVA4rp3gMkuJD
-	OV9NPIE9cOMFKp/dnSnu3tz2kcHx7EXP0/bFrt6qwCs9uo5rI+NpCXoQhfq1MA==
-X-Gm-Gg: AeBDievYXDNF/s6HYLaXKnGfGMuMa3JYvDJIr+ZipJuF1eOy8Q6V+NX4z2iYj7d6YGV
-	Non+ZtsCg2lV/jhkUa7jd0yircBKEqbY4ZEsH1E7Sti8bQfIArgzBKN9PzxrrvuOVEUT2fFXFz7
-	VEP8E5l/RFuVorEbbiCXzOEp8eEH+052001myU78MQVdtFj6I0BIazW5nDIHv0PKHE+ASR1b65p
-	YJLqTsXJDbKGIUVkwOcArhMs2alpiULjziLroKgB0imtY6CiVQIU+iwjlO6z/MO0ni7bYyXU3+/
-	VuFgKhmMsj1S7kZm9tqgwC3sPSZSbM0E5OUU6ZvfvDCmEALzwyY31J8OnIEjNuHJ2q+FE6TO/Ma
-	9KFimJMGKx/ETZ46GBQ1bUbqQNlAM15+RxCYfo03LLffzkC5ho5QAQrl/4+60IGo0PhtpeoFOpA
-	ty86Abra0IJaAYPsYMMzeOlTFj4zTWOk9ApMrIGCaXABwNUeUiWgVxhzDrFIlW5IvodQwdTTNuD
-	xphBMBLixvYn38LJKnzveiSDFSV3wG78BUP8C7/4QuTJA==
-X-Received: by 2002:a05:6a00:8e01:b0:82f:111:61d3 with SMTP id d2e1a72fcca58-8351a5d8a70mr334446b3a.44.1777586469642;
-        Thu, 30 Apr 2026 15:01:09 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515ad7873sm614130b3a.38.2026.04.30.15.01.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 15:01:08 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-edac@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
-Subject: [PATCH 2/2] EDAC/device: 3 to 1 allocations in edac_dev_feat_ctx
-Date: Thu, 30 Apr 2026 15:00:46 -0700
-Message-ID: <20260430220046.72371-3-rosenp@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260430220046.72371-1-rosenp@gmail.com>
-References: <20260430220046.72371-1-rosenp@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+ezCH1C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777588818; x=1809124818;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=uGnto4it8YGMd1uFaqrycfTI/WZkxAQVwbQAUzp2H3U=;
+  b=Z+ezCH1CETJ+6wuCfHFAdeyI0bv5oCvr9jypvZ5xp6J6DiAmwTdGYec4
+   CODP4vT93o2e1AjopCXLiXk6DHZLyVQCRxZTTaUqSDq3E1oaBVacNb8jJ
+   fAPs2dwpobKu5JeQkiZNoQlIvEoBYKOyvAKByLATdONDifNhA7TO+RByC
+   SUgJQdH0xInu0PSykkM9w49gSOcRVpgcSzbIOOU8PWx1G6XP4kEW5R2d3
+   WhH53AC7ZNmqwPSLKaLFYZnojoJ4+Y8tkzvJdrYxSzlkXWVS2whIuQuFa
+   20ra0XWRrhVnjUljT4iPVHf4TQNetp4u/srmlTmjk7+ILRg3wyxVml6tv
+   w==;
+X-CSE-ConnectionGUID: M3S12CzLSbWq7sFi4cDjVQ==
+X-CSE-MsgGUID: /eYhfVK9RtO0am9BGQdzFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="104011869"
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="104011869"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 15:40:17 -0700
+X-CSE-ConnectionGUID: JXZABJloQ2SQSZgYYGlvqQ==
+X-CSE-MsgGUID: +GQrGD+dSgivQuNV4DUgag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="258299085"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 15:40:17 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 30 Apr 2026 15:40:16 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 30 Apr 2026 15:40:16 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.45) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 30 Apr 2026 15:40:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Aa4UKrtY7HGchnTn4MpvhXie2NGdbAMgkq621SAdmpSym7mVsOgQswbJaPGNAHnhTNAL73VNHL9I5dtxcTawzLUZxnla9R5HFENlS0WnaOLYRyKPo8B1rZQIb90gE7athGDUCmUL+aOUBGLUeWl/SDRhhtCpWs7YLZB1f0voizMY/ZS3WTMLBAY2MsigtsgF0NR4p1pu1xWBUoIFzki+6DZdYx3Hp2Ff8jdKQgsyo5qgtTscNiXdUZPDDahfcV3hzW3JDgdiYLwVZA+qwIGlHc+SZFtb8Pe8gJvEi5KQfdcRUg2omtxYZZOxxrgg3hHeAGrdw4L0YIXftNXepUK2rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ukwAPidST2Wsfzm5tAQ0RJiInUwEabWJ5dHIQHiHBgw=;
+ b=MZXCoaYOcrkMFLmLWGd1Sq8JN6mkdWpfQAibLal3eH85vJspDieiJCDDR9XyzDqKKuqTVKHXs0qcHfT66y+9tlP9m92KZPmz382KS3+QYJrr3OYwBsKcLBcY2WsJphV14E/TArwwYDJzOQuJMmx17rXqesL78MkuE/zYH60YY9SYFaNZl2Yy/hzVmJMCSlY/3J3yUU4d2JvF6O+5RJQyfwILxOsVOBn7Wl0vptcqje1JjwUXyoqi3dUrsyzbnzQQKcoa2TMogDNIPOEvTBVPpDJxxpvWrQcb1N6gWM6xp5FmGI2OASp3bIg2QiLeYIo3Q9Iho8n7wzAxbPQyqC1AiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by CYYPR11MB8331.namprd11.prod.outlook.com (2603:10b6:930:bd::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.15; Thu, 30 Apr
+ 2026 22:40:10 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6%7]) with mapi id 15.20.9870.020; Thu, 30 Apr 2026
+ 22:40:10 +0000
+From: "Luck, Tony" <tony.luck@intel.com>
+To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, Tushar Tibude
+	<tushar.tibude1000@gmail.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
+	"bp@alien8.de" <bp@alien8.de>, "linux-edac@vger.kernel.org"
+	<linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 0/3] EDAC: fix error reporting handling during init for
+Thread-Topic: [PATCH 0/3] EDAC: fix error reporting handling during init for
+Thread-Index: AQHc2H2xXlT53azPMkqhkR2K5s3mvLX3p5eAgACK5YA=
+Date: Thu, 30 Apr 2026 22:40:10 +0000
+Message-ID: <SJ1PR11MB6083FC71A73FC3C2D3AF566DFC352@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20260430084223.9298-1-tushar.tibude1000@gmail.com>
+ <CY8PR11MB71348FFB986C5620FACA9D0A89352@CY8PR11MB7134.namprd11.prod.outlook.com>
+In-Reply-To: <CY8PR11MB71348FFB986C5620FACA9D0A89352@CY8PR11MB7134.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|CYYPR11MB8331:EE_
+x-ms-office365-filtering-correlation-id: 536c7cc6-bab4-4426-9723-08dea7096f96
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info: gImN8fYzc0sItEJyd1FHOKhXDlZxfCTpbXxJeCKKqgpNN+ZWFTk8Lw9usOevgKWtNrII+aKHRxI1DnvtxD3Jhd/9W6yYBJIq+ccw3emUrMQxunG6qRzF4r9jMIL7+JRafQH0+w1W3B2FiOqlwOn3dqI+45DPUXkrDkLjSXR5SalW7IeuWAH0YNCH8qKnWoT//9/i4rWOm1laS2o27ivtfpRzynkX5zla4XLUwlMA9+iYsSJIIpSsup070Ss7KODIMV9Hg7t/nVqswpbyBJkHWVk6C+NM8WqfHqq4GTPrl5aUKXWF0SSDpSD78vig0f6gwLd2eBQqPkLP78IEWH7N28QNqL4ddF/8NLbID7DMZmTdlzDmxa43622IUoi9z2z8VGicUaOnabekuWzkQNIfAq0qPztMmHle7r5NRoLjyaAkKZDMAimllXwFt410nN6cofzWGEdM+nMK3XZvqtnffEWhCPHcCWsz8Ch2SLVkn3EfqxGTjxf0EKBVoDtIX4zn78dqdrTJW4lfPR408E9itXscn2Bpiwyv4BW7EPMZbdWyA3etrV51XZD10gozu01S4WfxYqTCmJiP3IhCysOAqR1oFgc5536WzxAw8jPcHfHRmx0G9LTRTL3zcqbc94c3BYZ0IB5xBBw2bXIAl7/ep6tbnAlSgzAbJ3+AstgosIm8uZSjhbr+7cb95+vUQL5H
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ndpSe6EQjvBiSyP3mgJfPP/S7y40lJkM9IZxlw/Vr0hTuOQGK73VLOTXTWCK?=
+ =?us-ascii?Q?NU/7/4geVOu6al5krrRcZYvRTQ2uEtV6mHVWcQYeQE971GlpaIMUCsTndRqC?=
+ =?us-ascii?Q?95YM0Y2zwD0td0YoD6TQKDbDuvM4sXlI9NCzqPCT2BekhsZHLCUEF5dseK0S?=
+ =?us-ascii?Q?edqTJpJg+Lx5U7GcC38ZoUq39PhXQ9/2tHbBs5lBb7G10kz/w5Xc28VKtmdD?=
+ =?us-ascii?Q?wjtqhJg9XYPcJX4fmRiDGWc0zrkwiMhHP9s7T25rNOvwHZaZCc8D+6lGDAcF?=
+ =?us-ascii?Q?IYwD8RjlmfAXAxQd9CXAbrVNo9o5t9IGOSF284uhj0p0EDMnwqgHQUauL+1G?=
+ =?us-ascii?Q?Q+XSTbQjKT4DKKW+LvRwT6XWox+D3dBvO6A5lIiWDbHaU5y+0eiVSMhXZrK4?=
+ =?us-ascii?Q?iYdPmXRfNisPpk13N95Ry+JcedyvArr116UtvUAxqNKaU5CKqcJgKr6UQL3b?=
+ =?us-ascii?Q?2wHwPsH9zxx0MDjNliDXuFIQKJUK7kICs17UlsIhy/0f8H65+jzF6Wwt2fNw?=
+ =?us-ascii?Q?90DKsWeeIXaqQxpKCpkb6SBjMUwWNrE10U7Eax2JwIKsPZoaWTyULRerNRLU?=
+ =?us-ascii?Q?T7GgsStbonJ4jXGdKJ5EmmUAYWm881AFWcKlwugVjZ/07lOrEDqhkO2nxeyO?=
+ =?us-ascii?Q?uQa3xbr4g7cTCVxwxaBMSCx1waLfJR3Xw19/tv1FcgYE8EBkcADEOVEb+o2B?=
+ =?us-ascii?Q?gDyYLoce1+Z+6EZAAk1JLCVZ7WctjzBOqTVsGFXduWT5u6jVgALAJxS21kLF?=
+ =?us-ascii?Q?+KXA+Qt1m5FI8WiKvcrrwbpGV9C9hssFmst3tuHBZoT4IbUS9xIHAmqCwYfb?=
+ =?us-ascii?Q?Fno7AYmUXxYl8+E0zbrxVxgRke1wuet23FNwveiIA1EWYpeCjbKIrVSQhV7W?=
+ =?us-ascii?Q?dVaDjO368xy6bIu9p97ZEh618+WUl9siwcwvfHZIRvH38sJkyEfUtU9clrr/?=
+ =?us-ascii?Q?d/hjjdPXo40O7hNsBxRE3MceHzmG3Rcq/NFu9ZsU0hJ9wHV0Y2zNrZXkISX3?=
+ =?us-ascii?Q?6y8jMHvsTSGh75IJr9y/esE2La+P74cqsF53LocOIzwsODuJjN4UAsjNus4n?=
+ =?us-ascii?Q?yxg2HvcL0yRlR3+IQQuPWBvLGMu+S8dkM51eAMMptqtanmANUhCbYcrPwr8A?=
+ =?us-ascii?Q?joEOBkb+3RceuS1jQkUmDEz08F7D/3vEndlRXD9drcS/H0Hk5Io2KSCXZQRK?=
+ =?us-ascii?Q?UVB8mH3h7OZmMjwchcUyMwcutu0nAiFqDLoLWu+GLNIwVWUkopDsHnMeZ9Fo?=
+ =?us-ascii?Q?78spE63b6SZ4Cv+pneEe5KOkCczuHpkP7R1Q/wnPcxXNUHd4qyivw3C7eHZy?=
+ =?us-ascii?Q?NXAmlciJFLCzZkisCQIf/7rFx24ghT6Zo4mqz6vKWe8v9WbaAHusgbCfAFYL?=
+ =?us-ascii?Q?y2GNnW5UasFjRNszu0ViMrgBzV4025N7oPLwIJJ2yKa71/7OFzDv6jsJhJAg?=
+ =?us-ascii?Q?rDtZBNnB3opyIA/0lAvVqiQgSCaTAhqwt7NNwDNtTXVJ/q7aTiBiLzTEq3Z2?=
+ =?us-ascii?Q?ZqdpppcqAvVj7Ad5PGZbV2m5FW+QcVyht8xEswwtZsJ3UPE3ZOa4eZsoMAGX?=
+ =?us-ascii?Q?g2rX1uCPeAcgDP5scjnpgYayw8SuStsPl/qnYIy00xxT2psmfbvtslJl+Ggg?=
+ =?us-ascii?Q?b4uKVKDx5rmQFxT/q9TQ/9CBhglHbVcebBcTntVw1tqX+13xV3PV8s74HJaM?=
+ =?us-ascii?Q?qPdIzOfpHn0H+TZ5xwT9xcm7mtVvO9MjmuuOquS5eNrmyp4I?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked: sp3SYC0e6rZWSTt7IGgTuzEFKOEsME+5AZqb44znE9ZEJkMz1FkBOuAfF7SqRhPJVwGyBMgE6j4mI5jk42dScAgBc5o1u8xHYZr8JtQjfyFf/tusnor44QJuJQWZ1z5vFaEBlLwVocFt7lXhnUgc6tuGr4zy+K4tm89WTUjzhy+Nd9OhFqwNqxV1i9xRT3dX8SRdS2JO5FCEk4GF22R5ygW2KUsDeizUULxyO9twqKd1cOxXZcbjEMXDF7KKEYJXZ7oPaWPLGHP4dTfgpUX4O9FNEzahDFyOa//+t/sSOwvRvQQFzqpyI5Zd3zqG8bq2QVxaGxDYiKlgNyyfSg1kDw==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 536c7cc6-bab4-4426-9723-08dea7096f96
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2026 22:40:10.1242
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qvV9yFURCp9LkNgH6Ea8oK7oHeYdDfVNngtAblqtii6dcwCVex41KKTrOCOIyX/qiU17T3klAmiTEChYSsBQyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8331
+X-OriginatorOrg: intel.com
 
-Simplifies memory handling slightly by using a flexible array member.
+> Since this addresses the same issue with the same simple fix in the same =
+subsystem,
+> IMHO it's better to combine this series and the missing fix for driver [1=
+] with your
+> previous fix [2] into a single patch, rather than having 5 separate patch=
+es.
+>
+> But please wait for comments from @Luck, Tony and @Borislav Petkov (AMD) =
+on whether
+> to use a single patch or multiple patches.
+>
+> [1] https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/tree/drivers/edac/i7300_edac.c#n1092
+> [2] https://lore.kernel.org/all/20260429094806.25097-1-tushar.tibude1000@=
+gmail.com/
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/edac/edac_device.c | 40 +++++++++++++-------------------------
- include/linux/edac.h       |  2 +-
- 2 files changed, 15 insertions(+), 27 deletions(-)
+If the patch was only 5 lines of diff, bundling them all in one patch would=
+ be good. But each
+is around 30+ lines:
 
-diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-index 9c21997a50e0..a6c41ce68f13 100644
---- a/drivers/edac/edac_device.c
-+++ b/drivers/edac/edac_device.c
-@@ -569,8 +569,6 @@ static void edac_dev_release(struct device *dev)
- {
- 	struct edac_dev_feat_ctx *ctx = container_of(dev, struct edac_dev_feat_ctx, dev);
- 
--	kfree(ctx->mem_repair);
--	kfree(ctx->scrub);
- 	kfree(ctx->dev.groups);
- 	kfree(ctx);
- }
-@@ -612,6 +610,7 @@ int edac_dev_register(struct device *parent, char *name,
- 	int attr_gcnt = 0;
- 	int ret = -ENOMEM;
- 	int scrub_cnt = 0;
-+	size_t alloc_size;
- 	int feat;
- 
- 	if (!parent || !name || !num_features || !ras_features)
-@@ -636,26 +635,18 @@ int edac_dev_register(struct device *parent, char *name,
- 		}
- 	}
- 
--	ctx = kzalloc_obj(*ctx);
-+	alloc_size = struct_size(ctx, scrub, scrub_cnt);
-+	alloc_size += sizeof(*ctx->mem_repair) * mem_repair_cnt;
-+	ctx = kzalloc(alloc_size, GFP_KERNEL);
- 	if (!ctx)
- 		return -ENOMEM;
- 
-+	ctx->mem_repair = ctx->scrub + scrub_cnt;
-+
- 	ras_attr_groups = kzalloc_objs(*ras_attr_groups, attr_gcnt + 1);
- 	if (!ras_attr_groups)
- 		goto ctx_free;
- 
--	if (scrub_cnt) {
--		ctx->scrub = kzalloc_objs(*ctx->scrub, scrub_cnt);
--		if (!ctx->scrub)
--			goto groups_free;
--	}
--
--	if (mem_repair_cnt) {
--		ctx->mem_repair = kzalloc_objs(*ctx->mem_repair, mem_repair_cnt);
--		if (!ctx->mem_repair)
--			goto data_mem_free;
--	}
--
- 	attr_gcnt = 0;
- 	scrub_cnt = 0;
- 	mem_repair_cnt = 0;
-@@ -664,7 +655,7 @@ int edac_dev_register(struct device *parent, char *name,
- 		case RAS_FEAT_SCRUB:
- 			if (!ras_features->scrub_ops || scrub_cnt != ras_features->instance) {
- 				ret = -EINVAL;
--				goto data_mem_free;
-+				goto groups_free;
- 			}
- 
- 			dev_data = &ctx->scrub[scrub_cnt];
-@@ -674,7 +665,7 @@ int edac_dev_register(struct device *parent, char *name,
- 			ret = edac_scrub_get_desc(parent, &ras_attr_groups[attr_gcnt],
- 						  ras_features->instance);
- 			if (ret)
--				goto data_mem_free;
-+				goto groups_free;
- 
- 			scrub_cnt++;
- 			attr_gcnt++;
-@@ -682,7 +673,7 @@ int edac_dev_register(struct device *parent, char *name,
- 		case RAS_FEAT_ECS:
- 			if (!ras_features->ecs_ops) {
- 				ret = -EINVAL;
--				goto data_mem_free;
-+				goto groups_free;
- 			}
- 
- 			dev_data = &ctx->ecs;
-@@ -691,7 +682,7 @@ int edac_dev_register(struct device *parent, char *name,
- 			ret = edac_ecs_get_desc(parent, &ras_attr_groups[attr_gcnt],
- 						ras_features->ecs_info.num_media_frus);
- 			if (ret)
--				goto data_mem_free;
-+				goto groups_free;
- 
- 			attr_gcnt += ras_features->ecs_info.num_media_frus;
- 			break;
-@@ -699,7 +690,7 @@ int edac_dev_register(struct device *parent, char *name,
- 			if (!ras_features->mem_repair_ops ||
- 			    mem_repair_cnt != ras_features->instance) {
- 				ret = -EINVAL;
--				goto data_mem_free;
-+				goto groups_free;
- 			}
- 
- 			dev_data = &ctx->mem_repair[mem_repair_cnt];
-@@ -709,14 +700,14 @@ int edac_dev_register(struct device *parent, char *name,
- 			ret = edac_mem_repair_get_desc(parent, &ras_attr_groups[attr_gcnt],
- 						       ras_features->instance);
- 			if (ret)
--				goto data_mem_free;
-+				goto groups_free;
- 
- 			mem_repair_cnt++;
- 			attr_gcnt++;
- 			break;
- 		default:
- 			ret = -EINVAL;
--			goto data_mem_free;
-+			goto groups_free;
- 		}
- 	}
- 
-@@ -729,7 +720,7 @@ int edac_dev_register(struct device *parent, char *name,
- 
- 	ret = dev_set_name(&ctx->dev, "%s", name);
- 	if (ret)
--		goto data_mem_free;
-+		goto groups_free;
- 
- 	ret = device_register(&ctx->dev);
- 	if (ret) {
-@@ -739,9 +730,6 @@ int edac_dev_register(struct device *parent, char *name,
- 
- 	return devm_add_action_or_reset(parent, edac_dev_unreg, &ctx->dev);
- 
--data_mem_free:
--	kfree(ctx->mem_repair);
--	kfree(ctx->scrub);
- groups_free:
- 	kfree(ras_attr_groups);
- ctx_free:
-diff --git a/include/linux/edac.h b/include/linux/edac.h
-index 7a3c1c60dea7..b3ca9e3d0521 100644
---- a/include/linux/edac.h
-+++ b/include/linux/edac.h
-@@ -864,9 +864,9 @@ struct edac_dev_data {
- struct edac_dev_feat_ctx {
- 	struct device dev;
- 	void *private;
--	struct edac_dev_data *scrub;
- 	struct edac_dev_data ecs;
- 	struct edac_dev_data *mem_repair;
-+	struct edac_dev_data scrub[];
- };
- 
- struct edac_dev_feature {
--- 
-2.54.0
+   drivers/edac/i7300_edac.c | 33 ++++++++++++++++++++++++---------
 
+which would make the combined patch a bit bigger than I like.
+
+I'll look at the individual patches and if they are OK I'll pick them up se=
+parately.
+
+-Tony
