@@ -1,147 +1,147 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B27D39B484
-	for <linux-edac@vger.kernel.org>; Sun,  3 May 2026 21:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777842221; cv=pass; b=hmrwGZBu0sRHTcqITQeqsE2YEtVCi9zEGihG2ycNAp1yJ0MdnUsdbDtEnIIotg2U0PiVf+WLHGbSy1kvrwChDW9u3+6NWvlGvTWj/MfTCvuhXdmmaKu4PLQSrLmIZBvpLBlMzzrv6cmXqrtQyCGKZJa3eVwiwCdUP9Itqosd++o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777842221; c=relaxed/simple;
-	bh=m/ET3aJI0H3eTaF5nxuPbBEUgmMEpHRjkL5z7+/iqIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=az3ZhQX4e9pNzhEYIIWUzep9ZarWb4iDNjeCYPxdc6oz5M1+DPog8i3pQyMn9V7j5hs+xmLgcji0gCL+Aa1PxUVQK3cD2OxdErA4Xd1yas3JGSDydCdEB2GEReGUB7zn6vTnsfkEGmdG6BKYrg81RMOLT0HwhDp5T8tkVeejws0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yw4GStG0; arc=pass smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2A43A5E64
+	for <linux-edac@vger.kernel.org>; Sun,  3 May 2026 21:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777843567; cv=none; b=XHzSijIC4UcrogsM+iCQra49Y3NzBVktG1g4CRFnP+bsA/MBtIOyY+VvZ6/s8G183X39dSo7lWZmheyI3d8Ny3LHoCIoF9KAGAcEdW03bYY/S/lGd1OTlTV2wxNLRY8KpyQGQ4OjcJjtZh+MmrNhE+vDt95Rbl8U8ueOYeSV800=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777843567; c=relaxed/simple;
+	bh=sOT0U3Jr3NVXuqY9Wh2yfJA9ZyQakgYnhkg0dlBZBZ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bq/op0x/WRGKEG8kc3QizOM1j5tBVtGnEg9C64q3bKzM0VlDq3FfaVQ6H6c8S4xkRVWoO71AfMXbFgrGsUTilPihoZ74xK/+yUh1Gq/7I1T4wuA4hXdMBtRu/kSwoNPQ3KbKV1VqMuGZSO5wl6zMYGqfdDrT4InfQ9n9n0PooL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zj425PrW; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yw4GStG0"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-67bc6098640so2758795a12.0
-        for <linux-edac@vger.kernel.org>; Sun, 03 May 2026 14:03:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777842217; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LIaLVtDYXnyvLTn36wq2fRi+lxMic0N3HBH60wA2F/907azTlr3pWCqy+4T36+XGMN
-         5vAt8gkMpGi8QZbZp4E89HfyaYKK4VNAmgPj7lFNO/DbY3fy7l+gm9rvmH/Jx0jaFI2C
-         zM4Vbir7MIk5qbYv1xmM5CBSnJz8jAjcq8NbvKJNvqtw1xHh8GIicXsaQfsQWsSNNGPT
-         pFT7EBzAghTRnIynkowKcGxYRMPcr1yczHhJjQ8I9dIBrILBdUzVY5WuJA5GxY5Zhyhe
-         bmPLJSX2PdZAxU1mtUavhL568U2bI//dymKLCGR6w3h3k1X+xh9wlE4PlCyfj1x6fqbn
-         eeYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=sJMBZjhqpypOwBzXyJ4gqWnUgiZ5f8zEv3s6DSH28s0=;
-        fh=eFIjUCQ5oNa3W3+2ApYAiq8phGD6036fnPLGIdvsPz0=;
-        b=hSErb5hf2asFVdHtRNEO2S5uUVWFR1JAcUxj9aaEuCfSKwMDOHpfetMlkNz0Rag8z3
-         efbLZSP+Dwi/olQ7cZSvyYbUH905M6O1TBbPEAhK8vHvDOyHPJPkbxW9zAnoam6agY8q
-         93e2xOfzBlMtteTZ2x5M3gZavT25sotuxhbPm6Z+4jDcv1z1/u8UsQIw3+3UIlFTyggf
-         VpxlbvT/iOaUNNItIih7CYd3NJoy/AQf/JQO7eKwW6zAN0JXMLQrT1BXe8p37L6k4yB7
-         KExuWRnIe0KEalzF9aW3GZSF3jZrMOr/8eCbq+GMz2sF3Pnw/9nwgFhmHCMWFseFXyBg
-         5MnA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zj425PrW"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8acb09ddbf6so64044346d6.2
+        for <linux-edac@vger.kernel.org>; Sun, 03 May 2026 14:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777842217; x=1778447017; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJMBZjhqpypOwBzXyJ4gqWnUgiZ5f8zEv3s6DSH28s0=;
-        b=Yw4GStG0ywYnMbaJviepAG56xSQuvbG/TosOoWwY9gg3U+tRYkoXvCd/z2VWBQdhSu
-         W1TJtukFSBoBHlfWN5YDK00kALkmc9KCBgMjBnD/FM25AgSbPnqrq4ZrvESLuxVJ5+Xs
-         tr138d8R9GLneyPpZU992lDdPXWcVrxJFiX8shxFAAVTwiDnZeQ5EXzQaS5IxLXPVsmb
-         5RvHqtKOlGXbahcR4meN0KKKMN5B1hCdYvzZ4FFPpik1qcCgKiz2t/8ZXzHFssSHNsCG
-         XfHfyoYR3zCOXE2dtIImghaYytitJB2+Td1xFwiLMO99Fun1z/SboqUoA/uUEcWPgXk/
-         l8mg==
+        d=gmail.com; s=20251104; t=1777843564; x=1778448364; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iWPnmaRjwthBH35p5wi/v2yBfUH+F59G77Czz7mgGmQ=;
+        b=Zj425PrW0SliUwhWWQqrmIkAwPxfeFW3mR6O6PyphoDif8tCdhgmL5f745lg+cra+k
+         P9tXFPZxs6tUlMuOitp8fmgWqkQI0KrFlb1o/rTfMCrUks9qzW8c0MqfuhEvo6zkuhQZ
+         0vB5UBJCyUMCQlGCr+ZoX+f2ZTimRhYQUUxz/8WJmcfpJV29p/mHRdzKuNifLkPTmt0+
+         KBg6QzXrYHeVvTnnT7guaJgiWdbPDrfjZnLdoRj8dHAfkXvLCbdFM0SYiwt3PM7DI08U
+         6PY+FOt4SaYqv3EC9a2b9xiCzoQ0ar95WwwTvGrX5ixctCkWS62aL8NW15OIWjUXMI87
+         5lrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777842217; x=1778447017;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777843564; x=1778448364;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sJMBZjhqpypOwBzXyJ4gqWnUgiZ5f8zEv3s6DSH28s0=;
-        b=W6S28PrjvvXr7HHSX19HnCtcFqWd27Pd0AQgVKDvTri8qhWZhzGKbIlJ4ScCQczQfQ
-         Kn1hcGnJCBRG5s5hO5QwEPLClgGXtskZLEbPgLAyjMio1zauwUktCxPmmGEQ1G6Q3IsK
-         Fr1c5g+o6WfXz0Xv8hNPA8Xp99j+q0QhuMiyxtT+SeKgoE/OzwRqkwkXwIQS82uUUcaA
-         FLPR+jZY/IyrFCCBz5fegYXycfg7/ivZ+6VPZaL3gu+KynZYLSXQBDlgzgGQnIF47Ont
-         ysaVzG59S3KE7ojihGxsI6BPppDlr7CgPw7v0Tqm9tk20Vj9Xn+fQmaPdoLrO/ZR/DS3
-         SNQg==
-X-Forwarded-Encrypted: i=1; AFNElJ/xjnaYQ4OjMGsjaE4wc/7hMcqFJW9s0NBrZTV2FYXnSrUm5vrbOzvslq6NT9JaelgeOnEPvOz7uJzX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxbQveWwbrPxNCux9XwjiTgNmOBEwvcLye01qQKwk0Mj9YQsKr
-	pbBjTlZewxdYkfB1AH4L3wUijosxUip8e2ZgRvI22q7GPDG0yxbwQhnKtTZhwdM+HA4KP2/PDU1
-	Q/+UowMs3jKpDJzMi2Vj5VcBzC8r5vy70ckgNEfI=
-X-Gm-Gg: AeBDiesCCxOeC8qtiLkdpcpvEoEe/gwpDD3v45IeVCMjY9BVfmCWcGfb0JYObl0PvcN
-	kyimOX2XrQ2i/P9VfEWOsF8hbetQvnGoO0jDhscqvvqD7or3w8FyTfDUlaZLQxH2Y2uQfl8+f76
-	yal9Vz1F7UZpQR9+n3zZMNZru7HizRJ9o4NUGsJdZfaN+CQc7NqpP5OdGM/d4Hu2VxWTTYbYEjE
-	mZefz52Eoh1HRNPm0EvmusEZH84XcE4xf3jROps0IsjXkpe0+HBGz6/1PgLlSruGVnWeXeFvWZs
-	qxjZ3vjmuIRz6kp5
-X-Received: by 2002:a05:6402:88c:b0:671:dffb:f450 with SMTP id
- 4fb4d7f45d1cf-67c1a6bdf07mr2361290a12.11.1777842216741; Sun, 03 May 2026
- 14:03:36 -0700 (PDT)
+        bh=iWPnmaRjwthBH35p5wi/v2yBfUH+F59G77Czz7mgGmQ=;
+        b=ei2lpV9EpzzlTK5dyFz2GpGWb2RdVlG3NtDEGIHLXMXCo4/G08dahtDJlIH/Hsc5fm
+         RsXE7Vc55fn1FmRKHrj2WnU4/KalXluxy0WYWqgNAaKmO0BF+vvKZyJ5Fi3IS/JU1Ioa
+         icTmPHJEbzKv7i9PrlyBvFzBYVRqAZ09OTlIW7CjRUi+DgV/kDMp0knpkyk+3wsHiqCZ
+         KAh5/+doyQNpbrpwAPnKcTjcdCAJuMXCqT2ns3kEcdkc5zhA5DxWGCoMmkd+Ql8e7JbH
+         1jrUgI1VFsrmc8fqxAcX/l1YGpGj+C+wJ4I4OpE4Gs3RoY8oR3L74MSJWHBM0Y6ILqLM
+         sAnQ==
+X-Gm-Message-State: AOJu0YzCx61kGNWYN1JtPmjrEHw8x0eUVPzmcvBYxRbbNQyH5HXFrF95
+	4qh3jcLrsstWZZPLkwHHifISYUZvmmi28aWQO0d872rtQVzDZkgEMSNi2k9bAMrYeGU=
+X-Gm-Gg: AeBDieu98QYbqv45iGdUnajJCrdGJYS0BeRxqse4p6hWlvlBo1AO4N5WHsCkqwsriTg
+	Ohb84fS7UCQMTvMAeZpg/I5zHp4B+hP8HBSvB5lFupWhuG60NreuST3LWzS1o3UIz7IXxeHgBMg
+	SnqErAV28z4ooQBU6RHnbgDewWDORtZmXtb5DvuDwkUhUyqChPM4L2KSi213Od54OrinfQUUKfI
+	KVK1PWEDa7s81Y2jWkKQmDTVbjNfuNWrb2LQFk/eaJrSpa0aZ8CEu8BNyPZEUNctfGXH0+3ITR6
+	NdXE2/Ldmk9gEvM1waxK9gNTtqRWycNFkHgsQpX77WneW9LXW/TTXWdiA15oihSYE4/x6ROdxye
+	EemL8n8qrCaOu1xM1T26/Otl8LAjptAzMSgRg3fjxWid24jNfxDSKEXgUhXNaE3IhEAuOgLu0at
+	d/w19UL3ZIC/2V+hx0uedaUmXZsT3fWGEIlhk0bLVeDEt5f7baKQQ=
+X-Received: by 2002:a05:620a:284d:b0:8cd:9231:8b54 with SMTP id af79cd13be357-8fd18c2d83fmr1209987085a.62.1777843564505;
+        Sun, 03 May 2026 14:26:04 -0700 (PDT)
+Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc2c24ff43sm864107885a.29.2026.05.03.14.26.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 14:26:03 -0700 (PDT)
+From: Yuho Choi <dbgh9129@gmail.com>
+To: Dinh Nguyen <dinguyen@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yuho Choi <dbgh9129@gmail.com>
+Subject: [PATCH v2] EDAC/altera: Fix SDMMC PortB OF node reference leak
+Date: Sun,  3 May 2026 17:25:58 -0400
+Message-ID: <20260503212558.2811480-1-dbgh9129@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260501194838.2682274-1-dbgh9129@gmail.com> <4ea824df-3ef2-4756-ae87-02c31f20c191@kernel.org>
-In-Reply-To: <4ea824df-3ef2-4756-ae87-02c31f20c191@kernel.org>
-From: =?UTF-8?B?7LWc7Jyg7Zi4?= <dbgh9129@gmail.com>
-Date: Sun, 3 May 2026 17:03:25 -0400
-X-Gm-Features: AVHnY4Ims6usp4oN5Q8JbttN_jB7NjwWBXg5Q9_n9YoXxULouzCidSQQPMv9wfM
-Message-ID: <CACrCO_XWaVci8xPcmVQ1BKdZ6bGzr_dq=C52SrTQftD_R_KWCQ@mail.gmail.com>
-Subject: Re: [PATCH v1] EDAC/altera: Fix SDMMC PortB OF node reference leak
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dear Dinh,
+of_find_compatible_node() returns a device node with its refcount
+incremented. altr_portb_setup() looks up the SDMMC ECC node but does
+not drop that reference on error paths or after successful setup.
 
-Thanks for catching that dci leak. I will update the goto path in v2.
+Route those exits through an of_node_put() cleanup path. Also free the
+EDAC control info if devres_open_group() fails after dci has been
+allocated, and release the devres group before freeing dci because
+altdev is stored in dci->pvt_info.
 
-Yuho
+Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
+Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
+---
+Changes since v1:
+- Free the EDAC control info when devres_open_group() fails after dci
+  has been allocated.
+- Release the PortB devres group before freeing dci so altdev->ddev
+  remains valid during devres cleanup.
+- Keep the !dci failure path limited to dropping the OF node reference.
 
-On Fri, 1 May 2026 at 18:26, Dinh Nguyen <dinguyen@kernel.org> wrote:
->
-> Hi Yuho,
->
-> On 5/1/26 14:48, Yuho Choi wrote:
-> > of_find_compatible_node() returns a device node with its refcount
-> > incremented. altr_portb_setup() looks up the SDMMC ECC node but does
-> > not drop that reference on error paths or after successful setup.
-> >
-> > Route the exits after the lookup through a cleanup path that calls
-> > of_node_put() before returning.
-> >
-> > Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
-> > Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
-> > ---
-> >   drivers/edac/altera_edac.c | 14 ++++++++++----
-> >   1 file changed, 10 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-> > index 4edd2088c2db..a2fb30a9b914 100644
-> > --- a/drivers/edac/altera_edac.c
-> > +++ b/drivers/edac/altera_edac.c
-> > @@ -1526,15 +1526,18 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
-> >               edac_printk(KERN_ERR, EDAC_DEVICE,
-> >                           "%s: Unable to allocate PortB EDAC device\n",
-> >                           ecc_name);
-> > -             return -ENOMEM;
-> > +             rc = -ENOMEM;
-> > +             goto out_put_node;
-> >       }
-> >
-> >       /* Initialize the PortB EDAC device structure from PortA structure */
-> >       altdev = dci->pvt_info;
-> >       *altdev = *device;
-> >
-> > -     if (!devres_open_group(&altdev->ddev, altr_portb_setup, GFP_KERNEL))
-> > -             return -ENOMEM;
-> > +     if (!devres_open_group(&altdev->ddev, altr_portb_setup, GFP_KERNEL)) {
-> > +             rc = -ENOMEM;
-> > +             goto out_put_node;
->
-> I think this should goto err_release_group_1, otherwise the dci pointer
-> is leaked.
->
-> Dinh
->
->
+ drivers/edac/altera_edac.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index 4edd2088c2db..1b050e35ec4b 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1526,15 +1526,18 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 		edac_printk(KERN_ERR, EDAC_DEVICE,
+ 			    "%s: Unable to allocate PortB EDAC device\n",
+ 			    ecc_name);
+-		return -ENOMEM;
++		rc = -ENOMEM;
++		goto out_put_node;
+ 	}
+ 
+ 	/* Initialize the PortB EDAC device structure from PortA structure */
+ 	altdev = dci->pvt_info;
+ 	*altdev = *device;
+ 
+-	if (!devres_open_group(&altdev->ddev, altr_portb_setup, GFP_KERNEL))
+-		return -ENOMEM;
++	if (!devres_open_group(&altdev->ddev, altr_portb_setup, GFP_KERNEL)) {
++		rc = -ENOMEM;
++		goto err_free_ctl;
++	}
+ 
+ 	/* Update PortB specific values */
+ 	altdev->edac_dev_name = ecc_name;
+@@ -1607,13 +1610,17 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+ 
+ 	devres_remove_group(&altdev->ddev, altr_portb_setup);
+ 
+-	return 0;
++	rc = 0;
++	goto out_put_node;
+ 
+ err_release_group_1:
+-	edac_device_free_ctl_info(dci);
+ 	devres_release_group(&altdev->ddev, altr_portb_setup);
++err_free_ctl:
++	edac_device_free_ctl_info(dci);
+ 	edac_printk(KERN_ERR, EDAC_DEVICE,
+ 		    "%s:Error setting up EDAC device: %d\n", ecc_name, rc);
++out_put_node:
++	of_node_put(np);
+ 	return rc;
+ }
+ 
+-- 
+2.43.0
+
