@@ -1,96 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF2E13777E;
-	Sun, 10 May 2026 20:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B167164;
+	Sun, 10 May 2026 20:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778445118; cv=none; b=ak+fOaGjTiXtq/4kg3WFU+GA8w7bUSfuipIMczrRx8nO1MRMGWUEZ6MYLIhgNNCbxjBUBF+H9waU7Vgo93f1qrJRutJYMj7sWCsvCnLncCW0+ZzTBm0w9NQFGhpUSSKYpMlGVkIMzGUdPfb0qEAk68KTTwyIi1oSJwYESeDxjLg=
+	t=1778446030; cv=none; b=Z3Wi1hwlqCiQvdhiutLVycSj0Zn16hL68ccWnTtMIyfpC12XZB/g0xQFUqJ+1SKas4UHSAWX+tjGTINSxQR0Gj9iLDD04v/rmyhtqrDyDmOa4l6KQpA/zsrY26Aa0/VTM7q7iB2Bdpzp3vUrFe91NALwCN2eCgrjCL5ZEnrvO7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778445118; c=relaxed/simple;
-	bh=5+omLs6aw5YAFKvXf4wxEHdVkViLr1pexGF10vcNR6I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W4d1KZgXtrAIyqKMxAdyvMBZdGrYUzOg188D2mIvADisZmDhiWOG2QDKqVjDhoBXUdeiax5eo8eh83LnhJI81An3hRNG5zD4mRIGfEWIZ1ZdrvWflE1cKKqJBBowUXwZyJ+QxAiiD0Q94+toYf0wvWT3evuntaZR9KGPEvvfwjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NT4ZQTd0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778446030; c=relaxed/simple;
+	bh=B/w+JpqIK3hV+rMd3pTl5PxGhjMNUPibUreI3x75/Ys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KJYM/ftlg7a+s5LMlrrXQiNHvP6li48VFsxHRONQLAz5USjdYEkBCvOR9kTZXgKwYOp/hJL2JeAPDK2BZh8BJvc3wV51NwvsWAB9+xYktoRc9MWlMHi4pnikvoZ/5UkFyPo4nzcrjZYHKkEbK3gZkdDoFLa3kqTf/5jxiomgwz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=AV4cLAKB; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NT4ZQTd0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238C6C2BCB8;
-	Sun, 10 May 2026 20:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778445117;
-	bh=5+omLs6aw5YAFKvXf4wxEHdVkViLr1pexGF10vcNR6I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NT4ZQTd0bA4lGgJmRczinaL05ertC9FB/x6ABepIKLRyWfmA4AUE6sT2zIdKZXMFg
-	 pE9UE6V5ktsoFmlFge10/xyy1Hy977VTGITHjqA1uE8xgzy9Hl1EbMrTxL6D6nH/aD
-	 07KU493LlBm4UimKfmTkIX39IwR0qmKWP8zxJ+diUgCajhf9CGQqURlY3ygKDlIBEt
-	 LXQVwRV0boBNnhaTRdUyyku55wexo1R0BDDH/CQrVnYksyBHV8GeEpFGaK5dBljZy+
-	 MGvoHDJ/weJa8uB8hOLLCEK7VWoEUVoA89esthp+Kkn0uFzafJya6hrJ+Ao1W6j7L9
-	 WRo7hMAUAilmA==
-Message-ID: <59ce1037-b6fb-4af7-a213-d605ba5c9a3d@kernel.org>
-Date: Sun, 10 May 2026 15:31:56 -0500
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="AV4cLAKB"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 73F5140E01A1;
+	Sun, 10 May 2026 20:47:04 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id fu6Js4NtpqY3; Sun, 10 May 2026 20:46:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1778446013; bh=M9Fv1CFWejVTuwBM0m+tguAlpn0RMdhZxXxOHMZWh6w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AV4cLAKB7Cqs1oX72PUMsCw18BiDdaJwPJDi6p3TKoXmrSCd50LxRz/yIMZpF9Iq2
+	 p+MGc81dtpzA76Q2C1Q+NrDCow2MsA3bjqXzHyoST/u4c5qcdiUogJazjp2fmgXQFo
+	 /8uVaKxm41Odk4S1iw6pIud1ae790Eox3Kl15k3zP8AmO/l0m3fXoZhXGraZ4RFDM5
+	 EW8+PRG4EgNfn+GgG6MufM5v3t7tvTq8YM7aiFtO/FzxhphfVg9KP7tM4+yLobPuQE
+	 KjDh0jhla7rZRTifRChj5NjaNOoG+6He+27YhFGwyvHm30lVLBwEhhmGmN5SjFr3XE
+	 D0uxXwbaO0W78rquzb+Gf7H2GFQQMiosrDlbw0ashkfgcIS+Ud2S2HGyj3p0cbv1gY
+	 Y63z6fV8o8uOoBgmfeTQm8zBSl2B+LdJXpgRk2xoFzCZdniuYDxR8H3jD7rt6dR2K5
+	 rvXSLYfpUOVHqDQucEx80hE/x2QYHoyMcKBvyyrh074Z8OSUweXQVfhrz133uoO+pl
+	 oHlvosA2NSNsuhlDUu9CdD6SHIAC0dlXNxjIyboshmlGMc0tZSaRFjgnuziB8H92eL
+	 TzMb6muR3+9ASKPMNG1SpM7dfN1ftE6YTIVOburjjqspV2i4qZUTG+vvQ9zDx6bpYW
+	 yDj5fy+wHN1PYaaSSPZco/98=
+Received: from zn.tnic (pd953014d.dip0.t-ipconnect.de [217.83.1.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 9896240E019B;
+	Sun, 10 May 2026 20:46:47 +0000 (UTC)
+Date: Sun, 10 May 2026 22:46:40 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: muhammad.nazim.amirul.nazle.asmade@altera.com, tony.luck@intel.com,
+	linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers: altera_edac: Fix OCRAM ECC init for warm reset
+Message-ID: <20260510204640.GBagDusDXW0dhTTZen@fat_crate.local>
+References: <20260509143803.7500-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
+ <59ce1037-b6fb-4af7-a213-d605ba5c9a3d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers: altera_edac: Fix OCRAM ECC init for warm reset
-Content-Language: en-US
-To: muhammad.nazim.amirul.nazle.asmade@altera.com, bp@alien8.de,
- tony.luck@intel.com
-Cc: linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20260509143803.7500-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20260509143803.7500-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <59ce1037-b6fb-4af7-a213-d605ba5c9a3d@kernel.org>
 
-
-
-On 5/9/26 09:38, muhammad.nazim.amirul.nazle.asmade@altera.com wrote:
-> From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+On Sun, May 10, 2026 at 03:31:56PM -0500, Dinh Nguyen wrote:
 > 
-> The OCRAM ECC is always enabled either by the BootROM or by the
-> Secure Device Manager (SDM) during a power-on reset on SoCFPGA.
 > 
-> However, during a warm reset, the OCRAM content is retained to
-> preserve data, while the control and status registers are reset to
-> their default values. As a result, ECC must be explicitly re-enabled
-> after a warm reset.
-> 
-> Signed-off-by: Niravkumar L Rabara <nirav.rabara@altera.com>
-> Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-> ---
->   drivers/edac/altera_edac.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-> index 103b2c2eba2a..9e6a9786a881 100644
-> --- a/drivers/edac/altera_edac.c
-> +++ b/drivers/edac/altera_edac.c
-> @@ -1186,8 +1186,14 @@ altr_check_ocram_deps_init(struct altr_edac_device_dev *device)
->   
->   	/* Verify OCRAM has been initialized */
->   	if (!ecc_test_bits(ALTR_A10_ECC_INITCOMPLETEA,
-> -			   (base + ALTR_A10_ECC_INITSTAT_OFST)))
-> -		return -ENODEV;
-> +			   (base + ALTR_A10_ECC_INITSTAT_OFST))) {
-> +		if (!ecc_test_bits(ALTR_A10_ECC_EN,
-> +				   (base + ALTR_A10_ECC_CTRL_OFST)))
-> +			ecc_set_bits(ALTR_A10_ECC_EN,
-> +				     (base + ALTR_A10_ECC_CTRL_OFST));
-> +		else
-> +			return -ENODEV;
-> +	}
->   
->   	/* Enable IRQ on Single Bit Error */
->   	writel(ALTR_A10_ECC_SERRINTEN, (base + ALTR_A10_ECC_ERRINTENS_OFST));
+> On 5/9/26 09:38, muhammad.nazim.amirul.nazle.asmade@altera.com wrote:
+> > From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> > 
+> > The OCRAM ECC is always enabled either by the BootROM or by the
+> > Secure Device Manager (SDM) during a power-on reset on SoCFPGA.
+> > 
+> > However, during a warm reset, the OCRAM content is retained to
+> > preserve data, while the control and status registers are reset to
+> > their default values. As a result, ECC must be explicitly re-enabled
+> > after a warm reset.
+> > 
+> > Signed-off-by: Niravkumar L Rabara <nirav.rabara@altera.com>
+> > Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
 
-This patch fails to apply to both v7.1-rc1 and linux-next. Please base 
-your patch to the latest and resend.
+And fix your SOB chain:
 
-Thanks,
-Dinh
+https://kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
 
+From the above, I have no clue what Niravkumar has done.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
