@@ -1,95 +1,157 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B167164;
-	Sun, 10 May 2026 20:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B052857FA
+	for <linux-edac@vger.kernel.org>; Sun, 10 May 2026 22:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778446030; cv=none; b=Z3Wi1hwlqCiQvdhiutLVycSj0Zn16hL68ccWnTtMIyfpC12XZB/g0xQFUqJ+1SKas4UHSAWX+tjGTINSxQR0Gj9iLDD04v/rmyhtqrDyDmOa4l6KQpA/zsrY26Aa0/VTM7q7iB2Bdpzp3vUrFe91NALwCN2eCgrjCL5ZEnrvO7U=
+	t=1778450940; cv=none; b=NGqsSZsfncooxGPcBH8bDp+4weKVO0L2rX5EMbBZIlx94OcesgLVcUp/rwW08EoCZcBfmiUvr7q9fYKKUN8RaHyMVAu47QFBrriWZxHV08py1NxVLXitIulfukpLl1d32EgoWBjHvGbZQ4St6xE7i4/Q6R2q4M624aqzxd53DYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778446030; c=relaxed/simple;
-	bh=B/w+JpqIK3hV+rMd3pTl5PxGhjMNUPibUreI3x75/Ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KJYM/ftlg7a+s5LMlrrXQiNHvP6li48VFsxHRONQLAz5USjdYEkBCvOR9kTZXgKwYOp/hJL2JeAPDK2BZh8BJvc3wV51NwvsWAB9+xYktoRc9MWlMHi4pnikvoZ/5UkFyPo4nzcrjZYHKkEbK3gZkdDoFLa3kqTf/5jxiomgwz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=AV4cLAKB; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1778450940; c=relaxed/simple;
+	bh=S0fBVOIRGgL2UwTdfget9IwI+UC9G84Hp0ApLSLI1Jc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V40VAYP3T5WFsFn4/iGO8TxxSCLslpUMon+D94ZQ2bS6VPP3pRLMVy8tFx8WI2t0TQzswhNSuHwXsznFg8OL8zkRp8mj0LWBB2Ni/sXcQn+C7v+Qc0Kao24KY4aop7XDpHhV/YBLoCy2VthlEobjCH3+nEhQOh1wqkVPI1xNeaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SDJMv0HD; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="AV4cLAKB"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 73F5140E01A1;
-	Sun, 10 May 2026 20:47:04 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id fu6Js4NtpqY3; Sun, 10 May 2026 20:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1778446013; bh=M9Fv1CFWejVTuwBM0m+tguAlpn0RMdhZxXxOHMZWh6w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AV4cLAKB7Cqs1oX72PUMsCw18BiDdaJwPJDi6p3TKoXmrSCd50LxRz/yIMZpF9Iq2
-	 p+MGc81dtpzA76Q2C1Q+NrDCow2MsA3bjqXzHyoST/u4c5qcdiUogJazjp2fmgXQFo
-	 /8uVaKxm41Odk4S1iw6pIud1ae790Eox3Kl15k3zP8AmO/l0m3fXoZhXGraZ4RFDM5
-	 EW8+PRG4EgNfn+GgG6MufM5v3t7tvTq8YM7aiFtO/FzxhphfVg9KP7tM4+yLobPuQE
-	 KjDh0jhla7rZRTifRChj5NjaNOoG+6He+27YhFGwyvHm30lVLBwEhhmGmN5SjFr3XE
-	 D0uxXwbaO0W78rquzb+Gf7H2GFQQMiosrDlbw0ashkfgcIS+Ud2S2HGyj3p0cbv1gY
-	 Y63z6fV8o8uOoBgmfeTQm8zBSl2B+LdJXpgRk2xoFzCZdniuYDxR8H3jD7rt6dR2K5
-	 rvXSLYfpUOVHqDQucEx80hE/x2QYHoyMcKBvyyrh074Z8OSUweXQVfhrz133uoO+pl
-	 oHlvosA2NSNsuhlDUu9CdD6SHIAC0dlXNxjIyboshmlGMc0tZSaRFjgnuziB8H92eL
-	 TzMb6muR3+9ASKPMNG1SpM7dfN1ftE6YTIVOburjjqspV2i4qZUTG+vvQ9zDx6bpYW
-	 yDj5fy+wHN1PYaaSSPZco/98=
-Received: from zn.tnic (pd953014d.dip0.t-ipconnect.de [217.83.1.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 9896240E019B;
-	Sun, 10 May 2026 20:46:47 +0000 (UTC)
-Date: Sun, 10 May 2026 22:46:40 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: muhammad.nazim.amirul.nazle.asmade@altera.com, tony.luck@intel.com,
-	linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers: altera_edac: Fix OCRAM ECC init for warm reset
-Message-ID: <20260510204640.GBagDusDXW0dhTTZen@fat_crate.local>
-References: <20260509143803.7500-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
- <59ce1037-b6fb-4af7-a213-d605ba5c9a3d@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SDJMv0HD"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43d7e23defbso2037520f8f.0
+        for <linux-edac@vger.kernel.org>; Sun, 10 May 2026 15:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778450936; x=1779055736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sfH7VWnYyQuxcDxu34msfwSVF+In7u16HxC4K0jD2RU=;
+        b=SDJMv0HD1m79t7uLDCuiQEHeG66QjqUpZrlLayuQlXAzfZRZb8ExqXGW7g+GRlU7/L
+         p6j5x6jy06AMSbzi7nFCOIdr0CWMGONZDVCVvc+G9BtfTiNgFcIyRyAHh7UO/aKc1n/x
+         wammJQD2l4gbTCWpeKHvYvsGK1eLC9pcZ/a8ggZZSFp+bJxG3vLTQBxa8vGqcrpkerB3
+         8Sd0/GVrT+68q8AZlinzwEtaIlFkdEka4sbvfkh2hBlL+m5s3RUgYCCUdUdVb2i6ecI3
+         EATVLQQKE4vT+HHQ+z5pvMWlL/wTV6l4fo/4mtJBwyWeAgpwZ2h3Bix1fsK1e3qMdWKJ
+         v6qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778450936; x=1779055736;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sfH7VWnYyQuxcDxu34msfwSVF+In7u16HxC4K0jD2RU=;
+        b=LN3eIqs2U6hdkGUuD7YXLoqFFU4rEOaFOXypvCdLUoAVEEMKK3zcn7YZl+F/yOXe00
+         9X7CZzkVvBcV838ZjkxYZVHeJQCOI8mFtX86X9ZlVhb2433ewpm/ON0dYeMwqLCQQ37M
+         ytikJewyW2uwhCISEVoq2+L3KPGSAtr+X3163Uj8TIYHquUYYBi0RCYfdeY6s6yfKRgg
+         USRTXpKgFwf/v6xIRazHy7WKJLp6PLJ9Eol6MvJZQpBxzGN5mxL4PSyl+e84I4b4H8oa
+         n2ys4sec7nA2s/7eAzR9Tfjfpugz8V7OMQeX7t9ftvE1Rbr7FJwbdhwwLfUDdmYYS1/i
+         Ou9A==
+X-Forwarded-Encrypted: i=1; AFNElJ/X1Ojp2SThg/oFTlA/sc0Opyx+srDeCaqe+4kuTeHZi9EGoFCWKy6ponsK1wrfpZywo+I3VThs1CHt@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7ND2IWhNZlnv/QHfYDaJswLbIycQ2qWYgfijgk6i9RdQ/45R1
+	t+3oHXSV9F9/PoNabapMtHB3yebCyus8rcEFKSH2t2TS09FhmiIdEUw+
+X-Gm-Gg: Acq92OHLCqW5cZ3uqWIxvsMmhgz+2t1+zU30wcAyYcyboaNGWyUz/vT01Z2IEMnYmi+
+	qQNL2A82IBjyqHcwoEnR3DumcK7HxG1b+OKaMTU9IIvpmi3alzxW+U5D3bcSWV0kwLkkN9u1IJY
+	JgcRFcxkBBEwFeOqjgw8UTTyzaYanmBLvM6WbQWA6RTDTepW/e+oNrEq8LR4iiydrdH6JFgWhl1
+	DCM1eylyiC6gDFneK8Xk0lh0K0axJR2fLriFbgutv2QBYfFQReqNHxVBzPwX1yJukfmX/1uSA9v
+	aXsBFYqvOqMVWnWdzudEI3nE+1mnKEUU9hx2XPJEP9RwzwA4jOVLa0FjBcpPtThJ/IToN/Ct2j1
+	JFUwYVDNO8yGjhp9q0VCSYWgl9nZrfasnFBPx4BWaUMctA/o5NSt6+pLnUXU/tP01AjeHhJ+/8o
+	SHvD2vmAOLVEa+nf7JBLTau1XdWdzpPVJHZRYbYdUN7wecRJAeR5nP63vvUPXbki+eMWC0DuE=
+X-Received: by 2002:a05:6000:4201:b0:43d:7a97:78c0 with SMTP id ffacd0b85a97d-4568e51ca7fmr9950836f8f.36.1778450935641;
+        Sun, 10 May 2026 15:08:55 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6cd75sm19908276f8f.16.2026.05.10.15.08.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 15:08:55 -0700 (PDT)
+Date: Sun, 10 May 2026 23:08:53 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, Borislav Petkov
+ <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Kees Cook
+ <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Nick Li <nick.li@foursemi.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-edac@vger.kernel.org, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] Fix possible strscpy() buffer overflows
+Message-ID: <20260510230853.154050a2@pumpkin>
+In-Reply-To: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
+References: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <59ce1037-b6fb-4af7-a213-d605ba5c9a3d@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 10, 2026 at 03:31:56PM -0500, Dinh Nguyen wrote:
+On Sun, 10 May 2026 20:24:41 +0200
+"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+
+> In the changed files, strings were copied like this:
 > 
+>      strscpy(DST, SRC, strlen(SRC));
 > 
-> On 5/9/26 09:38, muhammad.nazim.amirul.nazle.asmade@altera.com wrote:
-> > From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-> > 
-> > The OCRAM ECC is always enabled either by the BootROM or by the
-> > Secure Device Manager (SDM) during a power-on reset on SoCFPGA.
-> > 
-> > However, during a warm reset, the OCRAM content is retained to
-> > preserve data, while the control and status registers are reset to
-> > their default values. As a result, ECC must be explicitly re-enabled
-> > after a warm reset.
-> > 
-> > Signed-off-by: Niravkumar L Rabara <nirav.rabara@altera.com>
-> > Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> A buffer overflow would happen if strlen(SRC) > sizeof(DST).
+> Actually, strscpy() must be used this way:
+> 
+>      strscpy(DST, SRC, sizeof(DST));
+>      strscpy(DST, SRC); // defaults to sizeof(DST)
 
-And fix your SOB chain:
+Nak.
 
-https://kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+This is test code and deliberately doing things 'wrong'.
 
-From the above, I have no clue what Niravkumar has done.
+-- David
 
--- 
-Regards/Gruss,
-    Boris.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>   drivers/edac/versalnet_edac.c | 3 +--
+>   drivers/misc/lkdtm/fortify.c  | 6 +-----
+>   sound/soc/codecs/fs210x.c     | 2 +-
+>   3 files changed, 3 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+> index ec13155824..daa140f4db 100644
+> --- a/drivers/edac/versalnet_edac.c
+> +++ b/drivers/edac/versalnet_edac.c
+> @@ -728,8 +728,7 @@ static int rpmsg_probe(struct rpmsg_device *rpdev)
+>   	pg = (struct mc_priv *)amd_rpmsg_id_table[0].driver_data;
+>   	chinfo.src = RPMSG_ADDR_ANY;
+>   	chinfo.dst = rpdev->dst;
+> -	strscpy(chinfo.name, amd_rpmsg_id_table[0].name,
+> -		strlen(amd_rpmsg_id_table[0].name));
+> +	strscpy(chinfo.name, amd_rpmsg_id_table[0].name);
+> 
+>   	pg->ept = rpmsg_create_ept(rpdev, rpmsg_cb, NULL, chinfo);
+>   	if (!pg->ept)
+> diff --git a/drivers/misc/lkdtm/fortify.c b/drivers/misc/lkdtm/fortify.c
+> index 7615a02dfc..9a9159a120 100644
+> --- a/drivers/misc/lkdtm/fortify.c
+> +++ b/drivers/misc/lkdtm/fortify.c
+> @@ -174,11 +174,7 @@ static void lkdtm_FORTIFY_STRSCPY(void)
+>   	/* Restore src to its initial value. */
+>   	src[3] = 'b';
+> 
+> -	/*
+> -	 * Use strlen here so size cannot be known at compile time and there is
+> -	 * a runtime write overflow.
+> -	 */
+> -	strscpy(dst, src, strlen(src));
+> +	strscpy(dst, src);
+> 
+>   	pr_err("FAIL: strscpy() overflow not detected!\n");
+>   	pr_expected_config(CONFIG_FORTIFY_SOURCE);
+> diff --git a/sound/soc/codecs/fs210x.c b/sound/soc/codecs/fs210x.c
+> index e6195b71ad..eda716f817 100644
+> --- a/sound/soc/codecs/fs210x.c
+> +++ b/sound/soc/codecs/fs210x.c
+> @@ -968,7 +968,7 @@ static int fs210x_effect_scene_info(struct snd_kcontrol *kcontrol,
+>   	if (scene->name)
+>   		name = scene->name;
+> 
+> -	strscpy(uinfo->value.enumerated.name, name, strlen(name) + 1);
+> +	strscpy(uinfo->value.enumerated.name, name);
+> 
+>   	return 0;
+>   }
 
-https://people.kernel.org/tglx/notes-about-netiquette
