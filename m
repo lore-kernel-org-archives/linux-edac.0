@@ -1,162 +1,202 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012017.outbound.protection.outlook.com [52.101.48.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0247D1A2392;
-	Sat,  9 May 2026 14:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186F6214A9B
+	for <linux-edac@vger.kernel.org>; Sun, 10 May 2026 03:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778337489; cv=fail; b=efEIrFZYJv7nYmq1kM0LNCIg6fqelRH1uJDacAPXtpqYzoAC8LZjLPexVxXiwzt878ZhuNcCqZ4MMJiuSHFIyDcN6WHjHv1pkrwDKrSH8wm+wqkBYdEOrcDbEHul4QFQPouZbB/X5yDpKgvmFr3tHnk+Wgw41uYACuRsHujfuuk=
+	t=1778385170; cv=pass; b=O6oYMaW5zM8BwpzckgZlftOdebxrGtx+witt7G7dcvmYlqeTmgHpxVI0S5PwBVPwOTpd2X3O4fBK88CebaW2WWwBHqF3B7MX180BUZmjBcO+D8NXbKB1R4+O5Q8TFvGyECg7aSn9qexqB3Nxm8Rp+q1++x2jo/PUVx4yIuUhN3A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778337489; c=relaxed/simple;
-	bh=YWa1xQWp4j9KiOuTC2yJa0R2w9QGg1iX1h02Mr+0pHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ZR4EHKSn+1Dkxp8QgGsd4Ng/mN+rz51sEKJOntSAF2egR1R22zRJYzAvIawsA6f1SyYk284i7aKniKkhL2NWPyXLabdiCf5iFCayWz7A/lD//QlvtdQ6tsTzu0Pnhv9stCt1d2B+jj6dcDvii/MsIQ3h17+QoM3CNs8U2t7lbw4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=tsSci8iW; arc=fail smtp.client-ip=52.101.48.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	s=arc-20240116; t=1778385170; c=relaxed/simple;
+	bh=7ejUJh+dDnefV/llP/4Chc70m4jI6IGD4nSZCG6Blm4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c2SO8Q4tQbioD+TuvhZMcyRId4OwtE/Y1z5oatclfVn8GPmGPkMczx+JRNq0+S/Ewrjx9b15sFJVm6z+SqE+P+VObNfQ+3ozFXnyhbwaadJ2g/at+7XgO8aOofy/lyLxZI0UoJxiRttLLKm1r7YxyoCV1ivZrEIb1dYiQmI5HVs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtjLZazW; arc=pass smtp.client-ip=74.125.224.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="tsSci8iW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f5DHpgWy+gsycL6Jjb/J5jIVOU/02oE5md9WVfR3057RJiOyFjgkxUFh16XE7ytqSXI7a7QOQsZOLcnqbGvib2PEzFgZY6q6zE/y3ermjb6SF9JBF3tgxA1igdnKhdJtur9Fook6nDy8p9env8bUP98VT7g7OeOOAnR81nqJ/dZXnTN0tZJ11YyAEUKeX6DTUuZJdtuscQ/IQAJP01b/PaOjh44Odknd2KHxRJs5+LhbiEKSp7VzGUOVl2W7zuO9LM+QtALwuxh9SVUC0o+t2tItWld1ZQIhi3fk2W61R8U5UXqvYDsAdqvhyZ5Xmuksdi8y1hXb0QBNA9lv/1kk7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=87WZK+0Ki+vIwya2tWprlTatpImM6jAj+om89wKvpKk=;
- b=fzYcn0CT8zLSbtc5EFLpzi0hnJHdSk1yzGnxzcrF+zkE5T67l9NIVTclklh4vVWrTQRsjRVic2YHXENnSxNl/OfhfvZlwQcyTEuifg+fXowcgEEkU391V7IFTPzlTYH4uxwyrUJDic+GnTY9Y8SdTG0V3BeojJ9CFqgEKSpTvY85ibtWj1UnGMPBcMyeqtg72uvn0tyB+uPiJfd6gp6HeRiywBjnaPJGdZlye+bH7t6N32B5FnWNskDk6sW29TfU3ZSmdDrcl36E6xmP+vzdfp+h+jsFSeZpbvjj5ApK1MOACzA9bsKWuQ3+gwo5jVcS82MKKwA+uaz6WmkuJfbYhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=87WZK+0Ki+vIwya2tWprlTatpImM6jAj+om89wKvpKk=;
- b=tsSci8iWtJtjxdmDELLzL26WSbrk1LgDO4l1f/7Yi1msmxHosfR8QX/NdGHAs+He4vA2La2Q4+HkBJ6CLvIjtrO5z7u2i0Iv/ssq/JpfQccpF1sVPA0dYpuMUQjjJgWmtXEcyWvqc9LmFUFeDt+YkBjp/Ph7CPUheuSvOY1FCHEJpT3vqKdZzTmlhh2gWE/neOMc5omMSMyogoFmZGtFyirmYZNldqrCSkGkS88RH/1YQQZ8naPFgPTJXjNdzWCFPZpW5T80i2LOcez9fcpU10B7+1nv+o9Iu1ClT7u4gS50EPc0hxQFpRJcFzPQcd9hEhynfTFoeNR0VjAg2SZedQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-Received: from SJ0PR03MB6964.namprd03.prod.outlook.com (2603:10b6:a03:432::18)
- by BLAPR03MB5379.namprd03.prod.outlook.com (2603:10b6:208:296::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Sat, 9 May
- 2026 14:38:05 +0000
-Received: from SJ0PR03MB6964.namprd03.prod.outlook.com
- ([fe80::b965:bfa8:58fb:e775]) by SJ0PR03MB6964.namprd03.prod.outlook.com
- ([fe80::b965:bfa8:58fb:e775%6]) with mapi id 15.20.9891.019; Sat, 9 May 2026
- 14:38:05 +0000
-From: muhammad.nazim.amirul.nazle.asmade@altera.com
-To: dinguyen@kernel.org,
-	bp@alien8.de,
-	tony.luck@intel.com
-Cc: linux-edac@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers: altera_edac: Fix OCRAM ECC init for warm reset
-Date: Sat,  9 May 2026 07:38:03 -0700
-Message-ID: <20260509143803.7500-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
-X-Mailer: git-send-email 2.43.7
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0126.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::11) To SJ0PR03MB6964.namprd03.prod.outlook.com
- (2603:10b6:a03:432::18)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtjLZazW"
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-65d071aac6eso2853164d50.0
+        for <linux-edac@vger.kernel.org>; Sat, 09 May 2026 20:52:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778385168; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NdC4NlzavtOfcXk14WpNQSL8dbgP8imwytRwuqHo0IZjgylOKCQMLlPvxqxlMHgoEX
+         FbgB3i66uDVREKlqDwBWvtLcRNGhrLWcnmvs/Cl6SZ+Jxr+cGpEV57m6Iu333e234o8d
+         TJalkcOfT04lzzV1HpZavQasPVNEHunGvvoo0d8q+cvjfZS3Y5VNvWvraZOXmc3kgNF0
+         c+PrBstH7ofy4m0AGm1iYYV3d4MJA3DabQ5eTNvDjv8Q41PzxKrG3amsXZPd/sreM0hg
+         m6RGP+PE4h7FBHIisOMtZoxP7ANSTTba+7TIt0ATpa/eVh0iwbi3nHppcO154OoKvZHa
+         RPOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/wMngwV7QY01GHYHuPZuFbno+ZhzC065JLDv4yLPHE4=;
+        fh=mJJM579zsBYpW2YBWn4mPHCXTWeuDhMCkSYbV8+XwEY=;
+        b=PqWcOCwyRi49Vb9XvuB20tBYTMTNv+nU6ozvN9j2aQzyaCaz8P3dRzmhWsG2u4KXue
+         +vb3Up/tYJeZVPnwt2Qu7aFSs0EY06Ay351SaBrs6kjnqGO2sXWXeZEy6UnMQe5rzkzw
+         8wxthaI/pAWSTQyWWN13/Le+5NuW5UtJu03PUXIwDcQjeAnCraB7SaicwBa1wXvEqmfA
+         3Frsj6o1SKTobEzekC5gHKm9aHxgNO2tO7BrcwulkHj7Rx6aQfUbi2Y+F2CnsAbmKrtW
+         u1nnHrjopnFHGcnnudlKqIBG+8/MwlPCku5jStoQEu2d1Bh1JYFjSikgb+8dQXNQs4Id
+         xtCA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778385168; x=1778989968; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/wMngwV7QY01GHYHuPZuFbno+ZhzC065JLDv4yLPHE4=;
+        b=HtjLZazWEhPfACqTZVr8y2TbXQJTOm+xjdgKtccBAV9OVYAfEzxtt1YEof5Vhvhq4/
+         cjgtWcaVU7m7Ph1WL1MsNzuwnm91jIW1YoKpq3V/6VvpGoO3oeTbXWY7OtLeJLabzlyY
+         KSbX6seStuDCgBDDwDiexGG/WPfGRYVCiA9PO8Kjs2aM3VZCZEiPXkV9ktlmXHy5qgZM
+         LjLQS8Ie7b+PUtrSfHzPm3KcmcUqTK/VbQp9FSMAfYhINIKlvrY+gVAT1HDd2vSuz7xO
+         1/dY+iV4OrHLyioQwBwfjqhJeS/0++lX5hOegl4YqYogPzAib23UBm+J/JqPiZErYq0P
+         jZxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778385168; x=1778989968;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/wMngwV7QY01GHYHuPZuFbno+ZhzC065JLDv4yLPHE4=;
+        b=SmwcfkADC+SRwxzlPFfPLfD96Hg+w27pqvE5cgBfQzPWgbv7HSfFhiiQRucL/XmlUc
+         Mb55aBp4850y7wpm4nvRSIdhx03YlY1pf6Cs3KBau8ujgvBkXjzPGeCBrFR25lmWj1zG
+         BuOcaAMvMx0ESCvZ3Iwz32Na25Y+O8CXwHN/F2H68A7AOl1jPSK4OQWKzJypUWP3Fd0K
+         jtPPcY21qa97g2UkeJXMki/5YGVydnRMUrQyJ1EKtpPdL+gqUjWnXe4GvEwZS4RDGIkr
+         I2SrcA7RtQqhTO9tBOoffxGH1stfNGe7gJCRYX1+fZMsa5S8oDjSqPl1LNKkGep0Axfe
+         NFPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/cn/7/S8xt8Efhw0VhTqDTJKphIDMbYBwdoMslVeppRwekTySy9ampeoaBPzWq0vk8YKuOPJcXCVdr@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWglNO/XAHctZtcRrOT/cH+IP4LZoPlNZircyhEqHrtKGWo1yc
+	k8toQdi+LE4DRrRlTqPQXKSGwbq70yVjMhOc6ijXKW0R2HXeBtbSyWDfXP8Xe5ejiEdLISPYAiG
+	sJ1Zj4mTQlJ19QXb/RX2bwpyxk6ATJSY=
+X-Gm-Gg: Acq92OEsQNDHEzg8s4HIiAmCQ7S8JeYH2ebe3DG0jbtW/t0iKLNhbF/V/eCyWGTNiLQ
+	eTQQUNUwaZiNEaletPwMG5Zd+gJcztpNUiRekbBJwqLeT9rMQRWGpG1AZ0mNT5tKmSHr3wSlmwG
+	cxFcDfy09hPa18NiVxFw2NGZFH5dPJ5JAzPBJC7EHbE1t2Jhyn2/oqgRbcPZ9tvvetv6PKpzYiK
+	UJ8LOQ7W45VY/XjidgnZCmfECOkDgWvLvvcu+Y1LYXyT5BaXtFmH/cbAkiRAF0AnXceThAqoEMZ
+	H1U2w72X
+X-Received: by 2002:a05:690c:c50c:b0:7bd:5cc4:1962 with SMTP id
+ 00721157ae682-7bdf5f2777cmr204300407b3.48.1778385167636; Sat, 09 May 2026
+ 20:52:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR03MB6964:EE_|BLAPR03MB5379:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c079325-da19-4543-a969-08deadd89485
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|55112099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	m17AHsT/39OPEuqxtagjXPhYqjaRj0GraCsLQ6IDfMPv5W2FixTBYn+cyzLyZFMI3aZeowA0zjjaZK04ykrRCJOlAwwA46MEZM++23bgcDl5xBxq8d+aZt1EEfkHugmoWGAXjMYY/5NLu7KOjPOkbWyGKLZjGxojsHo5Xq24PYWpvKf4LETd/bldboDNCLt3Ijygy0ycQxMxJzNJr7tvUs8d8Nrwti0/ZXLUAGgEg2IbI1wYDyNiIBHfcqzR9byX3bIOxBKqI1QHk4wGqRudJaFSjYAKOXl7VirfBVfqASuw+mmSGvPj3+Jjn/RvgbmcMGI2UBJbcMzNXzUQUFmJ+820MGG2oXh1VALRnGTv/6uKMPY6Ol1M3dJXpqmNU30NHK6NXVH99QU53WBVG1Y1G4otOwSrTcjGwxToE+cdOxvbxbw8fAja64LpeF5r73eulcH9cJ9gWdiuFewHtinfT8Gga+g4dvrHmTFo8RZrY6sxaEefCnzQQLL7jISteREPHKOFgDpdmElo1pCElN3k+Eu3OivUmV19q74De/ehIW15fBXfDvHPXKhnlhGyjSAVzrrHoinJBXClnGSrZq0QmibAG5IHm+wgso1dLRTUu/FRBi/m2AuAH85LGg3V+jtiQIJnOk+P7qXzdkuk48tx0buUPNn6MeihyhUGssSQJ5SUHeKH5wYpmHImNTvepvlU
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6964.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(55112099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?qwIcuhLOhgZy2IMlsB8sATb6FtWOZJ73DLM5Y/EeW6zo0CrVQWXTB725d4SG?=
- =?us-ascii?Q?UTxByM+JJ4vA+Shah9IK2PtBm+YQyKFxo/qDxA/U0/XI+UJ+j5dSyM96unhp?=
- =?us-ascii?Q?uO/5EgptwukCc5D7ceXD9lo7ISFWI9vRcVxXaH2Lv1MTr/hh+PivG+JQ2jjA?=
- =?us-ascii?Q?ENUMca4+a8wy4EmC1LUhkykx/Xz4iaI6HtSTZ55+trL+OdZlS7imIIqcLYCy?=
- =?us-ascii?Q?bnU+I5EdRxLUff39K9TSjFsR88Sch4tVLoBO0FVgKcSZwScv2eLF4YDtkmDA?=
- =?us-ascii?Q?J/9l/sXcPcHFZymQoDJ20KsC4pJgE5H0+6C0qkU5M+AuF6cSAuQrsn5vChi7?=
- =?us-ascii?Q?rCuy4BhDXKH6S947nvYBDuY1UC5k1pgb7MQiUQcij978m9Jdd/UyEHajJJd1?=
- =?us-ascii?Q?92e2HEPWrPPSN3kIoBcH65ZPcTvbqbQxnP4VCH6XGvTRghCRXfoiF/qUds3G?=
- =?us-ascii?Q?7ZAYtTBs8Cqi/Idyez6ql/rPWkkftiQPFTNHc4Ev6TEiZPCA2Le5mKpgtMfS?=
- =?us-ascii?Q?8O4a7f520akdqR7GW+t9a0DH+a+/2EVJ+dEaow2EInFon23PMdbk/KEr9pjC?=
- =?us-ascii?Q?mrK2a3P7qp7ij8nDCsHlWxSjOLW4iAGPxQHgb659QsTpvH8saQzM43k+FBgu?=
- =?us-ascii?Q?pZoM6L0eDqAnRJTd9bh1LJJyqgcqjeaWGftJFj88hAvgRvdG5oipAU/tBnWg?=
- =?us-ascii?Q?o1kCvv9wZAo6NetrtGJlQAqA0Xb3vSAyN72TbaYn8uOZ4BgOeXL87Ks19dLN?=
- =?us-ascii?Q?U4Bxvvuw0h/OigADFrKi0MVZWcO2iTJnff0/Ea4DTMCtV4FKvfouPXOXu/d0?=
- =?us-ascii?Q?WCuOsiq9qo8d35j19iEOSyraW89/8ppPkRg68p8COkdAAEWwQbp9anN9GwDl?=
- =?us-ascii?Q?BytD7vrLZvypwQJwDflojgIkSCxmy88L6xToR2J1ewsRbp3b50SbuIcFkmEY?=
- =?us-ascii?Q?Spi20oMkbZkWcCL4lx2rBRs8pnrN1rqVIINyyfeip2kk+d2U6vQwlLqXZXnj?=
- =?us-ascii?Q?qA+bpPyTtz//OJRtjG32l2QAQEVcQ+s+gV/UNpZ3wvdY2EHDJI85NHPgijmz?=
- =?us-ascii?Q?6RXaLKW5BEY3XDWNf69GaF/kLnW+PuxbGAWpkEbHQtFqVTefTKIpFGME1d33?=
- =?us-ascii?Q?YMYErA8oa8wq6gxMUPV6NKwzpXOtNXQU989HNtsn1rSnxV9woBYMQSQocGNe?=
- =?us-ascii?Q?Dj0UU6FyUGUY2iQOAAjEayORtHQdjDO6MemWY4OLLd7BRSnybqttWoJEiDky?=
- =?us-ascii?Q?Ok0wSK2XtMs1ozSe+oJFnLmVwFRxdB2yFL4tIa9seCgU5ZfhXqEOpjWjS6kv?=
- =?us-ascii?Q?K6VtgEFdy/Jc5SS37ToqW/IIidCzPfoLnngBWn5sLDeUbcgakMaswcybKT+p?=
- =?us-ascii?Q?nzyy6S/w9tIHNPHF4P7j8G7i3mXzTVOAOfxrVQ5XyOOTu2mZ5Q/LDrfYZ63V?=
- =?us-ascii?Q?cZPBnzvFGtuHj9P5Dwww15Mo6WusepOQybuxUR1B5CyG7yy/xOAudz+eF6IH?=
- =?us-ascii?Q?U8AY4tzaAyoXxCfI+HrV6b1q2lZ/AYbUjMcw2pVzxPzk6IphAyC8SKyFH1GT?=
- =?us-ascii?Q?xp8NOftpdy+azlr2iURNYAqt/uyWeNv/M2PZay4LkgjDaTg6ZS18uDLZ71pz?=
- =?us-ascii?Q?cflU4hwdZK4qeuYBZpmxp0r+P+UNJ/RJUwVmL1zDHQMStHaGnanRYgAzG7n5?=
- =?us-ascii?Q?WN4IExiuu4pqPhvneM1r48KWKQppfSkQaKOx3stCuUZCCZfnp/2mPAjCram2?=
- =?us-ascii?Q?crNqnUhJCSWE+rkHzfv43TS54mgQ+l3uSoeUZqjGZ7W1/mlMGHZ+/7pN7QtN?=
-X-MS-Exchange-AntiSpam-MessageData-1: 3JujXkWchbQ4yw==
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c079325-da19-4543-a969-08deadd89485
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6964.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2026 14:38:05.3142
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KVQEZAeCgiRC0N4ql2chKo5AzLqOmYTzndyXnWUfR+L9AQYVDCGw5UCDckAh2hoLjXrXjAzt6B4+bqEKb3yHtblILw9cy6y0ZEr6vokORHGMFrk/81TNKtG84K2dssI62iG6bc8CVk7WEkZot++Myw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR03MB5379
+References: <20260508104248.1073957-1-shubhrajyoti.datta@amd.com> <CY8PR11MB7134C4903409BFF214412BCE893D2@CY8PR11MB7134.namprd11.prod.outlook.com>
+In-Reply-To: <CY8PR11MB7134C4903409BFF214412BCE893D2@CY8PR11MB7134.namprd11.prod.outlook.com>
+From: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
+Date: Sun, 10 May 2026 09:22:36 +0530
+X-Gm-Features: AVHnY4Lp5277YRsKGZ0wy_XUT8qPvfC4q6VaXDeqqsBPMSxhleHyEoTyGN5GrLM
+Message-ID: <CAKfKVtHZPq4JaqyJS04LbqVqhz8AKsG0V9esCQ4DQ4N1jX8FJg@mail.gmail.com>
+Subject: Re: [PATCH v2] EDAC/versalnet: Report PFN and page offset for DDR errors
+To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>
+Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "git@amd.com" <git@amd.com>, Borislav Petkov <bp@alien8.de>, 
+	"Luck, Tony" <tony.luck@intel.com>, Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+On Fri, May 8, 2026 at 7:00=E2=80=AFPM Zhuo, Qiuxu <qiuxu.zhuo@intel.com> w=
+rote:
+>
+> Hi Shubhrajyoti,
+>
+> > From: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> > Sent: Friday, May 8, 2026 6:42 PM
+> > To: linux-kernel@vger.kernel.org; linux-edac@vger.kernel.org
+> > Cc: git@amd.com; shubhrajyoti.datta@gmail.com; Borislav Petkov
+> > <bp@alien8.de>; Luck, Tony <tony.luck@intel.com>; Sai Krishna Potthuri
+> > <sai.krishna.potthuri@amd.com>; Shubhrajyoti Datta
+> > <shubhrajyoti.datta@amd.com>
+> > Subject: [PATCH v2] EDAC/versalnet: Report PFN and page offset for DDR
+> > errors
+> >
+> > Populate the EDAC location fields when reporting DDRMC CE/UE events.
+> >
+> > Compute the physical address from the decoded error info and pass the P=
+FN
+> > along with the offset-within-page to edac_mc_handle_error(). This allow=
+s
+> > user space (mc_event consumers) to correlate memory errors with a real
+> > address.
+> >
+> > Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> > ---
+> >
+> > Changes in v2:
+> > Refactor the common code
+> >
+> >  drivers/edac/versalnet_edac.c | 34 ++++++++++++++++------------------
+> >  1 file changed, 16 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_eda=
+c.c
+> > index ec1315582414..85d1a829a8aa 100644
+> > --- a/drivers/edac/versalnet_edac.c
+> > +++ b/drivers/edac/versalnet_edac.c
+> > @@ -429,6 +429,7 @@ static unsigned long convert_to_physical(struct
+> > mc_priv *priv,  static void handle_error(struct mc_priv  *priv, struct =
+ecc_status
+> > *stat,
+> >                        int ctl_num, int *error_data)
+> >  {
+> > +     enum hw_event_mc_err_type type;
+> >       union ecc_error_info pinf;
+> >       struct mem_ctl_info *mci;
+> >       unsigned long pa;
+> > @@ -440,29 +441,26 @@ static void handle_error(struct mc_priv  *priv, s=
+truct
+> > ecc_status *stat,
+> >
+> >       mci =3D priv->mci[ctl_num];
+> >
+> > -     if (stat->error_type =3D=3D MC5_ERR_TYPE_CE) {
+> > +     if (stat->error_type =3D=3D MC5_ERR_TYPE_UE) {
+> > +             pinf =3D stat->ueinfo[stat->channel];
+> > +             type =3D HW_EVENT_ERR_UNCORRECTED;
+> > +     } else {
+> >               pinf =3D stat->ceinfo[stat->channel];
+> > -             snprintf(priv->message, sizeof(priv->message),
+> > -                      "Error type:%s Controller %d Addr at %lx\n",
+> > -                      "CE", ctl_num, convert_to_physical(priv, pinf,
+> > ctl_num, error_data));
+> > -
+> > -             edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
+> > -                                  1, 0, 0, 0, 0, 0, -1,
+> > -                                  priv->message, "");
+> > +             type =3D HW_EVENT_ERR_CORRECTED;
+> >       }
+> >
+> > -     if (stat->error_type =3D=3D MC5_ERR_TYPE_UE) {
+> > -             pinf =3D stat->ueinfo[stat->channel];
+> > -             snprintf(priv->message, sizeof(priv->message),
+> > -                      "Error type:%s controller %d Addr at %lx\n",
+> > -                      "UE", ctl_num, convert_to_physical(priv, pinf,
+> > ctl_num, error_data));
+> > +     pa =3D convert_to_physical(priv, pinf, ctl_num, error_data);
+>
+> I noticed that the return comment of convert_to_physical() says "physical=
+ address of the
+> DDR memory" [1]. I'm just curious if this refers to:
+>
+>   - the DDR address space (DRAM-only, without MMIO holes), or
+>   - the system physical address space (including MMIO holes)
 
-The OCRAM ECC is always enabled either by the BootROM or by the
-Secure Device Manager (SDM) during a power-on reset on SoCFPGA.
+It is the second one that it returns.
+Let me know if the below comment should be updated
 
-However, during a warm reset, the OCRAM content is retained to
-preserve data, while the control and status registers are reset to
-their default values. As a result, ECC must be explicitly re-enabled
-after a warm reset.
+- * Returns physical address of the DDR memory
++ * Returns the system physical address corresponding to the reported DDR e=
+rror.
 
-Signed-off-by: Niravkumar L Rabara <nirav.rabara@altera.com>
-Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
----
- drivers/edac/altera_edac.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 103b2c2eba2a..9e6a9786a881 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1186,8 +1186,14 @@ altr_check_ocram_deps_init(struct altr_edac_device_dev *device)
- 
- 	/* Verify OCRAM has been initialized */
- 	if (!ecc_test_bits(ALTR_A10_ECC_INITCOMPLETEA,
--			   (base + ALTR_A10_ECC_INITSTAT_OFST)))
--		return -ENODEV;
-+			   (base + ALTR_A10_ECC_INITSTAT_OFST))) {
-+		if (!ecc_test_bits(ALTR_A10_ECC_EN,
-+				   (base + ALTR_A10_ECC_CTRL_OFST)))
-+			ecc_set_bits(ALTR_A10_ECC_EN,
-+				     (base + ALTR_A10_ECC_CTRL_OFST));
-+		else
-+			return -ENODEV;
-+	}
- 
- 	/* Enable IRQ on Single Bit Error */
- 	writel(ALTR_A10_ECC_SERRINTEN, (base + ALTR_A10_ECC_ERRINTENS_OFST));
--- 
-2.43.7
-
+>
+> If it's the former, it may need to convert it to the latter one by proper=
+ly adding
+> back the MMIO hole(s), since the OS uses system physical addresses.
+>
+> [1] https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/tree/drivers/edac/versal_edac.c#n363
+>
+> > +     pfn =3D PHYS_PFN(pa);
+>
+> [...]
