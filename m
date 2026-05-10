@@ -1,117 +1,63 @@
-Received: from mta.al2klimov.de (mta.al2klimov.de [162.55.223.79])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C675F30CD95;
-	Sun, 10 May 2026 19:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.55.223.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05DF1DE2AD;
+	Sun, 10 May 2026 20:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778440741; cv=none; b=Iwl+6lyGc6HNeQKAw+WPwITyv4qkDCaBpRkhFxIh5kACr+gSfZYD3X7iofPstNN6xlGxDODIZ90e4UEWOOmyO2tkHKl5kdt4D7tirIX0SaN4iwhdWCBiOA94qOBGoe+bWsmgttTvc8CQXWUAu3KYzxl33XAP/QtFQ4kutau9VWw=
+	t=1778443460; cv=none; b=kjsAERW6aStUmsAif941rRG8BzekJyLpc3MmWZfd5by/WfuEb/3tdOKX5QH+6poqGNUdVml8dobTyLwooR2YlmHTDQXqVQhH9mYWFoE8Ne6rhx5DHrswu/KEaCuz1CBt4rIxGKbsAUHwLntFe3yfUCxswRStub9qlzvp9fxRRA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778440741; c=relaxed/simple;
-	bh=ri0jMPWj5UxjM3+Ak2a5znYN4OqYmkiaJstRF8ZSpDE=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=SknSvXX9FK+x0siG6CRg7iImOSxwVE9edeoq0OUX7I3xkCzFKKATowO8GVm89QVWLeDoWDOmSW4nb0UhbYoHQIriKEby5WBS4sS/NuKS5C0zjiLt7qjr7GLrA6i3fPNgdcS9F+9X+xoOeLGpKX9uX9Yx1rjyuB5Ay7dIwIKBe58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de; spf=pass smtp.mailfrom=al2klimov.de; dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b=T4JoXWN3; arc=none smtp.client-ip=162.55.223.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=al2klimov.de
+	s=arc-20240116; t=1778443460; c=relaxed/simple;
+	bh=oR2+r58Q6XQF9numOP5DYZpZ4aTe20X47mPmdIUV1zc=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=DgRwiayUdKQW7GUoe4V83Jw+aiOMjD2dukkCZHmkQshLD+AkRnnuChJPwu/nYlPGlHGgPRuOgzWSqMz6hVgMzDQJtGoCrCqAOhV4LgAZIKwWQqgsMkFUAhgGDL++n84GJpJ2g/ywlTQsUI/QXm9d7G19RpTDWOcjMUbfZMPZLG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkUsghKQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b="T4JoXWN3"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=default; bh=ri0jMPWj5Uxj
-	M3+Ak2a5znYN4OqYmkiaJstRF8ZSpDE=; h=subject:from:cc:to:date;
-	d=al2klimov.de; b=T4JoXWN3vyhqtNXMS1TZJr/Y0GamWCzeiJQygsqtONHeWpmBkpsi
-	JDLGXhJvnQBzCS13MavnOcwyRIZjfMyvCCvcdG86m86rlnTluc5LePeTlA4vWsq95x6RRg
-	gFzHn0Z7hy9EU0pl6A++vzSAviI7pFB1gYYJFVtgUNCM+Km161pGhSo0FF8qVjV+u7T1jp
-	D9X4+7HeMBpI0i6IcpFfzrxyd7HSFAZyD1XqCTrzWRbXRIRgvAUU5vFS6U4nMY9cxEVzBK
-	tsObJ+IYtImqAU0RqNZ/iquhBEGvEik+U9MyLjeFPybLfBMXx+6mtRBkEa/BUU+UXb6UG6
-	w5BUJlJj9g==
-Received: from [IPV6:2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5] (2a02-2455-18e9-e011-4d8a-aad2-c25c-50e5.dyn6.pyur.net [2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5])
-	by mta.al2klimov.de (OpenSMTPD) with ESMTPSA id 1846d556 (TLSv1.3:TLS_CHACHA20_POLY1305_SHA256:256:NO);
-	Sun, 10 May 2026 18:52:14 +0000 (UTC)
-Message-ID: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
-Date: Sun, 10 May 2026 20:24:41 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkUsghKQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50219C2BCB8;
+	Sun, 10 May 2026 20:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778443460;
+	bh=oR2+r58Q6XQF9numOP5DYZpZ4aTe20X47mPmdIUV1zc=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=bkUsghKQYD/gdo06iOoCz0shZaSISRxHEC/+Hx1fWliULEcrkaxIY5gCPRBg6S4zk
+	 58hEVx6VMRF+z6GQp2h5Lcd3sno4NOGXr0IZk9lxVpJG1zyNYjow9dwH57jfUJSRbH
+	 PAnV77VrMJvAndZmmby7yV1V+kwW/R2+YFNlf+8gF48LM3vrevQ4f+2O0DggrDdHr2
+	 6KRDYW8y0tImMI9MXNJpzozR7sIjJqwqAKHGuJfyvmLyLbJBNpAp0jqJ4EdXmXt+/G
+	 RzajqUdIIj5pKWRfL6o37HI8Rf624PZz8u9nnQLRqNdZeJyzTQduyqGYS9pU+nlz7D
+	 /BVX9eJ/tGOWA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B9FE1380A97D;
+	Sun, 10 May 2026 20:03:28 +0000 (UTC)
+Subject: Re: [GIT PULL] EDAC urgent for v7.1-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20260510190505.GAagDW4XaK0a9H2Iur@fat_crate.local>
+References: <20260510190505.GAagDW4XaK0a9H2Iur@fat_crate.local>
+X-PR-Tracked-List-Id: <linux-edac.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20260510190505.GAagDW4XaK0a9H2Iur@fat_crate.local>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v7.1_rc3
+X-PR-Tracked-Commit-Id: 8cf5dd235eff6008cb04c3d8064d2acfa90616f1
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: afaa0a477099cb7256e26fe11289c753a225ac97
+Message-Id: <177844340719.1479180.921965607005175233.pr-tracker-bot@kernel.org>
+Date: Sun, 10 May 2026 20:03:27 +0000
+To: Borislav Petkov <bp@alien8.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-edac <linux-edac@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
- Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
- Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Li <nick.li@foursemi.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-edac@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-sound@vger.kernel.org
-From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] Fix possible strscpy() buffer overflows
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-In the changed files, strings were copied like this:
+The pull request you sent on Sun, 10 May 2026 21:05:05 +0200:
 
-     strscpy(DST, SRC, strlen(SRC));
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_urgent_for_v7.1_rc3
 
-A buffer overflow would happen if strlen(SRC) > sizeof(DST).
-Actually, strscpy() must be used this way:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/afaa0a477099cb7256e26fe11289c753a225ac97
 
-     strscpy(DST, SRC, sizeof(DST));
-     strscpy(DST, SRC); // defaults to sizeof(DST)
+Thank you!
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
-  drivers/edac/versalnet_edac.c | 3 +--
-  drivers/misc/lkdtm/fortify.c  | 6 +-----
-  sound/soc/codecs/fs210x.c     | 2 +-
-  3 files changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-index ec13155824..daa140f4db 100644
---- a/drivers/edac/versalnet_edac.c
-+++ b/drivers/edac/versalnet_edac.c
-@@ -728,8 +728,7 @@ static int rpmsg_probe(struct rpmsg_device *rpdev)
-  	pg = (struct mc_priv *)amd_rpmsg_id_table[0].driver_data;
-  	chinfo.src = RPMSG_ADDR_ANY;
-  	chinfo.dst = rpdev->dst;
--	strscpy(chinfo.name, amd_rpmsg_id_table[0].name,
--		strlen(amd_rpmsg_id_table[0].name));
-+	strscpy(chinfo.name, amd_rpmsg_id_table[0].name);
-
-  	pg->ept = rpmsg_create_ept(rpdev, rpmsg_cb, NULL, chinfo);
-  	if (!pg->ept)
-diff --git a/drivers/misc/lkdtm/fortify.c b/drivers/misc/lkdtm/fortify.c
-index 7615a02dfc..9a9159a120 100644
---- a/drivers/misc/lkdtm/fortify.c
-+++ b/drivers/misc/lkdtm/fortify.c
-@@ -174,11 +174,7 @@ static void lkdtm_FORTIFY_STRSCPY(void)
-  	/* Restore src to its initial value. */
-  	src[3] = 'b';
-
--	/*
--	 * Use strlen here so size cannot be known at compile time and there is
--	 * a runtime write overflow.
--	 */
--	strscpy(dst, src, strlen(src));
-+	strscpy(dst, src);
-
-  	pr_err("FAIL: strscpy() overflow not detected!\n");
-  	pr_expected_config(CONFIG_FORTIFY_SOURCE);
-diff --git a/sound/soc/codecs/fs210x.c b/sound/soc/codecs/fs210x.c
-index e6195b71ad..eda716f817 100644
---- a/sound/soc/codecs/fs210x.c
-+++ b/sound/soc/codecs/fs210x.c
-@@ -968,7 +968,7 @@ static int fs210x_effect_scene_info(struct snd_kcontrol *kcontrol,
-  	if (scene->name)
-  		name = scene->name;
-
--	strscpy(uinfo->value.enumerated.name, name, strlen(name) + 1);
-+	strscpy(uinfo->value.enumerated.name, name);
-
-  	return 0;
-  }
 -- 
-2.54.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
