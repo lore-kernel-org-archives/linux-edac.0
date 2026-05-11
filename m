@@ -1,128 +1,84 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544F33D3D01;
-	Mon, 11 May 2026 10:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A45A37B02E;
+	Mon, 11 May 2026 11:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778495973; cv=none; b=JOy0zCMXE6urAanfmYxx7AdDK8+m0AtPD5CMaILBDFC4eDNInWPv3MfPOhInIEn+B/SZEihNp5355ENn2OAahXX8KOwarMYUimFFFkrWSf+w4K5ZbjhSaKT2mk1mPP6hWSx+s9H9SGkC6q0Ex5+yjoh0nbRi65EtLD1j8OISYs0=
+	t=1778500457; cv=none; b=f+oItKZldLxdCpt2jeeTXP97oZEMDTxOVlk+kabqNP8A2iHIInfN7mZfxHhsBij10ytKyoXWoLrap4Zn9CWPCDpy23mGBjQWYASxZ0SPMCLSidF4DbnHsvWFdEo1Cq16PCRDPGGXmuTt45qIv4S5zri7C7T7KZ0/DObl3x/7+DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778495973; c=relaxed/simple;
-	bh=vwU7GQ26ZjysSZJtoYsD3ayS/pQ9tAtxQIePgftwveY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tfzi0bqRrYmHDP186IY1pzgd0svDzu0IXAH8Jt0DsUpChe/Qibs8BdX30ZtOxA+ifxA3rR5EeWXVSnNj8otN750z+GYpIvRMG1r+pvzjegO720WcIACYkRKJZ++/j3ZDLzcAnC1bBpWDA6hF4Cm2xid5/oAIIB6ANU62GPS629g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UxFeHMj7; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1778500457; c=relaxed/simple;
+	bh=V70DY2MwjH9LqVCKwaELL1VguR4Hzd5EyVNfOgXJMYg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EZ4N7Kx4hWua6Q3MaUjLOu0J0NkhotVdWVir4H7gPb9aUEaXtt/jal1gUqk0xm403C8Eed6n9xIu0uT4DiSZGDan+WvkYBVzW4BKlXb4xj5CrACIuCXwf8iQEY4jtaLHeB9Pbq2gnsyB27snvExfQQk/B57jBCNhD6w8gdYQVjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NAN2BNIO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UxFeHMj7"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C2E4F40E019B;
-	Mon, 11 May 2026 10:39:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Xe1n8vRKra0E; Mon, 11 May 2026 10:39:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1778495959; bh=g1p2UkX3BR9uOWz6T2nEuxdtXaF5hiKEvUMFCjutwDo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UxFeHMj7kmz3WS4G2/YPOVZckAWzK3H37te2n75wuUSkV7KVEeTr7/ayJNFBOLoQM
-	 Ox58LImrfA0shOCES3AUwQmgQTbdewm4s4fVgKCG+X9fqSWDLUDfzrmQYXP/IKHl5C
-	 RZpRpaWZ7t9M/dPRu/SPNqFQS2wEfgwPLiM6ysakVJZFiip16qOQ1IqZL/usIvblKO
-	 ffT1g5SrqCs1Btqd0dgja4PERMWveahWwf/ZCIxIyh0ewjMugQMb07l0Cib7SqRavu
-	 SVzptUO/5hTLOymFFccolv5o+N1WnhwFFxBBkhHjKeahIdYxxEPygbopwCNQJxFDUS
-	 lwKOJEVqZyKnqgEoPp1scuaCFwSvzE+Q7gqR/ip1mjloYFEPb6qWI4DigJHbbpcjpO
-	 rM2BH+axW5Npuar+6z4yDPmLwkpLWekz7fk1fHtpApOjAOka7V0xj5x/UF8HVMhFf7
-	 NMc7WrKTr+ck7T6UHKH7fLrANGh9AQBbti+RppLAPyYB//m8PRSIk4O5QXNwVC2tcE
-	 B3WmgxFVy8pMp9gRf/Sv5yy2tqRCqcOY1VcZLyvGHFuenSpFAGrK5m7Ys9Obx3ZAhO
-	 1YnLVhHgdEW4ya+oHOjeAzktFxMeKiiNMCB4X4PyI8HZkkVcPF/3yQhYpVsSMntzxm
-	 8q302Z+gsmEs3os2YlrifdbI=
-Received: from zn.tnic (pd953014d.dip0.t-ipconnect.de [217.83.1.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 930A340E0140;
-	Mon, 11 May 2026 10:39:01 +0000 (UTC)
-Date: Mon, 11 May 2026 12:38:54 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Andrei Purdea <andrei@purdea.ro>,
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: Geraldo Nascimento <geraldogabriel@gmail.com>,
-	david.laight.linux@gmail.com,
-	"Alexander A. Klimov" <grandmaster@al2klimov.de>,
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	Tony Luck <tony.luck@intel.com>, Kees Cook <kees@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nick Li <nick.li@foursemi.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-edac@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] Fix possible strscpy() buffer overflows
-Message-ID: <20260511103854.GCagGxvmZvHL8sV_8e@fat_crate.local>
-References: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
- <20260510230853.154050a2@pumpkin>
- <agExLK2GR0w0Z_N2@geday>
- <CA+mMEgdbDLZS01WFrquyv4NecVwVOB8a=5Bio2VxFFpwmKc7AA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NAN2BNIO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 923C8C4AF11;
+	Mon, 11 May 2026 11:54:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778500457;
+	bh=V70DY2MwjH9LqVCKwaELL1VguR4Hzd5EyVNfOgXJMYg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NAN2BNIOdx09DOxNjKkym6xDjwQHkncU62HUnVB1+ovCxbkLPCE74Vts42sATGFi/
+	 00vV1iS+ojXdaoXT5XAVmiNYc2UmAIVojyZv7nhM4TSeVTePanX6FkgnuclErJjjjT
+	 GkO4SfyhOslrYXj/EtsiskQ+RLd7TSfzMS8JyBIqE6id83e0vGmGhw16908GMxJwoU
+	 8RVjuwAIwlxKrsu1yhxJX6OV1OgJJfRdv4Ow3+OZNrfI/E4PpmY20u4TJgv9PxFCe9
+	 UpYaFOUru82gjdkelgjeOPFuT0OSuVLVzdMf+A4CjwlwdiE6laolQdjO+0RDyAHvyz
+	 ZzG76yVzr1MvA==
+Message-ID: <cc767b60-3b91-40d5-aa70-c5f252d1d39b@kernel.org>
+Date: Mon, 11 May 2026 06:54:15 -0500
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+mMEgdbDLZS01WFrquyv4NecVwVOB8a=5Bio2VxFFpwmKc7AA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers: altera_edac: Guard SDRAM irq2 retrieval for
+ Arria10 only
+Content-Language: en-US
+To: muhammad.nazim.amirul.nazle.asmade@altera.com, bp@alien8.de,
+ tony.luck@intel.com
+Cc: linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260508075240.23638-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20260508075240.23638-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 11, 2026 at 09:46:53AM +0300, Andrei Purdea wrote:
-> Hi all,
 
-Hi,
 
-first of all, please do not top-post when replying to a public mailing list.
+On 5/8/26 02:52, muhammad.nazim.amirul.nazle.asmade@altera.com wrote:
+> From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> 
+> Guard the irq2 retrieval with an of_machine_is_compatible() check so
+> that platform_get_irq(pdev, 1) is only called on Arria10 platforms.
+> 
+> Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> Signed-off-by: Niravkumar L Rabara <nirav.rabara@altera.com>
+> ---
+>   drivers/edac/altera_edac.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+> index 4edd2088c2db..b30302198cd4 100644
+> --- a/drivers/edac/altera_edac.c
+> +++ b/drivers/edac/altera_edac.c
+> @@ -348,7 +348,8 @@ static int altr_sdram_probe(struct platform_device *pdev)
+>   	}
+>   
+>   	/* Arria10 has a 2nd IRQ */
+> -	irq2 = platform_get_irq(pdev, 1);
+> +	if (of_machine_is_compatible("altr,socfpga-arria10"))
+> +		irq2 = platform_get_irq(pdev, 1);
+>   
+>   	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+>   	layers[0].size = 1;
 
-> Furthermore the one in versalnet_edac.c looks like beyond fixing a
-> buffer overflow risk and code smell, it also introduces a behavior
-> change (bugfix?), because the old code I believe cuts off the last
-> character from the copied string. (Because it was using just strlen()
-> and not using strlen() + 1)
+Why? We already switch on arria10 later in the same function.
 
-The versalnet_edac is innocuous because, AFAICT, that silly code is copying
-"error_ipc" into
+Sorry, but NAK.
 
-struct rpmsg_channel_info {
-        char name[RPMSG_NAME_SIZE];
-
-with that buffer size being 32.
-
-So no overflow here.
-
-However, just to make this safer, we should min the size.
-
-Also, Shubhrajyoti, why aren't you padding the rest of the name string with \0
-*especially* since you're allocating it on the stack?!
-
-IOW, this (totally untested ofc):
-
-        strscpy_pad(chinfo.name,
-                    amd_rpmsg_id_table[0].name,
-                    min_t(size_t, strlen(amd_rpmsg_id_table[0].name), RPMSG_NAME_SIZE));
-
-I still don't like it because we're noodling with this string as if it is
-super special and copying it back'n'forth just because this rpmsg is
-MODULE_DEVICE_TABLE and apparently is used to autoload the driver or so...
-
-Why do we need it?
-
-Can we simplify that gunk there?
-
-Please have a look.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Dinh
