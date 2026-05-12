@@ -1,170 +1,203 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011029.outbound.protection.outlook.com [40.93.194.29])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202BD2E413;
-	Tue, 12 May 2026 01:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778549841; cv=fail; b=ngwG7DCXVpKyUAo6M5Nfb6Lc3myBi0IeLnh0aIkdncLemjY9oNGU3+Sax8dGzEkyvKx3wRo87iKQs/pA5GVP3f54YHusLroefgsDhqTMuYgv+eKVATst7gQla8fh57e+UqIBjqyIYjEnkU8pzdV1fyR8JT4FY3aaDBSDdcAqP2o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778549841; c=relaxed/simple;
-	bh=EP2rACsXqzsaCKf6t/7H1nkDq/YjmeA5CiGnibHLm+Q=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rJdJXuuNa4Glvug4i+B6Ytt5naRC/JSLZaOkrtQDQykrfVSC+h74ENy24i7eBc1z1TvhQ6LQAfSbC/oNJzuP5+MibXBwltzIfXjv6H2tu/jGlOMjdw9CO3tdXdy4Y/xbZJdnNfdOBHf5F8HG57z9LPPO1/s1j7yZhH74Ceb4CzU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=ERD0ciN6; arc=fail smtp.client-ip=40.93.194.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9470635A3A4
+	for <linux-edac@vger.kernel.org>; Tue, 12 May 2026 02:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778553382; cv=none; b=mxz/Lr+QTfa03qf/ZwTKfey42vXnppZLZkgqxo5Ay9TTdOHkMwKlAQt3vWWDaVpmHvBB3D5JQ17si+uQjfUUP4aTfEYjijktK+wj0stH4rNHoFCau5mRbQ7ciNSf9dl7P0ZAbqNznd02aGGF+RYmGZ/gtGpI/5QOS/nWziPQmvg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778553382; c=relaxed/simple;
+	bh=9aWi/ga8vTGsFDqwkA20R4WwV+cp2kBYXce4GJyn4AU=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D3u0vXxLI0BQvc7jrRTok11SSzpdF951EPW9/Zob5I7fPqez1c43uIUGE8eWpdFx2TuH4mptiVtT9rmrYIIM6UFjcMeSiHeUTJdNO0uPmqvXIRxg+AVR3psygLvvE0IWZ3jwlE7TSf3cxjqxlS51Eq4Dpzmlnnge6a/SXhGDIdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jna36zb0; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="ERD0ciN6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QAT9wkFoLU+176ElaU2e6Ar0fbmzYSLa9VdJaYbmQ0/Gl7uNMIsm2BKbkcAWL1ggTVC6M1RE8qwtubYAQi0bIfh54Oiyna8Jgm1nWnLY2NB7kER7drR69Dn0Y9nVao4unhLWw79Pw5CBJPEbUjsjwnfbfAvv2Qih0LDwYaldk6Ck+39bmr0s8OdQYF9IfFRXZNaEtN1oVgdyR1vpBaLMVGSiRE+vsSxobgvRxnK6BKvXZoMplpXq2qjgId4MLBAETOazDuQNIuphpYtTaCAHiJl8TCtVdheIQgCvEC0RVtAHKdHg63mWJ/Qm2kQwskdWKM3sXmuzk5VFkFT/g95/xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EP2rACsXqzsaCKf6t/7H1nkDq/YjmeA5CiGnibHLm+Q=;
- b=O5GbvWhv/M6JzxB58muczjhad/gXED4C+ws/Na4bgqB5+moLgGDRzNEtsNs00aJmJeuEjNRGnkAR1sldpgiwSfeTrk6DeFJTpxPUksq+waMHu9c6JkLmpIEPChrJikyqnoApRX/XZNz9VVmT1zOC6fTAdeBDm7JBAlqFSJ41tnA/cFnehdv+cnfLQt9ydogfurAeTZ/7ntwGvLVSGAzZMe7zY/XPVkz1uZIx+dSghcfubwrKp1u99TKLt947TBMVzLUogR45w2EXbEBm7CiRNWqnTg4DPKZAfVfXYcRESuCAP5M7mcIf3OCgHxTv/z7EuABau/HX2eHAnXcP6QaKuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
- dkim=pass header.d=altera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EP2rACsXqzsaCKf6t/7H1nkDq/YjmeA5CiGnibHLm+Q=;
- b=ERD0ciN6NSA8oFuHZ/8HZKC/xbk8sPOsNRj8PVPVw4KpnaputJtR69f2jM170PSHNvU8bcg254gYzG4OK6y70UOhJGz4SKU6FQcruV5KeN9JdC194KvbvhP5pXXBOiyAu+e+yrsaMlUb99YD2B1HDCgNMiFGD4Eai9lvNsKewHI9pxP8Zi6KK4Zrdb+nAzLJfcpJB0flBK3dC0KLGErStt6rcrWlDNwG5ZMQUk66Kv4iooHv7bjTbAinbOerCwRvWVr/uZNapfY+V0cwnkem+vdvo1OmtS8tK4+R4dPwlVupMjHFVl9Vd5va76+YGGs4LwBvgcmMgtLk/HglzzJ0xw==
-Received: from SJ0PR03MB6964.namprd03.prod.outlook.com (2603:10b6:a03:432::18)
- by PH0PR03MB6366.namprd03.prod.outlook.com (2603:10b6:510:ab::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Tue, 12 May
- 2026 01:37:16 +0000
-Received: from SJ0PR03MB6964.namprd03.prod.outlook.com
- ([fe80::b965:bfa8:58fb:e775]) by SJ0PR03MB6964.namprd03.prod.outlook.com
- ([fe80::b965:bfa8:58fb:e775%6]) with mapi id 15.20.9891.021; Tue, 12 May 2026
- 01:37:16 +0000
-From: "Nazle Asmade, Muhammad Nazim Amirul"
-	<muhammad.nazim.amirul.nazle.asmade@altera.com>
-To: Dinh Nguyen <dinguyen@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"tony.luck@intel.com" <tony.luck@intel.com>
-CC: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drivers: altera_edac: Guard SDRAM irq2 retrieval for
- Arria10 only
-Thread-Topic: [PATCH] drivers: altera_edac: Guard SDRAM irq2 retrieval for
- Arria10 only
-Thread-Index: AQHc3r+l7HrYYLKubEKb4hmldPqVcrYIvEiAgADl8YA=
-Date: Tue, 12 May 2026 01:37:16 +0000
-Message-ID: <275595ca-6044-4882-a9fd-ca9d496a27a5@altera.com>
-References:
- <20260508075240.23638-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
- <cc767b60-3b91-40d5-aa70-c5f252d1d39b@kernel.org>
-In-Reply-To: <cc767b60-3b91-40d5-aa70-c5f252d1d39b@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=altera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR03MB6964:EE_|PH0PR03MB6366:EE_
-x-ms-office365-filtering-correlation-id: 06914754-4f05-4739-3752-08deafc6ffd0
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|55112099003|38070700021|11063799003|22082099003|18002099003|56012099003;
-x-microsoft-antispam-message-info:
- kWZfRUZcE+QrIy4r7qq8aaW51hQDHjwUBd1lrpzfU0UpM0dUQlZXB6Y1sX3tl19RjadPVVw0NBeaV5cWDIfFAf7dT5LaPF/m3EOz1wNKrIzkRGLspDsARFgmAjCpZqOQytSU7HhF7dv4xprjkzoCHOpdhcvGYMFKMqB8VL19rNz/hrojkoOUqtriiAhF7QZREsVJB6etg/3ctDY/qLaExPBwJC58bmYXMq1UeQ+aD+1cDURLguZqRGvViIHcFfZiTt8nsyAfWmzWJBHZ2pQY1IcTgaAC1tGjDP6Fo9kh6AQBNWCEZ8QOy9QcPafmeBIfvXwSfd4pl4xWy2Wk21Fqd4juCyWgb2LE1+vBCKBbaHe8MVPIxjdruKmUXNn9eHzbh1ql5h7G/hnTPPGHme1jPGiZmrdqTcx/4zvcv/qVNA/YOg93psHozDzTLNzkBBba4IPEfHLdRSWGAQFxOaUuAs0ehZ+6x5STAzKpiNaDejyVTWbT5aj5DehzJbhH1eY7WQIuCENNJzrH7d5WCQJJpJXzZCur3m26/Mac86WNHQYkSPIutiZfpc2oZqSL6JaZnrOOaeetc3+jGqWX1LR3hCFoOHKSzU9kNWB4+JIGAyK4lS5mRRJYAAVZWBWZYY3YNToRMYHZ5h/fQ4ath4NVCPtjZZdQl0oq5SbMq/buvkU5Egr6vTcaJvD36y0r4j9e4/5WC74JG2yIuEC7nugllUTm5W5Qwpnfa+3JcRm3MtfAPg3kwOypYz2Cln+eCtay
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6964.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(55112099003)(38070700021)(11063799003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Q21PS0xZZWJEM1pIK1FkOGg4MURVcDQyNHpBbGhLazJJRFVMYmZ3U0dUa3Y4?=
- =?utf-8?B?RkI4b0lMM1VjQnBKc2JoQmY4bkljNXFRYXVhWlY5a3BMQ2dleHMxb3p0Ryt6?=
- =?utf-8?B?L2lkaU94WHFJK3V4K1VUL1Jqb3JYc1VmaER0c21Va1FoTHN1NTcxcEtqQzUv?=
- =?utf-8?B?blFBMWNsOG1wM1phQ2RreVZaa0RkVFA0OGFsNHhGaXRiWThNRnlXVXVESEcx?=
- =?utf-8?B?SkxvU3h0UG8rNHJ4d3RsenplcnByT3F6TW1FcFBiVGhnME5nNzAvelk5d2sy?=
- =?utf-8?B?WDAxNzZSSWl6cURBUjRiWUxZMmVTeldUYWxHbit2VWhHODJMOU81a2JQVTl2?=
- =?utf-8?B?ckxaVmZtdjFRQ2VxRmdkOWZqUUwwS0hYemRjUWw3emVHSEp1eWw0VkJoNUxt?=
- =?utf-8?B?THlzK2J0MTlVZUNDZlZMSzF0TEI3WlZFWlB2NnBzLzczR09XTS80d1dhZ3lh?=
- =?utf-8?B?SGZkR1FPT1RXWmQvM3R0NGpTOXRHa2pHY3pRZVZ4WXd3VGw5cWFoU2xVR1R3?=
- =?utf-8?B?SXY4dXluTGNKSDBkT3ZTMEdjbS9IbS9MbVJya1kyVU01VzJOTGV2ekpROFg5?=
- =?utf-8?B?bXI3Wk85akNveWoyL3Y5YUVMbTR5eDYzN21hUGx4RU54bFl0M2NGZDZ3eHh5?=
- =?utf-8?B?U3NXSkkwQ1JkRms5N1RsbGRwRU9oQTJ1RnZnSDRaY0pCbEowSzRUVmhUMHNS?=
- =?utf-8?B?WjFna2dqbW9OVXUxMWVBRkRNRjhpYkJWbjBnbStjejZkK2Ryb0h4VkVqK011?=
- =?utf-8?B?dGVFOWhkcmI1eDBVY2dNWVY3cXNlakljVDFGdXR2NEtNN0lZcTJ5NjdWQ2Q2?=
- =?utf-8?B?M2VrVDNId3lmbXlGRDhQaHZYTElaclZOaStVUHBlYzlVbnRoTlU4Z0NiMzJy?=
- =?utf-8?B?ZzZwM0lFclAvZVRpWlpHZG5uTEFmeURWc1FuV0dtWmIzYkNKWk93WHFtNDlO?=
- =?utf-8?B?dE5RazZ4amZjUnhySEJhNjFTTngrSFVnWHVsTkR1TTBiNVNrNHB0OVBLOE0y?=
- =?utf-8?B?WldHYTVkS3ZROHhJUGRqWlJYNW1oQURyZ2JOT2VmVFU3WUduK1FhQjU2WmZO?=
- =?utf-8?B?NzlBU283UzFFRWtkWlRFZFRYTE8rWjVDeGtBL01GQkxValo5b3JmQnBhak1F?=
- =?utf-8?B?SGJEWUNCZEFCVDFKcWNwTks1RW9FN243UEMrRkJDblljZXdmamsvc3NYSW5T?=
- =?utf-8?B?WGNnL2RYQ1RibVNjQnJqSkdtTzZ1UG5rbWxaaEdKR2xCWGcvSWRqUnJ1c0Zm?=
- =?utf-8?B?a1VTYi80QzRseFJUWnhnSk11VFhZdXZwcW9idTdRdnJUOS8vUmNRUTFQMi9u?=
- =?utf-8?B?aU5YT0FVaGRhalBtOTZOdlFKT1pJenNPZ1N6b0paUXNwUFJYWHFRVndsY0JJ?=
- =?utf-8?B?WVA5NFpkVXNOVEtmdU9HdXJUNFpxYzhVUEQ5cVFQTlA3RGxaNTJNa2dOeWNO?=
- =?utf-8?B?Y1pTQ0JnRXRrMUVKdkdseHpINHBGeGF1bkRvKzVDdTQrcVZiU0UrTE9Ib01q?=
- =?utf-8?B?NHlEbk1jd0x5WWR2SWpwTXlwa3FWd0N3MWRXY2pKRU95MG14aTVQVmU2OFYy?=
- =?utf-8?B?cUFwakxNai9MQTVqM2dodFlMLzNxVEtBM2o3Vk1yMlROSHkrc2tObmhWUWhi?=
- =?utf-8?B?aHVxWVYzMkltNkhacGN6UHZ2K3h6M2taeExXTFRsSnFscjdCY3VPMFY0Uldv?=
- =?utf-8?B?OHlSeHVIR1pxQmllc0JvK0hDOU4xQ0pRbzBFMW5rSzhlNkE4UEJiTVlFaGlC?=
- =?utf-8?B?VGhDMWljbmptTnJVZ2gvdDJyd1k0dytDd204aHVKRktMdGtvQmtWdERWSS9w?=
- =?utf-8?B?dDFXNHIwZ1RwTzg0TUlTMFRmTlUrUFpyUG0ySFBWQ0N6ZXhpblRDa2xZTlkv?=
- =?utf-8?B?bTZlUjViLzE2R1oxMDlaNEQ1ZVJ0bTVWMmpJVjF2TTNsd3hNbVRNNWVrc1kr?=
- =?utf-8?B?Tnp2KzB1L2VQVm9zSS9sS3Vrb21YR2h5UmJ4bW5UV0FDMk1iS2tTaFE5SU03?=
- =?utf-8?B?cFllN3NQRDZrVkY5bFphMjBqRG9vaDVLL25IOWJUbzRIT3JVRHZGR1V1Z2ds?=
- =?utf-8?B?SUlxMzUrVFcybXcwbjc3T2ZITUR6U3FoNkVWL2VUMGhxa05zSHRLNG52L2U0?=
- =?utf-8?B?QnRGdDB4R3ducGZJeVJTQ1k0WDlZVERJV2M5S1lydVlzQXZDZFdzd09tOFNR?=
- =?utf-8?B?YTU0T0tPamgvMGJEbU9hcnFEN05GQUg4TFlQZkJvL3JDd056MHlsS01ZYVBO?=
- =?utf-8?B?M2NVNkkwd3c4MzJRelBIbDV2cFZxaHl1djB0bnBIamZYTGFOcWNGVU1VNVZl?=
- =?utf-8?B?MUFDZHAxVGJTRFlUMG41QWVKWFppaUVRNXlWOGlUcEJDdXR4MnBPellVWUdL?=
- =?utf-8?Q?EK5BlTshUNn3SPDDsl4aMJ61hW0R+ZCDbCetFmHulDIlb?=
-x-ms-exchange-antispam-messagedata-1: exJ+q6RfN32GENJqg5gf236Rh/lN+4C2kEc=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <22F7636867B3824B9A5FE15DB87B0802@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jna36zb0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778553380; x=1810089380;
+  h=date:from:to:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=9aWi/ga8vTGsFDqwkA20R4WwV+cp2kBYXce4GJyn4AU=;
+  b=Jna36zb0Ku2HhZB8I99WxqBIKDSROZL3iodzmvcYvwY46Q0ub4S/mVRQ
+   C9rujoaXNycGG3cupYetC2w0QnXhzcBPBOV4QOSj2shknGZu1N2wtt1lC
+   PzHDwW+Kzr8V92XzGE2k6iOn5xcEsAjkhfUbjaNun7gWyn1Trg8AfzBfE
+   eRYfoZjde0X/5x4p9QkDO72WMT4n5L3Fvt+UtDtaSo3mgVt1gJG2Ht5u9
+   r8AIiJ5iTUpkrkcvX5jTN9gfA97j1rHcORCyAIFxuSfUjj6s+3pL9I2kt
+   6WcFR5hSGPeZKgyfEJCR4tu3AjwKy0jvlGsTfc6ykQT/pkujJlNAKPUUU
+   A==;
+X-CSE-ConnectionGUID: qRFEBszyRQW/mD6tM7z2WA==
+X-CSE-MsgGUID: s7aJMRNiQ3q8MTOKzbTYBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79482633"
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="79482633"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 19:36:20 -0700
+X-CSE-ConnectionGUID: S0YDUkFcTn+n4NiR+LDgIA==
+X-CSE-MsgGUID: hleaxyTIRmSKp/7fLkxo/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
+   d="scan'208";a="242605129"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 11 May 2026 19:36:19 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wMcym-0000000088P-36xf;
+	Tue, 12 May 2026 02:36:16 +0000
+Date: Tue, 12 May 2026 04:35:16 +0200
+From: kernel test robot <lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org
+Subject: Re: [PATCH 2/2] EDAC/device: 3 to 1 allocations in edac_dev_feat_ctx
+Message-ID: <202605120409.SqaLYj28-lkp@intel.com>
+References: <20260430220046.72371-3-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: altera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6964.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06914754-4f05-4739-3752-08deafc6ffd0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2026 01:37:16.3050
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: fbd72e03-d4a5-4110-adce-614d51f2077a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lOWvE6yA2XWGaDxUFyHujlCKUUraa1ZJIvrkppK0uaVlnv7SqrtFXbUuMlk60sDNkQ9GAWiC6VWyV37FHBnTpO2T5YNhL6tiiydy3L8vCmOO2kIv3dIvVqZMA4L6dWQPK0RYYMzeY5mrGyKWd2faYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR03MB6366
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260430220046.72371-3-rosenp@gmail.com>
 
-T24gMTEvNS8yMDI2IDc6NTQgcG0sIERpbmggTmd1eWVuIHdyb3RlOg0KPiANCj4gDQo+IE9uIDUv
-OC8yNiAwMjo1MiwgbXVoYW1tYWQubmF6aW0uYW1pcnVsLm5hemxlLmFzbWFkZUBhbHRlcmEuY29t
-IHdyb3RlOg0KPj4gRnJvbTogTmF6aW0gQW1pcnVsIDxtdWhhbW1hZC5uYXppbS5hbWlydWwubmF6
-bGUuYXNtYWRlQGFsdGVyYS5jb20+DQo+Pg0KPj4gR3VhcmQgdGhlIGlycTIgcmV0cmlldmFsIHdp
-dGggYW4gb2ZfbWFjaGluZV9pc19jb21wYXRpYmxlKCkgY2hlY2sgc28NCj4+IHRoYXQgcGxhdGZv
-cm1fZ2V0X2lycShwZGV2LCAxKSBpcyBvbmx5IGNhbGxlZCBvbiBBcnJpYTEwIHBsYXRmb3Jtcy4N
-Cj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBOYXppbSBBbWlydWwgDQo+PiA8bXVoYW1tYWQubmF6aW0u
-YW1pcnVsLm5hemxlLmFzbWFkZUBhbHRlcmEuY29tPg0KPj4gU2lnbmVkLW9mZi1ieTogTmlyYXZr
-dW1hciBMIFJhYmFyYSA8bmlyYXYucmFiYXJhQGFsdGVyYS5jb20+DQo+PiAtLS0NCj4+IMKgIGRy
-aXZlcnMvZWRhYy9hbHRlcmFfZWRhYy5jIHwgMyArKy0NCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9lZGFjL2FsdGVyYV9lZGFjLmMgYi9kcml2ZXJzL2VkYWMvYWx0ZXJhX2VkYWMuYw0KPj4gaW5k
-ZXggNGVkZDIwODhjMmRiLi5iMzAzMDIxOThjZDQgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2Vk
-YWMvYWx0ZXJhX2VkYWMuYw0KPj4gKysrIGIvZHJpdmVycy9lZGFjL2FsdGVyYV9lZGFjLmMNCj4+
-IEBAIC0zNDgsNyArMzQ4LDggQEAgc3RhdGljIGludCBhbHRyX3NkcmFtX3Byb2JlKHN0cnVjdCBw
-bGF0Zm9ybV9kZXZpY2UgDQo+PiAqcGRldikNCj4+IMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKgwqDC
-oCAvKiBBcnJpYTEwIGhhcyBhIDJuZCBJUlEgKi8NCj4+IC3CoMKgwqAgaXJxMiA9IHBsYXRmb3Jt
-X2dldF9pcnEocGRldiwgMSk7DQo+PiArwqDCoMKgIGlmIChvZl9tYWNoaW5lX2lzX2NvbXBhdGli
-bGUoImFsdHIsc29jZnBnYS1hcnJpYTEwIikpDQo+PiArwqDCoMKgwqDCoMKgwqAgaXJxMiA9IHBs
-YXRmb3JtX2dldF9pcnEocGRldiwgMSk7DQo+PiDCoMKgwqDCoMKgIGxheWVyc1swXS50eXBlID0g
-RURBQ19NQ19MQVlFUl9DSElQX1NFTEVDVDsNCj4+IMKgwqDCoMKgwqAgbGF5ZXJzWzBdLnNpemUg
-PSAxOw0KPiANCj4gV2h5PyBXZSBhbHJlYWR5IHN3aXRjaCBvbiBhcnJpYTEwIGxhdGVyIGluIHRo
-ZSBzYW1lIGZ1bmN0aW9uLg0KPiANCj4gU29ycnksIGJ1dCBOQUsuDQo+IA0KPiBEaW5oDQpUaGlz
-IGRyaXZlciB3ZXJlIHVzZWQgYnkgY3ljbG9uZTUgYW5kIGFycmlhMTAuIEN5Y2xvbmU1IG9ubHkg
-aGFzIG9uZSANCmludGVycnVwdCB3aGVyZWJ5IGFycmlhMTAgaGFzIDIgaW50ZXJydXB0LiBUaGF0
-IGlzIHRoZSByZWFzb24gd2h5IHRoZSANCmludGVycnVwdCB3YXMgZ3VhcmQgYnkgKG9mX21hY2hp
-bmVfaXNfY29tcGF0aWJsZSgiYWx0cixzb2NmcGdhLWFycmlhMTAiKSkNCg0KTmF6aW0NCg==
+Hi Rosen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ras/edac-for-next]
+[also build test WARNING on kees/for-next/pstore kees/for-next/kspp linus/master v7.1-rc3 next-20260508]
+[cannot apply to bp/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/EDAC-device-simplify-info-allocation/20260501-182310
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20260430220046.72371-3-rosenp%40gmail.com
+patch subject: [PATCH 2/2] EDAC/device: 3 to 1 allocations in edac_dev_feat_ctx
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260512/202605120409.SqaLYj28-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120409.SqaLYj28-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605120409.SqaLYj28-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/edac/edac_device.c:100:11: warning: variable 'dev_inst' is uninitialized when used here [-Wuninitialized]
+     100 |                 inst = &dev_inst[instance];
+         |                         ^~~~~~~~
+   drivers/edac/edac_device.c:62:39: note: initialize the variable 'dev_inst' to silence this warning
+      62 |         struct edac_device_instance *dev_inst, *inst;
+         |                                              ^
+         |                                               = NULL
+   1 warning generated.
+
+
+vim +/dev_inst +100 drivers/edac/edac_device.c
+
+e27e3dac651771 Douglas Thompson  2007-07-19   52  
+0d24a49e88b563 Borislav Petkov   2022-03-08   53  /*
+0d24a49e88b563 Borislav Petkov   2022-03-08   54   * @off_val: zero, 1, or other based offset
+0d24a49e88b563 Borislav Petkov   2022-03-08   55   */
+0d24a49e88b563 Borislav Petkov   2022-03-08   56  struct edac_device_ctl_info *
+0d24a49e88b563 Borislav Petkov   2022-03-08   57  edac_device_alloc_ctl_info(unsigned pvt_sz, char *dev_name, unsigned nr_instances,
+0d24a49e88b563 Borislav Petkov   2022-03-08   58  			   char *blk_name, unsigned nr_blocks, unsigned off_val,
+48bc8869c5ddb0 Jiri Slaby (SUSE  2024-02-13   59) 			   int device_index)
+e27e3dac651771 Douglas Thompson  2007-07-19   60  {
+3856ba23b1d621 Rosen Penev       2026-04-30   61  	struct edac_device_block *blk_p, *blk;
+0d24a49e88b563 Borislav Petkov   2022-03-08   62  	struct edac_device_instance *dev_inst, *inst;
+0d24a49e88b563 Borislav Petkov   2022-03-08   63  	struct edac_device_ctl_info *dev_ctl;
+48bc8869c5ddb0 Jiri Slaby (SUSE  2024-02-13   64) 	unsigned instance, block;
+3856ba23b1d621 Rosen Penev       2026-04-30   65  	size_t alloc_size;
+9fb9ce392aae0c Borislav Petkov   2022-03-08   66  	void *pvt;
+1c3631ff1f805c Douglas Thompson  2007-07-19   67  	int err;
+e27e3dac651771 Douglas Thompson  2007-07-19   68  
+956b9ba156dbfd Joe Perches       2012-04-29   69  	edac_dbg(4, "instances=%d blocks=%d\n", nr_instances, nr_blocks);
+e27e3dac651771 Douglas Thompson  2007-07-19   70  
+3856ba23b1d621 Rosen Penev       2026-04-30   71  	alloc_size = struct_size(dev_ctl, instances, nr_instances);
+3856ba23b1d621 Rosen Penev       2026-04-30   72  	alloc_size += sizeof(*dev_ctl->blocks) * nr_instances * nr_blocks;
+3856ba23b1d621 Rosen Penev       2026-04-30   73  	dev_ctl = kzalloc(alloc_size, GFP_KERNEL);
+9fb9ce392aae0c Borislav Petkov   2022-03-08   74  	if (!dev_ctl)
+9fb9ce392aae0c Borislav Petkov   2022-03-08   75  		return NULL;
+e27e3dac651771 Douglas Thompson  2007-07-19   76  
+3856ba23b1d621 Rosen Penev       2026-04-30   77  	dev_ctl->nr_instances = nr_instances;
+e27e3dac651771 Douglas Thompson  2007-07-19   78  
+3856ba23b1d621 Rosen Penev       2026-04-30   79  	dev_ctl->blocks = (struct edac_device_block *)(dev_ctl->instances + nr_instances);
+fd309a9d8e63e9 Douglas Thompson  2007-07-19   80  
+0d24a49e88b563 Borislav Petkov   2022-03-08   81  	if (pvt_sz) {
+0d24a49e88b563 Borislav Petkov   2022-03-08   82  		pvt = kzalloc(pvt_sz, GFP_KERNEL);
+9fb9ce392aae0c Borislav Petkov   2022-03-08   83  		if (!pvt)
+9fb9ce392aae0c Borislav Petkov   2022-03-08   84  			goto free;
+9fb9ce392aae0c Borislav Petkov   2022-03-08   85  
+9fb9ce392aae0c Borislav Petkov   2022-03-08   86  		dev_ctl->pvt_info = pvt;
+9fb9ce392aae0c Borislav Petkov   2022-03-08   87  	}
+e27e3dac651771 Douglas Thompson  2007-07-19   88  
+d45e7823baf655 Doug Thompson     2007-07-19   89  	dev_ctl->dev_idx	= device_index;
+e27e3dac651771 Douglas Thompson  2007-07-19   90  
+56e61a9c5fe7b7 Doug Thompson     2008-02-07   91  	/* Default logging of CEs and UEs */
+56e61a9c5fe7b7 Doug Thompson     2008-02-07   92  	dev_ctl->log_ce = 1;
+56e61a9c5fe7b7 Doug Thompson     2008-02-07   93  	dev_ctl->log_ue = 1;
+56e61a9c5fe7b7 Doug Thompson     2008-02-07   94  
+52490c8d07680a Douglas Thompson  2007-07-19   95  	/* Name of this edac device */
+0d24a49e88b563 Borislav Petkov   2022-03-08   96  	snprintf(dev_ctl->name, sizeof(dev_ctl->name),"%s", dev_name);
+e27e3dac651771 Douglas Thompson  2007-07-19   97  
+e27e3dac651771 Douglas Thompson  2007-07-19   98  	/* Initialize every Instance */
+e27e3dac651771 Douglas Thompson  2007-07-19   99  	for (instance = 0; instance < nr_instances; instance++) {
+e27e3dac651771 Douglas Thompson  2007-07-19 @100  		inst = &dev_inst[instance];
+e27e3dac651771 Douglas Thompson  2007-07-19  101  		inst->ctl = dev_ctl;
+e27e3dac651771 Douglas Thompson  2007-07-19  102  		inst->nr_blocks = nr_blocks;
+3856ba23b1d621 Rosen Penev       2026-04-30  103  		blk_p = &dev_ctl->blocks[instance * nr_blocks];
+e27e3dac651771 Douglas Thompson  2007-07-19  104  		inst->blocks = blk_p;
+e27e3dac651771 Douglas Thompson  2007-07-19  105  
+e27e3dac651771 Douglas Thompson  2007-07-19  106  		/* name of this instance */
+0d24a49e88b563 Borislav Petkov   2022-03-08  107  		snprintf(inst->name, sizeof(inst->name), "%s%u", dev_name, instance);
+e27e3dac651771 Douglas Thompson  2007-07-19  108  
+e27e3dac651771 Douglas Thompson  2007-07-19  109  		/* Initialize every block in each instance */
+079708b9173595 Douglas Thompson  2007-07-19  110  		for (block = 0; block < nr_blocks; block++) {
+e27e3dac651771 Douglas Thompson  2007-07-19  111  			blk = &blk_p[block];
+e27e3dac651771 Douglas Thompson  2007-07-19  112  			blk->instance = inst;
+e27e3dac651771 Douglas Thompson  2007-07-19  113  			snprintf(blk->name, sizeof(blk->name),
+0d24a49e88b563 Borislav Petkov   2022-03-08  114  				 "%s%d", blk_name, block + off_val);
+e27e3dac651771 Douglas Thompson  2007-07-19  115  
+956b9ba156dbfd Joe Perches       2012-04-29  116  			edac_dbg(4, "instance=%d inst_p=%p block=#%d block_p=%p name='%s'\n",
+956b9ba156dbfd Joe Perches       2012-04-29  117  				 instance, inst, block, blk, blk->name);
+e27e3dac651771 Douglas Thompson  2007-07-19  118  		}
+e27e3dac651771 Douglas Thompson  2007-07-19  119  	}
+e27e3dac651771 Douglas Thompson  2007-07-19  120  
+e27e3dac651771 Douglas Thompson  2007-07-19  121  	/* Mark this instance as merely ALLOCATED */
+e27e3dac651771 Douglas Thompson  2007-07-19  122  	dev_ctl->op_state = OP_ALLOC;
+e27e3dac651771 Douglas Thompson  2007-07-19  123  
+1c3631ff1f805c Douglas Thompson  2007-07-19  124  	/*
+1c3631ff1f805c Douglas Thompson  2007-07-19  125  	 * Initialize the 'root' kobj for the edac_device controller
+1c3631ff1f805c Douglas Thompson  2007-07-19  126  	 */
+1c3631ff1f805c Douglas Thompson  2007-07-19  127  	err = edac_device_register_sysfs_main_kobj(dev_ctl);
+9fb9ce392aae0c Borislav Petkov   2022-03-08  128  	if (err)
+9fb9ce392aae0c Borislav Petkov   2022-03-08  129  		goto free;
+1c3631ff1f805c Douglas Thompson  2007-07-19  130  
+1c3631ff1f805c Douglas Thompson  2007-07-19  131  	/* at this point, the root kobj is valid, and in order to
+1c3631ff1f805c Douglas Thompson  2007-07-19  132  	 * 'free' the object, then the function:
+1c3631ff1f805c Douglas Thompson  2007-07-19  133  	 *	edac_device_unregister_sysfs_main_kobj() must be called
+1c3631ff1f805c Douglas Thompson  2007-07-19  134  	 * which will perform kobj unregistration and the actual free
+1c3631ff1f805c Douglas Thompson  2007-07-19  135  	 * will occur during the kobject callback operation
+1c3631ff1f805c Douglas Thompson  2007-07-19  136  	 */
+1c3631ff1f805c Douglas Thompson  2007-07-19  137  
+e27e3dac651771 Douglas Thompson  2007-07-19  138  	return dev_ctl;
+9fb9ce392aae0c Borislav Petkov   2022-03-08  139  
+9fb9ce392aae0c Borislav Petkov   2022-03-08  140  free:
+9fb9ce392aae0c Borislav Petkov   2022-03-08  141  	__edac_device_free_ctl_info(dev_ctl);
+9fb9ce392aae0c Borislav Petkov   2022-03-08  142  
+9fb9ce392aae0c Borislav Petkov   2022-03-08  143  	return NULL;
+e27e3dac651771 Douglas Thompson  2007-07-19  144  }
+e27e3dac651771 Douglas Thompson  2007-07-19  145  EXPORT_SYMBOL_GPL(edac_device_alloc_ctl_info);
+e27e3dac651771 Douglas Thompson  2007-07-19  146  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
