@@ -1,180 +1,331 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2333451DA
-	for <linux-edac@vger.kernel.org>; Tue, 12 May 2026 03:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C439D3672B5
+	for <linux-edac@vger.kernel.org>; Tue, 12 May 2026 06:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778555321; cv=none; b=HvR46+2XXu9Fo6+4gbE+RZHVeyXHhNoyzRzpJhixczasY01Wymvs0oQl/p3ngAFJJ/EAcjKHqUu45Ubbi0VOKGch1H6D5F5eI9VYsNBQkVoYgAipRLKWEP6ntP/UHvpbAnSSLSgOfXuyff2/7LDjYkVfmeoO2aNlXbVLO0QRM8c=
+	t=1778568374; cv=none; b=VP5JY4UGm295Gw2TfjJbqGzSsA/CnLxo3kkalD+wT4iEZVo2eTOMJoNK40vTLJVvUukPz4u2aJFwvXbtCFtuDn/6qWh3v8nLpcsTY2+y9yAYFfuVUd4x8pY3wH72ih9Xv+wOQn5g9eJJPb4ihdWDPYmcfjaDtJviqBWV1ew8BF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778555321; c=relaxed/simple;
-	bh=gAmzXq/kh2/0J+VJOCCvhxVpHA25HKK5zImC22DBs78=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYm+MBmnc7WUmE/B5gair5HIPxOQIsSdTUtWtdZ8W9KAuoA0B9GWpB+uN7bm/suZarG3oWCjrzh4+OOA6B/OPgO7tQQe/hP/hA/Pc+PGVgVh21PXhNu6rW37T/ByCb1agixurTbvfV01CQUCwnC0qu9XRcIw3TijsGWLhdHHorc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V5zXwZlv; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778568374; c=relaxed/simple;
+	bh=V/t792VyAJQ43idxgpGa60nXaS0FMldt5X8RwmJQK5M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cqNlyg1QngwEWGmZkr1ADlDK+h/6HwVMuzqrI5+fVUOkpRgk1tOEdtcxiIRTpfHmMD0AGsDTToXmsmBGqxyZsQ2hKZG7WkR+5/LM120dnIJbT8b9P0jOTrvxjDCSz9vjVPbH6zznlCEmNzvutCgTCuYD4Xc//5RTQ38doxSuoyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DIgkPZMQ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=d0Dz8fs4; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V5zXwZlv"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-835b78c3797so2090670b3a.2
-        for <linux-edac@vger.kernel.org>; Mon, 11 May 2026 20:08:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DIgkPZMQ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="d0Dz8fs4"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64C5A6vl2186641
+	for <linux-edac@vger.kernel.org>; Tue, 12 May 2026 06:46:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BinY4gnvTpca70aFjDGmAnSc0bvUH+YSKn9BhicIR3M=; b=DIgkPZMQDp2NGb+3
+	E/R68lh9ebJ/T6wgTQNfC443HbNKOPuGstILWpRswN90Fpe7Nf6j+hQq5zMdoa92
+	KfJGeXEehAUbViM3Em1QzXEaitc31c7IovJGsOYmKy/fctw3rGDWXFm3GLcx4XKH
+	4JZ3nsLecpunENYA1csH2FH2vyDzU7hy7ZITq/DLLqUivb04YtNHHi+Y8ak7uKBw
+	71gzY4wxXMBHb43HJ3k3jxh3rA2AccyO9mGR31fl9NAu4yD++bmGCONHH523DAI8
+	FAxzXwMpNY6aFSTBm/FUx6QTJ/msYOL75MU8S7JCsp7cFOEP/Jl3O18ylY4o87Z4
+	GsWYsw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e3nv29wcj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Tue, 12 May 2026 06:46:07 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2ab03332dadso11804525ad.2
+        for <linux-edac@vger.kernel.org>; Mon, 11 May 2026 23:46:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778555319; x=1779160119; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+b46lVvwRD7028KBGuNIlvO1Ms9LtMkRaT2tfHmFNo=;
-        b=V5zXwZlvJACBkZbCOygpEysIRlWSBsGJHFpSzwyXP7gqC5NZCqbqFOydDeQ+rHWVtN
-         8HZD9d8BbtUnQlH188p9Mg29Ef65MeK8BoMj+h4mmlaOGsfb9gv0NaQ3JdWyzD5xwuQj
-         WvSsQMQ+/Y6+GSZMFFMCZcO+QlHrkMymGv1GAZlHmQEhkHhyOgG0dPkHVr4LaEfWJJgX
-         rfoNWWl27RfS/LMldH6c3ER/EosCZOdqABZWJmS/gqu0shNXxI+Gc0yEpHvuy7z/cNCY
-         8GHWxCxqV0hjd++FkmKUtzTeN1LUxYZIJ1dNQlgJJXM3lPPM9lkU7srnwWAwfB6EpXIk
-         r8bw==
+        d=oss.qualcomm.com; s=google; t=1778568366; x=1779173166; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BinY4gnvTpca70aFjDGmAnSc0bvUH+YSKn9BhicIR3M=;
+        b=d0Dz8fs47zZd3M+hV/rrYZn4fPTAZdbCHovxnvQlelQbzA+fH53kzqHXGVQ70cTfFW
+         j+A1f8UINtR272oFeH30mKYdMtw3Ypo+8lnE/iTptG2F9g9gs39iVOUwaHa/j99I9UDA
+         un1z/jH5U8kGNMmjbjgExkvSbCQFOx4SZMGVVU7QrA/5w7NHlvIfu5VtjcTU0H8Yh+em
+         YHOdAEPJDm/ktMzo31tYspcJ/vORWAHTAhCrfduCyv4iFYaagB6Y3QvrF2GA9/E5Bx5n
+         z7JKxKuY9MeZCEiqbXJLrBCwxmvGnZcgLxgwMVObegIyindDV86uz6Ziohzu2XAJONqm
+         R5Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778555319; x=1779160119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3+b46lVvwRD7028KBGuNIlvO1Ms9LtMkRaT2tfHmFNo=;
-        b=m9K1Eb3jSWovJxjtaIgaiYrLoMeL+7OVqKcoEN0LkMycriyhn8nKzznb565aPaixoa
-         iAUVCsxlAI/jqIy4l9puEPmEAvt/Yu+HhIHmSjNZa9o29Bo0sTWfqUmVvU3+XGG8uSY0
-         McsIxVUntDyvCaLtlzeniGeFh8wNCPGPB5+vnLeK9FHc9/S/luMTt8TxNCagj5qglkaH
-         VFLJ+MC55i81JBlHqiLs31n30fwgi8/Yvr9iEMSoxRCn95bYEqR7Y0MwxWF27ozLXlMV
-         UKZ13Iycxe7Z82o8EMourS9y+3JX+vKa5x91kyh/hKbmneUCWaAICzoqTHm/WupEEBLA
-         we9w==
-X-Gm-Message-State: AOJu0YxMVKaxSvXSMux7eJ7nuAdsu6Jy/wksvgot6LJA2vRAgUzjXy0F
-	awErFYWx+OJo2c05hD+Qb7z/FytO+VvCRZgvVx8bLi0a/0DoYJ2Trxs4Jsei87bm
-X-Gm-Gg: Acq92OFQafpZ/LzC6QX+WxOpowAbYkIpK3HPdpSpMoFzQK2RHt4WyGR7n4MhLHNVDTy
-	CUh+YupaTxnJ/qBRwsrxn3WxVI+SLUfMoN5DuDeCDsHvIpSPD58lEd4kJk40EUQ/K2kr7347A6O
-	+YEMwMNRFFsdsZY+zobDuQd9TC04YbmqIQeWAUOR8NQEUhzHx6oivW7/YWYJYDBDk+nCrxagBwi
-	ODxDm/p905KjOj4oW6FBKihXS6pSKh/jvmFJM8gPoAHezCXuZAi44IFMenRHWGoD7H8SYKYkzyQ
-	KEIPgZAL2bZYelZaiLVAGTse9cT4nMfjqpwRKdAVXlpruhUDafUkS11uv87N7f06b26+jCR5VsQ
-	yAMQVhJw5oNsn3B1031sQkErMlVowZp+XBzCo1CAQQaAob5ZE1fLsGlhOQQY9go1jlrKbC9nMx8
-	n7gNDjjNB7adOK9CUiq9t/wHDOicas6OFy8AJKUjO8SIasekhSvKwYLiNnzp91nVDQh4y8E/kp5
-	nRoE4wrv0Lw5FdATSiVlnlv3tWdoGwaZKg=
-X-Received: by 2002:a05:6a00:1d99:b0:82f:2070:2683 with SMTP id d2e1a72fcca58-83cf5a419admr15730836b3a.21.1778555318763;
-        Mon, 11 May 2026 20:08:38 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83967dbdfb0sm21124259b3a.45.2026.05.11.20.08.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 20:08:38 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-edac@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
-Subject: [PATCH] EDAC/device: Use flexible array for instances
-Date: Mon, 11 May 2026 20:08:21 -0700
-Message-ID: <20260512030821.47802-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1778568366; x=1779173166;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BinY4gnvTpca70aFjDGmAnSc0bvUH+YSKn9BhicIR3M=;
+        b=sfEYurQyEtt2WC2mAt1hmxj/jv7fuyfEuPi2iN2pe7fyQUIUaXkhkDOM/pI5yfy2vC
+         9QkOIZHEONoZnk6xEcTfaNOXwfT1vOUaQqhZp/bcx4NvIQAv5fdCqWkhVPsmWIQ/M2cf
+         aS7YlfPJDd2EZa9ASBNW0o2Kn3jDBFV2eGlArD9abKEYevvKSmRYIsN2wvdZCxv6Dl9J
+         XZY/jt48Zgjr/yIXci9E1fZVJH2PNDHGdCstlpZ2G1F1oX/NTqerdvb1H7ikVtWNYqyo
+         1VIbKkfmTM7Eq0GWJHP+toEG64/WG5aD/hqmBppKLijvJK/7YytlmpAk7mSNggkzG6Gw
+         2URg==
+X-Forwarded-Encrypted: i=1; AFNElJ8qewyLXFGWXDQY6IB7LvMNtbRiSfZdANLkVhVElxV9tavrep3Uzknc4uimYHfaofPR0iFbkKUGNDfI@vger.kernel.org
+X-Gm-Message-State: AOJu0YzD0Wx6VM+K5ACg9q+Or4warC/PN8SlzCS3KPje3wtoFF8odJSj
+	uiC7CmEuMjoSxFgEdKEpbisFtIddWwiKQEzeaWY5y5G0nq8h0PkWjL0rRy3pnh/wV8jt3mYnCvP
+	yT/vewLJtHPp4qLe6MVxMnIch1fOorYZ94QZNKK6zurYMjj6FxKXX9xiO//qWLEJd
+X-Gm-Gg: Acq92OFCGSbYAa88Q++21qXLpknD0SXmhFBTtFV8nrfmRU+yjDjW35PtnSnVA6LliZ0
+	5I7TBrGNQPF8+juR3VYcKaNPn0PoENHal6rF59Plx5xIi59hxsDZi4r0YoDfcc28XWrH7rUA16B
+	4urgRm7AunSKqR8QxiY07UpJsNdcs81AAY7S3gFgMEEj8tOuY7zQVAeImo3cKRex+H90C5SkpzT
+	V5wALLqSyMsVw5kNCU/1kM27Xl6NlQr9jc2hcRMbr8+0I5IrTiRmt6+Edz3ol24auZ3F6XVV8hq
+	UribqWASFJSkSJGBLrGFIGj6oKMPSTBkpHvYyfnhorHOsSxV+BUtBpC6Oy0XcS3TOAPak0W1CdW
+	Z8fFAnugjrLBTSloz0FCnQfa1WvnjHvI+z12yVsz0B8Fj76T0JxU=
+X-Received: by 2002:a17:903:90e:b0:2ae:6220:1539 with SMTP id d9443c01a7336-2ba7b35425dmr139626785ad.6.1778568366126;
+        Mon, 11 May 2026 23:46:06 -0700 (PDT)
+X-Received: by 2002:a17:903:90e:b0:2ae:6220:1539 with SMTP id d9443c01a7336-2ba7b35425dmr139626405ad.6.1778568365456;
+        Mon, 11 May 2026 23:46:05 -0700 (PDT)
+Received: from [10.92.198.185] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e847d0sm119936625ad.62.2026.05.11.23.45.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2026 23:46:04 -0700 (PDT)
+Message-ID: <f95584f8-220f-4bd1-a189-dc05ffd2a9bc@oss.qualcomm.com>
+Date: Tue, 12 May 2026 12:15:47 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] ras: aest: extend AEST support to Device Tree
+ frontend
+To: Ruidong Tian <tianruidong@linux.alibaba.com>,
+        Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, catalin.marinas@arm.com,
+        will@kernel.org, lpieralisi@kernel.org, rafael@kernel.org,
+        mark.rutland@arm.com, Sudeep Holla <sudeep.holla@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Faruque Ansari <faruque.ansari@oss.qualcomm.com>
+References: <20260505-aest-devicetree-support-v1-0-d5d6ffacf0a5@oss.qualcomm.com>
+ <8f1529af-f6fe-44bc-a4b1-c47a19824d1e@linux.alibaba.com>
+Content-Language: en-US
+From: Umang Chheda <umang.chheda@oss.qualcomm.com>
+In-Reply-To: <8f1529af-f6fe-44bc-a4b1-c47a19824d1e@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: QLjVRwit5t3NhOih7zO12eIpE2pHgloo
+X-Authority-Analysis: v=2.4 cv=CeM4Irrl c=1 sm=1 tr=0 ts=6a02ccaf cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=SRrdq9N9AAAA:8
+ a=EUspDBNiAAAA:8 a=2yO6rERebkD6Ods6SnIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDA2NCBTYWx0ZWRfX9rsGcGmJg2f+
+ VLOBj3WlHRetRebiHXhsp9D0Wf09XSbcoj13RSGruxj0PH+FKSHWf4ER1YHj1LtA4rJqAvv30tY
+ 7dVISTcxNcJ7hAre6jPGe5mcnEsQd3AqurPy4Eu2Nqd/paqGMX3wR068uSJYwK58g5Ur1Gh3zK7
+ cW6T7VxX43BJOeJ4uhWVjJrmmxmhRMhHH1cMZKXK0rUQWvrs2el2xQw4GYn7GgtjhtjVCysXdXO
+ 4gW1cZsmdGm6wA5zmPCd9AyHpi9zLgUYYgCsYL7ahkYAsqZ+Ts/481HUlinU0q9waN4HQa6FYaS
+ 23xyXny2tbA5dHmMInJvd/+Yu+N8mhWkjjI5CvmNOoPXIsu8OgEb0v4KuaVVyOFmnOFpDUYC6Tf
+ R8qfYePxtOJ7YZPG5f9ItGeh7nw36CIi8kOcRyIhRBlrFr1lVJAesDCnYYGnEA7lrM5NXKmbirH
+ XF5h9Ja8N8SLcmTZrxw==
+X-Proofpoint-GUID: QLjVRwit5t3NhOih7zO12eIpE2pHgloo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 phishscore=0 suspectscore=0 malwarescore=0
+ clxscore=1015 lowpriorityscore=0 spamscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605120064
 
-Store EDAC device instances in the control info allocation instead
-of allocating them separately.
+Hi Ruidong,
 
-This ties the instances lifetime directly to the control info object,
-removes a separate allocation failure path, and lets __counted_by()
-describe the array bounds.
 
-Assisted-by: Codex:GPT-5.5
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/edac/edac_device.c | 13 ++++---------
- drivers/edac/edac_device.h | 12 ++++++------
- 2 files changed, 10 insertions(+), 15 deletions(-)
+On 5/6/2026 1:40 PM, Ruidong Tian wrote:
+> Hi Umang,
+> 
+> Thanks for your patch.
+> 
+> Would it be okay if I include this patch in the next version of the AEST
+> patch series? I will make sure to add your Signed-off-by line.
 
-diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-index cf0d3c2dfc04..30a1fb392fc4 100644
---- a/drivers/edac/edac_device.c
-+++ b/drivers/edac/edac_device.c
-@@ -59,23 +59,19 @@ edac_device_alloc_ctl_info(unsigned pvt_sz, char *dev_name, unsigned nr_instance
- 			   int device_index)
- {
- 	struct edac_device_block *dev_blk, *blk_p, *blk;
--	struct edac_device_instance *dev_inst, *inst;
- 	struct edac_device_ctl_info *dev_ctl;
-+	struct edac_device_instance *inst;
- 	unsigned instance, block;
- 	void *pvt;
- 	int err;
- 
- 	edac_dbg(4, "instances=%d blocks=%d\n", nr_instances, nr_blocks);
- 
--	dev_ctl = kzalloc_obj(struct edac_device_ctl_info);
-+	dev_ctl = kzalloc_flex(*dev_ctl, instances, nr_instances);
- 	if (!dev_ctl)
- 		return NULL;
- 
--	dev_inst = kzalloc_objs(struct edac_device_instance, nr_instances);
--	if (!dev_inst)
--		goto free;
--
--	dev_ctl->instances = dev_inst;
-+	dev_ctl->nr_instances = nr_instances;
- 
- 	dev_blk = kzalloc_objs(struct edac_device_block,
- 			       nr_instances * nr_blocks);
-@@ -93,7 +89,6 @@ edac_device_alloc_ctl_info(unsigned pvt_sz, char *dev_name, unsigned nr_instance
- 	}
- 
- 	dev_ctl->dev_idx	= device_index;
--	dev_ctl->nr_instances	= nr_instances;
- 
- 	/* Default logging of CEs and UEs */
- 	dev_ctl->log_ce = 1;
-@@ -104,7 +99,7 @@ edac_device_alloc_ctl_info(unsigned pvt_sz, char *dev_name, unsigned nr_instance
- 
- 	/* Initialize every Instance */
- 	for (instance = 0; instance < nr_instances; instance++) {
--		inst = &dev_inst[instance];
-+		inst = &dev_ctl->instances[instance];
- 		inst->ctl = dev_ctl;
- 		inst->nr_blocks = nr_blocks;
- 		blk_p = &dev_blk[instance * nr_blocks];
-diff --git a/drivers/edac/edac_device.h b/drivers/edac/edac_device.h
-index 24c1921aa490..72414ec8ad6b 100644
---- a/drivers/edac/edac_device.h
-+++ b/drivers/edac/edac_device.h
-@@ -199,11 +199,7 @@ struct edac_device_ctl_info {
- 	 */
- 	char name[EDAC_DEVICE_NAME_LEN + 1];
- 
--	/* Number of instances supported on this control structure
--	 * and the array of those instances
--	 */
--	u32 nr_instances;
--	struct edac_device_instance *instances;
-+	/* Array of all blocks for all instances. */
- 	struct edac_device_block *blocks;
- 
- 	/* Event counters for the this whole EDAC Device */
-@@ -213,6 +209,11 @@ struct edac_device_ctl_info {
- 	 * device this structure controls
- 	 */
- 	struct kobject kobj;
-+
-+	/* Number of instances supported on this control structure. */
-+	u32 nr_instances;
-+	/* Array of instances for this control structure. */
-+	struct edac_device_instance instances[] __counted_by(nr_instances);
- };
- 
- /* To get from the instance's wq to the beginning of the ctl structure */
-@@ -342,7 +343,6 @@ static inline void __edac_device_free_ctl_info(struct edac_device_ctl_info *ci)
- 	if (ci) {
- 		kfree(ci->pvt_info);
- 		kfree(ci->blocks);
--		kfree(ci->instances);
- 		kfree(ci);
- 	}
- }
--- 
-2.54.0
+
+Yes, you can include this patch in the next version - we will represent
+it and respond to all of the queries received on DT specific patches.
+
+How should I be sharing the patch fixes based on comments received from
+maintainers to you ? so that you can include in your patch series ?
+
+Also, when is your plan to post the next version fixing the comments
+received ?
+
+
+Thanks,
+Umang
+
+
+> 
+> Best regards,
+> Ruidong
+> 
+> 在 2026/5/5 20:23, Umang Chheda 写道:
+>> This series extends Tian Ruidong’s [1] ACPI-based AEST support series
+>> to also cover Device Tree based platforms.
+>>
+>> While the existing AEST driver relies on the AEST ACPI table [3], many
+>> embedded Arm platforms use Device Tree exclusively and cannot use the
+>> driver today. This series adds a DT frontend that mirrors the ACPI
+>> implementation and feeds the same core driver, keeping ACPI and DT
+>> paths functionally equivalent.
+>>
+>> Along the way, several correctness issues were identified in the core
+>> driver and are fixed in the first part of this series.
+>>
+>> The DT frontend is mutually exclusive with ACPI and does not introduce
+>> any DT-specific logic into the core.
+>>
+>> How to test with QEMU
+>> --------------------------
+>> Tian Ruidong's QEMU fork [2] emulates AEST MMIO error records on the
+>> virt machine.  To test the DT frontend:
+>>
+>> 1. Build QEMU:
+>>
+>>       git clone https://github.com/winterddd/qemu.git
+>>       cd qemu
+>>       git checkout c5e2d5dec9fd62ba622314c40bff0fbecb4dfb34
+>>       ./configure --target-list=aarch64-softmmu
+>>       make -j$(nproc)
+>>
+>> 2. Build the kernel with:
+>>
+>>       CONFIG_OF_AEST=y
+>>       CONFIG_AEST=y
+>>       CONFIG_ARM64_RAS_EXTN=y
+>>       CONFIG_RAS=y
+>>
+>> 3. Add the following DT node to your virt machine DTB.  The QEMU
+>>     fork maps DRAM error records at 0x090d0000 (SPI 44) and CMN
+>>     vendor records at 0x090e0000 (SPI 45):
+>>
+>>       aest {
+>>           compatible = "arm,aest";
+>>           #address-cells = <2>;
+>>           #size-cells = <2>;
+>>           ranges;
+>>           interrupt-parent = <&gic>;
+>>
+>>           /* DRAM memory node — MMIO at 0x090d0000, SPI 44 */
+>>           aest-dram0@90d0000 {
+>>               compatible               = "arm,aest-memory";
+>>               arm,interface-type       = <1>;
+>>               arm,group-format         = <0>;
+>>               arm,interface-flags      = <0x22>;
+>>               arm,num-records          = <4>;
+>>               arm,record-impl          = /bits/ 64 <0x0>;
+>>               arm,status-report        = /bits/ 64 <0x0>;
+>>               arm,addr-mode            = /bits/ 64 <0x0>;
+>>               arm,proximity-domain     = <0>;
+>>               reg                      = <0x0 0x090d0000 0x0 0x1000>,
+>>                                          <0x0 0x090d0800 0x0 0x200>,
+>>                                          <0x0 0x090d0e00 0x0 0x100>;
+>>               reg-names                = "errblock", "fault-inject",
+>>                                          "err-group";
+>>               interrupts               = <GIC_SPI 44
+>> IRQ_TYPE_LEVEL_HIGH>;
+>>               interrupt-names          = "fhi";
+>>           };
+>>     };
+>>
+>> 4. Boot QEMU with acpi=off:
+>>
+>>       ./qemu-system-aarch64 \
+>>         -machine virt,accel=tcg,gic-version=3 \
+>>         -cpu cortex-a57 -m 2G -smp 4 \
+>>         -kernel Image -dtb virt-aest.dtb \
+>>         -append "console=ttyAMA0 acpi=off earlycon" \
+>>         -nographic
+>>
+>> 5. Verify probe:
+>>
+>>       dmesg | grep "DT AEST"
+>>       # Expected: DT AEST: registered 1 AEST error source(s) from DT
+>>       ls /sys/kernel/debug/aest/
+>>
+>> 6. Inject a CE error via the QEMU MMIO fault injection registers.
+>>     The QEMU device accepts 64-bit accesses only (use devmem with
+>>     the 64-bit width flag):
+>>
+>>       devmem 0x090d0808 64 0x80000040   # CDOFF | CE inject
+>>
+>>     This triggers QEMU's error_record_inj_write() which sets
+>>     ERR<n>STATUS.V=1 and asserts the IRQ.  The kernel driver's
+>>     aest_irq_func() fires, reads the status, and logs:
+>>
+>>       AEST: {1}[Hardware Error]: Hardware error from AEST memory.90d0000
+>>       AEST: {1}[Hardware Error]: Error from memory at SRAT proximity
+>> domain 0x0
+>>
+>> Testing
+>> -------
+>> - Validated on Qualcomm's lemans-evk and monaco-evk board with DT boot.
+>> - Validated CE and UE injection via debugfs soft_inject.
+>> - Tested ACPI path is unaffected: ACPI boot continues to use
+>>    drivers/acpi/arm64/aest.c unchanged.
+>>
+>> [1] https://lore.kernel.org/lkml/20260122094656.73399-1-
+>> tianruidong@linux.alibaba.com/
+>> [2] https://github.com/winterddd/qemu/tree/error_record
+>> [3] https://developer.arm.com/documentation/den0085/0200/
+>>
+>> Signed-off-by: Umang Chheda <umang.chheda@oss.qualcomm.com>
+>> ---
+>> Umang Chheda (8):
+>>        ras: aest: Fix shared processor node handling and error log
+>> messages
+>>        ras: aest: Fix CE/UE error counts not incrementing in debugfs
+>>        ras: aest: Skip unimplemented records in debugfs
+>>        ras: aest: Add panic_on_ue module parameter
+>>        dt-bindings: arm: ras: Introduce bindings for ARM AEST
+>>        ras: aest: Add DT frontend for ARM AEST RAS error sources
+>>        arm64: dts: qcom: lemans: add AEST error nodes
+>>        arm64: dts: qcom: monaco: add AEST error nodes
+>>
+>>   .../devicetree/bindings/arm/arm,aest.yaml          | 406 +++++++++++++
+>>   arch/arm64/boot/dts/qcom/lemans.dtsi               |  41 ++
+>>   arch/arm64/boot/dts/qcom/monaco.dtsi               |  41 ++
+>>   drivers/ras/aest/Kconfig                           |  15 +-
+>>   drivers/ras/aest/Makefile                          |   2 +
+>>   drivers/ras/aest/aest-core.c                       |  63 +-
+>>   drivers/ras/aest/aest-of.c                         | 673 +++++++++++
+>> ++++++++++
+>>   drivers/ras/aest/aest-sysfs.c                      |  27 +-
+>>   drivers/ras/aest/aest.h                            |  15 +-
+>>   include/dt-bindings/arm/aest.h                     |  43 ++
+>>   10 files changed, 1310 insertions(+), 16 deletions(-)
+>> ---
+>> base-commit: a67b7fd0dd1f6ccf3d128dc2099cdb07af1f6a09
+>> change-id: 20260505-aest-devicetree-support-a3722d90e1f5
+>> prerequisite-message-id: <20260122094656.73399-1-
+>> tianruidong@linux.alibaba.com>
+>> prerequisite-patch-id: c5a7c6431c6c1e6351241e694ee053800039d41d
+>> prerequisite-patch-id: 1f6e2c20829eee41a210dd8a538f1e8efcc65872
+>> prerequisite-patch-id: 5556287e3f46c2ed2c0431c53c7782e87bcbd866
+>> prerequisite-patch-id: 2edae0a136d7779b8f686181720e71d044a73311
+>> prerequisite-patch-id: b5190b2844dcb01e72f87a59f3a29548795fdb82
+>> prerequisite-patch-id: 7ba848583708b2ae776a7ce847bb056e3de7f77b
+>> prerequisite-patch-id: 397e5b22802b67942435f4f2968f0b1e210ba0e8
+>> prerequisite-patch-id: 2169f4b65537eecbd0ccbd2ad6b28c64ec44655d
+>> prerequisite-patch-id: b626f85d98747595b3240bc49e6ad9c9dd5c0fa9
+>> prerequisite-patch-id: 1323dfd2eebad2ef6514dbbce58ba08e8859f894
+>> prerequisite-patch-id: 95b826e5e329408437a3ef336c4f45d4d74f82bb
+>> prerequisite-patch-id: b60ff489a5a33c5d5220fa8144af7b7511769cba
+>> prerequisite-patch-id: 43f35a52b8a3d13c938ff08083403c1d3bd0df8b
+>> prerequisite-patch-id: c55d4e9117ca36d3c2cba82d550a618cb82bb745
+>> prerequisite-patch-id: 3885e10f318ae8101d6909b35d92a976cc359e3c
+>> prerequisite-patch-id: 92958cde05577f069c5659018a274bb39cfb6b24
+>>
+>> Best regards,
+>> -- 
+>> Umang Chheda <umang.chheda@oss.qualcomm.com>
+>>
+> 
 
