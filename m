@@ -1,149 +1,122 @@
-Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11B538B7B1;
-	Wed, 13 May 2026 10:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABC33DD871;
+	Wed, 13 May 2026 10:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778668666; cv=none; b=MZUInCORR7T6NDk7EIVfC3Lbe41N/9Mr0j5mrwpAF8P8gf8kvWOYwhiF3TDXv7rCwD9Om3DSvzPMifhpTF7jeVGk+Lk/oWkZs3zIsc6ZpXKgqJuidlZ4wX32tAfFjEMNUGN4SRvvfrTXaCOb+3lvfp/FW7xL/5rRBkzwiRyProM=
+	t=1778669151; cv=none; b=gI6I9y/hQovXHunbJNXLqXvNxnZ9zwrhV7ZqJWYkn2U7fHWI3jTus4NOEDWF6dvJ1/jim3ko+lKhN06xd/0RDNIIWxsQcqj+u/+6Ufyho3Qa3dUqi7n/MOHEdyZnybvhHnHlpXPLTFnaqcTPgNNBYH89ZbDjbXqoDYFQowTEAD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778668666; c=relaxed/simple;
-	bh=mDkTNBdPxoXj04tXh+6umU4Y9T9KUwbRmq+TMZ6m168=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YR23msIGGaTi6ljg8TvGomSPAyqidCbdmAF5ob1cBpIhrRx3PQ+I2ZxyFIrqFcwB+CyQZXimfEv3IZdRy4xoS6f1ghl+lOgJeM5Q2gr1IZqfaEDZrhyeb32WK7GeCl+XHJAEqDxLushYY/I+TOUr1MhXX2RgdEk/bv8H5oSIF5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b=iokxFphX; arc=none smtp.client-ip=128.30.2.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+	s=arc-20240116; t=1778669151; c=relaxed/simple;
+	bh=muuwARazTjEAvbXIOfzW/1TAyB+3XXA0p2SK256ykVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z/h6I80yxwA4BLKK9TLl4c0BuoBAxZHdQbGAB4uDEjcp/v3YPLwfVdPD7aEOeBc+GmwRNy1PQqvd690qxV3COTh+r3y+WBcHysmqMRL1J+hyh0AffYFxcyeRQhxtQ6dB2tUv/MuTbF6M+39c1eOiZ2cL0EsaVCjdPX5qblxert8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AvMpum+0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b="iokxFphX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=outgoing.csail.mit.edu; s=test20231205; h=In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Nfx65Rj3nkkg7S91Np3UbI/nMT4YHgGx/POti+e7FLE=; t=1778668665; x=1779532665; 
-	b=iokxFphXgIv3KbElz/ra3AxdbbSP46amkZ8uKa+TPwijhQRMOhChcdyTnoSOydln+cLeA+d88r+
-	Ol3UciRkpkFWTbFAdU7RGACCE5tubRS/zc7cTy26MrKcuFd3uUiRE53Y8TZCGLh6nGGJ49i0+d1iS
-	tK1HvI+zxUbSJZhCt7O4OQUI72G4o3wBUNZwDtmr9dSeiBlpGGPuH874nw9+NPov6qE0ozhhqYpci
-	4msytLvVVHKl/NYgPSNOdftm56ZCV7v0sVkaDboTfa6s95VDQ58mSAQO8Nsan+aFb6zHhPeMkX+vN
-	U4v7UR8Slw+pAIYbjcIxiAnAjM5M8espB69Q==;
-Received: from [167.220.238.85] (helo=csail.mit.edu)
-	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <srivatsa@csail.mit.edu>)
-	id 1wN6sf-00GJ7h-KF;
-	Wed, 13 May 2026 06:31:58 -0400
-Date: Wed, 13 May 2026 16:01:48 +0530
-From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, git@amd.com,
-	ptsm@linux.microsoft.com, shubhrajyoti.datta@gmail.com,
-	Sai Krishna Potthuri <sai.krishna.potthuri@amd.com>,
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH v2] EDAC/versal: Report PFN and page offset for DDR errors
-Message-ID: <agRTFM3GTU4fuYG6@csail.mit.edu>
-References: <20260428102850.1372502-1-shubhrajyoti.datta@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AvMpum+0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FA74C2BCFA;
+	Wed, 13 May 2026 10:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778669151;
+	bh=muuwARazTjEAvbXIOfzW/1TAyB+3XXA0p2SK256ykVk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AvMpum+0pqdXm9vGudPLtAmsoqsFbzz3XrQU7cRtMb7mU9DP5Qs70kk0AUdyyxdtb
+	 qDueFOICre4yQUeyMTywlSc0DEO7wUbtjUDMwDtFiFAX2WrJCHWb2rb66fr7lhj5DX
+	 mYezn7FnP8jK3rB1dUlu8+ZOE8H55IjMgrtoZTm/wMiUmdkbLP+hV+ePbOt9aIKcGX
+	 JqKbc66ny+KzcrVHmaxsGazj9jl3zcJBCQFk4IQ52v27paYFx40W27WPUMMevX1gMW
+	 DDXHG1TU0D8EM524vv5a0Q1sTqpBJRlb6AnTH1vg2RtR6qvXFJm3dgX7qH8w3CYZLG
+	 g5nJfhI4pDtaQ==
+Message-ID: <b88eb1df-6841-43b8-990d-506c8c4f2d4f@kernel.org>
+Date: Wed, 13 May 2026 05:45:48 -0500
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428102850.1372502-1-shubhrajyoti.datta@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers: altera_edac: Guard SDRAM irq2 retrieval for
+ Arria10 only
+Content-Language: en-US
+To: "Nazle Asmade, Muhammad Nazim Amirul"
+ <muhammad.nazim.amirul.nazle.asmade@altera.com>, "bp@alien8.de"
+ <bp@alien8.de>, "tony.luck@intel.com" <tony.luck@intel.com>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260508075240.23638-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
+ <cc767b60-3b91-40d5-aa70-c5f252d1d39b@kernel.org>
+ <275595ca-6044-4882-a9fd-ca9d496a27a5@altera.com>
+ <de0f32eb-2216-47a8-80d4-bd66fcb253a9@kernel.org>
+ <4f80ef77-a38b-4652-a1f1-1bea3e88de74@altera.com>
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <4f80ef77-a38b-4652-a1f1-1bea3e88de74@altera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 28, 2026 at 03:58:50PM +0530, Shubhrajyoti Datta wrote:
-> Currently, DDRMC correctable and uncorrectable error events are reported
-> to EDAC with page frame number (pfn) and offset set to zero.
-> This information is not useful to locate the address for memory errors.
-> 
-> Compute the physical address from the error information and extract
-> the page frame number and offset before calling edac_mc_handle_error().
-> This provides the actual memory location information to the userspace.
-> 
-> Fixes: 6f15b178cd63 ("EDAC/versal: Add a Xilinx Versal memory controller driver")
-> Reviewed-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
 
-Reviewed-by: Srivatsa S. Bhat (Microsoft) <srivatsa@csail.mit.edu>
 
-Regards,
-Srivatsa
-Microsoft Linux Systems Group
+On 5/12/26 06:51, Nazle Asmade, Muhammad Nazim Amirul wrote:
+> On 12/5/2026 7:25 pm, Dinh Nguyen wrote:
+>>
+>>
+>> On 5/11/26 20:37, Nazle Asmade, Muhammad Nazim Amirul wrote:
+>>> On 11/5/2026 7:54 pm, Dinh Nguyen wrote:
+>>>>
+>>>>
+>>>> On 5/8/26 02:52, muhammad.nazim.amirul.nazle.asmade@altera.com wrote:
+>>>>> From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+>>>>>
+>>>>> Guard the irq2 retrieval with an of_machine_is_compatible() check so
+>>>>> that platform_get_irq(pdev, 1) is only called on Arria10 platforms.
+>>>>>
+>>>>> Signed-off-by: Nazim Amirul
+>>>>> <muhammad.nazim.amirul.nazle.asmade@altera.com>
+>>>>> Signed-off-by: Niravkumar L Rabara <nirav.rabara@altera.com>
+>>>>> ---
+>>>>>     drivers/edac/altera_edac.c | 3 ++-
+>>>>>     1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+>>>>> index 4edd2088c2db..b30302198cd4 100644
+>>>>> --- a/drivers/edac/altera_edac.c
+>>>>> +++ b/drivers/edac/altera_edac.c
+>>>>> @@ -348,7 +348,8 @@ static int altr_sdram_probe(struct platform_device
+>>>>> *pdev)
+>>>>>         }
+>>>>>         /* Arria10 has a 2nd IRQ */
+>>>>> -    irq2 = platform_get_irq(pdev, 1);
+>>>>> +    if (of_machine_is_compatible("altr,socfpga-arria10"))
+>>>>> +        irq2 = platform_get_irq(pdev, 1);
+>>>>>         layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+>>>>>         layers[0].size = 1;
+>>>>
+>>>> Why? We already switch on arria10 later in the same function.
+>>>>
+>>>> Sorry, but NAK.
+>>>>
+>>>> Dinh
+>>> This driver were used by cyclone5 and arria10. Cyclone5 only has one
+>>> interrupt whereby arria10 has 2 interrupt. That is the reason why the
+>>> interrupt was guard by (of_machine_is_compatible("altr,socfpga-arria10"))
+>>>
+>>
+>> Yes, but look at line 397,
+>>
+>>             /* Only the Arria10 has separate IRQs */
+>>           if (of_machine_is_compatible("altr,socfpga-arria10")) {
+>>                   /* Arria10 specific initialization */
+>>
+>> Dinh
+>>
+>>
+> Hi Dinh, That is true, but the one that we looking at now is at line 352
+> which enabling the second interrupt and it is not required by cyclone5.
+> Perhaps are you saying we should move the irq2 at line 352 under this
+> line 397?
 
-> ---
-> 
-> Changes in v2:
-> - Optimise the handle_error for it is not called for non-(CE/UE) errors
-> - Remove the extra else
-> 
->  drivers/edac/versal_edac.c | 38 +++++++++++++++++++-------------------
->  1 file changed, 19 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/edac/versal_edac.c b/drivers/edac/versal_edac.c
-> index 539b46d4f610..5e049cbb3e9b 100644
-> --- a/drivers/edac/versal_edac.c
-> +++ b/drivers/edac/versal_edac.c
-> @@ -513,38 +513,38 @@ static unsigned long convert_to_physical(struct edac_priv *priv, union ecc_error
->   * @stat:	ECC status structure.
->   *
->   * Handles ECC correctable and uncorrectable errors.
-> + *
-> + * Called after get_error_info() which
-> + * filters out non CE nor UE events. Therefore
-> + * stat->error_type is always XDDR_ERR_TYPE_CE or XDDR_ERR_TYPE_UE here.
->   */
->  static void handle_error(struct mem_ctl_info *mci, struct ecc_status *stat)
->  {
->  	struct edac_priv *priv = mci->pvt_info;
-> +	enum hw_event_mc_err_type type;
->  	union ecc_error_info pinf;
-> +	unsigned long pa, pfn;
->  
->  	if (stat->error_type == XDDR_ERR_TYPE_CE) {
->  		priv->ce_cnt++;
->  		pinf = stat->ceinfo[stat->channel];
-> -		snprintf(priv->message, XDDR_EDAC_MSG_SIZE,
-> -			 "Error type:%s MC ID: %d Addr at %lx Burst Pos: %d\n",
-> -			 "CE", priv->mc_id,
-> -			 convert_to_physical(priv, pinf), pinf.burstpos);
-> -
-> -		edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
-> -				     1, 0, 0, 0, 0, 0, -1,
-> -				     priv->message, "");
-> -	}
-> -
-> -	if (stat->error_type == XDDR_ERR_TYPE_UE) {
-> +		type = HW_EVENT_ERR_CORRECTED;
-> +	} else {
->  		priv->ue_cnt++;
->  		pinf = stat->ueinfo[stat->channel];
-> -		snprintf(priv->message, XDDR_EDAC_MSG_SIZE,
-> -			 "Error type:%s MC ID: %d Addr at %lx Burst Pos: %d\n",
-> -			 "UE", priv->mc_id,
-> -			 convert_to_physical(priv, pinf), pinf.burstpos);
-> -
-> -		edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
-> -				     1, 0, 0, 0, 0, 0, -1,
-> -				     priv->message, "");
-> +		type = HW_EVENT_ERR_UNCORRECTED;
->  	}
->  
-> +	pa = convert_to_physical(priv, pinf);
-> +	pfn = PHYS_PFN(pa);
-> +	snprintf(priv->message, XDDR_EDAC_MSG_SIZE,
-> +		 "Error type:%s MC ID: %d Addr at %lx Burst Pos: %d\n",
-> +		 type == HW_EVENT_ERR_UNCORRECTED ? "UE" : "CE", priv->mc_id,
-> +		 pa, pinf.burstpos);
-> +	edac_mc_handle_error(type, mci,
-> +			     1, pfn, offset_in_page(pa), 0, 0, 0, -1,
-> +			     priv->message, "");
-> +
->  	memset(stat, 0, sizeof(*stat));
->  }
->  
-> -- 
-> 2.34.1
-> 
+Yes, that would be fine.
+
+Dinh
+
