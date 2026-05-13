@@ -1,105 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943B3212548;
-	Wed, 13 May 2026 17:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BE04DBD7E
+	for <linux-edac@vger.kernel.org>; Wed, 13 May 2026 17:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778692795; cv=none; b=VEvPXqng36oiH3PXXfv3DlEWTMHLffjDX2KO9EzPZC0KmSxVF6JGX3u4jw4uRKW/XLi9Laj4HifNMXS24HgreLp6FH8mi4G41DUFWFK1rzdmC+f9t+xMacE5JXTX4P6RMtbrEl7T1w/kMMfqhbYlD5Kc/1qRbFE2CtWoy5J4X5E=
+	t=1778694231; cv=none; b=TJTKaihR2rw5nkfW2kPQd3K2Edc79nYL4XH3glYFbNFoB7ivIs+aub0kbBYx75ZjehwMF6fPH7Bn/5xSMZgwrRhI/9Ecg6Uq5jXQ2Uuz9+Zlfh4GEnyRd3JcGdfMxX6MIDA1WUMWc16pPb3Nlvq0nUHeARc9HoRIb9NSMRGdE6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778692795; c=relaxed/simple;
-	bh=AqprdTrNdggpOLWVxQsoRsSzBK8qCJyIC7Ep6FvVoiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZQyplsIprNauemP19n5SMQr2giJQInBQsMoa0NU1zdiVqlXhy+jNJQUtmEx3/uk+xghEh+Sz5y8Bx0FzjRfYHS2J6ISeO9QZsnZt2TdqdHWusl+EPpWkSSyIoQX48HP68ZL/0Vk87Pb5KieegEjaCm17rLdT+nd4ZXBttAMy6aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIxuN6Dg; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778694231; c=relaxed/simple;
+	bh=AH+NvSxfbyKBC0fhACXZr6r7xaBoAcxxvBouFVC/TOU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Zk0aVoSdkkeVdQWzQqAH7zsEkwIvhoZBGyZ6wcDsypW7j384VZwdVGI30khGcRnrT8c3iqOHBbjC8GmfqOsa2d+6TABp8SAAjjORNhEbHPDkxlohOuMq8Qi0caYi+hBuzp4NBZc53Me93LHKsbbEl85X/LFb3AEoKqsA4G8KHNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TOIuWgzN; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIxuN6Dg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778692794; x=1810228794;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AqprdTrNdggpOLWVxQsoRsSzBK8qCJyIC7Ep6FvVoiE=;
-  b=bIxuN6DgXYSMnoWTdS1vZlxiX9yWjBUnaAN6CcM/fDtBcq/eKrBgKgcR
-   UfniMiZIvXskZoSiq1hFBCLxmp1i5B5zyd+NYNBhK0pMvvNe9gz3pzq7C
-   gjxWivrvc7JQafhWgc+EAqK/4RVeU2i//wURY4M/CNt+CwoPibJtEr+Xj
-   3749KMycp5Y1+GVe/WgbPRg7ybya7szpC6efzW0ks8iJN40aJGx9mWLme
-   CAoR0uVbN5PRU3Cz9eH6AeAlNdNiYLbgMsN6bZTpa8IaaqNiGZrHzhBSi
-   +fzRU8/1ozfht5j3b4J2qvAyUdeFDDHQ7ZopZa6+jOP878U7rnCBdBW1R
-   g==;
-X-CSE-ConnectionGUID: ijGw39XEReiU0lP5gzruCA==
-X-CSE-MsgGUID: kPCibuB/Taa3vcoUVcDDBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="83240317"
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="83240317"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:19:53 -0700
-X-CSE-ConnectionGUID: EaQvq9bmTzef6RncTA2dTw==
-X-CSE-MsgGUID: XzVyWAVAT763QgtAA8t4zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="233875043"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.106])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:19:51 -0700
-Date: Wed, 13 May 2026 20:19:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yazen Ghannam <Yazen.Ghannam@amd.com>,
-	Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH v1 1/1] RAS/AMD/ATL: Drop malformed default N from Kconfig
-Message-ID: <agSytQOxVcETeImj@ashevche-desk.local>
-References: <20260513162253.365343-1-andriy.shevchenko@linux.intel.com>
- <20260513162744.GEagSmgKV9ceTtO162@fat_crate.local>
- <agSnXBBS_ur1YEYQ@ashevche-desk.local>
- <20260513170240.GHagSusHdkGcYLS8v1@fat_crate.local>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TOIuWgzN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778694228;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dpnRFapMrqHlJjTZfSZdaqBLia0McrAbbHU2YflFY0w=;
+	b=TOIuWgzN+52rbeUzoORFetEh6n501ph67NR7iQaCuqg6HGNTSqI4NuS9FvqI5sBLZM0//A
+	+pPdDBKecw00pQ13YPXkHDSNrVofyqNUmtf1XCKwPjCS0juHb0ErB+L6J+lkdfDrmIA7hD
+	EvqWT91LIbV4cLYuC5ro1vunkJh/6KA=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-606-tV_PtahLNqur0dDy2SUrgw-1; Wed,
+ 13 May 2026 13:43:44 -0400
+X-MC-Unique: tV_PtahLNqur0dDy2SUrgw-1
+X-Mimecast-MFC-AGG-ID: tV_PtahLNqur0dDy2SUrgw_1778694222
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C747A18002C7;
+	Wed, 13 May 2026 17:43:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.2])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 414741953947;
+	Wed, 13 May 2026 17:43:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 0051321E6A01; Wed, 13 May 2026 19:43:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: qemu-devel@nongnu.org,  =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Pierrick Bouvier
+ <pierrick.bouvier@oss.qualcomm.com>,  Thomas Huth <thuth@redhat.com>,
+  linux-edac@vger.kernel.org,  qemu-arm@nongnu.org
+Subject: Re: [PATCH] MAINTAINERS: update HEST maintainership entries
+In-Reply-To: <6316f5b788cdc6b63e808606649dc5862271b22e.1778075257.git.mchehab+huawei@kernel.org>
+	(Mauro Carvalho Chehab's message of "Wed, 6 May 2026 15:47:37 +0200")
+References: <6316f5b788cdc6b63e808606649dc5862271b22e.1778075257.git.mchehab+huawei@kernel.org>
+Date: Wed, 13 May 2026 19:43:39 +0200
+Message-ID: <874ikbp5mc.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260513170240.GHagSusHdkGcYLS8v1@fat_crate.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Wed, May 13, 2026 at 07:02:40PM +0200, Borislav Petkov wrote:
-> On Wed, May 13, 2026 at 07:31:24PM +0300, Andy Shevchenko wrote:
-> > On Wed, May 13, 2026 at 06:27:44PM +0200, Borislav Petkov wrote:
-> > > On Wed, May 13, 2026 at 06:22:53PM +0200, Andy Shevchenko wrote:
-> > > > First of all, it has to be 'default n' (small letter n), otherwise
-> > > > it looks for CONFIG_N which is absent and in case of appearance
-> > 
-> > > Who does look for CONFIG_N?
-> > 
-> > Hmm... I need to rephrase that. Any suggestion how to refer to the Kconfig
-> > symbol in a clearer way?
-> 
-> So I tried searching for CONFIG_N in "make menuconfig" and it gave me many
-> results, but with or without your patch I didn't see a difference.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-And it has to be no difference (with all my hopes we do *not* have 'config N').
+> Mark HEST code as maintained and assign them to me.
+>
+> While here, add a "L" entry to EDAC ML as RAS discussions
+> usually happen there.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> Just point to the "default" grammar definition - I see
-> 
->     config NEW_NAME
->         bool "New option name"
->         default OLD_NAME
-> 
-> in Documentation/kbuild/kconfig-language.rst which says that default <symbols
-> in caps> refers to a symbol but the grammar should be properly documented
-> somewhere too (can't find it now...).
-
-Yeah, but here is the bug report now for dangling Kconfig symbols
-https://bugzilla.kernel.org/show_bug.cgi?id=216748
-this patch addresses one of the complains the bug report has.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+I'll take this through my tree.  Thanks!
 
