@@ -1,80 +1,192 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BE04DBD7E
-	for <linux-edac@vger.kernel.org>; Wed, 13 May 2026 17:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB4F43637A;
+	Wed, 13 May 2026 17:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778694231; cv=none; b=TJTKaihR2rw5nkfW2kPQd3K2Edc79nYL4XH3glYFbNFoB7ivIs+aub0kbBYx75ZjehwMF6fPH7Bn/5xSMZgwrRhI/9Ecg6Uq5jXQ2Uuz9+Zlfh4GEnyRd3JcGdfMxX6MIDA1WUMWc16pPb3Nlvq0nUHeARc9HoRIb9NSMRGdE6s=
+	t=1778695106; cv=none; b=gxJMXTYJuqlPKDErR1olQlVZn/RbwIZQXDq6b2BgcNlNJcBkjztRmhlCGNjXDVZ8i8MVv1o8UeNpcay0GHScpWy3VlOb8xzVbhYUciu9Gws/l0zjPNwZ0TR4HrOF3UJhhtH3LILX9BrUeImnnjNoUk8F5lPT9ow7asNUoj6TVqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778694231; c=relaxed/simple;
-	bh=AH+NvSxfbyKBC0fhACXZr6r7xaBoAcxxvBouFVC/TOU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Zk0aVoSdkkeVdQWzQqAH7zsEkwIvhoZBGyZ6wcDsypW7j384VZwdVGI30khGcRnrT8c3iqOHBbjC8GmfqOsa2d+6TABp8SAAjjORNhEbHPDkxlohOuMq8Qi0caYi+hBuzp4NBZc53Me93LHKsbbEl85X/LFb3AEoKqsA4G8KHNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TOIuWgzN; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778695106; c=relaxed/simple;
+	bh=AxClpjGMFT/IS8TAonyIRQqd4Y8WS5Q+6hwbcruaAjk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mp25ko7OMoB/Bvd/RUJp79nNGkPmshPNEpouR8PYe7FB0CyJLIry+ZqAbX3O0V0yHyUcT0uLB1TYGFJKUFJuk0oMMF9as2y580TFrPwzCcBWvY9r4NPHwPif8lBeS3S7yXI2qFCqD35TF3qxEb3ST0o9aySzWV0kABJUTJe8/w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kpmq3Hq9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TOIuWgzN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778694228;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dpnRFapMrqHlJjTZfSZdaqBLia0McrAbbHU2YflFY0w=;
-	b=TOIuWgzN+52rbeUzoORFetEh6n501ph67NR7iQaCuqg6HGNTSqI4NuS9FvqI5sBLZM0//A
-	+pPdDBKecw00pQ13YPXkHDSNrVofyqNUmtf1XCKwPjCS0juHb0ErB+L6J+lkdfDrmIA7hD
-	EvqWT91LIbV4cLYuC5ro1vunkJh/6KA=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-606-tV_PtahLNqur0dDy2SUrgw-1; Wed,
- 13 May 2026 13:43:44 -0400
-X-MC-Unique: tV_PtahLNqur0dDy2SUrgw-1
-X-Mimecast-MFC-AGG-ID: tV_PtahLNqur0dDy2SUrgw_1778694222
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C747A18002C7;
-	Wed, 13 May 2026 17:43:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.44.22.2])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 414741953947;
-	Wed, 13 May 2026 17:43:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 0051321E6A01; Wed, 13 May 2026 19:43:39 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: qemu-devel@nongnu.org,  =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Peter Maydell
- <peter.maydell@linaro.org>,  Pierrick Bouvier
- <pierrick.bouvier@oss.qualcomm.com>,  Thomas Huth <thuth@redhat.com>,
-  linux-edac@vger.kernel.org,  qemu-arm@nongnu.org
-Subject: Re: [PATCH] MAINTAINERS: update HEST maintainership entries
-In-Reply-To: <6316f5b788cdc6b63e808606649dc5862271b22e.1778075257.git.mchehab+huawei@kernel.org>
-	(Mauro Carvalho Chehab's message of "Wed, 6 May 2026 15:47:37 +0200")
-References: <6316f5b788cdc6b63e808606649dc5862271b22e.1778075257.git.mchehab+huawei@kernel.org>
-Date: Wed, 13 May 2026 19:43:39 +0200
-Message-ID: <874ikbp5mc.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kpmq3Hq9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05A7FC19425;
+	Wed, 13 May 2026 17:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778695106;
+	bh=AxClpjGMFT/IS8TAonyIRQqd4Y8WS5Q+6hwbcruaAjk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kpmq3Hq9P0j7QXE+5mLqJHwS1cXfU4Ral57BbyHV3Jd6qqyP9R7+zSbBgS9PTdj2e
+	 ihZOcy9VQYy+u4QJyo10n3O3Oi5JMN7qib0QIkaDNo4QyBo3M2+glGo+sy+KoCQIck
+	 JZDF83e5p8Un0HNHdRuor5wTYoTc0X5+YNv5W2Mf/Vofn1Oc1EprL6u3z1v/ufc1Uw
+	 kJ6G44rhH+pKjSlan3Sn4SpFQ4uDMcZAeuPadtvcdDGR0RxSweyVyOzMaxw4E2YDqj
+	 CKjnHjpdALtpdWZ+pM52fe8BX9O4S0FScN/bfW7UA+7+bqsilwK8ssKJsPTUi1MNN9
+	 Jg7xPqCjL51kw==
+Date: Wed, 13 May 2026 12:58:23 -0500
+From: Rob Herring <robh@kernel.org>
+To: Umang Chheda <umang.chheda@oss.qualcomm.com>
+Cc: Ruidong Tian <tianruidond@linux.alibaba.com>,
+	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>, catalin.marinas@arm.com,
+	will@kernel.org, lpieralisi@kernel.org, rafael@kernel.org,
+	mark.rutland@arm.com, Sudeep Holla <sudeep.holla@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 5/8] dt-bindings: arm: ras: Introduce bindings for ARM
+ AEST
+Message-ID: <20260513175823.GA1471517-robh@kernel.org>
+References: <20260505-aest-devicetree-support-v1-0-d5d6ffacf0a5@oss.qualcomm.com>
+ <20260505-aest-devicetree-support-v1-5-d5d6ffacf0a5@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505-aest-devicetree-support-v1-5-d5d6ffacf0a5@oss.qualcomm.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Tue, May 05, 2026 at 05:53:49PM +0530, Umang Chheda wrote:
+> The Arm Error Source Table (AEST) specification describes how firmware
+> exposes RAS error source topology to the operating system. On ACPI
+> systems this information is provided via the AEST ACPI table.
+> 
+> Introduce Device Tree bindings that provide an equivalent description
+> of AEST error sources for DT-based platforms.
+> 
+> Signed-off-by: Umang Chheda <umang.chheda@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/arm/arm,aest.yaml          | 406 +++++++++++++++++++++
+>  include/dt-bindings/arm/aest.h                     |  43 +++
+>  2 files changed, 449 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/arm,aest.yaml b/Documentation/devicetree/bindings/arm/arm,aest.yaml
+> new file mode 100644
+> index 000000000000..7809a0d38270
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arm/arm,aest.yaml
+> @@ -0,0 +1,406 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/arm/arm,aest.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Arm Error Source Table (AEST)
+> +
+> +maintainers:
+> +  - Umang Chheda <umang.chheda@oss.qualcomm.com>
+> +
+> +description:
+> +  The Arm Error Source Table (AEST) describes RAS error sources and their
+> +  register interfaces. Each error source exposes one or more error records
+> +  through either system registers or a memory-mapped register window, and
+> +  may signal errors via interrupts. The top-level node acts as a container
+> +  for one or more child nodes, each describing a single AEST error source.
+> +  Refer to the Arm AEST specification (DEN0085 / DDI 0587B) for details.
+> +  Flag bit constants for use in DT source files are defined in
+> +  <dt-bindings/arm/aest.h>.
+> +
+> +properties:
+> +  compatible:
+> +    const: arm,aest
+> +
+> +  "#address-cells":
+> +    const: 2
+> +
+> +  "#size-cells":
+> +    const: 2
+> +
+> +  ranges: true
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +patternProperties:
+> +  "^aest-[a-z0-9-]+(@[0-9a-f]+)?$":
+> +    type: object
+> +    description:
+> +      An AEST error source node describing one error source defined by
+> +      the Arm AEST specification.
+> +
+> +    properties:
+> +      compatible:
+> +        description:
+> +          Identifies the type of AEST error source. Each value corresponds to
+> +          a distinct error source class defined by the Arm AEST specification.
+> +          arm,aest-proxy represents a proxy error source that forwards errors
+> +          from another error source.
+> +        enum:
+> +          - arm,aest-processor
+> +          - arm,aest-memory
+> +          - arm,aest-smmu
+> +          - arm,aest-gic
+> +          - arm,aest-pcie
+> +          - arm,aest-vendor
+> +          - arm,aest-proxy
 
-> Mark HEST code as maintained and assign them to me.
->
-> While here, add a "L" entry to EDAC ML as RAS discussions
-> usually happen there.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+This is a fundamental difference how DT and ACPI get structured. ACPI 
+defines new table for some feature and puts everything in that table. 
+For DT, these all belong in the node for the corresponding h/w. For 
+example, if the GIC supports AEST, then that belongs in the GIC node. 
 
-I'll take this through my tree.  Thanks!
+> +
+> +      reg:
+> +        description:
+> +          Register ranges for the error source. Absence of reg implies
+> +          system-register access (interface type 0). A single range implies
+> +          memory-mapped access (interface type 1). Two ranges imply
+> +          single-record memory-mapped access (interface type 2).
+> +        minItems: 1
+> +        maxItems: 4
+> +
+> +      reg-names:
+> +        description:
+> +          Names for the register ranges. The base error-record window is
+> +          unnamed (or first entry). Optional named ranges provide access to
+> +          the fault-injection, error-group, and interrupt-config register
+> +          windows defined by the AEST specification.
+> +        minItems: 1
+> +        maxItems: 4
+> +        items:
+> +          enum:
+> +            - fault-inject
+> +            - err-group
+> +            - irq-config
+> +
+> +      interrupts:
+> +        description: Interrupts associated with the error source.
+> +        minItems: 1
+> +        maxItems: 2
+> +
+> +      interrupt-names:
+> +        description: Names of the interrupts associated with the error source.
+> +        minItems: 1
+> +        maxItems: 2
+> +        items:
+> +          enum:
+> +            - fhi
+> +            - eri
+> +
+> +      arm,fhi-flags:
+> +        description:
+> +          Bitmask of flags for the fault-handling interrupt (FHI), as defined
+> +          in the AEST node interrupt structure flags field. Constants are
+> +          defined in <dt-bindings/arm/aest.h> - AEST_IRQ_MODE_LEVEL (0),
+> +          AEST_IRQ_MODE_EDGE (1).
 
+DT already has a way to define interrupt flags. Why invent something 
+new?
+
+Rob
