@@ -1,61 +1,62 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012019.outbound.protection.outlook.com [52.101.43.19])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012068.outbound.protection.outlook.com [52.101.53.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E15D3A63EC;
-	Thu, 14 May 2026 19:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9765344020;
+	Fri, 15 May 2026 05:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.68
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778788299; cv=fail; b=G5INX9xVdEPez7Exhylj9aYdReGEoXDhct4C65wiu925RM+4ojfwBRUSAkIzZUhZaE8NUMRynusktwMYCaUp/rDPdNdZyELkxyVNustJrxo2sz17d3B6jKtZM+SFjA/ov69Lyk3FI47NxqmwVHQxH55WSMvrfqub2jOOpVDHHFU=
+	t=1778821491; cv=fail; b=HaN4bPtcQPyRQnmJmt6qgpDAlKB4tHUT07c1olhkfOQRIvK2Y2HJVnETV0hlpqxix/0ZranTzY14UNSwoN3bdaMXveenH1xDaSWdzQCLqK/8qcvkrpuNtE7JNi0nQR8LuwItJQznQxBkzMdlE9UGMVXk4K14ZByQJX6ugurR3eg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778788299; c=relaxed/simple;
-	bh=HaU1y17naJarQfPtWntdvRZETYsm3yF8hDh9+rhsPZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=o6kzGR2UNc57FGgbL+4PWzPHWZG06uK0Kkj/N6BmzhorMiuGhT7bo8JqfiI6MK9oD47tFfsTH96I+dZ8foBCfJYaPximErFbN0rFVsO9Gjtj6OFkiTiwtinOiz+uaP7bfrVIGybY8lfFdDaNL1NshVVMa2+WRUqccn/1gxWFkyg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=oVkpC/Eq; arc=fail smtp.client-ip=52.101.43.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1778821491; c=relaxed/simple;
+	bh=A/BfAdJ5KxAZNB/z1EYR56ipcj+9ZbTpZSqK9BDH+VA=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=UQKjqBRCivrOlG+7JIAgb6a6RQPsfBgInKKzj/BOUsge4WtpN3YghKPjCBABWD3c+xQ1b5EfeW8GfIv8EXWSwlfKAPPXuO5lwTgfecUiwI6+yDqxyShNZSXttz3AxfWyPPSZcLep10XuUBFVyWttKc/rkwI24IL61XB2T0brSZk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=hfNuYy9u; arc=fail smtp.client-ip=52.101.53.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oVkpC/Eq"
+	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="hfNuYy9u"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bmB/N5DE1SoeZNnyLYBJcs5iJ/ko/2PAuEAAO8XjofwHl6SVtFYoCOCMWW4JU/4r0abovHv2QkyYpCil47DFHGvK/IsCYMckdWW/8RRq1OR8uIlLFZVA2b8ckoi54gvL/VtSr2wdKe9VIGUvM8vV0BCYmC0MHGGOys2NWwDdyq0SaxDQbu0ZGIPeMNgq72+8EhEpPVCCn5eYJ7exWXPHVwvjxjDvG2Wv3CMn1wj4iTRkVTFhTlmx0YyuNzneHzk/eDsfrCJXRN1ZpijVUik/c/DJz9JIZdkHM1NUH2EyEMqsuTMn59ZLoKy52ttxpZQzO/4Ujbn2ViJmcWnuDTk1jw==
+ b=hmFynEPV7BpjWMswDEIxcaC9k5pRXCEmbnwj/2BMzW1WfmSSqwjDOX9fqQBLfFzn9yKAsDW8s8jaU9nWbpe9jMAFq0FyN7WdFvjUkcf6lNWma0+pLlndLKUOu93EmTMvn/lbqqGFbg+Av6Boyq+pql1P6F9hSyKyyZHvQOjP0LGPfArVvb8Q+zU0dNg25shkAbN2fb0L1hlRzn5aTCkALx0Mh4drKurneApWimsdhYIAzkmz+5nRVdUOELezodrQTHzoGdUnK2FXAEwzox5oZa6qFKPYiVTPU91ktwvF7e5hWoAo+6hEqm4IKzWDwr6BC2eZs0Rnkdi6aOG2s/G6dA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+eHGTZcD/ZiMa0Y4vfiSRMZOTjhEYhYrUJ6l57zaq/U=;
- b=RGZ6kzxSHEuTNKPCiaqB6vpAae3vpDh1EiNUYRCVWtmWefT22hwjwJbOnMeJZlMC+mKp2QwSfnwSqb8d97rnb1OHyEi6bT0sT/TvH1Lyub8Hu8/jXm7QI2R1Wg4qsvnmcDr2Q1EJJtkfqxFQIDVwZ3COB8OmBLDURLnkY+Murxtk42KTCUBkZlBoeHp1zywcKTFs0iz67HIab39i3uMpim01/D1CMNVCLu7q2K+XyzL7qZPQlgkerLv4jYsVXzADHxcs5TCG50E5+eCXUEzJlTaXteo6oK9OTBvW9Iw3S2LLQGYEtWiB+Y8NUZurUcTqBNZhj/vPsCe/m5g7/6u1MQ==
+ bh=w+GCJ/s/NoLwoOj/9HgeyhslBqOVUKKF+QLyiI9pf3g=;
+ b=xywZm1EZNGFklin7jSgegk7tfiX52wkosfeKf5DR+QND13d6mvp9sO2tx5XVNuxnjK4mLr9Pi2ABdfxZxO9c5bT8Zd06UVhjR2chgsgO+SGuFRLkroCNoEBBIMEkn/voLEIrk5E2FxkODjY8ZEZQOD9tVha/2RVJv+vAEDryz0hHDeEwCFLtMEyaQB0qniIo66gIS1iB3Kf4gVMOqvxfhKKIg5jdQPJCOZ2JUN7TIrUlhFVjwNCqFjRyGSQFZzRhKZpJ5ezbDQrSIJx7oGjNM0eblAXWFCdf6fMtys0qN1vKSbHJMxTx2q30gqh/4aQpT2yA0tJ9EaB3G74bbIZXZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
+ dkim=pass header.d=altera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+eHGTZcD/ZiMa0Y4vfiSRMZOTjhEYhYrUJ6l57zaq/U=;
- b=oVkpC/EqnnyJrUxa5uvpTHZc+U7wAgN5ovGdGPoR+eMlat5Wif97ZNqtLE89PxAJHX9zyV4pPcZu/MFG9QTzY+IZEbDCHOQPI+vGjDjZ/pbSd0usYPC1VbOET5IA1xCwQKMbGWIr4pzJmAwZtwecfjil/q+xa8fCn22/igfVHm8=
+ bh=w+GCJ/s/NoLwoOj/9HgeyhslBqOVUKKF+QLyiI9pf3g=;
+ b=hfNuYy9uhVC8bbOAdodpqjukqD5ZCK32/r1nyJVaf+VzUZiuxiWFb7vQfSkO8vODC0Fu3nyBw+ItRBWJW0Jy3foEC4TLQbkC9n6yoMUGSp+0vNqXIm5qsLz5awlFZ5x6PE811qvRwb3ZfaebAwJz2UWATfaZhktLiIbKe7YJHiIYoePGFnk3Febw3tsO9UBk2VW9fWmwh7fRM9b9uorGLYjQ67IH+ppSDurQAYTbSVCf4bCUb8Bokx++n5pfiU/HcKLE+gJc2P8sotW2ROQErVqeLv3vWvSsS4fXQm/7t6f2x5Z3EFvZlcE1dB4tGB6ETdVHoFNAnIoHXJ2Oa+UpqA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
- CYYPR12MB8656.namprd12.prod.outlook.com (2603:10b6:930:c3::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.18; Thu, 14 May 2026 19:51:35 +0000
-Received: from DM4PR12MB6374.namprd12.prod.outlook.com
- ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
- ([fe80::af35:a7a6:6ca:7fcf%5]) with mapi id 15.21.0025.012; Thu, 14 May 2026
- 19:51:35 +0000
-Date: Thu, 14 May 2026 15:51:31 -0400
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Avadhut Naik <avanaik92@gmail.com>
-Subject: Re: [PATCH v4 2/2] EDAC/amd64: Include DRAM address in output
-Message-ID: <20260514194904.GA11459@yaz-khff2.amd.com>
-References: <20260316125324.396889-1-yazen.ghannam@amd.com>
- <20260316125324.396889-3-yazen.ghannam@amd.com>
- <20260514113147.GCagWyowfypCcZ0fUo@fat_crate.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260514113147.GCagWyowfypCcZ0fUo@fat_crate.local>
-X-ClientProxiedBy: CH5PR04CA0021.namprd04.prod.outlook.com
- (2603:10b6:610:1f4::14) To DM4PR12MB6374.namprd12.prod.outlook.com
- (2603:10b6:8:a3::18)
+ header.d=none;dmarc=none action=none header.from=altera.com;
+Received: from SJ0PR03MB6964.namprd03.prod.outlook.com (2603:10b6:a03:432::18)
+ by CH4PR03MB7700.namprd03.prod.outlook.com (2603:10b6:610:236::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Fri, 15 May
+ 2026 05:04:46 +0000
+Received: from SJ0PR03MB6964.namprd03.prod.outlook.com
+ ([fe80::b965:bfa8:58fb:e775]) by SJ0PR03MB6964.namprd03.prod.outlook.com
+ ([fe80::b965:bfa8:58fb:e775%6]) with mapi id 15.20.9913.009; Fri, 15 May 2026
+ 05:04:46 +0000
+From: muhammad.nazim.amirul.nazle.asmade@altera.com
+To: dinguyen@kernel.org,
+	bp@alien8.de,
+	tony.luck@intel.com
+Cc: linux-edac@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] EDAC/altera: Guard SDRAM irq2 retrieval for Arria10 only
+Date: Thu, 14 May 2026 22:04:44 -0700
+Message-ID: <20260515050444.10380-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
+X-Mailer: git-send-email 2.43.7
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR05CA0005.namprd05.prod.outlook.com
+ (2603:10b6:a03:c0::18) To SJ0PR03MB6964.namprd03.prod.outlook.com
+ (2603:10b6:a03:432::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -63,93 +64,102 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|CYYPR12MB8656:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef199fff-b7d5-4539-54ed-08deb1f23462
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB6964:EE_|CH4PR03MB7700:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3739d6a-83c2-4150-3060-08deb23f7b84
+X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|56012099003|11063799003|4143699003|3023799003;
+	BCL:0;ARA:13230040|366016|1800799024|376014|55112099003|56012099003|18002099003|11063799003;
 X-Microsoft-Antispam-Message-Info:
-	W7NKSCo/I2ZnGdkFwGcASZrgr2JAgOUKpCqavBrz2l1WlmDxa8djmyPC5gwIRPcI/m+7N3O1Z4/97nXz4J1KZ5EdgE71p0mMapX9Gkpo+5xzBSTLQ6Kc6rd2WlITT8Hh+cJE4jICixIfFv/Um2a3gO9LUsxUMvYD1P39fE4815bLUbuYrZ9hwyc778ZuNZsDOKy+OzAWFSoQJZyf9/Cr/k+V1MFJxXZNYYTcmslmkl16WuhL67PQP3fl+99xxfIgYbd2+b32FtDsZ/KcK3wOtruVFns2lQP/ZRd0PQzPozOEu5j/ycJiWt9aw5jfk4nMvW9eCzAMOo6+enXZ3GV5h5dXA91QRECVWlOPjNjTJeRKZN68zOm0rcsJvhDRf3qvNEB5dNiXwd9ZNZ00xpQmiVtX6a43GwJz3yYhOUWJQrXocrl1gxJ8r8qMyH/JJulwWAMn1+9dTXjJnb5mRIGtksuf3Xcq/K3Od31wU48TORySUzcwEPHnKiT19puXnFxhRQP24G5Mzjp5aiFvIVLqBqOIDVQPq6oZTD3PDlkx+6rF+2P9XrRScdXFF0ypTPggEE3sBiRfjEylTGWWejkTO/HxGQDLpjVIzFmsUk9kAQ67yemUvS7xFtjcfoWJtAZrt61xP9mXKjeVMLEAFSdV6w==
+	gMqy6vfyH3EhTdx/jBy233EDjldw3DAKRXRCOqPcwP8GEEpiJPPg7HwN0Xvxt/J98H95g4HGHsethoJjHLG0NZglArM5dJs14xE7mqijGsJCwVXYEjxIZx9G1QCMyh6BUpY5UbM9XgKHoUukQe++cJK+zFttajNCY0A/QvR/I30aLmVVhWXf8ouWnfanao6PyWaZfwA1++z2pqFEYDJGSJO2NwjUESIc6UmRXQ3dANbXSTzQwwoarSI0PcGTY9jExVLDEkWkhLv33EezfVnWQuKYymJFwpQUtCka6f244xLvxlZMhYi6NjQh2hd6zuAwSP3SXdG11TJzE0Q5kby+2q71i8pD/PNNB3eyhJ97RGj3JqJuOFTSkzHeFqLDcag+jn9n8U95CAO6dzw5JvQnomdf53caG29fB6sxlRIVweQTXk1ANAQTeSQyXhpsxRVng62UVMZf0SAYjsHQ/KTIpK3Ja1MHt8tQhg2E/9L2+fvetCFxwk4ak74/8cL0CagQUh8q0b3on/9+dWQv2MeYsL2ue6J6lxt6dV/rl2+7/DZKf+Rk9v1oUR/jWeq1ZJ4clS8aWihS7aNf5arJr7XI3coG0UK4c136nChnqb5dBl2BrVfLErHyHo0oWIfJUWNCeWo1peYy77GjPAosDtro+ok9aj3w8KLcIpXDAIYip5R6OoJInl0V7cmobUezftJ7
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(56012099003)(11063799003)(4143699003)(3023799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6964.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(55112099003)(56012099003)(18002099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WTNjqV8qFSPrRCszO8Jomi7xU0jyLgCcR69KGPM1O/I5tCQGDEMrwvyVp4iB?=
- =?us-ascii?Q?DlDZpxmd6+aL/ct1VV1gzqRklsKjZXwsl7/N3ACJbtkzqYYwSllahRwqgIlV?=
- =?us-ascii?Q?m/6XRcqLa7NUWqKYVb31HYj1orS2+MaV+4vvgxsE37ggpTqy/GyXqOgJkuTT?=
- =?us-ascii?Q?uCHw+aULl+wJB/tKekD4IOUB4KuCbLZP/llSL3LruiF2kBFHgAWDOqjSF6fP?=
- =?us-ascii?Q?bWk4xo/X7xd/y7+S0HcCC0nfu+ui/00sb6X96sPI0maP2+4b7jY4TDPj4yly?=
- =?us-ascii?Q?dF/fwFbqXS9LrKjDz9vQK7BP1DKrJBh9W/JYbYNZujlpoH7YJrpBWa4STF8A?=
- =?us-ascii?Q?gZjZs4DoLNgeP7dxeJ/jR8Vhcq+U9Mgo+lxeM7mKk1qCJ9RxwQ4jXEQK0LJL?=
- =?us-ascii?Q?GMSLeudbuxuoIp2tKOy3lpfX7cOQEHyjD4kjN/FdVf1pFsdXIq5CvGBjS6xQ?=
- =?us-ascii?Q?QATHEZ472FYMsevQ9X93Xgj6wRSHlBJAchhrAsrNf4T80yOa+hATFWu4nUlX?=
- =?us-ascii?Q?Wn3SbSq74JMHzXj2/SdssZnWi+0lNyVfsb3hCb8p7T70AtIM0E8I+6quM/+7?=
- =?us-ascii?Q?4oSNao7LAG1BCmjSOuhwuDEcFpNTk24SWomyHg7JDFblHklXDK7uWAQC+ulg?=
- =?us-ascii?Q?grGLbaOKRDVe/Ov9UbCCL5xR/xZEIyrJXU5lGmA6o6WpiC6RmbGRFJVLbKIM?=
- =?us-ascii?Q?AM5QMv3YXzxUPqDu+jwnOjCfo4W+ON1+1A+goVM4dsTr+6JFljkg/SjHj/pA?=
- =?us-ascii?Q?AG2LDk7P4z/l3EP7HGhG39Y8N02i1IUWm3Se+eKLo8jb5yLOT6gVfDJDMKsE?=
- =?us-ascii?Q?lQ+otM/kZt86VHnaROhhpmsmoqc86VR/5kLPmrOWczcXRJaNBw2uNQBXcpg+?=
- =?us-ascii?Q?lXyoIg1jy2iU1zRY1BVO34B6SAyKAgfWDpJdPytVx5G6QIlBQmb6tF2SJXV7?=
- =?us-ascii?Q?0LELl3Txs8t4VQAzzCQWk2ttBsS2WMMdcXgI5u1eNfWhrIcQ7J2pwaldf7De?=
- =?us-ascii?Q?sakQ1YT+t2ppvT9me61nIHnj0sqCGwZFCeVLn7tyjhLWow5Y4YRgVzJhSpuj?=
- =?us-ascii?Q?2MY6w09kTuLOtocTglAlyOgL6TQi1+Hy1V/DwX4LO6JCkn7tsob+oSq/5KRv?=
- =?us-ascii?Q?YZ8MBzOk/SM36Km1Azjxi6jP7rxPRNZVv97f6fgmrbCAzKquEieFs4Vr+vZZ?=
- =?us-ascii?Q?h19m4UFxHUtDJHoRUs13XW5Dcb+0uzIS1i6Cht4Y/ZKJ2Qm/y086caR4Gt24?=
- =?us-ascii?Q?JNcpyfkYSGgC2Yp8GT53ruIP6XqnPhwFL6arkSJuWav4W5q0XqIV7dzrWtA5?=
- =?us-ascii?Q?b/qA5cvZcmwb9BFu5WjXZS8Pn4Uo5S2IZC4Wa6fO0TU/4riKmiRSmxsw8aEt?=
- =?us-ascii?Q?I9IeVaN9Qo/aseUKbulEOm+48JrmHw42K//5EHbKl4w5ABHzR251cNzpVhf+?=
- =?us-ascii?Q?s0ZSrmuqnyMqAbwJQdLpU1ckN3CHk407FrkuLN0/Yp8nIe/b2MiVorl3DHvI?=
- =?us-ascii?Q?u1Xfw90fFqYnnBzfCDkHTSxa59O6SHuUOMV0Dj92/bRXvDgNX95gK3kbnEnm?=
- =?us-ascii?Q?0oXnVShIB1mntQXuRYLNlyVAy8YuOxUJjRQN/VxsMjZVeDRy3n6jh1l03aO1?=
- =?us-ascii?Q?q/fu0792KVZlFep+JM5Yr4/s2eBU1/kifmkIFnFm2Tbeqb3bFbk6FADUoYmu?=
- =?us-ascii?Q?alXQUPuskXNv2Pc2R1zK8ljUNRidKKX4kSYXE9pDJpfzeo8R?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef199fff-b7d5-4539-54ed-08deb1f23462
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
+	=?us-ascii?Q?Ql0DlEX4mUzKRxqBI1jdNFh+7ZOdl1dIXkD+jJGF/tmi1WBJ4p9WeJoh3LO/?=
+ =?us-ascii?Q?FguhC/yK/uSgnQXV35S+u8Q35nENqH4+9wPiM5W87AgL04ddDTqA5MZa3bY2?=
+ =?us-ascii?Q?rTOZkTLBwB8kqrmT1TpedOfimNbmDOyrrlOOjsbFb7/bRUxu/EwfbKK8gaCU?=
+ =?us-ascii?Q?D+7jZ4efgGwsgXCC5jB6AzyXuQiXhaBfRPszvopMnadmQ1h3k8iSaFmXlxUa?=
+ =?us-ascii?Q?hF6hyhb7xvxKaEWiCVN3AjzGR0/xU8Bj5zlwM4l1ZAbdj8kDrNbKdOKrYYkx?=
+ =?us-ascii?Q?TI0MICIWllOTLDo2xoS2X/HwCiSWOQ6yJQ+3e8XKYI3g20butCPhnZQyRk5M?=
+ =?us-ascii?Q?6/LpAlD3JN20zyNi2iOT3JQBc7+AfQQQzirq44R3atWoN5gibdcRE7Dpa91z?=
+ =?us-ascii?Q?KDZzy/Ukc2lwLvpEBXBDAfDsZN1OxpJDLcVdUG8Kq8ODB3g6R+n4xbtOm+Fu?=
+ =?us-ascii?Q?eVL6Br8jiKRL5QhgSp73rIvmIlGSFNmj7re1FbpU0Wuew9kq27eVDWyxlgvJ?=
+ =?us-ascii?Q?SRoQ0gGIZB14wJj0pshsqkq2CJifKPHXoL28fju/0yRL+DAsJiNuf7xbT08W?=
+ =?us-ascii?Q?bP/cLe07NmTP1J6iczFHk3+J9aRsBN8UB4kBwqxCwWLK3qNXp2Yg/nmWBlaN?=
+ =?us-ascii?Q?zpHqzokdxrWMvwLhz3YtJ4dX6tFLbuogdpQ4WFZpeo7rjCfeYCwjiubuQAcx?=
+ =?us-ascii?Q?eZTvEnj4Q1EXWNpQaoPLwMVHLyL5GDjclU/SrhbOFbXUUmlk44z8RV3zkav7?=
+ =?us-ascii?Q?C5tfiyBPg3NEnGQNzmNeAykcCNWdOjcFp/EkGxqFOAkTVJrnRQRlpei9eHVQ?=
+ =?us-ascii?Q?ROhT6FRGyr7Z4SL4AJU97HlfwE1C3nSGgofzNxpkrANQbGAGVlh7vI+eV/BL?=
+ =?us-ascii?Q?RM2Efr8ekz1F+GPKDJIY7m0ksImefgXnlpVZbUAsJs4mVHVM+zr10N1tM94z?=
+ =?us-ascii?Q?51+cvLp14YC6iXNBBkxF9Gz1/NlNrFaEIfPrHlGs+KnVYxaqbIyPz9HjgnB+?=
+ =?us-ascii?Q?YM2nfHlXfmfKlZlYt6sXIv6fddtVSNSmDp/VZL24ffbWf0VYX+qfvZtCBtQp?=
+ =?us-ascii?Q?1mXCgLFdQaefqjMjgtUjGO4oysFpjBV6QnKTs/I7l02rxls00YgsKMY0MmdU?=
+ =?us-ascii?Q?t3PRnbgng4gXRaZyiPFfP2taCF314k4yn9IW0qLCTGD7HuvHXMQ+YvoP5bOy?=
+ =?us-ascii?Q?10X4AUAF4q1EoElz/qnnl4tVRW8/L8uwJ9ZSoxu5vDscTRygTmTye/5gkMEJ?=
+ =?us-ascii?Q?k+6737lEq2BANaVukQ62xgM90N/pKNnmM+JGKfo5Fb1B0EA0grt3YfoH0QqC?=
+ =?us-ascii?Q?uDchD83TVb4rBEVB2lMCC+GV2HHanbZKnCoBzN773fDFuIm+S3sQFQc/ychq?=
+ =?us-ascii?Q?kjtkHvQ5hAsnW9DcMxRlnJGO6V3imbLJL3mYgTioczpi+vHRwn+DLXtuCeIz?=
+ =?us-ascii?Q?ZJI8I7eVyfDRgIpUYoL7OYT3OxaPTuTolWn2h/yrpg6CvRFQ61S0DjxDCQZQ?=
+ =?us-ascii?Q?FrBtaxIBvWgvXUa8OMLiAROQCfyBFYI/dxtktszg4sDCqsszuAfSbCPVixGA?=
+ =?us-ascii?Q?Y4YnLxMOiHKc0lMEsv+Ss0S4Ei0Z+poUcsplAC0kNeiXg+2VgQSFVmmgmlso?=
+ =?us-ascii?Q?r/IHaY+rNZCccAjSfJByggNhcyT/Sv087HCacWQ1sE0P4TMVaqxjYO9E2AKn?=
+ =?us-ascii?Q?AeX8p2vDMmZhTQHmLTQ3QzPq2eAY3yOif8KlhpG9wMKl70PpXL5yUMKdlXMB?=
+ =?us-ascii?Q?YSy7Prl3T9t8RxpgZpp5V6OqFdN0skg0BWz+17M4ycdYEYQn6TROdBszGH62?=
+X-MS-Exchange-AntiSpam-MessageData-1: yfR4A85TN4g+0Q==
+X-OriginatorOrg: altera.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3739d6a-83c2-4150-3060-08deb23f7b84
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6964.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2026 19:51:35.4642
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 05:04:46.1443
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +dthIKsZTFAu4TJ7qkKnqFJmyGZMjlS96LRRi4A2w9iChxno8VRsh/f/nBXOO8WdqeQ3ttcFfWtM8O6r23pjxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8656
+X-MS-Exchange-CrossTenant-UserPrincipalName: y+Hqk9Bz0sehzv7fWUp98zSerLSMDGnvIV7th1QSNdhUT9cKxzKgl6zGuaX5EoCG9jwjBKL0G958gd9OUhjTk4iBixGbMat4E8EVVRe0H4KJozUlAqTuuG+EJF9q3VqbkYip1YbvaH2aLcepxrhIXg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR03MB7700
 
-On Thu, May 14, 2026 at 01:31:47PM +0200, Borislav Petkov wrote:
-> On Mon, Mar 16, 2026 at 08:53:24AM -0400, Yazen Ghannam wrote:
-> > From: Avadhut Naik <avadhut.naik@amd.com>
-> > 
-> > The DRAM address of an error is used by tooling to find failure
-> > patterns. This information can be used for general analysis off system.
-> > And it can be used on system to take action like offline a page affected
-> > by a bad row.
-> > 
-> > Other EDAC modules (GHES and SKX) provide this information in their
-> > output. The AMD64 EDAC module was not able to provide this information,
-> > because system-specific translation is needed.
-> > 
-> > Recent AMD systems provide a PRM handler for DRAM address translation.
-> > 
-> > Use this PRM handler to get the DRAM address of an error. Include this
-> > in the EDAC "other_detail" field.
-> > 
-> > [Yazen: Reword commit message and reformat other_detail string]
-> > 
-> > Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
-> > Co-developed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> > Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> > ---
-> >  drivers/edac/amd64_edac.c | 27 ++++++++++++++++++++++++++-
-> >  drivers/edac/amd64_edac.h |  1 +
-> >  2 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> https://sashiko.dev/#/patchset/20260316125324.396889-1-yazen.ghannam%40amd.com
-> 
-> Please sanity check.
-> 
+From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
 
-This is a reasonable suggestion. Shall I send another revision?
+Guard the irq2 retrieval with an of_machine_is_compatible() check so
+that platform_get_irq(pdev, 1) is only called on Arria10 platforms.
 
-Thanks,
-Yazen
+Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+---
+v3: Fix commit header formatting to follow EDAC/altera: prefix
+    convention as per maintainer feedback.
+v2: Move irq2 = platform_get_irq(pdev, 1) inside the existing
+    of_machine_is_compatible("altr,socfpga-arria10") block instead of
+    adding a separate duplicate guard around it.
+---
+ drivers/edac/altera_edac.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index 4edd2088c2db..ee6ced033f2c 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -347,9 +347,6 @@ static int altr_sdram_probe(struct platform_device *pdev)
+ 		return irq;
+ 	}
+ 
+-	/* Arria10 has a 2nd IRQ */
+-	irq2 = platform_get_irq(pdev, 1);
+-
+ 	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+ 	layers[0].size = 1;
+ 	layers[0].is_virt_csrow = true;
+@@ -395,6 +392,9 @@ static int altr_sdram_probe(struct platform_device *pdev)
+ 
+ 	/* Only the Arria10 has separate IRQs */
+ 	if (of_machine_is_compatible("altr,socfpga-arria10")) {
++		/* Arria10 has a 2nd IRQ */
++		irq2 = platform_get_irq(pdev, 1);
++
+ 		/* Arria10 specific initialization */
+ 		res = a10_init(mc_vbase);
+ 		if (res < 0)
+-- 
+2.43.7
+
