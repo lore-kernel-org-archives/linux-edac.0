@@ -1,75 +1,97 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC77D429818;
-	Fri, 15 May 2026 10:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432CB3921E4;
+	Fri, 15 May 2026 11:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778839299; cv=none; b=NEG1ISJ8qsUCup4NILuCWvqx8tqG5EliNW9sLJSH5NOm6kXkYy8JhoGdjxm3G1X9KMjgjlT5x0V7Wll8/Qu2AwxOtn6UaeyUyKl48Yd+OLESpLj0NNz9ArtipkJm/FyJ/7V9Y6hbYHI6Cc8kqz3yu6VYJbTo/u5l95bJQwUdYDY=
+	t=1778845267; cv=none; b=sJkaECfFO+m7GhGN7B+oEMng+iCzgAC5exNEEjnEzh32S982XQgkfy+xhgdDi8bzVlqFkNvJ5WlkjNwOgdUiS3WbXBTZm9tSkYNpjkXVRmsvkQ7lhe3O5/q3e5f3n6HxV+YWQQJ6a9zXBMfN4xYBoWCVnzUBUpF0PFJAQiAawvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778839299; c=relaxed/simple;
-	bh=yj2JXReRNUAFff1od98tH+8X11lshwXinwECHwX2Bkg=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=o+dmTyCz35V0ILW9Pf/tMws1MUO6il+ouDg4FYCNi7rPeS0nznReoxlSX/bwCBNqtL5DT139/Ffoq8/9eOv3KV4BQY9PCZDJ2Gy84kV+eWj6K+BhvjprKcjrsOqfmVrxKrm+3bhNKwKsf0jf8/sp8n2HBqtnl32fLuafuF6MFCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=fwOVb6XQ; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1778845267; c=relaxed/simple;
+	bh=ojliKxLIPyVmRn0hRYANGJp+DlbHEI4KeA3aCrfNQQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=haA1juYkxXFFtFynJDJTjCWruMXJmqcw6y7dBuIopNnwEtwMDLXuHGz1XbH0vhSASRjshM/myxVKR+HPg7sprUIcZqi+uASwg9lfeOVU/RbzMykmjGRXGQV3fxJ4zIt/N3bTmHBhlCcqiK6TC2e0TxiMDpvtPrAraMltXfABvko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uc3uJqkK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="fwOVb6XQ"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8CF1940E01A9;
-	Fri, 15 May 2026 10:01:34 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 6glyfywoEx_7; Fri, 15 May 2026 10:01:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1778839282; bh=yj2JXReRNUAFff1od98tH+8X11lshwXinwECHwX2Bkg=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=fwOVb6XQxT8bWodGe7Z6ObER7RFzBCyH9Nsbnl+vjsPKk3ojqs1nvvW9zAorLY6PX
-	 glOuTx/442TTFCOitebuSsn5dO4T4wka4sgnAkUWAP1GJfOZLmeFNBVY766td+2+9p
-	 jbIxdg05KdR4wl3vrk4qQ1fJdGMW6d5UgQYzGzd2BSSzLaOtSpA/s4yEeqOHKKvVbf
-	 WLcOAU9XmCeC0BYmH/MRZcIKk9+Ic7TqvmxAHwqr36G8ypw4x2x/sxj6QMvSgSmdQ5
-	 9X62SGblyDZUT0v7lJIoUBUb9ktg/LQg0Ore5A8NLhk88O72LtwjhcWDo9MsK3u5hY
-	 MQr1yy4XI39uzv7446j9K6Yu3l9819VpWace790Xczmz2zpbAOJpCk+me66t+RXVN1
-	 r3+si0lDymW8zMd7lUGGdgKi1yLN4vKnnZz6idfvV2SzT2FP61w3swHIq1QtkOzj0M
-	 0U22XsXHpfh4/c9+xKo+9UPX3ZDxRXRzloanWq0dG5avVTI2O/dFxHk5c1Sg12siqc
-	 m1/X47GPLWYIueQrb6Av5hjHxePS1JD8ex1znePSmWHfMhajpnnBPL8erysGsiENrx
-	 T/iSUJXtFgVZMjG/7TAFQurGUjBhf75E1G1/1JtTHrR9hK+y59qbdnmDPhGYDCMGBY
-	 h+C3c3ov+ORVdyx6Yd7h6NSY=
-Received: from ehlo.thunderbird.net (unknown [IPv6:2a02:3038:21b:7a52:602d:1dcd:6beb:1e83])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E160E40E00BF;
-	Fri, 15 May 2026 10:01:17 +0000 (UTC)
-Date: Fri, 15 May 2026 10:01:13 +0000
-From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-CC: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
- Avadhut Naik <avanaik92@gmail.com>
-Subject: Re: [PATCH v4 2/2] EDAC/amd64: Include DRAM address in output
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260514194904.GA11459@yaz-khff2.amd.com>
-References: <20260316125324.396889-1-yazen.ghannam@amd.com> <20260316125324.396889-3-yazen.ghannam@amd.com> <20260514113147.GCagWyowfypCcZ0fUo@fat_crate.local> <20260514194904.GA11459@yaz-khff2.amd.com>
-Message-ID: <76D277BE-7654-4C50-B176-F3611045A405@alien8.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uc3uJqkK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69617C2BCB0;
+	Fri, 15 May 2026 11:41:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778845266;
+	bh=ojliKxLIPyVmRn0hRYANGJp+DlbHEI4KeA3aCrfNQQY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uc3uJqkKVO7ex+RfZyjahBG30iwryxXAvCYbs2oAFy8UGftPt0m3rHQ0A0gcWw20P
+	 TEAZKaZ6zYJlx5vNaeTDyRuYTr73Q56xqa+s4zxBH0aylRiwEjj93jbry/C5WOtl8U
+	 GYHCET2xyoTPhh2TkbcuAMOMbRarao+jsXDWyH0P/+JAQ5eu9Lvi3XW6zUyoKoAlnY
+	 wKzAD+PC4h0MEfaX+pJl75ZZi6Qrir0bWQvFfaJXPwxmPTB4PwOJvqrIzfTARGmveu
+	 pZe2rHSGnHjsGk/MJPdtBJ+EgYBgtTClMagqNHdIGSDhUOOTi2+0oT4yxIP7ZbcwBn
+	 pgUXMK3Z4vr0A==
+Message-ID: <c3af86b8-7187-4299-973a-d89ca0d52e9a@kernel.org>
+Date: Fri, 15 May 2026 06:41:05 -0500
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] EDAC/altera: Guard SDRAM irq2 retrieval for Arria10
+ only
+Content-Language: en-US
+To: muhammad.nazim.amirul.nazle.asmade@altera.com, bp@alien8.de,
+ tony.luck@intel.com
+Cc: linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260515050444.10380-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20260515050444.10380-1-muhammad.nazim.amirul.nazle.asmade@altera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On May 14, 2026 7:51:31 PM UTC, Yazen Ghannam <yazen=2Eghannam@amd=2Ecom> w=
-rote:
->This is a reasonable suggestion=2E Shall I send another revision?
 
-What would be the alternative?=20
 
---=20
-Small device=2E Typos and formatting crap
+On 5/15/26 00:04, muhammad.nazim.amirul.nazle.asmade@altera.com wrote:
+> From: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> 
+> Guard the irq2 retrieval with an of_machine_is_compatible() check so
+> that platform_get_irq(pdev, 1) is only called on Arria10 platforms.
+> 
+> Signed-off-by: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
+> ---
+> v3: Fix commit header formatting to follow EDAC/altera: prefix
+>      convention as per maintainer feedback.
+> v2: Move irq2 = platform_get_irq(pdev, 1) inside the existing
+>      of_machine_is_compatible("altr,socfpga-arria10") block instead of
+>      adding a separate duplicate guard around it.
+> ---
+>   drivers/edac/altera_edac.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+> index 4edd2088c2db..ee6ced033f2c 100644
+> --- a/drivers/edac/altera_edac.c
+> +++ b/drivers/edac/altera_edac.c
+> @@ -347,9 +347,6 @@ static int altr_sdram_probe(struct platform_device *pdev)
+>   		return irq;
+>   	}
+>   
+> -	/* Arria10 has a 2nd IRQ */
+> -	irq2 = platform_get_irq(pdev, 1);
+> -
+>   	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+>   	layers[0].size = 1;
+>   	layers[0].is_virt_csrow = true;
+> @@ -395,6 +392,9 @@ static int altr_sdram_probe(struct platform_device *pdev)
+>   
+>   	/* Only the Arria10 has separate IRQs */
+>   	if (of_machine_is_compatible("altr,socfpga-arria10")) {
+> +		/* Arria10 has a 2nd IRQ */
+> +		irq2 = platform_get_irq(pdev, 1);
+> +
+>   		/* Arria10 specific initialization */
+>   		res = a10_init(mc_vbase);
+>   		if (res < 0)
+
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
+
+
