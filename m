@@ -1,157 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from cvsmtppost105.wmail.worksmobile.com (cvsmtppost105.wmail.worksmobile.com [125.209.209.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46DE2874E3;
-	Tue, 19 May 2026 07:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018C83E274D
+	for <linux-edac@vger.kernel.org>; Tue, 19 May 2026 08:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=125.209.209.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779174290; cv=none; b=uCO+4A73M2sSEcwhzvjFBUquXjc8frqW9/9vK/7TbJKGXwO9AQoRztMjmxTQmxiKxSl+ZB6LEK0gqMDM3LviPgJ+yd0zX3MRgiYnZ8kVo2ns7wSeu0dQvCP0CMUTLHO49OOwjpDd7E8MX6TcYYDC/dUrd4fxtHocEloCo289T8Y=
+	t=1779180720; cv=none; b=I1edSY8rVr3H7GGzU2hOxLYWAMBkVABOR7TdwvZUfgmn327DQggt25y05umP5FLR7ZVxgZxyXjSgGu7VlKJu/V/yN+EJeLQw4OgquSiD1i6LdyySTUz4pwXg/Xej+gl2nPxWT1hsaiFWrru1K5cmAjzwi99z981Nl1S3RL3TxGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779174290; c=relaxed/simple;
-	bh=1irEky9aWBq8MFj23jSIgVbynmrjBX1upwAhF7Njc9k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XBtyy7GgIdGDE+AQLDeoaCmIruRvHUBZxhRx/I1vPTU6Z64G3ZL7FtdEWzXCfXPNel7f8vjPPv/vaDd1C1n54Y0/A3sDSevVH3dFRV5FwDS3MY3V8eoeVxzPmviW1NHIUPDNaMCvtwNJNkvJXafGyZ91D02stAHTGpqYGrqVRLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pmteWGt5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779180720; c=relaxed/simple;
+	bh=frWGhDbN1uz99gkuwPjyN9y05vKP5LnUYNfAyBcT2Bg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BRGTYLmky8q8B1wKni8EBqCRRKsRnoFwwyhjtjWABCZjxD4ZDqaldpJ796lhPmJhNJB8FRBMc8ne0wCXqVs31NpZsowXQWNZ04PsINhOo6Ho4rBBqZyNvJNKxcCvFycv3EZXtk7xgQ/SQpQIdwkpXPdze0J/vFKiHFMoTsbyTWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr; spf=pass smtp.mailfrom=korea.ac.kr; dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b=pmnsOeCx; dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b=CSacBjNn; arc=none smtp.client-ip=125.209.209.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pmteWGt5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9667C2BCB3;
-	Tue, 19 May 2026 07:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779174289;
-	bh=1irEky9aWBq8MFj23jSIgVbynmrjBX1upwAhF7Njc9k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pmteWGt56uJcXCo5A+rXNj7VwcTV1m1gvqCSUJ40cdwhP4SSi7VbDTBMZo/fjoB9O
-	 jVxK69lU43R7NADVOysrSDc3m/mhP3lpBbVbHObVGLE1m+QDJfq7GmF6zvjiGaQHpW
-	 tFmQRi90LF3riJQNuT9HHpkG5cGnwcbedNqETXQHLfV7YA+I3Dtfhx71CtjVdfD45x
-	 mHMbL1NXUf6sq59kbKkDLtpknsoeAJKU5zJ0helOQO9hdh8Cae4G9u+Trh9Veek3cK
-	 uPj4zTiuPfFP5LGzuX7alpo+ZUrr20vOXf8dWnikAvhSr+QcidzusPcgxbQK4X3Ech
-	 LtZ5NX5RAo2ZA==
-Message-ID: <5fb43b8d-e772-42af-ba78-d75abd87bd0c@kernel.org>
-Date: Tue, 19 May 2026 09:04:40 +0200
+	dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b="pmnsOeCx";
+	dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b="CSacBjNn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=worksmobile.com;
+	s=s20171120; t=1779180716;
+	bh=frWGhDbN1uz99gkuwPjyN9y05vKP5LnUYNfAyBcT2Bg=;
+	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=pmnsOeCxNtUR6or/k32etzs3aaXe7nixPntLwGtnrZnwBBpFFCAYL7EqpIcQYWHyv
+	 apn5JSPyt6fg1JrQg+BbyKQktlZdFHQBJub8h7LtU6qiXqxGNYlnVoHeaFSjdobTVm
+	 AjS0JoTepHJNObEwWHh7/Pe5BXYtwk6niWZ/7JxAOKX7HtH3QXioSByNGQJzea+y6M
+	 jtRItTlMOXUBz45JpgEdtmNKtu2YzXt115CzhEFqYGmrd9thUFXfkgU0qdy6Kti/GG
+	 1MwwRxmjQVD0aeHvOo+Y81EkVcbrJW2z4maw7A/1oHU3cRYqkKYZxs9+y7bShcze5l
+	 EbCmJPkV30TBw==
+Received: from cvsendbo006.wmail ([10.112.11.111])
+  by cvsmtppost105.wmail.worksmobile.com with ESMTP id sg2QDZ6-Tx6t-qrpw0kiMA
+  for <linux-edac@vger.kernel.org>;
+  Tue, 19 May 2026 08:51:56 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=korea.ac.kr;
+	s=naverworks; t=1779180716;
+	bh=frWGhDbN1uz99gkuwPjyN9y05vKP5LnUYNfAyBcT2Bg=;
+	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=CSacBjNnK95MSPRVok2pKkB86Y5IAN1MXqiweaLdO9kccsz26AqONJRlx20Cd9mMf
+	 R9CfIVC9So8u3LKE2WsarGiLEd/SDC0rXuZmv5yNE8DfYVXAYQr4QOMfI+DuCKs09l
+	 Q3O9o9uINNqpF0UNv0BUOJqjVXYwneh45mPvQ3SQ=
+X-Session-ID: d8XufWlYRCSOHjmVICBs-A
+X-Works-Send-Opt: EendjAIYjHm/FqM9FqJYFxMqFNwYjAg=
+X-Works-Smtp-Source: eqbdKxvXFqJZ+Hm9KxK/+6E=
+Received: from s2lab05.. ([163.152.163.130])
+  by jvnsmtp401.gwmail.worksmobile.com with ESMTP id d8XufWlYRCSOHjmVICBs-A
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Tue, 19 May 2026 08:51:55 -0000
+From: Ingyu Jang <ingyujang25@korea.ac.kr>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>
+Cc: linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] RAS/CEC: Drop unneeded debugfs_create_*() return value checks
+Date: Tue, 19 May 2026 17:51:54 +0900
+Message-Id: <20260519085154.103438-1-ingyujang25@korea.ac.kr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260514193202.2397348-1-ingyujang25@korea.ac.kr>
+References: <20260514193202.2397348-1-ingyujang25@korea.ac.kr>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/10] dt-bindings: firmware: add arm,ras-cper
-To: Ahmed Tiba <ahmed.tiba@arm.com>, rafael@kernel.org, bp@alien8.de,
- saket.dumbre@intel.com, will@kernel.org, xueshuai@linux.alibaba.com,
- mchehab@kernel.org, krzk+dt@kernel.org, dave@stgolabs.net,
- conor+dt@kernel.org, vishal.l.verma@intel.com, jic23@kernel.org,
- corbet@lwn.net, guohanjun@huawei.com, dave.jiang@intel.com,
- catalin.marinas@arm.com, lenb@kernel.org, tony.luck@intel.com,
- skhan@linuxfoundation.org, djbw@kernel.org, alison.schofield@intel.com,
- ira.weiny@intel.com, robh@kernel.org
-Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
- linux-cxl@vger.kernel.org, Michael.Zhao2@arm.com,
- acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
-References: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-0-42698675ba61@arm.com>
- <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-9-42698675ba61@arm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260518-topics-ahmtib01-ras_ffh_arm_internal_review-v4-9-42698675ba61@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/05/2026 13:57, Ahmed Tiba wrote:
-> Describe the DeviceTree node that exposes the Arm firmware-first
-> CPER provider and hook the file into MAINTAINERS so the
-> binding has an owner.
-> 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+debugfs_create_dir() and debugfs_create_file() return an error pointer
+on failure, never NULL. Per commit ff9fb72bc077 ("debugfs: return error
+values, not NULL"), callers do not need to check the return value.
 
-Please implement previous comments.
+Drop the dead NULL checks in create_debugfs_nodes() along with the now
+unused err label and local variables. Converting them to IS_ERR()
+instead would have exposed a regression: on a real debugfs failure
+(notably CONFIG_DEBUG_FS=n) the function would return -1, causing
+cec_init() to abort the entire CEC subsystem.
 
+The ras_get_debugfs_root() NULL check is kept; that helper has a
+NULL-returning fallback and is the legitimate "RAS debugfs root
+missing" gate.
 
-> ---
->  .../devicetree/bindings/firmware/arm,ras-cper.yaml | 71 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 76 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> new file mode 100644
-> index 000000000000..81dc37390af5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/arm,ras-cper.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Arm RAS CPER provider
-> +
-> +maintainers:
-> +  - Ahmed Tiba <ahmed.tiba@arm.com>
-> +
-> +description:
-> +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
-> +  a firmware-first CPER error source directly via DeviceTree. Firmware
-> +  provides the CPER Generic Error Status block and notifies the OS through
-> +  an interrupt.
-> +
-> +properties:
-> +  compatible:
-> +    const: arm,ras-cper
-> +
-> +  memory-region:
-> +    oneOf:
-> +      - items:
-> +          - description:
-> +              CPER Generic Error Status block exposed by firmware
-> +      - items:
-> +          - description:
-> +              CPER Generic Error Status block exposed by firmware.
+This patch supersedes an earlier proposal that converted the checks
+to IS_ERR().
 
-Also, this is just a list with minItems. No need for oneOf.
+Link: https://lore.kernel.org/all/20260514193202.2397348-1-ingyujang25@korea.ac.kr
+Signed-off-by: Ingyu Jang <ingyujang25@korea.ac.kr>
+---
+ drivers/ras/cec.c | 39 +++++++--------------------------------
+ 1 file changed, 7 insertions(+), 32 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/ras/cec.c b/drivers/ras/cec.c
+index 15f7f043c8efd..32c1be97bbd0d 100644
+--- a/drivers/ras/cec.c
++++ b/drivers/ras/cec.c
+@@ -480,7 +480,7 @@ DEFINE_SHOW_ATTRIBUTE(array);
+ 
+ static int __init create_debugfs_nodes(void)
+ {
+-	struct dentry *d, *pfn, *decay, *count, *array, *dfs;
++	struct dentry *d, *dfs;
+ 
+ 	dfs = ras_get_debugfs_root();
+ 	if (!dfs) {
+@@ -489,46 +489,21 @@ static int __init create_debugfs_nodes(void)
+ 	}
+ 
+ 	d = debugfs_create_dir("cec", dfs);
+-	if (!d) {
+-		pr_warn("Error creating cec debugfs node!\n");
+-		return -1;
+-	}
+ 
+-	decay = debugfs_create_file("decay_interval", S_IRUSR | S_IWUSR, d,
+-				    &decay_interval, &decay_interval_ops);
+-	if (!decay) {
+-		pr_warn("Error creating decay_interval debugfs node!\n");
+-		goto err;
+-	}
++	debugfs_create_file("decay_interval", S_IRUSR | S_IWUSR, d,
++			    &decay_interval, &decay_interval_ops);
+ 
+-	count = debugfs_create_file("action_threshold", S_IRUSR | S_IWUSR, d,
+-				    &action_threshold, &action_threshold_ops);
+-	if (!count) {
+-		pr_warn("Error creating action_threshold debugfs node!\n");
+-		goto err;
+-	}
++	debugfs_create_file("action_threshold", S_IRUSR | S_IWUSR, d,
++			    &action_threshold, &action_threshold_ops);
+ 
+ 	if (!IS_ENABLED(CONFIG_RAS_CEC_DEBUG))
+ 		return 0;
+ 
+-	pfn = debugfs_create_file("pfn", S_IRUSR | S_IWUSR, d, &dfs_pfn, &pfn_ops);
+-	if (!pfn) {
+-		pr_warn("Error creating pfn debugfs node!\n");
+-		goto err;
+-	}
++	debugfs_create_file("pfn", S_IRUSR | S_IWUSR, d, &dfs_pfn, &pfn_ops);
+ 
+-	array = debugfs_create_file("array", S_IRUSR, d, NULL, &array_fops);
+-	if (!array) {
+-		pr_warn("Error creating array debugfs node!\n");
+-		goto err;
+-	}
++	debugfs_create_file("array", S_IRUSR, d, NULL, &array_fops);
+ 
+ 	return 0;
+-
+-err:
+-	debugfs_remove_recursive(d);
+-
+-	return 1;
+ }
+ 
+ static int cec_notifier(struct notifier_block *nb, unsigned long val,
+-- 
+2.34.1
+
