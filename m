@@ -1,167 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2FC3FC5D7;
-	Thu, 21 May 2026 12:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF9B3438B5;
+	Sun, 24 May 2026 21:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779367497; cv=none; b=bRju0vQQ4nQolyS/11SULdlPmLnxp4cKhXSZ4LTOHYrRbH5ogEjA0X2F6sodp7Ml+hqp+StpjyNpchYJLb13x/29IjPhgGu0DcBfIp73H7nrtrL5UgoF2Ag0dGtn6Vv1FKqG9JRCWyjZwt2qYaVH2Hzs5lvhjl4PGNAM/Ov6u0g=
+	t=1779657221; cv=none; b=ugdKwSAfhKVMjhxuupLfg9CHYl8MUNbkQN81LsrANRuD2RSpsiiXskZAXsYjfsa3fxveUmE0jcEIOrdUJzLx7+Q5tnLoZn5uBudYD3LeMAiqnsV/2hJi7ZRdTSGstwmGqiWiBOf8c/4Sz5pFWuwpDZnUk91NnRwbVfVe3TQqHno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779367497; c=relaxed/simple;
-	bh=vkpTdE49LW3ePrA6mNyoeYRGMf3DT/A0A8Svp1xxlVA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TGHnhCwuXopvRwDDoTWec/zzL+718ONQWajNcWq6WRKU7yfeoipwV0hX4tzlLcJVMSYN2pF6dX2RyDoz+Z3ej+S5mkZvW+BvhllJ3W6bgNNOQK4LFu1E3vTXqKtJSWvtb44Gink+72mFQJUcSBVx/zmAfTa3B9fW0mCZVKYvVpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MB/9nc3C; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779657221; c=relaxed/simple;
+	bh=aQ7gWQCutGNFCqqbeQNP6LcA+psRTiMyVM6ge222JTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fh1wrDXqzafy4WqudXvPHkKbaY1Pg7cPxY9epvQaB2BNefnU0ebKyRMrgLmxIBH66KwultFGQkm3Kslpe+mD24dMWHSxvx3Xn2YztxgipaP0KfUr52sEVyp/g8cKlrzaG6Pg0tN/pgUA7tdBn2NseGQ7IwVfHz3AAmecA8duipc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=BFV47Zdg reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MB/9nc3C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779367490; x=1810903490;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=vkpTdE49LW3ePrA6mNyoeYRGMf3DT/A0A8Svp1xxlVA=;
-  b=MB/9nc3C7/vHcnPUV8uESiaESuR7kIL59+brGTm49wTBywEs8XA+GuB1
-   tYL8Unnk9K20cOZwG++hzAJWwz/UY7zfBRBnWbEVq1FPs97v1Ml8jo4nj
-   5Kxjvfo/ltpgA/t/sXPvpGrCCPZkkOKVD3SZqHfVzlIaODed//7iDf4Jc
-   fHJAUgsgK23y6uzuOY0vb/F7I4GYpXe394JSjOfZCY88YQVnnJPAHhKYZ
-   BlElziiyMp80LQQjNHaU13SKsAXsnWEQW3LArxNg60MU4/32Jya1KBp87
-   9E+OHBdz9xeCJ+zI5cbzPSwEfAQhoP9JIZTPVVMXSg1foAita552sjqhV
-   Q==;
-X-CSE-ConnectionGUID: hF49MM+SQMq2yM+C1rwOKA==
-X-CSE-MsgGUID: jGauXXbHTvWQpD6iWjo+YQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80265207"
-X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="80265207"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 05:44:49 -0700
-X-CSE-ConnectionGUID: 421uKTlsSpacgZwzxqpNQA==
-X-CSE-MsgGUID: bXnvk7OpSWGmgEpNQT+tbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,246,1770624000"; 
-   d="scan'208";a="236265157"
-Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 05:44:47 -0700
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>
-Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-	Jie Wang <jie.wang@intel.com>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] EDAC/igen6: Add Intel Nova Lake-H SoC support
-Date: Thu, 21 May 2026 20:38:12 +0800
-Message-ID: <20260521123812.3961038-3-qiuxu.zhuo@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260521123812.3961038-1-qiuxu.zhuo@intel.com>
-References: <20260521123812.3961038-1-qiuxu.zhuo@intel.com>
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="BFV47Zdg"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B20F340E01B5;
+	Sun, 24 May 2026 21:13:36 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id I1YrGl8KF5DP; Sun, 24 May 2026 21:13:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1779657205; bh=H0uYSPxB5pYJQM/EMMb0d+nqSJm1DSMSjC50bEf6lB4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BFV47ZdghBTlPL5hIv1ShDX6rClSth2X86c2Bg8pQ9XmWI/G9CwZ2lVWx7fViggjs
+	 C6DV1TDvdssQmo/+zBOkGmmUSTi+RvSuAGLgwyqv0Hv9b90EheyJsYCszlEWwDR8tv
+	 BsrIbZr3zO1fiFhj4mfykRRxJrtvw14EZyyzrgS2GvdYb+Zq12/B6EZ45tdWehgmVC
+	 A59uknrJPOEgQy1xayepdcvCLePjHVfTA39buoSPb7C3XXOBMkfQ5L4aFlzaoQfxUZ
+	 xG/LSkEanXiVkHI+dmx+cCNUaUQu9zemFZUx3Q4gM4/R9v7kEATnDX0lB9L/58hZ8v
+	 0+lz31Ca/BR6DiyXDVAc9VZitw4D74140pllr5GR9nMhcfQ615g3Rz+nArRj/wJZdj
+	 7hnTX13pJybW38rcwaI3+GHffDW1u9uFLuLu1MAjDvc9nvpryYsX6wJKdoTkexNDBX
+	 XRqQuGiSiso589bl5ha70pNsgi2SlWguQ0Gxkge7f7musx+i9u7SAf4eFYsGDF3WUk
+	 0y9RZ6X5Chs1qwaeLx0YGhPyPpKcbP48x1gDZAAD3K8aDvZ5ZtQ8Xkwrp3AR51VA9b
+	 ZUx9tpHSMUoZQ/LzUOzkX95WV6JQHJC0DMU1tDvQGkERfkhHHlN3kvjlmspoCluP/x
+	 apsqEKOrPw6wQR4coABJ2v/Q=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00:b8a3:f58e:8829:9ca6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 388B240E00C0;
+	Sun, 24 May 2026 21:13:16 +0000 (UTC)
+Date: Sun, 24 May 2026 14:13:05 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Tony Luck <tony.luck@intel.com>, Mark Gross <markgross@kernel.org>,
+	"Arvind R." <arvino55@gmail.com>, Jason Baron <jbaron@akamai.com>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: Re: [PATCH] edac: Consistently define pci_device_ids using named
+ initializers
+Message-ID: <20260524211305.GBahNp4fVVbGeibGXj@fat_crate.local>
+References: <20260429152513.3755034-2-u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260429152513.3755034-2-u.kleine-koenig@baylibre.com>
+Content-Transfer-Encoding: quoted-printable
 
-Nova Lake-H SoCs share similar memory controller registers and IBECC
-(In-Band ECC) registers with Panther Lake-H SoCs but use a new memory
-subsystem register for IBECC presence detection.
+On Wed, Apr 29, 2026 at 05:25:13PM +0200, Uwe Kleine-K=C3=B6nig (The Capa=
+ble Hub) wrote:
+> ... and PCI device helpers.
+>=20
+> The various struct pci_device_id arrays were initialized mostly by one
+> of the PCI_DEVICE macros and then list expressions. The latter isn't
+> easily readable if you're not into PCI. Using named initializers is mor=
+e
+> explicit and thus easier to parse.
+>=20
+> Also use PCI_DEVICE* helper macros to assign .vendor, .device,
+> .subvendor and .subdevice where appropriate and skip explicit
+> assignments of 0 (which the compiler takes care of).
+>=20
+> The secret plan is to make struct pci_device_id::driver_data an
+> anonymous union (similar to
+> https://lore.kernel.org/all/cover.1776579304.git.u.kleine-koenig@baylib=
+re.com/)
+> and that requires named initializers. But it's also a nice cleanup on
+> its own.
+>=20
+> This change doesn't introduce changes to the compiled pci_device_id
+> arrays. Tested on x86 and arm64.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig=
+@baylibre.com>
+> ---
+> Hello,
+>=20
+> the mentioned follow-up quest allows to do
+>=20
+> 	-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), .driver_data=
+ =3D (kernel_ulong_t)&snb_cfg },
+> 	+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), .driver_data=
+_ptr =3D &snb_cfg },
+>=20
+> which gets rid of a bunch of casts and so brings a little bit more type
+> safety. This patch is a preparation for that.
+>=20
+> I assume a single patch for all of drivers/edac is fine. If not I can
+> split per driver.
+>=20
+> Best regards
+> Uwe
+>=20
+>  drivers/edac/amd76x_edac.c  |  16 ++---
+>  drivers/edac/e752x_edac.c   |  28 ++++----
+>  drivers/edac/e7xxx_edac.c   |  28 ++++----
+>  drivers/edac/edac_mc.h      |   4 +-
+>  drivers/edac/i3000_edac.c   |  10 +--
+>  drivers/edac/i3200_edac.c   |  10 +--
+>  drivers/edac/i82860_edac.c  |  10 +--
+>  drivers/edac/i82875p_edac.c |  12 ++--
+>  drivers/edac/i82975x_edac.c |  11 ++-
+>  drivers/edac/ie31200_edac.c |  86 ++++++++++++------------
+>  drivers/edac/igen6_edac.c   | 130 ++++++++++++++++++------------------
+>  drivers/edac/x38_edac.c     |  10 +--
+>  12 files changed, 177 insertions(+), 178 deletions(-)
 
-Add Nova Lake-H SoC compute die IDs and create a new configuration
-structure for Nova Lake-H SoCs to enable EDAC support.
+Applied, thanks.
 
-Tested-by: Jie Wang <jie.wang@intel.com>
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
----
- drivers/edac/igen6_edac.c | 46 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+--=20
+Regards/Gruss,
+    Boris.
 
-diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index a761d683eae3..9af15ac6ff84 100644
---- a/drivers/edac/igen6_edac.c
-+++ b/drivers/edac/igen6_edac.c
-@@ -151,6 +151,7 @@ static struct res_config {
- 	/* MEMSS_PMA_CR registers. */
- 	u32 reg_mem_config_offset;
- 	u32 reg_mem_config_ddr_type_mask;
-+	u32 reg_mem_config_ibecc_en_mask;
- 	u32 reg_capabilities_misc_offset;
- 	u32 reg_capabilities_misc_ibecc_dis;
- 	/* Memory controller registers. */
-@@ -316,6 +317,12 @@ static struct work_struct ecclog_work;
- /* Compute die IDs for Wildcat Lake with IBECC */
- #define DID_WCL_SKU1	0xfd00
- 
-+/* Compute die IDs for Nova Lake-H/HX with IBECC */
-+#define DID_NVL_H_SKU1	0xd701
-+#define DID_NVL_H_SKU2	0xd702
-+#define DID_NVL_H_SKU3	0xd704
-+#define DID_NVL_H_SKU4	0xd705
-+
- static int get_mchbar(struct pci_dev *pdev, u64 *mchbar)
- {
- 	union  {
-@@ -417,6 +424,10 @@ static bool generic_ibecc_available(struct pci_dev *pdev)
- 		val = readl(base + res_cfg->reg_capabilities_misc_offset);
- 		present = !(val & res_cfg->reg_capabilities_misc_ibecc_dis);
- 		edac_dbg(2, "capabilities misc reg 0x%x\n", val);
-+	} else if (res_cfg->reg_mem_config_offset) {
-+		val = readl(base + res_cfg->reg_mem_config_offset);
-+		present = !!(val & res_cfg->reg_mem_config_ibecc_en_mask);
-+		edac_dbg(2, "mem config reg 0x%x\n", val);
- 	} else {
- 		igen6_printk(KERN_ERR, "No register for detecting IBECC presence.\n");
- 		present = false;
-@@ -798,6 +809,37 @@ static struct res_config wcl_cfg = {
- 	.err_addr_to_imc_addr	= adl_err_addr_to_imc_addr,
- };
- 
-+static struct res_config nvl_h_cfg = {
-+	.machine_check			= true,
-+	.num_imc			= 2,
-+	.reg_mchbar_mask		= GENMASK_ULL(41, 17),
-+	.reg_tom_mask			= GENMASK_ULL(41, 20),
-+	.reg_touud_mask			= GENMASK_ULL(41, 20),
-+	.reg_eccerrlog_addr_mask	= GENMASK_ULL(38, 5),
-+	.reg_mem_config_offset		= 0x12904,
-+	.reg_mem_config_ddr_type_mask	= GENMASK(8, 6),
-+	.reg_mem_config_ibecc_en_mask	= GENMASK(3, 2),
-+	.reg_mad_inter_size_mask[0]	= GENMASK(15, 8),
-+	.reg_mad_inter_size_mask[1]	= GENMASK(23, 16),
-+	.reg_mad_inter_size_granularity	= BIT_ULL(29),
-+	.reg_mad_intra_rank_mask[0]	= BIT(7),
-+	.reg_mad_intra_rank_mask[1]	= BIT(15),
-+	.reg_mad_intra_width_mask[0]	= BIT(6),
-+	.reg_mad_intra_width_mask[1]	= BIT(14),
-+	.reg_mad_intra_density_mask[0]	= GENMASK(3, 0),
-+	.reg_mad_intra_density_mask[1]	= GENMASK(11, 8),
-+	.imc_base			= 0xd800,
-+	.ibecc_base			= 0xd400,
-+	.ibecc_error_log_offset		= 0x170,
-+	.get_mem_type			= ptl_h_get_mem_type,
-+	.get_dev_type			= ptl_h_get_dev_type,
-+	.set_chan_params		= ptl_h_set_chan_params,
-+	.set_dimm_params		= ptl_h_set_dimm_params,
-+	.ibecc_available		= generic_ibecc_available,
-+	.err_addr_to_sys_addr		= adl_err_addr_to_sys_addr,
-+	.err_addr_to_imc_addr		= adl_err_addr_to_imc_addr,
-+};
-+
- static struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), (kernel_ulong_t)&ehl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), (kernel_ulong_t)&ehl_cfg },
-@@ -865,6 +907,10 @@ static struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU14), (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), (kernel_ulong_t)&wcl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU1), (kernel_ulong_t)&nvl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU2), (kernel_ulong_t)&nvl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU3), (kernel_ulong_t)&nvl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU4), (kernel_ulong_t)&nvl_h_cfg },
- 	{ },
- };
- MODULE_DEVICE_TABLE(pci, igen6_pci_tbl);
--- 
-2.43.0
-
+https://people.kernel.org/tglx/notes-about-netiquette
