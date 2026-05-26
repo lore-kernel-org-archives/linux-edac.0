@@ -1,60 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C58421EF3;
-	Tue, 26 May 2026 18:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451777E792;
+	Tue, 26 May 2026 19:32:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779820888; cv=none; b=S9cQ4/RLHnVkLZdZuchXHSqWahtBv3GZbzcgG9seRpD9BOoMlKcLR079AjjwwYWUMhcRExkqcqjQyQrx1P8UVCX1fIyWFgFnq1zHY7/0lt2EnJZ1byWExt9/aR8MlW12wzY0xxtZS1z7OSE7xpE6nrwLWwdQ3q5tCTw+wX8Sx1k=
+	t=1779823967; cv=none; b=VxXDg2Jw7OC36K/ZAvgRtgyhPTHHzkzE6aFOJhpkYeUynJdsbRA50PS9YRGNVBvUMS9EWCeNnjnI+ZcoJ4SLv74IUvmWTPjqD/GX6Ow0iymaC97gnDlZmwupCMYi38RihQ7aYHLf7HbXFc0KvMVWkQqF0V2tNveSGgI7LCnVFLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779820888; c=relaxed/simple;
-	bh=2SRbCbcXR53S4eTb+MvidBaVbQ3oMuiIzaZGwKIDDYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A2iVOyI5fqzisf52xV/lNiISJXCH++E1eN0aArLqwttzNHxME1s7zkqM+tcRtxIR6e602ZMV6shTK3M4TWkOLWnd0qKHqkxjf2c9k5BKRsnxrV1nZlOIq4snOEc7N8SMcoXWuSttCKzyDmSgyQN4flPrDHpijHYxVC7zQ9SYEjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jtgjFw4g; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779823967; c=relaxed/simple;
+	bh=H9cdeEdx7AHaOfpl4AURkjqMSZFQiPZIrYR9AwN9PxE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aiOl6DpB9vvoUU0ZH75cx340iu+WssTvB9K2YG692Mj50BEk2dGmpsQhLIiOugLeFaAYtv1CSrGUCSp6761SUxmpanzE5uNZ6BLXssjU9eBCqYEqKJLVczMWZTip9aDiUlI4Go8R9tI6i4M5m3jzxE41V4abQEDE8d3PMEdQTxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OKVKZq5d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jtgjFw4g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F231F000E9;
-	Tue, 26 May 2026 18:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779820886;
-	bh=rbxp5gHuJrWwEJEoYUSkBTYBQtdh3EBXIsBn5MxUArQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jtgjFw4gCJa/pmQ/o6ujH+iol1BmS0ldajdPzyylTrVTl9DdWetcj6OSLmDNHxLuz
-	 rciF+e3NZ/0n8k1iNiVb+giWweZHLozJsCeQ14gJinO282geYBRbmqMoriqBEQbVTx
-	 7tnBIyLaPwZSMpw9LMPSGj2dRuewxyIX8b99YZq4=
-Date: Tue, 26 May 2026 14:41:25 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Prabhjot Khurana <prabhjot.khurana@intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Tony Luck <tony.luck@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, Mark Gross <markgross@kernel.org>
-Subject: Re: [PATCH] MAINTAINERS: Drop Mark Gross
-Message-ID: <20260526-arrogant-lime-ibis-3cf01c@meerkat>
-References: <20260526173806.3227828-2-ukleinek@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OKVKZq5d"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 25B451F000E9;
+	Tue, 26 May 2026 19:32:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779823965;
+	bh=TadmLuuzE4XOWy5N2GaKJ4oZwiAQ7oiBWUlJ6aP9wFU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=OKVKZq5dfh32T8warQeiy88mZCiAMQcZDUocv49ysdyQChuzcNk72pJFPLOndDZ9Y
+	 4KuFtW5qNEkIOobt+I+asyDjpVNdBockbp/cNt/CxmcqVuFfdvMOIix2vBNrOb3RIy
+	 6+WEm3as6Q8b8iEACirJjeMgzqL2QA1YuTHmwNEwLQFc0opUrLfJ9VqyOQuAeUX36w
+	 lqtaaVRebgsgGZlzcS+iEFUYoYAieCfxLCvGu78zThJ7HTAg7g1AxQa6voDrNhRrv2
+	 7x7AK4TJe9qA2w6tqwgz+o3gxE4ocvu6dUJ7J5BSBq2HfwHc9DKgy5kRw6bJVMxWUo
+	 BCV82dk/009fg==
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Mark Gross <markgross@kernel.org>
+Cc: Prabhjot Khurana <prabhjot.khurana@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Dave Hansen <dave.hansen@intel.com>
+Subject: [PATCH v2] MAINTAINERS: Update Mark Gross's email contact
+Date: Tue, 26 May 2026 21:32:38 +0200
+Message-ID: <20260526193238.3622176-2-ukleinek@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260526-arrogant-lime-ibis-3cf01c@meerkat>
+References: <20260526-arrogant-lime-ibis-3cf01c@meerkat>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=858; i=ukleinek@kernel.org; h=from:subject; bh=H9cdeEdx7AHaOfpl4AURkjqMSZFQiPZIrYR9AwN9PxE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqFfVWjCXbfbsh/NXr1U9M19igjAy92XSPg3o6I Ayi917TN0aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahX1VgAKCRCPgPtYfRL+ TiOTB/9DxpNV3qrQgDZ+Npuewun8hZFm7y2wab+hxsAlCQWEPMPwrB/MJE97X5fK0ec8T13bMTJ brH594YmrwszUwyZ4aqXRXCdaUDVlzPVWd/ImrDxaDcQIRV/TimT3ETWnM6oU9fV1D+kO1rPpf+ NGX/JLaWKaY3KXnAom+evt8NfMX1p6hNvwyxxWoqhNPDEjPE4romu2wiYWa0gCQvNRybJS6PLyu NNN07yxUV/GaJBtU5DD7o+bOb3jJhX84tl2yeC/2TBSXNnKpE1jqe+LLc4MAeiMjK7yD0dRZVpt D7tLlaZpyLuruGEcCoZasplkGMzA1X+QhVYlcXQEt9keR82O
+X-Developer-Key: i=ukleinek@kernel.org; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260526173806.3227828-2-ukleinek@kernel.org>
 
-On Tue, May 26, 2026 at 07:38:06PM +0200, Uwe Kleine-König wrote:
-> Sending mail to Mark's kernel.org address results in the intel mail
-> server rejecting the mail. So drop him from all maintainer entries.
+Mark's intel address doesn't exist any more, update the maintainer entry
+that is still using it to his kernel.org address that is already used in
+other entries.
 
-Looking at the mailforward configuration on our side, I see that there are
-actually two destinations for markgross@kernel.org. I've removed the one that
-goes to his obsolete Intel address. 
+Signed-off-by: Uwe Kleine-König <ukleinek@kernel.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I suggest we actually keep Mark in the MAINTAINERS file for the time being,
-but change his INTEL KEEM BAY OCS ECC CRYPTO DRIVER entry to use his
-kernel.org address as well.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4087b67bbc69..021a45e7cc1a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13206,7 +13206,7 @@ F:	drivers/crypto/intel/keembay/ocs-aes.h
+ 
+ INTEL KEEM BAY OCS ECC CRYPTO DRIVER
+ M:	Prabhjot Khurana <prabhjot.khurana@intel.com>
+-M:	Mark Gross <mgross@linux.intel.com>
++M:	Mark Gross <markgross@kernel.org>
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/crypto/intel,keembay-ocs-ecc.yaml
+ F:	drivers/crypto/intel/keembay/Kconfig
 
--K
+base-commit: e7e28506af98ce4e1059e5ec59334b335c00a246
+-- 
+2.47.3
 
