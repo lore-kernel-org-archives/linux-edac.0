@@ -1,387 +1,811 @@
-Received: from out28-2.mail.aliyun.com (out28-2.mail.aliyun.com [115.124.28.2])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4702DA749;
-	Thu, 28 May 2026 03:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBBCDF76;
+	Thu, 28 May 2026 04:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779940762; cv=none; b=pgVkQ4W1p5TdPtvqUIix+DkEXkgen/T61JOq6P7FjKWVRpjUB6jRxAcYVFcJ90bU6XlMTb4ykpzTnG8Rlt/qaXDaqG/m0EYcn8hW15VSA4qfNMgoCSM92zPO4HvJpHBfGkYtZYal0AvFB+AalB2WVcLGdir3HMY4yHE8bfjtCL0=
+	t=1779940874; cv=none; b=t4u76CtPepILOiZXn3mikOWxSy6LtSDQeo7PyoYAPaB3etsdJfLM5Mjb0ClRCrzeYhM1wM6UMoVvtJgGZ8xYbIHomW2mV29SUiuz7OpZM2AIF8DwgZRq0w5RMryzItrRPCuMBYqV9rFQq/hMxb7QPtcTNrf1qIuzM/buQMQxIps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779940762; c=relaxed/simple;
-	bh=Yy7H8afrj0+EYn6ozWUAd6VUhE9TwkVrAhwOzh0d1aw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hCFo2VWeMmPXGBlJVcQX/Q6qFaINlfsrBBWSvz8wsxAXMnL6GLI4paKYKO1aaNTZx9/cU+G9V3Xaay+FF8BfwIYUNk6QopqE3qbz6SaQ9XnyVmpTs9seludkd262iiKXcAe8noYsDupWLf/+lLesvN9/xHBkHcQyvKrXhMOJsfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=115.124.28.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.00552353-0.000629855-0.993847;FP=17812137783631348919|1|1|2|0|-1|-1|-1;HT=maildocker-contentspam033032023038;MF=shiaichun@open-hieco.net;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.hieeCAb_1779940428;
-Received: from localhost.localdomain(mailfrom:shiaichun@open-hieco.net fp:SMTPD_---.hieeCAb_1779940428 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Thu, 28 May 2026 11:53:52 +0800
-From: Aichun Shi <shiaichun@open-hieco.net>
-To: yazen.ghannam@amd.com,
-	bp@alien8.de,
-	tony.luck@intel.com
-Cc: linux-edac@vger.kernel.org,
+	s=arc-20240116; t=1779940874; c=relaxed/simple;
+	bh=6bP52mY+oHgdRJ0feB4Uxf+Y7lR8eubltev8wvz5OL0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q0w4ruGjquiPJXDLesNjmzpIqdMCfTEDaiS67ZtDCXk5W6ladEf9CnG6JyZ92chNSp9jy9ZNC3A79DxJ/0IG/aqUuaJpiB1s1YpLjcV5ZtTW1bURC5P1B5BBVv5IESymo5KKODN2S34OLWvG0SgnWTW8e07zrCVTvleE0r9m7O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=DV8uzU/P reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="DV8uzU/P"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CA90940E01B5;
+	Thu, 28 May 2026 04:01:08 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id eSaKIp3A6vtl; Thu, 28 May 2026 04:00:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1779940858; bh=HCRqtFPfsxcnFwI0m3fmFelyiadoy8NgkIgTgRZ1rVY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DV8uzU/PDESIeoKyE3KNrXQXkiiVyCus4YmfwsvDpXEDEbTU3j+FxU+jQhHrwS5XX
+	 9EOTOpyPowg4sQD1Di1B26z9vG3RHdx/BQDfnMt8YvazbMUvwo1iW1PVT87YFF0nx8
+	 MOMVMe3Nx/yidgBnuKz9w3t2CAUtHxRgBgHdNgrd3mQhG+8YfoF1+7/OJP6gH7xwgJ
+	 XNdpJpNXSSmrrh3pHajkXpeEpOL/vkJqNi5vSsb6CYMTe1Ks7c9yvmIiylA75WUCNB
+	 PmrDa/rCbvFVBDQqLSYY+cy0reJmwn49e8MyHUl536silrjEz6cXYaz909Shqi0Z5I
+	 csEntB9b/rYzMXET/rBYoTTzmOmEnYLnxNVLRP7ZIO+DGasir3cU1YVRlCZtdGW32L
+	 V7KcshWE6dM7Q3vKZ763/STlLWJkNru/UKT0yUS1w2YfvWTEpbcxRhhPzjahmxqFL4
+	 iNCfq6EcKmkLSpqYIpS+X6g1T6HG0RA0ZBkrTfLsr0K0leU7n5OSpZS9FeuSahwZ6/
+	 Enra3o3KnAjHDpfgEGprb1WlJTkvUcYr/2LakwddyhxeKtYBw9KPaxADrR/o2bM7Nb
+	 nECDDCz6m7Cit2UYxZCLSYQwRGUDSGs0s6W1VVL9rr+b0gEOrt9mICOzBkmyunXx5g
+	 qNSm92GoCIxrdCsZ1UTRHpU0=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00:b8a3:f58e:8829:9ca6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A496C40E0031;
+	Thu, 28 May 2026 04:00:48 +0000 (UTC)
+Date: Wed, 27 May 2026 21:00:38 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Tony Luck <tony.luck@intel.com>, Mark Gross <markgross@kernel.org>,
+	"Arvind R." <arvino55@gmail.com>, Jason Baron <jbaron@akamai.com>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	shiaichun@open-hieco.net
-Subject: [RFC PATCH v2 10/11] EDAC/amd64: Add Hygon Family 0x18 models 0x4-0x8 support
-Date: Thu, 28 May 2026 11:52:44 +0800
-Message-ID: <20260528035246.526012-11-shiaichun@open-hieco.net>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260528035246.526012-1-shiaichun@open-hieco.net>
-References: <20260528035246.526012-1-shiaichun@open-hieco.net>
+	Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: Re: [PATCH v2] edac: Consistently define pci_device_ids using named
+ initializers
+Message-ID: <20260528040038.GFahe95n8sFjjEsj1V@fat_crate.local>
+References: <20260527061057.3796383-2-u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260527061057.3796383-2-u.kleine-koenig@baylibre.com>
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 27, 2026 at 08:10:56AM +0200, Uwe Kleine-K=C3=B6nig (The Capa=
+ble Hub) wrote:
+> Borislav Petkov asked me to do a patch for drivers/edac/igen6_edac.c
+> only on top of next, but I hope this way it's still easier.
+
+There was a reason why I wanted you to separate the igen6 changes - that
+driver is getting regular updates seemingly daily currently and that patc=
+h of
+yours doesn't apply again.
+
+Anyway, I fixed up the conflicts. See below.
+
+---
+From: =3D?UTF-8?q?Uwe=3D20Kleine-K=3DC3=3DB6nig=3D20=3D28The=3D20Capable=3D=
+20Hub=3D29?=3D
+ <u.kleine-koenig@baylibre.com>
+Date: Wed, 27 May 2026 08:10:56 +0200
+Subject: [PATCH] EDAC: Consistently define pci_device_ids using named
+ initializers
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
 Content-Transfer-Encoding: 8bit
 
-Add UMC base support for Hygon Family 0x18 models 0x4-0x8.
-Add error channel fields from MCA IPID for Hygon.
-Add distinct memory-controller counts for Hygon models 0x4/0x5.
+... and PCI device helpers.
 
-- Factor Hygon-specific code into hygon_edac.c and hygon_edac.h.
-- Add is_hygon_f18h() as a static inline bool in hygon_edac.h, checking
-  both X86_VENDOR_HYGON and x86 family 0x18, with a TODO noting it will
-  move to <asm/hygon/node.h> in Hygon Node RFC next version.
-- Separate UMC base computation into hygon_get_umc_base() in hygon_edac.c.
-- Add get_umc_base_addr() dispatching to hygon_get_umc_base() on Hygon.
-- Add system_supports_ddr5() to include Hygon models 0x4-0x8 alongside
-  the existing zn_regs_v2 path.
-- Add get_num_nodes() returning hygon_cdd_num() on Hygon and
-  amd_nb_num() on AMD; use in init, exit, and allocation.
-- Extract error channel from IPID bits [23:20] on Hygon vs [31:20]
-  on AMD to match the Hygon UMC IPID layout.
+The various struct pci_device_id arrays were initialized mostly by one of=
+ the
+PCI_DEVICE macros and then list expressions. The latter aren't easily rea=
+dable
+if you're not into PCI. Using named initializers is more explicit and thu=
+s
+easier to parse.
 
-Signed-off-by: Aichun Shi <shiaichun@open-hieco.net>
+Also use PCI_DEVICE* helper macros to assign .vendor, .device, .subvendor=
+ and
+.subdevice where appropriate and skip explicit assignments of 0 (which th=
+e
+compiler takes care of).
+
+The secret plan is to make struct pci_device_id::driver_data an anonymous
+union (similar to
+
+  https://lore.kernel.org/all/cover.1776579304.git.u.kleine-koenig@baylib=
+re.com/
+
+and that requires named initializers. But it's also a nice cleanup on its=
+ own.
+
+  [ bp: Massage commit message. ]
+
+Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
+aylibre.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Reviewed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Link: https://patch.msgid.link/20260527061057.3796383-2-u.kleine-koenig@b=
+aylibre.com
 ---
- drivers/edac/Makefile     |  5 +++
- drivers/edac/amd64_edac.c | 58 ++++++++++++++++++++++++-------
- drivers/edac/amd64_edac.h |  5 +++
- drivers/edac/hygon_edac.c | 73 +++++++++++++++++++++++++++++++++++++++
- drivers/edac/hygon_edac.h | 24 +++++++++++++
- 5 files changed, 153 insertions(+), 12 deletions(-)
- create mode 100644 drivers/edac/hygon_edac.c
- create mode 100644 drivers/edac/hygon_edac.h
+ drivers/edac/amd76x_edac.c  |  16 ++---
+ drivers/edac/e752x_edac.c   |  28 ++++----
+ drivers/edac/e7xxx_edac.c   |  28 ++++----
+ drivers/edac/edac_mc.h      |   4 +-
+ drivers/edac/i3000_edac.c   |  10 +--
+ drivers/edac/i3200_edac.c   |  10 +--
+ drivers/edac/i82860_edac.c  |  10 +--
+ drivers/edac/i82875p_edac.c |  12 ++--
+ drivers/edac/i82975x_edac.c |  11 ++-
+ drivers/edac/ie31200_edac.c |  86 +++++++++++-----------
+ drivers/edac/igen6_edac.c   | 140 ++++++++++++++++++------------------
+ drivers/edac/x38_edac.c     |  10 +--
+ 12 files changed, 182 insertions(+), 183 deletions(-)
 
-diff --git a/drivers/edac/Makefile b/drivers/edac/Makefile
-index a37534300ab9..1d58af106420 100644
---- a/drivers/edac/Makefile
-+++ b/drivers/edac/Makefile
-@@ -47,6 +47,11 @@ obj-$(CONFIG_EDAC_X38)			+= x38_edac.o
- obj-$(CONFIG_EDAC_I82860)		+= i82860_edac.o
- obj-$(CONFIG_EDAC_AMD64)		+= amd64_edac.o
- 
-+amd64_edac-y				:= amd64_edac_core.o hygon_edac.o
-+
-+$(obj)/amd64_edac_core.o: $(src)/amd64_edac.c FORCE
-+	$(call if_changed_rule,cc_o_c)
-+
- obj-$(CONFIG_EDAC_PASEMI)		+= pasemi_edac.o
- 
- mpc85xx_edac_mod-y			:= fsl_ddr_edac.o mpc85xx_edac.o
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index 8908ab881c85..d9050f368d4e 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -2,8 +2,10 @@
- #include <linux/ras.h>
- #include <linux/string_choices.h>
- #include "amd64_edac.h"
-+#include "hygon_edac.h"
- #include <asm/amd/nb.h>
- #include <asm/amd/node.h>
-+#include <asm/hygon/node.h>
- 
- static struct edac_pci_ctl_info *pci_ctl;
- 
-@@ -98,6 +100,27 @@ int __amd64_write_pci_cfg_dword(struct pci_dev *pdev, int offset,
- 	return pcibios_err_to_errno(err);
- }
- 
-+static u32 get_umc_base_addr(struct amd64_pvt *pvt, u8 channel)
-+{
-+	if (is_hygon_f18h())
-+		return hygon_get_umc_base(pvt, channel);
-+
-+	return get_umc_base(channel);
-+}
-+
-+static bool system_supports_ddr5(struct amd64_pvt *pvt)
-+{
-+	return pvt->flags.zn_regs_v2 || hygon_supports_ddr5();
-+}
-+
-+static u16 get_num_nodes(void)
-+{
-+	if (is_hygon_f18h())
-+		return hygon_cdd_num();
-+
-+	return amd_nb_num();
-+}
-+
- /*
-  * Select DCT to which PCI cfg accesses are routed
-  */
-@@ -1453,11 +1476,13 @@ static void umc_read_base_mask(struct amd64_pvt *pvt)
- 	u32 *base, *base_sec;
- 	u32 *mask, *mask_sec;
- 	int cs, umc;
-+	u32 umc_base;
- 	u32 tmp;
- 
- 	for_each_umc(umc) {
--		umc_base_reg = get_umc_base(umc) + UMCCH_BASE_ADDR;
--		umc_base_reg_sec = get_umc_base(umc) + UMCCH_BASE_ADDR_SEC;
-+		umc_base = get_umc_base_addr(pvt, umc);
-+		umc_base_reg = umc_base + UMCCH_BASE_ADDR;
-+		umc_base_reg_sec = umc_base + UMCCH_BASE_ADDR_SEC;
- 
- 		for_each_chip_select(cs, umc, pvt) {
- 			base = &pvt->csels[umc].csbases[cs];
-@@ -1479,8 +1504,8 @@ static void umc_read_base_mask(struct amd64_pvt *pvt)
- 			}
- 		}
- 
--		umc_mask_reg = get_umc_base(umc) + UMCCH_ADDR_MASK;
--		umc_mask_reg_sec = get_umc_base(umc) + get_umc_reg(pvt, UMCCH_ADDR_MASK_SEC);
-+		umc_mask_reg = umc_base + UMCCH_ADDR_MASK;
-+		umc_mask_reg_sec = umc_base + get_umc_reg(pvt, UMCCH_ADDR_MASK_SEC);
- 
- 		for_each_chip_select_mask(cs, umc, pvt) {
- 			mask = &pvt->csels[umc].csmasks[cs];
-@@ -1554,6 +1579,7 @@ static void umc_determine_memory_type(struct amd64_pvt *pvt)
- {
- 	struct amd64_umc *umc;
- 	u32 i;
-+	bool ddr5_supported = system_supports_ddr5(pvt);
- 
- 	for_each_umc(i) {
- 		umc = &pvt->umc[i];
-@@ -1567,7 +1593,7 @@ static void umc_determine_memory_type(struct amd64_pvt *pvt)
- 		 * Check if the system supports the "DDR Type" field in UMC Config
- 		 * and has DDR5 DIMMs in use.
- 		 */
--		if (pvt->flags.zn_regs_v2 && ((umc->umc_cfg & GENMASK(2, 0)) == 0x1)) {
-+		if (ddr5_supported && ((umc->umc_cfg & GENMASK(2, 0)) == 0x1)) {
- 			if (umc->dimm_cfg & BIT(5))
- 				umc->dram_type = MEM_LRDDR5;
- 			else if (umc->dimm_cfg & BIT(4))
-@@ -2801,7 +2827,11 @@ static inline void decode_bus_error(int node_id, struct mce *m)
-  */
- static void umc_get_err_info(struct mce *m, struct err_info *err)
- {
--	err->channel = (m->ipid & GENMASK(31, 0)) >> 20;
-+	if (is_hygon_f18h())
-+		err->channel = hygon_get_umc_channel(m->ipid);
-+	else
-+		err->channel = FIELD_GET(GENMASK(31, 20), m->ipid);
-+
- 	err->csrow = m->synd & 0x7;
- }
- 
-@@ -2922,8 +2952,7 @@ static void umc_read_mc_regs(struct amd64_pvt *pvt)
- 
- 	/* Read registers from each UMC */
- 	for_each_umc(i) {
--
--		umc_base = get_umc_base(i);
-+		umc_base = get_umc_base_addr(pvt, i);
- 		umc = &pvt->umc[i];
- 
- 		if (!amd_smn_read(nid, umc_base + get_umc_reg(pvt, UMCCH_DIMM_CFG), &tmp))
-@@ -3841,6 +3870,7 @@ static int per_family_init(struct amd64_pvt *pvt)
- 		break;
- 
- 	case 0x18:
-+		hygon_per_family_init(pvt);
- 		break;
- 
- 	case 0x19:
-@@ -4128,6 +4158,7 @@ static int __init amd64_edac_init(void)
- {
- 	const char *owner;
- 	int err = -ENODEV;
-+	u16 node_num;
- 	int i;
- 
- 	if (ghes_get_devices())
-@@ -4140,13 +4171,15 @@ static int __init amd64_edac_init(void)
- 	if (!x86_match_cpu(amd64_cpuids))
- 		return -ENODEV;
- 
--	if (!amd_nb_num())
-+	node_num = get_num_nodes();
-+
-+	if (!node_num)
- 		return -ENODEV;
- 
- 	opstate_init();
- 
- 	err = -ENOMEM;
--	ecc_stngs = kzalloc_objs(ecc_stngs[0], amd_nb_num());
-+	ecc_stngs = kzalloc_objs(ecc_stngs[0], node_num);
- 	if (!ecc_stngs)
- 		goto err_free;
- 
-@@ -4154,7 +4187,7 @@ static int __init amd64_edac_init(void)
- 	if (!msrs)
- 		goto err_free;
- 
--	for (i = 0; i < amd_nb_num(); i++) {
-+	for (i = 0; i < node_num; i++) {
- 		err = probe_one_instance(i);
- 		if (err) {
- 			/* unwind properly */
-@@ -4200,6 +4233,7 @@ static int __init amd64_edac_init(void)
- static void __exit amd64_edac_exit(void)
- {
- 	int i;
-+	u16 node_num = get_num_nodes();
- 
- 	if (pci_ctl)
- 		edac_pci_release_generic_ctl(pci_ctl);
-@@ -4210,7 +4244,7 @@ static void __exit amd64_edac_exit(void)
- 	else
- 		amd_unregister_ecc_decoder(decode_bus_error);
- 
--	for (i = 0; i < amd_nb_num(); i++)
-+	for (i = 0; i < node_num; i++)
- 		remove_one_instance(i);
- 
- 	kfree(ecc_stngs);
-diff --git a/drivers/edac/amd64_edac.h b/drivers/edac/amd64_edac.h
-index 1757c1b99fc8..d6a068dffb36 100644
---- a/drivers/edac/amd64_edac.h
-+++ b/drivers/edac/amd64_edac.h
-@@ -8,6 +8,9 @@
-  * GNU General Public License.
-  */
- 
-+#ifndef _AMD64_EDAC_H
-+#define _AMD64_EDAC_H
-+
- #include <linux/module.h>
- #include <linux/ctype.h>
- #include <linux/init.h>
-@@ -524,3 +527,5 @@ static inline u32 dct_sel_baseaddr(struct amd64_pvt *pvt)
- 	}
- 	return (pvt)->dct_sel_lo & 0xFFFFF800;
- }
-+
-+#endif /* _AMD64_EDAC_H */
-diff --git a/drivers/edac/hygon_edac.c b/drivers/edac/hygon_edac.c
-new file mode 100644
-index 000000000000..92504edac1f9
---- /dev/null
-+++ b/drivers/edac/hygon_edac.c
-@@ -0,0 +1,73 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Hygon Family 0x18 memory-controller support for amd64_edac.
-+ *
-+ * Vendor-specific UMC addressing, node counts, MCA decode, and family init
-+ * live here so the core amd64_edac.c AMD paths stay unchanged aside from
-+ * thin hook calls.
-+ *
-+ * Linked into amd64_edac.ko together with amd64_edac_core.o (compiled from
-+ * amd64_edac.c; see drivers/edac/Makefile).
-+ */
-+
-+#include <linux/pci.h>
-+#include <asm/amd/nb.h>
-+#include <asm/hygon/node.h>
-+
-+#include "amd64_edac.h"
-+#include "hygon_edac.h"
-+
-+/*
-+ * Hygon Family 0x18 models 0x4-0x8: UMC config is behind an SMN window derived
-+ * from the compute-die DFID.
-+ */
-+u32 hygon_get_umc_base(struct amd64_pvt *pvt, u8 channel)
-+{
-+	struct amd_northbridge *nb = node_to_amd_nb(pvt->mc_node_id);
-+	u32 base = get_umc_base(channel);
-+	u8 df_id;
-+
-+	if (!hygon_f18h_model_in_range(0x4, 0x8))
-+		return base;
-+
-+	if (hygon_get_dfid(nb->misc, &df_id))
-+		return base;
-+
-+	return base + (0x80000000U + (0x10000000U * (df_id - 4)));
-+}
-+
-+/*
-+ * Hygon Family 0x18 UMC channel is encoded in IPID bits [23:20], unlike AMD
-+ * which uses bits [31:20].
-+ */
-+u8 hygon_get_umc_channel(u64 ipid)
-+{
-+	return FIELD_GET(GENMASK_ULL(23, 20), ipid);
-+}
-+
-+bool hygon_supports_ddr5(void)
-+{
-+	return hygon_f18h_model_in_range(0x4, 0x8);
-+}
-+
-+void hygon_per_family_init(struct amd64_pvt *pvt)
-+{
-+	if (!is_hygon_f18h())
-+		return;
-+
-+	switch (pvt->model) {
-+	case 0x4:
-+		pvt->max_mcs = 3;
-+		break;
-+	case 0x5:
-+		pvt->max_mcs = 1;
-+		break;
-+	case 0x6:
-+	case 0x7:
-+	case 0x8:
-+		pvt->max_mcs = 2;
-+		break;
-+	default:
-+		break;
+diff --git a/drivers/edac/amd76x_edac.c b/drivers/edac/amd76x_edac.c
+index 2a49f68a7cf9..7bb11ffdb0c9 100644
+--- a/drivers/edac/amd76x_edac.c
++++ b/drivers/edac/amd76x_edac.c
+@@ -332,14 +332,14 @@ static void amd76x_remove_one(struct pci_dev *pdev)
+=20
+ static const struct pci_device_id amd76x_pci_tbl[] =3D {
+ 	{
+-	 PCI_VEND_DEV(AMD, FE_GATE_700C), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 AMD762},
+-	{
+-	 PCI_VEND_DEV(AMD, FE_GATE_700E), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 AMD761},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(AMD, FE_GATE_700C),
++		.driver_data =3D AMD762
++	}, {
++		PCI_VEND_DEV(AMD, FE_GATE_700E),
++		.driver_data =3D AMD761,
++	}, {
++		/* 0 terminated list. */
 +	}
-+}
-diff --git a/drivers/edac/hygon_edac.h b/drivers/edac/hygon_edac.h
-new file mode 100644
-index 000000000000..80f952209b95
---- /dev/null
-+++ b/drivers/edac/hygon_edac.h
-@@ -0,0 +1,24 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _HYGON_EDAC_H
-+#define _HYGON_EDAC_H
-+
-+#include <linux/types.h>
-+#include <linux/processor.h>
-+
-+struct amd64_pvt;
-+
-+/*
-+ * TODO: Will move to <asm/hygon/node.h> in Hygon Node RFC next version.
-+ */
-+static inline bool is_hygon_f18h(void)
-+{
-+	return boot_cpu_data.x86_vendor == X86_VENDOR_HYGON &&
-+	       boot_cpu_data.x86 == 0x18;
-+}
-+
-+u32 hygon_get_umc_base(struct amd64_pvt *pvt, u8 channel);
-+u8 hygon_get_umc_channel(u64 ipid);
-+bool hygon_supports_ddr5(void);
-+void hygon_per_family_init(struct amd64_pvt *pvt);
-+
-+#endif /* _HYGON_EDAC_H */
--- 
-2.47.3
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, amd76x_pci_tbl);
+diff --git a/drivers/edac/e752x_edac.c b/drivers/edac/e752x_edac.c
+index 7221b4bb6df2..77c1fe75451e 100644
+--- a/drivers/edac/e752x_edac.c
++++ b/drivers/edac/e752x_edac.c
+@@ -1414,20 +1414,20 @@ static void e752x_remove_one(struct pci_dev *pdev=
+)
+=20
+ static const struct pci_device_id e752x_pci_tbl[] =3D {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 7520_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7520},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7525_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7525},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7320_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7320},
+-	{
+-	 PCI_VEND_DEV(INTEL, 3100_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I3100},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 7520_0),
++		.driver_data =3D E7520,
++	}, {
++		PCI_VEND_DEV(INTEL, 7525_0),
++		.driver_data =3D E7525,
++	}, {
++		PCI_VEND_DEV(INTEL, 7320_0),
++		.driver_data =3D E7320,
++	}, {
++		PCI_VEND_DEV(INTEL, 3100_0),
++		.driver_data =3D I3100,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, e752x_pci_tbl);
+diff --git a/drivers/edac/e7xxx_edac.c b/drivers/edac/e7xxx_edac.c
+index 5852b95fa470..02071180b638 100644
+--- a/drivers/edac/e7xxx_edac.c
++++ b/drivers/edac/e7xxx_edac.c
+@@ -554,20 +554,20 @@ static void e7xxx_remove_one(struct pci_dev *pdev)
+=20
+ static const struct pci_device_id e7xxx_pci_tbl[] =3D {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 7205_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7205},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7500_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7500},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7501_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7501},
+-	{
+-	 PCI_VEND_DEV(INTEL, 7505_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 E7505},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 7205_0),
++		.driver_data =3D E7205,
++	}, {
++		PCI_VEND_DEV(INTEL, 7500_0),
++		.driver_data =3D E7500,
++	}, {
++		PCI_VEND_DEV(INTEL, 7501_0),
++		.driver_data =3D E7501,
++	}, {
++		PCI_VEND_DEV(INTEL, 7505_0),
++		.driver_data =3D E7505
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, e7xxx_pci_tbl);
+diff --git a/drivers/edac/edac_mc.h b/drivers/edac/edac_mc.h
+index 881b00eadf7a..9505bbd41784 100644
+--- a/drivers/edac/edac_mc.h
++++ b/drivers/edac/edac_mc.h
+@@ -88,8 +88,8 @@ do {									\
+=20
+ #endif				/* !CONFIG_EDAC_DEBUG */
+=20
+-#define PCI_VEND_DEV(vend, dev) PCI_VENDOR_ID_ ## vend, \
+-	PCI_DEVICE_ID_ ## vend ## _ ## dev
++#define PCI_VEND_DEV(vend, dev) \
++	PCI_DEVICE(PCI_VENDOR_ID_ ## vend, PCI_DEVICE_ID_ ## vend ## _ ## dev)
+=20
+ #define edac_dev_name(dev) (dev)->dev_name
+=20
+diff --git a/drivers/edac/i3000_edac.c b/drivers/edac/i3000_edac.c
+index 9065bc4386ff..04a231660b88 100644
+--- a/drivers/edac/i3000_edac.c
++++ b/drivers/edac/i3000_edac.c
+@@ -485,11 +485,11 @@ static void i3000_remove_one(struct pci_dev *pdev)
+=20
+ static const struct pci_device_id i3000_pci_tbl[] =3D {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 3000_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I3000},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 3000_HB),
++		.driver_data =3D I3000,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, i3000_pci_tbl);
+diff --git a/drivers/edac/i3200_edac.c b/drivers/edac/i3200_edac.c
+index 6cade6d7ceff..d600b6c05217 100644
+--- a/drivers/edac/i3200_edac.c
++++ b/drivers/edac/i3200_edac.c
+@@ -466,11 +466,11 @@ static void i3200_remove_one(struct pci_dev *pdev)
+=20
+ static const struct pci_device_id i3200_pci_tbl[] =3D {
+ 	{
+-		PCI_VEND_DEV(INTEL, 3200_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		I3200},
+-	{
+-		0,
+-	}            /* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 3200_HB),
++		.driver_data =3D I3200,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, i3200_pci_tbl);
+diff --git a/drivers/edac/i82860_edac.c b/drivers/edac/i82860_edac.c
+index b8a497f0de28..e8c1ee80bba8 100644
+--- a/drivers/edac/i82860_edac.c
++++ b/drivers/edac/i82860_edac.c
+@@ -287,11 +287,11 @@ static void i82860_remove_one(struct pci_dev *pdev)
+=20
+ static const struct pci_device_id i82860_pci_tbl[] =3D {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 82860_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I82860},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 82860_0),
++		.driver_data =3D I82860,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, i82860_pci_tbl);
+diff --git a/drivers/edac/i82875p_edac.c b/drivers/edac/i82875p_edac.c
+index 553880b9fc12..869de8e372b3 100644
+--- a/drivers/edac/i82875p_edac.c
++++ b/drivers/edac/i82875p_edac.c
+@@ -276,7 +276,7 @@ static int i82875p_setup_overfl_dev(struct pci_dev *p=
+dev,
+=20
+ 	*ovrfl_pdev =3D NULL;
+ 	*ovrfl_window =3D NULL;
+-	dev =3D pci_get_device(PCI_VEND_DEV(INTEL, 82875_6), NULL);
++	dev =3D pci_get_device(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82875_6=
+, NULL);
+=20
+ 	if (dev =3D=3D NULL) {
+ 		/* Intel tells BIOS developers to hide device 6 which
+@@ -518,11 +518,11 @@ static void i82875p_remove_one(struct pci_dev *pdev=
+)
+=20
+ static const struct pci_device_id i82875p_pci_tbl[] =3D {
+ 	{
+-	 PCI_VEND_DEV(INTEL, 82875_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 I82875P},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 82875_0),
++		.driver_data =3D I82875P,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, i82875p_pci_tbl);
+diff --git a/drivers/edac/i82975x_edac.c b/drivers/edac/i82975x_edac.c
+index d99f005832cf..09a79eaaa486 100644
+--- a/drivers/edac/i82975x_edac.c
++++ b/drivers/edac/i82975x_edac.c
+@@ -624,12 +624,11 @@ static void i82975x_remove_one(struct pci_dev *pdev=
+)
+=20
+ static const struct pci_device_id i82975x_pci_tbl[] =3D {
+ 	{
+-		PCI_VEND_DEV(INTEL, 82975_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-		I82975X
+-	},
+-	{
+-		0,
+-	}	/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, 82975_0),
++		.driver_data =3D I82975X
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, i82975x_pci_tbl);
+diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
+index a5dc4b88097f..e3bd6436669b 100644
+--- a/drivers/edac/ie31200_edac.c
++++ b/drivers/edac/ie31200_edac.c
+@@ -733,49 +733,49 @@ static struct res_config rpl_s_cfg =3D {
+ };
+=20
+ static const struct pci_device_id ie31200_pci_tbl[] =3D {
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), (kernel_ulong_t=
+)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_2), (kernel_ulong_t=
+)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_3), (kernel_ulong_t=
+)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_4), (kernel_ulong_t=
+)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_5), (kernel_ulong_t=
+)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_6), (kernel_ulong_t=
+)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_7), (kernel_ulong_t=
+)&snb_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_8), (kernel_ulong_t=
+)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_9), (kernel_ulong_t=
+)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_10), (kernel_ulong_=
+t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_11), (kernel_ulong_=
+t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_12), (kernel_ulong_=
+t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_1), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_2), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_3), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_4), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_5), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_6), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_7), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_8), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_9), (kernel_ulo=
+ng_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_10), (kernel_ul=
+ong_t)&skl_cfg },
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_1), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_2), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_3), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_4), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_5), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_6), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_HX_1), (kernel_ulo=
+ng_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_1), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_2), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_3), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_1), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_2), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_3), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_4), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_5), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_6), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_7), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_8), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_9), (kernel_ulon=
+g_t)&rpl_s_cfg},
+-	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_10), (kernel_ulo=
+ng_t)&rpl_s_cfg},
+-	{ 0, } /* 0 terminated list. */
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), .driver_data =3D=
+ (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_2), .driver_data =3D=
+ (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_3), .driver_data =3D=
+ (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_4), .driver_data =3D=
+ (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_5), .driver_data =3D=
+ (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_6), .driver_data =3D=
+ (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_7), .driver_data =3D=
+ (kernel_ulong_t)&snb_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_8), .driver_data =3D=
+ (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_9), .driver_data =3D=
+ (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_10), .driver_data =3D=
+ (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_11), .driver_data =3D=
+ (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_12), .driver_data =3D=
+ (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_1), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_2), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_3), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_4), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_5), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_6), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_7), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_8), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_9), .driver_dat=
+a =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_10), .driver_da=
+ta =3D (kernel_ulong_t)&skl_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_1), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_2), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_3), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_4), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_5), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_6), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_HX_1), .driver_dat=
+a =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_1), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_2), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_3), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_1), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_2), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_3), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_4), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_5), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_6), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_7), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_8), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_9), .driver_data=
+ =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_10), .driver_dat=
+a =3D (kernel_ulong_t)&rpl_s_cfg },
++	{ } /* 0 terminated list. */
+ };
+ MODULE_DEVICE_TABLE(pci, ie31200_pci_tbl);
+=20
+diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
+index 9af15ac6ff84..f1fc20d4ebf6 100644
+--- a/drivers/edac/igen6_edac.c
++++ b/drivers/edac/igen6_edac.c
+@@ -841,76 +841,76 @@ static struct res_config nvl_h_cfg =3D {
+ };
+=20
+ static struct pci_device_id igen6_pci_tbl[] =3D {
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU7), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU8), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU9), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU10), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU11), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU12), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), (kernel_ulong_t)&ehl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), (kernel_ulong_t)&icl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_TGL_SKU), (kernel_ulong_t)&tgl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU1), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), (kernel_ulong_t)&adl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), (kernel_ulong_t)&adl_n_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU1), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU2), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU3), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU4), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU5), (kernel_ulong_t)&rpl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU1), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU2), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU3), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU4), (kernel_ulong_t)&mtl_ps_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU1), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU2), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU3), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU1), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU2), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU3), (kernel_ulong_t)&mtl_p_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU1), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU2), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU3), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU4), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU5), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU6), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU7), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU8), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU9), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU10), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU11), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU14), (kernel_ulong_t)&ptl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), (kernel_ulong_t)&wcl_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU1), (kernel_ulong_t)&nvl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU2), (kernel_ulong_t)&nvl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU3), (kernel_ulong_t)&nvl_h_cfg },
+-	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU4), (kernel_ulong_t)&nvl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), .driver_data =3D (kernel_ulong_t)&e=
+hl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), .driver_data =3D (kernel_ulong_t)&e=
+hl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU7), .driver_data =3D (kernel_ulong_t)&e=
+hl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU8), .driver_data =3D (kernel_ulong_t)&e=
+hl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU9), .driver_data =3D (kernel_ulong_t)&e=
+hl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU10), .driver_data =3D (kernel_ulong_t)&=
+ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU11), .driver_data =3D (kernel_ulong_t)&=
+ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU12), .driver_data =3D (kernel_ulong_t)&=
+ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), .driver_data =3D (kernel_ulong_t)&=
+ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), .driver_data =3D (kernel_ulong_t)&=
+ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), .driver_data =3D (kernel_ulong_t)&=
+ehl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), .driver_data =3D (kernel_ulong_t)&i=
+cl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), .driver_data =3D (kernel_ulong_t)&=
+icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), .driver_data =3D (kernel_ulong_t)&=
+icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), .driver_data =3D (kernel_ulong_t)&=
+icl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_TGL_SKU), .driver_data =3D (kernel_ulong_t)&tg=
+l_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU1), .driver_data =3D (kernel_ulong_t)&a=
+dl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), .driver_data =3D (kernel_ulong_t)&a=
+dl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), .driver_data =3D (kernel_ulong_t)&a=
+dl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), .driver_data =3D (kernel_ulong_t)&a=
+dl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), .driver_data =3D (kernel_ulong_t)=
+&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), .driver_data =3D (kernel_ulong_t=
+)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), .driver_data =3D (kernel_ulong_t=
+)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), .driver_data =3D (kernel_ulong_t=
+)&adl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), .driver_data =3D (kernel_ulong_t)&a=
+dl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), .driver_data =3D (kernel_ulong_t)&a=
+dl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), .driver_data =3D (kernel_ulong_t)&a=
+dl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), .driver_data =3D (kernel_ulong_t)&a=
+dl_n_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU1), .driver_data =3D (kernel_ulong_t)=
+&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU2), .driver_data =3D (kernel_ulong_t)=
+&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU3), .driver_data =3D (kernel_ulong_t)=
+&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU4), .driver_data =3D (kernel_ulong_t)=
+&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU5), .driver_data =3D (kernel_ulong_t)=
+&rpl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU1), .driver_data =3D (kernel_ulong_t=
+)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU2), .driver_data =3D (kernel_ulong_t=
+)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU3), .driver_data =3D (kernel_ulong_t=
+)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU4), .driver_data =3D (kernel_ulong_t=
+)&mtl_ps_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU1), .driver_data =3D (kernel_ulong_t)=
+&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU2), .driver_data =3D (kernel_ulong_t)=
+&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU3), .driver_data =3D (kernel_ulong_t)=
+&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU1), .driver_data =3D (kernel_ulong_t=
+)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU2), .driver_data =3D (kernel_ulong_t=
+)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU3), .driver_data =3D (kernel_ulong_t=
+)&mtl_p_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU1), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU2), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU3), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU4), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU5), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU6), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU7), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU8), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU9), .driver_data =3D (kernel_ulong_t)=
+&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU10), .driver_data =3D (kernel_ulong_t=
+)&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU11), .driver_data =3D (kernel_ulong_t=
+)&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), .driver_data =3D (kernel_ulong_t=
+)&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), .driver_data =3D (kernel_ulong_t=
+)&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU14), .driver_data =3D (kernel_ulong_t=
+)&ptl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), .driver_data =3D (kernel_ulong_t)&w=
+cl_cfg },
++	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU1), .driver_data =3D (kernel_ulong_t)=
+&nvl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU2), .driver_data =3D (kernel_ulong_t)=
+&nvl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU3), .driver_data =3D (kernel_ulong_t)=
+&nvl_h_cfg },
++	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU4), .driver_data =3D (kernel_ulong_t)=
+&nvl_h_cfg },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(pci, igen6_pci_tbl);
+diff --git a/drivers/edac/x38_edac.c b/drivers/edac/x38_edac.c
+index 292dda754c23..2b55daca33b0 100644
+--- a/drivers/edac/x38_edac.c
++++ b/drivers/edac/x38_edac.c
+@@ -446,11 +446,11 @@ static void x38_remove_one(struct pci_dev *pdev)
+=20
+ static const struct pci_device_id x38_pci_tbl[] =3D {
+ 	{
+-	 PCI_VEND_DEV(INTEL, X38_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+-	 X38},
+-	{
+-	 0,
+-	 }			/* 0 terminated list. */
++		PCI_VEND_DEV(INTEL, X38_HB),
++		.driver_data =3D X38,
++	}, {
++		/* 0 terminated list. */
++	}
+ };
+=20
+ MODULE_DEVICE_TABLE(pci, x38_pci_tbl);
+--=20
+2.53.0
 
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
