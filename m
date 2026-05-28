@@ -1,811 +1,577 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from out198-20.us.a.mail.aliyun.com (out198-20.us.a.mail.aliyun.com [47.90.198.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBBCDF76;
-	Thu, 28 May 2026 04:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF181DE8BE;
+	Thu, 28 May 2026 04:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779940874; cv=none; b=t4u76CtPepILOiZXn3mikOWxSy6LtSDQeo7PyoYAPaB3etsdJfLM5Mjb0ClRCrzeYhM1wM6UMoVvtJgGZ8xYbIHomW2mV29SUiuz7OpZM2AIF8DwgZRq0w5RMryzItrRPCuMBYqV9rFQq/hMxb7QPtcTNrf1qIuzM/buQMQxIps=
+	t=1779941365; cv=none; b=Ev60ryEQUSTSclN61jAIeCvam6x162jTe8g00R63sac6BzxLfDqJ3HyY+BtldD7pjcqo//+Wuh3dXypWj/n/g3B8jfvpZW7axR+6P3noN+Sqn1JKRZQv3Yke09u++oyXY9xqfqgAonjWrNwBtHT9Bpqm5XTEGm0NfIysAoLeQow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779940874; c=relaxed/simple;
-	bh=6bP52mY+oHgdRJ0feB4Uxf+Y7lR8eubltev8wvz5OL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q0w4ruGjquiPJXDLesNjmzpIqdMCfTEDaiS67ZtDCXk5W6ladEf9CnG6JyZ92chNSp9jy9ZNC3A79DxJ/0IG/aqUuaJpiB1s1YpLjcV5ZtTW1bURC5P1B5BBVv5IESymo5KKODN2S34OLWvG0SgnWTW8e07zrCVTvleE0r9m7O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=DV8uzU/P reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="DV8uzU/P"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CA90940E01B5;
-	Thu, 28 May 2026 04:01:08 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id eSaKIp3A6vtl; Thu, 28 May 2026 04:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1779940858; bh=HCRqtFPfsxcnFwI0m3fmFelyiadoy8NgkIgTgRZ1rVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DV8uzU/PDESIeoKyE3KNrXQXkiiVyCus4YmfwsvDpXEDEbTU3j+FxU+jQhHrwS5XX
-	 9EOTOpyPowg4sQD1Di1B26z9vG3RHdx/BQDfnMt8YvazbMUvwo1iW1PVT87YFF0nx8
-	 MOMVMe3Nx/yidgBnuKz9w3t2CAUtHxRgBgHdNgrd3mQhG+8YfoF1+7/OJP6gH7xwgJ
-	 XNdpJpNXSSmrrh3pHajkXpeEpOL/vkJqNi5vSsb6CYMTe1Ks7c9yvmIiylA75WUCNB
-	 PmrDa/rCbvFVBDQqLSYY+cy0reJmwn49e8MyHUl536silrjEz6cXYaz909Shqi0Z5I
-	 csEntB9b/rYzMXET/rBYoTTzmOmEnYLnxNVLRP7ZIO+DGasir3cU1YVRlCZtdGW32L
-	 V7KcshWE6dM7Q3vKZ763/STlLWJkNru/UKT0yUS1w2YfvWTEpbcxRhhPzjahmxqFL4
-	 iNCfq6EcKmkLSpqYIpS+X6g1T6HG0RA0ZBkrTfLsr0K0leU7n5OSpZS9FeuSahwZ6/
-	 Enra3o3KnAjHDpfgEGprb1WlJTkvUcYr/2LakwddyhxeKtYBw9KPaxADrR/o2bM7Nb
-	 nECDDCz6m7Cit2UYxZCLSYQwRGUDSGs0s6W1VVL9rr+b0gEOrt9mICOzBkmyunXx5g
-	 qNSm92GoCIxrdCsZ1UTRHpU0=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00:b8a3:f58e:8829:9ca6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A496C40E0031;
-	Thu, 28 May 2026 04:00:48 +0000 (UTC)
-Date: Wed, 27 May 2026 21:00:38 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Tony Luck <tony.luck@intel.com>, Mark Gross <markgross@kernel.org>,
-	"Arvind R." <arvino55@gmail.com>, Jason Baron <jbaron@akamai.com>,
-	Qiuxu Zhuo <qiuxu.zhuo@intel.com>, linux-edac@vger.kernel.org,
+	s=arc-20240116; t=1779941365; c=relaxed/simple;
+	bh=8hSCcSIeOS9kHBROuPW24gTFO7ivIU8Ec7eu5qN4Siw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JYCQ8B4UXn8iKxQIENmjdk09ClsVEix+OfujDZyD5k2LUOo3MdJzpd7F75Uw1hj+pQ4NpeL36mTF9ZFg+dK8jHGMwPJBrmP54n3Wft6roJZA7fQyIb5iO2nw38r29ZbTYrUyelVoMGfqMpI/YCpevVAI27XVHYcNw34tTztPntc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net; spf=pass smtp.mailfrom=open-hieco.net; arc=none smtp.client-ip=47.90.198.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=open-hieco.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=open-hieco.net
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436259|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.00432169-0.000303894-0.995374;FP=1039342469963859155|1|1|2|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=shiaichun@open-hieco.net;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.hieeBiu_1779940399;
+Received: from localhost.localdomain(mailfrom:shiaichun@open-hieco.net fp:SMTPD_---.hieeBiu_1779940399 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 28 May 2026 11:53:22 +0800
+From: Aichun Shi <shiaichun@open-hieco.net>
+To: yazen.ghannam@amd.com,
+	bp@alien8.de,
+	tony.luck@intel.com
+Cc: linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: Re: [PATCH v2] edac: Consistently define pci_device_ids using named
- initializers
-Message-ID: <20260528040038.GFahe95n8sFjjEsj1V@fat_crate.local>
-References: <20260527061057.3796383-2-u.kleine-koenig@baylibre.com>
+	shiaichun@open-hieco.net
+Subject: [RFC PATCH v2 02/11] ras/amd/atl: Add Hygon DF1 DRAM address map decoding helper
+Date: Thu, 28 May 2026 11:52:36 +0800
+Message-ID: <20260528035246.526012-3-shiaichun@open-hieco.net>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260528035246.526012-1-shiaichun@open-hieco.net>
+References: <20260528035246.526012-1-shiaichun@open-hieco.net>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260527061057.3796383-2-u.kleine-koenig@baylibre.com>
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 27, 2026 at 08:10:56AM +0200, Uwe Kleine-K=C3=B6nig (The Capa=
-ble Hub) wrote:
-> Borislav Petkov asked me to do a patch for drivers/edac/igen6_edac.c
-> only on top of next, but I hope this way it's still easier.
-
-There was a reason why I wanted you to separate the igen6 changes - that
-driver is getting regular updates seemingly daily currently and that patc=
-h of
-yours doesn't apply again.
-
-Anyway, I fixed up the conflicts. See below.
-
----
-From: =3D?UTF-8?q?Uwe=3D20Kleine-K=3DC3=3DB6nig=3D20=3D28The=3D20Capable=3D=
-20Hub=3D29?=3D
- <u.kleine-koenig@baylibre.com>
-Date: Wed, 27 May 2026 08:10:56 +0200
-Subject: [PATCH] EDAC: Consistently define pci_device_ids using named
- initializers
-MIME-Version: 1.0
-Content-Type: text/plain; charset=3DUTF-8
 Content-Transfer-Encoding: 8bit
 
-... and PCI device helpers.
+Add Hygon DF1 DRAM address map decoding function that Hygon address
+translation pipeline depends on later.
+Prepare hygon_get_address_map() to be called by hygon/core.c later.
 
-The various struct pci_device_id arrays were initialized mostly by one of=
- the
-PCI_DEVICE macros and then list expressions. The latter aren't easily rea=
-dable
-if you're not into PCI. Using named initializers is more explicit and thu=
-s
-easier to parse.
+- Add struct hygon_chan_intlv in addr_ctx and HYGON_DF1_3CHAN in enum
+  intlv_modes to internal.h for Hygon DF1 three-channel interleave mode.
+- Add hygon/map.c for Hygon-specific implementation similar to map.c for
+  AMD.
+- Get the coherent-station fabric ID, handle normalized offsets, read
+  Hygon DF1 specific channel interleave state, and derive global
+  interleave metadata (modes, bit positions, die/socket/channel counts).
+- Use df2_get_dram_addr_map(), valid_map(), and dump_address_map()
+  shared from map.c and exported in internal.h to avoid duplicate code.
+- Build hygon/map.c from the Makefile as an amd_atl object.
 
-Also use PCI_DEVICE* helper macros to assign .vendor, .device, .subvendor=
- and
-.subdevice where appropriate and skip explicit assignments of 0 (which th=
-e
-compiler takes care of).
+Hygon address map decoding duplicated the same loop as the AMD path for
+walking coherent station DRAM maps and selecting the high-address offset.
+Only the per-map register read differs; pass it via a callback so
+get_dram_offset() and hygon_get_dram_offset() share the implementation.
 
-The secret plan is to make struct pci_device_id::driver_data an anonymous
-union (similar to
-
-  https://lore.kernel.org/all/cover.1776579304.git.u.kleine-koenig@baylib=
-re.com/
-
-and that requires named initializers. But it's also a nice cleanup on its=
- own.
-
-  [ bp: Massage commit message. ]
-
-Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Reviewed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Tested-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Link: https://patch.msgid.link/20260527061057.3796383-2-u.kleine-koenig@b=
-aylibre.com
+Signed-off-by: Aichun Shi <shiaichun@open-hieco.net>
 ---
- drivers/edac/amd76x_edac.c  |  16 ++---
- drivers/edac/e752x_edac.c   |  28 ++++----
- drivers/edac/e7xxx_edac.c   |  28 ++++----
- drivers/edac/edac_mc.h      |   4 +-
- drivers/edac/i3000_edac.c   |  10 +--
- drivers/edac/i3200_edac.c   |  10 +--
- drivers/edac/i82860_edac.c  |  10 +--
- drivers/edac/i82875p_edac.c |  12 ++--
- drivers/edac/i82975x_edac.c |  11 ++-
- drivers/edac/ie31200_edac.c |  86 +++++++++++-----------
- drivers/edac/igen6_edac.c   | 140 ++++++++++++++++++------------------
- drivers/edac/x38_edac.c     |  10 +--
- 12 files changed, 182 insertions(+), 183 deletions(-)
+ drivers/ras/amd/atl/Makefile           |   1 +
+ drivers/ras/amd/atl/hygon/map.c        | 292 +++++++++++++++++++++++++
+ drivers/ras/amd/atl/hygon/reg_fields.h |  78 +++++++
+ drivers/ras/amd/atl/internal.h         |  21 ++
+ drivers/ras/amd/atl/map.c              |  11 +-
+ 5 files changed, 398 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/ras/amd/atl/hygon/map.c
 
-diff --git a/drivers/edac/amd76x_edac.c b/drivers/edac/amd76x_edac.c
-index 2a49f68a7cf9..7bb11ffdb0c9 100644
---- a/drivers/edac/amd76x_edac.c
-+++ b/drivers/edac/amd76x_edac.c
-@@ -332,14 +332,14 @@ static void amd76x_remove_one(struct pci_dev *pdev)
-=20
- static const struct pci_device_id amd76x_pci_tbl[] =3D {
- 	{
--	 PCI_VEND_DEV(AMD, FE_GATE_700C), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 AMD762},
--	{
--	 PCI_VEND_DEV(AMD, FE_GATE_700E), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 AMD761},
--	{
--	 0,
--	 }			/* 0 terminated list. */
-+		PCI_VEND_DEV(AMD, FE_GATE_700C),
-+		.driver_data =3D AMD762
-+	}, {
-+		PCI_VEND_DEV(AMD, FE_GATE_700E),
-+		.driver_data =3D AMD761,
-+	}, {
-+		/* 0 terminated list. */
+diff --git a/drivers/ras/amd/atl/Makefile b/drivers/ras/amd/atl/Makefile
+index 3716fe068eb6..105c11015f4c 100644
+--- a/drivers/ras/amd/atl/Makefile
++++ b/drivers/ras/amd/atl/Makefile
+@@ -15,6 +15,7 @@ amd_atl-y		+= map.o
+ amd_atl-y		+= system.o
+ amd_atl-y		+= umc.o
+ 
++amd_atl-y		+= hygon/map.o
+ amd_atl-y		+= hygon/system.o
+ 
+ amd_atl-$(CONFIG_AMD_ATL_PRM) += prm.o
+diff --git a/drivers/ras/amd/atl/hygon/map.c b/drivers/ras/amd/atl/hygon/map.c
+new file mode 100644
+index 000000000000..7d0ed942a28f
+--- /dev/null
++++ b/drivers/ras/amd/atl/hygon/map.c
+@@ -0,0 +1,292 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * AMD Address Translation Library (for hygon)
++ *
++ * map.c : Functions to read and decode DRAM address maps for Hygon
++ *
++ * Author: Aichun Shi <shiaichun@open-hieco.net>
++ */
++
++#include "../internal.h"
++
++static int hygon_df_get_intlv_mode(struct addr_ctx *ctx)
++{
++	ctx->map.intlv_mode = FIELD_GET(HYGON_DF1_INTLV_NUM_CHAN, ctx->map.base);
++
++	if (df_cfg.rev == HYGON_DF1 && ctx->map.intlv_mode == 2)
++		ctx->map.intlv_mode = HYGON_DF1_3CHAN;
++
++	if (ctx->map.intlv_mode == 8)
++		ctx->map.intlv_mode = DF2_2CHAN_HASH;
++
++	if (ctx->map.intlv_mode != NONE &&
++	    ctx->map.intlv_mode != NOHASH_2CHAN &&
++		ctx->map.intlv_mode != HYGON_DF1_3CHAN &&
++	    ctx->map.intlv_mode != NOHASH_4CHAN &&
++	    ctx->map.intlv_mode != NOHASH_8CHAN &&
++	    ctx->map.intlv_mode != NOHASH_16CHAN &&
++	    ctx->map.intlv_mode != DF2_2CHAN_HASH)
++		return -EINVAL;
++
++	return 0;
++}
++
++static u64 hygon_get_hi_addr_offset(u32 reg_dram_offset)
++{
++	u8 shift = DF_DRAM_BASE_LIMIT_LSB;
++	u64 hi_addr_offset;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		hi_addr_offset = FIELD_GET(HYGON_DF1_HI_ADDR_OFFSET, reg_dram_offset);
++		break;
++	default:
++		hi_addr_offset = 0;
++		atl_debug_on_bad_df_rev();
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, amd76x_pci_tbl);
-diff --git a/drivers/edac/e752x_edac.c b/drivers/edac/e752x_edac.c
-index 7221b4bb6df2..77c1fe75451e 100644
---- a/drivers/edac/e752x_edac.c
-+++ b/drivers/edac/e752x_edac.c
-@@ -1414,20 +1414,20 @@ static void e752x_remove_one(struct pci_dev *pdev=
-)
-=20
- static const struct pci_device_id e752x_pci_tbl[] =3D {
- 	{
--	 PCI_VEND_DEV(INTEL, 7520_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 E7520},
--	{
--	 PCI_VEND_DEV(INTEL, 7525_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 E7525},
--	{
--	 PCI_VEND_DEV(INTEL, 7320_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 E7320},
--	{
--	 PCI_VEND_DEV(INTEL, 3100_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 I3100},
--	{
--	 0,
--	 }			/* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, 7520_0),
-+		.driver_data =3D E7520,
-+	}, {
-+		PCI_VEND_DEV(INTEL, 7525_0),
-+		.driver_data =3D E7525,
-+	}, {
-+		PCI_VEND_DEV(INTEL, 7320_0),
-+		.driver_data =3D E7320,
-+	}, {
-+		PCI_VEND_DEV(INTEL, 3100_0),
-+		.driver_data =3D I3100,
-+	}, {
-+		/* 0 terminated list. */
++
++	return hi_addr_offset << shift;
++}
++
++/*
++ * Returns:	0 if offset is disabled.
++ *		1 if offset is enabled.
++ *		-EINVAL on error.
++ */
++static int hygon_get_dram_offset(struct addr_ctx *ctx, u64 *norm_offset)
++{
++	u32 reg_dram_offset;
++	u8 map_num;
++
++	/* Should not be called for map 0. */
++	if (!ctx->map.num) {
++		atl_debug(ctx, "Trying to find DRAM offset for map 0");
++		return -EINVAL;
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, e752x_pci_tbl);
-diff --git a/drivers/edac/e7xxx_edac.c b/drivers/edac/e7xxx_edac.c
-index 5852b95fa470..02071180b638 100644
---- a/drivers/edac/e7xxx_edac.c
-+++ b/drivers/edac/e7xxx_edac.c
-@@ -554,20 +554,20 @@ static void e7xxx_remove_one(struct pci_dev *pdev)
-=20
- static const struct pci_device_id e7xxx_pci_tbl[] =3D {
- 	{
--	 PCI_VEND_DEV(INTEL, 7205_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 E7205},
--	{
--	 PCI_VEND_DEV(INTEL, 7500_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 E7500},
--	{
--	 PCI_VEND_DEV(INTEL, 7501_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 E7501},
--	{
--	 PCI_VEND_DEV(INTEL, 7505_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 E7505},
--	{
--	 0,
--	 }			/* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, 7205_0),
-+		.driver_data =3D E7205,
-+	}, {
-+		PCI_VEND_DEV(INTEL, 7500_0),
-+		.driver_data =3D E7500,
-+	}, {
-+		PCI_VEND_DEV(INTEL, 7501_0),
-+		.driver_data =3D E7501,
-+	}, {
-+		PCI_VEND_DEV(INTEL, 7505_0),
-+		.driver_data =3D E7505
-+	}, {
-+		/* 0 terminated list. */
++
++	/*
++	 * DramOffset registers don't exist for map 0, so the base register
++	 * actually refers to map 1.
++	 * Adjust the map_num for the register offsets.
++	 */
++	map_num = ctx->map.num - 1;
++
++	if (df_cfg.rev >= HYGON_DF1) {
++		/* Read D18F0x214 (DramOffset) */
++		if (df_indirect_read_instance(ctx->node_id, 0, 0x214 + (4 * map_num),
++					      ctx->inst_id, &reg_dram_offset))
++			return -EINVAL;
++	} else {
++		return -EINVAL;
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, e7xxx_pci_tbl);
-diff --git a/drivers/edac/edac_mc.h b/drivers/edac/edac_mc.h
-index 881b00eadf7a..9505bbd41784 100644
---- a/drivers/edac/edac_mc.h
-+++ b/drivers/edac/edac_mc.h
-@@ -88,8 +88,8 @@ do {									\
-=20
- #endif				/* !CONFIG_EDAC_DEBUG */
-=20
--#define PCI_VEND_DEV(vend, dev) PCI_VENDOR_ID_ ## vend, \
--	PCI_DEVICE_ID_ ## vend ## _ ## dev
-+#define PCI_VEND_DEV(vend, dev) \
-+	PCI_DEVICE(PCI_VENDOR_ID_ ## vend, PCI_DEVICE_ID_ ## vend ## _ ## dev)
-=20
- #define edac_dev_name(dev) (dev)->dev_name
-=20
-diff --git a/drivers/edac/i3000_edac.c b/drivers/edac/i3000_edac.c
-index 9065bc4386ff..04a231660b88 100644
---- a/drivers/edac/i3000_edac.c
-+++ b/drivers/edac/i3000_edac.c
-@@ -485,11 +485,11 @@ static void i3000_remove_one(struct pci_dev *pdev)
-=20
- static const struct pci_device_id i3000_pci_tbl[] =3D {
- 	{
--	 PCI_VEND_DEV(INTEL, 3000_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 I3000},
--	{
--	 0,
--	 }			/* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, 3000_HB),
-+		.driver_data =3D I3000,
-+	}, {
-+		/* 0 terminated list. */
++
++	if (!FIELD_GET(DF_HI_ADDR_OFFSET_EN, reg_dram_offset))
++		return 0;
++
++	*norm_offset = hygon_get_hi_addr_offset(reg_dram_offset);
++
++	return 1;
++}
++
++#define HYGON_DF1_CHAN_ADDR_SEL	BIT(24)
++#define HYGON_DF1_CHAN_HASH_ENABLE	BIT(23)
++#define HYGON_DF1_DDR5_ENABLE	BIT(19)
++static int hygon_df1_get_dram_addr_map(struct addr_ctx *ctx)
++{
++	if (df2_get_dram_addr_map(ctx))
++		return -EINVAL;
++
++	if (df_indirect_read_instance(ctx->node_id, 2, 0x48,
++				      ctx->inst_id, &ctx->map.intlv))
++		return -EINVAL;
++
++	ctx->chan_intlv_hygon.chan_addr_sel =
++		FIELD_GET(HYGON_DF1_CHAN_ADDR_SEL, ctx->map.intlv);
++	ctx->chan_intlv_hygon.chan_hash_enable =
++		FIELD_GET(HYGON_DF1_CHAN_HASH_ENABLE, ctx->map.intlv);
++	ctx->chan_intlv_hygon.ddr5_enable =
++		FIELD_GET(HYGON_DF1_DDR5_ENABLE, ctx->map.intlv);
++
++	if (ctx->chan_intlv_hygon.ddr5_enable) {
++		u8 sb;
++		u64 low_addr, high_addr;
++
++		ctx->chan_intlv_hygon.start_bit = ctx->chan_intlv_hygon.chan_addr_sel ? 8 : 7;
++		sb = ctx->chan_intlv_hygon.start_bit;
++		low_addr = ctx->ret_addr & GENMASK_ULL(sb - 1, 0);
++		high_addr = (ctx->ret_addr & GENMASK_ULL(63, sb)) << 1;
++		ctx->ret_addr = high_addr | low_addr;
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, i3000_pci_tbl);
-diff --git a/drivers/edac/i3200_edac.c b/drivers/edac/i3200_edac.c
-index 6cade6d7ceff..d600b6c05217 100644
---- a/drivers/edac/i3200_edac.c
-+++ b/drivers/edac/i3200_edac.c
-@@ -466,11 +466,11 @@ static void i3200_remove_one(struct pci_dev *pdev)
-=20
- static const struct pci_device_id i3200_pci_tbl[] =3D {
- 	{
--		PCI_VEND_DEV(INTEL, 3200_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--		I3200},
--	{
--		0,
--	}            /* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, 3200_HB),
-+		.driver_data =3D I3200,
-+	}, {
-+		/* 0 terminated list. */
++
++	return 0;
++}
++
++static int hygon_get_dram_addr_map(struct addr_ctx *ctx)
++{
++	switch (df_cfg.rev) {
++	case HYGON_DF1:	return hygon_df1_get_dram_addr_map(ctx);
++	default:
++			atl_debug_on_bad_df_rev();
++			return -EINVAL;
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, i3200_pci_tbl);
-diff --git a/drivers/edac/i82860_edac.c b/drivers/edac/i82860_edac.c
-index b8a497f0de28..e8c1ee80bba8 100644
---- a/drivers/edac/i82860_edac.c
-+++ b/drivers/edac/i82860_edac.c
-@@ -287,11 +287,11 @@ static void i82860_remove_one(struct pci_dev *pdev)
-=20
- static const struct pci_device_id i82860_pci_tbl[] =3D {
- 	{
--	 PCI_VEND_DEV(INTEL, 82860_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 I82860},
--	{
--	 0,
--	 }			/* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, 82860_0),
-+		.driver_data =3D I82860,
-+	}, {
-+		/* 0 terminated list. */
++}
++
++static int hygon_get_coh_st_fabric_id(struct addr_ctx *ctx)
++{
++	u32 reg;
++
++	/* Read D18F0x50 (FabricBlockInstanceInformation3). */
++	if (df_indirect_read_instance(ctx->node_id, 0, 0x50, ctx->inst_id, &reg))
++		return -EINVAL;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		ctx->coh_st_fabric_id = FIELD_GET(HYGON_DF1_COH_ST_FABRIC_ID, reg);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		return -EINVAL;
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, i82860_pci_tbl);
-diff --git a/drivers/edac/i82875p_edac.c b/drivers/edac/i82875p_edac.c
-index 553880b9fc12..869de8e372b3 100644
---- a/drivers/edac/i82875p_edac.c
-+++ b/drivers/edac/i82875p_edac.c
-@@ -276,7 +276,7 @@ static int i82875p_setup_overfl_dev(struct pci_dev *p=
-dev,
-=20
- 	*ovrfl_pdev =3D NULL;
- 	*ovrfl_window =3D NULL;
--	dev =3D pci_get_device(PCI_VEND_DEV(INTEL, 82875_6), NULL);
-+	dev =3D pci_get_device(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82875_6=
-, NULL);
-=20
- 	if (dev =3D=3D NULL) {
- 		/* Intel tells BIOS developers to hide device 6 which
-@@ -518,11 +518,11 @@ static void i82875p_remove_one(struct pci_dev *pdev=
-)
-=20
- static const struct pci_device_id i82875p_pci_tbl[] =3D {
- 	{
--	 PCI_VEND_DEV(INTEL, 82875_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 I82875P},
--	{
--	 0,
--	 }			/* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, 82875_0),
-+		.driver_data =3D I82875P,
-+	}, {
-+		/* 0 terminated list. */
++
++	return 0;
++}
++
++static int hygon_get_address_map_common(struct addr_ctx *ctx)
++{
++	u64 norm_offset = 0;
++
++	if (hygon_get_coh_st_fabric_id(ctx))
++		return -EINVAL;
++
++	if (find_normalized_offset(ctx, &norm_offset, hygon_get_dram_offset))
++		return -EINVAL;
++
++	ctx->ret_addr -= norm_offset;
++
++	if (hygon_get_dram_addr_map(ctx))
++		return -EINVAL;
++
++	if (!valid_map(ctx))
++		return -EINVAL;
++
++	return 0;
++}
++
++static u8 hygon_get_num_intlv_chan(struct addr_ctx *ctx)
++{
++	switch (ctx->map.intlv_mode) {
++	case NONE:
++		return 1;
++	case NOHASH_2CHAN:
++		return 2;
++	case HYGON_DF1_3CHAN:
++		return 3;
++	case NOHASH_4CHAN:
++		return 4;
++	case NOHASH_8CHAN:
++		return 8;
++	case NOHASH_16CHAN:
++		return 16;
++	case NOHASH_32CHAN:
++		return 32;
++	default:
++		atl_debug_on_bad_intlv_mode(ctx);
++		return 0;
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, i82875p_pci_tbl);
-diff --git a/drivers/edac/i82975x_edac.c b/drivers/edac/i82975x_edac.c
-index d99f005832cf..09a79eaaa486 100644
---- a/drivers/edac/i82975x_edac.c
-+++ b/drivers/edac/i82975x_edac.c
-@@ -624,12 +624,11 @@ static void i82975x_remove_one(struct pci_dev *pdev=
-)
-=20
- static const struct pci_device_id i82975x_pci_tbl[] =3D {
- 	{
--		PCI_VEND_DEV(INTEL, 82975_0), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--		I82975X
--	},
--	{
--		0,
--	}	/* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, 82975_0),
-+		.driver_data =3D I82975X
-+	}, {
-+		/* 0 terminated list. */
++}
++
++static void hygon_calculate_intlv_bits(struct addr_ctx *ctx)
++{
++	ctx->map.num_intlv_chan = hygon_get_num_intlv_chan(ctx);
++
++	ctx->map.total_intlv_chan = ctx->map.num_intlv_chan;
++	ctx->map.total_intlv_chan *= ctx->map.num_intlv_dies;
++	ctx->map.total_intlv_chan *= ctx->map.num_intlv_sockets;
++
++	/*
++	 * Get the number of bits needed to cover this many channels.
++	 * order_base_2() rounds up automatically.
++	 */
++	ctx->map.total_intlv_bits = order_base_2(ctx->map.total_intlv_chan);
++}
++
++static u8 hygon_get_intlv_bit_pos(struct addr_ctx *ctx)
++{
++	u8 addr_sel = 0;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		addr_sel = FIELD_GET(HYGON_DF1_INTLV_ADDR_SEL, ctx->map.base);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		break;
 +	}
- };
-=20
- MODULE_DEVICE_TABLE(pci, i82975x_pci_tbl);
-diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-index a5dc4b88097f..e3bd6436669b 100644
---- a/drivers/edac/ie31200_edac.c
-+++ b/drivers/edac/ie31200_edac.c
-@@ -733,49 +733,49 @@ static struct res_config rpl_s_cfg =3D {
- };
-=20
- static const struct pci_device_id ie31200_pci_tbl[] =3D {
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), (kernel_ulong_t=
-)&snb_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_2), (kernel_ulong_t=
-)&snb_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_3), (kernel_ulong_t=
-)&snb_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_4), (kernel_ulong_t=
-)&snb_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_5), (kernel_ulong_t=
-)&snb_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_6), (kernel_ulong_t=
-)&snb_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_7), (kernel_ulong_t=
-)&snb_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_8), (kernel_ulong_t=
-)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_9), (kernel_ulong_t=
-)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_10), (kernel_ulong_=
-t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_11), (kernel_ulong_=
-t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_12), (kernel_ulong_=
-t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_1), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_2), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_3), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_4), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_5), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_6), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_7), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_8), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_9), (kernel_ulo=
-ng_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_10), (kernel_ul=
-ong_t)&skl_cfg },
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_1), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_2), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_3), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_4), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_5), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_6), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_HX_1), (kernel_ulo=
-ng_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_1), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_2), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_3), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_1), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_2), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_3), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_4), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_5), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_6), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_7), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_8), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_9), (kernel_ulon=
-g_t)&rpl_s_cfg},
--	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_10), (kernel_ulo=
-ng_t)&rpl_s_cfg},
--	{ 0, } /* 0 terminated list. */
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_1), .driver_data =3D=
- (kernel_ulong_t)&snb_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_2), .driver_data =3D=
- (kernel_ulong_t)&snb_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_3), .driver_data =3D=
- (kernel_ulong_t)&snb_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_4), .driver_data =3D=
- (kernel_ulong_t)&snb_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_5), .driver_data =3D=
- (kernel_ulong_t)&snb_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_6), .driver_data =3D=
- (kernel_ulong_t)&snb_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_7), .driver_data =3D=
- (kernel_ulong_t)&snb_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_8), .driver_data =3D=
- (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_9), .driver_data =3D=
- (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_10), .driver_data =3D=
- (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_11), .driver_data =3D=
- (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_12), .driver_data =3D=
- (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_1), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_2), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_3), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_4), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_5), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_6), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_7), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_8), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_9), .driver_dat=
-a =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_HB_CFL_10), .driver_da=
-ta =3D (kernel_ulong_t)&skl_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_1), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_2), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_3), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_4), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_5), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_S_6), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_RPL_HX_1), .driver_dat=
-a =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_1), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_2), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_ADL_S_3), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_1), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_2), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_3), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_4), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_5), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_6), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_7), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_8), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_9), .driver_data=
- =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_IE31200_BTL_S_10), .driver_dat=
-a =3D (kernel_ulong_t)&rpl_s_cfg },
-+	{ } /* 0 terminated list. */
- };
- MODULE_DEVICE_TABLE(pci, ie31200_pci_tbl);
-=20
-diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index 9af15ac6ff84..f1fc20d4ebf6 100644
---- a/drivers/edac/igen6_edac.c
-+++ b/drivers/edac/igen6_edac.c
-@@ -841,76 +841,76 @@ static struct res_config nvl_h_cfg =3D {
- };
-=20
- static struct pci_device_id igen6_pci_tbl[] =3D {
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU7), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU8), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU9), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU10), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU11), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU12), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), (kernel_ulong_t)&ehl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), (kernel_ulong_t)&icl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), (kernel_ulong_t)&icl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), (kernel_ulong_t)&icl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), (kernel_ulong_t)&icl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_TGL_SKU), (kernel_ulong_t)&tgl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_SKU1), (kernel_ulong_t)&adl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), (kernel_ulong_t)&adl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), (kernel_ulong_t)&adl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), (kernel_ulong_t)&adl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU1), (kernel_ulong_t)&rpl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU2), (kernel_ulong_t)&rpl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU3), (kernel_ulong_t)&rpl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU4), (kernel_ulong_t)&rpl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU5), (kernel_ulong_t)&rpl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU1), (kernel_ulong_t)&mtl_ps_cfg },
--	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU2), (kernel_ulong_t)&mtl_ps_cfg },
--	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU3), (kernel_ulong_t)&mtl_ps_cfg },
--	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU4), (kernel_ulong_t)&mtl_ps_cfg },
--	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU1), (kernel_ulong_t)&mtl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU2), (kernel_ulong_t)&mtl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU3), (kernel_ulong_t)&mtl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU1), (kernel_ulong_t)&mtl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU2), (kernel_ulong_t)&mtl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU3), (kernel_ulong_t)&mtl_p_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU1), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU2), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU3), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU4), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU5), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU6), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU7), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU8), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU9), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU10), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU11), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU14), (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), (kernel_ulong_t)&wcl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU1), (kernel_ulong_t)&nvl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU2), (kernel_ulong_t)&nvl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU3), (kernel_ulong_t)&nvl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU4), (kernel_ulong_t)&nvl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU5), .driver_data =3D (kernel_ulong_t)&e=
-hl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU6), .driver_data =3D (kernel_ulong_t)&e=
-hl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU7), .driver_data =3D (kernel_ulong_t)&e=
-hl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU8), .driver_data =3D (kernel_ulong_t)&e=
-hl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU9), .driver_data =3D (kernel_ulong_t)&e=
-hl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU10), .driver_data =3D (kernel_ulong_t)&=
-ehl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU11), .driver_data =3D (kernel_ulong_t)&=
-ehl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU12), .driver_data =3D (kernel_ulong_t)&=
-ehl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU13), .driver_data =3D (kernel_ulong_t)&=
-ehl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU14), .driver_data =3D (kernel_ulong_t)&=
-ehl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_EHL_SKU15), .driver_data =3D (kernel_ulong_t)&=
-ehl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU8), .driver_data =3D (kernel_ulong_t)&i=
-cl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU10), .driver_data =3D (kernel_ulong_t)&=
-icl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU11), .driver_data =3D (kernel_ulong_t)&=
-icl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ICL_SKU12), .driver_data =3D (kernel_ulong_t)&=
-icl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_TGL_SKU), .driver_data =3D (kernel_ulong_t)&tg=
-l_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU1), .driver_data =3D (kernel_ulong_t)&a=
-dl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), .driver_data =3D (kernel_ulong_t)&a=
-dl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), .driver_data =3D (kernel_ulong_t)&a=
-dl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), .driver_data =3D (kernel_ulong_t)&a=
-dl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), .driver_data =3D (kernel_ulong_t)=
-&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), .driver_data =3D (kernel_ulong_t=
-)&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), .driver_data =3D (kernel_ulong_t=
-)&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), .driver_data =3D (kernel_ulong_t=
-)&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), .driver_data =3D (kernel_ulong_t)&a=
-dl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), .driver_data =3D (kernel_ulong_t)&a=
-dl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), .driver_data =3D (kernel_ulong_t)&a=
-dl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), .driver_data =3D (kernel_ulong_t)&a=
-dl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU1), .driver_data =3D (kernel_ulong_t)=
-&rpl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU2), .driver_data =3D (kernel_ulong_t)=
-&rpl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU3), .driver_data =3D (kernel_ulong_t)=
-&rpl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU4), .driver_data =3D (kernel_ulong_t)=
-&rpl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU5), .driver_data =3D (kernel_ulong_t)=
-&rpl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU1), .driver_data =3D (kernel_ulong_t=
-)&mtl_ps_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU2), .driver_data =3D (kernel_ulong_t=
-)&mtl_ps_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU3), .driver_data =3D (kernel_ulong_t=
-)&mtl_ps_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_MTL_PS_SKU4), .driver_data =3D (kernel_ulong_t=
-)&mtl_ps_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU1), .driver_data =3D (kernel_ulong_t)=
-&mtl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU2), .driver_data =3D (kernel_ulong_t)=
-&mtl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_MTL_P_SKU3), .driver_data =3D (kernel_ulong_t)=
-&mtl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU1), .driver_data =3D (kernel_ulong_t=
-)&mtl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU2), .driver_data =3D (kernel_ulong_t=
-)&mtl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU3), .driver_data =3D (kernel_ulong_t=
-)&mtl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU1), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU2), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU3), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU4), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU5), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU6), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU7), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU8), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU9), .driver_data =3D (kernel_ulong_t)=
-&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU10), .driver_data =3D (kernel_ulong_t=
-)&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU11), .driver_data =3D (kernel_ulong_t=
-)&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), .driver_data =3D (kernel_ulong_t=
-)&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), .driver_data =3D (kernel_ulong_t=
-)&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU14), .driver_data =3D (kernel_ulong_t=
-)&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), .driver_data =3D (kernel_ulong_t)&w=
-cl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU1), .driver_data =3D (kernel_ulong_t)=
-&nvl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU2), .driver_data =3D (kernel_ulong_t)=
-&nvl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU3), .driver_data =3D (kernel_ulong_t)=
-&nvl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU4), .driver_data =3D (kernel_ulong_t)=
-&nvl_h_cfg },
- 	{ },
- };
- MODULE_DEVICE_TABLE(pci, igen6_pci_tbl);
-diff --git a/drivers/edac/x38_edac.c b/drivers/edac/x38_edac.c
-index 292dda754c23..2b55daca33b0 100644
---- a/drivers/edac/x38_edac.c
-+++ b/drivers/edac/x38_edac.c
-@@ -446,11 +446,11 @@ static void x38_remove_one(struct pci_dev *pdev)
-=20
- static const struct pci_device_id x38_pci_tbl[] =3D {
- 	{
--	 PCI_VEND_DEV(INTEL, X38_HB), PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--	 X38},
--	{
--	 0,
--	 }			/* 0 terminated list. */
-+		PCI_VEND_DEV(INTEL, X38_HB),
-+		.driver_data =3D X38,
-+	}, {
-+		/* 0 terminated list. */
++
++	/* Add '8' to get the 'interleave bit position'. */
++	return addr_sel + 8;
++}
++
++static u8 hygon_get_num_intlv_dies(struct addr_ctx *ctx)
++{
++	u8 dies = 0;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		dies = FIELD_GET(HYGON_DF1_INTLV_NUM_DIES, ctx->map.limit);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		break;
 +	}
++
++	/* Register value is log2, e.g. 0 -> 1 die, 1 -> 2 dies, etc. */
++	return 1 << dies;
++}
++
++static u8 hygon_get_num_intlv_sockets(struct addr_ctx *ctx)
++{
++	u8 sockets = 0;
++
++	switch (df_cfg.rev) {
++	case HYGON_DF1:
++		sockets = FIELD_GET(HYGON_DF1_INTLV_NUM_SOCKETS, ctx->map.base);
++		break;
++	default:
++		atl_debug_on_bad_df_rev();
++		break;
++	}
++
++	/* Register value is log2, e.g. 0 -> 1 sockets, 1 -> 2 sockets, etc. */
++	return 1 << sockets;
++}
++
++static int hygon_get_global_map_data(struct addr_ctx *ctx)
++{
++	if (hygon_df_get_intlv_mode(ctx))
++		return -EINVAL;
++
++	ctx->map.intlv_bit_pos		= hygon_get_intlv_bit_pos(ctx);
++	ctx->map.num_intlv_dies		= hygon_get_num_intlv_dies(ctx);
++	ctx->map.num_intlv_sockets	= hygon_get_num_intlv_sockets(ctx);
++	hygon_calculate_intlv_bits(ctx);
++
++	return 0;
++}
++
++int hygon_get_address_map(struct addr_ctx *ctx)
++{
++	int ret;
++
++	ret = hygon_get_address_map_common(ctx);
++	if (ret)
++		return ret;
++
++	ret = hygon_get_global_map_data(ctx);
++	if (ret)
++		return ret;
++
++	dump_address_map(&ctx->map);
++
++	return ret;
++}
+diff --git a/drivers/ras/amd/atl/hygon/reg_fields.h b/drivers/ras/amd/atl/hygon/reg_fields.h
+index b669049c46e5..b3d658bef6ad 100644
+--- a/drivers/ras/amd/atl/hygon/reg_fields.h
++++ b/drivers/ras/amd/atl/hygon/reg_fields.h
+@@ -7,6 +7,84 @@
+  * Author: Aichun Shi <shiaichun@open-hieco.net>
+  */
+ 
++/*
++ * Coherent Station Fabric ID
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x50 [Fabric Block Instance Information 3]
++ *	HYGON_DF1   BlockFabricId	[17:8]
++ */
++#define HYGON_DF1_COH_ST_FABRIC_ID	GENMASK(17, 8)
++
++/*
++ * Interleave Number of Sockets
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x110 [DRAM Base Address]
++ *	HYGON_DF1 IntLvNumSockets [3:2]
++ */
++#define HYGON_DF1_INTLV_NUM_SOCKETS	GENMASK(3, 2)
++
++/*
++ * Interleave Number of Channels
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x110 [DRAM Base Address]
++ *	HYGON_DF1	IntLvNumChan	[7:4]
++ */
++#define HYGON_DF1_INTLV_NUM_CHAN	GENMASK(7, 4)
++
++/*
++ * Interleave Address Select
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x110 [DRAM Base Address]
++ *	HYGON_DF1	IntLvAddrSel	[10:8]
++ */
++#define HYGON_DF1_INTLV_ADDR_SEL	GENMASK(10, 8)
++
++/*
++ * Interleave Number of Dies
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x114 [DRAM Limit Address]
++ *	HYGON_DF1	IntLvNumDies	[11:10]
++ */
++#define HYGON_DF1_INTLV_NUM_DIES	GENMASK(11, 10)
++
++/*
++ * High Address Offset
++ *
++ * Access type: Instance
++ *
++ * Register
++ *	Rev	Fieldname	Bits
++ *
++ *	D18F0x214 [DRAM Offset]
++ *	HYGON_DF1	HiAddrOffset	[31:19]
++ */
++#define HYGON_DF1_HI_ADDR_OFFSET	GENMASK(31, 19)
++
+ /*
+  * Die ID Mask
+  *
+diff --git a/drivers/ras/amd/atl/internal.h b/drivers/ras/amd/atl/internal.h
+index 56008238c220..adcf94385b39 100644
+--- a/drivers/ras/amd/atl/internal.h
++++ b/drivers/ras/amd/atl/internal.h
+@@ -66,6 +66,7 @@ enum df_revisions {
+ enum intlv_modes {
+ 	NONE				= 0x00,
+ 	NOHASH_2CHAN			= 0x01,
++	HYGON_DF1_3CHAN			= 0x02,
+ 	NOHASH_4CHAN			= 0x03,
+ 	NOHASH_8CHAN			= 0x05,
+ 	DF3_6CHAN			= 0x06,
+@@ -257,6 +258,14 @@ struct addr_ctx_inputs {
+ 	u8 coh_st_inst_id;
  };
-=20
- MODULE_DEVICE_TABLE(pci, x38_pci_tbl);
---=20
-2.53.0
+ 
++struct hygon_chan_intlv {
++	u8 sub_channel;
++	u8 chan_addr_sel;
++	u8 chan_hash_enable;
++	u8 ddr5_enable;
++	u8 start_bit;
++};
++
+ struct addr_ctx {
+ 	u64 ret_addr;
+ 
+@@ -277,6 +286,9 @@ struct addr_ctx {
+ 	 * System-wide ID that includes 'node' bits.
+ 	 */
+ 	u16 coh_st_fabric_id;
++
++	/* Hygon Channel Interleave */
++	struct hygon_chan_intlv chan_intlv_hygon;
+ };
+ 
+ int df_indirect_read_instance(u16 node, u8 func, u16 reg, u8 instance_id, u32 *lo);
+@@ -300,7 +312,16 @@ u64 remove_base_and_hole(struct addr_ctx *ctx, u64 addr);
+ int get_dram_hole_base(void);
+ void dump_df_cfg(void);
+ 
++int df2_get_dram_addr_map(struct addr_ctx *ctx);
++bool valid_map(struct addr_ctx *ctx);
++void dump_address_map(struct dram_addr_map *map);
++
++typedef int (*get_dram_offset_fn)(struct addr_ctx *ctx, u64 *norm_offset);
++int find_normalized_offset(struct addr_ctx *ctx, u64 *norm_offset,
++			   get_dram_offset_fn get_dram_offset);
++
+ int hygon_get_df_system_info(void);
++int hygon_get_address_map(struct addr_ctx *ctx);
+ 
+ /* GUIDs for PRM handlers */
+ extern const guid_t norm_to_sys_guid;
+diff --git a/drivers/ras/amd/atl/map.c b/drivers/ras/amd/atl/map.c
+index 24a05af747d5..365ad48ca68f 100644
+--- a/drivers/ras/amd/atl/map.c
++++ b/drivers/ras/amd/atl/map.c
+@@ -209,7 +209,7 @@ static int df3_6ch_get_dram_addr_map(struct addr_ctx *ctx)
+ 	return 0;
+ }
+ 
+-static int df2_get_dram_addr_map(struct addr_ctx *ctx)
++int df2_get_dram_addr_map(struct addr_ctx *ctx)
+ {
+ 	/* Read D18F0x110 (DramBaseAddress). */
+ 	if (df_indirect_read_instance(ctx->node_id, 0, 0x110 + (8 * ctx->map.num),
+@@ -395,7 +395,8 @@ static int get_coh_st_fabric_id(struct addr_ctx *ctx)
+ 	return 0;
+ }
+ 
+-static int find_normalized_offset(struct addr_ctx *ctx, u64 *norm_offset)
++int find_normalized_offset(struct addr_ctx *ctx, u64 *norm_offset,
++			   get_dram_offset_fn get_dram_offset)
+ {
+ 	u64 last_offset = 0;
+ 	int ret;
+@@ -441,7 +442,7 @@ static int find_normalized_offset(struct addr_ctx *ctx, u64 *norm_offset)
+ 	return 0;
+ }
+ 
+-static bool valid_map(struct addr_ctx *ctx)
++bool valid_map(struct addr_ctx *ctx)
+ {
+ 	if (df_cfg.rev >= DF4)
+ 		return FIELD_GET(DF_ADDR_RANGE_VAL, ctx->map.ctl);
+@@ -456,7 +457,7 @@ static int get_address_map_common(struct addr_ctx *ctx)
+ 	if (get_coh_st_fabric_id(ctx))
+ 		return -EINVAL;
+ 
+-	if (find_normalized_offset(ctx, &norm_offset))
++	if (find_normalized_offset(ctx, &norm_offset, get_dram_offset))
+ 		return -EINVAL;
+ 
+ 	if (get_dram_addr_map(ctx))
+@@ -735,7 +736,7 @@ static int validate_address_map(struct addr_ctx *ctx)
+ 	return -EINVAL;
+ }
+ 
+-static void dump_address_map(struct dram_addr_map *map)
++void dump_address_map(struct dram_addr_map *map)
+ {
+ 	u8 i;
+ 
+-- 
+2.47.3
 
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
