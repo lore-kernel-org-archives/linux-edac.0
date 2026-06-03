@@ -1,109 +1,182 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6D0306760
-	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 13:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012CA3168EF;
+	Wed,  3 Jun 2026 13:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780493726; cv=none; b=e5m2vt4PjF2VB0NgQ82W+dAmBY0hcTPVxiF4z29OVTRqSvFV8bLMEYLcjM+oT3OzDFNekRHZGWRBpw44m5Q9JNysDhW6ELVN2L/2OcDyihucNjv8nbkgfWhv66HlXcyDq8K9F6nBqbb3VJINg9G1UX/klDUpRymCwxqMcILKXwc=
+	t=1780494300; cv=none; b=t1j4/cDUhzNwKNZpPTXmoe9Y7U81T94ZuwXQ6+tv0hIQmbLtt82RqNhKUqd1OV/rRF+yR2I85iMR4E9Fu+Zvs/Xsnv3TuNM5uH4SrNFqdqsEcR4F4ugyoz15rnlUZ9a57qe9cDTl7AaEtOi3w+I20w6k0c6xv2+bR1Ju6Rl6eKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780493726; c=relaxed/simple;
-	bh=ThLfLCHmIQPPoDGt0Wg5gVn1Hgy8Oxxq2S5q/mw1lQg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MvTejNOdlm6GllviFR9dNq/liuX50Hv0M6ldLUEtwtOTXUOAIpffC1syhDpfBZxdOylZdcn+J8MjGAY0apXbgcC4fYI6m2La0EllI2HfqgplCGlZ8nP43P7VuRsW+Ot9xAeKUpb7o9vnv7pPRkve4M93US3z/W2G7pzB5/76OfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sFacgiv6; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780494300; c=relaxed/simple;
+	bh=w76++h12UwTix1AQskx9/mzTq4FG3jWxNWFN1G8aIfA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S/mbhjluqPxbQLbz24JttViTLnCu+qIXGSM0soknGN8hrKcS+TyjG8qifsJTPD1I22lnu3QVnh1Yqz4ZE5NuROi9YvZqG3lLgT1iItoXFb3YSxG1TqSxuL7FNSuyL2gBxOvzSieYmZan21uE3ovVgyFJOmMos7aYA+37ayCNl1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TmG7iI+A; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sFacgiv6"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7e613b4f268so476931a34.1
-        for <linux-edac@vger.kernel.org>; Wed, 03 Jun 2026 06:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780493725; x=1781098525; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/9iKUS1qB3Bumv7I+hG587W9IXgn0/0aiHnghhc7S+4=;
-        b=sFacgiv6+bwfUfouWqUSrUHp2lxVuG2TM+45uwx+//LStr1RD+LRmhl8tt6NJgA6D4
-         vACiJ1tvnHY5iKT7UaSb10Ncdzhqb9uUHTeUX70j7i5Lq1802BnKWTCwGg0wpcIOTMsA
-         eA+Cm8iaIih9k1gP0v4XyQ0TL2CxHi+dYzrpkq4XnW4XAxd4LydiDZu6BCk3Ib5wOE8g
-         Sd0Wm1LD+dlPiSzsT9U8BTEWVVwnDZi09sg8XKjfELIdz9f8eqmdxhn159mKUdPRmNGB
-         4JvyXzvY93oIVUBJq60U7WtpqQ6YnuGHX3+mK79P0RQW5VI7mHm3Nx9ooYxoYFVMzKAs
-         gFNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780493725; x=1781098525;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/9iKUS1qB3Bumv7I+hG587W9IXgn0/0aiHnghhc7S+4=;
-        b=CVpjh3IOerq1AJj5ot0w6s5cz1NW+Hd48OZqgNvc8AI+eSH5kA72SyP/BcgWhwxc8s
-         M3aOapF8yAveFi0FN9xgaWsSZGmmjlKTbOBluDmwI5+ykUxj4YDbLlhyFrlDI/bwBlCM
-         1+jgHEPaYE7UftnLv0paON2nIz+rPONVBfkiozBtKuo7P/REgz/CX//3YelfgT897mWw
-         rzkWu2/XqS7KdH3vUrgmczuBzIGhycMPtwXoX2SIG/c8R4nzyexA1qgWgWoAhkwVFN/p
-         3nb53Z5CmgRHYAkPdw9UCaYI2cZGhv8O6Vz3L1y1nWbGFhbBbrikfxsEmLZIz8aOpYXS
-         jdxw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Qm/F2ZkHvQRVkq69RgN6C0b0S9aCBMpJe8Fxm4S6rrUxShBur5Am7gKzX4hABs9/QWEXfLjTtDxFv@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK0+YdFwVMicda3aGNEbYUSdiALkHNLMH2iG3oTWLwE6nORNFs
-	eVTD5oFYx71uULrdKJvbzOgg8r+UB/BCqeRHXQg2nGe/G73E3B3CtXtD
-X-Gm-Gg: Acq92OGKn5Q7p1ZSzOqvtPqkLxWBzMG2akgrdYE9kr7L7Nv6sG+bhayWqccMY6hYngU
-	oDTym7ORdrOxrIz8v4MdqTBfq8W/MIinTE9LetZKp1F5RJTw0Tgvs+Y18OP4tSKOWDHXOEqaYi1
-	aNyGuHSZoY3GzUs3ep0TIKIhvys51U+Mep6TkUDvaaFMWhS7yxAhmskcbPGUIqnHj2TyYGVP3Ys
-	B93nUVIGEWbmjxyM58fbjUgBWzNGM3LnWkTvbbBwtZaZdeQ6Z1cW+39mcaEAjtVQ8d0NpOGhd/t
-	FlO6ztc5NNInQPD+PzlnH0JhH/3IGac5cFw3BqWYiMYaKP/BIrLpFoKT7MQsetogxgqt9V9zzOw
-	TXxsH3BSNoEAJOcAmvfSWGwWYTwMZF+wIV1VPcVY1ERT8HPLe+fUbZvP1t8OFD+hvySe4CJvi5+
-	F86J/rUbKxuwd1khirDb6vfatn
-X-Received: by 2002:a05:6820:1527:b0:69e:3063:3b74 with SMTP id 006d021491bc7-69e48d3ec22mr1525822eaf.30.1780493724758;
-        Wed, 03 Jun 2026 06:35:24 -0700 (PDT)
-Received: from lgs.. ([101.36.107.223])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69e4624167csm1647291eaf.5.2026.06.03.06.35.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 06:35:24 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Guangshuo Li <lgs201920130244@gmail.com>
-Subject: [PATCH] EDAC/versalnet: release remoteproc reference in remove
-Date: Wed,  3 Jun 2026 21:35:06 +0800
-Message-ID: <20260603133506.1396535-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TmG7iI+A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 944BF1F00893;
+	Wed,  3 Jun 2026 13:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780494299;
+	bh=UAcEW5sdNzXOvmfS53awUiH9gNX5gi+01tp59tm5Mgo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=TmG7iI+ADon1SUHGYPnaGVvdMlaCwNhAUdiLnKnBVhjmEuAiUJ3gucXtELvOYXjjY
+	 wfjdALcg3+UuQiIPuVgR7//OC8D1F0K2QstqgbbTNpJxgRDkbV6s8+ES+JLVDADvzX
+	 0bed1eQkhDy84HStoEhqYmFnF4Tk08e7wxUUivCRSTqB59usF6Zo/uedWhmz4lq9yA
+	 ih+wOYHOZgPJYAHVBNW0glj9x9vplX2goojLzY1DrKAi9RsnOJ8zQzN0bDQrAyzvt2
+	 7IVMk3i22Pep6O1zRHtTiyalbT97jJiopI2/0Hj/lphkZ4laxlKmrnaEvVzb68B9mn
+	 VlKNASpUU2+jA==
+Message-ID: <b930678d-a1ae-458c-8705-7ca9680d4cb6@kernel.org>
+Date: Wed, 3 Jun 2026 15:44:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: mm/memory-failure tracepoint change breaks userspace rasdaemon
+To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+ "Luck, Tony" <tony.luck@intel.com>, "bp@alien8.de" <bp@alien8.de>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
+ "xieyuanbin1@huawei.com" <xieyuanbin1@huawei.com>
+Cc: "Lai, Yi1" <yi1.lai@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
+References: <CY8PR11MB7134346A3E4BB28ECA28D6E989132@CY8PR11MB7134.namprd11.prod.outlook.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <CY8PR11MB7134346A3E4BB28ECA28D6E989132@CY8PR11MB7134.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-mc_probe() gets a remoteproc reference with rproc_get_by_phandle() and
-stores it in priv->mcdi->r5_rproc after the remote processor has been
-booted.
+On 6/3/26 15:11, Zhuo, Qiuxu wrote:
+> Hi,
+> 
+>  
+> 
+> Laiyi reported that the userspace rasdaemon fails to enable memory_failure_event
+> on kernels >= v6.19.
+> 
+>  
+> 
+> Kernel commit 31807483d395 ("mm/memory-failure: remove the selection of RAS"),
+> merged in v6.19-rc1,
+> 
+> moved the memory_failure_event tracepoint from the "ras" subsystem to
+> "memory_failure".
+> 
+> However, rasdaemon still tries to enable:
+> 
+>  
+> 
+>     ras:memory_failure_event
+> 
+>  
+> 
+> while on v6.19+ kernels, the tracepoint is:
+> 
+>  
+> 
+>     memory_failure:memory_failure_event
+> 
+>  
+> 
+> As a result, rasdaemon fails to start:
+> 
+>  
+> 
+>     …
+> 
+>    Can't write to set_event
+> 
+>    Huh! something got wrong. Aborting.
+> 
+>    …
+> 
+>  
+> 
+> Reproducer:
+> 
+>  
+> 
+>     rasdaemon --enable
+> 
+>  
+> 
+> Could you please let me know whether the preferred solution is to revert the
+> kernel change,
+> 
+> or to update rasdaemon to support both tracepoint names for backward/forward
+> compatibility?
 
-The probe error paths release that reference with rproc_put(), but the
-remove path only shuts the remote processor down. This leaks the
-remoteproc device and module references on every successful probe/remove
-cycle.
 
-Call rproc_put() in mc_remove() after rproc_shutdown().
+Likely the latter. BPF [1] documents:
 
-Fixes: d5fe2fec6c40d ("EDAC: Add a driver for the AMD Versal NET DDR controller")
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
- drivers/edac/versalnet_edac.c | 1 +
- 1 file changed, 1 insertion(+)
+Q: Are tracepoints part of the stable ABI?
+A: NO. Tracepoints are tied to internal implementation details hence they are
+subject to change and can break with newer kernels. BPF programs need to change
+accordingly when this happens.
 
-diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-index 2cbc13d9bd00..82b6426d9a79 100644
---- a/drivers/edac/versalnet_edac.c
-+++ b/drivers/edac/versalnet_edac.c
-@@ -937,6 +937,7 @@ static void mc_remove(struct platform_device *pdev)
- 	unregister_rpmsg_driver(&amd_rpmsg_driver);
- 	remove_versalnet(priv);
- 	rproc_shutdown(priv->mcdi->r5_rproc);
-+	rproc_put(priv->mcdi->r5_rproc);
- 	cdx_mcdi_finish(priv->mcdi);
- }
- 
+The Kernel ABI document explicitly doesn't list them AFAIKS.
+
+There were previous discussions on the stability of tracepints [2], I don't know
+what changed in the meantime. CCing Steve
+
+[1] https://www.kernel.org/doc/html/latest/bpf/bpf_design_QA.html
+[2] https://lwn.net/Articles/747256/
+[3] https://www.kernel.org/doc/html/latest/admin-guide/abi.html
+
 -- 
-2.43.0
+Cheers,
 
+David
