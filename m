@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF493EB818
-	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 03:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762E73ED3B4
+	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 03:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780456992; cv=none; b=oNb4A8Icv3ggNUo+luan5NtwBGdMIaV572Bz8Tp++H+pE0+Bwa1otAXdO6Iv1Pz5cMt6fN1afDEK6n03P8fYG5F0mEoe5Vm21vfpPlSiixiP8vrFhhKEV71s5jsrB+9TKIeDwxhYo4R/rtY8dZnvTeM5aTV1zInVKHTEBNd0bQI=
+	t=1780456998; cv=none; b=qHg8UWFKc6rKxp2TTN2+u06ZtQvFMPwG46P6/HcY8UbhdoL6b2YW4wqQH0C6T1mzaSpFqIdxSfmXYPS9HoHHcKiZtb4aoqy5dcj5fbKLxyOhZCGOzW81+cxx0S4A91SdC/mpVeK/fft5P8Px8tbOHOrY+q0pfJlXapJF2ZD1Apw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780456992; c=relaxed/simple;
-	bh=eKFeyZPATGGSkHvCegFenSkSNkTzgCGVzqQecB2Oqys=;
+	s=arc-20240116; t=1780456998; c=relaxed/simple;
+	bh=9i/EqfQCNRVF+ZSiOwc2MVc64rrCtxQx9bbJp3g7cCY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IA0rprAzOU7OreURA2flK1pyXxS+9PC4q26Ipa9zilknUrqW+CdGyvMUaKxACMkNhDpsa3BwBZb4iHoHy3Z58fEVFnhfusPt+mr1H4RHXqOH2IXk07qKzyr4kuJfwctvuZJitNPunRe4mPyQub1hAec3UtJlE8SzY/3dNE1Dj14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WHgYxlob; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=QZ7EgZiYenqIu9G4Oz5I+pkAPRpF37t7c9nPJvUCVJj4i1UeXfomAphQGFPzmtG0pnczY7X8T4YrRJEtKm3KnDSMdcm31j956tLSGtOir/4woS0i5koU+GV133fXcg28KvkbtgghDqB0UD8cUW82ABJ6Hzq+8q9FxV3mXjbVNVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dvJedARk; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WHgYxlob"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dvJedARk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780456990;
+	s=mimecast20190719; t=1780456996;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nvqj62ChjUbf5S0H0WqS9HcGif8t3al8v8FsPHFDyGE=;
-	b=WHgYxlob8EY5IZmwUt9EwBR77NcbiF/kulymsPugSevLjiBiy4Tb4t5cGgG0XZs+UCrb2f
-	OtekAh+tXY2skgpHJepL3IoEhnAzU/gY2jV9hHLdkMRCmvbrm3bkjdFqmO2ba7AXWeAnl1
-	nOjkKNpmo0H7xkVIMkyx+aHYMhmv3rc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=VM1rLFGjColtnWu6GvZAwBXS6W0rnnyuFBdpHvgA9sQ=;
+	b=dvJedARkVyZW3HoIqCXUMv3bDK1yLZB7WvPptSGy+XkaMvycghtO2U9K5zAj6MG0XLT29X
+	Ea6HIzzcw+pS8g3DySYY2mpSr0i5poJ21dESo0hrmXv7SVbqd+En0/ZCDNBdX7n/k8JUAV
+	LnxfAnHuC9v+DG7YoE3e0UYsFrRNkJ0=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-378-bE5vYHWiNkSbzvyhas89Bg-1; Tue,
- 02 Jun 2026 23:23:06 -0400
-X-MC-Unique: bE5vYHWiNkSbzvyhas89Bg-1
-X-Mimecast-MFC-AGG-ID: bE5vYHWiNkSbzvyhas89Bg_1780456985
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-Vtb4d3M7OhWiaDnzWarhVw-1; Tue,
+ 02 Jun 2026 23:23:11 -0400
+X-MC-Unique: Vtb4d3M7OhWiaDnzWarhVw-1
+X-Mimecast-MFC-AGG-ID: Vtb4d3M7OhWiaDnzWarhVw_1780456989
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 47E231805A16;
-	Wed,  3 Jun 2026 03:23:05 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9C5101956096;
+	Wed,  3 Jun 2026 03:23:09 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.64.74])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4492130001A1;
-	Wed,  3 Jun 2026 03:23:01 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7ED0230001A1;
+	Wed,  3 Jun 2026 03:23:05 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Ani Sinha <anisinha@redhat.com>,
@@ -62,9 +62,9 @@ Cc: Ani Sinha <anisinha@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
 	linux-edac@vger.kernel.org,
 	Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v3 13/16] qapi: convert intro sections for accelerator.json
-Date: Tue,  2 Jun 2026 23:21:58 -0400
-Message-ID: <20260603032201.993015-14-jsnow@redhat.com>
+Subject: [PATCH v3 14/16] qapi: convert intro sections for acpi-hest.json
+Date: Tue,  2 Jun 2026 23:21:59 -0400
+Message-ID: <20260603032201.993015-15-jsnow@redhat.com>
 In-Reply-To: <20260603032201.993015-1-jsnow@redhat.com>
 References: <20260603032201.993015-1-jsnow@redhat.com>
 Precedence: bulk
@@ -78,73 +78,24 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/accelerator.json | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ qapi/acpi-hest.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/accelerator.json b/qapi/accelerator.json
-index b59df378664..efc0fa81418 100644
---- a/qapi/accelerator.json
-+++ b/qapi/accelerator.json
-@@ -13,8 +13,7 @@
+diff --git a/qapi/acpi-hest.json b/qapi/acpi-hest.json
+index a01f1dee095..8db804df197 100644
+--- a/qapi/acpi-hest.json
++++ b/qapi/acpi-hest.json
+@@ -13,8 +13,8 @@
  
  ##
- # @KvmInfo:
+ # @inject-ghes-v2-error:
 -#
--# Information about support for KVM acceleration
-+#     Information about support for KVM acceleration
+-# Inject an error with additional ACPI 6.1 GHESv2 error information
++#     Inject an error with additional ACPI 6.1 GHESv2 error
++#     information
  #
- # @enabled: true if KVM acceleration is active
- #
-@@ -26,8 +25,7 @@
- 
- ##
- # @query-kvm:
--#
--# Return information about KVM acceleration
-+#     Return information about KVM acceleration
- #
- # Features:
- #
-@@ -46,8 +44,7 @@
- 
- ##
- # @x-accel-stats:
--#
--# Query accelerator statistics
-+#     Query accelerator statistics
- #
- # Features:
- #
-@@ -63,8 +60,7 @@
- 
- ##
- # @Accelerator:
--#
--# Information about support for MSHV acceleration
-+#     Information about support for MSHV acceleration
- #
- # @hvf: Apple Hypervisor.framework
- #
-@@ -88,8 +84,7 @@
- 
- ##
- # @AcceleratorInfo:
--#
--# Information about support for various accelerators
-+#     Information about support for various accelerators
- #
- # @enabled: the accelerator that is in use
- #
-@@ -102,8 +97,7 @@
- 
- ##
- # @query-accelerators:
--#
--# Return information about accelerators
-+#     Return information about accelerators
- #
- # Returns: @AcceleratorInfo
- #
+ # @cper: contains a base64 encoded string with raw data for a single
+ #     CPER record with Generic Error Status Block, Generic Error Data
 -- 
 2.54.0
 
