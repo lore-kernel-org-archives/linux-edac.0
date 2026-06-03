@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320301C2324
-	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 03:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0869A39E18E
+	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 03:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780456943; cv=none; b=mUiSUcCo4faf1X2uPyLgyvVYLGMLIEJoMdq9Qr+5awQ5n9bOUeNkNgyJ7TYCnndaaNdkBKqZ493mFlPnJEq9ZquulaG0me7QY4X8iFwUgjqyKrlosDt339rqaXyLAHqneuaSJHHDbKxdruE+WUEot4fD925BztLyYo4E3S1tmTU=
+	t=1780456948; cv=none; b=sOcSRkUK1eBRu7U3zJKH1GLHZbUDeg38sbvswz56LqjaHEBRDKgb0l5+UhqcguEsGqWzMl13hFwDlueuTM5lDxEarfC9XSc0bVV1YRlghx8xjlRQZW6++HbJT0+jIEn9XOdapugVeBhunFZllIOFT/Ik/kLrQJW20bCarn0LqT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780456943; c=relaxed/simple;
-	bh=wVJDruwkKNSpjhDWOZcVdHo+aM4tsl28X+0dIFXrcRQ=;
+	s=arc-20240116; t=1780456948; c=relaxed/simple;
+	bh=SBO3St4t0bUQoNPxbMIdWzd4gJGgXGpXRSDwxfNdl2c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=az+jRugz+0B91X0+SWq1MsjbGO5KL2cD6obBebpq+Uh/vY0jVWrUsZ2ZGwecRpdaVJ5soJhdk00ye6R7cHWo4SHDUKNnGspbthtIDtpHDGqsS1wRGeG9VY61GqjMJ00GuTzfNhjJsfGQBfgZwes4O8LZ3Z+MO03FlXSklYBivFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZI/Kilbe; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=abp9rIBRRVgdWQo1C62sn7fPD8gcmHlr9iHLbTimvLDufzbMmLPsp0kqKw8XArK/mUnpLH7A1x0xiiZeRt0m4fkMDNVhxGNN8Dj0m2wmRuciMhTcLI/U05+2Lp+YaULYr5OJUy0hoX9MgOLiVoGgirEvt+WGmfr9XHzNwFsgpDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V2mcDPLu; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZI/Kilbe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V2mcDPLu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780456941;
+	s=mimecast20190719; t=1780456946;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D39Y81M9rFkACn/NQlcX7QZiwh/aJXxhvafRYIbxpe8=;
-	b=ZI/KilbeW6RZy9WO2Qm6eL/2Z4LulNZcLDA3VnpLnI6ZAGVev3qags1Nc9RuGltKaEIEAG
-	Vy3vXCbkO3AiLEnl5oUZhbSbhOM13OhZpSlv9SGvCklRjkPCisH6zoz9oIRQxpwbJENT7v
-	XrcEwf2r2DxPNIeJh9N11k6jNuPLOTI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=d+ZrUF5QiDAqJMi43LG3mwd5iMGaAwMF/E106IU4/XI=;
+	b=V2mcDPLuNOk9ptNX4kgwdGfEBEFKOGy/+86ZRuxA9XN/rIAYOBQngP2Z5dFx1gSkqQG8KD
+	PJcdiikyHT8cp3H7EP6FYDCCdWiaJd2/NPzXh43b0w+svO+9a0JGvFugxwjcyZzjJHqAMG
+	+tedKIU2iOQnZc7fh2w58vHoq3N1yAk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-141-W9w6AD-iN_6FkoJoulkQ3Q-1; Tue,
- 02 Jun 2026 23:22:18 -0400
-X-MC-Unique: W9w6AD-iN_6FkoJoulkQ3Q-1
-X-Mimecast-MFC-AGG-ID: W9w6AD-iN_6FkoJoulkQ3Q_1780456936
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-645-UBn-pHWAPqWBHeXNS6Jk5g-1; Tue,
+ 02 Jun 2026 23:22:21 -0400
+X-MC-Unique: UBn-pHWAPqWBHeXNS6Jk5g-1
+X-Mimecast-MFC-AGG-ID: UBn-pHWAPqWBHeXNS6Jk5g_1780456940
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C09519560B7;
-	Wed,  3 Jun 2026 03:22:16 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0144918011FF;
+	Wed,  3 Jun 2026 03:22:20 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.64.74])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 47DD7300022D;
-	Wed,  3 Jun 2026 03:22:13 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6ED5730001A1;
+	Wed,  3 Jun 2026 03:22:16 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Ani Sinha <anisinha@redhat.com>,
@@ -62,9 +62,9 @@ Cc: Ani Sinha <anisinha@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
 	linux-edac@vger.kernel.org,
 	Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v3 02/16] tests/qapi: generate output in source order
-Date: Tue,  2 Jun 2026 23:21:47 -0400
-Message-ID: <20260603032201.993015-3-jsnow@redhat.com>
+Subject: [PATCH v3 03/16] qapi/docs: remove unused QAPIDoc subsection members
+Date: Tue,  2 Jun 2026 23:21:48 -0400
+Message-ID: <20260603032201.993015-4-jsnow@redhat.com>
 In-Reply-To: <20260603032201.993015-1-jsnow@redhat.com>
 References: <20260603032201.993015-1-jsnow@redhat.com>
 Precedence: bulk
@@ -76,229 +76,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Rewrite the test doc generator to produce output in source order instead
-of arbitrarily by section name.
-
-This patch removes our last use of the "body" field, which has an
-effect on how the sections of each test documention block are
-printed. We now print the name of the section followed by the section
-text for all sections except Members and Features, which are printed
-as "Member=%s" or "Feature=%s" followed by the section text,
-respectively.
-
-This patch is motivated by a desire to move the QAPIDoc API away from
-named fields for specific sections in a bid to force all users to simply
-iterate through all_sections in order, instead - and to remove the named
-subsections.
+All users of the QAPIDoc object should be iterating over all_sections
+and not grabbing arbitrary subsections, if possible. Remove the 'body'
+and 'sections' members, as they are no longer used.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/qapi-schema/doc-good.out | 82 +++++++++++++++++-----------------
- tests/qapi-schema/test-qapi.py | 14 +++---
- 2 files changed, 48 insertions(+), 48 deletions(-)
+ scripts/qapi/parser.py | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index 04a55072646..b9829e2f841 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -54,15 +54,15 @@ event EVT_BOXED Object
-     boxed=True
-     feature feat3
- doc freeform
--    body=
-+    Plain
- *******
- Section
- *******
- doc freeform
--    body=
-+    Plain
- Just text, no heading.
- doc freeform
--    body=
-+    Plain
- Subsection
- ==========
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index c3cf33904ef..b33edbba74f 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -732,8 +732,6 @@ def __init__(self, info: QAPISourceInfo, symbol: Optional[str] = None):
+         self.all_sections: List[QAPIDoc.Section] = [
+             QAPIDoc.Section(info, QAPIDoc.Kind.PLAIN)
+         ]
+-        # the body section
+-        self.body: Optional[QAPIDoc.Section] = self.all_sections[0]
+         # dicts mapping parameter/feature names to their description
+         self.args: Dict[str, QAPIDoc.ArgSection] = {}
+         self.features: Dict[str, QAPIDoc.ArgSection] = {}
+@@ -742,8 +740,6 @@ def __init__(self, info: QAPISourceInfo, symbol: Optional[str] = None):
+         self.errors: Optional[QAPIDoc.Section] = None
+         # "Since" section
+         self.since: Optional[QAPIDoc.Section] = None
+-        # sections other than .body, .args, .features
+-        self.sections: List[QAPIDoc.Section] = []
  
-@@ -106,84 +106,84 @@ Examples:
- - *verbatim*
- - {braces}
- doc symbol=Enum
--    body=
-+    Plain
+     def end(self) -> None:
+         for section in self.all_sections:
+@@ -766,7 +762,6 @@ def ensure_untagged_section(self, info: QAPISourceInfo) -> None:
  
--    arg=one
-+    Member=one
- The _one_ {and only}, description on the same line
--    arg=two
-+    Member=two
+         # start new section
+         section = self.Section(info, kind)
+-        self.sections.append(section)
+         self.all_sections.append(section)
  
--    feature=enum-feat
-+    Feature=enum-feat
- Also _one_ {and only}
--    feature=enum-member-feat
-+    Feature=enum-member-feat
- a member feature
--    section=Plain
-+    Plain
- @two is undocumented
- doc symbol=Base
--    body=
-+    Plain
+     def new_tagged_section(
+@@ -790,7 +785,6 @@ def new_tagged_section(
+                 raise QAPISemError(
+                     info, "duplicated '%s' section" % kind)
+             self.since = section
+-        self.sections.append(section)
+         self.all_sections.append(section)
  
--    arg=base1
-+    Member=base1
-  description starts on a new line,
-  minimally indented
- doc symbol=Variant1
--    body=
-+    Plain
- A paragraph
- 
- Another paragraph
- 
- @var1 is undocumented
--    arg=var1
-+    Member=var1
- 
--    feature=variant1-feat
-+    Feature=variant1-feat
- a feature
--    feature=member-feat
-+    Feature=member-feat
- a member feature
- doc symbol=Variant2
--    body=
-+    Plain
- 
- doc symbol=Object
--    body=
-+    Plain
- 
--    feature=union-feat1
-+    Feature=union-feat1
- a feature
- doc symbol=Alternate
--    body=
-+    Plain
- 
--    arg=i
-+    Member=i
- description starts on the same line
-     remainder indented the same
-     @b is undocumented
--    arg=b
-+    Member=b
- 
--    feature=alt-feat
-+    Feature=alt-feat
- a feature
- doc freeform
--    body=
-+    Plain
- Another subsection
- ==================
- doc symbol=cmd
--    body=
-+    Plain
- 
--    arg=arg1
-+    Member=arg1
-     description starts on a new line,
-     indented
--    arg=arg2
-+    Member=arg2
- description starts on the same line
-     remainder indented differently
--    arg=arg3
-+    Member=arg3
- 
--    feature=cmd-feat1
-+    Feature=cmd-feat1
- a feature
--    feature=cmd-feat2
-+    Feature=cmd-feat2
- another feature
--    section=Plain
-+    Plain
- .. note:: @arg3 is undocumented
--    section=Returns
-+    Returns
- @Object
--    section=Errors
-+    Errors
- some
--    section=Todo
-+    Todo
- frobnicate
--    section=Plain
-+    Plain
- .. admonition:: Notes
- 
-  - Lorem ipsum dolor sit amet
-@@ -207,23 +207,23 @@ Examples::
- 
- Note::
-     Ceci n'est pas une note
--    section=Since
-+    Since
- 2.10
- doc symbol=cmd-boxed
--    body=
-+    Plain
- If you're bored enough to read this, go see a video of boxed cats
--    feature=cmd-feat1
-+    Feature=cmd-feat1
- a feature
--    feature=cmd-feat2
-+    Feature=cmd-feat2
- another feature
--    section=Plain
-+    Plain
- .. qmp-example::
- 
-    -> "this example"
- 
-    <- ... has no title ...
- doc symbol=EVT_BOXED
--    body=
-+    Plain
- 
--    feature=feat3
-+    Feature=feat3
- a feature
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
-index cf7fb8a6df5..5beb96e894f 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -19,6 +19,7 @@
- from io import StringIO
- 
- from qapi.error import QAPIError
-+from qapi.parser import QAPIDoc
- from qapi.schema import QAPISchema, QAPISchemaVisitor
- 
- 
-@@ -116,13 +117,12 @@ def test_frontend(fname):
-             print('doc symbol=%s' % doc.symbol)
-         else:
-             print('doc freeform')
--        print('    body=\n%s' % doc.body.text)
--        for arg, section in doc.args.items():
--            print('    arg=%s\n%s' % (arg, section.text))
--        for feat, section in doc.features.items():
--            print('    feature=%s\n%s' % (feat, section.text))
--        for section in doc.sections:
--            print('    section=%s\n%s' % (section.kind, section.text))
-+        for section in doc.all_sections:
-+            if isinstance(section, QAPIDoc.ArgSection):
-+                print('    %s=%s' % (section.kind, section.name))
-+            else:
-+                print('    %s' % section.kind)
-+            print(section.text)
- 
- 
- def open_test_result(dir_name, file_name, update):
+     def _new_description(
 -- 
 2.54.0
 
