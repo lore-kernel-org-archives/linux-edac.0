@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1523DCDA1
-	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 03:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE763DCDA1
+	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 03:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780456974; cv=none; b=IN8gbctzfRqO3SE3xk+1ZKpmh0XN/d4iEeaY9g+0btNvtyXZ95NDO+5B4SRUWp7tvAWksCjY1Nz4VrdzIfhtVX3A2hGMA0xBcv1h3YuEb5kHqA68ba0F/y0mOjsfovVouZKN+XutTmQSzzIHq86AkZ/3SonapzoIoAIQjYH+tXc=
+	t=1780456977; cv=none; b=Y9GJQ3Bnszq7wl8bRcEgSzNuh4FO1QknjPjN90oVTZg3ajxBgdvPzNaCHgRdHZqTdUCdT0F+PDJ1Xx6Bu2CG72TmlgCK8AqSeeZcHJ8CmpeoLWrjs6XcqD4UJKzpmo7qbuQFSiBTw4eqWWH7hwyfsRB85V6Md8usWQDaC5YuhU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780456974; c=relaxed/simple;
-	bh=biV0CR8mrRA6HR2YxKvrzEzAzAHMkw3OhndfMDhW/co=;
+	s=arc-20240116; t=1780456977; c=relaxed/simple;
+	bh=AeemVVMwxrIISo99Wr8Bd0WhhVLbsOpXvC8oPuwU3mQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tqDD3Y4vxJb4nGJjtZI95aidJNsct8uSvEpxaFRkMg0jHgWkcZ42aAJjcJo2q0n9PjAFIXNWAJTwOWC55Ujd4g/htDWRnPl9GVuZzwRWUc72wkE+lFias2lU7Xlffrbn07Vxsoy+CsYe6G8zXuXxgq1fz3PP52+0HFAprwwuWcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dQROwjKc; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=OkhlAXXIs8Vwc3irktXgLxenan6eYbZVwqVfnkLuvRjpP/d1wUigzEzSc9MK2fbf+sU8Aj2cWekJO5x34uxpdxqngtrtECKBzJjljBz2z7QYQka4xO80YVpHn5EmRrXG/4i/z/dOUcTR5eMX2k+sQbQk3u09KUKCEgYP4cNOlPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C72/bIZc; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dQROwjKc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C72/bIZc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780456971;
+	s=mimecast20190719; t=1780456974;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+hD1Dsfeq3wbpu+XarOy5/xB10detZhBbaziffW8q5I=;
-	b=dQROwjKcI30OwQSBG5mjrzJk+DBsH0LSz/Yh1GCbTTM9OR8xYBEUM0+uHqWIIXh34alFUB
-	jK5KPon4EK77M1JVmYOqnLoQtnWiC/L0zr3NeRQQeDyJJ9oMxXvaxiVDKxDgM2yKnyJTby
-	Sb+jIrnpTTy7m2GO2/oz72dSj791h/Y=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+	bh=LcOyyMvF31+cUE24n3jEGHkdEH2/+jIBhFBTj92e3UY=;
+	b=C72/bIZceT4DbfbCLYhBlWVtzSZ4UeaKjAwiWU1WogUGa1BDGbdPCBgLFYbL+fqAgwLI8a
+	BVslLOOLi/bmrtZUbou6rHf97rJbwaohJ6LRvuA8cIM4F71YFusyPznu8LdwfXwaX5r97B
+	YPJY6WbqyNDePYXsJdfGNcjp7uhYByY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-259-NqggjbLmMyiLB_On5y6-qA-1; Tue,
- 02 Jun 2026 23:22:47 -0400
-X-MC-Unique: NqggjbLmMyiLB_On5y6-qA-1
-X-Mimecast-MFC-AGG-ID: NqggjbLmMyiLB_On5y6-qA_1780456966
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-696-Kq0itHC5OQWClD1o2AoIRQ-1; Tue,
+ 02 Jun 2026 23:22:51 -0400
+X-MC-Unique: Kq0itHC5OQWClD1o2AoIRQ-1
+X-Mimecast-MFC-AGG-ID: Kq0itHC5OQWClD1o2AoIRQ_1780456970
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0C6C8180044D;
-	Wed,  3 Jun 2026 03:22:46 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E90F1800635;
+	Wed,  3 Jun 2026 03:22:50 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.64.74])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C227D3000203;
-	Wed,  3 Jun 2026 03:22:41 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A103C30001A1;
+	Wed,  3 Jun 2026 03:22:46 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Ani Sinha <anisinha@redhat.com>,
@@ -62,9 +62,9 @@ Cc: Ani Sinha <anisinha@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
 	linux-edac@vger.kernel.org,
 	Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v3 09/16] qapi/docs: adjust stub member insertion algorithm
-Date: Tue,  2 Jun 2026 23:21:54 -0400
-Message-ID: <20260603032201.993015-10-jsnow@redhat.com>
+Subject: [PATCH v3 10/16] qapi/docs: remove implicit Plain section
+Date: Tue,  2 Jun 2026 23:21:55 -0400
+Message-ID: <20260603032201.993015-11-jsnow@redhat.com>
 In-Reply-To: <20260603032201.993015-1-jsnow@redhat.com>
 References: <20260603032201.993015-1-jsnow@redhat.com>
 Precedence: bulk
@@ -76,216 +76,89 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-A forthcoming patch removes the implicit PLAIN section that always
-starts a QAPIDoc section list. Further future changes begin converting
-"PLAIN" sections to "INTRO" sections. To accommodate this, the
-insertion algorithm that places stub and dummy members must be
-adjusted to cope with not only the finished state, but temporary
-intermediate states while the series is merged.
-
-This algorithm can handle zero-or-more PLAIN *or* INTRO sections at
-the beginning of a QAPIDoc object, in contrast to the previous
-algorithm which assumed and relied upon there being always one PLAIN
-section at the beginning of every QAPIDoc section list.
-
-In other words: (PLAIN | INTRO)* <EverythingElse>
-
-This does not impact what the parser itself will actually produce. As
-of this patch, the parser will still always generate QAPIDoc section
-lists that start with precisely one PLAIN section (whether or not it
-is empty), followed by the remaining sections. Those remaining
-sections may or may not include additional PLAIN sections, but never
-two such sections contiguously as the parser will always treat that
-layout as one PLAIN section consisting of multiple paragraph(s).
-
-In other other words: This insertion algorithm is more lenient than
-the parser, but this is on purpose for flexibility mid-stream as we
-convert QAPI to using explicit introductory sections. The allowed
-order of sections will eventually become strictly enforced in the
-parser, which will in turn allow dramatic simplifications to the
-insertion algorithm. This only exists as transitory code until we are
-able to enforce that order.
-
-Fear not: the intermediate rest output before and after this patch
-are byte identical, so failing all else, we at least know it doesn't
-make anything worse.
-
-Lastly, because we have three places in the code that need to insert
-stub/dummy sections, we take the opportunity to consolidate this code
-to handle all three cases with one function. This winds up
-necessitating the qapidoc.py generator actually modify the section
-list to insert a "dummy" member that acts as a placeholder for "The
-members of ..." text. While it looks like a code smell to modify the
-caller's argument, it is ultimately safe because the QAPI Schema
-object is re-parsed and re-constructed in memory for each individual
-process that needs to operate on it. In other words, the Sphinx
-document generator already does have "its own copy" of the section
-lists, so it is "safe" to modify here without regards to other
-consumers of the QAPIDoc objects. It only *looks* like it smells
-bad. Ultimately, this code will also be removed once the inliner is
-merged, so it is only a temporary aesthetic issue regardless.
-
-That's my story and I'm sticking to it.
+Prior to this patch, we always create an empty Plain section. Removing
+this allows us to gradually phase out the "Plain" section in favor of
+"Intro" and "Details" sections while keeping "Plain" around for the
+interim churn during the series - meaning that we don't actually know
+at __init__ time which type of section we'll have first.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/sphinx/qapidoc.py | 42 ++++++++++++++++--------------
- scripts/qapi/parser.py | 58 +++++++++++++++++++++++++++++-------------
- 2 files changed, 64 insertions(+), 36 deletions(-)
+ scripts/qapi/parser.py         |  4 +---
+ tests/qapi-schema/doc-good.out | 14 --------------
+ 2 files changed, 1 insertion(+), 17 deletions(-)
 
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-index 1f7c15b7075..16ad15fe94f 100644
---- a/docs/sphinx/qapidoc.py
-+++ b/docs/sphinx/qapidoc.py
-@@ -349,30 +349,38 @@ def _get_target(
-                 )
- 
-     def visit_sections(self, ent: QAPISchemaDefinition) -> None:
-+        # Generate a placeholder right after the member section(s) which
-+        # may be used to generate documentation for "The members of..."
-+        # pointers in the rendered document.
-+        #
-+        # This is a temporary hack until the inliner is merged. Note
-+        # that although we modify the caller's section list, the
-+        # Sphinx document generator has its own copy of the parsed
-+        # schema in memory, so this action does not interfere with
-+        # other users of the QAPISchema or QAPIDoc objects outside of
-+        # the document generator. Fishy, but not harmful.
-+        if ent.doc:
-+            ent.doc.append_member_stub(
-+                QAPIDoc.ArgSection(
-+                    ent.doc.info, QAPIDoc.Kind.MEMBER, "q_dummy"
-+                )
-+            )
-+
-         sections = ent.doc.all_sections if ent.doc else []
- 
--        # Determine the index location at which we should generate
--        # documentation for "The members of ..." pointers. This should
--        # go at the end of the members section(s) if any. Note that
--        # index 0 is assumed to be a plain intro section, even if it is
--        # empty; and that a members section if present will always
--        # immediately follow the opening PLAIN section.
--        gen_index = 1
--        if len(sections) > 1:
--            while sections[gen_index].kind == QAPIDoc.Kind.MEMBER:
--                gen_index += 1
--                if gen_index >= len(sections):
--                    break
--
-         # Add sections in source order:
--        for i, section in enumerate(sections):
-+        for section in sections:
-             section.text = self.reformat_arobase(section.text)
- 
-             if section.kind.name in ("PLAIN", "INTRO"):
-                 self.visit_paragraph(section)
-             elif section.kind == QAPIDoc.Kind.MEMBER:
-                 assert isinstance(section, QAPIDoc.ArgSection)
--                self.visit_member(section)
-+                if section.name == "q_dummy":
-+                    # Generate "The members of ..." entries if necessary
-+                    self._insert_member_pointer(ent)
-+                else:
-+                    self.visit_member(section)
-             elif section.kind == QAPIDoc.Kind.FEATURE:
-                 assert isinstance(section, QAPIDoc.ArgSection)
-                 self.visit_feature(section)
-@@ -386,10 +394,6 @@ def visit_sections(self, ent: QAPISchemaDefinition) -> None:
-             else:
-                 assert False
- 
--            # Generate "The members of ..." entries if necessary:
--            if i == gen_index - 1:
--                self._insert_member_pointer(ent)
--
-         self.ensure_blank_line()
- 
-     # Transmogrification core methods
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 261f8ba9f8b..406edf6aa9d 100644
+index 406edf6aa9d..4beec4f9eda 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -832,6 +832,42 @@ def _insert_near_kind(
-                 return True
-         return False
- 
-+    def _insert_after_intro(
-+        self,
-+        section: 'QAPIDoc.Section',
-+    ) -> None:
-+        """
-+        Insert a section immediately after the intro section.
-+
-+        While we convert PLAIN sections to INTRO sections, all
-+        contiguous INTRO/PLAIN sections at the start of a QAPIDoc
-+        section list are treated as "the intro".
-+
-+        Once INTRO conversion is complete, this helper will no longer be
-+        needed and ``_insert_near_kind(QAPIDoc.Kind.INTRO, ...)`` will
-+        be sufficient.
-+        """
-+        index = 0
-+        for index, ref_section in enumerate(self.all_sections):
-+            if ref_section.kind.name in ("PLAIN", "INTRO"):
-+                continue
-+            break
-+        else:
-+            index += 1
-+
-+        self.all_sections.insert(index, section)
-+
-+    def append_member_stub(self, stub: 'QAPIDoc.Section') -> None:
-+
-+        """
-+        Append a stub section after any Member sections.
-+        """
-+        if self._insert_near_kind(QAPIDoc.Kind.MEMBER, stub, True):
-+            return
-+
-+        # No MEMBER sections present. Insert after INTRO/PLAIN sections.
-+        self._insert_after_intro(stub)
-+
-     def connect_member(self, member: 'QAPISchemaMember') -> None:
-         if member.name not in self._args:
-             assert member.info
-@@ -841,20 +877,10 @@ def connect_member(self, member: 'QAPISchemaMember') -> None:
-                                    % (member.role, member.name))
-             # Insert stub documentation section for missing member docs.
-             # TODO: drop when undocumented members are outlawed
+@@ -730,9 +730,7 @@ def __init__(self, info: QAPISourceInfo, symbol: Optional[str] = None):
+         # definition doc's symbol, None for free-form doc
+         self.symbol: Optional[str] = symbol
+         # the sections in textual order
+-        self.all_sections: List[QAPIDoc.Section] = [
+-            QAPIDoc.Section(info, QAPIDoc.Kind.PLAIN)
+-        ]
++        self.all_sections: List[QAPIDoc.Section] = []
+         # dicts mapping parameter/feature names to their description
+         self._args: Dict[str, QAPIDoc.ArgSection] = {}
+         self._features: Dict[str, QAPIDoc.ArgSection] = {}
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+index b9829e2f841..16f44221771 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -106,8 +106,6 @@ Examples:
+ - *verbatim*
+ - {braces}
+ doc symbol=Enum
+-    Plain
 -
--            section = QAPIDoc.ArgSection(
-+            stub_section = QAPIDoc.ArgSection(
-                 self.info, QAPIDoc.Kind.MEMBER, member.name)
--            self._args[member.name] = section
+     Member=one
+ The _one_ {and only}, description on the same line
+     Member=two
+@@ -119,8 +117,6 @@ a member feature
+     Plain
+ @two is undocumented
+ doc symbol=Base
+-    Plain
 -
--            # Determine where to insert stub doc - it should go at the
--            # end of the members section(s), if any. Note that index 0
--            # is assumed to be an untagged intro section, even if it is
--            # empty.
--            index = 1
--            if len(self.all_sections) > 1:
--                while self.all_sections[index].kind == QAPIDoc.Kind.MEMBER:
--                    index += 1
--            self.all_sections.insert(index, section)
-+            self._args[member.name] = stub_section
-+            self.append_member_stub(stub_section)
+     Member=base1
+  description starts on a new line,
+  minimally indented
+@@ -138,16 +134,10 @@ a feature
+     Feature=member-feat
+ a member feature
+ doc symbol=Variant2
+-    Plain
+-
+ doc symbol=Object
+-    Plain
+-
+     Feature=union-feat1
+ a feature
+ doc symbol=Alternate
+-    Plain
+-
+     Member=i
+ description starts on the same line
+     remainder indented the same
+@@ -161,8 +151,6 @@ doc freeform
+ Another subsection
+ ==================
+ doc symbol=cmd
+-    Plain
+-
+     Member=arg1
+     description starts on a new line,
+     indented
+@@ -223,7 +211,5 @@ another feature
  
-         self._args[member.name].connect(member)
- 
-@@ -882,10 +908,8 @@ def ensure_returns(self, info: QAPISourceInfo) -> None:
-         )):
-             return
- 
--        # Otherwise, it should go right after the intro. The intro
--        # is always the first section and is always present (even
--        # when empty), so we can insert directly at index=1 blindly.
--        self.all_sections.insert(1, stub)
-+        # Otherwise, it should go right after the intro.
-+        self._insert_after_intro(stub)
- 
-     def check_expr(self, expr: QAPIExpression) -> None:
-         if 'command' in expr:
+    <- ... has no title ...
+ doc symbol=EVT_BOXED
+-    Plain
+-
+     Feature=feat3
+ a feature
 -- 
 2.54.0
 
