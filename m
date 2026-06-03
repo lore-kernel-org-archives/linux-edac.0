@@ -1,72 +1,61 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EAA3F0762
-	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 03:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE0C2BFC60
+	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 06:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780457005; cv=none; b=cPrDvA3x3cFfptIz2E9XCVZKaz02hMUr8ARX+sSU6DSHy9uoybfTZwqkpOAsrgQfAfMmkTp4k78gVO8330NGIuM7Tpzm8/eZasMIVFINBHivot3mC6AHFf6gqCHd/IJeXHLR3JuohUwQCeDyAFZHhxldE1AsBNKWyjsPkiO0vEE=
+	t=1780468848; cv=none; b=k92YaF1GtZkr3ASV1aNzu6Sd8QLC18Q8qMEZEMXOdH1yDjqYKJOK/ktpEukof2isJSTELkhk6UmfqW8MEOhXz7E+mH0379YrlR/lBVrZVYXf4Bp7dJM5YsrqM1kmoxcK9NLdJIzIZa+i5FdtPLPIxd+W0P1EW7Ev92u8Wpl4z6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780457005; c=relaxed/simple;
-	bh=qCqak2867Y32TsgOEy7RQCLEMARhfQsfVSBO3wFKDLY=;
+	s=arc-20240116; t=1780468848; c=relaxed/simple;
+	bh=s81srs2okcYSbv9RpqC/NhmsdujoopOJH0QO9B/FvkE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j2qvFunaEsTow4MdfqkzA9P1xQlYodQr2SYeJpgrNWum9yPCCeIFN+Un7jBaU8oWSaaBdcI2IqBEetxo8g5snIHzRZzpRG1rjdbB6Qp3seEEoV4YXv48PD1bMG6xqV4GleGsmYr0OTPeg5tLHX6TfIZW/xRrMpUW3SpD9luPC64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KrPC+EBc; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=HYgUTyA77MUqzTuoKM4NalwBDkQdEVBs3AkX4O1BNeBnBpAJp0feIsjWV/21HciOCcfXY0n8bxVO/eLm6gH+/1hSiKpmtMBuU69C2CyGCm3Bf0PY7bpn03OyRmBzKPQ5w16TKP2cygv+7+40Hxi6dV2lswbkvBoCWdLNodUU24Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LI9G+nVV; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KrPC+EBc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LI9G+nVV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780457002;
+	s=mimecast20190719; t=1780468844;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z31RfUFoOPTVXn0OWibG2S+bAOrVagBG2khh+ZxyXL0=;
-	b=KrPC+EBcqyI8iEAwmgQFkwden0/vKJAzLm1hKknmxPAZ4Oz1lvRh8EXEHG/4v/tkqEfQJo
-	TF1Asj0fudrdpHgD9tV8VaDN8K7Yjep7fTuNmCSEVpEV7Jun5qQw6nDwPIeFcNDJ2soLGP
-	C96vpX9yda2NNCuwjmidH2cLr3uq3R8=
+	bh=IIrQAKya31ypo+5j9X3JO9WQgohhJh3rZPyQNjSBeAk=;
+	b=LI9G+nVVCQh1JGQDOHwNnCEa1NZcDKfe94fWZ1enUnGEu9DslZx0XgB9Ur8QOTcBDQ150K
+	vLULrxmq+yPhy4JU6IHrPLYUqVgIseF2RiIVuQoIKEQ8X8Jf98ebjFylt4Qyukm6K5U+7y
+	ABAALb0qutw0V8byeBML+6ImJ3pOh1c=
 Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-316-N59WQh1bMXW_Qq8VVXmKGA-1; Tue,
- 02 Jun 2026 23:23:18 -0400
-X-MC-Unique: N59WQh1bMXW_Qq8VVXmKGA-1
-X-Mimecast-MFC-AGG-ID: N59WQh1bMXW_Qq8VVXmKGA_1780456997
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-3--wprOu8SNjiTER1NZqNFqw-1; Wed,
+ 03 Jun 2026 02:40:42 -0400
+X-MC-Unique: -wprOu8SNjiTER1NZqNFqw-1
+X-Mimecast-MFC-AGG-ID: -wprOu8SNjiTER1NZqNFqw_1780468841
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2BEFD195608A;
-	Wed,  3 Jun 2026 03:23:17 +0000 (UTC)
-Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.64.74])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1850030001A1;
-	Wed,  3 Jun 2026 03:23:13 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 73739195608D;
+	Wed,  3 Jun 2026 06:40:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.2])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 24CE01966658;
+	Wed,  3 Jun 2026 06:40:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 7BA8D21E6742; Wed, 03 Jun 2026 08:40:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Ani Sinha <anisinha@redhat.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Igor Mammedov <imammedo@redhat.com>,
-	John Snow <jsnow@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Blake <eblake@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
+Cc: philmd@mailo.com,
+	pierrick.bouvier@oss.qualcomm.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>,
-	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pierrick Bouvier <pierrick.bouvier@oss.qualcomm.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
 	linux-edac@vger.kernel.org,
-	Cleber Rosa <crosa@redhat.com>
-Subject: [PATCH v3 16/16] qapi: convert intro sections for audio.json
-Date: Tue,  2 Jun 2026 23:22:01 -0400
-Message-ID: <20260603032201.993015-17-jsnow@redhat.com>
-In-Reply-To: <20260603032201.993015-1-jsnow@redhat.com>
-References: <20260603032201.993015-1-jsnow@redhat.com>
+	qemu-arm@nongnu.org
+Subject: [PATCH v2 18/38] MAINTAINERS: Fix F: typo in "ACPI/HEST/GHES/ARM processor CPER"
+Date: Wed,  3 Jun 2026 08:40:12 +0200
+Message-ID: <20260603064032.3733394-19-armbru@redhat.com>
+In-Reply-To: <20260603064032.3733394-1-armbru@redhat.com>
+References: <20260603064032.3733394-1-armbru@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -74,273 +63,30 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+Fixes: ddd8f3baa2 (qapi/acpi-hest: add an interface to do generic CPER error injection, 2025-09-23)
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-edac@vger.kernel.org
+Cc: qemu-arm@nongnu.org
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/audio.json | 88 ++++++++++++++++++-------------------------------
- 1 file changed, 32 insertions(+), 56 deletions(-)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 2df87b97101..72190f20993 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -14,9 +14,8 @@
- 
- ##
- # @AudiodevPerDirectionOptions:
--#
--# General audio backend options that are used for both playback and
--# recording.
-+#     General audio backend options that are used for both playback
-+#     and recording.
- #
- # @mixing-engine: use QEMU's mixing engine to mix all streams inside
- #     QEMU and convert audio formats when not supported by the
-@@ -53,8 +52,7 @@
- 
- ##
- # @AudiodevGenericOptions:
--#
--# Generic driver-specific options.
-+#     Generic driver-specific options.
- #
- # @in: options of the capture stream
- #
-@@ -69,8 +67,7 @@
- 
- ##
- # @AudiodevDBusOptions:
--#
--# Options of the D-Bus audio backend.
-+#     Options of the D-Bus audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -89,9 +86,8 @@
- 
- ##
- # @AudiodevAlsaPerDirectionOptions:
--#
--# Options of the ALSA backend that are used for both playback and
--# recording.
-+#     Options of the ALSA backend that are used for both playback and
-+#     recording.
- #
- # @dev: the name of the ALSA device to use (default 'default')
- #
-@@ -111,8 +107,7 @@
- 
- ##
- # @AudiodevAlsaOptions:
--#
--# Options of the ALSA audio backend.
-+#     Options of the ALSA audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -130,8 +125,7 @@
- 
- ##
- # @AudiodevSndioOptions:
--#
--# Options of the sndio audio backend.
-+#     Options of the sndio audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -152,9 +146,8 @@
- 
- ##
- # @AudiodevCoreaudioPerDirectionOptions:
--#
--# Options of the Core Audio backend that are used for both playback
--# and recording.
-+#     Options of the Core Audio backend that are used for both
-+#     playback and recording.
- #
- # @buffer-count: number of buffers
- #
-@@ -167,8 +160,7 @@
- 
- ##
- # @AudiodevCoreaudioOptions:
--#
--# Options of the coreaudio audio backend.
-+#     Options of the coreaudio audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -183,8 +175,7 @@
- 
- ##
- # @AudiodevDsoundOptions:
--#
--# Options of the DirectSound audio backend.
-+#     Options of the DirectSound audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -203,9 +194,8 @@
- 
- ##
- # @AudiodevJackPerDirectionOptions:
--#
--# Options of the JACK backend that are used for both playback and
--# recording.
-+#     Options of the JACK backend that are used for both playback and
-+#     recording.
- #
- # @server-name: select from among several possible concurrent server
- #     instances (default: environment variable $JACK_DEFAULT_SERVER if
-@@ -237,8 +227,7 @@
- 
- ##
- # @AudiodevJackOptions:
--#
--# Options of the JACK audio backend.
-+#     Options of the JACK audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -253,9 +242,8 @@
- 
- ##
- # @AudiodevOssPerDirectionOptions:
--#
--# Options of the OSS backend that are used for both playback and
--# recording.
-+#     Options of the OSS backend that are used for both playback and
-+#     recording.
- #
- # @dev: file name of the OSS device (default '/dev/dsp')
- #
-@@ -275,8 +263,7 @@
- 
- ##
- # @AudiodevOssOptions:
--#
--# Options of the OSS audio backend.
-+#     Options of the OSS audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -305,9 +292,8 @@
- 
- ##
- # @AudiodevPaPerDirectionOptions:
--#
--# Options of the Pulseaudio backend that are used for both playback
--# and recording.
-+#     Options of the Pulseaudio backend that are used for both
-+#     playback and recording.
- #
- # @name: name of the sink/source to use
- #
-@@ -330,8 +316,7 @@
- 
- ##
- # @AudiodevPaOptions:
--#
--# Options of the PulseAudio audio backend.
-+#     Options of the PulseAudio audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -349,9 +334,8 @@
- 
- ##
- # @AudiodevPipewirePerDirectionOptions:
--#
--# Options of the PipeWire backend that are used for both playback and
--# recording.
-+#     Options of the PipeWire backend that are used for both playback
-+#     and recording.
- #
- # @name: name of the sink/source to use
- #
-@@ -374,8 +358,7 @@
- 
- ##
- # @AudiodevPipewireOptions:
--#
--# Options of the PipeWire audio backend.
-+#     Options of the PipeWire audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -390,9 +373,8 @@
- 
- ##
- # @AudiodevSdlPerDirectionOptions:
--#
--# Options of the SDL audio backend that are used for both playback and
--# recording.
-+#     Options of the SDL audio backend that are used for both playback
-+#     and recording.
- #
- # @buffer-count: number of buffers (default 4)
- #
-@@ -405,8 +387,7 @@
- 
- ##
- # @AudiodevSdlOptions:
--#
--# Options of the SDL audio backend.
-+#     Options of the SDL audio backend.
- #
- # @in: options of the recording stream
- #
-@@ -421,8 +402,7 @@
- 
- ##
- # @AudiodevWavOptions:
--#
--# Options of the wav audio backend.
-+#     Options of the wav audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -440,8 +420,7 @@
- 
- ##
- # @AudioFormat:
--#
--# An enumeration of possible audio formats.
-+#     An enumeration of possible audio formats.
- #
- # @u8: unsigned 8 bit integer
- #
-@@ -464,8 +443,7 @@
- 
- ##
- # @AudiodevDriver:
--#
--# An enumeration of possible audio backend drivers.
-+#     An enumeration of possible audio backend drivers.
- #
- # @jack: JACK audio backend (since 5.1)
- #
-@@ -488,8 +466,7 @@
- 
- ##
- # @Audiodev:
--#
--# Options of an audio backend.
-+#     Options of an audio backend.
- #
- # @id: identifier of the backend
- #
-@@ -534,8 +511,7 @@
- 
- ##
- # @query-audiodevs:
--#
--# Return information about audiodev configuration
-+#     Return information about audiodev configuration
- #
- # Since: 8.0
- ##
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ad56da5ca0..815ec48686 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2233,7 +2233,7 @@ ACPI/HEST/GHES/ARM processor CPER
+ M: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+ L: linux-edac@vger.kernel.org
+ S: Maintained
+-F: hw/arm/ghes_cper.c
++F: hw/acpi/ghes_cper.c
+ F: hw/acpi/ghes_cper_stub.c
+ F: qapi/acpi-hest.json
+ F: scripts/ghes_inject.py
 -- 
 2.54.0
 
