@@ -1,72 +1,52 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C628A36DA15
-	for <linux-edac@vger.kernel.org>; Wed,  3 Jun 2026 20:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE59423C4FF;
+	Thu,  4 Jun 2026 01:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780519675; cv=none; b=iyM+dfOA8SX0gqvcF/7x7zXBUsEBXvW0x4j7TMwkqO+p8rTVf4Wueg9KudjBbz11Uwej24ysEOjRfJHDNkMxheS9Jm5Dq+fOlJH3cBRHT+YzdhvdWqnXLSN9D8wsx6FDp2C5mRpQBfbEll3LynNAlfwQ4g8pudR6uCRjx1WYU8Q=
+	t=1780537630; cv=none; b=L3eVzr4HxyW82pO2iOeGGaKLcLuAgOQNq3r45bHpA3FIQ+lYHnREmPn0tSAB3zQS0Eh2rfJKBb6/LqGj6cQ5bs3JI0yUNjqrkyWJr+Hyt+YP/7uVNqOdVANPKmHbiMybb4Ozgn6s4aua7xrePecnsIvudEKUrpHIEZ4AkAah4ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780519675; c=relaxed/simple;
-	bh=LIxqRATNJ72fBQFHYzJm/EY0QiCHge/aJw9vbZXNsjk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hvQczLGlQ0BethfSs4SbV+oz+9wFk39P/589RFauwfAXnuXiFBY81MWutBI5KZ8WjhYHR259bRyu/ihkttItktpS3uK9qTAjZe0kkswSSDB2oZQdPg8tSKc7nLk9CovJQEYDQWhPQfa+atwe+4lYxQcpnR12OwUEMY2sq1Y8GrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RpaSoJot; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780537630; c=relaxed/simple;
+	bh=mSi8Pus0KA7nMGO0z+b0kfqhtyYgw+rPcBtln1kvv2c=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gFuPU8KimbrEDWjb8Ii4+9rK1/j8av1P7rRpva6RDzCv7CZ/gi83hXtqJfCauNrMf+dDW+obHN+5+8EP3NbA/9gsfVG95eeci9PMUf8VocT1Gvu7zRGvvChuaKNUWxV11e4ilgFXlTsXLWiSCWiPKbxfBrAy+1s3E5sSX/KMGwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Kky2CKkp; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RpaSoJot"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-9159477c893so5323585a.0
-        for <linux-edac@vger.kernel.org>; Wed, 03 Jun 2026 13:47:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780519674; x=1781124474; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uN5cSlSsFmu1fB4MX4N7BjMN4TwFpgg10y85Ysy+5Xo=;
-        b=RpaSoJotIFinVFJ2pRBCniT7zr573voT4Lx3rIFvvkKn4e4VIZInkb9QQB8MXp3G6v
-         hdjTLeqIevtOooDY4Pfv0/DGBVRJrdlIu4xMRArcYHbfLSD1wvcKB8lMCekgNOzsUYZl
-         SqLomHiRY5n4z9g7GLu49vdWU2fAEpnltcbUeuUddB3Sjr5Jj0BL5rSTCkTGKbIX5ixv
-         Y0AnPAMv+PvDqsn0YO2t4IOpcz3uLL1iVlx4nJmTHzuDJIx2Udfh5wIiwbw5XHNBlCD7
-         FGATaZ33bSaE2nJk98huOOElzXN3b593SwlYR/yuv48c9q9clab1jz769laViqnnqIxH
-         SDXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780519674; x=1781124474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uN5cSlSsFmu1fB4MX4N7BjMN4TwFpgg10y85Ysy+5Xo=;
-        b=qZ7tQaczcUAyxYaOyZkhYE0gR5rSy6imALC9pE7k5nmcoqzu4fGEtOE03EEyKfwZWf
-         MfSZe5mfGKwqKBUq1rvHmv+WKXLBv/4s+GHN+TxJdifKFuA+Qtqt/z3a5XZX3/s9r7kH
-         aJzmgSUoCNJVvoJ4RbPu34HAT+ud+66kB5Q4Fa6XXu++6awVfmCwPHP4tB72DVW95NKP
-         KW0+l/02kNYalGEHMJOKV+kGCTh5CwuySUDC3SXNrQvz1tvNDcmsGFtfquZQOL1tdfpe
-         kle8aYckOchvkQJJGMclU+wmMqzWGIMWo3DnMX2+xZUfPLB0CGhG3cXkUWjgA8tVTvcI
-         V+Yg==
-X-Gm-Message-State: AOJu0YxyHIIANOEpe4fRuYuW8ki2fD1zExPpTjmRgzYN8T36zP6k8YUN
-	JmdId8bGvxl7KUOC9LXY86c8PeYmSqHEWF/pMwwZXm2gd/4cirDjOvQt
-X-Gm-Gg: Acq92OGyyYjTojTp8co+rjPV8PvXmoDKdjCyTp5cXYjMk44rvW6BBgutzpevV/3G69q
-	wLPCasRS4HyOBTeasnw5CtxwcvIt7UV02DqEJ3TImDiAmERkWgURFq7xph/QKYMPuFYL+dO+ig1
-	uh35XMkNM3WrZVAc4SbRKUljObyfzAtMeSArkdmQ/MwUGLFkgIJD5M0LhrpFiSk8nurycD52tRK
-	M9NYLwhVyRbtmcgyQSmaXW/CjupdICj8de1lMFVW0lDuicfSLszoF2u1OcZbtCkGx4AqHaWOf18
-	wAOo2M1v3PxbFwvJXIti77L/oQHK/QfyVkzvxPu8otkHBTIa6YYtb7hfcdI+qkYDXilIzR5DWEw
-	3f4LUKrIb7OIecXO9j3/KM6n1yLTqCy1ereuuY+tum8pqbc0iqww9C0h+FLHAbC6j4kP1WdRXAw
-	7zg7Tq0DHF0+oQ4p2tupFylOLx/Ut58SFwMNYosI7cQARBQb5th2I=
-X-Received: by 2002:a05:620a:2989:b0:915:7f42:d91 with SMTP id af79cd13be357-9158a642e0amr795141385a.8.1780519673783;
-        Wed, 03 Jun 2026 13:47:53 -0700 (PDT)
-Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a37bcd6sm359860185a.25.2026.06.03.13.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 13:47:53 -0700 (PDT)
-From: Yuho Choi <dbgh9129@gmail.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michal Simek <michal.simek@amd.com>
-Cc: linux-edac@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Yuho Choi <dbgh9129@gmail.com>
-Subject: [PATCH v1] EDAC/synopsys: Fix cleanup on injection sysfs failure
-Date: Wed,  3 Jun 2026 16:47:21 -0400
-Message-ID: <20260603204721.2200819-1-dbgh9129@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Kky2CKkp"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=nmYRbsUzzfhOIZDdazuLRX22nS9Q9OoZqwgs/MwD5ew=;
+	b=Kky2CKkpIKkIiFLgQmPPwG7cQe9UxaNb9i28B0sWpbx3oZWP6hOOmLKmRDFBYu8rxmAKFPEAx
+	OCX94y2KYER4lXeDL3X/ArevaOfVzOkM15HGN9zuCUvh4rHUJ7Uo8N7pc0q0AnLm46X8tMZ2zKX
+	nWBkayu36w+2WkIMe+YQBLI=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gW6g30YpnznTVh;
+	Thu,  4 Jun 2026 09:39:11 +0800 (CST)
+Received: from kwepemj100009.china.huawei.com (unknown [7.202.194.3])
+	by mail.maildlp.com (Postfix) with ESMTPS id C2E4840539;
+	Thu,  4 Jun 2026 09:47:03 +0800 (CST)
+Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
+ kwepemj100009.china.huawei.com (7.202.194.3) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Thu, 4 Jun 2026 09:47:03 +0800
+From: Xie Yuanbin <xieyuanbin1@huawei.com>
+To: <david@kernel.org>, <qiuxu.zhuo@intel.com>, <bp@alien8.de>,
+	<akpm@linux-foundation.org>, <rostedt@goodmis.org>, <linmiaohe@huawei.com>
+CC: <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-trace-kernel@vger.kernel.org>,
+	<mchehab+huawei@kernel.org>, <tony.luck@intel.com>,
+	<torvalds@linux-foundation.org>, <xieyuanbin1@huawei.com>,
+	<yi1.lai@intel.com>
+Subject: Re: mm/memory-failure tracepoint change breaks userspace rasdaemon
+Date: Thu, 4 Jun 2026 09:46:29 +0800
+Message-ID: <20260604014629.3144-1-xieyuanbin1@huawei.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <b637ede2-73da-49f0-a7eb-70ec79e79624@kernel.org>
+References: <b637ede2-73da-49f0-a7eb-70ec79e79624@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -74,61 +54,31 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemj100009.china.huawei.com (7.202.194.3)
 
-edac_create_sysfs_attributes() creates inject_data_error before
-inject_data_poison. If the second file creation fails, the first file is
-left behind.
+On Wed, 3 Jun 2026 21:13:30 +0200, David Hildenbrand (Arm) wrote:
+> Would the following be sufficient to avoid a full revert and the dependency on CONFIG_RAS?
+>
+> diff --git a/include/trace/events/memory-failure.h b/include/trace/events/memory-failure.h
+> index aa57cc8f896b..c46b17602578 100644
+> --- a/include/trace/events/memory-failure.h
+> +++ b/include/trace/events/memory-failure.h
+> @@ -1,6 +1,7 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+>  #undef TRACE_SYSTEM
+> -#define TRACE_SYSTEM memory_failure
+> +/* Some user space relies on ras/memory_failure_event */
+> +#define TRACE_SYSTEM ras
+>  #define TRACE_INCLUDE_FILE memory-failure
+>
+>  #if !defined(_TRACE_MEMORY_FAILURE_H) || defined(TRACE_HEADER_MULTI_READ)
 
-The same failure path runs after edac_mc_add_mc() has registered the
-memory controller with the EDAC core. Jumping directly to edac_mc_free()
-skips edac_mc_del_mc() and leaves the registered controller state
-unwound incorrectly.
+Yes, it should be. In fact, when I sent the V2 patch, I had already
+considered this issue, and that's exactly what I did:
+Link: https://lore.kernel.org/20251104072306.100738-3-xieyuanbin1@huawei.com
 
-Remove inject_data_error when inject_data_poison creation fails, and
-route the probe failure through edac_mc_del_mc() before freeing mci.
-
-Fixes: 1a81361f75d8 ("EDAC, synopsys: Add Error Injection support for ZynqMP DDR controller")
-Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
----
- drivers/edac/synopsys_edac.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/edac/synopsys_edac.c b/drivers/edac/synopsys_edac.c
-index 51143b3257de..c395a1e97a36 100644
---- a/drivers/edac/synopsys_edac.c
-+++ b/drivers/edac/synopsys_edac.c
-@@ -1120,8 +1120,10 @@ static int edac_create_sysfs_attributes(struct mem_ctl_info *mci)
- 	if (rc < 0)
- 		return rc;
- 	rc = device_create_file(&mci->dev, &dev_attr_inject_data_poison);
--	if (rc < 0)
-+	if (rc < 0) {
-+		device_remove_file(&mci->dev, &dev_attr_inject_data_error);
- 		return rc;
-+	}
- 	return 0;
- }
- 
-@@ -1431,7 +1433,7 @@ static int mc_probe(struct platform_device *pdev)
- 		if (rc) {
- 			edac_printk(KERN_ERR, EDAC_MC,
- 					"Failed to create sysfs entries\n");
--			goto free_edac_mc;
-+			goto del_mc;
- 		}
- 	}
- 
-@@ -1448,6 +1450,10 @@ static int mc_probe(struct platform_device *pdev)
- 
- 	return rc;
- 
-+#ifdef CONFIG_EDAC_DEBUG
-+del_mc:
-+	edac_mc_del_mc(&pdev->dev);
-+#endif
- free_edac_mc:
- 	edac_mc_free(mci);
- 
--- 
-2.43.0
-
+However, David Hildenbrand advised me at that time to completely
+remove the dependence on RAS:
+Link: https://lore.kernel.org/01b44e0f-ea2e-406f-9f65-b698b5504f42@kernel.org
