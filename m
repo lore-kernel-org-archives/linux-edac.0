@@ -1,234 +1,148 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399543CE083
-	for <linux-edac@vger.kernel.org>; Fri,  5 Jun 2026 14:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE65038F950;
+	Fri,  5 Jun 2026 15:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780670633; cv=none; b=NDpCDvTf1SU5aKmU/zU9QoiFnmpka9nB1AjoZUgHaAR6liUTo4wGcCylk3RESekp8FElCwNmm2ITrbD4fXlYoCl/DX917C3ZnXD39YxJibOvXcnYTsQkvJ0GitM6Cpw25UV58y8Zpn7wzd4Ul3OTC5jiDJan9Lgqp1NvKd8NT+U=
+	t=1780672129; cv=none; b=ViHg7vL3FkjdIp+zS6zPtS3JKZKhuvP2jq07riUNPQ8DXPoeZEvoD04U53mKYVOrhiOWcVrExG2YV8HHube2pk6V7aC/r10eebySYCkR1LHmdNTFvJaLOrw3w2gGzy3PSWfPhL5fI+suL2/wBYRHY+WdSOjJPgzEBb3ZA0Qtud4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780670633; c=relaxed/simple;
-	bh=d4vIem6l7fTXp/vMbKUi1yG/Tanij/jCUntbBgos64Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WMoT3mH3WaoOHJFwV+7kMEL94orULsGHJo+iQ/ctpwKU6dHDNqlLjAWz1wMjs0Dv1LRhOfq0RhvkTDxKvfdPk/r62447VLSPGHPMaMwDUD2G+eax2+wCGobpSxj6Ffodcizt0uIIkmTdwADsHINc5M3bStsBbZ8jrwchzZSJW7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7476275992;
-	Fri,  5 Jun 2026 14:43:46 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E26E8779A8;
-	Fri,  5 Jun 2026 14:43:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eFg7NqHgImqXXAAAD6G6ig
-	(envelope-from <jgross@suse.com>); Fri, 05 Jun 2026 14:43:45 +0000
-From: Juergen Gross <jgross@suse.com>
-To: linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: Juergen Gross <jgross@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Tony Luck <tony.luck@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>
-Subject: [PATCH v2 05/10] x86/msr: Switch wrmsr_on_cpu() users to wrmsrq_on_cpu()
-Date: Fri,  5 Jun 2026 16:43:09 +0200
-Message-ID: <20260605144314.3031049-6-jgross@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260605144314.3031049-1-jgross@suse.com>
-References: <20260605144314.3031049-1-jgross@suse.com>
+	s=arc-20240116; t=1780672129; c=relaxed/simple;
+	bh=Vblfc3zkqPaRcqqKJlY9bgV48oroJmcesQSX+IB7JHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rCMm5QsnuFd3I+bt84hBBCHvzuK/090VlkNO/xOylul/32xbiEHpVTcMxqz6a8DPaX6uAJL3OzjFOY06lqbJaSl6kO/LvqLnDkuslh9CJ7MUwm3V5+UkMbzrXFAIAljZDSn03NW95V0DyOBs7hVmDPMbqxeLe+OM/UlChDq2lTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RricagGa; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RricagGa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780672128; x=1812208128;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Vblfc3zkqPaRcqqKJlY9bgV48oroJmcesQSX+IB7JHY=;
+  b=RricagGaVrjmRqKWqzjWG3lny9abBxppIRjuFRym8mgUVIiY/FsvBlpb
+   ENjP/dGDsWxm8XLCNnV5TO2BIsRnuHzpOkxus+sxfjlPvxJkn73tgt+Lv
+   UxNKTGDzc1eS5JBrySVDYWiKQzaRJbivcVIg0ZvRgB8ZFFkqYwx83BEsM
+   swwbbq3mP3nG/Q2GnRQrRgiVPolK44+iXbcnKfEHlCpWVw6+dqK1P7JzX
+   gjC+/3Qpvz3vBJwhWZRGLIQep88UVEAdicSMRGTLcl9XZBB3riUNx7L8u
+   BVVff96CdJn165Au0lYuRBLXPm0GYkf+pSzuGgU9hNCR5yju8KKlCTafk
+   Q==;
+X-CSE-ConnectionGUID: qbMAtQxxSBKXh08t9SKvuA==
+X-CSE-MsgGUID: qh0Z8wYzS7OLAYxOEGtv8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="85359093"
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="85359093"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 08:08:47 -0700
+X-CSE-ConnectionGUID: 3asCXV1BQty+7gCa3DBTtg==
+X-CSE-MsgGUID: wNRamNYcRUaQ7U4vU4oX3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="246693409"
+Received: from sghuge-mobl2.amr.corp.intel.com (HELO [10.125.109.26]) ([10.125.109.26])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 08:08:43 -0700
+Message-ID: <633a8b8a-9dd8-410d-a9a5-a9cd2e87e63b@intel.com>
+Date: Fri, 5 Jun 2026 08:08:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 7476275992
-X-Rspamd-Action: no action
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/10] x86/msr: Drop 32-bit variants of *_on_cpu() MSR
+ functions
+To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, x86@kernel.org, linux-edac@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-perf-users@vger.kernel.org
+Cc: Huang Rui <ray.huang@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Tony Luck <tony.luck@intel.com>, Guenter Roeck <linux@roeck-us.net>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Peter Zijlstra <peterz@infradead.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>
+References: <20260605144314.3031049-1-jgross@suse.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260605144314.3031049-1-jgross@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-In order to prepare retiring wrmsr_on_cpu() switch wrmsr_on_cpu() users
-to wrmsrq_on_cpu().
+On 6/5/26 07:43, Juergen Gross wrote:
+>  arch/x86/events/intel/ds.c                   | 11 +--
+>  arch/x86/include/asm/msr.h                   | 28 +-----
+>  arch/x86/kernel/cpu/mce/amd.c                |  6 +-
+>  arch/x86/kernel/cpu/mce/inject.c             |  8 +-
+>  arch/x86/kernel/msr.c                        |  8 +-
+>  arch/x86/lib/msr-smp.c                       | 89 +++-----------------
+>  drivers/cpufreq/amd-pstate.c                 |  2 +-
+>  drivers/cpufreq/amd_freq_sensitivity.c       |  6 +-
+>  drivers/cpufreq/p4-clockmod.c                | 32 +++----
+>  drivers/cpufreq/speedstep-centrino.c         | 27 +++---
+>  drivers/hwmon/coretemp.c                     | 44 +++++-----
+>  drivers/hwmon/via-cputemp.c                  | 16 ++--
+>  drivers/thermal/intel/intel_tcc.c            | 43 +++++-----
+>  drivers/thermal/intel/x86_pkg_temp_thermal.c | 25 +++---
+>  14 files changed, 128 insertions(+), 217 deletions(-)
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
-V2:
-- instead of changing wrmsr_on_cpu(), use wrmsrq_on_cpu() (Ingo Molnar)
----
- arch/x86/events/intel/ds.c                   | 11 ++++-------
- arch/x86/include/asm/msr.h                   |  2 +-
- arch/x86/kernel/cpu/mce/inject.c             |  2 +-
- drivers/cpufreq/p4-clockmod.c                |  4 ++--
- drivers/cpufreq/speedstep-centrino.c         |  4 ++--
- drivers/thermal/intel/x86_pkg_temp_thermal.c |  2 +-
- 6 files changed, 11 insertions(+), 14 deletions(-)
+This is wonderful. Thank you for doing this!
 
-diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
-index 7f0d515c07c5..5b9c01383f49 100644
---- a/arch/x86/events/intel/ds.c
-+++ b/arch/x86/events/intel/ds.c
-@@ -780,9 +780,7 @@ void init_debug_store_on_cpu(int cpu)
- 	if (!ds)
- 		return;
- 
--	wrmsr_on_cpu(cpu, MSR_IA32_DS_AREA,
--		     (u32)((u64)(unsigned long)ds),
--		     (u32)((u64)(unsigned long)ds >> 32));
-+	wrmsrq_on_cpu(cpu, MSR_IA32_DS_AREA, (u64)(unsigned long)ds);
- }
- 
- void fini_debug_store_on_cpu(int cpu)
-@@ -790,7 +788,7 @@ void fini_debug_store_on_cpu(int cpu)
- 	if (!per_cpu(cpu_hw_events, cpu).ds)
- 		return;
- 
--	wrmsr_on_cpu(cpu, MSR_IA32_DS_AREA, 0, 0);
-+	wrmsrq_on_cpu(cpu, MSR_IA32_DS_AREA, 0);
- }
- 
- static DEFINE_PER_CPU(void *, insn_buffer);
-@@ -1095,8 +1093,7 @@ void init_arch_pebs_on_cpu(int cpu)
- 	 * contiguous physical buffer (__alloc_pages_node() with order)
- 	 */
- 	arch_pebs_base = virt_to_phys(cpuc->pebs_vaddr) | PEBS_BUFFER_SHIFT;
--	wrmsr_on_cpu(cpu, MSR_IA32_PEBS_BASE, (u32)arch_pebs_base,
--		     (u32)(arch_pebs_base >> 32));
-+	wrmsrq_on_cpu(cpu, MSR_IA32_PEBS_BASE, arch_pebs_base);
- 	x86_pmu.pebs_active = 1;
- }
- 
-@@ -1105,7 +1102,7 @@ inline void fini_arch_pebs_on_cpu(int cpu)
- 	if (!x86_pmu.arch_pebs)
- 		return;
- 
--	wrmsr_on_cpu(cpu, MSR_IA32_PEBS_BASE, 0, 0);
-+	wrmsrq_on_cpu(cpu, MSR_IA32_PEBS_BASE, 0);
- }
- 
- /*
-diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
-index 22f914f7affe..6e0d7a6335ff 100644
---- a/arch/x86/include/asm/msr.h
-+++ b/arch/x86/include/asm/msr.h
-@@ -291,7 +291,7 @@ static inline void rdmsr_on_cpus(const struct cpumask *m, u32 msr_no,
- static inline void wrmsr_on_cpus(const struct cpumask *m, u32 msr_no,
- 				struct msr __percpu *msrs)
- {
--	wrmsr_on_cpu(0, msr_no, raw_cpu_read(msrs->l), raw_cpu_read(msrs->h));
-+	wrmsrq_on_cpu(0, msr_no, raw_cpu_read(msrs->q));
- }
- static inline int rdmsr_safe_on_cpu(unsigned int cpu, u32 msr_no,
- 				    u32 *l, u32 *h)
-diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
-index bee9c35762b8..6d30e7720f31 100644
---- a/arch/x86/kernel/cpu/mce/inject.c
-+++ b/arch/x86/kernel/cpu/mce/inject.c
-@@ -327,7 +327,7 @@ static int toggle_hw_mce_inject(unsigned int cpu, bool enable)
- 
- 	enable ? (val.l |= BIT(18)) : (val.l &= ~BIT(18));
- 
--	err = wrmsr_on_cpu(cpu, MSR_K7_HWCR, val.l, val.h);
-+	err = wrmsrq_on_cpu(cpu, MSR_K7_HWCR, val.q);
- 	if (err)
- 		pr_err("%s: error writing HWCR\n", __func__);
- 
-diff --git a/drivers/cpufreq/p4-clockmod.c b/drivers/cpufreq/p4-clockmod.c
-index d96e8b665f39..c1690aa48193 100644
---- a/drivers/cpufreq/p4-clockmod.c
-+++ b/drivers/cpufreq/p4-clockmod.c
-@@ -68,7 +68,7 @@ static int cpufreq_p4_setdc(unsigned int cpu, unsigned int newstate)
- 	rdmsrq_on_cpu(cpu, MSR_IA32_THERM_CONTROL, &val.q);
- 	if (newstate == DC_DISABLE) {
- 		pr_debug("CPU#%d disabling modulation\n", cpu);
--		wrmsr_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.l & ~(1<<4), val.h);
-+		wrmsrq_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.q & ~(1ULL << 4));
- 	} else {
- 		pr_debug("CPU#%d setting duty cycle to %d%%\n",
- 			cpu, ((125 * newstate) / 10));
-@@ -79,7 +79,7 @@ static int cpufreq_p4_setdc(unsigned int cpu, unsigned int newstate)
- 		 */
- 		val.l = (val.l & ~14);
- 		val.l = val.l | (1<<4) | ((newstate & 0x7)<<1);
--		wrmsr_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.l, val.h);
-+		wrmsrq_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.q);
- 	}
- 
- 	return 0;
-diff --git a/drivers/cpufreq/speedstep-centrino.c b/drivers/cpufreq/speedstep-centrino.c
-index cefee19d1100..9237ed8f2b1f 100644
---- a/drivers/cpufreq/speedstep-centrino.c
-+++ b/drivers/cpufreq/speedstep-centrino.c
-@@ -475,7 +475,7 @@ static int centrino_target(struct cpufreq_policy *policy, unsigned int index)
- 			oldmsr.l |= msr;
- 		}
- 
--		wrmsr_on_cpu(good_cpu, MSR_IA32_PERF_CTL, oldmsr.l, oldmsr.h);
-+		wrmsrq_on_cpu(good_cpu, MSR_IA32_PERF_CTL, oldmsr.q);
- 		if (policy->shared_type == CPUFREQ_SHARED_TYPE_ANY)
- 			break;
- 
-@@ -491,7 +491,7 @@ static int centrino_target(struct cpufreq_policy *policy, unsigned int index)
- 		 */
- 
- 		for_each_cpu(j, covered_cpus)
--			wrmsr_on_cpu(j, MSR_IA32_PERF_CTL, oldmsr.l, oldmsr.h);
-+			wrmsrq_on_cpu(j, MSR_IA32_PERF_CTL, oldmsr.q);
- 	}
- 	retval = 0;
- 
-diff --git a/drivers/thermal/intel/x86_pkg_temp_thermal.c b/drivers/thermal/intel/x86_pkg_temp_thermal.c
-index 2e7de8cf756d..144603c356a0 100644
---- a/drivers/thermal/intel/x86_pkg_temp_thermal.c
-+++ b/drivers/thermal/intel/x86_pkg_temp_thermal.c
-@@ -167,7 +167,7 @@ sys_set_trip_temp(struct thermal_zone_device *tzd,
- 		v.l |= intr;
- 	}
- 
--	return wrmsr_on_cpu(zonedev->cpu, MSR_IA32_PACKAGE_THERM_INTERRUPT, v.l, v.h);
-+	return wrmsrq_on_cpu(zonedev->cpu, MSR_IA32_PACKAGE_THERM_INTERRUPT, v.q);
- }
- 
- /* Thermal zone callback registry */
--- 
-2.54.0
+My only real complaint is the lack of changelog for 07/10. Otherwise, it
+looks great to me. Ideally, you'd collect a few more reviews and post a
+v3 rebased right after the next -rc1.
 
+Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
