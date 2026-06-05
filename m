@@ -1,70 +1,50 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A3D2D131D
-	for <linux-edac@vger.kernel.org>; Fri,  5 Jun 2026 07:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C879495526;
+	Fri,  5 Jun 2026 08:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780643334; cv=none; b=hPZhY8JSgv06YP8JcP03GAiucj2E39FoB/aBLcksFogHimfgFzE1sQeaq4tb9GDBkJCwF/QroWzErrF5LkC5bd8XBusWvnjV+w9j9zUwfNoPJNcKPHDo5Ux0a2UFQ0vcmpTu2q5RMcJYKBPxZbdbW8eeNZGHCWdlC0ip1d7Rr2M=
+	t=1780647165; cv=none; b=ltSaW4Y3swIDgCKeYZFU0K8YTaQxkkJivlOOd3HLCd5TySbELTeHE06sQcTm4S7PZhEZEexIeeBUJflTSlSubruTslgU4LE2xqIykDBAKmPAXTkA7cQ4I5IQcOCxdZ4h1p6pX+OSxglrQd6s1Yq2oY1F4lPjyAslr983c9wUmLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780643334; c=relaxed/simple;
-	bh=zSNBIIgR6mfJTe3YixCKaS8GuSKPaI7bdtFhdaHF6pw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gfs4VpwhNj1j+6S9n5eCgLst7KeCBMZGD5R6w/jwdZe9UjQKBJ+IIJkP/lbBAFB2Aplyir1xnf2cZtfWbZ+UcxbNwkzVLa2wI4E9RijEaoYU6H7CmURqAk2aSNKFRFJzh0/R5ync/cAh8M7ZsPSNK3gewcAWlf8DbTKi+6C/hYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A35276B10F;
-	Fri,  5 Jun 2026 07:08:47 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 19786779A8;
-	Fri,  5 Jun 2026 07:08:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7Bn/BP91ImoWHgAAD6G6ig
-	(envelope-from <jgross@suse.com>); Fri, 05 Jun 2026 07:08:47 +0000
-From: Juergen Gross <jgross@suse.com>
-To: linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Cc: Juergen Gross <jgross@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Tony Luck <tony.luck@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>
-Subject: [PATCH 3/8] x86/msr: Switch wrmsr_on_cpu() to use a 64-bit quantity
-Date: Fri,  5 Jun 2026 09:08:21 +0200
-Message-ID: <20260605070826.2995913-4-jgross@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260605070826.2995913-1-jgross@suse.com>
-References: <20260605070826.2995913-1-jgross@suse.com>
+	s=arc-20240116; t=1780647165; c=relaxed/simple;
+	bh=SPrQ82EoyqeFxVyGSSzXEVkQhKmGpCGdwd76gsY+DYo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uGIpE92QPjx422haHmosWJmhmCJisIm+W4VY62zA2fFhCr3oPNLYFP4uEZxMiL+Gu6cttLB6t/Ja7X3xOZvQlZb7/sdVGSMsdg918ntQp2WRanTNu+g+qZsFF98j4yQ2qVkUEttSYkqUUe5E35qqOyqIWs7N4jRXWn9OluW9dbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=4MDYTyJr; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="4MDYTyJr"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=P/UmAPiytFwTrNcuTVo3jJjbv2ahSKmBzmXyOw4Hkt4=;
+	b=4MDYTyJrcl90mH7iy0GfzGrN2z57Rl8+Ya9qZdl/QD3SKlaFbUfMPTFLlVGBQM31LsUVVObXW
+	Mu99kjn6PeXQduuN6CAbjGtDbGIIRw7ypEyw+ITckDDkCjW98n00F15qwuZAi+Q5PORMJBqfcYW
+	KbV13tO84tWm4jNvE2OeTNM=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4gWv9N1jV0zmV8b;
+	Fri,  5 Jun 2026 16:04:40 +0800 (CST)
+Received: from kwepemj100009.china.huawei.com (unknown [7.202.194.3])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9A2734055B;
+	Fri,  5 Jun 2026 16:12:32 +0800 (CST)
+Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
+ kwepemj100009.china.huawei.com (7.202.194.3) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Fri, 5 Jun 2026 16:12:31 +0800
+From: Xie Yuanbin <xieyuanbin1@huawei.com>
+To: <david@kernel.org>, <qiuxu.zhuo@intel.com>, <bp@alien8.de>,
+	<akpm@linux-foundation.org>, <rostedt@goodmis.org>, <linmiaohe@huawei.com>,
+	<nao.horiguchi@gmail.com>, <mhiramat@kernel.org>,
+	<mchehab+huawei@kernel.org>, <tony.luck@intel.com>, <yi1.lai@intel.com>
+CC: <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-trace-kernel@vger.kernel.org>,
+	<torvalds@linux-foundation.org>, <lilinjie8@huawei.com>,
+	<liaohua4@huawei.com>, Xie Yuanbin <xieyuanbin1@huawei.com>
+Subject: [PATCH] mm/memory-failure: trace: change memory_failure_event to ras subsystem
+Date: Fri, 5 Jun 2026 16:12:13 +0800
+Message-ID: <20260605081213.154660-1-xieyuanbin1@huawei.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -72,207 +52,50 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Queue-Id: A35276B10F
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemj100009.china.huawei.com (7.202.194.3)
 
-In order to prepare retiring wrmsrq_on_cpu() switch wrmsr_on_cpu() to
-have the same interface as wrmsrq_on_cpu().
+For historical version, commit 97f0b1345219 ("tracing: add trace event
+for memory-failure") introduced memory_failure_event in ras subsystem.
+commit 31807483d395 ("mm/memory-failure: remove the selection of RAS")
+changed memory_failure_event to memory_failure subsystem. This breaks
+the backward compatibility, some user programs rely on it.
 
-Switch all wrmsr_on_cpu() callers to use the new interface.
+Change memory_failure_event to ras subsystem to keep backward
+compatibility.
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
+Fixes: 31807483d395 ("mm/memory-failure: remove the selection of RAS")
+
+Reported-by: Yi Lai <yi1.lai@intel.com>
+Reported-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Closes: https://lore.kernel.org/linux-mm/CY8PR11MB7134346A3E4BB28ECA28D6E989132@CY8PR11MB7134.namprd11.prod.outlook.com
+Cc: David Hildenbrand <david@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Miaohe Lin <linmiaohe@huawei.com>
+Signed-off-by: Xie Yuanbin <xieyuanbin1@huawei.com>
 ---
- arch/x86/events/intel/ds.c                   | 11 ++++-------
- arch/x86/include/asm/msr.h                   |  8 ++++----
- arch/x86/kernel/cpu/mce/inject.c             |  2 +-
- arch/x86/lib/msr-smp.c                       |  5 ++---
- drivers/cpufreq/p4-clockmod.c                |  4 ++--
- drivers/cpufreq/speedstep-centrino.c         |  4 ++--
- drivers/thermal/intel/x86_pkg_temp_thermal.c |  2 +-
- 7 files changed, 16 insertions(+), 20 deletions(-)
+ include/trace/events/memory-failure.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
-index 7f0d515c07c5..06d6d06c7a75 100644
---- a/arch/x86/events/intel/ds.c
-+++ b/arch/x86/events/intel/ds.c
-@@ -780,9 +780,7 @@ void init_debug_store_on_cpu(int cpu)
- 	if (!ds)
- 		return;
+diff --git a/include/trace/events/memory-failure.h b/include/trace/events/memory-failure.h
+index aa57cc8f896b..7a8ee5d1a44e 100644
+--- a/include/trace/events/memory-failure.h
++++ b/include/trace/events/memory-failure.h
+@@ -1,6 +1,10 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #undef TRACE_SYSTEM
+-#define TRACE_SYSTEM memory_failure
++/*
++ * For historical versions, memory_failure_event is in ras subsystem,
++ * some user programs depend on it.
++ */
++#define TRACE_SYSTEM ras
+ #define TRACE_INCLUDE_FILE memory-failure
  
--	wrmsr_on_cpu(cpu, MSR_IA32_DS_AREA,
--		     (u32)((u64)(unsigned long)ds),
--		     (u32)((u64)(unsigned long)ds >> 32));
-+	wrmsr_on_cpu(cpu, MSR_IA32_DS_AREA, (u64)(unsigned long)ds);
- }
- 
- void fini_debug_store_on_cpu(int cpu)
-@@ -790,7 +788,7 @@ void fini_debug_store_on_cpu(int cpu)
- 	if (!per_cpu(cpu_hw_events, cpu).ds)
- 		return;
- 
--	wrmsr_on_cpu(cpu, MSR_IA32_DS_AREA, 0, 0);
-+	wrmsr_on_cpu(cpu, MSR_IA32_DS_AREA, 0);
- }
- 
- static DEFINE_PER_CPU(void *, insn_buffer);
-@@ -1095,8 +1093,7 @@ void init_arch_pebs_on_cpu(int cpu)
- 	 * contiguous physical buffer (__alloc_pages_node() with order)
- 	 */
- 	arch_pebs_base = virt_to_phys(cpuc->pebs_vaddr) | PEBS_BUFFER_SHIFT;
--	wrmsr_on_cpu(cpu, MSR_IA32_PEBS_BASE, (u32)arch_pebs_base,
--		     (u32)(arch_pebs_base >> 32));
-+	wrmsr_on_cpu(cpu, MSR_IA32_PEBS_BASE, arch_pebs_base);
- 	x86_pmu.pebs_active = 1;
- }
- 
-@@ -1105,7 +1102,7 @@ inline void fini_arch_pebs_on_cpu(int cpu)
- 	if (!x86_pmu.arch_pebs)
- 		return;
- 
--	wrmsr_on_cpu(cpu, MSR_IA32_PEBS_BASE, 0, 0);
-+	wrmsr_on_cpu(cpu, MSR_IA32_PEBS_BASE, 0);
- }
- 
- /*
-diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
-index 8c96fc5c6169..a004440b4c0a 100644
---- a/arch/x86/include/asm/msr.h
-+++ b/arch/x86/include/asm/msr.h
-@@ -257,7 +257,7 @@ int msr_clear_bit(u32 msr, u8 bit);
- 
- #ifdef CONFIG_SMP
- int rdmsr_on_cpu(unsigned int cpu, u32 msr_no, u64 *q);
--int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h);
-+int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u64 q);
- int wrmsrq_on_cpu(unsigned int cpu, u32 msr_no, u64 q);
- void rdmsr_on_cpus(const struct cpumask *mask, u32 msr_no, struct msr __percpu *msrs);
- void wrmsr_on_cpus(const struct cpumask *mask, u32 msr_no, struct msr __percpu *msrs);
-@@ -273,9 +273,9 @@ static inline int rdmsr_on_cpu(unsigned int cpu, u32 msr_no, u64 *q)
- 	rdmsrq(msr_no, *q);
- 	return 0;
- }
--static inline int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h)
-+static inline int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u64 q)
- {
--	wrmsr(msr_no, l, h);
-+	wrmsrq(msr_no, q);
- 	return 0;
- }
- static inline int wrmsrq_on_cpu(unsigned int cpu, u32 msr_no, u64 q)
-@@ -291,7 +291,7 @@ static inline void rdmsr_on_cpus(const struct cpumask *m, u32 msr_no,
- static inline void wrmsr_on_cpus(const struct cpumask *m, u32 msr_no,
- 				struct msr __percpu *msrs)
- {
--	wrmsr_on_cpu(0, msr_no, raw_cpu_read(msrs->l), raw_cpu_read(msrs->h));
-+	wrmsrq_on_cpu(0, msr_no, raw_cpu_read(msrs->q));
- }
- static inline int rdmsr_safe_on_cpu(unsigned int cpu, u32 msr_no,
- 				    u32 *l, u32 *h)
-diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/inject.c
-index 78649651c987..2d75098211b3 100644
---- a/arch/x86/kernel/cpu/mce/inject.c
-+++ b/arch/x86/kernel/cpu/mce/inject.c
-@@ -327,7 +327,7 @@ static int toggle_hw_mce_inject(unsigned int cpu, bool enable)
- 
- 	enable ? (val.l |= BIT(18)) : (val.l &= ~BIT(18));
- 
--	err = wrmsr_on_cpu(cpu, MSR_K7_HWCR, val.l, val.h);
-+	err = wrmsr_on_cpu(cpu, MSR_K7_HWCR, val.q);
- 	if (err)
- 		pr_err("%s: error writing HWCR\n", __func__);
- 
-diff --git a/arch/x86/lib/msr-smp.c b/arch/x86/lib/msr-smp.c
-index 7c96f003bfe0..0b4f3c4e4f82 100644
---- a/arch/x86/lib/msr-smp.c
-+++ b/arch/x86/lib/msr-smp.c
-@@ -46,7 +46,7 @@ int rdmsr_on_cpu(unsigned int cpu, u32 msr_no, u64 *q)
- }
- EXPORT_SYMBOL(rdmsr_on_cpu);
- 
--int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h)
-+int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u64 q)
- {
- 	int err;
- 	struct msr_info rv;
-@@ -54,8 +54,7 @@ int wrmsr_on_cpu(unsigned int cpu, u32 msr_no, u32 l, u32 h)
- 	memset(&rv, 0, sizeof(rv));
- 
- 	rv.msr_no = msr_no;
--	rv.reg.l = l;
--	rv.reg.h = h;
-+	rv.reg.q = q;
- 	err = smp_call_function_single(cpu, __wrmsr_on_cpu, &rv, 1);
- 
- 	return err;
-diff --git a/drivers/cpufreq/p4-clockmod.c b/drivers/cpufreq/p4-clockmod.c
-index 393c4a5d2021..409c0210e48a 100644
---- a/drivers/cpufreq/p4-clockmod.c
-+++ b/drivers/cpufreq/p4-clockmod.c
-@@ -68,7 +68,7 @@ static int cpufreq_p4_setdc(unsigned int cpu, unsigned int newstate)
- 	rdmsr_on_cpu(cpu, MSR_IA32_THERM_CONTROL, &val.q);
- 	if (newstate == DC_DISABLE) {
- 		pr_debug("CPU#%d disabling modulation\n", cpu);
--		wrmsr_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.l & ~(1<<4), val.h);
-+		wrmsr_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.q & ~(1ULL << 4));
- 	} else {
- 		pr_debug("CPU#%d setting duty cycle to %d%%\n",
- 			cpu, ((125 * newstate) / 10));
-@@ -79,7 +79,7 @@ static int cpufreq_p4_setdc(unsigned int cpu, unsigned int newstate)
- 		 */
- 		val.l = (val.l & ~14);
- 		val.l = val.l | (1<<4) | ((newstate & 0x7)<<1);
--		wrmsr_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.l, val.h);
-+		wrmsr_on_cpu(cpu, MSR_IA32_THERM_CONTROL, val.q);
- 	}
- 
- 	return 0;
-diff --git a/drivers/cpufreq/speedstep-centrino.c b/drivers/cpufreq/speedstep-centrino.c
-index b74c85128377..121cddb1430f 100644
---- a/drivers/cpufreq/speedstep-centrino.c
-+++ b/drivers/cpufreq/speedstep-centrino.c
-@@ -475,7 +475,7 @@ static int centrino_target(struct cpufreq_policy *policy, unsigned int index)
- 			oldmsr.l |= msr;
- 		}
- 
--		wrmsr_on_cpu(good_cpu, MSR_IA32_PERF_CTL, oldmsr.l, oldmsr.h);
-+		wrmsr_on_cpu(good_cpu, MSR_IA32_PERF_CTL, oldmsr.q);
- 		if (policy->shared_type == CPUFREQ_SHARED_TYPE_ANY)
- 			break;
- 
-@@ -491,7 +491,7 @@ static int centrino_target(struct cpufreq_policy *policy, unsigned int index)
- 		 */
- 
- 		for_each_cpu(j, covered_cpus)
--			wrmsr_on_cpu(j, MSR_IA32_PERF_CTL, oldmsr.l, oldmsr.h);
-+			wrmsr_on_cpu(j, MSR_IA32_PERF_CTL, oldmsr.q);
- 	}
- 	retval = 0;
- 
-diff --git a/drivers/thermal/intel/x86_pkg_temp_thermal.c b/drivers/thermal/intel/x86_pkg_temp_thermal.c
-index fc7dbba4f9ca..e52d35015486 100644
---- a/drivers/thermal/intel/x86_pkg_temp_thermal.c
-+++ b/drivers/thermal/intel/x86_pkg_temp_thermal.c
-@@ -169,7 +169,7 @@ sys_set_trip_temp(struct thermal_zone_device *tzd,
- 	}
- 
- 	return wrmsr_on_cpu(zonedev->cpu, MSR_IA32_PACKAGE_THERM_INTERRUPT,
--			    v.l, v.h);
-+			    v.q);
- }
- 
- /* Thermal zone callback registry */
+ #if !defined(_TRACE_MEMORY_FAILURE_H) || defined(TRACE_HEADER_MULTI_READ)
 -- 
-2.54.0
+2.53.0
 
