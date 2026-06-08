@@ -1,93 +1,169 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8753375C5;
-	Sun,  7 Jun 2026 22:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AB934888F
+	for <linux-edac@vger.kernel.org>; Mon,  8 Jun 2026 05:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780870845; cv=none; b=QyCddazGUUu0eLKjhbHP9wFBlFJyJ1ocQNkMYIcaK0OQmqW5fdi6vYwnGeyFOkRJlenQUJAP5ZwU+VlFdwY6bGyt9wTC+xwVy37+HdtX41JTzpWwqDPmOjIdHloNpOBJryj/ic5oukbp8bMEFSUsi4Mlvck19ztfyvkTjyu9VIQ=
+	t=1780895869; cv=none; b=NSzvH4ojeHuAbHEWniiRDMz65KtIfMzP6w/3aWl+XLgrwUBr6xl26FrLSWreY5ucbT/XuXpocWZRua4mXV8qe+ZyZFG0Vl/TThkl08YntZFKgS9SGQtwHLDH+3TFqukvWsJz4f0n/kS+4a3qWyJVnn+8d3dLf9ZIX9LyTUIEoN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780870845; c=relaxed/simple;
-	bh=KiLiZNb633aQTMQJ+aKgu2qF3XvHj4+MBszj9EdHKrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s2AtTdqkZPtzHvl/ym74YEDrY0TxhDrPJSfmfNhXVrsTSL8kMbAkbKnihHP4iLNT7A7VTM9mwHnLbT238Uto14YIbTf9+P8uft3qt2UCl8AEIeD3akenW0q/EstHVVX1eJyQcUV2mLhBqi9maUQRZgSEuO6w0nx1kif6M/rrjJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=d0MX9hNc; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1780895869; c=relaxed/simple;
+	bh=vqTiocBonkBWL8ASCbljvA0u231zQ3DHaPsyfQbino0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D//nuDz7iaxP9oWt+f24Kv3r8tKBQKJvwTjk8QdTDQfPKzClKWLzFhxXJZOlyqZRGLKmnF8xZ/+TKb6IgHu8wZDW/1kdRvd41wqlPpWBFLFJt2ejILhGDjtOmCq8WgNxEH6KX/BggMQ90vSYGjiShgFvkPI8kI/PlpZIvLghcQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=vYMiHMwM; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Gt0EqDBj; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="d0MX9hNc"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 83BFB40E0203;
-	Sun,  7 Jun 2026 22:20:39 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id KToVjFt4LcT2; Sun,  7 Jun 2026 22:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1780870829; bh=PfCgMVXOileTTECOiYEUP9ha2/hzOimXyZg3pb5+0io=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d0MX9hNcSXjPFHFijH+VfFYYY/+KjiYgSv/FA9ifEh7RUENI4tzOOmJn8nbLLK2Pp
-	 J+/bHjp8NkxcM5sI248ya42v/zInG422ahG3A9X1GmmFzw2GotnocAVpkIAVLhOH/b
-	 8rogtVYnqN6bA53d+3qxlLQX4HMe7k5r6LwCRHWwJ/U9GozJiOJwX7/+/yo9awJXbH
-	 /i2NVA8gAN7ckp70ptubCqfA4UgikSXaFpLRNtHIq6rX9H3U12Xppb6ZCb0fcUVaeo
-	 FgCN6mrmJNvANk2pMarqJPP42PajCTAtMguxj7dXD9OIYYTf2VA2es6klIM56gOAKz
-	 4RmKNtCbIbd7HMPGh/wEu4OZyrM67yn8cE+/QlD/0Wd9AZR4V9tBFRqhjvcRDOaeNX
-	 IS7efkUW98sD9cjpNjrHk0qmnOFB9fRYT3rhS9zxLEx0YfnCFNJSpSUdXZeUTHR8oE
-	 Y6PHBMdeVTHm4/e//iMGLmIrj2qNW9Xzs1qvOfDnGa9piywmd81jQ/SF87WT+wkPLM
-	 TnGv01RTtFiTk/5gW3REYqn7S6dGRjQoTb26kejeECPEkHM6KfAxKiN6bWqUGsL9Tp
-	 tjw/55nRHuT6aLkKzfyXy61zRl4MKd8GDHS1HC5STDi3344/6I4zAoky79X+PwNDxb
-	 QNKfq4E2ksVH1NU3yxYDg6Y8=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::a])
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="vYMiHMwM";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Gt0EqDBj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0460740E0031;
-	Sun,  7 Jun 2026 22:20:23 +0000 (UTC)
-Date: Sun, 7 Jun 2026 15:20:20 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] EDAC/versalnet: release remoteproc reference in remove
-Message-ID: <20260607222020.GBaiXupFdAIH8uX28K@fat_crate.local>
-References: <20260603133506.1396535-1-lgs201920130244@gmail.com>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2D32C6B5C9;
+	Mon,  8 Jun 2026 05:17:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1780895865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Uy+6faj0/F/X5rjzint+FLhrxLd8I//FthGmjDkjoew=;
+	b=vYMiHMwMTBXFb/sW49zCsJTPzSZk9fTDS+skHO2/1HtWnWRAVhQC8Kd4ZHMSuZzBxQpZvH
+	csKtqhPOMsKQaA6neMYLphcJt8PJk3vL4TRSX7r8cEpcVebZd3tsFokGbIf5B7+iCNJRRs
+	4Cv0b4bB+tgXr1v+tOz0a3xxYNUah3Y=
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=Gt0EqDBj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1780895864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Uy+6faj0/F/X5rjzint+FLhrxLd8I//FthGmjDkjoew=;
+	b=Gt0EqDBj6Sj/cT65f0e0sayMAb9RZXZIe0K+1Q9KM0FcR31gCd+YySNLtFKWPONryzvlia
+	xrQb8qETMP8oMDEUbsWHZwG7JsC/MQeze6zcfgTUJtslV7DQJZLtzamSSUB1M2o5Niypys
+	XyMQXLv3bN9z8nhYxoqi4ZjenPLkYV0=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7597D779A7;
+	Mon,  8 Jun 2026 05:17:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ljMeG3dQJmo6dQAAD6G6ig
+	(envelope-from <jgross@suse.com>); Mon, 08 Jun 2026 05:17:43 +0000
+From: Juergen Gross <jgross@suse.com>
+To: linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	x86@kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>
+Subject: [PATCH v3 00/11] x86/msr: Drop 32-bit variants of *_on_cpu() MSR functions
+Date: Mon,  8 Jun 2026 07:17:30 +0200
+Message-ID: <20260608051741.3207435-1-jgross@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260603133506.1396535-1-lgs201920130244@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 2D32C6B5C9
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLkdkdrsxe9hqhhs5ask8616i6)];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DKIM_TRACE(0.00)[suse.com:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Wed, Jun 03, 2026 at 09:35:06PM +0800, Guangshuo Li wrote:
-> mc_probe() gets a remoteproc reference with rproc_get_by_phandle() and
-> stores it in priv->mcdi->r5_rproc after the remote processor has been
-> booted.
-> 
-> The probe error paths release that reference with rproc_put(), but the
-> remove path only shuts the remote processor down. This leaks the
-> remoteproc device and module references on every successful probe/remove
-> cycle.
-> 
-> Call rproc_put() in mc_remove() after rproc_shutdown().
-> 
-> Fixes: d5fe2fec6c40d ("EDAC: Add a driver for the AMD Versal NET DDR controller")
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> ---
->  drivers/edac/versalnet_edac.c | 1 +
->  1 file changed, 1 insertion(+)
+Drop the variants using 2 32-bit values instead of a single 64-bit one
+of the *_on_cpu() MSR access functions.
 
-https://lore.kernel.org/r/20260401111836.2342918-1-ptsm@linux.microsoft.com
+Changes in V2:
+- patches 1+2 split out from other patch
+- keep the *q() variants instead of those without suffix
 
-We're sorting it out currently.
+Changes in V3:
+- V3 patch 7 split out from V2 patch 7
+
+Juergen Gross (11):
+  x86/msr: Switch rdmsrl_on_cpu() users to rdmsrq_on_cpu()
+  x86/msr: Remove rdmsrl_on_cpu()
+  x86/msr: Switch rdmsr_on_cpu() users to rdmsrq_on_cpu()
+  x86/msr: Remove rdmsr_on_cpu()
+  x86/msr: Switch wrmsr_on_cpu() users to wrmsrq_on_cpu()
+  x86/msr: Remove wrmsr_on_cpu()
+  x86/msr: Don't use rdmsr_safe_on_cpu() in rdmsrq_safe_on_cpu()
+  x86/msr: Switch rdmsr_safe_on_cpu() users to rdmsrq_safe_on_cpu()
+  x86/msr: Remove rdmsr_safe_on_cpu()
+  x86/msr: Switch wrmsr_safe_on_cpu() users to wrmsrq_safe_on_cpu()
+  x86/msr: Remove wrmsr_safe_on_cpu()
+
+ arch/x86/events/intel/ds.c                   | 11 +--
+ arch/x86/include/asm/msr.h                   | 28 +-----
+ arch/x86/kernel/cpu/mce/amd.c                |  6 +-
+ arch/x86/kernel/cpu/mce/inject.c             |  8 +-
+ arch/x86/kernel/msr.c                        |  8 +-
+ arch/x86/lib/msr-smp.c                       | 89 +++-----------------
+ drivers/cpufreq/amd-pstate.c                 |  2 +-
+ drivers/cpufreq/amd_freq_sensitivity.c       |  6 +-
+ drivers/cpufreq/p4-clockmod.c                | 32 +++----
+ drivers/cpufreq/speedstep-centrino.c         | 27 +++---
+ drivers/hwmon/coretemp.c                     | 44 +++++-----
+ drivers/hwmon/via-cputemp.c                  | 16 ++--
+ drivers/thermal/intel/intel_tcc.c            | 43 +++++-----
+ drivers/thermal/intel/x86_pkg_temp_thermal.c | 25 +++---
+ 14 files changed, 128 insertions(+), 217 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.54.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
