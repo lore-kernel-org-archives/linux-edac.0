@@ -1,142 +1,99 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7021540BCD3
-	for <linux-edac@vger.kernel.org>; Tue,  9 Jun 2026 13:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8112133EAEC;
+	Tue,  9 Jun 2026 14:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781012404; cv=none; b=bC4p1/fwawipruWlQy77fOngvYMmFZnZTKHJzI1SS079TwPsxyx8ktaE+5w129h1f/JEqr7biDu+kTbeXFGAQVgz7cYCESNjNiduQAtRWGTnCMj3mzuveweteqDKE5But8uXJssyjT2fhEScxJvAPHeA41aXT258hbvFkn3HJ5Q=
+	t=1781015183; cv=none; b=S5of/kYTXlqaFt9ArCL9ny4qNfb+kzsaXQKoldoO0hRT26teV0Zqt130h9eAFK6g3itWkLz5zP3+6brnU0wUeYN3uuypfQ7cjVOMCPxTVgW4/UvHviKFnr5DZ/jbMQMP3LblfVKqVVF11KPEd5r3P3SrKx0xy3YaAVpB6i7ab8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781012404; c=relaxed/simple;
-	bh=NNw1zROXl3YowKbvyDdLOHg0G6aDcHiUhFpo+AVwihA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=d7qMzFeGdgQvWgUr8iTWU060Ebm9iNdHLTujturTD9qimHlycVY3GNdu9bvy51ShklENeqnxX3uZUknVr9y38K18GSBEIft3SGnstoouV0vWJo7OMzNxMPUFuHaEiZjKvHjkUzah00LabJu6NGnygmCrm80rg4gWgAQtNlKGpnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NSpB1B64; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1781015183; c=relaxed/simple;
+	bh=3wurHljCnW0W8RAQxtgGel2QNoX8AcpcDU92+d9z+GU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PsZe9Y8c5xowhseYFQ7pD97RvryUjnL+Usx0Vskvr256qBvzYr6sVUjdGs7F+xy3Dk5YXJW+EnDEkFlVJ2oqJElw9o+hSATIXndVvxe9jgKT/fuCCgxm0hDaCZcRaonoNDXIXlhTdFQa6ACDNisb1EcuhbHi6Pm0+oJQDUD++VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nzDLbqGH; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NSpB1B64"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781012402;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1/9U9z2QG2P5RE+MzIeRWzUhUZBEuA6mCl4iYKbOQUY=;
-	b=NSpB1B642Gz8cft86zOE4OfnKi2XOEZaTlwANnoWwmXFbzWxUQn1dcSkjhH1XkkMaPWl6r
-	85dV9k4E06IXHdkdxnxqgE6tUIB0LCpIkTgMlqTrCjKxoxVr/1K8TIfu6Yk8kF28THtR6v
-	Uz052n2do5fw1m6xhTc0IO4gnWfFCRE=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-100-2SyOoIXRMuOLG8bSiTJ3vQ-1; Tue,
- 09 Jun 2026 09:39:58 -0400
-X-MC-Unique: 2SyOoIXRMuOLG8bSiTJ3vQ-1
-X-Mimecast-MFC-AGG-ID: 2SyOoIXRMuOLG8bSiTJ3vQ_1781012396
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 604EA1805C2C;
-	Tue,  9 Jun 2026 13:39:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.44.22.28])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8C1DB3652A;
-	Tue,  9 Jun 2026 13:39:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 2F3EF21E6A01; Tue, 09 Jun 2026 15:39:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org,  Ani Sinha <anisinha@redhat.com>,  Michael Roth
- <michael.roth@amd.com>,  Igor Mammedov <imammedo@redhat.com>,  Peter
- Maydell <peter.maydell@linaro.org>,  Eric Blake <eblake@redhat.com>,
-  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,  Mauro
- Carvalho Chehab
- <mchehab+huawei@kernel.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
-  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Paolo
- Bonzini
- <pbonzini@redhat.com>,  Pierrick Bouvier
- <pierrick.bouvier@oss.qualcomm.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  Gerd Hoffmann <kraxel@redhat.com>,
-  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
-  linux-edac@vger.kernel.org,
-  Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v3 12/16] qapi/docs: add "Intro" section parsing
-In-Reply-To: <20260603032201.993015-13-jsnow@redhat.com> (John Snow's message
-	of "Tue, 2 Jun 2026 23:21:57 -0400")
-References: <20260603032201.993015-1-jsnow@redhat.com>
-	<20260603032201.993015-13-jsnow@redhat.com>
-Date: Tue, 09 Jun 2026 15:39:53 +0200
-Message-ID: <874ijboms6.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nzDLbqGH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781015182; x=1812551182;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=3wurHljCnW0W8RAQxtgGel2QNoX8AcpcDU92+d9z+GU=;
+  b=nzDLbqGH6OyywLkFDBp1+ccMA+OwTUK4A7cNJVYimYLh0pwalg8cvQ49
+   TuA+MHKYbGIaIZLFgtoyNdo8N8MWb+EMv5hqDTjml3ch3pb+RaVQoVMxp
+   hi+mPBgkQldP+RTz1S0/z50CO8+CqUChKVc5wg82+V8wFPi9jHPgKumMC
+   Y6e7p8+crHS+Lglan/+Xtfq4CjpksR8TnBOeGsOr04mOGXkdgqkcAHQlB
+   uCUoZKwTBSABR/cZpM0JbTrOzynn6x7M/yFU/3cIdpv6Riz6D78aP6mHN
+   lFgIeY0fEOvccFNixcrm74C78JF9t53SinxXtuBQ5txHMkxaarArzHJHG
+   w==;
+X-CSE-ConnectionGUID: Tgc3IeCyR8iqAdxUQZ3TXg==
+X-CSE-MsgGUID: 7PxZxJMjSCCNpmS9lUCBCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="84343581"
+X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
+   d="scan'208";a="84343581"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 07:26:22 -0700
+X-CSE-ConnectionGUID: iSBqO5+nQP28HlxbZ2HoLA==
+X-CSE-MsgGUID: Kc5GXJ6CQ8eu3ZaT821Q4A==
+X-ExtLoop1: 1
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.162])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 07:26:19 -0700
+Date: Tue, 9 Jun 2026 17:26:16 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: Mark Gross <markgross@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Prabhjot Khurana <prabhjot.khurana@intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Update Mark Gross's email contact
+Message-ID: <aigiiLMTcBY9bNys@ashevche-desk.local>
+References: <20260526-arrogant-lime-ibis-3cf01c@meerkat>
+ <20260526193238.3622176-2-ukleinek@kernel.org>
+ <aifwwRbyH-lCxACQ@monoceros>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aifwwRbyH-lCxACQ@monoceros>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-John Snow <jsnow@redhat.com> writes:
+On Tue, Jun 09, 2026 at 12:59:45PM +0200, Uwe Kleine-König wrote:
+> On Tue, May 26, 2026 at 09:32:38PM +0200, Uwe Kleine-König wrote:
+> > Mark's intel address doesn't exist any more, update the maintainer entry
+> > that is still using it to his kernel.org address that is already used in
+> > other entries.
 
-> Add parsing for explicit Intro section syntax.
->
-> A side effect of this patch is that we will (currently) always create
-> an empty Intro section, similar to how we used to have an empty Plain
-> section. The tests are adjusted accordingly, rendered document output
-> does not change at all.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  docs/devel/qapi-code-gen.rst   | 16 +++++++---------
->  scripts/qapi/parser.py         |  4 ++--
->  tests/qapi-schema/doc-good.out | 18 ++++++++++++++++++
->  3 files changed, 27 insertions(+), 11 deletions(-)
->
-> diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-> index 3a632b4a648..b1cc5b5f0db 100644
-> --- a/docs/devel/qapi-code-gen.rst
-> +++ b/docs/devel/qapi-code-gen.rst
-> @@ -984,11 +984,11 @@ definition it documents.
->  When documentation is required (see pragma_ 'doc-required'), every
->  definition must have documentation.
->  
-> -Definition documentation starts with a line naming the definition,
-> -followed by an optional overview, a description of each argument (for
-> -commands and events), member (for structs and unions), branch (for
-> -alternates), or value (for enums), a description of each feature (if
-> -any), and finally optional tagged sections.
-> +Definition documentation starts with a description naming the
-> +definition with an optional indented overview, a description of each
-> +argument (for commands and events), member (for structs and unions),
-> +branch (for alternates), or value (for enums), a description of each
-> +feature (if any), and finally optional tagged sections.
->  
->  Descriptions start with '\@name:'.  The description text must be
->  indented like this::
+...
 
-This works if we convert the entire schema in the same series.  I guess
-that's the plan.  Is it?
+> It would be great to get this patch in to reduce annoyance for patch
+> senders.
+> 
+> @akpm: Can you maybe pick up this patch?
 
-> @@ -1093,8 +1093,7 @@ Examples of complete definition documentation::
->  
->   ##
->   # @BlockStats:
-> - #
-> - # Statistics of a virtual block device or a block backing device.
-> + #     Statistics of a virtual block device or a block backing device.
->   #
->   # @device: If the stats are for a virtual block device, the name
->   #     corresponding to the virtual block device.
-> @@ -1111,8 +1110,7 @@ Examples of complete definition documentation::
->  
->   ##
->   # @query-blockstats:
-> - #
-> - # Query the @BlockStats for all virtual block devices.
-> + #     Query the @BlockStats for all virtual block devices.
->   #
->   # @query-nodes: If true, the command will query all the block nodes
->   #     ... explain, explain ...
+As far I can see this is crypto subsystem. Ask Herbert to take it.
 
-[...]
+> I didn't hear anything from Mark himself about this discussion, so an
+> alternative is to go back to my v1[1] that removed Mark from
+> MAINTAINERS?!
+
+> [1] https://lore.kernel.org/all/20260526173806.3227828-2-ukleinek@kernel.org/
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
