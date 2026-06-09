@@ -1,91 +1,138 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC301A6823
-	for <linux-edac@vger.kernel.org>; Tue,  9 Jun 2026 05:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D033F58CE
+	for <linux-edac@vger.kernel.org>; Tue,  9 Jun 2026 10:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780984786; cv=none; b=FtEzoto5GdaQ4pjCgnU/tM1dS0P+YJdaz5dLZBFNyD1uvB9uWJvYLzGuKfZBwXiUBAGIYf4ApoZd6yufZVYxVoan/pFx/lTJLg3VnBGaXP4JOOvWaLDaXVvX6lUKj6M7JqAkw9vCrVsAJu7bJUu9IfwHNpXXR7mp7O9geryGUjE=
+	t=1781002746; cv=none; b=txULEA2XdI3xr2vq6bY0fLNJvT02YT/pLjg1VPu8XIhGrZSIxcrixypMQzIpp41CqA/HCxmXKVVNw7omj7hYebYZCVnHdsxUk5gwLZw7jebTAViAiqkunnztRMGxEgsUC1/cPC66YzdOuRXeuUCOffWOELEVFS0PmpDcZ3Y6tx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780984786; c=relaxed/simple;
-	bh=pZZKBX9B3zBLVLIO5fCgH1S3Z7kQaVQtFcDmSUiDAcg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gnOgi/u6QQHU/EPoZdcAWvGxDQU55pU0e1386AgHPG78cbe0EjawZQ7yCTJPZDX4Kr6LP2LIs+633Iy1w5GkpUfJDGt2VwDD04jvrbT//Zjoqab3zC+1DiJm8TK6e53tm0WuYMOijoU8P5T/nLGABQYkzUlrIIh5B63rSG8DBpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMGkkdMP; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781002746; c=relaxed/simple;
+	bh=NJm7en42vHqUEOL097e7ZQlVuWRWW3IjO/i3DEPRdF0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UrNP89T4wBQbT29Ma0vhK9ZlsmpDFYU4AUuLjRtgkiKYzh+nvMutk/4K40YhMt77irXYuD8Ns3ehg+h0IKOm5wqFWveAVwvcvEw+x98tFeOeV0Yhf/tgSPRpoJ6FEBKQjfRv7WDkWHXo+iAzYaKxMZ4750/K3WMI1gk09SZuC7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YZRCXtzu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMGkkdMP"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso57544155e9.2
-        for <linux-edac@vger.kernel.org>; Mon, 08 Jun 2026 22:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780984784; x=1781589584; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VRzKnh7wXlV+i/kp57l4JTJawSwXoELQ/JZCCsqIrgE=;
-        b=WMGkkdMPrnt1IZ2qjJIJIaMQfpEc3SLOQ8XA5ilVUVU6PH6xO7kSSoq2udcDQpi/Du
-         mU2DDD7dqKwsGgx5TUl8AgBzOlPTHYuby8NJk0tZEmlfRj0xuXEhcvkkdXwQ5y2WDMJk
-         131qyemyZh9J8uYjo1j9UNY1a92ltHOuS9nox/KQmJLg/0hFHeB2oCD+1aflpDKzQkOr
-         I9B8xbx4ckKKe8Aks9blTNVtNJvA7Vpn7F4nb1PNwoUveTlLsUBldOA5XOE7vTW7/NSF
-         qtvB7aCAi9RU0rVsrxwmRJOvlujKpZEu49vKvT9KBCRBbDq01Z6d+scNGNeadr0wKAtP
-         azCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780984784; x=1781589584;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VRzKnh7wXlV+i/kp57l4JTJawSwXoELQ/JZCCsqIrgE=;
-        b=KToYpy1VrMS/YJSqNbHdLjbYc8c39Y9C724ePU2D9r+/Q/wyp9E8sva+XP2z/OVqmV
-         HwQy2l1BrCu7arnqCneadO3669cmR/hc6ydaDhMdp714zFb/A0gfCgi+ivjyOmoMGJVC
-         scfDr9sn82MLeWjdAn4/g3Q4So3U6ayYGS0vTtTCfWbTbIIMD2/5HSiTWytwsZgKSJtl
-         YXaX+rP+tT1+0DasBcpEjVJXDB6K28wu5cCOu824/E7AWdEexiBQS5aCXrAtWxXn6h33
-         Gi+NIfSCK5YW33NXfuscgF0BbmQxbFFUStMl/w81j4pJvDW6WB7ASdzZNMop2IHviO1P
-         E6cw==
-X-Forwarded-Encrypted: i=1; AFNElJ/MpWjdUZ88DiOXly9/rEvdXzu4DbFLkSSg/X3vKdjqLekA3Wf9mZ/FbYOM6/OIJ6W9mrRWWtpnIZrM@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt4e66mFE/WLYKZOL2i30xwap/smW21z3sKmteASxEKqbZnUld
-	QEBFGKvnQJITkF30e0qYc+9KMmCW+df4fpkGZ/i/Fs2Nn5IP2Ciep7Xa
-X-Gm-Gg: Acq92OHB3kRF9vMl4MAP35/fbVC5l5Dma/5NsBK3WXI6Zdsxt2dPtjl6pd2QGLfTI++
-	V4ncjC//mtpRWGxwjM9o0L98QFFF04HdiB/OklA5k+fkzW/GUK9Xrkauln5rcDZ3Nugcu4vvy89
-	kKkG99sHa1gyqkLWJG+90CUcmkBCfF1XrLXYG8WzLs4w7Ifzpfzo5PHB4WFyw60FiBKdFvlc+U0
-	tbixvSvZYxNamMW4TTB3WkuHWDb2oXuH7b7jjUl/vv8E87KBC7kUIOX89Igj7pXxP/Uo1gCgprs
-	VgyHLBn105RrTjU9BzDttozmd4cFeIck4J17o/KWk5uLBIsunZWCrWUGNGozMVIApkdTYRqNbpi
-	7l5w+akW+QmjhLGYQRqtYXojVBMyMlrZEDWjW0EjOrZd3yIMY75PzrraXJh+AOpKBMqyKkhymZA
-	/R9Zg33tj4YIM85jpHtve7r4LVANpLqe37GE4dtL2Sq9MOiOw/g6fGC0rsna6pMvQdVnq650loJ
-	BV33KmkOttRZNebGsolzdeMXevNenMQTpYYt4NH+HjmByuePnt5u5PqmZnBlQnI
-X-Received: by 2002:a05:600c:a011:b0:490:58ef:cea7 with SMTP id 5b1f17b1804b1-490c25ee058mr313921845e9.22.1780984783669;
-        Mon, 08 Jun 2026 22:59:43 -0700 (PDT)
-Received: from ?IPV6:2003:f6:f70a:900:3c0b:876f:c20f:d04? (p200300f6f70a09003c0b876fc20f0d04.dip0.t-ipconnect.de. [2003:f6:f70a:900:3c0b:876f:c20f:d04])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4b18sm45793819f8f.10.2026.06.08.22.59.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jun 2026 22:59:43 -0700 (PDT)
-Message-ID: <16fb1ca6-447c-42b6-b4f3-aade5ce7f90c@gmail.com>
-Date: Tue, 9 Jun 2026 07:59:41 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YZRCXtzu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781002744;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O2uWd1OSRuv/AisuD6Qc+yfYpvy0KTABFXqDhRLF8tc=;
+	b=YZRCXtzulh+BbnMPl3NN73rcSs2k8T/y6CJolMO5gBMPLZxvwsqoF31DTzEaFYS2rJRBIB
+	bDRthqrSNVsXzpg/dmgyIZHk4YjSGjH/J242nKy8/i7D5tTI4kh1B+pOYAe7zKUchMoWpa
+	mmdLELI2BPJzhf/ZHFdwT4gA4GvkzqQ=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-499-c6nZMEQDM-StBjojnwVpMQ-1; Tue,
+ 09 Jun 2026 06:59:01 -0400
+X-MC-Unique: c6nZMEQDM-StBjojnwVpMQ-1
+X-Mimecast-MFC-AGG-ID: c6nZMEQDM-StBjojnwVpMQ_1781002739
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 35E9A19560BB;
+	Tue,  9 Jun 2026 10:58:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.28])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 79FA43008B38;
+	Tue,  9 Jun 2026 10:58:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 145E921E6A01; Tue, 09 Jun 2026 12:58:56 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Ani Sinha <anisinha@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  Igor Mammedov <imammedo@redhat.com>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Eric Blake <eblake@redhat.com>,
+  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,  Mauro
+ Carvalho Chehab
+ <mchehab+huawei@kernel.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
+  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Paolo
+ Bonzini
+ <pbonzini@redhat.com>,  Pierrick Bouvier
+ <pierrick.bouvier@oss.qualcomm.com>,  Richard Henderson
+ <richard.henderson@linaro.org>,  Gerd Hoffmann <kraxel@redhat.com>,
+  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+  linux-edac@vger.kernel.org,
+  Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v3 07/16] qapi/docs: add "Intro" section
+In-Reply-To: <20260603032201.993015-8-jsnow@redhat.com> (John Snow's message
+	of "Tue, 2 Jun 2026 23:21:52 -0400")
+References: <20260603032201.993015-1-jsnow@redhat.com>
+	<20260603032201.993015-8-jsnow@redhat.com>
+Date: Tue, 09 Jun 2026 12:58:56 +0200
+Message-ID: <87tsrcou8f.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] EDAC/mpc85xx: Use platform_get_irq() to get interrupt
-To: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260603191908.5618-1-rosenp@gmail.com>
-Content-Language: en-US
-From: Johannes Thumshirn <morbidrsa@gmail.com>
-In-Reply-To: <20260603191908.5618-1-rosenp@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Sorry for the late response, been on PTO for some weeks.
+John Snow <jsnow@redhat.com> writes:
 
- From what I can see this looks good, but as Boris already said, I don't 
-have access to HW anymore so I can't test.
+> This patch adds an "Intro" doc section, intended to eventually replace
+> the "Plain" doc section alongside a forthcoming "Details" section.
+>
+> For now, this section is not actually instantiated or used, but
+> subsequent patches will slowly convert the leading introductory sections
+> of QAPIDoc documentation to use this new section.
+>
+> A main motivation of this series of changes is to more explicitly
+> delineate the "Introductory" documentation for each QAPI definition for
+> the sake of the inliner. When inlining members, examples, and details
+> from multiple QAPIDoc sections, we will want to omit the "Introductory"
+> text from inlined definitions while keeping notes, caution boxes,
+> examples, and so on. This new section facilitates that.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  docs/sphinx/qapidoc.py | 2 +-
+>  scripts/qapi/parser.py | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+> index c2f09bac16c..1f7c15b7075 100644
+> --- a/docs/sphinx/qapidoc.py
+> +++ b/docs/sphinx/qapidoc.py
+> @@ -368,7 +368,7 @@ def visit_sections(self, ent: QAPISchemaDefinition) -> None:
+>          for i, section in enumerate(sections):
+>              section.text = self.reformat_arobase(section.text)
+>  
+> -            if section.kind == QAPIDoc.Kind.PLAIN:
+> +            if section.kind.name in ("PLAIN", "INTRO"):
 
-Anyways,
+Is the change from QAPIDoc.Kind.FOO to "FOO" just for brevity, or is
+something going on I don't understand?
 
-Acked-by: Johannes Thumshirn <jth@kernel.org>
+>                  self.visit_paragraph(section)
+>              elif section.kind == QAPIDoc.Kind.MEMBER:
+>                  assert isinstance(section, QAPIDoc.ArgSection)
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index d8068bb1bf6..97e7dacb0fd 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -681,6 +681,7 @@ class Kind(enum.Enum):
+>          ERRORS = 4
+>          SINCE = 5
+>          TODO = 6
+> +        INTRO = 7
+>  
+>          @staticmethod
+>          def from_string(kind: str) -> 'QAPIDoc.Kind':
+> @@ -748,7 +749,7 @@ def has_features(self) -> bool:
+>      def end(self) -> None:
+>          for section in self.all_sections:
+>              section.text = section.text.strip('\n')
+> -            if section.kind != QAPIDoc.Kind.PLAIN and section.text == '':
+> +            if not (section.kind.name in ("INTRO", "PLAIN") or section.text):
+>                  raise QAPISemError(
+>                      section.info, "text required after '%s:'" % section.kind)
 
