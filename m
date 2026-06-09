@@ -1,113 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA1A40DFD9
-	for <linux-edac@vger.kernel.org>; Tue,  9 Jun 2026 18:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887CA4DA54F
+	for <linux-edac@vger.kernel.org>; Tue,  9 Jun 2026 18:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781031083; cv=pass; b=ktfB4c4soMDtMikWqXNWbUhgkr3dKP0MmxP++2UdbP0NmTKqdmUE02PQ1Co8Sya+E4mFVDHu4rvwee8yQgWIzIOdtOwHY3EwEhpWgEXtmytZ7ahbtXM6ff7JpprddTcs452R1xC8g94iqMUBjZAnaX0gifYmOZqDpy+SE25BGuE=
+	t=1781031491; cv=pass; b=iFb1MliMFO4vzH+R14CewT/ltk0ABA/yViVjaahsK0gH0xlJrQHVXLHSrU08uOYCwIAnXhDcOt78vOCLylT3xST4Q9w937tF/O1HytAd4bmp//1OJAjPkihH6ZesQndmj8Oxr6J5cY/aHbOtKhNSDeiSwtYP6KD6Ewoq49z0dXk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781031083; c=relaxed/simple;
-	bh=o7msaVeA5eQdscLjcuRgzYYKcviHBIzzVM9HjCe2RNA=;
+	s=arc-20240116; t=1781031491; c=relaxed/simple;
+	bh=t9zKKCT7g99jk/9vM5TM174m/2XPeRulUwXBUlg730c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JjwNYu0jlLY/Y5wXS9EFi0NDwnUJceKjMfytQSHy29SFBTu8D+H2D3GdDO69MLF3CT9Mo0zI3CcbF0aZnbVyfSQEYlj04bT1EsNTm8Bw9gwIpkbrMXxv+QnbSnfkJHxG1LZQ1utZkal3IS6ObQyxNwUTBk3oNxcfpLbIOk3Ru9c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ex5IN1wY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=DXponuaw; arc=pass smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=q2idjTf1QmLv4bvpLXtBhtwO3Uv8q0eJf3J59hVd/QzwsXJurUzj9KtoOW+5S7GI+8J5TXfw5MJAw5/gPXqylfRjLVGQ5fFuFGzCV+ILQdehL30JKyXOwDPFxucVim8UQyMTfzJ/WOi0iQn5H9e8f82ggtpdI2a6jI5Xt20PPvY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hZ1TNrVu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=RFEKbRKW; arc=pass smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ex5IN1wY";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="DXponuaw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hZ1TNrVu";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="RFEKbRKW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781031080;
+	s=mimecast20190719; t=1781031488;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yCswAtT263a0ZsmKD8XqrLbqUhP/Fhx/nYqIniWGmk0=;
-	b=Ex5IN1wYI+TzaJZbv5LhG4uemoUu1omG4D1BKl4v0POGD3sfXLuJlw8Fq7bhHdaxJ19Rn1
-	ybGYSMfpuEnzJGOC7fIkUSxadYgpuo4HDGSQWfXSTO436GWPa3hHkPAruwqOJiG3cuKuTR
-	rvqQeUVgAQg1rJ0oefKDIveuO2l81Og=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=bUz4z9xJm0sVo+7VV1gF6jdAjVdm+QQcpxU667lJY5w=;
+	b=hZ1TNrVuRnZbAlpbCflt2Cw9IzUdXv69htY6E+aZaE+CGHCdqllB6OZK9Dr/D6It92zH/v
+	ydTdgfT5DeT1+3lkEsoj1qjnlsj0fro7eLiJNCuQ9Dw48TpretM0p9gnXz0gqQBnT9+aCT
+	AWxi0Jkz7QVXZCxSUlLaGxNEOinxU+Y=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-182-KD_O7H9tMO-PF03m4G6Vhg-1; Tue, 09 Jun 2026 14:51:19 -0400
-X-MC-Unique: KD_O7H9tMO-PF03m4G6Vhg-1
-X-Mimecast-MFC-AGG-ID: KD_O7H9tMO-PF03m4G6Vhg_1781031079
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5176d949c58so147434571cf.0
-        for <linux-edac@vger.kernel.org>; Tue, 09 Jun 2026 11:51:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781031079; cv=none;
+ us-mta-467-1QNB9jmXPwSWnev2REMSqA-1; Tue, 09 Jun 2026 14:58:03 -0400
+X-MC-Unique: 1QNB9jmXPwSWnev2REMSqA-1
+X-Mimecast-MFC-AGG-ID: 1QNB9jmXPwSWnev2REMSqA_1781031482
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-517c65c019bso36505071cf.0
+        for <linux-edac@vger.kernel.org>; Tue, 09 Jun 2026 11:58:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781031482; cv=none;
         d=google.com; s=arc-20240605;
-        b=CFHrzPlHy1CbLhaTe0yoMAHS8SPwqq/J/Y7ntKbKjcv28k47h9yb0vv3PqDXBwzr0h
-         NtD7F3e1wiiqVShpctAfByfpDtchPuTJtOqkF7RulG6X8gOYle0WQW+AYCGzthQSmICn
-         LqT6RCbajqMgWOOV8yDSoBk+q73a+i8hQORSJYkH7X++lQ//YIO5FUhup7xGQeD6LvY/
-         2euV8We75/cia0B08Q7mGe3bTETuHM5Rox+EWqDCTUahj1xs2u53AQN5VuTkJelbZ8bo
-         o697xi0PGr/kHuaTIQ1uIUAxc3XIy1z5o0aED/N8qTPorcybpAQVHxL15mIy2wsiezti
-         v0bQ==
+        b=WJOeKJrJ+VRO+seqdBGIGAXHS2P8CBkVRxKbuNXwcwwTaIuL6+dI3d8dC6Q2HLE7Q+
+         laNtM4zmJL4FBufnMBsDAfrgkagk4E3aCXYv6HQJsneRGNruzzFKy7ztnEM+d5dl3CZY
+         u9pe+PYI4Ygcy1ms07KNuuWQryAuCg/HDYvDrlm9b6P1M/JLrQOnMEaoJoF+mMUk2qz6
+         WQSwa05+SiFylHQZloDM6EdPd5SHTrj1fDt2RkWgOXUPv1tGPUKmT/iU4Qk6EouJGism
+         51GdJH5cQ2gkHLJmdgGbC4yZIsiRIK6U2l5YN6xxqAvU3Z+8Copi7qGrFrHXPaBvDUf5
+         Wm1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=yCswAtT263a0ZsmKD8XqrLbqUhP/Fhx/nYqIniWGmk0=;
-        fh=oM4RODHx1O8HZ6TWnpBXBnIo14Mpm3JaEi3WO9oc+6I=;
-        b=fNynYftAni6TNUr/Xv8vv/mO/PB1PAacFZ6lm/XLx/ByxAviLkHjckIKpQ3CNkmFVI
-         o9hT2/jGq2eCwmHKNHOGRVD3piyEOLLqrGV/U7tSS0HqRJjNJmt1+KLMG6mX3t/d6hNG
-         FugSrk/IwslgoMWdTDbylc2tVmonxt5LLXA5l8zduUlJEjb3tEn6Hz7v2OnF4Bhf8iOP
-         fKiUjcl+L43lEYByVf/chEYQdVH2gB2tIWp+4k0h0MpLdMXyQu4FCACjaxosTKjO7FeQ
-         p+iS3TbxZkLWbKsTfelRUwRijxnBYPV3sEVR619HO6YL2QDxvp+U4/jXloeudq9TMcDa
-         t5JQ==;
+        bh=bUz4z9xJm0sVo+7VV1gF6jdAjVdm+QQcpxU667lJY5w=;
+        fh=Lx1XuigH6wnQ0R4KhjIxdXSo01YjHm/A549dInTfWds=;
+        b=dz4MmBS2QTBhcBz/dta9hv32r0SjbybwhzdfhIUcuujaLo1P5KNz8YecuhZB7V96yw
+         GtH4dYPS7iqFpnovHS//eRmCs2cPmYx0Tfz163e6z1ZgC3oYjWhPoEuvrqJi/DFJxfy5
+         XCYccGkQhYaHwIUxzPDXyz8QOjK33EUN077d+C7a68o1koZkfwgIHljKPMmZNnTWFg4g
+         7zTpPto+ETk8Zd+lnoXsggMJE/NA5FT3CNgf/E1LVIbcy+Sraaka329wVvtgWR9Sz3Rf
+         ZzNK8aVnfpJQWgUv6SgaZ1P6xOqhCHhrQhf/jgHE4j/UeEJc16SqZsm5Q8JA6t76MJ0+
+         Gjug==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1781031079; x=1781635879; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1781031482; x=1781636282; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yCswAtT263a0ZsmKD8XqrLbqUhP/Fhx/nYqIniWGmk0=;
-        b=DXponuawXRAyVmvY2v/gNStZ3FE1pEOOiLuEDCsXVhOAIJXux4/3FpXEKpMm2xr8nu
-         dzP+Zm0NP066kWufOzohrLVghNb5PgkjS6lApiqYsQt+DH9wTIg64wjamj4q8Kk5U/h9
-         P/jH9bqMn1kWGTRxq/rr8wQcV4xE6E9MZ5LaDHV1WhLDCfwkmV9AdhjdRCRLwuDykrcY
-         5qQaWXvIgbMSJSIMZ9vNX0UpSChFqtk6UtqXIwFBvoDO5EbZZw1kL2SEwyZViD5W8Mst
-         KOTSp2jeF67THTivlBwEyauB9Y+U4EuA38Rhw47XCJUjfjNt/PQN+5XISc0xYGvpyxyB
-         +c4w==
+        bh=bUz4z9xJm0sVo+7VV1gF6jdAjVdm+QQcpxU667lJY5w=;
+        b=RFEKbRKWoGL6xujQyMKMEpNw+IK8Fsb6zGztvx+oCF8k1IZ5IABSn6YxBdBFiftlva
+         hCmxIaWh1w3WJ5XDwa1cigD3KMmQw/CJljYdpLFglgz7c32owCdbaS+KUvyvx5Ch6LzT
+         jeUjcqrUwIdqmZEmOTgDeOAdpzUyPITxupOiub5pckvvlTP+qThHlsPNHIrnWesV1wy1
+         5JFIVG54pXKzfjX5mPx9LbGzv4xlo3zJ7UD/Wtq6AppvwNlOALt6jo6gaszq3iPwuJB1
+         a3tn4kV6xFT3Hs/u+rozCCFgopv5bmxTGkMxxrbGkHkdFX3bkCD/PJ9LJ1HyaurbDMyy
+         Kmxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781031079; x=1781635879;
+        d=1e100.net; s=20251104; t=1781031482; x=1781636282;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=yCswAtT263a0ZsmKD8XqrLbqUhP/Fhx/nYqIniWGmk0=;
-        b=JwTW3dEbnXpblU3/35MLCpqo7vfMjinkiv+UuHp9YEvOYnAt2Shc7GC2Wv/fMgQ+cD
-         ooRBCusI5/R35z7facEKC3gFRLlF/a39R7diI2/LZV5i79DkyUWTauQBQ2JBGUYUNKNO
-         +xZ9FKNhRxzv0Gp7E7oQBkWFizjUuWwwlJsgNfJuy6cw3t71OrmOloT/cWOPekw+eTWS
-         oFLtI5cX1Tpxr/SSQJPV2ZG5fn/LbwgSI9wjf58+oy6LtFTsbpUV3wEmbN2OyOZCMovp
-         15DUIk8un+wug6gbYcRryLPialBdZkNOLRjjSC7bapNoEB2HizysOqen//2agj5q/i8O
-         LyBg==
-X-Forwarded-Encrypted: i=1; AFNElJ+TqVx7otPeFc1yaayZ7UubvfHxwjFKVeRaXaU06s3DKA9jmRsyfhm/D9diJndMun2IpKqqIrRY5fdc@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyf5j67zVCaTtZf5hvSY9ZDLVi1hJEcL81CTH1YRYUQCFEMG8fX
-	z5aH4YG/5UQTge3UjF0Tk40r/ZOCd4Kj+CCDqoJjBwo0DWJaJrsf9sP3KmiVyY5J3xvqohpcGIW
-	C5CfA23DiiDe5oL/BTDi+7xals+Vx5M1oxZWqNgw3tUOvWnYLyNyG53dGxo4eWDJ4JHKIAqsunZ
-	iTFASnBZzPFG9abP3+jjU9h1X15UJENt7e9R1ryQ==
-X-Gm-Gg: Acq92OFJr7qb6R4tCH+jmq1yFer1z9eeo3rJtD8+ieywjJBBeyzjDDN5J8248AT2+Jd
-	uwQFz3HzAbvnPYt/H/CU4Et/XcTxbXjTxauuK0ISAlGIilIlgbfOk17rE+DpUIShfiiqdyezxwr
-	I50pgj931IRVpzWf4OopV7MEdLFWFFz8PWA7dC0pvNy0YOULgGkE2XoilbAoMDa5EGsJUPGkQ5l
-	fiEWZNr+Sa17M8KsUstboPxokHaYEkLw4Y9JKR/L83IPANf
-X-Received: by 2002:a05:622a:6096:b0:517:7217:6737 with SMTP id d75a77b69052e-51795afe9e0mr307724441cf.33.1781031078375;
-        Tue, 09 Jun 2026 11:51:18 -0700 (PDT)
-X-Received: by 2002:a05:622a:6096:b0:517:7217:6737 with SMTP id
- d75a77b69052e-51795afe9e0mr307723751cf.33.1781031077803; Tue, 09 Jun 2026
- 11:51:17 -0700 (PDT)
+        bh=bUz4z9xJm0sVo+7VV1gF6jdAjVdm+QQcpxU667lJY5w=;
+        b=KkDyO9J41lsoKcOIPKV02OhrEbg5l41Q2q72tFh5PahvsTonwPUxaci72CuSJvLzCK
+         CRIq7mQdzBzHanbRoNKnHRFK5fWyIi3RSbdlqVWHFLqJ5jvXYWXXryGsimCGkUlH7UvW
+         4VMj0nvXYMaTk35uFATZkvArAQU3Y0CPIl/zSB7dGjpVn2KSN4ZDiTNT0aoSrTc+x14G
+         zuxGGGXqx44PLQsiapgaWFeKLASLUHTcjV9JFR7HcZhkldyHT2wuXh/UHlA8nYwxHa3U
+         p5NKosTdaK5jYbe4/zKwGv3b8tuPIsp9dyfzkzHaPwBoupq63H+8tmw0WDL8aF1pDADK
+         uxgg==
+X-Forwarded-Encrypted: i=1; AFNElJ8ZFXSrcje0rJS3UkMt/F+ECTvx6mo7xrt5lTphak3RgDNquDkTK48WdVyUHTSXlsUEBeLeYRBCxIA2@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNILB/EYleGXeAKFJdl7pJkw7ekYWQ+pa4KnVH2t+A+1ifNSBh
+	u57lJ1p/C5pls/tBXm9JuWaqPSk6+9iR/KXeiQrT75CQFYBpyk2j0Gz9fmwImCWPWr7OCzsqBD2
+	A66O6nVBcoY8fHXIpy2KSi92xmjECNhs3s1IDWo4HHsJFwmBuenVpGLwKJ3tKgbsM/xDYyso4+N
+	Iuuf5gOSbGjHwmaTl0U6MP+rgWcAolx76b14WJ0w==
+X-Gm-Gg: Acq92OGOioLKmFgYgqfSPOPsTF69Ug2FDtpFUV8TpwI6csxyUTZSKolDyCoDEbQHOVB
+	LKsufNp8PnSHtnV6UmTq/BawnC+P+UHuudzJe77kDY4JnkDCh3f+hztXZlYcx5opQ6ffIG2j6Tw
+	HsyfKOV3xUGTyZtTNTUX5Kj4ukJn+t0/mO5E0T/zQjg7LPI2fQDh82v9cNiEte2GPUGw8GB6J7g
+	AnylQ5k86YIdLJFdRE/ibtczCcF57rUTIDWT4adnaKN2CD8
+X-Received: by 2002:ac8:598d:0:b0:517:5bc1:e1f0 with SMTP id d75a77b69052e-517959957a0mr324623031cf.0.1781031482332;
+        Tue, 09 Jun 2026 11:58:02 -0700 (PDT)
+X-Received: by 2002:ac8:598d:0:b0:517:5bc1:e1f0 with SMTP id
+ d75a77b69052e-517959957a0mr324622421cf.0.1781031481868; Tue, 09 Jun 2026
+ 11:58:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260603032201.993015-1-jsnow@redhat.com> <20260603032201.993015-12-jsnow@redhat.com>
- <87a4t3omy2.fsf@pond.sub.org>
-In-Reply-To: <87a4t3omy2.fsf@pond.sub.org>
+References: <20260603032201.993015-1-jsnow@redhat.com> <20260603032201.993015-13-jsnow@redhat.com>
+ <874ijboms6.fsf@pond.sub.org>
+In-Reply-To: <874ijboms6.fsf@pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 9 Jun 2026 14:51:05 -0400
-X-Gm-Features: AVVi8Cekfstri9M4uf9Wmwd1cxxjiqdixi3lsUKi-o1jhUQn8neRmG3mjwm1vJ8
-Message-ID: <CAFn=p-Y6h6uXN9Hf0TjtdE-ZJ2zOGiauqX=kg-Q1p=kCaeg3KA@mail.gmail.com>
-Subject: Re: [PATCH v3 11/16] qapi/docs: add rendering for INTRO sections
+Date: Tue, 9 Jun 2026 14:57:51 -0400
+X-Gm-Features: AVVi8CcmL5RcjMHoqmKCDwgyIh7PYamDdMOzM2lSQJRccGXaYGBtPFhkdtejFOs
+Message-ID: <CAFn=p-YJg_KhMf3vHZYP-4F1FVsA-MOE=ydRAmUv5srdVteuwQ@mail.gmail.com>
+Subject: Re: [PATCH v3 12/16] qapi/docs: add "Intro" section parsing
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, Ani Sinha <anisinha@redhat.com>, 
 	Michael Roth <michael.roth@amd.com>, Igor Mammedov <imammedo@redhat.com>, 
@@ -122,95 +122,92 @@ Cc: qemu-devel@nongnu.org, Ani Sinha <anisinha@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 9, 2026 at 9:36=E2=80=AFAM Markus Armbruster <armbru@redhat.com=
+On Tue, Jun 9, 2026 at 9:39=E2=80=AFAM Markus Armbruster <armbru@redhat.com=
 > wrote:
 >
 > John Snow <jsnow@redhat.com> writes:
 >
-> > Amend the qapidoc generator to handle and render INTRO sections.
+> > Add parsing for explicit Intro section syntax.
 > >
-> > The only real difference here from other sections is that we need to
-> > dedent the text so it renders correctly. Members and Features are also
-> > indented, but do not require a dedent() because they are always used
-> > in tandem with an rST construct that forms the start of a new indented
-> > block; there is coincidental harmony.
-> >
-> > Plaintext sections, however, do not start their own block and thus
-> > need to be dedented to prevent accidentally rendering them as a
-> > blockquote or a syntax error.
-> >
-> > This dedent transformation on the text does not reflow the text, so
-> > source line information remains accurate, and the "blame" chain of
-> > custody for sphinx rST parsing error messages continues to be correct
-> > even through this transformation.
+> > A side effect of this patch is that we will (currently) always create
+> > an empty Intro section, similar to how we used to have an empty Plain
+> > section. The tests are adjusted accordingly, rendered document output
+> > does not change at all.
 > >
 > > Signed-off-by: John Snow <jsnow@redhat.com>
 > > ---
-> >  docs/sphinx/qapidoc.py | 15 ++++++++++++---
-> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> >  docs/devel/qapi-code-gen.rst   | 16 +++++++---------
+> >  scripts/qapi/parser.py         |  4 ++--
+> >  tests/qapi-schema/doc-good.out | 18 ++++++++++++++++++
+> >  3 files changed, 27 insertions(+), 11 deletions(-)
 > >
-> > diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-> > index 16ad15fe94f..317dc44b1b8 100644
-> > --- a/docs/sphinx/qapidoc.py
-> > +++ b/docs/sphinx/qapidoc.py
-> > @@ -35,6 +35,7 @@
-> >  from pathlib import Path
-> >  import re
-> >  import sys
-> > +import textwrap
-> >  from typing import TYPE_CHECKING
+> > diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rs=
+t
+> > index 3a632b4a648..b1cc5b5f0db 100644
+> > --- a/docs/devel/qapi-code-gen.rst
+> > +++ b/docs/devel/qapi-code-gen.rst
+> > @@ -984,11 +984,11 @@ definition it documents.
+> >  When documentation is required (see pragma_ 'doc-required'), every
+> >  definition must have documentation.
 > >
-> >  from docutils import nodes
-> > @@ -150,8 +151,15 @@ def add_lines(
-> >          self,
-> >          content: str,
-> >          info: QAPISourceInfo,
-> > +        dedent: bool =3D False,
-> >      ) -> None:
-> >          lines =3D content.splitlines(True)
-> > +
-> > +        if dedent:
-> > +            lines =3D textwrap.dedent(content).splitlines(True)
-> > +        else:
-> > +            lines =3D content.splitlines(True)
-> > +
-> >          for i, line in enumerate(lines):
-> >              self.add_line_raw(line, info.fname, info.line + i)
+> > -Definition documentation starts with a line naming the definition,
+> > -followed by an optional overview, a description of each argument (for
+> > -commands and events), member (for structs and unions), branch (for
+> > -alternates), or value (for enums), a description of each feature (if
+> > -any), and finally optional tagged sections.
+> > +Definition documentation starts with a description naming the
+> > +definition with an optional indented overview, a description of each
+> > +argument (for commands and events), member (for structs and unions),
+> > +branch (for alternates), or value (for enums), a description of each
+> > +feature (if any), and finally optional tagged sections.
 > >
-> > @@ -223,13 +231,14 @@ def reformat_arobase(text: str) -> str:
-> >
-> >      # Transmogrification helpers
-> >
-> > -    def visit_paragraph(self, section: QAPIDoc.Section) -> None:
-> > +    def visit_plaintext(self, section: QAPIDoc.Section) -> None:
-> >          # Squelch empty paragraphs.
-> >          if not section.text:
-> >              return
-> >
-> > +        dedent =3D bool(section.kind =3D=3D QAPIDoc.Kind.INTRO)
+> >  Descriptions start with '\@name:'.  The description text must be
+> >  indented like this::
 >
-> Could use a comment explaining why INTRO needs to be dedented.
+> This works if we convert the entire schema in the same series.  I guess
+> that's the plan.  Is it?
 
-# Please see commit message
+I still plan to do it piecemeal: I will probably send everything out
+in a big series, but you will be able to cherry-pick and stage those
+patches individually as you feel they are ready. This way, modules
+that need further revisions don't hold up the entire series and v2,
+v3, etc won't email bomb all of creation just to fix an indent in a
+single module somewhere.
 
-(Joking, I added a comment.)
+I think this documentation still covers it just fine: "an optional
+indented overview". Technically the things we haven't converted just
+omit that indented overview. Those overviews just remain as
+"plaintext".
+
+It's not perfect documentation, but the expected window where we have
+two competing systems should be quite small in the grand scheme, so I
+don't think it's worth writing docs to cover the technicalities of the
+transition.
+
+--js
 
 >
-> >          self.ensure_blank_line()
-> > -        self.add_lines(section.text, section.info)
-> > +        self.add_lines(section.text, section.info, dedent)
-> >          self.ensure_blank_line()
+> > @@ -1093,8 +1093,7 @@ Examples of complete definition documentation::
 > >
-> >      def visit_member(self, section: QAPIDoc.ArgSection) -> None:
-> > @@ -373,7 +382,7 @@ def visit_sections(self, ent: QAPISchemaDefinition)=
- -> None:
-> >              section.text =3D self.reformat_arobase(section.text)
+> >   ##
+> >   # @BlockStats:
+> > - #
+> > - # Statistics of a virtual block device or a block backing device.
+> > + #     Statistics of a virtual block device or a block backing device.
+> >   #
+> >   # @device: If the stats are for a virtual block device, the name
+> >   #     corresponding to the virtual block device.
+> > @@ -1111,8 +1110,7 @@ Examples of complete definition documentation::
 > >
-> >              if section.kind.name in ("PLAIN", "INTRO"):
-> > -                self.visit_paragraph(section)
-> > +                self.visit_plaintext(section)
-> >              elif section.kind =3D=3D QAPIDoc.Kind.MEMBER:
-> >                  assert isinstance(section, QAPIDoc.ArgSection)
-> >                  if section.name =3D=3D "q_dummy":
+> >   ##
+> >   # @query-blockstats:
+> > - #
+> > - # Query the @BlockStats for all virtual block devices.
+> > + #     Query the @BlockStats for all virtual block devices.
+> >   #
+> >   # @query-nodes: If true, the command will query all the block nodes
+> >   #     ... explain, explain ...
+>
+> [...]
 >
 
