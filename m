@@ -1,92 +1,97 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E153A4F32
-	for <linux-edac@vger.kernel.org>; Wed, 10 Jun 2026 08:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4089F330D4C;
+	Wed, 10 Jun 2026 17:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781078703; cv=none; b=P4X+KD5hBtc0jHluI8PH5244DnkyiGW87yaSV8HNrQRYfMmgfwB5ovLbOXMhMllwDG0l4EoqtcX6Te4n+qB7jqL88dK9iaMVH3ocPQXX+XKseEBHr1BW6P7SWE8CYSjzB21ffaKsUhpY44a51Gasmb9M3udjcoN6KMqtdBSmpCM=
+	t=1781112472; cv=none; b=nCkkY9P4ksUbjK0ARZwYV+MUx6xFSEJGKWQsbZtXYL0AMS1xan4ST11MugXHDR5V/Xl2oGWezJwjm6JeNaTWzjV5YXJcfDyi+fVdRsEn0zYZ9NzURlg0nu2zJ7WI9hRGi/5ua5GQQugYda4cos7+cp+MDhZqZWLCF/iJeEoPTjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781078703; c=relaxed/simple;
-	bh=kh/9byxtKBz0ur/UieOWXVaMM1n7UiXISF7rkZDfex4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ysj4wEDAALtM5hcHnwUq/vQSmuSEPHmkAPuXuxCEo7yc0M2IOIXzVoJ9yocEkCHBYog46lSEuW3tj0mMT2J9DA9i2uTOMwF+MuFp+cssBjQj65M+ahsrrAgmpamAa6BAV2gLMg2Q1yCsviFy05MGKx4Ah30kc7Vslm0t4NwO7PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IhQXNw5l; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1781112472; c=relaxed/simple;
+	bh=LVVNFI45AK+e6mhSon04876jEBFgN4nDBsIBE1VKWpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HfJCXbdP6WsbFoFnPyn9rXW39/lCx4WWYcaOb2Ryfn6cIcxHoUQ2WQJaVEqzQHmvjN0dQeW4Mby775puo67tbl+9J9bzKsEGtw50nwnODT2rdbQstGAwgDKxzOfRWl5FIlw44CCipLm1GTQI/12Pr/d8JpH+iYUDXREYIrJBBak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=LUxmx/7g; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IhQXNw5l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781078701;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rwmfgE5w6+4e17J1Wyl3r4miu2V9/8gGZbKcODwwfPs=;
-	b=IhQXNw5lyy3/AYl54bCWpNTf5Wq8AvqHFCnwP+iVgb10R245ncaCdEao53493l2grhtpga
-	xfw5C4WVhwR72wf/2qUnod0eDjTU4hyIChy/GK4d9oGI2i7Q3ZCnoIea9UXhILiIP3sFcR
-	pnrI2LiuWC+MqQrQFoQ4525JzkLPOGw=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-339-JYoQlC5dNmaajSCdwWaG2w-1; Wed,
- 10 Jun 2026 04:04:57 -0400
-X-MC-Unique: JYoQlC5dNmaajSCdwWaG2w-1
-X-Mimecast-MFC-AGG-ID: JYoQlC5dNmaajSCdwWaG2w_1781078696
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="LUxmx/7g"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2DA4340E0177;
+	Wed, 10 Jun 2026 17:27:44 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id YtZhZAtAs2sO; Wed, 10 Jun 2026 17:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1781112452; bh=oDajhi6Fb7B/9ddxwqmq7iWoEhUI/yDS71gUVky48fc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LUxmx/7g1ot2UYJfOagMzE+/QlF+rCjIEFibSXjZMY1IgOripjq3PriFPKD8hgVEe
+	 hVOHb4PZ+3z9LLnE2H1uh90DytaasBoqNqo9gOVjD7LpRQqtOvWZ/c3Efs3yF6yiTS
+	 bfLkaZdkXn1SipnXjIT7E2JcqMrJ5BffhlJFbXCZ81GqM650cRMuocSl6T/+eOh8qc
+	 ZUjiKlGgInPX9TVwp8eYc2RtdvbyWh6cvfHUWPBWECPHHZ031EBoOgaPi7JkSCJpNp
+	 mRW76Z0BFo3LCOMw2KZ2MRNJB0nDudE1bVkZ1sbWYXK2Od4LIVN/EyzLXaWbSADiwT
+	 hlp7PxaOENJvBhFnPrIO5KAqDQ5ElXANdli2zVaFhPI2QcErX4iUDlUYPD0gpgg5nI
+	 AySi3TVbrFLDgED5dEx/dKFsKl1/iCsPpXOhWXXrH50zC3A2kLqPAlzIGVK+wnlujD
+	 piq43MO4MB78oFqxAIrZX1RPrL3WjTKqWgjjCIKy+mn0bH9VRPqZZ5WpJrrtc/U6Cj
+	 +Orh1qgCTzOC+dUGHcHZgap+yuxkC+7T3uobEIH15QotYnlrR8rWbv9gH2ZZsqUhXi
+	 nzF9TIoAKu+LJNbaStuoTCTgF5h9l0PTCTKezM3C7vnaqgap7lw5srA8xd0jUk0kVV
+	 ut39jKQXvLq9mTJtu8r92qiw=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3D33819560BA;
-	Wed, 10 Jun 2026 08:04:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.44.22.28])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E5E18180034F;
-	Wed, 10 Jun 2026 08:04:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id E7DC021E657C; Wed, 10 Jun 2026 10:04:47 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-edac@vger.kernel.org,
-	qemu-arm@nongnu.org
-Subject: [PULL 22/42] MAINTAINERS: Fix F: typo in "ACPI/HEST/GHES/ARM processor CPER"
-Date: Wed, 10 Jun 2026 10:04:27 +0200
-Message-ID: <20260610080447.1156502-23-armbru@redhat.com>
-In-Reply-To: <20260610080447.1156502-1-armbru@redhat.com>
-References: <20260610080447.1156502-1-armbru@redhat.com>
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C129240E0184;
+	Wed, 10 Jun 2026 17:27:25 +0000 (UTC)
+Date: Wed, 10 Jun 2026 10:27:22 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Yuho Choi <dbgh9129@gmail.com>
+Cc: Tony Luck <tony.luck@intel.com>, Michal Simek <michal.simek@amd.com>,
+	linux-edac@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] EDAC/synopsys: Fix cleanup on injection sysfs failure
+Message-ID: <20260610172722.GAaimeeuKj2aAgUJ9Y@fat_crate.local>
+References: <20260605125417.2348115-1-dbgh9129@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260605125417.2348115-1-dbgh9129@gmail.com>
 
-Fixes: ddd8f3baa2 (qapi/acpi-hest: add an interface to do generic CPER error injection, 2025-09-23)
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-edac@vger.kernel.org
-Cc: qemu-arm@nongnu.org
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20260603064032.3733394-19-armbru@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Jun 05, 2026 at 08:54:17AM -0400, Yuho Choi wrote:
+> edac_create_sysfs_attributes() creates inject_data_error before
+> inject_data_poison. If the second file creation fails, the first file is
+> left behind.
+> 
+> The same failure path runs after edac_mc_add_mc() has registered the
+> memory controller with the EDAC core. Jumping directly to edac_mc_free()
+> skips edac_mc_del_mc() and leaves the registered controller state
+> unwound incorrectly.
+> 
+> Remove inject_data_error when inject_data_poison creation fails, and
+> route the probe failure through edac_mc_del_mc() before freeing mci.
+> 
+> Fixes: 1a81361f75d8 ("EDAC, synopsys: Add Error Injection support for ZynqMP DDR controller")
+> Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
+> ---
+> Changes in v2:
+> - Remove the CONFIG_EDAC_DEBUG-guarded del_mc label.
+> - Call edac_mc_del_mc() inline before jumping to free_edac_mc when
+>   edac_create_sysfs_attributes() fails.
+> 
+>  drivers/edac/synopsys_edac.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 39414f727e..d6a32be0a9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2235,7 +2235,7 @@ ACPI/HEST/GHES/ARM processor CPER
- M: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
- L: linux-edac@vger.kernel.org
- S: Maintained
--F: hw/arm/ghes_cper.c
-+F: hw/acpi/ghes_cper.c
- F: hw/acpi/ghes_cper_stub.c
- F: qapi/acpi-hest.json
- F: scripts/ghes_inject.py
+https://sashiko.dev/#/patchset/20260605125417.2348115-1-dbgh9129%40gmail.com
+
 -- 
-2.54.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
