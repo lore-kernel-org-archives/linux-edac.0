@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A671B142D
-	for <linux-edac@vger.kernel.org>; Thu, 11 Jun 2026 04:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9F61B142D
+	for <linux-edac@vger.kernel.org>; Thu, 11 Jun 2026 04:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781151852; cv=none; b=dyV5CW9XICP+zgQBQoPPoEWS7H9CPPfLlYFap0k7S8OfEJQ2+80wkug1Jl5sXs4Tn3tCMR4QaUAUUBjjX6/P7hwM4lAio0qf6LfIQ6O46x/QXEKjAZ5E/ghBEtcgie9Fydvdrd1EDH5VZts6Cy5285u4oRH3TY01Ta3hQvwbSa8=
+	t=1781151856; cv=none; b=G7+KVP9O7ROuMrjAlU+J4u26I+WUymlDt1C+jL7Fu23J26tOi5Hw2FCxmYCx1zcyyS+7mBMv8dcVAIZDis4zMJaEqNQG9RSER9jAfZ0SjW4LC8d0JucX1pI8KORBXdw377y26G6kNVt1TuEwQdIXmfIJWpdU8aCuNNAAE15H2/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781151852; c=relaxed/simple;
-	bh=igDv0MMoluql6zpxnGE5bVGQIVWXQYHnbgL40LSMW4s=;
+	s=arc-20240116; t=1781151856; c=relaxed/simple;
+	bh=SBO3St4t0bUQoNPxbMIdWzd4gJGgXGpXRSDwxfNdl2c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UFszCRtAn9xGn+l6Hc9uEXlpt0pNjbg/HbpcjLZphx5MOoOVoayO4VopuWnQwoYNrLl8NS4qICDrJrOuffvAlmdqG9y1X3zfXV5s+3RLRbMmHQT8cjI78rLSAjhFHJL7swq0oiJCkY7NfdtHStQHDzmsaKMba3svb499fwJdldo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SQaWg47C; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=BPJ/0yElMaB6emwCf1SJijHrmDzHTH2yJ1T2Hb78gz/wWYZOfHNTJf2istUnUViWYUvBZ2u3tsDrasItGzID1hgiiPF0hO3mguN99ptyQ4H5/dhKcbkK1rnUmerF0mhJx1dtfK0xhXVrA7RlCcTBCahowrwKZJTpg8uMaBVGWBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fainxj/q; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SQaWg47C"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fainxj/q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781151850;
+	s=mimecast20190719; t=1781151854;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i/8BRod6YgBNjBQ1A4fmjvtc3BSkD+yn4td3noauUX8=;
-	b=SQaWg47CurQWcxujnaQl4B9aa8dcAr5BZjk4bYXUnRckTHnFbZHp5ASsGOxfAOhPkbz71D
-	2SiA++gXy72foHB+2eojy4D5UuSi5z1KV7NQXHQI+81LSmgrNxOrIYPD6vlkzqaJCZdwfX
-	/HKtnLnNSnlXzvGgA9bfCwgHAnaPtCY=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=d+ZrUF5QiDAqJMi43LG3mwd5iMGaAwMF/E106IU4/XI=;
+	b=Fainxj/q6KxokVUzTJLXFDTRFL8uzbKJXaBI+qmVt3iY323gjZx23o3e6yXd6Tif8Vv1P8
+	6PSGBQwJl1yJAQJQpnudjuS4NRGZNlEXpnMV42dMLoMq7EnRilL7jjaMXYJSYrjzMtqzq/
+	KuwamTTlyTCT0tb+EpQBjsb37kQHag8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-173-jy2gUqlVMZ6FMmrpQ9cBEQ-1; Thu,
- 11 Jun 2026 00:24:08 -0400
-X-MC-Unique: jy2gUqlVMZ6FMmrpQ9cBEQ-1
-X-Mimecast-MFC-AGG-ID: jy2gUqlVMZ6FMmrpQ9cBEQ_1781151847
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-358-AA-qXEJON7SKdNO9yWKqjA-1; Thu,
+ 11 Jun 2026 00:23:57 -0400
+X-MC-Unique: AA-qXEJON7SKdNO9yWKqjA-1
+X-Mimecast-MFC-AGG-ID: AA-qXEJON7SKdNO9yWKqjA_1781151836
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 31BC518D97D8;
-	Thu, 11 Jun 2026 04:24:07 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B79A31955F06;
+	Thu, 11 Jun 2026 04:23:55 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.80.2])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 205F71800480;
-	Thu, 11 Jun 2026 04:24:01 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 38B961800586;
+	Thu, 11 Jun 2026 04:23:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
@@ -62,9 +62,9 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Cleber Rosa <crosa@redhat.com>,
 	Peter Maydell <peter.maydell@linaro.org>,
 	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v4 05/13] qapi/docs: make remaining subsection members "private"
-Date: Thu, 11 Jun 2026 00:23:24 -0400
-Message-ID: <20260611042332.482979-6-jsnow@redhat.com>
+Subject: [PATCH v4 03/13] qapi/docs: remove unused QAPIDoc subsection members
+Date: Thu, 11 Jun 2026 00:23:22 -0400
+Message-ID: <20260611042332.482979-4-jsnow@redhat.com>
 In-Reply-To: <20260611042332.482979-1-jsnow@redhat.com>
 References: <20260611042332.482979-1-jsnow@redhat.com>
 Precedence: bulk
@@ -76,146 +76,54 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-These fields are used to provide error checking and internal logistics
-and should not be used by a user of the library to directly access
-documentation sections, so make them private.
-
-The "since" field alone is left public, as the qapidoc generator does
-use this field to pull that section out of the regular flow of the
-document.
+All users of the QAPIDoc object should be iterating over all_sections
+and not grabbing arbitrary subsections, if possible. Remove the 'body'
+and 'sections' members, as they are no longer used.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/parser.py | 48 +++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+ scripts/qapi/parser.py | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index dcc58170bd5..da4756a7424 100644
+index c3cf33904ef..b33edbba74f 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -733,17 +733,17 @@ def __init__(self, info: QAPISourceInfo, symbol: Optional[str] = None):
+@@ -732,8 +732,6 @@ def __init__(self, info: QAPISourceInfo, symbol: Optional[str] = None):
+         self.all_sections: List[QAPIDoc.Section] = [
              QAPIDoc.Section(info, QAPIDoc.Kind.PLAIN)
          ]
+-        # the body section
+-        self.body: Optional[QAPIDoc.Section] = self.all_sections[0]
          # dicts mapping parameter/feature names to their description
--        self.args: Dict[str, QAPIDoc.ArgSection] = {}
--        self.features: Dict[str, QAPIDoc.ArgSection] = {}
-+        self._args: Dict[str, QAPIDoc.ArgSection] = {}
-+        self._features: Dict[str, QAPIDoc.ArgSection] = {}
-         # a command's "Returns" and "Errors" section
--        self.returns: Optional[QAPIDoc.Section] = None
--        self.errors: Optional[QAPIDoc.Section] = None
-+        self._returns: Optional[QAPIDoc.Section] = None
-+        self._errors: Optional[QAPIDoc.Section] = None
+         self.args: Dict[str, QAPIDoc.ArgSection] = {}
+         self.features: Dict[str, QAPIDoc.ArgSection] = {}
+@@ -742,8 +740,6 @@ def __init__(self, info: QAPISourceInfo, symbol: Optional[str] = None):
+         self.errors: Optional[QAPIDoc.Section] = None
          # "Since" section
          self.since: Optional[QAPIDoc.Section] = None
- 
-     @property
-     def has_features(self) -> bool:
--        return bool(self.features)
-+        return bool(self._features)
+-        # sections other than .body, .args, .features
+-        self.sections: List[QAPIDoc.Section] = []
  
      def end(self) -> None:
          for section in self.all_sections:
-@@ -775,15 +775,15 @@ def new_tagged_section(
-     ) -> None:
+@@ -766,7 +762,6 @@ def ensure_untagged_section(self, info: QAPISourceInfo) -> None:
+ 
+         # start new section
          section = self.Section(info, kind)
-         if kind == QAPIDoc.Kind.RETURNS:
--            if self.returns:
-+            if self._returns:
+-        self.sections.append(section)
+         self.all_sections.append(section)
+ 
+     def new_tagged_section(
+@@ -790,7 +785,6 @@ def new_tagged_section(
                  raise QAPISemError(
                      info, "duplicated '%s' section" % kind)
--            self.returns = section
-+            self._returns = section
-         elif kind == QAPIDoc.Kind.ERRORS:
--            if self.errors:
-+            if self._errors:
-                 raise QAPISemError(
-                     info, "duplicated '%s' section" % kind)
--            self.errors = section
-+            self._errors = section
-         elif kind == QAPIDoc.Kind.SINCE:
-             if self.since:
-                 raise QAPISemError(
-@@ -807,16 +807,16 @@ def _new_description(
-         desc[name] = section
+             self.since = section
+-        self.sections.append(section)
+         self.all_sections.append(section)
  
-     def new_argument(self, info: QAPISourceInfo, name: str) -> None:
--        self._new_description(info, name, QAPIDoc.Kind.MEMBER, self.args)
-+        self._new_description(info, name, QAPIDoc.Kind.MEMBER, self._args)
- 
-     def new_feature(self, info: QAPISourceInfo, name: str) -> None:
--        self._new_description(info, name, QAPIDoc.Kind.FEATURE, self.features)
-+        self._new_description(info, name, QAPIDoc.Kind.FEATURE, self._features)
- 
-     def append_line(self, line: str) -> None:
-         self.all_sections[-1].append_line(line)
- 
-     def connect_member(self, member: 'QAPISchemaMember') -> None:
--        if member.name not in self.args:
-+        if member.name not in self._args:
-             assert member.info
-             if self.symbol not in member.info.pragma.documentation_exceptions:
-                 raise QAPISemError(member.info,
-@@ -827,7 +827,7 @@ def connect_member(self, member: 'QAPISchemaMember') -> None:
- 
-             section = QAPIDoc.ArgSection(
-                 self.info, QAPIDoc.Kind.MEMBER, member.name)
--            self.args[member.name] = section
-+            self._args[member.name] = section
- 
-             # Determine where to insert stub doc - it should go at the
-             # end of the members section(s), if any. Note that index 0
-@@ -839,14 +839,14 @@ def connect_member(self, member: 'QAPISchemaMember') -> None:
-                     index += 1
-             self.all_sections.insert(index, section)
- 
--        self.args[member.name].connect(member)
-+        self._args[member.name].connect(member)
- 
-     def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
--        if feature.name not in self.features:
-+        if feature.name not in self._features:
-             raise QAPISemError(feature.info,
-                                "feature '%s' lacks documentation"
-                                % feature.name)
--        self.features[feature.name].connect(feature)
-+        self._features[feature.name].connect(feature)
- 
-     def ensure_returns(self, info: QAPISourceInfo) -> None:
- 
-@@ -887,18 +887,18 @@ def _insert_near_kind(
- 
-     def check_expr(self, expr: QAPIExpression) -> None:
-         if 'command' in expr:
--            if self.returns and 'returns' not in expr:
-+            if self._returns and 'returns' not in expr:
-                 raise QAPISemError(
--                    self.returns.info,
-+                    self._returns.info,
-                     "'Returns' section, but command doesn't return anything")
-         else:
--            if self.returns:
-+            if self._returns:
-                 raise QAPISemError(
--                    self.returns.info,
-+                    self._returns.info,
-                     "'Returns' section is only valid for commands")
--            if self.errors:
-+            if self._errors:
-                 raise QAPISemError(
--                    self.errors.info,
-+                    self._errors.info,
-                     "'Errors' section is only valid for commands")
- 
-     def check(self) -> None:
-@@ -918,5 +918,5 @@ def check_args_section(
-                         "do" if len(bogus) > 1 else "does"
-                     ))
- 
--        check_args_section(self.args, 'member')
--        check_args_section(self.features, 'feature')
-+        check_args_section(self._args, 'member')
-+        check_args_section(self._features, 'feature')
+     def _new_description(
 -- 
 2.54.0
 
