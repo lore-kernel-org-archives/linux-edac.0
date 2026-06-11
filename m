@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46149325707
-	for <linux-edac@vger.kernel.org>; Thu, 11 Jun 2026 04:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EDD340407
+	for <linux-edac@vger.kernel.org>; Thu, 11 Jun 2026 04:25:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781151895; cv=none; b=pVTTD3mhgS0uB2GwmOxqqXnv9J14V25kyQ215j8RxY8NQbXWG1GFbPzg+3FEkkPokVg9+cNNvmStF+y2Igl9e4+BcgaEvWLDbocmQBSmMpAxs2NcBqsM4IRzM5U+NYKnz9TwkVViL6ACyB/SvxlozKpM8LbyTUuGjZJF5DMOv2A=
+	t=1781151908; cv=none; b=iu/Yx2IDBxTBV2Aj9Tp83iYBHkBluPzoH3fST72QtHYlQvhaV0oXHNcWm9vXo+tSRG7zChxLWxs6Tr6RuP12+RcTu6M4B0Wc6SQR0vMJaC/OTsILUHjSqf7SG6DzpWxz5xlcQnji/gll1ILczBmGMkvB2k2aE5ssjcWMDGP2y3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781151895; c=relaxed/simple;
-	bh=My0hFFroQCRj2gqrvm6x9Ya1s00Cvgz2OUQlcKyg/oc=;
+	s=arc-20240116; t=1781151908; c=relaxed/simple;
+	bh=ZWB/m8Fp38s0DIGHnwz7goVz2mcw+iIINvsEFHceKFc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RtHRebkbJGVIXuYoPN+xY+zNMB1wIfd1Fxicd6d6ySGy7p4HqTYlNVrSUwECYf8zgDfjOWS2CN8/8mlljIbyI9l8TizUmsQ1hjRFjnbnfhearOARwbh8XPPhhoW+x3FFQC2SD62LSDaUA8LzMXlH21TfRG40J+ARcScUMQ43wx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Yo726Wbb; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=u6V1c8z9+etohGGYf+onIEUBCloiJi8894frh9luANaMPBdHFbZr81olsUrbTRwha1KoWOFGyPcEQ8bKmwr1pyGmQKdtiNyNUl/hlarxdfAj7HhdynktrgyNQKTC1nt3TJ7Thuru+9sC+nwvpaq+Trj1KpbPtNndP9WPlsbUiko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BkgsQc3h; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yo726Wbb"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BkgsQc3h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781151893;
+	s=mimecast20190719; t=1781151905;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nPSL5K6v9G2sSpduMf7Q5BSCS+FnIuZ4sHlbEVJdViM=;
-	b=Yo726WbbjldowrAxtgFCqZrIj2+2FdfU4fQ7XPTr6LFHeCBgoOXYTQha2PILKSWaJLHJoy
-	Nnm21HEQOjXjMjmD2+Z4EZ5oE+fLIK5nJqFgRfp4EJF4Dq0Z0mgXXVyg28zRFiT6jJRDr3
-	ykfAYWe0oXsHGmoimOYXfTSwgjT6a9o=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=VwOBoDaGDJlIZ921Yr5vzll8ZG1QrMqqed9kC3sj/2k=;
+	b=BkgsQc3hQ4hQEGlNG6XJDICUr35EELLXOpVaaE47kjgEQqIMA1bhwoUuqpt5mQQrHVSEvg
+	4AjYo7rXBW3u6vW+rFNun/BZGUEEwcGR+wbg7j76vrbuCB+6FMVHfOaS5xX/U7D07pArCz
+	8/MDSsOw+GpN/ael6jdpKNZwg/B6edU=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-296--y30ZmB-M2uJOpeDN0zY5g-1; Thu,
- 11 Jun 2026 00:24:45 -0400
-X-MC-Unique: -y30ZmB-M2uJOpeDN0zY5g-1
-X-Mimecast-MFC-AGG-ID: -y30ZmB-M2uJOpeDN0zY5g_1781151883
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-564-9M_ZRV-BOqWacLhqf3XTVQ-1; Thu,
+ 11 Jun 2026 00:24:51 -0400
+X-MC-Unique: 9M_ZRV-BOqWacLhqf3XTVQ-1
+X-Mimecast-MFC-AGG-ID: 9M_ZRV-BOqWacLhqf3XTVQ_1781151890
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9910718D65E1;
-	Thu, 11 Jun 2026 04:24:42 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C27BC195FE1B;
+	Thu, 11 Jun 2026 04:24:48 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.80.2])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 182C91800583;
-	Thu, 11 Jun 2026 04:24:36 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F20361800480;
+	Thu, 11 Jun 2026 04:24:42 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
@@ -62,9 +62,9 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Cleber Rosa <crosa@redhat.com>,
 	Peter Maydell <peter.maydell@linaro.org>,
 	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v4 12/13] qapi/docs: add rendering for INTRO sections
-Date: Thu, 11 Jun 2026 00:23:31 -0400
-Message-ID: <20260611042332.482979-13-jsnow@redhat.com>
+Subject: [PATCH v4 13/13] qapi/docs: add "Intro" section parsing
+Date: Thu, 11 Jun 2026 00:23:32 -0400
+Message-ID: <20260611042332.482979-14-jsnow@redhat.com>
 In-Reply-To: <20260611042332.482979-1-jsnow@redhat.com>
 References: <20260611042332.482979-1-jsnow@redhat.com>
 Precedence: bulk
@@ -76,84 +76,147 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-Amend the qapidoc generator to handle and render INTRO sections.
+Add parsing for explicit Intro section syntax.
 
-The only real difference here from other sections is that we need to
-dedent the text so it renders correctly. Members and Features are also
-indented, but do not require a dedent() because they are always used
-in tandem with an rST construct that forms the start of a new indented
-block; there is coincidental harmony.
-
-Plaintext sections, however, do not start their own block and thus
-need to be dedented to prevent accidentally rendering them as a
-blockquote or a syntax error.
-
-This dedent transformation on the text does not reflow the text, so
-source line information remains accurate, and the "blame" chain of
-custody for sphinx rST parsing error messages continues to be correct
-even through this transformation.
+A side effect of this patch is that we will (currently) always create
+an empty Intro section, similar to how we used to have an empty Plain
+section. The tests are adjusted accordingly, rendered document output
+does not change at all.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/sphinx/qapidoc.py | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ docs/devel/qapi-code-gen.rst   | 16 +++++++---------
+ scripts/qapi/parser.py         |  4 ++--
+ tests/qapi-schema/doc-good.out | 18 ++++++++++++++++++
+ 3 files changed, 27 insertions(+), 11 deletions(-)
 
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-index 16ad15fe94f..54a32e45f7e 100644
---- a/docs/sphinx/qapidoc.py
-+++ b/docs/sphinx/qapidoc.py
-@@ -35,6 +35,7 @@
- from pathlib import Path
- import re
- import sys
-+import textwrap
- from typing import TYPE_CHECKING
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index 3a632b4a648..b1cc5b5f0db 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -984,11 +984,11 @@ definition it documents.
+ When documentation is required (see pragma_ 'doc-required'), every
+ definition must have documentation.
  
- from docutils import nodes
-@@ -150,8 +151,15 @@ def add_lines(
-         self,
-         content: str,
-         info: QAPISourceInfo,
-+        dedent: bool = False,
-     ) -> None:
-         lines = content.splitlines(True)
+-Definition documentation starts with a line naming the definition,
+-followed by an optional overview, a description of each argument (for
+-commands and events), member (for structs and unions), branch (for
+-alternates), or value (for enums), a description of each feature (if
+-any), and finally optional tagged sections.
++Definition documentation starts with a description naming the
++definition with an optional indented overview, a description of each
++argument (for commands and events), member (for structs and unions),
++branch (for alternates), or value (for enums), a description of each
++feature (if any), and finally optional tagged sections.
+ 
+ Descriptions start with '\@name:'.  The description text must be
+ indented like this::
+@@ -1093,8 +1093,7 @@ Examples of complete definition documentation::
+ 
+  ##
+  # @BlockStats:
+- #
+- # Statistics of a virtual block device or a block backing device.
++ #     Statistics of a virtual block device or a block backing device.
+  #
+  # @device: If the stats are for a virtual block device, the name
+  #     corresponding to the virtual block device.
+@@ -1111,8 +1110,7 @@ Examples of complete definition documentation::
+ 
+  ##
+  # @query-blockstats:
+- #
+- # Query the @BlockStats for all virtual block devices.
++ #     Query the @BlockStats for all virtual block devices.
+  #
+  # @query-nodes: If true, the command will query all the block nodes
+  #     ... explain, explain ...
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index b7a7b9465a9..9e14c2f7921 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -542,8 +542,8 @@ def get_doc(self) -> 'QAPIDoc':
+             if not symbol:
+                 raise QAPIParseError(self, "name required after '@'")
+             doc = QAPIDoc(info, symbol)
+-            self.accept(False)
+-            line = self.get_doc_line()
++            doc.all_sections.append(QAPIDoc.Section(info, QAPIDoc.Kind.INTRO))
++            line = self.get_doc_indented(doc)
+             no_more_args = False
+ 
+             while line is not None:
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+index 16f44221771..371dd25ffc7 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -106,6 +106,8 @@ Examples:
+ - *verbatim*
+ - {braces}
+ doc symbol=Enum
++    Intro
 +
-+        if dedent:
-+            lines = textwrap.dedent(content).splitlines(True)
-+        else:
-+            lines = content.splitlines(True)
+     Member=one
+ The _one_ {and only}, description on the same line
+     Member=two
+@@ -117,10 +119,14 @@ a member feature
+     Plain
+ @two is undocumented
+ doc symbol=Base
++    Intro
 +
-         for i, line in enumerate(lines):
-             self.add_line_raw(line, info.fname, info.line + i)
+     Member=base1
+  description starts on a new line,
+  minimally indented
+ doc symbol=Variant1
++    Intro
++
+     Plain
+ A paragraph
  
-@@ -223,13 +231,16 @@ def reformat_arobase(text: str) -> str:
+@@ -134,10 +140,16 @@ a feature
+     Feature=member-feat
+ a member feature
+ doc symbol=Variant2
++    Intro
++
+ doc symbol=Object
++    Intro
++
+     Feature=union-feat1
+ a feature
+ doc symbol=Alternate
++    Intro
++
+     Member=i
+ description starts on the same line
+     remainder indented the same
+@@ -151,6 +163,8 @@ doc freeform
+ Another subsection
+ ==================
+ doc symbol=cmd
++    Intro
++
+     Member=arg1
+     description starts on a new line,
+     indented
+@@ -198,6 +212,8 @@ Note::
+     Since
+ 2.10
+ doc symbol=cmd-boxed
++    Intro
++
+     Plain
+ If you're bored enough to read this, go see a video of boxed cats
+     Feature=cmd-feat1
+@@ -211,5 +227,7 @@ another feature
  
-     # Transmogrification helpers
- 
--    def visit_paragraph(self, section: QAPIDoc.Section) -> None:
-+    def visit_plaintext(self, section: QAPIDoc.Section) -> None:
-         # Squelch empty paragraphs.
-         if not section.text:
-             return
- 
-+        # Intro sections, which are indented in QAPI source, need to
-+        # be dedented to avoid accidental block quotes in ReST syntax.
-+        dedent = bool(section.kind == QAPIDoc.Kind.INTRO)
-         self.ensure_blank_line()
--        self.add_lines(section.text, section.info)
-+        self.add_lines(section.text, section.info, dedent)
-         self.ensure_blank_line()
- 
-     def visit_member(self, section: QAPIDoc.ArgSection) -> None:
-@@ -373,7 +384,7 @@ def visit_sections(self, ent: QAPISchemaDefinition) -> None:
-             section.text = self.reformat_arobase(section.text)
- 
-             if section.kind.name in ("PLAIN", "INTRO"):
--                self.visit_paragraph(section)
-+                self.visit_plaintext(section)
-             elif section.kind == QAPIDoc.Kind.MEMBER:
-                 assert isinstance(section, QAPIDoc.ArgSection)
-                 if section.name == "q_dummy":
+    <- ... has no title ...
+ doc symbol=EVT_BOXED
++    Intro
++
+     Feature=feat3
+ a feature
 -- 
 2.54.0
 
