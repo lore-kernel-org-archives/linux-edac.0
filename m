@@ -1,278 +1,291 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013066.outbound.protection.outlook.com [52.101.83.66])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011035.outbound.protection.outlook.com [52.101.57.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F8835AC33;
-	Thu, 11 Jun 2026 12:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.66
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781181855; cv=fail; b=n1NTr11hO02r1spIlRpJVvJugjc9nbP4urrquXEdwyO1AHYttrhXhCzTHPqCqonxF8tY0gZokmLHGPfS4wMv8gTVQYjRGQLhlwHlz2eQvTwH+LLCTq9KElthATTTPvzI3bXnxrNxUo+rYkp7+BAvQBEjsCQUSaBJ+6eOWXAh8dc=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781181855; c=relaxed/simple;
-	bh=EYZsP7iBxWFTl7K1KvX0pD7T7NLikWBzK/cTtT9UVKI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=vCCYCQkqjKnCIudCuyGGhDFw8Ui8zvGrEGsKf9eGdxcoOFVRVUlRqbY5iAoicoOY11TDCl4qTYT+3oTE9cIHV+7gkK1Mt4S34iFexWu00MULMbavpKnIP10NzX7W7n8XFw99BMh5Xy4XomeAOawdX0x4IZW1Xr0lZ8SqeeBBG3s=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=TDXtJhLy; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=TDXtJhLy; arc=fail smtp.client-ip=52.101.83.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10BE3DDDA8;
+	Thu, 11 Jun 2026 14:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781187114; cv=fail; b=iv0f8O4PZCJJOGmvJx/wvil2Vnu+m9ti07DYNGyH8lDAJRhzRs+sZqX/ahDDrhWa3h5jaaJih0iQCU0wmHZ69zyBCqB7H46UmYdo0cutGSGcUPJrnvH8WxX7xB4X89K/CBxA3yd5senEfXq7Z7kq4j6K/nXo82Ay3OOLVUPhqzk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781187114; c=relaxed/simple;
+	bh=K0JwKF5tBx/pRyQJBCalpnlfhhhKA5LMgxobJnosPGA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=NU/qCGmKX5f+15MuPpwBqt+KciQH6nOR0HnuSxvVnkbzw0g3bG7W44jjOqPMVlTy2U01MbO0CyKzjOLYbXIYGtvHm8UgF4R2E/wEyDeyUVAvQPOz2PkvIv/ojIq+GzpGB5TduVzfmhH9L7LYCIv1p362yVY4uVTp6sdhm8f6rNA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=axGFc0Pe; arc=fail smtp.client-ip=52.101.57.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="TDXtJhLy";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="TDXtJhLy"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=JSuosJXWsqIi7e5bleHdB/EO6ywfhTg7ktNzENURwTgcJq6M5qvtNBqa1Ve4kx0YatRgdwylnpsABluvq8s4z1HuKuLJSj2KmoDbBx2rjpJHBcejDTVNW4d7I4zL1zKMJHjjSGcWZ/a/rLyoR1/c/KtW1pCV8TScSa1nQ5jppBmtV1spVpfLVM49cU3DbSqG7rsXfr1FlKUMGLX/DACEZ/eZVrqj45SHzQ69fDeyKlX7bYkjajvEg8aMHBNgyKPv8f8JxDb/dYgyAh5jZi93eQ66O5YxeLcPHBePq04u3glNTel6GyNltnBvPLldggX9e0fey6w/acu6L864Mw2yPQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ywsnunz5O4sx7NPH+J2HUpV+L5yYIn3iyeiVua0NrOQ=;
- b=dGIbbe/oEhdhlWz6WGB5YA0s5Sf5ui+lmR6aiZoukXV/MbFd8Pzd6yid2ieG9lZNxeXAX+ie730+PHONHXmIkNkShZglx/s8TfKBgNj4S3MtQLs4JAHaNZ6ips1X542RzbIDGOUmVEeABbvXu0QtgAxu2tO6OK91GiRBqpIfgatgx1bjAPh+Cde+tFqyDg/q8aeamcqoDYBLs5nNLzHVLPqcSB6SIXrDKGChikkre6lrJMyTtOoF+dAxMlu5KZn9/y/Z3gojAHJ+RsSjBGPqI1aw2X9U0SIs+YCGVCPZLq3V3l2M8qD+bEK9giwuj0tRW4eSdkiwL/mXgklhR8jsQA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ywsnunz5O4sx7NPH+J2HUpV+L5yYIn3iyeiVua0NrOQ=;
- b=TDXtJhLyVpF5izBjVtouGQUmlcrwmB8GIj03PjXhm+wg5cnL+o6On4My4uYBUFFz4kUApvRLXjJrI+ofgp6XJb+SzR2kng/9xjjZF+c0nMzbFNhhf803/e5c/Lu4dbyA7O/PjyjHX1Zi9EJZP4qt2Teq9p/7SMBlqBi7AveU0yI=
-Received: from DUZP191CA0006.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4f9::16)
- by VI0PR08MB11668.eurprd08.prod.outlook.com (2603:10a6:800:30c::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.11; Thu, 11 Jun
- 2026 12:44:04 +0000
-Received: from DB1PEPF000509F6.eurprd02.prod.outlook.com
- (2603:10a6:10:4f9:cafe::7a) by DUZP191CA0006.outlook.office365.com
- (2603:10a6:10:4f9::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.13 via Frontend Transport; Thu,
- 11 Jun 2026 12:44:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF000509F6.mail.protection.outlook.com (10.167.242.152) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.7
- via Frontend Transport; Thu, 11 Jun 2026 12:44:03 +0000
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="axGFc0Pe"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UzXoOB6N5XaQUkllNRYEINF1eYYg1NDF19GC3UYyItqgn+BBxsKrTxSIpVnCHsF3UMxHXGHfMj+wF5TyKmPuIgutbfMeQXrtK3VPthTDsHF7WYDluVerVcJXMNBnK9h9JbsG8WuDpj7Rh/WkYJjLwAkUX9QCRDj8dmqaJh3javWb/C3TEWGJQiG35VRrwLkyqHrowVaIB01pfnd2DfwDOrgUxwxJuhXd1kJ1OKRm3VzwY8jfhfjGVxNhTlE7jiLSNZosNSCM8tYKk6RSYMPtHwpUjR7OyI6EygfzvSpgK4BYRhvn5VxECLekRMeDz9Bz2HnWsOGcU9D+Sb+Fy4RUow==
+ b=P6nQL8XfES9JMq86/ADCb5fVLFm5Z66gc3m/1ndPEXHsnuX5NAzxxJ7OAXyzdFqORJP5FoPvnCPdjmROnZQq7vFDJmJjDubrVc0F066TshHBslVMMt6Orc9uN0uvSw2GTm6abOqGiIHAIumUJFfri2fJekmuwBFsrGgDS0ohzriHcGsbslNUhl8VQGzv8YsfCImejTbc0Uys8XTDOen8xAkVcw9yl2/XNkj+Qj4DXsL98+lpEC+y7TnYvTexkpzUajCo9GIog9ORhimDE7ZCpwg7svFo20pWqbJoIX6jN6yQqjZhr//q+5jFPKsLf17LSoYG+HzExTC54X72sfiRAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ywsnunz5O4sx7NPH+J2HUpV+L5yYIn3iyeiVua0NrOQ=;
- b=bToh8ihN3yWJFx4gh9MFcCN/LmbGLRXR8Mjfhs/9CW/D9Qy+XAfvwb5sZziQ2XgGg89HSoFYP8dz/VonGTgKo3xzUFqpoU5RByrFjo8pkxMFqyIlt9JqEH0QqN1sSQ0EvAot98ZfUDJFl+adzsI7+j8x9ndjm7OnpOIeaa9fEyRPBMB7RBh6zrbtcNeL63TmcUNgF4beLlMjhvXEnhop+QYjtMOVlrYrfa1AHJe7823sey3TReAwKg16i9XbdapFcZ/5kgJMLyL4iLA9RkJFvI31NYIgkrZMubjLf3WqryiV5/R1d5OvWsQpaO7M5TPwR2aqj4IrMRpQxPguCg4hLg==
+ bh=ECriM+ySbAqDBNFaSRXN9fygOQtPEVyY042ONEgV5mw=;
+ b=wun78Xjyg9X1Znx7XZYGW0jhrfcnG3G8PWlx6qT9JtyeWc4XoqfqSzGBE1nYaTig7Q323liED9gttvyzPGb7T3SBdSZj1oqjDkbjNY2VR0w5m3vx4KOp2XkodQhRvTgKXVVfD5fr+guM6+I6VKv/3jYvMix0pBkiv/dpF3Zh4DL0ENMzSRH9vT5NcbMvErTxgrwPojBE5AfpVwUPdy/XyvUGLTPT3bIZR2g45LVtVYcWL/YjUlxsfKOEqIfCWQjezvQ+yGPEdsX6UrnfiWJE1PjU3FH61GCiogsBdZ676o8TiqeamYqdKP0UbRWjJR4FuhBT3VrTMAKv2GXrPPOycA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ywsnunz5O4sx7NPH+J2HUpV+L5yYIn3iyeiVua0NrOQ=;
- b=TDXtJhLyVpF5izBjVtouGQUmlcrwmB8GIj03PjXhm+wg5cnL+o6On4My4uYBUFFz4kUApvRLXjJrI+ofgp6XJb+SzR2kng/9xjjZF+c0nMzbFNhhf803/e5c/Lu4dbyA7O/PjyjHX1Zi9EJZP4qt2Teq9p/7SMBlqBi7AveU0yI=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from MRWPR08MB11806.eurprd08.prod.outlook.com (2603:10a6:501:9a::22)
- by AS4PR08MB8024.eurprd08.prod.outlook.com (2603:10a6:20b:587::7) with
+ bh=ECriM+ySbAqDBNFaSRXN9fygOQtPEVyY042ONEgV5mw=;
+ b=axGFc0PenRWswzhMWk5KiDKDsSMv8gCggUEgi1OFDHy484BBBENW11bN+Nj7LFI3Vcf7U3qTsNJ25dQ2OwX23T9IEPCo/vZS0Zp0fMG85sO5FOEZz+KG+9jmwTqCi2+5SpxEjq1iPSFoQ9RoNO/f4WveK7ndyrvleplHaX5DRpM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
+ IA1PR12MB6458.namprd12.prod.outlook.com (2603:10b6:208:3aa::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.17; Thu, 11 Jun
- 2026 12:42:56 +0000
-Received: from MRWPR08MB11806.eurprd08.prod.outlook.com
- ([fe80::20ea:c85e:c8c9:a8d4]) by MRWPR08MB11806.eurprd08.prod.outlook.com
- ([fe80::20ea:c85e:c8c9:a8d4%4]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
- 12:42:56 +0000
-Message-ID: <84b929cd-f726-4422-9b1a-1f0edf68e163@arm.com>
-Date: Thu, 11 Jun 2026 13:42:54 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/10] ACPI: APEI: share GHES CPER helpers
-Content-Language: en-GB
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: will@kernel.org, xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
- mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org, bp@alien8.de,
- tony.luck@intel.com, guohanjun@huawei.com, lenb@kernel.org,
- skhan@linuxfoundation.org, vishal.l.verma@intel.com, rafael@kernel.org,
- corbet@lwn.net, ira.weiny@intel.com, dave.jiang@intel.com,
- krzk+dt@kernel.org, robh@kernel.org, catalin.marinas@arm.com,
- alison.schofield@intel.com, conor+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, Michael.Zhao2@arm.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Dmitry.Lamerov@arm.com,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-edac@vger.kernel.org, acpica-devel@lists.linux.dev
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
- <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-8-2e0500d42642@arm.com>
- <20260529173229.18843384@jic23-huawei>
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-In-Reply-To: <20260529173229.18843384@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO6P265CA0020.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ff::11) To MRWPR08MB11806.eurprd08.prod.outlook.com
- (2603:10a6:501:9a::22)
+ 2026 14:11:47 +0000
+Received: from DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
+ ([fe80::af35:a7a6:6ca:7fcf%3]) with mapi id 15.21.0092.016; Thu, 11 Jun 2026
+ 14:11:47 +0000
+Date: Thu, 11 Jun 2026 10:11:38 -0400
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Avadhut Naik <avanaik92@gmail.com>
+Subject: Re: [PATCH v5 0/2] Incorporate DRAM address in EDAC messages
+Message-ID: <20260611141138.GA978852@yaz-khff2.amd.com>
+References: <20260518160716.171578-1-yazen.ghannam@amd.com>
+ <20260521005740.GAag5YhDa_oarHPZdJ@fat_crate.local>
+ <20260601184100.GA4547@yaz-khff2.amd.com>
+ <20260601210535.GFah30HwoSEavRkLXu@fat_crate.local>
+ <20260604154856.GA1625873@yaz-khff2.amd.com>
+ <20260610003516.GBaiixRCclQEMwY_9d@fat_crate.local>
+ <20260610211541.GA831811@yaz-khff2.amd.com>
+ <20260611012336.GHaioOGB0NBxv5BZXS@fat_crate.local>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611012336.GHaioOGB0NBxv5BZXS@fat_crate.local>
+X-ClientProxiedBy: SA1P222CA0192.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c4::13) To DM4PR12MB6374.namprd12.prod.outlook.com
+ (2603:10b6:8:a3::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	MRWPR08MB11806:EE_|AS4PR08MB8024:EE_|DB1PEPF000509F6:EE_|VI0PR08MB11668:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61007ce0-fc7c-47ec-94e9-08dec7b71ea5
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|IA1PR12MB6458:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85b9e742-ee22-42ae-8c0e-08dec7c35f9c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|56012099006|11063799006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info-Original:
- YwTWCEDhAXizuvd4NNmTgkcCv+/TYRlFg54Xa1yk0vNtO+l7uivMsnhmQ+NFp7vJjHizVb+oBmkV7/z8mWsREPk+S9p8ibr8ect7HW7+7576tiuEThdKUiKVkpQZ9T5kZT8pYUy2LV0MHSm9IviNSH0k36oP/gJT0O9NrTxEA19DV059L0X7QuMb47UVCion1nLB6NRELrOdpC0whYfYVbRl7vFw6PdMAwy6qQNwkHnPe+GqlRHx4QGVW7J4Ho3e7Gqs6H8kuTwi067qtOmKQp8vv3wIBZpLLDhK10ofBPu9hcI6eutqGyky+Q2Cx+IbavqVtY7V4N5fasqIo0PpwBJ9o9mj56RcqYdozRkQx85414BEXgetMCj1OBiP91Er3N0A1cZzrUsgQCSnj+79FAPv+//Jcr8kWgvl8djxg6ge8JnGHNl4MdyF2K+V4kh7beYckqBB/PU8TU3LVPofPsgtTL9yvU5AiEaDlvOrElQsICn4TA3vvm3tU892DS3AXTrNJHyEehLz0LBK5rh1a0CrlfV4e3Y9q9qbZYEUOE+kMKvRSrm3bY4TZvHqMbqQ7FjQylQp5Vmbpr0aN2nuCNIuw+cXLhKTRMmIfQ7a60pqElBLiY9Vijj3+xZzbURRCGZ3wTjt4zCH0sGds3NCQyV+hf6QqFv8mji031rQNyk8CyVYJMwXzqwqlOh70wvn
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWPR08MB11806.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- Jgh3s5cMsIMk12FJzs0jUj2ogbXRritogNb627O0rjxwIp1/3hUXFukYZSycs8Qs1u0tFmYwMuUT/4lXz2szCiLQGsdRn2h9pKI2CZf7Q1huEXpI4jj7DY7DHrQaS3jKqByLxH7YDbgSaHV81zl0rgvXBn4LmC/+nGHuRMWQPMPaO6DVgPcAPVLSm6Hdn1A8eT/ybLCB90G0KmmGRCiHCdoEoe3+oX/nhViMzD7Il81Ic8r1ZDd+WcWEPSzFhNUnwmwztVSW5Mn25pp+WEkVniQs/7GCmNhF1x6/KRWbuux1TfPfpzOvGcZ8Nt3gooZqY05CkagF2jh/AptfCfJRdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB8024
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DB1PEPF000509F6.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	8807fba9-b2c3-405d-ff6c-08dec7b6f5f5
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|35042699022|376014|36860700016|7416014|14060799003|82310400026|23010399003|1800799024|11063799006|56012099006|4143699003|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|366016|23010399003|1800799024|6133799003|18002099003|22082099003|4143699003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	w5EVhT1YexDFpFb1NcgPH/vbyqVb9YsfDfjIq6LXOYfBjv/K0oNbzWa32G5ndYqBIV0y8sb7KDGQ6yKO32CHWa5TK0d5990Ik96twMlQYhPVbRJjD9jQbmJO5LN2RFMKrYW8DENw2bSQjcadxTbV7eRdA3jkWpcJUphbbw2S6hM8teFp/nIVOnqjk3NfC1/Gzn6uZ7bAcApWefyg5kELN09SGlmcVbo/3ti+1cLJZMsn8CzWm6Vc/GIFPdwzjq5q7jtVvWeF+8ZLxymX5I4KHvhHyAklqC/3DbwDbNyzj7WFqVZg35vBV7Mg76OcjTM59VwnOSF826NDkwNFnj6x+MW9GjV5vn5cBkBETgp/h8Ddigu5VDFzST6b09qvyMkY2crkju2sz3f4DBW3QMkY8aEyXPl9mUSCTovdZM8+nr2txBET5lOYEXEfkW0y0vT2ERh4VYWZlDWAoAzTwQQn9HePQ63abQ5NKkfQhvCz9Fe85autWK6el9xqYgkDoxEwE/HTvjHfX+pSIxljXOHmdtSTGLUHunOqiwoGw57pera+2+kWfUBZPW1hFJVYd5xP03fA2mAdnFx6kWwyKEBS9kOCZHF9X6R+GPSzVjPfOHgK8tyhGf5qkJ51/kzuecuAI3Yt/rxxhMjvTyMcOSvJT7mrsg5sbER/29QQyW9oDPxUovR3lMQvdPA/vCQ+EO1SAmk4GMlVw9MtRtUAweFEYHBJ0EE+heITd1KO2/VxvxE=
+	E8ys5QHV5yDnSVAt5EGeI3OxUlRxnni6o1zrHythuOJ+fIYfOEy21Ki0b+Dkg0j2ESpNDLgn9NAD/sDfNR3CDrkWogAdvdh4/BjbIxGzHJ7boyBPH+EOj1R8TMQ3CyTqO+W3GXV1JtQZm5yRF1GjleWsNZChy/L9C5CDZLMRKIrOn0FkEGeXPvdjVntGL2Q+gh63WqOGy2DBGFqu+4TV5Wrm5Q7Blqz+E6RBBCJVhiHf4jiM8/qJo6zNPKJF3TTQcjTJrEhbMI4Q1k6YFYpzrvlhFRllmaVsANvF8WHqBKsUYoSo9lzv2JiqVm/wTxzDALH9ZoTfrKXLB/bBPYAJX6og8YFJXy1Et3/pJyoOWbyCY4EHrt28gbCOsKg3nvbcbF5eaF0IHqU5adNkPYrJTc1CVnFOB4Gl/mgUgTi23bJ//U1Tss/NQpiWc32pW4UHhfFfi1DaF8vHDueWa5gpqarBo6svGaksZvpwz/KV0np2pSgGD1XfPY2w42fK5me+0WanyoQZfxVgcg51k4jvH7FOiKYPGzVu6AQqOhP6Q4pFkkqD+tBSWNC0wXtBAsok+8paiuBeBMLuxzmI5o3NJb7TIs9JqBe1zbE1SCqb8HXX5noBvXC2m4c0N6bo+C915muf9qql+NfVuxAWkEZndg==
 X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(376014)(36860700016)(7416014)(14060799003)(82310400026)(23010399003)(1800799024)(11063799006)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(1800799024)(6133799003)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	WKbZOjkcCARuhbiICuw9OKPyURxsLU7PJcQ3tp2Zu4BzZ+Ia9CWlCrHwuGu9hnVnjNJz2YKGwcBOBRn2z23bA1sQ6CqE2mTVPK0o53kRDfl7l6Ad02p20EDQGr4EOcdSNhQdhKaBNhPlpRDmU0YtrJY8WmacfU8fvPhxs4ZKU47utJod6kB043NnKjfrH6pppafbCWR0i/qA9LWnGlQaBgw3POqQJdjPCzWJmLOgVwkcp9LUdy0GVFSd45KxIEW+BkYbf0xpcI+sMeLGtQ9YNjEHGcRjz0y7lowH7XUztYraWtDNbFjzlYVPv0gTmETyeX0N7pAm8qJS8oGXFIRSMH9yM1OFL3Nxg11dXxCanq1+1N033wYjpl7vDHPVxmJ3l3r+GDNcZQK3P7TwrfSGhovb6MQ8Lp1o34HTy4Xd8nyAHLg30aTHps2jF8F5Wn03
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 12:44:03.9088
+	=?us-ascii?Q?SOpegGavvcprMo6kw/4wjgjvVsZron+ylgNngHTwBLjAo/JqwStRc3f1kksU?=
+ =?us-ascii?Q?YyZUSofuYeMVUWPeQKFkRt10aJ15CiEfZPjZ0QzDqlwlLL7CL06rTUd5b59N?=
+ =?us-ascii?Q?2VuBLdUapKhq6FTwT+B7TxD4avBIEdq+cuJ2pea1oa+FMmQ1gNiH8/fPiZrF?=
+ =?us-ascii?Q?agHfPFWAGW2rBfXP4kXTdRU3zPQ5y22npMJLhtHs819Wpga85cv5Ae3f01Yo?=
+ =?us-ascii?Q?KAHSZ1AqJJul6B5bWqxnvSoZIEKgQppt0ctfe34Q5ef3rTadBEVzIgCfB+Nv?=
+ =?us-ascii?Q?owKXCjDU+Q/yXv2RPXnH3HhMyp4k5jo+4b5XChr+yLksGN2R/agj2T6+jzzf?=
+ =?us-ascii?Q?Z4qbcWW+mvDJcNKuUcA9rjQyYt+n1sRPJlI6yUxIrmCJuxYOxD6cKdgZmxwb?=
+ =?us-ascii?Q?/LDBQbQqnqr0VVk9Sx6rpYpax626GqSa6zU46+5bVNy1nfB90bX75uDZnZ3j?=
+ =?us-ascii?Q?CT8LN+Qyxq7Eug0mj79AIpy5zUEzQBg+GAvSS8fab0BCc0l6Ik+Y5T2kT6MK?=
+ =?us-ascii?Q?QPD9zvhZ/GXEayHzUyvignvwbS5vDJgLrKLao7dhWM7WPVsE/7grk8rhLpmD?=
+ =?us-ascii?Q?RKsbz6ghODYRMzzNgR1U68K/+YMTCZnmyFcT0okns+eblSNHisVgisTJcoHP?=
+ =?us-ascii?Q?dbpVDzxoITnaBoP+0+gt6J+FZRfsdWv9T/kEWKkZy2a7wqc6dGSZfljWxQsg?=
+ =?us-ascii?Q?idLIVIMo4DO5W+UdSTwMSMZx4v7eRMkTAw8SQiy067+2pOFuF1dCduqRowAQ?=
+ =?us-ascii?Q?lDVNkZXAJ1pR7NRsstfDHagqmebN30tRY91fwA6+r3/D/rcIap9rHXK+dvgl?=
+ =?us-ascii?Q?klGgjH4u/OsbWVILymafSXbZAOTJs3xuMLrS3fnwGNUcr+R72ivwf+TUYCi2?=
+ =?us-ascii?Q?dJ1mdehdOSL07szifyED/rdq8V2zslMF4jwol7ewQMplJp6YuFHDWA5xwwYM?=
+ =?us-ascii?Q?d5+OHwnpeNx4vyocHD8bTqKvWzOL1q6AUSXZJXnLjzB7o5qCVWgz8ro48UAS?=
+ =?us-ascii?Q?UtOfV8tEz38ZP0yhl+YIbO27kP5FJmXDAqiLkiOn6unycH05dhXV6+UcF2ck?=
+ =?us-ascii?Q?9JrN1406gRYOGiFhUmw1U46Yfj8iN8milqJP2FjYbkC38Cd/TK+gqa2n09ox?=
+ =?us-ascii?Q?fqxA3oHJmGX01KJTuk808nxZL/fXCU0fh18mUgJInO/bNNLVotQCVcUU1ezr?=
+ =?us-ascii?Q?mXIduLTjGMfNJ7g97iKpDzdlaRiPPjTKOyNNlfAt5sd/kwY4p9K3t4vwLJmB?=
+ =?us-ascii?Q?zoVc6iKYJrbd/qTF6S8dcWNXilCEFRHVSLUWsfRqEM00G0nvqIYSXxniQFfy?=
+ =?us-ascii?Q?3yGcAFcteSfHJh3Z2fRa6Hwt54h06XVgPMgi4IVhazOufMfAJPzetEZD4q/D?=
+ =?us-ascii?Q?PqJJrtN0Hj2khzXc61SezgKoxVVeLSBnNpu2N/DvFO6o84TyCzbde5Azsl6T?=
+ =?us-ascii?Q?EucucBJI/K81IjcmytxeKFavAl5Krqel2G3DQQU0ryJg5ZP24SqUVJxO8Z+O?=
+ =?us-ascii?Q?4yBvYKeQuS5QXXcqtDMaMbKcUDHiugIO3h098OiD57Bue18aHkZDpwktJMtW?=
+ =?us-ascii?Q?cA7xqarWoaUek5NWGxi2vDBQp/8P1gPPI0r2sfWEd3++CkX3S9p0AV7+Ys6V?=
+ =?us-ascii?Q?XYQ1F7aYIwofitc04G1PmnIJe5Nht+N61tqhQpSZDniYvKuKG7Kh3+HbkofC?=
+ =?us-ascii?Q?rfvhe5HcOj3sPipGZLCHT3ABm3Tr0TBzMjKd/+t/X9zlqIXR+WmVk+LAhsDH?=
+ =?us-ascii?Q?vXx9OmxSFg=3D=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85b9e742-ee22-42ae-8c0e-08dec7c35f9c
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 14:11:47.1988
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61007ce0-fc7c-47ec-94e9-08dec7b71ea5
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB1PEPF000509F6.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11668
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dEq8txtD4UyIn5SIgdu5wJIu7b3XfoZ0UxmGtlNg2GFibzFUIA5/kdKe4cmZ2mTxhJ3kIGE7Dg+PS0x3GBcdCw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6458
 
-On 29/05/2026 17:32, Jonathan Cameron wrote:
-> On Fri, 29 May 2026 10:50:48 +0100
-> Ahmed Tiba <ahmed.tiba@arm.com> wrote:
+On Wed, Jun 10, 2026 at 06:23:36PM -0700, Borislav Petkov wrote:
+> + Mauro.
 > 
->> Wire GHES up to the helper routines in ghes_cper.c and remove the local
->> copies from ghes.c. This keeps the control flow identical while letting
->> the helpers be shared with other firmware-first providers.
->>
->> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-> Mostly looks fine.  The one bit that rather makes this exercise of breaking
-> out generic code look dodgy is the ifdefs in the generic file.
+> On Wed, Jun 10, 2026 at 05:15:41PM -0400, Yazen Ghannam wrote:
+> > On Tue, Jun 09, 2026 at 05:35:16PM -0700, Borislav Petkov wrote:
+> > > On Thu, Jun 04, 2026 at 11:48:56AM -0400, Yazen Ghannam wrote:
+> > > > I think the issue is having concurrent updates to mci->error_desc. EDAC
+> > > > assumes a single owner for the MCIs. The fake_inject interface basically
+> > > > acts as a second module/owner.
+> > > 
+> > > Ok, something like this. Ugly but it should show the intent. It probably needs
+> > > more auditing whether we have copied all the fields we need down the
+> > > edac_mc_handle_error() path...
+> > > 
+> > > diff --git a/drivers/edac/debugfs.c b/drivers/edac/debugfs.c
+> > > index 8195fc9c9354..034b9b3f9cf5 100644
+> > > --- a/drivers/edac/debugfs.c
+> > > +++ b/drivers/edac/debugfs.c
+> > > @@ -14,28 +14,38 @@ static ssize_t edac_fake_inject_write(struct file *file,
+> > >  	struct mem_ctl_info *mci = to_mci(dev);
+> > >  	static enum hw_event_mc_err_type type;
+> > >  	u16 errcount = mci->fake_inject_count;
+> > > +	struct mem_ctl_info *imci;
+> > > +
+> > > +	imci = kmalloc(sizeof(struct mem_ctl_info), GFP_KERNEL);
+> > > +	if (!imci)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	/* use a local copy and copy the struct */
+> > > +	*imci = *mci;
+> > >  
+> > >  	if (!errcount)
+> > >  		errcount = 1;
+> > >  
+> > > -	type = mci->fake_inject_ue ? HW_EVENT_ERR_UNCORRECTED
+> > > -				   : HW_EVENT_ERR_CORRECTED;
+> > > +	type = imci->fake_inject_ue ? HW_EVENT_ERR_UNCORRECTED
+> > > +				    : HW_EVENT_ERR_CORRECTED;
+> > >  
+> > >  	printk(KERN_DEBUG
+> > >  	       "Generating %d %s fake error%s to %d.%d.%d to test core handling. NOTE: this won't test the driver-specific decoding logic.\n",
+> > >  		errcount,
+> > >  		(type == HW_EVENT_ERR_UNCORRECTED) ? "UE" : "CE",
+> > >  		str_plural(errcount),
+> > > -		mci->fake_inject_layer[0],
+> > > -		mci->fake_inject_layer[1],
+> > > -		mci->fake_inject_layer[2]
+> > > +		imci->fake_inject_layer[0],
+> > > +		imci->fake_inject_layer[1],
+> > > +		imci->fake_inject_layer[2]
+> > >  	       );
+> > > -	edac_mc_handle_error(type, mci, errcount, 0, 0, 0,
+> > > -			     mci->fake_inject_layer[0],
+> > > -			     mci->fake_inject_layer[1],
+> > > -			     mci->fake_inject_layer[2],
+> > > +	edac_mc_handle_error(type, imci, errcount, 0, 0, 0,
+> > > +			     imci->fake_inject_layer[0],
+> > > +			     imci->fake_inject_layer[1],
+> > > +			     imci->fake_inject_layer[2],
+> > >  			     "FAKE ERROR", "for EDAC testing only");
+> > >  
+> > > +	kfree(imci);
+> > > +
+> > >  	return count;
+> > >  }
+> > >  
+> > > 
+> > > 
+> > 
+> > Right, this fixes the race, and printk/trace would be okay. But the
+> > normal EDAC interface won't get updated. I think that breaks the fake
+> > inject use case.
+> 
+> You have the fake_inject fields, see edac_create_debugfs_nodes(). Those are
+> the fake_inject counters which should get incremented and I think we can make
+> it work by making the imci thing global and always hand it in to those
+> functions...
 > 
 
-As below.
+The fake_inject fields are targets.
+
+Ex. under '/sys/debug/kernel/edac/mc0'
+fake_inject_count=3
+fake_inject_channel=1
+fake_inject_csrow=2
+
+...means inject 3 correctable errors to mc0/channel1/csrow2.
+
+This would be reflected in
+'/sys/devices/system/edac/mc/mc0/rankX/dimm_ce_count'
+
+rankX = whatever rank the channel/csrow map to.
+
+OFC, the layers are generic. They're based on whatever the EDAC module
+uses.
+
+> > Ex.
+> > 1) Use fake inject to target layer/severity.
+> > 2) Check EDAC interface to see layer/severity counters increase.
+> > 
+> > I don't use the fake inject interface, so I may be mistaken about its
+> > use.
+> 
+> ... and neither do I. And I haven't heard of anyone doing so. And that's
+> perhaps the case because the thing is behind CONFIG_EDAC_DEBUG and only we
+> enable that.
+> 
+> So I'm thinking fake_inject has reached its retiring age. And 
+> 
+> 452a6bf955ee ("edac: Add debufs nodes to allow doing fake error inject")
+> 
+> should simply be reverted.
+> 
+> Mauro's on Cc so that he can get a chance to chime in but lemme paste for him
+> the issue that Sashiko caught and that, AFAICT, has always been there:
+
+Right, this isn't new behavior. That's why I don't think it's a real
+issue. It's a corner case for a specific testing environment.
 
 > 
->> ---
->>   drivers/acpi/apei/ghes.c      | 416 +--------------------------------------
->>   drivers/acpi/apei/ghes_cper.c | 438 +++++++++++++++++++++++++++++++++++++++++-
->>   include/acpi/ghes_cper.h      |  20 ++
->>   3 files changed, 459 insertions(+), 415 deletions(-)
->>
->> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
->> index 85be2ebf4d3e..f85b97c4db4c 100644
->> --- a/drivers/acpi/apei/ghes.c
->> +++ b/drivers/acpi/apei/ghes.c
+> ---
+> > @@ -2748,7 +2768,7 @@ static void __log_ecc_error(struct mem_ctl_info *mci, struct err_info *err,
+> >  	edac_mc_handle_error(err_type, mci, 1,
+> >  			     err->page, err->offset, err->syndrome,
+> >  			     err->csrow, err->channel, -1,
+> > -			     string, "");
+> > +			     string, s);
+> Could passing a stack-allocated buffer to edac_mc_handle_error() risk a
+> use-after-free of stack memory?
+> Looking at edac_mc_handle_error(), it directly assigns the other_detail
+> pointer to the globally shared error_desc structure without holding locks:
+> drivers/edac/edac_mc.c:edac_mc_handle_error() {
+>     ...
+>     e->other_detail = other_detail ?: "";
+>     ...
+> }
+> While normal hardware MCE decoding is serialized by the mce_work workqueue,
+> the EDAC fake_inject debugfs interface can execute concurrently.
+> Could a user writing to fake_inject race to modify mci->error_desc?
+> Thread 1 (mce_work):
+> __log_ecc_error()
+>     char s[MSG_SIZE];
+>     edac_mc_handle_error(..., s)
+>         e->other_detail = s;
+> If __log_ecc_error() returns and its stack frame is popped, and Thread 2
+> (fake_inject) is concurrently executing edac_raw_mc_handle_error(), could
+> it read the dangling pointer from e->other_detail?
+> ---
 > 
->>   
->>   static void __ghes_panic(struct ghes *ghes,
->> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
->> index d7a666a163c3..0ff9d06eb78f 100644
->> --- a/drivers/acpi/apei/ghes_cper.c
->> +++ b/drivers/acpi/apei/ghes_cper.c
->> @@ -13,22 +13,32 @@
+> (from https://sashiko.dev/#/patchset/20260518160716.171578-1-yazen.ghannam%40amd.com)
 > 
->>   
->>   #include "apei-internal.h"
->>   
->> +ATOMIC_NOTIFIER_HEAD(ghes_report_chain);
->> +
->> +#ifndef CONFIG_ACPI_APEI
->> +void __weak arch_apei_report_mem_error(int sev, struct cper_sec_mem_err *mem_err) { }
->> +#endif
-> This is non obvious enough that the reasoning for a new weak function should be mentioned in
-> the patch description.  Why not stub it in include/acpi/apei.h?
+> If this were to be done right, then that passing in of a string buffer
+> allocated in the mci would mean that all those functions working on it down
+> the callpath cannot ever be called concurrently.
+> 
+> Or if they have to, a separate mci would have to be handed in. Either way,
+> that would need hairy rework and right now, the simplest thing to do is simply
+> zap that fake_inject stuff which is not used anyway.
 > 
 
-Agreed. I should have explained that in the changelog.
+Just curious, why not leave it? Do you think the bots will keep bringing
+it up?
 
-The weak arch_apei_report_mem_error() fallback was only meant to keep
-the shared helper buildable when GHES_CPER_HELPERS is enabled without
-ACPI_APEI, while preserving the current GHES behaviour when ACPI_APEI
-is enabled.
-
-I kept it local because this fallback is only needed by this helper 
-split and I did not want to widen the APEI header API for that.
-
->> +
->>   static struct ghes_estatus_cache __rcu *ghes_estatus_caches[GHES_ESTATUS_CACHES_SIZE];
->>   static atomic_t ghes_estatus_cache_alloced;
-> 
->> +void __ghes_print_estatus(const char *pfx,
->> +			  const struct acpi_hest_generic *generic,
->> +			  const struct acpi_hest_generic_status *estatus)
->> +{
->> +	static atomic_t seqno;
->> +	unsigned int curr_seqno;
->> +	char pfx_seq[64];
->> +
->> +	if (!pfx) {
->> +		if (ghes_severity(estatus->error_severity) <=
->> +		    GHES_SEV_CORRECTED)
->> +			pfx = KERN_WARNING;
->> +		else
->> +			pfx = KERN_ERR;
->> +	}
->> +	curr_seqno = atomic_inc_return(&seqno);
->> +	snprintf(pfx_seq, sizeof(pfx_seq), "%s{%u}" HW_ERR, pfx, curr_seqno);
->> +	printk("%sHardware error from APEI Generic Hardware Error Source: %d\n",
->> +	       pfx_seq, generic->header.source_id);
->> +	cper_estatus_print(pfx_seq, estatus);
->> +}
->> +
->> +int ghes_print_estatus(const char *pfx,
->> +		       const struct acpi_hest_generic *generic,
->> +		       const struct acpi_hest_generic_status *estatus)
->> +{
->> +	/* Not more than 2 messages every 5 seconds */
->> +	static DEFINE_RATELIMIT_STATE(ratelimit_corrected, 5 * HZ, 2);
->> +	static DEFINE_RATELIMIT_STATE(ratelimit_uncorrected, 5 * HZ, 2);
->> +	struct ratelimit_state *ratelimit;
->> +
->> +	if (ghes_severity(estatus->error_severity) <= GHES_SEV_CORRECTED)
->> +		ratelimit = &ratelimit_corrected;
->> +	else
->> +		ratelimit = &ratelimit_uncorrected;
->> +	if (__ratelimit(ratelimit)) {
->> +		__ghes_print_estatus(pfx, generic, estatus);
->> +		return 1;
->> +	}
->> +	return 0;
->> +}
->> +
->> +#ifdef CONFIG_ACPI_APEI
-> 
-> So after the effort to break the the generic stuff we end up with non generic
-> bits in the broken out file?  Is there no way to avoid this?
-> 
-The intent here was not to create a new generic estatus core
-but to keep the existing GHES control flow and lift the CPER helper flow
-for reuse by the DT provider.
-
-Splitting the remaining ACPI GHES specific read/clear path back out into
-ghes.c would break that flow across files again. The CONFIG_ACPI_APEI
-guard keeps that ACPI specific piece local while the DT side reuses the
-same CPER parsing and status-dispatch path.
-
-Best regards,
-Ahmed
+Thanks,
+Yazen
