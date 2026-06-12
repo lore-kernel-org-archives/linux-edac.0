@@ -1,102 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C5924886E;
-	Fri, 12 Jun 2026 14:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7D1374E66;
+	Fri, 12 Jun 2026 15:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781275752; cv=none; b=obDdfYmmv18HRn4PiO6Lp832JxM2LSWIzoNG76IGF5pFXxXmi7DGooWWEFUYsK9dnGCmgowcPjq592ptXtyYI9uOP9layRpYPA0IlgMzCXakmSCgqdcd/gJUW7O1GlABSH7B7SUEhUZSb2c6iaD1v5fLTDa+tZOT4Hlk/ziVGE4=
+	t=1781278743; cv=none; b=A166ClWFHyilnYVSOe9qQlVbvyZZ7weiUyfzH49rAWD9VWf12aVaHK3knV4HXR359YgHQL9cnwJAxCktikkxB+lZIH96M0+YwFDchDUNapdh9+ourAgRwBPYl3lVkH09aUgXwwFeWHcFvbWJ8NsNlrP9M5mbosNuCKqXg3Zz+to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781275752; c=relaxed/simple;
-	bh=BJFzGzOnd+wP2T3OXbmcSnUl6hlCrHcAS6mwQMT6zrM=;
+	s=arc-20240116; t=1781278743; c=relaxed/simple;
+	bh=IZs/6T4sKfwP+pfSmlDDwiPfIMr6PTg1CefyUJIzOlA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZPE2YdBVMcS9MLX8rgH8LdOvVPHY+xqdTfzS65Jf8TAWx5n1R2S9CdOZDnQx7NkWDu697q7ndEZTeFW4/MQF5aNFtiYf+MR94enFAakbmsnqy1UCRFbv6Rg0iLBmHf8O9+DukgeBwUpbT36w5T8UC+W0kP+LaiW/ZnWve6X/Xy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqQ3m+ji; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=G7YECx/4gcn/c+9c8vldXvassUsbLP8k+ML5lhJdYwiWjO2QTSZtLTa6BdNG0UGP2GEFjlaKhNnNR1UuA0EppwIddpoByeDaBcuoIHLeHjLt36tGIProjZsrXoTXbpZ7qJcz4xPO9ODCbMObcudfkWX5TZN6VlU7c5XOjqT86y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=LGWWf6jJ; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqQ3m+ji"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC861F000E9;
-	Fri, 12 Jun 2026 14:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781275751;
-	bh=qhPHLYbQyUfvef9/xCIIY8vt5USpJP7O50ve0Xr9Fco=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KqQ3m+jibMcuY8vurw+rG7VdytA6Y6cMHo3roJQ8ImJswxu7g5OQsf6U9DmgKL9Ok
-	 tMoVfnttQQhbTRLujJvFm4Z3bZ7gZzKPvuegSKFNGFlYLiavZptALOMGNFohVAJBsU
-	 S2cf3GfT9s6pAt3G7PxxKl9WEcH0ikXnznL9+1kH7Dm5xiZa7amZAbjMwEevZ45B4a
-	 vJr8GleYk5liMgzbxAkB3mPRM5aQevk6Yqrzi9aFtqJTDnvJHo9OtiT8zww01quWWU
-	 JZFWZqvYd6+3/nlD+3b8S1gml9lQE6KMYyGi9pVigyovlwi1JcYwRC3L4eQz6SwZW2
-	 qxF4lWtteSQaQ==
-Date: Fri, 12 Jun 2026 09:49:10 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, will@kernel.org,
-	xueshuai@linux.alibaba.com, saket.dumbre@intel.com,
-	mchehab@kernel.org, dave@stgolabs.net, djbw@kernel.org,
-	bp@alien8.de, tony.luck@intel.com, guohanjun@huawei.com,
-	lenb@kernel.org, skhan@linuxfoundation.org,
-	vishal.l.verma@intel.com, rafael@kernel.org, corbet@lwn.net,
-	ira.weiny@intel.com, dave.jiang@intel.com, krzk+dt@kernel.org,
-	catalin.marinas@arm.com, alison.schofield@intel.com,
-	conor+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
-	Michael.Zhao2@arm.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
-	Dmitry.Lamerov@arm.com, devicetree@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org,
-	acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v5 09/10] dt-bindings: firmware: add arm,ras-cper
-Message-ID: <20260612144910.GA989816-robh@kernel.org>
-References: <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-0-2e0500d42642@arm.com>
- <20260529-topics-ahmtib01-ras_ffh_arm_internal_review-v5-9-2e0500d42642@arm.com>
- <20260529174407.7081ad0b@jic23-huawei>
- <ceb19cb6-7083-44ad-a262-a8198f489257@arm.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="LGWWf6jJ"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 496FC40E0176;
+	Fri, 12 Jun 2026 15:38:59 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 9M3JgCvAKdpg; Fri, 12 Jun 2026 15:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1781278728; bh=i0qxaImPG3lz9reInxGHg9h5BKCrKAebh7tbYFWXt3g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LGWWf6jJDYLqipzzaOB1hHb9obU+FsaONLStmRLHqQUAYrtJGkY6Wu+mEEmlgI6mK
+	 sEmgc3O4YFdjbESFF88VfYg1qB2Ene7Fy0nZBu0OSX+I2AD8z/10bQ6BLTm8B8r0Cm
+	 tWeO2zRtkhkdflDSbKKqhnsWa8m0TxHXNuSvfV1sMNS+q/bULJq0NYmpTG7F+2ifpp
+	 4YwRAGRrWa61ba73mSnckp+sHjl9TTi1SrXuKi/0nJdqwyXgv19TSCgK6spwpy4bo7
+	 zDqwF5+5dZX08AuoFSvFEXjwIiBun5apgNM2KK6lThUQ4qwAJvkie4YPGhqPEnk88R
+	 jYeAdCqcm8OksHmRLPLenY+0RWcD/f5DnQJHn++20q+qCwJYxCtklOQMqvdgBbqu3G
+	 0/+ijvN2AojtZnLs7AqEIn0vUHDVWH8KzKmIGV89KGPlf48sDf4d7sv4DUnlAgKrwC
+	 2P6pdaAa64/DwccTh5QXpuGbQKzPrNTXgQn4PO7h15AQ6Bex9bT1x9Csa+AIzgGZX3
+	 qiWHWLyEZ8pE1+g5z22kINvB2UNywIVPoDcpehweFbM1lIchCLO1mP/d4Y4N624D51
+	 nEF0jIcPqbO7oXDT19o1jBIQr8fktBzun/0QVoWsZfujhMx26dlgh+WEGlv5Y3mnxW
+	 rXutxJ9NQcITSajXO+2pC2bc=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AE06E40E015B;
+	Fri, 12 Jun 2026 15:38:42 +0000 (UTC)
+Date: Fri, 12 Jun 2026 08:38:39 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Johannes Thumshirn <morbidrsa@gmail.com>
+Cc: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org,
+	Tony Luck <tony.luck@intel.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] EDAC/mpc85xx: Use platform_get_irq() to get interrupt
+Message-ID: <20260612153839.GCaiwn_7qOic4KLF8P@fat_crate.local>
+References: <20260603191908.5618-1-rosenp@gmail.com>
+ <16fb1ca6-447c-42b6-b4f3-aade5ce7f90c@gmail.com>
+ <20260610173352.GBaimgACY4q6PkkkUk@fat_crate.local>
+ <ef8107c1-92e9-4540-b88f-0191d1b7a4e6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ceb19cb6-7083-44ad-a262-a8198f489257@arm.com>
+In-Reply-To: <ef8107c1-92e9-4540-b88f-0191d1b7a4e6@gmail.com>
 
-On Thu, Jun 11, 2026 at 03:22:21PM +0100, Ahmed Tiba wrote:
-> On 29/05/2026 17:44, Jonathan Cameron wrote:
-> > On Fri, 29 May 2026 10:50:49 +0100
-> > Ahmed Tiba<ahmed.tiba@arm.com> wrote:
-> > >   .../devicetree/bindings/firmware/arm,ras-cper.yaml | 54 ++++++++++++++++++++++
-> > >   MAINTAINERS                                        |  5 ++
-> > >   2 files changed, 59 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> > > new file mode 100644
-> > > index 000000000000..3d4de096093f
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> > > @@ -0,0 +1,54 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id:http://devicetree.org/schemas/firmware/arm,ras-cper.yaml#
-> > > +$schema:http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Arm RAS CPER provider
-> > > +
-> > > +maintainers:
-> > > +  - Ahmed Tiba<ahmed.tiba@arm.com>
-> > > +
-> > > +description:
-> > > +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
-> > > +  a firmware-first CPER error source directly via DeviceTree. Firmware
-> > > +  provides the CPER Generic Error Status block and notifies the OS through
-> > > +  an interrupt.
-> > I'd like some spec references in here if possible.
-> I can add a reference to the UEFI CPER specification for the Generic
-> Error Status record format.
-> 
-> For the firmware-first DT description itself I do not have a more specific
-> public reference to cite.
+On Thu, Jun 11, 2026 at 07:55:35AM +0200, Johannes Thumshirn wrote:
+> Yep fine from my side
 
-Is there a platform actually using this with DT (FVP doesn't really 
-count)?
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Fri, 12 Jun 2026 08:35:50 -0700
+Subject: [PATCH] EDAC/mpc85xx: Orphan it
 
-Rob
+Johannes doesn't have the hardware to test patches on it anymore and
+TTBOMK, no one else has shown interest so orphan the driver, for now at
+least.
+
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+---
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dcdc7bda7ace..4f0788c8d212 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9298,9 +9298,8 @@ S:	Maintained
+ F:	drivers/edac/igen6_edac.c
+ 
+ EDAC-MPC85XX
+-M:	Johannes Thumshirn <morbidrsa@gmail.com>
+ L:	linux-edac@vger.kernel.org
+-S:	Maintained
++S:	Orphan
+ F:	drivers/edac/mpc85xx_edac.[ch]
+ 
+ EDAC-NPCM
+-- 
+2.53.0
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
