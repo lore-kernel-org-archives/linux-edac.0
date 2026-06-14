@@ -1,102 +1,134 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA88405C33
-	for <linux-edac@vger.kernel.org>; Fri, 12 Jun 2026 17:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781283952; cv=none; b=aNKDHAtFUW1xzidbt+rTIFgK2SoDw4ZE2bM1zkbbxKplS/ygWKN91NC7yqNxh23Rz7Nj4Z1d4caokr7LmeT8wSb95bZk2reDnuHHvx6UiCyCUdhGyOyn1qKa/1P2NXRVcMn27O8tS1TH6Pq4Q5XFzjWgTGPq7SNOtcMrNWbGT/o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781283952; c=relaxed/simple;
-	bh=EFflbR1Rx35JoQf+sIVPtpqU5ZfVszTdFtLHsprSuYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fTuBb4uOrUBTeQuFR+uj0XQcj2W/gxF919pCfHK7Inln5QtOBeuUVVIOasB1lrwd/7VWupkjXASubGExv6m7G9f32GqIrR/yL6s2rrKOJQrApdr1o+OtarLeo4UIpoFfivkG4has6TcrI94/1/TsylQB1RTde/zL9VLztOUfWrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rKPmKLIl; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB1726ED37
+	for <linux-edac@vger.kernel.org>; Sun, 14 Jun 2026 14:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781446572; cv=pass; b=JQejUrBYFBC/3oqoNUAmDqpSosGVw8mV4M+JLd0/vPx4DzSPSHfLBiRSsXj8MnA6UqTaAG8vWXW4dPeSybhf8tF19FVVcJFDjIMxaUFbKHDmLJulsALJi3W2snqO0pBpevda2OuQyrETCFjUTNkw8vrIpjQFsh4T3TIruwsIG4w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781446572; c=relaxed/simple;
+	bh=Hczzc9aa7+pubkqEaDjPPRveS1j1mx9LSpw4DYqmYtk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qSVpP+On+dHUlMOTOvj+9guVIbpLphw/mh1dDyC38XxsVrDEREMz6asYK8nwUv7ncBUSQbqUJfEzWSojm/a48lhsATHNndoG9bTmEFEVc63XwKCrF1iio+prEY4AU7UyZWlLKClH0NQD9pomomg4rZHYOLghI/il+sWv+n0LsHU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lafWp2R7; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rKPmKLIl"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45efb698ef2so638416f8f.3
-        for <linux-edac@vger.kernel.org>; Fri, 12 Jun 2026 10:05:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lafWp2R7"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5175d339e8bso626341cf.0
+        for <linux-edac@vger.kernel.org>; Sun, 14 Jun 2026 07:16:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781446570; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XnlPHgSxR7lysT8SlVUsLISJ6q5xAAl6RXuhNfyFuo/WaKQnHq8eJoNWmCuctWSS5b
+         y8WVSqJ0+4fU3V+odBgnPvUtA6MTZ6JqUNFj3M2fxIT4nMDgMdWAWIonl0hC2oSGl1xq
+         RfHxNCsLFFZjH1ovigceSzzjvmvBA8S3vw9IDQQwj16Rdn5DaOiZP5Q/YmeUnV84wHUI
+         K5Vkwats7ab5+xUqiNK9i8MQ/VpbTJdFTnIOzCFjrHisVzuv7UseYu+gMCqpEWYZadcl
+         gM+FJhfsV3A+z16EXIZlN8jmuiPYQ1X1rcQHYsX6Vvks/cAPcA4VKNN9aSm/FUFhBgn7
+         IqQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Hczzc9aa7+pubkqEaDjPPRveS1j1mx9LSpw4DYqmYtk=;
+        fh=LgHSy5E3DO5JXB/iFjrUIpMUs2elVcPNhEygka6o2aY=;
+        b=cW1Nd1xuyd38WIW9G8JeS3vR+4hTDS+ulVQSXQxMsKBFivhHiTKY1EM7HDDWTIYh57
+         psmBuiK7B5ATbR1hA7IVrwUFLuH+kqYl244sDrKoakM6lCNow3F5iqqss84o3bqupScw
+         sDqbgDc0Sl21pNEWNn0jk399E5YYfLrgkms600vlw8POjlnSylDlw47OZyHUW/mqPTgY
+         lgi+oHcxcHpK9tIJ4vIRXKva/Lk1WGgf4MdJe1S0I8cNUFe+ASH9tOQVMcl0vRzy1trd
+         dVa8eUimx71i1m1dkHlu+EPDasFGzEnOwJT14oOdoYyI0/Jqutp3BG63KFWSS+a0xHho
+         q2Zg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781283948; x=1781888748; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EFflbR1Rx35JoQf+sIVPtpqU5ZfVszTdFtLHsprSuYE=;
-        b=rKPmKLIlKXdpUpuxISRlDEq/KMCIN7iVJiIR0pb+uTTfLdbeb2pDeouhSzXwfkxJvQ
-         4kaUMpypUCEmsSTZEUAcuouNw+OIpOvfJAp5mFV29mxvn02Lm2FFW2/1drrUUW63q/Rr
-         WhAo9xD3z+0cdOb8vrrH1RVsBm3oT/jYBdOg0YpPxoskXslPCrD6v3NO5jMAexx7J5ml
-         aMPOa3OwSq7mji6RTPSQKJ+N2Lpn5Lq0Kx5kpve0pqeO7d/jMkNu7RzQYooqTuR1/RuS
-         X8bUXiAgpUXMCLNVeK3FZCGiw0Ma+upMw5ksxTYWvsJe2N6EccEl9EMMAQOjZ3itNjFu
-         KN4A==
+        d=google.com; s=20251104; t=1781446570; x=1782051370; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hczzc9aa7+pubkqEaDjPPRveS1j1mx9LSpw4DYqmYtk=;
+        b=lafWp2R7QaIU05e2ABfjupO2tAhRwmbxsPLwSvDNPqV88RkUTtrJLXPkHZgA+spdlx
+         f52ElrSgRt4VIGP9b7KoFSXJ6YLFBO9JXRoVyXvuv7809EY39oPIEGaCXc1qkv375INb
+         fD7WRpCeL9OkCqsCF8O11+7kdSXn9nlsYKf8C+PLIGtp8vntCm+7qyShwQohk2F40d3F
+         RebfkJWAt4xmNGCrOrLowJEUGKpGnTgJHMYlSlUJy4dHeSkqATL7LfUSS6tnCQWvHe7w
+         FkQ2OfXspU4O+Xn9NVKl9YEqeJbhp8Hoyrqd5LNuLx5sPZUQwZ3OanUYz9zCOp0aRpnj
+         p0HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781283948; x=1781888748;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EFflbR1Rx35JoQf+sIVPtpqU5ZfVszTdFtLHsprSuYE=;
-        b=RyPSkJNg3MnjM/CG8ngJNoPtk1WVNZDg7Z1v0Nfod8XaIjUlAJSr9jLlneRMtaCaV/
-         ey+1dY3wVS34Y2i8qcWyx4beQNYTVG3aJl/s0prXwAQ5hgSvvEps99ADbgaJE12NU0+M
-         RzujMqoRHcaClpo7byczjAqayxmPLDhWa3MzC/0cO5pmY1Ti63WZPUDNharPCSgc0eko
-         mNOW3mISCPRRcq8X1Xe7ravLh6Y+1Of72YTP60oT7Js6YHkX+zYzwxDJdVpE45xQYcew
-         RBsvFQC4Lu3HAVNdTCQfBL2kBVlWn14UJGExsaiyiXcfSVTJUclwcdoezXCYhO7pGrcw
-         LDtg==
-X-Forwarded-Encrypted: i=1; AFNElJ9YiUvxD+n/BJEBJqk6nQjf6SXp2bU+nOwwmLFVqMyN27UL/ylINENOM6sB8ldjDxHljclgWNato0dm@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoJcTswbfTKgx2GSj63KmQvf94vJip7d+Bwf5GAJ0ToDaiZIbL
-	jVTIY5JFvUWjeUsOmc3yOo7wciDERwW8Ox75fpaK8KhYRBeaX1iG9sCY
-X-Gm-Gg: Acq92OH5PmbHgMT/gLNxqO1wDG7H5tCeo6Uowra5hkWYktzedWl+IQEM9jsI8Q3+imj
-	cEDwaVF3RuVGWI6sUQoC4UvP/tcDZ0DbgPLOLhgrtPPywFJnUXm4EAI7QUnvT+8aRflQEx6Zhqk
-	WxCfZtyjM5XxQ2/znpHRw39/jJnEmArwgdcz+gEEIpx+iMRy99UemDGGgwoNHuoqo7Gbvw2tDnx
-	EE4OZU9DKLSt61X2ExfzuTODW5aefEplBr49eMpXoh6LFjOcD7LTxTc6+Hzex7UB0cMM1MIvm1J
-	Mck15e56JGN5+O8nnqkDU1YUGvr3a1qBbXjrrAp+4oS2YjIrQZ45iX69HxSiIl0pQqGMrzrd2FR
-	5nTPAb6DQha1J16JWkbce4FZwjHdgSbRlCTXJaoLMzIqqDnINwVFBKtGVFJuxXs+ZDjUde+JVqi
-	k2lsC9lorqpMV0iLIdcXjTlZyHMTXTgRjFUK10jAtsHJIuTPIP/qnQYVRWBNOSYhUL+3UKW10Or
-	4n+8oOUxHOL6Z1xwgWjViAjP1wBXNn9PAovuAiGTHk09PApguA3rg==
-X-Received: by 2002:a05:6000:184b:b0:43d:77a8:3baf with SMTP id ffacd0b85a97d-46074b84e9emr89888f8f.32.1781283948151;
-        Fri, 12 Jun 2026 10:05:48 -0700 (PDT)
-Received: from ?IPV6:2003:f6:f70a:900:3c0b:876f:c20f:d04? (p200300f6f70a09003c0b876fc20f0d04.dip0.t-ipconnect.de. [2003:f6:f70a:900:3c0b:876f:c20f:d04])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26434dsm7877502f8f.1.2026.06.12.10.05.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2026 10:05:47 -0700 (PDT)
-Message-ID: <add460c5-0403-4054-a85a-a1c76925def7@gmail.com>
-Date: Fri, 12 Jun 2026 19:05:47 +0200
+        d=1e100.net; s=20251104; t=1781446570; x=1782051370;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Hczzc9aa7+pubkqEaDjPPRveS1j1mx9LSpw4DYqmYtk=;
+        b=cT7fSEcTRYbY4VyDXwW6Rod0ke9aThgFfBYGpybsPhizSmQN9EvpSN47VQTL3UV8QG
+         93lXYppDLI7NpXfnds+poUv2FypCmuf0Vce+8kvdNICwCPuTp/kkPUPsl9OaNXahIUQk
+         F9l/b90NnUFef3CPAU7aKAh9q7Jnf8cZqEU1XJyS3nXKfgyTkLJAISMB0wH+rZbSb4Vb
+         2SHSxWsXaxx/hHvTlSqudQLbKKIQe8ktQCsZAFwj42ip+JoIG6/MFXTmVd9p9S133gG4
+         xxLpuBGqBhaV7CAPXo+MyGglzZNp/+ollXxiDTZBmtIxS2oYZVyIZ6XPQJKEhjM74gEj
+         T+6w==
+X-Forwarded-Encrypted: i=1; AFNElJ96JlluzK/qFtLMopVLsUshyC0YtEOg8SSjUaQePwMzo7DEE3NcSDPd0n4OA6za2eOaJp8OCFrSae87@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWthqZ1HuPWDGKUA0JkcrN7huLRQEyp06mEcejlAguWinyyJ3A
+	Y2XGONdJi3mzxcJ2tKHSUTdVp/VoPjB94Xx7TK3WbIZ4l3W+INYvUvjKFU9n891/Heu0peEKKsO
+	W8Fhj8e+B/89K1qtIGKZ8GuiQrEmgcToSnVIdjJQB
+X-Gm-Gg: Acq92OHXRy54zYSauNP2SGw22Ka5srViYRVUn/CY6kMWWdMvVztBpYdakaHlWZw20Us
+	0R2b9/XcqvPP8/WIa200Nszpl8JBBW340kPRQqsWdXr5BDGrinSalJE4d29kaSufLi1WGOSUDQ8
+	1caFMXaduP8/Ym65WLEUMxQSgcl1OawnpywesyN73YlfO9JbbNfYrm7BpY9pXCnXJzQqGxuU68F
+	fdfwFdHxqw466rGHZsVAOZO/nGIrEd8o+0G2GdE9sYKLhgb2GArcCNO6UbAYSClS4Qwt4IKz/WB
+	Ca6ygp0=
+X-Received: by 2002:ac8:6109:0:b0:517:99ea:ab7f with SMTP id
+ d75a77b69052e-51955ee8542mr9071471cf.25.1781446569949; Sun, 14 Jun 2026
+ 07:16:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] EDAC/mpc85xx: Use platform_get_irq() to get interrupt
-To: Borislav Petkov <bp@alien8.de>
-Cc: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>, open list <linux-kernel@vger.kernel.org>
-References: <20260603191908.5618-1-rosenp@gmail.com>
- <16fb1ca6-447c-42b6-b4f3-aade5ce7f90c@gmail.com>
- <20260610173352.GBaimgACY4q6PkkkUk@fat_crate.local>
- <ef8107c1-92e9-4540-b88f-0191d1b7a4e6@gmail.com>
- <20260612153839.GCaiwn_7qOic4KLF8P@fat_crate.local>
-Content-Language: en-US
-From: Johannes Thumshirn <morbidrsa@gmail.com>
-In-Reply-To: <20260612153839.GCaiwn_7qOic4KLF8P@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260608072607.1819873-1-pohaosu@google.com> <20260609160732.GA19967@yaz-khff2.amd.com>
+In-Reply-To: <20260609160732.GA19967@yaz-khff2.amd.com>
+From: Phineas Su <pohaosu@google.com>
+Date: Sun, 14 Jun 2026 22:15:33 +0800
+X-Gm-Features: AVVi8Cf_s84mS_R6ppMJvw5mnfi7cZuYC0W9Yum5eg2mRPIDtXUnmtzMI8LPiQg
+Message-ID: <CAHGR-A+kTAcFpBE0wH5WYraUUq3=st+hXMjnF6Zcj8OGqOBJwQ@mail.gmail.com>
+Subject: Re: [PATCH] EDAC/amd64: Fix incorrect Node ID mapping on CPU-only
+ Zen4+ systems
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: bp@alien8.de, tony.luck@intel.com, muralidhara.mk@amd.com, 
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/12/26 5:38 PM, Borislav Petkov wrote:
-> On Thu, Jun 11, 2026 at 07:55:35AM +0200, Johannes Thumshirn wrote:
->> Yep fine from my side
-> From: "Borislav Petkov (AMD)" <bp@alien8.de>
-> Date: Fri, 12 Jun 2026 08:35:50 -0700
-> Subject: [PATCH] EDAC/mpc85xx: Orphan it
+On Wed, Jun 10, 2026 at 12:07=E2=80=AFAM Yazen Ghannam <yazen.ghannam@amd.c=
+om> wrote:
 >
-> Johannes doesn't have the hardware to test patches on it anymore and
-> TTBOMK, no one else has shown interest so orphan the driver, for now at
-> least.
+> On Mon, Jun 08, 2026 at 07:26:07AM +0000, Phineas Su wrote:
+> > On CPU-only systems using AMD Zen4 (Genoa) and newer processors, memory
+> > ECC errors can be reported with an incorrect Node ID (incremented by 1)=
+.
+> > This happens because these CPUs use SMCA_UMC_V2 banks, which triggers
+> > the GPU node ID fixup logic in fixup_node_id().
+> >
 >
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Can you please share the MCA_IPID register value for these banks?
+>
+> The statement 'Zen4 and newer processors...use SMCA_UMC_V2 banks' isn't
+> generally true.
+>
+> This system may be a special case. Or there may be a hardware issue. Or
+> there may be a bug in the kernel enumeration code.
+>
+> Thanks,
+> Yazen
 
+Hi Yazen,
 
-Acked-by: Johannes Thumshirn <jth@kernel.org>
+Thanks, you are correct. I think we misunderstood the code regarding
+Zen4 CPUs generally using UMC_V2.
+I was troubleshooting an internal memory error reporting issue on a
+CPU-only system and initially thought this might be the problem.
+However, I think making the code more robust and clearer is
+worthwhile. If a CPU-only system were to report UMC_V2 (due to future
+hardware iterations, firmware bugs, or enumeration anomalies), the
+current logic would incorrectly apply the GPU fixup.
+I will send a v2 of the patch with an updated commit message framing
+this as a robustness improvement.
 
+Thanks,
+Phineas Su
