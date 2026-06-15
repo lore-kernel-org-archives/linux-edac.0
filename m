@@ -1,111 +1,109 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17673C4544
-	for <linux-edac@vger.kernel.org>; Sun, 14 Jun 2026 15:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2302112CD8B;
+	Mon, 15 Jun 2026 02:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781449631; cv=none; b=QncC4uwHEZGIqmP65B0W8Uomv2aq9hrzESW/4nti/zPRzlaMQKo1oC1Z/44Nbt1jmi7ntqqp8kRVHWBBc2IQwz9C414WoDBfA5OTLBXHYW5nN3IEMnOPH0wESN50KOe+QL0PvRmzfD5+tV5jeXd4WacbMr8g0BugUP4BMOQNxq4=
+	t=1781490418; cv=none; b=IkTc6eXrRGAdPm+SlFxXyUZBsOUfNaR9enA5WQKIHQs7GInyPTIUkt1pEWc7eWbiaymq6v4REGw05ePXzjWD7GHPr7VvVAtWOFK+U/4vgqdtNI37dK+uCI+vaegtAxkP4JnYyzILZNcJskqjheburvNFL1CAHS3z6tHb7UamO+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781449631; c=relaxed/simple;
-	bh=ypFhfBuh4oKinLArHJtcuri57IqTPl7YZKA2iJjtZdk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=TNRmF3TBb8i0TGSVmiA1zh4qM1b/Y7K8Q2NxMD7eblIHOKBmJDgOVYhCMjmUU7e1u1q/LebLNqn4WokDBKvJxBmWqgQTTqYoQHYSOtqN2U69hAun+cGz0XhvpcwuWsk9KxAOWh3V6eJ0fNvO/pti+bHhWasE9oqlHTfwhWKrIvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--pohaosu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WZ/uIC+t; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--pohaosu.bounces.google.com
+	s=arc-20240116; t=1781490418; c=relaxed/simple;
+	bh=U2So8GmUcUWMe8Q3vHy2bQr1WKkjuYV9FoEK1qDBy4A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qO0ZvK4+w281ymCvknpzWefcNz/xwO3ZiGaA/JQ90ynYHDNE+iqp3zLqMrFjssHUPRqq2PDZW8GCeQ3sA4N9Mp1d51lQjw5Vu96TGHl3ZuuSLxWyDJc5FAKibGLKRb74aObqjvfXVdtpUSPQ7dIdrdH7FV3MFUlvmkvUjnm7UUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=lC/ug88v; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WZ/uIC+t"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-842688fa7b8so3187314b3a.0
-        for <linux-edac@vger.kernel.org>; Sun, 14 Jun 2026 08:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781449629; x=1782054429; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=20bujbZoD7BWLzgU7LEZF+60Jzq/C2M2umGEPKTUImA=;
-        b=WZ/uIC+twnYSWvwSxwvxojw6jfyVbiY1ufUGnQMKc3VfEo3NnfzymI4glDXefC/2bK
-         WezbQWL53ASKeIg8R8wOnZxQ4SF62hzSfl5406vKa8fu9AvHMtk7rE50uO0FgcvbGH9f
-         5pKVwoqHZ3Oj0N8ZPYyfeumtYHf2hCNuGwyfRLlR4JCiajZW1NmVIQFDYrERsdcm75jR
-         qoKB7RaM5QfXeg5lb8AblKNcejFglMLeqGGMGFrE8Ao0XkMfF+JKFK8jiNOAuXarQzfx
-         veYqzrlixXc/UyCCvQFxEcLsoihsCkMUWDWklMoEEjPYeQKNRe8d/npX/gkCg5w06vhX
-         BENA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781449629; x=1782054429;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=20bujbZoD7BWLzgU7LEZF+60Jzq/C2M2umGEPKTUImA=;
-        b=PwoVWHxOUvp9iYztU6+YtKLfljAxiUF8EfuNiVKLI+TfzVtVqXz2K4vz+wN63cdTvC
-         GVIBmaJqtcm471DXjIoEhJcNtqkyntSUzBOEsPiVpyFlRYd+p3hgQJs9LvERFAeYWCwu
-         u0MRlCsyvh2O6mvYMF8Uoh7D4CBmelVC/4ZZzrK69Y8bQJCqa8JEXlDLo3ZKUJ/hTMPn
-         u475ldqchhZ5nZQMSVGXZyyCdLTWkG4XMW0SOr9/9tV1/wgdGL1c+XWBHfyqBT2Pwgjc
-         iX7astIhe/D5cILANxnfnza3AuBJmVzTG8/l4kKaygLsRgGQh01ddG8s2k+AsHv4RkZE
-         PtHg==
-X-Forwarded-Encrypted: i=1; AFNElJ+VmypnoBobd565GrLe7vjUn/x4DYo1MT3imMjHkPSBWgIe0XftmFFZ/S+cf89MfDOO2zxFEWtHIzfj@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4TK3GEh4PJsNDdkxmrhJJO30ZJE+5N3a1l3MPX49R2AUOa99P
-	flNg+1jiIdvsbULFAsCWTRxRBzqJRdYeI2H1CGXDsOZdQyJfg5IBSocox/PyZDAMmKc7eZwSM1y
-	+VYlJBWXoRg==
-X-Received: from pfbmc1.prod.google.com ([2002:a05:6a00:7681:b0:842:5e34:69b5])
- (user=pohaosu job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1391:b0:837:f111:b70
- with SMTP id d2e1a72fcca58-8434953f752mr10476313b3a.4.1781449628513; Sun, 14
- Jun 2026 08:07:08 -0700 (PDT)
-Date: Sun, 14 Jun 2026 15:06:18 +0000
-In-Reply-To: <CAHGR-A+kTAcFpBE0wH5WYraUUq3=st+hXMjnF6Zcj8OGqOBJwQ@mail.gmail.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="lC/ug88v"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BF66E40E01B5;
+	Mon, 15 Jun 2026 02:26:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 4Ffh2WgAw2qU; Mon, 15 Jun 2026 02:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1781490393; bh=7HyDw+5kjCclJCrMXUDED8VuTOqhYAhA2XkeUQqDhaM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lC/ug88vkUPz0/++ENyCHiJEi4IqqIMUOVus8UorEntyVnRJzY655ou16AAdKqOff
+	 NoUzB5hP1PEZCgVx01cwWMygZwcDa+iyEdXX1RAPXeeck42DLlfSEBQ9NqSPwhC7KU
+	 AsL1//tBgkdn/HyZoGX/jY2qhT8PG4o11GNfo+++qTt/ybH8zTFzxDak46yhIXLrtZ
+	 K7dFSaXuV9DHl71eZnAA0c+c3SoVUQjjfEogionTBLZYknYjpX9IFx7KYJ8F8nQnys
+	 hLm+mvYX4S6d89JbNTQn5/wmWinx/3ZOqJQ+5bia5tQ27rZ0UG/AisW6ZFxMYIgQpT
+	 THUc1JwQqaLeZRO3rzjNuERR9c7A4ht+3zbWtDJGpngO5nC8oV0FJXxCLMtfTSfl1S
+	 II1HvFi53rOZYnXqx4n6lqFtlVjDcD793w61QnkoDGlfYkWklKPmoOJzeFrPX5ekM5
+	 L9GzH+4qOl0OVQ1C/GrOeyI0ijmVixRztErT2viw3m/oBELRKqYsB+8oi2/yg4sP2B
+	 IXhydXdZY0ZnuMYH74CMNBBhaDAbt97kUSJ0ogkZpQKr57SPvenr/uXGmarHzPc4Pr
+	 sqyvbFxkxB/aR9AAZKc4C+M9GWKdJ0C2H/qgCraDi8O9L+CMZdZGST2juPxjnib0ir
+	 2oOacHRN0Bt8km+8K2H4nEU0=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::48])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4701540E00C0;
+	Mon, 15 Jun 2026 02:26:28 +0000 (UTC)
+Date: Sun, 14 Jun 2026 19:26:25 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Cc: Tony Luck <tony.luck@intel.com>, Yi Lai <yi1.lai@intel.com>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/8] EDAC/{skx_common,i10nm,imh}: Move MC register access
+ helpers to skx_common
+Message-ID: <20260615022625.GAai9i0Zb3_9TVwIRf@fat_crate.local>
+References: <20260521073112.3881223-1-qiuxu.zhuo@intel.com>
+ <20260521073112.3881223-2-qiuxu.zhuo@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <CAHGR-A+kTAcFpBE0wH5WYraUUq3=st+hXMjnF6Zcj8OGqOBJwQ@mail.gmail.com>
-X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
-Message-ID: <20260614150618.696249-1-pohaosu@google.com>
-Subject: [PATCH v2] EDAC/amd64: Only translate Node ID if GPU nodes are present
-From: Phineas Su <pohaosu@google.com>
-To: yazen.ghannam@amd.com
-Cc: bp@alien8.de, tony.luck@intel.com, muralidhara.mk@amd.com, 
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Phineas Su <pohaosu@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260521073112.3881223-2-qiuxu.zhuo@intel.com>
 
-The fixup_node_id() function adjusts the AMD Node ID for GPU memory
-controllers (which report as SMCA_UMC_V2) on heterogeneous systems.
-CPU memory controllers typically report as SMCA_UMC (v1) and do not
-require translation.
+On Thu, May 21, 2026 at 03:31:05PM +0800, Qiuxu Zhuo wrote:
+> Both i10nm_basic.c and imh_basic.c use identical helpers for accessing
+> memory controller MMIO-based registers. Move these helpers to skx_common.c
+> to eliminate code duplication. This change also prepares for an upcoming
+> patch that will move RRL(retry_rd_err_log) code from i10nm_basic.c to
 
-If a CPU memory controller on a CPU-only system were to report as
-SMCA_UMC_V2 (e.g. due to future hardware iterations, firmware reporting,
-or kernel enumeration differences), the code would attempt to apply the
-GPU translation. Since gpu_node_map is uninitialized on CPU-only systems,
-this would lead to an unintended translation being applied.
+For the future:
 
-Harden the translation logic by checking that GPU nodes are actually
-present in the system (gpu_node_map.node_count > 0) before applying the
-translation. This ensures CPU-only systems are always safely bypassed.
+Avoid having "This patch" or "This commit" in the commit message. It is
+tautologically useless.
 
-Signed-off-by: Phineas Su <pohaosu@google.com>
----
-v2:
-  - Reframed commit message to focus on robustness rather than a confirmed
-    bug, as Zen4 CPUs do not generally report UMC_V2. (Yazen)
+Also, do
 
- drivers/edac/amd64_edac.c | 4 ++++
- 1 file changed, 4 insertions(+)
+$ git grep 'This patch' Documentation/process
 
-diff --git a/drivers/edac/amd64_edac.c b/drivers/edac/amd64_edac.c
-index c6aa69dbd9fb..1e688123a50c 100644
---- a/drivers/edac/amd64_edac.c
-+++ b/drivers/edac/amd64_edac.c
-@@ -1047,6 +1047,10 @@ static int fixup_node_id(int node_id, struct mce *m)
- 	if (smca_get_bank_type(m->extcpu, m->bank) != SMCA_UMC_V2)
- 		return node_id;
- 
-+	/* If no GPU nodes are present, no fixup is needed. */
-+	if (!gpu_node_map.node_count)
-+		return node_id;
-+
- 	/* Nodes below the GPU base node are CPU nodes and don't need a fixup. */
- 	if (nid < gpu_node_map.base_node_id)
- 		return node_id;
+for more details.
+
+Also, there's no upcoming patch in git history either.
+
+So please formulate your commit messages without referencing some patches
+which no one would know about when reading this commit message in the future.
+
+Also, in all your commit messages, do not explain what the code does - that's
+visible from the diff itself. Rather explain why the patch exists.
+
+Just several of things that I noticed while preparing the pull request.
+
+We have a bunch of good suggestions here
+
+https://docs.kernel.org/process/maintainer-tip.html
+
+and in Documentation/process/submitting-patches.rst
+
+Please read them and pay attention to that stuff in your future submissions.
+
+Thx.
+
 -- 
-2.54.0.1136.gdb2ca164c4-goog
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
