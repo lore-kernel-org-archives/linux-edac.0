@@ -1,123 +1,93 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045183630B2
-	for <linux-edac@vger.kernel.org>; Wed, 17 Jun 2026 17:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB3539E9C8;
+	Wed, 17 Jun 2026 22:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781718011; cv=none; b=VKPUhyOIclgnfcutALmpARAImVS7VwlVUZ8icAGCC0wksJqKwLzpo2UlG01gBVdF3vHCgooTJ+BoqqFyh62nU/qLeKusECUWcdS9khZXbcccJLaOU0y1y9M6XV31jP4B2hAvuDWkbhMM51y+698fNwYUYWVlrjBOBTdvqdN6/Fs=
+	t=1781734747; cv=none; b=f8HsnJvv1DQXCMOEvKMevGXEivDdVwaUqxr7xXaQXEdgZ3WjdglfU4P8M/G1jbyuZUm+eVGxbLKTBlvwac/0MVCIFHwwdokoiZZhyq6wTV5htOpuHCWHIySHKLsUB5LlrtHjOHy3C61VYBDAjhSCjoDaooBTIEEGk8Jmyymqzhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781718011; c=relaxed/simple;
-	bh=3H6Tx8GKVFXGcwT6woXKZw4U9eyeRFNU5j+1Z0MDS6o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pBy2HpeI5CBFWlVuaA1U5uA/has7FFdK3KdmADUcsW6Vfvq8ODvgfKubsP+aM2eSWB+YhQnFMFyBHq15DAdgPKzDAPfNjRtWttAFEXoNi9JCxmT+dpZjz8cvQzbCkTY/NIzsaKT/sCEPgw6MQfZJrVW9AePsLhSgCX2mTs93BGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ME3Wd1Bq; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781734747; c=relaxed/simple;
+	bh=iwOB2BjRpWHpiAkjAunSy1kSThaOq0jrJ2urVceQOo4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EUYo/cxs0YVyjxVr+YFsqOoxi+lUfDxMkPAGG8TM5A0u1JOxx9R6f3EhyLeuBy9CfliiPj77EFMajzi9IxWE2di1l8d+97feKLX+yNsdrMsd1JfQXge6dHJlSRxGf3CsLh/6blII1J5fH1JNc0Q+4QwhK04wqnvkhsr8sT6lGYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Nd2VCaWK; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ME3Wd1Bq"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4905529b933so60759575e9.0
-        for <linux-edac@vger.kernel.org>; Wed, 17 Jun 2026 10:40:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781718007; x=1782322807; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=E4aTYQpCEBfoHlNp/ih1aDYhCnw5Uq36PYKp2Wj/2Xk=;
-        b=ME3Wd1BqunjbXx1jj5Nqrd4ZQ0HbyYsoc4LsCb+zo/c/DY4jbzO6IMvFSQRPn1XW4e
-         0Rm+67aRIPdnLLaLgz7NbLkLKj5rdH46f8vV+PnvkM6lK+GCNg2cOk3Mmh9W/LY9syzO
-         4LXczJCror55fEGYc2TEV1K33AbuuUv1TNchT2WHZe4RMQcSdb0zL5pOK5Zp2M5XAt6e
-         bs/eX2UVglZKgI5FEfSaySKbWhfRHkg3TIk2G/grHGilUdo8Q7Eq48y5lPhY4Cl9KVby
-         yVRXc5o1IV2ecGx+f0DpsHo8V27WjK9w1igw55HDhTLEBapvYxIl0xe15PzQTAl5hZ3k
-         3hzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781718007; x=1782322807;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E4aTYQpCEBfoHlNp/ih1aDYhCnw5Uq36PYKp2Wj/2Xk=;
-        b=feTQbV5LQxK0yV/HXfqEScT48bq8NRosgg4VSyQt3EzXXT9p0PY0c9KM2JmDaZudKW
-         JVK3mLW2Lv+fZwvoio8VFqpzxoD05bfE93tN8p+qSJOu50WcuCh3z9qxjkFTRtLivpEV
-         c9kVsU/r+6wX3VkBHWz/Xv2oQqSi2RN3MwnvUvVwghhOVEzp6bTWaXF0tM+eSpWrXTyB
-         Fg3lv9BBrSNNySuvtFaIFWXziBCkLAayoTfRRgPCbxVLyMBp2ML4uhDo48aIJBBJiMUh
-         R4VQ16KyxwSpxyfAmzr8R66lM3wxysZ4t+kOaZnRLqNtS8FQN12pAAq2ilWy/0TYgZWI
-         hddg==
-X-Forwarded-Encrypted: i=1; AFNElJ+gG/eLfhgkYF6w1fmJXjfG8SAT0fXv6TXhIuR86dM8HhnETLnJB++B8oALsgUEcDL6kZFCUR4DMrtA@vger.kernel.org
-X-Gm-Message-State: AOJu0YznkOeXsS4BToXSpiFtyUvkzJKR+K/M/yQ1OL5j+KgBo0VU35I2
-	Nm+tr6aLQzqF+YZphWS5pNXD/cdWhY15q85SFDUeUzGIXJjg45g45t5/
-X-Gm-Gg: Acq92OGm2QPPjXHZ19YE5HJo3tpJfs48VmSOc5x0BVW1sndkU3kysAYjj8qqsQ/LbmM
-	Agt3zb65AlaHeKZiVSsqiXju+4+c8WDdWzkmSatDigaeBm+2iogelxSpwgYGhpx6FrmH+522spH
-	r4b5z9FSbIt2q3nsR/Yx2xpQjRjTvLJpfk9EiMi7j/IG0ZZ5Rok/hGs4rzNFg0CF2biHq3Z2Jz/
-	4AW/cWSwvdngHdRE8QXc0DQDLWgwI12+wMYaXU4LmWFGJW/AgGo5yQyv9j6gNYqwnich2UjDR/2
-	/Q2tnXFG7Ol0A4ucdM8Y+JSoO+gX1zeHeaMiPvvwJDLmvbTaqV+pkWcUrd2Y8u8ZwsLNqFM2X0n
-	a5hUCvJKoQZCSq7Y4GuQTFqR1KlpoawD6ThDs6qg5pBweRyz0Z6zBrasgJSX7FzBMOFLx4XvzVs
-	VZYkZ44ISnGVJ1eI8xa020VptjIlgquOQjJFlQ/Xk0DeNaMusQPMI9uVb5kHkTutnfF76E3Hhn/
-	TaS5Q1jSWiNnR0y8g==
-X-Received: by 2002:a05:600c:3e1a:b0:490:e974:e01f with SMTP id 5b1f17b1804b1-492333ecb80mr88065235e9.28.1781718007311;
-        Wed, 17 Jun 2026 10:40:07 -0700 (PDT)
-Received: from [10.128.11.42] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49234daafc7sm59819515e9.10.2026.06.17.10.40.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2026 10:40:06 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <0f131ee4-d335-45d2-b6ae-49c18df1353b@gmail.com>
-Date: Wed, 17 Jun 2026 18:40:05 +0100
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Nd2VCaWK"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9E67040E015A;
+	Wed, 17 Jun 2026 22:18:54 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id vxrtJOhXEUgf; Wed, 17 Jun 2026 22:18:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1781734724; bh=0f++1YPuGU5ow7b72prPIvdwxMCAYDA1ZPUqkcuhCPw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nd2VCaWKziaZOZ4bMV6vnMQI+BEohcevqcsu6njOO4c+Ip1jsXkF5+6sNLtQW8Qsb
+	 Ut6B8PVN0NOW6GEqxOIy3G1lYZB97Hw5DPRGG6K8Kg+smR2pvBe/JVsQPOYNxQhpVr
+	 Nw46UL+OO7cp0GkbNHHXQyb/7hNGLbaHQrdwIh/XZujzax9Y31uQ32sifR1HKsMcmP
+	 ReHn9ILE3W7by602SwxSNxZJJsf9zAlMcDv7ddovN2pTfWcX5Fdv+yH0pBol8h7PVF
+	 wx3soDVj0mTKrEoXR0Us64tc1wf7aSAt2VL2DksQoP0HtvesQkvCHYqKilndDwK9WD
+	 uNy3jPkoH9U/ohEXyHil+wkadwzAKOo4fEf0/kQhhxtg8LZS1+tg2+eKyQo+D1XxkA
+	 DTRQ9zxw7DkVYR7yS2CRwMIbsc2L/9KL3P+Iwt5qF1qFM0mP1JJBYuBG8ufMGXuJi4
+	 wjr/1p2tbYAH3CNEvVaZNtB8Eq88O3xTCVp+qupacOIrENDiM3eFSdbh3DghzuCtu3
+	 ht1xvJs2+X0dck5f0tuqDQ1w/Xt9zoYVXbfe9J3IICkg8awZ+Rs8cyqd0RKnkPhP03
+	 6lMNjjPck1LP6HrR9yFGEs2misZPT7Taar3fjWUO/fSlhJ5lRp/p7AfSLjIsYun9D6
+	 m8RZvavoN8TGkkPp+2vWA7Ms=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6EC4740E00BF;
+	Wed, 17 Jun 2026 22:18:37 +0000 (UTC)
+Date: Wed, 17 Jun 2026 15:18:34 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: tony.luck@intel.com, dbgh9129@gmail.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] EDAC/altera: Use parent device for devres in
+ altr_portb_setup()
+Message-ID: <20260617221834.GAajMdOocCPq39b-s0@fat_crate.local>
+References: <20260617164303.585555-1-dinguyen@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 10/10] RAS: add firmware-first CPER provider
-To: Ahmed Tiba <ahmed.tiba@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
- Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
- Len Brown <lenb@kernel.org>, Saket Dumbre <saket.dumbre@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <djbw@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
- devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
- linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
-References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
- <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-10-91f725174aa0@arm.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-10-91f725174aa0@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260617164303.585555-1-dinguyen@kernel.org>
 
-Hi again Ahmed,
+On Wed, Jun 17, 2026 at 11:43:03AM -0500, Dinh Nguyen wrote:
+> Anchor the devres group and the devm-managed IRQ requests in
+> altr_portb_setup() to the actual parent device (device->edac->dev)
+> instead of the embedded struct device inside the copied per-port
+> altr_edac_device_dev. This keeps devres_open_group(),
+> devm_request_irq(), devres_remove_group() and devres_release_group()
+> all referring to the same long-lived device so the group and the
+> resources allocated inside it are torn down together.
+> 
+> Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
+> Cc: stable@vger.kernel.org
+> Closes: https://sashiko.dev/#/patchset/20260503212558.2811480-1-dbgh9129%40gmail.com
+> Assisted-by: Claude:claude-opus-4-7
+> Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
+> ---
+>  drivers/edac/altera_edac.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-On 6/17/26 14:54, Ahmed Tiba wrote:
-> +config RAS_CPER_ESOURCE
-> +	bool "Firmware-first CPER error source block provider"
-> +	select GHES_CPER_HELPERS
-> +	help
-> +	  Enable support for firmware-first Common Platform Error Record
-> +	  (CPER) error source block providers. The current in-tree user is
-> +	  described by the arm,ras-cper DeviceTree binding. The driver
-> +	  reuses the existing GHES CPER helpers so the error processing
-> +	  matches the ACPI code paths, but it can be built even when ACPI is
-> +	  disabled.
+How urgent is this? Can it wait until the merge window is over?
 
-Yep, sure enough, this patch causes a build error when you enable
-RAS_CPER_ESOURCE without enabling ACPI:
+Thx.
 
-drivers/firmware/efi/cper-x86.c: In function ‘cper_print_proc_ia’:
-drivers/firmware/efi/cper-x86.c:352:21: error: implicit declaration of
-function ‘arch_apei_report_x86_error’ [-Wimplicit-function-declaration]
-  352 |                     arch_apei_report_x86_error(ctx_info,
-proc->lapic_id)) {
-      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+-- 
+Regards/Gruss,
+    Boris.
 
-- Julian Braha
+https://people.kernel.org/tglx/notes-about-netiquette
