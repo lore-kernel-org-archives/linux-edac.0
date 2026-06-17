@@ -1,114 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2088444CADF;
-	Wed, 17 Jun 2026 16:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3895B334681
+	for <linux-edac@vger.kernel.org>; Wed, 17 Jun 2026 17:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781714605; cv=none; b=TIVTZqP5xJZpUg6gWQnZAr1BePR0EJNQysf79BeUFnc4N2/e697oOc3itcCWUxMjFYWTy1W6zK9GiEgtuIajmm65q/5rmakeBRMblAtmgfb72vjKXNxDkzFhCUy0Jp6pM+8ft7/4EETk8voB3AvuDv74SW452KUzCX/fnZsUGn8=
+	t=1781716678; cv=none; b=APGSSp7PLafKrPLcBu3ew+uqGfQIwOCdzrDRjupGdMbGalDFADbAackM1by4O7PggmfMmFRehRXwl+tg/bjAyBNDNyfLs0OU+9owazk97U/U81dga5JBL7XsSzyQRXGOoD68vly6bQYjYrEYslaEcpoxi9NOTY0SGrs0BA3dxoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781714605; c=relaxed/simple;
-	bh=XutTQBdwrTCAX8gC7dBmWVDXGhZkom9HxGluN1rN/Rs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LoC3HfsfOJY7d8j+H7lAiFJMOI68DXsE0BFHu/nPqapFE7wfiODvcn98seob5X229JiMfboAwzH5+Rotr8FeBH9hmM5SIAKGcLpqj59em9tqOOjAIwxWM85u/iQyIE6EF8mpjOQyw/lAn0c1OVJnf9625RZXg1kzep/bJYu9EXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cbIzmMFb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781716678; c=relaxed/simple;
+	bh=V3CcxOLia9CY0H8zjb+ZTGSXWDv/g65LFKetUF1X0Sg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Be3m7z+z6gM4OoULgHa/IQKr3hYoROC2fJvvD72mRT0xuQvlhCyLfhBEw6FSodzKR0i43dhu3u9qBe8uH66Lhu1BU5OaJU8t94ajJ3extwox+IC5oEEZjMu7WOUCjyq97X6HaUuV9xH1d8djkd+m1w/xLbUiFL9ovWaC8IrOcGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQrtBGsN; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cbIzmMFb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E581F00A3A;
-	Wed, 17 Jun 2026 16:43:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781714603;
-	bh=KNmSwsg0gZTKvDNis5tgxyQ5iNCbMv/g9fJ24kqEAco=;
-	h=From:To:Cc:Subject:Date;
-	b=cbIzmMFbOfJsgrMm5Zwfw2IrFIBtOo6RfvjaMYiZOEZb0mGGIlFq5oJrljinqyM3Q
-	 oD4knC1D3USr5PrjhwKDE4ALrOmvV+coR2YsjMRfCD6HnoZG05aRvau8KUbzRyvjw0
-	 XOhSelBmYGthZ1RYMsgpEdoibmCPg4AGsxxhIBlS1ve64p+wlhOdlOyc5k63qTbM9y
-	 P0aTpFwQdGUKuCWUWF/eDPhzBl9BT9FTo0ECXspwe02R815QiCdxACaXe2sqhq/pYj
-	 /SiHK2Tkw/6Vak7xO4QuyGn76mBMoTXOoiHZB4ZZbauux5Q7SuGFkpAbxR2FClQZW/
-	 tWXvFiPH+K5YQ==
-From: Dinh Nguyen <dinguyen@kernel.org>
-To: bp@alien8.de,
-	tony.luck@intel.com
-Cc: dinguyen@kernel.org,
-	dbgh9129@gmail.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] EDAC/altera: Use parent device for devres in altr_portb_setup()
-Date: Wed, 17 Jun 2026 11:43:03 -0500
-Message-ID: <20260617164303.585555-1-dinguyen@kernel.org>
-X-Mailer: git-send-email 2.42.0.411.g813d9a9188
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQrtBGsN"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490ae94a89eso51664755e9.1
+        for <linux-edac@vger.kernel.org>; Wed, 17 Jun 2026 10:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781716673; x=1782321473; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=DHkZUMk1sAqmgYkyu6MiPiSjqHXH7Sbq1n0RCyPRFfc=;
+        b=fQrtBGsNkl8jfhmhK2liKOfbaXsrqWGRmKfHP/5/oXW0UD7hJ3oahOR7qLAeo0OpBe
+         2e6X/h8jQJOlMdK45XemxG1KXwmVmdOdKR/3HW11AMVUuy2FDKhx6t1kO60FJocpgZDF
+         evkBG3W7V5BZARoJSX0atoEmHPrefGTeO35FOicNCIG5aM9OA1ql0InW0OLMoRJ8YDk5
+         F4FnkE0SVPSi73SuQwgeOTPBhIBLWh4kel/JQ82o5Kh0CRc9f/rmAmRv1x7q+mcCAL7K
+         8/0Be+VLTgQ+SA5VSHT4hBla88HOCJYiOJO6Jm6SRXG3FLP9Do007JkkLXKlE+Yr5EpJ
+         mzuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781716673; x=1782321473;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DHkZUMk1sAqmgYkyu6MiPiSjqHXH7Sbq1n0RCyPRFfc=;
+        b=pXZGgrOgAjCwS/OinOF1yoxfjxSVbFMYEUvDl7yH9KUZlP1egoxMZJDP+h+aWT/IN4
+         iQj7dfEpgZtcXl+Q9P2BD2txRIcLL9GiKwWY7ECyTXn5l2HjQ6pE7lhZAeiJNHWGGtyT
+         VqtY8+82XuMDCoqOI3ve/S+MvlM7QqndGZ7eLX58L7MymtE06YKvSpS/iLJwplVM/gS8
+         TzKrexeLcppLWAjg66Z+QnFpsmos0QYRFESvTRvLwm+A1YBJNwHZsRcl4WKsNHjcRqgy
+         AkKaRMIoHuGNFMdbH7MPPtNXhm5mTUzl3l9x2YNq6G+lo+EK7sNzVfU7+6IX7QXNKR2q
+         ooTA==
+X-Forwarded-Encrypted: i=1; AFNElJ+beblfw90UyH50+L6lYltUKqzin5hw9KjT+92IrIFO0cR/7kzsKqvPPJ6AEY/Y/+KPD/mzwaytcnPI@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkSTzxJyorGCQeHGjxDM8I0UCBShtKlJpqTVxfDMLSjhkglIYY
+	tjmy9FIM/dGCP+kreIc0vymE4oAgpEyobXa57nNs9T+sbP5vdKVQkV28
+X-Gm-Gg: Acq92OES0NUHfnhnwLN06wgImqXc6Rptb/BZJmx0k5nme2XavkVbK6eLSjH6IXqxN30
+	yS/Yqq1LLShIqrdX5KAq+pIK8ehZ9rDiV+6bo20/g2K6d+ZsXOOi2YSpDBXgDNk0oHv/7sn4irP
+	yS+1DuPn7wquCo3CzHBeQkjIJGbb9pKvH0gMJ9Yxuo3OGBzDO2tFrzU2Lly0KAvYVqQrWtNnH0S
+	qc3WiX043bw034kkJM5V7Adeu5tVto/Sid48oRoZbhA5FmbTBSMMpPRg59DGK2q3Hmb6L+ysWnG
+	5BDhcUNQ+y7gL/bptgbSpAtXMmwp73Uz4x6HSg0B4BQQSAhOVMrzRMNZ6BuikvNXTcWGJVOJYbo
+	y7MIc9ojpBsO+5MWxUo7+exBEAnqlVd8rwurih+x2DnS5qfG4iDjEycv8FMpdnDud9Lq7QMBGI7
+	9xuDi37NkjhzOg84OwEtrnw5AQUsQ5m1fkCUMK/R23SerrejhxnBnPZAsVvTPKVBDWmLAsw3UId
+	a4jXQU=
+X-Received: by 2002:a05:600c:1394:b0:490:b8e6:be40 with SMTP id 5b1f17b1804b1-4923821bef1mr5753465e9.21.1781716672843;
+        Wed, 17 Jun 2026 10:17:52 -0700 (PDT)
+Received: from [10.128.11.42] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2dbfb1sm58928836f8f.35.2026.06.17.10.17.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2026 10:17:52 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <58f7163f-2fce-41e9-bc35-d1d8e6f4a298@gmail.com>
+Date: Wed, 17 Jun 2026 18:17:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 07/10] ACPI: APEI: introduce GHES helper
+To: Ahmed Tiba <ahmed.tiba@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Shuai Xue <xueshuai@linux.alibaba.com>,
+ Len Brown <lenb@kernel.org>, Saket Dumbre <saket.dumbre@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <djbw@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
+ linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
+References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
+ <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-7-91f725174aa0@arm.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-7-91f725174aa0@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Anchor the devres group and the devm-managed IRQ requests in
-altr_portb_setup() to the actual parent device (device->edac->dev)
-instead of the embedded struct device inside the copied per-port
-altr_edac_device_dev. This keeps devres_open_group(),
-devm_request_irq(), devres_remove_group() and devres_release_group()
-all referring to the same long-lived device so the group and the
-resources allocated inside it are torn down together.
+Hi Ahmed,
 
-Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
-Cc: stable@vger.kernel.org
-Closes: https://sashiko.dev/#/patchset/20260503212558.2811480-1-dbgh9129%40gmail.com
-Assisted-by: Claude:claude-opus-4-7
-Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
----
- drivers/edac/altera_edac.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On 6/17/26 14:54, Ahmed Tiba wrote:
 
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 4edd2088c2db..5914b2fd94d9 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1533,7 +1533,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	altdev = dci->pvt_info;
- 	*altdev = *device;
- 
--	if (!devres_open_group(&altdev->ddev, altr_portb_setup, GFP_KERNEL))
-+	if (!devres_open_group(device->edac->dev, altr_portb_setup, GFP_KERNEL))
- 		return -ENOMEM;
- 
- 	/* Update PortB specific values */
-@@ -1562,7 +1562,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 		rc = -ENODEV;
- 		goto err_release_group_1;
- 	}
--	rc = devm_request_irq(&altdev->ddev, altdev->sb_irq,
-+	rc = devm_request_irq(device->edac->dev, altdev->sb_irq,
- 			      prv->ecc_irq_handler, IRQF_TRIGGER_HIGH,
- 			      ecc_name, altdev);
- 	if (rc) {
-@@ -1585,7 +1585,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 		rc = -ENODEV;
- 		goto err_release_group_1;
- 	}
--	rc = devm_request_irq(&altdev->ddev, altdev->db_irq,
-+	rc = devm_request_irq(device->edac->dev, altdev->db_irq,
- 			      prv->ecc_irq_handler, IRQF_TRIGGER_HIGH,
- 			      ecc_name, altdev);
- 	if (rc) {
-@@ -1605,13 +1605,13 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 
- 	list_add(&altdev->next, &altdev->edac->a10_ecc_devices);
- 
--	devres_remove_group(&altdev->ddev, altr_portb_setup);
-+	devres_remove_group(device->edac->dev, altr_portb_setup);
- 
- 	return 0;
- 
- err_release_group_1:
- 	edac_device_free_ctl_info(dci);
--	devres_release_group(&altdev->ddev, altr_portb_setup);
-+	devres_release_group(device->edac->dev, altr_portb_setup);
- 	edac_printk(KERN_ERR, EDAC_DEVICE,
- 		    "%s:Error setting up EDAC device: %d\n", ecc_name, rc);
- 	return rc;
--- 
-2.42.0.411.g813d9a9188
+> +config GHES_CPER_HELPERS
+> +	bool
+> +	select UEFI_CPER
 
+This config option should probably also depend on ACPI (could just move
+it into the if ACPI..endif block), or at least have a comment that
+selector options ensure ACPI is enabled.
+
+- Julian Braha
