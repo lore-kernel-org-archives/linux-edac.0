@@ -1,92 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA1B3BBA1E;
-	Thu, 18 Jun 2026 10:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781779031; cv=none; b=prD6wqNBvwZ2A7jMgPUBJAB+duOcPAT5652RYmgLDPFnEK8A/cP5vVl491U0Fj9IREPTtiDJLN9JYk4e7B6kQ/K0XnwPUe+GNNx3UKXOqbzlVyoOAD/pUMAByxipGq+CE4W5QEOleknT46I33uvn/aCpC8NY5OXJhHNKlsNVIaU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781779031; c=relaxed/simple;
-	bh=omiokKQiDLzTuaCfI3bs36kG6hNa9L6bMjtL3igue0c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JrLstYSGzX2u9bVIDSYD1CHHvKXM9YF6Pt2dYLWU4WfqWTqP6vcR+tKgSM5YaRoZiabwh3u2LI1Z4AxzxoP3mgqvTAPV3iQntQh4Nko/+LCsILWFn1AmRu3t/iR4xxfRAC2gA/n2zMEq59Hy1gw9Iuw5D6PzPuxnUGl0KGqSRxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jyuHXrlr; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7D239B48E
+	for <linux-edac@vger.kernel.org>; Thu, 18 Jun 2026 13:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781789206; cv=pass; b=qzj+RcJSN/FNktIJvVKip7bsBlEPGbFtRY+Y4dkwiRyrXjq4DbITRsJq/zns1/UrpWbwCJ2XvT6ijs4reAs4XE+Ke0HzMCD5ZVblnVnY/tQx72ueEqM7azZ/JkptsIpEjF3OThRkWw9IY0fs4ymR/kMxEz8a6cYLbw3JuNUiWZk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781789206; c=relaxed/simple;
+	bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H19gKKQFGeLFsi8Ya7s8LEIcZyJxwKuhR0QIpyKcjIsUtqWcTzDjT7q67vGW0t+PcLMZnsXARVRWZiyBcRC0Q4mG33m9mQgBsDQ6OTKO5UO//Yk2+gi+tkkQauBtwKcBw5XuwrIbxUNQIEH6iv0V20dr+MmNiWJG858Q6iP30mc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGPv5waX; arc=pass smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jyuHXrlr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB3A1F000E9;
-	Thu, 18 Jun 2026 10:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781779030;
-	bh=dcbJSwWthf82PCpdpKfW/QIzw6jz3FMDKtGYKs2eJXw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jyuHXrlrdOX63CGe0kX5qigbw5Pfo+SMvOHtbQcq867PpJ4xcL5o9fBvk8s/eoCoO
-	 tptKf2/FbQRfp5QOCw0SxQly11CvLPZpW9/2mlzuCccqRMAvN3hv3HNVeDOrVmZWP+
-	 d1/ebFrvWfKRSHtFCYpTZV7Jczy+P3c7y5JVf6+dyFcLU5JOyJF7ox9urugOtU2f1Q
-	 +GME3wBPTxYw1Ah0Wdw2Um8XGj5F4VL8JcSrd+zXXpid0qYXDSqlrM4Ai7mcD3canP
-	 St9dqJGitE8PEKRdUiX7n76lTztyEfknwQLOlxgNP4S7T8DgNVCgVTyokEfj+rQ0uy
-	 H7BmTk+vJlLAw==
-Message-ID: <77d71af8-27b8-42ca-a6e9-f110a6289893@kernel.org>
-Date: Thu, 18 Jun 2026 05:37:08 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGPv5waX"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-13988680a69so2344863c88.0
+        for <linux-edac@vger.kernel.org>; Thu, 18 Jun 2026 06:26:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781789204; cv=none;
+        d=google.com; s=arc-20240605;
+        b=G2BSoQbHpVVnSS3WN7YUN5MaC/g33VM3XYSmCV32z8QchH2+FQ3Zd50qI6C8+yf6l6
+         KfXhtcbRTQ7m5s4FA9lXzkYoEABSI1c6HoOdRksOAjVcZzzBsTU4hawrnzdHq7RhhARV
+         xz5yNKWRniaMCbVyB3p40rD+4NN3d50nFNpeQvlR4SdtJOhV5t9GJq1hQlVWOJiHqVA3
+         Bu9QKf8lNZkUj+1NfPU1SwrsGylaZrXW7sNE8meTQ7KCPWEig1H1SrNgyUzSYkLQgumt
+         UVZOnEkGRfRveQsQEWbiz+xznwWqGZisYR8yiNjHBDvb1XiBXiGg4tUYnGWoW44JXxzo
+         OqlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
+        fh=7UAOq/nxlAIPaflDz6A1ZftDPhWG/Jg6zrr2HuyZNrU=;
+        b=FctyO7ldOEQy0XSPaM76qr88LxA0LkjhoxQGnrCxvKg+911Zaygq2TuSc9GonO5k7h
+         zDmDOK/Se7BQAfY+tpzEcgwj/QoDCYUhLY+Xyt33vKMKRNHfqf8PSi337qsZ5ZRHLZVR
+         MnMr5ydwu0VpTgM73qlel0PqB9AgFRIC03UDNv5VKpGtBJQEl3q7JIaDaddmY246vqub
+         AE1PN1z2vQEnVlwaR7B7tQ2DflVH9PuKj+9TcTTaKKNspP5e+bxNTji3L59+It5BKRpI
+         rK0npLgDQQ95YgRH6csXv+kaMFGMfSwE0cSpln3m+kCT9GqKp0ukaqeiznChhlUN6LJ3
+         ffiA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781789204; x=1782394004; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
+        b=gGPv5waXx4pmWkw6XIUR0wcwES8M/2ckqrqde0YOMnQFcuT75SIw0xo6hgLrVSl4sh
+         VGQmTZ1Vv7ISHywn3gfirMcVRFYlqp5UoQHp5QHf872ly+zlZRQq+xPj86r69Bp9a40r
+         7rfrGso1OYaEKDxRrkRV8cCKo0to5JjbOdD19w19FQlp4EIbp0AL4YDd7BUMGKN+AoMm
+         We947HzN9LoON8qcdmK2Ac6PE2Qot/kD8WFjqA+OBHs9i6UkMVxv4Na9Cq9+bGzfL0Js
+         YoKf1W9oSvgiXIWPvOKlPiut6FGQcMptm4eSx0QfINY5Z4BGsMntVB1P0hawMpsE4TMm
+         f+ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781789204; x=1782394004;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
+        b=pEUlADs26UT/K0tFlWikYbJ9As6brik80sjs9COg6G/H7s7Bpz1UPuZos8vxsWukVz
+         WgRZScrNHL7HzbZjMoPwGMGUrehkE8BQM89OFYdK2TXpvLj2/nCqOEqKnMJyUAfOfueU
+         OoTdldG/QPe8f8qk9ctFPD357un4S7m6Ts/cMD3XRvkTj3gX4Bmj+KSi4WeODF3YsZfL
+         Y/X07rHETp4F+vAHLWfWk+BVZbp1dhoxpvTl/EUX3czZ78AXawjbZbBhAYgaonckvqRe
+         rZxN7UgmCNEhepouvl2uFWPOMyGZW4jg3CwOUeBu9MZKVEyScmgLRLYMXt8f8eALUM8y
+         chug==
+X-Forwarded-Encrypted: i=1; AFNElJ/2981tKbXHl677XcrNFQo+h+eYYtUfMpgnssIoGalTVMzEP7dF/Lm0dwYxUuM4eJTMp5Wi6N6ZfaOM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyd+eiJxHmxVzNPJ9X1S+KZxpbU7iq3YkXElQhHT1W9H41wZV8h
+	fI5bHaUADG0A7+XvY2lqF7R4IL/sA/ZtxQp4/QuREZk5Xn22QD+HhU21oteiDq0WnbQ0T8eP6qL
+	rSCqStJJIKffVnswLRIG5pymq4L7KpvmMdCa0jVykFS7k
+X-Gm-Gg: AfdE7cnABVXYhxdRjlOXdLOjoc20vVFCYxiIUYy9NSqfb7CWGF4epdEozCSAa4kfL18
+	suedoW4ywNdyHq1FRqinMe/3yAxQ4/66mOyUQRYnI4Bl0rjwihJcP+yErDbjgH9zdoQqVP5UCee
+	AKVICSHoDOr0+ye6KOQl8sNVVwTWM92CCfM6VFw5a3i6HqhpZaxiKeanIyjSgxdBeVxEwfvmY88
+	QZY7wQZ8ExsInT/7FriZxOixCQBXihoG2OqWI/M4v2xytCmZVR/sOFzS2RRL9szKg+hLuMZ85rX
+	rJS6DlhYCdNL6NeUJ9pwgoOd3RPPU6rSe85n4Ys=
+X-Received: by 2002:a05:7022:ec14:b0:137:fad9:397c with SMTP id
+ a92af1059eb24-13997bec729mr2928180c88.12.1781789204288; Thu, 18 Jun 2026
+ 06:26:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <470f54e9-9e92-40c1-9383-6be055170d69@kernel.org>
+ <20260617000711.60804-1-rounakdas2025@gmail.com> <77d71af8-27b8-42ca-a6e9-f110a6289893@kernel.org>
+In-Reply-To: <77d71af8-27b8-42ca-a6e9-f110a6289893@kernel.org>
+From: Rounak Das <rounakdas2025@gmail.com>
+Date: Thu, 18 Jun 2026 17:26:32 +0400
+X-Gm-Features: AVVi8CdeROc2F87kMdI4szDBN1WzeNKf-iD5jGxtiNJ-y50nsRvOtSNEuChduOw
+Message-ID: <CAPYTKoPe8dcQ9ZLHMmXkgqKVGEvcVEG7C8qxc_LdSUvKGuZgqA@mail.gmail.com>
 Subject: Re: [PATCH v3] EDAC/altera: use ECC manager compatible to select
  A10/S10 IRQ layout
-Content-Language: en-US
-To: Rounak Das <rounakdas2025@gmail.com>
-Cc: bp@alien8.de, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
- tony.luck@intel.com
-References: <470f54e9-9e92-40c1-9383-6be055170d69@kernel.org>
- <20260617000711.60804-1-rounakdas2025@gmail.com>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20260617000711.60804-1-rounakdas2025@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: bp@alien8.de, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	tony.luck@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
+> Were you able to test this on any HW?
+> I tested on an Arria10 and it looks good.
 
+I don't have access to either platform, so I wasn't able to test on HW.
+Thanks for verifying on Arria10, glad it looks good there.
 
-On 6/16/26 09:07, Rounak Das wrote:
-> The SDMMC ECC IRQ layout selection uses CONFIG_64BIT to distinguish
-> between Arria10 and Stratix10 paths. This is architecture-based,
-> while the interrupt layout is a hardware property described by DT
-> compatible strings.
-> 
-> Detect the SoC once at probe via the altr,socfpga-s10-ecc-manager
-> compatible on the ECC manager node, store it under the struct
-> altr_arria10_edac, and use it in altr_portb_setup() and
-> altr_edac_a10_device_add() in place of CONFIG_64BIT.
-> 
-> Selecting on the manager compatible keeps the decision SoC-wide and
-> correct for every ECC child device (OCRAM, USB, EMAC, SD/MMC),
-> and avoids repeated compatible lookups. Stratix10 and
-> Agilex both declare altr,socfpga-s10-ecc-manager and Arria10 does not,
-> so behaviour is unchanged on all three SoCs.
-> 
-> Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
-> ---
-> v3:
->   - Use compatible string altr,socfpga-s10-ecc-manager instead of
->     sdmmc-ecc (Dinh).
->   - Set it once into struct altr_arria10_edac::is_s10 to
->     avoid repeated of_device_is_compatible() calls (Dinh).
->   - Fix the checkpatch open-parenthesis alignment.
-> 
-> v2: https://lore.kernel.org/linux-edac/20260616081709.48774-1-rounakdas2025@gmail.com/
->   - Use legal name in Signed-off-by (Borislav).
-> 
->   drivers/edac/altera_edac.c | 106 +++++++++++++++++++------------------
->   drivers/edac/altera_edac.h |   1 +
->   2 files changed, 55 insertions(+), 52 deletions(-)
-> 
+> Currently, I don't have access to a 64-bit platform. so I'd
+> like to wait to get access to one and test.
 
-Were you able to test this on any HW? I tested on an Arria10 and it 
-looks good. Currently, I don't have access to a 64-bit platform. so I'd 
-like to wait to get access to one and test.
+Alright, sure.
 
 Thanks,
-Dinh
+Rounak
