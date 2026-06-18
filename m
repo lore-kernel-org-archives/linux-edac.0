@@ -1,109 +1,98 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7D239B48E
-	for <linux-edac@vger.kernel.org>; Thu, 18 Jun 2026 13:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781789206; cv=pass; b=qzj+RcJSN/FNktIJvVKip7bsBlEPGbFtRY+Y4dkwiRyrXjq4DbITRsJq/zns1/UrpWbwCJ2XvT6ijs4reAs4XE+Ke0HzMCD5ZVblnVnY/tQx72ueEqM7azZ/JkptsIpEjF3OThRkWw9IY0fs4ymR/kMxEz8a6cYLbw3JuNUiWZk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781789206; c=relaxed/simple;
-	bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H19gKKQFGeLFsi8Ya7s8LEIcZyJxwKuhR0QIpyKcjIsUtqWcTzDjT7q67vGW0t+PcLMZnsXARVRWZiyBcRC0Q4mG33m9mQgBsDQ6OTKO5UO//Yk2+gi+tkkQauBtwKcBw5XuwrIbxUNQIEH6iv0V20dr+MmNiWJG858Q6iP30mc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGPv5waX; arc=pass smtp.client-ip=74.125.82.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBBC272E56;
+	Thu, 18 Jun 2026 16:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781801334; cv=none; b=kTtQDkHQJDrDOYKMynR+Vh0D+kBvc+K2ZJDtV6MbZ+Kg1xxAR4sAQCfuYJ1lJO+dPDolAKcCFIn8Bvb/wOVXuOmZolVsPBB2x9/UUwcXqgpOwNbt8KTPBocLKCZSgK3EkmLgGN+Ag4UpehsaTkNXQ1talTx8FOj8tzEue6Q2+1Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781801334; c=relaxed/simple;
+	bh=HxLrSWagyGYk3m7sWpoxbRSCOquF2+62Z+gU3t0twW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K+k3MkRp2X2ihDybfGS7abblM0veSpehAUlNK3UHVGtAKT98iurjI0Ww2zman/NpweG8962WJ6KCMzxXzgn7YRHamaOh1UVsKfLqJGH0wE4ds73z6D5Od2/nv57aicZOV5jPKWnrzYeovYxpi+GQGH1uyEDNSwBMITJescGNYPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=WvpC4NyW; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGPv5waX"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-13988680a69so2344863c88.0
-        for <linux-edac@vger.kernel.org>; Thu, 18 Jun 2026 06:26:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781789204; cv=none;
-        d=google.com; s=arc-20240605;
-        b=G2BSoQbHpVVnSS3WN7YUN5MaC/g33VM3XYSmCV32z8QchH2+FQ3Zd50qI6C8+yf6l6
-         KfXhtcbRTQ7m5s4FA9lXzkYoEABSI1c6HoOdRksOAjVcZzzBsTU4hawrnzdHq7RhhARV
-         xz5yNKWRniaMCbVyB3p40rD+4NN3d50nFNpeQvlR4SdtJOhV5t9GJq1hQlVWOJiHqVA3
-         Bu9QKf8lNZkUj+1NfPU1SwrsGylaZrXW7sNE8meTQ7KCPWEig1H1SrNgyUzSYkLQgumt
-         UVZOnEkGRfRveQsQEWbiz+xznwWqGZisYR8yiNjHBDvb1XiBXiGg4tUYnGWoW44JXxzo
-         OqlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
-        fh=7UAOq/nxlAIPaflDz6A1ZftDPhWG/Jg6zrr2HuyZNrU=;
-        b=FctyO7ldOEQy0XSPaM76qr88LxA0LkjhoxQGnrCxvKg+911Zaygq2TuSc9GonO5k7h
-         zDmDOK/Se7BQAfY+tpzEcgwj/QoDCYUhLY+Xyt33vKMKRNHfqf8PSi337qsZ5ZRHLZVR
-         MnMr5ydwu0VpTgM73qlel0PqB9AgFRIC03UDNv5VKpGtBJQEl3q7JIaDaddmY246vqub
-         AE1PN1z2vQEnVlwaR7B7tQ2DflVH9PuKj+9TcTTaKKNspP5e+bxNTji3L59+It5BKRpI
-         rK0npLgDQQ95YgRH6csXv+kaMFGMfSwE0cSpln3m+kCT9GqKp0ukaqeiznChhlUN6LJ3
-         ffiA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781789204; x=1782394004; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
-        b=gGPv5waXx4pmWkw6XIUR0wcwES8M/2ckqrqde0YOMnQFcuT75SIw0xo6hgLrVSl4sh
-         VGQmTZ1Vv7ISHywn3gfirMcVRFYlqp5UoQHp5QHf872ly+zlZRQq+xPj86r69Bp9a40r
-         7rfrGso1OYaEKDxRrkRV8cCKo0to5JjbOdD19w19FQlp4EIbp0AL4YDd7BUMGKN+AoMm
-         We947HzN9LoON8qcdmK2Ac6PE2Qot/kD8WFjqA+OBHs9i6UkMVxv4Na9Cq9+bGzfL0Js
-         YoKf1W9oSvgiXIWPvOKlPiut6FGQcMptm4eSx0QfINY5Z4BGsMntVB1P0hawMpsE4TMm
-         f+ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781789204; x=1782394004;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9ag5hs/4xp89XVn6utSessCD0vBSBtSm9GRCHk6ObrQ=;
-        b=pEUlADs26UT/K0tFlWikYbJ9As6brik80sjs9COg6G/H7s7Bpz1UPuZos8vxsWukVz
-         WgRZScrNHL7HzbZjMoPwGMGUrehkE8BQM89OFYdK2TXpvLj2/nCqOEqKnMJyUAfOfueU
-         OoTdldG/QPe8f8qk9ctFPD357un4S7m6Ts/cMD3XRvkTj3gX4Bmj+KSi4WeODF3YsZfL
-         Y/X07rHETp4F+vAHLWfWk+BVZbp1dhoxpvTl/EUX3czZ78AXawjbZbBhAYgaonckvqRe
-         rZxN7UgmCNEhepouvl2uFWPOMyGZW4jg3CwOUeBu9MZKVEyScmgLRLYMXt8f8eALUM8y
-         chug==
-X-Forwarded-Encrypted: i=1; AFNElJ/2981tKbXHl677XcrNFQo+h+eYYtUfMpgnssIoGalTVMzEP7dF/Lm0dwYxUuM4eJTMp5Wi6N6ZfaOM@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd+eiJxHmxVzNPJ9X1S+KZxpbU7iq3YkXElQhHT1W9H41wZV8h
-	fI5bHaUADG0A7+XvY2lqF7R4IL/sA/ZtxQp4/QuREZk5Xn22QD+HhU21oteiDq0WnbQ0T8eP6qL
-	rSCqStJJIKffVnswLRIG5pymq4L7KpvmMdCa0jVykFS7k
-X-Gm-Gg: AfdE7cnABVXYhxdRjlOXdLOjoc20vVFCYxiIUYy9NSqfb7CWGF4epdEozCSAa4kfL18
-	suedoW4ywNdyHq1FRqinMe/3yAxQ4/66mOyUQRYnI4Bl0rjwihJcP+yErDbjgH9zdoQqVP5UCee
-	AKVICSHoDOr0+ye6KOQl8sNVVwTWM92CCfM6VFw5a3i6HqhpZaxiKeanIyjSgxdBeVxEwfvmY88
-	QZY7wQZ8ExsInT/7FriZxOixCQBXihoG2OqWI/M4v2xytCmZVR/sOFzS2RRL9szKg+hLuMZ85rX
-	rJS6DlhYCdNL6NeUJ9pwgoOd3RPPU6rSe85n4Ys=
-X-Received: by 2002:a05:7022:ec14:b0:137:fad9:397c with SMTP id
- a92af1059eb24-13997bec729mr2928180c88.12.1781789204288; Thu, 18 Jun 2026
- 06:26:44 -0700 (PDT)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="WvpC4NyW"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5B10E40E0287;
+	Thu, 18 Jun 2026 16:48:50 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id coyelGpZHU7H; Thu, 18 Jun 2026 16:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1781801319; bh=oGfYFsvAo+NWcbAFBVJcOqhaqOszWCp/L3SV/OjgWik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WvpC4NyWdV/wtfO8o12UcVMpDYCX7tXm0yiJHEVW3lwg0UlRupDLSy4H3YYNXtB3P
+	 0ZbZ7T/ZXotmxZRxm5eBFrgOHMC3yGodfT9f3qRpz5ShI3opcrXhgH8sErqYgp9RD6
+	 hdF5HSF/T2Bmbg6YvV5ESrDYaGfuNKRflT2WCVM2r/XQ7pi37jAPVcqyRzJYHKUF/T
+	 Z++3M3Uw4Bai9GMOkFFeZU2wV4z/L9cms0C5YnGmh2DojWSfoHa8EDAN0QFyENOWUf
+	 kjO4AbpLYwrtTm7oRfCnLGZ31TSRf41v6MINLmn7vS6uhPX/n3CfIo0NmiI40hlhiW
+	 Au3+OAS+n46/I3oYA3QJsdcQKohw6eFiaH20y5oKVrA3BYQgQrVkA6VdGfN5Oy4rAO
+	 qi29Jzkv6LsC7bnvav8F1EgZ88f6QvOI053hUWPKmYfDrFuB31b3tqGLIw1kqNxEqs
+	 198LbEbA5BM1iWztMACwkKcGl4UEhGawKkJkgEBBGFRsRTU+EUvS7ESSPANZRmH+dx
+	 ZoGl0X82e81wH+tx+hJovTl6AJPsOAUEOTAZiR0z24Zofy7Z+r0nVAbX4CCCvw7G9H
+	 lK2JKoOS3D1o80/Rhn/LYjPljpQ3vn1eKUNIA72SpfgqROzEfYLRbuPixg0BqnyPFM
+	 EyMv/9MYCEOxOMmF9syUAK2E=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 37DF640E01D8;
+	Thu, 18 Jun 2026 16:48:10 +0000 (UTC)
+Date: Thu, 18 Jun 2026 09:48:07 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Tony Luck <tony.luck@intel.com>, Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>,
+	Saket Dumbre <saket.dumbre@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, Dan Williams <djbw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
+Subject: Re: [PATCH v6 00/10] ACPI: APEI: share GHES CPER helpers and add DT
+ FFH provider
+Message-ID: <20260618164807.GAajQhR9J_00j4LxaC@fat_crate.local>
+References: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <470f54e9-9e92-40c1-9383-6be055170d69@kernel.org>
- <20260617000711.60804-1-rounakdas2025@gmail.com> <77d71af8-27b8-42ca-a6e9-f110a6289893@kernel.org>
-In-Reply-To: <77d71af8-27b8-42ca-a6e9-f110a6289893@kernel.org>
-From: Rounak Das <rounakdas2025@gmail.com>
-Date: Thu, 18 Jun 2026 17:26:32 +0400
-X-Gm-Features: AVVi8CdeROc2F87kMdI4szDBN1WzeNKf-iD5jGxtiNJ-y50nsRvOtSNEuChduOw
-Message-ID: <CAPYTKoPe8dcQ9ZLHMmXkgqKVGEvcVEG7C8qxc_LdSUvKGuZgqA@mail.gmail.com>
-Subject: Re: [PATCH v3] EDAC/altera: use ECC manager compatible to select
- A10/S10 IRQ layout
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: bp@alien8.de, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	tony.luck@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com>
 
-> Were you able to test this on any HW?
-> I tested on an Arria10 and it looks good.
+On Wed, Jun 17, 2026 at 02:54:38PM +0100, Ahmed Tiba wrote:
+> This is v6 of the GHES refactor series. Compared to v5, it addresses
+> the latest review comments and tightens the DT CPER provider and
+> related helper wiring.
 
-I don't have access to either platform, so I wasn't able to test on HW.
-Thanks for verifying on Arria10, glad it looks good there.
+Sashiko has comments:
 
-> Currently, I don't have access to a 64-bit platform. so I'd
-> like to wait to get access to one and test.
+https://sashiko.dev/#/patchset/20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0%40arm.com
 
-Alright, sure.
+-- 
+Regards/Gruss,
+    Boris.
 
-Thanks,
-Rounak
+https://people.kernel.org/tglx/notes-about-netiquette
