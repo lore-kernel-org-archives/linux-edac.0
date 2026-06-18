@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AF738F92D;
-	Thu, 18 Jun 2026 08:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA1B3BBA1E;
+	Thu, 18 Jun 2026 10:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781771266; cv=none; b=CMJqFeG7nH+0iCpiPSWxKUj7P9zXdI0bfkN70qti8Mi7jvuS7MP41lCTz2Hs8YvPwd/5VJJqvFDx7NOYZms/ELNDqjJq2WtmFICkxSbYNyCjx32nmR7a+KABnt0szxvQyJQo9sMiT5Aq0w8XXMt35TetO33Tr+3wjex+N3RDCv8=
+	t=1781779031; cv=none; b=prD6wqNBvwZ2A7jMgPUBJAB+duOcPAT5652RYmgLDPFnEK8A/cP5vVl491U0Fj9IREPTtiDJLN9JYk4e7B6kQ/K0XnwPUe+GNNx3UKXOqbzlVyoOAD/pUMAByxipGq+CE4W5QEOleknT46I33uvn/aCpC8NY5OXJhHNKlsNVIaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781771266; c=relaxed/simple;
-	bh=aS0apVPUMbKYFtz5HWk1NqXptXEWB6A9d3RlUBNvAn0=;
+	s=arc-20240116; t=1781779031; c=relaxed/simple;
+	bh=omiokKQiDLzTuaCfI3bs36kG6hNa9L6bMjtL3igue0c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FXNQyIpaA9rin2/xVnJAoP0MhlckmwhA4oxoov6ZrkcQh+GlQ/BBifAH7vw2ok3+10PuJOKSnNltltL1+T0805eRw5w96bualHKfmhmdS1fgZShrB2kJghVBwIKctT0R6Y6Dx9loAN/y508WcylPDxPbC8DvMU3WGrIAA4hJLEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGItt6b3; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=JrLstYSGzX2u9bVIDSYD1CHHvKXM9YF6Pt2dYLWU4WfqWTqP6vcR+tKgSM5YaRoZiabwh3u2LI1Z4AxzxoP3mgqvTAPV3iQntQh4Nko/+LCsILWFn1AmRu3t/iR4xxfRAC2gA/n2zMEq59Hy1gw9Iuw5D6PzPuxnUGl0KGqSRxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jyuHXrlr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGItt6b3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF91A1F00A3A;
-	Thu, 18 Jun 2026 08:27:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jyuHXrlr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB3A1F000E9;
+	Thu, 18 Jun 2026 10:37:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781771265;
-	bh=df2P3LLdIKFcPNMZ6yyraPQDNBfXCa18dbEbECBPaP0=;
+	s=k20260515; t=1781779030;
+	bh=dcbJSwWthf82PCpdpKfW/QIzw6jz3FMDKtGYKs2eJXw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dGItt6b3EWpzDA0Z3vvErqdIdZgYPl7taI1f4vdMj+hQDkadCmsGWM7+olyROffTR
-	 OmsRCdibeFfVgjdeUE28fQhWAugUcSWW54THgMDplI5f/P7/T5L8ibpzqMj/llblYS
-	 sObi1DS1lb5fo+WNjuaxjEpV/6aNqEv1ZvSAjU9WAlQSBVEgnWf1H82clrBuf5J4Wi
-	 kjJqIaHUvlJfWzRw3TOwxsdNltfnB19pjEdqo54F4iNTzvjqB2Uz6qDsUb5o0AXWYc
-	 YLBlDErbqMiSYmIySBhj0iilkucIgKv73yM7URei2okB20k1f5XF3oQFE84awPPIU1
-	 vqc2PJC8RFsWg==
-Message-ID: <3a2e32b9-d725-4bd6-bdb7-0081962cd3fc@kernel.org>
-Date: Thu, 18 Jun 2026 03:27:43 -0500
+	b=jyuHXrlrdOX63CGe0kX5qigbw5Pfo+SMvOHtbQcq867PpJ4xcL5o9fBvk8s/eoCoO
+	 tptKf2/FbQRfp5QOCw0SxQly11CvLPZpW9/2mlzuCccqRMAvN3hv3HNVeDOrVmZWP+
+	 d1/ebFrvWfKRSHtFCYpTZV7Jczy+P3c7y5JVf6+dyFcLU5JOyJF7ox9urugOtU2f1Q
+	 +GME3wBPTxYw1Ah0Wdw2Um8XGj5F4VL8JcSrd+zXXpid0qYXDSqlrM4Ai7mcD3canP
+	 St9dqJGitE8PEKRdUiX7n76lTztyEfknwQLOlxgNP4S7T8DgNVCgVTyokEfj+rQ0uy
+	 H7BmTk+vJlLAw==
+Message-ID: <77d71af8-27b8-42ca-a6e9-f110a6289893@kernel.org>
+Date: Thu, 18 Jun 2026 05:37:08 -0500
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -35,44 +35,58 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] EDAC/altera: Use parent device for devres in
- altr_portb_setup()
-To: Borislav Petkov <bp@alien8.de>
-Cc: tony.luck@intel.com, dbgh9129@gmail.com, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260617164303.585555-1-dinguyen@kernel.org>
- <20260617221834.GAajMdOocCPq39b-s0@fat_crate.local>
+Subject: Re: [PATCH v3] EDAC/altera: use ECC manager compatible to select
+ A10/S10 IRQ layout
 Content-Language: en-US
+To: Rounak Das <rounakdas2025@gmail.com>
+Cc: bp@alien8.de, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ tony.luck@intel.com
+References: <470f54e9-9e92-40c1-9383-6be055170d69@kernel.org>
+ <20260617000711.60804-1-rounakdas2025@gmail.com>
 From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20260617221834.GAajMdOocCPq39b-s0@fat_crate.local>
+In-Reply-To: <20260617000711.60804-1-rounakdas2025@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 6/17/26 07:18, Borislav Petkov wrote:
-> On Wed, Jun 17, 2026 at 11:43:03AM -0500, Dinh Nguyen wrote:
->> Anchor the devres group and the devm-managed IRQ requests in
->> altr_portb_setup() to the actual parent device (device->edac->dev)
->> instead of the embedded struct device inside the copied per-port
->> altr_edac_device_dev. This keeps devres_open_group(),
->> devm_request_irq(), devres_remove_group() and devres_release_group()
->> all referring to the same long-lived device so the group and the
->> resources allocated inside it are torn down together.
->>
->> Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
->> Cc: stable@vger.kernel.org
->> Closes: https://sashiko.dev/#/patchset/20260503212558.2811480-1-dbgh9129%40gmail.com
->> Assisted-by: Claude:claude-opus-4-7
->> Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
->> ---
->>   drivers/edac/altera_edac.c | 10 +++++-----
->>   1 file changed, 5 insertions(+), 5 deletions(-)
+On 6/16/26 09:07, Rounak Das wrote:
+> The SDMMC ECC IRQ layout selection uses CONFIG_64BIT to distinguish
+> between Arria10 and Stratix10 paths. This is architecture-based,
+> while the interrupt layout is a hardware property described by DT
+> compatible strings.
 > 
-> How urgent is this? Can it wait until the merge window is over?
+> Detect the SoC once at probe via the altr,socfpga-s10-ecc-manager
+> compatible on the ECC manager node, store it under the struct
+> altr_arria10_edac, and use it in altr_portb_setup() and
+> altr_edac_a10_device_add() in place of CONFIG_64BIT.
+> 
+> Selecting on the manager compatible keeps the decision SoC-wide and
+> correct for every ECC child device (OCRAM, USB, EMAC, SD/MMC),
+> and avoids repeated compatible lookups. Stratix10 and
+> Agilex both declare altr,socfpga-s10-ecc-manager and Arria10 does not,
+> so behaviour is unchanged on all three SoCs.
+> 
+> Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
+> ---
+> v3:
+>   - Use compatible string altr,socfpga-s10-ecc-manager instead of
+>     sdmmc-ecc (Dinh).
+>   - Set it once into struct altr_arria10_edac::is_s10 to
+>     avoid repeated of_device_is_compatible() calls (Dinh).
+>   - Fix the checkpatch open-parenthesis alignment.
+> 
+> v2: https://lore.kernel.org/linux-edac/20260616081709.48774-1-rounakdas2025@gmail.com/
+>   - Use legal name in Signed-off-by (Borislav).
+> 
+>   drivers/edac/altera_edac.c | 106 +++++++++++++++++++------------------
+>   drivers/edac/altera_edac.h |   1 +
+>   2 files changed, 55 insertions(+), 52 deletions(-)
 > 
 
-Not urgent at all. It can wait until v7.2-rc1.
+Were you able to test this on any HW? I tested on an Arria10 and it 
+looks good. Currently, I don't have access to a 64-bit platform. so I'd 
+like to wait to get access to one and test.
 
 Thanks,
 Dinh
