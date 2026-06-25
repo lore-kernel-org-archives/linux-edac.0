@@ -1,68 +1,33 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5162E39902D
-	for <linux-edac@vger.kernel.org>; Thu, 25 Jun 2026 10:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A617E3D891A;
+	Thu, 25 Jun 2026 12:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782385042; cv=none; b=YghoTR04WXCu5i2RTwYDcvvjzZ6uiv4JAm5fiQyGcylrDCAyA69HBb/cQRnsGE4J1c1yep1AQgme068XD30+RR/MSfemyEezgRxorcSnxtW9lpGBU6GEdWamCNklT3L9NQK+WrlL8yebzPS+LFtGKwr2g6eh13VOqOW1oOXSeEc=
+	t=1782389350; cv=none; b=NcbkviRI7CZ333+L6QeQjqpT3fk0w+YngF3n1KTOJcmRQT2AhytaqZxmOnFLyyUpVUJkCNe2elHhRYAp0kXDBzD3HlJu4T081m+UOObUktJoyIz9qp+D5dD6nYoIzcuI7ZlDlX+9xYCDXsd9Y+j/qdRKbcWxuRNoBCRZtUKssec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782385042; c=relaxed/simple;
-	bh=++FVkwILNKlbScjNFeM9SANlKaAyvEa5jrh63t4yOmU=;
+	s=arc-20240116; t=1782389350; c=relaxed/simple;
+	bh=mrVw/fj3uOUblFIFDn788Fx9kjLQmbjVYFxsV4BchKY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lkOXUHtm1gFEy9HOfgu7LqDQXcjKhLJwlw7yMCxMt5SDHd1ewQkwzOfTsBMGSjUi2MoNNs992ksWcjdlQ/5tLWFp4Gsidrzc+gBYdbelZ50b+D7cD6PecvAjibK7CAuL4YPcXr5t813W+5Ns2/u4Jyrwn3wTzNygSVtXv0bJXwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JWW9xqBj; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=P93rMy80zl3n5mQ09mlEMaDVnEMDFG+ZXKR9U51YruLgz4NviwpNVAdtSFDBbrHYEcE3JwXPZzfZHh2Ofbyy43QJoaURBToS9kmj6w3HF/RmDF6IaDQfuGlsWr1oJG2ptsqVkImcQlvcz961nELFeFgDqurwZeYmvvh6RNpT0F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckpyaXjR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JWW9xqBj"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso11559895e9.1
-        for <linux-edac@vger.kernel.org>; Thu, 25 Jun 2026 03:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782385040; x=1782989840; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=BqRv2LvLiTwMDijxQ6la05Or7ANrVdBQUl8AHj2I31g=;
-        b=JWW9xqBjlikzFGp87zH4wigoNrFkQSlDKv9FZbZwd/gcQ/ixWhfyOnmZxWXfjA71FK
-         +UpqdNYcjrU23YfaIPEW0hZ/H8vAy/D4XARYppdFefXfPFfWFMXTwcAyNzoUm++Zfzi3
-         4cWtPzZg7CIfbeThPjFDcyXIm6qCvR2vT36LJHeEN3lsW+X/2VZlLelczpY/lZStNno4
-         rdQQfLlDmgiA/hSMN5RVX7nC0puQ+XTAGZQz445SGd9bbMzUMHjZ7lDShDxes5fcwPZF
-         UpOggCEf0nqHGA0ffD5OiZjwiA/ogLxjwlbeqLs1Xt5I6+5UQQjCJkajzud5CDx7ibze
-         ILxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782385040; x=1782989840;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BqRv2LvLiTwMDijxQ6la05Or7ANrVdBQUl8AHj2I31g=;
-        b=VhnYx0cvZENlsKEfc/jkWwxVXmwODTxBecK1AoYkuOPoOtvascW/8Ux1cAd6vjhUfr
-         Dylua2nFkocSTd96Ek3e1jfzAiXlSeQ9h4qDTugCgU30R/Yi0XjGdX8y3ouWo2N9Vxa7
-         /+mKZacgPxN5TkNf72Zq1EhXrYAEOVyUrwMSO9DrnyWklbWN4Mze+cfh9R6R6RIi5kLT
-         HEvz1OfNPYGaL6MEUPi2LPp1ZINs9LYixmfbQ3x7mGi2a+hkjJfCg0o19dH3AIG9Lu0O
-         zbpiNBRNiBpCuZGFHw8Pt+5nBUTNdXw+L62+uUIzcj8K9patg6KyS5gGFYdT2GOGkq2T
-         Fasg==
-X-Forwarded-Encrypted: i=1; AHgh+RpwYP4ky5vO0F+JLdgzfJ809wkyVTek4PKOM/lkvVJzU0KZlj211V673OkaLzS/N/Sjp9Z4eftAV76j@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuTfceNmZAikIIaVAm8mAH0Lxs3sUwz7rByxZr7mxwrnk+zcCL
-	7dQRxdr6i+Zg9lGG0hFBgP73QEepQpetPE8xLFuZEstJlIzLPXovQ9Ac
-X-Gm-Gg: AfdE7cmSkQJGPy2b7UcGjftj2SaYLMOTuWKSZQQptPCVsrJ04gVFtCWXzAfw7a4NCnP
-	P22DXFtm0JnUxWE7NH014Mu55vGtAUWLOO40Q5/cN6bwGkp6aeZMlZU/r0RBmyyI2BcRHNynMQn
-	B5lVmVSG8neLTBet30409mbkkKHFPhBUmqFPrMFtAoL4+eS+JZBt1/Y3C7arPXvOLZiIXP41NnP
-	b4pV9Q48rMKZ77oUlWE4h2JZ2rBvbu+4pe2+iFXOtP6Bwo1hOMFfVM8XNnMghMgeMNeymwOQtuE
-	T862PmzNZHgKn0vtnI4a++Taz5yNXMZx9DN6jRvQVt0/b5fI4xrkZbz+hm8RmfoB246cBvx64i8
-	IqkT2eFCSmb/T5dfX+DWJ9hkIS4jW7e+S5NRf5qxM9OU0G5uwbK9UcmawZ5z9q4ncoiyauIWkXx
-	jIk+gHryySIxAoaCC0n3w/wSVml5kCxzNMWpEt0s5QoJ+h3MKggH0GbgHyMkOMFONsl2PPBzJI9
-	ozJfEhJ
-X-Received: by 2002:a05:600c:5488:b0:490:ea8a:32d0 with SMTP id 5b1f17b1804b1-4926689644emr25100555e9.20.1782385039551;
-        Thu, 25 Jun 2026 03:57:19 -0700 (PDT)
-Received: from [10.128.11.131] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926401a2e7sm91474245e9.3.2026.06.25.03.57.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2026 03:57:19 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <f725da33-3ce0-455a-ba43-e23b8ec5d223@gmail.com>
-Date: Thu, 25 Jun 2026 11:57:18 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckpyaXjR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE231F00A3A;
+	Thu, 25 Jun 2026 12:09:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782389349;
+	bh=5YVd5XuHouNytSp6w/+Zh27osfE/jaHLIvTAtw0c+/0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ckpyaXjRYbdMzwnFzDMLpGhZluq/LiuC1Jj3PD21/uBl8e+salzQwTGi7ZeGE+htD
+	 JJNAWH/dcXiy1sAeg0KnJB2ycrceCeDoqZzvYkvmWqZrCn0suXR62T+f2Z6BgRVYVC
+	 AEvPZ++973ZTctUIwIfoVqM7POx8Zmbu3badv2NX1QLdidgMl528Eio6v1QuS5+Kqu
+	 5WMtDsB5gYwp0Sg4H7ZT3Autb62A2HJ8NokTYrJ4qRsa0y0rn3YVL5d79Hm70c/+Oj
+	 11GfrEdOFgZFpbBlPyTpbABptchnG0Fq0/TG/4t5GQV8ZCj2S3GZiQwPK3/zPKZdeE
+	 siAHfeT7fxxHg==
+Message-ID: <72efba41-f8b2-4cd2-9ce6-824cfc1a9d2c@kernel.org>
+Date: Thu, 25 Jun 2026 07:09:07 -0500
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -70,36 +35,206 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] edac: xilinx: Add EDAC support for Versal XilSem
-To: Rama devi Veggalam <rama.devi.veggalam@amd.com>, bp@alien8.de,
- tony.luck@intel.com, michal.simek@amd.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
- devicetree@vger.kernel.org, james.morse@arm.com, mchehab@kernel.org,
- rric@kernel.org, git@amd.com
-References: <20260624212545.2850787-1-rama.devi.veggalam@amd.com>
- <20260624212545.2850787-5-rama.devi.veggalam@amd.com>
+Subject: Re: [PATCH v3] EDAC/altera: use ECC manager compatible to select
+ A10/S10 IRQ layout
 Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260624212545.2850787-5-rama.devi.veggalam@amd.com>
-Content-Type: text/plain; charset=UTF-8
+To: Rounak Das <rounakdas2025@gmail.com>
+Cc: bp@alien8.de, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ tony.luck@intel.com
+References: <470f54e9-9e92-40c1-9383-6be055170d69@kernel.org>
+ <20260617000711.60804-1-rounakdas2025@gmail.com>
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20260617000711.60804-1-rounakdas2025@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Rama,
 
-On 6/24/26 22:25, Rama devi Veggalam wrote:
->  config EDAC_VERSAL
-> -	tristate "Xilinx Versal DDR Memory Controller"
-> +	tristate "Xilinx Versal DDR Memory Controller and XilSEM"
->  	depends on ARCH_ZYNQMP || COMPILE_TEST
->  	help
->  	  Support for error detection and correction on the Xilinx Versal DDR
-> -	  memory controller.
-> +	  memory controller and configuration memory of the programmable logic (PL) fabric. Support detection of errors in Network on Chip (NoC) peripheral interconnect (NPI) Registers.
 
-This line of kconfig 'help' is far too long. See
-Documentation/process/coding-style.rst
-and
-Documentation/kbuild/kconfig-language.rst
+On 6/16/26 19:07, Rounak Das wrote:
+> The SDMMC ECC IRQ layout selection uses CONFIG_64BIT to distinguish
+> between Arria10 and Stratix10 paths. This is architecture-based,
+> while the interrupt layout is a hardware property described by DT
+> compatible strings.
+> 
+> Detect the SoC once at probe via the altr,socfpga-s10-ecc-manager
+> compatible on the ECC manager node, store it under the struct
+> altr_arria10_edac, and use it in altr_portb_setup() and
+> altr_edac_a10_device_add() in place of CONFIG_64BIT.
+> 
+> Selecting on the manager compatible keeps the decision SoC-wide and
+> correct for every ECC child device (OCRAM, USB, EMAC, SD/MMC),
+> and avoids repeated compatible lookups. Stratix10 and
+> Agilex both declare altr,socfpga-s10-ecc-manager and Arria10 does not,
+> so behaviour is unchanged on all three SoCs.
+> 
+> Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
+> ---
+> v3:
+>   - Use compatible string altr,socfpga-s10-ecc-manager instead of
+>     sdmmc-ecc (Dinh).
+>   - Set it once into struct altr_arria10_edac::is_s10 to
+>     avoid repeated of_device_is_compatible() calls (Dinh).
+>   - Fix the checkpatch open-parenthesis alignment.
+> 
+> v2: https://lore.kernel.org/linux-edac/20260616081709.48774-1-rounakdas2025@gmail.com/
+>   - Use legal name in Signed-off-by (Borislav).
+> 
+>   drivers/edac/altera_edac.c | 106 +++++++++++++++++++------------------
+>   drivers/edac/altera_edac.h |   1 +
+>   2 files changed, 55 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+> index 4edd2088c2db6..c728cd474abdf 100644
+> --- a/drivers/edac/altera_edac.c
+> +++ b/drivers/edac/altera_edac.c
+> @@ -1507,6 +1507,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+>   	int edac_idx, rc;
+>   	struct device_node *np;
+>   	const struct edac_device_prv_data *prv = &a10_sdmmceccb_data;
+> +	bool is_s10 = device->edac->is_s10;
+>   
+>   	rc = altr_check_ecc_deps(device);
+>   	if (rc)
+> @@ -1548,15 +1549,14 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+>   
+>   	/*
+>   	 * Update the PortB IRQs - A10 has 4, S10 has 2, Index accordingly
+> -	 *
+> -	 * FIXME: Instead of ifdefs with different architectures the driver
+> -	 *        should properly use compatibles.
+>   	 */
+> -#ifdef CONFIG_64BIT
+> -	altdev->sb_irq = irq_of_parse_and_map(np, 1);
+> -#else
+> -	altdev->sb_irq = irq_of_parse_and_map(np, 2);
+> -#endif
+> +
+> +	/* Using compatibles to determine the IRQ Index */
+> +	if (is_s10)
+> +		altdev->sb_irq = irq_of_parse_and_map(np, 1);
+> +	else
+> +		altdev->sb_irq = irq_of_parse_and_map(np, 2);
+> +
+>   	if (!altdev->sb_irq) {
+>   		edac_printk(KERN_ERR, EDAC_DEVICE, "Error PortB SBIRQ alloc\n");
+>   		rc = -ENODEV;
+> @@ -1570,29 +1570,28 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
+>   		goto err_release_group_1;
+>   	}
+>   
+> -#ifdef CONFIG_64BIT
+> -	/* Use IRQ to determine SError origin instead of assigning IRQ */
+> -	rc = of_property_read_u32_index(np, "interrupts", 1, &altdev->db_irq);
+> -	if (rc) {
+> -		edac_printk(KERN_ERR, EDAC_DEVICE,
+> -			    "Error PortB DBIRQ alloc\n");
+> -		goto err_release_group_1;
+> -	}
+> -#else
+> -	altdev->db_irq = irq_of_parse_and_map(np, 3);
+> -	if (!altdev->db_irq) {
+> -		edac_printk(KERN_ERR, EDAC_DEVICE, "Error PortB DBIRQ alloc\n");
+> -		rc = -ENODEV;
+> -		goto err_release_group_1;
+> -	}
+> -	rc = devm_request_irq(&altdev->ddev, altdev->db_irq,
+> -			      prv->ecc_irq_handler, IRQF_TRIGGER_HIGH,
+> -			      ecc_name, altdev);
+> -	if (rc) {
+> -		edac_printk(KERN_ERR, EDAC_DEVICE, "PortB DBERR IRQ error\n");
+> -		goto err_release_group_1;
+> +	if (is_s10) {
+> +		/* Use IRQ to determine SError origin instead of assigning IRQ */
+> +		rc = of_property_read_u32_index(np, "interrupts", 1, &altdev->db_irq);
+> +		if (rc) {
+> +			edac_printk(KERN_ERR, EDAC_DEVICE, "Error PortB DBIRQ alloc\n");
+> +			goto err_release_group_1;
+> +		}
+> +	} else {
+> +		altdev->db_irq = irq_of_parse_and_map(np, 3);
+> +		if (!altdev->db_irq) {
+> +			edac_printk(KERN_ERR, EDAC_DEVICE, "Error PortB DBIRQ alloc\n");
+> +			rc = -ENODEV;
+> +			goto err_release_group_1;
+> +		}
+> +		rc = devm_request_irq(&altdev->ddev, altdev->db_irq,
+> +				      prv->ecc_irq_handler, IRQF_TRIGGER_HIGH,
+> +				      ecc_name, altdev);
+> +		if (rc) {
+> +			edac_printk(KERN_ERR, EDAC_DEVICE, "PortB DBERR IRQ error\n");
+> +			goto err_release_group_1;
+> +		}
+>   	}
+> -#endif
+>   
+>   	rc = edac_device_add_device(dci);
+>   	if (rc) {
+> @@ -1974,29 +1973,29 @@ static int altr_edac_a10_device_add(struct altr_arria10_edac *edac,
+>   		goto err_release_group1;
+>   	}
+>   
+> -#ifdef CONFIG_64BIT
+> -	/* Use IRQ to determine SError origin instead of assigning IRQ */
+> -	rc = of_property_read_u32_index(np, "interrupts", 0, &altdev->db_irq);
+> -	if (rc) {
+> -		edac_printk(KERN_ERR, EDAC_DEVICE,
+> -			    "Unable to parse DB IRQ index\n");
+> -		goto err_release_group1;
+> -	}
+> -#else
+> -	altdev->db_irq = irq_of_parse_and_map(np, 1);
+> -	if (!altdev->db_irq) {
+> -		edac_printk(KERN_ERR, EDAC_DEVICE, "Error allocating DBIRQ\n");
+> -		rc = -ENODEV;
+> -		goto err_release_group1;
+> -	}
+> -	rc = devm_request_irq(edac->dev, altdev->db_irq, prv->ecc_irq_handler,
+> -			      IRQF_TRIGGER_HIGH,
+> -			      ecc_name, altdev);
+> -	if (rc) {
+> -		edac_printk(KERN_ERR, EDAC_DEVICE, "No DBERR IRQ resource\n");
+> -		goto err_release_group1;
+> +	if (edac->is_s10) {
+> +		/* Use IRQ to determine SError origin instead of assigning IRQ */
+> +		rc = of_property_read_u32_index(np, "interrupts", 0, &altdev->db_irq);
+> +		if (rc) {
+> +			edac_printk(KERN_ERR, EDAC_DEVICE,
+> +				    "Unable to parse DB IRQ index\n");
+> +			goto err_release_group1;
+> +		}
+> +	} else {
+> +		altdev->db_irq = irq_of_parse_and_map(np, 1);
+> +		if (!altdev->db_irq) {
+> +			edac_printk(KERN_ERR, EDAC_DEVICE, "Error allocating DBIRQ\n");
+> +			rc = -ENODEV;
+> +			goto err_release_group1;
+> +		}
+> +		rc = devm_request_irq(edac->dev, altdev->db_irq, prv->ecc_irq_handler,
+> +				      IRQF_TRIGGER_HIGH,
+> +				      ecc_name, altdev);
+> +		if (rc) {
+> +			edac_printk(KERN_ERR, EDAC_DEVICE, "No DBERR IRQ resource\n");
+> +			goto err_release_group1;
+> +		}
+>   	}
+> -#endif
+>   
+>   	rc = edac_device_add_device(dci);
+>   	if (rc) {
+> @@ -2122,6 +2121,9 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
+>   	platform_set_drvdata(pdev, edac);
+>   	INIT_LIST_HEAD(&edac->a10_ecc_devices);
+>   
+> +	edac->is_s10 = of_device_is_compatible(pdev->dev.of_node,
+> +					       "altr,socfpga-s10-ecc-manager");
+> +
 
-- Julian Braha
+
+I tested this version on both 32-bit and 64-bit platforms and there were 
+no regression. But I'd like to see if we can avoid using 
+of_device_is_compatible in runtime code and see if we can just bind to 
+the "altr,socfpga-s10-ecc-manager" if possible?
+
+Thanks,
+Dinh
+
