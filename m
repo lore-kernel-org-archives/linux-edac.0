@@ -1,83 +1,70 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0588872627;
-	Fri, 26 Jun 2026 12:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA7D3F7867;
+	Fri, 26 Jun 2026 13:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782477335; cv=none; b=msICt8WzDEM6zCc3ZOWp1ym5MiR9GWzarfxuEtjsuXEC54iL5tKdX9K90/d7EwIPdVXQWDYpdw9nAbQ7VCeepaTNq9wr/WDpJikHMxEIfoJy4wUuUossCHU+2T6sDnBnCsrXvC3znX7PSNGopAnV4icoYeB0pWUuouG4wQJbC/E=
+	t=1782481350; cv=none; b=Y5RtBOE7TpAheUSLOnC5YUEaetsGjiOtBPiP+tWT3B1gWglsTAs5S9qhRtENgXbvJey2DdcND6xSBuWUThK48O5g1ZRst+l6xhPbvMekYC/hXbYqfCXww6MTj7lpJlz4zo5qhvTsnZr87rKyyjCmv72JbTaORXfD/qhGBnTrq+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782477335; c=relaxed/simple;
-	bh=XGEdQXpaoKlN689Xk7cJfiTOTuOwaThxfE1eDe/ontg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HOkQPmzcXEO4VM5DkXa7il2w3LpvXivUIC/YbZX7EgqqIuO4e/0iVMcprRcf/8Tv8GAYHkzHE0jx2cjQ3Qq5sSVORvo9KU6SepxYjZpT5U58NO/FdQeE9fRP0nCVarX88r0XMp79uoeS3Gq7txTfoJdMh8b8F2zbwFm4Ua7s92U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [117.182.75.66])
-	by APP-05 (Coremail) with SMTP id zQCowACnMwcMcj5qwG5oFQ--.22930S2;
-	Fri, 26 Jun 2026 20:35:25 +0800 (CST)
-From: WenTao Liang <vulab@iscas.ac.cn>
-To: bp@alien8.de,
-	tony.luck@intel.com
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	WenTao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] fix: edac: edac_device_create_instance: main_kobj reference leaked on   success and block-creation error paths
-Date: Fri, 26 Jun 2026 20:35:23 +0800
-Message-Id: <20260626123523.36166-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	s=arc-20240116; t=1782481350; c=relaxed/simple;
+	bh=6xNagnY7a3g40sO3V3cRrA9+Rtruj2LTOAs0KGESaBI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ktIlPHh59Qf8LCbXiSfskqSJgpbINMJrvSnqGgU6MTYR333KW+yEI19ycSPow0SIxThIPj+Z1X3WzFO4syAA3h+wbeS2FmvvteotUh0hDw4UJLPqhKlyYtdrxpVQMX+VkaayNN/Poyq0urk4IgNuz+Cwy67FFnyRky763vAHgnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fS6yORUs; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fS6yORUs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F5D31F00A3F;
+	Fri, 26 Jun 2026 13:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782481349;
+	bh=9TVJZJsJLSP5jFZNooBLw2NvjZXstfG/u72HEuS/kOw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fS6yORUs7oU5O88TBiXXYYusU/imf8YpAYEGwxHr9BY8EABIxR4M6hO6qIgQzuqGV
+	 AxpJngo4VeXRUpRzFEuN39NgF9jBjofD8GjU+9B69MElf7axXg8J4FD0OaWlHaZcLF
+	 tDb3bSYlQBfVRYxN/pFhVlyX+uWIxP5+U+8Yd3shSrew3RTRK+CKchUs3/oTUIHR7+
+	 5TJzn876ADfZpqTAaV3DFvhNFRIFfsjL4AnrPC0KL9S02ruwjDAknWDr12izzJ6qDA
+	 azAAdUonUPCeWORgX5h6Ty0Bl4U5ffy1BM8ERGSNcV8/sUIxQs9wyI3d3Cpco9IbxX
+	 eO8rpl2JbHHUg==
+Message-ID: <a0537f7d-63ad-4384-ae49-41ab00dbbc4b@kernel.org>
+Date: Fri, 26 Jun 2026 08:42:28 -0500
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACnMwcMcj5qwG5oFQ--.22930S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFWrtw4xJFy8ZFy8Zw43Jrb_yoWkJwc_KF
-	y0gF17urn5Krs3Kw17Aw4xZryvg3Z2gr1xAFZFgFs5Jr1UZF15Xw4DWF1rArW7Wa1I9FyY
-	k3W5trWUuryxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb48FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
-	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-	cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_JF0_
-	Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
-	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI
-	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-	4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI
-	42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUjIJmUUUUU
-	U==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgoKA2o+Sxl+3wAAsi
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] EDAC/altera: use ECC manager compatible to select
+ A10/S10 IRQ layout
+Content-Language: en-US
+To: Rounak Das <rounakdas2025@gmail.com>
+Cc: bp@alien8.de, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ tony.luck@intel.com
+References: <470f54e9-9e92-40c1-9383-6be055170d69@kernel.org>
+ <20260617000711.60804-1-rounakdas2025@gmail.com>
+ <72efba41-f8b2-4cd2-9ce6-824cfc1a9d2c@kernel.org>
+ <CAPYTKoM7PudjgHkgyGgLAoz9gcXyPQhe_VojLxNYPkEwQNRQjQ@mail.gmail.com>
+From: Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <CAPYTKoM7PudjgHkgyGgLAoz9gcXyPQhe_VojLxNYPkEwQNRQjQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-kobject_get(&edac_dev->kobj) acquires a reference on main_kobj, but it is
-  only released when kobject_init_and_add fails. The success path and the
-  block-creation error path both return without calling
-  kobject_put(main_kobj), leaking the edac_dev kobject reference. The
-  main_kobj pointer is local and lost after function return.
 
-Cc: stable@vger.kernel.org
-Fixes: c10997f6575f ("Kobject: convert drivers/* from kobject_unregister() to kobject_put()")
-Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
----
- drivers/edac/edac_device_sysfs.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-index b1c2717cd023..72b06d608b98 100644
---- a/drivers/edac/edac_device_sysfs.c
-+++ b/drivers/edac/edac_device_sysfs.c
-@@ -647,6 +647,7 @@ static int edac_device_create_instance(struct edac_device_ctl_info *edac_dev,
- 
- 	/* error unwind stack */
- err_release_instance_kobj:
-+	kobject_put(main_kobj);
- 	kobject_put(&instance->kobj);
- 
- err_out:
--- 
-2.39.5 (Apple Git-154)
+On 6/26/26 03:22, Rounak Das wrote:
+> Hi Dinh,
+> I'm glad to know that it tested clean on both platforms.
+> 
+> To make sure that I understand the approach correctly, do you mean to
+> carry the A10/S10 distinction in the `altr_edac_a10_of_match[]` table
+> via the `.data` field?
+> And then reading it back in probe through `device_get_match_data()`?
+> 
+> If I got it right, I'll send it as v4.
+> 
 
+Yes, that was what I thinking.
+
+Thanks,
+Dinh
