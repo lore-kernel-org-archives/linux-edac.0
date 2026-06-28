@@ -1,88 +1,95 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1A6137923;
-	Sun, 28 Jun 2026 13:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4B129B77C;
+	Sun, 28 Jun 2026 23:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782652927; cv=none; b=d1SFuOT0a0jCZiluqD//PLGnypbX5KoIGKpqw5M0JjoIC3FxJDyFdVku/IoHIvrIsVnUOHp01VRZ7apRC7jOE67i1Z63sts+dTYKsD+DRFNpsY3pFs6oX9t18zRob2lgJWVA1Os2f0xnxUT8rwTM2Fym0JRh6voamCTAxnuAdTA=
+	t=1782688670; cv=none; b=CvVPvBdwZbGuHqU6RIvde0019u/0o1NRmkVJJV4Vlp48YUSXHwCI6kdDp5+yti3u8/+mZr0MmWvP5a10hdjo291cb9lvNtAhAyOq1yguEB0svYnNuSx8VC33o8Mae9HeCSdhV9jnOJScqoEM8nYV66OlELKlwSLCjxHBqdj4tjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782652927; c=relaxed/simple;
-	bh=GK6dBLdqkp4UtAE0/0kPLzMbuAGB9mkwszBxXqnb9uE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ed2B/aTBG6gRLvUAHWzIBwYqYwz8y9RAdPMhET4X09tllcqGMEqUqONvUD9eR96LE58qZNZjCpvzcri1yza3sbj2fVXnkclmDWm7VR875m2bZ2sQwIiMWnzXtLS5FPtDV0CzJJUEvVGPyojKUgubxrbU2+S0ff6yNQLTa9prxTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [117.182.74.7])
-	by APP-05 (Coremail) with SMTP id zQCowAD3bfH1H0FqbSPGFQ--.45764S2;
-	Sun, 28 Jun 2026 21:21:58 +0800 (CST)
-From: WenTao Liang <vulab@iscas.ac.cn>
-To: bp@alien8.de,
-	tony.luck@intel.com
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	WenTao Liang <vulab@iscas.ac.cn>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] edac: fix kobject refcount leak in edac_device_create_instance
-Date: Sun, 28 Jun 2026 21:21:55 +0800
-Message-Id: <20260628132155.45969-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	s=arc-20240116; t=1782688670; c=relaxed/simple;
+	bh=umPLaydlrv70HwW74e+F+J3csmZE7YsoaoWTcp1gMnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iKqpzzbjbifQgoFEFm1ZC0+9JmlFE80UcPJyUToh3+ePRSstAdG+07c9k2ZkAMzOVlVZVkVm8Acs53DDMVSS4eX939qcFiwrVNbUujMAUyKqYRHsostl638TGzzNJjyIzdwGIsI7ceS4Hpl4IJ1H/d7MECl2V4isncck4GcuF1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RihYZDdl; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RihYZDdl"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 483BC40E016E;
+	Sun, 28 Jun 2026 23:17:38 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 4xwU7X86fgSN; Sun, 28 Jun 2026 23:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1782688647; bh=CQwZpkqK8xLu1gqiGT/QSrfFeYJGhlTP7HOb3sF7NQ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RihYZDdlzm/SFIcB5tVovxMBNrFdsffLAfoJVYf+reOOInKsIH5LdMvlQSLQucx0b
+	 9ZIfA24CaYYr6FQGDinV19PFn5Aof0nDiBirt8/fgssJXduaasZgEYXvjBsiia3NSL
+	 XLg8FTpRYmCOgNDz4oehjv5IYUK/0ESTStws/RvKqT/auUkIIO6lcQcH7et3zJaXtm
+	 eDE9Sm1zRPBQrrPoa3aL2gBCdQHfv0ioy9MhZG3+KeusQve4OJ37K4DGmxOUx7ab9D
+	 Q5zW+2z2lYatQHb0/QCiUSuAgV3RBSjX1zbLy1Htxxv60r0PHuKGVuitqTUlWh2iy1
+	 9E0yOj1HPQQsg91eQUE/AIJD3/l+J8B9k+tXXedCqzmjcM45Tf19jkEBWWEQ+fkIGQ
+	 o3YjVcrMH/UIP40LWEdnRRb8Eo7hcG0f/vrPOxuq1FqSLUUz4FGiju8+/qrHHWI4cz
+	 dW9rno5dSbr2YEoCh7QJB++p7dtlTfmhBN7U2Hn8OPgLAbpsiAJ/T70qf2DIaahOOr
+	 y/iscMEOo0yblJXzruoO+krCUXhehOrRG899IAGXKjnFlq5gTMeuTAzTir3Jxz/4Fw
+	 qUZ7719PXJXmY6T7FWKb93hopKDiOr/eAkKfC9C5yLe6o4I5XUdJ8zL7Q2d8JOJBg/
+	 0lMeeusukCy/iLma+w1b+OKA=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0B55440E0140;
+	Sun, 28 Jun 2026 23:17:21 +0000 (UTC)
+Date: Sun, 28 Jun 2026 16:17:18 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Johannes Thumshirn <morbidrsa@gmail.com>
+Cc: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org,
+	Tony Luck <tony.luck@intel.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] EDAC/mpc85xx: Use platform_get_irq() to get interrupt
+Message-ID: <20260628231718.GAakGrflyHuHxoSHra@fat_crate.local>
+References: <20260603191908.5618-1-rosenp@gmail.com>
+ <16fb1ca6-447c-42b6-b4f3-aade5ce7f90c@gmail.com>
+ <20260610173352.GBaimgACY4q6PkkkUk@fat_crate.local>
+ <ef8107c1-92e9-4540-b88f-0191d1b7a4e6@gmail.com>
+ <20260612153839.GCaiwn_7qOic4KLF8P@fat_crate.local>
+ <add460c5-0403-4054-a85a-a1c76925def7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAD3bfH1H0FqbSPGFQ--.45764S2
-X-Coremail-Antispam: 1UD129KBjvJXoWrZFWrtw4xJFy8ZFy8Zw43Jrb_yoW8Jr1Dpr
-	sxGFW7ZFWjgw4I9a1DAF1UGFyrK39Fk3y0kr10y392gr4UJFy7XryktFWUWF1rZ397Cay3
-	Z3W7Xw1rJFW5CFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUvXd8UUU
-	UU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAAMA2pAior3jwAAsR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <add460c5-0403-4054-a85a-a1c76925def7@gmail.com>
 
-kobject_get(&edac_dev->kobj) acquires a reference on main_kobj, but it is
-only released when kobject_init_and_add fails. The success path and the
-block-creation error path both return without calling
-kobject_put(main_kobj), leaking the edac_dev kobject reference. The
-main_kobj pointer is local and lost after function return.
+On Fri, Jun 12, 2026 at 07:05:47PM +0200, Johannes Thumshirn wrote:
+> On 6/12/26 5:38 PM, Borislav Petkov wrote:
+> > On Thu, Jun 11, 2026 at 07:55:35AM +0200, Johannes Thumshirn wrote:
+> > > Yep fine from my side
+> > From: "Borislav Petkov (AMD)" <bp@alien8.de>
+> > Date: Fri, 12 Jun 2026 08:35:50 -0700
+> > Subject: [PATCH] EDAC/mpc85xx: Orphan it
+> > 
+> > Johannes doesn't have the hardware to test patches on it anymore and
+> > TTBOMK, no one else has shown interest so orphan the driver, for now at
+> > least.
+> > 
+> > Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> 
+> 
+> Acked-by: Johannes Thumshirn <jth@kernel.org>
 
-Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-Fixes: bee33f22d7c3 ("clocksource/drivers/nxp-pit: Add NXP Automotive s32g2 / s32g3 support")
-Cc: stable@vger.kernel.org
-Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
----
-Changes in v2:
-- Fix patch format based on reviewer feedback
----
- drivers/edac/edac_device_sysfs.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied, thanks.
 
-diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-index b1c2717cd023..72b06d608b98 100644
---- a/drivers/edac/edac_device_sysfs.c
-+++ b/drivers/edac/edac_device_sysfs.c
-@@ -647,6 +647,7 @@ static int edac_device_create_instance(struct edac_device_ctl_info *edac_dev,
- 
- 	/* error unwind stack */
- err_release_instance_kobj:
-+	kobject_put(main_kobj);
- 	kobject_put(&instance->kobj);
- 
- err_out:
 -- 
-2.39.5 (Apple Git-154)
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
