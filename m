@@ -1,69 +1,72 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3967C2F8EAD
-	for <linux-edac@vger.kernel.org>; Mon, 29 Jun 2026 06:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74016371CF9
+	for <linux-edac@vger.kernel.org>; Mon, 29 Jun 2026 06:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782713153; cv=none; b=Y0AS0OteY5WunfGPioci7RgK1/sUvVY1MmsyxjvJnoRr2zK60GPoVuo6Wi4IqGS/+ccBvpXkv8PYqvGvRdtRP+boI+2lS/vlzOWGFUQQYO7ZXsstJ0PfrX4Os9krTwobIcsdtIe+ZoaGIn8VpuHC3qYKNQGvGtz23CLCS2ssxQ4=
+	t=1782713181; cv=none; b=FQCAoqhf3Ic75pkB5MNG31JtGOhbZEAralvvcGrhzvUE0TJTFX3OCGi6g8rKPVRdbQM6MiYfhaACfCt9NjY3R3BkxA5GUlXV3q9rvE6my0b143x8VUwRXurq7Ls35UqdcnN0CuJPYKNR3WwloBJK1oYzArg3VEJUshivZH9d14o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782713153; c=relaxed/simple;
-	bh=Udjrce0ntNUiZRm7qVcMlCLwzefwQZmIiguxNQwJGxE=;
+	s=arc-20240116; t=1782713181; c=relaxed/simple;
+	bh=YCPP9TmwZN2zoVeSqVzhcdnVFzUyDk8w2C4EszxgotE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RG90BGHaWyzdcyaa/QmPpQeVvjkQdybhxB/jty7wFkKKx0qXKhmUt2b9GmFZeRpoeDajo8Y+PmTX/kIlsYTltF0HyZ7xr972erkcTlNOJAmUJSA+4lVEYEQDUEWoVGGmuKBGXp4rriP6ErqIJlU+tDFR7qWMbF3XU/MlH3yJa7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=D99xD75M; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=rQWRWV0S; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=LaH272JhnirfoNOmaswkcWKnTy0cKyNRQmFCjZ9rxIQwiGw5pkrCW55U1RzV8hf53zvZsMrHWt7HqWy8F2sq9w3qOy0t4ygek4y5N5HyIpxNRlgdFH5dNQU+8tcbPs2ZqeerlqNEYqqqYU8eHu1rQLHzwUm8SeQmNqJjDeS+DwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ARzK7F8Q; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ARzK7F8Q; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="D99xD75M";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="rQWRWV0S"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ARzK7F8Q";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ARzK7F8Q"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B5F572F03;
-	Mon, 29 Jun 2026 06:05:49 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF61B7596B;
+	Mon, 29 Jun 2026 06:06:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1782713150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782713177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ff5TCH8bvOPvNqKOvid4fHgRtluvh4xCG7ToLbgY8Wg=;
-	b=D99xD75MwDTu7N+o/8fZsKJVpIvtReaCSttLAEpeCgOpS6moTkFWsPBGCQ9F3mqCK37YgK
-	TtHyvHkCubJwbHIU2fvtGXxaZNtBYh061JUCQyugyo6yyTKulLfOyKzJ17RbW93sd8bxYw
-	uiArZJ9MTZ21zwC525ta90vWpqp1pno=
-Authentication-Results: smtp-out1.suse.de;
+	bh=ECOEsueaR5IuuRB6nVtZh2Yhysm/+kue2HgHvPo2L2A=;
+	b=ARzK7F8QZEg1RWUK0L0ab/5SjErvw1xqO6zvzGuWN3dDYEz9UPLlTatKJmQj3XN4jTTQrr
+	jBc/DWRa6/uj2JdnDzDuI6tI+h/Iv7YDR5LQZb5MT7a/tB+JvZKmNpqd7j/zqrneBWBxn9
+	vf/Zk9EoXJWhXs3mXNOYLilCOFkYWKM=
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1782713149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782713177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ff5TCH8bvOPvNqKOvid4fHgRtluvh4xCG7ToLbgY8Wg=;
-	b=rQWRWV0SrJkTBpLz6oHB1KwptowK8EfGcbUVnZCKy22HaP3sjO3jx5zkI+inJBZipeJd+w
-	s8RBdUb3k34U5IBjU5Njk0xOs57yN1HYcLEM4Ha662yFxTt3FNaK3J4GGvpTAq4DSsNkyB
-	ArsgNxcYqB0ae+1foLnBdtAs5q0IHTM=
+	bh=ECOEsueaR5IuuRB6nVtZh2Yhysm/+kue2HgHvPo2L2A=;
+	b=ARzK7F8QZEg1RWUK0L0ab/5SjErvw1xqO6zvzGuWN3dDYEz9UPLlTatKJmQj3XN4jTTQrr
+	jBc/DWRa6/uj2JdnDzDuI6tI+h/Iv7YDR5LQZb5MT7a/tB+JvZKmNpqd7j/zqrneBWBxn9
+	vf/Zk9EoXJWhXs3mXNOYLilCOFkYWKM=
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F5A6779A8;
-	Mon, 29 Jun 2026 06:05:49 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 70F4A779A8;
+	Mon, 29 Jun 2026 06:06:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EwIzAj0LQmrCEQAAD6G6ig
-	(envelope-from <jgross@suse.com>); Mon, 29 Jun 2026 06:05:49 +0000
+	id iYjyGVkLQmrmEQAAD6G6ig
+	(envelope-from <jgross@suse.com>); Mon, 29 Jun 2026 06:06:17 +0000
 From: Juergen Gross <jgross@suse.com>
 To: linux-kernel@vger.kernel.org,
+	x86@kernel.org,
 	linux-edac@vger.kernel.org
 Cc: Juergen Gross <jgross@suse.com>,
-	Jason Baron <jbaron@akamai.com>,
-	Borislav Petkov <bp@alien8.de>,
 	Tony Luck <tony.luck@intel.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>
-Subject: [PATCH 03/32] edac: Stop using 32-bit MSR interfaces
-Date: Mon, 29 Jun 2026 08:04:54 +0200
-Message-ID: <20260629060526.3638272-4-jgross@suse.com>
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH 08/32] x86/mce: Stop using 32-bit MSR interfaces
+Date: Mon, 29 Jun 2026 08:04:59 +0200
+Message-ID: <20260629060526.3638272-9-jgross@suse.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260629060526.3638272-1-jgross@suse.com>
 References: <20260629060526.3638272-1-jgross@suse.com>
@@ -75,6 +78,7 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
+X-Spam-Score: -6.80
 X-Spamd-Result: default: False [-6.80 / 50.00];
 	REPLY(-4.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -88,82 +92,349 @@ X-Spamd-Result: default: False [-6.80 / 50.00];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	DKIM_SIGNED(0.00)[suse.com:s=susede1];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLabb87wq1t34j1pwfzcynq9ta)];
+	R_RATELIMIT(0.00)[to_ip_from(RLfdszjqhz8kzzb9uwpzdm8png)];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.com:mid];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Level: 
-X-Spam-Score: -6.80
 
-The 32-bit MSR interfaces rdmsr_safe() and wrmsr_safe() are planned to
-be removed. Use the related 64-bit variants instead.
+The 32-bit MSR interfaces rdmsr(), wrmsr() and  rdmsr_safe() are
+planned to be removed. Use the related 64-bit variants instead.
 
 Signed-off-by: Juergen Gross <jgross@suse.com>
 ---
- drivers/edac/ie31200_edac.c | 10 +++++-----
- drivers/edac/mce_amd.c      |  8 ++++----
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ arch/x86/kernel/cpu/mce/amd.c     | 87 ++++++++++++++++---------------
+ arch/x86/kernel/cpu/mce/core.c    |  2 +-
+ arch/x86/kernel/cpu/mce/p5.c      | 16 +++---
+ arch/x86/kernel/cpu/mce/winchip.c | 10 ++--
+ 4 files changed, 58 insertions(+), 57 deletions(-)
 
-diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-index e3bd6436669b..94ab80197c2e 100644
---- a/drivers/edac/ie31200_edac.c
-+++ b/drivers/edac/ie31200_edac.c
-@@ -261,11 +261,11 @@ static void ie31200_clear_error_info(struct mem_ctl_info *mci)
- 	 * the ECC error log registers in all memory controllers.
- 	 */
- 	if (cfg->msr_clear_eccerrlog_offset) {
--		if (wrmsr_safe(cfg->msr_clear_eccerrlog_offset,
--			       cfg->reg_eccerrlog_ce_mask |
--			       cfg->reg_eccerrlog_ce_ovfl_mask |
--			       cfg->reg_eccerrlog_ue_mask |
--			       cfg->reg_eccerrlog_ue_ovfl_mask, 0) < 0)
-+		if (wrmsrq_safe(cfg->msr_clear_eccerrlog_offset,
-+			        cfg->reg_eccerrlog_ce_mask |
-+			        cfg->reg_eccerrlog_ce_ovfl_mask |
-+			        cfg->reg_eccerrlog_ue_mask |
-+			        cfg->reg_eccerrlog_ue_ovfl_mask) < 0)
- 			ie31200_printk(KERN_ERR, "Failed to wrmsr.\n");
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 36e0df4d1342..f916fb4c5d13 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -280,11 +280,11 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 	u8 *bank_counts = this_cpu_ptr(smca_bank_counts);
+ 	const struct smca_hwid *s_hwid;
+ 	unsigned int i, hwid_mcatype;
+-	u32 high, low;
++	struct msr val;
+ 	u32 smca_config = MSR_AMD64_SMCA_MCx_CONFIG(bank);
  
+ 	/* Set appropriate bits in MCA_CONFIG */
+-	if (!rdmsr_safe(smca_config, &low, &high)) {
++	if (!rdmsrq_safe(smca_config, &val.q)) {
+ 		/*
+ 		 * OS is required to set the MCAX bit to acknowledge that it is
+ 		 * now using the new MSR ranges and new registers under each
+@@ -294,7 +294,7 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 		 *
+ 		 * MCA_CONFIG[MCAX] is bit 32 (0 in the high portion of the MSR.)
+ 		 */
+-		high |= BIT(0);
++		val.h |= BIT(0);
+ 
+ 		/*
+ 		 * SMCA sets the Deferred Error Interrupt type per bank.
+@@ -307,9 +307,9 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 		 * APIC based interrupt. First, check that no interrupt has been
+ 		 * set.
+ 		 */
+-		if ((low & BIT(5)) && !((high >> 5) & 0x3) && data->dfr_intr_en) {
++		if ((val.l & BIT(5)) && !((val.h >> 5) & 0x3) && data->dfr_intr_en) {
+ 			__set_bit(bank, data->dfr_intr_banks);
+-			high |= BIT(5);
++			val.h |= BIT(5);
+ 		}
+ 
+ 		/*
+@@ -324,33 +324,33 @@ static void smca_configure(unsigned int bank, unsigned int cpu)
+ 		 * The OS should set this to inform the platform that the OS is ready
+ 		 * to handle the MCA Thresholding interrupt.
+ 		 */
+-		if ((low & BIT(10)) && data->thr_intr_en) {
++		if ((val.l & BIT(10)) && data->thr_intr_en) {
+ 			__set_bit(bank, data->thr_intr_banks);
+-			high |= BIT(8);
++			val.h |= BIT(8);
+ 		}
+ 
+-		this_cpu_ptr(mce_banks_array)[bank].lsb_in_status = !!(low & BIT(8));
++		this_cpu_ptr(mce_banks_array)[bank].lsb_in_status = !!(val.l & BIT(8));
+ 
+-		if (low & MCI_CONFIG_PADDRV)
++		if (val.l & MCI_CONFIG_PADDRV)
+ 			this_cpu_ptr(smca_banks)[bank].paddrv = 1;
+ 
+-		wrmsr(smca_config, low, high);
++		wrmsrq(smca_config, val.q);
+ 	}
+ 
+-	if (rdmsr_safe(MSR_AMD64_SMCA_MCx_IPID(bank), &low, &high)) {
++	if (rdmsrq_safe(MSR_AMD64_SMCA_MCx_IPID(bank), &val.q)) {
+ 		pr_warn("Failed to read MCA_IPID for bank %d\n", bank);
  		return;
-diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
-index bd252cb3c38e..7aee57a25b68 100644
---- a/drivers/edac/mce_amd.c
-+++ b/drivers/edac/mce_amd.c
-@@ -806,7 +806,7 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
- 	struct mce *m = (struct mce *)data;
- 	struct mce_hw_err *err = to_mce_hw_err(m);
- 	unsigned int fam = x86_family(m->cpuid);
--	u32 mca_config_lo = 0, dummy;
-+	u64 mca_config = 0;
- 	int ecc;
+ 	}
  
- 	if (m->kflags & MCE_HANDLED_CEC)
-@@ -826,9 +826,9 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
- 		((m->status & MCI_STATUS_PCC)	? "PCC"	  : "-"));
+-	hwid_mcatype = HWID_MCATYPE(high & MCI_IPID_HWID,
+-				    (high & MCI_IPID_MCATYPE) >> 16);
++	hwid_mcatype = HWID_MCATYPE(val.h & MCI_IPID_HWID,
++				    (val.h & MCI_IPID_MCATYPE) >> 16);
  
- 	if (boot_cpu_has(X86_FEATURE_SMCA)) {
--		rdmsr_safe(MSR_AMD64_SMCA_MCx_CONFIG(m->bank), &mca_config_lo, &dummy);
-+		rdmsrq_safe(MSR_AMD64_SMCA_MCx_CONFIG(m->bank), &mca_config);
+ 	for (i = 0; i < ARRAY_SIZE(smca_hwid_mcatypes); i++) {
+ 		s_hwid = &smca_hwid_mcatypes[i];
  
--		if (mca_config_lo & MCI_CONFIG_MCAX)
-+		if (mca_config & MCI_CONFIG_MCAX)
- 			pr_cont("|%s", ((m->status & MCI_STATUS_TCC) ? "TCC" : "-"));
+ 		if (hwid_mcatype == s_hwid->hwid_mcatype) {
+ 			this_cpu_ptr(smca_banks)[bank].hwid = s_hwid;
+-			this_cpu_ptr(smca_banks)[bank].id = low;
++			this_cpu_ptr(smca_banks)[bank].id = val.l;
+ 			this_cpu_ptr(smca_banks)[bank].sysfs_id = bank_counts[s_hwid->bank_type]++;
+ 			break;
+ 		}
+@@ -432,50 +432,50 @@ static bool lvt_off_valid(struct threshold_block *b, int apic, u32 lo, u32 hi)
+ static void threshold_restart_block(void *_tr)
+ {
+ 	struct thresh_restart *tr = _tr;
+-	u32 hi, lo;
++	struct msr val;
  
- 		pr_cont("|%s", ((m->status & MCI_STATUS_SYNDV) ? "SyndV" : "-"));
-@@ -863,7 +863,7 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
+ 	/* sysfs write might race against an offline operation */
+ 	if (!this_cpu_read(threshold_banks) && !tr->set_lvt_off)
+ 		return;
  
- 		if (m->status & MCI_STATUS_SYNDV) {
- 			pr_cont(", Syndrome: 0x%016llx\n", m->synd);
--			if (mca_config_lo & MCI_CONFIG_FRUTEXT) {
-+			if (mca_config & MCI_CONFIG_FRUTEXT) {
- 				char frutext[17];
+-	rdmsr(tr->b->address, lo, hi);
++	rdmsrq(tr->b->address, val.q);
  
- 				frutext[16] = '\0';
+ 	/*
+ 	 * Reset error count and overflow bit.
+ 	 * This is done during init or after handling an interrupt.
+ 	 */
+-	if (hi & MASK_OVERFLOW_HI || tr->set_lvt_off) {
+-		hi &= ~(MASK_ERR_COUNT_HI | MASK_OVERFLOW_HI);
+-		hi |= THRESHOLD_MAX - tr->b->threshold_limit;
++	if (val.h & MASK_OVERFLOW_HI || tr->set_lvt_off) {
++		val.h &= ~(MASK_ERR_COUNT_HI | MASK_OVERFLOW_HI);
++		val.h |= THRESHOLD_MAX - tr->b->threshold_limit;
+ 	} else if (tr->old_limit) {	/* change limit w/o reset */
+-		int new_count = (hi & THRESHOLD_MAX) +
++		int new_count = (val.h & THRESHOLD_MAX) +
+ 		    (tr->old_limit - tr->b->threshold_limit);
+ 
+-		hi = (hi & ~MASK_ERR_COUNT_HI) |
++		val.h = (val.h & ~MASK_ERR_COUNT_HI) |
+ 		    (new_count & THRESHOLD_MAX);
+ 	}
+ 
+ 	/* clear IntType */
+-	hi &= ~MASK_INT_TYPE_HI;
++	val.h &= ~MASK_INT_TYPE_HI;
+ 
+ 	if (!tr->b->interrupt_capable)
+ 		goto done;
+ 
+ 	if (tr->set_lvt_off) {
+-		if (lvt_off_valid(tr->b, tr->lvt_off, lo, hi)) {
++		if (lvt_off_valid(tr->b, tr->lvt_off, val.l, val.h)) {
+ 			/* set new lvt offset */
+-			hi &= ~MASK_LVTOFF_HI;
+-			hi |= tr->lvt_off << 20;
++			val.h &= ~MASK_LVTOFF_HI;
++			val.h |= tr->lvt_off << 20;
+ 		}
+ 	}
+ 
+ 	if (tr->b->interrupt_enable)
+-		hi |= INT_TYPE_APIC;
++		val.h |= INT_TYPE_APIC;
+ 
+  done:
+ 
+-	hi |= MASK_COUNT_EN_HI;
+-	wrmsr(tr->b->address, lo, hi);
++	val.h |= MASK_COUNT_EN_HI;
++	wrmsrq(tr->b->address, val.q);
+ }
+ 
+ static void threshold_restart_bank(unsigned int bank, bool intr_en)
+@@ -726,7 +726,8 @@ static void smca_enable_interrupt_vectors(void)
+ void mce_amd_feature_init(struct cpuinfo_x86 *c)
+ {
+ 	unsigned int bank, block, cpu = smp_processor_id();
+-	u32 low = 0, high = 0, address = 0;
++	struct msr val = { .q = 0 };
++	u32 address = 0;
+ 	int offset = -1;
+ 
+ 	amd_apply_cpu_quirks(c);
+@@ -746,21 +747,21 @@ void mce_amd_feature_init(struct cpuinfo_x86 *c)
+ 		disable_err_thresholding(c, bank);
+ 
+ 		for (block = 0; block < NR_BLOCKS; ++block) {
+-			address = get_block_address(address, low, high, bank, block, cpu);
++			address = get_block_address(address, val.l, val.h, bank, block, cpu);
+ 			if (!address)
+ 				break;
+ 
+-			if (rdmsr_safe(address, &low, &high))
++			if (rdmsrq_safe(address, &val.q))
+ 				break;
+ 
+-			if (!(high & MASK_VALID_HI))
++			if (!(val.h & MASK_VALID_HI))
+ 				continue;
+ 
+-			if (!(high & MASK_CNTP_HI)  ||
+-			     (high & MASK_LOCKED_HI))
++			if (!(val.h & MASK_CNTP_HI)  ||
++			     (val.h & MASK_LOCKED_HI))
+ 				continue;
+ 
+-			offset = prepare_threshold_block(bank, block, address, offset, high);
++			offset = prepare_threshold_block(bank, block, address, offset, val.h);
+ 		}
+ 	}
+ }
+@@ -1083,24 +1084,24 @@ static int allocate_threshold_blocks(unsigned int cpu, struct threshold_bank *tb
+ 				     u32 address)
+ {
+ 	struct threshold_block *b = NULL;
+-	u32 low, high;
++	struct msr val;
+ 	int err;
+ 
+ 	if ((bank >= this_cpu_read(mce_num_banks)) || (block >= NR_BLOCKS))
+ 		return 0;
+ 
+-	if (rdmsr_safe(address, &low, &high))
++	if (rdmsrq_safe(address, &val.q))
+ 		return 0;
+ 
+-	if (!(high & MASK_VALID_HI)) {
++	if (!(val.h & MASK_VALID_HI)) {
+ 		if (block)
+ 			goto recurse;
+ 		else
+ 			return 0;
+ 	}
+ 
+-	if (!(high & MASK_CNTP_HI)  ||
+-	     (high & MASK_LOCKED_HI))
++	if (!(val.h & MASK_CNTP_HI)  ||
++	     (val.h & MASK_LOCKED_HI))
+ 		goto recurse;
+ 
+ 	b = kzalloc_obj(struct threshold_block);
+@@ -1112,7 +1113,7 @@ static int allocate_threshold_blocks(unsigned int cpu, struct threshold_bank *tb
+ 	b->cpu			= cpu;
+ 	b->address		= address;
+ 	b->interrupt_enable	= 0;
+-	b->interrupt_capable	= lvt_interrupt_supported(bank, high);
++	b->interrupt_capable	= lvt_interrupt_supported(bank, val.h);
+ 	b->threshold_limit	= get_thr_limit();
+ 
+ 	if (b->interrupt_capable) {
+@@ -1124,13 +1125,13 @@ static int allocate_threshold_blocks(unsigned int cpu, struct threshold_bank *tb
+ 
+ 	list_add(&b->miscj, &tb->miscj);
+ 
+-	mce_threshold_block_init(b, (high & MASK_LVTOFF_HI) >> 20);
++	mce_threshold_block_init(b, (val.h & MASK_LVTOFF_HI) >> 20);
+ 
+ 	err = kobject_init_and_add(&b->kobj, &threshold_ktype, tb->kobj, get_name(cpu, bank, b));
+ 	if (err)
+ 		goto out_free;
+ recurse:
+-	address = get_block_address(address, low, high, bank, ++block, cpu);
++	address = get_block_address(address, val.l, val.h, bank, ++block, cpu);
+ 	if (!address)
+ 		return 0;
+ 
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 9bba1e2f03af..017aaf57ba47 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1866,7 +1866,7 @@ static void __mcheck_cpu_init_generic(void)
+ 
+ 	rdmsrq(MSR_IA32_MCG_CAP, cap);
+ 	if (cap & MCG_CTL_P)
+-		wrmsr(MSR_IA32_MCG_CTL, 0xffffffff, 0xffffffff);
++		wrmsrq(MSR_IA32_MCG_CTL, ~0ULL);
+ }
+ 
+ static void __mcheck_cpu_init_prepare_banks(void)
+diff --git a/arch/x86/kernel/cpu/mce/p5.c b/arch/x86/kernel/cpu/mce/p5.c
+index 2272ad53fc33..eb99f384d747 100644
+--- a/arch/x86/kernel/cpu/mce/p5.c
++++ b/arch/x86/kernel/cpu/mce/p5.c
+@@ -23,16 +23,16 @@ int mce_p5_enabled __read_mostly;
+ /* Machine check handler for Pentium class Intel CPUs: */
+ noinstr void pentium_machine_check(struct pt_regs *regs)
+ {
+-	u32 loaddr, hi, lotype;
++	u64 addr, type;
+ 
+ 	instrumentation_begin();
+-	rdmsr(MSR_IA32_P5_MC_ADDR, loaddr, hi);
+-	rdmsr(MSR_IA32_P5_MC_TYPE, lotype, hi);
++	rdmsrq(MSR_IA32_P5_MC_ADDR, addr);
++	rdmsrq(MSR_IA32_P5_MC_TYPE, type);
+ 
+ 	pr_emerg("CPU#%d: Machine Check Exception:  0x%8X (type 0x%8X).\n",
+-		 smp_processor_id(), loaddr, lotype);
++		 smp_processor_id(), (u32)addr, (u32)type);
+ 
+-	if (lotype & (1<<5)) {
++	if (type & (1<<5)) {
+ 		pr_emerg("CPU#%d: Possible thermal failure (CPU on fire ?).\n",
+ 			 smp_processor_id());
+ 	}
+@@ -44,7 +44,7 @@ noinstr void pentium_machine_check(struct pt_regs *regs)
+ /* Set up machine check reporting for processors with Intel style MCE: */
+ void intel_p5_mcheck_init(struct cpuinfo_x86 *c)
+ {
+-	u32 l, h;
++	u64 q;
+ 
+ 	/* Default P5 to off as its often misconnected: */
+ 	if (!mce_p5_enabled)
+@@ -55,8 +55,8 @@ void intel_p5_mcheck_init(struct cpuinfo_x86 *c)
+ 		return;
+ 
+ 	/* Read registers before enabling: */
+-	rdmsr(MSR_IA32_P5_MC_ADDR, l, h);
+-	rdmsr(MSR_IA32_P5_MC_TYPE, l, h);
++	rdmsrq(MSR_IA32_P5_MC_ADDR, q);
++	rdmsrq(MSR_IA32_P5_MC_TYPE, q);
+ 	pr_info("Intel old style machine check architecture supported.\n");
+ 
+ 	/* Enable MCE: */
+diff --git a/arch/x86/kernel/cpu/mce/winchip.c b/arch/x86/kernel/cpu/mce/winchip.c
+index 6c99f2941909..7040243533d9 100644
+--- a/arch/x86/kernel/cpu/mce/winchip.c
++++ b/arch/x86/kernel/cpu/mce/winchip.c
+@@ -28,12 +28,12 @@ noinstr void winchip_machine_check(struct pt_regs *regs)
+ /* Set up machine check reporting on the Winchip C6 series */
+ void winchip_mcheck_init(struct cpuinfo_x86 *c)
+ {
+-	u32 lo, hi;
++	struct msr val;
+ 
+-	rdmsr(MSR_IDT_FCR1, lo, hi);
+-	lo |= (1<<2);	/* Enable EIERRINT (int 18 MCE) */
+-	lo &= ~(1<<4);	/* Enable MCE */
+-	wrmsr(MSR_IDT_FCR1, lo, hi);
++	rdmsrq(MSR_IDT_FCR1, val.q);
++	val.l |= (1<<2);	/* Enable EIERRINT (int 18 MCE) */
++	val.l &= ~(1<<4);	/* Enable MCE */
++	wrmsrq(MSR_IDT_FCR1, val.q);
+ 
+ 	cr4_set_bits(X86_CR4_MCE);
+ 
 -- 
 2.54.0
 
