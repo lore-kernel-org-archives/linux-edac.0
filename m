@@ -1,79 +1,117 @@
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CB538D6B5;
-	Thu,  2 Jul 2026 06:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C2144E021;
+	Thu,  2 Jul 2026 10:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782974808; cv=none; b=kQR5CG1XbrIuXXpUPNWVNbx99ZQZBaW+jAgguo8pkyEIxY5mkC+zKKcFgW6caqaHL6+5K9OwsFNaL2bu8905Xg4O6JcKXQPOJ8flwLhJQmT10W7XeXq6eCKXWdCdLgZWsG/jNsS7noP3nux/Ko1w3IEY08+wBAtrHsPlbNFRqMw=
+	t=1782986860; cv=none; b=daVpg8CL1XxXODi/4vMGftI8ify2qUM571jjSdXjsJj6ndLonLH2+iJpseZSMjdF85vnzqb7vznL+6UswhvKl0xALF/YSkedZHBWwbaiQrXg/Xch/BNEH6vp6XeY912XhLLSoa4RsSelp/1dQLZaJ07qnUXhFyCEJnNAFq6J26Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782974808; c=relaxed/simple;
-	bh=qutA2gpG2Q88xXaWW2dAOvgNiAuZ9ytsljQYpQjnObw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QsIfsnad+78dyvtNRLXL/2M+6t3saqawIwA+A9xgtSw3dr8Jd5qEKAw2G6nY6IHBcXSDX5L0qXpPdYIya6id1U3wAIkjZIzcTxSpzh4A/fdfLG0UN3rxxDJw6BGjZaNsvMP6cC17c1MoccMGPDN+VUG2jMZHISvW6oV7EYAhAeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org; spf=pass smtp.mailfrom=fastmail.org; dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b=DgsIS8Zq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aBEZK92N; arc=none smtp.client-ip=103.168.172.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	s=arc-20240116; t=1782986860; c=relaxed/simple;
+	bh=/9b8XhRdxlUi0LGnAzYPhCpgKuVEuoSHdRJkABgQExM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=df6LXzJyfKFvKbWr7Ymf3QY1RMbco/cbQLybValhkhK/AxQx3BsiUtMHBtyER0khJAkC3Amm/9706r4+CKNxctCewBX7+TpXk9t+gCYwyreuflgMpnt8u70Hl6JY7/OqFn0s8dyIo7nKtp4U0FXn1+97RUNyOFAKN74kr7tTu10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AUJ2SDXv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="DgsIS8Zq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aBEZK92N"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.phl.internal (Postfix) with ESMTP id 27D691380C35;
-	Thu,  2 Jul 2026 02:46:45 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Thu, 02 Jul 2026 02:46:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
-	 t=1782974805; x=1782978405; bh=e6puqzkhh4UHrua2JiowqyTCfZjHc1o3
-	cqXqHN1mpbw=; b=DgsIS8Zqx4GCasSi9h15jcxL8q0OYHm4zo/E8Sdy6mweAfSP
-	BXZJwL2ewGqRjMt6UcdKEIghQm3QpW8vACdxthzGFE1PIY8kpBCm78+rzyX9pddW
-	+VKlnKnRjwfFKiGarPHkNh0xWO/1OZ3gz5iBrKKkBSw1MB7UrEwR5SM/JE37Q3mc
-	bLlI+TfAT/66Tkdw/UJ/e9SzJ1j7wwdjKFi9A59jvCo7KnbWds5j+MqHNh1tQeAf
-	blSHpWHOxgYRCLRN2pKfvoT7bxv77rVny0MmAHDl9heVbN4YmkOzAAd5h3eP3n7P
-	o/V+y+1HRZSS5ofUFys6dUk6ShoRIcrUOlBL1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1782974805; x=
-	1782978405; bh=e6puqzkhh4UHrua2JiowqyTCfZjHc1o3cqXqHN1mpbw=; b=a
-	BEZK92NHr4jAk/e4WX/NxkZOx21Td5ZYBO8YJNXJcglo6P8TK/NW9kgQs3U427Pg
-	SmWnwXbyut7x3rENbpSR+ZRNVdNZPS0TPPoNuzOX+RbvfB6F0GnkrDlcCLqvc9m0
-	LaSpuT3kokSkLPq8lFellu99NbH3Ga1Ox7gRKEAdWhx1nd7nUXnoh7FJpuWG+YxY
-	OT/xpB87Ci4fFv4u7S/9T1uhhArjhVXPP3zpdvyZT5BYYdgcZhGNTcFuezj89hUc
-	Tr46Y2XUduS8ZDtM4227hW/1ohkf8l78A53K3G6ASyb6c2fITLU7sqw3eB1LqGgg
-	WtT8i0MadK6XyIjSrSVkQ==
-X-ME-Sender: <xms:VAlGaiGDHClaLojNDudGJNDSHUqlFYBi7m7z6qveh0QBQhGrol7I9Q>
-    <xme:VAlGauSZjy5cPRDET6zSYJs4V29w8JBEXQp0FPaqRKBVq4VwZCng8TxeOQC9Oh-5a
-    qrHFTH4mlPTcKSpKOn9gbael99TVCSYZt4SgUmwGzRWA5aBGGqYZsw>
-X-ME-Received: <xmr:VAlGarLUn3vDA9csTdHV8KcW13PXDgaCCMOGpOLLT3LG_k1L09NQ2yl0uNk>
-X-ME-Proxy-Cause: dmFkZTEKTlz7kTFoH8vFwNSnQ41W7TxtjbMF9wZnhKWPemK4FzaQikZmI7lPy3PFWXYnma
-    ZtACWyNMFiSUi8Pexf4oOBzN10whMKA+MtzO52GFsy1XpZZQvSoZs8Yfd3lAZdeZ6r1n/0
-    h6RX3xgDbyjn73kS0ELjZgIPjG8vgxTY8H3v+zopcL63erl0dGEP3eKMOTxrrayjgYIaFg
-    /SXsNot/L17tllyMpEfeZFdjNQiZrPZ3H053TUaD2f5mvRGWpc/HjMRtUa+OqhZJLP9yNT
-    AM/LHTP83Ri+MsN7v3NtKAzbhHqPzqZXEBlgrqj4rJ47eAONIYkFKEQXwXyW+NKakDGHhG
-    OhpMv73w8qx93fD/zO5SkPseBOOZ/n94Ufj0CnPP3FauRl25LLmMvbN/mKguSZAHwQhXCt
-    r2clsFKOqyVZz/yWh9wFMD1VM6n/B4BM8KVEkUr+9kG3ga31AqGohkpIxA2Nonl6hde0/u
-    MNZbXM9w5yUlv/SgObSppcoc+lNEEu7+TU+T7Z/zLmVO3ZMAlbUkthScH9xy0pD9B+30DP
-    GxlcMWywQ0Wq8VtmJwu5M535vdJ5pbM+9drfCO/3nRdL/uODihA5hOQWUMyJvrIo2ScOeh
-    CRKFsO5WVvTKJueHKB0yY/rDiEbU5MTjL+nRkcenLbUJaC1aXfbNU38YTSnA
-X-ME-Proxy: <xmx:VAlGahaAC6vYdrDTGyg8nL04WQDWqmdKyzG82ofizn2O-QPBu8__lA>
-    <xmx:VAlGal8phTxiQkwW2hX4oeBPOUoE0gC-yNN7sn7TR6fFclgZ85o5Vw>
-    <xmx:VAlGaqZlIXzU1sjBZNLCgaYdAv3MTIqEskEukwQ2Aw27U7jG7y5DVg>
-    <xmx:VAlGahNASMypAX1Y4ue0DUCtqC9SSAQRM81RVWTcVHPq4JwBo9VCKA>
-    <xmx:VQlGajhp9pz2uRfCUess9eiou04IYaJ3aPvk7AQjFFd8fTd9O2wIfWAm>
-Feedback-ID: ib53e4b78:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Jul 2026 02:46:44 -0400 (EDT)
-Date: Thu, 2 Jul 2026 01:46:41 -0500
-From: Ian Bridges <icb@fastmail.org>
-To: Robert Richter <rric@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-hardening@vger.kernel.org
-Subject: [PATCH] EDAC/thunderx: Replace strlcat() with snprintf() and seq_buf
-Message-ID: <akYJUdY1hVABUQH6@dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AUJ2SDXv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D4E71F000E9;
+	Thu,  2 Jul 2026 10:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782986859;
+	bh=rYlxsT3EfvvJVMSpiElkKSMRxs3TOqthCAywxBW0128=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AUJ2SDXvs0VEdi5h/Kivbi3brTHkQLZzOc+/NAV87+f7C+JbSJugMOeorpgT3tHNL
+	 p58+v4CbXSREtEJG3hLwTa5n8p6G+p8Uf6kuVPNIUtEb3lILgd1rLCgiUeDjzt2+mZ
+	 zGpUePOrV+YiczwnsZiA+nTEa+dq7dVC2Ri5VUVSthC4z19IRHYTorV302BUc8jnc8
+	 lzbpbbTR/gUCNSPcKQ4CL0UIE7YEz9VRE1nLkcyV3m++qYsnaX7iOq8PztYSNv6FrO
+	 w1VeEKbpH/fT7kvqY9QrCvgHPHHPFXTLBTuAr9eAkNY5WqMk3S9O4fQkBovR+Lq+yS
+	 W5zmwAV0MlSzg==
+Date: Thu, 2 Jul 2026 12:07:15 +0200
+From: Ingo Molnar <mingo@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Juergen Gross <jgross@suse.com>,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	x86@kernel.org, linux-acpi@vger.kernel.org, kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-ide@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-mtd@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	"lukasz.luba@arm.com" <lukasz.luba@arm.com>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>, Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	"Kirill A. Shutemov" <kas@kernel.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Pu Wen <puwen@hygon.cn>, Bjorn Helgaas <bhelgaas@google.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
+	Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Dave Airlie <airlied@redhat.com>,
+	Helge Deller <deller@gmx.de>, linux-geode@lists.infradead.org,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Guenter Roeck <linux@roeck-us.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
+	Artem Bityutskiy <artem.bityutskiy@linux.intel.com>,
+	Artem Bityutskiy <dedekind1@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Ashok Raj <ashok.raj.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+	David E Box <david.e.box@intel.com>, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 00/32] x86/msr: Drop 32-bit MSR interfaces
+Message-ID: <akY4U0jUZm4HOGZ_@gmail.com>
+References: <20260629060526.3638272-1-jgross@suse.com>
+ <d7c1db52-529a-43cc-ac7d-38b52627e8bc@app.fastmail.com>
+ <c1608c48-13c2-4290-826b-28b5ca51eaf7@suse.com>
+ <7332feff-2649-496c-8e49-b0a19eb54a32@app.fastmail.com>
+ <akJUz0kYkEBdLSZ3@gmail.com>
+ <akQR9YMtMHReJTfB@google.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -82,135 +120,29 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <akQR9YMtMHReJTfB@google.com>
 
-In preparation for removing the strlcat() API[1], replace its uses in
-the error message construction of the ThunderX OCX and L2C threaded
-IRQ handlers.
 
-The OCX link and L2C handlers append a single decoded-register string,
-so the whole message can be produced with one snprintf(). The OCX com
-handler accumulates a variable number of fragments in a per-lane loop,
-so use a struct seq_buf, which tracks the current write position and
-remaining space internally. seq_buf_str() keeps the message
-NUL-terminated for edac_device_handle_ce().
+* Sean Christopherson <seanjc@google.com> wrote:
 
-Link: https://github.com/KSPP/linux/issues/370 [1]
-Signed-off-by: Ian Bridges <icb@fastmail.org>
----
-The seq_buf conversion introduces one behavioral difference on
-overflow. strlcat() copied as much of a fragment as would fit, but
-seq_buf_puts() is all-or-nothing. A message longer than
-OCX_MESSAGE_SIZE therefore truncates at a fragment boundary instead of
-mid-fragment. The message was truncated either way.
+> > Note that the individual patches are IMO significantly easier to review
+> > through the actual 32-bit => 64-bit variable assignment changes done
+> > in isolation (which sometimes include minor cleanups), while
+> > the Coccinelle semantic patch:
+> > 
+> >    { a(b,c) => c = a(b) }
+> > 
+> > which changes both the function signature and the order of terms as
+> > well, is just a single add-on treewide patch.
+> 
+> Is the plan for subsystem maintainers to pick up the relevant patches,
+> and then do the treewide change one release cycle later?
 
-I don't have ThunderX hardware, so I tested the patch with:
- - arm64 cross-build at W=1 with no warnings. Applies cleanly on
-   v7.2-rc1.
- - Module load/unload in an arm64 QEMU guest.
- - A userspace harness comparing old and new message construction;
-   outputs matched across ~500k register patterns.
+I'll try to keep the patches in a single tree (tip:x86/msr)
+in the hope of not prolonging the pain two cycles - but it's
+of course fine for maintainers to pick up the patches too
+(most of them are standalone), we'll sort it all out in the end.
 
- drivers/edac/thunderx_edac.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+Thanks,
 
-diff --git a/drivers/edac/thunderx_edac.c b/drivers/edac/thunderx_edac.c
-index 75c04dfc3962..5210ca18473d 100644
---- a/drivers/edac/thunderx_edac.c
-+++ b/drivers/edac/thunderx_edac.c
-@@ -20,6 +20,7 @@
- #include <linux/atomic.h>
- #include <linux/bitfield.h>
- #include <linux/circ_buf.h>
-+#include <linux/seq_buf.h>
- 
- #include <asm/page.h>
- 
-@@ -1108,6 +1109,7 @@ static irqreturn_t thunderx_ocx_com_threaded_isr(int irq, void *irq_id)
- 	int lane;
- 	char *msg;
- 	char *other;
-+	struct seq_buf sb;
- 
- 	msg = kmalloc(OCX_MESSAGE_SIZE, GFP_KERNEL);
- 	other = kmalloc(OCX_OTHER_SIZE, GFP_KERNEL);
-@@ -1121,13 +1123,14 @@ static irqreturn_t thunderx_ocx_com_threaded_isr(int irq, void *irq_id)
- 				ARRAY_SIZE(ocx->com_err_ctx));
- 		ctx = &ocx->com_err_ctx[tail];
- 
--		snprintf(msg, OCX_MESSAGE_SIZE, "%s: OCX_COM_INT: %016llx",
--			ocx->edac_dev->ctl_name, ctx->reg_com_int);
-+		seq_buf_init(&sb, msg, OCX_MESSAGE_SIZE);
-+		seq_buf_printf(&sb, "%s: OCX_COM_INT: %016llx",
-+			       ocx->edac_dev->ctl_name, ctx->reg_com_int);
- 
- 		decode_register(other, OCX_OTHER_SIZE,
- 				ocx_com_errors, ctx->reg_com_int);
- 
--		strlcat(msg, other, OCX_MESSAGE_SIZE);
-+		seq_buf_puts(&sb, other);
- 
- 		for (lane = 0; lane < OCX_RX_LANES; lane++)
- 			if (ctx->reg_com_int & BIT(lane)) {
-@@ -1136,16 +1139,17 @@ static irqreturn_t thunderx_ocx_com_threaded_isr(int irq, void *irq_id)
- 					 lane, ctx->reg_lane_int[lane],
- 					 lane, ctx->reg_lane_stat11[lane]);
- 
--				strlcat(msg, other, OCX_MESSAGE_SIZE);
-+				seq_buf_puts(&sb, other);
- 
- 				decode_register(other, OCX_OTHER_SIZE,
- 						ocx_lane_errors,
- 						ctx->reg_lane_int[lane]);
--				strlcat(msg, other, OCX_MESSAGE_SIZE);
-+				seq_buf_puts(&sb, other);
- 			}
- 
- 		if (ctx->reg_com_int & OCX_COM_INT_CE)
--			edac_device_handle_ce(ocx->edac_dev, 0, 0, msg);
-+			edac_device_handle_ce(ocx->edac_dev, 0, 0,
-+					      seq_buf_str(&sb));
- 
- 		ocx->com_ring_tail++;
- 	}
-@@ -1203,15 +1207,13 @@ static irqreturn_t thunderx_ocx_lnk_threaded_isr(int irq, void *irq_id)
- 
- 		ctx = &ocx->link_err_ctx[tail];
- 
--		snprintf(msg, OCX_MESSAGE_SIZE,
--			 "%s: OCX_COM_LINK_INT[%d]: %016llx",
--			 ocx->edac_dev->ctl_name,
--			 ctx->link, ctx->reg_com_link_int);
--
- 		decode_register(other, OCX_OTHER_SIZE,
- 				ocx_com_link_errors, ctx->reg_com_link_int);
- 
--		strlcat(msg, other, OCX_MESSAGE_SIZE);
-+		snprintf(msg, OCX_MESSAGE_SIZE,
-+			 "%s: OCX_COM_LINK_INT[%d]: %016llx%s",
-+			 ocx->edac_dev->ctl_name,
-+			 ctx->link, ctx->reg_com_link_int, other);
- 
- 		if (ctx->reg_com_link_int & OCX_COM_LINK_INT_UE)
- 			edac_device_handle_ue(ocx->edac_dev, 0, 0, msg);
-@@ -1882,14 +1884,12 @@ static irqreturn_t thunderx_l2c_threaded_isr(int irq, void *irq_id)
- 
- 	while (CIRC_CNT(l2c->ring_head, l2c->ring_tail,
- 			ARRAY_SIZE(l2c->err_ctx))) {
--		snprintf(msg, L2C_MESSAGE_SIZE,
--			 "%s: %s: %016llx, %s: %016llx",
--			 l2c->edac_dev->ctl_name, reg_int_name, ctx->reg_int,
--			 ctx->reg_ext_name, ctx->reg_ext);
--
- 		decode_register(other, L2C_OTHER_SIZE, l2_errors, ctx->reg_int);
- 
--		strlcat(msg, other, L2C_MESSAGE_SIZE);
-+		snprintf(msg, L2C_MESSAGE_SIZE,
-+			 "%s: %s: %016llx, %s: %016llx%s",
-+			 l2c->edac_dev->ctl_name, reg_int_name, ctx->reg_int,
-+			 ctx->reg_ext_name, ctx->reg_ext, other);
- 
- 		if (ctx->reg_int & mask_ue)
- 			edac_device_handle_ue(l2c->edac_dev, 0, 0, msg);
--- 
-2.47.3
-
+	Ingo
