@@ -1,158 +1,144 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDAE282F18;
-	Fri,  3 Jul 2026 05:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B78331EB6
+	for <linux-edac@vger.kernel.org>; Fri,  3 Jul 2026 10:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783056215; cv=none; b=Pic/aoXVkNxelDE5N/9pPxJ0NeSUfE3AFZvAKetIq5AYmrDPxje5WIdXf71o/t9En4i5EibJY6/i/m7quU2kv0/08bzuYNByruxl805CkFyBHvgTOwoSWcZ5VjBEUhgXcwIwaVYaqYeZZ5eowVlpnruooF2voPXMEP7tpPaGFWU=
+	t=1783076163; cv=none; b=pQntWJbsqC9oFU5yvVxMQkEhSPvA/YzHwRv1OO1faBt9koFw8wstyvX5I3fGoGp9qJMEQKhoiKK4x65jPEI5y2ozbtD0K03U9hGmjmoSC+7SNfkSY36xs5p0ldUPmJkjPqNn4Idjm0Y/iARte7G9lf6GphjLSNwyn+vA0Hfa7v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783056215; c=relaxed/simple;
-	bh=NNkYV0KyYReVgPGgyQOKUoe4QJmGzhT1a38kyn3oGx4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WgmSk/q95pVH+6AbG1J3v/JWZw6fwMjFRkonsqqsTOZQsE/N2HjMoTfkWdLPkaW6ir7thwGS2XH9NFiAm09EIy1uJjHepa9iyZSak4dqUSWdvMx7Ko/5FTEMHN/aMtvKU9sOEPnNk2zZ9wjzDz+Hp++ukXwUFIuUCLNz2XKzNBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=JPcyGAj3 reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1783076163; c=relaxed/simple;
+	bh=CysIEitqp1oNzJv6Deauzq2RHdEl1YZFF9v4KWs0/G8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=r0KYTINwnrOwf7DpN6Qq8mLPHwPm7ZO9BM+QjoWsmSLpt+s3a44ypwn7fVfjBvl634+RS+RlbToSMW15nnpB7bOFoyo4JN6FQoawMpgT9Q2gDMHSMvVMRm+YPTudSCAzndAkrqhW8cskRQD+pxAbAQEiGIv92+VT3t9zwAfBx7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=nkLkfYy0; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=DmqbU3lO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="JPcyGAj3"
-Received: from h183.csg.ci.i.u-tokyo.ac.jp (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6635LT8N018373
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 3 Jul 2026 14:21:42 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=eRgDwmfqLOROSsM7iDfNfv4dTa1BcJ8KBiEORkeKTHc=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-Id:To:Subject:Date;
-        s=rs20250326; t=1783056102; v=1;
-        b=JPcyGAj3IGq8xd9orzIITQJi+gi2gUCskbFRmBaBPLfurfUDsag8SmirzClB8To7
-         0TrJohL3Gh/OxsWy8VmFmegHgpVTvRHuEn+tA6xBqRwIlF5B72DhpYw80LWjK49C
-         ZDUdV4fP1+p4SviIgGbM/rVEluugBRhaOQl2XwmxV2X3QSt6/Bq2saDPdUNW7fgR
-         52RHLJBlEirIoo/jk4A9Ufs/pADk7oC6aVWWcCfCYC3aK6jj44WybkqR9Z5mtTWk
-         XrRrkrRhElS8A1rd+r2a8+hJKncVpMz8BkfkLh2r33DYO9iSzUaRaiVEDj8y7PUr
-         qBmT70n9/whlLtWnyZRQZg==
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Subject: [PATCH v2 0/7] migration/ram: Assert RAMBlock stability while
- streaming RAM
-Date: Fri, 03 Jul 2026 14:19:16 +0900
-Message-Id: <20260703-ram-v2-0-7f07fc06fba9@rsg.ci.i.u-tokyo.ac.jp>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="nkLkfYy0";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="DmqbU3lO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6000B72B2C;
+	Fri,  3 Jul 2026 10:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1783076160; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rgeHEWTbKCxupD5KWfTfkROU3v6F+9xYkZiAAsFH+/8=;
+	b=nkLkfYy0VV13pNlEi4yra4EUIQsECS8JiQAFEjdWghMpd/BooMKnx1J/YqF5TWPcj9MySA
+	v+NjuMty5Mnc2aPf1rC4QSusGzdACOL5FBTP51YyleFu3d0IJwTqM4dzyj09Zap641nne+
+	koX0d/31uQekCsLEN0WduXMPV1sFcdU=
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=DmqbU3lO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1783076159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rgeHEWTbKCxupD5KWfTfkROU3v6F+9xYkZiAAsFH+/8=;
+	b=DmqbU3lOe3mQfWbjlAJLNvHjo/45rHf+M7PNiMPXfj+4mV79nJmH6VCSbcp6E90dED8Vz3
+	I5HoPIQSS23Mxw6JhnBx9/tfq7u+xN59xolyjIfxoanaB9oY2/Nf7GJsNwK4uP9QGNblne
+	ElrHAwKt7ECZ7U4Jlwy+/mB02Mb3ajE=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09B29779AA;
+	Fri,  3 Jul 2026 10:55:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id b6ZXAD+VR2q+SAAAD6G6ig
+	(envelope-from <jgross@suse.com>); Fri, 03 Jul 2026 10:55:58 +0000
+From: Juergen Gross <jgross@suse.com>
+To: linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	linux-edac@vger.kernel.org
+Cc: Juergen Gross <jgross@suse.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] x86/mce: Fix build warning after MSR-interface switch
+Date: Fri,  3 Jul 2026 12:55:55 +0200
+Message-ID: <20260703105555.1758819-1-jgross@suse.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260629060526.3638272-9-jgross@suse.com>
+References: <20260629060526.3638272-9-jgross@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y2NQQqDMBBFryKzbkImFFu76j3ERYwTHUuNJCoV8
- e6NtszqwftvNogUmCI8sg0CLRzZDwn0JQPbmaElwU1i0ErnKp0I5i0aSw6vTil0NSRzDOT4c1b
- K6sdxrnuy0zE9jI7j5MN6vlnw8P5FxLO4oFDC6MZYlxfFDe/PEFtpWbKcxeRfq5fGyn6Eat/3L
- +7bNhe1AAAA
-X-Change-ID: 20260606-ram-dcef14f001fb
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
-        =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
-        Zhao Liu <zhao1.liu@intel.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Anthony PERARD <anthony@xenproject.org>,
-        "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-        Peter Xu <peterx@redhat.com>, Fabiano Rosas <farosas@suse.de>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Reinoud Zandijk <reinoud@netbsd.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Alex Williamson <alex@shazbot.org>,
-        =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@redhat.com>,
-        qemu-block@nongnu.org, xen-devel@lists.xenproject.org,
-        kvm@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Igor Mammedov <imammedo@redhat.com>, Ani Sinha <anisinha@redhat.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Song Gao <gaosong@loongson.cn>, Bibo Mao <maobibo@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        =?utf-8?q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
-        Sunil V L <sunilvl@ventanamicro.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Alistair Francis <alistair.francis@wdc.com>,
-        Weiwei Li <liwei1518@gmail.com>,
-        Daniel Henrique Barboza <daniel.barboza@oss.qualcomm.com>,
-        Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-        Chao Liu <chao.liu.zevorn@gmail.com>, linux-edac@vger.kernel.org,
-        qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
-        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-X-Mailer: b4 0.16-dev-925f5
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2770;
- i=odaki@rsg.ci.i.u-tokyo.ac.jp; h=from:subject:message-id;
- bh=NNkYV0KyYReVgPGgyQOKUoe4QJmGzhT1a38kyn3oGx4=;
- b=owGbwMvMwCWmMbc20y1CyJDxtFoSQ5a72+0ve/+nVHHc23tBX1w+LfJai3yJbPn3vpW7OKeVz
- T4QePFjRykLgxgXg6yYIktK0W5ujejaT4UJ8S0wc1iZQIYwcHEKwEROzGFkeLbAjTX068LrLueM
- KswOfu42s9/yStvoa9CZhogPX4TWyDEyHFuz6vamT0kxGq9VE8uc3Vf8mGXD+dExUlaBL1hp15F
- HXAA=
-X-Developer-Key: i=odaki@rsg.ci.i.u-tokyo.ac.jp; a=openpgp;
- fpr=AEDC03C9AF734F2EC26A7BFFA4BAEAA73536753C
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:dkim,suse.com:mid,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 6000B72B2C
+X-Spam-Score: -3.01
 
-RAM migration sends the RAMBlock list and sizes before transferring page
-contents. The RAM code cannot cope with migratable RAMBlocks being
-added, removed, renamed, made migratable/non-migratable, or resized
-while that stream is active, because the destination has already parsed
-the stream layout.
+The recent switch to 64-bit MSR interfaces introduced a build warning.
 
-Add RAMBlock notifier checks so such changes are caught immediately.
-Ignored RAMBlocks remain exempt because they are not represented in the
-RAM migration stream.
+Fix it.
 
-Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Fixes: cff219368bd0 ("x86/mce: Stop using 32-bit MSR interfaces")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202607031726.ZOwu4snu-lkp@intel.com/
+Signed-off-by: Juergen Gross <jgross@suse.com>
 ---
-Changes in v2:
-- Added patch "hw/nvram/fw_cfg: Remove acpi-mr-restore".
-- Added patch "hw/nvram/fw_cfg: Avoid resizing RAM at runtime".
-- Added patch "migration/ram: Fix ram_save_complete() return value".
-- Link to v1: https://lore.kernel.org/qemu-devel/20260611-ram-v1-0-a2dacf699718@rsg.ci.i.u-tokyo.ac.jp
-
+Said patch is in tip only right now, so this patch could either be added
+on top or be folded into the original patch.
 ---
-Akihiko Odaki (7):
-      hw/nvram/fw_cfg: Remove acpi-mr-restore
-      hw/nvram/fw_cfg: Avoid resizing RAM at runtime
-      system/memory: Remove the resized callback
-      system/physmem: Pass RAMBlock to RAMBlockNotifier callbacks
-      system/physmem: Notify RAMBlock migratable and idstr changes
-      migration/ram: Fix ram_save_complete() return value
-      migration/ram: Assert RAMBlock stability while streaming RAM
+ arch/x86/kernel/cpu/mce/p5.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- include/hw/core/loader.h       |   1 +
- include/hw/nvram/fw_cfg.h      |   5 +-
- include/migration/misc.h       |   2 +-
- include/system/memory.h        |   4 --
- include/system/ramblock.h      |   7 +--
- include/system/ramlist.h       |  24 ++++++----
- block/block-ram-registrar.c    |   8 ++--
- hw/acpi/ghes.c                 |   6 ++-
- hw/acpi/vmgenid.c              |   1 +
- hw/arm/virt-acpi-build.c       |   3 +-
- hw/core/loader.c               |  14 +++---
- hw/core/machine.c              |   1 -
- hw/core/numa.c                 |  54 +++++++++++++++++----
- hw/display/ramfb.c             |   2 +-
- hw/i386/acpi-build.c           |   3 +-
- hw/isa/lpc_ich9.c              |   2 +
- hw/loongarch/virt-acpi-build.c |   3 +-
- hw/misc/vmcoreinfo.c           |   3 +-
- hw/nvram/fw_cfg.c              |  80 ++++++++++++++++++-------------
- hw/riscv/virt-acpi-build.c     |   3 +-
- hw/xen/xen-mapcache.c          |   6 +--
- migration/ram.c                | 106 +++++++++++++++++++++++++++--------------
- system/memory.c                |   7 +--
- system/physmem.c               |  40 +++++++---------
- target/i386/nvmm/nvmm-all.c    |   4 +-
- target/i386/sev.c              |   8 ++--
- util/vfio-helpers.c            |   7 +--
- 27 files changed, 247 insertions(+), 157 deletions(-)
----
-base-commit: b83371668192a705b878e909c5ae9c1233cbd5fb
-change-id: 20260606-ram-dcef14f001fb
-
-Best regards,
---  
-Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+diff --git a/arch/x86/kernel/cpu/mce/p5.c b/arch/x86/kernel/cpu/mce/p5.c
+index eb99f384d747..3c2b6cc918b1 100644
+--- a/arch/x86/kernel/cpu/mce/p5.c
++++ b/arch/x86/kernel/cpu/mce/p5.c
+@@ -44,7 +44,7 @@ noinstr void pentium_machine_check(struct pt_regs *regs)
+ /* Set up machine check reporting for processors with Intel style MCE: */
+ void intel_p5_mcheck_init(struct cpuinfo_x86 *c)
+ {
+-	u64 q;
++	u64 __maybe_unused q;
+ 
+ 	/* Default P5 to off as its often misconnected: */
+ 	if (!mce_p5_enabled)
+-- 
+2.54.0
 
