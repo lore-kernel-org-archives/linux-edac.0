@@ -1,158 +1,124 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B40403E87
-	for <linux-edac@vger.kernel.org>; Fri,  3 Jul 2026 15:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4C025B09C;
+	Fri,  3 Jul 2026 17:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783092369; cv=none; b=t8d74Wn6Exx1dUTO6hTrOfkNDcbElE5MHO2YT3X8S6XE3NK8rjdoY1U7w08hrSOT3Y09oNU/dBElW17QAHS1lqeH8ICGtoTmyckwWPdMFNSXmyUKEeD4uDdQOx62ZwRJ+XI27DAy63INeXXQXQuv3tnbTmyOYiIeKycqCJBK/3U=
+	t=1783100300; cv=none; b=T+NRX0Jh8wRk5bsZLed/ObPxzSTV+wsNTj6x97tSW+s3lWsC5NV02aGx4FMvHabk3bavUqg3vevlcRDL/sGwnFq4gJMdUCnwB2DMTLmWGMOT0Fz/c8FR4gdRZX+Zo/HoEMg8hSNVYyxA2vrEOhL/kN7xws3f/x/aQTaZ0jXHKnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783092369; c=relaxed/simple;
-	bh=jnS1ky+SJ6iJz5Dd/p/TbEFnemd8ibFAfCS5vUlMKoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ez20LctSwlCRiheE/qfbMZyBD7aKTPY3OsJ93uh8g8SvwFlRrgwFC7sDJbqdzIvLyqFco9/6a5kgIk2RRJ0iMO4jjqBbeyyEcEWVPuwEfdrtA3zgnT29t+sNvyp2qEFcNTZHPThAblAx8tM5y07Rs28n9U6Bb8n8pvGsM7G0mKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=K4FOTL7p reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1783100300; c=relaxed/simple;
+	bh=nXJnsdLsM93mqYbkHmj9fVt5nkAxY73wwf1qK2C6pG0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lWqedSAjqXoW7LfcKKJR0Nw/p71Jiqdb87HfcA8QBWQLhA07cCwam2G6WUBn1m2ijJw+MkmOD54WWEiBU6TulWH969Zuhub9g0mcovu2Bp4+GqWfufe1lBinq48gtIlcXXeKk1+U4+q8InrD8IdsOLJR4lomfSsa59xEpbv8i7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fhtn9Dio; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="K4FOTL7p"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 90BF340E01CE;
-	Fri,  3 Jul 2026 15:26:04 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id lUptdZrQ_I_E; Fri,  3 Jul 2026 15:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1783092353; bh=xZM/CIYFy2Z9ZBWVtCd5XT1T0cYcf+Wh9t+DNl8rqos=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K4FOTL7peINwLiJM63UE95dpItp0jBlEg6Xz9gi6Zrh/QbhhwSRN5x4KRpjqbPeHB
-	 yWat+KXqEsutUIY9SH5NDuRlvWhqI1DosIkEZmc9+Q5YhuAljwxXxYUFJAdEbC35DW
-	 M9F7K4m4oUz2TqfR0LSPfKbRWE+UVjncghDjtlnq8n/wJv2LPnHZh7AlkOnb1LK8ud
-	 hrRQMcPVOs9VFHSOYwZrq5b9Rx1/+UaxUpgScbH60wGNjvJobs10SroRPgVHwsCHOi
-	 V7wPm+9pw/2k68LE7kHKdNzyB1dagTFMSi49U6oISA/SVHJscZeOy5ZY/bH423xKB0
-	 YJs01/YmjunAIAOn1PyS3VBs0HTzU01nDVIGLeRSo5ssoU2SmR6IxNAdlcvOZehCH/
-	 PXNx+d8qRJXu7bGg1ZWZvx26Y+6QTe13iytESRo8yKbrNv12Z5cbhILUob09ZRmpuu
-	 2SZXs95tn8Vki7Oml4Zcz9Bo3y9KsGWzSHtnEiAGEegPkEJqevLjLzgpg4iznAZ8h5
-	 3/BJIUgs/cZnWeeV4cv+27x8XMiiz8oQnyrIojEWq3cy/9wa7spNUgvjCo54lV8qwk
-	 YPmurfw2QzIc19GqfSOt8K8y2tau2up7SMwbgzJ/aVjKtbC07VceJZ+pD94PCUWEVh
-	 cWw/c0nPPWnPeQ9oBwyydfvE=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 365A040E016E;
-	Fri,  3 Jul 2026 15:25:33 +0000 (UTC)
-Date: Fri, 3 Jul 2026 08:25:29 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Markus Armbruster <armbru@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>,
-	linux-edac@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	zhenwei pi <zhenwei.pi@linux.dev>,
-	"Gonglei (Arei)" <arei.gonglei@huawei.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
-	Eric Blake <eblake@redhat.com>,
-	=?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
-	Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Zhao Liu <zhao1.liu@intel.com>, Lukas Straub <lukasstraub2@web.de>,
-	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH] MAINTAINERS: Remove linux-edac
-Message-ID: <20260703152529.GBakfUaQdmKSLZfqrt@fat_crate.local>
-References: <20260629213624.936258-1-jsnow@redhat.com>
- <20260629230756.GCakL6zDDd_g8DIeGD@fat_crate.local>
- <akN99Ov2ngf2BwbG@redhat.com>
- <20260630192154.GBakQXUjMfaPrpc6-u@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fhtn9Dio"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C18D81F000E9;
+	Fri,  3 Jul 2026 17:38:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783100298;
+	bh=HnxPqiOLGycxJp+uPN8CE/Rc87ZyzW9wZbMldSEgCI8=;
+	h=From:To:Cc:Subject:Date;
+	b=Fhtn9Dioqf7HGLb3MGP48wv9XyzjDK61eCaYKYc6x6PqAEU80CYYGSUBcnn7Z90rI
+	 LnBCcZbMZZG6BVrwugDcE/NiOBY1Nu7iQqMrc138jqniJR7XQFHTnLAeiQi9fcwX7/
+	 oHHOZd8tfF/5xMbL3FeCyptGoP1gTta5haZTLLbu0r+Ofc2guBybpaez1bV9MPTt56
+	 unj/a3Br/3+yT467PvQ5hOkroGPZoaCPImcLxkRartxGCGOWcCsj/akNuOfGciedI5
+	 ScyYISabg75t3QM4pCkxSYMS3+QMxIFAjN2Fdrq7xHLowJ+Knk7dGOf9ByKhzoejjO
+	 NjeLBfSlZmIBA==
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Mark Gross <markgross@kernel.org>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	linux-edac@vger.kernel.org,
+	Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	linux-crypto@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3] MAINTAINERS: Drop Mark Gross
+Date: Fri,  3 Jul 2026 19:38:03 +0200
+Message-ID: <20260703173803.3589003-2-ukleinek@kernel.org>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260630192154.GBakQXUjMfaPrpc6-u@fat_crate.local>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2115; i=ukleinek@kernel.org; h=from:subject; bh=nXJnsdLsM93mqYbkHmj9fVt5nkAxY73wwf1qK2C6pG0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqR/N7Wy1d44937AOVhPlX44c64v1TT/P1S3Iy9 IicfnaXqhqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakfzewAKCRCPgPtYfRL+ TrySB/982uqvd5z0fb5aGmSx3tU4YD1A5qa14JDMEtav5R8+xn4CGT+hDu7YyhWyJhG34PsBMSc uCipvStN4jXEwDR/ZhUGTnidPyZNXCNI+ewVLELt5FnVzRUR8AWoFWwR5a6NY/FwImJaJsUaxv3 Hf5zx+1v5RRS8omjPepL1f6/1WllkKNrrVpxtLRcAEC3y1Qi1jNeI+xQ9nutTEBie0sK4d2dYXZ Hm70J+BIdTRlx9a2+au1cRHKKrRam9Bz5Yki5hgY4sc5QA1hIj7N44/nIvXk9c6GqMBRT0Ko24F GQvEvCWo4EZ6u6KohcMC6LIkIj6B9F3QhhZpeeOfa1lf2Xks
+X-Developer-Key: i=ukleinek@kernel.org; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 30, 2026 at 12:21:54PM -0700, Borislav Petkov wrote:
-> On Tue, Jun 30, 2026 at 09:27:32AM +0100, Daniel P. Berrang=C3=A9 wrote=
-:
-> > > Why is this thread CCing linux-edac?
-> > >=20
-> > > I don't see any relation here...
-> >=20
-> > The linux-edac list was recently added to the QEMU MAINTAINERS
-> > file:
-> >=20
-> >   https://gitlab.com/qemu-project/qemu/-/commit/4c5e70b9a42744401fc10=
-b17cc61820586ba4a13
-> >=20
-> > and the entry matches the qapi/acpi-hest.json file that John has
-> > modified, so gets auto-CC'd.
-> >=20
-> > Admittedly the content in this series is not especially relevant
-> > to the liunux-edac list in this case, but the patch submission
-> > tools are just following the declared MAINTAINERS file entry.
->=20
-> Thanks for letting me know.
->=20
-> @Mauro, please remove a linux-kernel mailing list from being CCed with =
-qemu
-> patches. This is only going to cause a huuuge confusion as it is alread=
-y
-> showing.
->=20
-> Please do a separate list only for qemu RAS stuff.
+Sending mail to Mark's Intel address results in the intel mail
+server rejecting the mail. Dave Hansen confirmed he left Intel.
+The kernel.org address seems to work, but there was no reply from Mark
+on the discussion about broken email settings and his maintainer
+entries.
 
+So drop him from all maintainer entries.
+
+Signed-off-by: Uwe Kleine-König <ukleinek@kernel.org>
 ---
+Hello,
 
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
-Date: Fri, 3 Jul 2026 08:19:53 -0700
-Subject: [PATCH] MAINTAINERS: Remove linux-edac
+this patch was already send end of May (v1 @
+https://lore.kernel.org/all/20260526173806.3227828-2-ukleinek@kernel.org).
+Konstantin then suggested to change the maintainer contacts to the
+kernel.org address as at least one of the forward-addresses for the
+kernel.org account didn't bounce. This v2
+(https://lore.kernel.org/all/20260526193238.3622176-2-ukleinek@kernel.org)
+wasn't picked up yet, but given the continued silence I think removing
+Mark completely is the saner choice now.
 
-The commit
+If someone has a better contact, please make him react. If he returns
+later, the entries can easily get restored.
 
-  4c5e70b9a427 ("MAINTAINERS: update HEST maintainership entries")
+Best regards
+Uwe
 
-added a linux kernel mailing list (linux-edac) which gets CCed
-automatically with qemu patches. This is absolutely confusing and it
-should not happen. Qemu should have its own ras mailing list where stuff
-like that goes.
-
-Drop that list.
-
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ MAINTAINERS | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 97dcc78ded61..3664c0d67677 100644
+index f96621b3214c..d5260c8e9af5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2274,7 +2274,6 @@ F: docs/devel/testing/acpi-bits.rst
-=20
- ACPI/HEST/GHES
- M: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
--L: linux-edac@vger.kernel.org
- L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/acpi/ghes.c
---=20
-2.53.0
+@@ -9354,9 +9354,8 @@ S:	Supported
+ F:	drivers/edac/dmc520_edac.c
+ 
+ EDAC-E752X
+-M:	Mark Gross <markgross@kernel.org>
+ L:	linux-edac@vger.kernel.org
+-S:	Maintained
++S:	Orphan
+ F:	drivers/edac/e752x_edac.c
+ 
+ EDAC-E7XXX
+@@ -13211,7 +13210,6 @@ F:	drivers/crypto/intel/keembay/ocs-aes.h
+ 
+ INTEL KEEM BAY OCS ECC CRYPTO DRIVER
+ M:	Prabhjot Khurana <prabhjot.khurana@intel.com>
+-M:	Mark Gross <mgross@linux.intel.com>
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/crypto/intel,keembay-ocs-ecc.yaml
+ F:	drivers/crypto/intel/keembay/Kconfig
+@@ -26683,8 +26681,7 @@ S:	Maintained
+ F:	drivers/net/ethernet/tehuti/tn40*
+ 
+ TELECOM CLOCK DRIVER FOR MCPL0010
+-M:	Mark Gross <markgross@kernel.org>
+-S:	Supported
++S:	Orphan
+ F:	drivers/char/tlclk.c
+ 
+ TEMPO SEMICONDUCTOR DRIVERS
 
---=20
-Regards/Gruss,
-    Boris.
+base-commit: 2b763db0c2763d6bf73d7d3e69665222d1f377cf
+-- 
+2.55.0.11.g153666a7d9bb
 
-https://people.kernel.org/tglx/notes-about-netiquette
