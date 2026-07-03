@@ -1,112 +1,162 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66286331EB0
-	for <linux-edac@vger.kernel.org>; Thu,  2 Jul 2026 15:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783007611; cv=pass; b=HnxGHtdmn2QFjulyBIdE26wrp1CTrbD0xMgNMDBaEQs8YqCTwjPYCy8n3yw3M9/nUvzNFPl6KtjmUfDkkKj9l26i54/89I0nD2rrgWxCKeaiqrmlE5fa9kNy1Z78ZgDIuZNJfz8l9b0r2O3kyP3LC+C8fsmOKYiTU+V7ymPZbJw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783007611; c=relaxed/simple;
-	bh=LKwZ8Ehv5Sl6O5UhaeENPwFfey79A02eswN+OWRhsk0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dpZy4DfFjn5FGB0+8i/BcOCErc/aVj7mzC68evCvka+XKHe4YW7ha/1N7+lrvjpb65Kf3IHltDJJQ/NJ+bU6gHTyLAZZJ8otMERwm8kWd2TE59Cawa4TInTsbs1x/UaTgC1bASOv5oX2mysjScDxTv0I1G7hv3cNHP/ZvXdeBBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZX/aOFm; arc=pass smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2C433D4E8;
+	Fri,  3 Jul 2026 05:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783056211; cv=none; b=JuxH/SK6wbRExHPhggeZVBaccQqeQzrCojVkgEN2U6MNd5qj4nQgwGb9LWCbY+1EYl4kLhbQUVO+5U9owXRA0/zrG/cawSX0lNkZwRj5VlH2TmojpXkgeTUivP/G6fcx5pv9/XtJlRJjjzegQGEpxHkj7MAcRSTgUryb1FU7SII=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783056211; c=relaxed/simple;
+	bh=rfWCLDHUcpahNgEC3SGqI/nzOlyqMecU43nGCyZYC8s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=UoJzXrygrb71lNgeWKZqU6WXcNxQM5AfQ65+fzb7v6L0FbusdfW1qk9M/x81IwmoJM+I73s/i4Ia8dJWHoNtwcrm61aBR29vHqHnil99INz6NnloOJuMtxJUNamyYziAzjxihLaeMbpRntoLXxStwCtGc5EYGd62rx0Iql80j+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=S20lgzeI reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZX/aOFm"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c9e7391839cso1152829a12.0
-        for <linux-edac@vger.kernel.org>; Thu, 02 Jul 2026 08:53:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783007610; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Gdo3ZuUUQtG8BGyQ2nPyfh52+u9/Ed4gTV5Yi9LBbTPZHBVRlpPKM7Qu3O6kKHWnu/
-         r1Ly1dUMjFS5ECT6liAbtbQjzgUl5YNHfAv98nex68izohsGEnID7E+HuFH/FihqVR5m
-         5UiKV3D0Gqqj1gBjlkgSrJw7hE1JZkFatl1tJnijfStQHTpRd1pirzUIe0Rtpykf+pmb
-         98WuPh2SQcZG6tZ7TdEI+zZw2RNxI3Wz8WByw4DM6kzyJEYvFNAEjjpfg68A5WFeAPF5
-         lH28VF5+CFiqfZOuiG9Dzq82Gp7aoFh7f9gPu1ZCHPyo4G5RohWtWbuzpgoc1/ejnwUj
-         gdMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=LKwZ8Ehv5Sl6O5UhaeENPwFfey79A02eswN+OWRhsk0=;
-        fh=zBlSM1r13/mDYNNm13d8CHFeZEVvP1Xvue4gILm/MFA=;
-        b=SnGIsd00aSHguUEq9lusIHm7bE6YIElPgoM1lUNP/hnbY+KSznsLbMU/zoSAxKNuVp
-         H6KzPB24hCJCByxQ4x+/UdYupPRzXTAZYKNY5p7cuxR6NjHSjdvkIw7JKcmhiXB/Debx
-         swuAZfoeiZIMOiIJ7YZBL30rNAwg0mYXZyshMZJhW9/6BKcQjrE85RVgW1dHx4Q9ky2e
-         7knkfu3nW8socc/BbJkYSgxYrQSej9iJ3QXNMG9a/GJ/8Bsab0qy475vAAw0rZXyMtDp
-         OMOEmk3GuLVo9uc2mR4AujwaTjQlei9YFxYc29UviuBn645oSQfTimvqJmKfguvL40fg
-         UGcg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783007610; x=1783612410; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LKwZ8Ehv5Sl6O5UhaeENPwFfey79A02eswN+OWRhsk0=;
-        b=MZX/aOFmMQIztnNnp37ORN9btOUnpht5MxQUqLmuRzp9XOHHvjgHNR1BZtvsUmsbNi
-         6arWDXv+ZhFv8kJsv6DTRzQUwQwLmUPzgeu3z0ZcckQWWPkp2jPa3g4wEsi+6uWO3kko
-         e8PHveACeLXm0EwOAz/3td0D7qrEEgXC57fY87QWQda8/km9qWmiNMSeXrulaTjFBSC1
-         rE9uEUrIt+J3fcmx0lwwr7UUm+Rtd2JKCH9lFVqABj7cbWYmdnpV6V3OMDFrK35t1Uo1
-         taERkk8Mknj8DvUxx+RgKiQ1TY9AU3CF4d51ufE/NPNASk9Bewy1TIwubrIwupVrYgwv
-         +guw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783007610; x=1783612410;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LKwZ8Ehv5Sl6O5UhaeENPwFfey79A02eswN+OWRhsk0=;
-        b=U0NxvvTT9vgS1OlFtGfm05TrxZzMau9czuoP2KOMDn9+gdb6C2f19R7Ds67wkgZMhl
-         iHkNaIDJADJROdKVA26OijJdNXQnS+6890PMFsmslrxHF1pHeEQwWIMCforfQbv6LF4v
-         hMWey3pjCVNgpC5wuvvqirNkvtGrBPJMxr3DavL4v6Lg01njmkfOttYzO3IHec/q4Kon
-         8Dlm39DNKOS073KuEJA7VjuT42pzNmi5Mi9gkzBX79JTYxMOgo9ky5OUdZqGonGu6duJ
-         +VuqFxfJ2Bp1FXk6yyMgnocxgCbWgBVrQRi8s9r/jAA8iewzweraSBULY+D3V0xeXBR0
-         Ob8w==
-X-Forwarded-Encrypted: i=1; AFNElJ9BtJGJ+glgf6VpvdYmMSp63sqdFroUNQ/SmtVo3JfEcTyoEpU7St+osPFq1iwFqRCxkmgjc2ZMOlz0@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9gvs7EySxJuO5nQqN7ZL5B169lDFyvk7uNyzPD1ZGCX2U/OAV
-	moYw94jwdny0lBzxJkQI/C72aP35M4B2sVNyo3cMDX7S08WOVzL5b2+J8N+XZIK614Id4adcdxg
-	MlcHZLCJLg+AUkJgGCR4fD8wr+vbIvoY=
-X-Gm-Gg: AfdE7ckNJXB51EAxGgnqu/rX5PYxeA7GomE3l5dyXtvMxc0SiGjOts6nV9W31HxF5S3
-	CTA8NIFQs8SsX093pJoMYJu8dqyIV6KWw09JkCjc4iVZ41J8idnzYahjyRs7aTINQrHpzRvk3z1
-	FsaHP7gs1pJrvmzX20M/iUT8OFCohwd7/QlhxMtGkC/11xdD45oY1mcetlQLCwz/M0MjdlJVO0V
-	kP2XBtLAKAiVHL8N4M4ZJM08T0M7HwV0L4M+JYBXQMO3wUqE1XVbHO+JuHobaJSZBoR416uYr4h
-	3EZN6cWZLjO2qtFOymSEmg573BKP
-X-Received: by 2002:a05:6a20:7289:b0:3bf:95f4:dad7 with SMTP id
- adf61e73a8af0-3bff4282ccfmr6829621637.41.1783007609637; Thu, 02 Jul 2026
- 08:53:29 -0700 (PDT)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="S20lgzeI"
+Received: from h183.csg.ci.i.u-tokyo.ac.jp (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 6635LT8O018373
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 3 Jul 2026 14:21:42 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=SuGsYbGlKlc6b1DT5vt3OpkvoEjMGNIgH0RWbpVGexY=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-Id:To:Subject:Date;
+        s=rs20250326; t=1783056103; v=1;
+        b=S20lgzeIrAK4H5mymbVMmwynLidXIEr8fLV0kex6TpzJb5R7oEizYlM/qZE1O+0g
+         uFjFcXYzOE14hzhJFWsTFYQdrmv0K6in73PtRufsQ8r/GM5NKIH1s+recQO8juh2
+         OaLEHIJBnUFgD+64n49UVucLVF9m+evAEg5zzgel4m7DkbrP1GMHAxna2ees1IG7
+         5bZ5m1XfKnCX5ZK+nZtBXgbqRIx9vn+a6hMl6pJd4EDLfwO1HrN2/08um2ZcPz8+
+         LyZlj6HTfbSxhxolTgpyMFL4zAzoXqOeexN24QPRCs+XynFBalZt3684DJiym37y
+         lwANSpgPCJHO5Vz6eFRBtg==
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Date: Fri, 03 Jul 2026 14:19:17 +0900
+Subject: [PATCH v2 1/7] hw/nvram/fw_cfg: Remove acpi-mr-restore
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260627061723.43014-1-rounakdas2025@gmail.com> <1acf2543-6773-4dad-a94c-76fe3c11ca8a@kernel.org>
-In-Reply-To: <1acf2543-6773-4dad-a94c-76fe3c11ca8a@kernel.org>
-From: Rounak Das <rounakdas2025@gmail.com>
-Date: Thu, 2 Jul 2026 19:53:18 +0400
-X-Gm-Features: AVVi8CeYSbQUUYaEQHTr-tGnO-VFWxnr4UkduYfPkq4CsbaMykT6dx7usDNhqFQ
-Message-ID: <CAPYTKoOBG=quMkOsnAaT7Kn3Zni_Jxw8kjJPwRq3CHrd=hnQoA@mail.gmail.com>
-Subject: Re: [PATCH v4] EDAC/altera: use ECC manager compatible to select
- A10/S10 IRQ layout
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260703-ram-v2-1-7f07fc06fba9@rsg.ci.i.u-tokyo.ac.jp>
+References: <20260703-ram-v2-0-7f07fc06fba9@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <20260703-ram-v2-0-7f07fc06fba9@rsg.ci.i.u-tokyo.ac.jp>
+To: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+        =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
+        Zhao Liu <zhao1.liu@intel.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Anthony PERARD <anthony@xenproject.org>,
+        "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+        Peter Xu <peterx@redhat.com>, Fabiano Rosas <farosas@suse.de>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Reinoud Zandijk <reinoud@netbsd.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Alex Williamson <alex@shazbot.org>,
+        =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@redhat.com>,
+        qemu-block@nongnu.org, xen-devel@lists.xenproject.org,
+        kvm@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Igor Mammedov <imammedo@redhat.com>, Ani Sinha <anisinha@redhat.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Song Gao <gaosong@loongson.cn>, Bibo Mao <maobibo@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        =?utf-8?q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+        Sunil V L <sunilvl@ventanamicro.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Alistair Francis <alistair.francis@wdc.com>,
+        Weiwei Li <liwei1518@gmail.com>,
+        Daniel Henrique Barboza <daniel.barboza@oss.qualcomm.com>,
+        Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+        Chao Liu <chao.liu.zevorn@gmail.com>, linux-edac@vger.kernel.org,
+        qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
+        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+X-Mailer: b4 0.16-dev-925f5
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2570;
+ i=odaki@rsg.ci.i.u-tokyo.ac.jp; h=from:subject:message-id;
+ bh=rfWCLDHUcpahNgEC3SGqI/nzOlyqMecU43nGCyZYC8s=;
+ b=owGbwMvMwCWmMbc20y1CyJDxtFoSQ5a7292uvb5fvrnm7tp9b5dvJte9v0uYEovO1uddvZ35h
+ NFhQtvZjlIWBjEuBlkxRZaUot3cGtG1nwoT4ltg5rAygQxh4OIUgInUXWD4n3Q8Z7FJ9M3+/FlP
+ yrWtlv46vnNK17JZ90Nzdlx6dcBGrpWRYeH/uf8fOdSpt8X3Xi7e9oZt790XTTtv/ZL4+X3x6UM
+ KvHwA
+X-Developer-Key: i=odaki@rsg.ci.i.u-tokyo.ac.jp; a=openpgp;
+ fpr=AEDC03C9AF734F2EC26A7BFFA4BAEAA73536753C
 
-Hi Dinh,
+The acpi-mr-restore property exists only for migration compatibility
+with QEMU 4.2, which is no longer a supported migration source.
 
-Thank you. I am glad that v4 tested clean on both platforms.
+Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+---
+ include/hw/nvram/fw_cfg.h | 1 -
+ hw/core/machine.c         | 1 -
+ hw/nvram/fw_cfg.c         | 8 +-------
+ 3 files changed, 1 insertion(+), 9 deletions(-)
 
-On the two remaining ifdefs: I originally left them as-is because they
-guard the double-bit-error path, where the SError handling and
-arm_smccc_smc() reboot are arm64-specific. Converting to is_s10 would
-compile s10_edac_dberr_handler() on 32-bit too, but that looks fine
-since the symbols it needs (arm_smccc_smc, INTEL_SIP_SMC_ECC_DBE, the
-S10 sysmgr defines) are all available on 32-bit socfpga.
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index 56f17a0bdcf7..6aad9aad7694 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -73,7 +73,6 @@ struct FWCfgState {
+     MemoryRegion dma_iomem;
+ 
+     /* restore during migration */
+-    bool acpi_mr_restore;
+     uint64_t table_mr_size;
+     uint64_t linker_mr_size;
+     uint64_t rsdp_mr_size;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 9a10e45aabd5..44803e884140 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -214,7 +214,6 @@ GlobalProperty hw_compat_4_2[] = {
+     { "usb-redir", "suppress-remote-wake", "off" },
+     { "qxl", "revision", "4" },
+     { "qxl-vga", "revision", "4" },
+-    { "fw_cfg", "acpi-mr-restore", "false" },
+     { "virtio-device", "use-disabled-flag", "false" },
+ };
+ const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 1d7d83542137..f4e3e50224ca 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -612,7 +612,7 @@ static bool fw_cfg_acpi_mr_restore(void *opaque)
+     mr_aligned = QEMU_IS_ALIGNED(s->table_mr_size, qemu_real_host_page_size()) &&
+                  QEMU_IS_ALIGNED(s->linker_mr_size, qemu_real_host_page_size()) &&
+                  QEMU_IS_ALIGNED(s->rsdp_mr_size, qemu_real_host_page_size());
+-    return s->acpi_mr_restore && !mr_aligned;
++    return !mr_aligned;
+ }
+ 
+ static void fw_cfg_update_mr(FWCfgState *s, uint16_t key, size_t size)
+@@ -987,10 +987,6 @@ static void fw_cfg_machine_ready(struct Notifier *n, void *data)
+     qemu_register_reset(fw_cfg_machine_reset, s);
+ }
+ 
+-static const Property fw_cfg_properties[] = {
+-    DEFINE_PROP_BOOL("acpi-mr-restore", FWCfgState, acpi_mr_restore, true),
+-};
+-
+ static void fw_cfg_common_realize(DeviceState *dev, Error **errp)
+ {
+     FWCfgState *s = FW_CFG(dev);
+@@ -1149,8 +1145,6 @@ static void fw_cfg_class_init(ObjectClass *klass, const void *data)
+ 
+     device_class_set_legacy_reset(dc, fw_cfg_reset);
+     dc->vmsd = &vmstate_fw_cfg;
+-
+-    device_class_set_props(dc, fw_cfg_properties);
+ }
+ 
+ static const TypeInfo fw_cfg_info = {
 
-I'd like your opinion before sending it. If you'd like them removed,
-I'll do it as a separate commit, patch 2/2 in a v5 series, since the
-DB-error path is a distinct change from the IRQ-index selection.
+-- 
+2.54.0
 
-Thanks,
-Rounak
