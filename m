@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6291A3AD507;
-	Mon,  6 Jul 2026 03:27:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641E43C2D;
+	Mon,  6 Jul 2026 03:27:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783308457; cv=none; b=maleNKfjOG7xr9MfWmbly3FPf9Tmcs6IIR3QGF/izeug/iPwpK/ahuht3qHjMS/I0p2U8ERzJRoul4wPUCpPUoeBnmgI8E7hn3+ap9Li0qU5YPfzW/04NI22XEH9xyHLg/fmxHtQk0bNg4fjXK3D2HtG2waYsBjU/CiJks5fz1w=
+	t=1783308466; cv=none; b=o0Qvg0ynmSa5Aw8CVZcqLXN5R/Df3EOekFVd/+2ZpTpfNy1689rqTyVFLxk8FDk6lzC7cmNmcaMkt/6LXjm7URc2iIzYSRfh7NU5wFcNIU6WeqI0fYKpSdPM7kYMZi/5gvBQzx/mZ0I1rO82ACuWGW2XcToLIITg8FTHByv0av0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783308457; c=relaxed/simple;
-	bh=TfIyxzO1iSyzzP3VZlxzMBcTIPvzMfH3cy91qI3euM4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bL/EiOTvgfbgEamKdB8wF1yyQWBxMe6r0mMUfK5yRSHu0StPftrbSdBELq8kYoBecPKzHAsbXDHbMO1ev/00GanVT3JuDqkyPVjd3POemHJZjoFaGc1nSoCkRSBeAKQZ3gq9ghIgDNnNJbu3m+phLhRKNBQCsDb+Yys6mSjwB4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqYdq2jt; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1783308466; c=relaxed/simple;
+	bh=E9w4eVbdpy2D24TdArwcRxEEyxzm9Q1T/Ac0n8s0PGk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=u1FQ7+LfaPz9psFWP4grEJbWALq1Cso57tldkCC/XWRzoCDufOqV0HXbg2Jv/Uln9umuylHxMAB8gY8tGTQcrE/J/ddVMSwKyLwPhaznTrJqsO+Lj6rArVS2xONQIEcwa/qq5QB/xpFuFF9PjkD07UUGNQUcOHVISVz6ykhopZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=St1Ro42w; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqYdq2jt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="St1Ro42w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783308455; x=1814844455;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TfIyxzO1iSyzzP3VZlxzMBcTIPvzMfH3cy91qI3euM4=;
-  b=WqYdq2jtxfvsJfbs5EooPXFuxuDllqNghwIYqndadZW5/X14rnT4AfK5
-   hq0hZ5E5GOp0P7s9dfIbS95NonBh14R2i/P2UN9aIW2nbi0MvY/7nPsXu
-   L9BUS/kwRniAAja1/PVfWvzD5HrlANfcUT7EG2Pfm2TpXDdc4Kt0f8nbO
-   bzjjvSZkky7tqCv5oEGbyIF8R9xyQaGFpWJO+cjGbY8RspqKs5IFtqy8E
-   Hd/7u4BM5JbZuaS2VvnhHK27Hr8XN3vXZEOT+qThf1vdmExR5iWJAQAel
-   2pF4H7cHZb5XlrXhREULr5yXnXKbPMKtqf71oL4WIleq6tdMTuom7pG2M
-   w==;
-X-CSE-ConnectionGUID: 86YC+qdcTNm8Csfbp5024Q==
-X-CSE-MsgGUID: DvYe+9sdTZya28dyEWDv6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="71456364"
+  t=1783308464; x=1814844464;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=E9w4eVbdpy2D24TdArwcRxEEyxzm9Q1T/Ac0n8s0PGk=;
+  b=St1Ro42wx26sKT5pSNq3x6C+5JiPDI2Yz/WA8BM+sBKtS4B51bt8ffUC
+   IacW6jAvjgpihdx1PWL/q+48TIlwuaIh38S0++yK3RN7PcQmzDxM1iEBB
+   PJ6JWDnToE1KjVR8b+Im36ECaBqrDZUq6U7mQeKBRWPEycvZ+DtZEr10m
+   J4SNTc/HXzM2ctkVPy0/pAqs/MaQpvFMExGpUg+FchBRKqAb5CY28+iE8
+   kecD8b13j3NCl/zP5QLVFnzMHNN0cPCetYcRIXH133CRuwk0QU8LteP+Z
+   vh+ABePrbFywjLUEAQ5xNjX8Xgd25FGGfUSvw6sA0f6bMS+AtyGD4KgkU
+   A==;
+X-CSE-ConnectionGUID: l1zlE4UETxyYUah7gPU8+g==
+X-CSE-MsgGUID: jffA6omAS52CDajvqvpUwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="71456370"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="71456364"
+   d="scan'208";a="71456370"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:27:35 -0700
-X-CSE-ConnectionGUID: 5dRYtPyZSxWBTYj2qNmG9Q==
-X-CSE-MsgGUID: rrc2RfAlS36lMwQiAG8W3A==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:27:44 -0700
+X-CSE-ConnectionGUID: MnsPxNJTRlOQYPW8oqH6nA==
+X-CSE-MsgGUID: 4ahWtvsDT5GOWdqZ+j0nOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="258487807"
+   d="scan'208";a="258487861"
 Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:27:33 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:27:42 -0700
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 To: Tony Luck <tony.luck@intel.com>,
 	Borislav Petkov <bp@alien8.de>
@@ -49,10 +50,12 @@ Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
 	Yi Lai <yi1.lai@intel.com>,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 00/10] EDAC/{ie31200,igen6}: Fix address decoding and detect IMCs at runtime
-Date: Mon,  6 Jul 2026 11:22:23 +0800
-Message-ID: <20260706032233.3283297-1-qiuxu.zhuo@intel.com>
+Subject: [PATCH 01/10] EDAC/ie31200: Decouple DIMM width decoding from enum order
+Date: Mon,  6 Jul 2026 11:22:24 +0800
+Message-ID: <20260706032233.3283297-2-qiuxu.zhuo@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260706032233.3283297-1-qiuxu.zhuo@intel.com>
+References: <20260706032233.3283297-1-qiuxu.zhuo@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -61,45 +64,46 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Intel client EDAC drivers duplicate address translation logic and rely
-on platform-specific IMC counts even though the IMCs can be detected
-at runtime. This series fixes several decoding bugs, replaces static IMC
-counts with runtime detection, and consolidates the common translation
-logic to simplify future maintenance.
+The current method to get DIMM width relied on DEV_* enum ordering via a
+linear offset (+ DEV_X8), tightly coupling hardware encoding to enum layout.
 
-Patches 1-5: Fix several correctness issues in the ie31200 and igen6
-drivers, including interleave boundary handling, channel hash selection,
-non-hash address decoding, and logged error address translation.
+Replace it with explicit decoding to remove this dependency, as the
+enum is expected to grow with additional device widths.
 
-Patches 6-7: Do small cleanups.
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+---
+ drivers/edac/ie31200_edac.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-Patches 8-9: Detect the number of IMCs at runtime, allowing new SoCs
-to be supported without maintaining per-platform IMC counts while
-eliminating redundant resource configuration tables.
-
-Patch 10: Refactor the address translation logic by introducing
-shared helpers for the common interleave and hash translation operations.
-This removes duplicated implementations across multiple decoding paths,
-making future changes easier while preserving existing behavior.
-
-Qiuxu Zhuo (10):
-  EDAC/ie31200: Decouple DIMM width decoding from enum order
-  EDAC/igen6: Fix interleave boundary condition
-  EDAC/igen6: Fix channel selection hash
-  EDAC/igen6: Fix channel address decode for non-hash mode
-  EDAC/igen6: Fix Raptor Lake-P logged error address
-  EDAC/igen6: Remove unnecessary XOR on the zero-valued interleave bit
-  EDAC/igen6: Simplify compute die ID comments
-  EDAC/igen6: Detect present memory controllers at runtime
-  EDAC/igen6: Remove redundant resource configuration tables
-  EDAC/igen6: Refactor address translation logic
-
- drivers/edac/ie31200_edac.c |  18 +-
- drivers/edac/igen6_edac.c   | 466 ++++++++++++++++++++----------------
- 2 files changed, 278 insertions(+), 206 deletions(-)
-
-
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
+index e3bd6436669b..bfd54012ae47 100644
+--- a/drivers/edac/ie31200_edac.c
++++ b/drivers/edac/ie31200_edac.c
+@@ -416,7 +416,23 @@ static void populate_dimm_info(struct dimm_data *dd, u32 addr_decode, int dimm,
+ {
+ 	dd->size = field_get(cfg->reg_mad_dimm_size_mask[dimm], addr_decode) * cfg->reg_mad_dimm_size_granularity;
+ 	dd->ranks = field_get(cfg->reg_mad_dimm_rank_mask[dimm], addr_decode) + 1;
+-	dd->dtype = field_get(cfg->reg_mad_dimm_width_mask[dimm], addr_decode) + DEV_X8;
++
++	switch (field_get(cfg->reg_mad_dimm_width_mask[dimm], addr_decode)) {
++	case 0:
++		dd->dtype = DEV_X8;
++		break;
++	case 1:
++		dd->dtype = DEV_X16;
++		break;
++	case 2:
++		dd->dtype = DEV_X32;
++		break;
++	case 3:
++		dd->dtype = DEV_X64;
++		break;
++	default:
++		dd->dtype = DEV_UNKNOWN;
++	}
+ }
+ 
+ static void ie31200_get_dimm_config(struct mem_ctl_info *mci, void __iomem *window,
 -- 
 2.43.0
 
