@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0EC3AD507;
-	Mon,  6 Jul 2026 03:28:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51473AD507;
+	Mon,  6 Jul 2026 03:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783308518; cv=none; b=YZwpHTO03B2wAK4EuswtJ0ZGl7Gv4ixPn3Ly7epblm5hD+Q6MqOYGR9N9zjMO86UWEKU4VFdP8Ca2IHEippgNpS5DtR7hbuze/7QOTlbf9Jf4bVPsjkx+oCnA80nmjQjaNgCLn9xRBfVYt08OWUxkNcYzsTFfZ11t1dx5Me1mGI=
+	t=1783308524; cv=none; b=f+pEtYcYK1miHa5k8JJ+6GxwyAlSFPePVcXfFVeYVRnilyEOCeftpVCYe0WRqRUA/2fQwOZEekoIwDBOxUkwg6IKWUyUcVV0UYHYPNpel3YxmndhvDhp8egz5lLA+eQsecsA43Klq/mOfq57n5JP5PWh+TQNfnc1+8DmvfCnJgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783308518; c=relaxed/simple;
-	bh=E/pZnXJIbWrqutZzTJKuv9CqKafzNrwTQxT+c4CrMP4=;
+	s=arc-20240116; t=1783308524; c=relaxed/simple;
+	bh=K9XSddLRf9hTqLVbrntSkhcLoDY9b7EnyKgG96+x3Nw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ESFoIWVPRwSOXghoBiX7M9pdsjNKjyqvMPp9qMd/Tfmn5DbW1/6i90SoS1sJkguyZNVyAOOa76RFIiX63zoCdpFBleG01zPt6Bl1gnyNkeGY2ycOFGlbUiCmuIy9rbKI7AhmEsnvpgk7eYHy/l9KvwdcuO8ofEufXh4gI9Vt3lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSHoQOi6; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=OB8isPG66n13p4OWXOWrmYRIVVybB0cI3aikpBSaZZupsHhcxzAz031AV7Xw8rIkTASGP5T33l20QniU9hpoORj9r/LZU3pr8kxaoe4+JrJq/++z6ef65iK+eOhuLYAVnSj07yFiIAqPapDxIF0FCqebtPb6muNlT++z5R60Gjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A0adIuzE; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSHoQOi6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0adIuzE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783308516; x=1814844516;
+  t=1783308523; x=1814844523;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=E/pZnXJIbWrqutZzTJKuv9CqKafzNrwTQxT+c4CrMP4=;
-  b=KSHoQOi6xm11zwXcNflVw6QeB72CsSA8H/WkR5qQMuYoKRq0is1FttK2
-   F58BB5x1SFlLnkasJCN1IwMmO7wGu2kdrLIvNTL76UXCSm1fr7y19tCn0
-   2APk2ptnoGkXU/limcgZU17xyAG6r2gvut+rHGlFV1hXaPQI2KRIcVyKr
-   RjEiO8PufkXFGeMvA/S20sXfIl4DBqK3uyqtkAfRq2za6+bMyeaFehweL
-   NCySydrYhxou+yM0xD1RoujDoTUh8M9nLqe+V4yc2ALaIqokI8H7+fQFR
-   Iitq7PjM6RVOEK3craar6hru9C7AYW4tTWbK0RBI7+mBIISaovFjAN06C
-   A==;
-X-CSE-ConnectionGUID: 989uQh8aTjmvl3NxzPAR0A==
-X-CSE-MsgGUID: gwvl1FX2T4SdqXl7sWQD7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="71456453"
+  bh=K9XSddLRf9hTqLVbrntSkhcLoDY9b7EnyKgG96+x3Nw=;
+  b=A0adIuzEAJfWMt/hgw3DHf92kZ6blZHcIF1YxODvJ8TSDn7Pw1IZGdMP
+   u5hmrqxquk7ilJuUT1MXk0ony71E4nxiT7brBCig4RFrGPNhF1ZikH8fm
+   r91a8Z5Bsm6nH/iNmbRmmIk5XAW+1HBKhokM+J0M+vE7t24Hxpl4Q9RPl
+   JOJV+M86lGyLIJX4oQYRGCMm1L58zKx/60SrhMPPXTDIYNqHuaPZWYURy
+   m2NFLQCEneVRRV+naudCJPJrha/WYJfsX8g0ixeYuo8aFQIY8uZYVBKei
+   qyDI7rVYcWKAdMiiYrRQkPfRYaIzgtYZtXNU73id9yHuoV3BBOtNZX/Mt
+   w==;
+X-CSE-ConnectionGUID: Q+1qh/YBR2mwCN8w3yrWpg==
+X-CSE-MsgGUID: YtK/KlqSQPeWrm+6VGtthw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="71456463"
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="71456453"
+   d="scan'208";a="71456463"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:28:36 -0700
-X-CSE-ConnectionGUID: YV4OkqbUSsyQpARmHJ9fXg==
-X-CSE-MsgGUID: RNbXyIqxSG+c/PawFPmIUA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:28:42 -0700
+X-CSE-ConnectionGUID: DCK8rPjHRoeRer3NeaoigA==
+X-CSE-MsgGUID: Ie+k57H6TbCXEW1tBnRcIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="258487973"
+   d="scan'208";a="258487993"
 Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:28:34 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 20:28:41 -0700
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 To: Tony Luck <tony.luck@intel.com>,
 	Borislav Petkov <bp@alien8.de>
@@ -50,9 +50,9 @@ Cc: Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
 	Yi Lai <yi1.lai@intel.com>,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/10] EDAC/igen6: Remove redundant resource configuration tables
-Date: Mon,  6 Jul 2026 11:22:32 +0800
-Message-ID: <20260706032233.3283297-10-qiuxu.zhuo@intel.com>
+Subject: [PATCH 10/10] EDAC/igen6: Refactor address translation logic
+Date: Mon,  6 Jul 2026 11:22:33 +0800
+Message-ID: <20260706032233.3283297-11-qiuxu.zhuo@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260706032233.3283297-1-qiuxu.zhuo@intel.com>
 References: <20260706032233.3283297-1-qiuxu.zhuo@intel.com>
@@ -64,122 +64,335 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several resource configuration tables differ only in their num_imc
-value, while all other fields are identical. Their only purpose is to
-describe the number of memory controllers supported by a platform.
+The igen6 EDAC driver implements similar interleave and hash translation
+logic at multiple levels of the memory hierarchy.
 
-Since IMC count is now detected at runtime, these duplicate tables no
-longer carry any unique platform information. Reuse the shared
-configurations and remove the redundant tables.
+The separate implementations duplicate decoding logic, making future
+changes harder and increasing the risk of behavior diverging.
+
+Consolidate the common address translation operations into shared
+helpers so all decoding paths use a single implementation.
+
+No functional changes intended.
 
 Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 ---
- drivers/edac/igen6_edac.c | 64 +++++++++++----------------------------
- 1 file changed, 17 insertions(+), 47 deletions(-)
+ drivers/edac/igen6_edac.c | 244 +++++++++++++++++++++++++-------------
+ 1 file changed, 159 insertions(+), 85 deletions(-)
 
 diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index d468c655348c..ea34adac822b 100644
+index ea34adac822b..96da6f70539b 100644
 --- a/drivers/edac/igen6_edac.c
 +++ b/drivers/edac/igen6_edac.c
-@@ -736,21 +736,6 @@ static struct res_config adl_cfg = {
- 	.err_addr_to_imc_addr	= adl_err_addr_to_imc_addr,
- };
+@@ -123,6 +123,43 @@
+ #define MEM_SLICE_HASH_MASK(v)		(GET_BITFIELD(v, 6, 19) << 6)
+ #define MEM_SLICE_HASH_LSB_MASK_BIT(v)	GET_BITFIELD(v, 24, 26)
  
--static struct res_config adl_n_cfg = {
--	.machine_check		= true,
--	.num_imc		= 1,
--	.reg_mchbar_mask	= GENMASK_ULL(41, 17),
--	.reg_tom_mask		= GENMASK_ULL(41, 20),
--	.reg_touud_mask		= GENMASK_ULL(41, 20),
--	.reg_eccerrlog_addr_mask = GENMASK_ULL(45, 5),
--	.imc_base		= 0xd800,
--	.ibecc_base		= 0xd400,
--	.ibecc_error_log_offset	= 0x68,
--	.ibecc_available	= tgl_ibecc_available,
--	.err_addr_to_sys_addr	= adl_err_addr_to_sys_addr,
--	.err_addr_to_imc_addr	= adl_err_addr_to_imc_addr,
--};
--
- static struct res_config mtl_ps_cfg = {
- 	.machine_check				= true,
- 	.num_imc				= 2,
-@@ -813,21 +798,6 @@ static struct res_config ptl_h_cfg = {
- 	.err_addr_to_imc_addr		= adl_err_addr_to_imc_addr,
- };
++/*
++ * A slice represents a portion of memory space participating in an
++ * interleave relationship within the memory hierarchy.
++ *
++ * It can represent in different levels such as:
++ *
++ *   - a pair of memory controllers
++ *   - a memory controller
++ *   - a memory channel
++ *   - a memory sub-channel / DIMM
++ *
++ * +--------+
++ * |        |
++ * | Zone 1 |
++ * |        |
++ * +--------+  +--------+
++ * |        |  |        |
++ * |        |  |        |
++ * | Zone 0 |  | Zone 0 |
++ * |        |  |        |
++ * |        |  |        |
++ * +--------+  +--------+
++ *
++ *  Slice L     Slice S
++ *
++ * Memory space is divided into:
++ *
++ *   - Zone 0 : Interleaved region
++ *   - Zone 1 : Non-interleaved region (upper part of the large slice).
++ */
++struct slice {
++	/* Slice address. */
++	u64 addr;
++	/* Slice that @addr belongs to. */
++	int id;
++};
++
+ struct igen6_imc {
+ 	int mc;
+ 	struct mem_ctl_info *mci;
+@@ -323,6 +360,102 @@ static struct work_struct ecclog_work;
+ #define DID_NVL_H_SKU3	0xd704
+ #define DID_NVL_H_SKU4	0xd705
  
--static struct res_config wcl_cfg = {
--	.machine_check		= true,
--	.num_imc		= 1,
--	.reg_mchbar_mask	= GENMASK_ULL(41, 17),
--	.reg_tom_mask		= GENMASK_ULL(41, 20),
--	.reg_touud_mask		= GENMASK_ULL(41, 20),
--	.reg_eccerrlog_addr_mask = GENMASK_ULL(38, 5),
--	.imc_base		= 0xd800,
--	.ibecc_base		= 0xd400,
--	.ibecc_error_log_offset	= 0x170,
--	.ibecc_available	= mtl_p_ibecc_available,
--	.err_addr_to_sys_addr	= adl_err_addr_to_sys_addr,
--	.err_addr_to_imc_addr	= adl_err_addr_to_imc_addr,
--};
++/* Remove the interleave bit and shift upper part down to fill gap. */
++static u64 squeeze_addr(u64 addr, int intlv_bit)
++{
++	u64 slice_addr;
++
++	slice_addr  = GET_BITFIELD(addr, intlv_bit + 1, 63) << intlv_bit;
++	slice_addr |= GET_BITFIELD(addr, 0, intlv_bit - 1);
++
++	return slice_addr;
++}
++
++/* Shift the upper bits up and insert a zero at the @intlv_bit bit position. */
++static u64 inflate_addr(u64 addr, int intlv_bit)
++{
++	u64 inflated_addr;
++
++	/* Insert a zero at @intlv_bit position. */
++	inflated_addr  = GET_BITFIELD(addr, intlv_bit, 63) << (intlv_bit + 1);
++	inflated_addr |= GET_BITFIELD(addr, 0, intlv_bit - 1);
++
++	return inflated_addr;
++}
++
++static u64 compute_hash(u64 addr, u64 hash_mask, u64 hash_base, int intlv_bit)
++{
++	u64 hash_addr;
++	int i;
++
++	/*
++	 * In hash mode, @intlv_bit is the lowest selected bit of @addr
++	 * to be XORed. While @mask may or may not include this @intlv_bit,
++	 * we enforce that @mask includes @intlv_bit to ensure @intlv_bit is
++	 * XORed exactly once.
++	 */
++	hash_mask |= BIT_ULL(intlv_bit);
++	hash_addr  = addr & hash_mask;
++
++	for (i = 6; i < 20; i++)
++		hash_base ^= (hash_addr >> i) & 1;
++
++	return hash_base;
++}
++
++/*
++ * Converts a higher-level address (system / IMC / channel) into a lower-level
++ * slice address and identifier.
++ */
++static void translate_to_lower_level(u64 addr, u64 hash_mask, u64 hash_base,
++				     int intlv_bit, u64 s_size, int l_map,
++				     struct slice *slice)
++{
++	/* In non-interleave zone. */
++	if (addr >= 2 * s_size) {
++		slice->addr = addr - s_size;
++		slice->id  = l_map;
++		return;
++	}
++
++	/* In interleave zone. */
++	slice->addr = squeeze_addr(addr, intlv_bit);
++
++	/* Non-hash mode. */
++	if (!hash_mask) {
++		slice->id = GET_BITFIELD(addr, intlv_bit, intlv_bit);
++		return;
++	}
++
++	/* Hash mode. */
++	slice->id = compute_hash(addr, hash_mask, hash_base, intlv_bit);
++}
++
++/* Reconstruct address for upper memory hierarchy level. */
++static u64 translate_to_upper_level(u64 addr, u64 hash_mask, u64 hash_base,
++				    int intlv_bit, u64 s_size)
++{
++	u64 inflated_addr, hash_val;
++
++	/* In non-interleave zone. */
++	if (addr >= s_size)
++		return addr + s_size;
++
++	/*
++	 * In interleave zone.
++	 *
++	 * Insert a zero at @intlv_bit position.
++	 */
++	inflated_addr = inflate_addr(addr, intlv_bit);
++
++	/*
++	 * Reconstruct the removed interleave bit and use it to replace
++	 * the zero at @intlv_bit position.
++	 */
++	hash_val = compute_hash(inflated_addr, hash_mask, hash_base, intlv_bit);
++	return inflated_addr | (hash_val << intlv_bit);
++}
++
+ static int get_mchbar(struct pci_dev *pdev, u64 *mchbar)
+ {
+ 	union  {
+@@ -490,21 +623,9 @@ static u64 mem_addr_to_sys_addr(u64 maddr)
+ 	return maddr;
+ }
+ 
+-static u64 mem_slice_hash(u64 addr, u64 mask, u64 hash_init)
+-{
+-	/* The interleave bit in @addr is a zero. */
+-	u64 hash_addr = addr & mask, hash = hash_init;
+-	int i;
 -
- static struct res_config nvl_h_cfg = {
- 	.machine_check			= true,
- 	.num_imc			= 2,
-@@ -880,22 +850,22 @@ static struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_ADL_SKU2), .driver_data = (kernel_ulong_t)&adl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_ADL_SKU3), .driver_data = (kernel_ulong_t)&adl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_ADL_SKU4), .driver_data = (kernel_ulong_t)&adl_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), .driver_data = (kernel_ulong_t)&adl_n_cfg },
--	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), .driver_data = (kernel_ulong_t)&adl_n_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU1), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU2), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU3), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU4), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU5), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU6), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU7), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU8), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU9), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU10), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU11), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ADL_N_SKU12), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_AZB_SKU1), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ASL_SKU1), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ASL_SKU2), .driver_data = (kernel_ulong_t)&adl_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_ASL_SKU3), .driver_data = (kernel_ulong_t)&adl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU1), .driver_data = (kernel_ulong_t)&adl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU2), .driver_data = (kernel_ulong_t)&adl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_RPL_P_SKU3), .driver_data = (kernel_ulong_t)&adl_cfg },
-@@ -911,6 +881,7 @@ static struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU1), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU2), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_ARL_UH_SKU3), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU1), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU2), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU3), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
-@@ -925,7 +896,6 @@ static struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU14), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
--	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), .driver_data = (kernel_ulong_t)&wcl_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU1), .driver_data = (kernel_ulong_t)&nvl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU2), .driver_data = (kernel_ulong_t)&nvl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU3), .driver_data = (kernel_ulong_t)&nvl_h_cfg },
+-	for (i = 6; i < 20; i++)
+-		hash ^= (hash_addr >> i) & 1;
+-
+-	return hash;
+-}
+-
+ static u64 tgl_err_addr_to_mem_addr(u64 eaddr, int mc)
+ {
+-	u64 maddr, hash, mask, ms_s_size;
++	u64 mask, ms_s_size;
+ 	int intlv_bit;
+ 	u32 ms_hash;
+ 
+@@ -517,12 +638,7 @@ static u64 tgl_err_addr_to_mem_addr(u64 eaddr, int mc)
+ 	mask = MEM_SLICE_HASH_MASK(ms_hash);
+ 	intlv_bit = MEM_SLICE_HASH_LSB_MASK_BIT(ms_hash) + 6;
+ 
+-	maddr = GET_BITFIELD(eaddr, intlv_bit, 63) << (intlv_bit + 1) |
+-		GET_BITFIELD(eaddr, 0, intlv_bit - 1);
+-
+-	hash = mem_slice_hash(maddr, mask, mc);
+-
+-	return maddr | (hash << intlv_bit);
++	return translate_to_upper_level(eaddr, mask, mc, intlv_bit, ms_s_size);
+ }
+ 
+ static u64 tgl_err_addr_to_sys_addr(u64 eaddr, int mc)
+@@ -544,8 +660,9 @@ static u64 adl_err_addr_to_sys_addr(u64 eaddr, int mc)
+ 
+ static u64 adl_err_addr_to_imc_addr(u64 eaddr, int mc)
+ {
+-	u64 imc_addr, ms_s_size = igen6_pvt->ms_s_size;
++	u64 ms_s_size = igen6_pvt->ms_s_size;
+ 	struct igen6_imc *imc = &igen6_pvt->imc[mc];
++	struct slice slice;
+ 	int intlv_bit;
+ 	u32 mc_hash;
+ 
+@@ -556,10 +673,8 @@ static u64 adl_err_addr_to_imc_addr(u64 eaddr, int mc)
+ 
+ 	intlv_bit = MAC_MC_HASH_LSB(mc_hash) + 6;
+ 
+-	imc_addr = GET_BITFIELD(eaddr, intlv_bit + 1, 63) << intlv_bit |
+-		   GET_BITFIELD(eaddr, 0, intlv_bit - 1);
+-
+-	return imc_addr;
++	translate_to_lower_level(eaddr, 0, 0, intlv_bit, ms_s_size, 0, &slice);
++	return slice.addr;
+ }
+ 
+ static enum mem_type ptl_h_get_mem_type(struct igen6_imc *imc)
+@@ -996,62 +1111,13 @@ static void set_dimm_params(struct igen6_imc *imc, int chan)
+ 	imc->dimm_s_size[chan] = MAD_DIMM_CH_DIMM_S_SIZE(val);
+ }
+ 
+-static int decode_chan_idx(u64 addr, u64 mask, int intlv_bit)
+-{
+-	u64 hash_addr, hash = 0;
+-	int i;
+-
+-	/*
+-	 * In hash mode, the @intlv_bit is the lowest selected bit of @addr
+-	 * to be XORed. While @mask may or may not include this @intlv_bit,
+-	 * we enforce that @mask includes @intlv_bit to ensure @intlv_bit is
+-	 * XORed exactly once.
+-	 */
+-	mask |= 1 << intlv_bit;
+-	hash_addr = addr & mask;
+-
+-	for (i = 6; i < 20; i++)
+-		hash ^= (hash_addr >> i) & 1;
+-
+-	return (int)hash;
+-}
+-
+-static u64 decode_channel_addr(u64 addr, int intlv_bit)
+-{
+-	u64 channel_addr;
+-
+-	/* Remove the interleave bit and shift upper part down to fill gap */
+-	channel_addr  = GET_BITFIELD(addr, intlv_bit + 1, 63) << intlv_bit;
+-	channel_addr |= GET_BITFIELD(addr, 0, intlv_bit - 1);
+-
+-	return channel_addr;
+-}
+-
+-static void decode_addr(u64 addr, u32 hash, u64 s_size, int l_map,
+-			int *idx, u64 *sub_addr)
+-{
+-	int intlv_bit = CHANNEL_HASH_LSB_MASK_BIT(hash) + 6;
+-
+-	if (addr >= 2 * s_size) {
+-		*sub_addr = addr - s_size;
+-		*idx = l_map;
+-		return;
+-	}
+-
+-	*sub_addr = decode_channel_addr(addr, intlv_bit);
+-
+-	if (CHANNEL_HASH_MODE(hash))
+-		*idx = decode_chan_idx(addr, CHANNEL_HASH_MASK(hash), intlv_bit);
+-	else
+-		*idx = GET_BITFIELD(addr, intlv_bit, intlv_bit);
+-}
+-
+ static int igen6_decode(struct decoded_addr *res)
+ {
+ 	struct igen6_imc *imc = &igen6_pvt->imc[res->mc];
+-	u64 addr = res->imc_addr, sub_addr, s_size;
+-	int idx, l_map;
+-	u32 hash;
++	u64 addr = res->imc_addr, s_size;
++	int intlv_bit, l_map;
++	u32 hash, hash_mask;
++	struct slice slice;
+ 
+ 	if (addr >= igen6_tom) {
+ 		edac_dbg(0, "Address 0x%llx out of range\n", addr);
+@@ -1062,17 +1128,25 @@ static int igen6_decode(struct decoded_addr *res)
+ 	hash   = readl(imc->window + CHANNEL_HASH_OFFSET);
+ 	s_size = imc->ch_s_size;
+ 	l_map  = imc->ch_l_map;
+-	decode_addr(addr, hash, s_size, l_map, &idx, &sub_addr);
+-	res->channel_idx  = idx;
+-	res->channel_addr = sub_addr;
++	hash_mask = CHANNEL_HASH_MODE(hash) ? CHANNEL_HASH_MASK(hash) : 0;
++	intlv_bit = CHANNEL_HASH_LSB_MASK_BIT(hash) + 6;
++
++	translate_to_lower_level(addr, hash_mask, 0, intlv_bit, s_size, l_map, &slice);
++
++	res->channel_idx  = slice.id;
++	res->channel_addr = slice.addr;
+ 
+ 	/* Decode sub-channel/DIMM */
+ 	hash   = readl(imc->window + CHANNEL_EHASH_OFFSET);
+-	s_size = imc->dimm_s_size[idx];
+-	l_map  = imc->dimm_l_map[idx];
+-	decode_addr(res->channel_addr, hash, s_size, l_map, &idx, &sub_addr);
+-	res->sub_channel_idx  = idx;
+-	res->sub_channel_addr = sub_addr;
++	s_size = imc->dimm_s_size[res->channel_idx];
++	l_map  = imc->dimm_l_map[res->channel_idx];
++	hash_mask = CHANNEL_HASH_MODE(hash) ? CHANNEL_HASH_MASK(hash) : 0;
++	intlv_bit = CHANNEL_HASH_LSB_MASK_BIT(hash) + 6;
++
++	translate_to_lower_level(res->channel_addr, hash_mask, 0, intlv_bit, s_size, l_map, &slice);
++
++	res->sub_channel_idx  = slice.id;
++	res->sub_channel_addr = slice.addr;
+ 
+ 	return 0;
+ }
 -- 
 2.43.0
 
