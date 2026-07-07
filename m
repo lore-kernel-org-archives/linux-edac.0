@@ -1,175 +1,229 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8A83F888C;
-	Mon,  6 Jul 2026 23:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783380570; cv=fail; b=P0hY/EpQNfNIlsiCUGtekUqHHj+GNImH4Yc6tbs6PY9VSXuKVEchtCGzNOK23AAdAqQrv68y+X4ndpcEFurhzspa/boes7eF7Lhq5P4lrycCUpBAcRmKd5AI+7y/JB30uJlPjHbsD+UF0HOA9Mfv7re0Uj5Ka1jSXhkaOPU+N18=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783380570; c=relaxed/simple;
-	bh=me+UoTGo6i8MLXPY2EhvEtqVrCJp24GoZVWQYvYsAS4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=gz4SznQxdbhFcWY2yH9OE8nz/h10SWcV5N0iZeBgivkTfWo4GCvyeL36BEFL9qfypkoHz8H4abd8egp+Sc5NPHpO1yFDjH1ljuTrTQTZIDloSOx7tuPw0HxTRz6doLD8DWysD2epVmcFXTWT8PxNmjQ+qLNtyieR4yvpq0hgcIk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzUhLk8V; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88DC17D6;
+	Tue,  7 Jul 2026 00:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783384354; cv=none; b=pz/AolgWkIiALoYoNFt5tT/aerPiZEr1EaIt/XspseExOq2BsgTd9okcL2eQDYuUu1gUHpKHxhNxz/VR+kEBbha8X7/CsMPS5ktysQSivpd+ml3OGKQQa9gu+QhnvAtl2pyd+FeEFiKnUwceRTFjBOGlG2Cf0utx6XWdblfJ9pc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783384354; c=relaxed/simple;
+	bh=II01kntZkcUuvfnO++is88amhd86w/4kP0w8F1W7k+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RN+RQhQaX4+Jf9FELJfTNfAu71A9v/HcMVRrjG3iKm0cFT+kwmV/m4InsaLp6+gdMOP3NzxNOYGIGfJM7CTmrSeukxXXWZmj7xa0NE9i0NFaBU8u3m/pH3gs0Ig1qM7j+lXcVs4tYhHC8zGm7RSKYAOqNomu4n/eUs1Nxy3BRw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=RAPM0XDE reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzUhLk8V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783380569; x=1814916569;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=me+UoTGo6i8MLXPY2EhvEtqVrCJp24GoZVWQYvYsAS4=;
-  b=hzUhLk8V7nOS5Ki/tQfCevCASUsaUXR4cwNpr8OXsYFl+F1Z6JDECMNe
-   m2j9pNH8Pt3+Hxv3qvdMkJZ9/PnXK+A6z06MhptI2OnvBy3Ort5tezh9m
-   0wuLfBI8LVCBqKekntvdg6dJqF/bbU8IzkPSg6NNUT+tBsgzD61qiag63
-   BLPyLE0zvmBJ0uBGhXfzhmOG3TgR/mFswKqdKc6oCsR9bRk3k47sucDwA
-   DiyBTQbnyV3oeFrbR+/XteIvcgDPuM/Vg2KyQPOKRSSiHQJa0YravBAW5
-   Tvv1nEzN/q2P9IhZkJmh3mTLPzBt3Y6TnZcq4/SJCFntVg7LRIU/K+Mmn
-   A==;
-X-CSE-ConnectionGUID: kgPs1st4QASnFkoC2coKDw==
-X-CSE-MsgGUID: hXr3LTtJRYm5xA851ho0HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="87936035"
-X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="87936035"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 16:29:29 -0700
-X-CSE-ConnectionGUID: x6Iucx5sRXWpkSn6XwzvBw==
-X-CSE-MsgGUID: AvoC6FGOSj2pIPT0N3Oxwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
-   d="scan'208";a="253934279"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 16:29:28 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 6 Jul 2026 16:29:28 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Mon, 6 Jul 2026 16:29:28 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.51) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 6 Jul 2026 16:29:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qemVH0vWIKOt9fAy3HOJzXezfmF8H2FYsr04zCgpjrH8qKV34eYses1bVF6KDlwtL2z9Q/Q/vnbQhGq20J3nBDB8F+EeQSK4Q1oHij4sI9l+Fq1GNRCQlnNKFRRqaKrBYxTeDpiKPQmJjR2kdVsFx3twUUNcJV1IF9RR4LOILVWLAlkm24Ptv1hKFp8hgbsKtZ4EjQnqym+bxk1XVCRHZwwxEscn0Zq6WM6TyUvtsCCgy8CF8ahTEjhZS00tUQyDA3RI8KQdjBAPQI6nKj7Qij0sFRLXLpxkorLkfuKfd7y3GnOuyYfju/d/ulj65tH5L+fGnqMv6ceP+3zsbMastA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gaj++CI0PBs6fRdpFFqUClfdRPdEadLbjmy9V19y5iA=;
- b=WbRGT6nPj/IjAwKyx6ZVFqBswHmKh4XJSDz8ctvCKNEdbRIcseoVGug2tGFmJSY3CS6BV2TwvofI50e73St5dFwSClp3XXI06gWUx9oHxlEnudrjRA80L5bDhn93W99IPMJaFM76fqAr3B8NopH0K+MTkfkf4CVOLzOkYMcwoxpGZYLED+217C72PaRX7iHIZTqeAL89YhdSAQABWie+o5vALbpI9hUOjT95oBX8DaSsCW8WoL1Khz3kX/IgSQedXJoiihsc+I86coeeqHe+QhROYArJP2joCwzHC9udUGbDi2+U8NjHWNTMF1ydEgzbdOizfELBSCzwA3UOy2jVVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by DM4PR11MB5312.namprd11.prod.outlook.com (2603:10b6:5:393::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Mon, 6 Jul
- 2026 23:29:21 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0181.008; Mon, 6 Jul 2026
- 23:29:21 +0000
-Date: Mon, 6 Jul 2026 16:29:19 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-CC: Borislav Petkov <bp@alien8.de>, Yi Lai <yi1.lai@intel.com>,
-	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 09/10] EDAC/igen6: Remove redundant resource
- configuration tables
-Message-ID: <akw6T2ViydORzd0p@agluck-desk3>
-References: <20260706032233.3283297-1-qiuxu.zhuo@intel.com>
- <20260706032233.3283297-10-qiuxu.zhuo@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260706032233.3283297-10-qiuxu.zhuo@intel.com>
-X-ClientProxiedBy: BY1P220CA0001.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:59d::14) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="RAPM0XDE"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3C44240E016E;
+	Tue,  7 Jul 2026 00:32:23 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id hBXYiimq1Qhj; Tue,  7 Jul 2026 00:32:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1783384332; bh=FWTHKIDtJZAJLaItmK2CoGPFO9fOuGKuSe1Xf/2evM0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RAPM0XDElt/lBDr3r+pd4J+Beov28vO9bCdnZHf0Q0OrOIgHZ1dvCsEVzx3RHmk+P
+	 qfoGwiYfjvUcve/t+nYkK7T4VcuHlBzX/U8UytdFhvX11VGwyDnCPOK2YNHmWG61kW
+	 RKLZ6i7wOw3pb4NWRTTZzdLqcIz+doi+xifdyRSHS37vA+lUAIcHZaFszmBtC1QI4+
+	 wdKGZVwg+ifS5n5UVwrYWeDUmtU2QscXwF2fvkH7GgPZNFRgHXJB9yvHIgCzZ4dM5u
+	 yKEElwNKz912+Bg1WSJYob+cOVqTP4/XbWs82u0aNaM/KR5yaZcUo4JarY5hrH0d6O
+	 jKOSy7Zs5AieMOpVDQeyok8dUvGaaPH59sN/NJ3qNifqRUiZrI4F7OYZkQmJhHFVbE
+	 IIBfEFE/svSwISlKsFzCRj1zd3jAgQAxU9+ER+v03WTjkwS52G2kqNGo+2gcNv/y8G
+	 TwN1Fd+xR5E7PdrmKMcxK3UdiIAcuitt2397ZlR1nx8Ta99JebC4Ff1mHpU+Ow1uEw
+	 f5S3ldeaj39LPMs2rrEuFRs8qEEHWsI1Q0o67JR26kIKMudes/I9pA7fdUAqaEaED9
+	 b54hqfIVzhYQhEavZgaHhxrXmKo66Vr24caH+zKogA29S+ba1txIo5jBHTXkNkTQTA
+	 HgX6ULpT5SYK9U14v5VMzA28=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D682F40E00DC;
+	Tue,  7 Jul 2026 00:32:07 +0000 (UTC)
+Date: Mon, 6 Jul 2026 17:32:04 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Avadhut Naik <avanaik92@gmail.com>
+Subject: Re: [PATCH v7 2/3] RAS/AMD/ATL: Translate UMC normalized address to
+ DRAM address using PRM
+Message-ID: <20260707003204.GAakxJBJWtxD2fM6Th@fat_crate.local>
+References: <20260630210640.680758-1-yazen.ghannam@amd.com>
+ <20260630210640.680758-3-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|DM4PR11MB5312:EE_
-X-MS-Office365-Filtering-Correlation-Id: 695170ec-a507-48ed-5644-08dedbb667ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|22082099003|18002099003|4143699003|11063799006|56012099006|6133799003;
-X-Microsoft-Antispam-Message-Info: ZS3HYmTi9jtlWWYoshshyfE7yzYet8S+JMrSRzvLZeFNlqxhbwm8UKG+X18aEe9fgpqYN6ancwvSmMqKoOEt3S6pMxDNMUyhjgy9SV7jkNaZauAAznJx/uRhSmqYc92Xe5UGV53Rvc3g/AAltp2J0d6wwlhDi9TPe2oVGJdhmj6r1dWKZiNv9EtNjFVHrT1WB3nE1eWHqGV2LBIT0VpOZNraEx2eETWtCrmvBGmEjKjba9g7kqB5kMhfgk1YrfFACawcrTs2Ng0bxIUU9tFaJ55DijyXMjb49QsV/ix5/gboJ/wrmh76ViZTjXVJ/pgERHCRiAXtVPwSIp7FQaiLiUu+WKmQW0LaZY/NnGmK6EBsWF96xP3uAbweqYDZTUc6Hn5GA6Koy+r+PcdHrthAqmA2xXic7sMBTLzrSMydALvGHf9daDc2BTZDL+qfS/hb0M70mxdAL1Y1sM3vjvEc/Cgc469VN9pa9H2qIo9hlO2/gZ1o+D7AV/flUlMp3VzX7N9GSe8pMqW9BpFembjytnWVG0xzQMFEPwbjdIuD3dE9rhH0uIDaeF2E+JRceNPR8KDVU5mtDc7O4jmtUYtuDdkki1Jncc75ekc+gleIBQp4c9DiQxtXgC8ExwXhiCxvpl2BqvogsZ52yz2KSdVC6a4bbcA6B4t/l9ndohfSP7I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ge1wSfp0pA5CvuWaUnR0v43Z06miVfYK632YBst0scTIvrfWttFbTVGq+lVe?=
- =?us-ascii?Q?j7ZGN+Te2YOFHhbeKYGFsheQt/hRH+QAAlvCWsfK2qYOG5xIpPaf+GUq1xf8?=
- =?us-ascii?Q?dj2SUZxplkFb8mLTzS+BK/2SHAuN2Znwhf5/l5fLcZahCCCMf4FHOkozNoyF?=
- =?us-ascii?Q?4IddyabiypEVf/htmLBIv+DJEtQVh1j6W05ubcwFuZzIpSfunruVhN939YQh?=
- =?us-ascii?Q?wW77rF0uN2/3XE7tH9cgAQKao8G+5AFseH1FJk/7QQbO5oSntlNjSAvhnwwe?=
- =?us-ascii?Q?h5zrt4rwD3BRfqupjWCl6VklnaZFpSN9iMIMkSLMkKKOdsoInvBVv5PlcrmE?=
- =?us-ascii?Q?J1Wx+NvroLQsWgVQhjBYc46bz4XGlBS/hQ9kT7qgnytEF7MH6F3qIzeyW8LG?=
- =?us-ascii?Q?kky3gzLuSX74/N30gZGhmsFrjnxoXpTAPWWE/d4U4hJ3K2BIsaUTxNVeVCsd?=
- =?us-ascii?Q?yopW9DLBWH+uMuiTuqLJKdwFkact26NSx1KArTK3EpPEm0bD3jDPPwBz5DDh?=
- =?us-ascii?Q?eniFUT5Puz0RPvs+hfLRJ39AHYbszSoyZsBXVeWaQwgU8IBnFAKF4GmIf4hO?=
- =?us-ascii?Q?QQHrKOiYZoPIBMKSywc9QxTRXFpdlYyEtCAJu4gVkiNLESZ4HH+TiJA2eeMg?=
- =?us-ascii?Q?erVBwpa8tWU/h9rEtcqUtOBKAfzi/rfoY7EOa1BcdA0jGdF+pcNwKmxciD1h?=
- =?us-ascii?Q?TYI+xmrS3pREeiqiKlkVIPwMzPSrFSYlEzURei9+oD0JBX1Bbd98WLtK8PV/?=
- =?us-ascii?Q?Je/gzMK3u8EjiilcmjP5E6sFGOfpnsnbVbxE97I/nOl/c1IqsuELkzDb7rou?=
- =?us-ascii?Q?QwdNJjWC7gaT832ZyFzmQdwxq2QH24PuTtMW1wpJKAjw1/ld0cK+GWo7Pws3?=
- =?us-ascii?Q?q2boHweceLrPAMXqRvqiRjtlFHCSJhlSXQXAqpvKWnUaK+lM70j61OE8STvD?=
- =?us-ascii?Q?tyTic9IUbCuyytINvvRXjj8CLiH0HQAkRtWtC5FbL189YvbPd9VxR8w4tfj+?=
- =?us-ascii?Q?TXVlWIi6lE0ekp6Z/JeMk0iKPOyqYCvinRF0a7mdOgYTH9PPwDWBLmnP/Lik?=
- =?us-ascii?Q?Y+Ol8iu6PSFm+jbslfWF0R3TuA9BqMcjBtgsqa62hrDnk8jFZwn4hEGhR6gW?=
- =?us-ascii?Q?POfou885Fg21B3HXbo2FG5VEJPzewHFKXu6MFL6DB5fWJuApuZKpv4ErgJHr?=
- =?us-ascii?Q?CDi++O1258p2y85t6kcgfyqUD5qoNPE8kxCcWpa2+veMHzs5vkJD6kpluhIN?=
- =?us-ascii?Q?SjBJlRgLs3EUBDwmlSnb72+9Yjo16jwm/MOfoxn4MEBrn+ZY6Y74Yy0RXW+i?=
- =?us-ascii?Q?ufBVPNSUx4Uyzx9V7VbDUtl7qBZQNrM8TmGzDBq1Pqrl0Y9fYvOdZsp0homO?=
- =?us-ascii?Q?JUClJI1C99q12ZvVeRUdt5LMfcEjrW2XK7Gwu57zzwgHMZCUTyAC2/4dvJ6U?=
- =?us-ascii?Q?WkT0OnWfe+gcfFE/TCOfamABbYMgHK+4rmmgYVb/4DB7GZJs7a9Z5+QLmJ1z?=
- =?us-ascii?Q?2QXJV2OYVpWP2bqTlVLnAo4xcdRw3D4ML+v5oKjS/IsSwHo1zC0qB/qZTj5H?=
- =?us-ascii?Q?EiRkKjDpRh45hvInkPHRBd7xolXJ7KfSmbJhevHKPg77iqylnoYFT3znTCF/?=
- =?us-ascii?Q?mn8I9FwD9unfgMFlE3QEn0cc2czOCehQXVvcIP6YWPppIPwxfwT7UrbflKLb?=
- =?us-ascii?Q?8bdJtyV+Rgskcv6vqqHAVCpuU2agIvLZbf0/QrR4x3w1moc5IxlxxL9NmAYJ?=
- =?us-ascii?Q?Gt6N7IY0qg=3D=3D?=
-X-Exchange-RoutingPolicyChecked: F61opDKQgXbStHiU7CseESMDTLjBkffk6zsAmtl4nS2jFMnc+7gxMqtqkXemSUFUlfZQsuf+97IuW36/JTew10539WbVuT1QdRA/XcczyM4NlXSFNj1zd8UiH49ccu/BQwCpCUvLsK6PW0UsjsnkWnkd7AS1Pm6pWFpDUIiZWEbCuIbeGiL1672VKQwpACHP4zMnWEG8KsQ5QuyEjdxYOTG41xsc5GH6YYmNYlM81o6rjyrIhUugvsAsNjyplwbHN50nrW6i6RXEtB7NPNjXyWfIrt2rKEP+uJ2w10ir+DkRAw6JeJSuBu7bma8ebwleZzYBS+MzJtO6KgUeRORFNA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 695170ec-a507-48ed-5644-08dedbb667ed
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 23:29:20.9266
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6xnMnWO/Uva2I+1pTzoJxE7IR23fZW9ka2Xi11LGP1xcG82epeNd7jvZ10O9p1R31rhkQx3zQr2u4BP1BcEn6Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5312
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260630210640.680758-3-yazen.ghannam@amd.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 06, 2026 at 11:22:32AM +0800, Qiuxu Zhuo wrote:
-> Several resource configuration tables differ only in their num_imc
-> value, while all other fields are identical. Their only purpose is to
-> describe the number of memory controllers supported by a platform.
-> 
-> Since IMC count is now detected at runtime, these duplicate tables no
-> longer carry any unique platform information. Reuse the shared
-> configurations and remove the redundant tables.
+On Tue, Jun 30, 2026 at 05:06:39PM -0400, Yazen Ghannam wrote:
+> From: Avadhut Naik <avadhut.naik@amd.com>
+>=20
+> Modern AMD SOCs provide UEFI PRM module that implements various address
+> translation PRM handlers.[1] These handlers can be invoked by the OS or
+> hypervisor at runtime to perform address translations.
+>=20
+> On AMD's Zen-based SOCs, Unified Memory Controller (UMC) relative
+> "normalized" address is reported through MCA_ADDR of UMC SMCA bank type
+> on occurrence of a DRAM ECC error. This address must be converted into
+> system physical address and DRAM address to export additional informati=
+on
+> about the error.
+>=20
+> Add support to convert normalized address into DRAM address through the
+> appropriate PRM handler. Instead of logging the translated DRAM address
+> locally, export the translating function when the Address Translation
+> library is initialized. Modules like amd64_edac can then invoke the PRM
+> handler to add the DRAM address to their error records. Additionally, i=
+t
+> can also be exported through the RAS tracepont.
+
+Use this commit message for this patch:
+
+    Modern AMD SOCs provide an UEFI PRM module that implements various ad=
+dress
+    translation PRM handlers=C2=B9. These handlers can be invoked by the =
+OS or
+    the hypervisor at runtime to perform address translations.
+   =20
+    On AMD's Zen-based SOCs, a Unified Memory Controller (UMC) relative
+    "normalized" address is reported through the MCA_ADDR of UMC SMCA ban=
+ks
+    on occurrence of a DRAM ECC error. This address must be converted int=
+o
+    a system physical address and DRAM address in order to decode additio=
+nal
+    information about the error.
+   =20
+    Add support to convert a normalized address into a DRAM address using
+    such PRM handler.
+   =20
+    =C2=B9https://bugzilla.kernel.org/show_bug.cgi?id=3D220577
+
+or run it through AI because I'm tired of adding pronouns left and right =
+and
+removing text which regurgitates the code in the patch.
+
+> [1] https://bugzilla.kernel.org/show_bug.cgi?id=3D220577
+>=20
+> [Yazen: Remove 'handler available' check]
+>=20
+> Signed-off-by: Avadhut Naik <avadhut.naik@amd.com>
+> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+> ---
+>  drivers/ras/amd/atl/core.c     |  6 ++++++
+>  drivers/ras/amd/atl/internal.h | 11 ++++++++++-
+>  drivers/ras/amd/atl/prm.c      | 32 ++++++++++++++++++++++++++++----
+>  drivers/ras/amd/atl/system.c   |  3 +++
+>  drivers/ras/amd/atl/umc.c      |  9 +++++++++
+>  include/linux/ras.h            | 14 ++++++++++++++
+>  6 files changed, 70 insertions(+), 5 deletions(-)
+
 ...
-> +	{ PCI_VDEVICE(INTEL, DID_WCL_SKU1), .driver_data = (kernel_ulong_t)&mtl_p_cfg },
 
-Sharing these is good. But also might be confusing since the structure
-names include the three character short form of the CPU name.
+> +static inline int prm_umc_norm_to_dram_addr(u8 socket_id, u64 bank_id,
+> +					    unsigned long addr, struct atl_dram_addr *dram_addr)
 
-Please add some comments before each structure definition to list
-which CPU models are sharing. E.g.
+... int prm_umc_norm_to_dram_addr(u8 socket_id, u64 bank_id, unsigned lon=
+g addr,
+				  struct atl_dram_addr *dram_addr)
 
-/* Shared by Meteor Lake-P, Arrow Lake, Wildcat Lake. */
-static struct res_config mtl_p_cfg = {
- ...
-}
+> +{
+> +	return -ENODEV;
+> +}
+> +#endif
+>  /*
+>   * Make a gap in @data that is @num_bits long starting at @bit_num.
+>   * e.g. data		=3D 11111111'b
+> diff --git a/drivers/ras/amd/atl/prm.c b/drivers/ras/amd/atl/prm.c
+> index 0f9bfa96e16a..c69158f66639 100644
+> --- a/drivers/ras/amd/atl/prm.c
+> +++ b/drivers/ras/amd/atl/prm.c
+> @@ -19,10 +19,11 @@
+>  #include <linux/prmt.h>
+> =20
+>  /*
+> - * PRM parameter buffer - normalized to system physical address, as de=
+scribed
+> - * in the "PRM Parameter Buffer" section of the AMD ACPI Porting Guide=
+.
+> + * PRM parameter buffer - normalized to system physical address and no=
+rmalized
+> + * to DRAM address, as described in the "PRM Parameter Buffer" section=
+ of the
+> + * AMD ACPI Porting Guide.
+>   */
+> -struct norm_to_sys_param_buf {
+> +struct prm_parameter_buffer {
 
--Tony
+struct param_buf {
+
+This is not BIOS code.
+
+>  	u64 norm_addr;
+>  	u8 socket;
+>  	u64 bank_id;
+> @@ -31,7 +32,7 @@ struct norm_to_sys_param_buf {
+> =20
+>  unsigned long prm_umc_norm_to_sys_addr(u8 socket_id, u64 bank_id, unsi=
+gned long addr)
+>  {
+> -	struct norm_to_sys_param_buf p_buf;
+> +	struct prm_parameter_buffer p_buf;
+>  	unsigned long ret_addr;
+>  	int ret;
+> =20
+> @@ -51,3 +52,26 @@ unsigned long prm_umc_norm_to_sys_addr(u8 socket_id,=
+ u64 bank_id, unsigned long
+> =20
+>  	return ret;
+>  }
+> +
+> +int prm_umc_norm_to_dram_addr(u8 socket_id, u64 bank_id,
+> +			      unsigned long addr, struct atl_dram_addr *dram_addr)
+
+int prm_umc_norm_to_dram_addr(u8 socket_id, u64 bank_id, unsigned long ad=
+dr,
+			      struct atl_dram_addr *dram_addr)
+
+> +{
+> +	struct prm_parameter_buffer p_buf;
+> +	int ret;
+> +
+> +	p_buf.norm_addr	=3D addr;
+> +	p_buf.socket	=3D socket_id;
+> +	p_buf.bank_id	=3D bank_id;
+> +	p_buf.out_buf	=3D dram_addr;
+> +
+> +	ret =3D acpi_call_prm_handler(norm_to_dram_guid, &p_buf);
+> +	if (!ret)
+> +		return ret;
+> +
+> +	if (ret =3D=3D -ENODEV)
+> +		pr_debug("PRM module/handler not available.\n");
+> +	else
+> +		pr_notice_once("PRM DRAM Address Translation failed.\n");
+
+Dump ret here.
+
+Also, this function is an almost identical copy to prm_umc_norm_to_sys_ad=
+dr().
+Merge the two pls.
+
+Thx.
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
