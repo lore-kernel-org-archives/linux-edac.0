@@ -1,103 +1,131 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65ECF17D6;
-	Wed,  8 Jul 2026 10:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95105380FF4;
+	Wed,  8 Jul 2026 13:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783505655; cv=none; b=JxBBKgSdb2006AXd0XIBWlE8lC3Ms3ET4T1ugJea6JGLvdCtY93rI+mQZyEzSRF9nKFeahlVSWFg6HvwoLkOdy3mJF1Snpy//WBT/tkppUFHZu1g9AgWhu5pZNqjaXo5f5SyEdgD+elm4D4m9V5uCvRSaKFVCUSmzfNE7ewPOWI=
+	t=1783519165; cv=none; b=C5j1KvrR9/1aIguWLVTCHfM9gXbMgT21GZdQ1CmD1VJZPU7nLDf0cgV4DryCXBYevk9jTekoQvkusCRgwLqBlJvgG0s84fs0u/9/ozYv8yEHodryHO/kCv2R/WbbnBg+H9jcQi/ofNOi8sSqasDGgbp7+2D8seFzyyxsjuz90DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783505655; c=relaxed/simple;
-	bh=IYVUQRNE4Dgcmx7uQnv+tbv0JEgW9ccOAQPb4xgnAPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qngu8c04GwSfwnfVlgpGMkPHaNA4XM1gxKSJE0/YfqAu0/7epKyl4JvW8g3h1OWfjkGbKBQDRu1viPc1VzaRYQEQSlJP5naBaVWjcwRPlE+mBt2gw4S/h7SKzm4xjYaPr+kVQYSEQuYyvZDstVqjBWJoyxpHnwFxSguw8KyVuNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=L1fi+kSE; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1783519165; c=relaxed/simple;
+	bh=egpzf7FOljHOA/UNeDZ0uuZAzOwk9J//58dI10sIFww=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cKHSd416rvP20Xw0v5q+4vG/mlvKuPckYNx/oI7w7R3tf8FYH69969VZnfaBgR3nBzDxco+CTp0rvugEgYQdrYtt7KWgWDS7MdHyA7nTO2df8rj5WEzJh/W9ne1AIRtBg0pkLatpdibXLaBH0ojErstaQoolmIikqk64w67afeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=PPh5n0Rc; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="L1fi+kSE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=4wOH3yStS8TXfgVR4b88fN1bxTz0c2ZSlenUhPGOL+k=; b=L1fi+kSEHEUhMjtbF4ZTHL+XA6
-	Fn5PamcMh19x/7VKSe9mD70rETYyBL38mG7kBMUxs4XFazpxa1SH9khOyTd8gnx7lVF8FZ1eTmVhe
-	oWYUHAeZmF06dvVS1wRlbFXosGGP4Q18dDP9XW1USqLV71/Hf8vnghMUwC4xBVISGPkOkHw/OCA3N
-	y8uqmdrdTRT6DtX98s1S2OcgF0qZyWutZ3VQFHqrqAEs75qWLmtf9BhWqSlTcNExLY0uKG06vOFXN
-	pYp6+HW9PutjcPhUoDw/zwmex4MZ/cBpbuSESJ44nRbJI7GOgGCHnmtIt5MX2EdiMhgimLPaMHl3+
-	qIOiJDcA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1whPHK-002sNT-2F;
-	Wed, 08 Jul 2026 10:13:18 +0000
-Date: Wed, 8 Jul 2026 03:13:11 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Tony Luck <tony.luck@intel.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Hanjun Guo <guohanjun@huawei.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>, 
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>, Oliver O'Halloran <oohall@gmail.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Breno Leitao <leitao@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-pci@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH RFC] RAS: hwerr_tracking: move recoverable hardware error
- tracking out of vmcoreinfo
-Message-ID: <ak4ZC5DsKtJv-tpx@gmail.com>
-References: <20260707-hwerr-ras-v1-1-4aea4a79d085@debian.org>
- <20260707160247.GBak0jJwNxVHlvzijD@fat_crate.local>
- <ak0sGAX_NWMyeofC@gmail.com>
- <20260707183517.GCak1G5TKyF1ggs8WW@fat_crate.local>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="PPh5n0Rc"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0B6B152B;
+	Wed,  8 Jul 2026 06:59:18 -0700 (PDT)
+Received: from e134710.arm.com (e134710.arm.com [10.33.10.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1EC253F66F;
+	Wed,  8 Jul 2026 06:59:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783519162; bh=egpzf7FOljHOA/UNeDZ0uuZAzOwk9J//58dI10sIFww=;
+	h=From:Subject:Date:To:Cc:From;
+	b=PPh5n0Rckf4lPT5ow/Rp0ugC+rxNZkCQVJJXF0ETmkRNYeQcxFnVRsmQo1ikDUSUN
+	 NHgcSsIjM1TaYUpQRzAsK5Iu7jfGNS9QvFXLun9ISW97tCqPB5kZMG02XcsGCa7tyW
+	 34qZIeUqLvT1FPNy3Efqhmh1/RrhEH/7DAsWJEzI=
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+Subject: [PATCH v7 00/10] ACPI: APEI: share GHES CPER helpers and add DT
+ FFH provider
+Date: Wed, 08 Jul 2026 14:58:59 +0100
+Message-Id: <20260708-topics-ahmtib01-ras_ffh_arm_internal_review-v7-0-8b3a85216cef@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260707183517.GCak1G5TKyF1ggs8WW@fat_crate.local>
-X-Debian-User: leitao
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKNXTmoC/5XRzWqEMBSG4VsZsm4k50x+dFa9j1Ik5qcGqg6J2
+ JbBe+9xoFiXLr9AnjeQByshp1DY7fJgOSyppGmkYV4uzPV2/Ag8edoMBWqBKPg83ZMr3PbDnDo
+ BPNvSxti3Ng9tGueQR/vZblL44l303pnojLMdI/GeQ0zfz9rbO+0+lXnKP8/4Atvp1lGAYACwl
+ qqCGiRAw2ELBl9R075SqnLTwDZiwb9r55+3IBf8Kk206M1VQXeU5S4rqM/JkmSJuqm1UZ3VcJT
+ VPxmbc7IiGYNQQngKSDzKepc1mHOyJrmBaOgDjLRW7PK6rr881bvuKQIAAA==
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+ Hanjun Guo <guohanjun@huawei.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Shuai Xue <xueshuai@linux.alibaba.com>, Len Brown <lenb@kernel.org>, 
+ Saket Dumbre <saket.dumbre@intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+ Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>, 
+ Alison Schofield <alison.schofield@intel.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, 
+ Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, 
+ Mahesh J Salgaonkar <mahesh@linux.ibm.com>, 
+ Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Ahmed Tiba <ahmed.tiba@arm.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ acpica-devel@lists.linux.dev, linux-cxl@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-edac@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783519157; l=2775;
+ i=ahmed.tiba@arm.com; s=20260219; h=from:subject:message-id;
+ bh=egpzf7FOljHOA/UNeDZ0uuZAzOwk9J//58dI10sIFww=;
+ b=z0wp9aIYNr5NMorh09jiJbcMtJLugd5jUHOdl53jOd3TImjbi3fvS+YXV8tvo1u999mp+hyAF
+ A6HNDu/8MqQCkzA5Have9zBAay47klANWoyQ5GlaL26mz974WlQDnIH
+X-Developer-Key: i=ahmed.tiba@arm.com; a=ed25519;
+ pk=xVOtd+Qklh/4tuM3tB+BEZD4jj5a6W59C3KCNX6v7OE=
 
-On Tue, Jul 07, 2026 at 11:35:17AM -0700, Borislav Petkov wrote:
-> On Tue, Jul 07, 2026 at 09:53:34AM -0700, Breno Leitao wrote:
-> > The current vmcoreinfo implementation defaults to enabled, so I wanted to
-> > preserve that behavior to avoid silently removing symbols that existing
-> > tools may depend on. Would you prefer a different default?
-> 
-> You do know Linus' stance on enabling things by default which are not
-> ubiquitous, right?
+This is v7 of the GHES refactor series. Compared to v6, it addresses
+the Sashiko-reported issues including pre-existing ones and fixes
+the ACPI-disabled cper-x86 build break.
 
-Oh yea, I am familiar with it. :-)
+The DT firmware-first CPER provider is intended for the upstream zena-css
+platform. Validation so far has been on FVP.
 
-> Logging hw errors in vmcore is really necessary to be enabled everywhere?
+Changes in v7:
+- Address Sashiko-reported issues for this series, including pre-existing ones.
+- Fix pre-existing CPER header overflow validation in cper.c.
+- Fix AER recovery leak when no pci_dev is found.
+- For DT provider: serialize pool init, return IRQ_NONE on empty status,
+  add OF_RESERVED_MEM dependency, and harden status length checks.
+- Include <asm/acpi.h> in cper-x86.c for ACPI-disabled builds.
+- Link to v6: https://lore.kernel.org/r/20260617-topics-ahmtib01-ras_ffh_arm_internal_review-v6-0-91f725174aa0@arm.com
 
-I am happy to make it no, if we transform it to a KCONFIG. Right now it
-is not a Kconfig, so, it comes with VMCORE set of exported fields.
+---
+Ahmed Tiba (10):
+      ACPI: APEI: GHES: share macros via a private header
+      ACPI: APEI: GHES: move CPER read helpers
+      ACPI: APEI: GHES: move GHESv2 ack and alloc helpers
+      ACPI: APEI: GHES: move estatus cache helpers
+      ACPI: APEI: GHES: move vendor record helpers
+      ACPI: APEI: GHES: move CXL CPER helpers
+      ACPI: APEI: introduce GHES helper
+      ACPI: APEI: share GHES CPER helpers
+      dt-bindings: firmware: add arm,ras-cper
+      RAS: add firmware-first CPER provider
 
-> > I agree the sysfs exposure duplicates existing infrastructure, points
-> > taken. However, tracking fatal hardware errors provides value at crash
-> > analysis time—it lets us quickly determine whether a fatal hardware
-> > error occurred during the kernel's lifetime, which is useful for
-> > root-cause attribution.
-> 
-> Yes, that's why you put it in vmcore. You can't read sysfs if you encounter
-> a fatal hw error.
+ Documentation/admin-guide/RAS/main.rst             |   15 +
+ .../devicetree/bindings/firmware/arm,ras-cper.yaml |   52 +
+ MAINTAINERS                                        |    6 +
+ drivers/Makefile                                   |    1 +
+ drivers/acpi/Kconfig                               |    4 +
+ drivers/acpi/apei/Kconfig                          |    1 +
+ drivers/acpi/apei/apei-internal.h                  |    3 +-
+ drivers/acpi/apei/ghes.c                           | 1044 +-----------------
+ drivers/acpi/apei/ghes_cper.c                      | 1122 ++++++++++++++++++++
+ drivers/firmware/efi/cper-x86.c                    |    1 +
+ drivers/firmware/efi/cper.c                        |    3 +-
+ drivers/pci/pcie/aer.c                             |    9 +-
+ drivers/ras/Kconfig                                |   12 +
+ drivers/ras/Makefile                               |    1 +
+ drivers/ras/cper-esource.c                         |  332 ++++++
+ include/acpi/ghes.h                                |   10 +-
+ include/acpi/ghes_cper.h                           |  141 +++
+ include/cxl/event.h                                |    2 +-
+ 18 files changed, 1709 insertions(+), 1050 deletions(-)
+---
+base-commit: 0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
+change-id: 20260220-topics-ahmtib01-ras_ffh_arm_internal_review-bfddc7fc7cab
 
-Ack. Right now it is not tracking fatal error (just recoverable error),
-although I think it is a good idea to also track Fatal error (of course
-that not on sysfs).
+Best regards,
+-- 
+Ahmed Tiba <ahmed.tiba@arm.com>
 
-> > For this, would you like to keep it in vmcore info (as of today), or
-> > move to RAS subsystem?
-> 
-> You mean, would I like to pay attention to more patches than now?
->
-> Not really - I can barely manage as it is.
-
-Come one Borislav, we need your insights/review/opinions here as well.
-:-)
