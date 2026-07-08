@@ -1,75 +1,142 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D9844A739
-	for <linux-edac@vger.kernel.org>; Wed,  8 Jul 2026 14:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B984370AE0
+	for <linux-edac@vger.kernel.org>; Wed,  8 Jul 2026 15:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783519815; cv=none; b=MhAuiJTXDkU+iqr1YBlHQMBN+H44Y+M6OCglmo/O4C/eQ78tnoRSOwrv1tYgYpEA758JTbISM+8FfINJXb8Xwyk9UtJgdN7hM3pWmocaszUDVKCkPVbNMoD3V3UrwmJRExL1EluUUSCShtqkhzSvVoNIEqEjLsJTZx16ussAk/4=
+	t=1783525564; cv=none; b=h5SGBskPwsyyuradmpuSYqfzTpRXOZDEn4MRgQTp2CO+HyZD/kZ/VFSB4m/5IyEHebVmfHDJhisbIwEqKMzc++SJGZ+D24RGLuPCOzGlbWwy6wh4e5YRR2M8crdssr/87341DtPHr0NEYwXh/sEZvmszK4QBlmUaXcSkf1VpwkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783519815; c=relaxed/simple;
-	bh=05ucUDnwOHNaxkux3/UftcRKvD5KwS5v8V1vZCmV6ok=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LbzatRKPbGQZYRPdZicOvIkaSkPqm4bigUV8DwmsGsw6su9MGl00674xd3mP/8iYiy0HlbKkCOnWlRErcz8M49TmeglyaWVgekab1sigj+IM15hg8i5ph7vR+mkI9hESRY1Hx5s6yropiB4Y4OpYRHqJIXAYl7MB6DItrUXf+m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BSLYhxk/; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783525564; c=relaxed/simple;
+	bh=9vHkvbT9qGw6XnwnbsV8mVwKGJQJ6h+q3CIzqn5nO9A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iAvclmErjgsDD1PLbW1ocpI/I+zf564cayxwz17FR9GaeWUEKeP3ZsbF0NSgohcKRv55+1jDcNAz2lgyarlLFkuhv4MsaKkyjEVD2oM5vxUoERl95GqrTK3HXgjrcrwXArJsfAZUb0XlbepoZ8A78NbgVb2NH9S1MwjBKwnGEH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=V9o0/GIU; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BSLYhxk/"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6989c0ec3c5so1317098a12.2
-        for <linux-edac@vger.kernel.org>; Wed, 08 Jul 2026 07:10:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="V9o0/GIU"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4720d22c94aso808416f8f.1
+        for <linux-edac@vger.kernel.org>; Wed, 08 Jul 2026 08:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783519812; x=1784124612; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=d8WQTKp+DQlkWDWV6K0fBqOjwjvG0ClbVN/kOQS8hWI=;
-        b=BSLYhxk/H6Y4EKy+NfZgEgevrMdJZvQIJt/thDNh9MHWZ3FGimFU8TsvmZtHTtnV1d
-         uAlH+aVYi5c92Mt2JIkBfK2WtKTeOEUVfwi+pyyf2pQ0sL91VQY/1/8ANdgHMzcjqu5N
-         exGyA3PS+UVQNq/6pP6BnrzhzYlRbfMfUtx1nVFdiymdoFOIeIFssTpeuWe7osmVftWP
-         B1NNEDaJ0PxVm0ImulscEbjBelFc51O+Q/HG7Djm+CBxvb9bGfp56m7hfTC4IrDiG0J8
-         PVIFenEwfbwt8qmK78RGd7Ad7uw/HqjDGISbutkIuzkcXxQgLpVFibBlz3tbaYTg+sEE
-         wg9Q==
+        d=suse.com; s=google; t=1783525562; x=1784130362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=f/mdlbu7kxNAYQt2PwbA0grJPU5KW1EejarCbBPlRO8=;
+        b=V9o0/GIUUfwXKE6Si0vT9XcZGfRtCEAITKFydTRSMtxOkifhRtmp/MtdeuBSvQjlah
+         GKs0jcAl1dbNwep3X2epdX94A1E2PRCE/RJiQzscSyYA+100AJlBrKKtfaJDQR7m4qkR
+         MweaN2SaoTQVXZzo+CbE6iStSMIrM4q/CBP5yJG7R81GdmoVDUVD+GVaUICIey6oYKd8
+         c0/nveapDqgLkjDAcqEvEelk984mV+G/mTYHz2PA9ukpzmVGFCRmoyUTJUuTmnoF/KXq
+         /H2ps2dV9sdcW0mO39x4tQ2SC1Bv8NBxCJ8uQ5aycxoeyR9m8B7y7ZQSTbchyM/Rw7cS
+         uAKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783519812; x=1784124612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=d8WQTKp+DQlkWDWV6K0fBqOjwjvG0ClbVN/kOQS8hWI=;
-        b=awu6KKk2vJtWBZ7PEXvxQB/7hWO2ChtzIifqkccZbmTP3Qm/If0AG+0wxzHwnlEdSi
-         et80rF2UVKv3A2dCcF5PsPfJv/Rxs6jLTAOxdj0f64Q8qKLvZW8Uexi98fE2AzpsdwIk
-         daGBZeS7tirwxJRk6MNuuQBvZCFnFpkUW9bhbDDNn97BMFBPV2T9mq+lTemDZ4xzSboS
-         T2Pf3TNX3OrHd072Lv19Frf7iXpbY0lCZ57WKu5LyFQRdE4p9m5JJq5ed862/icuz3kl
-         qt9kwvaTBh6hSJbV0NRVHpSJiBOZ6qon42sf+8WD+YH8s28h3X5mqH+Mz179GOTTMUo9
-         jN9A==
-X-Gm-Message-State: AOJu0Yz0Q5Xictf1sevSBbaNw6LsjFIx3HkzcNjw0b2GDweDfStbhMr1
-	9TPS7FF5jNrk070a0oT8HM9m+UnQB06EsIIKQjCgAHGje1hrRYyipQDm
-X-Gm-Gg: AfdE7cncR6ftKZs394reJzSSS474/droQh84hreJXdkqi96YXYgWEwKFHK4hHC24v2F
-	Xq8+HRtOdSuSP4+8X4j5ZdbOiIlgtbmIQ/lnvs9A3DIvJ86yXy9oNNwWW91nhPfDbsSsWkUPXJY
-	j8b8cDcoiEPFwM9lk57UZiL1E8xm34IAZjcQTB02hFdp782GgGiZRMOlpo8XA8ScYoqFGhy4yLd
-	bmv5164VvV3bgW6A8s5N5Um3y9yc4bkGLW+iQqMvNWjStNsy6k32VlxrClDBV/PNuOPliyoTbVW
-	kwwVUcIUyndJroZn7/ry7qHEXF6cPjDm1F+CsCBmfrTRVuXgPSyhXqSqLTrH6OO5MmOSd1D/WrV
-	2lYoP8m/zLFpcH1NW8mPv+6rdJMJMxrJ8b/A84vjekkXEAIkZpq43eELNIe0psYTi98gRdGYm5G
-	OWyg8qVqnJXymCOrdULXdoEli2hrQ6evT73YkUGlwnVsTQqm0kMfcvkotOoTEad6yncOTQU6eT6
-	G2W
-X-Received: by 2002:a17:907:7ba9:b0:c12:8a3f:3e16 with SMTP id a640c23a62f3a-c15ce092b2fmr141410466b.44.1783519811737;
-        Wed, 08 Jul 2026 07:10:11 -0700 (PDT)
-Received: from fedora ([102.78.186.161])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad84bc3dsm335198366b.21.2026.07.08.07.10.10
+        d=1e100.net; s=20251104; t=1783525562; x=1784130362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=f/mdlbu7kxNAYQt2PwbA0grJPU5KW1EejarCbBPlRO8=;
+        b=It6unRIfISLdKYo/8vXt/dKEIRbQpITSAkGqS0lDimMk05FA3BLJX5ocQtMapgSyMo
+         NjTJMBrYoU27q2zExzUpt08XpKYx3E1Q2fYepXOswa70ZmheAAgsYTOSJzxZh6V8KPCT
+         GVQiKT6Sk98ZidGQy2KsXy5xe4KTnUwd/9iz/8Er7Wck6Mt5DAqh3caPBlmkVH8EymJd
+         gukWsgNxhQ0JTH4GRuSn/MGj9kUHyBIZv80iH4svLdD4nJOw2LaBpUDvrwHuPqoPEe4G
+         b5Hqut93PcVb+ow1JBWyeaC/iYLIv56WJWcwBZmYU24TafU5lpn1BxiMF2J2ufx4C42i
+         xNQA==
+X-Gm-Message-State: AOJu0Yx+ULcaS8Y91g43xXaqjhZG3X0QzunQEprO2v8ROkg3XAcKieWd
+	AK8xSQQpYa5fN0Q00GjcJ6ezQ0mAABVJQku++Ly6E41NgZPYnrvgO0PotklXYkBB5bc=
+X-Gm-Gg: AfdE7cmgPVGHnSfr6fg5vyJH/7SpSUDDarjsS66xNpPPvStEwn68Y8KZ8POhCp4Ol9N
+	UKspTVFaflQ35mFEhfiO2gG/su9nugbTux3ZLiSd3U8WupluMW9vzlZ3s+KlZ8roQh9ik3cV1V9
+	vUaxdqOybOANX3cg7Bo8HSTHDRItEfUtDVZt0cIWbTuiQOcpKYo3SnMQ0Y1zcEWRCEhXizNfN6u
+	6MxNiWlrtcE9VR57dxHDhLE+hLhJ5zw0qRQdr2EmApmu4PMRT6ST02dr6emK1Tc9XTiA7vM22dS
+	cM740Nn5hVOoLywdKOINR09xcfH8lxeq+aNqUvwCjNWnqrKE6WSc1NtCngz4E49gtpB9MMq780G
+	gzrbGuLbxcyGjm7QKR6C+Q3MXlxnk0vwk+cVOukHq5PZ5Nhr5pba5/3BWmZIlK6svjrKt6k5SyX
+	vy0d5GQUmabsVG/JkDA4kIz+v+0Mmx3/xFxTwbmQ7o
+X-Received: by 2002:a05:6000:4304:b0:46d:55a5:8ec5 with SMTP id ffacd0b85a97d-47df078bbffmr3378920f8f.33.1783525561596;
+        Wed, 08 Jul 2026 08:46:01 -0700 (PDT)
+Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d780csm44806847f8f.11.2026.07.08.08.45.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 07:10:11 -0700 (PDT)
-From: Jad Keskes <inasj268@gmail.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
+        Wed, 08 Jul 2026 08:46:01 -0700 (PDT)
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Michal Januszewski <spock@gentoo.org>,
+	Helge Deller <deller@gmx.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 Cc: linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Jad Keskes <inasj268@gmail.com>
-Subject: [PATCH 2/2] edac: edac_device: don't re-arm workqueue during teardown
-Date: Wed,  8 Jul 2026 15:10:00 +0100
-Message-ID: <20260708141000.1764100-2-inasj268@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260708141000.1764100-1-inasj268@gmail.com>
-References: <20260708141000.1764100-1-inasj268@gmail.com>
+	drbd-dev@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-acpi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	cgroups@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	bridge@lists.linux.dev,
+	netdev@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH 0/2] Bring includes in linux/kmod.h up to date
+Date: Wed,  8 Jul 2026 17:44:28 +0200
+Message-ID: <20260708154510.6794-1-petr.pavlu@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -78,36 +145,54 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-edac_device_del_device stops the workqueue then removes the sysfs
-attributes.  But the sysfs store for poll_msec calls
-edac_device_reset_delay_period which unconditionally re-arms the
-workqueue.  If someone writes to poll_msec in that window, the
-re-armed work runs after edac_dev is freed.
+The usermode helper declarations were previously provided by linux/kmod.h
+but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
+moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
+files that use usermode helpers and remove linux/kmod.h where it is no
+longer needed.
 
-Check op_state instead.  del_device already sets it to OP_OFFLINE
-before tearing down the workqueue, so reset_delay_period will see
-it and skip the mod_work call.
+Then clean up linux/kmod.h so that it includes only the headers that it
+actually requires, importantly removing the compat linux/umh.h include.
 
-Signed-off-by: Jad Keskes <inasj268@gmail.com>
----
- drivers/edac/edac_device.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Apologies for the wide distribution.
 
-diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-index cf0d3c2dfc04..50ae7f1e5152 100644
---- a/drivers/edac/edac_device.c
-+++ b/drivers/edac/edac_device.c
-@@ -354,6 +354,10 @@ void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev,
- 	edac_dev->poll_msec = msec;
- 	edac_dev->delay	    = msecs_to_jiffies(msec);
- 
-+	/* Don't re-arm the workqueue if the device is being torn down */
-+	if (edac_dev->op_state == OP_OFFLINE)
-+		return;
-+
- 	/* See comment in edac_device_workq_setup() above */
- 	if (edac_dev->poll_msec == DEFAULT_POLL_INTERVAL)
- 		edac_mod_work(&edac_dev->work, round_jiffies_relative(edac_dev->delay));
+This cleanup is motivated by trying to reduce the preprocessed size of
+linux/module.h, which includes linux/kmod.h. The linux/module.h header is
+included by every *.mod.c file to provide `struct module` and other related
+definitions, so it should avoid pulling in unnecessary dependencies. Note
+that this series doesn't immediately improve the situation, since most of
+the files included by linux/kmod.h are, for now, also included by
+linux/module.h through other paths.
+
+Petr Pavlu (2):
+  umh, treewide: Explicitly include linux/umh.h where needed
+  module: Bring includes in linux/kmod.h up to date
+
+ arch/x86/kernel/cpu/mce/dev-mcelog.c |  2 +-
+ drivers/block/drbd/drbd_nl.c         |  1 +
+ drivers/greybus/svc_watchdog.c       |  1 +
+ drivers/macintosh/windfarm_core.c    |  1 +
+ drivers/pnp/pnpbios/core.c           |  2 +-
+ drivers/video/fbdev/uvesafb.c        |  1 +
+ fs/coredump.c                        |  2 +-
+ fs/nfs/cache_lib.c                   |  2 +-
+ fs/nfsd/nfs4layouts.c                |  2 +-
+ fs/nfsd/nfs4recover.c                |  1 +
+ fs/ocfs2/stackglue.c                 |  1 +
+ include/linux/kmod.h                 | 12 ++----------
+ kernel/cgroup/cgroup-v1.c            |  1 +
+ kernel/module/kmod.c                 |  1 +
+ kernel/power/process.c               |  2 +-
+ kernel/reboot.c                      |  2 +-
+ kernel/umh.c                         |  2 +-
+ lib/kobject_uevent.c                 |  2 +-
+ net/bridge/br_stp_if.c               |  2 +-
+ security/keys/request_key.c          |  2 +-
+ security/tomoyo/common.h             |  2 +-
+ 21 files changed, 22 insertions(+), 22 deletions(-)
+
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
 -- 
-2.55.0
+2.54.0
 
