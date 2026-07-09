@@ -1,32 +1,67 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C4003D3012;
-	Thu,  9 Jul 2026 06:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D793EE1EE
+	for <linux-edac@vger.kernel.org>; Thu,  9 Jul 2026 09:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783578740; cv=none; b=UjXcoiM3M6CjWOdSt5BxHIARGZ/QSx/Ec7PrW1L7e2mJhRtj75bnVHlcvxQQO8lp1lGUp0DTTExcOx8e1IVr4I+OWixHtEP4mvhevCfOISSYOumzl41eWE9D3y3KrFGXP9HM0ckFLFJ0aAOnDaF5oRiWzrTNXA8qVioRh0TYj/c=
+	t=1783590598; cv=none; b=skeFejMOSdGKonb5N60KsRDeY9M93utsTjU6qEXS53/cEe7COkAbL88q6RQ6GXvclSsXA500XmHJ2b/xunm1mZ7ahaWE2bHzAzOOBLm+lxqufV0Up19N8+uHNEv6XeNmlq/CDXsNSDmTFqo2AaWFfjyvuu9L1T8+kGf01rANK8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783578740; c=relaxed/simple;
-	bh=5y7fhb3SCxHRrciTkhqoShbNghZqGXZ8i2Tk1Og5WSo=;
+	s=arc-20240116; t=1783590598; c=relaxed/simple;
+	bh=jTFvyUggpn9b7ir5dJXF/0vV6aESSqllkJsE1EJX8x0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RcAz5EIt696C5nkv0HhyegTgf2dnoRS8IQcqtPZ/n7uXO9ooF9bpHlqdfoJLKEWQAPOCzjhaWMyemLasH1rJ/p3fzmeyLOZRADqALNtT7oFxnWLdrHrz1Mvo/ihEHbnwaLu3eKFN0N7BbffBcG2KiSzfW59qwrRM9FaBBPXc7w8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=gvbPrKf6; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 In-Reply-To:Content-Type; b=qB6WuXC78EHO3BJ6mcnIG+YPRY7IDFdjgOlf6rCGoq5EuCnXJ45jlPADSQWpgdUKHeXlsUb9NUEMLur2R51LPD73w+PzZBnoB4Uh+Iq+9ZJtpNj8LmBVEvScarwXwa7DyqsOZZbHuR4UYYKdI5BTC54vV1yVnh4ukk5F0OsDjik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PovcRIVX; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="gvbPrKf6"
-Received: from [10.94.177.11] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6482E20B716D;
-	Wed,  8 Jul 2026 23:32:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6482E20B716D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1783578733;
-	bh=KG7nQTQV2sZ9PobG4lEMmwTbxpq4W3MbiqxpAso6zKs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gvbPrKf6IbNhyXrRGWM3roPxpQRw2XaBcl9F/hMZs5jbF+ahCRQrMWM54VQhb5CJ5
-	 G1nI5PtRKm2CtD6tLFAD9w0R+EYDBE1tqvdv7bFQO/H2Pp5aiMeXYNJcONCxoEMpYN
-	 s9OffXQnF0q9Bf3IsQog0Cz27gUpdCMC8xU4Yz20=
-Message-ID: <acc5b2b9-6821-4e12-9efe-69c24037490d@linux.microsoft.com>
-Date: Thu, 9 Jul 2026 12:02:14 +0530
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PovcRIVX"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493b61b52b6so15647565e9.1
+        for <linux-edac@vger.kernel.org>; Thu, 09 Jul 2026 02:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1783590589; x=1784195389; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MXemn+RWgfgniHXL+Z+iccp115cwF5wMpUS4nNjdkFs=;
+        b=PovcRIVXEPSF/FJeQlxhlzoXjqZOrbs3CiE5bUYuum/kokSouOcrfuWzkJz+QZ+EEU
+         bXZutBCPHghMPuDpORpgqEkhwf9ItYai/C2Wls7hXpV8JBACI0ISAzSZohMkmVLXApNn
+         fZlxwp5LQbRlt1W9WkBqq04596J259cyQGkTEsx5D5ai1Vpe/8NCZrLqgzS5soekf8Zd
+         N1CUWCeoaHYptaJl5ecJ1ZzDp9e7jZkz7Z27dZDIG4LQ8N1cI1J5HRitdDR0mFAuAiJK
+         tCK2hnhPLuoPo29pU3Y3TxhIiW33KldSOjrnaQ78LbO8JgLXI4Yv8EB+9OvmBldN7dCE
+         StRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783590589; x=1784195389;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MXemn+RWgfgniHXL+Z+iccp115cwF5wMpUS4nNjdkFs=;
+        b=Ilm/sqJHyZw8P9NofIo4sVmYl8uv4398j7jKJvqy+7Jua0YhKJiyY0jQX83Tm5uXa5
+         2Jx3/s94pn4H0hP7OCvY2usaMClA3ODNiugtjHETH0TT5pOkRIC2YoSDHqdt0ORQ6rIS
+         dPj2sOHl2xokOJVSDm7lVcjAWZNSjPOYJ8GSVL9Jx2T6jdG38yJ9J3FwwUJXXnfINEV7
+         yoyz56FnOHU0JPx+og2fUVVfnlT0HWQE8Lh5g9KbGMFIg6tFuFe6yfuRGOndGWm07JjS
+         dD4BLoX7yaunkmJSU+Hau7KkdAURvwOBZdmil/zGa82C0Xuu+6D0lyrEt95HAtfLOe7V
+         4KtA==
+X-Forwarded-Encrypted: i=1; AHgh+RrbC+O5kMGIQDGjyLe2jO9pgVa0EJ5kfU5/hQMvEhSQY9HHGihE9++LwbqV+X2UclZrFgAffMJALFQK@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLyvNEB1iBx256Pr5u9l+eixqLlLRB4W/izCpcm7mhXgWWXVSm
+	927Y+4FXzqg98HV2IGQWw+vUEsz9yGfmTVdCjh0LHfR3drVlMpvpzbg2XToC3zwg19s=
+X-Gm-Gg: AfdE7ck95FI6olJri3alP2A6CAKYlenvFd+py7OKKDMopsDV3RnKPzh/OY9htihXCgd
+	axoZUdDH06unL1OXexzDlDv/e2+5NuAzitqYUYFeAzr1GQo20nyP9qdmjNWkp4L4R5xaRR3/ABo
+	5zAt8vRZEQDERPGF4iH/wrm6EL7ZhQOEU7LDAt5z404T6bNsCWs3E3JFIT7KHXkyjeH5jJNYUqh
+	Dk92pDQwBQpeieUo/f5xLOcikC849/Q9je7yLZuYpqjAcC1Rysde+5egEONaTdnPtA3pWrr3bTz
+	hUcOPRuoRf9j0j7GqYALQIVzIZ8dWCk8hNRjLq6cEhSup/xzCiiHWk4kj9NZuWKdTYjZyen0ctS
+	LG1jziQgKIplOVzbGZA4pG0Q4zm+fNfFMnR16UTLfuc4pegcTqOZe1cceV5kK5xnl6iTstzxsrS
+	KZUulXzkhXV+1d5GHAyRRfp+pWnKd7Hgl3Xw==
+X-Received: by 2002:a05:600c:c1d7:20b0:490:9782:3eb8 with SMTP id 5b1f17b1804b1-493e68c3535mr47652155e9.25.1783590588957;
+        Thu, 09 Jul 2026 02:49:48 -0700 (PDT)
+Received: from [192.168.42.79] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6d53absm47837275e9.6.2026.07.09.02.49.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 02:49:48 -0700 (PDT)
+Message-ID: <3e2ae6e8-41ad-45f0-a885-131a5711c276@suse.com>
+Date: Thu, 9 Jul 2026 11:49:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -34,83 +69,84 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] EDAC/versalnet: Fix teardown ordering in
- mc_remove()
-To: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
-Cc: ssengar@linux.microsoft.com, shubhrajyoti.datta@amd.com, bp@alien8.de,
- tony.luck@intel.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260401111836.2342918-1-ptsm@linux.microsoft.com>
- <CAKfKVtHUqcvv97E2CoETtU2tN5+9SYAgDde=bYQw16hirPM4yw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] umh, treewide: Explicitly include linux/umh.h where
+ needed
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Jens Axboe <axboe@kernel.dk>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Michal Januszewski <spock@gentoo.org>, Helge Deller <deller@gmx.de>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Pavel Machek <pavel@kernel.org>,
+ Len Brown <lenb@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Nikolay Aleksandrov
+ <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Kentaro Takeda <takedakn@nttdata.co.jp>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+ drbd-dev@lists.linux.dev, linux-block@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org,
+ linux-acpi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ cgroups@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+ bridge@lists.linux.dev, netdev@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+References: <20260708154510.6794-1-petr.pavlu@suse.com>
+ <20260708154510.6794-2-petr.pavlu@suse.com>
+ <ak6STbqZd-Q-c56v@localhost.localdomain>
 Content-Language: en-US
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-In-Reply-To: <CAKfKVtHUqcvv97E2CoETtU2tN5+9SYAgDde=bYQw16hirPM4yw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <ak6STbqZd-Q-c56v@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Shubrajyoti,
-
-On 08-06-2026 16:41, Shubhrajyoti Datta wrote:
-> On Wed, Apr 1, 2026 at 4:56 PM Prasanna Kumar T S M
-> <ptsm@linux.microsoft.com> wrote:
->>
->> The teardown sequence in mc_remove() does not mirror the reverse of the
->> initialization order in mc_probe(). In particular,
->> unregister_rpmsg_driver() is called before remove_versalnet(), and
->> cdx_mcdi_finish() is called after rproc_shutdown().
->>
->> Reorder mc_remove() to reverse the probe initialization sequence,
->> consistent with the probe error-unwind paths.
+On 7/8/26 8:13 PM, Michal Koutný wrote:
+> Hi Petr.
 > 
-> I think that the remote proc should be quiescence first so that no
-> more messages will be
-> queued. and then the edac should be removed. See below.
+> On Wed, Jul 08, 2026 at 05:44:29PM +0200, Petr Pavlu <petr.pavlu@suse.com> wrote:
+>> diff --git a/kernel/cgroup/cgroup-v1.c b/kernel/cgroup/cgroup-v1.c
+>> index a4337c9b5287..60eb994c32ae 100644
+>> --- a/kernel/cgroup/cgroup-v1.c
+>> +++ b/kernel/cgroup/cgroup-v1.c
+>> @@ -16,6 +16,7 @@
+>>  #include <linux/pid_namespace.h>
+>>  #include <linux/cgroupstats.h>
+>>  #include <linux/fs_parser.h>
+>> +#include <linux/umh.h>
+>>  
+>>  #include <trace/events/cgroup.h>
 > 
->>
->> The rproc reference acquired via rproc_get_by_phandle() during probe
->> is not released in mc_remove(), causing a reference count leak. Add
->> the missing rproc_put() call.
->>
->> Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
->> Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
->> ---
->>   drivers/edac/versalnet_edac.c | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
->> index b87fe57aa842..acd51b492772 100644
->> --- a/drivers/edac/versalnet_edac.c
->> +++ b/drivers/edac/versalnet_edac.c
->> @@ -955,10 +955,11 @@ static void mc_remove(struct platform_device *pdev)
->>   {
->>          struct mc_priv *priv = platform_get_drvdata(pdev);
->>
->> -       unregister_rpmsg_driver(&amd_rpmsg_driver);
->>          remove_versalnet(priv);
-> 
-> Here we are removing the edac but the remoteproc  can be triggered.
-> calling the remote callback.
+> There is kmod.h in here too but it's unnecessary, no module lazy loading
+> in this code.
 
-Thanks for the review.
+You're right. I'll remove the kmod.h include from
+kernel/cgroup/cgroup-v1.c. I went through all the files again and it
+seems this was the only place I missed.
 
-This suggests that my change is not complete. I am not sufficiently 
-familiar with this area to provide a correct fix, so I will leave it to 
-someone more knowledgeable.
-
-> 
->> -       rproc_shutdown(priv->mcdi->r5_rproc);
->>          cdx_mcdi_finish(priv->mcdi);
->> +       unregister_rpmsg_driver(&amd_rpmsg_driver);
->> +       rproc_shutdown(priv->mcdi->r5_rproc);
->> +       rproc_put(priv->mcdi->r5_rproc);
-> The put is a valid fix.
-> 
->>          kfree(priv->mcdi);
->>   }
->>
->> --
->> 2.49.0
->>
->>
-
+-- 
 Thanks,
-Prasanna
+Petr
