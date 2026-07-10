@@ -1,60 +1,58 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162A42E974D;
-	Fri, 10 Jul 2026 03:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56663672A0;
+	Fri, 10 Jul 2026 03:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783652862; cv=none; b=cbGU6KWLPO10suJ8bGw0Wc18qBiXSdlwa/OPsJJgp3OaSZKkMoMe/wyakM+dGw7fwu55tGJKDZem36mVLVWDj66Wa8scXPMbEZLfsx+TG/4AYyxXjrgolocDpi9mnrU44vM1u4KNGDyhnNxtPhDwhHCUK5PPhc/Q1rehP6SvFQ8=
+	t=1783653887; cv=none; b=ZAK43bGzgoYVAb7qn+rl/JvL3OuN7riIka/leerPN3mbGAPsvV1FzdRf/fzHMM5nzrXvjkLB1q6ZADp5qFQOHAKZTMdZgIKwQgBr824UvN7K0LiI+mg4nTsri4p0kiZQt3M4vBlVi3hd3bxFXKxI3/YveYX1elSMnFcY1neSD1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783652862; c=relaxed/simple;
-	bh=T+ESYc2L5kgeW2WdKKAx/mQp0rm8K62aP2mAh0hS64A=;
+	s=arc-20240116; t=1783653887; c=relaxed/simple;
+	bh=qal7e28GjjL9cc0u8YkXO8jE/BDP1tUJHOVY8ySDWb4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AI8H2jVwrz500COOmDs/vKDgCmI4CA0+zyl7fMtAMY+Hi7QuGn6qiv30xo1uZCbXAezDUVf15I+kMxoqQWCezRbSIrp66inR2PZHMkYauErZ9icG/ETc+sPMECCHpchj32GofHlMxKhm1XxOozy+GoHb9+EMQSn2sKA8OSyFL6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=UtXDqY9t; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=nQQVi1pC7U62zgrMSpaa71hHfPOM22xBt+wQXZqWZpXlaX30f7KCwcItl/5U068rew6TMIEmQ2c9qC21dairxrUivC6Xv93wys3dU40+k7Nu4YaHm+LrFqRvVqb6fLzfWMtzTK4Gb568ittEd+X4Nh7MbvuF16xezKVmrl7HLmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=GFnIZXKA; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="UtXDqY9t"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="GFnIZXKA"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 18E6340E02B4;
-	Fri, 10 Jul 2026 03:07:37 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 907B940E02B3;
+	Fri, 10 Jul 2026 03:24:42 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id UJCtiaP1OXeb; Fri, 10 Jul 2026 03:07:27 +0000 (UTC)
+	with ESMTP id 18JTFTi6GkP0; Fri, 10 Jul 2026 03:24:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1783652845; bh=2GYJkHaMn75n8ytz3AptxrAH+XDKoGrmdTDdi/jO95s=;
+	t=1783653872; bh=CegzjLuF3AnqXKt+gyJp6PLUB9sTzLPiD/1UntV7LCU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UtXDqY9t+p6Iml+I9leVb51EsMx+6J4/90q4QvvpCal50kB+3gvPmxAPIO6HRCFqD
-	 kS5b4K2rFu4N0A0++10LK9AQ8qN1InBvmU4LJZFKR2tXBieRWUEYXvwL0KLcApSyIz
-	 FHqqCrIVVEB0we3DWQGU8whWLsL3+xAZz+hfUMAuO3DhlxnWDHq67h9M0yQ8J/thnh
-	 Sgnmie/zh2F/ysKeUV23zbnTgYa/JYd2GaHqoTaQTqnoVQq/2nDQopij5TZYSiZR5G
-	 pqbNC6UjX+ubrvRt61XpOh1jN4F24aNdpizFloD+BbnpZtyNoUYI+ZC8v1Y/vD+7H8
-	 fwiQZBNcbh9Kol72G7S+KGonRbzhIrVPIFaRB9Ob5xrF6defSjrbtbe91hYs1mgCkw
-	 vwVst0+OU9mRwiJWNJlNVvN26W26ZxQOG7ac/t1lFi9nsPKcY3PXpUawsCy9bETJgZ
-	 ueqbA1wHvuPmHOOcoqgUCvK9xstHR1xGZMWoRfhRtuM9ZBuv5izijRTh2bekfpMMMg
-	 TYn4kgR4bpdBjkWHhP8CyvkR2CnunKMgO4DpkWGJP6+GgFr6JnxQK5eT3IhyMqKftK
-	 U83cgIl369RSHFoqK8+FkdDHpL/VT57evP9r1QVroSUKcA0KjZvrvPjbx7XLFraA2I
-	 urF454OizNxmcGMj+DoOKW+A=
+	b=GFnIZXKADSgwe1pphI7W3Hx+MZo/i1ogbtTALDazgNlG896ZooQyCatgkmxYYH3W6
+	 FZHeZ5OxttKztr95AUCsd8sXOjWdlPyroLV5bx5/EJ+OhYOkMA6j7Q/ztGASB9lTXh
+	 x5q+bCIhtrJoTzlkmvNdoorqyfvPNNxXM3YfHMPgPXkxA+bO16RMqHZeqJmDftXHPK
+	 vNPYcCLANg/nsjuL5chsXqbCbLtcuDQGXuYJ/AaMF2MOFgIheFsXWKpLMbWEo9KPhf
+	 TY1CQb5TiiRmfUnXiz1TU4oPrx7FKzHyWQ8FL+nphTBz5x68YhsuIzBYRRHsxfTgfs
+	 kt9FSIRRdpaNnElmWXIIGThPmaDxbTpl4CGPuDjx8o3AL3dx7XZ5MNK+59SfLwdtjc
+	 +3I4ybZPm78CDHuymjTh3sE7ceOmoPZlK9jTQX64Suf1BhIxXSAx6j2xwqcXMgk0oc
+	 rIVDgcf/7ln2DNcT0t3BxtqKITvK45rRIZ+RnF9BtL5S+0IsvgDv6ekDmj/tqNfxxu
+	 NAk4UIxwmJ2tOrsdim5XUdygubuJyO5+e5U6SZN6pOYgzxk/p7VUJT7UFg7bvvx0Pd
+	 BK8loRPrTh7uqdL4bU3/FUV8KHH0g8qkAzCB6FAHNcHLNBUeTMShLU0sniArzrSEkc
+	 nK2j7ToKTvyPvam1o/I9aeQQ=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 62A8D40E0031;
-	Fri, 10 Jul 2026 03:07:20 +0000 (UTC)
-Date: Thu, 9 Jul 2026 20:07:17 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 078F440E00C0;
+	Fri, 10 Jul 2026 03:24:27 +0000 (UTC)
+Date: Thu, 9 Jul 2026 20:24:24 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Rounak Das <rounakdas2025@gmail.com>, dinguyen@kernel.org
-Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
+To: Jad Keskes <inasj268@gmail.com>
+Cc: Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/2] EDAC/altera: select A10/S10 behaviour by ECC
- manager compatible
-Message-ID: <20260710030717.GHalBh5aBQdoub2_pB@fat_crate.local>
-References: <5060a303-0389-4c62-9c0c-fc4307c24897@kernel.org>
- <20260708091135.94114-1-rounakdas2025@gmail.com>
+Subject: Re: [PATCH 1/2] edac: edac_device_sysfs: reject poll_msec value 0
+Message-ID: <20260710032424.GIalBl6K0YJ2js1gHo@fat_crate.local>
+References: <20260708141000.1764100-1-inasj268@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -63,21 +61,61 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260708091135.94114-1-rounakdas2025@gmail.com>
+In-Reply-To: <20260708141000.1764100-1-inasj268@gmail.com>
 
-On Wed, Jul 08, 2026 at 01:11:33PM +0400, Rounak Das wrote:
-> Replace the CONFIG_64BIT-based A10/S10 selection in the Altera EDAC
-> driver with the ECC manager compatible. Patch 1 handles the IRQ-layout
-> selection; patch 2 removes the remaining ifdefs in the double-bit-error
-> path.
+On Wed, Jul 08, 2026 at 03:09:59PM +0100, Jad Keskes wrote:
+> Subject: Re: [PATCH 1/2] edac: edac_device_sysfs: reject poll_msec value 0
 
-Sashiko points out a bunch of (pre-existing) issues:
+Do
 
-https://sashiko.dev/#/patchset/20260708091135.94114-1-rounakdas2025%40gmail.com
+$ git log -p drivers/edac/
 
-Folks, pls address those first before piling new features ontop.
+to get an idea about the commit title and formatting the EDAC tree does. In
+this case:
 
-Thx.
+EDAC/device_sysfs: Reject poll_msec value 0
+
+> The comment says it must be at least 1ms but there was never a check.
+> Writing 0 sets the workqueue delay to 0 jiffies, which makes it spin.
+
+You might run this through AI to get better/more informative formulations.
+
+Some hints about a good commit message:
+
+https://docs.kernel.org/process/submitting-patches.html
+
+> Signed-off-by: Jad Keskes <inasj268@gmail.com>
+> ---
+>  drivers/edac/edac_device_sysfs.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
+> index da804ebe3626..3137cf6cf36b 100644
+> --- a/drivers/edac/edac_device_sysfs.c
+> +++ b/drivers/edac/edac_device_sysfs.c
+> @@ -117,6 +117,10 @@ static ssize_t edac_device_ctl_poll_msec_store(struct edac_device_ctl_info
+>  	ret = kstrtoul(data, 0, &value);
+
+If you do those patches ontop of your previous ones, it doesn't apply:
+
+checking file drivers/edac/edac_device_sysfs.c
+Hunk #1 FAILED at 117.
+1 out of 1 hunk FAILED
+
+But you need to do those fixes first and then the conversion to kstrtoul()
+because the fixes will go to stable while the kstrtoul() conversion is not
+stable material.
+
+Which means, you'd need to add a Fixes: tag to those but that's fine if you
+can't find which patch causes this - I believe this has always been this way.
+
+So, how about a new patchset with all that review feedback addressed, the
+fixes first, the conversion following, all nicely tested, if you don't know
+how use this here in a VM:
+
+https://lore.kernel.org/all/20260707215307.396571-1-bp@kernel.org
+
+Thanks.
 
 -- 
 Regards/Gruss,
