@@ -1,70 +1,75 @@
 Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1CC4195BE
-	for <linux-edac@vger.kernel.org>; Fri, 10 Jul 2026 11:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CE441226D
+	for <linux-edac@vger.kernel.org>; Fri, 10 Jul 2026 11:36:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783683381; cv=none; b=VAotN44KdiV4SIpnRNE1vnQypBHetELdHCqwbQwM2M7d5bOxfJA6AklyBhqQH8sv3+Mw15BnSwK6F+j1ko1gBqefg2lT+kJY97GO8hZmKVcWcVJu69EDyecfd45vXD9OEfNk5dHaPoP9RSGM8Xi0RfiS+1oekNUweKm+Qupd5Rc=
+	t=1783683386; cv=none; b=dsQE11keN8j6ELMPZEnVFNlDgZ2XQUU253j5IKun5ecH/BPb0RsqmrtWAcg9k9pdL3PTXUQuWfogv5zmX5rzMNBa2YNdo40j7YEELz6Z4NBNzKx6erxvu1oT7Q56yks4FcVQSV9d266O/T6KVdiozi7K8FnAdJRnui/whHQG5wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783683381; c=relaxed/simple;
-	bh=7OLa5VSZga3c7xHtQ7LDudELJy00EvKKS9zK5/3jRY0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GOWkIL+ty9/UyF8l7Z0TfRJM1zWQJvWlXxemUDfAibg5O3qV8H1qOPk6ixxsQVrKnCM3VisKZBnfKX8SocfcWwpDg22etMUoYQRsGjcqgESSu6dPy5bpZcezeK4GPgzindX6MWfo4Vrw1PdOM3eRuoz8og5ZwyPX5rcyIA2N0vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dHy8zXyl; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1783683386; c=relaxed/simple;
+	bh=Y784NiPo/Lkfm2UuRmEX6I6Vl39TYNfqDYa75fJKlg4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=I0IoRhxGA2gELDB14Jfoc/zziOfuFN9PSeD1s+8vqoFuj/mnHncaCYlmRZ8nSMYxq3I6EAp/vr5IbFBls3iciNsGPsCnMqSJm4CpmKPXaStxWrkSaU4a2PnzyUqi4OcEOiRgh5pUCi6SNYyjARQAsz6WASgNI1dattbaUX4GxHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IAZLJk3a; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dHy8zXyl"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so5711375e9.1
-        for <linux-edac@vger.kernel.org>; Fri, 10 Jul 2026 04:36:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAZLJk3a"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493c2c0b9a8so6950445e9.1
+        for <linux-edac@vger.kernel.org>; Fri, 10 Jul 2026 04:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783683370; x=1784288170; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=S3vn/hujzrD+r1/zdSZb7/P6FDyllIFs8N7tqn2TGCg=;
-        b=dHy8zXylx44vVRwGd3ioJUsQ68I9HPhK/Wcepgx7Y1wbQbVDt+Bn8GmBvarNp5ZAKC
-         yLFW5pREbp3UH60Iu2PGB3DPjnIYSo/1Ku1ARmDCDcCVQdO90vRpBh0dPEPoZdh7Eixw
-         LJnkxza7nJidLfB771O9vcmbeKMJiJMlFt+3N0zAC+bsYCxNcbBsHDEz3r3MFAAmiB0U
-         gX1mDGYdCj70hwcus4hqtngzSZeUFZNZuOb/gIJto5/9vd7FF39xVvda6yOBvK7xadkN
-         dmudSoxeY7tfFdWlA2PZyWx2I9HqAVSVm2s+0I7/GSGS5Sigh4lyILa1ls6FEPBBnX/A
-         SuTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783683370; x=1784288170;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783683376; x=1784288176; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=S3vn/hujzrD+r1/zdSZb7/P6FDyllIFs8N7tqn2TGCg=;
-        b=MugXgvGK0ud/DoX8mlzKInQRsHVDqahXgNdfgmM2rS/PKLmVtIt1PBFshlg7BHKj0X
-         nBRMXnkEd0Wm4DC3+xXizLpJzbaS+uJGhZ99xdcFL4M6Ursce1+GdPLHUsh4BHHEKlEt
-         gbzOFIOdts8ZNycKz+tzZ6Vd2X1h7gLUo96Kj9Dx0PIJnCOi9nQe+7Nb/Cr5/z9uITxH
-         nykehC6bRH/mldLBXTDWWJtgKs45KaQ6gIeNrvuiz5cU2TKrdmakfs2MvcO48am+b61B
-         kwEGmzTyPZUyZfIZ+WmJkkjEwn5xKnvc52LINULGqgqeNfV2mZagYHVkg1ZBcwfxdTwW
-         s9DA==
-X-Gm-Message-State: AOJu0YzKSrzCU72UWQoGHkmKlACtRvUEA03F4/6pDQaYDR4K5WGjODwR
-	ZZMhVc1Y+xOY1oY6sqFslfc8E2dDjRnUg+1EgkVtOR0DCC/9Hq4spsUu
-X-Gm-Gg: AfdE7cm6T4TwC/et13RiRFCIen2eiBOLHwP/yaOHRwyEVP9rMIkLSUrDttQ5hJEIb97
-	GMes7MDCUHNbmBl7GebVRf3SvEn1Ks6AZapaNAx7Qxr6ba3aTqav2WIQbu4JdI+TNChskVXq9FM
-	u4DYrhqRdgwrl4rrT6j3uTRhRgyN2PRpgN3kqxeAqI+rF8nAajaHy1S+gqfEzW6IEROFhBg1hk9
-	X4dsW4/WquonukopynhwO74IwNd8l9cKYhsZ5a0mypUDgwAM8wS0ZON/CqAMxG1p2wQvU/cd3As
-	R7kwRVfYfXfR/DhxDwLzRvsUZ/2URvWtwBg7r3KbGWbrrA17b6ZBOUao9OVPVjhmNDEvzFiCz0O
-	30u94916V40iSxUO200yaKuJikzShREpSIEQHwxS6xnAYF9dipBkRodnStq3+zmQudFkHynN41F
-	JyIDEGzoDLgoYtWF47Vcd866VE6ah4f/kIzG5wfM4tfZmZAPA2EoGBY9DVEUTxK9LK/9o=
-X-Received: by 2002:a05:600c:8119:b0:493:ee34:d875 with SMTP id 5b1f17b1804b1-493f2b3369fmr30839765e9.10.1783683369863;
-        Fri, 10 Jul 2026 04:36:09 -0700 (PDT)
+        bh=Wr86uApLkpfSeVw0S+gM2kwm+DgPZ+faPytZybQHxag=;
+        b=IAZLJk3aKuCNJ/H9jHH+OXOWehB2wuOkp0vMH/0NnqnalBYvfkmyH21a4KlSpGJR1Z
+         d/4QPBd5Vli3m93FNi56imqlzowtXR2nGhzQDRSsRCHLw21SqzuaTx3BFyrVNbMmfRAn
+         4dJ6loRZ0zBttlK0eDLglM6C2nUB8GOtNjL6IFq5F6I+8zuPOf2I3ClzgcmfoozjqL6j
+         dIStpAGTD9nJuSA5g2fiY6VtMGDNbKaK25m88LvzU0GIA8ulA9bM/wURHRjvOFkaGY+b
+         HEWwmytCZA4MQ7KZFGltUA4l7u1rQrpdrmeqnnchZNcyBUtt8IUU4iqcA1/C8lBIGgMV
+         s4Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783683376; x=1784288176;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Wr86uApLkpfSeVw0S+gM2kwm+DgPZ+faPytZybQHxag=;
+        b=ccsx69lezo8TmJsSR4ElrVOsWBdqQlRK6cfrKHTNR2g+CBSa6CkGjKO6V92CZsouel
+         usJVvrHESIYYxW4SpS+W+Wk4rZusbvJ147OgmOEsseA7Q/v2DZluPWX5tatuzMuvFzL0
+         MApkBHsL9oH+TQ4znbHSJwEsLi+sY2jgco4OQY6ccslWNaHqxMtmVQhkk1CxCvPtQwsq
+         9hbnyEBySeoFIPBRmM1W78ZrIWlttiOcuGZW5VNQCytuTVa7sqGqOIdvoiwc6ZAHBb8X
+         n47d7t6PqB0uwYCLfgacEr1DRl5LSFmKCptL2RUb5gQkpjJLHd+/mubJ0lLx9OZ+vQc9
+         XUAg==
+X-Gm-Message-State: AOJu0YzqBJxIJsdzKmacDnIT5Fh6ozSd81v2T0PdjTK1Qb1+KgDHBnub
+	8qcZ7dDFcugFn2kGGrBvB/OneVJ00CVOj+bU2kySqC0iCvfvjFE2H8sK
+X-Gm-Gg: AfdE7ckvx3YQooMR7NL9tjIsH6Su+Lubj+HhDdBwVDkZ96aKxzOISh8SBAmsIGA0DXH
+	MlRoW9K7UdwNwjtZVwcyaCvMdoZo3ncZ8ofovT6+h4bwZrqHm1jeGpZmWOoImNA/37So/oAtBxy
+	Dmx9N4BLddch1G5JLYK0ksnfdlagCXEbdDUQluKfW5xiHNrW2L0pEw/oqmqRzFYFMhI9KCz5+iF
+	7Yzs7Z1XDnZ7TzmMk8+CT0z8DGdAVdOSijySyzeTqfxRudNVpqVUN4OA3cke4+wI6pex5l80e11
+	/AHKCMj+JI6WbHH1SDgS2clL903L5noWqeDVZdAt/4/1DSYqfpWhy0B6UpoNWSzTR7sXYonTj3N
+	cwadSmYfgAjs5HCUwV8yIWfAJD3z3rwt1AGM+bunHiSrSXnmRVGfhPZjeAG+JWB3IKJEWEYadii
+	gAfS4+sL01KHeM8/6z7PQq2ElWhcqCflDgaf1MK9b1Jv0UTBG3AOumx8iTbOuUXL5cm9ZYWrTQg
+	T4Ytg==
+X-Received: by 2002:a05:600c:3e15:b0:493:f6e6:ce2a with SMTP id 5b1f17b1804b1-493f6e6ce2fmr7629615e9.2.1783683375885;
+        Fri, 10 Jul 2026 04:36:15 -0700 (PDT)
 Received: from fedora ([196.121.194.252])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493f2e77c2esm37069885e9.2.2026.07.10.04.36.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493f2e77c2esm37069885e9.2.2026.07.10.04.36.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 04:36:09 -0700 (PDT)
+        Fri, 10 Jul 2026 04:36:15 -0700 (PDT)
 From: Jad Keskes <inasj268@gmail.com>
 To: Borislav Petkov <bp@alien8.de>,
 	Tony Luck <tony.luck@intel.com>
 Cc: linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jad Keskes <inasj268@gmail.com>
-Subject: [PATCH v2 1/2] EDAC/device_sysfs: Reject poll_msec value 0
-Date: Fri, 10 Jul 2026 12:35:47 +0100
-Message-ID: <20260710113548.46266-1-inasj268@gmail.com>
+Subject: [PATCH v2 2/2] EDAC/device: Don't re-arm workqueue during teardown
+Date: Fri, 10 Jul 2026 12:35:48 +0100
+Message-ID: <20260710113548.46266-2-inasj268@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260710113548.46266-1-inasj268@gmail.com>
+References: <20260710113548.46266-1-inasj268@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -73,34 +78,37 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The poll_msec store allows writing 0, which sets the workqueue delay
-to 0 jiffies. This causes the poll work to spin without any delay,
-consuming 100% CPU on the polling kworker.
+edac_device_del_device() stops the workqueue then removes the sysfs
+attributes.  However, writing to poll_msec triggers
+edac_device_reset_delay_period(), which unconditionally re-arms the
+workqueue.  If writes occur during that window, the re-armed work
+runs after edac_dev has been freed.
 
-The comment has said "must be at least one millisecond" since the file
-was first added, but no validation was ever enforced. Add a check for
-value < 1 and return -EINVAL.
+Fix this by checking op_state in reset_delay_period().  del_device()
+already sets it to OP_OFFLINE before tearing down the workqueue, so
+the new guard causes reset_delay_period() to skip mod_work() when
+the device is being removed.
 
-Fixes: e27e3dac6517 ("drivers/edac: add edac_device class")
 Signed-off-by: Jad Keskes <inasj268@gmail.com>
 ---
- drivers/edac/edac_device_sysfs.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/edac/edac_device.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-index b1c2717cd023..89adfd3091e0 100644
---- a/drivers/edac/edac_device_sysfs.c
-+++ b/drivers/edac/edac_device_sysfs.c
-@@ -96,6 +96,9 @@ static ssize_t edac_device_ctl_poll_msec_store(struct edac_device_ctl_info
- 	 * and set a new one.
- 	 */
- 	value = simple_strtoul(data, NULL, 0);
-+	if (value < 1)
-+		return -EINVAL;
-+
- 	edac_device_reset_delay_period(ctl_info, value);
+diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+index cf0d3c2dfc04..50ae7f1e5152 100644
+--- a/drivers/edac/edac_device.c
++++ b/drivers/edac/edac_device.c
+@@ -354,6 +354,10 @@ void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev,
+ 	edac_dev->poll_msec = msec;
+ 	edac_dev->delay	    = msecs_to_jiffies(msec);
  
- 	return count;
++	/* Don't re-arm the workqueue if the device is being torn down */
++	if (edac_dev->op_state == OP_OFFLINE)
++		return;
++
+ 	/* See comment in edac_device_workq_setup() above */
+ 	if (edac_dev->poll_msec == DEFAULT_POLL_INTERVAL)
+ 		edac_mod_work(&edac_dev->work, round_jiffies_relative(edac_dev->delay));
 -- 
 2.55.0
 
