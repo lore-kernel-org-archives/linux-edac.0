@@ -1,124 +1,171 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from MEUPR01CU001.outbound.protection.outlook.com (mail-australiasoutheastazon11020079.outbound.protection.outlook.com [52.101.152.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56663672A0;
-	Fri, 10 Jul 2026 03:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783653887; cv=none; b=ZAK43bGzgoYVAb7qn+rl/JvL3OuN7riIka/leerPN3mbGAPsvV1FzdRf/fzHMM5nzrXvjkLB1q6ZADp5qFQOHAKZTMdZgIKwQgBr824UvN7K0LiI+mg4nTsri4p0kiZQt3M4vBlVi3hd3bxFXKxI3/YveYX1elSMnFcY1neSD1I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783653887; c=relaxed/simple;
-	bh=qal7e28GjjL9cc0u8YkXO8jE/BDP1tUJHOVY8ySDWb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nQQVi1pC7U62zgrMSpaa71hHfPOM22xBt+wQXZqWZpXlaX30f7KCwcItl/5U068rew6TMIEmQ2c9qC21dairxrUivC6Xv93wys3dU40+k7Nu4YaHm+LrFqRvVqb6fLzfWMtzTK4Gb568ittEd+X4Nh7MbvuF16xezKVmrl7HLmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=GFnIZXKA; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3C53B2FED
+	for <linux-edac@vger.kernel.org>; Fri, 10 Jul 2026 06:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.152.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783666717; cv=fail; b=B40rdm07zccdUrpQFxAW2Zauj1zfX/tvCuBICyMhTz/y0A3tt11dwGztOw2p9q7SvS9SK3tr+Vm4EvNavNhHA8VIQg3IUWk9XaTieoGz/jenfnM0CstEwcY1wF2/VlWNeXR+SciSPVDUrD+XubYIBS1LPM2xHY8YHP2kl2xg0/w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783666717; c=relaxed/simple;
+	bh=o55PphKJm/pEzyGu16F3OXAp/9OpB5tl9gEYJBQW7Bo=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=RoaxB3+xETPJoFTl7AFqwrogDLW1vAR8xklrd4Pah1aeVtZp3IhuRP1/QMEqMq7c8NmqaSR4Pfr8B0vlGMROApfXSFG+WNWmCUYkqn0oqHhuEyr0ewUSDaMADW4UIogBdH+afIbSmvNnbBSju3KY4uxA7WqKqt+xDB5UtRv8vjk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=emba.au; spf=pass smtp.mailfrom=emba.au; dkim=pass (2048-bit key) header.d=emba.au header.i=@emba.au header.b=BAJGX+6F; arc=fail smtp.client-ip=52.101.152.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=emba.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emba.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="GFnIZXKA"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 907B940E02B3;
-	Fri, 10 Jul 2026 03:24:42 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 18JTFTi6GkP0; Fri, 10 Jul 2026 03:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1783653872; bh=CegzjLuF3AnqXKt+gyJp6PLUB9sTzLPiD/1UntV7LCU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GFnIZXKADSgwe1pphI7W3Hx+MZo/i1ogbtTALDazgNlG896ZooQyCatgkmxYYH3W6
-	 FZHeZ5OxttKztr95AUCsd8sXOjWdlPyroLV5bx5/EJ+OhYOkMA6j7Q/ztGASB9lTXh
-	 x5q+bCIhtrJoTzlkmvNdoorqyfvPNNxXM3YfHMPgPXkxA+bO16RMqHZeqJmDftXHPK
-	 vNPYcCLANg/nsjuL5chsXqbCbLtcuDQGXuYJ/AaMF2MOFgIheFsXWKpLMbWEo9KPhf
-	 TY1CQb5TiiRmfUnXiz1TU4oPrx7FKzHyWQ8FL+nphTBz5x68YhsuIzBYRRHsxfTgfs
-	 kt9FSIRRdpaNnElmWXIIGThPmaDxbTpl4CGPuDjx8o3AL3dx7XZ5MNK+59SfLwdtjc
-	 +3I4ybZPm78CDHuymjTh3sE7ceOmoPZlK9jTQX64Suf1BhIxXSAx6j2xwqcXMgk0oc
-	 rIVDgcf/7ln2DNcT0t3BxtqKITvK45rRIZ+RnF9BtL5S+0IsvgDv6ekDmj/tqNfxxu
-	 NAk4UIxwmJ2tOrsdim5XUdygubuJyO5+e5U6SZN6pOYgzxk/p7VUJT7UFg7bvvx0Pd
-	 BK8loRPrTh7uqdL4bU3/FUV8KHH0g8qkAzCB6FAHNcHLNBUeTMShLU0sniArzrSEkc
-	 nK2j7ToKTvyPvam1o/I9aeQQ=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 078F440E00C0;
-	Fri, 10 Jul 2026 03:24:27 +0000 (UTC)
-Date: Thu, 9 Jul 2026 20:24:24 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Jad Keskes <inasj268@gmail.com>
-Cc: Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] edac: edac_device_sysfs: reject poll_msec value 0
-Message-ID: <20260710032424.GIalBl6K0YJ2js1gHo@fat_crate.local>
-References: <20260708141000.1764100-1-inasj268@gmail.com>
+	dkim=pass (2048-bit key) header.d=emba.au header.i=@emba.au header.b="BAJGX+6F"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g1uXjLixjMuTORIYWEY9uJn0lJwfONp+v4HCcqOXhq359+Xdbb4MENDU/xyw7WfIFs+2QkRF/THKx85YOtI8IU9rm4xjFFHwG5G+QOhEr86emMhzUNvvDBnHHX8EIeZT+vTyuyLgZXxJ0YpAyI/o84JEgPUKr3z8YR3eR71+PrqUx891tNBbQMToNtS0AqgNyFDq6G9bkyZt11uM68s+2bzlf82sEunhoYm/GzA2Mi7a7wEeNUhQO86qYyuxajSfE4f/eM4Dwq1wiQ6yxSsDBsLW816kcv27wNeF/AS///oQu/2qffuvheUXpD7BnA6nUhHxv39JSJPVJyCyqHhQlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eJ4gHCZgpWPXz42e15vggJadc8VTAGwRHiwAAa4cCWw=;
+ b=roTj0Z8UvWmq2cz3fWI59BoosGmzPhGjOACOXo9+AMvPddKVcJN+b2dVu9aSmcQ4zgMrWXtOznBqpv/c3t/vOVJyD8kBDShq12SQihLwPn+RWXcrqeMd/ACigq4M0bGWEz/S5NSsNhmg31qr28i4vfhnTCzn8dVoJ6vrrLWJ5TtwAaoqE0ig8k+gf8ANIgGskhWLuxWUYEIhb6mN5Bl5U1LY7oLb/A7QRDrI0HVIfgLyeBK3tnIrRmVgaj5CDzhr6B3uJzx8YdZpjJvqjBkf65+hOamJxMPEKu+jKTvHhZnORpMPGAVT3EmV0Vj/DqM4oCwOu2DL5qUjVRUHtJM7AQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=emba.au; dmarc=pass action=none header.from=emba.au; dkim=pass
+ header.d=emba.au; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emba.au; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eJ4gHCZgpWPXz42e15vggJadc8VTAGwRHiwAAa4cCWw=;
+ b=BAJGX+6F/aaMOHYwM+c0p7fpUsjL9uewrx3YDfSgM7oBWR/0mnharLQaOu6SEa46cpDLFhsxmnvEXjITGwJgAyQ6HkA8urLBEANGSRb+UawItqA6Kaf7X/Jaa6wfPJY7OwhCUmzEz6XpkRhFdbxYmGb9W+Ewts6fAv8GGjWLsAdHcUHBHnyai2hqpe3F0BBwr1mCPJ4h7GJsAZ2pQf5OlJB5SPjreL6pmLaxTXm2rq7m7/gXmVr7XxMKHPNTduwnORkQUdod0AHL5UaHacbre90UBRbHtrqFncySfFhRs7ePfJaBWnKjoFbAHGokRoVMy/4fFf6o+Zt3Vdqhubwqbw==
+Received: from SY9PR01MB10852.ausprd01.prod.outlook.com (2603:10c6:10:320::13)
+ by SY8PR01MB9158.ausprd01.prod.outlook.com (2603:10c6:10:227::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Fri, 10 Jul
+ 2026 06:58:17 +0000
+Received: from SY9PR01MB10852.ausprd01.prod.outlook.com
+ ([fe80::1512:d1f9:6ca5:9d4d]) by SY9PR01MB10852.ausprd01.prod.outlook.com
+ ([fe80::1512:d1f9:6ca5:9d4d%4]) with mapi id 15.21.0181.016; Fri, 10 Jul 2026
+ 06:58:17 +0000
+From: Emba Consulting <hello@emba.au>
+To: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>, "tony.luck@intel.com"
+	<tony.luck@intel.com>
+Subject: EDAC support for Arrow Lake-HX (8086:7d1c) - working out-of-tree
+ driver, test hardware available
+Thread-Topic: EDAC support for Arrow Lake-HX (8086:7d1c) - working out-of-tree
+ driver, test hardware available
+Thread-Index: AQHdEDl8giR33UKdQUiabq1WYsVwEg==
+Date: Fri, 10 Jul 2026 06:58:17 +0000
+Message-ID:
+ <SY9PR01MB108527BA385DE411FE1B69FB0A9FD2@SY9PR01MB10852.ausprd01.prod.outlook.com>
+Accept-Language: en-AU, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=emba.au;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SY9PR01MB10852:EE_|SY8PR01MB9158:EE_
+x-ms-office365-filtering-correlation-id: a7655b3f-db8c-4335-0b9e-08dede509ea0
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|23010399003|19092799006|366016|376014|38070700021|18002099003|56012099006|7055299009|6133799003|55112099003;
+x-microsoft-antispam-message-info:
+ bacYwHim0EBQkYP87Fj07Plarces/JIW43hdxKjwP3aZh8/2qZtCq0hnQ07WILDTuuf2SCTcF1OXp5qk1xH4EcqQtX46uG/VmoknMDQUGlClS0f7pVc2wsxDVNtQnSM1Uxyq44O7PxVsQbUtf1G4cWRjp28zs8yEcdnpi5dDybA5aK+hswRZ3F8MGSTu46woMj+f0Hgjsj0Ckzgqeo64xelOYcqn0jEnw119cqPu1asQX0qXmFO3QnrqEf0L2eeOftz4KZUVh9jdj2Cl5dqCCcT7Ayp8d7qQDu6isq6mLDXcKuln2AgDdgAZ5aeu720sq2SPcD3N3PvAbTlS7p1q+uQ4NxhDoCASp5o16iPUncpsiZ7xIsnTbtzzTIg4s3Hy27455zDXYpoq13/xjiSDtQN+uMvP9UC33jKy72ZyCuCusUNiUeSWi8v0BZj8e45qqhmFlb84Luauj5h8eqQW7WwYh6kHa2dm8ZL7d3M1S2ar8fjtnHcA9tXFPbdgL31zxZIYd7mAkedMKrjCBrEwKZe7dcuRAqIfFU77CXHQa4T1eV+d/XNpVf7FDzUEibKWOk60nG9L81l7ExEDZ5RU6AnpKf43CKRE2K+w6BHS5SJO3JCbAl/PC057dZ5JEYqxGgj9oxNb/r1Msj0TrVSEhUl/va2CYsrbLPwcm2zlyl68sNG2pg56tyCxvwOpmGBJlut0JxAr4dcPwGhDnKsSaP2vgM+gs7qOUDfgepFJdtXlZtz1rnFrmjcbjeixNQjW
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SY9PR01MB10852.ausprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(19092799006)(366016)(376014)(38070700021)(18002099003)(56012099006)(7055299009)(6133799003)(55112099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?pxaehuDuR1m0zBfQDkSVClYRLGEFiNwQ0yWSm76xA6XOaTAfI4H6ON/we6Zg?=
+ =?us-ascii?Q?K3PLJj3mScMK2xwOgRSmrTmT5cKWqoReQKCLQi7EgQZgMFcaoD0G0ds2pd3O?=
+ =?us-ascii?Q?h0cfdkDB4cSJsABCcniEy1/b5wiPzYgT7ewaQZvcqX4dBt090Zag2FUz8NY4?=
+ =?us-ascii?Q?SV6o6hoCZaS32Xbx0t51Ndh64zYm6mgCaDYAhr8q8bFqmJ2IXhKjK7HG8Mj9?=
+ =?us-ascii?Q?mvJXxq6TOY9/kglJK9xR0hZVj+CuRj0ab4I2zxh9RxhWQkLxZA2pvSLw0YNq?=
+ =?us-ascii?Q?uDi7NcD5werQRzgOu5PxNGKgo6+lIR9Q81CWLLoMoIdcitxTMAw1lGgALqRv?=
+ =?us-ascii?Q?Q6DLTqt3Gkx0sD6ER/B2Uy4UX93JnU+Oc9MmxNTn4Zx0WAHit4UOelTvQkO1?=
+ =?us-ascii?Q?04rJeATqyRfENbho3gpYfuCC8rig05RqX255Q/15QCcJqB2/Ed+gpjUFZ1K3?=
+ =?us-ascii?Q?sf+FMXjRKcln97w2+JXCfcpJzqaw9HgW11vfJEeOy70hJcS+TtQ+gvJB/2Uu?=
+ =?us-ascii?Q?KCoekZole1Lk1krAzg6T62YpS+NJJpHtmNtf7syl5DLDfIKI6Y1YpiZ3quSe?=
+ =?us-ascii?Q?Lj7MjKyo4ofLh7/TWThVkO0+oHIW0ZXoqQ17HfEVfemsBcI2br2W5qY3epnj?=
+ =?us-ascii?Q?svH2wLCXyjffaMjevLHk4G/eWJO4PxLO1Bf4xiSkMzt/08IMx36n9j4Z4KUl?=
+ =?us-ascii?Q?IYrE/hAnJmOkgL7jmxQR/qXCpj02Y9h+Uf52QJjlNLMWulxRXWHEErV4WLkv?=
+ =?us-ascii?Q?mF5Y1iC9GPH6Q9PjvrNXxwC00wd7SKmtsaaug+Oxu0iR7VRt8Ijc0WdhMi/T?=
+ =?us-ascii?Q?6ZYIYnhd2cglyeTpfIlBb7zswXw6BmqQg3LVv1xHsNDPKD8SxClGIQd8pJ10?=
+ =?us-ascii?Q?ldfKF9KQ9pa+w5k4l2zupHVsC2HHNbFUSaDTLQ6OFRDkRCEQJEDkNhDkSyJk?=
+ =?us-ascii?Q?ZODVXHoWV+wqARbKvoTtuCVBtbpuE3Z8DpEIdaLG2UsPJF5G0BMauauv16HD?=
+ =?us-ascii?Q?w/mIRo7bjdzqes0i0CUK3oLaJ8M7e8MYuBIQQpZsINr67jPi91Oix+hzoVnB?=
+ =?us-ascii?Q?lpXstaHbPlQpKObdVvfb2svXZemmgBMljNRGnSyl2S9rpRL76sA/fnMncQtk?=
+ =?us-ascii?Q?NubWuY+3DGU0VGfJGjCjvJr+JQ+wIH/5C4I0ZYIVYkIapHtHTZh1RnnRviJ+?=
+ =?us-ascii?Q?MyKPKGc3pZFO0u0HIeibhk4r6K+av/gYqpAX5MG4HZ3PoSMCHbXivIY9JCNs?=
+ =?us-ascii?Q?ssl/vmMkbVVZA3kcSQM/TyajI5q2ReulrVQrXM4iFrAlQQbLPrh00ySHQ77g?=
+ =?us-ascii?Q?V1cV2WTn1v0DvduwPAm4yFpEnz7XXmKjMM4Y3laoq8emPk6PC6G5ju0OEBrN?=
+ =?us-ascii?Q?I/Fs8c7bN1AcFxQZL0rIxpf8cnZTPDSleZ6ABV9oa00yRjb2H7Tbmle6qDeg?=
+ =?us-ascii?Q?xSeACWxQjrvgcVvOE1AftzIIhNj5ewbX0mmnip+YjhP5Po97oBG7gVa12og3?=
+ =?us-ascii?Q?f8qxcumlL7/4Uh6EFnhZEnA8+GB1/jIDNEDb81uMCFPfu+97Ja04Wk111eXi?=
+ =?us-ascii?Q?tSr4WWxrbUfbNRJwp4W9z0R/7e5mPWkXxLkY6eYsRMa2Mf6pIEvt4qjWZ7VK?=
+ =?us-ascii?Q?TGiuvN4iNNzeqZr5K3vrFSVWGeTCdPAPG30GaUG/mvY5/YBbm/8O9c/iVM/p?=
+ =?us-ascii?Q?GTVP8cMy/JS1RLuDtyu8qlh1jSZk7OfmXli8Ey0UnzxgjVtU?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260708141000.1764100-1-inasj268@gmail.com>
+X-OriginatorOrg: emba.au
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SY9PR01MB10852.ausprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7655b3f-db8c-4335-0b9e-08dede509ea0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2026 06:58:17.2848
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 101dbf38-5458-40f7-9513-7e6108b82c03
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xs+mkvfzd7EsQKpOZrSKEqg4CBF4+t0/fmS8D6QDa0i+/D+00NMvm6q+mAsUhYkk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY8PR01MB9158
 
-On Wed, Jul 08, 2026 at 03:09:59PM +0100, Jad Keskes wrote:
-> Subject: Re: [PATCH 1/2] edac: edac_device_sysfs: reject poll_msec value 0
+Hi,
 
-Do
+I have Arrow Lake-HX hardware running sideband (80-bit) DDR5 ECC SODIMMs
+and wanted EDAC error reporting for it. As of current mainline no driver
+matches this die: igen6_edac covers the in-band-ECC Arrow Lake-U/H compute
+dies (0x7d06/0x7d20/0x7d30), and ie31200_edac (which gained Raptor Lake-S,
+Raptor Lake-HX and Bartlett Lake-S support recently) has no 7dxx IDs.
 
-$ git log -p drivers/edac/
+I wrote an out-of-tree driver derived from ie31200_edac and it works on my
+machine - both IMCs register, DIMM topology decodes exactly, counters are
+live, clean load/unload:
 
-to get an idea about the commit title and formatting the EDAC tree does. In
-this case:
+  https://github.com/zs311521/edac-arl-hx
 
-EDAC/device_sysfs: Reject poll_msec value 0
+Hardware:
+- Intel Core Ultra 9 285HX (Arrow Lake-HX), stepping 2, microcode 0x11b,
+  host bridge 00:00.0 =3D 8086:7d1c rev 01 (Minisforum MS-02)
+- 2x SK hynix HMCG88AGBAA095N 32GB DDR5-5600 ECC SODIMM (2Rx8, one per IMC)
+- BIOS reports Single-bit ECC active; MCHBAR =3D 0xfedc0000
 
-> The comment says it must be at least 1ms but there was never a check.
-> Writing 0 sets the workqueue delay to 0 jiffies, which makes it spin.
+Findings, in case they are useful:
+- The register layout matches rpl_s_cfg for topology and error-log offsets.
+  I validated from userspace before loading anything: MAD_DIMM at
+  MCHBAR+0xd80c/+0xd810 decodes the physical population exactly (16 GiB,
+  2 ranks, x8 per subchannel), ECCERRLOG at +0xe048/+0xe848, two IMC
+  windows at BIT(16) stride.
+- I deliberately did NOT reuse the MSR 0x791 error-log clear: the public
+  EDC documentation for this family (doc 835538) describes clearing via
+  PCI ERRSTS instead, and I could not verify the MSR's semantics on this
+  die, so my module defaults to a no-write polling mode with
+  report-on-change latching.
+- Channel count is derived from MAD_DIMM population rather than CAPID0.
+- My BIOS exposes no ACPI EINJ table, so I have not been able to exercise
+  a real corrected error end to end.
 
-You might run this through AI to get better/more informative formulations.
+Questions, so this can become a proper mainline patch (which I am happy to
+write and submit as a dedicated cfg in ie31200_edac if you can confirm):
 
-Some hints about a good commit message:
+1. Is MSR 0x791 valid with the same semantics on ARL-HX, or should the
+   error-log clear go through ERRSTS (or something else) on this die?
+2. Is corrected-error CMCI delivery confirmed for ARL-HX out-of-band ECC,
+   i.e. is .cmci =3D true correct here?
+3. Should ARL-HX reuse rpl_s_cfg or get a dedicated cfg? The rank/width
+   field widths in the ARL documentation look narrower than rpl_s_cfg's
+   masks.
 
-https://docs.kernel.org/process/submitting-patches.html
+I can test patches on this machine and provide Tested-by.
 
-> Signed-off-by: Jad Keskes <inasj268@gmail.com>
-> ---
->  drivers/edac/edac_device_sysfs.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-> index da804ebe3626..3137cf6cf36b 100644
-> --- a/drivers/edac/edac_device_sysfs.c
-> +++ b/drivers/edac/edac_device_sysfs.c
-> @@ -117,6 +117,10 @@ static ssize_t edac_device_ctl_poll_msec_store(struct edac_device_ctl_info
->  	ret = kstrtoul(data, 0, &value);
-
-If you do those patches ontop of your previous ones, it doesn't apply:
-
-checking file drivers/edac/edac_device_sysfs.c
-Hunk #1 FAILED at 117.
-1 out of 1 hunk FAILED
-
-But you need to do those fixes first and then the conversion to kstrtoul()
-because the fixes will go to stable while the kstrtoul() conversion is not
-stable material.
-
-Which means, you'd need to add a Fixes: tag to those but that's fine if you
-can't find which patch causes this - I believe this has always been this way.
-
-So, how about a new patchset with all that review feedback addressed, the
-fixes first, the conversion following, all nicely tested, if you don't know
-how use this here in a VM:
-
-https://lore.kernel.org/all/20260707215307.396571-1-bp@kernel.org
-
-Thanks.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+Zura
