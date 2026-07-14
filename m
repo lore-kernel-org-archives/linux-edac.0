@@ -1,130 +1,163 @@
-Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F5C365A0F;
-	Tue, 14 Jul 2026 10:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA803BBA1E
+	for <linux-edac@vger.kernel.org>; Tue, 14 Jul 2026 12:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784026533; cv=none; b=MQKFy+Y9RmNvOFaquYLrxXVievm97Zn1XBIlk1SyoBZUc4cSUVO6WP0jAUyVQmmXHcLrcMIz7N1v9AFQXeXjH/BeBfCWDBE1XuuurVk0mZ/5o73CcZgxwsMS+g+SiyPf8KJGoG5biV88NI8gHYPiTNG9311S7O6bqio1JkZ4Dy4=
+	t=1784031312; cv=none; b=Sp3+kJ5PuPO5Nnnjdw00FtBI39WnJMD7K9e5usxyjmI3tLsjWA2Htu9PrbzHIg2ZX6T2pNzAYB2XAoXTjB6/VpP7uBTwcmP2Pv/3ESM1MRY380D4KTYnboRSzyuHp5XinRm9w5A3r3dDeRgcIVd4jyjOHFiOIeK7a4Qu3XhyEIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784026533; c=relaxed/simple;
-	bh=LG4bcNh+WSX625SyGNQ0JZg7pui2BYAnq0HqqzUSpgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T16shjDWdoZzkgI15s3PgxAVSBacjm2ojG3beXcV/UmK84LIJ/jrOaFSNaN45ZDBNyrl8o+gLTaWQXhomkSqPPHIy9Jyh3HisGpECJM97TBYnSJUqjxsvUrHYNHVr64NWgKHFomATvG0kaMJ2+DnGwRl9Kh7j3ssS4Z8ttU4bTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b=TSFyBZgd; arc=none smtp.client-ip=128.30.2.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+	s=arc-20240116; t=1784031312; c=relaxed/simple;
+	bh=F+mHpWa8IcPY+FvXNY7OKES91E6+JJEyZxNUfYTkodw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SYpE6DAWQtUBz7f5Uos8Y2IXccLJW17lfPlk9iRMnT1bgT72ubGfxpXv8vwZIimAZuajr89nvaIlGVBkX/pckVVLRw6Rh+daCVUvpo9pOiYM/EKy0XqDQ0dBOk/GOeNXJiLEk8wwv0AspzBPweVhRbbN9EaNEMjFnXPa2H0OdXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fc7obx5N; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b="TSFyBZgd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=outgoing.csail.mit.edu; s=test20231205; h=In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=LutuqERYiMN1a6U/EWbTyDA9WYCUVlZSh/cCVJUm8n0=; t=1784026531; x=1784890531; 
-	b=TSFyBZgdRalP6NA1eyzb50VXxtF3kiDSluEsAyWfXWcKq79iiYizSQiARkeRI7w0hnUryZC8Y4r
-	4Du/uaNyfduu+ucS/XDUfV1VnYfoeNZ8B7VGYMu3Sm+91Tuc6MP0z0eU7x6X0j2TiHvtf1NT/DPjH
-	GjezZQ8AP5Q7zPu2/vE38t7FOgBZ82KmsAH+DVYoS54aOwQMO+UyyX/QTi2rzn1dD10OtkbYXopV2
-	eC7QNRHgqo2O6ZDoWdPZcg/qA27rmWo5NIfJuFkbWi/QOPx5ZTye0+ZFBMcpzRfsS4WXfeFnd8VEW
-	KDOiW3OmwTciWwslCOp1bPyQaP3W2QKwEqWQ==;
-Received: from [167.220.238.20] (helo=csail.mit.edu)
-	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <srivatsa@csail.mit.edu>)
-	id 1wjaNo-00CkrE-L0;
-	Tue, 14 Jul 2026 06:29:01 -0400
-Date: Tue, 14 Jul 2026 15:58:52 +0530
-From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Yazen Ghannam <yazen.ghannam@amd.com>, Borislav Petkov <bp@kernel.org>,
-	linux-edac <linux-edac@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] EDAC/mce_amd: Do not print a stray newline
-Message-ID: <alYPZGTBJUDR936n@csail.mit.edu>
-References: <20260712031648.486110-1-bp@kernel.org>
- <20260713184402.GA364094@yaz-khff2.amd.com>
- <20260713232219.GAalVzK0UQ9rxlIWmT@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fc7obx5N"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38e041ea211so1588246a91.0
+        for <linux-edac@vger.kernel.org>; Tue, 14 Jul 2026 05:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784031307; x=1784636107; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=27cyps45zbsmskkypwM01rgCccgqyiOxEmhzhyJ9k74=;
+        b=Fc7obx5NbZtHtrPHkboDlVZmMIN1cL9KBmQp4QaocVMquStZMVMZnNtodboHUu4jjd
+         W6fM+rxtOWHysoFb4N8VY/j9+IAePRPPUdsIxbjPSCnWixVJseJxtTZygKwuuusgCniI
+         DJt+ZLWoASW9OKm7PxQGVqHI9amp7Ej8urf7o7uXKzVv1hciQR5+w2o0m8+rXIWjBgvw
+         a+9mYMnOT/dOhqH9C6/whRUzz91ubgTnAEgKxK7jqlDXY5dMQSCBsLnihD+34eaViYbe
+         PKJdSCEb/uJVV8Kc6q25rMkQEyP4JWjfEPrT+eV0IXczvYXLkzeuzEBQuIccd2KaGsmk
+         b3/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784031307; x=1784636107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=27cyps45zbsmskkypwM01rgCccgqyiOxEmhzhyJ9k74=;
+        b=sIJOBCmiWiA0i+AIlOKIfy/Z8hNEfhdPYS6XCKIB3VyO0a3mgb2FsDoelrQvCHUqYZ
+         dJokAd7stq+AZOCSsZ/sARuKT4RQln7mC1AjTZ1AYfEj0GzUrl9/la356Tn4KOE9Lu9c
+         EJ77xrCmbZ0h8At9QeZqUa/WaygsBC4SJ29trjMi7cm0TUMhNYwE72nHBAEv6hpLQk+o
+         TCF2jIQ6RyaO1hwmWlebXkyiWgjtOtSE3GtmPooKkLIYLBvao42PYD8I1gbEvzoFB/iu
+         UOYhvH7ttGzU1pYlkxWp/BHoP7mrOyCQUXiXblkuZiC7uhQnIeK2s75dQmYyVz4LfJWj
+         JiQw==
+X-Forwarded-Encrypted: i=1; AHgh+Roe/sMFlH0LiWJB4geyn71Y/pHXm9ClGLR6CcO2eFLzZixuH0UsDSJjcqsI0pu8AQy7la82fe3dCFve@vger.kernel.org
+X-Gm-Message-State: AOJu0YxD+9WRb4Hg/9p8ZF1IsZS6lVaW9dD8PDuTP9Ujifhgn66jeGYx
+	gK457SiVr11884gXCT7SrGT5LaUrP9v/IwvxzWIPcKr+SdN425YnNHXi
+X-Gm-Gg: AfdE7cmsWH4BHgO23q4bjRZyZR6ffd+vJAxDcfp+MjSIx03UXKME0ZBbfQhIryYE2Zz
+	+PXsmUebi6wk45EriHb8Mw8n2O3BUqT3aQ10S5CWd1XW1iu+X01pqQRMAS3O9PdWSMSrdtm0A20
+	UekAtPldoA/JAvEraXtl8twCm3qPh6RGaLkVQ+G6VLBQ3mn8ScD6bMTipNlWh64EoV1tqfmWlV2
+	sxis5SfhnD9eF7ETzCvynXYJEEqrwbTYGXrB9srn8AuCJdd5AKkrtbIULALbg8/e+/fh8jzWkg6
+	i4gSQ7sAmowEG8rHe3SGkrVUUdne96NpfYUjDXyJRymiAVC2bDlKYBB1MICtoeqLiix9IdSS6Zc
+	6OKgVF+mbNdmWO2bg88m+D+HUmnrSOyfe6iAsE89V50zQcY5j4op418DX7MvDaVy60o2k0WALSW
+	ygmsBn/A==
+X-Received: by 2002:a17:90b:1c0d:b0:387:e0bb:57f9 with SMTP id 98e67ed59e1d1-38e1af82809mr2449294a91.42.1784031307300;
+        Tue, 14 Jul 2026 05:15:07 -0700 (PDT)
+Received: from lgs.. ([2001:250:5800:1000::f280])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e17443f4fsm1399012a91.11.2026.07.14.05.15.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 05:15:06 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Qiushi Wu <wu000273@umn.edu>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH] EDAC/device: Fix double free on sysfs registration failure
+Date: Tue, 14 Jul 2026 20:11:13 +0800
+Message-ID: <20260714121113.1488956-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260713232219.GAalVzK0UQ9rxlIWmT@fat_crate.local>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 13, 2026 at 04:22:19PM -0700, Borislav Petkov wrote:
-> On Mon, Jul 13, 2026 at 02:44:02PM -0400, Yazen Ghannam wrote:
-> > On Sat, Jul 11, 2026 at 08:16:48PM -0700, Borislav Petkov wrote:
-> > > From: "Borislav Petkov (AMD)" <bp@alien8.de>
-> > > 
-> > > With error records which don't have FRU text, an empty newline is
-> > > printed like this:
-> > > 
-> > >   [28014.094610] mce: [Hardware Error]: Machine check events logged
-> > >   [28014.094674] [Hardware Error]: Corrected error, no action required.
-> > >   [28014.094687] [Hardware Error]: CPU:11 (19:44:1) MC0_STATUS[-|CE|MiscV|AddrV|-|-|SyndV|CECC|-|-|-]: 0x9c20400001010135
-> > >   [28014.094724] [Hardware Error]: Error Addr: 0x000000019ba9a974
-> > >   [28014.094732] [Hardware Error]: IPID: 0x001000b000000000, Syndrome: 0x000000081a1f2505
-> > > 
-> > >   [28014.094744] [Hardware Error]: Load Store Unit Ext. Error Code: 1
-> > >   [28014.094748] [Hardware Error]: cache level: L1, tx: DATA, mem-tx: DRD
-> > > 
-> > > Move the \n into the last printk() call where it belongs.
-> > > 
-> > > Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> > 
-> > Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> 
-> Yeah, Sashiko has a point:
-> 
-> https://sashiko.dev/#/patchset/20260712031648.486110-1-bp%40kernel.org
-> 
-> So we want the error records to be compact and fit in a block so that you can
-> recognize them easier and thus not print each thing with a newline.
-> 
-> But those things are not unconditional so you cannot always know.
-> 
-> I need to think of a slick scheme what to do here.
->
+edac_device_alloc_ctl_info() allocates dev_ctl and passes it to
+edac_device_register_sysfs_main_kobj() to initialize its embedded
+kobject.
 
-Do you mean something other than moving the newline print into an else
-block like this?
+If kobject_init_and_add() fails, the helper calls kobject_put(). The
+final reference invokes edac_device_ctrl_master_release(), which calls
+__edac_device_free_ctl_info() and frees dev_ctl for the first time.
 
+After the helper returns an error, edac_device_alloc_ctl_info() jumps
+to its free label and calls __edac_device_free_ctl_info() on the same
+object again, resulting in a double free. The helper also accesses
+edac_dev after kobject_put() may already have freed it.
+
+Make the registration helper release edac_dev on every failure path
+and return directly from the allocator when registration fails. Avoid
+accessing the object after kobject_put() transfers cleanup to the
+release callback.
+
+This issue was found by a static analysis tool I am developing.
+
+Fixes: 17ed808ad243 ("EDAC: Fix reference count leaks")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 ---
- drivers/edac/mce_amd.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/edac/edac_device.c       |  2 +-
+ drivers/edac/edac_device_sysfs.c | 20 +++++++++++++-------
+ 2 files changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
-index bd252cb3c38e..60d1a62e1a95 100644
---- a/drivers/edac/mce_amd.c
-+++ b/drivers/edac/mce_amd.c
-@@ -870,12 +870,16 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
- 				memcpy(&frutext[0], &err->vendor.amd.synd1, 8);
- 				memcpy(&frutext[8], &err->vendor.amd.synd2, 8);
+diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+index cf0d3c2dfc04..ce986dc341cb 100644
+--- a/drivers/edac/edac_device.c
++++ b/drivers/edac/edac_device.c
+@@ -133,7 +133,7 @@ edac_device_alloc_ctl_info(unsigned pvt_sz, char *dev_name, unsigned nr_instance
+ 	 */
+ 	err = edac_device_register_sysfs_main_kobj(dev_ctl);
+ 	if (err)
+-		goto free;
++		return NULL;
  
--				pr_emerg(HW_ERR "FRU Text: %s", frutext);
-+				pr_emerg(HW_ERR "FRU Text: %s\n", frutext);
- 			}
-+		} else {
-+			/*
-+			 * Explicit line termination to handle nested
-+			 * conditional prints correctly.
-+			 */
-+			pr_cont("\n");
- 		}
+ 	/* at this point, the root kobj is valid, and in order to
+ 	 * 'free' the object, then the function:
+diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
+index b1c2717cd023..acab6c07f304 100644
+--- a/drivers/edac/edac_device_sysfs.c
++++ b/drivers/edac/edac_device_sysfs.c
+@@ -247,15 +247,17 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
+ 	edac_dev->owner = THIS_MODULE;
  
--		pr_cont("\n");
--
- 		decode_smca_error(m);
- 		goto err_code;
- 	}
+ 	if (!try_module_get(edac_dev->owner))
+-		goto err_out;
++		goto free_ctl_info;
+ 
+ 	/* register */
+ 	dev_root = bus_get_dev_root(edac_subsys);
+-	if (dev_root) {
+-		err = kobject_init_and_add(&edac_dev->kobj, &ktype_device_ctrl,
+-					   &dev_root->kobj, "%s", edac_dev->name);
+-		put_device(dev_root);
+-	}
++	if (!dev_root)
++		goto module_put;
++
++	err = kobject_init_and_add(&edac_dev->kobj, &ktype_device_ctrl,
++				   &dev_root->kobj, "%s", edac_dev->name);
++	put_device(dev_root);
++
+ 	if (err) {
+ 		edac_dbg(1, "Failed to register '.../edac/%s'\n",
+ 			 edac_dev->name);
+@@ -274,9 +276,13 @@ int edac_device_register_sysfs_main_kobj(struct edac_device_ctl_info *edac_dev)
+ 	/* Error exit stack */
+ err_kobj_reg:
+ 	kobject_put(&edac_dev->kobj);
++	return err;
++
++module_put:
+ 	module_put(edac_dev->owner);
+ 
+-err_out:
++free_ctl_info:
++	__edac_device_free_ctl_info(edac_dev);
+ 	return err;
+ }
+ 
 -- 
 2.43.0
 
-
-Regards,
-Srivatsa
-Microsoft Linux Systems Group
