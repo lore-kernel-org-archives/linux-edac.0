@@ -1,114 +1,195 @@
-Received: from mailout2.hostsharing.net (mailout2.hostsharing.net [83.223.78.233])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63383B42D7;
-	Wed, 15 Jul 2026 04:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F9330C141
+	for <linux-edac@vger.kernel.org>; Wed, 15 Jul 2026 14:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784091292; cv=none; b=AWMebL7aCqbRs5yCgYkj9PTsvBtveynZqZvTO9xMHPGcRZW/jsXmcOf1DdM1E8kdT16XfPwnVxqiX14t40aTlzNQbIPeLgn7CiZlpLfSVB9ZZ1jDrF5BeMcYDsUw608yADzp53gUg7R8AZUFmmGeo6qVvdYpYpALo8HqN+DWdug=
+	t=1784125199; cv=none; b=i/IgfjekfrpATb4Sw3QkWZvfIwG7toVgYnJTpMf8WqNY/2t5Z8ED35sJTSAOe522PtLG7tRtjGx1Gv4f2Lb67ZrZpnnZ16+78/7Rh0m5GBpbkXbk9hlnt0aDmAw+drAkPv9ZTAJz3VNKWVX9UM9Ixftg/fsgCYXoZ0jMvPLKMTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784091292; c=relaxed/simple;
-	bh=YG/BH0rGq979Z5uTrx4zYXUgFUmbKsGaN6XPzFKM8Ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JNKgf46hCIAH5wLQe7HkBPRIGlx6C8qlz4iSivawmxwg8xPfVXLseOD9b/iUrSqzwpcp0FTQphTYCi96NMZ/6RExHE5qSO7lRyIoK1M84ZxTUUlzkwOc5GEI+jCh6r6acxWLwdBT1dhQdxFofPp0Es6RUjIEwpv/pXYM+81i+HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.78.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	s=arc-20240116; t=1784125199; c=relaxed/simple;
+	bh=d+uOZscKl85SU69fH3skPfgUIcCafb7R3rGyzENzbjs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Z8zKVtk2sKZrubxLKqNiRmzlBm7mzMw1J1p2DCi3FYN6V34YknmFWa0DUyJ1LQ5ihU4e33Nqv+A6tBp7UFRIBkG2u/MnphLx8gSpwne9RpNiCr32MGVAevQU5Y4HN3FYS7byecHYFVfBprjf8+uTVB+4lBzzSCiwVsWlEiAvGoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BhzrytSa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BhzrytSa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784125196;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JB941LrGN/iBFnBCrtCyVDOY1ao0FdU1/fMLI0NBSIM=;
+	b=BhzrytSan/K9DtDQUh/3O+GzKFLxhw1M1LHEsGJGPy2B3pE5AQ3zfrA3Ki92mu8382y+QN
+	3AV/NZMwE8F99HGqWkjbWPEoq5dG//HV2bLKUtZd4vuPN8bSp9V9qq6HM6bITYI07vY2Pn
+	w+acjOjK7xOj4Fpvxig0d0P3/dlVUEQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-527-y0Q63fhOMgWFXq8tYz7a2Q-1; Wed,
+ 15 Jul 2026 10:19:53 -0400
+X-MC-Unique: y0Q63fhOMgWFXq8tYz7a2Q-1
+X-Mimecast-MFC-AGG-ID: y0Q63fhOMgWFXq8tYz7a2Q_1784125191
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout2.hostsharing.net (Postfix) with ESMTPS id B5F3510630;
-	Wed, 15 Jul 2026 06:54:38 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 960BB603411E; Wed, 15 Jul 2026 06:54:38 +0200 (CEST)
-Date: Wed, 15 Jul 2026 06:54:38 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Maurice Hieronymus <mhi@mailbox.org>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Justin Tee <justin.tee@broadcom.com>,
-	Paul Ely <paul.ely@broadcom.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	netdev@vger.kernel.org, linux-net-drivers@amd.com,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
-	linux-edac@vger.kernel.org
-Subject: Re: [PATCH v2] PCI: Move pci_dev->is_busmaster into priv_flags
-Message-ID: <alcSjoypegNolW48@wunner.de>
-References: <20260714-pci-dev-flags-v2-1-a1d7dc441cf3@mailbox.org>
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1C9B81955F73;
+	Wed, 15 Jul 2026 14:19:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.4])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCF0A30001B9;
+	Wed, 15 Jul 2026 14:19:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 4830B21E6920; Wed, 15 Jul 2026 16:19:47 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Richard Henderson
+ <richard.henderson@linaro.org>,  linux-edac@vger.kernel.org,  Mauro
+ Carvalho Chehab <mchehab+huawei@kernel.org>,  Alex Williamson
+ <alex@shazbot.org>,  Paolo Bonzini <pbonzini@redhat.com>,  zhenwei pi
+ <zhenwei.pi@linux.dev>,  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+  Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@mailo.com>,  Eric Blake <eblake@redhat.com>,  =?utf-8?Q?C=C3=A9dr?=
+ =?utf-8?Q?ic?= Le Goater
+ <clg@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+  Zhao Liu
+ <zhao1.liu@intel.com>,  Lukas Straub <lukasstraub2@web.de>,  Stefan
+ Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 00/14] qapi: convert to explicit intro section syntax
+In-Reply-To: <CAFn=p-Yu9OV0LJN8rGrc6GTkJZ38XAvP296tfwBxU6CnhLYR7A@mail.gmail.com>
+	(John Snow's message of "Mon, 13 Jul 2026 16:34:07 -0400")
+References: <20260629213624.936258-1-jsnow@redhat.com>
+	<87ech7gi45.fsf@pond.sub.org>
+	<CAFn=p-Yu9OV0LJN8rGrc6GTkJZ38XAvP296tfwBxU6CnhLYR7A@mail.gmail.com>
+Date: Wed, 15 Jul 2026 16:19:47 +0200
+Message-ID: <87ik6ggwsc.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714-pci-dev-flags-v2-1-a1d7dc441cf3@mailbox.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Tue, Jul 14, 2026 at 09:37:07PM +0200, Maurice Hieronymus wrote:
-> +++ b/include/linux/pci.h
-> @@ -1446,6 +1445,8 @@ void pci_disable_device(struct pci_dev *dev);
->  extern unsigned int pcibios_max_latency;
->  void pci_set_master(struct pci_dev *dev);
->  void pci_clear_master(struct pci_dev *dev);
-> +bool pci_dev_is_busmaster(const struct pci_dev *pdev);
-> +void pci_dev_assign_busmaster(struct pci_dev *pdev, bool busmaster);
+John Snow <jsnow@redhat.com> writes:
 
-pci_dev_assign_busmaster() should not have public visibility.
-Drivers should really use pci_set_master() / pci_clear_master()
-and nothing else.
+> On Mon, Jul 13, 2026 at 9:00=E2=80=AFAM Markus Armbruster <armbru@redhat.=
+com> wrote:
+>>
+>> John Snow <jsnow@redhat.com> writes:
+>>
+>> > GitLab CI: https://gitlab.com/jsnow/qemu/-/pipelines/2638342206
+>> >
+>> > Hi, this patchset converts some of the most trivial modules to use the
+>> > new explicit intro syntax. This particular patchset does not
+>> > differentiate between "trivial" conversions and those that take
+>> > slightly more liberty in refactoring, but there are (debatably?) no
+>> > such cases in this patchset.
+>>
+>> Looks entirely mechanical to me.  Am I missing anything?
+>
+> Honest answer: I am not sure; I have edited so many QAPI files that I
+> cannot remember what is and what is not mechanical anymore. If there
+> are instances of "non-mechanical" changes, it would be for cases where
+> I decide to indent some paragraphs, but not others, effectively
+> introducing a new split as to what appears before and what appears
+> after the tabular data.
+>
+> I genuinely do not recall if there are any such cases in this mini-series.
 
-It seems Xen is the only one in the tree which needs this:
+It's only mostly mechanical.
 
-> +++ b/drivers/xen/xen-pciback/pciback_ops.c
-> @@ -125,14 +125,14 @@ void xen_pcibk_reset_device(struct pci_dev *dev)
->  		if (pci_is_enabled(dev))
->  			pci_disable_device(dev);
->  
-> -		dev->is_busmaster = 0;
-> +		pci_dev_assign_busmaster(dev, false);
->  	} else {
->  		pci_read_config_word(dev, PCI_COMMAND, &cmd);
->  		if (cmd & (PCI_COMMAND_INVALIDATE)) {
->  			cmd &= ~(PCI_COMMAND_INVALIDATE);
->  			pci_write_config_word(dev, PCI_COMMAND, cmd);
->  
-> -			dev->is_busmaster = 0;
-> +			pci_dev_assign_busmaster(dev, false);
->  		}
->  	}
->  }
+Almost always, the patches change
 
-Please change these direct assignments to pci_clear_master(),
-preferably in a separate patch to ease bisecting if anything
-breaks.
+  ##
+  # @name:
+  #
+  # Single plain paragraph: Lorem ipsum dolor sit amet ut enim ad minim
+  # veniam duis aute irure dolor.
+  #
+  # Something other than a plain paragraph
 
-Then you don't need pci_dev_assign_busmaster() and can just inline
-setting/clearing the bit in __pci_set_master() and pci_disable_device().
+to
 
-Thanks,
+  ##
+  # @name:
+  #     Single plain paragraph: Lorem ipsum dolor sit amet ut enim ad
+  #     minim veniam duis aute irure dolor.
+  #
+  # Something other than a plain paragraph
 
-Lukas
+No decisions, thus mechanical.
+
+I found two exceptions:
+
+1. In qapi/compat.json
+
+    @@ -39,8 +37,7 @@
+
+     ##
+     # @CompatPolicy:
+    -#
+    -# Policy for handling deprecated management interfaces.
+    +#     Policy for handling deprecated management interfaces.
+     #
+     # This is intended for testing users of the management interfaces.
+     #
+     # Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
+     # with feature 'deprecated' or 'unstable'.  We may want to extend it
+     # to cover semantic aspects and CLI.
+     #
+     # Limitation: deprecated-output policy @hide is not implemented for
+     # enumeration values.  They behave the same as with policy @accept.
+     #
+     # @deprecated-input: how to handle deprecated input (default 'accept')
+     #
+     # @deprecated-output: how to handle deprecated output (default
+     #     'accept')
+     #
+     # @unstable-input: how to handle unstable input (default 'accept')
+     #     (since 6.2)
+     #
+     # @unstable-output: how to handle unstable output (default 'accept')
+     #     (since 6.2)
+     #
+     # Since: 6.0
+     ##
+
+   Here, we have multiple paragraphs, and only the first one becomes
+   "intro".
+
+2. In qapi/misc-arm.json
+
+    @@ -29,9 +28,8 @@
+
+     ##
+     # @query-gic-capabilities:
+    -#
+    -# It will return a list of `GICCapability` objects that describe its
+    -# capability bits.
+    +#     It will return a list of `GICCapability` objects that describe
+    +#     its capability bits.
+     #
+     # On non-ARM targets this command will report an error as the GIC
+     # technology is not applicable.
+     #
+     # Since: 2.6
+     #
+     # .. qmp-example::
+     #
+     #     -> { "execute": "query-gic-capabilities" }
+     #     <- { "return": [{ "version": 2, "emulated": true, "kernel": fals=
+e },
+     #                     { "version": 3, "emulated": false, "kernel": tru=
+e } ] }
+     ##
+
+   Here, we have two paragraphs, and both become "intro".
+
