@@ -1,162 +1,245 @@
-Received: from SY5PR01CU010.outbound.protection.outlook.com (mail-australiaeastazon11022131.outbound.protection.outlook.com [40.107.40.131])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A03426738C
-	for <linux-edac@vger.kernel.org>; Thu, 16 Jul 2026 05:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.40.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784181309; cv=fail; b=jWeRR50v15P06azhQe8RMpCL5ZRF80O8cCtD4Prr537oNRP7HJewW1/kiRQSnmQWAlSa9jBtdQZI9iBUtZ2d/IgX9y4QVkfWp1dNFuO329wVk9oQ4ajBwNnEwnP1VjprG24eo4js4m4jooemu20r9ZPxgUdjKxJ7/RoKKTn/b+s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784181309; c=relaxed/simple;
-	bh=Oxcb98iIU+SldqlwdBmjAmSZSPrUuDh7Rx8U4a1xDQA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=u3fc2ejBDZnNRDzucDeOB/rzs+QnXcsm9jImrG0p/b9vmkKOA2rdXq4TBoljV8+EHNJDosM8nho01zoUGiSiABDjKSvACND5iDlyuggIEiYQiUjcr2mtkZluDjulAj78YiFfrkKGbN8L2jjZkwrQ0qXoM9+JT9JSh1z3yfrKz2w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=emba.au; spf=pass smtp.mailfrom=emba.au; dkim=pass (2048-bit key) header.d=emba.au header.i=@emba.au header.b=JFNjwkH7; arc=fail smtp.client-ip=40.107.40.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=emba.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emba.au
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5AA30E0E4
+	for <linux-edac@vger.kernel.org>; Thu, 16 Jul 2026 06:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784183346; cv=none; b=um3LjQJ2bshXUCs/JI2W70mw+OeQPNQmhjrnAEtgP7XjnkGPOvcpZUYXB1aAl350k/Y9/Fb/z7ZZSXpd3GbVdUg6dqPnVPk1YAWVlMQHMO26XzF2e4oaFq2uQdkay/uLFsWAiX20sJ2fnrr7TkHsVkwS2WRKNwMc/pBqFW3d/Bg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784183346; c=relaxed/simple;
+	bh=mppgZf9bLYCvOZR7CAUXzuUxz1g1kno+6QHl9SsyJhA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AHejm1wJSf+npG65Ybx+5Sei4bv6Dg8k/5OLfXgQm31JfuZuht3dHaroh9liyLiUf71GSfpNw/1/hBOkUrqgLJbEHeKEjhIuZmGIe3JmIgRYbFeDHXMzonKZ5xaZPTn+BrCGQFggU+KsHcKJBmQ5sGzu16QcwK91TIfhIA1G/Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com; spf=pass smtp.mailfrom=airkyi.com; dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b=bpd+htYY; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=airkyi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airkyi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=emba.au header.i=@emba.au header.b="JFNjwkH7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ITi9YB6wbq/7Vp9+XxYorS4KMn1vaRnSHpRdG+d9287Mb8/5r6ytiBAh746Pihiw7nS3aj5epNHqtfIMxqx4uAYSXbcGfdyKfn0GY+v07yAy+Ka+we/uoTDMWy8CG44GiUPb0b6fR/6oYJ5E9WddX5ARPd02BV9Rf3rxtJb/FYGnPDJslMBm6O5g0UqepwhNMIwdXq74wbAsDwYBlMiignP+V24Suk2iuOKHMtf4KnA3VNAtFt9gAa9iHNtSDvVCwhGTvMzpmiiQklsgXlLipQUFThKWg0rClaDkMw6hYvCxfmPQAIBX1ZY764vXMJcPfJRPEwA2FqSsGh5ZJ14DFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VYMCROGjVaR6TuRedKSWM4Z6V93SCa7lP5UKAyRiatc=;
- b=CDNVqDSG/a7R087A1ja4y3x39Un2xm+QHy9rEwNUazjZEktLBhdDogCZKCYyNky/BEUF0pxEVamL5ck7D8IAOthM3WD2/vhc7C1dhRaY0/lVACTSn9v2KR4ey83dMmY4ma5rv2FL2cRsjJMtHQUf2i08Ir+SKqZK7KAE9Xk/Gg+JuIqPgVstmfQFnGdkVeoNuqD23TVLqHjxAtl0T7esJxsr5iH8QyEH02yJ/q20w2r5xqAKGzjHZV8z12dKHxX6eMG1Wke8zoSSL7eGW6xsaWHgK3txUf5dhWnJfPbBVTyuA0vEeGi69TM1Ki7I2uLS1K6GitHGEV1CTpM2fNbd0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=emba.au; dmarc=pass action=none header.from=emba.au; dkim=pass
- header.d=emba.au; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emba.au; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VYMCROGjVaR6TuRedKSWM4Z6V93SCa7lP5UKAyRiatc=;
- b=JFNjwkH7xH+YXrQhHqK9GrMrQCCeLv8mrctC7ogL382LcFR1T293I6yqya0sW4UhusEiiXW4lyLnJSPgiIGaxXXqSP8MuVbLSjny7uNDM7v3hu9Y6n3hA072plyMntnuSF/zNccFq9Ff9giQi+Ws7+X8TnN9t+iB0jVdTaDKht0k4mq+dbsFgr4yY7wDV8o+HG2cRUsweeKV1lfDtsbBTAjP0gxzL7otlrzUjddpFSQgfzm1zCI2FFXL4lv4YceqYHOGOshQv20idklGtSdNb+kjt9WTMVExc5GE+YTK7p51IBt5ri/DVPh3r4Z1InAVOItbcc70SfSL7xJjqEobxg==
-Received: from SY9PR01MB10852.ausprd01.prod.outlook.com (2603:10c6:10:320::13)
- by SYBPR01MB6716.ausprd01.prod.outlook.com (2603:10c6:10:12f::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 05:55:02 +0000
-Received: from SY9PR01MB10852.ausprd01.prod.outlook.com
- ([fe80::1512:d1f9:6ca5:9d4d]) by SY9PR01MB10852.ausprd01.prod.outlook.com
- ([fe80::1512:d1f9:6ca5:9d4d%6]) with mapi id 15.21.0223.008; Thu, 16 Jul 2026
- 05:55:02 +0000
-From: Emba Consulting <hello@emba.au>
-To: Chaoyi Chen <kernel@airkyi.com>
-CC: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>, "tony.luck@intel.com"
-	<tony.luck@intel.com>
-Subject: Re: EDAC support for Arrow Lake-HX (8086:7d1c) - working out-of-tree
- driver, test hardware available
-Thread-Topic: EDAC support for Arrow Lake-HX (8086:7d1c) - working out-of-tree
- driver, test hardware available
-Thread-Index: AQHdEDl8giR33UKdQUiabq1WYsVwEg==
-Date: Thu, 16 Jul 2026 05:55:02 +0000
-Message-ID:
- <SY9PR01MB108529ED20B30732B9070D40AA9C72@SY9PR01MB10852.ausprd01.prod.outlook.com>
-References:
- <SY9PR01MB108527BA385DE411FE1B69FB0A9FD2@SY9PR01MB10852.ausprd01.prod.outlook.com>
- <SY9PR01MB10852E9F6484A7DDBF3E8D898A9FA2@SY9PR01MB10852.ausprd01.prod.outlook.com>
- <0C9D891E25801298+57a8987c-8158-42dd-93d3-22d8985cce99@airkyi.com>
-In-Reply-To:
- <0C9D891E25801298+57a8987c-8158-42dd-93d3-22d8985cce99@airkyi.com>
-Accept-Language: en-AU, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=emba.au;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SY9PR01MB10852:EE_|SYBPR01MB6716:EE_
-x-ms-office365-filtering-correlation-id: 97012d1e-758e-4cbd-3602-08dee2fec76c
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|1800799024|376014|19092799006|366016|7055299009|56012099006|4143699003|6133799003|18002099003|55112099003|3023799007|22082099003|10067099003|38070700021;
-x-microsoft-antispam-message-info:
- h9s3b7FT+000HxsJoYtYE8/n8YlgzusWeboP7Py/nWjK8WCGZA0hv/mLXGHdfEg/a4IaG8JBFF8ncEWo3zIRWCq7pyo1cuN+HYrCNSExHUooUl/D5dyZ1iG/3wpYxjZ6PW7UjqtLHwgXa5wQMf8pOa2GkrVVnrHzDALUsaOKWgLvemqgOxxCRpRotuabVcvDfxdcL5SH0BxDuBwA3W5aNLSUTjJjQHummGk5m0rIjn0D8LmfpCs1fwexqMvGitOmSoNW9E51JjXTpAyASw5JVVPLX4UvfWSa69RLSwYfXbiDEVS9aYc8dCWXuZVVjWDlaqxUKzR8bQjF3YI1NQCQWCF/jcw2qmlTX5CTpBuNxXrYjbTjkR5hIw+cUsSvtsIkn4epmmdhruS3xkOzv5dyuXngh8Kd9YlX39Qy9/iFgPE36CFQ37ApSC6mpCo0WC7vaSma1ll0mRaHhyytRq71Aqrif8DkNe/fwZaM4WA6t+txZBvXWzbZNtpEOjwT/KYq0ZOmZCMHDDT++IPXK/wnFHsjWKPHwNpunigzTNgwnx+B3MXujFqGgHK6UiOmr8YeQexD3ZoIAMJ8oe4VFhAGFfpjkLI733tQPZE05dBdUW2rXRRV8LLSOKdgN7gK39x7/m6kWb/7QTeqcamaHcBBi5EHsHseFFiqZEZib0QX7YGuMBOETDrMT45Yikp5VCm5WONeqDMKBJ6Fan00Ipvcptpxr/6uuNofjaeTs4eThp50Ye+v+jz8JvaMd8Afd/Ir
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SY9PR01MB10852.ausprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(19092799006)(366016)(7055299009)(56012099006)(4143699003)(6133799003)(18002099003)(55112099003)(3023799007)(22082099003)(10067099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?LYvlv0DSqqZ3FHQ1/E0mwk8XsbbmIeQ9ee2BUAoPEE1Ue/lp30wIvTXBtCKo?=
- =?us-ascii?Q?2/jR3thdRRUvWSHG08xFzwOVvrcZJyI0jrm37EsA+0s3jh1b9KbuQuBJC7Wj?=
- =?us-ascii?Q?ay4pWJ1QCeADzm2soSzaagl00KJIKuR3sKutT390k4STbjHEwQxhKuyDmOpm?=
- =?us-ascii?Q?GOoQT3830lB6PBI+UZ4RylsX7AhJEd3BPcLr/8DycIRJPmisdn8mvBFKRtyb?=
- =?us-ascii?Q?rzBLUf6xhWhC/rTv0TskFIkXIu76n1bkDRhXFRPhfW9sP7ptB1K3Vr+53W6R?=
- =?us-ascii?Q?yzAS9WawRdUrZcw2/hHklYEVQcCL61eyN9MZEW5e9X+Qw06bxyvu8uWqHqB1?=
- =?us-ascii?Q?FSpUVbjGWJ6ekynqLTdLq2kE1qrcUdz/oFEakmzA4Ek09qC8Au3I/Dh6WkZU?=
- =?us-ascii?Q?UoEQZLPMKRRSgF4q+KiKc3lCiTSvqYo9kWAYKYoGGeHHs1wHWhWs/JmnOOob?=
- =?us-ascii?Q?iw4j8EuOnV4wE6oZzMa16lF9/CSu0APYa3U6TKD8HNbsll/5Mc48d0WKb11A?=
- =?us-ascii?Q?MTZx8F2rYVaghQogivqUAC0LW7uW+r2q2TFG99Le879HCjcjOHo4wWmlJDyz?=
- =?us-ascii?Q?2glaE/gVESHmtZYfeGqg5k+dW2KFaD64CdScm3uoRbA+Q8DHroanDSB6i2TY?=
- =?us-ascii?Q?8FqQHv4Gu0JLEog/oUWIfJoLqE1fzVVvBOf0kocG1FzOxfRSiv5L+DISikHJ?=
- =?us-ascii?Q?z9U+QdVvKYLugNHtonozWwOS5z594axOJ3CQt/x0CqDOWxsnMwOTL/fV3gxZ?=
- =?us-ascii?Q?e+5gWK2uvRVf/3GA2Z/wGvIOUV34PGYu0TwhZRRNnrBpMxlZ/cMjl//fcy9f?=
- =?us-ascii?Q?6xyQs/W/Z/QYhNZtLI6CEu6CAst0227B2X85E7sl/VrnLNIVpUEr49FDCSzD?=
- =?us-ascii?Q?N80Xo11e9x3eRQWcluBAi2asstvnB0uzmpN/aKCvF5nAlBW0SbZ9yJoxbZz2?=
- =?us-ascii?Q?JwDcOdJXziavQGW3nFqy4CB6s+iSF8Q/IHhr0wTHMzBk/790rLvuGYOxOksc?=
- =?us-ascii?Q?2oHt+WBjJmwt4FxVr1TL/LQeHIeGd3MYo0Yn0JuIIxCYwlBcALIE7KrC1LcW?=
- =?us-ascii?Q?4ETpKxdUDPDcZaz4htvZbYod5y3+58s4ITdoWFHHZgsxjDAsFT2vu/oMajtD?=
- =?us-ascii?Q?a/gk/kM0agEOz37aMSp9JbQnBrNLhfP3n3PloavdNQoe+/tOHm6HfAx7jc1k?=
- =?us-ascii?Q?KwSyaxCfBQDPnmIxGyyH9qxY5ENWIXL6qfp7augqMJTJ2rsL0VGxCLrKoQwD?=
- =?us-ascii?Q?Jx9oBWHYX+6pjQSvhagdv5Dtt1tqIBuFUfjpb8Tyuhb7D71pQwpClBMDmp6l?=
- =?us-ascii?Q?4meHppVo2zv2T7qgL+U8wei3g/GoFTIbGEdzh5rN+I98ozB0KeSld1KEg6Ln?=
- =?us-ascii?Q?HylD0ZdZbmo1tzBQxHxDY9+m/8c9eEfC9HWwGFOfwgk9flE93UCAhmwneTHY?=
- =?us-ascii?Q?vt0Xu7ylfSUCsARzI9Fp2gB21XFvnoqbi+HC9Uztq5Nzt86c6WrVrsj8G38+?=
- =?us-ascii?Q?51ed9fF9su/uvS0YeYVzhsYtHYjZSxlbOyVfdOxZd6dLoIAsII4QNZH0SG8E?=
- =?us-ascii?Q?1Ol3X/xVfgRoZ1swvD6a+bl72Mds+30kI/Gs5iGVTGVW0EgUitQNN1Yi0/kI?=
- =?us-ascii?Q?gbzEI7sRoOcZXbHuuZM5h8Y66LNl/MwWUD5eTWlmuOhFmXPf99DVJpqmkYRh?=
- =?us-ascii?Q?ypIKxRSWHxpgwITCozLCK/zkG9Ibh/oxPDt5R80gEjlfbqEf96tJFr3oUJkl?=
- =?us-ascii?Q?s/WTpjNanw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=airkyi.com header.i=@airkyi.com header.b="bpd+htYY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+	s=altu2504; t=1784183314;
+	bh=0v2sYLmcYrF0h+G0lxeJRBEwvZq2jXR+RRPzvVquqwc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=bpd+htYYRDCjTcUc7G4QHMNrTAEoed2iXERsSt5P5JCGMwbBv4mf+EZ7Wd668XQm0
+	 VO414RaTA7Ln+tGLHGJTtUzU2HJDibJZuPEUoq/Yrt8Y+h7GRAwpNSTOOvRkUcgvF7
+	 xlUWKjhzmeQtug/JUYxowjllnEwkhhCMwbP38WE4=
+X-QQ-mid: esmtpgz12t1784183313tf942b1f4
+X-QQ-Originating-IP: OJ5CVpD2UaCzf46+sdosfmNGN39f4xM/VDjlQBq1vtA=
+Received: from [172.16.12.90] ( [58.22.7.114])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 16 Jul 2026 14:28:31 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 15451481654597092204
+Message-ID: <1722CDE4641C6924+5f120e9e-f8c2-4209-92cf-b167e327a426@airkyi.com>
+Date: Thu, 16 Jul 2026 14:28:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: emba.au
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SY9PR01MB10852.ausprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97012d1e-758e-4cbd-3602-08dee2fec76c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 05:55:02.7436
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 101dbf38-5458-40f7-9513-7e6108b82c03
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BqkRjA3IiDnCPeUdGXEWu3eq3B5ZKkgt//wN8xK1Pu6rfT7/EKa5n7dWIb5X4MKF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SYBPR01MB6716
+User-Agent: Mozilla Thunderbird
+Subject: Re: EDAC support for Arrow Lake-HX (8086:7d1c) - working out-of-tree
+ driver, test hardware available
+To: Emba Consulting <hello@emba.au>
+Cc: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+ "qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>,
+ "tony.luck@intel.com" <tony.luck@intel.com>
+References: <SY9PR01MB108527BA385DE411FE1B69FB0A9FD2@SY9PR01MB10852.ausprd01.prod.outlook.com>
+ <SY9PR01MB10852E9F6484A7DDBF3E8D898A9FA2@SY9PR01MB10852.ausprd01.prod.outlook.com>
+ <0C9D891E25801298+57a8987c-8158-42dd-93d3-22d8985cce99@airkyi.com>
+ <SY9PR01MB108529ED20B30732B9070D40AA9C72@SY9PR01MB10852.ausprd01.prod.outlook.com>
+Content-Language: en-US
+From: Chaoyi Chen <kernel@airkyi.com>
+In-Reply-To: <SY9PR01MB108529ED20B30732B9070D40AA9C72@SY9PR01MB10852.ausprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: OE2SNMSfMbmOpMOzfPvT6W1uMxUpIY2NJV1/iVBuvwoZck+WABCFrf5X
+	aaVNL1jULE+wt6e8fGV4jJqfHxGgChbzxTNknvbkvVqBkGLMwV7S28m3iAuLlcxjcWVCUoa
+	NGftdpswrIdFSIJuR/k/LSdwhn735vYjorJTjHyB/7tVe1zUrunQjbUtXUWydMLPdOCO8qW
+	IVhSkbPKHDFFaSnUmS+Eo+Ou2l4CEwLcq2jb1TgmrURMV9d7DijXCXDa2njP8czZm0+lZmv
+	K87IHTcnIs25/3gixIj0JOG8Y4oIncZ3u+JMBcysOQHglShWGr7wwG80delMNQnbX2zbfKc
+	DtE0HROMr9FLnCRmsMvRIvPhfskMhTEYRo4F9/rzRieVq1OfAW8ewEwd2Lx4261FqMPezEe
+	LrAmGZcqXoulIwK0i+D2Gs4cZ5yDqgRD+ee6adoZIpF7WqDii55YZqO4Jj/JvzaMjv4korg
+	Pgva+vvSBoiBipGPwdAbJjCRUgLIJ7FyFBQMxWu7h0eXn/E2eXFzqQOfxjp2yz5V1170f02
+	TP4Z9swDRTmZVNOAYzaXoa/068gc9Oyuw7z6yUULV/JngUszZvh61+LSyku90Y03oRRtTc8
+	Fc08zFF0Zr3wxn0TQ4AoxcSpWbOssL1SsOVuuBwmkZmr04/EelYP6nC1MkCacKLWc8gvggG
+	k5wfNMCmRtUu23OisY1q0DYc1GfXF3Og6k1JZeOAn9FW7iDo5CGZmsV6uF9teNXQjeE05/e
+	cI9rSoQQC7eJJXphnjBQMQ20nGrEudxaVuh0SlQ5GyltPjAvhYUtO7ZGm99y9Mm7B8lnjWk
+	SY3Vs+Bl2k3nqX9ENitVlB0Zg4LrAWoBYFEs8X/6kI/pGAbHw4TRE5k13wVsKckPxj6/P/v
+	ZIdTjuo1ZhFtNUNaBWNBgHn5lBdcfQTFPKFJkrr0ZBpMxz+QKrlqZfWRYkjMDfz+PsqTs1R
+	f0uJ03v4pZ3FrWkpQt0Jc8lp87SGFxg2jtK/NI3ztJNyR2w8PrrEKYys2mRS7hmf5XKX5Ek
+	cdIrcI1Sh9DFCf1LTQ0LpNKt7G4JuSnqjy0f/4MA==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-RECHKSPAM: 0
 
-On 7/16/2026 2:39 PM, Chaoyi Chen wrote:=0A=
-> I have an Intel Core Ultra 7 270K Plus (Arrow Lake-S Refresh), and it=0A=
-> appears to be 8086:7d1a. I'll test your driver, thanks!=0A=
-=0A=
-Good to hear. Two heads-ups before you build:=0A=
-=0A=
-- The module's ID table previously matched only 7d1c; I've pushed a=0A=
-  commit adding 7d1a (reusing the ARL-HX register map unchanged), so=0A=
-  pull https://github.com/zs311521/edac-arl-hx first or it won't bind.=0A=
-- mchbar-probe.py assumed my board's MCHBAR base; it now reads it=0A=
-  from PCI 00:00.0 config the way the driver does, so pull that too.=0A=
-=0A=
-Suggested order on your machine:=0A=
-=0A=
-1. mchbar-probe.py (read-only, /dev/mem): it decodes MAD_DIMM and=0A=
-   ECCERRLOG from userspace. If the topology it prints doesn't match=0A=
-   your physical DIMM population, the ARL-S Refresh layout differs=0A=
-   from ARL-HX and the module's counts shouldn't be trusted - the=0A=
-   probe output is useful either way.=0A=
-=0A=
-2. modprobe/insmod. The defaults never write to hardware (polling=0A=
-   only, no MSR 0x791, no ERRSTS clear), so a load is safe even if=0A=
-   the die differs. It refuses with "No ECC support" if CAPID0 says=0A=
-   ECC is disabled.=0A=
-=0A=
-Output worth sharing: lspci -nn -s 00:00.0,=0A=
-dmidecode -t 16 -t 17, the probe script output, and dmesg after load.=0A=
-And if your board exposes an ACPI EINJ table, injecting a corrected=0A=
-error would exercise the decode end to end - my BIOS has none, so=0A=
-that is the one path I have not been able to validate.=0A=
-=0A=
-Thanks.=0A=
+Hello Zura,
+
+On 7/16/2026 1:55 PM, Emba Consulting wrote:
+> On 7/16/2026 2:39 PM, Chaoyi Chen wrote:
+>> I have an Intel Core Ultra 7 270K Plus (Arrow Lake-S Refresh), and it
+>> appears to be 8086:7d1a. I'll test your driver, thanks!
+> 
+> Good to hear. Two heads-ups before you build:
+> 
+> - The module's ID table previously matched only 7d1c; I've pushed a
+>   commit adding 7d1a (reusing the ARL-HX register map unchanged), so
+>   pull https://github.com/zs311521/edac-arl-hx first or it won't bind.
+> - mchbar-probe.py assumed my board's MCHBAR base; it now reads it
+>   from PCI 00:00.0 config the way the driver does, so pull that too.
+> 
+> Suggested order on your machine:
+> 
+> 1. mchbar-probe.py (read-only, /dev/mem): it decodes MAD_DIMM and
+>    ECCERRLOG from userspace. If the topology it prints doesn't match
+>    your physical DIMM population, the ARL-S Refresh layout differs
+>    from ARL-HX and the module's counts shouldn't be trusted - the
+>    probe output is useful either way.
+> 
+> 2. modprobe/insmod. The defaults never write to hardware (polling
+>    only, no MSR 0x791, no ERRSTS clear), so a load is safe even if
+>    the die differs. It refuses with "No ECC support" if CAPID0 says
+>    ECC is disabled.
+> 
+> Output worth sharing: lspci -nn -s 00:00.0,
+> dmidecode -t 16 -t 17, the probe script output, and dmesg after load.
+> And if your board exposes an ACPI EINJ table, injecting a corrected
+> error would exercise the decode end to end - my BIOS has none, so
+> that is the one path I have not been able to validate.
+> 
+> Thanks.
+> 
+
+I did a quick test, and it seems to be working properly :)
+
+The output for your information:
+
+$ lspci -nn -s 00:00.0
+00:00.0 Host bridge [0600]: Intel Corporation Device [8086:7d1a] (rev 01)
+
+$ sudo dmidecode -t 16 -t 17
+# dmidecode 3.6
+Getting SMBIOS data from sysfs.
+SMBIOS 3.8.0 present.
+# SMBIOS implementations newer than version 3.7.0 are not
+# fully supported by this version of dmidecode.
+
+Handle 0x000E, DMI type 16, 23 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: Single-bit ECC
+	Maximum Capacity: 128 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 4
+
+Handle 0x000F, DMI type 17, 92 bytes
+Memory Device
+	Array Handle: 0x000E
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: Controller0-ChannelA-DIMM0
+	Bank Locator: BANK 0
+	Type: Unknown
+	Type Detail: None
+
+Handle 0x0010, DMI type 17, 92 bytes
+Memory Device
+	Array Handle: 0x000E
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: Controller0-ChannelA-DIMM1
+	Bank Locator: BANK 0
+	Type: Unknown
+	Type Detail: None
+
+Handle 0x0011, DMI type 17, 92 bytes
+Memory Device
+	Array Handle: 0x000E
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: Unknown
+	Set: None
+	Locator: Controller0-ChannelB-DIMM0
+	Bank Locator: BANK 1
+	Type: Unknown
+	Type Detail: None
+
+Handle 0x0012, DMI type 17, 92 bytes
+Memory Device
+	Array Handle: 0x000E
+	Error Information Handle: Not Provided
+	Total Width: 80 bits
+	Data Width: 64 bits
+	Size: 32 GB
+	Form Factor: DIMM
+	Set: None
+	Locator: Controller0-ChannelB-DIMM1
+	Bank Locator: BANK 1
+	Type: DDR5
+	Type Detail: Synchronous
+	Speed: 5600 MT/s
+	Manufacturer: Micron Technology
+	Serial Number: 44343856
+	Asset Tag: 9876543210
+	Part Number: MTC20C2085S1EC56BD1 
+	Rank: 2
+	Configured Memory Speed: 5600 MT/s
+	Minimum Voltage: 1.1 V
+	Maximum Voltage: 1.1 V
+	Configured Voltage: 1.1 V
+	Memory Technology: DRAM
+	Memory Operating Mode Capability: Volatile memory
+	Firmware Version: Not Specified
+	Module Manufacturer ID: Bank 1, Hex 0x2C
+	Module Product ID: Unknown
+	Memory Subsystem Controller Manufacturer ID: Unknown
+	Memory Subsystem Controller Product ID: Unknown
+	Non-Volatile Size: None
+	Volatile Size: 32 GB
+	Cache Size: None
+	Logical Size: None
+
+$ dmesg
+
+[965428.124209] edac_arl_hx: loading out-of-tree module taints kernel.
+[965428.124215] edac_arl_hx: module verification failed: signature and/or required key missing - tainting kernel
+[965428.125593] resource: resource sanity check: requesting [mem 0x00000000fedc0000-0x00000000fedcffff], which spans more than PNP0C02:04 [mem 0xfedc0000-0xfedc7fff]
+[965428.125597] caller arl_init_one+0xe2/0x640 [edac_arl_hx] mapping multiple BARs
+[965428.125601] EDAC arl_hx: CAPID0[1]=0x21 (PDCD=0), MAD_DIMM_CH1=0x00000220
+[965428.125619] EDAC arl_hx: mc 0 ch 0 dimm 0: 0 MiB, 1 rank(s), type 4
+[965428.125620] EDAC arl_hx: mc 0 ch 0 dimm 1: 0 MiB, 1 rank(s), type 4
+[965428.125621] EDAC arl_hx: mc 0 ch 1 dimm 0: 16384 MiB, 2 rank(s), type 4
+[965428.125622] EDAC arl_hx: mc 0 ch 1 dimm 1: 0 MiB, 1 rank(s), type 4
+[965428.125646] EDAC MC0: Giving out device to module arl_hx_edac controller ARL_HX: DEV 0000:00:00.0 (POLLED)
+[965428.125660] EDAC arl_hx: CAPID0[1]=0x21 (PDCD=0), MAD_DIMM_CH1=0x00000220
+[965428.125668] EDAC arl_hx: mc 1 ch 0 dimm 0: 0 MiB, 1 rank(s), type 4
+[965428.125669] EDAC arl_hx: mc 1 ch 0 dimm 1: 0 MiB, 1 rank(s), type 4
+[965428.125670] EDAC arl_hx: mc 1 ch 1 dimm 0: 16384 MiB, 2 rank(s), type 4
+[965428.125671] EDAC arl_hx: mc 1 ch 1 dimm 1: 0 MiB, 1 rank(s), type 4
+[965428.125685] EDAC MC1: Giving out device to module arl_hx_edac controller ARL_HX_1: DEV 0000:00:00.0 (POLLED)
+[965428.125686] EDAC arl_hx: registered 2 IMC(s), mode=poll, clear=read-only
+
+---
+
+Unfortunately, my motherboard doesn't seem to have an option to allow EINJ.
+After quickly reviewing Intel's manual, I have essentially the same
+questions as you.
+
+-- 
+Best, 
+Chaoyi
+
