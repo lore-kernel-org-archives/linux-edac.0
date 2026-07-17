@@ -1,44 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ECA34EF0E;
-	Fri, 17 Jul 2026 09:28:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991CB3ACA45;
+	Fri, 17 Jul 2026 09:39:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784280516; cv=none; b=suJFotj8IW7OQZKm+mPBmXoSgDOEXHlYyFijRDtEiaZ9dF3oqeuKzwn7cR9LeqfssDkPOxnWNQ4nIUxirHa5JY55VIr0/4noWvfqA9V5e4D0ZVWYP0DUO/z26W+09m6GcxaCM/XRYfwSfmk786WGawobu4LvosF4vU7Yp9IhlIE=
+	t=1784281147; cv=none; b=BppLtsdbXnrvN3EeaWvCdpumpa0i064v7ADu84UoFdYpnNDe540PNeFJ0AgE7hZlw/t7cQaOEg6iTquG5dd/truYzpbuP/Kruoj+vyZ8vJKI8Q08GGvaESbNv2Aa65cEE8sOOe/HLoMrBZ205DJh4kTZNZIWFsTlN3Umq7m+PkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784280516; c=relaxed/simple;
-	bh=IHBspCysPUtYqi+2bDoQnkpznWIEcJl19F13ZI+IV2U=;
+	s=arc-20240116; t=1784281147; c=relaxed/simple;
+	bh=65klr4rI+ewfuz2XA3kQiuQwXfZjPhKrVWT8lVLWR8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XdfYo7hY47oozn06FofCbe6FAgWdf5r1vhMbTTT+BYa2NIP9ON9HKBPAaZ5Gcu88TNbT7R2qDP+UUSoUR6tGxXYP+iccbuIplV1az1TND9hNiTQsPh9gcPtBwJpciuwD7/k9kwd1qWwKXIhFA+k6XsSj+gY+YmXA32jeGOfNG0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2S1sY8V; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=G0RymUj99nzxLCeDyaYLLyGNWrWq0KIEm6Q/KiGdssx0jPhOwH+7rSQQYUaXdxsS000d3Y4NXf5xpwVlh7XpHk4G5P9uG56DuIKwUAVn/W2/4nWsDo+cDfZEEPdY0wMp/S+4Niwm0tWVkcfu99qfgImihHAnJS1yLAp0JE9auzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjJUoV11; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2S1sY8V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4DA1F000E9;
-	Fri, 17 Jul 2026 09:28:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjJUoV11"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 583FD1F00A3A;
+	Fri, 17 Jul 2026 09:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784280515;
-	bh=ldWV/mrvHHD/4IUtkfXlrXsurM9A6sjW5APSd3rFF4s=;
+	s=k20260515; t=1784281146;
+	bh=+qglHjGyDrUKXlad/2R3jZv9/pC2LefY+KO7XkEkSko=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=G2S1sY8VlV54rf/Lb6Eqj0IR7B9oa8hctiq9fxAgqwiv1XI21t7l0WQe+4AOfmCCV
-	 DK66qHWVe04cjmIAf7K6EHhrh8HtxYBY9BQPhNZ92p+lUNbh6/acB6sHiOo2zSHkJu
-	 Z+2swnALEwGPCJPSuzfnmgwMOpPB180d5xTLsTlCJW8nniIY8RUZgcvrOaLMZckWZV
-	 bg4VJRr6NHuyzFd8ZTKzSp3dumiKbEt0LBfVdK0JNVQSAij5WbEfuQnJT7767o0/Fw
-	 Q2VEz+ng4OqTRiYxIvmAJtaELofSGJXoAVeoAgScfsMCGQDZjeD5znDyvwbqzI3S1j
-	 NpyO0VT8ayLow==
-Date: Fri, 17 Jul 2026 11:28:29 +0200
+	b=SjJUoV11rwuT+5AizqR6Ts6eoKb6FIGre1Dux163GhMlqZlyOXajtWZ4fayfgVpH9
+	 m9cgU5vVhldyF6Xw1Kb8rVhViKflUSonqgQ1XE4NCnm2BVJY+TnbSkh9Z3rIVPhd6s
+	 zU7mHk1ONLaADnjIxp+I5dcB3ZX2ynHffnRRVYklEoaeIIz/ZSYdwAkj3wzibEUx9o
+	 HnS12bG6z8ihRuFocqmHyHuXUYtM9fOcbFkvkQ/W/8UHnOkWe7OeZRKXrCxZZCA9nQ
+	 s6WCpg4YrH/mKvwpz01fi9YDCJ3Uu05lBNYlNAvTtCCufAR6IHv/1e4r2yoFLfOqhY
+	 leqJTK6WbuRqA==
+Date: Fri, 17 Jul 2026 11:38:45 +0200
 From: Ingo Molnar <mingo@kernel.org>
 To: Juergen Gross <jgross@suse.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-edac@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>,
+Cc: Sean Christopherson <seanjc@google.com>, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	x86@kernel.org, linux-acpi@vger.kernel.org, kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-ide@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-mtd@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	"lukasz.luba@arm.com" <lukasz.luba@arm.com>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>, Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] x86/mce: Fix build warning after MSR-interface switch
-Message-ID: <aln1vdH7dPKmh0kl@gmail.com>
-References: <20260629060526.3638272-9-jgross@suse.com>
- <20260703105555.1758819-1-jgross@suse.com>
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	"Kirill A. Shutemov" <kas@kernel.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Pu Wen <puwen@hygon.cn>, Bjorn Helgaas <bhelgaas@google.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
+	Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Dave Airlie <airlied@redhat.com>,
+	Helge Deller <deller@gmx.de>, linux-geode@lists.infradead.org,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>, Guenter Roeck <linux@roeck-us.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"srinivas.pandruvada@linux.intel.com" <srinivas.pandruvada@linux.intel.com>,
+	Artem Bityutskiy <artem.bityutskiy@linux.intel.com>,
+	Artem Bityutskiy <dedekind1@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Ashok Raj <ashok.raj.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+	David E Box <david.e.box@intel.com>, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 00/32] x86/msr: Drop 32-bit MSR interfaces
+Message-ID: <aln4JYxRgdpC3Wse@gmail.com>
+References: <20260629060526.3638272-1-jgross@suse.com>
+ <d7c1db52-529a-43cc-ac7d-38b52627e8bc@app.fastmail.com>
+ <c1608c48-13c2-4290-826b-28b5ca51eaf7@suse.com>
+ <7332feff-2649-496c-8e49-b0a19eb54a32@app.fastmail.com>
+ <akJUz0kYkEBdLSZ3@gmail.com>
+ <akQR9YMtMHReJTfB@google.com>
+ <akY4U0jUZm4HOGZ_@gmail.com>
+ <99228803-b8b7-47a3-b77c-6fdf3b785730@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -47,39 +122,39 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260703105555.1758819-1-jgross@suse.com>
+In-Reply-To: <99228803-b8b7-47a3-b77c-6fdf3b785730@suse.com>
 
 
 * Juergen Gross <jgross@suse.com> wrote:
 
-> The recent switch to 64-bit MSR interfaces introduced a build warning.
+> On 02.07.26 12:07, Ingo Molnar wrote:
+> > 
+> > * Sean Christopherson <seanjc@google.com> wrote:
+> > 
+> > > > Note that the individual patches are IMO significantly easier to review
+> > > > through the actual 32-bit => 64-bit variable assignment changes done
+> > > > in isolation (which sometimes include minor cleanups), while
+> > > > the Coccinelle semantic patch:
+> > > > 
+> > > >     { a(b,c) => c = a(b) }
+> > > > 
+> > > > which changes both the function signature and the order of terms as
+> > > > well, is just a single add-on treewide patch.
+> > > 
+> > > Is the plan for subsystem maintainers to pick up the relevant patches,
+> > > and then do the treewide change one release cycle later?
+> > 
+> > I'll try to keep the patches in a single tree (tip:x86/msr)
+> > in the hope of not prolonging the pain two cycles - but it's
+> > of course fine for maintainers to pick up the patches too
+> > (most of them are standalone), we'll sort it all out in the end.
 > 
-> Fix it.
-> 
-> Fixes: cff219368bd0 ("x86/mce: Stop using 32-bit MSR interfaces")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202607031726.ZOwu4snu-lkp@intel.com/
-> Signed-off-by: Juergen Gross <jgross@suse.com>
-> ---
-> Said patch is in tip only right now, so this patch could either be added
-> on top or be folded into the original patch.
-> ---
->  arch/x86/kernel/cpu/mce/p5.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/mce/p5.c b/arch/x86/kernel/cpu/mce/p5.c
-> index eb99f384d747..3c2b6cc918b1 100644
-> --- a/arch/x86/kernel/cpu/mce/p5.c
-> +++ b/arch/x86/kernel/cpu/mce/p5.c
-> @@ -44,7 +44,7 @@ noinstr void pentium_machine_check(struct pt_regs *regs)
->  /* Set up machine check reporting for processors with Intel style MCE: */
->  void intel_p5_mcheck_init(struct cpuinfo_x86 *c)
->  {
-> -	u64 q;
-> +	u64 __maybe_unused q;
+> Ingo, would you be fine with me posting patch updates just as replies to the
+> original patch emails? This would speed things up, as I wouldn't need to wait
+> for more review input of all the patches before sending out new versions.
 
-Could we just fix the API to always assign 'q', instead of this
-ugly & vague annotation?
+Sure, that works for me too. I've picked up a couple of -v2 patches
+already.
 
 Thanks,
 
