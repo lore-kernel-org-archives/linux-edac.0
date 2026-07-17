@@ -1,148 +1,264 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D363E5A34
-	for <linux-edac@vger.kernel.org>; Fri, 17 Jul 2026 10:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A493E5577
+	for <linux-edac@vger.kernel.org>; Fri, 17 Jul 2026 11:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784284519; cv=none; b=LVZ80rArehfM4wJAxYjjYYFn4POuPhvocifQUYfioldPa16qmdkKqXR8lmm8Ye7mVRUGKjYJjOBNcLFH3SR6zscPj8sf4ndp9YIKUMCPfb3/d1a78iJNMRHLfCgc6Suj+cel4JpnAKwfYrOpUvhIUNeidc5/WgD3emBJerGgkuE=
+	t=1784286232; cv=none; b=Qsv7rG4pfa+F3kbQ8FkCft/CsnQmkpPTltMo+HK/RHX22uMGgWeBcuy12E4nq47aqGVOejK5r+bMGIwwew2/SL1dWZq1o/dpwdiY9YSPhMdjR9YTMV9xZn/qAILQXZSj8s9Wrbv4+43RqB73P7iLSK1kmjK6A9/FODM3G370Fzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784284519; c=relaxed/simple;
-	bh=JuQ4q7hxeKlY4GY6NrrglhzlUg+r0gikvL5tbMMS/9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dGOLy/SFT8TFsXK139aBXnfWQXR0Q1b2v7aIMd/XD9YlQfuMbogTWjOsY8envgUW8JjfZwjIb8VJ73Y68sEV1RErzmuEHfDlJy5J7DWCDukzgIFuDW9iefC5za58ilK4Y11S8cl1/U1ScrFAnYvDTkK2+gTbiBTsM88Ad0p+i3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAE4oReq; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784286232; c=relaxed/simple;
+	bh=s4FFN93vUsxMFbb1XoSsqsFyH4QJnXBz8jwb7/hbrfg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dBpF1ZrKiwAQb7e0TjlwKOlmIN4J6YV3PwRng73hufPoQdf3VQgxvSp8AwnCeEpASfcbR9V2y7lhPb85yncKO0jKVdamAg9ly7hCuCarh4HgxvqG+Tqye+PantydGlqC/hL3sALBB28xoeaubQtAdNcULqDitIWGvCLZVLQ2frI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PCj27xfQ; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAE4oReq"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3810c5d691bso5970275a91.1
-        for <linux-edac@vger.kernel.org>; Fri, 17 Jul 2026 03:35:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PCj27xfQ"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6983d3dae7aso2069056a12.0
+        for <linux-edac@vger.kernel.org>; Fri, 17 Jul 2026 04:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784284516; x=1784889316; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=97ExHNuIoUrJIKM3oCIPS5xjpmF2yFk3sg4kSKRU0dA=;
-        b=JAE4oReqj/83fBBA9VLt0LAsBkh8wv7OqmnCXhfF6FzlXCRIFdtqIoZBj2oPbeLYux
-         pNiGSDrZ86V8G5OmQZbr17OnKjGsEEmkeajuwkvgBNYY3bH4hdNm7Q4N9n2q3x2qp6Sv
-         GzlyKlrqhRv9btAvsvI1URv+3BGgGGxw9Wr9zO0yE5fdim9oVib71TYrTciRAEFXsjg5
-         mM7KbBU/hDKBx6L4ESMmsNivLr/9k8m2ZZfca/8oTYpNnQIUmy1nMuqy986Kw585jLu1
-         uOhTEYEVPilXUy+8ZLI0vJoRigTqMEDWZ5138r3iqEQ9keoiAjp1qUnVyjleIH8nWJLg
-         4JDg==
+        d=suse.com; s=google; t=1784286227; x=1784891027; darn=vger.kernel.org;
+        h=content-type:in-reply-to:autocrypt:from:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=s4FFN93vUsxMFbb1XoSsqsFyH4QJnXBz8jwb7/hbrfg=;
+        b=PCj27xfQ16AKujB9J0n/nPxIfNA8FVtjTUQNuqfwRZ7bTEXLiHwZDjBNCXZ79K5kki
+         rixuxgZTzVDKpku/0wgwdR+wZX6JtIpeUuzuWryoP3KHz/wC98SWDsSQuoLAKDbFUUDG
+         jSjlTGnyMBIKOCTkd4a1CbrIcEq9zf2w0O9AORhkLYH8bNgvqNI0P5nMk8gzYVb1yrjk
+         bbBr3i0VCytMvhhzXgFDY0lcJHMD1NVAQHTuqkDSgoP30ym+6px6mVPxyvmhfKAe7Uzv
+         SICkIQW3eBPSWtgCmXFoxmlUIXLAQ3wc8XkRaGMOweFppgO358lH6o7EmKlCtagbNVO5
+         8HPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784284516; x=1784889316;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=97ExHNuIoUrJIKM3oCIPS5xjpmF2yFk3sg4kSKRU0dA=;
-        b=QmcPq+bEG2FnANPbqQBzdgKzKJzBzTfBK5AcM7WsoI3xg1LO8strshalxwGqvPvHOU
-         DbidVoHdo7BZYVVELJ6i6U6eZ3nKF/FXo458bcjjw+dfRQ1zgFNWaR+itDLFv1zVEqdN
-         huwklUWvAbcHjAjcjsH9gCyvZJOKprPz5GUUX3yPtfDIIytHPqu+vEKNgpPHIPfSArG0
-         YmO2FXvPDw2hO7rRK89cXhQSLhL0fHlGOfdtGvpNCeDlTiuzA6Sz3tfIT1Dp9LN6672X
-         HjGnxlIXe7W01ep2tPxdgmZMxl8ip/s7ymGFJMW1MO+WbjYwqVa3Up0mD7NfAdXas/Zl
-         ktuA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro43UEYX6D3G1yG7b1y3CsDvAPWYlm4Uf35QrMq77o34M66eKljba1efOru4sY953D9AVR9QD1RGcb9@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNFUEqqUHqOmXbE8Q+kNhFL2DhLHusSxGBaoOnPqnprKMkSTbH
-	fQFHnhZ6JE1RUnFFM9I0skSMDtjruo7qSnr81Qtpm1zg/cd6XrF+oPs1
-X-Gm-Gg: AfdE7clAdo8c2fZS1w3Q4WtK7k+1WSLqZpKdWIYnEEG5XuWi+uTwSGbnVOTo97CLmyi
-	2V2zp0OagQc0tLOoockx4pG4O5khSzJO+9RYeqh4KxM/CEAzRjqZUKnRcW85ujLUAPLuJtqWuPN
-	a/TmMlZGo49+DXO8Smn3EzC+GeNSjAsJ5P8Z5p3j/XZaG60TXDKF/yo+pi718xJEGW49JC9TW4Z
-	RDlR2yIKKAIcefVGxYs/cqRZk0j/tZvEPMMDFwjcUWKKTEAbnBN+sAHZHTJ+SCKe6LD9gJJAI3G
-	wNLhs58DrUldl9gcUSqf9lkWCN41NSWo8J2z5k0v+hO6Et3jp3QQrynp+hpAzvRxCh8FVro9AI9
-	fc6rz3wLdZmy0/FHZFKNPZyth61WU6cNLVh+5ou/JyHMgOQ6oORJTnRtmqgrZ2OqAinl3H27JCi
-	IwQ+J+qbTTX2WObH9CECqrSkSYQrGOzI9k7ecIeg4ftO8LKA==
-X-Received: by 2002:a17:90b:3dc8:b0:38e:e9b:ffa4 with SMTP id 98e67ed59e1d1-38e4b3e1419mr1858993a91.6.1784284515949;
-        Fri, 17 Jul 2026 03:35:15 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40e3:2048:47da:f413:dfc6:e61f:2573])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429ff04absm5461371eec.8.2026.07.17.03.35.11
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 17 Jul 2026 03:35:15 -0700 (PDT)
-From: Rounak Das <rounakdas2025@gmail.com>
-To: dinguyen@kernel.org
-Cc: bp@alien8.de,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rounakdas2025@gmail.com,
-	tony.luck@intel.com
-Subject: [PATCH] EDAC/altera: Fix device node reference leaks in the SDMMC ECC setup
-Date: Fri, 17 Jul 2026 15:55:49 +0530
-Message-ID: <20260717102549.13309-1-rounakdas2025@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20251104; t=1784286227; x=1784891027;
+        h=content-type:in-reply-to:autocrypt:from:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=s4FFN93vUsxMFbb1XoSsqsFyH4QJnXBz8jwb7/hbrfg=;
+        b=TqAy+uVgiBheqWlJhNL80o2D4U1g2Hse/TzbnoYC4ekG862VTJ3K/Lo02xoQU/ktsh
+         v0Qla11x186MaFDn0eoAoWrqA0WxA2XuA5cIkqCJ+CgQQkdAHCadHsJDuv1VDjQQCXd0
+         f0GdglgmB2i2JRX9GuxIWCxduZsTQLefejthG13dvnGlYY9HzX8twlw7ptbG4J0fxBBu
+         E3KJ+gcw5rLe2Q1IcCwVohze/694COSJpuyWtOLRmST5HcKRx5BpBEHPSy4JillQg7mw
+         uHDoJi3XtY2Tebtelk9feYHCW3Wa3IfeyzDCTBPKm11t2dlnUNxnDn8OtopgqFsWQ2Zz
+         c0TA==
+X-Forwarded-Encrypted: i=1; AHgh+RpAZr1+bC+YyQ2MRLIDLLZEoJMjYU5viSzHrn+9+wvOvK7Id1joXkOmHlLRK4pdCzWn/rWBuDiNPeQF@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFcaI/JKM5Cyr3s7wHxc/J1qTTKM2Ca1EhdVyHV0GVrF7eVa44
+	GbTcZiC6u8gQ6bi4kdlSqEPI6FMrF5KdHU9q7NxNH0L//KxXJftcxuX63NVFPZNe7IM=
+X-Gm-Gg: AfdE7ckI49zR24bTYbZ5gd1s/DXec46o25WA9ezptVZHhgoqz8/04XmEaeATEDj2dk1
+	q8pt/RP8Zd9bnndiIcynwxBOmWsJuZts+Tg7Gx64A58M0xHmAHBn6sEBkNQl4QrZrZxAFXzBSxt
+	H3OiTcxVu7uDfq5wMgnVHXZQ++k2VrBXTdaySa23gBvaMu6EbErEPnslXklrdyo1jbQffd6cvgZ
+	F9fPAcaw7OJwg2k5c9rQpsqp/CZelmG++dHARZc1Ucb0dsZ0F36WPo79xvd3IC4h70X07RwfE4S
+	Fm4s1FlARQWIl/TA5L1HG1jhUAjRK/cTL0kMgWkRmjasYK8e3bonYSyYi7dGxx7MqlaXlLTZM6X
+	Pdd+bMJDwtPw5WDeQLoCAct5RohPJc/EDorR63FI0umSsqIxqcb4B7DoMoK2y3oPcludZMFUpHl
+	H204tV5bFpvqSub1XSZ/3zPntoHUjxufiIC5BVW0Iwz6t160DwpbBGbU3UpueCmvJxvaHEJnwIb
+	4/q+VykTo+gO7c4GmKG3aqIGO1MztUCWHTCaO05XlA=
+X-Received: by 2002:a17:907:d50d:b0:c16:242a:4733 with SMTP id a640c23a62f3a-c16b40f860bmr108524366b.18.1784286226769;
+        Fri, 17 Jul 2026 04:03:46 -0700 (PDT)
+Received: from ?IPV6:2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112? (2a00-12d0-af5d-ad01-5d3f-14e6-9bcb-5112.ip.tng.de. [2a00:12d0:af5d:ad01:5d3f:14e6:9bcb:5112])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1724f50becsm56202366b.52.2026.07.17.04.03.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jul 2026 04:03:46 -0700 (PDT)
+Message-ID: <ee0f4079-1394-4eaf-adb0-8ec8210cc66b@suse.com>
+Date: Fri, 17 Jul 2026 13:03:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] x86/mce: Fix build warning after MSR-interface switch
+To: Ingo Molnar <mingo@kernel.org>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ kernel test robot <lkp@intel.com>
+References: <20260629060526.3638272-9-jgross@suse.com>
+ <20260703105555.1758819-1-jgross@suse.com> <aln1vdH7dPKmh0kl@gmail.com>
+ <b0705c60-1eb7-440d-91fe-ad329bbe407e@suse.com> <aloC_RPlSLcRz_36@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Autocrypt: addr=jgross@suse.com; keydata=
+ xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
+ ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
+ dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
+ NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
+ XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
+ AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
+ CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
+ mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
+ G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
+ kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
+ Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
+ RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
+ vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
+ sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
+ aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
+ w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
+ auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
+ 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
+ fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
+ HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
+ QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
+ ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
+In-Reply-To: <aloC_RPlSLcRz_36@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0dvf13arCEbbYDgYannV36fy"
 
-Under altr_portb_setup() and socfpga_init_sdmmc_ecc(),
-of_find_compatible_node() was being used to look up the sdmmc-ecc
-node. This node wasn't being dropped using of_node_put().
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0dvf13arCEbbYDgYannV36fy
+Content-Type: multipart/mixed; boundary="------------oUhaYr00Y3RBfz8gAS04RUH1";
+ protected-headers="v1"
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, linux-edac@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ kernel test robot <lkp@intel.com>
+Message-ID: <ee0f4079-1394-4eaf-adb0-8ec8210cc66b@suse.com>
+Subject: Re: [PATCH] x86/mce: Fix build warning after MSR-interface switch
+References: <20260629060526.3638272-9-jgross@suse.com>
+ <20260703105555.1758819-1-jgross@suse.com> <aln1vdH7dPKmh0kl@gmail.com>
+ <b0705c60-1eb7-440d-91fe-ad329bbe407e@suse.com> <aloC_RPlSLcRz_36@gmail.com>
+In-Reply-To: <aloC_RPlSLcRz_36@gmail.com>
 
-altr_portb_setup() did not drop its reference under its success path
-or on any error path.
+--------------oUhaYr00Y3RBfz8gAS04RUH1
+Content-Type: multipart/mixed; boundary="------------4x1UzRBrgkpL6v96WXD1GjN7"
 
-socfpga_int_sdmmc_ecc() did an early return thereby skipping the
-common exit label and thus leaking the reference.
+--------------4x1UzRBrgkpL6v96WXD1GjN7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Add the missing of_node_put() calls in altr_portb_setup(), and route
-socfpga_init_sdmmc_ecc()'s success path through the common exit label.
+T24gMTcuMDcuMjYgMTI6MjUsIEluZ28gTW9sbmFyIHdyb3RlOg0KPiANCj4gKiBKw7xyZ2Vu
+IEdyb8OfIDxqZ3Jvc3NAc3VzZS5jb20+IHdyb3RlOg0KPiANCj4+IE9uIDE3LjA3LjI2IDEx
+OjI4LCBJbmdvIE1vbG5hciB3cm90ZToNCj4+Pg0KPj4+ICogSnVlcmdlbiBHcm9zcyA8amdy
+b3NzQHN1c2UuY29tPiB3cm90ZToNCj4+Pg0KPj4+PiBUaGUgcmVjZW50IHN3aXRjaCB0byA2
+NC1iaXQgTVNSIGludGVyZmFjZXMgaW50cm9kdWNlZCBhIGJ1aWxkIHdhcm5pbmcuDQo+Pj4+
+DQo+Pj4+IEZpeCBpdC4NCj4+Pj4NCj4+Pj4gRml4ZXM6IGNmZjIxOTM2OGJkMCAoIng4Ni9t
+Y2U6IFN0b3AgdXNpbmcgMzItYml0IE1TUiBpbnRlcmZhY2VzIikNCj4+Pj4gUmVwb3J0ZWQt
+Ynk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPj4+PiBDbG9zZXM6IGh0
+dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWtidWlsZC1hbGwvMjAyNjA3MDMxNzI2LlpPd3U0
+c251LWxrcEBpbnRlbC5jb20vDQo+Pj4+IFNpZ25lZC1vZmYtYnk6IEp1ZXJnZW4gR3Jvc3Mg
+PGpncm9zc0BzdXNlLmNvbT4NCj4+Pj4gLS0tDQo+Pj4+IFNhaWQgcGF0Y2ggaXMgaW4gdGlw
+IG9ubHkgcmlnaHQgbm93LCBzbyB0aGlzIHBhdGNoIGNvdWxkIGVpdGhlciBiZSBhZGRlZA0K
+Pj4+PiBvbiB0b3Agb3IgYmUgZm9sZGVkIGludG8gdGhlIG9yaWdpbmFsIHBhdGNoLg0KPj4+
+PiAtLS0NCj4+Pj4gICAgYXJjaC94ODYva2VybmVsL2NwdS9tY2UvcDUuYyB8IDIgKy0NCj4+
+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+
+Pj4+DQo+Pj4+IGRpZmYgLS1naXQgYS9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jZS9wNS5jIGIv
+YXJjaC94ODYva2VybmVsL2NwdS9tY2UvcDUuYw0KPj4+PiBpbmRleCBlYjk5ZjM4NGQ3NDcu
+LjNjMmI2Y2M5MThiMSAxMDA2NDQNCj4+Pj4gLS0tIGEvYXJjaC94ODYva2VybmVsL2NwdS9t
+Y2UvcDUuYw0KPj4+PiArKysgYi9hcmNoL3g4Ni9rZXJuZWwvY3B1L21jZS9wNS5jDQo+Pj4+
+IEBAIC00NCw3ICs0NCw3IEBAIG5vaW5zdHIgdm9pZCBwZW50aXVtX21hY2hpbmVfY2hlY2so
+c3RydWN0IHB0X3JlZ3MgKnJlZ3MpDQo+Pj4+ICAgIC8qIFNldCB1cCBtYWNoaW5lIGNoZWNr
+IHJlcG9ydGluZyBmb3IgcHJvY2Vzc29ycyB3aXRoIEludGVsIHN0eWxlIE1DRTogKi8NCj4+
+Pj4gICAgdm9pZCBpbnRlbF9wNV9tY2hlY2tfaW5pdChzdHJ1Y3QgY3B1aW5mb194ODYgKmMp
+DQo+Pj4+ICAgIHsNCj4+Pj4gLQl1NjQgcTsNCj4+Pj4gKwl1NjQgX19tYXliZV91bnVzZWQg
+cTsNCj4+Pg0KPj4+IENvdWxkIHdlIGp1c3QgZml4IHRoZSBBUEkgdG8gYWx3YXlzIGFzc2ln
+biAncScsIGluc3RlYWQgb2YgdGhpcw0KPj4+IHVnbHkgJiB2YWd1ZSBhbm5vdGF0aW9uPw0K
+Pj4NCj4+IHEgaXMgYWx3YXlzIGFzc2lnbmVkLiBJIGJlbGlldmUgdGhlIHByb2JsZW0gaXMg
+dGhhdCBpdCBpcyBuZXZlciByZWFkLg0KPiANCj4gSW5kZWVkLg0KPiANCj4+IE9UT0ggdGhp
+cyBwcm9ibGVtIGNhbiBiZSBmaXhlZCBlYXNpbHkgYWZ0ZXIgcGF0Y2ggMzEgb2YgdGhpcyBz
+ZXJpZXMuIEkgY2FuIHNlbmQNCj4+IGEgVjIgb2YgcGF0Y2ggMzIgdG8ganVzdCBkcm9wIHRo
+ZSBhc3NpZ25tZW50IHRvIHEuIFRoaXMgd2lsbCBiZSBwb3NzaWJsZSBhcw0KPj4gcmRtc3Jx
+KCkgd2lsbCBiZSBhIGZ1bmN0aW9uIHRoZW4sIGFuZCBub3QgYSBtYWNybyByZXF1aXJpbmcg
+YSB2YXJpYWJsZSBiZWluZw0KPj4gcGFzc2VkIGFzIHBhcmFtZXRlci4NCj4gDQo+IFRoYXQn
+cyBmaW5lIHdpdGggbWUsIGFzIGxvbmcgYXMgdGhlIGJ1aWxkIGZhaWx1cmUgaXMgb25seSBm
+b3IgdGhpcw0KPiBpMzg2IHJhbmRjb25maWcuIElmIGEgbmV3IHdhcm5pbmcgaXMgZ2VuZXJh
+dGVkIGZvciBhbnkgb2YgdGhlDQo+IG1vcmUgcHJvbWluZW50IGNvbmZpZ3Mgd2UnbGwgaGF2
+ZSB0byBtYWtlIGl0IGdvIGF3YXkgZm9yDQo+IHRoZSBpbnRlcmltIHRyZWUuIChCZWNhdXNl
+IGl0J3Mgc3RpbGwgbm90IDEwMCUgY2xlYXIgd2hldGhlcg0KPiB3ZSdsbCBiZSBhYmxlIHRv
+IGRvIHBhdGNoIDMxIGluIHRoaXMgY3ljbGUuKQ0KDQpZb3UgaGF2ZSBteSBwYXRjaCBmb3Ig
+dGhhdCBjYXNlLiA6LSkNCg0KDQpKdWVyZ2VuDQo=
+--------------4x1UzRBrgkpL6v96WXD1GjN7
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
----
- drivers/edac/altera_edac.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 68846f583eee..777ba6efcc54 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1524,6 +1524,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	dci = edac_device_alloc_ctl_info(sizeof(*altdev), ecc_name, 1,
- 					 ecc_name, 1, 0, edac_idx);
- 	if (!dci) {
-+		of_node_put(np);
- 		edac_printk(KERN_ERR, EDAC_DEVICE,
- 			    "%s: Unable to allocate PortB EDAC device\n",
- 			    ecc_name);
-@@ -1534,8 +1535,10 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	altdev = dci->pvt_info;
- 	*altdev = *device;
- 
--	if (!devres_open_group(device->edac->dev, altr_portb_setup, GFP_KERNEL))
-+	if (!devres_open_group(device->edac->dev, altr_portb_setup, GFP_KERNEL)) {
-+		of_node_put(np);
- 		return -ENOMEM;
-+	}
- 
- 	/* Update PortB specific values */
- 	altdev->edac_dev_name = ecc_name;
-@@ -1600,6 +1603,8 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 		rc = -ENOMEM;
- 		goto err_release_group_1;
- 	}
-+	of_node_put(np);
-+
- 	altr_create_edacdev_dbgfs(dci, prv);
- 
- 	list_add(&altdev->next, &altdev->edac->a10_ecc_devices);
-@@ -1609,6 +1614,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	return 0;
- 
- err_release_group_1:
-+	of_node_put(np);
- 	edac_device_free_ctl_info(dci);
- 	devres_release_group(device->edac->dev, altr_portb_setup);
- 	edac_printk(KERN_ERR, EDAC_DEVICE,
-@@ -1638,7 +1644,7 @@ static int __init socfpga_init_sdmmc_ecc(struct altr_edac_device_dev *device)
- 		goto exit;
- 
- 	/* Setup portB */
--	return altr_portb_setup(device);
-+	rc = altr_portb_setup(device);
- 
- exit:
- 	of_node_put(child);
--- 
-2.50.1 (Apple Git-155)
+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
+kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
+=3DeeAB
+-----END PGP PUBLIC KEY BLOCK-----
 
+--------------4x1UzRBrgkpL6v96WXD1GjN7--
+
+--------------oUhaYr00Y3RBfz8gAS04RUH1--
+
+--------------0dvf13arCEbbYDgYannV36fy
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmpaDBEFAwAAAAAACgkQsN6d1ii/Ey+N
+2gf/bOqgeaV9w8rv73I0yHvTVKveb9usbb/DCes1kwJ/O3CvQ1DKwBh5XzlfoH4Q5NjUsHpfzDna
+wibWJDGgP08mgiy1lzhDYXbS/DARf7Y+rQiSQqjvBCIXL2sph3C81wRN6+D4YzjKH2KoLUFEBdDk
+A5k5YX/pDi91nedLIi4c18OwTRfj67QsXzoz9YhnK3Y+c28BkWZFWcvETNWU+gqPugjvx/ZMh2WZ
+L2poibElsJqaN3Kh48hVTvTeLeXQNnJ78/1EBnkMqXUpPw0ufl9KPTfv+EEhFU5xlmi34RZnIEOZ
+rf+7Mj0wLpCsLzvJBZMNToKcGx/pkMzFwo7tIF6y2A==
+=igVC
+-----END PGP SIGNATURE-----
+
+--------------0dvf13arCEbbYDgYannV36fy--
