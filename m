@@ -1,93 +1,134 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710DB34F462;
-	Sat, 18 Jul 2026 15:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90F026B2DA;
+	Sat, 18 Jul 2026 17:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784387600; cv=none; b=pHNN8Eymt2xQsGfSJN069ECxLMWIdJHnpHQfpH/VS+Yj0z1U754AeUjUqn6JF2rNzFEAUrVzoDN07BMWsZYOJ2YmLcTlmCz5kmfuN27bcycwVpILdEjxfPqBeMGNKZAFPdYaXACE6QpQNYcgsMb+998Zhr7Ikbwod03j/6EE55A=
+	t=1784394194; cv=none; b=lyg3Dm8MgKXi8RGLeehNEMKVxWGIJXwMhiESnlMSf29htHvj/Zm7N/Q/FHYqd5nQkDOrVaULf0GU7H+kgi2dA3hBat9abTWqT2jVX0qlOuYzNeHVs1L6DuOXsBCLNiJzcZdSDdzUceSa5idQXyt4OcCW9JT2cB429M26VEJTIHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784387600; c=relaxed/simple;
-	bh=zmSTHDG5dlhEU+2vrT6aHm5ztcDYyoHrvMjt1+4g9eA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CF73YWtL1/lydlGsQgzxKrAWRyrKYoBbrp8UDSXAvLC+QOd0E2QkcYgV+iKn3v5GC6aCjjOPWkYHGpVR2Ng9/5DeZzkL7p2GKeud3Kb6Ii2o4uTkmyxVyRBsSuMMM5FHIwtCJX3YoRN6HVpJY9u2GK5ugikBtPlpOhDroi1zBcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MdDV8tCy; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1784394194; c=relaxed/simple;
+	bh=Eo70NEU6KqAOrmNSdHxkeabKbAhSH9ivRl9nNEL052M=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=hpS/f4gTkPQGL98FXVdck+ibZ0QeeIPHGMocIzFYLcbTP7rDv3qoFuaKSeu4Gob+S/Ca0SGLG8P5n6ym3m95sGlmpGXJ09v0PD8pk8yBUwQP3LGcIo2tJL+VLlv+B8wUY0gFbu4dGt32fEhhnN98byLWMLM1wkQDFfONKOiqmrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=aln+E3ea; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=P1KW0RuF; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MdDV8tCy"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1205140E019F;
-	Sat, 18 Jul 2026 15:13:15 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id etNWueav3Hj4; Sat, 18 Jul 2026 15:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1784387584; bh=mOrxs76HcHbX8sKHP7kCOZuuDQ6BQh8pFNy4vBZ32ZM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MdDV8tCyIrc/n6jaUatPzyTzBWQb/RKhtI/z1mMo06tAhtU4MkgzC6B8YquVw6I+H
-	 z518171qYK6Zjwj+onG0as18Xhc0FaslgvaJbxErGrLBYApCInYLK/OIJL4jnvEUVb
-	 Nn2QRqIT2pamoM5rOgcVmDkkKHeJ0TCQt8zxvkf40ekYWHKdime9ymWPxXXcVuzGCx
-	 W5Omqwg1CjPBj7dkxlpfXrU7U6hqpw+ytGnx4urDmAAdc1VCkiJmeZJ1fAgNUIbfEU
-	 EyKcL7+0mqmdmud0Kb64RzDsoXtcH3rG8Z8AT5OGyi201Xt/gIki85KUIkS97MOCir
-	 FgaBn8slnshBli7b6cMqh61yveSHqrpUeo5WCnXpP1a0r7q/x61c299XI6TjI8HeAk
-	 DoGHMgqHKymHsI+n/6RMsZ374zeyh/BoCtrRbviSNzl+oEhcTjrADjQgQc6Qg/NNou
-	 BJu+dNWvJseO3QFqnDjv2wLzmmTU6y4StMoh7ckJ3KysahDXIv1omEoEyX192pHZqr
-	 fY+yHHag31RP26tqLT6qHp0p/luRc++rsWfWTTo5j45CfHZGOOr/DoBEsmXrT3d3lB
-	 OtSZqKuylz1TkUtTlrkasuuFija5i2PnWEoafXU8lUt+S1bzIIgYoveqM7iLdoiu0/
-	 1t5eJeRkq1y36ZoLqcwW2vT8=
-Received: from stx.tnic (unknown [12.110.208.163])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="aln+E3ea";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="P1KW0RuF"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 53F9440E0031;
-	Sat, 18 Jul 2026 15:12:27 +0000 (UTC)
-Date: Sat, 18 Jul 2026 08:12:24 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: shijujose2008@gmail.com
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
-	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
-	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-	duenwen@google.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
-Subject: Re: [PATCH v21 0/2] ACPI: Add support for ACPI RAS2 feature table
-Message-ID: <20260718151224.GBaluX2N0kM11Wb11C@fat_crate.local>
-References: <20260706000338.362421-1-shijujose2008@gmail.com>
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4h2Y4l0wzyzMlGr;
+	Sat, 18 Jul 2026 19:03:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1784394183;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tzj3jkroeJ9qDDBuoFNN5o4ycSfZDKYPcOED/sOa+Lg=;
+	b=aln+E3eaDYlrKxaSGm+3XSpYABwLi/lqLzy3Oq/jtOJc9K9Tps6sA48suz7viwG90Zg3Ni
+	wqIG+itekNyrfXz+41zykPa4OlzUiIMP3Npkm6+tgr1j6s6Sxj803Pdj+bnrql4LPbTQxi
+	j0b0WlVgCzzGEvrRwF6madkNIREjjEKRnzxRGRpu+OKHzuTSRdc2CnLuSKHZm+wo4nVHx6
+	mLCmRhYh4q4Mww2gNWrDfXw4IsWJ3r3CW3CCZznwIOeywKFWB6Lks+KbtiNdGHrOkQtdS7
+	uaedeQLxKm1WOhJQ4vatK2OWGOtpjlO74CcbJZkQJNAyNWwcvnWj9HYp1wgVow==
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260706000338.362421-1-shijujose2008@gmail.com>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1784394181;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tzj3jkroeJ9qDDBuoFNN5o4ycSfZDKYPcOED/sOa+Lg=;
+	b=P1KW0RuF0ntpYj4ZoBCfrMOhMBGzPbYCgUpbaeL1Wn4ib5OzTkiDIDo/p1j3QOU65c+DDl
+	iGMhUQy3cTkjNWLuo8iKKT+ZDJE18EYX6SW4ZfihB/7x4xi4VC1spxl05O2kzzblBhd/dv
+	kr9sOGx1z2CWIVp/sJMv9IwerysVsW4iinlWh5DvbHiAVPaGkBbHD2ykdKkt9aALllUIDw
+	z7S08aSpusUPHeXVQs+zO4vrPaCLygYoUdJ/h6sMHdUvGQn9ruWFdq6gqC06sIV3tpyHsR
+	aCIiCttc5Xl16k2AInJyP5fXCPElESzBdgxGOLmlwEhCov3FuZ3RRDBae0IUAA==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 18 Jul 2026 19:02:51 +0200
+Message-Id: <DK1UXXRGW737.2IVTYCHPRM9ET@mailbox.org>
+Cc: "Edward Cree" <ecree.xilinx@gmail.com>, "Andrew Lunn"
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
+ Abeni" <pabeni@redhat.com>, "Bjorn Helgaas" <bhelgaas@google.com>, "Justin
+ Tee" <justin.tee@broadcom.com>, "Paul Ely" <paul.ely@broadcom.com>, "James
+ E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>, "Juergen Gross" <jgross@suse.com>,
+ "Stefano Stabellini" <sstabellini@kernel.org>, "Oleksandr Tyshchenko"
+ <oleksandr_tyshchenko@epam.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Borislav Petkov"
+ <bp@alien8.de>, "Tony Luck" <tony.luck@intel.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-scsi@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
+ <linux-edac@vger.kernel.org>
+Subject: Re: [PATCH v2] PCI: Move pci_dev->is_busmaster into priv_flags
+From: "Maurice Hieronymus" <mhi@mailbox.org>
+To: "Lukas Wunner" <lukas@wunner.de>, "Maurice Hieronymus" <mhi@mailbox.org>
+References: <20260714-pci-dev-flags-v2-1-a1d7dc441cf3@mailbox.org>
+ <alcSjoypegNolW48@wunner.de>
+In-Reply-To: <alcSjoypegNolW48@wunner.de>
+X-MBO-RS-ID: b5973a326c905eef11a
+X-MBO-RS-META: ac7hnh6jjxdgumx33umeygikqfdzbxu6
 
-On Mon, Jul 06, 2026 at 01:03:36AM +0100, shijujose2008@gmail.com wrote:
-> From: Shiju Jose <shijujose2008@gmail.com>
-> 
-> Add support for ACPI RAS2 feature table (RAS2) defined in the
-> ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
-> scrubbing feature.
+On Wed Jul 15, 2026 at 6:54 AM CEST, Lukas Wunner wrote:
 
-Sashiko is asking more questions:
+> pci_dev_assign_busmaster() should not have public visibility.
+> Drivers should really use pci_set_master() / pci_clear_master()
+> and nothing else.
+>
+> It seems Xen is the only one in the tree which needs this:
+>
+>> +++ b/drivers/xen/xen-pciback/pciback_ops.c
+>> @@ -125,14 +125,14 @@ void xen_pcibk_reset_device(struct pci_dev *dev)
+>>  		if (pci_is_enabled(dev))
+>>  			pci_disable_device(dev);
+>> =20
+>> -		dev->is_busmaster =3D 0;
+>> +		pci_dev_assign_busmaster(dev, false);
+>>  	} else {
+>>  		pci_read_config_word(dev, PCI_COMMAND, &cmd);
+>>  		if (cmd & (PCI_COMMAND_INVALIDATE)) {
+>>  			cmd &=3D ~(PCI_COMMAND_INVALIDATE);
+>>  			pci_write_config_word(dev, PCI_COMMAND, cmd);
+>> =20
+>> -			dev->is_busmaster =3D 0;
+>> +			pci_dev_assign_busmaster(dev, false);
+>>  		}
+>>  	}
+>>  }
+>
+> Please change these direct assignments to pci_clear_master(),
+> preferably in a separate patch to ease bisecting if anything
+> breaks.
+This conversion does not preserve behavior. The direct assignments
+clear only the software flag, while pci_clear_master() also clears
+PCI_COMMAND_MASTER in config space.
 
-https://sashiko.dev/#/patchset/20260706000338.362421-1-shijujose2008%40gmail.com
+I am not an expert on xen devices. That's why I want to clarify first
+that this does not break anything. Especially since commit
+7681f31ec9cd ("xen/pciback: Don't disable PCI_COMMAND on PCI device
+reset.") deliberately removed the PCI_COMMAND write right above the
+first assignment, and pci_clear_master() would reintroduce a
+PCI_COMMAND write there.
 
--- 
-Regards/Gruss,
-    Boris.
+Best,
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Maurice
