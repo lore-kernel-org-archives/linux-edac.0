@@ -1,162 +1,93 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B023FB042
-	for <linux-edac@vger.kernel.org>; Fri, 17 Jul 2026 13:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710DB34F462;
+	Sat, 18 Jul 2026 15:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784294261; cv=none; b=WHZmHv2Jjm2cGQj5AzbH6eRohOLOcbgqIScRqic7Y/bBKJN6Ay615u/qKuXvRXBRimE3HdHxGxX1BPUxZC7Q8hFNy1bU5srA+KjbsiCXtChI79pyfNwxpy1fkPDPVSMyiTGtkjeNjxOXn5mAwHHfCXcbR34RMzXEwyJ14gOQze4=
+	t=1784387600; cv=none; b=pHNN8Eymt2xQsGfSJN069ECxLMWIdJHnpHQfpH/VS+Yj0z1U754AeUjUqn6JF2rNzFEAUrVzoDN07BMWsZYOJ2YmLcTlmCz5kmfuN27bcycwVpILdEjxfPqBeMGNKZAFPdYaXACE6QpQNYcgsMb+998Zhr7Ikbwod03j/6EE55A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784294261; c=relaxed/simple;
-	bh=Hvtps/wDYbIsM4c5E2UreoLfCBOyh8LrLfxlk+d0lzU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TJ59a9WjlO52JxVaQwXsdNmvsa8SZ3nwJaz4BacoOUAwW6xPwQaMjLQ4voV5L3zGzZWPQ4yd2Ww/1yyicLoru3EINe/wc77RTxPrldpCxP1DigMwDFF/bFRYNbQKRmDwNG2uhustWxTCu9cOZVo+9Zq0E6elGH/4MaDNK+gB8v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kg4z/a3+; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784387600; c=relaxed/simple;
+	bh=zmSTHDG5dlhEU+2vrT6aHm5ztcDYyoHrvMjt1+4g9eA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CF73YWtL1/lydlGsQgzxKrAWRyrKYoBbrp8UDSXAvLC+QOd0E2QkcYgV+iKn3v5GC6aCjjOPWkYHGpVR2Ng9/5DeZzkL7p2GKeud3Kb6Ii2o4uTkmyxVyRBsSuMMM5FHIwtCJX3YoRN6HVpJY9u2GK5ugikBtPlpOhDroi1zBcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MdDV8tCy; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kg4z/a3+"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c7c61b5292so59369905ad.0
-        for <linux-edac@vger.kernel.org>; Fri, 17 Jul 2026 06:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784294260; x=1784899060; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=N2OpEvimBr9inqr1oxq/Rw5zQcfND5k4NuFnqM1lzPk=;
-        b=Kg4z/a3+m6HxpQDiEayPLmF1tR9rTuAaBqdwnbdYiah+MOxHtadJjO09hth7J/1bG4
-         Lx26sM/m1caDCeWfZrVSngYiZ86ql81EYef0P0whGGmjsebHB0B6f1sz+pwT7yJdrM/w
-         5CqheQJQhHP20QNyYM4TLYLXoUkl+tUuLiMne/R0lz3azWJjn4Q5JHvIGX5MV+kxsex+
-         s/uGcd1C6NuR0oxeornop60XsSYw3c93hYsFfee2Y5/Yml65XjFr/DzDADiZsZaKMHFv
-         jSm9QnXzV82nJzNMuN9KlvKb6oHY87kKrnYqhzXmnzv+ZYnMY8PZO5Qk/lZkDrheOBAx
-         faBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784294260; x=1784899060;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N2OpEvimBr9inqr1oxq/Rw5zQcfND5k4NuFnqM1lzPk=;
-        b=G4wBnwSiN/LifltBQcPjFP1AIAcSaaRgjCkzwPcasIh/Doy1bp4eaLqSK2otggRem9
-         ufwFLrUwWfPR4qlEjibhM5JaGloql/kv7Cx88ZBFXAuUuBZ9nG8LtD19bJuzmyVLN0PI
-         /UqEt0Nz+xhfUaQucXjuVd5RYwqBlVO+6LXv1Brk42hU1wRih3nkFqzD/hmQd052int0
-         +tuhl6xN5S58lKJGEFUefl3AWbrPmutIvX02ohkBUNqDMVntFuQ8usyHkZBNm6Jnk7Js
-         8ZXW75FrDMqksZocX/I1P8gfIv3pSisN7ZFruscQnpzQzHn9Ez+feJJIlAC4PVX8m6Wh
-         hnYw==
-X-Forwarded-Encrypted: i=1; AHgh+RqHTP7XkC4wzGLUE+CxKDl65NLp61FM2aCcQUWa4Wy5WNZ22EYDeFDgCl5GGlqqpFh3uMyZ/CVolloy@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNeG1LEfo5oHJTGjrpXiMVb8xc8RlVyOpVvgOBrLuRXHPNJhrN
-	Mb8+2ULUR7x4YyMOolhnUEYlS5CbhPSOnmaDBayr8qKrqhzkGHCE5T/222VC6H3w3cB52g==
-X-Gm-Gg: AfdE7cm2j/HO675bZ0nhLMCYpDGVptcv2F2+ZyAgc0RJxzeTfPxuO+dRqkFCXMpWVyb
-	iS8cDrteRAxvv5Uv3His1hrFvlbghJmzvM4aqUsFtC5fLzhdo30hIOOuCAG7syxiCqw1fPhQUjf
-	NS2mrPg7RlgTN0k08HS2vCi69/8bknDSw89Dr7uSHckj++L/Zd4YmN47q5x8HwqHnqT3s627LCj
-	Uh2uryEnzqjz7J0lFABT8k9Hj8FqZfnLKpi/SgCzR/gw7ES2xUtcPsk2zvvIoyKLT4Y3h/K8lC9
-	AZIfvZ4HA0g62DTPcUaR6BduTqoJ1Ni5NqOvW1jn/2oQn2/Nl161gZTq9l5zwfzYsVk3pd3X5nz
-	wwApu1NLmOdxtahU0lQ0yNhzUvePeyo9WAxm2eW0PuBQxWw8Mlr4YZGkuFhKWWEjnQXUewpMDxe
-	en3H0Z8bPBp69K0rYzHxnzCW+ghQmj8NWuIaM=
-X-Received: by 2002:a17:90b:1dc3:b0:384:5b5b:3465 with SMTP id 98e67ed59e1d1-38e4b5792e4mr2760146a91.29.1784294259629;
-        Fri, 17 Jul 2026 06:17:39 -0700 (PDT)
-Received: from localhost.localdomain ([152.59.184.57])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429ff04absm6907802eec.8.2026.07.17.06.17.35
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 17 Jul 2026 06:17:39 -0700 (PDT)
-From: Rounak Das <rounakdas2025@gmail.com>
-To: dinguyen@kernel.org
-Cc: bp@alien8.de,
-	tony.luck@intel.com,
-	stable@vger.kernel.org,
-	rounakdas2025@gmail.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] EDAC/altera: Fix device node reference leaks in the SDMMC ECC setup
-Date: Fri, 17 Jul 2026 18:47:20 +0530
-Message-ID: <20260717131720.19038-1-rounakdas2025@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <182c3d64-17b7-4e18-9bbe-2fd97eb231a2@kernel.org>
-References: <182c3d64-17b7-4e18-9bbe-2fd97eb231a2@kernel.org>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MdDV8tCy"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1205140E019F;
+	Sat, 18 Jul 2026 15:13:15 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id etNWueav3Hj4; Sat, 18 Jul 2026 15:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1784387584; bh=mOrxs76HcHbX8sKHP7kCOZuuDQ6BQh8pFNy4vBZ32ZM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MdDV8tCyIrc/n6jaUatPzyTzBWQb/RKhtI/z1mMo06tAhtU4MkgzC6B8YquVw6I+H
+	 z518171qYK6Zjwj+onG0as18Xhc0FaslgvaJbxErGrLBYApCInYLK/OIJL4jnvEUVb
+	 Nn2QRqIT2pamoM5rOgcVmDkkKHeJ0TCQt8zxvkf40ekYWHKdime9ymWPxXXcVuzGCx
+	 W5Omqwg1CjPBj7dkxlpfXrU7U6hqpw+ytGnx4urDmAAdc1VCkiJmeZJ1fAgNUIbfEU
+	 EyKcL7+0mqmdmud0Kb64RzDsoXtcH3rG8Z8AT5OGyi201Xt/gIki85KUIkS97MOCir
+	 FgaBn8slnshBli7b6cMqh61yveSHqrpUeo5WCnXpP1a0r7q/x61c299XI6TjI8HeAk
+	 DoGHMgqHKymHsI+n/6RMsZ374zeyh/BoCtrRbviSNzl+oEhcTjrADjQgQc6Qg/NNou
+	 BJu+dNWvJseO3QFqnDjv2wLzmmTU6y4StMoh7ckJ3KysahDXIv1omEoEyX192pHZqr
+	 fY+yHHag31RP26tqLT6qHp0p/luRc++rsWfWTTo5j45CfHZGOOr/DoBEsmXrT3d3lB
+	 OtSZqKuylz1TkUtTlrkasuuFija5i2PnWEoafXU8lUt+S1bzIIgYoveqM7iLdoiu0/
+	 1t5eJeRkq1y36ZoLqcwW2vT8=
+Received: from stx.tnic (unknown [12.110.208.163])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 53F9440E0031;
+	Sat, 18 Jul 2026 15:12:27 +0000 (UTC)
+Date: Sat, 18 Jul 2026 08:12:24 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: shijujose2008@gmail.com
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
+	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+	duenwen@google.com, gthelen@google.com,
+	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
+Subject: Re: [PATCH v21 0/2] ACPI: Add support for ACPI RAS2 feature table
+Message-ID: <20260718151224.GBaluX2N0kM11Wb11C@fat_crate.local>
+References: <20260706000338.362421-1-shijujose2008@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260706000338.362421-1-shijujose2008@gmail.com>
 
-Under altr_portb_setup() and socfpga_init_sdmmc_ecc(),
-of_find_compatible_node() was being used to look up the sdmmc-ecc
-node. This node wasn't being dropped using of_node_put().
+On Mon, Jul 06, 2026 at 01:03:36AM +0100, shijujose2008@gmail.com wrote:
+> From: Shiju Jose <shijujose2008@gmail.com>
+> 
+> Add support for ACPI RAS2 feature table (RAS2) defined in the
+> ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+> scrubbing feature.
 
-altr_portb_setup() did not drop its reference under its success path
-or on any error path.
+Sashiko is asking more questions:
 
-socfpga_init_sdmmc_ecc() did an early return thereby skipping the
-common exit label and thus leaking the reference.
+https://sashiko.dev/#/patchset/20260706000338.362421-1-shijujose2008%40gmail.com
 
-Add the missing of_node_put() calls in altr_portb_setup(), and route
-socfpga_init_sdmmc_ecc()'s success path through the common exit label.
-
-Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
-Fixes: 788586efd116 ("EDAC/altera: Initialize peripheral FIFOs in probe()")
-Cc: stable@vger.kernel.org
-Closes: https://sashiko.dev/#/patchset/20260708091135.94114-1-rounakdas2025%40gmail.com
-Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
----
-v2:
- - Add Fixes:, Cc: stable, and Closes: tags (Dinh).
-
-v1: https://lore.kernel.org/all/20260717102549.13309-1-rounakdas2025@gmail.com/
----
- drivers/edac/altera_edac.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 68846f583eee..777ba6efcc54 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -1524,6 +1524,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	dci = edac_device_alloc_ctl_info(sizeof(*altdev), ecc_name, 1,
- 					 ecc_name, 1, 0, edac_idx);
- 	if (!dci) {
-+		of_node_put(np);
- 		edac_printk(KERN_ERR, EDAC_DEVICE,
- 			    "%s: Unable to allocate PortB EDAC device\n",
- 			    ecc_name);
-@@ -1534,8 +1535,10 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	altdev = dci->pvt_info;
- 	*altdev = *device;
- 
--	if (!devres_open_group(device->edac->dev, altr_portb_setup, GFP_KERNEL))
-+	if (!devres_open_group(device->edac->dev, altr_portb_setup, GFP_KERNEL)) {
-+		of_node_put(np);
- 		return -ENOMEM;
-+	}
- 
- 	/* Update PortB specific values */
- 	altdev->edac_dev_name = ecc_name;
-@@ -1600,6 +1603,8 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 		rc = -ENOMEM;
- 		goto err_release_group_1;
- 	}
-+	of_node_put(np);
-+
- 	altr_create_edacdev_dbgfs(dci, prv);
- 
- 	list_add(&altdev->next, &altdev->edac->a10_ecc_devices);
-@@ -1609,6 +1614,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	return 0;
- 
- err_release_group_1:
-+	of_node_put(np);
- 	edac_device_free_ctl_info(dci);
- 	devres_release_group(device->edac->dev, altr_portb_setup);
- 	edac_printk(KERN_ERR, EDAC_DEVICE,
-@@ -1638,7 +1644,7 @@ static int __init socfpga_init_sdmmc_ecc(struct altr_edac_device_dev *device)
- 		goto exit;
- 
- 	/* Setup portB */
--	return altr_portb_setup(device);
-+	rc = altr_portb_setup(device);
- 
- exit:
- 	of_node_put(child);
 -- 
-2.50.1 (Apple Git-155)
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
