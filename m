@@ -1,82 +1,75 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A74F2DECB2
-	for <linux-edac@vger.kernel.org>; Sun, 19 Jul 2026 19:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5844D17BB21
+	for <linux-edac@vger.kernel.org>; Sun, 19 Jul 2026 20:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784490021; cv=none; b=WFzJbS4LrE0EiOyDruAq57UrlVEZP7sFGkDIBK3cffkiGPoecqogxtlmlcT9Iy7HuE93vnhMGU7URsok60PD3mAua7hzlaMlT4uRd/6iffXv2ier8djfeFMbmIXFyOFy4H2p/vizPR+mTHcv1lh0P37fZ79Fokhit62C1mXH1tI=
+	t=1784492165; cv=none; b=X8odqFsBK+E64bqYazQAsAwpeoVM8KpYneEHyaOpFFggNDvunVmOWj9tD74wqoEvXUWeQBtrGJN9yD5v9HKUVLMVd3ovOQf9Crcrt1N2RApHmTXWP9D96mbFt78qU4zFI3f6qgBWEh1AQBgiJyTPh8GYOt3Oi43Iv1o12KA6b60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784490021; c=relaxed/simple;
-	bh=TLJtucb+fMTnZkK3MG1MYEdha1u6aPFM1hXEkh/SJAc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bNuDXW6VCYw0nHd9nO3f7IDB3+iLOIcyjw54CCbNJoQiQxuCEEu4Ad5vEBRAgWgx3M5MljPJCLPrhy9ULbegzlElLNjyvaomVBPQ0fg+7RFKytQhZA6e/sTT0ZjVAHAXsT6Qkb79LtgkKuoRZVqwo0yR3TtiABatdzqVN/fhAz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DwCPQnG6; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1784492165; c=relaxed/simple;
+	bh=S3ZAZTnVI61BJZH/XagCXm7D5+H8PYPOjoWBz9R77lc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sSX2SA8fzh8H9gMyKaA0toUDmUAFl0UROQxmmUaIERVzEmkDV3lfZRKUsurUZLSwZg3dkEfzGN4CCJQ75rwCb/GbVbUR0p6dwpqPPt81D9tLy0en1B2s4zGjNNkbdLSSlAwGwu1+xh3JGLbgTnZVTx0zcAJuLfUQOvik7FXEjiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bpvheE5+; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DwCPQnG6"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso5815515a91.3
-        for <linux-edac@vger.kernel.org>; Sun, 19 Jul 2026 12:40:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bpvheE5+"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-384c94c9414so5100726a91.3
+        for <linux-edac@vger.kernel.org>; Sun, 19 Jul 2026 13:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784490020; x=1785094820; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JHDTeZIldDDYJIkvsl14Ioncr+9aGn9+y+1u1DznXfQ=;
-        b=DwCPQnG6CtKfQ5VhtW2rdF6WiQuv0YWCJNt11UzsqCXi09TvmjkPXxdKIl5ENu5Sp0
-         q5ypT5Vev04wTuksDHZcbFkh5C3AvHJ0H93pG16Uasj1DC2wDPeXjz5pcScX31mfrfbo
-         vgAw0r+DwKaFNuAXTRwTKKfm0L9oFXoj3CFeqIsrzGFZ4E98JquYPPDGVBo04Ni4jcr3
-         JU/5qRTvJ0VHt4GTDLptcDLz1lJ9B7FWsHHGQRELHnOmERHLDxmBZaEz8Gyn2i8IJI5O
-         3PiPvKN+WwjW9gaTddhN8kBJve8gaziVUM4gDby83FUd8ST0J4H7mKOl0noVO7yVzmyN
-         Py2Q==
+        d=gmail.com; s=20251104; t=1784492164; x=1785096964; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GVSXItgURNFIq6EsxubzFWcf+i6RbOIXI0lH1YoD/ms=;
+        b=bpvheE5+5Zfs5TPE6wuRCpviAtYjhkirjMCIOZKED8q8hJ0VWF2UzHar/2qmAcj230
+         flvmmzbDcblyBWQnuM95bh6hRmM3hEPQyX7sdWJfIA0XTzGmoskUIyp7BtLC64uYF1zF
+         5A02AvYAZZVeidqEN+FUQGUg8IMsakJrnPOGEXSxtLUELHW8WXObD/iXuW4Q+2ake2jN
+         iEFc26R2gANcd5EHzmF1+DIwF4ivvGKOyPo/1AGD1xysEOGur80If9Pzef+zH6g/6p3c
+         gINcpETnO+nZW1fGJ8/x4k8RjqdYv9B4YcWzQaJkoQY+yPL9XTAr7LgPWlC1v5wrdVZV
+         6lpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784490020; x=1785094820;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JHDTeZIldDDYJIkvsl14Ioncr+9aGn9+y+1u1DznXfQ=;
-        b=ORSbjESkZpyvwk3XKgvr0zJQnAFScm34neyE1a89+SAJxk5xroMUBQhQ2FTuUYc6lA
-         REBidX0pnMIkxLMc40MkZxoyc+pfc1Mjs9NZvRWWzmmGbMhk0WGf8f1LSHnipHCvesuI
-         4e7TDK6A41HT60vDEJ29fCq2Km7ImJBuzu0Ei0YdmjFapg7RYmzzrTPLrZ/Lfd1ag+ZQ
-         7VnrMuxM7VuyUt4RZUGY33j3F44sRKWGNV1amnzROqvobP3SKWzeDEpkE19bmzndB/LR
-         dm92J4ob+4ekA+LIBvdk+h2eRbYiUL4vfQI7sDtWFKx4qnK5Um6kFl0yJetThhYX7JYd
-         vc3w==
-X-Gm-Message-State: AOJu0YyOc1++e2D3/mAfUPXBa52g1pdLtMtED9/tBboUx2CFk843KW7d
-	CBE+wtEYURsDTBjyflFfqc4FXSfwaTjOt6wxRlZPqkuDfGgcCq8osuTZmLmD3A==
-X-Gm-Gg: AfdE7cl3DShwCo//k0BHjzn3//R1qvOZObR+MWZRbpOLg1ou14URSb7Kl56DJVrcXn6
-	i2eYICUFIChQf32vDp/t77FMtpB4ca+fRfxqTSx5Saih5sYUOBZ9ur3mF7aK03GQH6uamAx1326
-	+vCUAYlfQSrtZdY9RWu0Z8DQT+cRMbVC2uTJX4qnQk6uJVEukvmpN5hbY0xykNB5szy082zg1xV
-	+O8HP4wucHaos/RfpFQa/kilSqxjRWmFUIy5mwSiEhwRL9WuYu5TTuHDSIrvkpU8O/K0OKolly4
-	0ymz/aInVEEOxXT3qIdT5MPX51fvMjFojboUVkhsnFr4/TJA8xBCj0KkFNfQSh89PDywa/kLn64
-	NmIGC3LdnEW4n9srdHOOIYNvUnnPSsveUg30z8JJz+EFHVS2btoCaOru4xZ84pVFj5a4hZPFy57
-	R1010ZQ/jmLUd3vhpf+gG1csAL2M25e/+1VhWfBig41nT1sQ3RqFC/pQ80aAceXM73GfDPoehQc
-	94xgZMo6uizr7FAJMeJY7KsFXXwhBBFpygzKRGqn7nDZLSA+3JCWN0=
-X-Received: by 2002:a17:90b:2f0c:b0:38e:49c0:75a7 with SMTP id 98e67ed59e1d1-38e4b431074mr12281543a91.8.1784490019784;
-        Sun, 19 Jul 2026 12:40:19 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784492164; x=1785096964;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GVSXItgURNFIq6EsxubzFWcf+i6RbOIXI0lH1YoD/ms=;
+        b=XyTTzrYalywlNPdPSB0vCQsEPwR4+vbIKmuffMFrPX6nzQogeHxdEGUkuDPjsYBL+u
+         9OmDdMGG24ZfXOZWqYAzMx7QhDMZyxtT5ru4rJcSd+6RgjKnCplg1DNpw/inhJnmnze3
+         kGyB6v+ew+4HRnkaREI8UQfJc2w0+ef3DgX7gJYmHqYwP6q3us42yVecnmQrrFsAjOIT
+         Hx3myxk1TN54zDCbEUUE9O5Ll9rPYLGK32bhx+yE5yQSmiEizY9gg4UCjHhj0tktOL8J
+         RuT8UHbGqeX0Ctg/zIIybfCn1sq3LktLaOKLl1Mw8aLsdT83EIUlZ5x0rUtpghDgmWeE
+         BWwA==
+X-Gm-Message-State: AOJu0Yxda18fDkGf7LDVa7MfEiyPJYPAerzxpF86RTh4SJgTcBDPZosu
+	/BC8S0p5mVfx4BmShwqAOD0r9hA8O2ZLnnnVvtuh/K1vhNFG7fTswW+EzZtAHQ==
+X-Gm-Gg: AfdE7clYqBHGDIvfzapYTrFPdQy3/52Kej5m9N0gwyHI0d8KA8QY4n1W7KPUg94aVhi
+	ZLKzOfQOqyXIdcNYeP9MUuorsCGMaPu14EsNZmts5Vgqmfow7tVaQ3byK7g/XNXoXvAuSgUFjv6
+	FcSAnnt8llC14iUkDPQjChoXviHj4iceI9Zc/4rGr+nJ7PCAfepbVdJuSYJeVxVeht0ksYryLh5
+	Zccfls6Uvj70fax58tPN9N0+cVKdm1Rp9TylIgadHIpu6zyLFd0J11+saCf7w3EweHYaeXmscVA
+	8nGQkMs2nUS12vOxe/mBQeoTwI2Ce5Hl71WzrBC9k/1UMMwWKPaaXTaN10yti276zPgHl6007vl
+	b3pSDEmNKjzCAs6EVEGxZ6t8+tdfwp5JMhHZe9+z8N+HBMbSz0HmDwZjlVad0+pwsHfJ0ouitv3
+	/hGmOAMYmq3n6kySHEre/TxL4DX0N46MWadoLuA2bCDQ7Zpcb2JkOxfw0eTegMM/eGb+S2T//RN
+	W/sFWmoZMmgA7JckH2qAWl6rpW2jIypL/1Hgx2N8HUhjiznYpatQAc=
+X-Received: by 2002:a17:90b:3ec7:b0:381:5a08:6291 with SMTP id 98e67ed59e1d1-38e4b503aa4mr11320509a91.20.1784492163625;
+        Sun, 19 Jul 2026 13:16:03 -0700 (PDT)
 Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e3a0fb993sm6308126a91.15.2026.07.19.12.40.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e39fe37d1sm6473418a91.12.2026.07.19.13.15.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 12:40:17 -0700 (PDT)
+        Sun, 19 Jul 2026 13:16:01 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: linux-edac@vger.kernel.org
-Cc: Frank Li <Frank.Li@nxp.com>,
-	Borislav Petkov <bp@alien8.de>,
+Cc: Borislav Petkov <bp@alien8.de>,
 	Tony Luck <tony.luck@intel.com>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
 	Bill Wendling <morbo@google.com>,
 	Justin Stitt <justinstitt@google.com>,
-	York Sun <york.sun@nxp.com>,
-	imx@lists.linux.dev (open list:EDAC-FSL_DDR),
 	linux-kernel@vger.kernel.org (open list),
 	llvm@lists.linux.dev (open list:CLANG/LLVM BUILD SUPPORT:Keyword:\b(?i:clang|llvm)\b)
-Subject: [PATCH 2/2] EDAC: fsl_ddr: manage mci lifetime via devres to fix remove UAF
-Date: Sun, 19 Jul 2026 12:40:09 -0700
-Message-ID: <20260719194009.117532-3-rosenp@gmail.com>
+Subject: [PATCH] EDAC/mpc85xx: manage controller info lifetime via devres
+Date: Sun, 19 Jul 2026 13:15:58 -0700
+Message-ID: <20260719201558.310738-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260719194009.117532-1-rosenp@gmail.com>
-References: <20260719194009.117532-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -85,128 +78,154 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fsl_mc_err_probe() requests the shared interrupt with devm_request_irq(),
-passing mci as the handler context. At removal fsl_mc_err_remove() calls
-edac_mc_free(mci) explicitly, but the devm-requested IRQ is only torn
-down by devres afterwards. Between edac_mc_free() and the IRQ release,
-another device sharing the line can fire and fsl_mc_isr() will
-dereference the freed mci and its pdata.
+mpc85xx_pci_err_probe() and mpc85xx_l2_err_probe() request their shared
+interrupt with devm_request_irq(), passing the allocated control info
+(pci / edac_dev) as the handler context. At removal the driver frees
+that control info explicitly via edac_pci_free_ctl_info() /
+edac_device_free_ctl_info() before devres tears down the IRQ, leaving a
+use-after-free window in which a peer device on the shared line can fire
+and the ISR dereferences the freed structure.
 
-Register an edac_mc_free() callback via devm_add_action_or_reset() right
-after edac_mc_alloc(), so mci is owned by devres and freed only after the
-devm IRQ is released (devres runs actions in LIFO order). Drop the
-explicit edac_mc_free() from both the probe error paths and
-fsl_mc_err_remove(); edac_mc_del_mc() is still called explicitly at
-remove time so the edac device is unregistered before the deferred free.
+Register a free callback via devm_add_action_or_reset() immediately after
+allocation so the control info is owned by devres and freed only after
+the devm IRQ is released (devres runs actions in LIFO order). Drop the
+explicit frees from both the probe error paths and the remove callbacks,
+and remove the now-redundant devres group open/release/remove calls.
 
-This also lets the now-redundant devres group open/release/remove calls
-be removed.
+Built for powerpc (CONFIG_EDAC_MPC85XX) with LLVM=1;
+drivers/edac/mpc85xx_edac.o compiles cleanly and passes checkpatch
+--strict.
 
-Built for arm64 (defconfig + CONFIG_EDAC_FSL_DDR) with LLVM=1;
-drivers/edac/fsl_ddr_edac.o compiles cleanly and passes checkpatch --strict.
-
-Fixes: ea2eb9a8b620 ("EDAC, fsl-ddr: Separate FSL DDR driver from MPC85xx")
 Assisted-by: opencode:hy3-free
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- drivers/edac/fsl_ddr_edac.c | 36 ++++++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 16 deletions(-)
+ drivers/edac/mpc85xx_edac.c | 42 +++++++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/edac/fsl_ddr_edac.c b/drivers/edac/fsl_ddr_edac.c
-index b1e6e177b088..cdd129bc42c7 100644
---- a/drivers/edac/fsl_ddr_edac.c
-+++ b/drivers/edac/fsl_ddr_edac.c
-@@ -490,6 +490,13 @@ static void fsl_ddr_init_csrows(struct mem_ctl_info *mci)
- 	}
+diff --git a/drivers/edac/mpc85xx_edac.c b/drivers/edac/mpc85xx_edac.c
+index 7bb13f85ce57..13c88600f7b5 100644
+--- a/drivers/edac/mpc85xx_edac.c
++++ b/drivers/edac/mpc85xx_edac.c
+@@ -141,6 +141,13 @@ static irqreturn_t mpc85xx_pci_isr(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
  }
  
-+static void fsl_mc_edac_free(void *data)
++static void mpc85xx_pci_edac_free(void *data)
 +{
-+	struct mem_ctl_info *mci = data;
++	struct edac_pci_ctl_info *pci = data;
 +
-+	edac_mc_free(mci);
++	edac_pci_free_ctl_info(pci);
 +}
 +
- int fsl_mc_err_probe(struct platform_device *op)
+ static int mpc85xx_pci_err_probe(struct platform_device *op)
  {
- 	struct mem_ctl_info *mci;
-@@ -500,9 +507,6 @@ int fsl_mc_err_probe(struct platform_device *op)
- 	u32 sdram_ctl;
- 	int res;
+ 	struct edac_pci_ctl_info *pci;
+@@ -150,13 +157,14 @@ static int mpc85xx_pci_err_probe(struct platform_device *op)
+ 	struct resource r;
+ 	int res = 0;
  
--	if (!devres_open_group(&op->dev, fsl_mc_err_probe, GFP_KERNEL))
+-	if (!devres_open_group(&op->dev, mpc85xx_pci_err_probe, GFP_KERNEL))
 -		return -ENOMEM;
 -
- 	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
- 	layers[0].size = 4;
- 	layers[0].is_virt_csrow = true;
-@@ -511,10 +515,17 @@ int fsl_mc_err_probe(struct platform_device *op)
- 	layers[1].is_virt_csrow = false;
- 	mci = edac_mc_alloc(edac_mc_idx, ARRAY_SIZE(layers), layers,
- 			    sizeof(*pdata));
--	if (!mci) {
--		devres_release_group(&op->dev, fsl_mc_err_probe);
-+	if (!mci)
+ 	pci = edac_pci_alloc_ctl_info(sizeof(*pdata), "mpc85xx_pci_err");
+ 	if (!pci)
  		return -ENOMEM;
--	}
-+
-+	/*
-+	 * Manage mci lifetime via devres so it is freed only after the
-+	 * devm-requested IRQ is released, avoiding a use-after-free of mci
-+	 * (and its pdata) in the shared interrupt handler during removal.
-+	 */
-+	res = devm_add_action_or_reset(&op->dev, fsl_mc_edac_free, mci);
+ 
++	res = devm_add_action_or_reset(&op->dev, mpc85xx_pci_edac_free, pci);
 +	if (res)
 +		return res;
- 
- 	pdata = mci->pvt_info;
- 	pdata->name = "fsl_mc_err";
-@@ -558,10 +569,8 @@ int fsl_mc_err_probe(struct platform_device *op)
- 
- 	if (pdata->flag == TYPE_IMX9) {
- 		pdata->inject_vbase = devm_platform_ioremap_resource_byname(op, "inject");
--		if (IS_ERR(pdata->inject_vbase)) {
--			res = -ENOMEM;
--			goto err;
--		}
-+		if (IS_ERR(pdata->inject_vbase))
-+			return -ENOMEM;
++
+ 	/* make sure error reporting method is sane */
+ 	switch (edac_op_state) {
+ 	case EDAC_OPSTATE_POLL:
+@@ -285,7 +293,6 @@ static int mpc85xx_pci_err_probe(struct platform_device *op)
+ 			 | PEX_ERR_ICCAD_DISR_BIT);
  	}
  
- 	if (pdata->flag == TYPE_IMX9) {
-@@ -575,8 +584,7 @@ int fsl_mc_err_probe(struct platform_device *op)
- 	if ((sdram_ctl & ecc_en_mask) != ecc_en_mask) {
- 		/* no ECC */
- 		pr_warn("%s: No ECC DIMMs discovered\n", __func__);
--		res = -ENODEV;
--		goto err;
-+		return -ENODEV;
- 	}
- 
- 	edac_dbg(3, "init mci\n");
-@@ -639,7 +647,6 @@ int fsl_mc_err_probe(struct platform_device *op)
- 		       pdata->irq);
- 	}
- 
--	devres_remove_group(&op->dev, fsl_mc_err_probe);
+-	devres_remove_group(&op->dev, mpc85xx_pci_err_probe);
  	edac_dbg(3, "success\n");
- 	pr_info(EDAC_MOD_STR " MC err registered\n");
+ 	pr_info(EDAC_MOD_STR " PCI err registered\n");
  
-@@ -652,8 +659,6 @@ int fsl_mc_err_probe(struct platform_device *op)
- 	ddr_out32(pdata, FSL_MC_ERR_DISABLE,
- 		  pdata->orig_ddr_err_disable);
- 	ddr_out32(pdata, FSL_MC_ERR_SBE, pdata->orig_ddr_err_sbe);
--	devres_release_group(&op->dev, fsl_mc_err_probe);
--	edac_mc_free(mci);
+@@ -294,8 +301,6 @@ static int mpc85xx_pci_err_probe(struct platform_device *op)
+ err2:
+ 	edac_pci_del_device(&op->dev);
+ err:
+-	edac_pci_free_ctl_info(pci);
+-	devres_release_group(&op->dev, mpc85xx_pci_err_probe);
  	return res;
  }
  
-@@ -674,5 +679,4 @@ void fsl_mc_err_remove(struct platform_device *op)
+@@ -310,7 +315,6 @@ static void mpc85xx_pci_err_remove(struct platform_device *op)
+ 	out_be32(pdata->pci_vbase + MPC85XX_PCI_ERR_EN, orig_pci_err_en);
  
- 
- 	edac_mc_del_mc(&op->dev);
--	edac_mc_free(mci);
+ 	edac_pci_del_device(&op->dev);
+-	edac_pci_free_ctl_info(pci);
  }
+ 
+ static const struct platform_device_id mpc85xx_pci_err_match[] = {
+@@ -484,6 +488,13 @@ static irqreturn_t mpc85xx_l2_isr(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
++static void mpc85xx_l2_edac_free(void *data)
++{
++	struct edac_device_ctl_info *edac_dev = data;
++
++	edac_device_free_ctl_info(edac_dev);
++}
++
+ static int mpc85xx_l2_err_probe(struct platform_device *op)
+ {
+ 	struct edac_device_ctl_info *edac_dev;
+@@ -491,16 +502,16 @@ static int mpc85xx_l2_err_probe(struct platform_device *op)
+ 	struct resource r;
+ 	int res;
+ 
+-	if (!devres_open_group(&op->dev, mpc85xx_l2_err_probe, GFP_KERNEL))
+-		return -ENOMEM;
+-
+ 	edac_dev = edac_device_alloc_ctl_info(sizeof(*pdata),
+ 					      "cpu", 1, "L", 1, 2,
+ 					      edac_dev_idx);
+-	if (!edac_dev) {
+-		devres_release_group(&op->dev, mpc85xx_l2_err_probe);
++	if (!edac_dev)
+ 		return -ENOMEM;
+-	}
++
++	res = devm_add_action_or_reset(&op->dev, mpc85xx_l2_edac_free,
++				       edac_dev);
++	if (res)
++		return res;
+ 
+ 	pdata = edac_dev->pvt_info;
+ 	pdata->name = "mpc85xx_l2_err";
+@@ -573,8 +584,6 @@ static int mpc85xx_l2_err_probe(struct platform_device *op)
+ 		out_be32(pdata->l2_vbase + MPC85XX_L2_ERRINTEN, L2_EIE_MASK);
+ 	}
+ 
+-	devres_remove_group(&op->dev, mpc85xx_l2_err_probe);
+-
+ 	edac_dbg(3, "success\n");
+ 	pr_info(EDAC_MOD_STR " L2 err registered\n");
+ 
+@@ -583,8 +592,6 @@ static int mpc85xx_l2_err_probe(struct platform_device *op)
+ err2:
+ 	edac_device_del_device(&op->dev);
+ err:
+-	devres_release_group(&op->dev, mpc85xx_l2_err_probe);
+-	edac_device_free_ctl_info(edac_dev);
+ 	return res;
+ }
+ 
+@@ -602,7 +609,6 @@ static void mpc85xx_l2_err_remove(struct platform_device *op)
+ 
+ 	out_be32(pdata->l2_vbase + MPC85XX_L2_ERRDIS, orig_l2_err_disable);
+ 	edac_device_del_device(&op->dev);
+-	edac_device_free_ctl_info(edac_dev);
+ }
+ 
+ static const struct of_device_id mpc85xx_l2_err_of_match[] = {
 -- 
 2.55.0
 
