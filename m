@@ -1,66 +1,61 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E249238E8CA;
-	Sun, 19 Jul 2026 15:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950DE277C96;
+	Sun, 19 Jul 2026 16:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784476750; cv=none; b=r9tvxvPGIvq5NqBi5wcBi7OlkiphPC1/MotmlVlJD/R8QbUPCymvNpgo+nwa8Uaz9/xnk6Am44yIfD830zMzIMYVcAQlhiIyHdvAN+eF82aw2JdyTfBfNgvN+k8nOdYV3VMYdyU/IhnYJUQwjm+jKu7jzUHY0+VAtjqgYOKhHvM=
+	t=1784478493; cv=none; b=cYovDXhqUZss8onHR8cT70Zj2z+QPVpVlWzXTNhqFjKmdl7q+fLC7oKyH07QJYFRC4dlloctHOl+0KDSYPP4j9Qob3bjt5SQkllgK31YAYm6CmiEACVVUJ/eWaAKjmop2CXYwVj1tv0kPh0tp0Av04FVo7gT1ZmI53GQ0w1MRJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784476750; c=relaxed/simple;
-	bh=2a8yZFeUetOinMs3hl11PE5Jz4kpfMi82yEofiBWI5s=;
+	s=arc-20240116; t=1784478493; c=relaxed/simple;
+	bh=JpnT8XJ88gwNmRa+be1SpaZwz6CtFhqsGTd20634HcM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZQ2sw/3+HAFpGJKz5RfuNe+EcUs6gHt2LpErB4nPwKaUzeRH1Rl1HNvWlh6YKB6tDTpvTvhldW2/V+UqY0fqdX71cW8ZesoUl9wVR/2OdGEYhlwY6odMZv97yQDvNelSdB8AGYFV0s/0h/uqv3PYmMkczuK6xGsF0EvS3fYX35s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=bRX96lti; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=jRE/GE9JS0Xs6oIFo/l1PGwJnkUFAj2Dt8H6YGHUufOwxSgLzLHkxOWHgYtyrLo0uZ59oE5YHZyKLENYSjYwaL6w6ZXOU/Xhm/UQ/xAK0tUt42/eE6cVbcQbMG5ykPbg1Q62XMiRRf3dLJ9MJYe7sfw6EhylhHVIMH63q07j8Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=lLogkn20; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="bRX96lti"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="lLogkn20"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C848B40E00E6;
-	Sun, 19 Jul 2026 15:58:57 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0D61840E00DC;
+	Sun, 19 Jul 2026 16:28:08 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id fpeTsoxIvlj8; Sun, 19 Jul 2026 15:58:48 +0000 (UTC)
+	with ESMTP id 4T2U3_ebaVXK; Sun, 19 Jul 2026 16:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1784476727; bh=/9euEjjwpVwhNmG4Nz1yJBHOlsi3Oon+gwrcJ1j+6iA=;
+	t=1784478477; bh=Hx9MZWuvrI8H6YwL6rjDpa4a5eWn7GFznv0yhkfDzbQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bRX96ltiIwhMYoNksg+pbRpiMMl+S5STL+IL5pSc6xbf6M+x0AUAIJiy3n/vYGVSg
-	 /EteLpwSBqGol83ZobC9bQpIfmEjSNPdqAWjcjURDEurA9LuClXA4TBxAp6GoYsG3N
-	 FTo5arfBGY1pX0f8p1DsZK1mjeVxJ19hcvuxMDsE8KrzorKpqpIMtXywMTcShnGoSI
-	 9YHRIc3QNReMmmrfQJuHFiFMJh0yKqY9cHA5dAZdPx+9ddqPibPD0IIEq7vYwjHulK
-	 bEp3eP3XoVzmxjcckuy1ldGAUrDp77W5LkGZ3LP5vvpPxAFSATb63jiGn3ngmgw5Ma
-	 olDqnZ3Ll2iHv+Pq3bG3P7bi1ZnqL/30i1Mm9VaEI8Sahkf40PFuLe9xbieVRJDPqZ
-	 FRchq9FlTvwhymT1cxeaXz96y+OPSzcVRJaekr2nm5r+fFYsHAtZEciYT11x2ob/bP
-	 TSEou8WmDjjH1B97PeIj9IT8sWSAq5XA7o+ioehMzuXhrWaOYGUkyGc3j5Px+aZm4e
-	 +srpK/yz56f505+fur8o6s8EQzVn8q7ImbKwXECHzZlQQKVmz9M3nZ6PnTdo4I0P/L
-	 TFFk8EZnwbGewt/ogD0KcP890Yhtdlo08NH0WH9mC+5hRW8KJPkK0mgz+c6cMw86eH
-	 k1lGUq6kgrDmNnclGx8F3q9M=
+	b=lLogkn20oLMyh1aaezy+6dP+PKZ5SJiX/8CBwDovsCFQTgC5beOJ2V/jI4eOq2QaL
+	 73stYz/cXCXIoxotGLlU0OkYwkaSvsHpUq2mn8CB7uScKAwA+ufX6Ju+sw4hMtHuRQ
+	 G/lgDBRqv00PDWKpLtUZxMjWwxMK1UKD7pEOD9wtsQJQI9HRplezYfxyiCmzUKLBBr
+	 Xadpid++tDCFb+pHqkFvbqL2mz9iUHV1Mnzn9LDX+YiYq8qVFqAnRdPbeNppg2kUne
+	 U5DvhetgJCwmQhmmlIkent1Y4Xx9GSo0UnNSISmgIooeQL2rKZm0f50HOoD0XNi10x
+	 SWH/DPHzZk4FbQ1sYHf3ZHevjvFcnJ2K97uCN0eDAYffZUquKjBxxy9laaSWAfu/AX
+	 ZK5mQ6jQBAec+ShLG3DK5eGxo+awpLDyrB+om1QVDaYlDioFTH4elYjU86mPaT4IyV
+	 DRxbb60fF1wlfv+LHHU8JxufFiCHCtglxGdBzsOxETmfM+RwZ3S9Q40Dg4pliKJLs8
+	 5OY+9Hx5JtyDyTP9d2+ucRzo/zPwQuKhQcWaRiy0lr+2keZipWxPbxsZrBX2WpU2yv
+	 nRf0I7F1IPkGAJZtN+mO7Jr4SiPqyNgQJj+InuiuzIqyFmtS43HcDJW7o6jdjEo8Xm
+	 PPhfcNm7LM2/4ZbWTAYEy9JM=
 Received: from stx.tnic (unknown [12.110.208.163])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 88DFF40E0140;
-	Sun, 19 Jul 2026 15:58:34 +0000 (UTC)
-Date: Sun, 19 Jul 2026 08:58:22 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C470740E00E6;
+	Sun, 19 Jul 2026 16:27:43 +0000 (UTC)
+Date: Sun, 19 Jul 2026 09:27:26 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org,
-	Frank Li <Frank.Li@nxp.com>, Tony Luck <tony.luck@intel.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	"open list:EDAC-FSL_DDR" <imx@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:CLANG/LLVM BUILD SUPPORT:Keyword:b(?i:clang|llvm)b" <llvm@lists.linux.dev>
-Subject: Re: [PATCH] EDAC: fsl_ddr: use devm_platform_ioremap_resource()
-Message-ID: <20260719155822.GAalz0Hj3XT97KkPOk@fat_crate.local>
-References: <20260714234609.902367-1-rosenp@gmail.com>
- <alhXciS9G_bGB2re@SMW015318>
+To: Rama devi Veggalam <rama.devi.veggalam@amd.com>
+Cc: tony.luck@intel.com, michal.simek@amd.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org, james.morse@arm.com, mchehab@kernel.org,
+	rric@kernel.org, git@amd.com
+Subject: Re: [PATCH v3 0/4] Add support for Versal Xilsem edac
+Message-ID: <20260719162726.GAalz67qebFiJ6E5rh@fat_crate.local>
+References: <20260624212545.2850787-1-rama.devi.veggalam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -69,33 +64,20 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <alhXciS9G_bGB2re@SMW015318>
+In-Reply-To: <20260624212545.2850787-1-rama.devi.veggalam@amd.com>
 
-On Wed, Jul 15, 2026 at 11:00:50PM -0500, Frank Li wrote:
-> On Tue, Jul 14, 2026 at 04:46:09PM -0700, Rosen Penev wrote:
-> > Replace the open-coded of_address_to_resource() plus devm_request_mem_region()
-> > and devm_ioremap() sequence with devm_platform_ioremap_resource(), which folds
-> > the resource lookup, region reservation and mapping into one step and returns
-> > an ERR_PTR checked with IS_ERR()/PTR_ERR().
-> >
-> > Behaviorally equivalent with respect to region reservation: the driver
-> > already reserved the region, so the non-overlapping reg requirement was
-> > already satisfied. Drop the now-unused linux/of_address.h include.
-> >
-> > Built for arm64 (defconfig + CONFIG_EDAC_FSL_DDR) with LLVM=1;
-> > drivers/edac/fsl_ddr_edac.o compiles cleanly.
-> >
-> > Assisted-by: opencode:hy3-free
-> > Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> > ---
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+On Thu, Jun 25, 2026 at 02:55:41AM +0530, Rama devi Veggalam wrote:
+> Add sysfs interface for Xilsem scan operations initialize, start,
+> stop scan, error inject, read ECC, status and configuration values.
+> Handle correctable and uncorrectable xilsem error events.
 
-Sashiko caught a bunch of preexisting issues:
+A lot of issues caught by Sashiko:
 
-https://sashiko.dev/#/patchset/20260714234609.902367-1-rosenp%40gmail.com
+https://sashiko.dev/#/patchset/20260624212545.2850787-1-rama.devi.veggalam%40amd.com
 
-Let's fix them first please.
+they need to be addressed first, before adding anything new.
+
+Thx.
 
 -- 
 Regards/Gruss,
