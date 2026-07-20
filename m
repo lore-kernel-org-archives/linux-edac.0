@@ -1,344 +1,246 @@
-Received: from outgoing2021.csail.mit.edu (outgoing2021.csail.mit.edu [128.30.2.78])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079F57261A;
-	Mon, 20 Jul 2026 05:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.30.2.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C406A3CCFD4
+	for <linux-edac@vger.kernel.org>; Mon, 20 Jul 2026 08:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784524424; cv=none; b=ezLIJ4KCwY5DNb336ud7SUWC9n2bx+DKXFEEPi0inMLcVPA1/SVj/hvd10iLFXIwTRmprzEgUsoOcLUg9mcfR4/Eoely+wxncLn9S6rpSQiR9xInoM6uSPi4VJA2ebt4dWgMlGZvuz9HFXr0M+X37qFHoLxSCXSF/ATHdDRo9YI=
+	t=1784535606; cv=none; b=fNu7DHy24a5dWZMUNn7yxWW/CoH7IOkuJCkNFH4l6HDqsQfv1v3XSBf9uqHd5jYPKds595EIYMYxmm1JQ0HZlZmOH2NsxgDt8O/Wt2M3nkxGQ7nu2EPJtYVmOeOJPb7Y/BkAnKLzTOvYkaVoyMhmUVqYF4DClpHYDmkf5xEAf5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784524424; c=relaxed/simple;
-	bh=yqpA7UIb65u2FGiiIy2bMeYHCZJ5AzMaVyJb/NIZQfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uFdCONmfzOFyidGgP23wGEl/RK0inSu20FCy+kn49fSoUy+3mKDmJ4pCYyVOooWA9jD3kTQs3DE1HwzbcaojRDV3d3rlgAUbW7/82XsRDLKuo4tODFv56p+gZF3R61B5roSFJFmfcVMib6CXhzB/LI+sGQSd7g5fLqcotP1r3sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu; spf=pass smtp.mailfrom=csail.mit.edu; dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b=fAtekVi8; arc=none smtp.client-ip=128.30.2.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=csail.mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csail.mit.edu
+	s=arc-20240116; t=1784535606; c=relaxed/simple;
+	bh=XeAEXlpZvz1Kk9U20DPBoUr+0RBrXFDXeooUbCrFtfk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NsKwI/TA8UefrJBxRGMC+NOscvHqKFqnKd+o6aUv9SxSRnIYf3x1eHqKFDtO/bDFf4csxzhQLHz6XkrNLyzRjrFaYkTCUgX/NhSErACM/EjMDm3rIkvU0TeWyCDmsxwefux22T6jbUUZtl0WKXGQxwNZqNUbRDmJYQnZ4oBgJw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N9SMOOoj; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JCLRmRkn; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outgoing.csail.mit.edu header.i=@outgoing.csail.mit.edu header.b="fAtekVi8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=outgoing.csail.mit.edu; s=test20231205; h=In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=auqxfyjqvg97ZI0Qq1FkdZriEifJJeIejxWMpuBlbLc=; t=1784524422; x=1785388422; 
-	b=fAtekVi8p8RUdfG00rteahqVNn3cX6ZyaVu4Bcb2MwLkkFS6WnmgwkXangeaCRapoVvUj7XF795
-	VhRb/bxBWhjwKds+gHbhfspysQvl+f6yw7LgR5w2XKnfQDHKtldCEr8MbUF6P71aPQ+rzjB/BvT+q
-	29V0hQP7X4OuznQaAJJwXKkADWcE0swmREc1PHD6LpA1NUfTOvBTjgpE6dUjE6kJhdDJvDYOkvPQn
-	fQ/KTOowHutRnQz4vBJnJ4fGt0qCFACFVX/tuO5n5ssf9di4KzlmCCS5Uqz6LGYhuFvwlPQ7GW+8M
-	oiFQbIoW7VtWlL7tmVk9vP24oJGvM4gFhnMA==;
-Received: from [167.220.238.20] (helo=csail.mit.edu)
-	by outgoing2021.csail.mit.edu with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <srivatsa@csail.mit.edu>)
-	id 1wlgJg-008zHN-Lk;
-	Mon, 20 Jul 2026 01:13:25 -0400
-Date: Mon, 20 Jul 2026 10:43:10 +0530
-From: "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@kernel.org>,
-	linux-edac <linux-edac@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] EDAC/mce_amd: Do not print a stray newline
-Message-ID: <al2uZnOfkGxXv1q3@csail.mit.edu>
-References: <20260712031648.486110-1-bp@kernel.org>
- <20260713184402.GA364094@yaz-khff2.amd.com>
- <20260713232219.GAalVzK0UQ9rxlIWmT@fat_crate.local>
- <alYPZGTBJUDR936n@csail.mit.edu>
- <20260714130455.GB364094@yaz-khff2.amd.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="N9SMOOoj";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JCLRmRkn"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66K6RfbM1774797
+	for <linux-edac@vger.kernel.org>; Mon, 20 Jul 2026 08:20:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=oywFt15nTUechSp1jVDxMiDTZuPB3zyGHsn
+	nJBE7dAk=; b=N9SMOOoj2Mm0hUmIxeJ329kLUXKUlRm6qCARhXiWTSWz8BCGbRH
+	5VlukN1qdTpTyTaUs1NreDG9b9YtAxC+6iis7af4bWIocsS2voFCHYCGvziyhp2A
+	yxac23Siy/KAYuKnsbX14PwJ8vw6JWcNVihwll3VNdZHoVs2kP7Kiqn19vfFEL/+
+	iSiNv6Tf+idp73fZxyUEqukK0QoOtWGFiVKATveIC46FQ31LYVUAqIrM4uBEViNy
+	qMJNDA0K3lZ4D8FuIFzi9gwfkmkoyMzgIXYcJwHaBvBsiMVE23YMM/49QmWkCXdO
+	3NGNyQbreWAUGdAjzse9v0m7JdAbXslMToQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fg2af5565-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Mon, 20 Jul 2026 08:20:03 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38459087607so2925922a91.2
+        for <linux-edac@vger.kernel.org>; Mon, 20 Jul 2026 01:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784535602; x=1785140402; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oywFt15nTUechSp1jVDxMiDTZuPB3zyGHsnnJBE7dAk=;
+        b=JCLRmRknsQLnSWHOGs+DgsHKMtM6sU+dor4/nVsnXAlsb+12899KzdqnmzXuFixE04
+         v4gRXIflPz3ZqFpPzQ03Asicyc/+5CW34sK0ys4uDpYZRzjF1lWvfDbbSUTVvjRUVQQz
+         igYhohukOswW6rAxsgWfFv9x/fBS9uXsOkCbVqVhNhdLp3wlYAdbj+wMC8lLbKouA0bU
+         wMHv+eUKXJufH41733pSL10VKmgLzg9OcG1PipYdbFddh68Zz9qd8Fro8o/q6+dxI0Jx
+         qqXHwliqL/u13d2T4/GiP1nHyTylTRv53HyLghDza1idaqkdwKYovPKHLgg34ImbJ9zW
+         GwqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784535602; x=1785140402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oywFt15nTUechSp1jVDxMiDTZuPB3zyGHsnnJBE7dAk=;
+        b=DYLVjxVGGUUHRaCRnpWUrcgodidGVhGm+1BJCLwQzjcEmrVv4K3AXbmFAp8YnGcnRH
+         zcESFpRbGnp2T00LmKEsF3gznfqc8bWt/pEPm6hZmNoiptnC4dxKSCmQtrLUWywveckS
+         trny2gkvJQxN7FG44Erz5wjuvRXrxBLO6V0xO8nRZo3oqgCGM8WMDHmZW9k3/2eQKejl
+         cvOQ4mWHgqinZ6lkomJ39s3zV7ESc7prbU9mY7QetKfCUgB8TLfasiVk3xYifT0uXxIl
+         YLXOL378NyCQHjhhwCBeBT+dirP8+DFJO4OpP87losyQ5lPNzUBgBiMafRc5g1ZZvoy9
+         /kTQ==
+X-Forwarded-Encrypted: i=1; AHgh+RptY7jgcLsqgGeJ0jPsyCSUq4wR5A9XhActgxlFcxw41SiHOUlUaf5vyV3BtUqiJcoDqQm7A2NHXmna@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxz7jNqpqsTps590cJAZ2TVxY+BqfzaXwaEWL4OQU1sq0xwObeI
+	mcxbVwV8c+LCzeFc0u41kScvCvR5B8UnnSG/ISW+ODJRxRTl87z+ozwRyPI94Ku8w50HUw+2269
+	e0VQIfB09ZId7/9ej6wwNOgCL5sTvN7inq6cIVSS0TUmcMj88xrsj3T0ccYUJWl9R
+X-Gm-Gg: AfdE7cntYhY83/HuHEp4FQIPdPt4dXZ23AkjWQONWr+smWlmfzIREhPPV6LDWC8y3B6
+	YXhnYw3iWMYt92xKV4tb/eyyo1uzobfryHmDAOQfgGjoUgEEst1OBAFTpv2cMdMPlhM5YgAT36v
+	4+UICT7Xs4vvdbtBZsh/u0dfGZdn42Z2eiC5V/+hEGyl2V2tg1F0RooZPwCaRnfo4IHUkQyzXFW
+	MNcO7+W9fngNQ70SVzAedt8QFCYGm0tiG0zZzhbK1chWpk7s0+byYhbpdUhs+EUE2N91AUh9b8b
+	HNSLmvWqPHa4bAW75hpE4c9cmIP5DjexYeuungFBcfmoZmTPBXV2FzpP84mowmioqi1QLLmq4rM
+	hjl/8bWhhmSCGUQbTNAQcUS52wE4T+cI=
+X-Received: by 2002:a17:90b:4c0f:b0:38e:89ec:5254 with SMTP id 98e67ed59e1d1-38e89ec53c6mr600787a91.7.1784535602415;
+        Mon, 20 Jul 2026 01:20:02 -0700 (PDT)
+X-Received: by 2002:a17:90b:4c0f:b0:38e:89ec:5254 with SMTP id 98e67ed59e1d1-38e89ec53c6mr600761a91.7.1784535601850;
+        Mon, 20 Jul 2026 01:20:01 -0700 (PDT)
+Received: from hu-uchheda-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e39e0531asm7233688a91.5.2026.07.20.01.19.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 01:20:01 -0700 (PDT)
+From: Umang Chheda <umang.chheda@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Ruidong Tian <tianruidong@linux.alibaba.com>,
+        Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+        Umang Chheda <umang.chheda@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        faruque.ansari@oss.qualcomm.com, avaneesh.dwivedi@oss.qualcomm.com
+Subject: [PATCH v2 0/4] arm: ras: Add DT frontend support for ARM RAS
+Date: Mon, 20 Jul 2026 13:49:50 +0530
+Message-Id: <20260720081954.1858180-1-umang.chheda@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714130455.GB364094@yaz-khff2.amd.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDA5MSBTYWx0ZWRfX2Imb7IYQHIKZ
+ 1LWbrISYMjbpSRvOhD3fJC0y4RVOq+sAz1G/TenHllRQ+LtXZJ+UwpefkN9D0YxgP80ojQdWZS2
+ CZ98qaJV3L7lExjs515k4Z128o4TM+E=
+X-Proofpoint-GUID: XRa0p4UrDi0vSr6hLG8oXm5f8LW1PcIo
+X-Proofpoint-ORIG-GUID: XRa0p4UrDi0vSr6hLG8oXm5f8LW1PcIo
+X-Authority-Analysis: v=2.4 cv=a+sAM0SF c=1 sm=1 tr=0 ts=6a5dda33 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=NEAV23lmAAAA:8
+ a=VwQbUJbxAAAA:8 a=SRrdq9N9AAAA:8 a=tHe252CdNFHeNeq8tAEA:9
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDA5MSBTYWx0ZWRfX4o8H6H4Qpikc
+ +faFsUtI6rXAWaidZS6GC3bt6DDZl3J3x0XTUTRdRuXED15iqOqwPWa8nIKcLbd+28VBI+lUClK
+ iLjbXrV4mLryfTIJUmHzQQTt/Zit+VPx9d8TbKED/VQGlA1PsFRi/w1so2TMlfCzUrCbAEc26qV
+ xvOzO39onSEezDLXN70KdRw+P06KdIFi5W9SPazH/kZe6u66p9bAGlihvX7qsZlpWsmv1fEgL7Q
+ wANc9hP1zCxL897NhPphyHIkZzI/A68wnU5KB6R1PgXPXP4gmE1wpalgG/J29CupuGI1PBhhI2o
+ M5RMOQLMLOYnEv3U42bhuJF9nZUVwz1rqP7gx3irXPUBDY8Ln2KKZ0Ujo8VE9+fQUSGklCy3Tth
+ Gr7TBHhZmWqyiqglyGooMnTuJVOFONigOseAWrT7Aox2QdJtNFbzSf2zWUg6Pl0jDjISFgN/mqm
+ TsJcesSeyFUs9M6lkpQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-20_01,2026-07-17_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1011 impostorscore=0 malwarescore=0 spamscore=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607200091
 
-Hi Yazen,
+This series adds Device Tree support for the ARM64 RAS driver
+introduced by Ruidong Tian [1]. The existing driver supports ACPI-based
+platforms via the AEST table, this series extends it to DT-based
+platforms without any changes to the core driver.
 
-On Tue, Jul 14, 2026 at 09:04:55AM -0400, Yazen Ghannam wrote:
-> On Tue, Jul 14, 2026 at 03:58:52PM +0530, Srivatsa S. Bhat wrote:
-> > On Mon, Jul 13, 2026 at 04:22:19PM -0700, Borislav Petkov wrote:
-> > > On Mon, Jul 13, 2026 at 02:44:02PM -0400, Yazen Ghannam wrote:
-> > > > On Sat, Jul 11, 2026 at 08:16:48PM -0700, Borislav Petkov wrote:
-> > > > > From: "Borislav Petkov (AMD)" <bp@alien8.de>
-> > > > > 
-> > > > > With error records which don't have FRU text, an empty newline is
-> > > > > printed like this:
-> > > > > 
-> > > > >   [28014.094610] mce: [Hardware Error]: Machine check events logged
-> > > > >   [28014.094674] [Hardware Error]: Corrected error, no action required.
-> > > > >   [28014.094687] [Hardware Error]: CPU:11 (19:44:1) MC0_STATUS[-|CE|MiscV|AddrV|-|-|SyndV|CECC|-|-|-]: 0x9c20400001010135
-> > > > >   [28014.094724] [Hardware Error]: Error Addr: 0x000000019ba9a974
-> > > > >   [28014.094732] [Hardware Error]: IPID: 0x001000b000000000, Syndrome: 0x000000081a1f2505
-> > > > > 
-> > > > >   [28014.094744] [Hardware Error]: Load Store Unit Ext. Error Code: 1
-> > > > >   [28014.094748] [Hardware Error]: cache level: L1, tx: DATA, mem-tx: DRD
-> > > > > 
-> > > > > Move the \n into the last printk() call where it belongs.
-> > > > > 
-> > > > > Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> > > > 
-> > > > Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> > > 
-> > > Yeah, Sashiko has a point:
-> > > 
-> > > https://sashiko.dev/#/patchset/20260712031648.486110-1-bp%40kernel.org
-> > > 
-> > > So we want the error records to be compact and fit in a block so that you can
-> > > recognize them easier and thus not print each thing with a newline.
-> > > 
-> > > But those things are not unconditional so you cannot always know.
-> > > 
-> > > I need to think of a slick scheme what to do here.
-> > >
-> > 
-> > Do you mean something other than moving the newline print into an else
-> > block like this?
-> > 
-> > ---
-> >  drivers/edac/mce_amd.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
-> > index bd252cb3c38e..60d1a62e1a95 100644
-> > --- a/drivers/edac/mce_amd.c
-> > +++ b/drivers/edac/mce_amd.c
-> > @@ -870,12 +870,16 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
-> >  				memcpy(&frutext[0], &err->vendor.amd.synd1, 8);
-> >  				memcpy(&frutext[8], &err->vendor.amd.synd2, 8);
-> >  
-> > -				pr_emerg(HW_ERR "FRU Text: %s", frutext);
-> > +				pr_emerg(HW_ERR "FRU Text: %s\n", frutext);
-> >  			}
-> > +		} else {
-> > +			/*
-> > +			 * Explicit line termination to handle nested
-> > +			 * conditional prints correctly.
-> > +			 */
-> > +			pr_cont("\n");
-> >  		}
-> >  
-> > -		pr_cont("\n");
-> > -
-> >  		decode_smca_error(m);
-> >  		goto err_code;
-> >  	}
-> > -- 
-> 
-> Another option could be to build up each newline string and print it
-> once. The gist is to get rid of pr_cont() usage.
->
+How to test with QEMU
+--------------------------
+Tian Ruidong's QEMU fork [2] emulates AEST MMIO error records on the
+virt machine.  To test the DT frontend:
 
-I don't think getting rid of pr_cont() was the intention behind the
-original patch by Boris; he was trying to address a user-visible
-stray newline in the logs, if I understood correctly.
+1. Build QEMU:
 
-> I've attached an old patch for that. Would this work?
-> 
+     git clone https://github.com/winterddd/qemu.git
+     cd qemu
+     git checkout c5e2d5dec9fd62ba622314c40bff0fbecb4dfb34
+     ./configure --target-list=aarch64-softmmu
+     make -j$(nproc)
 
-The approach to build up each string fully before printing it that you
-demonstrated below does look like a nice improvement in general, but
-I'm afraid it may not be a good fit for this particular subsystem
-though, for the following reasons:
+2. Build the kernel with:
 
-1. Given the EDAC subsystem's role in handling/reporting hardware
-   errors, I think the logging preference for this subsystem would be
-   to get the error message out as soon as possible, as the machine is
-   already likely to be in trouble if we are printing out kernel logs at
-   the criticality level of "emergency". So, delaying these prints to
-   construct the full string may not be desirable, as doing so can
-   potentially cripple the ability to get even the error indicators
-   known upto that point printed out (in case of further occurrence of
-   hardware errors).
+     CONFIG_ARM64_RAS_EXTN=y
+     CONFIG_RAS=y
+     CONFIG_ACPI_AEST=y
+     CONFIG_ARM64_RAS_DRIVER=y
+     CONFIG_ARM64_RAS_DT=y
 
-2. The static buffer sizing for the character string (256) is
-   potentially prone to buffer overflows in the future as and when these
-   print statements evolve (without taking the buffer size into
-   careful consideration for every change to the string).
+3. Add the following DT node to your virt machine DTB.  The QEMU
+   fork maps GIC error source at 0x017a00000 (SPI 0x0d).
 
-3. This is a much larger (cleanup) change than what Boris had posted
-   earlier (which was ~2 lines).
+   ras-gic-dist@17a00000 {
+       compatible = "arm,ras-gic";
+       reg = <0x0 0x17a00000 0x0 0x10000>;
+       reg-names = "err-group";
+       arm,group-format = <ARM_RAS_GROUP_4K>;
+       arm,num-records = <1>;
+       arm,record-impl = /bits/ 64 <0x1>;
+       arm,status-reporting = /bits/ 64 <0x0>;
+       arm,gic-ref = <&gic>;
+       interrupts = <GIC_SPI 0x0d 0x04>;
+       interrupt-names = "fhi";
+   };
+
+4. Boot QEMU with acpi=off:
+
+     ./qemu-system-aarch64 \
+       -machine virt,accel=tcg,gic-version=3 \
+       -cpu cortex-a57 -m 2G -smp 4 \
+       -kernel Image -dtb virt-aest.dtb \
+       -append "console=ttyAMA0 acpi=off earlycon" \
+       -nographic
+
+5. Verify probe:
+
+     dmesg | grep "DT RAS"
+     # Expected: DT RAS: registered 1 RAS error source(s) from DT
+     ls /sys/kernel/debug/aest/
 
 
-Thoughts?
+6. Inject a CE error via the QEMU MMIO fault injection registers.
+   The QEMU device accepts 64-bit accesses only (use devmem with
+   the 64-bit width flag):
 
-Regards,
-Srivatsa
-Microsoft Linux Systems Group
+   devmem 0x090e0808 64 0x40000001
 
-> 
-> 
-> From 2035e5b829de2834aef8d84de24bafb5f4e5e03b Mon Sep 17 00:00:00 2001
-> From: Yazen Ghannam <yazen.ghannam@amd.com>
-> Date: Thu, 16 Dec 2021 19:06:14 +0000
-> Subject: [PATCH] [WIP] EDAC/mce_amd: Construct string before printing
-> 
-> Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-> ---
->  drivers/edac/mce_amd.c | 64 +++++++++++++++++++++++++++++-------------
->  1 file changed, 45 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/edac/mce_amd.c b/drivers/edac/mce_amd.c
-> index bd252cb3c38e..ea6dc7437cae 100644
-> --- a/drivers/edac/mce_amd.c
-> +++ b/drivers/edac/mce_amd.c
-> @@ -744,6 +744,8 @@ static void decode_smca_error(struct mce *m)
->  {
->  	enum smca_bank_types bank_type = smca_get_bank_type(m->extcpu, m->bank);
->  	u8 xec = XEC(m->status, xec_mask);
-> +	char buf[256];
-> +	char *p, *end;
->  
->  	if (bank_type >= N_SMCA_BANK_TYPES)
->  		return;
-> @@ -753,7 +755,13 @@ static void decode_smca_error(struct mce *m)
->  		return;
->  	}
->  
-> -	pr_emerg(HW_ERR "%s Ext. Error Code: %d", smca_get_long_name(bank_type), xec);
-> +	memset(buf, 0, sizeof(buf));
-> +	p = buf;
-> +	end = buf + sizeof(buf);
-> +
-> +	p += scnprintf(p, end - p, "%s Ext. Error Code: %d", smca_get_long_name(bank_type), xec);
-> +
-> +	pr_emerg(HW_ERR "%s", buf);
->  
->  	if ((bank_type == SMCA_UMC || bank_type == SMCA_UMC_V2) &&
->  	    xec == 0 && decode_dram_ecc)
-> @@ -762,26 +770,33 @@ static void decode_smca_error(struct mce *m)
->  
->  static inline void amd_decode_err_code(u16 ec)
->  {
-> +	char buf[256];
-> +	char *p, *end;
-> +
->  	if (INT_ERROR(ec)) {
->  		pr_emerg(HW_ERR "internal: %s\n", UU_MSG(ec));
->  		return;
->  	}
->  
-> -	pr_emerg(HW_ERR "cache level: %s", LL_MSG(ec));
-> +	memset(buf, 0, sizeof(buf));
-> +	p = buf;
-> +	end = buf + sizeof(buf);
-> +
-> +	p += scnprintf(p, end - p, "cache level: %s", LL_MSG(ec));
->  
->  	if (BUS_ERROR(ec))
-> -		pr_cont(", mem/io: %s", II_MSG(ec));
-> +		p += scnprintf(p, end - p, ", mem/io: %s", II_MSG(ec));
->  	else
-> -		pr_cont(", tx: %s", TT_MSG(ec));
-> +		p += scnprintf(p, end - p, ", tx: %s", TT_MSG(ec));
->  
->  	if (MEM_ERROR(ec) || BUS_ERROR(ec)) {
-> -		pr_cont(", mem-tx: %s", R4_MSG(ec));
-> +		p += scnprintf(p, end - p, ", mem-tx: %s", R4_MSG(ec));
->  
->  		if (BUS_ERROR(ec))
-> -			pr_cont(", part-proc: %s (%s)", PP_MSG(ec), TO_MSG(ec));
-> +			p += scnprintf(p, end - p, ", part-proc: %s (%s)", PP_MSG(ec), TO_MSG(ec));
->  	}
->  
-> -	pr_cont("\n");
-> +	pr_emerg(HW_ERR "%s", buf);
->  }
->  
->  static const char *decode_error_status(struct mce *m)
-> @@ -807,6 +822,8 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
->  	struct mce_hw_err *err = to_mce_hw_err(m);
->  	unsigned int fam = x86_family(m->cpuid);
->  	u32 mca_config_lo = 0, dummy;
-> +	char buf[256];
-> +	char *p, *end;
->  	int ecc;
->  
->  	if (m->kflags & MCE_HANDLED_CEC)
-> @@ -814,7 +831,11 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
->  
->  	pr_emerg(HW_ERR "%s\n", decode_error_status(m));
->  
-> -	pr_emerg(HW_ERR "CPU:%d (%x:%x:%x) MC%d_STATUS[%s|%s|%s|%s|%s",
-> +	memset(buf, 0, sizeof(buf));
-> +	p = buf;
-> +	end = buf + sizeof(buf);
-> +
-> +	p += scnprintf(p, end - p, "CPU:%d (%x:%x:%x) MC%d_STATUS[%s|%s|%s|%s|%s",
->  		m->extcpu,
->  		fam, x86_model(m->cpuid), x86_stepping(m->cpuid),
->  		m->bank,
-> @@ -829,28 +850,29 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
->  		rdmsr_safe(MSR_AMD64_SMCA_MCx_CONFIG(m->bank), &mca_config_lo, &dummy);
->  
->  		if (mca_config_lo & MCI_CONFIG_MCAX)
-> -			pr_cont("|%s", ((m->status & MCI_STATUS_TCC) ? "TCC" : "-"));
-> +			p += scnprintf(p, end - p, "|%s", ((m->status & MCI_STATUS_TCC) ? "TCC" : "-"));
->  
-> -		pr_cont("|%s", ((m->status & MCI_STATUS_SYNDV) ? "SyndV" : "-"));
-> +		p += scnprintf(p, end - p, "|%s", ((m->status & MCI_STATUS_SYNDV) ? "SyndV" : "-"));
->  	}
->  
->  	/* do the two bits[14:13] together */
->  	ecc = (m->status >> 45) & 0x3;
->  	if (ecc)
-> -		pr_cont("|%sECC", ((ecc == 2) ? "C" : "U"));
-> +		p += scnprintf(p, end - p, "|%sECC", ((ecc == 2) ? "C" : "U"));
->  
->  	if (fam >= 0x15) {
-> -		pr_cont("|%s", (m->status & MCI_STATUS_DEFERRED ? "Deferred" : "-"));
-> +		p += scnprintf(p, end - p, "|%s", (m->status & MCI_STATUS_DEFERRED ? "Deferred" : "-"));
->  
->  		/* F15h, bank4, bit 43 is part of McaStatSubCache. */
->  		if (fam != 0x15 || m->bank != 4)
-> -			pr_cont("|%s", (m->status & MCI_STATUS_POISON ? "Poison" : "-"));
-> +			p += scnprintf(p, end - p, "|%s", (m->status & MCI_STATUS_POISON ? "Poison" : "-"));
->  	}
->  
->  	if (fam >= 0x17)
-> -		pr_cont("|%s", (m->status & MCI_STATUS_SCRUB ? "Scrub" : "-"));
-> +		p += scnprintf(p, end - p, "|%s", (m->status & MCI_STATUS_SCRUB ? "Scrub" : "-"));
->  
-> -	pr_cont("]: 0x%016llx\n", m->status);
-> +	p += scnprintf(p, end - p, "]: 0x%016llx\n", m->status);
-> +	pr_emerg(HW_ERR "%s", buf);
->  
->  	if (m->status & MCI_STATUS_ADDRV)
->  		pr_emerg(HW_ERR "Error Addr: 0x%016llx\n", m->addr);
-> @@ -859,10 +881,14 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
->  		pr_emerg(HW_ERR "PPIN: 0x%016llx\n", m->ppin);
->  
->  	if (boot_cpu_has(X86_FEATURE_SMCA)) {
-> -		pr_emerg(HW_ERR "IPID: 0x%016llx", m->ipid);
-> +		memset(buf, 0, sizeof(buf));
-> +		p = buf;
-> +
-> +		p += scnprintf(p, end - p, "IPID: 0x%016llx", m->ipid);
->  
->  		if (m->status & MCI_STATUS_SYNDV) {
-> -			pr_cont(", Syndrome: 0x%016llx\n", m->synd);
-> +			p += scnprintf(p, end - p, ", Syndrome: 0x%016llx", m->synd);
-> +			pr_emerg(HW_ERR "%s", buf);
->  			if (mca_config_lo & MCI_CONFIG_FRUTEXT) {
->  				char frutext[17];
->  
-> @@ -872,10 +898,10 @@ amd_decode_mce(struct notifier_block *nb, unsigned long val, void *data)
->  
->  				pr_emerg(HW_ERR "FRU Text: %s", frutext);
->  			}
-> +		} else {
-> +			pr_emerg(HW_ERR "%s", buf);
->  		}
->  
-> -		pr_cont("\n");
-> -
->  		decode_smca_error(m);
->  		goto err_code;
->  	}
-> -- 
-> 2.54.0
-> 
+   This triggers QEMU's error_record_inj_write() which sets
+   ERR<n>STATUS.V=1 and asserts the IRQ.  The kernel driver's
+   aest_irq_func() fires, reads the status, and logs:
+
+   arm64_ras: {2}[Hardware Error]: Hardware error from AEST gic.90e0000
+   arm64_ras: {2}[Hardware Error]: Error from GIC type 0x0 instance 0x8005
+   arm64_ras: {2}[Hardware Error]: ERR0FR: 0x48a5
+   arm64_ras: {2}[Hardware Error]: ERR0CTRL: 0x108
+   arm64_ras: {2}[Hardware Error]: ERR0STATUS: 0x40000001
+
+Testing
+-------
+- Validated Processor error nodes/sources for L1-L2 and L3 caches error
+  on Qualcomm's lemans-evk and monaco-evk boards with DT boot.
+- Validated CE and UE injection via debugfs soft_inject.
+- Validated GIC and SMMU error sources on QEMU.
+
+[1] https://lore.kernel.org/lkml/20260122094656.73399-1-tianruidong@linux.alibaba.com/
+[2] https://github.com/winterddd/qemu/tree/error_record
+
+---
+Changes in v2:
+  - Rebased on top of Ruidong Tian's v7 RAS driver series and reworked
+    the DT frontend to match the new driver architecture.
+  - Moved RAS error source nodes to the DT root, removed the arm,aest
+    container node as suggested by Rob Herring.
+  - Dropped arm,processor-flags and arm,resource-type properties, these
+    are now inferred from the interrupt type and cache phandle
+    respectively.
+  - Renamed compatible strings from arm,aest-* to arm,ras-* and the
+    dt-bindings header from aest.h to arm-ras.h to avoid ACPI terminology
+    in DT bindings.
+---
+Umang Chheda (4):
+  dt-bindings: arm: ras: Introduce bindings for ARM RAS error sources
+  arm64: ras: Add Device Tree frontend
+  arm64: dts: qcom: monaco: add RAS error source nodes
+  arm64: dts: qcom: lemans: add RAS error source nodes
+
+ .../bindings/arm/arm,ras-error-source.yaml    | 330 +++++++++++++++
+ arch/arm64/boot/dts/qcom/lemans.dtsi          |  30 ++
+ arch/arm64/boot/dts/qcom/monaco.dtsi          |  30 ++
+ drivers/ras/arm64/Kconfig                     |  25 +-
+ drivers/ras/arm64/Makefile                    |   2 +
+ drivers/ras/arm64/ras-of.c                    | 383 ++++++++++++++++++
+ include/dt-bindings/arm/arm-ras.h             |  11 +
+ 7 files changed, 806 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml
+ create mode 100644 drivers/ras/arm64/ras-of.c
+ create mode 100644 include/dt-bindings/arm/arm-ras.h
+
+--
+2.34.1
+
