@@ -1,104 +1,93 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C15417BD8;
-	Mon, 20 Jul 2026 16:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2D33B9608;
+	Mon, 20 Jul 2026 20:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784564019; cv=none; b=ELP90Ncr9Ml/lg/BzLynmsrYHHGbWSj5TunhQe49VqXbKHyATmAblvI9CdaBvgtc0OFAHPvqAhK7tgLcub39L5WMGfCdF+e6YWzz231HAvloNNjVNKoWaSLAaBZdryZv5njw9qVKvaWcsRhJrz4gyAHqrK4SOvcRLbHVhxgasJY=
+	t=1784578478; cv=none; b=jFUEKW7sYvyoAt8o2/EHVTxpg/ZCcZccm9M7Gv6c78zG3zleZI3wOmLmyQMGyjcubJR1Uo2fCkMV2GC5h4q+cOhokbAGhIVsHRfy1O2outpp805owNUsSlThcp/1MBhLJTQySt2M1n/P6LbAO0iTP5tLKRKXkGWdbaMfO+K+lFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784564019; c=relaxed/simple;
-	bh=rddefnjqeBn9YU4AjS8AdvKa6BMVHj4EI30MkO6IXjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LX6uHpj2afND2v7sgq0nGUMsLeLTnbXbXheZo2kn/1dSwC5nki1b5YHskSGEaaOhmiDFoSXaxESTfOi9R8hOxrNBh8Phpl9HyB1vELHcCW3FZTNnxc+dZYFJMfgKdvWjSA7qgsKEB+GlFOAwHhj1lN8mgkk3iYgPNCZ9uR/rv3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=R+dVFPYm; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1784578478; c=relaxed/simple;
+	bh=+4lRpCtaMwXv9gmdUjvFDskwhwHT3tAMrxScmaMLG4c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LZEnl8znxqL/3vmIOEuy/P+7JWV0GXcxGOOdsPT69Xqmq8QdlEF/qWZCEagjlWJMCCaIoCYkWDe2meqEyt1z0/Cl6I2J8xK0OEYV2ezQgc/lWScgZsJiH75bFGUnTOGa2yTczz2F6chjznxHnOFKYuoYSDeW2z+88FINlmA0wGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EcLzKADU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="R+dVFPYm"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6CF8A40E016E;
-	Mon, 20 Jul 2026 16:13:23 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ba4Ohxi7zFA4; Mon, 20 Jul 2026 16:13:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1784563992; bh=6p5p/OEmMZ2bV4S/814RXv/XJvzxkEsKIVzh8u6Uyk4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R+dVFPYmt7dZtmQJpxrcjSeLR1ENiYl640KxCzvoPULcx+VeFmyVDcZHwpKi29mIP
-	 cqGxeclfOmjhtNf6fqBUSsgJl67MoMU7aiA2Wr9Ay7oCHK2tOxsDL/WGV9dESNHQQm
-	 O+xj5c8S7HzlSYnlK7V2x+6jTZWJ4sIsrME2WgE4cM5eIz0Sa0TnF89tZUoOj8Vjgf
-	 vqxjEYvuA9axBrhqZvwu9NCcjpSSXR/y29agKt05b0w3wdsVUtXXiQ8azE9lTOC+bM
-	 85r7/rAk7EcUtzTKRXV0Y/EBcGRq46+oQI4+8Q8VvbMPKtKroJCSH6hDDuBYD+LnLy
-	 oTFiV0H1gGIodL5rfMSYVSfFs3ysFYI0GbhaA61rROLUavYvyrbMrogKbqlZDccd3M
-	 i8OBeF0K8MrBZMFTxx15/62hW/31TXylURHwWDdsvji1PHYJ0BbWd2ptAWOXdVFyd2
-	 eqFl2dnTiuYb86bb5wL0x5+jp/DSQ9+pfc4FSOdt4ddy2aWIBrd6v7bbGr0BEuQu6X
-	 3oPDUjEVDZyQ/LMHnOn8lIBiEFPlAbZBc86HSMtfM4Kj5T53IaaoKXqA+vRv1MR0di
-	 o5sEVqIihOnq0E1/ytm5u7clUZzGQ+4ltXOKEIjDfAA1WxfxLMaOV+165UFV0lCjM7
-	 Bi+QL7gGjndbFpCHhbSf2CMw=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4EA0140E00DC;
-	Mon, 20 Jul 2026 16:13:06 +0000 (UTC)
-Date: Mon, 20 Jul 2026 09:13:03 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: Rounak Das <rounakdas2025@gmail.com>, tony.luck@intel.com,
-	stable@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] EDAC/altera: Fix device node reference leaks in the
- SDMMC ECC setup
-Message-ID: <20260720161303.GAal5JD89lrQVa44ZV@fat_crate.local>
-References: <182c3d64-17b7-4e18-9bbe-2fd97eb231a2@kernel.org>
- <20260717131720.19038-1-rounakdas2025@gmail.com>
- <e1ef6af9-3040-44ae-ad00-5e9011c8edda@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EcLzKADU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 390A61F000E9;
+	Mon, 20 Jul 2026 20:14:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784578476;
+	bh=RX33iONCBkis0ZYpnQozWvsrJrEikkre/fo0G1Ps2RE=;
+	h=From:To:Cc:Subject:Date;
+	b=EcLzKADUZUbEPNDXIjwgtrprqtMO2RnxRTs5Y8Znge7L+UnKkiQALgoGyFx4qD7h6
+	 KqhHYPqA+UTHx1KUv6GHCPg59w4Pwu7Tj1z9tj3m2dwnQZVqHccLofnBfZ4nBM9Cia
+	 oBBTqM0rO9d0WiBtwtinJi5NpG0Chht9z1qGAXRAQVRp2zgkxp+bjM7xedbmQBPmnQ
+	 1adHA918d7oFi93zNeFNLsHMJoj1SGj1lmACXvKNeIeZsqea39N7K7ZC3eeLkc7sgj
+	 51vMMEqh24wW1fuPVR95uh3L4yMvolqTzecol5FzWOIURTvBtP9dRfTh8wOHxZ6nOn
+	 6JDG6pzf7CiBA==
+From: Dinh Nguyen <dinguyen@kernel.org>
+To: bp@alien8.de,
+	tony.luck@intel.com
+Cc: dinguyen@kernel.org,
+	rounakdas2025@gmail.com,
+	niravkumar.l.rabara@altera.com,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH 0/4] EDAC/altera: Add support for Agilex5 platform
+Date: Mon, 20 Jul 2026 15:14:21 -0500
+Message-ID: <20260720201425.1538771-1-dinguyen@kernel.org>
+X-Mailer: git-send-email 2.42.0.411.g813d9a9188
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e1ef6af9-3040-44ae-ad00-5e9011c8edda@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 20, 2026 at 09:13:25AM -0500, Dinh Nguyen wrote:
-> > Under altr_portb_setup() and socfpga_init_sdmmc_ecc(),
-> > of_find_compatible_node() was being used to look up the sdmmc-ecc
-> > node. This node wasn't being dropped using of_node_put().
-> > 
-> > altr_portb_setup() did not drop its reference under its success path
-> > or on any error path.
-> > 
-> > socfpga_init_sdmmc_ecc() did an early return thereby skipping the
-> > common exit label and thus leaking the reference.
-> > 
-> > Add the missing of_node_put() calls in altr_portb_setup(), and route
-> > socfpga_init_sdmmc_ecc()'s success path through the common exit label.
-> > 
-> > Fixes: 911049845d70 ("EDAC, altera: Add Arria10 SD-MMC EDAC support")
-> > Fixes: 788586efd116 ("EDAC/altera: Initialize peripheral FIFOs in probe()")
-> > Cc: stable@vger.kernel.org
-> > Closes: https://sashiko.dev/#/patchset/20260708091135.94114-1-rounakdas2025%40gmail.com
-> > Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
-> > ---
-> 
-> Acked-by: Dinh Nguyen <dinguyen@kernel.org>
+This series add preliminary EDAC support for the Agilex5 platform. The
+EDAC module on the Agilex5 is a bit different from the previous Arria10
+and Stratix10 platforms in that it has the full 7 interrupts.
 
-I'll hold off on that until the Sashiko preexisting issues have been
-addressed:
+global_sbe    - aggregate single-bit error (chained, drives IRQ domain)
+global_dbe    - aggregate double-bit error (chained; DBE is no longer
+                delivered exclusively through Asynchronous SError)
+io96b0        - IO96B0 DRAM controller ECC
+io96b1        - IO96B1 DRAM controller ECC
+sdm_qspi_sbe  - SDM QSPI single-bit error
+sdm_qspi_dbe  - SDM QSPI double-bit error
+sdm_seu       - SDM single-event-upset
 
-https://sashiko.dev/#/patchset/20260717102549.13309-1-rounakdas2025%40gmail.com
+patch 1/4 : dt-bindings: edac: altera: agilex5: document new edac support
+Introduce a new dt binding "altr,socfpga-agilex5-ecc-manager" that is
+specific to the Agilex5 platform. Document the 7 interrupts.
 
-Thx.
+Patch 2/4 : EDAC/altera: use flag to differentiate 64-bit platforms
+Use match data to provide a method to differentiate different platforms.
+
+Patch 3/4 : EDAC/altera: Add support for Agilex5 ECC manager
+Modifies the Altera EDAC driver to support the Agilex5 platform.
+
+Patch 4/4 : arm64: dts: socfpga: agilex5: add support for the ECC manager
+Populates the base Agilex5 DTSI wit the EDAC IP.
+
+
+Dinh Nguyen (4):
+  dt-bindings: edac: altera: agilex5: document new edac support
+  EDAC/altera: use flag to differentiate 64-bit platforms
+  EDAC/altera: Add support for Agilex5 ECC manager
+  arm64: dts: socfpga: agilex5: add support for the ECC manager
+
+ .../edac/altr,socfpga-ecc-manager.yaml        |  23 +++-
+ .../arm64/boot/dts/intel/socfpga_agilex5.dtsi |  68 ++++++++++++
+ drivers/edac/altera_edac.c                    | 100 ++++++++++++++++--
+ drivers/edac/altera_edac.h                    |  34 +++++-
+ 4 files changed, 212 insertions(+), 13 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.42.0.411.g813d9a9188
 
-https://people.kernel.org/tglx/notes-about-netiquette
