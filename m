@@ -1,48 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E174C3B42EA;
-	Mon, 20 Jul 2026 20:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AF2449B09;
+	Mon, 20 Jul 2026 20:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784578486; cv=none; b=DGBgxW3KKVWHBIxUocByYtnY5gx9X/J9n78QMEQ4hib5LBaYrn78AEbnYo4CZwFrdQKXOTqk0eQUqzkjQkAEWqMq2mM+2Jsn1M7rFzzsTdCt445OCXhhaAFhT3rsMXVfHT0I5H5M5Z7OGJND64rk10YmNCWN88lhxEed0sAjo6w=
+	t=1784579617; cv=none; b=k41x+ytPW8UIAjY7fEBF7tCD4JL4ZQkMsiv8YOw/czstszluhNbdnhbbAN674O9Ap8yqf+XNMUzG3jON7ip5JNswBkSzHsXihQ9e8X6FRbwnQCIMPG5tNQcy7UaSwNJKqOd15h3GFT9niLfx50IcY9WEmImTRXx2CEIPdQaGMfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784578486; c=relaxed/simple;
-	bh=G6Jvo8CB73SeI2n+WMYHDaxiePGTID81nBvN5AM0dQ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ErXInsiFsHYhX/4vMcHGV/ziFYgFsxVhMfqf+cd9J0OiFOLK4N4GStdo5JRzQsI48jMDmmXrVSyyXPGuUvSI7Tgb89vuoOJcDwOhBtVFupZCU04+ouBlrDL0zCg/4i9AADfiBU40K4Tf7q/DjBMVtUFb43dbk6PQefRZrb+EMHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dPe3/MUt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784579617; c=relaxed/simple;
+	bh=oDHGp2go1H7tN2DnDXFDItIQMtTVKJ3fQwPAuMiHgGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UOxk3EWGlTqY6Eb519brba2k5FwsLXkdvxkixTRx0yW8uceot+Gpi/wOlRdwe0a3I7hr+4Ev7GiWTd3r4u14fynBMlOSXQ0nUBb/wf44W5V8oFP/34u8HOluQXSRu7iLPSVPtId/jFgrrZuWSzFt3WSNibyUEFSEL8uCnJ2Ta18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=hoOT0BdV; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dPe3/MUt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E12D1F00AC4;
-	Mon, 20 Jul 2026 20:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784578480;
-	bh=b7Gs+S/7u31vaSIsDabQTTJPkKaDyd0Xqb17szFxsH4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dPe3/MUtocmxiVka5T5Ey1jQRsjy0KBgOMZXeTVbE4DKMFr5QKRsmxsXkYEmwxAp/
-	 l/gus/tZWmUUY7Va0qz0cxCyZmtt+sdqCQXQF5DFAhLeLw6SbNzHNhdDW7fBjPwo+y
-	 qbRxelXGBnwElP7ulSfB3QQsNOnVUYP20fpZKXFIBICjcOaL2IfK8fMilrry7sFX5W
-	 q1/wkK4ptxHiCImUS0dKVxmhRoJYKa2ffQ7HjrgFNU+4Fviu1DrlwsSb3g3pLmTUsL
-	 O2dQm6qj1j1OYWgJXFak8b6/Ft/bO923iEkJ/L1L7PG/lBUcnVIRaV7pOX5Nyc0yHc
-	 KXvhJq4UJfB2g==
-From: Dinh Nguyen <dinguyen@kernel.org>
-To: bp@alien8.de,
-	tony.luck@intel.com
-Cc: dinguyen@kernel.org,
-	rounakdas2025@gmail.com,
-	niravkumar.l.rabara@altera.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 4/4] arm64: dts: socfpga: agilex5: add support for the ECC manager
-Date: Mon, 20 Jul 2026 15:14:25 -0500
-Message-ID: <20260720201425.1538771-5-dinguyen@kernel.org>
-X-Mailer: git-send-email 2.42.0.411.g813d9a9188
-In-Reply-To: <20260720201425.1538771-1-dinguyen@kernel.org>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hoOT0BdV"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2C54E40E00E6;
+	Mon, 20 Jul 2026 20:33:33 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id VGIGm9ynH6ep; Mon, 20 Jul 2026 20:33:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1784579603; bh=hZl3fTHtLJ5//e+MljG2urE5lkwLT0MjNo/RuVoiEvw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hoOT0BdV5/erE+vXxP8xr9yr+pBk5Dg/L+1IB9vXIFy3s/33Al38UiJYVfuu9xFZT
+	 WpxMVBPL+BdGSmo612GAXNa6HocsN/EY6BAQykfsp4NKLVFC6p1Ur81WB1Ik5XqMiu
+	 tHMUk7t96aHfIkcVhS0wttTTIjZqy1677uXDH1d5aZgYdCOB3BOODY8ycCgWOVqGeE
+	 m9p1+5UN+6FD+fA/4Z6cSp0176Co63Q/j3rxeDy3JaoFLwx3Fdlzmwkbu3+3uBUFLV
+	 hZW/4edvDZL/9P6aepJtgre4IVcOYfLWFJEWp3rWpjr2gP4oXEgeKShNV7hoHboEkn
+	 L09MxGBpdXlc3u+zApPprZXPnsPHu+A4ELsKxz0qx3/DWubOs9kMdnNYgXyjC5UwtW
+	 1y5iqy4Iyz065Rj/26Xu4AFD65LHwG0ijR/EtiWNgwx1OXq0g27c/2XOimTOslFxCn
+	 2ePDupFtGsJWekWjuliv0HZZRd/iGduk18h70ulAbcmR4CSfZMwXUPJ9qQ7ud39ATK
+	 m7/oiZXZ+RyIV/6qgKIH8Aoq+qgmMZ96iZhWJcenkucGlEveUYsKrYqYUy+oWcS9nc
+	 re5ano4sux3sS6l8a2ACgSEvZMNbZMMQeXGWGoHZlQWXvMGYVRHwKny9O9KPemqznR
+	 tpbHQ/aqOF961KntuAiG/Psk=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6631740E00DC;
+	Mon, 20 Jul 2026 20:33:12 +0000 (UTC)
+Date: Mon, 20 Jul 2026 13:33:09 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: tony.luck@intel.com, rounakdas2025@gmail.com,
+	niravkumar.l.rabara@altera.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/4] EDAC/altera: Add support for Agilex5 platform
+Message-ID: <20260720203309.GBal6GBexzEbw8DMPo@fat_crate.local>
 References: <20260720201425.1538771-1-dinguyen@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -50,95 +61,20 @@ List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260720201425.1538771-1-dinguyen@kernel.org>
 
-Add the EDAC device to the base Agilex5 platform. Add OCRAM and Ethernet ECC
-device support to the Agilex5 platform.
+On Mon, Jul 20, 2026 at 03:14:21PM -0500, Dinh Nguyen wrote:
+> This series add preliminary EDAC support for the Agilex5 platform.
 
-Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
----
- .../arm64/boot/dts/intel/socfpga_agilex5.dtsi | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
+So I'll be looking at new features to this driver only after all existing
+Sashiko issues have been addressed.
 
-diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi b/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-index b06c6d5d60eed..f30d476683b4a 100644
---- a/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-+++ b/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-@@ -370,6 +370,74 @@ dmac1: dma-controller@10000 {
- 			};
- 		};
- 
-+		eccmgr {
-+			compatible = "altr,socfpga-agilex5-ecc-manager",
-+				     "altr,socfpga-a10-ecc-manager";
-+			altr,sysmgr-syscon = <&sysmgr>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 241 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 95 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 120 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "global_sbe", "global_dbe", "io96b0" , "io96b1",
-+					  "sdm_qspi_sbe", "sdm_qspi_dbe", "sdm_seu";
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+			ranges;
-+
-+			ocram-ecc@108cc000 {
-+				compatible = "altr,socfpga-a10-ocram-ecc";
-+				reg = <0x108cc000 0x100>;
-+				interrupts = <1 IRQ_TYPE_LEVEL_HIGH>, <33 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			emac0-rx-ecc@108c0000 {
-+				compatible = "altr,socfpga-eth-mac-ecc";
-+				reg = <0x108c0000 0x100>;
-+				altr,ecc-parent = <&gmac0>;
-+				interrupts = <4 IRQ_TYPE_LEVEL_HIGH>, <38 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			emac0-tx-ecc@108c0400 {
-+				compatible = "altr,socfpga-eth-mac-ecc";
-+				reg = <0x108c0400 0x100>;
-+				altr,ecc-parent = <&gmac0>;
-+				interrupts = <5 IRQ_TYPE_LEVEL_HIGH>, <37 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			emac1-rx-ecc@108c0800 {
-+				compatible = "altr,socfpga-eth-mac-ecc";
-+				reg = <0x108c0800 0x100>;
-+				altr,ecc-parent = <&gmac1>;
-+				interrupts = <6 IRQ_TYPE_LEVEL_HIGH>, <38 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			emac1-tx-ecc@108c0c00 {
-+				compatible = "altr,socfpga-eth-mac-ecc";
-+				reg = <0x108c0c00 0x100>;
-+				altr,ecc-parent = <&gmac1>;
-+				interrupts = <7 IRQ_TYPE_LEVEL_HIGH>, <39 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			emac2-rx-ecc@108c1000 {
-+				compatible = "altr,socfpga-eth-mac-ecc";
-+				reg = <0x108c1000 0x100>;
-+				altr,ecc-parent = <&gmac2>;
-+				interrupts = <8 IRQ_TYPE_LEVEL_HIGH>, <40 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			emac2-tx-ecc@108c1400 {
-+				compatible = "altr,socfpga-eth-mac-ecc";
-+				reg = <0x108c1400 0x100>;
-+				altr,ecc-parent = <&gmac2>;
-+				interrupts = <9 IRQ_TYPE_LEVEL_HIGH>, <41 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+		};
-+
- 		rst: rstmgr@10d11000 {
- 			compatible = "altr,stratix10-rst-mgr", "altr,rst-mgr";
- 			reg = <0x10d11000 0x1000>;
+Thx.
+
 -- 
-2.42.0.411.g813d9a9188
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
