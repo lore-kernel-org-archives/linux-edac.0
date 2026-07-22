@@ -1,178 +1,94 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6169343D8A
-	for <linux-edac@vger.kernel.org>; Tue, 21 Jul 2026 13:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A67A2D47F4;
+	Wed, 22 Jul 2026 05:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784639572; cv=none; b=mZZao9kCLXlI+TUTbai257fo5/z6zgvhkkcbKJO/8BQ2HF+c2jHnOp/M8cBCc2b9MVvrWCO3UJqtTxmAt6h6terSaM/tPxFv+fvVFvI3Fvyh7KHWw8623e6ZI3pUPgq8TWOSyOAYRt/dpsJCS4H14OpDPAHsP1SdhqhuvwdHnW4=
+	t=1784697620; cv=none; b=T4TLAtGIRaJjYv8YsUnNOKXMN5vtLc4ciBp5cxS1ZAHPihpkWOs/bvp/8YeImnCDKr9W5R85ST4ZVonHKZ44SWnNirkLD/07VhKa+1aQ9eshDYG5RM70K8Gg6Nq4YzoNbDn+l90QgrYlSUzcVmvNeKb5M/B9jKmVqslDu+5zP6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784639572; c=relaxed/simple;
-	bh=8s6UjPPxUC+WU+GOlooynAFJu683hzUfQZ1dycjQ1Yg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OCFMfc38DWRKwc2CxAdcAdgBlWP8vWh7/RksUeNEO98h+cBM+y7fTaAYpX7NgyKW62tKXNS0Am2RaiG3VUPcJKeOYNpA8ZM4r85tTxMnlxQD7MhxTkstU5V/K3KVHHjlsUrj1avi0Im9kdvaEarYC4hAKCz43z4qN5WoWSNeLA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UIIIKzaQ; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1784697620; c=relaxed/simple;
+	bh=QKSdvxCXY4MCKGsRHEJB/WzaqnMN6w5dZ8jpJTinIPk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M2uNzXBnKzxvoZVAfImEZ3LbdfJYu6kaf0EeNhLxvALBlLbPatZEhBSxJzCNrJoFf1MZ0+OPTzvyycruGhbrRDa/GcWel0xaBpf0TbAZpUTyxLNq2vfZEFbIB/2VmvsKYpJRM/FhILWWOifl39Oy6ttsjwm5eGdsqB9NJNltIvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=eJ74/J1/; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UIIIKzaQ"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-472326ca506so8726443f8f.2
-        for <linux-edac@vger.kernel.org>; Tue, 21 Jul 2026 06:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784639563; x=1785244363; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uFYQPc/AUmoponr7iNZhaXGCIgX0+Ls311ZPwQA2S6I=;
-        b=UIIIKzaQdXj/wSuI9rxoHKcdT4m+FrS2/W3DWg4x0ERUDJ8JkpEoaw/K1i2hgDjR2w
-         hMn7mc8BQg1nlERu/mmQ/MSNCSyfjedp/HMsXHjCo7DH0sjX1ATQCKNJQGpSqJPq5kJ7
-         Ux9bmfSIrw3XVylRTnk/KAk3SpVn0oXzPDtJNw8t2ROvE15p3/YG8UA7tgpdqREZXnIJ
-         6hAC6PK0dfKxCUsXb39JzM15nHddPkD0DIjarqx8wb595uoHyMFlS0kYsg3Yfd9IV6rs
-         UxnF+p42wgVkWUp9zq+tbGKaVzOK74iuhYXF5JjuRAX+V3iIkI6ei8M4olzdBwoo9Vzc
-         TU/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784639563; x=1785244363;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uFYQPc/AUmoponr7iNZhaXGCIgX0+Ls311ZPwQA2S6I=;
-        b=eND51h+BbiAkHQN5cQ/arfbzXNbedr8VkoCJ6otc5VJJE5UKS4/aFF4I5E09S4MSBS
-         dmwnZFDvulloIayTjaTkcYEiaZEFr2/65as3oM1XC9ono6sCc0W9ZNSqtEdY123EYWcm
-         UuKOvCUUm4ODoU6KX3DUjnGGZovXDKoSCxYByCrx8AlQ5IHPkWOnHpxCu0fWWpVK6I5n
-         4IEpmty7cFAu+P7kvcLWRxnckKzIBDyXbZxzUksoRVH7oyY5MBRVjC5gZrEnKPINHrJu
-         n53cxySb51QSEIlzIBE/otGvTEiZPla2wKL6HuQsuktm4ESyU9ZUzMdenPRPSW/+NYGO
-         oh0g==
-X-Gm-Message-State: AOJu0Yyxn54SLi3GV8prZH1ag+i6jJZmE2UbBYqtJsXVaNhU77P1/i+Y
-	D2IHZzJGXAEq4evmpsIf9k1Cfq79uJA9QxUZBBxtN+QVGRHMwVKHOW7tE/5LHQMQ/1g=
-X-Gm-Gg: AR+sD10fHy8RszqjijRqJAnRuu6HcLtlevqa2ZFrSq3fb1FrZWR66XGTTWr/Nx0BtJB
-	vB99xuKSDGcheI/TsWNLyssNnkU5oLQU6yXExQaNQbvoQzl1cMt8ibLIp7lapgzaVogWJb0gtgi
-	ZjSQ6Q5UH4q8lLAjH8F/3j4uqea+OA37kApnEwtdCLo7+LCQxn9Dk9AK+IEPMYu7hvFWBoXZQhu
-	rmBzxaj/dMsGOn88XS0Xq8F5EzmeSwYb9q6SkCdCfxu45n6VriYttY3GAiaTCdIonB6LA63tNYH
-	I2Sxi6dh9YGLRq0dCLRk3sPI83zHAAsjYwmi3lCJHpGp7mGAp5iHsSXvmmY52zpGNffZpTH5R3e
-	BrvIIRQq+O0+4E/ayqUmwD9df8VS+kS0pyxV/8kQhs/F2zYwkcluQNB65MrdoQzij8g+dSPkrqw
-	==
-X-Received: by 2002:a05:6000:4023:b0:47f:81fe:12fb with SMTP id ffacd0b85a97d-47f81fe1712mr2452175f8f.47.1784639562827;
-        Tue, 21 Jul 2026 06:12:42 -0700 (PDT)
-Received: from zovi.suse.cz ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63ee9281sm42070938f8f.36.2026.07.21.06.12.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 06:12:42 -0700 (PDT)
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Michal Januszewski <spock@gentoo.org>,
-	Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-acpi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	cgroups@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	bridge@lists.linux.dev,
-	netdev@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v2 2/3] time/jiffies: Include linux/sysctl.h for proc_int_u2k_conv_uop(), ...
-Date: Tue, 21 Jul 2026 15:11:26 +0200
-Message-ID: <20260721131207.803760-3-petr.pavlu@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260721131207.803760-1-petr.pavlu@suse.com>
-References: <20260721131207.803760-1-petr.pavlu@suse.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="eJ74/J1/"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4451740E00DC;
+	Wed, 22 Jul 2026 05:20:15 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id r3gHIk3Z3MOa; Wed, 22 Jul 2026 05:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1784697604; bh=Cww537ASv8kzxMe1FGmK/V4GT98IxA5VfJnEBpkxoko=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eJ74/J1/mMRLlE9IAuONfD56lNUVXzhb901qTTGENZwHDUVcGgizSAaYO8wZHAExL
+	 uVsJwZzSfKuJVlU/vEeiX1faUMYGtjP80CDZCEkdW0VHP9sgbFZ8/9r1/7tVg+2F6l
+	 a1xEzieGWlQp/toLSUHJ5fZaTujsj8rtcfw5cm2Jpzq98Y5xMf/Zz+7kaVZg+uKJin
+	 xRvfHcAnwTKFVlefasJd6TIa4frpo7LleJuPwugGmzgzYS5kSEzCM49oggSQLM9UmI
+	 a+XwuGSPT+saT5toOfAhBpmeuDZb9W65QB+biIvujG9fzKzp6M2yaZ33Uw52jdIyir
+	 8oSxzWtd6xfM0kVPr8c3ZNqwcw+i/Nmvs/IrfZb1KvAZ3QU8RYHLheIdibCSqasNNf
+	 rM42chfSS0cdoDEwkQPxocMOY7m6G2jFLflfMxos13KnszcoK/3Ol0CJJq/xRgPF3+
+	 nkzD4uYQW6VHYcQwoKCxGoJq+a6LWScYeLVcHWS+Xzq/bycwqwUj453r/7PW3qVZ5L
+	 o25TaVAd7fSwvTPLLNMPh9V9TMsO6cCbD8jv9f3tjQl1J1DcDJO/O1X2F1+gefUvb7
+	 sehjqYsRj4bC44uTZH4DOfADniqpy3TzT4dRs1PR3/3umimP4pzL6TGrYBSaZ9moQq
+	 8NVt+GVAlinVBUQ4zPTqVEh8=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::2b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B81DD40E014C;
+	Wed, 22 Jul 2026 05:19:27 +0000 (UTC)
+Date: Tue, 21 Jul 2026 22:19:24 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: shijujose2008@gmail.com
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v22 0/2] ACPI: Add support for ACPI RAS2 feature table
+Message-ID: <20260722051924.GAamBS3KN1wWTbiMwt@fat_crate.local>
+References: <20260709210750.424659-1-shijujose2008@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260709210750.424659-1-shijujose2008@gmail.com>
 
-The kernel/time/jiffies.c file uses proc_int_u2k_conv_uop(),
-proc_int_k2u_conv_kop(), proc_int_conv(), proc_dointvec_conv() and
-proc_doulongvec_minmax_conv(), which are declared in linux/sysctl.h. It
-currently relies on this header being included indirectly through
-linux/module.h -> linux/kmod.h. Add the missing include in preparation for
-removing the linux/sysctl.h include from linux/kmod.h.
+On Thu, Jul 09, 2026 at 10:07:48PM +0100, shijujose2008@gmail.com wrote:
+> From: Shiju Jose <shijujose2008@gmail.com>
+> 
+> Add support for ACPI RAS2 feature table (RAS2) defined in the
+> ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+> scrubbing feature.
 
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
----
- kernel/time/jiffies.c | 1 +
- 1 file changed, 1 insertion(+)
+https://sashiko.dev/#/patchset/20260709210750.424659-1-shijujose2008%40gmail.com
 
-diff --git a/kernel/time/jiffies.c b/kernel/time/jiffies.c
-index d51428867a33..17cdb5ef8893 100644
---- a/kernel/time/jiffies.c
-+++ b/kernel/time/jiffies.c
-@@ -8,6 +8,7 @@
- #include <linux/jiffies.h>
- #include <linux/module.h>
- #include <linux/init.h>
-+#include <linux/sysctl.h>
- 
- #include "timekeeping.h"
- #include "tick-internal.h"
+Thx.
+
 -- 
-2.54.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
