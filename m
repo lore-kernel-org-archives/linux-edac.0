@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744F238B7D7
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AE138D686
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:51:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782314; cv=none; b=AULoWeMWKwXtAFqxjf6cNjhcqrLkllbk1WnVVY18NrC9ni5Pju5MNS4AVCzyIM6+CBf715Um9LR3IU+ckp7HrrDQPHmEwO/vb3r5y6yyMI7hR4F8uMaqtxjstCkvv6/Xwqv4Mp8eS19FjgDX4IZVtkQSM+0qHYTuALPHt0gVsEQ=
+	t=1784782325; cv=none; b=QzcFy1tpUfaVMEYOBx9CN+vsF2TqYeEhpdxQgQpAbMucNWu4yf6UDk0bWqJml51GWYzu4lWornCsMPP7JFefgSThRBCPPXB+EniTepTyKne4nF1FH2PZb113LKIAGjrXnXffwdfH4lr4Hl6HgU57bL0l0TN5y5NBHtQYpv6fD/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782314; c=relaxed/simple;
-	bh=QBxM1wNgzfm0orZotjL7nP+s8THSCYCT7IJXfbAanbg=;
+	s=arc-20240116; t=1784782325; c=relaxed/simple;
+	bh=vMlVC7jvU3Gem/HWMlfCLISAxmgdJIiWpjRuLWf+Ogk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ObbmJG/fmmh1Jif8uNeMuBQfcBytrw4/hsLBWIHj0PQ7YfNA9hCnMyLijllCAe0XjHoESACKOE2Xwt5vyWWwwCfzCMFyEuxYEofMbIAQR5Eehc5CY3ZxgQ5b39Jb6b+kdJU2mXba9zVCIroXyFOJbKnYwb7APubnHpINm9fsMJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DoRMCZuw; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=FGxzQJCWxxrYJSiXFjLyfaVcqUkdKstazyoGRz3JFfaUKCvn6Pjb2snKdipceW+2VnV4/xq9d9EOL1seyda6zTEELXeKNgegtb6aJaZYsVWC/dR04fSTC1se/LstnpalIvRALfzTTk7q4hUi/1IFKAeCCyI2GG2dk4nQRM3IwfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ir8iVi9t; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DoRMCZuw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ir8iVi9t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782294;
+	s=mimecast20190719; t=1784782307;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RQBoRfguD8OLDOwj7R7RrWifXT5ev1UlWkcynySt+sw=;
-	b=DoRMCZuwBr2ih65S294Rq4P1URcdakN7eEg61WVqRuPUps5MF1OOtNgAXRem2JbSB6TKKL
-	CZrMljjTcXbCal7Hf1BsOAukfpU6XpuwHdzyP5OiWCLVAgKhrKGz2B71zUms9bzkjsnaE0
-	48BXDSb15P/MzxK3BLigGyvApPFs13Y=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+	bh=U2M2DNHzDsbrmW/HGNuaaemkcJAWL2ZJ96wipo50CoA=;
+	b=Ir8iVi9tTxclNfP1RniJ2Q1WQn26Zl+UEhoWsXeWEJxG9sfhSZCerEd4MZgX2Oxpbkw9PW
+	U9sIskwZcRuAV951iJxEYrVVHpIcTfT3OJJEGHw/jP5TJLsnPdCUsA05ElKGeDOW/dzPJl
+	M+Aw4J1c6G9JsKzgmxvl61IckuEWNWE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-516-bvW1v_QYP0e3J7-uD-0_Kg-1; Thu,
- 23 Jul 2026 00:51:32 -0400
-X-MC-Unique: bvW1v_QYP0e3J7-uD-0_Kg-1
-X-Mimecast-MFC-AGG-ID: bvW1v_QYP0e3J7-uD-0_Kg_1784782290
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-664-DTqSLi1KOLirIKpVr7DHyA-1; Thu,
+ 23 Jul 2026 00:51:43 -0400
+X-MC-Unique: DTqSLi1KOLirIKpVr7DHyA-1
+X-Mimecast-MFC-AGG-ID: DTqSLi1KOLirIKpVr7DHyA_1784782300
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EA0CF18007FB;
-	Thu, 23 Jul 2026 04:51:29 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9B5ED1800578;
+	Thu, 23 Jul 2026 04:51:40 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DAFF318002B5;
-	Thu, 23 Jul 2026 04:51:19 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3BB8318002AE;
+	Thu, 23 Jul 2026 04:51:30 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 19/44] qapi: convert trivial intro sections for control.json
-Date: Thu, 23 Jul 2026 00:47:40 -0400
-Message-ID: <20260723044805.527643-20-jsnow@redhat.com>
+Subject: [PATCH v2 20/44] qapi: convert intro sections for dump.json
+Date: Thu, 23 Jul 2026 00:47:41 -0400
+Message-ID: <20260723044805.527643-21-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,105 +98,85 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/control.json | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+ qapi/dump.json | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/qapi/control.json b/qapi/control.json
-index 9a5302193d6..0fc465936d8 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -10,8 +10,7 @@
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 726b5208703..c96dd2364bb 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -12,8 +12,7 @@
  
  ##
- # @qmp_capabilities:
+ # @DumpGuestMemoryFormat:
 -#
--# Enable QMP capabilities.
-+#     Enable QMP capabilities.
+-# An enumeration of guest-memory-dump's format.
++#     An enumeration of guest-memory-dump's format.
  #
- # @enable: An optional list of `QMPCapability` values to enable.  The
- #     client must not enable any capability that is not mentioned in
-@@ -41,9 +40,9 @@
+ # @elf: elf format
+ #
+@@ -49,9 +48,8 @@
  
  ##
- # @QMPCapability:
+ # @dump-guest-memory:
 -#
--# Enumeration of capabilities to be advertised during initial client
--# connection, used for agreeing on particular QMP extension behaviors.
-+#     Enumeration of capabilities to be advertised during initial
-+#     client connection, used for agreeing on particular QMP extension
-+#     behaviors.
+-# Dump guest's memory to vmcore.  It is a synchronous operation that
+-# can take very long depending on the amount of guest memory.
++#     Dump guest's memory to vmcore.  It is a synchronous operation
++#     that can take very long depending on the amount of guest memory.
  #
- # @oob: QMP ability to support out-of-band requests.  (Please refer to
- #     qmp-spec.rst for more information on OOB)
-@@ -55,8 +54,7 @@
+ # @paging: if true, do paging to get guest's memory mapping.  This
+ #     allows using gdb to process the core file.
+@@ -109,8 +107,8 @@
  
  ##
- # @VersionTriple:
+ # @DumpStatus:
 -#
--# A three-part version number.
-+#     A three-part version number.
+-# Describe the status of a long-running background guest memory dump.
++#     Describe the status of a long-running background guest memory
++#     dump.
  #
- # @major: The major version number.
+ # @none: no `dump-guest-memory` has started yet.
  #
-@@ -71,8 +69,7 @@
+@@ -127,8 +125,7 @@
  
  ##
- # @VersionInfo:
+ # @DumpQueryResult:
 -#
--# A description of QEMU's version.
-+#     A description of QEMU's version.
+-# The result format for `query-dump`.
++#     The result format for `query-dump`.
  #
- # @qemu: The version of QEMU.  By current convention, a micro version
- #     of 50 signifies a development branch.  A micro version greater
-@@ -92,8 +89,7 @@
+ # @status: enum of `DumpStatus`, which shows current dump status
+ #
+@@ -145,8 +142,7 @@
  
  ##
- # @query-version:
+ # @query-dump:
 -#
--# Return the current version of QEMU.
-+#     Return the current version of QEMU.
+-# Query latest dump status.
++#     Query latest dump status.
  #
- # Returns: An object describing the current version of QEMU.
+ # Returns: An object showing the dump status.
  #
-@@ -118,8 +114,7 @@
+@@ -162,8 +158,7 @@
  
  ##
- # @CommandInfo:
+ # @DUMP_COMPLETED:
 -#
--# Information about a QMP command
-+#     Information about a QMP command
+-# Emitted when background dump has completed
++#     Emitted when background dump has completed
  #
- # @name: The command name
+ # @result: final dump status
  #
-@@ -129,8 +124,7 @@
+@@ -196,8 +191,7 @@
  
  ##
- # @query-commands:
+ # @query-dump-guest-memory-capability:
 -#
--# Return a list of supported QMP commands by this server
-+#     Return a list of supported QMP commands by this server
+-# Return the available formats for `dump-guest-memory`
++#     Return the available formats for `dump-guest-memory`
  #
- # Returns: A list of all supported commands
- #
-@@ -177,8 +171,7 @@
- 
- ##
- # @MonitorMode:
--#
--# An enumeration of monitor modes.
-+#     An enumeration of monitor modes.
- #
- # @readline: HMP monitor (human-oriented command line interface)
- #
-@@ -190,8 +183,7 @@
- 
- ##
- # @MonitorOptions:
--#
--# Options to be used for adding a new monitor.
-+#     Options to be used for adding a new monitor.
- #
- # @id: Name of the monitor
+ # Returns: An object listing available formats for `dump-guest-memory`
  #
 -- 
 2.55.0
