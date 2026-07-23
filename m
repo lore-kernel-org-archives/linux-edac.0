@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F423F37268A
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8B337F001
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782177; cv=none; b=GOp6o7NIXcfEpiHOPxHAfDk+MyuZPZJUT9JYK7JinUelh2u9rOHBnJrQGrq+igo0yfbgw+CrQ0xWn3piAetW4tcbjO6TmNws+gUolRaRCFX+x11/gnrTnJETHdLywUEbErRuAptf2vrf2oW8Wx/6zXyETp2yi+SHBCiAPPJW1hs=
+	t=1784782183; cv=none; b=RrHT0D8yIQIysPxb/KLfMB6zTvIHhoDnQhGIj8tU1epCHkdq06tf+2fIQVWRCVN2kn+Vl53LukgsZEdvMY1wN00VOE7ImQCCF5M5EarW5Gr4JMDxecDrl7uTwuUct7oux+65hopjE6m9st9+vCXiBUDig1BZDwM5zONJZe64mOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782177; c=relaxed/simple;
-	bh=xqwDPKj0o8A54rR/HF1F96ZYfbp+RTQ9fry6kiwydqA=;
+	s=arc-20240116; t=1784782183; c=relaxed/simple;
+	bh=qj+UlH9iKv37t1zvG5HHTfxEemUOCkKySpdPRG1IKqA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QthI+nZFiVxXMV2U6NKGpgWVHf/AsvuhVnlm98cJUvVTeajjHg5lsD+wx2+I/p0G3ib7oBdAaErtZiXFvzrlhsv7hrI6tqsXzc1czJ6Sku59shwWmjMJjoDHNyMIwaW3rAa7OsnbuDti3foOSsg+7FPg3l1zmTekrUg53rnK1Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ra9vLcrP; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=od2lwwCFpXgnM9JVkFAsV6RarLO+5l3UH+CrGqSjbg+5ooG8E9ryR7w/nX74UR77DYmgXKkSw7wREL3HMK1dGef9jBbypMXiUWaxo+13OM7kYfCLLqmIfMtXsb5CvsE+beV2/yIz95fsoqEtZ5Naq7exW7i/HaNcsDTLnDRZayw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PsBXdJCY; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ra9vLcrP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PsBXdJCY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782167;
+	s=mimecast20190719; t=1784782158;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9YsSN3/iGxSVcvdhM8+DcbeqiCtrl9C1vt5VQz7+650=;
-	b=Ra9vLcrPfxKfuc8kh9ua6GaAYBQzeoh3+jhuN8z2SZIc5Pqnl7RBuA0E/52fkttDJE+BZu
-	ikTyJbCLRQsFXXjpGlExUutAGWRUR9n/Fhn0fHZKEYRGbpnHbtiCg7YDu4vFgkVUikeXV4
-	lrSxeV24LMgOjhM9JputgLSr5PUEIYo=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=iGdX1GJR2Qah9+ZqUdZhwLE3xHpIag0UoFWVx3hHcVM=;
+	b=PsBXdJCYchGYfoNClC7s/QmCYOeBfbiMenHXHBLcwa9RakhL2YQNv8ERwJv5l+ZabzHL14
+	Wqg23dL3B8V32vGMoIqfRuIdYrl+gtSnG3zSzBKDFXbnWnEfUHmelIv6mrCVTThtRJDRTT
+	1mK9eTqloemXfHvxfGtEez8iBJE6/dA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-66-UqXSW5nBMtCY2XisYh-prQ-1; Thu,
- 23 Jul 2026 00:49:22 -0400
-X-MC-Unique: UqXSW5nBMtCY2XisYh-prQ-1
-X-Mimecast-MFC-AGG-ID: UqXSW5nBMtCY2XisYh-prQ_1784782159
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-416-CIkMi2ezMjCikp1RLXCdqQ-1; Thu,
+ 23 Jul 2026 00:49:12 -0400
+X-MC-Unique: CIkMi2ezMjCikp1RLXCdqQ-1
+X-Mimecast-MFC-AGG-ID: CIkMi2ezMjCikp1RLXCdqQ_1784782149
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE5EC1800764;
-	Thu, 23 Jul 2026 04:49:19 +0000 (UTC)
-Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1B23D18002AE;
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AD9FC1955F7C;
 	Thu, 23 Jul 2026 04:49:09 +0000 (UTC)
+Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5F299180029D;
+	Thu, 23 Jul 2026 04:48:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 06/44] qapi: convert intro sections for vfio.json
-Date: Thu, 23 Jul 2026 00:47:27 -0400
-Message-ID: <20260723044805.527643-7-jsnow@redhat.com>
+Subject: [PATCH v2 05/44] qapi: convert trivial intro sections for compat.json
+Date: Thu, 23 Jul 2026 00:47:26 -0400
+Message-ID: <20260723044805.527643-6-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,45 +98,32 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/vfio.json | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ qapi/compat.json | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/vfio.json b/qapi/vfio.json
-index 17b60468712..47fff8b979d 100644
---- a/qapi/vfio.json
-+++ b/qapi/vfio.json
-@@ -10,14 +10,13 @@
+diff --git a/qapi/compat.json b/qapi/compat.json
+index 90b8d51cf27..ef1853b9acd 100644
+--- a/qapi/compat.json
++++ b/qapi/compat.json
+@@ -9,8 +9,7 @@
  
  ##
- # @QapiVfioMigrationState:
+ # @CompatPolicyInput:
 -#
--# An enumeration of the VFIO device migration states.  In addition to
--# the regular states, there are prepare states (with 'prepare' suffix)
--# which indicate that the device is just about to transition to the
--# corresponding state.  Note that seeing a prepare state for state X
--# doesn't guarantee that the next state will be X, as the state
--# transition can fail and the device may transition to a different
--# state instead.
-+#     An enumeration of the VFIO device migration states.  In addition
-+#     to the regular states, there are prepare states (with 'prepare'
-+#     suffix) which indicate that the device is just about to
-+#     transition to the corresponding state.  Note that seeing a
-+#     prepare state for state X doesn't guarantee that the next state
-+#     will be X, as the state transition can fail and the device may
-+#     transition to a different state instead.
+-# Policy for handling "funny" input.
++#     Policy for handling "funny" input.
  #
- # @stop: The device is stopped.
+ # @accept: Accept silently
  #
-@@ -49,8 +48,8 @@
+@@ -25,8 +24,7 @@
  
  ##
- # @VFIO_MIGRATION:
+ # @CompatPolicyOutput:
 -#
--# This event is emitted when a VFIO device migration state is changed.
-+#     This event is emitted when a VFIO device migration state is
-+#     changed.
+-# Policy for handling "funny" output.
++#     Policy for handling "funny" output.
  #
- # @device-id: The device's id, if it has one.
+ # @accept: Pass on unchanged
  #
 -- 
 2.55.0
