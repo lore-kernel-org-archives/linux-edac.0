@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FFC379C28
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AA6383C85
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782268; cv=none; b=IY/OT+BYI8CfRClhpRbHWTyIN1Mh8UiSwzuffFMGDc5HaepPyGNjCaUFgb+HGJjsO6KeZBrnASrkQLwY6Vhyk222U1tuJfsn+HSNeNG3eCfo/FgaUNcYzCNwJyOodQjHGiqJuhWY5x4XGQNvJ6pQ6yhqUaHnKW5j1PgJVsxUmOc=
+	t=1784782278; cv=none; b=gqFX9up2qEClC65dyqA4rEh8XjL1d+Lst1UexOrSWraUg6AqaB0AHdGe+arc7sGswQgw8liWu1BzDX/ZKMxNyxxhtfO9b1ppS2SAP2+6QQb6w3aInBWWKCPGThvqEk1Bfx0nTF2wJU6vFsRiskN5e9UfkvgsK4IkQaxTgm4NvS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782268; c=relaxed/simple;
-	bh=qsW2IuxOW0Tc6hcH3fzGl3hASqAwyiPcHfmuAjgWNn4=;
+	s=arc-20240116; t=1784782278; c=relaxed/simple;
+	bh=HblQql1yvVn6VeamW0ZrJWHaA8vpkIM6QQPUOan9Kao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dx2A/ZD8jFPT3Dn9u5xSFU5JUcjgo5a/97yKtxWkfdU7VuMdkioizpuPvlbgvubjQZmSL1zZymVHYGJJSgGGPSaBAkWe4NXP8576qUOHTQcxakfv4EQeZw9a71UE4kUuHX61wT9Un4Ko/G55bcepCspSjz6pfAJ/p9QcRL0VdR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QayokYo0; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=VZCMkbkgEBZf2clMRko9vLaADkY7jvKv1wdlA5PZjjnPEDLvLF5U4CGwC2weoAlBCo12qX6Inib9/A3lwdyjqZWsC0KsIzZfTdRLDwxZR2jX71SsWlk+dQU0Yv0hCbVLNgQTZQuiObN++ti1B0MAZ+Ycy7Pn7xa9Eqep5IQ7jHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fOwHrAqb; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QayokYo0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fOwHrAqb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782253;
+	s=mimecast20190719; t=1784782263;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XX0MM67l2hTQkl3T1X4vh6I9bh96PpfSjiv2H/lU8Zg=;
-	b=QayokYo0+jfkws+323mcbG7HyG24HmKvIUltiCTvl3E+fviukTohUROiHEO6pGYW5t7VEm
-	3W1QeqDbArtKIL1Z5oZ2ptSN0J2cwGtPHFNAE1akEn25l7y2YatJRqWDQQdZGWELZoo7W1
-	VlRvMsTRKL6fZ0umvVSCIOWA48PDMPk=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=9YoGAoaYe1zPbiR9886orVUbPO3VRJkQv0eqUa1lksA=;
+	b=fOwHrAqb7VVElNvHKCkUp3FN4CWIVleTRDcse0tdwbcTEG2JdXBlElEfFgyQWlA4er+gyG
+	yTO23XW4q7aEIBtC5p1TYu21Kiw7Bod6cNvHIVCfWrx+3R0zRffQ+Mygvf1tCrHHfJq+6e
+	Ws82O6kF0gDWSsGWZXl9zyEPmIfkFx0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-589-BCZ7n0D3Ptumtz7syo7Jjw-1; Thu,
- 23 Jul 2026 00:50:50 -0400
-X-MC-Unique: BCZ7n0D3Ptumtz7syo7Jjw-1
-X-Mimecast-MFC-AGG-ID: BCZ7n0D3Ptumtz7syo7Jjw_1784782247
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-270-4z4sKMMpPoyuzGxko269Sw-1; Thu,
+ 23 Jul 2026 00:51:01 -0400
+X-MC-Unique: 4z4sKMMpPoyuzGxko269Sw-1
+X-Mimecast-MFC-AGG-ID: 4z4sKMMpPoyuzGxko269Sw_1784782259
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6C45F1800759;
-	Thu, 23 Jul 2026 04:50:47 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E5A9F1954B26;
+	Thu, 23 Jul 2026 04:50:58 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 823A018002AE;
-	Thu, 23 Jul 2026 04:50:37 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D053618002B5;
+	Thu, 23 Jul 2026 04:50:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 15/44] qapi: convert trivial intro sections for machine-s390x.json
-Date: Thu, 23 Jul 2026 00:47:36 -0400
-Message-ID: <20260723044805.527643-16-jsnow@redhat.com>
+Subject: [PATCH v2 16/44] qapi: convert trivial intro sections for acpi.json
+Date: Thu, 23 Jul 2026 00:47:37 -0400
+Message-ID: <20260723044805.527643-17-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,60 +98,48 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/machine-s390x.json | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ qapi/acpi.json | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/qapi/machine-s390x.json b/qapi/machine-s390x.json
-index ea430e1b889..2d40629683f 100644
---- a/qapi/machine-s390x.json
-+++ b/qapi/machine-s390x.json
-@@ -9,9 +9,8 @@
+diff --git a/qapi/acpi.json b/qapi/acpi.json
+index 906b3687a55..291a04a7ea4 100644
+--- a/qapi/acpi.json
++++ b/qapi/acpi.json
+@@ -81,10 +81,9 @@
  
  ##
- # @S390CpuPolarization:
+ # @ACPIOSTInfo:
 -#
--# An enumeration of CPU polarization that can be assumed by a virtual
--# S390 CPU
-+#     An enumeration of CPU polarization that can be assumed by a
-+#     virtual S390 CPU
+-# OSPM Status Indication for a device.  For description of possible
+-# values of @source and @status fields see "_OST (OSPM Status
+-# Indication)" chapter of ACPI5.0 spec.
++#     OSPM Status Indication for a device.  For description
++#     of possible values of @source and @status fields see "_OST (OSPM
++#     Status Indication)" chapter of ACPI5.0 spec.
  #
- # Since: 8.2
- ##
-@@ -21,10 +20,9 @@
+ # @device: device ID associated with slot
+ #
+@@ -107,9 +106,8 @@
  
  ##
- # @set-cpu-topology:
+ # @query-acpi-ospm-status:
 -#
--# Modify the topology by moving the CPU inside the topology tree, or
--# by changing a modifier attribute of a CPU.  Absent values will not
--# be modified.
-+#     Modify the topology by moving the CPU inside the topology tree,
-+#     or by changing a modifier attribute of a CPU.  Absent values
-+#     will not be modified.
+-# Return a list of `ACPIOSTInfo` for devices that support status
+-# reporting via ACPI _OST method.
++#     Return a list of `ACPIOSTInfo` for devices
++#     that support status reporting via ACPI _OST method.
  #
- # @core-id: the vCPU ID to be moved
+ # Since: 2.1
  #
-@@ -94,8 +92,7 @@
+@@ -126,8 +124,7 @@
  
  ##
- # @CpuPolarizationInfo:
+ # @ACPI_DEVICE_OST:
 -#
--# The result of a CPU polarization query.
-+#     The result of a CPU polarization query.
+-# Emitted when guest executes ACPI _OST method.
++#     Emitted when guest executes ACPI _OST method.
  #
- # @polarization: the CPU polarization
- #
-@@ -122,9 +119,8 @@
- 
- ##
- # @SCLP_CPI_INFO_AVAILABLE:
--#
--# Emitted when the Control-Program Identification data is available in
--# the QOM tree.
-+#     Emitted when the Control-Program Identification data is
-+#     available in the QOM tree.
- #
- # Features:
+ # @info: OSPM Status Indication
  #
 -- 
 2.55.0
