@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A476738F951
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B676A390C8C
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782231; cv=none; b=ic0nm1LSOAdoA8JbaSQawMg1RZ2jTjplthPxJemcFU3sJvWDMoMz+/5MVeH2UTIR4Lw9Zbc3EUfhkLnltM7/sUhgnvdcF94wBJemBDgVwZwu9gBGeJuwDxvIvjnwRBYJmdfKIgMP6/yhr3qdp4fmKVfPp55BIwhytZ7qqWFR5Ek=
+	t=1784782238; cv=none; b=cnzC2simE4rTm2aelROx62N4RwY0gAittbybK3wueyQSDa1bGbV6BXSATLHfyIZf1WRuiyq5w/LXAVDrS3rtkKwysi92wpBBlXov399lsW7XAQ0fuE+1dzs0bSjHv9ToNXrrJlTJms3goxw86eLvCJextdC9LE9mYZ9i7TGM2u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782231; c=relaxed/simple;
-	bh=KhMOXazkaptH5/h9BjCGliPFo3XCNvuipDmaQ4iQKjQ=;
+	s=arc-20240116; t=1784782238; c=relaxed/simple;
+	bh=rryr0WFItAsHO7x6crTyERoi7Far+px966K3KPhfqzA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OsAUaDWbECf/hhLXPdLqR0P23DM1CBD+rk+br+7lNJTretdWqck3Fxr6ViZbbV+nzh7tsHjRMRl6tN/qf0TweKa0aCJ85F33WCkVZJ13y1tWAKdMHLO7rzZW2QwP5NHkYG7oCRi2rDPWUPmKRG2QCC/auUvADSit75DIinwPtGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CPqgJ3Nd; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=CsPrtejLa+ITAqYmlX5CIlVJZcJisY9Eal+foJvEPzla/k5TQGRQx6+/VDG1iW6DynvNScwmxLUQen0nyFNzSdOkACzRDAh7F2cAHvbmbOqWfmzHZWg/sEOznPQWD0Bri3N3PankIKZQVZuE6crfd7CDJukoAHZ2btC576n0YPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Il+KiPc+; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CPqgJ3Nd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Il+KiPc+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782214;
+	s=mimecast20190719; t=1784782225;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/m9oOcbWUoOnQCUdpT8YuW9QMaUcjKrgB4Bi5ODd0yI=;
-	b=CPqgJ3NdalW3tcpX8f9sm+btYqMTvVt2N91eG6rHWRYAQQ1QfIBCoOrqZYMjiC4NzUKJ8G
-	9ao1MCRp4+7NN9ihX7kC2/S0cPXUzYWckzXkx4edpWfHZfF4kFKAb5L0yYHzO3Nq2AiU6W
-	5dFs7d/glcNkzAu2sCkDRz+ZJn5Dx5A=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+	bh=TdL4XpFKkJHBP7qXMmxL4imk9A4iFnUzHbovAddFeL0=;
+	b=Il+KiPc+l4esDl4zOLJx+c7TsmnEgl7tfVLADtJyLrj0GZ16CLoZ7f+YILN2DBfMfAdVyz
+	mcxVFYzblz9GPQ/UETMd8IXeP9U9mb+iQZfntwcFP4lVVk302i/wA3VrdtxRIEyzjwkljk
+	xsdbHaKg3uyFZ9WZ9tgshUS5zYZM6FU=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-378-UXDzHo2gP9SY12M-UaSCgA-1; Thu,
- 23 Jul 2026 00:50:08 -0400
-X-MC-Unique: UXDzHo2gP9SY12M-UaSCgA-1
-X-Mimecast-MFC-AGG-ID: UXDzHo2gP9SY12M-UaSCgA_1784782205
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-225-fkxXG0Z7OBCzAwn_mng0dg-1; Thu,
+ 23 Jul 2026 00:50:18 -0400
+X-MC-Unique: fkxXG0Z7OBCzAwn_mng0dg-1
+X-Mimecast-MFC-AGG-ID: fkxXG0Z7OBCzAwn_mng0dg_1784782215
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 710CE1955E92;
-	Thu, 23 Jul 2026 04:50:05 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE9AA1955F7C;
+	Thu, 23 Jul 2026 04:50:15 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 85D01180059C;
-	Thu, 23 Jul 2026 04:49:56 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 07486180029D;
+	Thu, 23 Jul 2026 04:50:05 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 11/44] qapi: convert intro sections for accelerator.json
-Date: Thu, 23 Jul 2026 00:47:32 -0400
-Message-ID: <20260723044805.527643-12-jsnow@redhat.com>
+Subject: [PATCH v2 12/44] qapi: convert intro sections for authz.json
+Date: Thu, 23 Jul 2026 00:47:33 -0400
+Message-ID: <20260723044805.527643-13-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,73 +98,83 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/accelerator.json | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ qapi/authz.json | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/qapi/accelerator.json b/qapi/accelerator.json
-index b59df378664..efc0fa81418 100644
---- a/qapi/accelerator.json
-+++ b/qapi/accelerator.json
-@@ -13,8 +13,7 @@
+diff --git a/qapi/authz.json b/qapi/authz.json
+index bc1123cc053..b76c39c53af 100644
+--- a/qapi/authz.json
++++ b/qapi/authz.json
+@@ -9,8 +9,7 @@
  
  ##
- # @KvmInfo:
+ # @QAuthZListPolicy:
 -#
--# Information about support for KVM acceleration
-+#     Information about support for KVM acceleration
+-# The authorization policy result
++#     The authorization policy result
  #
- # @enabled: true if KVM acceleration is active
+ # @deny: deny access
  #
-@@ -26,8 +25,7 @@
+@@ -24,8 +23,7 @@
  
  ##
- # @query-kvm:
+ # @QAuthZListFormat:
 -#
--# Return information about KVM acceleration
-+#     Return information about KVM acceleration
+-# The authorization policy match format
++#     The authorization policy match format
  #
- # Features:
+ # @exact: an exact string match
  #
-@@ -46,8 +44,7 @@
+@@ -39,8 +37,7 @@
  
  ##
- # @x-accel-stats:
+ # @QAuthZListRule:
 -#
--# Query accelerator statistics
-+#     Query accelerator statistics
+-# A single authorization rule.
++#     A single authorization rule.
  #
- # Features:
+ # @match: a string or glob to match against a user identity
  #
-@@ -63,8 +60,7 @@
+@@ -57,8 +54,7 @@
  
  ##
- # @Accelerator:
+ # @AuthZListProperties:
 -#
--# Information about support for MSHV acceleration
-+#     Information about support for MSHV acceleration
+-# Properties for authz-list objects.
++#     Properties for authz-list objects.
  #
- # @hvf: Apple Hypervisor.framework
- #
-@@ -88,8 +84,7 @@
+ # @policy: Default policy to apply when no rule matches (default:
+ #     deny)
+@@ -73,8 +69,7 @@
  
  ##
- # @AcceleratorInfo:
+ # @AuthZListFileProperties:
 -#
--# Information about support for various accelerators
-+#     Information about support for various accelerators
+-# Properties for authz-listfile objects.
++#     Properties for authz-listfile objects.
  #
- # @enabled: the accelerator that is in use
- #
-@@ -102,8 +97,7 @@
+ # @filename: File name to load the configuration from.  The file must
+ #     contain valid JSON for `AuthZListProperties`.
+@@ -93,8 +88,7 @@
  
  ##
- # @query-accelerators:
+ # @AuthZPAMProperties:
 -#
--# Return information about accelerators
-+#     Return information about accelerators
+-# Properties for authz-pam objects.
++#     Properties for authz-pam objects.
  #
- # Returns: @AcceleratorInfo
+ # @service: PAM service name to use for authorization
  #
+@@ -105,8 +99,7 @@
+ 
+ ##
+ # @AuthZSimpleProperties:
+-#
+-# Properties for authz-simple objects.
++#     Properties for authz-simple objects.
+ #
+ # @identity: Identifies the allowed user.  Its format depends on the
+ #     network service that authorization object is associated with.
 -- 
 2.55.0
 
