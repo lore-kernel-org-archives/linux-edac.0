@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1DB35DA40
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C259381E98
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782455; cv=none; b=rHtGy06Ji2zJ0BA3fnyaGHY8kLOsQZMx02nYB8xXFkXnjR1ZOiHR1K0x0md6Gzk67BElHvtDtyWL47KixAjZbcIQxOBZJYw0jp4u0uwYTPhwNhmZNa6MGsOX+psuLI/Yooct2znMcF4jgn1y8dIToOS/RafYcpnTMRN0wTz9SKA=
+	t=1784782464; cv=none; b=fJ3Zuiw/+xjuVJ36lUPsLmaOziarhfb8j2o8MwA/ZranF+z79aaAKZquelAUNwvLS6Sp8mLdD29J4TDw/Ih1MNdSByxyEbPzMHTCQirHycQzKMWURfzDEO3vjmrvUM+7wC9t7SOn6iBM6XQ9Bv0bf6hXF3bXddrDthf5UqFR90E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782455; c=relaxed/simple;
-	bh=dKZABxNrtm9vqZ744nFaTLRvrjdmtbBOduDI2nOcFqY=;
+	s=arc-20240116; t=1784782464; c=relaxed/simple;
+	bh=Fq+3O29G5SBOq9+tHB8zjfnpsao/PF4MUjhaJbRCYZY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gJvoQw9CZU+onkih40wOVBaF4wL0K8jXkUxzulZEWUnA7RelLSgGFl6mwyxbXSM01pMgZtl/te5XnF4TJzB+XpbpMUc892wCdR1n4yF0h0uaXcTB+qcd2kk/dw3kSe/rcuv9D3kbCFVjIQ1PO8f3cCEMekfgKCLMAvQWQnTICs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QKGOCh2f; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=WaILJEaxC7zHIOwSrztoETCDEGMaG0ubLSTyVTvzT3E/fxEHbL+5H4jbO1iq+StBjXn/mWgivEallbt4VOxDbiQlyq2fQKqgWiYze84AJU1YnGsC83/q4Lj8wRVc1sB8C5OXIB4h1P0mF5dasjCCHI1gqAxf3U1Ve2HrswZxOFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ui+xK19Z; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QKGOCh2f"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ui+xK19Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782443;
+	s=mimecast20190719; t=1784782453;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lCYDP6Hrj8CzePr1mYVT3Ek4VxvkfuHjDMXZ3o0GlI0=;
-	b=QKGOCh2fdZh8KX2S0D2Bp7BBu5n49blqs/3chiJ/CPhWYXp+uKWkyN8QhOkNCKRdPvOAX4
-	bF5ZIEpSm3FE5djCcp+6MNdWeZiHbQTh5775gFaUY48Y26Qq/+gA64H9oc6oRL3c1AUQ+M
-	rr1O3PYYAMuwrrDYBM2Gd7QNqOtYWD4=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=QarlhGnhBJh2uFLeYPSVEUbavGwmNcs8TuDveYf+Ky0=;
+	b=Ui+xK19Z9fOOaRaFeag9cVy1ZZjowCSJwca1L6Xtz1vKepImuZJKkkfd5jieh21/IhIZby
+	IxtaWOZh8GnkEL4i6i407WH54mDZciTSCN3Y8SJJU1NzrpYP7AEt5QUzRiLT4+n3kxMmzU
+	8iTzpdnk3YoRB5acukS/ZeOL3slzgAQ=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-186-flsMf9TDOHOS0HUxRx7iBg-1; Thu,
- 23 Jul 2026 00:53:59 -0400
-X-MC-Unique: flsMf9TDOHOS0HUxRx7iBg-1
-X-Mimecast-MFC-AGG-ID: flsMf9TDOHOS0HUxRx7iBg_1784782436
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-645-ZDwcKhefPIqMArqUkbP7BQ-1; Thu,
+ 23 Jul 2026 00:54:09 -0400
+X-MC-Unique: ZDwcKhefPIqMArqUkbP7BQ-1
+X-Mimecast-MFC-AGG-ID: ZDwcKhefPIqMArqUkbP7BQ_1784782446
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EE8051955DEA;
-	Thu, 23 Jul 2026 04:53:55 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5DF79182E6BB;
+	Thu, 23 Jul 2026 04:54:06 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D62A618002AE;
-	Thu, 23 Jul 2026 04:53:45 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6D89C18002AE;
+	Thu, 23 Jul 2026 04:53:56 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 34/44] qapi: convert trivial intro sections for crypto.json
-Date: Thu, 23 Jul 2026 00:47:55 -0400
-Message-ID: <20260723044805.527643-35-jsnow@redhat.com>
+Subject: [PATCH v2 35/44] qapi: convert intro sections for cxl.json
+Date: Thu, 23 Jul 2026 00:47:56 -0400
+Message-ID: <20260723044805.527643-36-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,347 +98,273 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/crypto.json | 118 ++++++++++++++++++-----------------------------
- 1 file changed, 45 insertions(+), 73 deletions(-)
+ qapi/cxl.json | 128 ++++++++++++++++++++++----------------------------
+ 1 file changed, 56 insertions(+), 72 deletions(-)
 
-diff --git a/qapi/crypto.json b/qapi/crypto.json
-index 2b55befef97..5c821be1a33 100644
---- a/qapi/crypto.json
-+++ b/qapi/crypto.json
-@@ -10,10 +10,10 @@
+diff --git a/qapi/cxl.json b/qapi/cxl.json
+index 81d6198ba03..9422d5a0e2d 100644
+--- a/qapi/cxl.json
++++ b/qapi/cxl.json
+@@ -9,9 +9,9 @@
  
  ##
- # @QCryptoTLSCredsEndpoint:
+ # @CxlEventLog:
 -#
--# The type of network endpoint that will be using the credentials.
--# Most types of credential require different setup / structures
--# depending on whether they will be used in a server versus a client.
-+#     The type of network endpoint that will be using the credentials.
-+#     Most types of credential require different setup / structures
-+#     depending on whether they will be used in a server versus a
-+#     client.
+-# CXL has a number of separate event logs for different types of
+-# events.  Each such event log is handled and signaled independently.
++#     CXL has a number of separate event logs for different types of
++#     events.  Each such event log is handled and signaled
++#     independently.
  #
- # @client: the network endpoint is acting as the client
+ # @informational: Information Event Log
  #
-@@ -26,8 +26,7 @@
+@@ -32,9 +32,8 @@
  
  ##
- # @QCryptoSecretFormat:
+ # @CXLCommonEventBase:
 -#
--# The data format that the secret is provided in
-+#     The data format that the secret is provided in
+-# Common event base for a CXL Event (CXL r3.2 8.2.10.2.1
+-# Table 8-55 Common Event Record Format).
++#     Common event base for a CXL Event (CXL r3.2 8.2.10.2.1 Table
++#     8-55 Common Event Record Format).
  #
- # @raw: raw bytes.  When encoded in JSON only valid UTF-8 sequences
- #     can be used
-@@ -41,8 +40,7 @@
+ # @path: CXL type 3 device canonical QOM path
+ #
+@@ -63,8 +62,7 @@
  
  ##
- # @QCryptoHashAlgo:
+ # @CXLGeneralMediaEvent:
 -#
--# The supported algorithms for computing content digests
-+#     The supported algorithms for computing content digests
+-# Event record for a General Media Event (CXL r3.2 8.2.10.2.1.1).
++#     Event record for a General Media Event (CXL r3.2 8.2.10.2.1.1).
  #
- # @md5: MD5.  Should not be used in any new code, legacy compat only
- #
-@@ -68,8 +66,7 @@
+ # @dpa: Device Physical Address (relative to @path device).  Note
+ #     lower bits include some flags.  See CXL r3.2 Table 8-57 General
+@@ -118,10 +116,9 @@
  
  ##
- # @QCryptoCipherAlgo:
+ # @cxl-inject-general-media-event:
 -#
--# The supported algorithms for content encryption ciphers
-+#     The supported algorithms for content encryption ciphers
+-# Inject an event record for a General Media Event (CXL r3.2
+-# 8.2.10.2.1.1).  This event type is reported via one of the event
+-# logs specified via the log parameter.
++#     Inject an event record for a General Media Event (CXL r3.2
++#     8.2.10.2.1.1).  This event type is reported via one of the event
++#     logs specified via the log parameter.
  #
- # @aes-128: AES with 128 bit / 16 byte keys
- #
-@@ -110,8 +107,7 @@
+ # Since: 8.1
+ ##
+@@ -130,8 +127,7 @@
  
  ##
- # @QCryptoCipherMode:
+ # @CXLDRAMEvent:
 -#
--# The supported modes for content encryption ciphers
-+#     The supported modes for content encryption ciphers
+-# Event record for a DRAM Event (CXL r3.2 8.2.10.2.1.2).
++#     Event record for a DRAM Event (CXL r3.2 8.2.10.2.1.2).
  #
- # @ecb: Electronic Code Book
- #
-@@ -128,11 +124,11 @@
+ # @dpa: Device Physical Address (relative to @path device).  Note
+ #     lower bits include some flags.  See CXL r3.2 Table 8-58 DRAM
+@@ -201,10 +197,9 @@
  
  ##
- # @QCryptoIVGenAlgo:
+ # @cxl-inject-dram-event:
 -#
--# The supported algorithms for generating initialization vectors for
--# full disk encryption.  The 'plain' generator should not be used for
--# disks with sector numbers larger than 2^32, except where
--# compatibility with pre-existing Linux dm-crypt volumes is required.
-+#     The supported algorithms for generating initialization vectors
-+#     for full disk encryption.  The 'plain' generator should not be
-+#     used for disks with sector numbers larger than 2^32, except
-+#     where compatibility with pre-existing Linux dm-crypt volumes is
-+#     required.
+-# Inject an event record for a DRAM Event (CXL r3.2 8.2.10.2.1.2).
+-# This event type is reported via one of the event logs
+-# specified via the log parameter.
++#     Inject an event record for a DRAM Event (CXL r3.2 8.2.10.2.1.2).
++#     This event type is reported via one of the event logs specified
++#     via the log parameter.
  #
- # @plain: 64-bit sector number truncated to 32-bits
- #
-@@ -148,8 +144,7 @@
+ # Since: 8.1
+ ##
+@@ -213,8 +208,7 @@
  
  ##
- # @QCryptoBlockFormat:
+ # @CXLMemModuleEvent:
 -#
--# The supported full disk encryption formats
-+#     The supported full disk encryption formats
+-# Event record for a Memory Module Event (CXL r3.2 8.2.10.2.1.3).
++#     Event record for a Memory Module Event (CXL r3.2 8.2.10.2.1.3).
  #
- # @qcow: QCow/QCow2 built-in AES-CBC encryption.  Use only for
- #     liberating data from old images.
-@@ -163,8 +158,8 @@
+ # @type: Device Event Type.  See CXL r3.2 Table 8-59 Memory Module
+ #     Event Record for bit definitions for bit definiions.
+@@ -267,10 +261,9 @@
  
  ##
- # @QCryptoBlockOptionsBase:
+ # @cxl-inject-memory-module-event:
 -#
--# The common options that apply to all full disk encryption formats
-+#     The common options that apply to all full disk encryption
-+#     formats
+-# Inject an event record for a Memory Module Event (CXL r3.2
+-# 8.2.10.2.1.3).  This event includes a copy of the Device Health info
+-# at the time of the event.
++#     Inject an event record for a Memory Module Event (CXL r3.2
++#     8.2.10.2.1.3).  This event includes a copy of the Device Health
++#     info at the time of the event.
  #
- # @format: the encryption format
- #
-@@ -175,8 +170,7 @@
+ # Since: 8.1
+ ##
+@@ -279,13 +272,12 @@
  
  ##
- # @QCryptoBlockOptionsQCow:
+ # @cxl-inject-poison:
 -#
--# The options that apply to QCow/QCow2 AES-CBC encryption format
-+#     The options that apply to QCow/QCow2 AES-CBC encryption format
+-# Poison records indicate that a CXL memory device knows that a
+-# particular memory region may be corrupted.  This may be because of
+-# locally detected errors (e.g. ECC failure) or poisoned writes
+-# received from other components in the system.  This injection
+-# mechanism enables testing of the OS handling of poison records which
+-# may be queried via the CXL mailbox.
++#     Poison records indicate that a CXL memory device knows that a
++#     particular memory region may be corrupted.  This may be because
++#     of locally detected errors (e.g. ECC failure) or poisoned writes
++#     received from other components in the system.  This injection
++#     mechanism enables testing of the OS handling of poison records
++#     which may be queried via the CXL mailbox.
  #
- # @key-secret: the ID of a QCryptoSecret object providing the
- #     decryption key.  Mandatory except when probing image for
-@@ -189,8 +183,7 @@
+ # @path: CXL type 3 device canonical QOM path
+ #
+@@ -300,10 +292,9 @@
  
  ##
- # @QCryptoBlockOptionsLUKS:
+ # @CxlUncorErrorType:
 -#
--# The options that apply to LUKS encryption format
-+#     The options that apply to LUKS encryption format
+-# Type of uncorrectable CXL error to inject.  These errors are
+-# reported via an AER uncorrectable internal error with additional
+-# information logged at the CXL device.
++#     Type of uncorrectable CXL error to inject.  These errors are
++#     reported via an AER uncorrectable internal error with additional
++#     information logged at the CXL device.
  #
- # @key-secret: the ID of a QCryptoSecret object providing the
- #     decryption key.  Mandatory except when probing image for
-@@ -203,8 +196,7 @@
+ # @cache-data-parity: Data error such as data parity or data ECC error
+ #     CXL.cache
+@@ -365,8 +356,7 @@
  
  ##
- # @QCryptoBlockCreateOptionsLUKS:
+ # @CXLUncorErrorRecord:
 -#
--# The options that apply to LUKS encryption format initialization
-+#     The options that apply to LUKS encryption format initialization
+-# Record of a single error including header log.
++#     Record of a single error including header log.
  #
- # @cipher-alg: the cipher algorithm for data encryption.  Currently
- #     defaults to 'aes-256'.
-@@ -237,9 +229,8 @@
+ # @type: Type of error
+ #
+@@ -383,9 +373,8 @@
  
  ##
- # @QCryptoBlockOpenOptions:
+ # @cxl-inject-uncorrectable-errors:
 -#
--# The options that are available for all encryption formats when
--# opening an existing volume
-+#     The options that are available for all encryption formats when
-+#     opening an existing volume
+-# Command to allow injection of multiple errors in one go.  This
+-# allows testing of multiple header log handling in the OS.
++#     Command to allow injection of multiple errors in one go.  This
++#     allows testing of multiple header log handling in the OS.
  #
- # Since: 2.6
- ##
-@@ -251,9 +242,8 @@
+ # @path: CXL Type 3 device canonical QOM path
+ #
+@@ -399,8 +388,7 @@
  
  ##
- # @QCryptoBlockCreateOptions:
+ # @CxlCorErrorType:
 -#
--# The options that are available for all encryption formats when
--# initializing a new volume
-+#     The options that are available for all encryption formats when
-+#     initializing a new volume
+-# Type of CXL correctable error to inject
++#     Type of CXL correctable error to inject
  #
- # Since: 2.6
- ##
-@@ -265,9 +255,8 @@
+ # @cache-data-ecc: Data ECC error on CXL.cache
+ #
+@@ -432,12 +420,11 @@
  
  ##
- # @QCryptoBlockInfoBase:
+ # @cxl-inject-correctable-error:
 -#
--# The common information that applies to all full disk encryption
--# formats
-+#     The common information that applies to all full disk encryption
-+#     formats
+-# Command to inject a single correctable error.  Multiple error
+-# injection of this error type is not interesting as there is no
+-# associated header log.  These errors are reported via AER as a
+-# correctable internal error, with additional detail available from
+-# the CXL device.
++#     Command to inject a single correctable error.  Multiple error
++#     injection of this error type is not interesting as there is no
++#     associated header log.  These errors are reported via AER as a
++#     correctable internal error, with additional detail available
++#     from the CXL device.
  #
- # @format: the encryption format
+ # @path: CXL Type 3 device canonical QOM path
  #
-@@ -278,8 +267,7 @@
+@@ -450,10 +437,9 @@
  
  ##
- # @QCryptoBlockInfoLUKSSlot:
+ # @CxlDynamicCapacityExtent:
 -#
--# Information about the LUKS block encryption key slot options
-+#     Information about the LUKS block encryption key slot options
+-# A single dynamic capacity extent.  This is a contiguous allocation
+-# of memory by Device Physical Address within a single Dynamic
+-# Capacity Region on a CXL Type 3 Device.
++#     A single dynamic capacity extent.  This is a contiguous
++#     allocation of memory by Device Physical Address within a single
++#     Dynamic Capacity Region on a CXL Type 3 Device.
  #
- # @active: whether the key slot is currently in use
- #
-@@ -299,8 +287,7 @@
+ # @offset: The offset (in bytes) to the start of the region where the
+ #     extent belongs to.
+@@ -471,10 +457,9 @@
  
  ##
- # @QCryptoBlockInfoLUKS:
+ # @CxlExtentSelectionPolicy:
 -#
--# Information about the LUKS block encryption options
-+#     Information about the LUKS block encryption options
+-# The policy to use for selecting which extents comprise the added
+-# capacity, as defined in Compute Express Link (CXL) Specification,
+-# Revision 3.1, Table 7-70.
++#     The policy to use for selecting which extents comprise the added
++#     capacity, as defined in Compute Express Link (CXL)
++#     Specification, Revision 3.1, Table 7-70.
  #
- # @cipher-alg: the cipher algorithm for data encryption
- #
-@@ -338,8 +325,7 @@
+ # @free: Device is responsible for allocating the requested memory
+ #     capacity and is free to do this using any combination of
+@@ -512,12 +497,12 @@
  
  ##
- # @QCryptoBlockInfo:
+ # @cxl-add-dynamic-capacity:
 -#
--# Information about the block encryption options
-+#     Information about the block encryption options
+-# Initiate adding dynamic capacity extents to a host.  This simulates
+-# operations defined in Compute Express Link (CXL) Specification,
+-# Revision 3.1, Section 7.6.7.6.5.  Note that, currently, establishing
+-# success or failure of the full Add Dynamic Capacity flow requires
+-# out of band communication with the OS of the CXL host.
++#     Initiate adding dynamic capacity extents to a host.  This
++#     simulates operations defined in Compute Express Link (CXL)
++#     Specification, Revision 3.1, Section 7.6.7.6.5.  Note that,
++#     currently, establishing success or failure of the full Add
++#     Dynamic Capacity flow requires out of band communication with
++#     the OS of the CXL host.
  #
- # Since: 2.7
- ##
-@@ -350,8 +336,7 @@
+ # @path: path to the CXL Dynamic Capacity Device in the QOM tree.
+ #
+@@ -558,10 +543,9 @@
  
  ##
- # @QCryptoBlockLUKSKeyslotState:
+ # @CxlExtentRemovalPolicy:
 -#
--# Defines state of keyslots that are affected by the update
-+#     Defines state of keyslots that are affected by the update
+-# The policy to use for selecting which extents comprise the released
+-# capacity, defined in the "Flags" field in Compute Express Link (CXL)
+-# Specification, Revision 3.1, Table 7-71.
++#     The policy to use for selecting which extents comprise the
++#     released capacity, defined in the "Flags" field in Compute
++#     Express Link (CXL) Specification, Revision 3.1, Table 7-71.
  #
- # @active: The slots contain the given password and marked as active
- #
-@@ -365,9 +350,8 @@
+ # @tag-based: Extents are selected by the device based on tag, with
+ #     no requirement for contiguous extents.
+@@ -578,12 +562,12 @@
  
  ##
- # @QCryptoBlockAmendOptionsLUKS:
+ # @cxl-release-dynamic-capacity:
 -#
--# This struct defines the update parameters that activate/de-activate
--# set of keyslots
-+#     This struct defines the update parameters that
-+#     activate/de-activate set of keyslots
+-# Initiate release of dynamic capacity extents from a host.  This
+-# simulates operations defined in Compute Express Link (CXL)
+-# Specification, Revision 3.1, Section 7.6.7.6.6.  Note that,
+-# currently, success or failure of the full Release Dynamic Capacity
+-# flow requires out of band communication with the OS of the CXL host.
++#     Initiate release of dynamic capacity extents from a host.  This
++#     simulates operations defined in Compute Express Link (CXL)
++#     Specification, Revision 3.1, Section 7.6.7.6.6.  Note that,
++#     currently, success or failure of the full Release Dynamic
++#     Capacity flow requires out of band communication with the OS of
++#     the CXL host.
  #
- # @state: the desired state of the keyslots
- #
-@@ -407,9 +391,8 @@
- 
- ##
- # @QCryptoBlockAmendOptions:
--#
--# The options that are available for all encryption formats when
--# amending encryption settings
-+#     The options that are available for all encryption formats when
-+#     amending encryption settings
- #
- # Since: 5.1
- ##
-@@ -421,8 +404,7 @@
- 
- ##
- # @SecretCommonProperties:
--#
--# Properties for objects of classes derived from secret-common.
-+#     Properties for objects of classes derived from secret-common.
- #
- # @format: the data format that the secret is provided in
- #     (default: raw)
-@@ -463,8 +445,7 @@
- 
- ##
- # @SecretKeyringProperties:
--#
--# Properties for secret_keyring objects.
-+#     Properties for secret_keyring objects.
- #
- # @serial: serial number that identifies a key to get from the kernel
- #
-@@ -477,8 +458,7 @@
- 
- ##
- # @TlsCredsProperties:
--#
--# Properties for objects of classes derived from tls-creds.
-+#     Properties for objects of classes derived from tls-creds.
- #
- # @verify-peer: if true the peer credentials will be verified once the
- #     handshake is completed.  This is a no-op for anonymous
-@@ -503,8 +483,7 @@
- 
- ##
- # @TlsCredsAnonProperties:
--#
--# Properties for tls-creds-anon objects.
-+#     Properties for tls-creds-anon objects.
- #
- # Since: 2.5
- ##
-@@ -514,8 +493,7 @@
- 
- ##
- # @TlsCredsPskProperties:
--#
--# Properties for tls-creds-psk objects.
-+#     Properties for tls-creds-psk objects.
- #
- # @username: the username which will be sent to the server.  For
- #     clients only.  If absent, "qemu" is sent and the property will
-@@ -529,8 +507,7 @@
- 
- ##
- # @TlsCredsX509Properties:
--#
--# Properties for tls-creds-x509 objects.
-+#     Properties for tls-creds-x509 objects.
- #
- # @sanity-check: if true, perform some sanity checks before using the
- #     credentials (default: true)
-@@ -550,8 +527,7 @@
- 
- ##
- # @QCryptoAkCipherAlgo:
--#
--# The supported algorithms for asymmetric encryption ciphers
-+#     The supported algorithms for asymmetric encryption ciphers
- #
- # @rsa: RSA algorithm
- #
-@@ -562,8 +538,7 @@
- 
- ##
- # @QCryptoAkCipherKeyType:
--#
--# The type of asymmetric keys.
-+#     The type of asymmetric keys.
- #
- # @public: public key
- #
-@@ -576,8 +551,7 @@
- 
- ##
- # @QCryptoRSAPaddingAlgo:
--#
--# The padding algorithm for RSA.
-+#     The padding algorithm for RSA.
- #
- # @raw: no padding used
- #
-@@ -590,8 +564,7 @@
- 
- ##
- # @QCryptoAkCipherOptionsRSA:
--#
--# Specific parameters for RSA algorithm.
-+#     Specific parameters for RSA algorithm.
- #
- # @hash-alg: `QCryptoHashAlgo`
- #
-@@ -605,9 +578,8 @@
- 
- ##
- # @QCryptoAkCipherOptions:
--#
--# The options that are available for all asymmetric key algorithms
--# when creating a new QCryptoAkCipher.
-+#     The options that are available for all asymmetric key algorithms
-+#     when creating a new QCryptoAkCipher.
- #
- # @alg: encryption cipher algorithm
+ # @path: path to the CXL Dynamic Capacity Device in the QOM tree.
  #
 -- 
 2.55.0
