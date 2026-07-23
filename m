@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6025138643B
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04C7367F59
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782189; cv=none; b=HeiW/CygCwDicRFAfIGDDqQJaIXaxEk0NfjP0+tDU3Vms4Of09md70kVa6juEBBxQrm5y0bBvl9Rkw9abp8xyH0Gh2BmdWPfK5Mr0pwruKSztXxGfiGhYAH0L1rz0KJjDwN+fWYPx5FuXNvx+WR6heqWZLBqHUSyMU/zDLCrhqo=
+	t=1784782202; cv=none; b=kvW7tCxRdt7TPhrrowYWSgkvdsqfq7HVsOfU1mtcyGqrU7Q6ocduOKT0WGE6IcJKWLnIBuBUCFj8yC80ACFnDW0rCCeX2TxNkiPN+C3LQvOXhCEyfA/k6D6XvYKUIJOYA7IvsOigetgcs5kCLuiiFz6f+WE5TZhQ5nd+p4psjaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782189; c=relaxed/simple;
-	bh=L+iOmQeNvN6QFgO0pttbSR4NbW1oz78TUpIlB66W63U=;
+	s=arc-20240116; t=1784782202; c=relaxed/simple;
+	bh=Ym25x7Zv3x7N+C0tP/dPjzFNtNKCFQ0U/ewl9UnIq3o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sgi2rGEKAtqH0FWTO+zHyX3vu+mMetmIktEpxu3r5ZNfi22Y6QJPB9IfvhdIKuwVuXrc8qncaNFtzVvM5O9UlJTI0k6IgYjZcgTb4cqQADxAafM4e2s27Wt6Vv6FT19iGvZOpwmPx1pMU5BNByj3cIVzxDROkv8nVFP/mn0a8Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MUiZbrFl; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=Xb6SJ5zlgAb1BwITaCn7dFqE7HWjMHgblf2hkNxLCvp+APlnMl5Shgrnz5HwNNNRewtIenXvtJ+Ey/5JSPKV6CgVg66lG2Iycp0VSytzZ4rNp/uoYTz6Uvh68V5kv14QZGEE83VssMQGY9MPMTBX1Ezy9CYjsKyscyRq/88oGyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TXFF4E+F; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MUiZbrFl"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TXFF4E+F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782175;
+	s=mimecast20190719; t=1784782185;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IqN+pz/6fcmsONkCRkuffRAAiopB88H75SjiniCSIHM=;
-	b=MUiZbrFl9vaEMiw/9VjQl21Xl9G9veMMKHv2WekcjnBumQSqWy5V72IS0sJCn9fNMDiX2K
-	cz1al6cWE8ySk1JG4DwciLN9ZGM36xjAh2HqyTFWicpsqQ6W6t3q7cyBbw54YvHOf/BZJM
-	yOz5jgPkBEMOQk9H5i6TYKDgsR7HEd8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=Ye3PMO0BcG5/sMMpltL1f7W/lGgNiDmYNE87s2b0G5s=;
+	b=TXFF4E+FVQbrE6PvFGsZPF7205HIyavECvNG6mzef5wro3RevtvCJLq/icPF/PjpzKsM38
+	ERrv+VQ9mtpNKi/ZbEcS8Ts56ZQWJhiegtK50Os++8vzITE/CiFjJoV3a+oetTwouBB4X0
+	6rSheFNKjeUmoegXDjH6ReSzgnZ575I=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-504-fnqsRcTpMmexNk4oM6rNiQ-1; Thu,
- 23 Jul 2026 00:49:30 -0400
-X-MC-Unique: fnqsRcTpMmexNk4oM6rNiQ-1
-X-Mimecast-MFC-AGG-ID: fnqsRcTpMmexNk4oM6rNiQ_1784782168
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-564-GsPbBZ2_Ou-Y7VbJ9TXBEA-1; Thu,
+ 23 Jul 2026 00:49:40 -0400
+X-MC-Unique: GsPbBZ2_Ou-Y7VbJ9TXBEA-1
+X-Mimecast-MFC-AGG-ID: GsPbBZ2_Ou-Y7VbJ9TXBEA_1784782177
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E34B91800A33;
-	Thu, 23 Jul 2026 04:49:27 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C2C641955DC2;
+	Thu, 23 Jul 2026 04:49:37 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F3C5718002AE;
-	Thu, 23 Jul 2026 04:49:19 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 62CA918002AE;
+	Thu, 23 Jul 2026 04:49:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 07/44] qapi: convert intro sections for trace.json
-Date: Thu, 23 Jul 2026 00:47:28 -0400
-Message-ID: <20260723044805.527643-8-jsnow@redhat.com>
+Subject: [PATCH v2 08/44] qapi: convert trivial intro sections for misc-arm.json
+Date: Thu, 23 Jul 2026 00:47:29 -0400
+Message-ID: <20260723044805.527643-9-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,52 +98,48 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/trace.json | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ qapi/misc-arm.json | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/qapi/trace.json b/qapi/trace.json
-index de369dae6b5..29c76256055 100644
---- a/qapi/trace.json
-+++ b/qapi/trace.json
-@@ -14,8 +14,7 @@
+diff --git a/qapi/misc-arm.json b/qapi/misc-arm.json
+index 4dc66d00e5c..8cb2ea77951 100644
+--- a/qapi/misc-arm.json
++++ b/qapi/misc-arm.json
+@@ -5,11 +5,10 @@
  
  ##
- # @TraceEventState:
+ # @GICCapability:
 -#
--# State of a tracing event.
-+#     State of a tracing event.
+-# The struct describes capability for a specific GIC (Generic
+-# Interrupt Controller) version.  These bits are not only decided by
+-# QEMU/KVM software version, but also decided by the hardware that the
+-# program is running upon.
++#     The struct describes capability for a specific GIC (Generic
++#     Interrupt Controller) version.  These bits are not only decided
++#     by QEMU/KVM software version, but also decided by the hardware
++#     that the program is running upon.
  #
- # @unavailable: The event is statically disabled.
- #
-@@ -30,8 +29,7 @@
+ # @version: version of GIC to be described.  Currently, only 2 and 3
+ #     are supported.
+@@ -48,8 +47,7 @@
  
  ##
- # @TraceEventInfo:
+ # @SsidSizeMode:
 -#
--# Information of a tracing event.
-+#     Information of a tracing event.
+-# SMMUv3 SubstreamID size configuration mode.
++#     SMMUv3 SubstreamID size configuration mode.
  #
- # @name: Event name.
+ # @auto: derive from host IOMMU capabilities
  #
-@@ -44,8 +42,7 @@
+@@ -64,8 +62,7 @@
  
  ##
- # @trace-event-get-state:
+ # @OasMode:
 -#
--# Query the state of events.
-+#     Query the state of events.
+-# SMMUv3 Output Address Size configuration mode.
++#     SMMUv3 Output Address Size configuration mode.
  #
- # @name: Event name pattern (case-sensitive glob).
- #
-@@ -65,8 +62,7 @@
- 
- ##
- # @trace-event-set-state:
--#
--# Set the dynamic tracing state of events.
-+#     Set the dynamic tracing state of events.
- #
- # @name: Event name pattern (case-sensitive glob).
+ # @auto: derive from host IOMMU capabilities
  #
 -- 
 2.55.0
