@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65185386C12
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D886A37E2F7
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782160; cv=none; b=gzvr+usWN5Y+v08pwJto+IK13OGHbtKM/MJd41mAqrKZlIMK50b3cSl27v14QjCoi2NMnVlZsqRFSuoKVe2LtzENZ0efApHtTw6jCRQh9PJbtA/NdDao3nKexrzqcHXrzwlm+ua+wZpNmuoKYAa//mJ+wTMJr7J44wgGo81GYTo=
+	t=1784782160; cv=none; b=n0s9JqeiRagSAHpAiwMOnMsVX0Q89bKkisIqWw46CFkBlkhe6F/u3QD21RrZHkC+FXPnHIlEvX6f52ylCvWRn02LccFXMEtt8Kzlg1w3gRq4KJQn+iI89tOR94Nf8Wc1kXRguIGcsShEZxx7eRo5BAn5p0sNuy3Bgc0F+JKNqEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784782160; c=relaxed/simple;
-	bh=yIS5Q9ipsL3Axb+naalhxpGiIo1fXIPDAwq0GOjCaSg=;
+	bh=DlT0603oOx+k3hPD0c15F/LknX5BsjoQ5+rCXZ1zohE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AbebR9SRgSJnBaOjCXI5Bvm6SJY2NCR+suZfv1Tvu4aThXlj90dBelIvpGrNFzTEH3bH6Mc/R3+20y5O8ITZP+a8GnNocgZF9rWT2UmNx0RNz5JTlDshN+1u0jJs7UkNkei8IGcr4EptZ2s49HQyt810lLnWg5QATRFAn7Zrrho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KJvCp9Re; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=CnZX24MULQVyethC6a1xWEWRmj1Q55FwB/zu7Z+jF/ppqziQ0y6jxn87pFXdN2zBWQ4S6oeoJ9v6uGBZ68A/tz41xKE74nvNEJnlAycGWBfEVLZmyr1aNs62VZg/9dXqPlwiQeEyLYt89Yc4EPHkRkx1bhtUtw943GsabFefVIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=heRSeHke; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KJvCp9Re"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="heRSeHke"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782147;
+	s=mimecast20190719; t=1784782137;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o+bQR//T6yQ1PPsE5y6DgGjYaFx3qqyzrYEDUIB8MPE=;
-	b=KJvCp9ReWJE3CKkqgdGJaGohG7Wbf2jSSRGkPdng6Gsc2uyy7Ey5tig2WgQNTvrlbAbhya
-	w1KiMcfbQ6lWY3nXiOVaxcanPbvo0JKkYDUgcox/7T1GeYPqdb5jJwYUs/KZysKrtnGF8F
-	jBr4u/oFu6Cnpcl7TnKAEUF2O6+hVpA=
+	bh=NSEF3Y3+ufb+xLGwy5XyD2M1KREl2XGjKup2Cecdxwg=;
+	b=heRSeHkeE33oQxBPSY31gvbwxnT/pM2YWTFIrs7LvxBPk7/aVn5+DT+D/AWEBv4ASJN/XH
+	oqij9wuNBs4nKM37VEJP0LRR3zqnZY4cwAE2WFn9I1M/+qqulubEORLKRViwD0W3FWg7eK
+	/xo4TKJ+0HIgjJSlCyJjvMNUb6EKXwM=
 Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-100-eQm3yPQvNnmtw7CwDzAuJA-1; Thu,
- 23 Jul 2026 00:49:02 -0400
-X-MC-Unique: eQm3yPQvNnmtw7CwDzAuJA-1
-X-Mimecast-MFC-AGG-ID: eQm3yPQvNnmtw7CwDzAuJA_1784782140
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-235-5koa4SSgPwmIuwVIehVJAA-1; Thu,
+ 23 Jul 2026 00:48:52 -0400
+X-MC-Unique: 5koa4SSgPwmIuwVIehVJAA-1
+X-Mimecast-MFC-AGG-ID: 5koa4SSgPwmIuwVIehVJAA_1784782130
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EA336182E6BA;
-	Thu, 23 Jul 2026 04:48:58 +0000 (UTC)
-Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA0BD18002B4;
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 895981800759;
 	Thu, 23 Jul 2026 04:48:49 +0000 (UTC)
+Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E8BB018002AE;
+	Thu, 23 Jul 2026 04:48:39 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 04/44] qapi: convert intro sections for uefi.json
-Date: Thu, 23 Jul 2026 00:47:25 -0400
-Message-ID: <20260723044805.527643-5-jsnow@redhat.com>
+Subject: [PATCH v2 03/44] qapi: convert intro sections for ebpf.json
+Date: Thu, 23 Jul 2026 00:47:24 -0400
+Message-ID: <20260723044805.527643-4-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,24 +98,47 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/uefi.json | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ qapi/ebpf.json | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/qapi/uefi.json b/qapi/uefi.json
-index 86f33b234ba..cb2b5e1f531 100644
---- a/qapi/uefi.json
-+++ b/qapi/uefi.json
-@@ -17,9 +17,8 @@
+diff --git a/qapi/ebpf.json b/qapi/ebpf.json
+index f0257955fa2..1f7a4d5c126 100644
+--- a/qapi/ebpf.json
++++ b/qapi/ebpf.json
+@@ -20,8 +20,7 @@
  
  ##
- # @UefiVariable:
+ # @EbpfObject:
 -#
--# UEFI Variable.  Check the UEFI specification for more detailed
--# information on the fields.
-+#     UEFI Variable.  Check the UEFI specification for more detailed
-+#     information on the fields.
+-# An eBPF ELF object.
++#     An eBPF ELF object.
  #
- # @guid: variable namespace GUID
+ # @object: the eBPF object encoded in base64
+ #
+@@ -33,8 +32,7 @@
+ 
+ ##
+ # @EbpfProgramID:
+-#
+-# The eBPF programs that can be gotten with `request-ebpf`.
++#     The eBPF programs that can be gotten with `request-ebpf`.
+ #
+ # @rss: Receive side scaling, technology that allows steering traffic
+ #     between queues by calculation hash.  Users may set up
+@@ -49,10 +47,10 @@
+ 
+ ##
+ # @request-ebpf:
+-#
+-# Retrieve an eBPF object that can be loaded with libbpf.  Management
+-# applications (e.g. libvirt) may load it and pass file descriptors to
+-# QEMU, so they can run running QEMU without BPF capabilities.
++#     Retrieve an eBPF object that can be loaded with libbpf.
++#     Management applications (e.g. libvirt) may load it and pass file
++#     descriptors to QEMU, so they can run running QEMU without BPF
++#     capabilities.
+ #
+ # @id: The ID of the program to return.
  #
 -- 
 2.55.0
