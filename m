@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C81138AC8E
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:52:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5B43921F6
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:52:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782377; cv=none; b=Rpsz3NQQd6TYTasx2XUewlUzJ+EHxY58ybf7qrQcvLOC1iyq5lVRQewkpjB7E1KexpTRJs4Z2jRtFsEteVZbga8DeAEfR8LjgqEM+2+3liroDERsRGwbRDjoxs1o0aYgS4t6SsBXZAPTuTNlqJVv/chfvZagL0BDNNEGGCtBwiE=
+	t=1784782386; cv=none; b=DuBprLJ4Rie9jWgO26LIx+419a1foj5F12Lt+khzsBvVueN8sKDFLim79TsPcw/aSgGv+muQ3VDIG7S1UjLOi1u55biYvXJfIetEnJvMJa22ym4JxfLGXKxKVSyNu1dradxVY6o7pY0IYi1G7pD1rvJBLqwjxMKx/JmbN8/SjhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782377; c=relaxed/simple;
-	bh=fvbFViWxlsLw0dxP9/sLQqPRr2Av3xQxx1kvSyu70uk=;
+	s=arc-20240116; t=1784782386; c=relaxed/simple;
+	bh=ISdsTBKyh5/yfZIF+B4NVAQpEYcluqerKm79YKQ6QIM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lxp+/RcVyjr/63gqY0+9vqGc50f+8JyJRBBQaQ0R8su7aWpor1Yss7XYvxpPn2IgIqwbOu3k+GMqAqPYw+Uwa2dhXf6huSydRzNq+GFZ/4rYUNh3m3BO0ElVJaSDD6c5kZvmmI36rwFClL8hoKE6HijPcKVGNUeQAf2aAbmuVg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YBFZryQ/; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=kEq73JdZV638m3+Lcq8GScQ4wmS3U5eswimJR7bLh44bi7U2aDs2aBD2+4lPhkp69oG0LnXnrYbZR9p+UCG8z2yzFlEjsWK4aV1kWpyKS6yh5zgS6e6epepI/6NJHa17eQqwtp8DkRLl/TvRN3hohumFEtpMIZQXbzqPjDg3nmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZebUIa4H; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YBFZryQ/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZebUIa4H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782365;
+	s=mimecast20190719; t=1784782374;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pvnZrfXGzB4HFIplW/5U/ErhFdiu8ZVe2fFge+4xFIc=;
-	b=YBFZryQ/7f8WBFb+SgYeYmeVHjEaNHmeF9DUw5nULXxUBlWqhV0/qAHIA62hWSQtkOPLfX
-	z9A4rVMQJzFmgjfl3njJPY7pMrXvl5EwWnSDFiNZtH5lV3e4pOBESifB8oXWqHiLNhwQHB
-	WS2kI6tEn5w0fO74OlOKXKMFiABShpo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=94ztoHJSekPaBu9gQO06nFEY6BVwCOp3ZmuxtD8vWVs=;
+	b=ZebUIa4HBqrHwgySKQ6LICxR7hQLUo43pTBiQYivbX49KFP2Z3yte2gP9cmF3iKa1kGu2b
+	q6+dVBqz3UCGeJxvGP6eyENKtKUh3s78zNgxUe37PSbP3AQA5gMseFT9nA7z++l9eP4Um0
+	L7zKc4DIaJnhVxFHVqbZ7ksWgU9FuXI=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-664-wd4iwakjORKRG7QDMyIIYw-1; Thu,
- 23 Jul 2026 00:52:41 -0400
-X-MC-Unique: wd4iwakjORKRG7QDMyIIYw-1
-X-Mimecast-MFC-AGG-ID: wd4iwakjORKRG7QDMyIIYw_1784782359
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-28-eyNaZrN6Oli8Es0NTKYNFQ-1; Thu,
+ 23 Jul 2026 00:52:50 -0400
+X-MC-Unique: eyNaZrN6Oli8Es0NTKYNFQ-1
+X-Mimecast-MFC-AGG-ID: eyNaZrN6Oli8Es0NTKYNFQ_1784782367
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D070D190C40C;
-	Thu, 23 Jul 2026 04:52:38 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3D7A21977517;
+	Thu, 23 Jul 2026 04:52:47 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0C3AB18002B6;
-	Thu, 23 Jul 2026 04:52:28 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 528D3180029D;
+	Thu, 23 Jul 2026 04:52:39 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 26/44] qapi: convert intro sections for pci.json
-Date: Thu, 23 Jul 2026 00:47:47 -0400
-Message-ID: <20260723044805.527643-27-jsnow@redhat.com>
+Subject: [PATCH v2 27/44] qapi: convert trivial intro sections for introspect.json
+Date: Thu, 23 Jul 2026 00:47:48 -0400
+Message-ID: <20260723044805.527643-28-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,103 +98,149 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/pci.json | 27 +++++++++------------------
- 1 file changed, 9 insertions(+), 18 deletions(-)
+ qapi/introspect.json | 45 ++++++++++++++++----------------------------
+ 1 file changed, 16 insertions(+), 29 deletions(-)
 
-diff --git a/qapi/pci.json b/qapi/pci.json
-index 694c741e420..a6a79f91afc 100644
---- a/qapi/pci.json
-+++ b/qapi/pci.json
-@@ -13,8 +13,7 @@
+diff --git a/qapi/introspect.json b/qapi/introspect.json
+index c8432c8ed8e..bd42aac3358 100644
+--- a/qapi/introspect.json
++++ b/qapi/introspect.json
+@@ -55,9 +55,8 @@
  
  ##
- # @PciMemoryRange:
+ # @SchemaMetaType:
 -#
--# A PCI device memory region
-+#     A PCI device memory region
+-# This is a `SchemaInfo`'s meta type, i.e. the kind of entity it
+-# describes.
++#     This is a `SchemaInfo`'s meta type, i.e. the kind of entity it
++#     describes.
  #
- # @base: the starting address (guest physical)
+ # @builtin: a predefined type such as 'int' or 'bool'.
  #
-@@ -26,8 +25,7 @@
+@@ -112,8 +111,7 @@
  
  ##
- # @PciMemoryRegion:
+ # @SchemaInfoBuiltin:
 -#
--# Information about a PCI device I/O region.
-+#     Information about a PCI device I/O region.
+-# Additional `SchemaInfo` members for meta-type 'builtin'.
++#     Additional `SchemaInfo` members for meta-type 'builtin'.
  #
- # @bar: the index of the Base Address Register for this region
+ # @json-type: the JSON type used for this type on the wire.
  #
-@@ -51,8 +49,7 @@
+@@ -124,10 +122,9 @@
  
  ##
- # @PciBusInfo:
+ # @JSONType:
 -#
--# Information about a bus of a PCI Bridge device
-+#     Information about a bus of a PCI Bridge device
+-# The four primitive and two structured types according to RFC 8259
+-# section 1, plus 'int' (split off 'number'), plus the obvious top
+-# type 'value'.
++#     The four primitive and two structured types according to RFC
++#     8259 section 1, plus 'int' (split off 'number'), plus the
++#     obvious top type 'value'.
  #
- # @number: primary bus interface number.  This should be the number of
- #     the bus the device resides on.
-@@ -80,8 +77,7 @@
+ # @string: JSON string
+ #
+@@ -153,8 +150,7 @@
  
  ##
- # @PciBridgeInfo:
+ # @SchemaInfoEnum:
 -#
--# Information about a PCI Bridge device
-+#     Information about a PCI Bridge device
+-# Additional `SchemaInfo` members for meta-type 'enum'.
++#     Additional `SchemaInfo` members for meta-type 'enum'.
  #
- # @bus: information about the bus the device resides on
- #
-@@ -94,8 +90,7 @@
+ # @members: the enum type's members, in no particular order.
+ #     (since 6.2)
+@@ -178,8 +174,7 @@
  
  ##
- # @PciDeviceClass:
+ # @SchemaInfoEnumMember:
 -#
--# Information about the Class of a PCI device
-+#     Information about the Class of a PCI device
+-# An object member.
++#     An object member.
  #
- # @desc: a string description of the device's class (not stable, and
- #     should only be treated as informational)
-@@ -109,8 +104,7 @@
+ # @name: the member's name, as defined in the QAPI schema.
+ #
+@@ -193,8 +188,7 @@
  
  ##
- # @PciDeviceId:
+ # @SchemaInfoArray:
 -#
--# Information about the Id of a PCI device
-+#     Information about the Id of a PCI device
+-# Additional `SchemaInfo` members for meta-type 'array'.
++#     Additional `SchemaInfo` members for meta-type 'array'.
  #
- # @device: the PCI device id
+ # @element-type: the array type's element type.
  #
-@@ -128,8 +122,7 @@
+@@ -207,8 +201,7 @@
  
  ##
- # @PciDeviceInfo:
+ # @SchemaInfoObject:
 -#
--# Information about a PCI device
-+#     Information about a PCI device
+-# Additional `SchemaInfo` members for meta-type 'object'.
++#     Additional `SchemaInfo` members for meta-type 'object'.
  #
- # @bus: the bus number of the device
- #
-@@ -161,8 +154,7 @@
+ # @members: the object type's (non-variant) members, in no particular
+ #     order.
+@@ -232,8 +225,7 @@
  
  ##
- # @PciInfo:
+ # @SchemaInfoObjectMember:
 -#
--# Information about a PCI bus
-+#     Information about a PCI bus
+-# An object member.
++#     An object member.
  #
- # @bus: the bus index
+ # @name: the member's name, as defined in the QAPI schema.
  #
-@@ -174,8 +166,7 @@
+@@ -257,8 +249,7 @@
  
  ##
- # @query-pci:
+ # @SchemaInfoObjectVariant:
 -#
--# Return information about the PCI bus topology of the guest.
-+#     Return information about the PCI bus topology of the guest.
+-# The variant members for a value of the type tag.
++#     The variant members for a value of the type tag.
  #
- # Returns: a list of info for each PCI bus.  Each bus is
- #     represented by a json-object, which has a key with a json-array
+ # @case: a value of the type tag.
+ #
+@@ -272,8 +263,7 @@
+ 
+ ##
+ # @SchemaInfoAlternate:
+-#
+-# Additional `SchemaInfo` members for meta-type 'alternate'.
++#     Additional `SchemaInfo` members for meta-type 'alternate'.
+ #
+ # @members: the alternate type's members, in no particular order.  The
+ #     members' wire encoding is distinct, see
+@@ -288,8 +278,7 @@
+ 
+ ##
+ # @SchemaInfoAlternateMember:
+-#
+-# An alternate member.
++#     An alternate member.
+ #
+ # @type: the name of the member's type.
+ #
+@@ -300,8 +289,7 @@
+ 
+ ##
+ # @SchemaInfoCommand:
+-#
+-# Additional `SchemaInfo` members for meta-type 'command'.
++#     Additional `SchemaInfo` members for meta-type 'command'.
+ #
+ # @arg-type: the name of the object type that provides the command's
+ #     parameters.
+@@ -322,8 +310,7 @@
+ 
+ ##
+ # @SchemaInfoEvent:
+-#
+-# Additional `SchemaInfo` members for meta-type 'event'.
++#     Additional `SchemaInfo` members for meta-type 'event'.
+ #
+ # @arg-type: the name of the object type that provides the event's
+ #     parameters.
 -- 
 2.55.0
 
