@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE2B38F64E
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9DD38F95B
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782252; cv=none; b=j34bHdISZN8aifGUe1yBAKahN8BPfdLj8B+S0SpB0235zLXtVUYf5SVMafINN+obJfuahZJIt/zg+kbGgk8NrptM8NPBX/QzP0JGYcxhtyIK5QUslUzdERy8mqgeMyNyNuhpx19LvZ24Mp9U6BSoFMPw5PNoGKUmqf+zx2zkCCU=
+	t=1784782252; cv=none; b=MAIA0XKO7w+eqFjipw67E3NXhWZ3+hWPMJhui7DAP9QOlHEncXxNq8EE6A93zp9xKDIq2mG7xDXo1QzC5AsRMUJ3KqHUU+RPkpFtuEB8IssWLERlowtAzve0iEjAqsoT0UruyauV3+KaQCyC9DZd3MhcRI3z2m23nLDCO0M49mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784782252; c=relaxed/simple;
-	bh=EEVA3DLc8WUgAWrFrVwZBRbr2tuhR7vD7oHOnr3UP/Q=;
+	bh=QklHG4QGnbeZVqQQc2mZa33Rdh9VXt92JaO0bQyHJJ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VX7fngT4VSH4QF2GMYETkDNwjqUFecc0eC00P8UtoUU38YJNkubwTIdJ8bLXbhKjNoN+lwJoouwCyZyT3rA+IG2anEBZmk1hzVj83WN4x89yalhTbqnKqUnBhonhuIeGmz+Q6LgJfVbCzelfRDsYkBUc1+sKIky8BClkUnvgxDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c8XEZSfc; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=Pkq7fiQp72B7h3o307BSVCGi1GKqTIgOIn5JcWNKTOVjLAuqntEX6ObVzeK8pMo8GAPyIAuOsy9ui43zbHhyzR/ouCcZuhkf24aKeZYwAhP3fY364YaO49E6grrEzAwyup1k03TjF5PV8AhCsqe4rhsK1tzZycYH4g4+CUof5YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TjgUZ8QD; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c8XEZSfc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TjgUZ8QD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782245;
+	s=mimecast20190719; t=1784782233;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TMsbmtwIJsHsJ64Y/awhARhEChYJf52hplBgthhLPFc=;
-	b=c8XEZSfc7NsmjHJGhbRdQ0lRztsXMjP8BeOeRRaIDfO1BzDNkrdrcRetKMtkjd53FChWUz
-	v0yhKuvzzG6IhEwOQ08rXiig/hH3lMsjvyQXGQE38lqhGosTUal3QadFNGRN++911CQCHW
-	Sk+Xuq7wrOnzlkycPlOLU2kgitKR4sU=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=3S3HWop+zR66RgFI+ulHeqmicEzYN7TvQjZvmrL1hCo=;
+	b=TjgUZ8QDbupyDS3jV69KvRegS+UfpiYXgIpbMnsBszoVd5boCuJiFtql47SCUNDjdiFAVv
+	/LsPSyvXba3GBcIxWXwADfGmFlKlsLDSw5Nh514mo/icEgL9xDL+ygryiaikHJ6BoDXGFi
+	SnVZqnm4tmiMTHpKvfw3FZqaakSi+xU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-42-H7AG1BgiOSiid6wo1RwJ1A-1; Thu,
- 23 Jul 2026 00:50:40 -0400
-X-MC-Unique: H7AG1BgiOSiid6wo1RwJ1A-1
-X-Mimecast-MFC-AGG-ID: H7AG1BgiOSiid6wo1RwJ1A_1784782237
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-433-nXey0MRTM7WZ5yuVyDRzBA-1; Thu,
+ 23 Jul 2026 00:50:29 -0400
+X-MC-Unique: nXey0MRTM7WZ5yuVyDRzBA-1
+X-Mimecast-MFC-AGG-ID: nXey0MRTM7WZ5yuVyDRzBA_1784782226
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 219EA1954B26;
-	Thu, 23 Jul 2026 04:50:37 +0000 (UTC)
-Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4599F18002AE;
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0E6381800764;
 	Thu, 23 Jul 2026 04:50:26 +0000 (UTC)
+Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3207218002AE;
+	Thu, 23 Jul 2026 04:50:15 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 14/44] qapi: convert intro sections for replay.json
-Date: Thu, 23 Jul 2026 00:47:35 -0400
-Message-ID: <20260723044805.527643-15-jsnow@redhat.com>
+Subject: [PATCH v2 13/44] qapi: convert trivial intro sections for yank.json
+Date: Thu, 23 Jul 2026 00:47:34 -0400
+Message-ID: <20260723044805.527643-14-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,99 +98,72 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/replay.json | 45 ++++++++++++++++++++-------------------------
- 1 file changed, 20 insertions(+), 25 deletions(-)
+ qapi/yank.json | 25 ++++++++++---------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/qapi/replay.json b/qapi/replay.json
-index ccf84da68ef..db1440c09a6 100644
---- a/qapi/replay.json
-+++ b/qapi/replay.json
-@@ -12,8 +12,7 @@
+diff --git a/qapi/yank.json b/qapi/yank.json
+index f3cd5c15d60..8ac4b773653 100644
+--- a/qapi/yank.json
++++ b/qapi/yank.json
+@@ -10,9 +10,8 @@
  
  ##
- # @ReplayMode:
+ # @YankInstanceType:
 -#
--# Mode of the replay subsystem.
-+#     Mode of the replay subsystem.
+-# An enumeration of yank instance types.  See `YankInstance` for more
+-# information.
++#     An enumeration of yank instance types.  See `YankInstance` for
++#     more information.
  #
- # @none: normal execution mode.  Replay or record are not enabled.
- #
-@@ -30,8 +29,7 @@
+ # Since: 6.0
+ ##
+@@ -21,9 +20,8 @@
  
  ##
- # @ReplayInfo:
+ # @YankInstanceBlockNode:
 -#
--# Record/replay information.
-+#     Record/replay information.
+-# Specifies which block graph node to yank.  See `YankInstance` for
+-# more information.
++#     Specifies which block graph node to yank.  See `YankInstance`
++#     for more information.
  #
- # @mode: current mode.
+ # @node-name: the name of the block graph node
  #
-@@ -47,10 +45,9 @@
+@@ -34,9 +32,8 @@
  
  ##
- # @query-replay:
+ # @YankInstanceChardev:
 -#
--# Retrieve the record/replay information.  It includes current
--# instruction count which may be used for `replay-break` and
--# `replay-seek` commands.
-+#     Retrieve the record/replay information.  It includes current
-+#     instruction count which may be used for `replay-break` and
-+#     `replay-seek` commands.
+-# Specifies which character device to yank.  See `YankInstance` for
+-# more information.
++#     Specifies which character device to yank.  See `YankInstance`
++#     for more information.
  #
- # Returns: record/replay information.
+ # @id: the chardev's ID
  #
-@@ -66,13 +63,13 @@
+@@ -47,9 +44,8 @@
  
  ##
- # @replay-break:
+ # @YankInstance:
 -#
--# Set replay breakpoint at instruction count @icount.  Execution stops
--# when the specified instruction is reached.  There can be at most one
--# breakpoint.  When breakpoint is set, any prior one is removed.  The
--# breakpoint may be set only in replay mode and only "in the future",
--# i.e. at instruction counts greater than the current one.  The
--# current instruction count can be observed with `query-replay`.
-+#     Set replay breakpoint at instruction count @icount.  Execution
-+#     stops when the specified instruction is reached.  There can be
-+#     at most one breakpoint.  When breakpoint is set, any prior one
-+#     is removed.  The breakpoint may be set only in replay mode and
-+#     only "in the future", i.e. at instruction counts greater than
-+#     the current one.  The current instruction count can be observed
-+#     with `query-replay`.
+-# A yank instance can be yanked with the `yank` qmp command to recover
+-# from a hanging QEMU.
++#     A yank instance can be yanked with the `yank` qmp command to
++#     recover from a hanging QEMU.
  #
- # @icount: instruction count to stop at
+ # @type: yank instance type
  #
-@@ -87,9 +84,8 @@
+@@ -74,9 +70,8 @@
  
  ##
- # @replay-delete-break:
+ # @yank:
 -#
--# Remove replay breakpoint which was set with `replay-break`.  The
--# command is ignored when there are no replay breakpoints.
-+#     Remove replay breakpoint which was set with `replay-break`.  The
-+#     command is ignored when there are no replay breakpoints.
+-# Try to recover from hanging QEMU by yanking the specified instances.
+-# See `YankInstance` for more information.
++#     Try to recover from hanging QEMU by yanking the specified
++#     instances.  See `YankInstance` for more information.
  #
- # Since: 5.2
- #
-@@ -102,13 +98,12 @@
- 
- ##
- # @replay-seek:
--#
--# Automatically proceed to the instruction count @icount, when
--# replaying the execution.  The command automatically loads nearest
--# snapshot and replays the execution to find the desired instruction.
--# When there is no preceding snapshot or the execution is not
--# replayed, then the command fails.  Instruction count can be obtained
--# with the `query-replay` command.
-+#     Automatically proceed to the instruction count @icount, when
-+#     replaying the execution.  The command automatically loads
-+#     nearest snapshot and replays the execution to find the desired
-+#     instruction.  When there is no preceding snapshot or the
-+#     execution is not replayed, then the command fails.  Instruction
-+#     count can be obtained with the `query-replay` command.
- #
- # @icount: target instruction count
+ # @instances: the instances to be yanked
  #
 -- 
 2.55.0
