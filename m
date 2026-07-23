@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B676A390C8C
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE2B38F64E
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782238; cv=none; b=cnzC2simE4rTm2aelROx62N4RwY0gAittbybK3wueyQSDa1bGbV6BXSATLHfyIZf1WRuiyq5w/LXAVDrS3rtkKwysi92wpBBlXov399lsW7XAQ0fuE+1dzs0bSjHv9ToNXrrJlTJms3goxw86eLvCJextdC9LE9mYZ9i7TGM2u0=
+	t=1784782252; cv=none; b=j34bHdISZN8aifGUe1yBAKahN8BPfdLj8B+S0SpB0235zLXtVUYf5SVMafINN+obJfuahZJIt/zg+kbGgk8NrptM8NPBX/QzP0JGYcxhtyIK5QUslUzdERy8mqgeMyNyNuhpx19LvZ24Mp9U6BSoFMPw5PNoGKUmqf+zx2zkCCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782238; c=relaxed/simple;
-	bh=rryr0WFItAsHO7x6crTyERoi7Far+px966K3KPhfqzA=;
+	s=arc-20240116; t=1784782252; c=relaxed/simple;
+	bh=EEVA3DLc8WUgAWrFrVwZBRbr2tuhR7vD7oHOnr3UP/Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CsPrtejLa+ITAqYmlX5CIlVJZcJisY9Eal+foJvEPzla/k5TQGRQx6+/VDG1iW6DynvNScwmxLUQen0nyFNzSdOkACzRDAh7F2cAHvbmbOqWfmzHZWg/sEOznPQWD0Bri3N3PankIKZQVZuE6crfd7CDJukoAHZ2btC576n0YPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Il+KiPc+; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=VX7fngT4VSH4QF2GMYETkDNwjqUFecc0eC00P8UtoUU38YJNkubwTIdJ8bLXbhKjNoN+lwJoouwCyZyT3rA+IG2anEBZmk1hzVj83WN4x89yalhTbqnKqUnBhonhuIeGmz+Q6LgJfVbCzelfRDsYkBUc1+sKIky8BClkUnvgxDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c8XEZSfc; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Il+KiPc+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c8XEZSfc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782225;
+	s=mimecast20190719; t=1784782245;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TdL4XpFKkJHBP7qXMmxL4imk9A4iFnUzHbovAddFeL0=;
-	b=Il+KiPc+l4esDl4zOLJx+c7TsmnEgl7tfVLADtJyLrj0GZ16CLoZ7f+YILN2DBfMfAdVyz
-	mcxVFYzblz9GPQ/UETMd8IXeP9U9mb+iQZfntwcFP4lVVk302i/wA3VrdtxRIEyzjwkljk
-	xsdbHaKg3uyFZ9WZ9tgshUS5zYZM6FU=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+	bh=TMsbmtwIJsHsJ64Y/awhARhEChYJf52hplBgthhLPFc=;
+	b=c8XEZSfc7NsmjHJGhbRdQ0lRztsXMjP8BeOeRRaIDfO1BzDNkrdrcRetKMtkjd53FChWUz
+	v0yhKuvzzG6IhEwOQ08rXiig/hH3lMsjvyQXGQE38lqhGosTUal3QadFNGRN++911CQCHW
+	Sk+Xuq7wrOnzlkycPlOLU2kgitKR4sU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-225-fkxXG0Z7OBCzAwn_mng0dg-1; Thu,
- 23 Jul 2026 00:50:18 -0400
-X-MC-Unique: fkxXG0Z7OBCzAwn_mng0dg-1
-X-Mimecast-MFC-AGG-ID: fkxXG0Z7OBCzAwn_mng0dg_1784782215
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-42-H7AG1BgiOSiid6wo1RwJ1A-1; Thu,
+ 23 Jul 2026 00:50:40 -0400
+X-MC-Unique: H7AG1BgiOSiid6wo1RwJ1A-1
+X-Mimecast-MFC-AGG-ID: H7AG1BgiOSiid6wo1RwJ1A_1784782237
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE9AA1955F7C;
-	Thu, 23 Jul 2026 04:50:15 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 219EA1954B26;
+	Thu, 23 Jul 2026 04:50:37 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 07486180029D;
-	Thu, 23 Jul 2026 04:50:05 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4599F18002AE;
+	Thu, 23 Jul 2026 04:50:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 12/44] qapi: convert intro sections for authz.json
-Date: Thu, 23 Jul 2026 00:47:33 -0400
-Message-ID: <20260723044805.527643-13-jsnow@redhat.com>
+Subject: [PATCH v2 14/44] qapi: convert intro sections for replay.json
+Date: Thu, 23 Jul 2026 00:47:35 -0400
+Message-ID: <20260723044805.527643-15-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,83 +98,100 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/authz.json | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ qapi/replay.json | 45 ++++++++++++++++++++-------------------------
+ 1 file changed, 20 insertions(+), 25 deletions(-)
 
-diff --git a/qapi/authz.json b/qapi/authz.json
-index bc1123cc053..b76c39c53af 100644
---- a/qapi/authz.json
-+++ b/qapi/authz.json
-@@ -9,8 +9,7 @@
+diff --git a/qapi/replay.json b/qapi/replay.json
+index ccf84da68ef..db1440c09a6 100644
+--- a/qapi/replay.json
++++ b/qapi/replay.json
+@@ -12,8 +12,7 @@
  
  ##
- # @QAuthZListPolicy:
+ # @ReplayMode:
 -#
--# The authorization policy result
-+#     The authorization policy result
+-# Mode of the replay subsystem.
++#     Mode of the replay subsystem.
  #
- # @deny: deny access
+ # @none: normal execution mode.  Replay or record are not enabled.
  #
-@@ -24,8 +23,7 @@
+@@ -30,8 +29,7 @@
  
  ##
- # @QAuthZListFormat:
+ # @ReplayInfo:
 -#
--# The authorization policy match format
-+#     The authorization policy match format
+-# Record/replay information.
++#     Record/replay information.
  #
- # @exact: an exact string match
+ # @mode: current mode.
  #
-@@ -39,8 +37,7 @@
+@@ -47,10 +45,9 @@
  
  ##
- # @QAuthZListRule:
+ # @query-replay:
 -#
--# A single authorization rule.
-+#     A single authorization rule.
+-# Retrieve the record/replay information.  It includes current
+-# instruction count which may be used for `replay-break` and
+-# `replay-seek` commands.
++#     Retrieve the record/replay information.  It includes current
++#     instruction count which may be used for `replay-break` and
++#     `replay-seek` commands.
  #
- # @match: a string or glob to match against a user identity
+ # Returns: record/replay information.
  #
-@@ -57,8 +54,7 @@
+@@ -66,13 +63,13 @@
  
  ##
- # @AuthZListProperties:
+ # @replay-break:
 -#
--# Properties for authz-list objects.
-+#     Properties for authz-list objects.
+-# Set replay breakpoint at instruction count @icount.  Execution stops
+-# when the specified instruction is reached.  There can be at most one
+-# breakpoint.  When breakpoint is set, any prior one is removed.  The
+-# breakpoint may be set only in replay mode and only "in the future",
+-# i.e. at instruction counts greater than the current one.  The
+-# current instruction count can be observed with `query-replay`.
++#     Set replay breakpoint at instruction count @icount.  Execution
++#     stops when the specified instruction is reached.  There can be
++#     at most one breakpoint.  When breakpoint is set, any prior one
++#     is removed.  The breakpoint may be set only in replay mode and
++#     only "in the future", i.e. at instruction counts greater than
++#     the current one.  The current instruction count can be observed
++#     with `query-replay`.
  #
- # @policy: Default policy to apply when no rule matches (default:
- #     deny)
-@@ -73,8 +69,7 @@
+ # @icount: instruction count to stop at
+ #
+@@ -87,9 +84,8 @@
  
  ##
- # @AuthZListFileProperties:
+ # @replay-delete-break:
 -#
--# Properties for authz-listfile objects.
-+#     Properties for authz-listfile objects.
+-# Remove replay breakpoint which was set with `replay-break`.  The
+-# command is ignored when there are no replay breakpoints.
++#     Remove replay breakpoint which was set with `replay-break`.  The
++#     command is ignored when there are no replay breakpoints.
  #
- # @filename: File name to load the configuration from.  The file must
- #     contain valid JSON for `AuthZListProperties`.
-@@ -93,8 +88,7 @@
+ # Since: 5.2
+ #
+@@ -102,13 +98,12 @@
  
  ##
- # @AuthZPAMProperties:
+ # @replay-seek:
 -#
--# Properties for authz-pam objects.
-+#     Properties for authz-pam objects.
+-# Automatically proceed to the instruction count @icount, when
+-# replaying the execution.  The command automatically loads nearest
+-# snapshot and replays the execution to find the desired instruction.
+-# When there is no preceding snapshot or the execution is not
+-# replayed, then the command fails.  Instruction count can be obtained
+-# with the `query-replay` command.
++#     Automatically proceed to the instruction count @icount, when
++#     replaying the execution.  The command automatically loads
++#     nearest snapshot and replays the execution to find the desired
++#     instruction.  When there is no preceding snapshot or the
++#     execution is not replayed, then the command fails.  Instruction
++#     count can be obtained with the `query-replay` command.
  #
- # @service: PAM service name to use for authorization
+ # @icount: target instruction count
  #
-@@ -105,8 +99,7 @@
- 
- ##
- # @AuthZSimpleProperties:
--#
--# Properties for authz-simple objects.
-+#     Properties for authz-simple objects.
- #
- # @identity: Identifies the allowed user.  Its format depends on the
- #     network service that authorization object is associated with.
 -- 
 2.55.0
 
