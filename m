@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB6338A739
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73793381EB8
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782407; cv=none; b=UsZRRnQe0iI69vR3RT74COjScxvL2NKSdiurVy4paBBY8NuAHhKazZforLEiCjlbzP/5j+9VY4Hu7hHe5ePfeToR72UzZp2ElM/7JX9TojuUFTaYcpKayXTehsz6PNGgWyEvuJ7UhNmQRxIgu9mbGhQpQHi6MppJM5WNJm0E+vw=
+	t=1784782406; cv=none; b=N5d+f+1SSRc78Fn+zdMpe/K6fRObyNDrIzU/TErDjW7LmDly9wcRELnCkgTkJ2mbJC6QWdOQ1/Y45e8lh9eIwdWJgfNNrPL0NQdoWopOsxwyu4+XIxC6J8eMmJT7svB11eWy0RVB/24YW/MeLs919IuPe7m6uTmCh3qFFLT6fog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782407; c=relaxed/simple;
-	bh=HFHzEvr20N8mbkFQJGSIYei8K90IICTBIU/XQ2h/97I=;
+	s=arc-20240116; t=1784782406; c=relaxed/simple;
+	bh=QSwP5k8lm+kJRPLuPICnUYduiWsO2mfk15l2+jfguiQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xq2EaVfRlzqSQ7NIJhNR2p/rvLggW0RB1LyNoG1XPZqI6fAhMjhDrNDakE299auL45cneayR1CmNgTvpVuDZy08QIAd3HBQep+7dTgIbSRA+hmJj8dLrVDjU/9E9pRptMQDRenMwjJayRi0chEpebVGCVmjxUHbomw4d2+Lfzpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cuW9Uwku; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=CinnXfD2TaYPhmdvdD4ZaVJxb8d3jpddfTKIpRcaoqA73paXwaAVn9G0ZPQl+TWI+xrSHIqJMcXYqNIhhJJlCkJBud/nxjKESZbh+pfGy/fJ80QQBTzwCnBJS8W6B7t/1g/+HQYjQkrO/quSuYV908fDicPPeGdhJvHzESOTneY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HQGm0uXG; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cuW9Uwku"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HQGm0uXG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782392;
+	s=mimecast20190719; t=1784782385;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TZNZu5l6HDHHmDozotlg5GKJJCb4xlZSAIjE4YcKWdo=;
-	b=cuW9Uwkuuse9L1NIc8lkTWI4lHRGO0Qwy9mSwNgFowD+RTCOf5zKpIHlfJKN1TXODxKKoE
-	3G89TuEJ0q4dbLmvxg+SBpjfeRVfY//pYxZjmdt5838IGmBKPHiU7yNj1lhhy2VYaBVYtI
-	ZGUkwRc0CJvY5lDugLDo599g82nvIMo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=BuLUJmRQbdL+tiBVb/y3st603k+nuJ/NK2BP1mGjFEM=;
+	b=HQGm0uXGtDralX+ZSJe/vBxdNP4gReXyJthagQp+ZfReSr7YHcybCb8j1eE5N7GMRxjXo8
+	8uPjaCOD0NHFphdxlpbOpgNFGMpoEWIGKMPFzsq7NwfdCBcLqgdieu7Mz/O4XO3gNp8BKS
+	jDubwBI+Lm/A4wLNLKXmmYDuO/TFhBk=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-634-JDYUe2VaNfGJJkoGCkgShQ-1; Thu,
- 23 Jul 2026 00:53:08 -0400
-X-MC-Unique: JDYUe2VaNfGJJkoGCkgShQ-1
-X-Mimecast-MFC-AGG-ID: JDYUe2VaNfGJJkoGCkgShQ_1784782385
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-205-CFvqc4DOO3CwZcM_zo-wjQ-1; Thu,
+ 23 Jul 2026 00:53:00 -0400
+X-MC-Unique: CFvqc4DOO3CwZcM_zo-wjQ-1
+X-Mimecast-MFC-AGG-ID: CFvqc4DOO3CwZcM_zo-wjQ_1784782377
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CD0971944DCE;
-	Thu, 23 Jul 2026 04:53:05 +0000 (UTC)
-Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A71CC18002AE;
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3B2AC1805F18;
 	Thu, 23 Jul 2026 04:52:57 +0000 (UTC)
+Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B996F18002B5;
+	Thu, 23 Jul 2026 04:52:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 29/44] qapi: convert trivial intro sections for misc-i386.json
-Date: Thu, 23 Jul 2026 00:47:50 -0400
-Message-ID: <20260723044805.527643-30-jsnow@redhat.com>
+Subject: [PATCH v2 28/44] qapi: convert intro sections for rocker.json
+Date: Thu, 23 Jul 2026 00:47:49 -0400
+Message-ID: <20260723044805.527643-29-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,176 +98,142 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/misc-i386.json | 52 ++++++++++++++++-----------------------------
- 1 file changed, 18 insertions(+), 34 deletions(-)
+ qapi/rocker.json | 39 +++++++++++++--------------------------
+ 1 file changed, 13 insertions(+), 26 deletions(-)
 
-diff --git a/qapi/misc-i386.json b/qapi/misc-i386.json
-index 05a94d6c416..78ec9aec647 100644
---- a/qapi/misc-i386.json
-+++ b/qapi/misc-i386.json
-@@ -25,8 +25,7 @@
+diff --git a/qapi/rocker.json b/qapi/rocker.json
+index 5d2dbd26034..7eb0a88dafd 100644
+--- a/qapi/rocker.json
++++ b/qapi/rocker.json
+@@ -9,8 +9,7 @@
  
  ##
- # @SevState:
+ # @RockerSwitch:
 -#
--# An enumeration of SEV state information used during `query-sev`.
-+#     An enumeration of SEV state information used during `query-sev`.
+-# Rocker switch information.
++#     Rocker switch information.
  #
- # @uninit: The guest is uninitialized.
+ # @name: switch name
  #
-@@ -52,8 +51,7 @@
+@@ -25,8 +24,7 @@
  
  ##
- # @SevGuestType:
+ # @query-rocker:
 -#
--# An enumeration indicating the type of SEV guest being run.
-+#     An enumeration indicating the type of SEV guest being run.
+-# Return rocker switch information.
++#     Return rocker switch information.
  #
- # @sev: The guest is a legacy SEV or SEV-ES guest.
+ # @name: switch name
  #
-@@ -66,8 +64,7 @@
+@@ -43,8 +41,7 @@
  
  ##
- # @SevGuestInfo:
+ # @RockerPortDuplex:
 -#
--# Information specific to legacy SEV/SEV-ES guests.
-+#     Information specific to legacy SEV/SEV-ES guests.
+-# An enumeration of port duplex states.
++#     An enumeration of port duplex states.
  #
- # @policy: SEV policy value
+ # @half: half duplex
  #
-@@ -81,8 +78,7 @@
+@@ -56,8 +53,7 @@
  
  ##
- # @SevSnpGuestInfo:
+ # @RockerPortAutoneg:
 -#
--# Information specific to SEV-SNP guests.
-+#     Information specific to SEV-SNP guests.
+-# An enumeration of port autoneg states.
++#     An enumeration of port autoneg states.
  #
- # @snp-policy: SEV-SNP policy value
+ # @off: autoneg is off
  #
-@@ -93,8 +89,7 @@
+@@ -69,8 +65,7 @@
  
  ##
- # @SevInfo:
+ # @RockerPort:
 -#
--# Information about Secure Encrypted Virtualization (SEV) support
-+#     Information about Secure Encrypted Virtualization (SEV) support
+-# Rocker switch port information.
++#     Rocker switch port information.
  #
- # @enabled: true if SEV is active
+ # @name: port name
  #
-@@ -144,8 +139,7 @@
+@@ -93,8 +88,7 @@
  
  ##
- # @SevLaunchMeasureInfo:
+ # @query-rocker-ports:
 -#
--# SEV Guest Launch measurement information
-+#     SEV Guest Launch measurement information
+-# Return rocker switch port information.
++#     Return rocker switch port information.
  #
- # @data: the measurement value encoded in base64
+ # @name: port name
  #
-@@ -180,9 +174,8 @@
+@@ -115,8 +109,7 @@
  
  ##
- # @SevCapability:
+ # @RockerOfDpaFlowKey:
 -#
--# The struct describes capability for a Secure Encrypted
--# Virtualization feature.
-+#     The struct describes capability for a Secure Encrypted
-+#     Virtualization feature.
+-# Rocker switch OF-DPA flow key
++#     Rocker switch OF-DPA flow key
  #
- # @pdh: Platform Diffie-Hellman key (base64 encoded)
+ # @priority: key priority, 0 being lowest priority
  #
-@@ -252,9 +245,8 @@
+@@ -153,8 +146,7 @@
  
  ##
- # @SevAttestationReport:
+ # @RockerOfDpaFlowMask:
 -#
--# The struct describes attestation report for a Secure Encrypted
--# Virtualization feature.
-+#     The struct describes attestation report for a Secure Encrypted
-+#     Virtualization feature.
+-# Rocker switch OF-DPA flow mask
++#     Rocker switch OF-DPA flow mask
  #
- # @data: guest attestation report (base64 encoded)
+ # @in-pport: physical input port
  #
-@@ -294,8 +286,7 @@
+@@ -182,8 +174,7 @@
  
  ##
- # @SgxEpcSection:
+ # @RockerOfDpaFlowAction:
 -#
--# Information about intel SGX EPC section
-+#     Information about intel SGX EPC section
+-# Rocker switch OF-DPA flow action
++#     Rocker switch OF-DPA flow action
  #
- # @node: the numa node
+ # @goto-tbl: next table ID
  #
-@@ -309,8 +300,7 @@
+@@ -209,8 +200,7 @@
  
  ##
- # @SgxInfo:
+ # @RockerOfDpaFlow:
 -#
--# Information about intel Safe Guard eXtension (SGX) support
-+#     Information about intel Safe Guard eXtension (SGX) support
+-# Rocker switch OF-DPA flow
++#     Rocker switch OF-DPA flow
  #
- # @sgx: true if SGX is supported
+ # @cookie: flow unique cookie ID
  #
-@@ -333,8 +323,7 @@
+@@ -230,8 +220,7 @@
  
  ##
- # @query-sgx:
+ # @query-rocker-of-dpa-flows:
 -#
--# Return information about configured SGX capabilities of guest
-+#     Return information about configured SGX capabilities of guest
+-# Return rocker OF-DPA flow information.
++#     Return rocker OF-DPA flow information.
  #
- # Since: 6.2
+ # @name: switch name
  #
-@@ -350,8 +339,7 @@
+@@ -261,8 +250,7 @@
  
  ##
- # @query-sgx-capabilities:
+ # @RockerOfDpaGroup:
 -#
--# Return information about SGX capabilities of host
-+#     Return information about SGX capabilities of host
+-# Rocker switch OF-DPA group
++#     Rocker switch OF-DPA group
  #
- # Since: 6.2
+ # @id: group unique ID
  #
-@@ -367,8 +355,7 @@
+@@ -305,8 +293,7 @@
  
  ##
- # @EvtchnPortType:
+ # @query-rocker-of-dpa-groups:
 -#
--# An enumeration of Xen event channel port types.
-+#     An enumeration of Xen event channel port types.
+-# Return rocker OF-DPA group information.
++#     Return rocker OF-DPA group information.
  #
- # @closed: The port is unused.
- #
-@@ -389,8 +376,7 @@
- 
- ##
- # @EvtchnInfo:
--#
--# Information about a Xen event channel port
-+#     Information about a Xen event channel port
- #
- # @port: the port number
- #
-@@ -419,8 +405,7 @@
- 
- ##
- # @xen-event-list:
--#
--# Query the Xen event channels opened by the guest.
-+#     Query the Xen event channels opened by the guest.
- #
- # Returns: list of open event channel ports.
- #
-@@ -456,8 +441,7 @@
- 
- ##
- # @xen-event-inject:
--#
--# Inject a Xen event channel port (interrupt) to the guest.
-+#     Inject a Xen event channel port (interrupt) to the guest.
- #
- # @port: The port number
+ # @name: switch name
  #
 -- 
 2.55.0
