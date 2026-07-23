@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE663515F7
-	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744F238B7D7
+	for <linux-edac@vger.kernel.org>; Thu, 23 Jul 2026 04:51:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782302; cv=none; b=RKFdFpnkYVH7RmCv5uzQ6EMjm3/bAOoq1Fo4Of2UuQ24q0qVfQescZOJBCL8Uf8h/spraXRCyARXuvZaNuBr4RHelcJM55t1tn13KmvWpmhbR3nojp1U+cx/k1FpShFbjv0n8qZZO0cbpluwqrZK8HBZKFK6l3thsenCDmXRS+I=
+	t=1784782314; cv=none; b=AULoWeMWKwXtAFqxjf6cNjhcqrLkllbk1WnVVY18NrC9ni5Pju5MNS4AVCzyIM6+CBf715Um9LR3IU+ckp7HrrDQPHmEwO/vb3r5y6yyMI7hR4F8uMaqtxjstCkvv6/Xwqv4Mp8eS19FjgDX4IZVtkQSM+0qHYTuALPHt0gVsEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782302; c=relaxed/simple;
-	bh=lml0sCwBNAe9/7CrXv9IEgiy9hZcb7xT94hK1k7jyA4=;
+	s=arc-20240116; t=1784782314; c=relaxed/simple;
+	bh=QBxM1wNgzfm0orZotjL7nP+s8THSCYCT7IJXfbAanbg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ixhfgu0/79kGaEjqeC+FqEESpqeWloBg5hD2uUI9Lt+w8d6/+rEtikjI2L2WlVvWhrCTqLpJFRAWFR07BN/vEX2Lw5SIXqXf5F8TLLjWemYvlzRM+6Z9eMj3uCdUqceuzwIjF1M5ZLoYGt8JfWT7WGuEpS/GTSwSCN+b0QQlwmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RQlyK9lQ; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=ObbmJG/fmmh1Jif8uNeMuBQfcBytrw4/hsLBWIHj0PQ7YfNA9hCnMyLijllCAe0XjHoESACKOE2Xwt5vyWWwwCfzCMFyEuxYEofMbIAQR5Eehc5CY3ZxgQ5b39Jb6b+kdJU2mXba9zVCIroXyFOJbKnYwb7APubnHpINm9fsMJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DoRMCZuw; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RQlyK9lQ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DoRMCZuw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784782287;
+	s=mimecast20190719; t=1784782294;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uK3gVanDkZsjvvgE0Rg1w4gDzuwAaXDx8DZDiRphsfQ=;
-	b=RQlyK9lQw4tcH1pXkkKG6sqpSX526UYpgVUFKeoFcp62BNz+BpbHA2jecgdQYktV3lrXiV
-	MEAA5JVzb+JlTMr2U4KwRseo7B9nrfbzlEgbusPs7jP9TacXu8rTKmwkm7qBUNgcZDvBiA
-	K7B7rvxdWjiStn8HLi7uYr0Tl4Gi03k=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=RQBoRfguD8OLDOwj7R7RrWifXT5ev1UlWkcynySt+sw=;
+	b=DoRMCZuwBr2ih65S294Rq4P1URcdakN7eEg61WVqRuPUps5MF1OOtNgAXRem2JbSB6TKKL
+	CZrMljjTcXbCal7Hf1BsOAukfpU6XpuwHdzyP5OiWCLVAgKhrKGz2B71zUms9bzkjsnaE0
+	48BXDSb15P/MzxK3BLigGyvApPFs13Y=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-44-1zGTlrKaO5G6JF2UIT2urw-1; Thu,
- 23 Jul 2026 00:51:22 -0400
-X-MC-Unique: 1zGTlrKaO5G6JF2UIT2urw-1
-X-Mimecast-MFC-AGG-ID: 1zGTlrKaO5G6JF2UIT2urw_1784782279
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-516-bvW1v_QYP0e3J7-uD-0_Kg-1; Thu,
+ 23 Jul 2026 00:51:32 -0400
+X-MC-Unique: bvW1v_QYP0e3J7-uD-0_Kg-1
+X-Mimecast-MFC-AGG-ID: bvW1v_QYP0e3J7-uD-0_Kg_1784782290
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5A3101954B26;
-	Thu, 23 Jul 2026 04:51:19 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EA0CF18007FB;
+	Thu, 23 Jul 2026 04:51:29 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.44])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5531018002AE;
-	Thu, 23 Jul 2026 04:51:09 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DAFF318002B5;
+	Thu, 23 Jul 2026 04:51:19 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Jason Wang <jasowangio@gmail.com>,
 	qemu-trivial@nongnu.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 18/44] qapi: convert trivial intro sections for qdev.json
-Date: Thu, 23 Jul 2026 00:47:39 -0400
-Message-ID: <20260723044805.527643-19-jsnow@redhat.com>
+Subject: [PATCH v2 19/44] qapi: convert trivial intro sections for control.json
+Date: Thu, 23 Jul 2026 00:47:40 -0400
+Message-ID: <20260723044805.527643-20-jsnow@redhat.com>
 In-Reply-To: <20260723044805.527643-1-jsnow@redhat.com>
 References: <20260723044805.527643-1-jsnow@redhat.com>
 Precedence: bulk
@@ -98,70 +98,105 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/qdev.json | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ qapi/control.json | 30 +++++++++++-------------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 974cf9c5830..a35321d2fd1 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -14,8 +14,7 @@
+diff --git a/qapi/control.json b/qapi/control.json
+index 9a5302193d6..0fc465936d8 100644
+--- a/qapi/control.json
++++ b/qapi/control.json
+@@ -10,8 +10,7 @@
  
  ##
- # @device-list-properties:
+ # @qmp_capabilities:
 -#
--# List properties associated with a device.
-+#     List properties associated with a device.
+-# Enable QMP capabilities.
++#     Enable QMP capabilities.
  #
- # @typename: the type name of a device
- #
-@@ -33,8 +32,7 @@
+ # @enable: An optional list of `QMPCapability` values to enable.  The
+ #     client must not enable any capability that is not mentioned in
+@@ -41,9 +40,9 @@
  
  ##
- # @device_add:
+ # @QMPCapability:
 -#
--# Add a device.
-+#     Add a device.
+-# Enumeration of capabilities to be advertised during initial client
+-# connection, used for agreeing on particular QMP extension behaviors.
++#     Enumeration of capabilities to be advertised during initial
++#     client connection, used for agreeing on particular QMP extension
++#     behaviors.
  #
- # @driver: the name of the new device's driver
- #
-@@ -85,8 +83,7 @@
+ # @oob: QMP ability to support out-of-band requests.  (Please refer to
+ #     qmp-spec.rst for more information on OOB)
+@@ -55,8 +54,7 @@
  
  ##
- # @device_del:
+ # @VersionTriple:
 -#
--# Remove a device from a guest
-+#     Remove a device from a guest
+-# A three-part version number.
++#     A three-part version number.
  #
- # @id: the device's ID or QOM path
+ # @major: The major version number.
  #
-@@ -121,11 +118,10 @@
+@@ -71,8 +69,7 @@
  
  ##
- # @DEVICE_DELETED:
+ # @VersionInfo:
 -#
--# Emitted whenever the device removal completion is acknowledged by
--# the guest.  At this point, it's safe to reuse the specified device
--# ID.  Device removal can be initiated by the guest or by HMP/QMP
--# commands.
-+#     Emitted whenever the device removal completion is acknowledged
-+#     by the guest.  At this point, it's safe to reuse the specified
-+#     device ID.  Device removal can be initiated by the guest or by
-+#     HMP/QMP commands.
+-# A description of QEMU's version.
++#     A description of QEMU's version.
  #
- # @device: the device's ID if it has one
- #
-@@ -145,9 +141,8 @@
+ # @qemu: The version of QEMU.  By current convention, a micro version
+ #     of 50 signifies a development branch.  A micro version greater
+@@ -92,8 +89,7 @@
  
  ##
- # @DEVICE_UNPLUG_GUEST_ERROR:
+ # @query-version:
 -#
--# Emitted when a device hot unplug fails due to a guest reported
--# error.
-+#     Emitted when a device hot unplug fails due to a guest reported
-+#     error.
+-# Return the current version of QEMU.
++#     Return the current version of QEMU.
  #
- # @device: the device's ID if it has one
+ # Returns: An object describing the current version of QEMU.
+ #
+@@ -118,8 +114,7 @@
+ 
+ ##
+ # @CommandInfo:
+-#
+-# Information about a QMP command
++#     Information about a QMP command
+ #
+ # @name: The command name
+ #
+@@ -129,8 +124,7 @@
+ 
+ ##
+ # @query-commands:
+-#
+-# Return a list of supported QMP commands by this server
++#     Return a list of supported QMP commands by this server
+ #
+ # Returns: A list of all supported commands
+ #
+@@ -177,8 +171,7 @@
+ 
+ ##
+ # @MonitorMode:
+-#
+-# An enumeration of monitor modes.
++#     An enumeration of monitor modes.
+ #
+ # @readline: HMP monitor (human-oriented command line interface)
+ #
+@@ -190,8 +183,7 @@
+ 
+ ##
+ # @MonitorOptions:
+-#
+-# Options to be used for adding a new monitor.
++#     Options to be used for adding a new monitor.
+ #
+ # @id: Name of the monitor
  #
 -- 
 2.55.0
