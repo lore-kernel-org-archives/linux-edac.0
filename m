@@ -1,104 +1,123 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8322175A7D;
-	Thu, 23 Jul 2026 19:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241414908C6
+	for <linux-edac@vger.kernel.org>; Fri, 24 Jul 2026 07:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784835878; cv=none; b=VK3yP/ye6Xrh3YZO5qwgPWIqor5mmRmp3uR6j148zwCzSlQyWKDwYo+S0OioZlMUptwGj8v+RLHWnj3bnnCGVuUNnwnZMxkIht98u3eWnuREpD60I7LPCcvNcv7FNe1bUte/bXeWdZ5pIrSnmlEN8vzkNL/hgpARFwWKsjQ2RGU=
+	t=1784877336; cv=none; b=uIR630vt2skl/w2eh36JqVFtxZqWtDcGxIappvpWFf2wLZpQ5O4aySkSiShcVPTYZ//FShm1A0O1GrmrYQ929s5a5MtQAXhGLjwAsTJD7pU3mGoQJjCcOnweFWEYMBOuR3Pk0SPgr1hwrtA1u301N8+9KPq/dzjRjFzPRo9JPjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784835878; c=relaxed/simple;
-	bh=s+BXkNDaYF5MjZh6YkQ52gLqONkHRfkvXkSVnWN/dTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxU9u1WYizIKYzEK//0Wq1bpkB0g4gxeU45/rvQnkKM+9CU5UarVse++/HpsNyccR0LfCiSPeJtZrF0SNs8vXqKvlcidWaT1zBrQD+2lUKWCcv++ZGb/wO2yqDN/Xgin+3qhiyOd9AYzArQ453f+WwvJYE86aAxrufDxOlbLSIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MQuWqOt4; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1784877336; c=relaxed/simple;
+	bh=TYR6kRXzMCbrgU6h9oEGd8CPKfXhGifVrjGsTAd2Ufs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=V+Uial+CgKHxZbvxgbOQp52F5lgTfZV5BmzrxP7VSAWX0ugFrpGtwKOIZqBF6pRCgxKDFkxlnlWc3QKyadLxxpYFOvddXTadGTyQdMzq10ih8yxaybFsBtKxvaJ0GroNodcPQhAOpnGu3DGd4MRrx8c7cRshys24SJUr37I+vdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a4D218YI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MQuWqOt4"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A5F9140E014C;
-	Thu, 23 Jul 2026 19:44:28 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id C6EJLK6xjcRB; Thu, 23 Jul 2026 19:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1784835858; bh=HKOpKrXMKalCtRmZui9w1egs82pTtvh6125mPB+gO/Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MQuWqOt4VWlWCpUmPw3VPRG6iPufu3dk/DUHPsU4j0dVUAXCl+YzFAglXdmkbv7iU
-	 mPvqGLagKTsog0bOI5k/BqMnogSxaY1BkFh6TW8z8AY5GftSqsHtUpBpYbp+mfQMWb
-	 cY1uZY1UeNDZMDVW4RYlDi58w7xmvZjVyLc5pkuw3lK0sW8awxcyzJ60huobRLuBHV
-	 B3TDHblHP/CIyNGH2NHyGa9p55/0BmTvIBlU5GJu3bzMy5OgMugeFunT9NG1raZ0G0
-	 18mT2k7zZPhDG8koQdk3lvZWZl5d62Z+/1TYQnP7F4kJk5fsIQdyd4qBnQ2DAE+bNK
-	 dHLKY1MjA3Ay9ejIUAfOMMscyTdLs2Xa3ut8t+8kbmwpZcY49KKLrCWWDa3RYWSkNZ
-	 Mx6fKEv27ajn9CRK9e4RQbtVH4Q5ME51A6xYKqHEeg7RBeBUR2Gt8F4OpW578CHsJ7
-	 Pt5Wum7rh+62nqTMKq9HjCkjmat9CMoneUvZx6tTeU6fiF6zAstu2/oKCjvoBqGFzy
-	 qtLhX1anv5mXQOm31HI5sKKzWfBunbjeFM6cf+TZp1ZlRmXr0bShinQWikiqpav12n
-	 w4Kqu4eapIEql0oPWrXlHX6OFSZD/O5LhsL8Pxh6xPA4/BWFFDtKg9mE98iwEs/0zC
-	 5BBi/dhh8rSp8nS7BoYOSMzQ=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a4D218YI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784877331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pD4hNPBnbVlyaDI27xEjniV/Nti+HnCMysNVEa5enNM=;
+	b=a4D218YInEovD6o0dLsZGtwE29bOn37sEcdDGhK7+wabt9HgPzXJubdhzb7uw18uSqRyQK
+	WSu7HjjHteUz/Nxf5xliGN1XqKp3Nb5OJ+xWof/TzgBEuHzTdOAN3EobEDQA1Nh/i13KL5
+	YopB+H5iIw9x261hcDX6ItZcN39jJIg=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-696-6_wwUxgrMZObI4bo3Yz8YQ-1; Fri,
+ 24 Jul 2026 03:15:26 -0400
+X-MC-Unique: 6_wwUxgrMZObI4bo3Yz8YQ-1
+X-Mimecast-MFC-AGG-ID: 6_wwUxgrMZObI4bo3Yz8YQ_1784877324
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0949740E00DC;
-	Thu, 23 Jul 2026 19:44:10 +0000 (UTC)
-Date: Thu, 23 Jul 2026 12:44:07 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: Julia.Lawall@inria.fr, Yazen Ghannam <Yazen.Ghannam@amd.com>,
-	Tony Luck <tony.luck@intel.com>, cocci@inria.fr,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 27/36] RAS/AMD/ATL: remove conditional return with no
- effect
-Message-ID: <20260723194407.GDamJvBzzMfuyu-NTQ@fat_crate.local>
-References: <20260723184538.3888637-1-ekffu200098@gmail.com>
- <20260723184538.3888637-28-ekffu200098@gmail.com>
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E34018301F4;
+	Fri, 24 Jul 2026 07:15:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.4])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2CAF71954226;
+	Fri, 24 Jul 2026 07:15:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id B148C21E6920; Fri, 24 Jul 2026 09:15:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Lukas
+ Straub <lukasstraub2@web.de>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Zhao Liu <zhao1.liu@intel.com>,  Laurent
+ Vivier <laurent@vivier.eu>,  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,  Alex
+ Williamson
+ <alex@shazbot.org>,  zhenwei pi <zhenwei.pi@linux.dev>,  Hanna Reitz
+ <hreitz@redhat.com>,  Ani Sinha <anisinha@redhat.com>,
+  qemu-block@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,
+  linux-cxl@vger.kernel.org,  Jiri Pirko <jiri@resnulli.us>,  Daniel P.
+ =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Stefan Berger
+ <stefanb@linux.vnet.ibm.com>,  Fabiano Rosas <farosas@suse.de>,  Stefan
+ Hajnoczi <stefanha@redhat.com>,  Michael Tokarev <mjt@tls.msk.ru>,  Igor
+ Mammedov <imammedo@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+  Gerd Hoffmann <kraxel@redhat.com>,  Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>,  linux-edac@vger.kernel.org,  =?utf-8?Q?Marc?=
+ =?utf-8?Q?-Andr=C3=A9?=
+ Lureau <marcandre.lureau@redhat.com>,  Richard Henderson
+ <richard.henderson@linaro.org>,  Eric Blake <eblake@redhat.com>,
+  =?utf-8?Q?C=C3=A9dric?=
+ Le Goater <clg@redhat.com>,  Jason Wang <jasowangio@gmail.com>,
+  qemu-trivial@nongnu.org,  Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v2 16/44] qapi: convert trivial intro sections for
+ acpi.json
+In-Reply-To: <20260723044805.527643-17-jsnow@redhat.com> (John Snow's message
+	of "Thu, 23 Jul 2026 00:47:37 -0400")
+References: <20260723044805.527643-1-jsnow@redhat.com>
+	<20260723044805.527643-17-jsnow@redhat.com>
+Date: Fri, 24 Jul 2026 09:15:15 +0200
+Message-ID: <87se58c0zg.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260723184538.3888637-28-ekffu200098@gmail.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Fri, Jul 24, 2026 at 03:45:29AM +0900, Sang-Heon Jeon wrote:
-> Both branches of the check return the same value, so the check has
-> no effect. Remove it and return the value directly.
-> 
-> This is the result of running the Coccinelle script from
-> scripts/coccinelle/misc/cond_return_no_effect.cocci.
-> 
-> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
+John Snow <jsnow@redhat.com> writes:
+
+> (Trivial)
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  drivers/ras/amd/atl/map.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/ras/amd/atl/map.c b/drivers/ras/amd/atl/map.c
-> index 24a05af747d5..4ec9333ef745 100644
-> --- a/drivers/ras/amd/atl/map.c
-> +++ b/drivers/ras/amd/atl/map.c
-> @@ -771,9 +771,5 @@ int get_address_map(struct addr_ctx *ctx)
+>  qapi/acpi.json | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
+>
+> diff --git a/qapi/acpi.json b/qapi/acpi.json
+> index 906b3687a55..291a04a7ea4 100644
+> --- a/qapi/acpi.json
+> +++ b/qapi/acpi.json
+> @@ -81,10 +81,9 @@
 >  
->  	dump_address_map(&ctx->map);
->  
-> -	ret = validate_address_map(ctx);
-> -	if (ret)
-> -		return ret;
-> -
-> -	return ret;
-> +	return validate_address_map(ctx);
->  }
-> -- 
+>  ##
+>  # @ACPIOSTInfo:
+> -#
+> -# OSPM Status Indication for a device.  For description of possible
+> -# values of @source and @status fields see "_OST (OSPM Status
+> -# Indication)" chapter of ACPI5.0 spec.
+> +#     OSPM Status Indication for a device.  For description
+> +#     of possible values of @source and @status fields see "_OST (OSPM
+> +#     Status Indication)" chapter of ACPI5.0 spec.
+>  #
+>  # @device: device ID associated with slot
+>  #
 
-Applied, thanks.
+This one needs to be split, I think.  The first sentence is overview
+we'd want the inliner to drop.  The remainer we'd want the inliner to
+keep.
 
--- 
-Regards/Gruss,
-    Boris.
+[...]
 
-https://people.kernel.org/tglx/notes-about-netiquette
