@@ -1,46 +1,46 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012036.outbound.protection.outlook.com [52.101.48.36])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012065.outbound.protection.outlook.com [40.93.195.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DED44C518;
-	Fri, 24 Jul 2026 17:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9517244C65E;
+	Fri, 24 Jul 2026 17:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784913618; cv=fail; b=mXinEPrCgLxBlB1+8HBiUWIGS+VmH+LqCbmg+Rnt08kDo2DAFe1O/Ah1JEoKBtVKa5eSZ8vG0i3/QLhIofyhEAalYhuRr3+m3X04/gYPEkvVXhlHc0RX9Dqxw+iKgIvgaswcAYQ0Z6PugRrmGEjKe1Dj2FvPutVMFnSbltFgyUM=
+	t=1784913619; cv=fail; b=RJLffT9OSqwn8YuAlikgCOS2qLG7+Tkb7Ek9l4XPf6e+iNUsBT7xLergXhstA0S5bE6YIE7qU6QEUuBwiY+5usM04h/MAXf+7CKIWr3u0LDDzAZh0MviGKZdDFEdXYad522MvZ7JHxak2V/ooRgXWguLDnQ+oQ/9sjrscrZd/F8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784913618; c=relaxed/simple;
-	bh=LvDRAQK38VxHDAJoK18ZnYwNeN3TR4k7lwF45OYvqe4=;
+	s=arc-20240116; t=1784913619; c=relaxed/simple;
+	bh=fNdEjDVjA34eL4hFJlvZjb76M9IF08PS0nOInYe8d9o=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PDZejCevkDFDnxGPPgHxWmNFq9Di8vDsMtMdNs0soc9DjH4mS++GaXOdElzYmsvYhFj/F7Fak0xn/YQVsAFVEujY5Al/DNdYaOX8fOvd/u1gUmsi9p1LZM9xSVRBFQszLpHwtT1XM/GSfzQg4NwYvBJPcLOrtWBx2al9jHY83x8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wUjZX3UL; arc=fail smtp.client-ip=52.101.48.36
+	 MIME-Version:Content-Type; b=LoooCcM/22am99etAmdcgzFvdhf6kHO5lfCbki7InrUFRFZ0tJ+7twhpCeziEjuYG5KCsakFEgl/pMrO39DrlsoBfVQx9jEbFu01237L9sQ2xhd+/ykARa9CBwx+iVS/jwzdfUahZAnMmo6ICPL47be9xJ8LEI6kSI/26HKzs9k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pyBe1XrW; arc=fail smtp.client-ip=40.93.195.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wUjZX3UL"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pyBe1XrW"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gVxB8lKamLOnp5/hoxzQata4KABhFtGvUy/eyx8j77TDoXdhmTLpC8zGfWhwwHQTw+e/jlPkseGBFih9Vu2/WW/VfUmu7EXy4z+DfVo6sWldAMfUWrp+Y9MfQu7LxBUn7sYSSdpyy1bCfSKqtec/6rDUl4AUqIaSI2qXC6NQ87uM4oiWP2tEW5DJbVLl8xVnzNf0AR8uJq0wqD6/Bs9MWsBxSSxSx8E6Xv0p8NpdF36ZwY9GvrdSLBLmNYvZpGHJKDq7Bo8ln1a+sz1RfArV0dTus0Bq0uvl8vh65e0PUGGRkIeyILFvbC36tORt7encw1ymvvkJj5b/gM0r2SsNLw==
+ b=kqe3P01hHBLhqXdweeUquPpyFiIZvxkA2us+OUU60YXSOlFR5R0wuka7FF9+nW9WVrs9QkxBNYY6MUXh207ib+r/95/dQZ03tAqZU8gdA6Iu2trz9sK7n+r+uotPA1OJGAt1sgZ33/7U/t5Lx/Nt64bFhZqBY6uegbz7pNvdjrBDhpMip1bMJFcw5Yo+77YWLE8lGhr/9Ah8EwxR43cS3THiEnentNpswGTjkCM5YQq9v8PW1+23gU1DsmomNmJXt+wuVY1Txsob7mZYCk5ItyeJHKgCOq9spFzw4ysRULlF+QE3cFYDhQkebkbPFNFRB4io++Hn4tur8DrcmcnyPQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=htpPrwL1J6/5BoEJOs2oMUm/EuiKduVI5GxTcKjC8Kw=;
- b=SZm+cX9/97EQqX+8CEoRnEWTSxR2kNuQninbWlOLoqLpptQI4wZSnjaqsaDDf+2WSBKWmdeaAtGhv8yRGqqMJ8fE3uDdtSn8j4n8YsxDZGDvn5k0nKMrMakY7J9gnPPvBaD2sIVyQ5Ny2+oSEGaifyd4s2+U+7Fq35JeCfe9B2S/WGFVYdahgdzuXAs02HiiWrPnnaufSbQU0gbTU7ZN9yRDOGxyN9qjjNeJCyDlgIk56AvslegADWWYvdvioJXn25adG3m+dkoolB6Xt1Rp3+y64pTe6vZj1MGumv4YiQapNVP+pt8B2sVPqJUotkJC1CUjkEzlqD8bZKypeypPJQ==
+ bh=Q3tInHeKqpigzeyDz0g/wvDU+vaKygYEx1sN8kplLlM=;
+ b=xAeaMr9hw79AYtFI3hsxiigZUJbkM14Zb2zuIBPrAO0H+oxtOhw3KT3IztJW8f736rj7K0/kX/DNGz6zigos/es8NmL92BoEa9M7mwdk2ZWU0LuOQ4y4kMxaGHEtjEDGz6d16KgvWeoLZYN3kJ00nltBUOpukFaM9ec+IGuWu+0hoSafm7niOcMvD2r4+HaPV1O1jRWxaA8ILuO6r7tf9k/sHyiIt6a8hyqP2xfyefFS1Yr4wOF1tMs7tECdf/nKbW4R3Za6FYD58eb08Vj106+znW/8DO5UPW5EajIt0E2srEVhmal84Gzg7sc7wuWxBUYYYV/tEB8KHuJ2VsDQnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htpPrwL1J6/5BoEJOs2oMUm/EuiKduVI5GxTcKjC8Kw=;
- b=wUjZX3ULeOrukaYaNhRCFnyBjM/eeVng5qDeRCQFdWH6ifk+lHL+UyHX9yny2ONL0E7fKxt2YSGmQxS8TZBn91OwVDEeiuSUlY5OZBzCmUZgw9UDNSFkpvisTvy0+dx7XwHbkqDzf+sSpBUxmmeQ1DPK2C8v8qTW9R0nZ35hLY0=
-Received: from SA1P222CA0058.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:2c1::9)
- by PH7PR12MB7116.namprd12.prod.outlook.com (2603:10b6:510:1ef::12) with
+ bh=Q3tInHeKqpigzeyDz0g/wvDU+vaKygYEx1sN8kplLlM=;
+ b=pyBe1XrWbDGc2hrLqqkGys7hcOOQbOqFfUW5CBmO11iQX/Ndar7MP3PSIMTMuH3iyagdhsmuZHRzJe/HUPAaCkHhdozVNvGwKnE6M91Ni0WJkLHMNy6ekwJPH+PchRZXNyrieJjD0OQDTqnT14/BsUTbm84uu56GFmc8tag+9oQ=
+Received: from PH7P221CA0071.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:328::24)
+ by PH0PR12MB8006.namprd12.prod.outlook.com (2603:10b6:510:28d::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Fri, 24 Jul
- 2026 17:20:00 +0000
-Received: from SA2PEPF00003F65.namprd04.prod.outlook.com
- (2603:10b6:806:2c1:cafe::80) by SA1P222CA0058.outlook.office365.com
- (2603:10b6:806:2c1::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
+ 2026 17:20:08 +0000
+Received: from SA2PEPF00003F67.namprd04.prod.outlook.com
+ (2603:10b6:510:328:cafe::71) by PH7P221CA0071.outlook.office365.com
+ (2603:10b6:510:328::24) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.12 via Frontend Transport; Fri,
- 24 Jul 2026 17:19:59 +0000
+ 24 Jul 2026 17:20:07 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,28 +48,28 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
 Received: from satlexmb08.amd.com (165.204.84.17) by
- SA2PEPF00003F65.mail.protection.outlook.com (10.167.248.40) with Microsoft
+ SA2PEPF00003F67.mail.protection.outlook.com (10.167.248.42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.270.5 via Frontend Transport; Fri, 24 Jul 2026 17:19:59 +0000
+ 15.21.270.5 via Frontend Transport; Fri, 24 Jul 2026 17:20:07 +0000
 Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 24 Jul
- 2026 12:19:58 -0500
+ 2026 12:20:04 -0500
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
  (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 24 Jul
- 2026 12:19:58 -0500
+ 2026 12:20:03 -0500
 Received: from xhdshubhraj40.xilinx.com (10.180.168.240) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Fri, 24 Jul 2026 12:19:56 -0500
+ Transport; Fri, 24 Jul 2026 12:20:01 -0500
 From: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
 To: <linux-edac@vger.kernel.org>
 CC: <git@amd.com>, <shubhrajyoti.datta@gmail.com>, Michal Simek
 	<michal.simek@amd.com>, Borislav Petkov <bp@alien8.de>, Tony Luck
 	<tony.luck@intel.com>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 4/9] EDAC/versalnet: Fix device_register() error handling in init_one_mc()
-Date: Fri, 24 Jul 2026 22:49:40 +0530
-Message-ID: <20260724171945.2812749-5-shubhrajyoti.datta@amd.com>
+Subject: [PATCH 6/9] EDAC/versalnet: Initialize MCDI before RPMsg registration
+Date: Fri, 24 Jul 2026 22:49:42 +0530
+Message-ID: <20260724171945.2812749-7-shubhrajyoti.datta@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
 References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
@@ -83,124 +83,125 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F65:EE_|PH7PR12MB7116:EE_
-X-MS-Office365-Filtering-Correlation-Id: d041dfbd-f6ea-4881-5f95-08dee9a7ca37
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F67:EE_|PH0PR12MB8006:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98096c65-53ba-4fb7-5377-08dee9a7ceef
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|23010399003|376014|1800799024|36860700016|18002099003|22082099003|10067099003|11063799006|56012099006|6133799003;
+	BCL:0;ARA:13230040|376014|23010399003|82310400026|36860700016|1800799024|6133799003|22082099003|18002099003|56012099006|11063799006|5023799004|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	ex41RlLjBsmOtLkmnaE1D1tAhfyoIHjqowOSeed/JFNMC9SvP7tkHpmQ7ju2sAk+hVocrQZqk1N41EX7Ep5ag0Xg0g+ydKdQl2TT5CBfMiqQz3MFRSiHC4pz4mybBvMfHx8mAb5NXL4rMA0k09irYywgZgSkkcgRmDdnD+RPVqqhWbkjGj6JDLxwrT0ZZiottwK2eCeU0CcxS1zZmvoIYRg61S2Ympb46Hy4XFTISCEHZ3JN9r/e3LxPoyWB3uIs0VnbB4Nk/tFRwvzKOVxakQfPF2/9WJCfYtVenzZeZoiiEsiq/LnUEbZSRQiJPDtp+MmaGluMngB87S1R7p5mvoIiD9mneTLvJGrqL1PYatH8ZDHZ+khFMsIFfvyZInFeqKpXYPQHjKbdsPf9Iah3qBZCf5S4FKHHUIywO7qF3+11+IPJsGHesGCqIYHcXpbA6k/ZFbTIbPGlH1k2iR1I18wEI76fSthyYMQ4LKxJ42rBKkvpQbJ87vd8qNbMoU1nTSA1tUhjhpQ/MCTTRgjwPA7N6+BhcDDoP7MVPMJrFa16gExolJgxd8y8xFiYyDz+ZRQDPNl9M7DHKe7EOP/qXiqukTbmPLki/1EHnBvZ/MU3suPyLfMa+R5WXgiED+9gtptcsiByI+XrBi/M+ZE9z5oO8AoQzttSS703NEEQVdUCKmiCn0cQU47UZeukjUIy0RJ7dEQap2glONoTzCg5iw==
+	GOv/IAoOLWN1uVyJx78WnziNTUoAMlDGyYY7XmODYWdGADwX5PDxEne2FbIi2PlYcXndx/fGt7Cg17MIvedfGmxNG7EJq90xxTornrsM9JhBHK4QY8JQaWuAAzfvU6d3QnZAsxKwy9cK8c++2ZkPKiPcb3KZgpxScWY7uefjY3NMt344+6ECbl1ICWPO2ecjTTr/5dluWJCD5Yie7bPiKPNukq9EU9nYniMeYE4T0OKW2H2uE5Qg2q0O8Tykdj1A4SlY9/1A8z4bHvdJGBAJqZyoWtjBzdsNJ87oRqgfHqf1leyGa9U3B0Z6dUAZBqwh0q0v8NTUdOf+XD9l0X1CvMilA/KD14zTYc7Swp7RFz8HxlI5eYvRhC4N4IlZ1Wji8Gl1mPAprxXeQM5Qa8/uHkQ1QeNx2ogxZSyXJ3COvI1SkzXWpuKB+ZSjh8ZOPxVWlCe8w1DPNUb5lJWJoDRCSuz+MI+J63nIvZgz5eq2j1qOxDvItmAYdZIG1cz08CBi0zXn8dyPgByeU9nh/Xfhh1nKaGBL/RtMdkw9gSAh5hjZnwElGaylSMBR/ihJD87gtNcCG8Erg4v1FN4HnAVpQfNvDbixBLMTe987ZQztOylgGPFLzbrcM8rtzqz6fPg+KT1td6g78Rhox0VXnczD8JFSrralRtthyr84jAf16zz6Ls4578duhEZd/Wxb4uJHH0Gl/vUkGE2GYpIhpPgcxQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(376014)(1800799024)(36860700016)(18002099003)(22082099003)(10067099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(82310400026)(36860700016)(1800799024)(6133799003)(22082099003)(18002099003)(56012099006)(11063799006)(5023799004)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	mZ8TRp3UIgN3LYpYEc6tUUyFXdekTC4nI6drf4M9IJ3Ygp55K0qc0IqSdwCHcNj8LYa/RMYd8DR8cOa1lnHUcaOLs5R97eLT7BOnsyhEwmEjHNTxW1VeVeJh9xfZ0yIkggI/6VTEorTIdCZ2dB+MIE8xZKA4HCV4J8p37xefAssWZUnAp/robH5+ipvqpFW4+yYS6Xy6i5SgpknWIaZjDwRt0YQIt1gAFIcTdu8T8Fw3xdzDHi5mgMjorvchZSYv+AtdZLfNxqcJTERohBrlXEgJ+wYH9zm2PzI4mZ1wAIZRkyweTHwOn5RrZnWRYrPnWmw390R0USsKL+an1vtrBZod+T2mUKhpwCAFgBpIoPUkPdbDZ9ayvfFS9Qqq1iWc6vBNQvYAmuQ5cV5QAGCvd21EuSH6WwTxg2ZAB12AnaEYYNoUX1jEZCG3B4GP/GoO
+	FNtUAIOyxkFCbSB/dtu3YGQ/JMCwmfL1+hcRxRN8h9IJ/ECJmZUpyvkKa88bL3qJDyW8FbR/GJ0M+ddCj59AeBoXouGhHIG8/I69TVCiahgXs2kjV84/CA4tiwy/KBIhbXyOPPPTAE8XwodqR2k5nJaxW3JPG4m+48W9SMsY/w2OzJzXp+sO4eKeElczMqrxlysbo8HVPttnU89lw+mk3T+r3cyxk26eURoNR0wDsu3Ysf6t8DQQdNztAPsPz0ttFth8wEjNPa72TH75M/dPb3UQSeTixu+wH4yiLkdiacLY3ASkE+uEaFjuzTDIAE0gGp5VQsbzFIP+rn8+6A4lZjPn+iqKbDqZ8KOXOX1fPQa9dYoLrhlyKGsZJti+qA8IcAQTXW7kDWUkWJK+uArw+dGA66/vGM0h+9LZugK1jgoprVOCEQ6jbl5QchBQrsau
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 17:19:59.3977
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 17:20:07.3370
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d041dfbd-f6ea-4881-5f95-08dee9a7ca37
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98096c65-53ba-4fb7-5377-08dee9a7ceef
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003F65.namprd04.prod.outlook.com
+	SA2PEPF00003F67.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7116
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8006
 
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+setup_mcdi() currently allocates the MCDI instance, assigns the RPMsg
+endpoint, and retrieves DDR configuration data. The DDR configuration
+path invokes cdx_mcdi_rpc(), which requires a functional RPMsg endpoint.
 
-When device_register() fails, it must be followed by put_device()
-rather than kfree(), because device_register() calls
-device_initialize() which sets up the device refcount. The matching
-release function versal_edac_release() handles the actual kfree().
+Split setup_mcdi() so that only MCDI allocation and initialization are
+performed before RPMsg registration. Move endpoint assignment and DDR
+configuration retrieval until after register_rpmsg_driver() succeeds.
+Update the error paths to match the new initialization order, ensuring
+resources are released in reverse order of acquisition.
 
-To simplify error handling and avoid complex unwinding, split
-device_register() into device_initialize() and device_add().
-Initialize the device early so put_device() can be used in all
-error paths.
-
-Fixes: d5fe2fec6c40 ("EDAC: Add a driver for the AMD Versal NET DDR controller")
-Cc: stable@vger.kernel.org
-Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
 ---
 
- drivers/edac/versalnet_edac.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/edac/versalnet_edac.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-index 03b6e0958f17..3c9eaea5a106 100644
+index 1caaba653fc0..e9561242f292 100644
 --- a/drivers/edac/versalnet_edac.c
 +++ b/drivers/edac/versalnet_edac.c
-@@ -785,7 +785,7 @@ static int init_one_mc(struct mc_priv *priv, int i)
- 	char name[MC_NAME_LEN];
- 	struct device *dev;
- 	enum dev_type dt;
--	int rc;
-+	int rc = -ENOMEM;
+@@ -559,7 +559,7 @@ static void get_ddr_config(u32 index, u32 *buffer, struct cdx_mcdi *amd_mcdi)
+ static int setup_mcdi(struct mc_priv *mc_priv)
+ {
+ 	struct cdx_mcdi *amd_mcdi;
+-	int ret, i;
++	int ret;
  
- 	config = priv->adec[CONF + i * ADEC_NUM];
- 	num_chans = FIELD_GET(MC5_NUM_CHANS_MASK, config);
-@@ -817,23 +817,23 @@ static int init_one_mc(struct mc_priv *priv, int i)
- 	layers[1].size = num_chans;
- 	layers[1].is_virt_csrow = false;
- 
--	rc = -ENOMEM;
- 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
- 		return rc;
- 
--	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
--	if (!mci) {
--		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
--		goto err_dev_free;
--	}
--
- 	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
- 
- 	dev->init_name = name;
- 	dev->release = versal_edac_release;
-+	device_initialize(dev);
- 
--	rc = device_register(dev);
-+	mci = edac_mc_alloc(i, ARRAY_SIZE(layers), layers, sizeof(struct mc_priv));
-+	if (!mci) {
-+		edac_printk(KERN_ERR, EDAC_MC, "Failed memory allocation for MC%d\n", i);
-+		goto err_put_dev;
-+	}
-+
-+	rc = device_add(dev);
- 	if (rc)
- 		goto err_mc_free;
- 
-@@ -843,7 +843,7 @@ static int init_one_mc(struct mc_priv *priv, int i)
- 	rc = edac_mc_add_mc(mci);
- 	if (rc) {
- 		edac_printk(KERN_ERR, EDAC_MC, "Failed to register MC%d with EDAC core\n", i);
--		goto err_unreg;
-+		goto err_dev_del;
+ 	amd_mcdi = kzalloc_obj(*amd_mcdi);
+ 	if (!amd_mcdi)
+@@ -572,12 +572,7 @@ static int setup_mcdi(struct mc_priv *mc_priv)
+ 		return ret;
  	}
  
- 	priv->mci[i] = mci;
-@@ -851,12 +851,12 @@ static int init_one_mc(struct mc_priv *priv, int i)
+-	amd_mcdi->ept = mc_priv->ept;
+ 	mc_priv->mcdi = amd_mcdi;
+-
+-	for (i = 0; i < NUM_CONTROLLERS; i++)
+-		get_ddr_config(i, &mc_priv->adec[ADEC_NUM * i], amd_mcdi);
+-
+ 	return 0;
+ }
  
+@@ -886,7 +881,7 @@ static int mc_probe(struct platform_device *pdev)
+ {
+ 	struct mc_priv *priv;
+ 	struct rproc *rp;
+-	int rc;
++	int rc, i;
+ 
+ 	struct device_node *r5_core_node __free(device_node) =
+ 		of_parse_phandle(pdev->dev.of_node, "amd,rproc", 0);
+@@ -914,18 +909,22 @@ static int mc_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, priv);
+ 	amd_rpmsg_id_table[0].driver_data = (kernel_ulong_t)priv;
+ 
++	rc = setup_mcdi(priv);
++	if (rc)
++		goto err_alloc;
++
+ 	rc = register_rpmsg_driver(&amd_rpmsg_driver);
+ 	if (rc) {
+ 		edac_printk(KERN_ERR, EDAC_MC, "Failed to register RPMsg driver: %d\n", rc);
+-		goto err_alloc;
+-	}
+-
+-	rc = setup_mcdi(priv);
+-	if (rc)
+ 		goto err_unreg;
++	}
+ 
++	priv->mcdi->ept = priv->ept;
+ 	priv->mcdi->r5_rproc = rp;
+ 
++	for (i = 0; i < NUM_CONTROLLERS; i++)
++		get_ddr_config(i, &priv->adec[ADEC_NUM * i], priv->mcdi);
++
+ 	rc = init_versalnet(priv);
+ 	if (rc)
+ 		goto err_init;
+@@ -933,11 +932,11 @@ static int mc_probe(struct platform_device *pdev)
  	return 0;
  
--err_unreg:
--	device_unregister(mci->pdev);
-+err_dev_del:
-+	device_del(dev);
- err_mc_free:
- 	edac_mc_free(mci);
--err_dev_free:
--	kfree(dev);
-+err_put_dev:
-+	put_device(dev);
+ err_init:
+-	cdx_mcdi_finish(priv->mcdi);
+-	kfree(priv->mcdi);
++	unregister_rpmsg_driver(&amd_rpmsg_driver);
  
- 	return rc;
- }
+ err_unreg:
+-	unregister_rpmsg_driver(&amd_rpmsg_driver);
++	cdx_mcdi_finish(priv->mcdi);
++	kfree(priv->mcdi);
+ 
+ err_alloc:
+ 	rproc_shutdown(rp);
 -- 
 2.34.1
 
