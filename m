@@ -1,105 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ADF25D530;
-	Fri, 24 Jul 2026 09:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041EE41CB5C
+	for <linux-edac@vger.kernel.org>; Fri, 24 Jul 2026 10:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784886198; cv=none; b=dPZP9xGzizkmPp8+f8dPrQ97Oyk5n6HJBpBvcKO6JCSfWE6EZNrftmQhx/UM6ndNpl+A2i3FgvmAX0XkoxYMv+6lgufrB2ycuwMiNxQJ/YzIz99UPIceNKudVMVTUlqWz95kVt/CPwFo9/YngK2KfOFEimil4oxH8NsehQeZ8A4=
+	t=1784889491; cv=none; b=sLKMIliP6Fsc+hD8r3mvDH0YBcd7TQNuOHCmpGjJHahl64Z6v37vuScfBw9puC1ajcawI+aF59qEYLLTdf/Wp1Lb7N48lOLR8FLwee2M0aMbgAI9MFybkLHJkpE/2FZjZDf2wl7brtlwwcR3X5Qd3DDDd5BAtimeoqxwzauLUfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784886198; c=relaxed/simple;
-	bh=ybXiLZIJVh5bcYoViP+wmFn2sdBBOf2x7eSNWclYvcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LZBuYauev81j61ythkbyUpI8sNE5Uzalx+PkRIVIe4iOn2nknpVK3WouFAlDZJTEcvE3i0dcO7vQuHizJLZST4GGctHegBcSLTdojErnhWEMUPLONwsDRM1f72pClj1Mc/O/5F4IcXXAXOXed05+HpGiknLLxjaGg1C8sQrCFps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KgxkuNbd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784889491; c=relaxed/simple;
+	bh=SsDywP4rywReLAK6ZrLEd+ZAPvj3dC56ZhGDGzSQlnM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HLq9pB+sh5Mkju552ngN+KPaU8JoIt5IAIEjSZRAgkX2xjFs9rWHLtgllYTjpngBD7KcPMZvhRLbaDbHlX007a7n60BDWIuDD9bGo0bBCNZCqxV1joRuykp5ztG+oTdajMSZIBdPS+7kC+aZRfV45+MBLcCSk+aUY37pmUXsLR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hqbyCvNa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KgxkuNbd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B5EB1F000E9;
-	Fri, 24 Jul 2026 09:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784886194;
-	bh=EjabcPayLsbkovphaQIu7ajCph2QP8hlPLl8z4cnPlM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KgxkuNbd9+bvGgL2DF8JJNjWAKjtwYyJIUN6DhgfdzpDSMvNkCqCEESb71zcABIgD
-	 bbcOHiLPKMtP6+KL70MHguLA0ofrfB682KZt3au5MGWCwjxh13YIyxAQq5W34WbfBL
-	 8l5k/4BqFijWjh0BTL1kALl4Zkvd62SUhAbg9HW4yw3YxlluoArS/DqcLg3DAUU+IU
-	 THENRu8Fq+9sYOUUP7+nCDVVr7C4PAbmxbVIHyCcKLrxXvtbOGoLyePYE8A81mTusY
-	 g+hxIoNiinu6ituNTlKZdMhrVv9EdRUm6IrMaAf1X0dHVZXwYO7pMV4upYtZuGfsTd
-	 n95OADS86mG5Q==
-Date: Fri, 24 Jul 2026 11:43:09 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: bp@alien8.de, tony.luck@intel.com, rounakdas2025@gmail.com, 
-	niravkumar.l.rabara@altera.com, linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/4] arm64: dts: socfpga: agilex5: add support for the
- ECC manager
-Message-ID: <20260724-fragrant-baboon-of-temperance-c5cdc0@quoll>
-References: <20260720201425.1538771-1-dinguyen@kernel.org>
- <20260720201425.1538771-5-dinguyen@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hqbyCvNa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1784889488;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OWjrYIeYwmpjJ1Ej8RflnyzFYAlRgloM4zHRRFTOgq0=;
+	b=hqbyCvNaoMVl2Nu+nM/6OcIK44SI7ArKXjIUN2cUv2w1d30K0hUTnhc64nGBNl8Chp6O4U
+	bgNY/GU79SYqbsi78Ba8jsyxoEBtCubf1Arm/luAOay2bMVlwHbfODOr45aZI+lbY3tbw0
+	B9mxHVlzyYS0fwrhaxCdyFvr2eSzSEY=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-153-7oi8HimiPt2yxjaNJw_88Q-1; Fri,
+ 24 Jul 2026 06:38:03 -0400
+X-MC-Unique: 7oi8HimiPt2yxjaNJw_88Q-1
+X-Mimecast-MFC-AGG-ID: 7oi8HimiPt2yxjaNJw_88Q_1784889480
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E5F22197766C;
+	Fri, 24 Jul 2026 10:37:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.4])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 40C18195605F;
+	Fri, 24 Jul 2026 10:37:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id E027B21E6920; Fri, 24 Jul 2026 12:37:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Lukas
+ Straub <lukasstraub2@web.de>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Zhao Liu <zhao1.liu@intel.com>,  Laurent
+ Vivier <laurent@vivier.eu>,  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,  Alex
+ Williamson
+ <alex@shazbot.org>,  zhenwei pi <zhenwei.pi@linux.dev>,  Hanna Reitz
+ <hreitz@redhat.com>,  Ani Sinha <anisinha@redhat.com>,
+  qemu-block@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,
+  linux-cxl@vger.kernel.org,  Jiri Pirko <jiri@resnulli.us>,  Daniel P.
+ =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Stefan Berger
+ <stefanb@linux.vnet.ibm.com>,  Fabiano Rosas <farosas@suse.de>,  Stefan
+ Hajnoczi <stefanha@redhat.com>,  Michael Tokarev <mjt@tls.msk.ru>,  Igor
+ Mammedov <imammedo@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+  Gerd Hoffmann <kraxel@redhat.com>,  Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>,  linux-edac@vger.kernel.org,  =?utf-8?Q?Marc?=
+ =?utf-8?Q?-Andr=C3=A9?=
+ Lureau <marcandre.lureau@redhat.com>,  Richard Henderson
+ <richard.henderson@linaro.org>,  Eric Blake <eblake@redhat.com>,
+  =?utf-8?Q?C=C3=A9dric?=
+ Le Goater <clg@redhat.com>,  Jason Wang <jasowangio@gmail.com>,
+  qemu-trivial@nongnu.org,  Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v2 43/44] qapi: convert trivial intro sections for
+ machine.json
+In-Reply-To: <20260723044805.527643-44-jsnow@redhat.com> (John Snow's message
+	of "Thu, 23 Jul 2026 00:48:04 -0400")
+References: <20260723044805.527643-1-jsnow@redhat.com>
+	<20260723044805.527643-44-jsnow@redhat.com>
+Date: Fri, 24 Jul 2026 12:37:52 +0200
+Message-ID: <87jyqkad1b.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260720201425.1538771-5-dinguyen@kernel.org>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, Jul 20, 2026 at 03:14:25PM -0500, Dinh Nguyen wrote:
-> Add the EDAC device to the base Agilex5 platform. Add OCRAM and Ethernet ECC
-> device support to the Agilex5 platform.
-> 
-> Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
-> ---
->  .../arm64/boot/dts/intel/socfpga_agilex5.dtsi | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi b/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-> index b06c6d5d60eed..f30d476683b4a 100644
-> --- a/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-> +++ b/arch/arm64/boot/dts/intel/socfpga_agilex5.dtsi
-> @@ -370,6 +370,74 @@ dmac1: dma-controller@10000 {
->  			};
->  		};
->  
-> +		eccmgr {
+John Snow <jsnow@redhat.com> writes:
 
-Nope, this is just mis-represented. Non MMIO nodes DO NOT go to soc.
+> (Trivial)
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-> +			compatible = "altr,socfpga-agilex5-ecc-manager",
-> +				     "altr,socfpga-a10-ecc-manager";
-> +			altr,sysmgr-syscon = <&sysmgr>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 241 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 95 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 120 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "global_sbe", "global_dbe", "io96b0" , "io96b1",
-> +					  "sdm_qspi_sbe", "sdm_qspi_dbe", "sdm_seu";
-> +			interrupt-controller;
-> +			#interrupt-cells = <2>;
-> +			ranges;
-> +
-> +			ocram-ecc@108cc000 {
+I think you missed
 
-But this is MMIO node? This is just mess and wrong. If ecc mgr DOES NOT
-have addressable range, then neither its children have.
-
-Also for all nodes here:
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-If you cannot find a name matching your device, please check in kernel
-sources for similar cases or you can grow the spec (via pull request to
-DT spec repo).
-
-Best regards,
-Krzysztof
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 2b0b975764..cb2ec93e18 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1370,8 +1370,7 @@
+ 
+ ##
+ # @SpMemDeviceInfo:
+-#
+-# sp-mem device state information
++#     sp-mem device state information
+ #
+ # @id: device's ID
+ #
 
