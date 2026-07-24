@@ -1,48 +1,48 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241414908C6
-	for <linux-edac@vger.kernel.org>; Fri, 24 Jul 2026 07:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310B339A4BA
+	for <linux-edac@vger.kernel.org>; Fri, 24 Jul 2026 08:04:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784877336; cv=none; b=uIR630vt2skl/w2eh36JqVFtxZqWtDcGxIappvpWFf2wLZpQ5O4aySkSiShcVPTYZ//FShm1A0O1GrmrYQ929s5a5MtQAXhGLjwAsTJD7pU3mGoQJjCcOnweFWEYMBOuR3Pk0SPgr1hwrtA1u301N8+9KPq/dzjRjFzPRo9JPjM=
+	t=1784880289; cv=none; b=IJBQ6/ZnN+5AdPcIl1mPNp19I2wQFdIT4x1aPX9mUJSjIbd7tZrU3lKqRJqhbBY7GH72HpZdssIL4O8JLb9LdN6saPlIMh7NYcwGFM8nsMX4r3N+bYzum63bW3f++OqUoVVkNTE7CurT0ymNqguUlW6BL4GGN2vIUrLPH0WL8FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784877336; c=relaxed/simple;
-	bh=TYR6kRXzMCbrgU6h9oEGd8CPKfXhGifVrjGsTAd2Ufs=;
+	s=arc-20240116; t=1784880289; c=relaxed/simple;
+	bh=G1NNR208d5RHpjW5S00KOtiHySiyn2YfPUhemZZW3rA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=V+Uial+CgKHxZbvxgbOQp52F5lgTfZV5BmzrxP7VSAWX0ugFrpGtwKOIZqBF6pRCgxKDFkxlnlWc3QKyadLxxpYFOvddXTadGTyQdMzq10ih8yxaybFsBtKxvaJ0GroNodcPQhAOpnGu3DGd4MRrx8c7cRshys24SJUr37I+vdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a4D218YI; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=bwbGNc+f63X8SRN2nuti98ICfLAp8fEUstpJbKfCgGtAvSOWBElOBtNZGd84c1pRJ40n8wXnNrlv4KWbDPrUATP1qkty5K8bPUpvBRMolcgadY+9DCcoVI/ppu8uI4np10sU6NIX5PxXhXaXHGSzQ4CqbIdXeMCyjOaa6lJbt+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D1qhk5it; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a4D218YI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D1qhk5it"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784877331;
+	s=mimecast20190719; t=1784880284;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pD4hNPBnbVlyaDI27xEjniV/Nti+HnCMysNVEa5enNM=;
-	b=a4D218YInEovD6o0dLsZGtwE29bOn37sEcdDGhK7+wabt9HgPzXJubdhzb7uw18uSqRyQK
-	WSu7HjjHteUz/Nxf5xliGN1XqKp3Nb5OJ+xWof/TzgBEuHzTdOAN3EobEDQA1Nh/i13KL5
-	YopB+H5iIw9x261hcDX6ItZcN39jJIg=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=iVKEwiRe4suQZ48gcSUJ/fLMBLeVgURcgJ8pJ/tcVok=;
+	b=D1qhk5it7CTssgmieuTQeY55LtFcnOokI4UMx3ZpvZlSVvpWOwKGL9haB9wmIgwT/W5PhJ
+	dUX1rp5p3KB8DBRrShbzbXG4TU2zi7U5ekQ8MjM8BotH6/5Dc/trkWHUbZ3tY0MKlz27R8
+	i9xMxZwOflFbQyzOIgye246WxZb7bes=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-696-6_wwUxgrMZObI4bo3Yz8YQ-1; Fri,
- 24 Jul 2026 03:15:26 -0400
-X-MC-Unique: 6_wwUxgrMZObI4bo3Yz8YQ-1
-X-Mimecast-MFC-AGG-ID: 6_wwUxgrMZObI4bo3Yz8YQ_1784877324
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-14-2Ff3ybS5MdyVE0iWcp73ug-1; Fri,
+ 24 Jul 2026 04:04:40 -0400
+X-MC-Unique: 2Ff3ybS5MdyVE0iWcp73ug-1
+X-Mimecast-MFC-AGG-ID: 2Ff3ybS5MdyVE0iWcp73ug_1784880277
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3E34018301F4;
-	Fri, 24 Jul 2026 07:15:21 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 205961801332;
+	Fri, 24 Jul 2026 08:04:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.44.22.4])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2CAF71954226;
-	Fri, 24 Jul 2026 07:15:18 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A73B11800240;
+	Fri, 24 Jul 2026 08:04:33 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id B148C21E6920; Fri, 24 Jul 2026 09:15:15 +0200 (CEST)
+	id 4CCD621E6920; Fri, 24 Jul 2026 10:04:31 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
 Cc: qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
@@ -69,14 +69,13 @@ Cc: qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
   =?utf-8?Q?C=C3=A9dric?=
  Le Goater <clg@redhat.com>,  Jason Wang <jasowangio@gmail.com>,
   qemu-trivial@nongnu.org,  Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v2 16/44] qapi: convert trivial intro sections for
- acpi.json
-In-Reply-To: <20260723044805.527643-17-jsnow@redhat.com> (John Snow's message
-	of "Thu, 23 Jul 2026 00:47:37 -0400")
+Subject: Re: [PATCH v2 00/44] qapi: convert trivial intro sections
+In-Reply-To: <87ik65g8xm.fsf@pond.sub.org> (Markus Armbruster's message of
+	"Thu, 23 Jul 2026 14:57:41 +0200")
 References: <20260723044805.527643-1-jsnow@redhat.com>
-	<20260723044805.527643-17-jsnow@redhat.com>
-Date: Fri, 24 Jul 2026 09:15:15 +0200
-Message-ID: <87se58c0zg.fsf@pond.sub.org>
+	<87ik65g8xm.fsf@pond.sub.org>
+Date: Fri, 24 Jul 2026 10:04:31 +0200
+Message-ID: <87h5lobypc.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -85,39 +84,38 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-John Snow <jsnow@redhat.com> writes:
+Markus Armbruster <armbru@redhat.com> writes:
 
-> (Trivial)
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  qapi/acpi.json | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
->
-> diff --git a/qapi/acpi.json b/qapi/acpi.json
-> index 906b3687a55..291a04a7ea4 100644
-> --- a/qapi/acpi.json
-> +++ b/qapi/acpi.json
-> @@ -81,10 +81,9 @@
->  
->  ##
->  # @ACPIOSTInfo:
-> -#
-> -# OSPM Status Indication for a device.  For description of possible
-> -# values of @source and @status fields see "_OST (OSPM Status
-> -# Indication)" chapter of ACPI5.0 spec.
-> +#     OSPM Status Indication for a device.  For description
-> +#     of possible values of @source and @status fields see "_OST (OSPM
-> +#     Status Indication)" chapter of ACPI5.0 spec.
->  #
->  # @device: device ID associated with slot
->  #
+[...]
 
-This one needs to be split, I think.  The first sentence is overview
-we'd want the inliner to drop.  The remainer we'd want the inliner to
-keep.
+> Converting single first paragraps is mechanical.  For it to be correct,
+> this single paragraph must actually be the overview, and not some other
+> crap.  I expect it to be almost always overview.  Not sure how to best
+> look for the exceptions.
+
+The separation truly matters only when the inliner inlines the doc
+comment.  It potentially matters when it would inline it if the type was
+used differently.
+
+If I remember correctly, the inliner inlines doc of struct / union base
+type, union branch type, command / event argument type.
+
+Argument can only be struct or union.  Base and branch can only be
+struct.
+
+We talked about maybe inlining return types some day.  This would be
+struct, union, or array of struct or union.
+
+So, for anything other than struct and union, the inliner doesn't get
+involved, and separating the overview cleanly is just a matter of
+writing style.  I'm not sure we care.  Even if we elect to care,
+cleaning it up is hardly this series' business.  In short, your
+mechanical conversion of single first paragraphs to overview syntax
+should be fine even where a paragraph's contents isn't clearly overview.
+
+Structs and unions, however, could use an eye-over.
 
 [...]
 
