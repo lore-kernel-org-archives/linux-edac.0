@@ -1,63 +1,63 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA553A544F
-	for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 12:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACF819D07A
+	for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 12:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785068614; cv=none; b=pOJvLf6IEM+s3z4c5ebPpb4BtbUpR0v71AJX/igWT37JiYoL5SuFIPQjhkDYN/YcvKPFbf2ii0p3etdJOEp09Lc28uYV8KvnoCPPfHNNCLfd7GHJa5rBqmBUQqfpaRx5g53lLvSWXF47+LdvdbUyPWPf6p7sau5YhzCIPoiWy3s=
+	t=1785068884; cv=none; b=NpAQelgFnvk1lfmjQ6omwH9k/U77DVGDKF+NHzOt7CjHW/NHe+4YNAyT0I0DuHRqUJqTMTMYcpqL2e3dOUBdSIBU5We8AI4vPr+gJ7UhUWoGH2gbIg8SHsi9BR8yEJ6TFhJEFbO4Ub8FGbmZ5ygvibRI7E1KYzCe4M/lulkEGzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785068614; c=relaxed/simple;
+	s=arc-20240116; t=1785068884; c=relaxed/simple;
 	bh=ccoLxXcVCAekN8O5gMgLDn7JdMt0YqOZNIb3h7ismYM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mne0Z1EE9z4UuK5dYZ0VzXIURIJNktP3UHa2JCnYNGD4fC+LkZAU4geDQNP1EhOKbK2mqvHQl7gADwEbNkUciTpmTE++eKtPuEWZ8gyIkLmAZg9TVW9ZD3n0zIy7ewHgZmgOV9SbnXGgigpWqP2NnxFhGCCCm0sgvBfuiSHKjKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f7ruABK1; arc=none smtp.client-ip=209.85.210.47
+	 MIME-Version; b=PGSIKHgJ+96gsoRvwHoYK6iLPngpdcHYHcNKtZmFltvo8Ec9rBvbgqtajPCtrq8ytSe9JExdGd9ntZ3dV1maVqr2ReQ5hj+NGSyQ3Z+9t1I3eivx+YU0vb2dnJ6QsMQfXjvRbrHb2x+JklZIbIuddCqOmxjehRNghHNnt/o8cME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tg7jnPX6; arc=none smtp.client-ip=209.85.161.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f7ruABK1"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7ee4399c3abso1405133a34.2
-        for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 05:23:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tg7jnPX6"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6aaf3f54dbfso721286eaf.0
+        for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 05:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785068612; x=1785673412; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785068880; x=1785673680; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=0oVEf5/gSaD+al9Pequ5m2rnhtlrO+HvKfH1QE9WEkQ=;
-        b=f7ruABK1b9LOdLMLX0hoUbdnicYBAG40by648S0h3Hw6n65j2AtAsT5gvosd66eOgc
-         HUbPfC498tJGg4NKwggeU0T1EK1632mv5rhSCb51w6eX6hUj5BAg1POhbwpwTlt3KO4T
-         C+ZKFAx06jrRgi7SOI/RdpTO+253hTAEWSPJjpK6FYtinl5fUM/UOOwu4W5VcfH9HzG6
-         W8AZSOq+vmvvAtBKNBeO///i/v+iOaT4aisXjgP1iy/vXYxK25mYJhUn2lMTm6vZDS+d
-         ciNLVJMpXPGKh0NdhHc1BATFKEZ06wv7S0SER1aCi2p8gILw8mgiI9n5JSBKoDu1c5c4
-         rLXQ==
+        b=Tg7jnPX6RNUuQtCqe7gQKvbuo6uI020ByxoFuHeWAOAbYS2hErTrgS+Y5/0dCezjUm
+         4ZjOowfwrAVKNIPjgVoA9ToN3jH3hEoJ5tkfiJO4E9CSdo6KqN+sYAG/ebAw/JxgELUK
+         kd1eS6MMcRyadlidxsg3eNfvNojzxbvxtwfu5VC3Pyz3wXwkD1lJ3CkFN5d0u4NPaFaT
+         Lw8qlYf1ui294361LVlQsrRUI4N+aa9McMklfjIXCHvVCRzDoaw/nM00TSHC4FU4WDNH
+         NtyA/7aBT0XWbAm5mWaJLEhe9Y5d+E934uLS3TLjBz6lzTUNgSkGFwX8D7Y3NSHxM4Ed
+         tzuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785068612; x=1785673412;
+        d=1e100.net; s=20251104; t=1785068880; x=1785673680;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
         bh=0oVEf5/gSaD+al9Pequ5m2rnhtlrO+HvKfH1QE9WEkQ=;
-        b=F7uuQkWL/72AX4d1xOM19yyRMwd5OHhA/WmLm9RSPEyokvgYEWfdlHjTczw82rdydR
-         yY7eWjaSMYSMShpg0MwqYlzRxrb5x3e9j2QU8e4G5BGSYKM9JaOKE5p9BBD+pjaYgQBS
-         xEum0C7tgSiw7gS3iRhdKNQUMKpmldYQL8u+cLrCrVXJwIzuBr+hrf+WUhEoP8dsFzwR
-         uodX4Ye7notX92S7gP2Hjrg8l1yicH6fLOCyz5nqZ7w8vPlhKCdbFT02ncNo/dEh1Ien
-         j3UADgnoVYTC4gYbK0bDRn9zx6YfgKt6RhtM5qnDqYkwH+Yufa6hHRHQStNrrK5YbFhJ
-         bmQA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq8iIlpQByWp4tFOPi5tBTGh2skGjgzu2yCbTZoTt3NhjRGg2rrBI8G9dfrkdffUffeyH9884S2OqoB@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywwckgfoe9gZDseP6oGZPf9reywI3QKZ7AtL94zOwLRZBKq4ZZB
-	R9wMzCeQtzqGFUpkvUmkJhrvyxEUSe2boGj+BXiM7vehpjrWhHOPwvbA
-X-Gm-Gg: AR+sD13jZlgkD4qvjl/xNR6qTPWqd6jHD0rQGySkNLhV5nMBsSEc70vTWlv/oazUDd3
-	+5mfNI8P7JX0isRm/d6ppJiFAz+Ou3CFeSNFeJYbSJl6zEJhODcGMAIgAWXZYsLjequJZPP8N1o
-	fe8HyWBNwa2ya/p0YC26DHPZiM0AfiHRq5Mubkxph2KOaB5zf/Y7UE8Nc1giY1CBefuPorBuUBT
-	GgankElZjBk6WoRHOoTkoapP0H+Frj5FhK+pBhcSfczXHgiLpRPzk++d1RGd2gpOwSw5JbdE92v
-	iRzML6S8hVk5aI2b1dps8Qr4GqqkVW7aEGcHElXuSgBYbAdwQ0imp8RRpavC1t4vlslgOq4hn/5
-	xn306M2oLwdnEeUFqpfO1PiMo45Mw6d2DDVRLpyhQs5DUdslLeloLiZjV0AOwNFDU//IxeDN1cP
-	FhZQ==
-X-Received: by 2002:a05:6830:2692:b0:7e9:e808:e9c1 with SMTP id 46e09a7af769-7ee78c42561mr4564556a34.8.1785068611885;
-        Sun, 26 Jul 2026 05:23:31 -0700 (PDT)
+        b=SbWBSA8G8P8oWU6x7LfAYfTKSX9V0jCqEclXZJBwjNJ8uahXkrCLjnQ0rgwr4U6vqP
+         p3E+W4MhouXjCCxJHRGmsze8Xozqw5lj/er/rnhXKf51K6KFtWHAfzezUfA2uZPwRvOC
+         1ICgU7tZoVmfIbNCeYPTeyI3thRaJ3J9IUV4kN6HmWwNkmZ7JU+B7icOw4xhaG+yrsw3
+         vJjAtMeBMHSb/ZJY7r1Ilfkp0lNV1C4s7fvmbgT7vz/iTa42I6kH5vrcnO4QeUKaRi/c
+         86dLrjIARTZIkJy9eps6WeDAOS3i5qwG3MbWyx8crbzWHe2eJiX4+rD06LPOXVSPid84
+         Vr1Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrsXJnuY1nQEbOQ7sYgnlc0zZC9YX9XOLhq7s0Q37M9PJ6nei2il9v9ZIxGIZOZlkvwHWiN8kAfEh/v@vger.kernel.org
+X-Gm-Message-State: AOJu0YyggJl8WetPifJAZ39nDgCcvF1aXeIg39ptUAvKz7V2Bu+klyVo
+	uCiGaGtLnJ2QmmSwidDvGhCmDbR+PLuHczxt32flDXHA0TVNDtzBlz9b
+X-Gm-Gg: AR+sD12eqHiEgEkFIdji+g26YH/KErvMWfMidm7jNeqclaI4Bl1rURurH/LNTthUDVl
+	jyBBbi7kCFPyTPSB5iVJRjjNc2+Bnqk9ujDPET2T8qVsPzprIdkfleUCLVIcB0zOg4gd+HXc/UO
+	4hCaPPFurm0VFg3CZtz4U7CK46pZcoTIQk5VdHSvW2zvycTEeAHygh3xb6gkQKpR8HOCi3q8Msg
+	ctAUzcUPNLTdMfgMv1BpLZ1C59yT5HPn+jMDw69+mXl2JtUNs6eMt7rmKCYu45HvTeuut/ZFV/j
+	LeKJiISe50EYunknGAwv2Zx9ai2o970gHxoivK2XlGSxW9zKTpiCayBgv64JxHlDN4E/s5QEhUz
+	2iYu1kn5hRyUWF66MSAV92SwsvznjsLLjGUDY3sWDq07Ra9kF83uT5/IuQqvJznJYfjE+6D2Dx2
+	KxqTAWhM4y/UYM
+X-Received: by 2002:a05:6820:1caa:b0:6aa:df4e:e373 with SMTP id 006d021491bc7-6aaffadde25mr3034725eaf.62.1785068880306;
+        Sun, 26 Jul 2026 05:28:00 -0700 (PDT)
 Received: from localhost ([144.24.58.22])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ee29db0d23sm9853507a34.1.2026.07.26.05.23.31
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6aaf973036dsm3324321eaf.14.2026.07.26.05.27.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 05:23:31 -0700 (PDT)
+        Sun, 26 Jul 2026 05:27:59 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Masami Hiramatsu <mhiramat@kernel.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -81,7 +81,7 @@ Cc: Ingo Molnar <mingo@redhat.com>,
 	linux-edac@vger.kernel.org,
 	Jinchao Wang <wangjinchao600@gmail.com>
 Subject: [PATCH 3/3] HWBP: Add modify_local_hw_breakpoint_addr() API
-Date: Sun, 26 Jul 2026 20:22:32 +0800
+Date: Sun, 26 Jul 2026 20:27:45 +0800
 Message-ID: <f9c49dfa49bdc57ba8c0574bc9981c1e581acf92.1785067572.git.wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1785067572.git.wangjinchao600@gmail.com>
@@ -93,6 +93,7 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Message-ID: <20260726122745.qKxnEKeljpLRpZ5k5lKVc3QvTZMRZSvaw3dLH7URIgg@z>
 
 From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
 
