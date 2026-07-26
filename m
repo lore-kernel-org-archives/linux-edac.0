@@ -1,91 +1,104 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACF819D07A
-	for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 12:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E945377AA7
+	for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 21:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785068884; cv=none; b=NpAQelgFnvk1lfmjQ6omwH9k/U77DVGDKF+NHzOt7CjHW/NHe+4YNAyT0I0DuHRqUJqTMTMYcpqL2e3dOUBdSIBU5We8AI4vPr+gJ7UhUWoGH2gbIg8SHsi9BR8yEJ6TFhJEFbO4Ub8FGbmZ5ygvibRI7E1KYzCe4M/lulkEGzs=
+	t=1785101308; cv=none; b=OD4+ScOLoJtCOWrDFs4P578xohSwS1oiFNMGapsYBR7cntHhFlgtKgJBXNA4zpfkw+nCjhd21rNS3fSYNF6AtSHIjbWrT3UoLqFFkj5ZM3dgUJMnDlpuxUJNomngQN2qyfrbXl1UI9C0ytjq7v1ZwoCbsmRt2H2MrIXVBcHnTQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785068884; c=relaxed/simple;
-	bh=ccoLxXcVCAekN8O5gMgLDn7JdMt0YqOZNIb3h7ismYM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PGSIKHgJ+96gsoRvwHoYK6iLPngpdcHYHcNKtZmFltvo8Ec9rBvbgqtajPCtrq8ytSe9JExdGd9ntZ3dV1maVqr2ReQ5hj+NGSyQ3Z+9t1I3eivx+YU0vb2dnJ6QsMQfXjvRbrHb2x+JklZIbIuddCqOmxjehRNghHNnt/o8cME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tg7jnPX6; arc=none smtp.client-ip=209.85.161.52
+	s=arc-20240116; t=1785101308; c=relaxed/simple;
+	bh=2rYuD2qXkCwXop3ubM3EPMTRrRYh0s1Xu7FBSEQ0+40=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jjrekA/FaqULPXEQysky3N84d2ea9h1gMC+vKd/w1kDYiJbkx/nfYWQF4MB0hf0Fg/l53TkOLGh3ng+M37HlWDByhxFpZCCsF/f58vN8F6oU7UBIfogagiR89uPxgjaVQ+lpBmxQeYAVQLXYEtysBjoAp4jTVXGGbI0AApyvC2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcIywx0t; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tg7jnPX6"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6aaf3f54dbfso721286eaf.0
-        for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 05:28:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcIywx0t"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-495635a85d2so17453305e9.0
+        for <linux-edac@vger.kernel.org>; Sun, 26 Jul 2026 14:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785068880; x=1785673680; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0oVEf5/gSaD+al9Pequ5m2rnhtlrO+HvKfH1QE9WEkQ=;
-        b=Tg7jnPX6RNUuQtCqe7gQKvbuo6uI020ByxoFuHeWAOAbYS2hErTrgS+Y5/0dCezjUm
-         4ZjOowfwrAVKNIPjgVoA9ToN3jH3hEoJ5tkfiJO4E9CSdo6KqN+sYAG/ebAw/JxgELUK
-         kd1eS6MMcRyadlidxsg3eNfvNojzxbvxtwfu5VC3Pyz3wXwkD1lJ3CkFN5d0u4NPaFaT
-         Lw8qlYf1ui294361LVlQsrRUI4N+aa9McMklfjIXCHvVCRzDoaw/nM00TSHC4FU4WDNH
-         NtyA/7aBT0XWbAm5mWaJLEhe9Y5d+E934uLS3TLjBz6lzTUNgSkGFwX8D7Y3NSHxM4Ed
-         tzuQ==
+        d=gmail.com; s=20251104; t=1785101304; x=1785706104; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tZxmFP5mQoZ4o7r7E3wzZl3XPjei3f68KISo8ypTtGA=;
+        b=kcIywx0tJOcp5uAtDa7j+hB78H1YsTO9HBD3hSH8z6HBXLTg7VLNjP9gnUdMJYGH+5
+         kZ8MqIf9WLV7TIcpSQLjNPnJx7/IV8UGNRWWpaWPjDHh26vgLbXMmRPYPP1xa5fZYzxI
+         EcaSMrDghHbTy+DwzJF2B6Dz8UUxqKAMg2UAUoZHIoAqGm5Za9UMcPXazRT4oAuNqLuV
+         +z8RXnZs0ZJPKe9zOotk2U4DjdPEdUAheGjldnXb0q4b1waPcNZxNd5ZMVL4E+AKWHBj
+         plUyine/371NprhjQJXbQ3SrZFrm1egwweFnVUhPG+1EWPneQ3qcQlBXiThrfsuCkgZH
+         /4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785068880; x=1785673680;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0oVEf5/gSaD+al9Pequ5m2rnhtlrO+HvKfH1QE9WEkQ=;
-        b=SbWBSA8G8P8oWU6x7LfAYfTKSX9V0jCqEclXZJBwjNJ8uahXkrCLjnQ0rgwr4U6vqP
-         p3E+W4MhouXjCCxJHRGmsze8Xozqw5lj/er/rnhXKf51K6KFtWHAfzezUfA2uZPwRvOC
-         1ICgU7tZoVmfIbNCeYPTeyI3thRaJ3J9IUV4kN6HmWwNkmZ7JU+B7icOw4xhaG+yrsw3
-         vJjAtMeBMHSb/ZJY7r1Ilfkp0lNV1C4s7fvmbgT7vz/iTa42I6kH5vrcnO4QeUKaRi/c
-         86dLrjIARTZIkJy9eps6WeDAOS3i5qwG3MbWyx8crbzWHe2eJiX4+rD06LPOXVSPid84
-         Vr1Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrsXJnuY1nQEbOQ7sYgnlc0zZC9YX9XOLhq7s0Q37M9PJ6nei2il9v9ZIxGIZOZlkvwHWiN8kAfEh/v@vger.kernel.org
-X-Gm-Message-State: AOJu0YyggJl8WetPifJAZ39nDgCcvF1aXeIg39ptUAvKz7V2Bu+klyVo
-	uCiGaGtLnJ2QmmSwidDvGhCmDbR+PLuHczxt32flDXHA0TVNDtzBlz9b
-X-Gm-Gg: AR+sD12eqHiEgEkFIdji+g26YH/KErvMWfMidm7jNeqclaI4Bl1rURurH/LNTthUDVl
-	jyBBbi7kCFPyTPSB5iVJRjjNc2+Bnqk9ujDPET2T8qVsPzprIdkfleUCLVIcB0zOg4gd+HXc/UO
-	4hCaPPFurm0VFg3CZtz4U7CK46pZcoTIQk5VdHSvW2zvycTEeAHygh3xb6gkQKpR8HOCi3q8Msg
-	ctAUzcUPNLTdMfgMv1BpLZ1C59yT5HPn+jMDw69+mXl2JtUNs6eMt7rmKCYu45HvTeuut/ZFV/j
-	LeKJiISe50EYunknGAwv2Zx9ai2o970gHxoivK2XlGSxW9zKTpiCayBgv64JxHlDN4E/s5QEhUz
-	2iYu1kn5hRyUWF66MSAV92SwsvznjsLLjGUDY3sWDq07Ra9kF83uT5/IuQqvJznJYfjE+6D2Dx2
-	KxqTAWhM4y/UYM
-X-Received: by 2002:a05:6820:1caa:b0:6aa:df4e:e373 with SMTP id 006d021491bc7-6aaffadde25mr3034725eaf.62.1785068880306;
-        Sun, 26 Jul 2026 05:28:00 -0700 (PDT)
-Received: from localhost ([144.24.58.22])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6aaf973036dsm3324321eaf.14.2026.07.26.05.27.59
+        d=1e100.net; s=20251104; t=1785101304; x=1785706104;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tZxmFP5mQoZ4o7r7E3wzZl3XPjei3f68KISo8ypTtGA=;
+        b=lFUSf2HLOp9p68QDlzV4D6ItlNGk3LuSCvfqIB2B7OrqI4Prwy1p34YI1SfkTdAagC
+         yjix+OivBn1M+4ES71JMMYMxJS/XXXrHfZKVb9HimNMRiu5h8RM5iJ/F8ndufPY8+n+t
+         TXnTeAGUhrJN5BH0NaxXIVBT1ymShMKSOlAVDOO0rSieuDYGuZCGOSfjYvXR5u6XzP1c
+         dah1u3wdBZgGjpGIaGwSVNp2zjT8wxEhCFxMH5ZvXHlgQhID+XH+NjGiqAvcCDE2yYUX
+         n44P4K8NP80/x1ae2GFVsC1SJuVrfe0hRZ8yXBYDUHASbh8h4HRl/NVLeHuUj7a5zrZc
+         AqSQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoOprth7Eso5bTSUFQCkOrqycnW0DMD2SW599hWN4pVb/LaOjqPNCYwdY7hD4stUtzYFBQcv5gmY6My@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDf62ONBbLOcAL+5Bdgr4HpuNBxj05EamzZ8H3psEeqZNwcMyM
+	4s7Zyj7YB2tYYQUz51JftVn+uRqcDro96qJqmlgzMCFX22qKZpVlhOFN
+X-Gm-Gg: AR+sD13VcYozTHqOQE/+P5CEx2T39pYFZldNbx9DTGpOqh6kbwIN7yabHxg7U99rJlZ
+	s1MXQ4cjRA9xhyVbsBQcbzpaVlQsIUmBghpbPbB+/oTrE6Fg6sq4iPZOLrHJWmrl9ftI70lZA+W
+	jdZphl9HL1S1vKi9PiPgJv0GUBRqP7EBAg+cEUQ6ZmOajA9XqmTGImlxDhfe/zc7fTa5gEXTzvV
+	eFDBNa6RnezSwgD5wtyUudugh2hMCxQn17xMdEgy74BOPWbgdGWQWKDLSGLdj2nMdbsl9hzW2Nu
+	7Ewh26MzimKU+WGKzq3rTIrAJwwBpByM35QbW0KHSH1MQ+1up9HKU9Di3odrtyX3WgpbDkz7UX0
+	CJcFwqWfRkCwb7XYtNlSAc+QOkhdTsaEtvY+4ngiL8PPuKtIQqV40+6gjGW+Izzcc6TTUW/AOKW
+	VAcvXZB2CZafYuRI81Kb3ma6ACJJA+xRe3+OfXtYVCqrWvWlL28h1EcULxSOKCa3/G1/7kRNb49
+	PsThY7HyJqAr+xbIof6cg==
+X-Received: by 2002:a05:600c:1d0d:b0:495:4aff:5fdf with SMTP id 5b1f17b1804b1-496b5708144mr83094225e9.28.1785101304012;
+        Sun, 26 Jul 2026 14:28:24 -0700 (PDT)
+Received: from localhost.localdomain (stev-08-b2-v4wan-169520-cust2225.vm32.cable.virginm.net. [81.98.232.178])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4ee1d31sm182869105e9.5.2026.07.26.14.28.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 05:27:59 -0700 (PDT)
-From: Jinchao Wang <wangjinchao600@gmail.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	x86@kernel.org
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Tony Luck <tony.luck@intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
+        Sun, 26 Jul 2026 14:28:22 -0700 (PDT)
+From: shijujose2008@gmail.com
+To: rafael@kernel.org,
+	bp@alien8.de,
+	akpm@linux-foundation.org,
+	rppt@kernel.org,
+	dferguson@amperecomputing.com,
 	linux-edac@vger.kernel.org,
-	Jinchao Wang <wangjinchao600@gmail.com>
-Subject: [PATCH 3/3] HWBP: Add modify_local_hw_breakpoint_addr() API
-Date: Sun, 26 Jul 2026 20:27:45 +0800
-Message-ID: <f9c49dfa49bdc57ba8c0574bc9981c1e581acf92.1785067572.git.wangjinchao600@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1785067572.git.wangjinchao600@gmail.com>
-References: <178476143000.26117.9810509272687580410.stgit@devnote2> <cover.1785067572.git.wangjinchao600@gmail.com>
+	linux-acpi@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	tony.luck@intel.com,
+	lenb@kernel.org,
+	Yazen.Ghannam@amd.com,
+	mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com
+Cc: jic23@kernel.org,
+	linuxarm@huawei.com,
+	rientjes@google.com,
+	jiaqiyan@google.com,
+	Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com,
+	james.morse@arm.com,
+	jthoughton@google.com,
+	somasundaram.a@hpe.com,
+	erdemaktas@google.com,
+	pgonda@google.com,
+	duenwen@google.com,
+	gthelen@google.com,
+	wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com,
+	nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com,
+	prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com,
+	kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com,
+	shijujose2008@gmail.com
+Subject: [PATCH v23 0/2] ACPI: Add support for ACPI RAS2 feature table
+Date: Sun, 26 Jul 2026 22:28:10 +0100
+Message-Id: <20260726212812.89266-1-shijujose2008@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -93,123 +106,270 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Message-ID: <20260726122745.qKxnEKeljpLRpZ5k5lKVc3QvTZMRZSvaw3dLH7URIgg@z>
 
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+From: Shiju Jose <shijujose2008@gmail.com>
 
-Add modify_local_hw_breakpoint_addr() to update only the watched
-address of an installed hardware breakpoint on the local CPU without
-releasing and reserving its hardware slot. This is available when the
-architecture selects CONFIG_HAVE_MODIFY_LOCAL_HW_BREAKPOINT_ADDR.
+Add support for ACPI RAS2 feature table (RAS2) defined in the
+ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+scrubbing feature.
 
-The caller must provide an installed local event and a valid address,
-and update other CPUs separately.
+ACPI RAS2 patches were part of the EDAC series [1].
 
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
----
- arch/Kconfig                  |  8 ++++++++
- arch/x86/Kconfig              |  1 +
- include/linux/hw_breakpoint.h |  6 ++++++
- kernel/events/hw_breakpoint.c | 30 ++++++++++++++++++++++++++++++
- 4 files changed, 45 insertions(+)
+The code is based on linux.git v7.2-rc2 [2].
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index fa7507ac8e13..bea383408e32 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -457,6 +457,14 @@ config HAVE_MIXED_BREAKPOINTS_REGS
- 	  Select this option if your arch implements breakpoints under the
- 	  latter fashion.
- 
-+config HAVE_MODIFY_LOCAL_HW_BREAKPOINT_ADDR
-+	bool
-+	depends on HAVE_HW_BREAKPOINT
-+	help
-+	  Select this if the architecture can modify the address of an
-+	  installed hardware breakpoint on the local CPU without releasing
-+	  and reserving its hardware slot.
-+
- config HAVE_USER_RETURN_NOTIFIER
- 	bool
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index bdad90f210e4..09e599f2d0dd 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -246,6 +246,7 @@ config X86
- 	select HAVE_FUNCTION_TRACER
- 	select HAVE_GCC_PLUGINS
- 	select HAVE_HW_BREAKPOINT
-+	select HAVE_MODIFY_LOCAL_HW_BREAKPOINT_ADDR
- 	select HAVE_IOREMAP_PROT
- 	select HAVE_IRQ_EXIT_ON_IRQ_STACK	if X86_64
- 	select HAVE_IRQ_TIME_ACCOUNTING
-diff --git a/include/linux/hw_breakpoint.h b/include/linux/hw_breakpoint.h
-index db199d653dd1..bf65c7fffd99 100644
---- a/include/linux/hw_breakpoint.h
-+++ b/include/linux/hw_breakpoint.h
-@@ -81,6 +81,9 @@ register_wide_hw_breakpoint(struct perf_event_attr *attr,
- 			    perf_overflow_handler_t triggered,
- 			    void *context);
- 
-+int modify_local_hw_breakpoint_addr(struct perf_event *bp,
-+				    unsigned long addr);
-+
- extern int register_perf_hw_breakpoint(struct perf_event *bp);
- extern void unregister_hw_breakpoint(struct perf_event *bp);
- extern void unregister_wide_hw_breakpoint(struct perf_event * __percpu *cpu_events);
-@@ -124,6 +127,9 @@ register_wide_hw_breakpoint(struct perf_event_attr *attr,
- 			    perf_overflow_handler_t triggered,
- 			    void *context)		{ return NULL; }
- static inline int
-+modify_local_hw_breakpoint_addr(struct perf_event *bp,
-+				unsigned long addr) { return -EOPNOTSUPP; }
-+static inline int
- register_perf_hw_breakpoint(struct perf_event *bp)	{ return -ENOSYS; }
- static inline void unregister_hw_breakpoint(struct perf_event *bp)	{ }
- static inline void
-diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
-index 789add0c185a..0b1fc01f1934 100644
---- a/kernel/events/hw_breakpoint.c
-+++ b/kernel/events/hw_breakpoint.c
-@@ -888,6 +888,36 @@ void unregister_wide_hw_breakpoint(struct perf_event * __percpu *cpu_events)
- }
- EXPORT_SYMBOL_GPL(unregister_wide_hw_breakpoint);
- 
-+/**
-+ * modify_local_hw_breakpoint_addr - update a local breakpoint address
-+ * @bp: the hwbp perf event for this CPU
-+ * @addr: the new address for @bp
-+ *
-+ * Update only the address of an installed breakpoint on the local CPU without
-+ * releasing and reserving its hardware slot. The caller must update other CPUs.
-+ * Return 0, or -EOPNOTSUPP if the architecture does not support this operation.
-+ */
-+#ifdef CONFIG_HAVE_MODIFY_LOCAL_HW_BREAKPOINT_ADDR
-+int modify_local_hw_breakpoint_addr(struct perf_event *bp,
-+				    unsigned long addr)
-+{
-+	lockdep_assert_irqs_disabled();
-+
-+	counter_arch_bp(bp)->address = addr;
-+	bp->attr.bp_addr = addr;
-+	arch_modify_local_hw_breakpoint_addr(bp, addr);
-+
-+	return 0;
-+}
-+#else
-+int modify_local_hw_breakpoint_addr(struct perf_event *bp,
-+				    unsigned long addr)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif
-+EXPORT_SYMBOL_GPL(modify_local_hw_breakpoint_addr);
-+
- /**
-  * hw_breakpoint_is_used - check if breakpoints are currently used
-  *
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
+
+Changes
+=======
+v22 -> v23:
+1. Added fix for majority of gemini AI reported new issues shared by Borislav. Thanks.
+and added comments for the rest of the few issues.
+https://sashiko.dev/#/patchset/20260709210750.424659-1-shijujose2008%40gmail.com
+
+v21 -> v22:
+1. Fixed following issue with mutex_init for pcc_lock reported by Ashok Raj. Thanks.
+https://lore.kernel.org/all/akx2wqr3ULcmpCmc@hu-ashoraj-lv.qualcomm.com/
+
+2. Added fix for some of the gemini AI reported issues and added comments for the
+rest of the issues.
+https://sashiko.dev/#/patchset/20260706000338.362421-1-shijujose2008%40gmail.com
+
+3. Rebased to v7.2-rc2. 
+
+v20 -> v21:
+1. Added fixes for gemini AI reported issues shared by Borislav. Thanks.
+https://sashiko.dev/#/patchset/20260704220745.110773-1-shijujose2008%40gmail.com
+
+v19 -> v20:
+1. Added possible fixes for gemini AI reported issues shared by Borislav. Thanks.
+   https://sashiko.dev/#/patchset/20260408172850.183-1-shiju.jose%40huawei.com
+   Unfortunately could not get a local sashiko review setup to verify the fixes
+   before posting patches.
+
+v18 -> v19:
+1. Fixed gemini tool reported issues sent by Borislav. Thanks.
+https://sashiko.dev/#/patchset/20260325165714.294-1-shiju.jose%40huawei.com
+ - Replace with iowriteX() and ioreadX() for reading fields in RAS2 shared memory
+   tables throughout patches considering big-endian architectures. 
+ - In ras2_send_pcc_cmd(), add extra check for non-zero last_mpar_reset,
+   changed time_delta to s64, add lockdep_assert_held().
+ - In register_pcc_channel(), handled case of pcc_chan->latency is 0
+   and fixed timeout of 0 to readw_relaxed_poll_timeout().
+ - Fixed double free case When auxiliary_device_add() fails, the driver calls
+   auxiliary_device_uninit(&ras2_ctx->adev).
+ - In parse_ras2_table(), add check to verify table length is large enough to contain the
+   num_pcc_descs elements it iterates over.
+ - Add some missing cases to acquire pcc_lock, such as ras2_hw_scrub_read_addr()
+   and ras2_hw_scrub_read_size(). 
+ - Removed clearing base and size in ras2_scrub_monitor_thread() when demand scrubbing
+   has finished, to avoid clearing the user set values, though chances are very little.
+ - Add new field set_scrub_cycle to ras2_ctx to avoid user set value is being cleared when
+   ras2_update_patrol_scrub_params_cache() is being called. 
+ - In ras2_hw_scrub_set_enabled_od(), redesigned to avoid prematurely restart the background scrub
+   due to race condition in ras2_scrub_monitor_thread(). 
+ - rename ras2_probe() to ras2_mem_drv_probe()
+ - add ras2_mem_drv_remove() and call kthread_stop() to stop the ras2_scrub_monitor_thread().
+   However unregistering the EDAC device which registered in the ras2_mem_drv_probe() will
+   automatically happen in the EDAC via the devm_add_action_or_reset() in edac_dev_register(),
+   edac_dev_unreg() and edac_dev_release().
+   
+v17 -> v18:
+1. Fixed few AI tool reported issues shared by Borislav. Thanks.
+https://lore.kernel.org/all/20260312165247.GSabLvX5DjzhDtmyuh@fat_crate.local/
+2. Re-add support for user setting scrub address range for Daniel's 
+   reply in v16, which was removed in v13 because of request to simplify the code and
+   with the expectation that the firmware will do the full node demand scrubbing and
+    may enable these attributes later in the follow-up patches.
+   https://lore.kernel.org/all/df5fe0ed-3483-4ac5-8096-447e4e560816@os.amperecomputing.com/
+
+v16 -> v17:
+1. Merged all changes suggested by Borislav.
+https://lore.kernel.org/all/20260126171552.GJaXehSJp33nFnpvVd@fat_crate.local/
+2. Changes for Borislav's feedback "Add remove_aux_device() which unwinds everything
+   add_aux_device() does for all those devices".
+
+v15 -> v16:
+Attempt to modify throughout the code and logs for the below comments from Borislav.
+Thanks for the comments.
+https://lore.kernel.org/all/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local/
+https://lore.kernel.org/all/20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local/
+https://lore.kernel.org/all/20260119111701.GBaW4Sres045xnfkpz@fat_crate.local/
+
+v14 -> v15:
+1. Incorporated new changes suggested by Borislav on v13.
+   https://lore.kernel.org/all/20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local/
+   
+2. Rebase to v6.19-rc5.
+
+v13 -> v14:
+1. Modifications for changes wanted by Borislav.
+   https://lore.kernel.org/all/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local/
+
+2. Changes for the comments from Randy Dunlap 
+   https://lore.kernel.org/all/4807417b-a8f7-47a3-b38a-94ea7bdbf775@infradead.org/
+   https://lore.kernel.org/all/af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org/
+   https://lore.kernel.org/all/26083ba9-1979-4d14-8465-3f54f2f96d23@infradead.org/
+   
+v12 -> v13:
+1. Fixed some bugs reported and changes wanted by Borislav.
+   https://lore.kernel.org/all/20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local/ 
+
+2. Tried modifying the patch header as commented by Borislav.
+
+3. Fixed a bug reported by Yazen.
+   https://lore.kernel.org/all/20250909162434.GB11602@yaz-khff2.amd.com/
+
+4. Changed setting 'Requested Address Range' for GET_PATROL_PARAMETERS
+   command to meet the requirements from Daniel for Ampere Computing
+   platform. 
+   https://lore.kernel.org/all/7a211c5c-174c-438b-9a98-fd47b057ea4a@os.amperecomputing.com/
+
+5. In RAS2 driver, removed support for scrub control attributes 'addr' and
+   'size' for the time being with the expectation that a firmware will do
+   the full node demand scrubbing and may enable these attributes in the
+   future.
+   
+6. Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
+   the demand scrub, which is used for the RAS2 demand scrub control.
+
+v11 -> v12:
+1. Modified logic for finding the lowest contiguous phy memory addr range for
+NUMA domain using node_start_pfn() and node_spanned_pages() according to the
+feedback from Mike Rapoport in v11.
+https://lore.kernel.org/all/aKsIlFTkBsAF5sqD@kernel.org/
+
+2. Rebase to 6.17-rc4.
+
+v10 -> v11:
+1. Simplified code by removing workarounds previously added to support
+   non-compliant case of single PCC channel shared across all proximity
+   domains (which is no longer required). 
+   https://lore.kernel.org/all/f5b28977-0b80-4c39-929b-cf02ab1efb97@os.amperecomputing.com/
+
+2. Fix for the comments from Borislav (Thanks).
+   https://lore.kernel.org/all/20250811152805.GQaJoMBecC4DSDtTAu@fat_crate.local/
+
+3. Rebase to 6.17-rc1.
+
+v9 -> v10:
+1. Use pcc_chan->shmem instead of 
+   acpi_os_ioremap(pcc_chan->shmem_base_addr,...) as it was
+   acpi_os_ioremap internally by the PCC driver to pcc_chan->shmem.
+   
+2. Changes required for the Ampere Computing system where uses a single
+   PCC channel for RAS2 memory features across all NUMA domains. Based on the
+   requirements from by Daniel on V9
+   https://lore.kernel.org/all/547ed8fb-d6b7-4b6b-a38b-bf13223971b1@os.amperecomputing.com/
+   and discussion with Jonathan.
+2.1 Add node_to_range lookup facility to numa_memblks. This is to retrieve the lowest
+    physical continuous memory range of the memory associated with a NUMA domain.
+2.2. Set requested addr range to the memory region's base addr and size
+   while send RAS2 cmd GET_PATROL_PARAMETER 
+   in functions ras2_update_patrol_scrub_params_cache() &
+   ras2_get_patrol_scrub_running().
+2.3. Split struct ras2_mem_ctx into struct ras2_mem_ctx_hdr and struct ras2_pxm_domain
+   to support cases, uses a single PCC channel for RAS2 scrubbers across all NUMA
+   domains and PCC channel per RAS2 scrub instance. Provided ACPI spec define single
+   memory scrub per NUMA domain.
+2.4. EDAC feature sysfs folder for RAS2 changed from "acpi_ras_memX" to  "acpi_ras_mem_idX"
+   because memory scrub instances across all NUMA domains would present under
+   "acpi_ras_mem_id0" when a system uses a single PCC channel for RAS2 scrubbers across
+   all NUMA domains etc.
+2.5. Removed Acked-by: Rafael from patch [2], because of the several above changes from v9.
+
+v8 -> v9:
+1. Added following changes for feedback from Yazen.
+ 1.1 In ras2_check_pcc_chan(..) function
+    - u32 variables moved to the same line.
+    - Updated error log for readw_relaxed_poll_timeout()
+    - Added error log for if (status & PCC_STATUS_ERROR), error condition.
+    - Removed an impossible condition check.
+  1.2. Added guard for ras2_pc_list_lock in ras2_get_pcc_subspace().
+        
+2. Rebased to linux.git v6.16-rc2 [2].
+
+v7 -> v8:
+1. Rebased to linux.git v6.16-rc1 [2].
+
+v6 -> v7:
+1. Fix for the issue reported by Daniel,
+   In ras2_check_pcc_chan(), add read, clear and check RAS2 set_cap_status outside
+   if (status & PCC_STATUS_ERROR) check. 
+   https://lore.kernel.org/all/51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com/
+
+v5 -> v6:
+1. Fix for the issue reported by Daniel, in start scrubbing with correct addr and size
+   after firmware return INVALID DATA error for scrub request with invalid addr or size.
+   https://lore.kernel.org/all/8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com/
+   
+v4 -> v5:
+1. Fix for the build warnings reported by kernel test robot.
+   https://patchwork.kernel.org/project/linux-edac/patch/20250423163511.1412-3-shiju.jose@huawei.com/
+2. Removed patch "ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names"
+   from the series as the patch was merged to linux-pm.git : branch linux-next
+3. Rebased to ras.git: edac-for-next branch merged with linux-pm.git : linux-next branch.
+      
+v3 -> v4:
+1.  Changes for feedbacks from Yazen on v3.
+    https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
+
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature.
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
+
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".
+
+
+Shiju Jose (2):
+  ACPI:RAS2: Add driver for the ACPI RAS2 feature table
+  ras: mem: Add ACPI RAS2 memory driver
+
+ Documentation/ABI/testing/sysfs-edac-scrub |  20 +-
+ Documentation/edac/scrub.rst               |  70 +++
+ drivers/acpi/Kconfig                       |  11 +
+ drivers/acpi/Makefile                      |   1 +
+ drivers/acpi/bus.c                         |   3 +
+ drivers/acpi/ras2.c                        | 509 +++++++++++++++++
+ drivers/edac/scrub.c                       |  12 +
+ drivers/ras/Kconfig                        |  13 +
+ drivers/ras/Makefile                       |   1 +
+ drivers/ras/acpi_ras2.c                    | 624 +++++++++++++++++++++
+ include/acpi/ras2.h                        |  86 +++
+ include/linux/edac.h                       |   4 +
+ 12 files changed, 1349 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
+
 -- 
-2.53.0
+2.25.1
 
