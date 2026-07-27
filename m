@@ -1,178 +1,202 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010042.outbound.protection.outlook.com [52.101.61.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE974248AC
-	for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 20:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785185474; cv=none; b=QxNQsytDOLvKbIoE30hz5rTqm7Niu36CKlm8PZrzgmpn9otfBOB9CkECAvu1W+uUt6XgFa3XDJ6ZdOFKGUlSCkSurF0eE65oPeBsbqDqvGzy/jghilx6oLIjUhxvrnpzfUy6aGbHJkhKeM4GcDEKhKGdMlL5Tei2PO4C1uSGE0s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785185474; c=relaxed/simple;
-	bh=5T40wmWDtqiWw9nchZXY9adF6khd5Rjbq9/1nH+g5s8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cUKF7AJT/3+fZMGKDwde7Giiy/BWHA1+O8Ncfy2kfZNG5LgBQ710TxJUwXuNsHwjZ+NcsK8b9hRIVCDvYoOzHjjsfAbO1F4PYmcDcEkS3BaKdKt61RZC+dhMhi9xWUm+LZeqbl8dfan0cxO9u4W4x39JeA7b2iews+PL4k9w0bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TfcEVxYH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fE38TUMW; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B25140A93F;
+	Mon, 27 Jul 2026 21:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785187262; cv=fail; b=Hd0dsMF2MWefjl1FNlqTOEltFs9LF9veXi56oXDmH/sgyIYjaBo4gVtFVHDMwAlVyFYcfG7Ln+PCiCKxvMn24pfwcVDEMKT+EFu210u5bKvl8qW7cy4HP8pee5KJOKtOCu4FXTaW1suaqgQWChJJ67y1z7scIxPRiojsPDBl1FA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785187262; c=relaxed/simple;
+	bh=GrYXH79D1l+EZG7RNI9rKDp2LoXdLcvlfoOx4CUVIgI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=S4U9OWM+kdslqyqvKxqTik8+I6GxsGTJpJYBrBJHbaE5+O9uqbMfMgc+3UfK7Oxe9Z7hl4th6r0Ic4W5If/nctjdYcLs/SPH6npTt+MOuKbLu7GcjBUlaG8/dpr9Tzyo86/pyHKk+U+EX0feHw8Tl9NkSA5pJt5MuKGDwp8QR80=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YW+p2cSE; arc=fail smtp.client-ip=52.101.61.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TfcEVxYH";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fE38TUMW"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RIC593321750
-	for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 20:51:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ml3ta5SN1xbqlfIsvlPisKm1wFDAiGC6EKlzVfQ7Seo=; b=TfcEVxYHH7awtRre
-	u3qOjQ/eJ6aHTo+6+m7rfqbloAlVE8jjyrLS0594MLb0Rc6vhfr41+bnY/NgcvZs
-	N9SOJB6QO6ENi3avgPBGoJ1uHk15Wz8PRzLaEo4gefSMOm2mKKhBdKOdEg6BkPdb
-	nTN+10Jkt8f5wVUMC4n9rD1p/uC4cRSx601en/2yIA9HR4m9EZkH1qfgVAN0o/cA
-	6fbcaj8zBSCcCRkGT1tqYGGs0Idoj7KAvl6AI1LtERHcA8umtcRpgGOWQ98znmJM
-	UcY5SIdgc561hG0WMEzgK4g+5DOH+cDFjD2zT2zotSVSZ1NQOQaYieacapuF1uLJ
-	uXIhow==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fp4uktubu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 20:51:12 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2ce8a76df2dso54568915ad.2
-        for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 13:51:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1785185471; x=1785790271; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ml3ta5SN1xbqlfIsvlPisKm1wFDAiGC6EKlzVfQ7Seo=;
-        b=fE38TUMW8FT85/jBngucxH6zypRf7FVYwmRsdlK/9evbpCWAwPv2rXtwda7Wk6p0x6
-         adFZ9gFxLXFT6pvIhoglig0aRqJqw2BUt1SOU5g/P9SCNWT2clPav8s5jZJBcOW9QBXW
-         h4SqMj2fOW/235HmQwyderD2VoHLk9gd/5pU4bIAoOhXMXD59sMt+SkK1IIOy16zWGrb
-         JaTN04+/gkyzBkddCzZUsBaCfB/GNEd8SfquufiVVCB/TBxPfJWcVfA3n1OgcK0+KUUM
-         NBU4jCdTi3ugwBymdCOwSnoLlhtNUZEmUYOsVE9OrFwBRgNL1Yk+OZHht0qCH/IHEBKm
-         wqhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785185471; x=1785790271;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Ml3ta5SN1xbqlfIsvlPisKm1wFDAiGC6EKlzVfQ7Seo=;
-        b=kWp1ZUNrYBByWy/yzbEbMsHXkJnXJUSwLjblHY0iig/l2h6o3RAYwJKBuSf586LzS3
-         aHqt0ceWM6NhqkSJtp8FbQLbuy/FoBRG9zsgqMxmdK69Na4Lcc9O/Yrua4jbIxjo2Zpm
-         iAQBcarZvUw1YLgM7RSvLlqQNifVqX74rSjhq1GL2QhOIVLz11n3UEmOenxkjFpaoGIG
-         BqLT07GUPrbSzL4dj8lFKPlIo8DBZ8X8LI5o2vOar3OcVvQ+4SOVN65jpUCLPqFigqYo
-         TTnhppggk/LriX09wvFWWLmIRA1YitZZDIUAtvMYa/lNkm+FyqehPH7h+BNDwwUd+IqC
-         +zSg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr+jbDTQmA6ZGnBrczXvqnEqP5WHeB04yD4rOdn4BISjmhc+lvQfTFLfe6qohon0y9kUV5a4QOEgGNw@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnSWlMneygCmTn48lK4mJNY0nxRFRbuVoDk278walGZqYasyga
-	B7PIt8udTT+ZYhkVilwX5+ukvAaEY7HFYYzLZ+tl2KB4CeJe8ChdAjYq4Z9LJ7MUcphHGd38T9T
-	/gbeeT0axMvfXAqcYksoK2NB6AElBAYNaces61dImJ+Z1ynl/WO8e/86ypbqt5d4K
-X-Gm-Gg: AR+sD11KvfybzPkXY8UJ3cisNfxYWdxdhH4NEyIqVNRsiKOsf0ltBSW9FV3BPDGmDOU
-	bQ6ljtpWTM69jg0Fe9MtelkuaBoIPAaKK5GLWrl4OjC7qAofSmWe5wFKx176/U6CShV+jcxu9pW
-	8qZ5SjcdNUMMguLFZZiGb8+jnEQsQjz78TK02DwnkGOh3rx4Gh5Kk+sIhmHiL4GI7hOVxiealeC
-	0BKIThGqDvZhgSPKxpDcrRVuVPDuS5eZO8zJ49dXm8GuKSfaeidIis7SE6kUz/Q1c60gTLD7Of6
-	p/blZaBSTX2/p9XYhh92ES2IWg7ctBYCKdTx1VZVmPKzKso+/vI3tY8YpTXgynBHgZq133AF0p+
-	BFhzSCbSq86yzoEvAovl/wpb4I1Y3Zv76NkDvHyS4wya282tG64xucg==
-X-Received: by 2002:a05:6a20:4305:b0:3c4:de3:816c with SMTP id adf61e73a8af0-3c6c7d90345mr1054514637.37.1785185471243;
-        Mon, 27 Jul 2026 13:51:11 -0700 (PDT)
-X-Received: by 2002:a05:6a20:4305:b0:3c4:de3:816c with SMTP id adf61e73a8af0-3c6c7d90345mr1054480637.37.1785185470747;
-        Mon, 27 Jul 2026 13:51:10 -0700 (PDT)
-Received: from [10.73.232.208] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc419c52sm35047910eec.10.2026.07.27.13.51.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 13:51:10 -0700 (PDT)
-Message-ID: <f6443353-b3c5-4922-a98a-1292db381ca7@oss.qualcomm.com>
-Date: Mon, 27 Jul 2026 13:51:08 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YW+p2cSE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vz8S3rsZCA/w9Bpu904pH6DUgDEMEqoEJ3hAaaFt7iKYl6ws/C/IE1rigBo31QVyATSI+OxmJU5OLMUvnIO5ZSRkLOW9bZxjg6afrhOjkhipDRhNuj84R5UgEPsZXyNBWfzf38NKzm/ASBhrml2k9SayfbMg3W28U20S8XLdKulU65YG+DFzsV6hiArCZXHx17yKVvAPhSoTAAF8LQ7iC0kd1ItqCSGG7J4mwSer7LhgtQfYZ7bdU7odsjdBC8c8ZGgB5/lG/AbI8V+KwvwIzRFNDzqB4oloyICHuFM6PjrB/EclHJ/A837wv75FZofkZYDWLV+4Eqcn3tc2huqZBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2evN/Z5pKYhKfYV4+IOlRDP9ZTJ+FuW1aIvs7tjVsPc=;
+ b=bGpiBRU4iNGCd6pRZ3b7ovWjQb/62dl82au3/vBsRJbzGK6Ok4cujQEoKCwJp80fbamgYMYRJ9xI4yIBd6rr5G/TUyPnUaDvICfCl0joZV3xFs2voXjAIaC0vmIYv7xEyrXMqbEOhAFrEqDyn2g/+cp1yRuf9/Qhnd8p6lbY+u48ujulpTLtXzy1nNYc4VSYYNzf2TCuAXRLSB2pZ9CSWjRGIgmbpgslVEAJy84Xn6/tqdOeNDr+q4Ff8EGYgdxlxrAd6QQXM9yAx82KZ0s8uK7kNq15DuoN+2ry6w34Qo8FkmobSFp+rqlPZjUKfyFJCuR2rzDXLJPPG08IbJ/vRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=alien8.de smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2evN/Z5pKYhKfYV4+IOlRDP9ZTJ+FuW1aIvs7tjVsPc=;
+ b=YW+p2cSE8DorxUodGP5w6Zu9HhcEq9OTVa8TuWMrxXrvCZlaujXUfsZk6yi0LG4eM7LcOyd2ABdAKmJ2iEgFgixSoO3aM3l5Hf5wJT0wrrFL9iobMc8rR3ihTILzC7QiTpRIM/MzARWlK9X5bCDzKbF0r0ZxS70l02KL6bgrdVA=
+Received: from BN9PR03CA0493.namprd03.prod.outlook.com (2603:10b6:408:130::18)
+ by SN7PR12MB8791.namprd12.prod.outlook.com (2603:10b6:806:32a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
+ 2026 21:20:56 +0000
+Received: from BN3PEPF0000B074.namprd04.prod.outlook.com
+ (2603:10b6:408:130:cafe::4c) by BN9PR03CA0493.outlook.office365.com
+ (2603:10b6:408:130::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.13 via Frontend Transport; Mon,
+ 27 Jul 2026 21:20:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN3PEPF0000B074.mail.protection.outlook.com (10.167.243.119) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.270.5 via Frontend Transport; Mon, 27 Jul 2026 21:20:56 +0000
+Received: from yaz-khff4.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 27 Jul
+ 2026 16:20:55 -0500
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: <bp@alien8.de>, <linux-edac@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, Avadhut Naik <avanaik92@gmail.com>
+Subject: [PATCH v8 0/7] Incorporate DRAM address in EDAC messages
+Date: Mon, 27 Jul 2026 17:20:38 -0400
+Message-ID: <20260727212045.1810480-1-yazen.ghannam@amd.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: arm: ras: Introduce bindings for ARM
- RAS error sources
-To: Umang Chheda <umang.chheda@oss.qualcomm.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Ruidong Tian <tianruidong@linux.alibaba.com>,
-        Tony Luck
- <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        faruque.ansari@oss.qualcomm.com, avaneesh.dwivedi@oss.qualcomm.com
-References: <20260720081954.1858180-1-umang.chheda@oss.qualcomm.com>
- <20260720081954.1858180-2-umang.chheda@oss.qualcomm.com>
-Content-Language: en-US
-From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
-In-Reply-To: <20260720081954.1858180-2-umang.chheda@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: AE0Qhqh-YSeiuf_VkrL41BB6RWsIrOLD
-X-Proofpoint-ORIG-GUID: AE0Qhqh-YSeiuf_VkrL41BB6RWsIrOLD
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDE4NiBTYWx0ZWRfX5B/i4UuFXEmZ
- eQxixcXIaItgJwnexSua2p1m5A++Si9znC2wzEqtO0zmi/Rlaz6pmZUSz9EnajHlWQweLqdxqrt
- TC2T67bHPfkqH7KgrVCtYaKVmJ5L7rs=
-X-Authority-Analysis: v=2.4 cv=PeHPQChd c=1 sm=1 tr=0 ts=6a67c4c0 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=ZKp2R2PTrS9d3pXqUQEA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDE4NiBTYWx0ZWRfXxCB3i6Ex4Scv
- ryFiO7YOfKlgNQUTQAHmRkWWpid4aBGqxZoXsaE8q17tEiKnyNpGSIUzVxqyJOBD3YdZUa1uV1h
- q57AvONJBbzED67MAcMpif42N20hrDjg6Dmt5CqnVxEpiDQOb6+BAk2WMRZhYm5HLk/cBxRwZCC
- BFEZ/US70pNDkr7TKDa5mDSphsl9kCFTl7SHa4hDp2GsJA+JlLpjDOw1DsgTNiKloGMOD+K7txu
- eVM+4k9M94XGKbtvx/VRoakPhbCPMFTGribp/rNuDnq2FI8/mPxnQIme/DlAWjcoXaVrGe7ICKT
- wmdfK80JmoDPuHiT0aTjWr35EnUri6k/pPvsj+7am8AVDzxBsehRoooeeAaa/ebIX3tj3PXyrIc
- ioUCMvdcaYcpCHqEbcxzh25xYDC+MfpbPa32laVeoLvqgfNWSArUscNDM9uDyikagZkd8FYDvc3
- 0b7swyxD3IruQWzXFUg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-27_05,2026-07-27_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 clxscore=1011 adultscore=0 spamscore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270186
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B074:EE_|SN7PR12MB8791:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d7f273d-c916-4168-9524-08deec24f29e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|23010399003|36860700016|11063799006|56012099006|10067099003|3023799007|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	2WapzFjP35dAy9xpv9QjIoSWvkEcjmqNsnoW555nWISSiyCVUwG9S4CzfXXfyHYyApk1pjIuUmtSbLAY0ZrfEr2tfiAn8jlA1JYs/1HJomc1ehMXV8+Nbhhj2CdsdThRHlbZUAy2qHIBaU723Z7yPmM/P3YmDcNL5wvl5QDX+y8vPFzGl2ksmhBho6dEnoLabxPWjX3ZafOL3rJLoa42RotniGQXvpxAme6fyc35zWwLxD50mMAl5mI4mSCIdpCnmiG6tSDLrSwTAjNFJFH8422tRx3U6H6BQrojVD3TXk1w0CZFZBkhvgup7d/3xKzuZmwy0sL2gkPJJHFOsN65vYARy9vHp/IRsBa9kC0opsOZLJIg2UYS0O8rB9OznQ+jNQWlq/kNsv40BQEO7agM6loIeI05BVdwiydETSNvsd0+8KDJl9ZIcWg++gaHvCxcbFdUZWU6rzClyFH4NnHlF9Ims8DsReobF1upZJyjjid8G1/Ov1Ub6/PUtE9GBkWZg9KvzdP2iIvu5ogDXZ+4dwM0l00R3JOs5ErRLa+Er03Cb1JjW8FWCQzzD2RjNbOouudlcHRTTGlDJUl48twMK/hJo/FaSAdx1RjlFDcFMU2dcJd3/z+ZkePvOU+U+VYuYCp0hGf2WbQLYlOZgAuQPa/cE5RlOCrWGH2CcbzpeaSy2lnXSaQ7aZKVKfiKOqyjg7+7x4QxIr6BVMNi7/OGwg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(23010399003)(36860700016)(11063799006)(56012099006)(10067099003)(3023799007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	of9TzaIrMk4VSsx8XgWGQfb8mr8nMIqD8aJKBtXUGHKIDYVBsWX/EX5vodd+nN4kDXT93HzRwse4dbI1JmKTQJwlqExogQ41CdcU5G/e3xdCe6TrQXh11b5ncsSZ+f8ObxUflpSid4B04t8JFWv5Tk5m8w0IIZzyUlFrFe39fAqlNL14LeuC7fZPGsxktHgOYtHGpyAJhPgFH1bgiT62C2yYht0GSeQcCbdODXtwWuNsvSliRkhslJtYblDIgE3m2Bb/92d+yC8WemwE1Odz6qgs4G9AXT3worttEe13QpOO3BN4bzhdFPzN7OCtbKFOwTxUT20USL+plIi9y1qtwpSxE7nOmYKnuvI7Mlzyzx7yvdHcC+mkTODjlC7qpwxCmozzuUS9crXa5DQxwaHni2vGd0WUoCCPdcRC/nB6SS3AeCFemZ9ABlV6FyEH2aRZ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 21:20:56.6233
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d7f273d-c916-4168-9524-08deec24f29e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B074.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8791
 
-On 7/20/2026 1:19 AM, Umang Chheda wrote:
-> ARMv8 and later processors implement the RAS (Reliability,
-> Availability and Serviceability) extensions, exposing hardware
-> error records through a standardised register interface.
-> 
-> Add Device Tree bindings to describe RAS error sources.
-> 
-> Signed-off-by: Umang Chheda <umang.chheda@oss.qualcomm.com>
+Hi all,
 
-...
+This revision includes a larger ATL/PRM rework in order to have a single
+translation helper. There are 6 UMC address translation PRM handlers
+defined today in the AMD ACPI Porting Guide. With this set, we'll be
+using 2 of them: NA->SPA and NA->DA. There's a use case for a third
+translation: DA->SPA. This would be used to convert specific DA values
+to an SPA for preventative actions like row retirement, etc. I'll do
+that in a separate, future patch.
 
-\> diff --git a/include/dt-bindings/arm/arm-ras.h b/include/dt-bindings/arm/arm-ras.h
-> new file mode 100644
-> index 000000000000..c2f4e1f8243e
-> --- /dev/null
-> +++ b/include/dt-bindings/arm/arm-ras.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-> +
-> +#ifndef _DT_BINDINGS_ARM_RAS_H
-> +#define _DT_BINDINGS_ARM_RAS_H
-> +
-> +/* arm,group-format - error record group register window page size */
-> +#define ARM_RAS_GROUP_4K		0	/* 4 KiB,  1 ERRGSR  */
-> +#define ARM_RAS_GROUP_16K		1	/* 16 KiB, 4 ERRGSRs */
-> +#define ARM_RAS_GROUP_64K		2	/* 64 KiB, 14 ERRGSRs */
+Address acronyms:
+  NA  = Normalized Address
+  SPA = System Physical Address
+  DA  = DRAM address 
 
-Do you want me to have different DT for 4k and 16k and 64k? This is not a right approach. 
+Also, the "function pointer registration" is back, since that is what
+allows the library to be an optional config. I was reminded of this when
+the following came up recently.
+
+  4c3da04827dc ("RAS/AMD/ATL, EDAC/amd64: Only load ATL when needed")
+
+Patch 1
+* Removes the AMD_ATL_PRM config option.
+* New idea in this revision.
+
+Patch 2
+* Rework the PRM handler wrapper.
+* Based on feedback from Boris.
+
+Patches 3-5
+* Bulk of the 'unified interface' rework.
+* Suggested by Boris.
+* Basically, a three step conversion:
+ * Patch 3 adds the new interface.
+ * Patch 4 switches users from old to new interface.
+ * Patch 5 deletes the old interface.
+
+Patches 6-7
+* Mostly the same "Add/use DRAM address translation".
+* Updated to use the new interface.
+* Minor formatting and miscellaneous changes. 
+
+Thanks,
+Yazen
+
+Cc: Avadhut Naik <avanaik92@gmail.com>
+
+Link:
+https://lore.kernel.org/20260630210640.680758-1-yazen.ghannam@amd.com
+
+Changes in v8:
+- Drop "Directly export address translation helper".
+- Merge the two PRM translation helpers into one. (Boris)
+- Build the PRM support unconditionally and drop CONFIG_AMD_ATL_PRM.
+- Formatting and other small changes.
+
+Changes in v7:
+- Drop fake_inject patch that was already accepted.
+- Remove function pointers. (Boris).
+
+Changes in v6:
+- Remove fake_inject interface. (Boris)
+- Add two more values to 'other_detail'.
+
+Changes in v5:
+ - Address a comment from Sashiko in patch 2.
+
+Changes in v4:
+ - Drop a "handler available" check in patch 1.
+ - Reword commit message in patch 2.
+ - Reformat string in patch 2.
+
+Avadhut Naik (2):
+  RAS/AMD/ATL: Add DRAM address translation via PRM
+  EDAC/amd64: Include DRAM address in output
+
+Yazen Ghannam (5):
+  RAS/AMD/ATL: Always build PRM address translation support
+  RAS/AMD/ATL: Refactor PRM address translation into a common helper
+  RAS/AMD/ATL: Add unified UMC address translation interface
+  RAS/AMD/ATL: Use unified interface for SPA translation
+  RAS/AMD/ATL: Remove the standalone SPA translation interface
+
+ drivers/edac/amd64_edac.c      | 38 ++++++++++++++++++------
+ drivers/edac/amd64_edac.h      |  2 ++
+ drivers/ras/amd/atl/Kconfig    |  4 ---
+ drivers/ras/amd/atl/Makefile   |  3 +-
+ drivers/ras/amd/atl/core.c     |  4 +--
+ drivers/ras/amd/atl/internal.h | 13 ++-------
+ drivers/ras/amd/atl/prm.c      | 30 +++++++------------
+ drivers/ras/amd/atl/system.c   |  4 +++
+ drivers/ras/amd/atl/umc.c      | 53 +++++++++++++++++++++++++++-------
+ drivers/ras/amd/fmpm.c         | 10 +++----
+ drivers/ras/ras.c              | 31 +++++++++-----------
+ include/linux/ras.h            | 44 +++++++++++++++++++++++-----
+ 12 files changed, 151 insertions(+), 85 deletions(-)
 
 
-> +
-> +#endif /* _DT_BINDINGS_ARM_RAS_H */
-> --
-> 2.34.1
-> 
-> 
+base-commit: 4020f22dccb18f04ace6c8481dddc01603d21173
+-- 
+2.53.0
 
