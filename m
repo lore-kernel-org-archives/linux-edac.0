@@ -1,114 +1,114 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3912842BC44
-	for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 17:16:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAE841F34C
+	for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 17:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785172590; cv=pass; b=fFspnXx+rV5lNHLerj8O/lTlu2VQ3z8O4KDXGtkNmxkUsKylr2iyNqwEJ6GTbTb5oeeAunBAKKTkDoHpAlwWdNDiH1GV+xUoRdN2hO4Jc1PwoXWBpC4zLrG1ofXmJfAC5s7w7YKZqONTLXyHsx7SZVYbPmHSPNfb0R4GHCkm12Y=
+	t=1785172835; cv=pass; b=BYKgpsunsLbOG1mTbf72zxH1o1iHWoqmiRkzch857DVfKRajhfyrsJmFLXqAhGXNl8IEnSaRHNVHs+mULePdJNM6mH4D/zFkkD39xjWyGGSNrRkwOflJBXCU9ju0HRI9vif35FY/XFq973xIltmLgoK6ESpPaIFuyGlZOpW/BW4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785172590; c=relaxed/simple;
-	bh=hFH4zZBkUuQuXO51qpxPQA7VKLl2bwS5UMexaJYtPqU=;
+	s=arc-20240116; t=1785172835; c=relaxed/simple;
+	bh=MbGhLaPtnlkcDFHbeJnQLCOxp+QpCvfPQkf5eXQ9u3w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TYmhrajQGZexsAzh1QLLeESViDps4edDIgUThQkoGaQb3XGbcwVZkX3IBizB9J4MJCvzFAB+w9IjbG5UmwTTM1CBe4Rv8A8r8NLmQWDNGobIV4SGsfS2gFM7K6Dg2k/isHq/0B1Or1YlRulR54teN6Gbl1YJi11Da5hzkZHYCnQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MiReFNi/; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bKEsmYq4; arc=pass smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=pAKHz/5Fy6o3R7pt+1vHPMcQPi6l/XfkWfYg/MpPFhDf/KxD3eX+XHsvw26wzzQwU+UnQmtwTCFJjiiXSkiKfg3w7nv8kqF05CywqmYdyLxMQtZza3+ghmvQE2Oj/+PmyK4pSPNh0wCjA1UbvdJTfnm9aUJGe0RC6JhcUY3uCko=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FgaTBWG7; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=f/ptztHl; arc=pass smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MiReFNi/";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bKEsmYq4"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FgaTBWG7";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="f/ptztHl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1785172586;
+	s=mimecast20190719; t=1785172823;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W3mGFXZevARNc878mJv43Auua4IFTv4YphZThywYfhE=;
-	b=MiReFNi/aYFFlxbIP7VjlW6PeFOHTLjwtn4Em0sA7OSItj4X07SnBesyhGACa7zcWsnekS
-	teKk27OC3ymrxpM4qSFdJ8pJ+TQHv6MHztu7TRPrqw0VQQZqCojvCvTIqVYz5Q8UOTluJ4
-	jFKCoayP3IO9vkrPjWUaVJWyDk9nQuQ=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=u6afx08wKd6RvWFzCzuO54Zssef71NPh6fis+puWjoE=;
+	b=FgaTBWG7La4lT30taEHJM2wg08h+fCHNaln4XfUim37AlG5n0kIplfXW/YhjuJkZUTVgdI
+	QjtW+c4Eq/7c0N2istFuDAY9h7CIn2+EKSwOdYlinUD8qiCof+Ubr3W0MJdpQpAJcE85E+
+	0OhKPuNMJOFOykY/jst0pb0regn8z80=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-326-1qMj7F_BMXmM_NQOPPkZ_Q-1; Mon, 27 Jul 2026 13:16:25 -0400
-X-MC-Unique: 1qMj7F_BMXmM_NQOPPkZ_Q-1
-X-Mimecast-MFC-AGG-ID: 1qMj7F_BMXmM_NQOPPkZ_Q_1785172585
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-81eddfe28b4so77349617b3.3
-        for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 10:16:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785172585; cv=none;
+ us-mta-372-wn9OeLndP3yMewOcbTbv8Q-1; Mon, 27 Jul 2026 13:20:22 -0400
+X-MC-Unique: wn9OeLndP3yMewOcbTbv8Q-1
+X-Mimecast-MFC-AGG-ID: wn9OeLndP3yMewOcbTbv8Q_1785172821
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-668a55b1809so4818830d50.3
+        for <linux-edac@vger.kernel.org>; Mon, 27 Jul 2026 10:20:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785172821; cv=none;
         d=google.com; s=arc-20260327;
-        b=LJ5gI3r3o8GXc6Gqydh/GABY54Qjno60/Y3EVrviDbF8Y0euuDBr5UZgMTPG+CaCHP
-         tGUPI1d3HJHt7sM3E822gH3TgaeTnKGZhJ3isEDVHu3Jb/cJIhdqNCnbJazRO3n8ANEQ
-         eOH4o6LB4PweeuzQ5bqccNYvHP6w88ooliavFQ6Z1/hpgNxJWILfD152tJnxeMJ+2UGH
-         pRhU9xr/t9L6ze0orMTlROMLCLd2iImfftQ/rkHH8lvLBbfp2jiF8MH9eickeeEpAKY9
-         BCm6DnzXZOAqooTFqQ4/hQ3tSEd1ysfggLfbJCaOKAx4H7Wy3+KzqBH6D7woZs+W565p
-         H8lw==
+        b=sSZkz4UhTV5KWj+e6CLFYaL6mhe8yXSYLN9l0qrPllZ2utZN3uPtSHSfVs7liqAFYE
+         Nm/A5UM2bj6IBV7fM7/FegrqbKnDdagbhFS/dWgTgjfLDb3R5CVIrQlHuVJYErj48CeD
+         Q9KUtsG9WbSSCXExEyA8dMjozjzGLrBF48RmDi6eLzwAejTlB9wb+ewXRQfof4KcRr3b
+         wN21C4nE82VV9Z6kpYiGqU02GJAvZeAo5P+J5XyLB3q8yBXxOtSo6zkbUqQysLxIP0QZ
+         9AMHXq9rtgvmCiwAPfqX2dlGU3fHE0PZfF/R+4i7SSiTpx95gwnEDxDzGPAFptIypRkm
+         g+ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=W3mGFXZevARNc878mJv43Auua4IFTv4YphZThywYfhE=;
-        fh=y4qLJUh0WvXT4I72HWnwQ6p8rKboNBGV6E81ke/C1TQ=;
-        b=JkVvBb3phPFF/jcY18vQhX1tSvnA8foqXWzpxb7JPUgHbGKKyDXAWRD5JXOA5HGijA
-         y69FyaKVrwk8debuVrHSOdkphquY7RM7VTxysjfAJ7jYWNUQdhjgPeXwPJk/VGX70NKl
-         bywblIdsyQxHBTIS/rgFp7OWZLFPuDuXah/wv6jr24Wr5xwvX5SWJCsne+UzTa209AWp
-         pyX3YAz13C6ZPvN9NnHYlj7R3bNm6a6B/YHagBI3ynnxXpwQYiNquGO9wbUEcidYAHFU
-         OplO2Oziac+YNgmY3bXTF0sN1954TN/EOb7whNu0BjF1c8hjM5lf/9ktymlLKDaURRnb
-         rq5A==;
+        bh=u6afx08wKd6RvWFzCzuO54Zssef71NPh6fis+puWjoE=;
+        fh=9mNWDDrDq1Udbwxn+o9izIpZPwN2Gt37dxv7992Xxj4=;
+        b=rt/JThwhQBZ6YEB9GbT7nDXpDRTcxAdX+3z3bOuHem4H3Gnk4Vuh/J2sfRfkiXUYX4
+         XvkaxtTPJtHFkRw801GOnDZQ7aknWPLvevLPqUwmkAzquiLC+TGVs/1pDVeSygQfFA6n
+         wir+rbPmY7tfIR1D3ymsCPu8baT29N3HbjNiezR/cp5JULO75y3ULZM+vfEAGY+Q7/KG
+         4EfLGQHfIPQxXqWFs3QMGZjnk8Azcr4vXGdO/rP84TVcv9vuKO/eyopZvdDQ2i7q38kY
+         urn32rM9p/leKEjY3CRGvH8TX5qRrQgWwQAFn2Boyyvc7HKGfhYYHaobkRJjgzJxAbN3
+         QLZQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1785172585; x=1785777385; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1785172821; x=1785777621; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=W3mGFXZevARNc878mJv43Auua4IFTv4YphZThywYfhE=;
-        b=bKEsmYq4F3e1JgtncBukv4r6LdvSk0ufBkWoDRJ/Zjh0l75+np6hlUU3OAYwxLEXa3
-         kWFhiSD7SZ8bPhlmv0ZSphvnPJ1TjWMnj7OTXLZuVRs96QtFUKfm5m8wKka8YOFIekKB
-         dJO4PEkZAjiBee+dhharJ7Ut+egATeH7ke0okjaGub7hxBLoOcKuWuzob48ZjLcpppdx
-         CUvXmEKDR6Fo/sv5w4hPkANqK+edVYWogdNKJHy+FWUq1Plc2NMWTq8ZDnVuSl0W+RpB
-         R1p8xs88eu0BxC0xuMDjZfHl5Axol3X9A3vdXwC4W6pINB7h0Fcm3/OxAG95SrZj2SeW
-         PRlw==
+        bh=u6afx08wKd6RvWFzCzuO54Zssef71NPh6fis+puWjoE=;
+        b=f/ptztHlUHsZlCLB14c/S/sf+sQIlhsev16BD3zvFg4+ciP436edrUOU34brRCqg3B
+         VdbMvHQ0rlW3p4Ok6xdmK+8Rv75g6pkBOZdxnws0MMUdvNwm7NzT8EO5p/D9pBRSrUgu
+         vvV9b3v1viNg01uXFhMNgOc/QsysOAJsaIJOUALuWUP4PkGJR/7ceY98d0bO4KBXTQuN
+         xBhxAFjN9qzr/+4IiM3QnJYVN9nlKZQ7MPTRgd4xyGWIwf8bWPUz5gi7FAb7HiJVP2hh
+         cXU8S+aA0n7PnpibTmEcGEZWxuM0VDEcP6MyCWOqIBJAdt4DyA1jy+sMCW11Qc3NOr4m
+         kmZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785172585; x=1785777385;
+        d=1e100.net; s=20251104; t=1785172821; x=1785777621;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=W3mGFXZevARNc878mJv43Auua4IFTv4YphZThywYfhE=;
-        b=MQJ/ToFscqChCogvHx4KxsI9GUhr4LGWDUE8VpKCNEvkT5qAtwBFAlwud1/V5W0fK4
-         FDnPJ0wctYjd1yHoVCCeYwzkxUzhiPTP6EbrPe9f5Uh0HbO9jCirhBJBibmGgAgxDl5v
-         jrdm4jw8Fu07VTTYaD7FmA784aWUW5DS+jScebFJPokqXLKt6YJqlcYrG5WR1xwK2RzG
-         rhRwtDMx7swBGBYEtvVDe7S8fK1rbvNUCmGC/zmooN4eUdxB3eyqUHcb8p5wGwwRghEK
-         Xlt/8/B1mmK+x4AmDysiZCbIYsMyu4WJykOY9LkH8P1AVUBdf9CRbialFcSYFxHSsOqG
-         wLiw==
-X-Forwarded-Encrypted: i=1; AHgh+RpQCsQE2P0BPBSGShEWKq4t+eiIsh28zTHQuOz+r1wmBr3c0+iRz19C85nd7ElzPPbevuH/xgfdJcJC@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfUbHh/pwov+bnnCNqO3R58FNIkbMgZwPwBzk8IeKQGBlpTi4f
-	EbNB3IY+AfKE3AwmgnqjTXpCYwokzUEJnE/3xD4urOETe2eHAjmVIBHdcoorQqAeG52g2e+kds/
-	jg/OTopLckRD81k6HaeNO+9VjxWgKfJZAzD34LsKxd4TqsCqt594GZt2Si0MqkJ7JAKwgywWw8n
-	Lr89o1A4ItirkSMOHKm3jzcmw6vJ6QxMxVXupcGw==
-X-Gm-Gg: AR+sD12eqcBSpMa9KpD0SPiXAHikGiR0pvi4i3t/OXqeSyzRF6tPkg/Skedjwf0nntB
-	KFUuGONM684cplO5XS5U4K94g69iXN86tjAxVRczHPLnTMCHNTgizBgkKBs1vFot7mwaOrsVTOY
-	lkm7q7DyrrvfJMURoMLnMKNKuYI9bckwFfqGF9rObaMAxzoDSTlbpq5MzNULNdv+FOYT4nqzo3K
-	wfqgEZfSyMQltG6
-X-Received: by 2002:a53:d94e:0:b0:667:af58:8d68 with SMTP id 956f58d0204a3-668ffdf6f05mr48348d50.61.1785172584838;
-        Mon, 27 Jul 2026 10:16:24 -0700 (PDT)
-X-Received: by 2002:a53:d94e:0:b0:667:af58:8d68 with SMTP id
- 956f58d0204a3-668ffdf6f05mr48336d50.61.1785172584382; Mon, 27 Jul 2026
- 10:16:24 -0700 (PDT)
+        bh=u6afx08wKd6RvWFzCzuO54Zssef71NPh6fis+puWjoE=;
+        b=KTtsFgapXQXoGycZlwp+xd5BxK0+/hURE8ElPLFbZkZ6v5twxG9anuySlPFQoduPFT
+         HB527VaYZE6IlZBN9aixxkjZb25+b9wCppQii1jbAkUyoP+IeB6wtBbMpYvKdz2fx6Cs
+         0M4Y2x8n3VnVnFSwAHjBcZLKN1jmAPNgBy9tJZstpGm+KD6Z/PPPn/xfiHC9idcHKgSb
+         V1o9ZWt/3MHlCZC0d9FrxeTBczdnRCMI5WWovpa780BKkdeMqTFZkxrdlUzEiQfA0z+X
+         /8ApOnHZLV0zWaoHXIJo7o+WdnPXeytz4TNH6L9ZhugyGvWn8ya4deGI5XkVo6WrSade
+         IHPQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rpysm876pBpnDjJ0PL54Ylycno+dEN0XpyJi1nZjXLJpm1XWCQgzxFZDRERWuj+7hgp9+zEHd8VSsGw@vger.kernel.org
+X-Gm-Message-State: AOJu0YymGmoVUXbHJy6JRiaizmFwd++5zZGsY5dQ/8USu9w4dLdTdypI
+	yh9OGR2aS9KNeXnhhB4Nf7yvIf2Jf1+JU2dmgJRW1JZ2Jjy9fo0wDpXB3K9rtdIp2dCzpwuF9ve
+	a/GEVro0yC3zsewLauItbBbvLXk0/4h3XjK1XunLecxF5GuAgeVcDFONqj/MHqafxI3mB0I24u1
+	3pTV+jZh4B6FOIxNcSe8JyB7ZyWJ+XBplC/IMNWg==
+X-Gm-Gg: AR+sD10BbT87NRBAUkhOfd0S8Mhbsq7s3OrbJKuz9IdOOpm3lVTJYgz11ZyhRh2SghH
+	Un2x3sc37RujvOPc9o6iXw9HszvIXR08vz6qhl+2lNRAvujgw9dteVJjdN2dRO9alpwJBusXFTq
+	rq7+vNRHPeXnUb/qAKFuA619a0MKFPqHyb2WvhnAumkxAbAHJ9qpQRD+rKt/zi1NSr7RhE4ax/m
+	hNrTQ0huXZcLIAt
+X-Received: by 2002:a53:cac1:0:b0:667:d5e0:1c69 with SMTP id 956f58d0204a3-668c7a13057mr1982243d50.31.1785172821188;
+        Mon, 27 Jul 2026 10:20:21 -0700 (PDT)
+X-Received: by 2002:a53:cac1:0:b0:667:d5e0:1c69 with SMTP id
+ 956f58d0204a3-668c7a13057mr1982197d50.31.1785172820614; Mon, 27 Jul 2026
+ 10:20:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723044805.527643-1-jsnow@redhat.com> <87ik65g8xm.fsf@pond.sub.org>
- <87h5lobypc.fsf@pond.sub.org>
-In-Reply-To: <87h5lobypc.fsf@pond.sub.org>
+References: <20260723044805.527643-1-jsnow@redhat.com> <20260723044805.527643-45-jsnow@redhat.com>
+ <87y0f0aikr.fsf@pond.sub.org>
+In-Reply-To: <87y0f0aikr.fsf@pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Date: Mon, 27 Jul 2026 13:16:13 -0400
-X-Gm-Features: AUfX_mxQww8G_sDN4rPtGqGYLANzGPwYtpBIHqm73aQVX56k63-nE7PKd7bUCQA
-Message-ID: <CAFn=p-Z0Ys6FoUqRPY7d5CaN4YfHE4DUN6VLtMeWRJgUk3Khkg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/44] qapi: convert trivial intro sections
+Date: Mon, 27 Jul 2026 13:20:09 -0400
+X-Gm-Features: AUfX_mz_Ii50MiumBfvXVZr6OIQ9ljsx38tHDtxPXG0jyiKi4V8B_BK1TGjrT7g
+Message-ID: <CAFn=p-axhB-ezhfD2F8EoFhWT0h92d6oWP6Li1-JdhiXUGbsdA@mail.gmail.com>
+Subject: Re: [PATCH v2 44/44] qapi: convert trivial intro sections for block-core.json
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
 	Lukas Straub <lukasstraub2@web.de>, 
@@ -132,53 +132,321 @@ Cc: qemu-devel@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 24, 2026 at 4:04=E2=80=AFAM Markus Armbruster <armbru@redhat.co=
+On Fri, Jul 24, 2026 at 4:38=E2=80=AFAM Markus Armbruster <armbru@redhat.co=
 m> wrote:
 >
-> Markus Armbruster <armbru@redhat.com> writes:
+> John Snow <jsnow@redhat.com> writes:
+>
+> > (Trivial)
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  qapi/block-core.json | 646 +++++++++++++++++--------------------------
+> >  1 file changed, 255 insertions(+), 391 deletions(-)
+> >
+> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > index 1f87b078505..bd98af2f298 100644
+> > --- a/qapi/block-core.json
+> > +++ b/qapi/block-core.json
 >
 > [...]
 >
-> > Converting single first paragraps is mechanical.  For it to be correct,
-> > this single paragraph must actually be the overview, and not some other
-> > crap.  I expect it to be almost always overview.  Not sure how to best
-> > look for the exceptions.
+> > @@ -422,10 +417,9 @@
+> >
+> >  ##
+> >  # @BlockGraphInfo:
+> > -#
+> > -# Information about all nodes in a block (sub)graph in the form of
+> > -# `BlockNodeInfo` data.  The base `BlockNodeInfo` struct contains the
+> > -# information for the (sub)graph's root node.
+> > +#     Information about all nodes in a block (sub)graph in the form of
+> > +#     `BlockNodeInfo` data.  The base `BlockNodeInfo` struct contains
+> > +#     the information for the (sub)graph's root node.
+> >  #
+> >  # @children: Array of links to this node's child nodes' information
+> >  #
 >
-> The separation truly matters only when the inliner inlines the doc
-> comment.  It potentially matters when it would inline it if the type was
-> used differently.
-
-It also (potentially) matters for auto-generated docs, such as
-undocumented members, return types, features*, errors*. The break
-point is where these fields get inserted.
-
-(*Not currently performed. Not asserting that it will be performed, or
-that it is necessarily valuable to do so. Just fleshing out the
-category.)
-
+> The first sentence is clearly overview, but the second caught my eye.
+> What would we want the inliner to do with it?
 >
-> If I remember correctly, the inliner inlines doc of struct / union base
-> type, union branch type, command / event argument type.
->
-> Argument can only be struct or union.  Base and branch can only be
-> struct.
->
-> We talked about maybe inlining return types some day.  This would be
-> struct, union, or array of struct or union.
->
-> So, for anything other than struct and union, the inliner doesn't get
-> involved, and separating the overview cleanly is just a matter of
-> writing style.  I'm not sure we care.  Even if we elect to care,
-> cleaning it up is hardly this series' business.  In short, your
-> mechanical conversion of single first paragraphs to overview syntax
-> should be fine even where a paragraph's contents isn't clearly overview.
-
-Except in cases where stub positioning matters, see also the former
-"TODO:" syntax used to delineate intro/details.
-
->
-> Structs and unions, however, could use an eye-over.
+> Looks like the inliner isn't going to do anything with it right now,
+> because BlockGraphInfo is only used as member type.
 >
 > [...]
 >
+> > @@ -1378,10 +1355,9 @@
+> >
+> >  ##
+> >  # @BlockdevOnError:
+> > -#
+> > -# An enumeration of possible behaviors for errors on I/O operations.
+> > -# The exact meaning depends on whether the I/O was initiated by a
+> > -# guest or by a block job
+> > +#     An enumeration of possible behaviors for errors on I/O
+> > +#     operations.  The exact meaning depends on whether the I/O was
+> > +#     initiated by a guest or by a block job
+> >  #
+> >  # @report: for guest operations, report the error to the guest; for
+> >  #     jobs, cancel the job
+>
+> The first sentence is clearly overview, but the second caught my eye.
+>
+> Because this is an enum type, and we're not going to inline these, we
+> can leave it as is.
+>
+> [...]
+>
+> > @@ -1636,9 +1605,8 @@
+> >
+> >  ##
+> >  # @BackupPerf:
+> > -#
+> > -# Optional parameters for backup.  These parameters don't affect
+> > -# functionality, but may significantly affect performance.
+> > +#     Optional parameters for backup.  These parameters don't affect
+> > +#     functionality, but may significantly affect performance.
+>
+> The first sentence is clearly overview.  What would we want the inliner
+> to do with the second?
+>
+> Looks like the inliner isn't going to do anything with it right now,
+> because BackupPerf is only used as member type.
+>
+> Aside: this only user BackupCommon member x-perf has been @unstable for
+> more than five years.  That's a long time to sit on a fence.
+>
+> >  #
+> >  # @use-copy-range: Use copy offloading.  Default false.
+> >  #
+>
+> [...]
+>
+> > @@ -1845,12 +1812,12 @@
+> >
+> >  ##
+> >  # @change-backing-file:
+> > -#
+> > -# Change the backing file in the image file metadata.  This does not
+> > -# cause QEMU to reopen the image file to reparse the backing filename
+> > -# (it may, however, perform a reopen to change permissions from r/o ->
+> > -# r/w -> r/o, if needed).  The new backing file string is written into
+> > -# the image file metadata, and the QEMU internal strings are updated.
+> > +#     Change the backing file in the image file metadata.  This does
+> > +#     not cause QEMU to reopen the image file to reparse the backing
+> > +#     filename (it may, however, perform a reopen to change
+> > +#     permissions from r/o -> r/w -> r/o, if needed).  The new backing
+> > +#     file string is written into the image file metadata, and the
+> > +#     QEMU internal strings are updated.
+>
+> This is an example of a first paragraph I might flag for review if it
+> was a struct or union type.
+>
+> >  #
+> >  # @image-node-name: The name of the block driver state node of the
+> >  #     image to modify.  The "device" argument is used to verify
+>
+> [...]
+>
+> > @@ -2746,11 +2700,10 @@
+> >
+> >  ##
+> >  # @ThrottleLimits:
+> > -#
+> > -# Limit parameters for throttling.  Since some limit combinations are
+> > -# illegal, limits should always be set in one transaction.  All fields
+> > -# are optional.  When setting limits, if a field is missing the
+> > -# current value is not changed.
+> > +#     Limit parameters for throttling.  Since some limit combinations
+> > +#     are illegal, limits should always be set in one transaction.
+> > +#     All fields are optional.  When setting limits, if a field is
+> > +#     missing the current value is not changed.
+>
+> The first sentence is clearly overview, but what would we want the
+> inliner to do with the remainder?
+>
+> Looks like the inliner isn't going to do anything with it right now,
+> because ThrottleLimits is only used as member type.
+>
+> >  #
+> >  # @iops-total: limit total I/O operations per second
+> >  #
+>
+> [...]
+>
+> > @@ -3548,12 +3486,11 @@
+> >
+> >  ##
+> >  # @Qcow2OverlapCheckFlags:
+> > -#
+> > -# Structure of flags for each metadata structure.  Setting a field to
+> > -# 'true' makes QEMU guard that Qcow2 format structure against
+> > -# unintended overwriting.  See Qcow2 format specification for detailed
+> > -# information on these structures.  The default value is chosen
+> > -# according to the template given.
+> > +#     Structure of flags for each metadata structure.  Setting a field
+> > +#     to 'true' makes QEMU guard that Qcow2 format structure against
+> > +#     unintended overwriting.  See Qcow2 format specification for
+> > +#     detailed information on these structures.  The default value is
+> > +#     chosen according to the template given.
+> >  #
+> >  # @template: Specifies a template mode which can be adjusted using the
+> >  #     other flags, defaults to 'cached'
+>
+> The first sentence is clearly overview, but what would we want the
+> inliner to do with the remainder?
+>
+> Looks like the inliner isn't going to do anything with it right now,
+> because Qcow2OverlapCheckFlags is only used as member type.
+>
+>
+> [...]
+>
+> > @@ -4550,9 +4460,8 @@
+> >
+> >  ##
+> >  # @BlockdevOptionsCurlHttp:
+> > -#
+> > -# Driver specific block device options for HTTP connections over the
+> > -# curl backend.  URLs must start with "http://".
+> > +#     Driver specific block device options for HTTP connections over
+> > +#     the curl backend.  URLs must start with "http://".
+> >  #
+> >  # @cookie: List of cookies to set; format is "name1=3Dcontent1;
+> >  #     name2=3Dcontent2;" as explained by CURLOPT_COOKIE(3).  Defaults =
+to
+>
+> The first sentence is clearly overview, but what about the second?
+> "URLs" are actually member @url of base type BlockdevOptionsCurlBase.
+> What would we want the inliner to do with it?
+>
+> BlockdevOptionsCurlBase is the base type of BlockdevOptionsCurlHttps and
+> a branch type of BlockdevOptions, where this will get inlined.
+>
+> > @@ -4576,9 +4485,8 @@
+> >
+> >  ##
+> >  # @BlockdevOptionsCurlHttps:
+> > -#
+> > -# Driver specific block device options for HTTPS connections over the
+> > -# curl backend.  URLs must start with "https://".
+> > +#     Driver specific block device options for HTTPS connections over
+> > +#     the curl backend.  URLs must start with "https://".
+> >  #
+> >  # @sslverify: Whether to verify the SSL certificate's validity
+> >  #     (defaults to true)
+>
+> Likewise.
+>
+> > @@ -4591,9 +4499,8 @@
+> >
+> >  ##
+> >  # @BlockdevOptionsCurlFtp:
+> > -#
+> > -# Driver specific block device options for FTP connections over the
+> > -# curl backend.  URLs must start with "ftp://".
+> > +#     Driver specific block device options for FTP connections over
+> > +#     the curl backend.  URLs must start with "ftp://".
+> >  #
+> >  # Since: 2.9
+> >  ##
+>
+> Likewise.
+>
+> > @@ -4603,9 +4510,8 @@
+> >
+> >  ##
+> >  # @BlockdevOptionsCurlFtps:
+> > -#
+> > -# Driver specific block device options for FTPS connections over the
+> > -# curl backend.  URLs must start with "ftps://".
+> > +#     Driver specific block device options for FTPS connections over
+> > +#     the curl backend.  URLs must start with "ftps://".
+> >  #
+> >  # @sslverify: Whether to verify the SSL certificate's validity
+> >  #     (defaults to true)
+>
+> Likewise.
+>
+>
+> [...]
+>
+> > @@ -4735,14 +4637,13 @@
+> >
+> >  ##
+> >  # @BlockdevOptionsCbw:
+> > -#
+> > -# Driver specific block device options for the copy-before-write
+> > -# driver, which does so called copy-before-write operations: when data
+> > -# is written to the filter, the filter first reads corresponding
+> > -# blocks from its file child and copies them to @target child.  After
+> > -# successfully copying, the write request is propagated to file child.
+> > -# If copying fails, the original write request is failed too and no
+> > -# data is written to file child.
+> > +#     Driver specific block device options for the copy-before-write
+> > +#     driver, which does so called copy-before-write operations: when
+> > +#     data is written to the filter, the filter first reads
+> > +#     corresponding blocks from its file child and copies them to
+> > +#     @target child.  After successfully copying, the write request is
+> > +#     propagated to file child.  If copying fails, the original write
+> > +#     request is failed too and no data is written to file child.
+> >  #
+> >  # @target: The target for copy-before-write operations.
+> >  #
+>
+> What would we want the inliner to do with this one?
+>
+> BlockdevOptionsCbw is a branch type of BlockdevOptions, where this will
+> get inlined.
+>
+> > @@ -4778,9 +4679,8 @@
+> >
+> >  ##
+> >  # @BlockdevOptions:
+> > -#
+> > -# Options for creating a block device.  Many options are available for
+> > -# all block devices, independent of the block driver:
+> > +#     Options for creating a block device.  Many options are available
+> > +#     for all block devices, independent of the block driver:
+> >  #
+> >  # @driver: block driver name
+> >  #
+>
+> What would we want the inliner to do with this one?
+>
+> BlockdevOptions is used as argument of blockdev-add, where it will be
+> inlined.
+>
+>
+> [...]
+>
+> > @@ -5587,9 +5465,8 @@
+> >
+> >  ##
+> >  # @BlockdevAmendOptionsQcow2:
+> > -#
+> > -# Driver specific image amend options for qcow2.  For now, only
+> > -# encryption options can be amended
+> > +#     Driver specific image amend options for qcow2.  For now, only
+> > +#     encryption options can be amended
+> >  #
+> >  # @encrypt: Encryption options to be amended
+> >  #
+>
+> What would we want the inliner to do with this one?
+>
+> BlockdevAmendOptionsQcow2 is used as branch of BlockdevAmendOptions,
+> where it will be inlined.
+>
+> [...]
+>
+> I believe all the problematic first paragraphs consist of more than one
+> sentence.  What about splitting "trivial" into "very trivial" (just one
+> paragraph, no sentence-ending punctuation in the middle) and "hopefully
+> trivial" (just one paragraph, remainder)?
+
+That's tricky to automate, and doing it by hand doesn't sound much fun
+either... can we just power through one-by-one?
+
+Unless you have a script or a trick you believe will help, and then I
+am happy to oblige.
 
