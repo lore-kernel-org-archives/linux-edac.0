@@ -1,113 +1,155 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CBA3FCB0C;
-	Tue, 28 Jul 2026 21:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785274406; cv=none; b=WuylGxSMovKas5f4Olss9tZ8ZA2SRxnn6I7XUABGImXioXEuEFN1CA6cfAKCgsrjrmo4hBTPI6PDNIr3ySieWoA3iOSI8b1Uf9LsN1++6qm5uDZ4TNCBMkEqfs6x/TtpdlUQQepNLxFkdLWvjUq2vwjD41a5tyFBFzfEHKuPtBw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785274406; c=relaxed/simple;
-	bh=UNFpjt17zYGVEUzBZ/wlmHDIvY6O6pUYbAWhA5bcq8Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bOwZBjtrhsiqS+/O+Hvk1C6LfAmD8K9xOKh7YnNiqwnpw7bSnORrvqfSf1yxe6dk6nJMqJZQBsqjFzmpQEZN9LIXxo8YatQjCe2eyF+g9eaT7CKqe/09J5lHnqM6u8Q3vC+G3VHmeEA9GgjlzWVpuXbzz7r8AzlQxYzVbs+Kehw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=kX3Hca1i; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA79E4756CA
+	for <linux-edac@vger.kernel.org>; Tue, 28 Jul 2026 22:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785276522; cv=pass; b=FYBBO3ZrSf453a2sAUpYkuHAGWmTXqVs1MUhvx/BJPQhBcjd9fvxDTEd779l6RyWJF94ojRklMs+DIxFfZ/GYey/dSjMNVS3iE5b0VNaJl8jf1uT038MPsYm6WFPey+BbAHUliw1ON6JdoU+DXMdcZTUVZUvvSh48OrbxeaWPQs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785276522; c=relaxed/simple;
+	bh=66ex1fs8TchlYXvZh55rJ2lAIestaqS7kMHXiK1SnyQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CY+pEdQfPI0GNw8dEZ1Eg92Ti1iBe7Ui95SJfznCGhFDicdquBRRWoA12gJcN5NrqJ/ythy/WHo/O3Y8Gs01PrrFiDmVGetRFMg6L+aoHuN5IvrdIJGscvbO9c6nqdg6E9R/F6nlNrEsEbpx3J+WeRgYjJgELc1W6R3NRSK6aow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FM9+MXsK; arc=pass smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="kX3Hca1i"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id AE51E40E00C3;
-	Tue, 28 Jul 2026 21:33:21 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 7iBlCvfYVdq1; Tue, 28 Jul 2026 21:33:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785274391; bh=2ic7C2r0bhHyeu0exF9T1oX7Ls1yQRkEslKS1WKUsHI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kX3Hca1igFBY/gOsBge29XiAQgKES8rQNvmKdbnLTZ3JeZdCyjYjKQT4WNEHLpNKf
-	 3FCoWJ4Ete64RsEUh7LCA3SvW936fMSrc58cSffCHGBoJkaSjimujInKAmRyWD+Mwq
-	 pR/+Bd1O46zJiC5slhvcMqwW2C4g6qn4YePUhoX2fDth6Idh/35z1G82BpHT+Jw+Up
-	 1IpYV+cYBb/gCaSEG8yEcakEs9rjA+T5xO1PYBUUO9wvmZMCCCzFmcGhkHIIT19KJJ
-	 o5DBqxZ22hmipB6ffLyg4G2wvVqogSJJ1/pMNHcnjJTcxwOHqUgF8BhbmOu+oWQXy2
-	 npsWijv9hRyHsR0k14L9ilrdHD2QSgCVZSftX3KmfyG/Wnabbi4qAGh4EoCxrRS067
-	 bgaTb+rOgseQEVY/RczXtDnVGa2pIakYTJQwQw23o0m/65DtTxPvJwjXEWM47sE/tm
-	 U/r6VsU+cBWT5RlrwPMhid7sm6CbTEaqFuRV1FSKA9UrpdmjRwSph+QZmCp612iNHD
-	 cMg/oyD/g+P8JIN/x1l2/nk6q5jkmKK0ruRAbk5vGF0zFFj9mTYoM4ZSlVuCuGRZKg
-	 CPHKdB9WHL38SHnZcxwmYIkqrENU4KDXbgKw8lCZcwW3KNDiNwMR6wd4akeaE2rry1
-	 +d3ueROJBZd0Y5Cm0RRVYHzg=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2D70240E00C4;
-	Tue, 28 Jul 2026 21:33:03 +0000 (UTC)
-Date: Tue, 28 Jul 2026 14:33:00 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Pandey, Radhey Shyam" <radheys@amd.com>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	linux-edac@vger.kernel.org, git@amd.com,
-	shubhrajyoti.datta@gmail.com, Michal Simek <michal.simek@amd.com>,
-	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/9] EDAC/versalnet: Add NULL check for mci in
- handle_error()
-Message-ID: <20260728213300.GDamkgDK_DeaaHFHff@fat_crate.local>
-References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
- <20260724171945.2812749-2-shubhrajyoti.datta@amd.com>
- <20260726235228.GAamadvFK6GYNRx_dh@fat_crate.local>
- <511e62ae-79e6-4931-a7b0-4f0c3830cdcf@amd.com>
- <20260728013725.GBamgH1WcvOaEtAw4n@fat_crate.local>
- <5554052f-398b-4507-b2af-152a7695abea@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FM9+MXsK"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69f2c67650aso379365a12.2
+        for <linux-edac@vger.kernel.org>; Tue, 28 Jul 2026 15:08:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785276516; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Kfi26doucGQl0ETOioyJUnCNXrgu8c2aH8IAHyV5HJ2HqsrDHOrj400ZiloAIDesbG
+         aeA7phNBKSSXYYieXRogPLymCwXDsiXZf3EkOisQ7Vyl8mDpHlG8lFQsR4z3HOSl3/F7
+         /cMwhWOWF45SRleRhLCi8K5zaB6EfGa/iyTUfe9bcMYY6BbZoZxGSt+Ch45FZRW7e0fA
+         Uwv0M87Tn3ewrV0rT6UAsmzsv4nT+IkMEaydfYIh+OHH/2DKq64MQJ+6X7za/JeKc8c3
+         lkYmDFgJnR/ewlL1rzqvUey0dnIxxvAzE9xrr9b1oAPcXYNta/MyGMO5KKaVeUmFZJOy
+         KFCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FiN+N2sya3idAsHWaRZRoY+QX7TSzFxb57yiuUePn60=;
+        fh=79HRjgMvUKSs4S9yHyE9sTuDVH/9Wb3/jw3K7gdGPhM=;
+        b=I4G6lxj7q2mCYyTzL+mn+F6lv+KfhkNVM/nZCHWCxsoNQPRMVSgK8FwBe09c9ZtWQZ
+         GCAf2/C/HGuhImzoGE6NXp3MKehrmumN0m+H6g1eSdDdYWIkEq6GUNYqXGaM7jAxMdBs
+         ML7cuqMC7qklSouHX+I00gJXnZavLENyDmEJXtDXctw3BfPE+SQkRjJ9X2NE/8iYtvZf
+         0e9ZNBXJrzXrroo9qrpynwVnx2eI+olx9OJZIoNAq+hrhMbr+Ot6x47EjDhPlS29N1He
+         hmeX2cUsOwcWwWlHBGcJ0ONUVmx5J+KAFjAReRnr9JgVJQU+aIXp3cwMDDL+azv/7le3
+         +XOA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785276516; x=1785881316; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FiN+N2sya3idAsHWaRZRoY+QX7TSzFxb57yiuUePn60=;
+        b=FM9+MXsKRrK5WV4beLGDASgMggZoaQcLrT3Ht5i+hCVAfQo+20GqVViUFaNPgccZHR
+         +SYVeIyaTtqDGDEeSyZFOyXy6aPnd7YjslH3qYtUrH/BbpE0E/YpttqTBQojuwzamR9J
+         llnk8Mbj12G4lYLYp2y9O/g9C2kPPwExinBY8gSm+JVNjPl4iEB7Pklg0lgFeU9ki16x
+         XE0dOTn9MfkL8KfeuhIlTXaH8bQFDb+446fDsKnXetAZmgMT0K1ODmROxgy8KGfcHtby
+         fPSBW4Vw59N2Rr3Nrx11MDPh7cfZpcO4tXfVVYUZRMJ/rx3iMByYJmyOjJ8EXdHM3kaR
+         yN5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785276516; x=1785881316;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FiN+N2sya3idAsHWaRZRoY+QX7TSzFxb57yiuUePn60=;
+        b=TLwv1ghcb9nAwua2wsxcZLzbcr2DZkXfUCIdH9kYMkxkehTl1iIj5yuiUp5+HDfldE
+         LvTU31oeYEummNV1AzNRw7EoCjuJBC2T/8CG9xPEA8474Wi6+9zdgjA842qhjHmXjMZE
+         gegP7W9NU3x0uqhsALasjcYAqrCCnvp/xeBsHCFQ/rgA4L0IIfzPwpOv9UqhOlG+7px3
+         ifku+yg/grZBYWPbMl8WAfKbOxHiPunErXb65qUC2qfZE8qwzxcyoITJrM8GHcjpw1DZ
+         Ix7MWccCOL+g22ZDYLcBKk1G3e0FHcjnAynMn5uawbP23FbJ92uwSX/7LruvmF1ffN+l
+         ZFbg==
+X-Forwarded-Encrypted: i=1; AHgh+RrLczMGq0Om7tpLCdLRFItr5PkDeLgzxQ8WPJu5sS6bUU9lCOk6xRLWWE5LNM9NOBsg9nGquEL52nZZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt5Ytu8uBpq2vUbJR9q0Aoxqc6PelvZX/o85/q4QxkPiPfh5Q7
+	jV3o3uAGqGHlCCrITCR178UE1FZPkmjGam80lmnne85V2ke5/IcFbVhXWLDphDyaQ2MlMiF8FPh
+	ocUnC0LDHXpGbJ7hqswWHoA700qf1A2k=
+X-Gm-Gg: AR+sD107jGlc2UPQAPU3KVD9DPNtGlulqxZjy/eFghxIrhavdxXbekeKyUEpAV9wlL0
+	2d2tRYy1oTZ8s5R2FcWCCbR8FRJkQVKX+g3cZsISjKdhIJl/hScLSn37it5k9/ynAIKeneVUsW5
+	4HPSH+K/Q1DI6op4qiuJkPu+EjV7pH9MsXgYYNFbkfrS5g0QYHQJPJy5ES0lDslC4clLGgXbBbq
+	vNJRS6tfxCVwvR3lOFLqXqrAFO1d1TcMadFUNs2X2oUEq/3ONU3mMxPocd5JehJlfHFzSdAPiNa
+	lbu1Uq3o2s3q9Yx2ord1ZwV+3uG91sdMjZig5lFr3leX7HjsOuCpYyMiCnZZ8S18v1Wz93dIGXP
+	v+GJaesrAOxS5uuDNTYua97+rGXb/V2tsI3gT0APLrKFTrJ5bFPpxLqb/tAC7Dfpd+tmtdtLU
+X-Received: by 2002:a05:6402:52c2:b0:698:a9de:16e4 with SMTP id
+ 4fb4d7f45d1cf-6a034a5efd8mr2250309a12.20.1785276516357; Tue, 28 Jul 2026
+ 15:08:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5554052f-398b-4507-b2af-152a7695abea@amd.com>
+References: <20260714234609.902367-1-rosenp@gmail.com> <alhXciS9G_bGB2re@SMW015318>
+ <20260719155822.GAalz0Hj3XT97KkPOk@fat_crate.local>
+In-Reply-To: <20260719155822.GAalz0Hj3XT97KkPOk@fat_crate.local>
+From: Rosen Penev <rosenp@gmail.com>
+Date: Tue, 28 Jul 2026 15:08:25 -0700
+X-Gm-Features: AUfX_my55lIzgp4p1LgtC37hf3Fnv3utQEiKazUbNyOLekyaFQ7_OqDwCH_br3Y
+Message-ID: <CAKxU2N-vMNR+ES2YYuJh+6XASmZ04cnFodb4kP4zRBW0mbEKaw@mail.gmail.com>
+Subject: Re: [PATCH] EDAC: fsl_ddr: use devm_platform_ioremap_resource()
+To: Borislav Petkov <bp@alien8.de>
+Cc: Frank Li <Frank.li@oss.nxp.com>, linux-edac@vger.kernel.org, 
+	Frank Li <Frank.Li@nxp.com>, Tony Luck <tony.luck@intel.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	"open list:EDAC-FSL_DDR" <imx@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:CLANG/LLVM BUILD SUPPORT:Keyword:b(?i:clang|llvm)b" <llvm@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 28, 2026 at 11:57:28PM +0530, Pandey, Radhey Shyam wrote:
-> One clarification on DEV_UNKNOWN: on Versal NET, the driver exposes 8
-> MC5 controller slots, but a given platform may not have all of them
-> configured.
+On Sun, Jul 19, 2026 at 8:58=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Wed, Jul 15, 2026 at 11:00:50PM -0500, Frank Li wrote:
+> > On Tue, Jul 14, 2026 at 04:46:09PM -0700, Rosen Penev wrote:
+> > > Replace the open-coded of_address_to_resource() plus devm_request_mem=
+_region()
+> > > and devm_ioremap() sequence with devm_platform_ioremap_resource(), wh=
+ich folds
+> > > the resource lookup, region reservation and mapping into one step and=
+ returns
+> > > an ERR_PTR checked with IS_ERR()/PTR_ERR().
+> > >
+> > > Behaviorally equivalent with respect to region reservation: the drive=
+r
+> > > already reserved the region, so the non-overlapping reg requirement w=
+as
+> > > already satisfied. Drop the now-unused linux/of_address.h include.
+> > >
+> > > Built for arm64 (defconfig + CONFIG_EDAC_FSL_DDR) with LLVM=3D1;
+> > > drivers/edac/fsl_ddr_edac.o compiles cleanly.
+> > >
+> > > Assisted-by: opencode:hy3-free
+> > > Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> > > ---
+> >
+> > Reviewed-by: Frank Li <Frank.Li@nxp.com>
+>
+> Sashiko caught a bunch of preexisting issues:
+>
+> https://sashiko.dev/#/patchset/20260714234609.902367-1-rosenp%40gmail.com
+>
+> Let's fix them first please.
+The unfortunate part of that is sashiko does not understand v2 patches
+and whatnot. Meaning it will always complain about things fixed in
+other patches.
 
-Are you basically saying that you can have non-contiguous controller slots
-present on a system?
+There's no practical way to move forward unless done piece by piece.
 
-If so, the whole unwinding path needs to be reworked so that it doesn't remove
-the properly configured ones but simply probes each one, if it finds one, it
-initializes it and if it doesn't, simply continues.
+As an example fixing the first issue causes
+ [High] Calling `ddr_out32()` in the `err` cleanup path
+unconditionally dereferences unmapped I/O memory pointers if probe
+fails early, leading to a kernel crash.
 
-Which then begs the question should that driver even load if one of the
-instances fail probing?
+because these functions are split into three.
 
-We don't allow that in amd64_edac, see:
-
-        for (i = 0; i < amd_nb_num(); i++) {
-                err = probe_one_instance(i);
-                if (err) {
-                        /* unwind properly */
-                        while (--i >= 0)
-                                remove_one_instance(i);
-
-                        goto err_pci;
-                }
-        }
-
-But I'm willing to be persuaded that it can make sense for your driver.
-
-Whatever it is, the code needs to be made to handle that configuration
-properly and that needs to be stated somewhere prominently why is it done so.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
