@@ -1,92 +1,95 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251EA19E97B;
-	Tue, 28 Jul 2026 01:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2013876CE;
+	Tue, 28 Jul 2026 04:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785202672; cv=none; b=n0/zh+z21m1kk4qXnZUFZiWIBOeUMn9MNnJ6TN/1jNJKKv0xguukyUzEEVwEGDS7yPJ9UxsvQdn5g5EPznWkFHeBN7mfhqMwdTX5BaN30nh6VcebVv6FO/tcgou5akU61Qq8i7klfYXfmEapfbULo0MVWehm1Q+YNGgPNLQfO/k=
+	t=1785211950; cv=none; b=OtuKU+m9IPabZyZTcot9F0/scZQPYKHZIHb9nIesFtHABJSlqYhXsO88Le8ytNhaIZQTfTSJedRa4g76/8Bxp81kuZRDdtNnbfuqz7oCHcN+Va17frCrndSPLFpQ6FAxTY+vv9+Cf2wwp6s6bL37RNKKVSmXVwPVRVa/avLqV40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785202672; c=relaxed/simple;
-	bh=n+V6d3q5MUeD5kN429Rr5aW4bpg5KDwf41tkSeA2ZjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X6Am+cugq7xwmRaERvLbdaEcjGcWZCffb8velQcdyUJ65ZPLFdHfzENlrniaoSbZt079xxOSWjpqQpt1bnd1p6DqjhjOPY6Gii0GvAG/5k3HQxRyRYYl9zGS74evYxcDkJtpWnmQ0oCdjBahDcsllUz+26NsWVLjzRICSarDpB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FF5aN+ts; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FF5aN+ts"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1ED0140E014C;
-	Tue, 28 Jul 2026 01:37:47 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id a4gYT6XVNi6r; Tue, 28 Jul 2026 01:37:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785202657; bh=t9zGiCLb04KyeA/7GBooOoEL0xxsHg31jriQE9B3fqA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FF5aN+tsuAYlzl8wk/kVYjFOPIsppnC2UyK8w7toZWvpouZBrqWGdyIIWrTuWg9Gp
-	 33BqF3rlyYxqzjUOJKKTe2hoX82hzHE/gRgwQ6XcBaKFQKUQFqfuUAyynvZtv8kdR7
-	 2SBeHdJgqGEE+BSQFCgrB1koNNB54/HnsHccb+aeQ7e47fTySZMVhgsjf7ZnXILqK1
-	 TL+T6Bwkhpra1MPVE7BRMyFhnweXJ//M60ftAnuVVHHuNArNWylp9SspOyITyhM8q3
-	 zR5l227gCUoyRnlF5WefKY9WMKPfzxK+LOz21dlCD1eJPbtcF15LIIKEmGC3ecXJLq
-	 10GitELd979JFniNV6cFEsQaTr9X23DpVDkHJdEhtp9MhaFJNulHQMwhURnrbqhmid
-	 TFP4UUUb3KZz60z6r47HY6X6DB1d9XGwzerfBJcny/JtqwO6lmxkbOrw/vapEVjVZr
-	 UyREp7kX9tC9a4yIQ6uHUNtSK4V0JVF0Je+F3Lauj9b+wyFAaXx1yiIW92t43oZpbA
-	 FIGGUc1xHH2wgEpUrlQBvtZM6wPwdUNeFeMGrT0va6GXNIGWmUdB+JIDKwdht2xHHO
-	 1MHr/kFYxW6pY1qo6dwyk6D9lhc1kF5alVeVEnshueV9D59CCP/IJw5d35qjslz2SJ
-	 RNrO4d2qDfhNgeLwP+M7sRLc=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7F87540E00E6;
-	Tue, 28 Jul 2026 01:37:28 +0000 (UTC)
-Date: Mon, 27 Jul 2026 18:37:25 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Pandey, Radhey Shyam" <radheys@amd.com>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	linux-edac@vger.kernel.org, git@amd.com,
-	shubhrajyoti.datta@gmail.com, Michal Simek <michal.simek@amd.com>,
-	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/9] EDAC/versalnet: Add NULL check for mci in
- handle_error()
-Message-ID: <20260728013725.GBamgH1WcvOaEtAw4n@fat_crate.local>
-References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
- <20260724171945.2812749-2-shubhrajyoti.datta@amd.com>
- <20260726235228.GAamadvFK6GYNRx_dh@fat_crate.local>
- <511e62ae-79e6-4931-a7b0-4f0c3830cdcf@amd.com>
+	s=arc-20240116; t=1785211950; c=relaxed/simple;
+	bh=io393QV5BmeK5FAjJTTPwOAzy5ND5kAQkQ3krC5rkb0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=QKgTpjbkUdAr3R4bJq05bSjazvByZejBuwbdUeLlOz8g6MSfHLLHLelZJgOaagS9a1ymsDKx/uVbjaJO9Y0dN+fe461q8uy3jqPo/1oCeV6AAT8huSy1LHBXOe8FENSTHrBBgzTuvI6GUmw3T/jM8rfvMpk+KFV6iUgwzGeiah4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 84b22dc08a3a11f1aa26b74ffac11d73-20260728
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:b7bae97b-0728-428a-b5c5-71ae3b1b9b98,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:9f037d5052fa8abcc74f52cb6ecdc54f,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|136|850|865|898,TC:nil,Content:0|15|
+	51,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 84b22dc08a3a11f1aa26b74ffac11d73-20260728
+X-User: yuebingkun@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <yuebingkun@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1282659965; Tue, 28 Jul 2026 12:12:16 +0800
+From: =?UTF-8?q?=E5=B2=B3=E7=A7=89=E5=9D=A4?= <yuebingkun@kylinos.cn>
+To: mchehab@kernel.org,
+	tony.luck@intel.com
+Cc: corbet@lwn.net,
+	rdunlap@infradead.org,
+	shiju.jose@huawei.com,
+	jacopo.mondi@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	hverkuil+cisco@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-doc@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?=E5=B2=B3=E7=A7=89=E5=9D=A4?= <yuebingkun@kylinos.cn>
+Subject: [PATCH v2 0/3] Documentation: fix a few typo and wording issues
+Date: Tue, 28 Jul 2026 12:12:10 +0800
+Message-Id: <20260728041213.52820-1-yuebingkun@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <511e62ae-79e6-4931-a7b0-4f0c3830cdcf@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 27, 2026 at 12:18:48PM +0530, Pandey, Radhey Shyam wrote:
-> The gap in the driver is that init_one_mc() returns success without
-> setting priv->mci[i] when the bus width decodes to DEV_UNKNOWN, while
-> buggy firmware / future firmware rpmsg error path can still calls
-> handle_error().
+Hi,
 
-Aha, right, so I missed that. So the right fix is to always return an error if
-the function fails. So that the proper unwinding in init_versalnet() works.
+This series fixes a few small documentation issues (spelling/wording)
+across Documentation/ files. Each patch targets a single subsystem's
+docs so the respective maintainers can pick them up independently.
+These changes are limited to spelling and wording corrections and do
+not change behavior.
 
-> Happy to drop the check if you prefer otherwise we can keep it as a
-> cheap guard for a firmware/driver mismatch.
+I am a newcomer to the Linux community, and I am eager to contribute
+and learn through small, helpful fixes like this one.
 
-You already have that at the beginning of handle_error().
+Changes in v2:
+- Split the original single combined patch into per-subsystem patches,
+  per Randy Dunlap's feedback on v1.
+- Moved the "newcomer" note out of the individual commit messages; it
+  now lives only in this cover letter.
+- Collected Acked-by from Randy Dunlap <rdunlap@infradead.org>. The
+  content per-file is unchanged from v1, so the Ack is carried forward
+  on each patch.
 
-Thx.
+岳秉坤 (3):
+  Documentation: fix "should be use" grammar in ABI README
+  Documentation: fix "readng" typo in EDAC memory-repair ABI doc
+  Documentation: fix "thare are" typo in V4L subdev routing doc
+
+ Documentation/ABI/README                                        | 2 +-
+ Documentation/ABI/testing/sysfs-edac-memory-repair              | 2 +-
+ .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst         | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
