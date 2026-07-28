@@ -1,84 +1,109 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62D73876A7
-	for <linux-edac@vger.kernel.org>; Tue, 28 Jul 2026 04:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38A53A6F0F;
+	Tue, 28 Jul 2026 04:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785212659; cv=none; b=Idn9/QgTW9yL+sZkKtXxY+StN8EZ/8UFyr6ZG8lK0KxEAyiji7mrzJ23srxkyUvqa/d1CIGSIuILj/CS8z/J78y/FfS4/ee7kcRtazRqp5ZU8Gc14+aVot3Zq5ocIgoT/7NBRgOeEcnc4gSvnRaVhNqzQtT3CtYbBEZUORXvAuE=
+	t=1785213106; cv=none; b=nD+MeQOzhiRb/DX3owOuhepW+BVtPQRWKAbjfDPesppqafZnHZITFO+leiv+Ri8YYTDhu3PjFGrELDsXItj4ouB+M8rhuhA/P6J9ZWOpsXdBSJ4s7es1MDF7SYIPhnurlUE00Jdbrft+AxhXIg7sBrVgN6pNnj+Z6cPCmtodph8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785212659; c=relaxed/simple;
-	bh=MpvIIQNIJ0ROJhSJfeTcJDeX+LHTxPBJ1ncaeSzQw/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dNrDSPw3zdLhAEzWnxFvUlrUGs9QswyxoH5f2eWWDFgWnAtGgV34CAr6qUAEERzg8G0jY0aR3591Lw1CtFCc4ydu+3bIVpW0msrfL7ZWa6gRbbTJKm6BBwhddLi287bOwloBindDO/SYwcbrFgx4Og9lnPW0cz5HHdfEJmLAe7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=GeOrLwwq; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1785213106; c=relaxed/simple;
+	bh=hkgK3Sst3ZYouqI+2IO2iuiwmVGKV5zq4DF0IPxXutA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WsiAzqUGI3CMMxP4f3RNYHLjaPySpRmBvqnGQTgniEm44dq8N1ySBw/s50fXkFi5Q5H4+JFS60cijnNZplWLU8BFrzePWmYZL+y8H5y1eySOtNMYLKiSBIY3DQ5yjOJQyes42onePyiCuNcPoN/lQft7HjExb2WmwFrUyJJPtoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CHPjQQqb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="GeOrLwwq"
-Date: Tue, 28 Jul 2026 12:24:05 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wyuan.org; s=key1;
-	t=1785212653;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXUARuOmaJ86ymvTYoSBJEoyJRXwNThMLC1rJ7BHfnI=;
-	b=GeOrLwwq4u6V5HdK01Ev5Lvlr+PYMOJezyX5N4A19DEYKi8D4q7m5eugZizKFO2d5qGlA7
-	0tbA1HZwraRosq/ojhLsPX8EFRXowgB+afdi4JnU7Cm8ad0fqiGb6+xv13Z8UosJElx9sD
-	dGQKjT+z3ZZ+4mDfvTk5jCT+CRGCeHZCHAbdueoMrpwd1Qm38vu8bukCj/hd6MXbTKYmJn
-	bUcXYfuo2OvjLQYQXb/sFdG5nN4b7FTzbd2FIMhtGHqJkCjGipGZCUVRuiqOu+nf9YcTLn
-	YTvnC/8Sp8ujUoPq+zxez7KtwWAkMsAPCH9UQHH/w2KbQQFZK3nVkpP/YiS3pQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Weijie Yuan <wy@wyuan.org>
-To: =?utf-8?B?5bKz56eJ5Z2k?= <yuebingkun@kylinos.cn>
-Cc: mchehab@kernel.org, tony.luck@intel.com, corbet@lwn.net,
-	rdunlap@infradead.org, shiju.jose@huawei.com,
-	jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-	hverkuil+cisco@kernel.org, sakari.ailus@linux.intel.com,
-	linux-doc@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] Documentation: fix "should be use" grammar in ABI
- README
-Message-ID: <amgu5cFN_imQgMf-@wyuan.org>
-References: <20260728041213.52820-1-yuebingkun@kylinos.cn>
- <20260728041213.52820-2-yuebingkun@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CHPjQQqb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=mQvstQd8Ta6ff8kZBOw0uOSIhhvnO3IJRb7R5oF+bsM=; b=CHPjQQqbx3YOAsNB8SfZxq1i7x
+	2NzIG4euEGJeJwUyAlnjokOuw13yXWxAFjPFY/N525rHs0lFUVFfv3x4mWsGXWQhAuE2pH91JwE6u
+	7/NBBbm1dyH1qVVq2IoxyqciS2dyUPMxUBG+VBwZzjvbqGaq3ceBqkvtNJmkwA5r63f8CZhdHQPtj
+	sphWshuxEjVidVfTeT9OeRrtyJ8MnWMrQyIYfe8szECs0NzG4QWbhNOzs9v73sal96xx3gMSWjoWy
+	1TjshUTjNx2C+CLr/aaIAjaqGBZiUUsTzpV43UiPy7qTAu7K3EfboCp4yDsVeyAx39rFET92Dgl3Z
+	OsEIH77Q==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1woZTc-00000004Odh-43qU;
+	Tue, 28 Jul 2026 04:31:37 +0000
+Message-ID: <f7a7b4d8-d044-491f-827c-ec929ee429ce@infradead.org>
+Date: Mon, 27 Jul 2026 21:31:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] Documentation: fix "should be use" grammar in ABI
+ README
+To: Weijie Yuan <wy@wyuan.org>, =?UTF-8?B?5bKz56eJ5Z2k?=
+ <yuebingkun@kylinos.cn>
+Cc: mchehab@kernel.org, tony.luck@intel.com, corbet@lwn.net,
+ shiju.jose@huawei.com, jacopo.mondi@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org,
+ sakari.ailus@linux.intel.com, linux-doc@vger.kernel.org,
+ linux-edac@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260728041213.52820-1-yuebingkun@kylinos.cn>
+ <20260728041213.52820-2-yuebingkun@kylinos.cn> <amgu5cFN_imQgMf-@wyuan.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <amgu5cFN_imQgMf-@wyuan.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260728041213.52820-2-yuebingkun@kylinos.cn>
-X-Migadu-Flow: FLOW_OUT
 
-Hi 秉坤,
 
-On Tue, Jul 28, 2026 at 12:12:11PM +0800, 岳秉坤 wrote:
-> Fix "should be use" -> "should use" in Documentation/ABI/README.
 
-The diff below already documents that the changes is in
-"Documentation/ABI/README". I'm not sure if it is proper to write like
-this. But I also do not know what's the best practice to write commit
-messages for typos. Hope some friends could provide a better answer ;-)
-Of course, if the maintainer thinks it's okay, I'll be definitely fine
-with it.
-
-> Signed-off-by: 岳秉坤 <yuebingkun@kylinos.cn>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Usually, your "Signed-off-by" should be the last trailer.
-
-> ---
->  Documentation/ABI/README | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/27/26 9:24 PM, Weijie Yuan wrote:
+> Hi 秉坤,
 > 
-> diff --git a/Documentation/ABI/README b/Documentation/ABI/README
-> index 315fffe1f831f..27c962e6a872c 100644
-> --- a/Documentation/ABI/README
-> +++ b/Documentation/ABI/README
+> On Tue, Jul 28, 2026 at 12:12:11PM +0800, 岳秉坤 wrote:
+>> Fix "should be use" -> "should use" in Documentation/ABI/README.
+> 
+> The diff below already documents that the changes is in
+> "Documentation/ABI/README". I'm not sure if it is proper to write like
+> this. But I also do not know what's the best practice to write commit
+> messages for typos. Hope some friends could provide a better answer ;-)
+> Of course, if the maintainer thinks it's okay, I'll be definitely fine
+> with it.
+> 
+>> Signed-off-by: 岳秉坤 <yuebingkun@kylinos.cn>
+>> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Usually, your "Signed-off-by" should be the last trailer.
 
-Thanks.
+Hm, I disagree. The -by: lines are somewhat in chronological order, so this
+looks fine to me.
+
+Documentation/process/submitting-patches.rst says:
+"""
+Standard sign-off
+procedure applies, i.e. the ordering of Signed-off-by: tags should reflect the
+chronological history of the patch insofar as possible, regardless of whether
+the author is attributed via From: or Co-developed-by:.  Notably, the last
+Signed-off-by: must always be that of the developer submitting the patch.
+"""
+
+Yes, this doesn't address Acked-by: or Reviewed-by: lines, but in my experience,
+chronological order applies to all of them.
+
+
+>> ---
+>>  Documentation/ABI/README | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/ABI/README b/Documentation/ABI/README
+>> index 315fffe1f831f..27c962e6a872c 100644
+>> --- a/Documentation/ABI/README
+>> +++ b/Documentation/ABI/README
+> 
+> Thanks.
+
+-- 
+~Randy
+
