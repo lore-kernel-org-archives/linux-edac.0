@@ -1,71 +1,71 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBF71A23A4
-	for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 01:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D55284690
+	for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 01:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785287358; cv=none; b=pjEnCcgGQnCayhbZPwSztvwIVdewnjswLJSeVnAJ8e40z0d6Mqm85H3K5MlwE+p9JipNhZbgCBicpA0592YS7/Ule5FOw2UTw0oJNF5ga08265VShm/oD4L1kJzQlLlAfKiLeScWN8jgUvWvB5S3gR+bZPkGQekTIiKkF1PCLIs=
+	t=1785288112; cv=none; b=F7wQ+8oc9SW34ZdW50Mg9bURIHvFWkmVvIg+VmiWhTth5z3ZpdtEoTxJIpkUxQRezIGbLPCmiloeBMrdBU0JQCBlACiaad3PrjiCVG07LwtwhiZ3mM7sGqFo0lASoINd7mh1evDqwRRchjy+XkRWxEXN2rz17Ky3cELbc0GCcLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785287358; c=relaxed/simple;
-	bh=t6/u2P6+Vkua2HqDZjIyPVeI0z/YSk1bYiBhvWL3XD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TN0AIrttBx2YQq8L3IyayrTVOBpXv/kzvC8vzq8rNDqhZrvXqT5E/935st6Pk6Y7qBBfWl43YiMoktJDVRpRmrDOwQZutI79HM8Be8g53uaWqf+yz3u0Pq+t5Qco3CEkxyGtaLhz/DxjwDf9k/8bVkbsZrMJL47sHoSy5aCcgVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=duEfC1wj; arc=none smtp.client-ip=209.85.219.48
+	s=arc-20240116; t=1785288112; c=relaxed/simple;
+	bh=abNdGUghuUIO8k7bkS6eK6CsPop8FaWjA2WWdW2gBW0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vh8nhSU/5x/aG1i6JjVRKw+eS70YQsk3GeYO3FVDdr2nnS2GSShbVQa6m39A8AVVAqefry4MdZMbFh3Aiey5dleETI+pRKRInYhjzTy9ystZIQWbjmgwqYx0WSOz+VJ9Wj5m0RVVhMQXGmBVz9Q4zcu4taOr5m7PwNd54rQeMfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUyEwOss; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="duEfC1wj"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8f186025973so4695986d6.0
-        for <linux-edac@vger.kernel.org>; Tue, 28 Jul 2026 18:09:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUyEwOss"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-382ef647e20so431031a91.1
+        for <linux-edac@vger.kernel.org>; Tue, 28 Jul 2026 18:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785287356; x=1785892156; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785288110; x=1785892910; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GL/99mhED3zPnt57gPILZJmOU8WHYxYQKPi1ksbN7qU=;
-        b=duEfC1wjJ0Ck/g7YhHw78hAPmW00INxeXTLt2vvTQE/W/v7jRSTXdhOSt6bFtjOWlw
-         tf+62/CvjCYvlLTG4BI0SfEEOssNU5CYDCi2+9IwScyrJ3PYIQpMskHDh7IWbOKXHmNG
-         rW757XNCnKJrs9/6gHqnH49HGutFEOkkR889ikVHPH1SGr9yHuPrA9kUKT86z7GemKDz
-         GOahupfV2D1enn2y9deRjtQhwHjzOywqqFfn1s6ctE5VnVXEQQS44Mzi9BWMk5LKLd8A
-         /ryGkfY2kDm93MvkMuRuCWncXinOVlSPYPFgtC1YRHeQxemPEEkHPWIRu40WxvRvaFWT
-         fh0g==
+        bh=AqdKMTSTFZVK0AEFQ3HF5uOFZwylMUQ6eX20eOos/4M=;
+        b=AUyEwOssot3g29VuzNBJYWNhle2G4fYBEtD10AsaLW5k+EEf5H/HwctG1kU1W4gouO
+         R3/RswemGXkupUzwFBdZDC+FLjdZ3MnRG2IW+asJdMgSdbsNnBrBRkBOkbqWPIvaYveW
+         daWZd7F+jiWbfpg7pnwqGP30u46Kqj3qNj77V5+vWhX7DV08268Pj/Ow73JX6E3fIvdJ
+         fDcUxmw7PNqjFXh6uK/QovxNJmODwcJ1USUHoqPSukPETNI/uiQiP1bnxfvcdQ13daTf
+         tLwo2fLNY+913mso3p98RrsvEMYzua9QVwzUdlK9P8pjdVkd2jU1ERO3lqmM/oxsPcqP
+         XQFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785287356; x=1785892156;
+        d=1e100.net; s=20251104; t=1785288110; x=1785892910;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GL/99mhED3zPnt57gPILZJmOU8WHYxYQKPi1ksbN7qU=;
-        b=gBdxHcdyDRB5RlGMN5SYwxEOdm/kQguuTGMcEElZC37DEFMiKYegrdbmiZlIz/h8Ua
-         VB14XHEg1+RG5qUauXsxyn6667zf/cDQN6oQzrehsiCKBY5WyZUqfWRUZPDvFTzzphPG
-         hjC9dvvQdL7Hg/1wK3K8DGGE95oR2ovTRGVXJWLkRsvm3v0smC3PbQ1CY1VvwSibzY1n
-         yj2HXEPjmaGuq+Fyg//X7Fj/586NLB+h3DjgwUewG/2gc5Jc6wxUHANlqsNrYzdep9n7
-         ZX+b8UC2OBEJtAY2EzuECmdX8wwkWdHlT7Hf0lW3gJY0I36XxGrcSHh3STlramE6jtJO
-         aRUg==
-X-Gm-Message-State: AOJu0YxulCC+2Uxie89BacIhMgeCaPNVneM1wrxMf0WYHf2EFDNNbHhR
-	QiTFq021XVw2mGmaXDWJv0Iv/l8KhlYTddP+PfAgTpRzth8wntdMfomB1PAHCe3d
-X-Gm-Gg: AR+sD100M33LJb9a1mlIVPnq2vGuPUUc13u30r4WhRPOZDrAHKSoNslsfzv/ejpFmKt
-	/ds+n+c/CGpA+lpTHqTdmLm+F2uB+HfYJYBcTT4PfPO3NeVLhAGovWJqdHvWGPpPIM/f0HAZ+GE
-	UmxM6TWO2LOQ2DsWHq3Zs2hpSzBj1Y1s6aYRnd94r8ShLVKUzsG73J2A+vHXBtac1ihgUC4WXB6
-	w7e7DIqq1lMHmjz67kqDdHuLjeKldNgPUC0wRN+wVhhTj8elF/f4OcudCKOylHZv4kDhoG4Ypjo
-	vxItp3sod8XLDhWqgCPhAtedUZrmtubwFJfb8vcj5vxJx9OTl/ooDUYlM7833eaXzEhlu/FXHTh
-	kRSLy6jFOW+9jn07c+jKqxJ+j8FMlIhbhjD7RU/mtSroySOeJIW8WqsRqUieoBiERksa4aFj1j/
-	eUUv2dRGeGTndNHr6o/X6geMTVyxHFTvTDLqK+8VbWhi8E9KYYAV2ul6AEoEz+Rm3oQ5cLd6Ji6
-	v+SzXEo5mVplP9XG52RivzyzKc7UlbaOICgamhAAyp2EPoHF9qSDynO6YyV+nLJNbAewGa50F5r
-	iVg/+NjYmQwpT5ViuQsc7JPkF4X4YkHA4EdLgg==
-X-Received: by 2002:a05:620a:f0e:b0:92b:6805:91b5 with SMTP id af79cd13be357-933026d30d1mr482796685a.61.1785287355722;
-        Tue, 28 Jul 2026 18:09:15 -0700 (PDT)
+        bh=AqdKMTSTFZVK0AEFQ3HF5uOFZwylMUQ6eX20eOos/4M=;
+        b=ZviDbaCpHZg8YF+XMjKIA+a0WaJ+AaxkOcUSC+FRZAq4ekIeikdsS9DGmHOTS+UdYq
+         5cqhfQ2FZoo6awFEw1hMQudItghcQ0j+MMWLt8QSSspqD1yZUp4RNh87cDCaa3B6VxMG
+         MUUJUOBFI7biWzm6RR9H8FpJdxw4A1AUFnMJ3Ry+vukYjuftvj/xqpBVWwb1fXwD1uk5
+         iQmmuCBhwKVbUnewgCgqCyHRhtDSREFxfqCbAMOdvB5/zlNQz3xiVbTJWugw6ezRW9iD
+         yNwqDhKdAVfPuj5D1SyGqOnh47KWeRk2F8f9EkUCKlmVDhAIFgx//PAbIrXkqlJDeIwg
+         crvA==
+X-Gm-Message-State: AOJu0Yy0HbttKhTo7Rd5++402iahhC1802x5BIzmtMEmSnFO7UggUPKS
+	arZgLNux/OzqdPFwFuFl9o2eG6z/bMb5FR/7evSarqS2PgJsdg0Nnpup/RuX0g==
+X-Gm-Gg: AR+sD13kqVhd+B5m1TsP2tffL2HkeDV0k/u2WQxePF4GzVDhcV7eOYm4HEqDbmBmz+a
+	HxnSAjcMIN5jzvwRplh33pGuQi8oHaNtrBzOi7QGvjt+Bl3QOHwQjHTckGBmqTh/bYFxTP9+tX7
+	jApXjKjyUVwCVO3TvlMEgwvQcCO2YSwGNoNzPvAGUpd/ygobFg7vwiHFwUZnXXi3POAdiPtkj8v
+	dZehV/6OfdExXe0AobK+bft7m53tJBFMkQEFk3gOWVSXJeHIHsOdcSUT9ZImA7RFCI+OFFvmCPk
+	zNIjAIaTfp4rRYLa64xMtF9yz1j5tovBB9mXKG5gzfglrG9gFgYiScVKzeHRgY0/Wa5kmSWtE4g
+	eAYunHTlKszxYXiKJt0JXZ4GOX+yTCXlXt5UL3yhK4GwjPwCB9cK2ihkVPnINH+RO/49ntb9dOd
+	5qVqvfLzhryvWnVQuwWgw8D8nMOnJNrJAZWkneRwk/JjGE54TuER1OhQ8lh/fgBLwdGVO2w1nSc
+	+vpP3l91t+M6rvrillZyNQ/ZJ08eb+uimkcLtnuQkDnL7h8X0Jkzbv4pzNtgJ/QTfRXFVhE/Y3t
+	bMVhpyIoKyaTetOpRWt01T/bfrOmtePkQ9h6Sw==
+X-Received: by 2002:a17:90b:3852:b0:38f:5869:387b with SMTP id 98e67ed59e1d1-38f6a40f38cmr4599689a91.9.1785288110533;
+        Tue, 28 Jul 2026 18:21:50 -0700 (PDT)
 Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-933d3275216sm60508485a.18.2026.07.28.18.09.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f7f292be7sm557728a91.12.2026.07.28.18.21.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 18:09:15 -0700 (PDT)
+        Tue, 28 Jul 2026 18:21:49 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: linux-edac@vger.kernel.org
-Cc: Andre Przywara <andre.przywara@arm.com>,
+Cc: Tero Kristo <kristo@kernel.org>,
 	Borislav Petkov <bp@alien8.de>,
 	Tony Luck <tony.luck@intel.com>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] EDAC/highbank: Use of_device_get_match_data()
-Date: Tue, 28 Jul 2026 18:09:12 -0700
-Message-ID: <20260729010912.608027-1-rosenp@gmail.com>
+Subject: [PATCH] EDAC/ti: use devm_platform_ioremap_resource to simplify probe
+Date: Tue, 28 Jul 2026 18:21:48 -0700
+Message-ID: <20260729012148.615964-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -75,30 +75,38 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use of_device_get_match_data() to retrieve the memory controller settings
-instead of dereferencing match->data directly.
+Replace the open-coded platform_get_resource() +
+devm_ioremap_resource() pair with the single helper
+devm_platform_ioremap_resource(), dropping the now-unused
+struct resource pointer.
 
-Keep the explicit OF match lookup because the driver still uses the
-matched compatible string for the EDAC controller name.
-
-Assisted-by: Codex:GPT-5.5
+Assisted-by: opencode:hy3-free
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- drivers/edac/highbank_mc_edac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/edac/ti_edac.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/edac/highbank_mc_edac.c b/drivers/edac/highbank_mc_edac.c
-index 68d16cc8298d..ee1f15fe6986 100644
---- a/drivers/edac/highbank_mc_edac.c
-+++ b/drivers/edac/highbank_mc_edac.c
-@@ -201,7 +201,7 @@ static int highbank_mc_probe(struct platform_device *pdev)
- 		goto err;
- 	}
+diff --git a/drivers/edac/ti_edac.c b/drivers/edac/ti_edac.c
+index 39cc2ef9cac4..aac6bd6b0572 100644
+--- a/drivers/edac/ti_edac.c
++++ b/drivers/edac/ti_edac.c
+@@ -231,7 +231,6 @@ static int ti_edac_probe(struct platform_device *pdev)
+ {
+ 	int error_irq = 0, ret = -ENODEV;
+ 	struct device *dev = &pdev->dev;
+-	struct resource *res;
+ 	void __iomem *reg;
+ 	struct mem_ctl_info *mci;
+ 	struct edac_mc_layer layers[1];
+@@ -243,8 +242,7 @@ static int ti_edac_probe(struct platform_device *pdev)
+ 	if (!id)
+ 		return -ENODEV;
  
--	settings = id->data;
-+	settings = of_device_get_match_data(&pdev->dev);
- 	drvdata->mc_err_base = base + settings->err_offset;
- 	drvdata->mc_int_base = base + settings->int_offset;
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	reg = devm_ioremap_resource(dev, res);
++	reg = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(reg))
+ 		return PTR_ERR(reg);
  
 -- 
 2.55.0
