@@ -1,64 +1,64 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBE63D9DA8
-	for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 20:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371AF3BB125
+	for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 20:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785357818; cv=none; b=ri4rEy5xLfPbA023CMPfrr1MnJl7uXanJBmkJs0nPvc+GyUHoR9s7Uiu3jpFBUbqiYl9g43gBQbRXUYfO6RYWP6bvIRIcNNy87868Hf1JH028h2X9POeDNwLUIrd5poBGcUx1Ma1HVKaeVDnpA6NY63nMbCeTdCmSRj5RfItWNk=
+	t=1785358026; cv=none; b=eshPL/fyu2sdnVvIlpGdFW4Kp9RM125n6HraZB9bNXuIKwupUaw96QLgogCFSS8PAUm7tOWtgbVqObnLyNM2q5MXijvaONCAeYsnQCrcamlwRCPj0NG9MHACWkSFEnDWMs4ep05VzlrJlZqBGi0n/2Z9uUNy07bnHxLJINaOhd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785357818; c=relaxed/simple;
-	bh=4BOmkU2vSZ/U9gONkaoeVKNfjOlDFt3ExDRgHcQlNIs=;
+	s=arc-20240116; t=1785358026; c=relaxed/simple;
+	bh=qDoPFDgYOwBJutDRxjyEAfPZBpXw87vS1RFRdmij+W8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gHEZrkcIdtqLJW1GfP/7bb0WtONj89szPlRM3vreKsQjcHM+04DSbSVVkCvxKIh7e3MDcI/nSieMaZy3dTG2F/Lvj7GRqK81eDwRTLIRoy/MtbZpZnWhjFZMJ+Y28FUYlo0ldGz0QDOxVOHy76Qd0uT4axEYPtFPK/9flSTGVbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rh7R6eeh; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=Z55XGMje0iCGCHYzzHhwkojxmDQobcXChwFqVaeaGWWSMjnh67W2rG+2gsh33fLfSRpPaE/ikambK6aKZrgmNTZojayOKwVB2c2FwEdUdrevopfMMNigvQOrMJBKZfkLdnzS3eBPSD4APsHx11lkhMIvghnLcl/gRCtarRmn6Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jj7h7PF2; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rh7R6eeh"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cacb8416a1so14937585ad.1
-        for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 13:43:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jj7h7PF2"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38101f85591so88104a91.1
+        for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 13:47:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785357816; x=1785962616; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785358021; x=1785962821; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=++0iVCZUdHPXOWic5UVGxf1B/unfU6P/EZ5LYxleIMM=;
-        b=rh7R6eehDGseB5tQoDc+dwBt4sLQ9ttj8gY1iar2uPPBD4CABKKxCACkwSzQz47zSj
-         v59o+iCP4SkM5dtFmwFTmihDKk3SqciGC+fwEl92zThe1qMZHA6kh1O5CLNDyO6ZuWXB
-         zVMMrcFtiMzAlU/MtdVAanMbav1TanR385j6kBfB0IpvTRRQ2q0c+6Cz5iOf4Es3lQCq
-         HkwP1SlW/JpreUnb5Q4Dtj+89UCC4d9AjS7XfFgv2LxANF0bKzOXBOEp0KQP3aS3sIVj
-         zTCvT0nIBIbFQeUSgxICYDH4WG5HiJeGS/4TxDWWvdSm+Bzm3t7xi+hCigzSpxkPgVg9
-         Np8Q==
+        bh=teTKn1OpGKLb7AWpDMW6Ji1oRtzdBgxsC8nNkN5FQbU=;
+        b=Jj7h7PF22+lJfeg89v+OL/+GBPxcX6VYAAgtoerRl0znFSUCC9lNq4YW/UOXE3jHU0
+         KN1EONceFKHnEQqXn+LqZBESO2jrXTnHo5lkN6ilHVr7q4D3bf23Ad6d1/IGDpeaF7i9
+         CrussRmQnz/pPJUncBmvKFuEAWXzCKmvZCtOsCVqePFRZT2M1A7nP7J9cxdjPlSfB5dl
+         pGfC1o8rbsNeR71JZLX7Y57Cy+WP6vPmETHUmaH7gSIM2inrrXIy9euKP5Wwp+20dJKh
+         iazoB2IAhmnWQllz1mjkv2+khAFR1/WifCdHdNlmEujas48hLJhMZjmKGE2RCZtXhURx
+         O51g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785357816; x=1785962616;
+        d=1e100.net; s=20251104; t=1785358021; x=1785962821;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=++0iVCZUdHPXOWic5UVGxf1B/unfU6P/EZ5LYxleIMM=;
-        b=WOa690TxfpZMkvUTc0EYsTg731Q3JzoMBf2tJKhARQtTeNaJ1b/uj5ZFi3uAXoRo4i
-         YLK97Se8kGwgNH4HhmItrO4B1Msdk52kGxnAGfgOAYZegLnj+bkCbUZszvBFYu7p3kbz
-         E08yHbSzT+WXlJFZ42HNE3PprhQHG5qKkaa5ABx4UdKG7eMtrgRobdAw3iZBjDc6kTrs
-         V0w4YooWWNfykVZDsDa6Wx8UpZ2qP0Vzn+RDqrqlefDvtPocsDrvzZ18g7sBJGg+Ka6U
-         Ey3lWd8bTJ8oS2p9SWsv8OSwCx0MoGNZ5kwm7B3ilc7+C/jGobjQzXRdU+jFRWIk3H/O
-         AVEg==
-X-Forwarded-Encrypted: i=1; AHgh+RpAYIYE+aOWhYb+bAJo6oeVesAmfI9ohLpHOR9L3ax5H3Gbm1B6lt13fiKFimtju+ZTT1dRF0XDG3ET@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhKNAvoyXoTzKo24BGw9xZADB4FX1sh3qLlnzCUKn89EJ+wcxk
-	hMMwgy1eKP+miVihCCvC7ptYpc7zCDc4W9qlyHzdUZFlVnPAuXwwT4V9
-X-Gm-Gg: AR+sD10se8JcnAaRkWWKEE+VbPYocyjVZ6xXFUmhm7u5jtXnBMG61oPxbEzPzFhAKZJ
-	8j/59Zjplk4A8h9y+kNUtkO00Zt3X1DRbgjSloTK7NrL7gEqlVVxN0TaJzkZWy5xvKnlPLlmlUa
-	N275ZU6pMvLeYcynh4iUYU3vkEDEQh7AXoMrdTHCWEMvUj8jKGxdy+u2fHyQ/4bTmn7FDkR+/Yy
-	nRvgP/mkncYMg4qW4zbOaXxccJD5BGGgvinjz1l/SLmoV7rl8jk/VJvrbcbs6Y3Qsz0DPLisSkl
-	q3KPF6Cn5QdByD2mw4rP8qW5Z79iEjWjS9Bz/cuWuG1ROLkhKUGVkapwg/rKo9DYjKwPJ8sakx0
-	YKBoVYYbGRgt2x69qbjyIvX4AZ0qXg/RiQWFt2m4gZSf52onVYwPmHcghnxXPvo7R8/vyS8iEY9
-	vPG2NQT0UWbhOhXP7Mkmw+D0MhXm2Lt+KcDtuq+HmqM3/Jl9u2GbskXTiab7MLIDSpFYsPrPKDb
-	cQqR7L+C3ERgm+OgriQjDxSG54wv+/Jt00i/j/TjQ==
-X-Received: by 2002:a17:902:eb8d:b0:2c0:e2ea:6b0c with SMTP id d9443c01a7336-2d0339f1126mr4140745ad.21.1785357815927;
-        Wed, 29 Jul 2026 13:43:35 -0700 (PDT)
+        bh=teTKn1OpGKLb7AWpDMW6Ji1oRtzdBgxsC8nNkN5FQbU=;
+        b=JolXutrY+DDBKpzt2j52cjjKY1Lpcfm0VfOMLYdGWvus+MT/mrgZsX/a3dvVMqo2vo
+         IvIeQf8pwyCPmiM0XiunQsRzl6PY5V9fhKuegkdE19tV72ZqVTJVOjVRl6V7cU9M8/oi
+         mXzgSX+frUf6wGxMoS50KrkNJ5OETMJgj3Q94G9ll7LPSU+BwZsgolBZ0/seIB8t9BZi
+         UfLdGAXpbzliNlH0z/l4XCQ02FRyM+UofeHWqvKKHHsKAodJk825NqmneZ9oCTlxQFGd
+         XHEAnHV8mxuPxt2h5a8bqeLD7yJDV3nl4cNwKm3ANTVMHGuxR4UTRSdW3USbLnjNo0kJ
+         adbA==
+X-Forwarded-Encrypted: i=1; AHgh+RqCzRNJrgbCtsPTtyPw83Wj2I4VlrUARM/X0IEVXrCHiEaJAvaBZJTuez2LRYkGB+ft3LHPV3bZ9kac@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFMVdkQm6zyF3bXdfPgjVpQhf4V6POBinLxT8b3SclyhWcV7MS
+	RH99lSgm5dvxliDRK14z43TcY/Bay0J2jXPUL8fkz/AFaozKRISPtRIF
+X-Gm-Gg: AR+sD11kyQF9wrthPuCk158e+JaYSBSQ+4UPGHGlA0Aradg3/6LUO1zT9+UQuX2GAdb
+	7AiCUGavGncE6tlbmX49dAfK7g+qQuP80RGNGUdUW/X0RFnZ8ydnauF3wBmDT1I86BmyJn7Uu2e
+	Q5Q3nmUu9hLJcUCdOvUijzAonoc2D98JsChEXthP1JlMvbSDviotsOj1q6vUCh+VJ1jDlelDlFT
+	6bRTKyRIrwvWGLDMCTojKoZfHHo/SHYvDPIr7NU+OD2br8dq/6sA5zcplspS/xociL082oirfH9
+	5fzVVSsQbau93Ym40usIJZuPrkcuqFM0HgwTVMMIAKHz9zz3p/SMobO4iIkBAzY/s7zCC167ySM
+	4N14KBpcfLOexocqtIVYa6rZZo7ViVOiOyWAFkb74p+YNsd9wiyoXFQrnNRidFLU/GyXO6UD8vl
+	k/cgGOfvCXkHes5JFF+RC+xBG9p9hwE1C2LGJqcOufpYRIQCUehK80oqhfdBI5J9Qq1SxgtBQrK
+	6nXRrei9DGr6Uoc3FbdHflNYxdqDNY=
+X-Received: by 2002:a17:90b:4b8f:b0:37f:a913:1554 with SMTP id 98e67ed59e1d1-38f836bca81mr3747394a91.16.1785358020997;
+        Wed, 29 Jul 2026 13:47:00 -0700 (PDT)
 Received: from localhost.localdomain ([2409:40e3:209d:579a:9da:66e9:b9a4:b92b])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504b12cdasm14650753eec.1.2026.07.29.13.43.31
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504cc9dffsm14526894eec.14.2026.07.29.13.46.56
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 29 Jul 2026 13:43:35 -0700 (PDT)
+        Wed, 29 Jul 2026 13:47:00 -0700 (PDT)
 From: Rounak Das <rounakdas2025@gmail.com>
 To: krzk@kernel.org
 Cc: bp@alien8.de,
@@ -72,12 +72,12 @@ Cc: bp@alien8.de,
 	robh@kernel.org,
 	rounakdas2025@gmail.com,
 	tony.luck@intel.com
-Subject: [PATCH 1/2] dt-bindings: altera-sdram: Add Agilex5 ECC manager compatible
-Date: Thu, 30 Jul 2026 02:13:08 +0530
-Message-ID: <20260729204308.21562-1-rounakdas2025@gmail.com>
+Subject: [PATCH 2/2] EDAC/altera: Use an enum to identify the platform variant
+Date: Thu, 30 Jul 2026 02:16:42 +0530
+Message-ID: <20260729204642.23281-1-rounakdas2025@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260724-sensible-flamingo-of-experiment-5a389f@quoll>
-References: <20260724-sensible-flamingo-of-experiment-5a389f@quoll>
+In-Reply-To: <20260724-spotted-resilient-badger-495b71@quoll>
+References: <20260724-spotted-resilient-badger-495b71@quoll>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -86,32 +86,34 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the altr,socfpga-agilex5-ecc-manager compatible as an enum next to
-the Stratix10 entry, since both share the Arria10 fallback.
+In preparation for Agilex5 support the driver needs to distinguish
+more than Stratix10 versus everything else. Replace the defines with
+an enum. SOCFPGA_A10 is zero so the Arria10 match entry, which has no
+match data, maps to it naturally.
 
 Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
 ---
- .../devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/edac/altera_edac.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml b/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml
-index 2ccb0f216318..34af88988b84 100644
---- a/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml
-+++ b/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml
-@@ -20,10 +20,9 @@ properties:
-   compatible:
-     oneOf:
-       - items:
--          - const: altr,socfpga-s10-ecc-manager
--          - const: altr,socfpga-a10-ecc-manager
--      - items:
--          - const: altr,socfpga-agilex5-ecc-manager
-+          - enum:
-+              - altr,socfpga-s10-ecc-manager
-+              - altr,socfpga-agilex5-ecc-manager
-           - const: altr,socfpga-a10-ecc-manager
-       - const: altr,socfpga-a10-ecc-manager
-       - const: altr,socfpga-ecc-manager
+diff --git a/drivers/edac/altera_edac.h b/drivers/edac/altera_edac.h
+index 30e35da7eb6a..79b51f051183 100644
+--- a/drivers/edac/altera_edac.h
++++ b/drivers/edac/altera_edac.h
+@@ -372,8 +372,11 @@ enum altr_agilex5_irq_idx {
+ #define ECC_READ_EOVR                     0x2
+ #define ECC_READ_EDOVR                    0x3
+ 
+-#define SOCFPGA_S10                       0x1
+-#define SOCFPGA_AGILEX5                   0x2
++enum altr_socfpga_platform {
++	SOCFPGA_A10,
++	SOCFPGA_S10,
++	SOCFPGA_AGILEX5,
++};
+ 
+ struct altr_edac_device_dev;
+ 
 -- 
 2.50.1 (Apple Git-155)
 
