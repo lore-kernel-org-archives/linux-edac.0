@@ -1,119 +1,97 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371AF3BB125
-	for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 20:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B953CC310;
+	Wed, 29 Jul 2026 20:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785358026; cv=none; b=eshPL/fyu2sdnVvIlpGdFW4Kp9RM125n6HraZB9bNXuIKwupUaw96QLgogCFSS8PAUm7tOWtgbVqObnLyNM2q5MXijvaONCAeYsnQCrcamlwRCPj0NG9MHACWkSFEnDWMs4ep05VzlrJlZqBGi0n/2Z9uUNy07bnHxLJINaOhd0=
+	t=1785358638; cv=none; b=bFbaULRYQUA+h+DWK6fJi9F+/sA5SfuytpYAiJDlAvmieND0TrbxDzsuySAH4ZpdnVq0dedXwXGY6jF7L9ZYRIKnvCAKmUxn5hlHPTtMRfM+s9jBR8SXeXSmaLwOZZwfLi0fW/qeTx0HS+2wW+z/l5lPPbIhEFydVvIy+P66BOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785358026; c=relaxed/simple;
-	bh=qDoPFDgYOwBJutDRxjyEAfPZBpXw87vS1RFRdmij+W8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z55XGMje0iCGCHYzzHhwkojxmDQobcXChwFqVaeaGWWSMjnh67W2rG+2gsh33fLfSRpPaE/ikambK6aKZrgmNTZojayOKwVB2c2FwEdUdrevopfMMNigvQOrMJBKZfkLdnzS3eBPSD4APsHx11lkhMIvghnLcl/gRCtarRmn6Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jj7h7PF2; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785358638; c=relaxed/simple;
+	bh=alUzQHsyKVYHix60luCfjkIXUfXS+Tm9IdW/ljiuGh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E4oF0mh3WyPa4Cc7DCOzw2h9dQSPPVj/0fCBPTSYz6WOBmTNak6LN5YjryzqtrfEDDO30zKfS0lseGeUL0xPhRIZp6tX1eh5kgm4GhLij4dLa8DHN5ssyWpFtOgCwNw8J0/jeyIq0mbi32asoc5iKR3ek+XH6UVyXismL4NJ35M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org; spf=pass smtp.mailfrom=fastmail.org; dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b=RBN7x67L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A+YddmUO; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jj7h7PF2"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38101f85591so88104a91.1
-        for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 13:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785358021; x=1785962821; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=teTKn1OpGKLb7AWpDMW6Ji1oRtzdBgxsC8nNkN5FQbU=;
-        b=Jj7h7PF22+lJfeg89v+OL/+GBPxcX6VYAAgtoerRl0znFSUCC9lNq4YW/UOXE3jHU0
-         KN1EONceFKHnEQqXn+LqZBESO2jrXTnHo5lkN6ilHVr7q4D3bf23Ad6d1/IGDpeaF7i9
-         CrussRmQnz/pPJUncBmvKFuEAWXzCKmvZCtOsCVqePFRZT2M1A7nP7J9cxdjPlSfB5dl
-         pGfC1o8rbsNeR71JZLX7Y57Cy+WP6vPmETHUmaH7gSIM2inrrXIy9euKP5Wwp+20dJKh
-         iazoB2IAhmnWQllz1mjkv2+khAFR1/WifCdHdNlmEujas48hLJhMZjmKGE2RCZtXhURx
-         O51g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785358021; x=1785962821;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=teTKn1OpGKLb7AWpDMW6Ji1oRtzdBgxsC8nNkN5FQbU=;
-        b=JolXutrY+DDBKpzt2j52cjjKY1Lpcfm0VfOMLYdGWvus+MT/mrgZsX/a3dvVMqo2vo
-         IvIeQf8pwyCPmiM0XiunQsRzl6PY5V9fhKuegkdE19tV72ZqVTJVOjVRl6V7cU9M8/oi
-         mXzgSX+frUf6wGxMoS50KrkNJ5OETMJgj3Q94G9ll7LPSU+BwZsgolBZ0/seIB8t9BZi
-         UfLdGAXpbzliNlH0z/l4XCQ02FRyM+UofeHWqvKKHHsKAodJk825NqmneZ9oCTlxQFGd
-         XHEAnHV8mxuPxt2h5a8bqeLD7yJDV3nl4cNwKm3ANTVMHGuxR4UTRSdW3USbLnjNo0kJ
-         adbA==
-X-Forwarded-Encrypted: i=1; AHgh+RqCzRNJrgbCtsPTtyPw83Wj2I4VlrUARM/X0IEVXrCHiEaJAvaBZJTuez2LRYkGB+ft3LHPV3bZ9kac@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFMVdkQm6zyF3bXdfPgjVpQhf4V6POBinLxT8b3SclyhWcV7MS
-	RH99lSgm5dvxliDRK14z43TcY/Bay0J2jXPUL8fkz/AFaozKRISPtRIF
-X-Gm-Gg: AR+sD11kyQF9wrthPuCk158e+JaYSBSQ+4UPGHGlA0Aradg3/6LUO1zT9+UQuX2GAdb
-	7AiCUGavGncE6tlbmX49dAfK7g+qQuP80RGNGUdUW/X0RFnZ8ydnauF3wBmDT1I86BmyJn7Uu2e
-	Q5Q3nmUu9hLJcUCdOvUijzAonoc2D98JsChEXthP1JlMvbSDviotsOj1q6vUCh+VJ1jDlelDlFT
-	6bRTKyRIrwvWGLDMCTojKoZfHHo/SHYvDPIr7NU+OD2br8dq/6sA5zcplspS/xociL082oirfH9
-	5fzVVSsQbau93Ym40usIJZuPrkcuqFM0HgwTVMMIAKHz9zz3p/SMobO4iIkBAzY/s7zCC167ySM
-	4N14KBpcfLOexocqtIVYa6rZZo7ViVOiOyWAFkb74p+YNsd9wiyoXFQrnNRidFLU/GyXO6UD8vl
-	k/cgGOfvCXkHes5JFF+RC+xBG9p9hwE1C2LGJqcOufpYRIQCUehK80oqhfdBI5J9Qq1SxgtBQrK
-	6nXRrei9DGr6Uoc3FbdHflNYxdqDNY=
-X-Received: by 2002:a17:90b:4b8f:b0:37f:a913:1554 with SMTP id 98e67ed59e1d1-38f836bca81mr3747394a91.16.1785358020997;
-        Wed, 29 Jul 2026 13:47:00 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40e3:209d:579a:9da:66e9:b9a4:b92b])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504cc9dffsm14526894eec.14.2026.07.29.13.46.56
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 29 Jul 2026 13:47:00 -0700 (PDT)
-From: Rounak Das <rounakdas2025@gmail.com>
-To: krzk@kernel.org
-Cc: bp@alien8.de,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	dinguyen@kernel.org,
-	krzk+dt@kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	niravkumar.l.rabara@altera.com,
-	robh@kernel.org,
-	rounakdas2025@gmail.com,
-	tony.luck@intel.com
-Subject: [PATCH 2/2] EDAC/altera: Use an enum to identify the platform variant
-Date: Thu, 30 Jul 2026 02:16:42 +0530
-Message-ID: <20260729204642.23281-1-rounakdas2025@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260724-spotted-resilient-badger-495b71@quoll>
-References: <20260724-spotted-resilient-badger-495b71@quoll>
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="RBN7x67L";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A+YddmUO"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 2EBA71D00348;
+	Wed, 29 Jul 2026 16:57:16 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Wed, 29 Jul 2026 16:57:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1785358636; x=1785445036; bh=alUzQHsyKV
+	YHix60luCfjkIXUfXS+Tm9IdW/ljiuGh0=; b=RBN7x67LUJuL+kIv2c0ad/G5DT
+	UW6CPVbxMAwUg00iNb8BfP+A8uf2c6UOO/Gd6nu/hhdeJdr/2bRCTCsbG6dyUvov
+	wucmKcuKRRZFR5WsgODbOTrivJxavIHAtapnqD9Xj5gjijO6JcNbQkTPwfgtIWEt
+	RXCLRJAjw8xVOzs/yOuLlkpIuDevx87Ym13beDQNYLHSRZWwpdjOnA55dhC9eDRM
+	9HMA11akPnkg8NkJpyZSQcea7BAwcwER2BdwAbIiD/tWK7ih8/3sMsfhzuFb3efR
+	gw/iZvGHWR2hx18BvW+nC1FbcNkPKXbku84GjGBFkegyxFQLC3tKvvIfz4ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1785358636; x=1785445036; bh=alUzQHsyKVYHix60luCfjkIXUfXS+Tm9IdW
+	/ljiuGh0=; b=A+YddmUO7CTzR9PShODlazODeMCiO22hnIarnPIAuD9s6dN/c8y
+	Eg7MXYKE6l1u3PmwV158Kry/uHiBOH1cfUdfmTCXdhYrXbeDXMFxGSAqI3uE0Jrl
+	v3rXKxh5zsKFSRrRVmdtJhZ0ccAwb0z1NQ6IFAp5crKqPwrZNKuZn8/LXSf03X8O
+	Xenp4WUpvmN34kC/16PuIY1nxxXC5b7AtE5rjeI1UBi7THAEg+n/5ovK4Kc+CYKJ
+	xht+rYpSPNZfrCQQYaNF6J58ZzvKg0XBtAcq3w6HqTK6usMgRwuPnKgBkO3vq83I
+	OoMGonT2/doeUE5B7ZN7scFaMMcSyB1lbww==
+X-ME-Sender: <xms:K2lqagE8iExCk9xvzqtNfD5bjrB_OmhpPPG5NyDlXvok_llAxLj1Xg>
+    <xme:K2lqakSRBropnwCwo62pCcla-sswMWiyCqdIuvpRXda_2RQf4E97SphHd8n0i5afV
+    cln7eeR8l0xc_RR0ijfZ-IadHMeQHkwtF3KbMQ9in-pPGppZ4Utn30i>
+X-ME-Received: <xmr:K2lqapJoBwxTFlbX-ORW7R4Ux7P00me0nmgA9gtOi7CUTBDZE0EgP0TbGLg>
+X-ME-Proxy-Cause: dmFkZTE3kqu7On8dWJFzGjaqNjJoZW9aHEiwkzn7JWTm5sk4YSeWPS4vT7UP6ArAzgylZn
+    M5AB5KwxxX5Ur2EoC0mQLgdhKeHKljbeIE0dSukNdR/vNuh8wO1JoYqfxd3RVWI7nYn9e6
+    t15CPKhl0ojKDpMCh8qVlXLe441nDpiBA5abo4QKEgqsBx/drnv+yDe6Z/iSC5ax6ezT6p
+    dwWwQNQ7KjV0hjr+P5Sls0hnRFS8TR/3At1ZiBSCD8ZOvqLEJH1oUbNIOjUJe5t3rf5Fne
+    yRmIqPbu76/kyX7Ncp0RfOIsriQ3bilQos/tlv5XOZlDOYD7zeex33jqKjYC5rojGX8qba
+    tzyCii98XJwwXUd7bHF5jF6U7MVXQX4jDJeBTKGiGFZY43vGjYh79unPd0CvntS2vj53E/
+    ucfBFH9DY388BkzII1gl7es264M1MJ47glrLJ9XHngR2ohZ+DyRQcPRttPAlUKE9jfZzM1
+    2McMmtTA9a+uMg9aA6+a6FgkvNAHmRMAbdog0M0ZXaewf8PoQhpYcuIlt9B0vbElKTWYsU
+    3cs8OT14UmuJfVEyteNC4Ar0dyktBmXfu+kjuIxrizgGSRQhlmWQ5TWxdQOAyebHoUvLoU
+    ukiFU2WUdxicV4YfiBTd5sTGyUK6S//5UsPgmLQFo7NL9LK1gsSzkIePnqPg
+X-ME-Proxy: <xmx:K2lqana2gMglExWDoP8S_1DBgdvEAp2hNiM5uaAIvKeyZD4ZZsx_KA>
+    <xmx:K2lqaj-Qx3YqdmJ3FPCqBxFEhb6V-5mQCCYitUE6SYjt8u8AEJbE4w>
+    <xmx:K2lqagZzVAnTO68OnmVJZSNFiWfnnD9D-2-bVI5XGd51hVirJ7a45w>
+    <xmx:K2lqavMxiV2NsrRnkPXC7SzIbPGbpPaPfiUfugSLb34h56qqrShuRg>
+    <xmx:LGlqaiJ1n3I2JEI1_mCvvvqcOTPeUIQhiHW5EO_DER-HR41F5G59ASKp>
+Feedback-ID: ib53e4b78:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Jul 2026 16:57:15 -0400 (EDT)
+Date: Wed, 29 Jul 2026 15:57:14 -0500
+From: Ian Bridges <icb@fastmail.org>
+To: Robert Richter <rric@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] EDAC/thunderx: Replace strlcat() with snprintf() and
+ seq_buf
+Message-ID: <amppKvK6mIJRmoL8@dev>
+References: <akYJUdY1hVABUQH6@dev>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akYJUdY1hVABUQH6@dev>
 
-In preparation for Agilex5 support the driver needs to distinguish
-more than Stratix10 versus everything else. Replace the defines with
-an enum. SOCFPGA_A10 is zero so the Arria10 match entry, which has no
-match data, maps to it naturally.
+On Thu, Jul 02, 2026 at 01:46:45AM -0500, Ian Bridges wrote:
 
-Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
----
- drivers/edac/altera_edac.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Gentle ping. This patch has had no response since it was posted on
+July 2. The code it converts is unchanged on ras.git edac-for-next
+as of this week, and the patch still applies cleanly. Happy to
+resend if that is easier.
 
-diff --git a/drivers/edac/altera_edac.h b/drivers/edac/altera_edac.h
-index 30e35da7eb6a..79b51f051183 100644
---- a/drivers/edac/altera_edac.h
-+++ b/drivers/edac/altera_edac.h
-@@ -372,8 +372,11 @@ enum altr_agilex5_irq_idx {
- #define ECC_READ_EOVR                     0x2
- #define ECC_READ_EDOVR                    0x3
- 
--#define SOCFPGA_S10                       0x1
--#define SOCFPGA_AGILEX5                   0x2
-+enum altr_socfpga_platform {
-+	SOCFPGA_A10,
-+	SOCFPGA_S10,
-+	SOCFPGA_AGILEX5,
-+};
- 
- struct altr_edac_device_dev;
- 
--- 
-2.50.1 (Apple Git-155)
-
+Thanks,
+Ian
