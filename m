@@ -1,110 +1,77 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C963429DB9A
-	for <linux-edac@vger.kernel.org>; Wed, 29 Jul 2026 01:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A24E26B971;
+	Wed, 29 Jul 2026 01:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785288207; cv=none; b=BFMuqm2SlhbQruJbHYU6HdrK1YazIG15Xdz6nCUFQZIu1PAoku7lhwGcNEwq0ArHR9b5xL5pEJiWmQDJkN1qTxmZhqWCiVIKzJImKa+LIyb1YGh15L6lId3GfvdhpGZdvQkK3Umx4PEe5vxoFM7keLcJmgSLl3rJyJjRcmpPr98=
+	t=1785289473; cv=none; b=gS5EB4qxYAuiVQb2ipG2rBXgmGKlaGbXBw5y0xHNY7bTvDM2Qu14PmBFqmxs7xOr7xoeo0woAdTZgSU0a9n2R8hBJVQLU+/Sh2SIbjVF1Scm9HxEPHEO2wNwUnkAggkMHy/RdftMKmbM3A6KBhTaRuVFwGCKWKrB3qbPoVspef8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785288207; c=relaxed/simple;
-	bh=ruyCAl/d75W453410VelrLvh/Qfpj9qdc2hdxBMy15I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WHU3viLExyQUTvfbaLzmQPwLbtTDvFHu9SGH9J/YN0zMrR3dAQLlz5KZX/UPZUgdV/5JZm1SW1Ur4+ZhxWpDylHrbzhCx76OoDGARSdUioLGoinaBUAbg6UQCO2ZAvL01kGfe18Nsp4kcU8ZohZUg2RSeE+0yv0+UvEl2IZ9RgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n/2Tg6Wi; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785289473; c=relaxed/simple;
+	bh=Fqbe4DIhsNbuMpYapLU3a7u3miBm92r9HlzuqltQ0No=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qy/Ox05rxlVlYzppkDJBDEiqyugmLIWpoQkmXbyn1Xlr8CdXZ3IhvT4pESfUVRtLo52AmOE0CAT8ayg5Y0x1+XWgeqvZCadY/zc451XpNCmwBeUPTGDTM4/v4jM1FzPJlVjE+0aXh1xH8F+gJNXmWxdybRqKcaIpCOkl6QrviFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=addTXrUh; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n/2Tg6Wi"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ceae1ed204so5887065ad.0
-        for <linux-edac@vger.kernel.org>; Tue, 28 Jul 2026 18:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785288203; x=1785893003; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2AGRW0GPVXdo/+h/vfV0tTRF7kuY/c8KFwUfzyJ8FbM=;
-        b=n/2Tg6WiVuW1RyAD/vL1y34Xot70OI7D9mMONLaMpnJTagUfWFKJC5n42yEPlxN1vx
-         bi38Cw3H1wEuH5vE7Hr0vFPwlgKZ863ij+l1bUZ8Z2trTTspldLA1aEjcxtGWLRPRjvk
-         3B6WqSTu2pjGKc4Ctx85NOtbkPwdPx4XLoNPaq4sZeNkn7zrHtBr5Pab729+r9hp6+9T
-         FkMyUXy6L2FeOPTNxqV0GzHs4CXeB15Qy3jxKP6u65Ej0gL0ufFzzZRZYn4hjpTqHY4t
-         d1PVz1pBR3zh8Wxyroru5ftM4r8A9rnJYjUCPJlI7C8ZPsPa9lHu50FIcj4O2DtWdJHJ
-         0UCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785288203; x=1785893003;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2AGRW0GPVXdo/+h/vfV0tTRF7kuY/c8KFwUfzyJ8FbM=;
-        b=Ie5l5fbQzz8b86CLP1VHdqy0gTyVVp/CnLJSllkffrJCQioeXM/fhZ86i9rRIJbxnm
-         RMzvtKcm+z3FSzf5EbYsXx9dPg1Ldk+3GcoNQveEFFbhCg/c4FTr5PQXx56QSGo4q71J
-         xGwe0B40eBPZWC/xqv2z8cHbOoEu+55O0JOatpebZ7sgVEgQ7M+n/ZD3xIIjzCNTj538
-         w6D2Ec6MBh9DIHVsc7if5PFEWjJRAEdKsoNdCXUOERwJyeRmpPC2LG6u1ONIJjOmhCNp
-         xtN8JiUniHfhEigGUp0SzQg714WAxsgK+E7ybXTV5sSTvz2p58mqUUSB1u+uDoqFWfBs
-         ljLA==
-X-Gm-Message-State: AOJu0YyFKxKM4/e4yLe14TA/8klXyn4/hsnFvtqhnRYs/MYPfr4Couuu
-	47qz9c4OX354RLWZ6NpIYgFOR0oNNNtObaZpaVaK9YysPdFeU77oYKFoqw6rRQ==
-X-Gm-Gg: AR+sD11I7OoQicwpEALjIF2oKKjeZ6S5cThafWFKskrAeAMJsxxQ7Gmpqq8zcM2wNM5
-	lwLJVWGqKm/gh0Vp18OibslHpD9Sa2cPwCUCVL8Ri2Yyjs/ZbRS6lNwf09hXxNw8ilrAsPyf4xV
-	8/Be3XAbTNnQi2LQ9mc9LYDPJiKrOO8ZdSwl80/RzITxhJiWztwgbyC2EV3LGDj9U6XExutbUmV
-	YycIfiaKo03/ZEOs/CUeYd4C5XMDXmqsKBXg5pyY1NpRu2+0rjl11gEcb7IjjlEbya9dOjhlJ1W
-	bF+4J8kseiOoux3njCP6eD3Mv8nKJ7CTRj0LJmghRPSDO5u/5nyc+f1/q/+G/7pVRvIywLB7xyf
-	qJLOyoiT3Wvm/GaWEV4zeBY/dMXet5XtT4Ta2ky1/EgPH6wqGIdgXO1YCmfsIBnveOdumJG5pL5
-	1auYDkcrw+yYY3pl8NayW5nFK4uOeQQ8i4nQCrJ2vdgvSfCK5XR0W0NuS6WAimoBG9ox4p4cAnE
-	hNBRvveHXpck6T2X4DaAE3+qSYBoO4PYIAR47bkBpLPy3vue0T41xBtzR7Ch3wXZQQaDlR9STnx
-	sXPMc/KYCY5xPbBzWXcrHe9kSEgjhn9FnZMuOw==
-X-Received: by 2002:a17:902:fd83:b0:2c9:97a7:f544 with SMTP id d9443c01a7336-2d015d25a51mr49814735ad.42.1785288203225;
-        Tue, 28 Jul 2026 18:23:23 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022bf7cb7sm3329575ad.68.2026.07.28.18.23.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 18:23:22 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-edac@vger.kernel.org
-Cc: Frank Li <Frank.Li@nxp.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	imx@lists.linux.dev (open list:EDAC-FSL_DDR),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] EDAC/fsl_ddr: use non devm for request_irq()
-Date: Tue, 28 Jul 2026 18:23:20 -0700
-Message-ID: <20260729012320.616174-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="addTXrUh"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2345140E014C;
+	Wed, 29 Jul 2026 01:44:29 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id vZWOZ8_P1VgE; Wed, 29 Jul 2026 01:44:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1785289458; bh=lKZ4Wm81Nezr8Zx2gK6doi1XrjPscTP8e80QVTgDnxY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=addTXrUhVgdOS72+/cbvtYN3uRPJKouR4WZMsNV5YbpG/RPmbbDvEuWL9vFZtzaAi
+	 8C7Iq7CqVaWVtZvjcFmYGV00Qw0qPgkzJ+fhZVt3UoATQJzlzCxH2vriPem+qFdBjt
+	 Pv64NlJLSBrgUKdOEIO7DTSK/ATDTOFUsDvfn3Qb+ooFuM73bS+xU1T1IBFI8ThX8s
+	 ZO1hrWWsbLlKyL0a3p64f3Grj61ArdIN57lTT/TXR9nEA2f86+hk1IMm+Nav+a36j4
+	 hKFqRl/3sUXjUalGb4tlw+wtnn2iOPoRPG8+PH3SSvOm3XlY+ws+kIzvU/a2oMNBCx
+	 PlWJ2W9OofxSyibVwfUX0jKLfXvrfeKL9qAdOX0Rh36J4fOissmbUbkRxokEi2No3G
+	 V6EdEdLoVA5mzT9oXvRbORHTtmZ92mCjidsnV/2GuqMsLyov+APMAo/O2GOEf6hiop
+	 8IeiPYpKh0Sgfx9OEwYd0drQBT1CoFUeNaDc5OC7cuXJg7kbYbCXTMbCbitAvVFsGC
+	 tjvztB0wy3dXAy/uBqpWGuSYffFtnpZYhGkqg3U7SfknqA5n6Iks9mySLmQIdkrS+L
+	 tFcRmmtRYcKmDCsxIRitXjZEN+6uSyqPpouw8N1xz7lJJ7PTmtXU09agfIWyAQ/Tys
+	 OZwEOkDjDdCj3M6LiYED7Owk=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8CC5540E00C4;
+	Wed, 29 Jul 2026 01:44:13 +0000 (UTC)
+Date: Tue, 28 Jul 2026 18:44:10 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Avadhut Naik <avanaik92@gmail.com>
+Subject: Re: [PATCH v8 0/7] Incorporate DRAM address in EDAC messages
+Message-ID: <20260729014410.GDamla6uSQ-ihlCIL5@fat_crate.local>
+References: <20260727212045.1810480-1-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260727212045.1810480-1-yazen.ghannam@amd.com>
 
-We need to tear down the irq before edac_mc_free() to avoid a use after
-free on teardown as request_irq uses mci as dev_id.
+On Mon, Jul 27, 2026 at 05:20:38PM -0400, Yazen Ghannam wrote:
+> Changes in v8:
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/edac/fsl_ddr_edac.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+More Sashiko:
 
-diff --git a/drivers/edac/fsl_ddr_edac.c b/drivers/edac/fsl_ddr_edac.c
-index f4cc89b26954..f1ddd1f47f2a 100644
---- a/drivers/edac/fsl_ddr_edac.c
-+++ b/drivers/edac/fsl_ddr_edac.c
-@@ -601,7 +601,7 @@ int fsl_mc_err_probe(struct platform_device *op)
- 
- 		/* register interrupts */
- 		pdata->irq = platform_get_irq(op, 0);
--		res = devm_request_irq(&op->dev, pdata->irq,
-+		res = request_irq(pdata->irq,
- 				       fsl_mc_isr,
- 				       IRQF_SHARED,
- 				       "[EDAC] MC err", mci);
-@@ -639,6 +639,7 @@ void fsl_mc_err_remove(struct platform_device *op)
- 
- 	if (edac_op_state == EDAC_OPSTATE_INT) {
- 		ddr_out32(pdata, FSL_MC_ERR_INT_EN, 0);
-+		free_irq(pdata->irq, mci);
- 	}
- 
- 	ddr_out32(pdata, FSL_MC_ERR_DISABLE,
+https://sashiko.dev/#/patchset/20260727212045.1810480-1-yazen.ghannam%40amd.com
+
 -- 
-2.55.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
