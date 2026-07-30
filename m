@@ -1,155 +1,71 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCB3F37C109;
-	Thu, 30 Jul 2026 06:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E322A3D413C;
+	Thu, 30 Jul 2026 09:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785393963; cv=none; b=pO58tC471wmwyJvp15Tgq7aBRu+v85c3mOFxufyA/1Nj73SfnEh7Yww71LMWg/TiStmjjA8VIVjHaCIeYygxdc8ZcBKhXEsiITtb74rOr4EBg3Sasc+rMUcps5t83WC4vyXT6FYguFu9qK2an9ppwB1seIjxhXbak9yM91i4LeI=
+	t=1785402270; cv=none; b=de870N+fWo9Efw040/Iia/e5tZSGgeCTzrP4p9Kolig5dXIV67ZUr7JytBlPlD1ZzApAfsktzw+iRXdxiVRoF6W9W6cptS8ExEcwIarRQr0MTqDFxk0tyg8SxZTBiiYqcRPTwI3szaHAsC0gqAvxe/DS5inZ3TwHNd/sDHxAIZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785393963; c=relaxed/simple;
-	bh=ylycxjZ3wBes2V3A+JmJcjeDIO2FwGbhtP2dFVzrKHY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V3T9htXVe1M48JBy3RwWT+wRbGJCh0IBDV29rzd6Njk3KN0SZSvenvqxmeiXudxFP3LDBsh1A5G6uBBhgT4Qxu0VGBll+C91eDsAQex9rjtyXol6WA+Sg6l3zM34YS4Ft6mdDHQ3Ubm8PTzPRbX8+sAqcknuaQm3jOtfG3NqdD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.40.54.123])
-	by gateway (Coremail) with SMTP id _____8Cxh6Ao82pqs8QIAA--.6621S3;
-	Thu, 30 Jul 2026 14:46:00 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.40.54.123])
-	by front1 (Coremail) with SMTP id qMiowJAxSsQU82pq8IUdAA--.41200S4;
-	Thu, 30 Jul 2026 14:45:59 +0800 (CST)
-From: Qunqin Zhao <zhaoqunqin@loongson.cn>
-To: bp@alien8.de
-Cc: tony.luck@intel.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	Qunqin Zhao <zhaoqunqin@loongson.cn>,
-	Wusheng <wusheng@loongson.cn>,
-	Wang Jinwei <wangjinwei@loongson.cn>
-Subject: [PATCH 3/3] EDAC/loongson: Add CS4-7 timeout filter for cross-node access
-Date: Thu, 30 Jul 2026 14:30:35 +0800
-Message-ID: <20260730063035.230686-3-zhaoqunqin@loongson.cn>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
-References: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
+	s=arc-20240116; t=1785402270; c=relaxed/simple;
+	bh=tmyj+J1zlk09xjWRl9pD3OEsdh/E1ZcvKHzZgq8IfHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WptXR+hulLK/pcBw5hl4+/QWjFpk/xu18N/XSlMIGiIfbzIVyr4QYpxhW8a4AxPFM6hopFbeIpY4L5TawaM6Rw0xyvZyxh1Hjbae5vMHwnaThm+YWXP/+ssooD2VqVZAhTf69PV1WUokYyoXmqzvhUE8huRk3wTqVpwqOI/06aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XDAlAlRa; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XDAlAlRa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D94E1F000E9;
+	Thu, 30 Jul 2026 09:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785402269;
+	bh=X4QCNkLzo7Pqj10SLhfkm521j47s1uOVy7OW3tEaHA0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XDAlAlRaWbkGGSLYiolNhrOl9iBK74Fh+KkedGqapKV2gjnLZi7YU+Yf8gphcHqkg
+	 x1AB81Yz/NgIey8AakSaueu8ccmS7+xzhj/hFXH0328lc+AO1cv7Ms0t9V+gyhNtpj
+	 CJzzmufrk4PK1WmEhcSkfVv+bUTUbLyHx7+3y27a/8ptGZiDVf/8TBsPpiC2H/KPhY
+	 L2QzTxQQsYMOeogfInWztqaADJn7bdEJdLNJoYaATaavfVNACm0H/ya4Q7HQQn+Thk
+	 K0Vy2z1cRTcGfYpIowtACSxQlf0vvE4OMlmwtpcfHIG2PF0Y+lecyJcKxMitEhRbu+
+	 WNSlDvTB6Nwbw==
+Date: Thu, 30 Jul 2026 11:04:25 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Rounak Das <rounakdas2025@gmail.com>
+Cc: bp@alien8.de, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	dinguyen@kernel.org, krzk+dt@kernel.org, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, niravkumar.l.rabara@altera.com, robh@kernel.org, 
+	tony.luck@intel.com
+Subject: Re: [PATCH 1/2] dt-bindings: altera-sdram: Add Agilex5 ECC manager
+ compatible
+Message-ID: <20260730-gopher-of-unnatural-leadership-968ec0@quoll>
+References: <20260724-sensible-flamingo-of-experiment-5a389f@quoll>
+ <20260729204308.21562-1-rounakdas2025@gmail.com>
+ <d580900f-d880-4ede-ab74-a83fc0c71be9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJAxSsQU82pq8IUdAA--.41200S4
-X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxXFWUWrWkCw47JF1DGr4Dtrc_yoW5Aw4xpF
-	45Ca9xtrW0grn29w1ktrWUZFy5uFZ7tFZ7WrZ3A3yfur9Iy34DZrySgry2vFn8CryrtFyY
-	v3Z5Kw47Ca17AabCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
-	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAI
-	cVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjxU4AhLUUUUU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d580900f-d880-4ede-ab74-a83fc0c71be9@kernel.org>
 
-On Loongson 3C6000 multi-node systems, when the EDAC driver running
-on one node accesses the memory controller registers of another node,
-the read operation may timeout and return random values. This causes
-false CE error reports because the random values in CS0-3 (low 32 bits)
-are misinterpreted as valid ECC error counts.
+On Thu, Jul 30, 2026 at 07:56:32AM +0200, Krzysztof Kozlowski wrote:
+> On 29/07/2026 22:43, Rounak Das wrote:
+> > Add the altr,socfpga-agilex5-ecc-manager compatible as an enum next to
+> > the Stratix10 entry, since both share the Arria10 fallback.
+> > 
+> > Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
+> > ---
+> >  .../devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> Dinh just sent it, didn't he?
+> 
 
-For cross-node accesses, check CS4-7 (high 32 bits) of the ECC
-count register. If non-zero, it indicates a timeout/random value,
-so skip the report and return the previous count.
+And why is this even linked as in-reply-to the other header?
 
-Signed-off-by: Wusheng <wusheng@loongson.cn>
-Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
-Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
----
- drivers/edac/loongson_edac.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+How any tools can parse it properly? Try yourself with `b4 diff`.
 
-diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-index b458f81dfe..33ca2670d2 100644
---- a/drivers/edac/loongson_edac.c
-+++ b/drivers/edac/loongson_edac.c
-@@ -27,6 +27,7 @@ struct loongson_edac_pvt {
- 	 */
- 	int last_ce_count;
- 	int mc_per_node;
-+	int valid_cs_bits;
- 	bool mc_idx_valid;
- };
- 
-@@ -37,11 +38,21 @@ static int read_ecc(struct mem_ctl_info *mci)
- 	int cs;
- 
- 	ecc = readq(pvt->ecc_base + ECC_CS_COUNT_REG);
--	/* cs0 -- cs3 */
-+	/* Discard the read value if any invalid bit is set to 1 */
-+	if (ecc >> pvt->valid_cs_bits) {
-+		edac_mc_printk(mci, KERN_DEBUG, "ECC read invalid, skip: 0x%llx\n", ecc);
-+		return pvt->last_ce_count;
-+	}
-+
-+	/* cs0 -- cs7 */
- 	cs = ecc & 0xff;
- 	cs += (ecc >> 8) & 0xff;
- 	cs += (ecc >> 16) & 0xff;
- 	cs += (ecc >> 24) & 0xff;
-+	cs += (ecc >> 32) & 0xff;
-+	cs += (ecc >> 40) & 0xff;
-+	cs += (ecc >> 48) & 0xff;
-+	cs += (ecc >> 56) & 0xff;
- 
- 	return cs;
- }
-@@ -114,7 +125,7 @@ static void dimm_config_init(struct mem_ctl_info *mci)
- }
- 
- static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
--		bool mc_idx_valid, int mc_per_node)
-+		     bool mc_idx_valid, int mc_per_node, int valid_cs_bits)
- {
- 	struct loongson_edac_pvt *pvt = mci->pvt_info;
- 
-@@ -122,6 +133,7 @@ static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
- 	pvt->last_ce_count = read_ecc(mci);
- 	pvt->mc_idx_valid = mc_idx_valid;
- 	pvt->mc_per_node = mc_per_node;
-+	pvt->valid_cs_bits = valid_cs_bits;
- }
- 
- static int edac_probe(struct platform_device *pdev)
-@@ -130,7 +142,7 @@ static int edac_probe(struct platform_device *pdev)
- 	struct mem_ctl_info *mci;
- 	struct device *dev = &pdev->dev;
- 	void __iomem *vbase;
--	u32 mc_per_node;
-+	u32 mc_per_node, valid_cs_bits;
- 	int ret;
- 	bool mc_idx_valid;
- 
-@@ -170,7 +182,10 @@ static int edac_probe(struct platform_device *pdev)
- 	if (device_property_read_u32(dev, "mc-per-node", &mc_per_node))
- 		mc_per_node = 4;
- 
--	pvt_init(mci, vbase, mc_idx_valid, mc_per_node);
-+	if (device_property_read_u32(dev, "valid_cs_bits", &valid_cs_bits))
-+		valid_cs_bits = 32;
-+
-+	pvt_init(mci, vbase, mc_idx_valid, mc_per_node, valid_cs_bits);
- 	dimm_config_init(mci);
- 
- 	ret = edac_mc_add_mc(mci);
--- 
-2.47.2
+Best regards,
+Krzysztof
 
