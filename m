@@ -1,107 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8691C433AD;
-	Thu, 30 Jul 2026 03:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D21337C103;
+	Thu, 30 Jul 2026 04:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785380419; cv=none; b=axABjKvYSVLtT3PAuQ6Dhra6T5niR3ywjE5JnGxXOoNQGwWroqwf2XC1uSfsQS+g+MI9wrJanie/MCI/h1GcOastjUvXLd07csfOKt9NVfIJ+2oKVEVH/TKj2X71XmXMU5AEUvvHjO3vJVFF4EydqdGbr7gkui959X9AMBBh4tU=
+	t=1785387476; cv=none; b=YzceRMc6hs+31C9Vy6MeiIQsfwW50YPaKelOH52Ne2XEWgAliO6IW7atPitep312TyeXCzNS90CMDog/UlsOybwAYC0xi5x9nTs7A2b6JPREOEF4rqydhY/nimOk+MjK7e1IIF0zLhh1sgf1p+JFS2Mi5LQivBr+w8m5kShyFEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785380419; c=relaxed/simple;
-	bh=Ci0iKyhopX29n0p3Q5KPrMormQOJRJXXkcblB1jqdCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mYlgIrV5ZtvJbtDgQ9DthmZUvdDFRD/onoUu25ab06rZIOaUq3ydpkvEgxyQpdzJTtWxoZkhE/98L0Woa3hfHJWQQ2IOaG0wAmK2DxhmLXjJI5CCdzZ0PvuHEBnxAgpmGkl9W4uRlAinFmOreyBzkRbrR1YQSfsx1ly1z3kFmgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AzpsHrdg; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785387476; c=relaxed/simple;
+	bh=D78rMY22cbMCOTL3UaPXAfi5yme+fY0FrRRjTvHaRQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nA3lmIw6lsXQIRCCGPF+g/F5aMuClRK85iXp37uKQJJs3+4CIJ3DT+4RtB35xmM8BcW+fYWh89F7G+YM6OybstZ5HHbuT5I4dwTWvIjxUiWFGc07s58cVOx25ujNXzCcVaE513IGu5FlH0Gjt00RkRamD/uNA5QMIxG7+Pp8K1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=XbR2/qLo; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AzpsHrdg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785380418; x=1816916418;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Ci0iKyhopX29n0p3Q5KPrMormQOJRJXXkcblB1jqdCA=;
-  b=AzpsHrdgDHg9FW6XX8gABZaRkz8wCVlyAE1+3bHN5HcmFUlyCJvb6I4d
-   rnns5el9imXeg4wiAVC9hqhboygpYRwv7B/tVkgf53SiipoV46dPWEsFq
-   wu6a4vF5zzFBmFPMqKgyd7fljyULVBTAM4oN6VlUGGJR0CTo/OzXiDMUA
-   eV5LAHIrrTQ5nqn+wp+UWAeXIrcQEBMHohtoOp6DD/ZKEQt1VbNF5/dGi
-   mLwKB5OXbDhRpj3IxgYMSHbt5JJM1tn8RYbg44W+1GJhqVJqoE18qhBHW
-   qQwOBHeYyk9sCeNYZg1kKEM3MLbvldRj40uoxgmcIcdSZpbkmOCkHO5iv
-   A==;
-X-CSE-ConnectionGUID: bYQVNjUvR6edfssPYeyDTg==
-X-CSE-MsgGUID: tu0OaXkOS0W7P1B4mPNPzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86030201"
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="86030201"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 20:00:17 -0700
-X-CSE-ConnectionGUID: XyfLH/uVQAWnaHeSSFkUEA==
-X-CSE-MsgGUID: 979BbKcfTjSh9gHRT48cLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="284746370"
-Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 20:00:15 -0700
-From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-To: tony.luck@intel.com,
-	bp@alien8.de
-Cc: qiuxu.zhuo@intel.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	yi1.lai@intel.com,
-	jie.wang@intel.com
-Subject: [PATCH 1/1] EDAC/igen6: Add Intel Starfire SoCs support
-Date: Thu, 30 Jul 2026 10:54:54 +0800
-Message-ID: <20260730025454.4099934-1-qiuxu.zhuo@intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="XbR2/qLo"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C0A1C40E0171;
+	Thu, 30 Jul 2026 04:57:51 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id QHdv9Ts-tiBk; Thu, 30 Jul 2026 04:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1785387461; bh=fPcxBxN8VYIYEsxzbabJY56k8jXeoXBBrM3KXlIToXU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XbR2/qLo8brIYBXUbDP4gRcsezm2LDXhRbfrBNrq6Ds3DgO/xhDErHGdCSmK08ETy
+	 Pb432ie+u4OaGRWIiyEdDUgz/wN+pauVnwmaKf5v9Lw3CjIP/kJw1zcgm757PsV04h
+	 GH5z00qW+yJOlKq8l+4KhDE6btAjRju0b2exKHQep8rKVUhWx+Sra0OpWAwG27l+SF
+	 ACtPxwWUMH9gAOWqdqWRNd2ePWJ3FrCBt1HUXdLONEl+mmAqzDUM8FoGczAlNFqChj
+	 0EPb4e9rlqHSTuTWphXaTLQl1J965Q1tRDAgV9B+dUVPDteFqc3+8dFGKQ+dYdsTJi
+	 JR5MyIKyt0q+fBk/kqLvJRWg8zdSnK9NWT0KLEnVn7MBuqV0V+JpAbFbTI7z034/6i
+	 wIHlj6K6ZG8Evro4cWTY474T/FydQ28PJlevW0PP75CH08cJROz5AZqOoyxOGHchaC
+	 hfSUHpuzISnFoP1DZtVEPU2pZ3z+V2UtifVaO47pjRTGAg/nptmBDCJ//glbVsHx5+
+	 G8/9Txf5WQRd4foHB5eOFr1pR0qICcBoy2Vyak5QMpx9uiKSKxL36JrIYIaPmQbTuH
+	 sbEVXDHYUr5ETTWnoYfjuhPqon4SxWtTqbheGnaVHI/MeXlvg9c3/oOC6twfj8tyFk
+	 blx51dDEEyumXz19leBtOjCc=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3727A40E014C;
+	Thu, 30 Jul 2026 04:57:35 +0000 (UTC)
+Date: Wed, 29 Jul 2026 21:57:31 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Ian Bridges <icb@fastmail.org>
+Cc: Robert Richter <rric@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] EDAC/thunderx: Replace strlcat() with snprintf() and
+ seq_buf
+Message-ID: <20260730045731.GGamrZu-0N2Qguzy9P@fat_crate.local>
+References: <akYJUdY1hVABUQH6@dev>
+ <amppKvK6mIJRmoL8@dev>
+ <20260729230035.GDamqGE9bKD5ncU6ZV@fat_crate.local>
+ <amq4ej83V5e7BRqh@dev>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <amq4ej83V5e7BRqh@dev>
 
-Starfire is a derivative of Panther Lake SoC and shares a similar memory
-subsystem architecture. Add Starfire compute die ID and reuse Panther
-Lake's configuration data for EDAC support.
+On Wed, Jul 29, 2026 at 09:35:38PM -0500, Ian Bridges wrote:
+> On Wed, Jul 29, 2026 at 04:00:35PM -0700, Borislav Petkov wrote:
+> No, there is no hurry on my end. I'm still new to this process, so if
+> the ping was not appropriate here please let me know.
 
-Tested-by: Jie Wang <jie.wang@intel.com>
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
----
- drivers/edac/igen6_edac.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Nah, the ping is ok. But soon you'll realize that everyone is overloaded with
+work.
 
-diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index 6abc9b203748..776c5db2f598 100644
---- a/drivers/edac/igen6_edac.c
-+++ b/drivers/edac/igen6_edac.c
-@@ -351,6 +351,9 @@ static struct work_struct ecclog_work;
- #define DID_PTL_H_SKU13	0xb02a
- #define DID_PTL_H_SKU14	0xb00a
- 
-+/* Starfire */
-+#define DID_STF_SKU1	0xb02b
-+
- /* Wildcat Lake */
- #define DID_WCL_SKU1	0xfd00
- 
-@@ -885,6 +888,7 @@ static struct res_config mtl_p_cfg = {
- 	.err_addr_to_imc_addr	= adl_err_addr_to_imc_addr,
- };
- 
-+/* Shared by Panther Lake-H and Starfire */
- static struct res_config ptl_h_cfg = {
- 	.machine_check			= true,
- 	.num_imc			= 2,
-@@ -1013,6 +1017,7 @@ static struct pci_device_id igen6_pci_tbl[] = {
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU12), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU13), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_PTL_H_SKU14), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
-+	{ PCI_VDEVICE(INTEL, DID_STF_SKU1), .driver_data = (kernel_ulong_t)&ptl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU1), .driver_data = (kernel_ulong_t)&nvl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU2), .driver_data = (kernel_ulong_t)&nvl_h_cfg },
- 	{ PCI_VDEVICE(INTEL, DID_NVL_H_SKU3), .driver_data = (kernel_ulong_t)&nvl_h_cfg },
+If you're wondering how to best help out, reviewing and testing patches is
+very welcome.
+
+Thx.
+
 -- 
-2.43.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
