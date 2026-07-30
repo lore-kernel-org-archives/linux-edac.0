@@ -1,108 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0192DECDF;
-	Thu, 30 Jul 2026 05:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DA931FA272;
+	Thu, 30 Jul 2026 06:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785391000; cv=none; b=gJ6FqQdZRD9FbBnZvTc0QC5UmzhquGke3sZqxTrcycN8vXHohke5Mo90TgzaWJz+57XT81X0hJpArI6qHvdgoYrATcX5bhQtc8dWFu9lJ15ir8XsXEyda7eAYSQsVkNRIlrprogyIDROMBdBNhxeB/QgdFnUljHt20a/I6DFS84=
+	t=1785393954; cv=none; b=MneGctX31DZJoddlpmkuoNioP3xOK8e/lIaPpDn2Z9WCuLSUiLcc858yIZ5D3/2JnrDBT0nwX+frHqAuI7icER6RO/3NbwreEIxGQqvyikaOGTggrcymEs4dmNu5gH8OHV7NSJkG+CkUFbecpCJr8MHLZS9nTlh/Tj8MbybrG6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785391000; c=relaxed/simple;
-	bh=1huBuap014BzteL8e+NDSuW84MlBtEgLaRtLHfAe1XE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fn86gI8QbRIPkx9sBP7Bg8K87Dn+dbGpMEj9kCakob1HM9h4LHlM5DIkdp4sTBfyLIxSOr4ttZQDk4t/RYW0hoUrL2rCyA1GjtSZCnzgIj4fuVjIgDH+1qMQ4cghCPI9v3ehOyIZacG0UuBjn7H5Fhx2nDd48WsEiuZuyCCcR/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nsmEKlok; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nsmEKlok"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46C711F000E9;
-	Thu, 30 Jul 2026 05:56:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785390999;
-	bh=CpoQIiER541n7mJRohMaVVWUG6KxxmV8kOdly+Nh+BY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=nsmEKlokrirmAeVUYxcK6v6OCj4E9MdxaH+9TtWg2fbfj2JiBLKeEnevushQUtp1R
-	 CTNGrfUtYfSw86Tu/4/paS/3kFUakD2Q2Jwo6CH64KmhDLvpS300VtCnWqPTYadVO9
-	 CpbM9z+hLlJcxGqldr5Vi/rsx/WkHW/8IKLtgHtXpubNc8g5nbOTXo5yZRuH5wlton
-	 98fRg3Sck59a00nGOJ+hI5LEFgTqur+Cybj2HOCo2IhCKiyZR+cBfgyesbJEPGFCSl
-	 MNt7sH8HEHVElK+nVoLxawnIlxKGoFM75oww0HZQpdXuVxLiZDQDV4KWWW0izttiO/
-	 jvV1+sd6HGNjQ==
-Message-ID: <d580900f-d880-4ede-ab74-a83fc0c71be9@kernel.org>
-Date: Thu, 30 Jul 2026 07:56:32 +0200
+	s=arc-20240116; t=1785393954; c=relaxed/simple;
+	bh=PdPkFaOhhCBBPlfTPH5dcG1V7OQFmrg3p2bGSZsOK40=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Xw10DG2ERJwtGpihUmlEP09+5DiqttVQS6uo8IAaWJ5fgqFC7UTIYXMQK3CBXW0lpbmyIgVDAoXa4qBY7DSdS1uIKyXiXBZEAZVwvHiwmEMKK8LBNjtzo/9p7UuWFu4O1JtzCfWa/5qrTmrm5Xdctn56fZFqOYSsKEUPLyd1jAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.40.54.123])
+	by gateway (Coremail) with SMTP id _____8AxJqAZ82pqpsQIAA--.6750S3;
+	Thu, 30 Jul 2026 14:45:45 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.54.123])
+	by front1 (Coremail) with SMTP id qMiowJAxSsQU82pq8IUdAA--.41200S2;
+	Thu, 30 Jul 2026 14:45:40 +0800 (CST)
+From: Qunqin Zhao <zhaoqunqin@loongson.cn>
+To: bp@alien8.de
+Cc: tony.luck@intel.com,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	Wang Jinwei <wangjinwei@loongson.cn>,
+	Yulong Wang <wangyulong@loongson.cn>,
+	Dongyan Qian <qiandongyan@loongson.cn>,
+	Chao Li <lichao@loongson.cn>,
+	Qunqin Zhao <zhaoqunqin@loongson.cn>
+Subject: [PATCH 1/3] EDAC/loongson: Encode node and MC info into mc_idx
+Date: Thu, 30 Jul 2026 14:30:33 +0800
+Message-ID: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: altera-sdram: Add Agilex5 ECC manager
- compatible
-To: Rounak Das <rounakdas2025@gmail.com>
-Cc: bp@alien8.de, conor+dt@kernel.org, devicetree@vger.kernel.org,
- dinguyen@kernel.org, krzk+dt@kernel.org, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org, niravkumar.l.rabara@altera.com,
- robh@kernel.org, tony.luck@intel.com
-References: <20260724-sensible-flamingo-of-experiment-5a389f@quoll>
- <20260729204308.21562-1-rounakdas2025@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260729204308.21562-1-rounakdas2025@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJAxSsQU82pq8IUdAA--.41200S2
+X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxGF4ftr18trWUGF1UXr1kZwc_yoWrtr18pF
+	47u3Z0qrW5trnxuanYyr1UAF1akFn5Ka9Fq392v3y8Cry2yw1kXFyftFy2yF9xCryrGFyU
+	Xas3Kws7ua1DJFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU90b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
+	6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+	vIr41l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVj
+	vjDU0xZFpf9x07jepB-UUUUU=
 
-On 29/07/2026 22:43, Rounak Das wrote:
-> Add the altr,socfpga-agilex5-ecc-manager compatible as an enum next to
-> the Stratix10 entry, since both share the Arria10 fallback.
-> 
-> Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
-> ---
->  .../devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+From: Wang Jinwei <wangjinwei@loongson.cn>
 
-Dinh just sent it, didn't he?
+On Loongson multi-node systems, memory controllers are distributed
+across multiple nodes. Encode node and MC information into mc_idx
+so that sysfs entries uniquely identify each controller.
 
-Best regards,
-Krzysztof
+The driver gets mc-idx from ACPI _DSD property 'mc-idx' if firmware
+provides it. If not, it falls back to edac_device_alloc_index() for
+legacy firmware compatibility.
+
+The number of memory controllers per node (mc-per-node) is obtained
+from firmware via ACPI _DSD property, with a default of 4 for
+backward compatibility. The node and MC IDs are decoded from mc_idx:
+     node = mc_idx / mc_per_node
+     mc = mc_idx % mc_per_node
+
+For example, with mc-per-node=4:
+     mc-idx 0-3   -> node0 mc0-mc3
+     mc-idx 4-7   -> node1 mc0-mc3
+     ...
+     mc-idx 28-31 -> node7 mc0-mc3
+
+The dmesg output looks like this：
+Before: (no _DSD mc-idx)
+EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
+page:0x0 offset:0x0 grain:8 syndrome:0x0)
+
+After: (_DSD mc-idx)
+EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
+page:0x0 offset:0x0 grain:8 syndrome:0x0 - node:0 mc:3)
+
+Cc: Yulong Wang <wangyulong@loongson.cn>
+Cc: Dongyan Qian <qiandongyan@loongson.cn>
+Cc: Chao Li <lichao@loongson.cn>
+Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
+Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
+---
+ drivers/edac/loongson_edac.c | 38 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 33 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
+index 38745800ed..f2452e98f5 100644
+--- a/drivers/edac/loongson_edac.c
++++ b/drivers/edac/loongson_edac.c
+@@ -9,6 +9,7 @@
+ #include <linux/io-64-nonatomic-lo-hi.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
++#include <linux/property.h>
+ #include "edac_module.h"
+ 
+ #define ECC_CS_COUNT_REG	0x18
+@@ -23,6 +24,8 @@ struct loongson_edac_pvt {
+ 	 * register state.
+ 	 */
+ 	int last_ce_count;
++	int mc_per_node;
++	bool mc_idx_valid;
+ };
+ 
+ static int read_ecc(struct mem_ctl_info *mci)
+@@ -44,7 +47,8 @@ static int read_ecc(struct mem_ctl_info *mci)
+ static void edac_check(struct mem_ctl_info *mci)
+ {
+ 	struct loongson_edac_pvt *pvt = mci->pvt_info;
+-	int new, add;
++	char other_detail[64];
++	int new, add, node, mc;
+ 
+ 	new = read_ecc(mci);
+ 	add = new - pvt->last_ce_count;
+@@ -52,8 +56,17 @@ static void edac_check(struct mem_ctl_info *mci)
+ 	if (add <= 0)
+ 		return;
+ 
++	if (pvt->mc_idx_valid) {
++		node = mci->mc_idx / pvt->mc_per_node;
++		mc = mci->mc_idx % pvt->mc_per_node;
++		snprintf(other_detail, sizeof(other_detail),
++				"node:%d mc:%d", node, mc);
++	} else {
++		other_detail[0] = '\0';
++	}
++
+ 	edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, add,
+-			     0, 0, 0, 0, 0, -1, "error", "");
++			     0, 0, 0, 0, 0, -1, "error", other_detail);
+ }
+ 
+ static void dimm_config_init(struct mem_ctl_info *mci)
+@@ -72,20 +85,26 @@ static void dimm_config_init(struct mem_ctl_info *mci)
+ 	dimm->grain = 8;
+ }
+ 
+-static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase)
++static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
++		bool mc_idx_valid, int mc_per_node)
+ {
+ 	struct loongson_edac_pvt *pvt = mci->pvt_info;
+ 
+ 	pvt->ecc_base = vbase;
+ 	pvt->last_ce_count = read_ecc(mci);
++	pvt->mc_idx_valid = mc_idx_valid;
++	pvt->mc_per_node = mc_per_node;
+ }
+ 
+ static int edac_probe(struct platform_device *pdev)
+ {
+ 	struct edac_mc_layer layers[2];
+ 	struct mem_ctl_info *mci;
++	struct device *dev = &pdev->dev;
+ 	void __iomem *vbase;
++	u32 mc_per_node;
+ 	int ret;
++	bool mc_idx_valid;
+ 
+ 	vbase = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(vbase))
+@@ -102,7 +121,6 @@ static int edac_probe(struct platform_device *pdev)
+ 	if (mci == NULL)
+ 		return -ENOMEM;
+ 
+-	mci->mc_idx = edac_device_alloc_index();
+ 	mci->mtype_cap = MEM_FLAG_RDDR4;
+ 	mci->edac_ctl_cap = EDAC_FLAG_NONE;
+ 	mci->edac_cap = EDAC_FLAG_NONE;
+@@ -114,7 +132,17 @@ static int edac_probe(struct platform_device *pdev)
+ 	mci->error_desc.grain = 8;
+ 	mci->edac_check = edac_check;
+ 
+-	pvt_init(mci, vbase);
++	if (device_property_read_u32(dev, "mc-idx", &mci->mc_idx)) {
++		mci->mc_idx = edac_device_alloc_index();
++		mc_idx_valid = false;
++	} else {
++		mc_idx_valid = true;
++	}
++
++	if (device_property_read_u32(dev, "mc-per-node", &mc_per_node))
++		mc_per_node = 4;
++
++	pvt_init(mci, vbase, mc_idx_valid, mc_per_node);
+ 	dimm_config_init(mci);
+ 
+ 	ret = edac_mc_add_mc(mci);
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+-- 
+2.47.2
+
