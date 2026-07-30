@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8292837E5CD;
-	Thu, 30 Jul 2026 02:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D5337C0E6;
+	Thu, 30 Jul 2026 02:49:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785379756; cv=none; b=oyDPvUWDKVqrvkjMiGAR0FxESrS4cZvFo3duuY1atXjSnQgv7xnNvVF1Xgkb6jtk9i0wwCgPUtoAiJETg8J31P/1iSQUy4WlN8lGj8m3R/1mXYgorUb93zL8JcoM08S10J3D/eoMmOj6ILPJhlm2+KVwCj8QspD/9sF3BrVQCE8=
+	t=1785379765; cv=none; b=F3c8OcOpf3RHuZodh/fF0Mo+A+axCtntZ+N0Gk9PGGHTU8ReW8qBm/W+7QeXy8IZZNR8EQzpwD0/R7/K/rbYXf20iEsLD3Fsds2n4a6QxmIneZCrA8yzhBmg6/Cbf5Hu+rxBb81920kxE7XJVBu837LCM2Um8e160moel7pKIxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785379756; c=relaxed/simple;
-	bh=JJipb8+EYuRMsqTZSrfLXMo3N2+oerrEUblWeIl33A0=;
+	s=arc-20240116; t=1785379765; c=relaxed/simple;
+	bh=dEVofgSTMOAEkDocpecWMWfpldLep9PcMlzST5o7i/U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ktv41Sxx+UPGmlzSTHphXfhqNPMtKDh4p4OMTLEcdlgRnGbXeTm4o3I6j6VyLa9RKHZM7lvefskdJfFhNlUU0mG00GTNae4ZSLWdowJMCya/z549IBR532LV8dpgo21sqtT5IvjASIHLBW1wI0Ek3OV9a5lerUnhAJNCJGiLWKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMc/+VtK; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=IfDSQMdojUCBZ8/FAYYiSq6hhc8slADVFq8kPxlZzTMEfcM8KM5G5RUavFCS/GCDxdTTjq61Zc4fjIP9f9X8wvsN3g7vPI2resK8XN8hs2GDL3fc+I9WFkRNAqJocAhAWxVWWYGjrtJYiISLdnSJHxBfYz/WinCYhwUq3WeHvfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QpvdddJE; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMc/+VtK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QpvdddJE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785379754; x=1816915754;
+  t=1785379764; x=1816915764;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=JJipb8+EYuRMsqTZSrfLXMo3N2+oerrEUblWeIl33A0=;
-  b=KMc/+VtKtsc1ksPGAXAmJx5NFs+mOWBy1+UuTqnkbDlko5gCF5ZxTbc5
-   OY+S7bFc7NofC7GhBSzxVzbujWodqup78y67BOL6WmArvjqHm6ejNx72o
-   TdVuHbEbiH5Jbt7pNVlJ4uXvGKMRKXTo+r5oTAcZIBv0YFmo8RwHKVpKf
-   FszherY+AugP3FTraacExI9uygRH+phIW86zGOizCyapf++Rildgmcljs
-   WMHNEcO3Y1H8yNcOM2AdfZldOj9vDBMXw6L7rPk5MDAFr+AsFeiT0pZVN
-   dlLNkaPUhjbVqwyHWMQLgrzYo97NNZvaE4NSiAwJlJy8+pNsNNswDtZgs
-   A==;
-X-CSE-ConnectionGUID: PZUEi+e4TJKk/S4Fvh+iDw==
-X-CSE-MsgGUID: ITyfc2s5R1mp+0R6Qpd0Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="89674311"
+  bh=dEVofgSTMOAEkDocpecWMWfpldLep9PcMlzST5o7i/U=;
+  b=QpvdddJEboTD6sZipZXkwmeCZvl8Rm1jK208oNcTPC1PwL3r6bvpsgLm
+   Ah0F8rOeT57j9J+9hGG8RK27a3Miw631tKmPBMQuoR9clexvs3AmaC1p+
+   d90Q/C2bodUPSow9SsIv/VDe28KkOgIMxje66mlOCnBM8QLreGOKuRd92
+   dqv/2H2jEw7r1seVGq7Uz3wxHPBezHQGNA5zVkEaxMlKoSfyHHThbRR2V
+   MdMsp9i1+NNCkCtd7e8UoZXpVzh5dJxE3lS21r8I5CtZrmwxoDpPGkKxL
+   4GI+8dgHwAGQRVaXJ9Q+dMRcERHWa0YC7mJdqXYEMB5R2yQRpBap2GoDx
+   Q==;
+X-CSE-ConnectionGUID: tsrmb+O0RCuKNwxXgrwxAw==
+X-CSE-MsgGUID: 1cO90DllStalLJzMUxYUEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="89674319"
 X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="89674311"
+   d="scan'208";a="89674319"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 19:49:12 -0700
-X-CSE-ConnectionGUID: Qd8nNe7sR8CvsDp23VT0fw==
-X-CSE-MsgGUID: n36M5buYRQiKny+ERsqiJA==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 19:49:23 -0700
+X-CSE-ConnectionGUID: D+LUF6XmQF+5oRda/0wHwg==
+X-CSE-MsgGUID: 1HF48ldsQW+G49Jrqc8imw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="256240734"
+   d="scan'208";a="256240737"
 Received: from qiuxu-clx.sh.intel.com ([10.239.53.109])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 19:49:11 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 19:49:21 -0700
 From: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 To: tony.luck@intel.com,
 	bp@alien8.de
@@ -50,9 +50,9 @@ Cc: qiuxu.zhuo@intel.com,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	yi1.lai@intel.com
-Subject: [PATCH v2 03/10] EDAC/igen6: Fix channel selection hash
-Date: Thu, 30 Jul 2026 10:42:31 +0800
-Message-ID: <20260730024238.4096623-4-qiuxu.zhuo@intel.com>
+Subject: [PATCH v2 04/10] EDAC/igen6: Fix channel address decode for non-hash mode
+Date: Thu, 30 Jul 2026 10:42:32 +0800
+Message-ID: <20260730024238.4096623-5-qiuxu.zhuo@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260730024238.4096623-1-qiuxu.zhuo@intel.com>
 References: <20260706032233.3283297-1-qiuxu.zhuo@intel.com>
@@ -65,52 +65,41 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In channel selection hash mode, the hardware decoding logic always
-includes the channel interleave bit in XOR operations. However, the
-hash mask may or may not include this channel interleave bit. When
-the mask does include this bit, the current igen6_edac code performs
-XOR on the interleave bit twice, effectively ignoring it - which is
-incorrect.
+In non-hash mode, decode_channel_addr() and channel index extraction
+used a hardcoded interleave bit position 6 instead of the actual
+intlv_bit parameter, causing incorrect channel address decoding.
 
-Fix this issue by ensuring the hash mask always includes the interleave
-bit, so XOR is performed on the interleave bit exactly once.
+Fix this by using intlv_bit consistently in both hash and non-hash modes.
 
 Fixes: 10590a9d4f23 ("EDAC/igen6: Add EDAC driver for Intel client SoCs using IBECC")
 Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
 ---
- drivers/edac/igen6_edac.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/edac/igen6_edac.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/edac/igen6_edac.c b/drivers/edac/igen6_edac.c
-index 43b56a2eb547..f1fb644154ae 100644
+index f1fb644154ae..ea5628d780eb 100644
 --- a/drivers/edac/igen6_edac.c
 +++ b/drivers/edac/igen6_edac.c
-@@ -1009,14 +1009,22 @@ static void set_dimm_params(struct igen6_imc *imc, int chan)
+@@ -1049,13 +1049,12 @@ static void decode_addr(u64 addr, u32 hash, u64 s_size, int l_map,
+ 		return;
+ 	}
  
- static int decode_chan_idx(u64 addr, u64 mask, int intlv_bit)
- {
--	u64 hash_addr = addr & mask, hash = 0;
--	u64 intlv = (addr >> intlv_bit) & 1;
-+	u64 hash_addr, hash = 0;
- 	int i;
- 
-+	/*
-+	 * In hash mode, the @intlv_bit is the lowest selected bit of @addr
-+	 * to be XORed. While @mask may or may not include this @intlv_bit,
-+	 * we enforce that @mask includes @intlv_bit to ensure @intlv_bit is
-+	 * XORed exactly once.
-+	 */
-+	mask |= 1 << intlv_bit;
-+	hash_addr = addr & mask;
+-	if (CHANNEL_HASH_MODE(hash)) {
+-		*sub_addr = decode_channel_addr(addr, intlv_bit);
++	*sub_addr = decode_channel_addr(addr, intlv_bit);
 +
- 	for (i = 6; i < 20; i++)
- 		hash ^= (hash_addr >> i) & 1;
- 
--	return (int)hash ^ intlv;
-+	return (int)hash;
++	if (CHANNEL_HASH_MODE(hash))
+ 		*idx = decode_chan_idx(addr, CHANNEL_HASH_MASK(hash), intlv_bit);
+-	} else {
+-		*sub_addr = decode_channel_addr(addr, 6);
+-		*idx = GET_BITFIELD(addr, 6, 6);
+-	}
++	else
++		*idx = GET_BITFIELD(addr, intlv_bit, intlv_bit);
  }
  
- static u64 decode_channel_addr(u64 addr, int intlv_bit)
+ static int igen6_decode(struct decoded_addr *res)
 -- 
 2.43.0
 
