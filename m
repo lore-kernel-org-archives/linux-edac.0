@@ -1,154 +1,152 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011019.outbound.protection.outlook.com [40.107.130.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2884433E9E
-	for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 17:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785433111; cv=none; b=RrkRcffggaCcarWB6C9ExLc7LdmPUVOWMpcaOf4EczekgUP28MKZbPDDz25WQA/ArmQqC5OnkgeK3mJBPRmqDgYC8YfxpnhGqSJT/HDVDdZeTJJgL5EvE+EQqT61eQQ4am1oYVHwlS+fFS6TSL4YH2J+qcKXsRiMxowYC5A8eso=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785433111; c=relaxed/simple;
-	bh=KD9NQ4VrwXH+YnOzlGmhl+H6gtX7UsGtmTQ7l2ha+tE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=okB6Id/odKUn6vJzdOYLMP+hcryEyfwk1C1CbfXyUYNdACUu7K93zH//2eVyqfWUF/weCUFKnlbf3foOruTvQ6o1WQS6gTBfwuHKc4KSD6Kh32ueBSoAcYfa3F5Hld96Vjs+GacT6jX5JFCN4VOLUQBdotsjOtSzIYYm3C96e1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CgycNsuW; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2FD394EA7;
+	Thu, 30 Jul 2026 18:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785437083; cv=fail; b=hS31V3/CeHtAgdilLeZWM/i9rk4YQ9bftB3RfEWf6vi7BbgnKIPDqY3jIFoTXfhN9MNbI7IPGTarL2tCLaNFY0E5BAn4XXK169O83YYQhBxl5lDBxDvOjucVjKgFuiu4jZZ3vPJSXhQhP70ulWoaD2OzkJr/dFeoEmmcAIWkc9Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785437083; c=relaxed/simple;
+	bh=g36eCcZUcCjYV0OozPmHM88V0amcmCfhKtGSBMqabmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=EJ+t0q44BZZ+zYbDTYWVNCzriDHdoS/RZ62yxc498MGpp1mp9AvK7dzcFAViLGLDzG1vMaX7L5iqsKVLCe99xz2dKjUvKzB6GonHscChvWmu1YQshDNLIBqerih65pVLrmDIFDjSVTkHiulezujDzBo9Lu6fArxq3V6725wVa4Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=odTj9isI; arc=fail smtp.client-ip=40.107.130.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CgycNsuW"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-ca766c1c9ccso39597a12.0
-        for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 10:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785433109; x=1786037909; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UJSODNr47/JeyVvuH0Y9enO/Q9DrrJJxT1zQIjnjitw=;
-        b=CgycNsuWpEcuxco4TEzpqLlKikFvxjOCwDvfrOY78icnBI3i1u4xg4Bg0ljU6YuudR
-         VCQZmwwNDIB1jBhRCcXA+6kAxpU/dbXuvHRadbefcnQO09sUONtszV2Bfq5qICPZyDl5
-         nSZtiPHug/W4dBX6ImiI460JawUmtOW+ciNs5POb80EgnmwxyFHW1ZgRBhTGvG3F/jqi
-         44Cwe680Pvx3tm0mREa8fscCjefMgcz65vVCULTT7Swes0CWK4pI0mkVcZRvpLACMDAl
-         FyucgJQ1HFqmIrhRu8PiSQxaVaHTKJ1rcPoFgWJomRXvPHILeLw4bgLJ9SzlUEwvlASM
-         fhAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785433109; x=1786037909;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UJSODNr47/JeyVvuH0Y9enO/Q9DrrJJxT1zQIjnjitw=;
-        b=Ifl3h0Wj8RSRciB/I0sPtmthBaN7lTGWPMRuD/8f9+Rrg0Ik2eW4I9xQKpdRHJjrEh
-         Kzoa/pZa/8jqoitFvKgIUiDY20E/clYluGi5gVwC1wzridRqMkDQ3ZAr3Xf30QTvOzwy
-         q/o0lbkB5zZRq+LwbFXYK6H22adoprO+2O+YLG3SX6tGcCzHvWF3t++8OK9XQiarZ1AS
-         tQrJBK/K4YfiO5S7vmGuu3s95hHVX1zH7kLlAJ04ElV1s0gXwX3Ah/YUsbEwy1aXbZ9V
-         tr233JZe61JrY609cr4d7yAS6enLqapxncbJq42rslNIQF2jHU8IcRW+MegMnr0o7KFP
-         Q1Dw==
-X-Forwarded-Encrypted: i=1; AHgh+RrVhXnF1FIV2f4F2CizFZYF0yzJq0dRsXxrn9i6PvWH2OyLA7I9PBMtChsNLfpkKcIs2gGJSr1aJXXz@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeLA57gG5XhYZdkFr6dKxrghhX8XHGlapZYgHNB1g2z45e0Lqa
-	yp/p1ajTsCDrSiHHN2n7DO99H/l7jLg8XlT7+oLvlcLsGi0R9rDZwldO
-X-Gm-Gg: AR+sD12ZLtJdfZf5KvunbPd5YWxlk+mDYAco1O/LqC63OTbIbC22adDeybAPB3HLyr6
-	ZNXthb5GR4Fh+04kNN+PTn3cF+dNXf3MIHcW2ce5ph0RZwUeEvQ5PS6q0qoZBeT++nXwAzUHT58
-	8ANjaHMtfNEP2K5Wal0jGHQVJ8w5FWN+iyeUifsRQOeIHRcigoec0Yw1WS/1emhoxnI1yhdTjcE
-	FXPqapnoLn3b/VlKF/ievEgbcUx5U/8I6XSByNQOgtfXF+Y7TU2EeDst001SCgwh8eGsGouy65k
-	RB6eGWBn9tmgL8gk2Bg1pZHgStZhtbqas0fWmnifWTsLlYC3i7u0vOXUlPh0t2bniGvhP5Y9xHn
-	NMdjsEokXJWn77AZ5yT9hA00Ex6iFhQDcUfX+1rOztLfbWYnx/1t0S7dNc2UHX6YYZRiZhPPHPY
-	Ms2YXbfMnSQBAHbFBZmbaTP852Xz01TC6ib9Z5nUV1XkCQBed9rggVi7ZFUnKti0mBnvJhQxXze
-	w2dqVAbi9suxMp6Q5BbNATzbub3ovA=
-X-Received: by 2002:a05:6a21:7002:b0:3c3:af85:85e7 with SMTP id adf61e73a8af0-3c900740a51mr3370016637.34.1785433109133;
-        Thu, 30 Jul 2026 10:38:29 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40e3:200e:f113:d11:7ca2:3692:a449])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504d3c68asm26808571eec.24.2026.07.30.10.38.23
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 30 Jul 2026 10:38:28 -0700 (PDT)
-From: Rounak Das <rounakdas2025@gmail.com>
-To: dinguyen@kernel.org
-Cc: bp@alien8.de,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	krzk+dt@kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	niravkumar.l.rabara@altera.com,
-	robh@kernel.org,
-	rounakdas2025@gmail.com,
-	tony.luck@intel.com
-Subject: Re: [PATCH 0/4] EDAC/altera: Add support for Agilex5 platform
-Date: Thu, 30 Jul 2026 23:08:05 +0530
-Message-ID: <20260730173805.19997-1-rounakdas2025@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260720201425.1538771-1-dinguyen@kernel.org>
-References: <20260720201425.1538771-1-dinguyen@kernel.org>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="odTj9isI"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=B+NqxCosZPmG1+42FhVs/TFc4tRnbj46e+1f/iXN2wDj4UaWivBPfpad1KW6euiioQe7Tv1htwyutIPluxifEjsArxqDU2fFdvFLuToBcE55LU74CK6jgzk/ipjl4Wu77B1LmplDNY16LL48JfNuXT1DCPIgLJEIWMdcmZ1QcuwWCrjTQ/aFoOdNUZzFT6ju2ofwqrW9t7GwOhiAjcSoqtS8WCHTW8jDuHHjcHuq5VTbMpLbPRNBo0GUu/TcQuQj09HqXEjcb4ZDbagUAdSNxlxAXMtrGJ69UDPsA/M1gzUevioK1bpuB30LgNibWbdXhxiSD8ArUG+IOHzPuxL4jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7pNQz/KKYt1bFXxaGS/5b9rB16fSyHmTxPmcXj4NGzo=;
+ b=MLqg723SX4mFPm4VhIqWWDtGaea+FYuTmdXzQpYnoYHNvect36t7DfGcKZW/hRhixaPx/t1BpT6XqU/vcxPoA+r5mf6f9IxEa1evRYxY98M2pJuLKmsoSEn7HZHgY274VSGGwZJCF2bdw17MkGqNhNapUTmL+NwKb9HJuxCxM1KJw1HEMc0kqI7PZ65bbGhCA6xJE36akE5ImubQh6cfm5WQICNaWAKqGtxZ5JcZTl8N63YVz7J/Mm3zQl6aMXttQvMZvYpwqF8yfbgxkIM/rIb8F2i1a5WZC38JdFS85uNa8n3p1IzQj1ZPdGsnc+ThmIaJWYO1Wpqz0GsAdfPsaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7pNQz/KKYt1bFXxaGS/5b9rB16fSyHmTxPmcXj4NGzo=;
+ b=odTj9isIF2tKH9m4gp9hTU/vFTP99CSVvn6aV+h9Fg9CsIDXFGUyWiDaxJLgL4ZITWQlhA1Jd63vSSSQqMC4jYuDVr7E6UyI6+VkB0vymvuNHY5PDmlrcyp8nn6e7p1rmgjj5l+0UIgJXxbHlpspzWcmaRqzZK0cxysE+lGZEC57ni8ztCdPFUkhUGiLHkjk96hbJk8sspm90hrzmDB7J3d2PMypvhjJ+ynblxCkP4dIqiCS+NMU8pZ1XtKrE/qm0RxcwGWUoL5a01cLlME8F2FYe4zNzDbq/JVEw8j7cgjlUqXlZX5FvVAKbArJDGl3bKwIpLc5y6WGBINJr4+AuQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by AM8PR04MB7345.eurprd04.prod.outlook.com (2603:10a6:20b:1c5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Thu, 30 Jul
+ 2026 18:44:36 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0270.012; Thu, 30 Jul 2026
+ 18:44:36 +0000
+Date: Thu, 30 Jul 2026 13:44:28 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org,
+	Frank Li <Frank.Li@nxp.com>, Tony Luck <tony.luck@intel.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	"open list:EDAC-FSL_DDR" <imx@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:CLANG/LLVM BUILD SUPPORT:Keyword:b(?i:clang|llvm)b" <llvm@lists.linux.dev>
+Subject: Re: [PATCH] EDAC: fsl_ddr: use devm_platform_ioremap_resource()
+Message-ID: <amubjArdXOgTzNCX@SMW015318>
+References: <20260714234609.902367-1-rosenp@gmail.com>
+ <alhXciS9G_bGB2re@SMW015318>
+ <20260719155822.GAalz0Hj3XT97KkPOk@fat_crate.local>
+ <CAKxU2N-vMNR+ES2YYuJh+6XASmZ04cnFodb4kP4zRBW0mbEKaw@mail.gmail.com>
+ <20260728224059.GAamkv-4LJPspOw5ZV@fat_crate.local>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260728224059.GAamkv-4LJPspOw5ZV@fat_crate.local>
+X-ClientProxiedBy: SA1PR02CA0001.namprd02.prod.outlook.com
+ (2603:10b6:806:2cf::7) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AM8PR04MB7345:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89708a41-a887-4acd-3718-08deee6a9aa0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|19092799006|7416014|56012099006|4143699003|11063799006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	PQTf08DSSmXT09vNTD4iDR9Djmvp2NGmGuPIxlrSAyIPYBTQ9LHoOWBjsi2m3EVaGllLAp2feFMLSuz/6z3bXHoM9SZ0/MgoJ6eIn1oVafBX9YxGSN5SzHQA7r0QrFGmQ6jizCSF5lwUXWsuTdPikAJtSOcLI5oBj5X4O8ZEj8oj8FBAtKd9pn3iU7HkbVV/Yp/FjY3JtW+0lLxkvtLt9RnNkaGXlCQTBq87GP8s91Tir49EwnKdns+9lpuZDJ6k5bJtSTO0HSUE5qMhN5cetu0vwO1yZtkhSo/w0sqdhEg0TFceaA8RSuxL+rSrM6T2YjSAMeI9YtjsqeInoL3a7hhKdZJ5cZeaK9NBSTD8+Ah0FBWB2Mx0kfMyqyQe0Be3mTEhJruW7dxcdhpvnlgWlUZqezLl2RliMyG6/tPprhqjfMNmLDBt9PWmiRL0Hfr6KFrRHfcG+Ujq1uDLrGbry0+6pYSd0GX6xH5IaYTB9VXegX4AvBTJgYFcOTiC1UqLtPAIegGo1bVd+iGl4N+7PaXW3f5KSr91PsSW5l+91esr2Q8SK8clWbkLD1+wtsL1UFoPN88dUaZ+TOW3q+GTfGFydgWmWvtzf5QSVrCrCpS/pLlrYhSViZWsyliSYiOV/7kD6gXlBjnxA/uwQLRYo/OPpxmPyCle4vt0IcWk68A=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(19092799006)(7416014)(56012099006)(4143699003)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?udpo+mT/lBiJEkYfOCeFNjJvmjejGvtRVZEXdpI3MHBNYUWeU/7LHpJ7aJdI?=
+ =?us-ascii?Q?kGjFAT+kt1ZZ0sz0i4druaSS5gXh9jvlbUZGemv2utgGBUPcAKw7wCS39ycL?=
+ =?us-ascii?Q?SQRSGxS/74TrZDFUBO2I/vWVLwe7Tf9NRMcQi7c7kiGY1tCOYUIeerv+WWSH?=
+ =?us-ascii?Q?ttFTBe9JV0Of0ZcaNcGaTFjOPt30KM5C7LDztv0sqwqaNP6uhJiwHiT4sPFV?=
+ =?us-ascii?Q?GNNshzMwjk+cHsXGBZ+MEKfGK+J9gqi0qFbS7Xfz0E+Pm4Bm9RzEwmLtV+Ih?=
+ =?us-ascii?Q?pvfA7dAVTUku24g7EXNAuc22ga0GJA5/kZ04F4Zi3TP/tk5/Eq0JNjuFGWu8?=
+ =?us-ascii?Q?JHfMl+ScpymMjleIhP0twVrr1jYQMiwn8YAewDI5s0kMzhvuVCXW1+oP9D73?=
+ =?us-ascii?Q?GCredSuMFr67z7/T+5X7uPdGhLAQVv4anh7lopIQ20AIhvhWOxIEYRiRfel0?=
+ =?us-ascii?Q?Y3i8f2oLGqk4I+5x2/SIxKat0tbqlW993UPqhoqi6zAnTV1FErf9tWp+ioHC?=
+ =?us-ascii?Q?iA3puILcWC3tRanu9+sAskxrBlUZ1UKHtV8wx+aZ9AYrkFi6gY5rlVt+7O+x?=
+ =?us-ascii?Q?qkj3HGjnMlhX7XsS6IZQ16W58K1QW5wF78SWlTWrPZQ1VCbicmu0x0Sc7/Xq?=
+ =?us-ascii?Q?VE/kLrqxlc44spoY+3KiIfcn/whA7N638s8gc8ZA0w7aaRMqjKNAoOB/xGOm?=
+ =?us-ascii?Q?abaonSTv+uPWFVaeUZxwB7ZB/v7T3a6uFS/RzCcMxaBzGHwfJpNwac0kLCB2?=
+ =?us-ascii?Q?3y3RequeQGOEPi6dhHjWNNVGzUT1c6Noq1ZYngDM4EFyGWS5JKht5b37d9t2?=
+ =?us-ascii?Q?NaUwzJSafiq15vzyc8YMbVJeHCo2C6UHo8wuojzWNpD2WgYdFcYzpnzF4SYn?=
+ =?us-ascii?Q?oCtfTMka9FEpzSXAlx0fyyoDGoSoDLqCMrtUFtpp4aBq6vjyXtKRhsc+7bfm?=
+ =?us-ascii?Q?XB/OxW3D8vV0frsIqVigy/IPQy2ZUdwOHDzLBZcFulubCulLfKCWEnLqfF19?=
+ =?us-ascii?Q?5mG42h3e6l+mqkamDf4lYcjDuqHh4KgpdKHYqgkNefoUJB2PzpHicKOAMzeS?=
+ =?us-ascii?Q?8+e4nOwSBlPlF0qHcDDVWPdcnVGbI1h6PYsk38y/0o6MvMVfn1tEfJZexhgS?=
+ =?us-ascii?Q?QFD2/Zi9x9/av06uh33M3Tu2/bk3z7AF6SlcDdq8jXQe77QR2TTHQADk2UMH?=
+ =?us-ascii?Q?9PqsaDZ1Z312AbP+Nk6WdeJd1SKxaTU7ci23hm0AzWl5u8qUL0cKU6AVNdSR?=
+ =?us-ascii?Q?uJiwH/QD9ZEQd59/wBJs+OMXYWhf2bTTqgKVV5F0UtYpzLIdDTJkOZd2qiI9?=
+ =?us-ascii?Q?Z5Djn81dSI33ObCE9BGUAysZHWhQugdL0LgDeBIwQPwC0sZ6nM6ILIk9SBKs?=
+ =?us-ascii?Q?f7BWLiPUrnzV2q4w3TVBV3LS7uNvB7SOu/LEnNFJA36yFuirMY0Q/e349ZGR?=
+ =?us-ascii?Q?yMO8LYXGAjrHnfJD6Whxdd9eLjtCGUVQtS2Ra74A+J8bY0KizO27RjjvSZqY?=
+ =?us-ascii?Q?XDvGHEk0nFx99djkkKo27ALW9iUC8bf6JuatoB2e00QXUh+SiXgwYxg8rB/l?=
+ =?us-ascii?Q?dkJ0JaiOyySZqzZR907MncWqHTAGv911huNJC/pNNxqxsBJiv7AsNl0x+QL+?=
+ =?us-ascii?Q?2BqMosiIeDrB/Joux3RPtr30wtFxOGd7E2r8ZF9E+TOxH/WLVr3JixtX3BRB?=
+ =?us-ascii?Q?bweCGyj59Z7/nWyb4O84gAXGjJv/DIrn6D14AqLDO4ZeHGMP+XmeZKAB2ofm?=
+ =?us-ascii?Q?ZGXOeaCV1u9bmnKnfLu8ot4MNU2hT79mUtn4sM6UAaQawZha8UtA?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89708a41-a887-4acd-3718-08deee6a9aa0
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2026 18:44:36.4767
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S3pdR41/SyYJ+0HD/ii9e3qVFR5pfr9emR+6vKYDlRZ6jU84LaXGwgKuIUUQgI/1iuQuDcbeV211HfYjQj/ms+WA0wQEKuODMI5Uvk+HSRLfCGg7BUzS3HOPz3C1oom4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7345
 
-Hi Dinh,
+On Tue, Jul 28, 2026 at 03:40:59PM -0700, Borislav Petkov wrote:
+> [You don't often get email from bp@alien8.de. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> On Tue, Jul 28, 2026 at 03:08:25PM -0700, Rosen Penev wrote:
+> > The unfortunate part of that is sashiko does not understand v2 patches
+> > and whatnot. Meaning it will always complain about things fixed in
+> > other patches.
+>
+> That's fine as long as we've replied to the patches and said why it is ok. LLM
+> is just a tool, at least for now and how it is used with Sashiko.
+>
+> What is more important here is finding real hw to test it on. I'm hoping Frank
+> on Cc will move...
 
-Krzysztof pointed out that my earlier standalone patches were confusing.
-They were based on top of this series and were unparseable by tooling,
-so I am sending the changes here instead for you to fold into the v2.
+Tested-by: Frank Li <Frank.Li@nxp.com>
 
-Feel free to take them with
-Signed-off-by: Rounak Das <rounakdas2025@gmail.com>
-
-Two other things from applying the series:
-
-- Patch 2/4 has "unsigned long flag = {unsigned long)device->edac->flag;"
-  with a brace instead of a paren, so it does not build on its own.
-  Patch 3/4 fixes it in passing, which breaks bisect.
-
-- I have not done the per-variant interrupts/interrupt-names constraints
-  Krzysztof asked for in 1/4.
-
-Thanks,
-Rounak
-
-1) Patch 1/4: merge the s10/agilex5 compatibles into one enum, since
-   they share the a10 fallback.
-
-diff --git a/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml b/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml
-index 2ccb0f216318..34af88988b84 100644
---- a/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml
-+++ b/Documentation/devicetree/bindings/edac/altr,socfpga-ecc-manager.yaml
-@@ -20,10 +20,9 @@ properties:
-   compatible:
-     oneOf:
-       - items:
--          - const: altr,socfpga-s10-ecc-manager
--          - const: altr,socfpga-a10-ecc-manager
--      - items:
--          - const: altr,socfpga-agilex5-ecc-manager
-+          - enum:
-+              - altr,socfpga-s10-ecc-manager
-+              - altr,socfpga-agilex5-ecc-manager
-           - const: altr,socfpga-a10-ecc-manager
-       - const: altr,socfpga-a10-ecc-manager
-       - const: altr,socfpga-ecc-manager
-
-2) Patch 2/4: use an enum instead of defines. SOCFPGA_A10 is 0 so the
-   Arria10 match entry, which has no match data, maps to it naturally.
-   The values for S10 and AGILEX5 are unchanged.
-
-diff --git a/drivers/edac/altera_edac.h b/drivers/edac/altera_edac.h
-index 30e35da7eb6a..79b51f051183 100644
---- a/drivers/edac/altera_edac.h
-+++ b/drivers/edac/altera_edac.h
-@@ -372,8 +372,11 @@ enum altr_agilex5_irq_idx {
- #define ECC_READ_EOVR                     0x2
- #define ECC_READ_EDOVR                    0x3
- 
--#define SOCFPGA_S10                       0x1
--#define SOCFPGA_AGILEX5                   0x2
-+enum altr_socfpga_platform {
-+	SOCFPGA_A10,
-+	SOCFPGA_S10,
-+	SOCFPGA_AGILEX5,
-+};
- 
- struct altr_edac_device_dev;
- 
--- 
-2.50.1 (Apple Git-155)
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
