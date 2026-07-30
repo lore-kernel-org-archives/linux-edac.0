@@ -1,97 +1,99 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F5C24DCF6;
-	Wed, 29 Jul 2026 23:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8E336EA8B;
+	Thu, 30 Jul 2026 02:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785366061; cv=none; b=Y5n/lumOm3nUtzH/uKSMYZd/o18ulepEwCFs3QFJvD9BVFyxpqwDafIwIpGiahbVjY6vdZayOBlYL0vHnqYx8A2dmMeu0i6ax7tNrHH8Njh5/7k67zVpFmGebmqYkzcCUwrprpZk6XYVENhwmNd//T/ftWSp6JRu9ju4t+bweCY=
+	t=1785378946; cv=none; b=qD54eGf6JQLFUVNEJft2ee513DMYA28EruyWrUxdC26CWwzWEoaXQAiLRZ9loilfILjMzwVFulTkLHpKoS2OycqL7FIAl2O2V7w3pC7MrNYQOGvtMmBO9ay9KRe6l6mgYqV89tIKvxyxou//XtFT0FdkpmyIqrtv7wyJUEJ6QSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785366061; c=relaxed/simple;
-	bh=Rl7HCT9942elsCU7c/U28VRSChx02dtrUUUW0L8vAQQ=;
+	s=arc-20240116; t=1785378946; c=relaxed/simple;
+	bh=QA6hVIEAHNiGkoskLuMDFBYH91/GzfStig5+RxuGzpQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OSj6ffsWOCn2ALkK69IUgQkHnkqbnmk1MNXZK+KbJce3ClJDAK7TiOIMMSNvC2GyVuoCsnaqfwuu6yv1aMBT3VTi1KXkdtqb32IPbqWyTiOa0ARfPSJwh2Te2Lq5ahGh2+MF4hZzJeagWUJdGOH9VGbQ2009jWrtmvLFTWFBxhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=SKdbD6Z4; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=QRQkBrkGWAkdA9fbbFMb1Q8yftHmTX827ZbQsgWiFyUKs5PeNIfMwp8WfPYqifAn2rjRLWdL9jcUiUn4O9ItyiYlnlMhm0E9p2I7GgxOoyCi+nAeUCJo2eLKkNAWDw8gTYzyRep/2O/KRNmxAtGsYc9joJftHIhEWqQr7Lk/Vm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org; spf=pass smtp.mailfrom=fastmail.org; dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b=BoeB3Oga; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eIw4QHjE; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="SKdbD6Z4"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id ADA4340E014C;
-	Wed, 29 Jul 2026 23:00:56 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id V5hMOkV5vbEn; Wed, 29 Jul 2026 23:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785366045; bh=JL4x2+5W2lxTogG/LtMTNq8Q5LgXQhsBc4aXZrSLgG0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SKdbD6Z4Xg0g5YG01dMAy2u3l4C/N0X7UKTJte1Xrng81mwa+ej0R6oi7XJLRhNhx
-	 ygj3oErmoGE9VAU/ykKWrT305OJjPmrILrgaAPOyXIALBeu1X3bd6c8w3jgjuYXwjE
-	 WnXG9YpNQwF058N0YQuq0dNJEJWWRCaGnUTJDbXAWVY6vP4ptzl7BNii6L1Gh9SjCO
-	 MpbBp0y4PovUY1woYT8Lbs7AV4LzAX/GSN6VtJOfuxQ9N2tRn8aHuF4SBImW3q+3kB
-	 TOftachAhXrLkMdr97j4e+FsTFL7l/3wVu4cHorBuQwsekFaqf+SHKjRBH76xkq8GC
-	 ZEhWSikem9JjoDJ2IvnGGHlBAPqnfZJCt6p60LBiWXI2+ncrRaa/HhkuF9yxolocnA
-	 aQdLF+lUxFtTnpfr9cf40iUS7tmcmlgBVemIX84R3hbXGrrXsMsTd2ON4XJxro75Dj
-	 z/bS7Ri9CEsVGqY2PHH1Jx1Q6xqlPEFqsq2Z8fYBBypZCRk1s1OqYXC6SaCthJyL1Y
-	 mWs9uuGoUhSs02cekVx2Yc+ui3H3aimhxvcl+fgxKSfSnXKd1cUUKkmVc7c35DIkHD
-	 IA2r9fMSzyNZsGL+ojlRgbanszx3DAtvBCA1xntodBuK9qGz9o+R0VQ9O8A8lM6s0M
-	 15L4vuIDc4SoZO65FeE71eIk=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1793A40E00C4;
-	Wed, 29 Jul 2026 23:00:38 +0000 (UTC)
-Date: Wed, 29 Jul 2026 16:00:35 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Ian Bridges <icb@fastmail.org>, Robert Richter <rric@kernel.org>
-Cc: Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="BoeB3Oga";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eIw4QHjE"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 404C31D003A0;
+	Wed, 29 Jul 2026 22:35:41 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Wed, 29 Jul 2026 22:35:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1785378941; x=1785465341; bh=QA6hVIEAHN
+	iGkoskLuMDFBYH91/GzfStig5+RxuGzpQ=; b=BoeB3OgamhK4p/+XMhswxELE6D
+	fNwKZw+Ju6l1ZpLcUFxRUPm+XoUzNLYF1RQd6043iEVdF4anZQWUbT3aPS+RAKj4
+	J47cjGyogU2i8JsjcGmipds/28J4d6so0oNPM7rfqHQH0uxMobhgyrGExb/+1/MJ
+	YyMSJTzjRjFQI4N5wUp/G08eJB/q3gvSUd7/bU7TxPqEQDOHLa0+tTaxOqZpKH+t
+	Sz6iwZEWiJ0WbS3oXox3uzWZs1aEBQoVwuo2UgTENlZGUXj4dFYdUad72BsUAZMJ
+	iu6bAp/8CjtPnLXBsb/TFl/93sYSF39WA29cj8pBJwS9h47t6jTNx1E0Ar7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1785378941; x=1785465341; bh=QA6hVIEAHNiGkoskLuMDFBYH91/GzfStig5
+	+RxuGzpQ=; b=eIw4QHjEKLYfx64x2KiaeyDzxS7j4sN/Js4+v7JoRmw8ERp+y4U
+	7SPIRjd/cri3QPBcTRkaeYvE9Wu8n6yiNQU01fWIYCtaPK/1JjGFvzRVkqapMquM
+	uaTK4bMx6iZZfofUYMFRgJ8uqJAq0SvGd9PFzJMhPhethD1mqhL0sqLYzmeittAa
+	KYRDPZR2Kcr9oItCepiJ21C2JmiAFHBSAnJCwADmuQjHquLwyiB8zMybRHcgsCEA
+	LFviGvdZhM/vVpW/li/9TjgIaBxE8oDN92RYEXPNEh1Pyy4QlUGyH+Fw66fKNAU4
+	+PhtvMfCXxXztUJQ0ReH1nzciL+rjaPM5xg==
+X-ME-Sender: <xms:fLhqanUjJMIEhJOMYL1dmmWRctBy5rVaT8E4o9VyJm1PTm30yO6Sug>
+    <xme:fLhqaqhVStby5b2rmx4AS8Q-8Mz8riH-3w7Ui-jz5XTsU6xezw1CdAFO98ZJx2W4T
+    meiDefYzfWILCWot3fNTPbjUXcvNF-oqJXEv8tdk_eluL7lusxpf3I>
+X-ME-Received: <xmr:fLhqaibfg7sKZIKyKlLRNw-QqnviSdleJ20WOb3Fy3RN7cboSQiWuq9M5_A>
+X-ME-Proxy-Cause: dmFkZTGX8nPZjomJll/+jmV5dmvE9dRvm7GU9Q2cJ9xo+eUbTuc6GG6qNQ+SB1XZfeXoQZ
+    O32aTzHIw2tKNTqeYNRNx1jUEPc7H9bznlRG1xEJZb7RULR3j+RSa+qQowZFdt7y3euXka
+    uv2uky23BIqTpYoDVqX2xTc27fbT7Xlst+7LR8iNKpAJWIrKNDVUdWhTbFRULphEvX199w
+    ebf+ac+hMeGx3kzMBBnf16i/xOF+FDnTQ4zLkmpUZ/yOs2bSM8+Fx+zYiQ1Q3fm570z+AN
+    2gdNT4/wWFA5eLzBW9HrT88hqvziOob32LcEK+IstnkmomQk5vxHAWFEUc2CUcVTtaFujC
+    qz+homSLfYa1iBMxkWzxzBOJWxrQnlsuypyYhipcO1UBMNmeNDC7aoxAcvh9bzWt5Kmnrb
+    9w9owfdKdvXWcL6OIjkQ5swr3y0RsBKAH/u8w7eUwKADR/0hypTpOu88Ioa2GvxD1z0ed4
+    FPRtBmaWNtX/k1jabNXvdXEE3Jsn1b0YlhUgiNBya1ND4qsRZu2a8xpibgkwYfzD+210Of
+    kcjJKFumIVYdwF932fkvMpwFDlGEcnb3RT1O7C8v9/rmRjNkDKuChBS1N0TLe+LZy18rXs
+    aCXwUpaL0p0buSQkt2gQvk3oXqSP+7Yf3LQ4QyzkT7BgcmYPTCE1ov1Blwfg
+X-ME-Proxy: <xmx:fLhqanorePvGxiqHK-QaStDBT23_3mqcJbiGnLAPWGgUi15nZVtkIA>
+    <xmx:fLhqavP69dRAd9Jjb5KwO83dwJ65nK0a6ak5FPEEsbFQh811vYTaOQ>
+    <xmx:fLhqaqqZ5UyEz4nz8su5W3NL1ndj9FJE00bDUQoB4Hem5l561bToQA>
+    <xmx:fLhqasf9PWKz-TQ-3JeNrKjfr2TyDN2tq3hEKea90-vCCYsjRiKVhg>
+    <xmx:fbhqahZGnLAkPSquH7CRJoSrdh3vwKaI6Wx_QmVFdim86SSfC672wUB4>
+Feedback-ID: ib53e4b78:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Jul 2026 22:35:40 -0400 (EDT)
+Date: Wed, 29 Jul 2026 21:35:38 -0500
+From: Ian Bridges <icb@fastmail.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Robert Richter <rric@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
 Subject: Re: [PATCH] EDAC/thunderx: Replace strlcat() with snprintf() and
  seq_buf
-Message-ID: <20260729230035.GDamqGE9bKD5ncU6ZV@fat_crate.local>
+Message-ID: <amq4ej83V5e7BRqh@dev>
 References: <akYJUdY1hVABUQH6@dev>
  <amppKvK6mIJRmoL8@dev>
+ <20260729230035.GDamqGE9bKD5ncU6ZV@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <amppKvK6mIJRmoL8@dev>
+In-Reply-To: <20260729230035.GDamqGE9bKD5ncU6ZV@fat_crate.local>
 
-On Wed, Jul 29, 2026 at 03:57:14PM -0500, Ian Bridges wrote:
-> On Thu, Jul 02, 2026 at 01:46:45AM -0500, Ian Bridges wrote:
-> Gentle ping. This patch has had no response since it was posted on
-> July 2. The code it converts is unchanged on ras.git edac-for-next
-> as of this week, and the patch still applies cleanly. Happy to
-> resend if that is easier.
+On Wed, Jul 29, 2026 at 04:00:35PM -0700, Borislav Petkov wrote:
+> Are you in a hurry with this or is there anything that needs immediate
+> handling?
 
-Are you in a hurry with this or is there anything that needs immediate
-handling?
+No, there is no hurry on my end. I'm still new to this process, so if
+the ping was not appropriate here please let me know.
 
-And I obviously can't apply untested patches.
-
-Also, I see you've CCed the maintainer of that driver so he should probably
-take a look.
-
-And talking about maintainers, Sashiko points out a bunch of previous issues
-with this driver:
-
-https://sashiko.dev/#/patchset/akYJUdY1hVABUQH6%40dev
-
-so, Robert, what's the story here, are we still caring for this or can I mark
-it obsolete and drop it?
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+Ian
