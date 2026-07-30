@@ -1,150 +1,111 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007C036D50D
-	for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 15:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA95395ADB
+	for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 16:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785423801; cv=pass; b=fRhAHWOGEA9kPZVJeukg7UcVTSEa0GGskgV9noKQu3dgoUzJBTmcNflvbxs0VahuRrUcGzld1QjRJKQr3ZWaVJVcm9nBXkFpWPkBScB41nIvhqGh7txTwVmJx6JeAQmGweDQ5ackF76U40+R0DYezpq5atm6a5y8N64LRN1VoCM=
+	t=1785429160; cv=pass; b=dGXxjc7KWoCzf7ycfcbs0xYemGZYz3sGTn/12nMijw5ZLvzsjD1fqAtqq6jPbPkIs4vY/ZKaYaii4qN188wwSZi6AOYfJ5G8GnUIqhAsYBkAOBRiQkvPRJuIBjlyQU78mEDeVpQGuYTEYakKT7p0/HEKCKi6WIfJGK7dawjTflM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785423801; c=relaxed/simple;
-	bh=HPRe+sEF/j6sltiirPnDAtD5HFdntY47DgnxhMiQK7M=;
+	s=arc-20240116; t=1785429160; c=relaxed/simple;
+	bh=IPweQa939gd7nIqWfEjM0QcoU+Zhyc9RPuy6U7q0p2g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rTqsvfOhlebeQ2ZixwmrFZW8r9ShXiiRZj96DiKkQEVQHrKX4/oUpg39XVwGOpblT6ZQht8dZ0ngb+GYY9FPt+aTnf2/oO1wLwRlnkaCyZDuoG7U6mWLKkQZzPjTbx2t6RGqOrxs/MnaiYqtDWrfUmAlj5cOsyLnkj06arKxAl8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ld+Yc0KW; arc=pass smtp.client-ip=74.125.224.44
+	 To:Cc:Content-Type; b=E2TCxbEXFHTERFWXmDzm6LHQnRUpxIvaRyBZzMHuhI2PFh68g3oZc6obZA1W3M0l6L7i/JIXgVyTD9KXQ6OvRB85r5LZE+KytLQ8/adIufKUrDTJLbdJDvwdhqjss3r4Dn2a6vU4WVYyFWmaT2KFNsQ7aXouC1oAIzrqCLlWe0c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lI+d4iU7; arc=pass smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ld+Yc0KW"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-664c6304683so2116465d50.2
-        for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 08:03:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785423799; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lI+d4iU7"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so2258478a12.0
+        for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 09:32:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785429159; cv=none;
         d=google.com; s=arc-20260327;
-        b=rdTekdj5wyK4ef7ME8S7GPZ8Vh6JZo/s59DPEPxE2S8t5TCcUTgWIy4V5oinpuFp8m
-         eUpw5uW3Y1UTkQnSOcFSXbcaBOGZVJX0tCOGZbni5H6T72cG9TmvtYJ0wAYIzorqOAnX
-         QofhX2lFxzws4e4RiOJ7B8wkM1ToYNMCG4CKu6DqptB7GnCBqGFkPYFAte/lw4b9of6u
-         6EFG8W+vNdS9XFFttMvFMpg/btAoNPWLQwZJCTouYTE7rXAj/URkRCgoXWneHyLu+rMV
-         l2HS4WYA4ocDEt777+8pF++jbFzeHnqB5/7Rh4kBg/B474B+1Np0/Z1tZ8OlrGg7xBN+
-         OgnA==
+        b=j/gQRPxAY/rYMBdh4OKweXbyCwE6Jsf860QROIj46A3AfIr89bN6WS2FsNf9QvBbJK
+         B0sRwLpIaNZceLjjGaeKksBCGDBh2hHlKscoA3PPWwERKwbzBUaZO69lHuweiV2Voibe
+         RuRghs4jGjiH1uMysxMvg0UHvi4bF1E9oS+tlGxB5O3b9lIYLBqjP1slI2ehE+xPNUaf
+         5a5BpZqdaVfG/ogtOCZHCSwdSdWKvqNk3to1DM8JNsds6Z5ruUImKWx92Ei2H7JP2C09
+         BRZNzHO/dCr4tT/1HwMC0udz/VOcCQe0M9MxMyDoqJAgksy9tNrzph8z7Qf/FH9maofl
+         BdAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HPRe+sEF/j6sltiirPnDAtD5HFdntY47DgnxhMiQK7M=;
-        fh=T7BT2OYM6IH6eJG1tKOfEjb2op0j1yPtTooeTJ/SGag=;
-        b=BN4N9DZM/el9ywjA8gfAX5f4MvL914TW4nfB7uwDMA8db40lU8o49ptNp0g1Kf7zUk
-         jz0/2xXRvIVw5QQNDDx/WmuqljUI4RXt7U2gSugSIX8mEqsOicDiH5EkpCajYptCad7r
-         YhyM3ID2WBHvrEJbcDwOtXjeQlppq+nR+4HMvhn8hffxtUERe/cqvKVI1AIuLEc65UOI
-         d3fNS4brvCpJib2m1gApT5YAU2G37FPXEnAFAMtHZ2PkPXJOUKm5ZhX4moTCvsRFS9C5
-         0N9RIqaW3y7MkXmqossWs1wzifVNMg+aqXTtHcs/lzlTrCm5tnTYEzDimVTfCShSGKKb
-         FpMA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IPweQa939gd7nIqWfEjM0QcoU+Zhyc9RPuy6U7q0p2g=;
+        fh=HSGOSaK7rVYDbUnZyPk318pK7v8VMQOi2RZl3q7wfDk=;
+        b=j4mgCXhPNx+TyaL3R8f01IYJmc41G+b42JOQForspWJj/Ff0ZfYEU04xubU2g0/gAV
+         IiKBoP/0nzBf3cKBMnqNCJHGQ9oDJLKWaniEQUFBHYPGIHTopJsDPDVJQgto9kMUidkT
+         Rpb0YqbthFPZ8gyW9SsNMS9FlG+FRfmNdexFweQOF5Kno0OkBwW2DfAZOBOOz7KCSf4m
+         mIKCFmsmcNA0U/BPNIUxrgLwUKHg4Pw1+wlm9xu1hHThuFcaavpQuQW4KGW64feG8pKX
+         +QosN71DVCVOMqW6Pvw7LGlHygbV/L/AN98ueW3bIXqLdHwwRxwiDROFOPR7vS38u6h+
+         E+KQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785423799; x=1786028599; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HPRe+sEF/j6sltiirPnDAtD5HFdntY47DgnxhMiQK7M=;
-        b=ld+Yc0KWzUbFhV+9KHXEKyvU+nxaZffjZ2iAE/Ls7kRQ4W7vkuLAk47JvVgoIbJUrk
-         gCFx4RC2ENEQKaO6iMwm2mMEfusmY3XE0cGD2yT0REXlvQSJdBPgThEcKcov0/TiS4hn
-         27CuMVWRIL/RVub7+s1+y5zeEnXxai+Y9bMbXcbcQYtFDV6retrGuYcY78WQD3gKXVcb
-         nG8R6daqWuhRg7dqXhkdC4RrwTlvAXmzIXzflq5s5HTYYB4u8JS9CxBM77jRlkNwAmwk
-         DF4UjtelCQ3a/MbR0cTA1JSuBT6u2tLGn2TnfYb46CL/z1pnWYlASiiwXShQ7q/fhqz4
-         hn9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785423799; x=1786028599;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1785429159; x=1786033959; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HPRe+sEF/j6sltiirPnDAtD5HFdntY47DgnxhMiQK7M=;
-        b=YpdDItLSBdlhX6JWbYcrGmNr4BJq0erdlnNUZfuhlsuxEpG8lKBMgMprE0flNypxbw
-         E44FRrFuH1qfh/x0f5ZiuXez1B1dwDbkbKvdMI30Td4UtzxH2ERvSRfl3URO/GvUoFZE
-         Jf3LeFD/6YTnUPTiIkFQuSHRMq5jC340Kq3BjnNJAeSU/Jlsuv8cGuNQtv+0M76WXm3L
-         LjzW+dY4CSyVka9P79MMJKzJZt/OA1irr+x8o2OoQntgJAWU2Gq9OFtC8/yoVfnkxP+Z
-         MgCmrj9mXTlPakd89SFMAWrIO7FJpho/00861bTBUu6H4OkJE4oIOOZ/1Hz8rKlqQtlX
-         a1Rw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrge7zxbLRciHD8Rj/G7T9+6Qhq/88xrf41KTcfy2/WPJXGV67KUEpXsLIgsh1LAhCdVZ/3PSAzT7aA@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOzj+9Y4zMorEFix4S2BnNai7Ep+54XF04KdbNqvj6uVVyJWM3
-	spElrufOnctrFILSAqxdP8dpryXFdRe2B9g5oGLme4dDC7X8I2pt+J++cc3yTcwBRNGL3iVIQQY
-	17IJGqtMCO2D5n2US8fMm4QHFxHmoUzg=
-X-Gm-Gg: AR+sD10kDcEOYeOFLhiv5EeibZkoxLaeZg9OWVFi0FqD+fwYZ7oVM6ERHEWP293Znmb
-	6RF5yPjgV2DFqpfqmo8IOoDVY8CInrq89uWRfqiKU3Ld2euf4YgEDzFCIzw6mivvZ0/DluV3JrE
-	MHiRgUp7NPsPRmuj6PTVbaC/g2m4vDGbILMItSfVoA28nleRZxn7jBj3j0Qjq7LOEdCKJv4QH/V
-	hZQwa3wBqnCsAHimZc8N5qjbPoO40keZLZD+kaLJYQrCjh/FyfGIv3/gaOPaXv+bDCWWEvubpdO
-	zmJhzvEjhp+Oec9sF9mb8pH6nDnsuF6VaevQ4xeGUIHz8w==
-X-Received: by 2002:a05:690e:4403:b0:664:ae69:230b with SMTP id
- 956f58d0204a3-6692f740a41mr1312642d50.72.1785423798654; Thu, 30 Jul 2026
- 08:03:18 -0700 (PDT)
+        bh=IPweQa939gd7nIqWfEjM0QcoU+Zhyc9RPuy6U7q0p2g=;
+        b=lI+d4iU7n4QzMPjvovE5o4pavwrDuEmPw0kWYZjhzOVal2vgUNdbJ9U8kZKPrLLtb9
+         ws766XjCpoRheUY54d4PCT4I3Npf0usqWQDSNmm3eKL/YVwR2MRgmpZjLK0lImFp7BwI
+         NK8OHiZiaYFdvsEtit4MU3gTr76AZ1/z+D/0VBB1BjI2qg1zA2XK9k+Ia4y31uhiTNor
+         b0/5Gu2I0PtkqozUq8lYiQJicLT5ves91SJKmPjd7KFKYgn0oiPzsBRcJn4kOyWGMvEh
+         BgI6fEhqHTLsvhyM+gmS4QWC5Ej8fRfTlmTkyqzb8wnA7Iv9FGQlmy/kRqkQ7xAUB7SN
+         gyVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785429159; x=1786033959;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IPweQa939gd7nIqWfEjM0QcoU+Zhyc9RPuy6U7q0p2g=;
+        b=DYrV+GZht2BocwgbosE2w81IaQu6yNqqZvbE9CC9beHqe8drkVuUTJNhFGF0jXCyJM
+         AeU7k2hlgIFfWuXAqQcLDovpD6WqGzzNPwUAQd/EdogxOdb7231sRBTSRFBXxCwH3bfs
+         cdp8itFV+nY6dmaB4cyzQE5Jap+dg2tGstcAgx35OdM3ZMjYQsMXrsuVQx2Huad/T5R4
+         rz/+gWLftuTON72DxmvqszBDhWQPU36v0wvsn4HGuYOh3mo3QpffDDMa/9KppRg5tVGm
+         C+nzOXvsCLPyDVpcM2DI/L4rzZudmrExoKIxVfOgCY0kN7pt6CYajmUCKpeg9eXR+iRl
+         ca9A==
+X-Forwarded-Encrypted: i=1; AHgh+RrWuDBaD4QS/cVHjZLUxJGWYzG4FTt6POqDV2d4MiwWpTFBWveAjwqoQFC+jjP0ci+ugZBOjrzRCnwS@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhrLBFGcO2KTRC0ePPpGToKCawfcBD5ElvlZbQJz50DGV33RLQ
+	pdhu55wWK39iaaObtr4c/K2bzp50y9FcVXpWyeq5DCyLOS4YsAMFhF7b3M6uXGo/kkbRv32O3YH
+	fPrPekOpWXOPX8yiDMhZNU13tYLGAM4s=
+X-Gm-Gg: AR+sD11595ODi+KNvAgjSDk2Ed0xqlQWtI5FcRd/TnDULhk7GVSmXhL4qcpZ06DDVfg
+	yXq1Rf0JWTOzuwIJmxhDJSTmvNc+gupdps5pT3zQDmshj5LJMkyPdk/wQPmLFrBKUl4mb0GcrdK
+	euQrMsfiq+1D541/jh+/25H7rCbYT84DYGZqSfFUEvrRr2rb3ccKnN04ls7xvZpsp5aiBfgSQL8
+	OeiBWlcWNeOJV33wpC4Km0wWm2UMd/vZmkzdG5omx7V73kLBYK4ILZSc0aF6vVnrrmEyAnAr2h5
+	FFdvnDrW+LL3vZwWh3SdWp5THA/3JUgo1hiS8tRAuS1CsoSyFNcinKQ0UnTWjw4TLTI3GRKQdg1
+	iRA==
+X-Received: by 2002:a05:6a21:339f:b0:3c0:9c1a:8936 with SMTP id
+ adf61e73a8af0-3c90d6aa817mr1084696637.62.1785429158796; Thu, 30 Jul 2026
+ 09:32:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
- <20260724171945.2812749-2-shubhrajyoti.datta@amd.com> <20260726235228.GAamadvFK6GYNRx_dh@fat_crate.local>
- <511e62ae-79e6-4931-a7b0-4f0c3830cdcf@amd.com> <20260728013725.GBamgH1WcvOaEtAw4n@fat_crate.local>
- <5554052f-398b-4507-b2af-152a7695abea@amd.com> <20260728213300.GDamkgDK_DeaaHFHff@fat_crate.local>
- <34ffba5a-8e9a-49b9-9e36-c31d0e4369f8@amd.com>
-In-Reply-To: <34ffba5a-8e9a-49b9-9e36-c31d0e4369f8@amd.com>
-From: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
-Date: Thu, 30 Jul 2026 20:33:08 +0530
-X-Gm-Features: AUfX_mynbPWn6YyuDtTEeAJhW3aPSKlsPnDmwo7vpgVB5smEqYRiICc-XKnRd88
-Message-ID: <CAKfKVtEiU0jOtAgXkabAEZ6YyE-TTFf-z-JWYAeQQxf-EP77sg@mail.gmail.com>
-Subject: Re: [PATCH 1/9] EDAC/versalnet: Add NULL check for mci in handle_error()
-To: "Pandey, Radhey Shyam" <radheys@amd.com>
-Cc: Borislav Petkov <bp@alien8.de>, Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, linux-edac@vger.kernel.org, 
-	git@amd.com, Michal Simek <michal.simek@amd.com>, Tony Luck <tony.luck@intel.com>, 
-	linux-kernel@vger.kernel.org
+References: <20260724-sensible-flamingo-of-experiment-5a389f@quoll>
+ <20260729204308.21562-1-rounakdas2025@gmail.com> <d580900f-d880-4ede-ab74-a83fc0c71be9@kernel.org>
+ <20260730-gopher-of-unnatural-leadership-968ec0@quoll>
+In-Reply-To: <20260730-gopher-of-unnatural-leadership-968ec0@quoll>
+From: Rounak Das <rounakdas2025@gmail.com>
+Date: Thu, 30 Jul 2026 22:02:26 +0530
+X-Gm-Features: AUfX_mwOeAWKmxBCapFH8OO9BAgQcC-KTiMT2iLqxqLFMwzUP1ftIsgRaivSSA0
+Message-ID: <CAPYTKoPQczv-9bcEkNbUitcP91FXqyGo187JW_Ld+DpDfaZJeg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: altera-sdram: Add Agilex5 ECC manager compatible
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: bp@alien8.de, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	dinguyen@kernel.org, krzk+dt@kernel.org, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, niravkumar.l.rabara@altera.com, robh@kernel.org, 
+	tony.luck@intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 29, 2026 at 10:10=E2=80=AFPM Pandey, Radhey Shyam <radheys@amd.=
-com> wrote:
->
-> On 7/29/2026 3:03 AM, Borislav Petkov wrote:
-> > On Tue, Jul 28, 2026 at 11:57:28PM +0530, Pandey, Radhey Shyam wrote:
-> >> One clarification on DEV_UNKNOWN: on Versal NET, the driver exposes 8
-> >> MC5 controller slots, but a given platform may not have all of them
-> >> configured.
-> >
-> > Are you basically saying that you can have non-contiguous controller sl=
-ots
-> > present on a system?
-> >
->
-> In the Versal NET designs I've examined so far, configuration with fewer
-> than eight MC5 controllers uses a contiguous set starting at slot 0
-> (for example, slots 0-3 populated and slots 4-7 absent).
->
-> I will let Shubhrajyoti comment if non-contiguous controller slots
-> are possible on any supported platform?
+Hi Krzysztof,
 
-The controllers cannot be non-contiguous.
->
-> Agreed for real init failures if initialization of a controller that
-> should be present fails, probe should fail and unwind all instances
-> registered so far, same as amd64_edac.
->
-> For v2, my proposal is (only if contiguous slot are supported):
-> -Take the supported controller count from the design/DT rather than
-> always iterating hardcoded NUM_CONTROLLERS(8). Though it has dependency
-> on XSA support(hardware description metadata archive exported from
-> Vivado) and DT binding getting accepted.
-> -Run init/remove only for that range.
-> -Treat DEV_UNKNOWN as a probe error with full unwind, not as a silent
-> skip. Indices beyond the supported count are not probed at all.
-> -Document this model in the driver.
-> -The existing WARN_ON_ONCE() check in handle_error() should be
-> sufficient so the current patch can be dropped.
->
-> Shubhrajyoti: please chime in if I've missed anything or if you
-> have a different view on this approach.
-I agree we can have the controllers in the device-tree and this patch can b=
-e
-dropped.
+Sorry for the noise, both were my mistakes. These were reworks of Dinh's
+1/4 and 2/4 based on top of his series, but I sent them as standalone
+patches replying to your review, which is confusing and not parseable by
+tooling. The subject didn't make things clear either.
 
->
-> Thanks,
-> Radhey
+I'll send the changes to Dinh instead so he can fold them into the v2.
+
+Thanks,
+Rounak
