@@ -1,70 +1,78 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1D72E7398
-	for <linux-edac@vger.kernel.org>; Fri, 31 Jul 2026 01:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22172221DB6
+	for <linux-edac@vger.kernel.org>; Fri, 31 Jul 2026 01:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785460338; cv=none; b=tgcvTm3c/astmWhXLrY7GVx32ijy3NxmW9eY5SPBYu98qJyc1KsFk/D4/y/3Q1Pd1gIIBjLPs+vFdtK4jPUaLGq7ZwWRRf8+NfHGp44RdLF4/7nFQP8QrXGF7DXLjXC6VYSFWXniNkUTN6XkOyKXwOZmBlO4LwmYYDMosTVRIps=
+	t=1785460894; cv=none; b=hjCYJywn0QWJlFGjqi6O9dw81HHEZGP8+bEUB3g82ZlbiIpsuyY55+CIeyh2f/Q+Yg4cJZqyvJi5U6LLnw3aXS5oj6P2J6rjROiuqxxevhWMz5EEjft/axA0ZxTGQzm4z4HP1U4DdgTKaW+X6v9uNyNeSi5CEifXLkcXqgt/bxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785460338; c=relaxed/simple;
-	bh=XZgZLRBGnrLz7UxFoKVt8SOA3rG2AOHrDekOGrXRxzg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H2h7UqKIfyp9LSBAWF08OdA35yj7z5Wb6iiTwxpIlrkQtlQSIIZCKOEUg51dVNVJcgqQs2dZHT2Ju5GDVZSFtzYt3EM2EC/YFDveC8i0xntxlEGxhSqPgWPftYEQDwlb8jZFfFHa6CVXOhgEVET2BIg0f0YTjSXPVF8OrPkUvcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQ6ET0zL; arc=none smtp.client-ip=209.85.222.180
+	s=arc-20240116; t=1785460894; c=relaxed/simple;
+	bh=+4rmNqUCv5cZ7pndOhXrQMHAQ4UxfWW+wlQP/2xHpmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=StjcfHBya2bUZSSMUOdbYIb/wjhaVuPeCF0WHON8e8RaZBfFrSzshNJ7KcNaNrTnMvWsnOMMUT2jCw9GgA0utfDyyypJuKOtkCC/VyqVrCag/EpenT7NVWXF9JiihnNV7zJ2ADrENGO74yPhG1kKYGmmmZu6HCh9hZWVrBWXlm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AxfrMR47; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQ6ET0zL"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-930f4e5eed1so28024785a.2
-        for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 18:12:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AxfrMR47"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-ca2fad0ae38so289275a12.3
+        for <linux-edac@vger.kernel.org>; Thu, 30 Jul 2026 18:21:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785460336; x=1786065136; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785460892; x=1786065692; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wAyiS+iv9GtAFUXbLU9tJyvS5gv3/Uh8uF2gqIgEVxA=;
-        b=EQ6ET0zLq/CqHIfJoMm3N4gQCo/PschLpHd8tRuKBdj/Pi7e97H+r8ebnEcixsDaTx
-         5/7HieJIKNw+2Z6Ktgp3Uz4OsyERsA8o83J6zSXYy8oCrz7sMT92zeW1/dmTBvSH4ES0
-         yHjIxBXnzOCyqxFhUWxBcUZQDemjG8BTYnl18F4mo8K+oIsr89TX3YeeuYC7Xu9UYvmy
-         bQrRhXBkvXagLYbcpJHCqOmPnGNFdiuCEB721okmw9aUk9cGDQvvZ9aKYn7SqqUrQQfL
-         ECoVpW6VIsw8FutZgoDemTbSjen8QpR4t4hjsZyXB0A/YbxhYm66ZKF582o+4AYMK0xl
-         3t+w==
+        bh=M0IyVD+1y/522lnq/7Lp1HsNfM3GsCs6wBHZ3/ZAaR0=;
+        b=AxfrMR476kd/2dRGxTuRS6qbxGzZ5Guo2t/lPfPJIXcFwnEW7mnpV5qgOBHu3Ryg36
+         re3n6kaTQ7Xb7wiTA0ZW1KW3MrH6p7nC7bRqjrOAJKSqKaJBkT8lsSIrmikmJ0pACLDV
+         U5WmWveGLyUU76/sZ9/cB1teTAQg8lNCtq2rgPyIw9ycJ+GAycl608iVenI61p704j98
+         GEEHehNSEgSxDfxzafSE6MKHWltEeAsrVeYS6zVfUkmTRSZLTfkWdks7Ne1R4nqsr1RH
+         S6vVHQvjEaBx1r9zrofQsDVIIiTzokNDPyix62pJ1Vr3T8qhxcflZrf1H9VJWUvwRgSe
+         M8Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785460336; x=1786065136;
+        d=1e100.net; s=20251104; t=1785460892; x=1786065692;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wAyiS+iv9GtAFUXbLU9tJyvS5gv3/Uh8uF2gqIgEVxA=;
-        b=f7yPrx7kbd8gXi/VUBs7VpJEvwOzlwyO+sw2zOPwv3D/7io21lU9uEQtQrWlla2qp8
-         mW+Ykg7W4H2UZVKc6UvEE7VsgWSojAcBRdM/PxZ7vbcCI+IswbIjGre2hUJ9ZDEAGpx3
-         /pHHhFAE27UM+3PePog3AkFFvoe3WpvUCF4uTJgZC+fMaHV36Fpq8IHF6JakmnUFmcxK
-         axAZTxKLAg6OZU5oDeQ8OJvpdtSlyIBatEryCXB2DlIsuNimWzFnvtjPq0T2S6imTgiq
-         BwBbb9TWz25g8pkVKqZuvro4aEE87dUDqxpBV0c7CxxsychYy+2lqAWDLAu9HfEQX+NC
-         0o8A==
-X-Gm-Message-State: AOJu0YzcGgbP2nkuLe0LXf5yT4BOK3Ct3m1ue0i3vkEBfjjFapcdERWU
-	Q6/o834QK/NJOSnbxC/WZHy16O2ScaKEy8oUA0aYCzhW0gUM2v3sLKQnaXbqbQ==
-X-Gm-Gg: AR+sD11mxAee0QCnGCrZRAJ4FUw9I1d1zqKjn5McvkytSUUFa791Gj+Ww7y+jW4M0kf
-	0TwO/wc2OqSHjMsiPfc+AU9jKylxqs6og83e99QSVEGKY9Cdv3660lKbAag/rc82p68dkw8Li3P
-	lOPJKe5gdzqaBit196/9+s7UfWJ0YOE/i0qQwKTMLBj5QoNWo0uyxV2Ycot82zZB0+3TVHM1b0a
-	cmBXEsucrCqBdJX8wW0D7XF2dC01gizub9XElWx2+Re4pIm6rCPfn5ZIKpy8c1y7sJX9woyppjm
-	COctpIqlv5bp+S6q3L1vErVx1VcG0Ic6O8dHnz9lIltMm/x2dqa13+cNmxB90vq2qcx0mLhycj+
-	0L94e9efm5G9rYn0BM+AAiOc1g1UQY+fDOO/txKSAH93S4a9A8ooaml4QghyKsRXvw7jOiLYcgY
-	10Vz8AuskodV65qgtqMRyoDPpb3rKsiLr1n+1/3WIBYaVlsmkAM2uPIEPaKLXSL1yfqnFv+2RSW
-	C0e5CBueJSpVLh+V3sM60QHrsq08sn74DponutcF5U7qPSLYR9ak6mnXOM+6tXBY4nGcNN9cXY8
-	hm8skUHvyu5nTU2kFuNmjhfZyYj/2T1wX/9huw==
-X-Received: by 2002:a05:620a:198a:b0:92e:d677:45c8 with SMTP id af79cd13be357-934965b83famr19916385a.25.1785460335882;
-        Thu, 30 Jul 2026 18:12:15 -0700 (PDT)
+        bh=M0IyVD+1y/522lnq/7Lp1HsNfM3GsCs6wBHZ3/ZAaR0=;
+        b=eVhC84LY+S2AUU8I9oE3rJOzcbquHvymncqkmTrGeHq65GtIkoYH6BZ2ua/dG6SpbO
+         ZEL7fWY7YHqpXm6msTk4oE7hWjBgTdaQHaQiK22qwR0HgUDYvb40i2NJwo/mmG35qjFS
+         aZqi8cnJG2i112UYVunu1EzAVqCJVOwI9uEOz3eXzCgDJ05RpBnaMpOHMw86MUwimGgf
+         R0IY93NtNszLju3uJULAV6KsddQTxR/XATUL/FOwdJXevHSGHR2KXR3ygN6XXr/mm8se
+         JPYGbnhHyWx7FTlPB0vLW5kLu50kzJ658DPmXNELHo1ExHq7qPLnLVljKVqos5cImioH
+         VwGg==
+X-Gm-Message-State: AOJu0Yzn7BgXVvCdKjPqGykFDL0j0UdysxoKhyhlM/PqTgBBgFPJ73wM
+	9wx9GaGMz4tYd4+AsJuPE+0X2ocxPLdo3q6LXzHQvdFzg/L8bXV70gV7M1+pqw==
+X-Gm-Gg: AR+sD13xsTonoFhlKwRub7yjX9soDjgQMVQe+Sfzi6OifdQqkBKMG5pvQ5YW5cOZ+NY
+	DKUbfAcESRK8UJvnpcHB9SpwjazlVl5LC+1r5wZMMO8kjvVD7UCMOXFqb9fxpubZNMn+Nxj5Dzq
+	kxp9yq127F3NpFSHEr/++z6ezJ22wabS5H9fpEGmuN00Xji2IMN/VN3Y++ta5sPz3KRVL0P0Fod
+	7bsmclTa4tNlXB0+Pir4d9CwisZbNDukiyZQYMS+k850iq5O5UNSUKLDDPoVBH5NeG/5pzAX1kz
+	bO19X1PGZHpF4dk9pYUwrUJ7ioXMUBVkBolBTkybk5/d0SeZWu2efRn2sx5l4YQqhj++Z/5UY91
+	n9zQ/LYWea8ZMmRXkCrCj5BC0scbAXp/Gdq60Pu1R0bpM8kWZIkS0jec/IhO8quaESxXVbXrJ4H
+	x5gNP/SwBfCwbl/iBeFpRVPM5ur0FaM5aiE0+uuuARmgipWGRMwNPZFl/StoUftOjvD+ZlYn82W
+	w/lGlzXZxvuT3qTyCfq9y8shGEkBNXCcqjPRUH7TannfpmKO2DkP6TGZFuqZDmmmckoxBSf+NRs
+	cbOdIMvkaZMFF6PS/WmWFAaiJEMN5dHOBruJEg==
+X-Received: by 2002:a17:90b:5188:b0:387:e0db:3d8d with SMTP id 98e67ed59e1d1-38fb14917afmr92506a91.40.1785460892423;
+        Thu, 30 Jul 2026 18:21:32 -0700 (PDT)
 Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-933e735e0cdsm533543485a.42.2026.07.30.18.12.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38facf50124sm198867a91.3.2026.07.30.18.21.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 18:12:15 -0700 (PDT)
+        Thu, 30 Jul 2026 18:21:31 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: linux-edac@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>,
+Cc: Frank Li <Frank.Li@nxp.com>,
+	Borislav Petkov <bp@alien8.de>,
 	Tony Luck <tony.luck@intel.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] EDAC/mpc85xx: don't use devm for request_irq()
-Date: Thu, 30 Jul 2026 18:12:13 -0700
-Message-ID: <20260731011213.1211378-1-rosenp@gmail.com>
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	York Sun <york.sun@nxp.com>,
+	imx@lists.linux.dev (open list:EDAC-FSL_DDR),
+	linux-kernel@vger.kernel.org (open list),
+	llvm@lists.linux.dev (open list:CLANG/LLVM BUILD SUPPORT:Keyword:\b(?i:clang|llvm)\b)
+Subject: [PATCHv2 0/3] EDAC/fsl_ddr: some cleanups
+Date: Thu, 30 Jul 2026 18:21:27 -0700
+Message-ID: <20260731012130.1212640-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -74,85 +82,18 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use modern irq acquisition APIs to avoid having to call
-irq_dispose_mapping() since there's no real need to copy the mapping.
+First one is a cleanup for devm_platform_ioremap_resource() and some bugs.
 
-Use non devm version of request_irq() as IRQ need to be freed before
-edac_device_del_device() to avoid a use after free issue.
+Others are issues flagged by sashiko.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/edac/mpc85xx_edac.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+Rosen Penev (3):
+  EDAC/fsl_ddr: use devm_platform_ioremap_resource()
+  EDAC/fsl_ddr: use non devm for request_irq()
+  EDAC/fsl_ddr: restore MC error registers on probe failure
 
-diff --git a/drivers/edac/mpc85xx_edac.c b/drivers/edac/mpc85xx_edac.c
-index a78d702674f6..651d14b01e25 100644
---- a/drivers/edac/mpc85xx_edac.c
-+++ b/drivers/edac/mpc85xx_edac.c
-@@ -253,15 +253,19 @@ static int mpc85xx_pci_err_probe(struct platform_device *op)
- 	}
- 
- 	if (edac_op_state == EDAC_OPSTATE_INT) {
--		pdata->irq = irq_of_parse_and_map(of_node, 0);
--		res = devm_request_irq(&op->dev, pdata->irq,
-+		pdata->irq = of_irq_get(of_node, 0);
-+		if (pdata->irq < 0) {
-+			res = pdata->irq;
-+			goto err2;
-+		}
-+
-+		res = request_irq(pdata->irq,
- 				       mpc85xx_pci_isr,
- 				       IRQF_SHARED,
- 				       "[EDAC] PCI err", pci);
- 		if (res < 0) {
- 			pr_err("%s: Unable to request irq %d for MPC85xx PCI err\n",
- 				__func__, pdata->irq);
--			irq_dispose_mapping(pdata->irq);
- 			res = -ENODEV;
- 			goto err2;
- 		}
-@@ -304,6 +308,9 @@ static void mpc85xx_pci_err_remove(struct platform_device *op)
- 
- 	edac_dbg(0, "\n");
- 
-+	if (edac_op_state == EDAC_OPSTATE_INT)
-+		free_irq(pdata->irq, edac_dev);
-+
- 	out_be32(pdata->pci_vbase + MPC85XX_PCI_ERR_ADDR, orig_pci_err_cap_dr);
- 	out_be32(pdata->pci_vbase + MPC85XX_PCI_ERR_EN, orig_pci_err_en);
- 
-@@ -558,14 +565,18 @@ static int mpc85xx_l2_err_probe(struct platform_device *op)
- 	}
- 
- 	if (edac_op_state == EDAC_OPSTATE_INT) {
--		pdata->irq = irq_of_parse_and_map(op->dev.of_node, 0);
--		res = devm_request_irq(&op->dev, pdata->irq,
-+		pdata->irq = platform_get_irq(op, 0);
-+		if (pdata->irq < 0) {
-+			res = pdata->irq;
-+			goto err2;
-+		}
-+
-+		res = request_irq(pdata->irq,
- 				       mpc85xx_l2_isr, IRQF_SHARED,
- 				       "[EDAC] L2 err", edac_dev);
- 		if (res < 0) {
- 			pr_err("%s: Unable to request irq %d for MPC85xx L2 err\n",
- 				__func__, pdata->irq);
--			irq_dispose_mapping(pdata->irq);
- 			res = -ENODEV;
- 			goto err2;
- 		}
-@@ -597,7 +608,7 @@ static void mpc85xx_l2_err_remove(struct platform_device *op)
- 
- 	if (edac_op_state == EDAC_OPSTATE_INT) {
- 		out_be32(pdata->l2_vbase + MPC85XX_L2_ERRINTEN, 0);
--		irq_dispose_mapping(pdata->irq);
-+		free_irq(pdata->irq, edac_dev);
- 	}
- 
- 	out_be32(pdata->l2_vbase + MPC85XX_L2_ERRDIS, orig_l2_err_disable);
+ drivers/edac/fsl_ddr_edac.c | 56 ++++++++++++-------------------------
+ 1 file changed, 18 insertions(+), 38 deletions(-)
+
 -- 
 2.55.0
 
