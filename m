@@ -1,142 +1,199 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013043.outbound.protection.outlook.com [40.93.196.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288BB3B3BE2;
-	Fri, 31 Jul 2026 11:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785496957; cv=none; b=fX4y4vfYzaK2m4BYXxMIsiXQ2wJDxBVAojSN6f54+5V2dwLZmWwQIj2F2yq+fqc/MacXuTfOnMj/KGo2ZiS8a/ZTaxwTbdzyAqFX9cvFtCZgwAcoG2DYyhpophh8lzD4KKFOcaV6hHkdog89Jwj6XeMU6RUScHu8lxC1qpvKxGw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785496957; c=relaxed/simple;
-	bh=kLveQdkyqIuc5PufEI1g59KmROJIwEi/87e4bdjQybk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VEmOlYWbf6JCER0hSHv7KhjvO4lyS0nl0twlrysSGM8b3WJ/+FzJifgi7NRc0u2bYF2k9u07L2kQ5hW/HSR6QNDPOQOR9vs4ZrC85Tg23I0ouLbPuOL++TzTGsZVihbIK67400s7ulnyiHP6gdT5itGNFHEKyqHUUilU4nKeg+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=QKPooDvk; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0C035DA76;
+	Fri, 31 Jul 2026 11:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785496966; cv=fail; b=XlVEU3AkI0oF7FImPVJHzjUgO2KG72pjA27XMc//V8JTrHmsQlyD6eXuq3g8mHz7r/Z2xeau/SO649m/LXYqpUPN21vWRLCxtG5NQTQdcfMBrRl1eqKOi1K7d9EBfYzkZGJpQG8gWKJXMfJ1XqQiPvYKoIzD2QBMSBJvBga3oQs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785496966; c=relaxed/simple;
+	bh=7mB9TePnIThEXbzh2qGMgJy9olHWzBVLwufAH60vhts=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=oSl90iLAOlB57w/Y8W3rTqZwIFvUh/v2XeGkF7sKWgsiRlo3ExsdIq3/flH4UOf0OOXCeKdMEmFuI7qAFgJj8+6exRGW+yxo0geASTdwcLtpYQph29qG+mYZrykAmuwB1f45bcWio3BHIid0NdzZwc/NDhSdlKY0iU19korRlAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=VWwlrxXx; arc=fail smtp.client-ip=40.93.196.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="QKPooDvk"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66V8Hfug3629875;
-	Fri, 31 Jul 2026 11:22:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=3HQhqB
-	OfD9w5BVAhgTwwGC9ZZCj/zYTsS3rL3ph7hnc=; b=QKPooDvkZcn74Bf99msdgr
-	tcEmY8t9i6PAEST7ie1Vu7naZ09ibSmCPsmiWyrsvx4Xu/IXcPxKqpPcS+Ac5ZW+
-	RTw0Tuuk4hghHv5GuI5jn4ufdGwiaBoInKy2EOWRNYNHYgEvFK2lPeG4iatBUTNx
-	8mWYXgSOhygTJVj/wWaVUszzLLVsjKxPjtLHhspYkDGK+YOR01Vu3GQtLYajrY83
-	idjc7c4jyiwdDddH0Yh1jRc1YprgnZftWzu1RxCEMgZ4fHTpFFBnlNY6bpFVnOG+
-	bZDFvirwf4Y/v/EVwer6h80lbpputT5nSqIEXeWJzHI6p7VsfM0b6T9XbcC5K+lQ
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fmuycvmqs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jul 2026 11:22:10 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 66VBBF1C005650;
-	Fri, 31 Jul 2026 11:22:09 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fn9pgqffw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 31 Jul 2026 11:22:09 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 66VBM8cF60031436
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 31 Jul 2026 11:22:09 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9C57058062;
-	Fri, 31 Jul 2026 11:22:08 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9A7135805A;
-	Fri, 31 Jul 2026 11:22:03 +0000 (GMT)
-Received: from [9.43.104.204] (unknown [9.43.104.204])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 31 Jul 2026 11:22:03 +0000 (GMT)
-Message-ID: <cea73ceb-8fa7-4fae-be1b-dec668a2ac95@linux.ibm.com>
-Date: Fri, 31 Jul 2026 16:52:01 +0530
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="VWwlrxXx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jfg572I/j6IEo+wmlJ5sLFQ5ETTBIwXR1w71FhjdUggOu/W1a/TRBhdqyfbAKePAh1zlJyaJFHakhjH0YUFqssxFQan+BF+PHiqbKSkB0s8QIc8r5Z8jTA3dRTW9bj34ZqPHkvwZIQcfEXApsIfJ4su+5lS9+ik91P0RsBYlH3pcbSvlAnUwS2bt8nnVc5ASaGsuiOgAvSCt/RjrGEqd22sXnNoEu2GfLj7xgT+Db5hCQyAXu0jb3U5mOa+o49VL9uUjLs5WY8WpN4IVN8B4JPzOaCRDsasbGpGUvUn0r683H3Lpm0eYZUPHtdUZ0qXIsvTyA62XiICF29kyCp/GJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3bhdZ/hKc1mx4sphwQQT8Q+bRqwrt1zCo/vvRnCb0Sk=;
+ b=qdhGBQMJMBeRGxtdWs2KGg/EcVr3jCjDAquUj3+ndCV1Dry8TPIob+65Fo8kgVNF852AnJdKXxFEsb+OBhlGhEbiuXOxRfHBI3C33oTDLp7t7Juxsmd0YB0J0iApbG+a+F0MhQVXjlqIy1Pwnn+D7xvfu9q3PeCTc2OWDY/l5CwklltvfqLe0zuiUon9A3fpKcQG/u4pLx9ezZIhqChyVggGd7gNWxyeFqWxhDWpBFk+bchha6oATrkuwS12mZXzjrpq6+dcgjEvVNDcEZsXWz24T/3hTUM6s8CrgTG49kYqgVaUxdCB8G1ZVgVwjB3c9YprOrnfUwFIiYWR2ZEVIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3bhdZ/hKc1mx4sphwQQT8Q+bRqwrt1zCo/vvRnCb0Sk=;
+ b=VWwlrxXxqf2413fDPPBnb5vShIaXXiI0sbMNfvnWt1NFnZeYyo8vUDja1GiF72YDSQB9LtW3rtu3wntnQ/2KPm451yP9Yx12GFgIgMLoUiTjGo79KmyxE6QA3lYYewLCYD9teYN5IgsdY9l2yrCNc2+du+ZEp3OTjOUYquBE4vI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
+ by MN0PR12MB6271.namprd12.prod.outlook.com (2603:10b6:208:3c1::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
+ 2026 11:22:40 +0000
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0270.015; Fri, 31 Jul 2026
+ 11:22:40 +0000
+Message-ID: <58e34926-1ee8-422a-82f7-0cdab1aaf278@amd.com>
+Date: Fri, 31 Jul 2026 16:52:32 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/9] EDAC/versalnet: Use dev_set_name() instead of sprintf
+ with init_name
+To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+ linux-edac@vger.kernel.org
+Cc: git@amd.com, shubhrajyoti.datta@gmail.com,
+ Michal Simek <michal.simek@amd.com>, Borislav Petkov <bp@alien8.de>,
+ Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
+References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
+ <20260724171945.2812749-6-shubhrajyoti.datta@amd.com>
+Content-Language: en-US
+From: "Pandey, Radhey Shyam" <radheys@amd.com>
+In-Reply-To: <20260724171945.2812749-6-shubhrajyoti.datta@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0164.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:26::19) To CY1PR12MB9697.namprd12.prod.outlook.com
+ (2603:10b6:930:107::6)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] powerpc/configs: enable CONFIG_RAS to fix EDAC
- support
-To: Michael Walle <mwalle@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin
- <npiggin@gmail.com>,
-        Christophe Leroy <chleroy@kernel.org>, Tony Luck <tony.luck@intel.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>, Takashi Iwai <tiwai@suse.de>,
-        David Heidelberg <david@ixit.cz>, linux-edac@vger.kernel.org
-References: <20260730105546.3658570-1-mwalle@kernel.org>
- <20260730185620.GDamueVIGV-8iIzozX@fat_crate.local>
- <DKC6Z5YGBF2O.TAJAN566BN0L@kernel.org>
-Content-Language: en-US
-From: Madhavan Srinivasan <maddy@linux.ibm.com>
-In-Reply-To: <DKC6Z5YGBF2O.TAJAN566BN0L@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: E8EEELUfbfzjJ7Esb8Rgl4gViW_8s2P2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA4NSBTYWx0ZWRfX0phIGJrhmGVw
- lwuAGUvDAfCq1O+CRllKFjgC0SrkdIBiJ/b8LCfbLuYSzhi8wyku29LwTU51hYzvfUrm38qmmPS
- t5d5AaEUE/i4YQolSnka5xme85YeSAv3DEs/Ng89uwqbl2S/J9uvGMiwPR3iikk5j+W+kBqMM4m
- 69N5+Q4muFuh7osL/aKiFEAtiQ+0JJ1QXswQzkUcCCOKAAinz/aou+xznxKtbxf3L8DhH0S8uY9
- tibH3qLgWuz+6B5o02+wRq924vpgGdu1I4uaw3+xT7aX530QFk4/yEw0H8bAPSzJEni77i3jrep
- GDEHvYX8C7NG61Mdq+uoeuH0YZqUnyMiWV13RyYga2fFKbmiQit2B1SoMeSHGJGbG0QOhK5cqXb
- k1bCMfloioCPjhjlp95HMmcFOp6oSVfSjhpvQuHjT+iEURD5/q7/HBEkGMUbZw5hkUSgIevoJva
- AKbh0SKIT2R0yvVhTDg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA4NSBTYWx0ZWRfX0TI984AiOeN1
- 2erVke2rrkI7Pdo6BQdoDA9D4mvDZwblT7EKE8rbjJwybJ+/u9Ug9O+/08ay1BbsHwZFjv6wD6U
- 33JCHe1fnNhnlHYcTgjDHXfvSnBxWSA=
-X-Authority-Analysis: v=2.4 cv=AZeB2XXG c=1 sm=1 tr=0 ts=6a6c8563 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=uMe6KACeWnfwCRVUapwA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: MYg2Y5N7fT8TYl8Yow4A8JUutj5FVgym
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_03,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0
- clxscore=1011 malwarescore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310085
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|MN0PR12MB6271:EE_
+X-MS-Office365-Filtering-Correlation-Id: 41a47c8c-e7ac-4241-6ecc-08deeef607f7
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|4143699003|11063799006|56012099006|22082099003|18002099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	Rp/uUg8rPtyB/raaz0w35sH4dYPQg4UJto24j6JJUOW0CZ8yOw3PRMpvfmeEKDmiPfbxYhBjFQCs2eVgjnIeaUlMOd6gcK2UpuZETzk498fTnmCJhAAP7t0UGin/K8C6wJxmHI3ehtGqprpyCDT1Fuop9MO+h9gxu2RJ3359NZBxXDfko8e+BfNrQyFNJTGJgoZzpr+brBNwZoJSr+M0g6puZ6bPUzgHzxI6TwbFhbOotF8H2J1S86xIWpY5iBcZEEnSrnu5uS6Eq/PS4Xydo5tYyQG5o7wO9HVixceyGN3VPTcoLRPiZDDW9d+wHLp/Sx9YkduiedV0pnm01de3sDvsQ+TQKKASLBrEJWUUahEqJ2DPjiB2Mb96iT1lEeT7vUX8eDeY7UlG3eohcydNqSGE9jVcH/Wehc2ELnDv4SegIXsEOdjy+kuyZ7/aX8A6SzUCF6IEpX5+fiDtPNyw+9mLJztYgJhOHBWXuwDSmQcvJEvzu+oZO4GQqvexCEasKuU2wqQHSvVOuLwEAbGh6UvM5ONjpXg5JXLNbH9VLk8wCgWVlOU9Au1R9Q8oZA41siuEApgvcZ79uG9WunlnA0m4Df7WNaygoCaLFGzrsbJkNipSxJH6tKKuv8k+AYim/o5Icaknc9XK5IInRO2uVbJPj2Ks0nMiP7yCj8AdlTQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?enpDNVdHSzF1TlRWYTRBRWU0RXVaclU4REM3UTBwYTdtTjNxUDRnSW0vV2Ny?=
+ =?utf-8?B?Zk5jU09EWHdrbXdhYWNiVE9FZzVDajhmaXhtMnFZMjcyZ1o5TUlFQXVBY3Yv?=
+ =?utf-8?B?SkNKWGdPajZOQjFMbW9BYzZVSGwxV1Fvc3d2RTBVaFFMTndzajIvbDZ4RVJp?=
+ =?utf-8?B?cDh5aGZpYUNrbnpPSHQ4UGRMVllRRlVmMjdzTXhHTDEzeDRMTUZxOEtTYU5I?=
+ =?utf-8?B?bHdCWjdybGQxR0VQSThiTjJFZ2ZRNFcvQkxveUN2Sy9nRkV0dmp1eFVQZXJI?=
+ =?utf-8?B?K3pNcysrS0k1eThUYXJVVEZ6SHFET1FXK2NuVHd0ZTgwaTBnSndjQXdBY0xi?=
+ =?utf-8?B?b3dPeFRva2xjMXUzVmZhUWN0Q09TaDFLMmg2L0FzU1llczJCQkh3NThjUmdQ?=
+ =?utf-8?B?czYwMUtEZ1hVVG5pa0o1c1F3N2tGWmNvUFRJelhTOGZrakQ1V3RIbm1pb21l?=
+ =?utf-8?B?OFF4cFY1a2k4K0xZQWVBc3ZNdDJVS1RJZEduZGljdjh3SlEvS04wN0xvUG5C?=
+ =?utf-8?B?eStTbUpCQmVVNW5FVFpUYVZ5UUV3NWxsZFBPb3hVS1pxc01qb1FJY3BFS2t6?=
+ =?utf-8?B?RW1wcW4xTmV5M041elJZUEtiRHdKUjZ1bDg5MEdMMmkvUlk4eCtMTVFGang1?=
+ =?utf-8?B?dVcvTmlLazZaaDJSdUlXcFpKbHpQQVY5OW9YUzRTYXlHSGtWQ1ViOEl1MTRL?=
+ =?utf-8?B?Q0l5MG9mVUdaaHVsM2dXWTdhR3FrWVI4MEJ6dlphNlRCMThZeFE1aXNxWDNR?=
+ =?utf-8?B?MTdOYzZLNkpBOTN3cUQyM1d3bVBzVXNLQXV3bXRGUlBPRjRzWUdhRUF4R3ln?=
+ =?utf-8?B?Q0Y2UW1pMTV6UHl0WVc4SnZoQkVPM21WTzdPZ2dtK3RyR2hlU1FtNkhhdFFq?=
+ =?utf-8?B?WTJZek1kbmFWSXdsVytvcWgvNEgrZU0yVHd5UGNtWHNST2xoOVZOWWVMUU1n?=
+ =?utf-8?B?OFJHVlpTQmF4MWsxdzhXWmdkWXIvQjVxemR4Q2VyejdUTUplYWpkY0RaTG9t?=
+ =?utf-8?B?L0k1YkdZQS9KU29XV0JOQnh6T2NLZnU0Mk1LQlZ3NE90aXlBdEg1eEs4cG5W?=
+ =?utf-8?B?MG1yMUFKdTJTR09zQjk5M1U3clZmZU1Vdmd5anFGSGhTZ2NnU3BGbWc5aXZi?=
+ =?utf-8?B?MnRyNzBJNXA4VDFtU3NnQmNQTjZSMm1UTUFCbUNaT2pXVXdCRFZteGc0UzUz?=
+ =?utf-8?B?NHRkVDNYZnB3NHlMcFQyVk4zT1RFRSthZXp3UE9FSmx0bHpiREpTNlU3UGJF?=
+ =?utf-8?B?SVp2Qk9CaXpsK1dLSmZOamMxaFBPc1g5RVpuRVFtdk9scU4rRzY1MCt3T1VC?=
+ =?utf-8?B?VmdkKzhnUXFWZEUrZ0RGVjJ2SitWbDJCQTMrRlpiZHo1QVBuSzVnaVpOUzg0?=
+ =?utf-8?B?YUF5NUdrRXd1dTg0c2puM08wQVpCVDhIeTlmOHpmUmJXUTNVRmJWaXI4USto?=
+ =?utf-8?B?R3VNRjdVZ2xmWmYxQ1p2aTNIWDBTYVZTM0hmb2NIalhXb1hhanFxdHBtZjcr?=
+ =?utf-8?B?Ykt0eVQ1ME8yN0Juc0J6bVVNekFtYjQ3eGhlMGViNlZpUU5XOWh2c3BZRG9Z?=
+ =?utf-8?B?eUZ3OU5Pb081U2k3cS81cVFqSFNVRDRUVGQzd1RDVzR4Y0FFbVhqMUJpQVgv?=
+ =?utf-8?B?QXZ6RUEzT3ozbEw0dXdwVVk4YnFIZnpPbTFLYjA5SWNoOU8rL1BkWE90QzAx?=
+ =?utf-8?B?eEg1Nlh4dm9aWFoxNnhWdyt1S1lNK01hTGoveWVac0hMbkNsa2Jxd2dNeUhs?=
+ =?utf-8?B?aUkxWFc1TCt5NFYzVnJHaXJCMzJyVEdDMWl6TW5POFdPZEMwQk9pYzNpcnVk?=
+ =?utf-8?B?WG8wc3hXQkNNQXN3L1pxOXlMOW14bGVLRmlOblBSQzhNc0dRcHRtcUxvSU1O?=
+ =?utf-8?B?SHlhYmhyMThmTFBpTFlJZEhLU2U5NFprZkpLZVkyYmt6U05qRUwvQnUwL3Vl?=
+ =?utf-8?B?eklYTk4yU21CN1dNSmZsWDdGM1BDSkNTakJtcFpZWFVVeHorYmhOcUlvUzNx?=
+ =?utf-8?B?SzRXS2o4L2JhdDRydDE0OEcvdHAyS2gyaCtiMWdhNk9yK2FKYllyWE9hTzFE?=
+ =?utf-8?B?OFgvd29TRGU4NFU3QUg3TEZnUk1xQ0w5ZmZEYzQyVGtXMTVBNnZ5dmowVGhO?=
+ =?utf-8?B?UkY5OWJUK21vWUtXV1ZBSTZ0RlBBYStHY0JPMnA4SjJJR0hySGFjSUlXWWUv?=
+ =?utf-8?B?KzRHU0dMeVpJL1JNMVlnRHZmMjRYYzNsZ2puMzA1bXJxUngyU2xlSjJvVzNK?=
+ =?utf-8?B?UU9RUFpYMlBKaVlFQ3B6aE8wU3lXdW1rdS95REZPRDBqTERCbEIxaWFldnFn?=
+ =?utf-8?B?MkVmckluSHQ0d2FURmk1Wnl1TFU2SjFxRGcyVEFibUlkbzZHR29vZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41a47c8c-e7ac-4241-6ecc-08deeef607f7
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 11:22:39.9528
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RhIS1eFa78wuBV2veh+XPDz6pWBreHOdz9e6RshEarwLiDrcsmQejm3Ut57nzYnF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6271
 
+On 7/24/2026 10:49 PM, Shubhrajyoti Datta wrote:
+> The previous code used sprintf() to format a device name into a local
+> stack buffer and then assigned it to dev->init_name. Since kobject
+> cleanup can be deferred asynchronously (e.g. when
+> CONFIG_DEBUG_KOBJECT_RELEASE is enabled), dev_name(dev) could be
+> accessed after init_one_mc() returns and the stack frame containing the
+> name buffer is gone, resulting in a use-after-free.
+> 
+> This is fixed by switching to dev_set_name(), which dynamically
+> allocates and manages the name string internally, but the now-unused
+> local char name[MC_NAME_LEN] buffer and the MC_NAME_LEN macro are
+> not needed so remove them.
 
-On 7/31/26 2:05 AM, Michael Walle wrote:
-> On Thu Jul 30, 2026 at 8:56 PM CEST, Borislav Petkov wrote:
->> On Thu, Jul 30, 2026 at 12:52:18PM +0200, Michael Walle wrote:
->>> Before commit e3c4ff6d8c94 ("EDAC: Remove EDAC_MM_EDAC") EDAC_MM_EDAC
->>> selected RAS, after that commit, EDAC depends on RAS, but nobody enables
->>> it. Enable it in the config again.
->> I have no clue what you're trying to do but forcing RAS=y in that config
->> better have a real good reason why.
-> I don't get what you are trying to say. CONFIG_EDAC_MPC85XX is
-> enabled in the that config already. It's just that the mentioned
-> commit broke it because it removed the "select RAS", while
-> EDAC depends on it. So yeah, up to that commit it was always
-> enabled in that particular config.
->
->> Oh and we cannot support CONFIG_EDAC_MPC85XX anymore due to lack of hw:
->>
->> https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git/commit/?h=edac-misc&id=749c5102487b558cc7d73961a6d0da2fceaa022d
-> Still, it's already enabled in that config and it somewhat recently
-> got IMX9 support, so I guess NXP is interested in keeping it.
->
-> That being said, I have the hardware, but right now I don't have
-> much time personally. The best I could do is "Odd Fixes". (I also
-> have two pending patches for that edac driver, yet to be posted to
-> the ML).
-I dont have hardware to test this config change and currently platform is
-in odd fixes anyway. I can take it via ppc tree but definitely need 
-community
-help for testing fixes in future.
-Maddy
-> -michael
+If previous commit introduced regression then this has to be merged
+to previous commit. Each patch should be correct on its own.
+> 
+> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+> ---
+> 
+>   drivers/edac/versalnet_edac.c | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+> index 3c9eaea5a106..1caaba653fc0 100644
+> --- a/drivers/edac/versalnet_edac.c
+> +++ b/drivers/edac/versalnet_edac.c
+> @@ -70,8 +70,6 @@
+>   #define XDDR5_BUS_WIDTH_32		1
+>   #define XDDR5_BUS_WIDTH_16		2
+>   
+> -#define MC_NAME_LEN			32
+> -
+>   /**
+>    * struct ecc_error_info - ECC error log information.
+>    * @burstpos:		Burst position.
+> @@ -782,7 +780,6 @@ static int init_one_mc(struct mc_priv *priv, int i)
+>   	u32 num_chans, rank, dwidth, config;
+>   	struct edac_mc_layer layers[2];
+>   	struct mem_ctl_info *mci;
+> -	char name[MC_NAME_LEN];
+>   	struct device *dev;
+>   	enum dev_type dt;
+>   	int rc = -ENOMEM;
+> @@ -821,9 +818,7 @@ static int init_one_mc(struct mc_priv *priv, int i)
+>   	if (!dev)
+>   		return rc;
+>   
+> -	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
+>   
+> -	dev->init_name = name;
+>   	dev->release = versal_edac_release;
+>   	device_initialize(dev);
+>   
+> @@ -833,6 +828,10 @@ static int init_one_mc(struct mc_priv *priv, int i)
+>   		goto err_put_dev;
+>   	}
+>   
+> +	rc = dev_set_name(dev, "versal-net-ddrmc5-edac-%d", i);
+> +	if (rc)
+> +		goto err_mc_free;
+> +
+>   	rc = device_add(dev);
+>   	if (rc)
+>   		goto err_mc_free;
+
