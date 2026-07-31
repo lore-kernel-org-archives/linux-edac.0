@@ -1,203 +1,102 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAAA37AA77
-	for <linux-edac@vger.kernel.org>; Fri, 31 Jul 2026 20:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785530541; cv=pass; b=VqnLbTEf/McX8laESsinv/q9/IDFS3RA3vkfNsSdyTVOAX0BY2WLAxntcCkipdPP6ufpHZsdnK+f1U9dGBo7uDZIWVYWYFm4OOfqDr/WLjKNh/BNoikL8R2mIjEv1zDGDziGkZTJvVoFbAIaam6ni351lOnOESrWImRavIMZ5Ic=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785530541; c=relaxed/simple;
-	bh=7vtKbsGW/x+aEcUG/DByJMD5kHjm3wDzypG6yIAZ2mM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u8C2pnFgwgk+8/6kOuydR+VdQcIzyRopIBRw0Pbs+rEhL7G45a5ejgPOU2ztfI6AJbllq9bHhwaH30/BT56wAGTsJ05orBsN7riCn1SGVNIcADStqFi87X+XjiknAWLNAri6+RFiEEP8mMsGqCjdA0rabU97nme0HW/KUvAyVpc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uyvgz1W9; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8243DFC92;
+	Fri, 31 Jul 2026 23:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785540052; cv=none; b=GUUj25FvOjbkzMu6MpoIVSSJUCk9WQ2dY5eoiqe9MAu2IHmJ8Gq0JFhQ4ptgj5DmJx5oya7r7G3KXVMBMWrYBjar3OAfOLCgPDCUdg6zp/5XCMeQXzPDGlvAAmF9qBEs7MmXLYU5yCPQK7JhMCnYfn8vo5k3Igz1+DuUOODqP2Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785540052; c=relaxed/simple;
+	bh=U/9Yv45n+yTl+HXiF4bKi1PnabpimsQQpbyopaFT01Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NyLxVlblne9ZpKN3L/wUXC+qDLkk9OBEfBhZ+8vXsDVhE5xzKbDMTnknzoLbuHm35U58jkJkGTpyW0Jts2rj2NmsbMYf14yK5da3dRD7e0aIPP4WNH+hot1XGXiOsE0RBgNDZbxWWHX2nYVJbImFkQ59p0K3OwmTjm9pTMjJsPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=g5+AwHmF; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uyvgz1W9"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a08a2b7e5bso1046351a12.1
-        for <linux-edac@vger.kernel.org>; Fri, 31 Jul 2026 13:42:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785530538; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QrxvcTK2Sdyn1ULuHFTkk7qVpZCqzvDdtmoMPWm4ab1Lrr1bhDCTW4wLrjtUYvBQVm
-         h6GxnmvTtA/XSPc38JfXozPlJ2Y/ycZaAjJzOVeYz3AnXAycJK7oihlc5ahZKkRGTEay
-         mO73pzOGZLhgEqTUrJvC4nWYr7e5Wvhd6XZSpTeLVF7DZvqV4qVEWFYvl99tqWmXLDF+
-         EWqpBGztDk/p8yTsI+nAH36ymCkz32lQEsXRTkHdt8c84ouFaQoWUBJ1cCIYzNhY5pke
-         P1/2p+sl3UB6AwD8WoVk/0V24BwiqXE99gesoegouYjyVEtu9x0qzSSrwecurtzWSEQ2
-         Q+5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=p9PW7ELIrPOBtuIev7qS9tSOJ+TEbZEaawZ9Z+OQlmY=;
-        fh=bnSQaVeYIPQ6GeojfY6lMs886t5AUhOBiMVwOxrbQEE=;
-        b=q9etxQ6M7w714Uo6IhY5lYALeQXPONszpQ8Iu+OcX+cSYtC7HhsD0ms8J+fMv7YJNt
-         yiV07Q1BvlSnhxvEL2KrvD1iMKEj453H2cQwI9SNYQA6YSdfYJrh05z9KmXrpF0gjurU
-         diT2i64nmdjPpt32V8hTX3SE9tFxcZhpBZUayzsks+YlsUTQW3yYz0vtIBGMqTXJlV5v
-         qfjJFWR/BnQhlU3nP6sYhfYJppCo6NQnANXKETZziMkrgfPVNOBWOVetxDfl/PLUyMkc
-         1nAdX6KXjE+N+mEfdYS01j5Lv2nnvKVmeRsAHN1aFkqMav2il5rzmb2SFlFOntBDGquN
-         itaQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785530538; x=1786135338; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=p9PW7ELIrPOBtuIev7qS9tSOJ+TEbZEaawZ9Z+OQlmY=;
-        b=Uyvgz1W98HwR6uaMDTrbvU6nG6z4QSQQzkVri58SwOFoo1lAB1q7Ex9xcorOMctQFe
-         dO0KUCRiMDqHBbaY330j8Sb7gNA0m6i6Blt5aaSnQLVMMrYMfWG2s+mR7YsEEDEi2gez
-         mNGaaU8PD16u5XRxuEGMZIj5AvR6hpOFUxUQw6haw5JQA6O8jaM5BwENjCB0s3w7tgfl
-         N4x8BJxxBNpn2VXdEWXH3/Ed51EqwqnTOX8Ts2zeP8Nsxqtqyl38XHtUMjZi6NhlwOOF
-         Amxgu60NuEZ+zxX8DsuFsbCiVRom3SMeBaLGft7S/QGeP1ZUh9/oYygMUQRpD73GPnVx
-         IASw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785530538; x=1786135338;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=p9PW7ELIrPOBtuIev7qS9tSOJ+TEbZEaawZ9Z+OQlmY=;
-        b=YAjVqhIVSEPScqo8pULPnnVwXXt65EYkhDpq92FWul89X7qShcKC2YcY/s89fU8GOk
-         JxGqIcNmeSrtpka8HQoOIkkLAOc/xJIhm/JkPuCS3Yz4DuMPpOI3gCRyfaORpop7Neam
-         dLImCOiJun5WOk5dws5+jK+cSaj5aP3yYwNPXifydM7dLppeZw56p+L2mOmjdv6/y7ZO
-         C6NdFQ623I+eh5k4QTvNWB4N9b+lb73668g6njJIAV1Y2iqYJINqf8KdTOuSdLfIGooK
-         swEmIv4V+7Fq5CGrKut6kDuWZWJ5479eCYMdmgiHKeLM3KyQ0GRuTkEKgbh4wdLAXqAw
-         gcDQ==
-X-Gm-Message-State: AOJu0YyETEKsxMO/8V2JTeJmPZwFyzu/kiSTi3pZjHQs06u3BIcQuU90
-	YxsUk1umVRmsE8jXI2VdvooPr8bQ3MGIjW6cdsJMDc9rbj96J9yH4dnKA7cReETOrf5FLoFPcMU
-	blyzfCSA86vR04bwIoYGssLOHWwmfJ73qgw==
-X-Gm-Gg: AR+sD13QsE/3hU7+MHZQON2PASFN8eKCZy0EvhIhpAMZTo6O8bKfpkfRFPlYqoApBLG
-	DcQsri39umdzDq/IJPcDwDDja6DKYkQ/VcAPNgIlsF/HrhyfdiRyHEUIvGezH6XJUGGVsPToD6Q
-	hNgIGEVCgoaUi+TYKbvbA9cICFX8Jmv03PmODbILvul97JOK1PrtA1XAgmILpSEq0s+AEqZAKX1
-	G/Ps+KPBFJhhRB5+xRKVhjxK2906+p3K83Ozn4cW8PFgHsPVthBcq9FYVDNL7QQvkomxxywn6mg
-	orz3e80AiVSVBevjLVKNQX1lCU68yfuZs5hVabKiCI8eaStw9XvuRHiRarwayLt9ov9LETtio04
-	MKLZtfPRGR8Yc0LLKo0S/BN9armBlwxO1rGc79980VuE2tX/Cf5sDqH0jZ75EoznMFI3+bzXjRT
-	EZROwF6YlOnEAvEdLw/jSUmhYCMr0DEMUNHMaYCH0kVH2X7Xe7CJGXl0g=
-X-Received: by 2002:a05:6402:4581:b0:69e:3822:98ac with SMTP id
- 4fb4d7f45d1cf-6a0a7bf5e8fmr524858a12.18.1785530538465; Fri, 31 Jul 2026
- 13:42:18 -0700 (PDT)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="g5+AwHmF"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F1F9040E00B8;
+	Fri, 31 Jul 2026 23:20:41 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id sJzj9oJgD8z3; Fri, 31 Jul 2026 23:20:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1785540032; bh=nE/loPIfIGHulK7EYK3oGTaS2BuMx1WLwvyaaTRjU+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g5+AwHmFTIgT2cGV3dieb9WNSyV1UY9mk6jR3bOhJxbPK023qqngYRoaLQCDgO34g
+	 yYTCY92RLYxLfShKanIwbw7UjaJyrqkk2wfj2d7ztnJvjhhUegDR290/PitBRCCN+K
+	 UcbE0IaheG1pC0ZpUVgbA4Von0sj2JB2TsMUV1UroZAZEPTgQjLdouu4ExcXyfe6FW
+	 2v/eacsoq4qMQouvD2iFVVWSYl4ZlNbTf+sFkvpbz6z+9aoHOHPfXzF5/qRoBo3cgv
+	 Kvzd6PWLz1jAp+ImYoRFGfh1xhrNy1Fg3WBOpnu7BFHdy5NhgJ6SSA+QnXpO6rhokw
+	 m91O6ud4xI+td6EHDfvcqADdVlsFP5hEmFVUP8h/PO20aTD6/z/F3lwauo1U2aMRW/
+	 19OHb/7b7JlWMzBmG922OelsISJSPRX4JbH4feXuM4OiQInEWN0XUksYXq4f0jRjAJ
+	 TNCu7FmT54wXt+xPtPscyBTJMLVQeUcrHMnLaS/Cj+CUHyL9NkgLtHKe1E6l/IWJHG
+	 MKQ8dusFzuFVQsfybTxPVytgOAEqHmr9rvwQjPq0n1yd/WvBkueJaWaAloCm3DWYC5
+	 zmWzqzgQ1HqAZweYC4dSHHGQj1td6OEbkq4ZPqy3pUVgrwhF3JY3KZ+7eTh8m+QJIq
+	 kc/6Md5KSkvDUqslXEtH2IuM=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5284240E0140;
+	Fri, 31 Jul 2026 23:20:19 +0000 (UTC)
+Date: Fri, 31 Jul 2026 16:20:15 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Rosen Penev <rosenp@gmail.com>, linux-edac@vger.kernel.org,
+	Frank Li <Frank.Li@nxp.com>, Tony Luck <tony.luck@intel.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	"open list:EDAC-FSL_DDR" <imx@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:CLANG/LLVM BUILD SUPPORT:Keyword:b(?i:clang|llvm)b" <llvm@lists.linux.dev>
+Subject: Re: [PATCH] EDAC: fsl_ddr: use devm_platform_ioremap_resource()
+Message-ID: <20260731232015.GDam0trw0zPrA7pw_3@fat_crate.local>
+References: <20260714234609.902367-1-rosenp@gmail.com>
+ <alhXciS9G_bGB2re@SMW015318>
+ <20260719155822.GAalz0Hj3XT97KkPOk@fat_crate.local>
+ <CAKxU2N-vMNR+ES2YYuJh+6XASmZ04cnFodb4kP4zRBW0mbEKaw@mail.gmail.com>
+ <20260728224059.GAamkv-4LJPspOw5ZV@fat_crate.local>
+ <amubjArdXOgTzNCX@SMW015318>
+ <20260731000407.GIamvmdwHRq_PSgyvc@fat_crate.local>
+ <amy45S6tBC4CjdWa@SMW015318>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260729012320.616174-1-rosenp@gmail.com> <amucohB5GoaocIC4@SMW015318>
- <CAKxU2N9_wJt3qQ4rmGX89dmSpMKa-7zOuzDwrnxYbXrBNZ1nQg@mail.gmail.com>
- <amy2z-H4Kc9LNPdP@SMW015318> <CAKxU2N-mnt1PRWXWbmQ58Z373CAMBU-0ixKAeEAuqiojq-2HxQ@mail.gmail.com>
- <amztmJ8Lj9aUoPhH@SMW015318>
-In-Reply-To: <amztmJ8Lj9aUoPhH@SMW015318>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Fri, 31 Jul 2026 13:42:05 -0700
-X-Gm-Features: AUfX_mwxn8MaxJaQCyq0XQH-eKalWFtXFmRuXfQuMVU3uIv9wUtkx5EJmL6Fr9Y
-Message-ID: <CAKxU2N-8bB_BkKzYO0cGbWF1grmc4UW=V5F_kjFYGQruhxG_zQ@mail.gmail.com>
-Subject: Re: [PATCH] EDAC/fsl_ddr: use non devm for request_irq()
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: linux-edac@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
-	"open list:EDAC-FSL_DDR" <imx@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <amy45S6tBC4CjdWa@SMW015318>
 
-On Fri, Jul 31, 2026 at 11:47=E2=80=AFAM Frank Li <Frank.li@oss.nxp.com> wr=
-ote:
->
-> On Fri, Jul 31, 2026 at 10:38:53AM -0700, Rosen Penev wrote:
-> > On Fri, Jul 31, 2026 at 7:53=E2=80=AFAM Frank Li <Frank.li@oss.nxp.com>=
- wrote:
-> > >
-> > > On Thu, Jul 30, 2026 at 05:16:11PM -0700, Rosen Penev wrote:
-> > > > On Thu, Jul 30, 2026 at 11:49=E2=80=AFAM Frank Li <Frank.li@oss.nxp=
-.com> wrote:
-> > > > >
-> > > > > On Tue, Jul 28, 2026 at 06:23:20PM -0700, Rosen Penev wrote:
-> > > > > > We need to tear down the irq before edac_mc_free() to avoid a u=
-se after
-> > > > > > free on teardown as request_irq uses mci as dev_id.
-> > > > > >
-> > > > > > Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/edac/fsl_ddr_edac.c | 3 ++-
-> > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/drivers/edac/fsl_ddr_edac.c b/drivers/edac/fsl_ddr=
-_edac.c
-> > > > > > index f4cc89b26954..f1ddd1f47f2a 100644
-> > > > > > --- a/drivers/edac/fsl_ddr_edac.c
-> > > > > > +++ b/drivers/edac/fsl_ddr_edac.c
-> > > > > > @@ -601,7 +601,7 @@ int fsl_mc_err_probe(struct platform_device=
- *op)
-> > > > > >
-> > > > > >               /* register interrupts */
-> > > > > >               pdata->irq =3D platform_get_irq(op, 0);
-> > > > > > -             res =3D devm_request_irq(&op->dev, pdata->irq,
-> > > > > > +             res =3D request_irq(pdata->irq,
-> > > > > >                                      fsl_mc_isr,
-> > > > > >                                      IRQF_SHARED,
-> > > > > >                                      "[EDAC] MC err", mci);
-> > > > > > @@ -639,6 +639,7 @@ void fsl_mc_err_remove(struct platform_devi=
-ce *op)
-> > > > > >
-> > > > > >       if (edac_op_state =3D=3D EDAC_OPSTATE_INT) {
-> > > > > >               ddr_out32(pdata, FSL_MC_ERR_INT_EN, 0);
-> > > > > > +             free_irq(pdata->irq, mci);
-> > > > >
-> > > > > here already disable hardware irq. Just call
-> > > > > synchronize_irq() to make sure pending irq handled.
-> > > > AI disagrees with this suggestion:
-> > > >
-> > > > The reviewer's suggestion to just call synchronize_irq() instead of
-> > > > free_irq() is problematic for two reasons:
-> > > > 1. Shared IRQ: The handler is registered with IRQF_SHARED. Disablin=
-g
-> > > > the DDR controller's local IRQ output (ddr_out32(..., 0)) prevents
-> > > > this device from asserting the IRQ line, but other devices sharing =
-the
-> > > > same IRQ line can still trigger it. Without free_irq, the handler
-> > > > remains in the shared action list and can be called with a dangling
-> > > > mci pointer after edac_mc_free() =E2=80=94 the very UAF this patch =
-aims to
-> > > > fix.
-> > > > 2. free_irq already synchronizes: free_irq() internally calls
-> > > > synchronize_irq() after removing the action from the descriptor. An
-> > > > explicit synchronize_irq() before free_irq() would be redundant.
-> > >
-> > > You post too quick, I have not seen this mail yet.
-> > >
-> > > devm_free_irq() here. and add comment why need explicit call it.
-> > Needing to explicitly call devm_free_irq kind of defeats the purpose of=
- devm.
-> >
-> > Explicit ordering in this case makes more sense to me, especially with
-> > the ddr_out32 calls.
-> >
-> > There's actually a second benefit to the non devm version. The devm
-> > version prints an error message on failure. The normal one does not.
-> > The significance is that the driver prints its own message.
->
-> It may need goto if add logic after request_irq(), I want to make probe
-> code clean enough.
->
-> Error message doesn't mattter, we can remove it.
->
-> I suggest use other method, let use devm add action to make free irq befo=
-re
-> free mci.
-ACK. A couple of other drivers suffer from the same issue.
->
-> Frank
->
-> > >
-> > > Frank
-> > >
-> > > > >
-> > > > > Frank
-> > > > >
-> > > > > >       }
-> > > > > >
-> > > > > >       ddr_out32(pdata, FSL_MC_ERR_DISABLE,
-> > > > > > --
-> > > > > > 2.55.0
-> > > > > >
-> > > > > >
+On Fri, Jul 31, 2026 at 10:01:57AM -0500, Frank Li wrote:
+> There are too many pre-existing issues at recent review, we are trying to
+> clean up these, but it takes time. I am not sure this driver is in the front
+> of queue.
+> 
+> But I help will review if I see these patches.
+
+Right, I doubt that anyone would jump at fixing those but we'll see. And yes,
+I'd appreciate review and testing.
+
+As to fixing those - I'll simply stop taking any new features to the driver
+until issues are fixed or addressed or commented on and hopefully, with a team
+effort, we'll get them sorted out.
+
+:-)
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
