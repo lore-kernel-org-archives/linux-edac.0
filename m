@@ -1,66 +1,66 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013043.outbound.protection.outlook.com [40.93.196.43])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012041.outbound.protection.outlook.com [52.101.48.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0C035DA76;
-	Fri, 31 Jul 2026 11:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5187340099D;
+	Fri, 31 Jul 2026 11:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785496966; cv=fail; b=XlVEU3AkI0oF7FImPVJHzjUgO2KG72pjA27XMc//V8JTrHmsQlyD6eXuq3g8mHz7r/Z2xeau/SO649m/LXYqpUPN21vWRLCxtG5NQTQdcfMBrRl1eqKOi1K7d9EBfYzkZGJpQG8gWKJXMfJ1XqQiPvYKoIzD2QBMSBJvBga3oQs=
+	t=1785498130; cv=fail; b=mIyucMO0UPOaLn4wA/Dxsv/1iUoF/yuSfLAP21/Njy8SF0y+PCqe6vS++ULIC4WceEawwCJdrM5a8F2U4V5AbCN1x37OmQJASUQYhh+RQLaqmWB1jAhipD0OVqWmfb0GuL0cKi6kvksP8ItWyUX/hWFJAVKRshGv8apkolIeBRI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785496966; c=relaxed/simple;
-	bh=7mB9TePnIThEXbzh2qGMgJy9olHWzBVLwufAH60vhts=;
+	s=arc-20240116; t=1785498130; c=relaxed/simple;
+	bh=JggzecLkglaN5AE8e8xyFk2+5Iv71GcxTtKwq5R9gow=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oSl90iLAOlB57w/Y8W3rTqZwIFvUh/v2XeGkF7sKWgsiRlo3ExsdIq3/flH4UOf0OOXCeKdMEmFuI7qAFgJj8+6exRGW+yxo0geASTdwcLtpYQph29qG+mYZrykAmuwB1f45bcWio3BHIid0NdzZwc/NDhSdlKY0iU19korRlAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=VWwlrxXx; arc=fail smtp.client-ip=40.93.196.43
+	 Content-Type:MIME-Version; b=h9sgcuVm2YfmKDKISSzMBXftHTF/JobNILa0RxR1R+1MRUbobaP1gkn3Mz8sAjS5qV48XdrHU5xzr6qptuwn6v8/3heYtk9A2+yDHzuxRjXbXBTQ1dFYszIjYh6e6Nh2xzRwst2OUs6uC8jQ1foNy5p2ZpxNs1TTV9h2T0gapX4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=usybP7v1; arc=fail smtp.client-ip=52.101.48.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="VWwlrxXx"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="usybP7v1"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jfg572I/j6IEo+wmlJ5sLFQ5ETTBIwXR1w71FhjdUggOu/W1a/TRBhdqyfbAKePAh1zlJyaJFHakhjH0YUFqssxFQan+BF+PHiqbKSkB0s8QIc8r5Z8jTA3dRTW9bj34ZqPHkvwZIQcfEXApsIfJ4su+5lS9+ik91P0RsBYlH3pcbSvlAnUwS2bt8nnVc5ASaGsuiOgAvSCt/RjrGEqd22sXnNoEu2GfLj7xgT+Db5hCQyAXu0jb3U5mOa+o49VL9uUjLs5WY8WpN4IVN8B4JPzOaCRDsasbGpGUvUn0r683H3Lpm0eYZUPHtdUZ0qXIsvTyA62XiICF29kyCp/GJQ==
+ b=ZtB8XqidreTjIlXRn9oPv3gVbaDeUigRxfu1e0IbB//7/uknqAtqw6dgPU9r/lp3D3IxwknTP9JZW62D4xLlhtZYQ0DIbORDpMHFDd71Q7Sm+Ox52oUDnJEjI0mPpxLFy1m7Yn9e8BSGn9y3KAyQk7xtO+mG9edSxiYaf482eewzgZpQXSaRMwjW2jAisE5ZxTSB0WhOG1c3NDdygeYL84EE+7uikPbEbqL1QmHGM/4tPsbhHiUy+Iyi38gWOr5nCLm4F3MdagCozvWefh/6BWlT3tViOeMVonOqMzycp2BpelF8IYucdWjlQhVngMjI/X92Ncu9Q/6ivC4RKvKUzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3bhdZ/hKc1mx4sphwQQT8Q+bRqwrt1zCo/vvRnCb0Sk=;
- b=qdhGBQMJMBeRGxtdWs2KGg/EcVr3jCjDAquUj3+ndCV1Dry8TPIob+65Fo8kgVNF852AnJdKXxFEsb+OBhlGhEbiuXOxRfHBI3C33oTDLp7t7Juxsmd0YB0J0iApbG+a+F0MhQVXjlqIy1Pwnn+D7xvfu9q3PeCTc2OWDY/l5CwklltvfqLe0zuiUon9A3fpKcQG/u4pLx9ezZIhqChyVggGd7gNWxyeFqWxhDWpBFk+bchha6oATrkuwS12mZXzjrpq6+dcgjEvVNDcEZsXWz24T/3hTUM6s8CrgTG49kYqgVaUxdCB8G1ZVgVwjB3c9YprOrnfUwFIiYWR2ZEVIg==
+ bh=z9nZrlg2ILxxjlYb8S+qj8kzGB+yJ7v04QEscldxL0A=;
+ b=b5BH5CsQJCO4J/OQKTbj7sMp/GIADDiGeEFx2/ECSkHLU/g8TNn0by7HBoW0gDvjbxcbbMDHnP8ZaFpa6J57ufo0f9cRPjqjxygCpCyI4Ho8GDyaVXWdWcRAubGpWnfGz6EMqwwT1DpCPRUnp0rAFv13h/m5BH0B9Ex9g+04JjFE0hRegDsRPbZZdfbtA+WQj2qcbWGsaSJeOcuPRM7bsFvH1eu58OJZJ3Jl2Uj0NtOWTByLu804RJx3+bwZBwlu2SUkOdd3th81SxmA1m19mUysnbUnkvze0qSGiP8WBOZRZwT8uU/odweHm8VzLQwq7bd7PyM6ubC7ehbskwptgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3bhdZ/hKc1mx4sphwQQT8Q+bRqwrt1zCo/vvRnCb0Sk=;
- b=VWwlrxXxqf2413fDPPBnb5vShIaXXiI0sbMNfvnWt1NFnZeYyo8vUDja1GiF72YDSQB9LtW3rtu3wntnQ/2KPm451yP9Yx12GFgIgMLoUiTjGo79KmyxE6QA3lYYewLCYD9teYN5IgsdY9l2yrCNc2+du+ZEp3OTjOUYquBE4vI=
+ bh=z9nZrlg2ILxxjlYb8S+qj8kzGB+yJ7v04QEscldxL0A=;
+ b=usybP7v1PkLRQqJ1kdKRb6sN/XTk+/lIPK/HXrmBWGYZkzk9zvDU27swHAVLEu2RWr6Smx0cQOQjdQF3u8oJHiLPzcybInP9j6gnUXVssOpLoV7NXqxt9u4XgFak+uZvtn2waupt1bGyyWYSrOwTu3JMguhWgsDUIWvfA7dQe10=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by MN0PR12MB6271.namprd12.prod.outlook.com (2603:10b6:208:3c1::18) with
+ by DS7PR12MB8321.namprd12.prod.outlook.com (2603:10b6:8:ec::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.15; Fri, 31 Jul
- 2026 11:22:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.12; Fri, 31 Jul
+ 2026 11:42:00 +0000
 Received: from CY1PR12MB9697.namprd12.prod.outlook.com
  ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
  ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0270.015; Fri, 31 Jul 2026
- 11:22:40 +0000
-Message-ID: <58e34926-1ee8-422a-82f7-0cdab1aaf278@amd.com>
-Date: Fri, 31 Jul 2026 16:52:32 +0530
+ 11:42:00 +0000
+Message-ID: <1f85ed76-ac26-45c8-a5bf-a9b3faf2859a@amd.com>
+Date: Fri, 31 Jul 2026 17:11:53 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] EDAC/versalnet: Use dev_set_name() instead of sprintf
- with init_name
+Subject: Re: [PATCH 6/9] EDAC/versalnet: Initialize MCDI before RPMsg
+ registration
 To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
  linux-edac@vger.kernel.org
 Cc: git@amd.com, shubhrajyoti.datta@gmail.com,
  Michal Simek <michal.simek@amd.com>, Borislav Petkov <bp@alien8.de>,
  Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
 References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
- <20260724171945.2812749-6-shubhrajyoti.datta@amd.com>
+ <20260724171945.2812749-7-shubhrajyoti.datta@amd.com>
 Content-Language: en-US
 From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <20260724171945.2812749-6-shubhrajyoti.datta@amd.com>
+In-Reply-To: <20260724171945.2812749-7-shubhrajyoti.datta@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0164.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::19) To CY1PR12MB9697.namprd12.prod.outlook.com
- (2603:10b6:930:107::6)
+X-ClientProxiedBy: PN4P287CA0041.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:271::15) To CH1PR12MB9717.namprd12.prod.outlook.com
+ (2603:10b6:610:2b2::8)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -68,132 +68,167 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|MN0PR12MB6271:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41a47c8c-e7ac-4241-6ecc-08deeef607f7
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|DS7PR12MB8321:EE_
+X-MS-Office365-Filtering-Correlation-Id: a30cf59f-4660-4d8c-83fb-08deeef8bb63
 X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|4143699003|11063799006|56012099006|22082099003|18002099003|10067099003;
+	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|56012099006|11063799006|5023799004|4143699003|10067099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	Rp/uUg8rPtyB/raaz0w35sH4dYPQg4UJto24j6JJUOW0CZ8yOw3PRMpvfmeEKDmiPfbxYhBjFQCs2eVgjnIeaUlMOd6gcK2UpuZETzk498fTnmCJhAAP7t0UGin/K8C6wJxmHI3ehtGqprpyCDT1Fuop9MO+h9gxu2RJ3359NZBxXDfko8e+BfNrQyFNJTGJgoZzpr+brBNwZoJSr+M0g6puZ6bPUzgHzxI6TwbFhbOotF8H2J1S86xIWpY5iBcZEEnSrnu5uS6Eq/PS4Xydo5tYyQG5o7wO9HVixceyGN3VPTcoLRPiZDDW9d+wHLp/Sx9YkduiedV0pnm01de3sDvsQ+TQKKASLBrEJWUUahEqJ2DPjiB2Mb96iT1lEeT7vUX8eDeY7UlG3eohcydNqSGE9jVcH/Wehc2ELnDv4SegIXsEOdjy+kuyZ7/aX8A6SzUCF6IEpX5+fiDtPNyw+9mLJztYgJhOHBWXuwDSmQcvJEvzu+oZO4GQqvexCEasKuU2wqQHSvVOuLwEAbGh6UvM5ONjpXg5JXLNbH9VLk8wCgWVlOU9Au1R9Q8oZA41siuEApgvcZ79uG9WunlnA0m4Df7WNaygoCaLFGzrsbJkNipSxJH6tKKuv8k+AYim/o5Icaknc9XK5IInRO2uVbJPj2Ks0nMiP7yCj8AdlTQ=
+	U2MPQfUGsZSOAqEEDjL3mInX8EFEG0bfjyg9xSfKpVGTvxAJah32ebHfSQyvBBH5U1uaOPqOBQhXqemxtxH12LcFMHhiTI1CPBP2VwxVe5oIxFF0UXEAnRM9k8GeilwZ3wlt6NM/xFNa6n0k6hDnG94cDryDMrAKXPpEmoJ24i5rdFRueZYIcH+uq26uXJ8Uq+TMTDf55mSt3MoiYytvdXuQNv29d/IAjs1aTrrUpCpt7k0m8XKaZgdycuq+eSZNYpwOiENR9COyCMOxmCM255Dl8w2H+GMKFWUOT+XwBnAdu6YQRwxiErKFTOb7v8QqO1GOFzhCKLaMdp64EKQB+8OCobY1xOwfkoKZloixOiHVK9UIPsxDaUs8cu0h2eECZyzyrPXYXY7bHUTMpuAkVc16OnDEJbxpMJM/srzLou77CVbLJE+CSm1lmU6bgz1isuR+p5zJCh4ArfyE4wdanW+t4xghodZxRNdlP+SAYOM2RLFg6JLNnKDggHzqmaG/9W2V/p+bpzY/bgd69FDFyeNhv5QS+EcIRNkvprvQXCGoKJPLl1xRYWQb7FTtp38oY25iltXXyGGzOibMPPSWs8ObYS1l7goqKt4HburbIBXY/LbPrs5vfO1ouxcYWr/7DflVjGe6DFtL3pKerBi2K1Iy328g5v0cdCRkwGMw4DM=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(56012099006)(11063799006)(5023799004)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?enpDNVdHSzF1TlRWYTRBRWU0RXVaclU4REM3UTBwYTdtTjNxUDRnSW0vV2Ny?=
- =?utf-8?B?Zk5jU09EWHdrbXdhYWNiVE9FZzVDajhmaXhtMnFZMjcyZ1o5TUlFQXVBY3Yv?=
- =?utf-8?B?SkNKWGdPajZOQjFMbW9BYzZVSGwxV1Fvc3d2RTBVaFFMTndzajIvbDZ4RVJp?=
- =?utf-8?B?cDh5aGZpYUNrbnpPSHQ4UGRMVllRRlVmMjdzTXhHTDEzeDRMTUZxOEtTYU5I?=
- =?utf-8?B?bHdCWjdybGQxR0VQSThiTjJFZ2ZRNFcvQkxveUN2Sy9nRkV0dmp1eFVQZXJI?=
- =?utf-8?B?K3pNcysrS0k1eThUYXJVVEZ6SHFET1FXK2NuVHd0ZTgwaTBnSndjQXdBY0xi?=
- =?utf-8?B?b3dPeFRva2xjMXUzVmZhUWN0Q09TaDFLMmg2L0FzU1llczJCQkh3NThjUmdQ?=
- =?utf-8?B?czYwMUtEZ1hVVG5pa0o1c1F3N2tGWmNvUFRJelhTOGZrakQ1V3RIbm1pb21l?=
- =?utf-8?B?OFF4cFY1a2k4K0xZQWVBc3ZNdDJVS1RJZEduZGljdjh3SlEvS04wN0xvUG5C?=
- =?utf-8?B?eStTbUpCQmVVNW5FVFpUYVZ5UUV3NWxsZFBPb3hVS1pxc01qb1FJY3BFS2t6?=
- =?utf-8?B?RW1wcW4xTmV5M041elJZUEtiRHdKUjZ1bDg5MEdMMmkvUlk4eCtMTVFGang1?=
- =?utf-8?B?dVcvTmlLazZaaDJSdUlXcFpKbHpQQVY5OW9YUzRTYXlHSGtWQ1ViOEl1MTRL?=
- =?utf-8?B?Q0l5MG9mVUdaaHVsM2dXWTdhR3FrWVI4MEJ6dlphNlRCMThZeFE1aXNxWDNR?=
- =?utf-8?B?MTdOYzZLNkpBOTN3cUQyM1d3bVBzVXNLQXV3bXRGUlBPRjRzWUdhRUF4R3ln?=
- =?utf-8?B?Q0Y2UW1pMTV6UHl0WVc4SnZoQkVPM21WTzdPZ2dtK3RyR2hlU1FtNkhhdFFq?=
- =?utf-8?B?WTJZek1kbmFWSXdsVytvcWgvNEgrZU0yVHd5UGNtWHNST2xoOVZOWWVMUU1n?=
- =?utf-8?B?OFJHVlpTQmF4MWsxdzhXWmdkWXIvQjVxemR4Q2VyejdUTUplYWpkY0RaTG9t?=
- =?utf-8?B?L0k1YkdZQS9KU29XV0JOQnh6T2NLZnU0Mk1LQlZ3NE90aXlBdEg1eEs4cG5W?=
- =?utf-8?B?MG1yMUFKdTJTR09zQjk5M1U3clZmZU1Vdmd5anFGSGhTZ2NnU3BGbWc5aXZi?=
- =?utf-8?B?MnRyNzBJNXA4VDFtU3NnQmNQTjZSMm1UTUFCbUNaT2pXVXdCRFZteGc0UzUz?=
- =?utf-8?B?NHRkVDNYZnB3NHlMcFQyVk4zT1RFRSthZXp3UE9FSmx0bHpiREpTNlU3UGJF?=
- =?utf-8?B?SVp2Qk9CaXpsK1dLSmZOamMxaFBPc1g5RVpuRVFtdk9scU4rRzY1MCt3T1VC?=
- =?utf-8?B?VmdkKzhnUXFWZEUrZ0RGVjJ2SitWbDJCQTMrRlpiZHo1QVBuSzVnaVpOUzg0?=
- =?utf-8?B?YUF5NUdrRXd1dTg0c2puM08wQVpCVDhIeTlmOHpmUmJXUTNVRmJWaXI4USto?=
- =?utf-8?B?R3VNRjdVZ2xmWmYxQ1p2aTNIWDBTYVZTM0hmb2NIalhXb1hhanFxdHBtZjcr?=
- =?utf-8?B?Ykt0eVQ1ME8yN0Juc0J6bVVNekFtYjQ3eGhlMGViNlZpUU5XOWh2c3BZRG9Z?=
- =?utf-8?B?eUZ3OU5Pb081U2k3cS81cVFqSFNVRDRUVGQzd1RDVzR4Y0FFbVhqMUJpQVgv?=
- =?utf-8?B?QXZ6RUEzT3ozbEw0dXdwVVk4YnFIZnpPbTFLYjA5SWNoOU8rL1BkWE90QzAx?=
- =?utf-8?B?eEg1Nlh4dm9aWFoxNnhWdyt1S1lNK01hTGoveWVac0hMbkNsa2Jxd2dNeUhs?=
- =?utf-8?B?aUkxWFc1TCt5NFYzVnJHaXJCMzJyVEdDMWl6TW5POFdPZEMwQk9pYzNpcnVk?=
- =?utf-8?B?WG8wc3hXQkNNQXN3L1pxOXlMOW14bGVLRmlOblBSQzhNc0dRcHRtcUxvSU1O?=
- =?utf-8?B?SHlhYmhyMThmTFBpTFlJZEhLU2U5NFprZkpLZVkyYmt6U05qRUwvQnUwL3Vl?=
- =?utf-8?B?eklYTk4yU21CN1dNSmZsWDdGM1BDSkNTakJtcFpZWFVVeHorYmhOcUlvUzNx?=
- =?utf-8?B?SzRXS2o4L2JhdDRydDE0OEcvdHAyS2gyaCtiMWdhNk9yK2FKYllyWE9hTzFE?=
- =?utf-8?B?OFgvd29TRGU4NFU3QUg3TEZnUk1xQ0w5ZmZEYzQyVGtXMTVBNnZ5dmowVGhO?=
- =?utf-8?B?UkY5OWJUK21vWUtXV1ZBSTZ0RlBBYStHY0JPMnA4SjJJR0hySGFjSUlXWWUv?=
- =?utf-8?B?KzRHU0dMeVpJL1JNMVlnRHZmMjRYYzNsZ2puMzA1bXJxUngyU2xlSjJvVzNK?=
- =?utf-8?B?UU9RUFpYMlBKaVlFQ3B6aE8wU3lXdW1rdS95REZPRDBqTERCbEIxaWFldnFn?=
- =?utf-8?B?MkVmckluSHQ0d2FURmk1Wnl1TFU2SjFxRGcyVEFibUlkbzZHR29vZz09?=
+	=?utf-8?B?bkMwTFQxWkJTemZFV3UvTUFhdGNSKzhzR3p3UWhSdExrWERqQmZkVVNLQ3BM?=
+ =?utf-8?B?cnlMcGxOLy8xcUdpdUVyVmpZVG5aV1NYSzhTWFNteUVHSkV0NUh5SGtaZHY5?=
+ =?utf-8?B?OXExOU5oNUJYZWQ0aUNoelpqR01QS1BTTUNSZ0pOMGs2WHQ2VUh5eGdybklw?=
+ =?utf-8?B?cVdWMlJDc0w4U25PMHVuSG9YdU1Vc2h0U25SVTNqN2lEOVV5OStWZmdGdjcy?=
+ =?utf-8?B?TWRiL1N4RHRScGg1enNlZVZXaGtBM21MUklMVVFDcDV1NmQwaXA3czVNbkEw?=
+ =?utf-8?B?T1MrZ3dpU1RXNC9EMzBxcXZwY3Zqbi9MTWJEenJQT1JXNFhINEpLdnorUTN3?=
+ =?utf-8?B?angydVRoVGNMVHJ3Q0lTaWlaVjJnUnQ4aDJyNXZBOHU3WDBMNDBLbi9FN00y?=
+ =?utf-8?B?alNscTZiTTUrMXJ3bWNPd1dmNWw4ZWFLSWp1N0hYNDhRckpqMXNaSnQwSS9T?=
+ =?utf-8?B?WWpWaHU1ODhZVzJSbkJ5MHJFenpMREh6VWMyNnNVQ3hzaThJd1IvSHB4SU1K?=
+ =?utf-8?B?MU5ubnlVeEp6eHBmR2lFNGNkeUtNK2MxSHNlWGRNTElUN29qYlM3c0JCbnMy?=
+ =?utf-8?B?bWdOWjFZTSttM0RYS25aQi9kL0FCTFA1cVpzR2lHVEtxR2xLNXJxQ2NWeXI3?=
+ =?utf-8?B?SW0yYlVyMUJVak8xOUdLOWNWN1k1Zm9ZaDdxWnBJZXk1QTRYOEg5azR4Zy8y?=
+ =?utf-8?B?MHVWVHFTazJIZUVmR1NuS1V2bHZBcGhRazc2bkQ1QktOa3hNWko0MWZtYmxN?=
+ =?utf-8?B?UUtid3lPYlAyZ3dqSVc2bW5VMUY1aFlWSU5XTlRFUi9ndmFuNlNzSEdRVlpq?=
+ =?utf-8?B?c2NFQkJSUmpRK1E3ZzRUd3ZSdUhvREVHRFh0UlZkQ2ora3puWElja3pKU0g4?=
+ =?utf-8?B?Y1RlalVyc3I2OXlsQVJSRk1WajJaWlNRUldNcWF2bW5HSHBqUC95cyt4YlhQ?=
+ =?utf-8?B?eW9WSG1qaENZY3BPUXlzR2t0eFRRWUpkUW1kcGpiUlZRZk5wTU5nWFRPc2Uz?=
+ =?utf-8?B?RE9VS2VYckpqNWJQZ2FXc2c3MmxaZFdHMnM1MkFRb3Y1YWRIOHUvUzJjb2sy?=
+ =?utf-8?B?VUdLd1BWd2NDRk9jNUR6VTVtZDZjUXVEU0QzL2RFRVFoejFsNFJpazVMSjNm?=
+ =?utf-8?B?WWE1Ym90V3cxUTAzTkY4TkpuYmhlZmhiN3JVdlprdk9ic3lCQUl5VytXRDhF?=
+ =?utf-8?B?U2hnRGJ2R1Bxd1pacnNPbE1CU3RNb1V3NnRPWkxabnZwbE9iRXlaWDNrQnRm?=
+ =?utf-8?B?cjhJdzczTVdpcU1EV0hwdURSSG5jcXZRSHJGUWNOSCtBN3ZYQVdjNEFQeEVB?=
+ =?utf-8?B?ak5PTHkrZjJJOFBGYkFEcUR5S2lZSlBWNkxvQklFOFNTVmt4MWs4NkIxaTFZ?=
+ =?utf-8?B?UUV5UjhtWHQxcVFwQUtIM1BRR3p3c3R3VmlPc1lGWVMrL3o4Q2hJdmVGRUph?=
+ =?utf-8?B?aHZEQ0lvalEvVWxKNnRqS0tRT1krMEdxM2JLOEJxcmtsRWJvV29hU3dBZy9N?=
+ =?utf-8?B?VXpHTWhiK0d6VlROQWdkNklPSVBGc3ErTFJkYVJ6eitiQzVxSlArdlJMRk9Z?=
+ =?utf-8?B?V0plSWhyN3pMblNoMmxXemhlU3N4OWVMckFpclNYRCsxb1hPTllRSkxlZFY3?=
+ =?utf-8?B?YUZDZkUvNk1RWVpxMnNMK0ZMWHVDU3hYeEpnNHVONGo0ZVZJeVp2MGxjRHph?=
+ =?utf-8?B?MDczQjBVVUhoZmd1dUozOEFHWEgvdEJEWSsxVEM5NDhQdyszc2hHRy92YTR3?=
+ =?utf-8?B?YU5jOXJWUTlFaDRzalhvTUg0V21KTmhQd3FnUDY1K2RkYzBPcThqR2FNL3g3?=
+ =?utf-8?B?L3l3QUhjaS9ZTnJOWFBnb3RpRFJFbnFkODNyNmZjR0UybUlHZ0ZvWTNIekhz?=
+ =?utf-8?B?Y29WZE1FaStRVHJGUUVGdVdkRkFHZVlJZVVUWnRTSEUxc1AwSS9lZWt0TDlI?=
+ =?utf-8?B?M1dXd0JZdmd4a285TDJlamlRREJUUUV3WC9SR3htL2lLZzk0UnppVjBlN0pC?=
+ =?utf-8?B?NE5iSVlzZkhkcUxoaU9oOUNUL0hkK01SYnhYdzR6RFBpUjQ1NTdtRTNPTXpp?=
+ =?utf-8?B?Mk9NWkxRd0F2L0xmSVJEZzc2YW84cnZXeG1nRHRFSFpSSWZpU0RSOWtvTmhC?=
+ =?utf-8?B?TjlaS3RBYVdxeHgzc0hROFIxK1VBT3hrR092N2hHdHNtYlZ0NytuOGNZVTcy?=
+ =?utf-8?B?WEpLcDVWT2xtYWQ1RlJOMjRGZ0NFSHhLYVoybHhoemxnMzlGbFVDZkdVSHMx?=
+ =?utf-8?B?a0paUmQ4LzhYQmRjZG04SzcwbjRlMlpST3krNlp1b1R6ZEZJUXpuUGhZMVpH?=
+ =?utf-8?B?cEhTeUlRNzMrbjd2elp1YWFtOTdaZ0RNMmI1eGR6c0poWk04Wm82UT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41a47c8c-e7ac-4241-6ecc-08deeef607f7
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a30cf59f-4660-4d8c-83fb-08deeef8bb63
+X-MS-Exchange-CrossTenant-AuthSource: CH1PR12MB9717.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 11:22:39.9528
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 11:42:00.4910
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RhIS1eFa78wuBV2veh+XPDz6pWBreHOdz9e6RshEarwLiDrcsmQejm3Ut57nzYnF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6271
+X-MS-Exchange-CrossTenant-UserPrincipalName: /sidMeGx/I9hYe1QeKqUm6lExs1YHZJdEuVM9fY3Fvh2a9eRDUqTpite5WRXlNk5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8321
 
 On 7/24/2026 10:49 PM, Shubhrajyoti Datta wrote:
-> The previous code used sprintf() to format a device name into a local
-> stack buffer and then assigned it to dev->init_name. Since kobject
-> cleanup can be deferred asynchronously (e.g. when
-> CONFIG_DEBUG_KOBJECT_RELEASE is enabled), dev_name(dev) could be
-> accessed after init_one_mc() returns and the stack frame containing the
-> name buffer is gone, resulting in a use-after-free.
+> setup_mcdi() currently allocates the MCDI instance, assigns the RPMsg
+> endpoint, and retrieves DDR configuration data. The DDR configuration
+> path invokes cdx_mcdi_rpc(), which requires a functional RPMsg endpoint.
 > 
-> This is fixed by switching to dev_set_name(), which dynamically
-> allocates and manages the name string internally, but the now-unused
-> local char name[MC_NAME_LEN] buffer and the MC_NAME_LEN macro are
-> not needed so remove them.
-
-If previous commit introduced regression then this has to be merged
-to previous commit. Each patch should be correct on its own.
+> Split setup_mcdi() so that only MCDI allocation and initialization are
+> performed before RPMsg registration. Move endpoint assignment and DDR
+> configuration retrieval until after register_rpmsg_driver() succeeds.
+> Update the error paths to match the new initialization order, ensuring
+> resources are released in reverse order of acquisition.
 > 
 > Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
 > ---
 > 
->   drivers/edac/versalnet_edac.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
+>   drivers/edac/versalnet_edac.c | 29 ++++++++++++++---------------
+>   1 file changed, 14 insertions(+), 15 deletions(-)
 > 
 > diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
-> index 3c9eaea5a106..1caaba653fc0 100644
+> index 1caaba653fc0..e9561242f292 100644
 > --- a/drivers/edac/versalnet_edac.c
 > +++ b/drivers/edac/versalnet_edac.c
-> @@ -70,8 +70,6 @@
->   #define XDDR5_BUS_WIDTH_32		1
->   #define XDDR5_BUS_WIDTH_16		2
+> @@ -559,7 +559,7 @@ static void get_ddr_config(u32 index, u32 *buffer, struct cdx_mcdi *amd_mcdi)
+>   static int setup_mcdi(struct mc_priv *mc_priv)
+>   {
+>   	struct cdx_mcdi *amd_mcdi;
+> -	int ret, i;
+> +	int ret;
 >   
-> -#define MC_NAME_LEN			32
-> -
->   /**
->    * struct ecc_error_info - ECC error log information.
->    * @burstpos:		Burst position.
-> @@ -782,7 +780,6 @@ static int init_one_mc(struct mc_priv *priv, int i)
->   	u32 num_chans, rank, dwidth, config;
->   	struct edac_mc_layer layers[2];
->   	struct mem_ctl_info *mci;
-> -	char name[MC_NAME_LEN];
->   	struct device *dev;
->   	enum dev_type dt;
->   	int rc = -ENOMEM;
-> @@ -821,9 +818,7 @@ static int init_one_mc(struct mc_priv *priv, int i)
->   	if (!dev)
->   		return rc;
->   
-> -	sprintf(name, "versal-net-ddrmc5-edac-%d", i);
->   
-> -	dev->init_name = name;
->   	dev->release = versal_edac_release;
->   	device_initialize(dev);
->   
-> @@ -833,6 +828,10 @@ static int init_one_mc(struct mc_priv *priv, int i)
->   		goto err_put_dev;
+>   	amd_mcdi = kzalloc_obj(*amd_mcdi);
+>   	if (!amd_mcdi)
+> @@ -572,12 +572,7 @@ static int setup_mcdi(struct mc_priv *mc_priv)
+>   		return ret;
 >   	}
 >   
-> +	rc = dev_set_name(dev, "versal-net-ddrmc5-edac-%d", i);
+> -	amd_mcdi->ept = mc_priv->ept;
+>   	mc_priv->mcdi = amd_mcdi;
+> -
+> -	for (i = 0; i < NUM_CONTROLLERS; i++)
+> -		get_ddr_config(i, &mc_priv->adec[ADEC_NUM * i], amd_mcdi);
+> -
+>   	return 0;
+>   }
+>   
+> @@ -886,7 +881,7 @@ static int mc_probe(struct platform_device *pdev)
+>   {
+>   	struct mc_priv *priv;
+>   	struct rproc *rp;
+> -	int rc;
+> +	int rc, i;
+>   
+>   	struct device_node *r5_core_node __free(device_node) =
+>   		of_parse_phandle(pdev->dev.of_node, "amd,rproc", 0);
+> @@ -914,18 +909,22 @@ static int mc_probe(struct platform_device *pdev)
+>   	platform_set_drvdata(pdev, priv);
+>   	amd_rpmsg_id_table[0].driver_data = (kernel_ulong_t)priv;
+>   
+> +	rc = setup_mcdi(priv);
 > +	if (rc)
-> +		goto err_mc_free;
+> +		goto err_alloc;
 > +
->   	rc = device_add(dev);
+>   	rc = register_rpmsg_driver(&amd_rpmsg_driver);
+>   	if (rc) {
+>   		edac_printk(KERN_ERR, EDAC_MC, "Failed to register RPMsg driver: %d\n", rc);
+> -		goto err_alloc;
+> -	}
+> -
+> -	rc = setup_mcdi(priv);
+> -	if (rc)
+>   		goto err_unreg;
+> +	}
+>   
+> +	priv->mcdi->ept = priv->ept;
+>   	priv->mcdi->r5_rproc = rp;
+>   
+> +	for (i = 0; i < NUM_CONTROLLERS; i++)
+> +		get_ddr_config(i, &priv->adec[ADEC_NUM * i], priv->mcdi);
+> +
+>   	rc = init_versalnet(priv);
 >   	if (rc)
->   		goto err_mc_free;
+>   		goto err_init;
+> @@ -933,11 +932,11 @@ static int mc_probe(struct platform_device *pdev)
+>   	return 0;
+>   
+>   err_init:
+> -	cdx_mcdi_finish(priv->mcdi);
+> -	kfree(priv->mcdi);
+> +	unregister_rpmsg_driver(&amd_rpmsg_driver);
+>   
+>   err_unreg:
+> -	unregister_rpmsg_driver(&amd_rpmsg_driver);
+> +	cdx_mcdi_finish(priv->mcdi);
+> +	kfree(priv->mcdi);
+
+Nit - considering renaming the labels. Rest changes
+looks fine to me.
+
+>   
+>   err_alloc:
+>   	rproc_shutdown(rp);
 
