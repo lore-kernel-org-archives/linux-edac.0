@@ -1,61 +1,63 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6488517557E;
-	Sun,  2 Aug 2026 18:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A58B32B11C;
+	Sun,  2 Aug 2026 18:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785696410; cv=none; b=j6mr29KIah4JEoWdKFcIAKr+5IzhJWALublH1E1egw/G93q50J562kaABJ/L+6uMSKnHJ2r4gMZKRVoZ4faMgdTMDz0fzgneGp8fmxZt20v2/KYFKKSAaCmxLBIi1sjx0Rcz7QWEnJz+hlJZx4kuoF1EFlBAvjRdNFaRo3yh4oI=
+	t=1785696759; cv=none; b=E86xd1PfDzDCUuIiLfQnCZQOFZI8P8mrU2Nz/F1w8EdGm/ltDrUQaL6FpNjn8f1Q4JUJsRMWCxSkW/g+TSStbKHe/oV+hMAfyr4iRXBbL8qsY+VWYBd45SwbpHB/wyPKwyjKWWraDrVlTudvZBzMylTf3jV3DEURumwm1S2XPjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785696410; c=relaxed/simple;
-	bh=Hy+3wCnvrp9Vx/6KWoo2BUm6C7+RF6BaAhw0Cd6bWGE=;
+	s=arc-20240116; t=1785696759; c=relaxed/simple;
+	bh=f1kacSJLCNkIkwKIeG5fv3ZvSwpUSUj5A1sAPah71pI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nMeamQaUYEpFrxUN6YFvfe4o6riWWHWz7YXfOx8AkkoSGiKpVZQBNTDYD5lCBgFA9ONUf0UXjlVZNFVfgobOZqm0veCbHt+tYJCmIgoDSuxUShZi9w0WS/yK1YWkz4PHP3yvuof3ymRx94c0woB09QgFznzB2Vls06Hc8Ql7lss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NXCv4ylX; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=ulgIV77vx/MSI9QwfyZG682YIzD4oq8PSY0mLUnDSw4Ae9Wkm4jLOq/gVZegggOldR7anh+Di2KmvlmLkqffLHdb+sCPiEepNn6bFY3LcHdvhCexVl85vjQNHLkWwR+oJecb4pl10LHLEJNKhNBBWXoy3QdR9k5FTo4tehVgDhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=IkVw6ikI; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NXCv4ylX"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="IkVw6ikI"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CAC8C40E014A;
-	Sun,  2 Aug 2026 18:46:44 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A55A140E00E6;
+	Sun,  2 Aug 2026 18:52:32 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id D2Y1oaGvsliQ; Sun,  2 Aug 2026 18:46:35 +0000 (UTC)
+	with ESMTP id Qwf9MP8sUihv; Sun,  2 Aug 2026 18:52:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785696394; bh=kTTll9rVme166jKnZqpyzuxQcNLDrb3C8OCp9l6pr6I=;
+	t=1785696742; bh=I4sNSPtdW3RC56MU/21uboM1Gcdr7bhfyFtuegZ/DWg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NXCv4ylXSM3M9xFZ18+nUKrqGhWdcuzRs5cg0PfZPTRUtWz+igRNf7KdAk74Kl629
-	 /inOFy1lMKh8Hc20ObBd8OOyJT1Jfd5O5fsB+JxJ+7xxkwFuOX0BFch62wCpfWP7kM
-	 0bmXqUkO9VV2X7q0o8gg6b/wM4/ayM6By8AgxrMjrEQN1fUGhCgfhUa4DuUIUQdj65
-	 1AJQw2sL/aCg7LfwKN2dBHzEgBNJcZI22lrUMlyfgE5TtszR96pMv57GeP6tBMsioZ
-	 VV5gtj5wTj13/mKNNf96jsWAw5UNaCHRjooZBxG379XVp2AkWLpL8UBXaeoldiw2O+
-	 V6Ca4CuMG4cLPXNOlMVFNS2wPDC9M33yXxDjMjqIv8pR26A7d0Iadmf2Wxwj+CWlr1
-	 9qt7ctBH+2jtsQQY2krfjr1ZHOOftaKf1ZgTOB2NH86j8BY6cQRoaX7qY6zhLU6UhQ
-	 LKYbJuVmgjIAM6mhoVBBYm1KItw5HMEEFUN78ALZLzey7HxQRaUmprEuK+KzkIlb8Y
-	 9zNXJcfatisyYq1GHvE4GlxfgSvXgaguUDvtLjoYYajySn5azj47U6DxxsRFuE7yHf
-	 5Su0iciqwUvUA3cjgoyrWQgjXSC7GEyAoOIbKalkipvA46GFN5EsbKWqbyaFSgCO1A
-	 wB/vPbS1fbWsd3FFTzKkGrMI=
+	b=IkVw6ikI7jzv3YeNzHXs2idWfcQ3RHvoyvkPcLj9++crkd1xVvWipnFL58TcWzJTx
+	 AJPcNT5TztSSXw8prnSwVukboDNsWC9m69BRh5Hfc5hP8AcHTka9ey9q20NeP1bNgP
+	 O32i0WRzu5XheIQU4g1EaSGaLKg+U21Vxu7K+nt3P4BNGR7axoJG77ZhRxIfeDwadO
+	 wbal1c2U8LEVywIvv2vcGr3ILxV25TrmElwcnF5ODECo3w7r9L7YZ/VGwWOvnDHnSn
+	 YDc1EYEx3+r77/kJpiFFJxEqx7MVmllwdt8snUBK1+9/YNxLCBaoHa8H1j7DypKRO0
+	 2WmFzjbtxp7plp8PnB5oKtHs2mp9HlM6GD0ngCos/T3CQLfUWPKaKoaZoiT5z6uYUU
+	 rKe1kUznAAP/d0omPSFz0doHKNkqluRtR51gBb7bmq77mlsJujuz/4svdPBmQofx7N
+	 b+HldAwM7rBM6SUWWLFJ94lUuNBOkcSmX4L9bxzhLsehaFh97VxWXXKG/acraYQxoa
+	 wL3UDLfVkpGrsEB/TNa3O7zHxb4sdjHmiB56ayczKwvuPbV8xB8DQNat/45Jf5gwu2
+	 LXT3LUVQ6ihr/sszyd3P9Ug+qFPsncPz0kprwh/owbkIxyARrfZdHXPItPSOIV2/Mp
+	 pEcdq/z1hqE7C0mE69yCsLXQ=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 54AA840E00E6;
-	Sun,  2 Aug 2026 18:46:27 +0000 (UTC)
-Date: Sun, 2 Aug 2026 11:46:23 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2513A40E00C3;
+	Sun,  2 Aug 2026 18:52:14 +0000 (UTC)
+Date: Sun, 2 Aug 2026 11:52:11 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
-Cc: linux-edac@vger.kernel.org, git@amd.com, shubhrajyoti.datta@gmail.com,
-	Michal Simek <michal.simek@amd.com>,
+To: "Pandey, Radhey Shyam" <radheys@amd.com>
+Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+	linux-edac@vger.kernel.org, git@amd.com,
+	shubhrajyoti.datta@gmail.com, Michal Simek <michal.simek@amd.com>,
 	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/9] EDAC/versalnet: Add NULL check for mci in
  remove_one_mc()
-Message-ID: <20260802184623.GAam-Qf9-yes1DkNkl@fat_crate.local>
+Message-ID: <20260802185211.GBam-R2waQcPgti5EO@fat_crate.local>
 References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
  <20260724171945.2812749-3-shubhrajyoti.datta@amd.com>
+ <4b6253ae-dad7-4591-ad11-8cebb31caa86@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -64,40 +66,39 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260724171945.2812749-3-shubhrajyoti.datta@amd.com>
+In-Reply-To: <4b6253ae-dad7-4591-ad11-8cebb31caa86@amd.com>
 
-On Fri, Jul 24, 2026 at 10:49:38PM +0530, Shubhrajyoti Datta wrote:
-> If a controller's configuration specifies an unrecognized bus width,
-
-When can that happen?
-
-We did figure out that controllers cannot be non-contiguous.
-
-> init_one_mc() returns 0 but skips allocating priv->mci[ctl_num], leaving
-> it NULL. On module unload or probe failure, remove_one_mc() is called for
-> all controllers and unconditionally dereferences priv->mci[i], causing a
-> kernel panic.
+On Mon, Jul 27, 2026 at 01:41:52PM +0530, Pandey, Radhey Shyam wrote:
+> Confirm on fixes tag. The bug likely goes back to the original driver.
+> > Cc: stable@vger.kernel.org
 > 
-> Add a NULL pointer check for mci before dereferencing it.
-> 
->  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000390
->  Internal error: Oops: 0000000096000004 [#1] SMP
->  Hardware name: Xilinx Versal NET VNX (DT)
->  pc : mc_remove+0x34/0x88
->  lr : mc_remove+0x4c/0x88
->  Call trace:
->   mc_remove+0x34/0x88
->   platform_remove+0x2c/0x70
->   device_remove+0x48/0x7c
->   device_release_driver_internal+0x1c8/0x224
->   device_driver_detach+0x18/0x28
->   unbind_store+0xb4/0xb8
+> There is no CC to stable kernel in email.
 
-How did you trigger this?
+Ok, before you state something like that about kernel process rules, just go
+to the source and confirm it:
 
-The commit message needs to explain the scenario this can happen in.
+Documentation/process/stable-kernel-rules.rst:
 
-Thx.
+"Option 1
+********
+
+To have a patch you submit for mainline inclusion later automatically picked up
+for stable trees, add this tag in the sign-off area::
+
+  Cc: stable@vger.kernel.org"
+
+So yes, you should very much cc stable. The additional reason being that the
+stable team will pick up the patch faster instead of them running it through
+AI, it finding the Fixes tag and determining whether it is backportable
+material or not.
+
+Oh, and if you want that to happen, you better write a good commit message
+explaining what is happening and under which circumstances and why it needs to
+be fixed.
+
+:-)
+
+HTH.
 
 -- 
 Regards/Gruss,
