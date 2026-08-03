@@ -1,139 +1,112 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A3A367B7B;
-	Mon,  3 Aug 2026 09:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785750501; cv=none; b=fbTP+C0SApLPHY2YowJcgDWa9EgBRX7L+axfSrE5N8wbfnNOgvcw3lY0fc3tibhX9wWrIM6TsMGGSOlYT/fjlP3opOj5k5OPpNpYdf2KOmH8N4giu1JQkWQ2n4OyfbLww1zSnccd679En7nMUPIzAi1uWChII6FPhw2U63r0J4I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785750501; c=relaxed/simple;
-	bh=VtRcCBYFOpCxmbipGKu1tjyC0LEbheqd3X0s+e0JJYc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MspIHc1QLYvM//Grl3F5XF/ST9JTg4f3Qy4aBcQsiIg1rRpkgyp07Uo1C+OWXYAAWEOwB1b+ueqaN/oRcLgekJyi3u20V5ZJU/ew8yVvMTTPSqNX119wnkfzlwop0BMjan4N/7gFxtOjd/ACLe6mwIGVH7V/zicxZr81Al0lZ8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Rwt6wypE; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF8641D216
+	for <linux-edac@vger.kernel.org>; Mon,  3 Aug 2026 14:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785768270; cv=pass; b=CYrLJFS1sraj1f4AelXapVGVze5G60NyJidHMYj6WKPryPkuszFFjTJuooBfVVIziQNRfWYBPE27mEzUGAVQNXdicYP1oBs2CaLUH4qgPQEd+u78wFr3Wx6XL1vOHHPVGpaVFkEXEN8ReIu6I6cLBGCTxkCU+gkMh0adROsgMf0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785768270; c=relaxed/simple;
+	bh=9DvebWMNl5WPtCMcBqu9t6NlLxzn4v0a1Q8EalKFI60=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aAYI8DkpTbFBkLTV2xS9d7U1s9ewGh8qp4sd6GXxCv62V5aPRobjG3gpMWgSAdOC4nzYT7pESvW4bJUOIqHq4Vd2JVAwwTnLlG0V+J7+BuhI8lZGHJJDQOkvzfKvLbDvskPQPcZBfXxYesUNwXa2bRHtzTXFwbH+sBTO5qU3JKI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bMNlkO4N; arc=pass smtp.client-ip=74.125.224.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Rwt6wypE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=VPm2F0UXpev5LSmRv0dgVwfwkoR2kq/J1qPVrxHeh5k=; b=Rwt6wypEtEyaMvUfFnB3xhcPAU
-	F22cricOqpY3qbzD8nSwqdsQ+0Wsqtz0kjBd5nOaS6J8MTfQsvSQkfO3lPXXFMmhu1tNcP3Qz+YGk
-	qARKRtFKfdWX5d3Dc2L7cEQGlI45ItZk9A248qzos0AKDH5uL9oKGyP92Oaa7cf9110QIG2Km5m3W
-	Odus4xCcsDmnyoZZiElH4TAciSN6MtfQooGLzDT0U6DyqJszj0+XY0kx4bBY++59ywW1JlkaVeBnF
-	l6PIIACZLt9/kp1zL4kdxDECMyGU+ro8lD2rSaeQ84EaGQayUwQJ/zmgw4P9yYl36HxEQAIv5z1UA
-	NjvpPQeA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wqpGz-00CGwK-10;
-	Mon, 03 Aug 2026 09:47:53 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Mon, 03 Aug 2026 02:47:40 -0700
-Subject: [PATCH] x86/mce: Set up the polling timer before CMCI discovery
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMNlkO4N"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-66892c81725so4575685d50.2
+        for <linux-edac@vger.kernel.org>; Mon, 03 Aug 2026 07:44:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785768268; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YZNmX9OXdjim/004BwucNfYDvup4bt8I0YOlATTU1N1FD9I7CZuRUlj21SduzfK3sI
+         i8u9/CC6L1pPvsSjCM/HujJHkpa4jY5pHyd48dkvxRnafSbEMHDm3uaQn26LmRwWUo8Z
+         qt1FsEWdZnVhmNZ9YKmanhM2ppZKUJ2BhOOeiju7JCjtHQ1ww3ycuX8PL8dm2sij+/Gm
+         w7zAbIbuWdVlaC+jv/3z7y7m3uminsY/ieKy6hcDatCbiPSG28Edn7nkhOsf6Z9c9VDZ
+         HwebgyqezhefnyihN7V7auxSgW8Ik3tCfH8HeO+1FjhltweruztecoBfLmpvKdh5NsRc
+         xDbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9DvebWMNl5WPtCMcBqu9t6NlLxzn4v0a1Q8EalKFI60=;
+        fh=wZwEx6yyPPvNIEPW8HOjnn608H6odYhon0RgP+buN38=;
+        b=Y9LkckUx34b2VZBSbEMf0i4/cipWeA7Eg5py5mHS4ICxkkj2lLBsMV72m0J5Fco1sp
+         p0uvY1EXnr6G43broNyVvakTv4prCJstCx2pMhIKOXomDeiM/UfQL9k+hw1MKi9wn4HJ
+         tybBT9Jch6w2hYsrmbhIOOPNzx/TLKl/Gu30N3+l8yfTxbGRV3kcJJSex2x4T5+d0rK4
+         3OzDyH+/62xlts39YDxI+geSD9uOs6QQMKbpe6QaWD0pQcpTZQc89aVMqWIfMHzXEOr6
+         JWIxlDyWn/sSje2P9U21bj6voaWRkrQDWhyYY4DBBfCMLjO5HOPHoFH52yNbwSehkllI
+         lG0w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785768268; x=1786373068; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9DvebWMNl5WPtCMcBqu9t6NlLxzn4v0a1Q8EalKFI60=;
+        b=bMNlkO4NE8+s3uDjGzDhkbfumn2ZOA6lK0f8kpoe6jUXALfHdXoq+W0gZJf5ohbU/G
+         YPej5EnvkLMYzqIJiA27vgZgFLYGj8KgZE3zDupZAZ1+cDBBMcJNOW3HE7awmEx25d2n
+         +z/8a963PH1m4+lVyUhlnAOvFlS1tZ4pEFayfUGOHPI1v3m9GQHpOC+qoWOfNuxaMgHo
+         N2KNCDUqGpu8bOHkunBi8OiT4JS0yvsRDN7qwuuGO/rBWndA+sdN9CdnrtHpeY/0fqth
+         BhR3cEkEEHP6wk6cE77hLZpM64xe8GvJazI48NUAm+4JmzR1U2Ex8zr5j58vyJrRKoqc
+         +LZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785768268; x=1786373068;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9DvebWMNl5WPtCMcBqu9t6NlLxzn4v0a1Q8EalKFI60=;
+        b=nUD86FPRtMh+gnIl5efTiTTtkV16OA2DVmu6lXDfWTXnFkk7eDSKvgTx0WKoPO5pQA
+         NKCsSBeXckuFC7DsoMafDJOVV4pJOOeS3o/5z0kSuPJ5rUqmEzUwF+FwMMhOua7jDFpX
+         sAyeyyK7IGD6vl20nGsqnFHhfA8A6hPLT9ELIPC7qTCIkw8l3Vk8yYUBGd339DoBeiFy
+         lT7mmP9avnvZDT8CgqDY20AgytS4AYKMsmPMCUow0K2EP91gsOfx9JAoPG00qcuhQ9Sk
+         fOz6gyYhEXDQNQXsGO9nlcTmAYtF7m27ZZA20rR6cVwB4JRxIC7S3iyVbLWx4lrkP8md
+         PYsA==
+X-Forwarded-Encrypted: i=1; AHgh+RqJ+Yo7/L0VR8H4i8VCY6mreorZ5Kyi0VTbeNbvJ6D5ZFSEgq7IqqM0RFfmawqResWnHJalGXAIo5X9@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxico+/+ZOY3sAc7ntlL1MriFppisWzn0jJiIuWFUydtr+2zj8z
+	Ip7xAJxwA2OToGy/LmKKamxp81y8H+MpWM/2L2c6tf+s1sn2v96w+A+4K+g8qD/17UvC127O7RE
+	aIte+yZFg6F2jqBjK+dSm6b8s0rk7cF8=
+X-Gm-Gg: AR+sD121cG+M/Vlk8j3CdyF4DLWVYEt0iZb6V/89tq1QI7a0OkEFgMXVsLC6lSH6sT5
+	Ni+qT1yqt/t/VPZ/9731WtmIIP0ibOdcQok2e8Q4cuxL8ZNA8AoDtI+U7W1bEtEtdKmgtW0dB8C
+	TOw3FWBlj9ZUpy23pDmGe0x+bV69HYVCdv4VbpaFghbbNdKyLJgb15LTcqVf/hXOMVAGnwlZol4
+	SQUU0hoabXIG776tR3R7TGxnhi3DgITpbxRqtuFFG0xAojjf1Hyc4H/PwHmSw2lXekvbgfAFJHO
+	igXwlhZFHk3aLlURMhhWPHK0w+Z8qqLMlBNm1lHvgTdP
+X-Received: by 2002:a53:d205:0:b0:668:8bca:3c41 with SMTP id
+ 956f58d0204a3-6694f05f08cmr10462220d50.17.1785768268137; Mon, 03 Aug 2026
+ 07:44:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-mce_timer_init-v1-1-9539db424330@debian.org>
-X-B4-Tracking: v=1; b=H4sIALtjcGoC/yXMQQqDMBAF0KsMf20gUbGaq4hITKftCKaSpEUQ7
- 16sy7d5OxJH4QRLOyJ/Jck7wJIpCP7lwpOV3GEJpS4bfauMWjyPWRaOowTJyk2VqVun264xKAh
- r5Ids/7AfLqfPNLPP54Lj+AHUh2F9cgAAAA==
-X-Change-ID: 20260731-mce_timer_init-ab3148a08961
-To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-team@meta.com, stable@vger.kernel.org, 
- Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2058; i=leitao@debian.org;
- h=from:subject:message-id; bh=VtRcCBYFOpCxmbipGKu1tjyC0LEbheqd3X0s+e0JJYc=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqcGPERUvGlhnLg8bUEwpioNXie0DexHi22BdNY
- 6Y9c0LCvBiJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCanBjxAAKCRA1o5Of/Hh3
- bTRpD/4wd9GXM3thY0EbRrY3BjyC3luYtFuG1igHR3pEal4rlHgLYq/YgjKotzyoZ33Vg87mf6U
- jds0APFdbp02aKiVy9BjZsoNl0oQc/KSoseQ1AeT1VX3ZK7aiyqqjD9WnEv7uIC49YB3THrlu88
- Yg3V9x58JIRb8evkqcSjGceEiF+X9M7CgaoBC8VWY6Dq11xkvyVLJ8PnsEwAYTWJqFg+6Zmakx5
- slijkE7EFhYsth7an9GDlQXZ+aba9ZjcJe7yHhmpuAsVSauzrz1nh0tMi8yPfUfBySdEggeSc09
- HiQTSFx6txuT9qGErsX+ldXribkXJj82Q2MBIOKRPPIWPCb8JppRjR1yaYEhaSjjZVyKYb2XRce
- TqVdeIEPbObvyyOFkC3vJ8ZnAaygUYy75fkYlUb3t+JnomDmU9OcuEkOHrmrVGpcr4zYNYMSFbg
- 59N30fSJZwYlfdpQtLidXtsxzr7crjQBlzftOj/QgKR7OMbGB8LC9U+AOd5VV3G5Tm+iGEaf7k8
- Ll6Q3KJi6whe0XOji7HyJnhzi9lsyoJ+99pjkEgacKE8h7KF+5TI4k5ESY6RclAq2w/O1cdL6Rr
- Y3LPK/bf5XPU9AtW3vmmAq+w02lgAS+VDLeBWx87fW2Zh9oF7IbglhPHezoWB/phvBAavtXQEnR
- 59uXO85oN5VqtPQ==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
+ <20260724171945.2812749-3-shubhrajyoti.datta@amd.com> <20260802184623.GAam-Qf9-yes1DkNkl@fat_crate.local>
+In-Reply-To: <20260802184623.GAam-Qf9-yes1DkNkl@fat_crate.local>
+From: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
+Date: Mon, 3 Aug 2026 20:14:17 +0530
+X-Gm-Features: AUfX_mw-ixZnKIIWaCJ45n8Qn2U9_1318h21JGJtFyQkSxonopCuy3rGGskLy_c
+Message-ID: <CAKfKVtFtFmUKwnWY4xGwcRQG+qJ2UdK6LK+3QX=Ukvr3v4Y7EQ@mail.gmail.com>
+Subject: Re: [PATCH 2/9] EDAC/versalnet: Add NULL check for mci in remove_one_mc()
+To: Borislav Petkov <bp@alien8.de>
+Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, linux-edac@vger.kernel.org, git@amd.com, 
+	Michal Simek <michal.simek@amd.com>, Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I hit the following on one of my machines:
-
-  mce: CPU0 BANK15 CMCI inherited storm
-  ------------[ cut here ]------------
-  ODEBUG: assert_init not available (active state 0) object: (____ptrval____) object type: timer_list hint: 0x0
-  WARNING: lib/debugobjects.c:632 at debug_object_assert_init+0x178/0x230, CPU#0: swapper/0/0
-  CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.2.0-rc5 #3 PREEMPTLAZY
-  RIP: 0010:debug_object_assert_init+0x18f/0x230
-  Call Trace:
-   <TASK>
-   __mod_timer
-   mce_timer_kick
-   cmci_discover
-   intel_init_cmci
-   mce_intel_feature_init
-   mcheck_cpu_init
-   identify_cpu
-   identify_boot_cpu
-   arch_cpu_finalize_init
-   start_kernel
-
-A second splat follows right after, from timer_setup() finding that same
-timer already queued:
-
-  ODEBUG: init active (active state 0) object: (____ptrval____) object type: timer_list hint: stub_timer+0x0/0x10
-
-This is happening because we are trying to modify the timer before it
-was properly setup'ed.
-
-Set the timer up first. __mcheck_cpu_setup_timer() only calls
-timer_setup(), and depends on neither the generic nor the vendor init.
-
-Fixes: 1f68ce2a0272 ("x86/mce: Handle Intel threshold interrupt storms")
-Cc: stable@vger.kernel.org
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- arch/x86/kernel/cpu/mce/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 9bba1e2f03af7..cfb74be19994d 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -2266,10 +2266,10 @@ void mcheck_cpu_init(struct cpuinfo_x86 *c)
- 
- 	mca_cfg.initialized = 1;
- 
-+	__mcheck_cpu_setup_timer();
- 	__mcheck_cpu_init_generic();
- 	__mcheck_cpu_init_vendor(c);
- 	__mcheck_cpu_init_prepare_banks();
--	__mcheck_cpu_setup_timer();
- 	cr4_set_bits(X86_CR4_MCE);
- }
- 
-
----
-base-commit: 8ba098e6b6ff0db8edf28528d1552be261af30d4
-change-id: 20260731-mce_timer_init-ab3148a08961
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
-
+On Mon, Aug 3, 2026 at 12:16=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Fri, Jul 24, 2026 at 10:49:38PM +0530, Shubhrajyoti Datta wrote:
+> > If a controller's configuration specifies an unrecognized bus width,
+>
+> When can that happen?
+>
+> We did figure out that controllers cannot be non-contiguous.
+>
+The current driver assumes that all 8 DDRMC controllers are present and
+indexed contiguously. If there are only 2 controllers then the bus
+width will be
+unrecognized.
