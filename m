@@ -1,230 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB8131F995
-	for <linux-edac@vger.kernel.org>; Mon,  3 Aug 2026 08:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A3A367B7B;
+	Mon,  3 Aug 2026 09:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785745484; cv=none; b=TiHH/VIi0VH4IMI78461MCvsT1lJglLLTcgSGZBhxZzXusGkkeFxQyzmlcAAu3PTjAQNqh1uDyDmVXkizbdC2gnEtxY3S/vxy5lnprzipysXNNjss5kNm5OYcTDt8T7M97Jx43r/nEy2RRAs86zNDcUwKDrwS+31+Xng9pGWe5Q=
+	t=1785750501; cv=none; b=fbTP+C0SApLPHY2YowJcgDWa9EgBRX7L+axfSrE5N8wbfnNOgvcw3lY0fc3tibhX9wWrIM6TsMGGSOlYT/fjlP3opOj5k5OPpNpYdf2KOmH8N4giu1JQkWQ2n4OyfbLww1zSnccd679En7nMUPIzAi1uWChII6FPhw2U63r0J4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785745484; c=relaxed/simple;
-	bh=/xPd4KuPO1rtgr8x4A4p/i0YQk+dusz+zJyB3GGPjSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TuGwEIBquFvSZ8XVeHGzenGdKg7jvGM/qtaKolGdtEihusnkz2VNKaAh3ZpH7N9bHUVKkrOTp/8EzX57ysVN4rMnD/ANrH1oqFMeJlp08FbLoO8bDKc3DtSwSvNMxIpTHQmxCpv332qhAreSr1af/23T1aXAwRuva99o/ZbsRFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQtmyL+p; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785750501; c=relaxed/simple;
+	bh=VtRcCBYFOpCxmbipGKu1tjyC0LEbheqd3X0s+e0JJYc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MspIHc1QLYvM//Grl3F5XF/ST9JTg4f3Qy4aBcQsiIg1rRpkgyp07Uo1C+OWXYAAWEOwB1b+ueqaN/oRcLgekJyi3u20V5ZJU/ew8yVvMTTPSqNX119wnkfzlwop0BMjan4N/7gFxtOjd/ACLe6mwIGVH7V/zicxZr81Al0lZ8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Rwt6wypE; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aQtmyL+p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545CA1F00A3D
-	for <linux-edac@vger.kernel.org>; Mon,  3 Aug 2026 08:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785745483;
-	bh=ELOsRbeCRU2QsFplIejZ3uG4DJcEeqqRAmp+YlMB1A0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=aQtmyL+pyfc/P2xPpU+pvWZ7Pd7qynsVyasFGIma+M+aoCtOMuhCQM8BarfKkctvw
-	 4ohIiC+T9VHVJ7A+FmbI0WYK4DIQ/5x7oKv/iNa8OLXEbYqMLb4KeZRj/HRnNld0tP
-	 Y5/p5NMMMSj95lxaMOqs+WuJpnyJAFLr2fVOW+/Wa7uLpulJP8PR9OQlg/5FtOSwXK
-	 fF7bTWSmIhI6SbFjc1DMvjI934nGRW4pylm1FAMjOsaIGzPUo/QDV7erJotZqLgtaT
-	 6UgvWuNrb0cPiULQM5K9IUVXYvzIXlm+YkrHRhmfXYNIDPhXqicWqQzJZcdFtZwE9K
-	 ZbGBMviNsPRzA==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6a08a2b7e5bso4225390a12.1
-        for <linux-edac@vger.kernel.org>; Mon, 03 Aug 2026 01:24:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrMubQRkaOMQ2SYeOm/jAJ+Zl20LyI86yJYLV/0A6vEzV2RBiuKZ2j8ejcaKvt1LUw+tJvoOWZIJ+Ec@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5ipuZ7SWymVfBq0Mp5zeDtYyRlaWoUyB0WrzX1Z/PPoeqgo0L
-	IU/ba7/yVhobVRJvqwU4mIiXOYF3kZLlha+79ZfZlMfQ6GOXH+lFV2UNER4q4tv+5aWzETYbuRw
-	/XWw/1LB6D/sa0ogMm3+vak4CGsvh53U=
-X-Received: by 2002:a05:6402:1ec1:b0:698:4501:3a8e with SMTP id
- 4fb4d7f45d1cf-6a0a7b71d38mr6386094a12.9.1785745482013; Mon, 03 Aug 2026
- 01:24:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Rwt6wypE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
+	bh=VPm2F0UXpev5LSmRv0dgVwfwkoR2kq/J1qPVrxHeh5k=; b=Rwt6wypEtEyaMvUfFnB3xhcPAU
+	F22cricOqpY3qbzD8nSwqdsQ+0Wsqtz0kjBd5nOaS6J8MTfQsvSQkfO3lPXXFMmhu1tNcP3Qz+YGk
+	qARKRtFKfdWX5d3Dc2L7cEQGlI45ItZk9A248qzos0AKDH5uL9oKGyP92Oaa7cf9110QIG2Km5m3W
+	Odus4xCcsDmnyoZZiElH4TAciSN6MtfQooGLzDT0U6DyqJszj0+XY0kx4bBY++59ywW1JlkaVeBnF
+	l6PIIACZLt9/kp1zL4kdxDECMyGU+ro8lD2rSaeQ84EaGQayUwQJ/zmgw4P9yYl36HxEQAIv5z1UA
+	NjvpPQeA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wqpGz-00CGwK-10;
+	Mon, 03 Aug 2026 09:47:53 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Mon, 03 Aug 2026 02:47:40 -0700
+Subject: [PATCH] x86/mce: Set up the polling timer before CMCI discovery
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
-In-Reply-To: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Mon, 3 Aug 2026 16:25:06 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
-X-Gm-Features: AUfX_mx4PNDGpsqYKEY19bSlBh4BGO_wnQf3YmRnMOVPzcg7pfuWJE9qAiGtDy8
-Message-ID: <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] EDAC/loongson: Encode node and MC info into mc_idx
-To: Qunqin Zhao <zhaoqunqin@loongson.cn>
-Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
-	Wang Jinwei <wangjinwei@loongson.cn>, Yulong Wang <wangyulong@loongson.cn>, 
-	Dongyan Qian <qiandongyan@loongson.cn>, Chao Li <lichao@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260803-mce_timer_init-v1-1-9539db424330@debian.org>
+X-B4-Tracking: v=1; b=H4sIALtjcGoC/yXMQQqDMBAF0KsMf20gUbGaq4hITKftCKaSpEUQ7
+ 16sy7d5OxJH4QRLOyJ/Jck7wJIpCP7lwpOV3GEJpS4bfauMWjyPWRaOowTJyk2VqVun264xKAh
+ r5Ids/7AfLqfPNLPP54Lj+AHUh2F9cgAAAA==
+X-Change-ID: 20260731-mce_timer_init-ab3148a08961
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-team@meta.com, stable@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2058; i=leitao@debian.org;
+ h=from:subject:message-id; bh=VtRcCBYFOpCxmbipGKu1tjyC0LEbheqd3X0s+e0JJYc=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqcGPERUvGlhnLg8bUEwpioNXie0DexHi22BdNY
+ 6Y9c0LCvBiJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCanBjxAAKCRA1o5Of/Hh3
+ bTRpD/4wd9GXM3thY0EbRrY3BjyC3luYtFuG1igHR3pEal4rlHgLYq/YgjKotzyoZ33Vg87mf6U
+ jds0APFdbp02aKiVy9BjZsoNl0oQc/KSoseQ1AeT1VX3ZK7aiyqqjD9WnEv7uIC49YB3THrlu88
+ Yg3V9x58JIRb8evkqcSjGceEiF+X9M7CgaoBC8VWY6Dq11xkvyVLJ8PnsEwAYTWJqFg+6Zmakx5
+ slijkE7EFhYsth7an9GDlQXZ+aba9ZjcJe7yHhmpuAsVSauzrz1nh0tMi8yPfUfBySdEggeSc09
+ HiQTSFx6txuT9qGErsX+ldXribkXJj82Q2MBIOKRPPIWPCb8JppRjR1yaYEhaSjjZVyKYb2XRce
+ TqVdeIEPbObvyyOFkC3vJ8ZnAaygUYy75fkYlUb3t+JnomDmU9OcuEkOHrmrVGpcr4zYNYMSFbg
+ 59N30fSJZwYlfdpQtLidXtsxzr7crjQBlzftOj/QgKR7OMbGB8LC9U+AOd5VV3G5Tm+iGEaf7k8
+ Ll6Q3KJi6whe0XOji7HyJnhzi9lsyoJ+99pjkEgacKE8h7KF+5TI4k5ESY6RclAq2w/O1cdL6Rr
+ Y3LPK/bf5XPU9AtW3vmmAq+w02lgAS+VDLeBWx87fW2Zh9oF7IbglhPHezoWB/phvBAavtXQEnR
+ 59uXO85oN5VqtPQ==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-Hi, Qunqin,
+I hit the following on one of my machines:
 
-On Thu, Jul 30, 2026 at 2:45=E2=80=AFPM Qunqin Zhao <zhaoqunqin@loongson.cn=
-> wrote:
->
-> From: Wang Jinwei <wangjinwei@loongson.cn>
->
-> On Loongson multi-node systems, memory controllers are distributed
-> across multiple nodes. Encode node and MC information into mc_idx
-> so that sysfs entries uniquely identify each controller.
->
-> The driver gets mc-idx from ACPI _DSD property 'mc-idx' if firmware
-> provides it. If not, it falls back to edac_device_alloc_index() for
-> legacy firmware compatibility.
->
-> The number of memory controllers per node (mc-per-node) is obtained
-> from firmware via ACPI _DSD property, with a default of 4 for
-> backward compatibility. The node and MC IDs are decoded from mc_idx:
->      node =3D mc_idx / mc_per_node
->      mc =3D mc_idx % mc_per_node
->
-> For example, with mc-per-node=3D4:
->      mc-idx 0-3   -> node0 mc0-mc3
->      mc-idx 4-7   -> node1 mc0-mc3
->      ...
->      mc-idx 28-31 -> node7 mc0-mc3
->
-> The dmesg output looks like this=EF=BC=9A
-> Before: (no _DSD mc-idx)
-> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
-> page:0x0 offset:0x0 grain:8 syndrome:0x0)
->
-> After: (_DSD mc-idx)
-> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
-> page:0x0 offset:0x0 grain:8 syndrome:0x0 - node:0 mc:3)
->
-> Cc: Yulong Wang <wangyulong@loongson.cn>
-> Cc: Dongyan Qian <qiandongyan@loongson.cn>
-> Cc: Chao Li <lichao@loongson.cn>
-> Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
-> Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
-> ---
->  drivers/edac/loongson_edac.c | 38 +++++++++++++++++++++++++++++++-----
->  1 file changed, 33 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-> index 38745800ed..f2452e98f5 100644
-> --- a/drivers/edac/loongson_edac.c
-> +++ b/drivers/edac/loongson_edac.c
-> @@ -9,6 +9,7 @@
->  #include <linux/io-64-nonatomic-lo-hi.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> +#include <linux/property.h>
->  #include "edac_module.h"
->
->  #define ECC_CS_COUNT_REG       0x18
-> @@ -23,6 +24,8 @@ struct loongson_edac_pvt {
->          * register state.
->          */
->         int last_ce_count;
-> +       int mc_per_node;
-I think mcs_per_node is better than mc_per_node.
+  mce: CPU0 BANK15 CMCI inherited storm
+  ------------[ cut here ]------------
+  ODEBUG: assert_init not available (active state 0) object: (____ptrval____) object type: timer_list hint: 0x0
+  WARNING: lib/debugobjects.c:632 at debug_object_assert_init+0x178/0x230, CPU#0: swapper/0/0
+  CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.2.0-rc5 #3 PREEMPTLAZY
+  RIP: 0010:debug_object_assert_init+0x18f/0x230
+  Call Trace:
+   <TASK>
+   __mod_timer
+   mce_timer_kick
+   cmci_discover
+   intel_init_cmci
+   mce_intel_feature_init
+   mcheck_cpu_init
+   identify_cpu
+   identify_boot_cpu
+   arch_cpu_finalize_init
+   start_kernel
 
-> +       bool mc_idx_valid;
->  };
->
->  static int read_ecc(struct mem_ctl_info *mci)
-> @@ -44,7 +47,8 @@ static int read_ecc(struct mem_ctl_info *mci)
->  static void edac_check(struct mem_ctl_info *mci)
->  {
->         struct loongson_edac_pvt *pvt =3D mci->pvt_info;
-> -       int new, add;
-> +       char other_detail[64];
-Use char other_detail[64] =3D {0}, then we can drop the 'else' branch below=
-.
+A second splat follows right after, from timer_setup() finding that same
+timer already queued:
 
-> +       int new, add, node, mc;
->
->         new =3D read_ecc(mci);
->         add =3D new - pvt->last_ce_count;
-> @@ -52,8 +56,17 @@ static void edac_check(struct mem_ctl_info *mci)
->         if (add <=3D 0)
->                 return;
->
-> +       if (pvt->mc_idx_valid) {
-> +               node =3D mci->mc_idx / pvt->mc_per_node;
-> +               mc =3D mci->mc_idx % pvt->mc_per_node;
-> +               snprintf(other_detail, sizeof(other_detail),
-> +                               "node:%d mc:%d", node, mc);
-The snprintf() can be put in oneline.
+  ODEBUG: init active (active state 0) object: (____ptrval____) object type: timer_list hint: stub_timer+0x0/0x10
 
-> +       } else {
-> +               other_detail[0] =3D '\0';
-> +       }
-> +
->         edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, add,
-> -                            0, 0, 0, 0, 0, -1, "error", "");
-> +                            0, 0, 0, 0, 0, -1, "error", other_detail);
->  }
->
->  static void dimm_config_init(struct mem_ctl_info *mci)
-> @@ -72,20 +85,26 @@ static void dimm_config_init(struct mem_ctl_info *mci=
-)
->         dimm->grain =3D 8;
->  }
->
-> -static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase)
-> +static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
-> +               bool mc_idx_valid, int mc_per_node)
-The function definition can be put in one line.
+This is happening because we are trying to modify the timer before it
+was properly setup'ed.
 
->  {
->         struct loongson_edac_pvt *pvt =3D mci->pvt_info;
->
->         pvt->ecc_base =3D vbase;
->         pvt->last_ce_count =3D read_ecc(mci);
-> +       pvt->mc_idx_valid =3D mc_idx_valid;
-> +       pvt->mc_per_node =3D mc_per_node;
->  }
->
->  static int edac_probe(struct platform_device *pdev)
->  {
->         struct edac_mc_layer layers[2];
->         struct mem_ctl_info *mci;
-> +       struct device *dev =3D &pdev->dev;
->         void __iomem *vbase;
-> +       u32 mc_per_node;
->         int ret;
-> +       bool mc_idx_valid;
-Use bool mc_idx_valid =3D true, then we can drop the 'else' branch below.
+Set the timer up first. __mcheck_cpu_setup_timer() only calls
+timer_setup(), and depends on neither the generic nor the vendor init.
 
+Fixes: 1f68ce2a0272 ("x86/mce: Handle Intel threshold interrupt storms")
+Cc: stable@vger.kernel.org
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ arch/x86/kernel/cpu/mce/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Huacai
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 9bba1e2f03af7..cfb74be19994d 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -2266,10 +2266,10 @@ void mcheck_cpu_init(struct cpuinfo_x86 *c)
+ 
+ 	mca_cfg.initialized = 1;
+ 
++	__mcheck_cpu_setup_timer();
+ 	__mcheck_cpu_init_generic();
+ 	__mcheck_cpu_init_vendor(c);
+ 	__mcheck_cpu_init_prepare_banks();
+-	__mcheck_cpu_setup_timer();
+ 	cr4_set_bits(X86_CR4_MCE);
+ }
+ 
 
->
->         vbase =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(vbase))
-> @@ -102,7 +121,6 @@ static int edac_probe(struct platform_device *pdev)
->         if (mci =3D=3D NULL)
->                 return -ENOMEM;
->
-> -       mci->mc_idx =3D edac_device_alloc_index();
->         mci->mtype_cap =3D MEM_FLAG_RDDR4;
->         mci->edac_ctl_cap =3D EDAC_FLAG_NONE;
->         mci->edac_cap =3D EDAC_FLAG_NONE;
-> @@ -114,7 +132,17 @@ static int edac_probe(struct platform_device *pdev)
->         mci->error_desc.grain =3D 8;
->         mci->edac_check =3D edac_check;
->
-> -       pvt_init(mci, vbase);
-> +       if (device_property_read_u32(dev, "mc-idx", &mci->mc_idx)) {
-> +               mci->mc_idx =3D edac_device_alloc_index();
-> +               mc_idx_valid =3D false;
-> +       } else {
-> +               mc_idx_valid =3D true;
-> +       }
-> +
-> +       if (device_property_read_u32(dev, "mc-per-node", &mc_per_node))
-> +               mc_per_node =3D 4;
-> +
-> +       pvt_init(mci, vbase, mc_idx_valid, mc_per_node);
->         dimm_config_init(mci);
->
->         ret =3D edac_mc_add_mc(mci);
->
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> --
-> 2.47.2
->
->
+---
+base-commit: 8ba098e6b6ff0db8edf28528d1552be261af30d4
+change-id: 20260731-mce_timer_init-ab3148a08961
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
