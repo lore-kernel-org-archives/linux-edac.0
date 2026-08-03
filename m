@@ -1,107 +1,230 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A58B32B11C;
-	Sun,  2 Aug 2026 18:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB8131F995
+	for <linux-edac@vger.kernel.org>; Mon,  3 Aug 2026 08:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785696759; cv=none; b=E86xd1PfDzDCUuIiLfQnCZQOFZI8P8mrU2Nz/F1w8EdGm/ltDrUQaL6FpNjn8f1Q4JUJsRMWCxSkW/g+TSStbKHe/oV+hMAfyr4iRXBbL8qsY+VWYBd45SwbpHB/wyPKwyjKWWraDrVlTudvZBzMylTf3jV3DEURumwm1S2XPjI=
+	t=1785745484; cv=none; b=TiHH/VIi0VH4IMI78461MCvsT1lJglLLTcgSGZBhxZzXusGkkeFxQyzmlcAAu3PTjAQNqh1uDyDmVXkizbdC2gnEtxY3S/vxy5lnprzipysXNNjss5kNm5OYcTDt8T7M97Jx43r/nEy2RRAs86zNDcUwKDrwS+31+Xng9pGWe5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785696759; c=relaxed/simple;
-	bh=f1kacSJLCNkIkwKIeG5fv3ZvSwpUSUj5A1sAPah71pI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ulgIV77vx/MSI9QwfyZG682YIzD4oq8PSY0mLUnDSw4Ae9Wkm4jLOq/gVZegggOldR7anh+Di2KmvlmLkqffLHdb+sCPiEepNn6bFY3LcHdvhCexVl85vjQNHLkWwR+oJecb4pl10LHLEJNKhNBBWXoy3QdR9k5FTo4tehVgDhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=IkVw6ikI; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1785745484; c=relaxed/simple;
+	bh=/xPd4KuPO1rtgr8x4A4p/i0YQk+dusz+zJyB3GGPjSQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TuGwEIBquFvSZ8XVeHGzenGdKg7jvGM/qtaKolGdtEihusnkz2VNKaAh3ZpH7N9bHUVKkrOTp/8EzX57ysVN4rMnD/ANrH1oqFMeJlp08FbLoO8bDKc3DtSwSvNMxIpTHQmxCpv332qhAreSr1af/23T1aXAwRuva99o/ZbsRFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQtmyL+p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="IkVw6ikI"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A55A140E00E6;
-	Sun,  2 Aug 2026 18:52:32 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Qwf9MP8sUihv; Sun,  2 Aug 2026 18:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785696742; bh=I4sNSPtdW3RC56MU/21uboM1Gcdr7bhfyFtuegZ/DWg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IkVw6ikI7jzv3YeNzHXs2idWfcQ3RHvoyvkPcLj9++crkd1xVvWipnFL58TcWzJTx
-	 AJPcNT5TztSSXw8prnSwVukboDNsWC9m69BRh5Hfc5hP8AcHTka9ey9q20NeP1bNgP
-	 O32i0WRzu5XheIQU4g1EaSGaLKg+U21Vxu7K+nt3P4BNGR7axoJG77ZhRxIfeDwadO
-	 wbal1c2U8LEVywIvv2vcGr3ILxV25TrmElwcnF5ODECo3w7r9L7YZ/VGwWOvnDHnSn
-	 YDc1EYEx3+r77/kJpiFFJxEqx7MVmllwdt8snUBK1+9/YNxLCBaoHa8H1j7DypKRO0
-	 2WmFzjbtxp7plp8PnB5oKtHs2mp9HlM6GD0ngCos/T3CQLfUWPKaKoaZoiT5z6uYUU
-	 rKe1kUznAAP/d0omPSFz0doHKNkqluRtR51gBb7bmq77mlsJujuz/4svdPBmQofx7N
-	 b+HldAwM7rBM6SUWWLFJ94lUuNBOkcSmX4L9bxzhLsehaFh97VxWXXKG/acraYQxoa
-	 wL3UDLfVkpGrsEB/TNa3O7zHxb4sdjHmiB56ayczKwvuPbV8xB8DQNat/45Jf5gwu2
-	 LXT3LUVQ6ihr/sszyd3P9Ug+qFPsncPz0kprwh/owbkIxyARrfZdHXPItPSOIV2/Mp
-	 pEcdq/z1hqE7C0mE69yCsLXQ=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2513A40E00C3;
-	Sun,  2 Aug 2026 18:52:14 +0000 (UTC)
-Date: Sun, 2 Aug 2026 11:52:11 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Pandey, Radhey Shyam" <radheys@amd.com>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	linux-edac@vger.kernel.org, git@amd.com,
-	shubhrajyoti.datta@gmail.com, Michal Simek <michal.simek@amd.com>,
-	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/9] EDAC/versalnet: Add NULL check for mci in
- remove_one_mc()
-Message-ID: <20260802185211.GBam-R2waQcPgti5EO@fat_crate.local>
-References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
- <20260724171945.2812749-3-shubhrajyoti.datta@amd.com>
- <4b6253ae-dad7-4591-ad11-8cebb31caa86@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aQtmyL+p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545CA1F00A3D
+	for <linux-edac@vger.kernel.org>; Mon,  3 Aug 2026 08:24:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785745483;
+	bh=ELOsRbeCRU2QsFplIejZ3uG4DJcEeqqRAmp+YlMB1A0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=aQtmyL+pyfc/P2xPpU+pvWZ7Pd7qynsVyasFGIma+M+aoCtOMuhCQM8BarfKkctvw
+	 4ohIiC+T9VHVJ7A+FmbI0WYK4DIQ/5x7oKv/iNa8OLXEbYqMLb4KeZRj/HRnNld0tP
+	 Y5/p5NMMMSj95lxaMOqs+WuJpnyJAFLr2fVOW+/Wa7uLpulJP8PR9OQlg/5FtOSwXK
+	 fF7bTWSmIhI6SbFjc1DMvjI934nGRW4pylm1FAMjOsaIGzPUo/QDV7erJotZqLgtaT
+	 6UgvWuNrb0cPiULQM5K9IUVXYvzIXlm+YkrHRhmfXYNIDPhXqicWqQzJZcdFtZwE9K
+	 ZbGBMviNsPRzA==
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6a08a2b7e5bso4225390a12.1
+        for <linux-edac@vger.kernel.org>; Mon, 03 Aug 2026 01:24:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrMubQRkaOMQ2SYeOm/jAJ+Zl20LyI86yJYLV/0A6vEzV2RBiuKZ2j8ejcaKvt1LUw+tJvoOWZIJ+Ec@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5ipuZ7SWymVfBq0Mp5zeDtYyRlaWoUyB0WrzX1Z/PPoeqgo0L
+	IU/ba7/yVhobVRJvqwU4mIiXOYF3kZLlha+79ZfZlMfQ6GOXH+lFV2UNER4q4tv+5aWzETYbuRw
+	/XWw/1LB6D/sa0ogMm3+vak4CGsvh53U=
+X-Received: by 2002:a05:6402:1ec1:b0:698:4501:3a8e with SMTP id
+ 4fb4d7f45d1cf-6a0a7b71d38mr6386094a12.9.1785745482013; Mon, 03 Aug 2026
+ 01:24:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4b6253ae-dad7-4591-ad11-8cebb31caa86@amd.com>
+References: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
+In-Reply-To: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 3 Aug 2026 16:25:06 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
+X-Gm-Features: AUfX_mx4PNDGpsqYKEY19bSlBh4BGO_wnQf3YmRnMOVPzcg7pfuWJE9qAiGtDy8
+Message-ID: <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] EDAC/loongson: Encode node and MC info into mc_idx
+To: Qunqin Zhao <zhaoqunqin@loongson.cn>
+Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	Wang Jinwei <wangjinwei@loongson.cn>, Yulong Wang <wangyulong@loongson.cn>, 
+	Dongyan Qian <qiandongyan@loongson.cn>, Chao Li <lichao@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 27, 2026 at 01:41:52PM +0530, Pandey, Radhey Shyam wrote:
-> Confirm on fixes tag. The bug likely goes back to the original driver.
-> > Cc: stable@vger.kernel.org
-> 
-> There is no CC to stable kernel in email.
+Hi, Qunqin,
 
-Ok, before you state something like that about kernel process rules, just go
-to the source and confirm it:
+On Thu, Jul 30, 2026 at 2:45=E2=80=AFPM Qunqin Zhao <zhaoqunqin@loongson.cn=
+> wrote:
+>
+> From: Wang Jinwei <wangjinwei@loongson.cn>
+>
+> On Loongson multi-node systems, memory controllers are distributed
+> across multiple nodes. Encode node and MC information into mc_idx
+> so that sysfs entries uniquely identify each controller.
+>
+> The driver gets mc-idx from ACPI _DSD property 'mc-idx' if firmware
+> provides it. If not, it falls back to edac_device_alloc_index() for
+> legacy firmware compatibility.
+>
+> The number of memory controllers per node (mc-per-node) is obtained
+> from firmware via ACPI _DSD property, with a default of 4 for
+> backward compatibility. The node and MC IDs are decoded from mc_idx:
+>      node =3D mc_idx / mc_per_node
+>      mc =3D mc_idx % mc_per_node
+>
+> For example, with mc-per-node=3D4:
+>      mc-idx 0-3   -> node0 mc0-mc3
+>      mc-idx 4-7   -> node1 mc0-mc3
+>      ...
+>      mc-idx 28-31 -> node7 mc0-mc3
+>
+> The dmesg output looks like this=EF=BC=9A
+> Before: (no _DSD mc-idx)
+> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
+> page:0x0 offset:0x0 grain:8 syndrome:0x0)
+>
+> After: (_DSD mc-idx)
+> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
+> page:0x0 offset:0x0 grain:8 syndrome:0x0 - node:0 mc:3)
+>
+> Cc: Yulong Wang <wangyulong@loongson.cn>
+> Cc: Dongyan Qian <qiandongyan@loongson.cn>
+> Cc: Chao Li <lichao@loongson.cn>
+> Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
+> Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
+> ---
+>  drivers/edac/loongson_edac.c | 38 +++++++++++++++++++++++++++++++-----
+>  1 file changed, 33 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
+> index 38745800ed..f2452e98f5 100644
+> --- a/drivers/edac/loongson_edac.c
+> +++ b/drivers/edac/loongson_edac.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/io-64-nonatomic-lo-hi.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/property.h>
+>  #include "edac_module.h"
+>
+>  #define ECC_CS_COUNT_REG       0x18
+> @@ -23,6 +24,8 @@ struct loongson_edac_pvt {
+>          * register state.
+>          */
+>         int last_ce_count;
+> +       int mc_per_node;
+I think mcs_per_node is better than mc_per_node.
 
-Documentation/process/stable-kernel-rules.rst:
+> +       bool mc_idx_valid;
+>  };
+>
+>  static int read_ecc(struct mem_ctl_info *mci)
+> @@ -44,7 +47,8 @@ static int read_ecc(struct mem_ctl_info *mci)
+>  static void edac_check(struct mem_ctl_info *mci)
+>  {
+>         struct loongson_edac_pvt *pvt =3D mci->pvt_info;
+> -       int new, add;
+> +       char other_detail[64];
+Use char other_detail[64] =3D {0}, then we can drop the 'else' branch below=
+.
 
-"Option 1
-********
+> +       int new, add, node, mc;
+>
+>         new =3D read_ecc(mci);
+>         add =3D new - pvt->last_ce_count;
+> @@ -52,8 +56,17 @@ static void edac_check(struct mem_ctl_info *mci)
+>         if (add <=3D 0)
+>                 return;
+>
+> +       if (pvt->mc_idx_valid) {
+> +               node =3D mci->mc_idx / pvt->mc_per_node;
+> +               mc =3D mci->mc_idx % pvt->mc_per_node;
+> +               snprintf(other_detail, sizeof(other_detail),
+> +                               "node:%d mc:%d", node, mc);
+The snprintf() can be put in oneline.
 
-To have a patch you submit for mainline inclusion later automatically picked up
-for stable trees, add this tag in the sign-off area::
+> +       } else {
+> +               other_detail[0] =3D '\0';
+> +       }
+> +
+>         edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, add,
+> -                            0, 0, 0, 0, 0, -1, "error", "");
+> +                            0, 0, 0, 0, 0, -1, "error", other_detail);
+>  }
+>
+>  static void dimm_config_init(struct mem_ctl_info *mci)
+> @@ -72,20 +85,26 @@ static void dimm_config_init(struct mem_ctl_info *mci=
+)
+>         dimm->grain =3D 8;
+>  }
+>
+> -static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase)
+> +static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
+> +               bool mc_idx_valid, int mc_per_node)
+The function definition can be put in one line.
 
-  Cc: stable@vger.kernel.org"
+>  {
+>         struct loongson_edac_pvt *pvt =3D mci->pvt_info;
+>
+>         pvt->ecc_base =3D vbase;
+>         pvt->last_ce_count =3D read_ecc(mci);
+> +       pvt->mc_idx_valid =3D mc_idx_valid;
+> +       pvt->mc_per_node =3D mc_per_node;
+>  }
+>
+>  static int edac_probe(struct platform_device *pdev)
+>  {
+>         struct edac_mc_layer layers[2];
+>         struct mem_ctl_info *mci;
+> +       struct device *dev =3D &pdev->dev;
+>         void __iomem *vbase;
+> +       u32 mc_per_node;
+>         int ret;
+> +       bool mc_idx_valid;
+Use bool mc_idx_valid =3D true, then we can drop the 'else' branch below.
 
-So yes, you should very much cc stable. The additional reason being that the
-stable team will pick up the patch faster instead of them running it through
-AI, it finding the Fixes tag and determining whether it is backportable
-material or not.
 
-Oh, and if you want that to happen, you better write a good commit message
-explaining what is happening and under which circumstances and why it needs to
-be fixed.
+Huacai
 
-:-)
-
-HTH.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+>
+>         vbase =3D devm_platform_ioremap_resource(pdev, 0);
+>         if (IS_ERR(vbase))
+> @@ -102,7 +121,6 @@ static int edac_probe(struct platform_device *pdev)
+>         if (mci =3D=3D NULL)
+>                 return -ENOMEM;
+>
+> -       mci->mc_idx =3D edac_device_alloc_index();
+>         mci->mtype_cap =3D MEM_FLAG_RDDR4;
+>         mci->edac_ctl_cap =3D EDAC_FLAG_NONE;
+>         mci->edac_cap =3D EDAC_FLAG_NONE;
+> @@ -114,7 +132,17 @@ static int edac_probe(struct platform_device *pdev)
+>         mci->error_desc.grain =3D 8;
+>         mci->edac_check =3D edac_check;
+>
+> -       pvt_init(mci, vbase);
+> +       if (device_property_read_u32(dev, "mc-idx", &mci->mc_idx)) {
+> +               mci->mc_idx =3D edac_device_alloc_index();
+> +               mc_idx_valid =3D false;
+> +       } else {
+> +               mc_idx_valid =3D true;
+> +       }
+> +
+> +       if (device_property_read_u32(dev, "mc-per-node", &mc_per_node))
+> +               mc_per_node =3D 4;
+> +
+> +       pvt_init(mci, vbase, mc_idx_valid, mc_per_node);
+>         dimm_config_init(mci);
+>
+>         ret =3D edac_mc_add_mc(mci);
+>
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> --
+> 2.47.2
+>
+>
