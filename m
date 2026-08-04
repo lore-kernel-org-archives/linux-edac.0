@@ -1,96 +1,202 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEA642EEBE;
-	Mon,  3 Aug 2026 18:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BF6A3FAE1D;
+	Tue,  4 Aug 2026 03:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785781375; cv=none; b=jIbG53Bpqp2hv2L4B5XysmW7hs4OA2/tAVm7MVtlf6/cf7JMxvIFyqeC980hTMPAv2ShbznWCfoOa2OsEZUjBI6eDEcJ1LINvBfexs/3FnbGgXez0wHk1x7XRuFydx/1ZTN01lDYeUepqKMpu3TtmdL490Y3GZNZ85YbSQhfqtU=
+	t=1785813610; cv=none; b=iErqzYVDdeMIIl4DikBMoNs0jwifu8yjV3lS8VSDi+M3PV6fk1uBNswMUTYbk4VYX5J/yIHTD9eZAJrGag7YDejOTZe0LxeEjXKJs4V8kB7z/E5YdLllIv/n+RHs28Gm8fLSrQue0nI/edJPNPxY3vii/YkWI6ibWDnMm6CFKGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785781375; c=relaxed/simple;
-	bh=Wh9S0/bY72qGcindqSYmUhxulOOzqrStJ3CLCuSWbQo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r9Bg500w4adf0ksSZlcfQiWF05QgtfW4mEkanou1U5Y+rqYBWB9b9utwjuqIy6fMinh/fb7yQ8TCgiXIeBrUlG92j8AADcB1nbOZ8kM5HRAiVowqXGMBWC4+jfs71U5vXS/vGRWrTXpjiospWcroA78N3yBFDFVz+CGOCQ0lrMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jWWIZ5Z6; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jWWIZ5Z6"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8CC78408D2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1785781373; bh=PKbX1zDB9N/0/iybsnyUV6qq/3RUDOfn13GSpXP0odk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jWWIZ5Z6HJ2igiuSqIWK0Yicza1VecsURPRC+gneMVFUzPdg0b7St60p9yJ2tAPSM
-	 xNE43N3bdwDkVCGl+z/0Y4tqdVurNLWBL/wwgPyDmiPQLKnBCAJCnNQbIFEWdDlmeq
-	 52JtSLjDnA2da/gWkGVAN+1MLDrCXMzVkvVkL8ZoVrYfBScjmLVp4lSjCo8l21M6yL
-	 SQz488YU9MGU+4/Ax0h+UNJHlPAScpfeEmube2fP6pACWI56xA/O0Y9d1fzQ14BYQ8
-	 7vaW29WmjLDgvliROm288b6vLb3w1bnBJxATUnix3UabinGJjrnw+qOcls+osZaAHi
-	 dNaJNqkLmJ8EQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8CC78408D2;
-	Mon,  3 Aug 2026 18:22:53 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: =?utf-8?B?5bKz56eJ5Z2k?= <yuebingkun@kylinos.cn>, mchehab@kernel.org,
- tony.luck@intel.com
-Cc: rdunlap@infradead.org, shiju.jose@huawei.com,
- jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
- hverkuil+cisco@kernel.org, sakari.ailus@linux.intel.com,
- linux-doc@vger.kernel.org, linux-edac@vger.kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, =?utf-8?B?5bKz?=
- =?utf-8?B?56eJ5Z2k?=
- <yuebingkun@kylinos.cn>
-Subject: Re: [PATCH v2 0/3] Documentation: fix a few typo and wording issues
-In-Reply-To: <20260728041213.52820-1-yuebingkun@kylinos.cn>
-References: <20260728041213.52820-1-yuebingkun@kylinos.cn>
-Date: Mon, 03 Aug 2026 12:22:52 -0600
-Message-ID: <87jyq7ysg3.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1785813610; c=relaxed/simple;
+	bh=oAoLlpVBHu9+aPIXf8SCnelrPknNeVmldY1sjk5npes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=phpHqm94GBrHy0cofjic0SnVJteCj+L1XbBIBAvWhuR/I9QvEu4ZJLe5Et70j/mgv72yQ+JDHm/pUyzP+9RZPtt0WEdHueDLIncstNbQhQl3CqMP8neAlk1SSST5fbYKbv3z8Ja9Gy3zDNWAgYDq3IZTFhGkMrX6Hr67Lz5EoKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.102])
+	by gateway (Coremail) with SMTP id _____8Dx8+llWnFqoycKAA--.23849S3;
+	Tue, 04 Aug 2026 11:20:05 +0800 (CST)
+Received: from [10.20.42.102] (unknown [10.20.42.102])
+	by front1 (Coremail) with SMTP id qMiowJDxDcdkWnFqde8iAA--.57585S2;
+	Tue, 04 Aug 2026 11:20:04 +0800 (CST)
+Message-ID: <6a7f9cf6-3998-4365-b949-fad33ea14dbe@loongson.cn>
+Date: Tue, 4 Aug 2026 11:19:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] EDAC/loongson: Encode node and MC info into mc_idx
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org,
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+ Wang Jinwei <wangjinwei@loongson.cn>, Yulong Wang <wangyulong@loongson.cn>,
+ Dongyan Qian <qiandongyan@loongson.cn>, Chao Li <lichao@loongson.cn>
+References: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
+ <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
+Content-Language: en-US
+From: Qunqin Zhao <zhaoqunqin@loongson.cn>
+In-Reply-To: <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJDxDcdkWnFqde8iAA--.57585S2
+X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCr1ruw4fGrWfGw1UCF1xJFc_yoWrZry5pF
+	47C3WYkr45trnruanaqry7ZFyavrs5KFZFqrs7ta48Cr9Fy3s7XFyfKr42kF9rCryrGFyI
+	vas8Gr4xuF1DJFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
+	AwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+	AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17
+	MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+	AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
+	cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
+	80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
+	43ZEXa7IU8CksDUUUUU==
 
-=E5=B2=B3=E7=A7=89=E5=9D=A4 <yuebingkun@kylinos.cn> writes:
 
-> Hi,
+在 2026/8/3 16:25, Huacai Chen 写道:
+> Hi, Qunqin,
 >
-> This series fixes a few small documentation issues (spelling/wording)
-> across Documentation/ files. Each patch targets a single subsystem's
-> docs so the respective maintainers can pick them up independently.
-> These changes are limited to spelling and wording corrections and do
-> not change behavior.
+> On Thu, Jul 30, 2026 at 2:45 PM Qunqin Zhao <zhaoqunqin@loongson.cn> wrote:
+>> From: Wang Jinwei <wangjinwei@loongson.cn>
+>>
+>> On Loongson multi-node systems, memory controllers are distributed
+>> across multiple nodes. Encode node and MC information into mc_idx
+>> so that sysfs entries uniquely identify each controller.
+>>
+>> The driver gets mc-idx from ACPI _DSD property 'mc-idx' if firmware
+>> provides it. If not, it falls back to edac_device_alloc_index() for
+>> legacy firmware compatibility.
+>>
+>> The number of memory controllers per node (mc-per-node) is obtained
+>> from firmware via ACPI _DSD property, with a default of 4 for
+>> backward compatibility. The node and MC IDs are decoded from mc_idx:
+>>       node = mc_idx / mc_per_node
+>>       mc = mc_idx % mc_per_node
+>>
+>> For example, with mc-per-node=4:
+>>       mc-idx 0-3   -> node0 mc0-mc3
+>>       mc-idx 4-7   -> node1 mc0-mc3
+>>       ...
+>>       mc-idx 28-31 -> node7 mc0-mc3
+>>
+>> The dmesg output looks like this：
+>> Before: (no _DSD mc-idx)
+>> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
+>> page:0x0 offset:0x0 grain:8 syndrome:0x0)
+>>
+>> After: (_DSD mc-idx)
+>> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
+>> page:0x0 offset:0x0 grain:8 syndrome:0x0 - node:0 mc:3)
+>>
+>> Cc: Yulong Wang <wangyulong@loongson.cn>
+>> Cc: Dongyan Qian <qiandongyan@loongson.cn>
+>> Cc: Chao Li <lichao@loongson.cn>
+>> Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
+>> Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
+>> ---
+>>   drivers/edac/loongson_edac.c | 38 +++++++++++++++++++++++++++++++-----
+>>   1 file changed, 33 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
+>> index 38745800ed..f2452e98f5 100644
+>> --- a/drivers/edac/loongson_edac.c
+>> +++ b/drivers/edac/loongson_edac.c
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/io-64-nonatomic-lo-hi.h>
+>>   #include <linux/module.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/property.h>
+>>   #include "edac_module.h"
+>>
+>>   #define ECC_CS_COUNT_REG       0x18
+>> @@ -23,6 +24,8 @@ struct loongson_edac_pvt {
+>>           * register state.
+>>           */
+>>          int last_ce_count;
+>> +       int mc_per_node;
+> I think mcs_per_node is better than mc_per_node.
 >
-> I am a newcomer to the Linux community, and I am eager to contribute
-> and learn through small, helpful fixes like this one.
+>> +       bool mc_idx_valid;
+>>   };
+>>
+>>   static int read_ecc(struct mem_ctl_info *mci)
+>> @@ -44,7 +47,8 @@ static int read_ecc(struct mem_ctl_info *mci)
+>>   static void edac_check(struct mem_ctl_info *mci)
+>>   {
+>>          struct loongson_edac_pvt *pvt = mci->pvt_info;
+>> -       int new, add;
+>> +       char other_detail[64];
+> Use char other_detail[64] = {0}, then we can drop the 'else' branch below.
 >
-> Changes in v2:
-> - Split the original single combined patch into per-subsystem patches,
->   per Randy Dunlap's feedback on v1.
-> - Moved the "newcomer" note out of the individual commit messages; it
->   now lives only in this cover letter.
-> - Collected Acked-by from Randy Dunlap <rdunlap@infradead.org>. The
->   content per-file is unchanged from v1, so the Ack is carried forward
->   on each patch.
+>> +       int new, add, node, mc;
+>>
+>>          new = read_ecc(mci);
+>>          add = new - pvt->last_ce_count;
+>> @@ -52,8 +56,17 @@ static void edac_check(struct mem_ctl_info *mci)
+>>          if (add <= 0)
+>>                  return;
+>>
+>> +       if (pvt->mc_idx_valid) {
+>> +               node = mci->mc_idx / pvt->mc_per_node;
+>> +               mc = mci->mc_idx % pvt->mc_per_node;
+>> +               snprintf(other_detail, sizeof(other_detail),
+>> +                               "node:%d mc:%d", node, mc);
+> The snprintf() can be put in oneline.
 >
-> =E5=B2=B3=E7=A7=89=E5=9D=A4 (3):
->   Documentation: fix "should be use" grammar in ABI README
->   Documentation: fix "readng" typo in EDAC memory-repair ABI doc
->   Documentation: fix "thare are" typo in V4L subdev routing doc
+>> +       } else {
+>> +               other_detail[0] = '\0';
+>> +       }
+>> +
+>>          edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, add,
+>> -                            0, 0, 0, 0, 0, -1, "error", "");
+>> +                            0, 0, 0, 0, 0, -1, "error", other_detail);
+>>   }
+>>
+>>   static void dimm_config_init(struct mem_ctl_info *mci)
+>> @@ -72,20 +85,26 @@ static void dimm_config_init(struct mem_ctl_info *mci)
+>>          dimm->grain = 8;
+>>   }
+>>
+>> -static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase)
+>> +static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
+>> +               bool mc_idx_valid, int mc_per_node)
+> The function definition can be put in one line.
 >
->  Documentation/ABI/README                                        | 2 +-
->  Documentation/ABI/testing/sysfs-edac-memory-repair              | 2 +-
->  .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst         | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+>>   {
+>>          struct loongson_edac_pvt *pvt = mci->pvt_info;
+>>
+>>          pvt->ecc_base = vbase;
+>>          pvt->last_ce_count = read_ecc(mci);
+>> +       pvt->mc_idx_valid = mc_idx_valid;
+>> +       pvt->mc_per_node = mc_per_node;
+>>   }
+>>
+>>   static int edac_probe(struct platform_device *pdev)
+>>   {
+>>          struct edac_mc_layer layers[2];
+>>          struct mem_ctl_info *mci;
+>> +       struct device *dev = &pdev->dev;
+>>          void __iomem *vbase;
+>> +       u32 mc_per_node;
+>>          int ret;
+>> +       bool mc_idx_valid;
+> Use bool mc_idx_valid = true, then we can drop the 'else' branch below.
 
-The first and third problems have already been fixed by others; I have
-applied the EDAC fix.
+Will fix all,
 
-Thanks,
+Thanks
 
-jon
+>
+> Huacai
+>
+>
+>
+
