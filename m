@@ -1,147 +1,153 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14D693F788A;
-	Wed,  5 Aug 2026 09:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CFA40D590
+	for <linux-edac@vger.kernel.org>; Wed,  5 Aug 2026 13:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785920959; cv=none; b=Mp3hdHNnXUn3Lt84Ro5S+EQI+WxiI8t1fw/cf1fzt2QnXbIyanWXxtZGv0J2VT9GBNjhYJKhL1qvRWLOECuW/qBlR6lKTm5tdp89A6JPdSyV+OirwPEJ7oBnnNg+X6QgD3imaXKJU8G98zpF/UplmR5jNceoo8Pr7LK7hT9nO1g=
+	t=1785937352; cv=none; b=q5fQ0a+SchGribigEnKmsNpJulmyq0niesGx+EuCY47FJnrxc6trj+rNvl629YzS6pU2x5Tiw2Io0RGSjeB5f3ltQk+CmS9VwVRvncoELuhf+zTGXZBknfYwn+ABDDBJg6+FURkrTaCw5rA+IcNQ5Nqe6uQKJUpjeVtcjQs0Ykk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785920959; c=relaxed/simple;
-	bh=xf7amef8kPMBmKnmmtUf7PzmKlcQR0uMuhpVXFNV/J8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f9pvd5X9R14yJdPX6v91QGGCW8Zn1vtI3zsKmvDMXl69/NuMv6yHhEUa8qvnht9FUsFHqIkAIhI1A2bS5OalUhnWCnF9UVtsKnFUV0uRpGdBgGhswygchlXL3QF0HFFFBH/voaiMlwGLg76DhnTDXWXNxZ4YTEHlBUzwlcJR1gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.40.54.123])
-	by gateway (Coremail) with SMTP id _____8CxKqi5_XJqU5gKAA--.11122S3;
-	Wed, 05 Aug 2026 17:09:13 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.40.54.123])
-	by front1 (Coremail) with SMTP id qMiowJBxEuSx_XJqe4okAA--.973S4;
-	Wed, 05 Aug 2026 17:09:12 +0800 (CST)
-From: Qunqin Zhao <zhaoqunqin@loongson.cn>
-To: bp@alien8.de
-Cc: tony.luck@intel.com,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	chenhuacai@kernel.org,
-	Wang Jinwei <wangjinwei@loongson.cn>,
-	Dongyan Qian <qiandongyan@loongson.cn>,
-	Chao Li <lichao@loongson.cn>,
-	Qunqin Zhao <zhaoqunqin@loongson.cn>
-Subject: [PATCH v2 2/3] EDAC/loongson: get DIMM size from ACPI _DSM method
-Date: Wed,  5 Aug 2026 16:54:13 +0800
-Message-ID: <20260805085414.1482-3-zhaoqunqin@loongson.cn>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20260805085414.1482-1-zhaoqunqin@loongson.cn>
-References: <20260805085414.1482-1-zhaoqunqin@loongson.cn>
+	s=arc-20240116; t=1785937352; c=relaxed/simple;
+	bh=1966KqqiIpe8RO3yZKISZslbw7FYEEPktp1EKsDFwRg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o7WC1KTrecCdde2iG5hDem0BpZIo7OST6rinmysLu4kIjPBZvHNnD2+NYKvnefkSGMpxf/t4xJho+8XFjTJktKFWFNCGcEMpK7Zp74wLp3h0wo58/fmhIR2KX+ns0/sG5NnTpVy7EaO0bCviiNXCoX7ZhzIH/T23NegOhSRpk/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=McYZwtiW; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="McYZwtiW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A104C1F00A3A
+	for <linux-edac@vger.kernel.org>; Wed,  5 Aug 2026 13:42:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785937349;
+	bh=UH6v11zCrpdzYCwhP1zs4M1/ZFB1T+WfffS/2VwRFgU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=McYZwtiWJ5uuTsGTdo7zHLKBiLvGostriMZTD+o3QWWnAtwSLJjYn1nhQoCOfvjgw
+	 7cWNPB0N1c+N+LdNrHBwXuWtjgqf5ysneIY897yaMFKbvg57R9RyCTuzcZCQcv+l9x
+	 YYtRJMhSUu/LXnG5do7/NvgiYG+0SjeWxwIaBh2QuP+2dF6zMTDiUASwtbgp/L7Pgp
+	 JCE26NlJPL4AA4ckkr2zRc4ORpTGQ5ozJNH7ESHgW4+prse2e1lrKq4QirWWoWxxMg
+	 qAjYoBrT7+6XNf/aVsPhQ35t+wp43W8jaGFeerHzeErvuJDrgvXsIl1uqTHY67fvK3
+	 gNvbjZ9IbrqbQ==
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a17cb94b26so797109a12.3
+        for <linux-edac@vger.kernel.org>; Wed, 05 Aug 2026 06:42:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rq8uXeOywiF4rKE22XJdkSGmTfrMCcWMuDRorUbQeSmuc7PAQelI4DaQQJsN/xXwFltxxulJE36wCFs@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzg11K1ilkTDSnuxXcIV5H4XQm8NfgtRSWoqlZLfzACZD6LYYJj
+	3QOP8YG0rrJbrnbcPbfY5xdCEfkBTa2NaUBYVIrcI/z0JnDmXsCYfWYuY8PedSGw6WbIQg5SLZ9
+	+Lc6/o4edaJZkWDuWYCxk28tlqTgfmhI=
+X-Received: by 2002:a05:6402:4543:b0:69f:2c1d:d83c with SMTP id
+ 4fb4d7f45d1cf-6a14f2893e6mr2985312a12.21.1785937348347; Wed, 05 Aug 2026
+ 06:42:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJBxEuSx_XJqe4okAA--.973S4
-X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Zr13Zry8Gr4fKw1fWw15trc_yoW8Kr4xpF
-	45u34fKr43KrnF9wsIyry5CF13u34fJasrGFWxG3yagw1DA34UXFyrKFy3AFZ8A34rtFW3
-	ZrWkGws5uF1DJrcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Fb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
-	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF
-	0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
-	KfnxnUUI43ZEXa7IU8N6pPUUUUU==
+References: <20260805085414.1482-1-zhaoqunqin@loongson.cn> <20260805085414.1482-3-zhaoqunqin@loongson.cn>
+In-Reply-To: <20260805085414.1482-3-zhaoqunqin@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Wed, 5 Aug 2026 21:42:19 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H44XNByfmyONT59fmU0hcuoiWAg6eaGPddGTjcCCONMAA@mail.gmail.com>
+X-Gm-Features: AUfX_myEmN-LP3kO5t6nKZ7yZwUwBzOQ2wu7QnpQw4GlIALbn78mkBYAMVYKAeo
+Message-ID: <CAAhV-H44XNByfmyONT59fmU0hcuoiWAg6eaGPddGTjcCCONMAA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] EDAC/loongson: get DIMM size from ACPI _DSM method
+To: Qunqin Zhao <zhaoqunqin@loongson.cn>
+Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	Wang Jinwei <wangjinwei@loongson.cn>, Dongyan Qian <qiandongyan@loongson.cn>, 
+	Chao Li <lichao@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Wang Jinwei <wangjinwei@loongson.cn>
+Hi, Qunqin,
 
-Add support to retrieve DIMM size from ACPI _DSM method instead
-of using hardcoded values.
+Replace "get" with "Get" in the subject line.
 
-1. Add loongson_get_dimm_size_acpi() to call ACPI _DSM method
-   to get DIMM size in MB.
 
-2. Update dimm_config_init() to use the size from ACPI, with
-   fallback to default 1 MB if ACPI method fails.
+Huacai
 
-3. Add ACPI UUID and DSM function definitions for EDAC.
-
-The DIMM size is passed from UEFI through ACPI OperationRegion
-and _DSM method, enabling correct display of memory size in
-/sys/devices/system/edac/mc/mc*/size_mb.
-
-Cc: Dongyan Qian <qiandongyan@loongson.cn>
-Cc: Chao Li <lichao@loongson.cn>
-Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
-Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
----
- drivers/edac/loongson_edac.c | 32 ++++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-index abfc1e60e0..dd26153a9b 100644
---- a/drivers/edac/loongson_edac.c
-+++ b/drivers/edac/loongson_edac.c
-@@ -13,6 +13,8 @@
- #include "edac_module.h"
- 
- #define ECC_CS_COUNT_REG	0x18
-+#define LOONGSON_EDAC_DSM_UUID	"65d0431b-7eb8-46df-b914-b7d568553140"
-+#define LOONGSON_EDAC_DSM_FUNC_GET_DIMM_SIZE	1
- 
- struct loongson_edac_pvt {
- 	void __iomem *ecc_base;
-@@ -66,13 +68,39 @@ static void edac_check(struct mem_ctl_info *mci)
- 			     0, 0, 0, 0, 0, -1, "error", other_detail);
- }
- 
-+static u32 loongson_get_dimm_size_acpi(struct device *dev)
-+{
-+	acpi_handle handle = ACPI_HANDLE(dev);
-+	union acpi_object *obj;
-+	u32 size_mb = 1;
-+	guid_t guid;
-+
-+	if (!handle)
-+		return size_mb;
-+
-+	if (guid_parse(LOONGSON_EDAC_DSM_UUID, &guid))
-+		return size_mb;
-+
-+	obj = acpi_evaluate_dsm(handle, &guid, 0,
-+				LOONGSON_EDAC_DSM_FUNC_GET_DIMM_SIZE, NULL);
-+	if (!obj)
-+		return size_mb;
-+
-+	if (obj->type == ACPI_TYPE_INTEGER)
-+		size_mb = (u32)obj->integer.value;
-+
-+	ACPI_FREE(obj);
-+	return size_mb;
-+}
-+
- static void dimm_config_init(struct mem_ctl_info *mci)
- {
- 	struct dimm_info *dimm;
-+	struct device *dev = mci->pdev;
- 	u32 size, npages;
- 
--	/* size not used */
--	size = -1;
-+	size = loongson_get_dimm_size_acpi(dev);
-+
- 	npages = MiB_TO_PAGES(size);
- 
- 	dimm = edac_get_dimm(mci, 0, 0, 0);
--- 
-2.47.3
-
+On Wed, Aug 5, 2026 at 5:09=E2=80=AFPM Qunqin Zhao <zhaoqunqin@loongson.cn>=
+ wrote:
+>
+> From: Wang Jinwei <wangjinwei@loongson.cn>
+>
+> Add support to retrieve DIMM size from ACPI _DSM method instead
+> of using hardcoded values.
+>
+> 1. Add loongson_get_dimm_size_acpi() to call ACPI _DSM method
+>    to get DIMM size in MB.
+>
+> 2. Update dimm_config_init() to use the size from ACPI, with
+>    fallback to default 1 MB if ACPI method fails.
+>
+> 3. Add ACPI UUID and DSM function definitions for EDAC.
+>
+> The DIMM size is passed from UEFI through ACPI OperationRegion
+> and _DSM method, enabling correct display of memory size in
+> /sys/devices/system/edac/mc/mc*/size_mb.
+>
+> Cc: Dongyan Qian <qiandongyan@loongson.cn>
+> Cc: Chao Li <lichao@loongson.cn>
+> Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
+> Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
+> ---
+>  drivers/edac/loongson_edac.c | 32 ++++++++++++++++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
+> index abfc1e60e0..dd26153a9b 100644
+> --- a/drivers/edac/loongson_edac.c
+> +++ b/drivers/edac/loongson_edac.c
+> @@ -13,6 +13,8 @@
+>  #include "edac_module.h"
+>
+>  #define ECC_CS_COUNT_REG       0x18
+> +#define LOONGSON_EDAC_DSM_UUID "65d0431b-7eb8-46df-b914-b7d568553140"
+> +#define LOONGSON_EDAC_DSM_FUNC_GET_DIMM_SIZE   1
+>
+>  struct loongson_edac_pvt {
+>         void __iomem *ecc_base;
+> @@ -66,13 +68,39 @@ static void edac_check(struct mem_ctl_info *mci)
+>                              0, 0, 0, 0, 0, -1, "error", other_detail);
+>  }
+>
+> +static u32 loongson_get_dimm_size_acpi(struct device *dev)
+> +{
+> +       acpi_handle handle =3D ACPI_HANDLE(dev);
+> +       union acpi_object *obj;
+> +       u32 size_mb =3D 1;
+> +       guid_t guid;
+> +
+> +       if (!handle)
+> +               return size_mb;
+> +
+> +       if (guid_parse(LOONGSON_EDAC_DSM_UUID, &guid))
+> +               return size_mb;
+> +
+> +       obj =3D acpi_evaluate_dsm(handle, &guid, 0,
+> +                               LOONGSON_EDAC_DSM_FUNC_GET_DIMM_SIZE, NUL=
+L);
+> +       if (!obj)
+> +               return size_mb;
+> +
+> +       if (obj->type =3D=3D ACPI_TYPE_INTEGER)
+> +               size_mb =3D (u32)obj->integer.value;
+> +
+> +       ACPI_FREE(obj);
+> +       return size_mb;
+> +}
+> +
+>  static void dimm_config_init(struct mem_ctl_info *mci)
+>  {
+>         struct dimm_info *dimm;
+> +       struct device *dev =3D mci->pdev;
+>         u32 size, npages;
+>
+> -       /* size not used */
+> -       size =3D -1;
+> +       size =3D loongson_get_dimm_size_acpi(dev);
+> +
+>         npages =3D MiB_TO_PAGES(size);
+>
+>         dimm =3D edac_get_dimm(mci, 0, 0, 0);
+> --
+> 2.47.3
+>
