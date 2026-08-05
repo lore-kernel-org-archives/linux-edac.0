@@ -1,129 +1,113 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2FB5A79B;
-	Wed,  5 Aug 2026 05:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C42B13ED5A6;
+	Wed,  5 Aug 2026 09:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785907179; cv=none; b=g6RTNH9+CElFSNXZDd2ha+ili82JOfIapB2HQp/H8FzeuaFpVlbaVE/x3a0c5w8BnHTZk6LP+yi7ku1n/kgXnm+vSaYY0qloBMUqLiQemec61L4qfCGcI6fUGtwQLLPMGjNXLAEH0DTydxJ1yt3Te0NcoYDbLjF9pZA3ETZlpB4=
+	t=1785920954; cv=none; b=Hwb6WmHcC6r2WNGbXwk0b1VdDuJzcApVU32ojlTu8w+vH2CUl1oWdFTo6gP698QYlQ5x8eZ3n7ByHc8MvZGbV6uSlAX8GpZU/mp0fn9qHIuq+DBVeOOubIvXTcH/LQAsE8xCnTkaePC6Ys71RbxYWyyyQGkThe+nZuViOEuwMS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785907179; c=relaxed/simple;
-	bh=tKx76mAMYtAFO0o2vz3awMEFZvxTHaekyoV6YfVuC78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJRFpzNvPjiyJgZWlCzZYf0wnnvg0g/gK5eb8kxd9eFvcOGxh2h3R0lo3C8Eo0zxNiysle+/Zx/SmRLFuuh4fBOO9ud72ORsOYmCQfdh2Da1NhTId8r2Vc3EGCI06tL36pKBDq5IDB35Wm9wXhCh5g/BHKBCsWmKhbInx99fV/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FKFZy5IN; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FKFZy5IN"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 842FF40E00B8;
-	Wed,  5 Aug 2026 05:19:35 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id UR1AopS0eAGu; Wed,  5 Aug 2026 05:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785907165; bh=HnY35baxDOOl9O0spWO4s2Z9rQ/HOTzX4TovSIcPv/Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FKFZy5IN6LGZVyMumwRWOScuk+jGZJ+H6PftA28WWZdqTsDqtvr3KwSVWDjv6ljds
-	 yBPiAgWUWggsAJGxztW4EmXFZzg8WEjTMwzAtgqXsAzpAbONEfhYZJfzbZUsQCbSes
-	 JhM1v3I47e+OoDQ62B7rm6ic8gw/oMFK4YNOgC9x84pXIt6G4oCxqsKQeDMIUk/umi
-	 LY0w1XAuKXCp9ADUMVZeO9naQ+w6qaOtPQjv3t2hu2DjM9xr89kcIY9GNK1V/sACp9
-	 lcq875C0U0Z4c9c2f9Yjut90EvlrmJUh7r9xtGpk7HNcv/kwSzZyhOCrG4HPwgtF/P
-	 tTBRD3T93KznH8uXZQm+aZSOws87A2Cil4l9G/nWODuwvu7FJJfTTHeY80m8GfOa/n
-	 K/yVZG25M73nZXKhrev5qaQS+Teue29wuhpT2RGSiEH5OBLeXTkCczy8o69Yw1xNZv
-	 aRR2RCZAEFroOYeIx4CUtzqugHOpTNYX4QIZc/LvcHxKNtdt79rcWe/bdGvgRJBokw
-	 iMSgmWKlgCJfDLNprvBQW0SOGP1ZeWDeTfl59WuLxS/cOwXdCnbk9IXLHeiRpzVo3Q
-	 k8DoTI2QsB02ikosJJ11f82xgNUvCRwXsfH8hbdvNmX1IIiPKZx0SVylIHi5sEevcE
-	 7femXwlKumbPa/cTyiZdHpxo=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 10EAE40E0031;
-	Wed,  5 Aug 2026 05:19:20 +0000 (UTC)
-Date: Tue, 4 Aug 2026 22:19:17 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Avadhut Naik <avanaik92@gmail.com>
-Subject: Re: [PATCH v9 2/7] RAS/AMD/ATL: Refactor PRM address translation
- into a common helper
-Message-ID: <20260805051917.GEanLH1c_I3ayfTccC@fat_crate.local>
-References: <20260730194834.3203601-1-yazen.ghannam@amd.com>
- <20260730194834.3203601-3-yazen.ghannam@amd.com>
+	s=arc-20240116; t=1785920954; c=relaxed/simple;
+	bh=NmM88NINLb/ASdCHL6bGaPRXrnlYX+Lzr3QVcXwPwv8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kdfm7HEyfAL8mriVpuLUOCimbjMkNhWmC1BQGqLPvwXRxAVIvcaVc0/vbtK8i2XmRtV7AmO5CWGM/8BIGIgRzvREIAtGWzdCUZl3mnxF3E9cDuhDlZoZ3ljqtqKy4zdd8KaLSk8vJ2E2sy/K+WaOPH2pvCRF6k0CfX9RpLo3aYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.40.54.123])
+	by gateway (Coremail) with SMTP id _____8Dxvpu2_XJqSZgKAA--.10991S3;
+	Wed, 05 Aug 2026 17:09:10 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.54.123])
+	by front1 (Coremail) with SMTP id qMiowJBxEuSx_XJqe4okAA--.973S2;
+	Wed, 05 Aug 2026 17:09:05 +0800 (CST)
+From: Qunqin Zhao <zhaoqunqin@loongson.cn>
+To: bp@alien8.de
+Cc: tony.luck@intel.com,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	chenhuacai@kernel.org,
+	Qunqin Zhao <zhaoqunqin@loongson.cn>
+Subject: [PATCH v2 0/3] EDAC/loongson: Improvements for Loongson EDAC driver
+Date: Wed,  5 Aug 2026 16:54:11 +0800
+Message-ID: <20260805085414.1482-1-zhaoqunqin@loongson.cn>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260730194834.3203601-3-yazen.ghannam@amd.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJBxEuSx_XJqe4okAA--.973S2
+X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7tr4xZF1fKw17KrWrGF18CrX_yoW8ZFykpr
+	W3ua98tr4qqrn2k3sayw12v3Z0k395Jr4DXan2qw18Zr13Z34UXr4SyrW5uFnrAr48tr15
+	Wa4jgFn3WFWDJ3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	XVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
+	Ja73UjIFyTuYvjxU2MKZDUUUU
 
-On Thu, Jul 30, 2026 at 03:48:29PM -0400, Yazen Ghannam wrote:
-> Every PRM address translation follows the same pattern. Each fills a
-> parameter buffer, invokes the handler, and checks the result. Only the
-> handler GUID and the output buffer differ.
-> 
-> Factor the common sequence into prm_umc_norm_to_addr().
+This series contains three patches for the Loongson EDAC driver:
 
-And here your commit message ends. The rest is describing the diff.
+Patch 1: Encode node and MC info into mc_idx so that on multi-node
+systems, sysfs entries uniquely identify each controller.
 
-> -unsigned long prm_umc_norm_to_sys_addr(u8 socket_id, u64 bank_id, unsigned long addr)
-> +int prm_umc_norm_to_addr(guid_t guid, u8 socket_id, u64 bank_id,
-> +			 unsigned long addr, void *out_buf)
+Patch 2: Get DIMM size from ACPI _DSM method instead of using hardcoded
+values, enabling correct display of memory size in sysfs.
 
-So if you're going to have a param buffer structure, you might as well use it:
+Patch 3: Add CS4-7 timeout filter for cross-node access on 3C6000
+multi-node systems to prevent false CE error reports.
 
-diff --git a/drivers/ras/amd/atl/prm.c b/drivers/ras/amd/atl/prm.c
-index 3d5a6f5ae0a9..726464f31e10 100644
---- a/drivers/ras/amd/atl/prm.c
-+++ b/drivers/ras/amd/atl/prm.c
-@@ -26,18 +26,11 @@ struct param_buf {
- 	void *out_buf;
- } __packed;
- 
--int prm_umc_norm_to_addr(guid_t guid, u8 socket_id, u64 bank_id,
--			 unsigned long addr, void *out_buf)
-+static int __prm_umc_norm_to_addr(guid_t guid, struct param_buf *p)
- {
--	struct param_buf p_buf;
- 	int ret;
- 
--	p_buf.norm_addr = addr;
--	p_buf.socket    = socket_id;
--	p_buf.bank_id   = bank_id;
--	p_buf.out_buf   = out_buf;
--
--	ret = acpi_call_prm_handler(guid, &p_buf);
-+	ret = acpi_call_prm_handler(guid, p);
- 	if (!ret)
- 		return 0;
- 
-@@ -52,9 +45,15 @@ int prm_umc_norm_to_addr(guid_t guid, u8 socket_id, u64 bank_id,
- unsigned long prm_umc_norm_to_sys_addr(u8 socket_id, u64 bank_id, unsigned long addr)
- {
- 	unsigned long sys_addr;
-+	struct param_buf p_buf = {
-+		.norm_addr = addr,
-+		.socket    = socket_id,
-+		.bank_id   = bank_id,
-+		.out_buf    = &sys_addr,
-+	};
- 	int ret;
- 
--	ret = prm_umc_norm_to_addr(norm_to_sys_guid, socket_id, bank_id, addr, &sys_addr);
-+	ret = __prm_umc_norm_to_addr(norm_to_sys_guid, &p_buf);
- 	if (ret)
- 		return ret;
- 
+Changes in v2:
+
+Patch 1 "Encode node and MC info into mc_idx":
+- mc_per_node -> mcs_per_node
+- Use char other_detail[64] = {0} and drop the else branch
+- Put snprintf() on one line
+- If the definition of pvt_init is placed on a single line, it will
+  exceed 100 characters, so the line break is kept.
+
+- Use a temporary u32 variable for mc-idx to silence incompatible
+  pointer type warning from device_property_read_u32(). Then keep
+  the 'else' branch.
+- Validate mc-per-node firmware property is non-zero to prevent
+  division by zero
+
+Patch 2 "get DIMM size from ACPI _DSM method":
+- No changes; rebased on top of updated patch 1.
+
+Patch 3 "Add CS4-7 timeout filter for cross-node access":
+- Assign valid_cs_bits before calling read_ecc() in pvt_init() to
+  prevent using uninitialized data when establishing the baseline
+  error count
+- Add bounds check for valid_cs_bits < 64 to guard against undefined
+  behavior when shifting a 64-bit value by 64 bits
+- Rename device property valid_cs_bits -> valid-cs-bits to match
+  standard DT/ACPI _DSD hyphen convention
+
+v1: https://lore.kernel.org/all/20260730063035.230686-1-zhaoqunqin@loongson.cn/
+
+Qunqin Zhao (1):
+  EDAC/loongson: Add CS4-7 timeout filter for cross-node access
+
+Wang Jinwei (2):
+  EDAC/loongson: Encode node and MC info into mc_idx
+  EDAC/loongson: get DIMM size from ACPI _DSM method
+
+ drivers/edac/loongson_edac.c | 84 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 76 insertions(+), 8 deletions(-)
+
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
 -- 
-Regards/Gruss,
-    Boris.
+2.47.3
 
-https://people.kernel.org/tglx/notes-about-netiquette
