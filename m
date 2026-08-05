@@ -1,202 +1,83 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BF6A3FAE1D;
-	Tue,  4 Aug 2026 03:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1051E38E8A7;
+	Wed,  5 Aug 2026 04:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785813610; cv=none; b=iErqzYVDdeMIIl4DikBMoNs0jwifu8yjV3lS8VSDi+M3PV6fk1uBNswMUTYbk4VYX5J/yIHTD9eZAJrGag7YDejOTZe0LxeEjXKJs4V8kB7z/E5YdLllIv/n+RHs28Gm8fLSrQue0nI/edJPNPxY3vii/YkWI6ibWDnMm6CFKGo=
+	t=1785905507; cv=none; b=OqX8fiHwB99XZah7t19MVVVcB14Hm5a2ZmQHzOZTw7s9PeBh6h3LxkjmcyV/BT+wpj1CrugRmWaAM/xJq/QnQYVnPpcHbz9aA9zcs+aVJyEzqK1orwtlC81oBgCdwreHWCG69DQ2KxOzcDm6RVmGjg7pDm3i892NM5vZiXDJm/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785813610; c=relaxed/simple;
-	bh=oAoLlpVBHu9+aPIXf8SCnelrPknNeVmldY1sjk5npes=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=phpHqm94GBrHy0cofjic0SnVJteCj+L1XbBIBAvWhuR/I9QvEu4ZJLe5Et70j/mgv72yQ+JDHm/pUyzP+9RZPtt0WEdHueDLIncstNbQhQl3CqMP8neAlk1SSST5fbYKbv3z8Ja9Gy3zDNWAgYDq3IZTFhGkMrX6Hr67Lz5EoKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.102])
-	by gateway (Coremail) with SMTP id _____8Dx8+llWnFqoycKAA--.23849S3;
-	Tue, 04 Aug 2026 11:20:05 +0800 (CST)
-Received: from [10.20.42.102] (unknown [10.20.42.102])
-	by front1 (Coremail) with SMTP id qMiowJDxDcdkWnFqde8iAA--.57585S2;
-	Tue, 04 Aug 2026 11:20:04 +0800 (CST)
-Message-ID: <6a7f9cf6-3998-4365-b949-fad33ea14dbe@loongson.cn>
-Date: Tue, 4 Aug 2026 11:19:16 +0800
+	s=arc-20240116; t=1785905507; c=relaxed/simple;
+	bh=B5EtIVDXO/frgFhcGrDFUjB45D/vptyKSblhqEsLh8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jaLXIXHx7P80t39gBkur9Jr8EPuH9hnPvH6Lg6au6yKvBhD9dmj2zs+9gTpjZ9BugOH8jwjdL/0YQ/YCWVT/Ywvl6qXrIUVoDP6/G/zmSCwINEy0IcjpT8qtTODWwM06pLo6EaVnFzXLYIhvnliPs/zciZjiVPGVF7qywunnuM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=EfUrbITt; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="EfUrbITt"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1A8B740E014A;
+	Wed,  5 Aug 2026 04:51:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id BcM1QEfd84iW; Wed,  5 Aug 2026 04:51:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1785905493; bh=07upcZ/uu2qxBu5lMSDQ3UJc2pdav2KbeuUk8GeEkL8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EfUrbITt/L3nJZeA9QNRLmt2C/KW30Lfc5LOXBau+n2LS4XuaN0QJSmXTG1qfruxC
+	 4VKseTwZRtfi9ZWz+kXt40UDncO3XzRU3o6RfecroNzF08z2szBeAleispphVzw9qC
+	 zpKVSz/4CwipaYNqMOA7xNPv35vfIhUgQ5YoDWBIHyHbdGwgwG3GAy9dEMJb60//pf
+	 lGfwfqXG0PHIWvDslEoRkkvYTFyOZbNYEV5dlpvZJdRBISeJZrLMM4vQXcFfsPMI9a
+	 lwMv+Mto2wF1FNLCs8jFLwz2wFnEWx+fEIdWLp6YY9wn/Lq8WL0Vmp5+JRuftmKKwE
+	 KeeKLtOsnK0gKg5GwKpzIqjt66pbLq1UHlAWnlwZ0t0jpt0orb6cLALH3X8A+D61kv
+	 Qez2dOduTm0D1vogcYQUrHqrUZO/sp5AX1iCU26gzLxQHKKB1Copx0WD+68ADAoiff
+	 uIHZ5JhsIhGL/jzUWgVA7mQCS+20VAcZa5rQ5FLHOKSNfKRIWyiIxJNaZwEEF0FRuw
+	 LOMNzvzbtZohSzZ4nmZ+fPBoQr9MIWDPg3H9N8cGRHNb+AU/DodvVYzkMuznRSpzF/
+	 1WSc0UJPioy4oNyENdlS8wFXw4x882vwbCcsnQ+jr11qyDjnjFipAqYaVMF2O7lNCG
+	 Swpq6/9YsPobYKNUrUE+qkDQ=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7122440E00B8;
+	Wed,  5 Aug 2026 04:51:28 +0000 (UTC)
+Date: Tue, 4 Aug 2026 21:51:24 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Yazen Ghannam <yazen.ghannam@amd.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Avadhut Naik <avanaik92@gmail.com>
+Subject: Re: [PATCH v9 1/7] RAS/AMD/ATL: Always build PRM address translation
+ support
+Message-ID: <20260805045124.GDanLBTLxUugaIa0Ap@fat_crate.local>
+References: <20260730194834.3203601-1-yazen.ghannam@amd.com>
+ <20260730194834.3203601-2-yazen.ghannam@amd.com>
+ <20260731235523.GOam0163w6pfMOm9oU@fat_crate.local>
+ <20260803152440.GA923@yaz-khff2.amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] EDAC/loongson: Encode node and MC info into mc_idx
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: bp@alien8.de, tony.luck@intel.com, linux-edac@vger.kernel.org,
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
- Wang Jinwei <wangjinwei@loongson.cn>, Yulong Wang <wangyulong@loongson.cn>,
- Dongyan Qian <qiandongyan@loongson.cn>, Chao Li <lichao@loongson.cn>
-References: <20260730063035.230686-1-zhaoqunqin@loongson.cn>
- <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
-Content-Language: en-US
-From: Qunqin Zhao <zhaoqunqin@loongson.cn>
-In-Reply-To: <CAAhV-H4gQ=DZC+TmvMtrtV4FM7wrRibHFu-dAyVkxo0j2Fkbrg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJDxDcdkWnFqde8iAA--.57585S2
-X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxCr1ruw4fGrWfGw1UCF1xJFc_yoWrZry5pF
-	47C3WYkr45trnruanaqry7ZFyavrs5KFZFqrs7ta48Cr9Fy3s7XFyfKr42kF9rCryrGFyI
-	vas8Gr4xuF1DJFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUvCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
-	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
-	AwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
-	AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17
-	MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-	AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-	cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-	80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-	43ZEXa7IU8CksDUUUUU==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260803152440.GA923@yaz-khff2.amd.com>
 
+On Mon, Aug 03, 2026 at 11:24:40AM -0400, Yazen Ghannam wrote:
+> Of course, now we probably should put the 'native' translation code behind
+> a config option. There's a lot more of that, and it's only used for legacy
+> systems.
 
-在 2026/8/3 16:25, Huacai Chen 写道:
-> Hi, Qunqin,
->
-> On Thu, Jul 30, 2026 at 2:45 PM Qunqin Zhao <zhaoqunqin@loongson.cn> wrote:
->> From: Wang Jinwei <wangjinwei@loongson.cn>
->>
->> On Loongson multi-node systems, memory controllers are distributed
->> across multiple nodes. Encode node and MC information into mc_idx
->> so that sysfs entries uniquely identify each controller.
->>
->> The driver gets mc-idx from ACPI _DSD property 'mc-idx' if firmware
->> provides it. If not, it falls back to edac_device_alloc_index() for
->> legacy firmware compatibility.
->>
->> The number of memory controllers per node (mc-per-node) is obtained
->> from firmware via ACPI _DSD property, with a default of 4 for
->> backward compatibility. The node and MC IDs are decoded from mc_idx:
->>       node = mc_idx / mc_per_node
->>       mc = mc_idx % mc_per_node
->>
->> For example, with mc-per-node=4:
->>       mc-idx 0-3   -> node0 mc0-mc3
->>       mc-idx 4-7   -> node1 mc0-mc3
->>       ...
->>       mc-idx 28-31 -> node7 mc0-mc3
->>
->> The dmesg output looks like this：
->> Before: (no _DSD mc-idx)
->> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
->> page:0x0 offset:0x0 grain:8 syndrome:0x0)
->>
->> After: (_DSD mc-idx)
->> EDAC MC3: 510 CE error on MC#3Channel#0_DIMM#0 (channel:0 slot:0
->> page:0x0 offset:0x0 grain:8 syndrome:0x0 - node:0 mc:3)
->>
->> Cc: Yulong Wang <wangyulong@loongson.cn>
->> Cc: Dongyan Qian <qiandongyan@loongson.cn>
->> Cc: Chao Li <lichao@loongson.cn>
->> Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
->> Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
->> ---
->>   drivers/edac/loongson_edac.c | 38 +++++++++++++++++++++++++++++++-----
->>   1 file changed, 33 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
->> index 38745800ed..f2452e98f5 100644
->> --- a/drivers/edac/loongson_edac.c
->> +++ b/drivers/edac/loongson_edac.c
->> @@ -9,6 +9,7 @@
->>   #include <linux/io-64-nonatomic-lo-hi.h>
->>   #include <linux/module.h>
->>   #include <linux/platform_device.h>
->> +#include <linux/property.h>
->>   #include "edac_module.h"
->>
->>   #define ECC_CS_COUNT_REG       0x18
->> @@ -23,6 +24,8 @@ struct loongson_edac_pvt {
->>           * register state.
->>           */
->>          int last_ce_count;
->> +       int mc_per_node;
-> I think mcs_per_node is better than mc_per_node.
->
->> +       bool mc_idx_valid;
->>   };
->>
->>   static int read_ecc(struct mem_ctl_info *mci)
->> @@ -44,7 +47,8 @@ static int read_ecc(struct mem_ctl_info *mci)
->>   static void edac_check(struct mem_ctl_info *mci)
->>   {
->>          struct loongson_edac_pvt *pvt = mci->pvt_info;
->> -       int new, add;
->> +       char other_detail[64];
-> Use char other_detail[64] = {0}, then we can drop the 'else' branch below.
->
->> +       int new, add, node, mc;
->>
->>          new = read_ecc(mci);
->>          add = new - pvt->last_ce_count;
->> @@ -52,8 +56,17 @@ static void edac_check(struct mem_ctl_info *mci)
->>          if (add <= 0)
->>                  return;
->>
->> +       if (pvt->mc_idx_valid) {
->> +               node = mci->mc_idx / pvt->mc_per_node;
->> +               mc = mci->mc_idx % pvt->mc_per_node;
->> +               snprintf(other_detail, sizeof(other_detail),
->> +                               "node:%d mc:%d", node, mc);
-> The snprintf() can be put in oneline.
->
->> +       } else {
->> +               other_detail[0] = '\0';
->> +       }
->> +
->>          edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci, add,
->> -                            0, 0, 0, 0, 0, -1, "error", "");
->> +                            0, 0, 0, 0, 0, -1, "error", other_detail);
->>   }
->>
->>   static void dimm_config_init(struct mem_ctl_info *mci)
->> @@ -72,20 +85,26 @@ static void dimm_config_init(struct mem_ctl_info *mci)
->>          dimm->grain = 8;
->>   }
->>
->> -static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase)
->> +static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
->> +               bool mc_idx_valid, int mc_per_node)
-> The function definition can be put in one line.
->
->>   {
->>          struct loongson_edac_pvt *pvt = mci->pvt_info;
->>
->>          pvt->ecc_base = vbase;
->>          pvt->last_ce_count = read_ecc(mci);
->> +       pvt->mc_idx_valid = mc_idx_valid;
->> +       pvt->mc_per_node = mc_per_node;
->>   }
->>
->>   static int edac_probe(struct platform_device *pdev)
->>   {
->>          struct edac_mc_layer layers[2];
->>          struct mem_ctl_info *mci;
->> +       struct device *dev = &pdev->dev;
->>          void __iomem *vbase;
->> +       u32 mc_per_node;
->>          int ret;
->> +       bool mc_idx_valid;
-> Use bool mc_idx_valid = true, then we can drop the 'else' branch below.
+Sure, something for the TODO... low prio...
 
-Will fix all,
+Thx.
 
-Thanks
+-- 
+Regards/Gruss,
+    Boris.
 
->
-> Huacai
->
->
->
-
+https://people.kernel.org/tglx/notes-about-netiquette
