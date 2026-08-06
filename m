@@ -1,44 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60AE34FF45;
-	Thu,  6 Aug 2026 16:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FE1388E63;
+	Thu,  6 Aug 2026 18:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786032664; cv=none; b=l3zv2hcK2Rvyx79oVOWbAj9TZn6dah/4dw14+IEPxYXmpJZmPcLg6AzKF92R6fsL10rCHOimDRawdiIUKGqaUPLRzNokpByHE28xYWLvHciL8WGXMcvt8XiDZ4hKQGYoy/XG5AcrH57Gqz0aAoCyEapwLtKjMg/sL0v6O5tXPBw=
+	t=1786040216; cv=none; b=k0zlbetgiFsBNuthuHQ8ADqlksEGJGwoqj98k3csN9SSNDOvjW3e9BR/92N1vrYDSA6iKlz0ey2q44jfuirnRnHFUAm2PagvpuBbxAINnDvyRQmiOf0ALmannpYNVrCucO3pvZLcVI5H9sAWyq8G+qjO7J0BYCiEUOFaEZjc+Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786032664; c=relaxed/simple;
-	bh=sPblxr5uX6QGqmFrfXUDkDtlANGRlDpCit5HRsqemYQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bwmqsq6/kxei6lIAcv7bol4bGnI5IHGQVXTX18bNYrYgdFdRHWJ/0t45p3tHMGmcIOlZqNoynDzg/VIBtUUqx6G+8YW5SmBl62dQuHJV2dctA6RHJkR8lluFhOMoOTM1LwKbKH4uK+1uVVTjvIOZC17SrQAm3/9uN2VhuMRmKCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uzf4KCfh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786040216; c=relaxed/simple;
+	bh=aPF/k3s+EvGi16bkCOhvHq17FIM4H7LGLmjhshm52qc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gHajR5Ev7Mrli2S/2Rj9je+8vIksdd6g7+/M+una3rUamSLqmtNwDxitKtiauExOKKW6cPurtc7WjACYkCwV08I+C30Qg3n1pROf0+nM0bNkkZrrpvXQ8hFpMIRmpuWSOv3q8lLpKOwUHltQL3UFBqc7H7f/lTqyH/x1a/VhtpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FjWknaRH; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uzf4KCfh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 130331F000E9;
-	Thu,  6 Aug 2026 16:11:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786032663;
-	bh=5Qv6daTJfUgPgWJyAJQGssFe0wXtGoksEKGtyo/GXFY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Uzf4KCfhGMktuSY/BjF4m2n0Jvt2syy8+vQFYh0bJvhMk7MDeTaOgITocfCOEBxyp
-	 +mcUdwWMtCfroIHJP4JOsWarrGiEMpQ9qzX0PAhc2/KT3jigdHqdZ5xKddVNGt6sEg
-	 AkPCv6yRyTudgqgEoDn/7pTZSdv8b2QFn9PQEHPoJRZwswVOIwvLOiar06v0FziD0R
-	 xdCEymdt04QHLbmjIlNqD4Sd9Y37Yl2OYzUqQeWznHvSZ6mj5qS8RbC7K4+Zgfrz17
-	 n6BbxVTxmXPJSCccC5fW0D9O+UImFOZki8Wsgr3hEsIsvJzczsIh0PAlhemTDbyLR0
-	 s823UUJWdLwEw==
-From: Dinh Nguyen <dinguyen@kernel.org>
-To: bp@alien8.de,
-	tony.luck@intel.com
-Cc: dinguyen@kernel.org,
-	rounakdas2025@gmail.com,
-	niravkumar.l.rabara@altera.com,
-	linux-edac@vger.kernel.org,
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FjWknaRH"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E8EC540E016E;
+	Thu,  6 Aug 2026 18:16:51 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bHR8h4PQ0myC; Thu,  6 Aug 2026 18:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1786040205; bh=eivCTlL1pgz/6ZVPyC5W8SfS79f8rUG9D92yKZ9Y9/U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FjWknaRH+8Mi2NsGYhf2Ot0oYT4IJHZ4SDtvG9KGZXNG0qWOrHrl0wPaU7SDL+nri
+	 rM8E0I9NrE8/QpcF0yWn2u85vUYF1Xw4pUzBRECHp7ejTFa4Jo8KfKwBS+6TZOp5ag
+	 o8z2rE1sKE2edUBmd3aTwZwSOnnPF8nJs9EjwCme1S/J2zFDwNvsyoP3VUmNVcBb3j
+	 67Ovhq7J+fbrz18ZtjauIKASuxRzEM4jR3Fz7pkqCN9xbIcw9TCUuybFKKPKc8vpIF
+	 X5ZYaqE3fZ0btG0EOqbTgc1sKFxVF4hEpdLrVUxUfz+db9gcnTheiFpDch5OpsZDVy
+	 mado5PyVjlOjtImGrpkaA1hB6lxbqF8zsQ8ETWD16XB5tJcHb/+Tvbh92Lz82hSB4Q
+	 3VPuKS+dIWgcs8bIhluG6xL/uwRdnePbei6VAFBeiAX7eEgc+uQgX8uURrGerJH87l
+	 SUhZzL2zPT0ow+CVyO4F76cxomsKKmxK6j7Ia6RoxFxlUWz8tB+TMUqcCxDsXuAHXj
+	 JGBSKs+VNmJ/684/i0cMrk+IrrVCICMu4plNdVta5Jhp9B82FWoxfzZtnLp9KP9Qck
+	 n5PyCApxCsio7NFSyHR/4s3Ijeed6kqR4CrdXL2/doLe4c4J/rJlByEPDFrv76mIjI
+	 T6T47ZFA+mXVap2806HhJfsM=
+Received: by mail.alien8.de (SuperMail on ZX Spectrum 128k, from userid 1005)
+	id 3ED1940E01CE; Thu,  6 Aug 2026 18:16:45 +0000 (UTC)
+Date: Thu, 6 Aug 2026 18:16:45 +0000
+From: Borislav Petkov <bp@alien8.de>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: tony.luck@intel.com, rounakdas2025@gmail.com,
+	niravkumar.l.rabara@altera.com, linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] EDAC/altera: Guard against NULL of_node pointer dereference
-Date: Thu,  6 Aug 2026 11:10:55 -0500
-Message-ID: <20260806161055.1520446-2-dinguyen@kernel.org>
-X-Mailer: git-send-email 2.42.0.411.g813d9a9188
-In-Reply-To: <20260806161055.1520446-1-dinguyen@kernel.org>
+Subject: Re: [PATCH 0/1] EDAC/altera: Guard against NULL of_node
+Message-ID: <20260806181645.GCanTPjVMp9VY1EPnX@fat_crate.local>
 References: <20260806161055.1520446-1-dinguyen@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -46,70 +56,20 @@ List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260806161055.1520446-1-dinguyen@kernel.org>
 
-There are many sashiko reports on this driver because it is using an
-unusually high amount of functions that dereference an of_node pointer.
-While you can guard the NULL pointer dereference in every function, it
-would be much simpler to guard it during probe functions. This edac driver
-is static, meaning it cannot add/remove nodes during runtime.
+On Thu, Aug 06, 2026 at 11:10:54AM -0500, Dinh Nguyen wrote:
+> Hi EDAC maintainers,
+> 
+> I wanted to explain the reason why I think this patch doesn't need a
+> Fixes tag. The way the Altera EDAC is written there are many instances
+> of the driver referencing the of_node, which is why they are flagged in
+> many sashiko reviews.
 
-So it's best to use dev_of_node() in the probe functions, so if the of_node
-is NULL, the driver would simply fail to load.
+If you think this patch would make your life easier, then sure. But
+we're not "fixing" the code just because a tool is stupid. No matter which
+tool it is.
 
-Closes: https://sashiko.dev/#/patchset/20260719211238.589402-1-rosenp%40gmail.com
-Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
----
- drivers/edac/altera_edac.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index 68846f583eeef..f449bd45c5098 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -290,7 +290,7 @@ static int altr_sdram_probe(struct platform_device *pdev)
- 	unsigned long mem_size, irqflags = 0;
- 
- 	/* Grab the register range from the sdr controller in device tree */
--	mc_vbase = syscon_regmap_lookup_by_phandle(pdev->dev.of_node,
-+	mc_vbase = syscon_regmap_lookup_by_phandle(dev_of_node(&pdev->dev),
- 						   "altr,sdr-syscon");
- 	if (IS_ERR(mc_vbase)) {
- 		edac_printk(KERN_ERR, EDAC_MC,
-@@ -507,9 +507,12 @@ MODULE_DEVICE_TABLE(of, altr_edac_of_match);
- 
- static int altr_edac_probe(struct platform_device *pdev)
- {
--	of_platform_populate(pdev->dev.of_node, altr_edac_device_of_match,
--			     NULL, &pdev->dev);
--	return 0;
-+	int ret;
-+
-+	ret = of_platform_populate(dev_of_node(&pdev->dev), altr_edac_device_of_match,
-+				   NULL, &pdev->dev);
-+
-+	return ret;
- }
- 
- static struct platform_driver altr_edac_driver = {
-@@ -2184,7 +2187,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
- 						 altr_edac_a10_irq_handler, edac);
- 	}
- 
--	for_each_child_of_node(pdev->dev.of_node, child) {
-+	for_each_child_of_node(dev_of_node(&pdev->dev), child) {
- 		if (!of_device_is_available(child))
- 			continue;
- 
-@@ -2193,7 +2196,7 @@ static int altr_edac_a10_probe(struct platform_device *pdev)
- 
- #ifdef CONFIG_EDAC_ALTERA_SDRAM
- 		else if (of_device_is_compatible(child, "altr,sdram-edac-a10"))
--			of_platform_populate(pdev->dev.of_node,
-+			of_platform_populate(dev_of_node(&pdev->dev),
- 					     altr_sdram_ctrl_of_match,
- 					     NULL, &pdev->dev);
- #endif
--- 
-2.42.0.411.g813d9a9188
-
+Thx.
