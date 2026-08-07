@@ -1,104 +1,213 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655EA44683A;
-	Fri,  7 Aug 2026 06:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CB833262B;
+	Fri,  7 Aug 2026 08:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786082449; cv=none; b=P7w+bWY/21yH1XNHyC64EkXwGjiOdzGJdWu9ecDbQJtEkE7xtgSM7o3zYgcmnM/eFvsMxZtI4luTqvwdSttKdBVOZoIYlFg6WU3mDADfO2neBnkiccOYZYs183Z+NlRK8+JwXvA5qYOosl5vkTtAOotSi62jKaORHF1ykzscr1w=
+	t=1786089950; cv=none; b=qeukcVZy+vST0ASdeTADmz3XjXm3YkYx4D3g8NEXF7gAsze3isrINUv/A1RR2ueX9777MaOWC+g+B3Dg6WAwd7aZ5BGmHxUVtn5kc5MWx0vFeqAm2HpUylTvXjRKzif0ZWNXOxd4mp4EFVk3rweSW2bZ4bdrDWKGt7fesY4w2Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786082449; c=relaxed/simple;
-	bh=5iCUd0HV92C1OK5Pl+OH0sfT0wUckvSw0Bi3kxDA2X4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dRjLRZDEZZC9V78nAE+00BM4GTa9L3S0CoT73jMWxFY1ihmbqqntQT4SLF0siSS5RbURDEfCoWNMSB+v3w+acZlbUUPc7FlMI7Bx2sRfdwq/OxH5d2+VbDRtSgvI8AyhyKrkXINd3m+fYfovQv7EtU1hRUpWZCJS0jufaZDuffc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=dx1PqtKq; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1786089950; c=relaxed/simple;
+	bh=Q5vHYw6lq5z1UpSyUEqRF1G2Q24A3uAg7VFgVYprOm8=;
+	h=Subject:To:References:CC:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=j4oykYUy165+WY+GRRWH4aFsA+VdA6Dn/XIpge+wAOlipUdYAarUbri4F0rNjelx1mKIAMj3sl714nilVm5TtOMMJ6LpS1jpVVJsJ65GOvdtTYKbhmIu8AsWMyzFa0Se+Ngdkgn4q4iNVh24xphdzKld3HQ7h7cdlwxjjMSyIg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=h-partners.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=La9dFsMo; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=h-partners.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="dx1PqtKq"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 4FB2F40E00B8;
-	Fri,  7 Aug 2026 06:00:44 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id pPJzRbAhWiuE; Fri,  7 Aug 2026 06:00:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1786082432; bh=qYhI0fwC8PZZssZoGwGoCXzMpJcSZ4YzBIlml3eONO4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dx1PqtKqAVe76ho+lYRP90RfoiVidM4o5srU//3AoWiYRtlQ2bacoCRB3ybVKgKd3
-	 ZObnyWdGjhbOfZxFSa77uP31O5aLgYnGUrh3dkyJytSMm7kCIcgXTTFKCdIwvQAyGF
-	 GnBV9MtMKV1Re9YKUin/9FuAZZNhUyaWlH7hCYtMKAS/d+3ymoxOi5F/J8e0ykWU87
-	 NVkBv6z5BJK2A7Q/Ct0AUFco/DzYjs//z+iD3mqlTF3i3I0H4XgHwtrPQbjtnyCFFu
-	 VX1SCJyvTufXUFtZNV9ssNxnYQAsrJvF9iUW8xche/+onBIV/wo0FcmjIZET8E4JEr
-	 8M2cNaHwisw8EuHOzD9PCCuzJSGT35cCn9BYtkVxJKbjwyt19wyWMn9YTitHcSx541
-	 /iJzG/CMeZB2zhqCsqziiBtdzH9LeD3dzaPq1LN/jAR2ifsM/HCFy7Spf3YNPWlVLn
-	 M5lvWzqfz5+EOzr8gveQL944/fVM7KpUwPZxS5j+rOWnR9cq4e1U5SUKP9uktsFHrc
-	 6Guq4+5VVwbLXMKalbQPpZCUMBsshIWsrfiqwuzMdG4PrDceLo0YzXrdNCCNO5MGEF
-	 4YB9BoIxJJTSXi7HdKhl63M2dpCALaswTSOLcEMOB5jr54GJ4qZ/L97o3STjTgM3s3
-	 NhJKL4bQJi3gIA9AMWx6gUeg=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id F3F8140E0140;
-	Fri,  7 Aug 2026 05:59:55 +0000 (UTC)
-Date: Thu, 6 Aug 2026 22:59:52 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: shijujose2008@gmail.com
-Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
-	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
-	Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
-	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
-	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	gthelen@google.com, wschwartz@amperecomputing.com,
-	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
-	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
-	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
-	wanghuiqiang@huawei.com
-Subject: Re: [PATCH v23 0/2] ACPI: Add support for ACPI RAS2 feature table
-Message-ID: <20260807055952.GIanV0WDlB9-eP9VdV@fat_crate.local>
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="La9dFsMo"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=IKEuY9NQwMxkoYdhbA6lKOb0dLWYI08hAl2UfEKqlzE=;
+	b=La9dFsMoW4tXMMRRwU92rR1KV6RebQNUIHXyxyOq8ag7pfsptzAwwJOrnVepSLP9YpfuJPyBW
+	TxkgOgmSE1E8Z3PMe3NipqR6uZY28I8/UgoDU6NOD5fJXtdxJCo8Fq8SJdcsRYih3GJZ3qfEL0i
+	+DkQwHxBipPe6VOo18+AGbg=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4hGbz95BQWzmV99;
+	Fri,  7 Aug 2026 15:55:01 +0800 (CST)
+Received: from kwepemo100013.china.huawei.com (unknown [7.202.195.244])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9ED99402AB;
+	Fri,  7 Aug 2026 16:05:35 +0800 (CST)
+Received: from [10.67.120.218] (10.67.120.218) by
+ kwepemo100013.china.huawei.com (7.202.195.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Fri, 7 Aug 2026 16:05:34 +0800
+Subject: Re: [PATCH v2] ACPI: APEI: Handle repeated SEA error storms
+To: "Luck, Tony" <tony.luck@intel.com>, <rafael@kernel.org>,
+	<guohanjun@huawei.com>, <mchehab@kernel.org>, <xueshuai@linux.alibaba.com>,
+	<jarkko@kernel.org>, <yazen.ghannam@amd.com>, <jane.chu@oracle.com>,
+	<lenb@kernel.org>, <linmiaohe@huawei.com>
+References: <20260527082707.2013499-1-hejunhao3@h-partners.com>
+ <ak6FfacJrg8Elnl6@agluck-desk3>
+ <3a6e3281-de8a-ae5c-249c-316eaa886636@h-partners.com>
+CC: <bp@alien8.de>, <linux-acpi@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, <tanxiaofei@huawei.com>, <linuxarm@huawei.com>,
+	<liuyonglong@huawei.com>, <mawupeng1@huawei.com>, Junhao He
+	<hejunhao3@h-partners.com>
+From: hejunhao <hejunhao3@h-partners.com>
+Message-ID: <107cccd7-a5ab-bd4f-c907-dc204d44cc30@h-partners.com>
+Date: Fri, 7 Aug 2026 16:05:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260726212812.89266-1-shijujose2008@gmail.com>
+In-Reply-To: <3a6e3281-de8a-ae5c-249c-316eaa886636@h-partners.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemo100013.china.huawei.com (7.202.195.244)
 
-On Sun, Jul 26, 2026 at 10:28:10PM +0100, shijujose2008@gmail.com wrote:
-> From: Shiju Jose <shijujose2008@gmail.com>
-> 
-> Add support for ACPI RAS2 feature table (RAS2) defined in the
-> ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
-> scrubbing feature.
-> 
-> ACPI RAS2 patches were part of the EDAC series [1].
-> 
-> The code is based on linux.git v7.2-rc2 [2].
+Hi All,
 
-You're probably going to hate Sashiko by now but there's more issues against
-patch 2:
 
-https://sashiko.dev/#/patchset/20260726212812.89266-1-shijujose2008%40gmail.com
+a gentle ping on this.
+All comments are welcomed!
 
-Please sanity-check them if they even make sense. If they don't, you can say
-why and we can ignore.
 
-Thx.
+On 2026/7/23 16:32, hejunhao wrote:
+>
+> On 2026/7/9 1:14, Luck, Tony wrote:
+>> On Wed, May 27, 2026 at 04:27:07PM +0800, Junhao He wrote:
+>>> When hardware memory corruption occurs and a user process accesses the
+>>> corrupted page, the CPU triggers a Synchronous External Abort (SEA).
+>>> The kernel invokes do_sea() to handle the exception, which calls
+>>> memory_failure() to handle the faulty page.
+>>>
+>>> Scenario 1: Memory Error Interrupt First, then SEA
+>>> The page is already poisoned by the memory error interrupt path. The
+>>> subsequent SEA handler sends a SIGBUS to the task, which accesses the
+>>> poisoned page. This flow is correct.
+>>>
+>>> Scenario 2: SEA first, then memory error interrupt (problematic scenario)
+>>> If a user task directly accesses corrupted memory through a PFNMAP-style
+>>> mapping (e.g., devmem), the page may still be in the free-buddy state when
+>>> SEA is handled. In this case, memory_failure() will poison the page without
+>>> invoking kill_accessing_process(), and then takes the free-buddy recovery
+>>> path.
+>>>
+>>> After the CPU returns to the task context, the task re-enters the SEA
+>>> handler due to the same access. However, ghes_estatus_cached() suppresses
+>>> all subsequent entries during the 10-second window, preventing
+>>> ghes_do_proc() from being called. This suppression blocks the
+>>> MF_ACTION_REQUIRED-based SIGBUS delivery, causing the kernel to fail to
+>>> kill the task immediately. Consequently, the process keeps re-entering
+>>> the SEA handler, leading to an SEA storm. Later, the memory error
+>>> interrupt path also cannot kill the task, leaving the system stuck in
+>>> this repeated loop.
+>>>
+>>> The following error logs are explained using the devmem process:
+>>>   NOTICE:  SEA Handle
+>>>   [Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 9
+>>>   [Hardware Error]: event severity: recoverable
+>>>   [Hardware Error]:   section_type: ARM processor error
+>>>   [Hardware Error]:    physical fault address: 0x0000001000093c00
+>>>   [T54990] Memory failure: 0x1000093: recovery action for free buddy page: Recovered
+>>>   [ T9955] EDAC MC0: 1 UE Multi-bit ECC on unknown memory
+>>>            (page:0x1000093 offset:0xc00 grain:1 - APEI location: ...)
+>>>   NOTICE:  SEA Handle
+>>>   NOTICE:  SEA Handle
+>>>   ...
+>>>   ...        ---> SEA storm
+>>>   ...
+>>>   NOTICE:  SEA Handle
+>>>   [ T9955] Memory failure: 0x1000093: already hardware poisoned
+>>>   ghes_print_estatus: 1 callbacks suppressed
+>>>   [Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 9
+>>>   [Hardware Error]: event severity: recoverable
+>>>   [Hardware Error]:   section_type: ARM processor error
+>>>   [Hardware Error]:    physical fault address: 0x0000001000093c00
+>>>   [T54990] Memory failure: 0x1000093: already hardware poisoned
+>>>   [T54990] 0x1000093: Sending SIGBUS to devmem:54990 due to hardware memory corruption
+>>>
+>>> To resolve this, return an error when encountering the same SEA again.
+>>> The subsequent SEA handler invocation uses arm64_notify_die() to send a
+>>> SIGBUS signal to the task, which terminates the process and prevents it
+>>> from re-entering the handler loop.
+>>>
+>>> Signed-off-by: Junhao He <hejunhao3@h-partners.com>
+>>> ---
+>>>  drivers/acpi/apei/ghes.c | 10 +++++++++-
+>>>  1 file changed, 9 insertions(+), 1 deletion(-)
+>>>
+>>> Changes in V2:
+>>> 1. update the commit message per suggestion from Xueshuai
+>>> 2. Add a check to only return failure on the ghes_notify_sea() path,
+>>>    avoiding impact on other NMI-type GHES handlers.
+>>> Link to V1 - https://lore.kernel.org/all/20251030071321.2763224-1-hejunhao3@h-partners.com/
+>>>
+>>> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
+>>> index 3236a3ce79d6..787664740150 100644
+>>> --- a/drivers/acpi/apei/ghes.c
+>>> +++ b/drivers/acpi/apei/ghes.c
+>>> @@ -1383,8 +1383,16 @@ static int ghes_in_nmi_queue_one_entry(struct ghes *ghes,
+>> ghes_in_nmi_queue_one_entry() is called from two places:
+>>
+>> __ghes_sdei_callback()
+>>
+>> I think, but I'm not sure, that you are addressing call from here. By
+>> returning -ECANCELLED this code skips the irq_work_queue() call and
+>> returns -ENOENT (instead of zero).
+>>
+>> ghes_in_nmi_spool_from_list()
+>>
+>> Effect here is more complex. Depends on whether there are multiple
+>> ghes entries on the rcu_list. If there was just one, and you return
+>> -ECANCELLED, then irq_work_queue() is skipped. But if there are multiple
+>> entries on the list and at least one of them gets a zero return from
+>> ghes_in_nmi_queue_one_entry() then irq_work_queue() is called.
+> Hi Luck Tony,
+>
+> Thanks for the comments.
+>
+> This fix is only for the call to ghes_in_nmi_spool_from_list() from ghes_notify_sea() on
+> ARM platforms (ACPI_HEST_NOTIFY_SEA); other paths are unchanged.
+>
+> If multiple SEA errors occur simultaneously, multiple entries in ghes_sea are active
+> and one of them returns 0, then -ECANCELED is discarded, but the unhandled
+> SEA will simply trigger again and re-enter the SEA handler to be processed.
+>
+> The worst case is when multiple valid SEA entries persist within the 10-second
+> ghes_estatus_cached() window — the fact is that a great many SEA errors are
+> produced, which actually constitutes a real SEA storm, not one triggered by a single
+> SEA, and in this situation not delivering SIGBUS in time to kill the process is acceptable.
+>
+> Best regards,
+> Junhao.
+>
+>>
+>> So which of these callers is the one that needs this fix? And is the
+>> other called OK with getting -ECANCELLED error?
+>>
+>>>  	ghes_clear_estatus(ghes, &tmp_header, buf_paddr, fixmap_idx);
+>>>  
+>>>  	/* This error has been reported before, don't process it again. */
+>>> -	if (ghes_estatus_cached(estatus))
+>>> +	if (ghes_estatus_cached(estatus)) {
+>>> +		/*
+>>> +		 * Return failure on duplicate SEA entries so that the
+>>> +		 * subsequent SEA handler invocation sends a SIGBUS signal to
+>>> +		 * the task to prevent it from re-entering the handler loop.
+>>> +		 */
+>>> +		if (is_hest_sync_notify(ghes))
+>>> +			rc = -ECANCELED;
+>>>  		goto no_work;
+>>> +	}
+>>>  
+>>>  	llist_add(&estatus_node->llnode, &ghes_estatus_llist);
+>>>  
+>>> -- 
+>>> 2.33.0
+>>>
+>> -Tony
+>>
+>> .
+>>
+> .
+>
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
