@@ -1,221 +1,103 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22F03191D6
-	for <linux-edac@vger.kernel.org>; Fri,  7 Aug 2026 22:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E097F282F3A;
+	Fri,  7 Aug 2026 22:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786141711; cv=none; b=iqO0Yr9m98OD9LmSBOGct2NdtZNpyAK6KmeFafjJFLrD11dq4uaKN1goRmb/Qm10xoEnme7HkOPL6nkyyTZ2Ij66xAxEmj/qcaX+SVBvk2qc+egAdxBXLwvxb/sfo3t8nRWNS36Pubec0J6L8pLB9DiTE/zmUAizxDVBXBV1HzI=
+	t=1786143203; cv=none; b=OYMUPBZ54xqkRLP6zli7i5WZFHUBIKaC2MzTLWo8Em0ZOfutHEiDFIXXhu50gCUcEsG9Azj+julMigJfarcCFMVNdtRO45HiNO5HPCY+bbhq2s8X8mFbXvQbV/MMNJmqzwz/q+CJr0ROBtVdugNbn0nnhHw0aneAbkYRRBxqc8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786141711; c=relaxed/simple;
-	bh=I5TiNDHhuywIDRB1uPbLIoFF6zJCShofMJ9h7rnmy+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ur37NmF+/nSIxZEuWhm5VRhd2pz6E5wFSUvEJT7jMUhe5fqNNNFjp/5WvvNazJX+h3AY5XlIdoVvpzSNmjMesLgHKJ1bS144MwWPnUms4UIxjOA06/YADR/YJzJ9kdGcmBHgwAql3xguWT0+QoJfAtNLEt7B2bI7V++jF+HxbPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=Tqrjy495; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1786143203; c=relaxed/simple;
+	bh=TgnFiOgYHcZHOf9TdbtGtK+PYfcwH7tmRAPJA9Tw/6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MRrQ22jifLBOzjOfQEMoUfiqskk5AxhtFZe/GKVMikCWHZ4SxuzwfDntq4LjbNQxxc0B8DolMqSEr9wzH6QlNn9p1x+wr3KS4LQ4XBZTGCvWxKKs1i9VxFSmnsCitwSS7SfJjQlq0QMpCAJT7iLrYAS49C4olPY8/ZDBmE0mTac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=hIsY8nF9; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="Tqrjy495"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49553515a8bso744935e9.1
-        for <linux-edac@vger.kernel.org>; Fri, 07 Aug 2026 15:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1786141701; x=1786746501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CryompZ1dW6ZoEDRWoxN/i7VhLUldGpdjdbtrnbnsQw=;
-        b=Tqrjy495VuMVlQ0L2uhDTYBxRlmt1UieuZgb612J69BH1MYvmdae9NN5DU8Wz3DAHq
-         dy67cW4gMTMoA/rY+KgyQRCNIG5yPQUPLiXthPCfOLI3pvX+n/gG3HXaSYTBWGGT1ZUj
-         hx+/WJ3oJhec27MCN4+KXipP81guSbZnJTY55NC1RnHXzhlx4JqZJ+XrTFxiXqH2lgHe
-         +T3m/7XwDyxuOfe6Zw2jBYJhublzp8cCSWQbqjpWOm+aIwAuuZP3SwB9ocVly1tavR8V
-         DgIxlJGWNcJvISjvRU1XOJs7Ck3CF3hxXyjv5M1y8w8LvDLr5np/IPeKXTcqfJ4oLFiF
-         bibw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786141701; x=1786746501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CryompZ1dW6ZoEDRWoxN/i7VhLUldGpdjdbtrnbnsQw=;
-        b=jGEjVarHmNFL70a4RQ9mEhao0UbFEOk++oyJ4dqfJ3N5YZbq+eUgbLqFzWGCzHhp32
-         PWl66pnu+bF+akuZtLkezA4sRsVXmKC18jZ3IXXsmck3YjwA/lOi1MRFQVoJS3WZrbiR
-         4nRAUwXBuMjlNZXL613wy8vthcHvqAlBDPQ6rFkb//4/gKPTQ4VXLIcTVjMnbnp8D0ot
-         f49wo55jdgnLnX3yyUiMJeg4r+d8aeo+VCDCldUqxNCgBFI3T3ZuISFhe9GKy04ZH6ok
-         iXhPAiXdm5jAyzCMgmrNamvp8ThFqz8PGJKSQyvCzrxfiwlwr6qNGfA1natmfsaZTCa5
-         vhpg==
-X-Forwarded-Encrypted: i=1; AHgh+RqU3qFL5WOiAfYLaM7fdwsSl8qamWlSJG74w/WJCUgbqmuI3kTBNgFHu+VMI1jWvlQk76Jt2wFx2Vmo@vger.kernel.org
-X-Gm-Message-State: AOJu0YycYrLncMFVO+7WMQYys9dUQfUBpYgWnGL+gjIXgOQJFrDMB4lP
-	l0fP2qpkjnbhvfZc6c1MZbhLAN6clvy9dife8FdK8B3yYBuhrlypXn5NM4Xj1N0MGc4=
-X-Gm-Gg: AR+sD12eJXawc47U0/bEWPSSCTRp0L5OjI0DxvtX7lCqk50xBfebwqDWLvzDWQfhCJl
-	uJC+14YhtyEPFwIYd4hnSBGsreXCjOe0552BKFG0qiA6nG08SMUJnXB/Gc0FvoPABtsGv/8Umoy
-	MGsWturkYkaAsFj++bH2AKp6oUmupZSw7RUq+OChPZLm98d4VusHqZZZW/rlj4c4eDmvyMxgpWq
-	r43ZVpFwIuuHac3M3JlXY7o2XZLZHTcNdGy2N5FOxGM9NgpSmnml2v4PzpzMWHLK8Q7/pfzzYOA
-	BxFosvfAKUltBViumlaXSDetNzq0BKXmW1G7n409QLCGajA3/9F6uXDppa15eAHu6hrHDuZYuAl
-	rrd2IYkNoY5H6JSlUJibhUXjaTWa5hcr43f9eBvv2qk5TiOKu41LZIHbjNv80StkmeAVASsmRMj
-	IuyyNzcsORkz344aHfn7KPtpkUB2B8cjYBVvRxG2MqrcyvZ7UQVd+sAwcnUhBkucEVpTAjggGoQ
-	923pVbyOfO+D8k=
-X-Received: by 2002:a05:600c:4ec7:b0:499:5c3c:41a5 with SMTP id 5b1f17b1804b1-4995c3c41femr103855655e9.0.1786141701250;
-        Fri, 07 Aug 2026 15:28:21 -0700 (PDT)
-Received: from dev-jrangi.dev.purestorage.com ([208.88.159.129])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4995dee21dcsm82748425e9.0.2026.08.07.15.28.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 15:28:20 -0700 (PDT)
-From: Jasjeet Rangi <jrangi@purestorage.com>
-To: x86@kernel.org
-Cc: jrangi@purestorage.com,
-	tony.luck@intel.com,
-	bp@alien8.de,
-	tglx@kernel.org,
-	mingo@redhat.com,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	linux-edac@vger.kernel.org,
-	stable@vger.kernel.org,
-	Smita.KoralahalliChannabasappa@amd.com,
-	yazen.ghannam@amd.com,
-	avadhut.naik@amd.com,
-	msaggi@purestorage.com,
-	rjethwani@purestorage.com,
-	rhan@purestorage.com
-Subject: [PATCH] x86/mce/amd: Fix inverted interrupt enablement during storm handling
-Date: Fri,  7 Aug 2026 16:26:59 -0600
-Message-ID: <20260807222721.2795123-1-jrangi@purestorage.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hIsY8nF9"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B8AAB40E019E;
+	Fri,  7 Aug 2026 22:53:10 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id v-aCRvLEUesg; Fri,  7 Aug 2026 22:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1786143180; bh=Qr8nSDsQdPdjpZCT7E2xBH6BYx3h24usuz6hApN8yD8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hIsY8nF9CcS2DHulD9hh2AxxxscOe/ItW9tZcRsuBXcHJXX6KzkU2HeCS81tbGDIo
+	 GqNRvxy4TvXpTiPtpCpA3BKO+LQgaSiarntU3ysCXwCD2GpDXYz3nCLlJBCkecK3FM
+	 A5/5+gCgT1GzAzmx8CBHlA+dx/jOUgZPReMc2S/+etET498MKgJQAWND074OiWb5tp
+	 sCpDx7M+neSe+MvGB7pODV5ymXbRCC69UnldBEso/BIJESdht8WBsDp23QideKJYRd
+	 hsYC/lRL2jVZiUzL9BlpWJrOZb1gFvb20ZGkbs6GJPO9h0YWGM75dfpP/nZ67C+9W4
+	 /WDq45ugvJu4zZXXz7jTgAoaPJewYSNq4uYjWmDjqPQPjyMk7/e6ma0hsXppDQ9JPU
+	 wK2HUXagC1MQfPrZgYbee4oxQGyHWPIRD5A8tTE43To+7gxjoytJNigBHTXlxm4yTv
+	 BJzVxShV92hk7lBouz1olWFtbWyE7HOjH8tgTXyl2DEern3Uakgfs3WWiyjRZfMXEd
+	 vN9E9lYLhmUg2VvgY1seCjS8rPVnPDRe+dLN1g3berIzD6vkvTwNd095lQNwHiLnhm
+	 N/zOX1SqUfWx6zvcukNw8SPmjiSKo8VL+iPrvU0ehbXfl3u50YHPEXreHjAiot5kLq
+	 Sb2YR9ASa5C2XVKMQPHKdBHM=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1C71A40E0171;
+	Fri,  7 Aug 2026 22:52:45 +0000 (UTC)
+Date: Fri, 7 Aug 2026 15:52:41 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Jasjeet Rangi <jrangi@purestorage.com>
+Cc: x86@kernel.org, tony.luck@intel.com, tglx@kernel.org, mingo@redhat.com,
+	dave.hansen@linux.intel.com, hpa@zytor.com,
+	linux-edac@vger.kernel.org, stable@vger.kernel.org,
+	Smita.KoralahalliChannabasappa@amd.com, yazen.ghannam@amd.com,
+	avadhut.naik@amd.com, msaggi@purestorage.com,
+	rjethwani@purestorage.com, rhan@purestorage.com
+Subject: Re: [PATCH] x86/mce/amd: Fix inverted interrupt enablement during
+ storm handling
+Message-ID: <20260807225241.GAanZhufwGMzonqHUZ@fat_crate.local>
+References: <20260807222721.2795123-1-jrangi@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260807222721.2795123-1-jrangi@purestorage.com>
 
-mce_amd_handle_storm() currently does the opposite of what storm
-handling needs: it enables threshold interrupts when a storm is detected
-and disables them when the storm subsides.
+On Fri, Aug 07, 2026 at 04:26:59PM -0600, Jasjeet Rangi wrote:
+> mce_amd_handle_storm() currently does the opposite of what storm
+> handling needs: it enables threshold interrupts when a storm is detected
+> and disables them when the storm subsides.
 
-In addition, machine_check_poll() -> clear_bank() -> amd_clear_bank() ->
-amd_reset_thr_limit() will unconditionally enable threshold interrupts,
-which undoes storm mode behavior.
+the subside path:
 
-Fix this by disabling interrupts when storm mode is entered and enabling
-interrupts when storm mode is cleared. Also make amd_reset_thr_limit()
-enable interrupts when the bank is not in storm mode and disable
-interrupts when the bank is in storm mode.
+printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), mce->bank);
+mce_handle_storm(mce->bank, false);
+|->mce_amd_handle_storm(bank, on)
+|-> threshold_restart_bank(bank, on);
+|-> tr.b->interrupt_enable = false;
 
-Rename mce_handle_storm() parameter "on" to "in_storm_mode" to
-disambiguate its meaning. This includes updating the Intel storm handler
-parameter as well.
+while that commit Fixes: 5c4663ed1eac ("x86/mce: Handle AMD threshold
+interrupt storms") says:
 
-Fixes: 5c4663ed1eac ("x86/mce: Handle AMD threshold interrupt storms")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jasjeet Rangi <jrangi@purestorage.com>
----
- arch/x86/kernel/cpu/mce/amd.c       | 9 ++++++---
- arch/x86/kernel/cpu/mce/intel.c     | 4 ++--
- arch/x86/kernel/cpu/mce/internal.h  | 8 ++++----
- arch/x86/kernel/cpu/mce/threshold.c | 6 +++---
- 4 files changed, 15 insertions(+), 12 deletions(-)
+    Rather, disable the interrupt on the corresponding CPU and bank.
+    Re-enable back the interrupts if enough consecutive polls of the bank show no
+    corrected errors (30, as programmed by Intel).
 
-diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-index 83b04e02417d..fd8f7ce4f38b 100644
---- a/arch/x86/kernel/cpu/mce/amd.c
-+++ b/arch/x86/kernel/cpu/mce/amd.c
-@@ -842,14 +842,17 @@ static void amd_deferred_error_interrupt(void)
- 	machine_check_poll(MCP_TIMESTAMP, &this_cpu_ptr(&mce_amd_data)->dfr_intr_banks);
- }
+Yap, I see it.
 
--void mce_amd_handle_storm(unsigned int bank, bool on)
-+void mce_amd_handle_storm(unsigned int bank, bool in_storm_mode)
- {
--	threshold_restart_bank(bank, on);
-+	threshold_restart_bank(bank, !in_storm_mode);
- }
+I'm not sure about your approach to change the bool meaning - "on" is fine at
+a first glance and this fix should be minimal so that it is more easily
+backportable to stable - but yap, looks like we're doing it wrong.
 
- static void amd_reset_thr_limit(unsigned int bank)
- {
--	threshold_restart_bank(bank, true);
-+	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
-+	bool intr_en = !storm->banks[bank].in_storm_mode;
-+
-+	threshold_restart_bank(bank, intr_en);
- }
+Thx.
 
- /*
-diff --git a/arch/x86/kernel/cpu/mce/intel.c b/arch/x86/kernel/cpu/mce/intel.c
-index 4655223ba560..3e3cbdc4fedd 100644
---- a/arch/x86/kernel/cpu/mce/intel.c
-+++ b/arch/x86/kernel/cpu/mce/intel.c
-@@ -147,9 +147,9 @@ static void cmci_set_threshold(int bank, int thresh)
- 	raw_spin_unlock_irqrestore(&cmci_discover_lock, flags);
- }
+-- 
+Regards/Gruss,
+    Boris.
 
--void mce_intel_handle_storm(int bank, bool on)
-+void mce_intel_handle_storm(int bank, bool in_storm_mode)
- {
--	if (on)
-+	if (in_storm_mode)
- 		cmci_set_threshold(bank, CMCI_STORM_THRESHOLD);
- 	else
- 		cmci_set_threshold(bank, cmci_threshold[bank]);
-diff --git a/arch/x86/kernel/cpu/mce/internal.h b/arch/x86/kernel/cpu/mce/internal.h
-index 85bb474f2f44..287ef4a8223a 100644
---- a/arch/x86/kernel/cpu/mce/internal.h
-+++ b/arch/x86/kernel/cpu/mce/internal.h
-@@ -41,7 +41,7 @@ struct dentry *mce_get_debugfs_dir(void);
- extern mce_banks_t mce_banks_ce_disabled;
-
- #ifdef CONFIG_X86_MCE_INTEL
--void mce_intel_handle_storm(int bank, bool on);
-+void mce_intel_handle_storm(int bank, bool in_storm_mode);
- void cmci_disable_bank(int bank);
- void intel_init_cmci(void);
- void intel_init_lmce(void);
-@@ -49,7 +49,7 @@ void intel_clear_lmce(void);
- bool intel_filter_mce(struct mce *m);
- bool intel_mce_usable_address(struct mce *m);
- #else
--static inline void mce_intel_handle_storm(int bank, bool on) { }
-+static inline void mce_intel_handle_storm(int bank, bool in_storm_mode) { }
- static inline void cmci_disable_bank(int bank) { }
- static inline void intel_init_cmci(void) { }
- static inline void intel_init_lmce(void) { }
-@@ -270,7 +270,7 @@ void mce_prep_record_per_cpu(unsigned int cpu, struct mce *m);
- #ifdef CONFIG_X86_MCE_AMD
- void mce_threshold_create_device(unsigned int cpu);
- void mce_threshold_remove_device(unsigned int cpu);
--void mce_amd_handle_storm(unsigned int bank, bool on);
-+void mce_amd_handle_storm(unsigned int bank, bool in_storm_mode);
- extern bool amd_filter_mce(struct mce *m);
- bool amd_mce_usable_address(struct mce *m);
- void amd_clear_bank(struct mce *m);
-@@ -303,7 +303,7 @@ void smca_bsp_init(void);
- #else
- static inline void mce_threshold_create_device(unsigned int cpu)	{ }
- static inline void mce_threshold_remove_device(unsigned int cpu)	{ }
--static inline void mce_amd_handle_storm(unsigned int bank, bool on)	{ }
-+static inline void mce_amd_handle_storm(unsigned int bank, bool in_storm_mode)	{ }
- static inline bool amd_filter_mce(struct mce *m) { return false; }
- static inline bool amd_mce_usable_address(struct mce *m) { return false; }
- static inline void amd_clear_bank(struct mce *m) { }
-diff --git a/arch/x86/kernel/cpu/mce/threshold.c b/arch/x86/kernel/cpu/mce/threshold.c
-index 22e4c916559f..14e4713adc53 100644
---- a/arch/x86/kernel/cpu/mce/threshold.c
-+++ b/arch/x86/kernel/cpu/mce/threshold.c
-@@ -70,14 +70,14 @@ void mce_set_storm_mode(bool storm)
- 	__this_cpu_write(storm_desc.poll_mode, storm);
- }
-
--static void mce_handle_storm(unsigned int bank, bool on)
-+static void mce_handle_storm(unsigned int bank, bool in_storm_mode)
- {
- 	switch (boot_cpu_data.x86_vendor) {
- 	case X86_VENDOR_INTEL:
--		mce_intel_handle_storm(bank, on);
-+		mce_intel_handle_storm(bank, in_storm_mode);
- 		break;
- 	case X86_VENDOR_AMD:
--		mce_amd_handle_storm(bank, on);
-+		mce_amd_handle_storm(bank, in_storm_mode);
- 		break;
- 	}
- }
---
-2.50.1
-
+https://people.kernel.org/tglx/notes-about-netiquette
