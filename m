@@ -1,63 +1,61 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E097F282F3A;
-	Fri,  7 Aug 2026 22:53:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A2A1862;
+	Sat,  8 Aug 2026 01:02:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786143203; cv=none; b=OYMUPBZ54xqkRLP6zli7i5WZFHUBIKaC2MzTLWo8Em0ZOfutHEiDFIXXhu50gCUcEsG9Azj+julMigJfarcCFMVNdtRO45HiNO5HPCY+bbhq2s8X8mFbXvQbV/MMNJmqzwz/q+CJr0ROBtVdugNbn0nnhHw0aneAbkYRRBxqc8Y=
+	t=1786150926; cv=none; b=tOGFFOrFIOwQndvchYJX2kNz5bNWMIViXPEUI8/LmCQYkxi7KdEGEAQNmGlgQjJYqM6rezclYCbZRQggwpo59jorZ37VG5FD0gVpQsuAZs4Yhnf9qBf0wJPdxVUkvQUDUb1Elfuq63fqpIN7o12apF+jYL7qyUOFJZ98DW7XLps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786143203; c=relaxed/simple;
-	bh=TgnFiOgYHcZHOf9TdbtGtK+PYfcwH7tmRAPJA9Tw/6w=;
+	s=arc-20240116; t=1786150926; c=relaxed/simple;
+	bh=jm/FXV51TEOHcdXYk4SfTNl2Wi49tb1Q0xiYF3a+6zg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MRrQ22jifLBOzjOfQEMoUfiqskk5AxhtFZe/GKVMikCWHZ4SxuzwfDntq4LjbNQxxc0B8DolMqSEr9wzH6QlNn9p1x+wr3KS4LQ4XBZTGCvWxKKs1i9VxFSmnsCitwSS7SfJjQlq0QMpCAJT7iLrYAS49C4olPY8/ZDBmE0mTac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=hIsY8nF9; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z20Z2p2l8VOhkZOMpna85IpSnY3xkUkY74KFK0PnKDpAo6rZHIW6c9a1eDYrrC5xIkT35bFuMzx8EoD3LWdV2FBHoNXJgO8DV7KRiOoMw27CcRu6m0GFKUf3VmvDMvdTxHVNEoQes5JbQ2bI0SroglRF6M5bSqSC2dQUp61osqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MOq7QFZw; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="hIsY8nF9"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MOq7QFZw"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B8AAB40E019E;
-	Fri,  7 Aug 2026 22:53:10 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5B3C140E0171;
+	Sat,  8 Aug 2026 01:02:00 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id v-aCRvLEUesg; Fri,  7 Aug 2026 22:53:01 +0000 (UTC)
+	with ESMTP id Avr3L_kIw-Cs; Sat,  8 Aug 2026 01:01:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1786143180; bh=Qr8nSDsQdPdjpZCT7E2xBH6BYx3h24usuz6hApN8yD8=;
+	t=1786150909; bh=ziRjw9rVdmFh3wtDehG2EJkVAUtCnmS+IGRYYw3VsWM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hIsY8nF9CcS2DHulD9hh2AxxxscOe/ItW9tZcRsuBXcHJXX6KzkU2HeCS81tbGDIo
-	 GqNRvxy4TvXpTiPtpCpA3BKO+LQgaSiarntU3ysCXwCD2GpDXYz3nCLlJBCkecK3FM
-	 A5/5+gCgT1GzAzmx8CBHlA+dx/jOUgZPReMc2S/+etET498MKgJQAWND074OiWb5tp
-	 sCpDx7M+neSe+MvGB7pODV5ymXbRCC69UnldBEso/BIJESdht8WBsDp23QideKJYRd
-	 hsYC/lRL2jVZiUzL9BlpWJrOZb1gFvb20ZGkbs6GJPO9h0YWGM75dfpP/nZ67C+9W4
-	 /WDq45ugvJu4zZXXz7jTgAoaPJewYSNq4uYjWmDjqPQPjyMk7/e6ma0hsXppDQ9JPU
-	 wK2HUXagC1MQfPrZgYbee4oxQGyHWPIRD5A8tTE43To+7gxjoytJNigBHTXlxm4yTv
-	 BJzVxShV92hk7lBouz1olWFtbWyE7HOjH8tgTXyl2DEern3Uakgfs3WWiyjRZfMXEd
-	 vN9E9lYLhmUg2VvgY1seCjS8rPVnPDRe+dLN1g3berIzD6vkvTwNd095lQNwHiLnhm
-	 N/zOX1SqUfWx6zvcukNw8SPmjiSKo8VL+iPrvU0ehbXfl3u50YHPEXreHjAiot5kLq
-	 Sb2YR9ASa5C2XVKMQPHKdBHM=
+	b=MOq7QFZwYAUs1I/NtDBY3fQvdC/OmoBq3QtZufrqL4eZ5eJkqPobzjUCkZFZDCoJk
+	 nd7dSLYkf70cIu8ysgBV35uljxrSniLX8C1gJ5c8967aZ4PNcZx99EsjAjASkV0oXC
+	 IyqsXByBHRXXJbd+W99pZ0F066cGa4o+K6sPmYTHgBVPNcMJH+RrtcsCRIUdH8u9KF
+	 IhZ+CmBZYy31Q+LAJdWMh42CNkIM+FbQyFRFCbZqC2LRMW9sP758bTy249UKvgdVWo
+	 K+h9bp0dpAozcDSJ3LoS88qdr2A+/PlxB80fB3Tn2qYg8xgCv3QxD9WSwioUUr1zgv
+	 FY/ZED3AucnJifJ4O/DF4y3co9AUYOYtOgZ+SKVVoXuj5D2nWukPGaD/qCJdCYxIHi
+	 ad3ORzhbx+sC7Ar1pHXvsyiSbtBftLMGcYJGimxfEepevTM4TGmX9E0Qz+0BatMsF0
+	 M94dsuxHy7s4a6hgNMbB3/A+Tw3HSp9TshiMRm9vz2QWK6zmfTUH6pXcCI223KezPj
+	 YMzCZ0qmdEe5upo6QlEEL7ijRsYz4GfFzaThotx6hv8Px+Ypj7i5NBmPZ0ENUQER0k
+	 4BSFx20rEcfW1MO/AnJITlA1Xa/5C6hNX+SVSqsf7PGRS0OD4WT2W7MeIr38m+rodc
+	 Cx0Plr5PXOsJpOGnduCYGhZo=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1C71A40E0171;
-	Fri,  7 Aug 2026 22:52:45 +0000 (UTC)
-Date: Fri, 7 Aug 2026 15:52:41 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7D6A240E00C4;
+	Sat,  8 Aug 2026 01:01:41 +0000 (UTC)
+Date: Fri, 7 Aug 2026 18:01:38 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Jasjeet Rangi <jrangi@purestorage.com>
-Cc: x86@kernel.org, tony.luck@intel.com, tglx@kernel.org, mingo@redhat.com,
-	dave.hansen@linux.intel.com, hpa@zytor.com,
-	linux-edac@vger.kernel.org, stable@vger.kernel.org,
-	Smita.KoralahalliChannabasappa@amd.com, yazen.ghannam@amd.com,
-	avadhut.naik@amd.com, msaggi@purestorage.com,
-	rjethwani@purestorage.com, rhan@purestorage.com
-Subject: Re: [PATCH] x86/mce/amd: Fix inverted interrupt enablement during
- storm handling
-Message-ID: <20260807225241.GAanZhufwGMzonqHUZ@fat_crate.local>
-References: <20260807222721.2795123-1-jrangi@purestorage.com>
+To: Jad Keskes <inasj268@gmail.com>
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
+	Robert Richter <rric@kernel.org>
+Subject: Re: [PATCH 1/2] EDAC/device_sysfs: Use kstrtouint for poll_msec to
+ prevent truncation
+Message-ID: <20260808010138.GAanZ_8rVhhc4HbtyJ@fat_crate.local>
+References: <20260730145549.148229-1-inasj268@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -66,35 +64,106 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260807222721.2795123-1-jrangi@purestorage.com>
+In-Reply-To: <20260730145549.148229-1-inasj268@gmail.com>
 
-On Fri, Aug 07, 2026 at 04:26:59PM -0600, Jasjeet Rangi wrote:
-> mce_amd_handle_storm() currently does the opposite of what storm
-> handling needs: it enables threshold interrupts when a storm is detected
-> and disables them when the storm subsides.
+On Thu, Jul 30, 2026 at 03:55:48PM +0100, Jad Keskes wrote:
+> The poll_msec sysfs store uses simple_strtoul() which accepts an
+> unsigned long, but the target field (poll_msec) is unsigned int. On
+> 64-bit systems, a value > UINT_MAX is silently truncated when stored.
+> 
+> Fix the mismatch by using kstrtouint() instead. This rejects values
+> > UINT_MAX at parse time, making truncation impossible. Also add a
+> check for value < 1 to reject the 0-delay case, which would cause the
+> poll work to spin without delay and consume 100% CPU.
+> 
+> Fixes: e27e3dac6517 ("drivers/edac: add edac_device class")
+> Signed-off-by: Jad Keskes <inasj268@gmail.com>
+> ---
+>  drivers/edac/edac_device_sysfs.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 
-the subside path:
+Applied, thanks.
 
-printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), mce->bank);
-mce_handle_storm(mce->bank, false);
-|->mce_amd_handle_storm(bank, on)
-|-> threshold_restart_bank(bank, on);
-|-> tr.b->interrupt_enable = false;
+Also, I did some more trivial cleanups ontop:
 
-while that commit Fixes: 5c4663ed1eac ("x86/mce: Handle AMD threshold
-interrupt storms") says:
+Author: Borislav Petkov (AMD) <bp@alien8.de>
+Date:   Fri Aug 7 14:16:17 2026 -0700
 
-    Rather, disable the interrupt on the corresponding CPU and bank.
-    Re-enable back the interrupts if enough consecutive polls of the bank show no
-    corrected errors (30, as programmed by Intel).
+    EDAC/device_sysfs: Cleanup around edac_device_ctl_poll_msec_store()
+    
+    - Align function args
+    - Fix comment style
+    - Fixup formatting around edac_device_reset_delay_period() too
+    
+    The not-too-trivial change is converting the
+    edac_device_reset_delay_period() msec argument to unsigned int as that
+    is what the rest of the code expects.
+    
+    Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
 
-Yap, I see it.
-
-I'm not sure about your approach to change the bool meaning - "on" is fine at
-a first glance and this fix should be minimal so that it is more easily
-backportable to stable - but yap, looks like we're doing it wrong.
-
-Thx.
+diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
+index cf0d3c2dfc04..638be1f47c59 100644
+--- a/drivers/edac/edac_device.c
++++ b/drivers/edac/edac_device.c
+@@ -342,14 +342,10 @@ static void edac_device_workq_teardown(struct edac_device_ctl_info *edac_dev)
+ }
+ 
+ /*
+- * edac_device_reset_delay_period
+- *
+- *	need to stop any outstanding workq queued up at this time
+- *	because we will be resetting the sleep time.
+- *	Then restart the workq on the new delay
++ * Stop any outstanding workq queued up at this time because sleep time will
++ * be reset. Then restart the workq on the new delay.
+  */
+-void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev,
+-				    unsigned long msec)
++void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev, unsigned int msec)
+ {
+ 	edac_dev->poll_msec = msec;
+ 	edac_dev->delay	    = msecs_to_jiffies(msec);
+diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
+index 6995ce039db9..6359007701ba 100644
+--- a/drivers/edac/edac_device_sysfs.c
++++ b/drivers/edac/edac_device_sysfs.c
+@@ -84,17 +84,15 @@ static ssize_t edac_device_ctl_poll_msec_show(struct edac_device_ctl_info
+ 	return sprintf(data, "%u\n", ctl_info->poll_msec);
+ }
+ 
+-static ssize_t edac_device_ctl_poll_msec_store(struct edac_device_ctl_info
+-					*ctl_info, const char *data,
+-					size_t count)
++static ssize_t edac_device_ctl_poll_msec_store(struct edac_device_ctl_info *ctl_info,
++					       const char *data, size_t count)
+ {
+ 	unsigned int value;
+ 	int ret;
+ 
+-	/* get the value and enforce that it is non-zero, must be at least
+-	 * one millisecond for the delay period, between scans
+-	 * Then cancel last outstanding delay for the work request
+-	 * and set a new one.
++	/*
++	 * Get the value, make sure it is non-zero, must be at least one millisecond
++	 * for the delay period between scans.
+ 	 */
+ 	ret = kstrtouint(data, 0, &value);
+ 	if (ret < 0)
+diff --git a/drivers/edac/edac_module.h b/drivers/edac/edac_module.h
+index 47593afdc234..eceef5539186 100644
+--- a/drivers/edac/edac_module.h
++++ b/drivers/edac/edac_module.h
+@@ -52,8 +52,7 @@ bool edac_queue_work(struct delayed_work *work, unsigned long delay);
+ bool edac_stop_work(struct delayed_work *work);
+ bool edac_mod_work(struct delayed_work *work, unsigned long delay);
+ 
+-extern void edac_device_reset_delay_period(struct edac_device_ctl_info
+-					   *edac_dev, unsigned long msec);
++extern void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev, unsigned int msec);
+ extern void edac_mc_reset_delay_period(unsigned long value);
+ 
+ /*
 
 -- 
 Regards/Gruss,
