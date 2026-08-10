@@ -1,182 +1,136 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF0B276038;
-	Mon, 10 Aug 2026 03:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9572D331EC0;
+	Mon, 10 Aug 2026 08:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786332432; cv=none; b=EE/XofTJgL/u5R1U2xEBfHdI+eogWuvZWc7TmWVUoP8BQxF5V9xO6leGbOsxckKWuqo5dLvK7jY/uS50cF2QESTSil2tcOj1pYQ7S5uKNhcuvReovUMVuaWsSLI1+fn2XMSDBdj8Gf1PSi5GoO8HOnR+ww83E2P4nTa3YtnjIKg=
+	t=1786349448; cv=none; b=PiRmTDBfU4dASAV0mJrD5gy2qT7/aafWSAWehfkoQT8uvJIuTjYW75m7Fs5attmKd9UrHQj+O9jg8QP5WwkPRw1T7v45dxg1b4umRSGskOmLMbBVYyvpcaAvw3gtfOZ1B2Cq4mC+nKUmi4kQI1JgyuFFA7rmCfZWlPH+TVEofWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786332432; c=relaxed/simple;
-	bh=AtIQCXTH+DVdRXtX+i2f1YWXHSxSuaVFdcD4yv5gmlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHN2Me2jxLlH/RFV9o6sYZjLujS02ZAuk5JuPhbFqzJkWU312atWS7+uw/qiGR1NsTxy4YWU/Tj37enP8Q5FkU34TNo3Bxs3NVHxqP3upzFx8VF3zchHskbULQQJXi/J1xOHSKp3CYbk/S0C+PNG1lpU4AP+UzYp8sTLYo7ret0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=kwCg8hci; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1786349448; c=relaxed/simple;
+	bh=D8GAAPcPNkvGTDlj9lP0xZu0c4aQ0+uGJs8xBq+n/kM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=ZiVER0gwolX+t6VWN6hsF4hVoVMexQhTx/pax34DNSMWMVu4qDoScJiOOvWOiDpAUq1qgZSSl5BLOx4OPrkgQ3xI/RA5GYl/va42NNZigefsLdIlpbO9I3yfANko3BpZKhHuW8wwpwC20e/AL7V0o7/hfqamLq6gVX90CRX3Vh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ol0m4cZ0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="kwCg8hci"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 41BAC40E019E;
-	Mon, 10 Aug 2026 03:27:00 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 6VVuAlzvv2ss; Mon, 10 Aug 2026 03:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1786332409; bh=45ZbIZbdiTV8hK5isCO8rwhcsD946XLfURbbeNG46Q4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kwCg8hciS+JDti46ly0QRlvEZcPyCz6+LQGLO8HDEAp+js1SqYnOooTlpmbAzVggt
-	 TudABp9kDyQDk3NKcUnNtE4cl/w0E6UIGHynQbxkVLo8oBwsjDq/4LEEyPGJBwF/B9
-	 nMtq0h0D1k455+EGS8laLysHGz3kXz3X7lhchILWJsxMG/d9hF33jq5Atmjv6Rzc1N
-	 USrx/8BJ+OXkCftY9K/4rLXP3zlPPNV+jsJ7LqRwT17g3jnpP0wo6SJ5fGoWDT3CUe
-	 KP34EjsYAaWXFDq6IIvgBM53An/kYDbSBgO4/d6pbQFBStV6Dyg1F0AAAdL51B6sXU
-	 4KM3VEG18zkXoHqRhzrOX0UqYtcMefogyl2+rujLQWvDgeI2mNR34K+B/KVe6OQ00T
-	 8UuCC9481nTsJyhw6aG/QuOx6csJwq8018yyyDHQcbEiU+Nz8xj1DWCyvEt0LeCz49
-	 /Wc9b+BPsf919QTUfnksFyHJbEd2Sk1czR92J1NsZ7gP/a64LIzYlI7CUv4GUqXzzJ
-	 bfDBxSMfxj+X3zMEC+O4tAVctIScZbA079gw5SUO7t34HDaS6eJD90ES98CBCc6OKC
-	 odekKyJ5RGc01eNlaLzfE9CeCH7xETbZJdNevrfSYcU9iQ4WKOL2h86O8mH3zjh+qk
-	 QCZ3b9D5QpS0iw3WYw7LTl1o=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::30])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BA6EF40E019C;
-	Mon, 10 Aug 2026 03:26:41 +0000 (UTC)
-Date: Sun, 9 Aug 2026 20:26:38 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Jad Keskes <inasj268@gmail.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
-	Robert Richter <rric@kernel.org>
-Subject: Re: [PATCH] EDAC/device: Serialize poll_msec updates against device
- teardown
-Message-ID: <20260810032638.GCanlE7p8fVnUCYLEK@fat_crate.local>
-References: <20260808223903.16768-1-inasj268@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ol0m4cZ0"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id BDBF41F000E9;
+	Mon, 10 Aug 2026 08:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786349447;
+	bh=D8GAAPcPNkvGTDlj9lP0xZu0c4aQ0+uGJs8xBq+n/kM=;
+	h=Date:Subject:Cc:From:To:References:In-Reply-To;
+	b=Ol0m4cZ0Ql+pds/46gHDTbjsqiX90sOnocAxtDPny1NKrwNoE52jE/jJOpngRzVsC
+	 YSSXcxLgXbE0XDIrqhI4cB2iywfNuJvD0GBzwpZXTG1XSQ8FDg9jony1cfIFCO25n9
+	 5tbbwDoiuF5EyiyumRDnSznWZijY3qYvBQKpGHYR+iuLqmjbHdaHUrYLLTRKjgeU0u
+	 ratLSBNsbERH7HLY9N9F5LqA6dsZA0aLdF/spscMMk5EM3mhWDCfkZu3U0JasP3vve
+	 6jxuaQdP866Q6gSCvFFk7uEwx4X8sI5XJyera4SYOfZf81MJimLLQqfJVjjTeqDPMP
+	 9udRKX+sIWR6g==
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260808223903.16768-1-inasj268@gmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=44ada78920db0c5cdf4033a7b68fc9cd12279b08ce4d58d6c9e466420964;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Mon, 10 Aug 2026 10:10:43 +0200
+Message-Id: <DKL4118H7S5U.1FN3E4DBY4GHF@kernel.org>
+Subject: Re: [PATCH RESEND] powerpc/configs: enable CONFIG_RAS to fix EDAC
+ support
+Cc: "Madhavan Srinivasan" <maddy@linux.ibm.com>, "Michael Ellerman"
+ <mpe@ellerman.id.au>, "Nicholas Piggin" <npiggin@gmail.com>, "Christophe
+ Leroy" <chleroy@kernel.org>, "Tony Luck" <tony.luck@intel.com>,
+ <linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>, "Janusz
+ Krzysztofik" <jmkrzyszt@gmail.com>, "Takashi Iwai" <tiwai@suse.de>, "David
+ Heidelberg" <david@ixit.cz>, <linux-edac@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Borislav Petkov" <bp@alien8.de>
+X-Mailer: aerc 0.20.0
+References: <20260730105546.3658570-1-mwalle@kernel.org>
+ <20260730185620.GDamueVIGV-8iIzozX@fat_crate.local>
+ <DKC6Z5YGBF2O.TAJAN566BN0L@kernel.org>
+ <20260731022855.GNamwIZw7Fz4Yhk__S@fat_crate.local>
+In-Reply-To: <20260731022855.GNamwIZw7Fz4Yhk__S@fat_crate.local>
 
-On Sat, Aug 08, 2026 at 11:39:03PM +0100, Jad Keskes wrote:
-> The poll_msec attribute was writable on interrupt-driven controllers,
+--44ada78920db0c5cdf4033a7b68fc9cd12279b08ce4d58d6c9e466420964
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Controllers?
+On Fri Jul 31, 2026 at 4:28 AM CEST, Borislav Petkov wrote:
+> On Thu, Jul 30, 2026 at 10:35:20PM +0200, Michael Walle wrote:
+>> I don't get what you are trying to say. CONFIG_EDAC_MPC85XX is
+>> enabled in the that config already.
+>
+> You mean, *because* CONFIG_EDAC_MPC85XX is =3Dy, then RAS=3Dy? I guess th=
+at is
+> true for this particular config.
 
-> where the value is meaningless, and a write racing with device removal
-> could re-arm the polling workqueue after it had been stopped and the
-> ctl_info freed -- use-after-free.
-> 
-> Restrict the attribute to controllers that are actually polled: _show()
-> and _store() now return -EPERM unless the controller is in the
-> OP_RUNNING_POLL state.
-> 
-> That check alone is not sufficient against the teardown race: _store()
-> can pass it and then be preempted by a concurrent del_device() that sets
-> OP_OFFLINE, stops the workqueue and frees the ctl_info once the store
-> completes.  So re-check the state inside reset_delay_period()
-> under device_ctls_mutex -- the same lock under which del_device()
-> updates op_state -- making the check atomic with the re-arm.  The mutex
-> is taken only around the check and re-arm, never across the stop/teardown
-> path, so it cannot deadlock against other pollers queued on the shared
-> EDAC workqueue.
-> 
-> Reported-by: Borislav Petkov <bp@alien8.de>
+No. CONFIG_RAS is not set although CONFIG_EDAC_MPC85XX is set.
+Because CONFIG_RAS was *automatically* selected before the mentioned
+commit.
 
-This is not how this tag should be used. Please take the time to read up on
-the development process before submitting more patches:
+>> It's just that the mentioned commit broke it because it removed the "sel=
+ect
+>> RAS", while EDAC depends on it.
+>
+> No, that commit dropped a select statement which is good in its own right=
+.
 
-https://www.kernel.org/doc/html/latest/process/development-process.html
+And while doing that it will break (at least) the corenet32_smp_defconfig,
+because it removes the "select RAS" (which was on the EDAC_MM_EDAC symbol).
 
-This too:
+How would that work without adding CONFIG_RAS=3Dy to the defconfigs
+where EDAC (or rather EDAC_MM_EDAC) is enabled?
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+Here's a quick test:
 
-Also, how much of this patch has been done with the help of LLM?
+git checkout e3c4ff6d8c94
 
-We have a tag for that - Assisted-by:
+# remove "default y" from PCIEAER, because that is also selecting
+# RAS. But it was removed in 8c8ff55b4da7 ("PCI/AER: Don't select
+# CONFIG_PCIEAER by default").
+sed -i "/default y/d" drivers/pci/pcie/aer/Kconfig
 
-> Signed-off-by: Jad Keskes <inasj268@gmail.com>
-> ---
->  drivers/edac/edac_device.c       | 11 +++++++++++
->  drivers/edac/edac_device_sysfs.c |  8 ++++++++
->  2 files changed, 19 insertions(+)
-> 
-> diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-> index 361dc985497b..519d1c6d0930 100644
-> --- a/drivers/edac/edac_device.c
-> +++ b/drivers/edac/edac_device.c
-> @@ -392,10 +392,21 @@ static void edac_device_workq_teardown(struct edac_device_ctl_info *edac_dev)
->   */
->  void edac_device_reset_delay_period(struct edac_device_ctl_info *edac_dev, unsigned int msec)
->  {
-> +	mutex_lock(&device_ctls_mutex);
-> +
-> +	/* Don't re-arm the workqueue once teardown has begun or when the
-> +	 * controller isn't polled; this check must be atomic with the
-> +	 * re-arm below so it can't race a concurrent del_device().
-> +	 */
+ARCH=3Dpowerpc make corenet32_smp_defconfig
+grep CONFIG_EDAC .config # no CONFIG_EDAC, nor CONFIG_EDAC_MPC85XX
 
-This is not the right comment format.
+git revert e3c4ff6d8c94
+grep CONFIG_EDAC .config
 
-> +	if (edac_dev->op_state != OP_RUNNING_POLL)
-> +		goto out;
-> +
->  	edac_dev->poll_msec = msec;
->  	edac_dev->delay     = msecs_to_jiffies(msec);
->  
->  	edac_mod_work(&edac_dev->work, edac_dev->delay);
-> +out:
-> +	mutex_unlock(&device_ctls_mutex);
->  }
->  
->  int edac_device_alloc_index(void)
-> diff --git a/drivers/edac/edac_device_sysfs.c b/drivers/edac/edac_device_sysfs.c
-> index e12122b2f42e..821a80806086 100644
-> --- a/drivers/edac/edac_device_sysfs.c
-> +++ b/drivers/edac/edac_device_sysfs.c
-> @@ -83,6 +83,10 @@ static ssize_t edac_device_ctl_panic_on_ue_store(struct edac_device_ctl_info
->  static ssize_t edac_device_ctl_poll_msec_show(struct edac_device_ctl_info
->  					*ctl_info, char *data)
->  {
-> +	/* Interval is only meaningful while running under polling */
+You see, before that commit, the driver was actually enabled, and
+after that commit it is not.
 
-An LLM usually slaps meaningless comments like that.
+I'm really not sure what I still have to show you that you agree,
+that it's a regression.
 
-> +	if (ctl_info->op_state != OP_RUNNING_POLL)
-> +		return -EPERM;
-> +
->  	return sprintf(data, "%u\n", ctl_info->poll_msec);
->  }
->  
-> @@ -93,6 +97,10 @@ static ssize_t edac_device_ctl_poll_msec_store(struct edac_device_ctl_info
->  	unsigned int value;
->  	int ret;
->  
-> +	/* Only meaningful when the device is running under polling */
+>> Still, it's already enabled in that config and it somewhat recently
+>> got IMX9 support,
+>
+> Who got IMX9 support?
 
-Here too.
+Disregard that, I was confused, it's in the fsl_ddr_edac.c (which is
+shared between EDAC_LAYERSCAPE and EDAC_MPC85XX).
 
-> +	if (ctl_info->op_state != OP_RUNNING_POLL)
-> +		return -EPERM;
-> +
->  	/*
->  	 * Get the value, make sure it is non-zero, must be at least one
->  	 * millisecond for the delay period between scans.
-> -- 
-> 2.55.0
-> 
+..
 
--- 
-Regards/Gruss,
-    Boris.
+> I can pick up well tested patches tho.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Good to hear.
+
+-michael
+
+--44ada78920db0c5cdf4033a7b68fc9cd12279b08ce4d58d6c9e466420964
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCanmHgxIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/gzcQGAsR41P3plwjqhvP+m1h+za6dU6QPVszbW
+GDsyisbCK/xjoSONtEjUStgqsSwvGmwCAX4+j++E6ePSZB2BpGbvqUoa1vUcIUwL
+UauC8jzpaOBEDvUoDOtL8YzxVrNA2RNEHtQ=
+=Hlr+
+-----END PGP SIGNATURE-----
+
+--44ada78920db0c5cdf4033a7b68fc9cd12279b08ce4d58d6c9e466420964--
