@@ -1,63 +1,67 @@
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FE5428463
-	for <linux-edac@vger.kernel.org>; Mon, 10 Aug 2026 16:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53B3429036
+	for <linux-edac@vger.kernel.org>; Mon, 10 Aug 2026 16:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786379694; cv=none; b=fRr3Qb+zk+VYitQwPCTw8jBTbx7fL9t/v9LyCqb0jOBC/rikZxOA6GHWguEmMJva6x1seGtVN8kjIgDL/7I5YIrs1z6mNf0zhEj/1gByVpkaCaS0X2KVhjEpyUs5UqpQVFpBuk43zalRZNe5Q+fbomL7QvbTZiBdCN4Ae6NCIhQ=
+	t=1786379696; cv=none; b=RAnCYNqZ+liMhv5BdJ5Dl3CZd+3Shc7R1BfobPZgLghIGR3szpEQIUFDC5PPoVCF1L7wRaQdvKMx1k/gvN2YFgwLPAGPgdPt5etT9QJ+Qxc9PNCPS4pG7ylm3Z+M6bjrsNdJyvDeg+7Oawuow3LYcW7PTYh6glk9HkeKap63yrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786379694; c=relaxed/simple;
-	bh=ajbvcjZXnT3+iWpd7dWUGsxzHJKakpxdBrDOcC2Np+8=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=OOrpKQyQEvSgRVyecq41+KQQDCawQaS0O7XaBa1U6lvR42f4PZH/2j5jBdeHfkgcbPliyYptfKMbnbIGDmZ0uT+Uz9YGWM2CAhD4NUzjoecPDJeSwEupGsNJIEcvDfDwOLSgCMsnPoX6lrJ0Pkgh9Iyem9lhMaiAIWSRc1Tg7r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M+3IDqfO; arc=none smtp.client-ip=209.85.218.71
+	s=arc-20240116; t=1786379696; c=relaxed/simple;
+	bh=GC+CJo5FlA/SE2/QVcHL36Xcw5XC5Gyu8Y+sDTlvf54=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=XEhIEpZD46U6/0bTr03zRXExlU1IVksPpp++hpIkF/Y4Kkc/2oSHY33sge32n9ph2747HHPHU6xUtQdO9eUndw6b/OClhQf7x/dKvCIHz1+9hXUAJ8GQqoJAhM6VXe7CuWZr712U4tFHLvqeZ+iht1sp74PYZOyt46jyBRjg87Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dXnoSpk1; arc=none smtp.client-ip=209.85.208.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M+3IDqfO"
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c15c6a68406so144729266b.3
-        for <linux-edac@vger.kernel.org>; Mon, 10 Aug 2026 09:34:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dXnoSpk1"
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-69cd6606b19so1740382a12.1
+        for <linux-edac@vger.kernel.org>; Mon, 10 Aug 2026 09:34:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786379691; x=1786984491; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iDGvS9HpsrPtLNw2H79kc5fyPEaWVAB8Beu1OXPCfRo=;
-        b=M+3IDqfOe3y7bA+FRgPh423ArHZo1vzFt3qJvVPc8bKKuUuFEWqXMtm1XZap/V+Pj8
-         P74ke092X7oxGUf4Bx1A2q06FINsWV6eXU/MMKYb5+/PbT7zAjl5N5KgYssAl5zq8EWI
-         36J0vkkGKk+Bn9wQ0+QiirgHmSFaestTw22WEeqeWR5fcre5MiMCwSyWSqReQ4w6xmwu
-         gA806VBdFgLfRhnWl5X2hqMBszqQ/EPoh5Riqs+lOlaYITX5YAOy0Z20GWND4EQWJV8d
-         f++uw7EvwuTX+5adKXxjh5q8TXZcyEf+LR/v+VdX315X9vudBrSeAcZhY4wRcbWPGbS2
-         Pudw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786379691; x=1786984491;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1786379693; x=1786984493; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=iDGvS9HpsrPtLNw2H79kc5fyPEaWVAB8Beu1OXPCfRo=;
-        b=Zy9u3Ei5S4rHS9vaxMiLT9LYAuHxmRo338oPCzvjhNt/7dBvUvn3PrRgFk2ITOemGm
-         LpIys9UCIzh8u+DUW5yVLjLpXPZjuxl+TpbZZAZbjv0rwmxoSIwl6EMTatHxiqoZRt69
-         xka5R6gB6ath674vGcuXNCWTup63UghOcAdE4bQQLP+uRzS4CvMIHqMU/1yO1VNWmDvl
-         zmCB/dinmXTlSIgH+D/kggVTB/CSEvirt83XUkBB5IG+EWZELwsCSAbWaFuJjEN00ilb
-         71Y4zRwe5rv6hfGcCScdUDQ3m2JTHhGcY3rG0UNfyU2SLGIAb1RLsI/orLUjt0LxCWGz
-         CvRw==
-X-Forwarded-Encrypted: i=1; AHgh+RqmqBA3vkPGw5VJD/iyTt7VfHfOPbJy0xIzMfBWv6vsBzFehDEOxPwbhACAJ2D7CzVvoNvH+QvZ04Lk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCWPuqE7NvN2KB7ltMppll+1rhor2v4mSjCv60vD4Pftk3cPsO
-	pzCi6eSxPRykAQIdm4527ZySMlHmRGKwREkeqOBtJW6l5vvqcteBlQaupzjorvu5cFXjniK65dE
-	OZ7+gkXTPwWuc5XmmNw==
-X-Received: from ejzq2.prod.google.com ([2002:a17:906:b282:b0:c1c:22c5:732])
+        bh=2W9GjrX12XMdTPANAxHOJwxcvmu8lBZVUg7itISKfu8=;
+        b=dXnoSpk1GvFIs/7MzjDDLVPtl0XkokwJi5OyqSbbOIEzmz75l5HDPlLNFvu1KPTfDf
+         jyaFdRmH4POvkAhbdMOy9KFU6osfFDdpuMtlTvHuW4XOW+QM5NeY2dWjrg6e/0xRPa8w
+         0t8Cy5NlPkgDaiDifX/nnv0ya8U3O8oi+6Ijb4RWPzoSwdbrLvO9bhpCzqr/7+VFqsK3
+         hfuroVjBwa8zVx7+TV7RYSbLkgqtOSuc72XT6tuTmdkojby1US14V3/iDrBdZ/3CYvu5
+         XdEjwKXsTpO3+vNyDL6erJRfRkHams8KFk6+ay3c4Mhlh8ulqaMA6EvUz8axjArtkQGc
+         ya+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786379693; x=1786984493;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2W9GjrX12XMdTPANAxHOJwxcvmu8lBZVUg7itISKfu8=;
+        b=c54DK+nS0t00rQfb5RHnJhzDT9C5HQ1Ql+hoOBV1quxZOuavwByhZSC4sWGWCnaDqe
+         yxo4M2bCJeFjXuc2Nma1oEaMeqaaFcd66VpxeM0Lp0RsyvPb3DPVUaoDXR24CUV3NhJg
+         G15qLwowlTMFkeMSbPOK24RpDmqZCvZtOlCUsGajvckjC4MjndAnsvKhqJWvOlcz9/Jr
+         APP2qvCNJNgMXsC1KLDiH4rj8PbZzWhJ/UhI55MAa1ZETkT7We9Ds8IIYmfzs8yYdDzK
+         gF40PMe4iaew1s7GsjYb8zka4+aS2yIep2bGqdNfmDHSs72SAfbD9Ufqs/ejsuxf15OJ
+         QzgQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrHr8HwJTvauxPpN7tua6D45ETJxAPnfXKq2J3VZSecxAdvvQE5xXXEbeGNG3gZq+5lRuvpzQGRZCqQ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8J+29vagdcrN4qrWLzPwo1VKlpXU7IJg/HqstRSio37zEZ/wP
+	eewsdDk8OhPLCurgjJHnXJGruntHnfFBAKttaY15/ZObZMParZ5nsaTifW1O5bfKNEyGptyLl8i
+	wIVoDgqN5ovdHa6t6MQ==
+X-Received: from edbay18.prod.google.com ([2002:a05:6402:2032:b0:6a0:a508:c896])
  (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:7ba5:b0:c15:f26a:342f with SMTP id a640c23a62f3a-c2073392a89mr1505099466b.23.1786379690769;
- Mon, 10 Aug 2026 09:34:50 -0700 (PDT)
-Date: Mon, 10 Aug 2026 16:28:10 +0000
+ 2002:a05:6402:454b:b0:6a1:c908:1701 with SMTP id 4fb4d7f45d1cf-6a355e2d32amr1548538a12.13.1786379692937;
+ Mon, 10 Aug 2026 09:34:52 -0700 (PDT)
+Date: Mon, 10 Aug 2026 16:28:12 +0000
+In-Reply-To: <20260810162814.1398016-1-tarunsahu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20260810162814.1398016-1-tarunsahu@google.com>
 X-Mailer: git-send-email 2.55.0.679.g6767b8d81c-goog
-Message-ID: <20260810162814.1398016-1-tarunsahu@google.com>
-Subject: [PATCH 0/4] Convert manual kfree(dev) to put_device()
+Message-ID: <20260810162814.1398016-3-tarunsahu@google.com>
+Subject: [PATCH 2/4] firmware/edd: use kobject_put() on edd_device_register() failure
 From: Tarun Sahu <tarunsahu@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Geoff Levand <geoff@infradead.org>, 
 	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
@@ -70,29 +74,32 @@ Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
 	linux-edac@vger.kernel.org, Tarun Sahu <tarunsahu@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+When edd_device_register() fails after initializing the kobject with
+kobject_init_and_add(), calling kfree(edev) directly bypasses the
+kobject release callback (edd_release) and leaks the allocated kobject
+resources.
 
-As per the guidelines, no devices that are tried to register with
-device_register or to add using device_add, must use put_device on their
-failure path. These series contains 4 patches that update these
-instances.
+Fix this by replacing direct kfree(edev) with kobject_put(&edev->kobj) on
+registration failure.
 
-Tarun Sahu (4):
-  ARM: locomo: use put_device() on device_register() failure
-  firmware/edd: use kobject_put() on edd_device_register() failure
-  EDAC/versalnet: use put_device() on device_register() failure
-  powerpc/ps3: use put_device() on device_register() failure in
-    ps3_system_bus_device_register
+Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+---
+ drivers/firmware/edd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- arch/arm/common/locomo.c                 | 13 ++--
- arch/powerpc/platforms/ps3/device-init.c | 83 ++++++++++++++----------
- arch/powerpc/platforms/ps3/system-bus.c  |  2 +
- drivers/edac/versalnet_edac.c            |  6 +-
- drivers/firmware/edd.c                   |  2 +-
- 5 files changed, 63 insertions(+), 43 deletions(-)
-
-
-base-commit: dbaafe9cc56a996931eedfe043eb34418cc9cd9b
+diff --git a/drivers/firmware/edd.c b/drivers/firmware/edd.c
+index f980c5b56858..763e7b16d517 100644
+--- a/drivers/firmware/edd.c
++++ b/drivers/firmware/edd.c
+@@ -748,7 +748,7 @@ edd_init(void)
+ 
+ 		rc = edd_device_register(edev, i);
+ 		if (rc) {
+-			kfree(edev);
++			kobject_put(&edev->kobj);
+ 			goto out;
+ 		}
+ 		edd_devices[i] = edev;
 -- 
 2.55.0.679.g6767b8d81c-goog
 
