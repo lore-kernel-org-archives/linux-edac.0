@@ -1,132 +1,145 @@
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D1832B13D
-	for <linux-edac@vger.kernel.org>; Tue, 11 Aug 2026 10:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.70
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786444791; cv=none; b=dIXGo5DaP+s8Q+8m8AC8MchtnXX2GRmHWPduVcFOqPAGd1kMl9zn0SnyKx+PYS4T+ee8bEajjGxV13175BC0vJXI4Sjl78S0Tm6Ro0vMC2WEA8sdhTAA2KoNfSB3mnM6gUu2GGh9+Ado7WjgP6aDaj7LBjcaHji2+TpuE1OGi+g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786444791; c=relaxed/simple;
-	bh=pdZ35YveRo+OZTyV/eSXth05irUlOjpE1eLwF4n9bO8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=pBEeVkxZMkfHOi6BI8RIdhJQVX6aftmHOhGN12y2Z/1T2qVi7IresqEer70m6lLyFPLn3OCSEkNtUhne785xMzSiF/C4gnzP3vqr3/PLZ9So2QFjKGyWU2pU+msFUPh1IvtfJXE7w+g3Wn5abjGc06nG1B/iyMF8zEGRojqdtLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cRJGlaLy; arc=none smtp.client-ip=209.85.208.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6C340587A
+	for <linux-edac@vger.kernel.org>; Tue, 11 Aug 2026 13:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786453919; cv=pass; b=PepUf7yZwIuMVVs3G88/sOia6vYQnzTgjQx4IynOzXxlJvEENFoKZXWNTUDwPZwN2shoLfsRns75JHhNoVsch3rWIHwsfN0RrKZxM6f7n+qkAlG60r6v05RBbVcATwJfg1EcXSnfW853Ebe0Akx+JYR0Hi4swjB9yTN71PvYH5U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786453919; c=relaxed/simple;
+	bh=x78aBxn0tU7UjBwYktjVnqJmNWHRQ5krPggAll+w2bM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fFDgcKe/boMDp10OjsAjtf+dSvufZSUESRAKL9kwuhw4GWr8wdLOvJ/wzRTUPmn+z6ucG+Lf5HwrHh+62Ln3VttDoqys1O1PfLBw7MaGHuec0e5yKrRBTgWtrYb2GcM+UaA46eoFA5kdsVmbEfaWEII6cGCppbadJcCukloq0EE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EzLSFgmD; arc=pass smtp.client-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cRJGlaLy"
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-69e70c286ecso2489175a12.0
-        for <linux-edac@vger.kernel.org>; Tue, 11 Aug 2026 03:39:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EzLSFgmD"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-66804667af2so2222160d50.0
+        for <linux-edac@vger.kernel.org>; Tue, 11 Aug 2026 06:11:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786453916; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QqiPXtj0y7f+wH5t0wyGWe80y5a+fZ1lv4DMIJJ6OUpuA8FQW6/C1IU4+PEQuuBjcC
+         SJCgLv9LdLyfyeVn0qgsfA2qUjxjmU1O9cUYDcfBnQErh8HVPiWk5aKaQpDREG+qum7B
+         WJxFTHqDtLjue9l5thvD7t/F7orfLv87IAtm7OZ1419E44QkrKmsEhxYQC1857bnxDU2
+         EtgHyLPCpDV2lw6N8WEnI95Zd5g8KmhDTgzoadG3xeDMI0vjUqfmrcjCI5X60zS7lr/O
+         qk55Z4ibuAEgQsYR2292mrFkNHhqlg0mDh5JuiuAMbZmuIBPX8PokefmVPdtBao51Rej
+         yIcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6ObQHQDlNQrj3YXm8xo3N+NGPs6y4I1BDNFYIkTd3Ck=;
+        fh=Wfkgox8xJFTFezwqzmGHa0K+4m2dQSRTyS7X4/3+Kzk=;
+        b=msBPunQOPGdkntaownqOEqQaBTRBoKRKxgJuFH+X1y6s7j7ISUJvTzQdrFGkBVpX76
+         OEB/yD7RzS3NMdzKtitinVYgxQL2Ej+X8Z3H4sUAGLhPxi0cDNAOAqNlRVQThktnLDF9
+         kgOtYN8nbbW1Mhym35y0YvVviH0ZxcOAg4bn2MQu8nWutSztHNjjIeBLPt3VJZ9Vb0fX
+         X1nolq/xO6ezcgguf2UskFs7QjN/+xhmKvdmm6ShO3vkwkSPt+0sTJo5QVhi5kUeYICM
+         LPIga/Mx0neJ0H1pVmwpDsvrvkWGf1gHMiCdb2MMmzRtE8rlpzISP2c7YiOxCREzzG96
+         1IwQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786444788; x=1787049588; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VGMemQkEC5pRlM4gYZJhKb5X+L3Mgf2+8jXep9XZ59M=;
-        b=cRJGlaLySQVyOq2XUgOFwp8ugrzPRZUyQXDcRFBJbb2kwT1823i78dbhSEEU7j2yCI
-         G9MMaFzX6soWo1Kl9jl4t5bVPXSGcHFhuLLRxBQVtvF0fkkE0kPExGfXmBzuktucE43T
-         npTBKK0mSlQq6+iY0Z+1jO81CZpPduY+Nu1YSjzKsNnRWciqPM4wLupBKSh1ddVLbUlI
-         mJKPPHI0EYFVFnTVyD66jN9+xVzW+n2SIRDU7cfL79kvXRKeGR1LDLrZdtakKdidlKoW
-         R6WICodgUQhs2fZm14cUeYxuoKFSJGna//4AP/St/OWieKvtRd4hmN8M8Q1AZgMVu65D
-         1qTw==
+        d=gmail.com; s=20251104; t=1786453916; x=1787058716; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6ObQHQDlNQrj3YXm8xo3N+NGPs6y4I1BDNFYIkTd3Ck=;
+        b=EzLSFgmDOaUaECO3N9ckqDwVfFI4HqnR5DC6wd5VSd/F0VHnKUrwPEEVUBW9QS+Xt5
+         8XuyVi2O73xA+vtapxpunOutXUvfF5rB8hZwCsifkMajR3aApT6cYef95HJphNyPFBXB
+         xZmAUUykePZyo+DJrdQJMAJDy6lTEYnKUCWTwLc7Dnh27wyNP6VpefgI68T8pWS/guK0
+         vOw87qxKlD8yZ6vB503H42rOlStKJJ9mP1bgZc4/xMxrYQ9MiHBWBbNwjqvWrSGwQFY4
+         0UEvpiDO8Q1sE37s6a34lNa1qV2v7d0r+ybrKCuXm3nF9r1Sqp2CfynRCZgk0EyAmCVx
+         1p8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786444788; x=1787049588;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VGMemQkEC5pRlM4gYZJhKb5X+L3Mgf2+8jXep9XZ59M=;
-        b=Cfkz37SmTqfkabRHPm3jeTXj0lRfFu4blaAPvAnbRsSMFez7198NGG6a5VyX3O8R6y
-         mz/W076WqVjxGso17fFPKuXtISv4GxS89yXwcRGsAqghka/DJvnNaAWf2w5+KKkclFpb
-         nxsQ+cxykfxanc+MZ750x5VoG8CCfyut+E6DE9HV/UJtGmjLMVbBon/XtxVcLP13VldS
-         UFtJ32zEiKU8qV3pRhwR3Xzg2vAXSTCDgFicjxQagfdWkQF5kpV/cAk+iHwNPjWtRV18
-         IpHS5BFa2tLnOIjS3cThbF8C3i+B+7hpY/s9+W1VybjTWGPc76mXcyXEoYOw2cwayYQx
-         tcEA==
-X-Forwarded-Encrypted: i=1; AHgh+RpK5V6xZo+h14gijFv/xaQhSycODEEPNBE1UWTDx3PXPEFShl5WOYAO+k4sFBSKGZoe8fdOiFRR+5ax@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6kBco7fbCrEtkzwbrsdveXsdtFNKUI7/AY3DT8HjtIdyGw8OT
-	KNGBI8W/5O4c3HzNH/DpRok3v4pVGDPdfU+NCiP5AzSfKADjLesc8tLvLZpwy2sMYX95xM2UC1V
-	vNNq4K6tCpYAETha9vg==
-X-Received: from edbdm24.prod.google.com ([2002:a05:6402:22d8:b0:6a3:6510:8ace])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:2417:b0:6a1:ffc4:e4b9 with SMTP id 4fb4d7f45d1cf-6a3644aeb16mr1321144a12.9.1786444787939;
- Tue, 11 Aug 2026 03:39:47 -0700 (PDT)
-Date: Tue, 11 Aug 2026 10:39:47 +0000
-In-Reply-To: <9e189214-1274-491b-97dc-1b943c6c5cea@amd.com>
+        d=1e100.net; s=20251104; t=1786453916; x=1787058716;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6ObQHQDlNQrj3YXm8xo3N+NGPs6y4I1BDNFYIkTd3Ck=;
+        b=Mfza3iL0ZbiNVFFj4V4XmNEjT8HlzyBkLvc3AlrDqFPHHCzOSLNMi+ZQUbMY5LlBGX
+         GbwFsH5VomQgXtK6AxmrcUAOfKwkRhR08Nv8J8o8lNFs8S4POitRZ0HirfqjhHltgDHK
+         QdGCchWKjy2JBdDFkjLNv4oHrTMklUR95kmKI8cyseWk3ijvGzOrlCMCt3/NbhOhHmlu
+         yDfUPxYpEwVGN22GJ5SmsizrS/Bkmb8oKkMozmTRIZSyDnLtk/i4Taak3/B6ZQSC/I6x
+         EnoSWuvZP015oCVFJyxoKg66Jhn88IwcwTZ36MxE4hlQKF6kd99mrf+yjV1uieObmpaF
+         zCWQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro30cECZLE8Rmmdjja2rn8O4AVth+7H85yvAnhw6oNgfsN3QtYQUFxkbk4uqaFRFDSaf1jzFaeUwXE5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws4HzG9RvB3SD84GpjxC9FlCjQl16KZFUARNlIRCx3Am5V+1dp
+	dVWGLBG5xmjU+4X4x8PNQjDYb2Sve7dGtp6bFqOHo4q2xB1bDz5oOCR4sGd6JcDJKY5YXd5FA84
+	vLkw6UKP3B8gdYiwdb52G+sMEFyuHuP0=
+X-Gm-Gg: AR+sD10HB/73VwlEurExr1lqfMybd61ZF1IYbxuWxEHlnnE5RAHhWLVk+oBStB2cO49
+	cW7s2Peda3KW8XhBhb8Bw50WdqDngClZSc+8SOkN0qifuOtQdoEK8fwWyrGHXMKToxdEhk+z41f
+	80uVpPJLsz/uZzoKr8e/MT6FuBR3sAEo/NcLdjhM+EtJvacNoGkl2xjK9r2itboVxUP2lDfL/sq
+	M3/PjhvyplCIB2Y862lzZkW0DzYq45alDK2wPD5ei3qLrXbbd7e4QYpoDzc7X4+K8SqePukSl+s
+	fcyeh0nX68mrmaWLnLQIkGeNrFda4/wi183PHqVLD7UiQA0=
+X-Received: by 2002:a05:690e:80f:10b0:66b:1841:adeb with SMTP id
+ 956f58d0204a3-66b22da0440mr1628331d50.12.1786453916626; Tue, 11 Aug 2026
+ 06:11:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260810162814.1398016-1-tarunsahu@google.com>
- <20260810162814.1398016-4-tarunsahu@google.com> <9e189214-1274-491b-97dc-1b943c6c5cea@amd.com>
-Message-ID: <9huzbjb9hrf0.fsf@tarunix.c.googlers.com>
-Subject: Re: [PATCH 3/4] EDAC/versalnet: use put_device() on device_register() failure
-From: tarunsahu@google.com
-To: "Pandey, Radhey Shyam" <radheys@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Geoff Levand <geoff@infradead.org>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, dmatlack@google.com, 
-	Borislav Petkov <bp@alien8.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, djeffery@redhat.com, 
-	Tony Luck <tony.luck@intel.com>, skhawaja@google.com, 
-	Russell King <linux@armlinux.org.uk>, stuart.w.hayes@gmail.com
-Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-edac@vger.kernel.org
+MIME-Version: 1.0
+References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
+ <20260724171945.2812749-3-shubhrajyoti.datta@amd.com> <20260802184623.GAam-Qf9-yes1DkNkl@fat_crate.local>
+ <CAKfKVtFtFmUKwnWY4xGwcRQG+qJ2UdK6LK+3QX=Ukvr3v4Y7EQ@mail.gmail.com> <20260803162920.GAanDB4FyqT3mLMm-U@fat_crate.local>
+In-Reply-To: <20260803162920.GAanDB4FyqT3mLMm-U@fat_crate.local>
+From: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
+Date: Tue, 11 Aug 2026 18:41:45 +0530
+X-Gm-Features: AUfX_myqgvK9mT5HKm343Z2X3CsN45z7Qlg9xVW-ca0p1q8ZAFcQ0n907qOIG3M
+Message-ID: <CAKfKVtEOn-jSiqHs9zGc4qNahQUy3XbAuACgtE5joF_ctGxjMw@mail.gmail.com>
+Subject: Re: [PATCH 2/9] EDAC/versalnet: Add NULL check for mci in remove_one_mc()
+To: Borislav Petkov <bp@alien8.de>
+Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, linux-edac@vger.kernel.org, git@amd.com, 
+	Michal Simek <michal.simek@amd.com>, Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-"Pandey, Radhey Shyam" <radheys@amd.com> writes:
-
-> On 8/10/2026 9:58 PM, Tarun Sahu wrote:
->> When device_register() fails, calling kfree(dev) directly bypasses the
->> device_release() callback (versal_edac_release) and leaks the allocated
->> driver core structures.
->> 
->> Fix this by calling put_device(dev) when device_register() returns an
->> error, ensuring proper refcount decrement and release cleanup.
->> 
->> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
+On Mon, Aug 3, 2026 at 9:59=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrote=
+:
 >
-> Thanks for the patch. FYI, this issue is already being addressed in an
-> ongoing series.
-> https://lore.kernel.org/all/20260724171945.2812749-5-shubhrajyoti.datta@amd.com/
+> On Mon, Aug 03, 2026 at 08:14:17PM +0530, Shubhrajyoti Datta wrote:
+> > The current driver assumes that all 8 DDRMC controllers are present and
+> > indexed contiguously. If there are only 2 controllers then the bus
+> > width will be
+> > unrecognized.
 >
+> I just love it how you folks evade the question:
 
-That is good. Should it go as saperate patch or it fits very well with
-the above series. I will drop it incase of later. WDYT?
-
-~Tarun
-
-> -Radhey
+Apologies for the confusion and the back-and-forth.
+I'll use inline replies going forward to make the discussion easier to foll=
+ow.
 >
->> ---
->>   drivers/edac/versalnet_edac.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
->> index 97ec05d68bbb..2912b3658915 100644
->> --- a/drivers/edac/versalnet_edac.c
->> +++ b/drivers/edac/versalnet_edac.c
->> @@ -829,8 +829,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->>   	dev->release = versal_edac_release;
->>   
->>   	rc = device_register(dev);
->> -	if (rc)
->> +	if (rc) {
->> +		put_device(dev);
->>   		goto err_mc_free;
->> +	}
->>   
->>   	mci->pdev = dev;
->>   	mc_init(mci, dev);
->> @@ -852,9 +854,9 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->>   	device_unregister(mci->pdev);
->>   err_mc_free:
->>   	edac_mc_free(mci);
->> +	return rc;
->>   err_dev_free:
->>   	kfree(dev);
->> -
->>   	return rc;
->>   }
->>   
+> "When will that happen?"
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
+vers/edac/versalnet_edac.c?h=3Dv7.2-rc7#n64
+The number of controllers is set to 8.
+
+If the design enables only one controller, the crash will get
+triggered in rmmod.
+>
+> How real is this issue?
+Yes, this is a real issue. When fewer than 8 controllers are enabled in the
+Vivado design, the remove path still attempts to clean up all 8 controllers=
+.
+
+>
+> Give me a proper scenario when this is possible please.
+
+The driver currently assumes that all 8 controllers are instantiated. Howev=
+er,
+Vivado allows users to enable only a subset of them. For example, if only 4
+controllers are enabled, only indices 0-3 will be populated with valid data
+structures. During rmmod, the driver attempts to remove all 8 controllers,
+including uninitialized entries, which can lead to a crash due to invalid m=
+emory
+access.
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
