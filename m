@@ -1,130 +1,189 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010063.outbound.protection.outlook.com [52.101.56.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E727313277;
-	Tue, 11 Aug 2026 05:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786424803; cv=none; b=imgv/ukikilqrGEh/XOGse+9dg/UJrb4q28L3B/5Tw+EvzIJomoryTPIAH4/2lwLUea/Qg0ca9IYsPUKq4cMj/MwS21h15/vqhIU8RbwNAIga/jXEtzbrr8NsXmP8c/u211G86PMmlhT09cjDsezA7ygsllYgkVK877jCCCkOfE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786424803; c=relaxed/simple;
-	bh=tVdL+T+Rx671Fk4E730Yac6q/Gy3INApbHTkStTnbyE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nNSnKg+u7AjR6NkfjO4ZLUjm6L5iCg2KvOIukLz1fy8q+m+XuNMmhYcMkJ1YSAeJ3hVxewCBRKzgAlmtvfG97aq+J7a9a9PzjPtnaozw4ElT1mWxSgod5o2F3O3FXfIyzsQvND3cIUD9cg0vRMN3YmyAAC9nf1OPi1xr9OI94vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=F7Yf2fPz; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46393392821;
+	Tue, 11 Aug 2026 06:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786430706; cv=fail; b=oxLPYj5r/QkD9KUKe9K6LLzBJqzx+Yhp1t4FveHl5gb69Bq+sCBraZxMdmkha1l8Dq/2ZXHJpRS/rM3VZkV1EUSPqCUNAuFOHfevLVHhta0X1G4PdvVKkOHCW+nlG9sF+kGky8KgAFW6uR8Jmayn16qBDCL6iz2phyDWE0YdGO0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786430706; c=relaxed/simple;
+	bh=jx8XEaxeb0gzwFKqgbtlcIV6T/1eNPlnIfhFLyqJ//U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EshNO/r3r2/M9PvYmcM8DUoEx5JiWrzxfmceiGhhF4zT1Nh2qJ+BRCkhlxofTG6One5UqmW2Tyt83n1wKod2hX550xDZ+iaGWUFwORL7Sp+G+CAKu+BCifvZ9QmxV9MuKMF5sgCZje9FmeYIFxTPKJ5Tjo5ODF3flAv69UwZs3s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mENvKyEa; arc=fail smtp.client-ip=52.101.56.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="F7Yf2fPz"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67AN1Wtr2964896;
-	Tue, 11 Aug 2026 05:06:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=tVdL+T
-	+Rx671Fk4E730Yac6q/Gy3INApbHTkStTnbyE=; b=F7Yf2fPznSY2neWcL/eo5I
-	3oBkAbhwyQISgyfpXWkCdFKDYdmnP7XvO4o/T9OP3d/8Xxq9uiJZAlcpaGVE2ADv
-	ba8uRXMOrW+vDZgzx/BMxupePzMkgb7oA18Cl4jLH6lrYxB5d410yxSZAsxrtGcI
-	yC8aR3SHRRj0r59czm9sCrXShuICfAU9A/u2/8gOwx6mii1wk9tksAT+IUUIMuSO
-	GAEE8o60Z+8rOxtlehS8UgOV3ggUIJqjo2SRICg2RsDEfuNHL3uMEvUx6D9hxzUH
-	2EW5IN1jB5JWHz7+baDdbcwA96RfubYVtKx5c+O1K/+rGFI1U9PMIaEz+cp9lOrw
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvm9ke2h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Aug 2026 05:06:10 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67B4uFwB013517;
-	Tue, 11 Aug 2026 05:06:09 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fxhfxydp5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Aug 2026 05:06:09 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
-	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67B568QX29688444
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 11 Aug 2026 05:06:08 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8A2F758056;
-	Tue, 11 Aug 2026 05:06:08 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 76EE458052;
-	Tue, 11 Aug 2026 05:06:03 +0000 (GMT)
-Received: from [9.43.82.57] (unknown [9.43.82.57])
-	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 11 Aug 2026 05:06:03 +0000 (GMT)
-Message-ID: <6f7bf628-c26b-4c5d-8f5a-5908b1348365@linux.ibm.com>
-Date: Tue, 11 Aug 2026 10:36:01 +0530
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mENvKyEa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dGj1VWjiY8ZPUAum61kZBijKVmElNI64YSkkBC9/O/MzgI+aG8biCHBRnLrJkWLVAwjk0ZiZtk4wbmNxswU1rI4SRD6vKPmKYXCM9BSQK/oodrmBi05/OY/7ZpWHDJYxc7X2MtGzWNiRXXmxFu15+O0zt/gGuOHwUmJAqtljm1Lfh+P9oBrV/zY8vfP4T3watf9G9dXv8JIhc9j5n/wQ3F/66V16hvlpavzUHJYQl/pNKJidIyGCvcNVa7OtHcGgnT1n87aInDWW0Vz1w64Ka+6PsLoxAft/tnjcr4zZOuKrxyRnlNOPyzhiP/mvrFRyHE9o/ESDTs5gPdYsblqXgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F05fzZEZORLdpp+eIpRlKhpVR/4aFztg+5HhYVE5JGg=;
+ b=R/xotvjsy59cDe0LN9KIqlYeQysnxzf6KRFg6Okyq32h/stQuNywQ9riMPQ75i/ZjlFdeYK3hxSMuFuBKD+aFrNzuylHyQ1HwLud5OvqnhIdJGhFTxrRcFofmU4BAB0BYFTiRdxbhA0SN+a0DECY41BSlUbl8u1q06zfTTXpW92E88LdloJyLoYDajmRfJgGMk9kRY4KmhgjWnQOvXPhJYhZl0EcCAy9Wr93gT7gcDunoWWovqmTntnKg8J1lAopHgVFU1Wt5GMXP5SdDkR/vUylSAuk73LLCQoXOt6A23FJjB3hVyv3kf1MUVl9+hP84ia1Fgos1zwIhcqfd9+ycQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F05fzZEZORLdpp+eIpRlKhpVR/4aFztg+5HhYVE5JGg=;
+ b=mENvKyEaqpfj7Wh1QydT8luY6mVPSPpSu3b4uF5HUm80+oHnrdSeieX0lvMAj0mr54L00GgjRLkaoRn66gVgpVtIEJ59aKVmlgouS3dHQuA7eGQlEwCu86P9nTNxeVSvUiaKjLdLaAUCinrekp3+vNPu/NlW9RsWFD88PxgWNUI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
+ by IA0PR12MB8748.namprd12.prod.outlook.com (2603:10b6:208:482::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Tue, 11 Aug
+ 2026 06:44:44 +0000
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
+ 06:44:43 +0000
+Message-ID: <9e189214-1274-491b-97dc-1b943c6c5cea@amd.com>
+Date: Tue, 11 Aug 2026 12:14:34 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] EDAC/versalnet: use put_device() on device_register()
+ failure
+To: Tarun Sahu <tarunsahu@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geoff Levand <geoff@infradead.org>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ dmatlack@google.com, Borislav Petkov <bp@alien8.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, djeffery@redhat.com,
+ Tony Luck <tony.luck@intel.com>, skhawaja@google.com,
+ Russell King <linux@armlinux.org.uk>, stuart.w.hayes@gmail.com
+Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-edac@vger.kernel.org
+References: <20260810162814.1398016-1-tarunsahu@google.com>
+ <20260810162814.1398016-4-tarunsahu@google.com>
+Content-Language: en-US
+From: "Pandey, Radhey Shyam" <radheys@amd.com>
+In-Reply-To: <20260810162814.1398016-4-tarunsahu@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0145.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d7::15) To CY1PR12MB9697.namprd12.prod.outlook.com
+ (2603:10b6:930:107::6)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] powerpc/configs: enable CONFIG_RAS to fix EDAC
- support
-To: Borislav Petkov <bp@alien8.de>, Michael Walle <mwalle@kernel.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin
- <npiggin@gmail.com>,
-        Christophe Leroy <chleroy@kernel.org>, Tony Luck <tony.luck@intel.com>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>, Takashi Iwai <tiwai@suse.de>,
-        David Heidelberg <david@ixit.cz>, linux-edac@vger.kernel.org
-References: <20260730105546.3658570-1-mwalle@kernel.org>
- <20260730185620.GDamueVIGV-8iIzozX@fat_crate.local>
- <DKC6Z5YGBF2O.TAJAN566BN0L@kernel.org>
- <20260731022855.GNamwIZw7Fz4Yhk__S@fat_crate.local>
- <DKL4118H7S5U.1FN3E4DBY4GHF@kernel.org>
- <20260810135020.GBannXHLXtUlqJjzqS@fat_crate.local>
- <DKLBIZ7ZBP1K.20VHSP02I6BW2@kernel.org>
- <20260810170149.GCanoD_ZhL61i4rHsl@fat_crate.local>
-Content-Language: en-US
-From: Madhavan Srinivasan <maddy@linux.ibm.com>
-In-Reply-To: <20260810170149.GCanoD_ZhL61i4rHsl@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDA0MCBTYWx0ZWRfXwdjaO3L+cjp+
- ssjEh9WJrMANO6LKza2y/JdnHQI2xsTlZ5PYEZQy5Zn7uKd0VCmaBaywIN3/8a7xQOut/RTViLU
- oJkViD089y4Njxu4y6zD3CGbK0hBwj6Q5ia+nvPKdOwsGqnlckmuSXfx6+UmchxQ/JdiTuXLRJR
- 5Vw9aFG+KBSz7xtmLPJd0YhShiE9ytFs4DzlGUZVzSXtUpTBzHjzY9DDyu3OQMRa6YxkK5FoKl/
- FIPijBCamN8+iyRWbdIcGSrCTATKEzCap8710octLtlU73SP7RQUSMo2xx9ps6W2+JjaIFgfh/U
- iLKZ1Lu+5nG4KvO+cuLSunQWn50Tp2+yOwd5TVjYQsjchDZDPbrMJLBq8PdIZPYQgzfkOaqV3ko
- g9JdiXP4PKs66G1dprlbyQc+r55IBGRKYtWLheYaenhjd1gyJz/vtW8FQclPLj4rAd2nFtMbnhw
- hhQAh/oadwl6Muf82Fg==
-X-Proofpoint-ORIG-GUID: Z3pZRFUagyGKK9RbeglaQh7apUqSCsH7
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDA0MCBTYWx0ZWRfX4flE190Oxgyk
- xLmZhPi8ptRMY/DP48Dz2Qf5anUfoX7eTA/HrvAuA3vFxK6dkR7DaG8h1JZUrTf+p10YMqXZI6R
- kKODCX6IrD66eW3e+LtwLLjrFrE31Kk=
-X-Authority-Analysis: v=2.4 cv=IfK3n2qa c=1 sm=1 tr=0 ts=6a7aadc2 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8
- a=EWrn2hZPb0KCTzPtCBYA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: Tg5-vBBnBR12INX6I13ynMvn98czZJ_o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-10_06,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
- lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608110040
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|IA0PR12MB8748:EE_
+X-MS-Office365-Filtering-Correlation-Id: 599aac83-07e4-42a3-13f7-08def7740645
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|921020|18002099003|22082099003|11063799006|4143699003|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	7nzveOrTLyFjZW6oFnFse9uYc0PSNVhZH2m0jFWO7jP4xl4ubfrmEAiplbN2yri+gTu/PumE+ZStqORI13bfTi5bqN9k6FVc1FkyZpWMyv47LZOl30LhO97xbkG4A5rFA8Dn9a+qLw9HMySDoeRXWKPCZ8uGjzpJBj2ZnMqYZ0mycqUYYIBrwpVVSPeu/mFdlFc9fuWfe2/yIQqIQpEkyiXVqAxI4nf1cgGjQbAIKybZeIzoWYqmKyubcUQrSdYQF40eTb/Yqv4IuzPs2fNegF+snk3r/8gc3Xtmp8qyIzW8lrWUbbtidV8wL5hvJGxEx2GaM9BhRUhnZ4kvAJy8l4UKbHgbGcbP2Zy5k/I/OOixaqrFmAAZ3fVlhj2eQ5RhkA3o2qsojBX77Xb8gN4bscVgyd0q2SI7Zx0FJE8O6VGZNSAvJHs8BZI7E9rIR6G6BWrLf370MTCEBpVktzEG4iN1jweCSN4JCpyPnNGfMXhNdEK0AfvD2xQvPiEYMX7JRoIGUHq12CfM5gC4dX67KaT1NwcnSQZDGKNwbeHHlFegdaZizAsFVLPx+0wvvRjFC7L7Zw0KZJlGTkQrG/sDSGp/0W5u5RNugUUz/jAvVaIoDkmHIu0mr4oOKK1ABdxtMs56T8Df5GBtK5ZKFoQgbALW76/z0rj+ReHWbqZkw5nIQtf5PVXy1WyYohlngbBLd3bqMXv2GnV01BDTMpc8IQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(921020)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VlhqbzltUGtYWHRtRUhSaTJ4VUgzV2g3Z2w4L1ZRTXZCQkVIM3d0ejNPRG9z?=
+ =?utf-8?B?UW1kKzZDOWwwMzNObzl4cktHMzQyczZyby8wZUFac1A3bEtkVXhaWVNFcTVo?=
+ =?utf-8?B?b0t5NzNqbnRieXEvUDhOTkZlekFkWkRyRzlDa2tERU02bWZuVDdVZnpJUjJh?=
+ =?utf-8?B?SXJ1akxOMnNHaHRISHpqeDFVQTRMM0pjU21HUzJ0UkhxVTdjZHZFRGdkclBN?=
+ =?utf-8?B?LzhpalA4eUtkQWx5NDJwbFNiMGMzdGpMTEpYSXlsY3hySnhwdUtlM3FYYUtX?=
+ =?utf-8?B?ZUJxV2VqSVJ0OGs2ejJZVVF1ZmJTVUZCV2ExeVVYZ0UrVEtvRndFTXB1VzRn?=
+ =?utf-8?B?ZUR5OTlNUG9JSXVaU1h5TDRvalFsVVVTRkZqc2pmOG82QUh0N25GZ3h1TWZD?=
+ =?utf-8?B?RDBPZUNCMDNPaXpac1l3K2Rta1M3VXBUVVljVy9PK0ZMei9rMmZqUWt2Tmkv?=
+ =?utf-8?B?SnplcEx5SG5xVFRZUkNQY1Q1OU1QVTBZbXlyUWcvZ01Wa2h4VXVOR3RsTkpC?=
+ =?utf-8?B?L1lDVmo0aXJ1QW1EdkwyN25aTUh5MnNVV095RGk3T2VmR3Q2c3dmVngrRUN3?=
+ =?utf-8?B?c2NHVndMZkN4cFp1aUowZFo2eFFnY2x5NHFscmxDZDBLQ2R1WHovWkdnbEYz?=
+ =?utf-8?B?WHpwa0VlVXg5UUx3dE1jelpPOUEvQ2FaeGxYYkxHMDZXZzBvc1dycHBGSXEx?=
+ =?utf-8?B?b3pCcXR4VVJXdzhVd1dRTWJxN2EvM0NsNFlFemFhSWpOM2ZKd0NTWUQ5SFJa?=
+ =?utf-8?B?SDJyVDNSQW80SjV1c1V3OHptdWZ3bzVHU2dhUks4S0JpaE9jMDNaVDh3bGxs?=
+ =?utf-8?B?TWpxTkg2QTJkbVZXVFY4Tk5WTE1yeW9yYXlyc2ZVbm9Uajk3L0ZibGtaTTJr?=
+ =?utf-8?B?Ym82Z1dnTWw5cEtMZG1MM0puNDF2dFpWdVB3a3VxL21lWVFlVkNiMlVRa1Jp?=
+ =?utf-8?B?VDE2cjZ3Ky9Xb2JrWnNtbXFYNXd4Sit3aklBNXhwNHFjZEg4bHhVQ1Bkbi9o?=
+ =?utf-8?B?VU9NN3U4YUl2VXZFSzZHSWJEaHZRMnpaTWlPT1RXUWlCTGx2eEtHNVZlcU9Z?=
+ =?utf-8?B?SzBOTHg3OEtGeVFPUzFwaWVVdTBoRC9YcXdFYllkcHJqbkxvQ01JYWIxM1Nh?=
+ =?utf-8?B?NlAwZGx4aXpVRWNWRUdnYUhCZUFYdWhrOC91WmZNekluKzhYZkx6WDBtZWRW?=
+ =?utf-8?B?NXYzRC9IcFErQU9JdlZUOHdvdGM4SjRHUEVXRTVUcVpzcnl5bTl0V09tQm1P?=
+ =?utf-8?B?aTNMNXJXYVRhUFBUYlN3dzZ6dkYrc1NNNXZiUjhYb2trdU9QdmlBaEV3bXd5?=
+ =?utf-8?B?N3gwMkxrRGRCSThRNlU5UnAxVFpLU3pGWTQ4ejdudVJuR2Q1U1dhb3lzdENE?=
+ =?utf-8?B?ZFJZdE1BSDQ0M0JZYUl2enFIWE5JaHNuQllxRHJvcklkMEZ4MitnWnAxZmVv?=
+ =?utf-8?B?ZUZFZE5Ub2NJUm9yc0JJcjhGM3M3NlNZb2wzbmtkNCs1dUs2ZHdEYlQ3MndJ?=
+ =?utf-8?B?MmRjYXJ1TFZLQU5UYWpFbEo2L3hIb2ZURmxrQm1mWmx2K2ZEUVB0Sm1MREw3?=
+ =?utf-8?B?bHQrS0o1Ukl3YWRnT3h5dnRUYVB4SUVrWkpnUmVOUWJtZzBLKzd5VGdFeWkr?=
+ =?utf-8?B?YVNZS2habGFKZmxoWkRPdnJiK2NGb2Nvd2R4ZHNZZTkrcWUwU3pDVWRxZTEy?=
+ =?utf-8?B?RW9iUXdiTUNGUHpkVzJMSWw1RXEzK3RhWkd3c09XaURBSTBtdHRDTkZmTHBy?=
+ =?utf-8?B?cHBoQ3RpTk1GK3dsVFEyczJCZllwME9rNnpQa0ZhcXVjRDZNcTBmdkJPUkFw?=
+ =?utf-8?B?Q0kxczBaQW9sOTlFYm14WHdYNkwzdUIvRXNvZHNGaGtmRVkwWitwZXpOVXh5?=
+ =?utf-8?B?SmdsVDNUVUZ3R0l4SnRQeW9RK3cwRmhrakEwREhQci9FTmRLd25adVJXVUVU?=
+ =?utf-8?B?V1l4SlNWRWtlcVBDemdQWXp6VmtRWVNXOGFnblZ4dnc3cFJqcFZSQ05lVy93?=
+ =?utf-8?B?L2lKN3dJTjVFZzdDVytGSXVOeFcxaGhVYkdhQU9RV1R0SXN5a0NYVTR0RHlW?=
+ =?utf-8?B?UmF6eFZRUDRsNmFPSGNGaUgyWHhjZHhubVUzYzZSUnlWVmNKK1l6MmRjNDdw?=
+ =?utf-8?B?S1Z1M3ZBaTVyNmhTaWhVaC8xZ3dIYTh1cmxEQk00blZIV3NXSThrUFliT3lw?=
+ =?utf-8?B?ZTJESXFoeStsTHBMcWtudDNPVTEra1B3Z0x1OUJ1bVkzMVdvbFBzbHhNZmNG?=
+ =?utf-8?B?U1VPbTNibkRuMHJqckU5UkRpd09PTjRZZVhTOTAzdm5OZ1BQcjMwc205UnpQ?=
+ =?utf-8?B?cllHTDNrdDNvMzdjUWRLNDJLNEM4ZGMyRXBSUjVHQlFXNFhRUGpMZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 599aac83-07e4-42a3-13f7-08def7740645
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 06:44:43.1090
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BR4Z+9NhF3xM52fqK1ArB1Jiz5E80oZmbHtB+5bjn0MGrC5bIguVa55TsIUmf9sr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8748
 
+On 8/10/2026 9:58 PM, Tarun Sahu wrote:
+> When device_register() fails, calling kfree(dev) directly bypasses the
+> device_release() callback (versal_edac_release) and leaks the allocated
+> driver core structures.
+> 
+> Fix this by calling put_device(dev) when device_register() returns an
+> error, ensuring proper refcount decrement and release cleanup.
+> 
+> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
 
-On 8/10/26 10:31 PM, Borislav Petkov wrote:
-> On Mon, Aug 10, 2026 at 04:03:17PM +0200, Michael Walle wrote:
->> Thanks! Christophe already pointed out [1] that it should go via the
->> same tree as the commit it fixed, i.e. the EDAC tree.
-> ./scripts/get_maintainer.pl -f arch/powerpc/configs/85xx-hw.config
-> Madhavan Srinivasan <maddy@linux.ibm.com> (maintainer:LINUX FOR POWERPC (32-BIT AND 64-BIT))
->
-> and he said on that thread he'd pick it up.
->
-> But I can take it too if PPC people agree on who takes it.
-I have added this to my next-test and I will take it via ppc tree.
-Maddy
->
+Thanks for the patch. FYI, this issue is already being addressed in an
+ongoing series.
+https://lore.kernel.org/all/20260724171945.2812749-5-shubhrajyoti.datta@amd.com/
+
+-Radhey
+
+> ---
+>   drivers/edac/versalnet_edac.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+> index 97ec05d68bbb..2912b3658915 100644
+> --- a/drivers/edac/versalnet_edac.c
+> +++ b/drivers/edac/versalnet_edac.c
+> @@ -829,8 +829,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>   	dev->release = versal_edac_release;
+>   
+>   	rc = device_register(dev);
+> -	if (rc)
+> +	if (rc) {
+> +		put_device(dev);
+>   		goto err_mc_free;
+> +	}
+>   
+>   	mci->pdev = dev;
+>   	mc_init(mci, dev);
+> @@ -852,9 +854,9 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
+>   	device_unregister(mci->pdev);
+>   err_mc_free:
+>   	edac_mc_free(mci);
+> +	return rc;
+>   err_dev_free:
+>   	kfree(dev);
+> -
+>   	return rc;
+>   }
+>   
+
