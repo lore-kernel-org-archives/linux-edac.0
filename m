@@ -1,93 +1,130 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A02730FC1D;
-	Tue, 11 Aug 2026 01:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E727313277;
+	Tue, 11 Aug 2026 05:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786410007; cv=none; b=H3wKTxhBV6OOdnj5xg746yhQ952wHN6vZ9tK12Lw7GhweVZxSFRkX/zTH9evDqdSZ93JK5UQ7/fneXWyNrcbuVdpSF2nDRydkEJ3hpLVf7DctyGgM/pzD5IDiDd+yc9gdnnw/w69pRnwOAWRX/CQwlhwz3OjPuylvU2i8/NXQss=
+	t=1786424803; cv=none; b=imgv/ukikilqrGEh/XOGse+9dg/UJrb4q28L3B/5Tw+EvzIJomoryTPIAH4/2lwLUea/Qg0ca9IYsPUKq4cMj/MwS21h15/vqhIU8RbwNAIga/jXEtzbrr8NsXmP8c/u211G86PMmlhT09cjDsezA7ygsllYgkVK877jCCCkOfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786410007; c=relaxed/simple;
-	bh=bMYJylBqjEriQtd9ENfhJv53+nGA/0e+7d9Y04JaFVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eXiW4TW1cY2jwCsoSO2pjgD5uEqB0Cv/ao5uBA0S8/hbjE+HtdzI00m93q6L72z5gEuY9i8SacpsoYDS6H3/A2OP+1KkVBpWqMmxI0GajesZdWMRaEcMDAxZUyA4UXl5xz5XZQzj0XrwMCs1dnRmtuzi0kwziMjlBRbLgFgSPOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Hv/v1RxR; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1786424803; c=relaxed/simple;
+	bh=tVdL+T+Rx671Fk4E730Yac6q/Gy3INApbHTkStTnbyE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nNSnKg+u7AjR6NkfjO4ZLUjm6L5iCg2KvOIukLz1fy8q+m+XuNMmhYcMkJ1YSAeJ3hVxewCBRKzgAlmtvfG97aq+J7a9a9PzjPtnaozw4ElT1mWxSgod5o2F3O3FXfIyzsQvND3cIUD9cg0vRMN3YmyAAC9nf1OPi1xr9OI94vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=F7Yf2fPz; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Hv/v1RxR"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6537B40E01CE;
-	Tue, 11 Aug 2026 00:59:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id jLrfRAKSsObh; Tue, 11 Aug 2026 00:59:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1786409988; bh=Lf3C+oxNqr+NpVsgP4F4v8pUAT3l0d62sbWcQVSWenk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hv/v1RxRdhZyUn18WHhUoxjJgQ421BLnCSmE3MwtUguDTKb6SH/+WGbZTvL07ZC59
-	 up0+TnZBgT7HQjLtHgSWxy04sY51Rt6pCby6di43tJ9yF+mr2I1HgACW6WzsT0gSn0
-	 CZNkabJc2I/sNPpf9hWszAw25y0yeuQXLwz8AiIiQHkEHLs3k5cWaOYGgoAUcAers+
-	 siBC5kEnxVckQB1M0TRDa3v8DlLrEA+EgV5nJtAKyWx0tinDlGX0Di2/uwqySph41E
-	 T2wFIhzJlx7L82Ih5EPbv3BL2Up5SXXpr4H29S607dRAs/Ebs4p696f211/s6GWyCC
-	 cMAYL/+LFh0EJXZAjHzAUrZuzJBL4+ZvZoUm2oQneNbhP7GbjmAtBs1Mvis5cygy6Q
-	 jhQEr+1GXKih3zPG7pKcnFOq3YAyGLnTShrWHtI4cD4b6zTcwCjsbsqmlT+ZJM46B7
-	 VTow96G/7fCU3X7rpvU7ShnT0/X6y4gPWB7f6W4S8IuC8HYKZEZWu0ufsFTA03UDUQ
-	 A/Lk8ueDmuRo6aqIvZYfYQrb/XB7MBWRwRP+O9PbOh9hakqckWerkfWZECEMToEeOE
-	 wFYhpYbQ60Ti82dYrmfNHZrmZEh0hhEoXKPEFbtKPX4XTXHabWJaDveCyRXZEB+wZv
-	 mQXrMiLvbSVMnQUbgqyFnL1k=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A928F40E016E;
-	Tue, 11 Aug 2026 00:59:41 +0000 (UTC)
-Date: Mon, 10 Aug 2026 17:59:38 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Robert Richter <rric@kernel.org>
-Cc: Ian Bridges <icb@fastmail.org>, Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] EDAC/thunderx: Replace strlcat() with snprintf() and
- seq_buf
-Message-ID: <20260811005938.GFanpz-lT91PuwD08_@fat_crate.local>
-References: <akYJUdY1hVABUQH6@dev>
- <amppKvK6mIJRmoL8@dev>
- <20260729230035.GDamqGE9bKD5ncU6ZV@fat_crate.local>
- <annRsN6UBDPsFLr2@rric.localdomain>
- <20260810134506.GAannV4uJN0I1UXh0q@fat_crate.local>
- <ano_uQtMIjcoFcs9@rric.localdomain>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="F7Yf2fPz"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67AN1Wtr2964896;
+	Tue, 11 Aug 2026 05:06:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=tVdL+T
+	+Rx671Fk4E730Yac6q/Gy3INApbHTkStTnbyE=; b=F7Yf2fPznSY2neWcL/eo5I
+	3oBkAbhwyQISgyfpXWkCdFKDYdmnP7XvO4o/T9OP3d/8Xxq9uiJZAlcpaGVE2ADv
+	ba8uRXMOrW+vDZgzx/BMxupePzMkgb7oA18Cl4jLH6lrYxB5d410yxSZAsxrtGcI
+	yC8aR3SHRRj0r59czm9sCrXShuICfAU9A/u2/8gOwx6mii1wk9tksAT+IUUIMuSO
+	GAEE8o60Z+8rOxtlehS8UgOV3ggUIJqjo2SRICg2RsDEfuNHL3uMEvUx6D9hxzUH
+	2EW5IN1jB5JWHz7+baDdbcwA96RfubYVtKx5c+O1K/+rGFI1U9PMIaEz+cp9lOrw
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4fwvm9ke2h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Aug 2026 05:06:10 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 67B4uFwB013517;
+	Tue, 11 Aug 2026 05:06:09 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4fxhfxydp5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Aug 2026 05:06:09 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 67B568QX29688444
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 11 Aug 2026 05:06:08 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8A2F758056;
+	Tue, 11 Aug 2026 05:06:08 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 76EE458052;
+	Tue, 11 Aug 2026 05:06:03 +0000 (GMT)
+Received: from [9.43.82.57] (unknown [9.43.82.57])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 11 Aug 2026 05:06:03 +0000 (GMT)
+Message-ID: <6f7bf628-c26b-4c5d-8f5a-5908b1348365@linux.ibm.com>
+Date: Tue, 11 Aug 2026 10:36:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ano_uQtMIjcoFcs9@rric.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] powerpc/configs: enable CONFIG_RAS to fix EDAC
+ support
+To: Borislav Petkov <bp@alien8.de>, Michael Walle <mwalle@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin
+ <npiggin@gmail.com>,
+        Christophe Leroy <chleroy@kernel.org>, Tony Luck <tony.luck@intel.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>, Takashi Iwai <tiwai@suse.de>,
+        David Heidelberg <david@ixit.cz>, linux-edac@vger.kernel.org
+References: <20260730105546.3658570-1-mwalle@kernel.org>
+ <20260730185620.GDamueVIGV-8iIzozX@fat_crate.local>
+ <DKC6Z5YGBF2O.TAJAN566BN0L@kernel.org>
+ <20260731022855.GNamwIZw7Fz4Yhk__S@fat_crate.local>
+ <DKL4118H7S5U.1FN3E4DBY4GHF@kernel.org>
+ <20260810135020.GBannXHLXtUlqJjzqS@fat_crate.local>
+ <DKLBIZ7ZBP1K.20VHSP02I6BW2@kernel.org>
+ <20260810170149.GCanoD_ZhL61i4rHsl@fat_crate.local>
+Content-Language: en-US
+From: Madhavan Srinivasan <maddy@linux.ibm.com>
+In-Reply-To: <20260810170149.GCanoD_ZhL61i4rHsl@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODExMDA0MCBTYWx0ZWRfXwdjaO3L+cjp+
+ ssjEh9WJrMANO6LKza2y/JdnHQI2xsTlZ5PYEZQy5Zn7uKd0VCmaBaywIN3/8a7xQOut/RTViLU
+ oJkViD089y4Njxu4y6zD3CGbK0hBwj6Q5ia+nvPKdOwsGqnlckmuSXfx6+UmchxQ/JdiTuXLRJR
+ 5Vw9aFG+KBSz7xtmLPJd0YhShiE9ytFs4DzlGUZVzSXtUpTBzHjzY9DDyu3OQMRa6YxkK5FoKl/
+ FIPijBCamN8+iyRWbdIcGSrCTATKEzCap8710octLtlU73SP7RQUSMo2xx9ps6W2+JjaIFgfh/U
+ iLKZ1Lu+5nG4KvO+cuLSunQWn50Tp2+yOwd5TVjYQsjchDZDPbrMJLBq8PdIZPYQgzfkOaqV3ko
+ g9JdiXP4PKs66G1dprlbyQc+r55IBGRKYtWLheYaenhjd1gyJz/vtW8FQclPLj4rAd2nFtMbnhw
+ hhQAh/oadwl6Muf82Fg==
+X-Proofpoint-ORIG-GUID: Z3pZRFUagyGKK9RbeglaQh7apUqSCsH7
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODExMDA0MCBTYWx0ZWRfX4flE190Oxgyk
+ xLmZhPi8ptRMY/DP48Dz2Qf5anUfoX7eTA/HrvAuA3vFxK6dkR7DaG8h1JZUrTf+p10YMqXZI6R
+ kKODCX6IrD66eW3e+LtwLLjrFrE31Kk=
+X-Authority-Analysis: v=2.4 cv=IfK3n2qa c=1 sm=1 tr=0 ts=6a7aadc2 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8
+ a=EWrn2hZPb0KCTzPtCBYA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: Tg5-vBBnBR12INX6I13ynMvn98czZJ_o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-10_06,2026-08-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
+ lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608110040
 
-On Mon, Aug 10, 2026 at 11:16:41PM +0200, Robert Richter wrote:
-> > Author: Borislav Petkov (AMD) <bp@alien8.de>
-> > Date:   Mon Aug 10 06:40:13 2026 -0700
-> > 
-> >     EDAC/thunderx: Orphan it
-> >     
-> >     Robert doesn't have hardware to test patches anymore and no one else has
-> >     shown interest in maintaining this driver, so orphan it, for now at
-> >     least.
-> >     
-> >     Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> 
-> Acked-by: Robert Richter <rric@kernel.org>
 
-Queued, thanks.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+On 8/10/26 10:31 PM, Borislav Petkov wrote:
+> On Mon, Aug 10, 2026 at 04:03:17PM +0200, Michael Walle wrote:
+>> Thanks! Christophe already pointed out [1] that it should go via the
+>> same tree as the commit it fixed, i.e. the EDAC tree.
+> ./scripts/get_maintainer.pl -f arch/powerpc/configs/85xx-hw.config
+> Madhavan Srinivasan <maddy@linux.ibm.com> (maintainer:LINUX FOR POWERPC (32-BIT AND 64-BIT))
+>
+> and he said on that thread he'd pick it up.
+>
+> But I can take it too if PPC people agree on who takes it.
+I have added this to my next-test and I will take it via ppc tree.
+Maddy
+>
