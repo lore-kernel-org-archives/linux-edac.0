@@ -1,62 +1,64 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BD4403AE0
-	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 22:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7A6345ECC
+	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 22:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786572959; cv=none; b=Nn9mqypdR6O6VHdrvJG40vmWphx9yNivS4b0Q7pliXYCZeRKnPKVuqKyDR221nQ9caTFVYIXexxBm03CfgnN6TY/J7j6rEmxCmehkq5hyEz1xZeAPf90Y7PEjI5WupIgqX8LLQg4e91k4gWgeTCincqsZXZGOyq/RzEqKwstTq0=
+	t=1786572970; cv=none; b=jUXWHPLEjS27RWkGt3JLB2+adsclGRwkmhe4Xq4hiM1E2Mlq7tcEW9Y1FN3+AePbw/rG3MslFpBdEZbRVeavkpSpA6tZbj7jV7WIv8j5xklgMqgxIKx+Mkmg9/vxRznUKs8FyWog30i5PxR4QIayNPubYA8Efl0SW6Pk/RWJ4WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786572959; c=relaxed/simple;
-	bh=iIazRueLgCwdpQVvBzVvZ3MoLhiaggQsU7v7PgtD+mk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMC4EwyzUbdAiau09eoJz3m5Eci7oX5iYXJQixPxQmmHxCI0OhQwjv/i4HMCiQphhhdbYbG48DDqyNyQ2RXOUXhzkaMCwm5/BfrDGaxXgtsSnqSLHVcW2eEhG8lNw9RDOcVyFkkcLkNXyOHQzlnMztOZnIA+VOewG+bQfUtHV1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=IAh0RxaC; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1786572970; c=relaxed/simple;
+	bh=Xg/ZVWJu5SHTCV2UtojhxPC9NTEnwJ819NPQcAqkhwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BkTruHJDf5SLVLMkxMhOxpja7v7yyW58LyOl67SC+YSV/QlzpaDFXt1S1NQuPvWs7vKvu7jRSeXp6Gk2RNcZXF831cwSaUMy/jmyK2Ml+QBQTcXJJSIMQty9beVMN9WYNTUN+4jTMb0zTgW9lZwE3DRFk+xhOmC0sHhmkTmrQXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=Vd86fPR4; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="IAh0RxaC"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-495590dde14so18235835e9.0
-        for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 15:15:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="Vd86fPR4"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-476a130c138so1204290f8f.0
+        for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 15:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1786572955; x=1787177755; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Uo5EFl7Rsrbk3IVJayjNPBdLiBo/0qtTpRx9EcPPCkA=;
-        b=IAh0RxaCxipOh5bIRlDuq+yxpmi9JeToDrbupWf3q76SgC+yU20ya+d6HvJQXh41N8
-         bvlzhFwGA2eqO5JYVS9pBu++nrVplLjQe0DI7hTAjDY55Jw+X0PK7f6MHR6hXbeVFoLO
-         w28fk4BhLuALDAbr1AdWcg/7pHyZDwCBQ+7qUepQNvwC0vUmKHL//7j8CdornRgXKQFr
-         R4IEls1qwMjeev68UYOivcxiGFNnDOvepvxBRM1idyAeuO6nWfBgVC/lmzHBe801n8PN
-         JPAWiR/CpYnSRdagXZEFzjzoGAvB/QhXqSdjV2irwtLV4VTxurBlUijYMmSOi4S9f+gU
-         Xl0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786572955; x=1787177755;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=purestorage.com; s=google2022; t=1786572965; x=1787177765; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Uo5EFl7Rsrbk3IVJayjNPBdLiBo/0qtTpRx9EcPPCkA=;
-        b=SZBwjWZAKDSA1Bxg6P97qMMbBSEOJOW4LoJGI3J58nS300WIUs0gfkjzYAv6UmBMFI
-         EZf/j3F5akoZieTohPwzBW2hJXXdtE7s6cndSuRnFZg28DBAYdEp03mNn+gvGYI+VrNa
-         CqQjxD1uWmRgGtg8HJ3cUITPuwosj0Nc3vuIclvT0sW1G24vEfFub8ZxAHVEVl/fO+xl
-         /aMNFDgzNcUdkdromq3rtIrwIKNy7KHjD5MJ8VNJEBf2bY9yllIsX4bTK0VTh6laWR3a
-         Ym2u3oWRt0X0cmWEmvS6yVzwSFL0cE8GGUnCnzHcsJ7duaVtuD1H5ysY/Qqy9ip9kyAi
-         hcOw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr5tsAWZG8+SfpJpLXl+uGA0Cp+FKyhvCrdklghLXRHH7DQwRYEJ5HvDNArb6AAuQqR1i/O5ZIKDdDt@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBAIP7TvE89wYyjPDRK+CnCi91dVGP9ntAhs2JPSBVtg2lox84
-	x0OYHhK8NcT2rKYUdrryDElyW2kSWXhaTfL5Jd5tshdxgaE7SPxgEZCY0TZNIVX13J0=
-X-Gm-Gg: AR+sD12ibd2awC1i2xKxSIrlwh0KO9xtGF/p2XL4V8oz5ei9x2pjIceeVK3PuP+aIu2
-	CzSj5WtPy0sSO+Sf69ag2cdUlJ73k/TN8fBpeCdpu1Pucph5ssB0CRM71oKFCJRywb6QZSy7s+E
-	v2IOf443jNdloFELqPDVG5E9+hPEeI7+1fMmegaSW/fY/O7sZtWdldzcMrVf2/Uv7BiyCmXDD/z
-	igyzo2j26Rkuh6lksP0QEW671M9zDDvKWv0RDhrvFVUh/foW5u/DaRP7bthPPLxGZ6kuq5wkoJq
-	v0HxG9ZtTDtb/tSvkn/HI4PHik5JFgZ94C8gMm9IEafrxC7U8YrfK76T1pGc9JRxgHrHfbR8/pK
-	LMRzU0bKtaGF66D6H2oXVY9yFPAiZmwzaSN50ZeFKm2/3MJRZZJlgqd50J9JkEdEah5G5RcP4/Q
-	MQhcPbEWb4CDiMaWS7xpfRt5pIRRcz0RxyGpvoZsVPHzuoS/I4ganjrjgxaWuqFufb36uteZTn4
-	1BKMPHoK3thWjU=
-X-Received: by 2002:a05:600c:19d0:b0:499:7024:9d4a with SMTP id 5b1f17b1804b1-4998218db78mr9601255e9.8.1786572955377;
-        Wed, 12 Aug 2026 15:15:55 -0700 (PDT)
+        bh=0fgBN8P4tceUSpvKSwr7G8MgQI97K6qSQbnm76IzBHM=;
+        b=Vd86fPR4EnIwEwoX9tt6XGeXM2G5DlPMJ9um9m9PmHIJMdMRg3brl8r9Yl5reaOd5R
+         K3uHZp56i+Qfixl1dvIYl6gkZYtvmSdiTTVfLjVi25jsXXMHqWVFrbX66r7hvJHlYZMU
+         eeg8pizgzVQ8Sj0IT+NGJFKcG1st/4W0Y5jiNXmCD2g2afJGx1SSRvB+3FvfAUOuGiS/
+         Wz6nHOy4REmwJcQjmDhaemolgWJpwX9sA6gBRmGeti0i2LXvjsI6REf1n/gU86SfcGOD
+         gvhpkqqdkV0RrsmZ+Yn/kFSFEvJl2ykStsznT0BVQBheFlCwtrfJ8Pwq+ZtlfHplyT+G
+         EGQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786572965; x=1787177765;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0fgBN8P4tceUSpvKSwr7G8MgQI97K6qSQbnm76IzBHM=;
+        b=d+cuIrhi32UhqwYDL9/qmYeiEXfnhYWY62ufsvnQgt7WnMOuWJF0x1u1p/HN4Hp0wl
+         8f7L5TkLOE8AU9Mg24Xxv/Rrryb/l93kgkl6g52FQZ+x9Y8fUfNhiGkTK9IzW+fJlxg4
+         sk+n7fKl5EquQgLoKgDGvLQ7M+Y0Q7RaMWpvYnbNPx5NoC3td1ZLQawKwGHmroIISdXe
+         fH5+I4J64i6F5KEl/lceiq51lSKcfp0z8NYgh7MBr5xftTlB949n7uaXUxM5BmEMtAgg
+         drFldHAIVwFjrJU9dpIpvDV64UIMSr3xE56L7v7Hx0eEn3bl/1LBhdjae9eSxueyj+JB
+         mGlw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro4NFLtq/znmoH7sdXYUrs9m6dhYVjo2qWdvdEYS2eRJJP6rLehsizi3mJjZ3B3X9iVFXVVgLtElrIZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMhg1aD4fmDTBYAM0hnJar2XsCIXyDj0R+RyUNcA11q28aIEGZ
+	+B9RJXn71QFt18HF85cNX+tznzauRwtZX7RxhrkGlJ8Jr+owZ6fe1dzFjGHr5HsuzL8=
+X-Gm-Gg: AR+sD12LSerqZd2TOJfvkOyxpc9Ecq8vNtH8IwbckAgXJb1jrFExSrHoxkLH08k6ibr
+	iM3/c7HA1AY0mjxWOXwzglZ5UQbzWgHA9WGPmwOTzW+tjaiFUjFExoyPoKmCRYF5M0i96Gpw3MV
+	fJ+cjqcajTiLEjANQDKTV8rhX//Q6i/LplYJaOgzojVVs0ZWONYXUZC7573ML05hQWe0YmopiM+
+	gkDitOIG187jNkrgZT/pFgeCQi1bH8NbUll3qcmAWkfBrFHLTYtGb5oyWue3vB632Y/X1+stMPj
+	wsDu71xf9J9DPG1Ny67woi6TnbhTIq+Z/5SaxzEYtMeOa9Y8bsDHTbvEQ6dVyl64mr+m4uqAWXi
+	8U9baK+hO04uWVQDWn17hPhYYmpSOgersIM0O+ekQF3bA0Ohhj0qHzj+dIq+8bAyiePHCslStYE
+	vm7NSprCsLA1RASU/G8K+sDXJ2t8wS+3hOICXjJfGOwtzkhnQ9xNU4ccjyytwuIHMBIveQn52OP
+	NIrkhKGpK0YGCE=
+X-Received: by 2002:a05:6000:25f0:b0:47f:f3f9:ae37 with SMTP id ffacd0b85a97d-48159ca949amr1645090f8f.7.1786572965632;
+        Wed, 12 Aug 2026 15:16:05 -0700 (PDT)
 Received: from dev-jrangi.dev.purestorage.com ([208.88.159.128])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4815a569ab3sm933792f8f.11.2026.08.12.15.15.51
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4815a569ab3sm933792f8f.11.2026.08.12.15.16.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 15:15:54 -0700 (PDT)
+        Wed, 12 Aug 2026 15:16:05 -0700 (PDT)
 From: Jasjeet Rangi <jrangi@purestorage.com>
 To: x86@kernel.org
 Cc: jrangi@purestorage.com,
@@ -74,10 +76,12 @@ Cc: jrangi@purestorage.com,
 	rjethwani@purestorage.com,
 	rhan@purestorage.com,
 	dgiani@purestorage.com
-Subject: [PATCH v2 0/2] x86/mce/amd: Fix inverted interrupt enablement during storm handling
-Date: Wed, 12 Aug 2026 16:15:12 -0600
-Message-ID: <20260812221514.598842-1-jrangi@purestorage.com>
+Subject: [PATCH v2 1/2] x86/mce/amd: Fix inverted interrupt enablement during storm handling
+Date: Wed, 12 Aug 2026 16:15:13 -0600
+Message-ID: <20260812221514.598842-2-jrangi@purestorage.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260812221514.598842-1-jrangi@purestorage.com>
+References: <20260812221514.598842-1-jrangi@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -86,29 +90,48 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+mce_amd_handle_storm() currently does the opposite of what storm
+handling needs: it enables threshold interrupts when a storm is detected
+and disables them when the storm subsides.
 
-This set fixes a bug in AMD MCE storm handling and renames a variable
-that could have led to this bug. The variable rename patch is split from
-the fix to keep the fix minimal and to allow easier backporting.
+In addition, machine_check_poll() -> clear_bank() -> amd_clear_bank() ->
+amd_reset_thr_limit() will unconditionally enable threshold interrupts,
+which undoes storm mode behavior.
 
-Patch 1: Fix inverted interrupt enablement during storm handling on AMD
+Fix this by disabling interrupts when storm mode is entered and enabling
+interrupts when storm mode is cleared. Also make amd_reset_thr_limit()
+enable interrupts when the bank is not in storm mode and disable
+interrupts when the bank is in storm mode.
 
-Patch 2: Rename MCE storm handler parameters for storm mode
+Fixes: 5c4663ed1eac ("x86/mce: Handle AMD threshold interrupt storms")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jasjeet Rangi <jrangi@purestorage.com>
+---
+ arch/x86/kernel/cpu/mce/amd.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Thanks,
-Jasjeet
-
-Jasjeet Rangi (2):
-  x86/mce/amd: Fix inverted interrupt enablement during storm handling
-  x86/mce: Rename MCE storm handler parameters for storm mode
-
- arch/x86/kernel/cpu/mce/amd.c       | 9 ++++++---
- arch/x86/kernel/cpu/mce/intel.c     | 4 ++--
- arch/x86/kernel/cpu/mce/internal.h  | 8 ++++----
- arch/x86/kernel/cpu/mce/threshold.c | 6 +++---
- 4 files changed, 15 insertions(+), 12 deletions(-)
-
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index 36e0df4d1342..04accdee6aab 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -864,12 +864,15 @@ static void amd_deferred_error_interrupt(void)
+ 
+ void mce_amd_handle_storm(unsigned int bank, bool on)
+ {
+-	threshold_restart_bank(bank, on);
++	threshold_restart_bank(bank, !on);
+ }
+ 
+ static void amd_reset_thr_limit(unsigned int bank)
+ {
+-	threshold_restart_bank(bank, true);
++	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
++	bool intr_en = !storm->banks[bank].in_storm_mode;
++
++	threshold_restart_bank(bank, intr_en);
+ }
+ 
+ /*
 -- 
 2.50.1
 
