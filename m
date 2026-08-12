@@ -1,212 +1,311 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CA13672B8
-	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 01:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B071E482D4;
+	Wed, 12 Aug 2026 05:49:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786499493; cv=none; b=kkN0No01o0sbYzTpfadsoh+w1ZX8DsyWR1j3rvyFnmphCYwR2/aJJMFpCl8GsbRgC/xhtqmeNIkrygvKx6BzpthezkR1ZNJ01mjW1o+9Q6OOVMmTbG+3vOmCw1shzDrxyFeJMSHREoL9bRkTOMQTIyAD4FVZlnkHGN/GkQuuB2M=
+	t=1786513780; cv=none; b=mjYTFKLmsOfkwQyZ8tfj6yl2jzVTAKwi4hhesfVpsN/yCSQIcvmdsYi3CAr20JIkzcMXJInsuOg5M6xD1jDsRF1lBWliAHtQwl8NBLRwsia4o4yFsjvUnL2Eqlw5Q2FOROCTpdVhgIaSdp8nd4ILOjQkFNLCSOxUFV4UYUtV8KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786499493; c=relaxed/simple;
-	bh=9fLIQk6TuvR90I9LdS7QqcZ+X7/8nWY9P2OtVaFesU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGuAo1hfTGXTckjrVUnNj1qcwlJ/414VEfO+NtALOL79iVCaTNcN6imn03CEV9GwvPjtuj2RMtXfCbxBuc9heVEyJhqjts9AVqZyWiFvGAbcwQTIk+uQmoGzOdxC5UmvRqiPIBkO7KbpnswurNcvbRGpfo8dIVoP69MXMBa6/5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TAortyfM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UTL44xU1; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TAortyfM";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UTL44xU1"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BNGmch2107506
-	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 01:51:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=pH2EITf4Eq9akr0q9vn46l3h
-	PHYJbGOhQoINte5CyCM=; b=TAortyfMV5Iy8dEk1k+Xn/gsMJEXv9ohxSw1UCLA
-	tExP1i4/0z2+/X8r1+KGQLk5WCUFbRFIAiMS82+tUf2UZLCZDNhkmBlL3wwo6jRS
-	EBY0aENniSxjNLkhvhDEUxcv+407pqdQhQPNG5jc3h3VTLrA+wVv4e+kGqDskpyX
-	7t0U2epbdl37TOWdYcYZYj15ZNz0lyG3Qwl89ZZnwSGsGHGuJcvQKBM+EZsHgVSp
-	dUH7/6gss5tKp6KlYxnLHlhDRKX7y/UGP2Q0OIbDprTUm4hEjjZrFd/2mBOMRgtd
-	TDYuFEAMtA1+i3RUz92eyKoHFqHfIWTq0Kch4qAU/Nj9+Q==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g049djx3x-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 01:51:31 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2ccb687f82eso8339405ad.3
-        for <linux-edac@vger.kernel.org>; Tue, 11 Aug 2026 18:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786499490; x=1787104290; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pH2EITf4Eq9akr0q9vn46l3hPHYJbGOhQoINte5CyCM=;
-        b=UTL44xU1J2tAoRoJ8ibSXQtS3xLf0nDsmXIER9jgaISffLSed/mloxsESrlkp+qOw8
-         fcS/DePXhwnhZjzgrDWEEYFtVgxs2E8KN1gSPcA3Qt1VuipZ6rz/ZpH0wKCd+nZY5uc1
-         KTHoKrB0UOVLP3dwic6peO3DJfIZmUYVqW5MXrW5TJa1nozRLawF55uVz8LIcEABawkK
-         6pZZNZ+FTkZxf7uuk7Jr6hsdTYmx/FZc/rMbhydu3+gfjqhwvVFLIy2gqx/zEkZXWHJj
-         ZuAzG0odGU1udvcrVSNOj7QzREJHzVhDBSezjtIBQ5w4N53WCjOo0kqA8EZl38eiykWW
-         aKlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786499490; x=1787104290;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pH2EITf4Eq9akr0q9vn46l3hPHYJbGOhQoINte5CyCM=;
-        b=ERaSQiC6qe7oMC8lnJnzTGztGFBGI8zRC737knrh3ExlS1UPYdxFNE8Xm6DCv/nE+C
-         RpgK/pk6atXML7OWH9jRDZwW13PywCw2GviYOP5wLsOqqbQY5v86OK/FxVsR2zSbQglM
-         Rz0l/0imKdvcJCf0QmhXk3eC+BkZR1WyjMHowjQrV5drCD2kSPNwZWcMb0wh/7frVR7/
-         gEa+4bfMwBMn7lizbCys+JTexpFYQ1N8O/AOzOtwy1Xp6cYIV6SpWYTRtL+1VBQqISxF
-         KHyghxudNfu1BtNsCAPnmCdf3Q+Yy8r+1ObzArdzVv/kYnbns1KzTv4pZfIrA/4qd/CW
-         u3kg==
-X-Forwarded-Encrypted: i=1; AHgh+Rognd/Y+A8ZQtfR1yeKMDUqUaAqeApAddNWZluGQN3UlO7wLvw0VxokLRTQ/EI64pfuI4eIpEXWMoaG@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjMcjyPOtZmqxZgWok+0kVZy7d5YdoEFjJpvZuua8GbgNMqBXk
-	y0aTUCx9B3AkoHmQFE6TL0AiqIMlV+55kVjoaPY3jVtTVub/+G1vBVEKFYdfMmwu6SRBX3O5bNn
-	dfa4N8qCQIQDv8fHprDcAXg/jm84rOBIjKm9jlULnMN7wpmut981POJn3rC3mavvr
-X-Gm-Gg: AR+sD13jc8Z+Pi9rhgTVnLJzfe7mBgFdhSCXs+zUeH9Sa4yyb7cFeU5hv/hdae5NAvK
-	RcEneIr8QefIkRunIzrSzZo+3aV/0/YIfCsXsPQc3ctuoZn/IVAxSckRPovz99hoGdQEe+3KShV
-	eQ9UIOvRHMkytjc91oypE7w9QOUJoYCosM1dkICVTwIqqoAFiGD0Tliew97cVznHKkQMmNAtEb5
-	NANBmiOgkuJbtG4tihY8lYsx3s2yHM7AF3HXO8xy+HUFgnEkN6m76aTZYqVH2S2wX7sR0IbIKzc
-	/kGt72d3WT9joaJPx7hoHVGXQn+mW0o3FdH+fjvaHhLq8uOluMM3vUFLHWPN5e6Ndqvb76OV8QU
-	UY7dcxAv/RT1N6lnZ8poqtXgE1JRJ0D5dc4dZzsChd2bLZHb75A==
-X-Received: by 2002:a05:6a20:2445:b0:3bf:6fb1:ce0d with SMTP id adf61e73a8af0-3cc3f73428fmr1392401637.21.1786499490450;
-        Tue, 11 Aug 2026 18:51:30 -0700 (PDT)
-X-Received: by 2002:a05:6a20:2445:b0:3bf:6fb1:ce0d with SMTP id adf61e73a8af0-3cc3f73428fmr1392349637.21.1786499490016;
-        Tue, 11 Aug 2026 18:51:30 -0700 (PDT)
-Received: from hu-ashoraj-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31cf6d7a366sm4645303eec.27.2026.08.11.18.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 18:51:29 -0700 (PDT)
-Date: Tue, 11 Aug 2026 18:51:27 -0700
-From: Ashok Raj <ashok.raj@oss.qualcomm.com>
-To: shijujose2008@gmail.com
-Cc: rafael@kernel.org, bp@alien8.de, akpm@linux-foundation.org,
-        rppt@kernel.org, dferguson@amperecomputing.com,
-        linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
-        lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-        jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
-        jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-        naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-        somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-        duenwen@google.com, gthelen@google.com, wschwartz@amperecomputing.com,
-        wbs@os.amperecomputing.com, nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-        prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-        kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
-        Ashok Raj <ashok.raj@oss.qualcomm.com>
-Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <anvRn4g9Ihn5eyVq@hu-ashoraj-lv.qualcomm.com>
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-2-shijujose2008@gmail.com>
+	s=arc-20240116; t=1786513780; c=relaxed/simple;
+	bh=Me8mi0NrSdfydNawCYFOI5PqxoSJA8FxxW2gT79Fc4E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=gZjK+6zgLmE0xf86KBQQWohViYVKDtORVbV1Jxnlgit2zyLWcmTZa4DuWr65eN0hnTDlmGFnbgrYcVMF0lrXDSqRldD2mF8Mo9Kuu9J03E0GHiudR2wE+Ge46ihwiLfJPXYpa/Wn6SBRdb4FfqKr+QZGBPSc8gcRq5T+VUk8lCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 12 Aug
+ 2026 13:48:26 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Wed, 12 Aug 2026 13:48:26 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Date: Wed, 12 Aug 2026 13:48:29 +0800
+Subject: [PATCH 5/7] EDAC/aspeed: Replace regmap with direct register
+ access
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260726212812.89266-2-shijujose2008@gmail.com>
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDAxMSBTYWx0ZWRfXzgo+acEPJwfd
- 8jJvnYI3KIw00T2rXTyxe8G1UAXnWnDyDZoOKA0HxDYRRI5trw4f9JTJAoxhrDppXPp4VMWfrh4
- D5OR/y67aeeDPJUD0k6GAbwqJ+3s0TQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDAxMSBTYWx0ZWRfX3wE4Ei3LaDQM
- khZ9N6xaGpGLW8o9Bc/EEMA+RMqjRQhYGsaugWiyA5d++jp2rtlpUEKgqw47qW7aoPV3AzMDX43
- My3WgCmT7lsVwVP0oerB7BtV202Dup0KCCkIbQfGNqU6E/SS5GbwVmfw7YiPmICrNn98/xfqy60
- ET9pMYIY6Mo0c778/lvW6rS7UhsEhnaHSVeEUEOTyq5ItTDj4pFErImO2QTwy0k2AYDnwy8ITkK
- HQk99U0SA0odstYCrQAWrGMNM0NtgjxEebXD+njTA42FPrZHHksF91D/vETzKa3w86uhnMWuJX8
- rs0sOIkp1A0gpkW+DWgl4X7c/WHDlTmSRAhuXKBhdBIptQzCex0Xthgw2HNnD66d62SkWKWapFN
- KlJp8LFFfpNH4n4BiwaZv1Lg2aOhc9oFI+CS3viKm6OnXx0a64BgVXvs+xbkhRYEiDXOURlXVxA
- MHxa0b8SXDAz9N4s+ZA==
-X-Proofpoint-GUID: wSFktYPDfON9TF8B5zEQO5ODVTU6Ysv9
-X-Authority-Analysis: v=2.4 cv=CbA4Irrl c=1 sm=1 tr=0 ts=6a7bd1a3 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=pGLkceISAAAA:8 a=MvuuwTCpAAAA:8 a=VwQbUJbxAAAA:8 a=vzhER2c_AAAA:8
- a=EUspDBNiAAAA:8 a=O74ldG2G9i_vyk3S-34A:9 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22 a=0YTRHmU2iG2pZC6F1fw2:22
-X-Proofpoint-ORIG-GUID: wSFktYPDfON9TF8B5zEQO5ODVTU6Ysv9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-11_06,2026-08-10_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
- adultscore=0 impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608120011
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20260812-edac-v1-5-03992edea297@aspeedtech.com>
+References: <20260812-edac-v1-0-03992edea297@aspeedtech.com>
+In-Reply-To: <20260812-edac-v1-0-03992edea297@aspeedtech.com>
+To: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
+	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, Borislav Petkov <bp@suse.de>,
+	<linux-rt-devel@lists.linux.dev>, Ryan Chen <ryan_chen@aspeedtech.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786513706; l=8681;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=Me8mi0NrSdfydNawCYFOI5PqxoSJA8FxxW2gT79Fc4E=;
+ b=2PU7W0YGm6//PwLZbta9GqrvS/IUAj0KX1k+Ge63pDjVRmctMKCfK/TyoAstFxKlihE7fwtTf
+ FInx/eaBkYGAjxMvKUgrv16OgH5utanqePr0bUFwK99Xu6C5n818RZD
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
 
-Hi Shiju
+The driver instantiates its own regmap purely as an MMIO wrapper: it has
+no register cache, uses custom reg_read/reg_write callbacks, and is not
+shared as a syscon with other drivers. So it brings nothing here beyond
+the spinlock that regmap takes around each access when fast_io is set.
 
-On Sun, Jul 26, 2026 at 10:28:11PM +0100, shijujose2008@gmail.com wrote:
-> From: Shiju Jose <shijujose2008@gmail.com>
-> 
-> ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
-> Driver adds support for RAS2 feature table, which provides interfaces for
-> platform RAS features, e.g., for HW-based memory scrubbing, and logical to
-> PA translation service. RAS2 uses PCC channel subspace for communicating
-> with the ACPI compliant HW platform.
-> 
-> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
-> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
-> Co-developed-by: Jonathan Cameron <jic23@kernel.org>
-> Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
-> Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
-> ---
->  drivers/acpi/Kconfig  |  11 +
->  drivers/acpi/Makefile |   1 +
->  drivers/acpi/bus.c    |   3 +
->  drivers/acpi/ras2.c   | 509 ++++++++++++++++++++++++++++++++++++++++++
->  include/acpi/ras2.h   |  57 +++++
->  5 files changed, 581 insertions(+)
->  create mode 100644 drivers/acpi/ras2.c
->  create mode 100644 include/acpi/ras2.h
-> 
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+Drop the regmap and access the registers directly with readl()/writel()
+under an explicit raw spinlock, held across the whole read-modify-write so
+the controller is unlocked once around the grouped writes rather than on
+every register write. The lock is a raw_spinlock_t because the ECC
+interrupt handler runs in hardirq context, where under PREEMPT_RT a
+sleeping spinlock could not be acquired.
 
-[snip]
+Annotate the register base with __guarded_by() so that, under
+CONFIG_WARN_CONTEXT_ANALYSIS, the compiler checks at build time that every
+hardware register access is performed while holding the lock.
 
-> +int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd)
-> +{
-> +	struct acpi_ras2_shmem __iomem *gen_comm_base;
-> +	struct mbox_chan *pcc_channel;
-> +	struct ras2_sspcc *sspcc;
-> +	s64 time_delta;
-> +	u16 val;
-> +	int rc;
-> +
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+---
+ drivers/edac/aspeed_edac.c | 132 +++++++++++++++++----------------------------
+ 1 file changed, 48 insertions(+), 84 deletions(-)
 
-[snip]
+diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+index 8bfeb21d3204..7bd552ee9a61 100644
+--- a/drivers/edac/aspeed_edac.c
++++ b/drivers/edac/aspeed_edac.c
+@@ -3,6 +3,7 @@
+  * Copyright 2018, 2019 Cisco Systems
+  */
+ 
++#include <linux/cleanup.h>
+ #include <linux/edac.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+@@ -10,7 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/of_address.h>
+ #include <linux/platform_device.h>
+-#include <linux/regmap.h>
++#include <linux/spinlock.h>
+ #include "edac_module.h"
+ 
+ #define DRV_NAME "aspeed-edac"
+@@ -20,7 +21,6 @@
+ #define ASPEED_MCR_INTR_CTRL   0x50 /* interrupt control/status register */
+ #define ASPEED_MCR_ADDR_UNREC  0x58 /* address of first un-recoverable error */
+ #define ASPEED_MCR_ADDR_REC    0x5c /* address of last recoverable error */
+-#define ASPEED_MCR_LAST        ASPEED_MCR_ADDR_REC
+ 
+ #define ASPEED_MCR_PROT_PASSWD          0xfc600309
+ #define ASPEED_MCR_CONF_DRAM_TYPE       BIT(4)
+@@ -30,55 +30,8 @@
+ #define ASPEED_MCR_INTR_CTRL_CNT_UNREC  GENMASK(15, 12)
+ #define ASPEED_MCR_INTR_CTRL_ENABLE     (BIT(0) | BIT(1))
+ 
+-static struct regmap *aspeed_regmap;
+-
+-static int regmap_reg_write(void *context, unsigned int reg, unsigned int val)
+-{
+-	void __iomem *regs = (void __iomem *)context;
+-
+-	/* enable write to MCR register set */
+-	writel(ASPEED_MCR_PROT_PASSWD, regs + ASPEED_MCR_PROT);
+-
+-	writel(val, regs + reg);
+-
+-	/* disable write to MCR register set */
+-	writel(~ASPEED_MCR_PROT_PASSWD, regs + ASPEED_MCR_PROT);
+-
+-	return 0;
+-}
+-
+-static int regmap_reg_read(void *context, unsigned int reg, unsigned int *val)
+-{
+-	void __iomem *regs = (void __iomem *)context;
+-
+-	*val = readl(regs + reg);
+-
+-	return 0;
+-}
+-
+-static bool regmap_is_volatile(struct device *dev, unsigned int reg)
+-{
+-	switch (reg) {
+-	case ASPEED_MCR_PROT:
+-	case ASPEED_MCR_INTR_CTRL:
+-	case ASPEED_MCR_ADDR_UNREC:
+-	case ASPEED_MCR_ADDR_REC:
+-		return true;
+-	default:
+-		return false;
+-	}
+-}
+-
+-static const struct regmap_config aspeed_regmap_config = {
+-	.reg_bits = 32,
+-	.val_bits = 32,
+-	.reg_stride = 4,
+-	.max_register = ASPEED_MCR_LAST,
+-	.reg_write = regmap_reg_write,
+-	.reg_read = regmap_reg_read,
+-	.volatile_reg = regmap_is_volatile,
+-	.fast_io = true,
+-};
++static DEFINE_RAW_SPINLOCK(aspeed_lock);
++static void __iomem *aspeed_regs __guarded_by(&aspeed_lock);
+ 
+ static void count_rec(struct mem_ctl_info *mci, u8 rec_cnt, u32 rec_addr)
+ {
+@@ -147,12 +100,24 @@ static irqreturn_t mcr_isr(int irq, void *arg)
+ {
+ 	struct mem_ctl_info *mci = arg;
+ 	u32 rec_addr, un_rec_addr;
+-	u32 reg50, reg5c, reg58;
+-	u8  rec_cnt, un_rec_cnt;
+-
+-	regmap_read(aspeed_regmap, ASPEED_MCR_INTR_CTRL, &reg50);
+-	dev_dbg(mci->pdev, "received edac interrupt w/ mcr register 50: 0x%x\n",
+-		reg50);
++	u8 rec_cnt, un_rec_cnt;
++	u32 reg50;
++
++	scoped_guard(raw_spinlock, &aspeed_lock) {
++		reg50 = readl(aspeed_regs + ASPEED_MCR_INTR_CTRL);
++		dev_dbg(mci->pdev, "received edac interrupt w/ mcr register 50: 0x%x\n",
++			reg50);
++		un_rec_addr = readl(aspeed_regs + ASPEED_MCR_ADDR_UNREC);
++		rec_addr = readl(aspeed_regs + ASPEED_MCR_ADDR_REC);
++
++		/* clearing the counters needs a set-then-clear of CLEAR */
++		writel(ASPEED_MCR_PROT_PASSWD, aspeed_regs + ASPEED_MCR_PROT);
++		writel(reg50 | ASPEED_MCR_INTR_CTRL_CLEAR,
++		       aspeed_regs + ASPEED_MCR_INTR_CTRL);
++		writel(reg50 & ~ASPEED_MCR_INTR_CTRL_CLEAR,
++		       aspeed_regs + ASPEED_MCR_INTR_CTRL);
++		writel(~ASPEED_MCR_PROT_PASSWD, aspeed_regs + ASPEED_MCR_PROT);
++	}
+ 
+ 	/* collect data about recoverable and unrecoverable errors */
+ 	rec_cnt = (reg50 & ASPEED_MCR_INTR_CTRL_CNT_REC) >> 16;
+@@ -161,20 +126,6 @@ static irqreturn_t mcr_isr(int irq, void *arg)
+ 	dev_dbg(mci->pdev, "%d recoverable interrupts and %d unrecoverable interrupts\n",
+ 		rec_cnt, un_rec_cnt);
+ 
+-	regmap_read(aspeed_regmap, ASPEED_MCR_ADDR_UNREC, &reg58);
+-	un_rec_addr = reg58;
+-
+-	regmap_read(aspeed_regmap, ASPEED_MCR_ADDR_REC, &reg5c);
+-	rec_addr = reg5c;
+-
+-	/* clear interrupt flags and error counters: */
+-	regmap_update_bits(aspeed_regmap, ASPEED_MCR_INTR_CTRL,
+-			   ASPEED_MCR_INTR_CTRL_CLEAR,
+-			   ASPEED_MCR_INTR_CTRL_CLEAR);
+-
+-	regmap_update_bits(aspeed_regmap, ASPEED_MCR_INTR_CTRL,
+-			   ASPEED_MCR_INTR_CTRL_CLEAR, 0);
+-
+ 	/* process recoverable and unrecoverable errors */
+ 	count_rec(mci, rec_cnt, rec_addr);
+ 	count_un_rec(mci, un_rec_cnt, un_rec_addr);
+@@ -182,13 +133,31 @@ static irqreturn_t mcr_isr(int irq, void *arg)
+ 	if (!rec_cnt && !un_rec_cnt)
+ 		dev_dbg(mci->pdev, "received edac interrupt, but did not find any ECC counters\n");
+ 
+-	regmap_read(aspeed_regmap, ASPEED_MCR_INTR_CTRL, &reg50);
++	scoped_guard(raw_spinlock, &aspeed_lock)
++		reg50 = readl(aspeed_regs + ASPEED_MCR_INTR_CTRL);
+ 	dev_dbg(mci->pdev, "edac interrupt handled. mcr reg 50 is now: 0x%x\n",
+ 		reg50);
+ 
+ 	return IRQ_HANDLED;
+ }
+ 
++static void aspeed_set_irq(bool enable)
++{
++	u32 val;
++
++	guard(raw_spinlock_irqsave)(&aspeed_lock);
++
++	val = readl(aspeed_regs + ASPEED_MCR_INTR_CTRL);
++	if (enable)
++		val |= ASPEED_MCR_INTR_CTRL_ENABLE;
++	else
++		val &= ~ASPEED_MCR_INTR_CTRL_ENABLE;
++
++	writel(ASPEED_MCR_PROT_PASSWD, aspeed_regs + ASPEED_MCR_PROT);
++	writel(val, aspeed_regs + ASPEED_MCR_INTR_CTRL);
++	writel(~ASPEED_MCR_PROT_PASSWD, aspeed_regs + ASPEED_MCR_PROT);
++}
++
+ static int config_irq(void *ctx, struct platform_device *pdev)
+ {
+ 	int irq;
+@@ -206,9 +175,7 @@ static int config_irq(void *ctx, struct platform_device *pdev)
+ 		return rc;
+ 
+ 	/* enable interrupts */
+-	regmap_update_bits(aspeed_regmap, ASPEED_MCR_INTR_CTRL,
+-			   ASPEED_MCR_INTR_CTRL_ENABLE,
+-			   ASPEED_MCR_INTR_CTRL_ENABLE);
++	aspeed_set_irq(true);
+ 
+ 	return 0;
+ }
+@@ -246,7 +213,8 @@ static int init_csrows(struct mem_ctl_info *mci)
+ 	nr_pages = resource_size(&r) >> PAGE_SHIFT;
+ 	csrow->last_page = csrow->first_page + nr_pages - 1;
+ 
+-	regmap_read(aspeed_regmap, ASPEED_MCR_CONF, &reg04);
++	scoped_guard(raw_spinlock, &aspeed_lock)
++		reg04 = readl(aspeed_regs + ASPEED_MCR_CONF);
+ 	dram_type = (reg04 & ASPEED_MCR_CONF_DRAM_TYPE) ? MEM_DDR4 : MEM_DDR3;
+ 
+ 	dimm = csrow->channels[0]->dimm;
+@@ -263,7 +231,6 @@ static int init_csrows(struct mem_ctl_info *mci)
+ 
+ static int aspeed_probe(struct platform_device *pdev)
+ {
+-	struct device *dev = &pdev->dev;
+ 	struct edac_mc_layer layers[2];
+ 	struct mem_ctl_info *mci;
+ 	void __iomem *regs;
+@@ -274,13 +241,11 @@ static int aspeed_probe(struct platform_device *pdev)
+ 	if (IS_ERR(regs))
+ 		return PTR_ERR(regs);
+ 
+-	aspeed_regmap = devm_regmap_init(dev, NULL, (__force void *)regs,
+-					 &aspeed_regmap_config);
+-	if (IS_ERR(aspeed_regmap))
+-		return PTR_ERR(aspeed_regmap);
++	scoped_guard(raw_spinlock, &aspeed_lock)
++		aspeed_regs = regs;
+ 
+ 	/* bail out if ECC mode is not configured */
+-	regmap_read(aspeed_regmap, ASPEED_MCR_CONF, &reg04);
++	reg04 = readl(regs + ASPEED_MCR_CONF);
+ 	if (!(reg04 & ASPEED_MCR_CONF_ECC)) {
+ 		dev_err(&pdev->dev, "ECC mode is not configured in u-boot\n");
+ 		return -EPERM;
+@@ -346,8 +311,7 @@ static void aspeed_remove(struct platform_device *pdev)
+ 	struct mem_ctl_info *mci = platform_get_drvdata(pdev);
+ 
+ 	/* disable interrupts */
+-	regmap_update_bits(aspeed_regmap, ASPEED_MCR_INTR_CTRL,
+-			   ASPEED_MCR_INTR_CTRL_ENABLE, 0);
++	aspeed_set_irq(false);
+ 
+ 	/* free resources */
+ 	edac_mc_del_mc(&pdev->dev);
 
-> +
-> +	/* Ring doorbell */
-> +	rc = mbox_send_message(pcc_channel, &cmd);
-> +	/*
-> +	 * mbox_send_message() returns a non-negative integer for successful submission
-> +	 * and a negative value on failure.
-> +	 */
-> +	if (rc < 0) {
-> +		dev_warn(ras2_ctx->dev,
-> +			 "Error sending PCC mbox message command: 0x%x, rc:%d\n", cmd, rc);
-> +		/* Restore CMD COMPLETE bit on error */
-> +		val = ioread16(&gen_comm_base->status);
-> +		val |= PCC_STATUS_CMD_COMPLETE;
-> +		iowrite16(val, &gen_comm_base->status);
-> +		return rc;
-> +	} else {
-> +		rc = 0;
-> +	}
+-- 
+2.34.1
 
-Minor: 
-
-Sorry, I missed in prior review.
-
-Can the else after return be removed?
-just set rc = 0 should be sufficient.
-
-Cheers,
-Ashok
