@@ -1,39 +1,83 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BE2A399031;
-	Wed, 12 Aug 2026 06:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D592346A61D
+	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 15:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786517816; cv=none; b=mKwiIHPzodwKeKcB30tMDD9cnFIth8hUxQPICTlhuFuNtXOqe5+SWehkUAocrHlBSYQrxj0psw1MimNS2eNqqjWN8zV7hLfoUQb/e5ayI3USmLqwczQuHM1DmsQySFzU1+tMM3QdCe2YLc+5i8Rhk09vTGvgoIPFZWnRGmIbAaI=
+	t=1786547892; cv=none; b=CzK+IoMOLhgOnFaUrxYHtQE2mKfaEwHRXDRdb8wz7eAS0/WKQJVH38sEPYOQIkcbcGc+hLvY/odJonnnwyIDeTQ+VvljEWTwVFtsPLnYs7jcVgCs6Sdm+TbK86AqVM83xM6gj6fcJ4neHOuE1ac45r6az4wnFAwgtwvoY+hkBhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786517816; c=relaxed/simple;
-	bh=WF59AjOJOF5x4ZlSKYQg4FNiiQUFN3Wt8iqdV0gk3ck=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SB++nT933y89T5Y3qdQzDCCUdgE+IySFLa3ueoCognByg9IwUkb5bgmS5mcVEJJL6r7pUTB0qyw8YoG7pHOKGsj9WAHv0AfEljsOLd7AkK7nKQ7d66V0b79lI5iUwiLUEmIi52JV2OGDzniZw3fKl/ccf5Ba6V7ILEtBqEfkfg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.40.54.123])
-	by gateway (Coremail) with SMTP id _____8Bxn9EyGXxqRnYAAA--.1489S3;
-	Wed, 12 Aug 2026 14:56:50 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.40.54.123])
-	by front1 (Coremail) with SMTP id qMiowJAxmM0sGXxqK7oBAA--.10384S5;
-	Wed, 12 Aug 2026 14:56:50 +0800 (CST)
-From: Qunqin Zhao <zhaoqunqin@loongson.cn>
-To: bp@alien8.de
-Cc: tony.luck@intel.com,
+	s=arc-20240116; t=1786547892; c=relaxed/simple;
+	bh=4lponhvcBoEj4isXQY9iYKXNBCg2Z0hXTEzAYNInePI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n4GnkHt3VQzn43wRtjZfC36wNXM+zLY/p9EH2FfRiOL3ZthXezXiV4/5kKAoAQzAoXLkD8M1L+yCMBy2w2mitTUkvrJbAOK9xAor+A4FUJFJsKLtNDmq4GfAHXGggN/CUHhNKRl3wi1lVKXFT4+zlQguyF/+SElMPqqlKaYxutk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oDa0C+Hy; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oDa0C+Hy"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d032846c95so11951475ad.1
+        for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 08:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786547890; x=1787152690; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Qaa+Sy+sE+8+QMHIV71O2fnlj9rH1hWPcoo3mwjBGow=;
+        b=oDa0C+HyO6Lk22tXbulpHjG0uyvopIbMrS4h2CggvlhASYHIb06C8yEXrCPbODd5fi
+         j2sbQPc6H+py6zAo5+0V5YBG5lgfExNdx5UHIINNTNDsguNE39btqGfYty5QmIswV3IQ
+         CIr03Eavvz01O+UodHEHYt8lIdfyPv4wAFV6Ka7dF7JhFsTxgbOL5Ap5n9ma2YoHtnoz
+         /tq2GuH4N4knLqONOyfoKpwg1fCmv4A9GaVXgdSZSzosUsFskDoKEerDBxY3d7MrMeA7
+         UHRC2eLQTuw05pZjXuEMng911mK/rWz4484+ARJe8VCj11A+DiHnuFSL5WsO26tuONlw
+         lB5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786547890; x=1787152690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Qaa+Sy+sE+8+QMHIV71O2fnlj9rH1hWPcoo3mwjBGow=;
+        b=PCq19deGPtjPsFmTNhTihAom7W+8TqgoVBZYSamumJrfDngddKuolpJCzMLbMVhjQY
+         k0tkeRhld+0e8ZksnS3lVoGhUGOKQcONfP/NdPj1AML25iQQVZDfE834Gu3dYqlc+jgw
+         LGAd4b/TwbMDaKQVp4LytXOKwt5lsgn8dr79du0uFqDh91FmRVpFGNNTkx1Ww8Ct1pO3
+         IQVe6e+9t9oNnrg7N3kYD3f10jsMXGmhWZKcRJkaPPfy2hMQY0UWMGZkYCGnJmZw2Rdj
+         I3tdjYBteC64Cv2KbqRzt3LySF7fn6QsqfgylzccqVq2V4UGgMn3OvogLLI7JZQEXzsY
+         f32w==
+X-Forwarded-Encrypted: i=1; AHgh+RrbIHVpMhY7zNjNQ/VY1TSWSt5VxA5hBcR+7X0S0RVnDor9UsN5f1k2OldDk8mevleBp8bxUiupF2q7@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkQS6bEnu0gGmaDdnA8OFoxQS/btiyGt5M9tavRHlA6ZJVZt2V
+	6ws+z/k5gZ0HwtCpL4tMBxdeyfbkKRAKuSWvELi7oyNCydD8SK4shffd
+X-Gm-Gg: AR+sD10bsg4faB/8jaEph5P8E+aZ92u/s84F35NclVpaHqPkANSkZjl4Fp0zqtnMFKL
+	HyMqB/q7DwMbOqcD//OHEnp6EOorDA1ZSIrC0V3pvsXPWJiV+26ki82H6YTYKKpZehtgHmAJxDv
+	/tM96N5hkMD9JlOZle/JxB/+LPiLnIq59UR3/3Y6bGN1ki+a3eRwjrxU636T5pceq7tV7y0wVGt
+	e7jHcV0cOMk0NJiVZq0lliwVLx9Xf93cw7ait5wLwojrGQ62q/icI7GK9gBFMiXU/GYvs/ki9qJ
+	DKXWSAh7U9ZsUaVtJwOa7ZjNeTgTWyQj2iYIHYU3D+OdSFqu/DenML35HUZ1ysJluknO2Y9fM+W
+	9gxQmIQ/xLew8GtuiI0bHDRo9bpT/cJ/9jwe1c7/Rm6QxsytZiU0bYHHmh9ecuFfnsM5/5VmddK
+	9yqrUl48HjwMAcYEqBbTBp3BI8rqrLe5tOWyFJD0IzVtYiZ1l8MWxGF3KTpt+zQxpU3ggQ/1NZK
+	U6E9W2FApxWYzzTXA==
+X-Received: by 2002:a17:903:4b46:b0:2cc:f5b8:4c2e with SMTP id d9443c01a7336-2d3453848d4mr85562295ad.9.1786547889806;
+        Wed, 12 Aug 2026 08:18:09 -0700 (PDT)
+Received: from acer-nitro-anv15-41.entro.com ([118.34.230.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d3522019d3sm8426135ad.56.2026.08.12.08.18.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 08:18:09 -0700 (PDT)
+From: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+To: Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>,
+	Ira Weiny <iweiny@kernel.org>,
+	Li Ming <ming.li@zohomail.com>,
+	Ben Cheatham <benjamin.cheatham@amd.com>,
+	tony.luck@intel.com,
+	bp@alien8.de
+Cc: linux-cxl@vger.kernel.org,
 	linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	chenhuacai@kernel.org,
-	Qunqin Zhao <zhaoqunqin@loongson.cn>,
-	Wusheng <wusheng@loongson.cn>,
-	Wang Jinwei <wangjinwei@loongson.cn>
-Subject: [PATCH v3 3/3] EDAC/loongson: Add CS4-7 timeout filter for cross-node access
-Date: Wed, 12 Aug 2026 14:41:39 +0800
-Message-ID: <20260812064139.1231-4-zhaoqunqin@loongson.cn>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20260812064139.1231-1-zhaoqunqin@loongson.cn>
-References: <20260812064139.1231-1-zhaoqunqin@loongson.cn>
+	stable@vger.kernel.org,
+	x86@kernel.org
+Subject: [PATCH v2] cxl/mce: Avoid alias page retirement for corrected errors
+Date: Wed, 12 Aug 2026 20:47:59 +0530
+Message-ID: <20260812151759.14390-1-shaikhkamal2012@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -41,121 +85,196 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJAxmM0sGXxqK7oBAA--.10384S5
-X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxXFWUWF1UKryxCw4DXr48Zrc_yoW5Zw4kpF
-	W5Can8trW0gr1q9w4ktrWUZa45CFZa9FZrWrZ3Aw4fWr9Iy34DZrySgry2vFn8A34rtr1Y
-	q34rKrs7CF47A3XCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Fb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
-	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF
-	0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
-	KfnxnUUI43ZEXa7IU8EeHDUUUUU==
 
-On Loongson 3C6000 multi-node systems, when the EDAC driver running
-on one node accesses the memory controller registers of another node,
-the read operation may timeout and return random values. This causes
-false CE error reports because the random values in CS0-3 (low 32 bits)
-are misinterpreted as valid ECC error counts.
+cxl_handle_mce() offlines the aliased page of an Extended Linear Cache
+(ELC) region for any MCE with a usable address in the region. This
+includes corrected errors and non-memory errors, needlessly reducing
+usable memory.
 
-For cross-node accesses, check CS4-7 (high 32 bits) of the ECC
-count register. If the valid-cs-bits firmware property is set and
-the high bits are non-zero, it indicates a timeout or random value,
-so skip the report and return the previous count.
+Restrict ELC MCE handling to uncorrected memory errors. Use
+mce_is_correctable() so that MCE_AR_SEVERITY errors continue to retire
+the alias when the reported page is handled elsewhere.
 
-To avoid undefined behavior on 8-CS systems where valid_cs_bits=64,
-guard the shift with a bounds check (valid_cs_bits < 64).
-
-Signed-off-by: Wusheng <wusheng@loongson.cn>
-Signed-off-by: Wang Jinwei <wangjinwei@loongson.cn>
-Signed-off-by: Qunqin Zhao <zhaoqunqin@loongson.cn>
+Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
+Signed-off-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
 ---
- drivers/edac/loongson_edac.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+Changelog:
 
-diff --git a/drivers/edac/loongson_edac.c b/drivers/edac/loongson_edac.c
-index a3776a8501..eb36b708e6 100644
---- a/drivers/edac/loongson_edac.c
-+++ b/drivers/edac/loongson_edac.c
-@@ -27,6 +27,7 @@ struct loongson_edac_pvt {
- 	 */
- 	int last_ce_count;
- 	int mcs_per_node;
-+	int valid_cs_bits;
- 	bool mc_idx_valid;
- };
+v1 -> v2:
+  - Reworked commit message per review feedback
+  - Dropped redundant comment from the code
  
-@@ -37,11 +38,21 @@ static int read_ecc(struct mem_ctl_info *mci)
- 	int cs;
+Reproduced under QEMU/vng. QEMU's cxl-type3 does not emulate the HMAT
+extended-linear address_mode bit, so ELC was forced locally for testing
+via a one-line debug hack in cxl_region_probe() (not part of this patch):
+
+	if (!p->cache_size && p->res)
+		p->cache_size = resource_size(p->res) / 2;
+
+Steps:
+1. Boot with an Intel CPU model under TCG (KVM host-passthrough will
+    otherwise leak the host's real vendor ID, and AMD/SMCA takes a
+    different mce_usable_address() path than the one under test):
+vng -v -r ./arch/x86/boot/bzImage --disable-kvm --qemu-opts='-cpu Skylake-Server-v4,+mce,+mca -m 4G -machine q35,cxl=on -object memory-backend-ram,id=cxl-mem0,size=512M -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.0 -device cxl-rp,port=0,bus=cxl.0,id=root_port0,chassis=0,slot=0 -device cxl-type3,bus=root_port0,volatile-memdev=cxl-mem0,id=cxl-mem-device0 -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=512M'
+
+2. modprobe mce-inject
+$cxl list -M
+$cxl list -D
+$cxl create-region -m mem0 -d decoder0.0 -w 1 -g 256 -t ram
+$dmesg | grep "DEBUG: forced cache_size"
+$modprobe device_dax
+$modprobe kmem
+$ls /sys/bus/dax/devices/
+$daxctl reconfigure-device dax0.0 --mode=system-ram
+$lsmem
+it will show as below:
+dax0.0
+[   42.857642] Fallback order for Node 0: 0 
+[   42.857828] Built 1 zonelists, mobility grouping on.  Total pages: 1010805
+[   42.858446] Policy zone: Normal
+[
+  {
+    "chardev":"dax0.0",
+    "size":536870912,
+    "target_node":0,
+    "align":2097152,
+    "mode":"system-ram",
+    "online_memblocks":4,
+    "total_memblocks":4,
+    "movable":true
+  }
+]
+reconfigured 1 device
+RANGE                                  SIZE  STATE REMOVABLE BLOCK
+0x0000000000000000-0x000000007fffffff    2G online       yes  0-15
+0x0000000100000000-0x000000017fffffff    2G online       yes 32-47
+0x0000000190000000-0x00000001afffffff  512M online       yes 50-53
+
+Memory block size:       128M
+Total online memory:     4.5G
+Total offline memory:      0B
+
+3. Load the injector if not loaded earlier and derive the two MCi_STATUS values.
+
+    modprobe mce-inject
+
+    MCi_STATUS bit layout used here (arch/x86/include/asm/mce.h):
+      bit 63  VAL     - record valid
+      bit 61  UC      - uncorrected (0 = corrected error under test)
+      bit 60  EN      - error reporting enabled
+      bit 59  MISCV   - MCi_MISC valid
+      bit 58  ADDRV   - MCi_ADDR valid
+      bits[15:0] MCACOD - bit 7 set = memory-error signature, per
+                          mce_is_memory_error()'s Intel branch
+
+    python3 -c "
+    VAL, UC, EN, MISCV, ADDRV = 1<<63, 1<<61, 1<<60, 1<<59, 1<<58
+    MCACOD_MEM = 1<<7                      # memory error signature
+    ce = VAL | EN | MISCV | ADDRV | MCACOD_MEM
+    uc = ce | UC
+    print(f'CE status = {hex(ce)}')
+    print(f'UC status = {hex(uc)}')"
+    # CE status = 0x9c00000000000080
+    # UC status = 0xbc00000000000080
+
+    MCi_MISC: address-mode field, bits[8:6], must be 2 (physical):
+
+    python3 -c "print(hex(2 << 6))"
+    # misc = 0x80
+
+4.  $ cd /sys/kernel/debug/mce-inject
+$echo sw > flags
+$echo 0x9C00000000000080 > status
+$echo 0x80 > misc
+$echo 0x190010000 > addr
+$echo 9 > bank
+[  221.813395] mce: [Hardware Error]: Machine check events logged
+[  221.814716] cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+[  221.816200] cxl_mce_debug: spa=0x190010000 contains=1
+[  221.817089] cxl_mce_debug: spa_alias=0x1a0010000 pfn=0x1a0010 pfn_valid=1
+[  221.817655] cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+[  221.821504] Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+[  221.823903] mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
+[  221.824617] mce: [Hardware Error]: TSC a605ccda40 ADDR 190010000 MISC 80 
+[  221.824997] mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786375908 SOCKET 0 APIC 0 microcode 1
+root@virtme-ng:/sys/kernel/debug/mce-inject# 
+root@virtme-ng:/sys/kernel/debug/mce-inject# grep HardwareCorrupted /proc/meminfo
+HardwareCorrupted:     4 kB
+
+CE without this patch:
+  cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+  Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+  HardwareCorrupted: 4 kB
+------------------------------------- 
+CE with this patch:
+  (no "Offlining aliased SPA" message logged)
+  HardwareCorrupted: 0 kB
+
+$cd /sys/kernel/debug/mce-inject
+$echo sw > flags
+$echo 0x9C00000000000080 > status
+$echo 0x80 > misc
+$echo 0x190010000 > addr
+$echo 9 > bank
+addr  bank  cpu  flags	ipid  misc  README  status  synd
+[   61.681659] mce: [Hardware Error]: Machine check events logged
+[   61.683442] cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+[   61.684528] mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
+[   61.684974] mce: [Hardware Error]: TSC 2eeae32fe0 ADDR 190010000 MISC 80 
+[   61.688880] mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786377156 SOCKET 0 APIC 0 microcode 1
+[   86.504456] clocksource: Watchdog remote CPU 11 read timed out
+
+$grep HardwareCorrupted /proc/meminfo
+HardwareCorrupted:     0 kB
+-------------------------
+For UC, same steps only status bit information will change :
+$cd /sys/kernel/debug/mce-inject
+$echo sw > flags
+$echo 0xbc00000000000080 > status
+$echo 0x80 > misc
+$echo 0x190010000 > addr
+$echo 9 > bank
+$dmesg | grep cxl_mce_debug
+$grep HardwareCorrupted /proc/meminfo
+[  313.398747] mce: [Hardware Error]: Machine check events logged
+[  313.400518] cxl_mce_debug: entered status=0xbc00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+[  313.401727] cxl_mce_debug: spa=0x190010000 contains=1
+[  313.402157] cxl_mce_debug: spa_alias=0x1a0010000 pfn=0x1a0010 pfn_valid=1
+[  313.402663] cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+[  313.405999] Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+[  313.408375] mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: bc00000000000080
+[  313.408999] mce: [Hardware Error]: TSC e9dd2869e0 ADDR 190010000 MISC 80 
+[  313.409367] mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786377750 SOCKET 0 APIC 0 microcode 1
+
+Patched, UC: alias still offlined, confirming uncorrected handling is unchanged by this patch.
+    cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+    Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+    HardwareCorrupted: 4 kB
+
+ drivers/cxl/core/mce.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/cxl/core/mce.c b/drivers/cxl/core/mce.c
+index 65fed913b221..e3c561489a00 100644
+--- a/drivers/cxl/core/mce.c
++++ b/drivers/cxl/core/mce.c
+@@ -18,7 +18,13 @@ static int cxl_handle_mce(struct notifier_block *nb, unsigned long val,
+ 	u64 spa, spa_alias;
+ 	unsigned long pfn;
  
- 	ecc = readq(pvt->ecc_base + ECC_CS_COUNT_REG);
--	/* cs0 -- cs3 */
-+	/* Discard the read value if any invalid bit is set to 1 */
-+	if (pvt->valid_cs_bits < 64 && (ecc >> pvt->valid_cs_bits)) {
-+		edac_mc_printk(mci, KERN_DEBUG, "ECC read invalid, skip: 0x%llx\n", ecc);
-+		return pvt->last_ce_count;
-+	}
+-	if (!mce || !mce_usable_address(mce))
++	if (!mce)
++		return NOTIFY_DONE;
 +
-+	/* cs0 -- cs7 */
- 	cs = ecc & 0xff;
- 	cs += (ecc >> 8) & 0xff;
- 	cs += (ecc >> 16) & 0xff;
- 	cs += (ecc >> 24) & 0xff;
-+	cs += (ecc >> 32) & 0xff;
-+	cs += (ecc >> 40) & 0xff;
-+	cs += (ecc >> 48) & 0xff;
-+	cs += (ecc >> 56) & 0xff;
- 
- 	return cs;
- }
-@@ -111,14 +122,15 @@ static void dimm_config_init(struct mem_ctl_info *mci)
- }
- 
- static void pvt_init(struct mem_ctl_info *mci, void __iomem *vbase,
--		     bool mc_idx_valid, int mcs_per_node)
-+		     bool mc_idx_valid, int mcs_per_node, int valid_cs_bits)
- {
- 	struct loongson_edac_pvt *pvt = mci->pvt_info;
- 
- 	pvt->ecc_base = vbase;
--	pvt->last_ce_count = read_ecc(mci);
- 	pvt->mc_idx_valid = mc_idx_valid;
- 	pvt->mcs_per_node = mcs_per_node;
-+	pvt->valid_cs_bits = valid_cs_bits;
-+	pvt->last_ce_count = read_ecc(mci);
- }
- 
- static int edac_probe(struct platform_device *pdev)
-@@ -127,7 +139,7 @@ static int edac_probe(struct platform_device *pdev)
- 	struct mem_ctl_info *mci;
- 	struct device *dev = &pdev->dev;
- 	void __iomem *vbase;
--	u32 mcs_per_node;
-+	u32 mcs_per_node, valid_cs_bits;
- 	int ret;
- 	bool mc_idx_valid = true;
- 
-@@ -165,7 +177,10 @@ static int edac_probe(struct platform_device *pdev)
- 	if (device_property_read_u32(dev, "mcs-per-node", &mcs_per_node) || mcs_per_node == 0)
- 		mcs_per_node = 4;
- 
--	pvt_init(mci, vbase, mc_idx_valid, mcs_per_node);
-+	if (device_property_read_u32(dev, "valid-cs-bits", &valid_cs_bits))
-+		valid_cs_bits = 32;
++	if (!mce_is_memory_error(mce) || mce_is_correctable(mce))
++		return NOTIFY_DONE;
 +
-+	pvt_init(mci, vbase, mc_idx_valid, mcs_per_node, valid_cs_bits);
- 	dimm_config_init(mci);
++	if (!mce_usable_address(mce))
+ 		return NOTIFY_DONE;
  
- 	ret = edac_mc_add_mc(mci);
+ 	spa = mce->addr & MCI_ADDR_PHYSADDR;
+
+base-commit: 7098e9cd98a05c0c5de2fae0c2465f9d966fdd07
 -- 
-2.47.3
+2.43.0
 
