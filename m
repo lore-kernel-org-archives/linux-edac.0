@@ -1,266 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE0D3803E9;
-	Tue, 11 Aug 2026 19:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786476150; cv=fail; b=fEhkRFgaNxgDyYYqQQhftddR/ETekac0KhqstMm9aaM9YMKpvWkQ2QYvS9taxF6X3imrskDYIm+q1vmQUQGzxUMsz1F8lqiAHxqGy4N0NcqwsK9HpYSXV9E2malE4QEW9pRCqTEK3ZlDPoNY5lLEIKE8lyz+BPMSa1yCVHiz5YY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786476150; c=relaxed/simple;
-	bh=4d8DguQxhGEJeTUrIYDuqeKYUHt5TEzYmyYsy4IKhQY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=jMlNr9ByTF0en4Oo1EvDaU5pBIwS8kf7TXsHGkAy6+PeJwkJiTB+Zsv4AKP7fYHXnx+p44o9/smDzz2jH62H6dNp7E0TC5QOGBqzNaYOU6jf/vHVlFqCA/zDX50GRsME7Psm/iis3TfH8FpIkPow9zcADidvK0NULbUy7/4PzZg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+D/Oppr; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CA13672B8
+	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 01:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786499493; cv=none; b=kkN0No01o0sbYzTpfadsoh+w1ZX8DsyWR1j3rvyFnmphCYwR2/aJJMFpCl8GsbRgC/xhtqmeNIkrygvKx6BzpthezkR1ZNJ01mjW1o+9Q6OOVMmTbG+3vOmCw1shzDrxyFeJMSHREoL9bRkTOMQTIyAD4FVZlnkHGN/GkQuuB2M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786499493; c=relaxed/simple;
+	bh=9fLIQk6TuvR90I9LdS7QqcZ+X7/8nWY9P2OtVaFesU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QGuAo1hfTGXTckjrVUnNj1qcwlJ/414VEfO+NtALOL79iVCaTNcN6imn03CEV9GwvPjtuj2RMtXfCbxBuc9heVEyJhqjts9AVqZyWiFvGAbcwQTIk+uQmoGzOdxC5UmvRqiPIBkO7KbpnswurNcvbRGpfo8dIVoP69MXMBa6/5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TAortyfM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UTL44xU1; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+D/Oppr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786476148; x=1818012148;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=4d8DguQxhGEJeTUrIYDuqeKYUHt5TEzYmyYsy4IKhQY=;
-  b=J+D/OpprTbApfa5wgaEjsBV8VwAYuOAFnj2E47DMO2KEY9MK15hfpEM9
-   rCqr/AMMwBCthUwuLpxmTqBml0d7vZFsjZfWDQVC0lzutGc7N4SIgoOY7
-   942hQP5LCWRsS3nDDjgHITGk/t75/cRAGY8KgswQUg1dn1jtVYyi+1Ide
-   tHv7i8eW0P0oqhRNXqJUWWjfs+WbrNEp2TFCY2LRDMCXayHhbUq8AQfx6
-   NAUi2kO61VRW5en/qNIX7BzsmsV1Vomg0g0EPBmnBa5ZJX942GNK6CGKN
-   46ZwLNr4nMCp1tSbiaM02hhMgA6A4ZiYbsHR73YbrE0/3CILMOHt0GjhW
-   A==;
-X-CSE-ConnectionGUID: KJayJ+aHQjuo4L15P6L/CQ==
-X-CSE-MsgGUID: FpGiy3hBTQuGLRyQ35ZRag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11872"; a="97614243"
-X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
-   d="scan'208";a="97614243"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 12:22:26 -0700
-X-CSE-ConnectionGUID: vDcrvG3DTgeoi6f9OYAsbQ==
-X-CSE-MsgGUID: zqcatcRaQ8+9ZG4AgUmurw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,218,1779174000"; 
-   d="scan'208";a="257206348"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 12:22:26 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 11 Aug 2026 12:22:25 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Tue, 11 Aug 2026 12:22:25 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.49) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 11 Aug 2026 12:22:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZRRDtJSmowUPWCkmjkuJKz/fsgTxHQJcHPikrbIMci7D83dgHByzDFbe6DZOKt1NSyPojQgGlS13PxxWURIa12VzEaddqdoFy3qpI20G2OFrjMZbaqgy3TvSXe6uPMKy/jO5IHD0AMMywj1ZVqJ3Y+vQBPxqT0POqVG6s/MXjkSvGHl/iO0KPx2AaPfhbdBA1lzXWPL+Y+ww1I8BBr0OTz4PyQ/JTkJuU2vhpf24lH0feFhWvG7m9yGHmAtN6dNhkC7X6J1Lq3TJVYxcztmnuPGT854jAuijmEMuw+yoIMsi+gUgXSWK2zYABXreMPx1/XKk4ckyO/dn+SUID2uZCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ruxE1OAn/D7nRBHBjBdJvIwm0QUKqkpm85MmzIZltTw=;
- b=VNLC2Dkzhb1C9AwIF4YpzthEOACXn6lvF5TiVBnMKrJyzIWQBLIA7Rc/1I+HLjMRw/5q5SvcaOk7NiDR9a8bLMCQdOcxTB5OfUHVwKAfWUvgySpaXFIU6R5lmoIZOVYs2IQADSiFu+0ZMtXGLNaeY0G19AMULSQ9DsSdtfGqEN7o3/dgzCojXnhMrGTgkFzWRv5BJDm0gcuVHJBccmfhYzECLPj8FWSSYrTX2dQnnOgMyby73peMSAvMHGrgU5THhCThwrKg4bcThaefKwYi0AlDgF1hCGRlVhEu90L7L23O8ckk4Kf8xnTmqw5RCCgV+LuLKgTMustu/dnevR771g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by MN2PR11MB4600.namprd11.prod.outlook.com (2603:10b6:208:26e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 19:22:22 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::e721:90d7:9214:2d53]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::e721:90d7:9214:2d53%6]) with mapi id 15.21.0315.008; Tue, 11 Aug 2026
- 19:22:22 +0000
-Date: Tue, 11 Aug 2026 12:22:15 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
-CC: Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>, Li Ming
-	<ming.li@zohomail.com>, Ben Cheatham <benjamin.cheatham@amd.com>,
-	<tony.luck@intel.com>, <bp@alien8.de>, <linux-cxl@vger.kernel.org>,
-	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>, <x86@kernel.org>
-Subject: Re: [PATCH] cxl/mce: Only act on uncorrected memory errors
-Message-ID: <ant2Z1mzHCrzmzXn@aschofie-mobl2.lan>
-References: <20260810183013.47085-1-shaikhkamal2012@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260810183013.47085-1-shaikhkamal2012@gmail.com>
-X-ClientProxiedBy: SJ0PR03CA0165.namprd03.prod.outlook.com
- (2603:10b6:a03:338::20) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TAortyfM";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UTL44xU1"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67BNGmch2107506
+	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 01:51:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=pH2EITf4Eq9akr0q9vn46l3h
+	PHYJbGOhQoINte5CyCM=; b=TAortyfMV5Iy8dEk1k+Xn/gsMJEXv9ohxSw1UCLA
+	tExP1i4/0z2+/X8r1+KGQLk5WCUFbRFIAiMS82+tUf2UZLCZDNhkmBlL3wwo6jRS
+	EBY0aENniSxjNLkhvhDEUxcv+407pqdQhQPNG5jc3h3VTLrA+wVv4e+kGqDskpyX
+	7t0U2epbdl37TOWdYcYZYj15ZNz0lyG3Qwl89ZZnwSGsGHGuJcvQKBM+EZsHgVSp
+	dUH7/6gss5tKp6KlYxnLHlhDRKX7y/UGP2Q0OIbDprTUm4hEjjZrFd/2mBOMRgtd
+	TDYuFEAMtA1+i3RUz92eyKoHFqHfIWTq0Kch4qAU/Nj9+Q==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g049djx3x-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Wed, 12 Aug 2026 01:51:31 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2ccb687f82eso8339405ad.3
+        for <linux-edac@vger.kernel.org>; Tue, 11 Aug 2026 18:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1786499490; x=1787104290; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pH2EITf4Eq9akr0q9vn46l3hPHYJbGOhQoINte5CyCM=;
+        b=UTL44xU1J2tAoRoJ8ibSXQtS3xLf0nDsmXIER9jgaISffLSed/mloxsESrlkp+qOw8
+         fcS/DePXhwnhZjzgrDWEEYFtVgxs2E8KN1gSPcA3Qt1VuipZ6rz/ZpH0wKCd+nZY5uc1
+         KTHoKrB0UOVLP3dwic6peO3DJfIZmUYVqW5MXrW5TJa1nozRLawF55uVz8LIcEABawkK
+         6pZZNZ+FTkZxf7uuk7Jr6hsdTYmx/FZc/rMbhydu3+gfjqhwvVFLIy2gqx/zEkZXWHJj
+         ZuAzG0odGU1udvcrVSNOj7QzREJHzVhDBSezjtIBQ5w4N53WCjOo0kqA8EZl38eiykWW
+         aKlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786499490; x=1787104290;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pH2EITf4Eq9akr0q9vn46l3hPHYJbGOhQoINte5CyCM=;
+        b=ERaSQiC6qe7oMC8lnJnzTGztGFBGI8zRC737knrh3ExlS1UPYdxFNE8Xm6DCv/nE+C
+         RpgK/pk6atXML7OWH9jRDZwW13PywCw2GviYOP5wLsOqqbQY5v86OK/FxVsR2zSbQglM
+         Rz0l/0imKdvcJCf0QmhXk3eC+BkZR1WyjMHowjQrV5drCD2kSPNwZWcMb0wh/7frVR7/
+         gEa+4bfMwBMn7lizbCys+JTexpFYQ1N8O/AOzOtwy1Xp6cYIV6SpWYTRtL+1VBQqISxF
+         KHyghxudNfu1BtNsCAPnmCdf3Q+Yy8r+1ObzArdzVv/kYnbns1KzTv4pZfIrA/4qd/CW
+         u3kg==
+X-Forwarded-Encrypted: i=1; AHgh+Rognd/Y+A8ZQtfR1yeKMDUqUaAqeApAddNWZluGQN3UlO7wLvw0VxokLRTQ/EI64pfuI4eIpEXWMoaG@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjMcjyPOtZmqxZgWok+0kVZy7d5YdoEFjJpvZuua8GbgNMqBXk
+	y0aTUCx9B3AkoHmQFE6TL0AiqIMlV+55kVjoaPY3jVtTVub/+G1vBVEKFYdfMmwu6SRBX3O5bNn
+	dfa4N8qCQIQDv8fHprDcAXg/jm84rOBIjKm9jlULnMN7wpmut981POJn3rC3mavvr
+X-Gm-Gg: AR+sD13jc8Z+Pi9rhgTVnLJzfe7mBgFdhSCXs+zUeH9Sa4yyb7cFeU5hv/hdae5NAvK
+	RcEneIr8QefIkRunIzrSzZo+3aV/0/YIfCsXsPQc3ctuoZn/IVAxSckRPovz99hoGdQEe+3KShV
+	eQ9UIOvRHMkytjc91oypE7w9QOUJoYCosM1dkICVTwIqqoAFiGD0Tliew97cVznHKkQMmNAtEb5
+	NANBmiOgkuJbtG4tihY8lYsx3s2yHM7AF3HXO8xy+HUFgnEkN6m76aTZYqVH2S2wX7sR0IbIKzc
+	/kGt72d3WT9joaJPx7hoHVGXQn+mW0o3FdH+fjvaHhLq8uOluMM3vUFLHWPN5e6Ndqvb76OV8QU
+	UY7dcxAv/RT1N6lnZ8poqtXgE1JRJ0D5dc4dZzsChd2bLZHb75A==
+X-Received: by 2002:a05:6a20:2445:b0:3bf:6fb1:ce0d with SMTP id adf61e73a8af0-3cc3f73428fmr1392401637.21.1786499490450;
+        Tue, 11 Aug 2026 18:51:30 -0700 (PDT)
+X-Received: by 2002:a05:6a20:2445:b0:3bf:6fb1:ce0d with SMTP id adf61e73a8af0-3cc3f73428fmr1392349637.21.1786499490016;
+        Tue, 11 Aug 2026 18:51:30 -0700 (PDT)
+Received: from hu-ashoraj-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31cf6d7a366sm4645303eec.27.2026.08.11.18.51.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2026 18:51:29 -0700 (PDT)
+Date: Tue, 11 Aug 2026 18:51:27 -0700
+From: Ashok Raj <ashok.raj@oss.qualcomm.com>
+To: shijujose2008@gmail.com
+Cc: rafael@kernel.org, bp@alien8.de, akpm@linux-foundation.org,
+        rppt@kernel.org, dferguson@amperecomputing.com,
+        linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
+        lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+        jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
+        jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+        naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+        somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+        duenwen@google.com, gthelen@google.com, wschwartz@amperecomputing.com,
+        wbs@os.amperecomputing.com, nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+        prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+        kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
+        Ashok Raj <ashok.raj@oss.qualcomm.com>
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <anvRn4g9Ihn5eyVq@hu-ashoraj-lv.qualcomm.com>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|MN2PR11MB4600:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b0738fd-74b7-4851-f92f-08def7ddde64
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|56012099006|5023799004|11063799006|10067099003|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: OaBDruzlGBGyDFRwmdbTpDHcYjLtIVWs4wZ9GvEtFdE9hJgr7m51oQA8KRCgWOoOsNNYNaUR4ZoqxoQZH1LvAajDRD9RyrM5LjhJb/Qzche9Q55Af81xT2g4VflBLtcPgXm3AkY8/BVRxDRq4F/GxBJSmxlXd55ZRSuCuI6qeIvsPnjPnB8aM9iB513Rh7LQDBJC2EtY+sHj4AxPVVvwkX9PqXkprWMY2fcEq8YTA1iUQfi0p47TNqywJ1W3CXeOMtLNmYST2QFE2Sp6f36nDxbH0jQGT0TNe95HR3cWZOGwE7MTFgF0cN1HYy6lCMwzqjUn0El/rwmgvyIVsvqkB7nxiIcZDuG1OhmTwNGKukQTwpvdpBzDvj/rUy5E4ohluhx3MmHW2BpCq7Ny/hT/+yMumdDb1ObgQfEqJwapEUCHb6c8kptcuKQcCxacKkSUSdmo6PTgdbhOc6uNn34RtDxCxiuyi+Ju6ff9FMhsz9aK8uqFoMyAajCKv5cVKqUx2wPe7Q1l2uAFF8l7+UDxejQAnoYPzwwfqvTx/55P2gQ35WNqNVotdb0Lvp5x8RhQWbIM/xdWInMPd8GRkybsnKm91b+OB6HpmYcyiHZLnuXICa9RMdROqxpjBW99VmeQoYOhg4sc+5QHZ0hwCBzUqg3jBPi9aVVBXeWFDQj9yTs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(56012099006)(5023799004)(11063799006)(10067099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?b7lIdhM2r1Ao7sZJc6BdUW3qNfQV5JD2Bp0rLUrpdidw39hMJi9QzJHpwRAB?=
- =?us-ascii?Q?EOSQe6p9W8qswbqQWFMPHBNntAfpOdj8TN5iC8pQISlkVGuBb1YjgEX+CXcD?=
- =?us-ascii?Q?UqKQ7EzACBFsT6RhNwrUQDI9Es174LtZ0TWXersWpVBd4iQdsuINR4FFUe3P?=
- =?us-ascii?Q?aLiL/dYwUCJ4xYsDSRlRU4Lqa1YyGNxyUgvvEsCm2QmwNYPE4bIrW6J+WH5I?=
- =?us-ascii?Q?QBUTcRijZBDcfIwoPUvjWn6sfs2D9GaE4nzIPzeIGlquwVsdNvP4EoxS/R9X?=
- =?us-ascii?Q?8NwPeV0TXtzWLhKLxUWp7NDz0ciTOedeuay1u/9aKfzTDu3BRoBWSb2SQu0R?=
- =?us-ascii?Q?ALQiLQmsBXM5ZJ5AdvAE4Ls0oC0XcqqxcVcOd2IWDTad7fI1v9PPBrPk341b?=
- =?us-ascii?Q?NGy0J4y87OufBCaJS4PpYX+pvPS5fp2JLRLsGBb0xPXs3XMq6ko3aZbKucO/?=
- =?us-ascii?Q?PKV2Xhf9vLPpidIe6p/8+WNO2DnMcOid8csqQMn0REImnLt39Z9yiR5SoRdZ?=
- =?us-ascii?Q?GbMwMyOXAVKC/lCEN3lsdQnSC4kaQcVOIvJY+LJc/QKd4f+MxGmfzDzOUzO8?=
- =?us-ascii?Q?SVvAaCcoW7wBulEZDp9XFa+1vE+vOE2J3qyCU+t/hhw9yFPRSTKku0S4CfQt?=
- =?us-ascii?Q?DCnAB2fFM/+RRZxoRwmHEdDUEDQNkxQ9vG8L4qZLr7XDjmgRq85wRquVHkte?=
- =?us-ascii?Q?DIqvNUW5/7UzvuZbFTZLqEvvWmD3XJhvZc7xMt/VeDYHebRWIX/a8rmOFYoc?=
- =?us-ascii?Q?I/YT17MsyjE6teVvzxo7JXQaz0pyGxSFVg0A5/zD6drU3FoFG1inpvZhGtIX?=
- =?us-ascii?Q?lum230h8YXDQOybeDdscQ9e7pyZuu1eAKzYE+vdPgf3mI5GrB7s5bHXrCMw/?=
- =?us-ascii?Q?Y4hG4y81WXmrhvg7EFy/ckybfryrtbfte76CPhC90d6TNhjjtmouZ9LUNNQW?=
- =?us-ascii?Q?BkgjVEbl4fB+NGqCG5kP3V9VRj2HoLqKd/9LxBlanGNvBewXD1CWuhSdxiPg?=
- =?us-ascii?Q?o3eDSjyk3Wd9BLyQcZC+s/3/VrT6aoyDDCvpvKLHMDRQFi8mbLJIrsmSYQ1P?=
- =?us-ascii?Q?H2/43pCuuBtRIElyoxUZyJ6b8+kVaNwPmpwvuLZmEf2vGCY+UzOHJN13vJZE?=
- =?us-ascii?Q?UdfVwM3IXzy+YtCPnkis7WawD3Y5H0wEOZOd6gEbkJ79RGb90vkDMj94csfx?=
- =?us-ascii?Q?ZHU0hZM7cG0ZVnVxjsdiik/je/O6CJGwFfr1PM7efn9OeKF2tmr63VI9LkSm?=
- =?us-ascii?Q?wFb446vzjJ9lk/mVWReof9GAUzOs4jE3rFejoq83dJ+b97W9AgDfGvO1RtIg?=
- =?us-ascii?Q?cUYzV8tKYB+1G9Srb42K5NfDExzWmgORKgPUr+AQindzSkKtQXUg140o7IBY?=
- =?us-ascii?Q?GKuNSUQ1MXO5/seyi+0PgHa3IHkFjw3Iz1KA7sBM1U+xSP4yWxrWaVZKiLdY?=
- =?us-ascii?Q?y+O5JizYqG5kRRKM4soXCv4YHoBWLQLf25kqpBm3PSmnCE9PHxKRMD7n0/41?=
- =?us-ascii?Q?a63RbLxhGS2ES7Z9YreJVpcz9haGaN26g7gkWds95LtWw4PO4MjwQbJ9tvzg?=
- =?us-ascii?Q?/ncg7S8F+rC9dcrdAsI5rExBQey03bA+Jl856hKmMuEdf3mUocLLxcXzrXvP?=
- =?us-ascii?Q?NfrXPXjPnhzYXri73juSXbuE5u7khSo0DRbwx3b8PQ7lXFBNi1NIWSQpwcix?=
- =?us-ascii?Q?tSldcd+qQ+nny4jEr213LB+A/UypH4GKyhr4OxI9O4UTQRbfk5esYxiStTRo?=
- =?us-ascii?Q?hTDs+GNiFsl1od4UQl9n+LpfX7iUJRo=3D?=
-X-Exchange-RoutingPolicyChecked: VoLQxxV87r0UaDowyZvvOn4lBcM7vYo+FmvQAa6ycpzn+HOD0tQwJ6Sbt0zxpdDnuwCd29VeOlrl+b0uDtcMuZW5PDvqGp/vVGFeZd4EWIKVP2e/DChTwjoDm9b04u8HLK1nNIW42yltxJFyjFKAD1mJurGnoNfSY149PbyyLsDDsGkYuqMWShmzqi5zY47eG/z/7tsLgZshj5SCkLG00hszqpUhIRLFdKKz7HT4ZNuK+Bal4zKZ3OLZOWo322ikC0Sxuj5F+EOk1NfIGd6JgW/0KRgDADkPDwaEhWvLhVcCHW6GaQcq8NNxqnsFMGYvKSto58ol86Qwty/rYvl/Jg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b0738fd-74b7-4851-f92f-08def7ddde64
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 19:22:22.6845
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Jcfgf98TMIWV2Fu4IRR3HgnxODJrmTubx1jyFDcp9AU8gl6vm3ZIRpsMrbEJIAeH9XWA0dAbBcAu2pAN5uhryhi6UxgmTNZcmG28svYutDg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4600
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260726212812.89266-2-shijujose2008@gmail.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODEyMDAxMSBTYWx0ZWRfXzgo+acEPJwfd
+ 8jJvnYI3KIw00T2rXTyxe8G1UAXnWnDyDZoOKA0HxDYRRI5trw4f9JTJAoxhrDppXPp4VMWfrh4
+ D5OR/y67aeeDPJUD0k6GAbwqJ+3s0TQ=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEyMDAxMSBTYWx0ZWRfX3wE4Ei3LaDQM
+ khZ9N6xaGpGLW8o9Bc/EEMA+RMqjRQhYGsaugWiyA5d++jp2rtlpUEKgqw47qW7aoPV3AzMDX43
+ My3WgCmT7lsVwVP0oerB7BtV202Dup0KCCkIbQfGNqU6E/SS5GbwVmfw7YiPmICrNn98/xfqy60
+ ET9pMYIY6Mo0c778/lvW6rS7UhsEhnaHSVeEUEOTyq5ItTDj4pFErImO2QTwy0k2AYDnwy8ITkK
+ HQk99U0SA0odstYCrQAWrGMNM0NtgjxEebXD+njTA42FPrZHHksF91D/vETzKa3w86uhnMWuJX8
+ rs0sOIkp1A0gpkW+DWgl4X7c/WHDlTmSRAhuXKBhdBIptQzCex0Xthgw2HNnD66d62SkWKWapFN
+ KlJp8LFFfpNH4n4BiwaZv1Lg2aOhc9oFI+CS3viKm6OnXx0a64BgVXvs+xbkhRYEiDXOURlXVxA
+ MHxa0b8SXDAz9N4s+ZA==
+X-Proofpoint-GUID: wSFktYPDfON9TF8B5zEQO5ODVTU6Ysv9
+X-Authority-Analysis: v=2.4 cv=CbA4Irrl c=1 sm=1 tr=0 ts=6a7bd1a3 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=pGLkceISAAAA:8 a=MvuuwTCpAAAA:8 a=VwQbUJbxAAAA:8 a=vzhER2c_AAAA:8
+ a=EUspDBNiAAAA:8 a=O74ldG2G9i_vyk3S-34A:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22 a=0YTRHmU2iG2pZC6F1fw2:22
+X-Proofpoint-ORIG-GUID: wSFktYPDfON9TF8B5zEQO5ODVTU6Ysv9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-11_06,2026-08-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 impostorscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608120011
 
-On Tue, Aug 11, 2026 at 12:00:13AM +0530, Shaikh Kamaluddin wrote:
-> cxl_handle_mce() offlines the aliased page of an ELC region on any
-> record with a usable address; it does not check MCI_STATUS_UC or
-> filter non-memory errors. uc_decode_notifier(), the equivalent
-> handler for plain memory on the same chain at the same priority,
-> filters on mce->severity and leaves corrected errors untouched.
-> cxl_handle_mce() has no such gate, so a corrected error - which
-> the generic handler ignores - still causes the alias to be
-> permanently retired via memory_failure().
+Hi Shiju
+
+On Sun, Jul 26, 2026 at 10:28:11PM +0100, shijujose2008@gmail.com wrote:
+> From: Shiju Jose <shijujose2008@gmail.com>
 > 
-> Corrected errors do reach the chain: machine_check_poll() logs
-> them via the same mce_gen_pool_process() path that feeds
-> x86_mce_decoder_chain, and cxl_extended_linear_cache_resize()
-> extends p->res to cover the DRAM half of the ELC pair, so a
-> routine DRAM CE carries an address inside the region resource.
+> ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
+> Driver adds support for RAS2 feature table, which provides interfaces for
+> platform RAS features, e.g., for HW-based memory scrubbing, and logical to
+> PA translation service. RAS2 uses PCC channel subspace for communicating
+> with the ACPI compliant HW platform.
 > 
-> Filter the record as nfit_handle_mce() does. Commit fc08a4703a41
-> ("acpi, nfit: Fix the memory error check in nfit_handle_mce()") and
-> commit 5d96c9342c23 ("acpi/nfit, x86/mce: Handle only uncorrectable
-> machine checks") established this filter for an equivalent handler
-> on the same notifier chain; the consequence here is more severe, as
-> the CXL handler calls memory_failure() rather than recording a bad
-> block.
-> 
-> mce_is_correctable() is used instead of copying
-> uc_decode_notifier()'s AO/DEFERRED test because the alias must
-> still be offlined on MCE_AR_SEVERITY, where kill_me_maybe() owns
-> the reported page but nothing owns the alias.
-> 
-> Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
-> 
-
-Thanks for the patch Shaikh,
-
-The patch looks good to me, and the reproduction details show that this has
-been thoroughly investigated.
-
-The commit log is harder to follow than the code change itself. It seems
-that too much of the investigation has leaked into the commit log which
-makes it very dense and not very clarifying. For what is ultimately a
-small and straightforward behavioral fix, the log spends a lot of time
-narrating the code paths that establish the problem, while the important
-impact, a reduction in usable memory, gets lost.
-
-The commit log should introduce the code change and make it easier to
-understand. I'd prefer the usual behavioral progression: describe what
-happens today, why that is wrong and its impact, then state how the patch
-fixes it. Also, please spell out Extended Linear Cache (ELC) on first use.
-
-The subject can describe the behavior being fixed more directly as well.
-
-For example: (if you use this example, you need to proofread it, to
-be sure I actually captured this correctly ;))
-
-cxl/mce: Avoid alias page retirement for corrected errors
-
-cxl_handle_mce() offlines the aliased page of an Extended Linear Cache
-(ELC) region for any MCE with a usable address in the region. This
-includes corrected errors and non-memory errors, needlessly reducing
-usable memory.
-
-Restrict ELC MCE handling to uncorrected memory errors. Use
-mce_is_correctable() so that MCE_AR_SEVERITY errors continue to retire
-the alias when the reported page is handled elsewhere.
-
-Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
-
-
-more below...
-
-
-> Signed-off-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
+> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
+> Co-developed-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Jonathan Cameron <jic23@kernel.org>
+> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
+> Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
 > ---
-
-The detailed investigation and reproduction below the scissors is useful and
-should stay there.
-
-snip
-
+>  drivers/acpi/Kconfig  |  11 +
+>  drivers/acpi/Makefile |   1 +
+>  drivers/acpi/bus.c    |   3 +
+>  drivers/acpi/ras2.c   | 509 ++++++++++++++++++++++++++++++++++++++++++
+>  include/acpi/ras2.h   |  57 +++++
+>  5 files changed, 581 insertions(+)
+>  create mode 100644 drivers/acpi/ras2.c
+>  create mode 100644 include/acpi/ras2.h
 > 
-> diff --git a/drivers/cxl/core/mce.c b/drivers/cxl/core/mce.c
-> index 65fed913b221..ee70c1c9f9b9 100644
-> --- a/drivers/cxl/core/mce.c
-> +++ b/drivers/cxl/core/mce.c
-> @@ -18,7 +18,14 @@ static int cxl_handle_mce(struct notifier_block *nb, unsigned long val,
->  	u64 spa, spa_alias;
->  	unsigned long pfn;
->  
-> -	if (!mce || !mce_usable_address(mce))
-> +	if (!mce)
-> +		return NOTIFY_DONE;
+> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+
+[snip]
+
+> +int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd)
+> +{
+> +	struct acpi_ras2_shmem __iomem *gen_comm_base;
+> +	struct mbox_chan *pcc_channel;
+> +	struct ras2_sspcc *sspcc;
+> +	s64 time_delta;
+> +	u16 val;
+> +	int rc;
 > +
-> +	/* Only uncorrected memory errors warrant taking down the alias page */
-> +	if (!mce_is_memory_error(mce) || mce_is_correctable(mce))
-> +		return NOTIFY_DONE;
+
+[snip]
+
 > +
+> +	/* Ring doorbell */
+> +	rc = mbox_send_message(pcc_channel, &cmd);
+> +	/*
+> +	 * mbox_send_message() returns a non-negative integer for successful submission
+> +	 * and a negative value on failure.
+> +	 */
+> +	if (rc < 0) {
+> +		dev_warn(ras2_ctx->dev,
+> +			 "Error sending PCC mbox message command: 0x%x, rc:%d\n", cmd, rc);
+> +		/* Restore CMD COMPLETE bit on error */
+> +		val = ioread16(&gen_comm_base->status);
+> +		val |= PCC_STATUS_CMD_COMPLETE;
+> +		iowrite16(val, &gen_comm_base->status);
+> +		return rc;
+> +	} else {
+> +		rc = 0;
+> +	}
 
-The comment restates what the if condition says. I think the comment can
-simply be dropped.
+Minor: 
 
+Sorry, I missed in prior review.
 
+Can the else after return be removed?
+just set rc = 0 should be sufficient.
 
-> +	if (!mce_usable_address(mce))
->  		return NOTIFY_DONE;
->  
->  	spa = mce->addr & MCI_ADDR_PHYSADDR;
-> 
-> base-commit: 7098e9cd98a05c0c5de2fae0c2465f9d966fdd07
-> -- 
-> 2.43.0
-> 
+Cheers,
+Ashok
