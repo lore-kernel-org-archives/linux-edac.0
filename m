@@ -1,206 +1,199 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013026.outbound.protection.outlook.com [40.93.201.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A6B32B130;
-	Thu, 13 Aug 2026 09:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0AC3E3141
+	for <linux-edac@vger.kernel.org>; Thu, 13 Aug 2026 18:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786612313; cv=fail; b=abVxrP8rub/IJ/XnldJXFkKs6fkvrJSd1jTw9cDYCpDgMWHIepSv9HwzbAbWlIdYPbR90jI2wZmM1nsJglfLQzM2mSWWdBinFDEMrtStJIu8cMrkBHqDlqmz9RgJA68+uEWR4Pj0457+HRewg8tybQUNc4UNqumEt0nW3ezoG/8=
+	t=1786647302; cv=pass; b=rjJ9VnJaGMdgYpqxWJ9/fTHFgd0PNCjGVWizQpnAGbMJLxAeh7neXyQqKNMGM1QmFt0LkLru6KaaadIFMdYIIslfmSmYJmD/dLUwENnu4DxIDsNhPUiKWFFqOURGk/dTpF1Yw2ftdNogpcS0FkjJbJQTON+NF5foHXEhI0TW9R4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786612313; c=relaxed/simple;
-	bh=hceSbxJVEAy0dRTLW+rIRvq5eABdovGlr5IUlMEHxwg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=sHluLIM8AKJQEWU40lmcr45/uLF4BlBbgy2al58gJ+RqBue4vx8bwBRZeGNVv51eKWxRFBkibNVIaYrA8o+RnC8KoXxhlKQFrR8fTtAXEJT6dGBNSpoJw/UIK+j2Z85c2E2kux9BxxdM1OjIAa9JU3JxyMCyvIfD6EeeXcSOUn0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hc6D6NP4; arc=fail smtp.client-ip=40.93.201.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1786647302; c=relaxed/simple;
+	bh=MZMk5amhVvwpxgU22Jr2gG0SimDKHn4o3AJnpzUIRys=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=epPbIHo07bPvWk+vZOhWtTdaCCR2St0CJdJAWlkWayEmHtzVD1kbkKVn0YLHwyUhScFk2O7aSdBZ66jjbFc6uH24ZHIIZdx499GQPjYcHSVit2bwOb45kLoeR6lL9aARlEZghNisHZ4Cp2QAqL6j3dIyzLAuVGh6u75DU8JXaOE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hb662xZ+; arc=pass smtp.client-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hc6D6NP4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CL/VsI7YifQ4s4kuRxfHf/bUSdIr9m8UMBeZP6FiWt2s6GxzqaR4Uf/k4WBk+SEPOxptbUai6WfJBNdIJlYujjRT1WFLL3q9NeLjMkznEUN39DgLp5yoi5puTScaTLS7IsruUVMwh4bk1fV61nn/l9WUdAaMCqltg7snB5r8ZyNrictvSHWExaCn0mCeUdsZIgUh6n4p5RhdNiGKlcnwaNMZkMh4smbawIdvdwmzun6eGlWs2O2hRFKP1EvGo/PG7BCXb1UB78yZKe7+Jp/Yiwzc75E73yBpeTSwK/CtLIZBknQ24XorwvuNbIdUP/ibu2FV4Cyg/Lce6TZVtYmIAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9WBFRX6BPgREUxNFn/NzQLKTj2SXHm/y7NBLmhaGT1g=;
- b=JtstkD/5COxFr9mjUZczV+mtBh+rsxFxX5cizRBW/D07qQRm/JF/gAxvAtGy4WFmcxJ4DLvZvD/xjh5PJKio20MjbKzdhSQCTVJ/HiCuhNXOyBb1kZ3hyIoGstSqfF5+TrJw/u49iUA+4PTCbtU5zVzZog6r9C3VqGPsT46KFA0pkD/S1yRlyaJW0+edeAakyR3yLTFaW8yRWZkYrc3NVtfllY0XNGH9HtHYccG0Lp6HWSrEFyvTEhqUctvRwMl93XddXsqHYbwd8UR6MyRB46AtVf6GhQj6JSR3FYOiZmrO7IGPZGqZg5aYI158ealy6iruWryWwARz3BN4AOPzHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9WBFRX6BPgREUxNFn/NzQLKTj2SXHm/y7NBLmhaGT1g=;
- b=hc6D6NP4VpsGty/Sy2vj7wblojOJIZBhnFDKhQzX142p0QS8VQLp4AkY0yUbHY2/0VVprIUrMoykDIr6MteYllGUX3ZyHW7jjnyxtPaXDIhARkm7sUt4IVdAIFl3p9uXuCbPg3zKW412zxnfNAUOdZtcDAFwnj3nym2D9e1rlAI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
- by SA1PR12MB9489.namprd12.prod.outlook.com (2603:10b6:806:45c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Thu, 13 Aug
- 2026 08:59:49 +0000
-Received: from CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
- ([fe80::3a41:55a0:8203:596d%6]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 09:11:49 +0000
-Message-ID: <5810d8cc-78cd-42c1-a671-2d562ea6d7ec@amd.com>
-Date: Thu, 13 Aug 2026 14:41:37 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] EDAC/versalnet: use put_device() on device_register()
- failure
-To: tarunsahu@google.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geoff Levand <geoff@infradead.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- dmatlack@google.com, Borislav Petkov <bp@alien8.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, djeffery@redhat.com,
- Tony Luck <tony.luck@intel.com>, skhawaja@google.com,
- Russell King <linux@armlinux.org.uk>, stuart.w.hayes@gmail.com
-Cc: linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-edac@vger.kernel.org
-References: <20260810162814.1398016-1-tarunsahu@google.com>
- <20260810162814.1398016-4-tarunsahu@google.com>
- <9e189214-1274-491b-97dc-1b943c6c5cea@amd.com>
- <9huzbjb9hrf0.fsf@tarunix.c.googlers.com>
-Content-Language: en-US
-From: "Pandey, Radhey Shyam" <radheys@amd.com>
-In-Reply-To: <9huzbjb9hrf0.fsf@tarunix.c.googlers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4P287CA0080.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:26b::8) To CY1PR12MB9697.namprd12.prod.outlook.com
- (2603:10b6:930:107::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hb662xZ+"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7e9ecd7216cso105908a34.3
+        for <linux-edac@vger.kernel.org>; Thu, 13 Aug 2026 11:55:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786647299; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JCOhjYItMfFlesQ70FCHk/ilMWDXJfCN8B6z4XSiYEKzaXq9okH56otcjmBVhwqMGW
+         5Hz4vtm6+C2svUyGJVCJQ9PbQPXS3ofVNdBAeZcNRjrCD3CxJEfKJGT/S9MjZKmB9I21
+         LC9Xyr98zRGkxqcYibZROBF3AQJirwQ7NVbSSywD7/VedHeyfEeC1BjJyR8XsUG91M+/
+         cVYD1HRObtbNSqNvNtGpCe9fn+CPNkiUqgZj/qEuUfprn2lgqP/I+mxY2vyzr7+6pTtW
+         0GyyJ6S981PQMjfleRc7GOw8INiU6A1XpUW/RL4xya0rYUK051nlmcgYrr7pJ5Y2gbmW
+         FgiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4D8xAVPVQumphtAB0QLf5r82YP3dFNVcG1VBTYgExPI=;
+        fh=+ePt8Noyn7u9MCpdpMZK0cibEcRqZrv7iASR0JCYlfE=;
+        b=ppynsPD1EKF0jjRlj0oHONw+NzreXwR4znnZi1EbakfmcmNLA5XCBLZofyoHdBroyC
+         TuhWKfhUYdG/ST+Tl4st3c6Np8GZnnDxlR62xoij2zh+TsrrsXEsqH9rg0psrHADMmkS
+         bRjGRx41FEa5zfUBOxxfzQx7lGMNsJSBmufKodX1kTR/INhrXN3X0upCPH/xclTsGOJs
+         WIGTL8CjScVeG+5oYLXmJBxqU8FmcnBVTTCA3YYcwvqNtx03vGo2CY7FhUJ1dhqJXw7d
+         VLu3nXM+EFf6eEFyLAGkdBgvhw6iz2FgYLreG+gBGHq0ogDpqcdeUozWgXfJAa215xxY
+         jjgw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786647299; x=1787252099; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4D8xAVPVQumphtAB0QLf5r82YP3dFNVcG1VBTYgExPI=;
+        b=Hb662xZ+DWuhLhaaGHLkKwhvVQkAyjuu/PDNAfrIObBmSVhXeN5Gd7WV9Tj/Da6tlP
+         HhTkaB42si8PfQUj565U6maiY4Ko7hf50VQAEH9QvZ0mXUFnQji/vjRcGiHhBxqlY/IC
+         ydGjxxG4oJDa+kyPJP0mp5624mcrPpInWRn6HBrqkCBg2c9VhFWICjbbC6YQC9cdRgX5
+         akmXV2iIdZysTz50F5YhtEnW2ll/mTW6wH5PZlpUbw2BYe4z8GqBp8jMH5pjyyVhLQ8j
+         HjKaonWdjXjGgwdW0jzBpo+HQnSuSC9Hs5Jxak29ZbQfmFCH1mMWyFjxnFANMh2V6+8n
+         ZmzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786647299; x=1787252099;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4D8xAVPVQumphtAB0QLf5r82YP3dFNVcG1VBTYgExPI=;
+        b=LhXBuBpneDBZMOosNg/9JXrJDVcv2SRyR79gh7TBlxOXisr6YXbVncQThhadHAP1xl
+         PV/aqeFOMRGmdEdUHt6gp2HNLrWHS/jzH4cA7Zy9DcEFw/gvHs7BjRtVrHpBE6xapd67
+         sgKdqtrDCiNnXb4EwDJhcGbGyyoSWXEsuv8yhSvnDPCHRDRLZlqVJcdQM17l38mzsBfH
+         BksmIoFsqtPwX8JoBjXFZZGRDpmsmBZ4Sv4qDYdhwjXQnnwdCshDQMKEb3ZCtjOXI6Q0
+         CvRt1qq0Jgx/LHIQLgCAg9c8QjFjbcbnXCZ/j6kIbcCb1Gc2t+np7wjWbsBPe2sleGHa
+         Mj5g==
+X-Forwarded-Encrypted: i=1; AHgh+Rom1nXNE9r4HYT8eLqoRVn7H8AweY+99eZjy64kDaJYirrq69lyywU4Oks0l4obMNtUMOh2xEybAQ1O@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgnN4mZyYD21D+qJLpK63x4WAd/kzQFAsfaiTVszZVxARnhe96
+	yYC2OGBQxUMau5jMYJs36XkH+0cUb6KjwDzYcPAuKbVhXxmbG/DqLWhvRjl17og/2tkOd3EG1ov
+	MNAgm9I87Sp2sHtzSRim6ijDnCoNmNg0=
+X-Gm-Gg: AR+sD11S1Ky7DgvYOpcgJykYcCZ/C+u5LMzXqj078vEKHYvMiuy1SxwH0PfOVpYWKkj
+	u2OxSEOhwFRPvOphsoxk4I+6Yn92WAc2nCZlcSfBvkwHJ3KXzTvVCwi1fHFQeJAIJzIPUGDVspS
+	ny5A94I/0jiG2uahpECDikJ/67qz9oHvNRRvYVfqNU0JdH7mlorbkA5IzZapaJLFAVIOlpVhl8k
+	vF8LsEzgH/L8oZY14qX/tSGnaBRjNL6VhXh8QOXPIfTVz0jLKqWePD5TVwOiIn7O4vOz+EASEFq
+	eKNyPKby8WGR8HJESPbgiZNSOlp/cBC/oOLV4IRr8wZt
+X-Received: by 2002:a05:6808:1456:b0:4b2:3e72:bab1 with SMTP id
+ 5614622812f47-4b2413e7cd2mr156530b6e.6.1786647299226; Thu, 13 Aug 2026
+ 11:54:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|SA1PR12MB9489:EE_
-X-MS-Office365-Filtering-Correlation-Id: f37db8fa-ad28-4966-3dbc-08def91ae7c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|7416014|921020|11063799006|10067099003|56012099006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	JL2PagGibDBbb6WHLY6f9GD7Qvx4D/DlLdjycybkGmnpuu8s4yJIu47VZnYNQZIRJ4cV+q6OxZLBxrfanipt2X+xQo1daI733iPlmcDiWHBvxM8xQW/2URDMDFtf53l0nTDhcF3FU0NO1OGSjhaB8DTd6XmJqxhaopRAPT+pwh1zHleQGzeDZJN50/vWLvOiQTr8JsIvZkf96YacmENTp7x3d6v9C2C3QDSFGJWuojeOy/3EOiAwm8IqxFibbq9nmtCsd5ingt+ihh+/Jz0juFvi+pCwhfa58aLTH56+n5q4ElNJOIk5k0yG7OuTmdZVZvS5dvico89m7rIwX2CDj8uCO0gyVasZ6Ixf4PahdH5qLksTKwrUnBEOHHj3YB9uSnurCr8cFWMTPwJNrkJ25BaRWmxArumTOGQK7LAkOnbrW+4zBvau3ma9UkprmrkMS6Q85f2pEsX4Mcuih+inGiZAA35VadrysJQdRFJ4/S4WrH9sUTx1icmfFTtNRBYEn/3qZH7Ugmg89yp4bEwtdQuTuRtRN4cNYYuC8JA5VoiLGvO+C9sF3juaTFcCMNQT3xW71Z2w5239SsdKMCc0eCq8YhOtatjHopMephSEAalY2YrLxT/rVoBHtOwLKZ8XbQRH4QK5Eqfh1TPCERIdEeVqauZhmnhJquV3Gz/xF2Fk5OpVjpGx8FlkWr8v3C2foZ76L23IaFQ6XPtWXROiOA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(7416014)(921020)(11063799006)(10067099003)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SnFDZktNZU8yY0xlcE9Qd0xuanJmb212VHRkcUI0aWcyZzlFYjhLcC9Obnox?=
- =?utf-8?B?RWlFQXlRa3hib2N0cExEaWpyN3lQcUFzVUltQnVZOFZLcGFrc2lkUGhYdnhG?=
- =?utf-8?B?ZnRXNFhjMGNNMUtjUEF6alpDL2M0YUdYMzBtNXd5UFFLRVlIL1lHY1NVai8v?=
- =?utf-8?B?ck9UWEF3azNrTGcxUnlVSmJYOHEvRDNVQWhnZDNrV2Mxb3kxVzlhUkdldkpa?=
- =?utf-8?B?M21jZXMwZmR0ZjNmT2QrekUraCthbUxoZmV4Lzc1QVRieE9IRFlEQW9RQkI0?=
- =?utf-8?B?ZHlkZm0ySVl1VzFCaWRJeUVoQ2ZNWllONzMrcWNpY0Q1NXcyMHpnbUhnOEE1?=
- =?utf-8?B?a3hpUlp6Tk56K2xZdzArSU04VGVuY3dDM2tiNzVtRE5hcUxjMVlPSjZPSGpi?=
- =?utf-8?B?dGZvbEZ5dzNLQlIyMGFsd0xzcHR5MDMrSFRaRDVVK21hdDhicnh1SW94ZHhI?=
- =?utf-8?B?UGhKaHpmTDZXZnBpenNOU2dmWU1WT0daMzNtNllwdmpERTJuRlBzb2FxMnBH?=
- =?utf-8?B?ZkVwL1NXTGlzT2p4ck9MZDVZMWliYlZzY0pXRXBUdmorcGVNS1piallYRXR0?=
- =?utf-8?B?UmJCbmdld0xuNDVhMXJqWGJHV2tYcHZyMHIyNjdzWFNGaGVGTVVtYXk3TkRV?=
- =?utf-8?B?Z25CSVAzVlhqNVloaGVIekJOa1htdDdSczBIVUpScmRaWGltdWdtVVRtWjZr?=
- =?utf-8?B?RlF3LzFkYzhFM0dhNFZMZkkwR0Q1Y0lwZXdHSjd6ejJWUDhFeDVYSk1vSjFF?=
- =?utf-8?B?Zmw0WWRsdEkvdGpZSDhVQXZMOE1LaGVESVVaMk9kU1o0R0tKYkZIUWRRTUlN?=
- =?utf-8?B?ckErN2laY09mM1BzSXcwLzBNaVIrakY2ZnQ2NitKM0xOeVlFNm0zYTlYN3dn?=
- =?utf-8?B?dGxaSDBFZmV0NmQrKzgvNlpnUmZ3WFZsZUE2K1R4T29UVkFPQ0RTc2EwOXpr?=
- =?utf-8?B?a2hPY3hEbWxmY2o4M2o4MS85SkVuVzNyZkFjVFBHanI5RmdSNCtSSGtBeVEx?=
- =?utf-8?B?V3VKbHdwa0Y1M1k5RUVOQ0hKbTh6RGFHT1VhWkM0MkJIMXRyeWJFS0xaa1VB?=
- =?utf-8?B?OWpCblVjeDl6ampianJGdUlFVVdsZEp1MW1DM05sVWZZTkh3M0l4M3pZYkY1?=
- =?utf-8?B?VkJBM3lNSWJIbE1pZUhTTlBHaDdXOFZ4Mjlna0xpdUY1WnEzNHFsMDJoQi9a?=
- =?utf-8?B?VUpyN1pwN1JTU2VxQVNLbmRIV0t1VER6SUdtMVFERjQxNU5MTTZZSjZQZ2Nw?=
- =?utf-8?B?OURYN0lQMHVGNFR5Z0gwOWRUTHd3aWJBNlFnVmFtZHZvTDUrU1owdXE3Sk1V?=
- =?utf-8?B?MGtlNFptTUsxdDRJbldoKzRERTdjZlVRai9mdmRsQitSQllwUUxoL3E4aFNT?=
- =?utf-8?B?MWNaNUJwamxua1NONFNpSnV2RGQ3aXRJeVBGWXBpK3lVVDFFL1pmL2NaUXE0?=
- =?utf-8?B?TkExb1lpY2N2MWRTbzVIdVpsajFBUHpjYjFXUkRMZUgxSitrQWp6TUJXdmF1?=
- =?utf-8?B?bzlKNTB6Njk0eWRqYWV5TnhrTy9nNEhyQ1dhanlIWUlrWHNTd01pc2t1YnN1?=
- =?utf-8?B?Q3VRcXAwOUhHVDI4c3pFVnZRdzU1UXUzd2RzRTVyU0o5RktRdEYveFNaTnVH?=
- =?utf-8?B?UXB6QVRWYnovSndBM0I1d3Ivd0hIcnB0ZG1URXBmb0pndlhWb3k0OElUeTFD?=
- =?utf-8?B?U084NCszN2pTMG1PMkVvRmt4Y3oza1hiUkphOVV0L0NMVjN1YWpNV0RyMjVU?=
- =?utf-8?B?Vm9VZ2RUQVd6ekVIelBka2NkQzl3WUlsQWtyZHkxSndVbzFDRUg3djJDU1Zx?=
- =?utf-8?B?V085dDA3K0RIRXk1dkpyS3ZwRFZyd01Gc09lVFluL2ZZNXZ4MXYxWTU3MHZE?=
- =?utf-8?B?bWVPVnVyQWtIY3dSS2tFZllRTi9GTEhxV0NjdkFHWWZZSStDYm1YUElQY3p4?=
- =?utf-8?B?RThwWnFCenlFV2xWZDgrVUg0endPbSs0ODFGNzVsL3c2VVZxd1JkMVJxMFdQ?=
- =?utf-8?B?M3BCWVlPaEttaHBWYjZYL0pFbU81VVFxK1JLcENOS3VpT29SYzUrUDdIS0E2?=
- =?utf-8?B?TVV1Z0hrdUJCTEw0NDgydEllU29VVnMwa0hmZlhjbHc5b0s4dmdkVFg4eXgr?=
- =?utf-8?B?T05JYnJoN0ZhRlUyaVc3eTBadGd0TVVKcjcvZlIzN2FiK2pZOEhlTlhTbE1m?=
- =?utf-8?B?QkVLNUdkcjB0d1dmdGM5cndMeEZ4MEcrL1RqSDQ3Ly9CY1NQdFJ5dlNDVVFk?=
- =?utf-8?B?ZGpmVkdBK00yaDByOTN6Z0dveW5LMkNUeDF0bFhZT28xNVpMMS9PVkp5aUE1?=
- =?utf-8?B?eTNBdHZ4b1IxZWRvVXh3dlZKQ21QTXhYZFgxRWJ6cnJDZE9CZG1Xdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f37db8fa-ad28-4966-3dbc-08def91ae7c3
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 09:11:49.0567
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BPUZHpiY2GKMhGiIt8Bgvd1UcRc1+JhKdkT2+Ou8+OSo/0PlP5CyrAi2we+DCBxK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9489
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com> <anvRn4g9Ihn5eyVq@hu-ashoraj-lv.qualcomm.com>
+In-Reply-To: <anvRn4g9Ihn5eyVq@hu-ashoraj-lv.qualcomm.com>
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Thu, 13 Aug 2026 19:54:48 +0100
+X-Gm-Features: AUfX_mzK2KYq66enN11TTUyY_bgBfEgK88jDGTBrTGSa-gkPWcIl2Tm-4YHdY2Q
+Message-ID: <CAG4KcRJR9+KMsoWjUWjaMveTteqMUrFukTcRgb0SZ593Zqj=tQ@mail.gmail.com>
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature table
+To: Ashok Raj <ashok.raj@oss.qualcomm.com>
+Cc: rafael@kernel.org, bp@alien8.de, akpm@linux-foundation.org, 
+	rppt@kernel.org, dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
+	mchehab@kernel.org, jic23@kernel.org, linuxarm@huawei.com, 
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com, 
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, james.morse@arm.com, 
+	jthoughton@google.com, somasundaram.a@hpe.com, erdemaktas@google.com, 
+	pgonda@google.com, duenwen@google.com, gthelen@google.com, 
+	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
+	wanghuiqiang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/11/2026 4:09 PM, tarunsahu@google.com wrote:
-> "Pandey, Radhey Shyam" <radheys@amd.com> writes:
-> 
->> On 8/10/2026 9:58 PM, Tarun Sahu wrote:
->>> When device_register() fails, calling kfree(dev) directly bypasses the
->>> device_release() callback (versal_edac_release) and leaks the allocated
->>> driver core structures.
->>>
->>> Fix this by calling put_device(dev) when device_register() returns an
->>> error, ensuring proper refcount decrement and release cleanup.
->>>
->>> Signed-off-by: Tarun Sahu <tarunsahu@google.com>
->>
->> Thanks for the patch. FYI, this issue is already being addressed in an
->> ongoing series.
->> https://lore.kernel.org/all/20260724171945.2812749-5-shubhrajyoti.datta@amd.com/
->>
-> 
-> That is good. Should it go as saperate patch or it fits very well with
-> the above series. I will drop it incase of later. WDYT?
-> 
+On Wed, Aug 12, 2026 at 2:51=E2=80=AFAM Ashok Raj <ashok.raj@oss.qualcomm.c=
+om> wrote:
+>
+> Hi Shiju
+>
+> On Sun, Jul 26, 2026 at 10:28:11PM +0100, shijujose2008@gmail.com wrote:
+> > From: Shiju Jose <shijujose2008@gmail.com>
+> >
+> > ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS=
+2).
+> > Driver adds support for RAS2 feature table, which provides interfaces f=
+or
+> > platform RAS features, e.g., for HW-based memory scrubbing, and logical=
+ to
+> > PA translation service. RAS2 uses PCC channel subspace for communicatin=
+g
+> > with the ACPI compliant HW platform.
+> >
+> > Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
+> > Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
+> > Co-developed-by: Jonathan Cameron <jic23@kernel.org>
+> > Signed-off-by: Jonathan Cameron <jic23@kernel.org>
+> > Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> > Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
+> > Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
+> > ---
+> >  drivers/acpi/Kconfig  |  11 +
+> >  drivers/acpi/Makefile |   1 +
+> >  drivers/acpi/bus.c    |   3 +
+> >  drivers/acpi/ras2.c   | 509 ++++++++++++++++++++++++++++++++++++++++++
+> >  include/acpi/ras2.h   |  57 +++++
+> >  5 files changed, 581 insertions(+)
+> >  create mode 100644 drivers/acpi/ras2.c
+> >  create mode 100644 include/acpi/ras2.h
+> >
+> > diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+>
+> [snip]
+>
+> > +int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd)
+> > +{
+> > +     struct acpi_ras2_shmem __iomem *gen_comm_base;
+> > +     struct mbox_chan *pcc_channel;
+> > +     struct ras2_sspcc *sspcc;
+> > +     s64 time_delta;
+> > +     u16 val;
+> > +     int rc;
+> > +
+>
+> [snip]
+>
+> > +
+> > +     /* Ring doorbell */
+> > +     rc =3D mbox_send_message(pcc_channel, &cmd);
+> > +     /*
+> > +      * mbox_send_message() returns a non-negative integer for success=
+ful submission
+> > +      * and a negative value on failure.
+> > +      */
+> > +     if (rc < 0) {
+> > +             dev_warn(ras2_ctx->dev,
+> > +                      "Error sending PCC mbox message command: 0x%x, r=
+c:%d\n", cmd, rc);
+> > +             /* Restore CMD COMPLETE bit on error */
+> > +             val =3D ioread16(&gen_comm_base->status);
+> > +             val |=3D PCC_STATUS_CMD_COMPLETE;
+> > +             iowrite16(val, &gen_comm_base->status);
+> > +             return rc;
+> > +     } else {
+> > +             rc =3D 0;
+> > +     }
+>
+> Minor:
+>
+> Sorry, I missed in prior review.
+>
+> Can the else after return be removed?
+> just set rc =3D 0 should be sufficient.
 
-Please drop it from your series as the fix done in Shubhrajyoti's
-series is complete.
+Hi Ashok,
+
+Thanks for the feedback.
+I will make this change if another version is needed.
 
 Thanks,
-Radhey
+Shiju
 
-> ~Tarun
-> 
->> -Radhey
->>
->>> ---
->>>    drivers/edac/versalnet_edac.c | 6 ++++--
->>>    1 file changed, 4 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
->>> index 97ec05d68bbb..2912b3658915 100644
->>> --- a/drivers/edac/versalnet_edac.c
->>> +++ b/drivers/edac/versalnet_edac.c
->>> @@ -829,8 +829,10 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->>>    	dev->release = versal_edac_release;
->>>    
->>>    	rc = device_register(dev);
->>> -	if (rc)
->>> +	if (rc) {
->>> +		put_device(dev);
->>>    		goto err_mc_free;
->>> +	}
->>>    
->>>    	mci->pdev = dev;
->>>    	mc_init(mci, dev);
->>> @@ -852,9 +854,9 @@ static int init_one_mc(struct mc_priv *priv, struct platform_device *pdev, int i
->>>    	device_unregister(mci->pdev);
->>>    err_mc_free:
->>>    	edac_mc_free(mci);
->>> +	return rc;
->>>    err_dev_free:
->>>    	kfree(dev);
->>> -
->>>    	return rc;
->>>    }
->>>    
-
+>
+> Cheers,
+> Ashok
