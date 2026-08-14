@@ -1,101 +1,115 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411E826FA60;
-	Fri, 14 Aug 2026 03:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BC433D4F0
+	for <linux-edac@vger.kernel.org>; Fri, 14 Aug 2026 04:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786679810; cv=none; b=TWJZTx9muVbgycWxANfwWYINkpKP1SMhZfQ3NKgFKIN0yFNjFP5OOSAKJTdm4GhzryvOwxXPqR3+0UTdYTiW+Ci3yWjmdS2evzzMo+GYgjWOWNSOEMUntRD/2FZU/1VrQY/6LWr1lBI98ESvTaKMrsjI4lYBOmwGhYexsr83cKU=
+	t=1786683274; cv=none; b=FqLqbfy1wlET4g71UVukwaN0rdGAOBPMDk95bv7e4ctuLsP9snAMfjDY9Ae6lpWlwRHJ3fkPUBnpfQI0k9NxyuH5r6sjwBddVVkQVj6XiQr8zO9w3nwm+DvITShEEd1Xq+ZTuOn0dpeWQcyd2KrySWZEH5RJo9Jtw/Vv5dK/3eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786679810; c=relaxed/simple;
-	bh=/bxYWHRMtRSYtGXydwgRnz1yaDD9XFxmxSkGatI/Z4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C1px7xTEmR8OlerR9WYQJCqG+FdSDv78m3w2lgzyErvvGXuAG3tco/fniVQIQ5Wl1jFrG7CTA09v3+QC2f1E/tAVr94bqHf48W++fvHqst++u8Nfsb2t9Nv7b6AmHG+qqqEmzP736CzdZXzsoI229cS3qx2z+IQDHYnI2bSztnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=B7iF9GvX; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1786683274; c=relaxed/simple;
+	bh=ciLA9/0CvxUVTi09iV/ng9qyi2M/3iBcMy/BD1oAyu8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ANz1gnk6I8BgWoP1RPSSNk7qg9eu5jo7beobOdvzoHhkNeJT1H7CSi/LuxaTseGS5F9pCRH358Q66h5gTiJl8bDmmBmAAGQp1crSXx77imcSS4jaiJEXf5jA2K/mIE0FeFNPedCkvbJyw3mMDsYAaI43AhKr6hXVvDlcEL6hIfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LCB5ZiWP; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="B7iF9GvX"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CB9E140E0031;
-	Fri, 14 Aug 2026 03:56:44 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 60FRtOqCLnTH; Fri, 14 Aug 2026 03:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1786679794; bh=Q67dQ+6gdr5vpLb6ofSNxryrO5qN2AtuJzCoKQDqoH0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7iF9GvXKne4lZe+MI9aMqMLOO87sqd3p508VnH8Q4OvXHUmJE/iKtPwfsriXOA9Q
-	 3FXLbo8CfvZAWmv+PP0EDPFIEnR/tYt/AcvwfKMdlJgbUC/SJfTAsS/P5qxuRRA7o9
-	 RhlbU44dMibMpQIu9nrdJhyFEyR4CG1qpeK1/GT07vI18UQc2VUiBBSt82GHem+rfM
-	 lRdrexUvROqdr5a512gJHwx9x/ipq9E4utRagHgPWXX5nuSxJ8NBhne8CUKq4+sH+E
-	 cXSJ57Npt96X22cb5+ceYW6CZSzB3hCIy5YPQtrUX5V2fplju52DLazorz8JA2TacZ
-	 0aWgx0EVVxB85VfDQbIylRcZrVnUEGj5E6MriK+zHkNR3FPW1q7v+jQVBodEQW59ZW
-	 30CMC9YCKFlY7z1im6eNsx8uHGAg11QZMe09ShAKJbTxBm7zkWzi58ztgWToS9+fXd
-	 HiR0E1kkDRcobNCuHS7ghioVKjFHyl2KRssIXD06FvF5iFx2dCz22ZP6AujGp6xO5X
-	 8pjGpb/7Dq3ObP8L+bBfR9CKBEsTujDi/DePt0PCP4kKyzd24YVjTZ7Su4VEwFkeOy
-	 trFKTt+RC9sl3liwOEbNzM6fX0orarXU46r68hZsa1VA7pD4bufWsTfzsSOU2tPiZq
-	 Kw4AFNy7H3ThPA0gEZ++XGaY=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5E9FE40E014A;
-	Fri, 14 Aug 2026 03:56:27 +0000 (UTC)
-Date: Thu, 13 Aug 2026 20:56:24 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Dinh Nguyen <dinguyen@kernel.org>
-Cc: tony.luck@intel.com, rounakdas2025@gmail.com,
-	niravkumar.l.rabara@altera.com, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCHv2 1/4] EDAC/altera: Add suppress_bind_attrs so driver
- cannot get unbound
-Message-ID: <20260814035624.GCan6R6BgX0EoB6-DO@fat_crate.local>
-References: <20260806155412.1518582-1-dinguyen@kernel.org>
- <20260806155412.1518582-2-dinguyen@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LCB5ZiWP"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38e347638adso718136a91.0
+        for <linux-edac@vger.kernel.org>; Thu, 13 Aug 2026 21:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786683272; x=1787288072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wDBbBt18eV5juf49KKXCNzd4XlMk7Rf10mjPIDLpkKE=;
+        b=LCB5ZiWPsw+rW3pprP9IMN3BlCe4U+89zIo/jf+SKjcKKU9I7xFkoVg21E5+uUeJGR
+         M5Aa8n85/vMLXwTaFm8QmufSHSa1bsdDOuFVuf7CXsYUgrNiGd5y0mUEtLCKcAqLfaRU
+         I2URreuECWMvCjR2NzvA1AqExSxWtrglraNtdKj4Jd5UobCO+9eL9vF4PwBzDp8WdDg6
+         5dPXI0kxy5Ztw3WhRDug11GblXoFi89mR/g0Nn6BP4qeoBdkFONvUgD35jjZ0RMsXdWV
+         4jBHzvwe0DMAozYTRYE+YnXeBMeTjIsS/ibPepnnk06cccfLd82uWJ6wDpyC5xoWkPMG
+         ir4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786683272; x=1787288072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wDBbBt18eV5juf49KKXCNzd4XlMk7Rf10mjPIDLpkKE=;
+        b=UZogSeBdoEDh7fBqFIhJgVw6Pb0VBNTZyKuqIBGoz4RzHTSh5Lbyeelco0YP5cD6BG
+         jIk0q7JhfeYOQwPMZbT6CMNQiAFfWUtHrYKygbVpq4P0zN4UmG5pQ+sycMZdlUPSiI73
+         fEQqUCuwEt3qfNM2kOwiURw2oTKE/8ls0aFhRxz/gIY3SFnM6POWP0vMwqkmLjIRIdOn
+         9LOxA8lre+d2TEn6h73JM+S5Ef8Jq8Lwxb2S4IZSLZEpFBLeWubItKsnvZnpT7BwCvod
+         NGIVKpnjCYPchAmfGZDm6/HvgcisH/kJLrSnQ5komAkBHS4ZrmrVV369ycySHfF/pY5G
+         AsXQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr52b+R1sbgp82Q/Waeg+gakSXkU5ZxDAhxPFSYqCSf2q63bxXah8oS38+tIjVIJICoanOo67ImfUrc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzsn3RD+98NKDtSptAnVK5AUvN14PdZskauX8zUS/Mz3wYhEBlP
+	uLXNsK1hnNubyCvURAC7Dr7anohSPhU8b4YMMmgm4RCqnhXegHccvXpz
+X-Gm-Gg: AR+sD133Ry6OTprgJlpgFDHVQpksg4x35FAXxhGFrN3HqHPc6rVqsDW5c5FNfT2YN2/
+	Xl1rblvagziH1T+9yEuFhASbukt3IWC0BEltaLH1EtcmQGeOirf5fZN0HO5JAx95EtDOgWT0JIb
+	e3wvmDsgp9mFL/4ln5tlmpenZFJ5fTPycDke99GqCSnFyH6OVO3LJbagaWIyaecjyFRXYmCb4Y/
+	+peyOg8zxBxUraEDuV31Mq+1EQ991npc2vtLhFcffJhgJgjJRfgqtenZsWRrxSjlh2Gah9sGQt0
+	6BAALwOOILVbvBIadsmnbFkn+Dn9JfE9bSD3WGvIfBnnfbtMxZNBeCVwZPuM051SOYx4VcgN26+
+	pFRLiCBQVW8OGTCUMdnVds4+FR6U9NIOWHofbfNCU4UBlSgXrIb8WyCx9XRym5opWvEyobDRgzI
+	/LCX3MFyL762jMy0Bj8o/lheqO3BFStskkmxZudjN7yoX8Oz0S8ptrKXqTFGd9k8HNAy2UAcKv3
+	l+x1C6lC00it440pmsA16ZbE95wLOu9c1jNfcMOHbXy8tJ+F8/B55INt/ioatqpMhadvTxd5RGI
+	RA6D
+X-Received: by 2002:a17:90a:e18d:b0:380:7688:fbe9 with SMTP id 98e67ed59e1d1-3933b764d23mr3635810a91.8.1786683272515;
+        Thu, 13 Aug 2026 21:54:32 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39339ce3016sm617844a91.1.2026.08.13.21.54.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 21:54:32 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Khuong Dinh <khuong@os.amperecomputing.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] EDAC/xgene: Use platform_get_irq() for IRQ lookup
+Date: Fri, 14 Aug 2026 11:53:47 +0700
+Message-ID: <20260814045347.13841-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260806155412.1518582-2-dinguyen@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 06, 2026 at 10:54:09AM -0500, Dinh Nguyen wrote:
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-> Subject: Re: [PATCHv2 1/4] EDAC/altera: Add suppress_bind_attrs so driver cannot get unbound
+The probe function propagates any negative return value from
+platform_get_irq_optional() and aborts the probe. Therefore, the
+optional IRQ semantics of platform_get_irq_optional() are not used
+here.
 
-		...: Do not allow driver unbinding
+Use platform_get_irq() instead, which matches the existing error
+handling by propagating any IRQ lookup error.
 
-> The EDAC driver should not be able to be removed from userspace because a
-> re-bind would clear out existing memory contents of an active running system.
+platform_get_irq() also reports lookup errors itself, so remove the
+redundant error message from the driver.
 
-Simplify this one.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ drivers/edac/xgene_edac.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> With this change, remove the .remove functions because they will not
-
-s/With this change, r/R/
-
-> ever get used.
-> 
-> Fixes: 588cb03ea208 ("EDAC, altera: Add Arria10 L2 Cache ECC handling")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
-> ---
->  drivers/edac/altera_edac.c | 25 ++++---------------------
->  1 file changed, 4 insertions(+), 21 deletions(-)
-
-Rest LGTM.
-
-Thx.
-
+diff --git a/drivers/edac/xgene_edac.c b/drivers/edac/xgene_edac.c
+index 9955396c9a52..aae7e03b0573 100644
+--- a/drivers/edac/xgene_edac.c
++++ b/drivers/edac/xgene_edac.c
+@@ -1915,9 +1915,8 @@ static int xgene_edac_probe(struct platform_device *pdev)
+ 		int i;
+ 
+ 		for (i = 0; i < 3; i++) {
+-			irq = platform_get_irq_optional(pdev, i);
++			irq = platform_get_irq(pdev, i);
+ 			if (irq < 0) {
+-				dev_err(&pdev->dev, "No IRQ resource\n");
+ 				rc = irq;
+ 				goto out_err;
+ 			}
 -- 
-Regards/Gruss,
-    Boris.
+2.43.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
