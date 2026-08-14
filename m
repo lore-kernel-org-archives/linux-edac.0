@@ -1,60 +1,59 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E293126F289;
-	Fri, 14 Aug 2026 00:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0542882CD;
+	Fri, 14 Aug 2026 02:15:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786668267; cv=none; b=TMf5ANcS/u6qdrw93IIMdJVZpk7pkR9VU9Ox4Yc0Tg/MNKt/Uh9Ot7XpjQUkXbVJNRTx40tmOviFEueajHFZOYHSRkxj8Z57AuHsyCFtApx1M98rLS1jiLcxlOeie4Ah797VxpKMJKp3oljCxYFf10WM13LwU7y0ZuoCznez3TY=
+	t=1786673737; cv=none; b=Nm8WJK0051w0s7I/HkefP1H0ZU6JNRY0olr8Y1T1AnoNfTCBjTrXv8XMUaTJVFN5p5ETMN4P1OtFZ1xZKVdm+B+JUKcqol+Gz3tBlqqwpqmtpPiMtnSS3LGawoOmBksogE9FZj80+vHMiDfsmwI6JyYJfycMatTwB5ld2lGDQT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786668267; c=relaxed/simple;
-	bh=hwrqTBWRCml9zB/KmV2llNF5eFqsQ+Kriy/bwgsfnDY=;
+	s=arc-20240116; t=1786673737; c=relaxed/simple;
+	bh=CwhETf6zODOA/fylS259BkUX23OD2U4wgHQdLKOCR3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=spRQuZFTF9kOILk+fDoB5YzoGOUws/qps8VS7yUuEf8uIB5r/ydIu2gWWZA5L5JN3HgXEtxbdRIhwXPVue162S6n8nDxgWyJH6tnSunXMxdxDuy4w8m8bUDkcVVQ7B21lkt2LI0+K8qIYED+jx6oUvPzWmSDmcNV6BJ9o2SpmY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=iEZdEtHw; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=uiJPHH/hnmYZeshJidTswuea6SbkmQocqGM0fPYOYyIfRqTHZM0GHd4/Etxxu7+QyiuHMw2SAqdP/5OReoVGxy5U8RYjFUDscXWdKIWeaZVJIETujhssIzY6/j0b9F9va2+GoNndJqXu8Zc93kZzfSLXagpf/kp/L0oVoMcmrK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Q21Btc6z; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="iEZdEtHw"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Q21Btc6z"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D649140E019C;
-	Fri, 14 Aug 2026 00:44:22 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0CA5740E014A;
+	Fri, 14 Aug 2026 02:15:32 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id rPnkIJ1fR_zo; Fri, 14 Aug 2026 00:44:13 +0000 (UTC)
+	with ESMTP id eDR5hX1pNrqs; Fri, 14 Aug 2026 02:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1786668251; bh=SV6AhifRpNxO3jjztVsuuJVj/+NzYY34wziugDkFZP0=;
+	t=1786673722; bh=Eae1USIGEOezhPbFvUOsiKn5+741YI0pYyhyzHf5kf4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iEZdEtHwFul40IDazRCokmJSFtqJZ+0aMIZskKfqvEk5Ch+RhfRTiyxunvaPmhDQw
-	 kyWWJeb1BhxvMiC9G8Q5NdjvrsM+vWJB5F1NIQAEY3T0nmpAzciEWXlmuxzgmutkav
-	 1RLowVFnhDE1Jg4CX0a1fSobo2qxuoR/UkdCAJjYq4hw/JLn5xC8oRepqAr7IFcX53
-	 OEFAXZEtWnV4KA2zu7T6m32wsBwznDc82HDkWYNP4MXwqU8ee4BvXPJJtgZBn/92Ma
-	 RjGcgD/zc+vMYXb8Z3E31VnF83H18WpBLlZGL6l2JY0M2g6dYTBa+wTn7mY55zq3/p
-	 lYBOvr5lXCcl0FsK7GfBqPHEsODnCl3Bo7DC8VQV0lXFim198fcXOHCT69Lf2NKbDH
-	 CQlxZHJlhRxX/ILedbPSTY35EqoRa8j6n+k0+3Hzue12ncKgjVYPdc1S4hN2JpHGDr
-	 1pvYP/rLidUS2zweSZzNL/mhMmTAOft/EZyScShb0vDlThmS4K5tlDruU4/e8JWt8M
-	 LqO1xaSbHSgcyGuKsV1UlkFjSR92/UpC59tQ9fDv5A7t8MopnNEI5x8aRearw4yY9J
-	 CTQP601yG3NP/q3QE6D4gnBvc74x3Nb2pKv0GiguNttoUlxZzWv+HUPoTiRzu0Fc/7
-	 nHIhwc5KayYZ7Hf3UQwtwP1c=
+	b=Q21Btc6zL+cMM17vGX4KKwkcEL/WHm6GlbrZG/A7A/Ld1JGG3LS38zdOnjlFDo7KZ
+	 9Yj8On7EuGTRRB8jGzTfADJxtCJpkToCG4QLHoW1fZ3sNbvXYxjlgdTc2T60dZpM7J
+	 Kiw2pQ2E6OHCSAisdDb7F7IlS9GMPB29rHJi7MdZudkBkcSP/7VHcKNi1aiW6CuR6e
+	 oiwQDzw5xHSEW5FQyCV3crpEn64WRiq+94VuCR+w3K9yLI2u3TURSG6jlCRccOapEG
+	 fliPCkExZ1QOjjwr4/9ohQ63AK48N0SJGuzhINOqjTmBnulMsCcf2/UYYpPQy9cFVB
+	 FD4NwecvoovhOHmknKeKQgKBZBGc0s5Ai0QGgnH8XdUvOiOfvQA7t3LpgBfAxKFlpa
+	 HJ1yT9nOrrT0Y2V98gGYXepnbJ73oEtCiQuPg/x+LmveP45VZQiddb2vQYGtNFHjAb
+	 expLtNxBTnKHpUY9RpYhp4GSzy9oSsnVqY/3iACH18pls0evGDsiQG1jSrBYGN3cKs
+	 SsRQ9PsoNa0mQ8hN0H9cl4FpiN/TIpVVLLvKAxvAODrvdEcNb66iKhwobHlLLyYNcu
+	 HmOi0cuxsEcP9meWaGxcJEqYcr3Wpet/FZU4kPCrDr13dSCNsVoUxW2b0JrjEV+b6X
+	 UeVR2bAJSqwKIeOzXdIDtVZA=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::1b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2F67040E0031;
-	Fri, 14 Aug 2026 00:44:05 +0000 (UTC)
-Date: Thu, 13 Aug 2026 17:44:02 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8AD2840E0031;
+	Fri, 14 Aug 2026 02:15:15 +0000 (UTC)
+Date: Thu, 13 Aug 2026 19:15:11 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Qunqin Zhao <zhaoqunqin@loongson.cn>
-Cc: tony.luck@intel.com, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
-	chenhuacai@kernel.org
-Subject: Re: [PATCH v3 0/3] EDAC/loongson: Improvements for Loongson EDAC
- driver
-Message-ID: <20260814004402.GAan5k0g6WnRhL1zpj@fat_crate.local>
-References: <20260812064139.1231-1-zhaoqunqin@loongson.cn>
+To: Dinh Nguyen <dinguyen@kernel.org>
+Cc: tony.luck@intel.com, rounakdas2025@gmail.com,
+	niravkumar.l.rabara@altera.com, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2 0/4] EDAC/altera: Address sashiko reviews part 1(v2)
+Message-ID: <20260814021511.GBan56L1fI-AhQ1g39@fat_crate.local>
+References: <20260806155412.1518582-1-dinguyen@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -63,28 +62,20 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260812064139.1231-1-zhaoqunqin@loongson.cn>
+In-Reply-To: <20260806155412.1518582-1-dinguyen@kernel.org>
 
-On Wed, Aug 12, 2026 at 02:41:36PM +0800, Qunqin Zhao wrote:
-> This series contains three patches for the Loongson EDAC driver:
+On Thu, Aug 06, 2026 at 10:54:08AM -0500, Dinh Nguyen wrote:
+> Hi EDAC maintainers,
 > 
-> Patch 1: Encode node and MC info into mc_idx so that on multi-node
-> systems, sysfs entries uniquely identify each controller.
+> This is version 2 of the patch series that addresses some of the sashiko
+> reviews for the Altera EDAC driver.
 > 
-> Patch 2: Get DIMM size from ACPI _DSM method instead of using hardcoded
-> values, enabling correct display of memory size in sysfs.
-> 
-> Patch 3: Add CS4-7 timeout filter for cross-node access on 3C6000
-> multi-node systems to prevent false CE error reports.
-> 
-> Changes in v3:
+> I apologize for the lateness of this series, but I do believe these 4
+> patches are important enough to be included in v7.2 because they are
+> confirmed bug hits.
 
-Sashiko has comments:
-
-https://sashiko.dev/#/patchset/20260812064139.1231-1-zhaoqunqin%40loongson.cn
-
-Please address them: if valid, fix them, if not, explain why they don't need
-to be fixed.
+Sorry, it is too late for 7.2. But you've CCed stable so once I queue them,
+they'll find their way to the longterm kernels.
 
 Thx.
 
