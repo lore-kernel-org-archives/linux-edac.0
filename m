@@ -1,422 +1,274 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6CD3B2FEB
-	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 19:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36D018E02A;
+	Mon, 17 Aug 2026 21:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786996740; cv=none; b=cyu3YZAMkAs+xkoDa6EL4b5wRFpedriORBSfzjTn3GhHq0lfoSBNWv4WAqYQG8YwfWnK0FOpr1NAavsJBXTqUQh7CyjMTLHbeqVpAXbT8/mJXZuOoAqANOHbCQYdt41d4j563wiw8SD8z/zAroVnLZLlLvXrsNJxzPHG+DjB2kw=
+	t=1787001280; cv=none; b=b9H6z3MGj7npE1ft/ikbeIPVzLGumq6xS8p7f05Gdr1CBL/0FtVClL5Vd5yMri+60eUXtO8FPYV6/ukeRrUt4Q56ruFuA+k8Ttx/8257uAQPkdewt/NdciZf3eLDd6BHSqXfg6RsNz9yk4pPjJ+fcN/axl4ICsx/mNVwqOvpmGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786996740; c=relaxed/simple;
-	bh=X3Y2YsxXZpGBpwVI5sMhB6UkPUPTd3Rx87r5bJPvajI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mw45mRhzb19HOyfE7V0cKUt4lpl/f9/gGUYSAEtl7wvMqnT/y0cNJyYMOhl18qwXqmOIZ8/YCpUCfT7ykSk1L3itxI32mzWF98oi20Y3oLkmuIzwMCU/6pCS2JiSB0UKue7gc5KTCYI/1VRQOnS2fkbB1DjnG0nTcM1jevFhMrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Q0GJxCkk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MWZ+8BzB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1787001280; c=relaxed/simple;
+	bh=0Rv7NdQtmQ4fepQ/E0KbzEogFZNNWDMAwEM+R8MvYC8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Fjozm1siocXLdqQ6iM5FdQ3ryI76nZJ+Fy+9N39ulk7/Nso14AVnvdhQqw/lfX8t3kVJJAP76w8P+YrL83XqGsrrsJzQ9kt9SgppoVyM5RKf/l+hnt8CZ1S5GgDL+Lv9kBqiyWgCTI9NDqxUd/Vv5Kb5vpf/WlzhIcc6VFNkVGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHFZPn5G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q0GJxCkk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MWZ+8BzB"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67HIR4DR2211081
-	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 19:58:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	I6KZVUu0NOdGo4+fh3bcS297v312oyXU0yQQKWOUJo8=; b=Q0GJxCkkdLSpHIAP
-	Uv4KfkhkkoUQr+kg/XD/av2u/8ChZ/CgZmzH8if8DEk/XK8FH5giKdPLxMzP2vor
-	LwBJNzb6walivvggEj/tXPZoOeJc2yEa1dKyE7Ri4JroeuoJ6yFVvN3Th/dSLqyn
-	rbEoCcGTJUEQxFAPak1r28oxHe3h2D/NJUQhZKl0ptu53VtremMPbh3vfgAL+keO
-	ocreXMhBmF7KLFCKrGahZTxfFKI6gtvRkrVkuDRx7vh5qQfCHaT7JFeaoA5HVWKZ
-	/xk9yuuW1LL7RyJIDoLu6FJYg7OMEuiCn2dEx+shX9+urJ0wiZWVeoZwicMGhQ4V
-	ED3EYQ==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g3x30jw77-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 19:58:58 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2d0e306c7d0so9573725ad.1
-        for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 12:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786996738; x=1787601538; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I6KZVUu0NOdGo4+fh3bcS297v312oyXU0yQQKWOUJo8=;
-        b=MWZ+8BzBw8+PUz9f4G1h5on8L0AsY7/7iFDjU8tVgir/fWlg/MSIa2SM1SU+FojvgG
-         u+jviInaF+XLnjmsKpdqb2kExfZf2qrBDmZ5i+abPUR+k+68Qaz4r6eNCsYFUoUBZGoD
-         UK/ii0JU06zGqlOYljwo8wVaFQofn8sYFYylr8R266x+u/QcdAKOPpkKzMxRwKH+vh1C
-         JKljCdntIrAtNazfuPpTIAehhmHloHk3e+hLTN2LpgTrEunGcJUAFywmOfcPTRgMXKzH
-         yDsGPTOn6xAYj5ZitA9KGY2nSZZ0/dc5MukUiXyMKwsACBvo27kG2NLy6SezvEaTD41E
-         4Y4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786996738; x=1787601538;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=I6KZVUu0NOdGo4+fh3bcS297v312oyXU0yQQKWOUJo8=;
-        b=cu61bhd1pcJfj2pd2M2//kRdDLCjF/oOyaX/5l5BPUYayniU6pjxYC+OBM8oLN6wJe
-         s5mbvQDTg8OaS9EFyBH/hVpM2kXkavytIlf8mkbowdbnPY4H0CLbBRvvIRbsNwsXkH2R
-         pVIR4ZmIsGuV9m/2yXryLkYTKy2ULCV0plhm2eAFvBNIQSnJm6Jk+oquQIjjs4PMLNN6
-         Hvhv3P/3654yupBLaGum1J/QoBTpLK0PRGUQp+ySyFIkbywttH995TqXyYNpipNfofDo
-         2wwC3q8kFemtBa+MaI2n59cu8O1BASMzHye9vj2NiA9enp56cd74ERSQ5zn5vKoLwVL+
-         grsQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrjt41lermat3QLHw2JP2BN7cQfkBV53Z8Yup2wyz3nEh6tANJYYV39PnfTzAbUHCLX5i5WJmP1yUMA@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYZPr9nV86lKBmTjl6QSol9oEvdJIOY/dGr13Mvs8ouL/vOiOa
-	oAJH7Y2+C2cLyJ+X2fP0pTvqF0lOHQS0vCVJ/KRLddaoof8ydKbbEygWvliozN/oOUo8ltGT62i
-	pIz5zpydAf5OjdRQTFpANJbheyWU0Cm517sScmi6EJtDel17yAn39g7ZbQEehHr6h
-X-Gm-Gg: AR+sD13jsm5jFh4n3XHpsR1Z6n90rWYCO8EEmdgCqKBFv8adRd7UkYkQwIEVmHU+h3A
-	r7Eafi2IPUta3ANA1+fjbrIe8emfvIabdLBwGmcYExwTWZhXJnDqKBMiZs6usWCEeSHMwTwdDVV
-	MCEgkQKyrwKQ15i4r0rYMDjEVPg1VTJog/BWqajEHR7G+hnXm72RPgvAp8nm27AxJFsPGSrUBOK
-	c6L3pXbwYHj9dem6XxmDQFlKWbxxXvzWlKIpsazs8e8hEWSi9W7i8xQxIfcI/tjcavoVqBo8man
-	T7S0apICQA28wUI/mbh39SHQaxPi4jTksRqiuJ7rWndc1N87KjR9B/8tMHyWv1RMLY6fHHWwMXt
-	tLjlScuaMGrsr1aqbRSLxczb8O7Q=
-X-Received: by 2002:a17:902:e54c:b0:2c9:ed4a:c3a4 with SMTP id d9443c01a7336-2d3b0503575mr194099415ad.0.1786996737330;
-        Mon, 17 Aug 2026 12:58:57 -0700 (PDT)
-X-Received: by 2002:a17:902:e54c:b0:2c9:ed4a:c3a4 with SMTP id d9443c01a7336-2d3b0503575mr194098985ad.0.1786996736646;
-        Mon, 17 Aug 2026 12:58:56 -0700 (PDT)
-Received: from [192.168.0.7] ([49.204.29.31])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326794c0c94sm16896499eec.9.2026.08.17.12.58.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2026 12:58:56 -0700 (PDT)
-Message-ID: <40a62967-48c6-4327-b6fa-a22f6b86412d@oss.qualcomm.com>
-Date: Tue, 18 Aug 2026 01:28:49 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHFZPn5G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C899C1F00A3A;
+	Mon, 17 Aug 2026 21:14:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787001278;
+	bh=XpWrrCf/UZVHJqT72sHUOhaWn2YvJkh2BjXNlpOff08=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=lHFZPn5GqqaibcwBmiBHx87G7Do5IB3D4dPMP9mRKNdTReqxw6g4mhYwdymgxG2nM
+	 syFtBMarb6sq3vQIDjF8nbTBnkeCRMvuoktQ02k/X8K0p8fxue0b3fnHocs01mgphT
+	 11sIE1AezTkUjWovRDKdYKt7BUmfCq99sQwXbBXxJAfQSIVu6ok98PBzC3O5khSg0o
+	 d98nWgQt1lY2cp6Rc6KHaiAdC+TM80bOP5rDBhr6/eL/P4AJ9UlOdYKBX93ZgHcti5
+	 SrU0mvR61Jmi5rRLQf9nCBUfAfUQl88gPubxWyInYvcxVyaKMLq7ETnd4vkb8czJ9a
+	 nOscO5/9F8qBg==
+From: Thomas Gleixner <tglx@kernel.org>
+To: syzbot <syzbot+74de56995244fe32ffe2@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, peterz@infradead.org,
+ syzkaller-bugs@googlegroups.com
+Cc: Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+ linux-edac@vger.kernel.org
+Subject: Re: [syzbot] [kernel?] general protection fault in timers_dead_cpu
+In-Reply-To: <6a7ec39f.5b0d2c79.2ef4ef.0002.GAE@google.com>
+References: <6a7ec39f.5b0d2c79.2ef4ef.0002.GAE@google.com>
+Date: Mon, 17 Aug 2026 23:14:35 +0200
+Message-ID: <87ik58la9w.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: arm: ras: Introduce bindings for ARM
- RAS error sources
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Ruidong Tian <tianruidong@linux.alibaba.com>,
-        Tony Luck
- <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        faruque.ansari@oss.qualcomm.com, avaneesh.dwivedi@oss.qualcomm.com
-References: <20260720081954.1858180-1-umang.chheda@oss.qualcomm.com>
- <20260720081954.1858180-2-umang.chheda@oss.qualcomm.com>
- <20260731203515.GA1619665-robh@kernel.org>
-Content-Language: en-US
-From: Umang Chheda <umang.chheda@oss.qualcomm.com>
-In-Reply-To: <20260731203515.GA1619665-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDE1MiBTYWx0ZWRfX5+x1uYlukn5j
- fdUN/jPA5n5aH11D0+VnyhHjLJtPb+CCNoBe8x6dLkXC/7jKBWS1VZuBi6PufGgYmqQpPG88J5o
- YZLf3hawfc/npXLrRLS/VVip2i3QX623U2OtEiZ/p7fe4wT3IRrwam4CxQJeXBTbdsAH7Lo3hd8
- V8d42ZX1wg2dUelq8UDK8GAEpMV34YgKJgLhoGMoZuJ5aVqFVI8JMn8kpJZ9MoX35dixLpNz4Tz
- ukdq2EYbMZY9VyvAsyVZ204Ory0+Y1Iw96OXGyD1gPFsxelrDP30ssjVqeVa9LHg1BD9OCqQd4t
- SgI9NC0Ves+QjaGVwJHjRGXHHX30tLD/rIQuHBiCRSAFj/wiV4TWf7/flcCXSrLoyEoGeXRa0N3
- xpC/Ve7nERZp03o1SSu3CfSRrD1oeeQcBcnnsBaZTqVh0PORBLH5nM/YTUwDlrV7R5yJtxk60zN
- wNG3ffKrofMgYnuS6xw==
-X-Proofpoint-GUID: -nzTP1olHNIsPAgVbDUlwOBKLEohWudN
-X-Proofpoint-ORIG-GUID: -nzTP1olHNIsPAgVbDUlwOBKLEohWudN
-X-Authority-Analysis: v=2.4 cv=Y9/IdBeN c=1 sm=1 tr=0 ts=6a836802 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=UpYrFT5SPnpm06h6vIyJ/A==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=0BPv0DUFnjzqbVs4ZvsA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDE1MiBTYWx0ZWRfXzkBtgtiP0qet
- HVA2JHcgsemwW7Ht46qpEw0AbcIxZ9PEw/aHeO4A7zo0mynJSLZ0VDyRm8GLWW76fAiTlwNg42R
- wGpM6oBMOZC+l+h9VHbMsgL1Uttc/xQ=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-17_03,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- clxscore=1015 bulkscore=0 malwarescore=0 phishscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608170152
+Content-Type: text/plain
 
-Hello Rob,
+On Fri, Aug 14 2026 at 00:28, syzbot wrote:
+> HEAD commit:    db2ddb871435 Linux 7.2-rc7
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14ec2149580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=c44651ea7dd2f307
 
-Thanks for reviewing the change!
+This has NUMA_EMU=y. Either turn it off or add '-smp 2,sockets=2' to the
+qemu command line. Otherwise the topology code is unhappy.
 
-On 8/1/2026 2:05 AM, Rob Herring wrote:
-> On Mon, Jul 20, 2026 at 01:49:51PM +0530, Umang Chheda wrote:
->> ARMv8 and later processors implement the RAS (Reliability,
->> Availability and Serviceability) extensions, exposing hardware
->> error records through a standardised register interface.
->>
->> Add Device Tree bindings to describe RAS error sources.
->>
->> Signed-off-by: Umang Chheda <umang.chheda@oss.qualcomm.com>
->> ---
->>  .../bindings/arm/arm,ras-error-source.yaml    | 330 ++++++++++++++++++
->>  include/dt-bindings/arm/arm-ras.h             |  11 +
->>  2 files changed, 341 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml
->>  create mode 100644 include/dt-bindings/arm/arm-ras.h
->>
->> diff --git a/Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml b/Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml
->> new file mode 100644
->> index 000000000000..add7063a1a62
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml
->> @@ -0,0 +1,330 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/arm/arm,ras-error-source.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: ARM RAS error source
->> +
->> +maintainers:
->> +  - Umang Chheda <umang.chheda@oss.qualcomm.com>
->> +
->> +description: |
->> +  ARMv8 and later processors implement the Reliability, Availability and
->> +  Serviceability (RAS) extensions.  Hardware blocks that support RAS expose
->> +  one or more error records through a standardised register interface.  Each
->> +  error record captures information about a detected hardware error (cache
->> +  ECC fault, TLB parity error, interconnect error, etc.) and can optionally
->> +  signal the OS via an interrupt.
->> +
->> +  Each DT node described by this binding represents one RAS error source —
->> +  a hardware block that exposes a set of error records.  Error records are
->> +  accessed either through system registers (for processor-local resources
->> +  such as L1/L2 caches and TLBs) or through a memory-mapped register window
->> +  (for shared or off-core resources such as L3 caches, SMMUs and GICs).
->> +
->> +properties:
->> +  compatible:
->> +    description:
->> +      Identifies the class of hardware block this error source belongs to.
->> +      arm,ras-processor covers processor error sources (cache, TLB, etc.).
->> +      arm,ras-smmu covers SMMU error sources.
->> +      arm,ras-gic covers GIC error sources.
->> +    enum:
->> +      - arm,ras-processor
->> +      - arm,ras-smmu
->> +      - arm,ras-gic
->> +
->> +  reg:
->> +    description:
->> +      Register windows for this error source.  When absent the error records
->> +      are accessed through system registers (ERRSELR_EL1 + ERX*_EL1).
->> +      When present, the first range is the primary error-record window;
->> +      additional named ranges are identified by reg-names.
->> +    minItems: 1
->> +    maxItems: 4
->> +
->> +  reg-names:
->> +    description:
->> +      Names for the optional additional register windows beyond the primary
->> +      error-record window.  err-group is the error group status register
->> +      window (ERRGSR).  fault-inject is the fault injection register window
->> +      (ERXPFG*).  irq-config is the interrupt routing configuration window.
->> +    minItems: 1
->> +    maxItems: 3
->> +    items:
->> +      enum:
->> +        - err-group
->> +        - fault-inject
->> +        - irq-config
-> 
-> reg and reg-names must be the same number of entries.
+> dashboard link: https://syzkaller.appspot.com/bug?extid=74de56995244fe32ffe2
+> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12ec2149580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16d962c6580000
+>
+> Downloadable assets:
+> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-db2ddb87.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/698def9fcf7a/vmlinux-db2ddb87.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/fd8b6091a563/bzImage-db2ddb87.xz
+>
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+74de56995244fe32ffe2@syzkaller.appspotmail.com
+>
+> smpboot: CPU 1 is now offline
+> Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
+> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+> CPU: 2 UID: 0 PID: 6237 Comm: syz.2.92 Not tainted syzkaller #0 PREEMPT(full) 
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> RIP: 0010:__hlist_del include/linux/list.h:1029 [inline]
+> RIP: 0010:detach_timer kernel/time/timer.c:891 [inline]
+> RIP: 0010:migrate_timer_list kernel/time/timer.c:2493 [inline]
+> RIP: 0010:timers_dead_cpu+0x326/0x860 kernel/time/timer.c:2541
 
-Ack, will fix this in v3.
+This happens because the reproducer does two things in parallel:
 
-> 
->> +
->> +  interrupts:
->> +    description:
->> +      Interrupts signalled by this error source.  The first interrupt is the
->> +      Fault Handling Interrupt (FHI), fired when a corrected error counter
->> +      overflows or a deferred error is detected.  The optional second
->> +      interrupt is the Error Recovery Interrupt (ERI), fired when an
->> +      uncorrected recoverable error is detected.
->> +    minItems: 1
->> +    maxItems: 2
-> 
-> Replace description with:
-> 
-> minItems: 1
-> items:
->   - description:
->       Fault Handling Interrupt (FHI), fired when a corrected error 
->       counter overflows or a deferred error is detected.
->   - description: 
->       Error Recovery Interrupt (ERI), fired when an uncorrected 
->       recoverable error is detected.
-> 
+  1) Hotplug CPU1
 
-Ack, will fix it as suggested.
+  2) Toggle /sys/devices/system/machinecheck/machinecheck0/ignore_ce
 
-> 
-> Seems backwards to me that corrected errors is required and uncorrected 
-> errors is optional. Should be fine to not care about corrected errors, 
-> but uncorrected errors can't really be ignored.
+#2 is not serialized against CPU hotplug so it can end up interfering
+with the hotplug operation:
 
-FHI is the common interrupt mechanism used by RAS error sources to
-notify software of deferred errors (which are kind of un-correctable
-errors) and corrected error counter overflows. This interrupt is also
-fired on the event of an un-correctable error (UE). On occurrence of UE
-error, this interrupt is fired, S/W reads the UE bit set in the ctrl
-register and handles UE error accordingly.
+CPU0                    CPU1
 
-ERI provides an additional notification mechanism for "recoverable"
-uncorrected errors, but its presence is implementation specific and not
-all error sources expose a dedicated ERI signal.
+hotplug
+ kick_ap()
+ wait_for_ap()
+                        hotplug
+                        mce_cpu_pre_down()
+                          mce_disable_cpu();
+                          timer_delete_sync();
 
-For this reason the binding currently treats FHI as the mandatory
-interrupt and ERI as an optional second interrupt. I'll clarify this
-rationale in the binding description in the next revision.
+                        // CPU is still marked online
 
-> 
->> +
->> +  interrupt-names:
->> +    description:
->> +      Names identifying the interrupts.  "fhi" is the Fault Handling
->> +      Interrupt; "eri" is the optional Error Recovery Interrupt.
->> +    minItems: 1
->> +    maxItems: 2
->> +    items:
->> +      enum:
->> +        - fhi
->> +        - eri
-> 
-> Define the order.
+set_ignore_ce()
+  on_each_cpu(mce_enable_ce, (void *)1, 1);
 
-Ack, will replace with explicit ordered constants.
+                        IPI
+                          timer_start()
 
-> 
->> +
->> +  arm,group-format:
->> +    description:
->> +      Page granularity of the memory-mapped error record group register
->> +      window.  Determines the ioremap size and the number of error group
->> +      status registers (ERRGSR) available.  Required when reg is present.
-> 
-> Don't state constraints which are expressed as schemas.
+                        ....
 
-Ack, Will remove "Required when reg is present." from the description in
-v3.
+hotplug
 
-> 
->> +      Use the ARM_RAS_GROUP_* constants from <dt-bindings/arm/arm-ras.h>.
->> +      0 (ARM_RAS_GROUP_4K) is a 4 KiB window with 1 ERRGSR supporting up
->> +      to 64 records.  1 (ARM_RAS_GROUP_16K) is 16 KiB with 4 ERRGSRs and
->> +      up to 256 records.  2 (ARM_RAS_GROUP_64K) is 64 KiB with 14 ERRGSRs
->> +      and up to 896 records.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [0, 1, 2]
->> +
->> +  arm,num-records:
->> +    description:
->> +      Total number of error records in this error source, including both
->> +      implemented and unimplemented slots.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    minimum: 1
->> +
->> +  arm,record-impl:
->> +    description:
->> +      Bitmap of implemented error records.  Bit N set to 1 means error
->> +      record N is present and active in this error source.  Bit N set to 0
->> +      means record N is not implemented and must be skipped.  The array
->> +      length must equal the number of ERRGSRs implied by arm,group-format
->> +      (1 element for 4K, 4 for 16K, 14 for 64K).  For system-register
->> +      nodes (no reg property) a single u64 element is used.
->> +    $ref: /schemas/types.yaml#/definitions/uint64-array
->> +    minItems: 1
->> +    maxItems: 14
->> +
->> +  arm,status-reporting:
->> +    description:
->> +      Bitmap indicating which implemented error records must be polled
->> +      directly by the OS.  Bit N set to 1 means record N does not report
->> +      through the ERRGSR and must be polled by reading its ERX_STATUS
->> +      register directly in the interrupt handler.  Bit N set to 0 means
->> +      record N reports its status through the ERRGSR and will be discovered
->> +      via the ERRGSR scan path.  For system-register nodes (no reg property)
->> +      there is no ERRGSR, so every implemented record must be polled
->> +      directly; arm,status-reporting must equal arm,record-impl for all
->> +      system-register nodes.  Array length as for arm,record-impl.
->> +    $ref: /schemas/types.yaml#/definitions/uint64-array
->> +    minItems: 1
->> +    maxItems: 14
->> +
->> +  arm,addressing-mode:
->> +    description:
->> +      Bitmap indicating the type of address reported in the error address
->> +      register (ERX_ADDR) for each error record.  Bit N set to 0 means
->> +      record N reports a System Physical Address (SPA) that the OS can use
->> +      directly.  Bit N set to 1 means record N reports a node-specific
->> +      Logical Address (LA) that requires platform-specific translation to
->> +      obtain a SPA.  Array length as for arm,record-impl.
->> +    $ref: /schemas/types.yaml#/definitions/uint64-array
->> +    minItems: 1
->> +    maxItems: 14
->> +
->> +  # Processor error source properties (arm,ras-processor only)
->> +
->> +  cache:
->> +    description:
->> +      Phandle to the cache node (L1, L2, or L3) that this processor error
->> +      source monitors.  The referenced node must have compatible = "cache"
->> +      and a cache-level property identifying the level in the hierarchy.
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +
->> +  # SMMU error source properties (arm,ras-smmu only)
->> +
->> +  iommus:
->> +    description:
->> +      Phandle to the SMMU node that this error source monitors.
-> 
-> If the iommu has #iommu-cells >0, then this property must match the cell 
-> size. You can't have your own definition of 'iommus'.
+ timers_dead_cpu()
+   migrate timer to CPU0
+   
+   // Migrates the MCE timer of CPU1, which is a bug in itself
 
-Ack, The driver only calls of_parse_phandle() on it for identification
-and never uses the IOMMU framework. Will replace iommus with a dedicated
-arm,smmu-ref phandle property, analogous to arm,gic-ref, in v3.
+...
 
-> 
->> +    maxItems: 1
->> +
->> +  # GIC error source properties (arm,ras-gic only)
->> +
->> +  arm,gic-ref:
->> +    description:
->> +      Phandle to the GIC node that this error source monitors.
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +
->> +required:
->> +  - compatible
->> +  - arm,num-records
->> +  - arm,record-impl
->> +  - arm,status-reporting
->> +
->> +allOf:
->> +  - if:
->> +      required:
->> +        - reg
->> +    then:
->> +      required:
->> +        - arm,group-format
-> 
-> Better expressed as:
-> 
-> dependentRequired:
->   reg: [ 'arm,group-format' ]
-> 
+hotplug
+  bringup_ap()
+                        ...
+                        identify_secondary_cpu()
+                           mcheck_cpu_init()
+                             __mcheck_cpu_setup_timer()
+                                timer_setup() <- FAIL
 
-Ack, will fix this in v3
+That re-initializes the active timer, which is now queued on CPU0.
 
-> Rob
+What puzzled me was that debugobjects did not catch that issue. It
+turned out that during some rework the debug_activate() invocation for
+the timer migration case got lost. So debugobjects carries the wrong
+state. That's easy to fix:
 
-Best Regards,
-Umang
+--- a/kernel/time/timer.c
++++ b/kernel/time/timer.c
+@@ -2492,6 +2492,7 @@ static void migrate_timer_list(struct timer_base *new_base, struct hlist_head *h
+ 		timer = hlist_entry(head->first, struct timer_list, entry);
+ 		detach_timer(timer, false);
+ 		timer->flags = (timer->flags & ~TIMER_BASEMASK) | cpu;
++		debug_timer_activate(timer);
+ 		internal_add_timer(new_base, timer);
+ 	}
+ }
 
+With that it catches the culprit as expected:
+
+ ODEBUG: init active (active state 0) object: ffff88827be234a0 object type: timer_list hint: mce_timer_fn+0x0/0x280
+ WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230, CPU#1: swapper/1/0
+ CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 7.2.0-dirty #274 PREEMPT(full)
+ RIP: 0010:debug_print_object+0x18a/0x230
+ Call Trace:
+  __debug_object_init+0x230/0x3c0
+  timer_init_key+0x5c/0x2e0
+  mcheck_cpu_init+0x3e1/0x600
+  identify_cpu+0x1e03/0x3660
+  identify_secondary_cpu+0xaa/0x160
+  ap_starting+0xa1/0x150
+  start_secondary+0x66/0x110
+  common_startup_64+0x13e/0x157
+
+The knee jerk "fix" is to serialize against CPU hotplug in
+set_ignore_ce() and the other sysfs write functions which can result in
+exactly the same problem. It's not only the timer. CMCI suffers from the
+same issue that it can be reenabled via sysfs between the
+"x86/mce:online" state and going completely offline. Haven't looked
+further, but that seems to be a general design problem in that code.
+
+But guarding against hotplug alone solves it only partially because with
+partial hotplug the same issue happens when:
+
+   1) a partial hotplug goes below the "x86/mce:online" state which
+      disarms the timer, but stops before the CPU is marked offline
+
+   2) set_ignore_ce() or one of the other sysfs write functions
+      reenables it
+
+   3) a subsequent hotplug operation brings the CPU completely down.
+
+The below quick hack, which I'm not proud of, cures it. I let the MCE
+wizards think about the underlying design problem and let them come up
+with a hopefully nicer solution.
+
+Thanks,
+
+        tglx
+---
+
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -68,6 +68,8 @@ static DEFINE_MUTEX(mce_sysfs_mutex);
+ 
+ #define SPINUNIT		100	/* 100ns */
+ 
++static struct cpumask mce_active_cpus;
++
+ DEFINE_PER_CPU_READ_MOSTLY(unsigned int, mce_num_banks);
+ 
+ DEFINE_PER_CPU_READ_MOSTLY(struct mce_bank[MAX_NR_BANKS], mce_banks_array);
+@@ -2459,6 +2461,8 @@ static void mce_cpu_restart(void *data)
+ {
+ 	if (!mce_available(raw_cpu_ptr(&cpu_info)))
+ 		return;
++	if (!cpumask_test_cpu(smp_processor_id(), &mce_active_cpus))
++		return;
+ 	__mcheck_cpu_init_generic();
+ 	__mcheck_cpu_init_prepare_banks();
+ 	__mcheck_cpu_init_timer();
+@@ -2478,6 +2482,8 @@ static void mce_disable_cmci(void *data)
+ {
+ 	if (!mce_available(raw_cpu_ptr(&cpu_info)))
+ 		return;
++	if (!cpumask_test_cpu(smp_processor_id(), &mce_active_cpus))
++		return;
+ 	cmci_clear();
+ }
+ 
+@@ -2485,6 +2491,8 @@ static void mce_enable_ce(void *all)
+ {
+ 	if (!mce_available(raw_cpu_ptr(&cpu_info)))
+ 		return;
++	if (!cpumask_test_cpu(smp_processor_id(), &mce_active_cpus))
++		return;
+ 	cmci_reenable();
+ 	cmci_recheck();
+ 	if (all)
+@@ -2540,6 +2548,7 @@ static ssize_t set_bank(struct device *s
+ 	b->ctl = new;
+ 
+ 	mutex_lock(&mce_sysfs_mutex);
++	guard(cpus_read_lock)();
+ 	mce_restart();
+ 	mutex_unlock(&mce_sysfs_mutex);
+ 
+@@ -2557,6 +2566,7 @@ static ssize_t set_ignore_ce(struct devi
+ 
+ 	mutex_lock(&mce_sysfs_mutex);
+ 	if (mca_cfg.ignore_ce ^ !!new) {
++		guard(cpus_read_lock)();
+ 		if (new) {
+ 			/* disable ce features */
+ 			mce_timer_delete_all();
+@@ -2584,6 +2594,7 @@ static ssize_t set_cmci_disabled(struct
+ 
+ 	mutex_lock(&mce_sysfs_mutex);
+ 	if (mca_cfg.cmci_disabled ^ !!new) {
++		guard(cpus_read_lock)();
+ 		if (new) {
+ 			/* disable cmci */
+ 			on_each_cpu(mce_disable_cmci, NULL, 1);
+@@ -2610,6 +2621,7 @@ static ssize_t store_int_with_restart(st
+ 		return ret;
+ 
+ 	mutex_lock(&mce_sysfs_mutex);
++	guard(cpus_read_lock)();
+ 	mce_restart();
+ 	mutex_unlock(&mce_sysfs_mutex);
+ 
+@@ -2730,6 +2742,8 @@ static void mce_disable_cpu(void)
+ 	if (!mce_available(raw_cpu_ptr(&cpu_info)))
+ 		return;
+ 
++	cpumask_clear_cpu(smp_processor_id(), &mce_active_cpus);
++
+ 	if (!cpuhp_tasks_frozen)
+ 		cmci_clear();
+ 
+@@ -2752,6 +2766,8 @@ static void mce_reenable_cpu(void)
+ 		if (b->init)
+ 			wrmsrq(mca_msr_reg(i, MCA_CTL), b->ctl);
+ 	}
++
++	cpumask_set_cpu(smp_processor_id(), &mce_active_cpus);
+ }
+ 
+ static int mce_cpu_dead(unsigned int cpu)
