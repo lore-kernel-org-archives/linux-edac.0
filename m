@@ -1,205 +1,422 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8ECD2E2665
-	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 18:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6CD3B2FEB
+	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 19:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786992689; cv=none; b=heJJ7QjnmDgP+r+V6/lzariDaG9OA2H2ouWJjl/Ou8u/9WZCs7ZiYdo0F/RDGvt43XG/Gf5UvCujVDD828szmI7cvTicbZ1v1+gkWo1ULK0Nh4gjP6kkX7qbyA+8C71nhgVdmYe2Xym/tY0Um26mwEGqUV5lEx8pymYY3rjZ75A=
+	t=1786996740; cv=none; b=cyu3YZAMkAs+xkoDa6EL4b5wRFpedriORBSfzjTn3GhHq0lfoSBNWv4WAqYQG8YwfWnK0FOpr1NAavsJBXTqUQh7CyjMTLHbeqVpAXbT8/mJXZuOoAqANOHbCQYdt41d4j563wiw8SD8z/zAroVnLZLlLvXrsNJxzPHG+DjB2kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786992689; c=relaxed/simple;
-	bh=i4s1i0QFcSN/h+ay0HOrwhjO7F/UEd4D1l1k3Kw2yW4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ACX98As0ur+XwpWYIKTmqPrY1E7WWqEFfMyFpXFW9JeqvAcNO/lqag0B21bbS8CKs1V7ppNgvDJYY4IDz6ED/X92Os+w1hluo/f98OogROlzbYJp+uO/k18FjRugw46TBRLmTQxGa6c5skPJnSSMoH1cGoDuqlq7KNBvveVXFTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=Hysl2UUJ; arc=none smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1786996740; c=relaxed/simple;
+	bh=X3Y2YsxXZpGBpwVI5sMhB6UkPUPTd3Rx87r5bJPvajI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mw45mRhzb19HOyfE7V0cKUt4lpl/f9/gGUYSAEtl7wvMqnT/y0cNJyYMOhl18qwXqmOIZ8/YCpUCfT7ykSk1L3itxI32mzWF98oi20Y3oLkmuIzwMCU/6pCS2JiSB0UKue7gc5KTCYI/1VRQOnS2fkbB1DjnG0nTcM1jevFhMrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Q0GJxCkk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MWZ+8BzB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="Hysl2UUJ"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7ec3b429a3aso2507790a34.1
-        for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 11:51:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q0GJxCkk";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MWZ+8BzB"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67HIR4DR2211081
+	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 19:58:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	I6KZVUu0NOdGo4+fh3bcS297v312oyXU0yQQKWOUJo8=; b=Q0GJxCkkdLSpHIAP
+	Uv4KfkhkkoUQr+kg/XD/av2u/8ChZ/CgZmzH8if8DEk/XK8FH5giKdPLxMzP2vor
+	LwBJNzb6walivvggEj/tXPZoOeJc2yEa1dKyE7Ri4JroeuoJ6yFVvN3Th/dSLqyn
+	rbEoCcGTJUEQxFAPak1r28oxHe3h2D/NJUQhZKl0ptu53VtremMPbh3vfgAL+keO
+	ocreXMhBmF7KLFCKrGahZTxfFKI6gtvRkrVkuDRx7vh5qQfCHaT7JFeaoA5HVWKZ
+	/xk9yuuW1LL7RyJIDoLu6FJYg7OMEuiCn2dEx+shX9+urJ0wiZWVeoZwicMGhQ4V
+	ED3EYQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g3x30jw77-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 19:58:58 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2d0e306c7d0so9573725ad.1
+        for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 12:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1786992686; x=1787597486; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NV6AKlYp5eov5B/qzmbk9uBCHMMtP7iabiBirkAkkvQ=;
-        b=Hysl2UUJXntbR4bVhLOhjrr5hf9GXdkUFuJxWrnsTZHcs8rkmu3M7TAdKOHiA9vH8+
-         hE5HQficBpEBk8zdqNNZFF5I9qwVQCUfeyemkjo1I7+H8fXin2oaPPT4oVMZasIhYt61
-         UZyg0AsX6PhWDBCsSp359gZV+v2WOqO5Eo6Y7mdyFberp/O1rmSDhFiYBXAVHQYru6ZR
-         N1oGNzEEUsPs84ewIW780LADaQbjc7fFkDTaKKIVUYSR7wF9SwfJXJKErZPLDE06HHeg
-         sfACaC38HjNos6FVV3+M1c6KDd3P7yz21YgU4w0htRGFQNuAZ2LosWWjw+a3cfDFBwA4
-         V0vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786992686; x=1787597486;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1786996738; x=1787601538; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=NV6AKlYp5eov5B/qzmbk9uBCHMMtP7iabiBirkAkkvQ=;
-        b=Z+YOJi9MvwxZXsAVZiLhjbTlJgFGkNOeHVEhvhXDcma7gxaMC9EVLTNgt+jtYZBVKm
-         CYYLw5YVKYTlpWlZRTFPlXWpRnKRRk/nZAn1bOASQAQQXz7Cp4VggVQKKtqCYBmdvA29
-         cYU/KiiXkhXGbyktFrCXeTXX5tIgT6ppj+nfAZs9olGOMaEywX4msRP2gWs3a64Xl+e1
-         wwJQeE8SHjdihtm7nS5v9vzlVZiJXq7ZJuH6dqfdDhrIIaSWPSLEEA41OeXdDzVNYr0u
-         wJJ4tFz2hnRIOnv2aaCwapD82xEpEpSkPJVPXABh3yTq/kRQuAgawCfWOWJfFFKhGsD9
-         AC5g==
-X-Forwarded-Encrypted: i=1; AHgh+RrzQoNRxs/tBeur09FufoMdcCzzbxTUp0eU7xe7zO6xdVTdejTsEDR/gn33dBaUfN01cXL3WE9uIjcN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9kAKLhnfHcNoPQCFvBnRTOm+28UXvsUrvJFZu11eVvHmP+bej
-	YhyQBgwSs0PNI0/s7FkrWmZyw7SVllY//V8iy88Cw5rzrF5fjem998tM6yaix0opmdE=
-X-Gm-Gg: AR+sD13EEiOOMgb9IqsE42xRPZ3UUODtNSoHvShpsJpbcu+ChL1xjPCO6RKtNehzX0x
-	oMDWbcHnyldEYgMYPYw0OVnIdrjeqzmnVu5dcvPFKTpZv+++XVjDAD9rPvzwMGaSf+tOK+DfhYk
-	9vTKF6wggHgg2eHPOl9FNHq+2BwinUoW4eBBn8d9KJW4MyA/PONDE/u0D+erH2mE9k3ZbUMEzY3
-	eIKWlYfJ0rlkH/Pq2ogKe0BNqfKHKUJ9oUZioIW8QO5yT+hZ9CEsHynHqdfyTnlMwtK9yywQVrf
-	M0/aoO9oT1tOwTb8YGegbfj0ZRR9I/NjMxI/A3QfY8ToJj98CYP1w8XhABKjopqZpzxY4s8zgIE
-	Abc2EGPZzzuki9TyW96GvBnc3+ZBU4lbM8ep2epEG3DUgJLYUDntmiaY7Z3kCYl00ntE2sKGWJR
-	zEh6MZk6jyPGyz8VKCowuW135l3AuxTvjW6CZQl2qoImnLA2YWZC8MswZ1Yn9Qk3jsBN4v0IrLp
-	kCkoeuvWDo/oXJ5OmOL
-X-Received: by 2002:a05:6830:2708:b0:7e6:f4a3:1df5 with SMTP id 46e09a7af769-7f423bf4619mr2327274a34.1.1786992685605;
-        Mon, 17 Aug 2026 11:51:25 -0700 (PDT)
-Received: from dev-jrangi.dev.purestorage.com ([208.88.159.129])
-        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-7f41bef03b9sm2072384a34.3.2026.08.17.11.51.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 11:51:25 -0700 (PDT)
-From: Jasjeet Rangi <jrangi@purestorage.com>
-To: bp@alien8.de
-Cc: Smita.KoralahalliChannabasappa@amd.com,
-	dave.hansen@linux.intel.com,
-	dgiani@purestorage.com,
-	hpa@zytor.com,
-	jrangi@purestorage.com,
-	linux-edac@vger.kernel.org,
-	mingo@redhat.com,
-	msaggi@purestorage.com,
-	rhan@purestorage.com,
-	rjethwani@purestorage.com,
-	stable@vger.kernel.org,
-	tglx@kernel.org,
-	tony.luck@intel.com,
-	x86@kernel.org,
-	yazen.ghannam@amd.com
-Subject: Re: [PATCH v2 1/2] x86/mce/amd: Fix inverted interrupt enablement during storm handling
-Date: Mon, 17 Aug 2026 12:51:08 -0600
-Message-ID: <20260817185110.1644857-1-jrangi@purestorage.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260814232446.GDan-jvtKrj4Bh8Nsa@fat_crate.local>
-References: <20260814232446.GDan-jvtKrj4Bh8Nsa@fat_crate.local>
+        bh=I6KZVUu0NOdGo4+fh3bcS297v312oyXU0yQQKWOUJo8=;
+        b=MWZ+8BzBw8+PUz9f4G1h5on8L0AsY7/7iFDjU8tVgir/fWlg/MSIa2SM1SU+FojvgG
+         u+jviInaF+XLnjmsKpdqb2kExfZf2qrBDmZ5i+abPUR+k+68Qaz4r6eNCsYFUoUBZGoD
+         UK/ii0JU06zGqlOYljwo8wVaFQofn8sYFYylr8R266x+u/QcdAKOPpkKzMxRwKH+vh1C
+         JKljCdntIrAtNazfuPpTIAehhmHloHk3e+hLTN2LpgTrEunGcJUAFywmOfcPTRgMXKzH
+         yDsGPTOn6xAYj5ZitA9KGY2nSZZ0/dc5MukUiXyMKwsACBvo27kG2NLy6SezvEaTD41E
+         4Y4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786996738; x=1787601538;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I6KZVUu0NOdGo4+fh3bcS297v312oyXU0yQQKWOUJo8=;
+        b=cu61bhd1pcJfj2pd2M2//kRdDLCjF/oOyaX/5l5BPUYayniU6pjxYC+OBM8oLN6wJe
+         s5mbvQDTg8OaS9EFyBH/hVpM2kXkavytIlf8mkbowdbnPY4H0CLbBRvvIRbsNwsXkH2R
+         pVIR4ZmIsGuV9m/2yXryLkYTKy2ULCV0plhm2eAFvBNIQSnJm6Jk+oquQIjjs4PMLNN6
+         Hvhv3P/3654yupBLaGum1J/QoBTpLK0PRGUQp+ySyFIkbywttH995TqXyYNpipNfofDo
+         2wwC3q8kFemtBa+MaI2n59cu8O1BASMzHye9vj2NiA9enp56cd74ERSQ5zn5vKoLwVL+
+         grsQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrjt41lermat3QLHw2JP2BN7cQfkBV53Z8Yup2wyz3nEh6tANJYYV39PnfTzAbUHCLX5i5WJmP1yUMA@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYZPr9nV86lKBmTjl6QSol9oEvdJIOY/dGr13Mvs8ouL/vOiOa
+	oAJH7Y2+C2cLyJ+X2fP0pTvqF0lOHQS0vCVJ/KRLddaoof8ydKbbEygWvliozN/oOUo8ltGT62i
+	pIz5zpydAf5OjdRQTFpANJbheyWU0Cm517sScmi6EJtDel17yAn39g7ZbQEehHr6h
+X-Gm-Gg: AR+sD13jsm5jFh4n3XHpsR1Z6n90rWYCO8EEmdgCqKBFv8adRd7UkYkQwIEVmHU+h3A
+	r7Eafi2IPUta3ANA1+fjbrIe8emfvIabdLBwGmcYExwTWZhXJnDqKBMiZs6usWCEeSHMwTwdDVV
+	MCEgkQKyrwKQ15i4r0rYMDjEVPg1VTJog/BWqajEHR7G+hnXm72RPgvAp8nm27AxJFsPGSrUBOK
+	c6L3pXbwYHj9dem6XxmDQFlKWbxxXvzWlKIpsazs8e8hEWSi9W7i8xQxIfcI/tjcavoVqBo8man
+	T7S0apICQA28wUI/mbh39SHQaxPi4jTksRqiuJ7rWndc1N87KjR9B/8tMHyWv1RMLY6fHHWwMXt
+	tLjlScuaMGrsr1aqbRSLxczb8O7Q=
+X-Received: by 2002:a17:902:e54c:b0:2c9:ed4a:c3a4 with SMTP id d9443c01a7336-2d3b0503575mr194099415ad.0.1786996737330;
+        Mon, 17 Aug 2026 12:58:57 -0700 (PDT)
+X-Received: by 2002:a17:902:e54c:b0:2c9:ed4a:c3a4 with SMTP id d9443c01a7336-2d3b0503575mr194098985ad.0.1786996736646;
+        Mon, 17 Aug 2026 12:58:56 -0700 (PDT)
+Received: from [192.168.0.7] ([49.204.29.31])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326794c0c94sm16896499eec.9.2026.08.17.12.58.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 12:58:56 -0700 (PDT)
+Message-ID: <40a62967-48c6-4327-b6fa-a22f6b86412d@oss.qualcomm.com>
+Date: Tue, 18 Aug 2026 01:28:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] dt-bindings: arm: ras: Introduce bindings for ARM
+ RAS error sources
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Ruidong Tian <tianruidong@linux.alibaba.com>,
+        Tony Luck
+ <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        faruque.ansari@oss.qualcomm.com, avaneesh.dwivedi@oss.qualcomm.com
+References: <20260720081954.1858180-1-umang.chheda@oss.qualcomm.com>
+ <20260720081954.1858180-2-umang.chheda@oss.qualcomm.com>
+ <20260731203515.GA1619665-robh@kernel.org>
+Content-Language: en-US
+From: Umang Chheda <umang.chheda@oss.qualcomm.com>
+In-Reply-To: <20260731203515.GA1619665-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE3MDE1MiBTYWx0ZWRfX5+x1uYlukn5j
+ fdUN/jPA5n5aH11D0+VnyhHjLJtPb+CCNoBe8x6dLkXC/7jKBWS1VZuBi6PufGgYmqQpPG88J5o
+ YZLf3hawfc/npXLrRLS/VVip2i3QX623U2OtEiZ/p7fe4wT3IRrwam4CxQJeXBTbdsAH7Lo3hd8
+ V8d42ZX1wg2dUelq8UDK8GAEpMV34YgKJgLhoGMoZuJ5aVqFVI8JMn8kpJZ9MoX35dixLpNz4Tz
+ ukdq2EYbMZY9VyvAsyVZ204Ory0+Y1Iw96OXGyD1gPFsxelrDP30ssjVqeVa9LHg1BD9OCqQd4t
+ SgI9NC0Ves+QjaGVwJHjRGXHHX30tLD/rIQuHBiCRSAFj/wiV4TWf7/flcCXSrLoyEoGeXRa0N3
+ xpC/Ve7nERZp03o1SSu3CfSRrD1oeeQcBcnnsBaZTqVh0PORBLH5nM/YTUwDlrV7R5yJtxk60zN
+ wNG3ffKrofMgYnuS6xw==
+X-Proofpoint-GUID: -nzTP1olHNIsPAgVbDUlwOBKLEohWudN
+X-Proofpoint-ORIG-GUID: -nzTP1olHNIsPAgVbDUlwOBKLEohWudN
+X-Authority-Analysis: v=2.4 cv=Y9/IdBeN c=1 sm=1 tr=0 ts=6a836802 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=UpYrFT5SPnpm06h6vIyJ/A==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=0BPv0DUFnjzqbVs4ZvsA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE3MDE1MiBTYWx0ZWRfXzkBtgtiP0qet
+ HVA2JHcgsemwW7Ht46qpEw0AbcIxZ9PEw/aHeO4A7zo0mynJSLZ0VDyRm8GLWW76fAiTlwNg42R
+ wGpM6oBMOZC+l+h9VHbMsgL1Uttc/xQ=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-17_03,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 phishscore=0 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608170152
 
-On Fri, Aug 14, 2026 at 4:25 PM Borislav Petkov <bp@alien8.de> wrote:
->
-> On Wed, Aug 12, 2026 at 04:15:13PM -0600, Jasjeet Rangi wrote:
-> > mce_amd_handle_storm() currently does the opposite of what storm
-> > handling needs: it enables threshold interrupts when a storm is detected
-> > and disables them when the storm subsides.
-> >
-> > In addition, machine_check_poll() -> clear_bank() -> amd_clear_bank() ->
-> > amd_reset_thr_limit() will unconditionally enable threshold interrupts,
-> > which undoes storm mode behavior.
->
-> Except that the Intel side doesn't touch the CMCI_EN bit in
-> cmci_set_threshold(). And we should not diverge here. The thresholding
-> interrupt should not be a problem because with increased polling frequency
-> during a storm, we should not be really getting thresholding interrupts
-> because the polling code will pick up all MCEs that get logged, first.
->
-> And the second patch is not really making things better because, well, "on" is
-> "in_storm_mode". Basically the same thing. So I'm going to queue the below:
->
-> ---
-> Author: Jasjeet Rangi <jrangi@purestorage.com>
-> Date:   Wed Aug 12 16:15:13 2026 -0600
->
->     x86/MCE/AMD: Fix inverted interrupt enablement during storm handling
->
->     mce_amd_handle_storm() currently does the opposite of what storm
->     handling needs: it enables thresholding interrupts when a storm is
->     detected and disables them when the storm subsides.
->
->     Flip the "on" function argument before passing it to threshold_restart_bank()
->     as it should have been done.
->
->     To clarify: "on" to mce_handle_storm() means, the storm is on now when
->     "on" is true, and off when "on" is false.
->
->       [ bp: Simplify. ]
->
->     Fixes: 5c4663ed1eac ("x86/mce: Handle AMD threshold interrupt storms")
->     Signed-off-by: Jasjeet Rangi <jrangi@purestorage.com>
->     Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
->     Cc: stable@vger.kernel.org
->     Link: https://patch.msgid.link/20260812221514.598842-2-jrangi@purestorage.com
->
-> diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
-> index f916fb4c5d13..1cc20b855b7e 100644
-> --- a/arch/x86/kernel/cpu/mce/amd.c
-> +++ b/arch/x86/kernel/cpu/mce/amd.c
-> @@ -865,7 +865,7 @@ static void amd_deferred_error_interrupt(void)
->
->  void mce_amd_handle_storm(unsigned int bank, bool on)
->  {
-> -       threshold_restart_bank(bank, on);
-> +       threshold_restart_bank(bank, !on);
->  }
->
->  static void amd_reset_thr_limit(unsigned int bank)
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+Hello Rob,
 
-I'm ok with dropping patch 2. But I don't think we should drop the
-amd_reset_thr_limit() hunk of patch 1. On AMD if storm conditions are
-met, amd_reset_thr_limit() will get called in the same code path as
-mce_amd_handle_storm().
+Thanks for reviewing the change!
 
-```
-void machine_check_poll(enum mcp_flags flags, mce_banks_t *b)
-{
-...
-	for (i = 0; i < this_cpu_read(mce_num_banks); i++) {
-...
-		if (!mca_cfg.cmci_disabled)
-			mce_track_storm(m); // <- mce_amd_handle_storm()
-...
-clear_it:
-		clear_bank(m); // <- amd_reset_thr_limit()
-	}
-```
+On 8/1/2026 2:05 AM, Rob Herring wrote:
+> On Mon, Jul 20, 2026 at 01:49:51PM +0530, Umang Chheda wrote:
+>> ARMv8 and later processors implement the RAS (Reliability,
+>> Availability and Serviceability) extensions, exposing hardware
+>> error records through a standardised register interface.
+>>
+>> Add Device Tree bindings to describe RAS error sources.
+>>
+>> Signed-off-by: Umang Chheda <umang.chheda@oss.qualcomm.com>
+>> ---
+>>  .../bindings/arm/arm,ras-error-source.yaml    | 330 ++++++++++++++++++
+>>  include/dt-bindings/arm/arm-ras.h             |  11 +
+>>  2 files changed, 341 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml
+>>  create mode 100644 include/dt-bindings/arm/arm-ras.h
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml b/Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml
+>> new file mode 100644
+>> index 000000000000..add7063a1a62
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/arm/arm,ras-error-source.yaml
+>> @@ -0,0 +1,330 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/arm/arm,ras-error-source.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: ARM RAS error source
+>> +
+>> +maintainers:
+>> +  - Umang Chheda <umang.chheda@oss.qualcomm.com>
+>> +
+>> +description: |
+>> +  ARMv8 and later processors implement the Reliability, Availability and
+>> +  Serviceability (RAS) extensions.  Hardware blocks that support RAS expose
+>> +  one or more error records through a standardised register interface.  Each
+>> +  error record captures information about a detected hardware error (cache
+>> +  ECC fault, TLB parity error, interconnect error, etc.) and can optionally
+>> +  signal the OS via an interrupt.
+>> +
+>> +  Each DT node described by this binding represents one RAS error source —
+>> +  a hardware block that exposes a set of error records.  Error records are
+>> +  accessed either through system registers (for processor-local resources
+>> +  such as L1/L2 caches and TLBs) or through a memory-mapped register window
+>> +  (for shared or off-core resources such as L3 caches, SMMUs and GICs).
+>> +
+>> +properties:
+>> +  compatible:
+>> +    description:
+>> +      Identifies the class of hardware block this error source belongs to.
+>> +      arm,ras-processor covers processor error sources (cache, TLB, etc.).
+>> +      arm,ras-smmu covers SMMU error sources.
+>> +      arm,ras-gic covers GIC error sources.
+>> +    enum:
+>> +      - arm,ras-processor
+>> +      - arm,ras-smmu
+>> +      - arm,ras-gic
+>> +
+>> +  reg:
+>> +    description:
+>> +      Register windows for this error source.  When absent the error records
+>> +      are accessed through system registers (ERRSELR_EL1 + ERX*_EL1).
+>> +      When present, the first range is the primary error-record window;
+>> +      additional named ranges are identified by reg-names.
+>> +    minItems: 1
+>> +    maxItems: 4
+>> +
+>> +  reg-names:
+>> +    description:
+>> +      Names for the optional additional register windows beyond the primary
+>> +      error-record window.  err-group is the error group status register
+>> +      window (ERRGSR).  fault-inject is the fault injection register window
+>> +      (ERXPFG*).  irq-config is the interrupt routing configuration window.
+>> +    minItems: 1
+>> +    maxItems: 3
+>> +    items:
+>> +      enum:
+>> +        - err-group
+>> +        - fault-inject
+>> +        - irq-config
+> 
+> reg and reg-names must be the same number of entries.
 
-Inverting `on` in mce_amd_handle_storm() alone is not enough because
-clear_bank() will immediately and unconditionally enable the interrupt
-again. Also, the threshold is sysfs configurable. For example, if the
-threshold is set to 1, even when storm handling is on there will be
-effectively no polling.
+Ack, will fix this in v3.
 
-On Intel the threshold is temporarily set to a very high value because
-the goal is to effectively disable interrupts for CEs without disabling
-interrupts for certain UEs signaled via CMCI. In older kernels the Intel
-driver used to disable the interrupt.
-From the current Intel code:
-```
-/*
- * High threshold to limit CMCI rate during storms. Max supported is
- * 0x7FFF. Use this slightly smaller value so it has a distinctive
- * signature when some asks "Why am I not seeing all corrected errors?"
- * A high threshold is used instead of just disabling CMCI for a
- * bank because both corrected and uncorrected errors may be logged
- * in the same bank and signalled with CMCI. The threshold only applies
- * to corrected errors, so keeping CMCI enabled means that uncorrected
- * errors will still be processed in a timely fashion.
- */
-#define CMCI_STORM_THRESHOLD 32749
-```
-I do not see anything similar for AMD.
+> 
+>> +
+>> +  interrupts:
+>> +    description:
+>> +      Interrupts signalled by this error source.  The first interrupt is the
+>> +      Fault Handling Interrupt (FHI), fired when a corrected error counter
+>> +      overflows or a deferred error is detected.  The optional second
+>> +      interrupt is the Error Recovery Interrupt (ERI), fired when an
+>> +      uncorrected recoverable error is detected.
+>> +    minItems: 1
+>> +    maxItems: 2
+> 
+> Replace description with:
+> 
+> minItems: 1
+> items:
+>   - description:
+>       Fault Handling Interrupt (FHI), fired when a corrected error 
+>       counter overflows or a deferred error is detected.
+>   - description: 
+>       Error Recovery Interrupt (ERI), fired when an uncorrected 
+>       recoverable error is detected.
+> 
 
-Thanks,
-Jasjeet
+Ack, will fix it as suggested.
+
+> 
+> Seems backwards to me that corrected errors is required and uncorrected 
+> errors is optional. Should be fine to not care about corrected errors, 
+> but uncorrected errors can't really be ignored.
+
+FHI is the common interrupt mechanism used by RAS error sources to
+notify software of deferred errors (which are kind of un-correctable
+errors) and corrected error counter overflows. This interrupt is also
+fired on the event of an un-correctable error (UE). On occurrence of UE
+error, this interrupt is fired, S/W reads the UE bit set in the ctrl
+register and handles UE error accordingly.
+
+ERI provides an additional notification mechanism for "recoverable"
+uncorrected errors, but its presence is implementation specific and not
+all error sources expose a dedicated ERI signal.
+
+For this reason the binding currently treats FHI as the mandatory
+interrupt and ERI as an optional second interrupt. I'll clarify this
+rationale in the binding description in the next revision.
+
+> 
+>> +
+>> +  interrupt-names:
+>> +    description:
+>> +      Names identifying the interrupts.  "fhi" is the Fault Handling
+>> +      Interrupt; "eri" is the optional Error Recovery Interrupt.
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +    items:
+>> +      enum:
+>> +        - fhi
+>> +        - eri
+> 
+> Define the order.
+
+Ack, will replace with explicit ordered constants.
+
+> 
+>> +
+>> +  arm,group-format:
+>> +    description:
+>> +      Page granularity of the memory-mapped error record group register
+>> +      window.  Determines the ioremap size and the number of error group
+>> +      status registers (ERRGSR) available.  Required when reg is present.
+> 
+> Don't state constraints which are expressed as schemas.
+
+Ack, Will remove "Required when reg is present." from the description in
+v3.
+
+> 
+>> +      Use the ARM_RAS_GROUP_* constants from <dt-bindings/arm/arm-ras.h>.
+>> +      0 (ARM_RAS_GROUP_4K) is a 4 KiB window with 1 ERRGSR supporting up
+>> +      to 64 records.  1 (ARM_RAS_GROUP_16K) is 16 KiB with 4 ERRGSRs and
+>> +      up to 256 records.  2 (ARM_RAS_GROUP_64K) is 64 KiB with 14 ERRGSRs
+>> +      and up to 896 records.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    enum: [0, 1, 2]
+>> +
+>> +  arm,num-records:
+>> +    description:
+>> +      Total number of error records in this error source, including both
+>> +      implemented and unimplemented slots.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    minimum: 1
+>> +
+>> +  arm,record-impl:
+>> +    description:
+>> +      Bitmap of implemented error records.  Bit N set to 1 means error
+>> +      record N is present and active in this error source.  Bit N set to 0
+>> +      means record N is not implemented and must be skipped.  The array
+>> +      length must equal the number of ERRGSRs implied by arm,group-format
+>> +      (1 element for 4K, 4 for 16K, 14 for 64K).  For system-register
+>> +      nodes (no reg property) a single u64 element is used.
+>> +    $ref: /schemas/types.yaml#/definitions/uint64-array
+>> +    minItems: 1
+>> +    maxItems: 14
+>> +
+>> +  arm,status-reporting:
+>> +    description:
+>> +      Bitmap indicating which implemented error records must be polled
+>> +      directly by the OS.  Bit N set to 1 means record N does not report
+>> +      through the ERRGSR and must be polled by reading its ERX_STATUS
+>> +      register directly in the interrupt handler.  Bit N set to 0 means
+>> +      record N reports its status through the ERRGSR and will be discovered
+>> +      via the ERRGSR scan path.  For system-register nodes (no reg property)
+>> +      there is no ERRGSR, so every implemented record must be polled
+>> +      directly; arm,status-reporting must equal arm,record-impl for all
+>> +      system-register nodes.  Array length as for arm,record-impl.
+>> +    $ref: /schemas/types.yaml#/definitions/uint64-array
+>> +    minItems: 1
+>> +    maxItems: 14
+>> +
+>> +  arm,addressing-mode:
+>> +    description:
+>> +      Bitmap indicating the type of address reported in the error address
+>> +      register (ERX_ADDR) for each error record.  Bit N set to 0 means
+>> +      record N reports a System Physical Address (SPA) that the OS can use
+>> +      directly.  Bit N set to 1 means record N reports a node-specific
+>> +      Logical Address (LA) that requires platform-specific translation to
+>> +      obtain a SPA.  Array length as for arm,record-impl.
+>> +    $ref: /schemas/types.yaml#/definitions/uint64-array
+>> +    minItems: 1
+>> +    maxItems: 14
+>> +
+>> +  # Processor error source properties (arm,ras-processor only)
+>> +
+>> +  cache:
+>> +    description:
+>> +      Phandle to the cache node (L1, L2, or L3) that this processor error
+>> +      source monitors.  The referenced node must have compatible = "cache"
+>> +      and a cache-level property identifying the level in the hierarchy.
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +
+>> +  # SMMU error source properties (arm,ras-smmu only)
+>> +
+>> +  iommus:
+>> +    description:
+>> +      Phandle to the SMMU node that this error source monitors.
+> 
+> If the iommu has #iommu-cells >0, then this property must match the cell 
+> size. You can't have your own definition of 'iommus'.
+
+Ack, The driver only calls of_parse_phandle() on it for identification
+and never uses the IOMMU framework. Will replace iommus with a dedicated
+arm,smmu-ref phandle property, analogous to arm,gic-ref, in v3.
+
+> 
+>> +    maxItems: 1
+>> +
+>> +  # GIC error source properties (arm,ras-gic only)
+>> +
+>> +  arm,gic-ref:
+>> +    description:
+>> +      Phandle to the GIC node that this error source monitors.
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +
+>> +required:
+>> +  - compatible
+>> +  - arm,num-records
+>> +  - arm,record-impl
+>> +  - arm,status-reporting
+>> +
+>> +allOf:
+>> +  - if:
+>> +      required:
+>> +        - reg
+>> +    then:
+>> +      required:
+>> +        - arm,group-format
+> 
+> Better expressed as:
+> 
+> dependentRequired:
+>   reg: [ 'arm,group-format' ]
+> 
+
+Ack, will fix this in v3
+
+> Rob
+
+Best Regards,
+Umang
+
