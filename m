@@ -1,46 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626243B47D3;
-	Mon, 17 Aug 2026 07:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7934B3090C1
+	for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 11:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786953097; cv=none; b=cbAMsrTY3B1RrzK4Ptv8aLDWNPVUITcWfFkmKQfmjbzRHftylLhqAOCiLgtr2hCtq/TpTWRygJWyZBSVP2D/n4mycEycQhhKgnxj0Ih+70IbnxKXe7Pqo6LVryRtwKqEzX+p/KbR3P1fjCJCNJXmIUiFwWLtEe9t64NRSHaEoX4=
+	t=1786965272; cv=none; b=fuMwEWNpFtExWCp7oW8pdYAGgTLvg1hKEIBsbHDWHmIob/jKyjBaGQtntGslUJ+j7Q1HbgtNcl/inBdyEgzjZksKfyALcM0YCtdaVUR68Obch5S9xGSvn3AbjvKikJnrPMA1FR05ythnUYEpM6s2ohRbneyNHGq02iW99JWx6ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786953097; c=relaxed/simple;
-	bh=O+CAeIVB74GBvtv5/pKVXvFbYpUE8lRMOSYNuWtk/QM=;
+	s=arc-20240116; t=1786965272; c=relaxed/simple;
+	bh=nD9K8bVy07EjGGY331f7/Uic+6qfFXJYbJJyzqaxl6I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ms9rNhaLP+el1TekNnOkw3YAUahvWx5y5MyqUhH3mSM7Ozmra+fTNZA9xBvudvKb0A9BElyhmuuNGxmEut/C7pXyfEaRBZjEajNCzc7/AJbW9Et+AcNHmPqQxqXyqjRkfO27nr3OMxcfvybnYXuDygN4bX40BwhrNvb5sdEfXc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NU90Nc47; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=DtjeFMpUOKurkyetuy8WCslnf94zczfkWcOvuzOikGbxK4oGJDnPWIPUbB+4W7vSqx9FcXTutty4UyDpON73B1BYaAzHJ90ckRo/eqJOs0UsdabQCoBA887/5BstFFrKogQuapDEQt1DP8gxQEiFzAJrVGmCcx2ml+qqaQPt3CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Czcymrhk; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NU90Nc47"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258EA1F000E9;
-	Mon, 17 Aug 2026 07:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786953096;
-	bh=5ZYQOAJ6LqVx/y2pX8CakYIeDZQAZDDnBuPRyOAH8pA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NU90Nc47IvDFoPD8YQ2vm1Bt10nUJvfBqtw/JxNTOLs5Qo4wB9UIk7hEGlbBqyXnL
-	 73+ujLyrJY5Q+a97d1uqQ9A0TcickJgoQfLDET/Bb9g8k+iEYG3K2CXYiRgzPTWQFI
-	 kidOAkkBOSuGLN96qzuxgeWKD4w3oDAN8j1jwIkXxOn2Olyp7k8YvnCe9YE5o2PQf2
-	 m4sh1891AiQScZ9yGUNNxLbo79qSre2ixAV9ukGQsw3PYIh4RtxospXMkbmvtbJWZ/
-	 GP8fsuq6jJ8CJLsqf5Sewb766Jbm4k7+WOh3yR7/GRJh9lIyq2wPkPMNSRTx0kJ24D
-	 tJgqHFFSiBeTA==
-Date: Mon, 17 Aug 2026 09:51:26 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org, 
-	Borislav Petkov <bp@suse.de>, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 1/7] dt-bindings: edac: aspeed: Add AST2700 SDRAM EDAC
-Message-ID: <20260817-origami-chicken-of-popularity-6f205c@quoll>
-References: <20260812-edac-v1-0-03992edea297@aspeedtech.com>
- <20260812-edac-v1-1-03992edea297@aspeedtech.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Czcymrhk"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84862b0d5aeso2515250b3a.2
+        for <linux-edac@vger.kernel.org>; Mon, 17 Aug 2026 04:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786965269; x=1787570069; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZtE9GmPaJOtv3fYvjG7nEhEW830I8ZYTz/3kxXtVCzo=;
+        b=Czcymrhk39e2Uefazu9aCzgC7u/FgcxeV9otYLCKAVPGCVEM/xWXjPLABcMo4SXDPP
+         PL1o3EsNwZx97qjDMdFLRo6eMimEu1zfeYwDt05FWvfQ2RkLOYwJdeRvjbAOg/ODNS+g
+         l4UBmdjenvOE1MGqKIG7BBuvoXanyqEYxxLoYtmfhmCzTVRHQe8y7+lxexgGOcNHfX8E
+         OBeUgWX1vQO/Ff/IgWapAcyMwbnm0oEAteJ6Wh5GTSj4wzNhdhmBvt2XtefvNwDiE9qF
+         EiG6/tg3lyuohG7Ke60qmX2/BUC050IO1wIn8q7wQa93ylu8bOsXxv7bhyvgQB5/tk65
+         NMQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786965269; x=1787570069;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZtE9GmPaJOtv3fYvjG7nEhEW830I8ZYTz/3kxXtVCzo=;
+        b=VcCv7b1q5EJP3odo55jlt8Nue8K0rG57isbt9HYAJcOTfpB+k/4iXkM08tzs4YNeae
+         RfZRXyf+1k/UktW2ymYoVoYygOHWfvGlJu3pZ5Rourr5lvxiTIpH2aRtKUs3JHyM5h09
+         nk9enVcea29h+5oZXZRIpk/zBbh6aD4yXrTQTuryZlzE07d5PpWkBCOEx7CmWF0A6SW0
+         xWujgPsug+/yHy8DgBhQPTlg2P8fcoIyKbRaVk6HO5YklLmUYw3Q1vxDW5pqSEhPvFEx
+         6FePfwQD25yNHXMSW56xi4wYdNObIbhEPLYCLhXsXn2XxJHIrn4Qch0jHsFICEQAKlpp
+         lJug==
+X-Forwarded-Encrypted: i=1; AHgh+RpZ+LPdrZQwS8f9pKo4pcqVXEZz4QtqrRvpntLHfpLaZpjJ48ovhqmJGaKvNQUjWk3dQsVOM36UPrS/@vger.kernel.org
+X-Gm-Message-State: AOJu0YyquKahvqfCax9gDuUDZ0kjg2EQRCSiXOQnfuXc9VB1BUnpSJIo
+	J4ytrpTkCSR7ez2B9R4A0poERvjZPtjuAn6KnBMqknLwaCUcJ4INsY4Y
+X-Gm-Gg: AR+sD13biTXgDtC52TYV4xEcKCzMMG4yjvPtcGYZqxoYdtwuQsVECUiz6/9Q4qrllcd
+	hDTn7mliK+xbd05aTWO+JIwLUnxFxg+ahiD6NXYt4PqJvqzaT8gSAqS4JJ7hvrifVoSwJXqFd5C
+	lNsXFQ/pb/XJf29tZj8/tqDAx1IjArapxB69YcoqVqPJiDD45kfPjT2rX22chwvdUORnTJuHDPT
+	+rncm1CsnWZmYHbELHXoCQeKTvjU0Bq7K8H/JMo2a/ZmexRql3Aj4PlW1vietVvVC7wtWFLHTV+
+	fR9P7+/bZrQpWq6FNnynY37YHuVzoKWTw3qpgggCNNU/TOrB3gDhhjokt+6o2327GZmzdkjLT9g
+	7DZ9GEqXEk/RQnVXT91jrPinaosrBpFR8LPZTHm+L5cLF2WTKf4ao2QC9RhPwz+XqCRTVhuX4re
+	kP3zbbVNO9q/Xdvr7JJNS6h8GhnAItep0S0SmSfY47zozBZ1G4JxDFuxdRXfIuF7xV5KOVEtsbu
+	A==
+X-Received: by 2002:a05:6a00:2a0e:b0:845:bda6:574b with SMTP id d2e1a72fcca58-84fddf88400mr24048053b3a.5.1786965268626;
+        Mon, 17 Aug 2026 04:14:28 -0700 (PDT)
+Received: from localhost ([118.34.230.2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc13bdf715csm567703a12.0.2026.08.17.04.14.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2026 04:14:28 -0700 (PDT)
+Date: Mon, 17 Aug 2026 16:44:26 +0530
+From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
+To: "Cheatham, Benjamin" <benjamin.cheatham@amd.com>
+Cc: Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
+	Li Ming <ming.li@zohomail.com>, tony.luck@intel.com, bp@alien8.de,
+	linux-cxl@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	x86@kernel.org
+Subject: Re: [PATCH] cxl/mce: Only act on uncorrected memory errors
+Message-ID: <aoLtEu5e1xi-UFy2@acer-nitro-anv15-41>
+References: <20260810183013.47085-1-shaikhkamal2012@gmail.com>
+ <8cef03f0-ab19-42b7-ad04-a1e98e2270ec@amd.com>
+ <anyYev89TB1jHAXe@acer-nitro-anv15-41>
+ <e0f20e5c-91af-4f9d-b1fb-b00eaef76f58@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -49,19 +87,86 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260812-edac-v1-1-03992edea297@aspeedtech.com>
+In-Reply-To: <e0f20e5c-91af-4f9d-b1fb-b00eaef76f58@amd.com>
 
-On Wed, Aug 12, 2026 at 01:48:25PM +0800, Ryan Chen wrote:
-> Add the "aspeed,ast2700-sdram-edac" compatible and note DDR5 support.
+On Wed, Aug 12, 2026 at 11:19:40AM -0500, Cheatham, Benjamin wrote:
+> On 8/12/2026 10:59 AM, shaikh kamaluddin wrote:
+> > [You don't often get email from shaikhkamal2012@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> > 
+> > On Mon, Aug 10, 2026 at 02:00:18PM -0500, Cheatham, Benjamin wrote:
+> >> On 8/10/2026 1:30 PM, Shaikh Kamaluddin wrote:
+> >>> [You don't often get email from shaikhkamal2012@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> >>>
+> >>> cxl_handle_mce() offlines the aliased page of an ELC region on any
+> >>> record with a usable address; it does not check MCI_STATUS_UC or
+> >>> filter non-memory errors. uc_decode_notifier(), the equivalent
+> >>> handler for plain memory on the same chain at the same priority,
+> >>> filters on mce->severity and leaves corrected errors untouched.
+> >>> cxl_handle_mce() has no such gate, so a corrected error - which
+> >>> the generic handler ignores - still causes the alias to be
+> >>> permanently retired via memory_failure().
+> >>>
+> >>> Corrected errors do reach the chain: machine_check_poll() logs
+> >>> them via the same mce_gen_pool_process() path that feeds
+> >>> x86_mce_decoder_chain, and cxl_extended_linear_cache_resize()
+> >>> extends p->res to cover the DRAM half of the ELC pair, so a
+> >>> routine DRAM CE carries an address inside the region resource.
+> >>>
+> >>> Filter the record as nfit_handle_mce() does. Commit fc08a4703a41
+> >>> ("acpi, nfit: Fix the memory error check in nfit_handle_mce()") and
+> >>> commit 5d96c9342c23 ("acpi/nfit, x86/mce: Handle only uncorrectable
+> >>> machine checks") established this filter for an equivalent handler
+> >>> on the same notifier chain; the consequence here is more severe, as
+> >>> the CXL handler calls memory_failure() rather than recording a bad
+> >>> block.
+> >>>
+> >>> mce_is_correctable() is used instead of copying
+> >>> uc_decode_notifier()'s AO/DEFERRED test because the alias must
+> >>> still be offlined on MCE_AR_SEVERITY, where kill_me_maybe() owns
+> >>> the reported page but nothing owns the alias.
+> >>>
+> >>> Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
+> >>>
+> >>> Signed-off-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+> >>> ---
+> >>
+> >> This looks good to me, so:
+> >> Reviewed-by: Ben Cheatham <benjamin.cheatham@amd.com>
+> >>
+> > Thanks for review!
+> >> If you have the time, could you also share a script that does the below testing on the list? It may
+> >> be possible to integrate into the CXL testing suite (see https://github.com/pmem/ndctl.git), though
+> >> the QEMU usage may throw a wrench in that. Even if it's not possible, having the tests out there
+> >> for people to run would help with any future breakage.
+> > Happy to share it. One question on where it'd fit best: ndctl
+> > (github.com/pmem/ndctl.git) as you mentioned, or drivers/cxl's own
+> > tools/testing/cxl/ in-tree? I'm open to either, or proposing it in
+> > both if that's useful - happy to follow your lead on which is the
+> > better home for it.
+> > 
 > 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> ---
->  .../devicetree/bindings/edac/aspeed,ast2400-sdram-edac.yaml         | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> If looks like there's already some mock functions for extended linear cache in tools/testing/cxl, so
+> I'd recommending trying to put it there to begin with. It may require updates to ndctl after the fact
+> to run the test(s) as well. If that looks too involved then sending the script out to the list standalone
+> should be fine. I don't know if anyone will pick it up, but it'll be searchable on lore if anyone wants
+> to test this.
 > 
+> Thanks,
+> Ben
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Thanks Ben.
 
-Best regards,
-Krzysztof
+I took a closer look at the existing tools/testing/cxl ELC support. It already provides the mock ELC topology and uses the real CXL MCE notifier path, so based on Alison's testing it looks like no additional CE/UC-specific mock support should be required there.
 
+I had initially tried the same cxl_test + mce-inject approach, but hit the current tools/testing/cxl build/wrap issue. With the proposed build fix applied, it builds for me now, although I am still debugging a crash when running the ELC setup. I am comparing my setup with Alison's working configuration before making any test changes.
+
+Once that is resolved, my current plan is to extend the existing ndctl/test/cxl-elc.sh test to:
+
+derive the SPA and expected alias dynamically from the ELC region,
+inject a CE and verify the alias-offlining path is not reached, and
+inject a UC and verify the expected alias-offlining path is still reached.
+
+So I will first confirm that the existing tools/testing/cxl infrastructure is sufficient as-is, then share the cxl-elc.sh changes here for review before sending a separate ndctl patch.
+
+Thanks,
+Shaikh
