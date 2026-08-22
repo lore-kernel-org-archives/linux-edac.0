@@ -1,109 +1,125 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AC4331EDF
-	for <linux-edac@vger.kernel.org>; Fri, 21 Aug 2026 23:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86D937E317;
+	Sat, 22 Aug 2026 09:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787355486; cv=none; b=Kbw1EaCiF+IFoFEahsJAvefu/koKDGhXvjnZWJH3tJrz0HUW1z7bbW+qinomKgRGLflmHTa1d8YCHHdwZu31mbhhYCrkhNYlMlSjtB33aWEpViSWwXYkfgXBQZFfcfqP1wmnZi135cxMadkI98IsgQABHPNaItnZiN9Iqgwcr00=
+	t=1787392166; cv=none; b=iv//5gubCwI8Fj+hP/gcVR5A0x34fJ8XsEZZ+XOZ9O9xwQsI7y1WY5q6MVvwStzmvJCARB1hnz1rRko5jT3OhSkVxPK+2rIBvYO+lkfK4hTM+LWJ3mtR5/PV8YrZMaQuSQH1IhQdhV4DENXUobPtCJtkUZCKhmFTT+hx0fnsXIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787355486; c=relaxed/simple;
-	bh=tlhxNUfa2bemmyXBM/pSS/jsWlauoYuZi6Gg7O1kyIU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U0+5Hnj/IFO+1pPUPiCNGsluYupYA0M1+gC6KUb7D2ekQmCxYBJRiQFoGyl5z2H2NsQjweKY3ObLoNgcpsLYHyUU3V4dHIojC4g8vIxeeNRFxBtzO917wZ11W3rsljergyf7mfVNkun4lrK36edDvwD2F6UoEm0y7G5uYfZBcxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZTbkLufq; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787392166; c=relaxed/simple;
+	bh=b9bJ/EELcLvj8tBhocQPyPdPu2Dp9FBn/pdNhsLkhjY=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=nkSzm8IrIxPv7xi4qYcCnWuscG9qcLgW875z1kkhLTn8qgtAblKqPBCo8i2KylvUZSmPn0KfWzLWiiO0+ofaeWvNIkq+TyR/GxSHNo2ZbWjIgw+wx5mfqAoNS/uD0oxJ5GabOcMDAo+tApyiwrjQJcTzTGneiG0erioCUxzl2a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=R9RBNhFl; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZTbkLufq"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-381c51fde6bso1769148a91.2
-        for <linux-edac@vger.kernel.org>; Fri, 21 Aug 2026 16:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787355484; x=1787960284; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y5Whma5xGLCndJ2R3MrmN5oH5Lv0H7u7llldvs/ICGI=;
-        b=ZTbkLufq6LFDkxnr6rLrsxQREcNkAQXX+yiNgBWtKVee2KwA3qh/NGU5AfzqMCdgdl
-         DUwyXgxVrhhCd9v8xHeax+BPuCFdLAZcCNN18fzHFxQahsEQ0O6EMGvTykPLWqtq0dXD
-         hJnS/ZzwhPiWwJHUPi6lK5+aNpF8OS7sjZw5YDsqulOLv0AWjYe16Zdonc0gQcTg5LAe
-         o1I5LD7v58QN2bwv2H4wonE6kMz13d4umfS1PvRCkGf7iOIpyVhqeK8POQXxYap81G1S
-         1KQEf1nJQtcrw/mmB8LJVeEOsLlNX6pIuz/lggkMQnvDzrGQlfuwv7fdN+gnN5sjz2Am
-         Hmtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787355484; x=1787960284;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Y5Whma5xGLCndJ2R3MrmN5oH5Lv0H7u7llldvs/ICGI=;
-        b=XlFrKMoP9HIM1d1wdC+RqJeikIN5fU+OT27zreTSEcHMd85iUuezq7DacAm/b970sB
-         IsyuhhP8HENphXnnrQ1jhMVolHVv+cJVgd21ZV+d34v+wjfI2lrpHrhpnVt4LI2H5gwM
-         8tQVi+ZxO05qQOpPrhbnLbOJQrO51LE22AhLLeiWXkbl0o+JuapYOdpbHcry4B7KL0nh
-         iVYkPvBsWcGf0Es52FheWhTijFpETU81zAuHbvOM0ExUUpADdtCtKjxMvZsqh7KNIwv7
-         FQuWccshCXlTsqoQkOJ34N9bmp+SiYFNvZqTZnzxw9JvazRIDJPpI7j+SXiwNZgx/rr7
-         jIrA==
-X-Gm-Message-State: AFuF++nZAeVnm0bkbi70eLI9GMjyFRPc4VxGXrtxz+94pOqTs29rsCC2
-	1JhaKXSllvDeIrcteQMw7qQWtBMYa4ledMcysRPIOp4k8dx7OXgtAqKF
-X-Gm-Gg: AR+sD12O/M5UQu1mF7RbWDXEO2UgEN8UXfrACGqyvHhB2pn62RWj70nbFi7wL2eFGSG
-	ELQfA5uO8VQ0DzFy7v+beUYVj4E9Wxz5se1H2uYUquugIAOTupPyp1UJqXXrM5qHNdyYd3t2UKi
-	dptJ7xqBn2smOx7GsRJTtjsSUuibKc8zL3QVzSBCspe+Z0B7/LLytoiAbLRHUdlje1aZFe42v16
-	eUv6xvki6xJWtcr+2thW/ieyT9LPXNadgPgvvgr0MvG9mlMZo+30PrVFVwJ+dn7NqqGivBPL+/8
-	gwwAbzJW41EqIpNO0pnhp9anHlQuYf8BgeHzvplEJPWBYthfYOnFcUX3qWJcPNjOkgA8cXUkAPM
-	v2xFFqwqU++VrJD3iFqdsLhETlmvPBUziimUY7dJ6X+jw3oaw/KnWXz+WlXAREnFNH0bdxGUk4T
-	EfGs0XL1YZ41+JLRmyU4Hifim7gRHOwfQZJbdKYk1C56OrTjmYLj+u9xlTD9MxMv6xtWgkiRO+I
-	3jJ2LVgweFjd8SgYQK7fxXSNpTWs6vrzmPmEjyOhIrixhpdVU+4
-X-Received: by 2002:a17:90b:1d50:b0:38f:dec8:f7e9 with SMTP id 98e67ed59e1d1-395df29b3c5mr3809215a91.12.1787355484313;
-        Fri, 21 Aug 2026 16:38:04 -0700 (PDT)
-Received: from hanzj-mi.. (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-395e499481dsm630370a91.5.2026.08.21.16.37.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 16:38:04 -0700 (PDT)
-From: hanzhijian <hanzhijian1991@gmail.com>
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
-Cc: linux-edac@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hanzhijian <hanzhijian1991@gmail.com>
-Subject: [PATCH] EDAC/octeon: fix kernel-doc comment for co_cache_error_event
-Date: Sat, 22 Aug 2026 07:37:51 +0800
-Message-ID: <20260821233751.2331272-1-hanzhijian1991@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="R9RBNhFl"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=/JEV3LaVrAcf7LMV/isUWWWZzvWlQSb+qzfTWqe4dI8=;
+	b=R9RBNhFllahY/WKEso8l7h9pEyAJELLDOIFPpn9oJRzpgpFxdIegXv0NfJGmPoxtBI9hxF0yI
+	23Zzp7V137Mi6kQGoBHjONg7thW44uNGjbaHEY+cnZLBDLVqp/hsYXrX4WKaCE1uwBJrD5MAnnn
+	t9h7s2qdiYvzHLIH2ssudG8=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4hRsYk6CxLz1K96b;
+	Sat, 22 Aug 2026 17:38:34 +0800 (CST)
+Received: from dggpemf500002.china.huawei.com (unknown [7.185.36.57])
+	by mail.maildlp.com (Postfix) with ESMTPS id 318D34057A;
+	Sat, 22 Aug 2026 17:49:18 +0800 (CST)
+Received: from [10.174.179.24] (10.174.179.24) by
+ dggpemf500002.china.huawei.com (7.185.36.57) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 22 Aug 2026 17:49:16 +0800
+Subject: Re: [PATCH] RAS: Fix out-of-range section_length in ARM processor
+ error handling
+To: Abbott Liu <liuwenliang@huawei.com>, <tony.luck@intel.com>,
+	<bp@alien8.de>, <rafael.j.wysocki@intel.com>, <mchehab+huawei@kernel.org>,
+	<ardb@kernel.org>, <jic23@kernel.org>, <linux-edac@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <yangzhuohao1@huawei.com>, <douzhaolei@huawei.com>,
+	<zouyipeng@huawei.com>, <wangbing6@huawei.com>, <nixiaoming@huawei.com>
+References: <20260820131829.1006371-1-liuwenliang@huawei.com>
+From: Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <de8df7aa-794d-6b7a-29bd-cc7680d47f1f@huawei.com>
+Date: Sat, 22 Aug 2026 17:49:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260820131829.1006371-1-liuwenliang@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ dggpemf500002.china.huawei.com (7.185.36.57)
 
-The comment for co_cache_error_event() starts with "/**" but lacks the
-function name line, so scripts/kernel-doc reports "isn't a kernel-doc
-comment" and it is silently dropped from the generated documentation.
+Hi Abbott,
 
-Add the missing name line and document the parameters.
+On 2026/8/20 21:18, Abbott Liu wrote:
+> Commit 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past
+> allocated memory") added bounds checks for malformed ARM processor
+> error records but contained several bugs:
+> 
+> - In log_arm_hw_error(), the ctx_info bounds check is inverted. The
+>    condition `sz + (long)ctx_info - (long)err >= err->section_length`
+>    adds ctx_info->size when the context header is already past the end
+>    of the section instead of when it is within bounds. So change the
+>    comparison to <=.
+> 
+> - The vsei_len < 0 error path did not verify the pei_len and ctx_len.
+>    When vsei_len is negative, section_length is too small to hold the
+>    full record, yet pei_len and ctx_len were derived from
+>    err_info_num/context_info_num and may describe regions beyond the
+>    (long)err .. err + section_length buffer. To prevent trace_arm_event
+>    from reading past the allocated record, sanitize the parameters:
+>    move the cpu lookup above this path so it is available for tracing,
+>    recalculate ctx_len and pei_len based on section_length, limit them,
+>    set the corresponding pointers to NULL and lengths to 0  when there
+>    is no remaining space.
 
-Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
----
- drivers/edac/octeon_edac-pc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Please do this in two patches, one for a single issue fix.
 
-diff --git a/drivers/edac/octeon_edac-pc.c b/drivers/edac/octeon_edac-pc.c
-index aa1219db0..076a3952f 100644
---- a/drivers/edac/octeon_edac-pc.c
-+++ b/drivers/edac/octeon_edac-pc.c
-@@ -31,9 +31,11 @@ struct co_cache_error {
- };
- 
- /**
-- * EDAC CPU cache error callback
-+ * co_cache_error_event() - EDAC CPU cache error callback
-  *
-+ * @this: notifier block
-  * @event: non-zero if unrecoverable.
-+ * @ptr: unused
-  */
- static int  co_cache_error_event(struct notifier_block *this,
- 	unsigned long event, void *ptr)
--- 
-2.43.0
+> 
+> Fixes: 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past allocated memory")
+> Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
+> ---
+>   drivers/ras/ras.c | 34 ++++++++++++++++++++++------------
+>   1 file changed, 22 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
+> index 03df3db62334..e37bf11d0926 100644
+> --- a/drivers/ras/ras.c
+> +++ b/drivers/ras/ras.c
+> @@ -58,10 +58,10 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
+>   	struct cper_arm_err_info *err_info;
+>   	struct cper_arm_ctx_info *ctx_info;
+>   	u8 *ven_err_data;
+> -	u32 ctx_len = 0;
+> +	s32 ctx_len = 0;
+>   	int n, sz, cpu;
+>   	s32 vsei_len;
+> -	u32 pei_len;
+> +	s32 pei_len;
+>   	u8 *pei_err, *ctx_err;
+>   
+>   	pei_len = sizeof(struct cper_arm_err_info) * err->err_info_num;
+> @@ -74,27 +74,37 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
+>   	for (n = 0; n < err->context_info_num; n++) {
+>   		sz = sizeof(struct cper_arm_ctx_info);
+>   
+> -		if (sz + (long)ctx_info - (long)err >= err->section_length)
+> +		if (sz + (long)ctx_info - (long)err <= err->section_length)
+>   			sz += ctx_info->size;
+> -
 
+Please leave a empty line here as it is.
+
+Thanks
+Hanjun
