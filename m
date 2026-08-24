@@ -1,102 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE459388881;
-	Mon, 24 Aug 2026 20:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D1D2FFF8D;
+	Mon, 24 Aug 2026 21:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787604445; cv=fail; b=Gii31iIp5KD59DS5immcInhYqzFi/Qk/fugkjvgEgFwhlBSU0bKjLab74eZVFPHSY5EbQ7Hrz5TYjAsR0TEji8ox4UVBGmslQTfdUVR1fPUIJ/Qh3guXxC2S6j4eZSOCN94j3XxuPp7iQ92n/its1lz9iOCF2V6WcvS+89f0DPI=
+	t=1787607649; cv=fail; b=CeJAPfw4/nUtX5uvpDMvEd/gHvDFZ8hccCnIiPbwTX6yfjSg0INLwg6bPlRrSgot5sChd4GMS4v2gcj+sBkmsSIHBexZ/p6uDl9Vl+4srTTJLubIKmsgYKZk+re2y9g19TnkNuDoFjcy1khC0eP5XCM7zsVkBTQkK7+R9Gmi+8o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787604445; c=relaxed/simple;
-	bh=NiFEXIHVvDo4rCf0eY5IDNVYhdaOptRZ98nMNh00Hhg=;
+	s=arc-20240116; t=1787607649; c=relaxed/simple;
+	bh=7REVRVJUPFEC7XJHx2S2yHEFKiZfldjQsEgR3Qp1Mfs=;
 	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rM32+7hAQr+rOda4pxh5ZPy8n5UHP34LUoFanQYFqllQmJBQrrHkK0hYq9obuqeL3iNZxE7lj24CoWVlh5ffvADNY3WtNffXz3S+nxKzpodO7iDpYg+LR9CvIIa7CspyrnsxNx66F7+IbbYTZHoeEuxTppzHcaTivoNbkET1QQo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZQy+xf+I; arc=fail smtp.client-ip=198.175.65.15
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ayKj8LSyIQdQblP1ZD9c8Hisrv1WaOG2J5Mv7yn4cR2iZQ+XealHj67iXoytSo2EmU8ZwB4aRHFTghYrclhxWiVmiHFPGHaCRSJmEKxwqeabJzokwy1T0JXAgfQG7jf1q635Ic14bEYLbntUW4GLlp34XlOw57K508AeTvQPwNY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJx5Ytvv; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZQy+xf+I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJx5Ytvv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787604443; x=1819140443;
+  t=1787607647; x=1819143647;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=NiFEXIHVvDo4rCf0eY5IDNVYhdaOptRZ98nMNh00Hhg=;
-  b=ZQy+xf+IqfhTF3XQOC603tGBRHbac8EGTd50WS0jFW1sV9aP0l0oJ61H
-   oO/9Jw/UvET8M3p60ncA5Jdob+mZ7E3rlmYbi8tyHDOQfSVGpPFLEugdi
-   1ZQ+javbcUclOXqI7udM0UqzdCe8fKHrR6bd03+TaF2fgF1bH+MloeT59
-   p/iBfWD9XI02o0qczbsFGjJORN5L5y2zDbkVXefzS+/Do/SpJbHlsVKpd
-   jT9R6R2ZZ7ZSHc3SW9XBFdP0vGBelxbkmAWVPbjrgBpV35zaht2WR2SbD
-   qDdiW+VRbk5xfVkDk1oc3YiWXLb299XXtxgBXK8SZ0x+q75SLLpatINds
-   A==;
-X-CSE-ConnectionGUID: 2WjdrgNHTNWxFKnkxnrN5A==
-X-CSE-MsgGUID: GFgD5iXMQu2XIreFs8j7rQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="91743551"
+  bh=7REVRVJUPFEC7XJHx2S2yHEFKiZfldjQsEgR3Qp1Mfs=;
+  b=WJx5Ytvv3dUgzG2xg+UOVoXWDTNgei6UwJkYt/AZLGB9y1OX7Qj6r3Eb
+   DfnpGNhqB3bJLRPSOU+UFQuCVXOIHFizDGUxD8M+Y97abZKvkbdUHVaPS
+   0L5wUo4V6bNrT9363wOMSQ3dRqmkSuZnGQzIewt5/Whjn8JXqAh2I9yW+
+   BElL7wM/r2dqsFCGYjrSZIescfYmVD9Vzasksxs/56mKZlYw4Ldeh65IU
+   UoffCVBykTfCaps22cQOxCaccjd48K0gwDPNXkGWsDQe0PStadGeupyG6
+   DVdkXbp5ZZ2mqu64kL7lRfxv2VEJyKaj1fH6vwVBLWbA1+7HEe1wqvZPq
+   Q==;
+X-CSE-ConnectionGUID: ZOvLpxIZRQ6Nggp7zy46kg==
+X-CSE-MsgGUID: S+yHwkJ1SFyvwB8aj98O0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87944104"
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="91743551"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 13:47:21 -0700
-X-CSE-ConnectionGUID: NDhNkxxQQVGxpx2GGO6J0A==
-X-CSE-MsgGUID: 357VeSmWRDeRqM4nYDm/yg==
+   d="scan'208";a="87944104"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 14:40:46 -0700
+X-CSE-ConnectionGUID: L6kUtwYeRfW02fPSGkHx3A==
+X-CSE-MsgGUID: SBWLIUYPQo+mm8VFkG/Mtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
-   d="scan'208";a="263370525"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 13:47:21 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+   d="scan'208";a="272324606"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 14:40:46 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 24 Aug 2026 13:47:19 -0700
+ 15.2.2562.45; Mon, 24 Aug 2026 14:40:45 -0700
 Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Mon, 24 Aug 2026 13:47:19 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.20) by
+ 15.2.2562.45 via Frontend Transport; Mon, 24 Aug 2026 14:40:45 -0700
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.54) by
  edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 24 Aug 2026 13:47:18 -0700
+ 15.2.2562.45; Mon, 24 Aug 2026 14:40:44 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VUzZZpDuGx07aPK5NJP2L5UBTbmjeD/LGyQXlCmgMPV/WoEosKDFINGLpS+VALB4ylxZtFDKoikvBGkb6XFnAF+d6+9NEAOF/RhTZh7OmPo9jFpQgTkidYkx5P07jgfpvNEhdLjooXv7B8o4hBxRCwLBbR4sL3hlmnE4DloY3tfkmhFIxF/9NWLsspHSuzHg0Mt3E+Shi4cTmZdZNatCSU+6om7uFb1+sBb5JUk/L3kdqNX3eikZbYSNPhm4SHnsUg8GbqAAJNWmYA31QVWvTdjLUEZPMbR5xjQkNnxHH9ZAAWEc38wzv/OykIyJrOKg5YoYkYM91oN4vI1AbCi+JA==
+ b=PKQwRWGRRYUak6EWpLud20e8JmSLZMG4S2QpOngKEKUs2KBdZS9z4M/wtVGJ/bZYq+RDaN0aCqCQk6iHZGyfz6Xx7sSLcgm4gddmSCKrwLflS3RuHNSYTnjoWrEXueLVdQ2IDR0XNU6xODrhDI2uxb3vyA8ixUYexbdKMhN50ct4GVotNB8VvYtiAxaYk1J/Foy++T2tHxmoqZmHjF3aQIxomrn47fp7l+MgRdKu+Tq342NAy/6xzo0XAZuRbw/6qceNBKvkxeoFqcbfqxgiA6MLyMYb1F9GYKJZJKPLfH/AXk2VAvECkBZzxdQkz9z+8PtpZr/+ZLyMw6i7eaBaMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JMTwjMRmnyKWW2+ZD1e9mgnOaFEDk5R8tiNvJ4sfj14=;
- b=V6jtM5QyiolVPipK9aP2dR+AbSwPwPz2uhVNle/AHmpMT7KF6dPz5MYkbk6EvDVclAZYIF/QkrcoDrRTAZvLv5ugmHZfT3xtYPwe4J5pAk/587FkbtuXm4NWvN1lFZUbvmKDKcNqzdPRBb+EnTO5oJo0s5JNDXPfq5T0X97W9MeRGMG3YbbgrBcxjXTPWX0t93ml4vWnaNJQ7Q4rUlSQX2CrIms8X9rv+gFPN2RyKSg6mi+yH166qqyy+8MJx+5zHEC8zgymxtbLngwtTgPYmuSOy+9CDfxn4uoFVMHYOh12ZymcLh5PqRcXPW2MdjrQRBc6ZugdiKaL2UdZe0pukA==
+ bh=nkq3ZkfMihJH2DRViQhu1FxHx9ZSI9ytmNi4O2ontmU=;
+ b=n2p380TaCwhY7EiAbjFRgEI9mBLwJj7VXMALiZK6NWROuADJi6DM1k06tZY1s5V8kDiENVQvKyOOo6Qx1uTb8xiH/s7uney3McV9TIO+LWZYe7B3h2FGWMMg5gmgbHKWsQ1t48FNHWyHwt5A5kkoTjPBlHHFZp+nwkPqMQZvJt8VycbmmwiSPOrVHwPHwVLyKxqYHI6u4gWHgGnyEingU9YI68MHnLmX0PsHYAd0OND5KtdNA2fnI36AqT8+uHzspeUXbWuAiraN6bxp3CIz0DO8+y3T+xGydD+IR/MhtvCb4/Rr1xoKZR7yLkXkPjLi8yXkFiwtw6DdJdKP9crxNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by IA1PR11MB8803.namprd11.prod.outlook.com (2603:10b6:208:59a::14) with
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
+ by MN0PR11MB6035.namprd11.prod.outlook.com (2603:10b6:208:376::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Mon, 24 Aug
- 2026 20:47:15 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
- 20:47:15 +0000
-Date: Mon, 24 Aug 2026 13:47:13 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Breno Leitao <leitao@debian.org>
-CC: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>, "Ingo
- Molnar" <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
-	<rdunlap@infradead.org>, <linux-edac@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<kernel-team@meta.com>
-Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
- corrected error flood
-Message-ID: <aoyt0bpXGQf1Y8GH@agluck-desk3>
-References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
- <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
+ 2026 21:40:42 +0000
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::e721:90d7:9214:2d53]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::e721:90d7:9214:2d53%6]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 21:40:42 +0000
+Date: Mon, 24 Aug 2026 14:40:37 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+CC: Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>, Li Ming
+	<ming.li@zohomail.com>, Ben Cheatham <benjamin.cheatham@amd.com>,
+	<tony.luck@intel.com>, <bp@alien8.de>, <linux-cxl@vger.kernel.org>,
+	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>, <x86@kernel.org>
+Subject: Re: [PATCH v3] cxl/mce: Avoid alias page retirement for corrected
+ errors
+Message-ID: <aoy6VWVLWcaqHiWQ@aschofie-mobl2.lan>
+References: <20260824134957.11085-1-shaikhkamal2012@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
-X-ClientProxiedBy: SJ0PR13CA0050.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::25) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+In-Reply-To: <20260824134957.11085-1-shaikhkamal2012@gmail.com>
+X-ClientProxiedBy: SJ0PR03CA0141.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::26) To DS4PPF0BAC23327.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::9)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -104,95 +103,562 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|IA1PR11MB8803:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42b15dbb-236d-4d09-6151-08df0220e14f
+X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|MN0PR11MB6035:EE_
+X-MS-Office365-Filtering-Correlation-Id: babd5b6a-45db-42ce-0204-08df0228589b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|56012099006|10067099003|22082099003|18002099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info: kx2zaHxJaBPYjeuZAijposQan93xeeDv78nGeQH+Tdn5psaT5JddUiDyaDGe8EJGwEx+96rDSkRAltOEn/wm59afp1Gq6j9INbS6oQ0kbMtaxn5l2CRPtBkbFMZnsjoh5B5osaodS6gisSPEEYRRIx6kcvJunmQIEoPzrzE/0qRCSiE95cLmgwVCuhBaPhsjetvRKCzvT/n6tkyySAlMq5ywjav9EJGOT/oUoA0bhVzv6SexQVrAlxoNUNerOTz4+LXuW8xMVlEfLecKC8jCcPjgbR2rTGdHtdijB6xhjqUHJBg123NGZ4YJh2kERaCqXoTJhnjXjFQZRXLe+xFAKcW4pKa7z6lJU0mV7V0aTDhuZY+5zDNpurJWCf+LBtK1RkMYLGYwIZAdSslPZd7de7Umwwoph+i5Agi2YjnR7cVs/jYbrrZoTgY1C7t6iWcGgRN5Q9AQhYnbrMh+QpLGlTQiU1vutFvRLU27lF8lBKiU11IOPFK1l5BuRiUoBAn3n7eX8hYNwZNEeslL43eG0FmW7IWRYaCGJnoTAg5IJCB/OcqqGsPIsZppMfgbBQo0BzpVtOtvEdlckzKPmi2H17U+Gpk1FA75JLoPyGwj03w7Uq6+MMoRqe8YzK7zEsjweypeEuVAtVTIJgbwL36uH6xGyeqIQLD8Xg33KQnKJrU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(56012099006)(10067099003)(22082099003)(18002099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|366016|6133799003|56012099006|3023799007|5023799004|10067099003|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 3vjUsjK3466awS4e/UtWd+84g2X2mpu1HzD4cznGILuciYJCuPg4MBwT/cQvEINPqXdXF+SuNI9tlBmpulWU6Kl/D9jc7p8YhbwAT50dXpOwV7CPXXIsk6Z894oEXuWLLEtdRGNDgr9sXw9MU35kX+zz6sV9ONbQVlu5XlSZG3AJjclUKqLdBMgUFTsdt31TUyF0FSMqyS33xdTqEfEOeSJaKBNgVaTWRmEc9y2aSoFhsPNZiwdtkIqvynZJoPCFBvNZdjzEnQVouaZr2hQs4Rr++tUlIcRArofdzXOxlmk5s/wP9+u99b/JqWeFjAyGIWjMdW1NTFnonXSEcrY30jinwZUI/21qiMCJJ0Yl2QfwI9gU8HneCRhvxPR0A/e4zQDmmJIijl9Zcpqlzrj8uoNimG+nFuau9CdsduU0PyUBKwhajRHGbRpxHYW/fX4B7SfUjvfZ30zoJl44lsZ1To8wQHn+Z4osVzeenpa3AUsmwBz/13Fz1GP7SF57aZjNY2/5m6MpX91RtTEJwRRRezk/QWmi1EA0j4XqhMNTZzj1/zpIT5GlOufUdpHi8x4kBS+rcUSCkjCyw0V+43mWy3qZrAHccdrVOA+8pAB1Ofoi5mV2y3NxDjF3MFpUqa2QJDDsCWO7abq1IUqLewBOJlF/FFQv/Sxdkl98YQYzgkE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(366016)(6133799003)(56012099006)(3023799007)(5023799004)(10067099003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Md3v0AfDc6WNhP4bxacUYnVVVPPK5lY1o4FacWlAZ1arNqke/nQjJvh7Rerw?=
- =?us-ascii?Q?9pz/72fX1h+5Ua9Bpo7TbcmeMxk92zufL4bW5Kl5JdYtRjukV8UlG6r4VlLN?=
- =?us-ascii?Q?ncleGhlnNL9iTf21G4o1GhazJIU7T7RbnaJC3CuqOFdD9bUvQJnjzyykE5Us?=
- =?us-ascii?Q?s9kS/dMwLauAZnOxY3kpYIEuWkhSr0C0kHOcVDP23MswXfIpVfkEg2Z1cl8a?=
- =?us-ascii?Q?9L0nfpGYujpYXvWglNlX6DKi25Q6ieTAYYtnjo8L0g9mv9nxm/lOunzN7n/4?=
- =?us-ascii?Q?YsILKbTnTN/mOo69U283q5AHLZBPW0MfOm5Cwsnkz21M0E6LxHr3EoRIL0GQ?=
- =?us-ascii?Q?v4l6E3ifw/PIwqj4ciCTzIB6jJizDqGgKTNztNXYXvgVuOeFiDRRGDnke9Xs?=
- =?us-ascii?Q?WeFlZBVNSb3I8cD90ah9K1edI12oFQE07VGFmu3ojQ+MPrXQQJ60AaIHgert?=
- =?us-ascii?Q?egqEnpyRiSLDvy+pxW1BolaF3aQFmZqwrYo2v6WfxfaAbP4kAezHoItZkaV8?=
- =?us-ascii?Q?CRbGflG90IaAJrmGRtGV20qtBrp9dhOtWGoaFVIJdihuISH7hPRiaEONmDfs?=
- =?us-ascii?Q?5q0FO9MNwGDs9L1bNzsjWoxo353AmZI72ciKp21J8+SNeB9SpAQwBXw8gTZ7?=
- =?us-ascii?Q?k1+VgpT4Z8bIziAOhPvQjGIG5vSoqgjCW5J92TP0FTLFwPqu6pmG4poOhxaX?=
- =?us-ascii?Q?H4lwo3KDVLugws+rQnsnOytyfFBVLoOOVijLxSb2Cep23rag7MuiXbuaf7rb?=
- =?us-ascii?Q?cVFAYAV7EiYZ/INPKczBQuWJd/ZqWuXp6LTBT4q82uQjZKDRPUzmpaN6jGQ+?=
- =?us-ascii?Q?ri/zBeD4jtSL91B6nUegt9yxl5bWgsnBW+QfOShJAfwjj8GL00x0JgZufTJ5?=
- =?us-ascii?Q?x7X/s8nQ0gwn0xksAS5h0jnIY/HebA3t5uaSyP4tXP5job9QGYg3aQdMsQx/?=
- =?us-ascii?Q?GttiGX6eDkhJ1936xypKZn0GC5FZO13U4z89RfNH2nxmEbj6+lKczryFGtJ5?=
- =?us-ascii?Q?ijaM+5TPAsjyNS/OmqfdhRi5DbFonR/muPbLib23wfj40fjkVwBCh2Qn+px9?=
- =?us-ascii?Q?/AxuQLyErpGk5IuFgBveM3Dy7N6IEmvQOSfHCUdr9zV+hdIqktolCi5LgIlc?=
- =?us-ascii?Q?UVyq2OA1+XqHPM6lHpze9W1majZX327z6UZ/TeqAl9DSm8KzvZbUyvtr2SsN?=
- =?us-ascii?Q?Eq7/iIWtbEIfiUboCUFxUrgeQJGfIXtkPjN6h7nu1kORtak1jFUT/52U7zS9?=
- =?us-ascii?Q?cyop88jIqNNlppifEmZg3YtrcetNisyNSboeg0Lt6wEj3Tq74KDM6pS9U57n?=
- =?us-ascii?Q?cr0uZQfDuQS3XPGulP753EThFTo41u9yUhG/zLnRDHtlO8DwHFcoaEZ+cFdU?=
- =?us-ascii?Q?I96A4NFt0fpry7PBp5BtITrHGahPSAHNxQYvreTxyLJi1kVJm6LKvn34bFe5?=
- =?us-ascii?Q?k1jwVrNa/zRcNERr4Iuzj+BiwTbHoA3J8giQ6DP0Q5LpfB+EQlfkZnEZOuwU?=
- =?us-ascii?Q?fJZP8L+vYgPLwVp6+q3P/6SvwqfZaUnNj+6tqkhUDsn8D+UxEsbzUN2gw/J6?=
- =?us-ascii?Q?DcbTxch0Cx9eObRRYx6cgC6xLoXnxIaLrjoFDnzA6ldON5J1sjdEtXKz4lyN?=
- =?us-ascii?Q?6boQJLJU9uHcWyiSPe5Pk/+4VJOp3ZvhKoHCxDN6L0QVItgsekAxFVhX7jVw?=
- =?us-ascii?Q?zEFf0xVxxw+38PfU8jn7DZFkD6CE4DaN3aAMF21Zw7RzO0AbiF/sH1KPDWqB?=
- =?us-ascii?Q?VqM7uLAmLQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: MPnHMnGSVXm5WUqQ4D+HkiNnZklETojiw/lc8eFIe6K2Ttpy2hppqiCslxQ1F+UPc0W5/lyiyzE+56y4Du5FSe1yWewjlTPhAAZdbxqpiMQaIO8rBe7JyewqjYb+0f+sJ91WApoMc/Z9YNm8YjTjWuieCPLEX2s2ROrmIFaFk/wbcse3jUZieq9kzSTFz0e6srlQwGK/0EaHkMbnyhbMDE0WZex75TSE69Pyko2ZoOrBRYhnTgxcD1cLZR6VILMOlm7dXppylUdZSlAGXp3xzCLXnz16s6TlObYSv8OEOUdd17rW3JOWPSfQwxeLf2e0B/s5SVQFAw+bZwshPkE5Vg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42b15dbb-236d-4d09-6151-08df0220e14f
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TaAvy+CULFjy9LI2ps6M1A4S5IPpvLFTr5R9QtQN0frSkhZGaO8nE3XX2XpU?=
+ =?us-ascii?Q?476C7f3akumXef0T9Slj66NPJgQ+GPqUjd5j9cfl/ZWR9+XzQqFknzOgr0RX?=
+ =?us-ascii?Q?X1PdAjPngmFGWdhpvqe8wVlwEZZ5lb6n+ghe9KX9ILE3pwNu2MEVG1qrV6Ue?=
+ =?us-ascii?Q?K2X7WdejAsxt4IcoA/vb1FeEx0WtRlsmGL7I0QyX2WDtwlMooB1mrdf7v9yf?=
+ =?us-ascii?Q?rHD9/U/Ao6WvnOE2f6Eh82kmUj0YKSo01/lJfE/1GWpWbcm/Bb+/Roagn3C9?=
+ =?us-ascii?Q?z8o8nq5ZUzzV/i1YJi8IuCKJ7a2eIZ7H1wdOk5ssU+RfsFdz8R0N/C1J9HQp?=
+ =?us-ascii?Q?6pBY0I4fpyDmCKKPntbx66lOwfmFjeyPPJ58aq8xy9FnyOFZXAprn5TYYPaL?=
+ =?us-ascii?Q?5hXUUL4v//JIk8x2H3G2JcoWbrxCGaBMw/z+S4pp7+IWXde4FTP9VJvG12f3?=
+ =?us-ascii?Q?pxYlxbLVkfUYXLMmirRbtQd0GfoIuZx0t3BV9X/fSdWl8fTzN8Rn7McvFbBl?=
+ =?us-ascii?Q?75902CQe/RC+WloA0wvwpwh7jKzjOk2rIvbEhpD8cZUDDaG3jcct/5r7IQ4P?=
+ =?us-ascii?Q?2SkVdNeNtWFqGe5jjpKhrwj8gztTa0keTr8r7+KpjOJqXJGP8NavVoBH3II2?=
+ =?us-ascii?Q?YuAL0U/uzrv13UC1pzmGLf3RBVC4Zc7HpWVzySTPVfnHH2pO7lUUXyl6WdRB?=
+ =?us-ascii?Q?HVFjaD785oBA8XSNRicdfOScu1Nf807dVW5Ei8b9ip8rtnmEAUchcRYaQtfL?=
+ =?us-ascii?Q?5lPTlMLYcYVmR//hMYjQo0tN4VRDjlewhXRy8uc3+tJj0A0iaw+3w6E3jq7F?=
+ =?us-ascii?Q?+hxhjyC1/sWwZrYMdUa37utqmkFrWOXlZfEa79Py4AeEeknkn/2YJo24XXzG?=
+ =?us-ascii?Q?C/zR9jjGBlq1cwOFJuZ98RFKrVjz1xcQ3bpt+0U7UecCpYwh5Y94iCrFMrG/?=
+ =?us-ascii?Q?DWvLX34uMn4OUjJeclbRsLNr5qIL43k20rO5trz5cqLmSl9m71exSmE+1EHJ?=
+ =?us-ascii?Q?nzZQPPAxwZmz8caD1BKQIqDMSumbodMpwjZ2GQym2iY1pYThIqoODQVV7reV?=
+ =?us-ascii?Q?OmjeXu8LUpIbqBCXKAvbsZzoLmx0NS60btjbhMhG7DdV6lf09EpiSHefk7s2?=
+ =?us-ascii?Q?17Em2JnaLpmzy4YUNPeWIdSVp2rk/AZunZpa1ngyZNFARGXAGJiX6AADQBeR?=
+ =?us-ascii?Q?+Ezb+VMqaAYzRBGcJ/AgNQ81YCUzq/Fr2wk/06lAzTlFOjWUtYQHGtPxKrxW?=
+ =?us-ascii?Q?R8Wj3nu2H42kla+X3j5yGIIkOnSOXdt7P06xsWIUze22vV9YPJ5GecP/Jdgy?=
+ =?us-ascii?Q?7dbJ70ZghzUevzfifDWE6Vw8mvd/zsxy6c/3K7NjRU8FYzzKLZGBwcMeUsYz?=
+ =?us-ascii?Q?y3Em7q/6LWB/dDoo0yevONGnZz5taprtcX2pfSh+MC2II/k1fMdpfKklANpO?=
+ =?us-ascii?Q?lDFwLWyskEJVxpsbshoO3Nf2WLtPXvRboucB9AjKfB4PY5NIkULOxzCJlPbF?=
+ =?us-ascii?Q?o9X5DcycdBV6xvel5Ug6wvfjBqpJA8Dp46u7nvV/biKwoosMeRvzguTFvqxW?=
+ =?us-ascii?Q?GbiDGGcQ/oBLY0rzPBlAST6kj/swaraWmB7ct9l5vqDY9UGlrUG1Fqju+UCW?=
+ =?us-ascii?Q?HvpjufOgl+ga1jZZwE9A/RriwLubVd2udsmaTgP4Q4lGx1IruwQCAe7ZGcuM?=
+ =?us-ascii?Q?Y5ZIaB1d07W0O2abDqHOgQeBI12dgkkqAyDogv1gOnW5MUpcD4hvq9TJxw/+?=
+ =?us-ascii?Q?1qaRXGAiUVEySYXNw01vWjzbsHOB9LA=3D?=
+X-Exchange-RoutingPolicyChecked: koBguiF2UG/D3FPJcwYpR8V3tjHcemwhxsyk5x+GNh8lbCJEoBQDleLcO+nN3xXZg/4bBrSCO/F/NhSc+4MNaqZwSQuGTBF4iBs45ay3B86CNGb3VH04xZ6bwlG/VAjAtASiDd7iB8y/zmq3ZAwg8HaSUDCyZ+vLn6U5JtX7IHdhlOVOkmPuhXizurJRuY/2mXJ1yaBR63CUQKLLFcAZJAeC75V5W4LCe9rVRh4AxNt7JF1XJxUCUaMhUAoNlGnLpWCO+JGSJM0B60cyYUWDAUArTGjiE9ZM2go0enhAZCerYw7mDsT23w10W8vVdIhm/UKLGp+SNlHztj+zuypbyg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: babd5b6a-45db-42ce-0204-08df0228589b
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 20:47:15.4037
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 21:40:42.1252
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l4EirCatMFxngxqgy0irGN19zJX1dV2mrUYlKxolwfuD+ogcMzU/J8Qg8orYCp/3i5IssnKLMuAl2H3E9fiUhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8803
+X-MS-Exchange-CrossTenant-UserPrincipalName: q1lseLzsGpSu8tf5VbGyeHnvHz18yZFGCsCc+S2taXBDravhzh9mW1tTuqvUJbXh8bZTyV1iOIfS+QlHjXypC+NqavAuI38QT9/1Lv699fY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6035
 X-OriginatorOrg: intel.com
 
-On Fri, Aug 21, 2026 at 03:24:08AM -0700, Breno Leitao wrote:
-> +/*
-> + * A bank that keeps reporting corrected errors is repairing them faster than
-> + * anything acts on it. Count them and let the admin put a ceiling on it.
-> + */
-> +void mce_track_ce_count(struct mce *mce)
-> +{
-> +	struct storm_bank *bank = &this_cpu_ptr(&storm_desc)->banks[mce->bank];
-> +	int limit = READ_ONCE(mca_cfg.panic_on_ce_count);
-> +
-> +	if (limit <= 0)
-> +		return;
-> +
-> +	if (!(mce->status & MCI_STATUS_VAL) || !mce_is_correctable(mce))
-> +		return;
-> +
-> +	if (++bank->ce_count < (u64)limit)
-
-If errors are happening faster than Linux can service CMCI interrupts,
-then the corrected error count in bits {52:38} will be some number
-bigger than "1".[*] You should add that number here, rather than simply
-incrementing +bank->ce_count.
-
-> +		return;
-> +
-> +	printk_deferred(KERN_EMERG "CPU%d BANK%d logged %llu corrected errors\n",
-> +			smp_processor_id(), mce->bank, bank->ce_count);
-> +	mce_panic("Too many corrected errors", NULL, NULL);
-> +}
-> +
->  void mce_track_storm(struct mce *mce)
->  {
->  	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
+On Mon, Aug 24, 2026 at 07:19:57PM +0530, Shaikh Kamaluddin wrote:
+> cxl_handle_mce() offlines the aliased page of an Extended Linear Cache
+> (ELC) region for any MCE with a usable address in the region. This
+> includes corrected errors, needlessly reducing usable memory.
 > 
+> Skip ELC alias retirement when mce_is_correctable() identifies the
+> reported error as corrected. Uncorrected errors with a usable address
+> in the ELC region continue to retire the aliased page as before.
+> 
+> mce_usable_address() already implements the per-vendor checks that
+> determine whether the reported address is usable, so no separate
+> memory-error classification is needed.
+> 
+> On AMD, a corrected legacy bank 4 DRAM ECC error (XEC 8) reports a
+> usable address and retired the aliased page before this change.
+> Tested under QEMU with Intel Skylake-Server and AMD EPYC-Milan models.
+> 
+> Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
+> Signed-off-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+
+Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+
+To be complete, I'm not retesting since v2, so not offering my
+testing tag here. I have confidence in your thorough testing!
+
+-- Alison
+
+
+
+> ---
+> Changelog:
+> 
+> v2 -> v3:
+>  - Drop the mce_is_memory_error() gate added in v2. On AMD it rejects
+>    every non-UMC bank type, so poison-consumption records reported from
+>    Load/Store or Data Fabric banks never reached mce_usable_address(),
+>    which would have accepted them via MCA_STATUS[Poison]. (Sashiko)
+>  - mce_usable_address() already implements the complete per-vendor
+>    address-usability logic, so no separate memory-error classification
+>    is needed.
+>  - Add AMD test coverage (QEMU/TCG, EPYC-Milan) alongside the existing
+>    Intel results.
+> 
+> Link to v2: https://lore.kernel.org/linux-cxl/20260812151759.14390-1-shaikhkamal2012@gmail.com/
+> 
+> v1 -> v2:
+>   - Reworked commit message per review feedback
+>   - Dropped redundant comment from the code
+> 
+> Link to v1: https://lore.kernel.org/linux-cxl/20260810183013.47085-1-shaikhkamal2012@gmail.com/ 
+> 
+> Reproduced under QEMU/vng. QEMU's cxl-type3 does not emulate the HMAT
+> extended-linear address_mode bit, so ELC was forced locally for testing
+> via a one-line debug hack in cxl_region_probe() (not part of this patch):
+> 
+> 	if (!p->cache_size && p->res)
+> 		p->cache_size = resource_size(p->res) / 2;
+> 
+> Steps:
+> 1. Boot with an Intel CPU model under TCG (KVM host-passthrough will
+>     otherwise leak the host's real vendor ID, and AMD/SMCA takes a
+>     different mce_usable_address() path, covered in the section below):
+> 
+> vng -v -r ./arch/x86/boot/bzImage --disable-kvm --qemu-opts='-cpu Skylake-Server-v4,+mce,+mca -m 4G -machine q35,cxl=on -object memory-backend-ram,id=cxl-mem0,size=512M -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.0 -device cxl-rp,port=0,bus=cxl.0,id=root_port0,chassis=0,slot=0 -device cxl-type3,bus=root_port0,volatile-memdev=cxl-mem0,id=cxl-mem-device0 -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=512M'
+> 
+> 2. modprobe mce-inject
+> $ cxl list -M
+> $ cxl list -D
+> $ cxl create-region -m mem0 -d decoder0.0 -w 1 -g 256 -t ram
+> $ dmesg | grep "DEBUG: forced cache_size"
+> $ modprobe device_dax
+> $ modprobe kmem
+> $ ls /sys/bus/dax/devices/
+> $ daxctl reconfigure-device dax0.0 --mode=system-ram
+> $ lsmem
+> RANGE                                  SIZE  STATE REMOVABLE BLOCK
+> 0x0000000000000000-0x000000007fffffff    2G online       yes  0-15
+> 0x0000000100000000-0x000000017fffffff    2G online       yes 32-47
+> 0x0000000190000000-0x00000001afffffff  512M online       yes 50-53
+> 
+> Memory block size:       128M
+> Total online memory:     4.5G
+> Total offline memory:      0B
+> 
+> 3. Load the injector if not loaded earlier and derive the two MCi_STATUS values.
+> 
+>    # modprobe mce-inject
+> 
+>     MCi_STATUS bit layout used here (arch/x86/include/asm/mce.h):
+>       bit 63  VAL     - record valid
+>       bit 61  UC      - uncorrected (0 = corrected error under test)
+>       bit 60  EN      - error reporting enabled
+>       bit 59  MISCV   - MCi_MISC valid
+>       bit 58  ADDRV   - MCi_ADDR valid
+>       bits[15:0] MCACOD - retained from the v2 test setup so the Intel
+>                           and AMD runs differ only in CPU model; not
+>                           consulted by this path.
+> 
+>     python3 -c "
+>     VAL, UC, EN, MISCV, ADDRV = 1<<63, 1<<61, 1<<60, 1<<59, 1<<58
+>     MCACOD_MEM = 1<<7                
+>     ce = VAL | EN | MISCV | ADDRV | MCACOD_MEM
+>     uc = ce | UC
+>     print(f'CE status = {hex(ce)}')
+>     print(f'UC status = {hex(uc)}')"
+>     # CE status = 0x9c00000000000080
+>     # UC status = 0xbc00000000000080
+> 
+>     MCi_MISC: address-mode field, bits[8:6], must be 2 (physical):
+> 
+>     python3 -c "print(hex(2 << 6))"
+>     # misc = 0x80
+> 
+> 4.  # cd /sys/kernel/debug/mce-inject
+> # echo sw > flags
+> # echo 0x9C00000000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190010000 > addr
+> # echo 9 > bank
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> cxl_mce_debug: spa=0x190010000 contains=1
+> cxl_mce_debug: spa_alias=0x1a0010000 pfn=0x1a0010 pfn_valid=1
+> cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+> Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
+> mce: [Hardware Error]: TSC a605ccda40 ADDR 190010000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786375908 SOCKET 0 APIC 0 microcode 1
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     4 kB
+> ---------------------------------------
+> 
+> CE without this patch:
+>   cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+>   Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+>   HardwareCorrupted: 4 kB
+> ------------------------------------- 
+> 
+> CE with this patch:
+>   (no "Offlining aliased SPA" message logged)
+>   HardwareCorrupted: 0 kB
+> 
+> # cd /sys/kernel/debug/mce-inject
+> # echo sw > flags
+> # echo 0x9C00000000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190010000 > addr
+> # echo 9 > bank
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
+> mce: [Hardware Error]: TSC 2eeae32fe0 ADDR 190010000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786377156 SOCKET 0 APIC 0 microcode 1
+> clocksource: Watchdog remote CPU 11 read timed out
+> 
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     0 kB
+> --------------------------------------
+> 
+> For UC, same steps only status bit information will change :
+> 
+> # cd /sys/kernel/debug/mce-inject
+> # echo sw > flags
+> # echo 0xbc00000000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190010000 > addr
+> # echo 9 > bank
+> # dmesg | grep cxl_mce_debug
+> #  grep HardwareCorrupted /proc/meminfo
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0xbc00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> cxl_mce_debug: spa=0x190010000 contains=1
+> cxl_mce_debug: spa_alias=0x1a0010000 pfn=0x1a0010 pfn_valid=1
+> cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+> Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: bc00000000000080
+> mce: [Hardware Error]: TSC e9dd2869e0 ADDR 190010000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786377750 SOCKET 0 APIC 0 microcode 1
+> 
+> Patched, UC: alias still offlined, confirming uncorrected handling is unchanged by this patch.
+>     cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
+>     Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
+>     HardwareCorrupted: 4 kB
+> -----------------------------------------------------------------------
+> 
+> AMD Platform Testing:
+> ---------------------
+> 
+> Note the vendor difference: on Intel, MISCV with MCi_MISC[8:6]=2 makes
+> any ADDRV record usable, so a plain CE is address-usable. On AMD an
+> address is usable only via poison, legacy bank-4 DRAM ECC, or PADDRV --
+> hence the differing usable= values for the same status word below.
+> 
+> 
+> vendor_id	: AuthenticAMD
+> model name	: AMD EPYC-Milan Processor
+> 
+> -------------------------------------
+> Mainline Kernel Without this patch:
+> -------------------------------------
+> 
+> vng -v -r ./arch/x86/boot/bzImage --disable-kvm --qemu-opts='-cpu EPYC-Milan -m 4G -machine q35,cxl=on -object memory-backend-ram,id=cxl-mem0,size=512M -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.0 -device cxl-rp,port=0,bus=cxl.0,id=root_port0,chassis=0,slot=0 -device cxl-type3,bus=root_port0,volatile-memdev=cxl-mem0,id=cxl-mem-device0 -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=512M'
+> 
+> # cxl list -M
+> # cxl list -D
+> # cxl create-region -m mem0 -d decoder0.0 -w 1 -g 256 -t ram
+> # dmesg | grep "DEBUG: forced cache_size"
+> # modprobe device_dax
+> # modprobe kmem
+> # daxctl reconfigure-device dax0.0 --mode=system-ram
+> 
+> # lsmem
+> RANGE                                  SIZE  STATE REMOVABLE BLOCK
+> 0x0000000000000000-0x000000007fffffff    2G online       yes  0-15
+> 0x0000000100000000-0x000000017fffffff    2G online       yes 32-47
+> 0x0000000190000000-0x00000001afffffff  512M online       yes 50-53
+> 
+> Memory block size:       128M
+> Total online memory:     4.5G
+> Total offline memory:      0B
+> Load Injector
+> # modprobe mce-inject
+> --------------------------------------------------------------------------------
+> 
+> case1:
+> 
+> label              status           addr         bank   note
+> 
+> [LEGACY_B4_CE]  0x9c00000000080000  0x190070000   4     "case 3: bank4 XEC8 corrected+usable "[Before Patch]
+> ---------------------------------------------------------------------------------------------------------------------
+> 
+> # cd /sys/kernel/debug/mce-inject
+> # echo sw > flags
+> # echo 0x9c00000000080000 > status
+> # echo 0x80 > misc
+> # echo 0x190070000 > addr
+> # echo 4 > bank
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00000000080000 addr=0x190070000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> cxl_mce_debug: spa=0x190070000 contains=1
+> cxl_mce_debug: spa_alias=0x1a0070000 pfn=0x1a0070 pfn_valid=1
+> cxl_region region0: Offlining aliased SPA address0: 0x1a0070000
+> Memory failure: 0x1a0070: recovery action for free buddy page: Recovered
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 4: 9c00000000080000
+> mce: [Hardware Error]: TSC cbdf882d20 ADDR 190070000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787479138 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     4 kB
+> --------------------------------------------------------------------------------------------
+> 
+> case2:
+> label        status              addr         bank   note
+> 
+> [POISON]  0x9c00080000000080    0x190040000    9     "case 2: poison only (UC=0) - divergence to note"[Before Patch]
+> -----------------------------------------------------------------------------------------------------------------------
+> 
+> # echo sw > flags
+> # echo 0x9c00080000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190040000 > addr
+> # echo 9 > bank
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00080000000080 addr=0x190040000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> cxl_mce_debug: spa=0x190040000 contains=1
+> cxl_mce_debug: spa_alias=0x1a0040000 pfn=0x1a0040 pfn_valid=1
+> cxl_region region0: Offlining aliased SPA address0: 0x1a0040000
+> Memory failure: 0x1a0040: recovery action for free buddy page: Recovered
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00080000000080
+> mce: [Hardware Error]: TSC 17153949200 ADDR 190040000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787479277 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     8 kB (cumulative added previous 4kb + 4kb this test)
+> -----------------------------------------------
+> 
+> AMD Platform Testing with applied patch:
+> ------------------------------------------
+> 
+> # cxl list -D
+> # cxl create-region -m mem0 -d decoder0.0 -w 1 -g 256 -t ram
+> # dmesg | grep "DEBUG: forced cache_size"
+> # modprobe device_dax
+> # modprobe kmem
+> # daxctl reconfigure-device dax0.0 --mode=system-ram
+> # lsmem
+> # modprobe mce-inject
+> ----------------------------------------------------
+> 
+> case1:
+> label              status           addr         bank   note
+> 
+> [ CE]          0x9c00000000000080    0x190010000   9     "case 1: corrected, no usable addr"
+> ----------------------------------------------------------------------------------------
+> 
+> # cd /sys/kernel/debug/mce-inject
+> # echo sw > flags
+> # echo 0x9c00000000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190010000 > addr
+> # echo 9 > bank
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
+> mce: [Hardware Error]: TSC 8e59f2f3bc0 ADDR 190010000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787454918 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     0 kB
+> -------------------------------------------------------------------------
+> 
+> case2:
+> label              status           addr         bank   note
+> [ UC ]        0xbc00000000000080    0x190020000   9      "case 1: uncorrected, no poison -> unusable"
+> -------------------------------------------------------------------------------------------------
+> 
+> cd /sys/kernel/debug/mce-inject
+> echo sw > flags
+> echo 0xbc00000000000080 > status
+> echo 0x80 > misc
+> echo 0x190020000 > addr
+> echo 9 > bank
+> Result:
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0xbc00000000000080 addr=0x190020000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: bc00000000000080
+> mce: [Hardware Error]: TSC 134d6de13240 ADDR 190020000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787460569 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     0 kB
+> -------------------------------------------------------------------
+> 
+> case3:
+> label              status           addr         bank   note
+> 
+> [ POISON ]   0x9c00080000000080    0x190040000   9      "case 2: poison only (UC=0) - divergence to note"
+> ------------------------------------------------------------------------------------------------------------
+> 
+> # cd /sys/kernel/debug/mce-inject
+> # echo sw > flags
+> # echo 0x9c00080000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190040000 > addr
+> # echo 9 > bank
+> Result:
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00080000000080 addr=0x190040000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00080000000080
+> mce: [Hardware Error]: TSC 14e29da617c0 ADDR 190040000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787463321 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     0 kB
+> ------------------------------------------
+> 
+> case4:
+> label              status           addr         bank   note
+> 
+> [ DEFERRED ]  0x9c00100000000080    0x190020000   9     "case 1: deferred, no poison -> unusable"
+> ------------------------------------------------------------------------------------------------
+> 
+> # echo sw > flags
+> # echo 0x9c00100000000080 > status
+> # echo 0x80 > misc
+> #echo 0x190020000 > addr
+> #echo 9 > bank
+> Result:
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00100000000080 addr=0x190020000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00100000000080
+> mce: [Hardware Error]: TSC 9a2d801ff40 ADDR 190020000 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787456818 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     0 kB
+> -----------------------------------------------
+> 
+> case5:
+> label              status            addr         bank    note
+> 
+> [ DEF_POISON ]  0x9c00180000000080    0x190060000   9      "case 2: deferred+poison - MUST be handled"
+> --------------------------------------------------------------------------------------------------------
+> 
+> # echo sw > flags
+> # echo 0x9c00180000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190060000 > addr
+> # echo 9 > bank
+> Result:
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00180000000080 addr=0x190060000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> cxl_mce_debug: spa=0x190060000 contains=1
+> cxl_mce_debug: spa_alias=0x1a0060000 pfn=0x1a0060 pfn_valid=1
+> cxl_region region0: Offlining aliased SPA address0: 0x1a0060000
+> Memory failure: 0x1a0060: recovery action for free buddy page: Recovered
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00180000000080
+> mce: [Hardware Error]: TSC a60fd45ae60 ADDR 190060000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787457072 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     4 kB
+> -----------------------------------
+> 
+> case6:
+> label              status           addr         bank   note
+> 
+> [UC_POISON]  0xbc00080000000080    0x190050000   9       "case 2: poison consumption - MUST be handled"
+> --------------------------------------------------------------------------------------------------------
+> 
+> # echo sw > flags
+> # echo 0xbc00080000000080 > status
+> # echo 0x80 > misc
+> # echo 0x190050000 > addr
+> # echo 9 > bank
+> 
+> Resul:
+> 
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0xbc00080000000080 addr=0x190050000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> cxl_mce_debug: spa=0x190050000 contains=1
+> cxl_mce_debug: spa_alias=0x1a0050000 pfn=0x1a0050 pfn_valid=1
+> cxl_region region0: Offlining aliased SPA address0: 0x1a0050000
+> Memory failure: 0x1a0050: recovery action for free buddy page: Recovered
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: bc00080000000080
+> mce: [Hardware Error]: TSC f03abeed540 ADDR 190050000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787457328 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     4 kB
+> -------------------------------------------------------------------------------------
+> 
+> case7:
+> label              status                   addr         bank    note
+> 
+> [B4_NONMEM_POISON]   0x9c00080000000080    0x190080000   4       "case 3 override: bank4 non-mem, poison ignored"
+> -------------------------------------------------------------------------------------------------------------------
+> 
+> # echo sw > flags
+> # echo 0x9c00080000000080  > status
+> # echo 0x80 > misc
+> # echo 0x190080000 > addr
+> # echo 4 > bank
+> 
+> Result:
+> 
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00080000000080 addr=0x190080000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 4: 9c00080000000080
+> mce: [Hardware Error]: TSC 21c66cecf80 ADDR 190080000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787454082 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     0 kB
+> --------------------------------------------------------------------------------------------
+> 
+> case8:
+> label              status               addr         bank     note
+> 
+> [LEGACY_B4_CE]   0x9c00000000080000    0x190070000   4        "case 3: bank4 XEC8 corrected+usable - THE FIX"
+> -------------------------------------------------------------------------------------------------------------------
+> 
+> echo sw > flags
+> echo 0x9c00000000080000 > status
+> echo 0x80 > misc
+> echo 0x190070000 > addr
+> echo 4 > bank
+> 
+> result:
+> -------
+> 
+> mce: [Hardware Error]: Machine check events logged
+> cxl_mce_debug: entered status=0x9c00000000080000 addr=0x190070000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
+> mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 4: 9c00000000080000
+> mce: [Hardware Error]: TSC 3610305ed80 ADDR 190070000 MISC 80 
+> mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787454482 SOCKET 0 APIC 0 microcode 1000065
+> # grep HardwareCorrupted /proc/meminfo
+> HardwareCorrupted:     0 kB
+> -------------------------------------------
+> 
+> Note: an AMD record with MCI_STATUS_POISON set but UC and Deferred
+> clear is filtered by this patch where it previously was not. Per AMD64
+> APM 24593 Rev 3.45, when UC is clear the error class is determined
+> solely by the Deferred bit, and Poison qualifies an uncorrected error
+> rather than establishing one. Real poison is therefore always reported
+> with Deferred set (not yet consumed) or UC set (consumed via #MC), and
+> both of those cases still retire the alias. Poison with UC and Deferred
+> both clear is not a valid encoding and appears only under software
+> injection.
+> 
+>  drivers/cxl/core/mce.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/cxl/core/mce.c b/drivers/cxl/core/mce.c
+> index 65fed913b221..3ac6802e750d 100644
+> --- a/drivers/cxl/core/mce.c
+> +++ b/drivers/cxl/core/mce.c
+> @@ -18,7 +18,13 @@ static int cxl_handle_mce(struct notifier_block *nb, unsigned long val,
+>  	u64 spa, spa_alias;
+>  	unsigned long pfn;
+>  
+> -	if (!mce || !mce_usable_address(mce))
+> +	if (!mce)
+> +		return NOTIFY_DONE;
+> +
+> +	if (mce_is_correctable(mce))
+> +		return NOTIFY_DONE;
+> +
+> +	if (!mce_usable_address(mce))
+>  		return NOTIFY_DONE;
+>  
+>  	spa = mce->addr & MCI_ADDR_PHYSADDR;
+> 
+> base-commit: 7098e9cd98a05c0c5de2fae0c2465f9d966fdd07
 > -- 
-> 2.53.0-Meta
-
--Tony
-
-[*] My personal record is several hundred. But that was on a debug
-system that had been poked to signal an error on every cache access!
+> 2.43.0
+> 
