@@ -1,94 +1,92 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DC240243B;
-	Tue, 25 Aug 2026 13:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279D42E06E4;
+	Tue, 25 Aug 2026 13:55:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787665417; cv=none; b=dVwSijPa5pFU/n7W4Gi/Yg9zlHuzufktWEIN6APgrkpFOMmHsnDv7NaNda2buaRTsXqYFJcNPYMr5rIDeNYVyLs9V96jOIj5oQJLP5Hf9EtCSDI3K2tSdDY2hFemRw3meG1pWnjOGC6a4jnvQifoLhfiVqMhr+bX0DRhmUR+eSI=
+	t=1787666154; cv=none; b=Y61XZ27p/kVB32gQCpXuqCwECpb1MFYFMtOBK9jgb8HMpe59YnlxEp/niPLEslK91bgsv9QIfGNcBKAj/jd45W63gvKOjF9ndODPIg0G17OOo1Op9WhsZzCc36zPciFHk8WORKNx3+j/utW9aUSrhxyGAKRO2doaEwdXpL7C6lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787665417; c=relaxed/simple;
-	bh=jVNaIZa9bLxDivLfIjj/ZiNsqb/MhroxqRXkcKgqT4Q=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZciiGjzlqX9pTUrZ1zQyfAOmh5ppdjpcC7dk377yTQmHWvGjjCS6eZTZigJ6GpHhfR+BWC4lHPVhwZoBU/mdfb8YDyypP2OogFSqrvYwelpaXhAr3qktEzJoScyOTnd5K+eAru7gpcWiJ8pGK49ErjUzbAJ+YhFn66IwZjU5SO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=XSrqkplW; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1787666154; c=relaxed/simple;
+	bh=WV7ZKfc57R1h07KEujcR3VBJsySVYK9ucjdfQOxMXbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ntUC7GwFfvTSEU85+kYbTfmq1gCplDxQGCRlLfHOLFJNzgq0jwN9ChMK5SkmsbJ6PWI7Txu4nyX4dh41o1AffPnpJ4UfQ4oqgEVVNyHSjCdrAXFdrxgd21VMItBffNI4FDBvaktKMOytlFHtEI/J1wTomj5LWZDRVnFBvI8rrU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=GiZ30reH; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="XSrqkplW"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=bRaqqAWGANWkdOhHtCUeopjLiw9W9A11sh4lWZckVYQ=;
-	b=XSrqkplWPh7BKZnbUm6fFVDuJNFg3y1KZ5Dqotoydq7XIKdsY4qa8Ol3wPL2YzCXq8uzArlH6
-	fy3GE6Nk8tCSWAILhVLKe1KLN7/Ut54wi+O4XSjVr6tMMabLNCbTAQH/QbMWlb+q2UWSVUm+Kac
-	NSbsIpVHUqb1lrSmH+a+w8M=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4hTpcn38S8zcb0T;
-	Tue, 25 Aug 2026 21:32:57 +0800 (CST)
-Received: from kwepemf100015.china.huawei.com (unknown [7.202.181.14])
-	by mail.maildlp.com (Postfix) with ESMTPS id BB49F4056D;
-	Tue, 25 Aug 2026 21:43:28 +0800 (CST)
-Received: from dggphicprd10024.huawei.com (10.243.6.112) by
- kwepemf100015.china.huawei.com (7.202.181.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 25 Aug 2026 21:43:28 +0800
-From: Abbott Liu <liuwenliang@huawei.com>
-To: <tony.luck@intel.com>, <bp@alien8.de>, <jic23@kernel.org>,
-	<ardb@kernel.org>, <rafael.j.wysocki@intel.com>, <guohanjun@huawei.com>,
-	<mchehab+huawei@kernel.org>, <luoshengwei@huawei.com>,
-	<jason@os.amperecomputing.com>, <danielf@os.amperecomputing.com>,
-	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <liuwenliang@huawei.com>, <yangzhuohao1@huawei.com>,
-	<douzhaolei@huawei.com>, <zouyipeng@huawei.com>, <wangbing6@huawei.com>,
-	<nixiaoming@huawei.com>
-Subject: [PATCH v2 1/2] RAS: Fix inverted context info bounds check in ARM processor errors
-Date: Tue, 25 Aug 2026 21:43:22 +0800
-Message-ID: <20260825134323.4181892-2-liuwenliang@huawei.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260825134323.4181892-1-liuwenliang@huawei.com>
-References: <20260825134323.4181892-1-liuwenliang@huawei.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="GiZ30reH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=TjjqjEpzxYB01UoCtPgF1I9EB9x/HHgMY1vNhU0Lf64=; b=GiZ30reH8cnGvbwx7GtBcob2zb
+	b/IlDL7lpHzvXb8yjG+YNK81QIcirrlcnsc3FdClPXFYgI8HV/CNxKbnYYN3mhhiZFjvap8mqYGyJ
+	pszJxT/As15PSSEzps2snsuH9rE/S6r9IQ3EZ+wHpu05+YiIM3izk8V1mOxnF5HcQIiL/xG625RKz
+	vnLYBhgFvykijc/UggwDUFDeFcouLoo74HRGu15+MI6Vi+iMdYfw6gSuPlBUYSdQDIcV0coSSOHv7
+	/K6PIbI99MYQQJWs2yLGsxJH7JWMHHeNs+PXYTfHxvRQIKunkTAgBpljE8tFmkFwAyQ6BQjGmF7Nc
+	WsVuybmw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wyrcX-00EU9Y-2E;
+	Tue, 25 Aug 2026 13:55:21 +0000
+Date: Tue, 25 Aug 2026 06:55:15 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-edac@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
+ corrected error flood
+Message-ID: <ao2eT0TWS9EaA28N@gmail.com>
+References: <20260821-mce-panic-on-storm-v1-0-7a465c708d82@debian.org>
+ <20260821-mce-panic-on-storm-v1-2-7a465c708d82@debian.org>
+ <aoiBy3vg9eSvGhIu@agluck-desk3>
+ <aowABmagul44ENde@gmail.com>
+ <aoxxxmM-xIpyAE_Z@agluck-desk3>
+ <aoynhOsTCcapwRbl@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemf100015.china.huawei.com (7.202.181.14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aoynhOsTCcapwRbl@agluck-desk3>
+X-Debian-User: leitao
 
-Commit 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past
-allocated memory") added bounds checks for malformed ARM processor
-error records but contained a bug:
+On Mon, Aug 24, 2026 at 01:20:20PM -0700, Luck, Tony wrote:
+> > > One question while I am here: is the approach itself something you are
+> > > willing to take, or, just a just send patch [1/2]?
+> > 
+> > Boris is the maintainer here. So he has the final decision. My
+> > opinion is that this is a bit niche for the kernel. Maybe this
+> > could be handled by some user agent (mcelog? rasdaemon?) to
+> > raise awareness to system operators about high rates of corrected
+> > errors.
+> 
+> I chatted with someone internally. They'd be very interested in being
+> able to see these running counts via some /sys files.
+> 
+> Perhaps your use case would be better for that too? Rather than:
+> 
+> "Everything is fine"
 
-  In log_arm_hw_error(), the ctx_info bounds check is inverted. The
-  condition `sz + (long)ctx_info - (long)err >= err->section_length`
-  adds ctx_info->size when the context header is already past the end
-  of the section instead of when it is within bounds. So change the
-  comparison to <=.
+Sounds good, I will restructure v2 that way: export the running counts
+first, and add the panic on top as a separate patch.
 
-Fixes: 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past allocated memory")
+The count is already kept per CPU and per bank in struct storm_bank, so
+the natural fit is one read-only file per bank, next to the existing
+bank<N> knobs:
 
-Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
----
- drivers/ras/ras.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+      /sys/devices/system/machinecheck/machinecheckX/ce_count<N>
 
-diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
-index 03df3db62334..2540538a16a8 100644
---- a/drivers/ras/ras.c
-+++ b/drivers/ras/ras.c
-@@ -74,7 +74,7 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
- 	for (n = 0; n < err->context_info_num; n++) {
- 		sz = sizeof(struct cper_arm_ctx_info);
- 
--		if (sz + (long)ctx_info - (long)err >= err->section_length)
-+		if (sz + (long)ctx_info - (long)err <= err->section_length)
- 			sz += ctx_info->size;
- 
- 		ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
--- 
-2.43.0
+Is this the right approach?
 
+Thanks
+--breno
