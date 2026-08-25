@@ -1,60 +1,61 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010035.outbound.protection.outlook.com [52.101.85.35])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012027.outbound.protection.outlook.com [52.101.53.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1243B585D;
-	Tue, 25 Aug 2026 20:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD213B27EC;
+	Tue, 25 Aug 2026 20:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.27
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787688398; cv=fail; b=grwpLh67AY+hMgitcGy9e/x8FtTKEs1/bkdVEFWls8otyZCNwN3wX9xWPSTxPsRIUT9gWzBBg8w7MUPSg5wfbr92XrXXzsudnKGDplobTPUI0HPhqfz/NVy7c8KLSCqlgM1J3S3Eevwr3p33IBiXJb0lTFaHLXIdrSqb0+7WK74=
+	t=1787689329; cv=fail; b=bkSN1kz2/F/UC3hOZVhJkci6IO/6FKch8I9F+N5TaOmfyKdMjotW6eW1aZsZT0+SXbhlibilPVTJhe79QXz5beDsI6+aM9KN4cWO3ROEukKZ5rLSdDXG+RObR7sobsHcygfp9Zj+wBYAzTGG867Tb5ACZFbnXIN+LfZfe+9GaMI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787688398; c=relaxed/simple;
-	bh=0Z/8CIZNr3wqEwjHo/rsvJpqQ+Yvra1CXiYFtp4LVB0=;
+	s=arc-20240116; t=1787689329; c=relaxed/simple;
+	bh=+6+l1wcfMUoGwOxZvTCnj4Cri0J9Vseeukx8DVwqY3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=EZ3pwQzE9GbrfzQfg3up+vd2sLLtIekNxmy3iPfsDwkeyvvg322gbKiqPBT0fdh9YnXTAanpFLhw95FSNz0NuNxjLWVs9uE46vIXJQImeNy4QJslXv7CThV8OFJqYd8k/jm+icFixuMflq0Yjo2qXdcfJdCTbzQ5WwUW7dVaW9I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4lUeaWvL; arc=fail smtp.client-ip=52.101.85.35
+	 Content-Disposition:In-Reply-To:MIME-Version; b=uCsS8WGW4n1ILFwTaNGWMEZO1ePYjQmlXc4PdOkAx/JTNdInu7T8PfzGlQceaYSF9MJdJrWs/x6Tl5yZ5RrKd7qO3gvwL4lU1X04vIO3/kIpDC9C8bGSAw5yxvXJQTTljj3hkjSYCUwXVRdMvs7tjuZ9GmNScev13bDh+mO7n3k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=qv0vxNKG; arc=fail smtp.client-ip=52.101.53.27
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4lUeaWvL"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="qv0vxNKG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ss6tjWTKYMyKHC0MtVD4v4qcM6xt0nZLKx3DEKTWcLwa56sWz8LfGDcatOJa/Tg0UZERJ7hUAxjCWVC7MVeFs8ncYU2UyvFKTz4anSHgfMLEV9MX9RB0/D88gkFvK0xWGHkBzv8qwgeEtzPS8MZHXMeK0OnAyJf7IdD89UTpoETcY4W7v/LtzKWUtxRhNaB6aY6CtIxfsInGLxTYlYJKD5cqCsZqMS/bkR84KMN1kopFDNltRB7Y/pmY+KVH0fl7RN8aOubyWbCDpOZJW3j+MWANYDul/6R/EVe7cKLHPMg75XLWs8mEBGaBfkjyrZmaI2GLqGwYm8BiY2nC5aVGdg==
+ b=JmUV0ukYEZpHLC7xzXYTG/HFnWbIhl2xq4CVHq9CkFaTBRl1CnEdiI8ixfJ+9LvNFZ1i3rMMGRRnc2jElu20Sl9wbWAlchGejs46PkN3fke3uiVjo5sHQCk7tPU76rAfHJsqkwgUBlwOUHS6u9wb16QgwrhQfbSvASZwXGKQCsudOL9DyyDTVfBHZEMZJoFrbj3vtQQ+EPIy2ROMyHGHDFLbEVsS/9zXeUl+cAMnyhfBpWsOYmwVCIGknR0mrfY1+xiSmdGLqbz2HLRaIVwC3dOdoYs5OF/rCbBn7H1JQHntBI0Iixku2Kcq/Qb9qSrG+gucMW//q/ZmDX1d8EgQ5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nnXQb8Qc7gkgAyA0Q2VO+pBsdPj6Wo5GLGmt1LQdzjw=;
- b=HtubO7t0zZUL15dSDLT7O0gC+17tj+uaL1h6lfPMLJvCQNPGSVGV1MlIhfd+6Ojhfmi901YurqKUkvYftIlkfytb8WA2jli1GtA55DbUDLbziDHq5Wwn5xIFciI7pu8/XnvWYjS5sNJhJbq/y+tuVDNlWRZ7+oqp4AQO6qLMWsCuTzDn793lVpYAvbFXPcqxK8RojX270zGX5nyVQFER7P647aMFDyvLetdLZhcfCBI2wUroLxe9DRQgSvCuTa5xYBz2Peh7O+ETDD+QTBlYw1O1FImlkD0mdReXVUchsx8ZD+4K5lHD+0iDvQZXIpgkF3IUqyPK/7OCATlI7LzvXw==
+ bh=JPfs+mqEPKLnvwNfaOl3UQdo+4+2lIjV1NPkKfZTVpI=;
+ b=iCDfHBMqrWn9Ka2MF2vwMtKfOQtACVz8RSb9xSMvV4PyJZMv5XOaWuPutgsSP/X2jL+OdIhi1IhzTNYgFa9xcugj4G8071E8V1d36aH9O35T0FAIvlnZwMcq6kqaZ9BZETmMDIRH5vJyJF70CpvQ9199S4sREVLuC27Igm9UQgqbFXdmCKahzitEJKX1BkIcY0pyCXGtXRp+HvEkKqEE9+8eBX9x78y7L0gfwfW3oZXlU7XW8RVaMVy5zJCqLHAgk3PMPplG/oUot6e/4HxM3QEDl03G4arUMQXCNIKkY0UIm26/vUHH1edJQLHJOJj0FkNLVUaYFLU8k/n6e5JJhg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nnXQb8Qc7gkgAyA0Q2VO+pBsdPj6Wo5GLGmt1LQdzjw=;
- b=4lUeaWvLyTcLxJzBIAJ6WKcSlrkwNAusQ6t30QHX5SuF9DBRVLljiPpGCIVJLMHrOEsNFTAKI1Bj5OGP0CfLNI1TfGpqD1wYRfQWnPzQchoo54q5wjQq4BCVghO3aANBdw2U9BwhqHwrZPPHC1aYL2kjSFS3Flsrea8Xg4NyalA=
+ bh=JPfs+mqEPKLnvwNfaOl3UQdo+4+2lIjV1NPkKfZTVpI=;
+ b=qv0vxNKGQQGTF7gZD1BebJaM7s6vgZS8wbo3j4E8aWjhsKskmnSl6/gFRN0KcgWSn7b3blKDTPVKas7y4hkvWTw4LaHZTLjy27MJlWpTheIG7C5bfXojI0RYTOBkC7G9cb3ZjIVJE6G+sZ4KGtg7yhwJa37/s8dgltHICwFiW2A=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
- PH7PR12MB8108.namprd12.prod.outlook.com (2603:10b6:510:2bc::14) with
+ PH0PR12MB8151.namprd12.prod.outlook.com (2603:10b6:510:299::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.7; Tue, 25 Aug
- 2026 20:06:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Tue, 25 Aug
+ 2026 20:21:56 +0000
 Received: from DM4PR12MB6374.namprd12.prod.outlook.com
  ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
  ([fe80::af35:a7a6:6ca:7fcf%3]) with mapi id 15.21.0339.012; Tue, 25 Aug 2026
- 20:06:32 +0000
-Date: Tue, 25 Aug 2026 16:06:28 -0400
+ 20:21:56 +0000
+Date: Tue, 25 Aug 2026 16:21:49 -0400
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 To: Rui Qi <qirui.001@bytedance.com>
 Cc: tony.luck@intel.com, bp@alien8.de, linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] RAS/amd/fmpm: Make max_nr_entries read-only
-Message-ID: <20260825200628.GF1500179@yaz-khff2.amd.com>
+Subject: Re: [PATCH 4/4] RAS/amd/fmpm: Fix spurious BUG when ERST record
+ enumeration fails
+Message-ID: <20260825202149.GG1500179@yaz-khff2.amd.com>
 References: <20260821094748.145394-1-qirui.001@bytedance.com>
- <20260821094748.145394-4-qirui.001@bytedance.com>
+ <20260821094748.145394-5-qirui.001@bytedance.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821094748.145394-4-qirui.001@bytedance.com>
-X-ClientProxiedBy: BL1PR13CA0021.namprd13.prod.outlook.com
- (2603:10b6:208:256::26) To DM4PR12MB6374.namprd12.prod.outlook.com
+In-Reply-To: <20260821094748.145394-5-qirui.001@bytedance.com>
+X-ClientProxiedBy: BN9PR03CA0901.namprd03.prod.outlook.com
+ (2603:10b6:408:107::6) To DM4PR12MB6374.namprd12.prod.outlook.com
  (2603:10b6:8:a3::18)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -63,95 +64,122 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|PH7PR12MB8108:EE_
-X-MS-Office365-Filtering-Correlation-Id: b009faab-a756-4539-5a6d-08df02e45b6a
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|PH0PR12MB8151:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1a59e47-4c52-488b-9c0a-08df02e68233
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|6133799003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|10067099003|22082099003|18002099003|4143699003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	3SU65Tk81Cyr+UI5djCAEA5wWbwk01aqH0Yp8j1l5+trmBK483YnOvUH4fWm4FL4HKkkhDLZIkyMGts/ZYwHMSY8l+SzbtouKJb//3mAo3WYo5T6/Dnn75HAP7SsdNJjVvzfVxiSI2zPuEGdGjTmPYnEi0pASrU4cnTMGhzER6gOW2igs957Tsgqcdp6ptg0fbB4M6gwMHW+dZSE5VZNGWwSkt2a5TFlqZw6I55oE+3koPcesHmcd1K51diTLYOFGpyFVGG4t6xW8cUiUiSzN41iLL6ypBCYlv1iAZpp2x/TQpnns1n0BsksjKrDH7RXJzQS+MGuAGXwNPJhbDFXyABWIOa/Fa7zKVfJTmfkMcgdX3yWh2H1WvU7HaByZ2iDSLd5QH1J2XvSjxu3Edr3/n3drVGSVlpP1gPjhrn6EmVsOgF3U7gzU0k/sEkiQvuOIQ1+0bCHBoxhVOC38Jc2PecBLy448sSCROeYGM8q76qPPGHboq4P2hAAVoWfRlgFoVt6u6NM5CayNMYaV3nSPitmSe1Ahl757T3Tmh4M/FZNZKZO6s4p9mPzJVouY1oIK47rP5J0iiDa4s2zmyUTfKHnhGTH0FNOj7pQoc2I4Qv2k7vEDJjzzybx6uHZBvP+Q1F/i6lxHwCNL2iXX1WKGbLaKoPnimlm2Ymu9b2fHwE=
+	QvEz2VpIQLVCKwGF5MgOQMTKpFUtK+hp9BnaLemHdbiFUfQuMnzMUmK6HFuEQKOd9s6N3DLzymI/0fTan8CajsdHTy4bAZ28LhP070GuRXYurn5PtEIn19n8M8jZ2ZK7YhgEMKnP2WpwgEWd7lTyNRs9bbdtORwLxEUsSPEETWQm0KS/hBmcE7qJBQX8/2SqhiIqt6sfbbcXhKDoqgVeNSwyDm2AKenhf30X6JofJHL/+5erf5Y1xWJTboXW0y4GwqE2QMzOBQ1Y+CXUnI0TTGiDAsrHiOLrtMEcMsOCTdO2//4JeCGrmhRMxAJKJN2obVzTABpXBjHB6+0XmoeRtxIY/1XRQh/gqpyWeJ9NR4sDdEbA5d2bSqYoW50llRljHwdRjx9/Na+p+zVjY7MOIZexWH+NcE6F2WQju2lhDg8Ny2zHBYHToUuBIfSvNewMlp+cTCovHm7voDFqh0p3YIvnDMNoQzWVZbRc8UW5JNgexBECHnHTgjbdIi/sbt0/bPgk8Aj2A0hZbuGnod+f0zkY2ZMwBgDmAT7t5qarGRV3zC+EN8eVfZyJ5ybMTF3ZHmp6/Q1z2T181Aea63CVb55d2phuYX52D9uWcLpmr9Ek8LQO72lR6dOzwETApj64ypOpWFo2oLHZzmlxWf2m0+FrmiHhJ3zvqsjE8ozlrJs=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(10067099003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?P3UR0/MeIWVoI0+d/ikyxBPUSZMcT9nLsJQWf4+lmdXM2ZTGqgZUIURmwWMW?=
- =?us-ascii?Q?uGp9pC8g259SeysCrsi0QJcJPTyZ5v9qvSf+KolMRc+RaoJbZyfXTGNQS5zV?=
- =?us-ascii?Q?RpBmJ7ArBqmZSELWTv3E35kWaC4nC+y4QqC862NXnBmsp9etQ0bfwuWV5coH?=
- =?us-ascii?Q?Kv7W4np/fXu/E/YpLZ79bpi4GgUD/PaajTXqsRpI4ghAJdrMVZdKo+Jup51O?=
- =?us-ascii?Q?mdN0HGydPPrjVAgqGs+eEyjROIuSXXkxESSNDHeO2KROXsryU6onxZ45Vdu1?=
- =?us-ascii?Q?WVOGHgbKfDnVcDPj3b/SAwBtwi8KnlUHBbrDswpVM+Fzl2t+jChLw1bsAE/3?=
- =?us-ascii?Q?PYYLETa03auX+bYkllnpmHuXZ3eEx630A+omHIrxZHrjjdxJsMEnQhWh2qny?=
- =?us-ascii?Q?W1C53gmAIjN7A49yrW4h8WPCElfRnlRTBAukuy02oP7X6kRdqd+utvN83gje?=
- =?us-ascii?Q?SbMQ3YWc9r4cb2yYYoOEM+iw8lsD93yEo4bHrnM49FLiVFCLxIxHtDzatYIS?=
- =?us-ascii?Q?jIHDkZVfWqRKGq5f8t0WD+bMEsi0tvj0b+WucGiVoGBvAugTskRuMmMwERQp?=
- =?us-ascii?Q?5v5UySG9n7ww/ArXyYAjHI2906u4Auq9SA4WktlYd3u/g6N8GCAjaT+R+Pxt?=
- =?us-ascii?Q?2Gu3flXsqAqlyw8ExsOr2rK9zA/HVz8afaWSUeIivvp4MtVgU1PomkHGXR0P?=
- =?us-ascii?Q?DAB1NpQ0qcQU/sLuCbp80mH/2GgfeMglfOgSMrelmLyVl22pQ8KfCDfyHRvT?=
- =?us-ascii?Q?9v0ihrkRuo5hfCGhiW6e1zMwLJlpsGJbVUpy6F5n+4R/bAdyEz1VZghWwIyY?=
- =?us-ascii?Q?SoiXl++9ZOuJDIu8YgTZ/Ebn6Yb28abVsznUFlm7Pm98GcdqsnS3i0a1YrqE?=
- =?us-ascii?Q?hVEF+tA9o+8s/9DW2vRF+7SVqH3gw56e9O23eEwJJ73JEo5tgC3tEVhg5GnA?=
- =?us-ascii?Q?I0Dx/6bZxpo4Sj5dVQah7KFeCyEsvVmqyUl11kDaSOJ3PkoZqW9WauVZLFyl?=
- =?us-ascii?Q?bJCWEYY7LtssY4eskD69CZHxteyf3BEVrgLwdItEWPegcMcRbvuGFjvVoPQJ?=
- =?us-ascii?Q?YYEuuK6c90FqzPtXo6pVJtjZ+ACJWFMsfhTqj+iHTE1r7i/YbteoxNC5mZot?=
- =?us-ascii?Q?AoFqeR90sOOTzCME5rX/OWr1NTFzngv6ou8uMDSyXSRX2RNwN+bJjmYL2MeX?=
- =?us-ascii?Q?5iYVRCN5XUkpejjtK5zZfsEy1CaJClNKZeICpifCy8FdLw08kdbtVjkzDN59?=
- =?us-ascii?Q?k0YFhzRtXrepg6gGx+puWiSxhmptAJH6GPJZAoxodks2MqxDfVl1VrGWZaX4?=
- =?us-ascii?Q?CssSZBxaJ0in3Jcbz5+3UZL4Zmmc/lcuAnYWnCt9/o5wBaIM1Lq/Wcdb9WRA?=
- =?us-ascii?Q?TOia3bMiS/C3CIziWyl5aiX0Us1I+0uSNHvivXWEgvOMyFea6Lqas3KaheL7?=
- =?us-ascii?Q?5quJrwZK4F3TFRZ8+m2Wrzn6NH+PQeQsz0t4gYOwAG1u7bRmX63vSol6VXne?=
- =?us-ascii?Q?iQ7aq0OtjaZ+TJ/yYN2yOEwkt+JuDBv1CuXvDElcNTuCFKQTmTb71dxd+R8+?=
- =?us-ascii?Q?o5v/pFhJoS+pXkwoX883XHszM93pwyL0PPWUwbg2XW3xAMS96P9dMmU5kAKV?=
- =?us-ascii?Q?Rb5jEp+YdahU6O1PpsqpuD34Df4nzbk+FTP91YDsRbeKRPv7vJgsdzQKik27?=
- =?us-ascii?Q?wUdOeg8zA3NwTBqUt9nduE4XsRO6u5ITdbOgNoGcd0kvrjpR?=
+	=?us-ascii?Q?Mx2qCSJqgVHKSlCin6LfVNtxHA/zWU9p1iJmf2PIjWsNnUYD4Iy4F5ObaZgw?=
+ =?us-ascii?Q?tAzrulhvocOhEi0GyMDMDYI6EQ9FV7j2O5sZ9rYoDEfYfpQz2HnV/tlG/O41?=
+ =?us-ascii?Q?Tcfbp6aAGglSHhv3u2Bc7ahFXAP51YxttnvK3UbC7PTN5cEzRTrKskmJYqgu?=
+ =?us-ascii?Q?C3ie1mIAunEAklwfBhMI2kbGX4OUH5/jbmZFQlUvtI9K1HSvbynRJ+LFAnWX?=
+ =?us-ascii?Q?lmPMBPQuzjhRLEH4oviDCbNpas0ZwUxlqmCc5+fE54q6V5so0Ug180xHQ3O+?=
+ =?us-ascii?Q?xJsDpHHjKAar32ETPaO62Alak4imxkgqmc/cGsSiwMc5SiY19+Nc4mg3GibN?=
+ =?us-ascii?Q?VaqW7PMntqvehqD/droBIAjz4rUcUqDGQLe+LwHaIvliUef1IPTWw9JCsPJQ?=
+ =?us-ascii?Q?HAlxOegBggDnJalbziK+8aMynRaAUhUF9+Q72QTvMH+Sia3t4pMmA5zsG6dk?=
+ =?us-ascii?Q?Eyu4jHORgnlTlInfzkFBxZorrqu/hVO3G2/FnUR92oFdNZ5TGTmoUAK8YKIA?=
+ =?us-ascii?Q?jOnF/Qabv2NHptdYOER6X+P4VYhZmxEhceVDWh5BZzfJ/gt5o8qiYu9oU1Pz?=
+ =?us-ascii?Q?vJccftin5rTNZZxyfBDDwAkMgu1oloYViXBimvFZ/4NNQeH3ogBL5LSD01Y4?=
+ =?us-ascii?Q?yjgFH8gdPefbSQVoDDXyVT6xXa0OBarXWUPyjwyZRGYPHL+WDgxEnz/HkGcG?=
+ =?us-ascii?Q?HteJL23bzxrdqTbfuCq0POFLU2/VK8JnBupF4c9ge2uNiZDzs3CyE/cZzkjN?=
+ =?us-ascii?Q?0pf7ctkOdZjraIzfJCHqAUNcs0p0s00wrP2jlVinHS4DKhfu0lMK1HUs0gwH?=
+ =?us-ascii?Q?ZerziH2pujjqVLImVOyl5wWyEnlnYIQAAsHOxcQhhgLathQzokXblpfsxdof?=
+ =?us-ascii?Q?Pvzy3yRFNBUnIEJWsKijjwOCSjzOa6iYilrapmlM5sphPgwghr0CpZ6FDtDw?=
+ =?us-ascii?Q?NrDmk1B0XLx79mLDAUqiUZCKISigwikhj+BE2NqymlTexp9AFN6+QPw/QpME?=
+ =?us-ascii?Q?S8ZfS308OKyh4Uoy6d7g6Wfgrf8Z3fbCPgjSwSxDjmuozBAz4tUp/MNpDNRl?=
+ =?us-ascii?Q?3KTzXEexlCLxgnMO5xPq2PwsHCwco008ady5Rwo1VmP4KnhKh8svP5RQiu36?=
+ =?us-ascii?Q?VV2/+7k2DOj/8keJhzywHXC9p1PWRZJi9eVmtL0CW4g8iFilbOFnZeUrPfv1?=
+ =?us-ascii?Q?DLb1F5JoF+LPVZVTtrqEkzfZQr59QJiFT+b1Qtylgs6OHHUBrm4dEvq9oXu3?=
+ =?us-ascii?Q?O2s1apR9QfZjvzVtKybqr9q2rISbWh6dF4x1JI89xCGqWM/59TZVw94rGBxD?=
+ =?us-ascii?Q?TGTkdB3R51OjdDCKVjqQ+8Joki11UJRbroHB/HoviyczpmeoroHslBVxJV0J?=
+ =?us-ascii?Q?qMba1EKlTEt2/B8jOys1lCY8laVbcKIJYRzIqnuj+9dGR7tdLmirARxYN+6U?=
+ =?us-ascii?Q?87JCq7iBpRD629FCDznJ2ZiqF39UMe8kVkrp8ti/kbNUDdBahdIfto6LQW5L?=
+ =?us-ascii?Q?KUeKlRs3aRc6ZoUj7qgmryRO+QKjZC4DD4/lQcIxQ4iLToROwXulj7f2q2VL?=
+ =?us-ascii?Q?bE9ktoN+VuLrHrFj1EoCiepyn5S/Z1MAriFzCcbb0oy+QOguqjVxLsDCIsNH?=
+ =?us-ascii?Q?Wmzq1aqMrsE37v64Zp6DC4wyhFLLH+Ji+xKetFwiNgweyLWJSdU9wZbRrIWu?=
+ =?us-ascii?Q?NyG4BG0XzRAdFrg3lp7KiBl/AJ436LFjbncEvfUAmQfSlVON?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b009faab-a756-4539-5a6d-08df02e45b6a
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1a59e47-4c52-488b-9c0a-08df02e68233
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 20:06:32.1302
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 20:21:56.2071
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aDxFpauuYYYXzhwFJ7amC9yfcuWOPtvtuxCRkszauFhrkyON0oZ9/Zl8AHoVgfT2AiSmR3+5mRxO3m58nKZ+ZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8108
+X-MS-Exchange-CrossTenant-UserPrincipalName: //vJhUBZDuAIW50jI3+X/rkwc6ONwZHmQ0NAsjx3JnJ+Bxn52bTzzhy5rnxD5k2fCl8co2dfsnnruyr0JmF9pA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8151
 
-On Fri, Aug 21, 2026 at 05:47:47PM +0800, Rui Qi wrote:
-> max_nr_entries is used during module init to calculate max_rec_len.
-> That length determines the size of each allocated FRU record and is not
-> resized after init.
+On Fri, Aug 21, 2026 at 05:47:48PM +0800, Rui Qi wrote:
+> When erst_get_record_id_begin() returns an error, get_saved_records()
+> jumps to the out_end label which unconditionally calls
+> erst_get_record_id_end(). This is wrong because:
 > 
-> Leaving the parameter writable lets a later sysfs write raise the runtime
-> limit used by update_fru_record(), allowing entries beyond the allocated
-> flexible array to be written.
+> - If erst_disable is true, begin() returns -ENODEV without
+>   incrementing the refcount. Then end() hits BUG_ON(erst_disable)
+>   and panics.
 > 
-> Expose the parameter as read-only so it can still be set at module load
-> time, but cannot diverge from the allocation size afterwards.
+> - If mutex_lock_interruptible() is interrupted, begin() returns
+>   -EINTR without incrementing the refcount. Then end() decrements
+>   refcount below zero, hitting BUG_ON(refcount < 0).
 > 
+> The comment in erst_get_record_id_end() explicitly states that it
+> should not be called when erst_get_record_id_begin() failed.
+
+The comment doesn't say that exactly. It does say that *id_end() should
+not be called if "erst_disable is true".
+
+> 
+> Fix by adding a separate out_free label that only does kfree(),
+> skipping the erst_get_record_id_end() call when begin() failed.
+> 
+
+A new label isn't necessarily needed. Please see below.
+
 > Fixes: 6f15e617cc99 ("RAS: Introduce a FRU memory poison manager")
 > Signed-off-by: Rui Qi <qirui.001@bytedance.com>
 > ---
->  drivers/ras/amd/fmpm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/ras/amd/fmpm.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/ras/amd/fmpm.c b/drivers/ras/amd/fmpm.c
-> index 0231163e2634..14a103de9d62 100644
+> index 14a103de9d62..22627f6278c0 100644
 > --- a/drivers/ras/amd/fmpm.c
 > +++ b/drivers/ras/amd/fmpm.c
-> @@ -138,7 +138,7 @@ static struct dentry *fmpm_dfs_entries;
->   * No input or '0' will default to FMPM_DEFAULT_MAX_NR_ENTRIES.
->   */
->  static u8 max_nr_entries;
-> -module_param(max_nr_entries, byte, 0644);
-> +module_param(max_nr_entries, byte, 0444);
->  MODULE_PARM_DESC(max_nr_entries,
->  		 "Maximum number of memory poison descriptor entries per FRU");
+> @@ -675,7 +675,7 @@ static int get_saved_records(void)
 >  
+>  	ret = erst_get_record_id_begin(&pos);
+>  	if (ret < 0)
+> -		goto out_end;
+> +		goto out_free;
 
-Same minor feedback for the $SUBJECT prefix. Otherwise, this looks good
-to me.
+Change this to "goto out;" ... 
 
-Reviewed-by: Yazen Ghannam <yazen.ghannam@amd.com>
+>  
+>  	while (!erst_get_record_id_next(&pos, &record_id)) {
+>  		if (record_id == APEI_ERST_INVALID_RECORD_ID)
+> @@ -716,6 +716,7 @@ static int get_saved_records(void)
+>  
+>  out_end:
+>  	erst_get_record_id_end();
+> +out_free:
+>  	kfree(old);
+>  out:
+
+... and move "out:" above kfree(old);
+
+>  	return ret;
+
+
+It's safe to call kfree() on a NULL pointer. So the memory allocation
+failure path is not affected.
 
 Thanks,
 Yazen
