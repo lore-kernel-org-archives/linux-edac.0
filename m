@@ -1,85 +1,99 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
+Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037032DC357
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 03:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FFB18C008
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 03:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787716430; cv=none; b=f4WPTvQZoc+R/jE2EMidtvkl5bF+hBWapI9loKZjgMZC8OiRQdp/vI0URhiFPVHgZOuk3Ux8VT2a77lvHPeK4psBz5f3uL/l+/doEnQkMfOybovdejBZqV4NZhG6+IM7yowGmnueu8REgY5nSG2DtpvqRdZS11DpRNZyBF5i6Iw=
+	t=1787716430; cv=none; b=dBP51oyRqr2wiYtqnSaW8KFB9o0PsUzod+ZIJg0/1QsHCu9oHU/VLjZedG0M7oWgbeP51yzyUcpwKgY5tm/r6XXZSH72vsGf3/R94z6EJ20FtQi05R7OSKVbByNsCLL9UAb2q9I9vj6SBaPGYswuynBIvEKPYOXL6PbhN+U3Zsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787716430; c=relaxed/simple;
-	bh=XIhRMq2clZ19aR6ASYiRZB8iIkryXIMbTdHMER7D0pE=;
-	h=To:Cc:Mime-Version:Date:In-Reply-To:References:Content-Type:From:
-	 Subject:Message-Id; b=Sv0v9EBlkAKjs5/6kz4i36KZV73lIKTvRYeDWSwDLAoMXIVZon7bGeQxzIrjBOzQTXkG42ivkq42AnSebAH+JWmlvkH5TLGQHkW+M3cjPfOFbaPYEetOcsz2fib5OBsZEmCrthaZoH20h3OfW1upRedzPf7RbKUU5KHAIbh013c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=amta/Prz; arc=none smtp.client-ip=209.127.230.111
+	bh=F7o6iYiWXM14elK3b9CJjeO08a68rOMb21E2Ettlrfs=;
+	h=Date:Message-Id:References:Content-Type:Mime-Version:From:Subject:
+	 In-Reply-To:To:Cc; b=iiKqjvaNtF+6Bibe1yIe0pFgLrxDfulkm2MpnBtGEsc2jbHzcTwLnvc9hHyULJACr//0uScaq50EC+Er/Jj7JfvPH5rN5hgYnKaoemS/oIC37nih+v6jWRLoo2FbGEOztdgxfviu8+KaPaXlOi0h5HvcraJyorPoIsEJZC+MObw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=na90KsPS; arc=none smtp.client-ip=209.127.230.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="amta/Prz"
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="na90KsPS"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1787716416; h=from:subject:
+ s=2212171451; d=bytedance.com; t=1787716417; h=from:subject:
  mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
  mime-version:in-reply-to:message-id;
- bh=hXQ2RGC+EMz7OMTzABp+Wr7+AqgogaxAooS9n7iKBww=;
- b=amta/PrzM9x40jE5GOuQkwT1cE5pvyPBfABwLPoTFk7kIbqnweXZKbVVMK0QrBMVmpjtr5
- d9v9uveG9he0dplzHXvzPyDVVOIaNupkSaSwrgdIdNyfiKrFbi4g10LfO5In9n9IYDSiwa
- FtTgg30+5zuu6JBLqWR42hqHTI3PVLFfqWBiZsNkyKyXr9iwqVn15BFIP/zFdL/aeS1G92
- RzcdXF5G/UsvhpSCsNH/cOqPPBmR1AG4sOs9zseM0FJ0KxGfmprOooMV0FhIV2v/RV/YuQ
- zLjfRs9N+6zvqNUR9A871rbnQQJgFP3JjE6Xt4rHuumLIEwCA5LLw8Mn0pj/Zw==
-To: <Yazen.Ghannam@amd.com>
-Cc: <tony.luck@intel.com>, <bp@alien8.de>, <linux-edac@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, "Rui Qi" <qirui.001@bytedance.com>
+ bh=4sJiiMHyQAi6A+lgISHh1YJNzvVJeXQrUfKmOGDcSHc=;
+ b=na90KsPSvmkeSenJofZHtz5pFMYLIESlPq650/17EfEEhaG3azAoYrfncAezwsVymZMCZg
+ +ReWMIqRSE+Xz6ORK5tDIvvDyOTpHL+knpcarL5rYXm4RraxCB7tl7kRr+UVlCMkAHNFEJ
+ jVV8uTLXocHearYLHNDOls1Ph/iRvaPgjutvlxypHY1OurMBgz50TspLFL2qlZlWWykuJv
+ dU7NH7De2QzGQZzwYQInj6WlzWHEDiP8/35UwRBVESd3wsW0tx73khBenPq7j+H64sLuIa
+ dooCc0BNqQH+cas0hY7KlH35/+UX+Ue1nabuJRGs42ZyRmNHEw2eA8zClBvsCQ==
+Date: Wed, 26 Aug 2026 11:53:10 +0800
+X-Lms-Return-Path: <lba+26a8e6335+1f160f+vger.kernel.org+qirui.001@bytedance.com>
+Message-Id: <20260826035314.1536340-1-qirui.001@bytedance.com>
+References: <20260821094748.145394-1-qirui.001@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-X-Lms-Return-Path: <lba+26a8e633f+62056d+vger.kernel.org+qirui.001@bytedance.com>
-Date: Wed, 26 Aug 2026 11:53:11 +0800
-In-Reply-To: <20260826035314.1536340-1-qirui.001@bytedance.com>
-References: <20260821094748.145394-1-qirui.001@bytedance.com> <20260826035314.1536340-1-qirui.001@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-From: "Rui Qi" <qirui.001@bytedance.com>
-Subject: [PATCH v2 1/4] RAS/AMD/FMPM: Fix out-of-bounds read in for_each_fru macro
-Message-Id: <20260826035314.1536340-2-qirui.001@bytedance.com>
-X-Mailer: git-send-email 2.20.1
 X-Original-From: Rui Qi <qirui.001@bytedance.com>
+From: "Rui Qi" <qirui.001@bytedance.com>
+Subject: [PATCH v2 0/4] RAS/AMD/FMPM: Fix OOB, uninitialized data, and error-handling bugs
+X-Mailer: git-send-email 2.20.1
 Content-Transfer-Encoding: 7bit
+In-Reply-To: <20260821094748.145394-1-qirui.001@bytedance.com>
+To: <Yazen.Ghannam@amd.com>
+Cc: <tony.luck@intel.com>, <bp@alien8.de>, <linux-edac@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, "Rui Qi" <qirui.001@bytedance.com>
 
-The for_each_fru macro evaluates the array access "rec = fru_records[i]"
-before the bounds check "i < max_nr_fru" due to the comma operator's
-left-to-right evaluation order. When the loop terminates, i equals
-max_nr_fru, causing fru_records[max_nr_fru] to be read before the
-condition is checked.
+Hi Yazen, Borislav, Tony,
 
-While the garbage pointer value assigned to rec is never dereferenced
-(the loop exits immediately), this is technically undefined behavior
-and would be flagged by KASAN and static analyzers.
+This series fixes several bugs in the AMD FRU Memory Poison Manager
+driver.
 
-Fix by using short-circuit evaluation with && to check the bound first,
-only accessing the array when i is within range:
+Patch 1 fixes an out-of-bounds read in the for_each_fru macro caused by
+the comma operator evaluating the array access before the bounds check.
 
-  for (i = 0; i < max_nr_fru && ((rec = fru_records[i]), true); i++)
+Patch 2 fixes an uninitialized stack bitmap in save_new_records() that
+could cause the rollback path to clear ERST records that were not created
+in the current initialization pass.
 
-Fixes: 6f15e617cc99 ("RAS: Introduce a FRU memory poison manager")
-Signed-off-by: Rui Qi <qirui.001@bytedance.com>
----
- drivers/ras/amd/fmpm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch 3 makes the max_nr_entries module parameter read-only (0444),
+preventing runtime writes that could exceed the allocated flexible array
+size.
 
-diff --git a/drivers/ras/amd/fmpm.c b/drivers/ras/amd/fmpm.c
-index 4ccaaf7b70bf..81d7f02c053d 100644
---- a/drivers/ras/amd/fmpm.c
-+++ b/drivers/ras/amd/fmpm.c
-@@ -169,7 +169,7 @@ static unsigned int spa_nr_entries;
- static DEFINE_MUTEX(fmpm_update_mutex);
- 
- #define for_each_fru(i, rec) \
--	for (i = 0; rec = fru_records[i], i < max_nr_fru; i++)
-+	for (i = 0; i < max_nr_fru && ((rec = fru_records[i]), true); i++)
- 
- static inline u32 get_fmp_len(struct fru_rec *rec)
- {
--- 
+Patch 4 fixes a spurious BUG when erst_get_record_id_begin() fails,
+because the error path unconditionally calls erst_get_record_id_end()
+which triggers BUG_ON.
+
+All four bugs have been present since the original introduction of the
+AMD FMPM driver.
+
+Changes since v1 [1]:
+- All patches: Use RAS/AMD/FMPM: subject prefix to match existing
+  convention (Yazen Ghannam)
+- Patch 1: Replace UBSan with KASAN in commit message, as KASAN is the
+  appropriate sanitizer for out-of-bounds memory accesses (Yazen Ghannam)
+- Patch 1: Use ", true" instead of ", 1" in the for_each_fru macro to
+  clearly indicate a boolean value (Yazen Ghannam)
+- Patch 2: Initialize DECLARE_BITMAP at declaration with = { 0 } instead
+  of calling bitmap_zero() separately (Yazen Ghannam)
+- Patch 4: Fix commit message to accurately describe the comment in
+  erst_get_record_id_end() (Yazen Ghannam)
+- Patch 4: Simplify error path by using goto out and moving the out:
+  label above kfree(old), removing the out_free label (Yazen Ghannam)
+
+[1] https://lore.kernel.org/r/20260821094748.145394-1-qirui.001@bytedance.com
+
+Rui Qi (4):
+  RAS/AMD/FMPM: Fix out-of-bounds read in for_each_fru macro
+  RAS/AMD/FMPM: Clear new records bitmap before rollback
+  RAS/AMD/FMPM: Make max_nr_entries read-only
+  RAS/AMD/FMPM: Fix spurious BUG when ERST record enumeration fails
+
+ drivers/ras/amd/fmpm.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+--
 2.20.1
