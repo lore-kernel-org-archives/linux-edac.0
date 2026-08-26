@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B3948B38F
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA26547DFAE
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773472; cv=none; b=fO3DAqCCIWrIVgOkTqgLphMVef91LdFoxj9523MTe8dIf+XJkbC5UIwazY2PGkCXokvNEAZFfcEr3Nqim9YyaXxtXau7Mhv1QDiLSNvVSS75cIH9zgF4jbl/RTkpkkTPHCkbqrWvgNaqV4HM/P39EWpH6eOgikSGOd1AkQ6zkSc=
+	t=1787773492; cv=none; b=qXC0jwabkG7Iw0qvObi6xXsRwETzAgf8qJ1fI18aCl3ZCn/oUSd9lQDuwd0fQRJYLoQOOxaW70GO/67mG3Zu+cRZ2Qz//IQ1R8bSfeG/eWt5Qm84fHCznG7ihAI/rHXRTz9+ru93HnaRFy0b9HBSSvnS6pwKPRwTsbkSMXeWmTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773472; c=relaxed/simple;
-	bh=s2TsiM0W9dsOuJK6fIQDzIX8Tj6MlDjmFwC1VN69hfA=;
+	s=arc-20240116; t=1787773492; c=relaxed/simple;
+	bh=FrWoQQ3U5krJj8ZlEZXkxiXneqqfWRAb+ixQ1ITiipo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cgL4jgW9X8vw/muIC+12Jrcy4HYT7IgxRhUqAjRcujUMXEmOzRsP9pcWN+wg+hYoZeeYNVGZQgYUhBt6mrMuRYkAUsiHCFBPIrwN39lcNSzsnKyE/JFBpQt3xXb9Ra1AlLTLlvPd73MFB1DObGiWjcrYZDXvIv8BDWrGYlS44h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KKutS6f9; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=CScIsuoThUXO62zQL1s0S9pmOa6a17oIa67/yLM8yuJdUgTLdsTccx2nyOBe4bhFqkRbZ3iETfc0L8LY588QbyLXwT44U1Yp0a2z8kakG2qHdj3W267PIr1ZOZEFDb4eHlC0rH9mojek2HNreoXBBlhG2MpUV0/MkWhBO3/n/ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NvEqEsJS; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KKutS6f9"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NvEqEsJS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773458;
+	s=mimecast20190719; t=1787773475;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U/qXQ7y8j8vRIuhHXNBGEntkR65K80MZ6kjFW8kUyKM=;
-	b=KKutS6f9zGs9suLP7kFJVdBg81pKwp+RRzfHBzXjHRqFGDDbXKGLA/Lr6MI8IykFavFIqi
-	O36UtablN0j0MqJMFdYnqVXDhRY2h7b+f5yK9mNrnknyfPhNmqMqkvDnVFv7GaGPhgtIPq
-	18YcqJiEoggji+sF7TyIObXQXcQwe38=
+	bh=GT4vbniYPu2T0an15X/kc4fJpS4Ogad+KYFFAMad4RM=;
+	b=NvEqEsJSnSReyV4LbDPLnauLP/V8xW46rcjRt16n8XRxsgf68QVjJVa8fc/wSmV+DJ/SSA
+	peAjO4VUfEkfjLe+y0f0J8MpqJ8m1VUW8if/qp1umgTQj01wqURp8J3OPvnd+Llo/4jX3r
+	UdlqYTnnwApT9D7ci7nAUEFyjlWUcKE=
 Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-343-CjURmbsrP5WDfH6GZONnnw-1; Wed,
- 26 Aug 2026 15:44:12 -0400
-X-MC-Unique: CjURmbsrP5WDfH6GZONnnw-1
-X-Mimecast-MFC-AGG-ID: CjURmbsrP5WDfH6GZONnnw_1787773449
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-602-AuyODw-rNaOByQ2n1VZbww-1; Wed,
+ 26 Aug 2026 15:44:31 -0400
+X-MC-Unique: AuyODw-rNaOByQ2n1VZbww-1
+X-Mimecast-MFC-AGG-ID: AuyODw-rNaOByQ2n1VZbww_1787773468
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCB231801356;
-	Wed, 26 Aug 2026 19:44:08 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 153A31862D51;
+	Wed, 26 Aug 2026 19:44:28 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A302A1800577;
-	Wed, 26 Aug 2026 19:43:59 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4FA7B1800598;
+	Wed, 26 Aug 2026 19:44:18 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 38/43] qapi: convert trivial intro sections for net.json
-Date: Wed, 26 Aug 2026 15:38:35 -0400
-Message-ID: <20260826193840.2152000-39-jsnow@redhat.com>
+Subject: [PATCH v3 40/43] qapi: convert trivial intro sections for ui.json
+Date: Wed, 26 Aug 2026 15:38:37 -0400
+Message-ID: <20260826193840.2152000-41-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,300 +96,659 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/net.json | 92 ++++++++++++++++++---------------------------------
- 1 file changed, 33 insertions(+), 59 deletions(-)
+ qapi/ui.json | 199 ++++++++++++++++++---------------------------------
+ 1 file changed, 68 insertions(+), 131 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 1a6382825c5..4ea4bd1bc72 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -12,8 +12,7 @@
+diff --git a/qapi/ui.json b/qapi/ui.json
+index b2c42a7f578..960d02d1429 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -13,8 +13,7 @@
  
  ##
- # @set_link:
+ # @DisplayProtocol:
 -#
--# Sets the link status of a virtual network adapter.
-+#     Sets the link status of a virtual network adapter.
+-# Display protocols which support changing password options.
++#     Display protocols which support changing password options.
  #
- # @name: the device name of the virtual network adapter
- #
-@@ -60,8 +59,7 @@
+ # Since: 7.0
+ ##
+@@ -23,9 +22,8 @@
  
  ##
- # @netdev_del:
+ # @SetPasswordAction:
 -#
--# Remove a network backend.
-+#     Remove a network backend.
+-# An action to take on changing a password on a connection with active
+-# clients.
++#     An action to take on changing a password on a connection with
++#     active clients.
  #
- # @id: the name of the network backend to remove
+ # @keep: maintain existing clients
  #
-@@ -80,8 +78,7 @@
+@@ -40,8 +38,7 @@
  
  ##
- # @NetLegacyNicOptions:
+ # @SetPasswordOptions:
 -#
--# Create a new Network Interface Card.
-+#     Create a new Network Interface Card.
+-# Options for `set_password`.
++#     Options for `set_password`.
  #
- # @netdev: id of -netdev to connect to
- #
-@@ -140,8 +137,7 @@
+ # @protocol:
+ #     - 'vnc' to modify the VNC server password
+@@ -64,8 +61,7 @@
  
  ##
- # @NetdevPasstOptions:
+ # @SetPasswordOptionsVnc:
 -#
--# Unprivileged user-mode network connectivity using passt
-+#     Unprivileged user-mode network connectivity using passt
+-# Options for `set_password` specific to the VNC protocol.
++#     Options for `set_password` specific to the VNC protocol.
  #
- # @path: Filename of the passt program to run (by default 'passt', and
- #     use PATH)
-@@ -301,9 +297,8 @@
+ # @display: The id of the display where the password should be
+ #     changed.  Defaults to the first.
+@@ -77,8 +73,7 @@
  
  ##
- # @NetdevUserOptions:
+ # @set_password:
 -#
--# Use the user mode network stack which requires no administrator
--# privilege to run.
-+#     Use the user mode network stack which requires no administrator
-+#     privilege to run.
+-# Set the password of a remote display server.
++#     Set the password of a remote display server.
  #
- # @hostname: client hostname reported by the builtin DHCP server
- #
-@@ -389,8 +384,7 @@
+ # Errors:
+ #     - If Spice is not enabled, DeviceNotFound
+@@ -95,8 +90,7 @@
  
  ##
- # @NetdevTapOptions:
+ # @ExpirePasswordOptions:
 -#
--# Used to configure a host TAP network interface backend.
-+#     Used to configure a host TAP network interface backend.
+-# General options for `expire_password`.
++#     General options for `expire_password`.
  #
- # @ifname: interface name
- #
-@@ -447,9 +441,8 @@
+ # @protocol:
+ #     - 'vnc' to modify the VNC server expiration
+@@ -125,8 +119,7 @@
  
  ##
- # @NetdevSocketOptions:
+ # @ExpirePasswordOptionsVnc:
 -#
--# Socket netdevs are used to establish a network connection to another
--# QEMU virtual machine via a TCP socket.
-+#     Socket netdevs are used to establish a network connection to
-+#     another QEMU virtual machine via a TCP socket.
+-# Options for `expire_password` specific to the VNC protocol.
++#     Options for `expire_password` specific to the VNC protocol.
  #
- # @fd: file descriptor of an already opened socket
- #
-@@ -476,8 +469,7 @@
+ # @display: The id of the display where the expiration should be
+ #     changed.  Defaults to the first.
+@@ -138,8 +131,7 @@
  
  ##
- # @NetdevL2TPv3Options:
+ # @expire_password:
 -#
--# Configure an Ethernet over L2TPv3 tunnel.
-+#     Configure an Ethernet over L2TPv3 tunnel.
+-# Expire the password of a remote display server.
++#     Expire the password of a remote display server.
  #
- # @src: source address
- #
-@@ -531,8 +523,7 @@
+ # Errors:
+ #     - If @protocol is 'spice' and Spice is not active,
+@@ -157,8 +149,7 @@
  
  ##
- # @NetdevVdeOptions:
+ # @ImageFormat:
 -#
--# Connect to a vde switch running on the host.
-+#     Connect to a vde switch running on the host.
+-# Supported image format types.
++#     Supported image format types.
  #
- # @sock: socket path
+ # @png: PNG format
  #
-@@ -553,8 +544,7 @@
+@@ -171,8 +162,7 @@
  
  ##
- # @NetdevBridgeOptions:
+ # @screendump:
 -#
--# Connect a host TAP network interface to a host bridge device.
-+#     Connect a host TAP network interface to a host bridge device.
+-# Capture the contents of a screen and write it to a file.
++#     Capture the contents of a screen and write it to a file.
  #
- # @br: bridge name
+ # @filename: the path of a new file to store the image
  #
-@@ -569,8 +559,7 @@
+@@ -208,8 +198,7 @@
  
  ##
- # @NetdevHubPortOptions:
+ # @SpiceBasicInfo:
 -#
--# Connect two or more net clients through a software hub.
-+#     Connect two or more net clients through a software hub.
+-# The basic information for SPICE network connection
++#     The basic information for SPICE network connection
  #
- # @hubid: hub identifier number
+ # @host: IP address
  #
-@@ -586,8 +575,8 @@
+@@ -227,8 +216,7 @@
  
  ##
- # @NetdevNetmapOptions:
+ # @SpiceServerInfo:
 -#
--# Connect a client to a netmap-enabled NIC or to a VALE switch port
-+#     Connect a client to a netmap-enabled NIC or to a VALE switch
-+#     port
+-# Information about a SPICE server
++#     Information about a SPICE server
  #
- # @ifname: Either the name of an existing network interface supported
- #     by netmap, or the name of a VALE port (created on the fly).  A
-@@ -607,8 +596,7 @@
+ # @auth: authentication method
+ #
+@@ -241,8 +229,7 @@
  
  ##
- # @AFXDPMode:
+ # @SpiceChannel:
 -#
--# Attach mode for a default XDP program
-+#     Attach mode for a default XDP program
+-# Information about a SPICE client channel.
++#     Information about a SPICE client channel.
  #
- # @skb: generic mode, no driver support necessary
- #
-@@ -623,8 +611,7 @@
+ # @connection-id: SPICE connection id number.  All channels with the
+ #     same id belong to the same SPICE session.
+@@ -267,8 +254,7 @@
  
  ##
- # @NetdevAFXDPOptions:
+ # @SpiceQueryMouseMode:
 -#
--# AF_XDP network backend
-+#     AF_XDP network backend
+-# An enumeration of Spice mouse states.
++#     An enumeration of Spice mouse states.
  #
- # @ifname: The name of an existing network interface.
+ # @client: Mouse cursor position is determined by the client.
  #
-@@ -675,8 +662,7 @@
+@@ -285,8 +271,7 @@
  
  ##
- # @NetdevVhostUserOptions:
+ # @SpiceInfo:
 -#
--# Vhost-user network backend
-+#     Vhost-user network backend
+-# Information about the SPICE session.
++#     Information about the SPICE session.
  #
- # @chardev: name of a unix socket chardev
+ # @enabled: true if the SPICE server is enabled, false otherwise
  #
-@@ -836,8 +822,7 @@
+@@ -325,8 +310,7 @@
  
  ##
- # @NetdevStreamOptions:
+ # @query-spice:
 -#
--# Configuration info for stream socket netdev
-+#     Configuration info for stream socket netdev
+-# Return information about the current SPICE server
++#     Return information about the current SPICE server
  #
- # @addr: socket address to listen on (server=true) or connect to
- #     (server=false)
-@@ -861,8 +846,7 @@
+ # Since: 0.14
+ #
+@@ -370,8 +354,7 @@
  
  ##
- # @NetdevDgramOptions:
+ # @SPICE_CONNECTED:
 -#
--# Configuration info for datagram socket netdev.
-+#     Configuration info for datagram socket netdev.
+-# Emitted when a SPICE client establishes a connection
++#     Emitted when a SPICE client establishes a connection
  #
- # @remote: remote address
+ # @server: server information
  #
-@@ -898,8 +882,7 @@
+@@ -395,9 +378,8 @@
  
  ##
- # @NetClientDriver:
+ # @SPICE_INITIALIZED:
 -#
--# Available netdev drivers.
-+#     Available netdev drivers.
+-# Emitted after initial handshake and authentication takes place (if
+-# any) and the SPICE channel is up and running
++#     Emitted after initial handshake and authentication takes place
++#     (if any) and the SPICE channel is up and running
  #
- # @l2tpv3: since 2.1
+ # @server: server information
  #
-@@ -933,8 +916,7 @@
+@@ -423,8 +405,7 @@
  
  ##
- # @Netdev:
+ # @SPICE_DISCONNECTED:
 -#
--# Captures the configuration of a network device.
-+#     Captures the configuration of a network device.
+-# Emitted when the SPICE connection is closed
++#     Emitted when the SPICE connection is closed
  #
- # @id: identifier for monitor commands.
+ # @server: server information
  #
-@@ -972,8 +954,7 @@
+@@ -448,8 +429,7 @@
  
  ##
- # @RxState:
+ # @SPICE_MIGRATE_COMPLETED:
 -#
--# Packets receiving state
-+#     Packets receiving state
+-# Emitted when SPICE migration has completed
++#     Emitted when SPICE migration has completed
  #
- # @normal: filter assigned packets according to the mac-table
+ # Since: 1.3
  #
-@@ -987,8 +968,7 @@
+@@ -468,8 +448,7 @@
  
  ##
- # @RxFilterInfo:
+ # @VncBasicInfo:
 -#
--# Rx-filter information for a NIC.
-+#     Rx-filter information for a NIC.
+-# The basic information for vnc network connection
++#     The basic information for vnc network connection
  #
- # @name: net client name
+ # @host: IP address
  #
-@@ -1033,8 +1013,8 @@
+@@ -492,8 +471,7 @@
  
  ##
- # @query-rx-filter:
+ # @VncServerInfo:
 -#
--# Return rx-filter information for all NICs (or for the given NIC).
-+#     Return rx-filter information for all NICs (or for the given
-+#     NIC).
+-# The network connection information for server
++#     The network connection information for server
  #
- # @name: net client name
- #
-@@ -1082,9 +1062,8 @@
+ # @auth: authentication method used for the plain (non-websocket) VNC
+ #     server
+@@ -507,8 +485,7 @@
  
  ##
- # @NIC_RX_FILTER_CHANGED:
+ # @VncClientInfo:
 -#
--# Emitted once until the `query-rx-filter` command is executed, the
--# first event will always be emitted
-+#     Emitted once until the `query-rx-filter` command is executed,
-+#     the first event will always be emitted
+-# Information about a connected VNC client.
++#     Information about a connected VNC client.
  #
- # @name: net client name
- #
-@@ -1104,8 +1083,7 @@
+ # @x509_dname: If x509 authentication is in use, the Distinguished
+ #     Name of the client.
+@@ -525,8 +502,7 @@
  
  ##
- # @AnnounceParameters:
+ # @VncInfo:
 -#
--# Parameters for self-announce timers
-+#     Parameters for self-announce timers
+-# Information about the VNC session.
++#     Information about the VNC session.
  #
- # @initial: Initial delay (in ms) before sending the first GARP/RARP
- #     announcement
-@@ -1178,8 +1156,7 @@
+ # @enabled: true if the VNC server is enabled, false otherwise
+ #
+@@ -576,8 +552,7 @@
  
  ##
- # @NETDEV_STREAM_CONNECTED:
+ # @VncPrimaryAuth:
 -#
--# Emitted when the netdev stream backend is connected
-+#     Emitted when the netdev stream backend is connected
+-# vnc primary authentication method.
++#     vnc primary authentication method.
  #
- # @netdev-id: QEMU netdev id that is connected
- #
-@@ -1208,8 +1185,7 @@
+ # Since: 2.3
+ ##
+@@ -588,8 +563,7 @@
  
  ##
- # @NETDEV_STREAM_DISCONNECTED:
+ # @VncVencryptSubAuth:
 -#
--# Emitted when the netdev stream backend is disconnected
-+#     Emitted when the netdev stream backend is disconnected
+-# vnc sub authentication method with vencrypt.
++#     vnc sub authentication method with vencrypt.
  #
- # @netdev-id: QEMU netdev id that is disconnected
- #
-@@ -1226,8 +1202,7 @@
+ # Since: 2.3
+ ##
+@@ -603,8 +577,7 @@
  
  ##
- # @NETDEV_VHOST_USER_CONNECTED:
+ # @VncServerInfo2:
 -#
--# Emitted when the vhost-user chardev is connected
-+#     Emitted when the vhost-user chardev is connected
+-# The network connection information for server
++#     The network connection information for server
  #
- # @netdev-id: QEMU netdev id that is connected
+ # @auth: The current authentication type used by the servers
  #
-@@ -1246,8 +1221,7 @@
+@@ -621,8 +594,7 @@
  
  ##
- # @NETDEV_VHOST_USER_DISCONNECTED:
+ # @VncInfo2:
 -#
--# Emitted when the vhost-user chardev is disconnected
-+#     Emitted when the vhost-user chardev is disconnected
+-# Information about a vnc server
++#     Information about a vnc server
  #
- # @netdev-id: QEMU netdev id that is disconnected
+ # @id: vnc server name.
+ #
+@@ -655,8 +627,7 @@
+ 
+ ##
+ # @query-vnc:
+-#
+-# Return information about the current VNC server
++#     Return information about the current VNC server
+ #
+ # Since: 0.14
+ #
+@@ -695,8 +666,7 @@
+ 
+ ##
+ # @change-vnc-password:
+-#
+-# Change the VNC server password.
++#     Change the VNC server password.
+ #
+ # @password: the new password to use with VNC authentication
+ #
+@@ -712,8 +682,7 @@
+ 
+ ##
+ # @VNC_CONNECTED:
+-#
+-# Emitted when a VNC client establishes a connection
++#     Emitted when a VNC client establishes a connection
+ #
+ # @server: server information
+ #
+@@ -741,9 +710,8 @@
+ 
+ ##
+ # @VNC_INITIALIZED:
+-#
+-# Emitted after authentication takes place (if any) and the VNC
+-# session is made active
++#     Emitted after authentication takes place (if any) and the VNC
++#     session is made active
+ #
+ # @server: server information
+ #
+@@ -768,8 +736,7 @@
+ 
+ ##
+ # @VNC_DISCONNECTED:
+-#
+-# Emitted when the connection is closed
++#     Emitted when the connection is closed
+ #
+ # @server: server information
+ #
+@@ -800,8 +767,7 @@
+ 
+ ##
+ # @MouseInfo:
+-#
+-# Information about a mouse device.
++#     Information about a mouse device.
+ #
+ # @name: the name of the mouse device
+ #
+@@ -820,8 +786,7 @@
+ 
+ ##
+ # @query-mice:
+-#
+-# Return information about each active mouse device
++#     Return information about each active mouse device
+ #
+ # Returns: a list of info for each device
+ #
+@@ -1005,8 +970,7 @@
+ 
+ ##
+ # @KeyValue:
+-#
+-# Represents a keyboard key.
++#     Represents a keyboard key.
+ #
+ # @type: key encoding
+ #
+@@ -1021,8 +985,7 @@
+ 
+ ##
+ # @send-key:
+-#
+-# Send keys to guest.
++#     Send keys to guest.
+ #
+ # @keys: An array of `KeyValue` elements.  All @KeyValues in this
+ #     array are simultaneously sent to the guest.  A `KeyValue`.number
+@@ -1050,8 +1013,7 @@
+ 
+ ##
+ # @InputButton:
+-#
+-# Button of a pointer input device (mouse, tablet).
++#     Button of a pointer input device (mouse, tablet).
+ #
+ # @side: front side button of a 5-button mouse (since 2.9)
+ #
+@@ -1067,8 +1029,7 @@
+ 
+ ##
+ # @InputAxis:
+-#
+-# Position axis of a pointer input device (mouse, tablet).
++#     Position axis of a pointer input device (mouse, tablet).
+ #
+ # Since: 2.0
+ ##
+@@ -1077,8 +1038,7 @@
+ 
+ ##
+ # @InputMultiTouchType:
+-#
+-# Type of a multi-touch event.
++#     Type of a multi-touch event.
+ #
+ # @begin: A new touch event sequence has just started.
+ #
+@@ -1097,8 +1057,7 @@
+ 
+ ##
+ # @InputKeyEvent:
+-#
+-# Keyboard input event.
++#     Keyboard input event.
+ #
+ # @key: Which key this event is for.
+ #
+@@ -1112,8 +1071,7 @@
+ 
+ ##
+ # @InputBtnEvent:
+-#
+-# Pointer button input event.
++#     Pointer button input event.
+ #
+ # @button: Which button this event is for.
+ #
+@@ -1127,8 +1085,7 @@
+ 
+ ##
+ # @InputMoveEvent:
+-#
+-# Pointer motion input event.
++#     Pointer motion input event.
+ #
+ # @axis: Which axis is referenced by @value.
+ #
+@@ -1143,8 +1100,7 @@
+ 
+ ##
+ # @InputMultiTouchEvent:
+-#
+-# MultiTouch input event.
++#     MultiTouch input event.
+ #
+ # @type: The type of multi-touch event.
+ #
+@@ -1226,8 +1182,7 @@
+ 
+ ##
+ # @InputEvent:
+-#
+-# Input event union.
++#     Input event union.
+ #
+ # @type: the type of input event
+ #
+@@ -1316,8 +1271,7 @@
+ 
+ ##
+ # @DisplayGTK:
+-#
+-# GTK display options.
++#     GTK display options.
+ #
+ # @clipboard: Enable host-guest clipboard sharing.  Defaults to "off".
+ #     (Since 11.1)
+@@ -1357,8 +1311,7 @@
+ 
+ ##
+ # @DisplayEGLHeadless:
+-#
+-# EGL headless display options.
++#     EGL headless display options.
+ #
+ # @rendernode: Which DRM render node should be used.  Default is the
+ #     first available node on the host.
+@@ -1370,8 +1323,7 @@
+ 
+ ##
+ # @DisplayDBus:
+-#
+-# DBus display options.
++#     DBus display options.
+ #
+ # @addr: The D-Bus bus address (default to the session bus).
+ #
+@@ -1393,8 +1345,7 @@
+ 
+ ##
+ # @DisplayGLMode:
+-#
+-# Display OpenGL mode.
++#     Display OpenGL mode.
+ #
+ # @off: Disable OpenGL (default).
+ #
+@@ -1413,8 +1364,7 @@
+ 
+ ##
+ # @DisplayCurses:
+-#
+-# Curses display options.
++#     Curses display options.
+ #
+ # @charset: Font charset used by guest (default: CP437).
+ #
+@@ -1425,8 +1375,7 @@
+ 
+ ##
+ # @DisplayCocoa:
+-#
+-# Cocoa display options.
++#     Cocoa display options.
+ #
+ # @left-command-key: Enable/disable forwarding of left command key to
+ #     guest.  Allows command-tab window switching on the host without
+@@ -1461,8 +1410,8 @@
+ 
+ ##
+ # @HotKeyMod:
+-#
+-# Set of modifier keys that need to be held for shortcut key actions.
++#    Set of modifier keys that need to be held for shortcut key
++#    actions.
+ #
+ # Since: 7.1
+ ##
+@@ -1471,8 +1420,7 @@
+ 
+ ##
+ # @DisplaySDL:
+-#
+-# SDL2 display options.
++#     SDL2 display options.
+ #
+ # @grab-mod: Modifier keys that should be pressed together with the
+ #     "G" key to release the mouse grab.
+@@ -1484,8 +1432,7 @@
+ 
+ ##
+ # @DisplayType:
+-#
+-# Display (user interface) type.
++#     Display (user interface) type.
+ #
+ # @default: The default user interface, selecting from the first
+ #     available of gtk, sdl, cocoa, and vnc.
+@@ -1535,8 +1482,7 @@
+ 
+ ##
+ # @DisplayOptions:
+-#
+-# Display (user interface) options.
++#     Display (user interface) options.
+ #
+ # @type: Which `DisplayType` QEMU should use.
+ #
+@@ -1573,8 +1519,7 @@
+ 
+ ##
+ # @query-display-options:
+-#
+-# Return information about display configuration
++#     Return information about display configuration
+ #
+ # Since: 3.1
+ ##
+@@ -1583,8 +1528,7 @@
+ 
+ ##
+ # @DisplayReloadType:
+-#
+-# Available DisplayReload types.
++#     Available DisplayReload types.
+ #
+ # @vnc: VNC display
+ #
+@@ -1595,8 +1539,7 @@
+ 
+ ##
+ # @DisplayReloadOptionsVNC:
+-#
+-# Specify the VNC reload options.
++#     Specify the VNC reload options.
+ #
+ # @tls-certs: reload tls certs or not.
+ #
+@@ -1607,8 +1550,7 @@
+ 
+ ##
+ # @DisplayReloadOptions:
+-#
+-# Options of the display configuration reload.
++#     Options of the display configuration reload.
+ #
+ # @type: Specify the display type.
+ #
+@@ -1621,8 +1563,7 @@
+ 
+ ##
+ # @display-reload:
+-#
+-# Reload display configuration.
++#     Reload display configuration.
+ #
+ # Since: 6.0
+ #
+@@ -1638,8 +1579,7 @@
+ 
+ ##
+ # @DisplayUpdateType:
+-#
+-# Available DisplayUpdate types.
++#     Available DisplayUpdate types.
+ #
+ # @vnc: VNC display
+ #
+@@ -1650,8 +1590,7 @@
+ 
+ ##
+ # @DisplayUpdateOptionsVNC:
+-#
+-# Specify the VNC reload options.
++#     Specify the VNC reload options.
+ #
+ # @addresses: If specified, change set of addresses to listen for
+ #     connections.  Addresses configured for websockets are not
+@@ -1664,8 +1603,7 @@
+ 
+ ##
+ # @DisplayUpdateOptions:
+-#
+-# Options of the display configuration reload.
++#     Options of the display configuration reload.
+ #
+ # @type: Specify the display type.
+ #
+@@ -1678,8 +1616,7 @@
+ 
+ ##
+ # @display-update:
+-#
+-# Update display configuration.
++#     Update display configuration.
+ #
+ # Since: 7.1
  #
 -- 
 2.55.0
