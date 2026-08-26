@@ -1,217 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A07372B3B;
-	Wed, 26 Aug 2026 17:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787765629; cv=fail; b=J1p6D+r3PQ9QhzZR3PLr5PTdobOoNhsZZXy8BWZRXbFopZNGwYDQ7L5ooAcw1zBZt5WE1rdBZ4nlS3udPauyW3GauyC949/ufjBu+PyP48+8gVK7gAsbQzlYyIsQozEII6/h0+nojMbr+MvTbqzzTutkp1RQOEZxomOZF+FMfkk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787765629; c=relaxed/simple;
-	bh=rFqb/3bcBYXowFdyv3LJoxmWdbKucqxTVV1tkn8j6M8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=erOaqr0zWBlRd1H2LyJPkDN22XwdeYs3SqH3RltCeG/UfNdDQH0AZ7cLCu0V/hmLRDOHGaHUp40nlN1/AxYuASb+CyVKepw5rpS9/UP+v8TqMZ7Fq8tLMQKEDNpZ+htSnR/EhW7ooSChwBsa26Xyy9NqbclQO8Jvv3prkCzs86M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kS6YMZU1; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B70478E5E
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787773165; cv=none; b=FkjCzeRGTmPI4pznb2KcC+heAFrFwmHaeEfwi7KpRyN1ZczqxoNnzYvWNKZnQZMYunmyLNpGFzDfFYkEzNDQKyBaaTmPFJksMBZZQ9/qgvycLYIizK2ibrqJVvsqOPgmIHr3j+cTM+v66A3yN2SuDEb6nvCRyUPUj5XNR+IeANg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787773165; c=relaxed/simple;
+	bh=ve/uYI2MdXveSGiZ751kMkdQBZjw8OaURxKulhcLKZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=mQjCNQlKtDXaiWacL/0AkF8JmfJ1CqoeNMlxYCybdGf5OW1qcM8fw63JUtiID1z6ZDoh2T1zC3hYsrZ1i6WOQI+xcufsHTME3+ZHNfCxvLrfJlPgjHovh0vNkQ7g2fh74+rx3eRigy//iornVa+JnlbbxHIXkdAtkR80LSPUV7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FxSVxEWZ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kS6YMZU1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787765624; x=1819301624;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=rFqb/3bcBYXowFdyv3LJoxmWdbKucqxTVV1tkn8j6M8=;
-  b=kS6YMZU1TRw7sZJKt7xm8TjuecSOsqRbV4QCS8mXIa87OpvC6cQOyaap
-   dHP7u9K0MTFdfVksrvMxIvms25OkJLQe1mnRxLbmW1Nqewhr70973ELp7
-   wTqVEYoMQ7XIpMIvLNFXhnu9eNV2Gwcv0x2+qlrQvfXO6Dxr5Uz3KpxFq
-   UVfUxhMVz7VXDj4kl5EfDjxv9mD6HdbMue7oODcd98k+dLAyvWJ4LXsbm
-   505tTAVTx5avN2GWs42WcIIEwCKDyrzExQeW6to3mmwHiYJY1rgE3rFBA
-   EtmGF24pvvM4p7zRjhjmcqAZ0q4Y/NeghJZh0DNbcBVbUX4o2hNoqFD1M
-   Q==;
-X-CSE-ConnectionGUID: QFE18OqaSEWqiMenc9Atmg==
-X-CSE-MsgGUID: jM2oA7jMSQqkkqVf7udy2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88274184"
-X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
-   d="scan'208";a="88274184"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 10:32:22 -0700
-X-CSE-ConnectionGUID: OF/MohXDS661TJRWQrAiIg==
-X-CSE-MsgGUID: 9VIL176lQ5iA6dp1M41uKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,245,1779174000"; 
-   d="scan'208";a="297527448"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 10:32:22 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Wed, 26 Aug 2026 10:32:21 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Wed, 26 Aug 2026 10:32:21 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.51) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 26 Aug 2026 10:32:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GqQbhzlctRJ/K+5+osbKIepPSxlfRd2sBSLzA9hr4gsOnE6Cdgxn+G8A5Ng35H9OF3ES+gx0cUvzkz7P7eJpGJjPIlifqE71JDzpZsDY+8CRTH6YAulnAhpTJhiRQA5lCIBurwiAthIGRYT+iU36wA2N8+R9F7aAvKfYM6E/emTl56flIch6NtJdXQ+lj7IX2iDh1Fkxiwmk8RuGMCjx0Y4VP3/iDXc4C453CBjc5rE/yMt7or0ql0dScG/evowX/iXg5m+gzQ4n0Owu+bY+22ZTEC20BrdyXs+tvSmpihfiV2hcdMVl3Nrehu8LxFkNuQUzFj/SJdnd2XwIfQgXag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BjLykUrqYDLby5TJSTZmMXBa57R12z3f0PDMsWu7/e0=;
- b=hLsNmWTsYfwLO4n2cmPJNI87JSwgswg9X0KUenLVJ/OsvVjqwvqtxFQ7d22v4/DDvBbS2vlFICfZKnJ2cr8iEKmQA13lGMdJ0m4EWW+g6RO3TdZrDD3gE7Fo0ul4NPYEeYsFIgnZ/IGwvMEalrif3ZeAFBTVVH99V4Ko2lz8DNCJxmSdHKS2cxONDKfLf6pR20+3Q2yfYqEZpowP7qTnBzuLeWCiDwmWuFXR/IB/1KKlX+vhjXu7gCGYS44zWJQC+y79io29Y1VkjrMoAXnalFvpC8i1iIXpYWcn7+zmQoYs15ju1rdVuWdM0OSyrI8BWEDCkZyaGUyx5+PM22KoSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by DM4PR11MB6239.namprd11.prod.outlook.com (2603:10b6:8:a7::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.9; Wed, 26 Aug
- 2026 17:32:13 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0360.006; Wed, 26 Aug 2026
- 17:32:13 +0000
-Date: Wed, 26 Aug 2026 10:32:11 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: Breno Leitao <leitao@debian.org>, Thomas Gleixner <tglx@kernel.org>, "Ingo
- Molnar" <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-	"Jonathan Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "kernel-team@meta.com" <kernel-team@meta.com>
-Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
- corrected error flood
-Message-ID: <ao8jGwH_mPDpACFd@agluck-desk3>
-References: <aoynhOsTCcapwRbl@agluck-desk3>
- <ao2eT0TWS9EaA28N@gmail.com>
- <SJ1PR11MB60837D32B5D89336C87280A3FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825161625.GAao2_2d3U7xQFgHrw@fat_crate.local>
- <SJ1PR11MB60839657B965AC3FDA53C186FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825191555.GCao3p63v3fXzwa7E7@fat_crate.local>
- <SJ1PR11MB608315809B99B7194D167D8EFCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20260825225202.GEao4ckknyv8nRc8Dh@fat_crate.local>
- <ao7nGM9sCQyxJvsD@gmail.com>
- <20260826160934.GBao8PvsM8M-U7XuFR@fat_crate.local>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260826160934.GBao8PvsM8M-U7XuFR@fat_crate.local>
-X-ClientProxiedBy: SJ0PR03CA0194.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::19) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FxSVxEWZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787773141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OV/Bn5FKjVN6jGBTdmcI0iglqykaTfW48iOybfBw34s=;
+	b=FxSVxEWZGeP+GG4Bg81Zntpr+t/cYvfoKwQE85XjjiC3ONqmE31wu4oTY6BV8uwW40d1th
+	8LIPu/1GiK/6IxZOJV4IBd4pak0AX7OxhWewN9iGWp92LgELw8FaB1+SpnSq4V4DFc3HMt
+	8tXMwTw5yr32Yk7t86On6XMh65jLuGg=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-146-9412ylJcNfqNWpF-vOfexA-1; Wed,
+ 26 Aug 2026 15:38:58 -0400
+X-MC-Unique: 9412ylJcNfqNWpF-vOfexA-1
+X-Mimecast-MFC-AGG-ID: 9412ylJcNfqNWpF-vOfexA_1787773135
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 71265180134D;
+	Wed, 26 Aug 2026 19:38:54 +0000 (UTC)
+Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CE7BC1800577;
+	Wed, 26 Aug 2026 19:38:41 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Alex Williamson <alex@shazbot.org>,
+	=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+	John Snow <jsnow@redhat.com>,
+	linux-cxl@vger.kernel.org,
+	Markus Armbruster <armbru@redhat.com>,
+	Michael Tokarev <mjt@tls.msk.ru>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+	Peter Xu <peterx@redhat.com>,
+	Eric Blake <eblake@redhat.com>,
+	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+	zhenwei pi <zhenwei.pi@linux.dev>,
+	qemu-trivial@nongnu.org,
+	Fabiano Rosas <farosas@suse.de>,
+	Kevin Wolf <kwolf@redhat.com>,
+	Laurent Vivier <laurent@vivier.eu>,
+	Jiri Pirko <jiri@resnulli.us>,
+	qemu-block@nongnu.org,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefan Berger <stefanb@linux.vnet.ibm.com>,
+	linux-edac@vger.kernel.org,
+	"Gonglei (Arei)" <arei.gonglei@huawei.com>,
+	Igor Mammedov <imammedo@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Zhao Liu <zhao1.liu@intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Hanna Reitz <hreitz@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Ani Sinha <anisinha@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
+	Lukas Straub <lukasstraub2@web.de>,
+	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
+Subject: [PATCH v3 00/43] qapi: convert (very) trivial intro sections
+Date: Wed, 26 Aug 2026 15:37:57 -0400
+Message-ID: <20260826193840.2152000-1-jsnow@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|DM4PR11MB6239:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0bccc93-7e6d-455b-6b6e-08df0397f6fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|7416014|376014|56012099006|10067099003|18002099003|22082099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info: 5u5Z3DgQftXWTC+WCLTRYy1RAKjjTTI/M2IycmoO2EA+S5Q1kZYKU3wjucvwDLhrK8v3GYWOktTEAR1zyQGUTlPxesPNa+kpVPdN49szF8Fg+NYtLI/w/v4DOl4EPMUZMjRoxMg+vV8fT172N9IV5s1C4Q1peCC8+9jLmbZinMDV3+SN5cKs+bG5bzaCI4eBJlBVW6Jd/2ZS9fL2QhJqCNVLTwdNRqFuUShqHgVG26ZPemLbs6iD8CylfeSiJnUwj+N7cybv+JbSUxpxQLtMGp2z9YVMxoyainboI4YOz08DF8iZPUyNxVL8fINgAHRk46AvUs9ascED51Tsp5TyCGPrJ5mAn2yVrb9SHkYFm3hZ/Sa9lcwn1UYGnDlsiEiWP5pbBpeeWY/CGjo9TbSUzr9kDxqBs81cxp2pihLQBCBDZW97puOKYgbVoDS5s2PssOXZTBYTxl9B9mHX2BSUMb2THpnyL68f2EcAzCj1TcKSKn5ZWk0xvYLg07RjnGOfQQEaSdQFfaDJP/nf/CJLwSDDK9XJuDum1pST4qlxNb7B/zSbq2m/3+tUFa+broN3pof/gUrkpffRDoP0tO9Ad/2uMfjEu4SdMnOACZKOqyKSPBTPCWl7cmgsu27EiJWhGIOE7P7qNgzGZGL1jHsGBTzwmHYlMSiihNloDyZm+hU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(7416014)(376014)(56012099006)(10067099003)(18002099003)(22082099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z7UFagB+roohUyjzFw2jnsJJ2M3Rf+PJ8A/rjKsZY8gVC/ARmAX3a9Lake4D?=
- =?us-ascii?Q?bHhQ7YTvAHxp95kVyQCCiQGuQmwI+mzsMC+vkWzrq24+TWJ94a5EoLiTFMSC?=
- =?us-ascii?Q?e/hP5tOSkhGYjeEhsVCFsuOuR0bSD189uvwizpw1EHxInuahERCZi8mp5JsJ?=
- =?us-ascii?Q?jB9O/WT9uSprlyyUlfCqnKf+RbYNJT2Bfsv8xtV9Zv45JcumHzwOeBtF2Lng?=
- =?us-ascii?Q?1Jlm/QfiYmDCm8SX689+FDzSb5Suj/0PovLkoeqVP5Lj2pO7+FcUntTXvTGg?=
- =?us-ascii?Q?2kgLxDLZdCaCBF9DLOV5Be0sh9iLiQyhvSSC6lVocFz48u2PtMfuYFmlJt96?=
- =?us-ascii?Q?WR4vpsqKJUIoaz4cq9VrP0/eLndiX1i0Z1e2g9CRwnWInYuLhPPKonNHnkkX?=
- =?us-ascii?Q?BzCecHKabJfsT2y1tBN1VxQEsmjuWCwC01XDjJzeUNpbyqSS1UKn0LBqoatR?=
- =?us-ascii?Q?4wSdUjCTq9cAnf8Y7tb6A+DEA0o8yXhA2rkAFmUy4EfBzPqCC/oyxMT6+nOR?=
- =?us-ascii?Q?1DvO3EBWONYM2yfCRNEr2KXqBWg2iQb0pEXwTF0Nf7NuP/Qdx6wRC9b5RGZk?=
- =?us-ascii?Q?pAh2fwI1XgNqdUlchCwQcqlmpAyBh8MLla1CP1JHTHngeQC5qvFprXK3PKuG?=
- =?us-ascii?Q?TlVIRWS+oj0wbmMHijHFIGSd3ARg3VbIsPQydy2DjfRTf8+T6icJgfeR0StP?=
- =?us-ascii?Q?3hVj/Oz7HWiUjzcN3Oi8rf0bmbgGB+uderkbuVyAbsrj6mhv/X12hvUN/+Hw?=
- =?us-ascii?Q?mPJxMq+7Yys8Z212PNtwiKtZDtnt++58du0+/E1vdPn0w/zXHrRi3pujhq/3?=
- =?us-ascii?Q?Sgt7SOugMolro33iAz+4otqfgIn6xjMta2iNwBuIEaZf7zDMRCuFEr7n9J1E?=
- =?us-ascii?Q?cMeERUQfRqQUWscFURVXRpjjohDcEhuSh02uOI31dQtCyZW9Zxzu4e0K7lm/?=
- =?us-ascii?Q?IZ7IoKy+kDQJHl+MLlktkldDobnkFsaREN1y51kY0NQDGdK3KUojRU4ILc5e?=
- =?us-ascii?Q?0XsEOes89P0QjJKX3PnWZn9xSyXnqpslCkiqiO/v2MOcPgKIIxHGddfZmnRU?=
- =?us-ascii?Q?6F2b3GaVysvDVdkkvhTmZaWFGCdhybJwNe3TmATIrmjvojb4iyhVmIr7HS+o?=
- =?us-ascii?Q?eot419nP9189dMzBJYsDgORTUG5ViQ6+VnMsQO7BsH9cqoNM45YTqG7PgQ1r?=
- =?us-ascii?Q?C7gp1sxYyeTa70JgdSdjXvQy6wj+h4ZwWYSgPn6WSl9ZVUrmUMDO+Igo2nPb?=
- =?us-ascii?Q?4J2W7nETXp8NkaxIblqUnZz7Iap83C/VftAc2hv+/3TYayQDBB2VfO2lo6DK?=
- =?us-ascii?Q?VvdPmYGwNsQvh4z/5CtnT3txLu7A3ON/X27WQnoDvWBh0UPqSSRg6JU70lIS?=
- =?us-ascii?Q?dJbHlBhsHzGskzQn41LWcH+b2oLI56qWS09MoxM4zf4x5xuIbHNRUrMODBkK?=
- =?us-ascii?Q?MU/gh0lIatWtr0mqrgTbrD6sSb4eDscBPw7nmgaGVtsDs5KJoHV1VMgtxrhO?=
- =?us-ascii?Q?utjSerTNzMdccHCxRtQeqCGbH5BEd7YmVSoi+yExGD+ndOIQgPq9yYRTT6Dm?=
- =?us-ascii?Q?P11sPCYagLjRiZAybGLtFmit67kv/wtSPJ2Fnh36GARd5fhfnOX5KGJbxw+7?=
- =?us-ascii?Q?m/GLNy+DvmKJTJ5Z8iotMRSNgi1YhQXc/2D5O/AqKLFTTPHK1sWmIBcZagvJ?=
- =?us-ascii?Q?Q0Q+fMpomK+95EdSMwYeHxnSk8l62vF7W3HC/79Krsm0Betwhzhfepvc3QqO?=
- =?us-ascii?Q?GCFshp3SNQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: suYxGzTmJujh9XeJT7MluDJQqjqTbcEgGxjut0YCtjXck+RSkhVq2Osx/vyOUg2JbWMK4bqeviCISh1X7VG65Y7nJOIS0vBqVx4RNfo4FIe+xekm0fL2/nT94M3tY33f4nBTqRyS7RiQDjl8OGVym69mNkAIkRpJzhx5t7VqMbD00KSkzyiEx1K/MHTGPVIJLLKxLBhyejrR6EGr+UXQTHwH7vQnSwOkyGFFo0z3+8RSu7OeXUCOgXAU7duKiRa8XO12WKZxEXDR9CYO2UwCsxf7Oe4Xjph2vujJ7P4HPf0WeSo494TCMvy3jdjoareughAxi00y8P3g72nsJwsUwA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0bccc93-7e6d-455b-6b6e-08df0397f6fb
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 17:32:12.9841
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Kb+EQa4nQiyGt45LK6mXX2p37Z+i333YAVZUXtAGfDnzW3L/fY+pmD1aaT/f5+NUWkFCXaBIuQ01n5bl27dmHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6239
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Wed, Aug 26, 2026 at 09:09:34AM -0700, Borislav Petkov wrote:
-> On Wed, Aug 26, 2026 at 06:22:27AM -0700, Breno Leitao wrote:
-> > In other words, I'm more interested in flagging that a host is a lemon
-> > than in keeping it limping along half-alive, thus my approach in this
-> > patchset.
-> 
-> This is your use case but I'm sure others would prefer the limping and
-> gracefully saving work the system has done until now...
-> 
-> Putting my user hat on:
-> 
-> +               Panic once a machine check bank has logged this many corrected
-> +               errors. 0, the default, disables it.
-> +
-> +               The setting is global rather than per-CPU, and it is compared
-> +               against a running total kept per CPU and per bank. Lowering it
-> +               below a total a bank has already reached takes the machine
-> +               down on that bank's next corrected error.
-> 
-> Ah, so how many CEs is "many"?
-> 
-> I have read that correctable errors do not have any effect on the system and
-> they can keep happening and do not influence execution.
+v3:=0D
+   As per Markus' request, the intro section conversion has been split=0D
+   even further into the *very* trivial; leaving the semi-trivial and=0D
+   not-trivial conversions for later consideration.=0D
+=0D
+   If you are a non-qapi/non-docs maintainer being CC'd on this patch,=0D
+   there is **very likely** nothing for you to do here; we are only=0D
+   changing spacing and syntax, but not modifying content in any way=0D
+   in this series in particular. Please feel free to mark-as-read and=0D
+   move on with your day.=0D
+=0D
+-=0D
+=0D
+Hi, this patchset converts trivial "introductory" sections in the QAPI=0D
+documentation to use the new, explicit intro section syntax.=0D
+=0D
+This is being done primarily for the benefit of the forthcoming=0D
+"inliner", a feature for the rendered HTML QMP documentation that=0D
+seeks to "inline" QMP command argument documentation into the argument=0D
+list for each command.=0D
+=0D
+There are two main motives here:=0D
+=0D
+(1) We want the split between the "introduction" and "details"=0D
+    sections to be mechanically obvious, so that auto-generated or=0D
+    inlined documentation has a well-defined, obvious spot to go.=0D
+=0D
+(2) We do not want to inline irrelevant, introductory text describing=0D
+    structures to be copied into command documentation.=0D
+=0D
+This patchset tackles "very trivial" conversions: cases where the=0D
+existing leading plaintext is only a single sentence and is=0D
+immediately followed by a tagged section, the end of the documentation=0D
+block, or some other pre-existing syntactical delineation. (i.e.: not=0D
+more plaintext.)=0D
+=0D
+NOTE: This series *may* miss some conversions; future QAPI changes will=0D
+enforce the new syntax and any cases that have appeared since v1 will=0D
+be identified and corrected at that time; we are concerned with the=0D
+bulk and ease-of-review here, not completeness. This is precisely why=0D
+the new intro syntax and parser were carefully designed to allow=0D
+gradual conversion.=0D
+=0D
+NOTE2: Future patches that may require more scrutiny will handle the=0D
+remaining conversions - There are some very subtle concerns that are=0D
+not readily apparent in the very minor textual changes that will be=0D
+spelled out for reviewers in the cover letters for those series.=0D
+=0D
+This is enough for today, don't you think?=0D
+=0D
+John Snow (43):=0D
+  qapi: convert trivial intro sections for error.json=0D
+  qapi: convert trivial intro sections for acpi-hest.json=0D
+  qapi: convert trivial intro sections for ebpf.json=0D
+  qapi: convert trivial intro sections for compat.json=0D
+  qapi: convert trivial intro sections for vfio.json=0D
+  qapi: convert trivial intro sections for trace.json=0D
+  qapi: convert trivial intro sections for misc-arm.json=0D
+  qapi: convert trivial intro sections for cryptodev.json=0D
+  qapi: convert trivial intro sections for machine-common.json=0D
+  qapi: convert trivial intro sections for accelerator.json=0D
+  qapi: convert trivial intro sections for authz.json=0D
+  qapi: convert trivial intro sections for yank.json=0D
+  qapi: convert trivial intro sections for replay.json=0D
+  qapi: convert trivial intro sections for machine-s390x.json=0D
+  qapi: convert trivial intro sections for acpi.json=0D
+  qapi: convert trivial intro sections for tpm.json=0D
+  qapi: convert trivial intro sections for qdev.json=0D
+  qapi: convert trivial intro sections for control.json=0D
+  qapi: convert trivial intro sections for dump.json=0D
+  qapi: convert trivial intro sections for common.json=0D
+  qapi: convert trivial intro sections for sockets.json=0D
+  qapi: convert trivial intro sections for transaction.json=0D
+  qapi: convert trivial intro sections for stats.json=0D
+  qapi: convert trivial intro sections for job.json=0D
+  qapi: convert trivial intro sections for pci.json=0D
+  qapi: convert trivial intro sections for introspect.json=0D
+  qapi: convert trivial intro sections for rocker.json=0D
+  qapi: convert trivial intro sections for misc-i386.json=0D
+  qapi: convert trivial intro sections for block-export.json=0D
+  qapi: convert trivial intro sections for audio.json=0D
+  qapi: convert trivial intro sections for block.json=0D
+  qapi: convert trivial intro sections for misc.json=0D
+  qapi: convert trivial intro sections for crypto.json=0D
+  qapi: convert trivial intro sections for cxl.json=0D
+  qapi: convert trivial intro sections for run-state.json=0D
+  qapi: convert trivial intro sections for char.json=0D
+  qapi: convert trivial intro sections for virtio.json=0D
+  qapi: convert trivial intro sections for net.json=0D
+  qapi: convert trivial intro sections for qom.json=0D
+  qapi: convert trivial intro sections for ui.json=0D
+  qapi: convert trivial intro sections for migration.json=0D
+  qapi: convert trivial intro sections for machine.json=0D
+  qapi: convert trivial intro sections for block-core.json=0D
+=0D
+ qapi/accelerator.json    |  18 +-=0D
+ qapi/acpi-hest.json      |   4 +-=0D
+ qapi/acpi.json           |   8 +-=0D
+ qapi/audio.json          |  88 +++-----=0D
+ qapi/authz.json          |  21 +-=0D
+ qapi/block-core.json     | 448 ++++++++++++++-------------------------=0D
+ qapi/block-export.json   |  50 ++---=0D
+ qapi/block.json          |  41 ++--=0D
+ qapi/char.json           |  90 +++-----=0D
+ qapi/common.json         |  29 +--=0D
+ qapi/compat.json         |   6 +-=0D
+ qapi/control.json        |  30 +--=0D
+ qapi/crypto.json         | 100 ++++-----=0D
+ qapi/cryptodev.json      |  18 +-=0D
+ qapi/cxl.json            |   6 +-=0D
+ qapi/dump.json           |  19 +-=0D
+ qapi/ebpf.json           |   6 +-=0D
+ qapi/error.json          |   3 +-=0D
+ qapi/introspect.json     |  40 ++--=0D
+ qapi/job.json            |  18 +-=0D
+ qapi/machine-common.json |  14 +-=0D
+ qapi/machine-s390x.json  |  13 +-=0D
+ qapi/machine.json        | 208 +++++++-----------=0D
+ qapi/migration.json      | 131 +++++-------=0D
+ qapi/misc-arm.json       |   6 +-=0D
+ qapi/misc-i386.json      |  52 ++---=0D
+ qapi/misc.json           |  74 +++----=0D
+ qapi/net.json            |  92 +++-----=0D
+ qapi/pci.json            |  27 +--=0D
+ qapi/qdev.json           |  14 +-=0D
+ qapi/qom.json            | 150 +++++--------=0D
+ qapi/replay.json         |   6 +-=0D
+ qapi/rocker.json         |  39 ++--=0D
+ qapi/run-state.json      | 113 ++++------=0D
+ qapi/sockets.json        |  31 ++-=0D
+ qapi/stats.json          |  34 ++-=0D
+ qapi/tpm.json            |  29 +--=0D
+ qapi/trace.json          |  12 +-=0D
+ qapi/transaction.json    |  14 +-=0D
+ qapi/ui.json             | 199 ++++++-----------=0D
+ qapi/vfio.json           |   4 +-=0D
+ qapi/virtio.json         |  54 ++---=0D
+ qapi/yank.json           |   5 +-=0D
+ 43 files changed, 845 insertions(+), 1519 deletions(-)=0D
+=0D
+-- =0D
+2.55.0=0D
+=0D
 
-The only problem they cause is performance due to the time taken to log them.
-
-> 
-> So what do I put there? I don't know... hmm.
-
-Absolute numbers are a problem. Maybe you choose 8000 as your threshold.
-But then some system ticks along happily logging one error per hour with
-virtually no effect on system performance. Then panics when it has been
-up for almost a year because it reaches the 8000 threshold.
-
-Perhaps it would be better to adapt the storm code to allow tuning
-the criteria for a storm and have a mce=panic_on_storm option?
-
-> 
-> ... Dropping user hat. Putting devil's advocate hat...
-> 
-> How many CEs do you put in your kernels?
-> 
-> Does the same number fit any machine and platform?
-> 
-> Or you simply say, after X CEs, we simply panic the machine - instead of
-> gracefully powering it off after leaving a helpful message in dmesg - and have
-> lab technicians inspect it?
-> 
-> Hmmm.
-
--Tony
