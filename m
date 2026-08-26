@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C00347CA99
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3186A47D473
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:43:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773389; cv=none; b=OTPRiou/eUsAzp6C55bsKQc3uYMSspspEbv+abZtermk+0svJN05Gop02IuoyjMhQz9EhQVH0+4yZuaW4KTBz71iKea3O8ib7YPa7oSg80/GJarHizARNm46qyPD2/QGv3eSxOixVOFokdImQWGEZQ2K3QSQA0TlbXRkipPn1sQ=
+	t=1787773400; cv=none; b=hgkbo/FbL1h1K2Dx9sm5DYQlW/TkKzYjaGWieiAKrOWdamivQjwllT55qzaXl/8bj3+hgbKIiI7HImm+gCrbRXPjK/GEyBye8afrUQW8YmwJOv1J3V47i/qkVt90Pi1bjl7ACH/LHEokWjU1uTYDWvq/o8m7N9Buh5bpsF5wwFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773389; c=relaxed/simple;
-	bh=2SeE1xs8joRyT3nDEMnnKIoLQEGaEj0QND1QI5FYm6Y=;
+	s=arc-20240116; t=1787773400; c=relaxed/simple;
+	bh=7GXJV9ItQtBWAgiWgOooTb0fgfb4niwoxPhBWZ4J3cE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ddePR4GQZtY/LZT9JuOj69ge5ROc03/6kVPrv7jRYxNzb5xL0dSWwKrepswziQUM+M/sqXE2h8SJIFo2IYiMf8/JpC+BtO+zFHEVk4hiErk9zeYq361e/vNIVKFba/PYB9hD2fLh5uZ+bjR+3ZY4icTxh4mDURoNlUbNUlDxzk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fTEKRnlZ; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=pvJ6nUK2poI8xsYuPuBFiyQeOgQLfxAC5xgZpug7jsiFGHLYLDe8leYhWrFWoGlXGpDCzIs+qMDbEm9jOGGOFXclPhxiDSejWBIou9jgnv5LzMibUDeM8qdWrJJq3RnMXt2t0Fm02GgRbzBPNCn8UJp0tH8ztbHBg/6kVfDbu98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SGY+bnoe; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fTEKRnlZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SGY+bnoe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773369;
+	s=mimecast20190719; t=1787773384;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RQLl9Fz/e90VKbZH8iPZEXrmE8EWsrDRt4hVfZ8Hrwo=;
-	b=fTEKRnlZ9EPESb/Caj26Fz3QHazEDfOhEeHocICuaqzqHCcEbVJOedMXUNU08hvChR4k/E
-	MOcdczPhtmE4yNJVrAVlne1NXSo+rsXptBsItz1sqme7MrZFQl6hzQlkLd8jmF45AvlpPR
-	2yjmGsJRBAnOMYAaJGAp1JyGfjBBlzk=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=cMeGh8F13Z46uyER7y88/d0ISiPeR9CDwXqnRAPj7ik=;
+	b=SGY+bnoeggiFhn/8Us2MKRqipsDoTMdBrN0z8G3Fb9wLNRIYnzxiI4uPeQSfq9ilLcRyK4
+	eK+DXYAK5lfYsGTKyZAIeXnHbMW8GxTtxw02EqZskcKJV0Fc1hBJ1vY71MxW0Tgm4qprdR
+	wIv5hyJIgsKl+iyIhI9E+9fzgtlepyw=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-678-xjXzKdKiNsqqhXlL2uTMtw-1; Wed,
- 26 Aug 2026 15:42:43 -0400
-X-MC-Unique: xjXzKdKiNsqqhXlL2uTMtw-1
-X-Mimecast-MFC-AGG-ID: xjXzKdKiNsqqhXlL2uTMtw_1787773360
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-472-RGEfCt-ZN6WwwuYaFA6nYg-1; Wed,
+ 26 Aug 2026 15:43:01 -0400
+X-MC-Unique: RGEfCt-ZN6WwwuYaFA6nYg-1
+X-Mimecast-MFC-AGG-ID: RGEfCt-ZN6WwwuYaFA6nYg_1787773377
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C4F5D19541B5;
-	Wed, 26 Aug 2026 19:42:40 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 06932195396C;
+	Wed, 26 Aug 2026 19:42:57 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CCBE31800577;
-	Wed, 26 Aug 2026 19:42:32 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4EFA61800577;
+	Wed, 26 Aug 2026 19:42:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 26/43] qapi: convert trivial intro sections for introspect.json
-Date: Wed, 26 Aug 2026 15:38:23 -0400
-Message-ID: <20260826193840.2152000-27-jsnow@redhat.com>
+Subject: [PATCH v3 28/43] qapi: convert trivial intro sections for misc-i386.json
+Date: Wed, 26 Aug 2026 15:38:25 -0400
+Message-ID: <20260826193840.2152000-29-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,137 +96,177 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/introspect.json | 40 ++++++++++++++--------------------------
- 1 file changed, 14 insertions(+), 26 deletions(-)
+ qapi/misc-i386.json | 52 ++++++++++++++++-----------------------------
+ 1 file changed, 18 insertions(+), 34 deletions(-)
 
-diff --git a/qapi/introspect.json b/qapi/introspect.json
-index c8432c8ed8e..172ed389997 100644
---- a/qapi/introspect.json
-+++ b/qapi/introspect.json
-@@ -112,8 +112,7 @@
+diff --git a/qapi/misc-i386.json b/qapi/misc-i386.json
+index 05a94d6c416..78ec9aec647 100644
+--- a/qapi/misc-i386.json
++++ b/qapi/misc-i386.json
+@@ -25,8 +25,7 @@
  
  ##
- # @SchemaInfoBuiltin:
+ # @SevState:
 -#
--# Additional `SchemaInfo` members for meta-type 'builtin'.
-+#     Additional `SchemaInfo` members for meta-type 'builtin'.
+-# An enumeration of SEV state information used during `query-sev`.
++#     An enumeration of SEV state information used during `query-sev`.
  #
- # @json-type: the JSON type used for this type on the wire.
+ # @uninit: The guest is uninitialized.
  #
-@@ -124,10 +123,9 @@
+@@ -52,8 +51,7 @@
  
  ##
- # @JSONType:
+ # @SevGuestType:
 -#
--# The four primitive and two structured types according to RFC 8259
--# section 1, plus 'int' (split off 'number'), plus the obvious top
--# type 'value'.
-+#     The four primitive and two structured types according to RFC
-+#     8259 section 1, plus 'int' (split off 'number'), plus the
-+#     obvious top type 'value'.
+-# An enumeration indicating the type of SEV guest being run.
++#     An enumeration indicating the type of SEV guest being run.
  #
- # @string: JSON string
+ # @sev: The guest is a legacy SEV or SEV-ES guest.
  #
-@@ -153,8 +151,7 @@
+@@ -66,8 +64,7 @@
  
  ##
- # @SchemaInfoEnum:
+ # @SevGuestInfo:
 -#
--# Additional `SchemaInfo` members for meta-type 'enum'.
-+#     Additional `SchemaInfo` members for meta-type 'enum'.
+-# Information specific to legacy SEV/SEV-ES guests.
++#     Information specific to legacy SEV/SEV-ES guests.
  #
- # @members: the enum type's members, in no particular order.
- #     (since 6.2)
-@@ -178,8 +175,7 @@
+ # @policy: SEV policy value
+ #
+@@ -81,8 +78,7 @@
  
  ##
- # @SchemaInfoEnumMember:
+ # @SevSnpGuestInfo:
 -#
--# An object member.
-+#     An object member.
+-# Information specific to SEV-SNP guests.
++#     Information specific to SEV-SNP guests.
  #
- # @name: the member's name, as defined in the QAPI schema.
+ # @snp-policy: SEV-SNP policy value
  #
-@@ -193,8 +189,7 @@
+@@ -93,8 +89,7 @@
  
  ##
- # @SchemaInfoArray:
+ # @SevInfo:
 -#
--# Additional `SchemaInfo` members for meta-type 'array'.
-+#     Additional `SchemaInfo` members for meta-type 'array'.
+-# Information about Secure Encrypted Virtualization (SEV) support
++#     Information about Secure Encrypted Virtualization (SEV) support
  #
- # @element-type: the array type's element type.
+ # @enabled: true if SEV is active
  #
-@@ -207,8 +202,7 @@
+@@ -144,8 +139,7 @@
  
  ##
- # @SchemaInfoObject:
+ # @SevLaunchMeasureInfo:
 -#
--# Additional `SchemaInfo` members for meta-type 'object'.
-+#     Additional `SchemaInfo` members for meta-type 'object'.
+-# SEV Guest Launch measurement information
++#     SEV Guest Launch measurement information
  #
- # @members: the object type's (non-variant) members, in no particular
- #     order.
-@@ -232,8 +226,7 @@
+ # @data: the measurement value encoded in base64
+ #
+@@ -180,9 +174,8 @@
  
  ##
- # @SchemaInfoObjectMember:
+ # @SevCapability:
 -#
--# An object member.
-+#     An object member.
+-# The struct describes capability for a Secure Encrypted
+-# Virtualization feature.
++#     The struct describes capability for a Secure Encrypted
++#     Virtualization feature.
  #
- # @name: the member's name, as defined in the QAPI schema.
+ # @pdh: Platform Diffie-Hellman key (base64 encoded)
  #
-@@ -257,8 +250,7 @@
+@@ -252,9 +245,8 @@
  
  ##
- # @SchemaInfoObjectVariant:
+ # @SevAttestationReport:
 -#
--# The variant members for a value of the type tag.
-+#     The variant members for a value of the type tag.
+-# The struct describes attestation report for a Secure Encrypted
+-# Virtualization feature.
++#     The struct describes attestation report for a Secure Encrypted
++#     Virtualization feature.
  #
- # @case: a value of the type tag.
+ # @data: guest attestation report (base64 encoded)
  #
-@@ -272,8 +264,7 @@
+@@ -294,8 +286,7 @@
  
  ##
- # @SchemaInfoAlternate:
+ # @SgxEpcSection:
 -#
--# Additional `SchemaInfo` members for meta-type 'alternate'.
-+#     Additional `SchemaInfo` members for meta-type 'alternate'.
+-# Information about intel SGX EPC section
++#     Information about intel SGX EPC section
  #
- # @members: the alternate type's members, in no particular order.  The
- #     members' wire encoding is distinct, see
-@@ -288,8 +279,7 @@
+ # @node: the numa node
+ #
+@@ -309,8 +300,7 @@
  
  ##
- # @SchemaInfoAlternateMember:
+ # @SgxInfo:
 -#
--# An alternate member.
-+#     An alternate member.
+-# Information about intel Safe Guard eXtension (SGX) support
++#     Information about intel Safe Guard eXtension (SGX) support
  #
- # @type: the name of the member's type.
+ # @sgx: true if SGX is supported
  #
-@@ -300,8 +290,7 @@
+@@ -333,8 +323,7 @@
  
  ##
- # @SchemaInfoCommand:
+ # @query-sgx:
 -#
--# Additional `SchemaInfo` members for meta-type 'command'.
-+#     Additional `SchemaInfo` members for meta-type 'command'.
+-# Return information about configured SGX capabilities of guest
++#     Return information about configured SGX capabilities of guest
  #
- # @arg-type: the name of the object type that provides the command's
- #     parameters.
-@@ -322,8 +311,7 @@
+ # Since: 6.2
+ #
+@@ -350,8 +339,7 @@
  
  ##
- # @SchemaInfoEvent:
+ # @query-sgx-capabilities:
 -#
--# Additional `SchemaInfo` members for meta-type 'event'.
-+#     Additional `SchemaInfo` members for meta-type 'event'.
+-# Return information about SGX capabilities of host
++#     Return information about SGX capabilities of host
  #
- # @arg-type: the name of the object type that provides the event's
- #     parameters.
+ # Since: 6.2
+ #
+@@ -367,8 +355,7 @@
+ 
+ ##
+ # @EvtchnPortType:
+-#
+-# An enumeration of Xen event channel port types.
++#     An enumeration of Xen event channel port types.
+ #
+ # @closed: The port is unused.
+ #
+@@ -389,8 +376,7 @@
+ 
+ ##
+ # @EvtchnInfo:
+-#
+-# Information about a Xen event channel port
++#     Information about a Xen event channel port
+ #
+ # @port: the port number
+ #
+@@ -419,8 +405,7 @@
+ 
+ ##
+ # @xen-event-list:
+-#
+-# Query the Xen event channels opened by the guest.
++#     Query the Xen event channels opened by the guest.
+ #
+ # Returns: list of open event channel ports.
+ #
+@@ -456,8 +441,7 @@
+ 
+ ##
+ # @xen-event-inject:
+-#
+-# Inject a Xen event channel port (interrupt) to the guest.
++#     Inject a Xen event channel port (interrupt) to the guest.
+ #
+ # @port: The port number
+ #
 -- 
 2.55.0
 
