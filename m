@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F2947D927
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:42:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7449E47CA90
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:42:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773355; cv=none; b=DmuULtOTsq36OP7XcXCaiSk3vdglq6JD+zLNxhGjVfiJYG5u5fXRAt5u2iZFg7IUZks+7gurLE5bFPG6AntXRTK+AtvS2YjoZyR49MYNIYjBbHlEoxN//pEsq3BMu+qkO6N2wlfSUPaeGppMUNVjKcXHcNIfzP9nl9B9AGK3K4A=
+	t=1787773359; cv=none; b=G553O6tP9Nyc+c9DyJxBaM4itLL35AjTrzHCrvyilhziNa48rh6lt1DlxYz3yKy6odkRvhxnmloAVV9/dZcuhdkWnC7xExEr5nWKnThmH9BCxALJmnCyKM3yizk5Zwjyu+10XnrAUSv5+sZdb8QwbM57lWWRhoHKZFbX1EzSilo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773355; c=relaxed/simple;
-	bh=VEfOx7DWPVqAUE8BqOEyhUTl01T82RFViwPhAgBmVf4=;
+	s=arc-20240116; t=1787773359; c=relaxed/simple;
+	bh=N9bSsKNQ5Mc9wmAyNVq3Z8J/wjZavAiUd+dt1ZbBE/E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V3BI8sjf7vKqYdSV3jwAAhnU+Pb2xL0kbmdiM1auP85P3lmJCrNRmFtCdjXXkOuSBEjaElHESpTijuW8Fs4T52yUXCCbae6VJvV8hZJuAl8AuzbJw/1GqeckHvNoZOkaiOhmnaTmW+xcdOIAeqYIrISD6+lnIXFbSaixWSXCTLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RKwFIfQV; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=sWIRwSGoInlWPkXDRd5/jj7iMRPHssCmJODMCZyML7wGaqavvJN1ehfkmnsqnGOZGuovtundVWZHTzmekrOUv5wKoZG0mpbEbJeDyYqErV3q9IxSbyKivvAezWYX1PNzEHIbeLc87D6darstVxnO0CQcVzIpgIcC21lONrAhXRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=adoqgenk; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RKwFIfQV"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="adoqgenk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773334;
+	s=mimecast20190719; t=1787773345;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K8AG+94F77edoTiPAI8IPsNpOPrIzUtI0R/Rih5SccE=;
-	b=RKwFIfQVGWmXt+CKjpJIkbXWNAEc8el+Iga2bQtqXpm12iPuSDjR3YDszSJe3dK/eikNmc
-	Olh6GehgK5rEDPvJm/J+Gx9fgkV0N+Bvswa+95/ujljHa672CTiRPhbZzCvy0z0QJ5dHSP
-	x+ok/Ctn0Bdps5affUgfMrT4242NL60=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=+b4OT3j/K4d4s6nmaAGr51pQkyEJxm8NVd9Otcg/Ht8=;
+	b=adoqgenkbzJX4CQXYQCilpHZTNg8wX5a/ygy8inh8n/i8X3EMvC1wNHT6YV9u9t1CeJE7W
+	K9M7WLpVH3tyA5t/WFOKAUkkAa5a+x2cMtGyj0cAiJ+qZomFqZzSoYZirkB3KVGxIpsDJJ
+	aLxcVIWjt89xb+jFLXUGB+kMpmWaBfc=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-196-sEoSFFzFPkOn52pLKxESyQ-1; Wed,
- 26 Aug 2026 15:42:11 -0400
-X-MC-Unique: sEoSFFzFPkOn52pLKxESyQ-1
-X-Mimecast-MFC-AGG-ID: sEoSFFzFPkOn52pLKxESyQ_1787773327
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-656-TyFWylgeMi-q5nftPBH_9A-1; Wed,
+ 26 Aug 2026 15:42:20 -0400
+X-MC-Unique: TyFWylgeMi-q5nftPBH_9A-1
+X-Mimecast-MFC-AGG-ID: TyFWylgeMi-q5nftPBH_9A_1787773336
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3F27F1954AE1;
-	Wed, 26 Aug 2026 19:42:07 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4ECC5185513E;
+	Wed, 26 Aug 2026 19:42:16 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 89AE41800577;
-	Wed, 26 Aug 2026 19:41:59 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CEA5B18005AC;
+	Wed, 26 Aug 2026 19:42:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 22/43] qapi: convert trivial intro sections for transaction.json
-Date: Wed, 26 Aug 2026 15:38:19 -0400
-Message-ID: <20260826193840.2152000-23-jsnow@redhat.com>
+Subject: [PATCH v3 23/43] qapi: convert trivial intro sections for stats.json
+Date: Wed, 26 Aug 2026 15:38:20 -0400
+Message-ID: <20260826193840.2152000-24-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,55 +96,110 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/transaction.json | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ qapi/stats.json | 34 +++++++++++++---------------------
+ 1 file changed, 13 insertions(+), 21 deletions(-)
 
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index 4b4eb09bf38..c0dc811ba61 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -12,8 +12,7 @@
+diff --git a/qapi/stats.json b/qapi/stats.json
+index a98624531c3..af57ec08546 100644
+--- a/qapi/stats.json
++++ b/qapi/stats.json
+@@ -16,8 +16,7 @@
  
  ##
- # @Abort:
+ # @StatsType:
 -#
--# This action can be used to test transaction failure.
-+#     This action can be used to test transaction failure.
+-# Enumeration of statistics types
++#     Enumeration of statistics types
  #
- # Since: 1.6
- ##
-@@ -22,8 +21,7 @@
+ # @cumulative: stat is cumulative; value can only increase.
+ #
+@@ -38,8 +37,7 @@
  
  ##
- # @ActionCompletionMode:
+ # @StatsUnit:
 -#
--# An enumeration of transactional completion modes.
-+#     An enumeration of transactional completion modes.
+-# Enumeration of unit of measurement for statistics
++#     Enumeration of unit of measurement for statistics
  #
- # @individual: Do not attempt to cancel any other Actions if any
- #     Actions fail after the Transaction request succeeds.  All
-@@ -156,9 +154,8 @@
+ # @bytes: stat reported in bytes.
+ #
+@@ -56,8 +54,7 @@
  
  ##
- # @TransactionAction:
+ # @StatsProvider:
 -#
--# A discriminated record of operations that can be performed with
--# `transaction`.
-+#     A discriminated record of operations that can be performed with
-+#     `transaction`.
+-# Enumeration of statistics providers.
++#     Enumeration of statistics providers.
  #
- # @type: the operation to be performed
+ # @kvm: since 7.1
  #
-@@ -184,8 +181,7 @@
+@@ -70,8 +67,7 @@
  
  ##
- # @TransactionProperties:
+ # @StatsTarget:
 -#
--# Optional arguments to modify the behavior of a Transaction.
-+#     Optional arguments to modify the behavior of a Transaction.
+-# The kinds of objects on which one can request statistics.
++#     The kinds of objects on which one can request statistics.
  #
- # @completion-mode: Controls how jobs launched asynchronously by
- #     Actions will complete or fail as a group.  See
+ # @vm: statistics that apply to the entire virtual machine or the
+ #     entire QEMU process.
+@@ -87,9 +83,8 @@
+ 
+ ##
+ # @StatsRequest:
+-#
+-# Indicates a set of statistics that should be returned by
+-# `query-stats`.
++#     Indicates a set of statistics that should be returned by
++#     `query-stats`.
+ #
+ # @provider: provider for which to return statistics.
+ #
+@@ -113,10 +108,9 @@
+ 
+ ##
+ # @StatsFilter:
+-#
+-# The arguments to the `query-stats` command; specifies a target for
+-# which to request statistics and optionally the required subset of
+-# information for that target.
++#     The arguments to the `query-stats` command; specifies a target
++#     for which to request statistics and optionally the required
++#     subset of information for that target.
+ #
+ # @target: the kind of objects to query.  Note that each possible
+ #     target may enable additional filtering options
+@@ -200,8 +194,7 @@
+ 
+ ##
+ # @StatsSchemaValue:
+-#
+-# Schema for a single statistic.
++#     Schema for a single statistic.
+ #
+ # @name: name of the statistic; each element of the schema is uniquely
+ #     identified by a target, a provider (both available in
+@@ -236,8 +229,7 @@
+ 
+ ##
+ # @StatsSchema:
+-#
+-# Schema for all available statistics for a provider and target.
++#     Schema for all available statistics for a provider and target.
+ #
+ # @provider: provider for this set of statistics.
+ #
+@@ -255,8 +247,8 @@
+ 
+ ##
+ # @query-stats-schemas:
+-#
+-# Return the schema for all available runtime-collected statistics.
++#     Return the schema for all available runtime-collected
++#     statistics.
+ #
+ # @provider: a provider to restrict the query to.
+ #
 -- 
 2.55.0
 
