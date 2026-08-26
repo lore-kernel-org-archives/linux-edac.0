@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6AD486E6D
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C9147F2C3
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:44:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773457; cv=none; b=W/zSyEQNrRKUMtklqfBSHQtHtEUKM+vL925EqtXCrDLz4WcaPqI6knUpxapVXrzoDHlhNKhyw8wZy5ynfhUiGKVLM/KcCvUE9p7V6w/XmhOW6cXh+EurEHev/ELmzUsCdGUzoxfkORgiTAjpgGU9KwJldEvZDgJYxlX3VpSdPws=
+	t=1787773457; cv=none; b=oW5Nr73hj+x6k69/kWWg6ieOR2av6pE9tfpJGtRIi9u3kh1sM4P9JKwVkSEnQ1d9x1l180XbwCt7MjBrFkaH6P+qw3IcJ3gkrd0i35C3eorNwIskc3oSUT111zM95zzmziHTA1bNbd1I9xZdjv069u56tKkB5w1V73CdrvV7K5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787773457; c=relaxed/simple;
-	bh=esSfvE3+7/P7ya51PfBNKPTUbnV/xG/9pEJC8GXz/Ks=;
+	bh=6+j9ek/vBQZE9JMqHlpV/XRpRob9L3XI25x5CFV3knY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k/M3LRwOJL8odDcB0U8d/TkagLrC1lp2pbSyqLAJYE/I8muPo0cwrN2Jv87hBoicrlwdMyEdehTa7JjpHl17TAPq2n6lJMRDzxNePO+l1vC4OpjrW5DWeTiPyS26q1Qq0nr37cZJIpCn+XwWyvz81vo2KB5lt5xwEK/995j6xEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bVxVZA1D; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=Z/+L6Y4IV8lMxYSjwK9/0bdElstiCOreMj3HxFYIrNAzI0tZKwdbLQGfJGCFk58nGpzTiMjFXjdS3LY+9M5BrLPdMTQP2O789xdVSLqaf7sWLlEtP9HJgL4jcHJhTaNB4EbNIypOgcE/Lirz2NfxY87p2sk2fBZtqg6O5w/muYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Yy2NsaNh; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bVxVZA1D"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yy2NsaNh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773446;
+	s=mimecast20190719; t=1787773435;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pS3gWzM2OpSimpBSFZGIbBPCkdQIT5l3gW1iVRp02q8=;
-	b=bVxVZA1D6pkzpg+CoO/5djjdvn3PpUwjsjOwh4xhV9kZ+BAxleUFVqd43W5sC/BqbLD+Ju
-	or4GXetY3+vxbZfeMXOsZiHq6+I0kYSNsFjdlBG3woGsmty23BiIQ3Ub84zjMZKttBhqz0
-	+bHdzRr3c/xIYYQ1w4b79s5bzUPQSFw=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=gbbbHuvMBl3KhDhnR1d/E0FiTkXcZ8dsOcmbpvowW8U=;
+	b=Yy2NsaNh05EAPXvxz4Giesy1sdpXU7uKF+OrH1BYm3Qza5kE/xW+vdKDvgqZjD9XaaCktE
+	KHUDyggAhwJjdS+dGi2eFVwek+DGUhEg8ymYmggAvyIghrbZERwE3iIMvwcoIlOdnJ4974
+	6MufX3QOaTGbvt43ToXRnUXL1CCluwE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-468-9hQ9G9TcMpC1SM688cQ5Cw-1; Wed,
- 26 Aug 2026 15:44:02 -0400
-X-MC-Unique: 9hQ9G9TcMpC1SM688cQ5Cw-1
-X-Mimecast-MFC-AGG-ID: 9hQ9G9TcMpC1SM688cQ5Cw_1787773439
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-104--VtKelcANUu-UhNUE7x6DA-1; Wed,
+ 26 Aug 2026 15:43:54 -0400
+X-MC-Unique: -VtKelcANUu-UhNUE7x6DA-1
+X-Mimecast-MFC-AGG-ID: -VtKelcANUu-UhNUE7x6DA_1787773431
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1F9621855124;
-	Wed, 26 Aug 2026 19:43:59 +0000 (UTC)
-Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 79D201800577;
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3658219541B1;
 	Wed, 26 Aug 2026 19:43:51 +0000 (UTC)
+Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 845011800577;
+	Wed, 26 Aug 2026 19:43:41 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 37/43] qapi: convert trivial intro sections for virtio.json
-Date: Wed, 26 Aug 2026 15:38:34 -0400
-Message-ID: <20260826193840.2152000-38-jsnow@redhat.com>
+Subject: [PATCH v3 36/43] qapi: convert trivial intro sections for char.json
+Date: Wed, 26 Aug 2026 15:38:33 -0400
+Message-ID: <20260826193840.2152000-37-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,165 +96,313 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/virtio.json | 54 ++++++++++++++++++------------------------------
- 1 file changed, 20 insertions(+), 34 deletions(-)
+ qapi/char.json | 90 +++++++++++++++++---------------------------------
+ 1 file changed, 30 insertions(+), 60 deletions(-)
 
-diff --git a/qapi/virtio.json b/qapi/virtio.json
-index 1fc4e38a44d..9aafc3a212f 100644
---- a/qapi/virtio.json
-+++ b/qapi/virtio.json
-@@ -10,8 +10,7 @@
+diff --git a/qapi/char.json b/qapi/char.json
+index abaccefa97e..7ae67eedff8 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -12,8 +12,7 @@
  
  ##
- # @VirtioInfo:
+ # @ChardevInfo:
 -#
--# Basic information about a given VirtIODevice
-+#     Basic information about a given VirtIODevice
+-# Information about a character device.
++#     Information about a character device.
  #
- # @path: The VirtIODevice's canonical QOM path
+ # @label: the label of the character device
  #
-@@ -25,8 +24,7 @@
+@@ -35,8 +34,7 @@
  
  ##
- # @x-query-virtio:
+ # @query-chardev:
 -#
--# Return a list of all realized VirtIODevices
-+#     Return a list of all realized VirtIODevices
+-# Return information about current character devices.
++#     Return information about current character devices.
  #
- # Features:
+ # Since: 0.14
  #
-@@ -189,8 +187,7 @@
+@@ -68,8 +66,7 @@
  
  ##
- # @x-query-virtio-status:
+ # @ChardevBackendInfo:
 -#
--# Poll for a comprehensive status of a given virtio device
-+#     Poll for a comprehensive status of a given virtio device
+-# Information about a character device backend
++#     Information about a character device backend
  #
- # @path: Canonical QOM path of the VirtIODevice
+ # @name: The backend name
  #
-@@ -442,9 +439,8 @@
+@@ -79,8 +76,7 @@
  
  ##
- # @VirtioDeviceStatus:
+ # @query-chardev-backends:
 -#
--# A structure defined to list the configuration statuses of a virtio
--# device
-+#     A structure defined to list the configuration statuses of a
-+#     virtio device
+-# Return information about character device backends.
++#     Return information about character device backends.
  #
- # @statuses: List of decoded configuration statuses of the virtio
- #     device
-@@ -460,9 +456,8 @@
+ # Since: 2.0
+ #
+@@ -108,8 +104,7 @@
  
  ##
- # @VhostDeviceProtocols:
+ # @DataFormat:
 -#
--# A structure defined to list the vhost user protocol features of a
--# Vhost User device
-+#     A structure defined to list the vhost user protocol features of
-+#     a Vhost User device
+-# An enumeration of data format.
++#     An enumeration of data format.
  #
- # @protocols: List of decoded vhost user protocol features of a vhost
- #     user device
-@@ -503,9 +498,8 @@
+ # @utf8: Data is a UTF-8 string (RFC 3629)
+ #
+@@ -122,8 +117,7 @@
  
  ##
- # @VirtQueueStatus:
+ # @ringbuf-write:
 -#
--# Information of a VirtIODevice VirtQueue, including most members of
--# the VirtQueue data structure.
-+#     Information of a VirtIODevice VirtQueue, including most members
-+#     of the VirtQueue data structure.
+-# Write to a ring buffer character device.
++#     Write to a ring buffer character device.
  #
- # @name: Name of the VirtIODevice that uses this VirtQueue
+ # @device: the ring buffer character device name
  #
-@@ -556,8 +550,7 @@
+@@ -154,8 +148,7 @@
  
  ##
- # @x-query-virtio-queue-status:
+ # @ringbuf-read:
 -#
--# Return the status of a given VirtIODevice's VirtQueue
-+#     Return the status of a given VirtIODevice's VirtQueue
+-# Read from a ring buffer character device.
++#     Read from a ring buffer character device.
  #
- # @path: VirtIODevice canonical QOM path
+ # @device: the ring buffer character device name
  #
-@@ -640,9 +633,8 @@
+@@ -189,8 +182,7 @@
  
  ##
- # @VirtVhostQueueStatus:
+ # @ChardevCommon:
 -#
--# Information of a vhost device's vhost_virtqueue, including most
--# members of the vhost_dev vhost_virtqueue data structure.
-+#     Information of a vhost device's vhost_virtqueue, including most
-+#     members of the vhost_dev vhost_virtqueue data structure.
+-# Configuration shared across all chardev backends
++#     Configuration shared across all chardev backends
  #
- # @name: Name of the VirtIODevice that uses this vhost_virtqueue
+ # @logfile: The name of a logfile to save output
  #
-@@ -682,8 +674,7 @@
+@@ -209,8 +201,7 @@
  
  ##
- # @x-query-virtio-vhost-queue-status:
+ # @ChardevFile:
 -#
--# Return information of a given vhost device's vhost_virtqueue
-+#     Return information of a given vhost device's vhost_virtqueue
+-# Configuration info for file chardevs.
++#     Configuration info for file chardevs.
  #
- # @path: VirtIODevice canonical QOM path
+ # @in: The name of the input file
  #
-@@ -746,8 +737,7 @@
+@@ -229,8 +220,7 @@
  
  ##
- # @VirtioRingDesc:
+ # @ChardevHostdev:
 -#
--# Information regarding the vring descriptor area
-+#     Information regarding the vring descriptor area
+-# Configuration info for device and pipe chardevs.
++#     Configuration info for device and pipe chardevs.
  #
- # @addr: Guest physical address of the descriptor area
- #
-@@ -797,9 +787,8 @@
+ # @device: The name of the special file for the device, i.e.
+ #     /dev/ttyS0 on Unix or COM1: on Windows
+@@ -243,8 +233,7 @@
  
  ##
- # @VirtioQueueElement:
+ # @ChardevSocket:
 -#
--# Information regarding a VirtQueue's VirtQueueElement including
--# descriptor, driver, and device areas
-+#     Information regarding a VirtQueue's VirtQueueElement including
-+#     descriptor, driver, and device areas
+-# Configuration info for (stream) socket chardevs.
++#     Configuration info for (stream) socket chardevs.
  #
- # @name: Name of the VirtIODevice that uses this VirtQueue
- #
-@@ -822,8 +811,7 @@
+ # @addr: socket address to listen on (server=true) or connect to
+ #     (server=false)
+@@ -295,8 +284,7 @@
  
  ##
- # @x-query-virtio-queue-element:
+ # @ChardevUdp:
 -#
--# Return the information about a VirtQueue's VirtQueueElement
-+#     Return the information about a VirtQueue's VirtQueueElement
+-# Configuration info for datagram socket chardevs.
++#     Configuration info for datagram socket chardevs.
  #
- # @path: VirtIODevice canonical QOM path
+ # @remote: remote address
  #
-@@ -933,8 +921,7 @@
+@@ -311,8 +299,7 @@
  
  ##
- # @IOThreadVirtQueueMapping:
+ # @ChardevMux:
 -#
--# Describes the subset of virtqueues assigned to an IOThread.
-+#     Describes the subset of virtqueues assigned to an IOThread.
+-# Configuration info for mux chardevs.
++#     Configuration info for mux chardevs.
  #
- # @iothread: the id of IOThread object
+ # @chardev: name of the base chardev.
  #
-@@ -973,9 +960,8 @@
+@@ -324,8 +311,7 @@
  
  ##
- # @DummyVirtioForceArrays:
+ # @ChardevHub:
 -#
--# Not used by QMP; hack to let us use IOThreadVirtQueueMappingList and
--# VirtIOGPUOutputList internally
-+#     Not used by QMP; hack to let us use IOThreadVirtQueueMappingList
-+#     and VirtIOGPUOutputList internally
+-# Configuration info for hub chardevs.
++#     Configuration info for hub chardevs.
  #
- # Since: 9.0
+ # @chardevs: IDs to be added to this hub (maximum 4 devices).
+ #
+@@ -337,8 +323,7 @@
+ 
  ##
+ # @ChardevStdio:
+-#
+-# Configuration info for stdio chardevs.
++#     Configuration info for stdio chardevs.
+ #
+ # @signal: Allow signals (such as SIGINT triggered by ^C) be delivered
+ #     to QEMU.  Default: true.
+@@ -351,8 +336,7 @@
+ 
+ ##
+ # @ChardevSpiceChannel:
+-#
+-# Configuration info for spice vm channel chardevs.
++#     Configuration info for spice vm channel chardevs.
+ #
+ # @type: kind of channel (for example vdagent).
+ #
+@@ -365,8 +349,7 @@
+ 
+ ##
+ # @ChardevSpicePort:
+-#
+-# Configuration info for spice port chardevs.
++#     Configuration info for spice port chardevs.
+ #
+ # @fqdn: name of the channel (see docs/spice-port-fqdn.txt)
+ #
+@@ -379,8 +362,7 @@
+ 
+ ##
+ # @ChardevVCEncoding:
+-#
+-# Character encoding expected from the guest on a virtual console.
++#     Character encoding expected from the guest on a virtual console.
+ #
+ # @cp437: CP437 (8-bit Extended ASCII / VGA).  Every byte maps
+ #     directly to a glyph; suitable for DOS or other guests that
+@@ -397,8 +379,7 @@
+ 
+ ##
+ # @ChardevDBus:
+-#
+-# Configuration info for DBus chardevs.
++#     Configuration info for DBus chardevs.
+ #
+ # @name: name of the channel (following docs/spice-port-fqdn.txt)
+ #
+@@ -415,8 +396,7 @@
+ 
+ ##
+ # @ChardevVC:
+-#
+-# Configuration info for virtual console chardevs.
++#     Configuration info for virtual console chardevs.
+ #
+ # @width: console width, in pixels
+ #
+@@ -445,8 +425,7 @@
+ 
+ ##
+ # @ChardevRingbuf:
+-#
+-# Configuration info for ring buffer chardevs.
++#     Configuration info for ring buffer chardevs.
+ #
+ # @size: ring buffer size, must be power of two, default is 65536
+ #
+@@ -458,8 +437,7 @@
+ 
+ ##
+ # @ChardevQemuVDAgent:
+-#
+-# Configuration info for QEMU vdagent implementation.
++#     Configuration info for QEMU vdagent implementation.
+ #
+ # @mouse: enable/disable mouse, default is enabled.
+ #
+@@ -475,8 +453,7 @@
+ 
+ ##
+ # @ChardevPty:
+-#
+-# Configuration info for pty implementation.
++#     Configuration info for pty implementation.
+ #
+ # @path: optional path to create a symbolic link that points to the
+ #     allocated PTY
+@@ -723,8 +700,7 @@
+ 
+ ##
+ # @ChardevBackend:
+-#
+-# Configuration info for the new chardev backend.
++#     Configuration info for the new chardev backend.
+ #
+ # @type: backend type
+ #
+@@ -767,8 +743,7 @@
+ 
+ ##
+ # @ChardevReturn:
+-#
+-# Return info about the chardev backend just created.
++#     Return info about the chardev backend just created.
+ #
+ # @pty: name of the slave pseudoterminal device, present if and only
+ #     if a chardev of type 'pty' was created
+@@ -780,8 +755,7 @@
+ 
+ ##
+ # @chardev-add:
+-#
+-# Add a character device backend
++#     Add a character device backend
+ #
+ # @id: the chardev's ID, must be unique
+ #
+@@ -818,8 +792,7 @@
+ 
+ ##
+ # @chardev-change:
+-#
+-# Change a character device backend
++#     Change a character device backend
+ #
+ # @id: the chardev's ID
+ #
+@@ -859,8 +832,7 @@
+ 
+ ##
+ # @chardev-remove:
+-#
+-# Remove a character device backend
++#     Remove a character device backend
+ #
+ # @id: the chardev's ID, must not be in use
+ #
+@@ -876,8 +848,7 @@
+ 
+ ##
+ # @chardev-send-break:
+-#
+-# Send a break to a character device
++#     Send a break to a character device
+ #
+ # @id: the chardev's ID
+ #
+@@ -893,8 +864,7 @@
+ 
+ ##
+ # @VSERPORT_CHANGE:
+-#
+-# Emitted when the guest opens or closes a virtio-serial port.
++#     Emitted when the guest opens or closes a virtio-serial port.
+ #
+ # @id: device identifier of the virtio-serial port
+ #
 -- 
 2.55.0
 
