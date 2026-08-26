@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE5147CA99
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:42:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1E33FF1B5
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773369; cv=none; b=cl5eRy5uWnxRF4VtqD7w1rx6yuXwAzJo0wihNUjdQyLY1tbZrKhZmigO4ATa6WC3+tdAvGzzgpMvE7rjTvIFfiVHj9eOHWN36TUlcAn3XVBEYrTXeyXthu0vHvy+qFoSFMGWTjHAtry+jeQYCH07ns/HhlN8F39ZswGKrpETms4=
+	t=1787773377; cv=none; b=vFunPFdYI8SlOFUVuCu662O4wZqG5iZyazHJdObPU+PvIWtTUz1vnuyysrmzuKLg7hgpkriZHY+rmeaZ0w2J/5DdYpSpY2TDaLnT+QHbx23CGiXvnKFZ15OeqHtlBOI2kdSC+lzWvTqAUdB1IOwdGxsoFO0RHdhBSlbFpZ9v8SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773369; c=relaxed/simple;
-	bh=AKesL3BMOVJNrDh3MhtIMQpZmh3NvItYn1yPilrjlwQ=;
+	s=arc-20240116; t=1787773377; c=relaxed/simple;
+	bh=3ARsbG/8ACgUcXakontHsggfzrB5pdrrmMuLP8GjJqY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vD93FXbKbVE53hwerZ8++SZg7g70QaqXpQC8ymj9DcdYpDHPQmLvMF8sG0AhQ8FiMjGeXge8mbLsXHz4wtA0tWKgpHN8phQ7tRt56PNjwVdIsQqrDZJmRDZSTxGS94A76qgYh2HRKsorUEd56ljoE7eswB8feILlDgGAuSZQQj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DsUI3eSL; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=TFJoPbBx9R41z9YdHrJolosc0xMfwydYVfpW63wG9hwrWuFidfh2FvaNvqi2EbI/olZFlvihyGJii1Mt6UKzPjvfkU6BnrthyT/uDNQ2tX37eAy6SxYZDdnI2VubcQ2htXMfDdsY9U1UWwq3Y9rIGwTzLGddcND+/fm4fsEExJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y4TgIOEC; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DsUI3eSL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y4TgIOEC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773352;
+	s=mimecast20190719; t=1787773361;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FOyryAyUvVmwl4/qZOf0d22k1z8DeAksa2FdV0gP0NE=;
-	b=DsUI3eSL5Nm1bWIDXaZVZKIU20af3HJ+qbsUo0QZa6OqlKzOZRSau8fLpNYBaGXAhcxwnQ
-	3goOp2ehp+SJACuae8XFZXSstr0UosB3JIFLReiVZK3wCxwpfSnRIXRF3pEe1+3Md36wWJ
-	r8HQSz4zSoB2PYEwnOjB37zCDXaJkys=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=lpkdvipcmAcBa2auSG3J8F5gVm+aKl/kzxuPFWdZfzg=;
+	b=Y4TgIOEC9fQSyIOBkPXFzgasaD6wfSLX6qIdp/ftrC9uQy85wbd7W7Dv9OfgJKKswbxt0m
+	VxYz2cOFb/xd0lWxog3qG5gT0d3EQv+wDrXZQY5oQIpJhSU1LbbYcF5DI1Tq7HswVPGaeo
+	WmDRLjDDhfbhZFR0mX5Fnrb/1mUh5+E=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-303-FmEnOKF_NjyVsCIZv0KNOA-1; Wed,
- 26 Aug 2026 15:42:28 -0400
-X-MC-Unique: FmEnOKF_NjyVsCIZv0KNOA-1
-X-Mimecast-MFC-AGG-ID: FmEnOKF_NjyVsCIZv0KNOA_1787773344
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-655-9lU4g2X8NkqLcH-6lngtuw-1; Wed,
+ 26 Aug 2026 15:42:38 -0400
+X-MC-Unique: 9lU4g2X8NkqLcH-6lngtuw-1
+X-Mimecast-MFC-AGG-ID: 9lU4g2X8NkqLcH-6lngtuw_1787773352
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B5524184BABD;
-	Wed, 26 Aug 2026 19:42:24 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9382919540D7;
+	Wed, 26 Aug 2026 19:42:32 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8963F1800577;
-	Wed, 26 Aug 2026 19:42:16 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0B9A81800577;
+	Wed, 26 Aug 2026 19:42:24 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 24/43] qapi: convert trivial intro sections for job.json
-Date: Wed, 26 Aug 2026 15:38:21 -0400
-Message-ID: <20260826193840.2152000-25-jsnow@redhat.com>
+Subject: [PATCH v3 25/43] qapi: convert trivial intro sections for pci.json
+Date: Wed, 26 Aug 2026 15:38:22 -0400
+Message-ID: <20260826193840.2152000-26-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,73 +96,103 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/job.json | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ qapi/pci.json | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
 
-diff --git a/qapi/job.json b/qapi/job.json
-index 31618e6ebcc..b68d7292423 100644
---- a/qapi/job.json
-+++ b/qapi/job.json
-@@ -9,8 +9,7 @@
+diff --git a/qapi/pci.json b/qapi/pci.json
+index 694c741e420..a6a79f91afc 100644
+--- a/qapi/pci.json
++++ b/qapi/pci.json
+@@ -13,8 +13,7 @@
  
  ##
- # @JobType:
+ # @PciMemoryRange:
 -#
--# Type of a background job.
-+#     Type of a background job.
+-# A PCI device memory region
++#     A PCI device memory region
  #
- # @commit: block commit job type, see `block-commit`
+ # @base: the starting address (guest physical)
  #
-@@ -42,8 +41,7 @@
+@@ -26,8 +25,7 @@
  
  ##
- # @JobStatus:
+ # @PciMemoryRegion:
 -#
--# Indicates the present state of a given job in its lifetime.
-+#     Indicates the present state of a given job in its lifetime.
+-# Information about a PCI device I/O region.
++#     Information about a PCI device I/O region.
  #
- # @undefined: Erroneous, default state.  Should not ever be visible.
+ # @bar: the index of the Base Address Register for this region
  #
-@@ -90,8 +88,7 @@
+@@ -51,8 +49,7 @@
  
  ##
- # @JobVerb:
+ # @PciBusInfo:
 -#
--# Represents command verbs that can be applied to a job.
-+#     Represents command verbs that can be applied to a job.
+-# Information about a bus of a PCI Bridge device
++#     Information about a bus of a PCI Bridge device
  #
- # @cancel: see `job-cancel`
- #
-@@ -117,8 +114,7 @@
+ # @number: primary bus interface number.  This should be the number of
+ #     the bus the device resides on.
+@@ -80,8 +77,7 @@
  
  ##
- # @JOB_STATUS_CHANGE:
+ # @PciBridgeInfo:
 -#
--# Emitted when a job transitions to a different status.
-+#     Emitted when a job transitions to a different status.
+-# Information about a PCI Bridge device
++#     Information about a PCI Bridge device
  #
- # @id: The job identifier
+ # @bus: information about the bus the device resides on
  #
-@@ -259,8 +255,7 @@
+@@ -94,8 +90,7 @@
  
  ##
- # @JobInfo:
+ # @PciDeviceClass:
 -#
--# Information about a job.
-+#     Information about a job.
+-# Information about the Class of a PCI device
++#     Information about the Class of a PCI device
  #
- # @id: The job identifier
- #
-@@ -294,8 +289,7 @@
+ # @desc: a string description of the device's class (not stable, and
+ #     should only be treated as informational)
+@@ -109,8 +104,7 @@
  
  ##
- # @query-jobs:
+ # @PciDeviceId:
 -#
--# Return information about jobs.
-+#     Return information about jobs.
+-# Information about the Id of a PCI device
++#     Information about the Id of a PCI device
  #
- # Returns: a list with info for each active job
+ # @device: the PCI device id
  #
+@@ -128,8 +122,7 @@
+ 
+ ##
+ # @PciDeviceInfo:
+-#
+-# Information about a PCI device
++#     Information about a PCI device
+ #
+ # @bus: the bus number of the device
+ #
+@@ -161,8 +154,7 @@
+ 
+ ##
+ # @PciInfo:
+-#
+-# Information about a PCI bus
++#     Information about a PCI bus
+ #
+ # @bus: the bus index
+ #
+@@ -174,8 +166,7 @@
+ 
+ ##
+ # @query-pci:
+-#
+-# Return information about the PCI bus topology of the guest.
++#     Return information about the PCI bus topology of the guest.
+ #
+ # Returns: a list of info for each PCI bus.  Each bus is
+ #     represented by a json-object, which has a key with a json-array
 -- 
 2.55.0
 
