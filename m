@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9E447CA92
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:41:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18090433BB0
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:41:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773323; cv=none; b=GqtQKmevWK2tbgiv/BV0y4YwcwKepR2srrPG0L5JLoi4IUaIr6dXrP7bWas0M3p3rUaksWV/VGMA1KBVynRKAouOboMhJQiKMmXp+WmgfdEooDo9wYAs+G9rGgjXtd8e2tU+S2fv5f5dV4mN01eLOLx5h+puE7u+MIuXCxt2m3Q=
+	t=1787773327; cv=none; b=PSUPrRqZSJn6TZMQ4gFHJTrG25Wi769kc/k7gsltfID0zZFL0+wjmKNIbX+4t0yWGRLfG3ppYPBNOVn04Gj3CsdU8SrP/LcQiTvzOlUs1uApoVRJGD0NmyITVFOjFT1+c5hj5X4L56iCGjfmH/6iRhnqrXKp8HeAJnWwGrgfFac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773323; c=relaxed/simple;
-	bh=fwrEJxcUVE9i/Y+euGFdsLytYmKAgGLJYm5HDxMhRz8=;
+	s=arc-20240116; t=1787773327; c=relaxed/simple;
+	bh=3I9Z/ag5mh89HvPP3UeMwBTvwl8VT0Wa6Tiv49zZY5A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D1NvugC4b/y45E7UQ67ODc7Hy+xRD6SSR8TrpUv0cUzK2JvcsPP/phmv5whPPm3vgTyfVx3rn1kRvt88cWOKqcz+GLsFFWL3e6WKb+PsnJMawjIwgtsZiVkb1RORL6+waMuZvqfjwqdIZUT+7M4VkqjPFG7260vKYWXo+/O66dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zz3WeNRU; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=nj4G0KpKbpxswlRQDDxjVwXNG2B2OPeYyVpDrY88U6yrWPICAhS5hZBT3r4FJP/lbyeY16q6Gl1CMyJfMGC+K97SRXBq4oRGX8IeyP6VYdob3+OUF4k7oxW3afoRUgXJk4Sagl/06eQVel5e5RxuvDI2nHKFMqSr/40SevZd888=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XAYG0Z5M; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zz3WeNRU"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XAYG0Z5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773305;
+	s=mimecast20190719; t=1787773309;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Rrr0aq5qW3Bpm6ENGOJu7B6TQXjJHrQBrFBPuknWGuk=;
-	b=Zz3WeNRUI52awaLGTEO5Tb3McwgpB9cOg1Q+njCqT/mus5YQge07i/g6DeRuqrFxYXU2Qm
-	/M0FXDDo8HdJYKxOs5dI/dkc10phA0zD+C0HnOtFGADlK7yM9zJiv+cZzPTPrsZcdxPdUq
-	1ZYVNM80oOT+EWL/FAr6V94J0FDqBFI=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=5E80AYcJQq1AFb1blKcFRy9kxc8JKyis50TCaxBSCf8=;
+	b=XAYG0Z5Mmro9GoEb1F2+kbFZ7pMSUpV71Lj47sp7oEmeeVCsiEB+eoLKnO8hqgA+2iS5XF
+	/hylxwOZpxexv6sKgsJFEa0EPeUljkcDt3M7silxKN7g8NeBLc0Q10BR7+L4SHMnz9AyZG
+	Ya6mJGu+cF/CSINm5e7lzh1tI/mi8ZI=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-554-LipqZqKiOHekskGN0UbJ3w-1; Wed,
- 26 Aug 2026 15:41:40 -0400
-X-MC-Unique: LipqZqKiOHekskGN0UbJ3w-1
-X-Mimecast-MFC-AGG-ID: LipqZqKiOHekskGN0UbJ3w_1787773294
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-518-7R5lkI-mNZqyK8XjM-t1CA-1; Wed,
+ 26 Aug 2026 15:41:46 -0400
+X-MC-Unique: 7R5lkI-mNZqyK8XjM-t1CA-1
+X-Mimecast-MFC-AGG-ID: 7R5lkI-mNZqyK8XjM-t1CA_1787773303
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5EB3019540D6;
-	Wed, 26 Aug 2026 19:41:34 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 84A0C1802149;
+	Wed, 26 Aug 2026 19:41:43 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F3DA21800577;
-	Wed, 26 Aug 2026 19:41:26 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A4C591800577;
+	Wed, 26 Aug 2026 19:41:34 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 18/43] qapi: convert trivial intro sections for control.json
-Date: Wed, 26 Aug 2026 15:38:15 -0400
-Message-ID: <20260826193840.2152000-19-jsnow@redhat.com>
+Subject: [PATCH v3 19/43] qapi: convert trivial intro sections for dump.json
+Date: Wed, 26 Aug 2026 15:38:16 -0400
+Message-ID: <20260826193840.2152000-20-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,105 +96,73 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/control.json | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+ qapi/dump.json | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/qapi/control.json b/qapi/control.json
-index 9a5302193d6..0fc465936d8 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -10,8 +10,7 @@
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 690f3963fe1..520c58cbcd8 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -12,8 +12,7 @@
  
  ##
- # @qmp_capabilities:
+ # @DumpGuestMemoryFormat:
 -#
--# Enable QMP capabilities.
-+#     Enable QMP capabilities.
+-# An enumeration of guest-memory-dump's format.
++#     An enumeration of guest-memory-dump's format.
  #
- # @enable: An optional list of `QMPCapability` values to enable.  The
- #     client must not enable any capability that is not mentioned in
-@@ -41,9 +40,9 @@
+ # @elf: elf format
+ #
+@@ -116,8 +115,8 @@
  
  ##
- # @QMPCapability:
+ # @DumpStatus:
 -#
--# Enumeration of capabilities to be advertised during initial client
--# connection, used for agreeing on particular QMP extension behaviors.
-+#     Enumeration of capabilities to be advertised during initial
-+#     client connection, used for agreeing on particular QMP extension
-+#     behaviors.
+-# Describe the status of a long-running background guest memory dump.
++#     Describe the status of a long-running background guest memory
++#     dump.
  #
- # @oob: QMP ability to support out-of-band requests.  (Please refer to
- #     qmp-spec.rst for more information on OOB)
-@@ -55,8 +54,7 @@
+ # @none: no `dump-guest-memory` has started yet.
+ #
+@@ -134,8 +133,7 @@
  
  ##
- # @VersionTriple:
+ # @DumpQueryResult:
 -#
--# A three-part version number.
-+#     A three-part version number.
+-# The result format for `query-dump`.
++#     The result format for `query-dump`.
  #
- # @major: The major version number.
+ # @status: enum of `DumpStatus`, which shows current dump status
  #
-@@ -71,8 +69,7 @@
+@@ -152,8 +150,7 @@
  
  ##
- # @VersionInfo:
+ # @query-dump:
 -#
--# A description of QEMU's version.
-+#     A description of QEMU's version.
+-# Query latest dump status.
++#     Query latest dump status.
  #
- # @qemu: The version of QEMU.  By current convention, a micro version
- #     of 50 signifies a development branch.  A micro version greater
-@@ -92,8 +89,7 @@
+ # Returns: An object showing the dump status.
+ #
+@@ -169,8 +166,7 @@
  
  ##
- # @query-version:
+ # @DUMP_COMPLETED:
 -#
--# Return the current version of QEMU.
-+#     Return the current version of QEMU.
+-# Emitted when background dump has completed
++#     Emitted when background dump has completed
  #
- # Returns: An object describing the current version of QEMU.
+ # @result: final dump status
  #
-@@ -118,8 +114,7 @@
+@@ -203,8 +199,7 @@
  
  ##
- # @CommandInfo:
+ # @query-dump-guest-memory-capability:
 -#
--# Information about a QMP command
-+#     Information about a QMP command
+-# Return the available formats for `dump-guest-memory`
++#     Return the available formats for `dump-guest-memory`
  #
- # @name: The command name
- #
-@@ -129,8 +124,7 @@
- 
- ##
- # @query-commands:
--#
--# Return a list of supported QMP commands by this server
-+#     Return a list of supported QMP commands by this server
- #
- # Returns: A list of all supported commands
- #
-@@ -177,8 +171,7 @@
- 
- ##
- # @MonitorMode:
--#
--# An enumeration of monitor modes.
-+#     An enumeration of monitor modes.
- #
- # @readline: HMP monitor (human-oriented command line interface)
- #
-@@ -190,8 +183,7 @@
- 
- ##
- # @MonitorOptions:
--#
--# Options to be used for adding a new monitor.
-+#     Options to be used for adding a new monitor.
- #
- # @id: Name of the monitor
+ # Returns: An object listing available formats for `dump-guest-memory`
  #
 -- 
 2.55.0
