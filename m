@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18090433BB0
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25E247D93A
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773327; cv=none; b=PSUPrRqZSJn6TZMQ4gFHJTrG25Wi769kc/k7gsltfID0zZFL0+wjmKNIbX+4t0yWGRLfG3ppYPBNOVn04Gj3CsdU8SrP/LcQiTvzOlUs1uApoVRJGD0NmyITVFOjFT1+c5hj5X4L56iCGjfmH/6iRhnqrXKp8HeAJnWwGrgfFac=
+	t=1787773331; cv=none; b=blTfvS5h7TbUaYnTgY/unGwW8Q18Ku6M4eV4BDSQtWgV7MGRrbxzn8bhPWk5Z/JDGVieDxWsjPq4WEWtbU4F8KPJPvRlQdbxP3Hp1n6m1nA0sZe/5K090Coa85fSRLTC6hzgxwFjKjMHrxyZVlZE9Fod6y4QgJRpmjZQpFQZNm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773327; c=relaxed/simple;
-	bh=3I9Z/ag5mh89HvPP3UeMwBTvwl8VT0Wa6Tiv49zZY5A=;
+	s=arc-20240116; t=1787773331; c=relaxed/simple;
+	bh=jIoEXhfg3T5FbpS85BDVzA2NIGSIWpX9vSusWDNKkcU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nj4G0KpKbpxswlRQDDxjVwXNG2B2OPeYyVpDrY88U6yrWPICAhS5hZBT3r4FJP/lbyeY16q6Gl1CMyJfMGC+K97SRXBq4oRGX8IeyP6VYdob3+OUF4k7oxW3afoRUgXJk4Sagl/06eQVel5e5RxuvDI2nHKFMqSr/40SevZd888=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XAYG0Z5M; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=hElU77GWkl7r006ypFGSaI9kw9fWFgYafSfNCur1v9ayscQlp5HBmLb9ODMwq4jpVwIWdeHO29QY0vj8JHkuwjJ/UvLnfxpFJB5apFG+feodKG/oxyBY4fB0XhLsjDoy6tq/hCzqv9RS5t7Yxeml13jWtAzdpA3YBuXF9bzofo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YRG85ouC; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XAYG0Z5M"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YRG85ouC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773309;
+	s=mimecast20190719; t=1787773317;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5E80AYcJQq1AFb1blKcFRy9kxc8JKyis50TCaxBSCf8=;
-	b=XAYG0Z5Mmro9GoEb1F2+kbFZ7pMSUpV71Lj47sp7oEmeeVCsiEB+eoLKnO8hqgA+2iS5XF
-	/hylxwOZpxexv6sKgsJFEa0EPeUljkcDt3M7silxKN7g8NeBLc0Q10BR7+L4SHMnz9AyZG
-	Ya6mJGu+cF/CSINm5e7lzh1tI/mi8ZI=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=paUL78gCdpaCrvbsmed4HTHvmj42cb8WXYX01ka0V0s=;
+	b=YRG85ouC69qbuz6Gt2UWihe/umMOYUwAH5X11YLDPRh4YuJ6x+ZW2dEHODZoudKbI3f3gb
+	o6U43Xyfu+vSczN+joznEqX/kz1YVVqnf4iGOQwItaPCcTMLZ3If7UJrcJyMYgS3+0xg0r
+	IP9VRpnFO+gyikmovOxDWXxpFX9hXJg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-518-7R5lkI-mNZqyK8XjM-t1CA-1; Wed,
- 26 Aug 2026 15:41:46 -0400
-X-MC-Unique: 7R5lkI-mNZqyK8XjM-t1CA-1
-X-Mimecast-MFC-AGG-ID: 7R5lkI-mNZqyK8XjM-t1CA_1787773303
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-649-39mPIoSKPS2Uc-paTFkwOw-1; Wed,
+ 26 Aug 2026 15:41:53 -0400
+X-MC-Unique: 39mPIoSKPS2Uc-paTFkwOw-1
+X-Mimecast-MFC-AGG-ID: 39mPIoSKPS2Uc-paTFkwOw_1787773311
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 84A0C1802149;
-	Wed, 26 Aug 2026 19:41:43 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F09311955DCC;
+	Wed, 26 Aug 2026 19:41:50 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A4C591800577;
-	Wed, 26 Aug 2026 19:41:34 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D79B91800577;
+	Wed, 26 Aug 2026 19:41:43 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 19/43] qapi: convert trivial intro sections for dump.json
-Date: Wed, 26 Aug 2026 15:38:16 -0400
-Message-ID: <20260826193840.2152000-20-jsnow@redhat.com>
+Subject: [PATCH v3 20/43] qapi: convert trivial intro sections for common.json
+Date: Wed, 26 Aug 2026 15:38:17 -0400
+Message-ID: <20260826193840.2152000-21-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,73 +96,104 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/dump.json | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ qapi/common.json | 29 ++++++++++-------------------
+ 1 file changed, 10 insertions(+), 19 deletions(-)
 
-diff --git a/qapi/dump.json b/qapi/dump.json
-index 690f3963fe1..520c58cbcd8 100644
---- a/qapi/dump.json
-+++ b/qapi/dump.json
-@@ -12,8 +12,7 @@
+diff --git a/qapi/common.json b/qapi/common.json
+index af7e3d618a7..c1bbed21e7f 100644
+--- a/qapi/common.json
++++ b/qapi/common.json
+@@ -9,8 +9,7 @@
  
  ##
- # @DumpGuestMemoryFormat:
+ # @IoOperationType:
 -#
--# An enumeration of guest-memory-dump's format.
-+#     An enumeration of guest-memory-dump's format.
+-# An enumeration of the I/O operation types
++#     An enumeration of the I/O operation types
  #
- # @elf: elf format
+ # @read: read operation
  #
-@@ -116,8 +115,8 @@
+@@ -23,8 +22,7 @@
  
  ##
- # @DumpStatus:
+ # @OnOffAuto:
 -#
--# Describe the status of a long-running background guest memory dump.
-+#     Describe the status of a long-running background guest memory
-+#     dump.
+-# An enumeration of three options: on, off, and auto
++#     An enumeration of three options: on, off, and auto
  #
- # @none: no `dump-guest-memory` has started yet.
+ # @auto: QEMU selects the value between on and off
  #
-@@ -134,8 +133,7 @@
+@@ -39,8 +37,7 @@
  
  ##
- # @DumpQueryResult:
+ # @OnOffSplit:
 -#
--# The result format for `query-dump`.
-+#     The result format for `query-dump`.
+-# An enumeration of three values: on, off, and split
++#     An enumeration of three values: on, off, and split
  #
- # @status: enum of `DumpStatus`, which shows current dump status
+ # @on: Enabled
  #
-@@ -152,8 +150,7 @@
+@@ -72,8 +69,7 @@
  
  ##
- # @query-dump:
+ # @OffAutoPCIBAR:
 -#
--# Query latest dump status.
-+#     Query latest dump status.
+-# An enumeration of options for specifying a PCI BAR
++#     An enumeration of options for specifying a PCI BAR
  #
- # Returns: An object showing the dump status.
+ # @off: The specified feature is disabled
  #
-@@ -169,8 +166,7 @@
+@@ -98,8 +94,7 @@
  
  ##
- # @DUMP_COMPLETED:
+ # @PCIELinkSpeed:
 -#
--# Emitted when background dump has completed
-+#     Emitted when background dump has completed
+-# An enumeration of PCIe link speeds in units of GT/s
++#     An enumeration of PCIe link speeds in units of GT/s
  #
- # @result: final dump status
+ # @2_5: 2.5GT/s
  #
-@@ -203,8 +199,7 @@
+@@ -120,8 +115,7 @@
  
  ##
- # @query-dump-guest-memory-capability:
+ # @PCIELinkWidth:
 -#
--# Return the available formats for `dump-guest-memory`
-+#     Return the available formats for `dump-guest-memory`
+-# An enumeration of PCIe link width
++#     An enumeration of PCIe link width
  #
- # Returns: An object listing available formats for `dump-guest-memory`
+ # @1: x1
+ #
+@@ -144,8 +138,7 @@
+ 
+ ##
+ # @HostMemPolicy:
+-#
+-# Host memory policy types
++#     Host memory policy types
+ #
+ # @default: restore default policy, remove any nondefault policy
+ #
+@@ -164,9 +157,8 @@
+ 
+ ##
+ # @NetFilterDirection:
+-#
+-# Indicates whether a netfilter is attached to a netdev's transmit
+-# queue or receive queue or both.
++#     Indicates whether a netfilter is attached to a netdev's transmit
++#     queue or receive queue or both.
+ #
+ # @all: the filter is attached both to the receive and the transmit
+ #     queue of the netdev (default).
+@@ -184,8 +176,7 @@
+ 
+ ##
+ # @GrabToggleKeys:
+-#
+-# Key combinations to toggle input-linux between host and guest.
++#     Key combinations to toggle input-linux between host and guest.
+ #
+ # @ctrl-ctrl: left and right control key
  #
 -- 
 2.55.0
