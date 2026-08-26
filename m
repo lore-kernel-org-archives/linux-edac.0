@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B923246EB
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C00347CA99
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773392; cv=none; b=Rn8nTcQDxa5UoABNnPyg68A6b4yEgeEPC4NTTxxpg4PsS8vqNWDIdJbyOaP20b1iUKtdttXtHe1f67R72jYAl41MZ/mwpUQUu6WZASWbN7vtQRqZ0l+f9yxnaLZO6TyCyxssnxMBBQmLjEnOu8W5W0CZEDUdB3vLQlSyXZt218Y=
+	t=1787773389; cv=none; b=OTPRiou/eUsAzp6C55bsKQc3uYMSspspEbv+abZtermk+0svJN05Gop02IuoyjMhQz9EhQVH0+4yZuaW4KTBz71iKea3O8ib7YPa7oSg80/GJarHizARNm46qyPD2/QGv3eSxOixVOFokdImQWGEZQ2K3QSQA0TlbXRkipPn1sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773392; c=relaxed/simple;
-	bh=iwQHT562HYJD5dgzDhWkBNTaVVgGFgmPFJ+3/wgIL3U=;
+	s=arc-20240116; t=1787773389; c=relaxed/simple;
+	bh=2SeE1xs8joRyT3nDEMnnKIoLQEGaEj0QND1QI5FYm6Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d9WR81x85eK9WiOGnpXhhcLQsuQ+rPm5gQreSwv1es4fjXL7/P2u+J5h9aIG3W9Hj4bYbeZs96U5d8zOGPdxrQrpkhTUBE7V0XP20unDfPXtIxNhTijbbnBf4uqi5RsWmOmQguNT/HFq+yNPs8++KIFUM9zWR/TgrUPFJXR9Yzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Infvl1lp; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=ddePR4GQZtY/LZT9JuOj69ge5ROc03/6kVPrv7jRYxNzb5xL0dSWwKrepswziQUM+M/sqXE2h8SJIFo2IYiMf8/JpC+BtO+zFHEVk4hiErk9zeYq361e/vNIVKFba/PYB9hD2fLh5uZ+bjR+3ZY4icTxh4mDURoNlUbNUlDxzk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fTEKRnlZ; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Infvl1lp"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fTEKRnlZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773377;
+	s=mimecast20190719; t=1787773369;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=y8wW2V1gmq4U2oGifMr03OEbp6q8ZFZvEQ5q6kHXpZc=;
-	b=Infvl1lps2Vi3Uojarj7ApQZUrMIOToGlgmwJIi3q+5sGh3miLYrmHx9fmEpUKt0Hhinme
-	jurZythsl1cFV6RaXRj8c6b7bx6Oxht0/w6zFA3wXaVBojSG65VXaGGN0Iyy5/LYfWvm25
-	+NSsnWNW/n+u+j1w+sUQRY8FwshehZw=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=RQLl9Fz/e90VKbZH8iPZEXrmE8EWsrDRt4hVfZ8Hrwo=;
+	b=fTEKRnlZ9EPESb/Caj26Fz3QHazEDfOhEeHocICuaqzqHCcEbVJOedMXUNU08hvChR4k/E
+	MOcdczPhtmE4yNJVrAVlne1NXSo+rsXptBsItz1sqme7MrZFQl6hzQlkLd8jmF45AvlpPR
+	2yjmGsJRBAnOMYAaJGAp1JyGfjBBlzk=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-574-DrxEYY6pOaGJXFAtcdIs2A-1; Wed,
- 26 Aug 2026 15:42:52 -0400
-X-MC-Unique: DrxEYY6pOaGJXFAtcdIs2A-1
-X-Mimecast-MFC-AGG-ID: DrxEYY6pOaGJXFAtcdIs2A_1787773369
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-678-xjXzKdKiNsqqhXlL2uTMtw-1; Wed,
+ 26 Aug 2026 15:42:43 -0400
+X-MC-Unique: xjXzKdKiNsqqhXlL2uTMtw-1
+X-Mimecast-MFC-AGG-ID: xjXzKdKiNsqqhXlL2uTMtw_1787773360
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0974D1855127;
-	Wed, 26 Aug 2026 19:42:49 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C4F5D19541B5;
+	Wed, 26 Aug 2026 19:42:40 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 382B91800598;
-	Wed, 26 Aug 2026 19:42:41 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CCBE31800577;
+	Wed, 26 Aug 2026 19:42:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 27/43] qapi: convert trivial intro sections for rocker.json
-Date: Wed, 26 Aug 2026 15:38:24 -0400
-Message-ID: <20260826193840.2152000-28-jsnow@redhat.com>
+Subject: [PATCH v3 26/43] qapi: convert trivial intro sections for introspect.json
+Date: Wed, 26 Aug 2026 15:38:23 -0400
+Message-ID: <20260826193840.2152000-27-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,143 +96,137 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/rocker.json | 39 +++++++++++++--------------------------
- 1 file changed, 13 insertions(+), 26 deletions(-)
+ qapi/introspect.json | 40 ++++++++++++++--------------------------
+ 1 file changed, 14 insertions(+), 26 deletions(-)
 
-diff --git a/qapi/rocker.json b/qapi/rocker.json
-index 5d2dbd26034..7eb0a88dafd 100644
---- a/qapi/rocker.json
-+++ b/qapi/rocker.json
-@@ -9,8 +9,7 @@
+diff --git a/qapi/introspect.json b/qapi/introspect.json
+index c8432c8ed8e..172ed389997 100644
+--- a/qapi/introspect.json
++++ b/qapi/introspect.json
+@@ -112,8 +112,7 @@
  
  ##
- # @RockerSwitch:
+ # @SchemaInfoBuiltin:
 -#
--# Rocker switch information.
-+#     Rocker switch information.
+-# Additional `SchemaInfo` members for meta-type 'builtin'.
++#     Additional `SchemaInfo` members for meta-type 'builtin'.
  #
- # @name: switch name
+ # @json-type: the JSON type used for this type on the wire.
  #
-@@ -25,8 +24,7 @@
+@@ -124,10 +123,9 @@
  
  ##
- # @query-rocker:
+ # @JSONType:
 -#
--# Return rocker switch information.
-+#     Return rocker switch information.
+-# The four primitive and two structured types according to RFC 8259
+-# section 1, plus 'int' (split off 'number'), plus the obvious top
+-# type 'value'.
++#     The four primitive and two structured types according to RFC
++#     8259 section 1, plus 'int' (split off 'number'), plus the
++#     obvious top type 'value'.
  #
- # @name: switch name
+ # @string: JSON string
  #
-@@ -43,8 +41,7 @@
+@@ -153,8 +151,7 @@
  
  ##
- # @RockerPortDuplex:
+ # @SchemaInfoEnum:
 -#
--# An enumeration of port duplex states.
-+#     An enumeration of port duplex states.
+-# Additional `SchemaInfo` members for meta-type 'enum'.
++#     Additional `SchemaInfo` members for meta-type 'enum'.
  #
- # @half: half duplex
- #
-@@ -56,8 +53,7 @@
+ # @members: the enum type's members, in no particular order.
+ #     (since 6.2)
+@@ -178,8 +175,7 @@
  
  ##
- # @RockerPortAutoneg:
+ # @SchemaInfoEnumMember:
 -#
--# An enumeration of port autoneg states.
-+#     An enumeration of port autoneg states.
+-# An object member.
++#     An object member.
  #
- # @off: autoneg is off
+ # @name: the member's name, as defined in the QAPI schema.
  #
-@@ -69,8 +65,7 @@
+@@ -193,8 +189,7 @@
  
  ##
- # @RockerPort:
+ # @SchemaInfoArray:
 -#
--# Rocker switch port information.
-+#     Rocker switch port information.
+-# Additional `SchemaInfo` members for meta-type 'array'.
++#     Additional `SchemaInfo` members for meta-type 'array'.
  #
- # @name: port name
+ # @element-type: the array type's element type.
  #
-@@ -93,8 +88,7 @@
+@@ -207,8 +202,7 @@
  
  ##
- # @query-rocker-ports:
+ # @SchemaInfoObject:
 -#
--# Return rocker switch port information.
-+#     Return rocker switch port information.
+-# Additional `SchemaInfo` members for meta-type 'object'.
++#     Additional `SchemaInfo` members for meta-type 'object'.
  #
- # @name: port name
- #
-@@ -115,8 +109,7 @@
+ # @members: the object type's (non-variant) members, in no particular
+ #     order.
+@@ -232,8 +226,7 @@
  
  ##
- # @RockerOfDpaFlowKey:
+ # @SchemaInfoObjectMember:
 -#
--# Rocker switch OF-DPA flow key
-+#     Rocker switch OF-DPA flow key
+-# An object member.
++#     An object member.
  #
- # @priority: key priority, 0 being lowest priority
+ # @name: the member's name, as defined in the QAPI schema.
  #
-@@ -153,8 +146,7 @@
+@@ -257,8 +250,7 @@
  
  ##
- # @RockerOfDpaFlowMask:
+ # @SchemaInfoObjectVariant:
 -#
--# Rocker switch OF-DPA flow mask
-+#     Rocker switch OF-DPA flow mask
+-# The variant members for a value of the type tag.
++#     The variant members for a value of the type tag.
  #
- # @in-pport: physical input port
+ # @case: a value of the type tag.
  #
-@@ -182,8 +174,7 @@
+@@ -272,8 +264,7 @@
  
  ##
- # @RockerOfDpaFlowAction:
+ # @SchemaInfoAlternate:
 -#
--# Rocker switch OF-DPA flow action
-+#     Rocker switch OF-DPA flow action
+-# Additional `SchemaInfo` members for meta-type 'alternate'.
++#     Additional `SchemaInfo` members for meta-type 'alternate'.
  #
- # @goto-tbl: next table ID
- #
-@@ -209,8 +200,7 @@
+ # @members: the alternate type's members, in no particular order.  The
+ #     members' wire encoding is distinct, see
+@@ -288,8 +279,7 @@
  
  ##
- # @RockerOfDpaFlow:
+ # @SchemaInfoAlternateMember:
 -#
--# Rocker switch OF-DPA flow
-+#     Rocker switch OF-DPA flow
+-# An alternate member.
++#     An alternate member.
  #
- # @cookie: flow unique cookie ID
+ # @type: the name of the member's type.
  #
-@@ -230,8 +220,7 @@
+@@ -300,8 +290,7 @@
  
  ##
- # @query-rocker-of-dpa-flows:
+ # @SchemaInfoCommand:
 -#
--# Return rocker OF-DPA flow information.
-+#     Return rocker OF-DPA flow information.
+-# Additional `SchemaInfo` members for meta-type 'command'.
++#     Additional `SchemaInfo` members for meta-type 'command'.
  #
- # @name: switch name
- #
-@@ -261,8 +250,7 @@
+ # @arg-type: the name of the object type that provides the command's
+ #     parameters.
+@@ -322,8 +311,7 @@
  
  ##
- # @RockerOfDpaGroup:
+ # @SchemaInfoEvent:
 -#
--# Rocker switch OF-DPA group
-+#     Rocker switch OF-DPA group
+-# Additional `SchemaInfo` members for meta-type 'event'.
++#     Additional `SchemaInfo` members for meta-type 'event'.
  #
- # @id: group unique ID
- #
-@@ -305,8 +293,7 @@
- 
- ##
- # @query-rocker-of-dpa-groups:
--#
--# Return rocker OF-DPA group information.
-+#     Return rocker OF-DPA group information.
- #
- # @name: switch name
- #
+ # @arg-type: the name of the object type that provides the event's
+ #     parameters.
 -- 
 2.55.0
 
