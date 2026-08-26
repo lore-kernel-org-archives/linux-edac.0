@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536A2481FB4
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6AD486E6D
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773450; cv=none; b=HlpHjaMURo7D0rrCAim5fBB4SY43xkeKKHAA4+6yTanrD96w5VyaMzODyVZF1RK7GbeGtABRrHwFgUuatxQOZutU0sk/irPbtn57FXhar/o8b8BhPbi57jWH/J/q3jp9GQ+XvPF+wP00BbbqXcHt0/u+El5lh9T5/TrFsKO8ZkA=
+	t=1787773457; cv=none; b=W/zSyEQNrRKUMtklqfBSHQtHtEUKM+vL925EqtXCrDLz4WcaPqI6knUpxapVXrzoDHlhNKhyw8wZy5ynfhUiGKVLM/KcCvUE9p7V6w/XmhOW6cXh+EurEHev/ELmzUsCdGUzoxfkORgiTAjpgGU9KwJldEvZDgJYxlX3VpSdPws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773450; c=relaxed/simple;
-	bh=rAHRzMTtd6LmDA56izJRZMzJ7LcmH4h5ECZ2U0PFqSw=;
+	s=arc-20240116; t=1787773457; c=relaxed/simple;
+	bh=esSfvE3+7/P7ya51PfBNKPTUbnV/xG/9pEJC8GXz/Ks=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p404gy7JaCg4eTzeB18tzNYmOt5b5YzncJKlOEfRbNeez+5DjIAF1RN6SWrLxb9kfw98gT76D8+Tzd7i/8wctPBpB3pvnqQsdcUjXqOfpEFUviIXbhHf7eMZaol2uZKOcdROPtmegEpl9tFl0+5R5oN/a/y1tftXH0h7V2qprI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IR1q4ZEo; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=k/M3LRwOJL8odDcB0U8d/TkagLrC1lp2pbSyqLAJYE/I8muPo0cwrN2Jv87hBoicrlwdMyEdehTa7JjpHl17TAPq2n6lJMRDzxNePO+l1vC4OpjrW5DWeTiPyS26q1Qq0nr37cZJIpCn+XwWyvz81vo2KB5lt5xwEK/995j6xEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bVxVZA1D; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IR1q4ZEo"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bVxVZA1D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773429;
+	s=mimecast20190719; t=1787773446;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8Vg4hY+AvTm5XkhoeGCLunTOI5DLh2OMWY4FplanPG4=;
-	b=IR1q4ZEotblNLcavMBCFlQSG/oqt9Tj+Myv3kjayeaHrEBZ5EoPSOUmHeK+zOI7ZqNuZeY
-	J39o1dD2tuFOPwyq6bNnS/jTT1qJ/OamL733LK6qYs+vBZYIwxeLa5niK+ucK2GVZJYlwD
-	NFZnYQaiycNDns4QJhQj5IjfSMuRD7I=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=pS3gWzM2OpSimpBSFZGIbBPCkdQIT5l3gW1iVRp02q8=;
+	b=bVxVZA1D6pkzpg+CoO/5djjdvn3PpUwjsjOwh4xhV9kZ+BAxleUFVqd43W5sC/BqbLD+Ju
+	or4GXetY3+vxbZfeMXOsZiHq6+I0kYSNsFjdlBG3woGsmty23BiIQ3Ub84zjMZKttBhqz0
+	+bHdzRr3c/xIYYQ1w4b79s5bzUPQSFw=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-563-h3YwAm4sOdyvT6WM2XKTIA-1; Wed,
- 26 Aug 2026 15:43:45 -0400
-X-MC-Unique: h3YwAm4sOdyvT6WM2XKTIA-1
-X-Mimecast-MFC-AGG-ID: h3YwAm4sOdyvT6WM2XKTIA_1787773421
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-468-9hQ9G9TcMpC1SM688cQ5Cw-1; Wed,
+ 26 Aug 2026 15:44:02 -0400
+X-MC-Unique: 9hQ9G9TcMpC1SM688cQ5Cw-1
+X-Mimecast-MFC-AGG-ID: 9hQ9G9TcMpC1SM688cQ5Cw_1787773439
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 40543191FCE0;
-	Wed, 26 Aug 2026 19:43:41 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1F9621855124;
+	Wed, 26 Aug 2026 19:43:59 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 306A21800598;
-	Wed, 26 Aug 2026 19:43:33 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 79D201800577;
+	Wed, 26 Aug 2026 19:43:51 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 35/43] qapi: convert trivial intro sections for run-state.json
-Date: Wed, 26 Aug 2026 15:38:32 -0400
-Message-ID: <20260826193840.2152000-36-jsnow@redhat.com>
+Subject: [PATCH v3 37/43] qapi: convert trivial intro sections for virtio.json
+Date: Wed, 26 Aug 2026 15:38:34 -0400
+Message-ID: <20260826193840.2152000-38-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,350 +96,165 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/run-state.json | 113 ++++++++++++++++----------------------------
- 1 file changed, 42 insertions(+), 71 deletions(-)
+ qapi/virtio.json | 54 ++++++++++++++++++------------------------------
+ 1 file changed, 20 insertions(+), 34 deletions(-)
 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index e4fdead1e0b..2a968a6bc0b 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
+diff --git a/qapi/virtio.json b/qapi/virtio.json
+index 1fc4e38a44d..9aafc3a212f 100644
+--- a/qapi/virtio.json
++++ b/qapi/virtio.json
 @@ -10,8 +10,7 @@
  
  ##
- # @RunState:
+ # @VirtioInfo:
 -#
--# An enumeration of VM run states.
-+#     An enumeration of VM run states.
+-# Basic information about a given VirtIODevice
++#     Basic information about a given VirtIODevice
  #
- # @debug: QEMU is running on a debugger
+ # @path: The VirtIODevice's canonical QOM path
  #
-@@ -63,8 +62,7 @@
+@@ -25,8 +24,7 @@
  
  ##
- # @ShutdownCause:
+ # @x-query-virtio:
 -#
--# An enumeration of reasons for a shutdown.
-+#     An enumeration of reasons for a shutdown.
+-# Return a list of all realized VirtIODevices
++#     Return a list of all realized VirtIODevices
  #
- # @none: No shutdown request pending
+ # Features:
  #
-@@ -103,8 +101,7 @@
+@@ -189,8 +187,7 @@
  
  ##
- # @StatusInfo:
+ # @x-query-virtio-status:
 -#
--# Information about VM run state
-+#     Information about VM run state
+-# Poll for a comprehensive status of a given virtio device
++#     Poll for a comprehensive status of a given virtio device
  #
- # @running: true if all VCPUs are runnable, false if not runnable
+ # @path: Canonical QOM path of the VirtIODevice
  #
-@@ -118,8 +115,7 @@
+@@ -442,9 +439,8 @@
  
  ##
- # @query-status:
+ # @VirtioDeviceStatus:
 -#
--# Query the run status of the VM
-+#     Query the run status of the VM
+-# A structure defined to list the configuration statuses of a virtio
+-# device
++#     A structure defined to list the configuration statuses of a
++#     virtio device
  #
- # Since: 0.14
- #
-@@ -134,9 +130,8 @@
+ # @statuses: List of decoded configuration statuses of the virtio
+ #     device
+@@ -460,9 +456,8 @@
  
  ##
- # @SHUTDOWN:
+ # @VhostDeviceProtocols:
 -#
--# Emitted when the virtual machine has shut down, indicating that QEMU
--# is about to exit.
-+#     Emitted when the virtual machine has shut down, indicating that
-+#     QEMU is about to exit.
+-# A structure defined to list the vhost user protocol features of a
+-# Vhost User device
++#     A structure defined to list the vhost user protocol features of
++#     a Vhost User device
  #
- # @guest: If true, the shutdown was triggered by a guest request (such
- #     as a guest-initiated ACPI shutdown request or other
-@@ -162,9 +157,8 @@
+ # @protocols: List of decoded vhost user protocol features of a vhost
+ #     user device
+@@ -503,9 +498,8 @@
  
  ##
- # @POWERDOWN:
+ # @VirtQueueStatus:
 -#
--# Emitted when the virtual machine is powered down through the power
--# control system, such as via ACPI.
-+#     Emitted when the virtual machine is powered down through the
-+#     power control system, such as via ACPI.
+-# Information of a VirtIODevice VirtQueue, including most members of
+-# the VirtQueue data structure.
++#     Information of a VirtIODevice VirtQueue, including most members
++#     of the VirtQueue data structure.
  #
- # Since: 0.12
+ # @name: Name of the VirtIODevice that uses this VirtQueue
  #
-@@ -177,8 +171,7 @@
+@@ -556,8 +550,7 @@
  
  ##
- # @RESET:
+ # @x-query-virtio-queue-status:
 -#
--# Emitted when the virtual machine is reset
-+#     Emitted when the virtual machine is reset
+-# Return the status of a given VirtIODevice's VirtQueue
++#     Return the status of a given VirtIODevice's VirtQueue
  #
- # @guest: If true, the reset was triggered by a guest request (such as
- #     a guest-initiated ACPI reboot request or other hardware-specific
-@@ -199,8 +192,7 @@
+ # @path: VirtIODevice canonical QOM path
+ #
+@@ -640,9 +633,8 @@
  
  ##
- # @STOP:
+ # @VirtVhostQueueStatus:
 -#
--# Emitted when the virtual machine is stopped
-+#     Emitted when the virtual machine is stopped
+-# Information of a vhost device's vhost_virtqueue, including most
+-# members of the vhost_dev vhost_virtqueue data structure.
++#     Information of a vhost device's vhost_virtqueue, including most
++#     members of the vhost_dev vhost_virtqueue data structure.
  #
- # Since: 0.12
+ # @name: Name of the VirtIODevice that uses this vhost_virtqueue
  #
-@@ -213,8 +205,7 @@
+@@ -682,8 +674,7 @@
  
  ##
- # @RESUME:
+ # @x-query-virtio-vhost-queue-status:
 -#
--# Emitted when the virtual machine resumes execution
-+#     Emitted when the virtual machine resumes execution
+-# Return information of a given vhost device's vhost_virtqueue
++#     Return information of a given vhost device's vhost_virtqueue
  #
- # Since: 0.12
+ # @path: VirtIODevice canonical QOM path
  #
-@@ -227,9 +218,8 @@
+@@ -746,8 +737,7 @@
  
  ##
- # @SUSPEND:
+ # @VirtioRingDesc:
 -#
--# Emitted when guest enters a hardware suspension state, for example,
--# S3 state, which is sometimes called standby state
-+#     Emitted when guest enters a hardware suspension state, for
-+#     example, S3 state, which is sometimes called standby state
+-# Information regarding the vring descriptor area
++#     Information regarding the vring descriptor area
  #
- # Since: 1.1
+ # @addr: Guest physical address of the descriptor area
  #
-@@ -261,9 +251,8 @@
+@@ -797,9 +787,8 @@
  
  ##
- # @WAKEUP:
+ # @VirtioQueueElement:
 -#
--# Emitted when the guest has woken up from suspend state and is
--# running
-+#     Emitted when the guest has woken up from suspend state and is
-+#     running
+-# Information regarding a VirtQueue's VirtQueueElement including
+-# descriptor, driver, and device areas
++#     Information regarding a VirtQueue's VirtQueueElement including
++#     descriptor, driver, and device areas
  #
- # Since: 1.1
+ # @name: Name of the VirtIODevice that uses this VirtQueue
  #
-@@ -276,8 +265,7 @@
+@@ -822,8 +811,7 @@
  
  ##
- # @WATCHDOG:
+ # @x-query-virtio-queue-element:
 -#
--# Emitted when the watchdog device's timer is expired
-+#     Emitted when the watchdog device's timer is expired
+-# Return the information about a VirtQueue's VirtQueueElement
++#     Return the information about a VirtQueue's VirtQueueElement
  #
- # @action: action that has been taken
+ # @path: VirtIODevice canonical QOM path
  #
-@@ -300,9 +288,8 @@
+@@ -933,8 +921,7 @@
  
  ##
- # @WatchdogAction:
+ # @IOThreadVirtQueueMapping:
 -#
--# An enumeration of the actions taken when the watchdog device's timer
--# is expired
-+#     An enumeration of the actions taken when the watchdog device's
-+#     timer is expired
+-# Describes the subset of virtqueues assigned to an IOThread.
++#     Describes the subset of virtqueues assigned to an IOThread.
  #
- # @reset: system resets
+ # @iothread: the id of IOThread object
  #
-@@ -330,8 +317,7 @@
+@@ -973,9 +960,8 @@
  
  ##
- # @RebootAction:
+ # @DummyVirtioForceArrays:
 -#
--# Possible QEMU actions upon guest reboot
-+#     Possible QEMU actions upon guest reboot
+-# Not used by QMP; hack to let us use IOThreadVirtQueueMappingList and
+-# VirtIOGPUOutputList internally
++#     Not used by QMP; hack to let us use IOThreadVirtQueueMappingList
++#     and VirtIOGPUOutputList internally
  #
- # @reset: Reset the VM
- #
-@@ -345,8 +331,7 @@
- 
+ # Since: 9.0
  ##
- # @ShutdownAction:
--#
--# Possible QEMU actions upon guest shutdown
-+#     Possible QEMU actions upon guest shutdown
- #
- # @poweroff: Shutdown the VM and exit
- #
-@@ -377,8 +362,7 @@
- 
- ##
- # @watchdog-set-action:
--#
--# Set watchdog action.
-+#     Set watchdog action.
- #
- # @action: `WatchdogAction` action taken when watchdog timer expires.
- #
-@@ -394,9 +378,8 @@
- 
- ##
- # @set-action:
--#
--# Set the actions that will be taken by the emulator in response to
--# guest events.
-+#     Set the actions that will be taken by the emulator in response
-+#     to guest events.
- #
- # @reboot: `RebootAction` action taken on guest reboot.
- #
-@@ -427,8 +410,7 @@
- 
- ##
- # @GUEST_PANICKED:
--#
--# Emitted when guest OS panic is detected
-+#     Emitted when guest OS panic is detected
- #
- # @action: action that has been taken, currently always "pause"
- #
-@@ -447,8 +429,7 @@
- 
- ##
- # @GUEST_CRASHLOADED:
--#
--# Emitted when guest OS crash loaded is detected
-+#     Emitted when guest OS crash loaded is detected
- #
- # @action: action that has been taken, currently always "run"
- #
-@@ -467,8 +448,8 @@
- 
- ##
- # @GUEST_PVSHUTDOWN:
--#
--# Emitted when guest submits a shutdown request via pvpanic interface
-+#     Emitted when guest submits a shutdown request via pvpanic
-+#     interface
- #
- # Since: 9.1
- #
-@@ -481,8 +462,8 @@
- 
- ##
- # @GuestPanicAction:
--#
--# An enumeration of the actions taken when guest OS panic is detected
-+#     An enumeration of the actions taken when guest OS panic is
-+#     detected
- #
- # @pause: system pauses
- #
-@@ -497,8 +478,7 @@
- 
- ##
- # @GuestPanicInformationType:
--#
--# An enumeration of the guest panic information types
-+#     An enumeration of the guest panic information types
- #
- # @hyper-v: hyper-v guest panic information type
- #
-@@ -515,8 +495,7 @@
- 
- ##
- # @GuestPanicInformation:
--#
--# Information about a guest panic
-+#     Information about a guest panic
- #
- # @type: Crash type that defines the hypervisor specific information
- #
-@@ -532,8 +511,7 @@
- 
- ##
- # @GuestPanicInformationHyperV:
--#
--# Hyper-V specific guest panic information (HV crash MSRs)
-+#     Hyper-V specific guest panic information (HV crash MSRs)
- #
- # @arg1: for Windows, `STOP` code for the guest crash.  For Linux,
- #     an error code.
-@@ -562,8 +540,7 @@
- 
- ##
- # @S390CrashReason:
--#
--# Reason why the CPU is in a crashed state.
-+#     Reason why the CPU is in a crashed state.
- #
- # @unknown: no crash reason was set
- #
-@@ -588,8 +565,7 @@
- 
- ##
- # @GuestPanicInformationS390:
--#
--# S390 specific guest panic information (PSW)
-+#     S390 specific guest panic information (PSW)
- #
- # @core: core id of the CPU that crashed
- #
-@@ -632,9 +608,8 @@
- 
- ##
- # @GuestPanicInformationSev:
--#
--# Information for AMD SEV-specific termination request (GHCB MSR
--# contents)
-+#     Information for AMD SEV-specific termination request (GHCB MSR
-+#     contents)
- #
- # @set: The reason code set provided by the guest
- #
-@@ -648,8 +623,7 @@
- 
- ##
- # @MEMORY_FAILURE:
--#
--# Emitted when a memory failure occurs on host side.
-+#     Emitted when a memory failure occurs on host side.
- #
- # @recipient: recipient is defined as `MemoryFailureRecipient`.
- #
-@@ -675,8 +649,7 @@
- 
- ##
- # @MemoryFailureRecipient:
--#
--# Hardware memory failure occurs, handled by recipient.
-+#     Hardware memory failure occurs, handled by recipient.
- #
- # @hypervisor: memory failure at QEMU process address space.  (none
- #     guest memory, but used by QEMU itself).
-@@ -691,8 +664,7 @@
- 
- ##
- # @MemoryFailureAction:
--#
--# Actions taken by QEMU in response to a hardware memory failure.
-+#     Actions taken by QEMU in response to a hardware memory failure.
- #
- # @ignore: the memory failure could be ignored.  This will only be the
- #     case for action-optional failures.
-@@ -719,8 +691,7 @@
- 
- ##
- # @MemoryFailureFlags:
--#
--# Additional information on memory failures.
-+#     Additional information on memory failures.
- #
- # @action-required: whether a memory failure event is action-required
- #     or action-optional (e.g. a failure during memory scrub).
-@@ -736,8 +707,8 @@
- 
- ##
- # @NotifyVmexitOption:
--#
--# An enumeration of the options specified when enabling notify VM exit
-+#     An enumeration of the options specified when enabling notify VM
-+#     exit
- #
- # @run: enable the feature, do nothing and continue if the notify VM
- #     exit happens.
 -- 
 2.55.0
 
