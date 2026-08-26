@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C9147F2C3
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B3948B38F
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773457; cv=none; b=oW5Nr73hj+x6k69/kWWg6ieOR2av6pE9tfpJGtRIi9u3kh1sM4P9JKwVkSEnQ1d9x1l180XbwCt7MjBrFkaH6P+qw3IcJ3gkrd0i35C3eorNwIskc3oSUT111zM95zzmziHTA1bNbd1I9xZdjv069u56tKkB5w1V73CdrvV7K5E=
+	t=1787773472; cv=none; b=fO3DAqCCIWrIVgOkTqgLphMVef91LdFoxj9523MTe8dIf+XJkbC5UIwazY2PGkCXokvNEAZFfcEr3Nqim9YyaXxtXau7Mhv1QDiLSNvVSS75cIH9zgF4jbl/RTkpkkTPHCkbqrWvgNaqV4HM/P39EWpH6eOgikSGOd1AkQ6zkSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773457; c=relaxed/simple;
-	bh=6+j9ek/vBQZE9JMqHlpV/XRpRob9L3XI25x5CFV3knY=;
+	s=arc-20240116; t=1787773472; c=relaxed/simple;
+	bh=s2TsiM0W9dsOuJK6fIQDzIX8Tj6MlDjmFwC1VN69hfA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z/+L6Y4IV8lMxYSjwK9/0bdElstiCOreMj3HxFYIrNAzI0tZKwdbLQGfJGCFk58nGpzTiMjFXjdS3LY+9M5BrLPdMTQP2O789xdVSLqaf7sWLlEtP9HJgL4jcHJhTaNB4EbNIypOgcE/Lirz2NfxY87p2sk2fBZtqg6O5w/muYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Yy2NsaNh; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=cgL4jgW9X8vw/muIC+12Jrcy4HYT7IgxRhUqAjRcujUMXEmOzRsP9pcWN+wg+hYoZeeYNVGZQgYUhBt6mrMuRYkAUsiHCFBPIrwN39lcNSzsnKyE/JFBpQt3xXb9Ra1AlLTLlvPd73MFB1DObGiWjcrYZDXvIv8BDWrGYlS44h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KKutS6f9; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yy2NsaNh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KKutS6f9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773435;
+	s=mimecast20190719; t=1787773458;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gbbbHuvMBl3KhDhnR1d/E0FiTkXcZ8dsOcmbpvowW8U=;
-	b=Yy2NsaNh05EAPXvxz4Giesy1sdpXU7uKF+OrH1BYm3Qza5kE/xW+vdKDvgqZjD9XaaCktE
-	KHUDyggAhwJjdS+dGi2eFVwek+DGUhEg8ymYmggAvyIghrbZERwE3iIMvwcoIlOdnJ4974
-	6MufX3QOaTGbvt43ToXRnUXL1CCluwE=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=U/qXQ7y8j8vRIuhHXNBGEntkR65K80MZ6kjFW8kUyKM=;
+	b=KKutS6f9zGs9suLP7kFJVdBg81pKwp+RRzfHBzXjHRqFGDDbXKGLA/Lr6MI8IykFavFIqi
+	O36UtablN0j0MqJMFdYnqVXDhRY2h7b+f5yK9mNrnknyfPhNmqMqkvDnVFv7GaGPhgtIPq
+	18YcqJiEoggji+sF7TyIObXQXcQwe38=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-104--VtKelcANUu-UhNUE7x6DA-1; Wed,
- 26 Aug 2026 15:43:54 -0400
-X-MC-Unique: -VtKelcANUu-UhNUE7x6DA-1
-X-Mimecast-MFC-AGG-ID: -VtKelcANUu-UhNUE7x6DA_1787773431
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-343-CjURmbsrP5WDfH6GZONnnw-1; Wed,
+ 26 Aug 2026 15:44:12 -0400
+X-MC-Unique: CjURmbsrP5WDfH6GZONnnw-1
+X-Mimecast-MFC-AGG-ID: CjURmbsrP5WDfH6GZONnnw_1787773449
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3658219541B1;
-	Wed, 26 Aug 2026 19:43:51 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCB231801356;
+	Wed, 26 Aug 2026 19:44:08 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 845011800577;
-	Wed, 26 Aug 2026 19:43:41 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A302A1800577;
+	Wed, 26 Aug 2026 19:43:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 36/43] qapi: convert trivial intro sections for char.json
-Date: Wed, 26 Aug 2026 15:38:33 -0400
-Message-ID: <20260826193840.2152000-37-jsnow@redhat.com>
+Subject: [PATCH v3 38/43] qapi: convert trivial intro sections for net.json
+Date: Wed, 26 Aug 2026 15:38:35 -0400
+Message-ID: <20260826193840.2152000-39-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,312 +96,300 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/char.json | 90 +++++++++++++++++---------------------------------
- 1 file changed, 30 insertions(+), 60 deletions(-)
+ qapi/net.json | 92 ++++++++++++++++++---------------------------------
+ 1 file changed, 33 insertions(+), 59 deletions(-)
 
-diff --git a/qapi/char.json b/qapi/char.json
-index abaccefa97e..7ae67eedff8 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
+diff --git a/qapi/net.json b/qapi/net.json
+index 1a6382825c5..4ea4bd1bc72 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
 @@ -12,8 +12,7 @@
  
  ##
- # @ChardevInfo:
+ # @set_link:
 -#
--# Information about a character device.
-+#     Information about a character device.
+-# Sets the link status of a virtual network adapter.
++#     Sets the link status of a virtual network adapter.
  #
- # @label: the label of the character device
+ # @name: the device name of the virtual network adapter
  #
-@@ -35,8 +34,7 @@
+@@ -60,8 +59,7 @@
  
  ##
- # @query-chardev:
+ # @netdev_del:
 -#
--# Return information about current character devices.
-+#     Return information about current character devices.
+-# Remove a network backend.
++#     Remove a network backend.
  #
- # Since: 0.14
+ # @id: the name of the network backend to remove
  #
-@@ -68,8 +66,7 @@
+@@ -80,8 +78,7 @@
  
  ##
- # @ChardevBackendInfo:
+ # @NetLegacyNicOptions:
 -#
--# Information about a character device backend
-+#     Information about a character device backend
+-# Create a new Network Interface Card.
++#     Create a new Network Interface Card.
  #
- # @name: The backend name
+ # @netdev: id of -netdev to connect to
  #
-@@ -79,8 +76,7 @@
+@@ -140,8 +137,7 @@
  
  ##
- # @query-chardev-backends:
+ # @NetdevPasstOptions:
 -#
--# Return information about character device backends.
-+#     Return information about character device backends.
+-# Unprivileged user-mode network connectivity using passt
++#     Unprivileged user-mode network connectivity using passt
  #
- # Since: 2.0
- #
-@@ -108,8 +104,7 @@
+ # @path: Filename of the passt program to run (by default 'passt', and
+ #     use PATH)
+@@ -301,9 +297,8 @@
  
  ##
- # @DataFormat:
+ # @NetdevUserOptions:
 -#
--# An enumeration of data format.
-+#     An enumeration of data format.
+-# Use the user mode network stack which requires no administrator
+-# privilege to run.
++#     Use the user mode network stack which requires no administrator
++#     privilege to run.
  #
- # @utf8: Data is a UTF-8 string (RFC 3629)
+ # @hostname: client hostname reported by the builtin DHCP server
  #
-@@ -122,8 +117,7 @@
+@@ -389,8 +384,7 @@
  
  ##
- # @ringbuf-write:
+ # @NetdevTapOptions:
 -#
--# Write to a ring buffer character device.
-+#     Write to a ring buffer character device.
+-# Used to configure a host TAP network interface backend.
++#     Used to configure a host TAP network interface backend.
  #
- # @device: the ring buffer character device name
+ # @ifname: interface name
  #
-@@ -154,8 +148,7 @@
+@@ -447,9 +441,8 @@
  
  ##
- # @ringbuf-read:
+ # @NetdevSocketOptions:
 -#
--# Read from a ring buffer character device.
-+#     Read from a ring buffer character device.
+-# Socket netdevs are used to establish a network connection to another
+-# QEMU virtual machine via a TCP socket.
++#     Socket netdevs are used to establish a network connection to
++#     another QEMU virtual machine via a TCP socket.
  #
- # @device: the ring buffer character device name
+ # @fd: file descriptor of an already opened socket
  #
-@@ -189,8 +182,7 @@
+@@ -476,8 +469,7 @@
  
  ##
- # @ChardevCommon:
+ # @NetdevL2TPv3Options:
 -#
--# Configuration shared across all chardev backends
-+#     Configuration shared across all chardev backends
+-# Configure an Ethernet over L2TPv3 tunnel.
++#     Configure an Ethernet over L2TPv3 tunnel.
  #
- # @logfile: The name of a logfile to save output
+ # @src: source address
  #
-@@ -209,8 +201,7 @@
+@@ -531,8 +523,7 @@
  
  ##
- # @ChardevFile:
+ # @NetdevVdeOptions:
 -#
--# Configuration info for file chardevs.
-+#     Configuration info for file chardevs.
+-# Connect to a vde switch running on the host.
++#     Connect to a vde switch running on the host.
  #
- # @in: The name of the input file
+ # @sock: socket path
  #
-@@ -229,8 +220,7 @@
+@@ -553,8 +544,7 @@
  
  ##
- # @ChardevHostdev:
+ # @NetdevBridgeOptions:
 -#
--# Configuration info for device and pipe chardevs.
-+#     Configuration info for device and pipe chardevs.
+-# Connect a host TAP network interface to a host bridge device.
++#     Connect a host TAP network interface to a host bridge device.
  #
- # @device: The name of the special file for the device, i.e.
- #     /dev/ttyS0 on Unix or COM1: on Windows
-@@ -243,8 +233,7 @@
+ # @br: bridge name
+ #
+@@ -569,8 +559,7 @@
  
  ##
- # @ChardevSocket:
+ # @NetdevHubPortOptions:
 -#
--# Configuration info for (stream) socket chardevs.
-+#     Configuration info for (stream) socket chardevs.
+-# Connect two or more net clients through a software hub.
++#     Connect two or more net clients through a software hub.
+ #
+ # @hubid: hub identifier number
+ #
+@@ -586,8 +575,8 @@
+ 
+ ##
+ # @NetdevNetmapOptions:
+-#
+-# Connect a client to a netmap-enabled NIC or to a VALE switch port
++#     Connect a client to a netmap-enabled NIC or to a VALE switch
++#     port
+ #
+ # @ifname: Either the name of an existing network interface supported
+ #     by netmap, or the name of a VALE port (created on the fly).  A
+@@ -607,8 +596,7 @@
+ 
+ ##
+ # @AFXDPMode:
+-#
+-# Attach mode for a default XDP program
++#     Attach mode for a default XDP program
+ #
+ # @skb: generic mode, no driver support necessary
+ #
+@@ -623,8 +611,7 @@
+ 
+ ##
+ # @NetdevAFXDPOptions:
+-#
+-# AF_XDP network backend
++#     AF_XDP network backend
+ #
+ # @ifname: The name of an existing network interface.
+ #
+@@ -675,8 +662,7 @@
+ 
+ ##
+ # @NetdevVhostUserOptions:
+-#
+-# Vhost-user network backend
++#     Vhost-user network backend
+ #
+ # @chardev: name of a unix socket chardev
+ #
+@@ -836,8 +822,7 @@
+ 
+ ##
+ # @NetdevStreamOptions:
+-#
+-# Configuration info for stream socket netdev
++#     Configuration info for stream socket netdev
  #
  # @addr: socket address to listen on (server=true) or connect to
  #     (server=false)
-@@ -295,8 +284,7 @@
+@@ -861,8 +846,7 @@
  
  ##
- # @ChardevUdp:
+ # @NetdevDgramOptions:
 -#
--# Configuration info for datagram socket chardevs.
-+#     Configuration info for datagram socket chardevs.
+-# Configuration info for datagram socket netdev.
++#     Configuration info for datagram socket netdev.
  #
  # @remote: remote address
  #
-@@ -311,8 +299,7 @@
+@@ -898,8 +882,7 @@
  
  ##
- # @ChardevMux:
+ # @NetClientDriver:
 -#
--# Configuration info for mux chardevs.
-+#     Configuration info for mux chardevs.
+-# Available netdev drivers.
++#     Available netdev drivers.
  #
- # @chardev: name of the base chardev.
+ # @l2tpv3: since 2.1
  #
-@@ -324,8 +311,7 @@
+@@ -933,8 +916,7 @@
  
  ##
- # @ChardevHub:
+ # @Netdev:
 -#
--# Configuration info for hub chardevs.
-+#     Configuration info for hub chardevs.
+-# Captures the configuration of a network device.
++#     Captures the configuration of a network device.
  #
- # @chardevs: IDs to be added to this hub (maximum 4 devices).
+ # @id: identifier for monitor commands.
  #
-@@ -337,8 +323,7 @@
+@@ -972,8 +954,7 @@
  
  ##
- # @ChardevStdio:
+ # @RxState:
 -#
--# Configuration info for stdio chardevs.
-+#     Configuration info for stdio chardevs.
+-# Packets receiving state
++#     Packets receiving state
  #
- # @signal: Allow signals (such as SIGINT triggered by ^C) be delivered
- #     to QEMU.  Default: true.
-@@ -351,8 +336,7 @@
+ # @normal: filter assigned packets according to the mac-table
+ #
+@@ -987,8 +968,7 @@
  
  ##
- # @ChardevSpiceChannel:
+ # @RxFilterInfo:
 -#
--# Configuration info for spice vm channel chardevs.
-+#     Configuration info for spice vm channel chardevs.
+-# Rx-filter information for a NIC.
++#     Rx-filter information for a NIC.
  #
- # @type: kind of channel (for example vdagent).
+ # @name: net client name
  #
-@@ -365,8 +349,7 @@
+@@ -1033,8 +1013,8 @@
  
  ##
- # @ChardevSpicePort:
+ # @query-rx-filter:
 -#
--# Configuration info for spice port chardevs.
-+#     Configuration info for spice port chardevs.
+-# Return rx-filter information for all NICs (or for the given NIC).
++#     Return rx-filter information for all NICs (or for the given
++#     NIC).
  #
- # @fqdn: name of the channel (see docs/spice-port-fqdn.txt)
+ # @name: net client name
  #
-@@ -379,8 +362,7 @@
+@@ -1082,9 +1062,8 @@
  
  ##
- # @ChardevVCEncoding:
+ # @NIC_RX_FILTER_CHANGED:
 -#
--# Character encoding expected from the guest on a virtual console.
-+#     Character encoding expected from the guest on a virtual console.
+-# Emitted once until the `query-rx-filter` command is executed, the
+-# first event will always be emitted
++#     Emitted once until the `query-rx-filter` command is executed,
++#     the first event will always be emitted
  #
- # @cp437: CP437 (8-bit Extended ASCII / VGA).  Every byte maps
- #     directly to a glyph; suitable for DOS or other guests that
-@@ -397,8 +379,7 @@
+ # @name: net client name
+ #
+@@ -1104,8 +1083,7 @@
  
  ##
- # @ChardevDBus:
+ # @AnnounceParameters:
 -#
--# Configuration info for DBus chardevs.
-+#     Configuration info for DBus chardevs.
+-# Parameters for self-announce timers
++#     Parameters for self-announce timers
  #
- # @name: name of the channel (following docs/spice-port-fqdn.txt)
- #
-@@ -415,8 +396,7 @@
+ # @initial: Initial delay (in ms) before sending the first GARP/RARP
+ #     announcement
+@@ -1178,8 +1156,7 @@
  
  ##
- # @ChardevVC:
+ # @NETDEV_STREAM_CONNECTED:
 -#
--# Configuration info for virtual console chardevs.
-+#     Configuration info for virtual console chardevs.
+-# Emitted when the netdev stream backend is connected
++#     Emitted when the netdev stream backend is connected
  #
- # @width: console width, in pixels
+ # @netdev-id: QEMU netdev id that is connected
  #
-@@ -445,8 +425,7 @@
+@@ -1208,8 +1185,7 @@
  
  ##
- # @ChardevRingbuf:
+ # @NETDEV_STREAM_DISCONNECTED:
 -#
--# Configuration info for ring buffer chardevs.
-+#     Configuration info for ring buffer chardevs.
+-# Emitted when the netdev stream backend is disconnected
++#     Emitted when the netdev stream backend is disconnected
  #
- # @size: ring buffer size, must be power of two, default is 65536
+ # @netdev-id: QEMU netdev id that is disconnected
  #
-@@ -458,8 +437,7 @@
+@@ -1226,8 +1202,7 @@
  
  ##
- # @ChardevQemuVDAgent:
+ # @NETDEV_VHOST_USER_CONNECTED:
 -#
--# Configuration info for QEMU vdagent implementation.
-+#     Configuration info for QEMU vdagent implementation.
+-# Emitted when the vhost-user chardev is connected
++#     Emitted when the vhost-user chardev is connected
  #
- # @mouse: enable/disable mouse, default is enabled.
+ # @netdev-id: QEMU netdev id that is connected
  #
-@@ -475,8 +453,7 @@
+@@ -1246,8 +1221,7 @@
  
  ##
- # @ChardevPty:
+ # @NETDEV_VHOST_USER_DISCONNECTED:
 -#
--# Configuration info for pty implementation.
-+#     Configuration info for pty implementation.
+-# Emitted when the vhost-user chardev is disconnected
++#     Emitted when the vhost-user chardev is disconnected
  #
- # @path: optional path to create a symbolic link that points to the
- #     allocated PTY
-@@ -723,8 +700,7 @@
- 
- ##
- # @ChardevBackend:
--#
--# Configuration info for the new chardev backend.
-+#     Configuration info for the new chardev backend.
- #
- # @type: backend type
- #
-@@ -767,8 +743,7 @@
- 
- ##
- # @ChardevReturn:
--#
--# Return info about the chardev backend just created.
-+#     Return info about the chardev backend just created.
- #
- # @pty: name of the slave pseudoterminal device, present if and only
- #     if a chardev of type 'pty' was created
-@@ -780,8 +755,7 @@
- 
- ##
- # @chardev-add:
--#
--# Add a character device backend
-+#     Add a character device backend
- #
- # @id: the chardev's ID, must be unique
- #
-@@ -818,8 +792,7 @@
- 
- ##
- # @chardev-change:
--#
--# Change a character device backend
-+#     Change a character device backend
- #
- # @id: the chardev's ID
- #
-@@ -859,8 +832,7 @@
- 
- ##
- # @chardev-remove:
--#
--# Remove a character device backend
-+#     Remove a character device backend
- #
- # @id: the chardev's ID, must not be in use
- #
-@@ -876,8 +848,7 @@
- 
- ##
- # @chardev-send-break:
--#
--# Send a break to a character device
-+#     Send a break to a character device
- #
- # @id: the chardev's ID
- #
-@@ -893,8 +864,7 @@
- 
- ##
- # @VSERPORT_CHANGE:
--#
--# Emitted when the guest opens or closes a virtio-serial port.
-+#     Emitted when the guest opens or closes a virtio-serial port.
- #
- # @id: device identifier of the virtio-serial port
+ # @netdev-id: QEMU netdev id that is disconnected
  #
 -- 
 2.55.0
