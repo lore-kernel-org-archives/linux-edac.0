@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9648478E52
-	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9D921D3E8
+	for <linux-edac@vger.kernel.org>; Wed, 26 Aug 2026 19:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787773230; cv=none; b=H6+5aUb2CbLiIeBghWxirV+DgGyFnmWkbwlWi17qu3G5B+5tIKZzJ+59Ph6otk2nLWAEvIT1blW3iuL7l7r+FXDgwiZzYMAPrFcR0Wf1AZgOzf8IGakZ6ceYMXPOVav2IA46tjRzKhzyp8BNDvST7HYuUGjZs5FWDiC7QXf2OfQ=
+	t=1787773240; cv=none; b=u2U3nODteonKFlT81t3gyQMakYnyN94oP6kvHKprB9/Lq6PBlLoLSTNItWI+Fz+smcHfMbcfdFsBrVA23NeyBYZmZNvMecJ904Mol6PsxVuNwQsmjlMza4UIHCSRbRJpxS0m5pcRfgQ+vJ1l5Ok8j8Qx3pWwP4u5oeqmBiiYWu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787773230; c=relaxed/simple;
-	bh=K+3mbVdH8oSa9Hwbjy5sYNWefrITF+2y/K8zXITd66Q=;
+	s=arc-20240116; t=1787773240; c=relaxed/simple;
+	bh=LbkPrHFQBzHD/gmfnCZppN6CrMiPt81VBDoO/D7VMSg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JaY3RvG+xc4TvVf1/EMxDBH5RZO2so3CrPhP9sMYt1WPmfzYmh3CrUGSFR1oJfhMkh4iDFUwFNYScuRBNdjwDNnvfPAFkMPX/+NhyPU38UJMkkv7q1S6j7IkKUsCUdDDc9VummAVVdkolM2gDK93n3WWz/mJli1q2kZw+0yFxTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ct9Y/Z85; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=j3NZ/CmIhvWc/yVOgvYm3h/czaFi9MDJbjHIdmXC+yrl+4bfCxZ/KqKt/ob+2qCFnvr0ZI81LluW6zlae0YpIPHfJGefG/0h377MexmkuzzQr3yXjRd2ys3H3hzasQQNIUgl59Ktqi0ZSENKqHaVDfO8IGzBn7r+XM3SqUnQfVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hXYMQYn/; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ct9Y/Z85"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hXYMQYn/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787773217;
+	s=mimecast20190719; t=1787773224;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lt8Io7cWByPIErcfVsv8eiRTyjtcP7E9KBqJ4x3KU5A=;
-	b=ct9Y/Z85eu9xbwjSsn8RGohgdCewfx29FO7O3UdLf9Xc1ShTt+BbjnHNKfzwRqIIBvTUKC
-	vWx6k/SLi7BQwROFtv5mBDXP+Bdk8nBR0pKX2Xhjst8ncJe1YN7SrKi0/F1xNHaUjgr1oD
-	5S0YfeZ2sVDfcgt4ixARkepwtzKjy44=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=yKAT3AByQqAPEWNoFggUat7b+8Hak/kL/bR6Gv1FXr8=;
+	b=hXYMQYn/10prvjzOyt/Akn4G45N6W7vJL1YRchYFXY8IY26RAVXFxph2pCBkyXt9p7y2Op
+	ujHr2RsQSBGw1bB3OCr7V5TgrsK4oqnZ+EnIH9w3NbYPFvsKVkYt6/qKbLKUnBH7S6/QCA
+	1xwu7FlsTQ88lqSs8E1bDVh0bgoNic0=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-290-7646R0g6MYaamv_TQErG9w-1; Wed,
- 26 Aug 2026 15:40:14 -0400
-X-MC-Unique: 7646R0g6MYaamv_TQErG9w-1
-X-Mimecast-MFC-AGG-ID: 7646R0g6MYaamv_TQErG9w_1787773210
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-7EJ0nng3MHmnWgtVU44T1Q-1; Wed,
+ 26 Aug 2026 15:40:21 -0400
+X-MC-Unique: 7EJ0nng3MHmnWgtVU44T1Q-1
+X-Mimecast-MFC-AGG-ID: 7EJ0nng3MHmnWgtVU44T1Q_1787773218
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0106D184407E;
-	Wed, 26 Aug 2026 19:40:10 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5A51C195DBA0;
+	Wed, 26 Aug 2026 19:40:18 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.99])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B170D1800577;
-	Wed, 26 Aug 2026 19:40:01 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7AD5718005AC;
+	Wed, 26 Aug 2026 19:40:10 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alex Williamson <alex@shazbot.org>,
@@ -80,9 +80,9 @@ Cc: Alex Williamson <alex@shazbot.org>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Lukas Straub <lukasstraub2@web.de>,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v3 08/43] qapi: convert trivial intro sections for cryptodev.json
-Date: Wed, 26 Aug 2026 15:38:05 -0400
-Message-ID: <20260826193840.2152000-9-jsnow@redhat.com>
+Subject: [PATCH v3 09/43] qapi: convert trivial intro sections for machine-common.json
+Date: Wed, 26 Aug 2026 15:38:06 -0400
+Message-ID: <20260826193840.2152000-10-jsnow@redhat.com>
 In-Reply-To: <20260826193840.2152000-1-jsnow@redhat.com>
 References: <20260826193840.2152000-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,73 +96,55 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/cryptodev.json | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ qapi/machine-common.json | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
-index eb309c22f86..d0c1e6c8944 100644
---- a/qapi/cryptodev.json
-+++ b/qapi/cryptodev.json
-@@ -12,8 +12,7 @@
+diff --git a/qapi/machine-common.json b/qapi/machine-common.json
+index aca98e994af..fdb0e68d9e6 100644
+--- a/qapi/machine-common.json
++++ b/qapi/machine-common.json
+@@ -12,9 +12,8 @@
  
  ##
- # @QCryptodevBackendAlgoType:
+ # @S390CpuEntitlement:
 -#
--# The supported algorithm types of a crypto device.
-+#     The supported algorithm types of a crypto device.
+-# An enumeration of CPU entitlements that can be assumed by a virtual
+-# S390 CPU
++#     An enumeration of CPU entitlements that can be assumed by a
++#     virtual S390 CPU
  #
- # @sym: symmetric encryption
- #
-@@ -26,8 +25,7 @@
+ # Since: 8.2
+ ##
+@@ -23,8 +22,7 @@
  
  ##
- # @QCryptodevBackendServiceType:
+ # @CpuTopologyLevel:
 -#
--# The supported service types of a crypto device.
-+#     The supported service types of a crypto device.
+-# An enumeration of CPU topology levels.
++#     An enumeration of CPU topology levels.
  #
- # @cipher: Symmetric Key Cipher service
- #
-@@ -46,8 +44,7 @@
+ # @thread: thread level, which would also be called SMT level or
+ #     logical processor level.  The @threads option in
+@@ -84,8 +82,7 @@
  
  ##
- # @QCryptodevBackendType:
+ # @SmpCacheProperties:
 -#
--# The crypto device backend type
-+#     The crypto device backend type
+-# Cache information for SMP system.
++#     Cache information for SMP system.
  #
- # @builtin: the QEMU builtin support
- #
-@@ -62,8 +59,7 @@
+ # @cache: Cache name, which is the combination of cache level and
+ #     cache type.
+@@ -103,8 +100,7 @@
  
  ##
- # @QCryptodevBackendClient:
+ # @SmpCachePropertiesWrapper:
 -#
--# Information about a queue of crypto device.
-+#     Information about a queue of crypto device.
+-# List wrapper of `SmpCacheProperties`.
++#     List wrapper of `SmpCacheProperties`.
  #
- # @queue: the queue index of the crypto device
+ # @caches: the list of `SmpCacheProperties`.
  #
-@@ -77,8 +73,7 @@
- 
- ##
- # @QCryptodevInfo:
--#
--# Information about a crypto device.
-+#     Information about a crypto device.
- #
- # @id: the id of the crypto device
- #
-@@ -95,8 +90,7 @@
- 
- ##
- # @query-cryptodev:
--#
--# Return information about current crypto devices.
-+#     Return information about current crypto devices.
- #
- # Since: 8.0
- ##
 -- 
 2.55.0
 
