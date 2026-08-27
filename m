@@ -1,128 +1,74 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B06F3FDC05
-	for <linux-edac@vger.kernel.org>; Thu, 27 Aug 2026 09:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A567F41B8F2;
+	Thu, 27 Aug 2026 09:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787821850; cv=none; b=Ux5sg5VJr+EWGKyFfpAqOXOdqEPqOzJpguXIE6dPFv6FrC71mb/UoE7DRk0cN01JhgHzEDHDOa6Wbd3enF8ZJSQLb8vJncGq2Gsa4MktK7027N8mEqUmSytc/Xq9ASKP/fDWk4Z8XRDbj9G6Nz28zaAdFrzsYYSJtlJm1aio2Xg=
+	t=1787822284; cv=none; b=vBYeIlOtJ2w+CsJh6XOPKQ/NS+srLWlrM8t1bf++1dS+xSsnhJ9w+Aaxvbm/rM2RSbTR75lytOSiLYLQqjpJpJ60t7rtiMBDH06o/0IuO62Iw7Ff5OMPMVC4QWvxNBUGLvdj8byP5KXlC7OVpan+8b2H3ARTUjqTogicaz1I2cY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787821850; c=relaxed/simple;
-	bh=vwuUHj96KHqE5ijYrASNifndHHwz2LIx2+F19r3Hmq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ubgx7JwYVJYrGV9LUkwZamCZ6zWQnb2/SqvalYJyExhkcofWbDSnsZLSRhZoVieXVSFyyriimSYJ9eiJJJVBrH5wce3lGW+KJ8btOa9/GXyg5ooBC6Hft6HbZe0xGRapLPHRnhAfQeJ3wQNq+Wka9YdP6frbclbzAvpxHUf2fKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HWyFj8tQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1787822284; c=relaxed/simple;
+	bh=Cg4ZAfNGf8KMVQQMDraUIAQ9gerTtCCxcaHKDN+YbJM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mBtJRYFQNrMJG2Y0A0zcbn+GLpzzN17vNH9/JBUx985zQSNIpp6iT+13h0Y8a6DTxKsFQHhjaKCCywlwtKzx9FbVG1wWkQJkitvNvFKL3JGWMf3beqfDA7a8EORYCgZXsiXskO6QgJARHfdvbW+xFQ3DfcBtX4a/LkA6XcWiQLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oNZRIGE6; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HWyFj8tQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787821847;
-	h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
-	bh=EDuF+iQrFQ3v8cejBaPxhDBh3hQD9PNSHjqcUgHUNgo=;
-	b=HWyFj8tQc7Ao6Z9kKMuFFg6NqgyT9onwikNkdKrfqf4XwCv4MppOhtEJ2EnGCHaFN1Al9f
-	x9dI22MS6UUwp+NYY7H0Pypcav0SIuSWuOy023OU/ge6U2MTrhRGjwT+Obv06BS6bsKSWu
-	U1Kh7hI6Hg757O5jOfODUbLwcFkDkAI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-352-pvNHjy4-NZCv5SMnHhGB6A-1; Thu,
- 27 Aug 2026 05:10:42 -0400
-X-MC-Unique: pvNHjy4-NZCv5SMnHhGB6A-1
-X-Mimecast-MFC-AGG-ID: pvNHjy4-NZCv5SMnHhGB6A_1787821839
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C1E901955F6D;
-	Thu, 27 Aug 2026 09:10:37 +0000 (UTC)
-Received: from redhat.com (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6A43C1800346;
-	Thu, 27 Aug 2026 09:10:26 +0000 (UTC)
-Date: Thu, 27 Aug 2026 10:10:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex@shazbot.org>,
-	linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
-	Michael Tokarev <mjt@tls.msk.ru>,
-	Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
-	Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
-	=?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
-	zhenwei pi <zhenwei.pi@linux.dev>, qemu-trivial@nongnu.org,
-	Fabiano Rosas <farosas@suse.de>, Kevin Wolf <kwolf@redhat.com>,
-	Laurent Vivier <laurent@vivier.eu>, Jiri Pirko <jiri@resnulli.us>,
-	qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefan Berger <stefanb@linux.vnet.ibm.com>,
-	linux-edac@vger.kernel.org,
-	"Gonglei (Arei)" <arei.gonglei@huawei.com>,
-	Igor Mammedov <imammedo@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Zhao Liu <zhao1.liu@intel.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Hanna Reitz <hreitz@redhat.com>, Jason Wang <jasowangio@gmail.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ani Sinha <anisinha@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
-	Lukas Straub <lukasstraub2@web.de>,
-	=?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>
-Subject: Re: [PATCH v3 01/43] qapi: convert trivial intro sections for
- error.json
-Message-ID: <ao_-_38raHK0rWkX@redhat.com>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-References: <20260826193840.2152000-1-jsnow@redhat.com>
- <20260826193840.2152000-2-jsnow@redhat.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oNZRIGE6"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=7YjgYte16FbuTVIo1F9PguT6oBSfTv5aoq2XAbKuJjA=;
+	b=oNZRIGE61Q826VNXogMGk/Jyv70fx+SL+Ho2CDKx1J8Iqe0nchaXV/IrcMEQIHDLA9PUgSRz7
+	s0IeYitybJUJEap6AR2WZi3Gtim+jchX/bWgQs/2tc3QW75Wn8HPjKKVVyPd/ubaH8pfUgfvu0O
+	CqNsidq7RhTtFdJJlE58aTA=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4hVwd160W6zRhQt;
+	Thu, 27 Aug 2026 17:07:01 +0800 (CST)
+Received: from kwepemk300012.china.huawei.com (unknown [7.202.194.175])
+	by mail.maildlp.com (Postfix) with ESMTPS id 247C62025F;
+	Thu, 27 Aug 2026 17:17:46 +0800 (CST)
+Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
+ kwepemk300012.china.huawei.com (7.202.194.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 27 Aug 2026 17:17:45 +0800
+From: Xie Yuanbin <xieyuanbin1@huawei.com>
+To: <hejunhao3@h-partners.com>
+CC: <linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linuxarm@huawei.com>, <mchehab+huawei@kernel.org>,
+	<shijujose2008@gmail.com>, <tanxiaofei@huawei.com>, <tony.luck@intel.com>,
+	<xieyuanbin1@huawei.com>, <xueshuai@linux.alibaba.com>
+Subject: Re: [PATCH] rasdaemon: ras-events: Adapt to kernel v6.19 memory-failure trace event directory change
+Date: Thu, 27 Aug 2026 17:17:15 +0800
+Message-ID: <20260827091715.62022-1-xieyuanbin1@huawei.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260827040641.25143-1-hejunhao3@h-partners.com>
+References: <20260827040641.25143-1-hejunhao3@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260826193840.2152000-2-jsnow@redhat.com>
-User-Agent: Mutt/2.4.0 (2026-06-19)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk300012.china.huawei.com (7.202.194.175)
 
-On Wed, Aug 26, 2026 at 03:37:58PM -0400, John Snow wrote:
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  qapi/error.json | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/qapi/error.json b/qapi/error.json
-> index 54cb02fb880..a53b13e55c9 100644
-> --- a/qapi/error.json
-> +++ b/qapi/error.json
-> @@ -9,8 +9,7 @@
->  
->  ##
->  # @QapiErrorClass:
-> -#
-> -# QEMU error classes
-> +#     QEMU error classes
+On Thu, 27 Aug 2026 12:06:41 +0800, Junhao He wrote:
+> Kernel v6.19 moves memory_failure_event from the "ras" trace event
+> group to a separate "memory_failure" group, as the event's
+> TRACE_SYSTEM changed from "ras" to "memory_failure". This changes
+> the tracefs path from events/ras/memory_failure_event to
+> events/memory_failure/memory_failure_event.
+>
+> Add get_memory_failure_group_name() to dynamically detect which
+> path exists, ensuring backward compatibility with older kernels
+> that still use the "ras" group.
+>
+> kernel commit:
+>     https://lore.kernel.org/all/20251119095943.67125-1-xieyuanbin1@huawei.com/
 
-Where is this need for indent coming from ?  From the POV of someone
-writing comments, the need to indent the introductory text like this
-feels very counter-intuitive, an exception from any other inline
-docs syntax I've typically used. Is there any way we can avoid this ?
-
->  #
->  # @GenericError: this is used for errors that don't require a specific
->  #     error class.  This should be the default case for most errors
-> -- 
-> 2.55.0
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com       ~~        https://hachyderm.io/@berrange :|
-|: https://libvirt.org          ~~          https://entangle-photo.org :|
-|: https://pixelfed.art/berrange   ~~    https://fstop138.berrange.com :|
-
+Can this patch solve your problem?
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=e57d6e9e20b551e4910d7a6331a81775c3ad6693
