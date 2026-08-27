@@ -1,86 +1,77 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9858C3E51C6
-	for <linux-edac@vger.kernel.org>; Thu, 27 Aug 2026 13:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27E01C862D;
+	Thu, 27 Aug 2026 14:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787837991; cv=none; b=XPmxsXSwnn2atJqY+cPOYtDtyOOpUBLB9BgdHBb1MP7iqRwft4E4CxlvLfM56HnQ5g2m5OgQMobMwNJIBzMG3AYIxX9ssC9Nu+Ky/gXVqqG7nBPJDbucNNJ4pOUNRe5jDEi6WmJEaqJdtmhcG7EJVat59ChfkE+tMgMkPjlqZOY=
+	t=1787840952; cv=none; b=m6Nh0hbg+x95MZX1zogkA/ZSrgjOZlKKmeAW1ufHSvpUXUXFJyoq4kxQPHyfvz3iDWoCvO4yklx4sGWS1Ka4APiazN3H/GRISNe+NAfRINECRckWkvUxhIinNls6C+Kd8Aib5PkfBUc6VpUOioQNe9AHvMQ6fEtAbbBa6JCNuXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787837991; c=relaxed/simple;
-	bh=oy47AfehaWefzayjCfUfA2SsBZ4BUEQvy7XOKI6kiqw=;
+	s=arc-20240116; t=1787840952; c=relaxed/simple;
+	bh=6brJ3I/FMSLxeAu7VYeM5Y1AtwdHO0fwzquf41vQQ9E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V0dY/EABxpmaSpjwBk3Aram2SFxPgiGr1rl+IgLRbELURy5zjcc4Bk9sz+87+1naJ7IdlwP6+xHZn+e3DD2HROKt6pDDGDMZINi9xi41fMLYZ8p07Ko24G+N5rYeV5ad1QSY476Thj+LOQOLbHW3bzC3L0JH5cfAhhyZ99UDl0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UgQ4JNsy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PimSIt1Zut3uGaIw0Is7lRryujgJWFYLxxd3c+S/JN87cZefV3vxiddloNCmP6x0EpFYDyWqa51JBupZV+rFK9WdCLw4yzHCQBJcLbfY9nGm2L4qSF/UDDnzI1QQ4oYvsFXL1CogF0xG1nPlsoZutkASy3RCfhBGI8qOc34F3HE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MN8qz0e3; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UgQ4JNsy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1787837987;
-	h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qH3mShZB+XOmnEkPOPaAr/PtkuZBNwHw182S/VQMPXc=;
-	b=UgQ4JNsyW4w0NJ3ZwsveLHJF6DwNjIrUedN2N0NnF0+mjzTOY2hh1RLzxia3NIpjE4dPdc
-	iqslzDuYFur6nPnuda7FgVJsgbs7Qb+TGgPNnuUX3CSNo8R6CUyg3wYiFvjfuMzGXtknaJ
-	HVRqk8X3+F2WvPAM3/N0Pr5sM2gOmys=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-369-EVneE2scN0KFRW4rq_rn7A-1; Thu,
- 27 Aug 2026 09:39:44 -0400
-X-MC-Unique: EVneE2scN0KFRW4rq_rn7A-1
-X-Mimecast-MFC-AGG-ID: EVneE2scN0KFRW4rq_rn7A_1787837977
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MN8qz0e3"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7539E40E021A;
+	Thu, 27 Aug 2026 14:28:58 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ObWb8cOFOnty; Thu, 27 Aug 2026 14:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1787840928; bh=nH1dEa45oKyEZ+LvyVfaxCb3KtSM1VwnQfe9BHKlGaY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MN8qz0e3pXb/1DL78Fq1XC5Hr75Pv2Og34nfm4yQbcx7w01QaBJG/Y5t3S6DR2sI4
+	 nOoLvlLbDx8LnDFCYAY0xNz7ApPmo0ahdYGXcdh4rsrUh3g0z8vSAicxm5WVWFtaW1
+	 52O0ix8ZLAqBxTbXYysHq93LeT6UlocQ+hxu+R7fWPZFIxsIDzqzI2xWmvfrXQMHYk
+	 atAbPpbg28vUKuk3TX5o2bUydDwdrhQFraiX+GwA6oSu2MwMu+Q8lFgQVcYIDnGGno
+	 Rz1JFfDL8uRIqvl5s2HiRr/faX1irlrpjMcEF7xzlFLvg+ABbDF2cl2/DPgkcdryBm
+	 +3byy+38iZZV4K093GMSWXW1xH0y/VkjUsiZ5F7otaUWCSHM1eehZ7AyEi4WedT0dO
+	 mJkfzfu4bPPO9/vAXINgj9j+NbdD+q4fUQp75bXyWG0Q6oPt7XadqP1/0hgp7DDS8O
+	 B/bfpyjo8zFVlHyWITijge1LfQWkEbwasZIlYkYahqFdfqFuNjZo/u9JXJG8qlAfMl
+	 2aDHAwpswfSgkAfGlLFnjO+ScL9AoTMmt6AIgzmkH+RjL6Ep8u7H0403YE5jeJH7jD
+	 6SrlSEuloFfbRCKWfRuSfBRtKZinMIlNkiiKS76uZ8ttPmRKwz/DJ+zeLtIAhtyTDZ
+	 H9DcvsVpehYhAg8DxqoEeJz4=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0BE93195DE19;
-	Thu, 27 Aug 2026 13:39:36 +0000 (UTC)
-Received: from redhat.com (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 67DC418005AD;
-	Thu, 27 Aug 2026 13:39:26 +0000 (UTC)
-Date: Thu, 27 Aug 2026 14:39:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
-	Alex Williamson <alex@shazbot.org>, linux-cxl@vger.kernel.org,
-	Michael Tokarev <mjt@tls.msk.ru>,
-	Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
-	Peter Xu <peterx@redhat.com>, Eric Blake <eblake@redhat.com>,
-	=?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
-	zhenwei pi <zhenwei.pi@linux.dev>, qemu-trivial@nongnu.org,
-	Fabiano Rosas <farosas@suse.de>, Kevin Wolf <kwolf@redhat.com>,
-	Laurent Vivier <laurent@vivier.eu>, Jiri Pirko <jiri@resnulli.us>,
-	qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefan Berger <stefanb@linux.vnet.ibm.com>,
-	linux-edac@vger.kernel.org,
-	"Gonglei (Arei)" <arei.gonglei@huawei.com>,
-	Igor Mammedov <imammedo@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Zhao Liu <zhao1.liu@intel.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Hanna Reitz <hreitz@redhat.com>, Jason Wang <jasowangio@gmail.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ani Sinha <anisinha@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
-	Lukas Straub <lukasstraub2@web.de>,
-	=?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>
-Subject: Re: [PATCH v3 01/43] qapi: convert trivial intro sections for
- error.json
-Message-ID: <apA-CzGqrlFNfjp5@redhat.com>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-References: <20260826193840.2152000-1-jsnow@redhat.com>
- <20260826193840.2152000-2-jsnow@redhat.com>
- <ao_-_38raHK0rWkX@redhat.com>
- <87jypb90c0.fsf@pond.sub.org>
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BAF2440E00E6;
+	Thu, 27 Aug 2026 14:28:33 +0000 (UTC)
+Date: Thu, 27 Aug 2026 07:28:29 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Breno Leitao <leitao@debian.org>
+Cc: "Luck, Tony" <tony.luck@intel.com>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"kernel-team@meta.com" <kernel-team@meta.com>
+Subject: Re: [PATCH 2/2] x86/mce: Add mce=panic_on_ce_count to panic on a
+ corrected error flood
+Message-ID: <20260827142829.GAapBJjfZwSEhZ-_71@fat_crate.local>
+References: <ao2eT0TWS9EaA28N@gmail.com>
+ <SJ1PR11MB60837D32B5D89336C87280A3FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260825161625.GAao2_2d3U7xQFgHrw@fat_crate.local>
+ <SJ1PR11MB60839657B965AC3FDA53C186FCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260825191555.GCao3p63v3fXzwa7E7@fat_crate.local>
+ <SJ1PR11MB608315809B99B7194D167D8EFCAF2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <20260825225202.GEao4ckknyv8nRc8Dh@fat_crate.local>
+ <ao7nGM9sCQyxJvsD@gmail.com>
+ <20260826160934.GBao8PvsM8M-U7XuFR@fat_crate.local>
+ <apAEy6c6xuXJXSEQ@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -89,100 +80,34 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87jypb90c0.fsf@pond.sub.org>
-User-Agent: Mutt/2.4.0 (2026-06-19)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+In-Reply-To: <apAEy6c6xuXJXSEQ@gmail.com>
 
-On Thu, Aug 27, 2026 at 03:09:35PM +0200, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
+On Thu, Aug 27, 2026 at 02:47:11AM -0700, Breno Leitao wrote:
+> This is a user-configured option; each user picks whatever number
+> works best for them.
 > 
-> > On Wed, Aug 26, 2026 at 03:37:58PM -0400, John Snow wrote:
-> >> Signed-off-by: John Snow <jsnow@redhat.com>
-> >> ---
-> >>  qapi/error.json | 3 +--
-> >>  1 file changed, 1 insertion(+), 2 deletions(-)
-> >> 
-> >> diff --git a/qapi/error.json b/qapi/error.json
-> >> index 54cb02fb880..a53b13e55c9 100644
-> >> --- a/qapi/error.json
-> >> +++ b/qapi/error.json
-> >> @@ -9,8 +9,7 @@
-> >>  
-> >>  ##
-> >>  # @QapiErrorClass:
-> >> -#
-> >> -# QEMU error classes
-> >> +#     QEMU error classes
-> >
-> > Where is this need for indent coming from ?  From the POV of someone
-> > writing comments, the need to indent the introductory text like this
-> > feels very counter-intuitive, an exception from any other inline
-> > docs syntax I've typically used. Is there any way we can avoid this ?
-> 
-> The cover letter explains the need:
+> From a quick look at the Meta fleet, this follows a bi-modal curve:
+> a bunch of hosts logging a dozen or so, and a few with thousands. So
+> doing some napkin math, I'd say "many" is around 100ish for Meta
+> fleet.
 
-Yes, I just didn't see the connection from that, to the use
-of indent.
+Sounds to me like this patch should remain in the Meta kernels too then.
 
-> 
->     This is being done primarily for the benefit of the forthcoming
->     "inliner", a feature for the rendered HTML QMP documentation that
->     seeks to "inline" QMP command argument documentation into the argument
->     list for each command.
-> 
->     There are two main motives here:
-> 
->     (1) We want the split between the "introduction" and "details"
->         sections to be mechanically obvious, so that auto-generated or
->         inlined documentation has a well-defined, obvious spot to go.
-> 
->     (2) We do not want to inline irrelevant, introductory text describing
->         structures to be copied into command documentation.
+Because I don't see it being that useful for upstream.
 
-So IIUC, you're saying that we are going to rely on indentation
-to distinguish introduction from details ?
-
-
-> Note that the inliner elided Netdev's Intro "Captures the configuration
-> of a network device."
+> Correct, that's exactly my approach here.
 > 
-> However, when Intro and Details bleed together, the inliner elides more
-> than it should.  I consider that a fairly serious issue.
-> 
-> I'm afraid forgetting to mark the end of Intro with "Details:" would be
-> a common mistake, easy to miss in review.  So I explored possible
-> alternatives:
-> 
->     Subject: Re: [PATCH v2 00/10] qapi: enforce section ordering
->     Date: Wed, 15 Apr 2026 11:43:45 +0200
->     Message-ID: <87zf341ru6.fsf@pond.sub.org>
->     https://lore.kernel.org/qemu-devel/87zf341ru6.fsf@pond.sub.org/
-> 
-> John is working towards "3. Make the end of intro syntactically obvious"
-> always, specifically "3c. Indent intro like descriptions and tagged
-> sections" with the ultimate goal to reject unindented Intro.  That way,
-> we cannot write an Intro with an unclear end.  John, correct me if I'm
-> accidentally misrepresenting your work.
-> 
-> Questions?  Better ideas?
+> After X CE errors, we acknowledge that the machine is no longer
+> stable enough to keep carrying the workload, and simply panic. It's
+> the last resort: it means lab technicians haven't fixed the problem,
+> and nobody has gracefully powered off the host either.
 
-As an author, how substantive is "Intro" expected to be? I guess on
-QAPI docs I've written I've not ever been aware of there even being
-a distinct concept of Intro vs Details to think about. It is all just
-some lines of prose to me.
+So panic instead of graceful shutdown.
 
-My only alternative idea to indentation would be to declare that the
-"Intro" is always the 1st paragraph of text and anything beyond that
-is the "Details". That might match up with the way that contributors
-naturally write text where the 1st paragraph conveys the key idea,
-such that they dno't need to think about Intro vs Details as a
-concept.
+This makes it even more a Meta-only specific approach.
 
-With regards,
-Daniel
 -- 
-|: https://berrange.com       ~~        https://hachyderm.io/@berrange :|
-|: https://libvirt.org          ~~          https://entangle-photo.org :|
-|: https://pixelfed.art/berrange   ~~    https://fstop138.berrange.com :|
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
