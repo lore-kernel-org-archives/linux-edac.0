@@ -1,145 +1,292 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B77B33A029;
-	Thu, 27 Aug 2026 09:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9E646DFF8
+	for <linux-edac@vger.kernel.org>; Thu, 27 Aug 2026 13:09:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787824536; cv=none; b=ReZLy5OYPpSKovcbHdo+6lBMBnjpIFnVvu7IS73pFqNeTu7tNx6IZD8321JoYv6jVulCqUl0rwic3A5RrkpITt0YhMxxtHgQL7sTbvJMTj3Akii2UUkhZP9Kp8bcFyDmAdK8E6IjV/iqU2VRLGVte312RGSvWptWQ95ltUXj7zQ=
+	t=1787836207; cv=none; b=oDY1RnPGI8UAAcX9w87CB8fLGOTopO2Z+mKc2HRjHuyhrVzrD3p5Z1nNISTC9telzedcjDLF0HOP7UFCmgaRV51/hVNGEvpJkKWsLpXSbiChKrmI/aEpeE2uK1ROwZSHgb4b2EUhAa0Y+Wzw2ZZyw0DbYAL2h4SUB9jliTihXWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787824536; c=relaxed/simple;
-	bh=wn6vNR+gNApMgA3EqRDt1zjZM4Fnlcaf5/SPd9MBERw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RT4/r8iX+Iqi3uQtmbH25TcMHKD+8gsitaR0tcXqbOjBQZ13UvBR3EtNKFg6WfrA5wAFlB8d9vYWJvDD8GrVna7s815sY0NRSgbl7L6F2x+5KNeWxhXonvLXy/7OQO/qyDY55Z0aCtrSblsylO8x5l9qIiHHHZSHS0GsbYK38TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=hf7JzrWl; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1787836207; c=relaxed/simple;
+	bh=C5YRp5LLSuAAzvZ7Nl0BAS3LWFGnoq5uUFZG41CYhjU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UxrmxrEdaeb68iWmc3Bel1i0bu5OhsLEluJ7md7HQlSuWKOzgrZo2Ghsr4+MpJXtlShLEJwuVDd2SiN8ctoPesyTDaiyL+2bckQEmnSRRdcZpXd+t2EMwZ7SilGsp+HFX0bA0MIPtdKjhTO0/LA2Oe1ONTMCyUMrDMMZfdkrxu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g4HD2po4; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="hf7JzrWl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=Hv8N+7TnTbbe4S2bY6DaK8vTQFSVSFqTOo/XZ1y38WM=; b=hf7JzrWlRhCogPg/MxeDgdZY/9
-	a5nrtLdMXGiAmmad/53Q5RRVJohxAKi1xxAz6mQAW6EaOb7267i3Dxnme1P4jzksuPOvfm1Jqi8jq
-	+nYhVBD75+cbgdzEhwyVhBDtAsSnCkTMCckToaaZQ2p97MiEgC9KhccC1xxuKRPxxRdKcJrcgxqpP
-	yJvnr3QyMMjtJw1HpFde3Qb6ZYYzEPv9bc1oPscnCJ9Gr/rf3cm7Dzk0V/ys5bxLkqEJy5xyYcMN2
-	+OfKzWzteyhQIiGJV96rKXlyLAGySCr40DHb6wTnzwzq25Gc1uYFQLj7ADhKpp4Xcjc66lArf37us
-	RFRJxX7A==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wzWpF-00FuVP-0d;
-	Thu, 27 Aug 2026 09:55:13 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Thu, 27 Aug 2026 02:52:14 -0700
-Subject: [PATCH] x86/mce: Rate-limit the CMCI storm transition notices
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g4HD2po4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787836194;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DgcwSWCrZbRExCG1nDIuragfxt37my/lthRM5rTtvYQ=;
+	b=g4HD2po4vLFuX2KbiHuNbN0Fu8VdEW6twV/rGb/owBwrnhC0T4FVb4Sy8o6WnC56LIzkT7
+	YE9OdRW9yLpo5psOooAUCy2/lxlW+fAjjKLxXKODEicXRO5ZiyP4Kx3E8WGxz+FGXl+Opr
+	3PNTl3SFIZ9O2jJIj2VmylG5evr2emw=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-390-DqGDgh-rM8iDR5_KutU8pw-1; Thu,
+ 27 Aug 2026 09:09:50 -0400
+X-MC-Unique: DqGDgh-rM8iDR5_KutU8pw-1
+X-Mimecast-MFC-AGG-ID: DqGDgh-rM8iDR5_KutU8pw_1787836182
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 616F81805A10;
+	Thu, 27 Aug 2026 13:09:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.2])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0AD7E1955F70;
+	Thu, 27 Aug 2026 13:09:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 830C221E6920; Thu, 27 Aug 2026 15:09:35 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: John Snow <jsnow@redhat.com>,  qemu-devel@nongnu.org,  Alex Williamson
+ <alex@shazbot.org>,  linux-cxl@vger.kernel.org,  Michael Tokarev
+ <mjt@tls.msk.ru>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Peter Xu <peterx@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,
+  zhenwei pi <zhenwei.pi@linux.dev>,  qemu-trivial@nongnu.org,  Fabiano
+ Rosas <farosas@suse.de>,  Kevin Wolf <kwolf@redhat.com>,  Laurent Vivier
+ <laurent@vivier.eu>,  Jiri Pirko <jiri@resnulli.us>,
+  qemu-block@nongnu.org,  Stefan Hajnoczi <stefanha@redhat.com>,  Stefan
+ Berger <stefanb@linux.vnet.ibm.com>,  linux-edac@vger.kernel.org,
+  "Gonglei (Arei)" <arei.gonglei@huawei.com>,  Igor Mammedov
+ <imammedo@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Jonathan
+ Cameron <jic23@kernel.org>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Zhao
+ Liu <zhao1.liu@intel.com>,  Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
+  Hanna Reitz <hreitz@redhat.com>,  Jason Wang <jasowangio@gmail.com>,
+  Richard Henderson <richard.henderson@linaro.org>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Ani Sinha <anisinha@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,  Lukas Straub
+ <lukasstraub2@web.de>,
+  =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>
+Subject: Re: [PATCH v3 01/43] qapi: convert trivial intro sections for
+ error.json
+In-Reply-To: <ao_-_38raHK0rWkX@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+	"Thu, 27 Aug 2026 10:10:23 +0100")
+References: <20260826193840.2152000-1-jsnow@redhat.com>
+	<20260826193840.2152000-2-jsnow@redhat.com>
+	<ao_-_38raHK0rWkX@redhat.com>
+Date: Thu, 27 Aug 2026 15:09:35 +0200
+Message-ID: <87jypb90c0.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260827-mci_ratelimit-v1-1-ac43df769b36@debian.org>
-X-B4-Tracking: v=1; b=H4sIAM0IkGoC/x3M2wmAMAwF0FXC/bZQQ1HpKiIibdSAL1oRQdxd8
- AxwHmRJKhmeHiS5NOu+wVNZEMI8bJMYjfAEtlzZhmuzBu3TcMqiq57GVs5xKRybEFEQjiSj3v/
- Xdu/7AXDRRVNfAAAA
-X-Change-ID: 20260827-mci_ratelimit-064421e2d8cd
-To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-team@meta.com, Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.16-dev-f8e9d
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2507; i=leitao@debian.org;
- h=from:subject:message-id; bh=wn6vNR+gNApMgA3EqRDt1zjZM4Fnlcaf5/SPd9MBERw=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqkAl9gxs6NoVVUlVKa/RaZcBKH/NSwvSYC3w1X
- zDtOIphCWyJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCapAJfQAKCRA1o5Of/Hh3
- bfnND/9iFrvPPzfimRF8BK+uJ1NHqmyfKVa90GR2cXJY8kxZMs7tLt61MuPQZL5ICnVCLHoGOXc
- 2ftmQwxs45jBxf0VqrG8RLrBC6SCshM7LESIE6+x/Z9t5U8nCyxB1s1P60G3Vtoa0k2/9uNaaDo
- Y/kU94HtZU8f9vhj6PAupWrIQ9GiCewTpufPvhUkk8x/mIpNP6MXWrg5yijGieaCznt+26peAl7
- AiM2Cqe+DaTsShkprZ54dkosZj1qfHpEUguT7NEFBSx5GxcjknxHW6I+Alj7/9kpbm2we6s1vVv
- Gz248ySf7EZdXgQ8kzWkxq2QvRQMBzhop8T9W7gqC7iGs6pK49vqwWgf02u4jpf4JdOsoQKV/HR
- ZZXAe+YA7DzkTSCVcrvWqVf6O1ZzUOV/30uYijjS2vhsCm9YcQ4GNFFKGbl7g7XsJtbbtE3S8z5
- qTdHVmxteUlPFLJetjlamOIz6Gro6/JEmUPoslQ84xbXBqsu463LyZou909c5c+utU4faOyhBYo
- 3pPP82kMXY7emIrf53V/2le+Jo388VM10zQ06MWVi0/4AcrypPGMuwZDWbJTpw2c8M7KP/Z8iXu
- 4wxmSmxUyOKe+tUunZyPlb3TBf0vMg/0XFRdkMlxVi5C88AxY1RV6oIgqLIwcuGT6RdbgKmDIvB
- p0ARtgvRrcSXZQg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-mce_track_storm() prints a line every time a bank enters storm mode and
-another every time it leaves. Neither is bounded, so the log volume
-follows whatever rate the bank flaps at.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-One host in our fleet logged 9970726 "CMCI storm detected" and 9970734
-"CMCI storm subsided" lines for a single bank over four days, which is
-a bit excessive for all monitoring purposes.
+> On Wed, Aug 26, 2026 at 03:37:58PM -0400, John Snow wrote:
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  qapi/error.json | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>=20
+>> diff --git a/qapi/error.json b/qapi/error.json
+>> index 54cb02fb880..a53b13e55c9 100644
+>> --- a/qapi/error.json
+>> +++ b/qapi/error.json
+>> @@ -9,8 +9,7 @@
+>>=20=20
+>>  ##
+>>  # @QapiErrorClass:
+>> -#
+>> -# QEMU error classes
+>> +#     QEMU error classes
+>
+> Where is this need for indent coming from ?  From the POV of someone
+> writing comments, the need to indent the introductory text like this
+> feels very counter-intuitive, an exception from any other inline
+> docs syntax I've typically used. Is there any way we can avoid this ?
 
-Put both transitions behind one ratelimit.
+The cover letter explains the need:
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
-Acked-by: Tony Luck <tony.luck@intel.com>
----
- arch/x86/kernel/cpu/mce/threshold.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+    This is being done primarily for the benefit of the forthcoming
+    "inliner", a feature for the rendered HTML QMP documentation that
+    seeks to "inline" QMP command argument documentation into the argument
+    list for each command.
 
-diff --git a/arch/x86/kernel/cpu/mce/threshold.c b/arch/x86/kernel/cpu/mce/threshold.c
-index 6c370d5af5bd2..8591715ce2430 100644
---- a/arch/x86/kernel/cpu/mce/threshold.c
-+++ b/arch/x86/kernel/cpu/mce/threshold.c
-@@ -4,6 +4,7 @@
-  */
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
-+#include <linux/ratelimit.h>
- 
- #include <asm/irq_vectors.h>
- #include <asm/traps.h>
-@@ -111,6 +112,13 @@ void cmci_storm_end(unsigned int bank)
- 		mce_timer_kick(false);
+    There are two main motives here:
+
+    (1) We want the split between the "introduction" and "details"
+        sections to be mechanically obvious, so that auto-generated or
+        inlined documentation has a well-defined, obvious spot to go.
+
+    (2) We do not want to inline irrelevant, introductory text describing
+        structures to be copied into command documentation.
+
+But the need actually exists already, the inliner merely grows it.
+
+Let me elaborate using an example: query-memory-size-summary
+
+Its doc comment:
+
+    ##
+    # @query-memory-size-summary:
+    #
+    # Return the amount of initially allocated and present hotpluggable
+    # (if enabled) memory in bytes.
+    #
+    # TODO: This line is a hack to separate the example from the body
+    #
+    # .. qmp-example::
+    #
+    #     -> { "execute": "query-memory-size-summary" }
+    #     <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 }=
  }
- 
-+/*
-+ * Shared by both transitions so that a bank flapping between them cannot
-+ * outrun the console.
-+ */
-+static DEFINE_RATELIMIT_STATE(storm_rs, DEFAULT_RATELIMIT_INTERVAL,
-+			      DEFAULT_RATELIMIT_BURST);
-+
- void mce_track_storm(struct mce *mce)
- {
- 	struct mca_storm_desc *storm = this_cpu_ptr(&storm_desc);
-@@ -150,13 +158,17 @@ void mce_track_storm(struct mce *mce)
- 	if (storm->banks[mce->bank].in_storm_mode) {
- 		if (history & GENMASK_ULL(STORM_END_POLL_THRESHOLD, 0))
- 			return;
--		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n", smp_processor_id(), mce->bank);
-+		if (__ratelimit(&storm_rs))
-+			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm subsided\n",
-+					smp_processor_id(), mce->bank);
- 		mce_handle_storm(mce->bank, false);
- 		cmci_storm_end(mce->bank);
- 	} else {
- 		if (hweight64(history) < STORM_BEGIN_THRESHOLD)
- 			return;
--		printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n", smp_processor_id(), mce->bank);
-+		if (__ratelimit(&storm_rs))
-+			printk_deferred(KERN_NOTICE "CPU%d BANK%d CMCI storm detected\n",
-+					smp_processor_id(), mce->bank);
- 		mce_handle_storm(mce->bank, true);
- 		cmci_storm_begin(mce->bank);
- 	}
+    #
+    # Since: 2.11
+    ##
 
----
-base-commit: f82a5da2f04960df9fb57489992d03dd5e64ec6f
-change-id: 20260827-mci_ratelimit-064421e2d8cd
+Looks like this in the generated QEMU QMP Reference Manual:
 
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
+    Command query-memory-size-summary (Since: 2.11)
+
+       Return the amount of initially allocated and present hotpluggable
+       (if enabled) memory in bytes.
+
+       Return:
+          "MemoryInfo"
+
+       Example::
+
+          -> { "execute": "query-memory-size-summary" }
+          <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 }=
+ }
+
+The "Return:" part is inserted by the generator.  Where?  The order we
+want is roughly
+
+    Intro (a brief description)
+    Members / Arguments
+    Returns
+    Errors
+    Features
+    Details (additional information, examples, ...)
+    Since
+=20=20=20=20
+Members / Arguments, Returns, Errors, and Features are all optional.
+They are in fact all absent in query-memory-size-summary.  This makes
+Intro and Details bleed together.
+
+The TODO line keeps them separate, because it's a section (the doc
+comment syntax is a sequence of sections, in this case Intro, TODO,
+Details).  Not only is abusing TODO an ugly hack, it's also easy to
+forget.  If we did forget it here, Return would be inserted in at the
+very end:
+
+    Command query-memory-size-summary (Since: 2.11)
+
+       Return the amount of initially allocated and present hotpluggable
+       (if enabled) memory in bytes.
+
+       Example::
+
+          -> { "execute": "query-memory-size-summary" }
+          <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 }=
+ }
+
+       Return:
+          "MemoryInfo"
+
+Fortunately, the problem is uncommon: we have just five such TODOs right
+now.
+
+Unfortunately, the (still not merged) inliner makes it a lot more
+common, and also more serious.
+
+A preparatory series from John added 59 such markers, i.e. about one in
+twenty doc comments needed one.  "Such markers" because he didn't abuse
+TODO, but created proper syntax for it, namely a Details: line.
+
+Why more serious?  Have a look at netdev_add.  Looks like this in the
+generated QEMU QMP Reference Manual:
+
+    Command netdev_add (Since: 0.14)
+
+       Add a network backend.
+
+       Additional arguments depend on the type.
+
+       Arguments:
+          * The members of "Netdev".
+
+       [...]
+
+To actually see the arguments, you need to follow the link to type
+Netdev.  This is bad UX.  We want the arguments right there, so the
+inliner inlines Netdev documentation:
+
+    Object Netdev (Since: 1.2)
+
+       Captures the configuration of a network device.
+
+       Members:
+          * **id** ("string") -- identifier for monitor commands.
+
+          * **type** ("NetClientDriver") -- Specify the driver used for
+            interpreting remaining arguments.
+
+          * When "type" is "nic": The members of "NetLegacyNicOptions".
+
+       [...]
+
+into netdev_add documentation like this:
+
+    Command netdev_add (Since: 0.14)
+
+       Add a network backend.
+
+       Additional arguments depend on the type.
+
+       Arguments:
+          * **id** ("string") -- identifier for monitor commands.
+
+          * **type** ("NetClientDriver") -- Specify the driver used for
+            interpreting remaining arguments.
+
+          * When "type" is "nic": The members of "NetLegacyNicOptions".
+
+       [...]
+
+Note that the inliner elided Netdev's Intro "Captures the configuration
+of a network device."
+
+However, when Intro and Details bleed together, the inliner elides more
+than it should.  I consider that a fairly serious issue.
+
+I'm afraid forgetting to mark the end of Intro with "Details:" would be
+a common mistake, easy to miss in review.  So I explored possible
+alternatives:
+
+    Subject: Re: [PATCH v2 00/10] qapi: enforce section ordering
+    Date: Wed, 15 Apr 2026 11:43:45 +0200
+    Message-ID: <87zf341ru6.fsf@pond.sub.org>
+    https://lore.kernel.org/qemu-devel/87zf341ru6.fsf@pond.sub.org/
+
+John is working towards "3. Make the end of intro syntactically obvious"
+always, specifically "3c. Indent intro like descriptions and tagged
+sections" with the ultimate goal to reject unindented Intro.  That way,
+we cannot write an Intro with an unclear end.  John, correct me if I'm
+accidentally misrepresenting your work.
+
+Questions?  Better ideas?
+
+[...]
 
