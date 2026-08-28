@@ -1,597 +1,162 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516DD47252C
-	for <linux-edac@vger.kernel.org>; Thu, 27 Aug 2026 15:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7D1288C96;
+	Fri, 28 Aug 2026 15:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787844872; cv=none; b=PzTUcIUpegazVbQKYl/QncdL6V7P7T3NgeBO1BD5QJQbfiiftsiOBWYGdRP8v7R8sJtwG3+cMHd6kl2RD8y/eKZ2WD6Dq6B4mAUFdQQAq7UrpfRLogk4QQCpVsENC2jUFnte7DfyD9bL9/BkyUESZJnzSS4niEAOnVICA5BX4dA=
+	t=1787931014; cv=none; b=TGrGAiijWoluZJuS8V/CaBvILiIuwlY99ozyIG7ghrwAcYXYyzcrR7+UwjK9QICfzBwHpUJzdpIzqDqOglz81UxTJikADJVRQk+dAEvxeWgSzRooULGHUaRpyLSxx5ogRG2g83cPOheeCsFBFcYgnW6yruA8AAv/ZdKq21XWLJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787844872; c=relaxed/simple;
-	bh=jV7YfjtR5vuz3xwUkGuWY9QmXFSXzTf61ddkIHae+co=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4CFBkuXBIvPBka4u9nwlh6wDDVl9Okkx+qBxSg1J5erb1X11O25wRSItD+RzyhltdhSsfyR0pognMZ0nt0JcGR53st8qtAd+uddPrHNyp15eUD4zLqolZXHgBkZeENNVguDwxYgPIzK3wp2jPe/EVPM212AV6LR5N8njLJljFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tFtsHlHW; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787931014; c=relaxed/simple;
+	bh=EvYVX1jlXunQVQY2wapQxH15oGSKPDjk3N3QBKE/0U0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KHhtccnFIlMLVO8JT+jHyOw55qh1RWHOpd1IuCau6p16n7ChMv4FGh9fbNQ4WYB3pBd3srL65RQhPJC6SiQYpgYdMTGNr4uNqmyoH6XwKZNAkPJxnKKisEUcZ3dVmYN9SJAHjJ9f7bMvchjBruNUVyi263f5MxyiHQ4u+Zq3xtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ENILynUc; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tFtsHlHW"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84f38f3b36eso81787b3a.1
-        for <linux-edac@vger.kernel.org>; Thu, 27 Aug 2026 08:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787844869; x=1788449669; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KNq6VeIFxDSj0mXnHsP4h/BFQtemuwKfV85FP0OU9iA=;
-        b=tFtsHlHWtv5o2DchVb9iknfbIYOhPMwWIJ1e2D1TwRNmPJOjBGoAWYPgGYsAkuiJoV
-         VXeaXY5l4qayXTpF00USVnt06DR47dK0F1Q3JrkxJU1ke37PPjgjj3wc2SMTsWmRzgRQ
-         0uMGq3LY0s6E4n1HW8jQTVZ3uMh9oQ+wQKUi4HeMhHWsbIeFs8Fdltzo0o+p5Y5zwjW2
-         ENrbYgTsTx/mLvORxHnzD+RAxXV7AKgDNfygaac19Oa4dLxsAhx7nrW8IDIaXmPCyWQ1
-         y3l+EwKGOedGIgCkoR73ezB82j7BHiIwS3IWw9q3Xyx8zOu+zKUCFzMiGxxYStUzzhHU
-         s6+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787844869; x=1788449669;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KNq6VeIFxDSj0mXnHsP4h/BFQtemuwKfV85FP0OU9iA=;
-        b=J8+H5jrB4Goy0Xla59tOuj3hXuAYXVCtibRN533Ryp6s4fLsfC5HER9AVdO3UfeuDW
-         PJiTOf/MI/EvzuJRAXjDyHldfOxb7Irj2m+pWi6Ofo4BQjAqteDLVtFnihvlfqojhdCE
-         v3qPlLewVgYReXWvloc+hEdiqCyXtbe+dAncwg3gkIh5vCvNxVC38xhT6Vxl+SNIUHQ+
-         ZLAXAIojwVqa2ufwx7cFMka7zoYXbTJ0OlFNvLxfh1IXVKQhZpT2/ehBzjxcvVTNZh7E
-         K8DQeV/rD7DDJCRom/PgYKqBKU1L9tNJ9RrqEVKCHWc4oivoHGkHz/livFO/63X6Qorj
-         GnbA==
-X-Forwarded-Encrypted: i=1; AHgh+RqjK08j+u7QFRD6/tc1nnDp4pi6TxaHSBdlqo65KakFpnzGFhHbPgF/sGdEDEcO3SwHH2oxZT8PJhlY@vger.kernel.org
-X-Gm-Message-State: AFuF++nWOJ58acOua5Bmpo5/Sax/ONTFR8aWyYork8KfBVd0mofyqASY
-	v9/90XRNR0HcXj/h8MDW/BpQ4lkt98tC9j4lgzIOFVG9/0NisbfbCZof
-X-Gm-Gg: AR+sD11BhE/yCo0jxR8zSDoIs7t74V3LtYJd5f2jlqVMwR+ZU9rBmC9u/rtBsGwz7cO
-	31xe9ObINRiMzwATTVBpCB094gNzPcwE+Tw4PIve2ULiDwQuapj5Q0BUDdoL5kZyY22NRB/aWll
-	4dUOHbaITz9WGUceBk7jyzja0wDOTdiGlqaf9DJjjh4v38ABsVWm7cylN1kA5LrYWoFRpV1iQPS
-	q7lJBAeFW0HzTj2d34C8U2sJo5zYAavC/hBv3MDdkUWFkz1gjZLJnY5+YiZCZCgt4oEinAoI1jl
-	DJX5dDYz1fMQibMKkOI7Cxi9eISk65JFhEHl24Yoh8t6t2SvKB4yG5KbsvJ/fYzTHLcs3xGUO4R
-	SDb1Dy/SaARK0NdE/BQLbkD8pPPrrtGTizsv7ZDv3XmtxcHYpvqXLhuElLpNLSNprDtGrCJWfSC
-	q+YUiUgHkF/RDtyQJjrQFL0R4lycI5bXejvgeBDyaTbmg0tOXRDI4oEwafKAYmDXZm6/g9F93tP
-	w==
-X-Received: by 2002:a05:6a00:8d86:b0:848:2eac:bfb2 with SMTP id d2e1a72fcca58-853748a0551mr33529913b3a.13.1787844868375;
-        Thu, 27 Aug 2026 08:34:28 -0700 (PDT)
-Received: from localhost ([118.34.230.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8535cdc03b0sm2180286b3a.30.2026.08.27.08.34.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 08:34:27 -0700 (PDT)
-Date: Thu, 27 Aug 2026 21:04:25 +0530
-From: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>,
-	Ben Cheatham <benjamin.cheatham@amd.com>, tony.luck@intel.com,
-	bp@alien8.de, linux-cxl@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	x86@kernel.org
-Subject: Re: [PATCH v3] cxl/mce: Avoid alias page retirement for corrected
- errors
-Message-ID: <apBZAZWZLvJXWcUL@acer-nitro-anv15-41>
-References: <20260824134957.11085-1-shaikhkamal2012@gmail.com>
- <3dea64d2-7a81-4ab4-8d25-c673c58b3169@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ENILynUc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787931010; x=1819467010;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=EvYVX1jlXunQVQY2wapQxH15oGSKPDjk3N3QBKE/0U0=;
+  b=ENILynUcNkgodrXUcYb/MWrZ1h1HgW7c65YFQqRgp8Pw2N9VSUfhBeEg
+   vuYBsvXlI57nywPIxCcOj8Q4ZigdXjlXfO53Fi34EucFObILErFneLsKE
+   ZttYqqEjfph1ow6M4E8GMT9jjle3IrqqQrslZfUqaVcg4UPKoqUYK5606
+   chx2yVbDBoWLxRU/pDM0nCfY+8Xq3bIZaY2jU8pw7+Re1zInzkkGKLhqG
+   SuZWayWnrulvtwSwViXdyP5u2sfKVOU1xx1fk3wtwp5oQ+DVGRimq3dYP
+   TzYNEfnB4iPVBVbj2G6bL/C8DN47MvazpCfrv+69dyykf58WDl6gWEm0s
+   Q==;
+X-CSE-ConnectionGUID: 91B2Gl48RbiLc2b4Nd7SGg==
+X-CSE-MsgGUID: dp/Aj5OKTuO7Vbt1p8J7rQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="99104593"
+X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
+   d="scan'208";a="99104593"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 08:30:10 -0700
+X-CSE-ConnectionGUID: Y4uBGVy4THG9uoS3wSZ3QA==
+X-CSE-MsgGUID: OczJIe/qTqOH4FTiKMLqpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
+   d="scan'208";a="291682282"
+Received: from iherna2-mobl4.amr.corp.intel.com (HELO agluck-desk3.intel.com) ([10.124.223.138])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 08:30:09 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Tony Luck <tony.luck@intel.com>
+Cc: Borislav Petkov <bp@alien8.de>,
+	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: [PATCH v2 4/7] EDAC/intel-bff: Add Diamond Rapids support
+Date: Fri, 28 Aug 2026 08:29:59 -0700
+Message-ID: <20260828153002.10290-5-tony.luck@intel.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260828153002.10290-1-tony.luck@intel.com>
+References: <20260828153002.10290-1-tony.luck@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3dea64d2-7a81-4ab4-8d25-c673c58b3169@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 25, 2026 at 08:39:05AM -0700, Dave Jiang wrote:
-> 
-> 
-> On 8/24/26 6:49 AM, Shaikh Kamaluddin wrote:
-> > cxl_handle_mce() offlines the aliased page of an Extended Linear Cache
-> > (ELC) region for any MCE with a usable address in the region. This
-> > includes corrected errors, needlessly reducing usable memory.
-> > 
-> > Skip ELC alias retirement when mce_is_correctable() identifies the
-> > reported error as corrected. Uncorrected errors with a usable address
-> > in the ELC region continue to retire the aliased page as before.
-> > 
-> > mce_usable_address() already implements the per-vendor checks that
-> > determine whether the reported address is usable, so no separate
-> > memory-error classification is needed.
-> > 
-> > On AMD, a corrected legacy bank 4 DRAM ECC error (XEC 8) reports a
-> > usable address and retired the aliased page before this change.
-> > Tested under QEMU with Intel Skylake-Server and AMD EPYC-Milan models.
-> > 
-> > Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
-> > Signed-off-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
-> 
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+There are potentially bitfix filters associated with each machine check
+bank. Only some banks may implement them.
 
- Thank you Dave for reviewing.
+Machine check banks have varying scope. E.g. there is a separate L2
+cache for each module, each instance has its own bitfix filter.
 
- Regards,
- Shaikh Kamaluddin
+Add information that will be used to map a <cpu,bank> pair to a unique
+instance number for a bitfix filter.
 
-> > ---
-> > Changelog:
-> > 
-> > v2 -> v3:
-> >  - Drop the mce_is_memory_error() gate added in v2. On AMD it rejects
-> >    every non-UMC bank type, so poison-consumption records reported from
-> >    Load/Store or Data Fabric banks never reached mce_usable_address(),
-> >    which would have accepted them via MCA_STATUS[Poison]. (Sashiko)
-> >  - mce_usable_address() already implements the complete per-vendor
-> >    address-usability logic, so no separate memory-error classification
-> >    is needed.
-> >  - Add AMD test coverage (QEMU/TCG, EPYC-Milan) alongside the existing
-> >    Intel results.
-> > 
-> > Link to v2: https://lore.kernel.org/linux-cxl/20260812151759.14390-1-shaikhkamal2012@gmail.com/
-> > 
-> > v1 -> v2:
-> >   - Reworked commit message per review feedback
-> >   - Dropped redundant comment from the code
-> > 
-> > Link to v1: https://lore.kernel.org/linux-cxl/20260810183013.47085-1-shaikhkamal2012@gmail.com/ 
-> > 
-> > Reproduced under QEMU/vng. QEMU's cxl-type3 does not emulate the HMAT
-> > extended-linear address_mode bit, so ELC was forced locally for testing
-> > via a one-line debug hack in cxl_region_probe() (not part of this patch):
-> > 
-> > 	if (!p->cache_size && p->res)
-> > 		p->cache_size = resource_size(p->res) / 2;
-> > 
-> > Steps:
-> > 1. Boot with an Intel CPU model under TCG (KVM host-passthrough will
-> >     otherwise leak the host's real vendor ID, and AMD/SMCA takes a
-> >     different mce_usable_address() path, covered in the section below):
-> > 
-> > vng -v -r ./arch/x86/boot/bzImage --disable-kvm --qemu-opts='-cpu Skylake-Server-v4,+mce,+mca -m 4G -machine q35,cxl=on -object memory-backend-ram,id=cxl-mem0,size=512M -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.0 -device cxl-rp,port=0,bus=cxl.0,id=root_port0,chassis=0,slot=0 -device cxl-type3,bus=root_port0,volatile-memdev=cxl-mem0,id=cxl-mem-device0 -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=512M'
-> > 
-> > 2. modprobe mce-inject
-> > $ cxl list -M
-> > $ cxl list -D
-> > $ cxl create-region -m mem0 -d decoder0.0 -w 1 -g 256 -t ram
-> > $ dmesg | grep "DEBUG: forced cache_size"
-> > $ modprobe device_dax
-> > $ modprobe kmem
-> > $ ls /sys/bus/dax/devices/
-> > $ daxctl reconfigure-device dax0.0 --mode=system-ram
-> > $ lsmem
-> > RANGE                                  SIZE  STATE REMOVABLE BLOCK
-> > 0x0000000000000000-0x000000007fffffff    2G online       yes  0-15
-> > 0x0000000100000000-0x000000017fffffff    2G online       yes 32-47
-> > 0x0000000190000000-0x00000001afffffff  512M online       yes 50-53
-> > 
-> > Memory block size:       128M
-> > Total online memory:     4.5G
-> > Total offline memory:      0B
-> > 
-> > 3. Load the injector if not loaded earlier and derive the two MCi_STATUS values.
-> > 
-> >    # modprobe mce-inject
-> > 
-> >     MCi_STATUS bit layout used here (arch/x86/include/asm/mce.h):
-> >       bit 63  VAL     - record valid
-> >       bit 61  UC      - uncorrected (0 = corrected error under test)
-> >       bit 60  EN      - error reporting enabled
-> >       bit 59  MISCV   - MCi_MISC valid
-> >       bit 58  ADDRV   - MCi_ADDR valid
-> >       bits[15:0] MCACOD - retained from the v2 test setup so the Intel
-> >                           and AMD runs differ only in CPU model; not
-> >                           consulted by this path.
-> > 
-> >     python3 -c "
-> >     VAL, UC, EN, MISCV, ADDRV = 1<<63, 1<<61, 1<<60, 1<<59, 1<<58
-> >     MCACOD_MEM = 1<<7                
-> >     ce = VAL | EN | MISCV | ADDRV | MCACOD_MEM
-> >     uc = ce | UC
-> >     print(f'CE status = {hex(ce)}')
-> >     print(f'UC status = {hex(uc)}')"
-> >     # CE status = 0x9c00000000000080
-> >     # UC status = 0xbc00000000000080
-> > 
-> >     MCi_MISC: address-mode field, bits[8:6], must be 2 (physical):
-> > 
-> >     python3 -c "print(hex(2 << 6))"
-> >     # misc = 0x80
-> > 
-> > 4.  # cd /sys/kernel/debug/mce-inject
-> > # echo sw > flags
-> > # echo 0x9C00000000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190010000 > addr
-> > # echo 9 > bank
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > cxl_mce_debug: spa=0x190010000 contains=1
-> > cxl_mce_debug: spa_alias=0x1a0010000 pfn=0x1a0010 pfn_valid=1
-> > cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
-> > Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
-> > mce: [Hardware Error]: TSC a605ccda40 ADDR 190010000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786375908 SOCKET 0 APIC 0 microcode 1
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     4 kB
-> > ---------------------------------------
-> > 
-> > CE without this patch:
-> >   cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
-> >   Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
-> >   HardwareCorrupted: 4 kB
-> > ------------------------------------- 
-> > 
-> > CE with this patch:
-> >   (no "Offlining aliased SPA" message logged)
-> >   HardwareCorrupted: 0 kB
-> > 
-> > # cd /sys/kernel/debug/mce-inject
-> > # echo sw > flags
-> > # echo 0x9C00000000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190010000 > addr
-> > # echo 9 > bank
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
-> > mce: [Hardware Error]: TSC 2eeae32fe0 ADDR 190010000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786377156 SOCKET 0 APIC 0 microcode 1
-> > clocksource: Watchdog remote CPU 11 read timed out
-> > 
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     0 kB
-> > --------------------------------------
-> > 
-> > For UC, same steps only status bit information will change :
-> > 
-> > # cd /sys/kernel/debug/mce-inject
-> > # echo sw > flags
-> > # echo 0xbc00000000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190010000 > addr
-> > # echo 9 > bank
-> > # dmesg | grep cxl_mce_debug
-> > #  grep HardwareCorrupted /proc/meminfo
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0xbc00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > cxl_mce_debug: spa=0x190010000 contains=1
-> > cxl_mce_debug: spa_alias=0x1a0010000 pfn=0x1a0010 pfn_valid=1
-> > cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
-> > Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: bc00000000000080
-> > mce: [Hardware Error]: TSC e9dd2869e0 ADDR 190010000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 0:50654 TIME 1786377750 SOCKET 0 APIC 0 microcode 1
-> > 
-> > Patched, UC: alias still offlined, confirming uncorrected handling is unchanged by this patch.
-> >     cxl_region region0: Offlining aliased SPA address0: 0x1a0010000
-> >     Memory failure: 0x1a0010: recovery action for free buddy page: Recovered
-> >     HardwareCorrupted: 4 kB
-> > -----------------------------------------------------------------------
-> > 
-> > AMD Platform Testing:
-> > ---------------------
-> > 
-> > Note the vendor difference: on Intel, MISCV with MCi_MISC[8:6]=2 makes
-> > any ADDRV record usable, so a plain CE is address-usable. On AMD an
-> > address is usable only via poison, legacy bank-4 DRAM ECC, or PADDRV --
-> > hence the differing usable= values for the same status word below.
-> > 
-> > 
-> > vendor_id	: AuthenticAMD
-> > model name	: AMD EPYC-Milan Processor
-> > 
-> > -------------------------------------
-> > Mainline Kernel Without this patch:
-> > -------------------------------------
-> > 
-> > vng -v -r ./arch/x86/boot/bzImage --disable-kvm --qemu-opts='-cpu EPYC-Milan -m 4G -machine q35,cxl=on -object memory-backend-ram,id=cxl-mem0,size=512M -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.0 -device cxl-rp,port=0,bus=cxl.0,id=root_port0,chassis=0,slot=0 -device cxl-type3,bus=root_port0,volatile-memdev=cxl-mem0,id=cxl-mem-device0 -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=512M'
-> > 
-> > # cxl list -M
-> > # cxl list -D
-> > # cxl create-region -m mem0 -d decoder0.0 -w 1 -g 256 -t ram
-> > # dmesg | grep "DEBUG: forced cache_size"
-> > # modprobe device_dax
-> > # modprobe kmem
-> > # daxctl reconfigure-device dax0.0 --mode=system-ram
-> > 
-> > # lsmem
-> > RANGE                                  SIZE  STATE REMOVABLE BLOCK
-> > 0x0000000000000000-0x000000007fffffff    2G online       yes  0-15
-> > 0x0000000100000000-0x000000017fffffff    2G online       yes 32-47
-> > 0x0000000190000000-0x00000001afffffff  512M online       yes 50-53
-> > 
-> > Memory block size:       128M
-> > Total online memory:     4.5G
-> > Total offline memory:      0B
-> > Load Injector
-> > # modprobe mce-inject
-> > --------------------------------------------------------------------------------
-> > 
-> > case1:
-> > 
-> > label              status           addr         bank   note
-> > 
-> > [LEGACY_B4_CE]  0x9c00000000080000  0x190070000   4     "case 3: bank4 XEC8 corrected+usable "[Before Patch]
-> > ---------------------------------------------------------------------------------------------------------------------
-> > 
-> > # cd /sys/kernel/debug/mce-inject
-> > # echo sw > flags
-> > # echo 0x9c00000000080000 > status
-> > # echo 0x80 > misc
-> > # echo 0x190070000 > addr
-> > # echo 4 > bank
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00000000080000 addr=0x190070000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > cxl_mce_debug: spa=0x190070000 contains=1
-> > cxl_mce_debug: spa_alias=0x1a0070000 pfn=0x1a0070 pfn_valid=1
-> > cxl_region region0: Offlining aliased SPA address0: 0x1a0070000
-> > Memory failure: 0x1a0070: recovery action for free buddy page: Recovered
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 4: 9c00000000080000
-> > mce: [Hardware Error]: TSC cbdf882d20 ADDR 190070000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787479138 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     4 kB
-> > --------------------------------------------------------------------------------------------
-> > 
-> > case2:
-> > label        status              addr         bank   note
-> > 
-> > [POISON]  0x9c00080000000080    0x190040000    9     "case 2: poison only (UC=0) - divergence to note"[Before Patch]
-> > -----------------------------------------------------------------------------------------------------------------------
-> > 
-> > # echo sw > flags
-> > # echo 0x9c00080000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190040000 > addr
-> > # echo 9 > bank
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00080000000080 addr=0x190040000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > cxl_mce_debug: spa=0x190040000 contains=1
-> > cxl_mce_debug: spa_alias=0x1a0040000 pfn=0x1a0040 pfn_valid=1
-> > cxl_region region0: Offlining aliased SPA address0: 0x1a0040000
-> > Memory failure: 0x1a0040: recovery action for free buddy page: Recovered
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00080000000080
-> > mce: [Hardware Error]: TSC 17153949200 ADDR 190040000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787479277 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     8 kB (cumulative added previous 4kb + 4kb this test)
-> > -----------------------------------------------
-> > 
-> > AMD Platform Testing with applied patch:
-> > ------------------------------------------
-> > 
-> > # cxl list -D
-> > # cxl create-region -m mem0 -d decoder0.0 -w 1 -g 256 -t ram
-> > # dmesg | grep "DEBUG: forced cache_size"
-> > # modprobe device_dax
-> > # modprobe kmem
-> > # daxctl reconfigure-device dax0.0 --mode=system-ram
-> > # lsmem
-> > # modprobe mce-inject
-> > ----------------------------------------------------
-> > 
-> > case1:
-> > label              status           addr         bank   note
-> > 
-> > [ CE]          0x9c00000000000080    0x190010000   9     "case 1: corrected, no usable addr"
-> > ----------------------------------------------------------------------------------------
-> > 
-> > # cd /sys/kernel/debug/mce-inject
-> > # echo sw > flags
-> > # echo 0x9c00000000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190010000 > addr
-> > # echo 9 > bank
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00000000000080 addr=0x190010000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00000000000080
-> > mce: [Hardware Error]: TSC 8e59f2f3bc0 ADDR 190010000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787454918 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     0 kB
-> > -------------------------------------------------------------------------
-> > 
-> > case2:
-> > label              status           addr         bank   note
-> > [ UC ]        0xbc00000000000080    0x190020000   9      "case 1: uncorrected, no poison -> unusable"
-> > -------------------------------------------------------------------------------------------------
-> > 
-> > cd /sys/kernel/debug/mce-inject
-> > echo sw > flags
-> > echo 0xbc00000000000080 > status
-> > echo 0x80 > misc
-> > echo 0x190020000 > addr
-> > echo 9 > bank
-> > Result:
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0xbc00000000000080 addr=0x190020000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: bc00000000000080
-> > mce: [Hardware Error]: TSC 134d6de13240 ADDR 190020000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787460569 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     0 kB
-> > -------------------------------------------------------------------
-> > 
-> > case3:
-> > label              status           addr         bank   note
-> > 
-> > [ POISON ]   0x9c00080000000080    0x190040000   9      "case 2: poison only (UC=0) - divergence to note"
-> > ------------------------------------------------------------------------------------------------------------
-> > 
-> > # cd /sys/kernel/debug/mce-inject
-> > # echo sw > flags
-> > # echo 0x9c00080000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190040000 > addr
-> > # echo 9 > bank
-> > Result:
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00080000000080 addr=0x190040000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00080000000080
-> > mce: [Hardware Error]: TSC 14e29da617c0 ADDR 190040000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787463321 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     0 kB
-> > ------------------------------------------
-> > 
-> > case4:
-> > label              status           addr         bank   note
-> > 
-> > [ DEFERRED ]  0x9c00100000000080    0x190020000   9     "case 1: deferred, no poison -> unusable"
-> > ------------------------------------------------------------------------------------------------
-> > 
-> > # echo sw > flags
-> > # echo 0x9c00100000000080 > status
-> > # echo 0x80 > misc
-> > #echo 0x190020000 > addr
-> > #echo 9 > bank
-> > Result:
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00100000000080 addr=0x190020000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00100000000080
-> > mce: [Hardware Error]: TSC 9a2d801ff40 ADDR 190020000 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787456818 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     0 kB
-> > -----------------------------------------------
-> > 
-> > case5:
-> > label              status            addr         bank    note
-> > 
-> > [ DEF_POISON ]  0x9c00180000000080    0x190060000   9      "case 2: deferred+poison - MUST be handled"
-> > --------------------------------------------------------------------------------------------------------
-> > 
-> > # echo sw > flags
-> > # echo 0x9c00180000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190060000 > addr
-> > # echo 9 > bank
-> > Result:
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00180000000080 addr=0x190060000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > cxl_mce_debug: spa=0x190060000 contains=1
-> > cxl_mce_debug: spa_alias=0x1a0060000 pfn=0x1a0060 pfn_valid=1
-> > cxl_region region0: Offlining aliased SPA address0: 0x1a0060000
-> > Memory failure: 0x1a0060: recovery action for free buddy page: Recovered
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: 9c00180000000080
-> > mce: [Hardware Error]: TSC a60fd45ae60 ADDR 190060000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787457072 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     4 kB
-> > -----------------------------------
-> > 
-> > case6:
-> > label              status           addr         bank   note
-> > 
-> > [UC_POISON]  0xbc00080000000080    0x190050000   9       "case 2: poison consumption - MUST be handled"
-> > --------------------------------------------------------------------------------------------------------
-> > 
-> > # echo sw > flags
-> > # echo 0xbc00080000000080 > status
-> > # echo 0x80 > misc
-> > # echo 0x190050000 > addr
-> > # echo 9 > bank
-> > 
-> > Resul:
-> > 
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0xbc00080000000080 addr=0x190050000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > cxl_mce_debug: spa=0x190050000 contains=1
-> > cxl_mce_debug: spa_alias=0x1a0050000 pfn=0x1a0050 pfn_valid=1
-> > cxl_region region0: Offlining aliased SPA address0: 0x1a0050000
-> > Memory failure: 0x1a0050: recovery action for free buddy page: Recovered
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 9: bc00080000000080
-> > mce: [Hardware Error]: TSC f03abeed540 ADDR 190050000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787457328 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     4 kB
-> > -------------------------------------------------------------------------------------
-> > 
-> > case7:
-> > label              status                   addr         bank    note
-> > 
-> > [B4_NONMEM_POISON]   0x9c00080000000080    0x190080000   4       "case 3 override: bank4 non-mem, poison ignored"
-> > -------------------------------------------------------------------------------------------------------------------
-> > 
-> > # echo sw > flags
-> > # echo 0x9c00080000000080  > status
-> > # echo 0x80 > misc
-> > # echo 0x190080000 > addr
-> > # echo 4 > bank
-> > 
-> > Result:
-> > 
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00080000000080 addr=0x190080000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=0
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 4: 9c00080000000080
-> > mce: [Hardware Error]: TSC 21c66cecf80 ADDR 190080000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787454082 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     0 kB
-> > --------------------------------------------------------------------------------------------
-> > 
-> > case8:
-> > label              status               addr         bank     note
-> > 
-> > [LEGACY_B4_CE]   0x9c00000000080000    0x190070000   4        "case 3: bank4 XEC8 corrected+usable - THE FIX"
-> > -------------------------------------------------------------------------------------------------------------------
-> > 
-> > echo sw > flags
-> > echo 0x9c00000000080000 > status
-> > echo 0x80 > misc
-> > echo 0x190070000 > addr
-> > echo 4 > bank
-> > 
-> > result:
-> > -------
-> > 
-> > mce: [Hardware Error]: Machine check events logged
-> > cxl_mce_debug: entered status=0x9c00000000080000 addr=0x190070000 cache_size=0x10000000 res=[mem 0x190000000-0x1afffffff flags 0x200] usable=1
-> > mce: [Hardware Error]: CPU 0: Machine Check: 0 Bank 4: 9c00000000080000
-> > mce: [Hardware Error]: TSC 3610305ed80 ADDR 190070000 MISC 80 
-> > mce: [Hardware Error]: PROCESSOR 2:a00f11 TIME 1787454482 SOCKET 0 APIC 0 microcode 1000065
-> > # grep HardwareCorrupted /proc/meminfo
-> > HardwareCorrupted:     0 kB
-> > -------------------------------------------
-> > 
-> > Note: an AMD record with MCI_STATUS_POISON set but UC and Deferred
-> > clear is filtered by this patch where it previously was not. Per AMD64
-> > APM 24593 Rev 3.45, when UC is clear the error class is determined
-> > solely by the Deferred bit, and Poison qualifies an uncorrected error
-> > rather than establishing one. Real poison is therefore always reported
-> > with Deferred set (not yet consumed) or UC set (consumed via #MC), and
-> > both of those cases still retire the alias. Poison with UC and Deferred
-> > both clear is not a valid encoding and appears only under software
-> > injection.
-> > 
-> >  drivers/cxl/core/mce.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/cxl/core/mce.c b/drivers/cxl/core/mce.c
-> > index 65fed913b221..3ac6802e750d 100644
-> > --- a/drivers/cxl/core/mce.c
-> > +++ b/drivers/cxl/core/mce.c
-> > @@ -18,7 +18,13 @@ static int cxl_handle_mce(struct notifier_block *nb, unsigned long val,
-> >  	u64 spa, spa_alias;
-> >  	unsigned long pfn;
-> >  
-> > -	if (!mce || !mce_usable_address(mce))
-> > +	if (!mce)
-> > +		return NOTIFY_DONE;
-> > +
-> > +	if (mce_is_correctable(mce))
-> > +		return NOTIFY_DONE;
-> > +
-> > +	if (!mce_usable_address(mce))
-> >  		return NOTIFY_DONE;
-> >  
-> >  	spa = mce->addr & MCI_ADDR_PHYSADDR;
-> > 
-> > base-commit: 7098e9cd98a05c0c5de2fae0c2465f9d966fdd07
-> 
+Co-developed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+---
+ drivers/edac/intel-bff.c | 45 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+
+diff --git a/drivers/edac/intel-bff.c b/drivers/edac/intel-bff.c
+index 905cbe58bc53..f70c5e697dae 100644
+--- a/drivers/edac/intel-bff.c
++++ b/drivers/edac/intel-bff.c
+@@ -18,18 +18,55 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/cpufeature.h>
++#include <linux/device-id/x86_cpu.h>
+ #include <linux/errno.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
++#include <linux/printk.h>
+ #include <linux/types.h>
+ 
++#include <asm/cpu_device_id.h>
+ #include <asm/cpufeatures.h>
++#include <asm/intel-family.h>
+ #include <asm/mce.h>
+ #include <asm/msr.h>
+ #include <asm/msr-index.h>
+ 
++/* Machine check bank hardware unit types */
++enum bff_bank_type {
++	BFF_BANK_NONE = 0,
++	BFF_BANK_DCU,
++	BFF_BANK_DTLB,
++	BFF_BANK_MLC,
++	BFF_BANK_CCF,
++	BFF_BANK_HSF,
++	BFF_BANK_IOCACHE,
++};
++
++/*
++ * Mapping from machine check bank numbers on Diamond Rapids CPU, that are
++ * supported by a bitfix filter, to hardware unit type.
++ */
++static const enum bff_bank_type dmr_mcbanks[MAX_NR_BANKS] = {
++	[1]	= BFF_BANK_DCU,
++	[2]	= BFF_BANK_DTLB,
++	[3]	= BFF_BANK_MLC,
++	[6]	= BFF_BANK_CCF,
++	[13]	= BFF_BANK_HSF,
++	[17]	= BFF_BANK_IOCACHE
++};
++
++static const struct x86_cpu_id bff_cpu_ids[] __initconst = {
++	X86_MATCH_VFM(INTEL_DIAMONDRAPIDS_X, dmr_mcbanks),
++	{}
++};
++MODULE_DEVICE_TABLE(x86cpu, bff_cpu_ids);
++
++static const enum bff_bank_type *bff_bank_types;
++
+ static int __init bff_init(void)
+ {
++	const struct x86_cpu_id *m;
+ 	u64 core_caps, mcg_cap;
+ 
+ 	if (!cpu_feature_enabled(X86_FEATURE_MCA))
+@@ -44,6 +81,14 @@ static int __init bff_init(void)
+ 	if (!(core_caps & MSR_IA32_CORE_CAPS_BFF_RESET))
+ 		return -ENODEV;
+ 
++	m = x86_match_cpu(bff_cpu_ids);
++	if (!m) {
++		pr_info("CPU model not supported by the bitfix filter reset driver\n");
++		return -ENODEV;
++	}
++
++	bff_bank_types = (const enum bff_bank_type *)m->driver_data;
++
+ 	return 0;
+ }
+ 
+-- 
+2.55.0
+
