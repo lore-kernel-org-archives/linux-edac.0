@@ -1,214 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mail-24420.protonmail.ch (mail-24420.protonmail.ch [109.224.244.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73913630BF;
-	Fri, 28 Aug 2026 15:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C8025B0AA
+	for <linux-edac@vger.kernel.org>; Sun, 30 Aug 2026 04:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787931024; cv=none; b=C+14EX8ZTuwrqBJ3R/RAQGdBf8OELZ3A4aJFoTcU8zVtsYJQe/eVNOiPJxVruujTVG5IRHUvGwSYm3IAnC3Vmi9R3wNuVozuqFT9j0CyvFcZI68Ic8eAAZq8ICeOqk7F17mXkiLABTqaYxFmUtafK58aAvHYhtlNW9Hi5znJ22Y=
+	t=1788064817; cv=none; b=bePpSyHE77sJtiFyYkNIgVfrDTcXuWktt91jjbqsopOQhNEzpCl4myAWu4/+VSFVzrI2456ZdwiMbXIVRO9pI9QET/3hVdo6ItswetCqn9GFz2kly1r1GgJLie+91Ex5hFnhLVOvD1GNlOJzzV2iV7G+RAn7u/xTNkenPT9ByFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787931024; c=relaxed/simple;
-	bh=gxPoFx6SdnptXG3Hw+pks3NJkGqlI1aInjSfIWG4UM4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=raoJlfKGadISD7L0P0sDuHlT/LR7blEa0aGgcMfHZtBKlDHILic/Tnqecuc1MZtjG6pNKzDQaCf7I2gyIN/1r+cch8QDH6WmVgYSRrit+JGVWXMR2qs3CG1XlwS8Dl4AZL9l5tsNQdPSNlZQTjAMKXEaVtq4aMJqsbTMIlKKwSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FX8dQNt7; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788064817; c=relaxed/simple;
+	bh=5WXDhizpxuVpd5R5IBrkKsXbw4WhGvB34q5YJxj82tM=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=slz8RWpObgXx7/gyyLxhG1Hh7m6aG2/+mVTD6VGcBS/SytjdO0jJXmDjJrA9iBr7zkwxQ8T4mH9TCWsbBETEpWfA4qQW78GuCL/avFBEIcoQdErLqreIsKFcMTEznCIsCan7W/PUQDKixSS5iiDPd11ej4iaEAWn36vSxUzT4FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no; spf=pass smtp.mailfrom=optocloud.no; dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b=Bo47FJZ0; arc=none smtp.client-ip=109.224.244.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=optocloud.no
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FX8dQNt7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787931019; x=1819467019;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=gxPoFx6SdnptXG3Hw+pks3NJkGqlI1aInjSfIWG4UM4=;
-  b=FX8dQNt7XeF2CilNOvx98Zqn4EZakKm+eDd+Mx/YWRlLGjNpMuRzprz2
-   Blh0WLr9gyZvHbWQQjqJWJnQ47fTwALGJwwNz7oMc6uzcm/k+HDYB99fN
-   sUbQSLvFhJV3m6kegKij5q2I7Hkr3T9s7MFEpufzu5ThnDRz0VMZY3Smt
-   8PGx044/ROFJAsraNUl5g8MUgUqIU8OjZOYHCBCprWgCPMIRhc8A3DOS2
-   2zo0gv/arzJzn9Bu63q+PysH/OTRiKJB4Ir1Qvucmggw/faUSXZ0TVUqO
-   ogDJNb8XGdoKzw6uJtz1EAB7JHX/Oq9IpZhua3uKCIWjiQll7qzZ0DCAp
-   g==;
-X-CSE-ConnectionGUID: xFzyr5w1SdudueKGgMvZKQ==
-X-CSE-MsgGUID: G4oKpc6yQvavy1Om3O2bng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11889"; a="99104605"
-X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="99104605"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 08:30:10 -0700
-X-CSE-ConnectionGUID: 6aL0J0V6SnGOTVglG3NbKw==
-X-CSE-MsgGUID: Vh4gdHBASvOJyPNYILowYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="291682292"
-Received: from iherna2-mobl4.amr.corp.intel.com (HELO agluck-desk3.intel.com) ([10.124.223.138])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 08:30:10 -0700
-From: Tony Luck <tony.luck@intel.com>
-To: Tony Luck <tony.luck@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>,
-	Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: [PATCH v2 7/7] EDAC/intel-bff: Report frequent filter overflows
-Date: Fri, 28 Aug 2026 08:30:02 -0700
-Message-ID: <20260828153002.10290-8-tony.luck@intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260828153002.10290-1-tony.luck@intel.com>
-References: <20260828153002.10290-1-tony.luck@intel.com>
+	dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b="Bo47FJZ0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=optocloud.no;
+	s=protonmail; t=1788064805; x=1788324005;
+	bh=5WXDhizpxuVpd5R5IBrkKsXbw4WhGvB34q5YJxj82tM=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Bo47FJZ0G6CZ32n2MwMvAfkvwRyrJpCBAZraQRImk5P9d3buGWAauD47xhoieMg4W
+	 PcVRqryIru2VXTKPrRgrs1ByO47zSFb6Cj+aorqFnw3m4iebFwtMaLFeVPusDiyqbq
+	 94hR5WSWiZNYVkQXYcuKr2hPreX/iCu8sJYsSk4ZxDbD7QVOtmu351T3fmVhTRmLT0
+	 FFA11etdZqtBcdu0visqD4E2aQB7RwTWa7E5QOgT2DCoHBiigBoZN1pzkEiQluFA+G
+	 oRs52MWVptANDUDSHFm1RzYnlobVhBWPXl9QPzkm8mrSMPNgSCuUm24ytfyisxDF5J
+	 Gk1n0rSsZaleQ==
+Date: Sun, 30 Aug 2026 04:40:01 +0000
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
+From: OptoCloud <git@optocloud.no>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/3] x86/mce: Reset MCA_SYND between bank scans
+Message-ID: <6XMrR2i2tP3toFjOshJwvZ6agC3N8DSZi74aW-2DJwC5_rGPf1aT6nsZzd55MHD0nMwxx6x-NaFHU_OQaH0t8BdJcjWoBHkcAf-udzh5TKw=@optocloud.no>
+Feedback-ID: 192797849:user:proton
+X-Pm-Message-ID: f27e67f628f8034c3023be02accb6c5f8e97ba9a
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-If an instance of a bitfix filter contains some transient errors built
-up over time, then resetting the filter will free up slots in the filter
-to store persistent errors.
+machine_check_poll() and __mc_scan_banks() both reuse a single
+struct mce_hw_err while iterating over the MCA banks. The record is
+zeroed once before the loop; each iteration then resets only MISC
+and ADDR.
 
-Save a timestamp when "yellow" status is seen and clear the filter.
+On SMCA, mce_read_aux() writes SYND only when MCI_STATUS_SYNDV is
+set. Nothing clears it again, so a bank that does not set SYNDV
+inherits the SYND value read for the previous bank in the same
+scan, and that stale value is printed and handed to the decoders as
+if it belonged to the current error.
 
-Log at KERN_WARNING level if the overflow occurred quickly after a
-previous overflow on the same bitfix filter instance. Use KERN_NOTICE
-for first, or long delayed, overflow.
+Reset SYND at the start of each iteration in both loops, alongside
+the existing MISC and ADDR resets.
 
-Co-developed-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Signed-off-by: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
-Signed-off-by: Tony Luck <tony.luck@intel.com>
+Found by code inspection; not reproduced on hardware.
+
+Fixes: db819d60f672 ("x86/mce: Add support for new MCA_SYND register")
+Cc: stable@vger.kernel.org
+Signed-off-by: Eirik B=C3=B8e <git@optocloud.no>
 ---
- drivers/edac/intel-bff.c | 72 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 70 insertions(+), 2 deletions(-)
+ arch/x86/kernel/cpu/mce/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/edac/intel-bff.c b/drivers/edac/intel-bff.c
-index 06a79745c2fb..adf2ec343129 100644
---- a/drivers/edac/intel-bff.c
-+++ b/drivers/edac/intel-bff.c
-@@ -25,13 +25,17 @@
- #include <linux/cpuhplock.h>
- #include <linux/device-id/x86_cpu.h>
- #include <linux/errno.h>
-+#include <linux/gfp_types.h>
- #include <linux/init.h>
-+#include <linux/jiffies.h>
- #include <linux/limits.h>
- #include <linux/module.h>
- #include <linux/notifier.h>
- #include <linux/printk.h>
-+#include <linux/slab.h>
- #include <linux/topology.h>
- #include <linux/types.h>
-+#include <linux/xarray.h>
- 
- #include <asm/cpu_device_id.h>
- #include <asm/cpufeatures.h>
-@@ -40,6 +44,16 @@
- #include <asm/msr.h>
- #include <asm/msr-index.h>
- 
-+/*
-+ * A 10-minute observation period helps distinguish between:
-+ *
-+ *  - A long-term accumulation of transient corrected errors
-+ *    (filter stays clear after reset).
-+ *
-+ *  - Permanent defects (filter overflows again quickly).
-+ */
-+#define BFF_OVERFLOW_INTERVAL	secs_to_jiffies(10 * 60)
-+
- /* Intel bitfix filter control register defines */
- #define MSR_MC0_BFF_CTL		0x000006c0
- #define MSR_MCx_BFF_CTL(x)	(MSR_MC0_BFF_CTL + (x))
-@@ -77,6 +91,8 @@ MODULE_DEVICE_TABLE(x86cpu, bff_cpu_ids);
- 
- static const enum bff_bank_type *bff_bank_types;
- 
-+static DEFINE_XARRAY(bff_bank_xa);
-+
- /* Diamond Rapids maps APICID[2] to the IMH instance within a socket. */
- #define APICID_IMH_NUM		GENMASK(2, 2)
- #define IMH_NUM(apicid)		FIELD_GET(APICID_IMH_NUM, apicid)
-@@ -149,6 +165,41 @@ static unsigned long bff_get_id(struct mce *mce)
- 	return id;
- }
- 
-+/*
-+ * Save current timestamp for bff_id. Return true if it is within
-+ * BFF_OVERFLOW_INTERVAL of previous timestamp for this bff_id.
-+ */
-+static bool bff_overflow_is_frequent(unsigned long bff_id)
-+{
-+	unsigned long now = jiffies, interval_end;
-+	unsigned long *ts;
-+
-+	if (bff_id == ULONG_MAX)
-+		return false;
-+
-+	ts = xa_load(&bff_bank_xa, bff_id);
-+	if (!ts) {
-+		ts = kzalloc_obj(*ts);
-+		if (!ts) {
-+			pr_warn("Failed to allocate timestamp for bitfix filter 0x%lx\n", bff_id);
-+			return false;
-+		}
-+		if (xa_is_err(xa_store(&bff_bank_xa, bff_id, ts, GFP_KERNEL))) {
-+			kfree(ts);
-+			pr_warn("Failed to record timestamp for bitfix filter 0x%lx\n", bff_id);
-+			return false;
-+		}
-+		*ts = now;
-+
-+		return false;
-+	}
-+
-+	interval_end = *ts + BFF_OVERFLOW_INTERVAL;
-+	*ts = now;
-+
-+	return time_before(now, interval_end);
-+}
-+
- static void bff_reset_and_report(struct mce *mce)
- {
- 	/* Reset bitfix filter using the CPU that logged the yellow status */
-@@ -156,8 +207,18 @@ static void bff_reset_and_report(struct mce *mce)
- 		pr_warn("Failed to reset bitfix filter for CPU %d Bank %d\n",
- 			mce->extcpu, mce->bank);
- 
--	/* Placeholder use of bff_get_id() */
--	pr_debug("unique_id = 0x%lx\n", bff_get_id(mce));
-+	/*
-+	 * Use the unique id for the bitfix filter instance that overflowed and
-+	 * check if this is a repeat within the BFF_OVERFLOW_INTERVAL. If it
-+	 * is, then report at WARN severity as the user may want to take action.
-+	 */
-+	if (bff_overflow_is_frequent(bff_get_id(mce))) {
-+		pr_warn_ratelimited(HW_ERR "Socket %d CPU %d Bank %d bitfix filter overflowed frequently\n",
-+				    mce->socketid, mce->extcpu, mce->bank);
-+	} else {
-+		pr_notice_ratelimited(HW_ERR "Socket %d CPU %d Bank %d bitfix filter overflowed\n",
-+				      mce->socketid, mce->extcpu, mce->bank);
-+	}
- }
- 
- static int bff_mce_notify(struct notifier_block *nb, unsigned long val, void *data)
-@@ -216,7 +277,14 @@ static int __init bff_init(void)
- 
- static void __exit bff_exit(void)
- {
-+	unsigned long bff_id;
-+	unsigned long *ts;
-+
- 	mce_unregister_decode_chain(&bff_notifier);
-+
-+	xa_for_each(&bff_bank_xa, bff_id, ts)
-+		kfree(ts);
-+	xa_destroy(&bff_bank_xa);
- }
- 
- module_init(bff_init);
--- 
-2.55.0
-
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.=
+c
+index ab469605fc89..16183fa4ddc7 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -808,6 +808,7 @@ void machine_check_poll(enum mcp_flags flags, mce_banks=
+_t *b)
+=20
+ =09=09m->misc =3D 0;
+ =09=09m->addr =3D 0;
++=09=09m->synd =3D 0;
+ =09=09m->bank =3D i;
+=20
+ =09=09barrier();
+@@ -1347,6 +1348,7 @@ __mc_scan_banks(struct mce_hw_err *err, struct pt_reg=
+s *regs,
+=20
+ =09=09m->misc =3D 0;
+ =09=09m->addr =3D 0;
++=09=09m->synd =3D 0;
+ =09=09m->bank =3D i;
+=20
+ =09=09m->status =3D mce_rdmsrq(mca_msr_reg(i, MCA_STATUS));
+--=20
+2.47.3
