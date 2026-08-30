@@ -1,39 +1,39 @@
-Received: from mail-24420.protonmail.ch (mail-24420.protonmail.ch [109.224.244.20])
+Received: from mail-4396.protonmail.ch (mail-4396.protonmail.ch [185.70.43.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C8025B0AA
-	for <linux-edac@vger.kernel.org>; Sun, 30 Aug 2026 04:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E82829E10B
+	for <linux-edac@vger.kernel.org>; Sun, 30 Aug 2026 04:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.96
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788064817; cv=none; b=bePpSyHE77sJtiFyYkNIgVfrDTcXuWktt91jjbqsopOQhNEzpCl4myAWu4/+VSFVzrI2456ZdwiMbXIVRO9pI9QET/3hVdo6ItswetCqn9GFz2kly1r1GgJLie+91Ex5hFnhLVOvD1GNlOJzzV2iV7G+RAn7u/xTNkenPT9ByFs=
+	t=1788064990; cv=none; b=I0KR9YeK6+dvFcy//4rLtYlC9NmHp3KsQRCx4yZ0pwXDNTW8VTFdOn8+LccB3qfJRU6zmxjTT/JFXs7dcnMto0PePHGNBxY9GBRRHmR9N9CPCbDIAIfXt+bMFlEuSeVushqc/B8wK6PdaxOljT1gLT1jxoUx+LAfx2lwHvLH1io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788064817; c=relaxed/simple;
-	bh=5WXDhizpxuVpd5R5IBrkKsXbw4WhGvB34q5YJxj82tM=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=slz8RWpObgXx7/gyyLxhG1Hh7m6aG2/+mVTD6VGcBS/SytjdO0jJXmDjJrA9iBr7zkwxQ8T4mH9TCWsbBETEpWfA4qQW78GuCL/avFBEIcoQdErLqreIsKFcMTEznCIsCan7W/PUQDKixSS5iiDPd11ej4iaEAWn36vSxUzT4FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no; spf=pass smtp.mailfrom=optocloud.no; dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b=Bo47FJZ0; arc=none smtp.client-ip=109.224.244.20
+	s=arc-20240116; t=1788064990; c=relaxed/simple;
+	bh=qgiOqnVHrnbJlooRmY6T3DG7Cg9vDQsL3SwxKmFOo14=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=KYfFQslMp+Oxsk9miPYDFeuumMJj3Kyo1AojrUIWzWrWYSJP9rmSRYvo8sZeKV/VG/RqQz0Os8cl8jyhwaoK544B5VEwfsdS7kpg1OqGWPplx/kUY50UJsBq2giBOcV5zdxMDtp+DjR0jKBiIlHq9Jp43DrfERv85zsRXqfMINQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no; spf=pass smtp.mailfrom=optocloud.no; dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b=pdUsezRZ; arc=none smtp.client-ip=185.70.43.96
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=optocloud.no
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b="Bo47FJZ0"
+	dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b="pdUsezRZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=optocloud.no;
-	s=protonmail; t=1788064805; x=1788324005;
-	bh=5WXDhizpxuVpd5R5IBrkKsXbw4WhGvB34q5YJxj82tM=;
+	s=protonmail; t=1788064980; x=1788324180;
+	bh=qgiOqnVHrnbJlooRmY6T3DG7Cg9vDQsL3SwxKmFOo14=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Bo47FJZ0G6CZ32n2MwMvAfkvwRyrJpCBAZraQRImk5P9d3buGWAauD47xhoieMg4W
-	 PcVRqryIru2VXTKPrRgrs1ByO47zSFb6Cj+aorqFnw3m4iebFwtMaLFeVPusDiyqbq
-	 94hR5WSWiZNYVkQXYcuKr2hPreX/iCu8sJYsSk4ZxDbD7QVOtmu351T3fmVhTRmLT0
-	 FFA11etdZqtBcdu0visqD4E2aQB7RwTWa7E5QOgT2DCoHBiigBoZN1pzkEiQluFA+G
-	 oRs52MWVptANDUDSHFm1RzYnlobVhBWPXl9QPzkm8mrSMPNgSCuUm24ytfyisxDF5J
-	 Gk1n0rSsZaleQ==
-Date: Sun, 30 Aug 2026 04:40:01 +0000
+	b=pdUsezRZ6YYdXUkm4I7y5aG8dGb1KVB21WYua+dzFxuHoUmyeq5hRMieMqcUGhERT
+	 wu0oHZjyP089WlhseQdxnqGbBB/ETQb02Ypf5ON1RTAGovcCMT3qWOEaqeixokoltD
+	 NKzJaJcb031xBgpeMlOPxE6Qk1KqqKaLR/T4/UbCVob++N35LMbUpPRElmLWHWOgGN
+	 L2jgbRjY97/DPNpoNykPoX0zoAIrv8dMDLx+KQdSzL/hns7e3PanT7YV69WJnZ4dy1
+	 6hBK8517jsItLtLyPcMaDNXVMmyQxxig3QNfH9uPxnl0jk2JbmejmvtYvvcJCW5h8z
+	 NBR51XbGuwZSQ==
+Date: Sun, 30 Aug 2026 04:42:54 +0000
 To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
 From: OptoCloud <git@optocloud.no>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/3] x86/mce: Reset MCA_SYND between bank scans
-Message-ID: <6XMrR2i2tP3toFjOshJwvZ6agC3N8DSZi74aW-2DJwC5_rGPf1aT6nsZzd55MHD0nMwxx6x-NaFHU_OQaH0t8BdJcjWoBHkcAf-udzh5TKw=@optocloud.no>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Avadhut Naik <avadhut.naik@amd.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+Subject: [PATCH 2/3] x86/mce/amd: Reset MCA_SYND1/2 between bank scans
+Message-ID: <7EacjuP2vbN93ctW6NuNj0xNiJK0J17etJfHrSNAotd0fSdNc9c1ZKr957iB6gkmpUu_xLHdgrGczfvoZPoyJQerWGYRCEnQYI4gqkhPXKs=@optocloud.no>
 Feedback-ID: 192797849:user:proton
-X-Pm-Message-ID: f27e67f628f8034c3023be02accb6c5f8e97ba9a
+X-Pm-Message-ID: fd7114a9c9b7f20e913817a48baad6248489f775
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -43,49 +43,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-machine_check_poll() and __mc_scan_banks() both reuse a single
-struct mce_hw_err while iterating over the MCA banks. The record is
-zeroed once before the loop; each iteration then resets only MISC
-and ADDR.
+Same issue as the MCA_SYND leak, for the two supplemental AMD
+syndrome registers. mce_read_aux() writes
+err->vendor.amd.synd1/synd2 only when MCI_STATUS_SYNDV is set, and
+nothing clears them between bank iterations in either
+machine_check_poll() or __mc_scan_banks(). A bank without SYNDV can
+inherit synd1/synd2 from an earlier bank in the same scan.
 
-On SMCA, mce_read_aux() writes SYND only when MCI_STATUS_SYNDV is
-set. Nothing clears it again, so a bank that does not set SYNDV
-inherits the SYND value read for the previous bank in the same
-scan, and that stale value is printed and handed to the decoders as
-if it belonged to the current error.
-
-Reset SYND at the start of each iteration in both loops, alongside
-the existing MISC and ADDR resets.
+Reset both fields at the start of each iteration in both loops.
 
 Found by code inspection; not reproduced on hardware.
 
-Fixes: db819d60f672 ("x86/mce: Add support for new MCA_SYND register")
+Fixes: d4fca1358ea9 ("x86/MCE/AMD: Add support for new MCA_SYND{1,2} regist=
+ers")
 Cc: stable@vger.kernel.org
 Signed-off-by: Eirik B=C3=B8e <git@optocloud.no>
 ---
- arch/x86/kernel/cpu/mce/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/x86/kernel/cpu/mce/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.=
 c
-index ab469605fc89..16183fa4ddc7 100644
+index 16183fa4ddc7..e4e588d02a18 100644
 --- a/arch/x86/kernel/cpu/mce/core.c
 +++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -808,6 +808,7 @@ void machine_check_poll(enum mcp_flags flags, mce_banks=
+@@ -809,6 +809,8 @@ void machine_check_poll(enum mcp_flags flags, mce_banks=
 _t *b)
-=20
  =09=09m->misc =3D 0;
  =09=09m->addr =3D 0;
-+=09=09m->synd =3D 0;
+ =09=09m->synd =3D 0;
++=09=09err.vendor.amd.synd1 =3D 0;
++=09=09err.vendor.amd.synd2 =3D 0;
  =09=09m->bank =3D i;
 =20
  =09=09barrier();
-@@ -1347,6 +1348,7 @@ __mc_scan_banks(struct mce_hw_err *err, struct pt_reg=
+@@ -1349,6 +1351,8 @@ __mc_scan_banks(struct mce_hw_err *err, struct pt_reg=
 s *regs,
-=20
  =09=09m->misc =3D 0;
  =09=09m->addr =3D 0;
-+=09=09m->synd =3D 0;
+ =09=09m->synd =3D 0;
++=09=09err->vendor.amd.synd1 =3D 0;
++=09=09err->vendor.amd.synd2 =3D 0;
  =09=09m->bank =3D i;
 =20
  =09=09m->status =3D mce_rdmsrq(mca_msr_reg(i, MCA_STATUS));
