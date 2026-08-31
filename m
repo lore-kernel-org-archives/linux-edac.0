@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8161F16B
-	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDC138AC72
+	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788207689; cv=none; b=ryrCXjbInWJpNE7cu7PBLzlMWlTXN1akzKEHVC5D+LrjtjJe24R+bhpHtGD/zxXv1l26/GtJ2oSngbYCx+6ZZJNb9d6KXWZOcucvmJznw7LMbfvz7WupTzriPatWgafqpAPaLxQ4WeVZ1RlWkMB+Jmn5j6LX8FncvQrNjKu3njY=
+	t=1788207694; cv=none; b=pb3RSE7dzw6EianyzuRcM7lMFZ90rNwJPxtN4WMk2twzNIr4pz6gGde+PrYDFL26CzHeT8t+PhplUMpHbjr1nrFtNvRYJrp3uidawz/adaFOJuZg1m+Xz2nLNhn6+Lkwf8fJfLhXoljJlqjSmFwHj+xLiDDvyTM6err1iOYkhA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788207689; c=relaxed/simple;
-	bh=9U73T5z6kXMpyL7nKqZsCIXExotr1dIB50VVjsW7RJA=;
+	s=arc-20240116; t=1788207694; c=relaxed/simple;
+	bh=p0TWmw8FzLY6pfGK1/inwsHz9y3rTz5Ged2cym+09pU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pV05Pwy2FgOhA2kJxzQw5FvXlGyuFw2nnlG9zB6LvTMot4/LEjIbmR/W45lSAMrlc4r80iXQTltMKJtQVR2XL75+pSfMF/IFRT/nX6Mu8Hl2gkGKRn+x95wcZPkhyCIb7wxzd6P8JXdlnTeYFHmwR3hcfn/DJC9FzccvcMePi1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h+bwV0Fi; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=Q/V/9bTDatTm+sprWfMID9IE9NH8sV1oDzsHhVHcqRHfNR2IuuNywF+KU92WOl9wxJDJbGUy6hJ16uAJWAL6i/bCOOpZjE9IHiA+bMbvsfpg9mMhYgoO6LYKi/hnCXrztNKmv0s7fkXEqe+3YlkuPMreAq85atBhea3GDl8dGNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VZeuryxq; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h+bwV0Fi"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VZeuryxq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788207687;
+	s=mimecast20190719; t=1788207692;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9ndidgXfI+j62GEABZBVr0fCVINjLQ7F7fcSx52FMCI=;
-	b=h+bwV0FiWSTAkxmD8Z1u0vH1LYTbF7t15wWbVadjcHT8lQB5nCPJIC1fbuj9mgAuCPtpM8
-	ZJpgGEwl5RlSNmZZZJeEedcueDkKkLTo7GuFJ0pFDuPHVmFWbO01BPaxcL7O5MpS3zYfOr
-	zghBRz94snzpu5tCtCmxGoUAXVxlo0U=
+	bh=zSlSwxOgzm2zCxGI4LaQEBpjOYn5iLa1KBJ6Ly1YGHg=;
+	b=VZeuryxqQxZKlk7X9AzUwrKUqib6c9CYiMb3lK/xT8CGU1E4ddcoyIA11QgB1xSjWqwgVK
+	W3sLyIkzz0MQ/9ZVn/MnVGxaaS7FhfRFeUJc7GKFaezkjJuF3oVPbkog2JCpGbF0e7QGYN
+	rwKPMi77e4XBHcFQK7Qs1esyFLOW4ow=
 Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-594-0XZ7qSRmMZuYfKeQ-vSbDA-1; Mon,
- 31 Aug 2026 16:21:21 -0400
-X-MC-Unique: 0XZ7qSRmMZuYfKeQ-vSbDA-1
-X-Mimecast-MFC-AGG-ID: 0XZ7qSRmMZuYfKeQ-vSbDA_1788207659
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-79-553q7kN-OT-Mt6wlYOusMQ-1; Mon,
+ 31 Aug 2026 16:21:24 -0400
+X-MC-Unique: 553q7kN-OT-Mt6wlYOusMQ-1
+X-Mimecast-MFC-AGG-ID: 553q7kN-OT-Mt6wlYOusMQ_1788207677
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EAF2218AB303;
-	Mon, 31 Aug 2026 20:20:58 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 71EFC1896E0E;
+	Mon, 31 Aug 2026 20:21:08 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.63])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C205D18005AC;
-	Mon, 31 Aug 2026 20:20:48 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4400F1800347;
+	Mon, 31 Aug 2026 20:20:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-trivial@nongnu.org,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v4 06/43] qapi: convert trivial intro sections for trace.json
-Date: Mon, 31 Aug 2026 16:19:08 -0400
-Message-ID: <20260831201945.287730-7-jsnow@redhat.com>
+Subject: [PATCH v4 07/43] qapi: convert trivial intro sections for misc-arm.json
+Date: Mon, 31 Aug 2026 16:19:09 -0400
+Message-ID: <20260831201945.287730-8-jsnow@redhat.com>
 In-Reply-To: <20260831201945.287730-1-jsnow@redhat.com>
 References: <20260831201945.287730-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,52 +96,32 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/trace.json | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ qapi/misc-arm.json | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/trace.json b/qapi/trace.json
-index de369dae6b5..29c76256055 100644
---- a/qapi/trace.json
-+++ b/qapi/trace.json
-@@ -14,8 +14,7 @@
+diff --git a/qapi/misc-arm.json b/qapi/misc-arm.json
+index 4dc66d00e5c..a7b5498d2d3 100644
+--- a/qapi/misc-arm.json
++++ b/qapi/misc-arm.json
+@@ -48,8 +48,7 @@
  
  ##
- # @TraceEventState:
+ # @SsidSizeMode:
 -#
--# State of a tracing event.
-+#     State of a tracing event.
+-# SMMUv3 SubstreamID size configuration mode.
++#     SMMUv3 SubstreamID size configuration mode.
  #
- # @unavailable: The event is statically disabled.
+ # @auto: derive from host IOMMU capabilities
  #
-@@ -30,8 +29,7 @@
+@@ -64,8 +63,7 @@
  
  ##
- # @TraceEventInfo:
+ # @OasMode:
 -#
--# Information of a tracing event.
-+#     Information of a tracing event.
+-# SMMUv3 Output Address Size configuration mode.
++#     SMMUv3 Output Address Size configuration mode.
  #
- # @name: Event name.
- #
-@@ -44,8 +42,7 @@
- 
- ##
- # @trace-event-get-state:
--#
--# Query the state of events.
-+#     Query the state of events.
- #
- # @name: Event name pattern (case-sensitive glob).
- #
-@@ -65,8 +62,7 @@
- 
- ##
- # @trace-event-set-state:
--#
--# Set the dynamic tracing state of events.
-+#     Set the dynamic tracing state of events.
- #
- # @name: Event name pattern (case-sensitive glob).
+ # @auto: derive from host IOMMU capabilities
  #
 -- 
 2.55.0
