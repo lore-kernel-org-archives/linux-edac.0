@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6821439BFE7
-	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211A939DBCC
+	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788207879; cv=none; b=DCWAtFcGFnbgXLJVjsmWOVUYtbwzn77eCDxis6JtD+1FUWHtPmY3dcXHzAM2O7TuNyTF1ewpEyjtaHRnzgcOeTt5wBjkUq7nbOwpK70oTCU9i/MATlWH6n/mB2Ksw1vpOwdyz8pc86DDDcxUiScuaEKH733ycDifL3fbC0z0+ew=
+	t=1788207887; cv=none; b=Fa/7rJzIZ80TmkHvYPa3ICYK9pUP0AIOCeejZuULBcAlGQf72Ul9xpVF5dZ/R0z6ZTgaV5iDpYdpcZb/Dd7QLGfTkUVjXu2ImIJYHdJMevn0AGbc/vXYOyfRqsBydWKAOLXGbaJFgoyZvCn/WLPHWyZLzEY/ZAI6Fc0FqSK27FI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788207879; c=relaxed/simple;
-	bh=p3FhXLnwe/1mCMulEEzmUxogYzaHLuBrFKx7bVWuCoA=;
+	s=arc-20240116; t=1788207887; c=relaxed/simple;
+	bh=OrR3C1JJQqjDMVIUa4HbRIh5BNgMjjYwKCcVUhPVWy4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W48kypCeatR127S5MDfQtsVsRZkyswZd1Malg4qy4f8wK7J5YNOc2sipY7tBxXx3529vvJK9v2/F1R/33Q3lEQeqaEw9AzTsVp6TTbYDNyCk46v8lBXLCu0q1oM0XIzUyMXBIno4RIO/2vBZ0EKutYFa7PcqVMukUtV7PZn7vPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=URJyY1GD; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=Dbf4LKCM145Ybuz9SJzay00zxXB/uSCLxOPLK1uoem/ntVGDbOy0NzZfov9yNlOIzt7/K6DILNzgMiCEE+vFLHuEjMx7RaWRYF4ql3VsEdO5dpScAXZFMgs5a6wn58+DBhF/a1kwhDmdN76uwog7MrDxFWX/nI82dF0YopiOh/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ftH4e2XA; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="URJyY1GD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ftH4e2XA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788207876;
+	s=mimecast20190719; t=1788207883;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z3E4l/9ZBojjapKTPoc2rkBnvoRHsP4FarABuj8M8OA=;
-	b=URJyY1GDXIzWaVruYJWh4psyTRHlFQy4DVthQts8V+BkVq5gQPQuWqfKDCiygeJL6u+9lW
-	SmtdXQ8T+cFatLoBj+CMwfb7/ipeahaqp0/LdWPqw1mIPPJzfzxWGl2SyBDVjd5FtdNuow
-	t0zdR849OburEZdbFo+6smbNAiPAVWc=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=ZBjfSrh5PfkhhEWxcRNzfkVdUgV/WtbECn/x1oGAF6I=;
+	b=ftH4e2XANW9Hm+bFvfLEkVXIznS8BWjN+LScn1LwAuNMHjNMkTY98OGCRXGfTymqW4HVD9
+	gDZh88fq/3RmAFmZ5BQNuuzLV6faS36/IvhVjhij0f2lEdeor3OleNCewJvwBlL6VngcDl
+	/oB1URwSc3P2R4EEwDI4JMtsex+8icU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-oZbFfP_-PC-tN--Gv2Rq1Q-1; Mon,
- 31 Aug 2026 16:24:31 -0400
-X-MC-Unique: oZbFfP_-PC-tN--Gv2Rq1Q-1
-X-Mimecast-MFC-AGG-ID: oZbFfP_-PC-tN--Gv2Rq1Q_1788207869
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-460-f-JqxZ-2NoeIBG-X0cV6gg-1; Mon,
+ 31 Aug 2026 16:24:39 -0400
+X-MC-Unique: f-JqxZ-2NoeIBG-X0cV6gg-1
+X-Mimecast-MFC-AGG-ID: f-JqxZ-2NoeIBG-X0cV6gg_1788207876
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 277AE184A08C;
-	Mon, 31 Aug 2026 20:24:29 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EA845191FCE9;
+	Mon, 31 Aug 2026 20:24:35 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.63])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 818D11800577;
-	Mon, 31 Aug 2026 20:24:22 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5D7681800347;
+	Mon, 31 Aug 2026 20:24:29 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-trivial@nongnu.org,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v4 30/43] qapi: convert trivial intro sections for audio.json
-Date: Mon, 31 Aug 2026 16:19:32 -0400
-Message-ID: <20260831201945.287730-31-jsnow@redhat.com>
+Subject: [PATCH v4 31/43] qapi: convert trivial intro sections for block.json
+Date: Mon, 31 Aug 2026 16:19:33 -0400
+Message-ID: <20260831201945.287730-32-jsnow@redhat.com>
 In-Reply-To: <20260831201945.287730-1-jsnow@redhat.com>
 References: <20260831201945.287730-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,269 +96,110 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/audio.json | 88 ++++++++++++++++++-------------------------------
- 1 file changed, 32 insertions(+), 56 deletions(-)
+ qapi/block.json | 41 +++++++++++++++++------------------------
+ 1 file changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 2df87b97101..72190f20993 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -14,9 +14,8 @@
+diff --git a/qapi/block.json b/qapi/block.json
+index 46955bbb3e3..189f2e28204 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -50,8 +50,8 @@
  
  ##
- # @AudiodevPerDirectionOptions:
+ # @FloppyDriveType:
 -#
--# General audio backend options that are used for both playback and
--# recording.
-+#     General audio backend options that are used for both playback
-+#     and recording.
+-# Type of floppy drive to be emulated by the Floppy Disk Controller.
++#     Type of floppy drive to be emulated by the
++#     Floppy Disk Controller.
  #
- # @mixing-engine: use QEMU's mixing engine to mix all streams inside
- #     QEMU and convert audio formats when not supported by the
-@@ -53,8 +52,7 @@
+ # @144: 1.44MB 3.5" drive
+ #
+@@ -70,8 +70,7 @@
  
  ##
- # @AudiodevGenericOptions:
+ # @PRManagerInfo:
 -#
--# Generic driver-specific options.
-+#     Generic driver-specific options.
+-# Information about a persistent reservation manager
++#     Information about a persistent reservation manager
  #
- # @in: options of the capture stream
+ # @id: the identifier of the persistent reservation manager
  #
-@@ -69,8 +67,7 @@
+@@ -85,9 +84,8 @@
  
  ##
- # @AudiodevDBusOptions:
+ # @query-pr-managers:
 -#
--# Options of the D-Bus audio backend.
-+#     Options of the D-Bus audio backend.
+-# Return a list of information about each persistent reservation
+-# manager.
++#     Return a list of information about each persistent reservation
++#     manager.
  #
- # @in: options of the capture stream
- #
-@@ -89,9 +86,8 @@
+ # Returns: a list of manager info for each persistent reservation
+ #     manager
+@@ -99,8 +97,7 @@
  
  ##
- # @AudiodevAlsaPerDirectionOptions:
+ # @eject:
 -#
--# Options of the ALSA backend that are used for both playback and
--# recording.
-+#     Options of the ALSA backend that are used for both playback and
-+#     recording.
+-# Ejects the medium from a removable drive.
++#     Ejects the medium from a removable drive.
  #
- # @dev: the name of the ALSA device to use (default 'default')
+ # @device: Block device name
  #
-@@ -111,8 +107,7 @@
+@@ -297,9 +294,8 @@
  
  ##
- # @AudiodevAlsaOptions:
+ # @BlockdevChangeReadOnlyMode:
 -#
--# Options of the ALSA audio backend.
-+#     Options of the ALSA audio backend.
+-# Specifies the new read-only mode of a block device subject to the
+-# `blockdev-change-medium` command.
++#     Specifies the new read-only mode of a block device subject to
++#     the `blockdev-change-medium` command.
  #
- # @in: options of the capture stream
+ # @retain: Retains the current read-only mode
  #
-@@ -130,8 +125,7 @@
+@@ -314,12 +310,11 @@
  
  ##
- # @AudiodevSndioOptions:
+ # @blockdev-change-medium:
 -#
--# Options of the sndio audio backend.
-+#     Options of the sndio audio backend.
+-# Changes the medium inserted into a block device by ejecting the
+-# current medium and loading a new image file which is inserted as the
+-# new medium (this command combines `blockdev-open-tray`,
+-# `blockdev-remove-medium`, `blockdev-insert-medium` and
+-# `blockdev-close-tray`).
++#     Changes the medium inserted into a block device by ejecting the
++#     current medium and loading a new image file which is inserted as
++#     the new medium (this command combines `blockdev-open-tray`,
++#     `blockdev-remove-medium`, `blockdev-insert-medium` and
++#     `blockdev-close-tray`).
  #
- # @in: options of the capture stream
+ # @device: Block device name
  #
-@@ -152,9 +146,8 @@
+@@ -385,9 +380,8 @@
  
  ##
- # @AudiodevCoreaudioPerDirectionOptions:
+ # @DEVICE_TRAY_MOVED:
 -#
--# Options of the Core Audio backend that are used for both playback
--# and recording.
-+#     Options of the Core Audio backend that are used for both
-+#     playback and recording.
+-# Emitted whenever the tray of a removable device is moved by the
+-# guest or by HMP/QMP commands
++#     Emitted whenever the tray of a removable device is moved by the
++#     guest or by HMP/QMP commands
  #
- # @buffer-count: number of buffers
- #
-@@ -167,8 +160,7 @@
+ # @device: Block device name.  This is always present for
+ #     compatibility reasons, but it can be empty ("") if the image
+@@ -414,9 +408,8 @@
  
  ##
- # @AudiodevCoreaudioOptions:
+ # @PR_MANAGER_STATUS_CHANGED:
 -#
--# Options of the coreaudio audio backend.
-+#     Options of the coreaudio audio backend.
+-# Emitted whenever the connected status of a persistent reservation
+-# manager changes.
++#     Emitted whenever the connected status of a persistent
++#     reservation manager changes.
  #
- # @in: options of the capture stream
+ # @id: The id of the PR manager object
  #
-@@ -183,8 +175,7 @@
- 
- ##
- # @AudiodevDsoundOptions:
--#
--# Options of the DirectSound audio backend.
-+#     Options of the DirectSound audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -203,9 +194,8 @@
- 
- ##
- # @AudiodevJackPerDirectionOptions:
--#
--# Options of the JACK backend that are used for both playback and
--# recording.
-+#     Options of the JACK backend that are used for both playback and
-+#     recording.
- #
- # @server-name: select from among several possible concurrent server
- #     instances (default: environment variable $JACK_DEFAULT_SERVER if
-@@ -237,8 +227,7 @@
- 
- ##
- # @AudiodevJackOptions:
--#
--# Options of the JACK audio backend.
-+#     Options of the JACK audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -253,9 +242,8 @@
- 
- ##
- # @AudiodevOssPerDirectionOptions:
--#
--# Options of the OSS backend that are used for both playback and
--# recording.
-+#     Options of the OSS backend that are used for both playback and
-+#     recording.
- #
- # @dev: file name of the OSS device (default '/dev/dsp')
- #
-@@ -275,8 +263,7 @@
- 
- ##
- # @AudiodevOssOptions:
--#
--# Options of the OSS audio backend.
-+#     Options of the OSS audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -305,9 +292,8 @@
- 
- ##
- # @AudiodevPaPerDirectionOptions:
--#
--# Options of the Pulseaudio backend that are used for both playback
--# and recording.
-+#     Options of the Pulseaudio backend that are used for both
-+#     playback and recording.
- #
- # @name: name of the sink/source to use
- #
-@@ -330,8 +316,7 @@
- 
- ##
- # @AudiodevPaOptions:
--#
--# Options of the PulseAudio audio backend.
-+#     Options of the PulseAudio audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -349,9 +334,8 @@
- 
- ##
- # @AudiodevPipewirePerDirectionOptions:
--#
--# Options of the PipeWire backend that are used for both playback and
--# recording.
-+#     Options of the PipeWire backend that are used for both playback
-+#     and recording.
- #
- # @name: name of the sink/source to use
- #
-@@ -374,8 +358,7 @@
- 
- ##
- # @AudiodevPipewireOptions:
--#
--# Options of the PipeWire audio backend.
-+#     Options of the PipeWire audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -390,9 +373,8 @@
- 
- ##
- # @AudiodevSdlPerDirectionOptions:
--#
--# Options of the SDL audio backend that are used for both playback and
--# recording.
-+#     Options of the SDL audio backend that are used for both playback
-+#     and recording.
- #
- # @buffer-count: number of buffers (default 4)
- #
-@@ -405,8 +387,7 @@
- 
- ##
- # @AudiodevSdlOptions:
--#
--# Options of the SDL audio backend.
-+#     Options of the SDL audio backend.
- #
- # @in: options of the recording stream
- #
-@@ -421,8 +402,7 @@
- 
- ##
- # @AudiodevWavOptions:
--#
--# Options of the wav audio backend.
-+#     Options of the wav audio backend.
- #
- # @in: options of the capture stream
- #
-@@ -440,8 +420,7 @@
- 
- ##
- # @AudioFormat:
--#
--# An enumeration of possible audio formats.
-+#     An enumeration of possible audio formats.
- #
- # @u8: unsigned 8 bit integer
- #
-@@ -464,8 +443,7 @@
- 
- ##
- # @AudiodevDriver:
--#
--# An enumeration of possible audio backend drivers.
-+#     An enumeration of possible audio backend drivers.
- #
- # @jack: JACK audio backend (since 5.1)
- #
-@@ -488,8 +466,7 @@
- 
- ##
- # @Audiodev:
--#
--# Options of an audio backend.
-+#     Options of an audio backend.
- #
- # @id: identifier of the backend
- #
-@@ -534,8 +511,7 @@
- 
- ##
- # @query-audiodevs:
--#
--# Return information about audiodev configuration
-+#     Return information about audiodev configuration
- #
- # Since: 8.0
- ##
 -- 
 2.55.0
 
