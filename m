@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974DF392807
-	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB86392C3D
+	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:23:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788207803; cv=none; b=j2RDA4RJ+DdeYQ5VlzG1XATd39Kc0NrMsto7+p3WQ3sWbAj2Un4TYytmRqVI5LasarQTIt24MM1hxzqyHQxgA3KAuUz24RpQNusKby3OqjpJaNxnCkumCwoXJMrBYqtg/+5aMn6SbuKNYo5EdxfEnXD9nknd8di0pR0kUG6OWsM=
+	t=1788207809; cv=none; b=YCir9blqxgnpoZpf7DBYvPRJ1RfwbZ9I48zXaJsPtJLbNounylAy780pio5KzEXNFdKtlhUC7uR0kZP7clpFh5nJd9Ja1ivJbHwdGeMXLyZZQI0BglQaBzbkqsSrVlk170sc/j+7i6YFdRiKDvO58EW/iOV5b2q+6GdnjQ6ixNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788207803; c=relaxed/simple;
-	bh=KfsHTCwN/yq7HqXCPubqO8b61a1jQVhggM6qKbHQ8OQ=;
+	s=arc-20240116; t=1788207809; c=relaxed/simple;
+	bh=3I9Z/ag5mh89HvPP3UeMwBTvwl8VT0Wa6Tiv49zZY5A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=siAU6ol+LUPQniFOUfScbTQquDp508vy5Cese1L85GR51+UcR5yeHQwPpdBzEoEtCLbmGekq+RJewyuLKUVN6bcLTRtQCATGtPwI6jYY9dBkvYeavuaoptLjHQIIOH8BpioybfkjgCVXvX+acpGD86SQ1QzdVmy+OEdCgNm5m5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M/lS63xD; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=Lwu7tP/ynQbo7nkrtBf8vAv8+d3OjIS66vw/ARl9VJGqMMAqCr6JnT6pVqXMgxGOyuSuuSpcQh2ZfkkVjvZ+zfpzAxqmv15pNkf9E9j7IcUdWELbQIrmuNBQ4p5cShITfV/5A7vICxugthhsJCb1egyGSQNpEaUAR+NhoCxV7bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hY44qS4P; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M/lS63xD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hY44qS4P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788207800;
+	s=mimecast20190719; t=1788207806;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZxLS1A1Q/a8oNO8QBx5OtbcL4KDpeJ6pmBHML3XgByc=;
-	b=M/lS63xDPUbY0lNLy+5v9GlW19kF3qQVCdLPu/CHtxH5if3SkajqFSCkzvzPzsT6p+JehV
-	nnij1IajvuAxOMhcaddna5vXj22e93SsQ5Pwohz/2UfuhcVkKwmqrCynk5DLSgqQYwtqR5
-	DQTOpPGK486XZTXqx23DEwsCr2ewx6I=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+	bh=5E80AYcJQq1AFb1blKcFRy9kxc8JKyis50TCaxBSCf8=;
+	b=hY44qS4P26C3vmsWFmzssAvFEuUbiQht/TEkd+10qXPWfigo0G8KJWJwVMySxmbAErG5pD
+	a3U+9Oxk0aiL0+OeAt6xaiGxDOKFwj3C+wgRP2IuHS0PMkCMfGLtpiHSd7J+eRgznwraUa
+	yAluI/bpK4yqQvYX9wKX0im+ues4nQw=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-306-fvFCewIxNqmxsskZhPUyNw-1; Mon,
- 31 Aug 2026 16:23:15 -0400
-X-MC-Unique: fvFCewIxNqmxsskZhPUyNw-1
-X-Mimecast-MFC-AGG-ID: fvFCewIxNqmxsskZhPUyNw_1788207791
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-54-Zx6s5-VSNwO8wSYOGXLPyQ-1; Mon,
+ 31 Aug 2026 16:23:25 -0400
+X-MC-Unique: Zx6s5-VSNwO8wSYOGXLPyQ-1
+X-Mimecast-MFC-AGG-ID: Zx6s5-VSNwO8wSYOGXLPyQ_1788207802
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6B01D1936139;
-	Mon, 31 Aug 2026 20:22:52 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C1A5D18BC411;
+	Mon, 31 Aug 2026 20:23:09 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.63])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8A5DB1800577;
-	Mon, 31 Aug 2026 20:22:43 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 59A2418005B7;
+	Mon, 31 Aug 2026 20:23:02 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -79,11 +79,10 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 	Kevin Wolf <kwolf@redhat.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-trivial@nongnu.org,
-	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@oss.qualcomm.com>
-Subject: [PATCH v4 17/43] qapi: convert trivial intro sections for qdev.json
-Date: Mon, 31 Aug 2026 16:19:19 -0400
-Message-ID: <20260831201945.287730-18-jsnow@redhat.com>
+	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
+Subject: [PATCH v4 19/43] qapi: convert trivial intro sections for dump.json
+Date: Mon, 31 Aug 2026 16:19:21 -0400
+Message-ID: <20260831201945.287730-20-jsnow@redhat.com>
 In-Reply-To: <20260831201945.287730-1-jsnow@redhat.com>
 References: <20260831201945.287730-1-jsnow@redhat.com>
 Precedence: bulk
@@ -92,61 +91,78 @@ List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@oss.qualcomm.com>
 ---
- qapi/qdev.json | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ qapi/dump.json | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 974cf9c5830..2f951e5ef8d 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -14,8 +14,7 @@
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 690f3963fe1..520c58cbcd8 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -12,8 +12,7 @@
  
  ##
- # @device-list-properties:
+ # @DumpGuestMemoryFormat:
 -#
--# List properties associated with a device.
-+#     List properties associated with a device.
+-# An enumeration of guest-memory-dump's format.
++#     An enumeration of guest-memory-dump's format.
  #
- # @typename: the type name of a device
+ # @elf: elf format
  #
-@@ -33,8 +32,7 @@
+@@ -116,8 +115,8 @@
  
  ##
- # @device_add:
+ # @DumpStatus:
 -#
--# Add a device.
-+#     Add a device.
+-# Describe the status of a long-running background guest memory dump.
++#     Describe the status of a long-running background guest memory
++#     dump.
  #
- # @driver: the name of the new device's driver
+ # @none: no `dump-guest-memory` has started yet.
  #
-@@ -85,8 +83,7 @@
+@@ -134,8 +133,7 @@
  
  ##
- # @device_del:
+ # @DumpQueryResult:
 -#
--# Remove a device from a guest
-+#     Remove a device from a guest
+-# The result format for `query-dump`.
++#     The result format for `query-dump`.
  #
- # @id: the device's ID or QOM path
+ # @status: enum of `DumpStatus`, which shows current dump status
  #
-@@ -145,9 +142,8 @@
+@@ -152,8 +150,7 @@
  
  ##
- # @DEVICE_UNPLUG_GUEST_ERROR:
+ # @query-dump:
 -#
--# Emitted when a device hot unplug fails due to a guest reported
--# error.
-+#     Emitted when a device hot unplug fails due to a guest reported
-+#     error.
+-# Query latest dump status.
++#     Query latest dump status.
  #
- # @device: the device's ID if it has one
+ # Returns: An object showing the dump status.
+ #
+@@ -169,8 +166,7 @@
+ 
+ ##
+ # @DUMP_COMPLETED:
+-#
+-# Emitted when background dump has completed
++#     Emitted when background dump has completed
+ #
+ # @result: final dump status
+ #
+@@ -203,8 +199,7 @@
+ 
+ ##
+ # @query-dump-guest-memory-capability:
+-#
+-# Return the available formats for `dump-guest-memory`
++#     Return the available formats for `dump-guest-memory`
+ #
+ # Returns: An object listing available formats for `dump-guest-memory`
  #
 -- 
 2.55.0
