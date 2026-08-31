@@ -1,118 +1,119 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FCE36B90A
-	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 18:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE51395AFE
+	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 18:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788201847; cv=pass; b=qoh/wB/tvZtfIylJBfhWLKkMjIOb09MwF0WMnCkAVeRxI08E2OxChl6hWABrNEG2Z88KMhbCkLE9Nvi0OMY+b9j4Xpta9o4lJ+nlZqQaaPhycgmFT3gVyNgefVC+GT5Z4gLb7OCtM3ZrKgvkdu4hg6YBppwDhZ1rwNdIbvT2xTQ=
+	t=1788202554; cv=pass; b=b7cbU1uwtbj7WaR5b9gg03T3yxwI25a4X7sGg/YgWEf1pmp0NpofYppW93OofCNnj5RzJsCRJHR53ENTmzFk+FjL136ZtsBBemYoVvKv/Psoa1pdh8nvOGZdIY9/k/RkbklX2L0zKXcBhwI82m3bHMbApGgSUKNZYo/8mSgFMO0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788201847; c=relaxed/simple;
-	bh=vf5+09dUi2yVakE2E0JaMao3iRm+jgJ4m8tGZgpIASY=;
+	s=arc-20240116; t=1788202554; c=relaxed/simple;
+	bh=u87RqAAa657Hmf7s5lZFEasHBmwfl8p3xVrE6rj4W0Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZmverqgzXI8y+lP1JqFj3PR+MwzUGlq1fB4VS8v0UUZrJ9vlCfkiNCydumlGnczw+moBALeZOO1a7qUj8DVdRqe4kobOBRQejeClBOJN9ukLkN9ieuWvZMNdXQHn9cwzyRw9byc8mJOhzG0g3eb+/CW3VQ/ZdEgbq8SIQGt/dug=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W7ZqcO7i; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=oBRMaBni; arc=pass smtp.client-ip=170.10.129.124
+	 To:Cc:Content-Type; b=rCRl5BFMqfUbsImcqUnXuFzu6AWOo1ibKOcs9aZ7J/bZnV7Fm3mYOK5u3D21ERezzDwsG83PcCRcBd9jzSvTxczfpRPAlmD/uCX+CLphnYHzVaEzB9Tt7YD2E4tSvEYgfOzNm6NXNSHQzNuCIFux7gcdru1iAc3UwqUic4/ziqE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PVQ3Yp25; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=sYMrYLE2; arc=pass smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W7ZqcO7i";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="oBRMaBni"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PVQ3Yp25";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="sYMrYLE2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788201844;
+	s=mimecast20190719; t=1788202552;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Iy0jZcKpecBsRYb0oiNpQgveju/GEQS8bQ6zsdRVYxU=;
-	b=W7ZqcO7i+SyERvLg8JFTFRaCK0Es2NjOZfOaMNgCQf6HCHLciVSDOzKYwasUqC1BjsUgw7
-	7n24ezXizgzHD6t/Z/2Emhn+4qZQdPBlGuJ6fyFfl/+R/kxeP6R1LYHEOQT8oynJ7bPxyj
-	GZ6JQ7POG/5VllEfv5dnmC68E9/+Lu0=
-Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com
- [74.125.224.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=xJ5EPZcsW3BeU/Du4PIisPviXsXnrKzOxO6xL0idyrw=;
+	b=PVQ3Yp25xZL9EFcQyi0v/NnZr3AamV+IF7A7nYiN6tBNxtHqbh27d25jTrGeq1eN3o+B7B
+	j+u7OuOrwXAn9gKDGHfAQdehar06Iat7ts/3flnbuFZzY/8ZhoR9SOcBcYLEImuu0JTNxy
+	Er5jHKs0UQhWm6dpsdQttaetKLsG9z0=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-345-jkdBZJw9Myyb4tMbzLiV7w-1; Mon, 31 Aug 2026 14:44:03 -0400
-X-MC-Unique: jkdBZJw9Myyb4tMbzLiV7w-1
-X-Mimecast-MFC-AGG-ID: jkdBZJw9Myyb4tMbzLiV7w_1788201842
-Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-66e50de8143so4183059d50.2
-        for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 11:44:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788201842; cv=none;
+ us-mta-425-yGK97X6MMvuPncBe2mov4g-1; Mon, 31 Aug 2026 14:55:51 -0400
+X-MC-Unique: yGK97X6MMvuPncBe2mov4g-1
+X-Mimecast-MFC-AGG-ID: yGK97X6MMvuPncBe2mov4g_1788202550
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-66c70bf18a1so4581940d50.0
+        for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 11:55:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788202550; cv=none;
         d=google.com; s=arc-20260327;
-        b=VujQdsqq0a4C0xt47JB7gwAo1FT7rg4EIZH7x2yV/RvLoax2D1UHq2YI8hF0s/vQ6h
-         NX2T26M3Nt9CtsfgTXQWq6kj+EDyOzqHhEHA4cAgtOfEIDmsN4QJj6DE6JJdliC1mbg3
-         txRqlc7XGWKx6iB++VuDbuDgCte8hQUF/q6vfkC0B7wzqx61PoE78hJY/rR+Ijmo+2Zr
-         6KF06HyUJY5QnzyHMCi/y03qTWdRPm0gF9vUqwh5sab9lEfPFY2SmFKEU606t8UNLCWC
-         UIUoyaREwOZJi+pdqrClkU6aqE+MN1wgSXqzpCWytQScby64Rjok5nsReH9BD7hSjfWd
-         RXHg==
+        b=SzGqGm60sH5uQbTOjM0NHGqR8cK3kjggbUPEmLk5NUesMKxoOZzBnNWcTJaGwgjsCy
+         ixGIrw8bw+xIQZdxKXPnJk4Z6mvhK648FVcgpSVpij0DPDvtyoJ1O83egkvGWiVooi/W
+         0kJjV4yO+Xvi3WjcUpb+5fCTjPl867Uh2plmHBaLHezAmP/8S/46U98Fz9he0iVGmWF3
+         v1RgPNwMA5mJZOnm3igZOsmmtXn4X7zgpJ5D56+mhBCr4cqOWcLEIIefesNgsXoJN7Bw
+         s1KzwjBDGYpINY227Mp95nur1hZHRUOiR7RWqEsbte4TAQoJdpOHgWRY66WqCeti6lCh
+         ju3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Iy0jZcKpecBsRYb0oiNpQgveju/GEQS8bQ6zsdRVYxU=;
-        fh=nk3VKrY8FfzOqMDJG4NKD6jhXBgXJtkjEeZSR63CvTw=;
-        b=d6XW2vEKDkDVgO26MBAX9Daz3i3iuZg8CiZWenqXRZkMYIMLUZfebaxsXJD/Jb/d4J
-         EUrx86yFrg1oqAmErvFn0nT/ABsOPWle2y1LFpADq5iaLn0tTu74ysQWqMRj5wy86X6S
-         yqJ6r6YpZMj+Ij7dh6hrB2hkfWLQxwiqqm0ynTZwIKMZTeIung2xG9aZD5WOMK+TIyKG
-         zEwi9I+vziO9SntmGN/Hn5eX0lJ6yS4MtdkQHcqqosjAUFVaaIscLQFKueR7NDbn1vK5
-         qaEoS1KdTAQBaxPbVsRgbCA2mG1JWrFUmWAhhrQyCEAgIiLkkydN1DYbb/bjFmE8zDow
-         dA6Q==;
+        bh=xJ5EPZcsW3BeU/Du4PIisPviXsXnrKzOxO6xL0idyrw=;
+        fh=gCoeyAThiWiozpJfXp8ldHoi4lScsYKtG++ztQ7gH3M=;
+        b=YE+WdILSBEWXEXJvBwn8n9J64fIAtvzTAXnmCFQdwcTKm7MQzrgU+Wl90pGHsqUgkB
+         aVoUarukAFdRSsekRfjDSVo04Hq4elzluuTMKRO9h92f4yes5DoLsKCFc7+uZEBqO0mb
+         X2P84GCvz8xsnXIy1oRt1o3Qfticw2+l+5TrDLH0aXeQXEBMWwh68VNPUX4KMplx5sUb
+         JKj/tYpTG7/WHFS9sL7VTh9TFWRIA+ZM4wFUhxeTMYxlqyre5ofMf0pt5ZAkOA/g6ZYm
+         x/z5k/8A1KaZSYHRWNfqeORO7Xucun2VViCoUFIrADH6ndImfhvcYE2++idPrp/YFYH7
+         rpOg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1788201842; x=1788806642; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1788202550; x=1788807350; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Iy0jZcKpecBsRYb0oiNpQgveju/GEQS8bQ6zsdRVYxU=;
-        b=oBRMaBni1xUEL7yBITfgwqNgxSZ27pVXupt+hVnBVdK/CvkzD/cFe8rlxMKEGeI8Eb
-         qr0NxBA969SVrWyDPEaMv8Jn/0c36dRLnO7Pr9KuQRmJ15VaTIh/9p8aOL00Qenlek1/
-         Ex7kQEKGUBD641+EdEjKmHg55noNNf5mj2Y1lbNCrnl1yT7KlHRUeMCCXhC2zrzOLFts
-         Cc8amLZ5o76Y6UychRLEPvl+wsBkJMcOGnwc4WCDcziNrIlBrbcl2n5agkfqBQf8hWiY
-         +BJCGwcrJaCUpZ56KUmPPzx/okwnsWGCZdsbvCDDe31+h2TWv/t1fJi0Wp7NMv3oexAU
-         hK2A==
+        bh=xJ5EPZcsW3BeU/Du4PIisPviXsXnrKzOxO6xL0idyrw=;
+        b=sYMrYLE2jy2o6nGt6aCJz3ofVecTdw9EInNBpFBADDtyJp8kQyYwDaewMPkPU/l7Cs
+         xTFopbzIYpuw/TMMxqZwvJkTXqaDQbyzeXVUrtCsqT6CFDasYGCeABhtwbTGthGUzl2p
+         kOxNuo5waQDh4LT4d3pj8GQOVsJOSEJdffM+AfXAiHma56mzTGDc/HqzJ8erwp7hDU6v
+         aw1r6iCm5XuNLctRPdxToHGGQxYUlxtD3TKiL7XFChU1/104YXfG/FT64fCze7dxLMGm
+         wu9ZWDDcApv6NhpIEYhtruZCh/8I+8zSRCvOY5vi7HQc70Nv0tlhiqAZ8IzviH5CDe1L
+         hkDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788201842; x=1788806642;
+        d=1e100.net; s=20251104; t=1788202550; x=1788807350;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Iy0jZcKpecBsRYb0oiNpQgveju/GEQS8bQ6zsdRVYxU=;
-        b=a5QmlCR9Y2Ecj03IST5dOmbwayZckhsQq/NtLkZtTD/qUuv3z4FI5t8qf9tGVnnkT2
-         VRA4MMVGcurz4O0L49Hhe74m2WMsgmF4rIYsYD4Y8DblDHie8x02V1UTq6K+skJoBUM5
-         LtTZDmDV3wk5sw7GWW3OsLvoKm7Kif03vPZhcSQf4wtJ5i/GKW+ziAbOOYOX6B+hpaYa
-         3QvnvAIRDeQiRnkrtzwcYODKg4ZFuH+SDVXijIfLpspOgsJhNycpPAKNEY9idtglqAmq
-         NV5pGOnd/S63ViLELlUmJmf0xtF1u+WIwT5pgkx2NWzwgQklgE9CLyLtFo6uoba28p6R
-         /zYw==
-X-Forwarded-Encrypted: i=1; AKwUvByDpI9SAEDIt7c3iungqHqInwewX+FT6mxRjPkLNUaLav4q19ibIvcwD5rwkJ9lumVyWVMZGUUCk7XN@vger.kernel.org
-X-Gm-Message-State: AFuF++ngQ7d1iUgdq6RGG8D5MUtKyLL/F+P0/sOj5tNDOwA+u6l2feFq
-	E9tJtmqcu55Xy5Xo4o8GhhiSdTkxYLxuCDEK6iGfGsGThbWNKtA70RyRCEj/38Gasty3TLkeajZ
-	pMvgPmRHjg3NtUUDBSKgqMG/siz/r2vCbm8JjqBnLLxVzs8yVpQ4EAsOAx8NnvHoaNgp1pkpqhL
-	kMkhJA1iEqjXaZ+nhnKP2Fe2il7R9KVNcJhpGCaA==
-X-Gm-Gg: AYBFou1arRTGyNOMDegzYtdEBVx9dgmhFTehrj7fO057nTa12ESzC504FNlTIvsVRss
-	HaIXw0dMjV/ztsX/bw9YjcONRE9DsFselYNAsD06VA8mAfgtjEregPz2fCDZ99693UHSZ0trO1c
-	J9fpFQIw6s1BF2G1x7oRipUJGA3nzCUJWSD+z4yZ5CJwP8MO7rj2T534pT9oOiqj2Mw3DfHKmyz
-	wK+e1p6zyMf81Sf
-X-Received: by 2002:a53:e031:0:b0:66b:b123:edf7 with SMTP id 956f58d0204a3-66e4c7640a7mr7909077d50.41.1788201842218;
-        Mon, 31 Aug 2026 11:44:02 -0700 (PDT)
-X-Received: by 2002:a53:e031:0:b0:66b:b123:edf7 with SMTP id
- 956f58d0204a3-66e4c7640a7mr7909044d50.41.1788201841638; Mon, 31 Aug 2026
- 11:44:01 -0700 (PDT)
+        bh=xJ5EPZcsW3BeU/Du4PIisPviXsXnrKzOxO6xL0idyrw=;
+        b=g47LOrZdbG68ymmka1xkAZlvii6nN7kmcrW8c5cK28zQEXv6VL2jiTB6QTyfA+NJn3
+         NuHefMBxnD78bMjo5EBMCrCGSPmVAr7z89zrxwO5k9EN+41FFItKq6WQDYAFpuJyruyf
+         P4VdzRkXMIEdUyYq2Od1ELcegs8yqpWILd4uOwm67/YyH51EFo9A9T3KOJQ86vpn+eo+
+         ZYljg2qVQ9BUMKp4KRscPRbgZr5WjCVJRlk0aDFIrNE5SUZQ5jE9OnezWsSq5pbBk+Du
+         wAJnmwjcxu4k75IsaoRJwiX4OCfmuzGUGPKxXvTu9H2/k9ZUBQe88R4TLa0WcbrFSYsg
+         kKtw==
+X-Forwarded-Encrypted: i=1; AKwUvBzqfLGic1b0zsmJwNlT4DBA+W4f7Wkb7dl15XBPFx5xroWTaC9gtjKKhVShhbJp4TWEaW4XugW4f0mF@vger.kernel.org
+X-Gm-Message-State: AFuF++kXpOKMUmaKJvbDlDTkODUAqGkLI/fkMef/Jri3anIRNEWMH7V2
+	8Swh7X9u7tpcyT1qdWg1l+UmJ3Ts6UMvKeCJv1UBp6JrOypoEBkhwn6PaupQBhBIsG0DntQy8V7
+	bxERiF7Oj7PP39CCAOIVGPKHt6mCqVaxAuSV5rCmAW4MFwGlgfX9T99hGBSC/6vqib7c+dl3dyS
+	OsnrONGDOKlmGJbhymiWuAHpY4PFuxYs8XOoFW/A==
+X-Gm-Gg: AYBFou3r9HjYLZKGT/Na2LfUVKunvgNwG35ciaG+1smtvdEmWgt4oT8/V6XhoQOtf7Z
+	Fe7VB0HcqaRQVEeVxZeX8ytC0ODGry2+7t4sgmQCeXtiEXaPRkHkrmsLxGd1PDf8vxR8WgzaP3A
+	uCspQYVQ6/gDRY5r6qZzkL3HdxlMUpuYvgvp13ptT8Pk1465oHLKIYneMWgsNtPvkeLPwLLu+cy
+	EKU7V8rfY/4L+36
+X-Received: by 2002:a53:c30f:0:b0:66f:8731:8d1 with SMTP id 956f58d0204a3-66f87311ba5mr991260d50.39.1788202550326;
+        Mon, 31 Aug 2026 11:55:50 -0700 (PDT)
+X-Received: by 2002:a53:c30f:0:b0:66f:8731:8d1 with SMTP id
+ 956f58d0204a3-66f87311ba5mr991075d50.39.1788202544932; Mon, 31 Aug 2026
+ 11:55:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260826193840.2152000-1-jsnow@redhat.com> <20260826193840.2152000-2-jsnow@redhat.com>
- <ao_-_38raHK0rWkX@redhat.com> <87jypb90c0.fsf@pond.sub.org> <apA-CzGqrlFNfjp5@redhat.com>
-In-Reply-To: <apA-CzGqrlFNfjp5@redhat.com>
+References: <20260826193840.2152000-1-jsnow@redhat.com> <20260826193840.2152000-32-jsnow@redhat.com>
+ <877bl6e6so.fsf@pond.sub.org>
+In-Reply-To: <877bl6e6so.fsf@pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Date: Mon, 31 Aug 2026 14:43:50 -0400
-X-Gm-Features: AcwNN1U7U_H0llO6PbcP2SiDomkf5aFXIboSJ6KTmuVOJVPeh4fAMV8BIicxfUc
-Message-ID: <CAFn=p-bUTApw73Ddz-tH1FzY97Ct5rfFZ=domFhm-OO3G8COug@mail.gmail.com>
-Subject: Re: [PATCH v3 01/43] qapi: convert trivial intro sections for error.json
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
-	Alex Williamson <alex@shazbot.org>, linux-cxl@vger.kernel.org, 
-	Michael Tokarev <mjt@tls.msk.ru>, Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, Peter Xu <peterx@redhat.com>, 
+Date: Mon, 31 Aug 2026 14:55:33 -0400
+X-Gm-Features: AcwNN1UG_VbNhAzp5JMRR0NLbU9hcA9dfPYFAhsnI6iviTHK2XjRUfYMif3KYDc
+Message-ID: <CAFn=p-Y7AO1QRXGHFsahnWtiERbDuBtFtAj0c6wphrLdZmy4_g@mail.gmail.com>
+Subject: Re: [PATCH v3 31/43] qapi: convert trivial intro sections for block.json
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex@shazbot.org>, 
+	=?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+	linux-cxl@vger.kernel.org, Michael Tokarev <mjt@tls.msk.ru>, 
+	Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, Peter Xu <peterx@redhat.com>, 
 	Eric Blake <eblake@redhat.com>, =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
 	zhenwei pi <zhenwei.pi@linux.dev>, qemu-trivial@nongnu.org, 
 	Fabiano Rosas <farosas@suse.de>, Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>, 
@@ -129,129 +130,49 @@ Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 27, 2026 at 9:39=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@r=
-edhat.com> wrote:
+On Mon, Aug 31, 2026 at 9:52=E2=80=AFAM Markus Armbruster <armbru@redhat.co=
+m> wrote:
 >
-> On Thu, Aug 27, 2026 at 03:09:35PM +0200, Markus Armbruster wrote:
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-> >
-> > > On Wed, Aug 26, 2026 at 03:37:58PM -0400, John Snow wrote:
-> > >> Signed-off-by: John Snow <jsnow@redhat.com>
-> > >> ---
-> > >>  qapi/error.json | 3 +--
-> > >>  1 file changed, 1 insertion(+), 2 deletions(-)
-> > >>
-> > >> diff --git a/qapi/error.json b/qapi/error.json
-> > >> index 54cb02fb880..a53b13e55c9 100644
-> > >> --- a/qapi/error.json
-> > >> +++ b/qapi/error.json
-> > >> @@ -9,8 +9,7 @@
-> > >>
-> > >>  ##
-> > >>  # @QapiErrorClass:
-> > >> -#
-> > >> -# QEMU error classes
-> > >> +#     QEMU error classes
-> > >
-> > > Where is this need for indent coming from ?  From the POV of someone
-> > > writing comments, the need to indent the introductory text like this
-> > > feels very counter-intuitive, an exception from any other inline
-> > > docs syntax I've typically used. Is there any way we can avoid this ?
-> >
-> > The cover letter explains the need:
+> John Snow <jsnow@redhat.com> writes:
 >
-> Yes, I just didn't see the connection from that, to the use
-> of indent.
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  qapi/block.json | 41 +++++++++++++++++------------------------
+> >  1 file changed, 17 insertions(+), 24 deletions(-)
+> >
+> > diff --git a/qapi/block.json b/qapi/block.json
+> > index 46955bbb3e3..189f2e28204 100644
+> > --- a/qapi/block.json
+> > +++ b/qapi/block.json
 >
-> >
-> >     This is being done primarily for the benefit of the forthcoming
-> >     "inliner", a feature for the rendered HTML QMP documentation that
-> >     seeks to "inline" QMP command argument documentation into the argum=
-ent
-> >     list for each command.
-> >
-> >     There are two main motives here:
-> >
-> >     (1) We want the split between the "introduction" and "details"
-> >         sections to be mechanically obvious, so that auto-generated or
-> >         inlined documentation has a well-defined, obvious spot to go.
-> >
-> >     (2) We do not want to inline irrelevant, introductory text describi=
-ng
-> >         structures to be copied into command documentation.
+> [...]
 >
-> So IIUC, you're saying that we are going to rely on indentation
-> to distinguish introduction from details ?
+> > @@ -314,12 +310,11 @@
+> >
+> >  ##
+> >  # @blockdev-change-medium:
+> > -#
+> > -# Changes the medium inserted into a block device by ejecting the
+> > -# current medium and loading a new image file which is inserted as the
+> > -# new medium (this command combines `blockdev-open-tray`,
+> > -# `blockdev-remove-medium`, `blockdev-insert-medium` and
+> > -# `blockdev-close-tray`).
+> > +#     Changes the medium inserted into a block device by ejecting the
+> > +#     current medium and loading a new image file which is inserted as
+> > +#     the new medium (this command combines `blockdev-open-tray`,
+> > +#     `blockdev-remove-medium`, `blockdev-insert-medium` and
+> > +#     `blockdev-close-tray`).
+> >  #
+> >  # @device: Block device name
+> >  #
 >
+> Not sure the parenthesis belongs into the intro.
 >
-> > Note that the inliner elided Netdev's Intro "Captures the configuration
-> > of a network device."
-> >
-> > However, when Intro and Details bleed together, the inliner elides more
-> > than it should.  I consider that a fairly serious issue.
-> >
-> > I'm afraid forgetting to mark the end of Intro with "Details:" would be
-> > a common mistake, easy to miss in review.  So I explored possible
-> > alternatives:
-> >
-> >     Subject: Re: [PATCH v2 00/10] qapi: enforce section ordering
-> >     Date: Wed, 15 Apr 2026 11:43:45 +0200
-> >     Message-ID: <87zf341ru6.fsf@pond.sub.org>
-> >     https://lore.kernel.org/qemu-devel/87zf341ru6.fsf@pond.sub.org/
-> >
-> > John is working towards "3. Make the end of intro syntactically obvious=
-"
-> > always, specifically "3c. Indent intro like descriptions and tagged
-> > sections" with the ultimate goal to reject unindented Intro.  That way,
-> > we cannot write an Intro with an unclear end.  John, correct me if I'm
-> > accidentally misrepresenting your work.
-> >
-> > Questions?  Better ideas?
->
-> As an author, how substantive is "Intro" expected to be? I guess on
-> QAPI docs I've written I've not ever been aware of there even being
-> a distinct concept of Intro vs Details to think about. It is all just
-> some lines of prose to me.
+> I'm okay with keeping this hunk anyway.
 
-In most cases, not very substantial. For commands and events, it *can*
-be quite a bit more substantial. For structs, enums, etc it is almost
-always laughably trivial.
-
-When the syntactical delineation of intro is complete, further QAPI
-parser changes will make it even more obvious: any free text that
-exists between the intro and the other sections will be flagged as an
-error, where you will be urged to move any detail text to below the
-metadata fields. This physical relocation will help suggest to the
-documentation author what goes "above the fold" and what goes "below
-the fold", so to speak.
-
->
-> My only alternative idea to indentation would be to declare that the
-> "Intro" is always the 1st paragraph of text and anything beyond that
-> is the "Details". That might match up with the way that contributors
-> naturally write text where the 1st paragraph conveys the key idea,
-> such that they dno't need to think about Intro vs Details as a
-> concept.
-
-Yeah, that's roughly the idea; and some prototypes used this idea in
-the past - but Markus wanted an explicit, obvious delineation
-precisely to *force* documentation authors to think about the split.
-It has implications for what gets generated into the documentation and
-in which scenarios.
-
-I do usually try to make my upgrades "invisible" to the user, but in
-this case I believe we are erring on the side of "explicit is better
-than implicit" because of the implications of the text not always
-being copied in a precisely straightforward manner to the HTML docs.
-
-I will address the subtleties of this issue when the inliner is being
-merged by updating a documentation writer's guide that covers what
-goes where and why. For now, we are just trying to do the bulk
-conversion.
-
->
-> With regards,
-> Daniel
+In this case, it will be fine as this is a command and the precise
+split between intro and details is a lot less crucial. It can be
+adjusted later at our leisure.
 
 --js
 
