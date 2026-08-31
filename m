@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061813909AB
-	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1780C391E4B
+	for <linux-edac@vger.kernel.org>; Mon, 31 Aug 2026 20:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788207797; cv=none; b=KLbhb5CuyXWXD0cYs/o4HVnatS6XDb5lQmWmilRz9zQIF+e7JjM7TM34wLC91CGigLN/zcgHyx+QbVECdIlUlwSalVzXHwYbq+K4q5D5l6l5wtl+lb/F08JNvyM5IX/7HjoLv3RqEgE/fk8VpxhGQrXUUd/r+kZpF9yyWn41LhE=
+	t=1788207799; cv=none; b=NVO93DXIX4rcCdKMywBVCMYEZm+AA/ALB4FB7FKyE8tMoqJkPfpHwxncET4DCYhOVlEQDZIYEtuoRvff9wAkFjkd4r0rbAO9vcEFAlxSWiZnESkSJuCSFOVXiPnlFL4dPB0bK4j01U2d2uvneHlOmhv75qNO1drhPayBS55L9wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788207797; c=relaxed/simple;
-	bh=wShGT2SUxlRrKOXzNLi5XL/cGg0rEqr4cCljqe7mcUE=;
+	s=arc-20240116; t=1788207799; c=relaxed/simple;
+	bh=K7WPoxkr3np5GVbsXkFIviL6SGEbvyPxrGdMKOAeiQg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BBrd9R4HuoW8sn0+VUWHaHO0BbYzGrLlrXt5nXYUW3zctvkvrxmwnsahKgxsgFMrW0OXdoh8MsluTsfoUuZa/LAUDh5UQIKQ7NWyeJhzSufYWS6IQ7D4NeMq8iorhjAM9iSxBAhf5gkvAbX+MC2YDUshN6RHMW411Yg+Y1UqXv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ersBQAZD; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=oNPIjKdqA1erpvuKuC57AP3uEaeLE/YHt7Sa/bWWffsaULcAAHOft9ya1fqm2NuZKYnzS6dHreIWjkjP8stO/Pgx12FqLF/aRns8EHDj1IfKLwCnVPUbPRDGqNnSD0lxcCdeRtLa1YeMG6eE14PaoIZtlIl4bUPUOEWHvSmUxDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HcK6q3gJ; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ersBQAZD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HcK6q3gJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1788207793;
+	s=mimecast20190719; t=1788207797;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OUbeK+L1hQxvyWPr/IkVmjVqdE8Y4kF2825fESMfeOk=;
-	b=ersBQAZD0wwcCTnsQBux3yrs6ZzM1fPS1YQ8SRcAte/ieC0zdATvQ7FmCpUPrrymPNvJ/K
-	sHncXwh7PiMPEi6YPDCvPQgqk8obJDfs64gUkdIsSR5YGeUCzdtNMa9pC13MMKZr5W8ywX
-	JMv/tzYXHk3tcgXsDBTLI8z9KITfz/I=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=Q7ddRUc8gUI3lDxdCUKNaV59MC9hJW515QAIptbgtpY=;
+	b=HcK6q3gJWjwwbUR/Y2VioQvjey/qw8mIMooEbwahMwcBBSZNZD52Ny1YU0MCLZltnivzUN
+	oxT/iy1reANAL28KdRcnABwiN1sz9ET1YkloOJeDoLiZL7c1UFIfRVmeyH3yTjb4yKkNCe
+	/yJFntBnyPfZIPHEubiI67ovlnfabRI=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-32-f5u4uEFvNSyYwOmZwu5hog-1; Mon,
- 31 Aug 2026 16:23:10 -0400
-X-MC-Unique: f5u4uEFvNSyYwOmZwu5hog-1
-X-Mimecast-MFC-AGG-ID: f5u4uEFvNSyYwOmZwu5hog_1788207787
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-677-DJIE_Tr-N2-WBdBQfDKuIA-1; Mon,
+ 31 Aug 2026 16:23:12 -0400
+X-MC-Unique: DJIE_Tr-N2-WBdBQfDKuIA-1
+X-Mimecast-MFC-AGG-ID: DJIE_Tr-N2-WBdBQfDKuIA_1788207788
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 261511860657;
-	Mon, 31 Aug 2026 20:22:26 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 59E1618AB30E;
+	Mon, 31 Aug 2026 20:22:34 +0000 (UTC)
 Received: from jsnow-thinkpadp16vgen1.westford.csb (unknown [10.22.88.63])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D691E1800347;
-	Mon, 31 Aug 2026 20:22:17 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 878681800577;
+	Mon, 31 Aug 2026 20:22:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -80,9 +80,9 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	qemu-trivial@nongnu.org,
 	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v4 14/43] qapi: convert trivial intro sections for machine-s390x.json
-Date: Mon, 31 Aug 2026 16:19:16 -0400
-Message-ID: <20260831201945.287730-15-jsnow@redhat.com>
+Subject: [PATCH v4 15/43] qapi: convert trivial intro sections for acpi.json
+Date: Mon, 31 Aug 2026 16:19:17 -0400
+Message-ID: <20260831201945.287730-16-jsnow@redhat.com>
 In-Reply-To: <20260831201945.287730-1-jsnow@redhat.com>
 References: <20260831201945.287730-1-jsnow@redhat.com>
 Precedence: bulk
@@ -96,46 +96,34 @@ X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/machine-s390x.json | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ qapi/acpi.json | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/qapi/machine-s390x.json b/qapi/machine-s390x.json
-index f79864f417b..a83a258d6ce 100644
---- a/qapi/machine-s390x.json
-+++ b/qapi/machine-s390x.json
-@@ -9,9 +9,8 @@
+diff --git a/qapi/acpi.json b/qapi/acpi.json
+index 906b3687a55..d2c59df30b2 100644
+--- a/qapi/acpi.json
++++ b/qapi/acpi.json
+@@ -107,9 +107,8 @@
  
  ##
- # @S390CpuPolarization:
+ # @query-acpi-ospm-status:
 -#
--# An enumeration of CPU polarization that can be assumed by a virtual
--# S390 CPU
-+#     An enumeration of CPU polarization that can be assumed by a
-+#     virtual S390 CPU
+-# Return a list of `ACPIOSTInfo` for devices that support status
+-# reporting via ACPI _OST method.
++#     Return a list of `ACPIOSTInfo` for devices
++#     that support status reporting via ACPI _OST method.
  #
- # Since: 8.2
- ##
-@@ -94,8 +93,7 @@
+ # Since: 2.1
+ #
+@@ -126,8 +125,7 @@
  
  ##
- # @CpuPolarizationInfo:
+ # @ACPI_DEVICE_OST:
 -#
--# The result of a CPU polarization query.
-+#     The result of a CPU polarization query.
+-# Emitted when guest executes ACPI _OST method.
++#     Emitted when guest executes ACPI _OST method.
  #
- # @polarization: the CPU polarization
- #
-@@ -122,9 +120,8 @@
- 
- ##
- # @SCLP_CPI_INFO_AVAILABLE:
--#
--# Emitted when the Control-Program Identification data is available in
--# the QOM tree.
-+#     Emitted when the Control-Program Identification data is
-+#     available in the QOM tree.
- #
- # Features:
+ # @info: OSPM Status Indication
  #
 -- 
 2.55.0
