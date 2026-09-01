@@ -1,63 +1,355 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E7143231C;
-	Tue,  1 Sep 2026 03:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A75547607A
+	for <linux-edac@vger.kernel.org>; Tue,  1 Sep 2026 10:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788234921; cv=none; b=gY4tqcNkKbPCT2L+6mDIKsFDuk9Dypaslw20f32Rv89F0nXNxQ9Vum2cP7ONXm6F5SjwIT5gaCHh/mw5GwpC7XzUQYGIWOQRIGFZYEVDzOf827N8mWx4zBGl99QkvjG9FVl6r/R+m0eYg/ag8kSAcVxa+YkW3dlQ2gcIYHZyOYw=
+	t=1788257417; cv=none; b=bYxIpyoaOaJAN0zo+y5rE0AxmrzPteg0y2HlsMamcFRP8cpoGBoEz10TiTXu4AYPk4NtrAIr4Q5eMGtyWRz8COA7ZSqI3rjtM9ktwxiVPbMcOyRiE0Td0VwxQXCkroeSKXI2orvBt3akzkhpfEYgHlb1NPZ6XukUraRh+qRoPtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788234921; c=relaxed/simple;
-	bh=PphYRpmvj/zx5gUjvTXs+TOy2yJCk7S2zqnejw+oF9c=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ns7h224KdQfrzDKuPCmkGqfdt6SLABOzLqo7OBzJuUPdOyiwt9mrmwDxLmSV41gqfzPHEgDrcqj9PgSsOBST/jEuVn2FyN6mjsl/pbu1EX5OzndUg8CATvrwXkEIhPF2wSBkE2tLDNXJmkJkbUZx1NeO2NjZA8mRlI4hvLbMlKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gRw5JXXj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788257417; c=relaxed/simple;
+	bh=fR9WhW9X3nR1VkUTSiTz+AwDVLHJJQkZub1No/T0MUg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QRVWe5AkJyBzIS2+dgUHP0eeD13UnzRw4toBPSlQaT9gqXEa89bCo3l9Iy+m6VrU6uoicqMbMk5QYmQqFsDWRcstOGL4tcs+EgoU62+MgIaNndcGd8NlAWMEWTeK+U/+COz9/CB0aYkiPS+jq4m2ZK5VnG+QDLG57Hlc1zshMQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZeepsdfB; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gRw5JXXj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B071F000E9;
-	Tue,  1 Sep 2026 03:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788234920;
-	bh=1IZypuBDGPEMKFi6QrkKgP0WnADBbEG2exWlReEvtNM=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=gRw5JXXjr6SDuxkeA4Yo/GTTSG2UlUdv4kHhIw78R4lRWpmtz2Pw3S5CD1XMEtED+
-	 u2knq0OOH3lCe1CvBxjoz4+WfmgzWe/sh6VZSQIDG3V5Zr7WkZsyFdr8QrUg1om15+
-	 aEjASEA3R/wJ0Fd/AHfobH1c35rliZY7A4VJt8Brw+fDnJisgkytZmjlbal3soOvXW
-	 1OM0I8rduERt2kBPGkWRGAuJmJ65wWCsPn3L4x4jpmEbVknAe9/Kgud1JIB+o8WvhW
-	 YEQaLvqKwF101NNyHKAYTGvAnHGvBc8YDlKqfd2FFJ90d11hpzVLEKCPQbYqLRRDvi
-	 C9Xi15dIHH7Fw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19A3A3924A52;
-	Tue,  1 Sep 2026 03:54:24 +0000 (UTC)
-Subject: Re: [GIT PULL] EDAC updates for v7.3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260901030948.GAapZB_HCk7wi9A5OP@fat_crate.local>
-References: <20260901030948.GAapZB_HCk7wi9A5OP@fat_crate.local>
-X-PR-Tracked-List-Id: <linux-edac.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260901030948.GAapZB_HCk7wi9A5OP@fat_crate.local>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v7.3_rc2
-X-PR-Tracked-Commit-Id: 68c90773f40f91f48a557e9fa65e2a72cebc58df
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 786262be6048deab760f68c8acc2c85607165894
-Message-Id: <178823486276.926089.16311579816508162968.pr-tracker-bot@kernel.org>
-Date: Tue, 01 Sep 2026 03:54:22 +0000
-To: Borislav Petkov <bp@alien8.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-edac <linux-edac@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZeepsdfB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788257414;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0dePkF2PL4H4mGDYrfNPxrCPjtW1PMMRP/WqkHMTIio=;
+	b=ZeepsdfBTOzAReBEF5HB7UuY+xCo/fD6so0A4vYsTVwFDlzVHwlhOerWhHWkN/96JIgiZs
+	ohq491NKTHtU27qJh8mkBYBKPlqbZgB6dDuCoimk5lAWYWWscsyhhVpnwFzOB4Rlr+WIHo
+	tKyPhu7FqGLpporMlM8x6YQ0HeTIbQc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-385-BYg3Qom6PmK40zQ_sfArqw-1; Tue,
+ 01 Sept 2026 06:10:11 -0400
+X-MC-Unique: BYg3Qom6PmK40zQ_sfArqw-1
+X-Mimecast-MFC-AGG-ID: BYg3Qom6PmK40zQ_sfArqw_1788257408
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5EAFA1831343;
+	Tue,  1 Sep 2026 10:10:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.5])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B489F30002F5;
+	Tue,  1 Sep 2026 10:10:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id B0E8221E682B; Tue, 01 Sep 2026 12:09:59 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,
+  qemu-devel@nongnu.org,  Alex
+ Williamson <alex@shazbot.org>,  linux-cxl@vger.kernel.org,  Michael
+ Tokarev <mjt@tls.msk.ru>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Peter Xu <peterx@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,
+  zhenwei pi <zhenwei.pi@linux.dev>,  qemu-trivial@nongnu.org,  Fabiano
+ Rosas <farosas@suse.de>,  Kevin Wolf <kwolf@redhat.com>,  Laurent Vivier
+ <laurent@vivier.eu>,  Jiri Pirko <jiri@resnulli.us>,
+  qemu-block@nongnu.org,  Stefan Hajnoczi <stefanha@redhat.com>,  Stefan
+ Berger <stefanb@linux.vnet.ibm.com>,  linux-edac@vger.kernel.org,
+  "Gonglei (Arei)" <arei.gonglei@huawei.com>,  Igor Mammedov
+ <imammedo@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Jonathan
+ Cameron <jic23@kernel.org>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Zhao
+ Liu <zhao1.liu@intel.com>,  Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
+  Hanna Reitz <hreitz@redhat.com>,  Jason Wang <jasowangio@gmail.com>,
+  Richard Henderson <richard.henderson@linaro.org>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Ani Sinha <anisinha@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@mailo.com>,  Lukas Straub
+ <lukasstraub2@web.de>,
+  =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>
+Subject: Re: [PATCH v3 01/43] qapi: convert trivial intro sections for
+ error.json
+In-Reply-To: <CAFn=p-bUTApw73Ddz-tH1FzY97Ct5rfFZ=domFhm-OO3G8COug@mail.gmail.com>
+	(John Snow's message of "Mon, 31 Aug 2026 14:43:50 -0400")
+References: <20260826193840.2152000-1-jsnow@redhat.com>
+	<20260826193840.2152000-2-jsnow@redhat.com>
+	<ao_-_38raHK0rWkX@redhat.com> <87jypb90c0.fsf@pond.sub.org>
+	<apA-CzGqrlFNfjp5@redhat.com>
+	<CAFn=p-bUTApw73Ddz-tH1FzY97Ct5rfFZ=domFhm-OO3G8COug@mail.gmail.com>
+Date: Tue, 01 Sep 2026 12:09:59 +0200
+Message-ID: <87a4q19tag.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-The pull request you sent on Mon, 31 Aug 2026 20:09:48 -0700:
+John Snow <jsnow@redhat.com> writes:
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/ras/ras.git tags/edac_updates_for_v7.3_rc2
+> On Thu, Aug 27, 2026 at 9:39=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange=
+@redhat.com> wrote:
+>>
+>> On Thu, Aug 27, 2026 at 03:09:35PM +0200, Markus Armbruster wrote:
+>> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>> >
+>> > > On Wed, Aug 26, 2026 at 03:37:58PM -0400, John Snow wrote:
+>> > >> Signed-off-by: John Snow <jsnow@redhat.com>
+>> > >> ---
+>> > >>  qapi/error.json | 3 +--
+>> > >>  1 file changed, 1 insertion(+), 2 deletions(-)
+>> > >>
+>> > >> diff --git a/qapi/error.json b/qapi/error.json
+>> > >> index 54cb02fb880..a53b13e55c9 100644
+>> > >> --- a/qapi/error.json
+>> > >> +++ b/qapi/error.json
+>> > >> @@ -9,8 +9,7 @@
+>> > >>
+>> > >>  ##
+>> > >>  # @QapiErrorClass:
+>> > >> -#
+>> > >> -# QEMU error classes
+>> > >> +#     QEMU error classes
+>> > >
+>> > > Where is this need for indent coming from ?  From the POV of someone
+>> > > writing comments, the need to indent the introductory text like this
+>> > > feels very counter-intuitive, an exception from any other inline
+>> > > docs syntax I've typically used. Is there any way we can avoid this ?
+>> >
+>> > The cover letter explains the need:
+>>
+>> Yes, I just didn't see the connection from that, to the use
+>> of indent.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/786262be6048deab760f68c8acc2c85607165894
+Writing good cover letters is hard.
 
-Thank you!
+>> >
+>> >     This is being done primarily for the benefit of the forthcoming
+>> >     "inliner", a feature for the rendered HTML QMP documentation that
+>> >     seeks to "inline" QMP command argument documentation into the argu=
+ment
+>> >     list for each command.
+>> >
+>> >     There are two main motives here:
+>> >
+>> >     (1) We want the split between the "introduction" and "details"
+>> >         sections to be mechanically obvious, so that auto-generated or
+>> >         inlined documentation has a well-defined, obvious spot to go.
+>> >
+>> >     (2) We do not want to inline irrelevant, introductory text describ=
+ing
+>> >         structures to be copied into command documentation.
+>>
+>> So IIUC, you're saying that we are going to rely on indentation
+>> to distinguish introduction from details ?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Yes.
+
+We are already relying on indentation elsewhere.  For instance:
+
+    # @fatal: if set, the image is marked corrupt and therefore unusable
+    #     after this event and must be repaired (Since 2.2; before, every
+    #     `BLOCK_IMAGE_CORRUPTED` event was fatal)
+    #
+    # .. note:: If action is "stop", a `STOP` event will eventually follow
+    #    the `BLOCK_IO_ERROR` event.
+
+The description of @fatal is indented.  A non-indented line ends it.
+The non-indented line happens to be a Sphinx directive here, but that's
+immaterial (the QAPI doc comment parser does not attempt to parse ReST).
+
+>> > Note that the inliner elided Netdev's Intro "Captures the configuration
+>> > of a network device."
+>> >
+>> > However, when Intro and Details bleed together, the inliner elides more
+>> > than it should.  I consider that a fairly serious issue.
+>> >
+>> > I'm afraid forgetting to mark the end of Intro with "Details:" would be
+>> > a common mistake, easy to miss in review.  So I explored possible
+>> > alternatives:
+>> >
+>> >     Subject: Re: [PATCH v2 00/10] qapi: enforce section ordering
+>> >     Date: Wed, 15 Apr 2026 11:43:45 +0200
+>> >     Message-ID: <87zf341ru6.fsf@pond.sub.org>
+>> >     https://lore.kernel.org/qemu-devel/87zf341ru6.fsf@pond.sub.org/
+>> >
+>> > John is working towards "3. Make the end of intro syntactically obviou=
+s"
+>> > always, specifically "3c. Indent intro like descriptions and tagged
+>> > sections" with the ultimate goal to reject unindented Intro.  That way,
+>> > we cannot write an Intro with an unclear end.  John, correct me if I'm
+>> > accidentally misrepresenting your work.
+>> >
+>> > Questions?  Better ideas?
+>>
+>> As an author, how substantive is "Intro" expected to be? I guess on
+>> QAPI docs I've written I've not ever been aware of there even being
+>> a distinct concept of Intro vs Details to think about. It is all just
+>> some lines of prose to me.
+
+That's deceptive :)
+
+Consider
+
+    ##
+    # @HV_BALLOON_STATUS_REPORT:
+    #
+    # Emitted when the hv-balloon driver receives a "STATUS" message from
+    # the guest.
+    #
+    # .. note:: This event is rate-limited.
+    #
+    # Since: 8.2
+    #
+    # .. qmp-example::
+    #
+    #     <- { "event": "HV_BALLOON_STATUS_REPORT",
+    #          "data": { "committed": 816640000, "available": 3333054464 },
+    #          "timestamp": { "seconds": 1600295492, "microseconds": 661044=
+ } }
+    ##
+    { 'event': 'HV_BALLOON_STATUS_REPORT',
+      'data': 'HvBalloonInfo' }
+
+Rendered documentation looks like
+
+    Event HV_BALLOON_STATUS_REPORT (Since: 8.2)
+
+       Emitted when the hv-balloon driver receives a "STATUS" message from
+       the guest.
+
+       Note:
+
+         This event is rate-limited.
+
+       Members:
+          * The members of "HvBalloonInfo".
+
+       Example::
+
+          <- { "event": "HV_BALLOON_STATUS_REPORT",
+               "data": { "committed": 816640000, "available": 3333054464 },
+               "timestamp": { "seconds": 1600295492, "microseconds": 661044=
+ } }
+
+Where does "Members:" come from?  Its generated.
+
+If we move "Since:" to the end of the doc comment, we instead get
+
+    Event HV_BALLOON_STATUS_REPORT (Since: 8.2)
+
+       Emitted when the hv-balloon driver receives a "STATUS" message from
+       the guest.
+
+       Note:
+
+         This event is rate-limited.
+
+       Example::
+
+          <- { "event": "HV_BALLOON_STATUS_REPORT",
+               "data": { "committed": 816640000, "available": 3333054464 },
+               "timestamp": { "seconds": 1600295492, "microseconds": 661044=
+ } }
+
+       Members:
+          * The members of "HvBalloonInfo".
+
+This one is clearly bad.  The fact that an innocent move of "Since:" can
+make the rendered docs worse is a defect in the QAPI doc system.
+
+But even the first version isn't quite what we want.  We want Members:
+further up, like this:
+
+    Event HV_BALLOON_STATUS_REPORT (Since: 8.2)
+
+       Emitted when the hv-balloon driver receives a "STATUS" message from
+       the guest.
+
+       Members:
+          * The members of "HvBalloonInfo".
+
+       Note:
+
+         This event is rate-limited.
+
+       Example::
+
+          <- { "event": "HV_BALLOON_STATUS_REPORT",
+               "data": { "committed": 816640000, "available": 3333054464 },
+               "timestamp": { "seconds": 1600295492, "microseconds": 661044=
+ } }
+
+Now we're ready to discuss "intro" vs. "details.  Their separation
+matters in this example, because the generated "Members:" go right after
+"intro".
+
+The root of the problem is a syntactic ambiguity.  "Intro" is commonly
+followed by some "@argument: ...", "Return:", "Error:", or similar.  But
+these are all optional.  When they're absent, the what's "intro" and
+what's "details" is syntactically ambiguous.
+
+The doc comment I used as example abuses "Since:" to separate them.
+
+> In most cases, not very substantial. For commands and events, it *can*
+> be quite a bit more substantial. For structs, enums, etc it is almost
+> always laughably trivial.
+>
+> When the syntactical delineation of intro is complete, further QAPI
+> parser changes will make it even more obvious: any free text that
+> exists between the intro and the other sections will be flagged as an
+> error, where you will be urged to move any detail text to below the
+> metadata fields. This physical relocation will help suggest to the
+> documentation author what goes "above the fold" and what goes "below
+> the fold", so to speak.
+
+This is part of our slow move towards a standard doc comment structure,
+ultimately enforced by the generator.  Standard structure helps readers.
+
+>> My only alternative idea to indentation would be to declare that the
+>> "Intro" is always the 1st paragraph of text and anything beyond that
+>> is the "Details". That might match up with the way that contributors
+>> naturally write text where the 1st paragraph conveys the key idea,
+>> such that they dno't need to think about Intro vs Details as a
+>> concept.
+>
+> Yeah, that's roughly the idea; and some prototypes used this idea in
+> the past - but Markus wanted an explicit, obvious delineation
+> precisely to *force* documentation authors to think about the split.
+> It has implications for what gets generated into the documentation and
+> in which scenarios.
+
+"First paragraph is intro" is workable syntax.  It restricts "intro" to
+a single paragraph", which is unlikely to be a serious problem.
+However, the restriction is easy to forget.  If you write two paragraphs
+(because "it is all just some lines of prose"), the rendering can
+surprise you, in a bad way.
+
+Having to indent "intro" forces you to be explicit, and avoids
+surprises.
+
+> I do usually try to make my upgrades "invisible" to the user, but in
+> this case I believe we are erring on the side of "explicit is better
+> than implicit" because of the implications of the text not always
+> being copied in a precisely straightforward manner to the HTML docs.
+
+Blame it on me: I pushed John towards explicit.
+
+> I will address the subtleties of this issue when the inliner is being
+> merged by updating a documentation writer's guide that covers what
+> goes where and why. For now, we are just trying to do the bulk
+> conversion.
+>
+>>
+>> With regards,
+>> Daniel
+>
+> --js
+
