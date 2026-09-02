@@ -1,252 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA6646AA6F;
-	Wed,  2 Sep 2026 17:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D744AA57B
+	for <linux-edac@vger.kernel.org>; Wed,  2 Sep 2026 17:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788369338; cv=fail; b=A7zqH4ePHmKXe5e8OhVcEBaaPopBOQIPiErqE8dWF/9chZCidGy8VG2xGK3iniKii8bR9xmSxFJrZCdb2LZmwqQu5dEaYoIACvjJBaEIB2HoTdvI1rL/NwR8SZVtjwNHqFP3tu7w3g1Nywcof2ijTXktKVttkjEPj3fDXjHTwL0=
+	t=1788369897; cv=pass; b=P0FRvbLIs6w5t6djNWGQrS5v11yVhznrwwh1YMYOMt2Xf1/HiTdQkq/Gmt3zrL64fKdUSMALh6CDLvqppl79rxy7tersHVulQ3qtNTXwKe3di7eUjKv44pz+Xuwf6iQMmlK4j/SmBKR49cHMDWEqpdOEZgejltn+GpflzAIPHH4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788369338; c=relaxed/simple;
-	bh=Dq4oqMcrQn5SiE3qpn2r45OHcpA3gqNEmsCcjAUcx/E=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YxXaqH3F3CU5ERax3CtQzG2Soq8ZgnGofA3w4cx5Dj4dPV06vyEiaBSyA3s5zfB/jqEYPWoMzK5PLvUs9Jq9OUn8vbSxMFUEVNiH65pUP602jyv55tVLlWv5uV7hEtmf6qcqg69oCmVEUhOC1j9TBkNHA8o2t/aCuQwXmLardj4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBDs4HWu; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788369897; c=relaxed/simple;
+	bh=N5itlC390yfvl6p6qW4Tuf3E23PRHdkct42mfOBzo6g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hMvh6LObqLU281O2RTHNbadtQZGKxhAF7E62MmWdTV8H4IsivIJ6ETEowp4jZesp4qiyiSMSm5vOSbRnMf8WR7RyRN8bNlMBGXiOl/VXliKk+tWdhQb4f9ml4EoIKDZJ7lyz7pT6eoR9zLdbnlPeeX2TwBx9PaUbS4YDF6EkWgE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i6FDsv//; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=rhj9ROHr; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBDs4HWu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788369336; x=1819905336;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=Dq4oqMcrQn5SiE3qpn2r45OHcpA3gqNEmsCcjAUcx/E=;
-  b=RBDs4HWuvOgWVdola3Y0TYiZR43wNbc4f/clIx1k8n1WngnZGqTNfYLB
-   k3AIIyhCAsqZWG7clviPY/4vypuDWdT2leoWpoqpw2RaK8oWHcfVNb2Dy
-   +Dydi79dhRzlw1IkvvRbITKnIaHn0JReJydEYcBkg57O5R5EQvDrj7p7D
-   Ui88hKpkVZZPQbiquZcEbllka6Re4pnQBafVPG/zJ4vdf5XdKZGpBLyO5
-   Puk1UALLSRfX8n4GlUxYaU2TB0q+xCnSZosRGpOu7bR0vG2eO0RNgQ7jw
-   Ym1GAWZ8MCDFdyzqipLpUXyp3GfHOwgoXa3iLLBlJyiXY3cf4SJeIUtxI
-   w==;
-X-CSE-ConnectionGUID: /g/UYsI7RxOGzJTw+50Axg==
-X-CSE-MsgGUID: JrwrQ6+qTaig0rgranpDig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88761989"
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="88761989"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 10:15:34 -0700
-X-CSE-ConnectionGUID: xkiqDMHOQUeUBi/0squSRA==
-X-CSE-MsgGUID: 99UEsVl0TYm9AMokalj2VQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="274747731"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 10:15:33 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Wed, 2 Sep 2026 10:15:32 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Wed, 2 Sep 2026 10:15:32 -0700
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.21) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Wed, 2 Sep 2026 10:15:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SY3TH6vYfvlynXrbF5qGWTj3wgf6mv4vND0mWW6qSN/fUogsm0rnDvAsh0VM9JWmTjZiNrzTDk+LJPtYZ3rcyi3/ko6JPLg6SQb6cXVS5N5LVd32mkZdnSx3jspZ3e+8TnKFi36R2vy7b/8n5nUVZWNGoV0EXzAnWnRewqAF2XWcmN2vwW3ldk3tEtO2j70shG90uVS6UDZ6EWrurNpdTgVv+LYVwrdShWLDEr9Yv2PYQvKxt39Gah/peWERohs5jOimWVZQMFNhst8MAscmHV7CIY3J8/QLoBtzARxJpilbaAeB3LvTmkqcQ/dGGV/X7O/icio/qiMlTCMHRLMWZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wDcwdDXRWTQ9RsQoGSyUu3baIXpb3wS9+godhZO+TB8=;
- b=IwIgzhtNT1Ya2kSAfhV4J1rnreNoQWcWZ+kPfMyT3PEDXY7Mnw0Mbs0t2361ugKk6MneLb9APy/TtymoCcvqbOh7So/8EmSZFF8uvMmWTr2iE/qk8yT/Imsv1TeDRGoCJoLjryzoddduYL5WjD1yNzZVtAtTDUsv5hUc7//3c1cxEvaWZrOVbzdrAZAPONWRHNUandhD2c+r9+mgpsP/yb4rMeXHuCnLYlYGL8P05Zj/hhtlD4k7JBjRxX7+Lm/bwyHw3H1DCwFVjnvvRRvwieUwrD0LaQe678qv+JQcNKh4BK0+0QCeeR+BVRgNax9W2x+hEsS4m8ykUU3j8MWfEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by IA4PR11MB9321.namprd11.prod.outlook.com (2603:10b6:208:566::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 17:15:29 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
- 17:15:29 +0000
-Date: Wed, 2 Sep 2026 10:15:27 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>
-CC: <bp@alien8.de>, <tglx@kernel.org>, <mingo@redhat.com>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<frederic@kernel.org>, <marco.crivellari@suse.com>, <neelx@suse.com>,
-	<sean@ashe.io>, <chjohnst@gmail.com>, <mproche@gmail.com>,
-	<nick.lange@gmail.com>, <linux-edac@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] x86/mce: Avoid arming periodic polling timer when
- not required
-Message-ID: <aphZr7bHxvkhBKiX@agluck-desk3>
-References: <20260902020234.149814-1-atomlin@atomlin.com>
- <20260902020234.149814-3-atomlin@atomlin.com>
- <q763ak7xrotyqmzuu4uwxtk5aec5p4mrdwdtsnq6i5sdtlnm5q@ujq4y6wtztlf>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <q763ak7xrotyqmzuu4uwxtk5aec5p4mrdwdtsnq6i5sdtlnm5q@ujq4y6wtztlf>
-X-ClientProxiedBy: BY5PR03CA0026.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::36) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i6FDsv//";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="rhj9ROHr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788369894;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JtfXQonqbMU0qfMOMFckgTdI7kxhGi1jaT13EBgtRUU=;
+	b=i6FDsv//FDOJhBw5HQd2LhSl5NZON+ywm5Qwz8yAVJ3Y4TA/FOFtqehWCU0Bhee7++jc2Q
+	0KXyoIVg9QaSJbvCYH17R0yof+U/KtsVS90Xu5J2QaZauBGQvvTwHYjApI7JnmKKKVPQbo
+	+IZEC59Pdbjsg3zyKRTeNXvDvyzv19k=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-589-4Lr_T4iQPhurZ5-nKOa4_Q-1; Wed, 02 Sep 2026 13:24:53 -0400
+X-MC-Unique: 4Lr_T4iQPhurZ5-nKOa4_Q-1
+X-Mimecast-MFC-AGG-ID: 4Lr_T4iQPhurZ5-nKOa4_Q_1788369893
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-66d309b367dso1187923d50.3
+        for <linux-edac@vger.kernel.org>; Wed, 02 Sep 2026 10:24:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788369893; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Y4YgBtSTeZvnHprp4Imk/radia9GYXMDHXGqAstqAVjhdyi4d6y16uniRzwOxLfDTR
+         jWMlIIviJVzMbttoUFQoETxjjbtiXcsqlvCQSfhEsFC/UARO2Xkm2Fw5DaiGXjypZ07a
+         rbaB6aOIX+h13DP6+c7A1CE4Y5x06mLrxE3d0M31/0wlL/r65ZuqjZYHCTHkjP9ARYJp
+         oCXq1tJKEtAZcFaJflmp1sJOHiNMbYKFkq+NHfUNR6XDWMlVhJsH1LSSStTVYQUnwj+i
+         hKuJSp19WFWFfL24eZe/v3VMpEVUJBaaJXZSetTqSX5a5kQRHxz1IDtKoseakjG1jZHM
+         pTHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=JtfXQonqbMU0qfMOMFckgTdI7kxhGi1jaT13EBgtRUU=;
+        fh=8gRkFMQizqHHqvbLEYSzv1riiZ9J/AYYO1P8wg0hAOA=;
+        b=jgHMvDjYL6VMv0JGStn915ZLCUrJt6s9bscg6XqrcfhqSbn40D1XJEMKfLku+75oDs
+         SMyzbTKBSxFY4OKN0z9+RHsxE9TziaB+wxmljRqMZBpw8Ub7tZiUpzvrYqCgjWBEX1EM
+         ufKtQmJDkl2spYapcpyOukHKFA25g+Vzon/TQGw/vCLxDjUMN89jNiXEM/0luKzC3Ew8
+         dypqXiVPhPM1GlXmR0h6zw6be+CGpgVjZuyCTidM+Ty5hACdjPk2V6smWYzftSR7Py99
+         jgWyrTVEwSGv6WJr6DgvaURqIk3pvkV94D6FRJpUs/Ke7Da+NWzu9QVktvX4C1+bS2fG
+         Tt0w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1788369893; x=1788974693; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JtfXQonqbMU0qfMOMFckgTdI7kxhGi1jaT13EBgtRUU=;
+        b=rhj9ROHrkLBiuyVxfJHyOyj5FMTGgyUZCIqKHtGgKwMFtrpgGM46OOJRnUM+uCTu86
+         FbKpwkBtuvLysuIw6pnMU2QCTN7klp03OLpGuUPZhMgtDR28QuMZe4h51Hmws9GigT7x
+         Cv8wCK2FKMPVTv1yA8Z/M0cUlC3N9cqXKdepXDfZf83MWCd29BDDJsWn7WNIj5mNlrH7
+         12uHspVflDWXnnlLOzhZLrsu2adFZ7Vn8AA1m399K++EHGn+9sgF+BkgbeuEF0++jn90
+         JkR+COft7+aP9vMUxyVk5ev/EWVjtrcaVPIOVQKlQC4l82buqWg5pAaMuWRXpBPhLsP8
+         x5OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788369893; x=1788974693;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JtfXQonqbMU0qfMOMFckgTdI7kxhGi1jaT13EBgtRUU=;
+        b=dVmJ8MEjQgkWPmeFYwZcRmXHvWcQuxazi9iXY8aMnQ3VHkZeGNPnvZyXR7kO9QFMVn
+         5o3aXpw2VaKnhf2MfBtPQNH5TJYmnTU1ho63oSzTZ1siZDlJaxvsLrHNb9ZlPG6nePS9
+         iV7qSqHy++mAonmXqFD2Cgx/MnlzNJfTBRzjnq5xKEBVwbWNSCqPEYKIxV+n6klt1frW
+         g4Gk8E7RVk/8igjrWp777W8lyZ7Oe1MlUNjuTBsGMzYDUCn6oK/r9mJr7mPeHqps3a4S
+         gacVBKhUiCqJOQ4yPVG7cLpACUROQVf+9cf6uP2NLtDCqeruzPk+LrfUvK/bQ0b7zKLT
+         4BGw==
+X-Forwarded-Encrypted: i=1; AKwUvBxzSvE88mcoBOgHuSxdJdCpPd72scFl3lwYALcDhM09mosXUQf6hc2e6Af7BChsu6V8+MnCU+WaSyww@vger.kernel.org
+X-Gm-Message-State: AFuF++nB01c0zTmxQACWouDBpaG3LiX6bkTIYR+tyqRR+F9qHMiNSkba
+	hNJzGNe8q1pa/xWgHyZzyPFeEJ+beM++2iYh4fq97xuMc03CUaDF+cV5ibuvh71fvcNkVE+irNs
+	tf1Svt91H4sfXtQw0Aud8Y7o8w8Ky6h4wIdwOz1v3cw189hgf9ltkIxxHsTHn2R95gM9dn5uP19
+	c6lvUWC0VABYIO3hFvxBoxqSdK3Rhj0zgiLfPvKg==
+X-Gm-Gg: AYBFou2aIQ1ICxuCeep7f3kInHfYcLipd+t4H+h9HUjqyqSgk6Cb1kNlQgP0L/bfEGR
+	+lh0j1NL/5x3nY87CTBwAWfAiRVxx7+ayw0e3C9/pKoa2mI4QPcsagKAZvNDKe0m9Ho5q0VrZd9
+	ch5XeJdqcoQX2S8HYciEKBJw4KZDYnG7HCtY5eYTXq9cMs8MNl0KyGRNzNZjq0zptwPdZz78H1H
+	nxcgKmahJSKvcM9
+X-Received: by 2002:a53:c051:0:20b0:66d:2c09:fb70 with SMTP id 956f58d0204a3-66f9b6c6c7emr1993915d50.0.1788369888112;
+        Wed, 02 Sep 2026 10:24:48 -0700 (PDT)
+X-Received: by 2002:a53:c051:0:20b0:66d:2c09:fb70 with SMTP id
+ 956f58d0204a3-66f9b6c6c7emr1993889d50.0.1788369887644; Wed, 02 Sep 2026
+ 10:24:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|IA4PR11MB9321:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e2a26ce-451d-44eb-dc8a-08df0915c9e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|6133799003|4143699003|5023799004|56012099006|10067099003|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: aWfrzBFrvsbbsEtsRY8ZMfVIu3Sp45cJKLhXZ7M1FsQcRWf57NWFeZBkjZJX3d+ULawHVAma+4VCaQ9qceSTbC8Mc8wr5lgPFvdU1K4NM6dklDIDcfz47sujDpScUBDazw+TWzk6VF9ro9vm6SDkVn8g8a4IsRVlPyUxY7lfF/I60kBCWX7mmucqcnMftaV8u2lYGGNmQRH6K3xhi5LhEeL9E8Avh2FipcWBVk31vLcxOnvOe1SLVQmS2NLWoliS2RXRLlIslmAvp8Yfej54az35k99mdUgDd0ovb3ZSkKeo08x+vLmbOFG4dNM/OVtuuU778epZvj74YzzQjtfNJ9iyAeNTXPZI3i9+mDN4FLUZ+6HkToaqf1TbwfSyv3mVOMy934c4Ey6BdpOhCYaKppQDJ44FMS3baJP4sicqsaIEdBWglNGghGK3OU2NUvkE4/e4rZ5wIPqdekNsVS7SKhKwemypC5ee2SsezFmSAkqyWJX3HqkmuLatDOdWvfxP+pCNs4boeM4gD+N2bP23Xa1tMcksOX/KMZFrrvblgjpLLjQfciUSepFpFmhtHgpWktedzcIYMv0ZSydzOEzC3whnwyngJhQja1P3AZI3yZ8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(6133799003)(4143699003)(5023799004)(56012099006)(10067099003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OaDi81e9nZc7a1a9MHSrbB6p3DXbrl55Jj4ImhCzO+m3uGX4uS/Fstbb9j6p?=
- =?us-ascii?Q?GiSdcfvNj51lywHWaB0CEnP2AAE5R010eaInj2871x7gZRTaltWMGL02U2Ya?=
- =?us-ascii?Q?1ziFirm+tdUFo+x9S6E3MvX5nE1Eoh3B+hRJP8F5QUaDSMfF8Gzwi04NzGjm?=
- =?us-ascii?Q?14RFEGrb25i7BEYAfOjjE+bCnjYC/SavJZO4KIGLU10KYjvOo2KEUi6t4Upp?=
- =?us-ascii?Q?3H4FXetlb4aUku72BweEGHJX0RHLiswXp9eQH6EmqOPPI9d6C9YpKzHpqtzZ?=
- =?us-ascii?Q?9NwxRpnwJWsM+XrU7nud/a3gqrlgqGNtGXDlDwX5E/VlEIDyGXpifqfcVxGR?=
- =?us-ascii?Q?s7Bi+IR5shcWZle4p7GRSDUwp4qtUTluYbVF/o2v7LUIBu9ceZJlRULL1Jym?=
- =?us-ascii?Q?DszM9IbltcoOfi3lsPHebOhFKdXoWnwUz67+rzJ2Ua1WIGY0gbQJVpPQ8vsn?=
- =?us-ascii?Q?mUirqyiekn3asqsHWvqcsZ5acLQbVdu4QvQz65jbXYOD6JTdUqFgGJ0LiNbx?=
- =?us-ascii?Q?KHD8nguI4fcaPl26OF1CwCJt6fnnXpQutU+MVnzo/BsgMOF/hTHnokd19Fq+?=
- =?us-ascii?Q?Kys80NNYYiNG8aO2E+qswDzXjyx2yDQi1jyOOEgsGX45QeVPaaseypSqQx6Q?=
- =?us-ascii?Q?Vw1hJBp5nHnYxqNc47v32eoBiIt9cuti+y5bnkr0MgPC7Nvbv6Ujmx/7iYWC?=
- =?us-ascii?Q?tUJskmAP42hiuSNLBJbidB9rMnudZwQnwnfQt3koX0riRJQg1G/POSFYeI+X?=
- =?us-ascii?Q?/D/bmF7e752C9Rzucvj3gv8PvthKds2/+n6euoqmSaKzLjW9N3SF7lTEbLrb?=
- =?us-ascii?Q?dHH/lu49b5l//x/I44uhOsz8/ksKkksm3z5vDN5D1QaDWdm+vrz/HVBeCg1Z?=
- =?us-ascii?Q?nGMxnKq6uf8Q6kmqMB6uhG12H8jpfmUM0aX1mp4wYGNm1ri+csyTjDQwjPFG?=
- =?us-ascii?Q?QI14t4DVRPGi/rHGF+S3swH5WjF48QDMz2VgGen/L1KzS/E1JBAN8tH79R7i?=
- =?us-ascii?Q?GuaYOhwSAp/K75n6aun58set2lFqm0+p+HIFGkoJmVK+gNwJfW3T+RHzUe6y?=
- =?us-ascii?Q?VzlYGM6lg2xJgvA+/XRce1cCmx7w42ZyRlg+FIFIDMAV+li46h1vuvMxxqzt?=
- =?us-ascii?Q?iFIOgF7nAaoZm+vgcIa0zoF8Q5jGD6d6iAmPBRMrxeiuXsRSawrEU8faIYbd?=
- =?us-ascii?Q?v6WqsvPBvjJRxujHHK7nHXyudPxHtiPzHKSreMAnoE8BCUFzvxifLoqOcja4?=
- =?us-ascii?Q?K2PZkp/gjHZhg/eeRk4O7fqfPO4cFdpHJzwGgXPH4yQaDDMRCw6D4ZaH3NWc?=
- =?us-ascii?Q?ud25TsM6rxpeqWgCCHeFnqDGzHapfobhKxBz5rtmX5SSS+Q+N0t1pqF0CQuC?=
- =?us-ascii?Q?V2yqz2S+nBbEwUvE6pfxLsUuYsES8Q8tivbXj1JEgMxIL6srcxShITv/ANtB?=
- =?us-ascii?Q?Yfvo/VAslgaKGNp2g2KXVpQIvNrxcSB94LE5jxkajiGwearLVLjoQKNJ/fYK?=
- =?us-ascii?Q?eCJja7jQCjfwvo+CmZ6Wm/ymBtAiXO3aF4stSHpX/o3U3jhN2WBlzIvnHswE?=
- =?us-ascii?Q?O4pKhnvLcJFD2BsQF2AQpn0vxANEiAgtx1lt4qcVkHH5Egg1DyuQHm9td78L?=
- =?us-ascii?Q?PU+/XZMLU0jhHMLwZsKGAsMk0FAQQi0XvMxQUTu1VT8nQd8eFslJybNXX7hf?=
- =?us-ascii?Q?KzuC5bS75j752CqtWH4aPP1jKNwEYzA/G2f1B1dSgHShAoBNghykZh7CIyic?=
- =?us-ascii?Q?BVxT8YWSoQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: wbJwiaTN4yTc0AcvpzdpAGKZ07ySb2aAdPqkB5+5h0V8qkI0Eu5zPOIMEQ9133znRZ7ThZfQujqIRnWa65e+ng7UKx+vL5ATx7Ca9dUMG/HvyHtkZom5E/WWpdqcO/7LRgKyJ/08Qd84cKTLon+jq3lfb4FrV+cfV4qb2EAn2bKQQ6QSHxQLCNAGZnhyvz3p57vYXIpyqycaUVxu5Tz2EcPad7Kw6LZOCfcgipO7ZfhfFOtDZCPRvNdmWvOBhj7jhSXv4XrrBbVLVO9NovtE51Jkzw7UZYvM+YRKlVlkSgYWoW3XrAoWmjPRHta9AQKGtHvc9HNx+SQ82rzZGcx3pw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e2a26ce-451d-44eb-dc8a-08df0915c9e9
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 17:15:29.7635
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N73kHZx4MYX+gBB147FsbJmyw21o2GK5Lm6q1IsURKoBZSRXuwCbR/X67eD3OBV0CAwIdgeG7pUElRdDQ5FYJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9321
-X-OriginatorOrg: intel.com
+References: <20260831201945.287730-1-jsnow@redhat.com> <871pbd9qpy.fsf@pond.sub.org>
+ <CAFn=p-YBpsxy-3tr0SZ0CBfXUYnb6eg6AxNWpwUQmsuY5ZuykA@mail.gmail.com> <874ig7539j.fsf@pond.sub.org>
+In-Reply-To: <874ig7539j.fsf@pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 2 Sep 2026 13:24:36 -0400
+X-Gm-Features: AcwNN1XBjb54T3mVZMsXOfq2ujX90-DJwsczseD1fmwpMjm1p4yXf5IyvbishUI
+Message-ID: <CAFn=p-ZMj03qA0tvLU34FHLcwBJjU0c2q2Ex1p06FJfZpwyuJA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/43] qapi: convert (very) trivial intro sections
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+	Lukas Straub <lukasstraub2@web.de>, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+	Richard Henderson <richard.henderson@linaro.org>, zhenwei pi <zhenwei.pi@linux.dev>, 
+	Jonathan Cameron <jic23@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, 
+	Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, Jiri Pirko <jiri@resnulli.us>, 
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@mailo.com>, 
+	qemu-block@nongnu.org, Ani Sinha <anisinha@redhat.com>, 
+	Jason Wang <jasowangio@gmail.com>, linux-cxl@vger.kernel.org, 
+	=?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+	Igor Mammedov <imammedo@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+	Alex Williamson <alex@shazbot.org>, Stefan Berger <stefanb@linux.vnet.ibm.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>, linux-edac@vger.kernel.org, 
+	Michael Tokarev <mjt@tls.msk.ru>, Fabiano Rosas <farosas@suse.de>, Zhao Liu <zhao1.liu@intel.com>, 
+	"Gonglei (Arei)" <arei.gonglei@huawei.com>, Eric Blake <eblake@redhat.com>, 
+	Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, qemu-trivial@nongnu.org, 
+	=?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 02, 2026 at 08:36:51AM -0400, Aaron Tomlin wrote:
-> On Tue, Sep 01, 2026 at 10:02:13PM -0400, Aaron Tomlin wrote:
-> > On x86 platforms, the Machine Check Architecture (MCA) subsystem arms a
-> > per-CPU, pinned standard timer (mce_timer) to periodically poll hardware
-> > banks for "silent" corrected machine check errors. Because mce_timer is
-> > pinned to the local CPU via TIMER_PINNED, the timer core cannot migrate
-> > its expiration to a housekeeping CPU, causing periodic latency jitter on
-> > isolated cores.
-> > 
-> > On Intel systems supporting Corrected Machine Check Interrupt (CMCI),
-> > hardware generates an interrupt for banks with CMCI enabled, clearing
-> > their respective bits in mce_poll_banks. However, for banks where
-> > MCI_CTL2_CMCI_EN does not stick (such as the Power Control Unit bank),
-> > Linux historically assumed software polling was required and left the
-> > bank flagged in mce_poll_banks.
-> > 
-> > Per the Intel SDM (Vol 3B, Section 18.5 "Corrected Machine Check Error
-> > Interrupt"), if bit 30 of IA32_MCi_CTL2 is zero, no CMCI is available
-> > for that bank and no corrected or Uncorrected No Action Required (UCNA)
-> > errors will be reported on that bank. Therefore, polling such banks is
-> > redundant and wasteful.
-> > 
-> > Clear non-CMCI banks from mce_poll_banks in cmci_claim_bank() on
-> > CMCI-capable CPUs, and amend should_enable_timer() to:
-> >     1.  Check bitmap_empty(mce_poll_banks) so that mce_timer is never
-> >         armed when no banks on that CPU require software polling.
-> > 
-> >     2.  Pin the MCE polling timer to a HK_TYPE_TIMER housekeeping CPU,
-> >         sparing isolated nohz_full cores from periodic wakeups on
-> >         systems requiring mce_poll_banks polling.
-> > 
-> > On modern CMCI-supported platforms, mce_timer is eliminated system-wide
-> > in steady state. On legacy or polling-only configurations, housekeeping
-> > CPUs perform routine polling whilst isolated CPUs remain jitter-free.
-> > Polling fallback during active error storms is fully preserved.
-> > 
-> > Suggested-by: Tony Luck <tony.luck@intel.com>
-> > Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
-> > ---
-> >  arch/x86/kernel/cpu/mce/core.c  |  7 +++++++
-> >  arch/x86/kernel/cpu/mce/intel.c | 11 ++++++-----
-> >  2 files changed, 13 insertions(+), 5 deletions(-)
-> 
-> Hi Tony,
-> 
-> As per Sashiko [1], the last paragraph should be updated to avoid
-> confusion, thank you:
-> 
->     "On systems requiring software polling such legacy platforms lacking
->      CMCI or when booted with mce=no_cmci, the mce_timer is restricted to
->      housekeeping CPUs. While this intentionally leaves core-private banks
->      (e.g., L1/L2 caches) on isolated cores exempt from periodic polling to
->      guarantee zero timer jitter, housekeeping CPUs continue to harvest
->      telemetry from their own banks as well as shared package-level
->      resources. Synchronous (#MC) exceptions on isolated cores remain
->      entirely unaffected."
-> 
-> 
-> [1]: https://sashiko.dev/#/patchset/20260902020234.149814-1-atomlin%40atomlin.com
+On Wed, Sep 2, 2026 at 6:58=E2=80=AFAM Markus Armbruster <armbru@redhat.com=
+> wrote:
+>
+> John Snow <jsnow@redhat.com> writes:
+>
+> > On Tue, Sep 1, 2026 at 7:05=E2=80=AFAM Markus Armbruster <armbru@redhat=
+.com> wrote:
+> >>
+> >> Series
+> >> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> >>
+> >
+> > Thank you for your suffering :)
+>
+> You're welcome; it's my job[*]!
+>
+> > So, I think there's actually no real problem in checking in a partial
+> > conversion as the infrastructure was coded specifically to allow it,
+> > however you're the maintainer so I will follow your lead. I'm more
+> > interested in moving forward than telling you how to do your job ;)
+> >
+> > The series will eventually enforce strict ordering, so there is no
+> > chance we will miss anything. If we send a PR now, we also don't have
+> > to keep rebasing the partial series against master. If you don't want
+> > to submit a PR, please create a branch I can track and submit patches
+> > against, and please periodically rebase it against origin/master.
+>
+> I worry a bit that having intros split about half between two styles
+> would cause confusion and friction.  I'd much prefer to get to >90%
+> fairly quickly.  If we think that's possible, I'm happy to queue up
+> things in my tree, and take care of the rebasing.
 
-Hi Aaron,
+Everything up until the "convert multi-paragraph intros" patch (#44 in
+my pending work) is approximately 87% of the total volume of
+conversions. In the most recent off-list mail I sent you, that's
+Sections 1-7 -- which is essentially all of the stuff that was
+factored out as "semi-trivial"/"simple", plus the "TODO" conversions.
+I believe these are pretty trivial to burn through, but would require
+a bit of dedicated time. We could probably do it in a week if we
+really pushed ...
 
-You have one small bug. Your check whether mce_poll_banks is empty looks
-at all MAX_NR_BANKS (64). But all Intel systems implement fewer banks,
-and only clear the bits for banks that exist, leaving some upper bits
-set in the bitmask.
+Existing volume of what you have reviewed and accepted is 55%.
 
-This means the timer keeps running.
+Well, either way, I just don't want to have to juggle so many patches
+in the interim, so I am pushing a bit to just merge it to make
+subsequent series easier to rebase and juggle so that e.g. I don't
+have to have increasingly long "based-on" tags.
 
-Please send a v3 with the updates to the commit message listed above,
-and with the change below folded into your change.
+(Makes sad, pouting noises.)
 
-Thanks
+>
+>
+> [*] Some days my compensation is compensation for suffering ;)
+>
 
--Tony
-
----
-
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 7415d05076eb..b01ad1a9b455 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1760,7 +1760,7 @@ void (*mc_poll_banks)(void) = mc_poll_banks_default;
- 
- static bool should_enable_timer(unsigned long iv)
- {
--	if (bitmap_empty(this_cpu_ptr(mce_poll_banks), MAX_NR_BANKS))
-+	if (bitmap_empty(this_cpu_ptr(mce_poll_banks), this_cpu_read(mce_num_banks)))
- 		return false;
- 
- 	if (!housekeeping_cpu(smp_processor_id(), HK_TYPE_TIMER))
--- 
-2.55.0
-
-> 
