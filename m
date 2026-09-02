@@ -1,92 +1,127 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4646348C75
-	for <linux-edac@vger.kernel.org>; Wed,  2 Sep 2026 03:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B72040910F;
+	Wed,  2 Sep 2026 09:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788320579; cv=none; b=Uhie7qUPL2CuvQerCrcZwF+RLK3f3sjoUDPa3WOEUb/xC01LWg5Mj1dqmVoFJDqOYxQ3mCw62MGq1CV/JH22VEZLJsLBF0fH/Nw78aKgfb1KF25CNFVAyHDsXlWXphLy2ZQKNLesg2gHbHWykSEIS4xiIhB2XXVD9fqiOvmU3NE=
+	t=1788339864; cv=none; b=A48DsATq+gAkZteBTXXON6lyUWRGuqaeaS1UoKsqqBR2q0KIFelmpfx3G+QodoZ8UK/luLb6/dD3p21x+aF0EN5nfgYv30F8kB+Isy1S5xFiVeXsS1WHYWWTHmRGbvL7VRl+fFwZi+RLQ++178/xyDw8N8dmRZNFisv6Vwkx1Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788320579; c=relaxed/simple;
-	bh=i3fo3pHteBDTj07Dr/Mi0B2AnpNZNlOf08y+DZE8ShQ=;
-	h=Message-ID:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LuUOavf6gHWZy66jNAGXyO1d25VjAw+gWSzpCoT2C/FIwlaZ0D4IKmy6WiuSDzXZd0kJSj1jK+hcVDYZimY7uAuHRI5PYLUlVhoEGzLmfYXVpQ7/44uEHAsq2X0fD+VQCm41Ek/Il7h4P1htgVbRMF6n2BqUcC/VUjQ2i/etEzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gMCIUdT/; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gMCIUdT/"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d71ae3455aso8647015ad.1
-        for <linux-edac@vger.kernel.org>; Tue, 01 Sep 2026 20:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788320578; x=1788925378; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=g6mGPcki/1a/Lf2s2/1dI66mP0jWfESO0B2O9tUlL+Q=;
-        b=gMCIUdT/uUXyjF71g2To4LLwdSHF8jlWguTo+Vp/qw/8+NkRZ7qyxc1UN0ZO3WgHZ/
-         Z4kerIj9RTU++4QFGkV5uJpmrXAXsaTYpw+PtJZcOVYx4VZTfnkPTduQZgsHz7JVumv5
-         Qsu4/TjpX0Knpi+gPOp1stH4j3Axcb/QZQ5B/UaRcLCYt7d4Dq+3UAFXcZJoMp1NzGZd
-         xcbf9AOKxT5rIFqVpidTHmgS7WrOFAetHOFf7FqUREphbSJcOYCblYfbN69icDlmvAwX
-         1MeXAHDARqg6wIJuq2eY6liBFDfCiLawcGS5YcONwi6YkD1Jt3UWn26qFXj2VV37Qtuq
-         89CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788320578; x=1788925378;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g6mGPcki/1a/Lf2s2/1dI66mP0jWfESO0B2O9tUlL+Q=;
-        b=PFyN9mPaosGn38JEYIV6p4Mv6oe8NoKrl6ov9f9tD/h3Y7tmkMeBoNoKbtEY9KXQ/O
-         4QvArUxXd85qokecTm/S+MrqaPxwjavVs5wbJ0ZPhyaMJkBNbMQh4FCH4O3KR971wOxG
-         0cQuZIokPwYK94KPny+0sEgr2f5SBBYzjvM2kVjFZfBqxNaBArI2LPMUifLhdAuQEnIr
-         HGCmmkBVU+vPiZ+FQ7RxNQ43yTSEiMMX9HZyu05dKMiPEoMI4ergty0shNB+Ct16W2Rs
-         gHWyRR1Z7pwM7HeA2s0HZa1sYWSbN6lAhBRWxbgHXgRa5KCFLeo9ufjdMUtNPr5jrR6C
-         lDYw==
-X-Forwarded-Encrypted: i=1; AKwUvBzAhcEzRsdIpp3OE0bknKo+PaF/DoCu9x02cIiHrFB/cd/cXrLkQ81IhayERCaITZiFXfGyE51E28vC@vger.kernel.org
-X-Gm-Message-State: AFuF++mup3R85hDz21anK5kQ5Xu8Ic6chLn1kZRQucs3DS+EOZMwVKMj
-	UCQP/2bnULANwVS/wPgRWRI0x1Ju30uwLNlYUpVXbLW0wPhui41QdpgR
-X-Gm-Gg: AYBFou0PavUE5jd2TJvsswnZjdSgFSSkzf1q1vaZlBnxvyVd0ALPjbBjoqfqWtn5hUv
-	mTCCmFIvil1YimKYZzZefC2FEFrIRA853khnHufUeadgVPbey+LpQsju1UI5bSLvBcH4gkqafVI
-	MzLKJ5koeukO3He1PkSHy3Qde8ZrDtWlxjG6VEB9aE3/neSL5Eo0zR3GXYw0UE64pd/lMJB+VaQ
-	+6wamLHnauxfvIT6l5WUbINixV+OKBbt2ZUnOeWZ9GFjOP7f/FOU/lvqCnVNDNQ4Se+txHDGxHS
-	Dw2k/2bzFI9NTBbEwHbxM3AUagh3Ulk+2jnHHsROBTsMpvTyneTK8Nf/jeZViqeFoSX7+zuoQf2
-	NnnwHo3/pJCYkpqFIPSs3hPDufwH7qNqef6pa5LiYT1ZKsQLudXN7VTD5N46DU+5qDz/Uqk8uGm
-	8vnijvelSmTJHzenEDrjp1FglPITUtrXJ8QBUL4SqiSr3uI9wI+KpScT4Sukmg4NMMCuJFRjyjj
-	hVUCrAL4tG+vsqqhCoh7L/ZH9Q9dl1LSvxKf5tsJ1q6RGqh5U3Grg==
-X-Received: by 2002:a17:902:e78b:b0:2d9:2fc9:570f with SMTP id d9443c01a7336-2daec738b38mr32120595ad.16.1788320577728;
-        Tue, 01 Sep 2026 20:42:57 -0700 (PDT)
-Received: from [127.0.1.1] (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dadd4d7985sm5826315ad.84.2026.09.01.20.42.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 20:42:57 -0700 (PDT)
-Message-ID: <6a979b41.d6e1292d.3d29a1.3309@mx.google.com>
-Date: Tue, 01 Sep 2026 20:42:57 -0700 (PDT)
-From: Zhijian Han <hanzhijian1991@gmail.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Tony Luck <tony.luck@intel.com>, linux-edac@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH] EDAC/octeon: fix kernel-doc comment for co_cache_error_event
-In-Reply-To: <20260902012331.GEapd6k7g1DZxILLVW@fat_crate.local>
-References: <20260821233751.2331272-1-hanzhijian1991@gmail.com>
- <20260902012331.GEapd6k7g1DZxILLVW@fat_crate.local>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1788339864; c=relaxed/simple;
+	bh=de+tyHpJ9qQT+Dr4m5YN0M3l4DSMo+n8dkmHRwarhvs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DekvhrifPMcdO3VtT0v+1s3Kw4+TW7DXtkp65zJq20rj/JEkEAwqNUBsB4QRQvTNRWi6pYPUw5MarDI434ebO9g5He51achT0WKDYouU+sI+zuNohsXSoNCpr4PhLyLvGhM3APw+MMhQi7ClzY30xmVJVtIxrdgoQ0Iwsb4XNVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.40.54.123])
+	by gateway (Coremail) with SMTP id _____8DxztKT5pdqo7QHAA--.21687S3;
+	Wed, 02 Sep 2026 17:04:19 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.54.123])
+	by front1 (Coremail) with SMTP id qMiowJDxg8yM5pdqsXgZAA--.26394S2;
+	Wed, 02 Sep 2026 17:04:13 +0800 (CST)
+From: Qunqin Zhao <zhaoqunqin@loongson.cn>
+To: bp@alien8.de
+Cc: tony.luck@intel.com,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chenhuacai@kernel.org,
+	Qunqin Zhao <zhaoqunqin@loongson.cn>
+Subject: [PATCH v4 0/3] EDAC/loongson: Improvements for Loongson EDAC driver
+Date: Wed,  2 Sep 2026 16:48:24 +0800
+Message-ID: <20260902084827.2652-1-zhaoqunqin@loongson.cn>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJDxg8yM5pdqsXgZAA--.26394S2
+X-CM-SenderInfo: 52kd01pxqtx0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7tr4xZF1fKw17KrWrGF18CrX_yoW5JF1xpr
+	W5uan8Gr4Dtr1Ikanayw12v3Z8Ka95Jw4DWan7t34fZry3C34UXw4SyrWj9FnrAr4ftF15
+	XFyvgFn7KFWDA3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
+	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0x
+	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
+	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+	kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
 
-On Tue, Sep 01, 2026 at 06:23:31PM -0700, Borislav Petkov wrote:
-> I'm presuming your legal name is "Zhijian Han"?
-> Because you should use your proper legal name when you sign off on patches.
-> You don't have to send a new version - I can fix it up when applying.
+This series contains three patches for the Loongson EDAC driver:
 
-Yes, "Zhijian Han" is correct.  Thank you for fixing it up.
+Patch 1: Encode node and MC info into mc_idx so that on multi-node
+systems, sysfs entries uniquely identify each controller.
 
-Regards,
-Zhijian
+Patch 2: Get DIMM size from ACPI _DSM method instead of using hardcoded
+values, enabling correct display of memory size in sysfs.
+
+Patch 3: Add CS4-7 timeout filter for cross-node access on 3C6000
+multi-node systems to prevent false CE error reports.
+
+Changes in v4:
+
+- int mcs_per_node; -> u32 mcs_per_node;
+- int valid_cs_bits; -> u32 valid_cs_bits;
+
+Changes in v3:
+
+Patch 1 "Encode node and MC info into mc_idx":
+- Drop mc_idx_u32 temporary variable; pass &mci->mc_idx directly
+- Rename device property mc-per-node -> mcs-per-node
+
+Patch 2 "Get DIMM size from ACPI _DSM method":
+- Fix subject: get -> Get
+- No code changes
+
+Patch 3 "Add CS4-7 timeout filter for cross-node access":
+- No changes
+
+Changes in v2:
+
+Patch 1 "Encode node and MC info into mc_idx":
+- Use char other_detail[64] = {0} and drop the else branch
+- Put snprintf() on one line
+- Initialize mc_idx_valid = true and drop the else branch
+- Validate mc-per-node firmware property is non-zero to prevent
+  division by zero
+- Wrap pvt_init() function definition to satisfy 100-column limit
+
+Patch 2 "get DIMM size from ACPI _DSM method":
+- No changes; rebased on top of updated patch 1.
+
+Patch 3 "Add CS4-7 timeout filter for cross-node access":
+- Assign valid_cs_bits before calling read_ecc() in pvt_init() to
+  prevent using uninitialized data when establishing the baseline
+  error count
+- Add bounds check for valid_cs_bits < 64 to guard against undefined
+  behavior when shifting a 64-bit value by 64 bits
+- Rename device property valid_cs_bits -> valid-cs-bits to match
+  standard DT/ACPI _DSD hyphen convention
+
+v3: https://lore.kernel.org/all/20260812064139.1231-1-zhaoqunqin@loongson.cn/
+v2: https://lore.kernel.org/all/20260805085414.1482-1-zhaoqunqin@loongson.cn/
+v1: https://lore.kernel.org/all/20260730063035.230686-1-zhaoqunqin@loongson.cn/
+
+
+Qunqin Zhao (1):
+  EDAC/loongson: Add CS4-7 timeout filter for cross-node access
+
+Wang Jinwei (2):
+  EDAC/loongson: Encode node and MC info into mc_idx
+  EDAC/loongson: Get DIMM size from ACPI _DSM method
+
+ drivers/edac/loongson_edac.c | 82 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 74 insertions(+), 8 deletions(-)
+
+
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+-- 
+2.47.2
+
