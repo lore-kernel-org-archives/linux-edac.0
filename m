@@ -1,66 +1,60 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838594AA1FB;
-	Wed,  2 Sep 2026 16:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC0D361954;
+	Wed,  2 Sep 2026 16:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788365650; cv=none; b=a2f17rgaKxxcNTWO31E6e7qjsB8xJ7/DUSj1VO8TUi2mhd9KMmGARVtA0SBT/GtqnzXBhG4KiFNJ5b3Sr7MtxY94R3OmsOS82RdGOA6K/cPjEL2dBS2QDM764Uy1G6jVAVO9lyHOCUWJzvE3k8io1eiAKGEii7qmcrvxETo86tM=
+	t=1788366098; cv=none; b=nu4e+HYl4T1CLJCD+A+fCj3hjGcrODm/m93yJ7ilaThSNCc4HzjNSb0eJ+v7G4yEoDFuagn3LEoBQxGW1w120b0cOouXQWVXpw2Bo+j0Wc09gipoJ7eE+fLEtgLHjmYb/nKz9aAfo/8r4PPm3sDfAMfFn+IiGyEs8AL8ERjMYYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788365650; c=relaxed/simple;
-	bh=jeZZFxqVUtyDQBa9Grm/LRnr+jvpjvm8tBq47Rdmc6c=;
+	s=arc-20240116; t=1788366098; c=relaxed/simple;
+	bh=Ed0CFCNzDXDzRmmEtD75gEaz/lxPcWfXzrw3M9tkxVY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jp9xN4w8YAoXHGz9MmpwqBKRQCqKVJ7oL0oSJLOhPfMzaiSywMqlsRAo52iMJfwR0a+ciACqO/FVKU7okenKaIGe50ZbsLzW4r7e8azSu/9mdPo2qP5UiYAIvmIfOlsYEdg40/feaDMNQ7aSP8bShQ72cEsSc/2b6C6nQEP2AAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Txj/Nh0d; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zy0cj9AeAR8OHc9TqCNUTxQEvK06/l4gUiA91g/H+YEggR9ir3o6WFypj2exDzhpioWXSRFU9irYxZ6LYak3YjRLAyDdmhkYJBp8JAqqjMSV+VOrpdxlCT/owxEvB2Dq/20vkJo1vQfwXwpolOct78ygGo0OcGIJU5IgOP3gvUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PXwlhsE6; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Txj/Nh0d"
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PXwlhsE6"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9B2AD40E027F;
-	Wed,  2 Sep 2026 16:14:03 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6BE5B40E0301;
+	Wed,  2 Sep 2026 16:21:33 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
 	header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id gRpwkzEokP0X; Wed,  2 Sep 2026 16:13:53 +0000 (UTC)
+	with ESMTP id ut8g9CZcaq-P; Wed,  2 Sep 2026 16:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1788365632; bh=psU3q82kzGy+BjUnVNhpSzLZqNL0ZbkYHtyLg0erapE=;
+	t=1788366081; bh=wBubYF5UfCp//9GBfpKwPeGGZ2tvJSyge3a/ISnIc4A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Txj/Nh0dvtDKjIAUGkClDpMddymlmIny0TWLy5QpmcmnlD52tCwtOW0dIfFU6rJE1
-	 DwaCR9vVLukxOPcx1W9D+qFEUh/Jic/y/cu16D31ENveLR2ix1ijtdYyICc1u2Qsb8
-	 GtnR2xDSxCLtMNQbd2gzSsX1oNeFyHnnUsyYhw8q/xtiAqMAtxZYio+zTGFoqViPzb
-	 VxjP/rLUbr7jlOKAT0tQiLUgsYJNk+s90bQHxE6TFV0AHCFdGNZon8td1fpF2Lkr8P
-	 o26fikKjeptQ3kmZZl6Y27gUTBAOy2ohg5Ug4CYQQbaYNONPAfEkB0F/nFfjJAmcXU
-	 aqY179xEwjPEEZPsZHIocIgDdxjuW+Q9twz+Jigv2PDqKoVNO1qEMUqwNoPFMGGzw7
-	 ekrQOLVy/r6/3Asy53nsPKtkoPshG5m3EoGCPNVqLsEyvwWLf5LvG07a+TyyqdQY4q
-	 w+xMcX9mQZeWVGKFKzga0bwBCtV3HHSRGtgdaTpVRcGS1okqz+qvr7C3mNaGVWirqy
-	 4ZJcIGH5cFdNwxPV2HlXlSAO/bV09Vq055O6UqlEUxx8kpTklEcTy7ONbI03apNkBs
-	 YwVCjOmKnMPEN/3Djcn/bSlZK2yhvuSPbPaCtsIvfEH6Cs6sJWxsPjIVTR0A5Wm+jh
-	 o49wOv7AoeMs6KbOimmjrQs0=
+	b=PXwlhsE6Jbxk68QeVg7Q/Woc8uTJEmhQbpQiSoUFc4cQQltIdkjB0p0bTZ4rl9s96
+	 GKaNKnxtwmKNHrlT8PwV32wFF1vl+ZKKI74Xmtrp8oTiSD9q1m7rCPylcg11FskLy/
+	 vsFt58ThxKubJ6Bon6tfGK8JRjPs1C06MORXvZ9Nurn/BzHRnttNmsJw6WybMoSX9x
+	 XFjRZ6TEG9+WdCPMM75oUw/SuhM82YLlkTza1N0FAlsf786GHpcej3p4fSBOX2B7t/
+	 FyZQcidSUI6fFKKTdFWDpi5cGYg2fR2JU8/pseIhvij2QkN89bG/5h/h9tWHhbeLXG
+	 8xsDq0jZWPEC3pjNCe7fUykIUl+jgQp1i5bpEAMufGnZrGWLoTkEIpSTvHH+tQuLhr
+	 jClI3VdyE/aU7abWi4CgQNAA6xK49UbiRaESixbvRY1KWslCx0w7b47lIn3g4p+LMx
+	 woq8/efH+gf2xZBtJ0kl0Wkxy9SkCDnvGu8DVref5v4cw8TUToUAuWhUZkciL73Frx
+	 bUyg+Zn0qryOQydKya9oqwS8L4oCE1RIrXDksGQ8gUFCbetrbgTg0ENQlm/3/h4yBm
+	 2qEY5k+k/KV29XqIjDT9wYM74GNrhpq5XB5yid6tVRIpOBuqpAb3+wcUaSV3UvHv7Y
+	 wnw2NgFVtdi/tw2nUjEru+hc=
 Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D276640E024B;
-	Wed,  2 Sep 2026 16:13:44 +0000 (UTC)
-Date: Wed, 2 Sep 2026 09:13:41 -0700
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4D17040E024B;
+	Wed,  2 Sep 2026 16:21:14 +0000 (UTC)
+Date: Wed, 2 Sep 2026 09:21:11 -0700
 From: Borislav Petkov <bp@alien8.de>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	linux-edac@vger.kernel.org, git@amd.com,
+To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+Cc: linux-edac@vger.kernel.org, git@amd.com, shubhrajyoti.datta@gmail.com,
 	Michal Simek <michal.simek@amd.com>,
 	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/9] EDAC/versalnet: Add NULL check for mci in
- remove_one_mc()
-Message-ID: <20260902161341.GDaphLNf5-oebw1SZM@fat_crate.local>
+Subject: Re: [PATCH 0/9] EDAC/versalnet: Fix error handling, teardown, and
+ robustness
+Message-ID: <20260902162111.GEaphM9-ifGFATXexm@fat_crate.local>
 References: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
- <20260724171945.2812749-3-shubhrajyoti.datta@amd.com>
- <20260802184623.GAam-Qf9-yes1DkNkl@fat_crate.local>
- <CAKfKVtFtFmUKwnWY4xGwcRQG+qJ2UdK6LK+3QX=Ukvr3v4Y7EQ@mail.gmail.com>
- <20260803162920.GAanDB4FyqT3mLMm-U@fat_crate.local>
- <CAKfKVtEOn-jSiqHs9zGc4qNahQUy3XbAuACgtE5joF_ctGxjMw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -69,21 +63,23 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAKfKVtEOn-jSiqHs9zGc4qNahQUy3XbAuACgtE5joF_ctGxjMw@mail.gmail.com>
+In-Reply-To: <20260724171945.2812749-1-shubhrajyoti.datta@amd.com>
 
-On Tue, Aug 11, 2026 at 06:41:45PM +0530, Shubhrajyoti Datta wrote:
-> The driver currently assumes that all 8 controllers are instantiated. However,
-> Vivado allows users to enable only a subset of them. For example, if only 4
-> controllers are enabled, only indices 0-3 will be populated with valid data
-> structures. During rmmod, the driver attempts to remove all 8 controllers,
-> including uninitialized entries, which can lead to a crash due to invalid memory
-> access.
+On Fri, Jul 24, 2026 at 10:49:36PM +0530, Shubhrajyoti Datta wrote:
+>     This series addresses several correctness and robustness issues in
+>     the VersalNet EDAC driver
 
-Yes, that's what I am looking for, thanks!
+Ok, for the next revision:
 
-I would like to read a sane explanation and a use case how something can
-happen so that when reading commit messages months and years from now, we all
-know why the code was written this way.
+https://sashiko.dev/#/patchset/20260724171945.2812749-1-shubhrajyoti.datta%40amd.com
+
+Please address all those issues reported by Sashiko. If valid, fix them, if
+not, explain why they don't need to be fixed.
+
+Put those fixes *first* in the set so that they can get backported to stable
+kernels.
+
+Code cleanup, improvements and new features go after them.
 
 Thx.
 
