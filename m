@@ -1,150 +1,153 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F693F3285;
-	Thu,  3 Sep 2026 09:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D29471431
+	for <linux-edac@vger.kernel.org>; Thu,  3 Sep 2026 10:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788429387; cv=none; b=QiJnce8b2zUgwwuaNrp07g0FosVDR7UzE0uv7CD12KCQYf7EA5SN1qgRQGdd3UG0hy4me9+9ltSAryRmaOU8LMoYWHo8NsW3YboAxevbo5/9xWUt1/WUT8dJNWePMs9XJKnb6YdybV97x0n4E6vvuGkrS0aENLRrb0dM7C+Fm58=
+	t=1788429852; cv=none; b=oF2jxPWQY7v9KWE5VrTQ7NgvUn8OXQfCRQHFn3Jg6IATZ27HhWeeiG0ORbBN8jOqWibKjf+pcilONQdsPBDxxhO3bDxxnOTWyWjey+aRF9SmzYtH48kKk51VxUXItxsyvst2L/MqiWs3D5SVJ8jWfYuFHm8juxOavlE8nJd7+fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788429387; c=relaxed/simple;
-	bh=Uht9XxfG395aCnOQoxfXrCtmwg0SKPqoW/aycFlFH64=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=EJsJZ3dcYB6WhzLSyahaXqZZX7KY0mF64GvFCZlM/t0PxUndXJOg6VdY7hOzifHNR0yzNP9AtpSm0nIA1Udp5UDZDCk4GP/AIXa8V+3B6o5NZY91ioIP9BJmfuu/txfI1QTk6IE3LpgFkKlJNlKuXF28A+sNA+z6/PE7tNkoIzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=J11gRP8D; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788429852; c=relaxed/simple;
+	bh=gdB4aDPcHnrT8svi12znDnIpqbHHU9JkNo6yjP6CSc4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JoxLkvN+cf/tgHdFjfJCA4CWsvJUsja6uYv9+LPqNUyVtiPcm0i08LSIbCftIF5dett0uV6mWFEhKsL0AJsywNaV+b7uwjzyAAb1K4VWnq/1FbG8LQojPOA8qkZe2A4Bi2mOdQLNVKVHt7bfk8VznA7bT1c7dYHrQEHR63z9Sjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YiAFlGb3; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="J11gRP8D"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=JUdkjCJVGPeXYULrHHVmfZBOStTpTVs4AyrGYzcTvs4=;
-	b=J11gRP8DBJ4v4k/Gakp4eEUFxoH6cxOLr83ZmN96sJU+OAZFYGoi6Z8BEfFu9eqMAxJxr4N0W
-	y0RvQdwfc0dKhqc2wAoOIFLT79fLx4xfaINTjGHD47gBeRqLzRezVD4b0xZivxqd46qn1oP3LGl
-	wRei+fif4H9aRD4R/0Nb12s=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4hbF7Y1ClLzpT1C;
-	Thu,  3 Sep 2026 17:44:57 +0800 (CST)
-Received: from whupemk200014.china.huawei.com (unknown [7.152.185.79])
-	by mail.maildlp.com (Postfix) with ESMTPS id AE0E040575;
-	Thu,  3 Sep 2026 17:56:19 +0800 (CST)
-Received: from [10.174.179.24] (10.174.179.24) by
- whupemk200014.china.huawei.com (7.152.185.79) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Thu, 3 Sep 2026 17:56:17 +0800
-Subject: Re: [PATCH v2 2/2] RAS: Fix out-of-bounds read when tracing arm_event
-To: Abbott Liu <liuwenliang@huawei.com>, <tony.luck@intel.com>,
-	<bp@alien8.de>, <jic23@kernel.org>, <ardb@kernel.org>,
-	<rafael.j.wysocki@intel.com>, <mchehab+huawei@kernel.org>,
-	<luoshengwei@huawei.com>, <jason@os.amperecomputing.com>,
-	<danielf@os.amperecomputing.com>, <linux-edac@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <yangzhuohao1@huawei.com>, <douzhaolei@huawei.com>,
-	<zouyipeng@huawei.com>, <wangbing6@huawei.com>, <nixiaoming@huawei.com>
-References: <20260825134323.4181892-1-liuwenliang@huawei.com>
- <20260825134323.4181892-3-liuwenliang@huawei.com>
-From: Hanjun Guo <guohanjun@huawei.com>
-Message-ID: <1316fa8a-5611-6728-3517-bf4bf0ccbc3a@huawei.com>
-Date: Thu, 3 Sep 2026 17:56:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YiAFlGb3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1788429845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BOx5UsBcpJ107C2izhbZpmNC0abVl9+Uxw26Tqjp5i8=;
+	b=YiAFlGb3yZN+JKM/ZurHKD6dn2XcvrsWcTtK6xCayxukFDSFVj1sWG+kcEgCd/y+7zhuLi
+	lXElJbxr+6uZVak4mXLGwsuImG761Wi+JhMh0k/e3c54gIxG1l0ms3VpizpiDrITWRbk3C
+	3f0uFrEgP7Pc4f4/MgRh19X+tS/FbYA=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-615-d3WSQXZSPseAsWF0hiW_Hw-1; Thu,
+ 03 Sep 2026 06:04:02 -0400
+X-MC-Unique: d3WSQXZSPseAsWF0hiW_Hw-1
+X-Mimecast-MFC-AGG-ID: d3WSQXZSPseAsWF0hiW_Hw_1788429839
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 88B941964CEE;
+	Thu,  3 Sep 2026 10:03:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.44.22.5])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4D543000223;
+	Thu,  3 Sep 2026 10:03:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 6713821E682E; Thu, 03 Sep 2026 12:03:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,
+  Lukas Straub <lukasstraub2@web.de>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Richard Henderson
+ <richard.henderson@linaro.org>,  zhenwei pi <zhenwei.pi@linux.dev>,
+  Jonathan Cameron <jic23@kernel.org>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Stefan Hajnoczi <stefanha@redhat.com>,  Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,  Jiri Pirko
+ <jiri@resnulli.us>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@mailo.com>,
+  qemu-block@nongnu.org,  Ani Sinha <anisinha@redhat.com>,  Jason Wang
+ <jasowangio@gmail.com>,  linux-cxl@vger.kernel.org,  Daniel P.
+ =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Igor Mammedov <imammedo@redhat.com>,  Hanna Reitz
+ <hreitz@redhat.com>,  Alex Williamson <alex@shazbot.org>,  Stefan Berger
+ <stefanb@linux.vnet.ibm.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+  Laurent Vivier <laurent@vivier.eu>,  linux-edac@vger.kernel.org,  Michael
+ Tokarev <mjt@tls.msk.ru>,  Fabiano Rosas <farosas@suse.de>,  Zhao Liu
+ <zhao1.liu@intel.com>,  "Gonglei (Arei)" <arei.gonglei@huawei.com>,  Eric
+ Blake <eblake@redhat.com>,  Peter Xu <peterx@redhat.com>,  Gerd Hoffmann
+ <kraxel@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Mauro Carvalho
+ Chehab <mchehab+huawei@kernel.org>,  qemu-trivial@nongnu.org,
+  =?utf-8?Q?C=C3=A9dric?= Le
+ Goater <clg@redhat.com>
+Subject: Re: [PATCH v4 00/43] qapi: convert (very) trivial intro sections
+In-Reply-To: <CAFn=p-ZMj03qA0tvLU34FHLcwBJjU0c2q2Ex1p06FJfZpwyuJA@mail.gmail.com>
+	(John Snow's message of "Wed, 2 Sep 2026 13:24:36 -0400")
+References: <20260831201945.287730-1-jsnow@redhat.com>
+	<871pbd9qpy.fsf@pond.sub.org>
+	<CAFn=p-YBpsxy-3tr0SZ0CBfXUYnb6eg6AxNWpwUQmsuY5ZuykA@mail.gmail.com>
+	<874ig7539j.fsf@pond.sub.org>
+	<CAFn=p-ZMj03qA0tvLU34FHLcwBJjU0c2q2Ex1p06FJfZpwyuJA@mail.gmail.com>
+Date: Thu, 03 Sep 2026 12:03:52 +0200
+Message-ID: <874ig6y7lj.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260825134323.4181892-3-liuwenliang@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- whupemk200014.china.huawei.com (7.152.185.79)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On 2026/8/25 21:43, Abbott Liu wrote:
-> The vsei_len < 0 error path did not verify the pei_len and ctx_len.
-> When vsei_len is negative, section_length is too small to hold the
-> full record, yet pei_len and ctx_len were derived from
-> err_info_num/context_info_num and may describe regions beyond the
-> (long)err .. err + section_length buffer. To prevent trace_arm_event
-> from reading past the allocated record, sanitize the parameters:
-> move the cpu lookup above this path so it is available for tracing,
-> recalculate ctx_len and pei_len based on section_length, limit them,
-> set the corresponding pointers to NULL and lengths to 0  when there
-> is no remaining space.
-> 
-> pei_len and ctx_len become s32 so that the recalculated lengths can
-> be checked for negative values, and the cpu lookup is moved above the
-> section length checks so that both paths can share the final
-> trace_arm_event() call.
-> 
-> Fixes: 05954511b73e ("RAS: Report all ARM processor CPER information to userspace")
-> 
+John Snow <jsnow@redhat.com> writes:
 
-Same here, no empty line between Fixes and Signed-off-by.
+> On Wed, Sep 2, 2026 at 6:58=E2=80=AFAM Markus Armbruster <armbru@redhat.c=
+om> wrote:
+>>
+>> John Snow <jsnow@redhat.com> writes:
+>>
+>> > On Tue, Sep 1, 2026 at 7:05=E2=80=AFAM Markus Armbruster <armbru@redha=
+t.com> wrote:
+>> >>
+>> >> Series
+>> >> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>> >>
+>> >
+>> > Thank you for your suffering :)
+>>
+>> You're welcome; it's my job[*]!
+>>
+>> > So, I think there's actually no real problem in checking in a partial
+>> > conversion as the infrastructure was coded specifically to allow it,
+>> > however you're the maintainer so I will follow your lead. I'm more
+>> > interested in moving forward than telling you how to do your job ;)
+>> >
+>> > The series will eventually enforce strict ordering, so there is no
+>> > chance we will miss anything. If we send a PR now, we also don't have
+>> > to keep rebasing the partial series against master. If you don't want
+>> > to submit a PR, please create a branch I can track and submit patches
+>> > against, and please periodically rebase it against origin/master.
+>>
+>> I worry a bit that having intros split about half between two styles
+>> would cause confusion and friction.  I'd much prefer to get to >90%
+>> fairly quickly.  If we think that's possible, I'm happy to queue up
+>> things in my tree, and take care of the rebasing.
+>
+> Everything up until the "convert multi-paragraph intros" patch (#44 in
+> my pending work) is approximately 87% of the total volume of
+> conversions. In the most recent off-list mail I sent you, that's
+> Sections 1-7 -- which is essentially all of the stuff that was
+> factored out as "semi-trivial"/"simple", plus the "TODO" conversions.
+> I believe these are pretty trivial to burn through, but would require
+> a bit of dedicated time. We could probably do it in a week if we
+> really pushed ...
 
-> Signed-off-by: Abbott Liu <liuwenliang@huawei.com>
-> ---
->   drivers/ras/ras.c | 31 +++++++++++++++++++++----------
->   1 file changed, 21 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/ras/ras.c b/drivers/ras/ras.c
-> index 2540538a16a8..4a48a897f616 100644
-> --- a/drivers/ras/ras.c
-> +++ b/drivers/ras/ras.c
-> @@ -58,10 +58,10 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
->   	struct cper_arm_err_info *err_info;
->   	struct cper_arm_ctx_info *ctx_info;
->   	u8 *ven_err_data;
-> -	u32 ctx_len = 0;
-> +	s32 ctx_len = 0;
->   	int n, sz, cpu;
->   	s32 vsei_len;
-> -	u32 pei_len;
-> +	s32 pei_len;
->   	u8 *pei_err, *ctx_err;
->   
->   	pei_len = sizeof(struct cper_arm_err_info) * err->err_info_num;
-> @@ -81,20 +81,31 @@ void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
->   		ctx_len += sz;
->   	}
->   
-> +	cpu = GET_LOGICAL_INDEX(err->mpidr);
-> +	if (cpu < 0)
-> +		cpu = -1;
-> +
->   	vsei_len = err->section_length - (sizeof(struct cper_sec_proc_arm) + pei_len + ctx_len);
->   	if (vsei_len < 0) {
->   		pr_warn(FW_BUG "section length: %d\n", err->section_length);
->   		pr_warn(FW_BUG "section length is too small\n");
->   		pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
->   		vsei_len = 0;
-> -	}
-> -	ven_err_data = (u8 *)ctx_info;
-> -
-> -	cpu = GET_LOGICAL_INDEX(err->mpidr);
-> -	if (cpu < 0)
-> -		cpu = -1;
-> -
-> -	trace_arm_event(err, pei_err, pei_len, ctx_err, ctx_len,
-> +		ven_err_data = NULL;
-> +		ctx_len = err->section_length - (sizeof(struct cper_sec_proc_arm) + pei_len);
-> +		if (ctx_len < 0) {
-> +			ctx_len = 0;
-> +			ctx_err = NULL;
-> +			pei_len = err->section_length - sizeof(struct cper_sec_proc_arm);
-> +			if (pei_len < 0) {
-> +				pei_len = 0;
-> +				pei_err = NULL;
-> +			}
-> +		}
-> +	} else
-> +		ven_err_data = (u8 *)ctx_info;
+Let's try!
 
-else {
-	ven_err_data = (u8 *)ctx_info;
-}
+> Existing volume of what you have reviewed and accepted is 55%.
+>
+> Well, either way, I just don't want to have to juggle so many patches
+> in the interim, so I am pushing a bit to just merge it to make
+> subsequent series easier to rebase and juggle so that e.g. I don't
+> have to have increasingly long "based-on" tags.
+>
+> (Makes sad, pouting noises.)
 
-Thanks
-Hanjun
+I'm queuing up this series.
+
+If the Based-on become too unwieldy for anyone involved, let me know.
+
+>> [*] Some days my compensation is compensation for suffering ;)
+
