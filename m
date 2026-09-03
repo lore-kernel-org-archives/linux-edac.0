@@ -1,63 +1,43 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mail-4399.protonmail.ch (mail-4399.protonmail.ch [185.70.43.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205FA2931FC;
-	Thu,  3 Sep 2026 22:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB1538553F
+	for <linux-edac@vger.kernel.org>; Thu,  3 Sep 2026 22:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788473908; cv=none; b=S8gKajczdctkLCy0Ge4eI4d9h5IcwbmsN7CE6dc61JSnIqu4FZZFG+xj7p5h4r58RuVpvf6UZvvLkNUnqERsqhLFKTg6mlu2HnP4v86sjBFVlr9R9sUNa7Hb8hWlod7ZJAec5rz8cuthd7R3XqAhilh9e9jMrF64cU3RSYS8eMA=
+	t=1788475171; cv=none; b=RAjipWRdkAH7M+U7ewmo+5zdsn6Qv4FQmVdUt0wo4yUSBDHkQGtRBYzbYRorBQN3rI/ftv888gpdRqTBuLQGB2dJpxEae4tynD0LtK3VDyYt7FsmK/p0lXs1emzrzHdPF6f2Dr/BkHw8Mtg18j9uyXHu4GWuUQu0e3pi4Z+XvIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788473908; c=relaxed/simple;
-	bh=8/lOmGGroOWUCeWQZ2+XrkPgnDIBRbCiSiamJIAHsdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lZHf0cBi6a05faLGVwDV1d4MSI71NeYUS+FZPXzyVtbY791BlvaXvcFTZ7WJ2K3VUdGMdZi/PvVp8v3ze4UG7MwR6UikN9zKoFW5E0ZFuX526vJd+oObyP6cPyNT2COTqdNiNtrywBDp7G7DSnWuMWYI8/Mfk0XCr6ZK9eYzWEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=KH6l8mzT; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1788475171; c=relaxed/simple;
+	bh=2KEK6hCfPY3bO6wobnsYzxM4dHSOgJjX0TNI+c2wO0U=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mMI5cPNsYmxqCpNh6Il6HmcNTStE3qxu0uCCDm949a4vJCTigFjHDMsUhMWpQxij3YdP8Ch43ylAHk18ZiKYSCtbzRXqR+3bePfKOjZ2XZV78rL/bGN7eJgdzJXnLstGWE/wiLPHRp3yCmI5D0LqIMc5e8hqsD96/Vz+NLI9Dxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no; spf=pass smtp.mailfrom=optocloud.no; dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b=n/7/vIso; arc=none smtp.client-ip=185.70.43.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=optocloud.no
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=optocloud.no
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="KH6l8mzT"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0302840E016C;
-	Thu,  3 Sep 2026 22:18:17 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id EnA4fM3i9fr9; Thu,  3 Sep 2026 22:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1788473886; bh=NM9c2hEw7ubKXee1wycSh5EQXSvXjN1o+ByzwgLqAsc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KH6l8mzTlUbsxxGwjjMy0HAjPdbAJkp9P4CkL43bleu/kCHBXcyIO2ZT+up1ERtxk
-	 f3GsuCrfzemAMlBnutu8L5zo1zKPqBxx8h2AfzTlNwB/aByPBQFAoDZBKpJIOeeZyJ
-	 q0+omzgGKu+kVPhqoIbkf/wUDXJnEmH9veBLWEbwn6C7OkDyhDgZt5aMd14vUmamWn
-	 hoSOiVSm9IDV5vdzO+Vo0x+rO4C1JKMp7IpgsXi4LQsg32xynGsuUlBLATTJf0xOua
-	 TDi9uJYyHzqRE0d3+SuL6fQvZwiq/y0SIxqJzPLZmugzAnQgm48pUzdM3WHQpvdhlF
-	 DILXCAUr04wdJa8jkXejZCcBeJSaQcCmJ1SLwDSM7v2xvT36iGBz10paxBxaQoasOh
-	 EQn1qeQh9CrnsvcnkALUQVoXlJQDPMLNAoAdsccXgkNCfYDVuw1ic+k1+Ms2UhxSv4
-	 t9ipnbArUk4iYDGltcbylzVnKCKl9DS8Ne4NsO1BK1SYi0LKIMi3SI3nXnafxmOIZz
-	 tmHFYOS26s35U/scCIzNA0fkSA4/yIXKpszh3qrS5HTw8XTBJnk9GOrCxT+2P9u6he
-	 A70Gj5Cj8go28OZ/Kh0tWsH9T0Z1KHWl6O0d3Z4fFjClHsZF0puMuR5r8vOr25tNjk
-	 fWVCo/yT0ModQzf6BNoVnytY=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DADD040E01DD;
-	Thu,  3 Sep 2026 22:17:49 +0000 (UTC)
-Date: Thu, 3 Sep 2026 15:17:45 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: tony.luck@intel.com, tglx@kernel.org, mingo@redhat.com,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	frederic@kernel.org, marco.crivellari@suse.com, neelx@suse.com,
-	sean@ashe.io, chjohnst@gmail.com, mproche@gmail.com,
-	nick.lange@gmail.com, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] x86/mce: Fix timer list corruption and avoid
- redundant polling
-Message-ID: <20260903221745.GAapnyCYVOL0qeip6N@fat_crate.local>
-References: <20260903194130.186096-1-atomlin@atomlin.com>
+	dkim=pass (2048-bit key) header.d=optocloud.no header.i=@optocloud.no header.b="n/7/vIso"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=optocloud.no;
+	s=protonmail; t=1788475156; x=1788734356;
+	bh=zOkoNzUGSqjoFL99K4Scc/zmLBivAvnuMYypd872aNE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=n/7/vIso42q/PT8/h2c0KkIGHP6ITE+h548vYTgXzUmY+zFrE9B7DOKdeDRgB4sOw
+	 jCvBX+1tOhDMaMnlPrzR8C798jIYra3P6PD5+hp5bmDVu386s0r+m8JR+4ZKSURZ5J
+	 njjGbGE+GUVqliiadLhggjFnciUMq9GWfPFwtLGbOEW210kJn+zvTOze3hmE8VUeT+
+	 1gZKis+zLdxWP6BY82HUiIBCzsOm8U5xBZqmodhLTq6D2McT9K04CSztyGW2UrIJEB
+	 sbS+Pr+tvUM64ltDSAXVvOCI2CpdQ6VK/lN/ASK6OXc4k+l+6V6EJmcXl88pyUy+2q
+	 w3fHB9GP7lHCQ==
+Date: Thu, 03 Sep 2026 22:39:10 +0000
+To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>
+From: OptoCloud <git@optocloud.no>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Yazen Ghannam <yazen.ghannam@amd.com>, "x86@kernel.org" <x86@kernel.org>, "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] x86/mce/amd: Reset deferred-register state between polling banks
+Message-ID: <VVPre8FwBOaDwOJsZLizBoEllya95qRDFGMnMwm_j_UOTE9L7LptaW7wFFQQNr9nBhwUYorxpQq_IZyQSsL3-IGNj6hdtcxr1HIg1xqWYPA=@optocloud.no>
+In-Reply-To: <20260903203609.GC145182@yaz-khff2.amd.com>
+References: <ZYPjnBLNLY69gIYeH-ING5IhrnA3ryhVQquuPlWhUR-WmKLUFl3z-HRWR6q3zW88Vi9L4IpFrd5WnRhVG0AptFUR4cDvCGTJ782EUQL9u0Y=@optocloud.no> <20260903203609.GC145182@yaz-khff2.amd.com>
+Feedback-ID: 192797849:user:proton
+X-Pm-Message-ID: e37d0fb100a733aaf1a1f3a496cd071d88666edf
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -65,48 +45,60 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260903194130.186096-1-atomlin@atomlin.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 03, 2026 at 03:41:27PM -0400, Aaron Tomlin wrote:
-> This series addresses two distinct issues within the x86 Machine Check
-> Architecture (MCA) timer subsystem: a race condition during runtime CPU
-> reconfiguration that can corrupt the kernel timer wheel, and redundant
-> periodic software polling of banks that never log corrected errors.
+Thanks for the review, here's v2.
 
-N T Sep 01              Aaron Tomlin ( :2.6K|) [RFC PATCH] x86/mce: Avoid arming periodic polling timer on isolated CPUs
-N T Sep 01              Aaron Tomlin ( :2.3K|) [PATCH v2 0/2] x86/mce: Fix timer list corruption and avoid redundant polling
-N T Sep 02              Aaron Tomlin ( :3.0K|) [PATCH v3 0/2] x86/mce: Fix timer list corruption and avoid redundant polling
-N T Sep 03              Aaron Tomlin ( :3.1K|) [PATCH v4 0/2] x86/mce: Fix timer list corruption and avoid redundant polling
-N T Sep 03              Aaron Tomlin ( :4.0K|) [PATCH v5 0/3] x86/mce: Fix timer list corruption and avoid redundant polling
+machine_check_poll() reuses a single struct mce_hw_err while
+iterating over the MCA banks. smca_should_log_poll_error() sets
+MCE_CHECK_DFR_REGS in m->kflags when an error was taken from
+MCA_DESTAT rather than MCA_STATUS. Nothing clears the bit again for
+the rest of the poll, including on iterations that bail out early,
+so every later bank in the same pass inherits it.
 
-5 submissions on the same topic in 3 days.
+A stale MCE_CHECK_DFR_REGS has two effects on a later bank:
 
-Please stop spamming!
+  - mce_read_aux() reads MCx_DEADDR instead of MCA_ADDR, so the
+    address reported for that bank is wrong.
 
-From: Documentation/process/submitting-patches.rst
+  - amd_clear_bank() returns before writing 0 to MCA_STATUS, so the
+    bank is logged again on the next poll.
 
-Don't get discouraged - or impatient
-------------------------------------
+Reset m->kflags at the start of each iteration, alongside the other
+bank-local resets, rather than clearing MCE_CHECK_DFR_REGS alone.
+The only other place kflags is set to zero is once, before the loop
+starts (mce_prep_record()'s initial memset), so there's no per-loop
+state a full reset would wipe out. It also covers any future kflags
+bit that ends up set within the loop the same way MCE_CHECK_DFR_REGS
+does today.
 
-After you have submitted your change, be patient and wait.  Reviewers are
-busy people and may not get to your patch right away.
+Found by code inspection; not reproduced on hardware.
 
-Once upon a time, patches used to disappear into the void without comment,
-but the development process works more smoothly than that now.  You should
-receive comments within a week or so; if that does not happen, make sure
-that you have sent your patches to the right place.  Wait for a minimum of
-one week before resubmitting or pinging reviewers - possibly longer during
-busy times like merge windows.
+Fixes: 7cb735d7c0cb ("x86/mce: Unify AMD DFR handler with MCA Polling")
+Signed-off-by: Eirik B=C3=B8e <git@optocloud.no>
+---
+Changes since v1:
+- Dropped Cc: stable (Yazen)
+- Reset the whole m->kflags field instead of just MCE_CHECK_DFR_REGS
+  (Yazen)
 
-Pls read the documentation about how you should work with the community:
+ arch/x86/kernel/cpu/mce/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Documentation/process/
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.=
+c
+index 6fa15e19988e..16ac2418fd51 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -823,6 +823,7 @@ void machine_check_poll(enum mcp_flags flags, mce_banks=
+_t *b)
+ =09=09=09continue;
 
-while you're waiting for review.
+ =09=09mce_clear_hw_err_fields(&err);
++=09=09m->kflags =3D 0;
+ =09=09m->bank =3D i;
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+ =09=09barrier();
+--
+Cheers,
+Eirik B=C3=B8e
