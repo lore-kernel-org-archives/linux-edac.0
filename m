@@ -1,45 +1,46 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011050.outbound.protection.outlook.com [40.93.194.50])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011069.outbound.protection.outlook.com [52.101.52.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA03B4B5413;
-	Thu,  3 Sep 2026 14:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97674B5CD2;
+	Thu,  3 Sep 2026 14:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.69
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788445283; cv=fail; b=MBC8WBdR6FhPvJ1tboba2Ux3D0AqRJ5c98jtYegQafd7Yv35eLOCMSYgGQL51Ki3Im8BvKfr+jYWSXAqizbLtkAFWyLB0OShq3sbrkOa0gagtq5YIP5wx9U18OiEuOnVFaL42iR1rfLbC4iXU4NVljYbwNzQPgRA6qjhEDH72OU=
+	t=1788445287; cv=fail; b=hLXiOXl2qjpKDcKT8NZcdliONlEpMw9yC26W92sl6tFKPsRHbPgpXWOEIysrGNRX69smYF1rrgglhR1BSPUL1/SgMaUW2Gkv3hV7UjSSwqMFi4MrYcUo9I/rO/mYxSai19lU2pGZK3oeMa7UMo6mu9AJ+EWexpARTGEa2vktylY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788445283; c=relaxed/simple;
-	bh=Cld8hW5s2QzxPGDfHU4NQ01BhpXDql1dxfi8SnVLvUM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QrXvlZZUQYKYQcdfZQrimBLS7cFSNYKFhAtYpgHpo1KEQ44kMrWuU2fwIuqhg6arooeatlyJLqsVkkJ/6cJY1+VYhY7LyYnIEIxJ+T9mTHmYI6fm1gegQXW+sgVu/QNntP9eIrWNz7m+WwdPzSMMm2MqGwPpC6Tm4Qx7aPn1cbc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ysySQ9IZ; arc=fail smtp.client-ip=40.93.194.50
+	s=arc-20240116; t=1788445287; c=relaxed/simple;
+	bh=iFJqb98cnwUKQBaM05XksOBkNCXI6p3QQ5v5BuWDiMM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VZozqRy9gxl1OgDG3jTpWGfg8Jwj5F3jp2mXckfSaORJpHuozJGYOC+UDjSd4eOUkfBEcx9Rqf0c8ifE6yvreEv/y4ba/ObiCDzlIZLEUBl9ngfaNGEXER2OBoH4bROnMHw/ER7cbhIox0moHPItymUrg0kBCR/1PZLqwOSYPpw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wrACs1L6; arc=fail smtp.client-ip=52.101.52.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ysySQ9IZ"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wrACs1L6"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mLaN/CFGYDRJftEviPF8I6otYC2T2dCZe1KDS066+BH1BWfyHTwX7UW6bgTcVidZv89tdvdEz6A82wjb4aRHnqHAavII2RfJTs6ARWWsc1GpPmaV7dEr5FlImD5lS88l5jKe5JACqRymhMTJk4qlCDmfxxD9B8r7nFvQxM+bDdBSLf9GjXsONknldJSXc6cWpICkXHIR39TecMBCKWY+j3m4eugLj5WEVj3CCbxfSvRogNuXV+dPdZOij3fPvtVsp/l9J46+YaGmlSEmYv/WVIrfnHOTI8Y+OZZV0oCUtUeds8yqWJ7pu326YlFpYy60JkB/OcwLfIvigOEH/gVL/A==
+ b=p9M50wAAmPjTUEyYKLpPFZGEO6Ih7mk0gxIScQzV+2laWysgePj2u6ztL/OlmYWj6Pydd55tkkbgJD7kt4dqfItARKrVgwvylNtss5HrXXAMjDXkKCsWbQ1TNil1+z2y7VGHvVNfKKInui8YwOhBrKRZj4vmJr1vuphwxXhgEnote/yguHFP3ZA6RmzsrR0IJCsng00wecIAW30BMoa54hvXWdhBLk+Et0ar8Qi1ffA4b2kKYF2OUvfd5ir1Kp5rOdiw3YxeEl/6Z69Xkd0CUadKAcpi0AZxK3lU9WTezfr8Hgm9/oYRPPqU8a+jf9uQwXTHHwW8wPbFcoM39cGKYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lpxd7x00UMq98MfOveXOPeB3xw4sGlKhLZg794CmxAY=;
- b=ENoo1pux/NMIs3m/pMlay8IrZKKWqIi7Uu9e18U+3HGr7sSxQ+1Vm2vykhXe5qW9WJzt6kio23u6rsSH/TYGVnUP+bnxjd8oI8W9aXRZo9r9JhbbUgHlANzO1NnEYR/lGiVKgIKQi0t/mim9LSU7SxQvwKJfjKd30h7+JPgInLbgy+8Jb0RHogwkzOCx+z8XhY+BU+ue7YW9aHtToL22aTgocWAO2NFXkpNm5Dp/atATIkeiNRUcA46MTKIEONRdjpcVxl7KVUWjZzUIMBNboFJ66H8jk1zPY2k2qLNHX5YcgOx41TmWOvy3xCkabvH2H/BZ7vdqo0be6g6x+epJOw==
+ bh=y9ocVIZTCcrQHdmXz00qVDzoglAhx7yJQEtAFA10n9c=;
+ b=WiJu8AzOn4lAQpSZ2S/OPfvKYwWkxFp5B4LGhKQ4g8qGByQfd9PvbYFO8x4DLEytqsQXiHBwgy76LWvegN7JU+x+gQdlCz3XNMAF4c7x1ZITc1CIZYj4h8WrwqrCNULf+EuHV61YIiRPGDH+1XhpWV2uB885VDxQmxoEgDuVhnzW90Erd2tLdsLAL1PdC4dMFd0NelvH5t22sgBmfOl1OF/0AM+SAmIy+nF+nIc1WrAF2yi8qBhlSm9FAnUc84rGMJy5sdUkNAAWJW050HVAMKkIbg801Q2WDuB0TwxwMtUWo2i9PQp2rsKs3z7bQyJToEXpj/qdSUKSF4uFRS476A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lpxd7x00UMq98MfOveXOPeB3xw4sGlKhLZg794CmxAY=;
- b=ysySQ9IZSsB9gtjHPk+mXaKOmKQxLm5fOIizVjNaevfdl2wxeAzIJpipkPlw+rwWf+N+GIik+5hq9yQNiFz4USouLdINpE5PeQuz0oHf2/Wy2ti0pcvJ6ZQVml53Et4FyCUAH+JYDz0HhHMWSxhqfa8HoZiJHtk9NV+UYfMgwD4=
-Received: from MN2PR18CA0008.namprd18.prod.outlook.com (2603:10b6:208:23c::13)
- by SA1PR12MB7126.namprd12.prod.outlook.com (2603:10b6:806:2b0::22) with
+ bh=y9ocVIZTCcrQHdmXz00qVDzoglAhx7yJQEtAFA10n9c=;
+ b=wrACs1L6kQFJUx0cmy8DkNB5sYlvjdmN4zAy8xu8H6KHqT28PMD2slpor1ev9Bgg6UqjbRtXkpKpJQ/VON2gdvqVYpn4W0DlS8B6siUbR5lljG6ZVndbJ62D+aaCp4gDm0qFmjmZp7yly7hkTuqAQQSd2cbePSxd6RPX68Y1K6s=
+Received: from BN9PR03CA0670.namprd03.prod.outlook.com (2603:10b6:408:10e::15)
+ by DM4PR12MB6038.namprd12.prod.outlook.com (2603:10b6:8:ab::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 14:21:01 +0000
+ 2026 14:21:05 +0000
 Received: from BN6PEPF0000006F.namprd03.prod.outlook.com
- (2603:10b6:208:23c:cafe::81) by MN2PR18CA0008.outlook.office365.com
- (2603:10b6:208:23c::13) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:408:10e:cafe::a3) by BN9PR03CA0670.outlook.office365.com
+ (2603:10b6:408:10e::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.12 via Frontend Transport; Thu, 3
- Sep 2026 14:21:01 +0000
+ Sep 2026 14:21:03 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -49,18 +50,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  BN6PEPF0000006F.mail.protection.outlook.com (10.167.248.196) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Thu, 3 Sep 2026 14:21:00 +0000
+ 15.21.382.8 via Frontend Transport; Thu, 3 Sep 2026 14:21:03 +0000
 Received: from quartz-7b1chost.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 3 Sep
- 2026 09:20:59 -0500
+ 2026 09:21:00 -0500
 From: Yazen Ghannam <yazen.ghannam@amd.com>
 To: <linux-edac@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <tony.luck@intel.com>, <x86@kernel.org>
-Subject: [PATCH 0/3] Increase MCA bank count
-Date: Thu, 3 Sep 2026 09:20:46 -0500
-Message-ID: <20260903142049.4126599-1-yazen.ghannam@amd.com>
+CC: <linux-kernel@vger.kernel.org>, <tony.luck@intel.com>, <x86@kernel.org>,
+	Yazen Ghannam <yazen.ghannam@amd.com>
+Subject: [PATCH 2/3] x86/mce/amd: Convert bank_map to a bitmap
+Date: Thu, 3 Sep 2026 09:20:48 -0500
+Message-ID: <20260903142049.4126599-3-yazen.ghannam@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260903142049.4126599-1-yazen.ghannam@amd.com>
+References: <20260903142049.4126599-1-yazen.ghannam@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -73,67 +77,81 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PEPF0000006F:EE_|SA1PR12MB7126:EE_
-X-MS-Office365-Filtering-Correlation-Id: 07ddaa2b-2771-4d2f-3944-08df09c6941e
+X-MS-TrafficTypeDiagnostic: BN6PEPF0000006F:EE_|DM4PR12MB6038:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28506001-4fed-4351-9eda-08df09c695e2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|36860700016|23010399003|82310400026|56012099006|10067099003|11063799006|18002099003;
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|82310400026|36860700016|11063799006|56012099006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	b7ysJP8lYYD4zq5h2cKJr37nlmh2KLujRjnInIPYdh7p/TNLd3dvoGSNLklndPAn2trzaTZhlmpGbStBIWs1lbEWKQsLD+YYSdzxzZ1jZWw1l1kHAj98Sj46fKbkStSirAtvpTxdwr6P9xsHsPkxGQ78TG5mRzsC8lOV3nR+8FiWX92rcZk1P5AORiTJcFjkk8qGiioDGVpR1B8gJdQBYPDEd4jgr4rKZQbpX2lVHmhNuefl35+pvdtsxLLHg+SiV2CKmrBPd3XCH5SMOi/jbMAOpA04DGOeQuiYVM+vmrO8qkn/Gm6awlH+Uc/5HmCfbkx6JFb7ncutCQLTGB06c9awLjBKaEkMDRMKq7ztKRqUzG0fhuIf3+P7FDSFotez3odrVY8tvQUkdZ7IKlnu48FVaT/8OHHnRizdd4YA3YTdhf69MHX+hL/nN9yCAzfzHZqBSfIMI1h6vZzbQmD/8+11CSdAdz78mHS6PvcgI8V+PEVl3U984fnSzzIbRVr90mBClyXRCOAmngeTSriKiOAtRJ74T4PCSBwgLzzGmI6BdbcxKMZAFBcB1KKpK2Lq3KFRjtW6qsCugPHXr/9Tn/jlkMAsBVOSCiT/jmzKLHoEbiGJ6pik9UR7xLx2gPI7P7cyHQ6JNnDnHbBPVhuN4c3Xsy3K0bAlniyIeRQ8/LAEDPEo9gxENCOukw7Gjtkwn3i7f2OhFOvjOtMQj8jXkQ==
+	QONKhoHAvy055GZEifJ/RyyvaUk+JK0U0YU6fWnj3zTkK+a4mWe/NIwrnF7utwzAinXkPinaQ4l/D88YwzhGFEQVsCJ9NteV/Yozv8G/GIGCC1BXWUXDWMNiC7nFklX/qH/zw+EwKasDQE4l/AmsrA2TLAO1dOCI1AXCEA0pg08sSRg0ckEWHw5XPerj9unuR7f7W9gXihkGXfBAxgpWr/0IH7D3sxx662/HvOHlPj+oQguzjiITO9DwA0IAAnZ9ZzTlzA8AEcikAB4La9tfjwAP+MAY6O9Qp6YQQAZu6hX6lXxYZfBmIDG9NqATPgFGoXvDRcIwrSOorLr6hwjq0eBVKIBEUQe6vE0bWI97qIBi22JvoUclMKBrZ8GQaCo1/hwYmKqLp2C0KipA4khY6/5dLqlFUG3i7owQ8hxHK5tS4OdIJPocY3SMxKqXV9C1iY9hszhvWJWu6BIjBOKGqPxS7seG/FmwCByV41zBzLjYNlXe27jInaFrErqdLI0yQYzXCRsmqZ/llPf5lFX1FsBR6kvBuBV/fgQ67ENCVGfP5MXGpNsIz2GGIyYA1umh6tAYDaLJkp7xpozfhu4Dt1DDJmqb2aSAIB5OxI9LnfJUOqNGkXwwV6l+imzDjqWu6Sk8WwZsg58yN577ZoFwt7DAQ3I2j0ZaJr+65rmrRPYTOFg3vMWB+gAzuZfS5w0Brbtve1bCTVe9hyjKx4WzAQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700016)(23010399003)(82310400026)(56012099006)(10067099003)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(82310400026)(36860700016)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	2yTI1F8T0vVtHAsgABW80Wfyfli7WI8Wsk4hEv6ewOtqqkxUdI8v9NBDu3GIWThPH2CznDcZRgt5gKDrj4++UHSKusnd/91JviRIxooDNKiZcKLrJ6IXnE3tO2Kz11AtCjucPynOV2xVF1hHyxXComHen/hOd7eUuOUwg+c1lFUfLTi2ErqpLyqUwtOI2/ufIcpE1wUPrSfmNr5rQKut77OxTpwSwLjF3btOT+IAMQ0rghziyOyJeHbQC0AYnCJxcnWNcZdpMVEZ+Bd+gbj6YZuohPR21Ep81Ta5phjauK05M7mJuQH6kp0fJpFmZQyNDTKMbwumaBPu6vxtKqzGYE+ZnUBOYkMsxuSsJate/jW4sDrF2EFnuyb0KYtwGBtp4MFynpmIRcNhdU9ztMWg/yBda+4sCBgp7dyiQ1lfoV92m8G6jbKsJDRWx+uKk0Kw
+	RA38RHPEa3ow0IWOUYk0x5XGLqSl3jvvS/eE3HDMABqgoIRw04+JDeALRvcmM2K6sSrriXtHM7xWSzBa+pwdIsxzlKrKUn6tReqBJN7C8HbjO60CIWk7uY5O2qa9UfGl9XPmkQ+S0AQHfL+YOyRx0u75qMwj7eNkKTus9cWHt6JCqpPm48nKXzFcBJmbRePbdjK3r6elw2ExiropINhKO1TkDfOxuhccwbJH1qKaLpXkPBVUoGlUb4qMGZmNi8se6KS+M6dxz9Ezbdu5oyGUh11NccgGcmavZ6U4McvDRkFC4xiZPxLfeRBSUgaQ7AM+6pzQwnQieuUgM08Fa2d2/Prt9Rw7ENU8VESttbTlsZIkyoUPgKeUwf9+4sqIr1qzTMjg3GFdeN/6iSmH/INV3ILg8nPc0r6XrGwRIlMBmJ9o6fW2R6Gjh4lylL2/iezk
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 14:21:00.2626
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 14:21:03.2309
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07ddaa2b-2771-4d2f-3944-08df09c6941e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28506001-4fed-4351-9eda-08df09c695e2
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	BN6PEPF0000006F.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7126
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6038
 
-Hi all,
+The per-CPU bank_map records which banks had their block 0 prepared
+during mce_amd_feature_init(). It is a u64, so BIT_ULL(bank) is
+undefined once the bank number reaches 64. That caps the usable bank
+count at 64 regardless of MAX_NR_BANKS.
 
-This set increases the max MCA bank count (MAX_NR_BANKS) to the
-architectural limit.
+mce_banks_t is the existing type for per-bank bitmaps. It is declared
+with MAX_NR_BANKS bits, so it follows the macro instead of fixing a
+width of its own. thr_intr_banks and dfr_intr_banks in this file
+already use it.
 
-Patch 1 is a bug fix that came out of code review.
+Convert bank_map to mce_banks_t and use the bitmap helpers. This is
+preparation for raising MAX_NR_BANKS.
 
-Patch 2 is a pre-patch to avoid a bug for systems with more than 64 MCA
-banks per thread.
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
+---
+ arch/x86/kernel/cpu/mce/amd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Patch 3 is where MAX_NR_BANKS is updated. The commit message includes
-some memory stats like the last time we bumped up MAX_NR_BANKS.
-
-Originally, I intended to include additional patches to consolidate and
-dynamically allocate many of the per-CPU and per-bank structures. These
-still need more work. So I thought to send just this small set to start.
-
-Also, I figure a smaller set would be easier for backporting for those
-who want the feature support but don't want the additional rework.
-
-Thanks,
-Yazen
-
-Yazen Ghannam (3):
-  x86/mce/amd: Fix bank lookup in amd_mce_usable_address()
-  x86/mce/amd: Convert bank_map to a bitmap
-  x86/mce: Increase MAX_NR_BANKS to 255
-
- arch/x86/include/asm/mce.h      | 2 +-
- arch/x86/kernel/cpu/mce/amd.c   | 9 +++++----
- arch/x86/kernel/cpu/mce/core.c  | 6 ------
- arch/x86/kernel/cpu/mce/intel.c | 2 +-
- 4 files changed, 7 insertions(+), 12 deletions(-)
-
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+diff --git a/arch/x86/kernel/cpu/mce/amd.c b/arch/x86/kernel/cpu/mce/amd.c
+index e6542e00dc5a..598b71d54f41 100644
+--- a/arch/x86/kernel/cpu/mce/amd.c
++++ b/arch/x86/kernel/cpu/mce/amd.c
+@@ -263,7 +263,7 @@ static DEFINE_PER_CPU(struct threshold_bank **, threshold_banks);
+  * A list of the banks enabled on each logical CPU. Controls which respective
+  * descriptors to initialize later in mce_threshold_create_device().
+  */
+-static DEFINE_PER_CPU(u64, bank_map);
++static DEFINE_PER_CPU(mce_banks_t, bank_map);
+ 
+ static void amd_threshold_interrupt(void);
+ static void amd_deferred_error_interrupt(void);
+@@ -572,7 +572,7 @@ static int prepare_threshold_block(unsigned int bank, unsigned int block, u32 ad
+ 	int new;
+ 
+ 	if (!block)
+-		per_cpu(bank_map, cpu) |= BIT_ULL(bank);
++		__set_bit(bank, per_cpu(bank_map, cpu));
+ 
+ 	memset(&b, 0, sizeof(b));
+ 	b.cpu			= cpu;
+@@ -1272,7 +1272,7 @@ void mce_threshold_create_device(unsigned int cpu)
+ 		return;
+ 
+ 	for (bank = 0; bank < numbanks; ++bank) {
+-		if (!(this_cpu_read(bank_map) & BIT_ULL(bank)))
++		if (!test_bit(bank, this_cpu_ptr(bank_map)))
+ 			continue;
+ 		if (threshold_create_bank(bp, cpu, bank)) {
+ 			__threshold_remove_device(bp);
 -- 
 2.43.0
 
