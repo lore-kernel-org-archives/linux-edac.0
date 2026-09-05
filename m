@@ -1,50 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840EB4D2EC6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8403A4CB8BB
 	for <linux-edac@vger.kernel.org>; Sat,  5 Sep 2026 17:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788630816; cv=none; b=IRYwbJagZx7gDOa8R2D9rb7Zby55Y8QTtEj6rxm5xAnQpL82n5Pu83ha38iJr0325fjOCAmVGRSdZDn61Vl117b66K2Vc4LnOn8w0WkX6H0lHij/TSV7ZRDwK+uPYXIpJh6hw5UqP4dK5mlT8Yg3jQ0xDoxSyBdGhdcFFlRinuo=
+	t=1788630816; cv=none; b=WO15NNPQ4yneOWdwGG/I3S1wYxLMl9H1X0UmlaJrofRyGP5nZoBHNLSGNjeFYdVuW3QnXw+7QtuwFw07JfDaIeW6EkzgG/XG8O4kQ8XWeFzro8inoDCWPaWGXPkup5c6TbUc2Z4VOW8j0QYYw6UYOqWcZzA0wMin/+avI3Nu2Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788630816; c=relaxed/simple;
-	bh=MnAPaIPzcZAbE+CYakgN5QrgGvX1kum2C+cu74dnTco=;
+	bh=7Nc2ViPP++n1ON/dTbMHGE6mJn9ut1bsvWwzWwHY39I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aXxxtezMqi+ZhWweC2jhPeR3cq5g51seiRxvcK6wE/pplEckCv4S/wWB59C2gmnjWgCboOrs0R2qMI3jU3J7GMxiirYa9hiOmqxBpcAK6c45sasBkGgvG3lxMQ4zmZbJ44tXJn0zEX6MS6RozFcwdmBZuWmg48H9jolCMqjsEa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHbrx/Pi; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=rW+J08mQ6ulGyZajlwm/R4AjBk6LdCLIrHdZtV/ZR2UHpwwLF4IiNdsFcAfyexpl8BKYHOJ2RtZTPbORtG2fzngZ5jCM5RonfoxfLxFdFz+sGB2vRKJf8JOArRBrFrbif0kZ+Y77IXDNvd8xS5Ue+11cBnboWjv2AcsA17Mvlvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BiNyPbKU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHbrx/Pi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6461F00A3E;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BiNyPbKU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A96271F00ADB;
 	Sat,  5 Sep 2026 17:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1788630812;
-	bh=Ij2k42owOV+OROf/MB1CscRZGK/WiXn0iNaX3gJtNOA=;
+	bh=Z/gyrlvZHOgQPdhVvahEbxM2gbYFirwvQo092awQNlI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aHbrx/Pi1mSKsyM4sJWwLAOZiZR80J5VArsW7fPn6Iayk29EJf64O4uhsRKLXVCWn
-	 5R5Kwjn6lN5RZCMQ0DAvD/daUyCz9xGL/4s+JC+N0X8U91g+O92sH0SzecoxgrHtAB
-	 Zvj+T0JyUWfhsmrYvLUCywt6EpR40X4WZ4UR8qtOGX6cIu6n/s/bllyuYY0/G3E6ub
-	 Y6bYk2tkYnD+ESdXUfcBKAssVjgi9UwXzxFTF4RdPgjfQWSvxlepHhF757FqXse2Pz
-	 R1QKjyIbR8DGHG4/sVe5eH0SryTsS0r1SIxMVAoOGgmsoK7bgKg185Z+ymhRZ5Q8Ha
-	 oMp710YheFqHA==
+	b=BiNyPbKUYmvyceFDPuwcBNwaZVnC3Eyeagf4IFT2Zu4XQjlMfjGJN0Mvqe6J3uCFW
+	 Vpp7i5ME6jN844OirwzKFCmroGSKX3wqBuwId+51TFu5wk2Njw1lH2bTfJ3BJ1xxsx
+	 vYNhOex5AQuchndxJUSOAGbrRd7u6BPQHzWV7tJEniUpsJCaIiFjOEpkS8x6JMG9ta
+	 BWdKkVYEdQfdJi5qGqeedgu+Oli7m9smmmkWX3f+MNdgGzx7TaTl5UNKfIZ+EXiGMj
+	 cZ7hJDuILPX7AORpTDNqItRk/miHUp50NHy40NwR3RKeaaZJlLocOkAwdrp2XQ9EnP
+	 0FN5L5g9hJGIg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.5)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1x2ua2-0000000Bkrp-34eB;
+	id 1x2ua2-0000000Bkrx-3ILq;
 	Sat, 05 Sep 2026 19:53:30 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Michael S Tsirkin <mst@redhat.com>,
-	Igor Mammedov <imammedo@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
+	Igor Mammedov <imammedo@redhat.com>
 Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	Shiju Jose <shiju.jose@huawei.com>,
 	qemu-devel@nongnu.org,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-edac@vger.kernel.org,
 	qemu-arm@nongnu.org,
-	Ani Sinha <anisinha@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 3/8] hw/i186: add support for HEST table with SCI
-Date: Sat,  5 Sep 2026 19:53:23 +0200
-Message-ID: <b57abc926bb60af1ebb4c444f0e1b5ea94d46444.1788630333.git.mchehab+huawei@kernel.org>
+	Ani Sinha <anisinha@redhat.com>
+Subject: [PATCH 5/8] tests/acpi: virt: add x86 DSDT and HEST tables
+Date: Sat,  5 Sep 2026 19:53:25 +0200
+Message-ID: <fd8720055fdad2b1498c6f69580e6306278a6c26.1788630333.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1788630333.git.mchehab+huawei@kernel.org>
 References: <cover.1788630333.git.mchehab+huawei@kernel.org>
@@ -58,286 +56,261 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Added needed bits at x86 architecture to allow both pb and
-q32 machines to support GHESv2 via HEST tables.
+The following DSDT changes affect both:
 
-To do that, add needed _OSC capability bits to enable APEI
-support.
+    -"tests/data/acpi/x86/pc/DSDT.ras",
+    -"tests/data/acpi/x86/q35/DSDT.ras",
+
+    --- /tmp/DSDT_old.dsl
+    +++ /tmp/DSDT.dsl
+    @@
+    +        Method (_OSC, 4, Serialized)  // _OSC: Operating System Capabilities
+    +        {
+    +            If ((SizeOf (Arg3) < 0x08))
+    +            {
+    +                Return (Buffer (0x08) { 0x02, 0x00, 0x00, 0x00,
+    +                    0x00, 0x00, 0x00, 0x00 })
+    +            }
+    +
+    +            CreateDWordField (Arg3, Zero, CDW1)
+    +            CreateDWordField (Arg3, 0x04, CDW2)
+    +            If ((Arg0 != ToUUID ("0811b06e-4a27-44f9-8d60-3cbbc22e7b48")))
+    +            {
+    +                CDW1 |= 0x04
+    +                Return (Arg3)
+    +            }
+    +            If ((Arg1 != One))
+    +            {
+    +                CDW1 |= 0x08
+    +                Return (Arg3)
+    +            }
+    +            If ((Arg2 != 0x02))
+    +            {
+    +                CDW1 |= 0x02
+    +                Return (Arg3)
+    +            }
+    +
+    +            Local0 = (CDW2 & 0xFFFFFFFF)
+    +            If ((CDW2 != Local0))
+    +            {
+    +                CDW1 |= 0x10
+    +            }
+    +            CDW2 = Local0
+    +            Return (Arg3)
+    +        }
+    +
+    +        Device (GEDD)
+    +        {
+    +            Name (_HID, "PNP0C33" /* Error Device */)
+    +            Name (_UID, Zero)
+    +        }
+    +    }
+    +
+    +    Scope (_GPE)
+    +    {
+    +        Method (_E07, 0, NotSerialized)
+    +        {
+    +            Notify (\_SB.GEDD, 0x80) // Status Change
+    +        }
+    +    }
+
+The x86 HEST table now contains a GHESv2 source:
+
+    --- /tmp/HEST_old.dsl
+    +++ /tmp/HEST.dsl
+    @@
+    +[024h 0036   4]           Error Source Count : 00000001
+    +
+    +[028h 0040   2]                Subtable Type : 000A [Generic Hardware Error Source V2]
+    +[02Ah 0042   2]                    Source Id : 0001
+    +[02Ch 0044   2]            Related Source Id : FFFF
+    +[02Eh 0046   1]                     Reserved : 00
+    +[02Fh 0047   1]                      Enabled : 01
+    +[030h 0048   4]       Records To Preallocate : 00000001
+    +[034h 0052   4]      Max Sections Per Record : 00000001
+    +[038h 0056   4]          Max Raw Data Length : 00000400
+    +
+    +[03Ch 0060  12]         Error Status Address : [Generic Address Structure]
+    +[03Ch 0060   1]                     Space ID : 00 [SystemMemory]
+    +[03Dh 0061   1]                    Bit Width : 40
+    +[03Fh 0063   1]         Encoded Access Width : 04 [QWord Access:64]
+    +
+    +[048h 0072  28]                       Notify : [Hardware Error Notification Structure]
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- hw/i386/Kconfig      |  1 +
- hw/i386/acpi-build.c | 99 ++++++++++++++++++++++++++++++++++++++++++++
- hw/i386/pc.c         | 41 ++++++++++++++++++
- include/hw/i386/pc.h |  5 +++
- 4 files changed, 146 insertions(+)
+ tests/data/acpi/x86/pc/DSDT.ras             | Bin 0 -> 8818 bytes
+ tests/data/acpi/x86/pc/HEST.ras             | Bin 0 -> 132 bytes
+ tests/data/acpi/x86/q35/DSDT.ras            | Bin 0 -> 8647 bytes
+ tests/data/acpi/x86/q35/HEST.ras            | Bin 0 -> 132 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ 5 files changed, 4 deletions(-)
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index e27d8816e5bb..b1fbfaf33f9b 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -47,6 +47,7 @@ config PC
-     select MC146818RTC
-     # For ACPI builder:
-     select SERIAL_ISA
-+    select ACPI_APEI
-     select ACPI_PCI
-     select ACPI_VMGENID
-     select ACPI_VMCLOCK
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 8837b69687d1..78ff78bd8200 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -71,6 +71,7 @@
- #include "hw/acpi/utils.h"
- #include "hw/acpi/pci.h"
- #include "hw/acpi/cxl.h"
-+#include "hw/acpi/ghes.h"
- 
- #include "qom/qom-qobject.h"
- #include "hw/i386/amd_iommu.h"
-@@ -852,6 +853,53 @@ static void build_acpi0017(Aml *table)
-     aml_append(table, scope);
- }
- 
-+/* ACPI 5.0, 6.2.10.2: Platform-Wide OSPM Capabilities. */
-+#define ACPI_OSC_CAP_APEI                  (1U << 4)
-+
-+static Aml *build_apei_osc(uint32_t mask, uint32_t bits)
-+{
-+    Aml *method = aml_method("_OSC", 4, AML_SERIALIZED);
-+    uint8_t failure[8] = { 2 }; /* _OSC failure */
-+    uint32_t disabled = mask & ~bits;
-+    Aml *support = aml_name("CDW2");
-+    Aml *status = aml_name("CDW1");
-+    Aml *if_ctx;
-+
-+    if_ctx = aml_if(aml_lless(aml_sizeof(aml_arg(3)), aml_int(8)));
-+    aml_append(if_ctx, aml_return(aml_buffer(sizeof(failure), failure)));
-+    aml_append(method, if_ctx);
-+    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
-+    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(4), "CDW2"));
-+
-+    /* capacity buffer */
-+    if_ctx = aml_if(aml_lnot(aml_equal(aml_arg(0),
-+                             aml_touuid("0811B06E-4A27-44F9-8D60-3CBBC22E7B48"))));
-+    aml_append(if_ctx, aml_or(status, aml_int(4), status));
-+    aml_append(if_ctx, aml_return(aml_arg(3)));
-+    aml_append(method, if_ctx);
-+
-+    /* Revision ID: 1 */
-+    if_ctx = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
-+    aml_append(if_ctx, aml_or(status, aml_int(8), status));
-+    aml_append(if_ctx, aml_return(aml_arg(3)));
-+    aml_append(method, if_ctx);
-+
-+    /* Count of entries in arg 3: 2 */
-+    if_ctx = aml_if(aml_lnot(aml_equal(aml_arg(2), aml_int(2))));
-+    aml_append(if_ctx, aml_or(status, aml_int(2), status));
-+    aml_append(if_ctx, aml_return(aml_arg(3)));
-+    aml_append(method, if_ctx);
-+
-+    /* Update needed Platform-Wide _OSC Capabilities */
-+    aml_append(method, aml_and(support, aml_int(~disabled), aml_local(0)));
-+    if_ctx = aml_if(aml_lnot(aml_equal(support, aml_local(0))));
-+    aml_append(if_ctx, aml_or(status, aml_int(0x10), status));
-+    aml_append(method, if_ctx);
-+    aml_append(method, aml_store(aml_local(0), support));
-+    aml_append(method, aml_return(aml_arg(3)));
-+    return method;
-+}
-+
- static void
- build_dsdt(GArray *table_data, BIOSLinker *linker,
-            AcpiPmInfo *pm, AcpiMiscInfo *misc,
-@@ -1281,6 +1329,21 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         aml_append(dsdt, scope);
-     }
- 
-+    if (pcms->ras) {
-+        sb_scope = aml_scope("_SB");
-+        aml_append(sb_scope, build_apei_osc(ACPI_OSC_CAP_APEI,
-+                                            ACPI_OSC_CAP_APEI));
-+        aml_append(sb_scope, aml_error_device());
-+        aml_append(dsdt, sb_scope);
-+
-+        scope = aml_scope("_GPE");
-+        method = aml_method("_E07", 0, AML_NOTSERIALIZED);
-+        aml_append(method, aml_notify(aml_name("\\_SB." ACPI_APEI_ERROR_DEVICE),
-+                                      aml_int(0x80)));
-+        aml_append(scope, method);
-+        aml_append(dsdt, scope);
-+    }
-+
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
-     acpi_table_end(linker, &table);
-@@ -2011,6 +2074,10 @@ static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg)
-     return true;
- }
- 
-+static const AcpiNotificationSourceId hest_ghes_notify[] = {
-+    {ACPI_HEST_SRC_ID_QMP, ACPI_GHES_NOTIFY_SCI},
-+};
-+
- static
- void acpi_build(AcpiBuildTables *tables, MachineState *machine)
- {
-@@ -2167,6 +2234,16 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-         cxl_build_cedt(table_offsets, tables_blob, tables->linker,
-                        x86ms->oem_id, x86ms->oem_table_id, &pcms->cxl_devices_state);
-     }
-+    if (pcms->ras) {
-+        AcpiGhesState *ags =
-+            acpi_device_get_ghes_state(ACPI_DEVICE_IF(x86ms->acpi_dev));
-+
-+        acpi_add_table(table_offsets, tables_blob);
-+        acpi_build_hest(ags, tables_blob, tables->hardware_errors,
-+                        tables->linker, hest_ghes_notify,
-+                        ARRAY_SIZE(hest_ghes_notify),
-+                        x86ms->oem_id, x86ms->oem_table_id);
-+    }
- 
-     acpi_add_table(table_offsets, tables_blob);
-     build_waet(tables_blob, tables->linker, x86ms->oem_id, x86ms->oem_table_id);
-@@ -2283,6 +2360,21 @@ void acpi_setup(void)
-     static FwCfgTPMConfig tpm_config;
- #endif
- 
-+    if (pcms->ras) {
-+        AcpiGhesState *ags = NULL;
-+
-+        if (x86ms->acpi_dev) {
-+            ags = acpi_device_get_ghes_state(ACPI_DEVICE_IF(x86ms->acpi_dev));
-+        }
-+        if (!x86ms->fw_cfg || !pcms->acpi_build_enabled ||
-+            !x86_machine_is_acpi_enabled(x86ms) || !ags) {
-+            error_report("ras=on requires ACPI table generation and a PC "
-+                         "ACPI controller");
-+            exit(EXIT_FAILURE);
-+        }
-+        ags->use_hest_addr = true;
-+    }
-+
-     if (!x86ms->fw_cfg) {
-         ACPI_BUILD_DPRINTF("No fw cfg. Bailing out.\n");
-         return;
-@@ -2329,6 +2421,13 @@ void acpi_setup(void)
-     }
- #endif
- 
-+    if (pcms->ras) {
-+        AcpiGhesState *ags =
-+            acpi_device_get_ghes_state(ACPI_DEVICE_IF(x86ms->acpi_dev));
-+
-+        acpi_ghes_add_fw_cfg(ags, x86ms->fw_cfg, tables.hardware_errors);
-+    }
-+
-     vmgenid_dev = find_vmgenid_dev();
-     if (vmgenid_dev) {
-         vmgenid_add_fw_cfg(VMGENID(vmgenid_dev), x86ms->fw_cfg,
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index f064aa2b3e32..5906152ed31e 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -50,6 +50,7 @@
- #include "qemu/error-report.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/pc-hotplug.h"
-+#include "hw/acpi/ghes.h"
- #include "acpi-build.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/cxl/cxl_host.h"
-@@ -1611,6 +1612,34 @@ static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
-     pcms->max_fw_size = value;
- }
- 
-+static bool pc_machine_get_ras(Object *obj, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+
-+    return pcms->ras;
-+}
-+
-+static void pc_machine_set_ras(Object *obj, bool value, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+
-+    pcms->ras = value;
-+}
-+
-+static void pc_sci_error(Notifier *n, void *opaque)
-+{
-+    PCMachineState *pcms = container_of(n, PCMachineState, ghes_sci_notifier);
-+    X86MachineState *x86ms = X86_MACHINE(pcms);
-+    uint16_t *source_id = opaque;
-+
-+    /* Currently, only QMP injection is supported */
-+    if (!pcms->ras || !x86ms->acpi_dev ||
-+        *source_id != ACPI_HEST_SRC_ID_QMP) {
-+        return;
-+    }
-+
-+    acpi_send_event(DEVICE(x86ms->acpi_dev), ACPI_GENERIC_ERROR);
-+}
- 
- static void pc_machine_initfn(Object *obj)
- {
-@@ -1645,12 +1674,18 @@ static void pc_machine_initfn(Object *obj)
-     if (pcmc->pci_enabled) {
-         cxl_machine_init(obj, &pcms->cxl_devices_state);
-     }
-+
-+    pcms->ghes_sci_notifier.notify = pc_sci_error;
-+    notifier_list_add(&acpi_generic_error_notifiers,
-+                        &pcms->ghes_sci_notifier);
- }
- 
- static void pc_machine_finalize(Object *obj)
- {
-     PCMachineState *pcms = PC_MACHINE(obj);
- 
-+    notifier_remove(&pcms->ghes_sci_notifier);
-+
-     if (pcms->pcspk && !qdev_is_realized(DEVICE(pcms->pcspk))) {
-         object_unref(OBJECT(pcms->pcspk));
-     }
-@@ -1769,6 +1804,12 @@ static void pc_machine_class_init(ObjectClass *oc, const void *data)
-     object_class_property_set_description(oc, PC_MACHINE_SMBIOS_EP,
-         "SMBIOS Entry Point type [32, 64]");
- 
-+    object_class_property_add_bool(oc, "ras", pc_machine_get_ras,
-+                                   pc_machine_set_ras);
-+    object_class_property_set_description(oc, "ras",
-+                                          "Set on/off to enable/disable reporting host memory errors "
-+                                          "to a KVM guest using ACPI and guest external abort exceptions");
-+
-     object_class_property_add_bool(oc, "fd-bootchk",
-         pc_machine_get_fd_bootchk,
-         pc_machine_set_fd_bootchk);
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index d4b6d3ed57fa..52b4e18ab7db 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -30,6 +30,9 @@ typedef struct PCMachineState {
-     /* State for other subsystems/APIs: */
-     Notifier machine_done;
- 
-+    /* Triggered when a new SCI GHES error raises */
-+    Notifier ghes_sci_notifier;
-+
-     /* Pointers to devices and objects: */
-     PCIBus *pcibus;
-     I2CBus *smbus;
-@@ -52,6 +55,8 @@ typedef struct PCMachineState {
-     bool i8042_enabled;
-     bool default_bus_bypass_iommu;
-     bool fd_bootchk;
-+    bool ras;
-+
-     uint64_t max_fw_size;
- 
-     /* ACPI Memory hotplug IO base address */
+diff --git a/tests/data/acpi/x86/pc/DSDT.ras b/tests/data/acpi/x86/pc/DSDT.ras
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..ee99b20fd6e9d95ad2690e20573cd8bd5ca0d90f 100644
+GIT binary patch
+literal 8818
+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
+F{{Ue1iFp73
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/x86/pc/HEST.ras b/tests/data/acpi/x86/pc/HEST.ras
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6dfeb1d3704523f5ee7c81f442c4f51bbd10282d 100644
+GIT binary patch
+literal 132
+zcmeZp4Gw8xU|?XhbMklg2v%^42yj+VP*7lGU|;~TK{N<+F)%Xx|Ife(<1?@@FfceU
+guzdLapPhk$fq_{DMB)HYwLhS0|NVymkXaxA05bg-0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/x86/q35/DSDT.ras b/tests/data/acpi/x86/q35/DSDT.ras
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..f7626f56ceda77aeb0ca04e8913d76bf57177a45 100644
+GIT binary patch
+literal 8647
+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
+E4{5|Mc>n+a
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/x86/q35/HEST.ras b/tests/data/acpi/x86/q35/HEST.ras
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6dfeb1d3704523f5ee7c81f442c4f51bbd10282d 100644
+GIT binary patch
+literal 132
+zcmeZp4Gw8xU|?XhbMklg2v%^42yj+VP*7lGU|;~TK{N<+F)%Xx|Ife(<1?@@FfceU
+guzdLapPhk$fq_{DMB)HYwLhS0|NVymkXaxA05bg-0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index b3761468accc..dfb8523c8bf4 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,5 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/x86/pc/DSDT.ras",
+-"tests/data/acpi/x86/pc/HEST.ras",
+-"tests/data/acpi/x86/q35/DSDT.ras",
+-"tests/data/acpi/x86/q35/HEST.ras",
 -- 
 2.55.0
 
