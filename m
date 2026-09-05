@@ -1,48 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030212F5498
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031C0370D4D
 	for <linux-edac@vger.kernel.org>; Sat,  5 Sep 2026 17:53:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788630814; cv=none; b=UAs8m4tbtx6uo/W2+85gEmIkIwjZrJKEPNj7LYXOTsPhULXGrVb8qWUZ5zmrX42d+eZzvXL2hGIm3r93zPlMq0eFJP4gt5nVao7K3Mofvug3OsdFkO+x0LK3W2w/cep9CWYrTDNNys1FZaHwh7O5BZAn8lruAB26JqX1DT63jnM=
+	t=1788630814; cv=none; b=o3hQ+jwJJRL3dUugim9aP9Gi4wVpxV8tL1bXgDjmiHE8N1m0zXWFdfXp/j+uSxuwhGC+VZURr8eGJ6zv7jZClbVOCMg90OOEN3DwWEj6CwumnyIKHyihoLb2z9rkm8PKA8AF5RV74Nqvi4XNKcNwwSuKdR97iBP+8gbDuAAGRqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788630814; c=relaxed/simple;
-	bh=oQOWy4YqE8jWdnHa7Lg0rIniFTXUqFCPPBEvSrUCnQQ=;
+	bh=io1zDvqM2H2cejV3QsujH+qfzDqDSj/kF+IwkXpgTeY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k3RGQf5S3I7LAkXZgd6VbQB1OH3LvBjWGIhD6/0GoNqtelpHJI79vZr1iWvjZNtUcDGwgvGA0k8bRiIPUgkNY4CprfxxQ9CQutd9e5FtuONCUAOVMDu4e9fnP2WGoQJQgz8q5bhr50o5YymMJ7ewb4Q7rja7kXzh7fEK8eofqHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DtMpxe9T; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=dzWThZPSDBt+tQ2LAGN5LaB2SREMq6vhomTTvwR7YG/M8/khDEjQeFCgs79yZukGqARPbzRE4Qu9T00yEtmOD/jhMXC1xNMmkTCuJ0SPgQ7tHLM8qtsbblQ72te993YQ0bzbJjwPfy5bRks+OOjDCzhAPvmAq0gE2ymYmqOeeTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E9Smco0s; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DtMpxe9T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36041F00AC4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E9Smco0s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B7491F00A3A;
 	Sat,  5 Sep 2026 17:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1788630812;
-	bh=jHK8n1qrvOc4Q7942MjOL/+nZI/aby+kUuZA3CrS3NM=;
+	bh=wQgyAR83act1RsCI64W0ZhW7znuJEWe5RJhFGqpIHYk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DtMpxe9Tf/6MaeBUcaiX7p83EidvSXpc//F9xrdJ67NUvJM2B6RHiPWGNOhRibykW
-	 C0hwHR27yRNPX327s+uy0Z9nVFM7ovJEMyaZrm5zVX6QXOqh/Ehdwqr9pH+5UQ0apb
-	 EhAqAQl7anPVubtiyY6Q1E0qcDuGYKhZ4L+1RB7ge+YG+AF88BX8ZvUdBhXqClkUqy
-	 7vkas/LTfe2l4J3IimKDNzOAAnalXveRknnCyQBxSA+EVN33hPM/+P/WoQ39S2XlcS
-	 jExOHZHjOyB57hc/BkAl8dNKW1OJ67z2HZbkG9OQF+wwvOmCVCkjTqLqRPt19OV+Na
-	 XEifN6nb6Kb3w==
+	b=E9Smco0sr8osi8vff1k/862N5+0EHe9XmUfcOTnEqXv0FhfFyzNYVfDsdbLtsv9MM
+	 XrGWQzYsvTBIn50+2zojaJzvrJQ0K5VXBFFkoih+QW7TJQTzVSR29fVniExwpY16PC
+	 RsEPCkqGRSN8oAafRLwMxp/jVGu1NYY037Mo2QWvvf9HkhOjKuYY8Y7mi0pf69wgzg
+	 4teTh9C8l3nsro2qDPReMBfPzgBWk3lhdAoruF+h2afCWW2UHs4HKSq/IayhcNlqix
+	 z2AAHEsUWHO3lVucuVucqVjskJmbEDtjZKNWy6in9dzbhxPI3aldUiatQ7O27BMQXT
+	 U9Ih5ino80VYQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.5)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1x2ua2-0000000Bks5-3Vr1;
+	id 1x2ua2-0000000Bks1-3P5j;
 	Sat, 05 Sep 2026 19:53:30 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Michael S Tsirkin <mst@redhat.com>,
-	Igor Mammedov <imammedo@redhat.com>
+	Igor Mammedov <imammedo@redhat.com>,
+	Pierrick Bouvier <pierrick.bouvier@oss.qualcomm.com>
 Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	Shiju Jose <shiju.jose@huawei.com>,
 	qemu-devel@nongnu.org,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-edac@vger.kernel.org,
-	qemu-arm@nongnu.org,
-	Ani Sinha <anisinha@redhat.com>
-Subject: [PATCH 7/8] tests: test GHES notifications on arm64 virt machine
-Date: Sat,  5 Sep 2026 19:53:27 +0200
-Message-ID: <16e6d6155893f3facb9f258103eea6f9ba4c4818.1788630333.git.mchehab+huawei@kernel.org>
+	qemu-arm@nongnu.org
+Subject: [PATCH 6/8] docs: acpi_hest_ghes: document notification mechanisms
+Date: Sat,  5 Sep 2026 19:53:26 +0200
+Message-ID: <ad5db180cbb52fe101c19edfcd1bf144e11fff76.1788630333.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1788630333.git.mchehab+huawei@kernel.org>
 References: <cover.1788630333.git.mchehab+huawei@kernel.org>
@@ -56,122 +56,78 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-QEMU has support for HEST table since version 9.2. Yet, it currently
-lacks a test to check if the HEST table is working.
+Currently, the HEST spec mixes generic support with arch dependent
+notification mechanisms.
 
-Add tests for arm64 error inject mechanism, implemented at
-QEMU version 10.2.
+Move the arm-specific notifications to a separate chapter and add
+a new one describing x86 mechanisms.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tests/qtest/bios-tables-test.c | 80 ++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ docs/specs/acpi_hest_ghes.rst | 44 ++++++++++++++++++++++++++++-------
+ 1 file changed, 35 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 5cc526510ac1..5582b1dd72e4 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -68,6 +68,7 @@
+diff --git a/docs/specs/acpi_hest_ghes.rst b/docs/specs/acpi_hest_ghes.rst
+index aaf7b1ad11a5..1a32550ef3a1 100644
+--- a/docs/specs/acpi_hest_ghes.rst
++++ b/docs/specs/acpi_hest_ghes.rst
+@@ -7,6 +7,7 @@ APEI tables generating and CPER record
+    This work is licensed under the terms of the GNU GPL, version 2 or later.
+    See the COPYING file in the top-level directory.
  
- #define MACHINE_PC "pc"
- #define MACHINE_Q35 "q35"
-+#define VIRT_ACPI_GED_BASE 0x09080000
++
+ Design Details
+ --------------
  
- #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
+@@ -105,14 +106,39 @@ Design Details
+     firmware will write back the start address of either "etc/hardware_errors"
+     or HEST table at the corresponding fw_cfg file.
  
-@@ -913,6 +914,84 @@ static uint8_t base_required_struct_types[] = {
-     0, 1, 3, 4, 16, 17, 19, 32, 127
- };
+-(9) When QEMU gets a SIGBUS from the kernel, QEMU writes CPER into corresponding
+-    "Error Status Data Block", guest memory, and then injects platform specific
+-    interrupt (in case of arm/virt machine it's Synchronous External Abort) as a
+-    notification which is necessary for notifying the guest.
++.. note::
  
-+static void test_acpi_ghes_v2_injection(test_data *data)
-+{
-+    const uint8_t cper[20] = { [0] = 2, [16] = 2 }; /* corrected GESB */
-+    g_autofree char *payload = g_base64_encode(cper, sizeof(cper));
-+    uint64_t status_addr, ack_addr;
-+    uint8_t actual[sizeof(cper)];
-+    QTestState *qts = data->qts;
-+    const uint8_t *ghes = NULL;
-+    AcpiSdtTable *hest = NULL;
-+    AcpiSdtTable *table;
+-(10) This notification (in virtual hardware) will be handled by the guest
+-     kernel, on receiving notification, guest APEI driver could read the CPER error
+-     and take appropriate action.
++    GHES support requires ACPI and ``-machine ras=on``.
+ 
+-(11) kvm_arch_on_sigbus_vcpu() reports RAS errors via a SEA notifications,
+-     when a SIGBUS event is triggered.
++Notifications on ARM64
++----------------------
 +
-+    for (unsigned i = 0; i < data->tables->len; i++) {
-+        table = &g_array_index(data->tables, AcpiSdtTable, i);
++The ARM64 ``virt`` machine supports two GHESv2 notification sources:
 +
-+        if (compare_signature(table, "HEST")) {
-+            hest = table;
-+            break;
-+        }
-+    }
-+    g_assert_nonnull(hest);
++* source 0: Synchronous External Abort (SEA);
++* source 1: GPIO notification delivered through a Generic Event Device (GED).
 +
-+    for (unsigned i = 0; i < ldl_le_p(hest->aml + 36); i++) {
-+        const uint8_t *entry = hest->aml + 40 + i * 92;
++Source 0 reports hardware-memory RAS events on the ``virt`` machine:
 +
-+        g_assert_cmpuint(lduw_le_p(entry), ==, 10); /* GHESv2 */
-+        if (lduw_le_p(entry + 2) == 1) { /* QMP source */
-+            ghes = entry;
-+            break;
-+        }
-+    }
-+    g_assert_nonnull(ghes);
-+    g_assert_cmpuint(ghes[32], ==, 7); /* GPIO notification */
-+    status_addr = qtest_readq(qts, ldq_le_p(ghes + 24));
-+    ack_addr = ldq_le_p(ghes + 68);
-+    g_assert_cmphex(status_addr, !=, 0);
-+    g_assert_cmphex(ack_addr, !=, 0);
-+    g_assert_cmpuint(qtest_readq(qts, ack_addr), ==, 1);
++* When QEMU receives a ``SIGBUS`` from the kernel, it writes the CPER into the
++  corresponding ``Error Status Data Block`` in guest memory and reports the
++  event through a Synchronous External Abort (SEA). The guest kernel handle
++  the SEA,
 +
-+    for (unsigned i = 0; i < 3; i++) {
-+        qtest_qmp_assert_success(qts,
-+            "{'execute': 'inject-ghes-v2-error', 'arguments': {'cper': %s}}",
-+            payload);
-+        g_assert_cmpuint(qtest_readq(qts, ack_addr), ==, 0);
-+        qtest_memread(qts, status_addr, actual, sizeof(actual));
-+        g_assert_cmpmem(actual, sizeof(actual), cper, sizeof(cper));
++* The guest APEI driver can read and process the CPER record.
 +
-+        /* GED converts the GPIO notification into an Error event. */
-+        g_assert_cmphex(qtest_readl(qts, VIRT_ACPI_GED_BASE), ==, 0x20);
-+        g_assert_cmphex(qtest_readl(qts, VIRT_ACPI_GED_BASE), ==, 0);
++* ``kvm_arch_on_sigbus_vcpu()`` reports these RAS events through SEA.
 +
-+        /* A second injection must wait for OSPM's acknowledgement. */
-+        qobject_unref(qtest_qmp_assert_failure_ref(qts,
-+            "{'execute': 'inject-ghes-v2-error', 'arguments': {'cper': %s}}",
-+            payload));
-+        qtest_writeq(qts, ack_addr, 1);
-+    }
-+}
++When source 1 is available, QEMU supports GHES error injection through the QMP
++interface.
 +
-+static void test_acpi_aarch64_virt_ras(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .arch = "aarch64",
-+        .tcg_only = true,
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * MiB,
-+    };
 +
-+    test_vm_prepare("-cpu cortex-a57 -machine ras=on", &data);
-+    process_acpi_tables_noexit(&data);
-+    test_acpi_ghes_v2_injection(&data);
-+    qtest_quit(data.qts);
-+    free_test_data(&data);
-+}
++Notifications on x86
++--------------------
 +
- static void test_acpi_piix4_tcg(void)
- {
-     test_data data = {};
-@@ -2922,6 +3001,7 @@ int main(int argc, char *argv[])
-     } else if (strcmp(arch, "aarch64") == 0) {
-         if (has_tcg && qtest_has_device("virtio-blk-pci")) {
-             qtest_add_func("acpi/virt", test_acpi_aarch64_virt_tcg);
-+            qtest_add_func("acpi/virt/ras", test_acpi_aarch64_virt_ras);
-             qtest_add_func("acpi/virt/acpihmatvirt",
-                            test_acpi_aarch64_virt_tcg_acpi_hmat);
-             qtest_add_func("acpi/virt/topology",
++The ``pc`` and ``q35`` machines support one GHESv2 source:
++
++* source 1: System Control Interrupt (SCI).
++
++When source 1 is available, QEMU supports GHES error injection through
++the QMP interface.
 -- 
 2.55.0
 
