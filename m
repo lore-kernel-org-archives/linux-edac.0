@@ -1,75 +1,100 @@
 Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C771A1632E7
-	for <linux-edac@vger.kernel.org>; Sat,  5 Sep 2026 09:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81A440489A
+	for <linux-edac@vger.kernel.org>; Sat,  5 Sep 2026 09:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788600289; cv=none; b=hxZ6Z4YGf8yIvnwzhCr2hUVx2USOEqZNe4mrWZ3mcj8Wludc5b9XePfIRsUtkOYF4uPZuMiPPsz6SbrBZ89+t+qBOHCSGuQUIKBDqhAPncKQAabkPnw6kiQvCJSUPpwdja68n6vz4mg+RXuMhWT54aRzLLdEBWl43VQx4HBPEUQ=
+	t=1788601629; cv=none; b=WdJl+x7Y1oGEI93YRkNzdb1QMJ14W6HkbafvdptOR51NBUqmNLrpkKanMYi5nqccY5/pBrqn4Jwq34O/GEBtI9Ry5e4N6UeSQNnCbQAKsXWIH1FUpBk/xg3g+12m12HT1y6stTAKVgexFzjymhFWkOgRzvO8Jk43oyO/If3NmXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788600289; c=relaxed/simple;
-	bh=QaCebBQOpBVoyKU1YEampELmIKQVNwzsTR2of/MqDdE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u/Vu2px19bqs9C1zknRKl/NiQnakMgdeIPAWjYZ43oGVkJHrj7xibfRGXEOOhcv9C8NeVu9sTwu5d/xF3S0HgPaNwMxcplMmONtp2PfQgljOwhwv2JXaAPfRicfbeQs4tAiQktcv7mmuTSjWQptgrKd0O7UbMy9DzOPcv8JlszQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T3RM0mTY; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1788601629; c=relaxed/simple;
+	bh=r1zTAstGx+IQRZSz2V3LqeUHrdmsIckPyGpER4pVwcw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GNPVWm8+vvU2iAFIEIM6GiFB7rhvIH44T5njE+W4l2kkS0eFVyyiU/wKC3R1QwqsVKI+EgCS2M37oSxb5HOlaDRomLv9bC60sW5ul/TexzO7PNxMRvTtpe69atKJ4GSXwD38kU12eKkJc9GaVxuQaJ+ck1xy6c2uz84rPk4LaVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mqzc5uFI; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T3RM0mTY"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-499ac87c92bso20864055e9.1
-        for <linux-edac@vger.kernel.org>; Sat, 05 Sep 2026 02:24:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mqzc5uFI"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so23805995e9.0
+        for <linux-edac@vger.kernel.org>; Sat, 05 Sep 2026 02:47:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788600286; x=1789205086; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788601620; x=1789206420; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N1B6Q2UTc0NYJ9rjx4iyizU2jLsIDy7H6FgDj2PqGSg=;
-        b=T3RM0mTYau8OmUyiTPKI0wuHRhucuVj1DrkaDJsAGRFirIIMomsywLoB8rohTS2ITP
-         1ePUIuCygwHG1CUl++fYkh/CVUV383r8sgN4/ntt1TAyK6lHceDZedfb+v2EeslGBaE1
-         99FK3lS8KQj9FupSsqj4bCRKZyvQ811t0jzQoFRLGq5J8B25subN3D7VQiVTCFFnu/a1
-         DGR5mk/FMwRVwBP1Gehs8ZSe1urD9KuXSZnUnUOXiZNGCuLMuyg2ePudJC41CUBO1uUQ
-         oaV9I/FsLnkOslgKHBfrTHX2AONbduLJolL8ua0KAvP+GwCk197LUC379Wl4Q6aP+d08
-         SNpw==
+        bh=0rL+/iAM/i65sRrJdGWBjEYqO95wvZ81bUVdK7eRsAk=;
+        b=Mqzc5uFIvQMGJH/Qvx9JF0IzrPctKlDeb9yowyBBnvUHbJf5jBARJGIOZJ45uNB28k
+         8Z4q/bv2SqU25SFGtZ61Xd7F777i2Dq9EaTA/Zrj/rZFEXnioKAWjArU0Qu7i5h7gHXF
+         Ner24Ov6fTQNGs33qhIXnkra+vE1dBm7taglV8UME4MALkC9WK/JVUhq9u+mXQj+o59b
+         wKASP4FMp090Fsvh9lvAmn3il43ycNJs1EMS0myNTLfxMK+UoErDjiHTKDGPBw0vwUq3
+         KnFQWL1E5SlZeG2rkKaJMNU9CyAE4Ob48i9+WHPenGupCpxuQvAs1KuJ5+jSwkCkwIDA
+         +G8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788600286; x=1789205086;
+        d=1e100.net; s=20251104; t=1788601620; x=1789206420;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=N1B6Q2UTc0NYJ9rjx4iyizU2jLsIDy7H6FgDj2PqGSg=;
-        b=ZVbcwlUi7bHL2HSMxok+f3a0vCBWUb+G+A7VKjfgsqIGWCrCq8LpYRxvejPaOhioef
-         tZ3DkbjIX8f0anJrwjAXijeC42Honr5g2JFGKmbjTYEbO1JCW0rFrucMYzpBmbOp8uFS
-         VVCXpp6FTqBp4OsVXShtS+M23eXF52jMFu82fnvlkkNE2QdVfFuPIQX4NDttxpVfRqTz
-         UWMoGSW9wOgXCVYkRnPqtxPkDndAOiruYRr4+vxwECDN6nBn3a9FqxxDXt97nB4iK6Qk
-         VorZ4zSvKdVuiWJSfZiZU7aSgOd0HtksR1cVb97HIrYLHgzxBv2A7w04MT3bNky00WU5
-         VLvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwU2yJ6bLtS8JFQwofbslJhMj0wKS5+c0TZHOOjxn4deqANKr1SfezOTwrgJpcQOuqrG3qO7GzDNkWN@vger.kernel.org
-X-Gm-Message-State: AFuF++lyl50YLiOOwElbdYHyiMniOCXG+4hjqdus81DMWByCettYFAMu
-	vO8oX4Aw6QCvzganVgAnnGv2BLuJpCELez8/RbXCxQr0Ff6l8stDVSi3
-X-Gm-Gg: AYBFou0YJFGeqhkB3uDShVCjouY/DjG2akD/gRskvbKv9L6DFNULJd23+d4lV+wYQVK
-	90XOTMyu3RLfkqBrfV6Ec2zAlBeOViynQ127zpH5dEwIt9c430k8cgLBhnWg9Fk5G0VZqx33eD/
-	J7Qd49BEFSrgyN2dhV0P8ZT5TZ9K+N9lIlcM3q4O25yCyc69oby/InivZaF6axCWTPytaKhorCc
-	2B/fsZSnOPl8wYKgJ6WAGyQfSPk1I8p1NEsghv02tnoHfm37ety6M0tZv3Z1lEk8wbJdLvFHABM
-	l51z8SFxYb3rPTfPyNUEqKcxBjmzrbN95r5Q3Yq4LKWMPqb/AJxVAkhQXpwQqBBuOux8gCPWLEM
-	hfHboOAMnP4tdKESFyRvqw9qadKEA3tNQpp51dsfYW6QGGOQfT2bEkFcJyPJ6xZ7GtsStNkL8JI
-	fSCJiXc40nU99LJMehk6kULHjStgQV5CUBjRF8dHcGxAkaXbfs4DN7+yH2/FtVrz9uROtWZ9pgq
-	a0K77+5/yfDLHDtgFuS1/Hxl98kPGqcAo+PhvUPlh6+QLzdE26mqmN6c0WLj7bAVIZfAuJGjes8
-	iZU4RLye09WAX5711L9NdSTE/Z/RpairsesercuwPEG7rqIpv03C9qW+aeheTtG6ZUk=
-X-Received: by 2002:a05:600c:548b:b0:49b:92df:87be with SMTP id 5b1f17b1804b1-49cf81f3655mr112485365e9.4.1788600285882;
-        Sat, 05 Sep 2026 02:24:45 -0700 (PDT)
+        bh=0rL+/iAM/i65sRrJdGWBjEYqO95wvZ81bUVdK7eRsAk=;
+        b=Udx/8/eP2cXOwCmaUCzUKm3UGULMkZJwCyYoItjsNol3f8KeshP8n1Yi6Ewfnmjefl
+         /NovXX8gq5fFZlCN7IPQ+nZzgImUKoiZB83H2tR2b2DUxCLEqPlhP7UkKt/nWKtVt0EB
+         CUrEZr/4JkwdVY0pndXYtVDTmWqJMSsHgmdONjI9/8Qg24DH4n0ONw/5Verb8KWwCSEU
+         Ki5IQ4CSlrKKczalUcJdLIbi3VryU4PzpOAlj87cIzF4f1t2njg1G1D6kYY+A7lES4UI
+         TBFRcRCQ55WAOyWzMZ9h/SDpMQpcPyggnaD9pqFHUEUyFNqO9akfFx2RQ7cyjIziTtC6
+         DMRg==
+X-Forwarded-Encrypted: i=1; AKwUvByDuYVrzoA5Xv/2nbxc2Ev+Se7D/e//p6AQRgSDUvbvTCKl51l+fILLaO6D0+f6PLUtef/CGaYTzIJv@vger.kernel.org
+X-Gm-Message-State: AFuF++mbLDSjPO3RgTqgf3UrokHO26R9VW4O/zJsB0t0x1RbcyQvaBcJ
+	7D+zvX+Po7vibJMUgfy0H48yZ+cMm/ELvvRuPEFSQrIZACIY8grEsgun
+X-Gm-Gg: AYBFou3O5ZdJgXH5sPtpHH+gDbdcgyD7iEQzyhXdbc9wyB8wmlKqhS/Bhahd2xjXiUd
+	4/EhxULkZ2V5n5RKjevaeUsD+1EwKIifSbg+zFYHBJZwaYnuVZhO9vBL2Sp1KfWJuT1ZDnOYNZz
+	rHhG+HD4OKDYJSHHrIEp8r2BId+tq2V4ZytJQChYS9+xwyJ7QrEG+3yQ8piYqYrUjLK0G9e23ra
+	Nw3zyf0oN4j1CBk20jEHYmm/W5gWGS++k5nSGJnZYpROPDbFzIibE8TVkBWDx5mHTa5om33jzoG
+	1+x9ZH0qECEMoVHmCYtS22Eaj3KQBhcPQTgCPFQjfGYzvSimY0Oeo75KF3xDrlX95KpBVnIe4Rg
+	TGwqPnXlQ+r4qBvTS6B0UjrIXCbiEak1EDjzlDdqrkFlTVugb5fFlay5+6BGAqJDzT+jshOXP/6
+	uwMX3Ta4Uii6irWwRVpJyr3SjBV9VpKy3Iv5qmsqc917h4lR/3fvV0TMlAvU9hOZhN6QCERFKRn
+	vWRt2j6l8iXF7HaPTthQzUySG3G2clYLtwv6LFv/r1wqGGYmQyYrntWdmPRVWFWm2PR5S2K+3Ow
+	B19AulgHC3WMBAwXanv6hxptPcRrMdZdEZdqgGv2/c5P0Ms9+44KJgVJKIDxDQp6RxY=
+X-Received: by 2002:a05:600c:3e0a:b0:495:6e68:5df2 with SMTP id 5b1f17b1804b1-49cf8267a36mr138818915e9.12.1788601620145;
+        Sat, 05 Sep 2026 02:47:00 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfbdacc45sm107621925e9.11.2026.09.05.02.24.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c6ba4sm14232013f8f.25.2026.09.05.02.46.58
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:24:45 -0700 (PDT)
+        Sat, 05 Sep 2026 02:46:59 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>
+To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	linux-edac@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-m68k@lists.linux-m68k.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: RAS: Use the real EDAC PCI parity control names
-Date: Sat,  5 Sep 2026 11:24:41 +0200
-Message-Id: <20260905092441.41401-1-kmehltretter@gmail.com>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	Steve Wahl <steve.wahl@hpe.com>,
+	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Mike Travis <mike.travis@hpe.com>,
+	Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-samsung-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tony Lindgren <tony@atomide.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	linux-omap@vger.kernel.org,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-ide@vger.kernel.org,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Michael Schmitz <schmitzmic@gmail.com>,
+	Andreas Kemnade <andreas@kemnade.info>
+Subject: [PATCH v2 0/9] docs: kernel-parameters: Remove ten entries for parameters that no longer exist
+Date: Sat,  5 Sep 2026 11:46:40 +0200
+Message-Id: <20260905094649.41996-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -79,74 +104,38 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The document names the sysfs control
-/sys/devices/system/edac/pci/check_pci_parity and the module parameter
-edac_panic_on_pci_pe. Neither exists.
+kernel-parameters.txt still documents ten boot parameters whose parsing
+code was removed with the drivers or platforms that used them, one of
+them (atarimouse=) since before the git history. One patch per
+parameter, each with a Fixes: tag for the commit that removed the
+parser, so the maintainers of that area are on their own patch only;
+the two pata_legacy module parameters share the last one. Each entry
+was checked with git grep for its __setup(), early_param() and
+module_param() handler and with git log -S for the removing commit.
 
-check_pci_parity was renamed to check_pci_errors by commit 91b99041c1d5
-("drivers/edac: updated PCI monitoring"), after the document had been
-written.
+Changes in v2:
+- patch 9: drop the Fixes: tag for 0dcd0a76370a, which removed the
+  separate pata_qdi driver and not the pata_legacy parameter; both
+  parameters went away in 3c4d783f6922 alone
+- collect the Reviewed-by and Acked-by tags from v1
 
-The module parameter has been edac_pci_panic_on_pe
-(drivers/edac/edac_pci_sysfs.c) since it was introduced, and the
-document described it as edac_panic_on_pci_pe from the start.
+v1: https://lore.kernel.org/all/20260905070347.25902-1-kmehltretter@gmail.com/
 
-Use the real names.
+Karl Mehltretter (9):
+  docs: kernel-parameters: Drop the atarimouse= entry
+  docs: kernel-parameters: Drop the bau= entry
+  docs: kernel-parameters: Drop the edac_report= entry
+  docs: kernel-parameters: Drop the enable_timer_pin_1 entry
+  docs: kernel-parameters: Drop the mini2440= entry
+  docs: kernel-parameters: Drop the nomfgpt entry
+  docs: kernel-parameters: Drop the omap_mux= entry
+  docs: kernel-parameters: Drop the pcmv= entry
+  docs: kernel-parameters: Drop the pata_legacy.qdi and
+    pata_legacy.winbond entries
 
-Fixes: 91b99041c1d5 ("drivers/edac: updated PCI monitoring")
-Fixes: 327dafb1c61c ("edac: core fix redundant sysfs controls to parameters")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- Documentation/admin-guide/RAS/main.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../admin-guide/kernel-parameters.txt         | 67 -------------------
+ 1 file changed, 67 deletions(-)
 
-diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
-index 5a45db32c49b..c1040e5a5b35 100644
---- a/Documentation/admin-guide/RAS/main.rst
-+++ b/Documentation/admin-guide/RAS/main.rst
-@@ -623,7 +623,7 @@ Under ``/sys/devices/system/edac/pci`` are control and attribute files as
- follows:
- 
- 
--- ``check_pci_parity`` - Enable/Disable PCI Parity checking control file
-+- ``check_pci_errors`` - Enable/Disable PCI Parity checking control file
- 
- 	This control file enables or disables the PCI Bus Parity scanning
- 	operation. Writing a 1 to this file enables the scanning. Writing
-@@ -631,11 +631,11 @@ follows:
- 
- 	Enable::
- 
--		echo "1" >/sys/devices/system/edac/pci/check_pci_parity
-+		echo "1" >/sys/devices/system/edac/pci/check_pci_errors
- 
- 	Disable::
- 
--		echo "0" >/sys/devices/system/edac/pci/check_pci_parity
-+		echo "0" >/sys/devices/system/edac/pci/check_pci_errors
- 
- 
- - ``pci_parity_count`` - Parity Count
-@@ -725,15 +725,15 @@ Module parameters
- 
- 	module/kernel parameter::
- 
--			edac_panic_on_pci_pe=[0|1]
-+			edac_pci_panic_on_pe=[0|1]
- 
- 	Enable::
- 
--		echo "1" > /sys/module/edac_core/parameters/edac_panic_on_pci_pe
-+		echo "1" > /sys/module/edac_core/parameters/edac_pci_panic_on_pe
- 
- 	Disable::
- 
--		echo "0" > /sys/module/edac_core/parameters/edac_panic_on_pci_pe
-+		echo "0" > /sys/module/edac_core/parameters/edac_pci_panic_on_pe
- 
- 
- 
 -- 
 2.53.0
 
