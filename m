@@ -1,50 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489B62931E5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840EB4D2EC6
 	for <linux-edac@vger.kernel.org>; Sat,  5 Sep 2026 17:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788630815; cv=none; b=EMUywwnvKLj8tACZECwQTXqHtxrPwo1Un2xSpUGoEkAZdMNeA8wBgupRwoXnRUjQnkKAeXz8l0Qb9o+VQi0P47MZ79PF09lgB5CCsrxOpwXbSUC3hlHd7sYrth4/3JxiNZCyhMjpTw62baISuOiUAzAKasVdCYte2d2ZVffvnq8=
+	t=1788630816; cv=none; b=IRYwbJagZx7gDOa8R2D9rb7Zby55Y8QTtEj6rxm5xAnQpL82n5Pu83ha38iJr0325fjOCAmVGRSdZDn61Vl117b66K2Vc4LnOn8w0WkX6H0lHij/TSV7ZRDwK+uPYXIpJh6hw5UqP4dK5mlT8Yg3jQ0xDoxSyBdGhdcFFlRinuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788630815; c=relaxed/simple;
-	bh=kzhy6xfu8LQQZVbjT2Dn3/A4J8FYYFhB4NI7o1tJe+Y=;
+	s=arc-20240116; t=1788630816; c=relaxed/simple;
+	bh=MnAPaIPzcZAbE+CYakgN5QrgGvX1kum2C+cu74dnTco=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pjRP5WVXHdCGR6OgZSzYU/4XwhW0PYflk6ccaa4ocM+wCLl4z99vB7VL/q/ZRcaxWj4EiXNIHtzaWeD9WSv3u8/XKUq69dxtYzGN2FRTY803jppq1AV0qYX+XKBwjNI84myxde5GiEYQ8t8Pehzk7Y/b7oQF4W4pso1fbw0OPF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lN5bpN34; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=aXxxtezMqi+ZhWweC2jhPeR3cq5g51seiRxvcK6wE/pplEckCv4S/wWB59C2gmnjWgCboOrs0R2qMI3jU3J7GMxiirYa9hiOmqxBpcAK6c45sasBkGgvG3lxMQ4zmZbJ44tXJn0zEX6MS6RozFcwdmBZuWmg48H9jolCMqjsEa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHbrx/Pi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lN5bpN34"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB64B1F00ADE;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHbrx/Pi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6461F00A3E;
 	Sat,  5 Sep 2026 17:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1788630812;
-	bh=ai+qCKVGooyNyHPnec0n28qWkLpI/YR341Xh8tbfMVA=;
+	bh=Ij2k42owOV+OROf/MB1CscRZGK/WiXn0iNaX3gJtNOA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lN5bpN34Vo4ZAjzpDJ8XyoAHg0R12di3aeGoDmYSR1uNMg+dtCNlLTgUrNtd8YIPe
-	 2WpsMTS14ojzZLeS1CmZqnaLxFGZot8AVJ7M8rhYuq86EnLwzvqpx4Evudl4G+kFCC
-	 YGGwz651Gc/i6DaVGvEvYbAcMyeZ6gsJEGhljnR6FTNipPl33381EoVTiGzG9KOLlf
-	 fSZ6AsFs5g9Vnr6XgXEFr8aMLXLmKplW1TlnRRZsPmip+ftojTLV+RJEPE1mYhl5F4
-	 0uPC1rm7CoSY3MwjfWbXrNhFqjnXl7SUkg8tutiLmbQ9WZLROo4E2/y/flrdZRsxjg
-	 kq3qyyzyfpZpA==
+	b=aHbrx/Pi1mSKsyM4sJWwLAOZiZR80J5VArsW7fPn6Iayk29EJf64O4uhsRKLXVCWn
+	 5R5Kwjn6lN5RZCMQ0DAvD/daUyCz9xGL/4s+JC+N0X8U91g+O92sH0SzecoxgrHtAB
+	 Zvj+T0JyUWfhsmrYvLUCywt6EpR40X4WZ4UR8qtOGX6cIu6n/s/bllyuYY0/G3E6ub
+	 Y6bYk2tkYnD+ESdXUfcBKAssVjgi9UwXzxFTF4RdPgjfQWSvxlepHhF757FqXse2Pz
+	 R1QKjyIbR8DGHG4/sVe5eH0SryTsS0r1SIxMVAoOGgmsoK7bgKg185Z+ymhRZ5Q8Ha
+	 oMp710YheFqHA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.5)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1x2ua2-0000000Bkrt-3BWb;
+	id 1x2ua2-0000000Bkrp-34eB;
 	Sat, 05 Sep 2026 19:53:30 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Michael S Tsirkin <mst@redhat.com>,
-	Igor Mammedov <imammedo@redhat.com>
+	Igor Mammedov <imammedo@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	Shiju Jose <shiju.jose@huawei.com>,
 	qemu-devel@nongnu.org,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-edac@vger.kernel.org,
 	qemu-arm@nongnu.org,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@mailo.com>,
 	Ani Sinha <anisinha@redhat.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
-Subject: [PATCH 4/8] hw/i386: add GHES support at ICH9 and PIIX4 PM
-Date: Sat,  5 Sep 2026 19:53:24 +0200
-Message-ID: <b8649bce2afeef273880bac6c7a1dc4fa2d947d1.1788630333.git.mchehab+huawei@kernel.org>
+	Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 3/8] hw/i186: add support for HEST table with SCI
+Date: Sat,  5 Sep 2026 19:53:23 +0200
+Message-ID: <b57abc926bb60af1ebb4c444f0e1b5ea94d46444.1788630333.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1788630333.git.mchehab+huawei@kernel.org>
 References: <cover.1788630333.git.mchehab+huawei@kernel.org>
@@ -58,180 +58,286 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Enabling GHES support on x86 means that both PIIX4 and ICH9
-PM controllers need to expose ghes state.
+Added needed bits at x86 architecture to allow both pb and
+q32 machines to support GHESv2 via HEST tables.
 
-Implement that, as suggested by Igor.
+To do that, add needed _OSC capability bits to enable APEI
+support.
 
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Link: https://lore.kernel.org/qemu-devel/20250530164134.6c666b2e@imammedo.users.ipa.redhat.com/
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- hw/acpi/ich9.c          | 19 +++++++++++++++++++
- hw/acpi/piix4.c         | 25 +++++++++++++++++++++++++
- hw/isa/lpc_ich9.c       |  6 ++++++
- include/hw/acpi/ich9.h  |  2 ++
- include/hw/acpi/piix4.h |  2 ++
- 5 files changed, 54 insertions(+)
+ hw/i386/Kconfig      |  1 +
+ hw/i386/acpi-build.c | 99 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/i386/pc.c         | 41 ++++++++++++++++++
+ include/hw/i386/pc.h |  5 +++
+ 4 files changed, 146 insertions(+)
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 5e8f8a7eafa3..7e2199891431 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -222,6 +222,24 @@ static const VMStateDescription vmstate_pcihp_state = {
-     }
- };
- 
-+static bool ich9_hest_needed(void *opaque)
-+{
-+    ICH9LPCPMRegs *pm = opaque;
-+
-+    return pm->ghes_state.hest_addr_le != 0;
-+}
-+
-+static const VMStateDescription vmstate_ich9_hest = {
-+    .name = "ich9_pm/hest",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = ich9_hest_needed,
-+    .fields = (const VMStateField[]) {
-+        VMSTATE_UINT64(ghes_state.hest_addr_le, ICH9LPCPMRegs),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_ich9_pm = {
-     .name = "ich9_pm",
-     .version_id = 1,
-@@ -244,6 +262,7 @@ const VMStateDescription vmstate_ich9_pm = {
-         &vmstate_tco_io_state,
-         &vmstate_cpuhp_state,
-         &vmstate_pcihp_state,
-+        &vmstate_ich9_hest,
-         NULL
-     }
- };
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 9b7f50c7afac..48fa833c66ef 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -224,6 +224,24 @@ static bool vmstate_test_migrate_acpi_index(void *opaque, int version_id)
-            !s->not_migrate_acpi_index;
- }
- 
-+static bool piix4_hest_needed(void *opaque)
-+{
-+    PIIX4PMState *s = opaque;
-+
-+    return s->ghes_state.hest_addr_le != 0;
-+}
-+
-+static const VMStateDescription vmstate_piix4_hest = {
-+    .name = "piix4_pm/hest",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = piix4_hest_needed,
-+    .fields = (const VMStateField[]) {
-+        VMSTATE_UINT64(ghes_state.hest_addr_le, PIIX4PMState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- /* qemu-kvm 1.2 uses version 3 but advertised as 2
-  * To support incoming qemu-kvm 1.2 migration, change version_id
-  * and minimum_version_id to 2 below (which breaks migration from
-@@ -259,6 +277,7 @@ static const VMStateDescription vmstate_acpi = {
-     .subsections = (const VMStateDescription * const []) {
-          &vmstate_memhp_state,
-          &vmstate_cpuhp_state,
-+         &vmstate_piix4_hest,
-          NULL
-     }
- };
-@@ -551,6 +570,11 @@ static void piix4_ospm_status(AcpiDeviceIf *adev, ACPIOSTInfoList ***list)
-     acpi_cpu_ospm_status(&s->cpuhp_state, list);
- }
- 
-+static AcpiGhesState *piix4_get_ghes_state(AcpiDeviceIf *adev)
-+{
-+    return &PIIX4_PM(adev)->ghes_state;
-+}
-+
- static void piix4_send_gpe(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
- {
-     PIIX4PMState *s = PIIX4_PM(adev);
-@@ -607,6 +631,7 @@ static void piix4_pm_class_init(ObjectClass *klass, const void *data)
-     hc->is_hotpluggable_bus = piix4_is_hotpluggable_bus;
-     adevc->ospm_status = piix4_ospm_status;
-     adevc->send_event = piix4_send_gpe;
-+    adevc->get_ghes_state = piix4_get_ghes_state;
- }
- 
- static const TypeInfo piix4_pm_info = {
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index edf9783ec8d4..00d940f16314 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -847,6 +847,11 @@ static const Property ich9_lpc_properties[] = {
-                      pm.periodic_timer_enabled, true),
- };
- 
-+static AcpiGhesState *ich9_get_ghes_state(AcpiDeviceIf *adev)
-+{
-+    return &ICH9_LPC_DEVICE(adev)->pm.ghes_state;
-+}
-+
- static void ich9_send_gpe(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
- {
-     ICH9LPCState *s = ICH9_LPC_DEVICE(adev);
-@@ -911,6 +916,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, const void *data)
-     hc->is_hotpluggable_bus = ich9_pm_is_hotpluggable_bus;
-     adevc->ospm_status = ich9_pm_ospm_status;
-     adevc->send_event = ich9_send_gpe;
-+    adevc->get_ghes_state = ich9_get_ghes_state;
-     amldevc->build_dev_aml = build_ich9_isa_aml;
- }
- 
-diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-index 30990fcef53f..772f1a8937d7 100644
---- a/include/hw/acpi/ich9.h
-+++ b/include/hw/acpi/ich9.h
-@@ -27,6 +27,7 @@
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/acpi_dev_interface.h"
- #include "hw/acpi/ich9_tco.h"
-+#include "hw/acpi/ghes.h"
- #include "hw/acpi/cpu.h"
- 
- #define ACPI_PCIHP_ADDR_ICH9 0x0cc0
-@@ -38,6 +39,7 @@ typedef struct ICH9LPCPMRegs {
-      * PM1a_CNT_BLK = 2 in FADT so it is defined as uint16_t.
-      */
-     ACPIREGS acpi_regs;
-+    AcpiGhesState ghes_state;
- 
-     MemoryRegion io;
-     MemoryRegion io_gpe;
-diff --git a/include/hw/acpi/piix4.h b/include/hw/acpi/piix4.h
-index 863382a814ad..8732574e9c03 100644
---- a/include/hw/acpi/piix4.h
-+++ b/include/hw/acpi/piix4.h
-@@ -29,6 +29,7 @@
- #include "hw/i2c/pm_smbus.h"
- #include "hw/isa/apm.h"
- #include "hw/acpi/cpu.h"
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index e27d8816e5bb..b1fbfaf33f9b 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -47,6 +47,7 @@ config PC
+     select MC146818RTC
+     # For ACPI builder:
+     select SERIAL_ISA
++    select ACPI_APEI
+     select ACPI_PCI
+     select ACPI_VMGENID
+     select ACPI_VMCLOCK
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 8837b69687d1..78ff78bd8200 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -71,6 +71,7 @@
+ #include "hw/acpi/utils.h"
+ #include "hw/acpi/pci.h"
+ #include "hw/acpi/cxl.h"
 +#include "hw/acpi/ghes.h"
  
- #define TYPE_PIIX4_PM "PIIX4_PM"
- OBJECT_DECLARE_SIMPLE_TYPE(PIIX4PMState, PIIX4_PM)
-@@ -43,6 +44,7 @@ struct PIIX4PMState {
+ #include "qom/qom-qobject.h"
+ #include "hw/i386/amd_iommu.h"
+@@ -852,6 +853,53 @@ static void build_acpi0017(Aml *table)
+     aml_append(table, scope);
+ }
  
-     MemoryRegion io_gpe;
-     ACPIREGS ar;
-+    AcpiGhesState ghes_state;
++/* ACPI 5.0, 6.2.10.2: Platform-Wide OSPM Capabilities. */
++#define ACPI_OSC_CAP_APEI                  (1U << 4)
++
++static Aml *build_apei_osc(uint32_t mask, uint32_t bits)
++{
++    Aml *method = aml_method("_OSC", 4, AML_SERIALIZED);
++    uint8_t failure[8] = { 2 }; /* _OSC failure */
++    uint32_t disabled = mask & ~bits;
++    Aml *support = aml_name("CDW2");
++    Aml *status = aml_name("CDW1");
++    Aml *if_ctx;
++
++    if_ctx = aml_if(aml_lless(aml_sizeof(aml_arg(3)), aml_int(8)));
++    aml_append(if_ctx, aml_return(aml_buffer(sizeof(failure), failure)));
++    aml_append(method, if_ctx);
++    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
++    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(4), "CDW2"));
++
++    /* capacity buffer */
++    if_ctx = aml_if(aml_lnot(aml_equal(aml_arg(0),
++                             aml_touuid("0811B06E-4A27-44F9-8D60-3CBBC22E7B48"))));
++    aml_append(if_ctx, aml_or(status, aml_int(4), status));
++    aml_append(if_ctx, aml_return(aml_arg(3)));
++    aml_append(method, if_ctx);
++
++    /* Revision ID: 1 */
++    if_ctx = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
++    aml_append(if_ctx, aml_or(status, aml_int(8), status));
++    aml_append(if_ctx, aml_return(aml_arg(3)));
++    aml_append(method, if_ctx);
++
++    /* Count of entries in arg 3: 2 */
++    if_ctx = aml_if(aml_lnot(aml_equal(aml_arg(2), aml_int(2))));
++    aml_append(if_ctx, aml_or(status, aml_int(2), status));
++    aml_append(if_ctx, aml_return(aml_arg(3)));
++    aml_append(method, if_ctx);
++
++    /* Update needed Platform-Wide _OSC Capabilities */
++    aml_append(method, aml_and(support, aml_int(~disabled), aml_local(0)));
++    if_ctx = aml_if(aml_lnot(aml_equal(support, aml_local(0))));
++    aml_append(if_ctx, aml_or(status, aml_int(0x10), status));
++    aml_append(method, if_ctx);
++    aml_append(method, aml_store(aml_local(0), support));
++    aml_append(method, aml_return(aml_arg(3)));
++    return method;
++}
++
+ static void
+ build_dsdt(GArray *table_data, BIOSLinker *linker,
+            AcpiPmInfo *pm, AcpiMiscInfo *misc,
+@@ -1281,6 +1329,21 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dsdt, scope);
+     }
  
-     APMState apm;
++    if (pcms->ras) {
++        sb_scope = aml_scope("_SB");
++        aml_append(sb_scope, build_apei_osc(ACPI_OSC_CAP_APEI,
++                                            ACPI_OSC_CAP_APEI));
++        aml_append(sb_scope, aml_error_device());
++        aml_append(dsdt, sb_scope);
++
++        scope = aml_scope("_GPE");
++        method = aml_method("_E07", 0, AML_NOTSERIALIZED);
++        aml_append(method, aml_notify(aml_name("\\_SB." ACPI_APEI_ERROR_DEVICE),
++                                      aml_int(0x80)));
++        aml_append(scope, method);
++        aml_append(dsdt, scope);
++    }
++
+     /* copy AML table into ACPI tables blob and patch header there */
+     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+     acpi_table_end(linker, &table);
+@@ -2011,6 +2074,10 @@ static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg)
+     return true;
+ }
  
++static const AcpiNotificationSourceId hest_ghes_notify[] = {
++    {ACPI_HEST_SRC_ID_QMP, ACPI_GHES_NOTIFY_SCI},
++};
++
+ static
+ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+ {
+@@ -2167,6 +2234,16 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+         cxl_build_cedt(table_offsets, tables_blob, tables->linker,
+                        x86ms->oem_id, x86ms->oem_table_id, &pcms->cxl_devices_state);
+     }
++    if (pcms->ras) {
++        AcpiGhesState *ags =
++            acpi_device_get_ghes_state(ACPI_DEVICE_IF(x86ms->acpi_dev));
++
++        acpi_add_table(table_offsets, tables_blob);
++        acpi_build_hest(ags, tables_blob, tables->hardware_errors,
++                        tables->linker, hest_ghes_notify,
++                        ARRAY_SIZE(hest_ghes_notify),
++                        x86ms->oem_id, x86ms->oem_table_id);
++    }
+ 
+     acpi_add_table(table_offsets, tables_blob);
+     build_waet(tables_blob, tables->linker, x86ms->oem_id, x86ms->oem_table_id);
+@@ -2283,6 +2360,21 @@ void acpi_setup(void)
+     static FwCfgTPMConfig tpm_config;
+ #endif
+ 
++    if (pcms->ras) {
++        AcpiGhesState *ags = NULL;
++
++        if (x86ms->acpi_dev) {
++            ags = acpi_device_get_ghes_state(ACPI_DEVICE_IF(x86ms->acpi_dev));
++        }
++        if (!x86ms->fw_cfg || !pcms->acpi_build_enabled ||
++            !x86_machine_is_acpi_enabled(x86ms) || !ags) {
++            error_report("ras=on requires ACPI table generation and a PC "
++                         "ACPI controller");
++            exit(EXIT_FAILURE);
++        }
++        ags->use_hest_addr = true;
++    }
++
+     if (!x86ms->fw_cfg) {
+         ACPI_BUILD_DPRINTF("No fw cfg. Bailing out.\n");
+         return;
+@@ -2329,6 +2421,13 @@ void acpi_setup(void)
+     }
+ #endif
+ 
++    if (pcms->ras) {
++        AcpiGhesState *ags =
++            acpi_device_get_ghes_state(ACPI_DEVICE_IF(x86ms->acpi_dev));
++
++        acpi_ghes_add_fw_cfg(ags, x86ms->fw_cfg, tables.hardware_errors);
++    }
++
+     vmgenid_dev = find_vmgenid_dev();
+     if (vmgenid_dev) {
+         vmgenid_add_fw_cfg(VMGENID(vmgenid_dev), x86ms->fw_cfg,
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index f064aa2b3e32..5906152ed31e 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -50,6 +50,7 @@
+ #include "qemu/error-report.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/pc-hotplug.h"
++#include "hw/acpi/ghes.h"
+ #include "acpi-build.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/cxl/cxl_host.h"
+@@ -1611,6 +1612,34 @@ static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
+     pcms->max_fw_size = value;
+ }
+ 
++static bool pc_machine_get_ras(Object *obj, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(obj);
++
++    return pcms->ras;
++}
++
++static void pc_machine_set_ras(Object *obj, bool value, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(obj);
++
++    pcms->ras = value;
++}
++
++static void pc_sci_error(Notifier *n, void *opaque)
++{
++    PCMachineState *pcms = container_of(n, PCMachineState, ghes_sci_notifier);
++    X86MachineState *x86ms = X86_MACHINE(pcms);
++    uint16_t *source_id = opaque;
++
++    /* Currently, only QMP injection is supported */
++    if (!pcms->ras || !x86ms->acpi_dev ||
++        *source_id != ACPI_HEST_SRC_ID_QMP) {
++        return;
++    }
++
++    acpi_send_event(DEVICE(x86ms->acpi_dev), ACPI_GENERIC_ERROR);
++}
+ 
+ static void pc_machine_initfn(Object *obj)
+ {
+@@ -1645,12 +1674,18 @@ static void pc_machine_initfn(Object *obj)
+     if (pcmc->pci_enabled) {
+         cxl_machine_init(obj, &pcms->cxl_devices_state);
+     }
++
++    pcms->ghes_sci_notifier.notify = pc_sci_error;
++    notifier_list_add(&acpi_generic_error_notifiers,
++                        &pcms->ghes_sci_notifier);
+ }
+ 
+ static void pc_machine_finalize(Object *obj)
+ {
+     PCMachineState *pcms = PC_MACHINE(obj);
+ 
++    notifier_remove(&pcms->ghes_sci_notifier);
++
+     if (pcms->pcspk && !qdev_is_realized(DEVICE(pcms->pcspk))) {
+         object_unref(OBJECT(pcms->pcspk));
+     }
+@@ -1769,6 +1804,12 @@ static void pc_machine_class_init(ObjectClass *oc, const void *data)
+     object_class_property_set_description(oc, PC_MACHINE_SMBIOS_EP,
+         "SMBIOS Entry Point type [32, 64]");
+ 
++    object_class_property_add_bool(oc, "ras", pc_machine_get_ras,
++                                   pc_machine_set_ras);
++    object_class_property_set_description(oc, "ras",
++                                          "Set on/off to enable/disable reporting host memory errors "
++                                          "to a KVM guest using ACPI and guest external abort exceptions");
++
+     object_class_property_add_bool(oc, "fd-bootchk",
+         pc_machine_get_fd_bootchk,
+         pc_machine_set_fd_bootchk);
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index d4b6d3ed57fa..52b4e18ab7db 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -30,6 +30,9 @@ typedef struct PCMachineState {
+     /* State for other subsystems/APIs: */
+     Notifier machine_done;
+ 
++    /* Triggered when a new SCI GHES error raises */
++    Notifier ghes_sci_notifier;
++
+     /* Pointers to devices and objects: */
+     PCIBus *pcibus;
+     I2CBus *smbus;
+@@ -52,6 +55,8 @@ typedef struct PCMachineState {
+     bool i8042_enabled;
+     bool default_bus_bypass_iommu;
+     bool fd_bootchk;
++    bool ras;
++
+     uint64_t max_fw_size;
+ 
+     /* ACPI Memory hotplug IO base address */
 -- 
 2.55.0
 
