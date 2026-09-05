@@ -1,66 +1,65 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4D742E43B
-	for <linux-edac@vger.kernel.org>; Sat,  5 Sep 2026 09:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D56E44063B
+	for <linux-edac@vger.kernel.org>; Sat,  5 Sep 2026 09:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788601635; cv=none; b=K19CSGVvO8RycwzkNHR23V/nDWKavGG0dMjwdc3MnqMPrAkEl43/rcdV7WdTncuGTXtsjKrB2AKFnYpnrivQKbJqKdaOnDCmM2ttZmt1PWWk6K5em/fHZl0Be1ZCxqe7HVUqmBIxY1LdI0PkaVaY4+iP2E6yuAT6+UQRhXgW5oI=
+	t=1788601637; cv=none; b=Sf1iOFXayZLYf9iCSTiM8S5jCOx1lz2vxfh+0hbgITMIxoD90B9tv2HxaWlXNCClh1LLA11+tDyoikmMKC+zPcRCXJ/Al9W4J0OvTCqKprXc/9fBjjWmrLKMcvAX5RGw+9FOULRTTAlgahPWOXFsixHZ18ibyRGNSQdGtjq8e7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788601635; c=relaxed/simple;
-	bh=BaEoG/6SLaF+j+PN5tp7+Wdp37OedR46Vcq2/qxVkD4=;
+	s=arc-20240116; t=1788601637; c=relaxed/simple;
+	bh=/cAOJWdBCi1HZBkEDQRQ71AKnd55wOx5U/6xyND51hI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Gtfa0+NCTXZKAhdNqyvHOtHYX1tcpTK8JFh7pcYNBejki5tpfAeSqlkpVygaVqcWk3OGwlYgn0wA1EbwTV/dcRDW9jsswcv8J2y3ysIgS8WapRlPRF+O8IjjgUSE5bM5+HX4qcD6x8uyrES+4bs1L8Fe9ezzTdLmMP01splkpyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sUm8EgSF; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=dyIG/Cz2c/kd9xw8SkGFb0vk58qkMSfqJ49eY4n7fdCB/XWILqaTPlVxMg08bzJFVRdUax7pvBUyBS1rPajoEdm81ajtnsVRSdSAeVH5vR+SE/IRL+0cr3sgsPgroJx7h422qEiZ7UhbuGMZ6Ha2GuBg/3BEQ3EN0Byuh8ItmAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFI+tp15; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sUm8EgSF"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-482e4998d28so1386634f8f.2
-        for <linux-edac@vger.kernel.org>; Sat, 05 Sep 2026 02:47:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFI+tp15"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48431648f33so2093279f8f.0
+        for <linux-edac@vger.kernel.org>; Sat, 05 Sep 2026 02:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788601624; x=1789206424; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788601629; x=1789206429; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8I1Jlm5MucKkfjFwaOiA/wi4L8q8pr7cNwUH5XJFU8M=;
-        b=sUm8EgSFwuePVR3dg/8YeD3vvUCBHQyHHnli9XsusR7+vKD9DDfKLAcOuqxV//tEjW
-         bkQXVykoOZYpgWQtwadrXsG60ZWuob8YKhNQOlMpED8Vk5Wq1OmepQwNLFTYE6mHke91
-         PXt43eSDBYW5Qy61QkbR3trMXG79Klg2Ib1TuQT9xyxDyAqdI47TYUvTLLuWntcf0Zx0
-         uVOjx9mMgo+mOVdU0gyCodl4l0Q4Visp/sm148NDD5eWQZ9gMf7DoPuhujlRgnfcmHGo
-         bPHxEDLBltbFqDE+NBRq7Kz+3RpiAd5tSck4yhiJQmLb/UMVxDlDT2QsPYRPnJCdMr3Y
-         QmeQ==
+        bh=2UF/kDvW954cskV6VTtZlG+ZJZtMcv/59sgPBL3REqE=;
+        b=EFI+tp158j2wiB21Myvk/wgCpoY7SpCPPV4iM44MN9ai29MJeDR2nrW4gt9EJ4yBX9
+         oHU++5jfkKuVqZ3GyJ2Xu0+VD1oPEJnBtBo8yd+gPXmvF/j5RNQL5xYYUv3klx+f3DcH
+         SsbYzLfoe1QR6WTm5fyyoQo2pDWEm3LXOW13u/4iwyE+GEOF2PPRMdcOCSAe9Z9TTfnT
+         gwETBy1Tdw05aGpcBqwbi5tXmNFwvu6wDwNyqksYI2rWH2Nmgj0EIDCRYDI6gQqLbk2V
+         vqnfZmOHbYl3KDfaVlfZrIwQEB6/XTcvA6AHdfLlrTfSYKkwn26eOhRk5UjGiB7xx2Xd
+         pi0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788601624; x=1789206424;
+        d=1e100.net; s=20251104; t=1788601629; x=1789206429;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8I1Jlm5MucKkfjFwaOiA/wi4L8q8pr7cNwUH5XJFU8M=;
-        b=nySIxeOx7phtFu3GT0vwr5Dru44eNWi3BrziD23jdHh0I7V9QwME2krhkzDVJ3XQ/B
-         RS6PU+tYTu2OW7ne+gBHrg+DStPL81rIHfocKhGQ70DOCJriXVejjsydl81XF09TfbJ3
-         Ajk9inz4ciVJT9U+UZFk+eTWtPWLWmSOtB91b6JCh7I7TRpHJBVnxZ7A6Ztn47j+/38O
-         CaKcjxok+LtZqBtCIZsgTASOYQKv3gKQuhBQv+iB9Q+fSUwrn3ZsuFCUUv1/JH/Q5jTq
-         yFoq+X8rDO8zIK3ABXXdM+j//UpJZuN9Of2mBHMaMAthe6ZF6fdMPMr43C5Up3QjJLf0
-         HzrQ==
-X-Forwarded-Encrypted: i=1; AKwUvByEZNkSQzQXhVdQmVZPkuM3WBKUi/tuzRYeQgmfSqphreiv/3IVcHtaYKttdFD4Gd512WIPl6p+rPRN@vger.kernel.org
-X-Gm-Message-State: AFuF++mtxyKSTYalXx12tsCNuTtZ8VEkfVDo7rfwuMeFeQ+vUHpR88D/
-	6qCJBgEMkk6MbPuCnPRJqCBU7uLwbpajyjptQobtYvg7dS2/gexQqXRR
-X-Gm-Gg: AYBFou1ZvqYkTBjz+m3rX7odcDa/fUh6HnR0VvkV/gciii3jiKM7jWpnNO9JWk64qBL
-	IHxYFav2xdPg/RhfU1Hh3QJjTTf+eACmqrgMpDV3SjvTbI/Cr4ojt2JghApspykQe0YxjKEsXnQ
-	xrIX5+f0/d2lMs3YT0esbvpfetJakp7Yhiaz5+P7zsegJM6zp21V2CLZGgg+T8KFRt6NLr3lR1i
-	N1iWhE+IpTLS8hYATXD3OTuPdbRq3ea31u+xVjgsSXcQgykRn1r9muY6uoiP+6skk/gA8n9DVon
-	DPDrdZXbspRhG/HjMcFCOaIsZ39TVlNUTuo4aUnuP3nboZl0lGHCcaMCCXliKnSuc2w16vsECMV
-	cRY06pQLPrmBVeFMRdfyspdr4+LjsZ/DfvtkmKZw631LBjNUkziflpmUVc3b1jUt5gt0xjWrehk
-	Pf9RHS+VHNAgZTJCKSjKiakTVoeul/m8Z3cLXP3mesuuq5SsMRWheHTiuu+DTERFRpl9CA35E+R
-	Lf33jl8lrmi09/azq8Lnhm0A3OH1in+Wlkxy8zSp7dghci9L35ziZ3ZGPDUxKrpnvm/cV1+0tgT
-	bDRZo4D5W7zHn/nwWphVKXxJ6vOeYSFPU07LxdGl5HuuxYb33WQ+HKsKRlAFtsTgVMwB21oUj47
-	eAg==
-X-Received: by 2002:a05:6000:18a9:b0:485:9211:6560 with SMTP id ffacd0b85a97d-485921165d7mr3155784f8f.25.1788601623937;
-        Sat, 05 Sep 2026 02:47:03 -0700 (PDT)
+        bh=2UF/kDvW954cskV6VTtZlG+ZJZtMcv/59sgPBL3REqE=;
+        b=Y8UbT8pVNy95e6UgaQAV28nG1ff0iGT6QTWFMX/LuXR/tpKN3jid+mTnrGb+QO/v48
+         3v4uRdrW5Jn+SA9IR3hbpEYSpTe9CcMu0ESIcUjZHRAMNgXNELrBggg3sqOIxJP0RbE0
+         ihnBTbbrnWbePa4qz90UBq7P7XU/2DQuoDgP6pG9aWUrIQ/Ag7O+f4cQbY3iZQ9yPD3X
+         eSLs/YJPo1nBR0J5gtJoRpOIPeLBwVSgCOJ1sBWMqqV+gAqtFIzH4NDNfWox1ULIiyji
+         ibQZmbxU3Oohs3y3yatoJd/oUtb37wgTPWHXu/gTWygGEAuafhMghFWxwKKFUh3X6VSn
+         nX0w==
+X-Forwarded-Encrypted: i=1; AKwUvBzEdiDimKLKI5c5QepX2y7IrmVqyC7LOCrdB/qr0a5VSYHyB+LFxxHCHY98XcjjHJlhLeFQjU1Fm7em@vger.kernel.org
+X-Gm-Message-State: AFuF++nVwGSvoFGtnGiajpynJzpd5SVTihPxANs2AavNnmOX666eoamk
+	2NMZW2dKLWw6xVTjOSO1wYfWyqog4ijzSgPg1NQRJSakBSKYcZG+cZG5
+X-Gm-Gg: AYBFou1ELVLIdmnuE/k1z3lwWZ3JqzrV+RTQUeXUoWwTlDYfF5QvbDQu4bwCINiFJt3
+	IBFt9FKPG8TN5KzlGkx8xBrbosv+mIIpRsey3nkvNxQae5XVPX+muggO49xwca/XRg0ANXgTaQ3
+	U3WFdq02SslvTJHqTdx9xerNJREjChO3dDBrknUoQloGAr7dURBDbp+jfRF3n+kQz5u7sZnNheJ
+	PxsirYdMYY99bXUMIBWhSHZ+ceSZKf6R9io9yCAoPw5pxv4YYz0zRcLLqZ6jl3frX87regzRfz0
+	bfjBy5jdOIFxeZrY/Cpfft3HLgBHGEO0SEsJ1Znz3Bq8mK1dSYoWZ03rhm9kI44wK2sGWzLD1Vl
+	SmmMQKSsxVv24X5Ard8S1ePBJrdMmExgFSMaZ4s4AvUFOmYWoyrjuapPYvuVrs9Hnai639OvdN2
+	hJsTGfdNPaQ2V2dzHbh2VAtYto9eNYcaevfq0xTE7836rXJj46UNUeRa6YVvX80j25Kqx8EuWEz
+	zBmJCSvQhRd0K4Ip2kFyV6iQbb1kw/LyBQWyTxGBSTfntte+D3CzzUPOJCfbnBBPwVHO7MJzbac
+	PJKlBAVRc7MfBCJNWmHJRnQUh/1uOS1NSnjDdrrJ7ezBKccrkVMiQuWAntujAelZcxQ=
+X-Received: by 2002:a05:600c:3544:b0:49b:8f5e:51fb with SMTP id 5b1f17b1804b1-49cf82bea0amr94305605e9.3.1788601629194;
+        Sat, 05 Sep 2026 02:47:09 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a4eb-3001-c06d-af27-9fa2-ea53.310.pool.telefonica.de. [2a02:3100:a4eb:3001:c06d:af27:9fa2:ea53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c6ba4sm14232013f8f.25.2026.09.05.02.47.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c6ba4sm14232013f8f.25.2026.09.05.02.47.07
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 05 Sep 2026 02:47:03 -0700 (PDT)
+        Sat, 05 Sep 2026 02:47:08 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
@@ -94,10 +93,11 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-ide@vger.kernel.org,
 	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
 	Michael Schmitz <schmitzmic@gmail.com>,
-	Andreas Kemnade <andreas@kemnade.info>
-Subject: [PATCH v2 2/9] docs: kernel-parameters: Drop the bau= entry
-Date: Sat,  5 Sep 2026 11:46:42 +0200
-Message-Id: <20260905094649.41996-3-kmehltretter@gmail.com>
+	Andreas Kemnade <andreas@kemnade.info>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v2 5/9] docs: kernel-parameters: Drop the mini2440= entry
+Date: Sat,  5 Sep 2026 11:46:45 +0200
+Message-Id: <20260905094649.41996-6-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260905094649.41996-1-kmehltretter@gmail.com>
 References: <20260905094649.41996-1-kmehltretter@gmail.com>
@@ -109,39 +109,54 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bau= went away with commit 39297dde7390 ("x86/platform/uv: Remove UV
-BAU TLB Shootdown Handler"); nothing parses it any more.
+mini2440= went away with commit 61b7f8920b17 ("ARM: s3c: remove all
+s3c24xx support"); nothing parses it any more.
 
 Drop the entry.
 
 Found by cross-checking every documented name against the __setup(),
 early_param() and core_param() registrations in the tree.
 
-Fixes: 39297dde7390 ("x86/platform/uv: Remove UV BAU TLB Shootdown Handler")
+Fixes: 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support")
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 7 -------
- 1 file changed, 7 deletions(-)
+ .../admin-guide/kernel-parameters.txt         | 21 -------------------
+ 1 file changed, 21 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c8d96de4c00d..99d5bb68968a 100644
+index f4314492953d..2ed1e2c03c61 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -624,13 +624,6 @@ Kernel parameters
- 			Format: <int> (must be >=0)
- 			Default: 64
+@@ -4052,27 +4052,6 @@ Kernel parameters
+ 			Enable or disable the microcode minimal revision
+ 			enforcement for the runtime microcode loader.
  
--	bau=		[X86_UV] Enable the BAU on SGI UV.  The default
--			behavior is to disable the BAU (i.e. bau=0).
--			Format: { "0" | "1" }
--			0 - Disable the BAU.
--			1 - Enable the BAU.
--			unset - Disable the BAU.
+-	mini2440=	[ARM,HW,KNL]
+-			Format:[0..2][b][c][t]
+-			Default: "0tb"
+-			MINI2440 configuration specification:
+-			0 - The attached screen is the 3.5" TFT
+-			1 - The attached screen is the 7" TFT
+-			2 - The VGA Shield is attached (1024x768)
+-			Leaving out the screen size parameter will not load
+-			the TFT driver, and the framebuffer will be left
+-			unconfigured.
+-			b - Enable backlight. The TFT backlight pin will be
+-			linked to the kernel VESA blanking code and a GPIO
+-			LED. This parameter is not necessary when using the
+-			VGA shield.
+-			c - Enable the s3c camera interface.
+-			t - Reserved for enabling touchscreen support. The
+-			touchscreen support is not enabled in the mainstream
+-			kernel as of 2.6.30, a preliminary port can be found
+-			in the "bleeding edge" mini2440 support kernel at
+-			https://repo.or.cz/w/linux-2.6/mini2440.git
 -
- 	bdev_allow_write_mounted=
- 			Format: <bool>
- 			Control the ability to open a mounted block device
+ 	mitigations=
+ 			[X86,PPC,S390,ARM64,EARLY] Control optional mitigations for
+ 			CPU vulnerabilities.  This is a set of curated,
 -- 
 2.53.0
 
