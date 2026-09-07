@@ -1,69 +1,76 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AA518A6DB
-	for <linux-edac@vger.kernel.org>; Mon,  7 Sep 2026 06:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9988C37E5D2
+	for <linux-edac@vger.kernel.org>; Mon,  7 Sep 2026 06:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788761923; cv=none; b=HIM2JMwFZzkc8ooQV5cpyR30vqJtuLF70y9DhiAGZlpfG+LybwdveUNfUtfcWZAfrFGlzSEEwzffSbwmkbwsWoBWQw5N8am15PUxUEdbQcgAC4/HvJJb6Qm2JZhrgXDLFzwNkRjt38DMBtcu/E49TdAnsq+URaEu3sGj8qaoYAE=
+	t=1788764304; cv=none; b=Ht8SlHQTA9AOPC2gRj4kX5QXp2Wqf+n6HElptORLFZLPXo0BkXrWZ4+JMmS32C5UUHQidWn2XJwARJI/vzt7YNsQNcovbFpFXzAn0XZlKuL9O/8Y3cZ9yE+R9EanX01XalxB+PNvdS4DqP+K/pg2xijp1Z4RwERS6LtK+vGFPng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788761923; c=relaxed/simple;
-	bh=Q4LLtUC/9zyY2h13ud9mSFDS4OWjjV6vx8SQFtbhqOM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lBeBdRoC8RpVB0UhFrUXy5/TGmiT+LoU3Orc4WnFrjRGX5R1qkIHsWzdIa1fOxYCk4P29Rmn0CQ/2bhEtpB/o8CHTf4NDRG0nxLMHtFRSTrGoNKg7y4zzyr/bTbpYU3PVXl7KlrU9BwXHxVJqrTVar+3MGBa/35/s21HrJaIDI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lz8f9y/U; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1788764304; c=relaxed/simple;
+	bh=9EY0Y5m/GS8W7s8oG5qKpewtqcKAoFSfghW1vooW0+g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NeEwStkQqq6IyTBPKUdax0g2c/L34f/m0YobUqp6LCcYj14kUYa5pU4nFi9KSrNGORtamRurqGX0RMQ1bVUm5ytLtLiX6rHv09AUTXoINsA4m2vZV6RZoovTxqWxmQDirSwbZkHTMatljo2U54HzNqAvdUzJk7g47/pJGBU9OZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iZQfHrHp; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lz8f9y/U"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-39b35105ba4so2677207a91.1
-        for <linux-edac@vger.kernel.org>; Sun, 06 Sep 2026 23:18:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iZQfHrHp"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc1c73645a1so2374257a12.1
+        for <linux-edac@vger.kernel.org>; Sun, 06 Sep 2026 23:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788761922; x=1789366722; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788764303; x=1789369103; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=USv9M1kYFctEolm5xBEMg+3syhXq8YqrYCwILkWBZu0=;
-        b=lz8f9y/Uu78X7p1qyx0sJbxBToeUmZrO286ABPJchaBDk+vUZzNld2kzrjVoDZ88/A
-         VgSce2KWnY++BsIo9UUCSCHZN/Rw59BotDwKXvINqOTcreUv6vyUNRq2jgBDW1yRg8ik
-         On1ctg1vZjbGyNjzc1+MtNLJ/RSvPEgJUnn+EvQPcaWSLT74PNQDFiF+N8DOycWzHM+D
-         Wn4mbMfcnkpR75YI1p8Deg7eAezThB47RHbbION0VNxayHuIuJzGH6VoEyhJNiRPuCmk
-         fjqtQyO3d6WWgzGF/zcBZ8yyDVFgjKyBEURvqMFjbQRmso703DGN7Ev1IyudEsAZMI94
-         4ROQ==
+        bh=gCe5TfD0QadpbyK10EjO0HzHAhgEPy9BlCEN2gs/+xM=;
+        b=iZQfHrHpbEVo4eSIka1Wuj3sGWqjXUcU9WCok5BHXyqfZRWKby7tb6RgxhZb/+dB0k
+         T/F8/ZxliKvDuRciuV1TrHQbaCdmc3qmraeGF2edTTxPZFpI1ipIwU83v0mMHsE3xNuW
+         0GO90QQMrEar7c8RzL3cgwtvFNlgY/OiIGux1JeMk6/NpxlLpozPbxOeuBCs5omNLhe2
+         OSR/2xp5XdH3k0ACErshiW5UyXI4j0rGVS+D9vE75qrj4bI8OQlVsoV5ppuLeU7mdI9x
+         yi7MtavimsZxqDMwoO85YRC2UUVTS9MC02eJw8IGxnUiHHIBYHm4Pe20H0SIN4k/VJfb
+         fdng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788761922; x=1789366722;
+        d=1e100.net; s=20251104; t=1788764303; x=1789369103;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=USv9M1kYFctEolm5xBEMg+3syhXq8YqrYCwILkWBZu0=;
-        b=pb0ZrCNQj9rbcH1Y4bApqueyPpAXyIEjXgBKf9tDEDMBWj+dugXCz0sEV1kceoY+Nj
-         IT8D4QAvfs1gQcAa6Aa9O5j9737z1YQq1kub1j33JwF+jEHIFLlKyW2SvmuRElfHKTa9
-         +HxtPA3nGnGslq43YzgW2WFX9pESGhS+AxF47f+3k2gEj9fST5dPws22t2B0rbIM+BEz
-         Rdt0HPrhAAKloAUmUe1ae6/S17rlOJPGoFVif7ymlAytAlqOzdINCUgRZUL5THuoG7MB
-         TZO8cv3ZOvqaMRhG5sSJiLWXkxwYsZ9aVO67937lsHc6QaJzG21Qf7NhFth6u6owzqUI
-         3Y5g==
-X-Gm-Message-State: AFuF++ltYnZnGnxQfNG4+QyJTr3/R6Mqc2mUMxkR3EhWL3dNJVTjSbNg
-	q7s9fSXQSAk4Yyu3pDDptd7ab6h3T5hUdE4j+7GbycSbS+/6cn84Il4p
-X-Gm-Gg: AYBFou290nk+am4YwDjp6V+f5S65YjJUNKRh50WpDMZLmLChwHNdiJ5ZIfIuEXmO9ah
-	LZZWsQ/EAe7wOz6+igODLNqmhDeUvxB6k60opuqn4mb/5KuENKcgVu1us3nbl82yHcFo02xs5VX
-	pT6T+a3/NjfydwBSh8IMwicGHNGe5tTMmaXeGrsJjf2X2+JpyN1r1dH7ldAJdGlG0wHQ99Ekyf4
-	wn2CdluIPYUIUadjubYIv06UorvG7kOIvHGf64tD03AYMNBiLEihW8i4Pwm5EnU33bUN+SUyJSE
-	hfkf1rw1aOVEg0iLk2IBbZkG8Cj/d4ZjfZFEH8B91sbJR9eHjmKwdo+gM+1UrZPlkXlXpHGfUSf
-	U05BGRYshWQdu+k23R0nFQEV4c3dveZCFRp4PSpFTw6vJNMsI7pLWG9sRgMNUkSj6t204lI3mNL
-	QMRD1T7rjZ4tLsWWMMjYpUyQywTOplk0TFQdoYOiBcqW+gZ7+DL2n+PsXdGglyhVyY/fPLgPdVz
-	673/9hASfKung==
-X-Received: by 2002:a17:90a:e18b:b0:398:ab03:95b2 with SMTP id 98e67ed59e1d1-39b26155274mr30100957a91.10.1788761921573;
-        Sun, 06 Sep 2026 23:18:41 -0700 (PDT)
+        bh=gCe5TfD0QadpbyK10EjO0HzHAhgEPy9BlCEN2gs/+xM=;
+        b=FOz3KUFIrE//D9TLEbEorA0+f0yMqPBUsWu5DHc4Jg70Vnsbn9E8QEd4O7ewvDd7Ew
+         2fTRg0Kq0yddobsQAlIxYu1pzGwqm5mD2h9/2KzXQxBCt39iRlgt+GE7tt/Wpb8wplw3
+         bORR+pWHaT8FiifBABBnG716QgrxcSWoxJFnoqomhvHsnaSBbQLwCvcuYiBp8rsdhl2/
+         8A7FbJZV7kh1xu8eR8dPdnsobIFzSQX2kuCMosVqejYh4hX+UhK5595kolMZoa0uMw82
+         zEKPJfNP5BgPHAe7y2IO4/gZIzplt+Fl/HD9OThRI+wIO+ADEOZ6OBvVIbI6DRcyZ5jw
+         cThg==
+X-Forwarded-Encrypted: i=1; AKwUvBwC+wBHlLGo3ZDHf73PLe3H+mc5g8c+yHb/5vouW5uS0UYotpn1k/RMpwDwLFn1zs1OZg4lU68HgihC@vger.kernel.org
+X-Gm-Message-State: AFuF++ljVsjs3zYL1nDxNhtYtIV96ZlcQiqY4cTeEZQHsCq6C52K4PHL
+	Oc1fNurq7h4gsdJGmVtQ4SFmevjAlVfLyfOi/c3KnrM4IPW1gONc24ziVPlfiUUGLpg=
+X-Gm-Gg: AYBFou2JndE//8Bua7rNbojVub6csNt91gtdCPqL6embyRzHyTowTGr89P5QxSdfFUE
+	jpsNXClON2w+S/FBS6mNT+0R6b54u9ZZt/w79bshnb6sAWEraRpjlNqX1IopTDnRIzK2sIcbnCl
+	V9S/Ym6r9ofucBTFZgnT3NNO5meKJkrsGVfifDifRLCR1Peog7aMOpfKJzvCymW/e24ClJ7WHUy
+	iwNjQhobjzkiMWfYqa403sS25qsYFpBVE+gF/tc7gfcWynLx0Sfr09DGIAxCxicIr7WAFfsjBJ/
+	B5g1+T5Aq6VI5YOx3+teo/2xXnTUHChWnpgEC3cYMsUJfcypi1pIGqygQ6hoJ86q+L8yQCz9WjL
+	awlH0xqyh00JFYQrGurnPHJ/E+2AdTkeI87DF6Eyy75EqOl89VI9XWb5vThGuqhHCYfJ+Yt7DwE
+	2digws+tnbktYJYqm/K2BHzfGWYWr0lpnYNtxQEeeky0YQUnC8f30mu9CZKAikWkmzt9oGlp5ry
+	2uqDQ0pJUk8uw==
+X-Received: by 2002:a05:6a21:487:b0:3c3:9df0:2d66 with SMTP id adf61e73a8af0-3da39b71849mr33044727637.6.1788764302848;
+        Sun, 06 Sep 2026 23:58:22 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1432441f5f2sm27508896c88.15.2026.09.06.23.18.39
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339ac24d7esm39538255eec.15.2026.09.06.23.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 23:18:41 -0700 (PDT)
+        Sun, 06 Sep 2026 23:58:22 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Borislav Petkov <bp@alien8.de>,
+To: Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>,
 	Tony Luck <tony.luck@intel.com>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] edac: fix typo "enqueing" in comment
-Date: Mon,  7 Sep 2026 11:48:37 +0530
-Message-ID: <20260907061837.40929-1-hemanth.selam@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-edac@vger.kernel.org
+Subject: [PATCH 13/14] x86: fix repeated words in comments
+Date: Mon,  7 Sep 2026 12:28:16 +0530
+Message-ID: <20260907065816.27878-1-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -73,29 +80,76 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct "enqueing" to "enqueuing", reported by scripts/checkpatch.pl using
-the misspelling list in scripts/spelling.txt.  Only touches comments, no
-code changes.
+Drop words accidentally written twice, reported by checkpatch.pl as a
+possible repeated word.  Only touches comments, no code changes.
 
 Assisted-by: Cursor:claude-opus-5
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- drivers/edac/i5100_edac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/entry/entry_64_compat.S     | 2 +-
+ arch/x86/kernel/cpu/mce/severity.c   | 2 +-
+ arch/x86/mm/pgtable.c                | 4 ++--
+ arch/x86/realmode/rm/trampoline_64.S | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/edac/i5100_edac.c b/drivers/edac/i5100_edac.c
-index d30919ceb22b..235a3a46585d 100644
---- a/drivers/edac/i5100_edac.c
-+++ b/drivers/edac/i5100_edac.c
-@@ -557,7 +557,7 @@ static void i5100_check_error(struct mem_ctl_info *mci)
- }
- 
- /* The i5100 chipset will scrub the entire memory once, then
-- * set a done bit. Continuous scrubbing is achieved by enqueing
-+ * set a done bit. Continuous scrubbing is achieved by enqueuing
-  * delayed work to a workqueue, checking every few minutes if
-  * the scrubbing has completed and if so reinitiating it.
+diff --git a/arch/x86/entry/entry_64_compat.S b/arch/x86/entry/entry_64_compat.S
+index a45e1125fc6c..e0cda8bfee77 100644
+--- a/arch/x86/entry/entry_64_compat.S
++++ b/arch/x86/entry/entry_64_compat.S
+@@ -266,7 +266,7 @@ SYM_INNER_LABEL(entry_SYSRETL_compat_unsafe_stack, SYM_L_GLOBAL)
+ 	 * The original userspace %rsp (RSP-ORIG_RAX(%rsp)) is stored
+ 	 * on the process stack which is not mapped to userspace and
+ 	 * not readable after we SWITCH_TO_USER_CR3.  Delay the CR3
+-	 * switch until after after the last reference to the process
++	 * switch until after the last reference to the process
+ 	 * stack.
+ 	 *
+ 	 * %r8/%r9 are zeroed before the sysret, thus safe to clobber.
+diff --git a/arch/x86/kernel/cpu/mce/severity.c b/arch/x86/kernel/cpu/mce/severity.c
+index 2235a7477436..da4db3c709e2 100644
+--- a/arch/x86/kernel/cpu/mce/severity.c
++++ b/arch/x86/kernel/cpu/mce/severity.c
+@@ -280,7 +280,7 @@ static bool is_copy_from_user(struct pt_regs *regs)
+  * check hit.
+  * If we do have a good "m->cs" (or a faked one in the
+  * case we were executing in VM86 mode) we can use it to
+- * distinguish an exception taken in user from from one
++ * distinguish an exception taken in user from one
+  * taken in the kernel.
   */
--- 
-2.48.1
-
+ static noinstr int error_context(struct mce *m, struct pt_regs *regs)
+diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+index cb03f5a2b243..0f127a40f2f2 100644
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -402,7 +402,7 @@ int pmdp_set_access_flags(struct vm_area_struct *vma,
+ 		set_pmd(pmdp, entry);
+ 		/*
+ 		 * We had a write-protection fault here and changed the pmd
+-		 * to to more permissive. No need to flush the TLB for that,
++		 * to more permissive. No need to flush the TLB for that,
+ 		 * #PF is architecturally guaranteed to do that and in the
+ 		 * worst-case we'll generate a spurious fault.
+ 		 */
+@@ -422,7 +422,7 @@ int pudp_set_access_flags(struct vm_area_struct *vma, unsigned long address,
+ 		set_pud(pudp, entry);
+ 		/*
+ 		 * We had a write-protection fault here and changed the pud
+-		 * to to more permissive. No need to flush the TLB for that,
++		 * to more permissive. No need to flush the TLB for that,
+ 		 * #PF is architecturally guaranteed to do that and in the
+ 		 * worst-case we'll generate a spurious fault.
+ 		 */
+diff --git a/arch/x86/realmode/rm/trampoline_64.S b/arch/x86/realmode/rm/trampoline_64.S
+index 14d9c7daf90f..213c5119d919 100644
+--- a/arch/x86/realmode/rm/trampoline_64.S
++++ b/arch/x86/realmode/rm/trampoline_64.S
+@@ -148,7 +148,7 @@ SYM_CODE_START(startup_32)
+ 
+ 	/*
+ 	 * Memory encryption is enabled but the SME enable bit for this
+-	 * CPU has has not been set.  It is safe to set it, so do so.
++	 * CPU has not been set.  It is safe to set it, so do so.
+ 	 */
+ 	wrmsr
+ .Ldone:
