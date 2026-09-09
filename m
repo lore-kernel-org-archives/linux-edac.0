@@ -1,50 +1,41 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1AF545291;
-	Wed,  9 Sep 2026 11:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4786A3BD241;
+	Wed,  9 Sep 2026 13:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788953349; cv=none; b=trdwdYs9PTBcX0oz0Rp+Km1Suy4cv8IBjCkfE8LVugL9xL8ArRim49BDcs2oJBbI6wcVCz09IXqByism6eKjLIU8bvIAcvOS0wD2POKFyQDbrHaUKexEDizByBtVKCV4vfDz8Kze5R40+IAp800aOcNEWT5rfq5lA7Dfx7+YSNo=
+	t=1788959591; cv=none; b=VZ3VapAH+Us2n9dJjTHMSbdqHHg5zB/kZFUFTqb1hztCCmg+z2zpy5LPvo8Vx2TbubJCmGc5UY7vjVOTraMQQkTbyI/02SoCBcs/zC6X6b052+rDz+1TjchckCwK88voyLLAUtoDCVtuagT8a5Nz6GTkjoTdoaM4tx43dVP0tKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788953349; c=relaxed/simple;
-	bh=0RJ9olz8qTabdi098sLCcjzUX0MDkNFF56aV2OmxVc0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FjQ5lufQdOzVWFq7s9iY2ohMFyiYBw6V6aiRvED5gX7t12C8emJeMuGjZ75HGQ8HpiUMhnAE42ZhkAxpOZOvKWvaq/GlLmb8FGIShhwSJztBgcBq/LKluYL6QtINJ3RBHMhwgxpTm/vRS5R2lIwnrYH5WYeK+r/MqeX6wgmnakk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ddR4JqP7; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1788959591; c=relaxed/simple;
+	bh=qD6j76I+Qk3PUSr3QQ9AVK1lQH2Z8RRApT7/zigsCbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Pa+2P+0hHJT57231TD3da5FY7Q/3YfNeM74EmjAcn/oNAqSdtGQGtJ6Pkv9J53WRn9UozzbsLdGHtLCJIDr/NMcASrONmKyXEvCu23N04Bq+YRl9scIhFyZbwzEkTt4CjtgevUq6EyCJ1g520mxpnvoRSMGMff8UjpptAh/C3z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APUXlKR1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ddR4JqP7"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=lwRelUPd/SJpcNwFxoEWwswiA4Fcah1gJgS/KTjoYwU=;
-	b=ddR4JqP7oACAUkUAiD6cog3w/71eQ3IVn2STG5uQ+frI4KI+/hq4/3Om6+nPSi/eKo4BEYZbo
-	BCcVx+pg14zpH3iUtpRyE7oMP+9XEjtiOryNSluqvUc9H3kuK4i7Zmd2xsoZ/dgCiHlDEh9n7od
-	UOiTCIB5ZD0aCf/QFJQ7JlY=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4hfyw05SrVzcb4c;
-	Wed,  9 Sep 2026 19:17:52 +0800 (CST)
-Received: from kwepemf100015.china.huawei.com (unknown [7.202.181.14])
-	by mail.maildlp.com (Postfix) with ESMTPS id 70773203B8;
-	Wed,  9 Sep 2026 19:28:51 +0800 (CST)
-Received: from dggphicprd10024.huawei.com (10.243.6.112) by
- kwepemf100015.china.huawei.com (7.202.181.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Wed, 9 Sep 2026 19:28:50 +0800
-From: Abbott Liu <liuwenliang@huawei.com>
-To: <tony.luck@intel.com>, <bp@alien8.de>, <ardb@kernel.org>,
-	<mchehab+huawei@kernel.org>, <rafael.j.wysocki@intel.com>,
-	<guohanjun@huawei.com>, <jic23@kernel.org>, <jason@os.amperecomputing.com>,
-	<danielf@os.amperecomputing.com>, <luoshengwei@huawei.com>,
-	<linux-edac@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <yangzhuohao1@huawei.com>, <douzhaolei@huawei.com>,
-	<zouyipeng@huawei.com>, <wangbing6@huawei.com>, <nixiaoming@huawei.com>,
-	<liuwenliang@huawei.com>
-Subject: [PATCH v4 0/3] RAS: Fix ARM processor error bounds checking
-Date: Wed, 9 Sep 2026 19:28:29 +0800
-Message-ID: <20260909112832.805314-1-liuwenliang@huawei.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APUXlKR1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CF1A1F00A3A;
+	Wed,  9 Sep 2026 13:13:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788959589;
+	bh=Qip3QIl4UdUUw+h7D8er7pZ8yEsSc9fh4T5mZHUNRXQ=;
+	h=From:To:Cc:Subject:Date;
+	b=APUXlKR1DUrHgKKASlJcxv6ParC1Ep+XWVizwm26N/ugyxgNgs4cP1LPmu/Ksr9Vt
+	 2vssc5/69QJzebbWxKu+bxdW9uCvE8CBTNWCqw3kudrbzGA22uca91CLSatTE0qbTk
+	 F74ylfFvDkgFNbWibnjaf+65ySX2D3+UmaCNcxDpSsIVlA7KYIM3ytvWLJHuMljTlG
+	 07VoHq/DXv4o1VrSZP8LY+NBeEEljHY62yfnri76hLGx8qS5GQWevJ7e/jS2FPFh2G
+	 adUhdCyJRwulmHjFiZIr8wM061MjbmVc1yzSUMYjkaV1JI+WMwIhcIhNt6CKF/DzjA
+	 o6wUTMcREPn3A==
+From: Dinh Nguyen <dinguyen@kernel.org>
+To: bp@alien8.de,
+	tony.luck@intel.com
+Cc: dinguyen@kernel.org,
+	rounakdas2025@gmail.com,
+	linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCHv4 0/4] EDAC/altera: Address sashiko reviews part 1(v4)
+Date: Wed,  9 Sep 2026 08:12:49 -0500
+Message-ID: <20260909131253.2158486-1-dinguyen@kernel.org>
+X-Mailer: git-send-email 2.42.0.411.g813d9a9188
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -52,71 +43,31 @@ List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100015.china.huawei.com (7.202.181.14)
 
-Commit 87880af2d24e ("APEI/GHES: ARM processor Error: don't go past
-allocated memory") and commit 05954511b73e ("RAS: Report all ARM
-processor CPER information to userspace") introduced bounds checking
-for malformed ARM processor error records in log_arm_hw_error().
-However, three issues remain:
+Hi EDAC maintainers,
 
-1. The ctx_info bounds check condition is inverted: it adds
-   ctx_info->size when the context header is already past the end of
-   the section instead of when it is within bounds.
+This is version 4 of the patch series that addresses some of the sashiko
+reviews for the Altera EDAC driver.
 
-2. When vsei_len < 0, the error path does not verify pei_len and
-   ctx_len. Since these are derived from err_info_num and
-   context_info_num, they may describe regions beyond the allocated
-   record, causing trace_arm_event() to read out of bounds.
+Here's what has changed from v3:
 
-3. ctx_info->size is a u32 taken directly from the firmware-generated
-   record. A value over 0x7fffffff overflows the signed int sz used
-   to advance ctx_info, so the iteration can walk past the end of the
-   section.
+I rebased the series to edac-urgent branch because of patch
+9868f5c077df ("EDAC/altera: Use parent device for devres in 
+altr_portb_setup()") will cause conflicts.
 
-Patch 1 fixes the inverted bounds check for context info iteration.
-Patch 2 sanitizes pei_len/ctx_len/ven_err_data in the vsei_len < 0
-error path to prevent out-of-bounds reads in trace_arm_event().
-Patch 3 checks each context entry with 64-bit arithmetic so that both
-the header and the context data fit in the section, and stops the walk
-at the first entry that does not fit, so a malformed size cannot
-overflow sz and walk ctx_info out of the section.
+Thanks,
+Dinh
 
-Changes in v4:
-  - Remove the empty line between the Fixes: and Signed-off-by: tags
-    in patches 1 and 2, per Hanjun Guo's comments.
-  - Add braces around the else branch that assigns ven_err_data in
-    patch 2, as suggested by Hanjun Guo.
-  - Add new patch 3 to check each context entry with 64-bit
-    arithmetic and stop the walk at the first entry that does not fit
-    in the section, so a ctx_info->size over 0x7fffffff cannot
-    overflow the signed int sz and walk ctx_info past the section,
-    addressing Hanjun Guo's overflow comment.
 
-Changes in v3:
-  - There was no change, and the email was sent by mistake.
+Dinh Nguyen (4):
+  EDAC/altera: Do not allow driver unbinding
+  EDAC/altera: Drop __init from ECC setup paths for re-probe safety
+  EDAC/altera: Fix code leak on dci allocation failure
+  EDAC/altera: Fix use-after-free in error paths
 
-Changes in v2:
-  - Split the original single patch into two separate patches, one
-    for each distinct fix, to ease review and backporting.
-
-v2:
-  RAS: Fix ARM processor error bounds checking
-  https://lore.kernel.org/all/20260825134323.4181892-1-liuwenliang@huawei.com/
-
-v1:
-  RAS: Fix out-of-range section_length in ARM processor error handling
-  https://lore.kernel.org/all/20260820131829.1006371-1-liuwenliang@huawei.com/
-
-Abbott Liu (3):
-  RAS: Fix inverted context info bounds check in ARM processor errors
-  RAS: Fix out-of-bounds read when tracing arm_event
-  RAS: Fix integer overflow in ARM processor error context walk
-
- drivers/ras/ras.c | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
+ drivers/edac/altera_edac.c | 60 ++++++++++++++++++--------------------
+ 1 file changed, 29 insertions(+), 31 deletions(-)
 
 -- 
-2.43.0
+2.42.0.411.g813d9a9188
+
