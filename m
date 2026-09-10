@@ -1,98 +1,95 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A161737A85E;
-	Thu, 10 Sep 2026 03:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214D66DCE1;
+	Thu, 10 Sep 2026 03:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789011588; cv=none; b=kaL7mAO/86mFFmKAnniJcn4vIvGqOwHx9HqdWaEPYogFd2veGi3cRE2SHJ3uG2VQzA2Hz1cVLz6syFMWoeVe4p3YYlSmfQ+zu/SbFzmqcjgSa8RAZu3+UBW52QDXMZMKXaaCoUcJW5ItVRIHF/lTG3VmQ/uRYbAlL47/2xR8hXI=
+	t=1789012787; cv=none; b=Iq8KMIVkucx0VU0JYV6QJl/gAEAjL/bcnY22DRCu7b4Xbr+LahhtwYLJpxyLjrmXlYOhod1JAYsd2hcd2BQWzJ3qs0MrBeST6lCUjfxFUxj52fYBBwmFl+P64JM5YPZr0to28fudA+rHmOidZG6kHM+Pkr+gk5EuH55YhKS6YtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789011588; c=relaxed/simple;
-	bh=8fCIF6adVs5KiYe94ZL/UwihnrUJkpLvd67Jl3Tio6A=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ujTjrXK558/OvlHyK0YY9qQ68LLm0gHfZh52Vu6SwcDmyzCzOZ8pSapLNOZSoRhtrA/oEgF5+sfVH6P8wYk2tlgHOHHPNFpXYSoxhrcXF+BsxCishUJOjczNQ3SPmV1bD99jBNg+NK2gKdn61Y/L+B4tzUHEb05ON9VaS68Yiyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Z0DRuNQ9; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1789012787; c=relaxed/simple;
+	bh=AQ3nMLs4AE69MR4ahHGkQVD3dp1XMaMp5qM0p3jSnEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ov6V2cQ0lGiFnVn+B5KXtodr/yhHYfP0aAYir2gFz2Os0ibFwwSoPdAb9vPlm7qleDllL69K22inRT8XUAz79j+VbXlJPPmKBgVaxIkca1HBMBUiqO8+5YjqJxOmEUXRjNGCkaIH1lqRRJoxMloXIh8lfsyM1KF9hNmEjEO4hwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=CLS3GiiF; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Z0DRuNQ9"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1789011582; h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	bh=IXL95Xrau8/mHF925oI3iaXMYtvfHatKbhqG289Dw2c=;
-	b=Z0DRuNQ9tco4sn77SzRDp6mNnBjYm0KDsLk/oy5GLY0CvLPkxnMW29ZT9RjZ+wnmUDh8KVeSHUB16+XICoOPC47nBG8liNZfpCyGjVskagpDYMi11K0Gg6jUI0GbWAqF5C6LJd0aOCIM6zGG4wxdQWJ5BOR4ONSAlMCp+XdESsg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=chuyf26@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0XAgRbOQ_1789011260;
-Received: from x31j07255.sqa.na131(mailfrom:Chuyf26@linux.alibaba.com fp:SMTPD_---0XAgRbOQ_1789011260 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 10 Sep 2026 11:34:21 +0800
-From: Yifei Chu <Chuyf26@linux.alibaba.com>
-To: Borislav Petkov <bp@alien8.de>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="CLS3GiiF"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A919740E02DA;
+	Thu, 10 Sep 2026 03:59:37 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id D69c_iYK79Tb; Thu, 10 Sep 2026 03:59:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1789012766; bh=LqBpIY6MU7bms/ALFpBzxazqnXxjtvMKsYAiNvHgwoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CLS3GiiFDSge57DOVP+YEZ0f0CPkE30/R1ztw7yN+HMWy0Xdum2x14hJBLXaJcx5w
+	 Ft4YBLID6eHbscM0uZ2/zWGC55BG30FUaTSqHYFJLMq6bGyT+7l4UOxtmoAZl2+B/3
+	 wFN6CdTILbxbMBGrXePFQpGpqFoCtUlchWJqlr5AVMVVzySe2SuK9a47wbTvg04d3Y
+	 tW/P/X2TpLZugC7KtW8T3HMkX/k4DP04sUrDfpGX8UxOcpzIDMxACRH09XJ+m+X7LD
+	 aFNVN/+WOHM6LzXv9vu200OWhBcQOvILvWXM2/OrP9mIdssS6afP0PX2yrSOuLpr0t
+	 388WinKkVUypxmXnlmBfUye1i/3uyoLmcLTrGGvyb/mRgiA9K1Qn5D3tqUeo+jOSHs
+	 sRC4lCFWRcRMRVr6+9gmFgexIL92BjApRu7jAy6uGHHpFI2GmmeqyKgERMhdHvJGi0
+	 1FVeisQssdZ72Zg0jJLWzw8I/PcejPdspsgixVWbgTZTF2QXyOgpLd0BphLcSHYVxe
+	 3Rkc9906GQ9RcG3PmPejUEkll75vHZQI67Hp4qZ93heehIPjGqr7egtynW7YMVCUMB
+	 SM3eLEjTjCd1vHkcMab/7ryZWSkXATHAcOvXHI8suHulRh6LcPo7dn2GPNPLZfKD2P
+	 BFvVKSYaCPLC9Tg98R1wOOQM=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E47D040E01DD;
+	Thu, 10 Sep 2026 03:59:18 +0000 (UTC)
+Date: Wed, 9 Sep 2026 20:59:15 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Yifei Chu <Chuyf26@linux.alibaba.com>
 Cc: Tony Luck <tony.luck@intel.com>, Avadhut Naik <avadhut.naik@amd.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, linux-edac@vger.kernel.org,
- x86@kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] x86/mce: Zero the injected error record before logging it
-Date: Thu, 10 Sep 2026 11:32:17 +0800
-Message-ID: <178901113715.2666699.12712427139715728985@linux.alibaba.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	Yazen Ghannam <yazen.ghannam@amd.com>, linux-edac@vger.kernel.org,
+	x86@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/mce: Zero the injected error record before logging it
+Message-ID: <20260910035915.GDaqIrE7Jm5Ww9_Wf-@fat_crate.local>
+References: <178901113715.2666699.12712427139715728985@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <178901113715.2666699.12712427139715728985@linux.alibaba.com>
 
-do_inject() declares a struct mce_hw_err on the stack and, for a
-software injection, fills in only err.m from i_mce before calling
-mce_log(&err). The err.vendor union (synd1/synd2, 16 bytes) is never
-initialized, so it holds whatever was left on the kernel stack.
+On Thu, Sep 10, 2026 at 11:32:17AM +0800, Yifei Chu wrote:
+> Reproduced with CONFIG_X86_MCE_INJECT: writing "sw" to flags and
+> injecting a bank/status makes the mce_record tracepoint print random
+> vendor data, e.g.
+> 
+>     vendor data: {0xb3,0x8a,0xb5,0x41,0x0,0x0,0x0,0x0,
+>                   0x67,0x93,0xbc,0xa8,0xff,0xff,0xff,0xff}
 
-Those bytes are not dropped: the mce_record tracepoint copies
-err->vendor verbatim into its v_data dynamic array, so a sw-injected
-record publishes 16 bytes of stale stack to anything reading the
-tracepoint. rasdaemon decodes v_data as MCA_SYND1/SYND2 supplemental
-error info (e.g. FRU text), so sw injection - whose whole purpose is to
-exercise the decode path - feeds the decoder nondeterministic garbage
-instead of a clean record.
+And? Who cares?
 
-Every other mce_log() caller builds its record through mce_prep_record(),
-which memsets the whole struct mce_hw_err first. do_inject() is the only
-one that skips it.
+> Fixes: d4fca1358ea9 ("x86/MCE/AMD: Add support for new MCA_SYND{1,2} registers")
+> Cc: stable@vger.kernel.org
 
-Zero-initialize the record so the vendor data of an injected MCE is
-always well defined. err.m is still fully overwritten by i_mce
-immediately afterwards, so the injected machine check fields are
-unchanged.
+Backport it everywhere? A MCE injection fix?
 
-Reproduced with CONFIG_X86_MCE_INJECT: writing "sw" to flags and
-injecting a bank/status makes the mce_record tracepoint print random
-vendor data, e.g.
+You must be joking.
 
-    vendor data: {0xb3,0x8a,0xb5,0x41,0x0,0x0,0x0,0x0,
-                  0x67,0x93,0xbc,0xa8,0xff,0xff,0xff,0xff}
+> Reported-by: Abaci <abaci@linux.alibaba.com>
+> Assisted-by: abaci:qwen3.8-max
 
-Fixes: d4fca1358ea9 ("x86/MCE/AMD: Add support for new MCA_SYND{1,2} register=
-s")
-Cc: stable@vger.kernel.org
-Reported-by: Abaci <abaci@linux.alibaba.com>
-Assisted-by: abaci:qwen3.8-max
-Signed-off-by: Yifei Chu <Chuyf26@linux.alibaba.com>
----
- arch/x86/kernel/cpu/mce/inject.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is now
 
-diff --git a/arch/x86/kernel/cpu/mce/inject.c b/arch/x86/kernel/cpu/mce/injec=
-t.c
-index 6f8a49d..a6d8f8e 100644
---- a/arch/x86/kernel/cpu/mce/inject.c
-+++ b/arch/x86/kernel/cpu/mce/inject.c
-@@ -504,7 +504,7 @@ static void prepare_msrs(void *info)
- static void do_inject(void)
- {
- 	unsigned int cpu =3D i_mce.extcpu;
--	struct mce_hw_err err;
-+	struct mce_hw_err err =3D {};
- 	u64 mcg_status =3D 0;
- 	u8 b =3D i_mce.bank;
-=20
---=20
-2.43.5
+Assisted-by: LLM
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
