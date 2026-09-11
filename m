@@ -1,182 +1,215 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012059.outbound.protection.outlook.com [52.101.48.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F3B47CC80;
-	Fri, 11 Sep 2026 13:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789134261; cv=fail; b=nz97pTp1MnhAB8uyyUpyEiCHmhYTgA7pXEIIAlXHSu2gKdTYEzSXPt6iJ5h+wFEjRy22fDHNTYm9Y4xGWjGn8nW55NmLGn4rZb+P/dv8IUpunIsJtMCChdqQRy8/Vz4vahG3Hh7C9kkY+4ajBqrw/ufoDzQiQViOLI7KQd4iSfY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789134261; c=relaxed/simple;
-	bh=+VTKKJFxGOiNYHeHWclen/+4vMbU/b/CFH0HCOhdQks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=indjFmx+6SF9GMtCCBeTWVzzAliPP1GQBo2oh7W18hPrZBZ0skgfdped5e6nrktfdFfWBfWO/X0fnE48lHnyTxzeEJkYqqjptu4G4jmGLXPRoo359UCaGr262jm+RFONyeTTn97fGvadqlJUdhX3fgs+iJHyoidwCYamN/qtF50=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=fail (1024-bit key) header.d=amd.com header.i=@amd.com header.b=owuKd1i+ reason="signature verification failed"; arc=fail smtp.client-ip=52.101.48.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A473135A3A4
+	for <linux-edac@vger.kernel.org>; Fri, 11 Sep 2026 14:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789138021; cv=none; b=J4QkwbK6qaE4sRVIhOTXyz2rR153yRA9uI6Dh8eUJdZHUmF8jIQ1OZ/sP3iTm7wtJVB/YqHbxtYxOTPe5y2lUODmzOGxhBQZPplJwkwNvs4vUjJedtxzlH2+aa6mCiukIVgdN7+jp/zgKs8fKP94WY19WjBoTuRF/Xm6WPpnvZg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789138021; c=relaxed/simple;
+	bh=DmDN6UHtKvikcXdajHKVO+yHNn5RNaijR4wIa+sYjRU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FYvkH9Q9uptJgFe6POiIp+PaPqf/juJSFeDW/HyFafiT0I6vs38pVQ8s3Z0/OOa7xhodaepfJ+c3GwXvq/HMrMXT1edkoIxwabHOptcC8FF1kU4VoPf1LEMwazIx8OqbSNi2VC5JttNDhh4mrCARi5T+ENEN/+RQhR3V3BYsumg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=B4uAGCpW; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amd.com header.i=@amd.com header.b="owuKd1i+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=coE8afJBv2EZ+kaNZDq0ea1NYD5I67sGQvRjwWxV6puJH8QIf1sqvV4Vz6R0kZuqft+HojaQ7mRPkedgnHD6LKfxnpLct9cOWYx9SQhJyWJB+/fbFPZZ17uuM35PC2Djts6QW59MZ7oPMo9B5nMDrLsRxOQHjUnKNpRG8Xh/we2t+RhESp+GSGLm4aeWcSQX5ehQnIYrWy34hpa3mzdIxA9WMIampsWdBagAtId08Bta4Kgojo2BlBBGdHhkAFQe8knIJ1dIgudUjsAElIUopZU6SADPlIHGlmCuuSJiEmfZMyegbntbwv2B6Xp0teiHNtpNkBgH/ULtEk148Xc+DA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0Wa39LEORvbbN/6RbnCTjPVhkcD4VsZYpFOMR49/E5U=;
- b=I3zW60dw5Jc9ZB4lN588/8uyGBUn2J4FZ1aKz2X+0nNbG/JoL3rp3GO+ksT8wl5vYhkM5aWwJbUVcgDJqw5awoG0BhOeS1ovVkh8vwiNzIK2r4IPBqvPnSyAwsosMTNr6oj/niqmG/tIj3YKkLq51PX1gypew44hbrgw9YYnoyxci57h21gX2ggTzlhV0Fwk6GyNrtJ/ltejgWiiM3WBnOwwyals2rwvGo1SuZOG5OeagvfHNfdNgvuhS7CaSZEMiE7dR6u18ewmhDffsMwmjRcpgeTOF9zDlhw0UigK1zkWyNXNQ9kbrLxUiEU5UpTCYSfPW3UbYnFIqPIm1Xel+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0Wa39LEORvbbN/6RbnCTjPVhkcD4VsZYpFOMR49/E5U=;
- b=owuKd1i+nZUrU3DrSj9TEFXsG7xLdANW+MBl1YeYehscpXRbWGjuIuJv3RBpcAIREE74jwlHEOj/fQpx18ff3JkrXBK3hL7FdL38K+hJLWiHvz2RS4bTX5rk+GH6zttNh8inhnirSJOV8zLl6i1rYcqzWmvRBmCUHWUC6m9sv6U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6374.namprd12.prod.outlook.com (2603:10b6:8:a3::18) by
- PH7PR12MB5975.namprd12.prod.outlook.com (2603:10b6:510:1da::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Fri, 11 Sep
- 2026 13:44:16 +0000
-Received: from DM4PR12MB6374.namprd12.prod.outlook.com
- ([fe80::af35:a7a6:6ca:7fcf]) by DM4PR12MB6374.namprd12.prod.outlook.com
- ([fe80::af35:a7a6:6ca:7fcf%3]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
- 13:44:16 +0000
-Date: Fri, 11 Sep 2026 09:44:12 -0400
-From: Yazen Ghannam <yazen.ghannam@amd.com>
-To: OptoCloud <git@optocloud.no>
-Cc: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="B4uAGCpW"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4980fe6b3beso9238835e9.0
+        for <linux-edac@vger.kernel.org>; Fri, 11 Sep 2026 07:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1789138018; x=1789742818; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6DAY0H524IPnoUin0wM315IyLKxNaVBFm7h+DvdUw5U=;
+        b=B4uAGCpWL5jpC8i1sY5F+3M4833A8BFjWN6LmY6MP4JQjZc5Ifb4szZU4q47YDSqFg
+         8rB2pBsDFN9ddgmA17zUhtJZ1cf3mqkYsQLmNEBfx9DTq/fR9pctpKx3oJmWcJIKvjYa
+         Qjk3RbZvRdMMoAJ1riJU9GXdTRspE4CFCh8IywRMw6mcdiUTiq8zo9HLQ14sJcYvP+U2
+         jsI7GZUnhFf/4QIhvNo87/no0MO7ukavX183hQ/Kzo9m6UaUzjwlLpD+u/WtXjXLgF81
+         ykuaNCSAQ20shbx+xhRJpuFrMy+jxtaqz7wF74dTLC5ehrikNnbBMK0QFxP/CeUEt6IB
+         Fz/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789138018; x=1789742818;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6DAY0H524IPnoUin0wM315IyLKxNaVBFm7h+DvdUw5U=;
+        b=VpVfACZZC/qnFvF8aCuEMmRy6VZ3C638YfD2B7AHx/wu/izpZUvoT76aYA0qzMdzwX
+         aRxRJmbfT5yYe/R1b0lrKC1IbpDHVSdosAu4NbHoWHDjE1ivWuanQHCDBASuvVpqeEc7
+         Dp6BZseMtFqmxQgXn4zru8igpLWZ66izh+EXAwGgbhgjUZJb2ZqsklNoTtJhC4Sv/b+6
+         6hbzu4dBjlA1R63Wn0pw8cbainRcyHVViFxCbM6R8haXMYE4HckV1ak0d/EchHIHv7Ld
+         2x3kTi7nISigYjqr/h4l+mB0Zk9lHpARk080k1OTr0oSlRCpajN6E7OzqbAyEJMTLJoA
+         PvvA==
+X-Gm-Message-State: AFuF++nQCifZ5CxgM07VM6InMZyh+XXF7eidcdvxfZVOw7FYmS6l1PRA
+	5x3IViO2KP+SHnSjS2KakdbdafGlBSneWvZ8m8soeRZuuH8b163mdqRQiRyO+zn+dTM=
+X-Gm-Gg: AYBFou10GzGDHs7InoghOz2psqSQZhnwi6/YBb+JtWnt6QoqldDySAVE9VUrEtsKxUz
+	G7N1H5Hmk7dViz7VZSVGml9V/h81IVCA+qP7mOl5lMdxDjaEem2fBnfgpXG4eZY5eOIFcVeRGe7
+	ztpk4ZbMTKVXe7/45Bz0nbLhX03n5C9LRTzSKR55qFf4gLH2OTYG2k3zyjjl0RkR6ZQq2NkYela
+	EfY25zh/oPOqDADR8wjvXNuqPaXeX12vnv+grzyG2hVYZXqdg+pSYgqp/nGyVsnvpBf1r/QHHqb
+	dpi0nOj8gehLtJyPOHayW0l/NtumhauOVdKywOSrjYjtyKR0tbv9HFKA2epFOC3xmweyV5OWgFl
+	KzBrLWziVOmWmx1hn+JbaiyBt6KpZdDY5gd8bigMaYXxrAI0X1DD5BcsRWNzN9QaExOMp6vOf4N
+	oyaz1ugZPru9aAPMFrXmC68KjIBOZK3i9bBUlaU9Z+ROS9XvRWRyWrr0cGhTtEJPSIZ2WyfLfeI
+	1kOPQ==
+X-Received: by 2002:a05:600d:8444:20b0:49d:27ee:79c9 with SMTP id 5b1f17b1804b1-49d27ee7af0mr93376655e9.8.1789138017731;
+        Fri, 11 Sep 2026 07:46:57 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e8d1sm6328068f8f.11.2026.09.11.07.46.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 07:46:57 -0700 (PDT)
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] x86/mce/amd: Reset deferred-register state
- between polling banks
-Message-ID: <20260911134412.GB2018031@yaz-khff2.amd.com>
-References: <ZYPjnBLNLY69gIYeH-ING5IhrnA3ryhVQquuPlWhUR-WmKLUFl3z-HRWR6q3zW88Vi9L4IpFrd5WnRhVG0AptFUR4cDvCGTJ782EUQL9u0Y=@optocloud.no>
- <20260903203609.GC145182@yaz-khff2.amd.com>
- <VVPre8FwBOaDwOJsZLizBoEllya95qRDFGMnMwm_j_UOTE9L7LptaW7wFFQQNr9nBhwUYorxpQq_IZyQSsL3-IGNj6hdtcxr1HIg1xqWYPA=@optocloud.no>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <VVPre8FwBOaDwOJsZLizBoEllya95qRDFGMnMwm_j_UOTE9L7LptaW7wFFQQNr9nBhwUYorxpQq_IZyQSsL3-IGNj6hdtcxr1HIg1xqWYPA=@optocloud.no>
-X-ClientProxiedBy: BLAPR05CA0014.namprd05.prod.outlook.com
- (2603:10b6:208:36e::18) To DM4PR12MB6374.namprd12.prod.outlook.com
- (2603:10b6:8:a3::18)
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Michal Januszewski <spock@gentoo.org>,
+	Helge Deller <deller@gmx.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-acpi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	cgroups@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	bridge@lists.linux.dev,
+	netdev@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH v3 0/3] Bring includes in linux/kmod.h up to date
+Date: Fri, 11 Sep 2026 14:46:13 +0000
+Message-ID: <20260911-module-include-kmod-v3-0-6ebccc3e0731@suse.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6374:EE_|PH7PR12MB5975:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6cf52105-7d3f-41a0-d436-08df100ac590
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|10067099003|18002099003|22082099003|4143699003|56012099006|11063799006|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	oCHG4P8iRwy/x1Fp/6IDp9r1osQKhnEunZNlNi+SrWXBvM9zSiGf6JkHV9O/40xGxHvFJtK8EaFRPd93u74663cXT7YcRP/XKQw50LaDQD9FC4hp6oFw+L+EoUXvixUrjTjLE3kKcDXtGbnkrA1nIkxx/a2LQqUPDlzxAZGT9sNdHK6Tbni3LLIyo54gRr4ePcULLp7yglrboZDflgRUJGkT4GG8BGi7L3LfhqYGztNfPnxRBqg9uqSt5TBb0uUSnH5c8PLXVQXnWuqjIBWetGJyy/r6yDD6MrdIPGHMsrrp5uXnQmmBRpjh631GZCRuRIwJsJ13bfPwIPhvWbtCwgQWEd4W2j+tlEAhM0rMJw5JfmNNbQy520JfqDWYT0/cLsVhVqj0cERN/O5XbOg/TvWplx+sGY4WRFOvRw3K1xfhBNEC43nD5y2E3cAsbHPLXZ796TtE+Ml0uSmYmvcKcLEcGHUQmGYZZh0wx2jpJiPTcvuC2Ycm4N9QYNB48cz8Pq80QeeYXP74joctdcv3/iXlHRXOY6y4mHNOfC+oI7OQ5W9sBQtDMs7/WMkRJSVJkyOj9wY+dRz8xOrLq3m4X3ywzDiFy2VCqSLCuDKqU8Zj3Y9qje+RPI0MgDRtnm6R0gh3dhA4EjPugXrFvxTc3NdwUDJcx1axXnEVeQ3Sz5s=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(10067099003)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?l+m3fL/avufRAjvyqQgWZXBG3XcjHn7ZHTGeleHmh2GqjhvytoFfGr2InA?=
- =?iso-8859-1?Q?for/wkdaCWTq5K5VdE4Wampq5gBOvIrvi3qNeSmmoTdITND7IMPkQZ9Pks?=
- =?iso-8859-1?Q?YGtqcyUxSs/HMwYjVV+IozU4xmlxPbWFikVkzftIJSmszH7pI/TGAYBvjD?=
- =?iso-8859-1?Q?fV95YkKDj6T9qHX2FNnWWvp7UH2B7f69MWJD1moxn1wZ/gmw0a2WdrUsN/?=
- =?iso-8859-1?Q?tVWKONllHMHWVLYevSMl8eG6DORWvkODE1eNQMR5uqvt64U+DscYXWXeka?=
- =?iso-8859-1?Q?1nbydlan2o2sMv4pipoMFzULDh2S1jZqSbjuVhbAxtrLVYqaJCb7iWROia?=
- =?iso-8859-1?Q?T1eDqYZXCyKN+AmCuGRMjkVeCt4G8UawP1PV/cJ6x12mDuDwWvLOZ61Rub?=
- =?iso-8859-1?Q?UPPyG2ifKGab6+JKl2uxL2yn8uBLzJx1tU1ETA8XQAPxeqtuxP0Cdq1o28?=
- =?iso-8859-1?Q?PNmz5+UJhltvAKSIey6iGUZQWMZ2Z4LBxhos56AAfJtTv05+2iC/viD917?=
- =?iso-8859-1?Q?W1AlLNMgcDlMmotzYVqcIlsR3qdzYszxvbFK8yrf5fMWcEnkn/3bkg3EQC?=
- =?iso-8859-1?Q?Mv1cT1NGL1zl0TdaONMAoFcOwsGpGi/9/4DtdNBTTcpJQa7ptIccFLmHwh?=
- =?iso-8859-1?Q?yi6WtPO3YA7/jQhDFAVrDqnpjtZovTNjUu+SI2F3KNK+EDpBqnpb0eHOpC?=
- =?iso-8859-1?Q?aeXcE59qPTr121jtmDMh5oGa2axvrT4UZf7mGszRtP4VCBzuIO4O4/HwBj?=
- =?iso-8859-1?Q?IbiwxnB0tJcrYdK09Za7U7X/ef8XJ3f9DLrZffXnsIjOV9wNiAgrA8nHfF?=
- =?iso-8859-1?Q?HUu/EPXEVRGjG0LRJJpCfjkncxLK6TKyW6GLPh0GO7ZxRGhqOz5rW0uy7I?=
- =?iso-8859-1?Q?mzag6GbHwsLGNn5xNWZDBkct4Yt2QMXRriZwOLxyeMkunu7Ta2m6VDcLA9?=
- =?iso-8859-1?Q?hb0pbxEByXkOJvIUt6vhEI/sUv7UGBDwygBBWmil4ueYmnnUI9XogCYMJu?=
- =?iso-8859-1?Q?aD9Kxgwu9dgrWzGIb8bN8BFV7vWDHou2W42cgjnsL54wUq9THKAoNS/x18?=
- =?iso-8859-1?Q?FTxdl6yRUGnLKuJLyfiz4JnFG/60SPdF63xcVBVPtpef63UWRr8UAw3M30?=
- =?iso-8859-1?Q?s7JfXQ9gXbusjJQtf/BBy9FLCmEfKH+8VJZcd25Uz390rurhvOFNRDOOEZ?=
- =?iso-8859-1?Q?QWaLam5k0ZmoxDkJ7OO11Ms8Gn01mLwtPv60t/paHcv4zfcKdepX7IKkyN?=
- =?iso-8859-1?Q?FMKtfxkkQlH3hJRGkbx4S1IagOnvKQBiY616L+wCGxNND9xLxJYHPiYMv3?=
- =?iso-8859-1?Q?wPTTk3XkHThfadehgZRBFEBsQEH5GZE29VDSIyj+653WC4Z0jv1Y1D8dbl?=
- =?iso-8859-1?Q?JMETmxY8EJRKwFTkGg1zcH4nRJzOM7sCs3xsGNdum0fH6VG6JPJPhBpX5E?=
- =?iso-8859-1?Q?FpKATaWMc1APkaoghUAVeGtxiaNahLDa+5JIG4jlfwkdItSJlXGZ/aDDxS?=
- =?iso-8859-1?Q?iIFzVa8PaPoG+SR/txhKkILLo9DR3VCEZiPkin8tK33bIFPdZwZPNXkTGu?=
- =?iso-8859-1?Q?4WLHpmTzRCuWqYSmXfoGEgwCVpVmXzm9xwUHsnoBLMmOAXV5dpyhlFPFQ9?=
- =?iso-8859-1?Q?zdbGZPV/ItVcDIJteBFnY43GvIKrzrKTTPM85OT8adpuJrLH0p7LrACQUL?=
- =?iso-8859-1?Q?fe/eng4Ey3wg40xiiHgmsXBWY3NZtxGpDJ7QdjMBRANDC2hCSiI5fqzRRx?=
- =?iso-8859-1?Q?BGdDklHah9JZXAxYwabs+HuB2oMxDcee/b9wIGQ1aRwTV3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cf52105-7d3f-41a0-d436-08df100ac590
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 13:44:16.1746
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ejw7DOdcZczB0CPfekHAv7FZsSJo1cHfbN5u8N7rlx80m4DhllvKA3JH9PRmDoC7P/NZqBlz5X/PEz19nSq7ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5975
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20260816-module-include-kmod-14d1a0e19462
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 03, 2026 at 10:39:10PM +0000, OptoCloud wrote:
-> Thanks for the review, here's v2.
-> 
-> machine_check_poll() reuses a single struct mce_hw_err while
-> iterating over the MCA banks. smca_should_log_poll_error() sets
-> MCE_CHECK_DFR_REGS in m->kflags when an error was taken from
-> MCA_DESTAT rather than MCA_STATUS. Nothing clears the bit again for
-> the rest of the poll, including on iterations that bail out early,
-> so every later bank in the same pass inherits it.
-> 
-> A stale MCE_CHECK_DFR_REGS has two effects on a later bank:
-> 
->   - mce_read_aux() reads MCx_DEADDR instead of MCA_ADDR, so the
->     address reported for that bank is wrong.
-> 
->   - amd_clear_bank() returns before writing 0 to MCA_STATUS, so the
->     bank is logged again on the next poll.
-> 
-> Reset m->kflags at the start of each iteration, alongside the other
-> bank-local resets, rather than clearing MCE_CHECK_DFR_REGS alone.
-> The only other place kflags is set to zero is once, before the loop
-> starts (mce_prep_record()'s initial memset), so there's no per-loop
-> state a full reset would wipe out. It also covers any future kflags
-> bit that ends up set within the loop the same way MCE_CHECK_DFR_REGS
-> does today.
-> 
-> Found by code inspection; not reproduced on hardware.
-> 
-> Fixes: 7cb735d7c0cb ("x86/mce: Unify AMD DFR handler with MCA Polling")
-> Signed-off-by: Eirik Bøe <git@optocloud.no>
-> ---
-> Changes since v1:
-> - Dropped Cc: stable (Yazen)
-> - Reset the whole m->kflags field instead of just MCE_CHECK_DFR_REGS
->   (Yazen)
-> 
->  arch/x86/kernel/cpu/mce/core.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-> index 6fa15e19988e..16ac2418fd51 100644
-> --- a/arch/x86/kernel/cpu/mce/core.c
-> +++ b/arch/x86/kernel/cpu/mce/core.c
-> @@ -823,6 +823,7 @@ void machine_check_poll(enum mcp_flags flags, mce_banks_t *b)
->  			continue;
-> 
->  		mce_clear_hw_err_fields(&err);
-> +		m->kflags = 0;
->  		m->bank = i;
-> 
+The usermode helper declarations were previously provided by linux/kmod.h
+but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
+moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
+files that use usermode helpers and remove linux/kmod.h where it is no
+longer needed.
 
-Why not include this in the helper function? In fact, this patch could
-be merged with the other.
+Also add a missing include of linux/sysctl.h to kernel/time/jiffies.c.
 
-Thanks,
-Yazen
+Finally, clean up linux/kmod.h so that it includes only the headers that it
+actually requires, importantly removing the compat linux/umh.h include.
+
+This cleanup is motivated by trying to reduce the preprocessed size of
+linux/module.h, which includes linux/kmod.h. linux/module.h appears in
+roughly 15k #include directives across the kernel. This makes it a "hot"
+header, so it should avoid pulling in unnecessary definitions. Note that
+this series doesn't immediately improve the situation, since most of the
+files included by linux/kmod.h are, for now, also included by
+linux/module.h through other paths.
+
+Apologies for the wide distribution. Acked-bys are appreciated.
+
+---
+Changes in v3:
+- Rebase on top of v7.3-rc2.
+- Clean up commit descriptions.
+- Link to v2: https://patch.msgid.link/20260721131207.803760-1-petr.pavlu@suse.com
+
+Changes in v2:
+- Remove the linux/kmod.h include from kernel/cgroup/cgroup-v1.c.
+- Add a missing include of linux/sysctl.h to kernel/time/jiffies.c.
+- Link to v1: https://patch.msgid.link/20260708154510.6794-1-petr.pavlu@suse.com
+
+---
+Petr Pavlu (3):
+      umh, treewide: Explicitly include linux/umh.h where needed
+      time/jiffies: Include linux/sysctl.h for proc_int_u2k_conv_uop(), ...
+      module: Bring includes in linux/kmod.h up to date
+
+ arch/x86/kernel/cpu/mce/dev-mcelog.c |  2 +-
+ drivers/block/drbd/drbd_nl.c         |  1 +
+ drivers/greybus/svc_watchdog.c       |  1 +
+ drivers/macintosh/windfarm_core.c    |  1 +
+ drivers/pnp/pnpbios/core.c           |  2 +-
+ drivers/video/fbdev/uvesafb.c        |  1 +
+ fs/coredump.c                        |  2 +-
+ fs/nfs/cache_lib.c                   |  2 +-
+ fs/nfsd/nfs4layouts.c                |  2 +-
+ fs/nfsd/nfs4recover.c                |  1 +
+ fs/ocfs2/stackglue.c                 |  1 +
+ include/linux/kmod.h                 | 12 ++----------
+ kernel/cgroup/cgroup-v1.c            |  2 +-
+ kernel/module/kmod.c                 |  1 +
+ kernel/power/process.c               |  2 +-
+ kernel/reboot.c                      |  2 +-
+ kernel/time/jiffies.c                |  1 +
+ kernel/umh.c                         |  2 +-
+ lib/kobject_uevent.c                 |  2 +-
+ net/bridge/br_stp_if.c               |  2 +-
+ security/keys/request_key.c          |  2 +-
+ security/tomoyo/common.h             |  2 +-
+ 22 files changed, 23 insertions(+), 23 deletions(-)
+---
+base-commit: df2908090cda368b01ff43709f51890076c56157
+change-id: 20260816-module-include-kmod-14d1a0e19462
