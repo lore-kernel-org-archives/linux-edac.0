@@ -1,63 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AC6563FAA;
-	Thu, 10 Sep 2026 17:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129F92F7EFC
+	for <linux-edac@vger.kernel.org>; Fri, 11 Sep 2026 00:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789061616; cv=none; b=nJhP1bAloi6+cd00eznT7B4pmgX4y3r5fx8c9q7odox65J/DpVobRyHW+j2qz88NPSes4Li7L5RN57YC3wCda1GjV0iAcKm43npn823WPdD5mm70K9gXisdLPj7V4JrqP6Eu9ash1YiSpYwNCf8JdIhl7W0xKktLqAk7pNjAKXY=
+	t=1789087957; cv=none; b=cHIKfpwLMrumc/g7/MGOKPPYGtVlAdgIwnfURJbzKcIJ2lWjIY2oCXaT28WFT6JV1rHw6jekv+gq4PsVtBaJiWUhIV2Qtr4nDKD5ijNeuFsCofTptgIlVWbE4NmFFre7yPBQdBqEZKr7joWUvRb6tY2DHGQJjDRc83rFSU10Wjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789061616; c=relaxed/simple;
-	bh=MCNOi9xIw5iRiR3EyFN0mMplUBmpBIeLYzXFr8Rll8k=;
+	s=arc-20240116; t=1789087957; c=relaxed/simple;
+	bh=BQwhpDXzKhlCLOD2afisIUCnbjz9JJ1EqqAaObvs5Tg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wp19RC0UGBn3WyZzOJtQyUfY155vCa/jx+HxcC33Bhxu4uOCknYEhnQCG7oX4OgQGTi1CrwyJ1HCU9b2VE6fgmsp5t2HWUBkLpxT1wUzFx2FezzHU7jlZLUjW9/ajeGPNFb8OVuzTrw5vBSKjCmK8mI/twH+Oj3uX79egV+Uq6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zr9Rrxkg; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=BiVm1O2GV3djKD5D0LRQoOXpZGHh5EN+H9KMyZQZ+IhNRRo7/jdsicG4RUJFoplZdLz5FL7eupVRJjpI2WblejvJPZc6cZKTvx2Ly5cyOwUi7F+biLANytA0q2f/jDi8wI4nOM1VaqC5eEBi69RQ7fq5rqPAd6/d7hCj9lnSyiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZBX9KeOt; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zr9Rrxkg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A5A1F000FF;
-	Thu, 10 Sep 2026 17:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789061611;
-	bh=mc61jQ2p6vMPm9Sn/vjm/9Psk2xpnTlGysS95tscm7Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zr9RrxkgLuPZ7amTj6iAzMB56dHM0XLgFYwJmbnZPBjEbC0mWN3C+hPkJMCekYy0w
-	 Fhe66bjAyi9wUJ1ryaP8OrJykX1XrnmuZFzPZB6YS7pWZRDw5jvSvnO72YjmRGYROH
-	 z4Tm19zswYDqKxRW7mPSyzYnvVDtHi31P0rtyk7bOg4j79nYpu/6i5lJr+v7qPzOvj
-	 A3NE9iZpFHlo2ONmbI1iz6sgHB5b94cRQ2nbAOjOMeecQzhwvn77Raj2xaf8vTh8H1
-	 8rHrjkWj1dDEVB8CybNDdtDUta6Z0wvbXgS7xrbJ02/j1svRIcFXRpNL7Rm+ypvtuO
-	 XHn2kXvUOeFNg==
-Date: Thu, 10 Sep 2026 19:33:22 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-m68k@lists.linux-m68k.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Steve Wahl <steve.wahl@hpe.com>,
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Mike Travis <mike.travis@hpe.com>, Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, linux-samsung-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Tony Lindgren <tony@atomide.com>,
-	Kevin Hilman <khilman@baylibre.com>, linux-omap@vger.kernel.org,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Damien Le Moal <dlemoal@kernel.org>, linux-ide@vger.kernel.org,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Michael Schmitz <schmitzmic@gmail.com>,
-	Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH v2 9/9] docs: kernel-parameters: Drop the pata_legacy.qdi
- and pata_legacy.winbond entries
-Message-ID: <aqLp4p-CCi9sVDlb@ryzen>
-References: <20260905094649.41996-1-kmehltretter@gmail.com>
- <20260905094649.41996-10-kmehltretter@gmail.com>
- <apwKitEmOv3ZwLkd@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZBX9KeOt"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d90ba1d807so3488525ad.3
+        for <linux-edac@vger.kernel.org>; Thu, 10 Sep 2026 17:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789087955; x=1789692755; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jBly9NASd9J69NDrsbFKmvoK4r9VuFsqJ2PKUMl518Y=;
+        b=ZBX9KeOt2lUFbN6TnbzRVMZfrdoeZ2a/Y7GvH/KqKOPjHrmqYIHAQ3YAGKm0sa2vzk
+         0AHAc1VX5ycw/s9zlWAfzDuqSAipWV1DywWaiABdXm9FoTF7HNGwyUwOfGgLZNTwgez3
+         KuyfKdeH1q/Oam4EHg6cbmzLztl7cabH634bJJ3+yAfSJMdX6F3thQRPmfjaH5jkikD1
+         g6N4YN8XlQjsf72EuePZyjeYrI+F8LEwlCBufLNTlNTd7vjnTLkqAR/XI7/eC4wpUMMA
+         SfDYryrAXG8ayzQW1qpZwoFARB98lkMYYCkMaadfOwnjRJz0k7txreiOuzZCQQhWg1ZP
+         IvnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789087955; x=1789692755;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jBly9NASd9J69NDrsbFKmvoK4r9VuFsqJ2PKUMl518Y=;
+        b=bvuy5dWQRSeIW9i3Jtg2lBtBftizjqUheWqTduhw8a1nPvpIKbFuVJ24XMlIlbWEUN
+         mpwE3fCbxH5nXpJxvJDlnSKUnAFOopleEO46ewGcu90srSqwWhRngBJX5A50Ow8exH3P
+         GcMO7GEJYIbmimaPXM2S5HbIgaRe63aV8l86QAcbnju/G50dtYib/bOHR/1RM9HnfPUE
+         goECMStjeNBranE+tGlM7porSsrdZoocQ+F9HoPg7RyfcwMgVUYfQmO76AIpnSS6ZUY7
+         K05FHaj+55wX2g0yn8Vt7TljedXeb3SjSRzkYOaraweZTh8zEHIY7LY5ztSnIRVfuP4v
+         1lJw==
+X-Forwarded-Encrypted: i=1; AKwUvBxDNhCetlIm8dRXNPOIckRwSjTyFRXU3eC+niLFtgJx+45Ul85QXIsHvSAW3vZqCetBQH/WZE6d+MC1@vger.kernel.org
+X-Gm-Message-State: AFuF++mpudkoTgpnWdgwCzzXmsL161GPcJIN2MVm5Dbfi9riKxFoDYZB
+	6l/wujrVYLM3E7bqUFIAQvQS8ccynpixMlCDA9721CGAKZJThxE+Me9u
+X-Gm-Gg: AYBFou1egs4FEhNkPi0dGu9s7BbPdeJdmz/Q98jCstQkGUStv7kWaIp07ke+N3GRhNe
+	fanO6ouBV4zzaQpYMgIPkXXrHTeGHN8lPM6llwuPpXFVMEV39KS3WYcmv0M8m6Acg6MEaeWNHJO
+	VqsyiCWW6equQSo6v6kH10GmU6UkU8ladSZRdTxDg54DTAb03aFD12owdKi1z3H4BKutJf8J4tU
+	GKgmptW/iplCy5aYVpdk71/Lmahpp9O5TqIaw2tPu5w88usduPZp+w9hnITYjekt+SQ9dsUAKWE
+	NJ5hoXQcdTg6R9A4jRZigMEfjfyUSmqGdY93DpLklrw0DWPm/L0ct+fo6+1zd+jFiqlKporX88J
+	JofKvgsStjJCvZbh7m1l9BHs7Pn41wKP9635kVvkDU4FqgtGPq/lHD2lSG92QVVq/WtlRSmEvTe
+	UBnHDzZBAs4+sTXwjZjK5rHDO5gzMpkBDHKUYPNkHn2NJirToa4nYIP//sOS+ChdRMLFPoYp7Nq
+	+KbKi+/EyAD
+X-Received: by 2002:a17:90b:574b:b0:39d:985b:4274 with SMTP id 98e67ed59e1d1-39d9bc66ac4mr2247804a91.5.1789087955396;
+        Thu, 10 Sep 2026 17:52:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf2e22sm1744557eec.2.2026.09.10.17.52.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 17:52:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 10 Sep 2026 17:52:34 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Lin Wang <wanglin@open-hieco.net>
+Cc: Borislav Petkov <bp@alien8.de>, Yazen Ghannam <yazen.ghannam@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Pu Wen <puwen@hygon.cn>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Tony Luck <tony.luck@intel.com>,
+	Clemens Ladisch <clemens@ladisch.de>, x86@kernel.org,
+	linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 5/8] hwmon: (k10temp) Stop matching Hygon devices
+Message-ID: <591be587-d6be-4fcb-bfeb-a92812e25b34@roeck-us.net>
+References: <20260910082734.3771675-1-wanglin@open-hieco.net>
+ <20260910082734.3771675-6-wanglin@open-hieco.net>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
@@ -66,43 +85,25 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apwKitEmOv3ZwLkd@gmail.com>
+In-Reply-To: <20260910082734.3771675-6-wanglin@open-hieco.net>
 
-On Sat, Sep 05, 2026 at 02:29:46PM +0200, Karl Mehltretter wrote:
-> On Sat, Sep 05, 2026 at 11:46:49AM +0100, Karl Mehltretter wrote:
-> > pata_legacy no longer has the qdi and winbond module parameters:
-> > commit 3c4d783f6922 ("ata: pata_legacy: remove VLB support") removed
-> > both together with the VLB controller support. The entries also refer
-> > to CONFIG_PATA_QDI_MODULE and CONFIG_PATA_WINBOND_VLB_MODULE, which do
-> > not exist either.
-> > 
-> > Drop both entries.
-> > 
-> > Fixes: 3c4d783f6922 ("ata: pata_legacy: remove VLB support")
-> > Assisted-by: LLM
-> > Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> > Acked-by: Damien Le Moal <dlemoal@kernel.org>
+On Thu, Sep 10, 2026 at 04:27:31PM +0800, Lin Wang wrote:
+> k10temp matches the Hygon F3 device and uses the AMD SMN accessors.
+> These accessors derive an SMN node number by subtracting PCI slot 0x18
+> from the F3 slot, then pass the result to amd_smn_read(). Hygon PCI
+> slots do not encode DF node identity, and their SMN roots are grouped
+> by socket.
 > 
-> This one is actually a duplicate, I just found out. Ethan posted a more
-> complete patch in June that removes all six pata_legacy entries which
-> commit 3c4d783f6922 ("ata: pata_legacy: remove VLB support") left
-> behind, this patch covers only two of them:
+> The derived node number therefore has no defined relationship to the
+> Hygon DF node or its SMN root.
 > 
->   https://lore.kernel.org/r/20260607064053.195166-1-enelsonmoore@gmail.com/
+> Remove the Hygon PCI match and Family 0x18 branch. Hygon temperature
+> monitoring requires the Hygon node and SMN interfaces and will be added
+> separately.
 > 
-> It has a Reviewed-by tag from Randy, but does not seem to
-> have been picked up yet. 
-> 
-> So I suggest: drop 9/9 and take Ethan's patch instead.
-> The other patches of this series are not affected.
+> Signed-off-by: Lin Wang <wanglin@open-hieco.net>
 
-I have picked up the patch that you linked to above:
+As reported by Sasjiko, the documentation should be updated as well.
 
-ata: pata_legacy: remove documentation for removed module parameters
-https://git.kernel.org/libata/linux/c/a19d4f9b
-
-Thank you for the ping!
-
-
-Kind regards,
-Niklas
+Thanks,
+Guenter
