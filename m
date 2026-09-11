@@ -1,155 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBCE7E0E4;
-	Fri, 11 Sep 2026 12:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6833448987E
+	for <linux-edac@vger.kernel.org>; Fri, 11 Sep 2026 13:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789128400; cv=none; b=aJ+PHHHPEy+hOBMKzEIKOGlarL/IyZM2qUZChBZuoQtXBVkCHR6TJi1VeFTxbG2tX6SQN4d/DdWNsPPdltYtYoMJE6jCp8Y9eYwj+mIsF8pitq18a2VDShW12fqUYdNATxtUNauYrG4Mbls4yM6Vrx7Ml4tCIZpR7+OCozFPMK0=
+	t=1789132968; cv=none; b=pKlmczaPyFtYNHqptMAH8ONhFekQr7vHEfdAw14uYiNqRnRY4sfpeijb7PotNBV6K9W7ly+E21nCy1HwE3mOEhKyKOOMUMpl3V404sqJmRiQN+KMRNzT6aQbVR5DqA8uHsc7u86+RIcVqmHMl+nOjBvRSj6MiFEENCkWgBveSfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789128400; c=relaxed/simple;
-	bh=0M6DE4Vpn8wYzr52juZIp3gGE0Z9VWQK+lkvcA71kpo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=daG1Fuxo1BlWk9nE8Fsz7qi8Y5FiYGuvtB+TaJ02Y57odTik1c6HupMsoL6JLbjcF3zMUmEuszyygl6En/BaU0WMEQhYMXYqnvjmvNLtQJwlQw7Z/+vh4V75CiXP8DmZnEARb6lM9en4inG6DDKAjJxUThiiclXiqMxa2ebGOrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V371wl+q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789132968; c=relaxed/simple;
+	bh=T/e2vgzi/yX3haBVonSYMOMOZ1YJ8sxvxQcGMOKmPKs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=bjy/TQl7Inu4D+lkTvNVUi8CPrKK3kUBFnP/MPHlp/cFdmHFfz9+Ovz4zlnUgwy2QER1RBlxcOIj04DfeX7aU0j1J4ebJwFGTox1+lFHB7eq7Jh6vv0wDkc4M1YH7sZVP0s6+P/vKawxMiKI+Pk1yDiJIDAzXBzeJgwgU93EtRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RLwvSvK3; arc=none smtp.client-ip=209.85.216.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V371wl+q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9662F1F00899;
-	Fri, 11 Sep 2026 12:06:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789128395;
-	bh=cCPYH56FM+XGcXAL9mtAocmMXfUZmjksWUv2xr1J/Lg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=V371wl+q561M1XGsZsUpduUk0l3X7l+4Ldc8Hjj3njiVLYRL62NVK1xF6DfsNp+GC
-	 Ww4e1fJ00SCBlD/b+/ZbfsiTDFu33GHfuloMOj/if2qcjE2P5iUtLvgKfpz9gXeBi2
-	 1CiAkvdNRS2FPgUVamcI61EikdLRiu8CfKfbxfaUHpG2T5qH1jQdztCAhaZtJNtLHg
-	 VpFmTK/5FfwCIn1Db3LD427OXf1PpHTm/2E0LDjkB1vQvrmYDfEtOpsLeAwdBfsIwC
-	 BISeQDyCPrExUZVojJAZwJXcOFFTwsYQK3KAD8xi+8fHwbbkrdOmVoPo7i/qGYdDeD
-	 3wSBv6wivIQBQ==
-From: Dinh Nguyen <dinguyen@kernel.org>
-To: bp@alien8.de,
-	tony.luck@intel.com
-Cc: dinguyen@kernel.org,
-	linux-edac@vger.kernel.org,
-	rounakdas2025@gmail.com,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCHv5 2/4] EDAC/altera: Drop __init from ECC setup paths for re-probe safety
-Date: Fri, 11 Sep 2026 07:06:25 -0500
-Message-ID: <20260911120627.2634225-3-dinguyen@kernel.org>
-X-Mailer: git-send-email 2.42.0.411.g813d9a9188
-In-Reply-To: <20260911120627.2634225-1-dinguyen@kernel.org>
-References: <20260911120627.2634225-1-dinguyen@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RLwvSvK3"
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38ecc48b3c2so1391401a91.1
+        for <linux-edac@vger.kernel.org>; Fri, 11 Sep 2026 06:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789132963; x=1789737763; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kqAHaS5fsv9ERkHKe2Kmet0fUHotC014bD2kFqqX4to=;
+        b=RLwvSvK31Nx6W5e5cWd1Zwn3GrqgUoi6AhS072W/uylcwVwZ3gpe+kx6GEa9rIFlk0
+         FYF4erl5BDuLlexOocQCSN41l6ccwOOPma6v34CdMIG5khIVZqkDirlCdqv964QjHzjX
+         wPzKEn407qRm3Embbs+yCBCiSEJTY3Js8tzzleFdo1mBTOxt2yTNnE2xosV20WkoMQvM
+         wIayUAwD/BVN9hgLYwfzEr+DeuhSbiV33KL8FX8Bmqy/2DX9ttcVZLG7uRr6EAwczGFk
+         ZiDQLDEUQiAQ8XVcZzOaCJECezVH/N/QfYRIjvdt+E3bJGSQdWRG09uKOPUwfNDqFGFJ
+         twjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789132963; x=1789737763;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kqAHaS5fsv9ERkHKe2Kmet0fUHotC014bD2kFqqX4to=;
+        b=F4w4sRZ5zKJL2wOF1cpcRgXQ6BFYSU88YRQ1/ILOFPTyokMdeyrlP4DYU9iN0ORp5E
+         bSu4FZiGg2lYXc41e7v0oRCQPlqf5K3EkPsbNuQASlyi3tNDOfRe64XyPxserDcR/7kz
+         +mrg63OJT4OxC/E9AghVOp6n/vTxWX6HWF5UTg8l1EJJRyYupJwnZxaiIfQ/smE4GWvK
+         /GODKJmqMp9vUr8AwopMQaisVtW3fdlUEsBgjI5mAzQ3OBRA5kXVLhf+c43swKF5H0hr
+         siyxaMHJZZ+LxMWog9jSqq/sk7ZnheDKeAWD9p1nZVBRrxThU9+jkukZ7NbF+vacEDm4
+         rWEg==
+X-Forwarded-Encrypted: i=1; AKwUvBwu/jf2I1aT6f0sJZOcwr/uRG05vcgy/CjPfzWboSR3RCwG3pNQ9s1WZI93ryaV5xvcaBUdLUn8a3Hc@vger.kernel.org
+X-Gm-Message-State: AFuF++nFWGZVHUIHx1X5bRuPkqXIGVi8vmm5kqoYR2DtJkr6qqObLRvL
+	ziZDxD7M/SVlgSltfuMQU3D6XQ8IfLKyfj0vOSTOKUFQYpufiARFSYpB80BSQz42PO3ae6hG9jO
+	JZuR0xQ==
+X-Received: from pjbmv13.prod.google.com ([2002:a17:90b:198d:b0:39d:8dae:7e6d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3c89:b0:398:e46e:ade3
+ with SMTP id 98e67ed59e1d1-39d9c39625dmr7169956a91.23.1789132962606; Fri, 11
+ Sep 2026 06:22:42 -0700 (PDT)
+Date: Fri, 11 Sep 2026 06:22:41 -0700
+In-Reply-To: <20260911074530.3140830-13-jgross@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260911074530.3140830-1-jgross@suse.com> <20260911074530.3140830-13-jgross@suse.com>
+Message-ID: <aqQAodJCAEZyeQ1k@google.com>
+Subject: Re: [PATCH v3 12/13] treewide: convert rdmsrq() from a macro to an
+ inline function
+From: Sean Christopherson <seanjc@google.com>
+To: Juergen Gross <jgross@suse.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	kvm@vger.kernel.org, virtualization@lists.linux.dev, 
+	linux-edac@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-coco@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-ide@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-crypto@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ajay Kaher <ajay.kaher@broadcom.com>, 
+	Alexey Makhalov <alexey.makhalov@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Pu Wen <puwen@hygon.cn>, Tony Luck <tony.luck@intel.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>, 
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, 
+	Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Andy Lutomirski <luto@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Kiryl Shutsemau <kas@kernel.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Len Brown <lenb@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+	David Airlie <airlied@redhat.com>, Olivia Mackall <olivia@selenic.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Huang Rui <ray.huang@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+	Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Yazen Ghannam <yazen.ghannam@amd.com>, 
+	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Artem Bityutskiy <artem.bityutskiy@linux.intel.com>, Artem Bityutskiy <dedekind1@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Ashok Raj <ashok.raj.linux@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, 
+	"Ilpo =?utf-8?B?SsOkcnZpbmVu?=" <ilpo.jarvinen@linux.intel.com>, 
+	Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>, Xi Pardee <xi.pardee@linux.intel.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Helge Deller <deller@gmx.de>, xen-devel@lists.xenproject.org, 
+	linux-geode@lists.infradead.org, Michael Kelley <mhklinux@outlook.com>
+Content-Type: text/plain; charset="us-ascii"
 
-sashiko reports: Does suppressing sysfs unbinding fully prevent the
-execution of freed __init memory? If altr_sysmgr_regmap_lookup_by_phandle()
-returns -EPROBE_DEFER, the probe is deferred until after __init memory is
-freed.
+On Fri, Sep 11, 2026, Juergen Gross wrote:
+> Today rdmsrq() is a macro using its second parameter as the target for
+> storing the read MSR value.
+> 
+> Convert rdmsrq() to an inline function returning the MSR value.
+> 
+> The users have been converted using the following semantic patch:
+> 
+>   // Options: --include-headers
+> 
+>   virtual patch
+>   virtual report
+> 
+>   @@
+>   expression msr, val;
+>   @@
+>   (
+>   - rdmsrq(msr,val)
+>   + val = rdmsrq(msr)
+>   )
+> 
+> Signed-off-by: Juergen Gross <jgross@suse.com>
+> Acked-by: Damien Le Moal <dlemoal@kernel.org>      # ATA
+> Reviewed-by: Michael Kelley <mhklinux@outlook.com> # Hyper-V
+> ---
 
-The a10 EDAC .setup callbacks (sdmmc, ethernet, nand, dma, usb, qspi)
-and their helpers (altr_init_a10_ecc_device_type,
-altr_init_a10_ecc_block) were marked __init. These run from the probe
-path, which may execute after init memory is freed -- e.g. a probe
-deferred via -EPROBE_DEFER that only succeeds once a late/module
-dependency appears, or a manual unbind/rebind. Calling __init code then
-dereferences freed memory. Remove __init so these functions remain
-valid at runtime.
-
-Assisted-by: Cursor:claude-4.8-opus
-Fixes: 788586efd116 ("EDAC/altera: Initialize peripheral FIFOs in probe()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Dinh Nguyen <dinguyen@kernel.org>
----
-v4: rebased to edac-urgent
-v3: no changes
-v2: reworked v1 to include only true sashiko hits
----
- drivers/edac/altera_edac.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
-index fe501c89dd0dc..d8a3438fb5f44 100644
---- a/drivers/edac/altera_edac.c
-+++ b/drivers/edac/altera_edac.c
-@@ -926,7 +926,7 @@ static int __maybe_unused altr_init_memory_port(void __iomem *ioaddr, int port)
- 	return ret;
- }
- 
--static __init int __maybe_unused
-+static int __maybe_unused
- altr_init_a10_ecc_block(struct device_node *np, u32 irq_mask,
- 			u32 ecc_ctrl_en_mask, bool dual_port)
- {
-@@ -1001,7 +1001,7 @@ altr_init_a10_ecc_block(struct device_node *np, u32 irq_mask,
- 
- static int validate_parent_available(struct device_node *np);
- static const struct of_device_id altr_edac_a10_device_of_match[];
--static int __init __maybe_unused altr_init_a10_ecc_device_type(char *compat)
-+static int __maybe_unused altr_init_a10_ecc_device_type(char *compat)
- {
- 	int irq;
- 	struct device_node *child, *np;
-@@ -1330,7 +1330,7 @@ static const struct edac_device_prv_data a10_l2ecc_data = {
- 
- #ifdef CONFIG_EDAC_ALTERA_ETHERNET
- 
--static int __init socfpga_init_ethernet_ecc(struct altr_edac_device_dev *dev)
-+static int socfpga_init_ethernet_ecc(struct altr_edac_device_dev *dev)
- {
- 	int ret;
- 
-@@ -1360,7 +1360,7 @@ static const struct edac_device_prv_data a10_enetecc_data = {
- 
- #ifdef CONFIG_EDAC_ALTERA_NAND
- 
--static int __init socfpga_init_nand_ecc(struct altr_edac_device_dev *device)
-+static int socfpga_init_nand_ecc(struct altr_edac_device_dev *device)
- {
- 	int ret;
- 
-@@ -1390,7 +1390,7 @@ static const struct edac_device_prv_data a10_nandecc_data = {
- 
- #ifdef CONFIG_EDAC_ALTERA_DMA
- 
--static int __init socfpga_init_dma_ecc(struct altr_edac_device_dev *device)
-+static int socfpga_init_dma_ecc(struct altr_edac_device_dev *device)
- {
- 	int ret;
- 
-@@ -1420,7 +1420,7 @@ static const struct edac_device_prv_data a10_dmaecc_data = {
- 
- #ifdef CONFIG_EDAC_ALTERA_USB
- 
--static int __init socfpga_init_usb_ecc(struct altr_edac_device_dev *device)
-+static int socfpga_init_usb_ecc(struct altr_edac_device_dev *device)
- {
- 	int ret;
- 
-@@ -1450,7 +1450,7 @@ static const struct edac_device_prv_data a10_usbecc_data = {
- 
- #ifdef CONFIG_EDAC_ALTERA_QSPI
- 
--static int __init socfpga_init_qspi_ecc(struct altr_edac_device_dev *device)
-+static int socfpga_init_qspi_ecc(struct altr_edac_device_dev *device)
- {
- 	int ret;
- 
-@@ -1598,7 +1598,7 @@ static int altr_portb_setup(struct altr_edac_device_dev *device)
- 	return rc;
- }
- 
--static int __init socfpga_init_sdmmc_ecc(struct altr_edac_device_dev *device)
-+static int socfpga_init_sdmmc_ecc(struct altr_edac_device_dev *device)
- {
- 	int rc = -ENODEV;
- 	struct device_node *child;
--- 
-2.42.0.411.g813d9a9188
-
+Acked-by: Sean Christopherson <seanjc@google.com>
