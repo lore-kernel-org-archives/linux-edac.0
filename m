@@ -1,113 +1,86 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797284A35
-	for <linux-edac@vger.kernel.org>; Sun, 13 Sep 2026 21:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6E6349CE2;
+	Mon, 14 Sep 2026 04:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789334711; cv=none; b=f65sg6fOOVRe+kMHduW7I8qxv6WgljkIHLaD59S7b9QZsxod7WG1EawfynJ5TPjkOIgFQyDPRMoMb3JqaN5io/0ynixYWe9LeYthyuX4nIr7wku5g7x8PSXGoRAglO79QKNNYGB7eKz0/NrszZHWhKgdgiOqWF6niLjvxq/Ild0=
+	t=1789361608; cv=none; b=n7awrQ+xlj+qocdORmhQaPwNajw04DC58qd9hPVBDfqonHdwsKw+O4oTxviytjZsh7hS9OYEtj3o6pUBFwimO9RuXDYNn8j8sY6WqeQUuXD1dyUax7hrxNXv27Sw/hLdY7UECNb1yULCHYpyvsM1GAjoq/MaG8NEjTSjsC4WORE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789334711; c=relaxed/simple;
-	bh=AAAwelguTPfjpAnL+vqAqkkChfEV0ObjfpvLg0+5NtE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nh+6v5H+q9DMiEIbQ2rYxDFAN/i3u3Vt9xM+i8akfb6s/Pg49moTU18B2WFA92eYJS4VMBeVC/RKdp9Gtde26d984FJ0ubrpNGjuFhB5m9nC08RZGwZHuJB6hrGiE9fUJgTz7WHKoLa7GszCZc9VdzwETf3SCy5lWr+w2Llm7ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WWSY9HYU; arc=none smtp.client-ip=74.125.230.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789361608; c=relaxed/simple;
+	bh=xYvSUo8AQbE6UwJvLzxM/4vooRtmD+iP1X1UvDUq6w8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bvHpd/WCmxOzvQhrTjsu2doIXIpK5NsY5LR/xKZ9GTB+NRLq3fikfK8O0mnXFmVFydQLRlyxZcxOdUwHeWkqRQvEn0LyqauSEmD7r1CLo7sRPI6XPJRZrhBjcBcOgG81EzBiI6O85hR389z7hgrjXE0wjSlPuo/QU0A3OYPOco0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=CJieynAM; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WWSY9HYU"
-Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-52fb76c9deeso24918311cf.1
-        for <linux-edac@vger.kernel.org>; Sun, 13 Sep 2026 14:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789334709; x=1789939509; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OTFAKxEPG/XZ7jFrqWix1l3HMof1CHgUjJhMCCQjkn8=;
-        b=WWSY9HYUprVN2qPVLIUXCM4/ayDUfB9dCpyKu+RLYZ6Shi5fZyDb9E7dmO6/AYH8ap
-         +8R0q4KnASc8Emux7UAXuFpTXGm8r36ExMWGo3bJZ17/kkcHcfT5alFVm68qlePsYm9Q
-         nRwPod1L81Hgx/FMhjZNMAtG6CaUl4BA815vxzTWVKF/b/MyaWIqYcH1zRJfAMALwt8X
-         BECouX8dp70EgwWD7VzAPmxEWKUiARbZTMjdU8HNt2ShaTnSwDxNI9yovChek1udNuAP
-         5seowIkMO7izLQuisnHTwjH5DKRgaDpEQ0KxCmrAwUN/je87BJcoMCGZKX0xjq/OgBmQ
-         7c/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789334709; x=1789939509;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OTFAKxEPG/XZ7jFrqWix1l3HMof1CHgUjJhMCCQjkn8=;
-        b=jQGhcavjDWnB1IP9kGvSFUvd6yZ6HjIAGnjv7H+O59F6sKw8uSMG4R6rKQpSSxHXkI
-         h1FYxc6LVB+ZyFlVyYA7ocUdfmZA2dZIzANjaK4EH586DHupwSDTNZIWfwge5pqcSYrQ
-         YS9C+v/6t0GBuvlBOcYACuiRQG5pbXdPrIK9ZuuG6nZnB4LHxaH1mQDKQnJfseHAIyu5
-         yAIZESPCR355C/hsA22GD77IXWcz2Tl4yjPDv04F1TrCtFRACIWtMK7fJ8yUWIRVAYvf
-         vY9FhDEXsLON6Hf/GIHUMmykb2QKGJQbgyyVjaOyqychbq4UmbGIav8uEmRtrgr5+lFY
-         uqZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBytzSORTKT847XtS1pR9tn9jWG5s3UIh3GeWK1lz/WKD1X9/YJkwAo4KXWGhgraPIN+DjAehkSgKbTc@vger.kernel.org
-X-Gm-Message-State: AFuF++kc9QaAdPGWyrrJg7VQyEnCnjxVFcDZc0nYzKOwOO7EIwspi2wk
-	aC+BnO0jwtGb/+6ATfebAZgAsvPWu0KHt0AwrgTVlSHzg3TdUaeQxT8=
-X-Gm-Gg: AYBFou2X1gdHyRN7a9te7j329+JFD49aVtGWELKySjRrHA+IHlRuj89GiEt7Vtn/kWs
-	DQDpQ2BILWI2AF3LKB3a7LVie4Kj3joLgYPTWiKda/rlUd1l9v5qi2YTMZxWGXdW6vUyoKY6qnB
-	BnmPaYxDLEVERjwxtg5K6Mg0GyPG8JczVCoM2ntYbQcCwJrTJGs/T44P9dRlQfo4PiU7WFoqLul
-	+NbPhaYU0dQAz1TZA00R2TjwqLQJJRWwVOcS2jEiNb/Fy6Madu3EyK+mCJu0DdQCZCpptn8L3S7
-	33ZvTTHSWvsH1G4kACNSwbux6gWte5GFWbEfB9rrNNgGuDFwXfsgMz6AbPHhx8/sZwsPEKu+CTo
-	lqH+f4Ah6wUjK/nMAmiVhSNEuXJCzSZZbqBxWhiDAgfuPw5vBtxva20pXcKT3qEbGtE992wfxab
-	TLPOFP6M7WqavKixT2PlM71RaASo0AmyUwlNHxYIbk2TKg6VSy99hMHf47zt3s/LVs5AjTnjc8x
-	U8SaCr4OXQkf6Te3rKfxwzAJpMIMj6gNtlIM/YSeu+dOQSsONCrLtcYh6NcrhU/X/aMcok4hyrH
-	AB8W9MmuBNekNAVaJQESq9JpXONA0K/CbA==
-X-Received: by 2002:a05:622a:1207:b0:531:273:b5d8 with SMTP id d75a77b69052e-5310273bb19mr34117131cf.24.1789334709267;
-        Sun, 13 Sep 2026 14:25:09 -0700 (PDT)
-Received: from localhost.localdomain ([104.39.73.78])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca45b61dsm80714641cf.6.2026.09.13.14.25.08
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 13 Sep 2026 14:25:08 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Jason Baron <jbaron@akamai.com>
-Cc: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] EDAC/ie31200: Disable PCI device when probing fails
-Date: Sun, 13 Sep 2026 17:25:00 -0400
-Message-ID: <20260913212500.60272-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="CJieynAM"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1703F40E01DD;
+	Mon, 14 Sep 2026 04:53:24 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id WU-ZetynU7Sa; Mon, 14 Sep 2026 04:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1789361594; bh=g0l5quF+CtNkdsOWSveDsrHYwy6jVN/CZnleVwD2z6E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CJieynAM9jrDxo4LAJUGNK9VkbQ5r6Ge39UKQpfrRttXErk+LyHy3KWnhC9ox0F7A
+	 lFc4grpo/cjndn1L4HlVJMbZv4WVfy+hwFj1Zct5O9RvPw+pf50hfCQBavPIJhQ0n4
+	 h1nkHdOcVtuM3pbLmgi8gTFJOq+pWM1Vx5Rzm/h9bK4Qx6kUNMtQ/dYvqVOTeUvvbt
+	 v99PUg/5bwL11nH8I5Kip/kcM/iuneorUSaCgHflXlJhlJcKRK0PZNpB4/f4HXQ+vi
+	 ZcDvaG36/m+uHhDjXKPF10pmA35Y53I9goQu9AcrfSRUYfxtM9CCVs94tQJYM5khjy
+	 xvrBTX40pEPNUBP4/8C+z/rZp4BlYIQAKEOicZmDI1TSu1l8xoXVh6vDNv9FkTvSxk
+	 wLXVvT7rvaMeL/hslbUgNUhIL/6SF5Ug/q5LYhY+WIYwNyr5zUMvQ+JGKR8cYyq6VK
+	 EgZT4uwz79+n13NHrj8Jz5xikZbnZlVb1dZPTCCwtoEW3W1kAFsnq//fSQTpqcC4zg
+	 yAF6mIGfqIKXsZ/GPD3yUPPqDd4pHrjvJqb5IxkMqI+QScmgZgil+rcAr2QOTAdJwm
+	 yN+nLDAvHf9gKR+KJbTwj4oTIyXwUCROaRBarHVcmidKm9UBhe2PycLEYTy7IMAIyK
+	 y2StxZjt29oVy7zl0zSSgi/Y=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 75AC640E0173;
+	Mon, 14 Sep 2026 04:52:57 +0000 (UTC)
+Date: Sun, 13 Sep 2026 21:52:54 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Aaron Tomlin <atomlin@atomlin.com>, tony.luck@intel.com
+Cc: tglx@kernel.org, mingo@redhat.com, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, frederic@kernel.org,
+	marco.crivellari@suse.com, neelx@suse.com, sean@ashe.io,
+	chjohnst@gmail.com, mproche@gmail.com, nick.lange@gmail.com,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/4] x86/mce: Fix timer and storm tracking races, and
+ avoid redundant polling
+Message-ID: <20260914045254.GEaqd9pgnKrXYU4thR@fat_crate.local>
+References: <20260911201206.532113-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260911201206.532113-1-atomlin@atomlin.com>
 
-ie31200_init_one() enables the PCI device before calling ie31200_probe1().
-If probing fails, it returns without balancing the successful enable,
-leaving the PCI enable count elevated.
+On Fri, Sep 11, 2026 at 04:12:02PM -0400, Aaron Tomlin wrote:
+> This series addresses several distinct issues within the x86 Machine Check
 
-Call pci_disable_device() on that failure path. This also covers the
-direct ie31200_init_one() call from the module initialization fallback,
-while preserving the existing return values and successful probe path.
+There's also this thing:
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
+https://lore.kernel.org/all/6a7ec39f.5b0d2c79.2ef4ef.0002.GAE@google.com
 
-Assisted-by: OpenAI:GPT-5.6
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/edac/ie31200_edac.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Since you two are working on this, probably should productize Thomas's patch
+too, in the last mail of the thread, while at it.
 
-diff --git a/drivers/edac/ie31200_edac.c b/drivers/edac/ie31200_edac.c
-index 6f5fdf43e7732cd23d54dc8392caed4ca7990fcd..88af77ee07fe367f692a89dd55f188aefe912e44 100644
---- a/drivers/edac/ie31200_edac.c
-+++ b/drivers/edac/ie31200_edac.c
-@@ -660,7 +660,9 @@ static int ie31200_init_one(struct pci_dev *pdev,
- 	if (pci_enable_device(pdev) < 0)
- 		return -EIO;
- 	rc = ie31200_probe1(pdev, (struct res_config *)ent->driver_data);
--	if (rc == 0 && !mci_pdev)
-+	if (rc)
-+		pci_disable_device(pdev);
-+	else if (!mci_pdev)
- 		mci_pdev = pci_dev_get(pdev);
- 
- 	return rc;
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
