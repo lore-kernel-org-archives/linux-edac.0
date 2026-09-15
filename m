@@ -1,73 +1,69 @@
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1C63BCD15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBEF3D331E
 	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 08:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789460394; cv=none; b=l6tUFrPsi70uhN/kWZTbXt5jz01az9sMREwHZmvkP8HN4zxhBKpRodC+w/xYysOfFDcAmB34WyvZhNNNTCXNMv4kYe/IURNDP5aS/NZSUw1F33Q7exKyNB5t/KAkXomfwZI8cOzBLQ0WH9VWw2mq0hnyb/W08iGUXQsCkae/BLg=
+	t=1789460397; cv=none; b=ZSo+ubOtfLEU+2EMU060qIx3FEQCNCrdPEQacTT1nXl5yko3eU890jCjpnVwC9qwh0B8Hby5r/kBu2QFwBVKMzXwuxPAUHe3R3KZhfCOOV+R7+75UaRSuJzLU3NYmXXztvXOir9JCiKBD01oe1ag1k8Zpu/xweVdZVMsjwG0POA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789460394; c=relaxed/simple;
-	bh=3J3N+DkEy3lsWD9J78HZ6sRSStJ4fxxRHSgFL3P+msA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KL4yf8l/BiplGrXzDbH5LeJCk4A4lcV5K0TsCqsp3mM994DEVKH0kxLc2Yk3EOlG7OZoZiIPw9Y0aBHRllpYEv+JUU5P++YvtFMz7vQLnbjZnfZriwta0KTsQQfZN1aNffT54SZmAEITnV/ci0sJhC0PIEnzpED/pNdZJ9fbd40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bVryi13z; arc=none smtp.client-ip=209.85.215.199
+	s=arc-20240116; t=1789460397; c=relaxed/simple;
+	bh=hwfRqXyDJjrWnLmHCCnSyQ5c6I5VKxxwWvdwR4gczDI=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=YNvUVq9KKsGcFuc0t2rVXlUe+UJVSFeNL5oRI7h5MFZonMEm1kvEPwaXyHQh2REdm/Fl3Ie6y8Cn8kBZg+tDVPlZPGCiqYXnkjRNpFUiq/ZSfq3HrF9jiJhQJQ1YC/lhaEDop/cUIFbfVyP9od7SRXmC756q+nMYl+hkHdZJFW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kFStyNsf; arc=none smtp.client-ip=209.85.215.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bVryi13z"
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc21bc2923fso4079640a12.2
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kFStyNsf"
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc489e7a701so6024067a12.2
         for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20251104; t=1789460390; x=1790065190; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=12RWpnF69Y0ZtQBdjS9tdwBwekyotqtFAvTiEZFvq+s=;
-        b=bVryi13zjAeTb4P2oQE8Bm4FjSfpjc1SKHUcHUTJ9NXk8ZDIkVLTMOV15cxWlEgWAP
-         bkPZzQvxlAgA+krwc9Q1xT7PKgYaBECs0zfR1psU5DLBG/bePInMPHEHpvH2z7txE6C3
-         BEZ4ejovRc7hk28PYMn4cF+JFJYhLNSbO7ehoxWzX9wz4ji/PLYaocJDsxW/TvHYa9Gl
-         YUP72nuLGSLngD0XY7C8ghUn3l4+/QwUmNxxi+LyDXTB/P7Np4+GMHjkoRtqndRb3HYy
-         Y7B4kMsb7Lng+HXzLRt2Ec0nKuyv+qSMQ9x5PnVsHii3xFO+DdBtrTbKF0ZYEGw7KbdE
-         3whA==
+         :message-id:mime-version:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=cTJ+iDaVRz+oQczzBBEu9x7Pp5Lm2h3B0iGAZglcmy4=;
+        b=kFStyNsf6no/miZzS9f9e0bO+LbLlx0nALsKxyWWFxRsfeWL4uq54zP/54wKmdnETs
+         JN6+GIzvVSSoy0wHCDekSB2YCv/Q4L3cDh7T/w4TP9GVWYWDoLdns/B+Un0epV6L8yRw
+         xCHA+NayFImP2wwXOZrL7HyXmPEyzDrV0R2ZwHZ1jOpUfNkSEjbgXDcOs13Ty3xfcI/z
+         jNWMggNlw/e20k1m4NQfDF7+hjJAPr3+U1awQi+C1Rajk+IrxjV6vzYuAlBs+HPzOGu7
+         Df1YM916Vv17Ue4q+ylkCKnNZIt1wsePHKdGVoP8bsJhgUOMlEKy6MReKjTz7SCij8mt
+         cpyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1789460390; x=1790065190;
         h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=12RWpnF69Y0ZtQBdjS9tdwBwekyotqtFAvTiEZFvq+s=;
-        b=TbQG0ynfsu/p2a2AU+D/Kh/6qVXbrATv5dbvgLHlFzakkZCCTrMg2LngnXgVMjpwk7
-         BtqdRk8F7knnQf4n7Phhp0Ld9V+CHtJJKpS1MGE084NmY2bQtIloUpVGawoanpU3lkbg
-         VSqE+iyBcV21iKF/utfSKsRQMG10U4xJgf3C9nP/QMRmCFCp0OVmXts24+kb7HNEADoI
-         eVwj8DF4mR4vv41ZUogf53R+qZ7pkid+L7iFOCFYVVuEacX//lzG94A1u3uM27i76nBM
-         Wz1ZXlaH0BXvSZ/Q9/+E8j8EpvfAjZ0VD06RVlFpASPDg1gWYcuebo8dvKY3pv/SUYTk
-         bjLQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxyhPC18BPGL+YdDo38Bd2aswiuSTlGa5kGAJXTaB7DVvSRNbo2sMkZJVdcif6zCnyCQ0456RQfwX56@vger.kernel.org
-X-Gm-Message-State: AFuF++n2wGn6yaYEh23Y/LX0V0Jh2ApAsTZ2mRA4RvS4D/GvYjkyTYzC
-	Vs/DQslcoWtG6I7VrYPf5y9NmndH3pltiYGTghkwpqkkQTMTUGxAI+ZPo3BL6O+d21XLPwC8CoC
-	T
-X-Received: from pgdo4-n2.prod.google.com ([2002:a05:6a02:6204:20b0:cc4:31fa:cb70])
- (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:2587:b0:3d1:c99f:efbf
- with SMTP id adf61e73a8af0-3db405a991dmr13264267637.14.1789460389672; Tue, 15
- Sep 2026 01:19:49 -0700 (PDT)
-Date: Tue, 15 Sep 2026 08:18:18 +0000
-In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
+         :message-id:mime-version:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cTJ+iDaVRz+oQczzBBEu9x7Pp5Lm2h3B0iGAZglcmy4=;
+        b=w8i7O/hb4o8qMLvNTYdAQtOzhLiFV09YeQxBu1ey8XHCVRDFRAztU2ichf4Xf9oVXX
+         42fq8J++z23IATJ2QH/H8BN8OrTfmdBUi5hBi23mVGnlkMI89XCYsc+VTqoCOAztR4TY
+         F0hkBwwtYN2/Y26BfVRJWViFBQVMdd2GrEOqak3pswh2FqzcGbGtryPMf7dOQzJs4wj/
+         5oBKpEeQVoEtJdEALfDL8kuok6+Tl+xiW5Q5U7ou7tDqyVDfAYFzpw5xqRw54/kKqIuC
+         TwJ24DH/9H5WECUj5Utrc91MOW+ZMgDKjUzSSUg34hV7hB7cjRazOizpRpH3opFFT3l0
+         /r/w==
+X-Forwarded-Encrypted: i=1; AKwUvBx026UjBoirpGsJ3T46upvV/WTGB1at7UzotqvGsihtzSTQOjW01s23dAhyhaEqZMXy7cL6QxkYWVm2@vger.kernel.org
+X-Gm-Message-State: AFuF++nHMU6PPry6wg33CWp9oeWZ4OmVlEA1DWiNjdvpr7cZm3CkLpWJ
+	HWC90bczqf5Ok8UxjB8sPl+/i4CfpPBE8zZ+PNTbyzncYE33v4J4jhAMrW7c34XLJFDrhpqPkkx
+	N
+X-Received: from pgbo14.prod.google.com ([2002:a63:5a0e:0:b0:cc4:337f:e10f])
+ (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7d9f:b0:3b4:61f:1fec
+ with SMTP id adf61e73a8af0-3db4038ec7cmr15429477637.2.1789460388838; Tue, 15
+ Sep 2026 01:19:48 -0700 (PDT)
+Date: Tue, 15 Sep 2026 08:18:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260915081910.4142719-1-morbo@google.com>
 X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
-Message-ID: <20260915081910.4142719-2-morbo@google.com>
-Subject: [PATCH 01/28] ALSA: ac97: Refactor snd_ac97_get_name() to use snprintf()
+Message-ID: <20260915081910.4142719-1-morbo@google.com>
+Subject: [PATCH 00/28] Replace remaining strlcat() call sites with snprintf()/seq_buf()
 From: Bill Wendling <morbo@google.com>
 To: linux-kernel@vger.kernel.org
-Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
-	Russell King <linux@armlinux.org.uk>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+Cc: Bill Wendling <morbo@google.com>, Russell King <linux@armlinux.org.uk>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
 	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
 	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
@@ -123,19 +119,91 @@ Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-snd_ac97_get_name() appends the codec name using two strlcat() calls and
-then appends the revision using an unbounded sprintf() at
-"name + strlen(name)", which could overflow the destination buffer.
+strlcat() is deprecated: like strcat(), it requires re-scanning the
+destination string from the beginning on every call, which is O(n^2)
+when used to build up a string incrementally, and its truncation
+behavior is easy to get wrong. See:
 
-In preparation for removing the deprecated strlcat() API[1], replace the
-strlcat() and sprintf() calls with a single snprintf() using the existing
-string length, matching the pattern already used in the "else" branch.
+  https://github.com/KSPP/linux/issues/370
 
-Link: https://github.com/KSPP/linux/issues/370 [1]
-Cc: codemender-patching+linux@google.com
-Assisted-by: Claude-3-5-Sonnet:20241022 [editor_update_file, shell_command_=
-run]
-Signed-off-by: Bill Wendling <morbo@google.com>
+This series removes the remaining strlcat() call sites in the tree
+(plus the one inside fortify-string.h's strcat() implementation
+itself), replacing each with snprintf(), scnprintf(), or the seq_buf()
+API, whichever best fits the surrounding code.
+
+One unrelated fix is included. While auditing drivers/edac/thunderx_edac.c
+for its strlcat() conversion, "EDAC/thunderx: Fix stale error context in
+thunderx_l2c_threaded_isr()" addresses a pre-existing bug, present since
+the driver's original 2017 commit: thunderx_l2c_threaded_isr() computes
+its ring "tail"/"ctx" once before its drain loop and never recomputes
+them per iteration, unlike the analogous OCX handlers in the same file,
+so it re-reports the same ring entry for every queued error instead of
+draining the ring. It's split out as its own patch, ahead of the
+strlcat() conversion for that file, so it can be reviewed and
+backported independently of the rest of this series.
+
+Bill Wendling (28):
+  ALSA: ac97: Refactor snd_ac97_get_name() to use snprintf()
+  sunrpc: Refactor rpc_sockaddr2uaddr() to use snprintf() instead of
+    strlcat()
+  ARM: atags: Replace strlcat() with snprintf() for cmdline extend
+  scsi: bfa: Use snprintf() in bfa_fcs_fabric_nsymb_init()
+  ALSA: usb-audio: Refactor usb_audio_make_longname() to use seq_buf
+  comedi: comedi_bond: Refactor strlcat() to seq_buf in do_dev_config()
+  scsi: bfa: Use snprintf() in bfa_fcs_fabric_psymb_init()
+  devlink: Refactor strlcat() to seq_buf in
+    __devlink_compat_running_version()
+  drm/dp_mst: Refactor build_mst_prop_path() to use seq_buf
+  of/fdt: Replace strlcat() with snprintf() in
+    early_init_dt_scan_chosen()
+  wifi: brcmfmac: Replace strlcat() with snprintf() in
+    brcmf_fw_alloc_request()
+  fortify: Convert strlcat() to snprintf() in strcat()
+  i40e: Replace strlcat() with snprintf() in i40e_nvm_version_str()
+  ALSA: usb-audio: Refactor append_ctl_name() to use snprintf()
+  orangefs: Use seq_buf for debug help string generation
+  pinctrl: samsung: Use snprintf() to construct pin bank names
+  MIPS: cmdline: Refactor bootcmdline_append() to use snprintf()
+  LoongArch: Refactor bootcmdline_init() to use seq_buf instead of
+    strlcat()
+  x86/setup: Use snprintf() to concatenate builtin and boot command
+    lines
+  parisc: Refactor strlcat() to seq_buf in setup_cmdline()
+  NFS: nfsroot: Refactor root_nfs_cat() to use snprintf()
+  media: si2165: Use snprintf() to format frontend name
+  Input: synaptics_usb - use seq_buf and snprintf() for name and phys
+  EDAC/thunderx: Fix stale error context in thunderx_l2c_threaded_isr()
+  EDAC/thunderx: Replace strlcat() with seq_buf
+  wifi: wil6210: Refactor resume_triggers2string() to use seq_buf
+  drm/xe/pf: Convert strlcat() to seq_buf in control_read()
+  drm/xe/pf: Refactor strlcat() to seq_buf in sched_group_engines_read()
+
+ arch/arm/kernel/atags_parse.c                 |  7 +-
+ arch/loongarch/kernel/setup.c                 | 22 +++--
+ arch/mips/kernel/setup.c                      | 21 ++++-
+ arch/parisc/kernel/setup.c                    | 16 ++--
+ arch/x86/kernel/setup.c                       |  8 +-
+ drivers/comedi/drivers/comedi_bond.c          | 16 ++--
+ drivers/edac/thunderx_edac.c                  | 67 ++++++++++------
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 15 ++--
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c   | 24 +++---
+ drivers/input/mouse/synaptics_usb.c           | 29 ++++---
+ drivers/media/dvb-frontends/si2165.c          | 17 ++--
+ drivers/net/ethernet/intel/i40e/i40e.h        | 15 +++-
+ drivers/net/wireless/ath/wil6210/wmi.c        | 38 +++++----
+ .../broadcom/brcm80211/brcmfmac/firmware.c    | 21 ++---
+ drivers/of/fdt.c                              | 11 ++-
+ drivers/pinctrl/samsung/pinctrl-samsung.c     |  3 +-
+ drivers/scsi/bfa/bfa_fcs.c                    | 80 +++++--------------
+ fs/nfs/nfsroot.c                              | 11 ++-
+ fs/orangefs/orangefs-debugfs.c                | 36 ++++-----
+ include/linux/fortify-string.h                |  7 +-
+ net/devlink/dev.c                             |  8 +-
+ net/sunrpc/addr.c                             | 16 ++--
+ sound/pci/ac97/ac97_codec.c                   |  9 ++-
+ sound/usb/card.c                              | 58 +++++++++-----
+ sound/usb/mixer.c                             |  8 +-
+ 25 files changed, 309 insertions(+), 254 deletions(-)
 ---
 Cc: Russell King <linux@armlinux.org.uk>
 Cc: Huacai Chen <chenhuacai@kernel.org>
@@ -247,41 +315,7 @@ Cc: linux-nfs@vger.kernel.org
 Cc: devel@lists.orangefs.org
 Cc: linux-hardening@vger.kernel.org
 Cc: linux-sound@vger.kernel.org
----
- sound/pci/ac97/ac97_codec.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
-index 0bb65be021d9..e145099ee02a 100644
---- a/sound/pci/ac97/ac97_codec.c
-+++ b/sound/pci/ac97/ac97_codec.c
-@@ -1850,10 +1850,12 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsig=
-ned int id, char *name,
-=20
- 	pid =3D look_for_codec_id(snd_ac97_codec_ids, id);
- 	if (pid) {
--		strlcat(name, " ", maxlen);
--		strlcat(name, pid->name, maxlen);
-+		int l =3D strlen(name);
-+
- 		if (pid->mask !=3D 0xffffffff)
--			sprintf(name + strlen(name), " rev %u", id & ~pid->mask);
-+			snprintf(name + l, maxlen - l, " %s rev %u", pid->name, id & ~pid->mask=
-);
-+		else
-+			snprintf(name + l, maxlen - l, " %s", pid->name);
- 		if (ac97 && pid->patch) {
- 			if ((modem && (pid->flags & AC97_MODEM_PATCH)) ||
- 			    (! modem && ! (pid->flags & AC97_MODEM_PATCH)))
-@@ -1861,6 +1863,7 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigne=
-d int id, char *name,
- 		}
- 	} else {
- 		int l =3D strlen(name);
-+
- 		snprintf(name + l, maxlen - l, " id %x", id & 0xff);
- 	}
- }
 --=20
-2.55.0.1032.g73a4cd73de-goog
+2.47.3
 
