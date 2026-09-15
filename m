@@ -1,57 +1,57 @@
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B58F3DD50D
-	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 08:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5601E472F6A
+	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 08:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789460458; cv=none; b=qYkTcafTOx3J5mLJdzCd3PJBIjNCb7IjDlE6SZ6hieWphY1uKzntWYDwKaBXviYi6HG/xdXkE4jhmlVe3vc6XJMCnXdIDUuLAKqoSIhZxfrUxdafunmx84ZOXWFoxmBALLkmCwmWMKAZwt23Al1AUdDuoPuOZri0HoVUs2dHr5o=
+	t=1789460464; cv=none; b=nVwwLcOBPAg206jIaZLdU5aWTLpTHXJ3zhx+OEJRXMou8JxZwnZrRE3Dg87OaqyYIwpkiVGzItEHq9EtE56MEzWK61tPeHSNaeI/6W9mSXOCuocud/VbA4AWnyHycF7pDJEejQwU6d2uKMqdaE6QW7y12fq2p7xiOPkIHL6ZBTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789460458; c=relaxed/simple;
-	bh=AdZQZFBZ+Sq+Xs3+ioKoxuNwDqkD/CEsMpiPWsVgYCg=;
+	s=arc-20240116; t=1789460464; c=relaxed/simple;
+	bh=z7dasmw4/Yd5J5NMYLIKQKAVayxIH5dLlb/JPMHBnRA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MyeVMg0pNLIcFOo9lekyVMh2a7CUj3d4oReUEPn0bmCdFFq2goPKzHYcYuFkJiHFFHJUZzgPP+xAdg+0FCtYOnJjwsjKn4epfU9V3gsTgW/dtYNm9rmN67mmwloSBl3LSEz1Hcpy0dMZkXdEBa0Z9bWawEOnqyZbq5+D0nHDsbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vBVtqcUC; arc=none smtp.client-ip=209.85.214.197
+	 To:Cc:Content-Type; b=ioraOMdDgzao0WEvc45KlwskZSUacXkDZGY/s6ogii8MC2xNo2uebJc3n510nGW0YEBFRJFTi0PESXtsHy6AXD3Stg7PhAReIvklttXHcVsZaaZ1mik/61GK+fd5hmkbt8Ref5Zz0rPW3QvTQ/lukpYzSNR8BDiX0YJGRySCosY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DnkxJOzA; arc=none smtp.client-ip=209.85.214.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vBVtqcUC"
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cc73f47bdcso54166395ad.3
-        for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:19:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DnkxJOzA"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cec4226c70so55725895ad.1
+        for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789460392; x=1790065192; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789460408; x=1790065208; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=i189Z1372pvpafDRMVnLFn5IBf8O4Z3ONLFW1RCweBo=;
-        b=vBVtqcUCX+8ud21NR6zM1UBUXr9RWNkdq/zkdnNDQSOitjYdpnPW6r6kLFJnRYuJey
-         64NgGgEaNnPTHqHcaLrpc6HwG70ISVOf/vvuW6gkzIo7eFJvHEBj84UsI2X8c8zT8Jq4
-         Wkt/09k+DVZXuWiDoFJTXT3/fPCUe6DwgV0dtU2UItH56Zs/5heOx1tBguLdmaJUZf8v
-         Of2ZKM++OITBbkrkNgEakIH6l+ipFOGlWs8mHgzX/4yh5JBo/qnqIvJIVLWrd6KX/i+w
-         PlzWHu3yTcI3tJj+uGA/KI501zkzoIc9NEI2bpc6VNykX4NmdVn0cjlrePCeN8jw5B1x
-         6ETQ==
+        bh=jabuqrMs8PQTYoTuRH1Tce2jM5ZfyHhnXojFxmEofr0=;
+        b=DnkxJOzAoYRCvFrZNk61l1D/qL7p6eKsJCT8XtQ2LGfkP45WZDxWz+OJQxlIz84IKb
+         MYOUF5eg2kJaGwcsK75t1FQYHvvOuJ1hJBQAlbEG+j3wOQ+Ga+E+8yeCWIJtsN/B2Q7h
+         uyUvcSV41pGlf+lQ1qS9X/yPmlx5TzzQjayk4tek7rCmZ6oXMf6J5SGt29zqCfU2sK76
+         mh0UG8NgBKykfkhIS7NKBs1uyGwwJyakNCtuFF+vreH2UHkQ9bgNSqCoRzUaLDigbonq
+         KQ8EIVMNfuo4wfDS56OYC/SnEG47oux3eQnv8+PGUcAHN7PgFKmpV3mYlGRdC3DgKlA6
+         3Daw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789460392; x=1790065192;
+        d=1e100.net; s=20260707; t=1789460408; x=1790065208;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=i189Z1372pvpafDRMVnLFn5IBf8O4Z3ONLFW1RCweBo=;
-        b=t56eeRkhUvof/klB+021eZjT2kxDS0bhxBlcYanrbfOGcA1/tfkbQfc+oMEB/E8P81
-         PEz+k3o/SsjtupIbN0t1QGbshxOZwUk1edVy/2THIVMsZXwqTRorHom+co+YMFXRz+87
-         T4Y7SUvHA058IGz+xMOnOe+yS7TOt5WcSrfvFR8Pxp8A7eecz+v1wfvuZ20Oi9DRSwPq
-         drJwl6nzL3RlWSNX+QPfXVdEn5Ajye9Uq2RcjtjBsrSYU/U1gUtQznY4erPiSSIWtG1R
-         oX8GLPkj3pNi2pSRxXgKRnsuhyZNZs+S/0FOSLIeXy62YdqZ++oHQUWhHOncWZTQroCG
-         ldmQ==
-X-Forwarded-Encrypted: i=1; AKwUvByeslu6md4erbcxE+EzU1irg5b4wA9a2o7FzqQduUSVe7xvTX1EsqdnD68/Yis+m1ymJmkWPbWUq1is@vger.kernel.org
-X-Gm-Message-State: AFuF++kYIVfnT5aTPjnrA3up6S8E1IeKA/FQkbh9DJgUFun2QPO6/NEO
-	3/ijLL/j9Yn4oRFenXSE+CFmKbTcxAlCmJHrBYtYslFrA8PFJdPlhuvSC6xqiyi3JvNc+lbp+SV
-	4
-X-Received: from plrd12.prod.google.com ([2002:a17:902:aa8c:b0:2db:8b6a:31a7])
- (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:388d:b0:2dd:143:d5
- with SMTP id d9443c01a7336-2dd6c75a396mr155065525ad.22.1789460390543; Tue, 15
- Sep 2026 01:19:50 -0700 (PDT)
-Date: Tue, 15 Sep 2026 08:18:19 +0000
+        bh=jabuqrMs8PQTYoTuRH1Tce2jM5ZfyHhnXojFxmEofr0=;
+        b=bPNvq9GogVb42hL0/AVvxPXNw/VOTdiayEG1KPeZg1nR8aL7UBjC2sWBzCMABa6F0W
+         RWuWYcPNzzxdCBDP4KWMPHmyuiUnHUJFIn8C/n9p4NDRPQsRyP8NCDB23SMic2TRcou/
+         79428yqkMDi5ETc0GhzfkvvYSeafnzBr49PFzH9bGrUJuOfnREJq9GCTxSj1D7WKBDWN
+         lexWfBNLg9GFD64WtJaD4ET6btSUzc56nPkbUOOcdJ5dzDazXbpz1DOU0aYcMp4LMQVj
+         5eHUXy6sUi8cJRsp/XNzqyyipv9BWhZWa+dgqSD/L3A0YIEwvFJR3vKfKneaEMv1J+zs
+         ltAg==
+X-Forwarded-Encrypted: i=1; AKwUvBx9UfpOMxaihFLjVj1gJQeU1OfVaVn3Ge6bwHyYH2mlufadcUDNMetbNmYq5vdDQQ3X6jN9Krrb1iL+@vger.kernel.org
+X-Gm-Message-State: AFuF++nwMgqs4wiAHQL+0vUV54R+GQJuHtsLe7pqw9SJbTQgL6pfpG/Y
+	RGdu5O/AkSKkCEtyzCFDbqQnVIA3iXYtjySD0M58MO50W7jq8CbUa3WbyaQGC+7yL9GuajH8YXf
+	6
+X-Received: from plde9.prod.google.com ([2002:a17:902:d389:b0:2db:820a:9228])
+ (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f786:b0:2dd:4070:8f5
+ with SMTP id d9443c01a7336-2dd6c758602mr148465515ad.21.1789460407562; Tue, 15
+ Sep 2026 01:20:07 -0700 (PDT)
+Date: Tue, 15 Sep 2026 08:18:32 +0000
 In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -61,9 +61,8 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260915081910.4142719-1-morbo@google.com>
 X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
-Message-ID: <20260915081910.4142719-3-morbo@google.com>
-Subject: [PATCH 02/28] sunrpc: Refactor rpc_sockaddr2uaddr() to use snprintf()
- instead of strlcat()
+Message-ID: <20260915081910.4142719-16-morbo@google.com>
+Subject: [PATCH 15/28] orangefs: Use seq_buf for debug help string generation
 From: Bill Wendling <morbo@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
@@ -124,18 +123,23 @@ Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-rpc_sockaddr2uaddr() formats the IP address into "addrbuf", formats the
-port into a temporary "portbuf" buffer with snprintf(), and then appends
-"portbuf" to "addrbuf" using strlcat().
+orangefs_prepare_debugfs_help_string() constructs the debugfs help text in
+a dynamically allocated buffer using repeated strlcat() calls across
+keyword loops, rescanning the buffer on every append.
 
-In preparation for removing the deprecated strlcat() API[1], capture the
-length returned by rpc_ntop4() and rpc_ntop6_noscopeid() and format the
-port directly onto the end of "addrbuf" with snprintf(). This eliminates
-the strlcat() call and the temporary "portbuf" buffer.
+In preparation for removing the deprecated strlcat() API[1], use struct
+seq_buf to build the help string. This tracks the write position across
+the loops, allows formatting each keyword line with a single
+seq_buf_printf() call, and checks for truncation via
+seq_buf_has_overflowed().
+
+Additionally, replace the final strlcat() call that copies the completed
+string into debug_help_string with strscpy().
 
 Link: https://github.com/KSPP/linux/issues/370 [1]
 Cc: codemender-patching+linux@google.com
-Assisted-by: CoPilot:3.5-sonnet [editor_update_file, shell_command_run]
+Assisted-by: Gemini:gemini-2.0-flash-exp [shell_command_run, editor_update_=
+file]
 Signed-off-by: Bill Wendling <morbo@google.com>
 ---
 Cc: Russell King <linux@armlinux.org.uk>
@@ -249,58 +253,97 @@ Cc: devel@lists.orangefs.org
 Cc: linux-hardening@vger.kernel.org
 Cc: linux-sound@vger.kernel.org
 ---
- net/sunrpc/addr.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ fs/orangefs/orangefs-debugfs.c | 36 +++++++++++++---------------------
+ 1 file changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/net/sunrpc/addr.c b/net/sunrpc/addr.c
-index 97ff11973c49..a1e4173e5a53 100644
---- a/net/sunrpc/addr.c
-+++ b/net/sunrpc/addr.c
-@@ -264,18 +264,20 @@ EXPORT_SYMBOL_GPL(rpc_pton);
+diff --git a/fs/orangefs/orangefs-debugfs.c b/fs/orangefs/orangefs-debugfs.=
+c
+index 9f94919a6bc6..6e2f9887eab4 100644
+--- a/fs/orangefs/orangefs-debugfs.c
++++ b/fs/orangefs/orangefs-debugfs.c
+@@ -37,6 +37,7 @@
   */
- char *rpc_sockaddr2uaddr(const struct sockaddr *sap, gfp_t gfp_flags)
- {
--	char portbuf[RPCBIND_MAXUADDRPLEN];
- 	char addrbuf[RPCBIND_MAXUADDRLEN];
- 	unsigned short port;
-+	size_t len;
+ #include <linux/debugfs.h>
+ #include <linux/slab.h>
++#include <linux/seq_buf.h>
 =20
- 	switch (sap->sa_family) {
- 	case AF_INET:
--		if (rpc_ntop4(sap, addrbuf, sizeof(addrbuf)) =3D=3D 0)
-+		len =3D rpc_ntop4(sap, addrbuf, sizeof(addrbuf));
-+		if (len =3D=3D 0 || len >=3D sizeof(addrbuf))
- 			return NULL;
- 		port =3D ntohs(((struct sockaddr_in *)sap)->sin_port);
- 		break;
- 	case AF_INET6:
--		if (rpc_ntop6_noscopeid(sap, addrbuf, sizeof(addrbuf)) =3D=3D 0)
-+		len =3D rpc_ntop6_noscopeid(sap, addrbuf, sizeof(addrbuf));
-+		if (len =3D=3D 0 || len >=3D sizeof(addrbuf))
- 			return NULL;
- 		port =3D ntohs(((struct sockaddr_in6 *)sap)->sin6_port);
- 		break;
-@@ -283,11 +285,8 @@ char *rpc_sockaddr2uaddr(const struct sockaddr *sap, g=
-fp_t gfp_flags)
- 		return NULL;
+ #include <linux/uaccess.h>
+=20
+@@ -623,10 +624,10 @@ int orangefs_prepare_debugfs_help_string(int at_boot)
+ 	char *client_title =3D "Client Debug Keywords:\n";
+ 	char *kernel_title =3D "Kernel Debug Keywords:\n";
+ 	size_t string_size =3D  DEBUG_HELP_STRING_SIZE;
+-	size_t result_size;
+ 	size_t i;
+ 	char *new;
+ 	int rc =3D -EINVAL;
++	struct seq_buf s;
+=20
+ 	gossip_debug(GOSSIP_UTILS_DEBUG, "%s: start\n", __func__);
+=20
+@@ -640,17 +641,14 @@ int orangefs_prepare_debugfs_help_string(int at_boot)
+ 		goto out;
  	}
 =20
--	if (snprintf(portbuf, sizeof(portbuf),
--		     ".%u.%u", port >> 8, port & 0xff) >=3D (int)sizeof(portbuf))
--		return NULL;
--
--	if (strlcat(addrbuf, portbuf, sizeof(addrbuf)) >=3D sizeof(addrbuf))
-+	if (snprintf(addrbuf + len, sizeof(addrbuf) - len,
-+		     ".%u.%u", port >> 8, port & 0xff) >=3D sizeof(addrbuf) - len)
- 		return NULL;
-=20
- 	return kstrdup(addrbuf, gfp_flags);
-@@ -352,3 +351,4 @@ size_t rpc_uaddr2sockaddr(struct net *net, const char *=
-uaddr,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(rpc_uaddr2sockaddr);
++	seq_buf_init(&s, new, string_size);
 +
+ 	/*
+-	 * strlcat(dst, src, size) will append at most
+-	 * "size - strlen(dst) - 1" bytes of src onto dst,
+-	 * null terminating the result, and return the total
+-	 * length of the string it tried to create.
+-	 *
+ 	 * We'll just plow through here building our new debug
+-	 * help string and let strlcat take care of assuring that
++	 * help string and let seq_buf take care of assuring that
+ 	 * dst doesn't overflow.
+ 	 */
+-	strlcat(new, client_title, string_size);
++	seq_buf_puts(&s, client_title);
+=20
+ 	if (!at_boot) {
+=20
+@@ -665,24 +663,18 @@ int orangefs_prepare_debugfs_help_string(int at_boot)
+ 			goto out;
+ 		}
+=20
+-		for (i =3D 0; i < cdm_element_count; i++) {
+-			strlcat(new, "\t", string_size);
+-			strlcat(new, cdm_array[i].keyword, string_size);
+-			strlcat(new, "\n", string_size);
+-		}
++		for (i =3D 0; i < cdm_element_count; i++)
++			seq_buf_printf(&s, "\t%s\n", cdm_array[i].keyword);
+ 	}
+=20
+-	strlcat(new, "\n", string_size);
+-	strlcat(new, kernel_title, string_size);
++	seq_buf_puts(&s, "\n");
++	seq_buf_puts(&s, kernel_title);
+=20
+-	for (i =3D 0; i < num_kmod_keyword_mask_map; i++) {
+-		strlcat(new, "\t", string_size);
+-		strlcat(new, s_kmod_keyword_mask_map[i].keyword, string_size);
+-		result_size =3D strlcat(new, "\n", string_size);
+-	}
++	for (i =3D 0; i < num_kmod_keyword_mask_map; i++)
++		seq_buf_printf(&s, "\t%s\n", s_kmod_keyword_mask_map[i].keyword);
+=20
+ 	/* See if we tried to put too many bytes into "new"... */
+-	if (result_size >=3D string_size) {
++	if (seq_buf_has_overflowed(&s)) {
+ 		kfree(new);
+ 		goto out;
+ 	}
+@@ -692,7 +684,7 @@ int orangefs_prepare_debugfs_help_string(int at_boot)
+ 	} else {
+ 		mutex_lock(&orangefs_help_file_lock);
+ 		memset(debug_help_string, 0, DEBUG_HELP_STRING_SIZE);
+-		strlcat(debug_help_string, new, string_size);
++		strscpy(debug_help_string, new, DEBUG_HELP_STRING_SIZE);
+ 		mutex_unlock(&orangefs_help_file_lock);
+ 		kfree(new);
+ 	}
 --=20
 2.55.0.1032.g73a4cd73de-goog
 
