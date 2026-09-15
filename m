@@ -1,123 +1,287 @@
-Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67C03CF213
-	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1C63BCD15
+	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 08:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789437339; cv=none; b=plh7qdbviCrOx1GtKzCS4F2emY9cbPAnrgzLJFq0UNUWIZdMd1bEfJtp1LOhEdaJ3cvSMn+DxlZXLUWXMoxGgQgf3noYkHK80AnOdmU0VZ+o8f725jO23mYy5Bghd81jKrTC93cYn6/oGpDs2Y1NbyDxH9rPOrbeYiXf7NNJ9Xg=
+	t=1789460394; cv=none; b=l6tUFrPsi70uhN/kWZTbXt5jz01az9sMREwHZmvkP8HN4zxhBKpRodC+w/xYysOfFDcAmB34WyvZhNNNTCXNMv4kYe/IURNDP5aS/NZSUw1F33Q7exKyNB5t/KAkXomfwZI8cOzBLQ0WH9VWw2mq0hnyb/W08iGUXQsCkae/BLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789437339; c=relaxed/simple;
-	bh=YSvTJwjDAjCvoWE2T05StqLkRwhDOCuesdzub+bU8P8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c3bgw49PcwxzVvEC+5ZUzakWnbdgq+2gPhxG5vC5rswwk4nZpBLzctop/2r7QiVRsk3P5fj5w2MVZTDYI4GOZXiCjtKO0Ak7XFS8VccS6LnbjgjcOreMgAWa8vUHi1bpwaYXfYXMJZh5ne6WfqFH2IBJZN5y+b3ZRtbY1rgecQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A+GZCKmf; arc=none smtp.client-ip=74.125.230.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789460394; c=relaxed/simple;
+	bh=3J3N+DkEy3lsWD9J78HZ6sRSStJ4fxxRHSgFL3P+msA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KL4yf8l/BiplGrXzDbH5LeJCk4A4lcV5K0TsCqsp3mM994DEVKH0kxLc2Yk3EOlG7OZoZiIPw9Y0aBHRllpYEv+JUU5P++YvtFMz7vQLnbjZnfZriwta0KTsQQfZN1aNffT54SZmAEITnV/ci0sJhC0PIEnzpED/pNdZJ9fbd40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bVryi13z; arc=none smtp.client-ip=209.85.215.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+GZCKmf"
-Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-530c602630bso29124161cf.3
-        for <linux-edac@vger.kernel.org>; Mon, 14 Sep 2026 18:55:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bVryi13z"
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc21bc2923fso4079640a12.2
+        for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789437337; x=1790042137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sQzxIfg2AQzCkVpbVYXrLDBgU99fKCXJvWhA7g6zSYM=;
-        b=A+GZCKmfuOTbccApiqULuH46tzXOjRXMUGLUEbjteF8ZhP8mPCWRUQPre5tNan3k+S
-         eS9mxuoij3LXCk7BG1EaILuTIJ/sPZ/8A1NkNX+3JvtnHGZ0+gZuBbNxQDPTCABeL9dA
-         RmVcl2E2cQ6ruP0wmmvB4HacfnSYB5bD8fwtTkpcI6XhGfpgj/tVIoqywwrsFgT+z70j
-         IgsAdp2N8Uiba5O67b0JAfWq3KQcEy0srgiyHr+nCoKLEl0rnKme/iZd/Zc8EEaPOVUu
-         /I4v3Gcrko/eSTEjlp2qIb2DxlyJl7WOW4a2yl2lIS5nVQNC13aw2Ig9ESk/mONy5dmD
-         Q/JA==
+        d=google.com; s=20251104; t=1789460390; x=1790065190; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=12RWpnF69Y0ZtQBdjS9tdwBwekyotqtFAvTiEZFvq+s=;
+        b=bVryi13zjAeTb4P2oQE8Bm4FjSfpjc1SKHUcHUTJ9NXk8ZDIkVLTMOV15cxWlEgWAP
+         bkPZzQvxlAgA+krwc9Q1xT7PKgYaBECs0zfR1psU5DLBG/bePInMPHEHpvH2z7txE6C3
+         BEZ4ejovRc7hk28PYMn4cF+JFJYhLNSbO7ehoxWzX9wz4ji/PLYaocJDsxW/TvHYa9Gl
+         YUP72nuLGSLngD0XY7C8ghUn3l4+/QwUmNxxi+LyDXTB/P7Np4+GMHjkoRtqndRb3HYy
+         Y7B4kMsb7Lng+HXzLRt2Ec0nKuyv+qSMQ9x5PnVsHii3xFO+DdBtrTbKF0ZYEGw7KbdE
+         3whA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789437337; x=1790042137;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sQzxIfg2AQzCkVpbVYXrLDBgU99fKCXJvWhA7g6zSYM=;
-        b=YvfjkswA6tVbTP+mP0Fs+9ZTpVktwRfrGK33rYxtkfsPcZwgoMj30uP0S0qKgQuTJS
-         1vz1FQHYHF3bgwEbIJ+5iD7WsqIxEb0jQSZA3EfY2Gy/7Yz2q5+O/6uqE8TrjyOl2IBI
-         4MxHY2Q+XHwsf/GwqURwZQp5ZAIso5DRP4xuP5gWTtUekBJCXMLIEqFw+eY2s5Iw5+Jd
-         OFH1xQCp74POEi5cm8wbU9BKIZv6m3lzQJg0hXRiXTPZVh4MKCOhN89sg69l5EWqOhc+
-         Qp2mF/fiJwk+z+l2Pl2NwjUkjH3Aq+L0/WO7qWCbSiK9upvOwyMJ91/b1Mxtmc/iwuYH
-         XC9Q==
-X-Gm-Message-State: AFuF++m+VR6uLqvbMNnvnSIvxyz8P4glVeNM1NT+aNVFpS1nZCWKTrPu
-	kFPAwGV/GZkBVSxbYfmQOeyoGaT8mvHdtrC0BNc0uC5Jk44YD+dAzNY=
-X-Gm-Gg: AYBFou1g65R3+t+cj6Oe81JfULvJJ9wiXPnBrGypL+msM3rFR7RW65qqOXxY/WLuMsw
-	OS/HgI4zCTk6T1cmah8gU+PIMp+ijiDlq4YXI6LUILXpFtCsNaw1BsrRfWdVHOElplnLNh2Q1Nr
-	/Lk/86JBQYeMG1AzuIMpqjz39tIbgRPyrdDW/oaifkKPFC/uy/sorteY5CZmD15tj74EwGipCGt
-	NZgUy85VUyz+1VI4JCEpOvpHJZ0BT8aCSeQyFo6iRcOyvr99iEICBwsXWNzKppVAsVXksU9hgAu
-	A9SnRqbVJjgf0da69PK0m9j6RH6S72SUgeGzU3c3VySyu4Y0z0HRXDAPGeeQjZuTHEFfcN+4CSv
-	lh3U7oU4Jw3lQNojitMKsp87Nr5j65DIS8bfn/q9fGFd7fy4pZxtTKc7juQnmGAXyvREBiUuMW9
-	jyCETEssZmxCUq87Hkz46sIep0XSx/E/2T2XB4mGonu62umqKqSGBHS2EvEQFjiqV4RwdEuvERw
-	dHcHdrcZCbLylDWOF+s+jrZnaxnl3n1szI8Bb9BR/oCoGPcLrwwKqkic4rK5Y7S4Y94VNavKu2S
-	PzroQcj5GJ9s1k/v0uAZgQB32pNKgkFWf5RjTVap3hrK9HyVeUXH/rhN2rbpVx2AKnbbnw==
-X-Received: by 2002:a05:622a:387:b0:530:ba79:edd3 with SMTP id d75a77b69052e-5310d09f26emr80280201cf.62.1789437336690;
-        Mon, 14 Sep 2026 18:55:36 -0700 (PDT)
-Received: from 6e-wmo5420-02.ad.psu.edu.net (6e-wmo5420-02.ad.psu.edu. [104.39.213.233])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9120f5ebc79sm109264546d6.48.2026.09.14.18.55.35
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 14 Sep 2026 18:55:35 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] EDAC/x38: Balance PCI device enablement
-Date: Mon, 14 Sep 2026 21:55:19 -0400
-Message-ID: <20260915015519.83833-4-mhun512@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20260915015519.83833-1-mhun512@gmail.com>
-References: <20260915015519.83833-1-mhun512@gmail.com>
+        d=1e100.net; s=20260707; t=1789460390; x=1790065190;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=12RWpnF69Y0ZtQBdjS9tdwBwekyotqtFAvTiEZFvq+s=;
+        b=TbQG0ynfsu/p2a2AU+D/Kh/6qVXbrATv5dbvgLHlFzakkZCCTrMg2LngnXgVMjpwk7
+         BtqdRk8F7knnQf4n7Phhp0Ld9V+CHtJJKpS1MGE084NmY2bQtIloUpVGawoanpU3lkbg
+         VSqE+iyBcV21iKF/utfSKsRQMG10U4xJgf3C9nP/QMRmCFCp0OVmXts24+kb7HNEADoI
+         eVwj8DF4mR4vv41ZUogf53R+qZ7pkid+L7iFOCFYVVuEacX//lzG94A1u3uM27i76nBM
+         Wz1ZXlaH0BXvSZ/Q9/+E8j8EpvfAjZ0VD06RVlFpASPDg1gWYcuebo8dvKY3pv/SUYTk
+         bjLQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxyhPC18BPGL+YdDo38Bd2aswiuSTlGa5kGAJXTaB7DVvSRNbo2sMkZJVdcif6zCnyCQ0456RQfwX56@vger.kernel.org
+X-Gm-Message-State: AFuF++n2wGn6yaYEh23Y/LX0V0Jh2ApAsTZ2mRA4RvS4D/GvYjkyTYzC
+	Vs/DQslcoWtG6I7VrYPf5y9NmndH3pltiYGTghkwpqkkQTMTUGxAI+ZPo3BL6O+d21XLPwC8CoC
+	T
+X-Received: from pgdo4-n2.prod.google.com ([2002:a05:6a02:6204:20b0:cc4:31fa:cb70])
+ (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:2587:b0:3d1:c99f:efbf
+ with SMTP id adf61e73a8af0-3db405a991dmr13264267637.14.1789460389672; Tue, 15
+ Sep 2026 01:19:49 -0700 (PDT)
+Date: Tue, 15 Sep 2026 08:18:18 +0000
+In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
 List-Id: <linux-edac.vger.kernel.org>
 List-Subscribe: <mailto:linux-edac+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260915081910.4142719-1-morbo@google.com>
+X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
+Message-ID: <20260915081910.4142719-2-morbo@google.com>
+Subject: [PATCH 01/28] ALSA: ac97: Refactor snd_ac97_get_name() to use snprintf()
+From: Bill Wendling <morbo@google.com>
+To: linux-kernel@vger.kernel.org
+Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
+	Russell King <linux@armlinux.org.uk>, Huacai Chen <chenhuacai@kernel.org>, 
+	WANG Xuerui <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Tony Luck <tony.luck@intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	"=?UTF-8?q?Thomas=20Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Matthias Schwarzott <zzam@gentoo.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Arend van Spriel <arend.vanspriel@broadcom.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Linus Walleij <linusw@kernel.org>, 
+	Anil Gurumurthy <anil.gurumurthy@qlogic.com>, 
+	Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, Kees Cook <kees@kernel.org>, 
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Chuck Lever <cel@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Kanglong Wang <wangkanglong@loongson.cn>, Tiezhu Yang <yangtiezhu@loongson.cn>, 
+	Qiang Ma <maqianga@uniontech.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, Ard Biesheuvel <ardb@kernel.org>, Breno Leitao <leitao@debian.org>, 
+	Thorsten Blum <blum@kernel.org>, Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lyude Paul <lyude@redhat.com>, 
+	Ashutosh Desai <ashutoshdesai993@gmail.com>, Imre Deak <imre.deak@intel.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Johan Hovold <johan@kernel.org>, 
+	Johannes Berg <johannes.berg@intel.com>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, 
+	Cryolitia PukNgae <cryolitia@uniontech.com>, Jiaming Zhang <r772577952@gmail.com>, 
+	Will Porter <mrwillporter@gmail.com>, Cen Zhang <zzzccc427@gmail.com>, 
+	"=?UTF-8?q?C=C3=A1ssio=20Gabriel?=" <cassiogabrielcontato@gmail.com>, Rong Zhang <i@rong.moe>, 
+	Arun Raghavan <arunr@valvesoftware.com>, linux-arm-kernel@lists.infradead.org, 
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, linux-edac@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev, 
+	brcm80211-dev-list.pdl@broadcom.com, devicetree@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	devel@lists.orangefs.org, linux-hardening@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-x38_init_one() leaves the PCI enable reference held when probing fails
-and when the controller is removed. Disable the device on probe failure
-and after removing the EDAC controller. Keep explicit cleanup because
-module initialization can call x38_init_one() outside PCI driver binding.
+snd_ac97_get_name() appends the codec name using two strlcat() calls and
+then appends the revision using an unbounded sprintf() at
+"name + strlen(name)", which could overflow the destination buffer.
 
-This issue was identified during our ongoing static-analysis research
-while reviewing kernel code.
+In preparation for removing the deprecated strlcat() API[1], replace the
+strlcat() and sprintf() calls with a single snprintf() using the existing
+string length, matching the pattern already used in the "else" branch.
 
-Fixes: df8bc08c192f ("edac x38: new MC driver module")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Link: https://github.com/KSPP/linux/issues/370 [1]
+Cc: codemender-patching+linux@google.com
+Assisted-by: Claude-3-5-Sonnet:20241022 [editor_update_file, shell_command_=
+run]
+Signed-off-by: Bill Wendling <morbo@google.com>
 ---
- drivers/edac/x38_edac.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: WANG Xuerui <kernel@xen0n.name>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Thomas Gleixner <tglx@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ian Abbott <abbotti@mev.co.uk>
+Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Matthias Schwarzott <zzam@gentoo.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Arend van Spriel <arend.vanspriel@broadcom.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Saravana Kannan <saravanak@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Cc: Peter Griffin <peter.griffin@linaro.org>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Linus Walleij <linusw@kernel.org>
+Cc: Anil Gurumurthy <anil.gurumurthy@qlogic.com>
+Cc: Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>
+Cc: "Martin K. Petersen" <mkp@kernel.org>
+Cc: Trond Myklebust <trondmy@kernel.org>
+Cc: Anna Schumaker <anna@kernel.org>
+Cc: Mike Marshall <hubcap@omnibond.com>
+Cc: Martin Brandenburg <martin@omnibond.com>
+Cc: Kees Cook <kees@kernel.org>
+Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Simon Horman <horms@kernel.org>
+Cc: Chuck Lever <cel@kernel.org>
+Cc: Jeff Layton <jlayton@kernel.org>
+Cc: NeilBrown <neil@brown.name>
+Cc: Olga Kornievskaia <okorniev@redhat.com>
+Cc: Dai Ngo <Dai.Ngo@oracle.com>
+Cc: Tom Talpey <tom@talpey.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Bill Wendling <morbo@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Kanglong Wang <wangkanglong@loongson.cn>
+Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Qiang Ma <maqianga@uniontech.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Breno Leitao <leitao@debian.org>
+Cc: Thorsten Blum <blum@kernel.org>
+Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Ashutosh Desai <ashutoshdesai993@gmail.com>
+Cc: Imre Deak <imre.deak@intel.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Johan Hovold <johan@kernel.org>
+Cc: Johannes Berg <johannes.berg@intel.com>
+Cc: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: Jiaming Zhang <r772577952@gmail.com>
+Cc: Will Porter <mrwillporter@gmail.com>
+Cc: Cen Zhang <zzzccc427@gmail.com>
+Cc: "C=C3=A1ssio Gabriel" <cassiogabrielcontato@gmail.com>
+Cc: Rong Zhang <i@rong.moe>
+Cc: Arun Raghavan <arunr@valvesoftware.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: loongarch@lists.linux.dev
+Cc: linux-mips@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linux-edac@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: intel-wired-lan@lists.osuosl.org
+Cc: netdev@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: brcm80211@lists.linux.dev
+Cc: brcm80211-dev-list.pdl@broadcom.com
+Cc: devicetree@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-nfs@vger.kernel.org
+Cc: devel@lists.orangefs.org
+Cc: linux-hardening@vger.kernel.org
+Cc: linux-sound@vger.kernel.org
+---
+ sound/pci/ac97/ac97_codec.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/edac/x38_edac.c b/drivers/edac/x38_edac.c
---- a/drivers/edac/x38_edac.c
-+++ b/drivers/edac/x38_edac.c
-@@ -423,6 +423,8 @@ static int x38_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		return -EIO;
- 
- 	rc = x38_probe1(pdev, ent->driver_data);
-+	if (rc)
-+		pci_disable_device(pdev);
- 	if (!mci_pdev)
- 		mci_pdev = pci_dev_get(pdev);
- 
-@@ -439,9 +441,11 @@ static void x38_remove_one(struct pci_dev *pdev)
- 	if (!mci)
- 		return;
- 
- 	iounmap(mci->pvt_info);
- 
- 	edac_mc_free(mci);
+diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
+index 0bb65be021d9..e145099ee02a 100644
+--- a/sound/pci/ac97/ac97_codec.c
++++ b/sound/pci/ac97/ac97_codec.c
+@@ -1850,10 +1850,12 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsig=
+ned int id, char *name,
+=20
+ 	pid =3D look_for_codec_id(snd_ac97_codec_ids, id);
+ 	if (pid) {
+-		strlcat(name, " ", maxlen);
+-		strlcat(name, pid->name, maxlen);
++		int l =3D strlen(name);
 +
-+	pci_disable_device(pdev);
+ 		if (pid->mask !=3D 0xffffffff)
+-			sprintf(name + strlen(name), " rev %u", id & ~pid->mask);
++			snprintf(name + l, maxlen - l, " %s rev %u", pid->name, id & ~pid->mask=
+);
++		else
++			snprintf(name + l, maxlen - l, " %s", pid->name);
+ 		if (ac97 && pid->patch) {
+ 			if ((modem && (pid->flags & AC97_MODEM_PATCH)) ||
+ 			    (! modem && ! (pid->flags & AC97_MODEM_PATCH)))
+@@ -1861,6 +1863,7 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigne=
+d int id, char *name,
+ 		}
+ 	} else {
+ 		int l =3D strlen(name);
++
+ 		snprintf(name + l, maxlen - l, " id %x", id & 0xff);
+ 	}
  }
- 
- static const struct pci_device_id x38_pci_tbl[] = {
+--=20
+2.55.0.1032.g73a4cd73de-goog
+
