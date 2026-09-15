@@ -1,73 +1,72 @@
 Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E70A309EE9
-	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:35:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D951633936B
+	for <linux-edac@vger.kernel.org>; Tue, 15 Sep 2026 01:55:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789436148; cv=none; b=qX4J2WNGYqmo9lxq3Ib6pLeVpPjxGI+nSY4UX/BI6zQa6mEzDfvCA5R0XDh9XugCdi1p6Bgv6hcEB8hhnKjkBOyXrSr/PFd9rXcYtIX4zK8atoOM1uaJbFI6V+GdU6XHqyKDsEz4zrdnoqkNn35uATiCIFHYTBPiBXHbwqjm8kc=
+	t=1789437329; cv=none; b=TIILOYm9Lnqs8HqCTZsNOD/QOkhE4hMkguS2ViFtotxdwp0ezffbxpS7y1KFsoFspZK5T1bSqZfG8YZkF5Ka3tYiFtueSsMFCA44UnJ2k6TvlcqBQeqYUG9/0FPmdE1zB7UbRr9aofTW0/nSlwZ8zok2B1Stu1hdeNYy3gnGO6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789436148; c=relaxed/simple;
-	bh=6Ks+xsuYG7cTmaDMBguFljJXWFMHILbuZCCXEhp3hz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vue8ErpMSy6+9DnOWIjwCuO46r6lU8t+XvajI7SRo8SW+u0HDWVTvSKID5YQoQLioLjcsAR9Y+xY/hIGv+nfsgA9ncKCAf+Bb3TGbpTmkGogt/Dg45DXVmKalkVlMg9Wh2W4o2Jg55w182+7KFSefTaeoQ0ngciq9ilfXJ+aCTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYRZXE2Y; arc=none smtp.client-ip=74.125.230.204
+	s=arc-20240116; t=1789437329; c=relaxed/simple;
+	bh=SImV7x1CZ+YZSzFzbNMVur6qt+AKDbf3BSRwa4So7GE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o12fvZRFN4JbcWDaR4sdypm8cRjOYOsy9S0so2uR5DtdPg7hlhvQ+cE9EgGT2ePTr5hYIxIjL+RNauC6w/RI7elno4JJctfKJfoWisEnJiAjvKzhbsZWSyFBUlL4FE94kogtgVuAKfUsTIbSV1AQcD6zEH5uNG9+EjwHv/hr4ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mjG6Q6xC; arc=none smtp.client-ip=74.125.230.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYRZXE2Y"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76ef19aso30378401cf.2
-        for <linux-edac@vger.kernel.org>; Mon, 14 Sep 2026 18:35:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjG6Q6xC"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530de452c33so36214971cf.1
+        for <linux-edac@vger.kernel.org>; Mon, 14 Sep 2026 18:55:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789436146; x=1790040946; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789437327; x=1790042127; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OYSdJ3BpaBA99mybiSOcxyeplaGMmUigodcgqfqpRMM=;
-        b=YYRZXE2YfGN6AWFt47nNnux8MA6K+niA4xbntiuOuNcsUQL3TNCtm+XlCv5Vxe+QKs
-         /anhC+UE2x2kkpT+mK8BATKxCOoHBgYzYrb5nxQgqv3839HBKAn880usg3nkl2LGrD6N
-         MAuTolgIkq2O9dr3u0aR2ntTql6oSYyyIo7eioVXB6kj3+ACfCHAQ2Nku8kvhT4CPhQz
-         p8QgZ4zg5BAxdTYsssXSNloSAW4Z3A8etBDfbmaKcxykr7hK+Dg13xBfFyyHDESMMkSE
-         hgjSfenwmIiaOmDL3TNA1yshuqfJCtVwAAYrH8aBzYChaHSI4uigN4qTuUaF10DLQ4jQ
-         bUPA==
+        bh=lmGs6Nrhth/r9kEqCYRE9v0bMT5Om7otMfWFzjHwusM=;
+        b=mjG6Q6xCqRM01+Sg+fTkfEosJOcFy9PnJeAgc8qDDSMD3DymXNwMRpoladNNp96rpE
+         M11a3RUtaavWcxOkGiW23NNcMXHsOFPH8PnVgzdKoJIyTcNoBaPkIu2a7gSEt5mS1ws6
+         LHboJEZPMb/DFJ938RvK0GOdPwyx+RPXDpDJneOr/SgOiDj6WFwvWH15uSubn1RCTms9
+         FzG3q7ACWyFyfInNponwBv5MhvK0o9jW8q9pQpU96x5i5GnNa0c4KI/OlRJz036VHwHZ
+         EUAE5wXKoU7q+RunZWKvhqBFtuEWa/pFP+9NzoA1vLY0zhzkgWP4VVAK6BVBQrhtDlwO
+         1Abg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789436146; x=1790040946;
+        d=1e100.net; s=20260707; t=1789437327; x=1790042127;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OYSdJ3BpaBA99mybiSOcxyeplaGMmUigodcgqfqpRMM=;
-        b=0QSkk7SC71te942GOewPyB/dGZ5mWlUo7zRC9DUJA2lQaUi6ZlW5YyZapKQlELtjAw
-         fsBhtU1Tgwhr2sXKv/VGf7q6qj3kdVnUgQ9ARuWh4mWGUo9+jQjwow4cN5K4jDHg4oQx
-         XZZrZ469I+6YVed33D6pAmMyov++Zp9YaUuFubuyX3s7WgQopRM5aQTXSJArvJY7ZnUS
-         iOGE5BTfQH3RN8RsuYSH6WT97XJq3tEc0QZvNH4DVJkUEEkysZFjmv0dE6ZluqqBoGgN
-         lzv0bRyr88WyKjePseHGNtFarBclOXiyOvy2M9x2MoVTV0TTFQNWpWpUFh59HgeWdiK6
-         +BXg==
-X-Forwarded-Encrypted: i=1; AKwUvByW0KIJ+hcVc0tQ3Fsu+r7EOra4gVLNOAz0n80qBN6Omjh6ibIXtiRofuh5KzApoh31cmezer/vt141@vger.kernel.org
-X-Gm-Message-State: AFuF++kp0xHxoqWxnb1iWtMUGT9/L/Zy644oYzAxmCyUL6Z/k+bfj56p
-	lFM0AzZfOse5lZO9afeDkyfyuJd7aBWcjuP2lj7i7mOqPwU7R/sg/SUEEB7+NMWaGw==
-X-Gm-Gg: AYBFou0o3VUQe3zYwd7z8qnyRnQv121Ktn2fsmeuGFCvDpNnuqD0kMDnas+CtXcsFTw
-	WF40UcgQ3hwVRdYwmM0BIGbkL44xVo2ME+N4gqHnDCYbjorhJklv3CRrLR0UA1NMMK6h/kFNA3G
-	BsaPQdITXXLjvrdRd85XbOycpbVA+Ul7Lgcg7QhDMLy+JNOmMmarnrz+dxcyAe/CwbW+FF4nW0e
-	Q5cVdjE66sAq8X8e9umZQEBSaHnNoBCIy0xeExORaOb22CW+q2WCLoU065qqMkC+IunTM/d1R3Q
-	aZ1wxssELWHchIAthng66rA24942JSOKAKzl+5KHAatd+SDKS+0tPc0UeB21zS772xanOeoXmXv
-	V/2eW7hhgI8i9hjQ6XTkxN3NHh4NHObh3p90VeM5Km9uzDozhe0FrZEzMUx+kgMDFleI0qTeHto
-	jVSfdFXWryk15vqP4ilXXrUnOhPiOEYCmdva8IW/YOrdKGMIvIq61u0KHW48WbBk0O8OjMlmk8Q
-	4xItioR4CpgFa+u6Mvq6WK4yzJ/mX9E77vVJcMjTLHbr81Q0jMhjHIj2Sb0/OCIReHdjC3lDkXk
-	8MpwFrGasfAvAYg9Alc2lkLJVxXJEAt8TzRbQVoFqFlm1iYtgZJ51l29OUUjhix8Y3S2ng==
-X-Received: by 2002:ac8:5a51:0:b0:530:e1b1:eaeb with SMTP id d75a77b69052e-5310cf60669mr78434021cf.21.1789436145940;
-        Mon, 14 Sep 2026 18:35:45 -0700 (PDT)
+        bh=lmGs6Nrhth/r9kEqCYRE9v0bMT5Om7otMfWFzjHwusM=;
+        b=YamkB0GLjw5QJLNR1SPk+89gkPpX8D0FXrzKKDUAstRlX20I4RAmO/0qeNsdmV4WCa
+         T+c18V1DI/vdJ3p2KOphIsPPin2ryjR5n1M7uyKh8WrhF5mfp+X6zxz81nZa+q/eJc2G
+         gUrLBXyG0HPcgwPqCsrGvTchgVJWpXsQYcJsOilnEE+Adqe/7ZK5gimsAtiTESFm3Njp
+         ZaNS1s5i3YGCVNoIOJDLx4NfeDGy/ib9fRV2+1n8gepi07iF2ZrBDN3XnFL9gbV/YGd4
+         muXQkJgVFM9x+YFCezx39Lm0Rz1XxxiWSEEf3mG26m7bvp1MzpreookLd9+UeMjrtOrq
+         QWPw==
+X-Gm-Message-State: AFuF++mXwDrTmV83i/uMog+477okrvkN/Mf0Pn1xGMhVBQ/JX7dhh7+i
+	aSFB4qfp7jTsBGiJz8XKT1WxuLDENq7MHHwniZKfBSYJu+RkAGI9ADc=
+X-Gm-Gg: AYBFou2qb6FO861fIJG+uig2nP7w+MqKIHIYjsPDgP6reqkapQDTrgilYWTwF7/p896
+	36CUKVLV+YEI2FTZ5Qj5VoXNux4ywpH/gllcSvLmOF31EFIcszBLVnU49ucC1eJDNwdc+neOJBY
+	wzio3SE3UAbhUvpFSWSu67GslSYDWMkiHE3lnlG5KsatNmDNVvvHhkumlK0hL2SZwjYOLU4sZ6s
+	64suanMxAFMn/ANy8VvJIVfDHdGMkmDAoYuXqAjNw9SOqOP/kRIfIlXFgr1/dAmr16+VttsIFwA
+	QHjEUqn1ic6Wj84eBNCv9L5gefOZVB08INUoc0KCE4FU78sysNOzXUI67xsT8ed3NlDacY93jmu
+	uxnUgerp7WUAb+CUtXwo/CZEEWnV6J8+fWih9JarrvKLa/NQNgvfYnqMUpy9XRh+bI1G3VpceTI
+	ND+kFFHoGVqJAATcRW+E7ubL98knluMYIoAw6mcqbo7pDrEeODCU/ZDDJZPfrZ6RJ5LoMcEupCK
+	eHfIh1yb56RU2VEkrR7RmhwkSZzQ8qnkni54KwyaIFj6Osnx/OECvCokC5neyQWpCcLQChVGmGS
+	glzKGEOq1qeczetuunJ9sAQK9Xs8bdDERfdq3Ak35lR6tXk85rcDlj9ISHK5hBOt+jAoGPA7qU6
+	oGMHL
+X-Received: by 2002:a05:622a:1194:b0:530:62bc:e11d with SMTP id d75a77b69052e-5310cf152d5mr76349151cf.4.1789437326963;
+        Mon, 14 Sep 2026 18:55:26 -0700 (PDT)
 Received: from 6e-wmo5420-02.ad.psu.edu.net (6e-wmo5420-02.ad.psu.edu. [104.39.213.233])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530f9b99fc7sm66059601cf.30.2026.09.14.18.35.44
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9120f5ebc79sm109264546d6.48.2026.09.14.18.55.25
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 14 Sep 2026 18:35:44 -0700 (PDT)
+        Mon, 14 Sep 2026 18:55:25 -0700 (PDT)
 From: Myeonghun Pak <mhun512@gmail.com>
-To: "Arvind R." <arvino55@gmail.com>
-Cc: Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	linux-edac@vger.kernel.org,
+To: Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH] EDAC/i82975x: Balance PCI ownership on probe and module exit
-Date: Mon, 14 Sep 2026 21:35:37 -0400
-Message-ID: <20260915013537.71211-1-mhun512@gmail.com>
+Subject: [PATCH 0/3] EDAC: Balance PCI device enablement in three Intel drivers
+Date: Mon, 14 Sep 2026 21:55:16 -0400
+Message-ID: <20260915015519.83833-1-mhun512@gmail.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-edac@vger.kernel.org
@@ -77,79 +76,23 @@ List-Unsubscribe: <mailto:linux-edac+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-i82975x_init_one() leaves its PCI enable reference behind on failure
-and removal. Also, the fallback probe is never removed at module exit:
-i82975x_registered is initialized to one and never changed.
+These drivers leave PCI enable references held on probe failure or removal.
 
-Balance PCI enablement and track successful fallback initialization so
-module exit removes controllers that are not bound to the PCI driver.
-Only remember a normally probed device after successful initialization,
-and release the saved device reference on both normal and fallback exit.
+Use managed PCI enablement for e752x. Keep explicit cleanup for i3000
+and x38 because their module initialization can invoke probe outside
+PCI driver binding. Each patch is independent.
 
-This issue was identified during our ongoing static-analysis research
+These issues were identified during our ongoing static-analysis research
 while reviewing kernel code.
 
-Fixes: 420390f06a5a ("drivers/edac: new i82975x driver")
-Cc: stable@vger.kernel.org
 Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/edac/i82975x_edac.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/edac/i82975x_edac.c b/drivers/edac/i82975x_edac.c
---- a/drivers/edac/i82975x_edac.c
-+++ b/drivers/edac/i82975x_edac.c
-@@ -233,7 +233,7 @@ static struct pci_dev *mci_pdev;
- 					 * already registered driver
- 					 */
- 
--static int i82975x_registered = 1;
-+static bool i82975x_fallback;
- 
- static void i82975x_get_error_info(struct mem_ctl_info *mci,
- 		struct i82975x_error_info *info)
-@@ -597,6 +597,10 @@ static int i82975x_init_one(struct pci_dev *pdev,
- 		return -EIO;
- 
- 	rc = i82975x_probe1(pdev, ent->driver_data);
-+	if (rc) {
-+		pci_disable_device(pdev);
-+		return rc;
-+	}
- 
- 	if (mci_pdev == NULL)
- 		mci_pdev = pci_dev_get(pdev);
-@@ -620,6 +624,7 @@ static void i82975x_remove_one(struct pci_dev *pdev)
- 		iounmap( pvt->mch_window );
- 
- 	edac_mc_free(mci);
-+	pci_disable_device(pdev);
- }
- 
- static const struct pci_device_id i82975x_pci_tbl[] = {
-@@ -670,6 +675,7 @@ static int __init i82975x_init(void)
- 			pci_rc = -ENODEV;
- 			goto fail1;
- 		}
-+		i82975x_fallback = true;
- 	}
- 
- 	return 0;
-@@ -688,10 +694,9 @@ static void __exit i82975x_exit(void)
- 
- 	pci_unregister_driver(&i82975x_driver);
- 
--	if (!i82975x_registered) {
-+	if (i82975x_fallback)
- 		i82975x_remove_one(mci_pdev);
--		pci_dev_put(mci_pdev);
--	}
-+	pci_dev_put(mci_pdev);
- }
- 
- module_init(i82975x_init);
--- 
-2.51.0
+Myeonghun Pak (3):
+  EDAC/e752x: Use managed PCI device enablement
+  EDAC/i3000: Balance PCI device enablement
+  EDAC/x38: Balance PCI device enablement
+
+ drivers/edac/e752x_edac.c | 2 +-
+ drivers/edac/i3000_edac.c | 4 ++++
+ drivers/edac/x38_edac.c   | 4 ++++
+ 3 files changed, 9 insertions(+), 1 deletion(-)
